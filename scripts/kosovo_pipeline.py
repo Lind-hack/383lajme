@@ -55,6 +55,11 @@ NEWS_SOURCES = [
     # Generic Kosovo news search — recent (3-day window), extracts real outlet from title suffix
     ("https://news.google.com/rss/search?q=Kosovo+when%3A3d&hl=en-US&gl=US&ceid=US:en",
      "_GNEWS_EXTRACT_", "🌍", "neutral", False),
+    # AI/tech world news — relevant to Kosovo's growing tech audience; kosovo_exclusive=True skips keyword filter
+    ("https://news.google.com/rss/search?q=artificial+intelligence+AI+when%3A1d&hl=en-US&gl=US&ceid=US:en",
+     "AI News", "🤖", "neutral", True),
+    ("https://news.google.com/rss/search?q=OpenAI+OR+Claude+OR+Gemini+OR+ChatGPT+when%3A1d&hl=en-US&gl=US&ceid=US:en",
+     "AI News", "🤖", "neutral", True),
 ]
 
 # Local Kosovo outlets to skip from the generic Google News search — they publish in
@@ -305,8 +310,11 @@ Return ONLY this JSON (no markdown, no explanation):
   "source_bias": "neutral"
 }}
 
-Categories: Politikë, Ekonomi, Siguri, Sport, Teknologji, Kulturë, Shoqëri, Diasporë
+Categories: Politikë, Ekonomi, Siguri, Sport, Teknologji, Kulturë, Shoqëri, Diasporë, Showbiz
 Score guide: 9-10 breaking, 7-8 important, 5-6 niche, 1-4 routine
+Use "Showbiz" for celebrity, entertainment, music, film, and pop culture news.
+Use "Teknologji" for AI, science, digital, and innovation news.
+Global AI and technology news scores 6-8 for Kosovo's tech audience even without Kosovo mentions.
 
 Title: {title}
 Summary: {summary[:600]}"""
@@ -484,6 +492,7 @@ def main() -> None:
             continue
 
         analysis = analyze_and_translate(title_en, summary)
+        time.sleep(1)  # throttle Groq to prevent 429 bursts
         if analysis is None:
             print(f"  [SKIP] {title_en[:70]}")
             continue
@@ -525,6 +534,13 @@ def main() -> None:
         })
 
     print(f"  {len(results)} articles ready")
+
+    # Cap AI articles at 3 per run so they don't flood Kosovo news
+    ai_articles = [r for r in results if r.get("source") == "AI News"]
+    if len(ai_articles) > 3:
+        non_ai = [r for r in results if r.get("source") != "AI News"]
+        results = non_ai + ai_articles[:3]
+        print(f"  Capped AI articles to 3 ({len(results)} total)")
 
     if results:
         ts = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H")
