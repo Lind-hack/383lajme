@@ -16,7 +16,7 @@
     "reading_time": 1,
     "featured": true,
     "engagement_score": 8.5,
-    "image_url": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300",
+    "image_url": "",
     "created_at": "2026-05-23T05:46:40.413297+00:00"
   },
   {
@@ -36,7 +36,7 @@
     "reading_time": 1,
     "featured": false,
     "engagement_score": 7.5,
-    "image_url": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300",
+    "image_url": "",
     "created_at": "2026-05-23T05:46:58.374309+00:00"
   },
   {
@@ -56,7 +56,7 @@
     "reading_time": 1,
     "featured": false,
     "engagement_score": 5.5,
-    "image_url": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300",
+    "image_url": "",
     "created_at": "2026-05-23T05:47:18.144870+00:00"
   }
 ]
