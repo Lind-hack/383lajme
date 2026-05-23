@@ -350,7 +350,10 @@ def get_image(article_url: str, title: str, raw_image: str | None) -> str:
             soup = BeautifulSoup(r.text, "html.parser")
             og = soup.find("meta", property="og:image")
             if og and og.get("content"):
-                return og["content"]
+                img = og["content"]
+                # Skip Google's thumbnail CDN — it's hotlink-blocked from Vercel
+                if "googleusercontent.com" not in img:
+                    return img
     except Exception:
         pass
 
