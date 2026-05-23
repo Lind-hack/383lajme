@@ -1,0 +1,147 @@
+@import "tailwindcss";
+
+@theme {
+  --color-cream:    #F9F6F1;
+  --color-white:    #FFFFFF;
+  --color-ink:      #111111;
+  --color-charcoal: #1A1A1A;
+  --color-muted:    #6B6B6B;
+  --color-border:   #E8E3DB;
+  --color-orange:   #FF4422;
+
+  /* Category colors */
+  --color-blue:     #0047FF;
+  --color-emerald:  #00A651;
+  --color-amber:    #F59E0B;
+  --color-crimson:  #E41E20;
+  --color-violet:   #7C3AED;
+  --color-rose:     #F43F5E;
+  --color-showbiz:  #E91E8C;
+
+  --font-sans: "Manrope", sans-serif;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  background: #F9F6F1;
+  color: #111111;
+  font-family: "Manrope", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  background: #F9F6F1;
+  overflow-x: hidden;
+}
+
+/* ── Card surface ───────────────────────────────────────── */
+.card {
+  background: #FFFFFF;
+  border-radius: 16px;
+  border: 1px solid #E8E3DB;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+
+/* ── Italic accent animation ────────────────────────────── */
+@keyframes tilt {
+  0%   { transform: rotate(-4deg) skewX(-2deg); }
+  60%  { transform: rotate(-1deg) skewX(0deg); }
+  100% { transform: rotate(-2deg) skewX(-1deg); }
+}
+
+.tilt-in {
+  display: inline-block;
+  animation: tilt 0.6s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+
+/* ── Breathe (watermark) ────────────────────────────────── */
+@keyframes breathe {
+  0%, 100% { opacity: 0.025; }
+  50%       { opacity: 0.04; }
+}
+
+/* ── Floating color blobs (aurora-bg) ───────────────────── */
+@keyframes float-1 {
+  0%,100% { transform: translate(0,0) scale(1); }
+  50%     { transform: translate(40px,-60px) scale(1.1); }
+}
+@keyframes float-2 {
+  0%,100% { transform: translate(0,0) scale(1); }
+  50%     { transform: translate(-50px,40px) scale(0.9); }
+}
+@keyframes float-3 {
+  0%,100% { transform: translate(0,0) scale(1); }
+  50%     { transform: translate(30px,50px) scale(1.05); }
+}
+@keyframes float-4 {
+  0%,100% { transform: translate(0,0) scale(1); }
+  50%     { transform: translate(-35px,-40px) scale(1.08); }
+}
+
+/* ── Ticker marquee ─────────────────────────────────────── */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+.ticker-track {
+  animation: marquee 30s linear infinite;
+}
+
+.ticker-track:hover {
+  animation-play-state: paused;
+}
+
+/* ── Gradient CTA animation ─────────────────────────────── */
+@keyframes gradient-shift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.gradient-cta {
+  background: linear-gradient(135deg, #FF4422, #E41E20, #FF6B35, #FF4422);
+  background-size: 300% 300%;
+  animation: gradient-shift 6s ease infinite;
+}
+
+/* ── Scrollbar ──────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #F9F6F1;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 68, 34, 0.4);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 68, 34, 0.7);
+}
+
+/* ── Selection ──────────────────────────────────────────── */
+::selection {
+  background: rgba(255, 68, 34, 0.2);
+  color: #111111;
+}
+
+/* ── World-card hover (BOTA FLET section, server-component safe) ── */
+.world-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.world-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+}
+
+/* ── Pulse dot (alerts CTA) ─────────────────────────────── */
+@keyframes pulse {
+  0%, 100% { opacity: 1; box-shadow: 0 0 8px rgba(255, 68, 34, 0.8); }
+  50%       { opacity: 0.6; box-shadow: 0 0 4px rgba(255, 68, 34, 0.4); }
+}

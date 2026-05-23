@@ -1,0 +1,16 @@
+# Next.js
+.next/
+out/
+node_modules/
+
+# SQLite — not committed; pipeline writes JSON to data/auto-articles/ instead
+data/articles.db
+
+# Python
+__pycache__/
+*.py[cod]
+.env
+
+# OS
+.DS_Store
+Thumbs.db
