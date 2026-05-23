@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { type Article, timeAgo } from "@/lib/mock-data";
@@ -15,6 +16,7 @@ interface ArticleCardProps {
 export default function ArticleCard({ article, variant = "grid", index = 0 }: ArticleCardProps) {
   const catColor = getCategoryColor(article.category);
   const catBg = getCategoryBg(article.category, 0.08);
+  const [imgFailed, setImgFailed] = useState(false);
 
   if (variant === "mini") {
     return (
@@ -37,12 +39,13 @@ export default function ArticleCard({ article, variant = "grid", index = 0 }: Ar
         >
           {/* Image area */}
           <div style={{ height: "120px", overflow: "hidden", position: "relative", flexShrink: 0 }}>
-            {article.imageUrl ? (
+            {article.imageUrl && !imgFailed ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img
                 src={article.imageUrl}
                 alt=""
                 aria-hidden="true"
+                onError={() => setImgFailed(true)}
                 style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
               />
             ) : (
@@ -137,12 +140,13 @@ export default function ArticleCard({ article, variant = "grid", index = 0 }: Ar
         >
           {/* Image — left 40% */}
           <div style={{ width: "40%", position: "relative", flexShrink: 0 }}>
-            {article.imageUrl ? (
+            {article.imageUrl && !imgFailed ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img
                 src={article.imageUrl}
                 alt=""
                 aria-hidden="true"
+                onError={() => setImgFailed(true)}
                 style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
               />
             ) : (
@@ -236,12 +240,13 @@ export default function ArticleCard({ article, variant = "grid", index = 0 }: Ar
           }}
         >
           <div style={{ height: "240px", overflow: "hidden", position: "relative", flexShrink: 0 }}>
-            {article.imageUrl ? (
+            {article.imageUrl && !imgFailed ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img
                 src={article.imageUrl}
                 alt=""
                 aria-hidden="true"
+                onError={() => setImgFailed(true)}
                 style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
               />
             ) : (
