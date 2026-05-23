@@ -26,16 +26,16 @@ from bs4 import BeautifulSoup
 from slugify import slugify
 
 # ── Config ────────────────────────────────────────────────────────────────────
-GOOGLE_AI_API_KEY  = os.environ.get("GOOGLE_AI_API_KEY", "")
+GROQ_API_KEY       = os.environ.get("GROQ_API_KEY", "")
 PEXELS_API_KEY     = os.environ.get("PEXELS_API_KEY", "")
 GMAIL_USER         = os.environ.get("GMAIL_USER", "")
 GMAIL_APP_PASSWORD = os.environ.get("GMAIL_APP_PASSWORD", "")
 REMOVE_SECRET      = os.environ.get("REMOVE_SECRET", "")
 SITE_URL           = os.environ.get("SITE_URL", "https://383lajme.vercel.app")
 RECIPIENT_EMAIL    = "lindsylqa@gmail.com"
-GOOGLE_AI_URL      = "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions"
-GEMMA_MODEL        = "gemma-4-31b-it"
-MAX_AGE_HOURS      = 48
+GROQ_URL           = "https://api.groq.com/openai/v1/chat/completions"
+GROQ_MODEL         = "llama-3.3-70b-versatile"
+MAX_AGE_HOURS      = 120
 MAX_PER_RUN        = 12
 
 SCRIPT_DIR  = Path(__file__).parent
@@ -43,25 +43,54 @@ OUTPUT_DIR  = SCRIPT_DIR.parent / "data" / "auto-articles"
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 # ── Sources ───────────────────────────────────────────────────────────────────
-# International / Balkan-focused — explicitly NOT local Kosovo outlets
+# (url, source_name, flag, bias, kosovo_exclusive)
+# kosovo_exclusive=True → skip Kosovo keyword check (feed is entirely Kosovo-focused)
+# The Google News site-filter feeds (e.g. site:bbc.co.uk) return relevance-sorted ARCHIVE
+# articles — not recent. Use the generic Kosovo+when:3d search instead and extract outlet
+# names from the "Headline - Outlet" title suffix Google News appends.
 NEWS_SOURCES = [
-    # Direct Kosovo/Balkan-focused feeds — every article is Balkans-relevant
-    ("https://balkaninsight.com/feed/",                                                                   "Balkan Insight", "🌍", "neutral"),
-    ("https://europeanwesternbalkans.com/feed/",                                                          "EWB",            "🌍", "neutral"),
-    ("https://exit.al/en/feed/",                                                                          "Exit News",      "🇦🇱", "neutral"),
-    # Major outlets via Google News site-filter — every result is Kosovo-specific
-    ("https://news.google.com/rss/search?q=Kosovo+site%3Abbc.co.uk&hl=en-US&gl=US&ceid=US:en",           "BBC",            "🇬🇧", "neutral"),
-    ("https://news.google.com/rss/search?q=Kosovo+site%3Aapnews.com&hl=en-US&gl=US&ceid=US:en",          "AP",             "🇺🇸", "neutral"),
-    ("https://news.google.com/rss/search?q=Kosovo+site%3Areuters.com&hl=en-US&gl=US&ceid=US:en",         "Reuters",        "🌍", "neutral"),
-    ("https://news.google.com/rss/search?q=Kosovo+site%3Acnn.com&hl=en-US&gl=US&ceid=US:en",             "CNN",            "🇺🇸", "neutral"),
-    ("https://news.google.com/rss/search?q=Kosovo+site%3Adw.com&hl=en-US&gl=US&ceid=US:en",              "DW",             "🇩🇪", "neutral"),
-    ("https://news.google.com/rss/search?q=Kosovo+site%3Aaljazeera.com&hl=en-US&gl=US&ceid=US:en",       "Al Jazeera",     "🌍", "neutral"),
-    ("https://news.google.com/rss/search?q=Kosovo+site%3Arferl.org&hl=en-US&gl=US&ceid=US:en",           "RFE/RL",         "🇺🇸", "neutral"),
-    ("https://news.google.com/rss/search?q=Kosovo+site%3Atheguardian.com&hl=en-US&gl=US&ceid=US:en",     "Guardian",       "🇬🇧", "neutral"),
-    ("https://news.google.com/rss/search?q=Kosovo+site%3Aeuronews.com&hl=en-US&gl=US&ceid=US:en",        "Euronews",       "🇪🇺", "neutral"),
-    ("https://news.google.com/rss/search?q=Kosovo+site%3Afrance24.com&hl=en-US&gl=US&ceid=US:en",        "France 24",      "🇫🇷", "neutral"),
-    ("https://news.google.com/rss/search?q=Kosovo+site%3Avoaneews.com&hl=en-US&gl=US&ceid=US:en",        "VOA",            "🇺🇸", "neutral"),
+    # Direct Kosovo-focused feeds — all articles are Kosovo-relevant
+    ("https://balkaninsight.com/tag/kosovo/feed/", "Balkan Insight", "🌍", "neutral", True),
+    ("https://kossev.info/feed/",                  "KoSSev",         "🌍", "neutral", True),
+    # Generic Kosovo news search — recent (3-day window), extracts real outlet from title suffix
+    ("https://news.google.com/rss/search?q=Kosovo+when%3A3d&hl=en-US&gl=US&ceid=US:en",
+     "_GNEWS_EXTRACT_", "🌍", "neutral", False),
 ]
+
+# Local Kosovo outlets to skip from the generic Google News search — they publish in
+# Albanian/Serbian and are already monitored via DEDUP_FEEDS
+LOCAL_OUTLETS = {
+    "Kosovo Online", "KOHA.net", "KoSSev", "Koha", "Gazeta Express", "KosovaPress",
+    "Telegrafi", "RTK", "zeri.info", "Radio Kosova", "KosovaLive", "Bota Sot",
+    "Radio Dukagjini", "KTV", "RTV21", "Lajmi", "Indeksonline", "Insajderi",
+}
+
+# Outlet name → (canonical label, flag) for entries from the generic GNews search
+GNEWS_SOURCE_MAP = {
+    "BBC":               ("BBC",             "🇬🇧"),
+    "AP News":           ("AP",              "🇺🇸"),
+    "Reuters":           ("Reuters",         "🌍"),
+    "CNN":               ("CNN",             "🇺🇸"),
+    "Deutsche Welle":    ("DW",              "🇩🇪"),
+    "DW":                ("DW",              "🇩🇪"),
+    "Al Jazeera":        ("Al Jazeera",      "🌍"),
+    "RFE/RL":            ("RFE/RL",          "🇺🇸"),
+    "The Guardian":      ("Guardian",        "🇬🇧"),
+    "Guardian":          ("Guardian",        "🇬🇧"),
+    "Euronews":          ("Euronews",        "🇪🇺"),
+    "France 24":         ("France 24",       "🇫🇷"),
+    "Voice of America":  ("VOA",             "🇺🇸"),
+    "VOA":               ("VOA",             "🇺🇸"),
+    "Bloomberg":         ("Bloomberg",       "🇺🇸"),
+    "The New York Times":("NYT",             "🇺🇸"),
+    "Politico":          ("Politico",        "🇺🇸"),
+    "Financial Times":   ("FT",              "🇬🇧"),
+    "Balkan Insight":    ("Balkan Insight",  "🌍"),
+    "BIRN":              ("Balkan Insight",  "🌍"),
+    "EWB":               ("EWB",             "🌍"),
+    "Exit News":         ("Exit News",       "🇦🇱"),
+    "Prishtina Insight": ("Prishtina Insight","🌍"),
+}
 
 # Checked ONLY to detect already-covered stories — not imported as articles
 DEDUP_FEEDS = [
@@ -178,29 +207,52 @@ def _feed_image(entry) -> str | None:
 # ── RSS fetch ─────────────────────────────────────────────────────────────────
 def fetch_candidates(seen_urls: set[str]) -> list[dict]:
     candidates: list[dict] = []
-    for feed_url, source, flag, bias in NEWS_SOURCES:
-        # Google News site-filter feeds already contain only Kosovo articles — skip keyword check
-        is_google_news_filter = "news.google.com" in feed_url and "site%3A" in feed_url
+    for feed_url, source, flag, bias, kosovo_exclusive in NEWS_SOURCES:
         try:
             feed = feedparser.parse(feed_url, request_headers={"User-Agent": "Mozilla/5.0"})
-            for entry in feed.entries[:25]:
+            for entry in feed.entries[:40]:
                 url = entry.get("link", "")
                 if not url or url in seen_urls:
                     continue
                 if not is_recent(entry):
                     continue
-                if not is_google_news_filter:
-                    text = (entry.get("title", "") + " " + entry.get("summary", "")).lower()
+
+                raw_title = entry.get("title", "")
+
+                if source == "_GNEWS_EXTRACT_":
+                    # Google News appends " - Outlet Name" to every title
+                    parts = raw_title.rsplit(" - ", 1)
+                    outlet = parts[1].strip() if len(parts) == 2 else "International"
+                    clean_title = parts[0].strip() if len(parts) == 2 else raw_title
+
+                    # Skip local Kosovo outlets — covered by dedup/local feeds
+                    if any(local.lower() in outlet.lower() for local in LOCAL_OUTLETS):
+                        continue
+
+                    # Map to canonical label; unknown outlets keep their raw name
+                    source_name, source_flag = outlet, "🌍"
+                    for key, (sname, sflag) in GNEWS_SOURCE_MAP.items():
+                        if key.lower() in outlet.lower():
+                            source_name, source_flag = sname, sflag
+                            break
+                else:
+                    clean_title = _clean_title(raw_title)
+                    source_name = source
+                    source_flag = flag
+
+                if not kosovo_exclusive:
+                    text = (raw_title + " " + entry.get("summary", "")).lower()
                     if not any(kw in text for kw in KOSOVO_KEYWORDS):
                         continue
+
                 candidates.append({
-                    "url": url,
-                    "source": source,
-                    "source_flag": flag,
-                    "source_bias": bias,
-                    "title_en": _clean_title(entry.get("title", "")),
-                    "summary": _clean_html(entry.get("summary", "")),
-                    "raw_image": _feed_image(entry),
+                    "url":          url,
+                    "source":       source_name,
+                    "source_flag":  source_flag,
+                    "source_bias":  bias,
+                    "title_en":     clean_title,
+                    "summary":      _clean_html(entry.get("summary", "")),
+                    "raw_image":    _feed_image(entry),
                     "published_at": _parse_published(entry),
                 })
         except Exception as e:
@@ -208,21 +260,16 @@ def fetch_candidates(seen_urls: set[str]) -> list[dict]:
     return candidates
 
 
-# ── Google AI / Gemma API ─────────────────────────────────────────────────────
-def _strip_thinking(text: str) -> str:
-    # Gemma 4 wraps its reasoning in <thought>...</thought> — strip before parsing
-    return re.sub(r"<thought>.*?</thought>", "", text, flags=re.DOTALL).strip()
-
-
-def _gemma(messages: list[dict], max_tokens: int = 1024) -> str:
+# ── Groq API ─────────────────────────────────────────────────────────────────
+def _groq(messages: list[dict], max_tokens: int = 1024) -> str:
     resp = requests.post(
-        GOOGLE_AI_URL,
-        headers={"Authorization": f"Bearer {GOOGLE_AI_API_KEY}", "Content-Type": "application/json"},
-        json={"model": GEMMA_MODEL, "messages": messages, "max_tokens": max_tokens},
-        timeout=120,
+        GROQ_URL,
+        headers={"Authorization": f"Bearer {GROQ_API_KEY}", "Content-Type": "application/json"},
+        json={"model": GROQ_MODEL, "messages": messages, "max_tokens": max_tokens, "temperature": 0.3},
+        timeout=60,
     )
     resp.raise_for_status()
-    return _strip_thinking(resp.json()["choices"][0]["message"]["content"])
+    return resp.json()["choices"][0]["message"]["content"]
 
 
 def _parse_json(text: str) -> dict:
@@ -240,7 +287,7 @@ def _parse_json(text: str) -> dict:
 
 def analyze_and_translate(title: str, summary: str) -> dict | None:
     """Score and translate an article in one Gemma call. Returns None if all retries fail."""
-    prompt = f"""You are a Kosovo news editor. Given an English article, do TWO things in one JSON response:
+    prompt = f"""You are a Kosovo news editor. Given an article (which may be in English, Serbian, or Albanian), do TWO things in one JSON response:
 1. Score it for a Kosovo audience (1-10)
 2. Rewrite it in Albanian (Shqip) as a Kosovo journalist
 
@@ -266,7 +313,7 @@ Summary: {summary[:600]}"""
 
     for attempt in range(3):
         try:
-            raw = _gemma([{"role": "user", "content": prompt}], max_tokens=4096)
+            raw = _groq([{"role": "user", "content": prompt}], max_tokens=4096)
             return _parse_json(raw)
         except Exception as e:
             if attempt < 2:

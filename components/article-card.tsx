@@ -335,12 +335,13 @@ export default function ArticleCard({ article, variant = "grid", index = 0 }: Ar
       >
         {/* Image area */}
         <div style={{ height: "190px", overflow: "hidden", position: "relative", flexShrink: 0 }}>
-          {article.imageUrl ? (
+          {article.imageUrl && !imgFailed ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
               src={article.imageUrl}
               alt=""
               aria-hidden="true"
+              onError={() => setImgFailed(true)}
               style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
             />
           ) : (
