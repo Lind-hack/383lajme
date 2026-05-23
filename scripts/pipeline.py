@@ -2,8 +2,12 @@
 import os
 import sys
 from pathlib import Path
+from datetime import datetime, timezone, timedelta
+from email.utils import parsedate_to_datetime
 from dotenv import load_dotenv
 from slugify import slugify
+
+MAX_AGE_HOURS = 48
 
 load_dotenv(Path(__file__).parent / ".env")
 sys.path.insert(0, str(Path(__file__).parent))
@@ -31,11 +35,23 @@ def run():
     unprocessed = get_unprocessed(conn, limit=20)
     print(f"[pipeline] {len(unprocessed)} unprocessed articles")
 
+    cutoff = datetime.now(timezone.utc) - timedelta(hours=MAX_AGE_HOURS)
     for row in unprocessed:
         title = row["title"] or ""
         raw = row["raw_content"] or ""
         url = row["url"] or ""
         article_id = row["id"]
+
+        pub_str = row["published_at"] or ""
+        if pub_str:
+            try:
+                pub_dt = parsedate_to_datetime(pub_str)
+                if pub_dt < cutoff:
+                    mark_skipped(conn, article_id)
+                    print(f"  [OLD]  {title[:60]}")
+                    continue
+            except Exception:
+                pass
 
         print(f"  Scoring: {title[:60]}")
         result = score_article(title, raw)
