@@ -17,6 +17,9 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from pathlib import Path
 
+import html
+import time
+
 import feedparser
 import requests
 from bs4 import BeautifulSoup
@@ -69,6 +72,19 @@ STOPWORDS = {
     "his", "her", "have", "been", "from", "will", "this", "they", "but",
     "not", "also", "into", "over", "after", "before", "more", "about",
 }
+
+
+def _clean_html(text: str) -> str:
+    """Strip HTML tags and decode entities — Google News RSS gives HTML summaries."""
+    clean = re.sub(r"<[^>]+>", " ", text)
+    clean = html.unescape(clean)
+    return " ".join(clean.split()).strip()
+
+
+def _clean_title(title: str) -> str:
+    """Remove source attribution Google News appends: 'Kosovo Elections - Bloomberg.com'"""
+    parts = title.rsplit(" - ", 1)
+    return parts[0].strip() if len(parts) > 1 else title.strip()
 
 
 # ── Time helpers ──────────────────────────────────────────────────────────────
@@ -170,8 +186,8 @@ def fetch_candidates(seen_urls: set[str]) -> list[dict]:
                     "source": source,
                     "source_flag": flag,
                     "source_bias": bias,
-                    "title_en": entry.get("title", ""),
-                    "summary": entry.get("summary", ""),
+                    "title_en": _clean_title(entry.get("title", "")),
+                    "summary": _clean_html(entry.get("summary", "")),
                     "raw_image": _feed_image(entry),
                     "published_at": _parse_published(entry),
                 })
@@ -246,13 +262,16 @@ Produce a JSON object with EXACTLY these 5 keys:
 - source_bias: EXACTLY one of [neutral, pro-kosovo, critical]
 
 Return ONLY the JSON object. No markdown, no code blocks, no explanation."""
+    raw = ""
     try:
-        return _parse_json(_gemma([{"role": "user", "content": prompt}], max_tokens=4096))
+        raw = _gemma([{"role": "user", "content": prompt}], max_tokens=4096)
+        return _parse_json(raw)
     except Exception as e:
         print(f"  Content gen error: {e}")
+        print(f"  Gemma raw (first 400): {raw[:400]}")
         return {
             "title": title,
-            "excerpt": summary[:200],
+            "excerpt": summary[:300],
             "body": summary,
             "tone": "neutral",
             "source_bias": "neutral",
@@ -378,6 +397,7 @@ def main() -> None:
 
         print(f"  [OK  {score:.1f}] {title_en[:70]}")
 
+        time.sleep(2)  # avoid Gemma rate limits between scoring and content calls
         content = generate_content(title_en, summary)
         image_url = get_image(c["url"], title_en, c.get("raw_image"))
 
