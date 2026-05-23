@@ -27,15 +27,15 @@ from bs4 import BeautifulSoup
 from slugify import slugify
 
 # ── Config ────────────────────────────────────────────────────────────────────
-GROQ_API_KEY       = os.environ.get("GROQ_API_KEY", "")
+GOOGLE_AI_API_KEY  = os.environ.get("GOOGLE_AI_API_KEY", "")
 PEXELS_API_KEY     = os.environ.get("PEXELS_API_KEY", "")
 GMAIL_USER         = os.environ.get("GMAIL_USER", "")
 GMAIL_APP_PASSWORD = os.environ.get("GMAIL_APP_PASSWORD", "")
 REMOVE_SECRET      = os.environ.get("REMOVE_SECRET", "")
 SITE_URL           = os.environ.get("SITE_URL", "https://383lajme.vercel.app")
 RECIPIENT_EMAIL    = "lindsylqa@gmail.com"
-GROQ_URL           = "https://api.groq.com/openai/v1/chat/completions"
-GROQ_MODEL         = "llama-3.3-70b-versatile"
+GEMMA_URL          = "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions"
+GEMMA_MODEL        = "gemma-4-31b-it"
 MAX_AGE_HOURS      = 48
 MAX_PER_RUN        = 12
 
@@ -265,12 +265,12 @@ def fetch_candidates(seen_urls: set[str]) -> list[dict]:
     return candidates
 
 
-# ── Groq API ─────────────────────────────────────────────────────────────────
-def _groq(messages: list[dict], max_tokens: int = 1024) -> str:
+# ── Google Gemma 4 API ────────────────────────────────────────────────────────
+def _gemma(messages: list[dict], max_tokens: int = 1024) -> str:
     resp = requests.post(
-        GROQ_URL,
-        headers={"Authorization": f"Bearer {GROQ_API_KEY}", "Content-Type": "application/json"},
-        json={"model": GROQ_MODEL, "messages": messages, "max_tokens": max_tokens, "temperature": 0.3},
+        GEMMA_URL,
+        headers={"Authorization": f"Bearer {GOOGLE_AI_API_KEY}", "Content-Type": "application/json"},
+        json={"model": GEMMA_MODEL, "messages": messages, "max_tokens": max_tokens, "temperature": 0.3},
         timeout=60,
     )
     resp.raise_for_status()
@@ -321,7 +321,7 @@ Summary: {summary[:600]}"""
 
     for attempt in range(3):
         try:
-            raw = _groq([{"role": "user", "content": prompt}], max_tokens=4096)
+            raw = _gemma([{"role": "user", "content": prompt}], max_tokens=4096)
             return _parse_json(raw)
         except Exception as e:
             if attempt < 2:
