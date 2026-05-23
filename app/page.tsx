@@ -17,7 +17,7 @@ import DiasporaSeries from "@/components/diaspora-series";
 import ThrowbackSection from "@/components/throwback-section";
 import AlertsCta from "@/components/alerts-cta";
 
-export const revalidate = 7200;
+export const revalidate = 3600;
 
 export default async function HomePage() {
   const articles = getArticles(50);
