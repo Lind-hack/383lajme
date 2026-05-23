@@ -109,7 +109,7 @@ def build_covered_set() -> list[set[str]]:
             feed = feedparser.parse(url, request_headers={"User-Agent": "Mozilla/5.0"})
             for entry in feed.entries[:40]:
                 if is_recent(entry):
-                    kws = _kw(entry.get("title", "") + " " + entry.get("summary", ""))
+                    kws = _kw(entry.get("title", ""))
                     if kws:
                         covered.append(kws)
         except Exception as e:
@@ -118,9 +118,9 @@ def build_covered_set() -> list[set[str]]:
 
 
 def is_duplicate(title: str, summary: str, covered: list[set[str]]) -> bool:
-    candidate = _kw(title + " " + summary)
+    candidate = _kw(title)
     for c in covered:
-        if len(candidate & c) >= 3:
+        if len(candidate & c) >= 5:
             return True
     return False
 
