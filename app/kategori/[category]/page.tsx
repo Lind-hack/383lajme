@@ -9,7 +9,7 @@ import NewsGrid from "@/components/news-grid";
 import DispatchList from "@/components/dispatch-list";
 import Footer from "@/components/footer";
 
-export const revalidate = 7200;
+export const revalidate = 3600;
 
 export function generateStaticParams() {
   return Object.keys(SLUG_TO_CATEGORY).map((slug) => ({ category: slug }));
