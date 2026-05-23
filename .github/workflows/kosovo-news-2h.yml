@@ -1,0 +1,39 @@
+name: Kosovo News — Every 2 Hours
+
+on:
+  schedule:
+    - cron: '0 */2 * * *'   # every 2 hours, 24/7
+  workflow_dispatch:          # also triggerable manually from GitHub UI
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write         # needed to git push the JSON articles back
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install Python deps
+        run: pip install feedparser requests beautifulsoup4 python-slugify
+
+      - name: Run Kosovo pipeline
+        env:
+          GOOGLE_AI_API_KEY:  ${{ secrets.GOOGLE_AI_API_KEY }}
+          PEXELS_API_KEY:     ${{ secrets.PEXELS_API_KEY }}
+          GMAIL_USER:         ${{ secrets.GMAIL_USER }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+        run: python -u scripts/kosovo_pipeline.py
+
+      - name: Commit new articles
+        run: |
+          git config user.name "383 News Bot"
+          git config user.email "bot@383news.com"
+          git add data/auto-articles/
+          git diff --staged --quiet || (
+            git commit -m "chore: Kosovo news $(date -u +%Y-%m-%dT%H:%M)" &&
+            git push
+          )

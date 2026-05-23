@@ -1,0 +1,242 @@
+import { BREAKING_ITEMS } from "@/lib/mock-data";
+import { getArticles } from "@/lib/db";
+import TextureBg from "@/components/aurora-bg";
+import Navbar from "@/components/navbar";
+import BreakingTicker from "@/components/breaking-ticker";
+import HeroDispatch from "@/components/hero-dispatch";
+import DispatchRow from "@/components/dispatch-row";
+import NewsGrid from "@/components/news-grid";
+import DispatchList from "@/components/dispatch-list";
+import ColorSpotlight from "@/components/color-spotlight";
+import GradientCta from "@/components/gradient-cta";
+import CategoryPillRow from "@/components/category-pill-row";
+import Footer from "@/components/footer";
+import ReagimiDites from "@/components/reagimi-dites";
+import ToneDashboard from "@/components/tone-dashboard";
+import DiasporaSeries from "@/components/diaspora-series";
+import ThrowbackSection from "@/components/throwback-section";
+import AlertsCta from "@/components/alerts-cta";
+
+export const revalidate = 7200;
+
+export default async function HomePage() {
+  const articles = getArticles(50);
+  const hero = articles[0];
+  const rowArticles = articles.slice(1, 6);
+  const gridArticles = articles.slice(1, 7);
+  const politikeArticles = articles.filter((a) => a.category === "Politikë");
+  const listArticles = articles.slice(3);
+
+  return (
+    <>
+      <TextureBg />
+
+      {/* Fixed nav */}
+      <Navbar />
+
+      {/* Breaking ticker — sits just under nav */}
+      <div style={{ position: "relative", zIndex: 10, paddingTop: "64px" }}>
+        <BreakingTicker />
+      </div>
+
+      {/* Main content — cream section */}
+      <main
+        style={{
+          position: "relative",
+          zIndex: 1,
+          maxWidth: "1280px",
+          margin: "0 auto",
+          padding: "64px 24px 0",
+        }}
+      >
+        {/* "383" large watermark behind hero */}
+        <div
+          aria-hidden="true"
+          style={{
+            position: "absolute",
+            top: "-20px",
+            left: "50%",
+            transform: "translateX(-50%)",
+            fontSize: "clamp(180px, 22vw, 320px)",
+            fontWeight: 800,
+            color: "rgba(17,17,17,0.025)",
+            letterSpacing: "-0.08em",
+            lineHeight: 1,
+            pointerEvents: "none",
+            userSelect: "none",
+            whiteSpace: "nowrap",
+            animation: "breathe 8s ease-in-out infinite",
+          }}
+        >
+          383
+        </div>
+
+        {/* Hero dispatch */}
+        <div style={{ marginBottom: "72px", position: "relative" }}>
+          <HeroDispatch article={hero} />
+        </div>
+
+        {/* Category pill row — labelled section */}
+        <div style={{ marginBottom: "48px" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "16px" }}>
+            <span style={{ fontSize: "11px", fontWeight: 800, letterSpacing: "0.22em", textTransform: "uppercase", color: "#FF4422" }}>
+              KATEGORITË
+            </span>
+            <div style={{ flex: 1, height: "1px", background: "#E8E3DB" }} />
+          </div>
+          <CategoryPillRow />
+        </div>
+
+        {/* Daily video reaction */}
+        <ReagimiDites />
+
+        {/* Section label: NJOFTIME */}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "16px",
+            marginBottom: "20px",
+          }}
+        >
+          <div style={{ width: "4px", height: "28px", background: "#FF4422", borderRadius: "2px", flexShrink: 0 }} />
+          <span style={{ fontSize: "13px", fontWeight: 800, letterSpacing: "0.2em", textTransform: "uppercase", color: "#111111" }}>
+            NJOFTIME
+          </span>
+          <div style={{ flex: 1, height: "1px", background: "#E8E3DB" }} />
+          <span style={{ fontSize: "11px", color: "#6B6B6B", fontWeight: 500 }}>
+            tërhiq ←→
+          </span>
+        </div>
+
+        {/* Horizontal scroll row */}
+        <div style={{ marginBottom: "72px" }}>
+          <DispatchRow articles={rowArticles} />
+        </div>
+
+        {/* News grid */}
+        <div style={{ marginBottom: "72px" }}>
+          <NewsGrid articles={gridArticles} title="KRYESORE" />
+        </div>
+
+        {/* Dispatch list */}
+        <div style={{ marginBottom: "0", paddingBottom: "72px" }}>
+          <DispatchList articles={listArticles} />
+        </div>
+      </main>
+
+      {/* Charcoal world news section */}
+      <section
+        style={{
+          background: "#1A1A1A",
+          padding: "64px 24px",
+          position: "relative",
+          zIndex: 1,
+        }}
+      >
+        <div style={{ maxWidth: "1280px", margin: "0 auto" }}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "16px",
+              marginBottom: "36px",
+            }}
+          >
+            <div style={{ width: "4px", height: "28px", background: "#F59E0B", borderRadius: "2px" }} />
+            <span style={{ fontSize: "13px", fontWeight: 800, letterSpacing: "0.2em", textTransform: "uppercase", color: "#FFFFFF" }}>
+              BOTA FLET
+            </span>
+            <div style={{ flex: 1, height: "1px", background: "rgba(255,255,255,0.1)" }} />
+          </div>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
+              gap: "20px",
+            }}
+          >
+            {articles.slice(2, 5).map((article) => {
+              const catColor = "#F59E0B";
+              return (
+                <a
+                  key={article.id}
+                  href={`/article/${article.slug}`}
+                  style={{ textDecoration: "none" }}
+                >
+                  <div
+                    className="world-card"
+                    style={{
+                      background: "rgba(255,255,255,0.05)",
+                      border: "1px solid rgba(255,255,255,0.08)",
+                      borderRadius: "16px",
+                      overflow: "hidden",
+                    }}
+                  >
+                    <div style={{ height: "3px", background: catColor }} />
+                    <div style={{ padding: "24px" }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: "6px", marginBottom: "12px" }}>
+                        <span style={{ fontSize: "16px" }}>{article.sourceFlag}</span>
+                        <span style={{ fontSize: "11px", fontWeight: 600, color: "rgba(255,255,255,0.5)", letterSpacing: "0.08em" }}>
+                          {article.source}
+                        </span>
+                      </div>
+                      <h3 style={{ fontSize: "16px", fontWeight: 700, color: "#FFFFFF", margin: "0 0 10px", lineHeight: 1.35 }}>
+                        {article.title}
+                      </h3>
+                      <p style={{ fontSize: "13px", color: "rgba(255,255,255,0.45)", margin: 0, lineHeight: 1.6 }}>
+                        {article.excerpt}
+                      </p>
+                    </div>
+                  </div>
+                </a>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* Tone dashboard + Diaspora series */}
+      <div
+        style={{
+          position: "relative",
+          zIndex: 1,
+          maxWidth: "1280px",
+          margin: "0 auto",
+          padding: "64px 24px 0",
+        }}
+      >
+        <ToneDashboard />
+        <DiasporaSeries />
+      </div>
+
+      {/* Blue Politikë spotlight */}
+      {politikeArticles.length > 0 && (
+        <ColorSpotlight
+          articles={politikeArticles}
+          category="Politikë"
+          label="POLITIKË"
+        />
+      )}
+
+      {/* Throwback + Alerts CTA */}
+      <div
+        style={{
+          position: "relative",
+          zIndex: 1,
+          maxWidth: "1280px",
+          margin: "0 auto",
+          padding: "64px 24px 0",
+        }}
+      >
+        <ThrowbackSection />
+        <AlertsCta />
+      </div>
+
+      {/* Gradient CTA */}
+      <GradientCta />
+
+      <Footer />
+    </>
+  );
+}
