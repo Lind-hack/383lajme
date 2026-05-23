@@ -45,23 +45,22 @@ OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 # ── Sources ───────────────────────────────────────────────────────────────────
 # International / Balkan-focused — explicitly NOT local Kosovo outlets
 NEWS_SOURCES = [
-    ("https://balkaninsight.com/feed/",                                             "Balkan Insight",  "🌍", "neutral"),
-    ("https://europeanwesternbalkans.com/feed/",                                    "EWB",             "🌍", "neutral"),
-    ("https://exit.al/en/feed/",                                                    "Exit News",       "🇦🇱", "neutral"),
-    ("https://feeds.bbci.co.uk/news/world/europe/rss.xml",                          "BBC",             "🇬🇧", "neutral"),
-    ("https://rss.dw.com/rss/en-all",                                               "DW",              "🇩🇪", "neutral"),
-    ("https://apnews.com/rss/world-news",                                           "AP",              "🇺🇸", "neutral"),
-    ("https://www.france24.com/en/rss",                                             "France 24",       "🇫🇷", "neutral"),
-    ("https://www.aljazeera.com/xml/rss/all.xml",                                   "Al Jazeera",      "🌍", "neutral"),
-    ("https://www.rferl.org/api/zpqoiflmtige",                                      "RFE/RL",          "🇺🇸", "neutral"),
-    ("https://www.theguardian.com/world/europe/rss",                                "Guardian",        "🇬🇧", "neutral"),
-    ("https://www.euronews.com/rss?format=mrss&level=theme&name=news",              "Euronews",        "🇪🇺", "neutral"),
-    ("https://www.cbsnews.com/latest/rss/world",                                    "CBS News",        "🇺🇸", "neutral"),
-    ("https://feeds.voanews.com/VOANews/English",                                   "VOA",             "🇺🇸", "neutral"),
-    ("https://news.google.com/rss/search?q=Kosovo+news&hl=en-US&gl=US&ceid=US:en", "Google News",     "🌐",  "neutral"),
-    ("https://news.google.com/rss/search?q=Kosovo+Serbia&hl=en-US&gl=US&ceid=US:en","Google News",    "🌐",  "neutral"),
-    ("https://news.google.com/rss/search?q=Kosovo+site%3Areuters.com&hl=en-US&gl=US&ceid=US:en", "Reuters", "🌍", "neutral"),
-    ("https://news.google.com/rss/search?q=Kosovo+site%3Acnn.com&hl=en-US&gl=US&ceid=US:en",     "CNN",     "🇺🇸", "neutral"),
+    # Direct Kosovo/Balkan-focused feeds — every article is Balkans-relevant
+    ("https://balkaninsight.com/feed/",                                                                   "Balkan Insight", "🌍", "neutral"),
+    ("https://europeanwesternbalkans.com/feed/",                                                          "EWB",            "🌍", "neutral"),
+    ("https://exit.al/en/feed/",                                                                          "Exit News",      "🇦🇱", "neutral"),
+    # Major outlets via Google News site-filter — every result is Kosovo-specific
+    ("https://news.google.com/rss/search?q=Kosovo+site%3Abbc.co.uk&hl=en-US&gl=US&ceid=US:en",           "BBC",            "🇬🇧", "neutral"),
+    ("https://news.google.com/rss/search?q=Kosovo+site%3Aapnews.com&hl=en-US&gl=US&ceid=US:en",          "AP",             "🇺🇸", "neutral"),
+    ("https://news.google.com/rss/search?q=Kosovo+site%3Areuters.com&hl=en-US&gl=US&ceid=US:en",         "Reuters",        "🌍", "neutral"),
+    ("https://news.google.com/rss/search?q=Kosovo+site%3Acnn.com&hl=en-US&gl=US&ceid=US:en",             "CNN",            "🇺🇸", "neutral"),
+    ("https://news.google.com/rss/search?q=Kosovo+site%3Adw.com&hl=en-US&gl=US&ceid=US:en",              "DW",             "🇩🇪", "neutral"),
+    ("https://news.google.com/rss/search?q=Kosovo+site%3Aaljazeera.com&hl=en-US&gl=US&ceid=US:en",       "Al Jazeera",     "🌍", "neutral"),
+    ("https://news.google.com/rss/search?q=Kosovo+site%3Arferl.org&hl=en-US&gl=US&ceid=US:en",           "RFE/RL",         "🇺🇸", "neutral"),
+    ("https://news.google.com/rss/search?q=Kosovo+site%3Atheguardian.com&hl=en-US&gl=US&ceid=US:en",     "Guardian",       "🇬🇧", "neutral"),
+    ("https://news.google.com/rss/search?q=Kosovo+site%3Aeuronews.com&hl=en-US&gl=US&ceid=US:en",        "Euronews",       "🇪🇺", "neutral"),
+    ("https://news.google.com/rss/search?q=Kosovo+site%3Afrance24.com&hl=en-US&gl=US&ceid=US:en",        "France 24",      "🇫🇷", "neutral"),
+    ("https://news.google.com/rss/search?q=Kosovo+site%3Avoaneews.com&hl=en-US&gl=US&ceid=US:en",        "VOA",            "🇺🇸", "neutral"),
 ]
 
 # Checked ONLY to detect already-covered stories — not imported as articles
@@ -180,6 +179,8 @@ def _feed_image(entry) -> str | None:
 def fetch_candidates(seen_urls: set[str]) -> list[dict]:
     candidates: list[dict] = []
     for feed_url, source, flag, bias in NEWS_SOURCES:
+        # Google News site-filter feeds already contain only Kosovo articles — skip keyword check
+        is_google_news_filter = "news.google.com" in feed_url and "site%3A" in feed_url
         try:
             feed = feedparser.parse(feed_url, request_headers={"User-Agent": "Mozilla/5.0"})
             for entry in feed.entries[:25]:
@@ -188,9 +189,10 @@ def fetch_candidates(seen_urls: set[str]) -> list[dict]:
                     continue
                 if not is_recent(entry):
                     continue
-                text = (entry.get("title", "") + " " + entry.get("summary", "")).lower()
-                if not any(kw in text for kw in KOSOVO_KEYWORDS):
-                    continue
+                if not is_google_news_filter:
+                    text = (entry.get("title", "") + " " + entry.get("summary", "")).lower()
+                    if not any(kw in text for kw in KOSOVO_KEYWORDS):
+                        continue
                 candidates.append({
                     "url": url,
                     "source": source,
@@ -236,67 +238,67 @@ def _parse_json(text: str) -> dict:
     return json.loads(text)
 
 
-def score_article(title: str, summary: str) -> dict:
-    prompt = f"""Rate this Kosovo news article for a Kosovo audience.
+def analyze_and_translate(title: str, summary: str) -> dict | None:
+    """Score and translate an article in one Gemma call. Returns None if all retries fail."""
+    prompt = f"""You are a Kosovo news editor. Given an English article, do TWO things in one JSON response:
+1. Score it for a Kosovo audience (1-10)
+2. Rewrite it in Albanian (Shqip) as a Kosovo journalist
 
-Scoring guide:
-- 9-10: breaking (elections, arrests, major policy, conflict, international crisis)
-- 7-8: important but not breaking
-- 5-6: interesting but niche
-- 1-4: low relevance or routine
+Return ONLY this JSON (no markdown, no explanation):
+{{
+  "score": 8.2,
+  "featured": false,
+  "category": "Politikë",
+  "breaking": false,
+  "reason": "one sentence why this score",
+  "title": "Albanian headline (max 15 words)",
+  "excerpt": "2-3 sentence Albanian lead",
+  "body": "full Albanian article 4-5 paragraphs ~300 words",
+  "tone": "neutral",
+  "source_bias": "neutral"
+}}
 
-Return ONLY JSON: {{"score": 8.2, "featured": false, "category": "Politikë", "breaking": false, "reason": "one sentence explaining the score"}}
-Categories must be exactly one of: Politikë, Ekonomi, Siguri, Sport, Teknologji, Kulturë, Shoqëri, Diasporë
+Categories: Politikë, Ekonomi, Siguri, Sport, Teknologji, Kulturë, Shoqëri, Diasporë
+Score guide: 9-10 breaking, 7-8 important, 5-6 niche, 1-4 routine
 
 Title: {title}
-Summary: {summary[:400]}"""
-    try:
-        return _parse_json(_gemma([{"role": "user", "content": prompt}]))
-    except Exception as e:
-        print(f"  Score error: {e}")
-        return {"score": 0, "featured": False, "category": "Shoqëri", "breaking": False, "reason": ""}
+Summary: {summary[:600]}"""
 
-
-def generate_content(title: str, summary: str) -> dict:
-    prompt = f"""You are a Kosovo news journalist writing in Albanian (Shqip) for 383 Lajme.
-
-Original article (English):
-Title: {title}
-Summary: {summary[:800]}
-
-Produce a JSON object with EXACTLY these 5 keys:
-- title: compelling Albanian headline (max 15 words)
-- excerpt: 2-3 sentence Albanian lead paragraph
-- body: full Albanian article, 4-5 paragraphs, ~250-350 words, journalistic style
-- tone: EXACTLY one of [positive, neutral, negative]
-- source_bias: EXACTLY one of [neutral, pro-kosovo, critical]
-
-Return ONLY the JSON object. No markdown, no code blocks, no explanation."""
-    raw = ""
-    try:
-        raw = _gemma([{"role": "user", "content": prompt}], max_tokens=4096)
-        return _parse_json(raw)
-    except Exception as e:
-        print(f"  Content gen error: {e}")
-        print(f"  Gemma raw (first 400): {raw[:400]}")
-        return {
-            "title": title,
-            "excerpt": summary[:300],
-            "body": summary,
-            "tone": "neutral",
-            "source_bias": "neutral",
-        }
+    for attempt in range(3):
+        try:
+            raw = _gemma([{"role": "user", "content": prompt}], max_tokens=4096)
+            return _parse_json(raw)
+        except Exception as e:
+            if attempt < 2:
+                wait = 4 * (attempt + 1)
+                print(f"  analyze_and_translate attempt {attempt + 1} failed: {e} — retrying in {wait}s")
+                time.sleep(wait)
+            else:
+                print(f"  analyze_and_translate failed after 3 attempts: {e} — skipping article")
+                return None
 
 
 # ── Image pipeline ────────────────────────────────────────────────────────────
 def get_image(article_url: str, title: str, raw_image: str | None) -> str:
-    # 1. Image embedded in feed metadata
-    if raw_image:
-        return raw_image
+    # raw_image from Google News RSS is lh3.googleusercontent.com — hotlink-blocked from Vercel.
+    # Always follow the redirect to the real article, then scrape og:image.
 
-    # 2. Scrape og:image from article page
+    # 1. Resolve Google News redirect to the actual article URL
+    actual_url = article_url
+    if "news.google.com" in article_url:
+        try:
+            r = requests.get(
+                article_url, timeout=10,
+                headers={"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36"},
+                allow_redirects=True,
+            )
+            actual_url = r.url
+        except Exception:
+            pass
+
+    # 2. Scrape og:image from the real article page
     try:
-        r = requests.get(article_url, timeout=8, headers={"User-Agent": "Mozilla/5.0"})
+        r = requests.get(actual_url, timeout=8, headers={"User-Agent": "Mozilla/5.0"})
         if r.status_code == 200:
             soup = BeautifulSoup(r.text, "html.parser")
             og = soup.find("meta", property="og:image")
@@ -321,7 +323,7 @@ def get_image(article_url: str, title: str, raw_image: str | None) -> str:
             pass
 
     # 4. Pollinations.ai — completely free, no API key needed
-    prompt = urllib.parse.quote(f"Kosovo news {title[:60]}, photorealistic journalism")
+    prompt = urllib.parse.quote(f"Kosovo news {title[:60]}, press photo")
     return f"https://image.pollinations.ai/prompt/{prompt}?width=1200&height=630&nologo=true"
 
 
@@ -428,41 +430,43 @@ def main() -> None:
             print(f"  [DUP]  {title_en[:70]}")
             continue
 
-        scoring = score_article(title_en, summary)
-        score = float(scoring.get("score", 0))
-        if score < 5:
+        analysis = analyze_and_translate(title_en, summary)
+        if analysis is None:
+            print(f"  [SKIP] {title_en[:70]}")
+            continue
+
+        score = float(analysis.get("score", 0))
+        if score < 6:
             print(f"  [LOW {score:.1f}] {title_en[:70]}")
             continue
 
         print(f"  [OK  {score:.1f}] {title_en[:70]}")
 
-        time.sleep(2)  # avoid Gemma rate limits between scoring and content calls
-        content = generate_content(title_en, summary)
         image_url = get_image(c["url"], title_en, c.get("raw_image"))
 
         pub_dt = c["published_at"] or datetime.now(timezone.utc)
-        body = content.get("body", summary)
-        featured = score >= 9 or bool(scoring.get("breaking"))
-        slug_base = slugify(content.get("title", title_en))[:60]
+        body = analysis.get("body", summary)
+        featured = score >= 9 or bool(analysis.get("breaking"))
+        slug_base = slugify(analysis.get("title", title_en))[:60]
 
         results.append({
             "id":             str(uuid.uuid4()),
             "slug":           f"{slug_base}-{pub_dt.strftime('%Y-%m-%d')}",
             "url":            c["url"],
             "dispatch":       f"{len(results) + 1:02d}",
-            "title":          content.get("title", title_en),
-            "excerpt":        content.get("excerpt", summary[:200]),
+            "title":          analysis.get("title", title_en),
+            "excerpt":        analysis.get("excerpt", summary[:200]),
             "body":           body,
             "source":         c["source"],
             "source_flag":    c["source_flag"],
-            "source_bias":    content.get("source_bias", c["source_bias"]),
-            "tone":           content.get("tone", "neutral"),
-            "category":       scoring.get("category", "Shoqëri"),
+            "source_bias":    analysis.get("source_bias", c["source_bias"]),
+            "tone":           analysis.get("tone", "neutral"),
+            "category":       analysis.get("category", "Shoqëri"),
             "published_at":   pub_dt.isoformat(),
             "reading_time":   max(1, len(body.split()) // 200),
             "featured":       featured,
             "engagement_score": round(score, 1),
-            "score_reason":   scoring.get("reason", ""),
+            "score_reason":   analysis.get("reason", ""),
             "image_url":      image_url,
             "created_at":     datetime.now(timezone.utc).isoformat(),
         })
