@@ -26,6 +26,8 @@ jobs:
           PEXELS_API_KEY:     ${{ secrets.PEXELS_API_KEY }}
           GMAIL_USER:         ${{ secrets.GMAIL_USER }}
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          REMOVE_SECRET:      ${{ secrets.REMOVE_SECRET }}
+          SITE_URL:           ${{ secrets.SITE_URL }}
         run: python -u scripts/kosovo_pipeline.py
 
       - name: Commit new articles

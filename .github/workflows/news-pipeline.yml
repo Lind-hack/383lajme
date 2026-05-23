@@ -8,9 +8,13 @@ on:
 jobs:
   pipeline:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - uses: actions/setup-python@v5
         with:
@@ -18,11 +22,9 @@ jobs:
 
       - name: Install dependencies
         run: pip install -r scripts/requirements.txt
-        working-directory: businesses/383
 
       - name: Run pipeline
         run: python scripts/pipeline.py
-        working-directory: businesses/383
         env:
           GOOGLE_AI_API_KEY: ${{ secrets.GOOGLE_AI_API_KEY }}
 
@@ -30,6 +32,9 @@ jobs:
         run: |
           git config user.email "bot@383lajme.com"
           git config user.name "383 Bot"
-          git add -f businesses/383/data/articles.db
-          git diff --staged --quiet || git commit -m "chore: pipeline run $(date -u +%Y-%m-%dT%H:%M:%SZ)"
-          git push
+          git add -f data/articles.db
+          git diff --staged --quiet || (
+            git commit -m "chore: pipeline run $(date -u +%Y-%m-%dT%H:%M:%SZ)" &&
+            git pull --rebase origin main &&
+            git push
+          )

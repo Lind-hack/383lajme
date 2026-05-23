@@ -30,11 +30,13 @@ GOOGLE_AI_API_KEY  = os.environ.get("GOOGLE_AI_API_KEY", "")
 PEXELS_API_KEY     = os.environ.get("PEXELS_API_KEY", "")
 GMAIL_USER         = os.environ.get("GMAIL_USER", "")
 GMAIL_APP_PASSWORD = os.environ.get("GMAIL_APP_PASSWORD", "")
+REMOVE_SECRET      = os.environ.get("REMOVE_SECRET", "")
+SITE_URL           = os.environ.get("SITE_URL", "https://383lajme.vercel.app")
 RECIPIENT_EMAIL    = "lindsylqa@gmail.com"
 GOOGLE_AI_URL      = "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions"
 GEMMA_MODEL        = "gemma-4-31b-it"
 MAX_AGE_HOURS      = 48
-MAX_PER_RUN        = 8
+MAX_PER_RUN        = 12
 
 SCRIPT_DIR  = Path(__file__).parent
 OUTPUT_DIR  = SCRIPT_DIR.parent / "data" / "auto-articles"
@@ -50,8 +52,16 @@ NEWS_SOURCES = [
     ("https://rss.dw.com/rss/en-all",                                               "DW",              "🇩🇪", "neutral"),
     ("https://apnews.com/rss/world-news",                                           "AP",              "🇺🇸", "neutral"),
     ("https://www.france24.com/en/rss",                                             "France 24",       "🇫🇷", "neutral"),
+    ("https://www.aljazeera.com/xml/rss/all.xml",                                   "Al Jazeera",      "🌍", "neutral"),
+    ("https://www.rferl.org/api/zpqoiflmtige",                                      "RFE/RL",          "🇺🇸", "neutral"),
+    ("https://www.theguardian.com/world/europe/rss",                                "Guardian",        "🇬🇧", "neutral"),
+    ("https://www.euronews.com/rss?format=mrss&level=theme&name=news",              "Euronews",        "🇪🇺", "neutral"),
+    ("https://www.cbsnews.com/latest/rss/world",                                    "CBS News",        "🇺🇸", "neutral"),
+    ("https://feeds.voanews.com/VOANews/English",                                   "VOA",             "🇺🇸", "neutral"),
     ("https://news.google.com/rss/search?q=Kosovo+news&hl=en-US&gl=US&ceid=US:en", "Google News",     "🌐",  "neutral"),
     ("https://news.google.com/rss/search?q=Kosovo+Serbia&hl=en-US&gl=US&ceid=US:en","Google News",    "🌐",  "neutral"),
+    ("https://news.google.com/rss/search?q=Kosovo+site%3Areuters.com&hl=en-US&gl=US&ceid=US:en", "Reuters", "🌍", "neutral"),
+    ("https://news.google.com/rss/search?q=Kosovo+site%3Acnn.com&hl=en-US&gl=US&ceid=US:en",     "CNN",     "🇺🇸", "neutral"),
 ]
 
 # Checked ONLY to detect already-covered stories — not imported as articles
@@ -235,7 +245,7 @@ Scoring guide:
 - 5-6: interesting but niche
 - 1-4: low relevance or routine
 
-Return ONLY JSON: {{"score": 8.2, "featured": false, "category": "Politikë", "breaking": false}}
+Return ONLY JSON: {{"score": 8.2, "featured": false, "category": "Politikë", "breaking": false, "reason": "one sentence explaining the score"}}
 Categories must be exactly one of: Politikë, Ekonomi, Siguri, Sport, Teknologji, Kulturë, Shoqëri, Diasporë
 
 Title: {title}
@@ -244,7 +254,7 @@ Summary: {summary[:400]}"""
         return _parse_json(_gemma([{"role": "user", "content": prompt}]))
     except Exception as e:
         print(f"  Score error: {e}")
-        return {"score": 0, "featured": False, "category": "Shoqëri", "breaking": False}
+        return {"score": 0, "featured": False, "category": "Shoqëri", "breaking": False, "reason": ""}
 
 
 def generate_content(title: str, summary: str) -> dict:
@@ -316,7 +326,7 @@ def get_image(article_url: str, title: str, raw_image: str | None) -> str:
 
 
 # ── Email notification ────────────────────────────────────────────────────────
-def send_email(articles: list[dict]) -> None:
+def send_email(articles: list[dict], out_filename: str) -> None:
     if not GMAIL_USER or not GMAIL_APP_PASSWORD:
         print("  No email credentials — skipping email")
         return
@@ -326,28 +336,57 @@ def send_email(articles: list[dict]) -> None:
 
     rows = []
     for i, a in enumerate(articles, 1):
-        star = "⭐ FEATURED" if a.get("featured") else ""
         score = a.get("engagement_score", 0)
+        is_breaking = a.get("featured", False)
+        reason = a.get("score_reason", "")
+        category = a.get("category", "?")
+        source = a.get("source", "?")
+
+        breaking_badge = ""
+        if is_breaking:
+            breaking_badge = '<span style="background:#FF4422;color:#fff;font-size:10px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;padding:2px 8px;border-radius:12px;margin-right:8px;">BREAKING</span>'
+
+        score_color = "#FF4422" if score >= 9 else "#f0c040" if score >= 7.5 else "#aaaaaa"
+
+        remove_btn = ""
+        if REMOVE_SECRET and SITE_URL:
+            remove_url = f"{SITE_URL}/api/remove?id={a['id']}&file={out_filename}&secret={REMOVE_SECRET}"
+            remove_btn = f'&nbsp;&nbsp;&nbsp;<a href="{remove_url}" style="color:#ff6b6b;font-size:12px;text-decoration:none;">🗑 Hiq nga faqja</a>'
+
+        reason_row = f'<div style="font-size:13px;color:#999;font-style:italic;margin-bottom:10px;line-height:1.4;">{reason}</div>' if reason else ""
+
         rows.append(f"""
         <tr>
-          <td style="padding:12px;border-bottom:1px solid #333;color:#fff;">
-            <strong>#{i} {star} Score: {score:.1f}</strong><br>
-            <span style="font-size:16px;">{a['title']}</span><br>
-            <small style="color:#aaa;">Kategoria: {a.get('category','?')} | Burimi: {a.get('source','?')}</small><br>
-            <a href="{a.get('url','')}" style="color:#4af;">→ Artikulli origjinal</a>
+          <td style="padding:18px 20px;border-bottom:1px solid #2a2a2a;">
+            <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px;flex-wrap:wrap;">
+              {breaking_badge}
+              <span style="font-size:24px;font-weight:900;color:{score_color};line-height:1;">{score:.1f}</span>
+              <span style="font-size:12px;color:#555;line-height:1;">/10</span>
+              <span style="font-size:11px;color:#666;margin-left:4px;">• {category} • {source}</span>
+            </div>
+            <div style="font-size:16px;font-weight:700;color:#ffffff;margin-bottom:8px;line-height:1.35;">{a['title']}</div>
+            {reason_row}
+            <div style="font-size:13px;">
+              <a href="{a.get('url', '')}" style="color:#4af;text-decoration:none;">→ Artikulli origjinal</a>
+              {remove_btn}
+            </div>
           </td>
         </tr>""")
 
-    html = f"""<!DOCTYPE html>
+    email_html = f"""<!DOCTYPE html>
 <html>
 <body style="background:#111;font-family:sans-serif;margin:0;padding:20px;">
-  <div style="max-width:600px;margin:auto;">
-    <h2 style="color:#fff;">383 Lajme — {len(articles)} artikuj të rinj u shtuan</h2>
-    <p style="color:#aaa;">{now} — Burimet: internacionale dhe Ballkan</p>
-    <table width="100%" cellpadding="0" cellspacing="0" style="background:#1a1a1a;border-radius:8px;">
-      {''.join(rows)}
-    </table>
-    <p style="color:#666;font-size:12px;margin-top:16px;">Automatizuar nga 383 News Pipeline</p>
+  <div style="max-width:640px;margin:auto;">
+    <div style="background:#1a1a1a;border-radius:12px;overflow:hidden;">
+      <div style="padding:24px 20px;border-bottom:1px solid #2a2a2a;">
+        <h2 style="color:#fff;margin:0 0 6px;font-size:20px;">383 Lajme — {len(articles)} artikuj të rinj u shtuan</h2>
+        <p style="color:#666;margin:0;font-size:13px;">{now} • Sistemi automatik i lajmeve ndërkombëtare</p>
+      </div>
+      <table width="100%" cellpadding="0" cellspacing="0">
+        {''.join(rows)}
+      </table>
+    </div>
+    <p style="color:#444;font-size:11px;margin-top:14px;text-align:center;">Automatizuar nga 383 News Pipeline</p>
   </div>
 </body>
 </html>"""
@@ -356,7 +395,7 @@ def send_email(articles: list[dict]) -> None:
     msg["Subject"] = subject
     msg["From"] = GMAIL_USER
     msg["To"] = RECIPIENT_EMAIL
-    msg.attach(MIMEText(html, "html"))
+    msg.attach(MIMEText(email_html, "html"))
 
     with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
         smtp.login(GMAIL_USER, GMAIL_APP_PASSWORD)
@@ -407,34 +446,36 @@ def main() -> None:
         slug_base = slugify(content.get("title", title_en))[:60]
 
         results.append({
-            "id":            str(uuid.uuid4()),
-            "slug":          f"{slug_base}-{pub_dt.strftime('%Y-%m-%d')}",
-            "url":           c["url"],
-            "dispatch":      f"{len(results) + 1:02d}",
-            "title":         content.get("title", title_en),
-            "excerpt":       content.get("excerpt", summary[:200]),
-            "body":          body,
-            "source":        c["source"],
-            "source_flag":   c["source_flag"],
-            "source_bias":   content.get("source_bias", c["source_bias"]),
-            "tone":          content.get("tone", "neutral"),
-            "category":      scoring.get("category", "Shoqëri"),
-            "published_at":  pub_dt.isoformat(),
-            "reading_time":  max(1, len(body.split()) // 200),
-            "featured":      featured,
+            "id":             str(uuid.uuid4()),
+            "slug":           f"{slug_base}-{pub_dt.strftime('%Y-%m-%d')}",
+            "url":            c["url"],
+            "dispatch":       f"{len(results) + 1:02d}",
+            "title":          content.get("title", title_en),
+            "excerpt":        content.get("excerpt", summary[:200]),
+            "body":           body,
+            "source":         c["source"],
+            "source_flag":    c["source_flag"],
+            "source_bias":    content.get("source_bias", c["source_bias"]),
+            "tone":           content.get("tone", "neutral"),
+            "category":       scoring.get("category", "Shoqëri"),
+            "published_at":   pub_dt.isoformat(),
+            "reading_time":   max(1, len(body.split()) // 200),
+            "featured":       featured,
             "engagement_score": round(score, 1),
-            "image_url":     image_url,
-            "created_at":    datetime.now(timezone.utc).isoformat(),
+            "score_reason":   scoring.get("reason", ""),
+            "image_url":      image_url,
+            "created_at":     datetime.now(timezone.utc).isoformat(),
         })
 
     print(f"  {len(results)} articles ready")
 
     if results:
         ts = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H")
-        out = OUTPUT_DIR / f"{ts}.json"
+        out_filename = f"{ts}.json"
+        out = OUTPUT_DIR / out_filename
         out.write_text(json.dumps(results, ensure_ascii=False, indent=2), encoding="utf-8")
         print(f"  → {out}")
-        send_email(results)
+        send_email(results, out_filename)
     else:
         print("  Nothing new — no file written, no email sent")
 
