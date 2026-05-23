@@ -71,7 +71,7 @@ function getAutoArticles(): Article[] {
   return articles;
 }
 
-export function getArticles(limit = 50): Article[] {
+export function getArticles(limit = 50, category?: string): Article[] {
   const autoArticles = getAutoArticles();
   const db = getDb();
 
@@ -100,14 +100,15 @@ export function getArticles(limit = 50): Article[] {
     }
   }
 
-  return merged
-    .sort((a, b) => {
-      if (a.featured !== b.featured) return a.featured ? -1 : 1;
-      const scoreDiff = (b.engagementScore ?? 0) - (a.engagementScore ?? 0);
-      if (scoreDiff !== 0) return scoreDiff;
-      return new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime();
-    })
-    .slice(0, limit);
+  const sorted = merged.sort((a, b) => {
+    if (a.featured !== b.featured) return a.featured ? -1 : 1;
+    const scoreDiff = (b.engagementScore ?? 0) - (a.engagementScore ?? 0);
+    if (scoreDiff !== 0) return scoreDiff;
+    return new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime();
+  });
+
+  const filtered = category ? sorted.filter((a) => a.category === category) : sorted;
+  return filtered.slice(0, limit);
 }
 
 export function getArticleBySlug(slug: string): Article | null {
