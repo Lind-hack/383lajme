@@ -16,17 +16,9 @@ RSS_FEEDS = [
     ("https://www.rferl.org/api/zrqiteuuiez", "Radio Free Europe", "🇺🇸"),
     ("https://euobserver.com/rss.xml", "EUobserver", "🇪🇺"),
     ("https://www.euractiv.com/feed/", "Euractiv", "🇪🇺"),
-    # Albanian-language Kosovo news sites (all Kosovo content)
-    ("https://telegrafi.com/feed/", "Telegrafi", "🇽🇰"),
-    ("https://gazetaexpress.com/feed/", "Gazeta Express", "🇽🇰"),
-    ("https://kosovapress.com/feed/", "KosovaPress", "🇽🇰"),
-    ("https://zeri.info/feed/", "Zëri", "🇽🇰"),
-    ("https://www.rtklive.com/sq/feed", "RTK Live", "🇽🇰"),
-    # Google News — targeted Kosovo queries (reduced to avoid duplicate content)
-    ("https://news.google.com/rss/search?q=Kosovo&hl=en-US&gl=US&ceid=US:en", "Google News", "🌐"),
-    ("https://news.google.com/rss/search?q=Kosovo+Serbia&hl=en-US&gl=US&ceid=US:en", "Google News", "🌐"),
-    ("https://news.google.com/rss/search?q=Kosovo+elections&hl=en-US&gl=US&ceid=US:en", "Google News", "🌐"),
-    ("https://news.google.com/rss/search?q=Kosova+shqip&hl=sq&gl=XK&ceid=XK:sq", "Google News SQ", "🌐"),
+    # Google News — targeted Kosovo queries (English only, international coverage)
+    ("https://news.google.com/rss/search?q=Kosovo+when%3A2d&hl=en-US&gl=US&ceid=US:en", "Google News", "🌐"),
+    ("https://news.google.com/rss/search?q=Kosovo+Serbia+when%3A2d&hl=en-US&gl=US&ceid=US:en", "Google News", "🌐"),
 ]
 
 KEYWORDS = {"kosovo", "kosov", "kurti", "pristina", "prishtina", "prishtinë", "kosovë"}
