@@ -18,6 +18,7 @@ from email.mime.text import MIMEText
 from pathlib import Path
 
 import html
+import random
 import time
 
 import feedparser
@@ -35,7 +36,7 @@ SITE_URL           = os.environ.get("SITE_URL", "https://383lajme.vercel.app")
 RECIPIENT_EMAIL    = "lindsylqa@gmail.com"
 GROQ_URL           = "https://api.groq.com/openai/v1/chat/completions"
 GROQ_MODEL         = "llama-3.3-70b-versatile"
-MAX_AGE_HOURS      = 120
+MAX_AGE_HOURS      = 48
 MAX_PER_RUN        = 12
 
 SCRIPT_DIR  = Path(__file__).parent
@@ -51,7 +52,6 @@ OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 NEWS_SOURCES = [
     # Direct Kosovo-focused feeds — all articles are Kosovo-relevant
     ("https://balkaninsight.com/tag/kosovo/feed/", "Balkan Insight", "🌍", "neutral", True),
-    ("https://kossev.info/feed/",                  "KoSSev",         "🌍", "neutral", True),
     # Generic Kosovo news search — recent (3-day window), extracts real outlet from title suffix
     ("https://news.google.com/rss/search?q=Kosovo+when%3A3d&hl=en-US&gl=US&ceid=US:en",
      "_GNEWS_EXTRACT_", "🌍", "neutral", False),
@@ -360,15 +360,18 @@ def get_image(article_url: str, title: str, raw_image: str | None) -> str:
     # 3. Pexels API (requires PEXELS_API_KEY)
     if PEXELS_API_KEY:
         try:
+            words = re.findall(r"[A-Za-z]{4,}", title)
+            query_words = [w for w in words if w.lower() not in STOPWORDS][:4]
+            query = " ".join(query_words) if query_words else "Kosovo news"
             r = requests.get(
                 "https://api.pexels.com/v1/search",
                 headers={"Authorization": PEXELS_API_KEY},
-                params={"query": f"Kosovo {title[:40]}", "per_page": 1, "orientation": "landscape"},
+                params={"query": query, "per_page": 5, "orientation": "landscape", "page": random.randint(1, 4)},
                 timeout=10,
             )
             photos = r.json().get("photos", [])
             if photos:
-                return photos[0]["src"]["large"]
+                return photos[random.randint(0, len(photos) - 1)]["src"]["large"]
         except Exception:
             pass
 
