@@ -92,7 +92,7 @@ export function getArticles(limit = 50, category?: string): Article[] {
 
   const seen = new Set<string>();
   const merged: Article[] = [];
-  for (const a of [...sqliteArticles, ...autoArticles]) {
+  for (const a of [...autoArticles, ...sqliteArticles]) {
     const key = a.url ?? a.slug;
     if (!seen.has(key)) {
       seen.add(key);
