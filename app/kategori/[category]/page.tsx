@@ -1,9 +1,10 @@
 import { notFound } from "next/navigation";
 import { getArticles } from "@/lib/db";
 import { SLUG_TO_CATEGORY } from "@/lib/category-map";
-import { getCategoryColor } from "@/lib/category-colors";
+import { getCategoryColor, getCategoryGradient, CATEGORY_LIGHT_BG } from "@/lib/category-colors";
 import TextureBg from "@/components/aurora-bg";
 import Navbar from "@/components/navbar";
+import CategoryBanner from "@/components/category-banner";
 import HeroDispatch from "@/components/hero-dispatch";
 import NewsGrid from "@/components/news-grid";
 import DispatchList from "@/components/dispatch-list";
@@ -34,6 +35,8 @@ export default async function CategoryPage({
 
   const articles = getArticles(50, categoryName);
   const accent = getCategoryColor(categoryName);
+  const [gradFrom, gradTo] = getCategoryGradient(categoryName);
+  const lightBg = CATEGORY_LIGHT_BG.has(categoryName);
 
   const hero = articles[0];
   const gridArticles = articles.slice(hero ? 1 : 0, 7);
@@ -44,47 +47,25 @@ export default async function CategoryPage({
       <TextureBg />
       <Navbar />
 
+      <div style={{ paddingTop: "64px", position: "relative", zIndex: 1 }}>
+        <CategoryBanner
+          categoryName={categoryName}
+          from={gradFrom}
+          to={gradTo}
+          articleCount={articles.length}
+          lightBg={lightBg}
+        />
+      </div>
+
       <main
         style={{
           position: "relative",
           zIndex: 1,
           maxWidth: "1280px",
           margin: "0 auto",
-          padding: "96px 24px 64px",
+          padding: "48px 24px 64px",
         }}
       >
-        {/* Category header */}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "16px",
-            marginBottom: "48px",
-          }}
-        >
-          <div
-            style={{
-              width: "6px",
-              height: "36px",
-              background: accent,
-              borderRadius: "3px",
-              flexShrink: 0,
-            }}
-          />
-          <h1
-            style={{
-              fontSize: "13px",
-              fontWeight: 800,
-              letterSpacing: "0.22em",
-              textTransform: "uppercase",
-              color: "#111111",
-              margin: 0,
-            }}
-          >
-            {categoryName}
-          </h1>
-          <div style={{ flex: 1, height: "1px", background: "#E8E3DB" }} />
-        </div>
 
         {/* Empty state */}
         {articles.length === 0 && (
