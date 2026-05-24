@@ -60,8 +60,8 @@ function getAutoArticles(): Article[] {
         fs.readFileSync(path.join(AUTO_DIR, file), "utf-8")
       ) as Array<Record<string, unknown>>;
       for (const a of raw) {
-        const pub = String(a.published_at ?? "");
-        if (pub && new Date(pub) < cutoff) continue;
+        const ts = String(a.created_at ?? a.published_at ?? "");
+        if (ts && new Date(ts) < cutoff) continue;
         articles.push(mapAutoRow(a));
       }
     } catch {
