@@ -498,7 +498,7 @@ def main() -> None:
             continue
 
         score = float(analysis.get("score", 0))
-        if score < 6:
+        if score < 5:
             print(f"  [LOW {score:.1f}] {title_en[:70]}")
             continue
 
