@@ -19,18 +19,20 @@ export function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: { category: string };
+  params: Promise<{ category: string }>;
 }) {
-  const categoryName = SLUG_TO_CATEGORY[params.category];
+  const { category } = await params;
+  const categoryName = SLUG_TO_CATEGORY[category];
   return { title: categoryName ? `${categoryName} — 383 Lajme` : "383 Lajme" };
 }
 
 export default async function CategoryPage({
   params,
 }: {
-  params: { category: string };
+  params: Promise<{ category: string }>;
 }) {
-  const categoryName = SLUG_TO_CATEGORY[params.category];
+  const { category } = await params;
+  const categoryName = SLUG_TO_CATEGORY[category];
   if (!categoryName) notFound();
 
   const articles = getArticles(50, categoryName);
