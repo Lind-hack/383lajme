@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { getArticles } from "@/lib/db";
 import { SLUG_TO_CATEGORY } from "@/lib/category-map";
 import { getCategoryColor, getCategoryGradient, CATEGORY_LIGHT_BG } from "@/lib/category-colors";
+import { resolveCategoryFigures } from "@/lib/category-figures";
 import TextureBg from "@/components/aurora-bg";
 import Navbar from "@/components/navbar";
 import CategoryBanner from "@/components/category-banner";
@@ -39,6 +40,7 @@ export default async function CategoryPage({
   const accent = getCategoryColor(categoryName);
   const [gradFrom, gradTo] = getCategoryGradient(categoryName);
   const lightBg = CATEGORY_LIGHT_BG.has(categoryName);
+  const figures = await resolveCategoryFigures(categoryName);
 
   const hero = articles[0];
   const gridArticles = articles.slice(hero ? 1 : 0, 7);
@@ -56,6 +58,7 @@ export default async function CategoryPage({
           to={gradTo}
           articleCount={articles.length}
           lightBg={lightBg}
+          figures={figures}
         />
       </div>
 

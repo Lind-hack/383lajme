@@ -1,6 +1,8 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
+import type { ResolvedFigure } from "@/lib/category-figures";
 
 interface CategoryBannerProps {
   categoryName: string;
@@ -8,15 +10,62 @@ interface CategoryBannerProps {
   to: string;
   articleCount: number;
   lightBg?: boolean;
+  figures?: ResolvedFigure[];
 }
 
-const POLITIKE_FIGURES = [
-  { name: "Albin Kurti",       top: "15%", left: "5%",  size: "22px", rotate: "-8deg",  opacity: 0.13 },
-  { name: "Vjosa Osmani",      top: "55%", left: "12%", size: "18px", rotate: "5deg",   opacity: 0.10 },
-  { name: "Hashim Thaçi",      top: "25%", left: "62%", size: "20px", rotate: "-4deg",  opacity: 0.12 },
-  { name: "Rramush Haradinaj", top: "65%", left: "55%", size: "17px", rotate: "7deg",   opacity: 0.09 },
-  { name: "Bedri Hamza",       top: "40%", left: "80%", size: "19px", rotate: "-6deg",  opacity: 0.11 },
-];
+function FigureCircle({ name, imageUrl }: ResolvedFigure) {
+  const [err, setErr] = useState(false);
+  return (
+    <div
+      style={{
+        width: "76px",
+        height: "76px",
+        borderRadius: "50%",
+        overflow: "hidden",
+        flexShrink: 0,
+        border: "3px solid rgba(255,255,255,0.5)",
+        position: "relative",
+        background: "rgba(255,255,255,0.15)",
+        boxShadow: "0 2px 14px rgba(0,0,0,0.3)",
+      }}
+    >
+      {/* Fallback initial */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          inset: 0,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          fontSize: "26px",
+          fontWeight: 800,
+          color: "rgba(255,255,255,0.7)",
+          userSelect: "none",
+        }}
+      >
+        {name.charAt(0)}
+      </div>
+      {/* Real photo on top */}
+      {imageUrl && !err && (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={imageUrl}
+          alt={name}
+          onError={() => setErr(true)}
+          style={{
+            position: "absolute",
+            inset: 0,
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            objectPosition: "top center",
+          }}
+        />
+      )}
+    </div>
+  );
+}
 
 export default function CategoryBanner({
   categoryName,
@@ -24,13 +73,14 @@ export default function CategoryBanner({
   to,
   articleCount,
   lightBg = false,
+  figures,
 }: CategoryBannerProps) {
   const textColor = lightBg ? "#111111" : "#FFFFFF";
   const subColor = lightBg ? "rgba(0,0,0,0.55)" : "rgba(255,255,255,0.6)";
   const watermarkColor = lightBg ? "rgba(0,0,0,0.06)" : "rgba(255,255,255,0.07)";
   const badgeBg = lightBg ? "rgba(0,0,0,0.12)" : "rgba(255,255,255,0.15)";
   const badgeText = lightBg ? "rgba(0,0,0,0.7)" : "rgba(255,255,255,0.85)";
-  const isPolitike = categoryName === "Politikë";
+  const hasFigures = figures && figures.length > 0;
 
   return (
     <motion.div
@@ -40,7 +90,7 @@ export default function CategoryBanner({
       style={{
         position: "relative",
         width: "100%",
-        minHeight: "320px",
+        minHeight: hasFigures ? "380px" : "320px",
         background: `linear-gradient(135deg, ${from} 0%, ${to} 100%)`,
         overflow: "hidden",
         display: "flex",
@@ -69,31 +119,6 @@ export default function CategoryBanner({
         {categoryName.toUpperCase()}
       </div>
 
-      {/* Politikë — political figure names as background texture */}
-      {isPolitike &&
-        POLITIKE_FIGURES.map((fig) => (
-          <div
-            key={fig.name}
-            aria-hidden="true"
-            style={{
-              position: "absolute",
-              top: fig.top,
-              left: fig.left,
-              fontSize: fig.size,
-              fontWeight: 700,
-              color: `rgba(255,255,255,${fig.opacity})`,
-              transform: `rotate(${fig.rotate})`,
-              letterSpacing: "0.04em",
-              pointerEvents: "none",
-              userSelect: "none",
-              whiteSpace: "nowrap",
-              textTransform: "uppercase",
-            }}
-          >
-            {fig.name}
-          </div>
-        ))}
-
       {/* Diagonal stripe overlay — subtle texture */}
       <div
         aria-hidden="true"
@@ -112,7 +137,7 @@ export default function CategoryBanner({
           position: "relative",
           zIndex: 1,
           textAlign: "center",
-          padding: "40px 24px",
+          padding: hasFigures ? "40px 24px 100px" : "40px 24px",
         }}
       >
         {/* Eyebrow */}
@@ -185,7 +210,40 @@ export default function CategoryBanner({
         </motion.div>
       </div>
 
-      {/* Bottom fade-to-cream edge */}
+      {/* Figure portraits row */}
+      {hasFigures && (
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.35, duration: 0.5 }}
+          style={{
+            position: "absolute",
+            bottom: "20px",
+            left: "50%",
+            transform: "translateX(-50%)",
+            display: "flex",
+            alignItems: "center",
+            zIndex: 2,
+            pointerEvents: "none",
+          }}
+        >
+          {figures.map((fig, i) => (
+            <div
+              key={fig.name}
+              title={fig.name}
+              style={{
+                marginLeft: i === 0 ? 0 : "-18px",
+                zIndex: figures.length - i,
+                position: "relative",
+              }}
+            >
+              <FigureCircle {...fig} />
+            </div>
+          ))}
+        </motion.div>
+      )}
+
+      {/* Bottom fade edge */}
       <div
         aria-hidden="true"
         style={{
