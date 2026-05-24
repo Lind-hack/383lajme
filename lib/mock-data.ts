@@ -8,7 +8,7 @@ export interface Article {
   body: string;
   source: string;
   sourceFlag: string;
-  sourceBias: 'neutral' | 'pro-kosovo' | 'critical';
+  sourceBias: 'neutral' | 'pro-kosovo' | 'critical' | 'hostile';
   tone: 'positive' | 'neutral' | 'negative';
   category: string;
   publishedAt: string;

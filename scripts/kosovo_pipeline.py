@@ -37,7 +37,8 @@ RECIPIENT_EMAIL    = "lindsylqa@gmail.com"
 GEMMA_URL          = "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions"
 GEMMA_MODEL        = "gemma-4-31b-it"
 MAX_AGE_HOURS      = 48
-MAX_PER_RUN        = 12
+MAX_PER_RUN        = 25
+AI_CAP             = 8
 
 SCRIPT_DIR  = Path(__file__).parent
 OUTPUT_DIR  = SCRIPT_DIR.parent / "data" / "auto-articles"
@@ -50,15 +51,51 @@ OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 # articles — not recent. Use the generic Kosovo+when:3d search instead and extract outlet
 # names from the "Headline - Outlet" title suffix Google News appends.
 NEWS_SOURCES = [
-    # Direct Kosovo-focused feeds — all articles are Kosovo-relevant
+    # ── Kosovo international coverage ─────────────────────────────────────────
     ("https://balkaninsight.com/tag/kosovo/feed/", "Balkan Insight", "🌍", "neutral", True),
-    # Generic Kosovo news search — recent (3-day window), extracts real outlet from title suffix
+    ("https://europeanwesternbalkans.com/feed/",   "EWB",            "🌍", "neutral", True),
+    ("https://exit.al/en/feed/",                   "Exit News",      "🇦🇱", "neutral", True),
+    ("https://prishtina-insight.com/feed/",        "Prishtina Insight", "🌍", "neutral", True),
+    ("https://balkaneu.com/feed/",                 "Balkan EU",      "🌍", "neutral", True),
+    # GNews Kosovo — 1-day window (freshest) + 3-day window (breadth)
+    ("https://news.google.com/rss/search?q=Kosovo+when%3A1d&hl=en-US&gl=US&ceid=US:en",
+     "_GNEWS_EXTRACT_", "🌍", "neutral", False),
     ("https://news.google.com/rss/search?q=Kosovo+when%3A3d&hl=en-US&gl=US&ceid=US:en",
      "_GNEWS_EXTRACT_", "🌍", "neutral", False),
-    # AI/tech world news — relevant to Kosovo's growing tech audience; kosovo_exclusive=True skips keyword filter
+    # Economy & Western Balkans
+    ("https://news.google.com/rss/search?q=Kosovo+economy+OR+%22Western+Balkans%22+economy+when%3A2d&hl=en-US&gl=US&ceid=US:en",
+     "_GNEWS_EXTRACT_", "🌍", "neutral", False),
+    # Sport
+    ("https://news.google.com/rss/search?q=Kosovo+football+OR+%22Vedat+Muriqi%22+OR+%22Edon+Zhegrova%22+when%3A3d&hl=en-US&gl=US&ceid=US:en",
+     "Sport News", "⚽", "neutral", True),
+    # ── Serbian sources — Kosovo topic (all get hostile bias) ─────────────────
+    ("https://news.google.com/rss/search?q=Kosovo+OR+Kosova+when%3A1d&hl=sr&gl=RS&ceid=RS:sr",
+     "_SERBIAN_GNEWS_", "🇷🇸", "hostile", True),
+    # ── AI / Tech world news ──────────────────────────────────────────────────
+    ("https://techcrunch.com/category/artificial-intelligence/feed/",
+     "TechCrunch", "💻", "neutral", True),
+    ("https://www.theverge.com/rss/ai-artificial-intelligence/index.xml",
+     "The Verge", "💻", "neutral", True),
+    ("https://venturebeat.com/ai/feed/",
+     "VentureBeat", "💻", "neutral", True),
+    ("https://www.wired.com/feed/category/artificial-intelligence/latest/rss",
+     "Wired", "💻", "neutral", True),
+    # OpenAI & Google official blogs
+    ("https://openai.com/blog/rss.xml",  "OpenAI Blog",  "🤖", "neutral", True),
+    ("https://blog.google/rss/",         "Google Blog",  "🤖", "neutral", True),
+    # GNews AI — model releases, company drama, product launches
     ("https://news.google.com/rss/search?q=artificial+intelligence+AI+when%3A1d&hl=en-US&gl=US&ceid=US:en",
      "AI News", "🤖", "neutral", True),
     ("https://news.google.com/rss/search?q=OpenAI+OR+Claude+OR+Gemini+OR+ChatGPT+when%3A1d&hl=en-US&gl=US&ceid=US:en",
+     "AI News", "🤖", "neutral", True),
+    # AI company drama & lawsuits
+    ("https://news.google.com/rss/search?q=%22Sam+Altman%22+OR+%22Elon+Musk+AI%22+OR+%22OpenAI%22+lawsuit+when%3A3d&hl=en-US&gl=US&ceid=US:en",
+     "AI News", "🤖", "neutral", True),
+    # Specific product updates: new model versions, app releases
+    ("https://news.google.com/rss/search?q=Gemini+OR+%22Claude+AI%22+OR+%22GPT-5%22+OR+Codex+update+release+when%3A3d&hl=en-US&gl=US&ceid=US:en",
+     "AI News", "🤖", "neutral", True),
+    # Mira Murati — Albanian AI founder, high interest for Kosovo readers
+    ("https://news.google.com/rss/search?q=%22Mira+Murati%22+when%3A14d&hl=en-US&gl=US&ceid=US:en",
      "AI News", "🤖", "neutral", True),
 ]
 
@@ -95,6 +132,20 @@ GNEWS_SOURCE_MAP = {
     "EWB":               ("EWB",             "🌍"),
     "Exit News":         ("Exit News",       "🇦🇱"),
     "Prishtina Insight": ("Prishtina Insight","🌍"),
+    # Serbian outlets
+    "B92":           ("B92",        "🇷🇸"),
+    "Blic":          ("Blic",       "🇷🇸"),
+    "N1":            ("N1 RS",      "🇷🇸"),
+    "Kurir":         ("Kurir",      "🇷🇸"),
+    "Telegraf":      ("Telegraf",   "🇷🇸"),
+    "RTS":           ("RTS",        "🇷🇸"),
+    "Nova.rs":       ("Nova.rs",    "🇷🇸"),
+    # Tech outlets
+    "TechCrunch":    ("TechCrunch",   "💻"),
+    "The Verge":     ("The Verge",    "💻"),
+    "VentureBeat":   ("VentureBeat",  "💻"),
+    "Wired":         ("Wired",        "💻"),
+    "Ars Technica":  ("Ars Technica", "💻"),
 }
 
 # Checked ONLY to detect already-covered stories — not imported as articles
@@ -240,6 +291,13 @@ def fetch_candidates(seen_urls: set[str]) -> list[dict]:
                         if key.lower() in outlet.lower():
                             source_name, source_flag = sname, sflag
                             break
+                elif source == "_SERBIAN_GNEWS_":
+                    parts = raw_title.rsplit(" - ", 1)
+                    outlet = parts[1].strip() if len(parts) == 2 else "Mediat Serbe"
+                    clean_title = parts[0].strip() if len(parts) == 2 else raw_title
+                    source_name = outlet if outlet else "Mediat Serbe"
+                    source_flag = "🇷🇸"
+                    bias = "hostile"
                 else:
                     clean_title = _clean_title(raw_title)
                     source_name = source
@@ -311,10 +369,15 @@ Return ONLY this JSON (no markdown, no explanation):
 }}
 
 Categories: Politikë, Ekonomi, Siguri, Sport, Teknologji, Kulturë, Shoqëri, Diasporë, Showbiz
-Score guide: 9-10 breaking, 7-8 important, 5-6 niche, 1-4 routine
+Score guide:
+- 9-10: BREAKING — major model releases (GPT-5, Gemini 4, Claude 4), AI company lawsuits/scandals (Musk vs Altman), Kosovo security incidents, Serbian official statements on Kosovo
+- 8-9: Big Kosovo political developments, AI product launches (new Gemini version, OpenAI Codex mobile), Mira Murati news (ALWAYS score 8+ — she is Albanian, Kosovo readers care deeply about her AI work and her company Thinking Machines)
+- 7-8: Important Kosovo international coverage, AI funding rounds >$500M, tech CEO drama, strong sport results
+- 5-6: Routine Kosovo politics, general AI trend pieces, Balkan economy news
+- 1-4: Generic or unrelated — skip
 Use "Showbiz" for celebrity, entertainment, music, film, and pop culture news.
-Use "Teknologji" for AI, science, digital, and innovation news.
-Global AI and technology news scores 6-8 for Kosovo's tech audience even without Kosovo mentions.
+Use "Teknologji" for ALL AI, software, tech, and innovation news — NOT generic "AI is changing jobs" pieces.
+IMPORTANT: For AI/tech news, score SPECIFIC events highly: new model version released, company acquisition, CEO controversy, major investment. Vague trend articles score 1-4 and should be skipped.
 
 Title: {title}
 Summary: {summary[:600]}"""
@@ -535,12 +598,12 @@ def main() -> None:
 
     print(f"  {len(results)} articles ready")
 
-    # Cap AI articles at 3 per run so they don't flood Kosovo news
+    # Cap "AI News" GNews articles so they don't crowd out Kosovo coverage
     ai_articles = [r for r in results if r.get("source") == "AI News"]
-    if len(ai_articles) > 3:
+    if len(ai_articles) > AI_CAP:
         non_ai = [r for r in results if r.get("source") != "AI News"]
-        results = non_ai + ai_articles[:3]
-        print(f"  Capped AI articles to 3 ({len(results)} total)")
+        results = non_ai + ai_articles[:AI_CAP]
+        print(f"  Capped AI News articles to {AI_CAP} ({len(results)} total)")
 
     if results:
         ts = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H")

@@ -2,13 +2,14 @@ const BIAS_DOT: Record<string, { color: string; label: string }> = {
   neutral:      { color: "#9CA3AF", label: "Neutral" },
   "pro-kosovo": { color: "#00A651", label: "Pro-Kosovë" },
   critical:     { color: "#E41E20", label: "Kritik" },
+  hostile:      { color: "#E41E20", label: "Burim Serb" },
 };
 
 interface SourceBadgeProps {
   source: string;
   flag: string;
   size?: "sm" | "md";
-  bias?: "neutral" | "pro-kosovo" | "critical";
+  bias?: "neutral" | "pro-kosovo" | "critical" | "hostile";
   url?: string;
 }
 

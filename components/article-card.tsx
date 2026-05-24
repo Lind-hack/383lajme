@@ -58,6 +58,11 @@ export default function ArticleCard({ article, variant = "grid", index = 0 }: Ar
               />
             )}
             <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "3px", background: catColor }} />
+            {article.sourceBias === "hostile" && (
+              <div style={{ position: "absolute", top: "8px", left: "8px", background: "#E41E20", color: "#fff", fontSize: "9px", fontWeight: 900, letterSpacing: "0.1em", textTransform: "uppercase", padding: "3px 8px", borderRadius: "4px", zIndex: 2, boxShadow: "0 2px 8px rgba(0,0,0,0.3)", whiteSpace: "nowrap" }}>
+                🇷🇸 SERBI PËR KOSOVËN
+              </div>
+            )}
           </div>
 
           <div style={{ padding: "14px 16px 16px" }}>
@@ -159,6 +164,11 @@ export default function ArticleCard({ article, variant = "grid", index = 0 }: Ar
               />
             )}
             <div style={{ position: "absolute", top: 0, left: 0, bottom: 0, width: "4px", background: catColor }} />
+            {article.sourceBias === "hostile" && (
+              <div style={{ position: "absolute", top: "8px", left: "16px", background: "#E41E20", color: "#fff", fontSize: "9px", fontWeight: 900, letterSpacing: "0.1em", textTransform: "uppercase", padding: "3px 8px", borderRadius: "4px", zIndex: 2, boxShadow: "0 2px 8px rgba(0,0,0,0.3)", whiteSpace: "nowrap" }}>
+                🇷🇸 SERBI PËR KOSOVËN
+              </div>
+            )}
           </div>
 
           {/* Content — right 60% */}
@@ -259,6 +269,11 @@ export default function ArticleCard({ article, variant = "grid", index = 0 }: Ar
               />
             )}
             <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "4px", background: catColor }} />
+            {article.sourceBias === "hostile" && (
+              <div style={{ position: "absolute", top: "8px", left: "8px", background: "#E41E20", color: "#fff", fontSize: "9px", fontWeight: 900, letterSpacing: "0.1em", textTransform: "uppercase", padding: "3px 8px", borderRadius: "4px", zIndex: 2, boxShadow: "0 2px 8px rgba(0,0,0,0.3)", whiteSpace: "nowrap" }}>
+                🇷🇸 SERBI PËR KOSOVËN
+              </div>
+            )}
           </div>
 
           <div style={{ padding: "24px 28px 28px", flex: 1, display: "flex", flexDirection: "column" }}>
@@ -354,6 +369,11 @@ export default function ArticleCard({ article, variant = "grid", index = 0 }: Ar
             />
           )}
           <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "4px", background: catColor }} />
+          {article.sourceBias === "hostile" && (
+            <div style={{ position: "absolute", top: "8px", left: "8px", background: "#E41E20", color: "#fff", fontSize: "9px", fontWeight: 900, letterSpacing: "0.1em", textTransform: "uppercase", padding: "3px 8px", borderRadius: "4px", zIndex: 2, boxShadow: "0 2px 8px rgba(0,0,0,0.3)", whiteSpace: "nowrap" }}>
+              🇷🇸 SERBI PËR KOSOVËN
+            </div>
+          )}
         </div>
 
         <div
