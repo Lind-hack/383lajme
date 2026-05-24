@@ -20,12 +20,27 @@ import AlertsCta from "@/components/alerts-cta";
 export const revalidate = 3600;
 
 export default async function HomePage() {
-  const articles = getArticles(50);
-  const hero = articles[0];
-  const rowArticles = articles.slice(1, 6);
-  const gridArticles = articles.slice(1, 7);
+  const articles = getArticles(60);
+
+  // Tier 1: hero — featured (score ≥ 9 or breaking), fallback to highest scored
+  const hero = articles.find((a) => a.featured) ?? articles[0];
+  const heroId = hero?.id;
+
+  // Tier 2: NJOFTIME — score ≥ 7.5, not hero, up to 6
+  const njoftimeArticles = articles
+    .filter((a) => a.id !== heroId && (a.engagementScore ?? 0) >= 7.5)
+    .slice(0, 6);
+
+  // Tier 3: KRYESORE — remaining after hero + njoftime, first 6
+  const njoftimeIds = new Set(njoftimeArticles.map((a) => a.id));
+  const afterHero = articles.filter((a) => a.id !== heroId && !njoftimeIds.has(a.id));
+  const kryesoreArticles = afterHero.slice(0, 6);
+
+  // Tier 4: LAJMET E FUNDIT — everything remaining, capped at 20
+  const kryesoreIds = new Set(kryesoreArticles.map((a) => a.id));
+  const listArticles = afterHero.filter((a) => !kryesoreIds.has(a.id)).slice(0, 20);
+
   const politikeArticles = articles.filter((a) => a.category === "Politikë");
-  const listArticles = articles.slice(3);
 
   return (
     <>
@@ -111,12 +126,12 @@ export default async function HomePage() {
 
         {/* Horizontal scroll row */}
         <div style={{ marginBottom: "72px" }}>
-          <DispatchRow articles={rowArticles} />
+          <DispatchRow articles={njoftimeArticles} />
         </div>
 
         {/* News grid */}
         <div style={{ marginBottom: "72px" }}>
-          <NewsGrid articles={gridArticles} title="KRYESORE" />
+          <NewsGrid articles={kryesoreArticles} title="KRYESORE" />
         </div>
 
         {/* Dispatch list */}
