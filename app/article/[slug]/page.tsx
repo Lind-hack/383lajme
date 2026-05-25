@@ -8,6 +8,10 @@ import { getCategoryColor, getCategoryBg } from "@/lib/category-colors";
 
 export const revalidate = 7200;
 
+function titleKws(text: string) {
+  return new Set(text.toLowerCase().split(/\W+/).filter((w) => w.length > 4));
+}
+
 export default async function ArticlePage({
   params,
 }: {
@@ -20,9 +24,17 @@ export default async function ArticlePage({
   const catColor = getCategoryColor(article.category);
   const catBg = getCategoryBg(article.category, 0.08);
   const allArticles = getArticles(50);
-  const related = allArticles
-    .filter((a) => a.slug !== slug && a.category === article.category)
-    .slice(0, 3);
+
+  const related: typeof allArticles = [];
+  const relatedKws: Set<string>[] = [];
+  for (const a of allArticles) {
+    if (a.slug === slug || a.category !== article.category) continue;
+    const kws = titleKws(a.title);
+    if (relatedKws.some((rk) => [...kws].filter((w) => rk.has(w)).length >= 3)) continue;
+    related.push(a);
+    relatedKws.push(kws);
+    if (related.length >= 3) break;
+  }
 
   return (
     <>

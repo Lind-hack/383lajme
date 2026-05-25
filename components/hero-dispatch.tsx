@@ -61,7 +61,7 @@ export default function HeroDispatch({ article }: HeroDispatchProps) {
           position: "absolute",
           inset: 0,
           background:
-            "linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.52) 50%, rgba(0,0,0,0.12) 100%)",
+            "linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.75) 50%, rgba(0,0,0,0.25) 100%)",
         }}
       />
 
@@ -140,7 +140,7 @@ export default function HeroDispatch({ article }: HeroDispatchProps) {
               color: "#FFFFFF",
               margin: "0 0 16px",
               maxWidth: "860px",
-              textShadow: "0 2px 16px rgba(0,0,0,0.4)",
+              textShadow: "0 2px 16px rgba(0,0,0,0.8), 0 4px 40px rgba(0,0,0,0.6)",
             }}
           >
             {article.title}
@@ -151,7 +151,8 @@ export default function HeroDispatch({ article }: HeroDispatchProps) {
               fontSize: "17px",
               fontWeight: 400,
               lineHeight: 1.6,
-              color: "rgba(255,255,255,0.78)",
+              color: "rgba(255,255,255,1.0)",
+              textShadow: "0 1px 8px rgba(0,0,0,0.7)",
               margin: "0 0 28px",
               maxWidth: "640px",
             }}

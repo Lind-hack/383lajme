@@ -63,17 +63,11 @@ export default function NewsGrid({ articles, title, accentColor = "#FF4422" }: N
           gap: "20px",
         }}
       >
-        {articles.map((article, i) => {
-          const score = article.engagementScore ?? 0;
-          const span = score >= 9 ? 3 : score >= 7.5 ? 2 : 1;
-          const variantName: "full" | "wide" | "grid" =
-            span === 3 ? "full" : span === 2 ? "wide" : "grid";
-          return (
-            <div key={article.id} style={{ gridColumn: `span ${span}` }}>
-              <ArticleCard article={article} variant={variantName} index={i} />
-            </div>
-          );
-        })}
+        {articles.map((article, i) => (
+          <div key={article.id}>
+            <ArticleCard article={article} variant="grid" index={i} />
+          </div>
+        ))}
       </div>
     </section>
   );
