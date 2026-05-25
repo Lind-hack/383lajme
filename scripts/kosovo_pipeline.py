@@ -324,11 +324,11 @@ def fetch_candidates(seen_urls: set[str]) -> list[dict]:
 
 
 # ── Google Gemma 4 API ────────────────────────────────────────────────────────
-def _gemma(messages: list[dict], max_tokens: int = 1024) -> str:
+def _gemma(messages: list[dict], max_tokens: int = 1024, temperature: float = 0.3) -> str:
     resp = requests.post(
         GEMMA_URL,
         headers={"Authorization": f"Bearer {GOOGLE_AI_API_KEY}", "Content-Type": "application/json"},
-        json={"model": GEMMA_MODEL, "messages": messages, "max_tokens": max_tokens, "temperature": 0.3},
+        json={"model": GEMMA_MODEL, "messages": messages, "max_tokens": max_tokens, "temperature": temperature},
         timeout=60,
     )
     resp.raise_for_status()
@@ -379,12 +379,22 @@ Use "Showbiz" for celebrity, entertainment, music, film, and pop culture news.
 Use "Teknologji" for ALL AI, software, tech, and innovation news — NOT generic "AI is changing jobs" pieces.
 IMPORTANT: For AI/tech news, score SPECIFIC events highly: new model version released, company acquisition, CEO controversy, major investment. Vague trend articles score 1-4 and should be skipped.
 
+Albanian style rules — apply to title, excerpt, and body:
+- Write like a friend explaining news to another friend — simple, warm, direct
+- Short sentences: max 15 words each. Break long ideas into two sentences.
+- Active voice: "Qeveria vendosi" not "Vendimi u mor nga qeveria"
+- Avoid formal conjunctions: use "por" not "megjithatë", "sepse" not "për arsye se"
+- Prefer everyday words: "thotë" not "deklaron", "fillon" not "inicizon", "rritje" not "inkrement"
+- Headline: punchy, present-tense where possible — "Kurti takon Biden" not "Kryeministri Kurti ka realizuar një takim me presidentin Biden"
+- Excerpt: 2 crisp sentences a reader can skim in 5 seconds — no subordinate clauses
+- Body: start each paragraph differently; vary sentence length; no academic phrasing
+
 Title: {title}
 Summary: {summary[:600]}"""
 
     for attempt in range(3):
         try:
-            raw = _gemma([{"role": "user", "content": prompt}], max_tokens=4096)
+            raw = _gemma([{"role": "user", "content": prompt}], max_tokens=4096, temperature=0.55)
             return _parse_json(raw)
         except Exception as e:
             if attempt < 2:
@@ -397,9 +407,23 @@ Summary: {summary[:600]}"""
 
 
 # ── Image pipeline ────────────────────────────────────────────────────────────
-def get_image(article_url: str, title: str, raw_image: str | None) -> str:
-    # raw_image from Google News RSS is lh3.googleusercontent.com — hotlink-blocked from Vercel.
-    # Always follow the redirect to the real article, then scrape og:image.
+CAT_QUERIES: dict[str, str] = {
+    "Politikë":   "Kosovo government parliament politics",
+    "Siguri":     "Kosovo security police military",
+    "Ekonomi":    "Kosovo economy finance business",
+    "Teknologji": "artificial intelligence technology computer",
+    "Sport":      "Kosovo football sport stadium",
+    "Kulturë":    "Kosovo culture art tradition",
+    "Showbiz":    "celebrity entertainment concert stage",
+    "Diasporë":   "Kosovo diaspora community abroad",
+    "Shoqëri":    "Kosovo society people community",
+}
+
+
+def get_image(article_url: str, title: str, raw_image: str | None, category: str = "") -> str:
+    # 0. Use raw_image from feed if it's not Google's hotlink-blocked CDN
+    if raw_image and "googleusercontent.com" not in raw_image and raw_image.startswith("http"):
+        return raw_image
 
     # 1. Resolve Google News redirect to the actual article URL
     actual_url = article_url
@@ -422,27 +446,27 @@ def get_image(article_url: str, title: str, raw_image: str | None) -> str:
             og = soup.find("meta", property="og:image")
             if og and og.get("content"):
                 img = og["content"]
-                # Skip Google's thumbnail CDN — it's hotlink-blocked from Vercel
                 if "googleusercontent.com" not in img:
                     return img
     except Exception:
         pass
 
-    # 3. Pexels API (requires PEXELS_API_KEY)
+    # 3. Pexels API — category-aware query, no random pagination
     if PEXELS_API_KEY:
         try:
-            words = re.findall(r"[A-Za-z]{4,}", title)
-            query_words = [w for w in words if w.lower() not in STOPWORDS][:4]
-            query = " ".join(query_words) if query_words else "Kosovo news"
+            cat_base = CAT_QUERIES.get(category, "Kosovo news")
+            words = re.findall(r"[A-Za-z]{5,}", title)
+            filtered = [w for w in words if w.lower() not in STOPWORDS][:2]
+            query = cat_base + (" " + " ".join(filtered) if filtered else "")
             r = requests.get(
                 "https://api.pexels.com/v1/search",
                 headers={"Authorization": PEXELS_API_KEY},
-                params={"query": query, "per_page": 5, "orientation": "landscape", "page": random.randint(1, 4)},
+                params={"query": query, "per_page": 5, "orientation": "landscape", "page": 1},
                 timeout=10,
             )
             photos = r.json().get("photos", [])
             if photos:
-                return photos[random.randint(0, len(photos) - 1)]["src"]["large"]
+                return photos[0]["src"]["large"]
         except Exception:
             pass
 
@@ -543,6 +567,7 @@ def main() -> None:
     print(f"  {len(candidates)} fresh Kosovo candidates")
 
     results: list[dict] = []
+    accepted_kws: list[set[str]] = []
     for c in candidates:
         if len(results) >= MAX_PER_RUN:
             break
@@ -552,6 +577,11 @@ def main() -> None:
 
         if is_duplicate(title_en, summary, covered):
             print(f"  [DUP]  {title_en[:70]}")
+            continue
+
+        candidate_kws = _kw(title_en) | _kw(summary[:300])
+        if any(len(candidate_kws & akw) >= 4 for akw in accepted_kws):
+            print(f"  [DUP-INTRA] {title_en[:70]}")
             continue
 
         analysis = analyze_and_translate(title_en, summary)
@@ -567,7 +597,7 @@ def main() -> None:
 
         print(f"  [OK  {score:.1f}] {title_en[:70]}")
 
-        image_url = get_image(c["url"], title_en, c.get("raw_image"))
+        image_url = get_image(c["url"], title_en, c.get("raw_image"), analysis.get("category", ""))
 
         pub_dt = c["published_at"] or datetime.now(timezone.utc)
         body = analysis.get("body", summary)
@@ -595,6 +625,7 @@ def main() -> None:
             "image_url":      image_url,
             "created_at":     datetime.now(timezone.utc).isoformat(),
         })
+        accepted_kws.append(candidate_kws)
 
     print(f"  {len(results)} articles ready")
 

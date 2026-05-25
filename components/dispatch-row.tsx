@@ -45,19 +45,6 @@ export default function DispatchRow({ articles }: DispatchRowProps) {
         </motion.div>
       </div>
 
-      {/* Fade-out right edge hint */}
-      <div
-        aria-hidden="true"
-        style={{
-          position: "absolute",
-          top: 0,
-          right: 0,
-          width: "80px",
-          height: "100%",
-          background: "linear-gradient(to right, transparent, #F9F6F1)",
-          pointerEvents: "none",
-        }}
-      />
     </div>
   );
 }

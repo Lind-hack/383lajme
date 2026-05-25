@@ -2,12 +2,23 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { VIDEO_REACTION, timeAgo } from "@/lib/mock-data";
+import { type Article, timeAgo } from "@/lib/mock-data";
 
-export default function ReagimiDites() {
+const CAT_GRADIENT: Record<string, string> = {
+  "Politikë":   "linear-gradient(135deg, #C41E3A 0%, #1A1A1A 100%)",
+  "Siguri":     "linear-gradient(135deg, #1A56DB 0%, #0F0F0F 100%)",
+  "Teknologji": "linear-gradient(135deg, #059669 0%, #1A1A1A 100%)",
+  "Ekonomi":    "linear-gradient(135deg, #D97706 0%, #1A1A1A 100%)",
+  "Sport":      "linear-gradient(135deg, #065F46 0%, #1A1A1A 100%)",
+  "Showbiz":    "linear-gradient(135deg, #7C3AED 0%, #1A1A1A 100%)",
+};
+
+export default function ReagimiDites({ article }: { article: Article }) {
+  const gradient = CAT_GRADIENT[article.category] ?? "linear-gradient(135deg, #FF4422 0%, #1A1A1A 100%)";
+
   return (
     <section style={{ marginBottom: "48px" }}>
-      <Link href={`/article/${VIDEO_REACTION.linkedArticleSlug}`} style={{ textDecoration: "none", display: "block" }}>
+      <Link href={`/article/${article.slug}`} style={{ textDecoration: "none", display: "block" }}>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -33,7 +44,7 @@ export default function ReagimiDites() {
               flex: "0 0 200px",
               minWidth: "160px",
               minHeight: "140px",
-              background: VIDEO_REACTION.thumbnailGradient,
+              background: gradient,
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -59,7 +70,7 @@ export default function ReagimiDites() {
               </svg>
             </motion.div>
 
-            {/* Duration pill */}
+            {/* Reading time pill */}
             <span
               style={{
                 position: "absolute",
@@ -74,7 +85,7 @@ export default function ReagimiDites() {
                 letterSpacing: "0.04em",
               }}
             >
-              {VIDEO_REACTION.duration}
+              {article.readingTime} min
             </span>
           </div>
 
@@ -121,11 +132,11 @@ export default function ReagimiDites() {
                   letterSpacing: "0.08em",
                 }}
               >
-                · {timeAgo(VIDEO_REACTION.publishedAt)}
+                · {timeAgo(article.publishedAt)}
               </span>
             </div>
 
-            {/* Topic */}
+            {/* Category */}
             <span
               style={{
                 fontSize: "11px",
@@ -135,7 +146,7 @@ export default function ReagimiDites() {
                 letterSpacing: "0.1em",
               }}
             >
-              {VIDEO_REACTION.topic}
+              {article.category}
             </span>
 
             {/* Title */}
@@ -149,7 +160,7 @@ export default function ReagimiDites() {
                 margin: 0,
               }}
             >
-              {VIDEO_REACTION.title}
+              {article.title}
             </h2>
 
             {/* Watch CTA */}
@@ -166,7 +177,7 @@ export default function ReagimiDites() {
                 marginTop: "4px",
               }}
             >
-              Shiko reagimin
+              Lexo reagimin
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                 <path d="M5 12h14M12 5l7 7-7 7" />
               </svg>
