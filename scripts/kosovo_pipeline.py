@@ -557,6 +557,17 @@ def send_email(articles: list[dict], out_filename: str) -> None:
 def main() -> None:
     print(f"[Kosovo Pipeline] {datetime.now(timezone.utc).isoformat()}")
 
+    # Purge JSON files older than 48 hours
+    cutoff = datetime.now(timezone.utc) - timedelta(hours=48)
+    for old_file in OUTPUT_DIR.glob("*.json"):
+        try:
+            file_dt = datetime.fromisoformat(old_file.stem).replace(tzinfo=timezone.utc)
+            if file_dt < cutoff:
+                old_file.unlink()
+                print(f"  [PURGE] {old_file.name}")
+        except ValueError:
+            pass
+
     seen_urls = load_existing_urls()
     print(f"  {len(seen_urls)} URLs already committed")
 
