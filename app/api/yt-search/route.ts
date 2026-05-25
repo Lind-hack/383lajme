@@ -14,6 +14,20 @@ function isNewsChannel(name: string): boolean {
   return NEWS_BLOCK.some(block => lower.includes(block));
 }
 
+function extractChannel(chunk: string): string {
+  // Try multiple JSON key variants YouTube uses for channel name
+  const patterns = [
+    /"ownerText":\{"runs":\[\{"text":"([^"]+)"/,
+    /"shortBylineText":\{"runs":\[\{"text":"([^"]+)"/,
+    /"longBylineText":\{"runs":\[\{"text":"([^"]+)"/,
+  ];
+  for (const p of patterns) {
+    const m = chunk.match(p);
+    if (m) return m[1];
+  }
+  return "";
+}
+
 export async function GET(req: NextRequest) {
   const q = req.nextUrl.searchParams.get("q") ?? "";
   if (!q) return NextResponse.json({ embedUrl: null });
@@ -24,19 +38,19 @@ export async function GET(req: NextRequest) {
     );
     const html = await r.text();
 
-    // Walk videoRenderer occurrences — each is one search result.
-    // Extract a 3000-char chunk per result to pull out videoId + ownerText without JSON parsing.
+    // Walk videoRenderer occurrences (each = one search result).
+    // Use 8000-char chunks — videoRenderer objects are verbose and ownerText
+    // can appear thousands of chars after the videoId.
     const vrRe = /"videoRenderer":\{/g;
     let m: RegExpExecArray | null;
     let checked = 0;
     while ((m = vrRe.exec(html)) !== null && checked < 20) {
       checked++;
-      const chunk = html.slice(m.index, m.index + 3000);
+      const chunk = html.slice(m.index, m.index + 8000);
       const vidMatch = chunk.match(/"videoId":"([A-Za-z0-9_-]{11})"/);
-      const chanMatch = chunk.match(/"ownerText":\{"runs":\[\{"text":"([^"]+)"/);
       if (!vidMatch) continue;
       const videoId = vidMatch[1];
-      const channel = chanMatch?.[1] ?? "";
+      const channel = extractChannel(chunk);
       if (!isNewsChannel(channel)) {
         return NextResponse.json({ embedUrl: `https://www.youtube.com/embed/${videoId}` });
       }
