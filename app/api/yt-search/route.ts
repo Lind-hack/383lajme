@@ -8,7 +8,9 @@ const NEWS_BLOCK = [
   'itv news','rt ','rt.com','cgtn','trt world','wion','ndtv',
   'times now','nhk world','arirang','inside edition','vice news',
   'the guardian','independent','afp','politico','axios',
-  'wall street journal','washington post','new york times',
+  'wall street journal','washington post','new york times','forbes',
+  'business insider','cnbc','the economist','time magazine','newsweek',
+  'vox','vox media','vice','the atlantic','the intercept','slate',
   // Albanian / Kosovo
   'euronews albania','klan','rtv klan','top channel','a2 cnn','ora news',
   'report tv','abc news albania','nsmtv','pamfleti','tvsh','rtk','bbc shqip',
