@@ -26,6 +26,22 @@ export default function ReagimiDites({ article }: { article: Article }) {
   const gradient = CAT_GRADIENT[article.category] ?? "linear-gradient(135deg, #FF4422 0%, #1A1A1A 100%)";
   const ytId = resolvedVideoUrl ? getYtId(resolvedVideoUrl) : null;
 
+  // Eagerly fetch video on mount so thumbnail shows before user clicks
+  useEffect(() => {
+    if (resolvedVideoUrl) return;
+    let cancelled = false;
+    setSearching(true);
+    fetch(`/api/yt-search?q=${encodeURIComponent(article.title)}`)
+      .then(r => r.json())
+      .then((d: { embedUrl: string | null }) => {
+        if (!cancelled && d.embedUrl) setResolvedVideoUrl(d.embedUrl);
+      })
+      .catch(() => {})
+      .finally(() => { if (!cancelled) setSearching(false); });
+    return () => { cancelled = true; };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   useEffect(() => {
     if (!popupOpen) return;
     const fn = (e: KeyboardEvent) => { if (e.key === "Escape") setPopupOpen(false); };
