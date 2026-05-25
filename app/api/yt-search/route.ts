@@ -15,13 +15,19 @@ const NEWS_BLOCK = [
   'euronews albania','klan','rtv klan','top channel','a2 cnn','ora news',
   'report tv','abc news albania','nsmtv','pamfleti','tvsh','rtk','bbc shqip',
   'zeri','koha','shekulli','news 24','tv 7','jeta ne kosove','express',
-  'vizion plus','balkan insight','birn','n1 info','nova tv','pink tv',
+  'vizion plus','ntv','balkan insight','birn','n1 info','nova tv','pink tv',
   'prva tv','rts ','radio free europe','rfe/rl','crux','drm news',
   'new china tv','shanghaieye','times now','cgtn','aptn','apt news',
+  'china daily','shanghai daily','xinhua','global times','south china morning',
+  'arab news','middle east eye','press tv','one india','india today',
 ];
 
+// Exact-name channels that are clearly news but too short for safe substring match
+const NEWS_EXACT = ['apt', 'n1', 'rts', 'rtk', 'atv'];
+
 function isNewsChannel(name: string): boolean {
-  const lower = name.toLowerCase();
+  const lower = name.toLowerCase().trim();
+  if (NEWS_EXACT.includes(lower)) return true;
   return NEWS_BLOCK.some(block => lower.includes(block));
 }
 
@@ -47,7 +53,7 @@ async function searchYouTube(query: string): Promise<string | null> {
   const vrRe = /"videoRenderer":\{/g;
   let m: RegExpExecArray | null;
   let checked = 0;
-  while ((m = vrRe.exec(html)) !== null && checked < 20) {
+  while ((m = vrRe.exec(html)) !== null && checked < 30) {
     checked++;
     const chunk = html.slice(m.index, m.index + 8000);
     const vidMatch = chunk.match(/"videoId":"([A-Za-z0-9_-]{11})"/);
