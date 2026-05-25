@@ -9,7 +9,6 @@ import NewsGrid from "@/components/news-grid";
 import DispatchList from "@/components/dispatch-list";
 import ColorSpotlight from "@/components/color-spotlight";
 import GradientCta from "@/components/gradient-cta";
-import CategoryPillRow from "@/components/category-pill-row";
 import Footer from "@/components/footer";
 import ReagimiDites from "@/components/reagimi-dites";
 import ToneDashboard from "@/components/tone-dashboard";
@@ -106,17 +105,6 @@ export default async function HomePage() {
         {/* Hero dispatch */}
         <div style={{ marginBottom: "72px", position: "relative" }}>
           <HeroDispatch article={hero} />
-        </div>
-
-        {/* Category pill row — labelled section */}
-        <div style={{ marginBottom: "48px" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "16px" }}>
-            <span style={{ fontSize: "11px", fontWeight: 800, letterSpacing: "0.22em", textTransform: "uppercase", color: "#FF4422" }}>
-              KATEGORITË
-            </span>
-            <div style={{ flex: 1, height: "1px", background: "#E8E3DB" }} />
-          </div>
-          <CategoryPillRow />
         </div>
 
         {/* Daily video reaction */}

@@ -8,7 +8,7 @@ const NAV_LINKS = [
   { label: "Ekonomi", href: "/kategori/ekonomi" },
   { label: "Botë", href: "/kategori/bote" },
   { label: "Siguri", href: "/kategori/siguri" },
-  { label: "Sport", href: "/kategori/sport" },
+  { label: "Teknologji", href: "/kategori/teknologji" },
   { label: "Showbiz", href: "/kategori/showbiz" },
 ];
 

@@ -10,9 +10,6 @@ const FOOTER_CATEGORIES = [
   { label: "Siguri", href: "/kategori/siguri" },
   { label: "Teknologji", href: "/kategori/teknologji" },
   { label: "Showbiz", href: "/kategori/showbiz" },
-  { label: "Sport", href: "/kategori/sport" },
-  { label: "Kulturë", href: "/kategori/kulture" },
-  { label: "Shoqëri", href: "/kategori/shoqeri" },
 ];
 
 const COMPANY_LINKS = [

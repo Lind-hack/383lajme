@@ -16,6 +16,7 @@ export interface Article {
   featured: boolean;
   imageUrl?: string;
   engagementScore?: number;
+  videoClipUrl?: string;
 }
 
 export const MOCK_ARTICLES: Article[] = [
