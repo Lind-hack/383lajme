@@ -25,6 +25,11 @@ import feedparser
 import requests
 from bs4 import BeautifulSoup
 from slugify import slugify
+try:
+    from youtubesearchpython import VideosSearch as _VideosSearch
+    _YT_AVAILABLE = True
+except ImportError:
+    _YT_AVAILABLE = False
 
 # ── Config ────────────────────────────────────────────────────────────────────
 GOOGLE_AI_API_KEY  = os.environ.get("GOOGLE_AI_API_KEY", "")
@@ -65,9 +70,6 @@ NEWS_SOURCES = [
     # Economy & Western Balkans
     ("https://news.google.com/rss/search?q=Kosovo+economy+OR+%22Western+Balkans%22+economy+when%3A2d&hl=en-US&gl=US&ceid=US:en",
      "_GNEWS_EXTRACT_", "🌍", "neutral", False),
-    # Sport
-    ("https://news.google.com/rss/search?q=Kosovo+football+OR+%22Vedat+Muriqi%22+OR+%22Edon+Zhegrova%22+when%3A3d&hl=en-US&gl=US&ceid=US:en",
-     "Sport News", "⚽", "neutral", True),
     # ── Serbian sources — Kosovo topic (all get hostile bias) ─────────────────
     ("https://news.google.com/rss/search?q=Kosovo+OR+Kosova+when%3A1d&hl=sr&gl=RS&ceid=RS:sr",
      "_SERBIAN_GNEWS_", "🇷🇸", "hostile", True),
@@ -368,7 +370,7 @@ Return ONLY this JSON (no markdown, no explanation):
   "source_bias": "neutral"
 }}
 
-Categories: Politikë, Ekonomi, Siguri, Sport, Teknologji, Kulturë, Shoqëri, Diasporë, Showbiz
+Categories: Politikë, Ekonomi, Botë, Siguri, Teknologji, Showbiz
 Score guide:
 - 9-10: BREAKING — major model releases (GPT-5, Gemini 4, Claude 4), AI company lawsuits/scandals (Musk vs Altman), Kosovo security incidents, Serbian official statements on Kosovo
 - 8-9: Big Kosovo political developments, AI product launches (new Gemini version, OpenAI Codex mobile), Mira Murati news (ALWAYS score 8+ — she is Albanian, Kosovo readers care deeply about her AI work and her company Thinking Machines)
@@ -412,11 +414,8 @@ CAT_QUERIES: dict[str, str] = {
     "Siguri":     "Kosovo security police military",
     "Ekonomi":    "Kosovo economy finance business",
     "Teknologji": "artificial intelligence technology computer",
-    "Sport":      "Kosovo football sport stadium",
-    "Kulturë":    "Kosovo culture art tradition",
+    "Botë":       "world news international diplomacy",
     "Showbiz":    "celebrity entertainment concert stage",
-    "Diasporë":   "Kosovo diaspora community abroad",
-    "Shoqëri":    "Kosovo society people community",
 }
 
 
@@ -473,6 +472,22 @@ def get_image(article_url: str, title: str, raw_image: str | None, category: str
     # 4. Pollinations.ai — completely free, no API key needed
     prompt = urllib.parse.quote(f"Kosovo news {title[:60]}, press photo")
     return f"https://image.pollinations.ai/prompt/{prompt}?width=1200&height=630&nologo=true"
+
+
+# ── YouTube clip search ───────────────────────────────────────────────────────
+def search_youtube_clip(query: str) -> str | None:
+    if not _YT_AVAILABLE:
+        return None
+    try:
+        results = _VideosSearch(query, limit=3).result()
+        items = results.get("result", [])
+        for item in items:
+            vid_id = item.get("id", "")
+            if vid_id:
+                return f"https://www.youtube.com/embed/{vid_id}"
+    except Exception:
+        pass
+    return None
 
 
 # ── Email notification ────────────────────────────────────────────────────────
@@ -610,30 +625,34 @@ def main() -> None:
 
         image_url = get_image(c["url"], title_en, c.get("raw_image"), analysis.get("category", ""))
 
+        article_title = analysis.get("title", title_en)
+        video_clip_url = search_youtube_clip(article_title[:80])
+
         pub_dt = c["published_at"] or datetime.now(timezone.utc)
         body = analysis.get("body", summary)
         featured = score >= 9 or bool(analysis.get("breaking"))
-        slug_base = slugify(analysis.get("title", title_en))[:60]
+        slug_base = slugify(article_title)[:60]
 
         results.append({
             "id":             str(uuid.uuid4()),
             "slug":           f"{slug_base}-{pub_dt.strftime('%Y-%m-%d')}",
             "url":            c["url"],
             "dispatch":       f"{len(results) + 1:02d}",
-            "title":          analysis.get("title", title_en),
+            "title":          article_title,
             "excerpt":        analysis.get("excerpt", summary[:200]),
             "body":           body,
             "source":         c["source"],
             "source_flag":    c["source_flag"],
             "source_bias":    analysis.get("source_bias", c["source_bias"]),
             "tone":           analysis.get("tone", "neutral"),
-            "category":       analysis.get("category", "Shoqëri"),
+            "category":       analysis.get("category", "Botë"),
             "published_at":   pub_dt.isoformat(),
             "reading_time":   max(1, len(body.split()) // 200),
             "featured":       featured,
             "engagement_score": round(score, 1),
             "score_reason":   analysis.get("reason", ""),
             "image_url":      image_url,
+            "video_clip_url": video_clip_url,
             "created_at":     datetime.now(timezone.utc).isoformat(),
         })
         accepted_kws.append(candidate_kws)

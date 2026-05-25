@@ -46,6 +46,7 @@ function mapAutoRow(a: Record<string, unknown>): Article {
     featured:      Boolean(a.featured),
     imageUrl:      a.image_url ? String(a.image_url) : undefined,
     engagementScore: a.engagement_score ? Number(a.engagement_score) : undefined,
+    videoClipUrl:  a.video_clip_url ? String(a.video_clip_url) : undefined,
   };
 }
 
