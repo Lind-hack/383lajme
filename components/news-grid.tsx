@@ -56,13 +56,7 @@ export default function NewsGrid({ articles, title, accentColor = "#FF4422" }: N
       </motion.div>
 
       {/* Grid */}
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(3, 1fr)",
-          gap: "20px",
-        }}
-      >
+      <div className="grid gap-5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
         {articles.map((article, i) => (
           <div key={article.id}>
             <ArticleCard article={article} variant="grid" index={i} />

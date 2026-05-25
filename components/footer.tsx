@@ -67,12 +67,8 @@ export default function Footer() {
 
         {/* 4-column grid */}
         <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1.5fr 1fr 1fr 1fr",
-            gap: "48px",
-            marginBottom: "60px",
-          }}
+          className="grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4"
+          style={{ marginBottom: "60px" }}
         >
 
           {/* Col 1 — Brand + newsletter + social icons */}
