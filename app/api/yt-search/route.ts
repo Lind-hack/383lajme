@@ -1,12 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
 
 const NEWS_BLOCK = [
+  // International
   'euronews','cnn','bbc','reuters','ap news','associated press',
   'sky news','al jazeera','fox news','msnbc','nbc news','abc news',
-  'cbs news','france 24','dw news','dw ','bloomberg','channel 4',
+  'cbs news','france 24','dw news','bloomberg','channel 4',
   'itv news','rt ','rt.com','cgtn','trt world','wion','ndtv',
   'times now','nhk world','arirang','inside edition','vice news',
   'the guardian','independent','afp','politico','axios',
+  'wall street journal','washington post','new york times',
+  // Albanian / Kosovo
+  'euronews albania','klan','rtv klan','top channel','a2 cnn','ora news',
+  'report tv','abc news albania','nsmtv','pamfleti','tvsh','rtk','bbc shqip',
+  'zeri','koha','shekulli','news 24','tv 7','jeta ne kosove','express',
 ];
 
 function isNewsChannel(name: string): boolean {
@@ -15,7 +21,6 @@ function isNewsChannel(name: string): boolean {
 }
 
 function extractChannel(chunk: string): string {
-  // Try multiple JSON key variants YouTube uses for channel name
   const patterns = [
     /"ownerText":\{"runs":\[\{"text":"([^"]+)"/,
     /"shortBylineText":\{"runs":\[\{"text":"([^"]+)"/,
@@ -28,37 +33,46 @@ function extractChannel(chunk: string): string {
   return "";
 }
 
+async function searchYouTube(query: string): Promise<string | null> {
+  const r = await fetch(
+    `https://www.youtube.com/results?search_query=${encodeURIComponent(query)}`,
+    { headers: { "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36" } }
+  );
+  const html = await r.text();
+  const vrRe = /"videoRenderer":\{/g;
+  let m: RegExpExecArray | null;
+  let checked = 0;
+  while ((m = vrRe.exec(html)) !== null && checked < 20) {
+    checked++;
+    const chunk = html.slice(m.index, m.index + 8000);
+    const vidMatch = chunk.match(/"videoId":"([A-Za-z0-9_-]{11})"/);
+    if (!vidMatch) continue;
+    const channel = extractChannel(chunk);
+    if (!isNewsChannel(channel)) return vidMatch[1];
+  }
+  return null;
+}
+
 export async function GET(req: NextRequest) {
   const q = req.nextUrl.searchParams.get("q") ?? "";
   if (!q) return NextResponse.json({ embedUrl: null });
   try {
-    const r = await fetch(
-      `https://www.youtube.com/results?search_query=${encodeURIComponent(q)}`,
-      { headers: { "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36" } }
-    );
-    const html = await r.text();
+    // Primary search: full title
+    let videoId = await searchYouTube(q);
 
-    // Walk videoRenderer occurrences (each = one search result).
-    // Use 8000-char chunks — videoRenderer objects are verbose and ownerText
-    // can appear thousands of chars after the videoId.
-    const vrRe = /"videoRenderer":\{/g;
-    let m: RegExpExecArray | null;
-    let checked = 0;
-    while ((m = vrRe.exec(html)) !== null && checked < 20) {
-      checked++;
-      const chunk = html.slice(m.index, m.index + 8000);
-      const vidMatch = chunk.match(/"videoId":"([A-Za-z0-9_-]{11})"/);
-      if (!vidMatch) continue;
-      const videoId = vidMatch[1];
-      const channel = extractChannel(chunk);
-      if (!isNewsChannel(channel)) {
-        return NextResponse.json({ embedUrl: `https://www.youtube.com/embed/${videoId}` });
+    // Fallback: extract ASCII proper nouns (English names survive in Albanian titles)
+    // e.g. "Gjyqi e hedh poshtë … Elon Muskit kundër OpenAI" → "Elon OpenAI Musk"
+    if (!videoId) {
+      const asciiTerms = q
+        .split(/\s+/)
+        .map(w => w.replace(/[^a-zA-Z0-9]/g, ""))
+        .filter(w => w.length >= 3);
+      if (asciiTerms.length > 0) {
+        videoId = await searchYouTube(asciiTerms.join(" "));
       }
     }
 
-    // Fallback: first videoId in HTML (may be from a news channel)
-    const fallback = html.match(/"videoId":"([A-Za-z0-9_-]{11})"/);
-    return NextResponse.json({ embedUrl: fallback ? `https://www.youtube.com/embed/${fallback[1]}` : null });
+    return NextResponse.json({ embedUrl: videoId ? `https://www.youtube.com/embed/${videoId}` : null });
   } catch {
     return NextResponse.json({ embedUrl: null });
   }
