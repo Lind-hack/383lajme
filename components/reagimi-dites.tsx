@@ -20,8 +20,11 @@ function getYtId(url: string): string | null {
 
 export default function ReagimiDites({ article }: { article: Article }) {
   const [popupOpen, setPopupOpen] = useState(false);
+  const [resolvedVideoUrl, setResolvedVideoUrl] = useState<string | null>(article.videoClipUrl ?? null);
+  const [searching, setSearching] = useState(false);
+
   const gradient = CAT_GRADIENT[article.category] ?? "linear-gradient(135deg, #FF4422 0%, #1A1A1A 100%)";
-  const ytId = article.videoClipUrl ? getYtId(article.videoClipUrl) : null;
+  const ytId = resolvedVideoUrl ? getYtId(resolvedVideoUrl) : null;
 
   useEffect(() => {
     if (!popupOpen) return;
@@ -29,6 +32,18 @@ export default function ReagimiDites({ article }: { article: Article }) {
     window.addEventListener("keydown", fn);
     return () => window.removeEventListener("keydown", fn);
   }, [popupOpen]);
+
+  async function handlePlayClick(e: React.MouseEvent) {
+    e.preventDefault();
+    if (resolvedVideoUrl) { setPopupOpen(true); return; }
+    setSearching(true);
+    try {
+      const res = await fetch(`/api/yt-search?q=${encodeURIComponent(article.title)}`);
+      const data = await res.json() as { embedUrl: string | null };
+      if (data.embedUrl) { setResolvedVideoUrl(data.embedUrl); setPopupOpen(true); }
+    } catch { /* silently ignore */ }
+    finally { setSearching(false); }
+  }
 
   return (
     <section style={{ marginBottom: "48px", position: "relative" }}>
@@ -52,17 +67,17 @@ export default function ReagimiDites({ article }: { article: Article }) {
             minHeight: "160px",
           }}
         >
-          {/* Left: play area */}
+          {/* Left: play area — always intercepts click to prevent Link navigation */}
           {ytId ? (
-            /* YouTube thumbnail with play overlay */
             <div
-              onClick={(e) => { e.preventDefault(); setPopupOpen(true); }}
+              onClick={handlePlayClick}
               style={{
                 flex: "0 0 200px",
                 minWidth: "160px",
                 minHeight: "140px",
                 position: "relative",
                 overflow: "hidden",
+                cursor: "pointer",
               }}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -110,8 +125,9 @@ export default function ReagimiDites({ article }: { article: Article }) {
               </span>
             </div>
           ) : (
-            /* Fallback: category gradient + static play button */
+            /* Fallback: category gradient + play button — also intercepts click */
             <div
+              onClick={handlePlayClick}
               style={{
                 flex: "0 0 200px",
                 minWidth: "160px",
@@ -121,6 +137,7 @@ export default function ReagimiDites({ article }: { article: Article }) {
                 alignItems: "center",
                 justifyContent: "center",
                 position: "relative",
+                cursor: "pointer",
               }}
             >
               <motion.div
@@ -135,6 +152,8 @@ export default function ReagimiDites({ article }: { article: Article }) {
                   alignItems: "center",
                   justifyContent: "center",
                   boxShadow: "0 8px 24px rgba(255,68,34,0.5)",
+                  opacity: searching ? 0.6 : 1,
+                  transition: "opacity 0.2s",
                 }}
               >
                 <svg width="28" height="28" viewBox="0 0 24 24" fill="white">
@@ -244,7 +263,7 @@ export default function ReagimiDites({ article }: { article: Article }) {
                 marginTop: "4px",
               }}
             >
-              {ytId ? "Shiko videon" : "Lexo reagimin"}
+              Shiko videon
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                 <path d="M5 12h14M12 5l7 7-7 7" />
               </svg>
@@ -254,7 +273,7 @@ export default function ReagimiDites({ article }: { article: Article }) {
       </Link>
 
       {/* Fullscreen video popup */}
-      {popupOpen && (
+      {popupOpen && resolvedVideoUrl && (
         <div
           onClick={() => setPopupOpen(false)}
           style={{
@@ -272,7 +291,7 @@ export default function ReagimiDites({ article }: { article: Article }) {
             onClick={(e) => e.stopPropagation()}
           >
             <iframe
-              src={`${article.videoClipUrl}?autoplay=1&rel=0`}
+              src={`${resolvedVideoUrl}?autoplay=1&rel=0`}
               style={{ width: "100%", height: "100%", border: "none", borderRadius: "12px" }}
               allow="autoplay; fullscreen"
               allowFullScreen
