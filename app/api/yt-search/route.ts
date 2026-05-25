@@ -15,7 +15,7 @@ const NEWS_BLOCK = [
   'euronews albania','klan','rtv klan','top channel','a2 cnn','ora news',
   'report tv','abc news albania','nsmtv','pamfleti','tvsh','rtk','bbc shqip',
   'zeri','koha','shekulli','news 24','tv 7','jeta ne kosove','express',
-  'vizion plus','ntv','balkan insight','birn','n1 info','nova tv','pink tv',
+  'vizion plus','ntv','tëvë','teve','balkan insight','birn','n1 info','nova tv','pink tv',
   'prva tv','rts ','radio free europe','rfe/rl','crux','drm news',
   'new china tv','shanghaieye','times now','cgtn','aptn','apt news',
   'china daily','shanghai daily','xinhua','global times','south china morning',
