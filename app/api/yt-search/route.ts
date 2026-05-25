@@ -15,6 +15,9 @@ const NEWS_BLOCK = [
   'euronews albania','klan','rtv klan','top channel','a2 cnn','ora news',
   'report tv','abc news albania','nsmtv','pamfleti','tvsh','rtk','bbc shqip',
   'zeri','koha','shekulli','news 24','tv 7','jeta ne kosove','express',
+  'vizion plus','balkan insight','birn','n1 info','nova tv','pink tv',
+  'prva tv','rts ','radio free europe','rfe/rl','crux','drm news',
+  'new china tv','shanghaieye','times now','cgtn','aptn','apt news',
 ];
 
 function isNewsChannel(name: string): boolean {

@@ -22,6 +22,7 @@ export default function ReagimiDites({ article }: { article: Article }) {
   const [popupOpen, setPopupOpen] = useState(false);
   const [resolvedVideoUrl, setResolvedVideoUrl] = useState<string | null>(article.videoClipUrl ?? null);
   const [searching, setSearching] = useState(false);
+  const [videoNotFound, setVideoNotFound] = useState(false);
 
   const gradient = CAT_GRADIENT[article.category] ?? "linear-gradient(135deg, #FF4422 0%, #1A1A1A 100%)";
   const ytId = resolvedVideoUrl ? getYtId(resolvedVideoUrl) : null;
@@ -34,9 +35,11 @@ export default function ReagimiDites({ article }: { article: Article }) {
     fetch(`/api/yt-search?q=${encodeURIComponent(article.title)}`)
       .then(r => r.json())
       .then((d: { embedUrl: string | null }) => {
-        if (!cancelled && d.embedUrl) setResolvedVideoUrl(d.embedUrl);
+        if (cancelled) return;
+        if (d.embedUrl) setResolvedVideoUrl(d.embedUrl);
+        else setVideoNotFound(true);
       })
-      .catch(() => {})
+      .catch(() => { if (!cancelled) setVideoNotFound(true); })
       .finally(() => { if (!cancelled) setSearching(false); });
     return () => { cancelled = true; };
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -49,16 +52,9 @@ export default function ReagimiDites({ article }: { article: Article }) {
     return () => window.removeEventListener("keydown", fn);
   }, [popupOpen]);
 
-  async function handlePlayClick(e: React.MouseEvent) {
+  function handlePlayClick(e: React.MouseEvent) {
     e.preventDefault();
-    if (resolvedVideoUrl) { setPopupOpen(true); return; }
-    setSearching(true);
-    try {
-      const res = await fetch(`/api/yt-search?q=${encodeURIComponent(article.title)}`);
-      const data = await res.json() as { embedUrl: string | null };
-      if (data.embedUrl) { setResolvedVideoUrl(data.embedUrl); setPopupOpen(true); }
-    } catch { /* silently ignore */ }
-    finally { setSearching(false); }
+    if (resolvedVideoUrl) setPopupOpen(true);
   }
 
   return (
@@ -141,9 +137,9 @@ export default function ReagimiDites({ article }: { article: Article }) {
               </span>
             </div>
           ) : (
-            /* Fallback: category gradient + play button — also intercepts click */
+            /* Fallback: category gradient — play button only while searching or if video found */
             <div
-              onClick={handlePlayClick}
+              onClick={videoNotFound ? undefined : handlePlayClick}
               style={{
                 flex: "0 0 200px",
                 minWidth: "160px",
@@ -153,29 +149,31 @@ export default function ReagimiDites({ article }: { article: Article }) {
                 alignItems: "center",
                 justifyContent: "center",
                 position: "relative",
-                cursor: "pointer",
+                cursor: videoNotFound ? "default" : "pointer",
               }}
             >
-              <motion.div
-                whileHover={{ scale: 1.1 }}
-                transition={{ duration: 0.2 }}
-                style={{
-                  width: "72px",
-                  height: "72px",
-                  borderRadius: "50%",
-                  background: "#FF4422",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  boxShadow: "0 8px 24px rgba(255,68,34,0.5)",
-                  opacity: searching ? 0.6 : 1,
-                  transition: "opacity 0.2s",
-                }}
-              >
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="white">
-                  <path d="M8 5v14l11-7z" />
-                </svg>
-              </motion.div>
+              {!videoNotFound && (
+                <motion.div
+                  whileHover={{ scale: 1.1 }}
+                  transition={{ duration: 0.2 }}
+                  style={{
+                    width: "72px",
+                    height: "72px",
+                    borderRadius: "50%",
+                    background: "#FF4422",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    boxShadow: "0 8px 24px rgba(255,68,34,0.5)",
+                    opacity: searching ? 0.6 : 1,
+                    transition: "opacity 0.2s",
+                  }}
+                >
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="white">
+                    <path d="M8 5v14l11-7z" />
+                  </svg>
+                </motion.div>
+              )}
               <span
                 style={{
                   position: "absolute",
@@ -279,7 +277,7 @@ export default function ReagimiDites({ article }: { article: Article }) {
                 marginTop: "4px",
               }}
             >
-              Shiko videon
+              {videoNotFound ? "Lexo artikullin" : "Shiko videon"}
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                 <path d="M5 12h14M12 5l7 7-7 7" />
               </svg>
