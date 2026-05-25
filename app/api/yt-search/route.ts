@@ -65,8 +65,8 @@ export async function GET(req: NextRequest) {
     if (!videoId) {
       const asciiTerms = q
         .split(/\s+/)
-        .map(w => w.replace(/[^a-zA-Z0-9]/g, ""))
-        .filter(w => w.length >= 3);
+        .map(w => w.replace(/['''"":,.!?;()[\]{}/\\<>@#$%^&*+=~`|]/g, "")) // strip punctuation only
+        .filter(w => w.length >= 3 && /^[a-zA-Z0-9]+$/.test(w)); // keep natively-ASCII words
       if (asciiTerms.length > 0) {
         videoId = await searchYouTube(asciiTerms.join(" "));
       }
