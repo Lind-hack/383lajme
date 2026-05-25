@@ -26,6 +26,12 @@ export default async function HomePage() {
   const hero = articles.find((a) => a.featured) ?? articles[0];
   const heroId = hero?.id;
 
+  // Reagimi i Ditës — highest-scored non-hero article (≥ 8), fallback to second article
+  const reagimiArticle =
+    articles.find((a) => a.id !== heroId && (a.engagementScore ?? 0) >= 8) ??
+    articles.find((a) => a.id !== heroId) ??
+    hero;
+
   // Tier 2: NJOFTIME — score ≥ 7.5, not hero, up to 6
   const njoftimeArticles = articles
     .filter((a) => a.id !== heroId && (a.engagementScore ?? 0) >= 7.5)
@@ -103,7 +109,7 @@ export default async function HomePage() {
         </div>
 
         {/* Daily video reaction */}
-        <ReagimiDites />
+        <ReagimiDites article={reagimiArticle} />
 
         {/* Section label: NJOFTIME */}
         <div
