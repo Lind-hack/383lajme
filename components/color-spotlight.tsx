@@ -103,6 +103,9 @@ export default function ColorSpotlight({ articles, category, label }: ColorSpotl
                     padding: "24px",
                     cursor: "pointer",
                     boxShadow: "0 4px 20px rgba(0,0,0,0.15)",
+                    minHeight: "200px",
+                    display: "flex",
+                    flexDirection: "column",
                   }}
                 >
                   <div
@@ -141,6 +144,7 @@ export default function ColorSpotlight({ articles, category, label }: ColorSpotl
                       color: "#111111",
                       margin: "0 0 10px",
                       letterSpacing: "-0.01em",
+                      flex: 1,
                     }}
                   >
                     {article.title}

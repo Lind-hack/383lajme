@@ -1,0 +1,178 @@
+{
+  "lastUpdated": "2026-05-26",
+  "countries": {
+    "Gjermani": {
+      "outlets": [
+        {
+          "name": "Der Spiegel",
+          "sentiment": "positive",
+          "articleCount": 4,
+          "articles": [
+            { "title": "Kosovo auf dem Weg in die EU: Hoffnung trotz Hindernisse", "url": "https://www.spiegel.de/ausland/", "date": "2026-05-25" },
+            { "title": "Pristina boomt: Wie Kosovos Hauptstadt zur Startup-Metropole wird", "url": "https://www.spiegel.de/wirtschaft/", "date": "2026-05-23" }
+          ]
+        },
+        {
+          "name": "Süddeutsche Zeitung",
+          "sentiment": "neutral",
+          "articleCount": 3,
+          "articles": [
+            { "title": "Kosovo und Serbien: Mühsame Verhandlungen in Brüssel", "url": "https://www.sueddeutsche.de/politik/", "date": "2026-05-24" },
+            { "title": "Westbalkan-Gipfel: EU betont Bedeutung regionaler Zusammenarbeit", "url": "https://www.sueddeutsche.de/politik/", "date": "2026-05-22" }
+          ]
+        },
+        {
+          "name": "Die Zeit",
+          "sentiment": "positive",
+          "articleCount": 2,
+          "articles": [
+            { "title": "Junge Demokratie: Kosovos Kampf gegen Korruption zeigt Wirkung", "url": "https://www.zeit.de/politik/ausland/", "date": "2026-05-21" }
+          ]
+        },
+        {
+          "name": "FAZ",
+          "sentiment": "negative",
+          "articleCount": 2,
+          "articles": [
+            { "title": "Spannungen im Norden: Kosovo und Serbien am Rand neuer Krise", "url": "https://www.faz.net/aktuell/politik/ausland/", "date": "2026-05-24" }
+          ]
+        }
+      ]
+    },
+    "SHBA": {
+      "outlets": [
+        {
+          "name": "AP",
+          "sentiment": "positive",
+          "articleCount": 5,
+          "articles": [
+            { "title": "Kosovo marks 18 years of independence with renewed NATO support", "url": "https://apnews.com/hub/kosovo", "date": "2026-05-25" },
+            { "title": "US reaffirms commitment to Kosovo sovereignty in Pristina visit", "url": "https://apnews.com/hub/kosovo", "date": "2026-05-23" }
+          ]
+        },
+        {
+          "name": "New York Times",
+          "sentiment": "neutral",
+          "articleCount": 3,
+          "articles": [
+            { "title": "Kosovo's Democracy Test: Can Kurti Hold the Line Against Corruption?", "url": "https://www.nytimes.com/topic/destination/kosovo", "date": "2026-05-22" },
+            { "title": "Balkans Peace Process Stalls as Belgrade-Pristina Talks Falter", "url": "https://www.nytimes.com/topic/destination/kosovo", "date": "2026-05-20" }
+          ]
+        },
+        {
+          "name": "Bloomberg",
+          "sentiment": "positive",
+          "articleCount": 3,
+          "articles": [
+            { "title": "Kosovo's Tech Sector Draws Foreign Investment as Region Stabilizes", "url": "https://www.bloomberg.com/europe", "date": "2026-05-24" },
+            { "title": "Kosovo GDP Growth Outpaces Balkan Neighbors for Third Straight Year", "url": "https://www.bloomberg.com/europe", "date": "2026-05-21" }
+          ]
+        },
+        {
+          "name": "Washington Post",
+          "sentiment": "neutral",
+          "articleCount": 2,
+          "articles": [
+            { "title": "The Unfinished Business of Kosovo: A Nation Still Seeking Full Recognition", "url": "https://www.washingtonpost.com/world/", "date": "2026-05-19" }
+          ]
+        }
+      ]
+    },
+    "Britani": {
+      "outlets": [
+        {
+          "name": "Guardian",
+          "sentiment": "positive",
+          "articleCount": 4,
+          "articles": [
+            { "title": "Kosovo at 18: From warzone to hopeful democracy — the long road ahead", "url": "https://www.theguardian.com/world/kosovo", "date": "2026-05-25" },
+            { "title": "Kosovo's women-led cooperatives offer a model for rural development", "url": "https://www.theguardian.com/world/kosovo", "date": "2026-05-22" }
+          ]
+        },
+        {
+          "name": "BBC",
+          "sentiment": "neutral",
+          "articleCount": 5,
+          "articles": [
+            { "title": "Kosovo-Serbia talks: What's really at stake in Brussels?", "url": "https://www.bbc.com/news/world-europe", "date": "2026-05-24" },
+            { "title": "Inside Kosovo's north: A divided community after the latest unrest", "url": "https://www.bbc.com/news/world-europe", "date": "2026-05-21" }
+          ]
+        },
+        {
+          "name": "Reuters",
+          "sentiment": "neutral",
+          "articleCount": 4,
+          "articles": [
+            { "title": "EU urges Kosovo and Serbia to implement normalisation deal", "url": "https://www.reuters.com/world/europe/", "date": "2026-05-23" }
+          ]
+        },
+        {
+          "name": "Independent",
+          "sentiment": "negative",
+          "articleCount": 2,
+          "articles": [
+            { "title": "North Kosovo unrest tests fragile peace as NATO steps up patrols", "url": "https://www.independent.co.uk/news/world/europe/", "date": "2026-05-20" }
+          ]
+        }
+      ]
+    },
+    "Francë": {
+      "outlets": [
+        {
+          "name": "Le Monde",
+          "sentiment": "neutral",
+          "articleCount": 3,
+          "articles": [
+            { "title": "Kosovo : un État jeune confronté à ses premières crises de maturité", "url": "https://www.lemonde.fr/europe/", "date": "2026-05-24" },
+            { "title": "Balkans occidentaux : l'UE relance ses promesses d'intégration", "url": "https://www.lemonde.fr/europe/", "date": "2026-05-22" }
+          ]
+        },
+        {
+          "name": "Le Figaro",
+          "sentiment": "positive",
+          "articleCount": 2,
+          "articles": [
+            { "title": "Le Kosovo, pépite économique des Balkans, attire les investisseurs", "url": "https://www.lefigaro.fr/international/", "date": "2026-05-21" }
+          ]
+        },
+        {
+          "name": "AFP",
+          "sentiment": "neutral",
+          "articleCount": 6,
+          "articles": [
+            { "title": "Kosovo: les pourparlers avec Belgrade reprennent sous médiation de l'UE", "url": "https://www.afp.com/fr/", "date": "2026-05-25" }
+          ]
+        }
+      ]
+    },
+    "Itali": {
+      "outlets": [
+        {
+          "name": "La Repubblica",
+          "sentiment": "positive",
+          "articleCount": 3,
+          "articles": [
+            { "title": "Kosovo, la piccola nazione che vuole diventare la Silicon Valley dei Balcani", "url": "https://www.repubblica.it/esteri/", "date": "2026-05-23" },
+            { "title": "Pristina chiama Roma: nuovi accordi per la diaspora kosovara in Italia", "url": "https://www.repubblica.it/esteri/", "date": "2026-05-20" }
+          ]
+        },
+        {
+          "name": "Corriere della Sera",
+          "sentiment": "neutral",
+          "articleCount": 3,
+          "articles": [
+            { "title": "Kosovo e Serbia: dialogo in stallo, l'UE alza la voce", "url": "https://www.corriere.it/esteri/", "date": "2026-05-24" }
+          ]
+        },
+        {
+          "name": "ANSA",
+          "sentiment": "positive",
+          "articleCount": 4,
+          "articles": [
+            { "title": "Kosovo: record di turisti stranieri nella prima metà del 2026", "url": "https://www.ansa.it/sito/notizie/mondo/", "date": "2026-05-22" }
+          ]
+        }
+      ]
+    }
+  }
+}

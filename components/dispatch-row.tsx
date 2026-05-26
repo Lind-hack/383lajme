@@ -1,36 +1,62 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { type Article } from "@/lib/mock-data";
 import ArticleCard from "./article-card";
+
+function scrollBtnStyle(side: "left" | "right"): React.CSSProperties {
+  return {
+    position: "absolute",
+    [side]: "-16px",
+    top: "50%",
+    transform: "translateY(-50%)",
+    zIndex: 10,
+    width: "36px",
+    height: "36px",
+    borderRadius: "50%",
+    border: "1px solid rgba(255,255,255,0.15)",
+    background: "rgba(26,26,26,0.9)",
+    color: "#FFFFFF",
+    cursor: "pointer",
+    fontSize: "16px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    backdropFilter: "blur(8px)",
+    padding: 0,
+  };
+}
 
 interface DispatchRowProps {
   articles: Article[];
 }
 
 export default function DispatchRow({ articles }: DispatchRowProps) {
-  const constraintsRef = useRef<HTMLDivElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [hasScrolled, setHasScrolled] = useState(false);
+
+  function scrollBy(dir: 1 | -1) {
+    scrollRef.current?.scrollBy({ left: dir * 252, behavior: "smooth" });
+    if (dir === 1) setHasScrolled(true);
+  }
 
   return (
     <div style={{ position: "relative" }}>
+      {hasScrolled && (
+        <button onClick={() => scrollBy(-1)} style={scrollBtnStyle("left")}>&#8592;</button>
+      )}
+      <button onClick={() => scrollBy(1)} style={scrollBtnStyle("right")}>&#8594;</button>
+
       <div
-        ref={constraintsRef}
-        style={{ overflow: "hidden" }}
+        ref={scrollRef}
+        style={{
+          overflowX: "auto",
+          scrollbarWidth: "none",
+          paddingBottom: "8px",
+        }}
       >
-        <motion.div
-          drag="x"
-          dragConstraints={constraintsRef}
-          dragElastic={0.1}
-          style={{
-            display: "flex",
-            gap: "16px",
-            paddingBottom: "8px",
-            cursor: "grab",
-            userSelect: "none",
-          }}
-          whileDrag={{ cursor: "grabbing" }}
-        >
+        <div style={{ display: "flex", gap: "16px", width: "max-content" }}>
           {articles.map((article, i) => (
             <motion.div
               key={article.id}
@@ -42,9 +68,8 @@ export default function DispatchRow({ articles }: DispatchRowProps) {
               <ArticleCard article={article} variant="mini" />
             </motion.div>
           ))}
-        </motion.div>
+        </div>
       </div>
-
     </div>
   );
 }

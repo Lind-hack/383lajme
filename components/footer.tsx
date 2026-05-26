@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { CATEGORY_COLORS } from "@/lib/category-colors";
 
 const FOOTER_CATEGORIES = [
   { label: "Politikë", href: "/kategori/politike" },
@@ -140,9 +139,7 @@ export default function Footer() {
               KATEGORITË
             </p>
             <div style={{ display: "flex", flexDirection: "column" as const, gap: "12px" }}>
-              {FOOTER_CATEGORIES.map((cat) => {
-                const color = CATEGORY_COLORS[cat.label] ?? "#FF4422";
-                return (
+              {FOOTER_CATEGORIES.map((cat) => (
                   <Link
                     key={cat.href}
                     href={cat.href}
@@ -150,7 +147,7 @@ export default function Footer() {
                       textDecoration: "none",
                       fontSize: "14px",
                       fontWeight: 600,
-                      color,
+                      color: "rgba(255,255,255,0.45)",
                       transition: "opacity 0.2s",
                       display: "flex",
                       alignItems: "center",
@@ -159,11 +156,10 @@ export default function Footer() {
                     onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.opacity = "0.65")}
                     onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.opacity = "1")}
                   >
-                    <span style={{ width: "5px", height: "5px", borderRadius: "50%", background: color, flexShrink: 0 }} />
+                    <span style={{ width: "5px", height: "5px", borderRadius: "50%", background: "rgba(255,255,255,0.25)", flexShrink: 0 }} />
                     {cat.label}
                   </Link>
-                );
-              })}
+                ))}
             </div>
           </div>
 

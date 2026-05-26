@@ -29,12 +29,15 @@ export default function ArticleCard({ article, variant = "grid", index = 0 }: Ar
           transition={{ duration: 0.25, ease: "easeOut" }}
           style={{
             width: "220px",
+            minHeight: "340px",
             background: "#FFFFFF",
             borderRadius: "16px",
             border: "1px solid #E8E3DB",
             overflow: "hidden",
             cursor: "pointer",
             boxShadow: "0 2px 12px rgba(0,0,0,0.06)",
+            display: "flex",
+            flexDirection: "column",
           }}
         >
           {/* Image area */}
@@ -65,7 +68,7 @@ export default function ArticleCard({ article, variant = "grid", index = 0 }: Ar
             )}
           </div>
 
-          <div style={{ padding: "14px 16px 16px" }}>
+          <div style={{ padding: "14px 16px 16px", flex: 1 }}>
             <div
               style={{
                 display: "flex",
