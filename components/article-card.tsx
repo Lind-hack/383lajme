@@ -29,7 +29,7 @@ export default function ArticleCard({ article, variant = "grid", index = 0 }: Ar
           transition={{ duration: 0.25, ease: "easeOut" }}
           style={{
             width: "220px",
-            minHeight: "340px",
+            height: "340px",
             background: "#FFFFFF",
             borderRadius: "16px",
             border: "1px solid #E8E3DB",
@@ -68,7 +68,7 @@ export default function ArticleCard({ article, variant = "grid", index = 0 }: Ar
             )}
           </div>
 
-          <div style={{ padding: "14px 16px 16px", flex: 1 }}>
+          <div style={{ padding: "14px 16px 16px", flex: 1, display: "flex", flexDirection: "column" }}>
             <div
               style={{
                 display: "flex",
@@ -113,7 +113,7 @@ export default function ArticleCard({ article, variant = "grid", index = 0 }: Ar
             >
               {article.title}
             </p>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: "auto" }}>
               <SourceBadge source={article.source} flag={article.sourceFlag} size="sm" bias={article.sourceBias} url={article.url} />
               <span style={{ fontSize: "11px", color: "#6B6B6B", fontWeight: 500 }}>
                 {timeAgo(article.publishedAt)}

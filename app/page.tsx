@@ -182,7 +182,7 @@ export default async function HomePage() {
                 <a
                   key={article.id}
                   href={`/article/${article.slug}`}
-                  style={{ textDecoration: "none" }}
+                  style={{ textDecoration: "none", display: "block", height: "100%" }}
                 >
                   <div
                     className="world-card"
@@ -191,20 +191,23 @@ export default async function HomePage() {
                       border: "1px solid rgba(255,255,255,0.08)",
                       borderRadius: "16px",
                       overflow: "hidden",
+                      display: "flex",
+                      flexDirection: "column",
+                      height: "100%",
                     }}
                   >
-                    <div style={{ height: "3px", background: catColor }} />
-                    <div style={{ padding: "24px" }}>
+                    <div style={{ height: "3px", background: catColor, flexShrink: 0 }} />
+                    <div style={{ padding: "24px", flex: 1, display: "flex", flexDirection: "column" }}>
                       <div style={{ display: "flex", alignItems: "center", gap: "6px", marginBottom: "12px" }}>
                         <span style={{ fontSize: "16px" }}>{article.sourceFlag}</span>
                         <span style={{ fontSize: "11px", fontWeight: 600, color: "rgba(255,255,255,0.5)", letterSpacing: "0.08em" }}>
                           {article.source}
                         </span>
                       </div>
-                      <h3 style={{ fontSize: "16px", fontWeight: 700, color: "#FFFFFF", margin: "0 0 10px", lineHeight: 1.35 }}>
+                      <h3 style={{ fontSize: "16px", fontWeight: 700, color: "#FFFFFF", margin: "0 0 10px", lineHeight: 1.35, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
                         {article.title}
                       </h3>
-                      <p style={{ fontSize: "13px", color: "rgba(255,255,255,0.45)", margin: 0, lineHeight: 1.6 }}>
+                      <p style={{ fontSize: "13px", color: "rgba(255,255,255,0.45)", margin: 0, lineHeight: 1.6, display: "-webkit-box", WebkitLineClamp: 3, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
                         {article.excerpt}
                       </p>
                     </div>
