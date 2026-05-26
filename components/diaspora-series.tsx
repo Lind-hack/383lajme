@@ -8,6 +8,10 @@ const TABS = [
   { key: "gjermania", label: "Gjermania", flag: "🇩🇪", color: "#FF4422" },
   { key: "zvicra",    label: "Zvicra",    flag: "🇨🇭", color: "#E53E3E" },
   { key: "italia",    label: "Italia",    flag: "🇮🇹", color: "#22863A" },
+  { key: "shba",      label: "SHBA",      flag: "🇺🇸", color: "#1A56DB" },
+  { key: "britania",  label: "Britania",  flag: "🇬🇧", color: "#7B341E" },
+  { key: "austria",   label: "Austria",   flag: "🇦🇹", color: "#C05621" },
+  { key: "suedia",    label: "Suedia",    flag: "🇸🇪", color: "#276749" },
 ];
 
 export default function DiasporaSeries() {
@@ -69,6 +73,7 @@ export default function DiasporaSeries() {
                   cursor: "pointer",
                   position: "relative",
                   outline: "none",
+                  flexShrink: 0,
                 }}
               >
                 <span style={{ fontSize: "16px" }}>{tab.flag}</span>
@@ -117,6 +122,8 @@ export default function DiasporaSeries() {
               <motion.a
                 key={article.id}
                 href={article.href}
+                target="_blank"
+                rel="noopener noreferrer"
                 initial={{ opacity: 0, x: -8 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.3, delay: i * 0.06 }}
@@ -124,6 +131,8 @@ export default function DiasporaSeries() {
                   display: "flex",
                   gap: "12px",
                   padding: "16px 24px",
+                  minHeight: "88px",
+                  alignItems: "center",
                   borderBottom: i < articles.length - 1 ? "1px solid #F0ECE6" : "none",
                   textDecoration: "none",
                   cursor: "pointer",
@@ -137,7 +146,7 @@ export default function DiasporaSeries() {
                 }}
               >
                 {/* Source badge */}
-                <div style={{ flexShrink: 0, paddingTop: "2px" }}>
+                <div style={{ flexShrink: 0 }}>
                   <span
                     style={{
                       display: "inline-flex",

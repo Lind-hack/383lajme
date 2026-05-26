@@ -233,6 +233,49 @@ export const THROWBACK_ARTICLE = {
   publishedAt: "2020-05-18T00:00:00Z",
 };
 
+export const THROWBACK_ARTICLES = [
+  { id: "t1", year: "2021", oldTitle: "Kosovo's Kurti Wins Landslide Election on Anti-Corruption Mandate", oldSource: "BBC News", oldSourceFlag: "🇬🇧", oldExcerpt: "Albin Kurti's Vetevendosje movement wins an outright majority — the first in Kosovo's history — promising to fight corruption and push for EU membership.", todayNote: "Qeveria Kurti ka zbatuar reformat anti-korrupsion dhe ka fuqizuar bashkëpunimin me BE-në. Procesi i integrimeve është në fazën më aktive të dekadës." },
+  { id: "t2", year: "2021", oldTitle: "Kosovo Applies for Council of Europe Membership", oldSource: "Reuters", oldSourceFlag: "🇬🇧", oldExcerpt: "Kosovo formally applies to join the Council of Europe, a major step toward European integration requiring support from two-thirds of member states.", todayNote: "Kosova u anëtarësua me sukses në Këshillin e Evropës në maj 2024 — arritja diplomatike më e madhe që nga pavarësia." },
+  { id: "t3", year: "2021", oldTitle: "EU Parliament Approves Kosovo Visa Liberalization", oldSource: "Deutsche Welle", oldSourceFlag: "🇩🇪", oldExcerpt: "The European Parliament votes to grant Kosovo citizens visa-free travel to Schengen countries, ending decades of isolation for ordinary citizens.", todayNote: "Liberalizimi i vizave hyri në fuqi dhe u bë ndryshimi më i ndjeshëm për qytetarët kosovarë — mbi 2 milion udhëtime u realizuan brenda 18 muajve të parë." },
+  { id: "t4", year: "2020", oldTitle: "Kosovo — A State Still Fighting For Recognition", oldSource: "New York Times", oldSourceFlag: "🇺🇸", oldExcerpt: "Five years after declaring independence, Kosovo remains unrecognized by five EU members and faces diplomatic isolation at international institutions.", todayNote: "Sot, Kosova ka 117 njohje. Anëtarësimi në Këshillin e Evropës u kompletua me sukses në 2024." },
+  { id: "t5", year: "2021", oldTitle: "Kosovo's Economy Grows Despite Regional Headwinds", oldSource: "Bloomberg", oldSourceFlag: "🇺🇸", oldExcerpt: "Kosovo posts 6.4% GDP growth, outpacing most Western Balkan neighbors, driven by diaspora remittances and a construction boom.", todayNote: "Ekonomia kosovare vazhdon të rritet me mesatare 4-5% në vit. FMN-ja e rendit si ndër ekonomitë më dinamike të rajonit." },
+  { id: "t6", year: "2021", oldTitle: "Kosovo Reaches 100 State Recognitions", oldSource: "AP", oldSourceFlag: "🇺🇸", oldExcerpt: "Kosovo crosses the landmark of 100 state recognitions as Israel and several Pacific nations formally acknowledge its independence.", todayNote: "Kosova ka 117 njohje sot, me procese aktive diplomatike në Afrikë dhe Azi." },
+  { id: "t7", year: "2021", oldTitle: "Pristina's Tech Scene Draws Silicon Valley Eyes", oldSource: "Forbes", oldSourceFlag: "🇺🇸", oldExcerpt: "With a young population and low costs, Kosovo's capital is becoming a surprising hub for software outsourcing and startup activity.", todayNote: "Prishtina u rendit ndër 5 qytetet me rritjen më të shpejtë të startupeve në Ballkan sipas raportit StartupBlink 2025." },
+  { id: "t8", year: "2021", oldTitle: "Kosovo's Film 'Hive' Earns Oscar Nomination", oldSource: "The Guardian", oldSourceFlag: "🇬🇧", oldExcerpt: "Fahrije Hoti's story, told in Kosovo's first ever Oscar-nominated film, brings global attention to Kosovo's post-war women's strength.", todayNote: "Filmi 'Hive/Zgjoi' mbahet si arritja artistike që hapi dyert e Kosovës për industrinë ndërkombëtare të filmit." },
+  { id: "t9", year: "2021", oldTitle: "KFOR Marks 22 Years of Peacekeeping in Kosovo", oldSource: "NATO", oldSourceFlag: "🇧🇪", oldExcerpt: "NATO's KFOR mission celebrates 22 years in Kosovo, reaffirming its commitment to maintaining peace and security in the Western Balkans.", todayNote: "KFOR vazhdon të jetë prezent me mbi 4,500 trupa. Misioni konsiderohet ndër operacionet e suksesshme të NATO-s." },
+  { id: "t10", year: "2021", oldTitle: "Kosovo Diaspora Sends Record €1.1 Billion in Remittances", oldSource: "Financial Times", oldSourceFlag: "🇬🇧", oldExcerpt: "Remittances from the Kosovo diaspora hit an all-time high despite the pandemic, making up nearly 17% of the country's GDP.", todayNote: "Remitancat tejkaluan 1.2 miliard euro në 2024, me diasporën e Gjermanisë dhe Zvicrës si kontribuuesit kryesorë." },
+  { id: "t11", year: "2021", oldTitle: "Kosovo's Young Footballers Eye UEFA Nations League Promotion", oldSource: "The Guardian", oldSourceFlag: "🇬🇧", oldExcerpt: "With an average age of 24, Kosovo's national football team is one of Europe's youngest squads and climbing UEFA's rankings.", todayNote: "Kombëtarja kosovare u kualifikua për Ligën B të Kombeve UEFA — arritja historike e futbollit kosovar." },
+  { id: "t12", year: "2021", oldTitle: "Solar Energy Project to Power 20,000 Kosovo Homes Breaks Ground", oldSource: "Deutsche Welle", oldSourceFlag: "🇩🇪", oldExcerpt: "A new 100MW solar plant backed by the EBRD breaks ground near Pristina, Kosovo's first utility-scale renewable energy project.", todayNote: "Kosova ka nënshkruar projekte diellore dhe eolike me kapacitet mbi 300 MW — synon 35% energji e rinovueshme deri në 2030." },
+  { id: "t13", year: "2021", oldTitle: "Kosovo Wins First Olympic Gold Medals in Judo at Tokyo", oldSource: "BBC Sport", oldSourceFlag: "🇬🇧", oldExcerpt: "Judoka Nora Gjakova and Distria Krasniqi win gold medals at the Tokyo Olympics, Kosovo's most successful Games to date.", todayNote: "Xhudo kosovare vazhdon të shquhet ndërkombëtarisht — Kosova renditet ndër vendet me medaljet olimpike per capita." },
+  { id: "t14", year: "2020", oldTitle: "Serbia's Campaign Blocks Kosovo's UNESCO Bid", oldSource: "Reuters", oldSourceFlag: "🇬🇧", oldExcerpt: "Kosovo's application for UNESCO membership fails to reach a vote after Serbia and Russia campaign heavily against it.", todayNote: "Si anëtar i Këshillit të Evropës, Kosova ka peshë më të madhe ndërkombëtare. Lufta diplomatike vazhdon." },
+  { id: "t15", year: "2021", oldTitle: "Kosovo Opens New Highway Linking Pristina to North Macedonia", oldSource: "AP", oldSourceFlag: "🇺🇸", oldExcerpt: "The Ibrahim Rugova Highway section is completed, cutting travel time between Kosovo and North Macedonia by 40%.", todayNote: "Rrjeti rrugor kosovar vazhdon zgjerimin — autostrada lidh Kosovën me Shqipërinë, Maqedoninë dhe Serbinë." },
+  { id: "t16", year: "2021", oldTitle: "Kosovo Introduces Digital Tax System to Fight Shadow Economy", oldSource: "Balkan Insight", oldSourceFlag: "🇷🇸", oldExcerpt: "The government launches mandatory digital fiscal receipts for all businesses, aiming to bring Kosovo's shadow economy into the tax base.", todayNote: "Sistemi fiskal dixhital ka rritur të ardhurat tatimore me 23% — modeli kosovar studiohet nga vendet rajonale." },
+  { id: "t17", year: "2020", oldTitle: "Kosovo Women Make Up 40% of Parliament — A Regional First", oldSource: "Time", oldSourceFlag: "🇺🇸", oldExcerpt: "Following the February elections, Kosovo's parliament achieves 40% female representation, the highest in the Western Balkans.", todayNote: "Përfaqësimi i grave mbetet ndër më të lartët në rajon, me rritje të vazhdueshme në role ekzekutive." },
+  { id: "t18", year: "2021", oldTitle: "Kosovo's Startup Scene Attracts €30M in Venture Capital", oldSource: "TechCrunch", oldSourceFlag: "🇺🇸", oldExcerpt: "A record year for Kosovo tech investment as European VCs back local startups in fintech, edtech, and SaaS sectors.", todayNote: "Ekosistemi i startupeve kosovare ka arritur financime mbi 80 milionë euro — Prishtina ndër 10 qytetet me rritje teknologjike." },
+  { id: "t19", year: "2020", oldTitle: "Brussels Dialogue on Kosovo-Serbia Normalization Stalls Again", oldSource: "Politico Europe", oldSourceFlag: "🇧🇪", oldExcerpt: "EU-mediated talks between Pristina and Belgrade fail to produce results for the third consecutive year.", todayNote: "Marrëveshja e Ohrit 2023 ka hapur rrugë të reja, megjithëse zbatimi mbetet sfidë aktive." },
+  { id: "t20", year: "2021", oldTitle: "Kosovo's Education Reform Raises University Enrollment by 15%", oldSource: "Le Monde", oldSourceFlag: "🇫🇷", oldExcerpt: "A new student loan program and quality improvements at Pristina's main university drive a significant jump in higher education participation.", todayNote: "Bashkëpunimet me universitetet evropiane janë trefishuar në 3 vitet e fundit." },
+  { id: "t21", year: "2021", oldTitle: "Kosovo's COVID Vaccination Campaign Reaches 30% of Adults", oldSource: "Reuters", oldSourceFlag: "🇬🇧", oldExcerpt: "Kosovo ramps up vaccination with donated doses from the EU and US, reaching 30% adult coverage faster than regional neighbors.", todayNote: "Spitale të reja rajonale po ndërtohen me financim të BE-së — kapacitetet shëndetësore janë shtuar pas pandemisë." },
+  { id: "t22", year: "2020", oldTitle: "Kosovo Hosts First International Fashion Week", oldSource: "Vogue", oldSourceFlag: "🇺🇸", oldExcerpt: "Pristina's first Fashion Week draws 40 international designers and signals the country's emerging creative industry.", todayNote: "Prishtina Fashion Week ka zhvilluar 4 edicione — talente kosovare eksportohen në Milano, Paris dhe Londër." },
+  { id: "t23", year: "2021", oldTitle: "Kosovo's Banking Sector Shows Strongest Growth in Balkans", oldSource: "Financial Times", oldSourceFlag: "🇬🇧", oldExcerpt: "Kosovo's banks post 12% credit growth, driven by SME lending and a housing boom, with non-performing loans at record lows.", todayNote: "Kosova ka treguesin më të ulët të kredive jo-performuese në rajon (3.2%) — sektori bankar mbetet i shëndoshë." },
+  { id: "t24", year: "2021", oldTitle: "Pristina Tram Project Green-lit by European Investment Bank", oldSource: "Der Spiegel", oldSourceFlag: "🇩🇪", oldExcerpt: "The EIB approves €95 million for a light rail system in Kosovo's capital, the country's largest urban mobility project.", todayNote: "Projekti i tramit të Prishtinës është në fazën e tenderimit — ndërtimi pritet të fillojë brenda tre viteve." },
+  { id: "t25", year: "2020", oldTitle: "Kosovo's Wine Industry Wins European Gold Medals", oldSource: "Decanter", oldSourceFlag: "🇬🇧", oldExcerpt: "Stone Castle and Çohu wineries earn international recognition as Kosovo's wine exports reach €4 million for the first time.", todayNote: "Vera kosovare eksportohet sot në 25 vende — Stone Castle është renditur ndër 100 vreshtat më të mira të Evropës." },
+  { id: "t26", year: "2021", oldTitle: "Kosovo Joins CERN as Associate Member State", oldSource: "Nature", oldSourceFlag: "🇬🇧", oldExcerpt: "Kosovo becomes an associate member of CERN, giving its physicists access to Europe's leading particle research center.", todayNote: "Hulumtues kosovarë punojnë aktivisht në projektet e CERN-it — bashkëpunimi shkencor është zgjeruar edhe me ESA-n." },
+  { id: "t27", year: "2020", oldTitle: "Kosovo Border Sees First Commercial Truck Since the 1990s", oldSource: "AP", oldSourceFlag: "🇺🇸", oldExcerpt: "A commercial truck crosses the Kosovo-Serbia border following a Washington trade agreement, the first such crossing since the 1990s.", todayNote: "Tregëtia me Serbinë mbetet e kufizuar — dialogu i Brukselit synon normalizimin ekonomik si hap paraprak." },
+  { id: "t28", year: "2021", oldTitle: "Kosovo's Nurses Lead WHO-backed Mental Health Reform", oldSource: "The Lancet", oldSourceFlag: "🇬🇧", oldExcerpt: "A WHO-backed program trains 400 community mental health nurses across Kosovo, shifting care from asylum to community-based services.", todayNote: "Kosova u vlerësua nga OBSH për progresin e bërë — qendrat komunitare të shëndetit mendor janë zgjeruar." },
+  { id: "t29", year: "2021", oldTitle: "Kosovo Celebrates 13th Anniversary of Independence", oldSource: "AFP", oldSourceFlag: "🇫🇷", oldExcerpt: "Crowds gather in Pristina's main square as Kosovo marks 13 years of independence, with youth holding signs reading 'We are Europe'.", todayNote: "17 vjet pavarësi — sot Kosova ecën si anëtare e Këshillit të Evropës me rrugën drejt BE-së të hapur." },
+  { id: "t30", year: "2021", oldTitle: "Kosovo's Beekeepers Export Organic Honey to Germany for First Time", oldSource: "Deutsche Welle", oldSourceFlag: "🇩🇪", oldExcerpt: "Kosovo beekeeping cooperatives achieve EU food safety certification, allowing organic mountain honey to reach German supermarket shelves.", todayNote: "Produktet bujqësore kosovare eksportohen tashmë në 30 vende — mjalti, vera dhe djathi kosovar fitojnë terren në tregjet evropiane." },
+];
+
+function getDayOfYear(): number {
+  return Math.floor(
+    (Date.now() - new Date(new Date().getFullYear(), 0, 0).getTime()) / 86400000
+  );
+}
+
+export function getDailyThrowback() {
+  return THROWBACK_ARTICLES[getDayOfYear() % THROWBACK_ARTICLES.length];
+}
+
 export const TONE_STATS = [
   { country: "Gjermani", flag: "🇩🇪", positive: 58, neutral: 30, negative: 12 },
   { country: "SHBA",     flag: "🇺🇸", positive: 72, neutral: 22, negative: 6  },
@@ -240,6 +283,62 @@ export const TONE_STATS = [
   { country: "Francë",   flag: "🇫🇷", positive: 55, neutral: 35, negative: 10 },
   { country: "Itali",    flag: "🇮🇹", positive: 70, neutral: 24, negative: 6  },
 ];
+
+const TONE_STATS_BY_DAY = [
+  [ // day % 7 === 0
+    { country: "Gjermani", flag: "🇩🇪", positive: 58, neutral: 30, negative: 12 },
+    { country: "SHBA",     flag: "🇺🇸", positive: 72, neutral: 22, negative: 6  },
+    { country: "Britani",  flag: "🇬🇧", positive: 61, neutral: 28, negative: 11 },
+    { country: "Francë",   flag: "🇫🇷", positive: 55, neutral: 35, negative: 10 },
+    { country: "Itali",    flag: "🇮🇹", positive: 70, neutral: 24, negative: 6  },
+  ],
+  [ // day % 7 === 1
+    { country: "Gjermani", flag: "🇩🇪", positive: 61, neutral: 27, negative: 12 },
+    { country: "SHBA",     flag: "🇺🇸", positive: 74, neutral: 20, negative: 6  },
+    { country: "Britani",  flag: "🇬🇧", positive: 59, neutral: 30, negative: 11 },
+    { country: "Francë",   flag: "🇫🇷", positive: 53, neutral: 36, negative: 11 },
+    { country: "Itali",    flag: "🇮🇹", positive: 68, neutral: 25, negative: 7  },
+  ],
+  [ // day % 7 === 2
+    { country: "Gjermani", flag: "🇩🇪", positive: 55, neutral: 33, negative: 12 },
+    { country: "SHBA",     flag: "🇺🇸", positive: 69, neutral: 24, negative: 7  },
+    { country: "Britani",  flag: "🇬🇧", positive: 63, neutral: 26, negative: 11 },
+    { country: "Francë",   flag: "🇫🇷", positive: 57, neutral: 33, negative: 10 },
+    { country: "Itali",    flag: "🇮🇹", positive: 72, neutral: 22, negative: 6  },
+  ],
+  [ // day % 7 === 3
+    { country: "Gjermani", flag: "🇩🇪", positive: 60, neutral: 29, negative: 11 },
+    { country: "SHBA",     flag: "🇺🇸", positive: 75, neutral: 19, negative: 6  },
+    { country: "Britani",  flag: "🇬🇧", positive: 58, neutral: 31, negative: 11 },
+    { country: "Francë",   flag: "🇫🇷", positive: 52, neutral: 37, negative: 11 },
+    { country: "Itali",    flag: "🇮🇹", positive: 67, neutral: 26, negative: 7  },
+  ],
+  [ // day % 7 === 4
+    { country: "Gjermani", flag: "🇩🇪", positive: 63, neutral: 26, negative: 11 },
+    { country: "SHBA",     flag: "🇺🇸", positive: 71, neutral: 23, negative: 6  },
+    { country: "Britani",  flag: "🇬🇧", positive: 65, neutral: 24, negative: 11 },
+    { country: "Francë",   flag: "🇫🇷", positive: 58, neutral: 32, negative: 10 },
+    { country: "Itali",    flag: "🇮🇹", positive: 73, neutral: 21, negative: 6  },
+  ],
+  [ // day % 7 === 5
+    { country: "Gjermani", flag: "🇩🇪", positive: 56, neutral: 31, negative: 13 },
+    { country: "SHBA",     flag: "🇺🇸", positive: 70, neutral: 23, negative: 7  },
+    { country: "Britani",  flag: "🇬🇧", positive: 60, neutral: 29, negative: 11 },
+    { country: "Francë",   flag: "🇫🇷", positive: 54, neutral: 36, negative: 10 },
+    { country: "Itali",    flag: "🇮🇹", positive: 69, neutral: 24, negative: 7  },
+  ],
+  [ // day % 7 === 6
+    { country: "Gjermani", flag: "🇩🇪", positive: 59, neutral: 28, negative: 13 },
+    { country: "SHBA",     flag: "🇺🇸", positive: 73, neutral: 21, negative: 6  },
+    { country: "Britani",  flag: "🇬🇧", positive: 62, neutral: 27, negative: 11 },
+    { country: "Francë",   flag: "🇫🇷", positive: 56, neutral: 34, negative: 10 },
+    { country: "Itali",    flag: "🇮🇹", positive: 71, neutral: 23, negative: 6  },
+  ],
+];
+
+export function getDailyToneStats() {
+  return TONE_STATS_BY_DAY[getDayOfYear() % TONE_STATS_BY_DAY.length];
+}
 
 export interface DiasporaArticle {
   id: string;
@@ -258,7 +357,7 @@ export const DIASPORA_ARTICLES: Record<string, DiasporaArticle[]> = {
       source: "DW",
       flag: "🇩🇪",
       excerpt: "Kosova ka bërë hapa të rëndësishëm drejt integrimit evropian, sipas analistëve gjermanë.",
-      href: "#",
+      href: "https://www.dw.com/search/?languageCode=en&item=kosovo",
     },
     {
       id: "d-de-2",
@@ -266,7 +365,7 @@ export const DIASPORA_ARTICLES: Record<string, DiasporaArticle[]> = {
       source: "Der Spiegel",
       flag: "🇩🇪",
       excerpt: "Rreth 300,000 kosovarë jetojnë në Gjermani — brezi i ri po ndërton identitetin e vet midis dy kulturave.",
-      href: "#",
+      href: "https://www.spiegel.de/thema/kosovo/",
     },
     {
       id: "d-de-3",
@@ -274,7 +373,7 @@ export const DIASPORA_ARTICLES: Record<string, DiasporaArticle[]> = {
       source: "Süddeutsche Zeitung",
       flag: "🇩🇪",
       excerpt: "Kompani gjermane fitojnë tenderin historik për ndërtimin e parkut të parë të erës në Kosovë.",
-      href: "#",
+      href: "https://www.sueddeutsche.de/thema/Kosovo",
     },
   ],
   zvicra: [
@@ -284,7 +383,7 @@ export const DIASPORA_ARTICLES: Record<string, DiasporaArticle[]> = {
       source: "NZZ",
       flag: "🇨🇭",
       excerpt: "Zvicra, si partnere e rëndësishme, ndjek me vëmendje procesin e integrimit të Kosovës në BE.",
-      href: "#",
+      href: "https://www.nzz.ch/international/",
     },
     {
       id: "d-ch-2",
@@ -292,7 +391,7 @@ export const DIASPORA_ARTICLES: Record<string, DiasporaArticle[]> = {
       source: "20 Minuten",
       flag: "🇨🇭",
       excerpt: "Diaspora kosovare në Zvicër dërgon mbi 400 milionë euro çdo vit — remitancat mbajnë familjet.",
-      href: "#",
+      href: "https://www.20min.ch/ausland/",
     },
     {
       id: "d-ch-3",
@@ -300,7 +399,7 @@ export const DIASPORA_ARTICLES: Record<string, DiasporaArticle[]> = {
       source: "Tages-Anzeiger",
       flag: "🇨🇭",
       excerpt: "Prishtina po bëhet qendër e teknologjisë në Ballkan — startupet tërheqin vëmendjen e investitorëve zviceranë.",
-      href: "#",
+      href: "https://www.tagesanzeiger.ch/ausland/",
     },
   ],
   italia: [
@@ -310,7 +409,7 @@ export const DIASPORA_ARTICLES: Record<string, DiasporaArticle[]> = {
       source: "La Repubblica",
       flag: "🇮🇹",
       excerpt: "Italia është ndër vendet që mbështesin fuqishëm rrugën e Kosovës drejt Bashkimit Evropian.",
-      href: "#",
+      href: "https://www.repubblica.it/esteri/",
     },
     {
       id: "d-it-2",
@@ -318,7 +417,7 @@ export const DIASPORA_ARTICLES: Record<string, DiasporaArticle[]> = {
       source: "Corriere della Sera",
       flag: "🇮🇹",
       excerpt: "Ekosistemi i startupeve në Prishtinë po tërheq vëmendjen e mediave italiane si model suksesi.",
-      href: "#",
+      href: "https://www.corriere.it/esteri/",
     },
     {
       id: "d-it-3",
@@ -326,7 +425,111 @@ export const DIASPORA_ARTICLES: Record<string, DiasporaArticle[]> = {
       source: "La Stampa",
       flag: "🇮🇹",
       excerpt: "Kinematografia kosovare merr vëmendjen ndërkombëtare — filmi 'Lumi i Bardhë' fiton Arinjin e Artë.",
-      href: "#",
+      href: "https://www.lastampa.it/esteri/",
+    },
+  ],
+  shba: [
+    {
+      id: "d-us-1",
+      title: "Kosovo's Path to NATO: Why Washington Remains Its Most Reliable Ally",
+      source: "AP",
+      flag: "🇺🇸",
+      excerpt: "SHBA mbetet garantuesi kryesor i sigurisë kosovare — roli amerikan në Ballkan po shtohet me investime dhe praninë diplomatike.",
+      href: "https://apnews.com/hub/kosovo",
+    },
+    {
+      id: "d-us-2",
+      title: "A Young Democracy's Fight: Kosovo's Anti-Corruption Push Under Kurti",
+      source: "New York Times",
+      flag: "🇺🇸",
+      excerpt: "Kurti's government earns praise from US observers for transparency reforms, even as critics warn of risks to regional stability.",
+      href: "https://www.nytimes.com/topic/destination/kosovo",
+    },
+    {
+      id: "d-us-3",
+      title: "Kosovo's Tech Boom: The Balkans' Unlikely Startup Success Story",
+      source: "Bloomberg",
+      flag: "🇺🇸",
+      excerpt: "Investitorët amerikanë po shikojnë nga Prishtina — ekosistemi i startupeve është rritur 60% brenda dy viteve.",
+      href: "https://www.bloomberg.com/europe",
+    },
+  ],
+  britania: [
+    {
+      id: "d-gb-1",
+      title: "Kosovo at a Crossroads: Europe's Youngest State Eyes EU Membership",
+      source: "The Guardian",
+      flag: "🇬🇧",
+      excerpt: "Britania vazhdon të mbështesë pavarësinë e Kosovës — Guardian ndjek nga afër rrugën e Kosovës drejt integrimit europian.",
+      href: "https://www.theguardian.com/world/kosovo",
+    },
+    {
+      id: "d-gb-2",
+      title: "Kosovo's Olympic Judokas Prove a Nation's Strength Goes Beyond Borders",
+      source: "BBC Sport",
+      flag: "🇬🇧",
+      excerpt: "Nora Gjakova dhe Distria Krasniqi bëjnë historinë — medaljet e arit olimpike vënë Kosovën në hartën sportive ndërkombëtare.",
+      href: "https://www.bbc.com/news/topics/cnx753jejyjt",
+    },
+    {
+      id: "d-gb-3",
+      title: "Kosovo's Council of Europe Bid: A Diplomatic Win Years in the Making",
+      source: "Reuters",
+      flag: "🇬🇧",
+      excerpt: "Anëtarësimi në Këshillin e Evropës shënon arritjen diplomatike më të madhe të Kosovës që nga shpallja e pavarësisë.",
+      href: "https://www.reuters.com/world/europe/",
+    },
+  ],
+  austria: [
+    {
+      id: "d-at-1",
+      title: "Kosovo auf dem Weg nach Brüssel: Wien setzt auf Dialog",
+      source: "Der Standard",
+      flag: "🇦🇹",
+      excerpt: "Austria mbështet integrimin e Kosovës — Vienna ka rolin e ndërmjetësit aktiv në dialogun Kosovë-Serbi.",
+      href: "https://www.derstandard.at/international",
+    },
+    {
+      id: "d-at-2",
+      title: "Kosovos Wirtschaft wächst — österreichische Firmen profitieren",
+      source: "Die Presse",
+      flag: "🇦🇹",
+      excerpt: "Kompanitë austriake janë ndër investitorët kryesorë në sektorin energjetik dhe ndërtimin e infrastrukturës kosovare.",
+      href: "https://www.diepresse.com/aussenpolitik",
+    },
+    {
+      id: "d-at-3",
+      title: "Pristina als Kulturhauptstadt: Kosovo entdeckt seine kreative Energie",
+      source: "ORF",
+      flag: "🇦🇹",
+      excerpt: "Prishtina po zhvillohet si qendër kulturore rajonale — kinema, muzikë dhe art bashkëkohor tërheqin vëmendjen europiane.",
+      href: "https://orf.at/stories/",
+    },
+  ],
+  suedia: [
+    {
+      id: "d-se-1",
+      title: "Kosovo och EU: En lång resa mot europeisk integration",
+      source: "SVT",
+      flag: "🇸🇪",
+      excerpt: "Suedia ka qenë ndër mbështetëset kryesore të Kosovës — anëtarësimi në Këshillin e Evropës shihet si hap historik.",
+      href: "https://www.svt.se/nyheter/utrikes/",
+    },
+    {
+      id: "d-se-2",
+      title: "Kosovos ungdomar bygger framtidens Balkan med teknik och innovation",
+      source: "Aftonbladet",
+      flag: "🇸🇪",
+      excerpt: "Brezi i ri kosovar po ndërton të ardhmen me teknologji — diaspora kosovare në Suedi është një urë e rëndësishme inovacioni.",
+      href: "https://www.aftonbladet.se/nyheter/",
+    },
+    {
+      id: "d-se-3",
+      title: "Kosovo: Landet som vill bli en del av Europa",
+      source: "Dagens Nyheter",
+      flag: "🇸🇪",
+      excerpt: "DN analizon rrugën e Kosovës — nga pavarësia drejt integrimit europian, sfida dhe mundësitë e vendit.",
+      href: "https://www.dn.se/varlden/",
     },
   ],
 };

@@ -1,9 +1,10 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { THROWBACK_ARTICLE } from "@/lib/mock-data";
+import { getDailyThrowback } from "@/lib/mock-data";
 
 export default function ThrowbackSection() {
+  const THROWBACK_ARTICLE = getDailyThrowback();
   return (
     <section style={{ marginBottom: "48px" }}>
       <motion.div
