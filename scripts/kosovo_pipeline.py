@@ -73,6 +73,15 @@ NEWS_SOURCES = [
     # ── Serbian sources — Kosovo topic (all get hostile bias) ─────────────────
     ("https://news.google.com/rss/search?q=Kosovo+OR+Kosova+when%3A1d&hl=sr&gl=RS&ceid=RS:sr",
      "_SERBIAN_GNEWS_", "🇷🇸", "hostile", True),
+    # ── Major international outlets (direct RSS) ──────────────────────────────
+    ("https://feeds.bbci.co.uk/news/world/europe/rss.xml",
+     "BBC",             "🇬🇧", "neutral", False),
+    ("https://feeds.reuters.com/reuters/worldNews",
+     "Reuters",         "🌍", "neutral", False),
+    ("https://www.rferl.org/api/z-_qopudvuqqu",
+     "RFE/RL",          "🌍", "neutral", False),
+    ("https://therundown.ai/feed",
+     "The Rundown AI",  "🤖", "neutral", True),
     # ── AI / Tech world news ──────────────────────────────────────────────────
     ("https://techcrunch.com/category/artificial-intelligence/feed/",
      "TechCrunch", "💻", "neutral", True),
@@ -381,15 +390,30 @@ Use "Showbiz" for celebrity, entertainment, music, film, and pop culture news.
 Use "Teknologji" for ALL AI, software, tech, and innovation news — NOT generic "AI is changing jobs" pieces.
 IMPORTANT: For AI/tech news, score SPECIFIC events highly: new model version released, company acquisition, CEO controversy, major investment. Vague trend articles score 1-4 and should be skipped.
 
-Albanian style rules — apply to title, excerpt, and body:
-- Write like a friend explaining news to another friend — simple, warm, direct
-- Short sentences: max 15 words each. Break long ideas into two sentences.
-- Active voice: "Qeveria vendosi" not "Vendimi u mor nga qeveria"
-- Avoid formal conjunctions: use "por" not "megjithatë", "sepse" not "për arsye se"
-- Prefer everyday words: "thotë" not "deklaron", "fillon" not "inicizon", "rritje" not "inkrement"
-- Headline: punchy, present-tense where possible — "Kurti takon Biden" not "Kryeministri Kurti ka realizuar një takim me presidentin Biden"
-- Excerpt: 2 crisp sentences a reader can skim in 5 seconds — no subordinate clauses
-- Body: start each paragraph differently; vary sentence length; no academic phrasing
+Albanian journalism rules — apply strictly to title, excerpt, and body:
+TITULLI (headline):
+- Present tense, max 10 words, punchy verb at the start
+- Use active strong verbs: "Shpërthen", "Rrëzohet", "Bëhet", "Zbulohet", "Thotë", "Sulmon"
+- "Kurti takon Biden" ✓ — "Kryeministri Kurti ka realizuar një takim" ✗
+- NEVER translate word-for-word from English — rewrite for Albanian impact
+
+EKSERPTI (excerpt — 2 sentences only):
+- Sentence 1: the single most surprising fact
+- Sentence 2: why the reader should care
+- No subordinate clauses. No "sipas burimeve", no "konfirmoi". Skim-readable in 4 seconds.
+
+BODY (minimum 200 words, ideally 300–400):
+- Paragraph 1: hook — most shocking or surprising detail first
+- Paragraph 2: context — who, what, when (keep it tight)
+- Paragraph 3: reaction or consequence — quote if available, otherwise implications
+- Paragraph 4: what happens next / reader takeaway
+- Vary sentence length: short puncher → longer explanation → short puncher
+- Each paragraph ends with a micro-hook that pulls the reader to the next paragraph
+- Active voice always: "Qeveria vendosi" not "Vendimi u mor nga qeveria"
+- Connectors: "por" not "megjithatë", "sepse" not "për arsye se", "thotë" not "deklaron"
+- Tech terms (AI, blockchain, API): keep English term, add Albanian clarification in parentheses on first use
+- Idioms and metaphors: adapt to Albanian equivalents, NEVER translate literally
+- Tone: warm, conversational — like a smart friend explaining news, not a press release
 
 Title: {title}
 Summary: {summary[:600]}"""
@@ -647,7 +671,7 @@ def main() -> None:
             "tone":           analysis.get("tone", "neutral"),
             "category":       analysis.get("category", "Botë"),
             "published_at":   pub_dt.isoformat(),
-            "reading_time":   max(1, len(body.split()) // 200),
+            "reading_time":   max(1, round(len(body.split()) / 200)),
             "featured":       featured,
             "engagement_score": round(score, 1),
             "score_reason":   analysis.get("reason", ""),
