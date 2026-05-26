@@ -146,7 +146,7 @@ export default function DiasporaSeries() {
                 }}
               >
                 {/* Source badge */}
-                <div style={{ flexShrink: 0 }}>
+                <div style={{ flexShrink: 0, width: "120px", overflow: "hidden" }}>
                   <span
                     style={{
                       display: "inline-flex",

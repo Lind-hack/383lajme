@@ -92,8 +92,9 @@ export default function ColorSpotlight({ articles, category, label }: ColorSpotl
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+              style={{ height: "100%" }}
             >
-              <Link href={`/article/${article.slug}`} style={{ textDecoration: "none" }}>
+              <Link href={`/article/${article.slug}`} style={{ textDecoration: "none", display: "block", height: "100%" }}>
                 <motion.div
                   whileHover={{ y: -4, boxShadow: "0 16px 40px rgba(0,0,0,0.25)" }}
                   transition={{ duration: 0.25 }}
@@ -103,7 +104,7 @@ export default function ColorSpotlight({ articles, category, label }: ColorSpotl
                     padding: "24px",
                     cursor: "pointer",
                     boxShadow: "0 4px 20px rgba(0,0,0,0.15)",
-                    minHeight: "200px",
+                    height: "100%",
                     display: "flex",
                     flexDirection: "column",
                   }}
@@ -144,7 +145,10 @@ export default function ColorSpotlight({ articles, category, label }: ColorSpotl
                       color: "#111111",
                       margin: "0 0 10px",
                       letterSpacing: "-0.01em",
-                      flex: 1,
+                      display: "-webkit-box",
+                      WebkitLineClamp: 3,
+                      WebkitBoxOrient: "vertical",
+                      overflow: "hidden",
                     }}
                   >
                     {article.title}
@@ -154,6 +158,7 @@ export default function ColorSpotlight({ articles, category, label }: ColorSpotl
                       fontSize: "12px",
                       color: "#6B6B6B",
                       fontWeight: 500,
+                      marginTop: "auto",
                     }}
                   >
                     {article.source} · {timeAgo(article.publishedAt)} më parë
