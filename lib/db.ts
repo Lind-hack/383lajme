@@ -25,7 +25,7 @@ function getDb() {
 }
 
 const AUTO_DIR = path.join(process.cwd(), "data", "auto-articles");
-const MAX_AUTO_AGE_MS = 48 * 60 * 60 * 1000;
+const MAX_AUTO_AGE_MS = 24 * 60 * 60 * 1000;
 
 function mapAutoRow(a: Record<string, unknown>): Article {
   return {

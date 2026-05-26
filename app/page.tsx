@@ -35,8 +35,8 @@ export default async function HomePage() {
     articles.find((a) => a.id !== heroId) ??
     hero;
 
-  // Tier 2: NJOFTIME — score ≥ 7.5, not hero, up to 6, deduped by keyword overlap
-  const njoftimePool = articles.filter((a) => a.id !== heroId && (a.engagementScore ?? 0) >= 7.5);
+  // Tier 2: NJOFTIME — score ≥ 7.0, not hero, up to 10, deduped by keyword overlap
+  const njoftimePool = articles.filter((a) => a.id !== heroId && (a.engagementScore ?? 0) >= 7.0);
   const njoftimeArticles: typeof articles = [];
   const njoftimeKws: Set<string>[] = [];
   for (const a of njoftimePool) {
@@ -44,7 +44,7 @@ export default async function HomePage() {
     if (njoftimeKws.some((rk) => [...kws].filter((w) => rk.has(w)).length >= 3)) continue;
     njoftimeArticles.push(a);
     njoftimeKws.push(kws);
-    if (njoftimeArticles.length >= 6) break;
+    if (njoftimeArticles.length >= 10) break;
   }
 
   // Tier 3: KRYESORE — remaining after hero + njoftime, first 6
