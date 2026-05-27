@@ -8,6 +8,7 @@ on:
 jobs:
   fetch:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     permissions:
       contents: write         # needed to git push the JSON articles back
 
@@ -17,16 +18,18 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Install Python deps
-        run: pip install feedparser requests beautifulsoup4 python-slugify
+        run: pip install feedparser requests beautifulsoup4 python-slugify python-dotenv
 
       - name: Run Kosovo pipeline
         env:
-          GOOGLE_AI_API_KEY:  ${{ secrets.GOOGLE_AI_API_KEY }}
-          PEXELS_API_KEY:     ${{ secrets.PEXELS_API_KEY }}
-          GMAIL_USER:         ${{ secrets.GMAIL_USER }}
-          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
-          REMOVE_SECRET:      ${{ secrets.REMOVE_SECRET }}
-          SITE_URL:           ${{ secrets.SITE_URL }}
+          GOOGLE_AI_API_KEY:    ${{ secrets.GOOGLE_AI_API_KEY }}
+          GOOGLE_SEARCH_API_KEY: ${{ secrets.GOOGLE_SEARCH_API_KEY }}
+          GOOGLE_CSE_ID:        ${{ secrets.GOOGLE_CSE_ID }}
+          PEXELS_API_KEY:       ${{ secrets.PEXELS_API_KEY }}
+          GMAIL_USER:           ${{ secrets.GMAIL_USER }}
+          GMAIL_APP_PASSWORD:   ${{ secrets.GMAIL_APP_PASSWORD }}
+          REMOVE_SECRET:        ${{ secrets.REMOVE_SECRET }}
+          SITE_URL:             ${{ secrets.SITE_URL }}
         run: python -u scripts/kosovo_pipeline.py
 
       - name: Commit new articles
@@ -34,8 +37,10 @@ jobs:
           git config user.name "383 News Bot"
           git config user.email "bot@383news.com"
           git add data/auto-articles/
-          git diff --staged --quiet || (
-            git commit -m "chore: Kosovo news $(date -u +%Y-%m-%dT%H:%M)" &&
-            git pull --rebase origin main &&
+          if git diff --staged --quiet; then
+            echo "Nothing to commit"
+          else
+            git commit -m "chore: Kosovo news $(date -u +%Y-%m-%dT%H:%M)"
+            git pull --rebase origin main
             git push
-          )
+          fi

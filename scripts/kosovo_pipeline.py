@@ -33,6 +33,8 @@ except ImportError:
 
 # ── Config ────────────────────────────────────────────────────────────────────
 GOOGLE_AI_API_KEY  = os.environ.get("GOOGLE_AI_API_KEY", "")
+GOOGLE_SEARCH_KEY  = os.environ.get("GOOGLE_SEARCH_API_KEY", "")
+GOOGLE_CSE_ID      = os.environ.get("GOOGLE_CSE_ID", "")
 PEXELS_API_KEY     = os.environ.get("PEXELS_API_KEY", "")
 GMAIL_USER         = os.environ.get("GMAIL_USER", "")
 GMAIL_APP_PASSWORD = os.environ.get("GMAIL_APP_PASSWORD", "")
@@ -42,7 +44,7 @@ RECIPIENT_EMAIL    = "lindsylqa@gmail.com"
 GEMMA_URL          = "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions"
 GEMMA_MODEL        = "gemma-4-31b-it"
 MAX_AGE_HOURS      = 48
-MAX_PER_RUN        = 25
+MAX_PER_RUN        = 15
 AI_CAP             = 8
 
 SCRIPT_DIR  = Path(__file__).parent
@@ -108,6 +110,28 @@ NEWS_SOURCES = [
     # Mira Murati — Albanian AI founder, high interest for Kosovo readers
     ("https://news.google.com/rss/search?q=%22Mira+Murati%22+when%3A14d&hl=en-US&gl=US&ceid=US:en",
      "AI News", "🤖", "neutral", True),
+    # ── Major international outlets (direct RSS) — full-coverage trusted sources ─
+    ("https://rss.dw.com/rdf/rss-en-europe",
+     "DW",          "🇩🇪", "neutral", False),
+    ("https://www.theguardian.com/world/rss",
+     "Guardian",    "🇬🇧", "neutral", False),
+    ("https://www.aljazeera.com/xml/rss/all.xml",
+     "Al Jazeera",  "🌍", "neutral", False),
+    ("https://www.france24.com/en/europe/rss",
+     "France 24",   "🇫🇷", "neutral", False),
+    ("https://www.euronews.com/rss?format=mrss&level=theme&name=news",
+     "Euronews",    "🇪🇺", "neutral", False),
+    ("https://apnews.com/rss/apf-europe",
+     "AP",          "🇺🇸", "neutral", False),
+    ("https://www.technologyreview.com/feed/",
+     "MIT Tech Review", "💻", "neutral", True),
+    # Kosovo-specific high-signal queries
+    ("https://news.google.com/rss/search?q=%22Albin+Kurti%22+when%3A3d&hl=en-US&gl=US&ceid=US:en",
+     "_GNEWS_EXTRACT_", "🌍", "neutral", True),
+    ("https://news.google.com/rss/search?q=%22Pristina%22+OR+%22Prishtina%22+EU+when%3A2d&hl=en-US&gl=US&ceid=US:en",
+     "_GNEWS_EXTRACT_", "🌍", "neutral", True),
+    ("https://news.google.com/rss/search?q=Kosovo+Belgrade+when%3A3d&hl=en-US&gl=US&ceid=US:en",
+     "_GNEWS_EXTRACT_", "🌍", "neutral", True),
 ]
 
 # Local Kosovo outlets to skip from the generic Google News search — they publish in
@@ -368,6 +392,12 @@ def analyze_and_translate(title: str, summary: str) -> dict | None:
 Return ONLY this JSON (no markdown, no explanation):
 {{
   "score": 8.2,
+  "breakdown": {{
+    "relevance": 9,
+    "urgency": 8,
+    "interest": 8,
+    "credibility": 9
+  }},
   "featured": false,
   "category": "Politikë",
   "breaking": false,
@@ -378,6 +408,13 @@ Return ONLY this JSON (no markdown, no explanation):
   "tone": "neutral",
   "source_bias": "neutral"
 }}
+
+breakdown field meanings (each 1-10):
+- relevance: how directly relevant to Kosovo / Kosovo readers
+- urgency: time sensitivity / breaking potential
+- interest: will Kosovo readers share or discuss this?
+- credibility: source quality — trusted outlet, direct reporting?
+The final score should be approximately the average of these four.
 
 Categories: Politikë, Ekonomi, Botë, Siguri, Teknologji, Showbiz
 Score guide:
@@ -418,17 +455,17 @@ BODY (minimum 200 words, ideally 300–400):
 Title: {title}
 Summary: {summary[:600]}"""
 
-    for attempt in range(3):
+    for attempt in range(2):
         try:
             raw = _gemma([{"role": "user", "content": prompt}], max_tokens=4096, temperature=0.55)
             return _parse_json(raw)
         except Exception as e:
-            if attempt < 2:
-                wait = 4 * (attempt + 1)
+            if attempt < 1:
+                wait = 4
                 print(f"  analyze_and_translate attempt {attempt + 1} failed: {e} — retrying in {wait}s")
                 time.sleep(wait)
             else:
-                print(f"  analyze_and_translate failed after 3 attempts: {e} — skipping article")
+                print(f"  analyze_and_translate failed after 2 attempts: {e} — skipping article")
                 return None
 
 
@@ -442,13 +479,22 @@ CAT_QUERIES: dict[str, str] = {
     "Showbiz":    "celebrity entertainment concert stage",
 }
 
+SCENE_MAP: dict[str, str] = {
+    "Politikë":   "Kosovo parliament politicians formal meeting press conference",
+    "Siguri":     "security forces police military checkpoint Kosovo",
+    "Ekonomi":    "Kosovo economy business finance professional meeting",
+    "Teknologji": "technology artificial intelligence computer screens modern office",
+    "Botë":       "international diplomacy world leaders formal summit",
+    "Showbiz":    "concert stage performance entertainment celebrity spotlight",
+}
+
 
 def get_image(article_url: str, title: str, raw_image: str | None, category: str = "") -> str:
-    # 0. Use raw_image from feed if it's not Google's hotlink-blocked CDN
+    # Tier 0 — Raw feed image (not Google CDN)
     if raw_image and "googleusercontent.com" not in raw_image and raw_image.startswith("http"):
         return raw_image
 
-    # 1. Resolve Google News redirect to the actual article URL
+    # Resolve Google News redirect → actual article URL
     actual_url = article_url
     if "news.google.com" in article_url:
         try:
@@ -461,20 +507,43 @@ def get_image(article_url: str, title: str, raw_image: str | None, category: str
         except Exception:
             pass
 
-    # 2. Scrape og:image from the real article page
+    # Tier 1 — Scrape article page: multiple meta tags + first article <img>
     try:
-        r = requests.get(actual_url, timeout=8, headers={"User-Agent": "Mozilla/5.0"})
+        r = requests.get(actual_url, timeout=45, headers={"User-Agent": "Mozilla/5.0"})
         if r.status_code == 200:
             soup = BeautifulSoup(r.text, "html.parser")
-            og = soup.find("meta", property="og:image")
-            if og and og.get("content"):
-                img = og["content"]
-                if "googleusercontent.com" not in img:
-                    return img
+            for prop in ["og:image", "twitter:image", "og:image:secure_url"]:
+                tag = soup.find("meta", property=prop) or soup.find("meta", attrs={"name": prop})
+                if tag and tag.get("content"):
+                    img = tag["content"]
+                    if img.startswith("http") and "googleusercontent.com" not in img:
+                        return img
+            for el in soup.select("article img, main img, .article-body img"):
+                src = el.get("src") or el.get("data-src", "")
+                if src and src.startswith("http") and any(ext in src for ext in [".jpg", ".jpeg", ".png", ".webp"]):
+                    return src
     except Exception:
         pass
 
-    # 3. Pexels API — category-aware query, no random pagination
+    # Tier 2 — Google Custom Search Images
+    if GOOGLE_SEARCH_KEY and GOOGLE_CSE_ID:
+        try:
+            query = f"{title[:60]} Kosovo" if "Kosovo" not in title else title[:60]
+            r = requests.get(
+                "https://www.googleapis.com/customsearch/v1",
+                params={
+                    "key": GOOGLE_SEARCH_KEY, "cx": GOOGLE_CSE_ID, "q": query,
+                    "searchType": "image", "num": 3, "imgType": "news", "safe": "active",
+                },
+                timeout=10,
+            )
+            items = r.json().get("items", [])
+            if items:
+                return items[0]["link"]
+        except Exception:
+            pass
+
+    # Tier 3 — Pexels API
     if PEXELS_API_KEY:
         try:
             cat_base = CAT_QUERIES.get(category, "Kosovo news")
@@ -493,9 +562,13 @@ def get_image(article_url: str, title: str, raw_image: str | None, category: str
         except Exception:
             pass
 
-    # 4. Pollinations.ai — completely free, no API key needed
-    prompt = urllib.parse.quote(f"Kosovo news {title[:60]}, press photo")
-    return f"https://image.pollinations.ai/prompt/{prompt}?width=1200&height=630&nologo=true"
+    # Tier 4 — Pollinations.ai AI generation with category-aware scene prompt
+    scene = SCENE_MAP.get(category, "Kosovo city street people daily life")
+    nouns = [w for w in re.findall(r"[A-Z][a-z]{4,}", title)][:3]
+    entity_hint = " ".join(nouns) if nouns else ""
+    ai_prompt = f"{scene} {entity_hint}, professional editorial news photography, Reuters AP style, sharp focus, photorealistic"
+    encoded = urllib.parse.quote(ai_prompt[:200])
+    return f"https://image.pollinations.ai/prompt/{encoded}?width=1200&height=630&nologo=true&model=flux"
 
 
 # ── YouTube clip search ───────────────────────────────────────────────────────
@@ -536,13 +609,27 @@ def send_email(articles: list[dict], out_filename: str) -> None:
             breaking_badge = '<span style="background:#FF4422;color:#fff;font-size:10px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;padding:2px 8px;border-radius:12px;margin-right:8px;">BREAKING</span>'
 
         score_color = "#FF4422" if score >= 9 else "#f0c040" if score >= 7.5 else "#aaaaaa"
+        breakdown = a.get("score_breakdown", {})
 
         remove_btn = ""
         if REMOVE_SECRET and SITE_URL:
             remove_url = f"{SITE_URL}/api/remove?id={a['id']}&file={out_filename}&secret={REMOVE_SECRET}"
             remove_btn = f'&nbsp;&nbsp;&nbsp;<a href="{remove_url}" style="color:#ff6b6b;font-size:12px;text-decoration:none;">🗑 Hiq nga faqja</a>'
 
-        reason_row = f'<div style="font-size:13px;color:#999;font-style:italic;margin-bottom:10px;line-height:1.4;">{reason}</div>' if reason else ""
+        breakdown_html = ""
+        if breakdown:
+            r_v = breakdown.get("relevance", "?")
+            u_v = breakdown.get("urgency", "?")
+            i_v = breakdown.get("interest", "?")
+            c_v = breakdown.get("credibility", "?")
+            breakdown_html = f"""<div style="display:grid;grid-template-columns:1fr 1fr;gap:3px 16px;margin:6px 0 8px;font-size:11px;color:#777;">
+              <span>🗺 Relevanca: <b style="color:#ccc">{r_v}/10</b></span>
+              <span>⚡ Urgjenca: <b style="color:#ccc">{u_v}/10</b></span>
+              <span>💬 Interesi: <b style="color:#ccc">{i_v}/10</b></span>
+              <span>✅ Kredibiliteti: <b style="color:#ccc">{c_v}/10</b></span>
+            </div>"""
+
+        reason_row = f'<div style="font-size:12px;color:#999;font-style:italic;margin-bottom:10px;line-height:1.4;">{reason}</div>' if reason else ""
 
         rows.append(f"""
         <tr>
@@ -554,6 +641,7 @@ def send_email(articles: list[dict], out_filename: str) -> None:
               <span style="font-size:11px;color:#666;margin-left:4px;">• {category} • {source}</span>
             </div>
             <div style="font-size:16px;font-weight:700;color:#ffffff;margin-bottom:8px;line-height:1.35;">{a['title']}</div>
+            {breakdown_html}
             {reason_row}
             <div style="font-size:13px;">
               <a href="{a.get('url', '')}" style="color:#4af;text-decoration:none;">→ Artikulli origjinal</a>
@@ -635,7 +723,6 @@ def main() -> None:
             continue
 
         analysis = analyze_and_translate(title_en, summary)
-        time.sleep(1)  # throttle Groq to prevent 429 bursts
         if analysis is None:
             print(f"  [SKIP] {title_en[:70]}")
             continue
@@ -675,6 +762,7 @@ def main() -> None:
             "featured":       featured,
             "engagement_score": round(score, 1),
             "score_reason":   analysis.get("reason", ""),
+            "score_breakdown": analysis.get("breakdown", {}),
             "image_url":      image_url,
             "video_clip_url": video_clip_url,
             "created_at":     datetime.now(timezone.utc).isoformat(),
