@@ -19,6 +19,7 @@ from pathlib import Path
 
 import html
 import random
+import socket
 import time
 
 import feedparser
@@ -251,7 +252,9 @@ def build_covered_set() -> list[set[str]]:
     covered: list[set[str]] = []
     for url in DEDUP_FEEDS:
         try:
+            socket.setdefaulttimeout(15)
             feed = feedparser.parse(url, request_headers={"User-Agent": "Mozilla/5.0"})
+            socket.setdefaulttimeout(None)
             for entry in feed.entries[:40]:
                 if is_recent(entry):
                     kws = _kw(entry.get("title", ""))
@@ -300,7 +303,9 @@ def fetch_candidates(seen_urls: set[str]) -> list[dict]:
     candidates: list[dict] = []
     for feed_url, source, flag, bias, kosovo_exclusive in NEWS_SOURCES:
         try:
+            socket.setdefaulttimeout(15)
             feed = feedparser.parse(feed_url, request_headers={"User-Agent": "Mozilla/5.0"})
+            socket.setdefaulttimeout(None)
             for entry in feed.entries[:40]:
                 url = entry.get("link", "")
                 if not url or url in seen_urls:
