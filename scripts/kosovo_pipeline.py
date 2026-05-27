@@ -746,7 +746,7 @@ def main() -> None:
     for f in OUTPUT_DIR.glob("*.json"):
         try:
             for a in json.loads(f.read_text(encoding="utf-8")):
-                img = a.get("image", "")
+                img = a.get("image_url", "")
                 if img and img.startswith("http"):
                     used_images.add(img)
         except Exception:

@@ -1,9 +1,9 @@
 import { type NextRequest, NextResponse } from "next/server";
+import fs from "fs";
+import path from "path";
 
-const GITHUB_TOKEN  = process.env.GITHUB_PAT ?? "";
 const REMOVE_SECRET = process.env.REMOVE_SECRET ?? "";
-const GITHUB_REPO   = "Lind-hack/383lajme";
-const FILE_PREFIX   = "data/auto-articles";
+const AUTO_DIR = path.join(process.cwd(), "data", "auto-articles");
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
@@ -20,25 +20,16 @@ export async function GET(request: NextRequest) {
   if (!id) {
     return new NextResponse("Missing id", { status: 400 });
   }
-  if (!GITHUB_TOKEN) {
-    return new NextResponse("GitHub token not configured", { status: 500 });
+
+  const filePath = path.join(AUTO_DIR, file);
+  if (!fs.existsSync(filePath)) {
+    return new NextResponse(page("Artikulli nuk u gjet."), {
+      status: 200,
+      headers: { "Content-Type": "text/html; charset=utf-8" },
+    });
   }
 
-  const filePath = `${FILE_PREFIX}/${file}`;
-  const apiUrl   = `https://api.github.com/repos/${GITHUB_REPO}/contents/${filePath}`;
-  const headers  = {
-    Authorization: `Bearer ${GITHUB_TOKEN}`,
-    Accept: "application/vnd.github+json",
-  };
-
-  const getResp = await fetch(apiUrl, { headers });
-  if (!getResp.ok) {
-    return new NextResponse(`GitHub GET failed: ${getResp.status}`, { status: 502 });
-  }
-
-  const fileData = (await getResp.json()) as { content: string; sha: string };
-  const decoded  = Buffer.from(fileData.content, "base64").toString("utf-8");
-  const articles = JSON.parse(decoded) as Array<Record<string, unknown>>;
+  const articles = JSON.parse(fs.readFileSync(filePath, "utf-8")) as Array<Record<string, unknown>>;
   const filtered = articles.filter((a) => a.id !== id);
 
   if (filtered.length === articles.length) {
@@ -48,24 +39,10 @@ export async function GET(request: NextRequest) {
     });
   }
 
-  const updated = Buffer.from(JSON.stringify(filtered, null, 2), "utf-8").toString("base64");
-  const putResp = await fetch(apiUrl, {
-    method: "PUT",
-    headers: { ...headers, "Content-Type": "application/json" },
-    body: JSON.stringify({
-      message: `chore: remove article ${id} via one-click`,
-      content: updated,
-      sha: fileData.sha,
-    }),
-  });
-
-  if (!putResp.ok) {
-    const err = await putResp.text();
-    return new NextResponse(`GitHub PUT failed: ${putResp.status} — ${err}`, { status: 502 });
-  }
+  fs.writeFileSync(filePath, JSON.stringify(filtered, null, 2), "utf-8");
 
   return new NextResponse(
-    page("Artikulli u hoq me sukses. Faqja do të përditësohet brenda ~90 sekondave."),
+    page("Artikulli u hoq me sukses. Faqja do të përditësohet menjëherë."),
     { status: 200, headers: { "Content-Type": "text/html; charset=utf-8" } },
   );
 }
