@@ -523,9 +523,10 @@ SCENE_MAP: dict[str, str] = {
 }
 
 
-def get_image(article_url: str, title: str, raw_image: str | None, category: str = "") -> str:
-    # Tier 0 — Raw feed image (not Google CDN)
-    if raw_image and "googleusercontent.com" not in raw_image and raw_image.startswith("http"):
+def get_image(article_url: str, title: str, raw_image: str | None, category: str = "", used_images: set | None = None) -> str:
+    used_images = used_images or set()
+    # Tier 0 — Raw feed image (not Google CDN, not already used)
+    if raw_image and "googleusercontent.com" not in raw_image and raw_image.startswith("http") and raw_image not in used_images:
         return raw_image
 
     # Resolve Google News redirect → actual article URL
@@ -550,11 +551,11 @@ def get_image(article_url: str, title: str, raw_image: str | None, category: str
                 tag = soup.find("meta", property=prop) or soup.find("meta", attrs={"name": prop})
                 if tag and tag.get("content"):
                     img = tag["content"]
-                    if img.startswith("http") and "googleusercontent.com" not in img:
+                    if img.startswith("http") and "googleusercontent.com" not in img and img not in used_images:
                         return img
             for el in soup.select("article img, main img, .article-body img"):
                 src = el.get("src") or el.get("data-src", "")
-                if src and src.startswith("http") and any(ext in src for ext in [".jpg", ".jpeg", ".png", ".webp"]):
+                if src and src.startswith("http") and any(ext in src for ext in [".jpg", ".jpeg", ".png", ".webp"]) and src not in used_images:
                     return src
     except Exception:
         pass
@@ -577,7 +578,7 @@ def get_image(article_url: str, title: str, raw_image: str | None, category: str
         except Exception:
             pass
 
-    # Tier 3 — Pexels API
+    # Tier 3 — Pexels API (skip already-used photos)
     if PEXELS_API_KEY:
         try:
             cat_base = CAT_QUERIES.get(category, "Kosovo news")
@@ -587,12 +588,14 @@ def get_image(article_url: str, title: str, raw_image: str | None, category: str
             r = requests.get(
                 "https://api.pexels.com/v1/search",
                 headers={"Authorization": PEXELS_API_KEY},
-                params={"query": query, "per_page": 5, "orientation": "landscape", "page": 1},
+                params={"query": query, "per_page": 10, "orientation": "landscape", "page": 1},
                 timeout=10,
             )
             photos = r.json().get("photos", [])
-            if photos:
-                return photos[0]["src"]["large"]
+            for photo in photos:
+                img = photo["src"]["large"]
+                if img not in used_images:
+                    return img
         except Exception:
             pass
 
@@ -740,6 +743,7 @@ def main() -> None:
 
     results: list[dict] = []
     accepted_kws: list[set[str]] = []
+    used_images: set[str] = set()
     for c in candidates:
         if len(results) >= MAX_PER_RUN:
             break
@@ -768,7 +772,8 @@ def main() -> None:
 
         print(f"  [OK  {score:.1f}] {title_en[:70]}")
 
-        image_url = get_image(c["url"], title_en, c.get("raw_image"), analysis.get("category", ""))
+        image_url = get_image(c["url"], title_en, c.get("raw_image"), analysis.get("category", ""), used_images)
+        used_images.add(image_url)
 
         article_title = analysis.get("title", title_en)
         video_clip_url = search_youtube_clip(article_title[:80])
