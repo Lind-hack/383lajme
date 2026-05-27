@@ -741,9 +741,20 @@ def main() -> None:
     candidates = fetch_candidates(seen_urls)
     print(f"  {len(candidates)} fresh Kosovo candidates")
 
+    # Seed used_images from previous runs so same photo isn't reused across hourly jobs
+    used_images: set[str] = set()
+    for f in OUTPUT_DIR.glob("*.json"):
+        try:
+            for a in json.loads(f.read_text(encoding="utf-8")):
+                img = a.get("image", "")
+                if img and img.startswith("http"):
+                    used_images.add(img)
+        except Exception:
+            pass
+    print(f"  {len(used_images)} images already used in existing articles")
+
     results: list[dict] = []
     accepted_kws: list[set[str]] = []
-    used_images: set[str] = set()
     for c in candidates:
         if len(results) >= MAX_PER_RUN:
             break
