@@ -6,6 +6,10 @@ local outlets (Telegrafi, Koha), scores for engagement, generates Albanian
 content, finds/generates images, writes JSON, sends email notification.
 """
 
+import sys
+sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+
 import os
 import json
 import re
@@ -22,6 +26,20 @@ import random
 import socket
 import time
 
+# Load .env for local dev — try scripts/.env first, then Desktop/claude/.env as fallback
+try:
+    from dotenv import load_dotenv
+    _env_paths = [
+        Path(__file__).parent / ".env",
+        Path.home() / "Desktop" / "claude" / ".env",
+    ]
+    for _p in _env_paths:
+        if _p.exists():
+            load_dotenv(_p, override=False)
+            break
+except ImportError:
+    pass
+
 import feedparser
 import requests
 from bs4 import BeautifulSoup
@@ -34,6 +52,7 @@ except ImportError:
 
 # ── Config ────────────────────────────────────────────────────────────────────
 GOOGLE_AI_API_KEY  = os.environ.get("GOOGLE_AI_API_KEY", "")
+GROQ_API_KEY       = os.environ.get("GROQ_API_KEY", "")
 GOOGLE_SEARCH_KEY  = os.environ.get("GOOGLE_SEARCH_API_KEY", "")
 GOOGLE_CSE_ID      = os.environ.get("GOOGLE_CSE_ID", "")
 PEXELS_API_KEY     = os.environ.get("PEXELS_API_KEY", "")
@@ -42,8 +61,18 @@ GMAIL_APP_PASSWORD = os.environ.get("GMAIL_APP_PASSWORD", "")
 REMOVE_SECRET      = os.environ.get("REMOVE_SECRET", "")
 SITE_URL           = os.environ.get("SITE_URL", "https://383lajme.vercel.app")
 RECIPIENT_EMAIL    = "lindsylqa@gmail.com"
-GEMMA_URL          = "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions"
-GEMMA_MODEL        = "gemma-4-31b-it"
+# LLM provider: prefer GROQ (free, no country restriction) → fall back to Gemini
+if GROQ_API_KEY:
+    LLM_URL   = "https://api.groq.com/openai/v1/chat/completions"
+    LLM_MODEL = "llama-3.3-70b-versatile"
+    LLM_KEY   = GROQ_API_KEY
+else:
+    LLM_URL   = "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions"
+    LLM_MODEL = "gemini-2.0-flash"
+    LLM_KEY   = GOOGLE_AI_API_KEY
+# Legacy aliases kept for backward compat
+GEMMA_URL   = LLM_URL
+GEMMA_MODEL = LLM_MODEL
 MAX_AGE_HOURS      = 48
 MAX_PER_RUN        = 15
 AI_CAP             = 8
@@ -363,12 +392,12 @@ def fetch_candidates(seen_urls: set[str]) -> list[dict]:
     return candidates
 
 
-# ── Google Gemma 4 API ────────────────────────────────────────────────────────
+# ── LLM API (GROQ primary, Gemini fallback) ───────────────────────────────────
 def _gemma(messages: list[dict], max_tokens: int = 1024, temperature: float = 0.3) -> str:
     resp = requests.post(
-        GEMMA_URL,
-        headers={"Authorization": f"Bearer {GOOGLE_AI_API_KEY}", "Content-Type": "application/json"},
-        json={"model": GEMMA_MODEL, "messages": messages, "max_tokens": max_tokens, "temperature": temperature},
+        LLM_URL,
+        headers={"Authorization": f"Bearer {LLM_KEY}", "Content-Type": "application/json"},
+        json={"model": LLM_MODEL, "messages": messages, "max_tokens": max_tokens, "temperature": temperature},
         timeout=60,
     )
     resp.raise_for_status()
