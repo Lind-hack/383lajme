@@ -55,5 +55,10 @@ jobs:
           echo "committed=true" >> $GITHUB_OUTPUT
 
       - name: Trigger Vercel deploy
-        if: steps.commit.outputs.committed == 'true' && secrets.VERCEL_DEPLOY_HOOK_URL != ''
-        run: curl -sX POST "${{ secrets.VERCEL_DEPLOY_HOOK_URL }}"
+        if: steps.commit.outputs.committed == 'true'
+        env:
+          VERCEL_DEPLOY_HOOK_URL: ${{ secrets.VERCEL_DEPLOY_HOOK_URL }}
+        run: |
+          if [ -n "$VERCEL_DEPLOY_HOOK_URL" ]; then
+            curl -sX POST "$VERCEL_DEPLOY_HOOK_URL"
+          fi
