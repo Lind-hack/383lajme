@@ -481,9 +481,9 @@ Return ONLY this JSON (no markdown, no explanation):
   "category": "Politikë",
   "breaking": false,
   "reason": "one sentence why this score, mentioning source tier",
-  "title": "Albanian headline (max 15 words)",
-  "excerpt": "2-3 sentence Albanian lead",
-  "body": "full Albanian article 4-5 paragraphs ~300 words",
+  "title": "Albanian TikTok-hook headline: context + curiosity gap, max 18 words",
+  "excerpt": "exactly 2 sentences: fact + Kosovo impact, max 25 words each",
+  "body": "full Albanian article 4-5 paragraphs 500-600 words, coherent with title",
   "tone": "neutral",
   "source_bias": "neutral"
 }}
