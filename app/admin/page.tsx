@@ -37,17 +37,24 @@ function loadArticlesWithFiles(): AdminArticle[] {
   return results;
 }
 
-export default async function AdminPage() {
+export default async function AdminPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ id?: string }>;
+}) {
   const cookieStore = await cookies();
   const session = cookieStore.get("admin_auth")?.value ?? "";
   const isAuthed = Boolean(ADMIN_SECRET && session === ADMIN_SECRET);
+
+  const params = await searchParams;
+  const initialEditId = params.id ?? undefined;
 
   if (!isAuthed) {
     return <LoginScreen />;
   }
 
   const articles = loadArticlesWithFiles();
-  return <AdminClient articles={articles} />;
+  return <AdminClient articles={articles} initialEditId={initialEditId} />;
 }
 
 function LoginScreen() {
@@ -117,8 +124,8 @@ function LoginScreen() {
           dangerouslySetInnerHTML={{
             __html: `
               async function doLogin() {
-                const pw = document.getElementById('pw-input').value;
-                const res = await fetch('/api/admin/login', {
+                var pw = document.getElementById('pw-input').value;
+                var res = await fetch('/api/admin/login', {
                   method: 'POST',
                   headers: { 'Content-Type': 'application/json' },
                   body: JSON.stringify({ password: pw })

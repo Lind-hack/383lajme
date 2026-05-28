@@ -1,17 +1,13 @@
 import { type NextRequest, NextResponse } from "next/server";
-import fs from "fs";
-import path from "path";
 import { cookies } from "next/headers";
+import { readArticlesFromDisk, writeArticles } from "@/lib/github-articles";
 
 const ADMIN_SECRET = process.env.ADMIN_SECRET ?? "";
-const AUTO_DIR = path.join(process.cwd(), "data", "auto-articles");
 
 async function isAuthed(req: NextRequest): Promise<boolean> {
-  // cookie auth (admin panel)
   const cookieStore = await cookies();
   const sessionCookie = cookieStore.get("admin_auth")?.value ?? "";
   if (ADMIN_SECRET && sessionCookie === ADMIN_SECRET) return true;
-  // URL secret auth (legacy email links)
   const urlSecret = req.nextUrl.searchParams.get("secret") ?? "";
   if (ADMIN_SECRET && urlSecret === ADMIN_SECRET) return true;
   return false;
@@ -36,12 +32,11 @@ export async function PATCH(request: NextRequest) {
     return NextResponse.json({ error: "Invalid file" }, { status: 400 });
   }
 
-  const filePath = path.join(AUTO_DIR, file);
-  if (!fs.existsSync(filePath)) {
+  const articles = readArticlesFromDisk(file);
+  if (articles.length === 0) {
     return NextResponse.json({ error: "File not found" }, { status: 404 });
   }
 
-  const articles = JSON.parse(fs.readFileSync(filePath, "utf-8")) as Array<Record<string, unknown>>;
   const idx = articles.findIndex((a) => a.id === id);
   if (idx === -1) {
     return NextResponse.json({ error: "Article not found" }, { status: 404 });
@@ -50,7 +45,11 @@ export async function PATCH(request: NextRequest) {
   if (title !== undefined) articles[idx].title = title;
   if (excerpt !== undefined) articles[idx].excerpt = excerpt;
 
-  fs.writeFileSync(filePath, JSON.stringify(articles, null, 2), "utf-8");
+  try {
+    await writeArticles(file, articles);
+  } catch (err) {
+    return NextResponse.json({ error: String(err) }, { status: 500 });
+  }
 
   return NextResponse.json({ ok: true, article: articles[idx] });
 }

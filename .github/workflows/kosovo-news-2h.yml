@@ -5,6 +5,10 @@ on:
     - cron: '0 * * * *'   # every hour, 24/7
   workflow_dispatch:          # also triggerable manually from GitHub UI
 
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false   # queue new runs; never drop a scheduled hour
+
 jobs:
   fetch:
     runs-on: ubuntu-latest
@@ -40,8 +44,9 @@ jobs:
           git add data/auto-articles/
           if git diff --staged --quiet; then
             echo "Nothing to commit"
-          else
-            git commit -m "chore: Kosovo news $(date -u +%Y-%m-%dT%H:%M)"
-            git pull --rebase origin main
-            git push
+            exit 0
           fi
+          git commit -m "chore: Kosovo news $(date -u +%Y-%m-%dT%H:%M)"
+          # Pull any concurrent commits before pushing; theirs wins on data files
+          git pull --rebase --autostash -X theirs origin main
+          git push

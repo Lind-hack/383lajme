@@ -42,6 +42,7 @@ function mapAutoRow(a: Record<string, unknown>): Article {
     tone:          (a.tone as Article["tone"]) ?? "neutral",
     category:      String(a.category ?? "Shoqëri"),
     publishedAt:   String(a.published_at ?? ""),
+    createdAt:     a.created_at ? String(a.created_at) : undefined,
     readingTime:   Number(a.reading_time ?? 3),
     featured:      Boolean(a.featured),
     imageUrl:      a.image_url ? String(a.image_url) : undefined,
@@ -70,6 +71,16 @@ function getAutoArticles(): Article[] {
     }
   }
   return articles;
+}
+
+// 0.05 pts/hour → a 9.5 article at 20h = 8.5 effective (tied with a fresh 8.5)
+const DECAY_RATE = 0.05;
+
+function effectiveScore(article: Article): number {
+  const base = article.engagementScore ?? 0;
+  const anchor = article.createdAt ?? article.publishedAt;
+  const ageHours = (Date.now() - new Date(anchor).getTime()) / 3_600_000;
+  return Math.max(0, base - ageHours * DECAY_RATE);
 }
 
 export function getArticles(limit = 50, category?: string): Article[] {
@@ -103,9 +114,7 @@ export function getArticles(limit = 50, category?: string): Article[] {
 
   const sorted = merged.sort((a, b) => {
     if (a.featured !== b.featured) return a.featured ? -1 : 1;
-    const scoreDiff = (b.engagementScore ?? 0) - (a.engagementScore ?? 0);
-    if (scoreDiff !== 0) return scoreDiff;
-    return new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime();
+    return effectiveScore(b) - effectiveScore(a);
   });
 
   const filtered = category ? sorted.filter((a) => a.category === category) : sorted;
