@@ -513,37 +513,67 @@ Use "Showbiz" for celebrity, entertainment, music, film, and pop culture news.
 Use "Teknologji" for ALL AI, software, tech, and innovation news — NOT generic "AI is changing jobs" pieces.
 IMPORTANT: For AI/tech news, score SPECIFIC events highly: new model version released, company acquisition, CEO controversy, major investment. Vague trend articles score 1-4 and should be skipped.
 
-Albanian journalism rules — apply strictly to title, excerpt, and body:
-TITULLI (headline):
-- Present tense, max 10 words, punchy verb at the start
-- Use active strong verbs: "Shpërthen", "Rrëzohet", "Bëhet", "Zbulohet", "Thotë", "Sulmon"
-- "Kurti takon Biden" ✓ — "Kryeministri Kurti ka realizuar një takim" ✗
-- NEVER translate word-for-word from English — rewrite for Albanian impact
+RREGULL KRYESOR — KOHERENCA:
+Titulli, ekserpti dhe body-i duhet të tregojnë TË NJËJTËN histori.
+Fjalia e parë e paragrafit 1 duhet të zgjerojë SAKTË temën e titullit — asnjë temë tjetër.
+GABIM: Titulli "Kurti takon NATO-n" + Body hapet "Lufta në Ukrainë..." ✗
+SAKTË: Titulli "Kurti takon NATO-n" + Body hapet "Kryeministri Albin Kurti u takua sot me..." ✓
 
-EKSERPTI (excerpt — 2 sentences only):
-- Sentence 1: the single most surprising fact
-- Sentence 2: why the reader should care
-- No subordinate clauses. No "sipas burimeve", no "konfirmoi". Skim-readable in 4 seconds.
+TITULLI — si fillimi i një videoje TikTok (max 18 fjalë):
+Imagino që lexuesi e sheh titullin dhe ka 2-3 sekonda për të vendosur: klikoj apo jo?
+Titulli duhet të bëjë DY gjëra njëkohësisht:
+  1. Jep kontekst të mjaftueshëm — lexuesi kupton çfarë ndodhi
+  2. Krijon kuriozitet — lexuesi dëshiron të dijë "çfarë ndodhi saktësisht?" ose "çfarë do të thotë kjo?"
 
-BODY (minimum 200 words, ideally 300–400):
-- Paragraph 1: hook — most shocking or surprising detail first
-- Paragraph 2: context — who, what, when (keep it tight)
-- Paragraph 3: reaction or consequence — quote if available, otherwise implications
-- Paragraph 4: what happens next / reader takeaway
-- Vary sentence length: short puncher → longer explanation → short puncher
-- Each paragraph ends with a micro-hook that pulls the reader to the next paragraph
-- Active voice always: "Qeveria vendosi" not "Vendimi u mor nga qeveria"
-- Connectors: "por" not "megjithatë", "sepse" not "për arsye se", "thotë" not "deklaron"
-- Tech terms (AI, blockchain, API): keep English term, add Albanian clarification in parentheses on first use
-- Idioms and metaphors: adapt to Albanian equivalents, NEVER translate literally
-- Tone: warm, conversational — like a smart friend explaining news, not a press release
+Modelet e titujve që funksionojnë:
+- "[Kush] bëri [çka] — ja çfarë do të thotë kjo për Kosovën"
+  Shembull: "Kurti u takua me Biden — ja çfarë u vendos për Kosovën dhe çfarë ndodh tjetër"
+- "[Ngjarje] — dhe arsyeja do t'ju habisë"
+  Shembull: "Serbia refuzoi marrëveshjen e re — dhe arsyeja tregon gjithçka"
+- "[Kompania/Personi] sapo [bëri diçka] — [pasoja konkrete]"
+  Shembull: "OpenAI sapo lëshoi GPT-5 falas — dhe është 10 herë më i shpejtë se ai i vjetri"
+
+Rregulla teknike të titullit:
+- Kohë e tashme ose e kryer e thjeshtë, zë aktiv
+- Fjalë konkrete: emra, numra, vende, njerëz realë — jo abstraksione
+- KURRË: "Situata", "Zhvillimi i rëndësishëm", "Kriza e re" pa sqarim specifik
+- KURRË fjalë-për-fjalë nga anglishtja — riformulo plotësisht për lexuesin shqiptar
+
+EKSERPTI (saktësisht 2 fjali):
+- Fjalia 1: fakti kryesor (emër specifik, numër konkret, ose ngjarje e saktë)
+- Fjalia 2: pse i intereson lexuesit kosovar — impakti direkt
+- Max 25 fjalë secila. Pa zhargon. Pa "sipas burimeve".
+- SAKTË: "Serbia refuzoi marrëveshjen sot në Bruksel. Kjo vonon liberalizimin e vizave me të paktën dy vjet." ✓
+- GABIM: "Sipas burimeve zyrtare, situata është komplekse dhe ka shumë aspekte." ✗
+
+BODY (500-600 fjalë — 4-5 paragrafë):
+Shkruaj si po i shpjegon lajmin një miku inteligjent në kafene — me detaje, kontekst dhe mendime.
+Jo komunikatë zyrtare. Jo resumé i shkurtër. Histori e plotë me fillim, mes dhe fund.
+
+Paragrafi 1 (4-5 fjali): Fakti kryesor — kush, çka, kur, ku. Fillo direkt, pa hyrje.
+  → DUHET të zgjerojë temën e titullit. Jep detajet e sakta që titulli la me vete.
+Paragrafi 2 (4-5 fjali): Prapavija — pse ndodhi kjo? Çfarë e shkaktoi? Konteksti historik nëse duhet.
+Paragrafi 3 (4-5 fjali): Impakti — çfarë do të thotë kjo për Kosovën ose për lexuesin?
+  Nëse ka deklarata ose citate, vendosi këtu me stil të drejtpërdrejtë.
+Paragrafi 4 (4-5 fjali): Reagimet dhe debati — çfarë thonë palët e ndryshme?
+Paragrafi 5 (3-4 fjali): Çfarë ndodh tjetër — hapat e radhës, datat, vendimi i ardhshëm.
+  Mbyll me një pyetje ose mendim që i jep lexuesit diçka për të menduar.
+
+RREGULLA GJUHËSORE:
+- Fjalë të thjeshta: "thotë" jo "deklaron", "nis" jo "komençon", "bën" jo "realizon"
+- Nëse fjalia ka 2 presje, ndaje në 2 fjali të veçanta
+- Zë aktiv: "Qeveria vendosi" ✓ / "Vendimi u mor" ✗
+- Lidhëza natyrale midis paragrafëve: "Por kjo nuk është gjithçka.", "Ndërkohë...", "Sipas tij,"
+- FSHI plotësisht: "sipas burimeve", "konfirmoi zyrtarisht", "ka bërë me dije", "në kuadër të"
+- Terma teknikë (AI, API, blockchain): mbaji anglisht, shto shpjegim shqip herën e parë në kllapa
+- Ton: i ngrohtë, i angazhuar, direkt — lexuesi ndjen se dikush i tregon diçka interesante, jo që lexon një raport
 
 Title: {title}
-Summary: {summary[:600]}"""
+Summary: {summary[:1200]}"""
 
     for attempt in range(2):
         try:
-            raw = _gemma([{"role": "user", "content": prompt}], max_tokens=4096, temperature=0.55)
+            raw = _gemma([{"role": "user", "content": prompt}], max_tokens=6000, temperature=0.65)
             return _parse_json(raw)
         except Exception as e:
             if attempt < 1:
