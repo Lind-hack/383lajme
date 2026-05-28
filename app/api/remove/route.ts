@@ -1,9 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server";
-import fs from "fs";
-import path from "path";
+import { readArticlesFromDisk, writeArticles } from "@/lib/github-articles";
 
 const REMOVE_SECRET = process.env.REMOVE_SECRET ?? "";
-const AUTO_DIR = path.join(process.cwd(), "data", "auto-articles");
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
@@ -21,17 +19,15 @@ export async function GET(request: NextRequest) {
     return new NextResponse("Missing id", { status: 400 });
   }
 
-  const filePath = path.join(AUTO_DIR, file);
-  if (!fs.existsSync(filePath)) {
+  const articles = readArticlesFromDisk(file);
+  if (articles.length === 0) {
     return new NextResponse(page("Artikulli nuk u gjet."), {
       status: 200,
       headers: { "Content-Type": "text/html; charset=utf-8" },
     });
   }
 
-  const articles = JSON.parse(fs.readFileSync(filePath, "utf-8")) as Array<Record<string, unknown>>;
   const filtered = articles.filter((a) => a.id !== id);
-
   if (filtered.length === articles.length) {
     return new NextResponse(page("Artikulli nuk u gjet."), {
       status: 200,
@@ -39,7 +35,14 @@ export async function GET(request: NextRequest) {
     });
   }
 
-  fs.writeFileSync(filePath, JSON.stringify(filtered, null, 2), "utf-8");
+  try {
+    await writeArticles(file, filtered);
+  } catch (err) {
+    return new NextResponse(page(`Gabim teknik: ${String(err)}`), {
+      status: 500,
+      headers: { "Content-Type": "text/html; charset=utf-8" },
+    });
+  }
 
   return new NextResponse(
     page("Artikulli u hoq me sukses. Faqja do të përditësohet menjëherë."),

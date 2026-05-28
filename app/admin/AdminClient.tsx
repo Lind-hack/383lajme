@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 
 export type AdminArticle = {
@@ -19,12 +19,30 @@ export type AdminArticle = {
 
 type EditState = { title: string; excerpt: string };
 
-export default function AdminClient({ articles: initial }: { articles: AdminArticle[] }) {
+export default function AdminClient({
+  articles: initial,
+  initialEditId,
+}: {
+  articles: AdminArticle[];
+  initialEditId?: string;
+}) {
   const [articles, setArticles] = useState(initial);
-  const [editing, setEditing] = useState<Record<string, EditState>>({});
+  const [editing, setEditing] = useState<Record<string, EditState>>(() => {
+    if (!initialEditId) return {};
+    const target = initial.find((a) => a.id === initialEditId);
+    if (!target) return {};
+    return { [target.id]: { title: target.title, excerpt: target.excerpt } };
+  });
   const [saving, setSaving] = useState<Record<string, boolean>>({});
   const [deleting, setDeleting] = useState<Record<string, boolean>>({});
   const [search, setSearch] = useState("");
+
+  // Scroll to pre-opened article (from email link)
+  useEffect(() => {
+    if (!initialEditId) return;
+    const el = document.getElementById(`article-${initialEditId}`);
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
+  }, [initialEditId]);
 
   const filtered = articles.filter((a) =>
     search === "" ||
@@ -155,15 +173,16 @@ export default function AdminClient({ articles: initial }: { articles: AdminArti
 
           return (
             <div
+              id={`article-${a.id}`}
               key={a.id}
               style={{
                 background: "#fff",
-                border: "1px solid #E8E3DB",
+                border: `1.5px solid ${a.id === initialEditId && isEditing ? "#FF4422" : "#E8E3DB"}`,
                 borderRadius: "16px",
                 marginBottom: "12px",
                 overflow: "hidden",
                 opacity: isDeleting ? 0.4 : 1,
-                transition: "opacity 0.2s",
+                transition: "opacity 0.2s, border-color 0.2s",
               }}
             >
               {/* Normal row */}

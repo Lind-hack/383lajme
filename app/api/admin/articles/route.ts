@@ -1,10 +1,8 @@
 import { type NextRequest, NextResponse } from "next/server";
-import fs from "fs";
-import path from "path";
 import { cookies } from "next/headers";
+import { readArticlesFromDisk, writeArticles } from "@/lib/github-articles";
 
 const ADMIN_SECRET = process.env.ADMIN_SECRET ?? "";
-const AUTO_DIR = path.join(process.cwd(), "data", "auto-articles");
 
 async function isAuthed(): Promise<boolean> {
   const cookieStore = await cookies();
@@ -24,18 +22,21 @@ export async function DELETE(request: NextRequest) {
     return NextResponse.json({ error: "Invalid params" }, { status: 400 });
   }
 
-  const filePath = path.join(AUTO_DIR, file);
-  if (!fs.existsSync(filePath)) {
+  const articles = readArticlesFromDisk(file);
+  if (articles.length === 0) {
     return NextResponse.json({ error: "File not found" }, { status: 404 });
   }
 
-  const articles = JSON.parse(fs.readFileSync(filePath, "utf-8")) as Array<Record<string, unknown>>;
   const filtered = articles.filter((a) => a.id !== id);
-
   if (filtered.length === articles.length) {
     return NextResponse.json({ error: "Article not found" }, { status: 404 });
   }
 
-  fs.writeFileSync(filePath, JSON.stringify(filtered, null, 2), "utf-8");
+  try {
+    await writeArticles(file, filtered);
+  } catch (err) {
+    return NextResponse.json({ error: String(err) }, { status: 500 });
+  }
+
   return NextResponse.json({ ok: true });
 }

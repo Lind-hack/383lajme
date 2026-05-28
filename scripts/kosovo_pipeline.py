@@ -232,6 +232,46 @@ STOPWORDS = {
     "not", "also", "into", "over", "after", "before", "more", "about",
 }
 
+# Source credibility tiers — used to prime the LLM's credibility score
+# (tier number, description fed into the scoring prompt)
+SOURCE_TIERS: dict[str, tuple[int, str]] = {
+    "AP":               (1, "wire service — direct field reporting, highest factual accuracy"),
+    "Reuters":          (1, "wire service — direct field reporting, highest factual accuracy"),
+    "BBC":              (2, "major international broadcaster — editorial standards, broad reach"),
+    "DW":               (2, "major international broadcaster — strong Balkans bureau"),
+    "Al Jazeera":       (2, "major international broadcaster — strong Balkans/conflict coverage"),
+    "France 24":        (2, "major international broadcaster — EU/European affairs focus"),
+    "RFE/RL":           (2, "US-funded broadcaster — specialist in Eastern Europe and Balkans, highly reliable for Kosovo"),
+    "VOA":              (2, "US international broadcaster — reliable, has Kosovo coverage"),
+    "Euronews":         (2, "pan-European broadcaster — covers EU enlargement closely"),
+    "Guardian":         (3, "quality independent UK newspaper — strong investigative journalism"),
+    "NYT":              (3, "major US newspaper — widely cited, reliable"),
+    "FT":               (3, "quality financial newspaper — excellent on economics"),
+    "Bloomberg":        (3, "quality financial/business media — strong economic analysis"),
+    "Politico":         (3, "political media — strong EU/Western Balkans beat"),
+    "Balkan Insight":   (3, "specialist Balkans investigative journalism — highest Kosovo-specific credibility"),
+    "EWB":              (3, "specialist European Western Balkans outlet — reliable on accession/policy"),
+    "Prishtina Insight":(3, "Kosovo-focused English-language outlet — primary Kosovo reporting"),
+    "Exit News":        (3, "Albania-focused investigative outlet — reliable on Albanian-sphere affairs"),
+    "CNN":              (3, "major US broadcaster — mainstream coverage"),
+    "MIT Tech Review":  (4, "academic/research tech publication — very credible for tech news"),
+    "TechCrunch":       (4, "specialist tech media — highly credible for startup/AI news"),
+    "The Verge":        (4, "specialist tech media — reliable for product/AI coverage"),
+    "VentureBeat":      (4, "specialist AI/tech media — good on AI business news"),
+    "Wired":            (4, "specialist tech/culture media — strong on long-form tech"),
+    "The Rundown AI":   (4, "AI newsletter — curated tech coverage"),
+    "OpenAI Blog":      (4, "official company blog — primary source for OpenAI news"),
+    "Google Blog":      (4, "official company blog — primary source for Google news"),
+    # Serbian outlets — hostile framing on Kosovo, credibility cap 3/10 for Kosovo topics
+    "B92":      (5, "Serbian outlet — often hostile framing on Kosovo; credibility MAX 3/10 for Kosovo topics"),
+    "Blic":     (5, "Serbian tabloid — hostile to Kosovo; credibility MAX 2/10"),
+    "N1 RS":    (5, "Serbian outlet — frequently hostile framing on Kosovo"),
+    "Kurir":    (5, "Serbian tabloid — hostile to Kosovo; credibility MAX 2/10"),
+    "Telegraf": (5, "Serbian tabloid — hostile to Kosovo; credibility MAX 2/10"),
+    "RTS":      (5, "Serbian state broadcaster — state-directed hostile framing; credibility MAX 2/10"),
+    "Nova.rs":  (5, "Serbian outlet — hostile framing on Kosovo; credibility MAX 3/10"),
+}
+
 
 def _clean_html(text: str) -> str:
     """Strip HTML tags and decode entities — Google News RSS gives HTML summaries."""
@@ -417,12 +457,17 @@ def _parse_json(text: str) -> dict:
     return json.loads(text)
 
 
-def analyze_and_translate(title: str, summary: str) -> dict | None:
+def analyze_and_translate(title: str, summary: str, source: str = "") -> dict | None:
     """Score and translate an article in one Gemma call. Returns None if all retries fail."""
+    tier_info, tier_num = "", 0
+    if source and source in SOURCE_TIERS:
+        tier_num, tier_desc = SOURCE_TIERS[source]
+        tier_info = f"\nSOURCE: {source} — {tier_desc} (Tier {tier_num}/5)"
+
     prompt = f"""You are a Kosovo news editor. Given an article (which may be in English, Serbian, or Albanian), do TWO things in one JSON response:
 1. Score it for a Kosovo audience (1-10)
 2. Rewrite it in Albanian (Shqip) as a Kosovo journalist
-
+{tier_info}
 Return ONLY this JSON (no markdown, no explanation):
 {{
   "score": 8.2,
@@ -435,7 +480,7 @@ Return ONLY this JSON (no markdown, no explanation):
   "featured": false,
   "category": "Politikë",
   "breaking": false,
-  "reason": "one sentence why this score",
+  "reason": "one sentence why this score, mentioning source tier",
   "title": "Albanian headline (max 15 words)",
   "excerpt": "2-3 sentence Albanian lead",
   "body": "full Albanian article 4-5 paragraphs ~300 words",
@@ -444,11 +489,18 @@ Return ONLY this JSON (no markdown, no explanation):
 }}
 
 breakdown field meanings (each 1-10):
-- relevance: how directly relevant to Kosovo / Kosovo readers
-- urgency: time sensitivity / breaking potential
-- interest: will Kosovo readers share or discuss this?
-- credibility: source quality — trusted outlet, direct reporting?
-The final score should be approximately the average of these four.
+- relevance: how directly relevant to Kosovo / Kosovo readers (Kosovo = main subject scores 9-10; tangentially related scores 4-6)
+- urgency: time sensitivity / breaking potential (happened in last 2h = 9-10; today = 7-8; this week = 4-6)
+- interest: will Kosovo readers share or discuss this? (viral/emotional/surprising = 9-10; informative = 6-7; dry = 1-4)
+- credibility: source quality — use the SOURCE TIER above to anchor this score:
+    Tier 1 (wire services AP/Reuters) → credibility 9-10
+    Tier 2 (major broadcasters BBC/DW/AJ) → credibility 7-9
+    Tier 3 (quality press/specialist Balkans) → credibility 6-8
+    Tier 4 (specialist tech media) → credibility 6-8 for tech news, 4-5 for non-tech
+    Tier 5 (Serbian hostile outlets) → credibility MAX 3/10 for Kosovo topics
+    Unknown source → credibility 5 (default)
+The final "score" = (relevance + urgency + interest + credibility) / 4, rounded to 1 decimal.
+The "reason" must mention: source name, what makes this score high/low, and one key fact from the article.
 
 Categories: Politikë, Ekonomi, Botë, Siguri, Teknologji, Showbiz
 Score guide:
@@ -651,7 +703,11 @@ def send_email(articles: list[dict], out_filename: str) -> None:
         remove_btn = ""
         if REMOVE_SECRET and SITE_URL:
             remove_url = f"{SITE_URL}/api/remove?id={a['id']}&file={out_filename}&secret={REMOVE_SECRET}"
-            remove_btn = f'&nbsp;&nbsp;&nbsp;<a href="{remove_url}" style="color:#ff6b6b;font-size:12px;text-decoration:none;">🗑 Hiq nga faqja</a>'
+            edit_url   = f"{SITE_URL}/admin?id={a['id']}"
+            remove_btn = (
+                f'&nbsp;&nbsp;&nbsp;<a href="{remove_url}" style="color:#ff6b6b;font-size:12px;text-decoration:none;">🗑 Hiq nga faqja</a>'
+                f'&nbsp;&nbsp;<a href="{edit_url}" style="color:#44aaff;font-size:12px;text-decoration:none;">✏️ Edito</a>'
+            )
 
         breakdown_html = ""
         if breakdown:
@@ -771,7 +827,7 @@ def main() -> None:
             print(f"  [DUP-INTRA] {title_en[:70]}")
             continue
 
-        analysis = analyze_and_translate(title_en, summary)
+        analysis = analyze_and_translate(title_en, summary, source=c["source"])
         if analysis is None:
             print(f"  [SKIP] {title_en[:70]}")
             continue

@@ -12,6 +12,7 @@ export interface Article {
   tone: 'positive' | 'neutral' | 'negative';
   category: string;
   publishedAt: string;
+  createdAt?: string;
   readingTime: number;
   featured: boolean;
   imageUrl?: string;
