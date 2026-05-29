@@ -126,7 +126,7 @@ function ListItem({ article, index, catColor }: ListItemProps) {
               flexShrink: 0,
             }}
           >
-            <SourceBadge source={article.source} flag={article.sourceFlag} size="sm" bias={article.sourceBias} url={article.url} />
+            <SourceBadge source={article.source} flag={article.sourceFlag} size="sm" bias={article.sourceBias} />
             <span style={{ fontSize: "11px", color: "#6B6B6B", fontWeight: 500 }}>
               {timeAgo(article.publishedAt)}
             </span>
