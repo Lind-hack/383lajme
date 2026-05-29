@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { type Article, timeAgo } from "@/lib/mock-data";
+import { type Article, timeAgo, calcReadingTime } from "@/lib/mock-data";
 import { getCategoryColor, getCategoryBg } from "@/lib/category-colors";
 import SourceBadge from "./source-badge";
 
@@ -168,9 +168,9 @@ export default function HeroDispatch({ article }: HeroDispatchProps) {
               flexWrap: "wrap",
             }}
           >
-            <SourceBadge source={article.source} flag={article.sourceFlag} bias={article.sourceBias} url={article.url} />
+            <SourceBadge source={article.source} flag={article.sourceFlag} bias={article.sourceBias} />
             <span style={{ fontSize: "12px", color: "rgba(255,255,255,0.5)", fontWeight: 500 }}>
-              {article.readingTime} min lexim
+              {calcReadingTime(article.body)} min lexim
             </span>
             <motion.span
               whileHover={{ scale: 1.04 }}
