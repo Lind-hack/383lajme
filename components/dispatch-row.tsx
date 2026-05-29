@@ -26,7 +26,7 @@ const LIQUID_GLASS: React.CSSProperties = {
   alignItems: "center",
   justifyContent: "center",
   padding: 0,
-  translateY: "-50%",
+  transform: "translateY(-50%)",
 };
 
 const SPRING = { type: "spring" as const, stiffness: 450, damping: 28 };
