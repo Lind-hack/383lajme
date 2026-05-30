@@ -9,6 +9,7 @@ export type AdminArticle = {
   title: string;
   excerpt: string;
   imageUrl?: string;
+  body?: string;
   source: string;
   sourceFlag: string;
   category: string;
@@ -17,7 +18,7 @@ export type AdminArticle = {
   slug: string;
 };
 
-type EditState = { title: string; excerpt: string };
+type EditState = { title: string; excerpt: string; imageUrl: string; body: string };
 
 export default function AdminClient({
   articles: initial,
@@ -31,7 +32,7 @@ export default function AdminClient({
     if (!initialEditId) return {};
     const target = initial.find((a) => a.id === initialEditId);
     if (!target) return {};
-    return { [target.id]: { title: target.title, excerpt: target.excerpt } };
+    return { [target.id]: { title: target.title, excerpt: target.excerpt, imageUrl: target.imageUrl ?? "", body: target.body ?? "" } };
   });
   const [saving, setSaving] = useState<Record<string, boolean>>({});
   const [deleting, setDeleting] = useState<Record<string, boolean>>({});
@@ -51,7 +52,7 @@ export default function AdminClient({
   );
 
   function startEdit(a: AdminArticle) {
-    setEditing((prev) => ({ ...prev, [a.id]: { title: a.title, excerpt: a.excerpt } }));
+    setEditing((prev) => ({ ...prev, [a.id]: { title: a.title, excerpt: a.excerpt, imageUrl: a.imageUrl ?? "", body: a.body ?? "" } }));
   }
 
   function cancelEdit(id: string) {
@@ -67,11 +68,11 @@ export default function AdminClient({
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
-        body: JSON.stringify({ id: a.id, file: a.file, title: edits.title, excerpt: edits.excerpt }),
+        body: JSON.stringify({ id: a.id, file: a.file, title: edits.title, excerpt: edits.excerpt, imageUrl: edits.imageUrl, body: edits.body }),
       });
       if (!res.ok) throw new Error(await res.text());
       setArticles((prev) =>
-        prev.map((x) => x.id === a.id ? { ...x, title: edits.title, excerpt: edits.excerpt } : x)
+        prev.map((x) => x.id === a.id ? { ...x, title: edits.title, excerpt: edits.excerpt, imageUrl: edits.imageUrl || x.imageUrl, body: edits.body } : x)
       );
       cancelEdit(a.id);
     } catch (err) {
@@ -304,12 +305,57 @@ export default function AdminClient({
                   </div>
                   <div>
                     <label style={{ fontSize: "11px", fontWeight: 700, color: "#888", letterSpacing: "0.06em", textTransform: "uppercase", display: "block", marginBottom: "6px" }}>
+                      Imazhi (URL)
+                    </label>
+                    <input
+                      type="url"
+                      value={edits.imageUrl}
+                      onChange={(e) => setEditing((prev) => ({ ...prev, [a.id]: { ...prev[a.id], imageUrl: e.target.value } }))}
+                      placeholder="https://..."
+                      style={{
+                        width: "100%",
+                        padding: "10px 14px",
+                        borderRadius: "8px",
+                        border: "1.5px solid #E8E3DB",
+                        fontSize: "13px",
+                        fontFamily: "inherit",
+                        outline: "none",
+                        background: "#fff",
+                        boxSizing: "border-box",
+                      }}
+                    />
+                  </div>
+                  <div>
+                    <label style={{ fontSize: "11px", fontWeight: 700, color: "#888", letterSpacing: "0.06em", textTransform: "uppercase", display: "block", marginBottom: "6px" }}>
                       Përshkrimi
                     </label>
                     <textarea
                       value={edits.excerpt}
                       onChange={(e) => setEditing((prev) => ({ ...prev, [a.id]: { ...prev[a.id], excerpt: e.target.value } }))}
                       rows={3}
+                      style={{
+                        width: "100%",
+                        padding: "10px 14px",
+                        borderRadius: "8px",
+                        border: "1.5px solid #E8E3DB",
+                        fontSize: "13px",
+                        fontFamily: "inherit",
+                        outline: "none",
+                        background: "#fff",
+                        resize: "vertical",
+                        lineHeight: 1.6,
+                        boxSizing: "border-box",
+                      }}
+                    />
+                  </div>
+                  <div>
+                    <label style={{ fontSize: "11px", fontWeight: 700, color: "#888", letterSpacing: "0.06em", textTransform: "uppercase", display: "block", marginBottom: "6px" }}>
+                      Teksti i plotë
+                    </label>
+                    <textarea
+                      value={edits.body}
+                      onChange={(e) => setEditing((prev) => ({ ...prev, [a.id]: { ...prev[a.id], body: e.target.value } }))}
+                      rows={8}
                       style={{
                         width: "100%",
                         padding: "10px 14px",

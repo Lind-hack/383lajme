@@ -4,14 +4,17 @@ import { readArticlesFromDisk, writeArticles } from "@/lib/github-articles";
 
 const ADMIN_SECRET = process.env.ADMIN_SECRET ?? "";
 
-async function isAuthed(): Promise<boolean> {
+async function isAuthed(req: NextRequest): Promise<boolean> {
   const cookieStore = await cookies();
   const session = cookieStore.get("admin_auth")?.value ?? "";
-  return Boolean(ADMIN_SECRET && session === ADMIN_SECRET);
+  if (ADMIN_SECRET && session === ADMIN_SECRET) return true;
+  const urlSecret = req.nextUrl.searchParams.get("secret") ?? "";
+  if (ADMIN_SECRET && urlSecret === ADMIN_SECRET) return true;
+  return false;
 }
 
 export async function DELETE(request: NextRequest) {
-  if (!(await isAuthed())) {
+  if (!(await isAuthed(request))) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
