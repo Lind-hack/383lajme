@@ -65,7 +65,8 @@ export default function AuthModal({
           options: { data: { full_name: fullName } },
         });
         if (error) throw error;
-        setSuccess("Kontrollo email-in tënd për konfirmim.");
+        onClose();
+        window.location.reload();
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
@@ -75,9 +76,12 @@ export default function AuthModal({
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : "Ndodhi një gabim.";
       if (msg.includes("Invalid login")) setError("Email ose fjalëkalim i gabuar.");
-      else if (msg.includes("already registered")) setError("Ky email është regjistruar tashmë.");
+      else if (msg.includes("already registered") || msg.includes("User already registered"))
+        setError("Ky email është regjistruar tashmë.");
       else if (msg.includes("Password should be"))
         setError("Fjalëkalimi duhet të ketë të paktën 6 karaktere.");
+      else if (msg.toLowerCase().includes("rate limit") || msg.toLowerCase().includes("email rate"))
+        setError("Shumë kërkesa. Provo përsëri pas disa minutash.");
       else setError(msg);
     } finally {
       setLoading(false);
