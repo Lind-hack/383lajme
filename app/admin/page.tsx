@@ -22,6 +22,7 @@ function loadArticlesWithFiles(): AdminArticle[] {
           title:       String(a.title ?? ""),
           excerpt:     String(a.excerpt ?? ""),
           imageUrl:    a.image_url ? String(a.image_url) : undefined,
+          body:        a.body ? String(a.body) : undefined,
           source:      String(a.source ?? ""),
           sourceFlag:  String(a.source_flag ?? "🌍"),
           category:    String(a.category ?? ""),

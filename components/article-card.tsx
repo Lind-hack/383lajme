@@ -114,7 +114,7 @@ export default function ArticleCard({ article, variant = "grid", index = 0 }: Ar
               WebkitBackdropFilter: "blur(12px)",
               border: "0.5px solid rgba(255,255,255,0.2)",
               borderRadius: "100px",
-              padding: "3px 8px",
+              padding: "2px 5px",
             }}>
               <span style={{
                 fontSize: "9px",
@@ -486,7 +486,7 @@ export default function ArticleCard({ article, variant = "grid", index = 0 }: Ar
             WebkitBackdropFilter: "blur(12px)",
             border: "0.5px solid rgba(255,255,255,0.2)",
             borderRadius: "100px",
-            padding: "4px 10px",
+            padding: "2px 5px",
           }}>
             <span style={{
               fontSize: "9px",

@@ -18,11 +18,13 @@ export async function PATCH(request: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const { id, file, title, excerpt } = (await request.json()) as {
+  const { id, file, title, excerpt, imageUrl, body } = (await request.json()) as {
     id?: string;
     file?: string;
     title?: string;
     excerpt?: string;
+    imageUrl?: string;
+    body?: string;
   };
 
   if (!id || !file) {
@@ -44,6 +46,8 @@ export async function PATCH(request: NextRequest) {
 
   if (title !== undefined) articles[idx].title = title;
   if (excerpt !== undefined) articles[idx].excerpt = excerpt;
+  if (imageUrl !== undefined) articles[idx].image_url = imageUrl;
+  if (body !== undefined) articles[idx].body = body;
 
   try {
     await writeArticles(file, articles);
