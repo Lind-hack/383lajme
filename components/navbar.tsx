@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import UserMenu from "./user-menu";
 
 const NAV_LINKS = [
   { label: "Politikë", href: "/kategori/politike" },
@@ -129,21 +130,23 @@ export default function Navbar() {
           ))}
         </nav>
 
-        {/* Kosovo identifier */}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "6px",
-            color: "#6B6B6B",
-            fontSize: "12px",
-            fontWeight: 700,
-            letterSpacing: "0.08em",
-            flexShrink: 0,
-          }}
-        >
-          <span>🇽🇰</span>
-          <span>KOSOVË</span>
+        {/* Kosovo identifier + User menu */}
+        <div style={{ display: "flex", alignItems: "center", gap: "16px", flexShrink: 0 }}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "6px",
+              color: "#6B6B6B",
+              fontSize: "12px",
+              fontWeight: 700,
+              letterSpacing: "0.08em",
+            }}
+          >
+            <span>🇽🇰</span>
+            <span>KOSOVË</span>
+          </div>
+          <UserMenu />
         </div>
       </div>
     </header>
