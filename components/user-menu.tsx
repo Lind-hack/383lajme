@@ -105,11 +105,11 @@ export default function UserMenu() {
           </button>
           <button
             onClick={() => setModal("regjistrohu")}
+            className="gradient-cta"
             style={{
               padding: "7px 16px",
               borderRadius: "100px",
               border: "none",
-              background: "#111",
               fontSize: "13px",
               fontWeight: 700,
               cursor: "pointer",
