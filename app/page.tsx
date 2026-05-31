@@ -15,6 +15,7 @@ import ToneDashboard from "@/components/tone-dashboard";
 import DiasporaSeries from "@/components/diaspora-series";
 import ThrowbackSection from "@/components/throwback-section";
 import AlertsCta from "@/components/alerts-cta";
+import DailyPoll from "@/components/daily-poll";
 
 export const revalidate = 3600;
 
@@ -133,6 +134,9 @@ export default async function HomePage() {
         <div style={{ marginBottom: "72px" }}>
           <DispatchRow articles={njoftimeArticles} />
         </div>
+
+        {/* Daily poll */}
+        <DailyPoll />
 
         {/* News grid */}
         <div style={{ marginBottom: "72px" }}>
