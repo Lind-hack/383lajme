@@ -1,19 +1,18 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
-import AuthModal from "./auth-modal";
 
 const DISMISS_KEY = "383_signup_dismissed";
 const DISMISS_TTL = 7 * 24 * 60 * 60 * 1000; // 7 days
 
 export default function SignupPrompt() {
   const [visible, setVisible] = useState(false);
-  const [showAuth, setShowAuth] = useState(false);
   const [benefitsOpen, setBenefitsOpen] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
-    // Don't show if recently dismissed
     const dismissed = localStorage.getItem(DISMISS_KEY);
     if (dismissed && Date.now() - Number(dismissed) < DISMISS_TTL) return;
 
@@ -50,14 +49,19 @@ export default function SignupPrompt() {
     setVisible(false);
   }
 
+  function handleSignup() {
+    dismiss();
+    router.push("/hyr?tab=regjistrohu");
+  }
+
   if (!visible) return null;
 
   return (
     <>
       <style>{`
         @keyframes slideUp {
-          from { opacity: 0; transform: translateY(28px); }
-          to   { opacity: 1; transform: translateY(0); }
+          from { opacity: 0; transform: translate(-50%, calc(-50% + 28px)); }
+          to   { opacity: 1; transform: translate(-50%, -50%); }
         }
       `}</style>
 
@@ -74,13 +78,13 @@ export default function SignupPrompt() {
         }}
       />
 
-      {/* Popup card */}
+      {/* Popup card — centered */}
       <div
         style={{
           position: "fixed",
-          bottom: "32px",
+          top: "50%",
           left: "50%",
-          transform: "translateX(-50%)",
+          transform: "translate(-50%, -50%)",
           zIndex: 101,
           width: "calc(100% - 48px)",
           maxWidth: "420px",
@@ -101,15 +105,7 @@ export default function SignupPrompt() {
           </div>
           <button
             onClick={dismiss}
-            style={{
-              background: "none",
-              border: "none",
-              cursor: "pointer",
-              fontSize: "20px",
-              color: "#999",
-              lineHeight: 1,
-              padding: "4px",
-            }}
+            style={{ background: "none", border: "none", cursor: "pointer", fontSize: "20px", color: "#999", lineHeight: 1, padding: "4px" }}
           >
             ×
           </button>
@@ -132,7 +128,7 @@ export default function SignupPrompt() {
             cursor: "pointer",
             fontSize: "13px",
             fontWeight: 700,
-            color: "#FF4422",
+            color: benefitsOpen ? "#FF4422" : "#FF4422",
             padding: "0 0 12px",
             display: "flex",
             alignItems: "center",
@@ -141,19 +137,38 @@ export default function SignupPrompt() {
           }}
         >
           Shiko përfitimet
-          <span style={{ fontSize: "10px", transition: "transform 0.2s ease", display: "inline-block", transform: benefitsOpen ? "rotate(180deg)" : "rotate(0deg)" }}>▼</span>
+          <span
+            style={{
+              fontSize: "10px",
+              transition: "transform 0.2s ease",
+              display: "inline-block",
+              transform: benefitsOpen ? "rotate(180deg)" : "rotate(0deg)",
+            }}
+          >
+            ▼
+          </span>
         </button>
 
-        {/* Benefits list */}
+        {/* Benefits — orange glowing panel */}
         <div
           style={{
             overflow: "hidden",
-            maxHeight: benefitsOpen ? "320px" : "0",
+            maxHeight: benefitsOpen ? "400px" : "0",
             transition: "max-height 0.3s ease",
             marginBottom: benefitsOpen ? "16px" : "0",
           }}
         >
-          <div style={{ display: "flex", flexDirection: "column", gap: "10px", paddingBottom: "4px" }}>
+          <div
+            style={{
+              background: "linear-gradient(135deg, #FF4422 0%, #FF6B35 100%)",
+              boxShadow: "0 8px 32px rgba(255, 68, 34, 0.45)",
+              borderRadius: "16px",
+              padding: "16px",
+              display: "flex",
+              flexDirection: "column",
+              gap: "10px",
+            }}
+          >
             {[
               ["💬", "Komento lajmet dhe debatohu me komunitetin"],
               ["🔔", "Njoftimet e fundit të personalizuara"],
@@ -164,7 +179,7 @@ export default function SignupPrompt() {
             ].map(([icon, text]) => (
               <div key={text} style={{ display: "flex", alignItems: "flex-start", gap: "10px" }}>
                 <span style={{ fontSize: "16px", flexShrink: 0 }}>{icon}</span>
-                <span style={{ fontSize: "13px", color: "#333", lineHeight: 1.5 }}>{text}</span>
+                <span style={{ fontSize: "13px", color: "#fff", lineHeight: 1.5, fontWeight: 600 }}>{text}</span>
               </div>
             ))}
           </div>
@@ -172,7 +187,7 @@ export default function SignupPrompt() {
 
         {/* Primary CTA */}
         <button
-          onClick={() => setShowAuth(true)}
+          onClick={handleSignup}
           style={{
             width: "100%",
             padding: "13px",
@@ -208,13 +223,6 @@ export default function SignupPrompt() {
           </button>
         </div>
       </div>
-
-      {showAuth && (
-        <AuthModal
-          defaultTab="regjistrohu"
-          onClose={() => setShowAuth(false)}
-        />
-      )}
     </>
   );
 }

@@ -83,7 +83,7 @@ export default function Navbar() {
           />
         </Link>
 
-        {/* Scrollable nav pills — only category pills scroll */}
+        {/* Scrollable row: pills → Kosovo flag → auth buttons */}
         <div
           className="nav-scroll"
           style={{
@@ -134,10 +134,8 @@ export default function Navbar() {
               {link.label}
             </Link>
           ))}
-        </div>
 
-        {/* Kosovo + UserMenu — always visible, never scrolls away */}
-        <div style={{ display: "flex", alignItems: "center", gap: "16px", flexShrink: 0 }}>
+          {/* Kosovo flag — after all pills, scrolls with them */}
           <div
             style={{
               display: "flex",
@@ -148,12 +146,18 @@ export default function Navbar() {
               fontWeight: 700,
               letterSpacing: "0.08em",
               whiteSpace: "nowrap",
+              flexShrink: 0,
+              marginLeft: "8px",
             }}
           >
             <span>🇽🇰</span>
             <span>KOSOVË</span>
           </div>
-          <UserMenu />
+
+          {/* Auth buttons — at the far right end of the scroll */}
+          <div style={{ flexShrink: 0 }}>
+            <UserMenu />
+          </div>
         </div>
       </div>
     </header>
