@@ -36,7 +36,7 @@ html {
 body {
   margin: 0;
   background: #F9F6F1;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 /* ── Card surface ───────────────────────────────────────── */
@@ -138,6 +138,17 @@ body {
 .world-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+}
+
+/* ── Navbar scroll row (mobile) ─────────────────────────── */
+.nav-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-x;
+  scrollbar-width: none;
+}
+.nav-scroll::-webkit-scrollbar {
+  display: none;
 }
 
 /* ── Pulse dot (alerts CTA) ─────────────────────────────── */

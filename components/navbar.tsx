@@ -11,6 +11,7 @@ const NAV_LINKS = [
   { label: "Siguri", href: "/kategori/siguri" },
   { label: "Teknologji", href: "/kategori/teknologji" },
   { label: "Showbiz", href: "/kategori/showbiz" },
+  { label: "Sport", href: "/kategori/sport" },
 ];
 
 export default function Navbar() {
@@ -44,11 +45,10 @@ export default function Navbar() {
           height: "64px",
           display: "flex",
           alignItems: "center",
-          justifyContent: "space-between",
-          gap: "24px",
+          gap: "8px",
         }}
       >
-        {/* Logo */}
+        {/* Logo — always visible, never scrolls away */}
         <Link
           href="/"
           style={{
@@ -83,13 +83,17 @@ export default function Navbar() {
           />
         </Link>
 
-        {/* Nav pills */}
-        <nav
+        {/* Scrollable nav pills — only category pills scroll */}
+        <div
+          className="nav-scroll"
           style={{
+            flex: 1,
+            minWidth: 0,
             display: "flex",
             alignItems: "center",
             gap: "6px",
-            flex: 1,
+            overflowX: "auto",
+            WebkitOverflowScrolling: "touch",
           }}
         >
           {NAV_LINKS.map((link) => (
@@ -109,6 +113,8 @@ export default function Navbar() {
                 border: "1.5px solid rgba(17,17,17,0.12)",
                 transition: "all 0.2s ease",
                 display: "inline-block",
+                whiteSpace: "nowrap",
+                flexShrink: 0,
               }}
               onMouseEnter={(e) => {
                 const el = e.currentTarget as HTMLElement;
@@ -128,9 +134,9 @@ export default function Navbar() {
               {link.label}
             </Link>
           ))}
-        </nav>
+        </div>
 
-        {/* Kosovo identifier + User menu */}
+        {/* Kosovo + UserMenu — always visible, never scrolls away */}
         <div style={{ display: "flex", alignItems: "center", gap: "16px", flexShrink: 0 }}>
           <div
             style={{
@@ -141,6 +147,7 @@ export default function Navbar() {
               fontSize: "12px",
               fontWeight: 700,
               letterSpacing: "0.08em",
+              whiteSpace: "nowrap",
             }}
           >
             <span>🇽🇰</span>
