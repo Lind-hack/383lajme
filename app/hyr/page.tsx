@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import type { SupabaseClient } from "@supabase/supabase-js";
@@ -8,6 +8,14 @@ import type { SupabaseClient } from "@supabase/supabase-js";
 type Tab = "hyr" | "regjistrohu";
 
 export default function HyrPage() {
+  return (
+    <Suspense>
+      <HyrForm />
+    </Suspense>
+  );
+}
+
+function HyrForm() {
   const searchParams = useSearchParams();
   const initialTab = (searchParams.get("tab") === "regjistrohu" ? "regjistrohu" : "hyr") as Tab;
 
