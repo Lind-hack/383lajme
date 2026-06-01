@@ -151,6 +151,27 @@ body {
   display: none;
 }
 
+/* Desktop: Kosovo+auth pinned right (outside scroll) */
+.nav-auth-desktop {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-shrink: 0;
+}
+/* Mobile: Kosovo+auth at end of scroll row */
+.nav-auth-mobile {
+  display: none;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  margin-left: 8px;
+}
+
+@media (max-width: 768px) {
+  .nav-auth-desktop { display: none; }
+  .nav-auth-mobile  { display: flex; }
+}
+
 /* ── Pulse dot (alerts CTA) ─────────────────────────────── */
 @keyframes pulse {
   0%, 100% { opacity: 1; box-shadow: 0 0 8px rgba(255, 68, 34, 0.8); }

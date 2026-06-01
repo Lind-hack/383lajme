@@ -83,7 +83,7 @@ export default function Navbar() {
           />
         </Link>
 
-        {/* Scrollable row: pills → Kosovo flag → auth buttons */}
+        {/* Scrollable nav pills */}
         <div
           className="nav-scroll"
           style={{
@@ -135,7 +135,29 @@ export default function Navbar() {
             </Link>
           ))}
 
-          {/* Kosovo flag — after all pills, scrolls with them */}
+          {/* Mobile only: Kosovo + auth scroll into view at the end */}
+          <div className="nav-auth-mobile">
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "6px",
+                color: "#6B6B6B",
+                fontSize: "12px",
+                fontWeight: 700,
+                letterSpacing: "0.08em",
+                whiteSpace: "nowrap",
+              }}
+            >
+              <span>🇽🇰</span>
+              <span>KOSOVË</span>
+            </div>
+            <UserMenu />
+          </div>
+        </div>
+
+        {/* Desktop only: Kosovo + auth pinned right */}
+        <div className="nav-auth-desktop">
           <div
             style={{
               display: "flex",
@@ -146,18 +168,12 @@ export default function Navbar() {
               fontWeight: 700,
               letterSpacing: "0.08em",
               whiteSpace: "nowrap",
-              flexShrink: 0,
-              marginLeft: "8px",
             }}
           >
             <span>🇽🇰</span>
             <span>KOSOVË</span>
           </div>
-
-          {/* Auth buttons — at the far right end of the scroll */}
-          <div style={{ flexShrink: 0 }}>
-            <UserMenu />
-          </div>
+          <UserMenu />
         </div>
       </div>
     </header>
