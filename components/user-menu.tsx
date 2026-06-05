@@ -1,12 +1,10 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import type { User } from "@supabase/supabase-js";
-import AuthModal from "./auth-modal";
-
-type Tab = "hyr" | "regjistrohu";
 
 function getInitials(user: User): string {
   const name = user.user_metadata?.full_name as string | undefined;
@@ -24,7 +22,6 @@ export default function UserMenu() {
   const [user, setUser] = useState<User | null>(null);
   const [ready, setReady] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [modal, setModal] = useState<Tab | null>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const supabaseRef = useRef<ReturnType<typeof createClient> | null>(null);
   const router = useRouter();
@@ -84,45 +81,46 @@ export default function UserMenu() {
 
   if (!user) {
     return (
-      <>
-        <div style={{ display: "flex", gap: "8px" }}>
-          <button
-            onClick={() => setModal("hyr")}
-            style={{
-              padding: "7px 16px",
-              borderRadius: "100px",
-              border: "1.5px solid rgba(17,17,17,0.2)",
-              background: "transparent",
-              fontSize: "13px",
-              fontWeight: 700,
-              cursor: "pointer",
-              color: "#111",
-              fontFamily: "var(--font-manrope), sans-serif",
-              letterSpacing: "0.03em",
-            }}
-          >
-            Hyr
-          </button>
-          <button
-            onClick={() => setModal("regjistrohu")}
-            className="gradient-cta"
-            style={{
-              padding: "7px 16px",
-              borderRadius: "100px",
-              border: "none",
-              fontSize: "13px",
-              fontWeight: 700,
-              cursor: "pointer",
-              color: "#fff",
-              fontFamily: "var(--font-manrope), sans-serif",
-              letterSpacing: "0.03em",
-            }}
-          >
-            Regjistrohu
-          </button>
-        </div>
-        {modal && <AuthModal defaultTab={modal} onClose={() => setModal(null)} />}
-      </>
+      <div style={{ display: "flex", gap: "8px" }}>
+        <Link
+          href="/hyr"
+          style={{
+            padding: "7px 16px",
+            borderRadius: "100px",
+            border: "1.5px solid rgba(17,17,17,0.2)",
+            background: "transparent",
+            fontSize: "13px",
+            fontWeight: 700,
+            color: "#111",
+            fontFamily: "var(--font-manrope), sans-serif",
+            letterSpacing: "0.03em",
+            textDecoration: "none",
+            WebkitTapHighlightColor: "transparent",
+            display: "inline-block",
+          }}
+        >
+          Hyr
+        </Link>
+        <Link
+          href="/hyr?tab=regjistrohu"
+          className="gradient-cta"
+          style={{
+            padding: "7px 16px",
+            borderRadius: "100px",
+            border: "none",
+            fontSize: "13px",
+            fontWeight: 700,
+            color: "#fff",
+            fontFamily: "var(--font-manrope), sans-serif",
+            letterSpacing: "0.03em",
+            textDecoration: "none",
+            WebkitTapHighlightColor: "transparent",
+            display: "inline-block",
+          }}
+        >
+          Regjistrohu
+        </Link>
+      </div>
     );
   }
 
@@ -149,6 +147,8 @@ export default function UserMenu() {
             fontFamily: "var(--font-manrope), sans-serif",
             letterSpacing: "0.04em",
             flexShrink: 0,
+            WebkitTapHighlightColor: "transparent",
+            touchAction: "manipulation",
           }}
           title={user.user_metadata?.full_name ?? user.email ?? ""}
         >

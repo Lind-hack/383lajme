@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { createClient } from "@/lib/supabase/client";
+import { createClient } from "@supabase/supabase-js";
 import { getDefaultPoll } from "@/lib/polls-data";
 import type { SupabaseClient } from "@supabase/supabase-js";
 
@@ -38,7 +38,7 @@ export default function DailyPoll() {
       return;
     }
 
-    const supabase = createClient();
+    const supabase = createClient(url, key);
     supabaseRef.current = supabase;
 
     async function loadPoll() {

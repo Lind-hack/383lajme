@@ -62,7 +62,10 @@ export default function AuthModal({
         const { error } = await supabase.auth.signUp({
           email,
           password,
-          options: { data: { full_name: fullName } },
+          options: {
+            data: { full_name: fullName },
+            emailRedirectTo: `${window.location.origin}/auth/callback`,
+          },
         });
         if (error) throw error;
         onClose();
@@ -91,9 +94,24 @@ export default function AuthModal({
   async function handleOAuth(provider: "google" | "facebook") {
     const supabase = getSupabase();
     if (!supabase) return;
+    setError("");
     setLoading(true);
-    const redirectTo = `${window.location.origin}/auth/callback`;
-    await supabase.auth.signInWithOAuth({ provider, options: { redirectTo } });
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider,
+        options: { redirectTo: `${window.location.origin}/auth/callback` },
+      });
+      if (error) {
+        const msg = error.message;
+        if (msg.includes("not enabled") || msg.includes("validation_failed"))
+          setError(`Hyrja me ${provider === "google" ? "Google" : "Facebook"} nuk është aktivizuar ende.`);
+        else setError(msg);
+        setLoading(false);
+      }
+    } catch {
+      setError("Ndodhi një gabim. Provo përsëri.");
+      setLoading(false);
+    }
   }
 
   const inputStyle: React.CSSProperties = {

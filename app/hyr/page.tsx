@@ -3,6 +3,7 @@
 import { Suspense, useEffect, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
+import Navbar from "@/components/navbar";
 import type { SupabaseClient } from "@supabase/supabase-js";
 
 type Tab = "hyr" | "regjistrohu";
@@ -63,7 +64,10 @@ function HyrForm() {
         const { error } = await supabase.auth.signUp({
           email,
           password,
-          options: { data: { full_name: fullName } },
+          options: {
+            data: { full_name: fullName },
+            emailRedirectTo: `${window.location.origin}/auth/callback`,
+          },
         });
         if (error) throw error;
         router.push("/");
@@ -90,9 +94,24 @@ function HyrForm() {
   async function handleOAuth(provider: "google" | "facebook") {
     const supabase = getSupabase();
     if (!supabase) return;
+    setError("");
     setLoading(true);
-    const redirectTo = `${window.location.origin}/auth/callback`;
-    await supabase.auth.signInWithOAuth({ provider, options: { redirectTo } });
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider,
+        options: { redirectTo: `${window.location.origin}/auth/callback` },
+      });
+      if (error) {
+        const msg = error.message;
+        if (msg.includes("not enabled") || msg.includes("validation_failed"))
+          setError(`Hyrja me ${provider === "google" ? "Google" : "Facebook"} nuk është aktivizuar ende.`);
+        else setError(msg);
+        setLoading(false);
+      }
+    } catch {
+      setError("Ndodhi një gabim. Provo përsëri.");
+      setLoading(false);
+    }
   }
 
   const inputStyle: React.CSSProperties = {
@@ -109,6 +128,8 @@ function HyrForm() {
   };
 
   return (
+    <>
+    <Navbar />
     <div
       style={{
         minHeight: "100vh",
@@ -117,6 +138,7 @@ function HyrForm() {
         alignItems: "center",
         justifyContent: "center",
         padding: "24px",
+        paddingTop: "80px",
         fontFamily: "var(--font-manrope), sans-serif",
       }}
     >
@@ -303,5 +325,6 @@ function HyrForm() {
         </div>
       </div>
     </div>
+    </>
   );
 }

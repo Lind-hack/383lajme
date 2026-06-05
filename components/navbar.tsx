@@ -135,25 +135,26 @@ export default function Navbar() {
             </Link>
           ))}
 
-          {/* Mobile only: Kosovo + auth scroll into view at the end */}
-          <div className="nav-auth-mobile">
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "6px",
-                color: "#6B6B6B",
-                fontSize: "12px",
-                fontWeight: 700,
-                letterSpacing: "0.08em",
-                whiteSpace: "nowrap",
-              }}
-            >
-              <span>🇽🇰</span>
-              <span>KOSOVË</span>
-            </div>
-            <UserMenu />
+        </div>
+
+        {/* Mobile only: Kosovo + auth pinned right (outside scroll to avoid touch-action conflict) */}
+        <div className="nav-auth-mobile">
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "6px",
+              color: "#6B6B6B",
+              fontSize: "12px",
+              fontWeight: 700,
+              letterSpacing: "0.08em",
+              whiteSpace: "nowrap",
+            }}
+          >
+            <span>🇽🇰</span>
+            <span>KOSOVË</span>
           </div>
+          <UserMenu />
         </div>
 
         {/* Desktop only: Kosovo + auth pinned right */}
