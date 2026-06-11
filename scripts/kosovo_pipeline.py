@@ -60,7 +60,7 @@ GMAIL_USER         = os.environ.get("GMAIL_USER", "")
 GMAIL_APP_PASSWORD = os.environ.get("GMAIL_APP_PASSWORD", "")
 REMOVE_SECRET      = os.environ.get("REMOVE_SECRET", "")
 SITE_URL           = os.environ.get("SITE_URL", "https://383lajme.vercel.app")
-RECIPIENT_EMAIL    = "lindsylqa@gmail.com"
+RECIPIENT_EMAIL    = os.environ.get("RECIPIENT_EMAIL") or "lindsylqa@gmail.com"
 # LLM provider: prefer Gemini for article scoring/writing; use Groq only as fallback.
 if GOOGLE_AI_API_KEY:
     LLM_URL   = "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions"
@@ -718,9 +718,19 @@ def search_youtube_clip(query: str) -> str | None:
 
 # ── Email notification ────────────────────────────────────────────────────────
 def send_email(articles: list[dict], out_filename: str) -> None:
-    if not GMAIL_USER or not GMAIL_APP_PASSWORD:
-        print("  No email credentials — skipping email")
-        return
+    missing = [
+        name for name, value in {
+            "GMAIL_USER": GMAIL_USER,
+            "GMAIL_APP_PASSWORD": GMAIL_APP_PASSWORD,
+            "RECIPIENT_EMAIL": RECIPIENT_EMAIL,
+        }.items()
+        if not value
+    ]
+    if missing:
+        raise RuntimeError(
+            "Cannot send article report email because these settings are missing: "
+            + ", ".join(missing)
+        )
 
     now = datetime.now(timezone.utc).strftime("%H:%M UTC")
     subject = f"383 Lajme — {len(articles)} artikuj të rinj [{now}]"
