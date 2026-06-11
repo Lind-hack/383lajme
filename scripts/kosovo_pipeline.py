@@ -61,15 +61,22 @@ GMAIL_APP_PASSWORD = os.environ.get("GMAIL_APP_PASSWORD", "")
 REMOVE_SECRET      = os.environ.get("REMOVE_SECRET", "")
 SITE_URL           = os.environ.get("SITE_URL", "https://383lajme.vercel.app")
 RECIPIENT_EMAIL    = "lindsylqa@gmail.com"
-# LLM provider: prefer GROQ (free, no country restriction) → fall back to Gemini
-if GROQ_API_KEY:
-    LLM_URL   = "https://api.groq.com/openai/v1/chat/completions"
-    LLM_MODEL = "llama-3.3-70b-versatile"
-    LLM_KEY   = GROQ_API_KEY
-else:
+# LLM provider: prefer Gemini for article scoring/writing; use Groq only as fallback.
+if GOOGLE_AI_API_KEY:
     LLM_URL   = "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions"
     LLM_MODEL = "gemini-2.0-flash"
     LLM_KEY   = GOOGLE_AI_API_KEY
+    LLM_PROVIDER = "Gemini"
+elif GROQ_API_KEY:
+    LLM_URL   = "https://api.groq.com/openai/v1/chat/completions"
+    LLM_MODEL = "llama-3.3-70b-versatile"
+    LLM_KEY   = GROQ_API_KEY
+    LLM_PROVIDER = "Groq"
+else:
+    LLM_URL = ""
+    LLM_MODEL = ""
+    LLM_KEY = ""
+    LLM_PROVIDER = "none"
 # Legacy aliases kept for backward compat
 GEMMA_URL   = LLM_URL
 GEMMA_MODEL = LLM_MODEL
@@ -432,8 +439,11 @@ def fetch_candidates(seen_urls: set[str]) -> list[dict]:
     return candidates
 
 
-# ── LLM API (GROQ primary, Gemini fallback) ───────────────────────────────────
+# ── LLM API (Gemini primary, Groq fallback) ───────────────────────────────────
 def _gemma(messages: list[dict], max_tokens: int = 1024, temperature: float = 0.3) -> str:
+    if not LLM_KEY:
+        raise RuntimeError("Set GOOGLE_AI_API_KEY or GROQ_API_KEY before running the Kosovo pipeline")
+
     resp = requests.post(
         LLM_URL,
         headers={"Authorization": f"Bearer {LLM_KEY}", "Content-Type": "application/json"},
@@ -806,6 +816,7 @@ def send_email(articles: list[dict], out_filename: str) -> None:
 # ── Main ──────────────────────────────────────────────────────────────────────
 def main() -> None:
     print(f"[Kosovo Pipeline] {datetime.now(timezone.utc).isoformat()}")
+    print(f"  LLM provider: {LLM_PROVIDER} ({LLM_MODEL or 'not configured'})")
 
     # Purge JSON files older than 48 hours
     cutoff = datetime.now(timezone.utc) - timedelta(hours=48)
