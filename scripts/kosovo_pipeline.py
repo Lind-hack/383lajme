@@ -80,9 +80,12 @@ else:
 # Legacy aliases kept for backward compat
 GEMMA_URL   = LLM_URL
 GEMMA_MODEL = LLM_MODEL
-MAX_AGE_HOURS      = 48
-MAX_PER_RUN        = 15
+MAX_AGE_HOURS      = 72
+MAX_PER_RUN        = 24
+MIN_SCORE          = 4.2
 AI_CAP             = 8
+SPORT_CAP          = 7
+WORLD_CAP          = 7
 
 SCRIPT_DIR  = Path(__file__).parent
 OUTPUT_DIR  = SCRIPT_DIR.parent / "data" / "auto-articles"
@@ -169,6 +172,37 @@ NEWS_SOURCES = [
      "_GNEWS_EXTRACT_", "🌍", "neutral", True),
     ("https://news.google.com/rss/search?q=Kosovo+Belgrade+when%3A3d&hl=en-US&gl=US&ceid=US:en",
      "_GNEWS_EXTRACT_", "🌍", "neutral", True),
+    # Kosovo internal news and viral/controversial local debate
+    ("https://news.google.com/rss/search?q=Kosov%C3%AB+OR+Kosova+OR+Prishtin%C3%AB+OR+Prishtina+when%3A2d&hl=sq&gl=XK&ceid=XK:sq",
+     "_GNEWS_EXTRACT_", "🇽🇰", "neutral", True),
+    ("https://news.google.com/rss/search?q=%22Albin+Kurti%22+OR+%22Vjosa+Osmani%22+OR+%22Kuvendi+i+Kosov%C3%ABs%22+OR+%22Qeveria+e+Kosov%C3%ABs%22+when%3A3d&hl=sq&gl=XK&ceid=XK:sq",
+     "_GNEWS_EXTRACT_", "🇽🇰", "neutral", True),
+    ("https://news.google.com/rss/search?q=Kosovo+Kurti+claim+statement+controversy+when%3A3d&hl=en-US&gl=US&ceid=US:en",
+     "_GNEWS_EXTRACT_", "🌍", "neutral", True),
+    # Serbian and regional framing about Kosovo
+    ("https://news.google.com/rss/search?q=Kosovo+Kurti+OR+Pristina+OR+%22Kosovo+police%22+when%3A3d&hl=en-US&gl=RS&ceid=RS:en",
+     "_SERBIAN_GNEWS_", "🇷🇸", "hostile", True),
+    ("https://news.google.com/rss/search?q=Kosovo+OR+Kosova+OR+Kurti+OR+Pri%C5%A1tina+when%3A3d&hl=sr&gl=RS&ceid=RS:sr",
+     "_SERBIAN_GNEWS_", "🇷🇸", "hostile", True),
+    # World drama, conflict, politics, and high-interest international stories
+    ("https://news.google.com/rss/search?q=world+breaking+news+scandal+OR+controversy+OR+resignation+OR+protest+when%3A1d&hl=en-US&gl=US&ceid=US:en",
+     "_GNEWS_WORLD_", "🌍", "neutral", True),
+    ("https://news.google.com/rss/search?q=Europe+politics+drama+OR+election+OR+court+OR+sanctions+when%3A2d&hl=en-US&gl=US&ceid=US:en",
+     "_GNEWS_WORLD_", "🌍", "neutral", True),
+    # AI and tech: product releases, company drama, investment, and The Rundown-style stories
+    ("https://news.google.com/rss/search?q=%22The+Rundown+AI%22+OR+%22AI+startup%22+OR+%22AI+model%22+OR+OpenAI+OR+Anthropic+OR+Gemini+when%3A1d&hl=en-US&gl=US&ceid=US:en",
+     "AI News", "🤖", "neutral", True),
+    ("https://news.google.com/rss/search?q=AI+drama+OR+lawsuit+OR+acquisition+OR+funding+OR+model+release+when%3A2d&hl=en-US&gl=US&ceid=US:en",
+     "AI News", "🤖", "neutral", True),
+    # Sports: Kosovo sports plus major global events, controversy, and match analysis
+    ("https://news.google.com/rss/search?q=Kosovo+football+OR+basketball+OR+judo+OR+sport+when%3A3d&hl=en-US&gl=US&ceid=US:en",
+     "_GNEWS_SPORT_", "🏀", "neutral", True),
+    ("https://news.google.com/rss/search?q=Kosov%C3%AB+futboll+OR+basketboll+OR+xhudo+OR+sport+when%3A3d&hl=sq&gl=XK&ceid=XK:sq",
+     "_GNEWS_SPORT_", "🏀", "neutral", True),
+    ("https://news.google.com/rss/search?q=%22World+Cup+2026%22+OR+FIFA+World+Cup+match+red+card+referee+when%3A2d&hl=en-US&gl=US&ceid=US:en",
+     "_GNEWS_SPORT_", "🌍", "neutral", True),
+    ("https://news.google.com/rss/search?q=%22NBA+Finals%22+OR+%22Formula+1%22+OR+%22Grand+Prix%22+OR+UFC+fight+when%3A2d&hl=en-US&gl=US&ceid=US:en",
+     "_GNEWS_SPORT_", "🏀", "neutral", True),
 ]
 
 # Local Kosovo outlets to skip from the generic Google News search — they publish in
@@ -218,6 +252,16 @@ GNEWS_SOURCE_MAP = {
     "VentureBeat":   ("VentureBeat",  "💻"),
     "Wired":         ("Wired",        "💻"),
     "Ars Technica":  ("Ars Technica", "💻"),
+    # Sports outlets / organizations
+    "ESPN":          ("ESPN",         "🏀"),
+    "BBC Sport":     ("BBC Sport",    "🇬🇧"),
+    "Sky Sports":    ("Sky Sports",   "🇬🇧"),
+    "The Athletic":  ("The Athletic", "🏀"),
+    "FIFA":          ("FIFA",         "🌍"),
+    "Formula 1":     ("Formula 1",    "🏎️"),
+    "NBA":           ("NBA",          "🏀"),
+    "UFC":           ("UFC",          "🥊"),
+    "433":           ("433",          "⚽"),
 }
 
 # Checked ONLY to detect already-covered stories — not imported as articles
@@ -267,8 +311,17 @@ SOURCE_TIERS: dict[str, tuple[int, str]] = {
     "VentureBeat":      (4, "specialist AI/tech media — good on AI business news"),
     "Wired":            (4, "specialist tech/culture media — strong on long-form tech"),
     "The Rundown AI":   (4, "AI newsletter — curated tech coverage"),
+    "AI News":          (4, "Google News AI/tech cluster — verify specific claims through source context"),
     "OpenAI Blog":      (4, "official company blog — primary source for OpenAI news"),
     "Google Blog":      (4, "official company blog — primary source for Google news"),
+    "ESPN":             (3, "major sports outlet — strong for global sports context and match analysis"),
+    "BBC Sport":        (3, "major broadcaster sports desk — reliable for global sports"),
+    "Sky Sports":       (3, "major sports outlet — strong for football, F1, boxing and transfers"),
+    "The Athletic":     (3, "specialist sports reporting — strong analysis and reporting"),
+    "FIFA":             (2, "official football governing body — primary source for schedules and match facts"),
+    "Formula 1":        (2, "official F1 source — primary source for race facts and schedules"),
+    "NBA":              (2, "official NBA source — primary source for league facts and schedules"),
+    "UFC":              (2, "official UFC source — primary source for fight cards and results"),
     # Serbian outlets — hostile framing on Kosovo, credibility cap 3/10 for Kosovo topics
     "B92":      (5, "Serbian outlet — often hostile framing on Kosovo; credibility MAX 3/10 for Kosovo topics"),
     "Blic":     (5, "Serbian tabloid — hostile to Kosovo; credibility MAX 2/10"),
@@ -342,9 +395,12 @@ def build_covered_set() -> list[set[str]]:
 
 
 def is_duplicate(title: str, summary: str, covered: list[set[str]]) -> bool:
-    candidate = _kw(title)
+    candidate = _kw(title) | _kw(summary[:240])
+    if len(candidate) < 8:
+        return False
     for c in covered:
-        if len(candidate & c) >= 5:
+        overlap = len(candidate & c)
+        if overlap >= 8 and overlap / max(1, min(len(candidate), len(c))) >= 0.55:
             return True
     return False
 
@@ -374,9 +430,54 @@ def _feed_image(entry) -> str | None:
     return None
 
 
+def _candidate_lane(source: str, source_name: str, title: str) -> str:
+    text = f"{source} {source_name} {title}".lower()
+    title_text = title.lower()
+    words = set(re.findall(r"[a-z0-9]+", text))
+    title_words = set(re.findall(r"[a-z0-9]+", title_text))
+    if source == "_SERBIAN_GNEWS_":
+        return "Serbian"
+    sport_words = {"sport", "football", "basketball", "nba", "fifa", "ufc", "judo", "futboll", "basketboll"}
+    if title_words & sport_words or any(phrase in title_text for phrase in ["world cup", "formula 1", "grand prix"]):
+        return "Sport"
+    if (
+        "ai" in words
+        or "openai" in words
+        or "gemini" in words
+        or "anthropic" in words
+        or "tech" in words
+        or "artificial intelligence" in text
+    ):
+        return "Tech"
+    if source == "_GNEWS_WORLD_":
+        return "World"
+    if any(word in text for word in ["kosovo", "kosova", "kosovë", "kurti", "prishtina", "pristina"]):
+        return "Kosovo"
+    return "Other"
+
+
+def diversify_candidates(candidates: list[dict]) -> list[dict]:
+    lane_order = ["Kosovo", "Serbian", "Sport", "Tech", "World", "Other"]
+    buckets: dict[str, list[dict]] = {lane: [] for lane in lane_order}
+    for candidate in candidates:
+        buckets.setdefault(candidate.get("lane", "Other"), []).append(candidate)
+
+    diversified: list[dict] = []
+    while any(buckets.values()):
+        for lane in lane_order:
+            if buckets.get(lane):
+                diversified.append(buckets[lane].pop(0))
+
+    lane_counts = {lane: sum(1 for c in candidates if c.get("lane") == lane) for lane in lane_order}
+    print("  Candidate lanes: " + ", ".join(f"{lane}={count}" for lane, count in lane_counts.items() if count))
+    return diversified
+
+
 # ── RSS fetch ─────────────────────────────────────────────────────────────────
 def fetch_candidates(seen_urls: set[str]) -> list[dict]:
     candidates: list[dict] = []
+    source_counts: dict[str, int] = {}
+    candidate_keys: set[str] = set()
     for feed_url, source, flag, bias, kosovo_exclusive in NEWS_SOURCES:
         try:
             socket.setdefaulttimeout(15)
@@ -391,20 +492,19 @@ def fetch_candidates(seen_urls: set[str]) -> list[dict]:
 
                 raw_title = entry.get("title", "")
 
-                if source == "_GNEWS_EXTRACT_":
+                if source in {"_GNEWS_EXTRACT_", "_GNEWS_WORLD_", "_GNEWS_SPORT_"}:
                     # Google News appends " - Outlet Name" to every title
                     parts = raw_title.rsplit(" - ", 1)
                     outlet = parts[1].strip() if len(parts) == 2 else "International"
                     clean_title = parts[0].strip() if len(parts) == 2 else raw_title
 
-                    # Skip local Kosovo outlets — covered by dedup/local feeds
-                    if any(local.lower() in outlet.lower() for local in LOCAL_OUTLETS):
-                        continue
-
                     # Map to canonical label; unknown outlets keep their raw name
-                    source_name, source_flag = outlet, "🌍"
+                    source_name, source_flag = outlet, flag
                     for key, (sname, sflag) in GNEWS_SOURCE_MAP.items():
-                        if key.lower() in outlet.lower():
+                        outlet_lower = outlet.lower()
+                        key_lower = key.lower()
+                        short_key = len(key_lower) <= 4
+                        if (short_key and outlet_lower == key_lower) or (not short_key and key_lower in outlet_lower):
                             source_name, source_flag = sname, sflag
                             break
                 elif source == "_SERBIAN_GNEWS_":
@@ -424,18 +524,28 @@ def fetch_candidates(seen_urls: set[str]) -> list[dict]:
                     if not any(kw in text for kw in KOSOVO_KEYWORDS):
                         continue
 
+                dedupe_key = re.sub(r"\W+", " ", clean_title.lower()).strip()
+                if dedupe_key in candidate_keys:
+                    continue
+                candidate_keys.add(dedupe_key)
+
                 candidates.append({
                     "url":          url,
                     "source":       source_name,
                     "source_flag":  source_flag,
                     "source_bias":  bias,
+                    "lane":         _candidate_lane(source, source_name, clean_title),
                     "title_en":     clean_title,
                     "summary":      _clean_html(entry.get("summary", "")),
                     "raw_image":    _feed_image(entry),
                     "published_at": _parse_published(entry),
                 })
+                source_counts[source_name] = source_counts.get(source_name, 0) + 1
         except Exception as e:
             print(f"  Feed error [{source}]: {e}")
+    if source_counts:
+        top_sources = sorted(source_counts.items(), key=lambda item: item[1], reverse=True)[:12]
+        print("  Candidate sources: " + ", ".join(f"{name}={count}" for name, count in top_sources))
     return candidates
 
 
@@ -509,19 +619,22 @@ breakdown field meanings (each 1-10):
     Tier 4 (specialist tech media) → credibility 6-8 for tech news, 4-5 for non-tech
     Tier 5 (Serbian hostile outlets) → credibility MAX 3/10 for Kosovo topics
     Unknown source → credibility 5 (default)
-The final "score" = (relevance + urgency + interest + credibility) / 4, rounded to 1 decimal.
+The final "score" = relevance*0.35 + urgency*0.20 + interest*0.30 + credibility*0.15, rounded to 1 decimal.
 The "reason" must mention: source name, what makes this score high/low, and one key fact from the article.
 
-Categories: Politikë, Ekonomi, Botë, Siguri, Teknologji, Showbiz
+Categories: Politikë, Ekonomi, Botë, Siguri, Sport, Teknologji, Kulturë, Shoqëri, Showbiz
 Score guide:
 - 9-10: BREAKING — major model releases (GPT-5, Gemini 4, Claude 4), AI company lawsuits/scandals (Musk vs Altman), Kosovo security incidents, Serbian official statements on Kosovo
-- 8-9: Big Kosovo political developments, AI product launches (new Gemini version, OpenAI Codex mobile), Mira Murati news (ALWAYS score 8+ — she is Albanian, Kosovo readers care deeply about her AI work and her company Thinking Machines)
-- 7-8: Important Kosovo international coverage, AI funding rounds >$500M, tech CEO drama, strong sport results
-- 5-6: Routine Kosovo politics, general AI trend pieces, Balkan economy news
+- 8-9: Big Kosovo political developments, controversial public claims about Kosovo leaders that are sourced and framed carefully, AI product launches (new Gemini version, OpenAI Codex mobile), Mira Murati news (ALWAYS score 8+ — she is Albanian, Kosovo readers care deeply about her AI work and her company Thinking Machines), major World Cup/NBA/F1/UFC events
+- 7-8: Important Kosovo international coverage, Serbian media framing that Kosovo readers will discuss, AI funding rounds >$500M, tech CEO drama, strong Kosovo sport results, major referee/VAR/red-card controversy
+- 5-6: Routine Kosovo politics, smaller local disputes, general AI trend pieces, Balkan economy news, ordinary match previews/results
 - 1-4: Generic or unrelated — skip
 Use "Showbiz" for celebrity, entertainment, music, film, and pop culture news.
+Use "Sport" for football, basketball, judo, NBA, F1, UFC, World Cup, athlete drama, match results, refereeing controversy, transfers, and Kosovo sport.
 Use "Teknologji" for ALL AI, software, tech, and innovation news — NOT generic "AI is changing jobs" pieces.
 IMPORTANT: For AI/tech news, score SPECIFIC events highly: new model version released, company acquisition, CEO controversy, major investment. Vague trend articles score 1-4 and should be skipped.
+IMPORTANT: For controversial claims, rumors, or social-media-driven stories: do NOT state them as fact unless the source proves them. Write "pretendon", "tha", "akuzoi", or "nuk është verifikuar" and explain what is confirmed.
+IMPORTANT: Do not invent Instagram/Twitter facts. If the provided article says a post exists, you may mention the post as reported by that source; otherwise omit it.
 
 RREGULL KRYESOR — KOHERENCA:
 Titulli, ekserpti dhe body-i duhet të tregojnë TË NJËJTËN histori.
@@ -602,6 +715,9 @@ CAT_QUERIES: dict[str, str] = {
     "Ekonomi":    "Kosovo economy finance business",
     "Teknologji": "artificial intelligence technology computer",
     "Botë":       "world news international diplomacy",
+    "Sport":      "football basketball stadium athlete match sports",
+    "Kulturë":    "culture arts festival music Kosovo",
+    "Shoqëri":    "people society Kosovo city public life",
     "Showbiz":    "celebrity entertainment concert stage",
 }
 
@@ -611,6 +727,9 @@ SCENE_MAP: dict[str, str] = {
     "Ekonomi":    "Kosovo economy business finance professional meeting",
     "Teknologji": "technology artificial intelligence computer screens modern office",
     "Botë":       "international diplomacy world leaders formal summit",
+    "Sport":      "football stadium basketball arena athletes match action",
+    "Kulturë":    "culture festival concert gallery stage Kosovo",
+    "Shoqëri":    "Kosovo city street people public life",
     "Showbiz":    "concert stage performance entertainment celebrity spotlight",
 }
 
@@ -860,7 +979,8 @@ def main() -> None:
     print(f"  {len(covered)} stories covered by local outlets")
 
     candidates = fetch_candidates(seen_urls)
-    print(f"  {len(candidates)} fresh Kosovo candidates")
+    candidates = diversify_candidates(candidates)
+    print(f"  {len(candidates)} fresh candidates after source/lane filtering")
 
     # Seed used_images from previous runs so same photo isn't reused across hourly jobs
     used_images: set[str] = set()
@@ -898,7 +1018,7 @@ def main() -> None:
             continue
 
         score = float(analysis.get("score", 0))
-        if score < 5:
+        if score < MIN_SCORE:
             print(f"  [LOW {score:.1f}] {title_en[:70]}")
             continue
 
@@ -948,6 +1068,18 @@ def main() -> None:
         non_ai = [r for r in results if r.get("source") != "AI News"]
         results = non_ai + ai_articles[:AI_CAP]
         print(f"  Capped AI News articles to {AI_CAP} ({len(results)} total)")
+
+    sport_articles = [r for r in results if r.get("category") == "Sport"]
+    if len(sport_articles) > SPORT_CAP:
+        non_sport = [r for r in results if r.get("category") != "Sport"]
+        results = non_sport + sport_articles[:SPORT_CAP]
+        print(f"  Capped Sport articles to {SPORT_CAP} ({len(results)} total)")
+
+    world_articles = [r for r in results if r.get("category") == "Botë"]
+    if len(world_articles) > WORLD_CAP:
+        non_world = [r for r in results if r.get("category") != "Botë"]
+        results = non_world + world_articles[:WORLD_CAP]
+        print(f"  Capped Botë articles to {WORLD_CAP} ({len(results)} total)")
 
     if results:
         ts = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H")
