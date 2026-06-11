@@ -37,10 +37,12 @@ jobs:
           GOOGLE_AI_API_KEY:  ${{ secrets.GOOGLE_AI_API_KEY }}
           GMAIL_USER:         ${{ secrets.GMAIL_USER }}
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          RECIPIENT_EMAIL:    ${{ secrets.RECIPIENT_EMAIL }}
         run: |
           test -n "$GOOGLE_AI_API_KEY"  || (echo "Missing GOOGLE_AI_API_KEY" && exit 1)
           test -n "$GMAIL_USER"         || (echo "Missing GMAIL_USER" && exit 1)
           test -n "$GMAIL_APP_PASSWORD" || (echo "Missing GMAIL_APP_PASSWORD" && exit 1)
+          echo "Email reports will be sent to ${RECIPIENT_EMAIL:-lindsylqa@gmail.com}"
 
       - name: Run Kosovo pipeline
         env:

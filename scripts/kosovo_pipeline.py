@@ -733,7 +733,12 @@ def send_email(articles: list[dict], out_filename: str) -> None:
         )
 
     now = datetime.now(timezone.utc).strftime("%H:%M UTC")
-    subject = f"383 Lajme — {len(articles)} artikuj të rinj [{now}]"
+    if articles:
+        subject = f"383 Lajme — {len(articles)} artikuj të rinj [{now}]"
+        heading = f"383 Lajme — {len(articles)} artikuj të rinj u shtuan"
+    else:
+        subject = f"383 Lajme — raporti automatik: 0 artikuj të rinj [{now}]"
+        heading = "383 Lajme — nuk u gjetën artikuj të rinj"
 
     rows = []
     for i, a in enumerate(articles, 1):
@@ -793,13 +798,22 @@ def send_email(articles: list[dict], out_filename: str) -> None:
           </td>
         </tr>""")
 
+    if not rows:
+        rows.append("""
+        <tr>
+          <td style="padding:20px;border-bottom:1px solid #2a2a2a;">
+            <div style="font-size:16px;font-weight:700;color:#ffffff;margin-bottom:8px;line-height:1.35;">Nuk pati artikuj të rinj për t'u shtuar këtë orë.</div>
+            <div style="font-size:13px;color:#999;line-height:1.5;">Automatizimi u krye me sukses, por filtrat nuk gjetën lajme të reja që kaluan kontrollin e dublikimit, relevancës dhe pikëzimit.</div>
+          </td>
+        </tr>""")
+
     email_html = f"""<!DOCTYPE html>
 <html>
 <body style="background:#111;font-family:sans-serif;margin:0;padding:20px;">
   <div style="max-width:640px;margin:auto;">
     <div style="background:#1a1a1a;border-radius:12px;overflow:hidden;">
       <div style="padding:24px 20px;border-bottom:1px solid #2a2a2a;">
-        <h2 style="color:#fff;margin:0 0 6px;font-size:20px;">383 Lajme — {len(articles)} artikuj të rinj u shtuan</h2>
+        <h2 style="color:#fff;margin:0 0 6px;font-size:20px;">{heading}</h2>
         <p style="color:#666;margin:0;font-size:13px;">{now} • Sistemi automatik i lajmeve ndërkombëtare</p>
       </div>
       <table width="100%" cellpadding="0" cellspacing="0">
@@ -820,7 +834,7 @@ def send_email(articles: list[dict], out_filename: str) -> None:
     with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
         smtp.login(GMAIL_USER, GMAIL_APP_PASSWORD)
         smtp.sendmail(GMAIL_USER, RECIPIENT_EMAIL, msg.as_string())
-    print(f"  Email sent: {subject}")
+    print(f"  Email sent to {RECIPIENT_EMAIL}: {subject}")
 
 
 # ── Main ──────────────────────────────────────────────────────────────────────
@@ -943,7 +957,8 @@ def main() -> None:
         print(f"  → {out}")
         send_email(results, out_filename)
     else:
-        print("  Nothing new — no file written, no email sent")
+        print("  Nothing new — no file written")
+        send_email([], "no-new-articles")
 
 
 if __name__ == "__main__":
