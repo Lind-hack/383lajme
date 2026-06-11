@@ -8,7 +8,7 @@ import json
 import os
 import re
 import sys
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from urllib.parse import urlparse
 
@@ -16,6 +16,7 @@ import feedparser
 from groq import Groq
 
 OUTPUT_PATH = Path(__file__).parent.parent / "public" / "tone-outlets.json"
+GROQ_MODEL = os.environ.get("GROQ_MODEL", "llama-3.1-8b-instant")
 
 FEEDS = {
     "Gjermani": "https://news.google.com/rss/search?q=Kosovo&hl=de&gl=DE&ceid=DE:de",
@@ -67,7 +68,22 @@ KNOWN_OUTLETS: dict[str, dict[str, str]] = {
 }
 
 
-def extract_outlet(url: str, country: str) -> str | None:
+def normalize_outlet(name: str, country: str) -> str | None:
+    if not name:
+        return None
+    clean = re.sub(r"\s+", " ", name).strip()
+    clean_lower = clean.lower()
+    for known_name in KNOWN_OUTLETS.get(country, {}).values():
+        if clean_lower == known_name.lower():
+            return known_name
+    return clean
+
+
+def extract_outlet(url: str, country: str, source_name: str = "") -> str | None:
+    outlet = normalize_outlet(source_name, country)
+    if outlet:
+        return outlet
+
     try:
         host = urlparse(url).netloc.lower().lstrip("www.")
         for domain, name in KNOWN_OUTLETS.get(country, {}).items():
@@ -78,9 +94,30 @@ def extract_outlet(url: str, country: str) -> str | None:
     return None
 
 
-def classify_sentiment(client: Groq, articles: list[dict]) -> list[str]:
+def heuristic_sentiment(title: str) -> str:
+    text = title.lower()
+    negative_words = [
+        "war", "crime", "criminal", "attack", "tension", "conflict", "ban",
+        "condemned", "corruption", "arrest", "sanction", "crisis", "threat",
+        "violence", "protest", "failure", "failed",
+    ]
+    positive_words = [
+        "cooperation", "agreement", "win", "growth", "investment", "support",
+        "progress", "approved", "success", "opens", "joins", "deal",
+    ]
+    if any(word in text for word in negative_words):
+        return "negative"
+    if any(word in text for word in positive_words):
+        return "positive"
+    return "neutral"
+
+
+def classify_sentiment(client: Groq | None, articles: list[dict]) -> list[str]:
     if not articles:
         return []
+    if client is None:
+        return [heuristic_sentiment(a["title"]) for a in articles]
+
     titles = "\n".join(f"{i+1}. {a['title']}" for i, a in enumerate(articles))
     prompt = (
         "Classify each Kosovo news headline as: positive, neutral, or negative.\n"
@@ -89,7 +126,7 @@ def classify_sentiment(client: Groq, articles: list[dict]) -> list[str]:
     )
     try:
         resp = client.chat.completions.create(
-            model="llama3-8b-8192",
+            model=GROQ_MODEL,
             messages=[{"role": "user", "content": prompt}],
             max_tokens=64,
             temperature=0,
@@ -99,13 +136,16 @@ def classify_sentiment(client: Groq, articles: list[dict]) -> list[str]:
             for l in resp.choices[0].message.content.strip().split(",")
         ]
         valid = {"positive", "neutral", "negative"}
-        return [l if l in valid else "neutral" for l in labels]
+        labels = [l if l in valid else "neutral" for l in labels]
+        if len(labels) < len(articles):
+            labels.extend("neutral" for _ in range(len(articles) - len(labels)))
+        return labels[: len(articles)]
     except Exception as e:
         print(f"  Groq error: {e}", file=sys.stderr)
-        return ["neutral"] * len(articles)
+        return [heuristic_sentiment(a["title"]) for a in articles]
 
 
-def scrape_country(country: str, feed_url: str, client: Groq) -> list[dict]:
+def scrape_country(country: str, feed_url: str, client: Groq | None) -> list[dict]:
     print(f"  Fetching {country}...")
     feed = feedparser.parse(feed_url)
 
@@ -115,7 +155,8 @@ def scrape_country(country: str, feed_url: str, client: Groq) -> list[dict]:
         url = entry.get("link", "")
         title = entry.get("title", "").strip()
         published = entry.get("published", "")[:10] if entry.get("published") else ""
-        outlet = extract_outlet(url, country)
+        source = entry.get("source") or {}
+        outlet = extract_outlet(url, country, source.get("title", ""))
         if not outlet or not title:
             continue
         by_outlet.setdefault(outlet, []).append(
@@ -147,11 +188,11 @@ def scrape_country(country: str, feed_url: str, client: Groq) -> list[dict]:
 
 def main():
     api_key = os.environ.get("GROQ_API_KEY")
-    if not api_key:
-        print("GROQ_API_KEY not set", file=sys.stderr)
-        sys.exit(1)
-
-    client = Groq(api_key=api_key)
+    if api_key:
+        client = Groq(api_key=api_key)
+    else:
+        client = None
+        print("GROQ_API_KEY not set; using heuristic tone labels", file=sys.stderr)
     countries_data: dict[str, dict] = {}
 
     for country, feed_url in FEEDS.items():
@@ -163,7 +204,7 @@ def main():
             print(f"  {country} failed: {e}", file=sys.stderr)
 
     output = {
-        "lastUpdated": datetime.utcnow().strftime("%Y-%m-%d"),
+        "lastUpdated": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
         "countries": countries_data,
     }
 
