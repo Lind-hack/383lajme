@@ -32,6 +32,16 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install feedparser requests beautifulsoup4 python-slugify python-dotenv
 
+      - name: Check required secrets
+        env:
+          GOOGLE_AI_API_KEY:  ${{ secrets.GOOGLE_AI_API_KEY }}
+          GMAIL_USER:         ${{ secrets.GMAIL_USER }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+        run: |
+          test -n "$GOOGLE_AI_API_KEY"  || (echo "Missing GOOGLE_AI_API_KEY" && exit 1)
+          test -n "$GMAIL_USER"         || (echo "Missing GMAIL_USER" && exit 1)
+          test -n "$GMAIL_APP_PASSWORD" || (echo "Missing GMAIL_APP_PASSWORD" && exit 1)
+
       - name: Run Kosovo pipeline
         env:
           GOOGLE_AI_API_KEY:    ${{ secrets.GOOGLE_AI_API_KEY }}
@@ -41,6 +51,7 @@ jobs:
           PEXELS_API_KEY:       ${{ secrets.PEXELS_API_KEY }}
           GMAIL_USER:           ${{ secrets.GMAIL_USER }}
           GMAIL_APP_PASSWORD:   ${{ secrets.GMAIL_APP_PASSWORD }}
+          RECIPIENT_EMAIL:      ${{ secrets.RECIPIENT_EMAIL }}
           REMOVE_SECRET:        ${{ secrets.REMOVE_SECRET }}
           SITE_URL:             ${{ secrets.SITE_URL }}
         run: python -u scripts/kosovo_pipeline.py
