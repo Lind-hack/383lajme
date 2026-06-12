@@ -5,7 +5,9 @@ import { timeAgo, type Article } from "@/lib/mock-data";
 import SourceBadge from "@/components/source-badge";
 import ArticleCard from "@/components/article-card";
 import ArticleSidebar from "@/components/article-sidebar";
-import { EASE, DUR } from "@/lib/tokens";
+import { EASE, DUR, FONT } from "@/lib/tokens";
+import ReadingProgress from "@/components/reading-progress";
+import SectionLabel from "@/components/section-label";
 
 interface Props {
   article: Article;
@@ -22,7 +24,7 @@ export default function ArticleContent({ article, related, catColor, catBg }: Pr
       style={{
         position: "relative",
         zIndex: 1,
-        paddingTop: "80px",
+        paddingTop: "calc(var(--nav-h) + 16px)",
         background: "#F9F6F1",
         minHeight: "100vh",
       }}
@@ -100,10 +102,11 @@ export default function ArticleContent({ article, related, catColor, catBg }: Pr
 
             <h1
               style={{
+                fontFamily: FONT.serif,
                 fontSize: "clamp(28px, 4vw, 52px)",
-                fontWeight: 800,
-                lineHeight: 1.1,
-                letterSpacing: "-0.03em",
+                fontWeight: 640,
+                lineHeight: 1.12,
+                letterSpacing: "-0.01em",
                 color: "#111111",
                 margin: "0 0 28px",
               }}
@@ -156,9 +159,11 @@ export default function ArticleContent({ article, related, catColor, catBg }: Pr
 
             <p
               style={{
-                fontSize: "20px",
-                fontWeight: 500,
-                lineHeight: 1.65,
+                fontFamily: FONT.serif,
+                fontStyle: "italic",
+                fontSize: "21px",
+                fontWeight: 450,
+                lineHeight: 1.55,
                 color: "#111111",
                 margin: "0 0 32px",
                 borderLeft: `4px solid ${catColor}`,
@@ -168,7 +173,7 @@ export default function ArticleContent({ article, related, catColor, catBg }: Pr
               {article.excerpt}
             </p>
 
-            <div style={{ fontSize: "17px", lineHeight: 1.85, color: "#333333" }}>
+            <div className="article-body" style={{ fontSize: "17px", lineHeight: 1.85, color: "#333333" }}>
               {article.body.split("\n\n").map((paragraph, i) => (
                 <p key={i} style={{ margin: "0 0 28px" }}>
                   {paragraph}
@@ -182,6 +187,8 @@ export default function ArticleContent({ article, related, catColor, catBg }: Pr
           <ArticleSidebar article={article} related={related} />
         </div>
       </div>
+
+      <ReadingProgress color={catColor} />
 
       <style>{`
         @media (max-width: 1023px) {
@@ -198,28 +205,7 @@ export default function ArticleContent({ article, related, catColor, catBg }: Pr
           }}
         >
           <div style={{ maxWidth: "1280px", margin: "0 auto" }}>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "16px",
-                marginBottom: "32px",
-              }}
-            >
-              <div style={{ width: "4px", height: "28px", background: catColor, borderRadius: "2px" }} />
-              <span
-                style={{
-                  fontSize: "13px",
-                  fontWeight: 800,
-                  letterSpacing: "0.2em",
-                  textTransform: "uppercase",
-                  color: "#111111",
-                }}
-              >
-                NJOFTIME TË LIDHURA
-              </span>
-              <div style={{ flex: 1, height: "1px", background: "#E8E3DB" }} />
-            </div>
+            <SectionLabel label="NJOFTIME TË LIDHURA" rule="double" />
             <div
               style={{
                 display: "grid",

@@ -3,7 +3,8 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import type { ResolvedFigure } from "@/lib/category-figures";
-import { EASE, DUR } from "@/lib/tokens";
+import { EASE, DUR, FONT } from "@/lib/tokens";
+import { formatDateShortSq } from "@/lib/date-sq";
 
 interface CategoryBannerProps {
   categoryName: string;
@@ -154,7 +155,7 @@ export default function CategoryBanner({
             margin: "0 0 16px",
           }}
         >
-          383 LAJME
+          383 LAJME · {formatDateShortSq()}
         </motion.p>
 
         {/* Category name */}
@@ -163,9 +164,10 @@ export default function CategoryBanner({
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.18, duration: DUR.reveal, ease: EASE }}
           style={{
+            fontFamily: FONT.serif,
             fontSize: "clamp(48px, 8vw, 88px)",
-            fontWeight: 800,
-            letterSpacing: "-0.04em",
+            fontWeight: 640,
+            letterSpacing: "-0.01em",
             color: textColor,
             margin: "0 0 24px",
             lineHeight: 1,
@@ -174,40 +176,21 @@ export default function CategoryBanner({
           {categoryName.toUpperCase()}
         </motion.h1>
 
-        {/* Article count badge */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.85 }}
-          animate={{ opacity: 1, scale: 1 }}
+        {/* Article count — flat text, no pill */}
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
           transition={{ delay: 0.28, duration: DUR.base, ease: EASE }}
-          style={{ display: "inline-flex", justifyContent: "center" }}
+          style={{
+            fontSize: "13px",
+            fontWeight: 600,
+            letterSpacing: "0.12em",
+            color: subColor,
+            margin: 0,
+          }}
         >
-          <span
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: "6px",
-              padding: "8px 20px",
-              borderRadius: "100px",
-              background: badgeBg,
-              color: badgeText,
-              fontSize: "13px",
-              fontWeight: 700,
-              letterSpacing: "0.06em",
-              backdropFilter: "blur(4px)",
-            }}
-          >
-            <span
-              style={{
-                width: "6px",
-                height: "6px",
-                borderRadius: "50%",
-                background: badgeText,
-                flexShrink: 0,
-              }}
-            />
-            {articleCount} artikuj
-          </span>
-        </motion.div>
+          — {articleCount} lajme —
+        </motion.p>
       </div>
 
       {/* Figure portraits row */}

@@ -7,23 +7,17 @@ import { type Article } from "@/lib/mock-data";
 import { EASE, DUR, STAGGER } from "@/lib/tokens";
 import ArticleCard from "./article-card";
 
-const LIQUID_GLASS: React.CSSProperties = {
+const CHEVRON_BTN: React.CSSProperties = {
   position: "absolute",
   top: "50%",
   zIndex: 10,
-  width: "50px",
-  height: "50px",
+  width: "40px",
+  height: "40px",
   borderRadius: "50%",
-  border: "0.5px solid rgba(255,255,255,0.55)",
-  background: "linear-gradient(145deg, rgba(255,255,255,0.30) 0%, rgba(255,255,255,0.07) 100%)",
-  backdropFilter: "blur(40px) saturate(200%) brightness(1.08)",
-  WebkitBackdropFilter: "blur(40px) saturate(200%) brightness(1.08)",
-  boxShadow:
-    "0 8px 28px rgba(0,0,0,0.10), inset 0 2px 0 rgba(255,255,255,1.0), inset 0 -1px 0 rgba(0,0,0,0.05), 0 0 0 0.5px rgba(0,0,0,0.04)",
+  border: "1px solid #E8E3DB",
+  background: "#F9F6F1",
   color: "#111111",
   cursor: "pointer",
-  fontSize: "22px",
-  fontWeight: 700,
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
@@ -53,7 +47,7 @@ export default function DispatchRow({ articles }: DispatchRowProps) {
           <motion.button
             key="scroll-left"
             onClick={() => scrollBy(-1)}
-            style={{ ...LIQUID_GLASS, left: "-20px" }}
+            style={{ ...CHEVRON_BTN, left: "-20px" }}
             initial={{ opacity: 0, scale: 0.72, x: -10 }}
             animate={{ opacity: 1, scale: 1, x: 0 }}
             exit={{ opacity: 0, scale: 0.72, x: -10 }}
@@ -62,20 +56,20 @@ export default function DispatchRow({ articles }: DispatchRowProps) {
             whileTap={{ scale: 0.95 }}
             aria-label="Lëviz majtas"
           >
-            <ChevronLeft size={22} strokeWidth={2.5} />
+            <ChevronLeft size={20} strokeWidth={2} />
           </motion.button>
         )}
       </AnimatePresence>
 
       <motion.button
         onClick={() => scrollBy(1)}
-        style={{ ...LIQUID_GLASS, right: "-20px" }}
+        style={{ ...CHEVRON_BTN, right: "-20px" }}
         whileHover={{ scale: 1.08 }}
         whileTap={{ scale: 0.95 }}
         transition={SPRING}
         aria-label="Lëviz djathtas"
       >
-        <ChevronRight size={22} strokeWidth={2.5} />
+        <ChevronRight size={20} strokeWidth={2} />
       </motion.button>
 
       <div

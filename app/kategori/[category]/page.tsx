@@ -11,6 +11,7 @@ import HeroDispatch from "@/components/hero-dispatch";
 import NewsGrid from "@/components/news-grid";
 import DispatchList from "@/components/dispatch-list";
 import Footer from "@/components/footer";
+import DoubleRule from "@/components/double-rule";
 
 export const revalidate = 3600;
 
@@ -52,7 +53,7 @@ export default async function CategoryPage({
       <TextureBg />
       <Navbar />
 
-      <div style={{ paddingTop: "64px", position: "relative", zIndex: 1 }}>
+      <div style={{ paddingTop: "var(--nav-h)", position: "relative", zIndex: 1 }}>
         <CategoryBanner
           categoryName={categoryName}
           from={gradFrom}
@@ -110,7 +111,10 @@ export default async function CategoryPage({
 
         {/* List */}
         {listArticles.length > 0 && (
-          <DispatchList articles={listArticles} />
+          <>
+            {gridArticles.length > 0 && <DoubleRule marginTop={0} marginBottom={48} />}
+            <DispatchList articles={listArticles} />
+          </>
         )}
       </main>
 
