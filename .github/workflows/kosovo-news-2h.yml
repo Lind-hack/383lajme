@@ -3,8 +3,12 @@ name: Kosovo News - Every Hour
 on:
   schedule:
     # GitHub Actions is busiest at minute 0 and can delay or drop scheduled jobs.
-    # Run hourly away from the top of the hour for more reliable scheduling.
+    # Run away from the top of the hour. The :47 entry is a backup attempt:
+    # the hour guard below skips it if the :17 run already succeeded.
     - cron: '17 * * * *'
+      timezone: "Europe/Belgrade"
+    - cron: '47 * * * *'
+      timezone: "Europe/Belgrade"
   workflow_dispatch:          # also triggerable manually from GitHub UI
 
 concurrency:
@@ -17,22 +21,56 @@ jobs:
     timeout-minutes: 60
     permissions:
       contents: write         # needed to git push the JSON articles back
+      actions: read           # needed to detect whether this hour already ran
 
     steps:
       - uses: actions/checkout@v5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Skip backup schedule if this hour already succeeded
+        id: hour_guard
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          WORKFLOW_FILE: kosovo-news-2h.yml
+          EVENT_NAME: ${{ github.event_name }}
+        run: |
+          if [ "$EVENT_NAME" != "schedule" ]; then
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          current_hour="$(date -u +%Y-%m-%dT%H)"
+          runs_json="$(curl -fsSL \
+            -H "Authorization: Bearer $GH_TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/$REPO/actions/workflows/$WORKFLOW_FILE/runs?event=schedule&status=success&per_page=10")"
+
+          last_success_hour="$(printf '%s' "$runs_json" | python -c 'import json, sys; payload = json.load(sys.stdin); runs = payload.get("workflow_runs", []); print(((runs[0].get("run_started_at") or runs[0].get("created_at") or "")[:13]) if runs else "")')"
+
+          echo "Current UTC hour: $current_hour"
+          echo "Last successful scheduled run hour: ${last_success_hour:-none}"
+          if [ "$last_success_hour" = "$current_hour" ]; then
+            echo "A scheduled run already succeeded this hour; skipping backup slot."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+
       - uses: actions/setup-python@v6
+        if: steps.hour_guard.outputs.skip != 'true'
         with:
           python-version: '3.12'
 
       - name: Install Python deps
+        if: steps.hour_guard.outputs.skip != 'true'
         run: |
           python -m pip install --upgrade pip
           python -m pip install feedparser requests beautifulsoup4 python-slugify python-dotenv
 
       - name: Check required secrets
+        if: steps.hour_guard.outputs.skip != 'true'
         env:
           GOOGLE_AI_API_KEY:  ${{ secrets.GOOGLE_AI_API_KEY }}
           GMAIL_USER:         ${{ secrets.GMAIL_USER }}
@@ -45,6 +83,7 @@ jobs:
           echo "Email reports will be sent to ${RECIPIENT_EMAIL:-lindsylqa@gmail.com}"
 
       - name: Run Kosovo pipeline
+        if: steps.hour_guard.outputs.skip != 'true'
         env:
           GOOGLE_AI_API_KEY:    ${{ secrets.GOOGLE_AI_API_KEY }}
           GOOGLE_AI_MODEL:      gemma-4-26b-a4b-it
@@ -60,6 +99,7 @@ jobs:
         run: python -u scripts/kosovo_pipeline.py
 
       - name: Commit new articles
+        if: steps.hour_guard.outputs.skip != 'true'
         id: commit
         run: |
           git config user.name "383 News Bot"
@@ -77,7 +117,7 @@ jobs:
           echo "committed=true" >> $GITHUB_OUTPUT
 
       - name: Trigger Vercel deploy
-        if: steps.commit.outputs.committed == 'true'
+        if: steps.hour_guard.outputs.skip != 'true' && steps.commit.outputs.committed == 'true'
         env:
           VERCEL_DEPLOY_HOOK_URL: ${{ secrets.VERCEL_DEPLOY_HOOK_URL }}
         run: |
