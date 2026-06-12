@@ -1,17 +1,28 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { History } from "lucide-react";
 import { getDailyThrowback } from "@/lib/mock-data";
+import { EASE, DUR } from "@/lib/tokens";
+
+function flagToCode(flag: string): string {
+  const cps = [...flag].map((c) => c.codePointAt(0) ?? 0);
+  if (cps.length !== 2) return "";
+  const a = cps[0] - 0x1f1e6 + 65;
+  const b = cps[1] - 0x1f1e6 + 65;
+  if (a < 65 || a > 90 || b < 65 || b > 90) return "";
+  return String.fromCharCode(a, b);
+}
 
 export default function ThrowbackSection() {
   const THROWBACK_ARTICLE = getDailyThrowback();
   return (
-    <section style={{ marginBottom: "48px" }}>
+    <section style={{ marginBottom: "var(--space-section)" }}>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-40px" }}
-        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+        transition={{ duration: DUR.reveal, ease: EASE }}
         style={{
           background: "rgba(245,158,11,0.06)",
           border: "1px solid rgba(245,158,11,0.25)",
@@ -30,7 +41,7 @@ export default function ThrowbackSection() {
             marginBottom: "24px",
           }}
         >
-          <span style={{ fontSize: "20px", lineHeight: 1 }}>🕐</span>
+          <History size={16} strokeWidth={2} style={{ color: "#B45309" }} />
           <span
             style={{
               fontSize: "10px",
@@ -87,7 +98,9 @@ export default function ThrowbackSection() {
                 marginBottom: "12px",
               }}
             >
-              <span style={{ fontSize: "14px" }}>{THROWBACK_ARTICLE.oldSourceFlag}</span>
+              <span style={{ fontSize: "10px", fontWeight: 700, letterSpacing: "0.08em", color: "#9CA3AF" }}>
+                {flagToCode(THROWBACK_ARTICLE.oldSourceFlag)}
+              </span>
               <span
                 style={{
                   fontSize: "11px",
@@ -129,16 +142,12 @@ export default function ThrowbackSection() {
                 fontStyle: "italic",
               }}
             >
-              "{THROWBACK_ARTICLE.oldExcerpt}"
+              &ldquo;{THROWBACK_ARTICLE.oldExcerpt}&rdquo;
             </p>
           </div>
 
           {/* Right — today's context */}
-          <div
-            style={{
-              padding: "20px",
-            }}
-          >
+          <div style={{ padding: "20px" }}>
             <div
               style={{
                 display: "flex",

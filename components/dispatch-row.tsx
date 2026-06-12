@@ -2,7 +2,9 @@
 
 import { useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { type Article } from "@/lib/mock-data";
+import { EASE, DUR, STAGGER } from "@/lib/tokens";
 import ArticleCard from "./article-card";
 
 const LIQUID_GLASS: React.CSSProperties = {
@@ -55,11 +57,12 @@ export default function DispatchRow({ articles }: DispatchRowProps) {
             initial={{ opacity: 0, scale: 0.72, x: -10 }}
             animate={{ opacity: 1, scale: 1, x: 0 }}
             exit={{ opacity: 0, scale: 0.72, x: -10 }}
-            transition={{ duration: 0.30, ease: [0.34, 1.56, 0.64, 1] }}
-            whileHover={{ scale: 1.13 }}
-            whileTap={{ scale: 0.92 }}
+            transition={{ duration: DUR.slow, ease: EASE }}
+            whileHover={{ scale: 1.08 }}
+            whileTap={{ scale: 0.95 }}
+            aria-label="Lëviz majtas"
           >
-            &#8249;
+            <ChevronLeft size={22} strokeWidth={2.5} />
           </motion.button>
         )}
       </AnimatePresence>
@@ -67,11 +70,12 @@ export default function DispatchRow({ articles }: DispatchRowProps) {
       <motion.button
         onClick={() => scrollBy(1)}
         style={{ ...LIQUID_GLASS, right: "-20px" }}
-        whileHover={{ scale: 1.13 }}
-        whileTap={{ scale: 0.92 }}
+        whileHover={{ scale: 1.08 }}
+        whileTap={{ scale: 0.95 }}
         transition={SPRING}
+        aria-label="Lëviz djathtas"
       >
-        &#8250;
+        <ChevronRight size={22} strokeWidth={2.5} />
       </motion.button>
 
       <div
@@ -86,10 +90,10 @@ export default function DispatchRow({ articles }: DispatchRowProps) {
           {articles.map((article, i) => (
             <motion.div
               key={article.id}
-              initial={{ opacity: 0, x: 20 }}
+              initial={{ opacity: 0, x: 16 }}
               whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.07, duration: 0.4, ease: "easeOut" }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ delay: Math.min(i, 6) * STAGGER, duration: DUR.reveal, ease: EASE }}
             >
               <ArticleCard article={article} variant="mini" />
             </motion.div>

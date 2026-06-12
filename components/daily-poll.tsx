@@ -2,7 +2,9 @@
 
 import { useEffect, useRef, useState } from "react";
 import { createClient } from "@supabase/supabase-js";
+import { Check } from "lucide-react";
 import { getDefaultPoll } from "@/lib/polls-data";
+import SectionLabel from "./section-label";
 import type { SupabaseClient } from "@supabase/supabase-js";
 
 export default function DailyPoll() {
@@ -112,20 +114,18 @@ export default function DailyPoll() {
   const total = counts.reduce((a, b) => a + b, 0);
 
   return (
-    <div style={{ marginBottom: "72px" }}>
-      {/* Section header — matches NJOFTIME / KRYESORE style */}
-      <div style={{ display: "flex", alignItems: "center", gap: "16px", marginBottom: "20px" }}>
-        <div style={{ width: "4px", height: "28px", background: "#FF4422", borderRadius: "2px", flexShrink: 0 }} />
-        <span style={{ fontSize: "13px", fontWeight: 800, letterSpacing: "0.2em", textTransform: "uppercase", color: "#111111" }}>
-          SONDAZHI I DITËS
-        </span>
-        <div style={{ flex: 1, height: "1px", background: "#E8E3DB" }} />
-        {!loading && (
-          <span style={{ fontSize: "11px", color: "#6B6B6B", fontWeight: 500 }}>
-            {total} {total === 1 ? "votë" : "vota"}
-          </span>
-        )}
-      </div>
+    <div style={{ marginBottom: "var(--space-section)" }}>
+      <SectionLabel
+        label="SONDAZHI I DITËS"
+        marginBottom={20}
+        right={
+          !loading ? (
+            <span style={{ fontSize: "11px", color: "#6B6B6B", fontWeight: 500 }}>
+              {total} {total === 1 ? "votë" : "vota"}
+            </span>
+          ) : undefined
+        }
+      />
 
       <div
         style={{
@@ -181,28 +181,8 @@ export default function DailyPoll() {
 }
 
 function VoteButton({ label, onClick }: { label: string; onClick: () => void }) {
-  const [hovered, setHovered] = useState(false);
   return (
-    <button
-      onClick={onClick}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      style={{
-        width: "100%",
-        padding: "12px 20px",
-        borderRadius: "100px",
-        border: `1.5px solid ${hovered ? "#FF4422" : "#E8E3DB"}`,
-        background: hovered ? "#FF4422" : "#F9F6F1",
-        color: hovered ? "#fff" : "#111",
-        fontSize: "14px",
-        fontWeight: 600,
-        cursor: "pointer",
-        textAlign: "left",
-        fontFamily: "var(--font-manrope), sans-serif",
-        transition: "all 0.15s ease",
-        letterSpacing: "0.01em",
-      }}
-    >
+    <button onClick={onClick} className="poll-option">
       {label}
     </button>
   );
@@ -240,7 +220,7 @@ function ResultBar({
             gap: "6px",
           }}
         >
-          {isMyVote && <span style={{ fontSize: "11px", fontWeight: 800 }}>✓</span>}
+          {isMyVote && <Check size={12} strokeWidth={3} />}
           {label}
         </span>
         <span style={{ fontSize: "13px", color: "#6B6B6B", fontWeight: 600, fontFamily: "var(--font-manrope), sans-serif" }}>
@@ -262,7 +242,7 @@ function ResultBar({
             width: `${pct}%`,
             borderRadius: "4px",
             background: isMyVote ? "#FF4422" : "#D4CBC0",
-            transition: "width 0.5s ease",
+            transition: "width 0.5s cubic-bezier(0.22, 1, 0.36, 1)",
           }}
         />
       </div>

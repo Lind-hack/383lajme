@@ -2,7 +2,10 @@
 
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { TrendingUp, X, ArrowLeft } from "lucide-react";
 import { getDailyToneStats } from "@/lib/mock-data";
+import { EASE, DUR, STAGGER } from "@/lib/tokens";
+import SectionLabel from "./section-label";
 
 interface ToneArticle {
   title: string;
@@ -29,6 +32,15 @@ const SENTIMENT_META: Record<string, { label: string; color: string }> = {
   neutral:  { label: "Neutral", color: "#9CA3AF" },
   negative: { label: "Kritik",  color: "#E41E20" },
 };
+
+function flagToCode(flag: string): string {
+  const cps = [...flag].map((c) => c.codePointAt(0) ?? 0);
+  if (cps.length !== 2) return "";
+  const a = cps[0] - 0x1f1e6 + 65;
+  const b = cps[1] - 0x1f1e6 + 65;
+  if (a < 65 || a > 90 || b < 65 || b > 90) return "";
+  return String.fromCharCode(a, b);
+}
 
 export default function ToneDashboard() {
   const [hoveredCountry, setHoveredCountry] = useState<string | null>(null);
@@ -76,78 +88,46 @@ export default function ToneDashboard() {
       : null;
 
   return (
-    <section style={{ marginBottom: "48px" }}>
-      {/* Section header */}
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          marginBottom: "20px",
-          flexWrap: "wrap",
-          gap: "12px",
-        }}
-      >
-        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+    <section style={{ marginBottom: "var(--space-section)" }}>
+      <SectionLabel
+        label="Toni i Mediave Botërore ndaj Kosovës"
+        marginBottom={20}
+        right={
           <div
             style={{
-              width: "3px",
-              height: "20px",
-              background: "#FF4422",
-              borderRadius: "2px",
-            }}
-          />
-          <span
-            style={{
-              fontSize: "13px",
-              fontWeight: 800,
-              letterSpacing: "0.1em",
-              textTransform: "uppercase" as const,
-              color: "#111111",
+              background: "rgba(22,163,74,0.1)",
+              border: "1px solid rgba(22,163,74,0.25)",
+              borderRadius: "100px",
+              padding: "6px 14px",
+              display: "flex",
+              alignItems: "center",
+              gap: "6px",
             }}
           >
-            Toni i Mediave Botërore ndaj Kosovës
-          </span>
-        </div>
-
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.4, ease: "easeOut" }}
-          style={{
-            background: "rgba(22,163,74,0.1)",
-            border: "1px solid rgba(22,163,74,0.25)",
-            borderRadius: "100px",
-            padding: "6px 14px",
-            display: "flex",
-            alignItems: "center",
-            gap: "6px",
-          }}
-        >
-          <span style={{ fontSize: "14px" }}>📈</span>
-          <span
-            style={{
-              fontSize: "12px",
-              fontWeight: 700,
-              color: "#16A34A",
-              letterSpacing: "0.04em",
-            }}
-          >
-            Ky muaj: {overallPositive}% pozitive ndaj Kosovës
-          </span>
-        </motion.div>
-      </div>
+            <TrendingUp size={14} color="#16A34A" strokeWidth={2} />
+            <span
+              style={{
+                fontSize: "12px",
+                fontWeight: 700,
+                color: "#16A34A",
+                letterSpacing: "0.04em",
+              }}
+            >
+              Ky muaj: {overallPositive}% pozitive ndaj Kosovës
+            </span>
+          </div>
+        }
+      />
 
       {/* Dashboard card */}
       <motion.div
         initial={{ opacity: 0, y: 16 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-40px" }}
-        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+        transition={{ duration: DUR.reveal, ease: EASE }}
         style={{
           background: "#FFFFFF",
-          borderRadius: "20px",
+          borderRadius: "16px",
           border: "1px solid #E8E3DB",
           padding: "clamp(14px, 3vw, 24px)",
           boxShadow: "0 2px 12px rgba(0,0,0,0.05)",
@@ -200,7 +180,7 @@ export default function ToneDashboard() {
                 initial={{ opacity: 0, x: -16 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: i * 0.07, ease: "easeOut" }}
+                transition={{ duration: DUR.reveal, delay: Math.min(i, 6) * STAGGER, ease: EASE }}
                 style={{ display: "flex", alignItems: "center", gap: "clamp(8px, 2vw, 16px)" }}
               >
                 {/* Country — fixed 90px */}
@@ -213,7 +193,7 @@ export default function ToneDashboard() {
                     flexShrink: 0,
                   }}
                 >
-                  <span style={{ fontSize: "16px" }}>{stat.flag}</span>
+                  <span style={{ fontSize: "10px", fontWeight: 700, letterSpacing: "0.08em", color: "#9CA3AF" }}>{flagToCode(stat.flag)}</span>
                   <span
                     style={{
                       fontSize: "clamp(11px, 2.5vw, 13px)",
@@ -241,21 +221,21 @@ export default function ToneDashboard() {
                     initial={{ width: 0 }}
                     whileInView={{ width: `${stat.positive}%` }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.7, delay: i * 0.07 + 0.2, ease: "easeOut" }}
+                    transition={{ duration: 0.7, delay: Math.min(i, 6) * STAGGER + 0.2, ease: EASE }}
                     style={{ background: "#16A34A", height: "100%" }}
                   />
                   <motion.div
                     initial={{ width: 0 }}
                     whileInView={{ width: `${stat.neutral}%` }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.7, delay: i * 0.07 + 0.3, ease: "easeOut" }}
+                    transition={{ duration: 0.7, delay: Math.min(i, 6) * STAGGER + 0.3, ease: EASE }}
                     style={{ background: "#9CA3AF", height: "100%" }}
                   />
                   <motion.div
                     initial={{ width: 0 }}
                     whileInView={{ width: `${stat.negative}%` }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.7, delay: i * 0.07 + 0.4, ease: "easeOut" }}
+                    transition={{ duration: 0.7, delay: Math.min(i, 6) * STAGGER + 0.4, ease: EASE }}
                     style={{ background: "#E41E20", height: "100%" }}
                   />
                 </div>
@@ -293,7 +273,7 @@ export default function ToneDashboard() {
               initial={{ opacity: 0, x: 24 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 24 }}
-              transition={{ duration: 0.2, ease: "easeOut" }}
+              transition={{ duration: DUR.base, ease: EASE }}
               onMouseEnter={cancelClose}
               onMouseLeave={scheduleClose}
               style={{
@@ -304,7 +284,7 @@ export default function ToneDashboard() {
                 width: "clamp(220px, 40%, 280px)",
                 background: "#FAFAF8",
                 borderLeft: "1px solid #E8E3DB",
-                borderRadius: "0 20px 20px 0",
+                borderRadius: "0 16px 16px 0",
                 padding: "16px",
                 overflowY: "auto",
                 zIndex: 20,
@@ -332,7 +312,7 @@ export default function ToneDashboard() {
                   padding: 0,
                 }}
               >
-                ×
+                <X size={12} strokeWidth={2} />
               </button>
 
               {activeOutletData ? (
@@ -354,7 +334,7 @@ export default function ToneDashboard() {
                       padding: 0,
                     }}
                   >
-                    ← Kthehu
+                    <ArrowLeft size={12} strokeWidth={2} /> Kthehu
                   </button>
                   <p
                     style={{
