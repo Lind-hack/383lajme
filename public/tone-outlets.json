@@ -1,30 +1,17 @@
 {
-  "lastUpdated": "2026-06-11",
+  "lastUpdated": "2026-06-12",
   "countries": {
     "Gjermani": {
       "outlets": [
         {
-          "name": "Audimax.de",
+          "name": "Abgeordnetenwatch",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
-              "title": "Kosovo-Wahl: Kurti-Partei vor Sieg – Politische Krise bleibt - Audimax.de",
-              "url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxOS2NtTWhnWU9HMEtCNEFudVl0MWd3VFctcjBKc0hUd1JtclZ3THNLQ1R4R19HSFdnbzZUM0VKUjZLamR6aVdRVWRadTR1bWNfV25XRnlzNmlTeldrdFNMRk1MVXFZNGRIcVZSSHVhd2hpNVVDcWotRk1sdjRSLWtPNDgyam03a0RyVE16ZzV0WXJxSVc2eW13UUxEMUViaE0?oc=5",
-              "date": "Sun, 07 Ju",
-              "sentiment": "neutral"
-            }
-          ]
-        },
-        {
-          "name": "Augsburger Allgemeine",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Einsätze im Kosovo und im Flüchtlingscamp Moria: Mindelheims neuer Polizeichef hat schon viel erlebt - Augsburger Allgemeine",
-              "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxNLUVfRjZLZFBCbTNIMm5YeEZQQ0pqajN4ZjJoakZtOXV1UGMzQl9hMUZNei1TQ2lGX1laZU5fZHlvaU04bERpaGs1NThDZXE0NTZlWE9pTVl3aHJvSmtobE9SSzZoUWNVN1hUTkR2RjY4cVg4QmJDcVhhT29ZVGJ0a2tHZjJYRk81VU5YeXh3TUdqZTZlZUIwNGYzUUpMRF9NR2ZvbXg0WFQza0xwZ014TlFpXzJ1VHlOTzRr?oc=5",
-              "date": "Tue, 09 Ju",
+              "title": "Fortsetzung des Bundeswehreinsatzes KFOR im Kosovo - Abgeordnetenwatch",
+              "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxQTV92VkJTSGFjdmhaTzIza3JLWnhVbjFOcDJ4N3lfbl95WE1SeFhIMWlSMDdHdjVWOGpXMUtOY0d5Y09vcHVfNzdfRW9QTmF2Z3F4R0dGTVpWX245MWJxUDgyQ1RRSzhpdXBQMGpUWVUtbUIySUtRYXQ3TENDdS03OTI4R2hmVnp6QlFLSENSNEJmWnJuX1FIYk45QWxFOVZrdEsweWVYaHlPWmNZMVE?oc=5",
+              "date": "Thu, 11 Ju",
               "sentiment": "neutral"
             }
           ]
@@ -35,16 +22,16 @@
           "articleCount": 2,
           "articles": [
             {
-              "title": "Der ewige Einsatz – Drei Jahrzehnte Bundeswehr auf dem Balkan, und kein Ende in Sicht - Berliner Zeitung",
-              "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxONm1FSTRkSzRkSm81VE1MYThUaUswZk5fTkNrVU1zUkREelNKOVRsbGRrbW50TUZQS0RoUXphbmlTeUZJQ25mby10ZWtORk14TnFKeFEwalRJWEZUbHRBc2RUaVBLNzBndnRUSUJaQXlId3c2M1U1UDBiMUU1WWFTZl91OTd6NkZLVWhZcURiejFucGtaaDRPUF9TWHFBRGNW?oc=5",
-              "date": "Thu, 11 Ju",
-              "sentiment": "neutral"
-            },
-            {
               "title": "Kosovo: Kurtis Partei gewinnt vorgezogene Wahl – aber ohne eigene Mehrheit - Berliner Zeitung",
               "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxNX1BldnhFNjJRUTA1MmxBLWdWSHN3ZEItNVVQZHdoZ0NUQVNNakhkWDhZcU9vTzNJRnZhV2JqRm82MHctbkNLQ3A0VFBzcy1SU0poTzN4RTRZdDFBX0lQQ1k3Y0pnWFF0UG12MmNQNzd6YzRDUUR6eUZTSGJPVDItNm5uR0VvWVJkaGg3SmEtZTRRc214eG4yNE5xZ294eTR3Y1BuanNvYjNJS3M0TTRVVQ?oc=5",
               "date": "Sun, 07 Ju",
-              "sentiment": "positive"
+              "sentiment": "neutral"
+            },
+            {
+              "title": "Der ewige Einsatz – Drei Jahrzehnte Bundeswehr auf dem Balkan, und kein Ende in Sicht - Berliner Zeitung",
+              "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxONm1FSTRkSzRkSm81VE1MYThUaUswZk5fTkNrVU1zUkREelNKOVRsbGRrbW50TUZQS0RoUXphbmlTeUZJQ25mby10ZWtORk14TnFKeFEwalRJWEZUbHRBc2RUaVBLNzBndnRUSUJaQXlId3c2M1U1UDBiMUU1WWFTZl91OTd6NkZLVWhZcURiejFucGtaaDRPUF9TWHFBRGNW?oc=5",
+              "date": "Thu, 11 Ju",
+              "sentiment": "negative"
             }
           ]
         },
@@ -80,6 +67,12 @@
           "articleCount": 3,
           "articles": [
             {
+              "title": "Kosovo vs. Andorra heute im TV und LIVE-STREAM - DAZN",
+              "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxPNEwycVFyQXVoR2czc21hcUp4QWY1N1VhWlA4VUMzTTN5cG04ZjcwNkxGQU80MU85Q1JqSGkwRncyOVRsdGRUaDhIOThWVjRPdWJjTS0wX2lzOVQxekNNcTloS3JiYW9qME9LOXBWRF82ektGdWJ2dlJVMzNCa0tEc1hENVNsc1h0VFM2V1NEakJEOW4ycjIxTUkxNlVOaXRubGxJejdmQXQ?oc=5",
+              "date": "Sun, 07 Ju",
+              "sentiment": "neutral"
+            },
+            {
               "title": "Wo läuft Tschechien vs. Kosovo heute live? - DAZN",
               "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxNd3V2QzBTN0FMYkRFN1NmMm44WlktYTJNNDUydEY2YXQ0NUtXZGszVWpHWFNYYWlfNUpXUUd6RFZmd2sxOTh1WHVXN0tSZVNXUWxCZm9yWjJHdXdXV09TbUJpZ2lwOXBIdkJKSUNNNFRWdjhGbzJ5ang1cGFva1RTb1BHWEJ5dHhSb2tIUExmb1pKM1pMZFhqYTMzanIzNW1CNGV3c2d1eks1NUItRzc0eHNwREQ1Zw?oc=5",
               "date": "Sun, 31 Ma",
@@ -90,12 +83,25 @@
               "url": "https://news.google.com/rss/articles/CBMivwFBVV95cUxPYnBXMFpZRV9vczdORGZRRlZKamIzMUZvLUhQNWx0eklDbEhTclVsanRsMVZqS1FsTHlRekh1c1VDZ2FXdmRYNWFoYk5YSHJTamdrRmVpdENxeTZld2ZqejkyOTRnNGMtZHBYMVFMak5lb01jNF85bkpRZ1dWdG5lVlBlVkxlNHJNd2Zjdk5VVzlCUUZSUkZoazNGR3FkbUhDNzdqWllrZ0FPVG9fN1BuVkFldlVJcl9RSTNFanN4Zw?oc=5",
               "date": "Sun, 31 Ma",
               "sentiment": "neutral"
+            }
+          ]
+        },
+        {
+          "name": "DW.com",
+          "sentiment": "neutral",
+          "articleCount": 2,
+          "articles": [
+            {
+              "title": "Wahlen im Kosovo: Der Preis der politischen Polarisierung - DW.com",
+              "url": "https://news.google.com/rss/articles/CBMijwFBVV95cUxQSjloTHR2Y2NGdVN1Q01pb1FPd3lzeGJ2MlNkM3BuZTJzQ2g3RGh5Qy1kZVl3aFAwR1JxMEE2b0ZnTGN2T1NKb1o2SmJpc1RyeThUU1VxejNWNkp1RkVrREhXZ0JWNlMxeGJrYzN4TnllNXFvVHctRWc3eXowVFRtUjV3ZmdQaWNHdTZmX1NPONIBjwFBVV95cUxPM05EZ3J6bzkzeXdYWTZtcUpJRVFycXJHX2JzQUt0eWRkdlZxSElkbEdxeFRfMVVfRnFObjdrbV8zamRCRjdybjVWeHB3VnNRMVpvMVhHbGs3S2VDd1VKa0hzQmE0MVh6UE5PZGF3ZXAxMXRXcGppQVBJLTA2dkFjYTAyN3p5RXY1X19SakFuSQ?oc=5",
+              "date": "Sat, 06 Ju",
+              "sentiment": "neutral"
             },
             {
-              "title": "Kosovo vs. Andorra heute im TV und LIVE-STREAM - DAZN",
-              "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxQRE1kckd0THd4T09MZlpKRWY2VmloSzhUdVYzZThMdTQyUVlsV3lMNUFQZWNzZGRCeXF6clZwUmpJV1JDa05VQ2pmdWc5THNGbVc2MUJsYVpKWFdmQzBaT0NBRk5LQjdmbHRuZ2Q4bHVBUzZsTGtqV3d6N2FKaFFLMEpLeXJKS0FrMzdqRGhPMGp2ME1WOXNVT1k3c3hDTDlybzlWM2VTZjY?oc=5",
-              "date": "Sun, 07 Ju",
-              "sentiment": "neutral"
+              "title": "Gaza-Friedenstruppe: Kosovarische Soldaten im Gazastreifen? - DW.com",
+              "url": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxNNkR5SWZFc3V5SUVMXzRldUJ2NE1ZVUtKdmNXbTllVWpXODVYeGtzQUxISkNuMzk1dVJBcUtOeTlEY3U3bXgtbVhmRTFBSGdubE9ISURXeVhCTV9jRjRIcVUwZEJGeDVfQk1WYmlTQ0xBR010V3d0Zld1YzFBZExhMlpwVEdZMXhwUDBiSmo2RnBMTTRfaEtlQTZFbmsyeWpNcVJjMk1EaExLZjhfNGM3YXpIdFpyT1NfZnhSalVobWLSAcABQVVfeXFMTTJlMUtHUHdweEtKMlU1b1l3U25UTFB2SWlVRURVRXY0ZDJadjVqWVo5cjlrZ0NMa1pBeENWdmZuNnI5LWpXUldudG5FalhPemxXUFdlSWlOcEVuSlljdmNzbHNneldha1FSM21sWUNCOHhPb1lNMzhTN2wwREdNSUx0bFdkZGlMQ1VjZFByNGVqaVJSZmp1Vi16Rlhqc1JFYnNtMTJFaWlFYzNnV1pjRzZscjkzX2dac3owVjJHYTdS?oc=5",
+              "date": "Fri, 08 Ma",
+              "sentiment": "negative"
             }
           ]
         },
@@ -140,14 +146,14 @@
         },
         {
           "name": "Euractiv",
-          "sentiment": "neutral",
+          "sentiment": "positive",
           "articleCount": 2,
           "articles": [
             {
               "title": "Durchbruch bei Gesprächen zwischen Serbien und Kosovo - Euractiv",
               "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxOcWFBVGRJaTFoZldiOEt5OXMxLXA4XzFzbWdKMUY4S19Uck44a2lSWEN0cElRTEdUZFRUZXEyM1Fsb2ZfbEJDSkhuREtFb05ja2NJRnJYS1NvV1QwUUdQWER1N0NzYTZ3WUZTNzNhMzhHbTk3TUZDWnhnLTNHV1NpdXNGbDVUSVhhaDBF?oc=5",
               "date": "Wed, 13 Ma",
-              "sentiment": "neutral"
+              "sentiment": "positive"
             },
             {
               "title": "Brüssel beobachtet, wie das Kosovo inmitten einer politischen Krise zur Wahl geht - Euractiv",
@@ -172,20 +178,33 @@
         },
         {
           "name": "Frankfurter Rundschau",
-          "sentiment": "negative",
+          "sentiment": "neutral",
           "articleCount": 2,
           "articles": [
-            {
-              "title": "Experte warnt: Trotz Kurtis Wahlsieg droht Dauerkrise im Kosovo - Frankfurter Rundschau",
-              "url": "https://news.google.com/rss/articles/CBMizgFBVV95cUxOVmpCbTNoME9UWHc2Y3cySXNVSmtVcDl5UUNMZ2JkaFFTWVczR0gwSUhXR3JqNVNCa3FWbGlVdjFHcVZYeVRFUFUxQ2haVXpjWTZ5MlRhNnI1VW5SSDVmV2VCUG1lTVgwdXduVXU2Z0dIOUNWdm1hVmhVWnI2SHY2eklOTi1VQWpsNFV6NWNhQTlFTVdkR295NldsekRLR0xPUmZXcW1BeVZySU9SdlNXcWo5NnRUeHpiSmRqNFlvUjNIamE1MXNwdDVJY3B0dw?oc=5",
-              "date": "Mon, 08 Ju",
-              "sentiment": "negative"
-            },
             {
               "title": "Kosovo-Wahl: Erste Ergebnisse zeigen Linksnationalisten vorne - aber keinen klaren Sieger - Frankfurter Rundschau",
               "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxPTk9DRHNIbGlGT2Z5S3pOOG9KSEdkWkZHNkI3UkdjbTlZX0UzUjhMdXhpdzI2bEU4akhNZS03X0VKcW80RjNBMHF6QWlDcG1TUXpKTFRsUFBTMUZrSV9wR3pkb0ZWMGxwZFRYT0JlRWhzMGtaRHJLazMzdFF0ZjJnS2hQeFdJa1E2ZWs1amFPT0ZZTzZZUUtka3hveVd4RjJVTEVOMEtneWRKeTJRWXc?oc=5",
               "date": "Mon, 08 Ju",
               "sentiment": "neutral"
+            },
+            {
+              "title": "Experte warnt: Trotz Kurtis Wahlsieg droht Dauerkrise im Kosovo - Frankfurter Rundschau",
+              "url": "https://news.google.com/rss/articles/CBMizgFBVV95cUxOVmpCbTNoME9UWHc2Y3cySXNVSmtVcDl5UUNMZ2JkaFFTWVczR0gwSUhXR3JqNVNCa3FWbGlVdjFHcVZYeVRFUFUxQ2haVXpjWTZ5MlRhNnI1VW5SSDVmV2VCUG1lTVgwdXduVXU2Z0dIOUNWdm1hVmhVWnI2SHY2eklOTi1VQWpsNFV6NWNhQTlFTVdkR295NldsekRLR0xPUmZXcW1BeVZySU9SdlNXcWo5NnRUeHpiSmRqNFlvUjNIamE1MXNwdDVJY3B0dw?oc=5",
+              "date": "Mon, 08 Ju",
+              "sentiment": "negative"
+            }
+          ]
+        },
+        {
+          "name": "Gamereactor",
+          "sentiment": "negative",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Die NATO verringert die Zahl der Friedenstruppen im Kosovo - Gamereactor",
+              "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxOQnA1RjlLY1lQS2pGMElLcENGUVJYWkhSZ0NhOGxZYnpIc0NBVnprNkJITEpYMHJWMUw0Mnd6SFM5VmNDVUxoSmR6akZIVjJKQ0RqNW9pVXVBQzVTSlh6eWdmOUduc2lfSzRfU1dHX1NFeWxIcXFaTENaQkp0SlBVQmZLZjhZbnpTMFA0endTaVdrRWM4bVRLSHlR?oc=5",
+              "date": "Fri, 12 Ju",
+              "sentiment": "negative"
             }
           ]
         },
@@ -204,27 +223,27 @@
         },
         {
           "name": "Ntv",
-          "sentiment": "neutral",
+          "sentiment": "negative",
           "articleCount": 1,
           "articles": [
             {
               "title": "Krise könnte aber andauern: Regierungspartei um Kurti vor Sieg bei Kosovo-Wahl - Ntv",
               "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxQODgwT0dvbGxYVXFlbVhLNTNSUUx6Snl2aXI3Y3pRLVo2OG5hZmh5aDNrekI4MzFOYjRkZWJnN2V2RzFhU3RPTHpGNUVfZU93MEgwZUlwTXhvdUVrb0V3Mk1GcU9Nc3QwX29vcDNjTTBsbEdYdU8xWFA4RzdGTUpmeVhzbVVmYlBxS0Q1dFFkdW5BajRqZld4OGt3?oc=5",
               "date": "Sun, 07 Ju",
-              "sentiment": "neutral"
+              "sentiment": "negative"
             }
           ]
         },
         {
           "name": "ORF",
-          "sentiment": "neutral",
+          "sentiment": "negative",
           "articleCount": 1,
           "articles": [
             {
               "title": "Kosovo: Verhärtete Fronten vor Parlamentswahl - ORF",
               "url": "https://news.google.com/rss/articles/CBMiRkFVX3lxTE0xTUw5U3FDYkdXSndzeDBFTWFDeWRrVmdfTmZmM0RJT25UZnd2bGpYS3VSZjRCakdINnZ3OW5PSTZuYUVvU1E?oc=5",
               "date": "Sun, 07 Ju",
-              "sentiment": "neutral"
+              "sentiment": "negative"
             }
           ]
         },
@@ -256,64 +275,64 @@
               "title": "Wahlen im Kosovo: Warum gewinnt Regierungschef Albin Kurti erneut? - SRF",
               "url": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxPRzR4cm9qSXZmTWVQTEZCbE5LcGliTEZBNkhvN3pXN1VDMWlrTEJZZjhXVjNJMU42cnhiOEY1Mjc5NzJCOXVSbFFzdWRha2QxYTNMOUNkM204dFpyYlpWamt5d2QwUTZaYUJHbk9aNl9TalFIOGpiZk5hUlpmcW9qSFdIeGFaUXZZV3B1ZUo5Q01oU0ZPdFZ5VmVJWFFuNkVCMjJKX1ZteE14UVdGQ2UtYVdMWVBTSUky?oc=5",
               "date": "Sun, 07 Ju",
-              "sentiment": "negative"
+              "sentiment": "positive"
             }
           ]
         },
         {
           "name": "STERN.de",
-          "sentiment": "neutral",
-          "articleCount": 3,
+          "sentiment": "negative",
+          "articleCount": 4,
           "articles": [
+            {
+              "title": "Bundestag verlängert Bundeswehr-Einsätze in Bosnien und im Kosovo - STERN.de",
+              "url": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxOQURmX3JHajhQamJOTGx4c3RuelVQSzFOOUJhSkZfdjFlbmRVYkVIdi1TODYzVGJ1eDVYQjlBbU1VTVZIS1NJUGktZ3NzZWlVRUxxQnJ4WjM2S3FpeVFSVDMtQnRKbjdXUGFWbXlyR0pnTjZWa0owTUJzbFRmbFNPQzlVRkxrcXg4V3NZRDBfSVEyUkpYZG5tV2Zjal96UmdqbHpsLUlHZmxxNTg?oc=5",
+              "date": "Thu, 11 Ju",
+              "sentiment": "positive"
+            },
             {
               "title": "Parlamentswahl im Kosovo - seit Jahren instabile politische Verhältnisse - STERN.de",
               "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxOMXAtcFJWNTFXNmV2X0lNTHpRWGJHdHNpU3dDUFpNRUNVRFVmMFprX2RGTzE5REllQWZXSXk3Y1ZOZjUxdFVKcGFycEdEVFk3YTIwcnppRW1BR09jYnRIaFNhRWNJVlkwMklTRW95Vk5LR0VxLU9wX0dhek1mbURYbDRyWUJTeGVoc04xSmVSQTNuZGFBb3IxUzRFUnhHZXBMNWNrVklwQnlWQi04OWZwNHVtYw?oc=5",
               "date": "Sun, 07 Ju",
-              "sentiment": "neutral"
+              "sentiment": "negative"
             },
             {
               "title": "Kosovo: Partei von Regierungschef Kurti gewinnt Parlamentswahl trotz Verlusten - STERN.de",
               "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxPUXN3LWZacVp5Tm9qSUFwU2dPM1ZnNHZaU25yRWJMd1pTeU5yV0tCcFZ2UC1XdWw1UC1VcURzXzR5N2x2aTFEbzJob29WT0NjRmpvYlA0QUdXZnhrT2ZKdmQ0aXRlaE1HSDY1UDJLVlY4UXdjMW51ejE3YW5SbjZWLWhteXowR1JRa2JwaXJ3cDlHel9WNXZfR2pYZGh2cERlZ3ItcEc1aC1vQWwwUV9VdVM2R2pZYlM1dnc?oc=5",
               "date": "Mon, 08 Ju",
-              "sentiment": "positive"
+              "sentiment": "neutral"
             },
             {
               "title": "Vorgezogene Parlamentswahl im Kosovo nach monatelanger politischer Blockade - STERN.de",
               "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxPbHJieEo5UVFIRHlmYnJiNGFZMkw2V01Odk1OczRUNjNOcnprdWlJOS02bDdPYzl3WTRTUVRBWjgydFJ2MmZBSHFycFpMOXgwQjFFQnZqc1F0SV9ycWtCenhCSHE4Zzk5bXU4OWpYcVNhMXJneWx2MXd2cGxRcEFtRTBOSGZmS2xwR0FiM0V4amN3V0NxbDJIelNJTVY4NGJ4SXVNaGxtSzRjeTQ2V0F5TDlmQVl5QQ?oc=5",
               "date": "Sun, 07 Ju",
-              "sentiment": "neutral"
+              "sentiment": "negative"
             }
           ]
         },
         {
           "name": "SZ.de",
-          "sentiment": "neutral",
-          "articleCount": 2,
+          "sentiment": "negative",
+          "articleCount": 1,
           "articles": [
             {
               "title": "Wahl in Kosovo: Deutliche Verluste für die Regierungspartei Vetëvendosje - SZ.de",
               "url": "https://news.google.com/rss/articles/CBMinAFBVV95cUxPOWJ2QnlWQThzazlpR1hmZmM2c201WnJTWTJhWkYydDJ5VHMxeWF1OXJWbUxORTRFeHluVm1ubTlsYjFCQ2ZMeUMwc2hjdzhfQi0zanJyb0lVdS1ZWExOTEFZdlp1X1ZJTDdJNDhCblZMTVlDalRTN05XaFM1Rk5SNHg4eXBXSlFLMjYtVzIwdW5PS3lrejdlWWEyU0g?oc=5",
               "date": "Mon, 08 Ju",
-              "sentiment": "neutral"
-            },
-            {
-              "title": "Kosovarische Diaspora in Deutschland: Kinder eines halb fertigen Staats - SZ.de",
-              "url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxONTQ5UU5WQ0stUGlZSzgzTTFXRnB5OXJCeWN3TlpIR2laa3U5SDg4ZkhKd19ma0ZZVE9pbnlSOWdtd0ltSXdCRHZwU2MycGtsVjZQYUxUQkJDOUMzSkRHRVFQMGJpX2l5Y1Y1QlM5MEVMWW5YTHhybXRZWHBfVWwyOVFjaUtSbW9FcGhyQktDcHIwUHZneEFjckNVM2dReVk?oc=5",
-              "date": "Fri, 05 Ju",
-              "sentiment": "neutral"
+              "sentiment": "negative"
             }
           ]
         },
         {
           "name": "T-Online",
-          "sentiment": "neutral",
+          "sentiment": "negative",
           "articleCount": 1,
           "articles": [
             {
               "title": "Wahl im Kosovo: Regierungspartei vorn – Krise könnte andauern - T-Online",
               "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxPTkhmS0xFZlFJamRidUpkcUVwQ2NVRE9yTDBoMWtlakNlUkhidGtuYUEwV3h4WDh6U0t1clZtOHVjR2FKRWhoZEdybDFvbjdXZlNQWXMyRnM3NmJQX1dsd0pZTi1QUnVLTGo5RXJqWldkdm1fMVlDX2hUQm1xU3RRR3pPbEswN0RBLU5yd1h6dkVGczJJbzVDOEJPd1UydFdYVE1nek9iMjNUUVIyTEE4SC1BRVZ6SmFqdWc?oc=5",
               "date": "Sun, 07 Ju",
-              "sentiment": "neutral"
+              "sentiment": "negative"
             }
           ]
         },
@@ -332,14 +351,14 @@
         },
         {
           "name": "WEB.DE",
-          "sentiment": "neutral",
+          "sentiment": "positive",
           "articleCount": 2,
           "articles": [
             {
               "title": "Regierungspartei liegt bei vorgezogener Wahl im Kosovo vorn - WEB.DE",
               "url": "https://news.google.com/rss/articles/CBMikAFBVV95cUxQZGJoYzlKRWZrRjBnX1VRRUNMMHpubFpwbUJaQXN1NjJPYW11dzNja0diLV9ybmQ3VTRfZ3NfNlNWb1hkelFjTV9YR2Z6SWZVenRHUk9JMzVfYzVTYndvYThqZl9uQVh1TWxyZ0xGZTNIZ1BRNThxMWlRTkFIUTRIeGlhUFN3OTZQVHZHLVg2Y2c?oc=5",
               "date": "Sun, 07 Ju",
-              "sentiment": "neutral"
+              "sentiment": "positive"
             },
             {
               "title": "Parlamentswahl im Kosovo - zum dritten Mal in 16 Monaten - WEB.DE",
@@ -375,33 +394,14 @@
           ]
         },
         {
-          "name": "die-tagespost.de",
+          "name": "aktien.news",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
-              "title": "Die Wahl ist vorbei, die Probleme bleiben - die-tagespost.de",
-              "url": "https://news.google.com/rss/articles/CBMikgFBVV95cUxQNXZ4bHctR2tKamZwMWxkeHdxUmswNUF5alZxbzlfRzhXUFU5b1RsRUUwZ0s0Yk5lU3h1cWZfam1BN2pGRWk1REpCd29TQVp6MHRob21GZ2t4ZUhUVXIyYXdjSmkydGhMY1hyOGxpZXBPV2tSVWJnemREVHZpa0YzUm1mS3c1X3Q3ZThHcWFXM056QQ?oc=5",
-              "date": "Thu, 11 Ju",
-              "sentiment": "neutral"
-            }
-          ]
-        },
-        {
-          "name": "dw.com",
-          "sentiment": "neutral",
-          "articleCount": 2,
-          "articles": [
-            {
-              "title": "Wahlen im Kosovo: Der Preis der politischen Polarisierung - dw.com",
-              "url": "https://news.google.com/rss/articles/CBMijwFBVV95cUxQSjloTHR2Y2NGdVN1Q01pb1FPd3lzeGJ2MlNkM3BuZTJzQ2g3RGh5Qy1kZVl3aFAwR1JxMEE2b0ZnTGN2T1NKb1o2SmJpc1RyeThUU1VxejNWNkp1RkVrREhXZ0JWNlMxeGJrYzN4TnllNXFvVHctRWc3eXowVFRtUjV3ZmdQaWNHdTZmX1NPONIBjwFBVV95cUxPM05EZ3J6bzkzeXdYWTZtcUpJRVFycXJHX2JzQUt0eWRkdlZxSElkbEdxeFRfMVVfRnFObjdrbV8zamRCRjdybjVWeHB3VnNRMVpvMVhHbGs3S2VDd1VKa0hzQmE0MVh6UE5PZGF3ZXAxMXRXcGppQVBJLTA2dkFjYTAyN3p5RXY1X19SakFuSQ?oc=5",
-              "date": "Sat, 06 Ju",
-              "sentiment": "neutral"
-            },
-            {
-              "title": "Gaza-Friedenstruppe: Kosovarische Soldaten im Gazastreifen? - dw.com",
-              "url": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxNNkR5SWZFc3V5SUVMXzRldUJ2NE1ZVUtKdmNXbTllVWpXODVYeGtzQUxISkNuMzk1dVJBcUtOeTlEY3U3bXgtbVhmRTFBSGdubE9ISURXeVhCTV9jRjRIcVUwZEJGeDVfQk1WYmlTQ0xBR010V3d0Zld1YzFBZExhMlpwVEdZMXhwUDBiSmo2RnBMTTRfaEtlQTZFbmsyeWpNcVJjMk1EaExLZjhfNGM3YXpIdFpyT1NfZnhSalVobWLSAcABQVVfeXFMTTJlMUtHUHdweEtKMlU1b1l3U25UTFB2SWlVRURVRXY0ZDJadjVqWVo5cjlrZ0NMa1pBeENWdmZuNnI5LWpXUldudG5FalhPemxXUFdlSWlOcEVuSlljdmNzbHNneldha1FSM21sWUNCOHhPb1lNMzhTN2wwREdNSUx0bFdkZGlMQ1VjZFByNGVqaVJSZmp1Vi16Rlhqc1JFYnNtMTJFaWlFYzNnV1pjRzZscjkzX2dac3owVjJHYTdS?oc=5",
-              "date": "Fri, 08 Ma",
+              "title": "NATO passt KFOR-Truppenstärke im Kosovo schrittweise an - aktien.news",
+              "url": "https://news.google.com/rss/articles/CBMihgFBVV95cUxQbHdMc2VYd1Y5OEZzaDNxSU1rY2NrMHJwNGN2b3BNeEhMWGJuZkJwTGlxT0x3azNTQXFSY0tQWTdYWGFmVjZ3ejlxR2RiRDEwVVM5MGY1dENIdy1YZlQ5T0NPMFNKZjlRdGZvV2d3MmRKNUFXUUpkcWI4WFl2R00tei1FRkpUUQ?oc=5",
+              "date": "Fri, 12 Ju",
               "sentiment": "neutral"
             }
           ]
@@ -438,53 +438,78 @@
       "outlets": [
         {
           "name": "ABC News - Breaking News, Latest News and Videos",
-          "sentiment": "neutral",
+          "sentiment": "negative",
           "articleCount": 1,
           "articles": [
             {
               "title": "Kosovo voters return to the polls after parties fail to agree on a new president - ABC News - Breaking News, Latest News and Videos",
               "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxPTF9kWWUwRmJDSVVEY3N5U3B2Mm1mUWRkZHpEMld5VkRaTEhMYzJCaDVDb2RWN1YybWdjNDI3cHNua09lZUszS0VfT2JaQ1l0RFBlWnRzWXdlbFdVQTcxSllIdU1xRWxFbmUzWHlsYVpiTHMyR3Z5Q09EQ2RVT25VZFJ2ZV9UWkFJUE53YVMxUTRTQ1hfUloxM1ltU3NwRGttRkJubVZMdEzSAa4BQVVfeXFMUGM1b2Y4bkthWjUxc29rVWJBbUpPVk9pU1NUT25jZlc5dWxUTTdEZGctNmpMZXE2dDM3MzFGeTc2MFozME1RNzhPbTByd204Y3VOSEdaekl0cjhlNnpQRWZPZmlwWlhmRFpNMEh1TTVTcVJGeGxYblJMSkpaMEtPYVppckk5anJBU3pvSWZ5SmI5RDlFZWdJMzlMaVAydldVWmZlUHoyeDZ6aDdkRmdn?oc=5",
               "date": "Sun, 07 Ju",
-              "sentiment": "neutral"
+              "sentiment": "negative"
             }
           ]
         },
         {
           "name": "AP News",
-          "sentiment": "neutral",
-          "articleCount": 1,
+          "sentiment": "negative",
+          "articleCount": 2,
           "articles": [
+            {
+              "title": "Kosovo set to hold third election in 18 months as frustration grows over political impasse - AP News",
+              "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxPbXpvZ3BsVEUtaXB4SHd5c1RKTGR0d2k2R21tVTRJcGNncHR1LXRfOHpXekhHUXIyeHhwX1d4ZktEZkJJX1VRUXhrNWtDZjBRMU1MRFZPVXFoMkYyVlFQYm9vRHpOUllDeFJMM0JVQWJvdUt0U0JUOFQyRHpIOXIxcDQ2Y1hOTDlaMklxUUFtWWkwbEtuWEtjRU1hWU5faklmT2ZqUDNLNEhnWXRDUVhXRzln?oc=5",
+              "date": "Sat, 06 Ju",
+              "sentiment": "negative"
+            },
             {
               "title": "Initial results show Prime Minister Kurti’s party won most votes in early election in Kosovo - AP News",
               "url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxOTDNZRUhrdzJzTGVIUDh3WVE4OWNGaHNLT0xWdzJQc3FKeEd6UkZzSVhjUVBOeWNiSGRTVjRBeEtzQkxlVG41T2MzbXdBdXR6QlVLV0llczJteFZxSlNSdXVxVkJHQjlMNVpybm9jVUZRNGI3OEFPSjN5S3UxVVhSTUlwNEJnYWVmLVpfVHdnNWxMNWpxamJoT2kxek5vYVE?oc=5",
-              "date": "Sun, 07 Ju",
-              "sentiment": "neutral"
-            }
-          ]
-        },
-        {
-          "name": "Al Jazeera",
-          "sentiment": "positive",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosovo votes again amid political deadlock, seeking EU and NATO progress - Al Jazeera",
-              "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxNV2w2TjVhX2FBNTdkOG8zMmtWU1d5V3l3YVBmTk9EbWI1bFEzVDFYVEJ2T2FIN0xfYnVZM3k2T2VtVUpiT3R1ZmM3OEVhdEJiMUZSTFl3YThONHpDRGJ4ZGFJNzg3TDlqcmFfUGJlSkZGc2hoZjJRSTcyNVJfZTdoYnRSNHoxdjBlczg2c1gwdWJLc2hRc0wxR0lsYVBPWGlsSDE1WnN6Y1VKM29zX0ZuLdIBtgFBVV95cUxNZU9lWFJKa2tobWdUM2F2d09sdlpWN0wtdURnbzlNNEo5QjYxZk5KZkNOX2dQY0J1ZWRzNWM4SDUzZzlXaFRxOEk1SjlaS0FfR0FDRTFSVU9ocWZjbDlxQ1dhS0FHU2JCSWUzclBTcENEeGN6STFNTTR2NHF3TjZiMHd2OEpYS2hLTkFQTjFtRzZNak53b3N5aU1fbVpFcnljVzB2WEZIMHplS0lzVlRSNldtX1VwQQ?oc=5",
               "date": "Sun, 07 Ju",
               "sentiment": "positive"
             }
           ]
         },
         {
-          "name": "Anadolu Ajansı",
+          "name": "Al Jazeera",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
+            {
+              "title": "Kosovo votes again amid political deadlock, seeking EU and NATO progress - Al Jazeera",
+              "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxNV2w2TjVhX2FBNTdkOG8zMmtWU1d5V3l3YVBmTk9EbWI1bFEzVDFYVEJ2T2FIN0xfYnVZM3k2T2VtVUpiT3R1ZmM3OEVhdEJiMUZSTFl3YThONHpDRGJ4ZGFJNzg3TDlqcmFfUGJlSkZGc2hoZjJRSTcyNVJfZTdoYnRSNHoxdjBlczg2c1gwdWJLc2hRc0wxR0lsYVBPWGlsSDE1WnN6Y1VKM29zX0ZuLdIBtgFBVV95cUxNZU9lWFJKa2tobWdUM2F2d09sdlpWN0wtdURnbzlNNEo5QjYxZk5KZkNOX2dQY0J1ZWRzNWM4SDUzZzlXaFRxOEk1SjlaS0FfR0FDRTFSVU9ocWZjbDlxQ1dhS0FHU2JCSWUzclBTcENEeGN6STFNTTR2NHF3TjZiMHd2OEpYS2hLTkFQTjFtRzZNak53b3N5aU1fbVpFcnljVzB2WEZIMHplS0lzVlRSNldtX1VwQQ?oc=5",
+              "date": "Sun, 07 Ju",
+              "sentiment": "neutral"
+            }
+          ]
+        },
+        {
+          "name": "Anadolu Ajansı",
+          "sentiment": "positive",
+          "articleCount": 2,
+          "articles": [
+            {
+              "title": "NATO to reduce Kosovo peacekeeping force after security improvements - Anadolu Ajansı",
+              "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxNZEU4cnZaVnZDdFNXT1k3WUlxTThaTHVycWV6VDN1ZnVpWldjbnh2ejhLSWgxOGVvaENmXzE1MlFnSmZEclBGVXl1bDcwVXZFb0E0VjNHLS05ZVVmRjFzTlBxTGFnTnVBSjVLbFlqczNPWEVrZHk4MzFEbkJHMXZ3a0k3YjhSczZka0xwNHF4Z1RQVTR0cWVBYjFRVGtOWGhjRHhsc1RmVG9mREM1?oc=5",
+              "date": "Fri, 12 Ju",
+              "sentiment": "positive"
+            },
             {
               "title": "Kurti’s Vetevendosje leads Kosovo election with 43.72% after most ballots counted - Anadolu Ajansı",
               "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxPMVFlSFNVc0I5M2ROaTAzdGN5N1ZLRWFxNXl2MkdjSUZjZnBKNzJzUGI5Rk8tTi0zdjYtMGxmWGh2WHpobXZUMDdiTVQ1d0ZGRnBhczBtdmRoS0wwdmcwR1d6bDVFU19faHNyLXphZzhkNUV5SnJzVDNXeUZjdm9JRUpQbDc5UlFFajRhVTd1V3RscUtOX215aERfYkl3dm1ZbnBBalk1LUVRQVZXcTdSYU9VSEp2SkVXdjlF?oc=5",
               "date": "Sun, 07 Ju",
               "sentiment": "neutral"
+            }
+          ]
+        },
+        {
+          "name": "Arab News",
+          "sentiment": "negative",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "NATO to cut Kosovo peacekeeper numbers - Arab News",
+              "url": "https://news.google.com/rss/articles/CBMiVkFVX3lxTFBscGlBS1RIVjc1MTh6aTRJczFvVTVyT1B0YlBwRFUxTlBJVHRlV0hQRmlNS1Z3RFBLY1Z0dGpLa2RkWWU3bjZpYzhEVEt1eUxPdlktSUt3?oc=5",
+              "date": "Fri, 12 Ju",
+              "sentiment": "negative"
             }
           ]
         },
@@ -504,76 +529,90 @@
         {
           "name": "Balkan Insight",
           "sentiment": "negative",
-          "articleCount": 3,
+          "articleCount": 1,
           "articles": [
             {
               "title": "BIRN Launches Exhibition on Wartime Expulsion of Kosovo Albanians by Rail - Balkan Insight",
               "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxPZ2NYemlzZWhyRWRXZThmNzgyYXM0Q2JzUThpc3hmYzNHSzVnMDdBT2RtdTByd2FiNWRaV09QLXpUaVZZdk5SSWdoN1RxWkNsRkFPTENWTTBFcGVweC1HdllvTzFTWjREd0NaTTV1RUZ4TEJWWkhfVFVzOTlWV21NaFJKZFBRdko0c2VLM3c3cnFTMTI3cVAwTUVzeHcyWDlsZV9TNXZTYWRjM2UyTkVzTmxtR0sxdw?oc=5",
               "date": "Thu, 11 Ju",
               "sentiment": "negative"
-            },
-            {
-              "title": "Kosovo Election: Kurti Must Heed Message of Voters Tired of Crises - Balkan Insight",
-              "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxOazdCTUNzNWs3T0tYZHpSRWIzcXZZclFkeHRucFp4MjM0TVNOcl9xbHVYQTdlZFRLU2hPVUxXWEV6dG9LQUFoZDc5TTRDOHcwY2hFb09nNV9iSTduTEpsLUtOVE5CYlpabGF1T0NCMkZxNWc5Nk1UcUFrT0U4Zm0xMUs1eEFhU1dhSUtJTUw4WHZBZHZ0ZHVmdnRVdmZDREoxQ0tHcHFnem5adw?oc=5",
-              "date": "Tue, 09 Ju",
-              "sentiment": "neutral"
-            },
-            {
-              "title": "EU Congratulates Kurti on Kosovo Election Win, Urges ‘Compromise’ - Balkan Insight",
-              "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxQRU5nRFRUWFI5QWtaaVJ0YmhENWxqSkFlVkREWF9FQ1hSMEUydTFNNEx2U0RMVEVodnJWajFqb3ZBRjJPZ001WVpaaExWOEpiUzl0bTlVbnVIVzlDV0Z2VzdDeXI2Rmp2dk5KMnJHcEZSNFh4MDZvUTltVmxIY0I4M09hUlBzZWljSGpWXzdPNUhlYnlaMlFKcDQyTzgzbE9ydThUaW13?oc=5",
-              "date": "Mon, 08 Ju",
-              "sentiment": "positive"
             }
           ]
         },
         {
-          "name": "Baltic News Network",
+          "name": "Bloomberg",
+          "sentiment": "negative",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo Remains in Deadlock as PM Wins Third Election in Row - Bloomberg",
+              "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxPQUp6LVdHVlZjR0N2Tnh6d2MwbmhTbDU4MXhSbjhCR0lFeUxJZE9sNU1Yd0gtQ1BYTHpHZ1IyeU80c0xIUzY4YTMtR2ZVSEFvQUw0UENZNjlHbHlMWTh6UDFqRkRMV3hyRUlwblB2NkxpTDhEazJEVVhMNmx2N191RjhiMUxndGs1UDBUanhQMTYxaXl6bjNxUGlNa1BWVWtLNGNyVjBKWnpXTWhhN2NieGY2RQ?oc=5",
+              "date": "Mon, 08 Ju",
+              "sentiment": "negative"
+            }
+          ]
+        },
+        {
+          "name": "Britannica",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
-              "title": "Kosovo holds third election in 18 months; majority not achieved - Baltic News Network",
-              "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxObEJHcUM0bHhKak9ONnBla3RQX3ItQmtQN3BTN1RabEJhYVdVZVNoQkdWT05QZ3N0Q1VacUtuWU9McDdmNVhKNm1PenQzeW9GWGVXejZUcjJtcWpyWWQzdnl5V1Y5Mm9vOUVHWEVzS2NBZWhKNGVCSTJadFFfVVI2dlVQN2w1NUxOanh6S2pKb0RtS1Nz?oc=5",
-              "date": "Mon, 08 Ju",
+              "title": "Kosovo - Self-Declared, Independence, Conflict - Britannica",
+              "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTFBXcEtoNVkyLWxUODJDUWFZLWhkcGtkOVVrUHJkOW15STVFek9rNUswSE5iS3NXOHhLTHZUQlZnYmxlanhnTXBYY1RJbHJOb2NjS0g4UGpMdThBdHlWNENPLVcyS3o3VVhOUUZyR2JjY1lWQnUx?oc=5",
+              "date": "Sun, 07 Ju",
               "sentiment": "neutral"
-            }
-          ]
-        },
-        {
-          "name": "Bloomberg.com",
-          "sentiment": "positive",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosovo Remains in Deadlock as PM Wins Third Election in Row - Bloomberg.com",
-              "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxPQUp6LVdHVlZjR0N2Tnh6d2MwbmhTbDU4MXhSbjhCR0lFeUxJZE9sNU1Yd0gtQ1BYTHpHZ1IyeU80c0xIUzY4YTMtR2ZVSEFvQUw0UENZNjlHbHlMWTh6UDFqRkRMV3hyRUlwblB2NkxpTDhEazJEVVhMNmx2N191RjhiMUxndGs1UDBUanhQMTYxaXl6bjNxUGlNa1BWVWtLNGNyVjBKWnpXTWhhN2NieGY2RQ?oc=5",
-              "date": "Mon, 08 Ju",
-              "sentiment": "positive"
             }
           ]
         },
         {
           "name": "Carnegie Endowment for International Peace",
-          "sentiment": "neutral",
+          "sentiment": "positive",
           "articleCount": 1,
           "articles": [
             {
               "title": "Reviving Kosovo-Serbia Normalization Talks - Carnegie Endowment for International Peace",
               "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxOVkM4Y0ZheFBGOWI0RVp1SDVFZTV2aUFiZmttWENZVk9pY29zdVhhNzlsb1JvY2pzbjRKbktXSC0ydl8zT1JRVk9ReXhnd1h0S2NQVldQUmRmb25XaXlhbGkyWmxNNXNDQjRndk5QT2JVM0hneGlaYThEM1NHLXF6UDA4NlMxZG1WTWgxYU1Cb1ZCMEU5SWcwMQ?oc=5",
               "date": "Thu, 11 Ju",
-              "sentiment": "neutral"
+              "sentiment": "positive"
             }
           ]
         },
         {
           "name": "DW.com",
-          "sentiment": "positive",
+          "sentiment": "negative",
           "articleCount": 1,
           "articles": [
             {
               "title": "Kosovo PM wins snap vote, but with no majority - DW.com",
               "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxNMGgyNGtNU1pCQkY4TjFVZWdWNzNRZ2loVzVNSXlxenZtWWNKMWVmREZpT0pyQUpLWklBOTVlbWwxUGlma3hZX1E5dktEbFdJSktWaUZ5MlU1ZTBHeEhkbGtkb3dMeEN3cUVfeGc4ZHJkWGRsUjBZeUl5SmdIbkFuUFVVbW_SAYQBQVVfeXFMUGxvVnlVZ0FQbnFLaXRwRWdSaWZ0ZFBNbjk5d243dkEteVQtTkZXNW54M3VaNHdVYm5mbmIwQjNOQm5wM3ZTeDFzLU44YkdpYkpsa1ozT1l3dFkwRWJnbzhRblMyNHg5V1F0WDFvdHpnTlVrTDRKYUNJLXdURVhzcE1HUWhs?oc=5",
               "date": "Sun, 07 Ju",
+              "sentiment": "negative"
+            }
+          ]
+        },
+        {
+          "name": "Devdiscourse",
+          "sentiment": "negative",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "NATO to Gradually Reduce Peacekeeping Forces in Kosovo - Devdiscourse",
+              "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxQNjVMS2IwcW1CQ0poQVFUYnJDdmc2WmNwelpGWGNRZEJvOTgwbHNoNDhJRHpUdFQ0OG8yMGZJWlE0TGJGYkZNQTk2cUtteXpCZ19kVFNwMlB3cE9FRGNDWlB4bzN3VldYZnhwa2NfaTk1Nnh0SHFMRnZ5RmNCM1Ntc2pQMXhOdGpKU1JTbnY2STFiVWIyUnFBVWlEOW5fUWNnd2I1WEN2eUFtSXNEdXfSAbMBQVVfeXFMTTFxWFpFMkwyaTVxTFE3QzRLTjdmLUlQcnZrY21RTHVfN19GQVVhXy1CRkxMLTU4YzJYSF9CSlJoa0VxQzBPVXcxLXBTV3dqUEE4YWxkOTg3a1Q0dk5xYjM0Vm1JaXF0ZndUSGlBTHBZS0wxeUtrTmUwUjhxQnd4elVNeUlSQ3NoVmF0RUhxTmxQNzd4Tk9SdjJrRGIyNUt3MXJOZEVsSUw2b2xJU09PNDQyWkU?oc=5",
+              "date": "Fri, 12 Ju",
+              "sentiment": "negative"
+            }
+          ]
+        },
+        {
+          "name": "Eurasia Review",
+          "sentiment": "positive",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo’s Unique Case A Shining Example In International Relations – OpEd - Eurasia Review",
+              "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxOU0dQVHg1YmstOVpPMTUzNng5dkFZeDRjSXN1N3hseXFoR01SRGU3SV80cmt3U19ZNV9ET2lVRjg1VzRkMFJNUmVHM25GUnU0UEJHZHlXNGZQYklZN3cyZXd6NEJZUlJVMWtmSm1DYy1DYUZnaHA2eE1fRkh6N1hMQ0Q1d3ZPcmhWSGNqWUw0MmpMYUVOV010ME1lLVdCRFA4NnFrSjgyQnBfWUQ3T3c?oc=5",
+              "date": "Thu, 11 Ju",
               "sentiment": "positive"
             }
           ]
@@ -581,13 +620,19 @@
         {
           "name": "Euronews.com",
           "sentiment": "positive",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
+            {
+              "title": "NATO to cut troop numbers in Kosovo amid 'improved security situation' - Euronews.com",
+              "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxOUFNTbGx2ajBrSlg0dEpOV1VGNnJzZzhmaVJFa2pNTjBWdURVN3hYUGlhOG4ydUp0MWJKNkQ5R1RhOVBKMnU2aDN3RElEbnVpX3lxTzJVdVhSY3FGSEc3bHRKTDFLT2c2cW1TVHc4WXFuN2FtNmk2bjBEVTMtOUN3eHNQMDBDSGt6c2ZrM05lS0NpRVd6SVZBb0Zxci1JZm8tWGpWYVB6azBQZmlON0pnWUl4Q1g?oc=5",
+              "date": "Fri, 12 Ju",
+              "sentiment": "positive"
+            },
             {
               "title": "Kosovo election: PM Kurti’s party wins most votes, but no majority - Euronews.com",
               "url": "https://news.google.com/rss/articles/CBMixwFBVV95cUxOSUhRN2F3NmhiWUVNX2N5Yl9ORkF1ZFlINzdYZWFEdkE2M1JzODVudmcyZk9YaXdFMWoybmUxSlhBaUlhMm1rMXZyMUZUQ3ZQaEJ6WjB3bnFES0hsMEtWQjZZUkFTcUVHcXNHdDdidHhOSndyTE53WDVfZVZORkliYzNBRTRUSE1CR0ZJM0tnbl9LMTdfcG5iMmxEYW91T2ozdEZWNmtKTndjOE51ZktRdk5HcEpNb2EtQkR0U1UxSkhqakg5ZFYw?oc=5",
               "date": "Sun, 07 Ju",
-              "sentiment": "positive"
+              "sentiment": "neutral"
             }
           ]
         },
@@ -619,19 +664,32 @@
         },
         {
           "name": "France 24",
-          "sentiment": "positive",
+          "sentiment": "neutral",
           "articleCount": 2,
           "articles": [
             {
               "title": "Prime Minister Albin Kurti's party wins Kosovo vote but falls short of majority - France 24",
               "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxPNGVCc01ELVN4a2NId1JXTkhXeDBldU5jcmVBR3VpYnlvdEFvcGFRbDZqTjViQ1JUb1RsdHh4TlZXVEFWUjY1bm40eTZ5Q01Td0ZfUmVWMWczNFplbFRrWWtwTEdIQmJleGs0MGlQcG52SkhMNlRvM3hfY1NNVjF1T19UX3A5QlVDbTZ5UzBIXzZDY214ZGY2X01FTjBwRXgwUXhUTDlwVGd1WXVKR0pRM2NtUF9VV0dWdUJHekln?oc=5",
               "date": "Mon, 08 Ju",
-              "sentiment": "positive"
+              "sentiment": "neutral"
             },
             {
               "title": "Kosovo: Former president warns of cost of political deadlock - Spotlight - France 24",
               "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxNR2l5ZG42QjEyR3VwMHY0a0ZqdU52OG9IcHF4T2p2MmNySjRlRVZjTEFDZzh2SEIzT0EyVjB2emNzdHJ5dGI3U2RsVVdWN25pZmVIVjM3dlZQYmdjMENteWV3ckFqTUd6dlVaLW9xaHRTSGZGdGRPYkpUVEhHZGRndlJNVjRMVF9CbmhmZmVtb2c5cW9wWDVuOUt6cUZQbkRhejc5Y2VBMHdTWEFZVlZyLV9KZ0tabGM0QmFB?oc=5",
               "date": "Sun, 07 Ju",
+              "sentiment": "negative"
+            }
+          ]
+        },
+        {
+          "name": "Gamereactor UK",
+          "sentiment": "negative",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "NATO reduces the number of peacekeepers in Kosovo - Gamereactor UK",
+              "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxNdkZHQVFLeDEza0xLaVFJUjJtQmVaLTdZTGtBeVJWRnZBY0hJeXJ4NlFkMGswRzM4WWY2Q3JUWVBwaGtOLTBoV1U0X0FEYk9hamo0amRGdFZzcWdhWkEtQzhGSGV1YzRFU1dPMEhzbHZuT0VwcXBzU3hVQWd4ZzJyUG9yNDhfdmNqdWV3RmN3?oc=5",
+              "date": "Fri, 12 Ju",
               "sentiment": "negative"
             }
           ]
@@ -651,33 +709,27 @@
         },
         {
           "name": "North Atlantic Treaty Organization",
-          "sentiment": "neutral",
-          "articleCount": 2,
+          "sentiment": "positive",
+          "articleCount": 1,
           "articles": [
             {
-              "title": "NATO's role in Kosovo - North Atlantic Treaty Organization",
-              "url": "https://news.google.com/rss/articles/CBMihgFBVV95cUxQV3FIVnlISVZadHBXd2tHb2R4MndoeXJOLU5scUlZYUhCV24tQTRGZXFxQWdITTBjWUIzZWZOR3R3cDNWNThlU1c5VzVjbXBsWDZCV2NqT1NVOHVPbmhaNnpaTloyOTFfcmhwM2FWRGpmaDcyM2RzM3hQbW1kNWR0Z0Y4alNYUQ?oc=5",
-              "date": "Tue, 28 Ap",
-              "sentiment": "neutral"
-            },
-            {
-              "title": "Kosovo Air Campaign (March-June 1999) - North Atlantic Treaty Organization",
-              "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxNQncwQ1ZRbmxCLU5xeXZyNVk1S01oN2RjZnRZU0QtWDNKQVg2SXVIZ2ZhNnNPajZhUTA5VTk0VXN3WVcwODdGMGlxRnNDYV9PUFBoWUhUMENXaUlXemtGRzQ5YUxhVl95cDFSaEROM3h6Q2hoaGQyNlZjQ0wyQllHME5vaUFfTmkxTkt3RlhxekozUndXcXBPeVd3?oc=5",
-              "date": "Fri, 14 No",
-              "sentiment": "neutral"
+              "title": "Improved security situation in Kosovo allows for optimisation of KFOR mission - North Atlantic Treaty Organization",
+              "url": "https://news.google.com/rss/articles/CBMi2gFBVV95cUxNQzRxaWFtbGdzODVXNUpwNkh4ZFh5TXFGcU9Wa1VOcHBEUGwyenJHeVBIWHZESmV4MUU1MjVSSVo5b3hYRVBvQU5ncmo4RDYxMTc4WjJCaFpfZi1QQUkzbEtkczRRdnpxOG9tYWE1OThDTU16VEtmTmVGdlpGWGVlMU1SSzEtSlV3X1lDOXJpazlLZUI0dzk1OFJfLUhFN0IwZ0t6OHZtRVBjN3o2VGtnQ0NUZ0J4Q2VKWHBNZmRSeFlIcWdWMFFpaXdiX3JYUDRVZVV3VTJGYlFOZw?oc=5",
+              "date": "Fri, 12 Ju",
+              "sentiment": "positive"
             }
           ]
         },
         {
           "name": "Osservatorio Balcani Caucaso Transeuropa",
-          "sentiment": "positive",
+          "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
               "title": "Kosovo: Albin Kurti wins the elections, but loses support - Osservatorio Balcani Caucaso Transeuropa",
               "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxNbkNVNU1iRHViSlV1TjhxWlZvLVlmcGFfdGtLWk5pbmRnaFR6NEo3YTdwNDMwa01rdkZfeFk2dk9GWFFWMGx5NFNTRkl0UHBBQTNGTkJrR2JDRjkySTRqSXNjemNZZ256SWVESTFKa3N1anJjWThzWm5UU01WcVAxMkdsNXJpTWhhN1lJa3ZsRS1NclN2X0Q5SGdZT0JwLXduTm5B?oc=5",
               "date": "Tue, 09 Ju",
-              "sentiment": "positive"
+              "sentiment": "neutral"
             }
           ]
         },
@@ -689,33 +741,45 @@
             {
               "title": "Kosovo Media Regulator Condemned after Proposing Talk Show Ban - Prishtina Insight",
               "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxQNnNLRC1jNEZRSWpPTDRMcElIVUh4Y3hJT241ZU5uTkxpV1pURkdLYzBOcTRycVpGSFJNb2RNMm01NnRxVUJqUFVzMmFPcUVxSjdPVW5PY1VSR3l1TjQ2MTlscHhyZ3I4SnRGX2FwM2haOGJrV0xCOGgzczBuaFExYW5DVE9SLXVMQlFEWVRQSWJIUTVqQUNF?oc=5",
-              "date": "Thu, 11 Ju",
+              "date": "Wed, 10 Ju",
               "sentiment": "negative"
             }
           ]
         },
         {
           "name": "RFI",
-          "sentiment": "neutral",
+          "sentiment": "negative",
           "articleCount": 1,
           "articles": [
             {
               "title": "Kosovo votes again in snap election as frustration grows over political gridlock - RFI",
               "url": "https://news.google.com/rss/articles/CBMiwwFBVV95cUxOWDJfcUVxbGtoemtSVHZpUVFUVDNzNF9iZ0FTMGhpRXE3b09YeGd2QjRFN3lmX29DelpEQUUtY0tRNU9CYnpHRnVLZ2p2MW1hbWI1U1lpRjhRLXFidW85QlhqR2w0ME12SlYzeTRNNzRBR0tMcjFmWmozTHdlc1Z2LS0zeXU0NVI5SWlNQ1o2bGZCT0VvMFE1eVE0MXJUX3gwWUZrUnZvNFotSHBSV0hfSHRKRk5icVgtZUk5amp2b0ZpS1U?oc=5",
               "date": "Sun, 07 Ju",
-              "sentiment": "neutral"
+              "sentiment": "negative"
             }
           ]
         },
         {
           "name": "Reuters",
-          "sentiment": "negative",
-          "articleCount": 5,
+          "sentiment": "positive",
+          "articleCount": 4,
           "articles": [
+            {
+              "title": "NATO will gradually adjust strength of peace support mission in Kosovo over next year - Reuters",
+              "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxOMXBfTldpRjJlRUEzb3c4WmNCbDFRSmFtdmNFb2tFVnFYendtOTQycExZb2RDZWR6eHNFaUJEdWpuelVWV2FHX0IzZFpBVVJiOEdSNjQ2VWYxVGZWbUFUX3NxLVMyUUdMcHEwMWdJbjJQVElPSVdfeGJCOHJHN1B6ZTBVSWhWbGpCdkF4Qm9vSGlWc0RMZmVyY29iNW5KM2FiZTdwVjBJYXVtbncwVGEwYlNxOTg3Q3g5eFg4TnRB?oc=5",
+              "date": "Fri, 12 Ju",
+              "sentiment": "positive"
+            },
             {
               "title": "Kosovo prime minister looks to other parties for cooperation after election win - Reuters",
               "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxPa2c0V19ReEJGTDRmY25HTzVqVWt1dGtzazV3cVYtNHZqUFZDTTJWWFF3amJDSU9RTUxwQlZsc3hrYmFEOFVybzhKcC1zY2NNQjJvaU15SXd6N29nM1hLWmN4NXhwYXdDRTdYeHZETF9kc2dBZElKUk1hWHBDT3BJN0c4cXpkLVFYU2xUbVdOZjI5SEdWaWkwX2pHczMzTmRibWdVUTRJVXlMOW0tVjBvLVUzOGM?oc=5",
               "date": "Mon, 08 Ju",
+              "sentiment": "neutral"
+            },
+            {
+              "title": "Kosovo's Vetevendosje party leads parliamentary vote, early official results show - Reuters",
+              "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxNUTlHTm9GYWlkUy1HOExvRW1vTm40NmhzQXMtZ1E2UjFYdGprZzZZNXRFNnpULUxuYUR0em5tLTBKNDhDLVY1NFFfZENFVTZKM3JpNURIbTJOT2tzUTVIRV93b0xCOGJiSndfVG9xZkpzX3gtYWxkajdubEQ5S2xNQ3BjSFcyVTFEbTgzc0tEUWpubmdBV043SDZ4eG1KWXJHcW5QNFZwSkpySUFvb1pTNVllMnZrTW9EQnFTYTZR?oc=5",
+              "date": "Sun, 07 Ju",
               "sentiment": "positive"
             },
             {
@@ -723,154 +787,84 @@
               "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxQM1ZjUjN4Qy1vQkJSYWZnTUJFczFIRGFmM1lHWEhTOU9Ga2x3RWFtd1NTZk5NWkRUeDMzVFJlZVpHRjhVZTBpVko2TkNrc2d3YWNaSW53a0E3dm16c091a2pNNDFHc0M3T2VmUlFZN3o5RDhBOHZXUkVLYW94azgxeFdOQ3VuTW9QemMtdWtBdE1OVFVQUldPanU0aWd1Ny1i?oc=5",
               "date": "Sun, 07 Ju",
               "sentiment": "negative"
-            },
-            {
-              "title": "Kosovo's Vetevendosje party leads parliamentary vote, early official results show - Reuters",
-              "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxNUTlHTm9GYWlkUy1HOExvRW1vTm40NmhzQXMtZ1E2UjFYdGprZzZZNXRFNnpULUxuYUR0em5tLTBKNDhDLVY1NFFfZENFVTZKM3JpNURIbTJOT2tzUTVIRV93b0xCOGJiSndfVG9xZkpzX3gtYWxkajdubEQ5S2xNQ3BjSFcyVTFEbTgzc0tEUWpubmdBV043SDZ4eG1KWXJHcW5QNFZwSkpySUFvb1pTNVllMnZrTW9EQnFTYTZR?oc=5",
-              "date": "Sun, 07 Ju",
-              "sentiment": "neutral"
-            },
-            {
-              "title": "Kosovo to hold another parliamentary election amid deadlock over new president - Reuters",
-              "url": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxOaFltQmhhV1R5T01oaDE5eHZqMmtqZm5KQkFwUUhwYWd4ZUwwUUdDZ3hJa3VXTEFuSi0tVGc2TnFiMHRjQXJtbUhpWXhLcXBWNHBXdzcyRDBWckt4UUc0bUtQVGxia09sWld4anJMQXdpSVY0dzI2YW9KUG0wRGVIZVVCTDdlY0Y2NEU3NDUzSS1HSTM2NHBRaTBKLWdZNW1pVWdmT3hjUmJvdzBtQmptX0xlVkVNU09s?oc=5",
-              "date": "Thu, 04 Ju",
-              "sentiment": "neutral"
-            },
-            {
-              "title": "Kosovo's Kurti wins snap vote, but lacks majority to end crisis - Reuters",
-              "url": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE82aW1VUkpwZlRXTThkZ3I1aEpab2lJdGF6MkVCVTRkcXhuTXBhQmtwa0taOG5IenVFR21PNnhtV1dJQlRLaktCaHVyVUphLWVXYXBCQ2lPNFVMYWlacks4LWVpWXE4TkU?oc=5",
-              "date": "Mon, 08 Ju",
-              "sentiment": "negative"
             }
           ]
         },
         {
-          "name": "SeeNews",
-          "sentiment": "neutral",
+          "name": "Stars and Stripes",
+          "sentiment": "positive",
           "articleCount": 1,
           "articles": [
             {
-              "title": "Foreign tourist overnights in Kosovo up 9% in 2025 - SeeNews",
-              "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxNVjRWemNfaHJKMUhqakJ3aWlHSlBFcWYzSFo5S2ZUQ0tSVGphc1g3ZGE2emN4ZGZ4QzJORzFGTHI2OWozVUxGMFF1cEFoZVpRZ2FPV1oxUHlabmxVYTVSVVd2Y3lNSVZpeTFCWUZQSWtGMU9nYUN4LVVpMDIwaTZ6WGZSX0RLX2ZWbHJwUG5Yd05qeVpm?oc=5",
-              "date": "Thu, 11 Ju",
-              "sentiment": "neutral"
-            }
-          ]
-        },
-        {
-          "name": "TRT World",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosovo holds third general election in 16 months - TRT World",
-              "url": "https://news.google.com/rss/articles/CBMiWEFVX3lxTE1XbDdSVWhiSlhQMVVueV9WSU9HNjdzeGpXNDFqeDkxbDVoVEFBMDQ1dWlTRmhEaVhJb1BFanpyOUtmMDNvU1dNSngzYTk5UkdmVXR1SGRQaGY?oc=5",
-              "date": "Sun, 07 Ju",
-              "sentiment": "neutral"
+              "title": "NATO to trim Kosovo peacekeeping force as security improves - Stars and Stripes",
+              "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxOWkpUSkZMWGtyb24xTXdhWXo2MzZQOHFPQm9URXNFeFoxN1BJUnM3N0NCUXVEN0hUSExDNEhnTHJsbkV6UHI2QzExeFBUNkczZnFsbk8ydThrQkU1aWw2YWJuM1dYRWlGS01hd2RlNlExV1R0Nno1RDNiSTRrU2ZoRTU5T2paNUFoT1Q2WDhtWEg2RzdxalhF?oc=5",
+              "date": "Fri, 12 Ju",
+              "sentiment": "positive"
             }
           ]
         },
         {
           "name": "TVP World",
-          "sentiment": "neutral",
+          "sentiment": "positive",
           "articleCount": 1,
           "articles": [
             {
               "title": "Kosovo: PM Kurti's party leads parliamentary vote: exit poll - TVP World",
               "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxOVjZFeWxnQ0FaZ0l5SzZEdGcwTmp2UmU0dWEyTG5NYWVwcEVzZ1VLU3NoLXBGNVRwbWlnNTBLN09TQlhGdE1VcDNiWTdGbG5iWmZlQnMyVEZua1pJTUYwUHdHMHEzLWU0dHZWd1JOVnhCaWJyV1JGVTZWZkdQUTlTeEtzX2E4MGpYVFNYU0RLTFM5a05zVTdueWt4Mk9QcWVUN3c?oc=5",
               "date": "Sun, 07 Ju",
+              "sentiment": "positive"
+            }
+          ]
+        },
+        {
+          "name": "The Straits Times",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "NATO will gradually adjust strength of peace support mission in Kosovo over next year - The Straits Times",
+              "url": "https://news.google.com/rss/articles/CBMixgFBVV95cUxNOThPZlVzRmNlRUpYWTB5R084M0ptcVhDOFFrZy0tRXd4NGdZQTJCN0wwUS1qdmo0Y1B3MG1ZS2RhbE9CSGxZV3BkTmlIdXRRdnpHNjZGYm5WTnI0a0p5ekUwUktSUmptdXpNNmlwZW53cWlCMTc3MUowU2hiVi1hVmN2c1JZc0g0Y1d1V0FKYjBXdU15RnZxMnczSkUtakVIeXRLUkUteUl6OWhWZXJvODYxWjg5TVZtcEhwOHdub1FiLVpjRFE?oc=5",
+              "date": "Fri, 12 Ju",
               "sentiment": "neutral"
             }
           ]
         },
         {
-          "name": "The Brussels Times",
+          "name": "Türkiye Today",
           "sentiment": "negative",
           "articleCount": 1,
           "articles": [
             {
-              "title": "Encrypted messages expose Kosovo crime network behind €80m drug empire - The Brussels Times",
-              "url": "https://news.google.com/rss/articles/CBMivAFBVV95cUxPVXV3MGJNaDFOQWtIaTh2YjhPZlNtcjJRdTZJdGFNUEV4TTJpN2hnQWVXQ0RRWVZYUWFDU2ZkYzZ4WWZYSFhNQkRWNWNQOVlrTndadGo2WkZPbjRKM3dFS2szQ0M0eWN5OXdFWFZVVmc1MVpIcHpzSTRObTFPZzcwQ3ltZ2E5OUVyd0dDbHkyWWJVU3pyNGVlVDA3cVRFTGpQalVrb1NtLUZqcnpTck55d01zS0JXb3dWRlFJag?oc=5",
-              "date": "Thu, 11 Ju",
+              "title": "NATO to gradually reduce Kosovo peacekeeping force over next year - Türkiye Today",
+              "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxQQ2RXay1kRU5sLW5FOGl4THZnYWl4VnVubExUN2x3V2RsX1JxQzFpQVBwWFRadUZIdUtzWTFyczd1THl4Rnl4NFdZYm5STnhrMlpCOVE2eHJtOVBleXNseU0yVUIxX3BacnVaQ25uLXVFY1ZqYWd5Q21kMUxBdFU4c2NQOWRjYksteWJlQ0YyRTNkR0tWOHA3V1p0SDE2RUlNeE84RFV5QUFqejZ0cFE?oc=5",
+              "date": "Fri, 12 Ju",
               "sentiment": "negative"
             }
           ]
         },
         {
-          "name": "The Transylvania Times",
-          "sentiment": "neutral",
+          "name": "Yeni Şafak English",
+          "sentiment": "negative",
           "articleCount": 1,
           "articles": [
             {
-              "title": "Kosovo voters return to the polls after parties fail to agree on a new president - The Transylvania Times",
-              "url": "https://news.google.com/rss/articles/CBMijwJBVV95cUxPaGE5RUQ1emNhM3NEY0M1MVdDN1hEM2hnT3NocWJnZzl2WERYN0JHRGdkRXFVZ0FfLWxFeko0Z1VWNmlwSlFQaHI5cTJnZHp5MF9xa2hUVmNINkhfWUtScFNkSlF5cWtTNG5EM1lQVGFFdDZZcnNQMjBoM3pITzJDR1ptakNHMmdJR3V5eVJXcUtoRXJaR3gyWi14c21UdkxGaHhNNUlrdUotRzJFZUtRVnhSbVBDdjFTbU1DbHp4M3F6T0Zzb3JpMTFERFlpbEY4alpEZEpOTjViTTNOTDJYa0NvekZKN1dhZktSQ3FCSEdiQnltRl9ZOUw2VVlmNTI2MHNFVkh3SEtMMVpCZFl3?oc=5",
-              "date": "Sun, 07 Ju",
-              "sentiment": "neutral"
+              "title": "NATO to reduce Kosovo peacekeeping force next year - Yeni Şafak English",
+              "url": "https://news.google.com/rss/articles/CBMikwFBVV95cUxQZnB5T19lcFJ4aGh0SGtveDNpYjZlV29Cc0dmZDJGLXZRNGxzZFZ5Sk5Xa1hxQmVpVVlhZU12YWhvZW5QNDlhOXYzWXZ3RWVuSjBZN19xdUJxdk1ZM2ZjLTVKRi1FNWhfZ3RzRkl3WU9vWnVUMFpWRU0xSEdnQlpFZlByU0xHeGRhdkJIdHZTUE1lckU?oc=5",
+              "date": "Fri, 12 Ju",
+              "sentiment": "negative"
             }
           ]
         },
         {
-          "name": "TradingView",
-          "sentiment": "neutral",
+          "name": "daily-sun.com",
+          "sentiment": "negative",
           "articleCount": 1,
           "articles": [
             {
-              "title": "Kosovo Inflation Eases in May - TradingView",
-              "url": "https://news.google.com/rss/articles/CBMihwFBVV95cUxQZlFxNUpqUXctLUEteFRqeHN1QXJYbjFfTUVWSXZuOExJYk1LUjdLRENYYmM0cHBsTGdwYUlHX0JQMlJVVlNHeFV4X2JvaDBqMlpOVXk5THc0d2dMemlLb1YxS0FQamNkLUpwamQzQzBhTVQxSHRpdnZBYkJ0WjR1Ri1lZjRLX0E?oc=5",
-              "date": "Wed, 10 Ju",
-              "sentiment": "neutral"
-            }
-          ]
-        },
-        {
-          "name": "United States Mission to the United Nations (.gov)",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Remarks at a UN Security Council Briefing on Kosovo - United States Mission to the United Nations (.gov)",
-              "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxQUWpXcXRyOTJObTFLSXVjLVJHSV8xNGdicFN1SnVUNmJIbjBzbTgwTWhLZWIwSHJ6bUdVT0JqYTBjX3BtdGJjYU1zdnRvdnZoUVJ2ZFFvcmR1NG0yYzlyZTd1STJRVVdGMFJ2TUY2Yk9sdUN2R3ZRelFrcVNrSkZjZGFzakgxVFBw?oc=5",
-              "date": "Thu, 09 Ap",
-              "sentiment": "neutral"
-            }
-          ]
-        },
-        {
-          "name": "Yahoo",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosovo set to hold third election in 18 months as frustration grows over political impasse - Yahoo",
-              "url": "https://news.google.com/rss/articles/CBMikwFBVV95cUxOb0dseGtKQnhUUEdWa2djQVlKTk5HNHdRNmRhSzZZTVFEaUZnaDk4MHNOdVdYWjBrTDdudlVTazNNWFFaR1d3ai1aTWRBdHpmZU15UDE3cW5kRWl4OG1JblZWMXh1VTBJNzNmUVByTXUtNHlOTTFBRWJnY19DMHhSazU0UTh2MlBVdk11bEtQMk1TaGs?oc=5",
-              "date": "Sat, 06 Ju",
-              "sentiment": "neutral"
-            }
-          ]
-        },
-        {
-          "name": "hoistmagazine.com",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "M&M Topuzi Group completes bridge crane installation in Kosovo - hoistmagazine.com",
-              "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTE9HZ1hnWmRuSTJiRWtlN053SjZ6Z2FwcUhISW9LbFZmamdZMFNDOFRpS2VicFExUlJhSlhDb3Jkd3I1eXkxUmJVMlE1bHZTc0p3N3VjbG83cnd4Z0FkQ0kzclRSQzVEOU5oZVloYVZCdkFtS29VcGhSUVVzc0xteUk?oc=5",
-              "date": "Thu, 11 Ju",
-              "sentiment": "neutral"
-            }
-          ]
-        },
-        {
-          "name": "morning-times.com",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosovo voters return to the polls after parties fail to agree on a new president - morning-times.com",
-              "url": "https://news.google.com/rss/articles/CBMiggJBVV95cUxPLXBOZUx4Q1NGTXlRSXd0dmlDUHBfV2V3VV90bFBpcGxpYWJUelp0U0VPbDVSbGF3YUN1aG4zNHB3aTdzb1FKWWJBUExNMnUtWTBwQVF3XzhOWjFOMGlyd0M2RTFwcW5ack5vU1lZT0NXVUtNdjJGNTZoeVFNeEZrMTlqbjhlazdseUtKNkx3NVhjUjVZUktTS2RObG1xQWs0NGdIRlE4S1VmVWxLV1ZrenktU0JLYlVHNDZyeXEtallBRkpIRWZ6S0tLVFRYQmNfcnJmNUlZQ1F1TzdLT2hlYjZRaGNyc0YxbjZISHdGb0N6aEFGNkJSeHlhdUFmS0FHYnc?oc=5",
-              "date": "Sun, 07 Ju",
-              "sentiment": "neutral"
+              "title": "NATO says to cut forces in Kosovo mission - daily-sun.com",
+              "url": "https://news.google.com/rss/articles/CBMihwFBVV95cUxNT2F6REh4WkV5NDJWRTJPdUxLZndKLU1FdWpqbXUzNElzMkNTYTkwV3kzTkd5bFJTWFpBajBkZi1NSFBEMDg4T3g0TGx3SVBfcnJhV1VZb3BieGNXZTRPOFhpVk90TmVSd0hVaEt0YV9RQi1SZ2JqMHl3akh2VzR6VkNMbUFsX1k?oc=5",
+              "date": "Fri, 12 Ju",
+              "sentiment": "negative"
             }
           ]
         },
@@ -889,6 +883,19 @@
               "title": "Kosovo PM’s party on track to win third election in 18 months - politico.eu",
               "url": "https://news.google.com/rss/articles/CBMiekFVX3lxTE9mMW82U1ZEczM0Y1ptNTdIMzZHSGxvVWRJRTFxcEZzRkVBSnBGNlZlcGZ1dzl1VUwtc0o2RXJ6Q0syS3BMS09nTnh4SFJ1R2FpS25yN0ZQQlAwRDFwRml1NDV5NGRtTFNyYktzeUJfTEFiLUE3Uy1fWlBn?oc=5",
               "date": "Sun, 07 Ju",
+              "sentiment": "neutral"
+            }
+          ]
+        },
+        {
+          "name": "Українські Національні Новини (УНН)",
+          "sentiment": "positive",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "NATO to reduce peacekeeping mission in Kosovo due to security stabilization - Українські Національні Новини (УНН)",
+              "url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxPNmR6aDVCY2N3aDFDWU9td0M0YWlOQlNvRVFJVy0xWWZKNGMwY2Q1ZWNfWTJ0RURYWDZfTzRza1NvZG1yYVhhQ09tN2J4dU9VYWMzM1VGYW5xZ3FsTWE2QXdfd1h5cmhPSkxGREtwTlpzdXc4WnlyZkl2d1JmTVktcEtVQWI4Qk9ZRlNvSGZGV01QTkxuVFRnQ3d2aVQ0SknSAZ4BQVVfeXFMT2ZNeFZEdlQ1NWdoUF9TQ1E4UmRzR0hRU3g0SkF2el81YTY2NFhRUzl5akF6ZkJjRXVnQkd4Zjk2ejAxc3Z0NHpZNjVWbDhlMEhsX3ZvMnhnaW5Wc2pQcWsxOXpicE1yV3I1YlNHd1lWTUxjM1dMZVpUQ0tuY2JCM2NtbW80YzR1U2dBbjE1SmV4N20wSTg0Wmllb2YxUXc?oc=5",
+              "date": "Fri, 12 Ju",
               "sentiment": "positive"
             }
           ]
@@ -899,35 +906,41 @@
       "outlets": [
         {
           "name": "AP News",
-          "sentiment": "neutral",
+          "sentiment": "positive",
           "articleCount": 1,
           "articles": [
             {
               "title": "Initial results show Prime Minister Kurti’s party won most votes in early election in Kosovo - AP News",
               "url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxOTDNZRUhrdzJzTGVIUDh3WVE4OWNGaHNLT0xWdzJQc3FKeEd6UkZzSVhjUVBOeWNiSGRTVjRBeEtzQkxlVG41T2MzbXdBdXR6QlVLV0llczJteFZxSlNSdXVxVkJHQjlMNVpybm9jVUZRNGI3OEFPSjN5S3UxVVhSTUlwNEJnYWVmLVpfVHdnNWxMNWpxamJoT2kxek5vYVE?oc=5",
               "date": "Sun, 07 Ju",
-              "sentiment": "neutral"
+              "sentiment": "positive"
             }
           ]
         },
         {
           "name": "Al Jazeera",
-          "sentiment": "positive",
+          "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
               "title": "Kosovo votes again amid political deadlock, seeking EU and NATO progress - Al Jazeera",
               "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxNV2w2TjVhX2FBNTdkOG8zMmtWU1d5V3l3YVBmTk9EbWI1bFEzVDFYVEJ2T2FIN0xfYnVZM3k2T2VtVUpiT3R1ZmM3OEVhdEJiMUZSTFl3YThONHpDRGJ4ZGFJNzg3TDlqcmFfUGJlSkZGc2hoZjJRSTcyNVJfZTdoYnRSNHoxdjBlczg2c1gwdWJLc2hRc0wxR0lsYVBPWGlsSDE1WnN6Y1VKM29zX0ZuLdIBtgFBVV95cUxNZU9lWFJKa2tobWdUM2F2d09sdlpWN0wtdURnbzlNNEo5QjYxZk5KZkNOX2dQY0J1ZWRzNWM4SDUzZzlXaFRxOEk1SjlaS0FfR0FDRTFSVU9ocWZjbDlxQ1dhS0FHU2JCSWUzclBTcENEeGN6STFNTTR2NHF3TjZiMHd2OEpYS2hLTkFQTjFtRzZNak53b3N5aU1fbVpFcnljVzB2WEZIMHplS0lzVlRSNldtX1VwQQ?oc=5",
               "date": "Sun, 07 Ju",
-              "sentiment": "positive"
+              "sentiment": "neutral"
             }
           ]
         },
         {
           "name": "Anadolu Ajansı",
-          "sentiment": "neutral",
-          "articleCount": 1,
+          "sentiment": "positive",
+          "articleCount": 2,
           "articles": [
+            {
+              "title": "NATO to reduce Kosovo peacekeeping force after security improvements - Anadolu Ajansı",
+              "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxNZEU4cnZaVnZDdFNXT1k3WUlxTThaTHVycWV6VDN1ZnVpWldjbnh2ejhLSWgxOGVvaENmXzE1MlFnSmZEclBGVXl1bDcwVXZFb0E0VjNHLS05ZVVmRjFzTlBxTGFnTnVBSjVLbFlqczNPWEVrZHk4MzFEbkJHMXZ3a0k3YjhSczZka0xwNHF4Z1RQVTR0cWVBYjFRVGtOWGhjRHhsc1RmVG9mREM1?oc=5",
+              "date": "Fri, 12 Ju",
+              "sentiment": "positive"
+            },
             {
               "title": "Kurti’s Vetevendosje leads Kosovo election with 43.72% after most ballots counted - Anadolu Ajansı",
               "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxPMVFlSFNVc0I5M2ROaTAzdGN5N1ZLRWFxNXl2MkdjSUZjZnBKNzJzUGI5Rk8tTi0zdjYtMGxmWGh2WHpobXZUMDdiTVQ1d0ZGRnBhczBtdmRoS0wwdmcwR1d6bDVFU19faHNyLXphZzhkNUV5SnJzVDNXeUZjdm9JRUpQbDc5UlFFajRhVTd1V3RscUtOX215aERfYkl3dm1ZbnBBalk1LUVRQVZXcTdSYU9VSEp2SkVXdjlF?oc=5",
@@ -937,9 +950,22 @@
           ]
         },
         {
+          "name": "Arab News",
+          "sentiment": "negative",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "NATO to cut Kosovo peacekeeper numbers - Arab News",
+              "url": "https://news.google.com/rss/articles/CBMiVkFVX3lxTFBscGlBS1RIVjc1MTh6aTRJczFvVTVyT1B0YlBwRFUxTlBJVHRlV0hQRmlNS1Z3RFBLY1Z0dGpLa2RkWWU3bjZpYzhEVEt1eUxPdlktSUt3?oc=5",
+              "date": "Fri, 12 Ju",
+              "sentiment": "negative"
+            }
+          ]
+        },
+        {
           "name": "BBC",
           "sentiment": "neutral",
-          "articleCount": 4,
+          "articleCount": 3,
           "articles": [
             {
               "title": "Kosovo vs Andorra: Friendlies stats & head-to-head - BBC",
@@ -958,75 +984,57 @@
               "url": "https://news.google.com/rss/articles/CBMiZEFVX3lxTFBWUkJNbUVSb053Tkl3Z1BkVmRyUGlBMlpKWGhMcWNWYnBkb3lLeGNNM2JvZlhkZU9jVVBHY25xNkFOVnFXU2c0bFgzeS1ObHV2aUc4MVo2OHVFd3VQTzJ2YzhnYkI?oc=5",
               "date": "Sun, 31 Ma",
               "sentiment": "neutral"
-            },
-            {
-              "title": "Kosovo vs Croatia: Women's WC Qualification Europe stats & head-to-head - BBC",
-              "url": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE1aZjctaEF3VXlDdzEtOXZ6cURBSmhHVWVJR3V3ajRSS203VWpVcGExY2tLS1dMcXI3U2MwTDNIeVpXSm1NYVJOOUhyVm9XTmxkY25vYXlTSWxBTHd1cFBpd2xrT20?oc=5",
-              "date": "Fri, 05 Ju",
-              "sentiment": "neutral"
             }
           ]
         },
         {
           "name": "Balkan Insight",
           "sentiment": "negative",
-          "articleCount": 3,
+          "articleCount": 1,
           "articles": [
             {
               "title": "BIRN Launches Exhibition on Wartime Expulsion of Kosovo Albanians by Rail - Balkan Insight",
               "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxPZ2NYemlzZWhyRWRXZThmNzgyYXM0Q2JzUThpc3hmYzNHSzVnMDdBT2RtdTByd2FiNWRaV09QLXpUaVZZdk5SSWdoN1RxWkNsRkFPTENWTTBFcGVweC1HdllvTzFTWjREd0NaTTV1RUZ4TEJWWkhfVFVzOTlWV21NaFJKZFBRdko0c2VLM3c3cnFTMTI3cVAwTUVzeHcyWDlsZV9TNXZTYWRjM2UyTkVzTmxtR0sxdw?oc=5",
               "date": "Thu, 11 Ju",
               "sentiment": "negative"
-            },
-            {
-              "title": "EU Congratulates Kurti on Kosovo Election Win, Urges ‘Compromise’ - Balkan Insight",
-              "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxQRU5nRFRUWFI5QWtaaVJ0YmhENWxqSkFlVkREWF9FQ1hSMEUydTFNNEx2U0RMVEVodnJWajFqb3ZBRjJPZ001WVpaaExWOEpiUzl0bTlVbnVIVzlDV0Z2VzdDeXI2Rmp2dk5KMnJHcEZSNFh4MDZvUTltVmxIY0I4M09hUlBzZWljSGpWXzdPNUhlYnlaMlFKcDQyTzgzbE9ydThUaW13?oc=5",
-              "date": "Mon, 08 Ju",
-              "sentiment": "positive"
-            },
-            {
-              "title": "Kosovo Election: Kurti Must Heed Message of Voters Tired of Crises - Balkan Insight",
-              "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxOazdCTUNzNWs3T0tYZHpSRWIzcXZZclFkeHRucFp4MjM0TVNOcl9xbHVYQTdlZFRLU2hPVUxXWEV6dG9LQUFoZDc5TTRDOHcwY2hFb09nNV9iSTduTEpsLUtOVE5CYlpabGF1T0NCMkZxNWc5Nk1UcUFrT0U4Zm0xMUs1eEFhU1dhSUtJTUw4WHZBZHZ0ZHVmdnRVdmZDREoxQ0tHcHFnem5adw?oc=5",
-              "date": "Tue, 09 Ju",
-              "sentiment": "neutral"
             }
           ]
         },
         {
-          "name": "Baltic News Network",
+          "name": "Britannica",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
-              "title": "Kosovo holds third election in 18 months; majority not achieved - Baltic News Network",
-              "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxObEJHcUM0bHhKak9ONnBla3RQX3ItQmtQN3BTN1RabEJhYVdVZVNoQkdWT05QZ3N0Q1VacUtuWU9McDdmNVhKNm1PenQzeW9GWGVXejZUcjJtcWpyWWQzdnl5V1Y5Mm9vOUVHWEVzS2NBZWhKNGVCSTJadFFfVVI2dlVQN2w1NUxOanh6S2pKb0RtS1Nz?oc=5",
-              "date": "Mon, 08 Ju",
+              "title": "Kosovo - Self-Declared, Independence, Conflict - Britannica",
+              "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTFBXcEtoNVkyLWxUODJDUWFZLWhkcGtkOVVrUHJkOW15STVFek9rNUswSE5iS3NXOHhLTHZUQlZnYmxlanhnTXBYY1RJbHJOb2NjS0g4UGpMdThBdHlWNENPLVcyS3o3VVhOUUZyR2JjY1lWQnUx?oc=5",
+              "date": "Sun, 07 Ju",
               "sentiment": "neutral"
             }
           ]
         },
         {
           "name": "Carnegie Endowment for International Peace",
-          "sentiment": "neutral",
+          "sentiment": "positive",
           "articleCount": 1,
           "articles": [
             {
               "title": "Reviving Kosovo-Serbia Normalization Talks - Carnegie Endowment for International Peace",
               "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxOVkM4Y0ZheFBGOWI0RVp1SDVFZTV2aUFiZmttWENZVk9pY29zdVhhNzlsb1JvY2pzbjRKbktXSC0ydl8zT1JRVk9ReXhnd1h0S2NQVldQUmRmb25XaXlhbGkyWmxNNXNDQjRndk5QT2JVM0hneGlaYThEM1NHLXF6UDA4NlMxZG1WTWgxYU1Cb1ZCMEU5SWcwMQ?oc=5",
               "date": "Thu, 11 Ju",
-              "sentiment": "neutral"
+              "sentiment": "positive"
             }
           ]
         },
         {
-          "name": "DW.com",
+          "name": "Eurasia Review",
           "sentiment": "positive",
           "articleCount": 1,
           "articles": [
             {
-              "title": "Kosovo PM wins snap vote, but with no majority - DW.com",
-              "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxNMGgyNGtNU1pCQkY4TjFVZWdWNzNRZ2loVzVNSXlxenZtWWNKMWVmREZpT0pyQUpLWklBOTVlbWwxUGlma3hZX1E5dktEbFdJSktWaUZ5MlU1ZTBHeEhkbGtkb3dMeEN3cUVfeGc4ZHJkWGRsUjBZeUl5SmdIbkFuUFVVbW_SAYQBQVVfeXFMUGxvVnlVZ0FQbnFLaXRwRWdSaWZ0ZFBNbjk5d243dkEteVQtTkZXNW54M3VaNHdVYm5mbmIwQjNOQm5wM3ZTeDFzLU44YkdpYkpsa1ozT1l3dFkwRWJnbzhRblMyNHg5V1F0WDFvdHpnTlVrTDRKYUNJLXdURVhzcE1HUWhs?oc=5",
-              "date": "Sun, 07 Ju",
+              "title": "Kosovo’s Unique Case A Shining Example In International Relations – OpEd - Eurasia Review",
+              "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxOU0dQVHg1YmstOVpPMTUzNng5dkFZeDRjSXN1N3hseXFoR01SRGU3SV80cmt3U19ZNV9ET2lVRjg1VzRkMFJNUmVHM25GUnU0UEJHZHlXNGZQYklZN3cyZXd6NEJZUlJVMWtmSm1DYy1DYUZnaHA2eE1fRkh6N1hMQ0Q1d3ZPcmhWSGNqWUw0MmpMYUVOV010ME1lLVdCRFA4NnFrSjgyQnBfWUQ3T3c?oc=5",
+              "date": "Thu, 11 Ju",
               "sentiment": "positive"
             }
           ]
@@ -1034,13 +1042,19 @@
         {
           "name": "Euronews.com",
           "sentiment": "positive",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
+            {
+              "title": "NATO to cut troop numbers in Kosovo amid 'improved security situation' - Euronews.com",
+              "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxOUFNTbGx2ajBrSlg0dEpOV1VGNnJzZzhmaVJFa2pNTjBWdURVN3hYUGlhOG4ydUp0MWJKNkQ5R1RhOVBKMnU2aDN3RElEbnVpX3lxTzJVdVhSY3FGSEc3bHRKTDFLT2c2cW1TVHc4WXFuN2FtNmk2bjBEVTMtOUN3eHNQMDBDSGt6c2ZrM05lS0NpRVd6SVZBb0Zxci1JZm8tWGpWYVB6azBQZmlON0pnWUl4Q1g?oc=5",
+              "date": "Fri, 12 Ju",
+              "sentiment": "positive"
+            },
             {
               "title": "Kosovo election: PM Kurti’s party wins most votes, but no majority - Euronews.com",
               "url": "https://news.google.com/rss/articles/CBMixwFBVV95cUxOSUhRN2F3NmhiWUVNX2N5Yl9ORkF1ZFlINzdYZWFEdkE2M1JzODVudmcyZk9YaXdFMWoybmUxSlhBaUlhMm1rMXZyMUZUQ3ZQaEJ6WjB3bnFES0hsMEtWQjZZUkFTcUVHcXNHdDdidHhOSndyTE53WDVfZVZORkliYzNBRTRUSE1CR0ZJM0tnbl9LMTdfcG5iMmxEYW91T2ozdEZWNmtKTndjOE51ZktRdk5HcEpNb2EtQkR0U1UxSkhqakg5ZFYw?oc=5",
               "date": "Sun, 07 Ju",
-              "sentiment": "positive"
+              "sentiment": "neutral"
             }
           ]
         },
@@ -1072,14 +1086,14 @@
         },
         {
           "name": "France 24",
-          "sentiment": "positive",
+          "sentiment": "neutral",
           "articleCount": 2,
           "articles": [
             {
               "title": "Prime Minister Albin Kurti's party wins Kosovo vote but falls short of majority - France 24",
               "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxPNGVCc01ELVN4a2NId1JXTkhXeDBldU5jcmVBR3VpYnlvdEFvcGFRbDZqTjViQ1JUb1RsdHh4TlZXVEFWUjY1bm40eTZ5Q01Td0ZfUmVWMWczNFplbFRrWWtwTEdIQmJleGs0MGlQcG52SkhMNlRvM3hfY1NNVjF1T19UX3A5QlVDbTZ5UzBIXzZDY214ZGY2X01FTjBwRXgwUXhUTDlwVGd1WXVKR0pRM2NtUF9VV0dWdUJHekln?oc=5",
               "date": "Mon, 08 Ju",
-              "sentiment": "positive"
+              "sentiment": "neutral"
             },
             {
               "title": "Kosovo: Former president warns of cost of political deadlock - Spotlight - France 24",
@@ -1092,192 +1106,161 @@
         {
           "name": "GOV.UK",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 1,
           "articles": [
             {
               "title": "Report of the Head of OSCE Mission in Kosovo: UK statement, May 2026 - GOV.UK",
               "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxNcVlrVzdTa2VuUTJ1TFdpandtbGVNZ05KYW1nV0dMSDJ0dHZnLVlNWmVyTzk1OS1qVjFLMGswcnFhUndydkhObUFtZFBXcTNfSDgzcmNXU2lsVFJVSVRFczVMQjNITUVCWFpLMG5lS3BySmRLb196X0FLMmE0V0U3SXVpQ1gyUV8zZEhtWTNidWY1QWY3LW1jNDJXMjNKWTJKcWlOT3p5bzk?oc=5",
               "date": "Thu, 28 Ma",
               "sentiment": "neutral"
-            },
-            {
-              "title": "We continue to call on Kosovo and Serbia to resolve outstanding disagreements through the EU-facilitated Dialogue: UK statement at the UN Security Council - GOV.UK",
-              "url": "https://news.google.com/rss/articles/CBMimAJBVV95cUxOVXRMaGh3UXQyeGoyRjBrLUhRQWg5SDZ0VHdSS2ViQm1ualRJVVpCRUc3aVN5MlhFcEVsc25IYVZOakJQajJmeFNORFE0S1ExeFhzdW9jQndUZ3R2ZHdzZlFBMHBZSUxnMFJjSkhhTklzWDBCZDZFLVE1TGlnczN0Zkh6TVMwLUFqTTVZaFF6SS1jZ2p0WnZUaXRhTzNlTnhvQWtJZ0w5RXhxWmVlMEZ3b05KQ1ZWYlNna1dCRlhDSm5LV0FjWEx5eEt5UHp2dk1YUDBZM21XcVZ4RFhQZVl1RnowaVlmRkc3SkF2TlBFRXozLTBrZzZQM2ozb3AzZG5KdFdUTXVzbGZsTVBQZmQ5Nmw5RDNtRGMz?oc=5",
-              "date": "Thu, 09 Ap",
-              "sentiment": "positive"
             }
           ]
         },
         {
-          "name": "Goal.com",
-          "sentiment": "neutral",
+          "name": "Gamereactor UK",
+          "sentiment": "negative",
           "articleCount": 1,
           "articles": [
             {
-              "title": "How to watch today's Kosovo vs Andorra Friendly game: Live stream, TV channel, and start time - Goal.com",
-              "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxOdk1rVDRtM3VkMzE0QzU5YkgwYV9IT1dBUEZOTkdrSWlNM2RYQ2Q1V1dwMEkwQW9xNUdwZUlrRU1WYUVJd1hESVV6akJBWGpSNFdNN244d3hiYm5YNEJNYUdpM1pWdFZ1dks5NG04SjFaTDQ3eWpMRG9Ua05jbUgzNFNfQWQ3MGNybkVIRE9tcFl4aVJ4RDNkcFlCVUpxdnoySEplVml2UzQ?oc=5",
-              "date": "Sun, 07 Ju",
-              "sentiment": "neutral"
-            }
-          ]
-        },
-        {
-          "name": "IntelliNews",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Vetëvendosje leads Kosovo snap elections as turnout falls to 36% - IntelliNews",
-              "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxQNDRWN2lmX0tMaDhEZ2t2Z0ZaLUhxRlNFVExBcXNoeVdMSVFTLTJYdXA5aDZjTVp3TFhvNERwamFCbXBWRnZrUlJqZktFN0EwZkhXbHJOVGlQdC1KVFhZOGVNbU1mU2lzaDlISWRVdGVDZVE1M0s3Qkk4dHIyVG92SDQ5bGpLWVBjck54RXlTVEtaeG9tNWhyU3JVZmdTVWxq?oc=5",
-              "date": "Mon, 08 Ju",
-              "sentiment": "neutral"
+              "title": "NATO reduces the number of peacekeepers in Kosovo - Gamereactor UK",
+              "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxNdkZHQVFLeDEza0xLaVFJUjJtQmVaLTdZTGtBeVJWRnZBY0hJeXJ4NlFkMGswRzM4WWY2Q3JUWVBwaGtOLTBoV1U0X0FEYk9hamo0amRGdFZzcWdhWkEtQzhGSGV1YzRFU1dPMEhzbHZuT0VwcXBzU3hVQWd4ZzJyUG9yNDhfdmNqdWV3RmN3?oc=5",
+              "date": "Fri, 12 Ju",
+              "sentiment": "negative"
             }
           ]
         },
         {
           "name": "North Atlantic Treaty Organization",
-          "sentiment": "neutral",
+          "sentiment": "positive",
           "articleCount": 1,
           "articles": [
             {
-              "title": "NATO's role in Kosovo - North Atlantic Treaty Organization",
-              "url": "https://news.google.com/rss/articles/CBMihgFBVV95cUxQV3FIVnlISVZadHBXd2tHb2R4MndoeXJOLU5scUlZYUhCV24tQTRGZXFxQWdITTBjWUIzZWZOR3R3cDNWNThlU1c5VzVjbXBsWDZCV2NqT1NVOHVPbmhaNnpaTloyOTFfcmhwM2FWRGpmaDcyM2RzM3hQbW1kNWR0Z0Y4alNYUQ?oc=5",
-              "date": "Tue, 28 Ap",
-              "sentiment": "neutral"
+              "title": "Improved security situation in Kosovo allows for optimisation of KFOR mission - North Atlantic Treaty Organization",
+              "url": "https://news.google.com/rss/articles/CBMi2gFBVV95cUxNQzRxaWFtbGdzODVXNUpwNkh4ZFh5TXFGcU9Wa1VOcHBEUGwyenJHeVBIWHZESmV4MUU1MjVSSVo5b3hYRVBvQU5ncmo4RDYxMTc4WjJCaFpfZi1QQUkzbEtkczRRdnpxOG9tYWE1OThDTU16VEtmTmVGdlpGWGVlMU1SSzEtSlV3X1lDOXJpazlLZUI0dzk1OFJfLUhFN0IwZ0t6OHZtRVBjN3o2VGtnQ0NUZ0J4Q2VKWHBNZmRSeFlIcWdWMFFpaXdiX3JYUDRVZVV3VTJGYlFOZw?oc=5",
+              "date": "Fri, 12 Ju",
+              "sentiment": "positive"
             }
           ]
         },
         {
           "name": "Osservatorio Balcani Caucaso Transeuropa",
-          "sentiment": "positive",
+          "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
               "title": "Kosovo: Albin Kurti wins the elections, but loses support - Osservatorio Balcani Caucaso Transeuropa",
               "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxNbkNVNU1iRHViSlV1TjhxWlZvLVlmcGFfdGtLWk5pbmRnaFR6NEo3YTdwNDMwa01rdkZfeFk2dk9GWFFWMGx5NFNTRkl0UHBBQTNGTkJrR2JDRjkySTRqSXNjemNZZ256SWVESTFKa3N1anJjWThzWm5UU01WcVAxMkdsNXJpTWhhN1lJa3ZsRS1NclN2X0Q5SGdZT0JwLXduTm5B?oc=5",
               "date": "Tue, 09 Ju",
-              "sentiment": "positive"
-            }
-          ]
-        },
-        {
-          "name": "Prishtina Insight",
-          "sentiment": "negative",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosovo Media Regulator Condemned after Proposing Talk Show Ban - Prishtina Insight",
-              "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxQNnNLRC1jNEZRSWpPTDRMcElIVUh4Y3hJT241ZU5uTkxpV1pURkdLYzBOcTRycVpGSFJNb2RNMm01NnRxVUJqUFVzMmFPcUVxSjdPVW5PY1VSR3l1TjQ2MTlscHhyZ3I4SnRGX2FwM2haOGJrV0xCOGgzczBuaFExYW5DVE9SLXVMQlFEWVRQSWJIUTVqQUNF?oc=5",
-              "date": "Thu, 11 Ju",
-              "sentiment": "negative"
+              "sentiment": "neutral"
             }
           ]
         },
         {
           "name": "RFI",
-          "sentiment": "neutral",
+          "sentiment": "negative",
           "articleCount": 1,
           "articles": [
             {
               "title": "Kosovo votes again in snap election as frustration grows over political gridlock - RFI",
               "url": "https://news.google.com/rss/articles/CBMiwwFBVV95cUxOWDJfcUVxbGtoemtSVHZpUVFUVDNzNF9iZ0FTMGhpRXE3b09YeGd2QjRFN3lmX29DelpEQUUtY0tRNU9CYnpHRnVLZ2p2MW1hbWI1U1lpRjhRLXFidW85QlhqR2w0ME12SlYzeTRNNzRBR0tMcjFmWmozTHdlc1Z2LS0zeXU0NVI5SWlNQ1o2bGZCT0VvMFE1eVE0MXJUX3gwWUZrUnZvNFotSHBSV0hfSHRKRk5icVgtZUk5amp2b0ZpS1U?oc=5",
               "date": "Sun, 07 Ju",
-              "sentiment": "neutral"
+              "sentiment": "negative"
             }
           ]
         },
         {
           "name": "Reuters",
-          "sentiment": "negative",
+          "sentiment": "positive",
           "articleCount": 3,
           "articles": [
+            {
+              "title": "NATO will gradually adjust strength of peace support mission in Kosovo over next year - Reuters",
+              "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxOMXBfTldpRjJlRUEzb3c4WmNCbDFRSmFtdmNFb2tFVnFYendtOTQycExZb2RDZWR6eHNFaUJEdWpuelVWV2FHX0IzZFpBVVJiOEdSNjQ2VWYxVGZWbUFUX3NxLVMyUUdMcHEwMWdJbjJQVElPSVdfeGJCOHJHN1B6ZTBVSWhWbGpCdkF4Qm9vSGlWc0RMZmVyY29iNW5KM2FiZTdwVjBJYXVtbncwVGEwYlNxOTg3Q3g5eFg4TnRB?oc=5",
+              "date": "Fri, 12 Ju",
+              "sentiment": "positive"
+            },
             {
               "title": "Kosovo's Kurti wins snap election but lacks majority needed to end crisis - Reuters",
               "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxQM1ZjUjN4Qy1vQkJSYWZnTUJFczFIRGFmM1lHWEhTOU9Ga2x3RWFtd1NTZk5NWkRUeDMzVFJlZVpHRjhVZTBpVko2TkNrc2d3YWNaSW53a0E3dm16c091a2pNNDFHc0M3T2VmUlFZN3o5RDhBOHZXUkVLYW94azgxeFdOQ3VuTW9QemMtdWtBdE1OVFVQUldPanU0aWd1Ny1i?oc=5",
               "date": "Sun, 07 Ju",
-              "sentiment": "negative"
-            },
-            {
-              "title": "Kosovo prime minister looks to other parties for cooperation after election win - Reuters",
-              "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxPa2c0V19ReEJGTDRmY25HTzVqVWt1dGtzazV3cVYtNHZqUFZDTTJWWFF3amJDSU9RTUxwQlZsc3hrYmFEOFVybzhKcC1zY2NNQjJvaU15SXd6N29nM1hLWmN4NXhwYXdDRTdYeHZETF9kc2dBZElKUk1hWHBDT3BJN0c4cXpkLVFYU2xUbVdOZjI5SEdWaWkwX2pHczMzTmRibWdVUTRJVXlMOW0tVjBvLVUzOGM?oc=5",
-              "date": "Mon, 08 Ju",
-              "sentiment": "positive"
+              "sentiment": "neutral"
             },
             {
               "title": "Kosovo's Vetevendosje party leads parliamentary vote, early official results show - Reuters",
               "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxNUTlHTm9GYWlkUy1HOExvRW1vTm40NmhzQXMtZ1E2UjFYdGprZzZZNXRFNnpULUxuYUR0em5tLTBKNDhDLVY1NFFfZENFVTZKM3JpNURIbTJOT2tzUTVIRV93b0xCOGJiSndfVG9xZkpzX3gtYWxkajdubEQ5S2xNQ3BjSFcyVTFEbTgzc0tEUWpubmdBV043SDZ4eG1KWXJHcW5QNFZwSkpySUFvb1pTNVllMnZrTW9EQnFTYTZR?oc=5",
               "date": "Sun, 07 Ju",
-              "sentiment": "neutral"
+              "sentiment": "positive"
             }
           ]
         },
         {
           "name": "SeeNews",
-          "sentiment": "neutral",
-          "articleCount": 4,
+          "sentiment": "positive",
+          "articleCount": 2,
           "articles": [
             {
               "title": "Foreign tourist overnights in Kosovo up 9% in 2025 - SeeNews",
               "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxNVjRWemNfaHJKMUhqakJ3aWlHSlBFcWYzSFo5S2ZUQ0tSVGphc1g3ZGE2emN4ZGZ4QzJORzFGTHI2OWozVUxGMFF1cEFoZVpRZ2FPV1oxUHlabmxVYTVSVVd2Y3lNSVZpeTFCWUZQSWtGMU9nYUN4LVVpMDIwaTZ6WGZSX0RLX2ZWbHJwUG5Yd05qeVpm?oc=5",
               "date": "Thu, 11 Ju",
-              "sentiment": "neutral"
-            },
-            {
-              "title": "Kosovo's harmonised annual inflation slows to 6.8% in May - SeeNews",
-              "url": "https://news.google.com/rss/articles/CBMinAFBVV95cUxNUGJtc3N0WkRaZk5Xd3R5cHRKeDBHVUVlelR6N3JGblhlX2x5RjZJMXhTM2pNc1Q5Tmo0WThQbGVIV2t4TFNSaUZaRlBPOVVsSEg2Zm9Zc1g4UTl0R29XTjkxRGF0M1I2NlB6V2JLYXpuRzlOQkFMMUtWOTRCOGItYTg5TFg5cktCaHppVTFJRVNNU0lkVzBNT18zNEk?oc=5",
-              "date": "Wed, 10 Ju",
-              "sentiment": "neutral"
+              "sentiment": "positive"
             },
             {
               "title": "EU urges Kosovo political leaders to form govt after inconclusive election - SeeNews",
               "url": "https://news.google.com/rss/articles/CBMihgFBVV95cUxPNlNZNkp0VnpPT0s4ZnhZTFVlY1BDYnp5WU5CU3kySW9OcjBSZWwwRVBoMGZSblJ6RTNFZzdfUkJLSlo3UkJaZU02blJIWGVtN3pQRmlnbnAtaFJ0S082QkNGS3lVM3JnaFhqWllxQmJQMlpJTUFiOHFtSnpoVXotMXV5akhodw?oc=5",
               "date": "Mon, 08 Ju",
               "sentiment": "neutral"
-            },
+            }
+          ]
+        },
+        {
+          "name": "Stars and Stripes",
+          "sentiment": "positive",
+          "articleCount": 1,
+          "articles": [
             {
-              "title": "Foreign tourist overnights in Kosovo rise in Apr - SeeNews",
-              "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxQSWszdEl3RENIaW5kUmpBMDQtLUc0b1kzTm5SeG5zWEJNVHNSb2JLdEZ0dWlrSEE1cFctaFhKcDVwQ2dnREdDLURuMWRIN1Q4SE9kNmVKbTBpX1M5WWNTSERsWU5CYld2UEpuMUszYVZURVBJaHRYYjk3V25ZQk03Q0hSUndiVUFI?oc=5",
-              "date": "Tue, 09 Ju",
-              "sentiment": "neutral"
+              "title": "NATO to trim Kosovo peacekeeping force as security improves - Stars and Stripes",
+              "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxOWkpUSkZMWGtyb24xTXdhWXo2MzZQOHFPQm9URXNFeFoxN1BJUnM3N0NCUXVEN0hUSExDNEhnTHJsbkV6UHI2QzExeFBUNkczZnFsbk8ydThrQkU1aWw2YWJuM1dYRWlGS01hd2RlNlExV1R0Nno1RDNiSTRrU2ZoRTU5T2paNUFoT1Q2WDhtWEg2RzdxalhF?oc=5",
+              "date": "Fri, 12 Ju",
+              "sentiment": "positive"
             }
           ]
         },
         {
           "name": "TVP World",
-          "sentiment": "neutral",
+          "sentiment": "positive",
           "articleCount": 1,
           "articles": [
             {
               "title": "Kosovo: PM Kurti's party leads parliamentary vote: exit poll - TVP World",
               "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxOVjZFeWxnQ0FaZ0l5SzZEdGcwTmp2UmU0dWEyTG5NYWVwcEVzZ1VLU3NoLXBGNVRwbWlnNTBLN09TQlhGdE1VcDNiWTdGbG5iWmZlQnMyVEZua1pJTUYwUHdHMHEzLWU0dHZWd1JOVnhCaWJyV1JGVTZWZkdQUTlTeEtzX2E4MGpYVFNYU0RLTFM5a05zVTdueWt4Mk9QcWVUN3c?oc=5",
               "date": "Sun, 07 Ju",
-              "sentiment": "neutral"
+              "sentiment": "positive"
             }
           ]
         },
         {
-          "name": "The Brussels Times",
-          "sentiment": "negative",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Encrypted messages expose Kosovo crime network behind €80m drug empire - The Brussels Times",
-              "url": "https://news.google.com/rss/articles/CBMivAFBVV95cUxPVXV3MGJNaDFOQWtIaTh2YjhPZlNtcjJRdTZJdGFNUEV4TTJpN2hnQWVXQ0RRWVZYUWFDU2ZkYzZ4WWZYSFhNQkRWNWNQOVlrTndadGo2WkZPbjRKM3dFS2szQ0M0eWN5OXdFWFZVVmc1MVpIcHpzSTRObTFPZzcwQ3ltZ2E5OUVyd0dDbHkyWWJVU3pyNGVlVDA3cVRFTGpQalVrb1NtLUZqcnpTck55d01zS0JXb3dWRlFJag?oc=5",
-              "date": "Thu, 11 Ju",
-              "sentiment": "negative"
-            }
-          ]
-        },
-        {
-          "name": "The Mirror",
+          "name": "The Straits Times",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
-              "title": "Footballer Fatjon Bunjaku, 22, dead in serious car crash as Kosovo national team pay tribute - The Mirror",
-              "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxQeVlQeXpxRDNYTTdsV1hBN1FxQzFKa2VUUmljM3pmWTVIQ01raGg4bk0xaGtwdlRJYllLenBsX3RRVXZ4anpiLVJFNnNMMDJQb1c2OGdCNl9FVjlvQ2VPRUZiQ2dPdUlQSXZ2bEs1Y2hRTDUxZi1zdC1mZFd3dmxxeFZyU3FmaDZKNEJZ0gGQAUFVX3lxTE16Zkx3U2d6cTFwYi0zekNVUmhBODZGU19LeERTOWhyN2ZWU2RGZ1MzbGRNVEoyWUEwdFF6R3k3WjhfTGFlSEdpVm5rZmxwRzdaNDdESi1HS0dla3pHRTgxQ0pLODkyV1ZtR21VQ05JVG5sLXEzcC1lTUpPYzdwMURjLWNXR2tVM0p0ODcwbWcyNg?oc=5",
-              "date": "Sun, 07 Ju",
+              "title": "NATO will gradually adjust strength of peace support mission in Kosovo over next year - The Straits Times",
+              "url": "https://news.google.com/rss/articles/CBMixgFBVV95cUxNOThPZlVzRmNlRUpYWTB5R084M0ptcVhDOFFrZy0tRXd4NGdZQTJCN0wwUS1qdmo0Y1B3MG1ZS2RhbE9CSGxZV3BkTmlIdXRRdnpHNjZGYm5WTnI0a0p5ekUwUktSUmptdXpNNmlwZW53cWlCMTc3MUowU2hiVi1hVmN2c1JZc0g0Y1d1V0FKYjBXdU15RnZxMnczSkUtakVIeXRLUkUteUl6OWhWZXJvODYxWjg5TVZtcEhwOHdub1FiLVpjRFE?oc=5",
+              "date": "Fri, 12 Ju",
               "sentiment": "neutral"
+            }
+          ]
+        },
+        {
+          "name": "Türkiye Today",
+          "sentiment": "negative",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "NATO to gradually reduce Kosovo peacekeeping force over next year - Türkiye Today",
+              "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxQQ2RXay1kRU5sLW5FOGl4THZnYWl4VnVubExUN2x3V2RsX1JxQzFpQVBwWFRadUZIdUtzWTFyczd1THl4Rnl4NFdZYm5STnhrMlpCOVE2eHJtOVBleXNseU0yVUIxX3BacnVaQ25uLXVFY1ZqYWd5Q21kMUxBdFU4c2NQOWRjYksteWJlQ0YyRTNkR0tWOHA3V1p0SDE2RUlNeE84RFV5QUFqejZ0cFE?oc=5",
+              "date": "Fri, 12 Ju",
+              "sentiment": "negative"
             }
           ]
         },
@@ -1295,15 +1278,54 @@
           ]
         },
         {
+          "name": "Yeni Şafak English",
+          "sentiment": "negative",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "NATO to reduce Kosovo peacekeeping force next year - Yeni Şafak English",
+              "url": "https://news.google.com/rss/articles/CBMikwFBVV95cUxQZnB5T19lcFJ4aGh0SGtveDNpYjZlV29Cc0dmZDJGLXZRNGxzZFZ5Sk5Xa1hxQmVpVVlhZU12YWhvZW5QNDlhOXYzWXZ3RWVuSjBZN19xdUJxdk1ZM2ZjLTVKRi1FNWhfZ3RzRkl3WU9vWnVUMFpWRU0xSEdnQlpFZlByU0xHeGRhdkJIdHZTUE1lckU?oc=5",
+              "date": "Fri, 12 Ju",
+              "sentiment": "negative"
+            }
+          ]
+        },
+        {
+          "name": "daily-sun.com",
+          "sentiment": "negative",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "NATO says to cut forces in Kosovo mission - daily-sun.com",
+              "url": "https://news.google.com/rss/articles/CBMihwFBVV95cUxNT2F6REh4WkV5NDJWRTJPdUxLZndKLU1FdWpqbXUzNElzMkNTYTkwV3kzTkd5bFJTWFpBajBkZi1NSFBEMDg4T3g0TGx3SVBfcnJhV1VZb3BieGNXZTRPOFhpVk90TmVSd0hVaEt0YV9RQi1SZ2JqMHl3akh2VzR6VkNMbUFsX1k?oc=5",
+              "date": "Fri, 12 Ju",
+              "sentiment": "negative"
+            }
+          ]
+        },
+        {
+          "name": "dw.com",
+          "sentiment": "negative",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo PM wins snap vote, but with no majority - dw.com",
+              "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxNMGgyNGtNU1pCQkY4TjFVZWdWNzNRZ2loVzVNSXlxenZtWWNKMWVmREZpT0pyQUpLWklBOTVlbWwxUGlma3hZX1E5dktEbFdJSktWaUZ5MlU1ZTBHeEhkbGtkb3dMeEN3cUVfeGc4ZHJkWGRsUjBZeUl5SmdIbkFuUFVVbW_SAYQBQVVfeXFMUGxvVnlVZ0FQbnFLaXRwRWdSaWZ0ZFBNbjk5d243dkEteVQtTkZXNW54M3VaNHdVYm5mbmIwQjNOQm5wM3ZTeDFzLU44YkdpYkpsa1ozT1l3dFkwRWJnbzhRblMyNHg5V1F0WDFvdHpnTlVrTDRKYUNJLXdURVhzcE1HUWhs?oc=5",
+              "date": "Sun, 07 Ju",
+              "sentiment": "negative"
+            }
+          ]
+        },
+        {
           "name": "hoistmagazine.com",
-          "sentiment": "neutral",
+          "sentiment": "positive",
           "articleCount": 1,
           "articles": [
             {
               "title": "M&M Topuzi Group completes bridge crane installation in Kosovo - hoistmagazine.com",
               "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTE9HZ1hnWmRuSTJiRWtlN053SjZ6Z2FwcUhISW9LbFZmamdZMFNDOFRpS2VicFExUlJhSlhDb3Jkd3I1eXkxUmJVMlE1bHZTc0p3N3VjbG83cnd4Z0FkQ0kzclRSQzVEOU5oZVloYVZCdkFtS29VcGhSUVVzc0xteUk?oc=5",
               "date": "Thu, 11 Ju",
-              "sentiment": "neutral"
+              "sentiment": "positive"
             }
           ]
         },
@@ -1322,6 +1344,19 @@
               "title": "Kosovo PM’s party on track to win third election in 18 months - politico.eu",
               "url": "https://news.google.com/rss/articles/CBMiekFVX3lxTE9mMW82U1ZEczM0Y1ptNTdIMzZHSGxvVWRJRTFxcEZzRkVBSnBGNlZlcGZ1dzl1VUwtc0o2RXJ6Q0syS3BMS09nTnh4SFJ1R2FpS25yN0ZQQlAwRDFwRml1NDV5NGRtTFNyYktzeUJfTEFiLUE3Uy1fWlBn?oc=5",
               "date": "Sun, 07 Ju",
+              "sentiment": "neutral"
+            }
+          ]
+        },
+        {
+          "name": "Українські Національні Новини (УНН)",
+          "sentiment": "positive",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "NATO to reduce peacekeeping mission in Kosovo due to security stabilization - Українські Національні Новини (УНН)",
+              "url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxPNmR6aDVCY2N3aDFDWU9td0M0YWlOQlNvRVFJVy0xWWZKNGMwY2Q1ZWNfWTJ0RURYWDZfTzRza1NvZG1yYVhhQ09tN2J4dU9VYWMzM1VGYW5xZ3FsTWE2QXdfd1h5cmhPSkxGREtwTlpzdXc4WnlyZkl2d1JmTVktcEtVQWI4Qk9ZRlNvSGZGV01QTkxuVFRnQ3d2aVQ0SknSAZ4BQVVfeXFMT2ZNeFZEdlQ1NWdoUF9TQ1E4UmRzR0hRU3g0SkF2el81YTY2NFhRUzl5akF6ZkJjRXVnQkd4Zjk2ejAxc3Z0NHpZNjVWbDhlMEhsX3ZvMnhnaW5Wc2pQcWsxOXpicE1yV3I1YlNHd1lWTUxjM1dMZVpUQ0tuY2JCM2NtbW80YzR1U2dBbjE1SmV4N20wSTg0Wmllb2YxUXc?oc=5",
+              "date": "Fri, 12 Ju",
               "sentiment": "positive"
             }
           ]
@@ -1331,150 +1366,150 @@
     "Francë": {
       "outlets": [
         {
-          "name": "Agenzia Nova",
-          "sentiment": "neutral",
+          "name": "Anadolu Ajansı",
+          "sentiment": "negative",
           "articleCount": 1,
           "articles": [
             {
-              "title": "Kosovo : Le Premier ministre sortant Kurti remporte les élections mais n'obtient une fois de plus pas la majorité absolue. - Agenzia Nova",
-              "url": "https://news.google.com/rss/articles/CBMihgJBVV95cUxOOUVlaHpkd2tJZi1fc2cyMTBKZzRxSkRGYVE4WWdvMDdhQjRWYkh2d1VCRlRnV2hBYmpqZHJvUEdBVlJvbTZSeHJSNzNTYUxRRFR2OUxpa2ttNG4zemtBSERwZ3BLa0xfTkpaUWtRdzBTX1g3RWVrN3QxaXgzbXRZWmJIcGx5dDRDUi1PcUJkV1JQNDJ6MTdKWWplVXpiMFZvcWJMQWFzYWZPeWJMRHc3WlA5RG5WQjV2U1NQb1puUXBZVkNlOGxfandocHAtNXVTT1FjTGRmVEFLMEl5eEFlb0RFTzhnbUdMbnVqREZvVmJSZElYTDRxMzkyY0FUX1FHTlhQZjVn?oc=5",
-              "date": "Mon, 08 Ju",
-              "sentiment": "neutral"
+              "title": "L’OTAN va réduire progressivement sa force de maintien de la paix au Kosovo - Anadolu Ajansı",
+              "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxNUmZtOXpJdmV0QU5wZWxtZ0dqSDUyeG1uYXlNOVB0N0dSMlk3cVRRd0hqZGcyYUJ1bXRPeDl2eUNDbWNycjZPbFNpcEdaWlhLWjBpUEpOTGVWY09FTTN2ZEUwZ1FuMndYOU5rREJyVHMxSzFhQ050SzRLSUdZQVM2ZU82ZnVOMEpGNExSUTdhaGdsSjVOZk9nSWxfUXp5eV9KUncxV3VwN1JFd0RpTkEzRXB5SlNCTjd2T0hN?oc=5",
+              "date": "Fri, 12 Ju",
+              "sentiment": "negative"
             }
           ]
         },
         {
           "name": "Atalayar",
-          "sentiment": "neutral",
+          "sentiment": "negative",
           "articleCount": 1,
           "articles": [
             {
               "title": "Le Kosovo face à ses troisièmes élections en 18 mois : entre instabilité institutionnelle cyclique et « crise électorale permanente » - Atalayar",
               "url": "https://news.google.com/rss/articles/CBMinAJBVV95cUxQQnBRdkZaNGRjZzdKakJ2eThteEVXTDRvOGl1SEtKMTBWVnNxdnBUa0JuaXdCT1laUmVtUl9xVmI2cFNlMmhkWTltVFpNcUhPWERFM0R0Qzc5aWVJQ3d5QlJha1E1RjV5WXdrTFlIOFFEZVgtWWdTb2FFU1QzOWgzeHUyanlkaWt2LXRsMjlLdlkwUU9MNTF3bG80dlVYb0pGRkxWNEllbFZubkZmTDd5NTRyelhvcHZpU3QxX0gyWDBZWlJDaVYwM3VIckEyeHNOWUFQZVBMLWdzRnNRdVNYZTlVeVNGZFM3Y184SlZkaF95OWZGUjJTM241SmMxYlpIYlNFQ1FMbEMwYU1vMTRVSEw5Zm45RFFzaWJDTdIBogJBVV95cUxPOWg0TXdCX0xfQkFlODZYYTUycDdNNzU0SG1GSVMyeVp4VlJlUFlxTmJ5eUpXTVJtZjlsVGMzUVVYMWxfeXhTYW9RS0lfTkY2X0Q3MHh0STJrMmtISkNCUUZ1R0gyUzNIbDNCSkRfSS1JSjVCNUp3T0pfNlV3ak5rUGJPSWMxSUV5X3ZPdmYtaXFpT3VVVmxOZl9uci1ONEZ0SFl5NjNmckpDOHozMjVta19DakFvLWlkNVFYWEdUN0M5RFZ3bUR0c29BWEg5WlhxemstbzlueERVVXRPYVBWZTdJQ2NXYlg0c19ZZFhfdFpKOHg2d1R4dUpPQzJSRm9meUhsNzR5Z1BEWkwtSWhyU0N0el9CbndtRU1rSmR0U0JCZw?oc=5",
               "date": "Sat, 06 Ju",
-              "sentiment": "neutral"
+              "sentiment": "negative"
             }
           ]
         },
         {
           "name": "Boursorama",
-          "sentiment": "neutral",
+          "sentiment": "positive",
           "articleCount": 3,
           "articles": [
-            {
-              "title": "Kosovo-Le parti du Premier ministre annoncé en tête des législatives - Boursorama",
-              "url": "https://news.google.com/rss/articles/CBMi8gFBVV95cUxQdmk4R0pxYUJmRlBTOFBpZjBIcDJ2clhEM1EzNXh3dkdzSXl4UEh2VmZ6QWRVc1R4V2VFdjRHMFpFcndYUWhUZ2xMMlU4dmp1SlRlWXJQSFRHYjFwa0FnZ1Z4NE4wdC1oM2hUMTRzUURhNXZuRUEzUGZwVmZJRE01Nm9JemNCM2pIVFVXRXczM3BmXzdiX3Bwek50eVlPSC1nSWcwRGFEMTBSOU8yRHVscUZaY3lGeUhwWi10aE1UUkp3Rm1MUVpoSmFZTGd3TnlIWFVHSGE2NmUtdDFkb2xRNTBlT1RNU2tpSnVOcUY3UEs5UdIB9wFBVV95cUxOUkt4WFZKbS01aHhPc29lYU1QNmFCS3hqQVZ3Vm5BRkZNTVZPY19ncFJfUThLQWpwY05QS2NUWW5pZjZPTmg2alBjR2dHZjBibGpKOUZlaUM0cjZBZjBrNTZXaC0zWE5KQ3BZaWZEQ1kzX0NpOTVGUjBNZnphdGh1RUtmV1FyTmhPQUd4UTdJVU1DaVEyalNMelM2SEI0SDllVHBkVE1xVHM0ampFNHR1dzBsTWE3NGozNjBoODlBb3IyR0tUR18xWGVWRmtHc1NSMGZpMjRObkRQUVhuM3BlNDdnVlFwY2FPN2FZeHlPM2ZuMVRiQjhN?oc=5",
-              "date": "Sun, 07 Ju",
-              "sentiment": "neutral"
-            },
             {
               "title": "Kosovo-Le Premier ministre appelle les partis à la coopération après sa victoire électorale - Boursorama",
               "url": "https://news.google.com/rss/articles/CBMikAJBVV95cUxOaThXXzZPd3R0UnFOcmk4WGhHQUljQXNFaG1FbFl1ME9OTTRJQzhnQVpJNUhiNlNoeHRYSERyVllLd2JYX1cwUDFFSW5oUHZTbUVwUUM3MURwcHBqYmxXV2pJZG9mZDBLUVB2TklBZkFuc3VlM0YxdnEtcnFWQ2JPbGZlZ0NMQzVVVHh5bXNleWpVRDN4MDZBbGZfRkJsY2tSU2ZnTGRJVmFQWUkyMEJrYVFqWFJ4M0hjdHd0WXFfVFVpY2VlX3BtdGlRX255OTFsbVA3NzVjc0V3cDlnRlVaMjFvWVp5YlR4OG5maE05V2ktTnplMFA0ZktQbkRReXB6UjVfVTM4Z2ZUVkdQSkFoU9IBlgJBVV95cUxOaS1qQS1WZk9qRTZrdHl4d3plM2x1VVN0UW9lb2dRcHFDSC1RNF9HbXlsVGEzM2QyTmxpeF9sX3hTRS13T1dKbnl1WnpJeXM0MFdMejk1ZGUtcXBwNVdCc3llTlRDbVdpbGNTY2RzelAzdEktS3lHWlRzOERtZzNoczZMUkdBYWJ5UEo5bGRIX2pxdmVsY0dkYjJjS3NRWUNSVzR6dTY4dU44TUhNOVJON1dLV0k1R2NxM0NLTnFpZThIak9rMDZHbTFNZUNpOEdWbFI2Mmg2a0hoeTlheHpDcG55R29fbVJpVkVJZkNqUW1UeGdPMkZURmZVX3R2T0o3WTBodnMtLWVmTGdjZkNPYnpURFZnZw?oc=5",
               "date": "Mon, 08 Ju",
-              "sentiment": "neutral"
+              "sentiment": "positive"
+            },
+            {
+              "title": "Kosovo-Le parti du Premier ministre annoncé en tête des législatives - Boursorama",
+              "url": "https://news.google.com/rss/articles/CBMi8gFBVV95cUxQdmk4R0pxYUJmRlBTOFBpZjBIcDJ2clhEM1EzNXh3dkdzSXl4UEh2VmZ6QWRVc1R4V2VFdjRHMFpFcndYUWhUZ2xMMlU4dmp1SlRlWXJQSFRHYjFwa0FnZ1Z4NE4wdC1oM2hUMTRzUURhNXZuRUEzUGZwVmZJRE01Nm9JemNCM2pIVFVXRXczM3BmXzdiX3Bwek50eVlPSC1nSWcwRGFEMTBSOU8yRHVscUZaY3lGeUhwWi10aE1UUkp3Rm1MUVpoSmFZTGd3TnlIWFVHSGE2NmUtdDFkb2xRNTBlT1RNU2tpSnVOcUY3UEs5UdIB9wFBVV95cUxOUkt4WFZKbS01aHhPc29lYU1QNmFCS3hqQVZ3Vm5BRkZNTVZPY19ncFJfUThLQWpwY05QS2NUWW5pZjZPTmg2alBjR2dHZjBibGpKOUZlaUM0cjZBZjBrNTZXaC0zWE5KQ3BZaWZEQ1kzX0NpOTVGUjBNZnphdGh1RUtmV1FyTmhPQUd4UTdJVU1DaVEyalNMelM2SEI0SDllVHBkVE1xVHM0ampFNHR1dzBsTWE3NGozNjBoODlBb3IyR0tUR18xWGVWRmtHc1NSMGZpMjRObkRQUVhuM3BlNDdnVlFwY2FPN2FZeHlPM2ZuMVRiQjhN?oc=5",
+              "date": "Sun, 07 Ju",
+              "sentiment": "positive"
             },
             {
               "title": "Nouvelles législatives au Kosovo sur fond de crise politique persiste - Boursorama",
               "url": "https://news.google.com/rss/articles/CBMi8wFBVV95cUxQUlluMU15RjNFanRQX2tyN3Zna1ByMVpPeG1yLW5EV2U5eThfVlZyWWJnVjVMQzk5djRqamVvUGtUZHpFbGs5T09sN3Vrd1UxUDAxMU9tZ3l5TkxaOFRuZmVkTEJsZFBLMmhiMUxvUS13aVlFb0l3aW1qMTBXOFhFNWxrczk1ekhPZHFDZGJqLVVNc0pVOFBFNERvZVR5bzJSMWVFa2FMbk91LTVQVHZiNXQtQTZOYWdVcWFrT0l3RzhyQTR1UkNGNmtHYS11OFk4akg2YTRxVkJYYkJPcU9hWm9qdHNoSHoyQ2xmNVlSQ2JqWTjSAfgBQVVfeXFMUEU5M2tLWGFrVXlvU3FlYlA2MzZOMzNjY2pUME5EaHU2SHI0SFpUVnR5R282QzQ0VTV5aGcyUnpQUWY3VFNxQ2JXUlNBcW9FeWhWVnk1RXBmenRwcGFyMFJIVWtOenNMUGhzNHNGdVNJZ29wTUJRRGNqNE5VQ0t1OW92TWgtMzQ5clM2ZnRBZ0F2UXZMZ1NmdVl6WDZNdXY4RmFpT0tCckF3YndZV3VIdnFEcTI3M0JlaTgyRWJDLTBRRW0ycm82Y3d3a3U2VzBmN1N1aGdHN1JldjRDcG1EaFc3QmVDc0h0Y21VTUI1Y3QwXzdfR1A5Vnk?oc=5",
               "date": "Sun, 07 Ju",
-              "sentiment": "neutral"
+              "sentiment": "negative"
             }
           ]
         },
         {
-          "name": "Euronews.com",
+          "name": "DHnet",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
-              "title": "Vidéo. Législatives au Kosovo : le parti du Premier ministre Albin Kurti en tête mais sans majorité - Euronews.com",
-              "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxPbUt2YW5CN3FvOUhmaUUyNDJiaUxGVk1kUjNQM2RjdC1NMnZPMXlTYk9wTDU1WTVtX25JZC1zM21SbzRsbTVPbmQ2S05GQTU0Wms1MmdPdllvcEVWUUZkUGQ5S3h4aG5OLWRKMDlvUjhrUXNWZ0RwVVI0dHlHaHVfWVg4QXRnUWxIS1hHSkZKRXkwM19iYmJ6Y2xxMC1uZTR2YlRIUWN4cDlLS3RKVk1EY2NXS1E4dUF0R19j?oc=5",
-              "date": "Mon, 08 Ju",
+              "title": "L'Otan annonce une réduction de sa présence militaire au Kosovo - DHnet",
+              "url": "https://news.google.com/rss/articles/CBMi2AFBVV95cUxNQlloOGhOVENrb3VuUi1acTZMQmZ4bVZXRnMwaC1Gd0Nxb1dnZUhibmwzYWNsdE5XTWRXdUNIcmdON2pnNlhMbUk1ODNoSm5jeWVWSTljRGg0bVNoZlpfblFXSWg5bjZaU2FCRlZRZkctOHV4RWREWlZfUTd0clJhTVZJUDYtR05SQTFoYm5zcTdjdXhDM1hlcHhKOVlTR0JsdkxZQm83bmRSeFVfOTRucHFRc3llNUQ4M3VHX3hqQ1QyVG90ajRxeVQzaGp2aU85a3hQeUpMUUI?oc=5",
+              "date": "Fri, 12 Ju",
               "sentiment": "neutral"
             }
           ]
         },
         {
-          "name": "Foot Mercato",
+          "name": "ENTREVUE.FR",
+          "sentiment": "negative",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "L’Otan réduit ses effectifs militaires au Kosovo - ENTREVUE.FR",
+              "url": "https://news.google.com/rss/articles/CBMikgFBVV95cUxOa0N5MGJvQkNiQklmNTBBWFpKVnBiMXVBc2UtcE4xZXhKZXp5WElvS2tpeHdGNlh6dXpsTm1BT1ZKakEtNmdEbjlRS2dvaHBoVE56bm5CTEU5OGZSTzZVNkNLV0ctOUc2MVYya01ITkZuYl9ua252NEdKR25uSmJQd3dhZG93OVotWk5aY0F0SkdRdw?oc=5",
+              "date": "Fri, 12 Ju",
+              "sentiment": "negative"
+            }
+          ]
+        },
+        {
+          "name": "France 24",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
-              "title": "Résultat Tchéquie - Kosovo (2-1) Friendlies 1 de Matchs Amicaux 2026 31/05 - Foot Mercato",
-              "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTFBBYTN6WFNac1puSzR1SVh0QzVtVWhwRERyZHFXXzl4SDh0a0VaR2daWHJFbzcyYkxqNXZoTnl6QzREQzktYWk3X0FnVGhyU0NtZVNNc3NwcXpDejlweF93bGFnazNoaTNEMXk5TmNFZjdrQmo3REhjVWFtSQ?oc=5",
-              "date": "Sun, 31 Ma",
-              "sentiment": "neutral"
-            }
-          ]
-        },
-        {
-          "name": "KOHA.net",
-          "sentiment": "neutral",
-          "articleCount": 2,
-          "articles": [
-            {
-              "title": "Tous les partis gagnent, et le Kosovo perd. - KOHA.net",
-              "url": "https://news.google.com/rss/articles/CBMigwFBVV95cUxOODAyM25yeXRqQzI1eGx3U0Z1M1Y5YndraWlRSWZ1TlFYaVZ3V0V0cWJnR1NCZDNINU9OS1FCMnEtWF9RU3NMQzM0SnZDdldpcW5iY2lPdGpBNS0ybGFXeTJIa2FTQlRZZnM5OU12VUtjakRpRjRyVURnZ1gtMURyN2JDMA?oc=5",
-              "date": "Mon, 08 Ju",
-              "sentiment": "neutral"
-            },
-            {
-              "title": "Le Kosovo « revient » en février 2025 - KOHA.net",
-              "url": "https://news.google.com/rss/articles/CBMid0FVX3lxTE1odnhmYTBPVFFNUlZRdzZHXy1VTENjQ2NEV0V3aXdzRFJuS3VUODdhSjI1dG1McDVhOEJBY0Y4WTRCVW9zbjlNM3BMQlFvRzlCaVB2ZFUxUnB1VmFRcm1EczZJa1pJaXJweGU2bWN2b1RKVXp2cWQw?oc=5",
+              "title": "La formation d'Albin Kurti remporte les législatives anticipées au Kosovo, sans majorité - France 24",
+              "url": "https://news.google.com/rss/articles/CBMixgFBVV95cUxQVU1sOXZRNElXMS1IZUJaN3RuanZseXhLUnV2YnFjRXJpMmg3RG5VTXpFTEt5QllWalpRaFV3dzBtNGIxNnVGVzVjb2N6cEZ2RktRY3RJcTlKcEdiQ25CUms1ai1NZm5xT3dpQTNCM1FDNjZZbHEyaTcwM2EwUTBkdS1PQnM4LUtHeS1tSzlzbmNnUS0tMXhBZXB3QTdEZE1IUlA4TzBKenR3aC1lWThFclZVWDdwT0FmbjdKYWVkMi1XcVFMVkE?oc=5",
               "date": "Sun, 07 Ju",
               "sentiment": "neutral"
             }
           ]
         },
         {
+          "name": "Gamereactor France",
+          "sentiment": "negative",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "L'OTAN réduit le nombre de soldats de la paix au Kosovo - Gamereactor France",
+              "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxPN09EMTVvYkVHWUU1UkpKblZqSkxVWjZqWDhBNFJWbnZ5NllEQlc3TGpPZUFWd05Yd0NuX2JrY0F2ZkY2Y2FPR2JwV09MdXQ3Ql9scjAwNFN1M3hjelhaUnVxVURBRVQxeXpOdGdpLVJqU3hEOVh1TmhpUzM4TWFTQWFDdTNaVzJwaVdvZVJ2LTl2aG1L?oc=5",
+              "date": "Fri, 12 Ju",
+              "sentiment": "negative"
+            }
+          ]
+        },
+        {
           "name": "L'Équipe",
-          "sentiment": "neutral",
+          "sentiment": "negative",
           "articleCount": 2,
           "articles": [
             {
               "title": "La République tchèque renverse le Kosovo en match amical de préparation à la Coupe du monde - L'Équipe",
               "url": "https://news.google.com/rss/articles/CBMiygFBVV95cUxOYS1FM2p6QmtzTFk5am8wN25mcjdobzRwT2wzUXpTOHZEY2NySnkydVlRcnB6UGRUQTdWUjhMTVQyWGo5eWNUUHNrTDFHSUtIZUlHZkF4TjV5QkNiNnI3UGNkWFVGY1I3S3BqcTJ1VkhGVmxWa25jeGlJcm1vOGJkTGRmOVpaeS1vVXVIcmtKM0pqM1BlMjU0Y0N1Yy1DYlFyQTBzQlpia2hCSHluYVlvZ25CZzh5MGpUOGlzYmxOdHpyc09nbzlRejZR?oc=5",
               "date": "Sun, 31 Ma",
-              "sentiment": "neutral"
+              "sentiment": "negative"
             },
             {
               "title": "Rép. tchèque 2-1 Kosovo, Matches amicaux A : match terminé - L'Équipe",
               "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxNX3N2NXRHX1BEeFBzMzcxbFRkdElhV3h2MTZlblRBcTVmNlNLNThqWnQ5SHNyRktMX2ZjTHJ2bDBZX2w4Z25EaGJLN1pWOGpPQm9KRjdMSTlDZjYwX2FwVk1wNl96M1dHY2dTS3RMTWllS2Rha2N0anhRMURSNTFvc29OQzZRVnRFN01FWXJMRk9iakFTVDVkQVdXeGl0Mmg4MnplZHFR?oc=5",
               "date": "Sun, 31 Ma",
-              "sentiment": "neutral"
+              "sentiment": "negative"
             }
           ]
         },
         {
           "name": "La Croix",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
+            {
+              "title": "Kosovo : l’Otan annonce une réduction de sa présence militaire dans le pays - La Croix",
+              "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxOR0ctdHZldDRMX0dfYnhSMEVMazFrcThSY3U4Y3ZYX25GR2xuQUlPaUNSazdQTXQteVhqVnJnQzVMc3pKaHRFSm5GQWNDOFlRMWNaYl9aNlY1ZWdtcXZndmx6aGgzblJvb2FtbDJlNHg2YUMyVV9fMnRnUFFKVHhldVh0UVBLRmlJcVBjWWJLR1BBY21KMFM4UG9TaXRYMS1XVHkxMnZlSUg2SGxJa05pbFJ3dFlyZkJ3UjBaU3Nn?oc=5",
+              "date": "Fri, 12 Ju",
+              "sentiment": "neutral"
+            },
             {
               "title": "« Tout le monde est fatigué » : au Kosovo, une nouvelle élection pour sortir du blocage institutionnel - La Croix",
               "url": "https://news.google.com/rss/articles/CBMi2wFBVV95cUxQWUt0M0dkVVRMb2M4dHB3enRySzJRVnphOHhYTkxadFlJV1E1QjVmX3RYVDFzSWhHU2xGNjlXcmZPQ2h0S1pKVlRZUXJBVGtnSGdzZjNBLW1TbnF3TkptUm93MWY4XzFXXzJZYnJWVFRGSGx0ZXJJUGlCTHhZTHJHSHBWOGdDb3h5d2k2SXdndzBYNDdORWxpaW9LekpOakNsNzJVbVVEcS1XWC1veFAyRFQ2czg1YmZkUF9KcXlMUHJxOGZkQjMweTFmU25CZno4VF9GcVh1bzRwd0U?oc=5",
               "date": "Sun, 07 Ju",
-              "sentiment": "neutral"
-            }
-          ]
-        },
-        {
-          "name": "La Libre.be",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Le Kosovo retourne aux urnes dimanche, sans espoir de sortie de crise - La Libre.be",
-              "url": "https://news.google.com/rss/articles/CBMi5gFBVV95cUxPTFpOVkxfeVVYSGdiQmh6cDkyQ0R4TFhzbUY5QXRlRW5ZckFORFU2eEZyRDlRaG5YQXZvTnJkNGMtcy16aUtSOHpHZVhuS3FReWF6Y2puclZwRXZPSnhpVlA3eHQ5RFBZbXRQMlFRZlBlVVkwbERtSnNxdHgtWVRyZHlHam5aR2JjZVRqTDZ1WFVaNE9FcFFIUlpPQnlaNmNyWFNNbjBGa21uWlNLYXE4QVVpVEJJQlUxY3ptY2wxSjNYV1o5eG53Y3F4Q2JybkFHanItQnBUd1RqazZpRXBOU0VjUC0wUQ?oc=5",
-              "date": "Fri, 05 Ju",
-              "sentiment": "neutral"
+              "sentiment": "negative"
             }
           ]
         },
         {
           "name": "Le Courrier des Balkans",
-          "sentiment": "neutral",
-          "articleCount": 4,
+          "sentiment": "negative",
+          "articleCount": 3,
           "articles": [
             {
               "title": "Kosovo : statu quo politique et désenchantement électoral - Le Courrier des Balkans",
@@ -1486,18 +1521,25 @@
               "title": "Kosovo : troisièmes législatives en un an, la rupture Kurti-Osmani peut-elle débloquer le pays - Le Courrier des Balkans",
               "url": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxOZ1lrbFlSblhuTGlVQ0VzbUdWcFdQdU5nNUgxblJ0aXg5UE9INmRmSVdqb21sMGhQRzFfUDA4SExNcUFDcThOalpVdVJUZXR1c1ZsbUJneE9wbUsybi1iVXVQWERTbEdhcEFPclZScXltSV9uRXVVRVVXSjE0eTBHR3F6REw5ZVhHYkM5MFN1bUhJeEk3Vy1nQndDc3BlWnBiTHJOQUU0VEJCbzQ?oc=5",
               "date": "Sat, 06 Ju",
-              "sentiment": "neutral"
+              "sentiment": "negative"
             },
             {
               "title": "Kosovo : troisièmes législatives en un an, faible participation et contre-performance d'Albin Kurti - Le Courrier des Balkans",
               "url": "https://news.google.com/rss/articles/CBMiygFBVV95cUxNdGNjUEprQUJydDR3Z1NBaHBwS29WRVphTWFpMmZBcmtUWXJtMlRLTGlUUWpEM2ExSFJWeTRpV2w3Z1V6OGVya19FWmR4YUlXNjEyMG9laTRBOUotU2F5ZDgtT1d3eklSX0VXR1J3NTFQNzZ3TGNIQjE1aVBOMmt0amYzNFNCNUp1Y3AtQ2dwZmhwOFRkQ0hSQ2VqUVRMb3Bjb01lQVQ2cUtFR2x5Mkxqbl9YcEZtNUR1azduNmkzTl9ZR3VMOWFGaUln?oc=5",
               "date": "Sat, 06 Ju",
-              "sentiment": "neutral"
-            },
+              "sentiment": "negative"
+            }
+          ]
+        },
+        {
+          "name": "Le Figaro",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
             {
-              "title": "Kosovo : de nouvelles élections qui ne garantissent pas une sortie de crise - Le Courrier des Balkans",
-              "url": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxPYlRPU19zdTBMbENsaktuQzdHQ2EzQktvVEZobjhZcTFIbHA4ek9DTGs4TnNER0lSMkJPdzRDZUJoOGVocGEwaU03Tkl6MXN3Nzd1WnNheUlqM0pMcjRFSGNaVXhvcnVrcV9ZdGtjUkREOWJSaGpnYXNqSWxibGxRbmNqWTFKdFg5SE1pM1BwZGY5Z2RwUkJxNjhMaUNxdWNBVFo4Q1UzaHRVQ0U?oc=5",
-              "date": "Mon, 01 Ju",
+              "title": "L’Otan annonce une réduction des effectifs de sa mission militaire au Kosovo - Le Figaro",
+              "url": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxPTERZRzZYOUJOQ2tCVUxUUWt0WXhsOWMzenJQQ0VYb2M5bFBLRy1Sa1lnek9tSnMzVWhpVmtJV0IxRXJYTm1JbEc3TThYVmhWV09WYWRqX3hzbGI0akg2cGNoVzZTcFFGTmV0LXNHT0d4SGhBb1huOGRIRjRzZkxfVnhfVFFvNi1qT1ppMkdlZ1AtT3ljektTUnJaektJdXdzckxuN05OY2NpTWJXT1ZtOWVRNHlhSUJOQnJ1OWZuSmg?oc=5",
+              "date": "Fri, 12 Ju",
               "sentiment": "neutral"
             }
           ]
@@ -1530,46 +1572,52 @@
               "title": "Le Kosovo, figé dans une impasse politique, organise de nouvelles élections législatives ce dimanche - Le Monde.fr",
               "url": "https://news.google.com/rss/articles/CBMiggJBVV95cUxPc3ZfblpvakZNVFkwY1l4RzBGekRSZkxDc01tdFpLYkpYUk5NNWE5Qk9NU1h6ZGF6WXF3Q1lLMXdRdnZGTlNYUUF0Z3VVZFJVRGE2dkNCWHhUbGdzclI5bDAyekl4UmlfSnZvZmVQdElBaXpXSy14N19XZEZLVzVhMkdvQk9qLVNCbXhHNTFXelZadXZQNERqRmRqdmhsVjNsY1d6VHEyTUJtRE5BWWZ6TXZodDFPSG01S3hDazhlRGwtTzJMYlFkVHU0WFZuMGN5UWlraDA0N0wtWkd3Snd3Wl9uZk1fQVVjdEl1RVZBeG5wZ2REZm9UNkxOTk5ZUFQxanc?oc=5",
               "date": "Sun, 07 Ju",
-              "sentiment": "neutral"
+              "sentiment": "negative"
             }
           ]
         },
         {
           "name": "Le Temps",
-          "sentiment": "neutral",
+          "sentiment": "negative",
           "articleCount": 1,
           "articles": [
             {
               "title": "Sous l’impulsion d’Albin Kurti, le Kosovo, miné par des élections à répétition, «vit son moment populiste - Le Temps",
               "url": "https://news.google.com/rss/articles/CBMi0wFBVV95cUxPVzV0U1Y2bTkxZzc5ZXZUMERYNmNVOGNja2RScElKRmFsaTRVNkdvVVB1M2FMYmZUd0g4ZVMtUndpazVWSnFfWTRVNEFFMWRBa05EMWtwbVpUdEZ2eWVUdFJpc281RmxvbGJEMTQ5cEJqbEVqcU85QnFfWjhHdF9seklnX01Ia2VPMWhVQUNydnpTcWp1Rk9WSVhzUHJYeVRsOXlKYnVKQUo0Z3N1MzFoVldSaC0xVDY3MzRGNm1Sek8tdUdSR2ZMM0tOa0FlMUU4X2t3?oc=5",
               "date": "Mon, 08 Ju",
-              "sentiment": "neutral"
+              "sentiment": "negative"
             }
           ]
         },
         {
           "name": "Mediapart",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
+            {
+              "title": "Kosovo : la formation d’Albin Kurti remporte les législatives, mais en recul - Mediapart",
+              "url": "https://news.google.com/rss/articles/CBMixgFBVV95cUxPdVZScFBULXhHWWlvejJIRnRaMVdYODZneFg3TDAzNGtETXBnSGoyZmFiZmJUY1VxQUdROHFZUXVUV2c4UlFhN1JGZTZlNHd4RzhaQk00bXRFd1RxMWhmcmczRzhDLWY5RzQtaGk3VGZFODFvRlprZ3BaVS01ZGFxSVJFck5Ib0ZwVU0tNjAyak5tLVBQbkI5dkpVSUlCZFpwV3FTYXFHbmhnakJuVG9GOEJqTkpzQmczU0RMVjY5VkZlYXNWYWc?oc=5",
+              "date": "Mon, 08 Ju",
+              "sentiment": "neutral"
+            },
             {
               "title": "Le Kosovo retourne aux urnes dimanche, sans espoir de sortie de crise - Mediapart",
               "url": "https://news.google.com/rss/articles/CBMivwFBVV95cUxPU1Z0bDlnYVc4VFZEaUFlUWdwYlV0bnlqbzlZYnhzS1Q0ME9rMmhCS1lNR3BIY2c5ZTRLYVQtSkJWNHRzUGdROUp6LUJyWDhRdDJQRV93Zl9aRUZhSS1ZaXUtNUVSYmR3bjh3dnU3UWVhMkdYREN5c2RrSXlsWldRNzBrTk90WDVUSFVnMmlFUDNMcmdHTVhSMV9sRnd0U3hoUGhkR0d1VHRjcXJXcmdYMDhmOWRlRWR2SlZUTW9KVQ?oc=5",
               "date": "Sat, 06 Ju",
-              "sentiment": "neutral"
+              "sentiment": "negative"
             }
           ]
         },
         {
-          "name": "Ouest-France",
-          "sentiment": "neutral",
+          "name": "North Atlantic Treaty Organization",
+          "sentiment": "positive",
           "articleCount": 1,
           "articles": [
             {
-              "title": "Le Kosovo retourne aux urnes dimanche, sans espoir de sortie de crise - Ouest-France",
-              "url": "https://news.google.com/rss/articles/CBMi4AFBVV95cUxOcXVTa2RNeVJJdFVTdkJHanVqQlF1c2d2RHJ5RktacVJSZHMwSXVKQkVwc1ZnYV9CSnlRUzA2Z0UtdzhMOVVUSW8zdXVaaVNVTG5raWhlaTQ4em9qVnR3U21xWEpTMDJLUVdEUHJGaDZ0X2dsVlZqX0ltM3FaNDkweTJSQjdwXy15OVk1UnBVbW5CSHdBVVZ5dTJlZ2U1S0ZZN2FYcmlZcVpENURYOTloWGNBdHRZVE1uNmVzc0U3QjdsMFZzRy1FZXY2NW1Lc0lfV3BpNUxzbDNINlF5ZnhRQg?oc=5",
-              "date": "Fri, 05 Ju",
-              "sentiment": "neutral"
+              "title": "L’amélioration de la situation en matière de sécurité au Kosovo permet à l’OTAN d’optimiser la posture de la KFOR - North Atlantic Treaty Organization",
+              "url": "https://news.google.com/rss/articles/CBMi2gFBVV95cUxOYkNqeFFNWE5ZQWU1OEwzV0lVakREb2l6SHhVUHpndVgtY1BsVlM5NUhqRDJjWEppUmY3dVVfYWZDMmJ0V2RSQmlKOTRqV3ZUaktvWExaZ3g0ZjgxUUQ3RUxUNjZ4RFNubDBFWFZ5em04N2pCZmdqaXFoTENUclphSUM2cTNFNzZTSEp0Ry1SS3RvOUZ2N2lSUDg1T0hHVTdQb0tYSTRudkhZcWREWWczQUVzcnd4NnMzRUFBWlZlS0htRmRsYlN3RldMcHB1QlFXVnBsclN4emx3dw?oc=5",
+              "date": "Fri, 12 Ju",
+              "sentiment": "positive"
             }
           ]
         },
@@ -1579,91 +1627,65 @@
           "articleCount": 4,
           "articles": [
             {
+              "title": "L'Otan annonce une réduction de sa présence militaire au Kosovo - RFI",
+              "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxQYmJZVkMtYks0Z05uSUo0NjFfVjg3R1FQRlFyVDREbmZ0YkhYZGlXZHMxREJpZWFyczg2NHp6Z2xGM1hGSmRxTHcyRUc2bTVVU1VGTk85QmJrWDA4S3lrU0c4cklKdjh1TXNRanlSU1FQX0VJMHc1Q09saDBjZFhhMGJCNTdxR2M1eG9Gd2JOblRzRnlKczRXbldDaFBqR2Z4aENnazUwbmZleG5OUUZUMjV3?oc=5",
+              "date": "Fri, 12 Ju",
+              "sentiment": "neutral"
+            },
+            {
               "title": "Kosovo: le parti du Premier ministre Albin Kurti en tête des législatives malgré un net recul - RFI",
               "url": "https://news.google.com/rss/articles/CBMi3gFBVV95cUxQc052TmNlMVlFMkQ1OTJvLW9MVEdURmp5dDFISmJNQWpGbGRCN0xpS09NeWdlSV9EbmRWYnR3SkFRbnMweTZKeVJid3RiZFI4SjJGVEhWOUNFcnAya0lrTVdXczMzNUVnNGhDOFJmVzhqRUM2NVg2R2Z6dFl1bTdyVkV0a3lBZ1d4Mko5c3IyWHpzWURFcUpja2FBVzJ2QkpEZC1sWlZBckxHTVN2c2N1VUZqY096Wnh5QzV0UU05cXRUZ0hSQ1JPZHVLRXMzSXJ4MHRWMzlVTWdLVUVPMUE?oc=5",
               "date": "Mon, 08 Ju",
-              "sentiment": "neutral"
+              "sentiment": "negative"
             },
             {
               "title": "Élections au Kosovo: Albin Kurti mise sur son bilan économique pour assurer sa réélection - RFI",
               "url": "https://news.google.com/rss/articles/CBMi3wFBVV95cUxNVzRjUGZUNC1lSk03ck1ZZmhvNzRXbE8xMWZUMWVYdTJTMlYxVF9CQmRYTXlIVHlTd003MDFkSjE2MHdKeE9nOVlfeGZXOHVJTE1mTHhBdXNsSElISzJCb1ZHcVVDbnZ1QUhPWDZWdXg1S0ltb210WHNHVG52QWhpbzZqMUdfZXJTSFF4czJSSk1uNUZKZ2xUQ1JPcWJJWURLY1VMZ3RpM0F2RUJjOTJVZHl1bkNrdFptY1VUbWhuUTlxQjlSb19ka2VwYlhMVzZDRnk0MUhJeEpxQmFJYnZJ?oc=5",
               "date": "Sun, 07 Ju",
-              "sentiment": "neutral"
+              "sentiment": "positive"
             },
             {
               "title": "En pleine crise institutionnelle, le Kosovo doit élire un nouveau Parlement pour la troisième fois - RFI",
               "url": "https://news.google.com/rss/articles/CBMi3gFBVV95cUxNTFZIMmZEUV9VcW5BQ21raGNOMWdGeEFKT3FRTG0zRERoNWtMaVRyckNDZzdIeExCa3pKbHFlbk9fdzAyc0ZtWm5fa3pNeEFqMElJUDRRdEJRdDJuQlFGYjJXbnFvTHhjdTNEQWY3dFQzRXI2dDNGQUFFR3otRm1kRURtUFUyNFpSak1PTi10S1kydTdhME5nV2RkRG1wdDdsbFM5NnVCX3M1MjR2THhnUUJxcUREdlRWUlJqVmNDNVJXemU3VTJYNDVoaVhIcHFIZU8yWEcwZ1BqckFmUlE?oc=5",
               "date": "Sat, 06 Ju",
               "sentiment": "neutral"
-            },
-            {
-              "title": "Kosovo: la formation du Premier ministre Kurti en tête des élections législatives (sondages sortie des urnes) - RFI",
-              "url": "https://news.google.com/rss/articles/CBMi8gFBVV95cUxPa01BLWhtRjJiNmNSZkhGdDFsdVU0YkV3Wl9HTmJISTdSd3A5UTVhWUJPeUN0R2lNNHYtNVdibUNvLWJCSmpNT3VhYVV3eG1SbFpLTG52T3ZNWUVFTlFISGNwUi1ndUZFMnNXbXpIZFVVNWhhVjRZX0ZTR1dWTGp5bjN2dW5OekEwc2FWM0QzSEJLUWR4emIzOUlnRVJNR1I5TloxQ1E5NEs3X0EtekIyMW1SUXVSRkhCNlZnX3h3bjA4ZEtfMXdtM1RhazZ2R2lyc2tGZVNScHduMlJ4cU1jT29fX0loNEM2SU1yNXB5YXdZZw?oc=5",
-              "date": "Sun, 07 Ju",
-              "sentiment": "neutral"
             }
           ]
         },
         {
           "name": "Radio LFM",
-          "sentiment": "neutral",
+          "sentiment": "positive",
           "articleCount": 1,
           "articles": [
             {
               "title": "Kosovo: la formation du Premier ministre Kurti largement en tête - Radio LFM",
               "url": "https://news.google.com/rss/articles/CBMikAFBVV95cUxPVTJEazZxQjV1emw5M1pMVTRubTd4NW9RalJOajlWbXBpd3NCcDg2Z3llZFZzUUtHVFpyVjNHRG50cGtrQVg3VDAzWThHSGVSTDZ3WThwU3h5QkZXZFdXUWY3alZzN3lockM1NXFRQ3RicktJTzdrX2lNd3BaY01LSEF3QzAxYk1vMzRONW9EWEE?oc=5",
               "date": "Sun, 07 Ju",
-              "sentiment": "neutral"
-            }
-          ]
-        },
-        {
-          "name": "Radio Lac",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosovo: la formation du Premier ministre Kurti largement en tête - Radio Lac",
-              "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxNNXV4eDFMcTloN28ySXlTSVd5T0hHbWZXUFlfYlBIc3YwWTRieXVZNDhWcEtYM1UyeTlJdG5ZY1Joa21hSmRCTW1HSG9ud1RHSUtHd2RvLV8wTjk1aGJoM3JvRUg5TG5kOFl2MUFCUG04ZWpwUlZ2VDliYTF5dDVwR1RjbHVONWhyem5BTEdob0VDV3dkYWNV?oc=5",
-              "date": "Sun, 07 Ju",
-              "sentiment": "neutral"
-            }
-          ]
-        },
-        {
-          "name": "SWI swissinfo.ch",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosovo: la formation du Premier ministre Kurti largement en tête - SWI swissinfo.ch",
-              "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxObTNBOXdxTkU3Ri1BT0hFX0FDQ1ltX3Q1RFNUa1N4R1REVXVBWlBXWi1CS3BhblY3RUM2UWt0R01Iei00R2toWDFKMGotTWJwNkdMWDlfZXVjMFN2OUtwaFg0YzRJTkh0NXQtY3RWdDNiS2JsZGtwUEIwQURhVWhNZlF3bVpObmEyaVRXUUc0dE1FcURtSEs4VG9UQ05mVENlNzBITFgwSkxidXBlTHc?oc=5",
-              "date": "Sun, 07 Ju",
-              "sentiment": "neutral"
+              "sentiment": "positive"
             }
           ]
         },
         {
           "name": "Vatican News",
-          "sentiment": "neutral",
+          "sentiment": "positive",
           "articleCount": 1,
           "articles": [
             {
               "title": "Kosovo: «Apporter la foi à ceux qui ont perdu leurs racines chrétiennes» - Vatican News",
               "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxOZHg1dzdJQ2l3SGYxX2QxTDA5NnlYYjVBT3I5SGt5NElZb2pqTVdZTGM5LVBsQnJfYkhLYmFzUWFGazRrU3pCWG1aS3VEX0pQY0p5eXo3VTFudGpsRUk5cUR0aWdxN05kQ0lxTjZEU1JYX3JuQzNCYjgyOFNnbm5DSXBsZ3lTNHA0NzZVcmhrSnoySEE1Yk04TQ?oc=5",
               "date": "Sat, 30 Ma",
-              "sentiment": "neutral"
+              "sentiment": "positive"
             }
           ]
         },
         {
-          "name": "Zonebourse",
+          "name": "Yahoo Actualités",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
-              "title": "Le Kosovo vote lors de nouvelles élections anticipées sur fond de crise politique persistante - Zonebourse",
-              "url": "https://news.google.com/rss/articles/CBMi6wFBVV95cUxNdGRpcVZCN2V0aGdRLUpqWXQ5Z3VTcTBLY1ZhWHhLRUdDenM0dkRURWdyemtyamw5dmdyMGdQYjR5Vkwtb0VoUDRFVDFmVWpKMWZ5dUdSb09wdkhnX1ZUOURSeG1sR1JpTjRtcDlTZkZWejdrNUtVOVBzRVltVnViTmY3cmk0dHNVczJGWVJpNk5TS0w3ZEl0bEFZQWIyOUVRWHdrNUI0bTBvU21ISUZNcXYtV1BxdThtTDFIbVRDRl8yMXBWOGhNcDg5NmxpWEI4WmZrVDQzYXdKclMwa2dNMjZDRHJMMzV6MTY4?oc=5",
+              "title": "Législatives au Kosovo : le parti du Premier ministre Albin Kurti en tête mais sans majorité - Yahoo Actualités",
+              "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxNaEx3U2ZQZ18wbV9fejRPdjV2aWowN0Z0WVBodllEOFJFdVlFaG1SVjZUeVdyQ1VKS18zQ3pubDJGcVhBbURIbWQ4SlB4RkRmQTRKZEhjLXQyQ0Q5VDZhekw2LVhMOVY5U3YxSGZxZ0FhZkxLbFZQUHpDVUNKMmtpYUc2RE41N1dnekpsamp3TXRyc1NKNzZFdw?oc=5",
               "date": "Sun, 07 Ju",
               "sentiment": "neutral"
             }
@@ -1671,7 +1693,7 @@
         },
         {
           "name": "Zonebourse Suisse",
-          "sentiment": "neutral",
+          "sentiment": "negative",
           "articleCount": 3,
           "articles": [
             {
@@ -1684,13 +1706,13 @@
               "title": "Kosovo-Le parti au pouvoir en tête des législatives anticipées, sans majorité - Zonebourse Suisse",
               "url": "https://news.google.com/rss/articles/CBMi0gFBVV95cUxNU2FiRUJrVjBZRHFXVGVUYy16eGNmemk4ZXlNcFVWSk9sb1loWV84VTZpeXVVU0tIbEtHdVN6T2RkaW5CQ0FFRDFOVk9xb09HdEpIZGEteU0zbkREWGhiSDRVV1NUX2V5OERHUFFxTUlWV3p4a1F5Tk1aYm9DLVJqNmE2Skt0QWNheFhlcFBwclI4U2g1WE9BZXd4ZXRmS0JIdHNMRUN1dVBULVoxZzNjTUV1bmFTZlRWNnVqTzlBcHBiLTJqRzV4XzRUMHhra0tMY3c?oc=5",
               "date": "Mon, 08 Ju",
-              "sentiment": "neutral"
+              "sentiment": "negative"
             },
             {
               "title": "Le Kosovo organise de nouvelles élections anticipées face à l'enlisement de la crise politique - Zonebourse Suisse",
               "url": "https://news.google.com/rss/articles/CBMi6gFBVV95cUxOUXZpeGZTdWI0T3NMWUdYckpYWnUyQkFmSGhLWFpveHd0Ql96bzFVVkNtM1MtcUdLY0JHR2trbDRvaDNpVGhZMUUyRWNka3IwUHZscXlac1plZnpJZVY2NFBkSm0xaXc0cmx4N2FicUFrRkR0aEVwdEZFeVBhVDBRZXZTY0s4cm9ZTkZjOFlQcnhibW1scUI1b2ZkcGExV29zNHpjS294LU1ya0x1RDBPMmh6MEhoUUx3eWdJWTlmS1l0Q3BUNVZBWVppUFI2RDVGdEIwUTNoTXBiWWNBc2F0UWwwanhsZ0wyY3c?oc=5",
               "date": "Sun, 07 Ju",
-              "sentiment": "neutral"
+              "sentiment": "negative"
             }
           ]
         },
@@ -1708,21 +1730,34 @@
           ]
         },
         {
-          "name": "epochtimes.fr",
+          "name": "consilium.europa.eu",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
-              "title": "Kosovo : Kurti l’emporte encore, mais la formation d’un gouvernement s’annonce périlleuse - epochtimes.fr",
-              "url": "https://news.google.com/rss/articles/CBMivwFBVV95cUxNeVhRZTBLNEZUYUJSRDBUZ014RWFQN21waEotSEw2NVMtMzlQN3pYZzhiZVdmMGpxNVQ2dWFaNXBnejFGb2JxdmZuWmd5d2pvTTJUeHZ1MDFpTnVDeldRc2RwdXdLS09XTzhUb2laa1huckg4Ry16ckQtT3VwaFEyekVvaFY2VjBqcE9ueGltV25rOGNoSWRGdmZ4akE1OUNESzVzMUFLLXB1OFNpY1hJUmpGdnBlS3pUazlfLTYwZw?oc=5",
-              "date": "Mon, 08 Ju",
+              "title": "Visit to the Western Balkans: press conference in Kosovo - consilium.europa.eu",
+              "url": "https://news.google.com/rss/articles/CBMikgFBVV95cUxOaGxLTnVOTHd0ZkpHaE1jQ3QxVEZIRXpReXh4UENHbDZTWTNiZVRuUlVqZ3drM2ZucnpDQXM2VTVkd25qSGp3RXNxR3o0S2NuNGhpVmpORk16TEZMTzhjeDZPN1Q2LVNXbFU2UnVMd3FvRWRURW5jdE44UjJmQlNVYThoTkFXRjJxYW84SFpXbDVGQQ?oc=5",
+              "date": "Wed, 03 Ju",
+              "sentiment": "neutral"
+            }
+          ]
+        },
+        {
+          "name": "franceinfo",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "L'Otan annonce une réduction de sa présence militaire au Kosovo - franceinfo",
+              "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxPSFU5bWc3dTRlaFhhWUpxeHpDSmJ5V0NZUUl5bXZfTG5iVkpwZE1teGRTZm5qUEpMZWZUeVdXbDRfWU1ydzJUS2RrVGJ4dXpvQmQ5MjJXZ3drR2gza251VEc2TEdmWWtBOEU0T2MxWVlPTG1nZmdPYnBEd3dvQ3RJTVhnMlBzWm8zNVdBZFpUNWx6SEhHUTdDU0ZMU19CWFJVTktHaHVOMVhSeUhkR1plNFJCMA?oc=5",
+              "date": "Fri, 12 Ju",
               "sentiment": "neutral"
             }
           ]
         },
         {
           "name": "rts.ch",
-          "sentiment": "neutral",
+          "sentiment": "negative",
           "articleCount": 3,
           "articles": [
             {
@@ -1735,13 +1770,13 @@
               "title": "Le parti du Premier ministre kosovar en tête des législatives anticipées - rts.ch",
               "url": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxOelBjUFlrUWFPM0VzWXJSemp2ajM2OUxCcTR2SmNucjlHamN3QlUxWlE1OXdpVElibmJwelVVT2pQZ0NPRm1tNV9xaWdMekdIeldUcmRCS2w1V014RzNCU3gySkRqMjFjQ0ZFaUJ5YUllQnZKbmY1Zy05QjdleXVMZUtfaTBROFpyeU5UUjM0bHpwMEJoS2laUE4yQlM1MlItaXpDVWlPT1h4UkxEclRRLU11R0RFRzR2MVNxTmtieEp0Sm5zc1djeQ?oc=5",
               "date": "Sun, 07 Ju",
-              "sentiment": "neutral"
+              "sentiment": "negative"
             },
             {
               "title": "Le Kosovo, figé dans une impasse politique, organise de nouvelles élections - rts.ch",
               "url": "https://news.google.com/rss/articles/CBMi-wFBVV95cUxQdmJ0bmpjbVRYVm01TlBidFVVYmpYc19rdEhtTnZZMnZleV9FN0JxX0lfZEJKZ1FyQ0lfZkp1dllZNkt4Z0YwQjhCdjlDM21mSjJQVFlXaGhZWk1ySVFjNGhBWnBVUkVlRkZmc3Q4RWlROUxOdWFBLXNENVREUEJDdDBPeEstLVozT2lval9Ybmc4SkxWd09odFpYUnkta2hxNTdYcjBVSlpkN1JJMVpmNDNhRmFvM29LZUJyUW53WEN4aDB1SjhLaXhuTGdPSjh5MWlzQzN2bGg0RUNPaVptTmh5YzdDUnRuRTZsMG9UTGhRRHZKTDA1QkVicw?oc=5",
               "date": "Sun, 07 Ju",
-              "sentiment": "neutral"
+              "sentiment": "negative"
             }
           ]
         }
@@ -1751,9 +1786,15 @@
       "outlets": [
         {
           "name": "ANSA",
-          "sentiment": "neutral",
+          "sentiment": "positive",
           "articleCount": 6,
           "articles": [
+            {
+              "title": "La Nato ridurrà il contingente Kfor in Kosovo: 'Condizioni di scurezza migliorate' - ANSA",
+              "url": "https://news.google.com/rss/articles/CBMigAJBVV95cUxQYl9RVnVMazRRT19jNUVtcWVmV21WSW12T3MtcU9SZUYzSXJEZHNGMjBTLVVNcmt2bXJDUjhKd0IwY1dFQ3FCWmxxOFozcktScG5YM2I2d3JfNlZZVjAzVTJZQzlOT2cwQkI1VWM5RTRVN3g5ZFVIcGVYLVFEN193VWo4SWVwendfRTB4VWp4RGYyb3ZpUU9yVXJIXzlTaFJfMVd5ZU14RzJCY3FaOGc0SVI4NkwxelFOVWVtTEFiXzYwQlJXaFB2UEYwT1NXaUxwYlhYM2NmekNtcGc3OG1ob25qdmV0SVBsLVR2TGtxcFN6TzhsRkdVcExHUFlOaWl30gGGAkFVX3lxTFBTV05ySHhKdFhPZWpYNkZ2MmM0QnhpUHZ4dzN4NzJhaGg2dXJoUmJ6OXAzWTEtMFNpczZ5SFl4YzFzVzBGeFdFV0s4NDFCSUlPbmU1N19VdUtHb3VjdG9mYXVoQTF0RVg4VjJicmZucHJSTlpjaDU5TVdfeWtGbG9rZHowQzhyTHMwNTFDZGJQUWx5R3FfQjZfRFJNVEZlODlFUHRPUlRRRkJ2R2FiOUdyWFRRTDZmVGFiVEdha1czQ0VPTWVjSFNza240dzlrVERSMkFSVFhXRlV4dUlCb1lZX1ZVXzZKNHFPclU1bTBUVTdDVXhMMk5veF94Qmo1eVo4Vkx4cVE?oc=5",
+              "date": "Fri, 12 Ju",
+              "sentiment": "positive"
+            },
             {
               "title": "Meloni, sul vertice per i Balcani polemicucce che lasciano il tempo che trovano - ANSA",
               "url": "https://news.google.com/rss/articles/CBMijwJBVV95cUxOOWtfVkdvZTUtb0syM19WNjVnSjVNcEl3QmpEcG5vWF8xUnlUWGFSejk0X2J4OUZ1RExMR3l0Y1FGMGhrVi03M0ZrMllKU3dMVXk0RjJ6VkdvTFlEYi1wU20xdE9hanhkZ1ZVUkNDZW94TTQ4bjRhUjdCbUNTaDFUNGhWZ0U0bHVKYXNRYVdBVHRNQWxYQ3JwUXpseXA1TW9GNEt5V0NWZ04td2wtMWJNa2E1SkNTcDFhUnJPQlFtQUs3V3NRdTVCakVSaHV5YWlkd1JPbV9ZeHRRdEg4aFlqaW8zMTdkbHpuNGh6S09tbVJ3THdKMjU5WFdSYmd0NHQ4b0JIRGl2OGpIUnhSYmkw0gGUAkFVX3lxTFAzRXJoRHFGY2pEWHlQUHI3NEduM1dOOU9TbmY3RWlFVUk3Tnhva1BHRl9Sem1yc1ZoM1hyVXVLU3RBODNmZUdHT0hSTDBJdlZzelBycEh5UkR1QkowQndmTTg1NHVYTGVDc1RhN3BCbzdaR2hmYTJnczJyZ0xSN08tNU95a3B5TkxzWWpEV1lzRUxkOXRrQ0pHdnFUVlY2UjF4RG14bG5XX1Z4OTFTSkNDSHd2R00yN1FuSm5XbGR5VHV2S0JkU2ZNN1lSakhSNnltdzRsbmtxMFhRRkFuTnZ5OVNiSDE0RlpSR2VnVENYX203Q1NrVjhETVhoTVF1TGFvVmFZMW9oWkxzX3Jsd1RmRUJ6cg?oc=5",
@@ -1761,66 +1802,73 @@
               "sentiment": "neutral"
             },
             {
-              "title": "Kurti vince le elezioni in Kosovo, ma senza maggioranza assoluta - ANSA",
-              "url": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxNTmJDUlZJb09Va04yV2gzancyOVpBNDNnMUtvR2t6RzgtY2JFbnRzcnk3NUU4YWFHcjVmX1JWckZlcE1BOWt0bGZmbmdtR0hVS05uT0hMZEtZWTJsd1FyZ1E3Zm55eDN4ZE1hUDRVcnFvdFlZN2xtOFVyajM5TDBOaGdYY1NkZmkxZTljdEVIYWpJUmkzTG9CeTRDNThjWkQ1Qjd3b1liUEUxekhQYkZfcXpXTTljVU5PdmFMUWxrMjE3MjdlOXBOM2tYc3cySUlLY0p3MGFR0gHbAUFVX3lxTE5fT3dqd01qRFZtWENUbi12dVpnVWNUcG5KSFJyWlhGMTR2UHpKd3FUdHo1WFVlNnJJcTJya1g2Nm43bHJLUHJ6UEZ3X3E4RTgydlUyaXJiRXBNcnY5ZHdqazBDQS1MYjNZTnBtTE4wdjJCdnpkRm4wTDBidU1SSjcyNG9tT1JQRUozOTdORHN6Q09fQXVCZkh5R29lckxoU3R3dmNwa19Xd0NRN3ljWDNxTnNDVFl4Z1ZweWxXaGl2bzB3R00tVnZVUmJKejNUZHYwVGJpc2VjTTdTOA?oc=5",
-              "date": "Sun, 07 Ju",
+              "title": "Nato annuncia riduzione delle forze nella missione in Kosovo - ANSA",
+              "url": "https://news.google.com/rss/articles/CBMihgJBVV95cUxQQWw2OUQxNk9YTUxTTFZ2b3lOdm9reFRfSkhZalpXbEt5RzVjR3AzV1JHbFFXOWk4Nm1NWlhWeXJDSEg3cUJRUmF5U3Y0cDN1S3pqQl9HZ0RHeGNLazFOTXhpakU3Q2swbUd2QzdkSjdRd3VfT2ZvQmtsRlBxUnRsSkJiQkpzenFMLWVfY21IZUp1ZzhvODYyeFlud1VUbVhQekczUlFPdkpMSEl2Qk9IQ0tYYlhvWFJOWjQ2M0ZNU1JwVlY2ZEZ6dXJNd2tqOHN0UW5PV1EwdDZFU2N3aS1wZmRtRUJLVllpSFNXOThtWmhjc01sM3dHSFVYdEJBRnVnNmFBSGt30gGLAkFVX3lxTE9iMGJkZEVNelJIV3NHZkJMU3ZDUWsyR2EyeElkbENWeWtpbEVHcjU0c3F4M2Y3MkR3WnIzRVdIS3pQU1MyUVlzaWJueXVCQV9PV09qR2xBN0lscEwyZXl4bS1jVXBPb0dMdkw2VC16SC1RNmhsMWlBMjdNbG1OLWdBMlZ6NXpWV0UxVlQ0akJ5YVRSa2kwQmtocTZ6ZjZxcFdGNlVLQ2VqWXhHSml6VzdZdFljczE4R1pHellPSWtkbVdtMUhqMkhNS2Y2dF9RMGVERjJ4VjV2ZzA5cXcxRFlUTHVxRnk2ZE1sbHVlMmdsLWZ0d3o4RGZSZTlUd3FqNlI0RWpuMVlmamNrRQ?oc=5",
+              "date": "Fri, 12 Ju",
+              "sentiment": "negative"
+            },
+            {
+              "title": "Nato annuncia riduzione delle forze nella missione in Kosovo - ANSA",
+              "url": "https://news.google.com/rss/articles/CBMihwJBVV95cUxPWnlyVmNCdGF4OVdWZHllV0F2WlR6b2MtSnFWN3Y0cHNOUWVVUE11LTlhM0dvLVV6bzgxSXlDclZ1akltMURtVWVEWUFWQ0VoUEtleWtzWmVnaGlvMnZXbVZDS1FFVnNHNnZWdTMyM1RIWHpTWmp4RklrcFFQd0RWS0ZiRFdxYmdIdDIwUWZBV19odHNFZVZJVF9mZVlvckMyLWcwakhaT2pxQ29RYzI1TENzQlJPRlVDNUpVQ0VhZlllQzJaODgxdXRlQUx2ZHNMSlRvX3NhYW1BLXh2TVZaMjhCYTAtcTBLREU3alBVSURMWXpZanhTMHE4eXF2Mnp1dmc4QmFRc9IBjAJBVV95cUxOY3FvU3FkNDJjVXg2UzBkc1FTeGRHVnVRVkVuaXNYZllHbGxvTWt3a3ljbWpRaElMQm00cFp3eG1FU3M2UkZ4NnNYcmthZlZHMkItTUE0ZlAyTUtaTGlOdDhQMy1QX2ZlZHo4SDhnM1R5ekZOeWU2dklmVW5FUl8yWldtdmt5MEFBZmFORTNVUEhVZEozNVdUZDRWSXJiYjNKTHhXYzdsd2p0c3VSSzlydWFQQkcxWk5LQTRhNGdJSjJ1OG1MWjh1WXpTTkI3U1BENHZFaGRMZDRTWkVkdUlseWpqblRpQjVVVWpZaWhMaHBoaGVzTkRoX3ltZlVsWm56bEt6MGZ5V3VsN1B0?oc=5",
+              "date": "Fri, 12 Ju",
               "sentiment": "neutral"
             },
             {
               "title": "Per voto in Kosovo 16mila osservatori, ma l'Ue per la prima volta non c'è - ANSA",
               "url": "https://news.google.com/rss/articles/CBMi8wFBVV95cUxOcHd3a1k3Y2V1R3IyWFF6Sm5oYksyd0NNa1Z5Y0hQZ2NQMFVrblpERzJpclJoc1lqLUhVY0JPZWdBRDR1b242aFRSMVBjZ2lIaWhSb0RBdG9DaEM0c0lBR1Y2RWNjZGdzX2JCY2xDNUhDMGgtdWlyd3BRT0VuRDl2dmU5ZjRPNWUtM19TWVN0bmxnNkRDcXV6cUQ4OFIyNDFXZjA1RUVfb2dtZ3pGNGVaNjAzNGI5MEpTdnl6cmthSlNQWUZMYkVvOXZjWEtYVjFnMXF6NU9lSGxSRnpJaUc1TDVlb1VRVXY2UVpVSnNNYnN2T00?oc=5",
               "date": "Sun, 07 Ju",
-              "sentiment": "neutral"
+              "sentiment": "negative"
             },
             {
               "title": "Notte di festa per Kurti in Kosovo, 'farò il governo' - ANSA",
               "url": "https://news.google.com/rss/articles/CBMi-AFBVV95cUxOVFh6TnlHZUVDLWtZV1V4LWQwU1pIb1VDcEdIUHh3TndIMm9zNTZJc1hNNDZuYVVxLWRJaWxveEZfNThvRXlMLUczRDQyM1Vtb1NMc3ViNGhfNUNOTVRqc1NrQUM5dnBvbFQyVGRsZ09kdFlYbmpOeUQ5YnQ3WHdBRlhHdTZmdG1NTGt5NXNodWlfVUMzdlNMemtNQmRYc1QxTnlvRE1xWTV5M0VBRFphcVBqRmsxOUczSXdnckpfcVpVLWl3aHNuQkhQVjVVU1ViYVdUa2RJalpzNmFaNjB2ZUlHd3NjX2xsdFJ4ODdiV1Bqd3F1VXlVb9IB_gFBVV95cUxOTVhGZFRFb3o5b2ZxRmFxcGJRaElMZFFMdmVUS2tfYUsyelNsVXBaUGZHSTBpWDZaWHY0d21qc3JEZzFaUERvUllESkh5ZDlHdGMwZFR0Qzc1OWpuU2xDTXVhVTh6bU1RRHpfRk5pWURvbzFud0ZxdFhST084NGdlR3VxaFl5RlZ1d2oyUmtKekx3bFJBZ3BrTl9GUmtvV3Y5ZjBNSVp5TUt1NnZoaWducGhlVVUxLUk2b0Y5N1NrTmZod1g5eHdCV09QNHhvMU03NmU5RWl6Z3ZLS1ZnTmFReGpzMVhIZktoWDAzNHIza3l2OG9GaF9jQU5ERDVDQQ?oc=5",
               "date": "Mon, 08 Ju",
-              "sentiment": "neutral"
-            },
+              "sentiment": "positive"
+            }
+          ]
+        },
+        {
+          "name": "Agenzia Nova",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
             {
-              "title": "Exit poll, in Kosovo Kurti è avanti ma in calo - ANSA",
-              "url": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxPMnBZS1duU3hGUDdrdS1sNlBObWdHMXQ1V1RYQUdacTFIajhhVkM2ZU1nZFNPZDNTYlJKUzR1TUdZc0x2WHRCQ3p6MUpWYjYzemIxWVlOTHVONDNrSmdWMzBrTWFEQl91OUZ0TVFlZnNyQmN6UGw1cTEtS2dVQkZwb2tTV0ozMDY3aWlOUjJ6RzVnTkxlR3pIc3IxMFY2a0drSWVXQWhjUEZyZ3FrYnNuN3QzSTFmbkJQZzdDRTM4NGtONThQX0h3blZHVlhWc21rVzg1eFR3?oc=5",
-              "date": "Sun, 07 Ju",
-              "sentiment": "neutral"
-            },
-            {
-              "title": "Ince, 'cooperazione regionale essenziale per il processo di integrazione' - ANSA",
-              "url": "https://news.google.com/rss/articles/CBMijwJBVV95cUxQWUZjVFh0N21BTDVyTjdPM0V4SG5PMndoWmJ1aWhMbjdnYnFtcFlMLVhNS2xrRHQyVDljSDhYaFRJRGg5MHVBSmV6cU5EcndRdHFUd0ZaTjRka0gtVTNBRS14XzRwQUdtWmpFeE9oVGc1NnB4TTNBNkh6Z3c2eTBEbHBYSU1HQmpxYWJITmZlWjZadDV5Y0RZLW14Mmo0STBQeTVxdWZneGYyQlpXdmdvQW5YMnhkOHprTnBGVUlHdVZqeDhxR211TGVzVTUxMHp5NFpoWmRMaER0WGJuUk40alRVTlNJazIwT1RzZG9GRHVwcXlGdFhqMWdUVGFCX3d4b3NrZ2pucW5uR3FCQUxr0gGUAkFVX3lxTE14MW5tUmdFVlhTb3hqM1JKOUU5YVhSaDZneWVvSXQwVVFHdGdoNFRmbTZleEp5ZHlQTzVpYUFJNTVrYU9iZXA3Z3BnNlRNYkxjOUNBTHhBTkFkS0tKXy1yX2h6OTM4SXBmVGp0NUQ2Mm5ScXp3alpPZXBTaFZCVHpHWmxQOFdTVEM5c0t3XzdVMXVtWDV2RzNVamFyVWMwY2F6XzlJWVRhR05RSzdVQUpFaVFCeFVxRk5CWDhmWEU3M0ZNOEs5ZFBSRmJnVDB2Sm9MN1pfYV82dm4tVG9FWEJIdFJIVlE5NVVJQTdMRkVhTERfdTY5dk13Xzg3MHdxb29Vcl9BOVZnLXNfVUxLUTVvNU5fdg?oc=5",
-              "date": "Tue, 09 Ju",
+              "title": "Kosovo: la Nato annuncia la graduale riduzione del personale dalla missione Kfor dal 2027 - Agenzia Nova",
+              "url": "https://news.google.com/rss/articles/CBMivwFBVV95cUxOczdoSzZaUjdiSDNxZHJ3TVB6NFFyQjVabzVBRVRpZE9VRWdqbWJFWVVkLUcweDlDZGVWbmhKcmJtVW1Zb1Y3YUhfUm03R3pyUEpVMUh1RDZ6U0F4c1dHdU5zSHZUVGk0em1ZdDJNV3VzcDctZkRrQVIwZXJPSzI1c2VhZWZQWjhTR1RScUtCM2RhOUJhdFl2VkVCanJzZ0JGOTU0aEJPOEFYMGlMZlFpSVlfTlhpYUtVQlhJSlAtVQ?oc=5",
+              "date": "Fri, 12 Ju",
               "sentiment": "neutral"
             }
           ]
         },
         {
           "name": "Centro di Ateneo per i Diritti Umani",
-          "sentiment": "neutral",
+          "sentiment": "positive",
           "articleCount": 2,
           "articles": [
             {
               "title": "Young Europeans: Kosovo Week – Prima edizione, Padova, 11-17 Maggio 2026 - Centro di Ateneo per i Diritti Umani",
               "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxOQU9vMUJ5MEliaGtEVmtWNWFxU0NQSlIxLWNrR2s5VXZCS3UtY2R4NnNyLW5VdFNkRGhqZHk2Vm9hQmZmdXV1WjZkdVdRY3JwOFc5bm1RajhTYThQNmRJVG5JR0Y1eERLTTRtSU05WjFhWVNWY3ZmSnl4X1Exa1oybGZvWlRzMVczNE9LbFRGbjV1NVZyMzVfOXh4TWxoZWJMbFZQTUlUSW9XZENmNDBIMEpiTTI?oc=5",
               "date": "Sun, 17 Ma",
-              "sentiment": "neutral"
+              "sentiment": "positive"
             },
             {
               "title": "Alla scoperta del talento e del potenziale dei giovani del Kosovo: i momenti più significativi dell’iniziativa “Young Europeans: Kosovo Week” - Centro di Ateneo per i Diritti Umani",
               "url": "https://news.google.com/rss/articles/CBMikAJBVV95cUxNeEZJME1RUEJEUFRKLWRLc2VhNU10eTlvUVRIYnhkQzJLVXBmckRHRWprY2FqRE1ucGtiV3lldm9fYm15SjI5VWFaZzkwb09XRks5WGV5TnZrajUzWGs3UkhDQlBaOEhYRkR1UlluN3VhLWZmNFhwZ0NFbU50c0tKUWdqY3dnUjJkdnpYTVpobGg0SHVuOFFNazhRSlZrel90bXE3N0xCYVJKdnFVTnY0VlFZVEFKRzYxVzRIeDB0TGZhN1VZOVBqeERRMFItcENkLV9iczlycXdjdUgxOXlGSVZpVTNPN051Si1PMEM3SkxBTUg0ODNMX21sTVlyVnJzbC1nTkM1Zjlra2ltd3pwaw?oc=5",
               "date": "Wed, 27 Ma",
-              "sentiment": "neutral"
+              "sentiment": "positive"
             }
           ]
         },
         {
           "name": "Corriere della Sera",
-          "sentiment": "neutral",
+          "sentiment": "negative",
           "articleCount": 1,
           "articles": [
             {
               "title": "Tre elezioni in diciotto mesi, l'eterno stallo del Kosovo: Kurti vince di nuovo ma non ha la maggioranza - Corriere della Sera",
               "url": "https://news.google.com/rss/articles/CBMimAJBVV95cUxNcVNZRkI0UzJsbTBqcW5ZY2luYUM4MDg2TjdodFBUeXc4M1JoSW96OE80Z1lIa2NzVXk1dkUzZ2kwSF9US3JkUUMtRnl4NXRPSDc2Nk9aUlhDMDRGTHZoRnMwR0hGaW9wWjJmWU43SnFyaVh5Wmw0WUs5MVktQmdfNmY3eVZnYXc0OE8tZW9pTV9sT1ktQkJETkhvZWxpellfVHNia3pRQThMdjRRWklEdVJBb2owYTFUT1IyUlppWThhNU1OQVFCdkZIWmt3cHhsUEpoMzdqZWVJWmxjb196eGdkQmwtSFJObFp1eXc0cl9XUGJibmxEQXl2NHVuaEtBcTVwTWZMVDd1T3Btd2FOaURQVW9xOW1D0gGeAkFVX3lxTE5aN1RyLVJraUhXX2tJZVJScE9obWVDQXFUaXF0S1FKVlNwZUFTNk9lMXlzTlBaUXBvS1hNR19zZnFqbDFsa2dVQVdON0lNM0VYWUNwNkZsWFlPSnlZZVp6MFZONjJZbXNPUk1Md0c0VnhzLV9BaTFUSG40UmZhb0JUbjhUMFpReUZSQWRSa29IbW9aRUZTNWdhRFpBNXd0OFdMQ0JycEhZODREV1NjU1N2WklEOUEtdkJDbE0wV0s3THNaZmx6OHhYN0lzYzFSRWFSaDZnQnJFQ3AxZFRDQ3EtUXRqbnhDWHMyNnF3cFg3X3JNMC00YkJwaDBabUdFYklZdDg0RnBTTDRYM3pHdmx4MTR6Uk5HbjRPTmxDdnc?oc=5",
               "date": "Mon, 08 Ju",
-              "sentiment": "neutral"
+              "sentiment": "negative"
             }
           ]
         },
@@ -1839,39 +1887,52 @@
         },
         {
           "name": "East Journal",
-          "sentiment": "neutral",
+          "sentiment": "negative",
           "articleCount": 1,
           "articles": [
             {
               "title": "KOSOVO: Kurti vince le elezioni, ma perde voti e rischia un nuovo stallo - East Journal",
               "url": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE1Qb21BWEo4Rm85NXN0SnJKRmp2NWdnYVFiMmQ5Q0pSVVdSd3c2U1hYR1JVYTk1cjJRZWdpMnZBdGNMX0c1Y2htZmxEc1luY2JsZk5mQ29B?oc=5",
               "date": "Mon, 08 Ju",
-              "sentiment": "neutral"
+              "sentiment": "negative"
             }
           ]
         },
         {
-          "name": "Euronews.com",
+          "name": "Euronews",
           "sentiment": "neutral",
           "articleCount": 3,
           "articles": [
             {
-              "title": "Elezioni Kosovo: vince Kurti ma serve difficile alleanza per governare - Euronews.com",
+              "title": "Kosovo, NATO ridurrà le truppe per il miglioramento della sicurezza nel Paese - Euronews",
+              "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxOeEg2emlqOTZHNTJYV1JzSnRna0pSS01VUEVxdXpnUWhaTXh2TWFfYU1ZXzJxMXFTUThZOXVEdlJNS2NoWVd3dE5Yd2NGTy1ZbkNabTVnNTJNSlZEbHNMSWg5aWhsTGwxQjhKZ3hyWHNFcXBiUnBDUl9Md3VKVEh1V1VBM25PSW9obUNSWXNUZFNJems1dVA2aUMyOWo4Q2VESVNzMElMdlJGWTc2akJVa2twV0QwbkZDRmpucjNR?oc=5",
+              "date": "Fri, 12 Ju",
+              "sentiment": "neutral"
+            },
+            {
+              "title": "Elezioni Kosovo: vince Kurti ma serve difficile alleanza per governare - Euronews",
               "url": "https://news.google.com/rss/articles/CBMizAFBVV95cUxQZ00tNkhjanFZOTd5YmlYWVZyTHpNUlZSU0pqcG05ZU1lSmE0bkd6cFNRdU5mWkJibG5HUllqYklaY2xBTWFnRTVYUVZmTGtWZVRhbXd4dDlNVlFTU1pPeXRBZHhERzh0blNxTmg3VGx3WkRKNEQ3NXh4N1B2Z3BNcURfSXl1Ui1MSFJFSlFRckZIRy1vQ0JnN1hXN0JBbWFYN01hRmF2NXFhSjBMaHh6U2wxRkQzakVYZm95ZHBjWHBUV2xjZGN3QktRYVk?oc=5",
               "date": "Sun, 07 Ju",
               "sentiment": "neutral"
             },
             {
-              "title": "Video. Elezioni Kosovo: vince Kurti ma serve difficile alleanza per governare - Euronews.com",
+              "title": "Video. Elezioni Kosovo: vince Kurti ma serve difficile alleanza per governare - Euronews",
               "url": "https://news.google.com/rss/articles/CBMixwFBVV95cUxQVnI2SVRFWFVVOXJ6NkNmU3dnUElUdzBrQWtYNDlOam1OTE01X2toYTd0cmMwNVphUkl4VkMwTFh0TmQwMTNIQ1B4ZDRDVUlSRVlHc0gzQ0Y3aXZndGp0YkZ6aTdOODVyUzlJOFg2X01jNjlhdldMUDk2TnNNU1NrSUlIYjdKemJFUmlGU1JCeWN2UW5lZFlZeGYzbFZsXzQzTW1VTXFkNG5PMm5qcmZ3a1EwUThnZEMwdE9Hc2xUOHl5VUdrbHlj?oc=5",
               "date": "Mon, 08 Ju",
               "sentiment": "neutral"
-            },
+            }
+          ]
+        },
+        {
+          "name": "Gamereactor",
+          "sentiment": "negative",
+          "articleCount": 1,
+          "articles": [
             {
-              "title": "Elezioni, l'ex presidente del Kosovo chiede compromesso politico - Euronews.com",
-              "url": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxOSWluaFM5dEtYZVVTN0k0cHhUTGY0Wm9paHJmYkQ0MzUyQ0l6UWtWYmNKWm1CRFEtN1Y3dU5rclplczVDbXlkLS1HSUpjOWlPNzZRcl9YR2ZnMGxTbWJneGxKNnlaSHpzZW55d09WanAzZUlNeGtvc29Ub25aZFdIMERFUlNlM2JHWUNvVnREYnhOWUFYM1ZidnpVZEJIZjRfaC1aUFU5TVdrbEZ0eEwzc19Kb3FmRDVC?oc=5",
-              "date": "Fri, 05 Ju",
-              "sentiment": "neutral"
+              "title": "La NATO riduce il numero di peacekeeper in Kosovo - Gamereactor",
+              "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxNbzRydDh3YUZQaTZmOVp0M1U1anVOTXhTdDVDeG9wRzhXQzltS1V6b0ZoOHFjNG1kR0lIUTk0UVIwcjJWd2U5UURGT0V6VEFvaUxWZ1A3OVBDOC0wSEJBdTdMMnRUcmFvRkxpV2dGODJFRkNvaFZ4SVMzcU15bTIzSGpHWHR1eVFOalhqek1B?oc=5",
+              "date": "Fri, 12 Ju",
+              "sentiment": "negative"
             }
           ]
         },
@@ -1890,20 +1951,20 @@
         },
         {
           "name": "Il Fatto Quotidiano",
-          "sentiment": "neutral",
+          "sentiment": "positive",
           "articleCount": 2,
           "articles": [
-            {
-              "title": "Morto a 38 anni dopo il Kosovo: riconosciuto vittima del dovere - Il Fatto Quotidiano",
-              "url": "https://news.google.com/rss/articles/CBMikwJBVV95cUxNVmkxYzhKRzdiRHh1Uks4R2xqNDRyWGM1NWx0MlRpa2NTZUUweVdrQTBuN1g0NmVEWDhHVnRTQW5WTnkwMTN2MmlqVEc0bmhmZHBuY3N4Qk5mdmEzZld5RGRDa2FWVld1WnZGWG5CSEhWSDdyOXFpVFhUUm5lUHo0S2FFVXRMcVNXTmJHUmJaT0JTZzRYclhST2JzVTU2MF9SZjV2ZVJjcHZtNXZwNjFZUmVGU2J5eDFfTHFHZVVtZkxwb1JPV1NtODU1akN3RlRMcmVUZ3JHLWxQNzhEUnFOX0thRFZhaGx0UUVYOXk4TVdoOTVJajhSSUt2OW9jcEFqRUdPT1pFeWNHNmRMOHVzVElPaw?oc=5",
-              "date": "Sat, 06 Ju",
-              "sentiment": "neutral"
-            },
             {
               "title": "\"In Italia prima sei troppo giovane, poi troppo vecchio. In Kosovo si vive benissimo, un piatto di pasta costa 3 euro\" - Il Fatto Quotidiano",
               "url": "https://news.google.com/rss/articles/CBMi-wFBVV95cUxPNURGb09WanFiTDZPVnJjbVlhUFFtclFsdHJGekF5MjRzUlhHMFB1Y084bExZU3ZQSFNMUEJjdE53a3ZwT1lPaGFiTmR6OXo1SEoxN1ZwbmwxY2EtaHZ0YXFudldjcVRORVRkNjNYTF9JV3hpZk1id3ZHb1M5SHVfWHpEVThtM1YyWGhpanNPRlM5QVFWbHRQUTJveVZaZjRfRU9TX0w3aUMxZUh5enpKU3VKaDJNNndiRFRVOUZyVlVnY0N0dFpxY2NJN0ZDdnVlTVpFZ0hWTVcza3RWTU5Gc3NjTE5KRDBQZWw4aXhKWF85QlZYYl9kMlFFYw?oc=5",
               "date": "Fri, 29 Ma",
-              "sentiment": "neutral"
+              "sentiment": "positive"
+            },
+            {
+              "title": "Morto a 38 anni dopo il Kosovo: riconosciuto vittima del dovere - Il Fatto Quotidiano",
+              "url": "https://news.google.com/rss/articles/CBMikwJBVV95cUxNVmkxYzhKRzdiRHh1Uks4R2xqNDRyWGM1NWx0MlRpa2NTZUUweVdrQTBuN1g0NmVEWDhHVnRTQW5WTnkwMTN2MmlqVEc0bmhmZHBuY3N4Qk5mdmEzZld5RGRDa2FWVld1WnZGWG5CSEhWSDdyOXFpVFhUUm5lUHo0S2FFVXRMcVNXTmJHUmJaT0JTZzRYclhST2JzVTU2MF9SZjV2ZVJjcHZtNXZwNjFZUmVGU2J5eDFfTHFHZVVtZkxwb1JPV1NtODU1akN3RlRMcmVUZ3JHLWxQNzhEUnFOX0thRFZhaGx0UUVYOXk4TVdoOTVJajhSSUt2OW9jcEFqRUdPT1pFeWNHNmRMOHVzVElPaw?oc=5",
+              "date": "Sat, 06 Ju",
+              "sentiment": "negative"
             }
           ]
         },
@@ -1935,14 +1996,14 @@
         },
         {
           "name": "Il Sole 24 ORE",
-          "sentiment": "neutral",
+          "sentiment": "positive",
           "articleCount": 2,
           "articles": [
             {
               "title": "Kosovo, il primo ministro e il leader dell'opposizione alle urne - Il Sole 24 ORE",
               "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxQMGpvTlhWQmZKODJwWWYyMXhvZnpLYUo5cnlmRnBvQVQzaUZmZnMweGdIdnIwZUVxSVRHbm1GUUlXckZGbk5RZTFNdnJZZGV0N0pkNzJ6TVVvZ2huckZiXzNVQ3NVT1c4ZDltZUN4UkVKazl3Uk03Vl95eHU5eXRxaHhzMWNlSUtnS0s5UEZNa1lwU0Q4SWFfUVZYSUx3ODdnUi1V?oc=5",
               "date": "Sun, 07 Ju",
-              "sentiment": "neutral"
+              "sentiment": "positive"
             },
             {
               "title": "Kosovo, Kurti vince ma perde la maggioranza assoluta. In Armenia vittoria del premier filoccidentale - Il Sole 24 ORE",
@@ -1953,14 +2014,14 @@
           ]
         },
         {
-          "name": "La Prealpina",
+          "name": "La Voce di New York",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
-              "title": "Exit poll, in Kosovo Kurti è avanti ma in calo - La Prealpina",
-              "url": "https://news.google.com/rss/articles/CBMikgFBVV95cUxPRzB6ZnpkYk94b0cyc2tjLVVoZkx6RUtKaGFpUTNNRmwyZEwyeFhYVGNQRjA2VmNTQU5qckZuMGh1R0RBRGNlTHNaY0FyQ001SGdjc1VQa3oxVlh1SHdfTHhWS0lJSnRxdGJzazU5eWJqdUdpbWU3cjU2ZWVVaFV6WkJORlhJVFVqQWk4eTVMQ1RvUQ?oc=5",
-              "date": "Sun, 07 Ju",
+              "title": "La Nato ridurrà il contingente Kfor in Kosovo, ‘sicurezza migliorata’ - La Voce di New York",
+              "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxNZVdEUW1qQXhDc3hzMVdOdmdCQzlTVUUtUGxiVXNVbUVnWnVnNWxScnpCb1VnSFU2anM4T3JpTUVKVzkzZVNPUWt2OWwyaGR2c3pWbUZpYU1mY3dzcVVnTWpWMVh1SGQtLXFEa3gwV2I3Z1psblRjbkxMck9nbjRrRUdlNlhzM2EwLV8wSlVxRkNvaEdseUFvNTF4RlZBaTdKZ2xCdDdodngtTExQb29N?oc=5",
+              "date": "Fri, 12 Ju",
               "sentiment": "neutral"
             }
           ]
@@ -1980,14 +2041,14 @@
         },
         {
           "name": "RSI Radiotelevisione svizzera",
-          "sentiment": "neutral",
+          "sentiment": "positive",
           "articleCount": 1,
           "articles": [
             {
-              "title": "RG 12.30 del 07.06.26: il servizio sulle elezioni in Kosovo di Giovanni Vale - RSI Radiotelevisione svizzera",
-              "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxNTUZtZnh6ZHhkMjA5VW9CSWNibmlxQnFfN0paOHB4ZWNfM09QN3BNeVNTdWpfU3hZNzBIQ3NzZkUyWjBhR0lLRjBERV90UVJzMTc1MUdhUG41dXgzcUdDY1pyT2tmUnVZY2F1ZTJ0WTZEVFU5cGxob3lnSUFuWWhYTU1Tc3FTTURSMU1TMWpYYWFZOFNSQjJCd1ZvTHRIeEJKalFUamZUWnV3cnNVYVdKcm1KLWVfbDhaTnpV?oc=5",
+              "title": "Kosovo: Albin Kurti ha vinto le elezioni - RSI Radiotelevisione svizzera",
+              "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxNVnJkZ1ZpdU5xMEV5MUtQdUkzMjdJcm04SF8zaTBhbWNwdnBOa2QzWHpMSHYtRkllQ2h2TTZPY0ctWmtSR3NNSlVVQXFyd1VfekVsbUs2SE1PM0JOUEw4OWZZcFM5UDVYajdsaXNuRFBtNFBzazQzZEJYNjc0c24xdWZJVjNVR1F6Q2Fr?oc=5",
               "date": "Sun, 07 Ju",
-              "sentiment": "neutral"
+              "sentiment": "positive"
             }
           ]
         },
@@ -2057,33 +2118,33 @@
         },
         {
           "name": "VareseNews",
-          "sentiment": "neutral",
+          "sentiment": "positive",
           "articleCount": 1,
           "articles": [
             {
               "title": "Dal Kosovo al Varesotto: sport e amicizia per i ragazzi di Velika Hoča - VareseNews",
               "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxPenlCVnR6emFGWmhxOFdVZDBJd1dGdFpfTGhKbUpTcU5DV0VqeW1vZFhCZVllazFQQXpqcnNnZWQ3WUNhdWRVVElNbnA2UEFmWUNlb29CQWI5ME5ZUXd3dTJqWVI0eVBDSHJKbDJvcjYxSjgxUXdHWkVHdU1MckozcWU0VFA1OVU3aG42ZUhEZlJKT29ZSEd6VjdONHQ3dW1CSmZvWjNuU3RiVi1MdmpabVpn?oc=5",
               "date": "Thu, 11 Ju",
-              "sentiment": "neutral"
+              "sentiment": "positive"
             }
           ]
         },
         {
           "name": "Vatican News",
-          "sentiment": "neutral",
+          "sentiment": "positive",
           "articleCount": 2,
           "articles": [
             {
               "title": "Kosovo, al voto anticipato per uscire dallo stallo parlamentare - Vatican News",
               "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxQMVBTQ21xNEtOVkpRU0RLRG10ZjJrdEhuQ1pjTG13elZqTXVtTG9yeTdCUV9Ma1FtRXJ3a1R5MXQ1NFFHVU5Ba0RuODloVUVRV2lvcDZvSnNXMG80UWhhZERUVUFIZWZOY2ZQVXZEZ01vdkZ4YmFlUlVYWk5iVmt4SFFWZnZlNUVRTkhpV1QzN3dDZDdRSFdMQmRnWHdoemtnc3J5cHQxVEJTNUdMbGVCdDhwRlU?oc=5",
               "date": "Sun, 07 Ju",
-              "sentiment": "neutral"
+              "sentiment": "positive"
             },
             {
               "title": "Kosovo, il vescovo Gjergji: portare la fede a chi ha perso le radici cristiane - Vatican News",
               "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxPQWxYUnkxX2dBaTc1aGR0YkNtVDBldEl1VWZId0JhYS04WVZFM1lIOWRrcUxGQ0tlbnp4R21RWWpQQXV3TVlxcnhkY0dtdUVEVTZ5QXJscjJiaU9Ya01CWklSS2NiNzd1bklfRE5TV19zN0pENE5BbW1BZngzRVNjbHhhZnZycWtCOVY5WlRVYjhybHZNdnNRbk51V1E3Z1J5NTdvdnVxbkhSUWdDa1E?oc=5",
               "date": "Sat, 30 Ma",
-              "sentiment": "neutral"
+              "sentiment": "positive"
             }
           ]
         },
@@ -2108,14 +2169,14 @@
             {
               "title": "Kosovo ancora al voto, ma la crisi politica potrebbe non finire qui - il manifesto",
               "url": "https://news.google.com/rss/articles/CBMikwFBVV95cUxQMVBXeWpFb2QyVkRJN3lxYm42WldPTU9zS1RjYVk1Z0p5Q2RvREU1U19kOHJQN2hWZUlVb0tEM2JaRXB5VDRma2d0Y3hRUDNVV2o2YUNNS3U3S0h6OS1hSkhWUjZxX1ZhR0lieHFxREthZGZGd1RiU1lPNWRCSkNoOENDQ3FDVnRqa1FKSUxLM1RPVGs?oc=5",
-              "date": "Sat, 06 Ju",
+              "date": "Fri, 12 Ju",
               "sentiment": "neutral"
             },
             {
               "title": "Il Kosovo spinge per una corsia preferenziale - il manifesto",
               "url": "https://news.google.com/rss/articles/CBMid0FVX3lxTE5EcGtzYWc1YnhYSzdNQmU0OFRjVDJhVGtDbzZMZTdNMHVpUzJNb1ZWNTdGZzdBdndwUnFlNUhfMVhmM1poSFBRbzJMUVE4T1NfT0o4RXJ3UFJiWVNxZ3REQUhMMU9TOU5iLTUwQldlRW1mSHhrYThj?oc=5",
               "date": "Fri, 05 Ju",
-              "sentiment": "neutral"
+              "sentiment": "negative"
             }
           ]
         },
