@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { MapPin } from "lucide-react";
 import UserMenu from "./user-menu";
 
 const NAV_LINKS = [
@@ -13,6 +14,26 @@ const NAV_LINKS = [
   { label: "Showbiz", href: "/kategori/showbiz" },
   { label: "Sport", href: "/kategori/sport" },
 ];
+
+function KosovoTag() {
+  return (
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        gap: "5px",
+        color: "#6B6B6B",
+        fontSize: "12px",
+        fontWeight: 700,
+        letterSpacing: "0.08em",
+        whiteSpace: "nowrap",
+      }}
+    >
+      <MapPin size={13} strokeWidth={2.5} color="#FF4422" />
+      <span>KOSOVË</span>
+    </div>
+  );
+}
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -51,6 +72,7 @@ export default function Navbar() {
         {/* Logo — always visible, never scrolls away */}
         <Link
           href="/"
+          className="logo-mark"
           style={{
             textDecoration: "none",
             display: "flex",
@@ -71,6 +93,7 @@ export default function Navbar() {
             383
           </span>
           <span
+            className="logo-dot"
             style={{
               width: "6px",
               height: "6px",
@@ -97,40 +120,7 @@ export default function Navbar() {
           }}
         >
           {NAV_LINKS.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              style={{
-                textDecoration: "none",
-                fontSize: "13px",
-                fontWeight: 700,
-                letterSpacing: "0.06em",
-                textTransform: "uppercase",
-                padding: "7px 16px",
-                borderRadius: "100px",
-                background: "rgba(17,17,17,0.07)",
-                color: "#111111",
-                border: "1.5px solid rgba(17,17,17,0.12)",
-                transition: "all 0.2s ease",
-                display: "inline-block",
-                whiteSpace: "nowrap",
-                flexShrink: 0,
-              }}
-              onMouseEnter={(e) => {
-                const el = e.currentTarget as HTMLElement;
-                el.style.background = "#111111";
-                el.style.color = "#ffffff";
-                el.style.borderColor = "#111111";
-                el.style.transform = "scale(1.05)";
-              }}
-              onMouseLeave={(e) => {
-                const el = e.currentTarget as HTMLElement;
-                el.style.background = "rgba(17,17,17,0.07)";
-                el.style.color = "#111111";
-                el.style.borderColor = "rgba(17,17,17,0.12)";
-                el.style.transform = "scale(1)";
-              }}
-            >
+            <Link key={link.href} href={link.href} className="nav-pill">
               {link.label}
             </Link>
           ))}
@@ -139,41 +129,13 @@ export default function Navbar() {
 
         {/* Mobile only: Kosovo + auth pinned right (outside scroll to avoid touch-action conflict) */}
         <div className="nav-auth-mobile">
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "6px",
-              color: "#6B6B6B",
-              fontSize: "12px",
-              fontWeight: 700,
-              letterSpacing: "0.08em",
-              whiteSpace: "nowrap",
-            }}
-          >
-            <span>🇽🇰</span>
-            <span>KOSOVË</span>
-          </div>
+          <KosovoTag />
           <UserMenu />
         </div>
 
         {/* Desktop only: Kosovo + auth pinned right */}
         <div className="nav-auth-desktop">
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "6px",
-              color: "#6B6B6B",
-              fontSize: "12px",
-              fontWeight: 700,
-              letterSpacing: "0.08em",
-              whiteSpace: "nowrap",
-            }}
-          >
-            <span>🇽🇰</span>
-            <span>KOSOVË</span>
-          </div>
+          <KosovoTag />
           <UserMenu />
         </div>
       </div>

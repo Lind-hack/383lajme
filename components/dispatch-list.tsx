@@ -4,6 +4,8 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { type Article, timeAgo } from "@/lib/mock-data";
 import { getCategoryColor } from "@/lib/category-colors";
+import { EASE, DUR, STAGGER } from "@/lib/tokens";
+import SectionLabel from "./section-label";
 import SourceBadge from "./source-badge";
 
 interface DispatchListProps {
@@ -21,13 +23,13 @@ function ListItem({ article, index, catColor }: ListItemProps) {
     <motion.div
       initial={{ opacity: 0, x: -16 }}
       whileInView={{ opacity: 1, x: 0 }}
-      viewport={{ once: true }}
-      transition={{ delay: index * 0.04, duration: 0.4, ease: "easeOut" }}
+      viewport={{ once: true, margin: "-60px" }}
+      transition={{ delay: Math.min(index, 6) * STAGGER, duration: DUR.reveal, ease: EASE }}
     >
       <Link href={`/article/${article.slug}`} style={{ textDecoration: "none", display: "block" }}>
         <motion.div
           whileHover={{ background: "rgba(0,0,0,0.025)", x: 4 }}
-          transition={{ duration: 0.18 }}
+          transition={{ duration: DUR.base, ease: EASE }}
           style={{
             display: "flex",
             alignItems: "center",
@@ -144,37 +146,25 @@ export default function DispatchList({ articles }: DispatchListProps) {
   return (
     <section>
       {/* Section header */}
-      <motion.div
-        initial={{ opacity: 0, x: -20 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5 }}
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: "16px",
-          marginBottom: "8px",
-        }}
-      >
-        <div style={{ width: "4px", height: "32px", background: "#FF4422", borderRadius: "2px", flexShrink: 0 }} />
-        <span style={{ fontSize: "13px", fontWeight: 800, letterSpacing: "0.2em", textTransform: "uppercase", color: "#111111" }}>
-          LAJMET E FUNDIT
-        </span>
-        <span
-          style={{
-            fontSize: "11px",
-            fontWeight: 700,
-            color: "#FF4422",
-            background: "rgba(255,68,34,0.08)",
-            padding: "3px 10px",
-            borderRadius: "100px",
-            border: "1px solid rgba(255,68,34,0.2)",
-          }}
-        >
-          {articles.length}
-        </span>
-        <div style={{ flex: 1, height: "1px", background: "#E8E3DB" }} />
-      </motion.div>
+      <SectionLabel
+        label="LAJMET E FUNDIT"
+        marginBottom={8}
+        right={
+          <span
+            style={{
+              fontSize: "11px",
+              fontWeight: 700,
+              color: "#FF4422",
+              background: "rgba(255,68,34,0.08)",
+              padding: "3px 10px",
+              borderRadius: "100px",
+              border: "1px solid rgba(255,68,34,0.2)",
+            }}
+          >
+            {articles.length}
+          </span>
+        }
+      />
 
       {/* Categorised groups */}
       {categories.map((cat) => {

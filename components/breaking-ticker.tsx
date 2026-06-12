@@ -42,8 +42,7 @@ export default function BreakingTicker() {
             height: "7px",
             borderRadius: "50%",
             background: "#fff",
-            animation: "breathe 1.5s ease-in-out infinite",
-            opacity: 0.9,
+            animation: "pulse 1.5s ease-in-out infinite",
           }}
         />
         DREJTPËRSËDREJTI
@@ -73,7 +72,16 @@ export default function BreakingTicker() {
               >
                 {item}
               </span>
-              <span style={{ color: "rgba(255,255,255,0.5)", fontSize: "9px" }}>●</span>
+              <span
+                style={{
+                  width: "4px",
+                  height: "4px",
+                  borderRadius: "50%",
+                  background: "rgba(255,255,255,0.5)",
+                  display: "inline-block",
+                  flexShrink: 0,
+                }}
+              />
             </span>
           ))}
         </div>

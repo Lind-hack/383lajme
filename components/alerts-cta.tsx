@@ -2,16 +2,17 @@
 
 import { motion } from "framer-motion";
 import { useIsMobile } from "@/hooks/use-is-mobile";
+import { EASE, DUR } from "@/lib/tokens";
 
 export default function AlertsCta() {
   const isMobile = useIsMobile();
   return (
-    <section style={{ marginBottom: "48px" }}>
+    <section style={{ marginBottom: "var(--space-section)" }}>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-40px" }}
-        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+        transition={{ duration: DUR.reveal, ease: EASE }}
         style={{
           background: "linear-gradient(135deg, #111111 0%, #1A1A1A 100%)",
           borderRadius: "24px",
@@ -99,7 +100,7 @@ export default function AlertsCta() {
                 href="#"
                 whileHover={{ scale: 1.04, y: -2 }}
                 whileTap={{ scale: 0.97 }}
-                transition={{ duration: 0.2 }}
+                transition={{ duration: DUR.base, ease: EASE }}
                 style={{
                   display: "inline-flex",
                   alignItems: "center",
@@ -127,7 +128,7 @@ export default function AlertsCta() {
                 href="#"
                 whileHover={{ scale: 1.04, y: -2 }}
                 whileTap={{ scale: 0.97 }}
-                transition={{ duration: 0.2 }}
+                transition={{ duration: DUR.base, ease: EASE }}
                 style={{
                   display: "inline-flex",
                   alignItems: "center",
@@ -154,93 +155,95 @@ export default function AlertsCta() {
           </div>
 
           {/* Right: message preview — hidden on mobile */}
-          {!isMobile && <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-            style={{ flexShrink: 0 }}
-          >
-            {/* Phone-like preview */}
-            <div
-              style={{
-                width: "280px",
-                background: "rgba(255,255,255,0.04)",
-                border: "1px solid rgba(255,255,255,0.1)",
-                borderRadius: "20px",
-                padding: "20px",
-              }}
+          {!isMobile && (
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: DUR.reveal, delay: 0.15, ease: EASE }}
+              style={{ flexShrink: 0 }}
             >
-              {/* Bubble header */}
+              {/* Phone-like preview */}
               <div
                 style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "8px",
-                  marginBottom: "14px",
-                  paddingBottom: "14px",
-                  borderBottom: "1px solid rgba(255,255,255,0.08)",
+                  width: "280px",
+                  background: "rgba(255,255,255,0.04)",
+                  border: "1px solid rgba(255,255,255,0.1)",
+                  borderRadius: "20px",
+                  padding: "20px",
                 }}
               >
+                {/* Bubble header */}
                 <div
                   style={{
-                    width: "36px",
-                    height: "36px",
-                    borderRadius: "50%",
-                    background: "#FF4422",
                     display: "flex",
                     alignItems: "center",
-                    justifyContent: "center",
-                    fontSize: "16px",
-                    fontWeight: 800,
-                    color: "#FFFFFF",
-                    flexShrink: 0,
+                    gap: "8px",
+                    marginBottom: "14px",
+                    paddingBottom: "14px",
+                    borderBottom: "1px solid rgba(255,255,255,0.08)",
                   }}
                 >
-                  3
+                  <div
+                    style={{
+                      width: "36px",
+                      height: "36px",
+                      borderRadius: "50%",
+                      background: "#FF4422",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontSize: "16px",
+                      fontWeight: 800,
+                      color: "#FFFFFF",
+                      flexShrink: 0,
+                    }}
+                  >
+                    3
+                  </div>
+                  <div>
+                    <div style={{ fontSize: "13px", fontWeight: 700, color: "#FFFFFF" }}>383 Lajme</div>
+                    <div style={{ fontSize: "11px", color: "rgba(255,255,255,0.4)" }}>Bot · Online</div>
+                  </div>
                 </div>
-                <div>
-                  <div style={{ fontSize: "13px", fontWeight: 700, color: "#FFFFFF" }}>383 Lajme</div>
-                  <div style={{ fontSize: "11px", color: "rgba(255,255,255,0.4)" }}>Bot · Online</div>
+
+                {/* Example notification bubble */}
+                <div
+                  style={{
+                    background: "rgba(255,255,255,0.07)",
+                    borderRadius: "12px 12px 12px 4px",
+                    padding: "12px 14px",
+                    marginBottom: "8px",
+                  }}
+                >
+                  <p
+                    style={{
+                      fontSize: "12px",
+                      lineHeight: 1.6,
+                      color: "rgba(255,255,255,0.75)",
+                      margin: "0 0 6px",
+                    }}
+                  >
+                    🔔 <strong style={{ color: "#FF4422" }}>LAJM I FUNDIT</strong>
+                  </p>
+                  <p
+                    style={{
+                      fontSize: "12px",
+                      lineHeight: 1.6,
+                      color: "rgba(255,255,255,0.75)",
+                      margin: 0,
+                    }}
+                  >
+                    [BBC] sapo publikoi për Kosovën — Takimet mes Kurtit dhe Vuçiçit rifillojnë pas ndërhyrjes së BE-së...
+                  </p>
+                </div>
+
+                <div style={{ textAlign: "right" as const }}>
+                  <span style={{ fontSize: "10px", color: "rgba(255,255,255,0.25)" }}>09:14 ✓✓</span>
                 </div>
               </div>
-
-              {/* Example notification bubble */}
-              <div
-                style={{
-                  background: "rgba(255,255,255,0.07)",
-                  borderRadius: "12px 12px 12px 4px",
-                  padding: "12px 14px",
-                  marginBottom: "8px",
-                }}
-              >
-                <p
-                  style={{
-                    fontSize: "12px",
-                    lineHeight: 1.6,
-                    color: "rgba(255,255,255,0.75)",
-                    margin: "0 0 6px",
-                  }}
-                >
-                  🔔 <strong style={{ color: "#FF4422" }}>LAJM I FUNDIT</strong>
-                </p>
-                <p
-                  style={{
-                    fontSize: "12px",
-                    lineHeight: 1.6,
-                    color: "rgba(255,255,255,0.75)",
-                    margin: 0,
-                  }}
-                >
-                  [BBC] sapo publikoi për Kosovën — Takimet mes Kurtit dhe Vuçiçit rifillojnë pas ndërhyrjes së BE-së...
-                </p>
-              </div>
-
-              <div style={{ textAlign: "right" as const }}>
-                <span style={{ fontSize: "10px", color: "rgba(255,255,255,0.25)" }}>09:14 ✓✓</span>
-              </div>
-            </div>
-          </motion.div>}
+            </motion.div>
+          )}
         </div>
       </motion.div>
     </section>

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import type { ResolvedFigure } from "@/lib/category-figures";
+import { EASE, DUR } from "@/lib/tokens";
 
 interface CategoryBannerProps {
   categoryName: string;
@@ -29,7 +30,6 @@ function FigureCircle({ name, imageUrl }: ResolvedFigure) {
         boxShadow: "0 2px 14px rgba(0,0,0,0.3)",
       }}
     >
-      {/* Fallback initial */}
       <div
         aria-hidden="true"
         style={{
@@ -46,7 +46,6 @@ function FigureCircle({ name, imageUrl }: ResolvedFigure) {
       >
         {name.charAt(0)}
       </div>
-      {/* Real photo on top */}
       {imageUrl && !err && (
         // eslint-disable-next-line @next/next/no-img-element
         <img
@@ -84,9 +83,9 @@ export default function CategoryBanner({
 
   return (
     <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5 }}
+      initial={{ opacity: 0, y: -8 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: DUR.reveal, ease: EASE }}
       style={{
         position: "relative",
         width: "100%",
@@ -96,6 +95,7 @@ export default function CategoryBanner({
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
+        borderRadius: "0 0 var(--radius-lg) var(--radius-lg)",
       }}
     >
       {/* Watermark — huge faint category name */}
@@ -144,7 +144,7 @@ export default function CategoryBanner({
         <motion.p
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1, duration: 0.45 }}
+          transition={{ delay: 0.1, duration: DUR.slow, ease: EASE }}
           style={{
             fontSize: "11px",
             fontWeight: 800,
@@ -161,7 +161,7 @@ export default function CategoryBanner({
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.18, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ delay: 0.18, duration: DUR.reveal, ease: EASE }}
           style={{
             fontSize: "clamp(48px, 8vw, 88px)",
             fontWeight: 800,
@@ -178,7 +178,7 @@ export default function CategoryBanner({
         <motion.div
           initial={{ opacity: 0, scale: 0.85 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.28, duration: 0.4 }}
+          transition={{ delay: 0.28, duration: DUR.base, ease: EASE }}
           style={{ display: "inline-flex", justifyContent: "center" }}
         >
           <span
@@ -215,7 +215,7 @@ export default function CategoryBanner({
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.35, duration: 0.5 }}
+          transition={{ delay: 0.35, duration: DUR.slow, ease: EASE }}
           style={{
             position: "absolute",
             bottom: "20px",

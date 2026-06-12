@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { type Article, timeAgo } from "@/lib/mock-data";
 import { getCategoryColor } from "@/lib/category-colors";
+import { EASE, DUR, STAGGER } from "@/lib/tokens";
 
 interface ColorSpotlightProps {
   articles: Article[];
@@ -19,12 +20,13 @@ export default function ColorSpotlight({ articles, category, label }: ColorSpotl
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       viewport={{ once: true, margin: "-100px" }}
-      transition={{ duration: 0.6 }}
+      transition={{ duration: DUR.reveal, ease: EASE }}
       style={{
         background: color,
         padding: "64px 24px",
         position: "relative",
         overflow: "hidden",
+        marginBottom: "var(--space-section)",
       }}
     >
       {/* Big faint label watermark */}
@@ -54,7 +56,7 @@ export default function ColorSpotlight({ articles, category, label }: ColorSpotl
           initial={{ opacity: 0, x: -20 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: DUR.base, ease: EASE }}
           style={{
             display: "flex",
             alignItems: "center",
@@ -91,13 +93,13 @@ export default function ColorSpotlight({ articles, category, label }: ColorSpotl
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.1, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ delay: Math.min(i, 6) * STAGGER, duration: DUR.slow, ease: EASE }}
               style={{ height: "100%" }}
             >
               <Link href={`/article/${article.slug}`} style={{ textDecoration: "none", display: "block", height: "100%" }}>
                 <motion.div
                   whileHover={{ y: -4, boxShadow: "0 16px 40px rgba(0,0,0,0.25)" }}
-                  transition={{ duration: 0.25 }}
+                  transition={{ duration: DUR.base, ease: EASE }}
                   style={{
                     background: "#FFFFFF",
                     borderRadius: "16px",
