@@ -2,6 +2,9 @@
 
 import Link from "next/link";
 import { ArrowRight, Facebook, Heart, Instagram, MapPin } from "lucide-react";
+import DoubleRule from "./double-rule";
+import DateLine from "./date-line";
+import { FONT } from "@/lib/tokens";
 
 const FOOTER_CATEGORIES = [
   { label: "Politikë", href: "/kategori/politike" },
@@ -47,12 +50,13 @@ export default function Footer() {
     <footer
       style={{
         background: "#1A1A1A",
-        padding: "80px 24px 0",
+        padding: "0 24px 0",
         position: "relative",
         zIndex: 1,
       }}
     >
-      <div style={{ maxWidth: "1280px", margin: "0 auto" }}>
+      <DoubleRule dark marginTop={0} marginBottom={0} />
+      <div style={{ maxWidth: "1280px", margin: "0 auto", paddingTop: "80px" }}>
 
         {/* 4-column grid */}
         <div
@@ -62,13 +66,16 @@ export default function Footer() {
 
           {/* Col 1 — Brand + newsletter + social icons */}
           <div>
-            <div style={{ display: "flex", alignItems: "baseline", gap: "4px", marginBottom: "16px" }}>
+            <div style={{ display: "flex", alignItems: "baseline", gap: "4px", marginBottom: "10px" }}>
               <span style={{ fontSize: "36px", fontWeight: 800, color: "#FFFFFF", letterSpacing: "-0.04em", lineHeight: 1 }}>
                 383
               </span>
               <span style={{ width: "7px", height: "7px", borderRadius: "50%", background: "#FF4422", display: "inline-block", marginBottom: "5px" }} />
             </div>
-            <p style={{ fontSize: "14px", color: "rgba(255,255,255,0.45)", margin: "0 0 28px", fontWeight: 400, maxWidth: "280px", lineHeight: 1.75 }}>
+            <p style={{ fontFamily: FONT.serif, fontStyle: "italic", fontSize: "14px", fontWeight: 450, color: "rgba(255,255,255,0.5)", margin: "0 0 20px", maxWidth: "260px", lineHeight: 1.7 }}>
+              Gazetë digjitale shqipe — lajme nga Kosova dhe bota.
+            </p>
+            <p style={{ fontSize: "14px", color: "rgba(255,255,255,0.35)", margin: "0 0 28px", fontWeight: 400, maxWidth: "280px", lineHeight: 1.75 }}>
               Lajmet kryesore ndërkombëtare, të filtruar dhe analizuar çdo ditë për Kosovën.
             </p>
 
@@ -233,6 +240,7 @@ export default function Footer() {
           <p style={{ fontSize: "12px", color: "rgba(255,255,255,0.2)", margin: 0 }}>
             © {new Date().getFullYear()} 383 Media · Të gjitha të drejtat e rezervuara
           </p>
+          <DateLine color="rgba(255,255,255,0.2)" />
           <p style={{ display: "flex", alignItems: "center", gap: "4px", fontSize: "12px", color: "rgba(255,255,255,0.12)", margin: 0 }}>
             Kodifikuar me
             <Heart size={11} fill="#FF4422" color="#FF4422" aria-hidden="true" />
