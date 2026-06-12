@@ -61,24 +61,26 @@ GMAIL_APP_PASSWORD = os.environ.get("GMAIL_APP_PASSWORD", "")
 REMOVE_SECRET      = os.environ.get("REMOVE_SECRET", "")
 SITE_URL           = os.environ.get("SITE_URL", "https://383lajme.vercel.app")
 RECIPIENT_EMAIL    = os.environ.get("RECIPIENT_EMAIL") or "lindsylqa@gmail.com"
-# LLM provider: prefer Gemini for article scoring/writing; use Groq only as fallback.
+# LLM providers: prefer Gemini for article scoring/writing, then Groq if Gemini fails.
+LLM_PROVIDERS: list[dict[str, str]] = []
 if GOOGLE_AI_API_KEY:
-    LLM_URL   = "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions"
-    LLM_MODEL = "gemini-2.0-flash"
-    LLM_KEY   = GOOGLE_AI_API_KEY
-    LLM_PROVIDER = "Gemini"
-elif GROQ_API_KEY:
-    LLM_URL   = "https://api.groq.com/openai/v1/chat/completions"
-    LLM_MODEL = "llama-3.3-70b-versatile"
-    LLM_KEY   = GROQ_API_KEY
-    LLM_PROVIDER = "Groq"
-else:
-    LLM_URL = ""
-    LLM_MODEL = ""
-    LLM_KEY = ""
-    LLM_PROVIDER = "none"
+    LLM_PROVIDERS.append({
+        "provider": "Gemini",
+        "url": "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions",
+        "model": "gemini-2.0-flash",
+        "key": GOOGLE_AI_API_KEY,
+    })
+if GROQ_API_KEY:
+    LLM_PROVIDERS.append({
+        "provider": "Groq",
+        "url": "https://api.groq.com/openai/v1/chat/completions",
+        "model": "llama-3.3-70b-versatile",
+        "key": GROQ_API_KEY,
+    })
+LLM_PROVIDER = LLM_PROVIDERS[0]["provider"] if LLM_PROVIDERS else "none"
+LLM_MODEL = LLM_PROVIDERS[0]["model"] if LLM_PROVIDERS else ""
 # Legacy aliases kept for backward compat
-GEMMA_URL   = LLM_URL
+GEMMA_URL   = LLM_PROVIDERS[0]["url"] if LLM_PROVIDERS else ""
 GEMMA_MODEL = LLM_MODEL
 MAX_AGE_HOURS      = 72
 MAX_PER_RUN        = 18
@@ -651,17 +653,26 @@ def fetch_candidates(seen_urls: set[str]) -> list[dict]:
 
 # ── LLM API (Gemini primary, Groq fallback) ───────────────────────────────────
 def _gemma(messages: list[dict], max_tokens: int = 1024, temperature: float = 0.3) -> str:
-    if not LLM_KEY:
+    if not LLM_PROVIDERS:
         raise RuntimeError("Set GOOGLE_AI_API_KEY or GROQ_API_KEY before running the Kosovo pipeline")
 
-    resp = requests.post(
-        LLM_URL,
-        headers={"Authorization": f"Bearer {LLM_KEY}", "Content-Type": "application/json"},
-        json={"model": LLM_MODEL, "messages": messages, "max_tokens": max_tokens, "temperature": temperature},
-        timeout=60,
-    )
-    resp.raise_for_status()
-    return resp.json()["choices"][0]["message"]["content"]
+    last_error: Exception | None = None
+    for llm in LLM_PROVIDERS:
+        try:
+            resp = requests.post(
+                llm["url"],
+                headers={"Authorization": f"Bearer {llm['key']}", "Content-Type": "application/json"},
+                json={"model": llm["model"], "messages": messages, "max_tokens": max_tokens, "temperature": temperature},
+                timeout=60,
+            )
+            resp.raise_for_status()
+            print(f"  LLM success: {llm['provider']} ({llm['model']})")
+            return resp.json()["choices"][0]["message"]["content"]
+        except Exception as e:
+            last_error = e
+            print(f"  LLM provider failed: {llm['provider']} ({llm['model']}): {e}")
+
+    raise RuntimeError(f"All LLM providers failed: {last_error}")
 
 
 def _parse_json(text: str) -> dict:
@@ -675,6 +686,64 @@ def _parse_json(text: str) -> dict:
     if m:
         return json.loads(m.group())
     return json.loads(text)
+
+
+def _heuristic_category(title: str, summary: str, lane: str = "") -> str:
+    text = f"{title} {summary} {lane}".lower()
+    if lane == "Sport" or any(word in text for word in ["football", "basketball", "world cup", "fifa", "nba", "ufc", "formula 1", "grand prix", "judo", "sport", "futboll"]):
+        return "Sport"
+    if lane == "Tech" or any(word in text for word in ["ai", "openai", "gemini", "anthropic", "chatgpt", "startup", "model", "technology", "tech"]):
+        return "Teknologji"
+    if any(word in text for word in ["economy", "economic", "business", "market", "prices", "trade", "investment", "jobs", "bank"]):
+        return "Ekonomi"
+    if any(word in text for word in ["police", "security", "arrest", "attack", "court", "trial", "war", "border"]):
+        return "Siguri"
+    if any(word in text for word in ["celebrity", "music", "film", "concert", "showbiz"]):
+        return "Showbiz"
+    if lane == "World":
+        return "Botë"
+    return "Politikë" if any(word in text for word in ["kosovo", "kosova", "kurti", "osmani", "serbia", "prishtina"]) else "Botë"
+
+
+def fallback_article_analysis(title: str, summary: str, source: str = "", lane: str = "") -> dict:
+    clean_title = _clean_title(title).strip() or "Lajm i ri"
+    clean_summary = _clean_html(summary).strip()
+    if not clean_summary:
+        clean_summary = f"Burimi {source or 'i monitoruar'} publikoi një zhvillim të ri për këtë temë."
+
+    category = _heuristic_category(clean_title, clean_summary, lane)
+    score = 4.6 if lane in {"Kosovo", "Serbian", "Sport", "Tech"} else 4.2
+    social_warning = ""
+    if any(term in f"{clean_title} {clean_summary}".lower() for term in ["instagram", "twitter", "x ", "tiktok", "reddit", "viral", "post"]):
+        social_warning = " Pjesa që lidhet me rrjetet sociale duhet lexuar si pretendim i raportuar, jo si fakt i pavarur."
+
+    body = (
+        f"{clean_title}. {clean_summary}\n\n"
+        f"Ky artikull u krijua nga përmbledhja e burimit {source or 'të monitoruar'}, sepse shërbimi AI nuk ktheu përgjigje gjatë këtij run-i. "
+        "Redaksia automatike e 383 Lajme e përfshiu sepse tema ka sinjal aktualiteti dhe interes për lexuesit. "
+        f"{social_warning}\n\n"
+        "Pikat kryesore janë marrë nga titulli dhe përmbledhja e burimit origjinal. Lexuesi duhet të klikojë artikullin origjinal për detajet e plota, deklaratat e sakta dhe kontekstin shtesë. "
+        "Nëse bëhet fjalë për debat, akuzë, video virale ose postim në rrjete sociale, formulimi duhet trajtuar si raportim i asaj që u tha, jo si verifikim përfundimtar."
+    )
+
+    return {
+        "score": score,
+        "breakdown": {
+            "relevance": 6 if lane in {"Kosovo", "Serbian"} else 5,
+            "urgency": 6,
+            "interest": 6,
+            "credibility": 4,
+        },
+        "featured": False,
+        "category": category,
+        "breaking": False,
+        "reason": f"Fallback pa AI: {source or 'burim i monitoruar'} u publikua sepse ka sinjal aktual dhe kaloi filtrat bazë.",
+        "title": clean_title[:140],
+        "excerpt": f"{clean_summary[:160]}. Lexo burimin origjinal për kontekstin e plotë.",
+        "body": body,
+        "tone": "neutral",
+        "source_bias": "neutral",
+    }
 
 
 def analyze_and_translate(title: str, summary: str, source: str = "") -> dict | None:
@@ -972,7 +1041,7 @@ def send_email(articles: list[dict], out_filename: str, run_stats: dict | None =
       <div style="padding:14px 20px;border-bottom:1px solid #2a2a2a;background:#151515;">
         <div style="font-size:12px;color:#aaa;line-height:1.6;">
           <b style="color:#fff;">Përmbledhje automatizimi:</b>
-          kandidatë {run_stats.get('candidates', '?')} • analizuar {run_stats.get('analyzed', '?')} • publikuar {len(articles)} • rescue {run_stats.get('rescued', 0)} • dublikata lokale {run_stats.get('duplicates', 0)} • dublikata brenda run-it {run_stats.get('intra_duplicates', 0)} • pikë të ulëta {run_stats.get('low_score', 0)} • gabime AI {run_stats.get('ai_failed', 0)}
+          kandidatë {run_stats.get('candidates', '?')} • analizuar {run_stats.get('analyzed', '?')} • publikuar {len(articles)} • fallback {run_stats.get('fallback_articles', 0)} • rescue {run_stats.get('rescued', 0)} • dublikata lokale {run_stats.get('duplicates', 0)} • dublikata brenda run-it {run_stats.get('intra_duplicates', 0)} • pikë të ulëta {run_stats.get('low_score', 0)} • gabime AI {run_stats.get('ai_failed', 0)}
         </div>
         <div style="font-size:11px;color:#777;line-height:1.5;margin-top:4px;">Lanes: {_format_counts(run_stats.get('lanes', {}))}</div>
         <div style="font-size:11px;color:#777;line-height:1.5;">Kategori të publikuara: {_format_counts(run_stats.get('accepted_categories', {}))}</div>
@@ -1079,7 +1148,8 @@ def send_email(articles: list[dict], out_filename: str, run_stats: dict | None =
 # ── Main ──────────────────────────────────────────────────────────────────────
 def main() -> None:
     print(f"[Kosovo Pipeline] {datetime.now(timezone.utc).isoformat()}")
-    print(f"  LLM provider: {LLM_PROVIDER} ({LLM_MODEL or 'not configured'})")
+    provider_label = ", ".join(f"{p['provider']} ({p['model']})" for p in LLM_PROVIDERS) or "not configured"
+    print(f"  LLM providers: {provider_label}")
 
     # Purge JSON files older than 48 hours
     cutoff = datetime.now(timezone.utc) - timedelta(hours=48)
@@ -1108,6 +1178,7 @@ def main() -> None:
         "duplicates": 0,
         "intra_duplicates": 0,
         "ai_failed": 0,
+        "fallback_articles": 0,
         "low_score": 0,
         "rescued": 0,
         "accepted_categories": {},
@@ -1154,9 +1225,10 @@ def main() -> None:
         run_stats["analyzed"] += 1
         analysis = analyze_and_translate(title_en, summary, source=c["source"])
         if analysis is None:
-            print(f"  [SKIP] {title_en[:70]}")
             run_stats["ai_failed"] += 1
-            continue
+            analysis = fallback_article_analysis(title_en, summary, source=c["source"], lane=c.get("lane", ""))
+            run_stats["fallback_articles"] += 1
+            print(f"  [FALLBACK] {title_en[:70]}")
 
         score = float(analysis.get("score", 0))
         threshold = RESCUE_MIN_SCORE if len(results) < MIN_PER_RUN else MIN_SCORE
@@ -1218,6 +1290,7 @@ def main() -> None:
         f"intra_duplicates={run_stats['intra_duplicates']}, "
         f"low_score={run_stats['low_score']}, "
         f"rescued={run_stats['rescued']}, "
+        f"fallback={run_stats['fallback_articles']}, "
         f"ai_failed={run_stats['ai_failed']}"
     )
 
