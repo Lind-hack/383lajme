@@ -3,9 +3,19 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
+import { X, ChevronDown, MessageCircle, Bell, BookOpen, CheckSquare, Target, Trophy } from "lucide-react";
 
 const DISMISS_KEY = "383_signup_dismissed";
-const DISMISS_TTL = 7 * 24 * 60 * 60 * 1000; // 7 days
+const DISMISS_TTL = 7 * 24 * 60 * 60 * 1000;
+
+const BENEFITS = [
+  { Icon: MessageCircle, text: "Komento lajmet dhe debatohu me komunitetin" },
+  { Icon: Bell,          text: "Njoftimet e fundit të personalizuara" },
+  { Icon: BookOpen,      text: "Ruaj artikujt që të interesojnë" },
+  { Icon: CheckSquare,   text: "Voto në sondazhe dhe ndrysho bisedat" },
+  { Icon: Target,        text: "Feed i personalizuar sipas interesave tuaja" },
+  { Icon: Trophy,        text: "Badge ekskluzive për kontribuesit aktiv" },
+];
 
 export default function SignupPrompt() {
   const [visible, setVisible] = useState(false);
@@ -78,7 +88,7 @@ export default function SignupPrompt() {
         }}
       />
 
-      {/* Popup card — centered */}
+      {/* Popup card */}
       <div
         style={{
           position: "fixed",
@@ -105,9 +115,22 @@ export default function SignupPrompt() {
           </div>
           <button
             onClick={dismiss}
-            style={{ background: "none", border: "none", cursor: "pointer", fontSize: "20px", color: "#999", lineHeight: 1, padding: "4px" }}
+            aria-label="Mbyll"
+            style={{
+              background: "none",
+              border: "none",
+              cursor: "pointer",
+              color: "#999",
+              lineHeight: 1,
+              padding: "4px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              minWidth: "44px",
+              minHeight: "44px",
+            }}
           >
-            ×
+            <X size={16} strokeWidth={2} />
           </button>
         </div>
 
@@ -128,7 +151,7 @@ export default function SignupPrompt() {
             cursor: "pointer",
             fontSize: "13px",
             fontWeight: 700,
-            color: benefitsOpen ? "#FF4422" : "#FF4422",
+            color: "#FF4422",
             padding: "0 0 12px",
             display: "flex",
             alignItems: "center",
@@ -137,16 +160,15 @@ export default function SignupPrompt() {
           }}
         >
           Shiko përfitimet
-          <span
+          <ChevronDown
+            size={12}
+            strokeWidth={2}
             style={{
-              fontSize: "10px",
-              transition: "transform 0.2s ease",
               display: "inline-block",
+              transition: "transform 0.2s ease",
               transform: benefitsOpen ? "rotate(180deg)" : "rotate(0deg)",
             }}
-          >
-            ▼
-          </span>
+          />
         </button>
 
         {/* Benefits — orange glowing panel */}
@@ -169,16 +191,9 @@ export default function SignupPrompt() {
               gap: "10px",
             }}
           >
-            {[
-              ["💬", "Komento lajmet dhe debatohu me komunitetin"],
-              ["🔔", "Njoftimet e fundit të personalizuara"],
-              ["📚", "Ruaj artikujt që të interesojnë"],
-              ["🗳️", "Voto në sondazhe dhe ndrysho bisedat"],
-              ["🎯", "Feed i personalizuar sipas interesave tuaja"],
-              ["🏆", "Badge ekskluzive për kontribuesit aktiv"],
-            ].map(([icon, text]) => (
+            {BENEFITS.map(({ Icon, text }) => (
               <div key={text} style={{ display: "flex", alignItems: "flex-start", gap: "10px" }}>
-                <span style={{ fontSize: "16px", flexShrink: 0 }}>{icon}</span>
+                <Icon size={16} strokeWidth={2} style={{ color: "#fff", flexShrink: 0, marginTop: "1px" }} />
                 <span style={{ fontSize: "13px", color: "#fff", lineHeight: 1.5, fontWeight: 600 }}>{text}</span>
               </div>
             ))}

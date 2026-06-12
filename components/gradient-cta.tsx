@@ -1,26 +1,25 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { ArrowRight } from "lucide-react";
+import { EASE, DUR } from "@/lib/tokens";
 
 export default function GradientCta() {
   return (
     <section
+      className="gradient-cta"
       style={{
-        background: "linear-gradient(135deg, #FF4422, #E41E20, #FF6B35, #FF4422)",
-        backgroundSize: "300% 300%",
-        animation: "gradient-shift 6s ease infinite",
         padding: "80px 24px",
         textAlign: "center",
         position: "relative",
         overflow: "hidden",
       }}
     >
-      {/* Large italic headline */}
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+        transition={{ duration: DUR.reveal, ease: EASE }}
       >
         <p
           style={{
@@ -72,6 +71,7 @@ export default function GradientCta() {
         <motion.button
           whileHover={{ scale: 1.05, boxShadow: "0 8px 32px rgba(0,0,0,0.2)" }}
           whileTap={{ scale: 0.98 }}
+          transition={{ duration: DUR.base, ease: EASE }}
           style={{
             background: "#FFFFFF",
             color: "#FF4422",
@@ -84,9 +84,12 @@ export default function GradientCta() {
             textTransform: "uppercase",
             cursor: "pointer",
             fontFamily: "inherit",
+            display: "inline-flex",
+            alignItems: "center",
+            gap: "8px",
           }}
         >
-          Regjistrohu →
+          Regjistrohu <ArrowRight size={14} strokeWidth={2.5} />
         </motion.button>
       </motion.div>
     </section>

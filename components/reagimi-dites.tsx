@@ -2,8 +2,10 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import { ArrowRight, X } from "lucide-react";
 import Link from "next/link";
 import { type Article, timeAgo } from "@/lib/mock-data";
+import { EASE, DUR } from "@/lib/tokens";
 
 const CAT_GRADIENT: Record<string, string> = {
   "Politikë":   "linear-gradient(135deg, #C41E3A 0%, #1A1A1A 100%)",
@@ -58,13 +60,13 @@ export default function ReagimiDites({ article }: { article: Article }) {
   }
 
   return (
-    <section style={{ marginBottom: "48px", position: "relative" }}>
+    <section style={{ marginBottom: "var(--space-section)", position: "relative" }}>
       <Link href={`/article/${article.slug}`} style={{ textDecoration: "none", display: "block" }}>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-40px" }}
-          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: DUR.reveal, ease: EASE }}
           whileHover={{ y: -4, boxShadow: "0 24px 64px rgba(255,68,34,0.2)" }}
           style={{
             background: "linear-gradient(135deg, #1A1A1A 0%, #0F0F0F 100%)",
@@ -102,7 +104,7 @@ export default function ReagimiDites({ article }: { article: Article }) {
               <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
                 <motion.div
                   whileHover={{ scale: 1.1 }}
-                  transition={{ duration: 0.2 }}
+                  transition={{ duration: DUR.base, ease: EASE }}
                   style={{
                     width: "72px",
                     height: "72px",
@@ -155,7 +157,7 @@ export default function ReagimiDites({ article }: { article: Article }) {
               {!videoNotFound && (
                 <motion.div
                   whileHover={{ scale: 1.1 }}
-                  transition={{ duration: 0.2 }}
+                  transition={{ duration: DUR.base, ease: EASE }}
                   style={{
                     width: "72px",
                     height: "72px",
@@ -266,7 +268,7 @@ export default function ReagimiDites({ article }: { article: Article }) {
 
             <motion.span
               whileHover={{ x: 4 }}
-              transition={{ duration: 0.2 }}
+              transition={{ duration: DUR.base, ease: EASE }}
               style={{
                 display: "inline-flex",
                 alignItems: "center",
@@ -278,9 +280,7 @@ export default function ReagimiDites({ article }: { article: Article }) {
               }}
             >
               {videoNotFound ? "Lexo artikullin" : "Shiko videon"}
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                <path d="M5 12h14M12 5l7 7-7 7" />
-              </svg>
+              <ArrowRight size={16} strokeWidth={2.5} />
             </motion.span>
           </div>
         </motion.div>
@@ -319,13 +319,14 @@ export default function ReagimiDites({ article }: { article: Article }) {
                 background: "none",
                 border: "none",
                 color: "#fff",
-                fontSize: "28px",
                 cursor: "pointer",
                 lineHeight: 1,
                 padding: "8px",
+                display: "flex",
+                alignItems: "center",
               }}
             >
-              ✕
+              <X size={18} strokeWidth={2} />
             </button>
           </div>
         </div>

@@ -1,3 +1,12 @@
+/** Convert an emoji flag (regional indicator pair) to a two-letter country code. */
+function flagToCode(flag: string): string {
+  const letters = Array.from(flag)
+    .map((c) => c.codePointAt(0) ?? 0)
+    .filter((cp) => cp >= 0x1f1e6 && cp <= 0x1f1ff)
+    .map((cp) => String.fromCharCode(cp - 0x1f1e6 + 65));
+  return letters.length === 2 ? letters.join("") : "";
+}
+
 const BIAS_DOT: Record<string, { color: string; label: string }> = {
   neutral:      { color: "#9CA3AF", label: "Neutral" },
   "pro-kosovo": { color: "#00A651", label: "Pro-Kosovë" },
@@ -34,7 +43,18 @@ export default function SourceBadge({ source, flag, size = "md", bias, url }: So
         letterSpacing: "0.04em",
       }}
     >
-      <span>{flag}</span>
+      {flagToCode(flag) && (
+        <span
+          style={{
+            fontSize: "10px",
+            fontWeight: 700,
+            letterSpacing: "0.08em",
+            color: "#9CA3AF",
+          }}
+        >
+          {flagToCode(flag)}
+        </span>
+      )}
       <span>{source}</span>
       {dot && (
         <span

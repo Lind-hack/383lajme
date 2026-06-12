@@ -2,6 +2,8 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { ArrowRight } from "lucide-react";
+import { EASE } from "@/lib/tokens";
 import { type Article, timeAgo, calcReadingTime } from "@/lib/mock-data";
 import { getCategoryColor, getCategoryBg } from "@/lib/category-colors";
 import SourceBadge from "./source-badge";
@@ -133,7 +135,7 @@ export default function HeroDispatch({ article }: HeroDispatchProps) {
         >
           <h1
             style={{
-              fontSize: "clamp(28px, 4.2vw, 58px)",
+              fontSize: "var(--text-display)",
               fontWeight: 800,
               lineHeight: 1.08,
               letterSpacing: "-0.03em",
@@ -173,9 +175,12 @@ export default function HeroDispatch({ article }: HeroDispatchProps) {
               {calcReadingTime(article.body)} min lexim
             </span>
             <motion.span
-              whileHover={{ scale: 1.04 }}
-              transition={{ duration: 0.15 }}
+              whileHover="hover"
+              whileTap={{ scale: 0.98 }}
               style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "8px",
                 fontSize: "13px",
                 fontWeight: 800,
                 color: "#ffffff",
@@ -188,7 +193,14 @@ export default function HeroDispatch({ article }: HeroDispatchProps) {
                 marginLeft: "auto",
               }}
             >
-              Lexo lajmin →
+              Lexo lajmin
+              <motion.span
+                variants={{ hover: { x: 3 } }}
+                transition={{ duration: 0.2, ease: EASE }}
+                style={{ display: "inline-flex" }}
+              >
+                <ArrowRight size={15} strokeWidth={2.5} />
+              </motion.span>
             </motion.span>
           </div>
         </div>

@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { Inbox } from "lucide-react";
 import { getArticles } from "@/lib/db";
 import { SLUG_TO_CATEGORY } from "@/lib/category-map";
 import { getCategoryColor, getCategoryGradient, CATEGORY_LIGHT_BG } from "@/lib/category-colors";
@@ -68,7 +69,7 @@ export default async function CategoryPage({
           zIndex: 1,
           maxWidth: "1280px",
           margin: "0 auto",
-          padding: "48px 24px 64px",
+          padding: "var(--space-section) 24px",
         }}
       >
 
@@ -82,7 +83,11 @@ export default async function CategoryPage({
               fontSize: "15px",
             }}
           >
-            <div style={{ fontSize: "48px", marginBottom: "16px" }}>📭</div>
+            <Inbox
+              size={40}
+              strokeWidth={1.5}
+              style={{ color: "#CCCCCC", marginBottom: "16px", display: "block", margin: "0 auto 16px" }}
+            />
             <p style={{ margin: 0 }}>
               Asnjë artikull në kategorinë <strong>{categoryName}</strong> tani për tani.
             </p>
@@ -91,14 +96,14 @@ export default async function CategoryPage({
 
         {/* Hero */}
         {hero && (
-          <div style={{ marginBottom: "72px" }}>
+          <div style={{ marginBottom: "var(--space-section)" }}>
             <HeroDispatch article={hero} />
           </div>
         )}
 
         {/* Grid */}
         {gridArticles.length > 0 && (
-          <div style={{ marginBottom: "72px" }}>
+          <div style={{ marginBottom: "var(--space-section)" }}>
             <NewsGrid articles={gridArticles} title={categoryName.toUpperCase()} />
           </div>
         )}

@@ -1,6 +1,8 @@
 import { BREAKING_ITEMS } from "@/lib/mock-data";
 import { getArticles } from "@/lib/db";
+import { MoveHorizontal } from "lucide-react";
 import TextureBg from "@/components/aurora-bg";
+import SectionLabel from "@/components/section-label";
 import Navbar from "@/components/navbar";
 import BreakingTicker from "@/components/breaking-ticker";
 import HeroDispatch from "@/components/hero-dispatch";
@@ -21,6 +23,15 @@ export const revalidate = 3600;
 
 function titleKws(text: string) {
   return new Set(text.toLowerCase().split(/\W+/).filter((w) => w.length > 4));
+}
+
+/** Convert an emoji flag (regional indicator pair) to a two-letter country code. */
+function flagToCode(flag: string): string {
+  const letters = Array.from(flag)
+    .map((c) => c.codePointAt(0) ?? 0)
+    .filter((cp) => cp >= 0x1f1e6 && cp <= 0x1f1ff)
+    .map((cp) => String.fromCharCode(cp - 0x1f1e6 + 65));
+  return letters.length === 2 ? letters.join("") : "";
 }
 
 export default async function HomePage() {
@@ -89,22 +100,22 @@ export default async function HomePage() {
             top: "-20px",
             left: "50%",
             transform: "translateX(-50%)",
-            fontSize: "clamp(180px, 22vw, 320px)",
+            fontSize: "clamp(120px, 16vw, 220px)",
             fontWeight: 800,
-            color: "rgba(17,17,17,0.025)",
+            color: "transparent",
+            WebkitTextStroke: "1px rgba(17,17,17,0.05)",
             letterSpacing: "-0.08em",
             lineHeight: 1,
             pointerEvents: "none",
             userSelect: "none",
             whiteSpace: "nowrap",
-            animation: "breathe 8s ease-in-out infinite",
           }}
         >
           383
         </div>
 
         {/* Hero dispatch */}
-        <div style={{ marginBottom: "72px", position: "relative" }}>
+        <div style={{ marginBottom: "var(--space-section)", position: "relative" }}>
           <HeroDispatch article={hero} />
         </div>
 
@@ -112,26 +123,17 @@ export default async function HomePage() {
         <ReagimiDites article={reagimiArticle} />
 
         {/* Section label: NJOFTIME */}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "16px",
-            marginBottom: "20px",
-          }}
-        >
-          <div style={{ width: "4px", height: "28px", background: "#FF4422", borderRadius: "2px", flexShrink: 0 }} />
-          <span style={{ fontSize: "13px", fontWeight: 800, letterSpacing: "0.2em", textTransform: "uppercase", color: "#111111" }}>
-            NJOFTIME
-          </span>
-          <div style={{ flex: 1, height: "1px", background: "#E8E3DB" }} />
-          <span style={{ fontSize: "11px", color: "#6B6B6B", fontWeight: 500 }}>
-            tërhiq ←→
-          </span>
-        </div>
+        <SectionLabel
+          label="NJOFTIME"
+          right={
+            <span style={{ display: "inline-flex", alignItems: "center", gap: "4px", fontSize: "11px", color: "#6B6B6B", fontWeight: 500 }}>
+              tërhiq <MoveHorizontal size={14} strokeWidth={2} />
+            </span>
+          }
+        />
 
         {/* Horizontal scroll row */}
-        <div style={{ marginBottom: "72px" }}>
+        <div style={{ marginBottom: "var(--space-section)" }}>
           <DispatchRow articles={njoftimeArticles} />
         </div>
 
@@ -139,12 +141,12 @@ export default async function HomePage() {
         <DailyPoll />
 
         {/* News grid */}
-        <div style={{ marginBottom: "72px" }}>
+        <div style={{ marginBottom: "var(--space-section)" }}>
           <NewsGrid articles={kryesoreArticles} title="KRYESORE" />
         </div>
 
         {/* Dispatch list */}
-        <div style={{ marginBottom: "0", paddingBottom: "72px" }}>
+        <div style={{ marginBottom: "0", paddingBottom: "var(--space-section)" }}>
           <DispatchList articles={listArticles} />
         </div>
       </main>
@@ -159,20 +161,7 @@ export default async function HomePage() {
         }}
       >
         <div style={{ maxWidth: "1280px", margin: "0 auto" }}>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "16px",
-              marginBottom: "36px",
-            }}
-          >
-            <div style={{ width: "4px", height: "28px", background: "#F59E0B", borderRadius: "2px" }} />
-            <span style={{ fontSize: "13px", fontWeight: 800, letterSpacing: "0.2em", textTransform: "uppercase", color: "#FFFFFF" }}>
-              BOTA FLET
-            </span>
-            <div style={{ flex: 1, height: "1px", background: "rgba(255,255,255,0.1)" }} />
-          </div>
+          <SectionLabel label="BOTA FLET" accent="#F59E0B" dark marginBottom={36} />
           <div
             style={{
               display: "grid",
@@ -193,7 +182,7 @@ export default async function HomePage() {
                     style={{
                       background: "rgba(255,255,255,0.05)",
                       border: "1px solid rgba(255,255,255,0.08)",
-                      borderRadius: "16px",
+                      borderRadius: "var(--radius-md)",
                       overflow: "hidden",
                       display: "flex",
                       flexDirection: "column",
@@ -203,7 +192,11 @@ export default async function HomePage() {
                     <div style={{ height: "3px", background: catColor, flexShrink: 0 }} />
                     <div style={{ padding: "24px", flex: 1, display: "flex", flexDirection: "column" }}>
                       <div style={{ display: "flex", alignItems: "center", gap: "6px", marginBottom: "12px" }}>
-                        <span style={{ fontSize: "16px" }}>{article.sourceFlag}</span>
+                        {flagToCode(article.sourceFlag) && (
+                          <span style={{ fontSize: "10px", fontWeight: 700, letterSpacing: "0.08em", color: "rgba(255,255,255,0.4)" }}>
+                            {flagToCode(article.sourceFlag)}
+                          </span>
+                        )}
                         <span style={{ fontSize: "11px", fontWeight: 600, color: "rgba(255,255,255,0.5)", letterSpacing: "0.08em" }}>
                           {article.source}
                         </span>

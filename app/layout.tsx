@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Manrope } from "next/font/google";
 import "./globals.css";
 import SignupPrompt from "@/components/signup-prompt";
+import MotionProvider from "@/components/motion-provider";
 
 const manrope = Manrope({
   subsets: ["latin"],
@@ -28,8 +29,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <meta name="theme-color" content="#F9F6F1" />
       </head>
       <body style={{ fontFamily: "var(--font-manrope), sans-serif", background: "#F9F6F1" }}>
-        {children}
-        <SignupPrompt />
+        <MotionProvider>
+          {children}
+          <SignupPrompt />
+        </MotionProvider>
       </body>
     </html>
   );
