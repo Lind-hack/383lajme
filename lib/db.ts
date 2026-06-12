@@ -2,8 +2,20 @@ import Database from "better-sqlite3";
 import path from "path";
 import fs from "fs";
 import { MOCK_ARTICLES, type Article } from "./mock-data";
+import { fixMojibake } from "./encoding";
 
 const DB_PATH = path.join(process.cwd(), "data", "articles.db");
+
+function sanitizeArticle(a: Article): Article {
+  return {
+    ...a,
+    title: fixMojibake(a.title),
+    excerpt: fixMojibake(a.excerpt),
+    body: fixMojibake(a.body),
+    source: fixMojibake(a.source),
+    sourceFlag: fixMojibake(a.sourceFlag),
+  };
+}
 
 const SELECT_COLUMNS = `
   id, slug, url, dispatch, title, excerpt, body, source,
@@ -16,7 +28,7 @@ const SELECT_COLUMNS = `
 type DbRow = Omit<Article, "featured"> & { featured: number };
 
 function mapRow(row: DbRow): Article {
-  return { ...row, featured: row.featured === 1 };
+  return sanitizeArticle({ ...row, featured: row.featured === 1 });
 }
 
 function getDb() {
@@ -28,7 +40,7 @@ const AUTO_DIR = path.join(process.cwd(), "data", "auto-articles");
 const MAX_AUTO_AGE_MS = 24 * 60 * 60 * 1000;
 
 function mapAutoRow(a: Record<string, unknown>): Article {
-  return {
+  return sanitizeArticle({
     id:            String(a.id ?? ""),
     slug:          String(a.slug ?? ""),
     url:           a.url ? String(a.url) : undefined,
@@ -48,7 +60,7 @@ function mapAutoRow(a: Record<string, unknown>): Article {
     imageUrl:      a.image_url ? String(a.image_url) : undefined,
     engagementScore: a.engagement_score ? Number(a.engagement_score) : undefined,
     videoClipUrl:  a.video_clip_url ? String(a.video_clip_url) : undefined,
-  };
+  });
 }
 
 function getAutoArticles(): Article[] {
@@ -99,7 +111,7 @@ export function getArticles(limit = 50, category?: string): Article[] {
   }
 
   if (sqliteArticles.length === 0 && autoArticles.length === 0) {
-    return MOCK_ARTICLES;
+    return MOCK_ARTICLES.map(sanitizeArticle);
   }
 
   const seen = new Set<string>();
@@ -126,7 +138,10 @@ export function getArticleBySlug(slug: string): Article | null {
   if (autoArticle) return autoArticle;
 
   const db = getDb();
-  if (!db) return MOCK_ARTICLES.find((a) => a.slug === slug) ?? null;
+  if (!db) {
+    const mock = MOCK_ARTICLES.find((a) => a.slug === slug);
+    return mock ? sanitizeArticle(mock) : null;
+  }
   const row = db
     .prepare(
       `SELECT ${SELECT_COLUMNS} FROM articles WHERE slug = ? AND processed = 1`
@@ -134,5 +149,6 @@ export function getArticleBySlug(slug: string): Article | null {
     .get(slug) as DbRow | undefined;
   db.close();
   if (row) return mapRow(row);
-  return MOCK_ARTICLES.find((a) => a.slug === slug) ?? null;
+  const mock = MOCK_ARTICLES.find((a) => a.slug === slug);
+  return mock ? sanitizeArticle(mock) : null;
 }

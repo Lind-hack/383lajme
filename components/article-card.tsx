@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { type Article, timeAgo, calcReadingTime } from "@/lib/mock-data";
 import { getCategoryColor, getCategoryBg } from "@/lib/category-colors";
+import { EASE, DUR, STAGGER, RADIUS, SHADOW } from "@/lib/tokens";
 import SourceBadge from "./source-badge";
 
 interface ArticleCardProps {
@@ -13,30 +14,68 @@ interface ArticleCardProps {
   index?: number;
 }
 
+/** Red warning badge for hostile (Serbian) sources — country code instead of emoji flag. */
+function HostileBadge({ left = "8px" }: { left?: string }) {
+  return (
+    <div style={{
+      position: "absolute",
+      top: "8px",
+      left,
+      display: "flex",
+      alignItems: "center",
+      gap: "5px",
+      background: "#E41E20",
+      color: "#fff",
+      fontSize: "9px",
+      fontWeight: 900,
+      letterSpacing: "0.1em",
+      textTransform: "uppercase",
+      padding: "3px 8px",
+      borderRadius: "4px",
+      zIndex: 2,
+      boxShadow: "0 2px 8px rgba(0,0,0,0.3)",
+      whiteSpace: "nowrap",
+    }}>
+      <span style={{ fontWeight: 700, letterSpacing: "0.08em", opacity: 0.85 }}>RS</span>
+      <span>SERBI PËR KOSOVËN</span>
+    </div>
+  );
+}
+
 export default function ArticleCard({ article, variant = "grid", index = 0 }: ArticleCardProps) {
   const catColor = getCategoryColor(article.category);
   const catBg = getCategoryBg(article.category, 0.08);
   const [imgFailed, setImgFailed] = useState(false);
   const readMins = calcReadingTime(article.body);
 
+  // Shared motion config: reveal staggered up to index 6, hover lift with capped colored shadow
+  const reveal = {
+    initial: { opacity: 0, y: 16 },
+    whileInView: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: DUR.reveal, ease: EASE, delay: Math.min(index, 6) * STAGGER },
+    },
+    viewport: { once: true, margin: "-60px" },
+  } as const;
+  const hoverLift = { y: -4, boxShadow: `0 16px 40px ${catColor}1F` };
+  const hoverTransition = { duration: DUR.base, ease: EASE } as const;
+
   if (variant === "mini") {
     return (
       <Link href={`/article/${article.slug}`} style={{ textDecoration: "none", display: "block", flexShrink: 0 }}>
         <motion.div
-          whileHover={{
-            y: -6,
-            boxShadow: `0 24px 64px ${catColor}28, 0 8px 24px rgba(0,0,0,0.12)`,
-          }}
-          transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+          whileHover={hoverLift}
+          transition={hoverTransition}
           style={{
             width: "228px",
             height: "358px",
             background: "linear-gradient(180deg, #FFFFFF 0%, #FAFAF8 100%)",
-            borderRadius: "20px",
+            borderRadius: RADIUS.md,
             border: "1px solid rgba(0,0,0,0.07)",
             overflow: "hidden",
             cursor: "pointer",
-            boxShadow: "0 2px 8px rgba(0,0,0,0.04), 0 8px 32px rgba(0,0,0,0.08)",
+            boxShadow: SHADOW.card,
             display: "flex",
             flexDirection: "column",
           }}
@@ -82,7 +121,7 @@ export default function ArticleCard({ article, variant = "grid", index = 0 }: Ar
               backdropFilter: "blur(16px) saturate(180%)",
               WebkitBackdropFilter: "blur(16px) saturate(180%)",
               border: "0.5px solid rgba(255,255,255,0.45)",
-              borderRadius: "100px",
+              borderRadius: RADIUS.pill,
               padding: "3px 8px 3px 6px",
             }}>
               <span style={{
@@ -113,7 +152,7 @@ export default function ArticleCard({ article, variant = "grid", index = 0 }: Ar
               backdropFilter: "blur(12px)",
               WebkitBackdropFilter: "blur(12px)",
               border: "0.5px solid rgba(255,255,255,0.2)",
-              borderRadius: "100px",
+              borderRadius: RADIUS.pill,
               padding: "2px 5px",
             }}>
               <span style={{
@@ -126,16 +165,11 @@ export default function ArticleCard({ article, variant = "grid", index = 0 }: Ar
               </span>
             </div>
 
-            {/* Hostile source badge */}
-            {article.sourceBias === "hostile" && (
-              <div style={{ position: "absolute", top: "8px", left: "8px", background: "#E41E20", color: "#fff", fontSize: "9px", fontWeight: 900, letterSpacing: "0.1em", textTransform: "uppercase", padding: "3px 8px", borderRadius: "4px", zIndex: 2, boxShadow: "0 2px 8px rgba(0,0,0,0.3)", whiteSpace: "nowrap" }}>
-                🇷🇸 SERBI PËR KOSOVËN
-              </div>
-            )}
+            {article.sourceBias === "hostile" && <HostileBadge />}
           </div>
 
           {/* Content */}
-          <div style={{ padding: "14px 16px 16px", flex: 1, display: "flex", flexDirection: "column", gap: "8px" }}>
+          <div style={{ padding: "16px", flex: 1, display: "flex", flexDirection: "column", gap: "8px" }}>
             <p style={{
               fontSize: "14px",
               fontWeight: 800,
@@ -183,21 +217,19 @@ export default function ArticleCard({ article, variant = "grid", index = 0 }: Ar
     return (
       <Link href={`/article/${article.slug}`} style={{ textDecoration: "none", display: "block", height: "100%" }}>
         <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1], delay: index * 0.08 }}
-          whileHover={{ y: -4, boxShadow: `0 16px 48px ${catColor}28` }}
+          {...reveal}
+          whileHover={hoverLift}
+          transition={hoverTransition}
           style={{
             background: "#FFFFFF",
-            borderRadius: "20px",
+            borderRadius: RADIUS.md,
             border: "1px solid #E8E3DB",
             overflow: "hidden",
             cursor: "pointer",
             height: "300px",
             display: "flex",
             flexDirection: "row",
-            boxShadow: "0 2px 12px rgba(0,0,0,0.05)",
+            boxShadow: SHADOW.card,
           }}
         >
           {/* Image — left 40% */}
@@ -221,15 +253,11 @@ export default function ArticleCard({ article, variant = "grid", index = 0 }: Ar
               />
             )}
             <div style={{ position: "absolute", top: 0, left: 0, bottom: 0, width: "4px", background: catColor }} />
-            {article.sourceBias === "hostile" && (
-              <div style={{ position: "absolute", top: "8px", left: "16px", background: "#E41E20", color: "#fff", fontSize: "9px", fontWeight: 900, letterSpacing: "0.1em", textTransform: "uppercase", padding: "3px 8px", borderRadius: "4px", zIndex: 2, boxShadow: "0 2px 8px rgba(0,0,0,0.3)", whiteSpace: "nowrap" }}>
-                🇷🇸 SERBI PËR KOSOVËN
-              </div>
-            )}
+            {article.sourceBias === "hostile" && <HostileBadge left="16px" />}
           </div>
 
           {/* Content — right 60% */}
-          <div style={{ flex: 1, padding: "32px", display: "flex", flexDirection: "column" }}>
+          <div style={{ flex: 1, padding: "24px", display: "flex", flexDirection: "column" }}>
             <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "14px" }}>
               {article.featured && (
                 <span style={{
@@ -240,7 +268,7 @@ export default function ArticleCard({ article, variant = "grid", index = 0 }: Ar
                   letterSpacing: "0.12em",
                   textTransform: "uppercase",
                   padding: "3px 10px",
-                  borderRadius: "20px",
+                  borderRadius: RADIUS.pill,
                 }}>BREAKING</span>
               )}
               <span style={{ fontSize: "10px", fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: catColor }}>
@@ -289,24 +317,22 @@ export default function ArticleCard({ article, variant = "grid", index = 0 }: Ar
     return (
       <Link href={`/article/${article.slug}`} style={{ textDecoration: "none", display: "block", height: "100%" }}>
         <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1], delay: index * 0.08 }}
-          whileHover={{ y: -4, boxShadow: `0 16px 48px ${catColor}28` }}
+          {...reveal}
+          whileHover={hoverLift}
+          transition={hoverTransition}
           style={{
             background: "#FFFFFF",
-            borderRadius: "20px",
+            borderRadius: RADIUS.md,
             border: "1px solid #E8E3DB",
             overflow: "hidden",
             cursor: "pointer",
             height: "100%",
             display: "flex",
             flexDirection: "column",
-            boxShadow: "0 2px 12px rgba(0,0,0,0.05)",
+            boxShadow: SHADOW.card,
           }}
         >
-          <div style={{ height: "240px", overflow: "hidden", position: "relative", flexShrink: 0 }}>
+          <div style={{ aspectRatio: "16/10", overflow: "hidden", position: "relative", flexShrink: 0 }}>
             {article.imageUrl && !imgFailed ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img
@@ -326,14 +352,10 @@ export default function ArticleCard({ article, variant = "grid", index = 0 }: Ar
               />
             )}
             <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "4px", background: catColor }} />
-            {article.sourceBias === "hostile" && (
-              <div style={{ position: "absolute", top: "8px", left: "8px", background: "#E41E20", color: "#fff", fontSize: "9px", fontWeight: 900, letterSpacing: "0.1em", textTransform: "uppercase", padding: "3px 8px", borderRadius: "4px", zIndex: 2, boxShadow: "0 2px 8px rgba(0,0,0,0.3)", whiteSpace: "nowrap" }}>
-                🇷🇸 SERBI PËR KOSOVËN
-              </div>
-            )}
+            {article.sourceBias === "hostile" && <HostileBadge />}
           </div>
 
-          <div style={{ padding: "24px 28px 28px", flex: 1, display: "flex", flexDirection: "column" }}>
+          <div style={{ padding: "20px 24px 24px", flex: 1, display: "flex", flexDirection: "column" }}>
             <div style={{ display: "inline-flex", alignItems: "center", gap: "6px", marginBottom: "12px", alignSelf: "flex-start" }}>
               <span style={{ width: "7px", height: "7px", borderRadius: "50%", background: catColor, flexShrink: 0 }} />
               <span style={{ fontSize: "10px", fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: catColor }}>
@@ -385,28 +407,23 @@ export default function ArticleCard({ article, variant = "grid", index = 0 }: Ar
   return (
     <Link href={`/article/${article.slug}`} style={{ textDecoration: "none", display: "block", height: "100%" }}>
       <motion.div
-        initial={{ opacity: 0, y: 24 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-60px" }}
-        transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1], delay: index * 0.08 }}
-        whileHover={{
-          y: -6,
-          boxShadow: `0 24px 64px ${catColor}28, 0 8px 24px rgba(0,0,0,0.10)`,
-        }}
+        {...reveal}
+        whileHover={hoverLift}
+        transition={hoverTransition}
         style={{
           background: "linear-gradient(180deg, #FFFFFF 0%, #FAFAF8 100%)",
-          borderRadius: "20px",
+          borderRadius: RADIUS.md,
           border: "1px solid rgba(0,0,0,0.07)",
           overflow: "hidden",
           cursor: "pointer",
           height: "100%",
           display: "flex",
           flexDirection: "column",
-          boxShadow: "0 2px 8px rgba(0,0,0,0.04), 0 8px 32px rgba(0,0,0,0.08)",
+          boxShadow: SHADOW.card,
         }}
       >
         {/* Image area */}
-        <div style={{ height: "200px", overflow: "hidden", position: "relative", flexShrink: 0 }}>
+        <div style={{ aspectRatio: "16/10", overflow: "hidden", position: "relative", flexShrink: 0 }}>
           {article.imageUrl && !imgFailed ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
@@ -446,7 +463,7 @@ export default function ArticleCard({ article, variant = "grid", index = 0 }: Ar
             backdropFilter: "blur(16px) saturate(180%)",
             WebkitBackdropFilter: "blur(16px) saturate(180%)",
             border: "0.5px solid rgba(255,255,255,0.45)",
-            borderRadius: "100px",
+            borderRadius: RADIUS.pill,
             padding: "4px 10px 4px 7px",
           }}>
             <span style={{
@@ -485,7 +502,7 @@ export default function ArticleCard({ article, variant = "grid", index = 0 }: Ar
             backdropFilter: "blur(12px)",
             WebkitBackdropFilter: "blur(12px)",
             border: "0.5px solid rgba(255,255,255,0.2)",
-            borderRadius: "100px",
+            borderRadius: RADIUS.pill,
             padding: "2px 5px",
           }}>
             <span style={{
@@ -498,11 +515,7 @@ export default function ArticleCard({ article, variant = "grid", index = 0 }: Ar
             </span>
           </div>
 
-          {article.sourceBias === "hostile" && (
-            <div style={{ position: "absolute", top: "8px", left: "8px", background: "#E41E20", color: "#fff", fontSize: "9px", fontWeight: 900, letterSpacing: "0.1em", textTransform: "uppercase", padding: "3px 8px", borderRadius: "4px", zIndex: 2, boxShadow: "0 2px 8px rgba(0,0,0,0.3)", whiteSpace: "nowrap" }}>
-              🇷🇸 SERBI PËR KOSOVËN
-            </div>
-          )}
+          {article.sourceBias === "hostile" && <HostileBadge />}
         </div>
 
         <div style={{

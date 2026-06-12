@@ -2,7 +2,11 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { ArrowRight } from "lucide-react";
 import { DIASPORA_ARTICLES } from "@/lib/mock-data";
+import { EASE, DUR, STAGGER } from "@/lib/tokens";
+import SectionLabel from "./section-label";
+import SourceBadge from "./source-badge";
 
 const TABS = [
   { key: "gjermania", label: "Gjermania", flag: "🇩🇪", color: "#FF4422" },
@@ -14,33 +18,28 @@ const TABS = [
   { key: "suedia",    label: "Suedia",    flag: "🇸🇪", color: "#276749" },
 ];
 
+function flagToCode(flag: string): string {
+  const cps = [...flag].map((c) => c.codePointAt(0) ?? 0);
+  if (cps.length !== 2) return "";
+  const a = cps[0] - 0x1f1e6 + 65;
+  const b = cps[1] - 0x1f1e6 + 65;
+  if (a < 65 || a > 90 || b < 65 || b > 90) return "";
+  return String.fromCharCode(a, b);
+}
+
 export default function DiasporaSeries() {
   const [active, setActive] = useState("gjermania");
   const activeTab = TABS.find((t) => t.key === active)!;
   const articles = DIASPORA_ARTICLES[active] ?? [];
 
   return (
-    <section style={{ marginBottom: "48px" }}>
-      {/* Section header */}
-      <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "20px" }}>
-        <div style={{ width: "3px", height: "20px", background: "#FF4422", borderRadius: "2px" }} />
-        <span
-          style={{
-            fontSize: "13px",
-            fontWeight: 800,
-            letterSpacing: "0.1em",
-            textTransform: "uppercase" as const,
-            color: "#111111",
-          }}
-        >
-          Seria e Diasporës
-        </span>
-      </div>
+    <section style={{ marginBottom: "var(--space-section)" }}>
+      <SectionLabel label="SERIA E DIASPORËS" marginBottom={20} />
 
       <div
         style={{
           background: "#FFFFFF",
-          borderRadius: "20px",
+          borderRadius: "16px",
           border: "1px solid #E8E3DB",
           overflow: "hidden",
           boxShadow: "0 2px 12px rgba(0,0,0,0.05)",
@@ -76,7 +75,9 @@ export default function DiasporaSeries() {
                   flexShrink: 0,
                 }}
               >
-                <span style={{ fontSize: "16px" }}>{tab.flag}</span>
+                <span style={{ fontSize: "10px", fontWeight: 700, letterSpacing: "0.08em", color: "#9CA3AF" }}>
+                  {flagToCode(tab.flag)}
+                </span>
                 <span
                   style={{
                     fontSize: "13px",
@@ -115,7 +116,7 @@ export default function DiasporaSeries() {
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.25, ease: "easeOut" }}
+            transition={{ duration: DUR.base, ease: EASE }}
             style={{ padding: "8px 0" }}
           >
             {articles.map((article, i) => (
@@ -125,8 +126,13 @@ export default function DiasporaSeries() {
                 target="_blank"
                 rel="noopener noreferrer"
                 initial={{ opacity: 0, x: -8 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.3, delay: i * 0.06 }}
+                animate={{
+                  opacity: 1,
+                  x: 0,
+                  transition: { duration: DUR.slow, delay: Math.min(i, 6) * STAGGER, ease: EASE },
+                }}
+                whileHover={{ backgroundColor: "#FAFAF8" }}
+                transition={{ duration: DUR.fast, ease: EASE }}
                 style={{
                   display: "flex",
                   gap: "12px",
@@ -136,35 +142,12 @@ export default function DiasporaSeries() {
                   borderBottom: i < articles.length - 1 ? "1px solid #F0ECE6" : "none",
                   textDecoration: "none",
                   cursor: "pointer",
-                  transition: "background 0.15s ease",
-                }}
-                onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLElement).style.background = "#FAFAF8";
-                }}
-                onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLElement).style.background = "transparent";
+                  backgroundColor: "transparent",
                 }}
               >
                 {/* Source badge */}
                 <div style={{ flexShrink: 0, width: "120px", overflow: "hidden" }}>
-                  <span
-                    style={{
-                      display: "inline-flex",
-                      alignItems: "center",
-                      gap: "4px",
-                      background: "rgba(0,0,0,0.05)",
-                      border: "1px solid rgba(0,0,0,0.1)",
-                      borderRadius: "100px",
-                      padding: "3px 8px",
-                      fontSize: "11px",
-                      fontWeight: 600,
-                      color: "#6B6B6B",
-                      whiteSpace: "nowrap" as const,
-                    }}
-                  >
-                    <span>{article.flag}</span>
-                    <span>{article.source}</span>
-                  </span>
+                  <SourceBadge source={article.source} flag={article.flag} size="sm" />
                 </div>
 
                 {/* Content */}
@@ -198,17 +181,7 @@ export default function DiasporaSeries() {
 
                 {/* Arrow */}
                 <div style={{ flexShrink: 0, display: "flex", alignItems: "center" }}>
-                  <svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke={activeTab.color}
-                    strokeWidth="2"
-                    opacity={0.5}
-                  >
-                    <path d="M5 12h14M12 5l7 7-7 7" />
-                  </svg>
+                  <ArrowRight size={16} strokeWidth={2} style={{ color: activeTab.color, opacity: 0.5 }} />
                 </div>
               </motion.a>
             ))}

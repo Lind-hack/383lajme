@@ -19,6 +19,46 @@
   --color-showbiz:  #E91E8C;
 
   --font-sans: "Manrope", sans-serif;
+
+  /* Spacing (4px base) */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  20px;
+  --space-6:  24px;
+  --space-8:  32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-section: clamp(48px, 6vw, 72px);
+
+  /* Radius */
+  --radius-sm:   12px;
+  --radius-md:   16px;
+  --radius-lg:   24px;
+  --radius-pill: 100px;
+
+  /* Shadows */
+  --shadow-1: 0 1px 3px rgba(17, 17, 17, 0.05);
+  --shadow-2: 0 2px 12px rgba(17, 17, 17, 0.06);
+  --shadow-3: 0 16px 40px rgba(17, 17, 17, 0.10);
+
+  /* Type scale */
+  --text-display:  clamp(32px, 4.5vw, 58px);
+  --text-h1:       clamp(28px, 3.5vw, 44px);
+  --text-h2:       clamp(20px, 2.2vw, 28px);
+  --text-h3:       17px;
+  --text-body:     16px;
+  --text-caption:  13px;
+  --text-overline: 11px;
+
+  /* Motion */
+  --duration-fast: 150ms;
+  --duration-base: 200ms;
+  --duration-slow: 300ms;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in:  cubic-bezier(0.4, 0, 0.7, 1);
 }
 
 *, *::before, *::after {
@@ -60,12 +100,6 @@ body {
   animation: tilt 0.6s cubic-bezier(0.22, 0.61, 0.36, 1) both;
 }
 
-/* ── Breathe (watermark) ────────────────────────────────── */
-@keyframes breathe {
-  0%, 100% { opacity: 0.025; }
-  50%       { opacity: 0.04; }
-}
-
 /* ── Floating color blobs (aurora-bg) ───────────────────── */
 @keyframes float-1 {
   0%,100% { transform: translate(0,0) scale(1); }
@@ -91,7 +125,7 @@ body {
 }
 
 .ticker-track {
-  animation: marquee 30s linear infinite;
+  animation: marquee 45s linear infinite;
 }
 
 .ticker-track:hover {
@@ -108,7 +142,7 @@ body {
 .gradient-cta {
   background: linear-gradient(135deg, #FF4422, #E41E20, #FF6B35, #FF4422);
   background-size: 300% 300%;
-  animation: gradient-shift 6s ease infinite;
+  animation: gradient-shift 12s ease infinite;
 }
 
 /* ── Scrollbar ──────────────────────────────────────────── */
@@ -134,11 +168,12 @@ body {
 
 /* ── World-card hover (BOTA FLET section, server-component safe) ── */
 .world-card {
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform var(--duration-base) var(--ease-out),
+    box-shadow var(--duration-base) var(--ease-out);
 }
 .world-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
 }
 
 /* ── Navbar scroll row (mobile) ─────────────────────────── */
@@ -177,4 +212,131 @@ body {
 @keyframes pulse {
   0%, 100% { opacity: 1; box-shadow: 0 0 8px rgba(255, 68, 34, 0.8); }
   50%       { opacity: 0.6; box-shadow: 0 0 4px rgba(255, 68, 34, 0.4); }
+}
+
+/* ── Focus visibility ───────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid #FF4422;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ── Navbar pill (CSS hover, replaces DOM-style mutation) ──
+   Base visual styles live here, not inline — inline styles would
+   override the :hover rules below. */
+.nav-pill {
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 7px 16px;
+  border-radius: var(--radius-pill);
+  background: rgba(17, 17, 17, 0.07);
+  color: #111111;
+  border: 1.5px solid rgba(17, 17, 17, 0.12);
+  display: inline-block;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition:
+    background-color var(--duration-base) var(--ease-out),
+    color var(--duration-base) var(--ease-out),
+    border-color var(--duration-base) var(--ease-out),
+    transform var(--duration-base) var(--ease-out);
+}
+.nav-pill:hover {
+  background: #111111;
+  color: #FFFFFF;
+  border-color: #111111;
+  transform: translateY(-1px);
+}
+.nav-pill:active {
+  transform: translateY(0) scale(0.98);
+}
+
+/* ── Footer link hover ──────────────────────────────────── */
+.footer-link {
+  position: relative;
+  color: rgba(255, 255, 255, 0.45);
+  border-left: 2px solid transparent;
+  transition:
+    color var(--duration-base) var(--ease-out),
+    padding-left var(--duration-base) var(--ease-out),
+    border-color var(--duration-base) var(--ease-out);
+}
+.footer-link:hover {
+  color: #FF4422;
+  padding-left: 8px;
+  border-left-color: #FF4422;
+}
+
+/* ── Footer social / contact links (dark bg, orange hover) ── */
+.footer-social {
+  color: rgba(255, 255, 255, 0.35);
+  transition: color var(--duration-base) var(--ease-out);
+}
+.footer-social:hover { color: #FF4422; }
+.footer-contact {
+  color: rgba(255, 255, 255, 0.45);
+  transition: color var(--duration-base) var(--ease-out);
+}
+.footer-contact:hover { color: #FF4422; }
+
+/* ── Footer newsletter submit: arrow nudges right on hover ── */
+.footer-submit svg { transition: transform var(--duration-base) var(--ease-out); }
+.footer-submit:hover svg { transform: translateX(2px); }
+
+/* ── Logo hover ─────────────────────────────────────────── */
+.logo-mark { transition: transform var(--duration-base) var(--ease-out); }
+.logo-mark .logo-dot {
+  display: inline-block;
+  transition: transform var(--duration-base) var(--ease-out);
+}
+.logo-mark:hover { transform: translateY(-1px); }
+.logo-mark:hover .logo-dot { transform: scale(1.4); }
+
+/* ── Floating blobs share a class for the reduced-motion hook ── */
+.float-blob { will-change: transform; }
+
+/* ── Daily poll option (CSS hover, replaces useState hover) ── */
+.poll-option {
+  width: 100%;
+  padding: 12px 20px;
+  border-radius: var(--radius-pill);
+  border: 1.5px solid #E8E3DB;
+  background: #F9F6F1;
+  color: #111111;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: left;
+  font-family: var(--font-manrope), sans-serif;
+  letter-spacing: 0.01em;
+  transition:
+    background-color var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out),
+    border-color var(--duration-fast) var(--ease-out);
+}
+.poll-option:hover {
+  background: #FF4422;
+  color: #FFFFFF;
+  border-color: #FF4422;
+}
+.poll-option:active {
+  transform: scale(0.99);
+}
+
+/* ── Reduced motion: stop ambient CSS animations ────────── */
+@media (prefers-reduced-motion: reduce) {
+  .ticker-track,
+  .float-blob,
+  .gradient-cta,
+  .tilt-in {
+    animation: none !important;
+  }
+  *, *::before, *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
 }
