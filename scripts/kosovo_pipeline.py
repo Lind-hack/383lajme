@@ -81,8 +81,12 @@ else:
 GEMMA_URL   = LLM_URL
 GEMMA_MODEL = LLM_MODEL
 MAX_AGE_HOURS      = 72
-MAX_PER_RUN        = 24
-MIN_SCORE          = 4.2
+MAX_PER_RUN        = 18
+MIN_PER_RUN        = 8
+MAX_AI_CALLS       = 30
+MIN_SCORE          = 4.5
+RESCUE_MIN_SCORE   = 3.2
+CANDIDATE_POOL_LIMIT = 90
 AI_CAP             = 8
 SPORT_CAP          = 7
 WORLD_CAP          = 7
@@ -179,20 +183,37 @@ NEWS_SOURCES = [
      "_GNEWS_EXTRACT_", "🇽🇰", "neutral", True),
     ("https://news.google.com/rss/search?q=Kosovo+Kurti+claim+statement+controversy+when%3A3d&hl=en-US&gl=US&ceid=US:en",
      "_GNEWS_EXTRACT_", "🌍", "neutral", True),
+    ("https://news.google.com/rss/search?q=Kosovo+scandal+OR+accused+OR+claim+OR+parliament+OR+police+when%3A3d&hl=en-US&gl=US&ceid=US:en",
+     "_GNEWS_EXTRACT_", "🌍", "neutral", True),
+    # Social-signal discovery: claims/posts that become news, without treating the post itself as verified fact
+    ("https://news.google.com/rss/search?q=Kosovo+%28X+OR+Twitter+OR+Instagram+OR+TikTok+OR+viral+OR+video+OR+post%29+%28claim+OR+accused+OR+controversy+OR+statement%29+when%3A2d&hl=en-US&gl=US&ceid=US:en",
+     "_GNEWS_EXTRACT_", "🌍", "neutral", True),
+    ("https://news.google.com/rss/search?q=Kosova+%28Instagram+OR+TikTok+OR+Facebook+OR+video+OR+postim+OR+viral%29+%28akuz%C3%AB+OR+deklarat%C3%AB+OR+skandal+OR+debat%29+when%3A2d&hl=sq&gl=XK&ceid=XK:sq",
+     "_GNEWS_EXTRACT_", "🇽🇰", "neutral", True),
+    ("https://news.google.com/rss/search?q=Kosovo+economy+business+investment+tax+prices+jobs+%28controversy+OR+warning+OR+claim+OR+statement%29+when%3A3d&hl=en-US&gl=US&ceid=US:en",
+     "_GNEWS_EXTRACT_", "🌍", "neutral", True),
     # Serbian and regional framing about Kosovo
     ("https://news.google.com/rss/search?q=Kosovo+Kurti+OR+Pristina+OR+%22Kosovo+police%22+when%3A3d&hl=en-US&gl=RS&ceid=RS:en",
      "_SERBIAN_GNEWS_", "🇷🇸", "hostile", True),
     ("https://news.google.com/rss/search?q=Kosovo+OR+Kosova+OR+Kurti+OR+Pri%C5%A1tina+when%3A3d&hl=sr&gl=RS&ceid=RS:sr",
+     "_SERBIAN_GNEWS_", "🇷🇸", "hostile", True),
+    ("https://news.google.com/rss/search?q=Kosovo+Serbia+%28X+OR+Twitter+OR+Instagram+OR+viral+OR+video+OR+claim%29+when%3A2d&hl=en-US&gl=RS&ceid=RS:en",
      "_SERBIAN_GNEWS_", "🇷🇸", "hostile", True),
     # World drama, conflict, politics, and high-interest international stories
     ("https://news.google.com/rss/search?q=world+breaking+news+scandal+OR+controversy+OR+resignation+OR+protest+when%3A1d&hl=en-US&gl=US&ceid=US:en",
      "_GNEWS_WORLD_", "🌍", "neutral", True),
     ("https://news.google.com/rss/search?q=Europe+politics+drama+OR+election+OR+court+OR+sanctions+when%3A2d&hl=en-US&gl=US&ceid=US:en",
      "_GNEWS_WORLD_", "🌍", "neutral", True),
+    ("https://news.google.com/rss/search?q=world+%28X+OR+Twitter+OR+Instagram+OR+TikTok+OR+YouTube+OR+Reddit%29+viral+controversy+claim+when%3A1d&hl=en-US&gl=US&ceid=US:en",
+     "_GNEWS_WORLD_", "🌍", "neutral", True),
+    ("https://news.google.com/rss/search?q=global+economy+markets+prices+jobs+trade+%28shock+OR+warning+OR+controversy+OR+scandal%29+when%3A2d&hl=en-US&gl=US&ceid=US:en",
+     "_GNEWS_WORLD_", "🌍", "neutral", True),
     # AI and tech: product releases, company drama, investment, and The Rundown-style stories
     ("https://news.google.com/rss/search?q=%22The+Rundown+AI%22+OR+%22AI+startup%22+OR+%22AI+model%22+OR+OpenAI+OR+Anthropic+OR+Gemini+when%3A1d&hl=en-US&gl=US&ceid=US:en",
      "AI News", "🤖", "neutral", True),
     ("https://news.google.com/rss/search?q=AI+drama+OR+lawsuit+OR+acquisition+OR+funding+OR+model+release+when%3A2d&hl=en-US&gl=US&ceid=US:en",
+     "AI News", "🤖", "neutral", True),
+    ("https://news.google.com/rss/search?q=AI+%28X+OR+Twitter+OR+Reddit+OR+YouTube+OR+viral%29+%28drama+OR+claim+OR+demo+OR+controversy%29+when%3A2d&hl=en-US&gl=US&ceid=US:en",
      "AI News", "🤖", "neutral", True),
     # Sports: Kosovo sports plus major global events, controversy, and match analysis
     ("https://news.google.com/rss/search?q=Kosovo+football+OR+basketball+OR+judo+OR+sport+when%3A3d&hl=en-US&gl=US&ceid=US:en",
@@ -200,6 +221,14 @@ NEWS_SOURCES = [
     ("https://news.google.com/rss/search?q=Kosov%C3%AB+futboll+OR+basketboll+OR+xhudo+OR+sport+when%3A3d&hl=sq&gl=XK&ceid=XK:sq",
      "_GNEWS_SPORT_", "🏀", "neutral", True),
     ("https://news.google.com/rss/search?q=%22World+Cup+2026%22+OR+FIFA+World+Cup+match+red+card+referee+when%3A2d&hl=en-US&gl=US&ceid=US:en",
+     "_GNEWS_SPORT_", "🌍", "neutral", True),
+    ("https://news.google.com/rss/search?q=%22433%22+football+OR+%22433%22+World+Cup+OR+Instagram+football+stats+when%3A2d&hl=en-US&gl=US&ceid=US:en",
+     "_GNEWS_SPORT_", "⚽", "neutral", True),
+    ("https://news.google.com/rss/search?q=football+%28Instagram+OR+TikTok+OR+X+OR+Twitter+OR+viral+video+OR+post%29+World+Cup+when%3A2d&hl=en-US&gl=US&ceid=US:en",
+     "_GNEWS_SPORT_", "⚽", "neutral", True),
+    ("https://news.google.com/rss/search?q=sports+%28Instagram+OR+TikTok+OR+X+OR+Twitter+OR+viral+video+OR+post%29+%28controversy+OR+claim+OR+reaction%29+when%3A2d&hl=en-US&gl=US&ceid=US:en",
+     "_GNEWS_SPORT_", "🏀", "neutral", True),
+    ("https://news.google.com/rss/search?q=World+Cup+2026+referee+VAR+red+card+controversy+OR+decision+when%3A2d&hl=en-US&gl=US&ceid=US:en",
      "_GNEWS_SPORT_", "🌍", "neutral", True),
     ("https://news.google.com/rss/search?q=%22NBA+Finals%22+OR+%22Formula+1%22+OR+%22Grand+Prix%22+OR+UFC+fight+when%3A2d&hl=en-US&gl=US&ceid=US:en",
      "_GNEWS_SPORT_", "🏀", "neutral", True),
@@ -281,6 +310,9 @@ STOPWORDS = {
     "the", "and", "for", "that", "with", "has", "are", "was", "its",
     "his", "her", "have", "been", "from", "will", "this", "they", "but",
     "not", "also", "into", "over", "after", "before", "more", "about",
+    "report", "reports", "reported", "confirmed", "details", "context",
+    "story", "stories", "exclusive", "update", "updates", "latest", "readers",
+    "separate", "facts", "number",
 }
 
 # Source credibility tiers — used to prime the LLM's credibility score
@@ -405,6 +437,16 @@ def is_duplicate(title: str, summary: str, covered: list[set[str]]) -> bool:
     return False
 
 
+def is_intra_duplicate(candidate_kws: set[str], accepted_kws: list[set[str]]) -> bool:
+    if len(candidate_kws) < 8:
+        return False
+    for accepted in accepted_kws:
+        overlap = len(candidate_kws & accepted)
+        if overlap >= 8 and overlap / max(1, min(len(candidate_kws), len(accepted))) >= 0.55:
+            return True
+    return False
+
+
 # ── Already-committed URL tracking ────────────────────────────────────────────
 def load_existing_urls() -> set[str]:
     seen: set[str] = set()
@@ -456,11 +498,69 @@ def _candidate_lane(source: str, source_name: str, title: str) -> str:
     return "Other"
 
 
+def _candidate_priority(candidate: dict) -> int:
+    text = f"{candidate.get('title_en', '')} {candidate.get('summary', '')} {candidate.get('source', '')}".lower()
+    lane = candidate.get("lane", "Other")
+    score = 0
+
+    lane_boost = {
+        "Kosovo": 35,
+        "Serbian": 32,
+        "Sport": 28,
+        "Tech": 25,
+        "World": 20,
+        "Other": 8,
+    }
+    score += lane_boost.get(lane, 0)
+
+    dramatic_terms = [
+        "breaking", "scandal", "controversy", "controversial", "accused", "claim",
+        "claims", "alleged", "arrest", "police", "court", "protest", "resign",
+        "sanction", "threat", "attack", "red card", "referee", "var", "decision",
+        "final", "fight", "grand prix", "world cup", "433", "instagram", "tiktok",
+        "twitter", "x post", "posted on x", "reddit", "youtube", "viral", "video",
+    ]
+    score += sum(8 for term in dramatic_terms if term in text)
+
+    kosovo_terms = ["kosovo", "kosova", "kosovë", "kurti", "osmani", "prishtina", "serbia", "belgrade"]
+    score += sum(6 for term in kosovo_terms if term in text)
+
+    tech_terms = ["openai", "gemini", "anthropic", "claude", "chatgpt", "ai model", "lawsuit", "funding", "startup"]
+    score += sum(5 for term in tech_terms if term in text)
+
+    sport_terms = ["world cup", "football", "basketball", "nba", "f1", "formula 1", "ufc", "fifa", "judo"]
+    score += sum(5 for term in sport_terms if term in text)
+
+    source = candidate.get("source", "")
+    if source in SOURCE_TIERS:
+        tier, _ = SOURCE_TIERS[source]
+        score += max(0, 12 - tier * 2)
+    if source in {"433", "FIFA", "NBA", "Formula 1", "UFC"}:
+        score += 8
+
+    if any(term in text for term in ["opinion", "oped", "op-ed"]):
+        score -= 8
+
+    published_at = candidate.get("published_at")
+    if published_at:
+        age_hours = (datetime.now(timezone.utc) - published_at).total_seconds() / 3600
+        if age_hours <= 6:
+            score += 12
+        elif age_hours <= 24:
+            score += 7
+        elif age_hours <= 48:
+            score += 3
+
+    return score
+
+
 def diversify_candidates(candidates: list[dict]) -> list[dict]:
     lane_order = ["Kosovo", "Serbian", "Sport", "Tech", "World", "Other"]
     buckets: dict[str, list[dict]] = {lane: [] for lane in lane_order}
     for candidate in candidates:
         buckets.setdefault(candidate.get("lane", "Other"), []).append(candidate)
+    for bucket in buckets.values():
+        bucket.sort(key=_candidate_priority, reverse=True)
 
     diversified: list[dict] = []
     while any(buckets.values()):
@@ -470,7 +570,7 @@ def diversify_candidates(candidates: list[dict]) -> list[dict]:
 
     lane_counts = {lane: sum(1 for c in candidates if c.get("lane") == lane) for lane in lane_order}
     print("  Candidate lanes: " + ", ".join(f"{lane}={count}" for lane, count in lane_counts.items() if count))
-    return diversified
+    return diversified[:CANDIDATE_POOL_LIMIT]
 
 
 # ── RSS fetch ─────────────────────────────────────────────────────────────────
@@ -633,8 +733,10 @@ Use "Showbiz" for celebrity, entertainment, music, film, and pop culture news.
 Use "Sport" for football, basketball, judo, NBA, F1, UFC, World Cup, athlete drama, match results, refereeing controversy, transfers, and Kosovo sport.
 Use "Teknologji" for ALL AI, software, tech, and innovation news — NOT generic "AI is changing jobs" pieces.
 IMPORTANT: For AI/tech news, score SPECIFIC events highly: new model version released, company acquisition, CEO controversy, major investment. Vague trend articles score 1-4 and should be skipped.
-IMPORTANT: For controversial claims, rumors, or social-media-driven stories: do NOT state them as fact unless the source proves them. Write "pretendon", "tha", "akuzoi", or "nuk është verifikuar" and explain what is confirmed.
+IMPORTANT: For controversial claims, rumors, or social-media-driven stories: do NOT state them as fact unless the source proves them. Write "pretendon", "tha", "akuzoi", "u raportua", or "nuk është verifikuar" and explain what is confirmed.
+IMPORTANT: Social platforms are SIGNALS, not proof. A story from X/Twitter, Instagram, TikTok, YouTube, Reddit, or a sports/social account can score high only if the provided article/source gives enough context to report it responsibly.
 IMPORTANT: Do not invent Instagram/Twitter facts. If the provided article says a post exists, you may mention the post as reported by that source; otherwise omit it.
+IMPORTANT: For viral football/sports accounts such as 433, treat them as useful engagement signals. Prefer official match reports, club/league sources, or established sports outlets for facts like scores, cards, injuries, transfers, and referee decisions.
 
 RREGULL KRYESOR — KOHERENCA:
 Titulli, ekserpti dhe body-i duhet të tregojnë TË NJËJTËN histori.
@@ -870,7 +972,7 @@ def send_email(articles: list[dict], out_filename: str, run_stats: dict | None =
       <div style="padding:14px 20px;border-bottom:1px solid #2a2a2a;background:#151515;">
         <div style="font-size:12px;color:#aaa;line-height:1.6;">
           <b style="color:#fff;">Përmbledhje automatizimi:</b>
-          kandidatë {run_stats.get('candidates', '?')} • analizuar {run_stats.get('analyzed', '?')} • publikuar {len(articles)} • dublikata lokale {run_stats.get('duplicates', 0)} • dublikata brenda run-it {run_stats.get('intra_duplicates', 0)} • pikë të ulëta {run_stats.get('low_score', 0)} • gabime AI {run_stats.get('ai_failed', 0)}
+          kandidatë {run_stats.get('candidates', '?')} • analizuar {run_stats.get('analyzed', '?')} • publikuar {len(articles)} • rescue {run_stats.get('rescued', 0)} • dublikata lokale {run_stats.get('duplicates', 0)} • dublikata brenda run-it {run_stats.get('intra_duplicates', 0)} • pikë të ulëta {run_stats.get('low_score', 0)} • gabime AI {run_stats.get('ai_failed', 0)}
         </div>
         <div style="font-size:11px;color:#777;line-height:1.5;margin-top:4px;">Lanes: {_format_counts(run_stats.get('lanes', {}))}</div>
         <div style="font-size:11px;color:#777;line-height:1.5;">Kategori të publikuara: {_format_counts(run_stats.get('accepted_categories', {}))}</div>
@@ -1007,6 +1109,7 @@ def main() -> None:
         "intra_duplicates": 0,
         "ai_failed": 0,
         "low_score": 0,
+        "rescued": 0,
         "accepted_categories": {},
     }
     for candidate in candidates:
@@ -1030,6 +1133,9 @@ def main() -> None:
     for c in candidates:
         if len(results) >= MAX_PER_RUN:
             break
+        if run_stats["analyzed"] >= MAX_AI_CALLS:
+            print(f"  AI call cap reached after {run_stats['analyzed']} analyses")
+            break
 
         title_en = c["title_en"]
         summary = c["summary"]
@@ -1040,7 +1146,7 @@ def main() -> None:
             continue
 
         candidate_kws = _kw(title_en) | _kw(summary[:300])
-        if any(len(candidate_kws & akw) >= 4 for akw in accepted_kws):
+        if is_intra_duplicate(candidate_kws, accepted_kws):
             print(f"  [DUP-INTRA] {title_en[:70]}")
             run_stats["intra_duplicates"] += 1
             continue
@@ -1053,12 +1159,18 @@ def main() -> None:
             continue
 
         score = float(analysis.get("score", 0))
-        if score < MIN_SCORE:
+        threshold = RESCUE_MIN_SCORE if len(results) < MIN_PER_RUN else MIN_SCORE
+        rescue_accept = score < MIN_SCORE and score >= threshold and len(results) < MIN_PER_RUN
+        if score < threshold:
             print(f"  [LOW {score:.1f}] {title_en[:70]}")
             run_stats["low_score"] += 1
             continue
 
-        print(f"  [OK  {score:.1f}] {title_en[:70]}")
+        if rescue_accept:
+            print(f"  [RESCUE {score:.1f}] {title_en[:70]}")
+            run_stats["rescued"] += 1
+        else:
+            print(f"  [OK  {score:.1f}] {title_en[:70]}")
         category = analysis.get("category", "Botë")
         run_stats["accepted_categories"][category] = run_stats["accepted_categories"].get(category, 0) + 1
 
@@ -1105,6 +1217,7 @@ def main() -> None:
         f"duplicates={run_stats['duplicates']}, "
         f"intra_duplicates={run_stats['intra_duplicates']}, "
         f"low_score={run_stats['low_score']}, "
+        f"rescued={run_stats['rescued']}, "
         f"ai_failed={run_stats['ai_failed']}"
     )
 
@@ -1135,8 +1248,12 @@ def main() -> None:
         print(f"  → {out}")
         send_email(results, out_filename, run_stats)
     else:
-        print("  Nothing new — no file written")
-        send_email([], "no-new-articles", run_stats)
+        raise RuntimeError(
+            "No articles were published after rescue mode. "
+            f"Candidates={run_stats['candidates']}, analyzed={run_stats['analyzed']}, "
+            f"duplicates={run_stats['duplicates']}, intra_duplicates={run_stats['intra_duplicates']}, "
+            f"low_score={run_stats['low_score']}, ai_failed={run_stats['ai_failed']}."
+        )
 
 
 if __name__ == "__main__":
