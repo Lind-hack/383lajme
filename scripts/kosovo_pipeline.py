@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Kosovo News Automated Pipeline — runs every 2 hours via GitHub Actions.
+Kosovo News Automated Pipeline — runs hourly via GitHub Actions.
 Fetches Kosovo news from international/Balkan sources, deduplicates against
 local outlets (Telegrafi, Koha), scores for engagement, generates Albanian
 content, finds/generates images, writes JSON, sends email notification.
@@ -52,7 +52,6 @@ except ImportError:
 
 # ── Config ────────────────────────────────────────────────────────────────────
 GOOGLE_AI_API_KEY  = os.environ.get("GOOGLE_AI_API_KEY", "")
-GROQ_API_KEY       = os.environ.get("GROQ_API_KEY", "")
 GOOGLE_SEARCH_KEY  = os.environ.get("GOOGLE_SEARCH_API_KEY", "")
 GOOGLE_CSE_ID      = os.environ.get("GOOGLE_CSE_ID", "")
 PEXELS_API_KEY     = os.environ.get("PEXELS_API_KEY", "")
@@ -61,7 +60,7 @@ GMAIL_APP_PASSWORD = os.environ.get("GMAIL_APP_PASSWORD", "")
 REMOVE_SECRET      = os.environ.get("REMOVE_SECRET", "")
 SITE_URL           = os.environ.get("SITE_URL", "https://383lajme.vercel.app")
 RECIPIENT_EMAIL    = os.environ.get("RECIPIENT_EMAIL") or "lindsylqa@gmail.com"
-# LLM providers: prefer Gemini for article scoring/writing, then Groq if Gemini fails.
+# LLM provider: Gemini only for article scoring/writing.
 LLM_PROVIDERS: list[dict[str, str]] = []
 if GOOGLE_AI_API_KEY:
     LLM_PROVIDERS.append({
@@ -70,28 +69,27 @@ if GOOGLE_AI_API_KEY:
         "model": "gemini-2.0-flash",
         "key": GOOGLE_AI_API_KEY,
     })
-if GROQ_API_KEY:
-    LLM_PROVIDERS.append({
-        "provider": "Groq",
-        "url": "https://api.groq.com/openai/v1/chat/completions",
-        "model": "llama-3.3-70b-versatile",
-        "key": GROQ_API_KEY,
-    })
 LLM_PROVIDER = LLM_PROVIDERS[0]["provider"] if LLM_PROVIDERS else "none"
 LLM_MODEL = LLM_PROVIDERS[0]["model"] if LLM_PROVIDERS else ""
+LLM_SUCCESS_COUNTS: dict[str, int] = {}
 # Legacy aliases kept for backward compat
 GEMMA_URL   = LLM_PROVIDERS[0]["url"] if LLM_PROVIDERS else ""
 GEMMA_MODEL = LLM_MODEL
 MAX_AGE_HOURS      = 72
-MAX_PER_RUN        = 18
-MIN_PER_RUN        = 8
+MAX_PER_RUN        = 14
+MIN_PER_RUN        = 6
 MAX_AI_CALLS       = 30
-MIN_SCORE          = 4.5
-RESCUE_MIN_SCORE   = 3.2
+MIN_SCORE          = 6.0
 CANDIDATE_POOL_LIMIT = 90
 AI_CAP             = 8
 SPORT_CAP          = 7
 WORLD_CAP          = 7
+SCORE_WEIGHTS      = {
+    "relevance": 0.35,
+    "urgency": 0.20,
+    "interest": 0.30,
+    "credibility": 0.15,
+}
 
 SCRIPT_DIR  = Path(__file__).parent
 OUTPUT_DIR  = SCRIPT_DIR.parent / "data" / "auto-articles"
@@ -651,10 +649,10 @@ def fetch_candidates(seen_urls: set[str]) -> list[dict]:
     return candidates
 
 
-# ── LLM API (Gemini primary, Groq fallback) ───────────────────────────────────
+# ── LLM API (Gemini only) ─────────────────────────────────────────────────────
 def _gemma(messages: list[dict], max_tokens: int = 1024, temperature: float = 0.3) -> str:
     if not LLM_PROVIDERS:
-        raise RuntimeError("Set GOOGLE_AI_API_KEY or GROQ_API_KEY before running the Kosovo pipeline")
+        raise RuntimeError("Set GOOGLE_AI_API_KEY before running the Kosovo pipeline")
 
     last_error: Exception | None = None
     for llm in LLM_PROVIDERS:
@@ -667,12 +665,13 @@ def _gemma(messages: list[dict], max_tokens: int = 1024, temperature: float = 0.
             )
             resp.raise_for_status()
             print(f"  LLM success: {llm['provider']} ({llm['model']})")
+            LLM_SUCCESS_COUNTS[llm["provider"]] = LLM_SUCCESS_COUNTS.get(llm["provider"], 0) + 1
             return resp.json()["choices"][0]["message"]["content"]
         except Exception as e:
             last_error = e
             print(f"  LLM provider failed: {llm['provider']} ({llm['model']}): {e}")
 
-    raise RuntimeError(f"All LLM providers failed: {last_error}")
+    raise RuntimeError(f"Gemini failed: {last_error}")
 
 
 def _parse_json(text: str) -> dict:
@@ -686,6 +685,34 @@ def _parse_json(text: str) -> dict:
     if m:
         return json.loads(m.group())
     return json.loads(text)
+
+
+def _bounded_score(value: object, default: float = 1.0) -> float:
+    try:
+        numeric = float(value)
+    except (TypeError, ValueError):
+        numeric = default
+    return max(1.0, min(10.0, numeric))
+
+
+def calculate_weighted_score(breakdown: dict | None, fallback: object = 0) -> float:
+    if not isinstance(breakdown, dict):
+        return round(_bounded_score(fallback, 0), 1)
+    weighted = sum(
+        _bounded_score(breakdown.get(key), 1.0) * weight
+        for key, weight in SCORE_WEIGHTS.items()
+    )
+    return round(weighted, 1)
+
+
+def score_formula_text(breakdown: dict | None) -> str:
+    if not isinstance(breakdown, dict):
+        return "Nuk pati breakdown te plote nga Gemini."
+    parts = []
+    for key, weight in SCORE_WEIGHTS.items():
+        value = _bounded_score(breakdown.get(key), 1.0)
+        parts.append(f"{key} {value:.1f} x {weight:.2f}")
+    return " + ".join(parts)
 
 
 def _heuristic_category(title: str, summary: str, lane: str = "") -> str:
@@ -705,49 +732,27 @@ def _heuristic_category(title: str, summary: str, lane: str = "") -> str:
     return "Politikë" if any(word in text for word in ["kosovo", "kosova", "kurti", "osmani", "serbia", "prishtina"]) else "Botë"
 
 
-def fallback_article_analysis(title: str, summary: str, source: str = "", lane: str = "") -> dict:
-    clean_title = _clean_title(title).strip() or "Lajm i ri"
-    clean_summary = _clean_html(summary).strip()
-    if not clean_summary:
-        clean_summary = f"Burimi {source or 'i monitoruar'} publikoi një zhvillim të ri për këtë temë."
+ALBANIAN_MARKERS = {
+    "dhe", "në", "ne", "për", "per", "që", "qe", "është", "eshte",
+    "nga", "me", "një", "nje", "të", "te", "si", "por", "kjo",
+    "ky", "ajo", "ai", "u", "ka", "kanë", "kane", "tha", "sipas",
+    "kosovë", "kosove", "kosova", "shqip", "lajmi", "lexuesit",
+}
 
-    category = _heuristic_category(clean_title, clean_summary, lane)
-    score = 4.6 if lane in {"Kosovo", "Serbian", "Sport", "Tech"} else 4.2
-    social_warning = ""
-    if any(term in f"{clean_title} {clean_summary}".lower() for term in ["instagram", "twitter", "x ", "tiktok", "reddit", "viral", "post"]):
-        social_warning = " Pjesa që lidhet me rrjetet sociale duhet lexuar si pretendim i raportuar, jo si fakt i pavarur."
 
-    body = (
-        f"{clean_title}. {clean_summary}\n\n"
-        f"Ky artikull u krijua nga përmbledhja e burimit {source or 'të monitoruar'}, sepse shërbimi AI nuk ktheu përgjigje gjatë këtij run-i. "
-        "Redaksia automatike e 383 Lajme e përfshiu sepse tema ka sinjal aktualiteti dhe interes për lexuesit. "
-        f"{social_warning}\n\n"
-        "Pikat kryesore janë marrë nga titulli dhe përmbledhja e burimit origjinal. Lexuesi duhet të klikojë artikullin origjinal për detajet e plota, deklaratat e sakta dhe kontekstin shtesë. "
-        "Nëse bëhet fjalë për debat, akuzë, video virale ose postim në rrjete sociale, formulimi duhet trajtuar si raportim i asaj që u tha, jo si verifikim përfundimtar."
-    )
-
-    return {
-        "score": score,
-        "breakdown": {
-            "relevance": 6 if lane in {"Kosovo", "Serbian"} else 5,
-            "urgency": 6,
-            "interest": 6,
-            "credibility": 4,
-        },
-        "featured": False,
-        "category": category,
-        "breaking": False,
-        "reason": f"Fallback pa AI: {source or 'burim i monitoruar'} u publikua sepse ka sinjal aktual dhe kaloi filtrat bazë.",
-        "title": clean_title[:140],
-        "excerpt": f"{clean_summary[:160]}. Lexo burimin origjinal për kontekstin e plotë.",
-        "body": body,
-        "tone": "neutral",
-        "source_bias": "neutral",
-    }
+def is_albanian_output(analysis: dict) -> bool:
+    text = " ".join(str(analysis.get(key, "")) for key in ["title", "excerpt", "body", "reason"]).lower()
+    words = re.findall(r"[a-zA-ZÀ-ÿ]+", text)
+    if len(words) < 80:
+        return False
+    marker_hits = sum(1 for word in words if word in ALBANIAN_MARKERS)
+    marker_ratio = marker_hits / max(1, len(words))
+    has_albanian_chars = any(ch in text for ch in "ëçËÇ")
+    return marker_hits >= 10 and (marker_ratio >= 0.035 or has_albanian_chars)
 
 
 def analyze_and_translate(title: str, summary: str, source: str = "") -> dict | None:
-    """Score and translate an article in one Gemma call. Returns None if all retries fail."""
+    """Score and translate an article in one Gemini call. Returns None if all retries fail."""
     tier_info, tier_num = "", 0
     if source and source in SOURCE_TIERS:
         tier_num, tier_desc = SOURCE_TIERS[source]
@@ -865,17 +870,23 @@ RREGULLA GJUHËSORE:
 Title: {title}
 Summary: {summary[:1200]}"""
 
-    for attempt in range(2):
+    for attempt in range(3):
         try:
-            raw = _gemma([{"role": "user", "content": prompt}], max_tokens=6000, temperature=0.65)
-            return _parse_json(raw)
+            final_prompt = prompt
+            if attempt == 2:
+                final_prompt += "\n\nKRITIKE: Pergjigju VETEM shqip. Titulli, excerpt, reason dhe body duhet te jene ne shqip, jo anglisht/serbisht. Perkthe dhe riformulo cdo fjali."
+            raw = _gemma([{"role": "user", "content": final_prompt}], max_tokens=6000, temperature=0.65)
+            parsed = _parse_json(raw)
+            if not is_albanian_output(parsed):
+                raise ValueError("Gemini output was not Albanian enough")
+            return parsed
         except Exception as e:
-            if attempt < 1:
+            if attempt < 2:
                 wait = 4
                 print(f"  analyze_and_translate attempt {attempt + 1} failed: {e} — retrying in {wait}s")
                 time.sleep(wait)
             else:
-                print(f"  analyze_and_translate failed after 2 attempts: {e} — skipping article")
+                print(f"  analyze_and_translate failed after 3 attempts: {e} — skipping article")
                 return None
 
 
@@ -1013,6 +1024,25 @@ def _format_counts(counts: dict[str, int]) -> str:
     return ", ".join(f"{key}: {value}" for key, value in sorted(counts.items(), key=lambda item: (-item[1], item[0])))
 
 
+def _scoring_explainer_html(run_stats: dict) -> str:
+    provider_counts = run_stats.get("llm_success_counts", {})
+    provider_text = _format_counts(provider_counts) if provider_counts else "Gemini nuk ktheu artikuj të publikuar"
+    return f"""
+      <div style="padding:14px 20px;border-bottom:1px solid #2a2a2a;background:#111;">
+        <div style="font-size:12px;color:#ddd;line-height:1.6;">
+          <b style="color:#fff;">AI provider:</b> {provider_text}. Pipeline-i i artikujve përdor vetëm Google Gemini; Groq nuk përdoret për përkthim/shkrim në këtë workflow.
+        </div>
+        <div style="font-size:12px;color:#aaa;line-height:1.6;margin-top:6px;">
+          <b style="color:#fff;">Si llogaritet score:</b>
+          relevance 35% + urgency 20% + interest 30% + credibility 15%.
+          Artikujt publikohen vetëm nëse score është të paktën {MIN_SCORE:.1f}/10 dhe titulli, excerpt-i, arsyeja dhe body janë në shqip.
+        </div>
+        <div style="font-size:11px;color:#777;line-height:1.5;margin-top:6px;">
+          Relevance mat lidhjen me Kosovën/lexuesin shqiptar. Urgency mat sa i freskët dhe i kohës është lajmi. Interest mat dramën, debatueshmërinë, viralitetin dhe klikueshmërinë. Credibility mat besueshmërinë e burimit dhe e ul pikën për pretendime të paverifikuara.
+        </div>
+      </div>"""
+
+
 def send_email(articles: list[dict], out_filename: str, run_stats: dict | None = None) -> None:
     missing = [
         name for name, value in {
@@ -1041,11 +1071,12 @@ def send_email(articles: list[dict], out_filename: str, run_stats: dict | None =
       <div style="padding:14px 20px;border-bottom:1px solid #2a2a2a;background:#151515;">
         <div style="font-size:12px;color:#aaa;line-height:1.6;">
           <b style="color:#fff;">Përmbledhje automatizimi:</b>
-          kandidatë {run_stats.get('candidates', '?')} • analizuar {run_stats.get('analyzed', '?')} • publikuar {len(articles)} • fallback {run_stats.get('fallback_articles', 0)} • rescue {run_stats.get('rescued', 0)} • dublikata lokale {run_stats.get('duplicates', 0)} • dublikata brenda run-it {run_stats.get('intra_duplicates', 0)} • pikë të ulëta {run_stats.get('low_score', 0)} • gabime AI {run_stats.get('ai_failed', 0)}
+          kandidatë {run_stats.get('candidates', '?')} • analizuar {run_stats.get('analyzed', '?')} • publikuar {len(articles)} • dublikata lokale {run_stats.get('duplicates', 0)} • dublikata brenda run-it {run_stats.get('intra_duplicates', 0)} • pikë të ulëta {run_stats.get('low_score', 0)} • gabime AI/gjuhë {run_stats.get('ai_failed', 0)}
         </div>
         <div style="font-size:11px;color:#777;line-height:1.5;margin-top:4px;">Lanes: {_format_counts(run_stats.get('lanes', {}))}</div>
         <div style="font-size:11px;color:#777;line-height:1.5;">Kategori të publikuara: {_format_counts(run_stats.get('accepted_categories', {}))}</div>
       </div>"""
+    scoring_html = _scoring_explainer_html(run_stats)
 
     rows = []
     for i, a in enumerate(articles, 1):
@@ -1077,12 +1108,14 @@ def send_email(articles: list[dict], out_filename: str, run_stats: dict | None =
             u_v = breakdown.get("urgency", "?")
             i_v = breakdown.get("interest", "?")
             c_v = breakdown.get("credibility", "?")
+            formula = html.escape(a.get("score_formula") or score_formula_text(breakdown))
             breakdown_html = f"""<div style="display:grid;grid-template-columns:1fr 1fr;gap:3px 16px;margin:6px 0 8px;font-size:11px;color:#777;">
               <span>🗺 Relevanca: <b style="color:#ccc">{r_v}/10</b></span>
               <span>⚡ Urgjenca: <b style="color:#ccc">{u_v}/10</b></span>
               <span>💬 Interesi: <b style="color:#ccc">{i_v}/10</b></span>
               <span>✅ Kredibiliteti: <b style="color:#ccc">{c_v}/10</b></span>
-            </div>"""
+            </div>
+            <div style="font-size:10px;color:#666;margin:-2px 0 8px;line-height:1.4;">Formula: {formula} = <b style="color:#aaa">{score:.1f}/10</b></div>"""
 
         reason_row = f'<div style="font-size:12px;color:#999;font-style:italic;margin-bottom:10px;line-height:1.4;">{reason}</div>' if reason else ""
 
@@ -1124,6 +1157,7 @@ def send_email(articles: list[dict], out_filename: str, run_stats: dict | None =
         <p style="color:#666;margin:0;font-size:13px;">{now} • Sistemi automatik i lajmeve ndërkombëtare</p>
       </div>
       {summary_html}
+      {scoring_html}
       <table width="100%" cellpadding="0" cellspacing="0">
         {''.join(rows)}
       </table>
@@ -1178,10 +1212,9 @@ def main() -> None:
         "duplicates": 0,
         "intra_duplicates": 0,
         "ai_failed": 0,
-        "fallback_articles": 0,
         "low_score": 0,
-        "rescued": 0,
         "accepted_categories": {},
+        "llm_success_counts": LLM_SUCCESS_COUNTS,
     }
     for candidate in candidates:
         lane = candidate.get("lane", "Other")
@@ -1226,23 +1259,17 @@ def main() -> None:
         analysis = analyze_and_translate(title_en, summary, source=c["source"])
         if analysis is None:
             run_stats["ai_failed"] += 1
-            analysis = fallback_article_analysis(title_en, summary, source=c["source"], lane=c.get("lane", ""))
-            run_stats["fallback_articles"] += 1
-            print(f"  [FALLBACK] {title_en[:70]}")
+            print(f"  [SKIP-AI/LANG] {title_en[:70]}")
+            continue
 
-        score = float(analysis.get("score", 0))
-        threshold = RESCUE_MIN_SCORE if len(results) < MIN_PER_RUN else MIN_SCORE
-        rescue_accept = score < MIN_SCORE and score >= threshold and len(results) < MIN_PER_RUN
-        if score < threshold:
+        score = calculate_weighted_score(analysis.get("breakdown"), analysis.get("score", 0))
+        analysis["score"] = score
+        if score < MIN_SCORE:
             print(f"  [LOW {score:.1f}] {title_en[:70]}")
             run_stats["low_score"] += 1
             continue
 
-        if rescue_accept:
-            print(f"  [RESCUE {score:.1f}] {title_en[:70]}")
-            run_stats["rescued"] += 1
-        else:
-            print(f"  [OK  {score:.1f}] {title_en[:70]}")
+        print(f"  [OK  {score:.1f}] {title_en[:70]}")
         category = analysis.get("category", "Botë")
         run_stats["accepted_categories"][category] = run_stats["accepted_categories"].get(category, 0) + 1
 
@@ -1276,6 +1303,7 @@ def main() -> None:
             "engagement_score": round(score, 1),
             "score_reason":   analysis.get("reason", ""),
             "score_breakdown": analysis.get("breakdown", {}),
+            "score_formula":  score_formula_text(analysis.get("breakdown")),
             "image_url":      image_url,
             "video_clip_url": video_clip_url,
             "created_at":     datetime.now(timezone.utc).isoformat(),
@@ -1289,8 +1317,6 @@ def main() -> None:
         f"duplicates={run_stats['duplicates']}, "
         f"intra_duplicates={run_stats['intra_duplicates']}, "
         f"low_score={run_stats['low_score']}, "
-        f"rescued={run_stats['rescued']}, "
-        f"fallback={run_stats['fallback_articles']}, "
         f"ai_failed={run_stats['ai_failed']}"
     )
 
@@ -1322,7 +1348,7 @@ def main() -> None:
         send_email(results, out_filename, run_stats)
     else:
         raise RuntimeError(
-            "No articles were published after rescue mode. "
+            "No articles were published because none passed the Gemini, Albanian-language, duplicate, and score filters. "
             f"Candidates={run_stats['candidates']}, analyzed={run_stats['analyzed']}, "
             f"duplicates={run_stats['duplicates']}, intra_duplicates={run_stats['intra_duplicates']}, "
             f"low_score={run_stats['low_score']}, ai_failed={run_stats['ai_failed']}."
