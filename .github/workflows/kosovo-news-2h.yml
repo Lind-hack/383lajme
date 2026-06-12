@@ -47,6 +47,8 @@ jobs:
       - name: Run Kosovo pipeline
         env:
           GOOGLE_AI_API_KEY:    ${{ secrets.GOOGLE_AI_API_KEY }}
+          GOOGLE_AI_MODEL:      gemma-4-26b-a4b-it
+          GOOGLE_AI_BACKUP_MODEL: gemma-4-31b-it
           GOOGLE_SEARCH_API_KEY: ${{ secrets.GOOGLE_SEARCH_API_KEY }}
           GOOGLE_CSE_ID:        ${{ secrets.GOOGLE_CSE_ID }}
           PEXELS_API_KEY:       ${{ secrets.PEXELS_API_KEY }}
