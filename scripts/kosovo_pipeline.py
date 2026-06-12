@@ -836,7 +836,13 @@ def search_youtube_clip(query: str) -> str | None:
 
 
 # ── Email notification ────────────────────────────────────────────────────────
-def send_email(articles: list[dict], out_filename: str) -> None:
+def _format_counts(counts: dict[str, int]) -> str:
+    if not counts:
+        return "none"
+    return ", ".join(f"{key}: {value}" for key, value in sorted(counts.items(), key=lambda item: (-item[1], item[0])))
+
+
+def send_email(articles: list[dict], out_filename: str, run_stats: dict | None = None) -> None:
     missing = [
         name for name, value in {
             "GMAIL_USER": GMAIL_USER,
@@ -858,6 +864,17 @@ def send_email(articles: list[dict], out_filename: str) -> None:
     else:
         subject = f"383 Lajme — raporti automatik: 0 artikuj të rinj [{now}]"
         heading = "383 Lajme — nuk u gjetën artikuj të rinj"
+
+    run_stats = run_stats or {}
+    summary_html = f"""
+      <div style="padding:14px 20px;border-bottom:1px solid #2a2a2a;background:#151515;">
+        <div style="font-size:12px;color:#aaa;line-height:1.6;">
+          <b style="color:#fff;">Përmbledhje automatizimi:</b>
+          kandidatë {run_stats.get('candidates', '?')} • analizuar {run_stats.get('analyzed', '?')} • publikuar {len(articles)} • dublikata lokale {run_stats.get('duplicates', 0)} • dublikata brenda run-it {run_stats.get('intra_duplicates', 0)} • pikë të ulëta {run_stats.get('low_score', 0)} • gabime AI {run_stats.get('ai_failed', 0)}
+        </div>
+        <div style="font-size:11px;color:#777;line-height:1.5;margin-top:4px;">Lanes: {_format_counts(run_stats.get('lanes', {}))}</div>
+        <div style="font-size:11px;color:#777;line-height:1.5;">Kategori të publikuara: {_format_counts(run_stats.get('accepted_categories', {}))}</div>
+      </div>"""
 
     rows = []
     for i, a in enumerate(articles, 1):
@@ -935,6 +952,7 @@ def send_email(articles: list[dict], out_filename: str) -> None:
         <h2 style="color:#fff;margin:0 0 6px;font-size:20px;">{heading}</h2>
         <p style="color:#666;margin:0;font-size:13px;">{now} • Sistemi automatik i lajmeve ndërkombëtare</p>
       </div>
+      {summary_html}
       <table width="100%" cellpadding="0" cellspacing="0">
         {''.join(rows)}
       </table>
@@ -981,6 +999,19 @@ def main() -> None:
     candidates = fetch_candidates(seen_urls)
     candidates = diversify_candidates(candidates)
     print(f"  {len(candidates)} fresh candidates after source/lane filtering")
+    run_stats = {
+        "candidates": len(candidates),
+        "lanes": {},
+        "analyzed": 0,
+        "duplicates": 0,
+        "intra_duplicates": 0,
+        "ai_failed": 0,
+        "low_score": 0,
+        "accepted_categories": {},
+    }
+    for candidate in candidates:
+        lane = candidate.get("lane", "Other")
+        run_stats["lanes"][lane] = run_stats["lanes"].get(lane, 0) + 1
 
     # Seed used_images from previous runs so same photo isn't reused across hourly jobs
     used_images: set[str] = set()
@@ -1005,26 +1036,33 @@ def main() -> None:
 
         if is_duplicate(title_en, summary, covered):
             print(f"  [DUP]  {title_en[:70]}")
+            run_stats["duplicates"] += 1
             continue
 
         candidate_kws = _kw(title_en) | _kw(summary[:300])
         if any(len(candidate_kws & akw) >= 4 for akw in accepted_kws):
             print(f"  [DUP-INTRA] {title_en[:70]}")
+            run_stats["intra_duplicates"] += 1
             continue
 
+        run_stats["analyzed"] += 1
         analysis = analyze_and_translate(title_en, summary, source=c["source"])
         if analysis is None:
             print(f"  [SKIP] {title_en[:70]}")
+            run_stats["ai_failed"] += 1
             continue
 
         score = float(analysis.get("score", 0))
         if score < MIN_SCORE:
             print(f"  [LOW {score:.1f}] {title_en[:70]}")
+            run_stats["low_score"] += 1
             continue
 
         print(f"  [OK  {score:.1f}] {title_en[:70]}")
+        category = analysis.get("category", "Botë")
+        run_stats["accepted_categories"][category] = run_stats["accepted_categories"].get(category, 0) + 1
 
-        image_url = get_image(c["url"], title_en, c.get("raw_image"), analysis.get("category", ""), used_images)
+        image_url = get_image(c["url"], title_en, c.get("raw_image"), category, used_images)
         used_images.add(image_url)
 
         article_title = analysis.get("title", title_en)
@@ -1047,7 +1085,7 @@ def main() -> None:
             "source_flag":    c["source_flag"],
             "source_bias":    analysis.get("source_bias", c["source_bias"]),
             "tone":           analysis.get("tone", "neutral"),
-            "category":       analysis.get("category", "Botë"),
+            "category":       category,
             "published_at":   pub_dt.isoformat(),
             "reading_time":   max(1, round(len(body.split()) / 200)),
             "featured":       featured,
@@ -1061,6 +1099,14 @@ def main() -> None:
         accepted_kws.append(candidate_kws)
 
     print(f"  {len(results)} articles ready")
+    print(
+        "  Selection summary: "
+        f"analyzed={run_stats['analyzed']}, "
+        f"duplicates={run_stats['duplicates']}, "
+        f"intra_duplicates={run_stats['intra_duplicates']}, "
+        f"low_score={run_stats['low_score']}, "
+        f"ai_failed={run_stats['ai_failed']}"
+    )
 
     # Cap "AI News" GNews articles so they don't crowd out Kosovo coverage
     ai_articles = [r for r in results if r.get("source") == "AI News"]
@@ -1087,10 +1133,10 @@ def main() -> None:
         out = OUTPUT_DIR / out_filename
         out.write_text(json.dumps(results, ensure_ascii=False, indent=2), encoding="utf-8")
         print(f"  → {out}")
-        send_email(results, out_filename)
+        send_email(results, out_filename, run_stats)
     else:
         print("  Nothing new — no file written")
-        send_email([], "no-new-articles")
+        send_email([], "no-new-articles", run_stats)
 
 
 if __name__ == "__main__":
