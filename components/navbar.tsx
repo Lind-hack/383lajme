@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { MapPin } from "lucide-react";
 import UserMenu from "./user-menu";
-import DateLine from "./date-line";
 
 const NAV_LINKS = [
   { label: "Politikë", href: "/kategori/politike" },
@@ -140,55 +139,6 @@ export default function Navbar() {
           <UserMenu />
         </div>
       </div>
-
-      {/* Masthead date strip — desktop only, 28px, pushes total nav-h to 92px */}
-      <div className="nav-masthead">
-        <div
-          style={{
-            maxWidth: "1280px",
-            margin: "0 auto",
-            padding: "0 24px",
-            height: "28px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-        >
-          <DateLine />
-          <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-            <span
-              style={{
-                width: "6px",
-                height: "6px",
-                background: "#FF4422",
-                display: "inline-block",
-                flexShrink: 0,
-              }}
-            />
-            <span
-              style={{
-                fontSize: "10px",
-                fontWeight: 700,
-                letterSpacing: "0.18em",
-                textTransform: "uppercase",
-                color: "#6B6B6B",
-              }}
-            >
-              EDICIONI I DITËS
-            </span>
-          </div>
-        </div>
-      </div>
-
-      <style>{`
-        .nav-masthead {
-          border-top: 1px solid #E8E3DB;
-          background: #F9F6F1;
-        }
-        @media (max-width: 767px) {
-          .nav-masthead { display: none; }
-        }
-      `}</style>
     </header>
   );
 }
