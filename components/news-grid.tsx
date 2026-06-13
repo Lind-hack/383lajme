@@ -1,10 +1,6 @@
-"use client";
-
 import { type Article } from "@/lib/mock-data";
-import { formatDateShortSq } from "@/lib/date-sq";
 import SectionLabel from "./section-label";
-import LeadStory from "./lead-story";
-import CompactStory from "./compact-story";
+import ArticleCard from "./article-card";
 
 interface NewsGridProps {
   articles: Article[];
@@ -13,44 +9,18 @@ interface NewsGridProps {
 }
 
 export default function NewsGrid({ articles, title, accentColor = "#FF4422" }: NewsGridProps) {
-  const lead = articles[0];
-  const stack = articles.slice(1, 4);
-  const bottom = articles.slice(4, 6);
-  const hasBottom = articles.length >= 5;
-
-  if (!lead) return null;
-
   return (
     <section>
-      <SectionLabel
-        label={title}
-        accent={accentColor}
-        marginBottom={28}
-        rule="double"
-        kicker={`EDICIONI · ${formatDateShortSq()}`}
-      />
+      <SectionLabel label={title} accent={accentColor} marginBottom={28} />
 
-      {/* Lead + stack */}
-      <div className="kryesore-grid">
-        {/* Lead — big left story */}
-        <LeadStory article={lead} />
-
-        {/* Stack — 3 compact stories right */}
-        <div className="kryesore-stack">
-          {stack.map((article, i) => (
-            <CompactStory key={article.id} article={article} index={i} />
-          ))}
-        </div>
+      {/* Grid */}
+      <div className="grid gap-5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+        {articles.map((article, i) => (
+          <div key={article.id}>
+            <ArticleCard article={article} variant="grid" index={i} />
+          </div>
+        ))}
       </div>
-
-      {/* Bottom row — 2 wide stories */}
-      {hasBottom && (
-        <div className="kryesore-bottom">
-          {bottom.map((article, i) => (
-            <CompactStory key={article.id} article={article} index={i + stack.length} variant="wide" />
-          ))}
-        </div>
-      )}
     </section>
   );
 }

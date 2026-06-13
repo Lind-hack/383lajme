@@ -1,10 +1,9 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { EASE, FONT } from "@/lib/tokens";
+import { EASE } from "@/lib/tokens";
 import { type Article, timeAgo, calcReadingTime } from "@/lib/mock-data";
 import { getCategoryColor, getCategoryBg } from "@/lib/category-colors";
 import SourceBadge from "./source-badge";
@@ -15,20 +14,11 @@ interface HeroDispatchProps {
 
 export default function HeroDispatch({ article }: HeroDispatchProps) {
   const catColor = getCategoryColor(article.category);
-  const bgFallback = `linear-gradient(135deg, ${getCategoryBg(article.category, 0.15)} 0%, #1A1A1A 100%)`;
-  const ref = useRef<HTMLDivElement>(null);
-  const prefersReducedMotion = useReducedMotion();
-
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start start", "end start"],
-  });
-  const rawY = useTransform(scrollYProgress, [0, 1], ["0%", "12%"]);
-  const parallaxY = prefersReducedMotion ? "0%" : rawY;
+  const catBg = getCategoryBg(article.category, 0.15);
+  const bgFallback = `linear-gradient(135deg, ${catColor} 0%, #1A1A1A 100%)`;
 
   return (
     <motion.div
-      ref={ref}
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
@@ -41,35 +31,33 @@ export default function HeroDispatch({ article }: HeroDispatchProps) {
         boxShadow: "0 8px 48px rgba(0,0,0,0.18)",
       }}
     >
-      {/* Parallax image layer */}
+      {/* Background image or fallback gradient */}
       {article.imageUrl ? (
-        <motion.div
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={article.imageUrl}
+          alt=""
+          aria-hidden="true"
           style={{
             position: "absolute",
-            inset: "-12% 0",
-            y: parallaxY,
+            inset: 0,
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            objectPosition: "center",
           }}
-        >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={article.imageUrl}
-            alt=""
-            aria-hidden="true"
-            style={{
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-              objectPosition: "center",
-              transform: "scale(1.12)",
-              transformOrigin: "center top",
-            }}
-          />
-        </motion.div>
+        />
       ) : (
-        <div style={{ position: "absolute", inset: 0, background: bgFallback }} />
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            background: bgFallback,
+          }}
+        />
       )}
 
-      {/* Dark gradient overlay */}
+      {/* Dark gradient overlay — heavy at bottom, light at top */}
       <div
         style={{
           position: "absolute",
@@ -79,7 +67,7 @@ export default function HeroDispatch({ article }: HeroDispatchProps) {
         }}
       />
 
-      {/* Top-left: plain text overline — category pill only */}
+      {/* Top-left badges */}
       <div
         style={{
           position: "absolute",
@@ -87,15 +75,30 @@ export default function HeroDispatch({ article }: HeroDispatchProps) {
           left: "36px",
           display: "flex",
           alignItems: "center",
-          gap: "10px",
+          gap: "8px",
         }}
       >
-        {/* Single category pill */}
         <span
           style={{
             fontSize: "11px",
             fontWeight: 800,
             letterSpacing: "0.15em",
+            textTransform: "uppercase",
+            color: "#FF4422",
+            background: "rgba(255,68,34,0.15)",
+            padding: "4px 10px",
+            borderRadius: "100px",
+            border: "1.5px solid rgba(255,68,34,0.35)",
+            backdropFilter: "blur(8px)",
+          }}
+        >
+          NJOFTIM #{article.dispatch}
+        </span>
+        <span
+          style={{
+            fontSize: "11px",
+            fontWeight: 700,
+            letterSpacing: "0.1em",
             textTransform: "uppercase",
             color: "#ffffff",
             background: `${catColor}30`,
@@ -107,13 +110,15 @@ export default function HeroDispatch({ article }: HeroDispatchProps) {
         >
           {article.category}
         </span>
-
-        {/* NJOFTIM # and timeAgo as plain white text — no pill */}
-        <span style={{ fontSize: "11px", fontWeight: 600, color: "rgba(255,255,255,0.65)", letterSpacing: "0.06em" }}>
-          NJOFTIM #{article.dispatch}
-        </span>
-        <span style={{ fontSize: "11px", color: "rgba(255,255,255,0.45)" }}>
-          {timeAgo(article.publishedAt)}
+        <span
+          style={{
+            fontSize: "11px",
+            fontWeight: 500,
+            color: "rgba(255,255,255,0.6)",
+            backdropFilter: "blur(4px)",
+          }}
+        >
+          {timeAgo(article.publishedAt)} më parë
         </span>
       </div>
 
@@ -128,14 +133,12 @@ export default function HeroDispatch({ article }: HeroDispatchProps) {
             padding: "clamp(28px, 4vw, 48px)",
           }}
         >
-          {/* Serif headline */}
           <h1
             style={{
-              fontFamily: FONT.serif,
               fontSize: "var(--text-display)",
-              fontWeight: 600,
-              lineHeight: 1.06,
-              letterSpacing: "-0.01em",
+              fontWeight: 800,
+              lineHeight: 1.08,
+              letterSpacing: "-0.03em",
               color: "#FFFFFF",
               margin: "0 0 16px",
               maxWidth: "860px",
@@ -150,7 +153,7 @@ export default function HeroDispatch({ article }: HeroDispatchProps) {
               fontSize: "17px",
               fontWeight: 400,
               lineHeight: 1.6,
-              color: "rgba(255,255,255,0.9)",
+              color: "rgba(255,255,255,1.0)",
               textShadow: "0 1px 8px rgba(0,0,0,0.7)",
               margin: "0 0 28px",
               maxWidth: "640px",
