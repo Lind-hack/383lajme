@@ -55,21 +55,30 @@ GOOGLE_AI_API_KEY  = os.environ.get("GOOGLE_AI_API_KEY", "")
 GOOGLE_SEARCH_KEY  = os.environ.get("GOOGLE_SEARCH_API_KEY", "")
 GOOGLE_CSE_ID      = os.environ.get("GOOGLE_CSE_ID", "")
 PEXELS_API_KEY     = os.environ.get("PEXELS_API_KEY", "")
+ALLOW_STOCK_IMAGES = os.environ.get("ALLOW_STOCK_IMAGES", "").strip().lower() in {"1", "true", "yes", "on"}
 GMAIL_USER         = os.environ.get("GMAIL_USER", "")
 GMAIL_APP_PASSWORD = os.environ.get("GMAIL_APP_PASSWORD", "")
 REMOVE_SECRET      = os.environ.get("REMOVE_SECRET", "")
 SITE_URL           = os.environ.get("SITE_URL", "https://383lajme.vercel.app")
 RECIPIENT_EMAIL    = os.environ.get("RECIPIENT_EMAIL") or "lindsylqa@gmail.com"
-GOOGLE_AI_MODEL    = os.environ.get("GOOGLE_AI_MODEL", "gemma-4-26b-a4b-it")
-GOOGLE_AI_BACKUP_MODEL = os.environ.get("GOOGLE_AI_BACKUP_MODEL", "gemma-4-31b-it")
-# LLM provider: hosted Google Gemma only for article scoring/writing.
+GOOGLE_AI_MODEL    = os.environ.get("GOOGLE_AI_MODEL", "gemini-2.5-flash")
+GOOGLE_AI_BACKUP_MODEL = os.environ.get("GOOGLE_AI_BACKUP_MODEL", "gemini-2.0-flash")
+# LLM provider: Google Gemini/Gemma for article scoring/writing.
 LLM_PROVIDERS: list[dict[str, str]] = []
 if GOOGLE_AI_API_KEY:
-    for model_name in dict.fromkeys([GOOGLE_AI_MODEL, GOOGLE_AI_BACKUP_MODEL]):
+    model_candidates = [
+        "gemini-2.5-flash",
+        "gemini-2.0-flash",
+        GOOGLE_AI_MODEL,
+        GOOGLE_AI_BACKUP_MODEL,
+        # Keep legacy Gemma slugs as optional fallbacks for accounts that have MaaS access,
+        # but do not depend on them: unavailable model IDs caused full-run ai_failed=30.
+    ]
+    for model_name in dict.fromkeys(model_candidates):
         if not model_name:
             continue
         LLM_PROVIDERS.append({
-            "provider": "Google Gemma",
+            "provider": "Google AI",
             "url": f"https://generativelanguage.googleapis.com/v1beta/models/{model_name}:generateContent",
             "model": model_name,
             "key": GOOGLE_AI_API_KEY,
@@ -477,6 +486,45 @@ def _feed_image(entry) -> str | None:
     return None
 
 
+def resolve_article_url(article_url: str) -> str:
+    if "news.google.com" not in article_url:
+        return article_url
+    try:
+        r = requests.get(
+            article_url, timeout=10,
+            headers={"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36"},
+            allow_redirects=True,
+        )
+        return r.url or article_url
+    except Exception:
+        return article_url
+
+
+def fetch_article_text(article_url: str) -> str:
+    actual_url = resolve_article_url(article_url)
+    try:
+        r = requests.get(actual_url, timeout=20, headers={"User-Agent": "Mozilla/5.0"})
+        if r.status_code != 200:
+            return ""
+        soup = BeautifulSoup(r.text, "html.parser")
+        for tag in soup(["script", "style", "nav", "footer", "header", "aside", "form"]):
+            tag.decompose()
+        paragraphs = []
+        for el in soup.select("article p, main p, .article-body p, .entry-content p, .post-content p"):
+            text = re.sub(r"\s+", " ", el.get_text(" ", strip=True))
+            if len(text) >= 45:
+                paragraphs.append(text)
+        if not paragraphs:
+            for el in soup.find_all("p"):
+                text = re.sub(r"\s+", " ", el.get_text(" ", strip=True))
+                if len(text) >= 60:
+                    paragraphs.append(text)
+        joined = "\n".join(paragraphs[:12])
+        return joined[:5000]
+    except Exception:
+        return ""
+
+
 def _candidate_lane(source: str, source_name: str, title: str) -> str:
     text = f"{source} {source_name} {title}".lower()
     title_text = title.lower()
@@ -654,7 +702,7 @@ def fetch_candidates(seen_urls: set[str]) -> list[dict]:
     return candidates
 
 
-# ── LLM API (hosted Google Gemma only) ─────────────────────────────────────────
+# ── LLM API (hosted Google AI) ────────────────────────────────────────────────
 def _gemma(messages: list[dict], max_tokens: int = 1024, temperature: float = 0.3) -> str:
     if not LLM_PROVIDERS:
         raise RuntimeError("Set GOOGLE_AI_API_KEY before running the Kosovo pipeline")
@@ -674,6 +722,7 @@ def _gemma(messages: list[dict], max_tokens: int = 1024, temperature: float = 0.
                     "generationConfig": {
                         "temperature": temperature,
                         "maxOutputTokens": max_tokens,
+                        "responseMimeType": "application/json",
                     },
                 },
                 timeout=120,
@@ -698,7 +747,7 @@ def _gemma(messages: list[dict], max_tokens: int = 1024, temperature: float = 0.
             last_error = e
             print(f"  LLM provider failed: {llm['provider']} ({llm['model']}): {e}")
 
-    raise RuntimeError(f"Google Gemma failed: {last_error}")
+    raise RuntimeError(f"Google AI failed: {last_error}")
 
 
 def _parse_json(text: str) -> dict:
@@ -708,6 +757,9 @@ def _parse_json(text: str) -> dict:
         if text.startswith("json"):
             text = text[4:]
     text = text.strip()
+    text = re.sub(r"^[^{]*", "", text, count=1)
+    text = re.sub(r"[^}]*$", "", text, count=1)
+    text = re.sub(r",\s*([}\]])", r"\1", text)
     m = re.search(r"\{.*\}", text, re.DOTALL)
     if m:
         return json.loads(m.group())
@@ -734,7 +786,7 @@ def calculate_weighted_score(breakdown: dict | None, fallback: object = 0) -> fl
 
 def score_formula_text(breakdown: dict | None) -> str:
     if not isinstance(breakdown, dict):
-        return "Nuk pati breakdown te plote nga Google Gemma."
+        return "Nuk pati breakdown te plote nga Google AI."
     parts = []
     for key, weight in SCORE_WEIGHTS.items():
         value = _bounded_score(breakdown.get(key), 1.0)
@@ -770,7 +822,7 @@ ALBANIAN_MARKERS = {
 def is_albanian_output(analysis: dict) -> bool:
     text = " ".join(str(analysis.get(key, "")) for key in ["title", "excerpt", "body", "reason"]).lower()
     words = re.findall(r"[a-zA-ZÀ-ÿ]+", text)
-    if len(words) < 80:
+    if len(words) < 55:
         return False
     marker_hits = sum(1 for word in words if word in ALBANIAN_MARKERS)
     marker_ratio = marker_hits / max(1, len(words))
@@ -778,8 +830,24 @@ def is_albanian_output(analysis: dict) -> bool:
     return marker_hits >= 10 and (marker_ratio >= 0.035 or has_albanian_chars)
 
 
-def analyze_and_translate(title: str, summary: str, source: str = "") -> dict | None:
-    """Score and translate an article in one Google Gemma call. Returns None if all retries fail."""
+def clean_generated_title(title: object, fallback: str = "") -> str:
+    title_text = str(title or fallback or "").strip()
+    title_text = re.sub(r"\s+", " ", title_text)
+    title_text = re.sub(r"\s*[—–-]\s*ja\s+(pse|çfarë|cfar[eë]).*$", "", title_text, flags=re.IGNORECASE)
+    title_text = re.sub(r"\bja\s+pse\b[:\s-]*", "", title_text, flags=re.IGNORECASE).strip(" -—–")
+    return title_text[:180] or str(fallback or "").strip()
+
+
+def normalize_analysis(analysis: dict, fallback_title: str) -> dict:
+    analysis["title"] = clean_generated_title(analysis.get("title"), fallback_title)
+    for key in ("excerpt", "body", "reason", "tone", "source_bias", "category"):
+        if key in analysis and analysis[key] is not None:
+            analysis[key] = str(analysis[key]).strip()
+    return analysis
+
+
+def analyze_and_translate(title: str, summary: str, source: str = "", article_text: str = "") -> dict | None:
+    """Score and translate an article in one Google AI call. Returns None if all retries fail."""
     tier_info, tier_num = "", 0
     if source and source in SOURCE_TIERS:
         tier_num, tier_desc = SOURCE_TIERS[source]
@@ -802,9 +870,9 @@ Return ONLY this JSON (no markdown, no explanation):
   "category": "Politikë",
   "breaking": false,
   "reason": "one sentence why this score, mentioning source tier",
-  "title": "Albanian TikTok-hook headline: context + curiosity gap, max 18 words",
+  "title": "Accurate Albanian news headline: specific, factual, natural, max 18 words",
   "excerpt": "exactly 2 sentences: fact + Kosovo impact, max 25 words each",
-  "body": "full Albanian article 4-5 paragraphs 500-600 words, coherent with title",
+  "body": "full Albanian article 4-5 paragraphs, coherent with title, using only verified source facts",
   "tone": "neutral",
   "source_bias": "neutral"
 }}
@@ -838,6 +906,7 @@ IMPORTANT: For controversial claims, rumors, or social-media-driven stories: do 
 IMPORTANT: Social platforms are SIGNALS, not proof. A story from X/Twitter, Instagram, TikTok, YouTube, Reddit, or a sports/social account can score high only if the provided article/source gives enough context to report it responsibly.
 IMPORTANT: Do not invent Instagram/Twitter facts. If the provided article says a post exists, you may mention the post as reported by that source; otherwise omit it.
 IMPORTANT: For viral football/sports accounts such as 433, treat them as useful engagement signals. Prefer official match reports, club/league sources, or established sports outlets for facts like scores, cards, injuries, transfers, and referee decisions.
+IMPORTANT: Accuracy beats length. Use ONLY facts present in the title, summary, and article text below. If the article text is short, write a shorter article instead of inventing names, numbers, quotes, dates, or reactions.
 
 RREGULL KRYESOR — KOHERENCA:
 Titulli, ekserpti dhe body-i duhet të tregojnë TË NJËJTËN histori.
@@ -845,24 +914,25 @@ Fjalia e parë e paragrafit 1 duhet të zgjerojë SAKTË temën e titullit — a
 GABIM: Titulli "Kurti takon NATO-n" + Body hapet "Lufta në Ukrainë..." ✗
 SAKTË: Titulli "Kurti takon NATO-n" + Body hapet "Kryeministri Albin Kurti u takua sot me..." ✓
 
-TITULLI — si fillimi i një videoje TikTok (max 18 fjalë):
-Imagino që lexuesi e sheh titullin dhe ka 2-3 sekonda për të vendosur: klikoj apo jo?
-Titulli duhet të bëjë DY gjëra njëkohësisht:
-  1. Jep kontekst të mjaftueshëm — lexuesi kupton çfarë ndodhi
-  2. Krijon kuriozitet — lexuesi dëshiron të dijë "çfarë ndodhi saktësisht?" ose "çfarë do të thotë kjo?"
+TITULLI — titull lajmi i saktë dhe i lexueshëm (max 18 fjalë):
+Titulli duhet të japë faktin kryesor pa clickbait dhe pa premtime boshe.
+Lexuesi duhet ta kuptojë menjëherë kush bëri çfarë, ku dhe pse ka rëndësi.
+Mos përdor formula virale si "ja pse", "ja çfarë", "arsyeja do t'ju habisë",
+"tregon gjithçka", ose tituj që premtojnë shpjegim pa dhënë faktin.
 
-Modelet e titujve që funksionojnë:
-- "[Kush] bëri [çka] — ja çfarë do të thotë kjo për Kosovën"
-  Shembull: "Kurti u takua me Biden — ja çfarë u vendos për Kosovën dhe çfarë ndodh tjetër"
-- "[Ngjarje] — dhe arsyeja do t'ju habisë"
-  Shembull: "Serbia refuzoi marrëveshjen e re — dhe arsyeja tregon gjithçka"
-- "[Kompania/Personi] sapo [bëri diçka] — [pasoja konkrete]"
-  Shembull: "OpenAI sapo lëshoi GPT-5 falas — dhe është 10 herë më i shpejtë se ai i vjetri"
+Modele të pranueshme:
+- "[Kush] [bëri/tha/vendosi] [çfarë] në [vend/institucion]"
+  Shembull: "Kurti takohet me zyrtarë të NATO-s për sigurinë në veri"
+- "[Institucioni] miraton [vendimin] pas [ngjarjes/kontekstit]"
+  Shembull: "BE-ja kërkon zbatim më të shpejtë të marrëveshjes Kosovë-Serbi"
+- "[Kompania/Personi] prezanton [produktin/vendimin] me ndikim për [grupin]"
+  Shembull: "OpenAI prezanton model të ri që ul koston e përdorimit të AI-së"
 
 Rregulla teknike të titullit:
 - Kohë e tashme ose e kryer e thjeshtë, zë aktiv
 - Fjalë konkrete: emra, numra, vende, njerëz realë — jo abstraksione
 - KURRË: "Situata", "Zhvillimi i rëndësishëm", "Kriza e re" pa sqarim specifik
+- KURRË: "ja pse", "ja çfarë", "dhe arsyeja", "do t'ju habisë"
 - KURRË fjalë-për-fjalë nga anglishtja — riformulo plotësisht për lexuesin shqiptar
 
 EKSERPTI (saktësisht 2 fjali):
@@ -872,9 +942,9 @@ EKSERPTI (saktësisht 2 fjali):
 - SAKTË: "Serbia refuzoi marrëveshjen sot në Bruksel. Kjo vonon liberalizimin e vizave me të paktën dy vjet." ✓
 - GABIM: "Sipas burimeve zyrtare, situata është komplekse dhe ka shumë aspekte." ✗
 
-BODY (500-600 fjalë — 4-5 paragrafë):
-Shkruaj si po i shpjegon lajmin një miku inteligjent në kafene — me detaje, kontekst dhe mendime.
-Jo komunikatë zyrtare. Jo resumé i shkurtër. Histori e plotë me fillim, mes dhe fund.
+BODY (zakonisht 300-450 fjalë — 4-5 paragrafë):
+Shkruaj si po i shpjegon lajmin një miku inteligjent në kafene — me detaje dhe kontekst.
+Jo komunikatë zyrtare. Jo resumé i shkurtër. Mos shto fakte që nuk janë në materialin burimor.
 
 Paragrafi 1 (4-5 fjali): Fakti kryesor — kush, çka, kur, ku. Fillo direkt, pa hyrje.
   → DUHET të zgjerojë temën e titullit. Jep detajet e sakta që titulli la me vete.
@@ -895,7 +965,9 @@ RREGULLA GJUHËSORE:
 - Ton: i ngrohtë, i angazhuar, direkt — lexuesi ndjen se dikush i tregon diçka interesante, jo që lexon një raport
 
 Title: {title}
-Summary: {summary[:1200]}"""
+Summary: {summary[:1200]}
+Article text from source page, if available:
+{article_text[:5000] if article_text else "(not available — use only title and summary, and keep the body shorter)"}"""
 
     for attempt in range(3):
         try:
@@ -904,8 +976,9 @@ Summary: {summary[:1200]}"""
                 final_prompt += "\n\nKRITIKE: Pergjigju VETEM shqip. Titulli, excerpt, reason dhe body duhet te jene ne shqip, jo anglisht/serbisht. Perkthe dhe riformulo cdo fjali."
             raw = _gemma([{"role": "user", "content": final_prompt}], max_tokens=6000, temperature=0.65)
             parsed = _parse_json(raw)
+            parsed = normalize_analysis(parsed, title)
             if not is_albanian_output(parsed):
-                raise ValueError("Google Gemma output was not Albanian enough")
+                raise ValueError("Google AI output was not Albanian enough")
             return parsed
         except Exception as e:
             if attempt < 2:
@@ -943,44 +1016,130 @@ SCENE_MAP: dict[str, str] = {
 }
 
 
-def get_image(article_url: str, title: str, raw_image: str | None, category: str = "", used_images: set | None = None) -> str:
-    used_images = used_images or set()
-    # Tier 0 — Raw feed image (not Google CDN, not already used)
-    if raw_image and "googleusercontent.com" not in raw_image and raw_image.startswith("http") and raw_image not in used_images:
-        return raw_image
+def _looks_like_article_image(url: str, used_images: set[str]) -> bool:
+    if not url or not url.startswith(("http://", "https://")):
+        return False
+    if url in used_images:
+        return False
+    lowered = url.lower()
+    bad_bits = [
+        "logo", "icon", "avatar", "sprite", "placeholder", "default-image",
+        "tracking", "pixel", "analytics", "ads.", "/ads/", "doubleclick",
+    ]
+    if any(bit in lowered for bit in bad_bits):
+        return False
+    return any(ext in lowered for ext in [".jpg", ".jpeg", ".png", ".webp"]) or "image" in lowered
 
-    # Resolve Google News redirect → actual article URL
-    actual_url = article_url
-    if "news.google.com" in article_url:
+
+def _src_from_srcset(srcset: str) -> str:
+    if not srcset:
+        return ""
+    # Prefer the first/highest declared candidate rather than leaving srcset unusable.
+    candidates = [part.strip().split(" ")[0] for part in srcset.split(",") if part.strip()]
+    return candidates[-1] if candidates else ""
+
+
+def _jsonld_images(soup: BeautifulSoup) -> list[str]:
+    images: list[str] = []
+    for script in soup.find_all("script", type="application/ld+json"):
         try:
-            r = requests.get(
-                article_url, timeout=10,
-                headers={"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36"},
-                allow_redirects=True,
-            )
-            actual_url = r.url
+            payload = json.loads(script.string or "")
         except Exception:
-            pass
+            continue
+        queue = payload if isinstance(payload, list) else [payload]
+        while queue:
+            item = queue.pop(0)
+            if isinstance(item, list):
+                queue.extend(item)
+                continue
+            if not isinstance(item, dict):
+                continue
+            img = item.get("image") or item.get("thumbnailUrl")
+            if isinstance(img, str):
+                images.append(img)
+            elif isinstance(img, list):
+                for entry in img:
+                    if isinstance(entry, str):
+                        images.append(entry)
+                    elif isinstance(entry, dict) and entry.get("url"):
+                        images.append(str(entry["url"]))
+            elif isinstance(img, dict) and img.get("url"):
+                images.append(str(img["url"]))
+            graph = item.get("@graph")
+            if isinstance(graph, list):
+                queue.extend(graph)
+    return images
 
-    # Tier 1 — Scrape article page: multiple meta tags + first article <img>
+
+def _article_native_images(actual_url: str, used_images: set[str]) -> list[str]:
+    images: list[str] = []
     try:
         r = requests.get(actual_url, timeout=45, headers={"User-Agent": "Mozilla/5.0"})
-        if r.status_code == 200:
-            soup = BeautifulSoup(r.text, "html.parser")
-            for prop in ["og:image", "twitter:image", "og:image:secure_url"]:
-                tag = soup.find("meta", property=prop) or soup.find("meta", attrs={"name": prop})
-                if tag and tag.get("content"):
-                    img = tag["content"]
-                    if img.startswith("http") and "googleusercontent.com" not in img and img not in used_images:
-                        return img
-            for el in soup.select("article img, main img, .article-body img"):
-                src = el.get("src") or el.get("data-src", "")
-                if src and src.startswith("http") and any(ext in src for ext in [".jpg", ".jpeg", ".png", ".webp"]) and src not in used_images:
-                    return src
-    except Exception:
-        pass
+        if r.status_code != 200:
+            return images
+        soup = BeautifulSoup(r.text, "html.parser")
 
-    # Tier 2 — Google Custom Search Images
+        for prop in [
+            "og:image", "og:image:secure_url", "twitter:image", "twitter:image:src",
+            "thumbnail", "image",
+        ]:
+            tag = soup.find("meta", property=prop) or soup.find("meta", attrs={"name": prop})
+            if tag and tag.get("content"):
+                images.append(urllib.parse.urljoin(actual_url, tag["content"].strip()))
+
+        link = soup.find("link", rel=lambda rel: rel and "image_src" in rel)
+        if link and link.get("href"):
+            images.append(urllib.parse.urljoin(actual_url, link["href"].strip()))
+
+        images.extend(urllib.parse.urljoin(actual_url, img) for img in _jsonld_images(soup))
+
+        for el in soup.select("article img, main img, .article-body img, .entry-content img, .post-content img, figure img"):
+            src = (
+                el.get("src")
+                or el.get("data-src")
+                or el.get("data-original")
+                or _src_from_srcset(el.get("srcset", "") or el.get("data-srcset", ""))
+            )
+            if not src:
+                continue
+            try:
+                width = int(el.get("width") or 0)
+                height = int(el.get("height") or 0)
+                if width and height and (width < 240 or height < 140):
+                    continue
+            except ValueError:
+                pass
+            images.append(urllib.parse.urljoin(actual_url, src.strip()))
+    except Exception:
+        return images
+
+    result = []
+    seen = set()
+    for img in images:
+        if img not in seen and _looks_like_article_image(img, used_images):
+            result.append(img)
+            seen.add(img)
+    return result
+
+
+def get_image(article_url: str, title: str, raw_image: str | None, category: str = "", used_images: set | None = None) -> str:
+    used_images = used_images or set()
+
+    # Resolve Google News redirect → actual article URL
+    actual_url = resolve_article_url(article_url)
+
+    # Tier 0 — actual article image. This should win whenever the selected article exposes one.
+    native_images = _article_native_images(actual_url, used_images)
+    if native_images:
+        return native_images[0]
+
+    # Tier 1 — Raw feed image, but only if it is a real image URL and not a Google News thumbnail.
+    if raw_image:
+        raw = urllib.parse.urljoin(actual_url, raw_image.strip())
+        if "googleusercontent.com" not in raw and _looks_like_article_image(raw, used_images):
+            return raw
+
+    # Tier 2 — Google Custom Search Images, used only when article-native images are absent.
     if GOOGLE_SEARCH_KEY and GOOGLE_CSE_ID:
         try:
             query = f"{title[:60]} Kosovo" if "Kosovo" not in title else title[:60]
@@ -993,13 +1152,15 @@ def get_image(article_url: str, title: str, raw_image: str | None, category: str
                 timeout=10,
             )
             items = r.json().get("items", [])
-            if items:
-                return items[0]["link"]
+            for item in items:
+                img = item.get("link", "")
+                if _looks_like_article_image(img, used_images):
+                    return img
         except Exception:
             pass
 
-    # Tier 3 — Pexels API (skip already-used photos)
-    if PEXELS_API_KEY:
+    # Tier 3 — Pexels API is opt-in only. Stock images made article pages look low quality.
+    if ALLOW_STOCK_IMAGES and PEXELS_API_KEY:
         try:
             cat_base = CAT_QUERIES.get(category, "Kosovo news")
             words = re.findall(r"[A-Za-z]{5,}", title)
@@ -1053,11 +1214,11 @@ def _format_counts(counts: dict[str, int]) -> str:
 
 def _scoring_explainer_html(run_stats: dict) -> str:
     provider_counts = run_stats.get("llm_success_counts", {})
-    provider_text = _format_counts(provider_counts) if provider_counts else "Google Gemma nuk ktheu artikuj të publikuar"
+    provider_text = _format_counts(provider_counts) if provider_counts else "Google AI nuk ktheu artikuj të publikuar"
     return f"""
       <div style="padding:14px 20px;border-bottom:1px solid #2a2a2a;background:#111;">
         <div style="font-size:12px;color:#ddd;line-height:1.6;">
-          <b style="color:#fff;">AI provider:</b> {provider_text}. Pipeline-i i artikujve përdor vetëm Google Gemma ({GOOGLE_AI_MODEL}); Groq nuk përdoret për përkthim/shkrim në këtë workflow.
+          <b style="color:#fff;">AI provider:</b> {provider_text}. Pipeline-i i artikujve përdor Google AI ({GOOGLE_AI_MODEL}) për përkthim, shkrim dhe scoring; Groq nuk përdoret për përkthim/shkrim në këtë workflow.
         </div>
         <div style="font-size:12px;color:#aaa;line-height:1.6;margin-top:6px;">
           <b style="color:#fff;">Si llogaritet score:</b>
@@ -1283,7 +1444,8 @@ def main() -> None:
             continue
 
         run_stats["analyzed"] += 1
-        analysis = analyze_and_translate(title_en, summary, source=c["source"])
+        article_text = fetch_article_text(c["url"])
+        analysis = analyze_and_translate(title_en, summary, source=c["source"], article_text=article_text)
         if analysis is None:
             run_stats["ai_failed"] += 1
             print(f"  [SKIP-AI/LANG] {title_en[:70]}")
@@ -1375,7 +1537,7 @@ def main() -> None:
         send_email(results, out_filename, run_stats)
     else:
         raise RuntimeError(
-            "No articles were published because none passed the Google Gemma, Albanian-language, duplicate, and score filters. "
+            "No articles were published because none passed the Google AI, Albanian-language, duplicate, and score filters. "
             f"Candidates={run_stats['candidates']}, analyzed={run_stats['analyzed']}, "
             f"duplicates={run_stats['duplicates']}, intra_duplicates={run_stats['intra_duplicates']}, "
             f"low_score={run_stats['low_score']}, ai_failed={run_stats['ai_failed']}."
