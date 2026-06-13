@@ -19,6 +19,7 @@ import ThrowbackSection from "@/components/throwback-section";
 import AlertsCta from "@/components/alerts-cta";
 import DailyPoll from "@/components/daily-poll";
 import BotaFlet from "@/components/bota-flet";
+import RobotHero from "@/components/robot-hero";
 
 export const revalidate = 3600;
 
@@ -74,6 +75,9 @@ export default async function HomePage() {
       <div style={{ position: "relative", zIndex: 10, paddingTop: "var(--nav-h)" }}>
         <BreakingTicker />
       </div>
+
+      {/* Robot hero — article left, 3D robot right */}
+      <RobotHero article={hero} />
 
       {/* Full-viewport scroll hero — outside constrained main */}
       <HeroScrollArticle article={hero} />
