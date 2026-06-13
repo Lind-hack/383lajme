@@ -62,14 +62,9 @@
   --ease-in:  cubic-bezier(0.4, 0, 0.7, 1);
 }
 
-/* ── Navbar height var (64px nav row; desktop adds 28px date strip) ── */
+/* ── Navbar height var ── */
 :root {
   --nav-h: 64px;
-}
-@media (min-width: 768px) {
-  :root {
-    --nav-h: 92px;
-  }
 }
 
 *, *::before, *::after {
@@ -136,7 +131,8 @@ body {
 }
 
 .ticker-track {
-  animation: marquee 45s linear infinite;
+  animation: marquee 90s linear infinite;
+  will-change: transform;
 }
 
 .ticker-track:hover {
@@ -392,10 +388,11 @@ body {
   }
 }
 
-/* ── BOTA FLET asymmetric grid ──────────────────────────── */
+/* ── BOTA FLET 3-equal-column grid ──────────────────────── */
 .bota-grid {
   display: grid;
-  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 48px;
 }
 @media (max-width: 1023px) {
   .bota-grid {
@@ -418,6 +415,21 @@ body {
   float: left;
   margin-right: 8px;
   margin-top: 4px;
+}
+
+/* ── Spline loader spinner ──────────────────────────────── */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* ── Aceternity spotlight beam ──────────────────────────── */
+@keyframes spotlight {
+  0%   { opacity: 0; transform: translate(-72%, -62%) skewX(-15deg) scale(0.85); }
+  100% { opacity: 1; transform: translate(-50%, -40%) skewX(-15deg) scale(1); }
+}
+.animate-spotlight {
+  animation: spotlight 2s ease 0.75s 1 forwards;
 }
 
 /* ── Reduced motion: stop ambient CSS animations ────────── */
