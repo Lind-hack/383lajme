@@ -790,6 +790,10 @@ def _is_fatal_llm_error(exc: Exception) -> bool:
     return any(marker in text for marker in fatal_markers)
 
 
+class FatalLLMProviderError(RuntimeError):
+    """Google Gemma is unavailable in a way that retries in this run cannot fix."""
+
+
 def _bounded_score(value: object, default: float = 1.0) -> float:
     try:
         numeric = float(value)
@@ -1010,7 +1014,7 @@ Article text from source page, if available:
             return parsed
         except Exception as e:
             if _is_fatal_llm_error(e):
-                raise RuntimeError(
+                raise FatalLLMProviderError(
                     "Fatal Google Gemma provider error; stopping the run instead of "
                     "burning the whole hourly budget on repeated AI failures."
                 ) from e
@@ -1438,6 +1442,7 @@ def main() -> None:
         "ai_failed": 0,
         "low_score": 0,
         "time_budget_stop": False,
+        "fatal_ai_error": "",
         "accepted_categories": {},
         "llm_success_counts": LLM_SUCCESS_COUNTS,
     }
@@ -1490,7 +1495,12 @@ def main() -> None:
 
         run_stats["analyzed"] += 1
         article_text = fetch_article_text(c["url"])
-        analysis = analyze_and_translate(title_en, summary, source=c["source"], article_text=article_text)
+        try:
+            analysis = analyze_and_translate(title_en, summary, source=c["source"], article_text=article_text)
+        except FatalLLMProviderError as exc:
+            run_stats["fatal_ai_error"] = str(exc)
+            print(f"  [AI-STOP] {exc}")
+            break
         if analysis is None:
             run_stats["ai_failed"] += 1
             print(f"  [SKIP-AI/LANG] {title_en[:70]}")
@@ -1580,6 +1590,13 @@ def main() -> None:
         out.write_text(json.dumps(results, ensure_ascii=False, indent=2), encoding="utf-8")
         print(f"  → {out}")
         send_email(results, out_filename, run_stats)
+    elif run_stats.get("fatal_ai_error"):
+        print(
+            "[WARN] No articles published because Google Gemma is unavailable right now. "
+            f"{run_stats['fatal_ai_error']}"
+        )
+        print("[WARN] Exiting successfully so the hourly automation is not marked failed.")
+        return
     else:
         raise RuntimeError(
             "No articles were published because none passed the Google Gemma, Albanian-language, duplicate, and score filters. "
