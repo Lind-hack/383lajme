@@ -18,7 +18,7 @@ import DiasporaSeries from "@/components/diaspora-series";
 import ThrowbackSection from "@/components/throwback-section";
 import AlertsCta from "@/components/alerts-cta";
 import DailyPoll from "@/components/daily-poll";
-import RobotHero from "@/components/robot-hero";
+import ImageAccordion, { type AccordionSlide } from "@/components/image-accordion";
 
 export const revalidate = 3600;
 
@@ -71,6 +71,24 @@ export default async function HomePage() {
 
   const politikeArticles = articles.filter((a) => a.category === "Politikë");
 
+  // Image accordion — top article per category, fallback to best unused
+  const accordionCats = [
+    { category: "Politikë",  label: "Politikë"  },
+    { category: "Showbiz",   label: "Showbiz"   },
+    { category: "Botë",      label: "Botë"      },
+    { category: "Teknologji",label: "Teknologji"},
+    { category: "Sport",     label: "Sport"     },
+  ];
+  const usedAccordionIds = new Set<string>();
+  const accordionSlides: AccordionSlide[] = accordionCats.map(({ category, label }) => {
+    const article =
+      articles.find((a) => a.category === category && !usedAccordionIds.has(a.id)) ??
+      articles.find((a) => !usedAccordionIds.has(a.id)) ??
+      articles[0];
+    usedAccordionIds.add(article.id);
+    return { article, category, label };
+  });
+
   return (
     <>
       <TextureBg />
@@ -83,8 +101,8 @@ export default async function HomePage() {
         <BreakingTicker />
       </div>
 
-      {/* Robot hero — article left, 3D robot right */}
-      <RobotHero article={hero} />
+      {/* Image accordion hero — top article per category */}
+      <ImageAccordion slides={accordionSlides} />
 
       {/* Main content — cream section */}
       <main
