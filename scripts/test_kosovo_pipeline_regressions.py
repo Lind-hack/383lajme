@@ -1,5 +1,6 @@
 import importlib.util
 import json
+import tempfile
 from pathlib import Path
 
 
@@ -126,12 +127,57 @@ def test_fatal_google_error_stops_retries(kp):
     try:
         try:
             kp.analyze_and_translate("Title", "Summary", source="Reuters", article_text="Facts")
-        except RuntimeError as exc:
+        except kp.FatalLLMProviderError as exc:
             assert "Fatal Google Gemma provider error" in str(exc)
         else:
             raise AssertionError("fatal provider error did not stop retries")
     finally:
         kp._gemma = old
+
+
+def test_main_soft_exits_on_fatal_google_error(kp):
+    old_fetch = kp.fetch_candidates
+    old_seen = kp.load_existing_urls
+    old_covered = kp.build_covered_set
+    old_diversify = kp.diversify_candidates
+    old_fetch_text = kp.fetch_article_text
+    old_analyze = kp.analyze_and_translate
+    old_output_dir = kp.OUTPUT_DIR
+
+    kp.load_existing_urls = lambda: set()
+    kp.build_covered_set = lambda: []
+    kp.diversify_candidates = lambda candidates: candidates
+    kp.fetch_article_text = lambda url: "Facts"
+    kp.fetch_candidates = lambda seen: [
+        {
+            "url": "https://example.com/story",
+            "source": "Reuters",
+            "source_flag": "🌍",
+            "source_bias": "neutral",
+            "lane": "Kosovo",
+            "title_en": "Kosovo PM meets NATO officials",
+            "summary": "Security talks in Brussels.",
+            "raw_image": None,
+            "published_at": None,
+        }
+    ]
+
+    def fatal(*args, **kwargs):
+        raise kp.FatalLLMProviderError("Fatal Google Gemma provider error")
+
+    kp.analyze_and_translate = fatal
+    with tempfile.TemporaryDirectory() as tmpdir:
+        kp.OUTPUT_DIR = Path(tmpdir)
+        try:
+            assert kp.main() is None
+        finally:
+            kp.fetch_candidates = old_fetch
+            kp.load_existing_urls = old_seen
+            kp.build_covered_set = old_covered
+            kp.diversify_candidates = old_diversify
+            kp.fetch_article_text = old_fetch_text
+            kp.analyze_and_translate = old_analyze
+            kp.OUTPUT_DIR = old_output_dir
 
 
 def main():
@@ -141,6 +187,7 @@ def main():
     test_article_native_image_and_text_extraction(kp)
     test_google_provider_success_path(kp)
     test_fatal_google_error_stops_retries(kp)
+    test_main_soft_exits_on_fatal_google_error(kp)
     print("kosovo pipeline regression checks passed")
 
 
