@@ -52,6 +52,7 @@ except ImportError:
 
 # ── Config ────────────────────────────────────────────────────────────────────
 GOOGLE_AI_API_KEY  = os.environ.get("GOOGLE_AI_API_KEY", "")
+GROQ_API_KEY       = os.environ.get("GROQ_API_KEY", "")
 GOOGLE_SEARCH_KEY  = os.environ.get("GOOGLE_SEARCH_API_KEY", "")
 GOOGLE_CSE_ID      = os.environ.get("GOOGLE_CSE_ID", "")
 PEXELS_API_KEY     = os.environ.get("PEXELS_API_KEY", "")
@@ -63,7 +64,8 @@ SITE_URL           = os.environ.get("SITE_URL", "https://383lajme.vercel.app")
 RECIPIENT_EMAIL    = os.environ.get("RECIPIENT_EMAIL") or "lindsylqa@gmail.com"
 GOOGLE_AI_MODEL    = os.environ.get("GOOGLE_AI_MODEL", "gemini-2.5-flash")
 GOOGLE_AI_BACKUP_MODEL = os.environ.get("GOOGLE_AI_BACKUP_MODEL", "gemini-2.0-flash")
-# LLM provider: Google Gemini/Gemma for article scoring/writing.
+GROQ_AI_MODEL      = os.environ.get("GROQ_AI_MODEL", "llama-3.3-70b-versatile")
+# LLM provider: Google Gemini/Gemma first, optional Groq text fallback for scoring/writing.
 LLM_PROVIDERS: list[dict[str, str]] = []
 if GOOGLE_AI_API_KEY:
     model_candidates = [
@@ -79,10 +81,19 @@ if GOOGLE_AI_API_KEY:
             continue
         LLM_PROVIDERS.append({
             "provider": "Google AI",
+            "kind": "google",
             "url": f"https://generativelanguage.googleapis.com/v1beta/models/{model_name}:generateContent",
             "model": model_name,
             "key": GOOGLE_AI_API_KEY,
         })
+if GROQ_API_KEY:
+    LLM_PROVIDERS.append({
+        "provider": "Groq",
+        "kind": "groq",
+        "url": "https://api.groq.com/openai/v1/chat/completions",
+        "model": GROQ_AI_MODEL,
+        "key": GROQ_API_KEY,
+    })
 LLM_PROVIDER = LLM_PROVIDERS[0]["provider"] if LLM_PROVIDERS else "none"
 LLM_MODEL = LLM_PROVIDERS[0]["model"] if LLM_PROVIDERS else ""
 LLM_SUCCESS_COUNTS: dict[str, int] = {}
@@ -703,42 +714,82 @@ def fetch_candidates(seen_urls: set[str]) -> list[dict]:
 
 
 # ── LLM API (hosted Google AI) ────────────────────────────────────────────────
+def _prompt_from_messages(messages: list[dict]) -> str:
+    return "\n\n".join(str(m.get("content", "")) for m in messages if m.get("content"))
+
+
+def _call_google_ai(llm: dict, prompt: str, max_tokens: int, temperature: float) -> str:
+    resp = requests.post(
+        llm["url"],
+        headers={
+            "x-goog-api-key": llm["key"],
+            "Content-Type": "application/json",
+        },
+        json={
+            "contents": [{"role": "user", "parts": [{"text": prompt}]}],
+            "generationConfig": {
+                "temperature": temperature,
+                "maxOutputTokens": max_tokens,
+                "responseMimeType": "application/json",
+            },
+        },
+        timeout=120,
+    )
+    if not resp.ok:
+        raise RuntimeError(f"HTTP {resp.status_code}: {resp.text[:500]}")
+    payload = resp.json()
+    parts = (
+        payload.get("candidates", [{}])[0]
+        .get("content", {})
+        .get("parts", [])
+    )
+    text = "".join(part.get("text", "") for part in parts).strip()
+    if not text:
+        finish = payload.get("candidates", [{}])[0].get("finishReason", "unknown")
+        raise RuntimeError(f"empty response from {llm['model']} finishReason={finish}: {json.dumps(payload)[:500]}")
+    return text
+
+
+def _call_groq_ai(llm: dict, prompt: str, max_tokens: int, temperature: float) -> str:
+    resp = requests.post(
+        llm["url"],
+        headers={
+            "Authorization": f"Bearer {llm['key']}",
+            "Content-Type": "application/json",
+        },
+        json={
+            "model": llm["model"],
+            "messages": [
+                {
+                    "role": "system",
+                    "content": "Return only valid JSON. Write all article fields in accurate Albanian.",
+                },
+                {"role": "user", "content": prompt},
+            ],
+            "temperature": temperature,
+            "max_tokens": max_tokens,
+            "response_format": {"type": "json_object"},
+        },
+        timeout=120,
+    )
+    if not resp.ok:
+        raise RuntimeError(f"HTTP {resp.status_code}: {resp.text[:500]}")
+    payload = resp.json()
+    return payload["choices"][0]["message"]["content"].strip()
+
+
 def _gemma(messages: list[dict], max_tokens: int = 1024, temperature: float = 0.3) -> str:
     if not LLM_PROVIDERS:
-        raise RuntimeError("Set GOOGLE_AI_API_KEY before running the Kosovo pipeline")
+        raise RuntimeError("Set GOOGLE_AI_API_KEY or GROQ_API_KEY before running the Kosovo pipeline")
 
     last_error: Exception | None = None
+    prompt = _prompt_from_messages(messages)
     for llm in LLM_PROVIDERS:
         try:
-            prompt = "\n\n".join(str(m.get("content", "")) for m in messages if m.get("content"))
-            resp = requests.post(
-                llm["url"],
-                headers={
-                    "x-goog-api-key": llm["key"],
-                    "Content-Type": "application/json",
-                },
-                json={
-                    "contents": [{"role": "user", "parts": [{"text": prompt}]}],
-                    "generationConfig": {
-                        "temperature": temperature,
-                        "maxOutputTokens": max_tokens,
-                        "responseMimeType": "application/json",
-                    },
-                },
-                timeout=120,
-            )
-            if not resp.ok:
-                raise RuntimeError(f"HTTP {resp.status_code}: {resp.text[:500]}")
-            payload = resp.json()
-            parts = (
-                payload.get("candidates", [{}])[0]
-                .get("content", {})
-                .get("parts", [])
-            )
-            text = "".join(part.get("text", "") for part in parts).strip()
-            if not text:
-                finish = payload.get("candidates", [{}])[0].get("finishReason", "unknown")
-                raise RuntimeError(f"empty response from {llm['model']} finishReason={finish}: {json.dumps(payload)[:500]}")
+            if llm.get("kind") == "groq":
+                text = _call_groq_ai(llm, prompt, max_tokens=max_tokens, temperature=temperature)
+            else:
+                text = _call_google_ai(llm, prompt, max_tokens=max_tokens, temperature=temperature)
             print(f"  LLM success: {llm['provider']} ({llm['model']})")
             counter_key = f"{llm['provider']} ({llm['model']})"
             LLM_SUCCESS_COUNTS[counter_key] = LLM_SUCCESS_COUNTS.get(counter_key, 0) + 1
@@ -1218,7 +1269,7 @@ def _scoring_explainer_html(run_stats: dict) -> str:
     return f"""
       <div style="padding:14px 20px;border-bottom:1px solid #2a2a2a;background:#111;">
         <div style="font-size:12px;color:#ddd;line-height:1.6;">
-          <b style="color:#fff;">AI provider:</b> {provider_text}. Pipeline-i i artikujve përdor Google AI ({GOOGLE_AI_MODEL}) për përkthim, shkrim dhe scoring; Groq nuk përdoret për përkthim/shkrim në këtë workflow.
+          <b style="color:#fff;">AI provider:</b> {provider_text}. Pipeline-i përdor Google AI së pari dhe Groq vetëm si fallback kur Google AI është i kufizuar ose i padisponueshëm.
         </div>
         <div style="font-size:12px;color:#aaa;line-height:1.6;margin-top:6px;">
           <b style="color:#fff;">Si llogaritet score:</b>
