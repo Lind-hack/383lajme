@@ -1,0 +1,31 @@
+[
+  {
+    "id": "c2f456ab-58c1-4180-9d8d-8079fa678911",
+    "slug": "dy-persona-arrestuar-ne-kosove-per-kontrabande-migrantesh-2026-06-12",
+    "url": "https://news.google.com/rss/articles/CBMikgFBVV95cUxPNDgwYUhvbVd6b2RuMDdvaG5kRTBhaTlSSHctOUw1MmZCOUxCaFY4WlVWeUl5X0FHX3VCUkhGS1NRdHhWWEo1RnR5WmxXeE1IM21oN0ZqMDFGaWZVMkV2YzhOSndfSFd4NlJPTjE2RkNEa2JzSTJqQkJaMUZxMkxZMUF4OGh1T1ZlenRUY0NHVk5Sdw?oc=5",
+    "dispatch": "01",
+    "title": "Dy persona arrestuar në Kosovë për kontrabandë migrantësh",
+    "excerpt": "Dy persona u arrestuan sot në Kosovë. Kjo operacion i jep mundësi për të luftuar këtë fenomen",
+    "body": "Dy persona u arrestuan nga policia e Kosovës për kontrabandë migrantësh. Ky arrestim është pjesë e operacionit të policisë për të luftuar kontrabandën e migrantëve. Policja ka nisur një operacion të gjerë për të kapur personat që janë përfshirë në këtë aktivitet kriminal. Operacioni u zhvillua në disa qytete të Kosovës dhe u kapën disa persona të tjerë që janë përfshirë në kontrabandën e migrantëve. Ky arrestim është një hapat i rëndësishëm për të luftuar këtë fenomen dhe për të siguruar sigurinë e qytetarëve të Kosovës. Por, ky problem është akoma i madh dhe kërkon një përpjekje të vazhdueshme nga ana e autoriteteve. Çfarë do të ndodhë tjetër në këtë proces, do të shohim në ditët në vijim.",
+    "source": "KosovaPress",
+    "source_flag": "🌍",
+    "source_bias": "neutral",
+    "tone": "neutral",
+    "category": "Siguri",
+    "published_at": "2026-06-12T20:29:08+00:00",
+    "reading_time": 1,
+    "featured": false,
+    "engagement_score": 7.5,
+    "score_reason": "KosovaPress raporton se dy persona u arrestuan për kontrabandë migrantësh, duke e bërë këtë lajm me rëndësi për sigurinë në Kosovë",
+    "score_breakdown": {
+      "relevance": 8,
+      "urgency": 7,
+      "interest": 7,
+      "credibility": 8
+    },
+    "score_formula": "relevance 8.0 x 0.35 + urgency 7.0 x 0.20 + interest 7.0 x 0.30 + credibility 8.0 x 0.15",
+    "image_url": "https://image.pollinations.ai/prompt/security%20forces%20police%20military%20checkpoint%20Kosovo%20Kosovo%2C%20professional%20editorial%20news%20photography%2C%20Reuters%20AP%20style%2C%20sharp%20focus%2C%20photorealistic?width=1200&height=630&nologo=true&model=flux",
+    "video_clip_url": null,
+    "created_at": "2026-06-13T16:48:02.643055+00:00"
+  }
+]
