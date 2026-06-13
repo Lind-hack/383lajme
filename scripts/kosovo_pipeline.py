@@ -52,7 +52,6 @@ except ImportError:
 
 # ── Config ────────────────────────────────────────────────────────────────────
 GOOGLE_AI_API_KEY  = os.environ.get("GOOGLE_AI_API_KEY", "")
-GROQ_API_KEY       = os.environ.get("GROQ_API_KEY", "")
 GOOGLE_SEARCH_KEY  = os.environ.get("GOOGLE_SEARCH_API_KEY", "")
 GOOGLE_CSE_ID      = os.environ.get("GOOGLE_CSE_ID", "")
 PEXELS_API_KEY     = os.environ.get("PEXELS_API_KEY", "")
@@ -62,38 +61,28 @@ GMAIL_APP_PASSWORD = os.environ.get("GMAIL_APP_PASSWORD", "")
 REMOVE_SECRET      = os.environ.get("REMOVE_SECRET", "")
 SITE_URL           = os.environ.get("SITE_URL", "https://383lajme.vercel.app")
 RECIPIENT_EMAIL    = os.environ.get("RECIPIENT_EMAIL") or "lindsylqa@gmail.com"
-GOOGLE_AI_MODEL    = os.environ.get("GOOGLE_AI_MODEL", "gemini-2.5-flash")
-GOOGLE_AI_BACKUP_MODEL = os.environ.get("GOOGLE_AI_BACKUP_MODEL", "gemini-2.0-flash")
-GROQ_AI_MODEL      = os.environ.get("GROQ_AI_MODEL", "llama-3.3-70b-versatile")
-# LLM provider: Google Gemini/Gemma first, optional Groq text fallback for scoring/writing.
+GOOGLE_AI_MODEL    = os.environ.get("GOOGLE_AI_MODEL", "gemma-4-26b-a4b-it")
+GOOGLE_AI_BACKUP_MODEL = os.environ.get("GOOGLE_AI_BACKUP_MODEL", "gemma-4-31b-it")
+# LLM provider: hosted Google Gemma only for article scoring/writing.
 LLM_PROVIDERS: list[dict[str, str]] = []
 if GOOGLE_AI_API_KEY:
     model_candidates = [
-        "gemini-2.5-flash",
-        "gemini-2.0-flash",
         GOOGLE_AI_MODEL,
         GOOGLE_AI_BACKUP_MODEL,
-        # Keep legacy Gemma slugs as optional fallbacks for accounts that have MaaS access,
-        # but do not depend on them: unavailable model IDs caused full-run ai_failed=30.
+        # Official hosted Gemma 4 models in the Gemini API.
+        "gemma-4-26b-a4b-it",
+        "gemma-4-31b-it",
     ]
     for model_name in dict.fromkeys(model_candidates):
         if not model_name:
             continue
         LLM_PROVIDERS.append({
-            "provider": "Google AI",
+            "provider": "Google Gemma",
             "kind": "google",
             "url": f"https://generativelanguage.googleapis.com/v1beta/models/{model_name}:generateContent",
             "model": model_name,
             "key": GOOGLE_AI_API_KEY,
         })
-if GROQ_API_KEY:
-    LLM_PROVIDERS.append({
-        "provider": "Groq",
-        "kind": "groq",
-        "url": "https://api.groq.com/openai/v1/chat/completions",
-        "model": GROQ_AI_MODEL,
-        "key": GROQ_API_KEY,
-    })
 LLM_PROVIDER = LLM_PROVIDERS[0]["provider"] if LLM_PROVIDERS else "none"
 LLM_MODEL = LLM_PROVIDERS[0]["model"] if LLM_PROVIDERS else ""
 LLM_SUCCESS_COUNTS: dict[str, int] = {}
@@ -101,14 +90,16 @@ LLM_SUCCESS_COUNTS: dict[str, int] = {}
 GEMMA_URL   = LLM_PROVIDERS[0]["url"] if LLM_PROVIDERS else ""
 GEMMA_MODEL = LLM_MODEL
 MAX_AGE_HOURS      = 72
-MAX_PER_RUN        = 14
+MAX_PER_RUN        = int(os.environ.get("MAX_PER_RUN", "14"))
 MIN_PER_RUN        = 6
-MAX_AI_CALLS       = 30
+MAX_AI_CALLS       = int(os.environ.get("MAX_AI_CALLS", "24"))
 MIN_SCORE          = 6.0
 CANDIDATE_POOL_LIMIT = 90
 AI_CAP             = 8
 SPORT_CAP          = 7
 WORLD_CAP          = 7
+MAX_RUNTIME_MINUTES = float(os.environ.get("MAX_RUNTIME_MINUTES", "50"))
+MIN_SECONDS_FOR_NEXT_ANALYSIS = int(os.environ.get("MIN_SECONDS_FOR_NEXT_ANALYSIS", "210"))
 SCORE_WEIGHTS      = {
     "relevance": 0.35,
     "urgency": 0.20,
@@ -713,7 +704,7 @@ def fetch_candidates(seen_urls: set[str]) -> list[dict]:
     return candidates
 
 
-# ── LLM API (hosted Google AI) ────────────────────────────────────────────────
+# ── LLM API (hosted Google Gemma) ─────────────────────────────────────────────
 def _prompt_from_messages(messages: list[dict]) -> str:
     return "\n\n".join(str(m.get("content", "")) for m in messages if m.get("content"))
 
@@ -750,46 +741,15 @@ def _call_google_ai(llm: dict, prompt: str, max_tokens: int, temperature: float)
     return text
 
 
-def _call_groq_ai(llm: dict, prompt: str, max_tokens: int, temperature: float) -> str:
-    resp = requests.post(
-        llm["url"],
-        headers={
-            "Authorization": f"Bearer {llm['key']}",
-            "Content-Type": "application/json",
-        },
-        json={
-            "model": llm["model"],
-            "messages": [
-                {
-                    "role": "system",
-                    "content": "Return only valid JSON. Write all article fields in accurate Albanian.",
-                },
-                {"role": "user", "content": prompt},
-            ],
-            "temperature": temperature,
-            "max_tokens": max_tokens,
-            "response_format": {"type": "json_object"},
-        },
-        timeout=120,
-    )
-    if not resp.ok:
-        raise RuntimeError(f"HTTP {resp.status_code}: {resp.text[:500]}")
-    payload = resp.json()
-    return payload["choices"][0]["message"]["content"].strip()
-
-
 def _gemma(messages: list[dict], max_tokens: int = 1024, temperature: float = 0.3) -> str:
     if not LLM_PROVIDERS:
-        raise RuntimeError("Set GOOGLE_AI_API_KEY or GROQ_API_KEY before running the Kosovo pipeline")
+        raise RuntimeError("Set GOOGLE_AI_API_KEY before running the Kosovo pipeline")
 
     last_error: Exception | None = None
     prompt = _prompt_from_messages(messages)
     for llm in LLM_PROVIDERS:
         try:
-            if llm.get("kind") == "groq":
-                text = _call_groq_ai(llm, prompt, max_tokens=max_tokens, temperature=temperature)
-            else:
-                text = _call_google_ai(llm, prompt, max_tokens=max_tokens, temperature=temperature)
+            text = _call_google_ai(llm, prompt, max_tokens=max_tokens, temperature=temperature)
             print(f"  LLM success: {llm['provider']} ({llm['model']})")
             counter_key = f"{llm['provider']} ({llm['model']})"
             LLM_SUCCESS_COUNTS[counter_key] = LLM_SUCCESS_COUNTS.get(counter_key, 0) + 1
@@ -798,7 +758,7 @@ def _gemma(messages: list[dict], max_tokens: int = 1024, temperature: float = 0.
             last_error = e
             print(f"  LLM provider failed: {llm['provider']} ({llm['model']}): {e}")
 
-    raise RuntimeError(f"Google AI failed: {last_error}")
+    raise RuntimeError(f"Google Gemma failed: {last_error}")
 
 
 def _parse_json(text: str) -> dict:
@@ -815,6 +775,19 @@ def _parse_json(text: str) -> dict:
     if m:
         return json.loads(m.group())
     return json.loads(text)
+
+
+def _is_fatal_llm_error(exc: Exception) -> bool:
+    text = str(exc).lower()
+    fatal_markers = [
+        "resource_exhausted",
+        "monthly spending cap",
+        "api key not valid",
+        "permission_denied",
+        "not found for api version",
+        "is not supported for generatecontent",
+    ]
+    return any(marker in text for marker in fatal_markers)
 
 
 def _bounded_score(value: object, default: float = 1.0) -> float:
@@ -837,7 +810,7 @@ def calculate_weighted_score(breakdown: dict | None, fallback: object = 0) -> fl
 
 def score_formula_text(breakdown: dict | None) -> str:
     if not isinstance(breakdown, dict):
-        return "Nuk pati breakdown te plote nga Google AI."
+        return "Nuk pati breakdown te plote nga Google Gemma."
     parts = []
     for key, weight in SCORE_WEIGHTS.items():
         value = _bounded_score(breakdown.get(key), 1.0)
@@ -898,7 +871,7 @@ def normalize_analysis(analysis: dict, fallback_title: str) -> dict:
 
 
 def analyze_and_translate(title: str, summary: str, source: str = "", article_text: str = "") -> dict | None:
-    """Score and translate an article in one Google AI call. Returns None if all retries fail."""
+    """Score and translate an article in one Google Gemma call. Returns None if all retries fail."""
     tier_info, tier_num = "", 0
     if source and source in SOURCE_TIERS:
         tier_num, tier_desc = SOURCE_TIERS[source]
@@ -958,6 +931,8 @@ IMPORTANT: Social platforms are SIGNALS, not proof. A story from X/Twitter, Inst
 IMPORTANT: Do not invent Instagram/Twitter facts. If the provided article says a post exists, you may mention the post as reported by that source; otherwise omit it.
 IMPORTANT: For viral football/sports accounts such as 433, treat them as useful engagement signals. Prefer official match reports, club/league sources, or established sports outlets for facts like scores, cards, injuries, transfers, and referee decisions.
 IMPORTANT: Accuracy beats length. Use ONLY facts present in the title, summary, and article text below. If the article text is short, write a shorter article instead of inventing names, numbers, quotes, dates, or reactions.
+IMPORTANT: Clarity beats style. The target reader is a normal Kosovo reader on a modern news site, not a policy expert. Every title, excerpt, and paragraph must be understandable on first read.
+IMPORTANT: Translate meaning, not word order. Never produce literal English-to-Albanian phrasing that sounds unnatural.
 
 RREGULL KRYESOR — KOHERENCA:
 Titulli, ekserpti dhe body-i duhet të tregojnë TË NJËJTËN histori.
@@ -970,6 +945,7 @@ Titulli duhet të japë faktin kryesor pa clickbait dhe pa premtime boshe.
 Lexuesi duhet ta kuptojë menjëherë kush bëri çfarë, ku dhe pse ka rëndësi.
 Mos përdor formula virale si "ja pse", "ja çfarë", "arsyeja do t'ju habisë",
 "tregon gjithçka", ose tituj që premtojnë shpjegim pa dhënë faktin.
+Nëse titulli mund të keqkuptohet pa e lexuar artikullin, rishkruaje më thjeshtë.
 
 Modele të pranueshme:
 - "[Kush] [bëri/tha/vendosi] [çfarë] në [vend/institucion]"
@@ -990,6 +966,7 @@ EKSERPTI (saktësisht 2 fjali):
 - Fjalia 1: fakti kryesor (emër specifik, numër konkret, ose ngjarje e saktë)
 - Fjalia 2: pse i intereson lexuesit kosovar — impakti direkt
 - Max 25 fjalë secila. Pa zhargon. Pa "sipas burimeve".
+- Mos përdor fjali të paqarta si "kjo ngre pyetje" ose "situata mbetet komplekse" pa shpjeguar konkretisht çfarë ndodhi.
 - SAKTË: "Serbia refuzoi marrëveshjen sot në Bruksel. Kjo vonon liberalizimin e vizave me të paktën dy vjet." ✓
 - GABIM: "Sipas burimeve zyrtare, situata është komplekse dhe ka shumë aspekte." ✗
 
@@ -1029,9 +1006,14 @@ Article text from source page, if available:
             parsed = _parse_json(raw)
             parsed = normalize_analysis(parsed, title)
             if not is_albanian_output(parsed):
-                raise ValueError("Google AI output was not Albanian enough")
+                raise ValueError("Google Gemma output was not Albanian enough")
             return parsed
         except Exception as e:
+            if _is_fatal_llm_error(e):
+                raise RuntimeError(
+                    "Fatal Google Gemma provider error; stopping the run instead of "
+                    "burning the whole hourly budget on repeated AI failures."
+                ) from e
             if attempt < 2:
                 wait = 4
                 print(f"  analyze_and_translate attempt {attempt + 1} failed: {e} — retrying in {wait}s")
@@ -1265,11 +1247,11 @@ def _format_counts(counts: dict[str, int]) -> str:
 
 def _scoring_explainer_html(run_stats: dict) -> str:
     provider_counts = run_stats.get("llm_success_counts", {})
-    provider_text = _format_counts(provider_counts) if provider_counts else "Google AI nuk ktheu artikuj të publikuar"
+    provider_text = _format_counts(provider_counts) if provider_counts else "Google Gemma nuk ktheu artikuj të publikuar"
     return f"""
       <div style="padding:14px 20px;border-bottom:1px solid #2a2a2a;background:#111;">
         <div style="font-size:12px;color:#ddd;line-height:1.6;">
-          <b style="color:#fff;">AI provider:</b> {provider_text}. Pipeline-i përdor Google AI së pari dhe Groq vetëm si fallback kur Google AI është i kufizuar ose i padisponueshëm.
+          <b style="color:#fff;">AI provider:</b> {provider_text}. Pipeline-i përdor vetëm Google Gemma për scoring, përkthim dhe shkrim.
         </div>
         <div style="font-size:12px;color:#aaa;line-height:1.6;margin-top:6px;">
           <b style="color:#fff;">Si llogaritet score:</b>
@@ -1310,7 +1292,7 @@ def send_email(articles: list[dict], out_filename: str, run_stats: dict | None =
       <div style="padding:14px 20px;border-bottom:1px solid #2a2a2a;background:#151515;">
         <div style="font-size:12px;color:#aaa;line-height:1.6;">
           <b style="color:#fff;">Përmbledhje automatizimi:</b>
-          kandidatë {run_stats.get('candidates', '?')} • analizuar {run_stats.get('analyzed', '?')} • publikuar {len(articles)} • dublikata lokale {run_stats.get('duplicates', 0)} • dublikata brenda run-it {run_stats.get('intra_duplicates', 0)} • pikë të ulëta {run_stats.get('low_score', 0)} • gabime AI/gjuhë {run_stats.get('ai_failed', 0)}
+          kandidatë {run_stats.get('candidates', '?')} • analizuar {run_stats.get('analyzed', '?')} • publikuar {len(articles)} • dublikata lokale {run_stats.get('duplicates', 0)} • dublikata brenda run-it {run_stats.get('intra_duplicates', 0)} • pikë të ulëta {run_stats.get('low_score', 0)} • gabime AI/gjuhë {run_stats.get('ai_failed', 0)}{' • ndalur nga buxheti i kohës' if run_stats.get('time_budget_stop') else ''}
         </div>
         <div style="font-size:11px;color:#777;line-height:1.5;margin-top:4px;">Lanes: {_format_counts(run_stats.get('lanes', {}))}</div>
         <div style="font-size:11px;color:#777;line-height:1.5;">Kategori të publikuara: {_format_counts(run_stats.get('accepted_categories', {}))}</div>
@@ -1420,9 +1402,12 @@ def send_email(articles: list[dict], out_filename: str, run_stats: dict | None =
 
 # ── Main ──────────────────────────────────────────────────────────────────────
 def main() -> None:
+    run_started_monotonic = time.monotonic()
+    deadline_monotonic = run_started_monotonic + (MAX_RUNTIME_MINUTES * 60)
     print(f"[Kosovo Pipeline] {datetime.now(timezone.utc).isoformat()}")
     provider_label = ", ".join(f"{p['provider']} ({p['model']})" for p in LLM_PROVIDERS) or "not configured"
     print(f"  LLM providers: {provider_label}")
+    print(f"  Runtime budget: {MAX_RUNTIME_MINUTES:.1f} min (workflow timeout should be higher)")
 
     # Purge JSON files older than 48 hours
     cutoff = datetime.now(timezone.utc) - timedelta(hours=48)
@@ -1452,6 +1437,7 @@ def main() -> None:
         "intra_duplicates": 0,
         "ai_failed": 0,
         "low_score": 0,
+        "time_budget_stop": False,
         "accepted_categories": {},
         "llm_success_counts": LLM_SUCCESS_COUNTS,
     }
@@ -1474,6 +1460,14 @@ def main() -> None:
     results: list[dict] = []
     accepted_kws: list[set[str]] = []
     for c in candidates:
+        seconds_left = deadline_monotonic - time.monotonic()
+        if seconds_left < MIN_SECONDS_FOR_NEXT_ANALYSIS:
+            print(
+                f"  Runtime budget nearly spent ({seconds_left:.0f}s left); "
+                "stopping candidate analysis and publishing accepted articles."
+            )
+            run_stats["time_budget_stop"] = True
+            break
         if len(results) >= MAX_PER_RUN:
             break
         if run_stats["analyzed"] >= MAX_AI_CALLS:
@@ -1588,7 +1582,7 @@ def main() -> None:
         send_email(results, out_filename, run_stats)
     else:
         raise RuntimeError(
-            "No articles were published because none passed the Google AI, Albanian-language, duplicate, and score filters. "
+            "No articles were published because none passed the Google Gemma, Albanian-language, duplicate, and score filters. "
             f"Candidates={run_stats['candidates']}, analyzed={run_stats['analyzed']}, "
             f"duplicates={run_stats['duplicates']}, intra_duplicates={run_stats['intra_duplicates']}, "
             f"low_score={run_stats['low_score']}, ai_failed={run_stats['ai_failed']}."
