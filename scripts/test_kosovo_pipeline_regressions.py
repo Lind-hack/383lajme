@@ -94,35 +94,44 @@ def test_article_native_image_and_text_extraction(kp):
         kp.requests.get = old_get
 
 
-def test_provider_fallback_after_google_failure(kp):
+def test_google_provider_success_path(kp):
     calls = []
 
     def fake_google(llm, prompt, max_tokens, temperature):
         calls.append(llm["provider"])
-        raise RuntimeError("HTTP 429: RESOURCE_EXHAUSTED")
-
-    def fake_groq(llm, prompt, max_tokens, temperature):
-        calls.append(llm["provider"])
         return '{"title":"Titull i saktë","score":8}'
 
     old_google = kp._call_google_ai
-    old_groq = kp._call_groq_ai
     old_providers = kp.LLM_PROVIDERS
     kp._call_google_ai = fake_google
-    kp._call_groq_ai = fake_groq
     kp.LLM_PROVIDERS = [
-        {"provider": "Google AI", "kind": "google", "model": "gemini-2.5-flash", "key": "x", "url": "x"},
-        {"provider": "Groq", "kind": "groq", "model": "llama-3.3-70b-versatile", "key": "x", "url": "x"},
+        {"provider": "Google Gemma", "kind": "google", "model": "gemma-4-26b-a4b-it", "key": "x", "url": "x"},
     ]
     try:
         text = kp._gemma([{"role": "user", "content": "Return JSON"}])
     finally:
         kp._call_google_ai = old_google
-        kp._call_groq_ai = old_groq
         kp.LLM_PROVIDERS = old_providers
 
     assert "Titull i saktë" in text
-    assert calls == ["Google AI", "Groq"]
+    assert calls == ["Google Gemma"]
+
+
+def test_fatal_google_error_stops_retries(kp):
+    def fake_gemma(messages, max_tokens=1024, temperature=0.3):
+        raise RuntimeError("HTTP 429: RESOURCE_EXHAUSTED monthly spending cap")
+
+    old = kp._gemma
+    kp._gemma = fake_gemma
+    try:
+        try:
+            kp.analyze_and_translate("Title", "Summary", source="Reuters", article_text="Facts")
+        except RuntimeError as exc:
+            assert "Fatal Google Gemma provider error" in str(exc)
+        else:
+            raise AssertionError("fatal provider error did not stop retries")
+    finally:
+        kp._gemma = old
 
 
 def main():
@@ -130,7 +139,8 @@ def main():
     test_json_parsing_and_title_cleanup(kp)
     test_mock_analyze_cleans_clickbait_title(kp)
     test_article_native_image_and_text_extraction(kp)
-    test_provider_fallback_after_google_failure(kp)
+    test_google_provider_success_path(kp)
+    test_fatal_google_error_stops_retries(kp)
     print("kosovo pipeline regression checks passed")
 
 

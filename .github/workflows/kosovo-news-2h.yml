@@ -4,7 +4,7 @@ on:
   schedule:
     # GitHub Actions is busiest at minute 0 and can delay or drop scheduled jobs.
     # Run away from the top of the hour. The :47 entry is a backup attempt:
-    # the hour guard below skips it if the :17 run already succeeded.
+    # the hour guard below skips it if the :17 run is already running or succeeded.
     - cron: '17 * * * *'
       timezone: "Europe/Belgrade"
     - cron: '47 * * * *'
@@ -18,7 +18,7 @@ concurrency:
 jobs:
   fetch:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 55
     permissions:
       contents: write         # needed to git push the JSON articles back
       actions: read           # needed to detect whether this hour already ran
@@ -28,13 +28,14 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Skip backup schedule if this hour already succeeded
+      - name: Skip backup schedule if this hour is already covered
         id: hour_guard
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           REPO: ${{ github.repository }}
           WORKFLOW_FILE: kosovo-news-2h.yml
           EVENT_NAME: ${{ github.event_name }}
+          CURRENT_RUN_ID: ${{ github.run_id }}
         run: |
           if [ "$EVENT_NAME" != "schedule" ]; then
             echo "skip=false" >> "$GITHUB_OUTPUT"
@@ -42,17 +43,35 @@ jobs:
           fi
 
           current_hour="$(date -u +%Y-%m-%dT%H)"
+          export CURRENT_HOUR="$current_hour"
           runs_json="$(curl -fsSL \
             -H "Authorization: Bearer $GH_TOKEN" \
             -H "Accept: application/vnd.github+json" \
-            "https://api.github.com/repos/$REPO/actions/workflows/$WORKFLOW_FILE/runs?event=schedule&status=success&per_page=10")"
+            "https://api.github.com/repos/$REPO/actions/workflows/$WORKFLOW_FILE/runs?event=schedule&per_page=20")"
 
-          last_success_hour="$(printf '%s' "$runs_json" | python -c 'import json, sys; payload = json.load(sys.stdin); runs = payload.get("workflow_runs", []); print(((runs[0].get("run_started_at") or runs[0].get("created_at") or "")[:13]) if runs else "")')"
+          active_this_hour="$(printf '%s' "$runs_json" | python -c '
+          import json, os, sys
+          payload = json.load(sys.stdin)
+          current_hour = os.environ["CURRENT_HOUR"]
+          current_run_id = int(os.environ["CURRENT_RUN_ID"])
+          blocking = []
+          for run in payload.get("workflow_runs", []):
+              if run.get("id") == current_run_id:
+                  continue
+              run_hour = (run.get("run_started_at") or run.get("created_at") or "")[:13]
+              if run_hour != current_hour:
+                  continue
+              status = run.get("status")
+              conclusion = run.get("conclusion")
+              if status in {"queued", "in_progress"} or conclusion == "success":
+                  blocking.append("{}:{}:{}".format(run.get("id"), status, conclusion))
+          print(",".join(blocking))
+          ')"
 
           echo "Current UTC hour: $current_hour"
-          echo "Last successful scheduled run hour: ${last_success_hour:-none}"
-          if [ "$last_success_hour" = "$current_hour" ]; then
-            echo "A scheduled run already succeeded this hour; skipping backup slot."
+          echo "Other active/successful scheduled runs this hour: ${active_this_hour:-none}"
+          if [ -n "$active_this_hour" ]; then
+            echo "A scheduled run is already active or succeeded this hour; skipping this backup slot."
             echo "skip=true" >> "$GITHUB_OUTPUT"
           else
             echo "skip=false" >> "$GITHUB_OUTPUT"
@@ -90,10 +109,11 @@ jobs:
         if: steps.hour_guard.outputs.skip != 'true'
         env:
           GOOGLE_AI_API_KEY:    ${{ secrets.GOOGLE_AI_API_KEY }}
-          GROQ_API_KEY:         ${{ secrets.GROQ_API_KEY }}
-          GROQ_AI_MODEL:        llama-3.3-70b-versatile
-          GOOGLE_AI_MODEL:      gemini-2.5-flash
-          GOOGLE_AI_BACKUP_MODEL: gemini-2.0-flash
+          GOOGLE_AI_MODEL:      gemma-4-26b-a4b-it
+          GOOGLE_AI_BACKUP_MODEL: gemma-4-31b-it
+          MAX_RUNTIME_MINUTES:  "50"
+          MAX_AI_CALLS:         "24"
+          MIN_SECONDS_FOR_NEXT_ANALYSIS: "210"
           GOOGLE_SEARCH_API_KEY: ${{ secrets.GOOGLE_SEARCH_API_KEY }}
           GOOGLE_CSE_ID:        ${{ secrets.GOOGLE_CSE_ID }}
           PEXELS_API_KEY:       ${{ secrets.PEXELS_API_KEY }}
