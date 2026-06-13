@@ -94,11 +94,43 @@ def test_article_native_image_and_text_extraction(kp):
         kp.requests.get = old_get
 
 
+def test_provider_fallback_after_google_failure(kp):
+    calls = []
+
+    def fake_google(llm, prompt, max_tokens, temperature):
+        calls.append(llm["provider"])
+        raise RuntimeError("HTTP 429: RESOURCE_EXHAUSTED")
+
+    def fake_groq(llm, prompt, max_tokens, temperature):
+        calls.append(llm["provider"])
+        return '{"title":"Titull i saktë","score":8}'
+
+    old_google = kp._call_google_ai
+    old_groq = kp._call_groq_ai
+    old_providers = kp.LLM_PROVIDERS
+    kp._call_google_ai = fake_google
+    kp._call_groq_ai = fake_groq
+    kp.LLM_PROVIDERS = [
+        {"provider": "Google AI", "kind": "google", "model": "gemini-2.5-flash", "key": "x", "url": "x"},
+        {"provider": "Groq", "kind": "groq", "model": "llama-3.3-70b-versatile", "key": "x", "url": "x"},
+    ]
+    try:
+        text = kp._gemma([{"role": "user", "content": "Return JSON"}])
+    finally:
+        kp._call_google_ai = old_google
+        kp._call_groq_ai = old_groq
+        kp.LLM_PROVIDERS = old_providers
+
+    assert "Titull i saktë" in text
+    assert calls == ["Google AI", "Groq"]
+
+
 def main():
     kp = load_pipeline()
     test_json_parsing_and_title_cleanup(kp)
     test_mock_analyze_cleans_clickbait_title(kp)
     test_article_native_image_and_text_extraction(kp)
+    test_provider_fallback_after_google_failure(kp)
     print("kosovo pipeline regression checks passed")
 
 
