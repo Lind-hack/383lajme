@@ -102,7 +102,7 @@ export default async function HomePage() {
       </div>
 
       {/* Image accordion hero — top article per category */}
-      <ImageAccordion slides={accordionSlides} />
+      <ImageAccordion featured={hero} slides={accordionSlides} />
 
       {/* Main content — cream section */}
       <main
