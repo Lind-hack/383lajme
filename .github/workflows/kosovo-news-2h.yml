@@ -82,15 +82,20 @@ jobs:
           test -n "$GMAIL_APP_PASSWORD" || (echo "Missing GMAIL_APP_PASSWORD" && exit 1)
           echo "Email reports will be sent to ${RECIPIENT_EMAIL:-lindsylqa@gmail.com}"
 
+      - name: Run Kosovo pipeline regression checks
+        if: steps.hour_guard.outputs.skip != 'true'
+        run: python scripts/test_kosovo_pipeline_regressions.py
+
       - name: Run Kosovo pipeline
         if: steps.hour_guard.outputs.skip != 'true'
         env:
           GOOGLE_AI_API_KEY:    ${{ secrets.GOOGLE_AI_API_KEY }}
-          GOOGLE_AI_MODEL:      gemma-4-26b-a4b-it
-          GOOGLE_AI_BACKUP_MODEL: gemma-4-31b-it
+          GOOGLE_AI_MODEL:      gemini-2.5-flash
+          GOOGLE_AI_BACKUP_MODEL: gemini-2.0-flash
           GOOGLE_SEARCH_API_KEY: ${{ secrets.GOOGLE_SEARCH_API_KEY }}
           GOOGLE_CSE_ID:        ${{ secrets.GOOGLE_CSE_ID }}
           PEXELS_API_KEY:       ${{ secrets.PEXELS_API_KEY }}
+          ALLOW_STOCK_IMAGES:   "0"
           GMAIL_USER:           ${{ secrets.GMAIL_USER }}
           GMAIL_APP_PASSWORD:   ${{ secrets.GMAIL_APP_PASSWORD }}
           RECIPIENT_EMAIL:      ${{ secrets.RECIPIENT_EMAIL }}
