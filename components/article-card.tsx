@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { type Article, timeAgo, calcReadingTime } from "@/lib/mock-data";
 import { getCategoryColor, getCategoryBg } from "@/lib/category-colors";
-import { EASE, DUR, STAGGER, RADIUS, SHADOW, FONT } from "@/lib/tokens";
+import { EASE, DUR, STAGGER, RADIUS, SHADOW } from "@/lib/tokens";
 import SourceBadge from "./source-badge";
 
 interface ArticleCardProps {
@@ -65,21 +65,22 @@ export default function ArticleCard({ article, variant = "grid", index = 0 }: Ar
     return (
       <Link href={`/article/${article.slug}`} style={{ textDecoration: "none", display: "block", flexShrink: 0 }}>
         <motion.div
-          whileHover={{ y: -2 }}
+          whileHover={hoverLift}
           transition={hoverTransition}
           style={{
             width: "228px",
             height: "358px",
-            background: "#FFFFFF",
+            background: "linear-gradient(180deg, #FFFFFF 0%, #FAFAF8 100%)",
             borderRadius: RADIUS.md,
-            border: "1px solid #E8E3DB",
+            border: "1px solid rgba(0,0,0,0.07)",
             overflow: "hidden",
             cursor: "pointer",
+            boxShadow: SHADOW.card,
             display: "flex",
             flexDirection: "column",
           }}
         >
-          {/* Image area — flat, no overlays */}
+          {/* Image area */}
           <div style={{ height: "130px", overflow: "hidden", position: "relative", flexShrink: 0 }}>
             {article.imageUrl && !imgFailed ? (
               // eslint-disable-next-line @next/next/no-img-element
@@ -99,32 +100,82 @@ export default function ArticleCard({ article, variant = "grid", index = 0 }: Ar
                 }}
               />
             )}
+
+            {/* Bottom fade overlay */}
+            <div style={{
+              position: "absolute",
+              inset: 0,
+              background: "linear-gradient(to top, rgba(0,0,0,0.62) 0%, transparent 55%)",
+              pointerEvents: "none",
+            }} />
+
+            {/* Category pill — glass, bottom-left */}
+            <div style={{
+              position: "absolute",
+              bottom: "10px",
+              left: "10px",
+              display: "flex",
+              alignItems: "center",
+              gap: "5px",
+              background: "rgba(255,255,255,0.18)",
+              backdropFilter: "blur(16px) saturate(180%)",
+              WebkitBackdropFilter: "blur(16px) saturate(180%)",
+              border: "0.5px solid rgba(255,255,255,0.45)",
+              borderRadius: RADIUS.pill,
+              padding: "3px 8px 3px 6px",
+            }}>
+              <span style={{
+                width: "6px",
+                height: "6px",
+                borderRadius: "50%",
+                background: catColor,
+                flexShrink: 0,
+                boxShadow: `0 0 6px ${catColor}`,
+              }} />
+              <span style={{
+                fontSize: "9px",
+                fontWeight: 800,
+                letterSpacing: "0.1em",
+                textTransform: "uppercase",
+                color: "#FFFFFF",
+              }}>
+                {article.category}
+              </span>
+            </div>
+
+            {/* Reading time pill — bottom-right */}
+            <div style={{
+              position: "absolute",
+              bottom: "10px",
+              right: "10px",
+              background: "rgba(0,0,0,0.45)",
+              backdropFilter: "blur(12px)",
+              WebkitBackdropFilter: "blur(12px)",
+              border: "0.5px solid rgba(255,255,255,0.2)",
+              borderRadius: RADIUS.pill,
+              padding: "2px 5px",
+            }}>
+              <span style={{
+                fontSize: "9px",
+                fontWeight: 700,
+                color: "rgba(255,255,255,0.92)",
+                letterSpacing: "0.04em",
+              }}>
+                {readMins} min
+              </span>
+            </div>
+
             {article.sourceBias === "hostile" && <HostileBadge />}
           </div>
 
           {/* Content */}
-          <div style={{ padding: "14px 16px 16px", flex: 1, display: "flex", flexDirection: "column" }}>
-            {/* Kicker: NJOFTIM # · category */}
-            <div style={{
-              fontSize: "9px",
-              fontWeight: 800,
-              letterSpacing: "0.18em",
-              textTransform: "uppercase",
-              color: catColor,
-              marginBottom: "8px",
-            }}>
-              NJOFTIM {article.dispatch} · {article.category}
-            </div>
-
-            {/* Serif title */}
+          <div style={{ padding: "16px", flex: 1, display: "flex", flexDirection: "column", gap: "8px" }}>
             <p style={{
-              fontFamily: FONT.serif,
-              fontSize: "16px",
-              fontWeight: 600,
-              lineHeight: 1.3,
+              fontSize: "14px",
+              fontWeight: 800,
+              lineHeight: 1.32,
               color: "#111111",
-              margin: "0 0 8px",
-              flex: 1,
+              margin: 0,
               display: "-webkit-box",
               WebkitLineClamp: 3,
               WebkitBoxOrient: "vertical",
@@ -132,6 +183,21 @@ export default function ArticleCard({ article, variant = "grid", index = 0 }: Ar
               letterSpacing: "-0.01em",
             }}>
               {article.title}
+            </p>
+
+            <p style={{
+              fontSize: "12px",
+              fontWeight: 400,
+              lineHeight: 1.55,
+              color: "#888888",
+              margin: 0,
+              display: "-webkit-box",
+              WebkitLineClamp: 2,
+              WebkitBoxOrient: "vertical",
+              overflow: "hidden",
+              flex: 1,
+            }}>
+              {article.excerpt}
             </p>
 
             {/* Footer */}
@@ -337,25 +403,26 @@ export default function ArticleCard({ article, variant = "grid", index = 0 }: Ar
     );
   }
 
-  // grid variant (default) — flat editorial
+  // grid variant (default) — luxury upgrade
   return (
     <Link href={`/article/${article.slug}`} style={{ textDecoration: "none", display: "block", height: "100%" }}>
       <motion.div
         {...reveal}
-        whileHover={{ y: -3 }}
+        whileHover={hoverLift}
         transition={hoverTransition}
         style={{
-          background: "#FFFFFF",
+          background: "linear-gradient(180deg, #FFFFFF 0%, #FAFAF8 100%)",
           borderRadius: RADIUS.md,
-          border: "1px solid #E8E3DB",
+          border: "1px solid rgba(0,0,0,0.07)",
           overflow: "hidden",
           cursor: "pointer",
           height: "100%",
           display: "flex",
           flexDirection: "column",
+          boxShadow: SHADOW.card,
         }}
       >
-        {/* Image area — flat, no overlays */}
+        {/* Image area */}
         <div style={{ aspectRatio: "16/10", overflow: "hidden", position: "relative", flexShrink: 0 }}>
           {article.imageUrl && !imgFailed ? (
             // eslint-disable-next-line @next/next/no-img-element
@@ -375,34 +442,94 @@ export default function ArticleCard({ article, variant = "grid", index = 0 }: Ar
               }}
             />
           )}
+
+          {/* Bottom fade */}
+          <div style={{
+            position: "absolute",
+            inset: 0,
+            background: "linear-gradient(to top, rgba(0,0,0,0.65) 0%, transparent 55%)",
+            pointerEvents: "none",
+          }} />
+
+          {/* Category pill — glass on image */}
+          <div style={{
+            position: "absolute",
+            bottom: "12px",
+            left: "12px",
+            display: "flex",
+            alignItems: "center",
+            gap: "5px",
+            background: "rgba(255,255,255,0.18)",
+            backdropFilter: "blur(16px) saturate(180%)",
+            WebkitBackdropFilter: "blur(16px) saturate(180%)",
+            border: "0.5px solid rgba(255,255,255,0.45)",
+            borderRadius: RADIUS.pill,
+            padding: "4px 10px 4px 7px",
+          }}>
+            <span style={{
+              width: "6px",
+              height: "6px",
+              borderRadius: "50%",
+              background: catColor,
+              flexShrink: 0,
+              boxShadow: `0 0 6px ${catColor}`,
+            }} />
+            <span style={{
+              fontSize: "9px",
+              fontWeight: 800,
+              letterSpacing: "0.1em",
+              textTransform: "uppercase",
+              color: "#FFFFFF",
+            }}>
+              {article.category}
+            </span>
+            <span style={{
+              fontSize: "9px",
+              fontWeight: 600,
+              color: "rgba(255,255,255,0.65)",
+              letterSpacing: "0.06em",
+            }}>
+              #{article.dispatch}
+            </span>
+          </div>
+
+          {/* Reading time — bottom-right */}
+          <div style={{
+            position: "absolute",
+            bottom: "12px",
+            right: "12px",
+            background: "rgba(0,0,0,0.45)",
+            backdropFilter: "blur(12px)",
+            WebkitBackdropFilter: "blur(12px)",
+            border: "0.5px solid rgba(255,255,255,0.2)",
+            borderRadius: RADIUS.pill,
+            padding: "2px 5px",
+          }}>
+            <span style={{
+              fontSize: "9px",
+              fontWeight: 700,
+              color: "rgba(255,255,255,0.92)",
+              letterSpacing: "0.04em",
+            }}>
+              {readMins} min
+            </span>
+          </div>
+
           {article.sourceBias === "hostile" && <HostileBadge />}
         </div>
 
         <div style={{
-          padding: "16px 20px 20px",
+          padding: "20px 24px 24px",
           flex: 1,
           display: "flex",
           flexDirection: "column",
         }}>
-          {/* Flat overline — category + dispatch */}
-          <div style={{
-            fontSize: "10px",
-            fontWeight: 800,
-            letterSpacing: "0.18em",
-            textTransform: "uppercase",
-            color: catColor,
-            marginBottom: "8px",
-          }}>
-            {article.category} · #{article.dispatch}
-          </div>
-
-          {/* Serif title */}
+          {/* Title */}
           <h3 style={{
-            fontFamily: FONT.serif,
             fontSize: "18px",
-            fontWeight: 600,
-            lineHeight: 1.3,
-            letterSpacing: "-0.01em",
+            fontWeight: 800,
+            lineHeight: 1.28,
+            letterSpacing: "-0.02em",
             color: "#111111",
             margin: "0 0 10px",
             flex: 1,
@@ -419,7 +546,7 @@ export default function ArticleCard({ article, variant = "grid", index = 0 }: Ar
             fontSize: "13px",
             lineHeight: 1.6,
             color: "#888888",
-            margin: "0 0 16px",
+            margin: "0 0 20px",
             display: "-webkit-box",
             WebkitLineClamp: 2,
             WebkitBoxOrient: "vertical",

@@ -19,7 +19,7 @@
   --color-showbiz:  #E91E8C;
 
   --font-sans: "Manrope", sans-serif;
-  --font-serif: var(--font-fraunces), Georgia, serif;
+  --font-serif: Georgia, "Times New Roman", serif;
 
   /* Spacing (4px base) */
   --space-1:  4px;
@@ -60,16 +60,6 @@
   --duration-slow: 300ms;
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-in:  cubic-bezier(0.4, 0, 0.7, 1);
-}
-
-/* ── Navbar height var (64px nav row; desktop adds 28px date strip) ── */
-:root {
-  --nav-h: 64px;
-}
-@media (min-width: 768px) {
-  :root {
-    --nav-h: 92px;
-  }
 }
 
 *, *::before, *::after {
@@ -337,87 +327,24 @@ body {
   transform: scale(0.99);
 }
 
-/* ── KRYESORE magazine grid ─────────────────────────────── */
-.kryesore-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
-}
-.kryesore-stack {
-  border-left: 1px solid #E8E3DB;
-  padding-left: 36px;
-  margin-left: 36px;
-}
-.kryesore-bottom {
-  grid-column: 1 / -1;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 36px;
-  border-top: 1px solid #E8E3DB;
-  margin-top: 36px;
-  padding-top: 28px;
-}
-@media (max-width: 1023px) {
-  .kryesore-grid {
-    grid-template-columns: 1fr;
-  }
-  .kryesore-stack {
-    border-left: none;
-    border-top: 1px solid #E8E3DB;
-    padding-left: 0;
-    margin-left: 0;
-    padding-top: 28px;
-    margin-top: 28px;
-  }
-}
-@media (max-width: 767px) {
-  .kryesore-bottom {
-    grid-template-columns: 1fr;
-  }
+/* ── Navbar height var ── */
+:root {
+  --nav-h: 64px;
 }
 
-/* ── LAJMET E FUNDIT print briefs ───────────────────────── */
-.briefs-cols {
-  column-count: 3;
-  column-gap: 40px;
-  column-rule: 1px solid #E8E3DB;
-}
-@media (max-width: 1023px) {
-  .briefs-cols {
-    column-count: 2;
-  }
-}
-@media (max-width: 767px) {
-  .briefs-cols {
-    column-count: 1;
-  }
+/* ── Spline loader spinner ──────────────────────────────── */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
 }
 
-/* ── BOTA FLET asymmetric grid ──────────────────────────── */
-.bota-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+/* ── Aceternity spotlight beam ──────────────────────────── */
+@keyframes spotlight {
+  0%   { opacity: 0; transform: translate(-72%, -62%) skewX(-15deg) scale(0.85); }
+  100% { opacity: 1; transform: translate(-50%, -40%) skewX(-15deg) scale(1); }
 }
-@media (max-width: 1023px) {
-  .bota-grid {
-    grid-template-columns: 1fr;
-  }
-}
-.bota-item {
-  transition: opacity var(--duration-base) var(--ease-out);
-}
-.bota-item:hover {
-  opacity: 0.8;
-}
-
-/* ── Article body drop cap ──────────────────────────────── */
-.article-body > p:first-of-type::first-letter {
-  font-family: var(--font-serif);
-  font-weight: 600;
-  font-size: 58px;
-  line-height: 0.85;
-  float: left;
-  margin-right: 8px;
-  margin-top: 4px;
+.animate-spotlight {
+  animation: spotlight 2s ease 0.75s 1 forwards;
 }
 
 /* ── Reduced motion: stop ambient CSS animations ────────── */

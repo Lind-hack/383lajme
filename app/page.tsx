@@ -5,7 +5,7 @@ import TextureBg from "@/components/aurora-bg";
 import SectionLabel from "@/components/section-label";
 import Navbar from "@/components/navbar";
 import BreakingTicker from "@/components/breaking-ticker";
-import HeroScrollArticle from "@/components/hero-scroll-article";
+import HeroDispatch from "@/components/hero-dispatch";
 import DispatchRow from "@/components/dispatch-row";
 import NewsGrid from "@/components/news-grid";
 import DispatchList from "@/components/dispatch-list";
@@ -18,7 +18,7 @@ import DiasporaSeries from "@/components/diaspora-series";
 import ThrowbackSection from "@/components/throwback-section";
 import AlertsCta from "@/components/alerts-cta";
 import DailyPoll from "@/components/daily-poll";
-import BotaFlet from "@/components/bota-flet";
+import ImageAccordion, { type AccordionSlide } from "@/components/image-accordion";
 
 export const revalidate = 3600;
 
@@ -26,6 +26,14 @@ function titleKws(text: string) {
   return new Set(text.toLowerCase().split(/\W+/).filter((w) => w.length > 4));
 }
 
+/** Convert an emoji flag (regional indicator pair) to a two-letter country code. */
+function flagToCode(flag: string): string {
+  const letters = Array.from(flag)
+    .map((c) => c.codePointAt(0) ?? 0)
+    .filter((cp) => cp >= 0x1f1e6 && cp <= 0x1f1ff)
+    .map((cp) => String.fromCharCode(cp - 0x1f1e6 + 65));
+  return letters.length === 2 ? letters.join("") : "";
+}
 
 export default async function HomePage() {
   const articles = getArticles(60);
@@ -63,6 +71,24 @@ export default async function HomePage() {
 
   const politikeArticles = articles.filter((a) => a.category === "Politikë");
 
+  // Image accordion — top article per category, fallback to best unused
+  const accordionCats = [
+    { category: "Politikë",  label: "Politikë"  },
+    { category: "Showbiz",   label: "Showbiz"   },
+    { category: "Botë",      label: "Botë"      },
+    { category: "Teknologji",label: "Teknologji"},
+    { category: "Sport",     label: "Sport"     },
+  ];
+  const usedAccordionIds = new Set<string>();
+  const accordionSlides: AccordionSlide[] = accordionCats.map(({ category, label }) => {
+    const article =
+      articles.find((a) => a.category === category && !usedAccordionIds.has(a.id)) ??
+      articles.find((a) => !usedAccordionIds.has(a.id)) ??
+      articles[0];
+    usedAccordionIds.add(article.id);
+    return { article, category, label };
+  });
+
   return (
     <>
       <TextureBg />
@@ -75,8 +101,8 @@ export default async function HomePage() {
         <BreakingTicker />
       </div>
 
-      {/* Full-viewport scroll hero — outside constrained main */}
-      <HeroScrollArticle article={hero} />
+      {/* Image accordion hero — top article per category */}
+      <ImageAccordion featured={hero} slides={accordionSlides} />
 
       {/* Main content — cream section */}
       <main
@@ -88,6 +114,33 @@ export default async function HomePage() {
           padding: "64px 24px 0",
         }}
       >
+        {/* "383" large watermark behind hero */}
+        <div
+          aria-hidden="true"
+          style={{
+            position: "absolute",
+            top: "-20px",
+            left: "50%",
+            transform: "translateX(-50%)",
+            fontSize: "clamp(120px, 16vw, 220px)",
+            fontWeight: 800,
+            color: "transparent",
+            WebkitTextStroke: "1px rgba(17,17,17,0.05)",
+            letterSpacing: "-0.08em",
+            lineHeight: 1,
+            pointerEvents: "none",
+            userSelect: "none",
+            whiteSpace: "nowrap",
+          }}
+        >
+          383
+        </div>
+
+        {/* Hero dispatch */}
+        <div style={{ marginBottom: "var(--space-section)", position: "relative" }}>
+          <HeroDispatch article={hero} />
+        </div>
+
         {/* Daily video reaction */}
         <ReagimiDites article={reagimiArticle} />
 
@@ -120,7 +173,70 @@ export default async function HomePage() {
         </div>
       </main>
 
-      <BotaFlet articles={articles.slice(2, 5)} />
+      {/* Charcoal world news section */}
+      <section
+        style={{
+          background: "#1A1A1A",
+          padding: "64px 24px",
+          position: "relative",
+          zIndex: 1,
+        }}
+      >
+        <div style={{ maxWidth: "1280px", margin: "0 auto" }}>
+          <SectionLabel label="BOTA FLET" accent="#F59E0B" dark marginBottom={36} />
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
+              gap: "20px",
+            }}
+          >
+            {articles.slice(2, 5).map((article) => {
+              const catColor = "#F59E0B";
+              return (
+                <a
+                  key={article.id}
+                  href={`/article/${article.slug}`}
+                  style={{ textDecoration: "none", display: "block", height: "100%" }}
+                >
+                  <div
+                    className="world-card"
+                    style={{
+                      background: "rgba(255,255,255,0.05)",
+                      border: "1px solid rgba(255,255,255,0.08)",
+                      borderRadius: "var(--radius-md)",
+                      overflow: "hidden",
+                      display: "flex",
+                      flexDirection: "column",
+                      height: "100%",
+                    }}
+                  >
+                    <div style={{ height: "3px", background: catColor, flexShrink: 0 }} />
+                    <div style={{ padding: "24px", flex: 1, display: "flex", flexDirection: "column" }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: "6px", marginBottom: "12px" }}>
+                        {flagToCode(article.sourceFlag) && (
+                          <span style={{ fontSize: "10px", fontWeight: 700, letterSpacing: "0.08em", color: "rgba(255,255,255,0.4)" }}>
+                            {flagToCode(article.sourceFlag)}
+                          </span>
+                        )}
+                        <span style={{ fontSize: "11px", fontWeight: 600, color: "rgba(255,255,255,0.5)", letterSpacing: "0.08em" }}>
+                          {article.source}
+                        </span>
+                      </div>
+                      <h3 style={{ fontSize: "16px", fontWeight: 700, color: "#FFFFFF", margin: "0 0 10px", lineHeight: 1.35, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
+                        {article.title}
+                      </h3>
+                      <p style={{ fontSize: "13px", color: "rgba(255,255,255,0.45)", margin: 0, lineHeight: 1.6, display: "-webkit-box", WebkitLineClamp: 3, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
+                        {article.excerpt}
+                      </p>
+                    </div>
+                  </div>
+                </a>
+              );
+            })}
+          </div>
+        </div>
+      </section>
 
       {/* Tone dashboard + Diaspora series */}
       <div

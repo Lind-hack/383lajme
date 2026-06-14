@@ -8,15 +8,20 @@
     "start": "next start"
   },
   "dependencies": {
+    "@splinetool/react-spline": "^4.1.0",
+    "@splinetool/runtime": "^1.12.97",
     "@supabase/ssr": "^0.10.3",
     "@supabase/supabase-js": "^2.106.2",
     "@types/better-sqlite3": "^7.6.13",
     "better-sqlite3": "^12.10.0",
+    "clsx": "^2.1.1",
     "framer-motion": "^11.18.2",
     "lucide-react": "^0.511.0",
+    "motion": "^12.40.0",
     "next": "16.2.1",
     "react": "19.2.4",
-    "react-dom": "19.2.4"
+    "react-dom": "19.2.4",
+    "tailwind-merge": "^3.6.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

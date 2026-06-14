@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ArrowLeft } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import Navbar from "@/components/navbar";
-import { EASE, DUR, FONT } from "@/lib/tokens";
+import { EASE, DUR } from "@/lib/tokens";
 import type { SupabaseClient } from "@supabase/supabase-js";
 
 type Tab = "hyr" | "regjistrohu";
@@ -163,7 +163,7 @@ function HyrForm() {
           alignItems: "center",
           justifyContent: "center",
           padding: "24px",
-          paddingTop: "calc(var(--nav-h) + 16px)",
+          paddingTop: "80px",
           fontFamily: "var(--font-manrope), sans-serif",
         }}
       >
@@ -182,15 +182,10 @@ function HyrForm() {
           }}
         >
           {/* Logo */}
-          <div style={{ display: "flex", alignItems: "baseline", gap: "4px", marginBottom: "8px" }}>
+          <div style={{ display: "flex", alignItems: "baseline", gap: "4px", marginBottom: "32px" }}>
             <span style={{ fontSize: "28px", fontWeight: 900, color: "#111", letterSpacing: "-0.04em" }}>383</span>
             <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#FF4422", display: "inline-block", marginBottom: "3px" }} />
           </div>
-
-          {/* Greeting */}
-          <p style={{ fontFamily: FONT.serif, fontStyle: "italic", fontWeight: 500, fontSize: "22px", color: "#6B6B6B", margin: "0 0 28px", lineHeight: 1.3 }}>
-            Mirë se erdhe.
-          </p>
 
           {/* Tabs — framer layoutId active pill */}
           <div

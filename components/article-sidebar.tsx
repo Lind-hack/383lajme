@@ -21,9 +21,19 @@ interface Props {
 }
 
 export default function ArticleSidebar({ article, related }: Props) {
+  const [scrollProgress, setScrollProgress] = useState(0);
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [copied, setCopied] = useState(false);
   const [liveReaders, setLiveReaders] = useState(0);
+
+  useEffect(() => {
+    function onScroll() {
+      const total = document.documentElement.scrollHeight - window.innerHeight;
+      setScrollProgress(total > 0 ? (window.scrollY / total) * 100 : 0);
+    }
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   useEffect(() => {
     try {
@@ -85,6 +95,29 @@ export default function ArticleSidebar({ article, related }: Props) {
 
   return (
     <>
+      {/* Reading progress bar — fixed at top of viewport */}
+      <div
+        style={{
+          position: "fixed",
+          top: "64px",
+          left: 0,
+          right: 0,
+          height: "3px",
+          background: "rgba(0,0,0,0.06)",
+          zIndex: 100,
+          pointerEvents: "none",
+        }}
+      >
+        <div
+          style={{
+            height: "100%",
+            width: `${scrollProgress}%`,
+            background: "#FF4422",
+            transition: "width 0.1s linear",
+          }}
+        />
+      </div>
+
       {/* Sticky sidebar */}
       <div
         style={{
