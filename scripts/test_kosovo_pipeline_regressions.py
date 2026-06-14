@@ -118,6 +118,33 @@ def test_google_provider_success_path(kp):
     assert calls == ["Google Gemma"]
 
 
+def test_google_api_key1_fallback_after_main_quota(kp):
+    calls = []
+
+    def fake_google(llm, prompt, max_tokens, temperature):
+        calls.append(f"{llm.get('key_label')}:{llm['model']}")
+        if llm.get("key_label") == "main":
+            raise RuntimeError("HTTP 429: RESOURCE_EXHAUSTED monthly spending cap")
+        return '{"title":"Titull nga key1","score":8}'
+
+    old_google = kp._call_google_ai
+    old_providers = kp.LLM_PROVIDERS
+    kp._call_google_ai = fake_google
+    kp.LLM_PROVIDERS = [
+        {"provider": "Google Gemma", "kind": "google", "model": "gemma-main", "key": "old", "key_label": "main", "url": "x"},
+        {"provider": "Google Gemma", "kind": "google", "model": "gemma-main-backup", "key": "old", "key_label": "main", "url": "x"},
+        {"provider": "Google Gemma", "kind": "google", "model": "gemma-main", "key": "new", "key_label": "key1", "url": "x"},
+    ]
+    try:
+        text = kp._gemma([{"role": "user", "content": "Return JSON"}])
+    finally:
+        kp._call_google_ai = old_google
+        kp.LLM_PROVIDERS = old_providers
+
+    assert "Titull nga key1" in text
+    assert calls == ["main:gemma-main", "key1:gemma-main"]
+
+
 def test_fatal_google_error_stops_retries(kp):
     def fake_gemma(messages, max_tokens=1024, temperature=0.3):
         raise RuntimeError("HTTP 429: RESOURCE_EXHAUSTED monthly spending cap")
@@ -186,6 +213,7 @@ def main():
     test_mock_analyze_cleans_clickbait_title(kp)
     test_article_native_image_and_text_extraction(kp)
     test_google_provider_success_path(kp)
+    test_google_api_key1_fallback_after_main_quota(kp)
     test_fatal_google_error_stops_retries(kp)
     test_main_soft_exits_on_fatal_google_error(kp)
     print("kosovo pipeline regression checks passed")

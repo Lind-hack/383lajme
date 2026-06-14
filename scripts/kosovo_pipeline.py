@@ -52,6 +52,7 @@ except ImportError:
 
 # ── Config ────────────────────────────────────────────────────────────────────
 GOOGLE_AI_API_KEY  = os.environ.get("GOOGLE_AI_API_KEY", "")
+GOOGLE_API_KEY1    = os.environ.get("GOOGLE_API_KEY1", "")
 GOOGLE_SEARCH_KEY  = os.environ.get("GOOGLE_SEARCH_API_KEY", "")
 GOOGLE_CSE_ID      = os.environ.get("GOOGLE_CSE_ID", "")
 PEXELS_API_KEY     = os.environ.get("PEXELS_API_KEY", "")
@@ -65,7 +66,12 @@ GOOGLE_AI_MODEL    = os.environ.get("GOOGLE_AI_MODEL", "gemma-4-26b-a4b-it")
 GOOGLE_AI_BACKUP_MODEL = os.environ.get("GOOGLE_AI_BACKUP_MODEL", "gemma-4-31b-it")
 # LLM provider: hosted Google Gemma only for article scoring/writing.
 LLM_PROVIDERS: list[dict[str, str]] = []
-if GOOGLE_AI_API_KEY:
+GOOGLE_AI_KEYS = [
+    ("main", GOOGLE_AI_API_KEY),
+    ("key1", GOOGLE_API_KEY1),
+]
+active_google_ai_keys = [(label, key) for label, key in GOOGLE_AI_KEYS if key]
+if active_google_ai_keys:
     model_candidates = [
         GOOGLE_AI_MODEL,
         GOOGLE_AI_BACKUP_MODEL,
@@ -73,16 +79,18 @@ if GOOGLE_AI_API_KEY:
         "gemma-4-26b-a4b-it",
         "gemma-4-31b-it",
     ]
-    for model_name in dict.fromkeys(model_candidates):
-        if not model_name:
-            continue
-        LLM_PROVIDERS.append({
-            "provider": "Google Gemma",
-            "kind": "google",
-            "url": f"https://generativelanguage.googleapis.com/v1beta/models/{model_name}:generateContent",
-            "model": model_name,
-            "key": GOOGLE_AI_API_KEY,
-        })
+    for key_label, api_key in active_google_ai_keys:
+        for model_name in dict.fromkeys(model_candidates):
+            if not model_name:
+                continue
+            LLM_PROVIDERS.append({
+                "provider": "Google Gemma",
+                "kind": "google",
+                "url": f"https://generativelanguage.googleapis.com/v1beta/models/{model_name}:generateContent",
+                "model": model_name,
+                "key": api_key,
+                "key_label": key_label,
+            })
 LLM_PROVIDER = LLM_PROVIDERS[0]["provider"] if LLM_PROVIDERS else "none"
 LLM_MODEL = LLM_PROVIDERS[0]["model"] if LLM_PROVIDERS else ""
 LLM_SUCCESS_COUNTS: dict[str, int] = {}
@@ -743,20 +751,27 @@ def _call_google_ai(llm: dict, prompt: str, max_tokens: int, temperature: float)
 
 def _gemma(messages: list[dict], max_tokens: int = 1024, temperature: float = 0.3) -> str:
     if not LLM_PROVIDERS:
-        raise RuntimeError("Set GOOGLE_AI_API_KEY before running the Kosovo pipeline")
+        raise RuntimeError("Set GOOGLE_AI_API_KEY or GOOGLE_API_KEY1 before running the Kosovo pipeline")
 
     last_error: Exception | None = None
     prompt = _prompt_from_messages(messages)
+    exhausted_key_labels: set[str] = set()
     for llm in LLM_PROVIDERS:
+        key_label = llm.get("key_label", "main")
+        if key_label in exhausted_key_labels:
+            continue
         try:
             text = _call_google_ai(llm, prompt, max_tokens=max_tokens, temperature=temperature)
-            print(f"  LLM success: {llm['provider']} ({llm['model']})")
-            counter_key = f"{llm['provider']} ({llm['model']})"
+            print(f"  LLM success: {llm['provider']} ({llm['model']}, {key_label})")
+            counter_key = f"{llm['provider']} ({llm['model']}, {key_label})"
             LLM_SUCCESS_COUNTS[counter_key] = LLM_SUCCESS_COUNTS.get(counter_key, 0) + 1
             return text
         except Exception as e:
             last_error = e
-            print(f"  LLM provider failed: {llm['provider']} ({llm['model']}): {e}")
+            print(f"  LLM provider failed: {llm['provider']} ({llm['model']}, {key_label}): {e}")
+            if _is_fatal_llm_error(e):
+                exhausted_key_labels.add(key_label)
+                print(f"  Skipping remaining models for Google API key slot '{key_label}' after fatal/quota error.")
 
     raise RuntimeError(f"Google Gemma failed: {last_error}")
 
@@ -780,7 +795,12 @@ def _parse_json(text: str) -> dict:
 def _is_fatal_llm_error(exc: Exception) -> bool:
     text = str(exc).lower()
     fatal_markers = [
+        "http 429",
         "resource_exhausted",
+        "rate_limit_exceeded",
+        "rate limit",
+        "quota exceeded",
+        "exceeded your current quota",
         "monthly spending cap",
         "api key not valid",
         "permission_denied",
@@ -1409,7 +1429,10 @@ def main() -> None:
     run_started_monotonic = time.monotonic()
     deadline_monotonic = run_started_monotonic + (MAX_RUNTIME_MINUTES * 60)
     print(f"[Kosovo Pipeline] {datetime.now(timezone.utc).isoformat()}")
-    provider_label = ", ".join(f"{p['provider']} ({p['model']})" for p in LLM_PROVIDERS) or "not configured"
+    provider_label = ", ".join(
+        f"{p['provider']} ({p['model']}, {p.get('key_label', 'main')})"
+        for p in LLM_PROVIDERS
+    ) or "not configured"
     print(f"  LLM providers: {provider_label}")
     print(f"  Runtime budget: {MAX_RUNTIME_MINUTES:.1f} min (workflow timeout should be higher)")
 
