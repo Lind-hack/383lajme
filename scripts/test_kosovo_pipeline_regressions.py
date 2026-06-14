@@ -1,5 +1,6 @@
 import importlib.util
 import json
+import os
 import tempfile
 from pathlib import Path
 
@@ -13,6 +14,31 @@ def load_pipeline():
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     return module
+
+
+def test_google_ai_api_key1_env_name_is_supported():
+    old_main = os.environ.get("GOOGLE_AI_API_KEY")
+    old_key1 = os.environ.get("GOOGLE_AI_API_KEY1")
+    old_alias = os.environ.get("GOOGLE_API_KEY1")
+    try:
+        os.environ["GOOGLE_AI_API_KEY"] = ""
+        os.environ["GOOGLE_AI_API_KEY1"] = "new-key"
+        os.environ["GOOGLE_API_KEY1"] = ""
+        kp = load_pipeline()
+    finally:
+        for name, value in {
+            "GOOGLE_AI_API_KEY": old_main,
+            "GOOGLE_AI_API_KEY1": old_key1,
+            "GOOGLE_API_KEY1": old_alias,
+        }.items():
+            if value is None:
+                os.environ.pop(name, None)
+            else:
+                os.environ[name] = value
+
+    fallback_providers = [p for p in kp.LLM_PROVIDERS if p.get("key_label") == "key1"]
+    assert fallback_providers
+    assert all(p["key"] == "new-key" for p in fallback_providers)
 
 
 def test_json_parsing_and_title_cleanup(kp):
@@ -208,6 +234,7 @@ def test_main_soft_exits_on_fatal_google_error(kp):
 
 
 def main():
+    test_google_ai_api_key1_env_name_is_supported()
     kp = load_pipeline()
     test_json_parsing_and_title_cleanup(kp)
     test_mock_analyze_cleans_clickbait_title(kp)

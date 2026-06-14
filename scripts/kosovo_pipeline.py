@@ -52,7 +52,7 @@ except ImportError:
 
 # ── Config ────────────────────────────────────────────────────────────────────
 GOOGLE_AI_API_KEY  = os.environ.get("GOOGLE_AI_API_KEY", "")
-GOOGLE_API_KEY1    = os.environ.get("GOOGLE_API_KEY1", "")
+GOOGLE_AI_API_KEY1 = os.environ.get("GOOGLE_AI_API_KEY1") or os.environ.get("GOOGLE_API_KEY1", "")
 GOOGLE_SEARCH_KEY  = os.environ.get("GOOGLE_SEARCH_API_KEY", "")
 GOOGLE_CSE_ID      = os.environ.get("GOOGLE_CSE_ID", "")
 PEXELS_API_KEY     = os.environ.get("PEXELS_API_KEY", "")
@@ -68,7 +68,7 @@ GOOGLE_AI_BACKUP_MODEL = os.environ.get("GOOGLE_AI_BACKUP_MODEL", "gemma-4-31b-i
 LLM_PROVIDERS: list[dict[str, str]] = []
 GOOGLE_AI_KEYS = [
     ("main", GOOGLE_AI_API_KEY),
-    ("key1", GOOGLE_API_KEY1),
+    ("key1", GOOGLE_AI_API_KEY1),
 ]
 active_google_ai_keys = [(label, key) for label, key in GOOGLE_AI_KEYS if key]
 if active_google_ai_keys:
@@ -751,7 +751,7 @@ def _call_google_ai(llm: dict, prompt: str, max_tokens: int, temperature: float)
 
 def _gemma(messages: list[dict], max_tokens: int = 1024, temperature: float = 0.3) -> str:
     if not LLM_PROVIDERS:
-        raise RuntimeError("Set GOOGLE_AI_API_KEY or GOOGLE_API_KEY1 before running the Kosovo pipeline")
+        raise RuntimeError("Set GOOGLE_AI_API_KEY or GOOGLE_AI_API_KEY1 before running the Kosovo pipeline")
 
     last_error: Exception | None = None
     prompt = _prompt_from_messages(messages)
