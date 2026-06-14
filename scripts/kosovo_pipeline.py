@@ -30,13 +30,13 @@ import time
 try:
     from dotenv import load_dotenv
     _env_paths = [
+        Path(__file__).resolve().parent.parent / ".env",
         Path(__file__).parent / ".env",
         Path.home() / "Desktop" / "claude" / ".env",
     ]
     for _p in _env_paths:
         if _p.exists():
             load_dotenv(_p, override=False)
-            break
 except ImportError:
     pass
 

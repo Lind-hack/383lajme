@@ -98,7 +98,11 @@ jobs:
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
           RECIPIENT_EMAIL:    ${{ secrets.RECIPIENT_EMAIL }}
         run: |
-          test -n "$GOOGLE_AI_API_KEY$GOOGLE_AI_API_KEY1$GOOGLE_API_KEY1" || (echo "Missing GOOGLE_AI_API_KEY or GOOGLE_AI_API_KEY1" && exit 1)
+          echo "GOOGLE_AI_API_KEY present:  $([ -n "$GOOGLE_AI_API_KEY" ] && echo yes || echo no)"
+          echo "GOOGLE_AI_API_KEY1 present: $([ -n "$GOOGLE_AI_API_KEY1" ] && echo yes || echo no)"
+          echo "GOOGLE_API_KEY1 alias present: $([ -n "$GOOGLE_API_KEY1" ] && echo yes || echo no)"
+          test -n "$GOOGLE_AI_API_KEY" || (echo "Missing GOOGLE_AI_API_KEY" && exit 1)
+          test -n "$GOOGLE_AI_API_KEY1$GOOGLE_API_KEY1" || (echo "Missing GOOGLE_AI_API_KEY1 fallback secret. Add it in GitHub repo Settings > Secrets and variables > Actions." && exit 1)
           test -n "$GMAIL_USER"         || (echo "Missing GMAIL_USER" && exit 1)
           test -n "$GMAIL_APP_PASSWORD" || (echo "Missing GMAIL_APP_PASSWORD" && exit 1)
           echo "Email reports will be sent to ${RECIPIENT_EMAIL:-lindsylqa@gmail.com}"
