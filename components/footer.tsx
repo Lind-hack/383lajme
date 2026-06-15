@@ -218,6 +218,20 @@ export default function Footer() {
           </div>
         </div>
 
+        {/* Colophon */}
+        <p style={{
+          textAlign: "center",
+          fontFamily: "'Fraunces', Georgia, serif",
+          fontStyle: "italic",
+          fontWeight: 400,
+          fontSize: "13px",
+          color: "rgba(255,255,255,0.18)",
+          marginBottom: "24px",
+          letterSpacing: "0.01em",
+        }}>
+          Botuar nga 383 Media · Prishtinë, Kosovë · Lajmet e botës, për Kosovën
+        </p>
+
         {/* Bottom bar */}
         <div
           style={{

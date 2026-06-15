@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { MapPin } from "lucide-react";
 import UserMenu from "./user-menu";
+import { dateLine } from "@/lib/date-sq";
 
 const NAV_LINKS = [
   { label: "Politikë", href: "/kategori/politike" },
@@ -105,6 +106,24 @@ export default function Navbar() {
             }}
           />
         </Link>
+
+        {/* Date strip — desktop only */}
+        <span
+          className="nav-date-strip"
+          style={{
+            fontSize: "11px",
+            fontFamily: "var(--font-fraunces), 'Fraunces', Georgia, serif",
+            fontStyle: "italic",
+            color: "#6B6B6B",
+            whiteSpace: "nowrap",
+            flexShrink: 0,
+            letterSpacing: "0.01em",
+            paddingLeft: "8px",
+            borderLeft: "1px solid #E8E3DB",
+          }}
+        >
+          {dateLine(new Date())}
+        </span>
 
         {/* Scrollable nav pills */}
         <div

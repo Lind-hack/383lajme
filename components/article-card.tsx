@@ -278,9 +278,11 @@ export default function ArticleCard({ article, variant = "grid", index = 0 }: Ar
 
             <h3 style={{
               fontSize: "24px",
-              fontWeight: 800,
+              fontFamily: "var(--font-fraunces), 'Fraunces', Georgia, serif",
+              fontStyle: "italic",
+              fontWeight: 700,
               lineHeight: 1.25,
-              letterSpacing: "-0.02em",
+              letterSpacing: "-0.01em",
               color: "#111111",
               margin: "0 0 12px",
               flex: 1,
@@ -368,9 +370,11 @@ export default function ArticleCard({ article, variant = "grid", index = 0 }: Ar
 
             <h3 style={{
               fontSize: "20px",
-              fontWeight: 800,
+              fontFamily: "var(--font-fraunces), 'Fraunces', Georgia, serif",
+              fontStyle: "italic",
+              fontWeight: 700,
               lineHeight: 1.3,
-              letterSpacing: "-0.02em",
+              letterSpacing: "-0.01em",
               color: "#111111",
               margin: "0 0 10px",
               flex: 1,
@@ -527,9 +531,11 @@ export default function ArticleCard({ article, variant = "grid", index = 0 }: Ar
           {/* Title */}
           <h3 style={{
             fontSize: "18px",
-            fontWeight: 800,
+            fontFamily: "var(--font-fraunces), 'Fraunces', Georgia, serif",
+            fontStyle: "italic",
+            fontWeight: 700,
             lineHeight: 1.28,
-            letterSpacing: "-0.02em",
+            letterSpacing: "-0.01em",
             color: "#111111",
             margin: "0 0 10px",
             flex: 1,

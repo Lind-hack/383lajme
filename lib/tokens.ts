@@ -4,8 +4,9 @@
 export const EASE = [0.22, 1, 0.36, 1] as const;
 
 export const FONT = {
-  sans: "var(--font-manrope), sans-serif",
-  serif: "var(--font-serif)",
+  sans:    "var(--font-manrope), sans-serif",
+  serif:   "var(--font-fraunces), 'Fraunces', Georgia, serif",
+  display: "var(--font-fraunces), 'Fraunces', Georgia, serif",
 } as const;
 
 export const DUR = {
