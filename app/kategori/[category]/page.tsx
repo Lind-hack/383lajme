@@ -52,7 +52,7 @@ export default async function CategoryPage({
       <TextureBg />
       <Navbar />
 
-      <div style={{ paddingTop: "var(--nav-h)", position: "relative", zIndex: 1 }}>
+      <div style={{ paddingTop: "64px", position: "relative", zIndex: 1 }}>
         <CategoryBanner
           categoryName={categoryName}
           from={gradFrom}

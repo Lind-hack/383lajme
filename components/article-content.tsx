@@ -6,7 +6,6 @@ import SourceBadge from "@/components/source-badge";
 import ArticleCard from "@/components/article-card";
 import ArticleSidebar from "@/components/article-sidebar";
 import { EASE, DUR } from "@/lib/tokens";
-import ReadingProgress from "@/components/reading-progress";
 
 interface Props {
   article: Article;
@@ -23,12 +22,11 @@ export default function ArticleContent({ article, related, catColor, catBg }: Pr
       style={{
         position: "relative",
         zIndex: 1,
-        paddingTop: "calc(var(--nav-h) + 16px)",
+        paddingTop: "80px",
         background: "#F9F6F1",
         minHeight: "100vh",
       }}
     >
-      <ReadingProgress color={catColor} />
       <div style={{ height: "4px", background: catColor, width: "100%" }} />
 
       <div
@@ -103,11 +101,9 @@ export default function ArticleContent({ article, related, catColor, catBg }: Pr
             <h1
               style={{
                 fontSize: "clamp(28px, 4vw, 52px)",
-                fontFamily: "var(--font-fraunces), 'Fraunces', Georgia, serif",
-                fontStyle: "italic",
-                fontWeight: 700,
+                fontWeight: 800,
                 lineHeight: 1.1,
-                letterSpacing: "-0.02em",
+                letterSpacing: "-0.03em",
                 color: "#111111",
                 margin: "0 0 28px",
               }}
@@ -160,13 +156,11 @@ export default function ArticleContent({ article, related, catColor, catBg }: Pr
 
             <p
               style={{
-                fontSize: "clamp(18px, 2vw, 22px)",
-                fontFamily: "var(--font-fraunces), 'Fraunces', Georgia, serif",
-                fontStyle: "italic",
-                fontWeight: 400,
-                lineHeight: 1.55,
-                color: "#333333",
-                margin: "0 0 36px",
+                fontSize: "20px",
+                fontWeight: 500,
+                lineHeight: 1.65,
+                color: "#111111",
+                margin: "0 0 32px",
                 borderLeft: `4px solid ${catColor}`,
                 paddingLeft: "20px",
               }}
@@ -174,7 +168,7 @@ export default function ArticleContent({ article, related, catColor, catBg }: Pr
               {article.excerpt}
             </p>
 
-            <div className="article-body" style={{ fontSize: "17px", lineHeight: 1.85, color: "#333333" }}>
+            <div style={{ fontSize: "17px", lineHeight: 1.85, color: "#333333" }}>
               {article.body.split("\n\n").map((paragraph, i) => (
                 <p key={i} style={{ margin: "0 0 28px" }}>
                   {paragraph}
@@ -192,17 +186,6 @@ export default function ArticleContent({ article, related, catColor, catBg }: Pr
       <style>{`
         @media (max-width: 1023px) {
           .article-sidebar-col { display: none; }
-        }
-        .article-body p:first-child::first-letter {
-          font-family: var(--font-fraunces), 'Fraunces', Georgia, serif;
-          font-style: italic;
-          font-weight: 700;
-          font-size: 4em;
-          line-height: 0.82;
-          float: left;
-          margin-right: 0.08em;
-          margin-top: 0.06em;
-          color: #111111;
         }
       `}</style>
 

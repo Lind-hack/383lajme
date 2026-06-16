@@ -136,11 +136,9 @@ export default function HeroDispatch({ article }: HeroDispatchProps) {
           <h1
             style={{
               fontSize: "var(--text-display)",
-              fontFamily: "var(--font-fraunces), 'Fraunces', Georgia, serif",
-              fontStyle: "italic",
-              fontWeight: 700,
+              fontWeight: 800,
               lineHeight: 1.08,
-              letterSpacing: "-0.02em",
+              letterSpacing: "-0.03em",
               color: "#FFFFFF",
               margin: "0 0 16px",
               maxWidth: "860px",

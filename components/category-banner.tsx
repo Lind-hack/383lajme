@@ -164,16 +164,14 @@ export default function CategoryBanner({
           transition={{ delay: 0.18, duration: DUR.reveal, ease: EASE }}
           style={{
             fontSize: "clamp(48px, 8vw, 88px)",
-            fontFamily: "var(--font-fraunces), 'Fraunces', Georgia, serif",
-            fontStyle: "italic",
-            fontWeight: 700,
-            letterSpacing: "-0.03em",
+            fontWeight: 800,
+            letterSpacing: "-0.04em",
             color: textColor,
             margin: "0 0 24px",
             lineHeight: 1,
           }}
         >
-          {categoryName}
+          {categoryName.toUpperCase()}
         </motion.h1>
 
         {/* Article count badge */}

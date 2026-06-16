@@ -18,9 +18,8 @@
   --color-rose:     #F43F5E;
   --color-showbiz:  #E91E8C;
 
-  --font-sans:    "Manrope", sans-serif;
-  --font-serif:   "Fraunces", Georgia, serif;
-  --font-display: var(--font-fraunces), "Fraunces", Georgia, serif;
+  --font-sans: "Manrope", sans-serif;
+  --font-serif: Georgia, "Times New Roman", serif;
 
   /* Spacing (4px base) */
   --space-1:  4px;
@@ -333,10 +332,6 @@ body {
   --nav-h: 64px;
 }
 
-/* ── Navbar date strip — desktop only ── */
-.nav-date-strip { display: block; }
-@media (max-width: 900px) { .nav-date-strip { display: none; } }
-
 /* ── Spline loader spinner ──────────────────────────────── */
 @keyframes spin {
   from { transform: rotate(0deg); }
@@ -352,29 +347,12 @@ body {
   animation: spotlight 2s ease 0.75s 1 forwards;
 }
 
-/* ── Magazine grid: 2-col on desktop, 1-col on mobile ── */
-@media (max-width: 768px) {
-  .magazine-grid-row {
-    grid-template-columns: 1fr !important;
-  }
-}
-
-/* ── Watermark drift ────────────────────────────────────── */
-@keyframes drift {
-  0%,100% { transform: translateX(-50%) translateY(0px); }
-  50%      { transform: translateX(-50%) translateY(-12px); }
-}
-.watermark-drift {
-  animation: drift 12s ease-in-out infinite;
-}
-
 /* ── Reduced motion: stop ambient CSS animations ────────── */
 @media (prefers-reduced-motion: reduce) {
   .ticker-track,
   .float-blob,
   .gradient-cta,
-  .tilt-in,
-  .watermark-drift {
+  .tilt-in {
     animation: none !important;
   }
   *, *::before, *::after {

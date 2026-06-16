@@ -37,7 +37,6 @@ export default function UserMenu() {
     }
 
     const supabase = createClient();
-    if (!supabase) { setReady(true); return; }
     supabaseRef.current = supabase;
 
     supabase.auth

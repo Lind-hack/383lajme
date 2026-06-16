@@ -29,14 +29,9 @@ export default function SignupPrompt() {
     const supabase = createClient();
     let timer: ReturnType<typeof setTimeout> | null = null;
 
-    if (!supabase) {
-      timer = setTimeout(() => setVisible(true), 3 * 60 * 1000);
-      return () => { if (timer) clearTimeout(timer); };
-    }
-
     async function setupTimer() {
       try {
-        const { data: { session } } = await supabase!.auth.getSession();
+        const { data: { session } } = await supabase.auth.getSession();
         if (session?.user) return;
       } catch {
         // session check failed — show popup anyway

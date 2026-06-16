@@ -7,7 +7,6 @@ import { ArrowLeft } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import Navbar from "@/components/navbar";
 import { EASE, DUR } from "@/lib/tokens";
-import { dateLine } from "@/lib/date-sq";
 import type { SupabaseClient } from "@supabase/supabase-js";
 
 type Tab = "hyr" | "regjistrohu";
@@ -182,23 +181,10 @@ function HyrForm() {
             border: "1.5px solid #E8E3DB",
           }}
         >
-          {/* Logo + date greeting */}
-          <div style={{ marginBottom: "32px" }}>
-            <div style={{ display: "flex", alignItems: "baseline", gap: "4px", marginBottom: "6px" }}>
-              <span style={{ fontSize: "28px", fontWeight: 900, color: "#111", letterSpacing: "-0.04em" }}>383</span>
-              <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#FF4422", display: "inline-block", marginBottom: "3px" }} />
-            </div>
-            <p style={{
-              margin: 0,
-              fontFamily: "'Fraunces', Georgia, serif",
-              fontStyle: "italic",
-              fontWeight: 400,
-              fontSize: "13px",
-              color: "#6B6B6B",
-              letterSpacing: "0.01em",
-            }}>
-              {dateLine(new Date())}
-            </p>
+          {/* Logo */}
+          <div style={{ display: "flex", alignItems: "baseline", gap: "4px", marginBottom: "32px" }}>
+            <span style={{ fontSize: "28px", fontWeight: 900, color: "#111", letterSpacing: "-0.04em" }}>383</span>
+            <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#FF4422", display: "inline-block", marginBottom: "3px" }} />
           </div>
 
           {/* Tabs — framer layoutId active pill */}
