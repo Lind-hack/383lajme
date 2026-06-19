@@ -10,6 +10,7 @@ validation, email reporting, Vercel deploy hook calls, and git publishing.
 from __future__ import annotations
 
 import argparse
+import html
 import json
 import os
 import re
@@ -71,10 +72,14 @@ VALID_CATEGORIES = {
 }
 
 SCORE_WEIGHTS = {
-    "relevance": 0.35,
-    "urgency": 0.20,
-    "interest": 0.30,
-    "credibility": 0.15,
+    "relevance": 0.22,
+    "urgency": 0.14,
+    "public_impact": 0.16,
+    "local_depth": 0.10,
+    "controversy_interest": 0.10,
+    "credibility": 0.16,
+    "corroboration": 0.08,
+    "editorial_safety": 0.04,
 }
 
 
@@ -265,6 +270,89 @@ def post_vercel_hook() -> int:
     return 1
 
 
+def _score_color(score: float) -> tuple[str, str]:
+    if score >= 9.0:
+        return "#ecfdf5", "#047857"
+    if score >= 8.0:
+        return "#eff6ff", "#1d4ed8"
+    if score >= 7.0:
+        return "#fffbeb", "#b45309"
+    if score >= 6.0:
+        return "#fff7ed", "#c2410c"
+    return "#fef2f2", "#b91c1c"
+
+
+def _article_score(article: dict[str, Any]) -> float:
+    return round(float(article.get("engagement_score", 0)), 1)
+
+
+def _breakdown_text(article: dict[str, Any]) -> str:
+    breakdown = article.get("score_breakdown", {})
+    if not isinstance(breakdown, dict):
+        return ""
+    parts: list[str] = []
+    for key in SCORE_WEIGHTS:
+        if key in breakdown:
+            label = key.replace("_", " ")
+            parts.append(f"{label} {breakdown.get(key)}")
+    return " | ".join(parts)
+
+
+def _article_card(article: dict[str, Any], path: Path, site_url: str, remove_secret: str, compact: bool = False) -> str:
+    score = _article_score(article)
+    score_bg, score_fg = _score_color(score)
+    title = html.escape(str(article.get("title", "")))
+    category = html.escape(str(article.get("category", "")))
+    source = html.escape(str(article.get("source", "")))
+    reason = html.escape(str(article.get("score_reason", "")))
+    original_url = html.escape(str(article.get("url", "")), quote=True)
+    image_url = html.escape(str(article.get("image_url", "")).strip(), quote=True)
+    breakdown = html.escape(_breakdown_text(article))
+    score_formula = html.escape(str(article.get("score_formula", "")))
+
+    image_cell = ""
+    if image_url:
+        image_cell = (
+            "<td width='128' style='padding:0 14px 0 0;vertical-align:top'>"
+            f"<img src='{image_url}' alt='' width='128' "
+            "style='width:128px;max-width:128px;height:82px;object-fit:cover;border-radius:8px;display:block;background:#e5e7eb'>"
+            "</td>"
+        )
+
+    edit_link = ""
+    remove_link = ""
+    if site_url:
+        edit_link = html.escape(f'{site_url}/admin?id={article["id"]}', quote=True)
+        if remove_secret:
+            remove_link = html.escape(f'{site_url}/api/remove?id={article["id"]}&file={path.name}&secret={remove_secret}', quote=True)
+
+    links = f"<a href='{original_url}' style='color:#2563eb;text-decoration:none;font-weight:700'>Original</a>"
+    if edit_link:
+        links += f" <span style='color:#94a3b8'>|</span> <a href='{edit_link}' style='color:#2563eb;text-decoration:none;font-weight:700'>Edit</a>"
+    if remove_link:
+        links += f" <span style='color:#94a3b8'>|</span> <a href='{remove_link}' style='color:#dc2626;text-decoration:none;font-weight:700'>Remove</a>"
+
+    details = "" if compact else (
+        f"<div style='font-size:12px;line-height:1.55;color:#475569;margin-top:8px'>{breakdown}</div>"
+        f"<div style='font-size:12px;line-height:1.55;color:#64748b;margin-top:4px'>{score_formula}</div>"
+        f"<div style='font-size:13px;line-height:1.55;color:#334155;margin-top:8px'>{reason}</div>"
+    )
+    padding = "14px 0" if compact else "18px 0"
+    return (
+        f"<table width='100%' cellspacing='0' cellpadding='0' style='border-bottom:1px solid #e2e8f0;padding:{padding}'>"
+        "<tr>"
+        f"{image_cell}"
+        "<td style='vertical-align:top'>"
+        f"<div style='font-size:12px;color:#64748b;text-transform:uppercase;letter-spacing:.04em;font-weight:700'>{category} | {source}</div>"
+        f"<div style='font-size:17px;line-height:1.35;color:#0f172a;font-weight:800;margin-top:4px'>{title}</div>"
+        f"<div style='margin-top:8px'><span style='display:inline-block;background:{score_bg};color:{score_fg};border:1px solid {score_fg};border-radius:999px;padding:4px 10px;font-size:13px;font-weight:800'>Score {score:.1f}/10</span></div>"
+        f"{details}"
+        f"<div style='font-size:13px;margin-top:10px'>{links}</div>"
+        "</td>"
+        "</tr></table>"
+    )
+
+
 def send_report(path: Path) -> int:
     load_env()
     articles = validate_batch(path)
@@ -278,47 +366,56 @@ def send_report(path: Path) -> int:
         return 2
 
     now = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
-    rows: list[str] = []
-    for article in articles:
-        title = str(article["title"])
-        score = float(article["engagement_score"])
-        category = str(article["category"])
-        source = str(article["source"])
-        original_url = str(article["url"])
-        breakdown = article.get("score_breakdown", {})
-        edit_link = ""
-        remove_link = ""
-        if site_url:
-            edit_link = f'{site_url}/admin?id={article["id"]}'
-            if remove_secret:
-                remove_link = f'{site_url}/api/remove?id={article["id"]}&file={path.name}&secret={remove_secret}'
-        rows.append(
-            "<tr><td style='padding:14px;border-bottom:1px solid #333'>"
-            f"<b>{title}</b><br>"
-            f"{category} · {source} · <b>{score:.1f}/10</b><br>"
-            f"relevance {breakdown.get('relevance')} · urgency {breakdown.get('urgency')} · "
-            f"interest {breakdown.get('interest')} · credibility {breakdown.get('credibility')}<br>"
-            f"{article.get('score_reason', '')}<br>"
-            f"<a href='{original_url}'>Original</a>"
-            + (f" · <a href='{edit_link}'>Edit</a>" if edit_link else "")
-            + (f" · <a href='{remove_link}'>Remove</a>" if remove_link else "")
-            + "</td></tr>"
+    sorted_articles = sorted(articles, key=_article_score, reverse=True)
+    breaking_articles = [article for article in sorted_articles if _article_score(article) >= 8.5][:5]
+
+    breaking_html = (
+        "<div style='padding:16px 22px 8px'>"
+        "<div style='display:inline-block;background:#b91c1c;color:#fff;border-radius:999px;padding:6px 12px;font-size:12px;font-weight:900;letter-spacing:.06em;text-transform:uppercase'>Breaking News</div>"
+        "<div style='font-size:13px;color:#64748b;margin-top:8px'>High-score stories that should be checked first.</div>"
+        + (
+            "".join(_article_card(article, path, site_url, remove_secret, compact=True) for article in breaking_articles)
+            if breaking_articles
+            else "<div style='font-size:13px;color:#64748b;padding:14px 0;border-bottom:1px solid #e2e8f0'>No article crossed the breaking threshold in this run.</div>"
+        )
+        + "</div>"
+    )
+
+    category_order = ["Politikë", "Ekonomi", "Siguri", "Sport", "Showbiz", "Botë", "Teknologji", "Kulturë", "Shoqëri"]
+    category_sections: list[str] = []
+    for category in category_order:
+        category_articles = [article for article in sorted_articles if str(article.get("category")) == category]
+        if not category_articles:
+            continue
+        category_sections.append(
+            "<div style='padding:16px 22px 0'>"
+            f"<div style='font-size:14px;color:#0f172a;font-weight:900;border-bottom:2px solid #0f172a;padding-bottom:6px'>{html.escape(category)}</div>"
+            + "".join(_article_card(article, path, site_url, remove_secret) for article in category_articles)
+            + "</div>"
         )
 
-    html = (
-        "<html><body style='background:#111;color:#eee;font-family:Arial,sans-serif'>"
-        "<div style='max-width:760px;margin:auto;background:#1a1a1a'>"
-        f"<h2 style='padding:18px;margin:0'>383 Lajme: {len(articles)} artikuj të rinj</h2>"
-        f"<p style='padding:0 18px;color:#aaa'>{now} · Scoring: relevance 35% + urgency 20% + interest 30% + credibility 15%</p>"
-        "<table width='100%' cellspacing='0' cellpadding='0'>"
-        + "".join(rows)
-        + "</table></div></body></html>"
+    scoring_note = (
+        "Scoring: relevance 22% + urgency 14% + public impact 16% + local depth 10% + "
+        "controversy/interest 10% + credibility 16% + corroboration 8% + editorial safety 4%."
+    )
+    report_html = (
+        "<html><body style='margin:0;background:#f1f5f9;color:#0f172a;font-family:Arial,sans-serif'>"
+        "<div style='max-width:820px;margin:0 auto;background:#ffffff'>"
+        "<div style='background:#0f172a;color:#ffffff;padding:22px'>"
+        f"<h2 style='font-size:24px;line-height:1.2;padding:0;margin:0'>383 Lajme: {len(articles)} artikuj të rinj</h2>"
+        f"<p style='font-size:13px;line-height:1.5;margin:8px 0 0;color:#cbd5e1'>{now} | Images shown are the article image_url values published with the batch.</p>"
+        "</div>"
+        f"<div style='padding:12px 22px;background:#f8fafc;color:#475569;font-size:13px;line-height:1.45'>{scoring_note}</div>"
+        + breaking_html
+        + "".join(category_sections)
+        + "<div style='padding:18px 22px;color:#64748b;font-size:12px;line-height:1.5'>Review skipped or excluded stories separately for accuracy limits before republishing them.</div>"
+        + "</div></body></html>"
     )
     message = MIMEMultipart("alternative")
     message["Subject"] = f"383 Lajme — {len(articles)} artikuj të rinj [{now}]"
     message["From"] = user
     message["To"] = recipient
-    message.attach(MIMEText(html, "html", "utf-8"))
+    message.attach(MIMEText(report_html, "html", "utf-8"))
     try:
         with smtplib.SMTP_SSL("smtp.gmail.com", 465, timeout=30) as smtp:
             smtp.login(user, password)
