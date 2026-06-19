@@ -1,38 +1,5 @@
 [
   {
-    "id": "0af4eb44-e543-4448-9271-066da14b45e6",
-    "slug": "lvv-mbyll-numurimin-me-53-ulese-opozita-bashke-47",
-    "url": "https://www.koha.net/en/zgjedhjet-2026/53-me-47",
-    "dispatch": "01",
-    "title": "LVV e mbyll numërimin me 53 ulëse, opozita bashkë 47",
-    "excerpt": "Numërimi i plotë i votave të 7 qershorit u mbyll me LVV-në në 53 ulëse dhe opozitën bashkë në 47. Rezultati i hap rrugë negociatave për qeverinë dhe presidentin.",
-    "body": "LVV e mbyll numërimin me 53 ulëse, opozita bashkë 47. Në përfundim të numërimit të të gjitha votave të zgjedhjeve të 7 qershorit, Lëvizja Vetëvendosje mori 382,865 vota, ose 47.13 për qind, dhe siguroi 53 ulëse në Kuvend.\n\nKoha.net raporton se numërimi i votave me kusht dhe i votave të personave me nevoja të veçanta u mbyll të mërkurën pasdite, duke e përmbyllur të gjithë procesin. PDK mori 22 ulëse, LDK 18 dhe AAK 7, ndërsa partitë opozitare së bashku arritën 47 mandate.\n\nRezultati e lë LVV-në në pozitë të favorshme për të kërkuar shumicë qeverisëse, por për zgjedhjen e presidentit do të nevojitet marrëveshje më e gjerë parlamentare. Ky është raportim i verifikuar mbi një numërim zyrtar ende në pritje të certifikimit përfundimtar.",
-    "source": "KOHA.net",
-    "source_flag": "🇽🇰",
-    "source_bias": "neutral",
-    "tone": "neutral",
-    "category": "Politikë",
-    "published_at": "2026-06-18T07:07:15+00:00",
-    "reading_time": 1,
-    "featured": false,
-    "engagement_score": 8.4,
-    "score_reason": "Burim vendor i besueshëm me numërim të plotë dhe shifra zyrtare të mandateve. Lajmi ka peshë të lartë për formimin e institucioneve dhe për negociatat e ardhshme në Kosovë. Nuk është certifikim final, ndaj është i shkallëzuar me kujdes si rezultat i verifikuar por ende procedural.",
-    "score_breakdown": {
-      "relevance": 9,
-      "urgency": 8,
-      "public_impact": 9,
-      "local_depth": 10,
-      "controversy_interest": 6,
-      "credibility": 8,
-      "corroboration": 8,
-      "editorial_safety": 9
-    },
-    "score_formula": "0.22*relevance + 0.14*urgency + 0.16*public_impact + 0.10*local_depth + 0.10*controversy_interest + 0.16*credibility + 0.08*corroboration + 0.04*editorial_safety = 8.4; no cap applied",
-    "image_url": "https://resources.koha.net/images/2026/April/27/87812ce5-075b-4077-be63-756126762c4a.webp?w=1200&r=fill&q=90",
-    "video_clip_url": null,
-    "created_at": "2026-06-19T01:17:48.3959498Z"
-  },
-  {
     "id": "7866ede3-99dd-49f9-85f5-946098cfda46",
     "slug": "kosova-dhe-be-zhvillojne-takimin-e-pare-te-komitetit-per-reformen-dhe-rritjen",
     "url": "https://kryeministri.rks-gov.net/en/news/kosova-dhe-bashkimi-evropian-mbajten-takimin-e-pare-te-komitetit-monitorues-te-instrumentit-per-reforma-dhe-rritje/",
@@ -81,7 +48,7 @@
     "published_at": "2026-06-18T18:31:07+00:00",
     "reading_time": 1,
     "featured": false,
-    "engagement_score": 7.0,
+    "engagement_score": 7,
     "score_reason": "KOHA raporton dëshmi gjyqësore dhe jo verdikt, prandaj ka kredibilitet të mirë por edhe rrezik të natyrshëm ligjor. Lajmi ka interes publik për KEK-un, korrupsionin dhe sigurinë e funksionimit të sektorit energjetik. E kam ulur me kap në 7.0 sepse mbetet proces penal me akuza serioze dhe një burim kryesor raportimi.",
     "score_breakdown": {
       "relevance": 8,
@@ -114,7 +81,7 @@
     "published_at": "2026-06-17T23:36:03+00:00",
     "reading_time": 1,
     "featured": false,
-    "engagement_score": 7.0,
+    "engagement_score": 7,
     "score_reason": "AP është burim shumë i besueshëm dhe artikulli lidhet me Kupën e Botës, një garë me interes të lartë publik. Rëndësia për Kosovën është më e tërthortë sesa për sportin global, por lajmi mbetet i fortë për lexuesit që ndjekin turneun. Pesha e tij vjen më shumë nga momenti dhe interesimi sportiv sesa nga një ndikim lokal.",
     "score_breakdown": {
       "relevance": 6,
