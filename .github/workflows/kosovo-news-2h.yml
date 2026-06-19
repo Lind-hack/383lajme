@@ -150,12 +150,3 @@ jobs:
           git pull --rebase --autostash -X theirs origin main
           git push
           echo "committed=true" >> $GITHUB_OUTPUT
-
-      - name: Trigger Vercel deploy
-        if: steps.hour_guard.outputs.skip != 'true' && steps.commit.outputs.committed == 'true'
-        env:
-          VERCEL_DEPLOY_HOOK_URL: ${{ secrets.VERCEL_DEPLOY_HOOK_URL }}
-        run: |
-          if [ -n "$VERCEL_DEPLOY_HOOK_URL" ]; then
-            curl -sX POST "$VERCEL_DEPLOY_HOOK_URL"
-          fi
