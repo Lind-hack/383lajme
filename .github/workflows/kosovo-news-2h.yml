@@ -150,3 +150,14 @@ jobs:
           git pull --rebase --autostash -X theirs origin main
           git push
           echo "committed=true" >> $GITHUB_OUTPUT
+
+      - name: Trigger Vercel deploy
+        if: steps.commit.outputs.committed == 'true'
+        env:
+          VERCEL_DEPLOY_HOOK_URL: ${{ secrets.VERCEL_DEPLOY_HOOK_URL }}
+        run: |
+          if [ -n "$VERCEL_DEPLOY_HOOK_URL" ]; then
+            curl -s -X POST "$VERCEL_DEPLOY_HOOK_URL" && echo "Vercel deploy triggered" || echo "Vercel deploy hook failed (non-fatal)"
+          else
+            echo "VERCEL_DEPLOY_HOOK_URL not set — relying on Vercel GitHub integration"
+          fi

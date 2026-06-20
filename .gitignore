@@ -10,6 +10,9 @@ data/articles.db
 __pycache__/
 *.py[cod]
 .env
+.env.local
+.env.automation
+.env.*.local
 
 # OS
 .DS_Store

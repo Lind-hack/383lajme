@@ -29,12 +29,27 @@ jobs:
           GOOGLE_AI_API_KEY: ${{ secrets.GOOGLE_AI_API_KEY }}
 
       - name: Commit updated database
+        id: commit
         run: |
           git config user.email "bot@383lajme.com"
           git config user.name "383 Bot"
           git add -f data/articles.db
-          git diff --staged --quiet || (
-            git commit -m "chore: pipeline run $(date -u +%Y-%m-%dT%H:%M:%SZ)" &&
-            git pull --rebase origin main &&
+          if git diff --staged --quiet; then
+            echo "committed=false" >> $GITHUB_OUTPUT
+          else
+            git commit -m "chore: pipeline run $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+            git pull --rebase origin main
             git push
-          )
+            echo "committed=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Trigger Vercel deploy
+        if: steps.commit.outputs.committed == 'true'
+        env:
+          VERCEL_DEPLOY_HOOK_URL: ${{ secrets.VERCEL_DEPLOY_HOOK_URL }}
+        run: |
+          if [ -n "$VERCEL_DEPLOY_HOOK_URL" ]; then
+            curl -s -X POST "$VERCEL_DEPLOY_HOOK_URL" && echo "Vercel deploy triggered" || echo "Vercel deploy hook failed (non-fatal)"
+          else
+            echo "VERCEL_DEPLOY_HOOK_URL not set — relying on Vercel GitHub integration"
+          fi
