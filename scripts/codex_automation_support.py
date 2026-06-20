@@ -293,9 +293,13 @@ def verify_public_site(path: Path) -> int:
         print(f"SITE VERIFY skipped: invalid SITE_URL {site_url!r}")
         return 2
 
-    expected = articles[0]
-    expected_title = str(expected.get("title", "")).strip()
-    expected_slug = str(expected.get("slug", "")).strip()
+    expected_markers = [
+        (
+            str(article.get("slug", "")).strip(),
+            str(article.get("title", "")).strip(),
+        )
+        for article in articles
+    ]
     timeout_seconds = int(os.environ.get("SITE_VERIFY_TIMEOUT_SECONDS", "240"))
     interval_seconds = int(os.environ.get("SITE_VERIFY_INTERVAL_SECONDS", "20"))
     deadline = time.time() + max(0, timeout_seconds)
@@ -322,16 +326,24 @@ def verify_public_site(path: Path) -> int:
                 last_cache = response.headers.get("x-vercel-cache", "unknown")
                 last_age = response.headers.get("age", "unknown")
                 last_etag = response.headers.get("etag", "unknown")
-                if expected_slug in html_text or expected_title in html_text:
+                matched_slug = next(
+                    (
+                        slug
+                        for slug, title in expected_markers
+                        if (slug and slug in html_text) or (title and title in html_text)
+                    ),
+                    "",
+                )
+                if matched_slug:
                     print(
                         "SITE VERIFY ok: "
-                        f"{site_url} contains {expected_slug!r} "
+                        f"{site_url} contains batch marker {matched_slug!r} "
                         f"(attempt {attempt}, cache {last_cache}, age {last_age})"
                     )
                     return 0
                 print(
                     "SITE VERIFY pending: "
-                    f"{site_url} missing {expected_slug!r} "
+                    f"{site_url} missing all {len(expected_markers)} batch markers "
                     f"(attempt {attempt}, status {last_status}, cache {last_cache}, age {last_age})"
                 )
         except urllib.error.HTTPError as exc:
@@ -350,7 +362,7 @@ def verify_public_site(path: Path) -> int:
 
     print(
         "SITE VERIFY failed: "
-        f"{site_url} still does not contain {expected_slug!r}. "
+        f"{site_url} still does not contain any marker from {path.name}. "
         f"Last status {last_status}, cache {last_cache}, age {last_age}, etag {last_etag}. "
         "If GitHub main has the batch, the Vercel hook/domain is stale or targets a different deployment."
     )

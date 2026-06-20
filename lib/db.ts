@@ -95,6 +95,19 @@ function effectiveScore(article: Article): number {
   return Math.max(0, base - ageHours * DECAY_RATE);
 }
 
+function articleTimestamp(article: Article): number {
+  const anchor = article.createdAt ?? article.publishedAt;
+  const timestamp = new Date(anchor).getTime();
+  return Number.isFinite(timestamp) ? timestamp : 0;
+}
+
+function compareArticles(a: Article, b: Article): number {
+  if (a.featured !== b.featured) return a.featured ? -1 : 1;
+  const scoreDelta = effectiveScore(b) - effectiveScore(a);
+  if (Math.abs(scoreDelta) > 0.001) return scoreDelta;
+  return articleTimestamp(b) - articleTimestamp(a);
+}
+
 export function getArticles(limit = 50, category?: string): Article[] {
   const autoArticles = getAutoArticles();
   const db = getDb();
@@ -116,7 +129,8 @@ export function getArticles(limit = 50, category?: string): Article[] {
 
   const seen = new Set<string>();
   const merged: Article[] = [];
-  for (const a of [...autoArticles, ...sqliteArticles]) {
+  const candidates = [...autoArticles, ...sqliteArticles].sort(compareArticles);
+  for (const a of candidates) {
     const key = a.url ?? a.slug;
     if (!seen.has(key)) {
       seen.add(key);
@@ -124,12 +138,7 @@ export function getArticles(limit = 50, category?: string): Article[] {
     }
   }
 
-  const sorted = merged.sort((a, b) => {
-    if (a.featured !== b.featured) return a.featured ? -1 : 1;
-    return effectiveScore(b) - effectiveScore(a);
-  });
-
-  const filtered = category ? sorted.filter((a) => a.category === category) : sorted;
+  const filtered = category ? merged.filter((a) => a.category === category) : merged;
   return filtered.slice(0, limit);
 }
 
