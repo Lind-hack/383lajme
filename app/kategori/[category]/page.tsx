@@ -12,7 +12,8 @@ import NewsGrid from "@/components/news-grid";
 import DispatchList from "@/components/dispatch-list";
 import Footer from "@/components/footer";
 
-export const revalidate = 3600;
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export function generateStaticParams() {
   return Object.keys(SLUG_TO_CATEGORY).map((slug) => ({ category: slug }));

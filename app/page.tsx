@@ -20,7 +20,8 @@ import AlertsCta from "@/components/alerts-cta";
 import DailyPoll from "@/components/daily-poll";
 import ImageAccordion, { type AccordionSlide } from "@/components/image-accordion";
 
-export const revalidate = 3600;
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 function titleKws(text: string) {
   return new Set(text.toLowerCase().split(/\W+/).filter((w) => w.length > 4));
