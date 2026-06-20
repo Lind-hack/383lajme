@@ -17,6 +17,7 @@ import re
 import smtplib
 import subprocess
 import sys
+import time
 import urllib.request
 from datetime import datetime, timezone
 from email.mime.multipart import MIMEMultipart
@@ -81,6 +82,8 @@ SCORE_WEIGHTS = {
     "corroboration": 0.08,
     "editorial_safety": 0.04,
 }
+
+DEFAULT_SITE_URL = "https://383lajme.vercel.app"
 
 
 def load_env() -> list[str]:
@@ -260,6 +263,13 @@ def post_vercel_hook() -> int:
                 status = response.getcode()
                 if 200 <= status < 300:
                     print(f"VERCEL deploy hook ok via {label} POST")
+                    try:
+                        payload = json.loads(response.read().decode("utf-8", errors="replace") or "{}")
+                        deployment_url = payload.get("url")
+                        if deployment_url:
+                            print(f"VERCEL deployment url: https://{deployment_url}")
+                    except Exception:
+                        pass
                     return 0
                 print(f"VERCEL {label} POST status {status}")
         except urllib.error.HTTPError as exc:
@@ -267,6 +277,83 @@ def post_vercel_hook() -> int:
             print(f"VERCEL {label} POST failed HTTP {exc.code}: {detail}")
         except Exception as exc:
             print(f"VERCEL {label} POST failed: {type(exc).__name__}")
+    return 1
+
+
+def _cache_busted_url(site_url: str) -> str:
+    separator = "&" if "?" in site_url else "?"
+    return f"{site_url}{separator}codexVerify={int(time.time())}"
+
+
+def verify_public_site(path: Path) -> int:
+    load_env()
+    articles = validate_batch(path)
+    site_url = (os.environ.get("SITE_URL", "").strip() or DEFAULT_SITE_URL).rstrip("/")
+    if not site_url.startswith(("http://", "https://")):
+        print(f"SITE VERIFY skipped: invalid SITE_URL {site_url!r}")
+        return 2
+
+    expected = articles[0]
+    expected_title = str(expected.get("title", "")).strip()
+    expected_slug = str(expected.get("slug", "")).strip()
+    timeout_seconds = int(os.environ.get("SITE_VERIFY_TIMEOUT_SECONDS", "240"))
+    interval_seconds = int(os.environ.get("SITE_VERIFY_INTERVAL_SECONDS", "20"))
+    deadline = time.time() + max(0, timeout_seconds)
+    attempt = 0
+    last_status = "not checked"
+    last_cache = "unknown"
+    last_age = "unknown"
+    last_etag = "unknown"
+
+    while True:
+        attempt += 1
+        try:
+            request = urllib.request.Request(
+                _cache_busted_url(site_url),
+                headers={
+                    "Cache-Control": "no-cache",
+                    "Pragma": "no-cache",
+                    "User-Agent": "383-codex-site-verifier/1.0",
+                },
+            )
+            with urllib.request.urlopen(request, timeout=30) as response:
+                html_text = response.read().decode("utf-8", errors="replace")
+                last_status = str(response.getcode())
+                last_cache = response.headers.get("x-vercel-cache", "unknown")
+                last_age = response.headers.get("age", "unknown")
+                last_etag = response.headers.get("etag", "unknown")
+                if expected_slug in html_text or expected_title in html_text:
+                    print(
+                        "SITE VERIFY ok: "
+                        f"{site_url} contains {expected_slug!r} "
+                        f"(attempt {attempt}, cache {last_cache}, age {last_age})"
+                    )
+                    return 0
+                print(
+                    "SITE VERIFY pending: "
+                    f"{site_url} missing {expected_slug!r} "
+                    f"(attempt {attempt}, status {last_status}, cache {last_cache}, age {last_age})"
+                )
+        except urllib.error.HTTPError as exc:
+            last_status = f"HTTP {exc.code}"
+            last_cache = exc.headers.get("x-vercel-cache", "unknown")
+            last_age = exc.headers.get("age", "unknown")
+            last_etag = exc.headers.get("etag", "unknown")
+            print(f"SITE VERIFY pending: {site_url} returned {last_status}")
+        except Exception as exc:
+            last_status = type(exc).__name__
+            print(f"SITE VERIFY pending: {site_url} check failed with {last_status}")
+
+        if time.time() >= deadline:
+            break
+        time.sleep(max(1, interval_seconds))
+
+    print(
+        "SITE VERIFY failed: "
+        f"{site_url} still does not contain {expected_slug!r}. "
+        f"Last status {last_status}, cache {last_cache}, age {last_age}, etag {last_etag}. "
+        "If GitHub main has the batch, the Vercel hook/domain is stale or targets a different deployment."
+    )
     return 1
 
 
@@ -465,12 +552,17 @@ def finalize(path: Path) -> int:
     if email_code != 0:
         print("WARN SMTP email did not complete. Use the Outlook Email connector to send the report if available.")
 
+    verify_code = verify_public_site(path)
+    if verify_code != 0:
+        print("ERROR public site verification did not confirm the new batch on the production domain.")
+        return 1
+
     return 0
 
 
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("command", choices=["env-status", "validate", "test-email", "deploy", "send-report", "publish", "finalize"])
+    parser.add_argument("command", choices=["env-status", "validate", "test-email", "deploy", "verify-site", "send-report", "publish", "finalize"])
     parser.add_argument("--file", help="Article JSON file. Defaults to latest data/auto-articles/*.json")
     args = parser.parse_args()
 
@@ -494,6 +586,8 @@ def main() -> int:
         return test_email_login()
     if args.command == "deploy":
         return post_vercel_hook()
+    if args.command == "verify-site":
+        return verify_public_site(path)
     if args.command == "send-report":
         assert path is not None
         return send_report(path)
