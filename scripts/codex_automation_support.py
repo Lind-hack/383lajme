@@ -29,11 +29,13 @@ from typing import Any
 REPO_ROOT = Path(__file__).resolve().parents[1]
 AUTO_DIR = REPO_ROOT / "data" / "auto-articles"
 PARENT_ENV = REPO_ROOT.parent / ".env"
+CODEX_WORKTREE_ENV = Path.home() / ".codex" / "worktrees" / "a27e" / ".env"
 ENV_FILES = [
     PARENT_ENV,
     REPO_ROOT / ".env",
     REPO_ROOT / ".env.local",
     REPO_ROOT / ".env.automation",
+    CODEX_WORKTREE_ENV,
 ]
 
 REQUIRED_FIELDS = {
