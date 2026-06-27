@@ -5,6 +5,8 @@ import { timeAgo, type Article } from "@/lib/mock-data";
 import SourceBadge from "@/components/source-badge";
 import ArticleCard from "@/components/article-card";
 import ArticleSidebar from "@/components/article-sidebar";
+import CategoryAccordion from "@/components/category-accordion";
+import type { AccordionSlide } from "@/components/image-accordion";
 import { EASE, DUR } from "@/lib/tokens";
 
 interface Props {
@@ -12,9 +14,10 @@ interface Props {
   related: Article[];
   catColor: string;
   catBg: string;
+  categorySlides: AccordionSlide[];
 }
 
-export default function ArticleContent({ article, related, catColor, catBg }: Props) {
+export default function ArticleContent({ article, related, catColor, catBg, categorySlides }: Props) {
   const dynamicReadTime = Math.max(1, Math.ceil(article.body.split(/\s+/).length / 200));
 
   return (
@@ -188,6 +191,41 @@ export default function ArticleContent({ article, related, catColor, catBg }: Pr
           .article-sidebar-col { display: none; }
         }
       `}</style>
+
+      {/* Category cards (no image) — explore by category */}
+      {categorySlides.length > 0 && (
+        <div
+          style={{
+            maxWidth: "1280px",
+            margin: "0 auto",
+            padding: "8px 24px 56px",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "16px",
+              marginBottom: "24px",
+            }}
+          >
+            <div style={{ width: "4px", height: "28px", background: catColor, borderRadius: "2px" }} />
+            <span
+              style={{
+                fontSize: "13px",
+                fontWeight: 800,
+                letterSpacing: "0.2em",
+                textTransform: "uppercase",
+                color: "#111111",
+              }}
+            >
+              EKSPLORO SIPAS KATEGORISË
+            </span>
+            <div style={{ flex: 1, height: "1px", background: "#E8E3DB" }} />
+          </div>
+          <CategoryAccordion slides={categorySlides} />
+        </div>
+      )}
 
       {related.length > 0 && (
         <div
