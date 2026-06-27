@@ -10,6 +10,7 @@ export default function TextureBg() {
         zIndex: 0,
         pointerEvents: "none",
         overflow: "hidden",
+        contain: "layout style paint",
       }}
     >
       {/* Orange blob — top-left */}
@@ -23,7 +24,7 @@ export default function TextureBg() {
           height: "600px",
           borderRadius: "50%",
           background: "radial-gradient(circle, rgba(255,68,34,0.11) 0%, rgba(255,68,34,0.035) 45%, transparent 70%)",
-          filter: "blur(100px)",
+          filter: "blur(55px)",
           animation: "float-1 22s ease-in-out infinite alternate",
         }}
       />
@@ -38,7 +39,7 @@ export default function TextureBg() {
           height: "520px",
           borderRadius: "50%",
           background: "radial-gradient(circle, rgba(0,71,255,0.09) 0%, rgba(0,71,255,0.03) 45%, transparent 70%)",
-          filter: "blur(95px)",
+          filter: "blur(50px)",
           animation: "float-2 18s ease-in-out infinite alternate",
         }}
       />
@@ -53,7 +54,7 @@ export default function TextureBg() {
           height: "700px",
           borderRadius: "50%",
           background: "radial-gradient(circle, rgba(0,166,81,0.065) 0%, rgba(0,166,81,0.02) 45%, transparent 70%)",
-          filter: "blur(110px)",
+          filter: "blur(60px)",
           animation: "float-3 26s ease-in-out infinite alternate",
         }}
       />
@@ -68,7 +69,7 @@ export default function TextureBg() {
           height: "560px",
           borderRadius: "50%",
           background: "radial-gradient(circle, rgba(124,58,237,0.09) 0%, rgba(124,58,237,0.025) 45%, transparent 70%)",
-          filter: "blur(95px)",
+          filter: "blur(50px)",
           animation: "float-4 20s ease-in-out infinite alternate",
         }}
       />
@@ -83,7 +84,7 @@ export default function TextureBg() {
           height: "480px",
           borderRadius: "50%",
           background: "radial-gradient(circle, rgba(233,30,140,0.09) 0%, rgba(233,30,140,0.025) 45%, transparent 70%)",
-          filter: "blur(90px)",
+          filter: "blur(48px)",
           animation: "float-1 18s ease-in-out 4s infinite alternate",
         }}
       />

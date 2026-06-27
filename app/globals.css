@@ -146,6 +146,73 @@ body {
   animation: gradient-shift 12s ease infinite;
 }
 
+/* ── Glossy orange shimmer text (side panel links) ──────── */
+@keyframes shine-sweep {
+  0%   { background-position: 200% center; }
+  100% { background-position: -200% center; }
+}
+.glossy-orange {
+  background: linear-gradient(110deg, #E41E20 0%, #FF4422 30%, #FFC9A8 50%, #FF4422 70%, #E41E20 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: shine-sweep 3.5s linear infinite;
+}
+
+/* Solid-fill variant of the glossy shimmer — for the hamburger bars
+   (background-clip:text can't color a solid bar, so this fills directly). */
+.hamburger-bar {
+  display: block;
+  width: 22px;
+  height: 2.5px;
+  border-radius: 2px;
+  background: linear-gradient(110deg, #E41E20 0%, #FF4422 30%, #FFC9A8 50%, #FF4422 70%, #E41E20 100%);
+  background-size: 200% auto;
+  animation: shine-sweep 3.5s linear infinite;
+}
+
+/* ── Nav side panel (scroll-triggered drawer) ───────────── */
+.side-panel-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  background: rgba(17, 17, 17, 0.35);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s var(--ease-out);
+}
+.side-panel-overlay.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+.side-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 61;
+  width: min(86vw, 360px);
+  background: #F9F6F1;
+  box-shadow: -8px 0 40px rgba(0, 0, 0, 0.18);
+  transform: translateX(100%);
+  transition: transform 0.4s var(--ease-out);
+  will-change: transform;
+}
+.side-panel.open {
+  transform: translateX(0);
+}
+.side-panel-link {
+  display: block;
+  padding: 10px 0;
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+  line-height: 1.15;
+}
+
 /* ── Scrollbar ──────────────────────────────────────────── */
 ::-webkit-scrollbar {
   width: 6px;
@@ -195,18 +262,8 @@ body {
   gap: 16px;
   flex-shrink: 0;
 }
-/* Mobile: Kosovo+auth at end of scroll row */
-.nav-auth-mobile {
-  display: none;
-  align-items: center;
-  gap: 8px;
-  flex-shrink: 0;
-  margin-left: 8px;
-}
-
 @media (max-width: 768px) {
   .nav-auth-desktop { display: none; }
-  .nav-auth-mobile  { display: flex; }
 }
 
 /* ── Pulse dot (alerts CTA) ─────────────────────────────── */
@@ -352,6 +409,8 @@ body {
   .ticker-track,
   .float-blob,
   .gradient-cta,
+  .glossy-orange,
+  .hamburger-bar,
   .tilt-in {
     animation: none !important;
   }

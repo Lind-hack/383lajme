@@ -19,7 +19,6 @@ interface Props {
 }
 
 export default function ImageAccordion({ featured, slides }: Props) {
-  // -1 = nothing active; panels only expand on hover
   const [active, setActive] = useState(-1)
 
   const featuredColor = getCategoryColor(featured.category)
@@ -30,15 +29,13 @@ export default function ImageAccordion({ featured, slides }: Props) {
       aria-label="Lajmi kryesor"
       style={{
         position: 'relative',
-        zIndex: 2,
+        zIndex: 1,
         width: '100%',
-        /* Cream/white theme matching the rest of the site */
-        background: 'linear-gradient(150deg, #ffffff 0%, #FFF8F5 60%, #F9F6F1 100%)',
-        overflow: 'hidden',
+        background: 'transparent',
         display: 'flex',
         flexDirection: 'row',
-        /* Compact height — no full-viewport stretch */
-        minHeight: 'clamp(420px, 52vh, 620px)',
+        height: 'clamp(380px, 44vh, 480px)',
+        overflow: 'hidden',
       }}
     >
       {/* Orange radial glow — top-right corner accent */}
@@ -48,25 +45,10 @@ export default function ImageAccordion({ featured, slides }: Props) {
           position: 'absolute',
           top: '-60px',
           right: '-60px',
-          width: '500px',
-          height: '500px',
+          width: '400px',
+          height: '400px',
           borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(255,68,34,0.10) 0%, transparent 65%)',
-          pointerEvents: 'none',
-          zIndex: 0,
-        }}
-      />
-      {/* Subtle bottom-left warmth */}
-      <div
-        aria-hidden
-        style={{
-          position: 'absolute',
-          bottom: '-40px',
-          left: '-40px',
-          width: '320px',
-          height: '320px',
-          borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(255,68,34,0.05) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(255,68,34,0.08) 0%, transparent 65%)',
           pointerEvents: 'none',
           zIndex: 0,
         }}
@@ -76,39 +58,23 @@ export default function ImageAccordion({ featured, slides }: Props) {
       <div
         className="split-hero-left"
         style={{
-          flex: '0 0 44%',
+          flex: '0 0 48%',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
-          padding: 'clamp(32px, 4vw, 64px) clamp(24px, 2.8vw, 44px) clamp(32px, 4vw, 64px) clamp(16px, 1.8vw, 28px)',
+          padding: '28px clamp(20px, 3vw, 44px)',
           position: 'relative',
           zIndex: 1,
-          borderRight: '1px solid rgba(17,17,17,0.07)',
         }}
       >
-        {/* Category glow */}
-        <div
-          aria-hidden
-          style={{
-            position: 'absolute',
-            top: '-40px',
-            left: '-40px',
-            width: '300px',
-            height: '300px',
-            borderRadius: '50%',
-            background: `radial-gradient(circle, ${featuredColor}12 0%, transparent 70%)`,
-            pointerEvents: 'none',
-          }}
-        />
-
         {/* Overline */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
           <span
             style={{
               display: 'inline-flex',
               alignItems: 'center',
-              gap: '6px',
-              fontSize: '11px',
+              gap: '5px',
+              fontSize: '10px',
               fontWeight: 800,
               letterSpacing: '0.18em',
               textTransform: 'uppercase',
@@ -117,8 +83,8 @@ export default function ImageAccordion({ featured, slides }: Props) {
           >
             <span
               style={{
-                width: '6px',
-                height: '6px',
+                width: '5px',
+                height: '5px',
                 borderRadius: '50%',
                 background: '#FF4422',
                 display: 'inline-block',
@@ -131,14 +97,14 @@ export default function ImageAccordion({ featured, slides }: Props) {
           </span>
           <span
             style={{
-              fontSize: '11px',
+              fontSize: '10px',
               fontWeight: 700,
               letterSpacing: '0.1em',
               textTransform: 'uppercase',
               color: featuredColor,
               background: `${featuredColor}15`,
               border: `1.5px solid ${featuredColor}40`,
-              padding: '3px 10px',
+              padding: '2px 8px',
               borderRadius: '100px',
             }}
           >
@@ -151,10 +117,10 @@ export default function ImageAccordion({ featured, slides }: Props) {
           suppressHydrationWarning
           style={{
             display: 'block',
-            fontSize: '11px',
+            fontSize: '10px',
             color: '#9C9C9C',
             fontWeight: 500,
-            marginBottom: '14px',
+            marginBottom: '8px',
           }}
         >
           {timeAgo(featured.publishedAt)}
@@ -164,12 +130,12 @@ export default function ImageAccordion({ featured, slides }: Props) {
         <h2
           style={{
             fontFamily: FONT.serif,
-            fontSize: 'clamp(26px, 3vw, 46px)',
+            fontSize: 'clamp(20px, 2.8vw, 40px)',
             fontWeight: 700,
-            lineHeight: 1.12,
+            lineHeight: 1.1,
             letterSpacing: '-0.02em',
             color: '#111111',
-            margin: '0 0 14px',
+            margin: '0 0 10px',
           }}
         >
           {featured.title}
@@ -178,23 +144,27 @@ export default function ImageAccordion({ featured, slides }: Props) {
         {/* Excerpt */}
         <p
           style={{
-            fontSize: '15px',
-            lineHeight: 1.65,
+            fontSize: '13px',
+            lineHeight: 1.6,
             color: '#6B6B6B',
-            margin: '0 0 24px',
+            margin: '0 0 14px',
             fontWeight: 400,
+            display: '-webkit-box',
+            WebkitLineClamp: 2,
+            WebkitBoxOrient: 'vertical',
+            overflow: 'hidden',
           }}
         >
           {featured.excerpt}
         </p>
 
         {/* Meta + CTA */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
-          <span style={{ fontSize: '12px', color: '#9C9C9C', fontWeight: 500 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
+          <span style={{ fontSize: '11px', color: '#9C9C9C', fontWeight: 500 }}>
             {featured.readingTime ?? 3} min lexim
           </span>
-          <div style={{ width: '1px', height: '14px', background: 'rgba(17,17,17,0.12)' }} />
-          <span style={{ fontSize: '12px', color: '#9C9C9C', fontWeight: 500 }}>
+          <div style={{ width: '1px', height: '12px', background: 'rgba(17,17,17,0.12)' }} />
+          <span style={{ fontSize: '11px', color: '#9C9C9C', fontWeight: 500 }}>
             {featured.source}
           </span>
           <Link
@@ -202,12 +172,12 @@ export default function ImageAccordion({ featured, slides }: Props) {
             style={{
               display: 'inline-flex',
               alignItems: 'center',
-              gap: '7px',
-              fontSize: '12px',
+              gap: '6px',
+              fontSize: '11px',
               fontWeight: 800,
               color: '#ffffff',
               background: '#FF4422',
-              padding: '10px 22px',
+              padding: '8px 18px',
               borderRadius: '100px',
               letterSpacing: '0.08em',
               textTransform: 'uppercase',
@@ -217,32 +187,9 @@ export default function ImageAccordion({ featured, slides }: Props) {
             }}
           >
             Lexo lajmin
-            <ArrowRight size={12} strokeWidth={2.5} />
+            <ArrowRight size={11} strokeWidth={2.5} />
           </Link>
         </div>
-
-        {/* Bottom accent */}
-        <div
-          style={{
-            marginTop: '32px',
-            height: '1px',
-            background:
-              'linear-gradient(90deg, #FF4422 0%, rgba(255,68,34,0.2) 50%, transparent 100%)',
-            opacity: 0.35,
-          }}
-        />
-        <p
-          style={{
-            marginTop: '12px',
-            fontSize: '10px',
-            letterSpacing: '0.14em',
-            textTransform: 'uppercase',
-            color: '#BBBBBB',
-            fontWeight: 600,
-          }}
-        >
-          383 · Lajme nga Kosova
-        </p>
       </div>
 
       {/* ── Right: image accordion ── */}
@@ -251,8 +198,8 @@ export default function ImageAccordion({ featured, slides }: Props) {
         style={{
           flex: 1,
           display: 'flex',
-          gap: '8px',
-          padding: 'clamp(40px, 6vh, 72px) clamp(44px, 4vw, 88px)',
+          gap: '6px',
+          padding: '10px 14px',
           minWidth: 0,
           position: 'relative',
           zIndex: 1,
@@ -286,20 +233,17 @@ export default function ImageAccordion({ featured, slides }: Props) {
                 position: 'relative',
                 overflow: 'hidden',
                 cursor: 'pointer',
-                /* Light card shell (image fills it; shows for no-image fallback) */
                 background: bgImage ? '#1a1a1a' : '#F0EDE8',
                 backgroundImage: bgImage,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
-                borderRadius: '14px',
+                borderRadius: '12px',
                 minWidth: 0,
                 outline: 'none',
-                /* Subtle card shadow on cream bg */
                 boxShadow: '0 2px 12px rgba(17,17,17,0.08)',
-                border: '1px solid rgba(17,17,17,0.05)',
               }}
             >
-              {/* Dark overlay — heavier when active for readability */}
+              {/* Dark overlay */}
               <div
                 aria-hidden
                 style={{
@@ -312,7 +256,7 @@ export default function ImageAccordion({ featured, slides }: Props) {
                 }}
               />
 
-              {/* Category color top bar — shows on hover */}
+              {/* Category color top bar */}
               <div
                 aria-hidden
                 style={{
@@ -325,7 +269,7 @@ export default function ImageAccordion({ featured, slides }: Props) {
                   opacity: isActive ? 1 : 0,
                   transition: 'opacity 0.35s ease',
                   zIndex: 3,
-                  borderRadius: '14px 14px 0 0',
+                  borderRadius: '12px 12px 0 0',
                 }}
               />
 
@@ -349,7 +293,7 @@ export default function ImageAccordion({ featured, slides }: Props) {
                     writingMode: 'vertical-rl',
                     textOrientation: 'mixed',
                     transform: 'rotate(180deg)',
-                    fontSize: '10px',
+                    fontSize: '9px',
                     fontWeight: 800,
                     letterSpacing: '0.2em',
                     textTransform: 'uppercase',
@@ -369,7 +313,7 @@ export default function ImageAccordion({ featured, slides }: Props) {
                   bottom: 0,
                   left: 0,
                   right: 0,
-                  padding: 'clamp(16px, 2vw, 28px)',
+                  padding: 'clamp(12px, 1.5vw, 20px)',
                   opacity: isActive ? 1 : 0,
                   transform: isActive ? 'translateY(0)' : 'translateY(14px)',
                   transition: 'opacity 0.3s ease 0.2s, transform 0.3s ease 0.2s',
@@ -380,16 +324,16 @@ export default function ImageAccordion({ featured, slides }: Props) {
                 <span
                   style={{
                     display: 'inline-block',
-                    fontSize: '10px',
+                    fontSize: '9px',
                     fontWeight: 800,
                     letterSpacing: '0.16em',
                     textTransform: 'uppercase',
                     color: catColor,
                     background: `${catColor}22`,
                     border: `1.5px solid ${catColor}50`,
-                    padding: '3px 10px',
+                    padding: '2px 8px',
                     borderRadius: '100px',
-                    marginBottom: '10px',
+                    marginBottom: '8px',
                     backdropFilter: 'blur(8px)',
                   }}
                 >
@@ -399,11 +343,11 @@ export default function ImageAccordion({ featured, slides }: Props) {
                 <h3
                   style={{
                     fontFamily: FONT.serif,
-                    fontSize: 'clamp(14px, 1.5vw, 22px)',
+                    fontSize: 'clamp(13px, 1.4vw, 20px)',
                     fontWeight: 700,
                     lineHeight: 1.2,
                     color: '#FFFFFF',
-                    margin: '0 0 8px',
+                    margin: '0 0 6px',
                     maxWidth: '420px',
                     textShadow: '0 2px 10px rgba(0,0,0,0.5)',
                     display: '-webkit-box',
@@ -415,42 +359,26 @@ export default function ImageAccordion({ featured, slides }: Props) {
                   {slide.article.title}
                 </h3>
 
-                <p
-                  style={{
-                    fontSize: '12px',
-                    lineHeight: 1.6,
-                    color: 'rgba(255,255,255,0.65)',
-                    margin: '0 0 14px',
-                    maxWidth: '360px',
-                    display: '-webkit-box',
-                    WebkitLineClamp: 2,
-                    WebkitBoxOrient: 'vertical',
-                    overflow: 'hidden',
-                  }}
-                >
-                  {slide.article.excerpt}
-                </p>
-
                 <Link
                   href={`/article/${slide.article.slug}`}
                   style={{
                     display: 'inline-flex',
                     alignItems: 'center',
-                    gap: '6px',
-                    fontSize: '10px',
+                    gap: '5px',
+                    fontSize: '9px',
                     fontWeight: 800,
                     letterSpacing: '0.1em',
                     textTransform: 'uppercase',
                     color: '#ffffff',
                     background: catColor,
-                    padding: '8px 16px',
+                    padding: '6px 12px',
                     borderRadius: '100px',
                     textDecoration: 'none',
                     boxShadow: `0 3px 14px ${catColor}45`,
                   }}
                 >
                   Lexo lajmin
-                  <ArrowRight size={11} strokeWidth={2.5} />
+                  <ArrowRight size={10} strokeWidth={2.5} />
                 </Link>
               </div>
             </div>
@@ -464,9 +392,9 @@ export default function ImageAccordion({ featured, slides }: Props) {
           50%       { opacity: 0.45; box-shadow: 0 0 4px rgba(255,68,34,0.3); }
         }
         @media (max-width: 900px) {
-          .split-hero { flex-direction: column !important; min-height: auto !important; }
-          .split-hero-left { flex: 0 0 auto !important; border-right: none !important; border-bottom: 1px solid rgba(17,17,17,0.07) !important; }
-          .split-hero-right { height: 300px; padding: 14px !important; }
+          .split-hero { flex-direction: column !important; height: auto !important; }
+          .split-hero-left { flex: 0 0 auto !important; }
+          .split-hero-right { height: 200px; padding: 10px !important; }
         }
       `}</style>
     </section>

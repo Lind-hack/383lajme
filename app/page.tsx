@@ -5,7 +5,6 @@ import TextureBg from "@/components/aurora-bg";
 import SectionLabel from "@/components/section-label";
 import Navbar from "@/components/navbar";
 import BreakingTicker from "@/components/breaking-ticker";
-import HeroDispatch from "@/components/hero-dispatch";
 import DispatchRow from "@/components/dispatch-row";
 import NewsGrid from "@/components/news-grid";
 import DispatchList from "@/components/dispatch-list";
@@ -102,7 +101,9 @@ export default async function HomePage() {
       </div>
 
       {/* Image accordion hero — top article per category */}
-      <ImageAccordion featured={hero} slides={accordionSlides} />
+      <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 24px', marginTop: '56px' }}>
+        <ImageAccordion featured={hero} slides={accordionSlides} />
+      </div>
 
       {/* Main content — cream section */}
       <main
@@ -114,33 +115,6 @@ export default async function HomePage() {
           padding: "64px 24px 0",
         }}
       >
-        {/* "383" large watermark behind hero */}
-        <div
-          aria-hidden="true"
-          style={{
-            position: "absolute",
-            top: "-20px",
-            left: "50%",
-            transform: "translateX(-50%)",
-            fontSize: "clamp(120px, 16vw, 220px)",
-            fontWeight: 800,
-            color: "transparent",
-            WebkitTextStroke: "1px rgba(17,17,17,0.05)",
-            letterSpacing: "-0.08em",
-            lineHeight: 1,
-            pointerEvents: "none",
-            userSelect: "none",
-            whiteSpace: "nowrap",
-          }}
-        >
-          383
-        </div>
-
-        {/* Hero dispatch */}
-        <div style={{ marginBottom: "var(--space-section)", position: "relative" }}>
-          <HeroDispatch article={hero} />
-        </div>
-
         {/* Daily video reaction */}
         <ReagimiDites article={reagimiArticle} />
 

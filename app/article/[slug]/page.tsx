@@ -4,6 +4,7 @@ import TextureBg from "@/components/aurora-bg";
 import Navbar from "@/components/navbar";
 import ArticleContent from "@/components/article-content";
 import Footer from "@/components/footer";
+import type { AccordionSlide } from "@/components/image-accordion";
 import { getCategoryColor, getCategoryBg } from "@/lib/category-colors";
 
 export const revalidate = 7200;
@@ -36,6 +37,24 @@ export default async function ArticlePage({
     if (related.length >= 3) break;
   }
 
+  // Category cards (no image) — one top article per category, deduped
+  const accordionCats = [
+    { category: "Politikë",   label: "Politikë"   },
+    { category: "Showbiz",    label: "Showbiz"    },
+    { category: "Botë",       label: "Botë"       },
+    { category: "Teknologji", label: "Teknologji" },
+    { category: "Sport",      label: "Sport"      },
+  ];
+  const usedAccordionIds = new Set<string>();
+  const categorySlides: AccordionSlide[] = accordionCats.map(({ category, label }) => {
+    const a =
+      allArticles.find((x) => x.category === category && !usedAccordionIds.has(x.id)) ??
+      allArticles.find((x) => !usedAccordionIds.has(x.id)) ??
+      allArticles[0];
+    usedAccordionIds.add(a.id);
+    return { article: a, category, label };
+  });
+
   return (
     <>
       <TextureBg />
@@ -45,6 +64,7 @@ export default async function ArticlePage({
         related={related}
         catColor={catColor}
         catBg={catBg}
+        categorySlides={categorySlides}
       />
       <Footer />
     </>
