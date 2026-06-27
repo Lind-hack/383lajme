@@ -76,11 +76,11 @@ export default function ImageAccordion({ featured, slides }: Props) {
       <div
         className="split-hero-left"
         style={{
-          flex: '0 0 38%',
+          flex: '0 0 44%',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
-          padding: 'clamp(32px, 4vw, 64px) clamp(20px, 3.5vw, 56px)',
+          padding: 'clamp(32px, 4vw, 64px) clamp(24px, 2.8vw, 44px) clamp(32px, 4vw, 64px) clamp(16px, 1.8vw, 28px)',
           position: 'relative',
           zIndex: 1,
           borderRight: '1px solid rgba(17,17,17,0.07)',
@@ -164,7 +164,7 @@ export default function ImageAccordion({ featured, slides }: Props) {
         <h2
           style={{
             fontFamily: FONT.serif,
-            fontSize: 'clamp(22px, 2.4vw, 36px)',
+            fontSize: 'clamp(26px, 3vw, 46px)',
             fontWeight: 700,
             lineHeight: 1.12,
             letterSpacing: '-0.02em',
@@ -178,7 +178,7 @@ export default function ImageAccordion({ featured, slides }: Props) {
         {/* Excerpt */}
         <p
           style={{
-            fontSize: '14px',
+            fontSize: '15px',
             lineHeight: 1.65,
             color: '#6B6B6B',
             margin: '0 0 24px',
@@ -252,7 +252,7 @@ export default function ImageAccordion({ featured, slides }: Props) {
           flex: 1,
           display: 'flex',
           gap: '8px',
-          padding: '20px 24px',
+          padding: 'clamp(40px, 6vh, 72px) clamp(44px, 4vw, 88px)',
           minWidth: 0,
           position: 'relative',
           zIndex: 1,
