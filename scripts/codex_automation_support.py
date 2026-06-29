@@ -549,12 +549,50 @@ def _gmail_app_password() -> str:
     return re.sub(r"\s+", "", os.environ.get("GMAIL_APP_PASSWORD", ""))
 
 
-def _github_token() -> str:
+def _clean_github_token(value: str) -> str:
+    token = value.strip().strip('"').strip("'")
+    token = re.sub(r"^export\s+", "", token).strip()
     for key in ("GITHUB_TOKEN", "GITHUB_PAT", "GH_TOKEN"):
-        value = os.environ.get(key, "").strip()
-        if value:
-            return value
-    return ""
+        if token.startswith(f"{key}="):
+            token = token.split("=", 1)[1].strip().strip('"').strip("'")
+    token = re.sub(r"\s+", "", token)
+    return token
+
+
+def _github_token_pair() -> tuple[str, str]:
+    candidates: list[tuple[str, str]] = []
+    for key in ("GITHUB_TOKEN", "GITHUB_PAT", "GH_TOKEN"):
+        raw_value = os.environ.get(key, "")
+        token = _clean_github_token(raw_value)
+        if token:
+            candidates.append((key, token))
+
+    for key, token in candidates:
+        if token.startswith(("ghp_", "github_pat_", "gho_", "ghu_", "ghs_", "ghr_")):
+            return key, token
+
+    if candidates:
+        return candidates[0]
+    return "", ""
+
+
+def _github_token() -> str:
+    _, token = _github_token_pair()
+    return token
+
+
+def _token_shape(token: str) -> str:
+    if not token:
+        return "missing"
+    if token.startswith("ghp_"):
+        prefix = "classic ghp_"
+    elif token.startswith("github_pat_"):
+        prefix = "fine-grained github_pat_"
+    elif token.startswith(("gho_", "ghu_", "ghs_", "ghr_")):
+        prefix = "GitHub token"
+    else:
+        prefix = "unknown prefix"
+    return f"{prefix}, length {len(token)}"
 
 
 def _github_repo() -> str:
@@ -564,11 +602,12 @@ def _github_repo() -> str:
 
 def github_auth_status() -> int:
     load_env()
-    token = _github_token()
+    token_key, token = _github_token_pair()
     repo = _github_repo()
     if not token:
         print("GITHUB auth: missing GITHUB_TOKEN/GITHUB_PAT/GH_TOKEN")
         return 2
+    print(f"GITHUB auth: using {token_key} ({_token_shape(token)})")
 
     request = urllib.request.Request(
         f"https://api.github.com/repos/{repo}",
