@@ -565,7 +565,7 @@ def _run_git(command: list[str], *, check: bool = True) -> subprocess.CompletedP
     result = subprocess.run(command, cwd=REPO_ROOT, text=True, capture_output=True)
     if check and result.returncode != 0:
         detail = (result.stderr or result.stdout or "").strip()
-        if "403" in detail or "Permission denied" in detail:
+        if _is_git_auth_failure(detail) and ("403" in detail or "Permission denied" in detail):
             print(
                 "GIT failed: GitHub denied write access. "
                 "Use a GitHub token with Contents: Read and write for "
@@ -581,6 +581,20 @@ def _run_git(command: list[str], *, check: bool = True) -> subprocess.CompletedP
                 print(detail[-800:])
         result.check_returncode()
     return result
+
+
+def _is_git_auth_failure(detail: str) -> bool:
+    lowered = detail.lower()
+    return any(
+        phrase in lowered
+        for phrase in (
+            "authentication failed",
+            "permission denied",
+            "could not read username",
+            "repository not found",
+            "403",
+        )
+    )
 
 
 def _ensure_git_origin() -> None:
@@ -603,8 +617,16 @@ def _git_auth_extraheader() -> list[str]:
 
 
 def _git(command: list[str], *, check: bool = True) -> subprocess.CompletedProcess[str]:
-    full_command = ["git"] + _git_auth_extraheader() + command
-    return _run_git(full_command, check=check)
+    auth_args = _git_auth_extraheader()
+    if auth_args:
+        result = _run_git(["git"] + auth_args + command, check=False)
+        detail = (result.stderr or result.stdout or "").strip()
+        if result.returncode == 0 or not _is_git_auth_failure(detail):
+            if check and result.returncode != 0:
+                _run_git(["git"] + auth_args + command, check=True)
+            return result
+        print("GIT token authentication failed; retrying with the runner's configured Git credentials.")
+    return _run_git(["git"] + command, check=check)
 
 
 def git_publish(path: Path) -> int:
