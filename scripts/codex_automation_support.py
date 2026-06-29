@@ -20,6 +20,7 @@ import socket
 import subprocess
 import sys
 import time
+import urllib.error
 import urllib.request
 from datetime import datetime, timezone
 from email.mime.multipart import MIMEMultipart
@@ -561,6 +562,50 @@ def _github_repo() -> str:
     return repo.removeprefix("https://github.com/").removesuffix(".git")
 
 
+def github_auth_status() -> int:
+    load_env()
+    token = _github_token()
+    repo = _github_repo()
+    if not token:
+        print("GITHUB auth: missing GITHUB_TOKEN/GITHUB_PAT/GH_TOKEN")
+        return 2
+
+    request = urllib.request.Request(
+        f"https://api.github.com/repos/{repo}",
+        headers={
+            "Accept": "application/vnd.github+json",
+            "Authorization": f"Bearer {token}",
+            "User-Agent": "383-codex-news-bot",
+            "X-GitHub-Api-Version": "2022-11-28",
+        },
+    )
+    try:
+        with urllib.request.urlopen(request, timeout=30) as response:
+            payload = json.loads(response.read().decode("utf-8", errors="replace"))
+            permissions = payload.get("permissions") or {}
+            print(f"GITHUB auth: token can read repo {repo}")
+            print(f"GITHUB permission pull: {bool(permissions.get('pull'))}")
+            print(f"GITHUB permission push: {bool(permissions.get('push'))}")
+            print(f"GITHUB permission admin: {bool(permissions.get('admin'))}")
+            if not permissions.get("push"):
+                print("GITHUB auth failed: token does not have push permission for this repository.")
+                return 1
+            return 0
+    except urllib.error.HTTPError as exc:
+        if exc.code == 401:
+            print("GITHUB auth failed: token is invalid, expired, revoked, or copied incorrectly.")
+        elif exc.code == 403:
+            print("GITHUB auth failed: token is valid but blocked from this repo/org. Check repo access, org SSO authorization, or token scopes.")
+        elif exc.code == 404:
+            print(f"GITHUB auth failed: repo {repo} is not visible to this token.")
+        else:
+            print(f"GITHUB auth failed: GitHub API returned HTTP {exc.code}.")
+        return 1
+    except Exception as exc:
+        print(f"GITHUB auth check failed: {type(exc).__name__}")
+        return 1
+
+
 def _git_stdout(command: list[str]) -> str:
     result = subprocess.run(command, cwd=REPO_ROOT, text=True, capture_output=True)
     if result.returncode != 0:
@@ -684,7 +729,7 @@ def finalize(path: Path) -> int:
 
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("command", choices=["env-status", "validate", "test-email", "deploy", "verify-site", "send-report", "publish", "finalize"])
+    parser.add_argument("command", choices=["env-status", "github-auth", "validate", "test-email", "deploy", "verify-site", "send-report", "publish", "finalize"])
     parser.add_argument("--file", help="Article JSON file. Defaults to latest data/auto-articles/*.json")
     args = parser.parse_args()
 
@@ -699,6 +744,8 @@ def main() -> int:
 
     if args.command == "env-status":
         return env_status()
+    if args.command == "github-auth":
+        return github_auth_status()
     if args.command == "validate":
         assert path is not None
         articles = validate_batch(path)
