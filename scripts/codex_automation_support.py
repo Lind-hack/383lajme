@@ -16,6 +16,7 @@ import json
 import os
 import re
 import smtplib
+import socket
 import subprocess
 import sys
 import time
@@ -244,6 +245,9 @@ def test_email_login() -> int:
         return 0
     except smtplib.SMTPAuthenticationError:
         print("EMAIL login failed: Gmail rejected GMAIL_USER/GMAIL_APP_PASSWORD. Use a Google app password for this Gmail account.")
+        return 1
+    except (TimeoutError, socket.timeout, OSError) as exc:
+        print(f"EMAIL login failed: {type(exc).__name__}. SMTP may be blocked in this cloud environment or Gmail is unreachable.")
         return 1
     except Exception as exc:
         print(f"EMAIL login failed: {type(exc).__name__}")
@@ -532,6 +536,9 @@ def send_report(path: Path) -> int:
     except smtplib.SMTPAuthenticationError:
         print("EMAIL failed: Gmail rejected GMAIL_USER/GMAIL_APP_PASSWORD. Use a Google app password for this Gmail account.")
         return 1
+    except (TimeoutError, socket.timeout, OSError) as exc:
+        print(f"EMAIL failed: {type(exc).__name__}. SMTP may be blocked in this cloud environment or Gmail is unreachable.")
+        return 1
     except Exception as exc:
         print(f"EMAIL failed: {type(exc).__name__}")
         return 1
@@ -641,6 +648,11 @@ def git_publish(path: Path) -> int:
     _git(["add", str(path.relative_to(REPO_ROOT)).replace("\\", "/")])
     diff = _git(["diff", "--staged", "--quiet"], check=False)
     if diff.returncode == 0:
+        ahead_count = _git_stdout(["git", "rev-list", "--count", "origin/main..HEAD"])
+        if ahead_count and int(ahead_count) > 0:
+            _git(["push", "origin", "HEAD:main"])
+            print(f"GIT pushed {ahead_count} existing local commit(s)")
+            return 0
         print("GIT no staged article changes")
         return 0
     _git(["commit", "-m", f"chore: GPT-5.4 verified news run {timestamp}"])
