@@ -10,6 +10,7 @@ validation, email reporting, Vercel deploy hook calls, and git publishing.
 from __future__ import annotations
 
 import argparse
+import base64
 import html
 import json
 import os
@@ -86,6 +87,7 @@ SCORE_WEIGHTS = {
 }
 
 DEFAULT_SITE_URL = "https://383lajme.vercel.app"
+DEFAULT_GITHUB_REPO = "Lind-hack/383lajme"
 
 
 def load_env() -> list[str]:
@@ -202,6 +204,7 @@ def validate_batch(path: Path) -> list[dict[str, Any]]:
 
 def env_status() -> int:
     load_env()
+    github_token = _github_token()
     checks = {
         "GMAIL_USER": bool(os.environ.get("GMAIL_USER", "").strip()),
         "GMAIL_APP_PASSWORD": bool(os.environ.get("GMAIL_APP_PASSWORD", "").strip()),
@@ -210,6 +213,7 @@ def env_status() -> int:
         "REMOVE_SECRET": bool(os.environ.get("REMOVE_SECRET", "").strip()),
         "ADMIN_SECRET": bool(os.environ.get("ADMIN_SECRET", "").strip()),
         "VERCEL_DEPLOY_HOOK_URL": bool(os.environ.get("VERCEL_DEPLOY_HOOK_URL", "").strip()),
+        "GITHUB_TOKEN/GITHUB_PAT/GH_TOKEN": bool(github_token),
     }
     print("Env files loaded:")
     for env_file in [str(p) for p in ENV_FILES if p.exists()]:
@@ -221,13 +225,15 @@ def env_status() -> int:
     hook = os.environ.get("VERCEL_DEPLOY_HOOK_URL", "").strip()
     if hook and "/v1/integrations/deploy/" not in hook:
         print("WARN VERCEL_DEPLOY_HOOK_URL does not look like a Vercel deploy hook URL.")
+    origin = _git_stdout(["git", "remote", "get-url", "origin"])
+    print(f"Git origin: {'present' if origin else 'missing'}")
     return 0
 
 
 def test_email_login() -> int:
     load_env()
     user = os.environ.get("GMAIL_USER", "").strip()
-    password = os.environ.get("GMAIL_APP_PASSWORD", "").strip()
+    password = _gmail_app_password()
     if not user or not password:
         print("EMAIL missing GMAIL_USER or GMAIL_APP_PASSWORD")
         return 2
@@ -458,7 +464,7 @@ def send_report(path: Path) -> int:
     load_env()
     articles = validate_batch(path)
     user = os.environ.get("GMAIL_USER", "").strip()
-    password = os.environ.get("GMAIL_APP_PASSWORD", "").strip()
+    password = _gmail_app_password()
     recipient = os.environ.get("RECIPIENT_EMAIL", "").strip() or "lindsylqa@gmail.com"
     site_url = os.environ.get("SITE_URL", "").strip().rstrip("/")
     remove_secret = os.environ.get("REMOVE_SECRET", "").strip()
@@ -531,24 +537,92 @@ def send_report(path: Path) -> int:
         return 1
 
 
+def _gmail_app_password() -> str:
+    return re.sub(r"\s+", "", os.environ.get("GMAIL_APP_PASSWORD", ""))
+
+
+def _github_token() -> str:
+    for key in ("GITHUB_TOKEN", "GITHUB_PAT", "GH_TOKEN"):
+        value = os.environ.get(key, "").strip()
+        if value:
+            return value
+    return ""
+
+
+def _github_repo() -> str:
+    repo = os.environ.get("GITHUB_REPOSITORY", "").strip() or DEFAULT_GITHUB_REPO
+    return repo.removeprefix("https://github.com/").removesuffix(".git")
+
+
+def _git_stdout(command: list[str]) -> str:
+    result = subprocess.run(command, cwd=REPO_ROOT, text=True, capture_output=True)
+    if result.returncode != 0:
+        return ""
+    return result.stdout.strip()
+
+
+def _run_git(command: list[str], *, check: bool = True) -> subprocess.CompletedProcess[str]:
+    result = subprocess.run(command, cwd=REPO_ROOT, text=True, capture_output=True)
+    if check and result.returncode != 0:
+        detail = (result.stderr or result.stdout or "").strip()
+        if "403" in detail or "Permission denied" in detail:
+            print(
+                "GIT failed: GitHub denied write access. "
+                "Use a GitHub token with Contents: Read and write for "
+                f"{_github_repo()}, or connect a GitHub app/account with repository write access."
+            )
+        elif "Repository not found" in detail:
+            print(f"GIT failed: repository {_github_repo()} was not found or token cannot access it.")
+        elif "Authentication failed" in detail or "could not read Username" in detail:
+            print("GIT failed: authentication failed. Check GITHUB_TOKEN/GITHUB_PAT/GH_TOKEN.")
+        else:
+            print("GIT failed while running a repository command.")
+            if detail:
+                print(detail[-800:])
+        result.check_returncode()
+    return result
+
+
+def _ensure_git_origin() -> None:
+    remote = f"https://github.com/{_github_repo()}.git"
+    current = _git_stdout(["git", "remote", "get-url", "origin"])
+    if current:
+        if current != remote and "github.com" in current:
+            _run_git(["git", "remote", "set-url", "origin", remote])
+        return
+    _run_git(["git", "remote", "add", "origin", remote])
+    print("GIT origin configured")
+
+
+def _git_auth_extraheader() -> list[str]:
+    token = _github_token()
+    if not token:
+        return []
+    encoded = base64.b64encode(f"x-access-token:{token}".encode("utf-8")).decode("ascii")
+    return ["-c", f"http.https://github.com/.extraheader=AUTHORIZATION: basic {encoded}"]
+
+
+def _git(command: list[str], *, check: bool = True) -> subprocess.CompletedProcess[str]:
+    full_command = ["git"] + _git_auth_extraheader() + command
+    return _run_git(full_command, check=check)
+
+
 def git_publish(path: Path) -> int:
+    load_env()
     validate_batch(path)
+    _ensure_git_origin()
     timestamp = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%MZ")
-    commands = [
-        ["git", "config", "user.name", "383 Codex News Bot"],
-        ["git", "config", "user.email", "bot@383lajme.com"],
-        ["git", "add", str(path.relative_to(REPO_ROOT)).replace("\\", "/")],
-        ["git", "diff", "--staged", "--quiet"],
-    ]
-    for command in commands[:3]:
-        subprocess.run(command, cwd=REPO_ROOT, check=True)
-    diff = subprocess.run(commands[3], cwd=REPO_ROOT)
+    _git(["config", "user.name", "383 Codex News Bot"])
+    _git(["config", "user.email", "bot@383lajme.com"])
+    _git(["fetch", "origin", "main"])
+    _git(["pull", "--rebase", "--autostash", "origin", "main"])
+    _git(["add", str(path.relative_to(REPO_ROOT)).replace("\\", "/")])
+    diff = _git(["diff", "--staged", "--quiet"], check=False)
     if diff.returncode == 0:
         print("GIT no staged article changes")
         return 0
-    subprocess.run(["git", "commit", "-m", f"chore: GPT-5.5 verified news run {timestamp}"], cwd=REPO_ROOT, check=True)
-    subprocess.run(["git", "pull", "--rebase", "--autostash", "origin", "main"], cwd=REPO_ROOT, check=True)
-    subprocess.run(["git", "push", "origin", "main"], cwd=REPO_ROOT, check=True)
+    _git(["commit", "-m", f"chore: GPT-5.4 verified news run {timestamp}"])
+    _git(["push", "origin", "HEAD:main"])
     print("GIT published article batch")
     return 0
 
