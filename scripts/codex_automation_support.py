@@ -101,6 +101,20 @@ KOSOVO_COMPETITOR_SOURCES = {
     "zeri",
 }
 
+SOCIAL_DOMAINS = {
+    "instagram.com": "Instagram",
+    "tiktok.com": "TikTok",
+    "twitter.com": "X/Twitter",
+    "x.com": "X/Twitter",
+    "threads.net": "Threads",
+    "youtube.com": "YouTube",
+    "youtu.be": "YouTube",
+    "reddit.com": "Reddit",
+    "polymarket.com": "Polymarket",
+    "linkedin.com": "LinkedIn",
+    "pinterest.com": "Pinterest",
+}
+
 SCORE_WEIGHTS = {
     "relevance": 0.22,
     "urgency": 0.14,
@@ -161,6 +175,33 @@ def _source_key(source: object) -> str:
     return value
 
 
+def _domain_platform(value: object) -> str:
+    text = str(value or "").strip().lower()
+    for domain, platform in SOCIAL_DOMAINS.items():
+        if domain in text:
+            return platform
+    return ""
+
+
+def _social_platform(article: dict[str, Any]) -> str:
+    explicit = str(article.get("social_platform") or article.get("source_platform") or "").strip()
+    if explicit:
+        return explicit
+    return _domain_platform(article.get("social_post_url")) or _domain_platform(article.get("source_post_url")) or _domain_platform(article.get("url")) or _domain_platform(article.get("source"))
+
+
+def _social_post_url(article: dict[str, Any]) -> str:
+    return str(article.get("social_post_url") or article.get("source_post_url") or "").strip()
+
+
+def _social_account(article: dict[str, Any]) -> str:
+    return str(article.get("social_post_account") or article.get("source_account") or "").strip()
+
+
+def _social_basis(article: dict[str, Any]) -> str:
+    return str(article.get("social_post_basis") or article.get("source_post_basis") or article.get("source_post_quote") or "").strip()
+
+
 def validate_batch(path: Path) -> list[dict[str, Any]]:
     articles = read_articles(path)
     errors: list[str] = []
@@ -209,6 +250,21 @@ def validate_batch(path: Path) -> list[dict[str, Any]]:
                 f"{label} uses Kosovo competitor as main source: {article.get('source')!r}. "
                 "Use outside/primary/social discovery sources and Kosovo outlets only for context."
             )
+
+        social_platform = _social_platform(article)
+        social_post_url = _social_post_url(article)
+        social_account = _social_account(article)
+        social_basis = _social_basis(article)
+        if social_platform:
+            if not social_post_url and _domain_platform(article.get("url")).lower() != social_platform.lower():
+                errors.append(
+                    f"{label} is social-driven but missing social_post_url/source_post_url. "
+                    "Include the exact post/status URL used as the basis."
+                )
+            if not social_account:
+                errors.append(f"{label} is social-driven but missing social_post_account/source_account.")
+            if not social_basis:
+                errors.append(f"{label} is social-driven but missing social_post_basis/source_post_basis.")
 
         for field in ("title", "excerpt", "body", "source", "score_reason"):
             value = str(article.get(field, ""))
@@ -461,6 +517,34 @@ def _breakdown_text(article: dict[str, Any]) -> str:
     return " | ".join(parts)
 
 
+def _social_basis_html(article: dict[str, Any]) -> str:
+    platform = _social_platform(article)
+    if not platform:
+        return ""
+
+    post_url = _social_post_url(article) or str(article.get("url", "")).strip()
+    account = _social_account(article)
+    basis = _social_basis(article)
+
+    bits: list[str] = [f"Platform: {html.escape(platform)}"]
+    if account:
+        bits.append(f"Account: {html.escape(account)}")
+
+    line = " | ".join(bits)
+    if post_url:
+        safe_url = html.escape(post_url, quote=True)
+        line += f" | <a href='{safe_url}' style='color:#2563eb;text-decoration:none;font-weight:700'>Source post</a>"
+    if basis:
+        line += f"<div style='margin-top:4px;color:#475569'>{html.escape(basis)}</div>"
+
+    return (
+        "<div style='font-size:12px;line-height:1.55;color:#334155;margin-top:8px;"
+        "background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:8px 10px'>"
+        f"<strong>Social basis:</strong> {line}"
+        "</div>"
+    )
+
+
 def _article_card(article: dict[str, Any], path: Path, site_url: str, remove_secret: str, compact: bool = False) -> str:
     score = _article_score(article)
     score_bg, score_fg = _score_color(score)
@@ -472,6 +556,7 @@ def _article_card(article: dict[str, Any], path: Path, site_url: str, remove_sec
     image_url = html.escape(str(article.get("image_url", "")).strip(), quote=True)
     breakdown = html.escape(_breakdown_text(article))
     score_formula = html.escape(str(article.get("score_formula", "")))
+    social_basis = _social_basis_html(article)
 
     image_cell = ""
     if image_url:
@@ -495,9 +580,10 @@ def _article_card(article: dict[str, Any], path: Path, site_url: str, remove_sec
     if remove_link:
         links += f" <span style='color:#94a3b8'>|</span> <a href='{remove_link}' style='color:#dc2626;text-decoration:none;font-weight:700'>Remove</a>"
 
-    details = "" if compact else (
+    details = social_basis if compact else (
         f"<div style='font-size:12px;line-height:1.55;color:#475569;margin-top:8px'>{breakdown}</div>"
         f"<div style='font-size:12px;line-height:1.55;color:#64748b;margin-top:4px'>{score_formula}</div>"
+        f"{social_basis}"
         f"<div style='font-size:13px;line-height:1.55;color:#334155;margin-top:8px'>{reason}</div>"
     )
     padding = "14px 0" if compact else "18px 0"
