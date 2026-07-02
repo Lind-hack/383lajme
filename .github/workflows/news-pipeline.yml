@@ -1,8 +1,8 @@
 name: News Pipeline
 
 on:
-  schedule:
-    - cron: '37 */2 * * *'  # every 2 hours, away from top-of-hour Actions congestion
+  # Disabled as a schedule: the production pipeline now runs from Codex Cloud
+  # with GPT + last30days. Keep manual dispatch only for legacy debugging.
   workflow_dispatch:
 
 jobs:

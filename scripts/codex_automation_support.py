@@ -216,6 +216,8 @@ def env_status() -> int:
         "ADMIN_SECRET": bool(os.environ.get("ADMIN_SECRET", "").strip()),
         "VERCEL_DEPLOY_HOOK_URL": bool(os.environ.get("VERCEL_DEPLOY_HOOK_URL", "").strip()),
         "GITHUB_TOKEN/GITHUB_PAT/GH_TOKEN": bool(github_token),
+        "RESEND_API_KEY": bool(os.environ.get("RESEND_API_KEY", "").strip()),
+        "EMAIL_FROM": bool(os.environ.get("EMAIL_FROM", "").strip()),
     }
     print("Env files loaded:")
     for env_file in [str(p) for p in ENV_FILES if p.exists()]:
@@ -234,6 +236,12 @@ def env_status() -> int:
 
 def test_email_login() -> int:
     load_env()
+    if os.environ.get("RESEND_API_KEY", "").strip():
+        sender = _email_from()
+        recipient = os.environ.get("RECIPIENT_EMAIL", "").strip() or "lindsylqa@gmail.com"
+        print(f"EMAIL HTTP provider configured: Resend ({sender} -> {recipient})")
+        return 0
+
     user = os.environ.get("GMAIL_USER", "").strip()
     password = _gmail_app_password()
     if not user or not password:
@@ -473,8 +481,9 @@ def send_report(path: Path) -> int:
     recipient = os.environ.get("RECIPIENT_EMAIL", "").strip() or "lindsylqa@gmail.com"
     site_url = os.environ.get("SITE_URL", "").strip().rstrip("/")
     remove_secret = os.environ.get("REMOVE_SECRET", "").strip()
-    if not user or not password:
-        print("EMAIL skipped: GMAIL_USER or GMAIL_APP_PASSWORD missing")
+    resend_key = os.environ.get("RESEND_API_KEY", "").strip()
+    if not resend_key and (not user or not password):
+        print("EMAIL skipped: set RESEND_API_KEY or GMAIL_USER/GMAIL_APP_PASSWORD")
         return 2
 
     now = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
@@ -523,8 +532,12 @@ def send_report(path: Path) -> int:
         + "<div style='padding:18px 22px;color:#64748b;font-size:12px;line-height:1.5'>Review skipped or excluded stories separately for accuracy limits before republishing them.</div>"
         + "</div></body></html>"
     )
+    subject = f"383 Lajme - {len(articles)} artikuj te rinj [{now}]"
+    if resend_key:
+        return _send_resend_report(resend_key, recipient, subject, report_html)
+
     message = MIMEMultipart("alternative")
-    message["Subject"] = f"383 Lajme — {len(articles)} artikuj të rinj [{now}]"
+    message["Subject"] = subject
     message["From"] = user
     message["To"] = recipient
     message.attach(MIMEText(report_html, "html", "utf-8"))
@@ -542,6 +555,52 @@ def send_report(path: Path) -> int:
         return 1
     except Exception as exc:
         print(f"EMAIL failed: {type(exc).__name__}")
+        return 1
+
+
+def _email_from() -> str:
+    return os.environ.get("EMAIL_FROM", "").strip() or "383 Lajme <onboarding@resend.dev>"
+
+
+def _send_resend_report(api_key: str, recipient: str, subject: str, report_html: str) -> int:
+    payload = json.dumps(
+        {
+            "from": _email_from(),
+            "to": [recipient],
+            "subject": subject,
+            "html": report_html,
+        }
+    ).encode("utf-8")
+    request = urllib.request.Request(
+        "https://api.resend.com/emails",
+        data=payload,
+        method="POST",
+        headers={
+            "Authorization": f"Bearer {api_key}",
+            "Content-Type": "application/json",
+            "User-Agent": "383-codex-news-bot",
+        },
+    )
+    try:
+        with urllib.request.urlopen(request, timeout=30) as response:
+            status = response.getcode()
+            body = response.read().decode("utf-8", errors="replace")
+            if 200 <= status < 300:
+                try:
+                    message_id = json.loads(body or "{}").get("id", "")
+                except Exception:
+                    message_id = ""
+                suffix = f" ({message_id})" if message_id else ""
+                print(f"EMAIL report sent via Resend to {recipient}{suffix}")
+                return 0
+            print(f"EMAIL Resend failed HTTP {status}")
+            return 1
+    except urllib.error.HTTPError as exc:
+        detail = exc.read(300).decode("utf-8", errors="replace")
+        print(f"EMAIL Resend failed HTTP {exc.code}: {detail}")
+        return 1
+    except Exception as exc:
+        print(f"EMAIL Resend failed: {type(exc).__name__}")
         return 1
 
 
