@@ -1,15 +1,9 @@
 name: Kosovo News - Every Hour
 
 on:
-  schedule:
-    # GitHub Actions is busiest at minute 0 and can delay or drop scheduled jobs.
-    # Run away from the top of the hour. The :47 entry is a backup attempt:
-    # the hour guard below skips it if the :17 run is already running or succeeded.
-    - cron: '17 * * * *'
-      timezone: "Europe/Belgrade"
-    - cron: '47 * * * *'
-      timezone: "Europe/Belgrade"
-  workflow_dispatch:          # also triggerable manually from GitHub UI
+  # Disabled as a schedule: the production pipeline now runs from Codex Cloud
+  # with GPT + last30days. Keep manual dispatch only for legacy debugging.
+  workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}
