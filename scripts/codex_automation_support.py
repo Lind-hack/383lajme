@@ -77,6 +77,30 @@ VALID_CATEGORIES = {
     "Showbiz",
 }
 
+KOSOVO_COMPETITOR_SOURCES = {
+    "albanian post",
+    "bota sot",
+    "dukagjini",
+    "ekonomia online",
+    "express",
+    "gazeta express",
+    "indeksonline",
+    "insajderi",
+    "kallxo",
+    "klan kosova",
+    "koha",
+    "koha.net",
+    "kosovapress",
+    "lajmi.net",
+    "nacionale",
+    "periskopi",
+    "reporteri",
+    "rtk",
+    "sinjali",
+    "telegrafi",
+    "zeri",
+}
+
 SCORE_WEIGHTS = {
     "relevance": 0.22,
     "urgency": 0.14,
@@ -130,6 +154,13 @@ def _score_from_breakdown(breakdown: dict[str, Any]) -> float:
     return round(total, 1)
 
 
+def _source_key(source: object) -> str:
+    value = str(source or "").strip().lower()
+    value = re.sub(r"^www\.", "", value)
+    value = value.removesuffix(".com").removesuffix(".net").removesuffix(".org")
+    return value
+
+
 def validate_batch(path: Path) -> list[dict[str, Any]]:
     articles = read_articles(path)
     errors: list[str] = []
@@ -165,10 +196,19 @@ def validate_batch(path: Path) -> list[dict[str, Any]]:
         seen_slugs.add(slug)
 
         image = str(article.get("image_url", ""))
+        if not image.startswith(("http://", "https://")):
+            errors.append(f"{label} missing valid image_url")
         if image and image in seen_images:
             errors.append(f"{label} duplicate image in batch: {image}")
         if image:
             seen_images.add(image)
+
+        source_key = _source_key(article.get("source", ""))
+        if source_key in KOSOVO_COMPETITOR_SOURCES:
+            errors.append(
+                f"{label} uses Kosovo competitor as main source: {article.get('source')!r}. "
+                "Use outside/primary/social discovery sources and Kosovo outlets only for context."
+            )
 
         for field in ("title", "excerpt", "body", "source", "score_reason"):
             value = str(article.get(field, ""))
@@ -218,6 +258,9 @@ def env_status() -> int:
         "GITHUB_TOKEN/GITHUB_PAT/GH_TOKEN": bool(github_token),
         "RESEND_API_KEY": bool(os.environ.get("RESEND_API_KEY", "").strip()),
         "EMAIL_FROM": bool(os.environ.get("EMAIL_FROM", "").strip()),
+        "SCRAPECREATORS_API_KEY": bool(os.environ.get("SCRAPECREATORS_API_KEY", "").strip()),
+        "XAI_API_KEY": bool(os.environ.get("XAI_API_KEY", "").strip()),
+        "INCLUDE_SOURCES": bool(os.environ.get("INCLUDE_SOURCES", "").strip()),
     }
     print("Env files loaded:")
     for env_file in [str(p) for p in ENV_FILES if p.exists()]:
