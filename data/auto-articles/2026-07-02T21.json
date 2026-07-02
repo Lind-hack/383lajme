@@ -11,7 +11,7 @@
     "source_flag": "🏛",
     "source_bias": "neutral",
     "tone": "neutral",
-    "category": "Politik?",
+    "category": "Politikë",
     "published_at": "2026-07-02T13:10:00+02:00",
     "reading_time": 1,
     "featured": true,
@@ -43,11 +43,11 @@
     "source_flag": "🌍",
     "source_bias": "neutral",
     "tone": "neutral",
-    "category": "Bot?",
+    "category": "Botë",
     "published_at": "2026-07-02T00:00:00+02:00",
     "reading_time": 1,
     "featured": false,
-    "engagement_score": 8.2,
+    "engagement_score": 8.4,
     "score_reason": "Raport i sotëm me peshë të lartë strategjike dhe jo i saturuar nga mediat kosovare. DW jep një kënd tjetër për një temë të madhe evropiane, ndaj shkon lart në Bote.",
     "score_breakdown": {
       "relevance": 8.7,
@@ -59,7 +59,7 @@
       "corroboration": 8.4,
       "editorial_safety": 8.6
     },
-    "score_formula": "0.22*relevance + 0.14*urgency + 0.16*public_impact + 0.10*local_depth + 0.10*controversy_interest + 0.16*credibility + 0.08*corroboration + 0.04*editorial_safety = 8.2; no cap applied",
+    "score_formula": "0.22*relevance + 0.14*urgency + 0.16*public_impact + 0.10*local_depth + 0.10*controversy_interest + 0.16*credibility + 0.08*corroboration + 0.04*editorial_safety = 8.4; no cap applied",
     "image_url": "",
     "created_at": "2026-07-02T21:20:00Z"
   },
@@ -75,7 +75,7 @@
     "source_flag": "🌍",
     "source_bias": "neutral",
     "tone": "neutral",
-    "category": "Bot?",
+    "category": "Botë",
     "published_at": "2026-07-02T07:32:57Z",
     "reading_time": 1,
     "featured": false,
@@ -111,7 +111,7 @@
     "published_at": "2026-07-02T13:17:36.000Z",
     "reading_time": 1,
     "featured": false,
-    "engagement_score": 7.4,
+    "engagement_score": 7.5,
     "score_reason": "Kënd kulturor-politik i sotëm dhe jo i konsumuar nga mediat kosovare. The Guardian e trajton si çështje soft power-i, ndaj është i dobishëm për lexuesit dhe mjaft i ndarë nga Bote klasike.",
     "score_breakdown": {
       "relevance": 7.5,
@@ -123,7 +123,7 @@
       "corroboration": 7.8,
       "editorial_safety": 8.3
     },
-    "score_formula": "0.22*relevance + 0.14*urgency + 0.16*public_impact + 0.10*local_depth + 0.10*controversy_interest + 0.16*credibility + 0.08*corroboration + 0.04*editorial_safety = 7.4; no cap applied",
+    "score_formula": "0.22*relevance + 0.14*urgency + 0.16*public_impact + 0.10*local_depth + 0.10*controversy_interest + 0.16*credibility + 0.08*corroboration + 0.04*editorial_safety = 7.5; no cap applied",
     "image_url": "https://i.guim.co.uk/img/media/2cdcdf5a0f3a91f7ce2359fe2b6a7d421cb3c7ca/86_0_675_540/master/675.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=01f081e376a0756d36d4f3284b89bfb6",
     "created_at": "2026-07-02T21:20:00Z"
   },
@@ -143,7 +143,7 @@
     "published_at": "2026-07-02T16:39:06Z",
     "reading_time": 1,
     "featured": false,
-    "engagement_score": 7.7,
+    "engagement_score": 7.8,
     "score_reason": "Sport i madh, sot, me raportim të besueshëm AP dhe interes të sigurt për publikun në Kosovë. Jo i saturuar, por i përshtatshëm për Te Kryesore/railing sportiv.",
     "score_breakdown": {
       "relevance": 7.8,
@@ -155,7 +155,7 @@
       "corroboration": 8.1,
       "editorial_safety": 8.4
     },
-    "score_formula": "0.22*relevance + 0.14*urgency + 0.16*public_impact + 0.10*local_depth + 0.10*controversy_interest + 0.16*credibility + 0.08*corroboration + 0.04*editorial_safety = 7.7; no cap applied",
+    "score_formula": "0.22*relevance + 0.14*urgency + 0.16*public_impact + 0.10*local_depth + 0.10*controversy_interest + 0.16*credibility + 0.08*corroboration + 0.04*editorial_safety = 7.8; no cap applied",
     "image_url": "https://dims.apnews.com/dims4/default/590e237/2147483647/strip/true/crop/5415x3608+0+1/resize/980x653!/quality/90/?url=https%3A%2F%2Fassets.apnews.com%2F41%2F65%2Fffcfc401bf3b6ca4bbfe1bad2f3a%2F88c9bf06763847f080e2dda677c2f11d",
     "created_at": "2026-07-02T21:20:00Z"
   },
@@ -175,7 +175,7 @@
     "published_at": "2026-07-02T16:24:42Z",
     "reading_time": 1,
     "featured": false,
-    "engagement_score": 7.6,
+    "engagement_score": 7.7,
     "score_reason": "Showbiz shumë i madh dhe i verifikueshëm sot; interes i lartë viral, por me local depth të ulët. Mjafton për Showbiz dhe për frontin e dytë të faqes.",
     "score_breakdown": {
       "relevance": 7.7,
@@ -187,7 +187,7 @@
       "corroboration": 8.0,
       "editorial_safety": 8.1
     },
-    "score_formula": "0.22*relevance + 0.14*urgency + 0.16*public_impact + 0.10*local_depth + 0.10*controversy_interest + 0.16*credibility + 0.08*corroboration + 0.04*editorial_safety = 7.6; no cap applied",
+    "score_formula": "0.22*relevance + 0.14*urgency + 0.16*public_impact + 0.10*local_depth + 0.10*controversy_interest + 0.16*credibility + 0.08*corroboration + 0.04*editorial_safety = 7.7; no cap applied",
     "image_url": "https://dims.apnews.com/dims4/default/6ca5f25/2147483647/strip/true/crop/7915x5274+0+2/resize/980x653!/quality/90/?url=https%3A%2F%2Fassets.apnews.com%2F00%2F6a%2F30afe813734a6e30965b8ffd4a08%2Fb98662a0141047acb94fc7bbf55f589c",
     "created_at": "2026-07-02T21:20:00Z"
   },
@@ -207,7 +207,7 @@
     "published_at": "2026-07-02T06:17:20.000Z",
     "reading_time": 1,
     "featured": false,
-    "engagement_score": 7.5,
+    "engagement_score": 7.6,
     "score_reason": "Shërbim i qartë për lexuesit kosovarë që udhëtojnë në BE, me kënd të freskët dhe pak saturim lokal. Mjaft i fortë për Ekonomi, jo për hero.",
     "score_breakdown": {
       "relevance": 7.8,
@@ -219,7 +219,7 @@
       "corroboration": 7.8,
       "editorial_safety": 8.4
     },
-    "score_formula": "0.22*relevance + 0.14*urgency + 0.16*public_impact + 0.10*local_depth + 0.10*controversy_interest + 0.16*credibility + 0.08*corroboration + 0.04*editorial_safety = 7.5; no cap applied",
+    "score_formula": "0.22*relevance + 0.14*urgency + 0.16*public_impact + 0.10*local_depth + 0.10*controversy_interest + 0.16*credibility + 0.08*corroboration + 0.04*editorial_safety = 7.6; no cap applied",
     "image_url": "https://i.guim.co.uk/img/media/d4e0bb6cf66538930d3fcf221707a4675ec85a38/290_0_2920_2336/master/2920.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=1a03283f023c37d3075b69579ad2a2ba",
     "created_at": "2026-07-02T21:20:00Z"
   },
@@ -239,7 +239,7 @@
     "published_at": "2026-07-02T14:25:02Z",
     "reading_time": 1,
     "featured": false,
-    "engagement_score": 7.5,
+    "engagement_score": 7.6,
     "score_reason": "Lajm ekonomik i sotëm, i qartë dhe i mbështetur me të dhëna, me jehonë edhe për publikun kosovar. Nuk është i saturuar nga media vendase, prandaj shkon në Ekonomi.",
     "score_breakdown": {
       "relevance": 7.6,
@@ -251,7 +251,7 @@
       "corroboration": 7.9,
       "editorial_safety": 8.3
     },
-    "score_formula": "0.22*relevance + 0.14*urgency + 0.16*public_impact + 0.10*local_depth + 0.10*controversy_interest + 0.16*credibility + 0.08*corroboration + 0.04*editorial_safety = 7.5; no cap applied",
+    "score_formula": "0.22*relevance + 0.14*urgency + 0.16*public_impact + 0.10*local_depth + 0.10*controversy_interest + 0.16*credibility + 0.08*corroboration + 0.04*editorial_safety = 7.6; no cap applied",
     "image_url": "",
     "created_at": "2026-07-02T21:20:00Z"
   },
@@ -271,7 +271,7 @@
     "published_at": "2026-07-02T17:07:59Z",
     "reading_time": 1,
     "featured": false,
-    "engagement_score": 7.7,
+    "engagement_score": 7.8,
     "score_reason": "Sport i madh, i sotëm dhe me ritëm të lartë editorial. Nuk është histori lokale, por ka vizibilitet të fortë dhe shkon mirë në Sport/Te Kryesore.",
     "score_breakdown": {
       "relevance": 7.7,
@@ -283,7 +283,7 @@
       "corroboration": 8.0,
       "editorial_safety": 8.2
     },
-    "score_formula": "0.22*relevance + 0.14*urgency + 0.16*public_impact + 0.10*local_depth + 0.10*controversy_interest + 0.16*credibility + 0.08*corroboration + 0.04*editorial_safety = 7.7; no cap applied",
+    "score_formula": "0.22*relevance + 0.14*urgency + 0.16*public_impact + 0.10*local_depth + 0.10*controversy_interest + 0.16*credibility + 0.08*corroboration + 0.04*editorial_safety = 7.8; no cap applied",
     "image_url": "",
     "created_at": "2026-07-02T21:20:00Z"
   },
@@ -303,7 +303,7 @@
     "published_at": "2026-07-02T14:29:30.000Z",
     "reading_time": 1,
     "featured": false,
-    "engagement_score": 7.4,
+    "engagement_score": 7.5,
     "score_reason": "Diaspora angle me energji të mirë dhe interes rajonal, por pa saturim të lartë në Kosovë. E dobishme për Sport dhe për diversitetin e edicionit.",
     "score_breakdown": {
       "relevance": 7.4,
@@ -315,7 +315,7 @@
       "corroboration": 7.8,
       "editorial_safety": 8.5
     },
-    "score_formula": "0.22*relevance + 0.14*urgency + 0.16*public_impact + 0.10*local_depth + 0.10*controversy_interest + 0.16*credibility + 0.08*corroboration + 0.04*editorial_safety = 7.4; no cap applied",
+    "score_formula": "0.22*relevance + 0.14*urgency + 0.16*public_impact + 0.10*local_depth + 0.10*controversy_interest + 0.16*credibility + 0.08*corroboration + 0.04*editorial_safety = 7.5; no cap applied",
     "image_url": "https://i.guim.co.uk/img/media/5c29a838255e269d999c1abdcf76000943e5709b/604_1036_3672_2937/master/3672.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=ca2fe88a68194f59cc5f597639cb6fe3",
     "created_at": "2026-07-02T21:20:00Z"
   },
@@ -335,7 +335,7 @@
     "published_at": "2026-07-02T01:46:00-04:00",
     "reading_time": 1,
     "featured": false,
-    "engagement_score": 7.2,
+    "engagement_score": 7.3,
     "score_reason": "Security explainer i sotëm me peshë evropiane dhe interes për Kosovën, por jo lajmi më i madh i faqes. E mbajmë në Siguri dhe me ritëm më të ulët.",
     "score_breakdown": {
       "relevance": 7.2,
@@ -347,7 +347,7 @@
       "corroboration": 7.5,
       "editorial_safety": 8.1
     },
-    "score_formula": "0.22*relevance + 0.14*urgency + 0.16*public_impact + 0.10*local_depth + 0.10*controversy_interest + 0.16*credibility + 0.08*corroboration + 0.04*editorial_safety = 7.2; no cap applied",
+    "score_formula": "0.22*relevance + 0.14*urgency + 0.16*public_impact + 0.10*local_depth + 0.10*controversy_interest + 0.16*credibility + 0.08*corroboration + 0.04*editorial_safety = 7.3; no cap applied",
     "image_url": "",
     "created_at": "2026-07-02T21:20:00Z"
   },
@@ -363,7 +363,7 @@
     "source_flag": "🌍",
     "source_bias": "neutral",
     "tone": "neutral",
-    "category": "Politik?",
+    "category": "Politikë",
     "published_at": "2026-07-02T00:00:00+02:00",
     "reading_time": 1,
     "featured": false,
@@ -395,7 +395,7 @@
     "source_flag": "🌍",
     "source_bias": "neutral",
     "tone": "neutral",
-    "category": "Politik?",
+    "category": "Politikë",
     "published_at": "2026-07-02T00:00:00+02:00",
     "reading_time": 1,
     "featured": false,
@@ -431,7 +431,7 @@
     "published_at": "2026-07-02T05:17:25Z",
     "reading_time": 1,
     "featured": false,
-    "engagement_score": 7.4,
+    "engagement_score": 7.5,
     "score_reason": "Histori energjetike me ndikim global dhe me jehonë të menjëhershme në çmime. Jo lokale, por e rëndësishme për ekonominë dhe jo e konsumuar nga mediat kosovare.",
     "score_breakdown": {
       "relevance": 7.4,
@@ -443,7 +443,7 @@
       "corroboration": 7.9,
       "editorial_safety": 8.3
     },
-    "score_formula": "0.22*relevance + 0.14*urgency + 0.16*public_impact + 0.10*local_depth + 0.10*controversy_interest + 0.16*credibility + 0.08*corroboration + 0.04*editorial_safety = 7.4; no cap applied",
+    "score_formula": "0.22*relevance + 0.14*urgency + 0.16*public_impact + 0.10*local_depth + 0.10*controversy_interest + 0.16*credibility + 0.08*corroboration + 0.04*editorial_safety = 7.5; no cap applied",
     "image_url": "https://www.aljazeera.com/wp-content/uploads/2026/07/2026-07-01T093820Z_1180277915_RC2AWLAKSPWG_RTRMADP_3_IRAN-CRISIS-SHIPPING-FEES-1782963523_758afb-1782968112.jpg?resize=1200%2C630&quality=80",
     "created_at": "2026-07-02T21:20:00Z"
   },
@@ -459,7 +459,7 @@
     "source_flag": "🇷🇸",
     "source_bias": "neutral",
     "tone": "neutral",
-    "category": "Politik?",
+    "category": "Politikë",
     "published_at": "2026-07-02T14:47:00+02:00",
     "reading_time": 1,
     "featured": false,
@@ -491,11 +491,11 @@
     "source_flag": "🇷🇸",
     "source_bias": "critical",
     "tone": "neutral",
-    "category": "Politik?",
+    "category": "Politikë",
     "published_at": "2026-07-02T19:00:00+02:00",
     "reading_time": 1,
     "featured": false,
-    "engagement_score": 6.4,
+    "engagement_score": 6.6,
     "score_reason": "Serbian-source me kënd kritik për veriun e Kosovës, por më shumë si sinjal narrativ sesa lajm i rëndë. Qëndron poshtë, me shenjë të qartë atribucioni dhe pa e bërë hero.",
     "score_breakdown": {
       "relevance": 6.9,
@@ -507,7 +507,7 @@
       "corroboration": 6.0,
       "editorial_safety": 6.8
     },
-    "score_formula": "0.22*relevance + 0.14*urgency + 0.16*public_impact + 0.10*local_depth + 0.10*controversy_interest + 0.16*credibility + 0.08*corroboration + 0.04*editorial_safety = 6.4; no cap applied",
+    "score_formula": "0.22*relevance + 0.14*urgency + 0.16*public_impact + 0.10*local_depth + 0.10*controversy_interest + 0.16*credibility + 0.08*corroboration + 0.04*editorial_safety = 6.6; no cap applied",
     "image_url": "",
     "created_at": "2026-07-02T21:20:00Z"
   },
@@ -523,7 +523,7 @@
     "source_flag": "🇷🇸",
     "source_bias": "critical",
     "tone": "neutral",
-    "category": "Politik?",
+    "category": "Politikë",
     "published_at": "2026-07-02T11:05:00+02:00",
     "reading_time": 1,
     "featured": false,
@@ -539,7 +539,7 @@
       "corroboration": 5.2,
       "editorial_safety": 6.0
     },
-    "score_formula": "0.22*relevance + 0.14*urgency + 0.16*public_impact + 0.10*local_depth + 0.10*controversy_interest + 0.16*credibility + 0.08*corroboration + 0.04*editorial_safety = 6.5; capped to 6.5 because single Serbia-based competitor framing",
+    "score_formula": "0.22*relevance + 0.14*urgency + 0.16*public_impact + 0.10*local_depth + 0.10*controversy_interest + 0.16*credibility + 0.08*corroboration + 0.04*editorial_safety = 6.5; no cap applied",
     "image_url": "",
     "created_at": "2026-07-02T21:20:00Z"
   },
@@ -555,11 +555,11 @@
     "source_flag": "🇷🇸",
     "source_bias": "neutral",
     "tone": "neutral",
-    "category": "Politik?",
+    "category": "Politikë",
     "published_at": "2026-07-02T11:42:00+02:00",
     "reading_time": 1,
     "featured": false,
-    "engagement_score": 6.2,
+    "engagement_score": 6.3,
     "score_reason": "Artikull historik dhe politik i sotëm, por me urgjencë të ulët dhe nga një burim serb. Më shumë shërben si sinjal narrativ sesa si lajm i madh, ndaj mbetet në fund të faqes.",
     "score_breakdown": {
       "relevance": 6.8,
@@ -571,7 +571,7 @@
       "corroboration": 6.0,
       "editorial_safety": 6.7
     },
-    "score_formula": "0.22*relevance + 0.14*urgency + 0.16*public_impact + 0.10*local_depth + 0.10*controversy_interest + 0.16*credibility + 0.08*corroboration + 0.04*editorial_safety = 6.2; no cap applied",
+    "score_formula": "0.22*relevance + 0.14*urgency + 0.16*public_impact + 0.10*local_depth + 0.10*controversy_interest + 0.16*credibility + 0.08*corroboration + 0.04*editorial_safety = 6.3; no cap applied",
     "image_url": "",
     "created_at": "2026-07-02T21:20:00Z"
   }
