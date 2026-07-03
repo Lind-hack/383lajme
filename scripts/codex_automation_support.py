@@ -818,6 +818,12 @@ def github_auth_status() -> int:
             print(f"GITHUB permission push: {bool(permissions.get('push'))}")
             print(f"GITHUB permission admin: {bool(permissions.get('admin'))}")
             if not permissions.get("push"):
+                if os.environ.get("GITHUB_ACTIONS") == "true" and token_key == "GITHUB_TOKEN":
+                    print(
+                        "GITHUB auth: GitHub Actions built-in token does not expose repo permissions "
+                        "through this endpoint; continuing because workflow permissions control push access."
+                    )
+                    return 0
                 print("GITHUB auth failed: token does not have push permission for this repository.")
                 return 1
             return 0
