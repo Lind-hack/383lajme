@@ -132,7 +132,11 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          MODEL="${CODEX_MODEL:-gpt-5-codex}"
+          MODEL="${CODEX_MODEL:-gpt-5.4-mini}"
+          if [ "$MODEL" = "gpt-5-codex" ]; then
+            echo "gpt-5-codex is not supported with ChatGPT Codex auth; using gpt-5.4-mini."
+            MODEL="gpt-5.4-mini"
+          fi
           cat > /tmp/383-codex-news-prompt.md <<'PROMPT'
           Run the 383 Lajme GPT-5.4 production news pipeline from this GitHub Actions cloud runner.
 
