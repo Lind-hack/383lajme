@@ -209,6 +209,9 @@ def validate_batch(path: Path) -> list[dict[str, Any]]:
     seen_slugs: set[str] = set()
     seen_images: set[str] = set()
 
+    if not re.fullmatch(r"\d{4}-\d{2}-\d{2}T(?:[01]\d|2[0-3])\.json", path.name):
+        errors.append(f"{path.name} must use UTC hour format YYYY-MM-DDTHH.json with HH from 00 to 23")
+
     if not articles:
         errors.append(f"{path.name} contains no articles")
 
