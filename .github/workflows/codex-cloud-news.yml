@@ -19,7 +19,9 @@ jobs:
     timeout-minutes: 90
 
     env:
-      TZ: Europe/Pristina
+      # Kosovo/Pristina uses the same civil time as Europe/Belgrade.
+      # "Europe/Pristina" is not present in every IANA tz database.
+      TZ: Europe/Belgrade
       CODEX_MODEL: ${{ vars.CODEX_MODEL }}
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
       CODEX_ACCESS_TOKEN: ${{ secrets.CODEX_ACCESS_TOKEN }}
@@ -44,7 +46,7 @@ jobs:
       INCLUDE_SOURCES: ${{ secrets.INCLUDE_SOURCES || vars.INCLUDE_SOURCES }}
 
     steps:
-      - name: Check Europe/Pristina schedule window
+      - name: Check Kosovo/Pristina schedule window
         id: window
         shell: bash
         run: |
@@ -52,7 +54,7 @@ jobs:
           from datetime import datetime
           from zoneinfo import ZoneInfo
 
-          now = datetime.now(ZoneInfo("Europe/Pristina"))
+          now = datetime.now(ZoneInfo("Europe/Belgrade"))
           should_run = now.hour in {7, 9, 11, 13, 15, 17, 19, 21, 23}
           print(f"should_run={'true' if should_run else 'false'}")
           print(f"local_time={now.isoformat(timespec='seconds')}")
