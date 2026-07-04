@@ -62,7 +62,7 @@ jobs:
           target = None
           if now.hour in target_hours:
               target = now
-          elif now.minute <= 30 and (now - timedelta(hours=1)).hour in target_hours:
+          elif now.minute <= 45 and (now - timedelta(hours=1)).hour in target_hours:
               target = now - timedelta(hours=1)
 
           should_run = target is not None
@@ -73,11 +73,17 @@ jobs:
               slot_utc = slot.astimezone(timezone.utc)
               print(f"slot_local={slot.isoformat(timespec='seconds')}")
               print(f"batch_file=data/auto-articles/{slot_utc.strftime('%Y-%m-%dT%H')}.json")
+          else:
+              for offset in range(0, 48):
+                  candidate = (now + timedelta(hours=offset)).replace(minute=0, second=0, microsecond=0)
+                  if candidate.hour in target_hours and candidate > now:
+                      print(f"next_slot_local={candidate.isoformat(timespec='seconds')}")
+                      break
           PY
 
       - name: Show skipped hour
         if: steps.window.outputs.should_run != 'true' && github.event_name != 'workflow_dispatch'
-        run: echo "Skipping; local time is ${{ steps.window.outputs.local_time }}"
+        run: echo "Skipping expected non-slot run; local time is ${{ steps.window.outputs.local_time }}, next target slot is ${{ steps.window.outputs.next_slot_local }}"
 
       - name: Checkout
         if: steps.window.outputs.should_run == 'true' || github.event_name == 'workflow_dispatch'
