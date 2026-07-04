@@ -279,37 +279,39 @@ body {
   border-radius: 4px;
 }
 
-/* ── Navbar pill (CSS hover, replaces DOM-style mutation) ──
-   Base visual styles live here, not inline — inline styles would
-   override the :hover rules below. */
+/* ── Navbar category link (glossy text, no pill box) ──
+   Color/shimmer comes from .glossy-orange (applied alongside this
+   class in navbar.tsx) — this class only handles layout/spacing
+   and the dot separators between items. */
 .nav-pill {
   text-decoration: none;
   font-size: 13px;
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  padding: 7px 16px;
-  border-radius: var(--radius-pill);
-  background: rgba(17, 17, 17, 0.07);
-  color: #111111;
-  border: 1.5px solid rgba(17, 17, 17, 0.12);
   display: inline-block;
   white-space: nowrap;
   flex-shrink: 0;
-  transition:
-    background-color var(--duration-base) var(--ease-out),
-    color var(--duration-base) var(--ease-out),
-    border-color var(--duration-base) var(--ease-out),
-    transform var(--duration-base) var(--ease-out);
+  position: relative;
+  padding: 7px 14px 7px 0;
+  margin-right: 14px;
+  transition: transform var(--duration-base) var(--ease-out), opacity var(--duration-base) var(--ease-out);
 }
 .nav-pill:hover {
-  background: #111111;
-  color: #FFFFFF;
-  border-color: #111111;
   transform: translateY(-1px);
+  opacity: 0.8;
 }
 .nav-pill:active {
-  transform: translateY(0) scale(0.98);
+  transform: translateY(0);
+}
+.nav-pill:not(:last-child)::after {
+  content: "\00b7";
+  position: absolute;
+  right: -3px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #C4BDB1;
+  -webkit-text-fill-color: #C4BDB1;
 }
 
 /* ── Footer link hover ──────────────────────────────────── */

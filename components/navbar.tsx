@@ -165,13 +165,12 @@ export default function Navbar() {
                   minWidth: 0,
                   display: "flex",
                   alignItems: "center",
-                  gap: "6px",
                   overflowX: "auto",
                   WebkitOverflowScrolling: "touch",
                 }}
               >
                 {NAV_LINKS.map((link) => (
-                  <Link key={link.href} href={link.href} className="nav-pill">
+                  <Link key={link.href} href={link.href} className="nav-pill glossy-orange">
                     {link.label}
                   </Link>
                 ))}
