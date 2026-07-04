@@ -138,37 +138,41 @@ jobs:
           path = Path("scripts/codex_automation_support.py")
           text = path.read_text(encoding="utf-8")
 
-          resend_only = '''    if resend_key:
-              return _send_resend_report(resend_key, recipient, subject, report_html)
+          fallback_marker = "EMAIL Resend failed; trying Gmail SMTP fallback."
+          if fallback_marker not in text:
+              resend_only = '''    if resend_key:
+                  return _send_resend_report(resend_key, recipient, subject, report_html)
 
-          message = MIMEMultipart("alternative")'''
-          resend_fallback = '''    if resend_key:
-              resend_code = _send_resend_report(resend_key, recipient, subject, report_html)
-              if resend_code == 0:
-                  return 0
-              if not user or not password:
-                  return resend_code
-              print("EMAIL Resend failed; trying Gmail SMTP fallback.")
+              message = MIMEMultipart("alternative")'''.replace("              ", "")
+              resend_fallback = '''    if resend_key:
+                  resend_code = _send_resend_report(resend_key, recipient, subject, report_html)
+                  if resend_code == 0:
+                      return 0
+                  if not user or not password:
+                      return resend_code
+                  print("EMAIL Resend failed; trying Gmail SMTP fallback.")
 
-          message = MIMEMultipart("alternative")'''
-          if resend_only not in text:
-              raise SystemExit("Could not patch Resend fallback block")
-          text = text.replace(resend_only, resend_fallback, 1)
+              message = MIMEMultipart("alternative")'''.replace("              ", "")
+              if resend_only not in text:
+                  raise SystemExit("Could not patch Resend fallback block")
+              text = text.replace(resend_only, resend_fallback, 1)
 
-          warn_only = '''    if email_code != 0:
-              print("WARN SMTP email did not complete. Use the Outlook Email connector to send the report if available.")
+          require_marker = "ERROR email report is required for this run."
+          if require_marker not in text:
+              warn_only = '''    if email_code != 0:
+                  print("WARN SMTP email did not complete. Use the Outlook Email connector to send the report if available.")
 
-          verify_code = verify_public_site(path)'''
-          require_email = '''    if email_code != 0:
-              print("WARN email report did not complete.")
-              if os.environ.get("REQUIRE_EMAIL_REPORT", "").strip().lower() in {"1", "true", "yes"}:
-                  print("ERROR email report is required for this run.")
-                  return 1
+              verify_code = verify_public_site(path)'''.replace("              ", "")
+              require_email = '''    if email_code != 0:
+                  print("WARN email report did not complete.")
+                  if os.environ.get("REQUIRE_EMAIL_REPORT", "").strip().lower() in {"1", "true", "yes"}:
+                      print("ERROR email report is required for this run.")
+                      return 1
 
-          verify_code = verify_public_site(path)'''
-          if warn_only not in text:
-              raise SystemExit("Could not patch required-email block")
-          text = text.replace(warn_only, require_email, 1)
+              verify_code = verify_public_site(path)'''.replace("              ", "")
+              if warn_only not in text:
+                  raise SystemExit("Could not patch required-email block")
+              text = text.replace(warn_only, require_email, 1)
 
           path.write_text(text, encoding="utf-8")
           PY
