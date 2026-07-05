@@ -666,7 +666,12 @@ def send_report(path: Path) -> int:
     )
     subject = f"383 Lajme - {len(articles)} artikuj te rinj [{now}]"
     if resend_key:
-        return _send_resend_report(resend_key, recipient, subject, report_html)
+        resend_code = _send_resend_report(resend_key, recipient, subject, report_html)
+        if resend_code == 0:
+            return 0
+        if not user or not password:
+            return resend_code
+        print("EMAIL Resend failed; trying Gmail SMTP fallback.")
 
     message = MIMEMultipart("alternative")
     message["Subject"] = subject
@@ -897,6 +902,9 @@ def _ensure_git_origin() -> None:
 
 
 def _git_auth_extraheader() -> list[str]:
+    existing = _git_stdout(["git", "config", "--get-all", "http.https://github.com/.extraheader"])
+    if existing:
+        return []
     token = _github_token()
     if not token:
         return []
@@ -953,7 +961,10 @@ def finalize(path: Path) -> int:
 
     email_code = send_report(path)
     if email_code != 0:
-        print("WARN SMTP email did not complete. Use the Outlook Email connector to send the report if available.")
+        print("WARN email report did not complete.")
+        if os.environ.get("REQUIRE_EMAIL_REPORT", "").strip().lower() in {"1", "true", "yes"}:
+            print("ERROR email report is required for this run.")
+            return 1
 
     verify_code = verify_public_site(path)
     if verify_code != 0:
