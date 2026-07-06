@@ -296,21 +296,21 @@ body {
 }
 
 /* ── Navbar category link (ink text + orange underline wipe) ──
-   Figtree's rounded terminals soften the edges vs. Manrope's sharper
-   geometry, while staying a serious grotesque (not a bubbly display
-   face). Color is the site's actual signature orange (#FF4422) —
-   same hex used for the ticker, CTAs and the category-tag pills —
-   so the nav reads as loud and on-brand rather than muted. Hover
-   darkens to the same shade the primary button uses on press. The
-   signature is an orange underline that wipes in L→R on hover and
+   Same family as the "383" wordmark (Manrope) so the nav reads as one
+   typographic voice with the logo instead of a second display face
+   competing next to it. Color is the site's actual signature orange
+   (#FF4422) — same hex used for the ticker, CTAs and the category-tag
+   pills — so the nav reads as loud and on-brand rather than muted.
+   Hover darkens to the same shade the primary button uses on press.
+   The signature is an orange underline that wipes in L→R on hover and
    stays pinned under the active category. No middle-dot separators
    (the underline gives rhythm). */
 .nav-pill {
   text-decoration: none;
   color: #FF4422;
-  font-family: var(--font-figtree), var(--font-manrope), sans-serif;
+  font-family: var(--font-manrope), sans-serif;
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.02em;
   text-transform: uppercase;
   display: inline-block;
