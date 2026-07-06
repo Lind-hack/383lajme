@@ -279,39 +279,48 @@ body {
   border-radius: 4px;
 }
 
-/* ── Navbar category link (glossy text, no pill box) ──
-   Color/shimmer comes from .glossy-orange (applied alongside this
-   class in navbar.tsx) — this class only handles layout/spacing
-   and the dot separators between items. */
+/* ── Navbar category link (ink text + orange underline wipe) ──
+   Heavier, larger ink text for legibility. The signature is an
+   orange underline that wipes in L→R on hover and stays pinned
+   under the active category — the brand accent without sacrificing
+   contrast. No middle-dot separators (the underline gives rhythm). */
 .nav-pill {
   text-decoration: none;
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 0.06em;
+  color: #111111;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
   text-transform: uppercase;
   display: inline-block;
   white-space: nowrap;
   flex-shrink: 0;
   position: relative;
-  padding: 7px 14px 7px 0;
-  margin-right: 14px;
-  transition: transform var(--duration-base) var(--ease-out), opacity var(--duration-base) var(--ease-out);
+  padding: 6px 0 9px;
+  margin-right: 22px;
+  transition: color var(--duration-base) var(--ease-out);
 }
-.nav-pill:hover {
-  transform: translateY(-1px);
-  opacity: 0.8;
-}
-.nav-pill:active {
-  transform: translateY(0);
-}
-.nav-pill:not(:last-child)::after {
-  content: "\00b7";
+/* Underline bar: width animates 0 → 100% from the left edge. */
+.nav-pill::after {
+  content: "";
   position: absolute;
-  right: -3px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #C4BDB1;
-  -webkit-text-fill-color: #C4BDB1;
+  left: 0;
+  bottom: 2px;
+  height: 3px;
+  width: 0;
+  border-radius: 2px;
+  background: #FF4422;
+  transition: width var(--duration-base) var(--ease-out);
+}
+.nav-pill:hover::after,
+.nav-pill[aria-current="page"]::after {
+  width: 100%;
+}
+/* Active category reads as ink; hovered category warms to orange. */
+.nav-pill:hover {
+  color: #FF4422;
+}
+.nav-pill[aria-current="page"] {
+  color: #111111;
 }
 
 /* ── Footer link hover ──────────────────────────────────── */
