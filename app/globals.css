@@ -296,17 +296,21 @@ body {
 }
 
 /* ── Navbar category link (ink text + orange underline wipe) ──
-   Heavier, larger ink text for legibility. The signature is an
-   orange underline that wipes in L→R on hover and stays pinned
+   Figtree's rounded terminals soften the edges vs. Manrope's sharper
+   geometry, while staying a serious grotesque (not a bubbly display
+   face). Color is a deep oxblood-brown — same warm family as the
+   #FF4422 accent, unique from the site's pure-black ink, still reads
+   at a strong contrast against the cream background. The signature
+   is an orange underline that wipes in L→R on hover and stays pinned
    under the active category — the brand accent without sacrificing
    contrast. No middle-dot separators (the underline gives rhythm). */
 .nav-pill {
   text-decoration: none;
-  color: #1F3A52;
-  font-family: var(--font-quicksand), var(--font-manrope), sans-serif;
+  color: #4A1D12;
+  font-family: var(--font-figtree), var(--font-manrope), sans-serif;
   font-size: 16px;
   font-weight: 600;
-  letter-spacing: 0.01em;
+  letter-spacing: 0.02em;
   text-transform: uppercase;
   display: inline-block;
   white-space: nowrap;
@@ -334,12 +338,12 @@ body {
 .nav-pill[aria-current="page"]::after {
   width: 100%;
 }
-/* Active/idle category reads as a deep, unique navy; hovered warms to orange. */
+/* Active/idle category reads as deep oxblood-brown; hovered warms to orange. */
 .nav-pill:hover {
   color: #FF4422;
 }
 .nav-pill[aria-current="page"] {
-  color: #1F3A52;
+  color: #4A1D12;
 }
 
 /* ── Footer link hover ──────────────────────────────────── */
