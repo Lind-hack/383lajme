@@ -306,7 +306,7 @@ body {
    No middle-dot separators (the underline gives rhythm). */
 .nav-pill {
   text-decoration: none;
-  color: #7C2D12;
+  color: #A8390F;
   font-family: var(--font-figtree), var(--font-manrope), sans-serif;
   font-size: 16px;
   font-weight: 600;
@@ -343,7 +343,7 @@ body {
   color: #FF4422;
 }
 .nav-pill[aria-current="page"] {
-  color: #7C2D12;
+  color: #A8390F;
 }
 
 /* ── Footer link hover ──────────────────────────────────── */
