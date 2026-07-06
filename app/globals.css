@@ -146,31 +146,26 @@ body {
   animation: gradient-shift 12s ease infinite;
 }
 
-/* ── Glossy orange shimmer text (side panel links) ──────── */
-@keyframes shine-sweep {
-  0%   { background-position: 200% center; }
-  100% { background-position: -200% center; }
-}
-.glossy-orange {
-  background: linear-gradient(110deg, #E41E20 0%, #FF4422 30%, #FFC9A8 50%, #FF4422 70%, #E41E20 100%);
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent;
-  animation: shine-sweep 3.5s linear infinite;
-}
-
-/* Solid-fill variant of the glossy shimmer — for the hamburger bars
-   (background-clip:text can't color a solid bar, so this fills directly). */
+/* ── Nav menu button (hamburger) — solid, calm; accents on interaction only ── */
 .hamburger-bar {
   display: block;
   width: 22px;
   height: 2.5px;
   border-radius: 2px;
-  background: linear-gradient(110deg, #E41E20 0%, #FF4422 30%, #FFC9A8 50%, #FF4422 70%, #E41E20 100%);
-  background-size: 200% auto;
-  animation: shine-sweep 3.5s linear infinite;
+  background: #111111;
+  transition: background-color var(--duration-base) var(--ease-out);
+}
+.nav-menu-btn {
+  transition: border-color var(--duration-base) var(--ease-out), transform var(--duration-fast) var(--ease-out);
+}
+.nav-menu-btn:hover {
+  border-color: #FF4422;
+}
+.nav-menu-btn:hover .hamburger-bar {
+  background: #FF4422;
+}
+.nav-menu-btn:active {
+  transform: scale(0.95);
 }
 
 /* ── Nav side panel (scroll-triggered drawer) ───────────── */
@@ -205,12 +200,23 @@ body {
 }
 .side-panel-link {
   display: block;
-  padding: 10px 0;
+  padding: 10px 0 10px 14px;
+  margin-left: -14px;
   font-size: 26px;
   font-weight: 800;
   letter-spacing: -0.01em;
   text-decoration: none;
   line-height: 1.15;
+  color: #111111;
+  border-left: 3px solid transparent;
+  transition: color var(--duration-base) var(--ease-out), border-color var(--duration-base) var(--ease-out);
+}
+.side-panel-link:hover {
+  color: #FF4422;
+}
+.side-panel-link[aria-current="page"] {
+  color: #FF4422;
+  border-left-color: #FF4422;
 }
 
 /* ── Scrollbar ──────────────────────────────────────────── */
@@ -287,15 +293,18 @@ body {
 .nav-pill {
   text-decoration: none;
   color: #111111;
-  font-size: 14px;
-  font-weight: 800;
-  letter-spacing: 0.02em;
+  font-family: var(--font-baloo), var(--font-manrope), sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
   text-transform: uppercase;
   display: inline-block;
   white-space: nowrap;
   flex-shrink: 0;
   position: relative;
-  padding: 6px 0 9px;
+  /* Extra top padding drops the baseline so the caps sit on the same
+     line as the big "383" wordmark instead of floating above it. */
+  padding: 13px 0 6px;
   margin-right: 22px;
   transition: color var(--duration-base) var(--ease-out);
 }
@@ -354,6 +363,31 @@ body {
 /* ── Footer newsletter submit: arrow nudges right on hover ── */
 .footer-submit svg { transition: transform var(--duration-base) var(--ease-out); }
 .footer-submit:hover svg { transform: translateX(2px); }
+
+/* ── Nav auth buttons — solid, no idle motion; feedback on interaction only ── */
+.btn-outline {
+  transition:
+    background-color var(--duration-base) var(--ease-out),
+    border-color var(--duration-base) var(--ease-out),
+    transform var(--duration-fast) var(--ease-out);
+}
+.btn-outline:hover {
+  background: rgba(17, 17, 17, 0.04);
+  border-color: rgba(17, 17, 17, 0.32);
+}
+.btn-outline:active {
+  transform: scale(0.97);
+}
+.btn-primary {
+  background: #FF4422;
+  transition: background-color var(--duration-base) var(--ease-out), transform var(--duration-fast) var(--ease-out);
+}
+.btn-primary:hover {
+  background: #E63C1B;
+}
+.btn-primary:active {
+  transform: scale(0.97);
+}
 
 /* ── Logo hover ─────────────────────────────────────────── */
 .logo-mark { transition: transform var(--duration-base) var(--ease-out); }

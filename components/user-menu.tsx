@@ -84,6 +84,7 @@ export default function UserMenu() {
       <div style={{ display: "flex", gap: "8px" }}>
         <Link
           href="/hyr"
+          className="btn-outline"
           style={{
             padding: "7px 16px",
             borderRadius: "100px",
@@ -103,7 +104,7 @@ export default function UserMenu() {
         </Link>
         <Link
           href="/hyr?tab=regjistrohu"
-          className="gradient-cta"
+          className="btn-primary"
           style={{
             padding: "7px 16px",
             borderRadius: "100px",
@@ -131,6 +132,7 @@ export default function UserMenu() {
       <div ref={dropdownRef} style={{ position: "relative" }}>
         <button
           onClick={() => setDropdownOpen((v) => !v)}
+          className="btn-primary"
           style={{
             width: "36px",
             height: "36px",

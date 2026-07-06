@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Manrope } from "next/font/google";
+import { Manrope, Baloo_2 } from "next/font/google";
 import "./globals.css";
 import SignupPrompt from "@/components/signup-prompt";
 import MotionProvider from "@/components/motion-provider";
@@ -8,6 +8,15 @@ const manrope = Manrope({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800"],
   variable: "--font-manrope",
+  display: "swap",
+});
+
+// Rounded-terminal display face for the nav category links — distinctive
+// against the sharp geometric "383" wordmark. latin-ext covers ë/ç.
+const baloo = Baloo_2({
+  subsets: ["latin", "latin-ext"],
+  weight: ["600", "700", "800"],
+  variable: "--font-baloo",
   display: "swap",
 });
 
@@ -24,7 +33,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="sq" className={manrope.variable} style={{ background: "#F9F6F1" }}>
+    <html lang="sq" className={`${manrope.variable} ${baloo.variable}`} style={{ background: "#F9F6F1" }}>
       <head>
         <meta name="theme-color" content="#F9F6F1" />
       </head>

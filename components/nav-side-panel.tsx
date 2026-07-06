@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { ChevronDown, ExternalLink, MapPin, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { createClient } from "@/lib/supabase/client";
@@ -41,6 +41,7 @@ export default function NavSidePanel({ open, onClose }: Props) {
   const [catsOpen, setCatsOpen] = useState(true);
   const supabaseRef = useRef<ReturnType<typeof createClient> | null>(null);
   const router = useRouter();
+  const pathname = usePathname();
 
   // Supabase auth (same pattern as user-menu.tsx)
   useEffect(() => {
@@ -201,16 +202,21 @@ export default function NavSidePanel({ open, onClose }: Props) {
                   overflow: "hidden",
                 }}
               >
-                {NAV_LINKS.map((link) => (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    onClick={onClose}
-                    className="glossy-orange side-panel-link"
-                  >
-                    {link.label}
-                  </Link>
-                ))}
+                {NAV_LINKS.map((link) => {
+                  const active =
+                    pathname === link.href || pathname?.startsWith(link.href + "/");
+                  return (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      onClick={onClose}
+                      className="side-panel-link"
+                      aria-current={active ? "page" : undefined}
+                    >
+                      {link.label}
+                    </Link>
+                  );
+                })}
               </motion.nav>
             )}
           </AnimatePresence>
@@ -388,6 +394,7 @@ export default function NavSidePanel({ open, onClose }: Props) {
                 <Link
                   href="/hyr"
                   onClick={onClose}
+                  className="btn-outline"
                   style={{
                     display: "block",
                     textAlign: "center",
@@ -406,7 +413,7 @@ export default function NavSidePanel({ open, onClose }: Props) {
                 <Link
                   href="/hyr?tab=regjistrohu"
                   onClick={onClose}
-                  className="gradient-cta"
+                  className="btn-primary"
                   style={{
                     display: "block",
                     textAlign: "center",
