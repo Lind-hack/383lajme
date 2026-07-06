@@ -210,7 +210,7 @@ export default function NavSidePanel({ open, onClose }: Props) {
                       key={link.href}
                       href={link.href}
                       onClick={onClose}
-                      className="side-panel-link"
+                      className="glossy-orange side-panel-link"
                       aria-current={active ? "page" : undefined}
                     >
                       {link.label}
