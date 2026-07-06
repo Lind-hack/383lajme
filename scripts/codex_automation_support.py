@@ -608,6 +608,22 @@ def _article_card(article: dict[str, Any], path: Path, site_url: str, remove_sec
 def _cron_slot_label() -> str:
     return os.environ.get("CRON_SLOT_LABEL", "").strip()
 
+
+def _kosovo_time_label() -> str:
+    previous_tz = os.environ.get("TZ")
+    os.environ["TZ"] = "Europe/Belgrade"
+    if hasattr(time, "tzset"):
+        time.tzset()
+    try:
+        return datetime.now().strftime("%Y-%m-%d %H:%M Kosovo time")
+    finally:
+        if previous_tz is None:
+            os.environ.pop("TZ", None)
+        else:
+            os.environ["TZ"] = previous_tz
+        if hasattr(time, "tzset"):
+            time.tzset()
+
 def send_report(path: Path) -> int:
     load_env()
     articles = validate_batch(path)
@@ -621,13 +637,13 @@ def send_report(path: Path) -> int:
         print("EMAIL skipped: set RESEND_API_KEY or GMAIL_USER/GMAIL_APP_PASSWORD")
         return 2
 
-    now = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+    now = _kosovo_time_label()
     cron_slot = _cron_slot_label()
     cron_slot_html = html.escape(cron_slot)
     run_line = (
-        f"Cron slot: {cron_slot_html} | Report sent: {now}"
+        f"Cron slot: {cron_slot_html} | Email sent: {now}"
         if cron_slot
-        else f"Report sent: {now}"
+        else f"Email sent: {now}"
     )
     subject_time = cron_slot or now
     sorted_articles = sorted(articles, key=_article_score, reverse=True)
