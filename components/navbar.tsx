@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { MapPin } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -41,6 +42,7 @@ export function KosovoTag() {
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 80);
@@ -169,11 +171,21 @@ export default function Navbar() {
                   WebkitOverflowScrolling: "touch",
                 }}
               >
-                {NAV_LINKS.map((link) => (
-                  <Link key={link.href} href={link.href} className="nav-pill glossy-orange">
-                    {link.label}
-                  </Link>
-                ))}
+                {NAV_LINKS.map((link) => {
+                  const active =
+                    pathname === link.href ||
+                    pathname?.startsWith(link.href + "/");
+                  return (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      className="nav-pill"
+                      aria-current={active ? "page" : undefined}
+                    >
+                      {link.label}
+                    </Link>
+                  );
+                })}
               </div>
 
               {/* Desktop only: Kosovo + auth pinned right (mobile auth now lives in the side panel) */}
