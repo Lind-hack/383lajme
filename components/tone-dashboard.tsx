@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { TrendingUp, X, ArrowLeft } from "lucide-react";
 import { getDailyToneStats } from "@/lib/mock-data";
 import { EASE, DUR, STAGGER } from "@/lib/tokens";
+import { useCanHover } from "@/hooks/use-can-hover";
 import SectionLabel from "./section-label";
 
 interface ToneArticle {
@@ -43,6 +44,7 @@ function flagToCode(flag: string): string {
 }
 
 export default function ToneDashboard() {
+  const canHover = useCanHover();
   const [hoveredCountry, setHoveredCountry] = useState<string | null>(null);
   const [activeOutlet, setActiveOutlet] = useState<{ country: string; name: string } | null>(null);
   const [outletData, setOutletData] = useState<ToneOutletData | null>(null);
@@ -172,8 +174,8 @@ export default function ToneDashboard() {
           {TONE_STATS.map((stat, i) => (
             <div
               key={stat.country}
-              onMouseEnter={() => onRowEnter(stat.country)}
-              onMouseLeave={scheduleClose}
+              onMouseEnter={() => canHover && onRowEnter(stat.country)}
+              onMouseLeave={() => canHover && scheduleClose()}
               style={{ cursor: outletData ? "pointer" : "default" }}
             >
               <motion.div
@@ -218,25 +220,25 @@ export default function ToneDashboard() {
                   }}
                 >
                   <motion.div
-                    initial={{ width: 0 }}
-                    whileInView={{ width: `${stat.positive}%` }}
+                    initial={{ scaleX: 0 }}
+                    whileInView={{ scaleX: 1 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.7, delay: Math.min(i, 6) * STAGGER + 0.2, ease: EASE }}
-                    style={{ background: "#16A34A", height: "100%" }}
+                    transition={{ duration: DUR.reveal, delay: Math.min(i, 6) * STAGGER + 0.2, ease: EASE }}
+                    style={{ width: `${stat.positive}%`, transformOrigin: "left", background: "#16A34A", height: "100%" }}
                   />
                   <motion.div
-                    initial={{ width: 0 }}
-                    whileInView={{ width: `${stat.neutral}%` }}
+                    initial={{ scaleX: 0 }}
+                    whileInView={{ scaleX: 1 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.7, delay: Math.min(i, 6) * STAGGER + 0.3, ease: EASE }}
-                    style={{ background: "#9CA3AF", height: "100%" }}
+                    transition={{ duration: DUR.reveal, delay: Math.min(i, 6) * STAGGER + 0.3, ease: EASE }}
+                    style={{ width: `${stat.neutral}%`, transformOrigin: "left", background: "#9CA3AF", height: "100%" }}
                   />
                   <motion.div
-                    initial={{ width: 0 }}
-                    whileInView={{ width: `${stat.negative}%` }}
+                    initial={{ scaleX: 0 }}
+                    whileInView={{ scaleX: 1 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.7, delay: Math.min(i, 6) * STAGGER + 0.4, ease: EASE }}
-                    style={{ background: "#E41E20", height: "100%" }}
+                    transition={{ duration: DUR.reveal, delay: Math.min(i, 6) * STAGGER + 0.4, ease: EASE }}
+                    style={{ width: `${stat.negative}%`, transformOrigin: "left", background: "#E41E20", height: "100%" }}
                   />
                 </div>
 
@@ -271,11 +273,10 @@ export default function ToneDashboard() {
             <motion.div
               key="popup"
               initial={{ opacity: 0, x: 24 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 24 }}
-              transition={{ duration: DUR.base, ease: EASE }}
-              onMouseEnter={cancelClose}
-              onMouseLeave={scheduleClose}
+              animate={{ opacity: 1, x: 0, transition: { duration: DUR.base, ease: EASE } }}
+              exit={{ opacity: 0, x: 24, transition: { duration: DUR.fast, ease: "easeIn" } }}
+              onMouseEnter={() => canHover && cancelClose()}
+              onMouseLeave={() => canHover && scheduleClose()}
               style={{
                 position: "absolute",
                 top: 0,

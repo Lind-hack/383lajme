@@ -239,10 +239,12 @@ function ResultBar({
         <div
           style={{
             height: "100%",
-            width: `${pct}%`,
+            width: "100%",
             borderRadius: "4px",
             background: isMyVote ? "#FF4422" : "#D4CBC0",
-            transition: "width 0.5s cubic-bezier(0.22, 1, 0.36, 1)",
+            transformOrigin: "left",
+            transform: `scaleX(${pct / 100})`,
+            transition: "transform 0.5s cubic-bezier(0.22, 1, 0.36, 1)",
           }}
         />
       </div>

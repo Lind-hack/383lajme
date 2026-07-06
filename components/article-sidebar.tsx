@@ -111,9 +111,11 @@ export default function ArticleSidebar({ article, related }: Props) {
         <div
           style={{
             height: "100%",
-            width: `${scrollProgress}%`,
+            width: "100%",
             background: "#FF4422",
-            transition: "width 0.1s linear",
+            transformOrigin: "left",
+            transform: `scaleX(${scrollProgress / 100})`,
+            transition: "transform 0.1s linear",
           }}
         />
       </div>

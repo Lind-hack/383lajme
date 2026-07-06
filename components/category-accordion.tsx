@@ -18,10 +18,19 @@ const CYCLE_MS = 5000
  * article body. Desktop = hover to expand. Mobile / touch (no hover) =
  * auto-cycle one card "big" every 5s, looping 1→…→n→1 forever.
  */
+function prefersReducedMotion() {
+  return (
+    typeof window !== 'undefined' &&
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  )
+}
+
 export default function CategoryAccordion({ slides }: Props) {
   const [active, setActive] = useState(0)
   const [isTouch, setIsTouch] = useState(false)
+  const [isVisible, setIsVisible] = useState(true)
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
+  const containerRef = useRef<HTMLDivElement | null>(null)
 
   // Auto-cycle on phones: either a no-hover/touch device OR a narrow viewport
   // (a hover-incapable user can't trigger the desktop expand). React to changes.
@@ -39,11 +48,34 @@ export default function CategoryAccordion({ slides }: Props) {
     }
   }, [])
 
-  // Auto-cycle on touch devices (respecting reduced-motion).
+  // Pause the auto-cycle when the accordion scrolls off-screen or the tab is hidden.
+  useEffect(() => {
+    if (typeof window === 'undefined' || !containerRef.current) return
+
+    const observedRef = { current: true }
+    const onVisibilityChange = () => {
+      setIsVisible(document.visibilityState === 'visible' && observedRef.current)
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        observedRef.current = entry.isIntersecting
+        setIsVisible(entry.isIntersecting && document.visibilityState === 'visible')
+      },
+      { threshold: 0.1 }
+    )
+    observer.observe(containerRef.current)
+    document.addEventListener('visibilitychange', onVisibilityChange)
+    return () => {
+      observer.disconnect()
+      document.removeEventListener('visibilitychange', onVisibilityChange)
+    }
+  }, [])
+
+  // Auto-cycle on touch devices (respecting reduced-motion, visibility, and tab focus).
   useEffect(() => {
     if (typeof window === 'undefined') return
-    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (!isTouch || reduced || slides.length <= 1) return
+    if (!isTouch || !isVisible || prefersReducedMotion() || slides.length <= 1) return
 
     const start = () => {
       if (timerRef.current) clearInterval(timerRef.current)
@@ -55,13 +87,14 @@ export default function CategoryAccordion({ slides }: Props) {
     return () => {
       if (timerRef.current) clearInterval(timerRef.current)
     }
-  }, [isTouch, slides.length])
+  }, [isTouch, isVisible, slides.length])
 
   // Tapping a card on touch opens it and restarts the cycle from there.
   const handleTap = (i: number) => {
     if (!isTouch) return
     setActive(i)
     if (timerRef.current) clearInterval(timerRef.current)
+    if (!isVisible || prefersReducedMotion() || slides.length <= 1) return
     timerRef.current = setInterval(() => {
       setActive((cur) => (cur + 1) % slides.length)
     }, CYCLE_MS)
@@ -69,6 +102,7 @@ export default function CategoryAccordion({ slides }: Props) {
 
   return (
     <div
+      ref={containerRef}
       style={{
         display: 'flex',
         gap: '6px',

@@ -205,12 +205,18 @@ body {
 }
 .side-panel-link {
   display: block;
-  padding: 10px 0;
-  font-size: 26px;
+  padding: 8px 0;
+  font-size: 20px;
   font-weight: 800;
   letter-spacing: -0.01em;
   text-decoration: none;
   line-height: 1.15;
+}
+.side-panel-scroll {
+  scrollbar-width: none;
+}
+.side-panel-scroll::-webkit-scrollbar {
+  display: none;
 }
 
 /* ── Scrollbar ──────────────────────────────────────────── */
@@ -239,9 +245,11 @@ body {
   transition: transform var(--duration-base) var(--ease-out),
     box-shadow var(--duration-base) var(--ease-out);
 }
-.world-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
+@media (hover: hover) and (pointer: fine) {
+  .world-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
+  }
 }
 
 /* ── Navbar scroll row (mobile) ─────────────────────────── */
@@ -250,10 +258,27 @@ body {
   -webkit-overflow-scrolling: touch;
   touch-action: pan-x;
   scrollbar-width: none;
+  scroll-snap-type: x proximity;
+  padding: 2px;
 }
 .nav-scroll::-webkit-scrollbar {
   display: none;
 }
+
+/* Wrap adds gradient edge fades so scrolled-under pills read as
+   "continuing offscreen" rather than hard-clipped. */
+.nav-scroll-wrap::before,
+.nav-scroll-wrap::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 20px;
+  z-index: 1;
+  pointer-events: none;
+}
+.nav-scroll-wrap::before { left: 0; background: linear-gradient(to right, #F9F6F1, transparent); }
+.nav-scroll-wrap::after { right: 0; background: linear-gradient(to left, #F9F6F1, transparent); }
 
 /* Desktop: Kosovo+auth pinned right (outside scroll) */
 .nav-auth-desktop {
@@ -283,33 +308,62 @@ body {
    Base visual styles live here, not inline — inline styles would
    override the :hover rules below. */
 .nav-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
   text-decoration: none;
   font-size: 13px;
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  padding: 7px 16px;
+  padding: 9px 16px;
   border-radius: var(--radius-pill);
-  background: rgba(17, 17, 17, 0.07);
-  color: #111111;
-  border: 1.5px solid rgba(17, 17, 17, 0.12);
-  display: inline-block;
+  background: var(--cat-bg);
+  color: var(--cat);
+  border: 1.5px solid color-mix(in srgb, var(--cat) 30%, transparent);
   white-space: nowrap;
   flex-shrink: 0;
+  scroll-snap-align: start;
   transition:
     background-color var(--duration-base) var(--ease-out),
     color var(--duration-base) var(--ease-out),
     border-color var(--duration-base) var(--ease-out),
     transform var(--duration-base) var(--ease-out);
 }
-.nav-pill:hover {
-  background: #111111;
-  color: #FFFFFF;
-  border-color: #111111;
-  transform: translateY(-1px);
+@media (hover: hover) and (pointer: fine) {
+  .nav-pill:hover {
+    background: var(--cat);
+    color: #FFFFFF;
+    border-color: var(--cat);
+    transform: translateY(-1px);
+  }
 }
 .nav-pill:active {
   transform: translateY(0) scale(0.98);
+}
+.nav-pill.active {
+  background: var(--cat);
+  color: #FFFFFF;
+  border-color: var(--cat);
+}
+
+.nav-pill-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.55), transparent 45%), var(--cat);
+  box-shadow: 0 0 6px color-mix(in srgb, var(--cat) 45%, transparent);
+}
+.nav-pill.active .nav-pill-dot {
+  background: radial-gradient(circle at 30% 30%, #fff, rgba(255, 255, 255, 0.7));
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.5);
+}
+@media (hover: hover) and (pointer: fine) {
+  .nav-pill:hover .nav-pill-dot {
+    background: radial-gradient(circle at 30% 30%, #fff, rgba(255, 255, 255, 0.7));
+    box-shadow: 0 0 6px rgba(255, 255, 255, 0.5);
+  }
 }
 
 /* ── Footer link hover ──────────────────────────────────── */
@@ -322,27 +376,18 @@ body {
     padding-left var(--duration-base) var(--ease-out),
     border-color var(--duration-base) var(--ease-out);
 }
-.footer-link:hover {
-  color: #FF4422;
-  padding-left: 8px;
-  border-left-color: #FF4422;
-}
-
 /* ── Footer social / contact links (dark bg, orange hover) ── */
 .footer-social {
   color: rgba(255, 255, 255, 0.35);
   transition: color var(--duration-base) var(--ease-out);
 }
-.footer-social:hover { color: #FF4422; }
 .footer-contact {
   color: rgba(255, 255, 255, 0.45);
   transition: color var(--duration-base) var(--ease-out);
 }
-.footer-contact:hover { color: #FF4422; }
 
 /* ── Footer newsletter submit: arrow nudges right on hover ── */
 .footer-submit svg { transition: transform var(--duration-base) var(--ease-out); }
-.footer-submit:hover svg { transform: translateX(2px); }
 
 /* ── Logo hover ─────────────────────────────────────────── */
 .logo-mark { transition: transform var(--duration-base) var(--ease-out); }
@@ -350,8 +395,19 @@ body {
   display: inline-block;
   transition: transform var(--duration-base) var(--ease-out);
 }
-.logo-mark:hover { transform: translateY(-1px); }
-.logo-mark:hover .logo-dot { transform: scale(1.4); }
+
+@media (hover: hover) and (pointer: fine) {
+  .footer-link:hover {
+    color: #FF4422;
+    padding-left: 8px;
+    border-left-color: #FF4422;
+  }
+  .footer-social:hover { color: #FF4422; }
+  .footer-contact:hover { color: #FF4422; }
+  .footer-submit:hover svg { transform: translateX(2px); }
+  .logo-mark:hover { transform: translateY(-1px); }
+  .logo-mark:hover .logo-dot { transform: scale(1.4); }
+}
 
 /* ── Floating blobs share a class for the reduced-motion hook ── */
 .float-blob { will-change: transform; }
@@ -375,10 +431,12 @@ body {
     color var(--duration-fast) var(--ease-out),
     border-color var(--duration-fast) var(--ease-out);
 }
-.poll-option:hover {
-  background: #FF4422;
-  color: #FFFFFF;
-  border-color: #FF4422;
+@media (hover: hover) and (pointer: fine) {
+  .poll-option:hover {
+    background: #FF4422;
+    color: #FFFFFF;
+    border-color: #FF4422;
+  }
 }
 .poll-option:active {
   transform: scale(0.99);
@@ -404,6 +462,16 @@ body {
   animation: spotlight 2s ease 0.75s 1 forwards;
 }
 
+/* ── Shared "breaking news" pulse dot (was duplicated in
+   robot-hero.tsx + image-accordion.tsx) ──────────────────── */
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; box-shadow: 0 0 8px rgba(255, 68, 34, 0.8); }
+  50%      { opacity: 0.5; box-shadow: 0 0 4px rgba(255, 68, 34, 0.3); }
+}
+.pulse-dot {
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+
 /* ── Reduced motion: stop ambient CSS animations ────────── */
 @media (prefers-reduced-motion: reduce) {
   .ticker-track,
@@ -411,7 +479,10 @@ body {
   .gradient-cta,
   .glossy-orange,
   .hamburger-bar,
-  .tilt-in {
+  .tilt-in,
+  .pulse-dot,
+  .sb-pulse-dot,
+  .alert-pulse {
     animation: none !important;
   }
   *, *::before, *::after {

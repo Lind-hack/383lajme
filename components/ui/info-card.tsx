@@ -11,6 +11,7 @@ import {
 } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { cn } from "@/lib/utils";
+import { useCanHover } from "@/hooks/use-can-hover";
 import React from "react";
 
 interface InfoCardTitleProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -119,6 +120,7 @@ function InfoCard({
     );
   }
 
+  const canHover = useCanHover();
   const [isHovered, setIsHovered] = useState(false);
   const [allImagesLoaded, setAllImagesLoaded] = useState(true);
   const [isDismissed, setIsDismissed] = useState(() => {
@@ -169,8 +171,8 @@ function InfoCard({
               }}
               transition={{ duration: 0.3, delay: 0 }}
               className={cn("group rounded-lg border bg-white p-3", className)}
-              onMouseEnter={() => setIsHovered(true)}
-              onMouseLeave={() => setIsHovered(false)}
+              onMouseEnter={() => canHover && setIsHovered(true)}
+              onMouseLeave={() => canHover && setIsHovered(false)}
             >
               {children}
             </motion.div>
@@ -199,7 +201,6 @@ const InfoCardFooter = ({ children, className }: InfoCardFooterProps) => {
         type: "spring",
         stiffness: 300,
         damping: 30,
-        duration: 0.3,
       }}
     >
       {children}
@@ -284,15 +285,7 @@ const InfoCardMedia = ({
   }, [media.length, setAllImagesLoaded]);
 
   useEffect(() => {
-    let timeoutId: ReturnType<typeof setTimeout>;
-    if (isHovered) {
-      timeoutId = setTimeout(() => {
-        setIsOverflowVisible(true);
-      }, 100);
-    } else {
-      setIsOverflowVisible(false);
-    }
-    return () => clearTimeout(timeoutId);
+    if (!isHovered) setIsOverflowVisible(false);
   }, [isHovered]);
 
   const mediaCount = displayMedia.length;
@@ -342,7 +335,9 @@ const InfoCardMedia = ({
           type: "spring",
           stiffness: 300,
           damping: 30,
-          duration: 0.3,
+        }}
+        onAnimationComplete={() => {
+          if (isHovered) setIsOverflowVisible(true);
         }}
       >
         <div
@@ -414,7 +409,6 @@ const InfoCardMedia = ({
             type: "spring",
             stiffness: 300,
             damping: 30,
-            duration: 0.3,
           }}
         />
       </motion.div>
