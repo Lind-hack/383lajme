@@ -159,6 +159,21 @@ jobs:
           TARGET_BATCH_FILE="data/auto-articles/$(date -u +%Y-%m-%dT%H).json"
           export TARGET_BATCH_FILE
           echo "Target batch file: $TARGET_BATCH_FILE"
+          LOCAL_DATE="$(date +%Y-%m-%d)"
+          LOCAL_HOUR="$(date +%H)"
+          if [ "${GITHUB_EVENT_NAME:-}" = "schedule" ]; then
+            PLANNED_SLOT=7
+            for SLOT in 7 9 11 13 15 17 19 21 23; do
+              if [ "$((10#$LOCAL_HOUR))" -ge "$SLOT" ]; then
+                PLANNED_SLOT="$SLOT"
+              fi
+            done
+            printf -v CRON_SLOT_LABEL "%s %02d:00 Kosovo time" "$LOCAL_DATE" "$PLANNED_SLOT"
+          else
+            CRON_SLOT_LABEL="Manual run $(date +'%Y-%m-%d %H:%M Kosovo time')"
+          fi
+          export CRON_SLOT_LABEL
+          echo "Cron slot label: $CRON_SLOT_LABEL"
           MODEL="${CODEX_MODEL:-gpt-5.4-mini}"
           if [ "$MODEL" = "gpt-5-codex" ]; then
             echo "gpt-5-codex is not supported with ChatGPT Codex auth; using gpt-5.4-mini."
@@ -179,7 +194,7 @@ jobs:
 
           If an article is based on a social media post/status/video/reel/thread, include social_platform, social_post_account, social_post_url, and social_post_basis in the JSON so the email report shows Social basis with the platform, account, and exact source post. Social posts are signals, not proof; verify or frame as attributed/disputed claims with safety caps.
 
-          Create the new JSON batch at TARGET_BATCH_FILE when that environment variable is present; otherwise create data/auto-articles/YYYY-MM-DDTHH.json using UTC HH 00-23. Validate it with python scripts/codex_automation_support.py validate --file "$TARGET_BATCH_FILE" and python scripts/validate_source_mix.py --file "$TARGET_BATCH_FILE". Run npm run build. Finish with python scripts/codex_automation_support.py finalize --file "$TARGET_BATCH_FILE" so it commits, pushes to origin/main, triggers deploy, verifies https://383lajme.vercel.app, and sends the email report. If push/deploy/verify/email fails, report the exact failing step without exposing secrets.
+          Create the new JSON batch at TARGET_BATCH_FILE when that environment variable is present; otherwise create data/auto-articles/YYYY-MM-DDTHH.json using UTC HH 00-23. Preserve CRON_SLOT_LABEL so the email report shows which scheduled Kosovo-time slot produced the batch. Validate it with python scripts/codex_automation_support.py validate --file "$TARGET_BATCH_FILE" and python scripts/validate_source_mix.py --file "$TARGET_BATCH_FILE". Run npm run build. Finish with python scripts/codex_automation_support.py finalize --file "$TARGET_BATCH_FILE" so it commits, pushes to origin/main, triggers deploy, verifies https://383lajme.vercel.app, and sends the email report. If push/deploy/verify/email fails, report the exact failing step without exposing secrets.
           PROMPT
           codex exec --cd "$GITHUB_WORKSPACE" --dangerously-bypass-approvals-and-sandbox -m "$MODEL" - < /tmp/383-codex-news-prompt.md
 

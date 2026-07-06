@@ -605,6 +605,9 @@ def _article_card(article: dict[str, Any], path: Path, site_url: str, remove_sec
     )
 
 
+def _cron_slot_label() -> str:
+    return os.environ.get("CRON_SLOT_LABEL", "").strip()
+
 def send_report(path: Path) -> int:
     load_env()
     articles = validate_batch(path)
@@ -619,6 +622,14 @@ def send_report(path: Path) -> int:
         return 2
 
     now = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+    cron_slot = _cron_slot_label()
+    cron_slot_html = html.escape(cron_slot)
+    run_line = (
+        f"Cron slot: {cron_slot_html} | Report sent: {now}"
+        if cron_slot
+        else f"Report sent: {now}"
+    )
+    subject_time = cron_slot or now
     sorted_articles = sorted(articles, key=_article_score, reverse=True)
     breaking_articles = [article for article in sorted_articles if _article_score(article) >= 8.5][:5]
 
@@ -656,7 +667,8 @@ def send_report(path: Path) -> int:
         "<div style='max-width:820px;margin:0 auto;background:#ffffff'>"
         "<div style='background:#0f172a;color:#ffffff;padding:22px'>"
         f"<h2 style='font-size:24px;line-height:1.2;padding:0;margin:0'>383 Lajme: {len(articles)} artikuj të rinj</h2>"
-        f"<p style='font-size:13px;line-height:1.5;margin:8px 0 0;color:#cbd5e1'>{now} | Images shown are the article image_url values published with the batch.</p>"
+        f"<p style='font-size:13px;line-height:1.5;margin:8px 0 0;color:#cbd5e1'>{run_line}</p>"
+        "<p style='font-size:13px;line-height:1.5;margin:6px 0 0;color:#cbd5e1'>Images shown are the article image_url values published with the batch.</p>"
         "</div>"
         f"<div style='padding:12px 22px;background:#f8fafc;color:#475569;font-size:13px;line-height:1.45'>{scoring_note}</div>"
         + breaking_html
@@ -664,7 +676,7 @@ def send_report(path: Path) -> int:
         + "<div style='padding:18px 22px;color:#64748b;font-size:12px;line-height:1.5'>Review skipped or excluded stories separately for accuracy limits before republishing them.</div>"
         + "</div></body></html>"
     )
-    subject = f"383 Lajme - {len(articles)} artikuj te rinj [{now}]"
+    subject = f"383 Lajme - {len(articles)} artikuj te rinj [{subject_time}]"
     if resend_key:
         resend_code = _send_resend_report(resend_key, recipient, subject, report_html)
         if resend_code == 0:
