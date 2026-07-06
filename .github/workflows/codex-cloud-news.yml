@@ -3,7 +3,8 @@ name: Codex Cloud News Pipeline
 on:
   workflow_dispatch:
   schedule:
-    - cron: "*/15 * * * *"
+    # Europe/Pristina summer time (UTC+2): 07,09,11,13,15,17,19,21,23.
+    - cron: "0 5,7,9,11,13,15,17,19,21 * * *"
 
 permissions:
   contents: write
@@ -47,89 +48,30 @@ jobs:
       REQUIRE_EMAIL_REPORT: "true"
 
     steps:
-      - name: Check Kosovo/Pristina schedule window
-        id: window
-        shell: bash
-        run: |
-          python3 - <<'PY' >> "$GITHUB_OUTPUT"
-          from datetime import datetime
-          from datetime import timedelta
-          from datetime import timezone
-          from zoneinfo import ZoneInfo
-
-          now = datetime.now(ZoneInfo("Europe/Belgrade"))
-          target_hours = {7, 9, 11, 13, 15, 17, 19, 21, 23}
-          target = None
-          if now.hour in target_hours:
-              target = now
-          elif now.minute <= 45 and (now - timedelta(hours=1)).hour in target_hours:
-              target = now - timedelta(hours=1)
-
-          should_run = target is not None
-          print(f"should_run={'true' if should_run else 'false'}")
-          print(f"local_time={now.isoformat(timespec='seconds')}")
-          if target:
-              slot = target.replace(minute=0, second=0, microsecond=0)
-              slot_utc = slot.astimezone(timezone.utc)
-              print(f"slot_local={slot.isoformat(timespec='seconds')}")
-              print(f"batch_file=data/auto-articles/{slot_utc.strftime('%Y-%m-%dT%H')}.json")
-          else:
-              for offset in range(0, 48):
-                  candidate = (now + timedelta(hours=offset)).replace(minute=0, second=0, microsecond=0)
-                  if candidate.hour in target_hours and candidate > now:
-                      print(f"next_slot_local={candidate.isoformat(timespec='seconds')}")
-                      break
-          PY
-
-      - name: Show skipped hour
-        if: steps.window.outputs.should_run != 'true' && github.event_name != 'workflow_dispatch'
-        run: echo "Skipping expected non-slot run; local time is ${{ steps.window.outputs.local_time }}, next target slot is ${{ steps.window.outputs.next_slot_local }}"
-
       - name: Checkout
-        if: steps.window.outputs.should_run == 'true' || github.event_name == 'workflow_dispatch'
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
           token: ${{ secrets.CODEX_PUSH_TOKEN || github.token }}
 
-      - name: Check target batch
-        id: batch
-        if: steps.window.outputs.should_run == 'true' && github.event_name != 'workflow_dispatch'
-        shell: bash
-        run: |
-          if [ -f "${{ steps.window.outputs.batch_file }}" ]; then
-            echo "exists=true" >> "$GITHUB_OUTPUT"
-            echo "Batch already exists for slot: ${{ steps.window.outputs.batch_file }}"
-          else
-            echo "exists=false" >> "$GITHUB_OUTPUT"
-          fi
-
-      - name: Show already completed slot
-        if: steps.batch.outputs.exists == 'true' && github.event_name != 'workflow_dispatch'
-        run: echo "Skipping; slot already has ${{ steps.window.outputs.batch_file }}"
-
       - name: Setup Node
-        if: (steps.window.outputs.should_run == 'true' && steps.batch.outputs.exists != 'true') || github.event_name == 'workflow_dispatch'
         uses: actions/setup-node@v4
         with:
           node-version: 24
           cache: npm
 
       - name: Setup Python
-        if: (steps.window.outputs.should_run == 'true' && steps.batch.outputs.exists != 'true') || github.event_name == 'workflow_dispatch'
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
 
       - name: Install project dependencies
-        if: (steps.window.outputs.should_run == 'true' && steps.batch.outputs.exists != 'true') || github.event_name == 'workflow_dispatch'
         run: |
           npm ci --no-audit --no-fund || npm install --no-audit --no-fund
           python -m pip install --upgrade pip
           python -m pip install feedparser requests beautifulsoup4 python-slugify python-dotenv yt-dlp
 
       - name: Install last30days skill
-        if: (steps.window.outputs.should_run == 'true' && steps.batch.outputs.exists != 'true') || github.event_name == 'workflow_dispatch'
         run: |
           mkdir -p ~/.codex/skills
           rm -rf /tmp/last30days-skill ~/.codex/skills/last30days
@@ -138,11 +80,9 @@ jobs:
           python3 ~/.codex/skills/last30days/scripts/last30days.py --preflight
 
       - name: Install Codex CLI
-        if: (steps.window.outputs.should_run == 'true' && steps.batch.outputs.exists != 'true') || github.event_name == 'workflow_dispatch'
         run: npm install -g @openai/codex
 
       - name: Configure Codex auth
-        if: (steps.window.outputs.should_run == 'true' && steps.batch.outputs.exists != 'true') || github.event_name == 'workflow_dispatch'
         shell: bash
         run: |
           set -euo pipefail
@@ -159,13 +99,11 @@ jobs:
           fi
 
       - name: Preflight repo environment
-        if: (steps.window.outputs.should_run == 'true' && steps.batch.outputs.exists != 'true') || github.event_name == 'workflow_dispatch'
         run: |
           python scripts/codex_automation_support.py env-status
           python scripts/codex_automation_support.py github-auth
 
       - name: Patch email delivery behavior
-        if: (steps.window.outputs.should_run == 'true' && steps.batch.outputs.exists != 'true') || github.event_name == 'workflow_dispatch'
         shell: bash
         run: |
           python3 - <<'PY'
@@ -215,16 +153,11 @@ jobs:
           python -m py_compile scripts/codex_automation_support.py
 
       - name: Run Codex production news pipeline
-        if: (steps.window.outputs.should_run == 'true' && steps.batch.outputs.exists != 'true') || github.event_name == 'workflow_dispatch'
-        env:
-          TARGET_BATCH_FILE: ${{ steps.window.outputs.batch_file }}
         shell: bash
         run: |
           set -euo pipefail
-          if [ -z "${TARGET_BATCH_FILE:-}" ]; then
-            TARGET_BATCH_FILE="data/auto-articles/$(date -u +%Y-%m-%dT%H).json"
-            export TARGET_BATCH_FILE
-          fi
+          TARGET_BATCH_FILE="data/auto-articles/$(date -u +%Y-%m-%dT%H).json"
+          export TARGET_BATCH_FILE
           echo "Target batch file: $TARGET_BATCH_FILE"
           MODEL="${CODEX_MODEL:-gpt-5.4-mini}"
           if [ "$MODEL" = "gpt-5-codex" ]; then
@@ -251,7 +184,7 @@ jobs:
           codex exec --cd "$GITHUB_WORKSPACE" --dangerously-bypass-approvals-and-sandbox -m "$MODEL" - < /tmp/383-codex-news-prompt.md
 
       - name: Notify failure by email
-        if: failure() && ((steps.window.outputs.should_run == 'true' && steps.batch.outputs.exists != 'true') || github.event_name == 'workflow_dispatch')
+        if: failure()
         shell: bash
         run: |
           python3 - <<'PY'
