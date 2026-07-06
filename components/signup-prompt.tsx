@@ -17,8 +17,13 @@ const BENEFITS = [
   { Icon: Trophy,        text: "Badge ekskluzive për kontribuesit aktiv" },
 ];
 
+const EXIT_MS = 200;
+const ENTER_MS = 350;
+
 export default function SignupPrompt() {
   const [visible, setVisible] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  const [closing, setClosing] = useState(false);
   const [benefitsOpen, setBenefitsOpen] = useState(false);
   const router = useRouter();
 
@@ -56,7 +61,12 @@ export default function SignupPrompt() {
 
   function dismiss() {
     localStorage.setItem(DISMISS_KEY, Date.now().toString());
-    setVisible(false);
+    setClosing(true);
+    setMounted(false);
+    setTimeout(() => {
+      setVisible(false);
+      setClosing(false);
+    }, EXIT_MS);
   }
 
   function handleSignup() {
@@ -64,17 +74,19 @@ export default function SignupPrompt() {
     router.push("/hyr?tab=regjistrohu");
   }
 
-  if (!visible) return null;
+  useEffect(() => {
+    if (!visible) return;
+    const raf = requestAnimationFrame(() => setMounted(true));
+    return () => cancelAnimationFrame(raf);
+  }, [visible]);
+
+  if (!visible && !closing) return null;
+
+  const shown = mounted && !closing;
+  const transitionMs = closing ? EXIT_MS : ENTER_MS;
 
   return (
     <>
-      <style>{`
-        @keyframes slideUp {
-          from { opacity: 0; transform: translate(-50%, calc(-50% + 28px)); }
-          to   { opacity: 1; transform: translate(-50%, -50%); }
-        }
-      `}</style>
-
       {/* Backdrop */}
       <div
         onClick={dismiss}
@@ -85,6 +97,8 @@ export default function SignupPrompt() {
           backdropFilter: "blur(4px)",
           WebkitBackdropFilter: "blur(4px)",
           zIndex: 100,
+          opacity: shown ? 1 : 0,
+          transition: `opacity ${transitionMs}ms ease`,
         }}
       />
 
@@ -94,7 +108,7 @@ export default function SignupPrompt() {
           position: "fixed",
           top: "50%",
           left: "50%",
-          transform: "translate(-50%, -50%)",
+          transform: shown ? "translate(-50%, -50%)" : "translate(-50%, calc(-50% + 28px))",
           zIndex: 101,
           width: "calc(100% - 48px)",
           maxWidth: "420px",
@@ -104,7 +118,8 @@ export default function SignupPrompt() {
           boxShadow: "0 24px 80px rgba(0,0,0,0.18)",
           padding: "28px 28px 24px",
           fontFamily: "var(--font-manrope), sans-serif",
-          animation: "slideUp 0.35s cubic-bezier(0.22, 0.61, 0.36, 1) both",
+          opacity: shown ? 1 : 0,
+          transition: `opacity ${transitionMs}ms cubic-bezier(0.22, 0.61, 0.36, 1), transform ${transitionMs}ms cubic-bezier(0.22, 0.61, 0.36, 1)`,
         }}
       >
         {/* Header row */}
@@ -176,7 +191,7 @@ export default function SignupPrompt() {
           style={{
             overflow: "hidden",
             maxHeight: benefitsOpen ? "400px" : "0",
-            transition: "max-height 0.3s ease",
+            transition: "max-height 0.3s ease, margin-bottom 0.3s ease",
             marginBottom: benefitsOpen ? "16px" : "0",
           }}
         >

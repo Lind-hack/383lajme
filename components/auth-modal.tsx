@@ -231,7 +231,7 @@ export default function AuthModal({
                 background: tab === t ? "#fff" : "transparent",
                 color: tab === t ? "#111" : "#888",
                 boxShadow: tab === t ? "0 1px 4px rgba(0,0,0,0.08)" : "none",
-                transition: "all 0.15s",
+                transition: "background 0.15s, color 0.15s, box-shadow 0.15s",
               }}
             >
               {t === "hyr" ? "Hyr" : "Regjistrohu"}

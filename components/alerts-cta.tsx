@@ -48,6 +48,7 @@ export default function AlertsCta() {
           <div style={{ flex: 1, minWidth: "min(260px, 100%)" }}>
             <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "16px" }}>
               <span
+                className="alert-pulse"
                 style={{
                   width: "8px",
                   height: "8px",

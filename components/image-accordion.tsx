@@ -6,6 +6,7 @@ import { ArrowRight } from 'lucide-react'
 import { type Article, timeAgo } from '@/lib/mock-data'
 import { getCategoryColor } from '@/lib/category-colors'
 import { FONT } from '@/lib/tokens'
+import { useCanHover } from '@/hooks/use-can-hover'
 
 export interface AccordionSlide {
   article: Article
@@ -19,6 +20,7 @@ interface Props {
 }
 
 export default function ImageAccordion({ featured, slides }: Props) {
+  const canHover = useCanHover()
   const [active, setActive] = useState(-1)
 
   const featuredColor = getCategoryColor(featured.category)
@@ -82,6 +84,7 @@ export default function ImageAccordion({ featured, slides }: Props) {
             }}
           >
             <span
+              className="pulse-dot"
               style={{
                 width: '5px',
                 height: '5px',
@@ -89,7 +92,6 @@ export default function ImageAccordion({ featured, slides }: Props) {
                 background: '#FF4422',
                 display: 'inline-block',
                 boxShadow: '0 0 8px rgba(255,68,34,0.7)',
-                animation: 'pulse-dot 2s ease-in-out infinite',
                 flexShrink: 0,
               }}
             />
@@ -205,7 +207,7 @@ export default function ImageAccordion({ featured, slides }: Props) {
           zIndex: 1,
           alignItems: 'stretch',
         }}
-        onMouseLeave={() => setActive(-1)}
+        onMouseLeave={() => canHover && setActive(-1)}
       >
         {slides.map((slide, i) => {
           const isActive = active === i
@@ -221,9 +223,10 @@ export default function ImageAccordion({ featured, slides }: Props) {
               tabIndex={0}
               aria-label={`${slide.label}: ${slide.article.title}`}
               aria-expanded={isActive}
-              onMouseEnter={() => setActive(i)}
+              onMouseEnter={() => canHover && setActive(i)}
               onFocus={() => setActive(i)}
               onBlur={() => setActive(-1)}
+              onClick={() => !canHover && setActive(isActive ? -1 : i)}
               onKeyDown={(e) => {
                 if (e.key === 'Enter' || e.key === ' ') setActive(i)
               }}
@@ -387,10 +390,6 @@ export default function ImageAccordion({ featured, slides }: Props) {
       </div>
 
       <style>{`
-        @keyframes pulse-dot {
-          0%, 100% { opacity: 1; box-shadow: 0 0 8px rgba(255,68,34,0.8); }
-          50%       { opacity: 0.45; box-shadow: 0 0 4px rgba(255,68,34,0.3); }
-        }
         @media (max-width: 900px) {
           .split-hero { flex-direction: column !important; height: auto !important; }
           .split-hero-left { flex: 0 0 auto !important; }

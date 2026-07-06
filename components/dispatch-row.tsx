@@ -54,9 +54,9 @@ export default function DispatchRow({ articles }: DispatchRowProps) {
             key="scroll-left"
             onClick={() => scrollBy(-1)}
             style={{ ...LIQUID_GLASS, left: "-20px" }}
-            initial={{ opacity: 0, scale: 0.72, x: -10 }}
+            initial={{ opacity: 0, scale: 0.95, x: -10 }}
             animate={{ opacity: 1, scale: 1, x: 0 }}
-            exit={{ opacity: 0, scale: 0.72, x: -10 }}
+            exit={{ opacity: 0, scale: 0.95, x: -10 }}
             transition={{ duration: DUR.slow, ease: EASE }}
             whileHover={{ scale: 1.08 }}
             whileTap={{ scale: 0.95 }}

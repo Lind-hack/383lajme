@@ -107,6 +107,7 @@ export default function RobotHero({ article }: Props) {
               }}
             >
               <span
+                className="pulse-dot"
                 style={{
                   width: '6px',
                   height: '6px',
@@ -114,7 +115,6 @@ export default function RobotHero({ article }: Props) {
                   background: '#FF4422',
                   display: 'inline-block',
                   boxShadow: '0 0 8px rgba(255,68,34,0.8)',
-                  animation: 'pulse-dot 2s ease-in-out infinite',
                 }}
               />
               LAJMI KRYESOr
@@ -284,10 +284,6 @@ export default function RobotHero({ article }: Props) {
 
       {/* Responsive styles */}
       <style>{`
-        @keyframes pulse-dot {
-          0%, 100% { opacity: 1; box-shadow: 0 0 8px rgba(255,68,34,0.8); }
-          50%       { opacity: 0.5; box-shadow: 0 0 4px rgba(255,68,34,0.3); }
-        }
         @media (max-width: 768px) {
           .robot-hero-inner {
             flex-direction: column !important;

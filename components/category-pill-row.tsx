@@ -66,7 +66,7 @@ export default function CategoryPillRow() {
                     letterSpacing: "0.06em",
                     textTransform: "uppercase",
                     cursor: "pointer",
-                    transition: "all 0.2s ease",
+                    transition: "background 0.2s ease, color 0.2s ease, border-color 0.2s ease",
                     background: isActive ? color : `rgba(${r},${g},${b},0.1)`,
                     color: isActive ? "#FFFFFF" : color,
                     border: `1.5px solid ${isActive ? color : `rgba(${r},${g},${b},0.25)`}`,
