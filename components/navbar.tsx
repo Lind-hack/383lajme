@@ -101,6 +101,7 @@ export default function Navbar() {
             alignItems: "baseline",
             gap: "4px",
             flexShrink: 0,
+            marginRight: "28px",
           }}
         >
           <span
