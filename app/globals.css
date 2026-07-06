@@ -146,7 +146,7 @@ body {
   animation: gradient-shift 12s ease infinite;
 }
 
-/* ── Glossy orange shimmer text (side panel links) ──────── */
+/* ── Glossy shine text (side-panel category links) ──────── */
 @keyframes shine-sweep {
   0%   { background-position: 200% center; }
   100% { background-position: -200% center; }
@@ -161,16 +161,26 @@ body {
   animation: shine-sweep 3.5s linear infinite;
 }
 
-/* Solid-fill variant of the glossy shimmer — for the hamburger bars
-   (background-clip:text can't color a solid bar, so this fills directly). */
+/* ── Nav menu button (hamburger) — solid, calm; accents on interaction only ── */
 .hamburger-bar {
   display: block;
   width: 22px;
   height: 2.5px;
   border-radius: 2px;
-  background: linear-gradient(110deg, #E41E20 0%, #FF4422 30%, #FFC9A8 50%, #FF4422 70%, #E41E20 100%);
-  background-size: 200% auto;
-  animation: shine-sweep 3.5s linear infinite;
+  background: #111111;
+  transition: background-color var(--duration-base) var(--ease-out);
+}
+.nav-menu-btn {
+  transition: border-color var(--duration-base) var(--ease-out), transform var(--duration-fast) var(--ease-out);
+}
+.nav-menu-btn:hover {
+  border-color: #FF4422;
+}
+.nav-menu-btn:hover .hamburger-bar {
+  background: #FF4422;
+}
+.nav-menu-btn:active {
+  transform: scale(0.95);
 }
 
 /* ── Nav side panel (scroll-triggered drawer) ───────────── */
@@ -205,12 +215,18 @@ body {
 }
 .side-panel-link {
   display: block;
-  padding: 8px 0;
-  font-size: 20px;
+  padding: 10px 0 10px 14px;
+  margin-left: -14px;
+  font-size: 26px;
   font-weight: 800;
   letter-spacing: -0.01em;
   text-decoration: none;
   line-height: 1.15;
+  border-left: 3px solid transparent;
+  transition: border-color var(--duration-base) var(--ease-out);
+}
+.side-panel-link[aria-current="page"] {
+  border-left-color: #FF4422;
 }
 .side-panel-scroll {
   scrollbar-width: none;
@@ -304,42 +320,59 @@ body {
   border-radius: 4px;
 }
 
-/* ── Navbar pill (CSS hover, replaces DOM-style mutation) ──
-   Base visual styles live here, not inline — inline styles would
-   override the :hover rules below. */
+/* ── Navbar category link (ink text + orange underline wipe) ──
+   Same family as the "383" wordmark (Manrope) so the nav reads as one
+   typographic voice with the logo instead of a second display face
+   competing next to it. Color is the site's actual signature orange
+   (#FF4422) — same hex used for the ticker, CTAs and the category-tag
+   pills — so the nav reads as loud and on-brand rather than muted.
+   Hover darkens to the same shade the primary button uses on press.
+   The signature is an orange underline that wipes in L→R on hover and
+   stays pinned under the active category. No middle-dot separators
+   (the underline gives rhythm). */
 .nav-pill {
   display: inline-flex;
   align-items: center;
   gap: 7px;
   text-decoration: none;
-  font-size: 13px;
+  color: #FF4422;
+  font-family: var(--font-manrope), sans-serif;
+  font-size: 16px;
   font-weight: 700;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.02em;
   text-transform: uppercase;
-  padding: 9px 16px;
-  border-radius: var(--radius-pill);
-  background: var(--cat-bg);
-  color: var(--cat);
-  border: 1.5px solid color-mix(in srgb, var(--cat) 30%, transparent);
+  display: inline-block;
   white-space: nowrap;
   flex-shrink: 0;
-  scroll-snap-align: start;
-  transition:
-    background-color var(--duration-base) var(--ease-out),
-    color var(--duration-base) var(--ease-out),
-    border-color var(--duration-base) var(--ease-out),
-    transform var(--duration-base) var(--ease-out);
+  position: relative;
+  /* Extra top padding drops the baseline so the caps sit on the same
+     line as the big "383" wordmark instead of floating above it. */
+  padding: 13px 0 6px;
+  margin-right: 22px;
+  transition: color var(--duration-base) var(--ease-out);
 }
-@media (hover: hover) and (pointer: fine) {
-  .nav-pill:hover {
-    background: var(--cat);
-    color: #FFFFFF;
-    border-color: var(--cat);
-    transform: translateY(-1px);
-  }
+/* Underline bar: width animates 0 → 100% from the left edge. */
+.nav-pill::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 2px;
+  height: 3px;
+  width: 0;
+  border-radius: 2px;
+  background: #FF4422;
+  transition: width var(--duration-base) var(--ease-out);
 }
-.nav-pill:active {
-  transform: translateY(0) scale(0.98);
+.nav-pill:hover::after,
+.nav-pill[aria-current="page"]::after {
+  width: 100%;
+}
+/* Active/idle category reads in the full brand orange; hover deepens it a shade. */
+.nav-pill:hover {
+  color: #E63C1B;
+}
+.nav-pill[aria-current="page"] {
+  color: #FF4422;
 }
 .nav-pill.active {
   background: var(--cat);
@@ -388,6 +421,31 @@ body {
 
 /* ── Footer newsletter submit: arrow nudges right on hover ── */
 .footer-submit svg { transition: transform var(--duration-base) var(--ease-out); }
+
+/* ── Nav auth buttons — solid, no idle motion; feedback on interaction only ── */
+.btn-outline {
+  transition:
+    background-color var(--duration-base) var(--ease-out),
+    border-color var(--duration-base) var(--ease-out),
+    transform var(--duration-fast) var(--ease-out);
+}
+.btn-outline:hover {
+  background: rgba(17, 17, 17, 0.04);
+  border-color: rgba(17, 17, 17, 0.32);
+}
+.btn-outline:active {
+  transform: scale(0.97);
+}
+.btn-primary {
+  background: #FF4422;
+  transition: background-color var(--duration-base) var(--ease-out), transform var(--duration-fast) var(--ease-out);
+}
+.btn-primary:hover {
+  background: #E63C1B;
+}
+.btn-primary:active {
+  transform: scale(0.97);
+}
 
 /* ── Logo hover ─────────────────────────────────────────── */
 .logo-mark { transition: transform var(--duration-base) var(--ease-out); }

@@ -15,11 +15,14 @@ python3 scripts/codex_automation_support.py env-status
 
 `SCRAPECREATORS_API_KEY`, `XAI_API_KEY`, and `INCLUDE_SOURCES` must be present for the full social research path. Do not claim TikTok, Instagram, Threads, Pinterest, LinkedIn, or X/Twitter were searched if the required key for that source is missing.
 
+The installed `last30days` skill is mandatory for discovery. Use it as the multi-source listening layer for TikTok, Instagram/Reels, YouTube, Threads, LinkedIn, Polymarket, GitHub, Reddit/Hacker News, X/Twitter, and web discovery. X/Twitter is only one lane, not the default source for the batch.
+
 ## Core rules
 
 - Publish only stories from today in Europe/Pristina time. Reject anything from yesterday, 3 days ago, last week, or undated material.
 - Use the last30days skill for research depth. Use it as the social/source-discovery engine, not as a generic web search replacement.
 - Search across X/Twitter, YouTube, TikTok, Instagram/Reels, Threads, Pinterest, LinkedIn, Polymarket, GitHub, Perplexity/web search, Serbian/regional sources, international outlets, official institutions, and specialist websites.
+- Enforce source variety. Do not publish a batch where X/Twitter is the basis for more than two articles. Use at least four different source families when possible, including non-X social, web/regional/international outlets, official institutions, Serbian/regional sources, specialist sites, or prediction/community sources.
 - Do not use Kosovo competitor outlets as the main source. Avoid Telegrafi, Koha, Gazeta Express, Klan Kosova, RTK, Reporteri, Indeksonline, Nacionale, Sinjali, Periskopi, Kallxo, Dukagjini, KosovoPress, Bota Sot, Zeri, Lajmi.net, Insajderi, Ekonomia Online, and Albanian Post as primary sources. They may be used only as context or corroboration.
 - Every article must have a real, public `image_url` that starts with `http://` or `https://`. Do not publish blank images.
 - Preserve uncertainty. For rumors, accusations, and drama, write as "pretendon", "tha", "akuzoi", "u raportua", or "nuk eshte verifikuar" unless a reliable source proves it.
@@ -29,7 +32,9 @@ python3 scripts/codex_automation_support.py env-status
 
 Technology / Teknologji:
 
-- Prefer `therundown.ai` and Instagram `@therundownai` for AI and technology stories.
+- Prefer `therundown.ai` website articles/newsletter pages for AI and technology stories.
+- Do not use The Rundown's X/Twitter account as the source for Teknologji. If using The Rundown, the article URL must be from `therundown.ai`.
+- Use Instagram `@therundownai` only as a discovery signal; verify the final Teknologji article from the `therundown.ai` website or another primary/specialist source.
 - Use other technology sources only when they are more relevant, more current, or directly connected to Kosovo/Balkans.
 
 Celebrity / Entertainment / Showbiz:
@@ -77,6 +82,7 @@ The email report displays this metadata as "Social basis". If the article is soc
 
 ```bash
 python3 scripts/codex_automation_support.py validate --file data/auto-articles/YYYY-MM-DDTHH.json
+python3 scripts/validate_source_mix.py --file data/auto-articles/YYYY-MM-DDTHH.json
 ```
 
 4. Build:
