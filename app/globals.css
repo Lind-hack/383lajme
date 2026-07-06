@@ -146,6 +146,21 @@ body {
   animation: gradient-shift 12s ease infinite;
 }
 
+/* ── Glossy shine text (side-panel category links) ──────── */
+@keyframes shine-sweep {
+  0%   { background-position: 200% center; }
+  100% { background-position: -200% center; }
+}
+.glossy-orange {
+  background: linear-gradient(110deg, #E41E20 0%, #FF4422 30%, #FFC9A8 50%, #FF4422 70%, #E41E20 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: shine-sweep 3.5s linear infinite;
+}
+
 /* ── Nav menu button (hamburger) — solid, calm; accents on interaction only ── */
 .hamburger-bar {
   display: block;
@@ -207,15 +222,10 @@ body {
   letter-spacing: -0.01em;
   text-decoration: none;
   line-height: 1.15;
-  color: #111111;
   border-left: 3px solid transparent;
-  transition: color var(--duration-base) var(--ease-out), border-color var(--duration-base) var(--ease-out);
-}
-.side-panel-link:hover {
-  color: #FF4422;
+  transition: border-color var(--duration-base) var(--ease-out);
 }
 .side-panel-link[aria-current="page"] {
-  color: #FF4422;
   border-left-color: #FF4422;
 }
 
@@ -292,10 +302,10 @@ body {
    contrast. No middle-dot separators (the underline gives rhythm). */
 .nav-pill {
   text-decoration: none;
-  color: #111111;
-  font-family: var(--font-baloo), var(--font-manrope), sans-serif;
+  color: #1F3A52;
+  font-family: var(--font-quicksand), var(--font-manrope), sans-serif;
   font-size: 16px;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: 0.01em;
   text-transform: uppercase;
   display: inline-block;
@@ -324,12 +334,12 @@ body {
 .nav-pill[aria-current="page"]::after {
   width: 100%;
 }
-/* Active category reads as ink; hovered category warms to orange. */
+/* Active/idle category reads as a deep, unique navy; hovered warms to orange. */
 .nav-pill:hover {
   color: #FF4422;
 }
 .nav-pill[aria-current="page"] {
-  color: #111111;
+  color: #1F3A52;
 }
 
 /* ── Footer link hover ──────────────────────────────────── */
