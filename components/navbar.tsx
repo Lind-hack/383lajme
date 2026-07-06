@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { MapPin } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -40,13 +41,30 @@ export function KosovoTag() {
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 80);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  // Below 768px the inline category row can't fit alongside the logo, so the
+  // collapsed hamburger layout is used regardless of scroll position — the
+  // full nav previously only collapsed on scroll, which left mobile visitors
+  // with a clipped, non-obviously-scrollable category row and no way to
+  // reach login/signup until they scrolled 80px.
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 768px)");
+    const onChange = () => setIsMobile(mq.matches);
+    onChange();
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
+
+  const collapsed = scrolled || isMobile;
 
   return (
     <header
@@ -57,7 +75,7 @@ export default function Navbar() {
         right: 0,
         zIndex: 50,
         background: "#F9F6F1",
-        borderBottom: scrolled ? "1px solid #E8E3DB" : "1px solid transparent",
+        borderBottom: scrolled ? "1px solid #E8E3DB" : "1px solid rgba(17,17,17,0.08)",
         boxShadow: scrolled ? "0 2px 20px rgba(0,0,0,0.06)" : "none",
         transition: "border-color 0.3s ease, box-shadow 0.3s ease",
       }}
@@ -83,6 +101,7 @@ export default function Navbar() {
             alignItems: "baseline",
             gap: "4px",
             flexShrink: 0,
+            marginRight: "28px",
           }}
         >
           <span
@@ -113,7 +132,7 @@ export default function Navbar() {
         {/* Crossfade between the full nav and the collapsed hamburger so the
             two states slide/fade into each other instead of popping. */}
         <AnimatePresence mode="wait" initial={false}>
-          {scrolled ? (
+          {collapsed ? (
             <motion.div
               key="collapsed"
               initial={{ opacity: 0, x: 6 }}
@@ -125,6 +144,7 @@ export default function Navbar() {
               {/* Spacer pushes the hamburger to the right */}
               <div style={{ flex: 1, minWidth: 0 }} />
               <button
+                className="nav-menu-btn"
                 onClick={() => setMenuOpen(true)}
                 aria-label="Hap menunë"
                 aria-expanded={menuOpen}
@@ -165,16 +185,25 @@ export default function Navbar() {
                   minWidth: 0,
                   display: "flex",
                   alignItems: "center",
-                  gap: "6px",
                   overflowX: "auto",
                   WebkitOverflowScrolling: "touch",
                 }}
               >
-                {NAV_LINKS.map((link) => (
-                  <Link key={link.href} href={link.href} className="nav-pill">
-                    {link.label}
-                  </Link>
-                ))}
+                {NAV_LINKS.map((link) => {
+                  const active =
+                    pathname === link.href ||
+                    pathname?.startsWith(link.href + "/");
+                  return (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      className="nav-pill"
+                      aria-current={active ? "page" : undefined}
+                    >
+                      {link.label}
+                    </Link>
+                  );
+                })}
               </div>
 
               {/* Desktop only: Kosovo + auth pinned right (mobile auth now lives in the side panel) */}

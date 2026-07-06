@@ -3,7 +3,8 @@ name: Codex Cloud News Pipeline
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 * * * *"
+    # Europe/Pristina summer time (UTC+2): 07,09,11,13,15,17,19,21,23.
+    - cron: "0 5,7,9,11,13,15,17,19,21 * * *"
 
 permissions:
   contents: write
@@ -44,55 +45,33 @@ jobs:
       PERPLEXITY_API_KEY: ${{ secrets.PERPLEXITY_API_KEY }}
       BRAVE_API_KEY: ${{ secrets.BRAVE_API_KEY }}
       INCLUDE_SOURCES: ${{ secrets.INCLUDE_SOURCES || vars.INCLUDE_SOURCES }}
+      REQUIRE_EMAIL_REPORT: "true"
 
     steps:
-      - name: Check Kosovo/Pristina schedule window
-        id: window
-        shell: bash
-        run: |
-          python3 - <<'PY' >> "$GITHUB_OUTPUT"
-          from datetime import datetime
-          from zoneinfo import ZoneInfo
-
-          now = datetime.now(ZoneInfo("Europe/Belgrade"))
-          should_run = now.hour in {7, 9, 11, 13, 15, 17, 19, 21, 23}
-          print(f"should_run={'true' if should_run else 'false'}")
-          print(f"local_time={now.isoformat(timespec='seconds')}")
-          PY
-
-      - name: Show skipped hour
-        if: steps.window.outputs.should_run != 'true' && github.event_name != 'workflow_dispatch'
-        run: echo "Skipping; local time is ${{ steps.window.outputs.local_time }}"
-
       - name: Checkout
-        if: steps.window.outputs.should_run == 'true' || github.event_name == 'workflow_dispatch'
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
           token: ${{ secrets.CODEX_PUSH_TOKEN || github.token }}
 
       - name: Setup Node
-        if: steps.window.outputs.should_run == 'true' || github.event_name == 'workflow_dispatch'
         uses: actions/setup-node@v4
         with:
           node-version: 24
           cache: npm
 
       - name: Setup Python
-        if: steps.window.outputs.should_run == 'true' || github.event_name == 'workflow_dispatch'
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
 
       - name: Install project dependencies
-        if: steps.window.outputs.should_run == 'true' || github.event_name == 'workflow_dispatch'
         run: |
           npm ci --no-audit --no-fund || npm install --no-audit --no-fund
           python -m pip install --upgrade pip
           python -m pip install feedparser requests beautifulsoup4 python-slugify python-dotenv yt-dlp
 
       - name: Install last30days skill
-        if: steps.window.outputs.should_run == 'true' || github.event_name == 'workflow_dispatch'
         run: |
           mkdir -p ~/.codex/skills
           rm -rf /tmp/last30days-skill ~/.codex/skills/last30days
@@ -101,11 +80,9 @@ jobs:
           python3 ~/.codex/skills/last30days/scripts/last30days.py --preflight
 
       - name: Install Codex CLI
-        if: steps.window.outputs.should_run == 'true' || github.event_name == 'workflow_dispatch'
         run: npm install -g @openai/codex
 
       - name: Configure Codex auth
-        if: steps.window.outputs.should_run == 'true' || github.event_name == 'workflow_dispatch'
         shell: bash
         run: |
           set -euo pipefail
@@ -122,34 +99,107 @@ jobs:
           fi
 
       - name: Preflight repo environment
-        if: steps.window.outputs.should_run == 'true' || github.event_name == 'workflow_dispatch'
         run: |
           python scripts/codex_automation_support.py env-status
           python scripts/codex_automation_support.py github-auth
 
+      - name: Patch email delivery behavior
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          path = Path("scripts/codex_automation_support.py")
+          text = path.read_text(encoding="utf-8")
+
+          fallback_marker = "EMAIL Resend failed; trying Gmail SMTP fallback."
+          if fallback_marker not in text:
+              resend_only = '''    if resend_key:
+                  return _send_resend_report(resend_key, recipient, subject, report_html)
+
+              message = MIMEMultipart("alternative")'''.replace("              ", "")
+              resend_fallback = '''    if resend_key:
+                  resend_code = _send_resend_report(resend_key, recipient, subject, report_html)
+                  if resend_code == 0:
+                      return 0
+                  if not user or not password:
+                      return resend_code
+                  print("EMAIL Resend failed; trying Gmail SMTP fallback.")
+
+              message = MIMEMultipart("alternative")'''.replace("              ", "")
+              if resend_only not in text:
+                  raise SystemExit("Could not patch Resend fallback block")
+              text = text.replace(resend_only, resend_fallback, 1)
+
+          require_marker = "ERROR email report is required for this run."
+          if require_marker not in text:
+              warn_only = '''    if email_code != 0:
+                  print("WARN SMTP email did not complete. Use the Outlook Email connector to send the report if available.")
+
+              verify_code = verify_public_site(path)'''.replace("              ", "")
+              require_email = '''    if email_code != 0:
+                  print("WARN email report did not complete.")
+                  if os.environ.get("REQUIRE_EMAIL_REPORT", "").strip().lower() in {"1", "true", "yes"}:
+                      print("ERROR email report is required for this run.")
+                      return 1
+
+              verify_code = verify_public_site(path)'''.replace("              ", "")
+              if warn_only not in text:
+                  raise SystemExit("Could not patch required-email block")
+              text = text.replace(warn_only, require_email, 1)
+
+          path.write_text(text, encoding="utf-8")
+          PY
+          python -m py_compile scripts/codex_automation_support.py
+
       - name: Run Codex production news pipeline
-        if: steps.window.outputs.should_run == 'true' || github.event_name == 'workflow_dispatch'
         shell: bash
         run: |
           set -euo pipefail
-          MODEL="${CODEX_MODEL:-gpt-5-codex}"
+          TARGET_BATCH_FILE="data/auto-articles/$(date -u +%Y-%m-%dT%H).json"
+          export TARGET_BATCH_FILE
+          echo "Target batch file: $TARGET_BATCH_FILE"
+          LOCAL_DATE="$(date +%Y-%m-%d)"
+          LOCAL_HOUR="$(date +%H)"
+          if [ "${GITHUB_EVENT_NAME:-}" = "schedule" ]; then
+            PLANNED_SLOT=7
+            for SLOT in 7 9 11 13 15 17 19 21 23; do
+              if [ "$((10#$LOCAL_HOUR))" -ge "$SLOT" ]; then
+                PLANNED_SLOT="$SLOT"
+              fi
+            done
+            printf -v CRON_SLOT_LABEL "%s %02d:00 Kosovo time" "$LOCAL_DATE" "$PLANNED_SLOT"
+          else
+            CRON_SLOT_LABEL="Manual run $(date +'%Y-%m-%d %H:%M Kosovo time')"
+          fi
+          export CRON_SLOT_LABEL
+          echo "Cron slot label: $CRON_SLOT_LABEL"
+          MODEL="${CODEX_MODEL:-gpt-5.4-mini}"
+          if [ "$MODEL" = "gpt-5-codex" ]; then
+            echo "gpt-5-codex is not supported with ChatGPT Codex auth; using gpt-5.4-mini."
+            MODEL="gpt-5.4-mini"
+          fi
           cat > /tmp/383-codex-news-prompt.md <<'PROMPT'
           Run the 383 Lajme GPT-5.4 production news pipeline from this GitHub Actions cloud runner.
 
-          Pull/rebase latest origin/main first. Read docs/383-cloud-news-automation.md and follow it exactly. Use the installed last30days skill as the discovery/listening layer and run its preflight output only for setup confirmation.
+          Pull/rebase latest origin/main first. Read docs/383-cloud-news-automation.md and follow it exactly. Use the installed last30days skill as the discovery/listening layer, not as an X/Twitter shortcut. Run its preflight output only for setup confirmation, then use its multi-source search capabilities to discover TikTok, Instagram/Reels, YouTube, Threads, LinkedIn, Polymarket, GitHub, Reddit/HN, X, and web/regional/international sources.
 
-          Generate only today's Europe/Pristina news. Use SCRAPECREATORS_API_KEY for TikTok/Instagram/Threads/Pinterest/LinkedIn discovery, XAI_API_KEY for X/Twitter when available, INCLUDE_SOURCES, Resend email vars, GitHub push auth, Vercel deploy hook, SITE_URL, REMOVE_SECRET, and public Supabase vars. Never print secret values.
+          Generate only today's Europe/Pristina news. Use SCRAPECREATORS_API_KEY for TikTok/Instagram/Reels discovery and other supported social sources, XAI_API_KEY for X/Twitter only as one lane, INCLUDE_SOURCES, Resend email vars, GitHub push auth, Vercel deploy hook, SITE_URL, REMOVE_SECRET, and public Supabase vars. Never print secret values.
 
-          Keep all quality rules from docs/383-cloud-news-automation.md: no old stories, no Kosovo competitor outlet as the main source, real image_url required, Serbian Kosovo-watch sources, broad social/web/regional/international discovery, therundown.ai/@therundownai for Teknologji, @theshaderoom/@complex/@pagesix for Showbiz, @433/Fabrizio Romano for sport, and broad social/web/Serbian/regional/institutional sources for Politike and Ekonomi.
+          Keep all quality rules from docs/383-cloud-news-automation.md: no old stories, no Kosovo competitor outlet as the main source, real image_url required, Serbian Kosovo-watch sources, broad social/web/regional/international discovery, therundown.ai website-only for Teknologji, @theshaderoom/@complex/@pagesix for Showbiz, @433/Fabrizio Romano for sport, and broad social/web/Serbian/regional/institutional sources for Politike and Ekonomi.
+
+          Enforce source variety: do not use X/Twitter as the basis for more than 2 articles in a batch. Use at least 4 different source families when possible, including non-X web/regional/international sources and at least one of Instagram, TikTok, Threads, LinkedIn, YouTube, Polymarket, GitHub, official institutions, Serbian/regional media, or specialist websites. If you cannot verify non-X sources for a candidate, skip it instead of filling the batch with X.
+
+          For Teknologji, use therundown.ai website articles/newsletter pages only. Do not use The Rundown's X/Twitter account as the source for technology articles.
 
           If an article is based on a social media post/status/video/reel/thread, include social_platform, social_post_account, social_post_url, and social_post_basis in the JSON so the email report shows Social basis with the platform, account, and exact source post. Social posts are signals, not proof; verify or frame as attributed/disputed claims with safety caps.
 
-          Create a new JSON batch at data/auto-articles/YYYY-MM-DDTHH.json using UTC HH 00-23. Validate it with python scripts/codex_automation_support.py validate --file data/auto-articles/YYYY-MM-DDTHH.json. Run npm run build. Finish with python scripts/codex_automation_support.py finalize --file data/auto-articles/YYYY-MM-DDTHH.json so it commits, pushes to origin/main, triggers deploy, verifies https://383lajme.vercel.app, and sends the email report. If push/deploy/verify/email fails, report the exact failing step without exposing secrets.
+          Create the new JSON batch at TARGET_BATCH_FILE when that environment variable is present; otherwise create data/auto-articles/YYYY-MM-DDTHH.json using UTC HH 00-23. Preserve CRON_SLOT_LABEL so the email report shows which scheduled Kosovo-time slot produced the batch. Validate it with python scripts/codex_automation_support.py validate --file "$TARGET_BATCH_FILE" and python scripts/validate_source_mix.py --file "$TARGET_BATCH_FILE". Run npm run build. Finish with python scripts/codex_automation_support.py finalize --file "$TARGET_BATCH_FILE" so it commits, pushes to origin/main, triggers deploy, verifies https://383lajme.vercel.app, and sends the email report. If push/deploy/verify/email fails, report the exact failing step without exposing secrets.
           PROMPT
           codex exec --cd "$GITHUB_WORKSPACE" --dangerously-bypass-approvals-and-sandbox -m "$MODEL" - < /tmp/383-codex-news-prompt.md
 
       - name: Notify failure by email
-        if: failure() && (steps.window.outputs.should_run == 'true' || github.event_name == 'workflow_dispatch')
+        if: failure()
         shell: bash
         run: |
           python3 - <<'PY'

@@ -605,6 +605,25 @@ def _article_card(article: dict[str, Any], path: Path, site_url: str, remove_sec
     )
 
 
+def _cron_slot_label() -> str:
+    return os.environ.get("CRON_SLOT_LABEL", "").strip()
+
+
+def _kosovo_time_label() -> str:
+    previous_tz = os.environ.get("TZ")
+    os.environ["TZ"] = "Europe/Belgrade"
+    if hasattr(time, "tzset"):
+        time.tzset()
+    try:
+        return datetime.now().strftime("%Y-%m-%d %H:%M Kosovo time")
+    finally:
+        if previous_tz is None:
+            os.environ.pop("TZ", None)
+        else:
+            os.environ["TZ"] = previous_tz
+        if hasattr(time, "tzset"):
+            time.tzset()
+
 def send_report(path: Path) -> int:
     load_env()
     articles = validate_batch(path)
@@ -618,7 +637,15 @@ def send_report(path: Path) -> int:
         print("EMAIL skipped: set RESEND_API_KEY or GMAIL_USER/GMAIL_APP_PASSWORD")
         return 2
 
-    now = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+    now = _kosovo_time_label()
+    cron_slot = _cron_slot_label()
+    cron_slot_html = html.escape(cron_slot)
+    run_line = (
+        f"Cron slot: {cron_slot_html} | Email sent: {now}"
+        if cron_slot
+        else f"Email sent: {now}"
+    )
+    subject_time = cron_slot or now
     sorted_articles = sorted(articles, key=_article_score, reverse=True)
     breaking_articles = [article for article in sorted_articles if _article_score(article) >= 8.5][:5]
 
@@ -656,7 +683,8 @@ def send_report(path: Path) -> int:
         "<div style='max-width:820px;margin:0 auto;background:#ffffff'>"
         "<div style='background:#0f172a;color:#ffffff;padding:22px'>"
         f"<h2 style='font-size:24px;line-height:1.2;padding:0;margin:0'>383 Lajme: {len(articles)} artikuj të rinj</h2>"
-        f"<p style='font-size:13px;line-height:1.5;margin:8px 0 0;color:#cbd5e1'>{now} | Images shown are the article image_url values published with the batch.</p>"
+        f"<p style='font-size:13px;line-height:1.5;margin:8px 0 0;color:#cbd5e1'>{run_line}</p>"
+        "<p style='font-size:13px;line-height:1.5;margin:6px 0 0;color:#cbd5e1'>Images shown are the article image_url values published with the batch.</p>"
         "</div>"
         f"<div style='padding:12px 22px;background:#f8fafc;color:#475569;font-size:13px;line-height:1.45'>{scoring_note}</div>"
         + breaking_html
@@ -664,9 +692,14 @@ def send_report(path: Path) -> int:
         + "<div style='padding:18px 22px;color:#64748b;font-size:12px;line-height:1.5'>Review skipped or excluded stories separately for accuracy limits before republishing them.</div>"
         + "</div></body></html>"
     )
-    subject = f"383 Lajme - {len(articles)} artikuj te rinj [{now}]"
+    subject = f"383 Lajme - {len(articles)} artikuj te rinj [{subject_time}]"
     if resend_key:
-        return _send_resend_report(resend_key, recipient, subject, report_html)
+        resend_code = _send_resend_report(resend_key, recipient, subject, report_html)
+        if resend_code == 0:
+            return 0
+        if not user or not password:
+            return resend_code
+        print("EMAIL Resend failed; trying Gmail SMTP fallback.")
 
     message = MIMEMultipart("alternative")
     message["Subject"] = subject
@@ -897,6 +930,9 @@ def _ensure_git_origin() -> None:
 
 
 def _git_auth_extraheader() -> list[str]:
+    existing = _git_stdout(["git", "config", "--get-all", "http.https://github.com/.extraheader"])
+    if existing:
+        return []
     token = _github_token()
     if not token:
         return []
@@ -953,7 +989,10 @@ def finalize(path: Path) -> int:
 
     email_code = send_report(path)
     if email_code != 0:
-        print("WARN SMTP email did not complete. Use the Outlook Email connector to send the report if available.")
+        print("WARN email report did not complete.")
+        if os.environ.get("REQUIRE_EMAIL_REPORT", "").strip().lower() in {"1", "true", "yes"}:
+            print("ERROR email report is required for this run.")
+            return 1
 
     verify_code = verify_public_site(path)
     if verify_code != 0:
