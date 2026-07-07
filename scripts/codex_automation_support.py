@@ -128,6 +128,8 @@ SCORE_WEIGHTS = {
 
 DEFAULT_SITE_URL = "https://383lajme.vercel.app"
 DEFAULT_GITHUB_REPO = "Lind-hack/383lajme"
+MIN_ARTICLES_PER_BATCH = 8
+MAX_ARTICLES_PER_BATCH = 14
 
 
 def load_env() -> list[str]:
@@ -214,6 +216,16 @@ def validate_batch(path: Path) -> list[dict[str, Any]]:
 
     if not articles:
         errors.append(f"{path.name} contains no articles")
+    if len(articles) < MIN_ARTICLES_PER_BATCH:
+        errors.append(
+            f"{path.name} contains only {len(articles)} articles; publish at least "
+            f"{MIN_ARTICLES_PER_BATCH} fresh Kosovo-audience stories per cron run."
+        )
+    if len(articles) > MAX_ARTICLES_PER_BATCH:
+        errors.append(
+            f"{path.name} contains {len(articles)} articles; cap each run at "
+            f"{MAX_ARTICLES_PER_BATCH} high-quality stories so weak filler is not published."
+        )
 
     for index, article in enumerate(articles, 1):
         label = f"article {index}"
