@@ -2,9 +2,11 @@ name: Codex Cloud News Pipeline
 
 on:
   workflow_dispatch:
-  schedule:
-    # Europe/Pristina summer time (UTC+2): 07,09,11,13,15,17,19,21,23.
-    - cron: "0 5,7,9,11,13,15,17,19,21 * * *"
+    inputs:
+      cron_slot_label:
+        description: "Kosovo-time slot that Vercel Cron dispatched, for example 2026-07-07 21:00 Kosovo time."
+        required: false
+        type: string
 
 permissions:
   contents: write
@@ -46,6 +48,7 @@ jobs:
       BRAVE_API_KEY: ${{ secrets.BRAVE_API_KEY }}
       INCLUDE_SOURCES: ${{ secrets.INCLUDE_SOURCES || vars.INCLUDE_SOURCES }}
       REQUIRE_EMAIL_REPORT: "true"
+      REQUESTED_CRON_SLOT_LABEL: ${{ github.event.inputs.cron_slot_label }}
 
     steps:
       - name: Checkout
@@ -161,7 +164,9 @@ jobs:
           echo "Target batch file: $TARGET_BATCH_FILE"
           LOCAL_DATE="$(date +%Y-%m-%d)"
           LOCAL_HOUR="$(date +%H)"
-          if [ "${GITHUB_EVENT_NAME:-}" = "schedule" ]; then
+          if [ -n "${REQUESTED_CRON_SLOT_LABEL:-}" ]; then
+            CRON_SLOT_LABEL="$REQUESTED_CRON_SLOT_LABEL"
+          elif [ "${GITHUB_EVENT_NAME:-}" = "schedule" ]; then
             PLANNED_SLOT=7
             for SLOT in 7 9 11 13 15 17 19 21 23; do
               if [ "$((10#$LOCAL_HOUR))" -ge "$SLOT" ]; then

@@ -17,6 +17,17 @@ python3 scripts/codex_automation_support.py env-status
 
 The installed `last30days` skill is mandatory for discovery. Use it as the multi-source listening layer for TikTok, Instagram/Reels, YouTube, Threads, LinkedIn, Polymarket, GitHub, Reddit/Hacker News, X/Twitter, and web discovery. X/Twitter is only one lane, not the default source for the batch.
 
+## Cloud schedule
+
+Vercel Cron is the production clock. The Vercel route `/api/cron/dispatch-news` triggers the GitHub Actions workflow through `workflow_dispatch` at the Kosovo schedule slots. `vercel.json` includes both Kosovo summer-time and winter-time UTC schedules; the API route dispatches only when the actual Kosovo local hour is one of the target slots.
+
+Do not add a native GitHub Actions `schedule:` trigger back to `.github/workflows/codex-cloud-news.yml`; GitHub's scheduled queue can run late. GitHub Actions is the worker only. Vercel Cron is responsible for dispatching the workflow at 07:00, 09:00, 11:00, 13:00, 15:00, 17:00, 19:00, 21:00, and 23:00 Kosovo time.
+
+Required Vercel production env vars for the scheduler route:
+
+- `CRON_SECRET`: Vercel Cron authorization secret.
+- `CODEX_PUSH_TOKEN` or `GITHUB_PAT` or `GITHUB_TOKEN`: GitHub token that can dispatch workflows for `Lind-hack/383lajme`.
+
 ## Core rules
 
 - Publish only stories from today in Europe/Pristina time. Reject anything from yesterday, 3 days ago, last week, or undated material.
