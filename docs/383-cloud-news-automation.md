@@ -30,6 +30,7 @@ Required Vercel production env vars for the scheduler route:
 
 ## Core rules
 
+- Target 9-12 articles per cron run. Never publish fewer than 8 articles unless the run is intentionally failed for lack of verified current material. Do not pad with weak filler just to hit the count.
 - Publish only stories from today in Europe/Pristina time. Reject anything from yesterday, 3 days ago, last week, or undated material.
 - Use the last30days skill for research depth. Use it as the social/source-discovery engine, not as a generic web search replacement.
 - Search across X/Twitter, YouTube, TikTok, Instagram/Reels, Threads, Pinterest, LinkedIn, Polymarket, GitHub, Perplexity/web search, Serbian/regional sources, international outlets, official institutions, and specialist websites.
@@ -38,6 +39,19 @@ Required Vercel production env vars for the scheduler route:
 - Every article must have a real, public `image_url` that starts with `http://` or `https://`. Do not publish blank images.
 - Preserve uncertainty. For rumors, accusations, and drama, write as "pretendon", "tha", "akuzoi", "u raportua", or "nuk eshte verifikuar" unless a reliable source proves it.
 - Include conflicting angles when they are real and relevant, but do not manufacture conflict.
+
+## Kosovo audience fit
+
+The site is for readers in Kosovo. Pick stories that a Kosovo/Albanian reader is likely to click, argue about, share, or recognize. Generic international news should appear only when it has a strong Kosovo/Balkans angle, a famous person Kosovars know, a major platform trend, or clear social drama.
+
+Prioritize:
+
+- Kosovo politics, Serbia/Kosovo tension, diaspora, money, security, prices, jobs, sports, visas, migration, EU/NATO/KFOR, education, health, and scandals that affect everyday people.
+- Regional Balkan stories with Kosovo relevance or high local word-of-mouth potential.
+- Celebrities, athletes, streamers, musicians, influencers, and public figures known to Kosovo/Albanian audiences or currently viral among Albanian-speaking users.
+- Dramatic, ridiculous, over-the-top statements, beefs, accusations, public reactions, contradictions, and "people are arguing about this" stories when they are sourced and safely framed.
+
+Do not invent drama. Use social posts as discovery signals, then verify, attribute, or clearly frame the claim as disputed/unverified. Headlines and excerpts should be clickable and lively, but the body must stay accurate and legally safe.
 
 ## Source priorities
 
@@ -52,6 +66,8 @@ Celebrity / Entertainment / Showbiz:
 
 - Track Instagram and web/social posts from `@theshaderoom`, `@complex`, and `@pagesix`.
 - Use these for fast-moving celebrity, culture, music, sneakers, gossip, and entertainment stories.
+- Prefer figures with Kosovo/Albanian recognition or strong local word-of-mouth potential: Albanian artists/influencers, diaspora celebrities, footballers followed in Kosovo, Balkan public figures, and global names that routinely trend among Kosovo youth.
+- Avoid obscure US-only celebrity filler unless the drama is unusually viral or connected to music, sport, fashion, TikTok, or Instagram accounts followed by Albanian-speaking audiences.
 
 Sports:
 

@@ -24,6 +24,8 @@ SOCIAL_DOMAINS = {
     "pinterest.com": "pinterest",
     "github.com": "github",
 }
+MIN_ARTICLES_PER_BATCH = 8
+MAX_ARTICLES_PER_BATCH = 14
 
 
 def hostname(value: object) -> str:
@@ -88,6 +90,17 @@ def validate(path: Path) -> int:
     unique_families = {family for family in families if family and family != "unknown"}
     x_count = sum(1 for family in families if family == "x/twitter")
     errors: list[str] = []
+
+    if len(articles) < MIN_ARTICLES_PER_BATCH:
+        errors.append(
+            f"batch has only {len(articles)} articles; publish at least "
+            f"{MIN_ARTICLES_PER_BATCH} fresh Kosovo-audience stories per cron run"
+        )
+    if len(articles) > MAX_ARTICLES_PER_BATCH:
+        errors.append(
+            f"batch has {len(articles)} articles; cap each run at "
+            f"{MAX_ARTICLES_PER_BATCH} high-quality stories"
+        )
 
     if len(articles) >= 4:
         if x_count > 2:
