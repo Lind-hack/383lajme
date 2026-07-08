@@ -7,6 +7,12 @@ on:
         description: "Kosovo-time slot that Vercel Cron dispatched, for example 2026-07-07 21:00 Kosovo time."
         required: false
         type: string
+  schedule:
+    # Backup clock for the hosted pipeline. GitHub can start scheduled jobs late,
+    # but this keeps the automation running on Hobby Vercel accounts where
+    # frequent Vercel Cron jobs are blocked.
+    # Europe/Pristina summer time (UTC+2): 07,09,11,13,15,17,19,21,23.
+    - cron: "0 5,7,9,11,13,15,17,19,21 * * *"
 
 permissions:
   contents: write
