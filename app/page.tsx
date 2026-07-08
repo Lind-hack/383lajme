@@ -47,8 +47,20 @@ export default async function HomePage() {
     articles.find((a) => a.id !== heroId) ??
     hero;
 
-  // Tier 2: NJOFTIME — score ≥ 7.0, not hero, up to 10, deduped by keyword overlap
-  const njoftimePool = articles.filter((a) => a.id !== heroId && (a.engagementScore ?? 0) >= 7.0);
+  // Tier 2: KRYESORE lead + secondary — claimed before NJOFTIME so the
+  // front-page hierarchy always renders even when the article pool is small
+  // (production automation often yields ~11 fresh articles).
+  const nonHero = articles.filter((a) => a.id !== heroId);
+  const kryesoreLead = nonHero[0];
+  const kryesoreSecondary = nonHero.slice(1, 3);
+  const kryesoreTopIds = new Set(
+    [kryesoreLead, ...kryesoreSecondary].filter(Boolean).map((a) => a.id)
+  );
+
+  // Tier 3: NJOFTIME — score ≥ 7.0, not hero/kryesore-top, up to 10, deduped by keyword overlap
+  const njoftimePool = nonHero.filter(
+    (a) => !kryesoreTopIds.has(a.id) && (a.engagementScore ?? 0) >= 7.0
+  );
   const njoftimeArticles: typeof articles = [];
   const njoftimeKws: Set<string>[] = [];
   for (const a of njoftimePool) {
@@ -59,20 +71,19 @@ export default async function HomePage() {
     if (njoftimeArticles.length >= 10) break;
   }
 
-  // Tier 3: KRYESORE — front-page hierarchy: lead + 2 secondary + 4 most-read
-  const njoftimeIds = new Set(njoftimeArticles.map((a) => a.id));
-  const afterHero = articles.filter((a) => a.id !== heroId && !njoftimeIds.has(a.id));
-  const kryesoreLead = afterHero[0];
-  const kryesoreSecondary = afterHero.slice(1, 3);
-  const mostRead = [...afterHero.slice(3)]
+  // Më të lexuarat — engagement ranking across everything outside the kryesore
+  // top; may overlap NJOFTIME (a most-read rail legitimately repeats stories)
+  const mostRead = nonHero
+    .filter((a) => !kryesoreTopIds.has(a.id))
     .sort((a, b) => (b.engagementScore ?? 0) - (a.engagementScore ?? 0))
     .slice(0, 5);
 
-  // Tier 4: LAJMET E FUNDIT — everything remaining, capped at 20
-  const kryesoreIds = new Set(
-    [kryesoreLead, ...kryesoreSecondary, ...mostRead].filter(Boolean).map((a) => a.id)
+  // Tier 4: LAJMET E FUNDIT — everything not used above, capped at 20
+  const usedIds = new Set(
+    [...njoftimeArticles, ...mostRead].map((a) => a.id)
   );
-  const listArticles = afterHero.filter((a) => !kryesoreIds.has(a.id)).slice(0, 20);
+  for (const id of kryesoreTopIds) usedIds.add(id);
+  const listArticles = nonHero.filter((a) => !usedIds.has(a.id)).slice(0, 20);
 
   const politikeArticles = articles.filter((a) => a.category === "Politikë");
 
@@ -149,10 +160,12 @@ export default async function HomePage() {
           </div>
         )}
 
-        {/* Dispatch list */}
-        <div style={{ marginBottom: "0", paddingBottom: "var(--space-section)" }}>
-          <DispatchList articles={listArticles} />
-        </div>
+        {/* Dispatch list — hidden when every article is already placed above */}
+        {listArticles.length > 0 && (
+          <div style={{ marginBottom: "0", paddingBottom: "var(--space-section)" }}>
+            <DispatchList articles={listArticles} />
+          </div>
+        )}
       </main>
 
       {/* Charcoal world news section */}
