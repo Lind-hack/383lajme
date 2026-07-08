@@ -19,9 +19,27 @@ The installed `last30days` skill is mandatory for discovery. Use it as the multi
 
 ## Cloud schedule
 
-Vercel Cron is the production clock. The Vercel route `/api/cron/dispatch-news` triggers the GitHub Actions workflow through `workflow_dispatch` at the Kosovo schedule slots. `vercel.json` includes both Kosovo summer-time and winter-time UTC schedules; the API route dispatches only when the actual Kosovo local hour is one of the target slots.
+The GitHub Actions `schedule:` block is the active no-cost backup clock. GitHub can start scheduled jobs late, but it keeps the hosted pipeline running without a laptop.
 
-Do not add a native GitHub Actions `schedule:` trigger back to `.github/workflows/codex-cloud-news.yml`; GitHub's scheduled queue can run late. GitHub Actions is the worker only. Vercel Cron is responsible for dispatching the workflow at 07:00, 09:00, 11:00, 13:00, 15:00, 17:00, 19:00, 21:00, and 23:00 Kosovo time.
+The Vercel route `/api/cron/dispatch-news` is still available as a precise dispatcher for Vercel Pro Cron or an external scheduler. Vercel Hobby accounts cannot run the required every-two-hours cron schedule; production deploys fail if those frequent cron entries are present in `vercel.json`.
+
+For exact 07:00, 09:00, 11:00, 13:00, 15:00, 17:00, 19:00, 21:00, and 23:00 Kosovo-time dispatches without GitHub scheduler delay, use either Vercel Pro Cron or an external scheduler that calls:
+
+```text
+https://383lajme.vercel.app/api/cron/dispatch-news
+```
+
+with header:
+
+```text
+Authorization: Bearer <CRON_SECRET>
+```
+
+If the scheduler cannot send headers, it can call:
+
+```text
+https://383lajme.vercel.app/api/cron/dispatch-news?secret=<CRON_SECRET>
+```
 
 Required Vercel production env vars for the scheduler route:
 

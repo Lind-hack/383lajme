@@ -15,8 +15,10 @@ type KosovoParts = {
 };
 
 export async function GET(request: NextRequest) {
+  const url = new URL(request.url);
   const cronSecret = process.env.CRON_SECRET ?? "";
   const authHeader = request.headers.get("authorization") ?? "";
+  const querySecret = url.searchParams.get("secret") ?? "";
 
   if (!cronSecret) {
     return NextResponse.json(
@@ -25,7 +27,7 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  if (authHeader !== `Bearer ${cronSecret}`) {
+  if (authHeader !== `Bearer ${cronSecret}` && querySecret !== cronSecret) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
