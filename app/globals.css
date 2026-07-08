@@ -320,22 +320,20 @@ body {
   border-radius: 4px;
 }
 
-/* ── Navbar category link (ink text + orange underline wipe) ──
+/* ── Navbar category link (ink text + ink underline wipe) ──
    Same family as the "383" wordmark (Manrope) so the nav reads as one
    typographic voice with the logo instead of a second display face
-   competing next to it. Color is the site's actual signature orange
-   (#FF4422) — same hex used for the ticker, CTAs and the category-tag
-   pills — so the nav reads as loud and on-brand rather than muted.
-   Hover darkens to the same shade the primary button uses on press.
-   The signature is an orange underline that wipes in L→R on hover and
-   stays pinned under the active category. No middle-dot separators
-   (the underline gives rhythm). */
+   competing next to it. Links sit in the same ink (#111111) as the
+   "383" wordmark so the orange stays reserved for the logo dot,
+   ticker and CTAs. The signature is a matching ink underline that
+   wipes in L-to-R on hover and stays pinned under the active
+   category. No middle-dot separators (the underline gives rhythm). */
 .nav-pill {
   display: inline-flex;
   align-items: center;
   gap: 7px;
   text-decoration: none;
-  color: #FF4422;
+  color: #111111;
   font-family: var(--font-manrope), sans-serif;
   font-size: 16px;
   font-weight: 700;
@@ -360,19 +358,20 @@ body {
   height: 3px;
   width: 0;
   border-radius: 2px;
-  background: #FF4422;
+  background: #111111;
   transition: width var(--duration-base) var(--ease-out);
 }
 .nav-pill:hover::after,
 .nav-pill[aria-current="page"]::after {
   width: 100%;
 }
-/* Active/idle category reads in the full brand orange; hover deepens it a shade. */
+/* Hover and the active category stay in the same ink; the underline
+   wipe carries the state change. */
 .nav-pill:hover {
-  color: #E63C1B;
+  color: #111111;
 }
 .nav-pill[aria-current="page"] {
-  color: #FF4422;
+  color: #111111;
 }
 .nav-pill.active {
   background: var(--cat);
