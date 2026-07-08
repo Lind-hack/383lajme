@@ -529,6 +529,14 @@ body {
   animation: pulse-dot 2s ease-in-out infinite;
 }
 
+/* ── Kryesore most-read rail: headline warms to orange on hover ── */
+.most-read-title {
+  transition: color var(--duration-base) var(--ease-out);
+}
+.most-read-row:hover .most-read-title {
+  color: #FF4422 !important;
+}
+
 /* ── Reduced motion: stop ambient CSS animations ────────── */
 @media (prefers-reduced-motion: reduce) {
   .ticker-track,

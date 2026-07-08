@@ -6,7 +6,7 @@ import SectionLabel from "@/components/section-label";
 import Navbar from "@/components/navbar";
 import BreakingTicker from "@/components/breaking-ticker";
 import DispatchRow from "@/components/dispatch-row";
-import NewsGrid from "@/components/news-grid";
+import KryesoreFront from "@/components/kryesore-front";
 import DispatchList from "@/components/dispatch-list";
 import ColorSpotlight from "@/components/color-spotlight";
 import GradientCta from "@/components/gradient-cta";
@@ -59,13 +59,19 @@ export default async function HomePage() {
     if (njoftimeArticles.length >= 10) break;
   }
 
-  // Tier 3: KRYESORE — remaining after hero + njoftime, first 6
+  // Tier 3: KRYESORE — front-page hierarchy: lead + 2 secondary + 4 most-read
   const njoftimeIds = new Set(njoftimeArticles.map((a) => a.id));
   const afterHero = articles.filter((a) => a.id !== heroId && !njoftimeIds.has(a.id));
-  const kryesoreArticles = afterHero.slice(0, 6);
+  const kryesoreLead = afterHero[0];
+  const kryesoreSecondary = afterHero.slice(1, 3);
+  const mostRead = [...afterHero.slice(3)]
+    .sort((a, b) => (b.engagementScore ?? 0) - (a.engagementScore ?? 0))
+    .slice(0, 5);
 
   // Tier 4: LAJMET E FUNDIT — everything remaining, capped at 20
-  const kryesoreIds = new Set(kryesoreArticles.map((a) => a.id));
+  const kryesoreIds = new Set(
+    [kryesoreLead, ...kryesoreSecondary, ...mostRead].filter(Boolean).map((a) => a.id)
+  );
   const listArticles = afterHero.filter((a) => !kryesoreIds.has(a.id)).slice(0, 20);
 
   const politikeArticles = articles.filter((a) => a.category === "Politikë");
@@ -136,10 +142,12 @@ export default async function HomePage() {
         {/* Daily poll */}
         <DailyPoll />
 
-        {/* News grid */}
-        <div style={{ marginBottom: "var(--space-section)" }}>
-          <NewsGrid articles={kryesoreArticles} title="KRYESORE" />
-        </div>
+        {/* Kryesore — front-page hierarchy: lead + secondary + most-read rail */}
+        {kryesoreLead && (
+          <div style={{ marginBottom: "var(--space-section)" }}>
+            <KryesoreFront lead={kryesoreLead} secondary={kryesoreSecondary} mostRead={mostRead} />
+          </div>
+        )}
 
         {/* Dispatch list */}
         <div style={{ marginBottom: "0", paddingBottom: "var(--space-section)" }}>
