@@ -16,7 +16,7 @@ export default function ProbChart({ points, height = 220 }: { points: ChartPoint
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          color: "#8B90A0",
+          color: "#6B6B6B",
           fontSize: 13,
         }}
       >
@@ -48,22 +48,22 @@ export default function ProbChart({ points, height = 220 }: { points: ChartPoint
   }
 
   const last = points[points.length - 1];
-  const lastColor = last.marketProb >= 0.5 ? "#00E599" : "#FF3B5C";
+  const lastColor = last.marketProb >= 0.5 ? "#00A651" : "#E41E20";
 
   return (
     <div>
       <svg viewBox={`0 0 ${width} ${height}`} width="100%" height={height} preserveAspectRatio="none">
-        <line x1="0" y1={yFor(0.5)} x2={width} y2={yFor(0.5)} stroke="rgba(255,255,255,0.10)" strokeDasharray="4 4" />
-        {aiPath && <path d={aiPath} fill="none" stroke="#F5B942" strokeWidth="2" strokeDasharray="5 4" opacity="0.85" />}
+        <line x1="0" y1={yFor(0.5)} x2={width} y2={yFor(0.5)} stroke="rgba(17,17,17,0.10)" strokeDasharray="4 4" />
+        {aiPath && <path d={aiPath} fill="none" stroke="#9C6B12" strokeWidth="2" strokeDasharray="5 4" opacity="0.85" />}
         <path d={marketPath} fill="none" stroke={lastColor} strokeWidth="2.5" />
         <circle cx={xFor(points.length - 1)} cy={yFor(last.marketProb)} r="4" fill={lastColor} />
       </svg>
-      <div style={{ display: "flex", gap: 16, marginTop: 8, fontSize: 11, color: "#8B90A0", fontWeight: 600 }}>
+      <div style={{ display: "flex", gap: 16, marginTop: 8, fontSize: 11, color: "#6B6B6B", fontWeight: 600 }}>
         <span style={{ display: "flex", alignItems: "center", gap: 5 }}>
           <span style={{ width: 12, height: 2, background: lastColor, display: "inline-block" }} /> Çmimi i tregut
         </span>
         <span style={{ display: "flex", alignItems: "center", gap: 5 }}>
-          <span style={{ width: 12, height: 2, background: "#F5B942", display: "inline-block", opacity: 0.85 }} /> Vlerësimi AI
+          <span style={{ width: 12, height: 2, background: "#9C6B12", display: "inline-block", opacity: 0.85 }} /> Vlerësimi AI
         </span>
       </div>
     </div>

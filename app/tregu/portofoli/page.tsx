@@ -113,13 +113,13 @@ export default function PortofoliPage() {
           <CoinIcon size={44} />
           <div>
             <div style={{ fontSize: 34, fontWeight: 800 }}>{(profile?.coins ?? 0).toLocaleString("sq-AL")}</div>
-            <div style={{ color: "#8B90A0", fontSize: 12 }}>383 Coin · 10,000 = 10€</div>
+            <div style={{ color: "#6B6B6B", fontSize: 12 }}>383 Coin · 10,000 = 10€</div>
           </div>
         </div>
 
         <h2 style={{ fontSize: 16, fontWeight: 800, margin: "0 0 12px" }}>Pozicionet aktive</h2>
         {positions.length === 0 ? (
-          <p style={{ color: "#8B90A0", fontSize: 13, marginBottom: 28 }}>Ende pa pozicione — shko te Tregu dhe vër bastin e parë.</p>
+          <p style={{ color: "#6B6B6B", fontSize: 13, marginBottom: 28 }}>Ende pa pozicione — shko te Tregu dhe vër bastin e parë.</p>
         ) : (
           <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 28 }}>
             {positions.map((p) => (
@@ -127,11 +127,11 @@ export default function PortofoliPage() {
                 key={p.id}
                 href={`/tregu/${p.markets?.slug}`}
                 className="tregu-glass"
-                style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: 16, textDecoration: "none", color: "#F3F4F7" }}
+                style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: 16, textDecoration: "none", color: "#111111" }}
               >
                 <div>
                   <div style={{ fontSize: 14, fontWeight: 700 }}>{p.markets?.question}</div>
-                  <div style={{ fontSize: 12, color: p.side === "PO" ? "#00E599" : "#FF3B5C" }}>
+                  <div style={{ fontSize: 12, color: p.side === "PO" ? "#00A651" : "#E41E20" }}>
                     {p.side} · {p.shares.toFixed(2)} aksione
                   </div>
                 </div>
@@ -145,7 +145,7 @@ export default function PortofoliPage() {
         <div className="tregu-glass" style={{ padding: 20, marginBottom: 28 }}>
           {canWithdraw ? (
             <>
-              <p style={{ fontSize: 13, color: "#8B90A0", marginBottom: 12 }}>
+              <p style={{ fontSize: 13, color: "#6B6B6B", marginBottom: 12 }}>
                 Ke {profile?.coins.toLocaleString("sq-AL")} 383 Coin — mund të tërheqësh 10,000 për 10€.
               </p>
               <div style={{ display: "flex", gap: 10 }}>
@@ -155,12 +155,13 @@ export default function PortofoliPage() {
                   placeholder="PayPal email ose IBAN"
                   style={{
                     flex: 1,
-                    background: "rgba(255,255,255,0.05)",
-                    border: "1px solid rgba(255,255,255,0.12)",
+                    background: "rgba(255,255,255,0.6)",
+                    border: "1px solid rgba(17,17,17,0.12)",
                     borderRadius: 10,
                     padding: "10px 12px",
-                    color: "#F3F4F7",
+                    color: "#111111",
                     fontSize: 13,
+                    transition: "border-color 160ms var(--ease-out), background-color 160ms var(--ease-out)",
                   }}
                 />
                 <button
@@ -172,10 +173,10 @@ export default function PortofoliPage() {
                   Kërko
                 </button>
               </div>
-              {withdrawMsg && <p style={{ fontSize: 12, marginTop: 10, color: "#F5B942" }}>{withdrawMsg}</p>}
+              {withdrawMsg && <p style={{ fontSize: 12, marginTop: 10, color: "#9C6B12" }}>{withdrawMsg}</p>}
             </>
           ) : (
-            <p style={{ fontSize: 13, color: "#8B90A0" }}>
+            <p style={{ fontSize: 13, color: "#6B6B6B" }}>
               Duhen 10,000 383 Coin për të tërhequr (ke {profile?.coins.toLocaleString("sq-AL") ?? 0}).
             </p>
           )}
@@ -183,7 +184,7 @@ export default function PortofoliPage() {
           {withdrawals.length > 0 && (
             <div style={{ marginTop: 16, display: "flex", flexDirection: "column", gap: 8 }}>
               {withdrawals.map((w) => (
-                <div key={w.id} style={{ display: "flex", justifyContent: "space-between", fontSize: 12, color: "#8B90A0" }}>
+                <div key={w.id} style={{ display: "flex", justifyContent: "space-between", fontSize: 12, color: "#6B6B6B" }}>
                   <span>{new Date(w.requested_at).toLocaleDateString("sq-AL")} · {w.coins_amount} 383C</span>
                   <span style={{ fontWeight: 700, color: statusColor(w.status) }}>{w.status}</span>
                 </div>
@@ -195,9 +196,9 @@ export default function PortofoliPage() {
         <h2 style={{ fontSize: 16, fontWeight: 800, margin: "0 0 12px" }}>Historiku</h2>
         <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
           {transactions.map((t) => (
-            <div key={t.id} style={{ display: "flex", justifyContent: "space-between", fontSize: 12, color: "#8B90A0", padding: "8px 4px", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+            <div key={t.id} style={{ display: "flex", justifyContent: "space-between", fontSize: 12, color: "#6B6B6B", padding: "8px 4px", borderBottom: "1px solid rgba(17,17,17,0.08)" }}>
               <span>{t.type} · {new Date(t.created_at).toLocaleDateString("sq-AL")}</span>
-              <span style={{ color: t.amount >= 0 ? "#00E599" : "#FF3B5C", fontWeight: 700 }}>
+              <span style={{ color: t.amount >= 0 ? "#00A651" : "#E41E20", fontWeight: 700 }}>
                 {t.amount >= 0 ? "+" : ""}
                 {t.amount}
               </span>
@@ -210,7 +211,7 @@ export default function PortofoliPage() {
 }
 
 function statusColor(status: string) {
-  if (status === "paid") return "#00E599";
-  if (status === "rejected") return "#FF3B5C";
-  return "#F5B942";
+  if (status === "paid") return "#00A651";
+  if (status === "rejected") return "#E41E20";
+  return "#9C6B12";
 }

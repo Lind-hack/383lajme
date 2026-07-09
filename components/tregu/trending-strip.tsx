@@ -41,16 +41,17 @@ export default function TrendingStrip() {
     >
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 18 }}>
         <div>
-          <p style={{ fontSize: 11, fontWeight: 800, letterSpacing: "0.1em", textTransform: "uppercase", color: "#8B90A0", margin: "0 0 4px" }}>
+          <p style={{ fontSize: 11, fontWeight: 800, letterSpacing: "0.1em", textTransform: "uppercase", color: "#6B6B6B", margin: "0 0 4px" }}>
             383 Tregu
           </p>
-          <h2 style={{ fontSize: 20, fontWeight: 800, margin: 0, color: "#F3F4F7" }}>Çka mendon Kosova do të ndodhë?</h2>
+          <h2 style={{ fontSize: 20, fontWeight: 800, margin: 0, color: "#111111" }}>Çka mendon Kosova do të ndodhë?</h2>
         </div>
-        <Link href="/tregu" style={{ fontSize: 13, fontWeight: 700, color: "#00E599", textDecoration: "none", whiteSpace: "nowrap" }}>
+        <Link href="/tregu" style={{ fontSize: 13, fontWeight: 700, color: "#00A651", textDecoration: "none", whiteSpace: "nowrap" }}>
           Shiko të gjitha →
         </Link>
       </div>
       <div
+        className="tregu-grid"
         style={{
           display: "grid",
           gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",

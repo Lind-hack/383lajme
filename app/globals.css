@@ -556,54 +556,69 @@ body {
     animation-iteration-count: 1 !important;
   }
   .tregu-scope .tregu-glow,
-  .tregu-scope .tregu-coin-shine {
+  .tregu-scope .tregu-coin-spin,
+  .tregu-scope .tregu-glass,
+  .tregu-grid > * {
     animation: none !important;
   }
 }
 
 /* ── Tregu pill pulse (navbar) ──────────────────────────── */
 @keyframes tregu-pulse {
-  0%   { box-shadow: 0 0 0 0 rgba(0,229,153,0.55); }
-  70%  { box-shadow: 0 0 0 6px rgba(0,229,153,0); }
-  100% { box-shadow: 0 0 0 0 rgba(0,229,153,0); }
+  0%   { box-shadow: 0 0 0 0 rgba(0,166,81,0.55); }
+  70%  { box-shadow: 0 0 0 6px rgba(0,166,81,0); }
+  100% { box-shadow: 0 0 0 0 rgba(0,166,81,0); }
 }
 
 /* ══════════════════════════════════════════════════════════
    TREGU — liquid-glass prediction market design system.
-   Scoped under .tregu-scope so it never leaks into the
-   cream/serif editorial site.
+   Scoped under .tregu-scope so it never leaks into the rest
+   of the site, but built on 383's own cream/ink/orange tokens
+   (--color-cream/ink/orange/emerald/crimson above) so the
+   section reads as native 383, not a bolted-on dark app.
+   "Liquid glass" here is a web approximation — backdrop-filter
+   blur + layered borders/highlights — not Apple's native effect.
    ══════════════════════════════════════════════════════════ */
 .tregu-scope {
-  --tg-bg:        #06070A;
-  --tg-bg-2:      #0B0D13;
-  --tg-panel:     rgba(255,255,255,0.05);
-  --tg-panel-hi:  rgba(255,255,255,0.09);
-  --tg-border:    rgba(255,255,255,0.10);
-  --tg-border-hi: rgba(255,255,255,0.18);
-  --tg-text:      #F3F4F7;
-  --tg-muted:     #8B90A0;
-  --tg-yes:       #00E599;
-  --tg-yes-dim:   rgba(0,229,153,0.15);
-  --tg-no:        #FF3B5C;
-  --tg-no-dim:    rgba(255,59,92,0.15);
+  --tg-bg:        var(--color-cream);
+  --tg-panel:     rgba(255,255,255,0.55);
+  --tg-panel-hi:  rgba(255,255,255,0.78);
+  --tg-border:    rgba(17,17,17,0.08);
+  --tg-border-hi: rgba(17,17,17,0.16);
+  --tg-text:      #111111;
+  --tg-muted:     #6B6B6B;
+  --tg-yes:       #00A651;
+  --tg-yes-dim:   rgba(0,166,81,0.12);
+  --tg-no:        #E41E20;
+  --tg-no-dim:    rgba(228,30,32,0.12);
   --tg-gold:      #F5B942;
+  --tg-gold-text: #9C6B12;
   --tg-orange:    #FF4422;
 
-  background: radial-gradient(1200px 600px at 15% -10%, rgba(255,68,34,0.12), transparent 60%),
-              radial-gradient(1000px 500px at 100% 0%, rgba(0,229,153,0.08), transparent 55%),
+  background: radial-gradient(1100px 560px at 12% -8%, rgba(255,68,34,0.08), transparent 60%),
+              radial-gradient(900px 480px at 100% 0%, rgba(0,166,81,0.06), transparent 55%),
               var(--tg-bg);
   color: var(--tg-text);
   font-family: "Manrope", sans-serif;
   min-height: 100vh;
 }
 
+@keyframes tregu-rise {
+  from { opacity: 0; transform: translateY(10px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
 .tregu-glass {
   background: var(--tg-panel);
   border: 1px solid var(--tg-border);
   border-radius: 20px;
-  backdrop-filter: blur(20px) saturate(140%);
-  -webkit-backdrop-filter: blur(20px) saturate(140%);
-  box-shadow: 0 8px 32px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.06);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  box-shadow: 0 8px 28px rgba(17,17,17,0.08), inset 0 1px 0 rgba(255,255,255,0.7);
+  transition: transform var(--duration-base) var(--ease-out),
+    box-shadow var(--duration-base) var(--ease-out),
+    border-color var(--duration-base) var(--ease-out);
+  animation: tregu-rise 420ms var(--ease-out) both;
 }
 
 .tregu-glass-hi {
@@ -613,6 +628,20 @@ body {
 
 .tregu-glass:hover {
   border-color: var(--tg-border-hi);
+}
+@media (hover: hover) and (pointer: fine) {
+  a.tregu-glass:hover, button.tregu-glass:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 16px 40px rgba(17,17,17,0.12), inset 0 1px 0 rgba(255,255,255,0.85);
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .tregu-scope .tregu-glass {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: #FFFFFF;
+  }
 }
 
 .tregu-pill {
@@ -626,31 +655,40 @@ body {
   letter-spacing: 0.04em;
   text-transform: uppercase;
   border: 1px solid var(--tg-border);
-  background: rgba(255,255,255,0.04);
+  background: rgba(255,255,255,0.6);
   color: var(--tg-muted);
 }
 
+.tregu-btn-yes, .tregu-btn-no, .tregu-btn-primary {
+  transition: transform 160ms var(--ease-out),
+    background-color var(--duration-base) var(--ease-out),
+    filter var(--duration-base) var(--ease-out);
+}
+.tregu-btn-yes:active, .tregu-btn-no:active, .tregu-btn-primary:active {
+  transform: scale(0.97);
+}
+
 .tregu-btn-yes {
-  background: linear-gradient(180deg, rgba(0,229,153,0.22), rgba(0,229,153,0.10));
-  border: 1px solid rgba(0,229,153,0.45);
+  background: linear-gradient(180deg, rgba(0,166,81,0.16), rgba(0,166,81,0.08));
+  border: 1px solid rgba(0,166,81,0.45);
   color: var(--tg-yes);
 }
-.tregu-btn-yes:hover { background: linear-gradient(180deg, rgba(0,229,153,0.32), rgba(0,229,153,0.16)); }
+.tregu-btn-yes:hover { background: linear-gradient(180deg, rgba(0,166,81,0.24), rgba(0,166,81,0.12)); }
 
 .tregu-btn-no {
-  background: linear-gradient(180deg, rgba(255,59,92,0.22), rgba(255,59,92,0.10));
-  border: 1px solid rgba(255,59,92,0.45);
+  background: linear-gradient(180deg, rgba(228,30,32,0.16), rgba(228,30,32,0.08));
+  border: 1px solid rgba(228,30,32,0.4);
   color: var(--tg-no);
 }
-.tregu-btn-no:hover { background: linear-gradient(180deg, rgba(255,59,92,0.32), rgba(255,59,92,0.16)); }
+.tregu-btn-no:hover { background: linear-gradient(180deg, rgba(228,30,32,0.24), rgba(228,30,32,0.12)); }
 
 .tregu-btn-primary {
   background: linear-gradient(135deg, #FF4422, #F5B942);
   border: none;
-  color: #06070A;
+  color: #FFFFFF;
   font-weight: 800;
 }
-.tregu-btn-primary:hover { filter: brightness(1.08); }
+.tregu-btn-primary:hover { filter: brightness(1.06); }
 .tregu-btn-primary:disabled { opacity: 0.4; cursor: not-allowed; filter: none; }
 
 /* Red -> green probability bar used on mini-cards and the detail page */
@@ -658,8 +696,8 @@ body {
   position: relative;
   height: 8px;
   border-radius: 100px;
-  background: linear-gradient(90deg, var(--tg-no) 0%, #6B6F80 50%, var(--tg-yes) 100%);
-  opacity: 0.35;
+  background: linear-gradient(90deg, var(--tg-no) 0%, #C9C2B4 50%, var(--tg-yes) 100%);
+  opacity: 0.45;
 }
 .tregu-prob-marker {
   position: absolute;
@@ -668,7 +706,7 @@ body {
   height: 14px;
   border-radius: 50%;
   background: #FFFFFF;
-  box-shadow: 0 0 0 3px rgba(0,0,0,0.4), 0 0 12px rgba(255,255,255,0.5);
+  box-shadow: 0 0 0 3px rgba(17,17,17,0.15), 0 2px 6px rgba(17,17,17,0.25);
   transform: translate(-50%, -50%);
   transition: left var(--duration-slow) var(--ease-out);
 }
@@ -678,7 +716,7 @@ body {
   100% { background-position: 200% 0; }
 }
 .tregu-glow {
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255,68,34,0.12), transparent);
   background-size: 200% 100%;
   animation: tregu-shimmer 2.4s linear infinite;
 }
@@ -688,3 +726,15 @@ body {
   100% { transform: perspective(300px) rotateY(360deg); }
 }
 .tregu-coin-spin { animation: tregu-coin-spin 3.2s linear infinite; }
+
+/* Grid containers for market cards: staggered rise-in on mount. */
+.tregu-grid > * {
+  animation: tregu-rise 420ms var(--ease-out) both;
+}
+.tregu-grid > *:nth-child(1) { animation-delay: 0ms; }
+.tregu-grid > *:nth-child(2) { animation-delay: 40ms; }
+.tregu-grid > *:nth-child(3) { animation-delay: 80ms; }
+.tregu-grid > *:nth-child(4) { animation-delay: 120ms; }
+.tregu-grid > *:nth-child(5) { animation-delay: 160ms; }
+.tregu-grid > *:nth-child(6) { animation-delay: 200ms; }
+.tregu-grid > *:nth-child(n+7) { animation-delay: 240ms; }

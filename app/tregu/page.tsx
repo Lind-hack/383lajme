@@ -78,7 +78,7 @@ export default function TreguHub() {
             <h1 style={{ fontSize: "clamp(28px, 4vw, 40px)", fontWeight: 800, margin: 0, letterSpacing: "-0.02em" }}>
               383 Tregu
             </h1>
-            <p style={{ color: "#8B90A0", fontSize: 14, marginTop: 6 }}>
+            <p style={{ color: "#6B6B6B", fontSize: 14, marginTop: 6 }}>
               Parashiko të ardhmen e Kosovës. Vër bast me 383 Coin.
             </p>
           </div>
@@ -94,8 +94,8 @@ export default function TreguHub() {
               >
                 {claiming ? "..." : "Bonusi ditor"}
               </button>
-              {bonusMsg && <span style={{ fontSize: 12, color: "#F5B942" }}>{bonusMsg}</span>}
-              <Link href="/tregu/portofoli" style={{ fontSize: 12, color: "#8B90A0", fontWeight: 700 }}>
+              {bonusMsg && <span style={{ fontSize: 12, color: "#9C6B12" }}>{bonusMsg}</span>}
+              <Link href="/tregu/portofoli" style={{ fontSize: 12, color: "#6B6B6B", fontWeight: 700 }}>
                 Portofoli →
               </Link>
             </div>
@@ -110,7 +110,7 @@ export default function TreguHub() {
           <Link
             href={`/tregu/${featured.slug}`}
             className="tregu-glass tregu-glass-hi"
-            style={{ display: "block", padding: 24, marginBottom: 28, textDecoration: "none", color: "#F3F4F7" }}
+            style={{ display: "block", padding: 24, marginBottom: 28, textDecoration: "none", color: "#111111" }}
           >
             <span className="tregu-pill" style={{ marginBottom: 12, display: "inline-flex" }}>
               I zgjedhur
@@ -130,13 +130,14 @@ export default function TreguHub() {
               style={{
                 padding: "8px 16px",
                 borderRadius: 100,
-                border: "1px solid " + (category === c.value ? "transparent" : "rgba(255,255,255,0.12)"),
-                background: category === c.value ? "linear-gradient(135deg, #FF4422, #F5B942)" : "rgba(255,255,255,0.04)",
-                color: category === c.value ? "#06070A" : "#F3F4F7",
+                border: "1px solid " + (category === c.value ? "transparent" : "rgba(17,17,17,0.12)"),
+                background: category === c.value ? "linear-gradient(135deg, #FF4422, #F5B942)" : "rgba(17,17,17,0.04)",
+                color: category === c.value ? "#FFFFFF" : "#111111",
                 fontWeight: 700,
                 fontSize: 13,
                 whiteSpace: "nowrap",
                 cursor: "pointer",
+                transition: "transform 160ms var(--ease-out), background-color 200ms var(--ease-out), border-color 200ms var(--ease-out)",
               }}
             >
               {c.label}
@@ -145,11 +146,11 @@ export default function TreguHub() {
         </div>
 
         {loading ? (
-          <p style={{ color: "#8B90A0" }}>Duke ngarkuar...</p>
+          <p style={{ color: "#6B6B6B" }}>Duke ngarkuar...</p>
         ) : markets.length === 0 ? (
-          <p style={{ color: "#8B90A0" }}>Nuk ka tregje aktive për këtë kategori ende.</p>
+          <p style={{ color: "#6B6B6B" }}>Nuk ka tregje aktive për këtë kategori ende.</p>
         ) : (
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 16 }}>
+          <div className="tregu-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 16 }}>
             {markets.map((m) => (
               <MarketMiniCard
                 key={m.id}
@@ -165,16 +166,16 @@ export default function TreguHub() {
 
 function ProbBarInline({ prob }: { prob: number }) {
   const pct = Math.round(prob * 100);
-  const color = pct >= 50 ? "#00E599" : "#FF3B5C";
+  const color = pct >= 50 ? "#00A651" : "#E41E20";
   return (
     <div>
       <div className="tregu-prob-track" style={{ height: 10 }}>
-        <div className="tregu-prob-marker" style={{ left: `${pct}%`, boxShadow: `0 0 0 3px rgba(0,0,0,0.4), 0 0 16px ${color}` }} />
+        <div className="tregu-prob-marker" style={{ left: `${pct}%`, boxShadow: `0 0 0 3px rgba(255,255,255,0.9), 0 0 16px ${color}` }} />
       </div>
       <div style={{ display: "flex", justifyContent: "space-between", marginTop: 8, fontSize: 13, fontWeight: 700 }}>
-        <span style={{ color: "#FF3B5C" }}>JO</span>
+        <span style={{ color: "#E41E20" }}>JO</span>
         <span style={{ color, fontSize: 16 }}>{pct}% PO</span>
-        <span style={{ color: "#00E599" }}>PO</span>
+        <span style={{ color: "#00A651" }}>PO</span>
       </div>
     </div>
   );

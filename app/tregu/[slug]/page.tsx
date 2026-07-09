@@ -97,7 +97,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
     return (
       <div className="tregu-scope">
         <Navbar />
-        <div style={{ padding: "140px 24px", textAlign: "center", color: "#8B90A0" }}>Duke ngarkuar...</div>
+        <div style={{ padding: "140px 24px", textAlign: "center", color: "#6B6B6B" }}>Duke ngarkuar...</div>
       </div>
     );
   }
@@ -108,7 +108,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
         <Navbar />
         <div style={{ padding: "140px 24px", textAlign: "center" }}>
           <p>Ky treg nuk ekziston ose nuk është ende aktiv.</p>
-          <Link href="/tregu" style={{ color: "#00E599" }}>
+          <Link href="/tregu" style={{ color: "#00A651" }}>
             ← Kthehu te Tregu
           </Link>
         </div>
@@ -132,7 +132,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
     <div className="tregu-scope">
       <Navbar />
       <main style={{ maxWidth: 1000, margin: "0 auto", padding: "104px 24px 80px" }}>
-        <Link href="/tregu" style={{ color: "#8B90A0", fontSize: 13, textDecoration: "none" }}>
+        <Link href="/tregu" style={{ color: "#6B6B6B", fontSize: 13, textDecoration: "none" }}>
           ← Tregu
         </Link>
 
@@ -141,7 +141,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
             <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14 }}>
               <span className="tregu-pill">{market.category}</span>
               {market.status === "resolved" && (
-                <span className="tregu-pill" style={{ color: market.outcome === "PO" ? "#00E599" : "#FF3B5C" }}>
+                <span className="tregu-pill" style={{ color: market.outcome === "PO" ? "#00A651" : "#E41E20" }}>
                   U zgjidh: {market.outcome}
                 </span>
               )}
@@ -150,9 +150,9 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
             <h1 style={{ fontSize: "clamp(24px, 3.5vw, 32px)", fontWeight: 800, margin: "0 0 8px", lineHeight: 1.25 }}>
               {market.question}
             </h1>
-            {market.description && <p style={{ color: "#8B90A0", fontSize: 14, marginBottom: 20 }}>{market.description}</p>}
-            <div style={{ fontSize: 40, fontWeight: 800, color: pct >= 50 ? "#00E599" : "#FF3B5C" }}>{pct}% PO</div>
-            <p style={{ color: "#8B90A0", fontSize: 12, marginTop: 4 }}>
+            {market.description && <p style={{ color: "#6B6B6B", fontSize: 14, marginBottom: 20 }}>{market.description}</p>}
+            <div style={{ fontSize: 40, fontWeight: 800, color: pct >= 50 ? "#00A651" : "#E41E20" }}>{pct}% PO</div>
+            <p style={{ color: "#6B6B6B", fontSize: 12, marginTop: 4 }}>
               Mbyllet: {new Date(market.closes_at).toLocaleDateString("sq-AL")}
             </p>
 
@@ -166,13 +166,13 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
 
             {!user ? (
               <div style={{ textAlign: "center", padding: "20px 0" }}>
-                <p style={{ color: "#8B90A0", marginBottom: 14 }}>Duhet të krijosh llogari për të vënë bast — merr 100 383 Coin falas.</p>
+                <p style={{ color: "#6B6B6B", marginBottom: 14 }}>Duhet të krijosh llogari për të vënë bast — merr 100 383 Coin falas.</p>
                 <Link href="/hyr" className="tregu-btn-primary" style={{ padding: "10px 22px", borderRadius: 100, textDecoration: "none", display: "inline-block" }}>
                   Hyr / Regjistrohu
                 </Link>
               </div>
             ) : isClosed ? (
-              <p style={{ color: "#8B90A0" }}>Ky treg nuk pranon më baste.</p>
+              <p style={{ color: "#6B6B6B" }}>Ky treg nuk pranon më baste.</p>
             ) : (
               <>
                 <div style={{ display: "flex", gap: 10, marginBottom: 16 }}>
@@ -185,9 +185,10 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                       borderRadius: 12,
                       fontWeight: 800,
                       cursor: "pointer",
-                      background: side === "PO" ? undefined : "rgba(255,255,255,0.04)",
-                      border: side === "PO" ? undefined : "1px solid rgba(255,255,255,0.10)",
-                      color: side === "PO" ? undefined : "#F3F4F7",
+                      background: side === "PO" ? undefined : "rgba(17,17,17,0.04)",
+                      border: side === "PO" ? undefined : "1px solid rgba(17,17,17,0.10)",
+                      color: side === "PO" ? undefined : "#111111",
+                      transition: "transform 160ms var(--ease-out), background-color 200ms var(--ease-out)",
                     }}
                   >
                     PO
@@ -201,16 +202,17 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                       borderRadius: 12,
                       fontWeight: 800,
                       cursor: "pointer",
-                      background: side === "JO" ? undefined : "rgba(255,255,255,0.04)",
-                      border: side === "JO" ? undefined : "1px solid rgba(255,255,255,0.10)",
-                      color: side === "JO" ? undefined : "#F3F4F7",
+                      background: side === "JO" ? undefined : "rgba(17,17,17,0.04)",
+                      border: side === "JO" ? undefined : "1px solid rgba(17,17,17,0.10)",
+                      color: side === "JO" ? undefined : "#111111",
+                      transition: "transform 160ms var(--ease-out), background-color 200ms var(--ease-out)",
                     }}
                   >
                     JO
                   </button>
                 </div>
 
-                <label style={{ fontSize: 12, color: "#8B90A0", fontWeight: 700 }}>Shuma (383 Coin)</label>
+                <label style={{ fontSize: 12, color: "#6B6B6B", fontWeight: 700 }}>Shuma (383 Coin)</label>
                 <div style={{ display: "flex", alignItems: "center", gap: 10, margin: "8px 0 16px" }}>
                   <CoinIcon size={20} />
                   <input
@@ -220,31 +222,32 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                     onChange={(e) => setAmount(Math.max(1, Number(e.target.value)))}
                     style={{
                       flex: 1,
-                      background: "rgba(255,255,255,0.05)",
-                      border: "1px solid rgba(255,255,255,0.12)",
+                      background: "rgba(255,255,255,0.6)",
+                      border: "1px solid rgba(17,17,17,0.12)",
                       borderRadius: 10,
                       padding: "10px 12px",
-                      color: "#F3F4F7",
+                      color: "#111111",
                       fontSize: 16,
                       fontWeight: 700,
+                      transition: "border-color 160ms var(--ease-out), background-color 160ms var(--ease-out)",
                     }}
                   />
                 </div>
 
                 {preview && (
-                  <div style={{ fontSize: 13, color: "#8B90A0", marginBottom: 16, lineHeight: 1.7 }}>
-                    Çmimi aktual: <strong style={{ color: "#F3F4F7" }}>{(currentPrice * 100).toFixed(1)}%</strong>
+                  <div style={{ fontSize: 13, color: "#6B6B6B", marginBottom: 16, lineHeight: 1.7 }}>
+                    Çmimi aktual: <strong style={{ color: "#111111" }}>{(currentPrice * 100).toFixed(1)}%</strong>
                     <br />
-                    Aksione të blera: <strong style={{ color: "#F3F4F7" }}>{preview.shares.toFixed(2)}</strong>
+                    Aksione të blera: <strong style={{ color: "#111111" }}>{preview.shares.toFixed(2)}</strong>
                     <br />
-                    Çmimi i ri: <strong style={{ color: "#F3F4F7" }}>{(preview.newPriceYes * 100).toFixed(1)}%</strong>
+                    Çmimi i ri: <strong style={{ color: "#111111" }}>{(preview.newPriceYes * 100).toFixed(1)}%</strong>
                     <br />
-                    Fitim max nëse ndodh: <strong style={{ color: "#00E599" }}>{preview.shares.toFixed(0)} 383C</strong>
+                    Fitim max nëse ndodh: <strong style={{ color: "#00A651" }}>{preview.shares.toFixed(0)} 383C</strong>
                   </div>
                 )}
 
                 {balance !== null && amount > balance && (
-                  <p style={{ color: "#FF3B5C", fontSize: 12, marginBottom: 12 }}>Nuk ke mjaftueshëm 383 Coin ({balance})</p>
+                  <p style={{ color: "#E41E20", fontSize: 12, marginBottom: 12 }}>Nuk ke mjaftueshëm 383 Coin ({balance})</p>
                 )}
 
                 <button
@@ -257,7 +260,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                 </button>
 
                 {betMsg && (
-                  <p style={{ marginTop: 12, fontSize: 13, color: betMsg.ok ? "#00E599" : "#FF3B5C" }}>{betMsg.text}</p>
+                  <p style={{ marginTop: 12, fontSize: 13, color: betMsg.ok ? "#00A651" : "#E41E20" }}>{betMsg.text}</p>
                 )}
               </>
             )}
@@ -271,7 +274,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                   <Link
                     key={e.slug}
                     href={`/article/${e.slug}`}
-                    style={{ color: "#F3F4F7", fontSize: 13, textDecoration: "none", padding: "10px 14px", borderRadius: 10, background: "rgba(255,255,255,0.04)" }}
+                    style={{ color: "#111111", fontSize: 13, textDecoration: "none", padding: "10px 14px", borderRadius: 10, background: "rgba(17,17,17,0.04)" }}
                   >
                     {e.title}
                   </Link>

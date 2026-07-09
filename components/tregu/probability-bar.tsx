@@ -9,7 +9,7 @@ export default function ProbabilityBar({
   showLabel?: boolean;
 }) {
   const pct = Math.round(Math.max(0, Math.min(1, prob)) * 100);
-  const color = pct >= 50 ? "#00E599" : "#FF3B5C";
+  const color = pct >= 50 ? "#00A651" : "#E41E20";
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
@@ -20,15 +20,15 @@ export default function ProbabilityBar({
             left: `${pct}%`,
             width: height + 6,
             height: height + 6,
-            boxShadow: `0 0 0 3px rgba(0,0,0,0.4), 0 0 14px ${color}`,
+            boxShadow: `0 0 0 3px rgba(255,255,255,0.9), 0 0 14px ${color}`,
           }}
         />
       </div>
       {showLabel && (
-        <div style={{ display: "flex", justifyContent: "space-between", fontSize: 11, color: "#8B90A0", fontWeight: 700 }}>
-          <span style={{ color: "#FF3B5C" }}>JO</span>
+        <div style={{ display: "flex", justifyContent: "space-between", fontSize: 11, color: "#6B6B6B", fontWeight: 700 }}>
+          <span style={{ color: "#E41E20" }}>JO</span>
           <span style={{ color, fontSize: 13 }}>{pct}%</span>
-          <span style={{ color: "#00E599" }}>PO</span>
+          <span style={{ color: "#00A651" }}>PO</span>
         </div>
       )}
     </div>
