@@ -28,14 +28,14 @@ export default function MarketMiniCard({ market, compact = false }: { market: Mi
         display: "block",
         padding: compact ? "14px" : "18px",
         textDecoration: "none",
-        color: "#F3F4F7",
-        transition: "transform 0.2s ease, border-color 0.2s ease",
+        color: "#111111",
+        transition: "transform var(--duration-base) var(--ease-out), border-color var(--duration-base) var(--ease-out)",
       }}
     >
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 10 }}>
         <span className="tregu-pill">{CATEGORY_LABEL[market.category] ?? market.category}</span>
         {typeof market.volume === "number" && (
-          <span style={{ fontSize: 11, color: "#8B90A0", fontWeight: 600 }}>
+          <span style={{ fontSize: 11, color: "#6B6B6B", fontWeight: 600 }}>
             {market.volume.toLocaleString("sq-AL")} 383C
           </span>
         )}
@@ -46,7 +46,7 @@ export default function MarketMiniCard({ market, compact = false }: { market: Mi
           fontWeight: 700,
           lineHeight: 1.35,
           margin: "0 0 14px",
-          color: "#F3F4F7",
+          color: "#111111",
         }}
       >
         {market.question}

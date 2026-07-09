@@ -40,9 +40,9 @@ export default function SidebarMarketWidget({ articleCategory }: { articleCatego
       <Link
         href={`/tregu/${market.slug}`}
         className="tregu-glass"
-        style={{ display: "block", padding: "16px 18px", textDecoration: "none", color: "#F3F4F7", borderRadius: "var(--radius-md)" }}
+        style={{ display: "block", padding: "16px 18px", textDecoration: "none", color: "#111111", borderRadius: "var(--radius-md)" }}
       >
-        <p style={{ fontSize: "11px", fontWeight: 800, letterSpacing: "0.1em", textTransform: "uppercase", color: "#8B90A0", margin: "0 0 10px" }}>
+        <p style={{ fontSize: "11px", fontWeight: 800, letterSpacing: "0.1em", textTransform: "uppercase", color: "#6B6B6B", margin: "0 0 10px" }}>
           383 Tregu — parashiko
         </p>
         <p style={{ fontSize: "13px", fontWeight: 700, lineHeight: 1.35, margin: "0 0 14px" }}>{market.question}</p>

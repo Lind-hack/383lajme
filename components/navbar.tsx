@@ -230,8 +230,8 @@ export default function Navbar() {
                     width: "6px",
                     height: "6px",
                     borderRadius: "50%",
-                    background: "#00E599",
-                    boxShadow: "0 0 0 0 rgba(0,229,153,0.7)",
+                    background: "#00A651",
+                    boxShadow: "0 0 0 0 rgba(0,166,81,0.7)",
                     animation: "tregu-pulse 2s infinite",
                     flexShrink: 0,
                   }}
