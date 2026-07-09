@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Navbar from "@/components/navbar";
 import MarketMiniCard from "@/components/tregu/market-mini-card";
-import HeroTile from "@/components/tregu/hero-tile";
+import VideoHero from "@/components/tregu/video-hero";
 import CoinIcon from "@/components/tregu/coin-icon";
 import { createClient } from "@/lib/supabase/client";
 import Link from "next/link";
@@ -34,7 +34,6 @@ export default function TreguHub() {
   const [category, setCategory] = useState("all");
   const [loading, setLoading] = useState(true);
   const [balance, setBalance] = useState<number | null>(null);
-  const [checkedAuth, setCheckedAuth] = useState(false);
   const [claiming, setClaiming] = useState(false);
   const [bonusMsg, setBonusMsg] = useState<string | null>(null);
 
@@ -50,7 +49,6 @@ export default function TreguHub() {
   useEffect(() => {
     const supabase = createClient();
     supabase.auth.getUser().then(({ data: { user } }) => {
-      setCheckedAuth(true);
       if (!user) return;
       fetch("/api/tregu/portfolio")
         .then((r) => r.json())
@@ -75,7 +73,8 @@ export default function TreguHub() {
   return (
     <div className="tregu-scope">
       <Navbar />
-      <main style={{ maxWidth: 1160, margin: "0 auto", padding: "104px 24px 80px" }}>
+      <VideoHero loggedIn={balance !== null} />
+      <main id="tregjet" style={{ maxWidth: 1160, margin: "0 auto", padding: "56px 24px 80px", scrollMarginTop: 88 }}>
         {/* Header — accent bar + uppercase label, same pattern as the homepage sections */}
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 16, marginBottom: 28 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
@@ -147,7 +146,6 @@ export default function TreguHub() {
           </div>
         ) : (
           <div className="tregu-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(270px, 1fr))", gap: 14 }}>
-            {category === "all" && checkedAuth && <HeroTile loggedIn={balance !== null} />}
             {markets.map((m) => (
               <MarketMiniCard
                 key={m.id}
