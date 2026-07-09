@@ -61,6 +61,10 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
 
   useEffect(() => {
     load();
+    // Card PO/JO buttons deep-link with ?ana=po|jo to pre-select the side.
+    const ana = new URLSearchParams(window.location.search).get("ana");
+    if (ana === "po") setSide("PO");
+    if (ana === "jo") setSide("JO");
     const supabase = createClient();
     supabase.auth.getUser().then(({ data: { user } }) => {
       setUser(user);

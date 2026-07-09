@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import SectionLabel from "@/components/section-label";
 import MarketMiniCard, { type MiniMarket } from "./market-mini-card";
 
 interface MarketRow {
@@ -9,6 +10,9 @@ interface MarketRow {
   question: string;
   category: string;
   market_prob: number;
+  closes_at: string;
+  q_yes: number;
+  q_no: number;
 }
 
 export default function TrendingStrip() {
@@ -28,28 +32,20 @@ export default function TrendingStrip() {
     question: m.question,
     category: m.category,
     prob: m.market_prob,
+    volume: (m.q_yes ?? 0) + (m.q_no ?? 0),
+    closesAt: m.closes_at,
   }));
 
   return (
-    <div
-      className="tregu-scope"
-      style={{
-        borderRadius: "var(--radius-lg)",
-        padding: "28px 24px",
-        marginBottom: "var(--space-section)",
-      }}
-    >
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 18 }}>
-        <div>
-          <p style={{ fontSize: 11, fontWeight: 800, letterSpacing: "0.1em", textTransform: "uppercase", color: "#6B6B6B", margin: "0 0 4px" }}>
-            383 Tregu
-          </p>
-          <h2 style={{ fontSize: 20, fontWeight: 800, margin: 0, color: "#111111" }}>Çka mendon Kosova do të ndodhë?</h2>
-        </div>
-        <Link href="/tregu" style={{ fontSize: 13, fontWeight: 700, color: "#00A651", textDecoration: "none", whiteSpace: "nowrap" }}>
-          Shiko të gjitha →
-        </Link>
-      </div>
+    <div className="tregu-scope" style={{ background: "none", minHeight: 0, marginBottom: "var(--space-section)" }}>
+      <SectionLabel
+        label="Tregu — Parashiko"
+        right={
+          <Link href="/tregu" style={{ fontSize: 13, fontWeight: 700, color: "#FF4422", textDecoration: "none", whiteSpace: "nowrap" }}>
+            Shiko të gjitha →
+          </Link>
+        }
+      />
       <div
         className="tregu-grid"
         style={{

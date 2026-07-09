@@ -555,7 +555,7 @@ body {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
   }
-  .tregu-scope .tregu-glow,
+  .tregu-scope .tregu-hero::before,
   .tregu-scope .tregu-coin-spin,
   .tregu-scope .tregu-glass,
   .tregu-grid > * {
@@ -581,8 +581,8 @@ body {
    ══════════════════════════════════════════════════════════ */
 .tregu-scope {
   --tg-bg:        var(--color-cream);
-  --tg-panel:     rgba(255,255,255,0.55);
-  --tg-panel-hi:  rgba(255,255,255,0.78);
+  --tg-panel:     rgba(255,255,255,0.66);
+  --tg-panel-hi:  rgba(255,255,255,0.82);
   --tg-border:    rgba(17,17,17,0.08);
   --tg-border-hi: rgba(17,17,17,0.16);
   --tg-text:      #111111;
@@ -591,12 +591,9 @@ body {
   --tg-yes-dim:   rgba(0,166,81,0.12);
   --tg-no:        #E41E20;
   --tg-no-dim:    rgba(228,30,32,0.12);
-  --tg-gold:      #F5B942;
-  --tg-gold-text: #9C6B12;
   --tg-orange:    #FF4422;
 
-  background: radial-gradient(1100px 560px at 12% -8%, rgba(255,68,34,0.08), transparent 60%),
-              radial-gradient(900px 480px at 100% 0%, rgba(0,166,81,0.06), transparent 55%),
+  background: radial-gradient(1100px 560px at 12% -8%, rgba(255,68,34,0.06), transparent 60%),
               var(--tg-bg);
   color: var(--tg-text);
   font-family: "Manrope", sans-serif;
@@ -611,10 +608,10 @@ body {
 .tregu-glass {
   background: var(--tg-panel);
   border: 1px solid var(--tg-border);
-  border-radius: 20px;
-  backdrop-filter: blur(20px) saturate(160%);
-  -webkit-backdrop-filter: blur(20px) saturate(160%);
-  box-shadow: 0 8px 28px rgba(17,17,17,0.08), inset 0 1px 0 rgba(255,255,255,0.7);
+  border-radius: 16px;
+  backdrop-filter: blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  box-shadow: 0 2px 12px rgba(17,17,17,0.06), inset 0 1px 0 rgba(255,255,255,0.7);
   transition: transform var(--duration-base) var(--ease-out),
     box-shadow var(--duration-base) var(--ease-out),
     border-color var(--duration-base) var(--ease-out);
@@ -631,9 +628,51 @@ body {
 }
 @media (hover: hover) and (pointer: fine) {
   a.tregu-glass:hover, button.tregu-glass:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 16px 40px rgba(17,17,17,0.12), inset 0 1px 0 rgba(255,255,255,0.85);
+    transform: translateY(-2px);
+    box-shadow: 0 16px 40px rgba(17,17,17,0.10), inset 0 1px 0 rgba(255,255,255,0.85);
   }
+}
+
+/* ── Liquid-glass intro tile: animated color drift behind the
+   glass + a pointer-tracked specular highlight (set via --mx/--my). */
+.tregu-hero {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+.tregu-hero::before {
+  content: "";
+  position: absolute;
+  inset: -35%;
+  z-index: -1;
+  background:
+    radial-gradient(360px 280px at 22% 30%, rgba(255,68,34,0.18), transparent 70%),
+    radial-gradient(320px 260px at 82% 72%, rgba(0,166,81,0.13), transparent 70%),
+    radial-gradient(280px 220px at 68% 12%, rgba(0,71,255,0.07), transparent 70%);
+  filter: blur(28px);
+  animation: tregu-drift 14s ease-in-out infinite alternate;
+}
+@keyframes tregu-drift {
+  from { transform: translate3d(-2%, -2%, 0) scale(1); }
+  to   { transform: translate3d(2%, 3%, 0) scale(1.07); }
+}
+.tregu-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(240px 240px at var(--mx, 30%) var(--my, 25%), rgba(255,255,255,0.5), transparent 62%);
+  opacity: 0;
+  transition: opacity var(--duration-slow) var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .tregu-hero:hover::after { opacity: 1; }
+}
+
+/* Hero tile spans two grid columns on wider screens, collapses on mobile. */
+.tregu-span2 { grid-column: span 2; }
+@media (max-width: 620px) {
+  .tregu-span2 { grid-column: auto; }
 }
 
 @media (prefers-reduced-transparency: reduce) {
@@ -669,56 +708,43 @@ body {
 }
 
 .tregu-btn-yes {
-  background: linear-gradient(180deg, rgba(0,166,81,0.16), rgba(0,166,81,0.08));
-  border: 1px solid rgba(0,166,81,0.45);
-  color: var(--tg-yes);
+  background: var(--tg-yes-dim);
+  border: 1px solid rgba(0,166,81,0.28);
+  color: #007A3C;
 }
-.tregu-btn-yes:hover { background: linear-gradient(180deg, rgba(0,166,81,0.24), rgba(0,166,81,0.12)); }
+.tregu-btn-yes:hover { background: rgba(0,166,81,0.20); border-color: rgba(0,166,81,0.45); }
 
 .tregu-btn-no {
-  background: linear-gradient(180deg, rgba(228,30,32,0.16), rgba(228,30,32,0.08));
-  border: 1px solid rgba(228,30,32,0.4);
-  color: var(--tg-no);
+  background: var(--tg-no-dim);
+  border: 1px solid rgba(228,30,32,0.24);
+  color: #B4181A;
 }
-.tregu-btn-no:hover { background: linear-gradient(180deg, rgba(228,30,32,0.24), rgba(228,30,32,0.12)); }
+.tregu-btn-no:hover { background: rgba(228,30,32,0.20); border-color: rgba(228,30,32,0.4); }
 
 .tregu-btn-primary {
-  background: linear-gradient(135deg, #FF4422, #F5B942);
+  background: #111111;
   border: none;
   color: #FFFFFF;
   font-weight: 800;
 }
-.tregu-btn-primary:hover { filter: brightness(1.06); }
-.tregu-btn-primary:disabled { opacity: 0.4; cursor: not-allowed; filter: none; }
+.tregu-btn-primary:hover { background: var(--tg-orange); }
+.tregu-btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
 
-/* Red -> green probability bar used on mini-cards and the detail page */
+/* Slim probability fill bar: green fill when PO leads, red when JO leads. */
 .tregu-prob-track {
   position: relative;
-  height: 8px;
+  height: 5px;
   border-radius: 100px;
-  background: linear-gradient(90deg, var(--tg-no) 0%, #C9C2B4 50%, var(--tg-yes) 100%);
-  opacity: 0.45;
+  background: rgba(17,17,17,0.08);
+  overflow: hidden;
 }
-.tregu-prob-marker {
+.tregu-prob-fill {
   position: absolute;
-  top: 50%;
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  background: #FFFFFF;
-  box-shadow: 0 0 0 3px rgba(17,17,17,0.15), 0 2px 6px rgba(17,17,17,0.25);
-  transform: translate(-50%, -50%);
-  transition: left var(--duration-slow) var(--ease-out);
-}
-
-@keyframes tregu-shimmer {
-  0%   { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
-}
-.tregu-glow {
-  background: linear-gradient(90deg, transparent, rgba(255,68,34,0.12), transparent);
-  background-size: 200% 100%;
-  animation: tregu-shimmer 2.4s linear infinite;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  border-radius: 100px;
+  transition: width var(--duration-slow) var(--ease-out), background-color var(--duration-slow) var(--ease-out);
 }
 
 @keyframes tregu-coin-spin {
