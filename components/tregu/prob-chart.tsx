@@ -54,7 +54,7 @@ export default function ProbChart({ points, height = 220 }: { points: ChartPoint
     <div>
       <svg viewBox={`0 0 ${width} ${height}`} width="100%" height={height} preserveAspectRatio="none">
         <line x1="0" y1={yFor(0.5)} x2={width} y2={yFor(0.5)} stroke="rgba(17,17,17,0.10)" strokeDasharray="4 4" />
-        {aiPath && <path d={aiPath} fill="none" stroke="#9C6B12" strokeWidth="2" strokeDasharray="5 4" opacity="0.85" />}
+        {aiPath && <path d={aiPath} fill="none" stroke="#F59E0B" strokeWidth="2" strokeDasharray="5 4" opacity="0.85" />}
         <path d={marketPath} fill="none" stroke={lastColor} strokeWidth="2.5" />
         <circle cx={xFor(points.length - 1)} cy={yFor(last.marketProb)} r="4" fill={lastColor} />
       </svg>
@@ -63,7 +63,7 @@ export default function ProbChart({ points, height = 220 }: { points: ChartPoint
           <span style={{ width: 12, height: 2, background: lastColor, display: "inline-block" }} /> Çmimi i tregut
         </span>
         <span style={{ display: "flex", alignItems: "center", gap: 5 }}>
-          <span style={{ width: 12, height: 2, background: "#9C6B12", display: "inline-block", opacity: 0.85 }} /> Vlerësimi AI
+          <span style={{ width: 12, height: 2, background: "#F59E0B", display: "inline-block", opacity: 0.85 }} /> Vlerësimi AI
         </span>
       </div>
     </div>

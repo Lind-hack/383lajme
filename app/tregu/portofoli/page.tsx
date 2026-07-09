@@ -173,7 +173,7 @@ export default function PortofoliPage() {
                   Kërko
                 </button>
               </div>
-              {withdrawMsg && <p style={{ fontSize: 12, marginTop: 10, color: "#9C6B12" }}>{withdrawMsg}</p>}
+              {withdrawMsg && <p style={{ fontSize: 12, marginTop: 10, color: "#B45309" }}>{withdrawMsg}</p>}
             </>
           ) : (
             <p style={{ fontSize: 13, color: "#6B6B6B" }}>
@@ -213,5 +213,5 @@ export default function PortofoliPage() {
 function statusColor(status: string) {
   if (status === "paid") return "#00A651";
   if (status === "rejected") return "#E41E20";
-  return "#9C6B12";
+  return "#B45309";
 }

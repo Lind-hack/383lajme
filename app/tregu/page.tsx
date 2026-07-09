@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from "react";
 import Navbar from "@/components/navbar";
-import MarketMiniCard, { type MiniMarket } from "@/components/tregu/market-mini-card";
+import MarketMiniCard from "@/components/tregu/market-mini-card";
+import HeroTile from "@/components/tregu/hero-tile";
 import CoinIcon from "@/components/tregu/coin-icon";
 import { createClient } from "@/lib/supabase/client";
 import Link from "next/link";
@@ -15,6 +16,8 @@ interface MarketRow {
   market_prob: number;
   status: string;
   closes_at: string;
+  q_yes: number;
+  q_no: number;
 }
 
 const CATEGORIES: { value: string; label: string }[] = [
@@ -31,6 +34,7 @@ export default function TreguHub() {
   const [category, setCategory] = useState("all");
   const [loading, setLoading] = useState(true);
   const [balance, setBalance] = useState<number | null>(null);
+  const [checkedAuth, setCheckedAuth] = useState(false);
   const [claiming, setClaiming] = useState(false);
   const [bonusMsg, setBonusMsg] = useState<string | null>(null);
 
@@ -46,6 +50,7 @@ export default function TreguHub() {
   useEffect(() => {
     const supabase = createClient();
     supabase.auth.getUser().then(({ data: { user } }) => {
+      setCheckedAuth(true);
       if (!user) return;
       fetch("/api/tregu/portfolio")
         .then((r) => r.json())
@@ -67,25 +72,30 @@ export default function TreguHub() {
     setClaiming(false);
   };
 
-  const featured = markets[0];
-
   return (
     <div className="tregu-scope">
       <Navbar />
       <main style={{ maxWidth: 1160, margin: "0 auto", padding: "104px 24px 80px" }}>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 16, marginBottom: 32 }}>
-          <div>
-            <h1 style={{ fontSize: "clamp(28px, 4vw, 40px)", fontWeight: 800, margin: 0, letterSpacing: "-0.02em" }}>
-              383 Tregu
-            </h1>
-            <p style={{ color: "#6B6B6B", fontSize: 14, marginTop: 6 }}>
-              Parashiko të ardhmen e Kosovës. Vër bast me 383 Coin.
-            </p>
+        {/* Header — accent bar + uppercase label, same pattern as the homepage sections */}
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 16, marginBottom: 28 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+            <div style={{ width: 4, height: 34, background: "#FF4422", borderRadius: 2, flexShrink: 0 }} />
+            <div>
+              <h1 style={{ fontSize: "clamp(24px, 3.2vw, 34px)", fontWeight: 800, margin: 0, letterSpacing: "-0.02em" }}>
+                Tregu
+              </h1>
+              <p style={{ color: "#6B6B6B", fontSize: 13, margin: "2px 0 0" }}>
+                Parashiko të ardhmen. Vër bast me 383 Coin.
+              </p>
+            </div>
           </div>
-          {balance !== null ? (
+
+          {balance !== null && (
             <div className="tregu-glass" style={{ display: "flex", alignItems: "center", gap: 12, padding: "10px 16px" }}>
-              <CoinIcon size={26} />
-              <span style={{ fontWeight: 800, fontSize: 17 }}>{balance.toLocaleString("sq-AL")}</span>
+              <CoinIcon size={24} />
+              <span style={{ fontWeight: 800, fontSize: 16, fontVariantNumeric: "tabular-nums" }}>
+                {balance.toLocaleString("sq-AL")}
+              </span>
               <button
                 onClick={claimBonus}
                 disabled={claiming}
@@ -94,89 +104,71 @@ export default function TreguHub() {
               >
                 {claiming ? "..." : "Bonusi ditor"}
               </button>
-              {bonusMsg && <span style={{ fontSize: 12, color: "#9C6B12" }}>{bonusMsg}</span>}
-              <Link href="/tregu/portofoli" style={{ fontSize: 12, color: "#6B6B6B", fontWeight: 700 }}>
+              {bonusMsg && <span style={{ fontSize: 12, fontWeight: 700, color: "#00A651" }}>{bonusMsg}</span>}
+              <Link href="/tregu/portofoli" style={{ fontSize: 12, color: "#6B6B6B", fontWeight: 700, textDecoration: "none" }}>
                 Portofoli →
               </Link>
             </div>
-          ) : (
-            <Link href="/hyr" className="tregu-btn-primary" style={{ padding: "10px 20px", borderRadius: 100, fontSize: 13, textDecoration: "none" }}>
-              Merr 100 383 Coin falas
-            </Link>
           )}
         </div>
 
-        {featured && (
-          <Link
-            href={`/tregu/${featured.slug}`}
-            className="tregu-glass tregu-glass-hi"
-            style={{ display: "block", padding: 24, marginBottom: 28, textDecoration: "none", color: "#111111" }}
-          >
-            <span className="tregu-pill" style={{ marginBottom: 12, display: "inline-flex" }}>
-              I zgjedhur
-            </span>
-            <p style={{ fontSize: 22, fontWeight: 800, margin: "0 0 16px", lineHeight: 1.3 }}>{featured.question}</p>
-            <div style={{ maxWidth: 420 }}>
-              <ProbBarInline prob={featured.market_prob} />
-            </div>
-          </Link>
-        )}
-
-        <div style={{ display: "flex", gap: 8, marginBottom: 24, overflowX: "auto" }}>
-          {CATEGORIES.map((c) => (
-            <button
-              key={c.value}
-              onClick={() => setCategory(c.value)}
-              style={{
-                padding: "8px 16px",
-                borderRadius: 100,
-                border: "1px solid " + (category === c.value ? "transparent" : "rgba(17,17,17,0.12)"),
-                background: category === c.value ? "linear-gradient(135deg, #FF4422, #F5B942)" : "rgba(17,17,17,0.04)",
-                color: category === c.value ? "#FFFFFF" : "#111111",
-                fontWeight: 700,
-                fontSize: 13,
-                whiteSpace: "nowrap",
-                cursor: "pointer",
-                transition: "transform 160ms var(--ease-out), background-color 200ms var(--ease-out), border-color 200ms var(--ease-out)",
-              }}
-            >
-              {c.label}
-            </button>
-          ))}
+        {/* Category filters — ink active state, matches the rest of the site */}
+        <div style={{ display: "flex", gap: 8, marginBottom: 20, overflowX: "auto", paddingBottom: 4 }}>
+          {CATEGORIES.map((c) => {
+            const active = category === c.value;
+            return (
+              <button
+                key={c.value}
+                onClick={() => setCategory(c.value)}
+                style={{
+                  padding: "8px 16px",
+                  borderRadius: 100,
+                  border: "1px solid " + (active ? "#111111" : "rgba(17,17,17,0.12)"),
+                  background: active ? "#111111" : "rgba(255,255,255,0.6)",
+                  color: active ? "#FFFFFF" : "#111111",
+                  fontWeight: 700,
+                  fontSize: 13,
+                  whiteSpace: "nowrap",
+                  cursor: "pointer",
+                  transition: "transform 160ms var(--ease-out), background-color 200ms var(--ease-out), border-color 200ms var(--ease-out), color 200ms var(--ease-out)",
+                }}
+              >
+                {c.label}
+              </button>
+            );
+          })}
         </div>
 
         {loading ? (
-          <p style={{ color: "#6B6B6B" }}>Duke ngarkuar...</p>
-        ) : markets.length === 0 ? (
-          <p style={{ color: "#6B6B6B" }}>Nuk ka tregje aktive për këtë kategori ende.</p>
+          <div className="tregu-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(270px, 1fr))", gap: 14 }}>
+            {[0, 1, 2, 3, 4, 5].map((i) => (
+              <div key={i} className="tregu-glass" style={{ height: 180, opacity: 0.5 }} />
+            ))}
+          </div>
         ) : (
-          <div className="tregu-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 16 }}>
+          <div className="tregu-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(270px, 1fr))", gap: 14 }}>
+            {category === "all" && checkedAuth && <HeroTile loggedIn={balance !== null} />}
             {markets.map((m) => (
               <MarketMiniCard
                 key={m.id}
-                market={{ slug: m.slug, question: m.question, category: m.category, prob: m.market_prob }}
+                market={{
+                  slug: m.slug,
+                  question: m.question,
+                  category: m.category,
+                  prob: m.market_prob,
+                  volume: (m.q_yes ?? 0) + (m.q_no ?? 0),
+                  closesAt: m.closes_at,
+                }}
               />
             ))}
+            {markets.length === 0 && (
+              <div className="tregu-glass" style={{ padding: 24, color: "#6B6B6B", fontSize: 14 }}>
+                Nuk ka tregje aktive për këtë kategori ende.
+              </div>
+            )}
           </div>
         )}
       </main>
-    </div>
-  );
-}
-
-function ProbBarInline({ prob }: { prob: number }) {
-  const pct = Math.round(prob * 100);
-  const color = pct >= 50 ? "#00A651" : "#E41E20";
-  return (
-    <div>
-      <div className="tregu-prob-track" style={{ height: 10 }}>
-        <div className="tregu-prob-marker" style={{ left: `${pct}%`, boxShadow: `0 0 0 3px rgba(255,255,255,0.9), 0 0 16px ${color}` }} />
-      </div>
-      <div style={{ display: "flex", justifyContent: "space-between", marginTop: 8, fontSize: 13, fontWeight: 700 }}>
-        <span style={{ color: "#E41E20" }}>JO</span>
-        <span style={{ color, fontSize: 16 }}>{pct}% PO</span>
-        <span style={{ color: "#00A651" }}>PO</span>
-      </div>
     </div>
   );
 }
