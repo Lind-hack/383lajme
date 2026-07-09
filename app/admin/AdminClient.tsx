@@ -125,6 +125,21 @@ export default function AdminClient({
           <a href="/" style={{ fontWeight: 900, fontSize: "20px", color: "#111", textDecoration: "none" }}>383</a>
           <span style={{ fontWeight: 600, fontSize: "12px", color: "#999", letterSpacing: "0.08em", textTransform: "uppercase" }}>Admin</span>
           <span style={{ fontSize: "12px", color: "#bbb", marginLeft: "8px" }}>{articles.length} artikuj</span>
+          <a
+            href="/admin/tregu"
+            style={{
+              fontSize: "12px",
+              fontWeight: 700,
+              color: "#FF4422",
+              textDecoration: "none",
+              padding: "5px 10px",
+              borderRadius: "8px",
+              background: "rgba(255,68,34,0.08)",
+              marginLeft: "8px",
+            }}
+          >
+            383 Tregu →
+          </a>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
           <input

@@ -21,6 +21,7 @@ import subprocess
 import sys
 import time
 import urllib.error
+from urllib.parse import urlparse
 import urllib.request
 from datetime import datetime, timezone
 from email.mime.multipart import MIMEMultipart
@@ -204,12 +205,48 @@ def _social_basis(article: dict[str, Any]) -> str:
     return str(article.get("social_post_basis") or article.get("source_post_basis") or article.get("source_post_quote") or "").strip()
 
 
+def _hostname(value: object) -> str:
+    text = str(value or "").strip()
+    if not text:
+        return ""
+    if not text.startswith(("http://", "https://")):
+        text = f"https://{text}"
+    try:
+        host = urlparse(text).netloc.lower()
+    except Exception:
+        return ""
+    if "@" in host:
+        host = host.rsplit("@", 1)[-1]
+    return re.sub(r"^www\.", "", host.split(":", 1)[0])
+
+
+def _source_family(article: dict[str, Any]) -> str:
+    platform = _social_platform(article).strip().lower()
+    if platform:
+        if platform in {"x", "twitter", "x/twitter"}:
+            return "x/twitter"
+        return platform
+
+    for field in ("url", "source", "social_post_url", "source_post_url"):
+        host = _hostname(article.get(field))
+        if host:
+            if host in {"x.com", "twitter.com"}:
+                return "x/twitter"
+            parts = host.split(".")
+            if len(parts) >= 2:
+                return ".".join(parts[-2:])
+            return host
+    return _source_key(article.get("source", "")) or "unknown"
+
+
 def validate_batch(path: Path) -> list[dict[str, Any]]:
     articles = read_articles(path)
     errors: list[str] = []
     seen_urls: set[str] = set()
     seen_slugs: set[str] = set()
     seen_images: set[str] = set()
+    source_families: list[str] = []
+    x_based_count = 0
 
     if not re.fullmatch(r"\d{4}-\d{2}-\d{2}T(?:[01]\d|2[0-3])\.json", path.name):
         errors.append(f"{path.name} must use UTC hour format YYYY-MM-DDTHH.json with HH from 00 to 23")
@@ -270,6 +307,10 @@ def validate_batch(path: Path) -> list[dict[str, Any]]:
         social_post_url = _social_post_url(article)
         social_account = _social_account(article)
         social_basis = _social_basis(article)
+        source_family = _source_family(article)
+        source_families.append(source_family)
+        if source_family == "x/twitter":
+            x_based_count += 1
         if social_platform:
             if not social_post_url and _domain_platform(article.get("url")).lower() != social_platform.lower():
                 errors.append(
@@ -280,6 +321,17 @@ def validate_batch(path: Path) -> list[dict[str, Any]]:
                 errors.append(f"{label} is social-driven but missing social_post_account/source_account.")
             if not social_basis:
                 errors.append(f"{label} is social-driven but missing social_post_basis/source_post_basis.")
+
+        if category == "Teknologji":
+            combined_source = f"{article.get('source', '')} {social_account}".lower()
+            url_host = _hostname(article.get("url"))
+            social_host = _hostname(social_post_url)
+            if "rundown" in combined_source or "therundown" in url_host or "therundown" in social_host:
+                if url_host != "therundown.ai":
+                    errors.append(
+                        f"{label} uses The Rundown for Teknologji but the main article URL is not therundown.ai. "
+                        "Use The Rundown website articles/newsletter pages, not X/Twitter."
+                    )
 
         for field in ("title", "excerpt", "body", "source", "score_reason"):
             value = str(article.get(field, ""))
@@ -309,6 +361,19 @@ def validate_batch(path: Path) -> list[dict[str, Any]]:
                     errors.append(f"{label} score mismatch: expected {expected}, got {actual}")
             except Exception:
                 errors.append(f"{label} engagement_score is not numeric")
+
+    if len(articles) >= 4:
+        unique_families = {family for family in source_families if family and family != "unknown"}
+        if x_based_count > 2:
+            errors.append(
+                f"batch is too X/Twitter-heavy: {x_based_count} articles are based on X/Twitter. "
+                "Use X as one signal only and cap it at 2 articles per batch."
+            )
+        if len(unique_families) < min(4, len(articles)):
+            errors.append(
+                f"batch source variety is too low: {len(unique_families)} source families found "
+                f"({', '.join(sorted(unique_families)) or 'none'}). Use at least four source families when possible."
+            )
 
     if errors:
         raise ValueError("\n".join(errors))
@@ -713,6 +778,10 @@ def send_report(path: Path) -> int:
             return resend_code
         print("EMAIL Resend failed; trying Gmail SMTP fallback.")
 
+    return _send_gmail_report(user, password, recipient, subject, report_html)
+
+
+def _send_gmail_report(user: str, password: str, recipient: str, subject: str, report_html: str) -> int:
     message = MIMEMultipart("alternative")
     message["Subject"] = subject
     message["From"] = user
@@ -737,6 +806,10 @@ def send_report(path: Path) -> int:
 
 def _email_from() -> str:
     return os.environ.get("EMAIL_FROM", "").strip() or "383 Lajme <onboarding@resend.dev>"
+
+
+def _cron_slot_label() -> str:
+    return os.environ.get("CRON_SLOT_LABEL", "").strip()
 
 
 def _send_resend_report(api_key: str, recipient: str, subject: str, report_html: str) -> int:

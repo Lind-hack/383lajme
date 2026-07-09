@@ -555,4 +555,136 @@ body {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
   }
+  .tregu-scope .tregu-glow,
+  .tregu-scope .tregu-coin-shine {
+    animation: none !important;
+  }
 }
+
+/* ── Tregu pill pulse (navbar) ──────────────────────────── */
+@keyframes tregu-pulse {
+  0%   { box-shadow: 0 0 0 0 rgba(0,229,153,0.55); }
+  70%  { box-shadow: 0 0 0 6px rgba(0,229,153,0); }
+  100% { box-shadow: 0 0 0 0 rgba(0,229,153,0); }
+}
+
+/* ══════════════════════════════════════════════════════════
+   TREGU — liquid-glass prediction market design system.
+   Scoped under .tregu-scope so it never leaks into the
+   cream/serif editorial site.
+   ══════════════════════════════════════════════════════════ */
+.tregu-scope {
+  --tg-bg:        #06070A;
+  --tg-bg-2:      #0B0D13;
+  --tg-panel:     rgba(255,255,255,0.05);
+  --tg-panel-hi:  rgba(255,255,255,0.09);
+  --tg-border:    rgba(255,255,255,0.10);
+  --tg-border-hi: rgba(255,255,255,0.18);
+  --tg-text:      #F3F4F7;
+  --tg-muted:     #8B90A0;
+  --tg-yes:       #00E599;
+  --tg-yes-dim:   rgba(0,229,153,0.15);
+  --tg-no:        #FF3B5C;
+  --tg-no-dim:    rgba(255,59,92,0.15);
+  --tg-gold:      #F5B942;
+  --tg-orange:    #FF4422;
+
+  background: radial-gradient(1200px 600px at 15% -10%, rgba(255,68,34,0.12), transparent 60%),
+              radial-gradient(1000px 500px at 100% 0%, rgba(0,229,153,0.08), transparent 55%),
+              var(--tg-bg);
+  color: var(--tg-text);
+  font-family: "Manrope", sans-serif;
+  min-height: 100vh;
+}
+
+.tregu-glass {
+  background: var(--tg-panel);
+  border: 1px solid var(--tg-border);
+  border-radius: 20px;
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.06);
+}
+
+.tregu-glass-hi {
+  background: var(--tg-panel-hi);
+  border: 1px solid var(--tg-border-hi);
+}
+
+.tregu-glass:hover {
+  border-color: var(--tg-border-hi);
+}
+
+.tregu-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: 100px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  border: 1px solid var(--tg-border);
+  background: rgba(255,255,255,0.04);
+  color: var(--tg-muted);
+}
+
+.tregu-btn-yes {
+  background: linear-gradient(180deg, rgba(0,229,153,0.22), rgba(0,229,153,0.10));
+  border: 1px solid rgba(0,229,153,0.45);
+  color: var(--tg-yes);
+}
+.tregu-btn-yes:hover { background: linear-gradient(180deg, rgba(0,229,153,0.32), rgba(0,229,153,0.16)); }
+
+.tregu-btn-no {
+  background: linear-gradient(180deg, rgba(255,59,92,0.22), rgba(255,59,92,0.10));
+  border: 1px solid rgba(255,59,92,0.45);
+  color: var(--tg-no);
+}
+.tregu-btn-no:hover { background: linear-gradient(180deg, rgba(255,59,92,0.32), rgba(255,59,92,0.16)); }
+
+.tregu-btn-primary {
+  background: linear-gradient(135deg, #FF4422, #F5B942);
+  border: none;
+  color: #06070A;
+  font-weight: 800;
+}
+.tregu-btn-primary:hover { filter: brightness(1.08); }
+.tregu-btn-primary:disabled { opacity: 0.4; cursor: not-allowed; filter: none; }
+
+/* Red -> green probability bar used on mini-cards and the detail page */
+.tregu-prob-track {
+  position: relative;
+  height: 8px;
+  border-radius: 100px;
+  background: linear-gradient(90deg, var(--tg-no) 0%, #6B6F80 50%, var(--tg-yes) 100%);
+  opacity: 0.35;
+}
+.tregu-prob-marker {
+  position: absolute;
+  top: 50%;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  box-shadow: 0 0 0 3px rgba(0,0,0,0.4), 0 0 12px rgba(255,255,255,0.5);
+  transform: translate(-50%, -50%);
+  transition: left var(--duration-slow) var(--ease-out);
+}
+
+@keyframes tregu-shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.tregu-glow {
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+  background-size: 200% 100%;
+  animation: tregu-shimmer 2.4s linear infinite;
+}
+
+@keyframes tregu-coin-spin {
+  0%   { transform: perspective(300px) rotateY(0deg); }
+  100% { transform: perspective(300px) rotateY(360deg); }
+}
+.tregu-coin-spin { animation: tregu-coin-spin 3.2s linear infinite; }
