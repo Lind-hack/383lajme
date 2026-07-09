@@ -22,6 +22,7 @@ export const NAV_LINKS = [
 export function KosovoTag() {
   return (
     <div
+      className="kosovo-tag"
       style={{
         display: "flex",
         alignItems: "center",
@@ -65,19 +66,28 @@ export default function Navbar() {
   }, []);
 
   const collapsed = scrolled || isMobile;
+  // On the Tregu hub the header melts into the full-screen video hero until
+  // the user scrolls: transparent background, ink text flipped to white
+  // (color overrides live in globals.css under header[data-overlay]).
+  const overlay = pathname === "/tregu" && !scrolled;
 
   return (
     <header
+      data-overlay={overlay ? "true" : undefined}
       style={{
         position: "fixed",
         top: 0,
         left: 0,
         right: 0,
         zIndex: 50,
-        background: "#F9F6F1",
-        borderBottom: scrolled ? "1px solid #E8E3DB" : "1px solid rgba(17,17,17,0.08)",
+        background: overlay ? "transparent" : "#F9F6F1",
+        borderBottom: overlay
+          ? "1px solid transparent"
+          : scrolled
+            ? "1px solid #E8E3DB"
+            : "1px solid rgba(17,17,17,0.08)",
         boxShadow: scrolled ? "0 2px 20px rgba(0,0,0,0.06)" : "none",
-        transition: "border-color 0.3s ease, box-shadow 0.3s ease",
+        transition: "background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease",
       }}
     >
       <div
@@ -108,9 +118,10 @@ export default function Navbar() {
             style={{
               fontSize: "32px",
               fontWeight: 800,
-              color: "#111111",
+              color: overlay ? "#FFFFFF" : "#111111",
               letterSpacing: "-0.04em",
               lineHeight: 1,
+              transition: "color 0.3s ease",
             }}
           >
             383
