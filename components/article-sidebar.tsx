@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { Bookmark, Link2 } from "lucide-react";
 import { type Article } from "@/lib/mock-data";
 import { EASE, DUR } from "@/lib/tokens";
+import SidebarMarketWidget from "@/components/tregu/sidebar-market-widget";
 
 function flagToCode(flag: string): string {
   const cps = [...flag].map((c) => c.codePointAt(0) ?? 0);
@@ -208,6 +209,9 @@ export default function ArticleSidebar({ article, related }: Props) {
             </motion.button>
           </div>
         </div>
+
+        {/* 383 Tregu — live prediction market related to this article's category */}
+        <SidebarMarketWidget articleCategory={article.category} />
 
         {/* Bookmark */}
         <motion.button

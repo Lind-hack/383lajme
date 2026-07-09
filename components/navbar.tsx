@@ -206,6 +206,39 @@ export default function Navbar() {
                 })}
               </div>
 
+              {/* Tregu — prediction markets, pinned so it never scrolls out of the category row */}
+              <Link
+                href="/tregu"
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "6px",
+                  flexShrink: 0,
+                  padding: "7px 14px",
+                  borderRadius: "100px",
+                  background: pathname?.startsWith("/tregu") ? "#111111" : "rgba(17,17,17,0.06)",
+                  color: pathname?.startsWith("/tregu") ? "#FFFFFF" : "#111111",
+                  fontSize: "13px",
+                  fontWeight: 700,
+                  textDecoration: "none",
+                  whiteSpace: "nowrap",
+                  marginLeft: "4px",
+                }}
+              >
+                <span
+                  style={{
+                    width: "6px",
+                    height: "6px",
+                    borderRadius: "50%",
+                    background: "#00E599",
+                    boxShadow: "0 0 0 0 rgba(0,229,153,0.7)",
+                    animation: "tregu-pulse 2s infinite",
+                    flexShrink: 0,
+                  }}
+                />
+                Tregu
+              </Link>
+
               {/* Desktop only: Kosovo + auth pinned right (mobile auth now lives in the side panel) */}
               <div className="nav-auth-desktop">
                 <KosovoTag />

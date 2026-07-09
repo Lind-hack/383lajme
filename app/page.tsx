@@ -18,6 +18,7 @@ import ThrowbackSection from "@/components/throwback-section";
 import AlertsCta from "@/components/alerts-cta";
 import DailyPoll from "@/components/daily-poll";
 import ImageAccordion, { type AccordionSlide } from "@/components/image-accordion";
+import TrendingStrip from "@/components/tregu/trending-strip";
 
 export const revalidate = 3600;
 
@@ -152,6 +153,9 @@ export default async function HomePage() {
 
         {/* Daily poll */}
         <DailyPoll />
+
+        {/* 383 Tregu — trending prediction markets */}
+        <TrendingStrip />
 
         {/* Kryesore — front-page hierarchy: lead + secondary + most-read rail */}
         {kryesoreLead && (

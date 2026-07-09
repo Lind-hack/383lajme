@@ -110,7 +110,7 @@ export default function NavSidePanel({ open, onClose }: Props) {
             display: "flex",
             flexDirection: "column",
             height: "100%",
-            padding: "20px 22px 24px",
+            padding: "20px 22px 0",
           }}
         >
           {/* Header row */}
@@ -154,6 +154,16 @@ export default function NavSidePanel({ open, onClose }: Props) {
             </button>
           </div>
 
+          <div
+            className="side-panel-scroll"
+            style={{
+              flex: 1,
+              minHeight: 0,
+              overflowY: "auto",
+              overscrollBehavior: "contain",
+              paddingBottom: "24px",
+            }}
+          >
           {/* Categories — collapsible animated dropdown */}
           <button
             onClick={() => setCatsOpen((v) => !v)}
@@ -240,8 +250,8 @@ export default function NavSidePanel({ open, onClose }: Props) {
             <span>KOSOVË</span>
           </div>
 
-          {/* Bottom area (pinned): tutorial card + profile/auth */}
-          <div style={{ marginTop: "auto", paddingTop: "28px" }}>
+          {/* Bottom area: tutorial card + profile/auth (normal scroll flow) */}
+          <div style={{ paddingTop: "28px" }}>
             {/* How-to-use tutorial card (hover to expand the walkthrough video) */}
             <div style={{ marginBottom: "16px" }}>
               <InfoCard
@@ -430,6 +440,7 @@ export default function NavSidePanel({ open, onClose }: Props) {
                 </Link>
               </div>
             )}
+          </div>
           </div>
         </div>
       </aside>
