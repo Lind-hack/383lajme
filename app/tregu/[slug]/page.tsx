@@ -6,7 +6,7 @@ import Navbar from "@/components/navbar";
 import ProbChart, { type ChartPoint } from "@/components/tregu/prob-chart";
 import CoinIcon from "@/components/tregu/coin-icon";
 import { createClient } from "@/lib/supabase/client";
-import { previewBet, lmsrPriceYes, type Side } from "@/lib/tregu";
+import { previewBet, lmsrPriceYes, type Side } from "@/lib/tregu-client";
 
 interface MarketDetail {
   id: string;
