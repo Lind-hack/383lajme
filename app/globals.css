@@ -329,6 +329,21 @@ body {
    is a black underline (#111111, matching the "383" wordmark) that
    wipes in L-to-R on hover and stays pinned under the active
    category. No middle-dot separators (the underline gives rhythm). */
+/* ── Overlay navbar (Tregu video hero): while the header sits over the
+   full-screen video its ink elements flip to white. !important is needed
+   to beat the inline styles on these elements. */
+header[data-overlay] .nav-pill::after { background: #FFFFFF; }
+header[data-overlay] .kosovo-tag { color: rgba(255, 255, 255, 0.85) !important; }
+header[data-overlay] .btn-outline {
+  color: #FFFFFF !important;
+  border-color: rgba(255, 255, 255, 0.45) !important;
+}
+header[data-overlay] .nav-menu-btn {
+  background: rgba(255, 255, 255, 0.15) !important;
+  border-color: rgba(255, 255, 255, 0.3) !important;
+}
+header[data-overlay] .hamburger-bar { background: #FFFFFF !important; }
+
 .nav-pill {
   display: inline-flex;
   align-items: center;
