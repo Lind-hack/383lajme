@@ -56,7 +56,7 @@ Required Vercel production env vars for the scheduler route:
 - Do not use Kosovo competitor outlets as the main source. Avoid Telegrafi, Koha, Gazeta Express, Klan Kosova, RTK, Reporteri, Indeksonline, Nacionale, Sinjali, Periskopi, Kallxo, Dukagjini, KosovoPress, Bota Sot, Zeri, Lajmi.net, Insajderi, Ekonomia Online, and Albanian Post as primary sources. They may be used only as context or corroboration.
 - Every article must have a real, public, unique `image_url` that starts with `http://` or `https://`. Fetch and decode it before publication. Require at least `1200x675` pixels, record actual `image_width` and `image_height`, and reject missing, broken, low-resolution, unrelated, logo-only, placeholder, or reused images.
 - Write original 383 Lajme Albanian newsroom copy. Do not make articles read like translations or source summaries such as "Reddit says" or "Instagram wrote" unless direct attribution is essential to a claim.
-- Every body must contain at least 500 Albanian words across at least five paragraphs. Set `reading_time` to `ceil(body word count / 200)`; one-minute placeholder articles are not allowed.
+- Non-social articles must contain at least 500 Albanian words across at least five paragraphs. Social-driven articles may be short dispatches when their complete social metadata and accurate attribution are present. Set `reading_time` to `ceil(body word count / 200)`; the value must always reflect the actual body length.
 - Preserve uncertainty. For rumors, accusations, and drama, write as "pretendon", "tha", "akuzoi", "u raportua", or "nuk eshte verifikuar" unless a reliable source proves it.
 - Include conflicting angles when they are real and relevant, but do not manufacture conflict.
 
