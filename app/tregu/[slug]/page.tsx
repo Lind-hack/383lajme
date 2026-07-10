@@ -4,7 +4,7 @@ import { useEffect, useState, use as usePromise } from "react";
 import Link from "next/link";
 import Navbar from "@/components/navbar";
 import ProbChart, { type ChartPoint } from "@/components/tregu/prob-chart";
-import CoinIcon from "@/components/tregu/coin-icon";
+import CoinFace from "@/components/tregu/coin-face";
 import { createClient } from "@/lib/supabase/client";
 import { previewBet, lmsrPriceYes, type Side } from "@/lib/tregu-client";
 
@@ -218,7 +218,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
 
                 <label style={{ fontSize: 12, color: "#6B6B6B", fontWeight: 700 }}>Shuma (383 Coin)</label>
                 <div style={{ display: "flex", alignItems: "center", gap: 10, margin: "8px 0 16px" }}>
-                  <CoinIcon size={20} />
+                  <CoinFace size={20} />
                   <input
                     type="number"
                     min={1}

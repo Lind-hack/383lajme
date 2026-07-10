@@ -19,9 +19,23 @@ export default function HyrPage() {
   );
 }
 
+// Set right before leaving the auth flow — NavBalance sees it on Tregu and
+// plays the coins-from-screen-centre celebration.
+const CELEBRATE_KEY = "383-coin-celebrate";
+
+function markCelebrate() {
+  try {
+    sessionStorage.setItem(CELEBRATE_KEY, String(Date.now()));
+  } catch {}
+}
+
 function HyrForm() {
   const searchParams = useSearchParams();
   const initialTab = (searchParams.get("tab") === "regjistrohu" ? "regjistrohu" : "hyr") as Tab;
+  // Where to land after auth (e.g. the Tregu CTA passes /tregu). Same-origin
+  // paths only — anything else falls back to the homepage.
+  const rawNext = searchParams.get("next") ?? "/";
+  const nextPath = rawNext.startsWith("/") && !rawNext.startsWith("//") ? rawNext : "/";
 
   const [tab, setTab] = useState<Tab>(initialTab);
   const [fullName, setFullName] = useState("");
@@ -43,9 +57,9 @@ function HyrForm() {
     const supabase = getSupabase();
     if (!supabase) return;
     supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session?.user) router.replace("/");
+      if (session?.user) router.replace(nextPath);
     });
-  }, [router]);
+  }, [router, nextPath]);
 
   function resetForm() {
     setError("");
@@ -69,15 +83,17 @@ function HyrForm() {
           password,
           options: {
             data: { full_name: fullName },
-            emailRedirectTo: `${window.location.origin}/auth/callback`,
+            emailRedirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent(nextPath)}`,
           },
         });
         if (error) throw error;
-        router.push("/");
+        markCelebrate();
+        router.push(nextPath);
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
-        router.push("/");
+        markCelebrate();
+        router.push(nextPath);
       }
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : "Ndodhi një gabim.";
@@ -100,9 +116,11 @@ function HyrForm() {
     setError("");
     setLoading(true);
     try {
+      // sessionStorage survives the OAuth round-trip in the same tab.
+      markCelebrate();
       const { error } = await supabase.auth.signInWithOAuth({
         provider,
-        options: { redirectTo: `${window.location.origin}/auth/callback` },
+        options: { redirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent(nextPath)}` },
       });
       if (error) {
         const msg = error.message;
