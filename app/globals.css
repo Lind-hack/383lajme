@@ -228,6 +228,41 @@ body {
 .side-panel-link[aria-current="page"] {
   border-left-color: #FF4422;
 }
+/* Tregu entry — big link like a category but with the live green pulse dot
+   echoing the desktop nav, so it reads as its own feature. */
+.side-panel-tregu {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.side-panel-tregu-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #00A651;
+  flex-shrink: 0;
+  animation: tregu-pulse 2s infinite;
+}
+/* Secondary "Portofoli im" link under the Tregu heading */
+.side-panel-tregu-sub {
+  display: block;
+  margin: 6px 0 0 21px;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.005em;
+  text-decoration: none;
+  color: #6B6B6B;
+  transition: color var(--duration-base) var(--ease-out);
+}
+.side-panel-tregu-sub:hover,
+.side-panel-tregu-sub[aria-current="page"] {
+  color: #FF4422;
+}
+@media (prefers-reduced-motion: reduce) {
+  .side-panel-tregu-dot {
+    animation: none;
+  }
+}
 .side-panel-scroll {
   scrollbar-width: none;
 }

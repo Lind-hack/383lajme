@@ -231,6 +231,54 @@ export default function NavSidePanel({ open, onClose }: Props) {
             )}
           </AnimatePresence>
 
+          {/* Tregu — standalone feature group, kept apart from the news
+              categories above. Same label treatment as "Kategoritë". */}
+          <div
+            style={{
+              marginTop: "22px",
+              paddingTop: "20px",
+              borderTop: "1px solid #E8E3DB",
+            }}
+          >
+            <span
+              style={{
+                display: "block",
+                marginBottom: "10px",
+                fontSize: "10px",
+                fontWeight: 800,
+                letterSpacing: "0.2em",
+                textTransform: "uppercase",
+                color: "#C4BDB1",
+                fontFamily: "var(--font-manrope), sans-serif",
+              }}
+            >
+              Tregu
+            </span>
+            <Link
+              href="/tregu"
+              onClick={onClose}
+              className="glossy-orange side-panel-link side-panel-tregu"
+              aria-current={
+                pathname?.startsWith("/tregu") && pathname !== "/tregu/portofoli"
+                  ? "page"
+                  : undefined
+              }
+            >
+              <span className="side-panel-tregu-dot" aria-hidden />
+              Tregu
+            </Link>
+            {user && (
+              <Link
+                href="/tregu/portofoli"
+                onClick={onClose}
+                className="side-panel-tregu-sub"
+                aria-current={pathname === "/tregu/portofoli" ? "page" : undefined}
+              >
+                Portofoli im
+              </Link>
+            )}
+          </div>
+
           {/* Kosovo tag */}
           <div
             style={{
