@@ -1,10 +1,10 @@
-import type { CSSProperties } from "react";
-
 // Exact port of the CoinFace coin from the approved standalone mock:
-// ridged conic-gradient edge, radial-lit gold face, sweeping shine,
-// idle float, hover tilt and the earn flip (+ sparkle burst).
-// Reference scales from the mock: xs 28px, sm 76px, xl 168px — any size
-// works, metrics interpolate from the nearest reference design.
+// ridged conic-gradient edge, radial-lit gold face, sweeping shine, idle
+// float, hover tilt and the earn flip. Reference scales from the mock:
+// xs 28px, sm 76px, xl 168px — any size works, metrics interpolate from
+// the nearest reference design. Idle float + shine are on at every size
+// (the mock only dropped them on the inline xs badge); the navbar coin
+// should breathe and glint just like the big one.
 
 const RING_13 =
   "conic-gradient(from 0deg,#8a5a17,#E8A33D 8%,#8a5a17 16%,#E8A33D 24%,#8a5a17 32%,#E8A33D 40%,#8a5a17 48%,#E8A33D 56%,#8a5a17 64%,#E8A33D 72%,#8a5a17 80%,#E8A33D 88%,#8a5a17 96%,#E8A33D 100%)";
@@ -18,19 +18,23 @@ export default function CoinFace({
   numeral = "383",
   spinning = false,
   shine,
+  idle = true,
   hoverTilt = false,
 }: {
   size?: number;
   numeral?: string;
   spinning?: boolean;
   shine?: boolean;
+  // Idle bob. On by default; flying/tumbling particles pass false so they
+  // don't fight the flight transform.
+  idle?: boolean;
   hoverTilt?: boolean;
 }) {
   const small = size < 50;
   const large = size >= 120;
   const inset = Math.max(2, Math.round(size * (small ? 2 / 28 : large ? 8 / 168 : 4 / 76)));
   const font = Math.round(size * (small ? 11 / 28 : 19 / 76));
-  const showShine = shine ?? !small;
+  const showShine = shine ?? true;
 
   const ringShadow = small
     ? "0 2px 4px rgba(0,0,0,0.25)"
@@ -43,32 +47,17 @@ export default function CoinFace({
       ? "inset 0 2px 4px rgba(255,255,255,0.65), inset 0 -8px 14px rgba(0,0,0,0.35), inset 0 0 0 2px rgba(255,236,190,0.45)"
       : "inset 0 1px 2px rgba(255,255,255,0.65), inset 0 -4px 7px rgba(0,0,0,0.35)";
 
-  // Idle float + earn flip live on an inner wrapper so the hover tilt (outer)
-  // never fights them. Small coins get a proportional flip — the full-size
-  // 30px hop would launch a 28px coin out of the navbar. Class-based so
-  // prefers-reduced-motion can switch them off.
+  // Idle float + earn flip live on this inner wrapper so the hover tilt
+  // (outer) never fights them. Small coins get a proportional flip — the
+  // full 30px hop would launch a 28px coin out of the navbar. Class-based
+  // so prefers-reduced-motion can switch them all off.
   const animClass = spinning
     ? small
       ? "coin-anim-spin-xs"
       : "coin-anim-spin"
-    : small
-      ? undefined
-      : "coin-anim-float";
-
-  const sparkles =
-    spinning && !small
-      ? [0, 1, 2, 3, 4, 5, 6, 7].map((i) => {
-          const angle = (i / 8) * Math.PI * 2 - Math.PI / 2;
-          const radius = size * (96 / 168);
-          return {
-            id: i,
-            sx: Math.round(Math.cos(angle) * radius),
-            sy: Math.round(Math.sin(angle) * radius * 0.75 - size * (18 / 168)),
-            delay: i * 45,
-            color: i % 2 === 0 ? "#FFD98A" : "#FF4422",
-          };
-        })
-      : [];
+    : idle
+      ? "coin-anim-float"
+      : undefined;
 
   return (
     <span
@@ -117,20 +106,6 @@ export default function CoinFace({
           </span>
         </span>
       </span>
-      {sparkles.map((sp) => (
-        <span
-          key={sp.id}
-          className="coin-sparkle"
-          style={
-            {
-              background: sp.color,
-              animationDelay: `${sp.delay}ms`,
-              "--sx": `${sp.sx}px`,
-              "--sy": `${sp.sy}px`,
-            } as CSSProperties
-          }
-        />
-      ))}
     </span>
   );
 }
