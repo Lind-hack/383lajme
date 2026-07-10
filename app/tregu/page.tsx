@@ -5,6 +5,7 @@ import Navbar from "@/components/navbar";
 import MarketMiniCard from "@/components/tregu/market-mini-card";
 import VideoHero from "@/components/tregu/video-hero";
 import CoinFace from "@/components/tregu/coin-face";
+import MobileAccountBar from "@/components/tregu/mobile-account-bar";
 import { createClient } from "@/lib/supabase/client";
 import Link from "next/link";
 
@@ -50,6 +51,7 @@ export default function TreguHub() {
   const [claiming, setClaiming] = useState(false);
   const [bonusMsg, setBonusMsg] = useState<string | null>(null);
   const [coinSpin, setCoinSpin] = useState(false);
+  const [flyCoins, setFlyCoins] = useState<number[]>([]);
 
   useEffect(() => {
     setLoading(true);
@@ -105,6 +107,11 @@ export default function TreguHub() {
       // Earn flip on the chip coin — same state as the approved coin mock.
       setCoinSpin(true);
       window.setTimeout(() => setCoinSpin(false), 950);
+      // Stream coins into the mobile bar chip (the navbar chip that plays this
+      // on desktop is hidden on mobile). Count scales with the bonus size.
+      const n = Math.min(10, Math.max(4, Math.ceil(Number(data.bonus) / 25)));
+      setFlyCoins(Array.from({ length: n }, (_, i) => performance.now() + i));
+      window.setTimeout(() => setFlyCoins([]), n * 55 + 500);
       if (balance !== null) {
         // The navbar balance chip listens for this and plays the coin fly-in.
         window.dispatchEvent(
@@ -143,6 +150,19 @@ export default function TreguHub() {
         </div>
       </div>
 
+      {/* Mobile account bar — pins the balance, flowing coins and daily bonus
+          under the navbar, where the collapsed mobile nav has no room. */}
+      {balance !== null && (
+        <MobileAccountBar
+          balance={balance}
+          claiming={claiming}
+          bonusMsg={bonusMsg}
+          coinSpin={coinSpin}
+          flyCoins={flyCoins}
+          onClaim={claimBonus}
+        />
+      )}
+
       <main id="tregjet" style={{ maxWidth: 1160, margin: "0 auto", padding: "44px 24px 80px", scrollMarginTop: 88 }}>
         {/* Floor head — accent bar + focused, active-voice line. */}
         <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", flexWrap: "wrap", gap: 16, marginBottom: 26 }}>
@@ -159,7 +179,7 @@ export default function TreguHub() {
           </div>
 
           {balance !== null && (
-            <div className="tregu-glass tregu-glass-hi" style={{ display: "flex", alignItems: "center", gap: 12, padding: "9px 10px 9px 14px" }}>
+            <div className="tregu-glass tregu-glass-hi tregu-headchip" style={{ display: "flex", alignItems: "center", gap: 12, padding: "9px 10px 9px 14px" }}>
               <CoinFace size={26} spinning={coinSpin} hoverTilt />
               <span style={{ fontWeight: 800, fontSize: 16, fontVariantNumeric: "tabular-nums" }}>
                 {balance.toLocaleString("sq-AL")}
