@@ -7,6 +7,7 @@ import { MapPin } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { EASE, DUR } from "@/lib/tokens";
 import UserMenu from "./user-menu";
+import NavBalance from "./nav-balance";
 import NavSidePanel from "./nav-side-panel";
 
 export const NAV_LINKS = [
@@ -253,6 +254,7 @@ export default function Navbar() {
               {/* Desktop only: Kosovo + auth pinned right (mobile auth now lives in the side panel) */}
               <div className="nav-auth-desktop">
                 <KosovoTag />
+                <NavBalance />
                 <UserMenu />
               </div>
             </motion.div>

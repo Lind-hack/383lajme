@@ -3,8 +3,9 @@
 import { useEffect, useState, type ReactNode } from "react";
 import Link from "next/link";
 
+// Pexels #36244310 — aerial city skyline at night (free license), 2560×1440 30fps
 const VIDEO_URL =
-  "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260403_050628_c4e32401-fab4-4a27-b7a8-6e9291cd5959.mp4";
+  "https://videos.pexels.com/video-files/36244310/15370739_2560_1440_30fps.mp4";
 
 function FadeIn({
   delay,
@@ -99,27 +100,27 @@ export default function VideoHero({ loggedIn }: { loggedIn: boolean }) {
                   {!loggedIn && (
                     <Link
                       href="/hyr"
-                      className="bg-white text-black px-8 py-3 rounded-lg font-medium transition-colors hover:bg-gray-100"
+                      className="liquid-glass liquid-glass-btn border border-white/25 text-white px-8 py-3 rounded-lg font-medium"
                     >
                       Merr 100 383 Coin falas
                     </Link>
                   )}
                   <a
                     href="#tregjet"
-                    className="liquid-glass border border-white/20 text-white px-8 py-3 rounded-lg font-medium transition-colors hover:bg-white hover:text-black"
+                    className="liquid-glass liquid-glass-btn border border-white/20 text-white px-8 py-3 rounded-lg font-medium"
                   >
-                    Shiko tregjet
+                    Shiko Tregjet
                   </a>
                 </div>
               </FadeIn>
             </div>
 
             <FadeIn delay={1400} className="mt-8 flex items-end justify-start lg:mt-0 lg:justify-end">
-              <div className="liquid-glass border border-white/20 px-6 py-3 rounded-xl">
+              <a href="#tregjet" className="liquid-glass liquid-glass-btn border border-white/20 px-6 py-3 rounded-xl">
                 <span className="text-lg md:text-xl lg:text-2xl font-light text-white">
                   Lexo. Parashiko. Fito.
                 </span>
-              </div>
+              </a>
             </FadeIn>
           </div>
         </div>
