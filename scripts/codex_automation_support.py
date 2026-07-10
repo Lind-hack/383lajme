@@ -412,12 +412,13 @@ def validate_batch(path: Path) -> list[dict[str, Any]]:
 
         word_count = _body_word_count(article.get("body"))
         paragraph_count = _paragraph_count(article.get("body"))
-        if word_count < MIN_ARTICLE_WORDS:
-            errors.append(f"{label} body is too short ({word_count} words); require at least {MIN_ARTICLE_WORDS}")
-        if paragraph_count < MIN_ARTICLE_PARAGRAPHS:
-            errors.append(
-                f"{label} body has only {paragraph_count} paragraphs; require at least {MIN_ARTICLE_PARAGRAPHS}"
-            )
+        if not social_platform:
+            if word_count < MIN_ARTICLE_WORDS:
+                errors.append(f"{label} body is too short ({word_count} words); require at least {MIN_ARTICLE_WORDS}")
+            if paragraph_count < MIN_ARTICLE_PARAGRAPHS:
+                errors.append(
+                    f"{label} body has only {paragraph_count} paragraphs; require at least {MIN_ARTICLE_PARAGRAPHS}"
+                )
 
         try:
             reading_time = int(article.get("reading_time", 0))

@@ -92,6 +92,12 @@ def test_strict_batch_validation():
             assert source_mix.validate(path) == 0
 
             articles[0]["body"] = "Shume shkurt."
+            articles[0]["reading_time"] = 1
+            path.write_text(json.dumps(articles), encoding="utf-8")
+            assert len(support.validate_batch(path)) == 20
+
+            articles[8]["body"] = "Shume shkurt."
+            articles[8]["reading_time"] = 1
             path.write_text(json.dumps(articles), encoding="utf-8")
             try:
                 support.validate_batch(path)
