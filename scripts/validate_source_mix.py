@@ -24,8 +24,11 @@ SOCIAL_DOMAINS = {
     "pinterest.com": "pinterest",
     "github.com": "github",
 }
-MIN_ARTICLES_PER_BATCH = 8
-MAX_ARTICLES_PER_BATCH = 14
+MIN_ARTICLES_PER_BATCH = 18
+MAX_ARTICLES_PER_BATCH = 22
+MAX_X_ARTICLES = 2
+MAX_SOCIAL_SHARE = 0.40
+MIN_SOURCE_FAMILIES = 6
 
 
 def hostname(value: object) -> str:
@@ -89,6 +92,7 @@ def validate(path: Path) -> int:
     families = [source_family(article) for article in articles if isinstance(article, dict)]
     unique_families = {family for family in families if family and family != "unknown"}
     x_count = sum(1 for family in families if family == "x/twitter")
+    social_count = sum(1 for article in articles if isinstance(article, dict) and social_platform(article))
     errors: list[str] = []
 
     if len(articles) < MIN_ARTICLES_PER_BATCH:
@@ -103,11 +107,16 @@ def validate(path: Path) -> int:
         )
 
     if len(articles) >= 4:
-        if x_count > 2:
+        if x_count > MAX_X_ARTICLES:
             errors.append(
-                f"too many X/Twitter-based articles ({x_count}); cap X/Twitter at 2 articles per batch"
+                f"too many X/Twitter-based articles ({x_count}); cap X/Twitter at {MAX_X_ARTICLES} articles per batch"
             )
-        if len(unique_families) < min(4, len(articles)):
+        max_social = int(len(articles) * MAX_SOCIAL_SHARE)
+        if social_count > max_social:
+            errors.append(
+                f"too many social-driven articles ({social_count}); cap social platforms at {max_social} of {len(articles)} articles"
+            )
+        if len(unique_families) < min(MIN_SOURCE_FAMILIES, len(articles)):
             errors.append(
                 "not enough source variety: "
                 f"{len(unique_families)} families found ({', '.join(sorted(unique_families)) or 'none'})"
@@ -139,7 +148,7 @@ def validate(path: Path) -> int:
     print(
         "SOURCE MIX ok: "
         f"{len(unique_families)} families ({', '.join(sorted(unique_families)) or 'none'}), "
-        f"X/Twitter articles={x_count}"
+        f"X/Twitter articles={x_count}, social-driven articles={social_count}"
     )
     return 0
 

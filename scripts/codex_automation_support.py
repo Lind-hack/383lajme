@@ -13,6 +13,7 @@ import argparse
 import base64
 import html
 import json
+import math
 import os
 import re
 import smtplib
@@ -26,6 +27,7 @@ import urllib.request
 from datetime import datetime, timezone
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+from io import BytesIO
 from pathlib import Path
 from typing import Any
 
@@ -63,6 +65,8 @@ REQUIRED_FIELDS = {
     "score_breakdown",
     "score_formula",
     "image_url",
+    "image_width",
+    "image_height",
     "created_at",
 }
 
@@ -129,8 +133,16 @@ SCORE_WEIGHTS = {
 
 DEFAULT_SITE_URL = "https://383lajme.vercel.app"
 DEFAULT_GITHUB_REPO = "Lind-hack/383lajme"
-MIN_ARTICLES_PER_BATCH = 8
-MAX_ARTICLES_PER_BATCH = 14
+MIN_ARTICLES_PER_BATCH = 18
+MAX_ARTICLES_PER_BATCH = 22
+MAX_X_ARTICLES = 2
+MAX_SOCIAL_SHARE = 0.40
+MIN_SOURCE_FAMILIES = 6
+MIN_ARTICLE_WORDS = 500
+MIN_ARTICLE_PARAGRAPHS = 5
+WORDS_PER_READING_MINUTE = 200
+MIN_IMAGE_WIDTH = 1200
+MIN_IMAGE_HEIGHT = 675
 
 
 def load_env() -> list[str]:
@@ -239,6 +251,35 @@ def _source_family(article: dict[str, Any]) -> str:
     return _source_key(article.get("source", "")) or "unknown"
 
 
+def _body_word_count(value: object) -> int:
+    return len(re.findall(r"\b\w+[\w'-]*\b", str(value or ""), flags=re.UNICODE))
+
+
+def _paragraph_count(value: object) -> int:
+    return len([part for part in re.split(r"\n\s*\n", str(value or "").strip()) if part.strip()])
+
+
+def _fetch_image_dimensions(image_url: str) -> tuple[int, int]:
+    """Fetch a public image and return decoded pixel dimensions."""
+    try:
+        from PIL import Image
+    except ImportError as exc:
+        raise RuntimeError("Pillow is required for strict image validation") from exc
+
+    request = urllib.request.Request(
+        image_url,
+        headers={"User-Agent": "383-Lajme-Image-Validator/1.0"},
+    )
+    with urllib.request.urlopen(request, timeout=20) as response:
+        payload = response.read(15_000_000)
+    if not payload:
+        raise ValueError("empty response")
+    with Image.open(BytesIO(payload)) as image:
+        image.verify()
+    with Image.open(BytesIO(payload)) as image:
+        return image.size
+
+
 def validate_batch(path: Path) -> list[dict[str, Any]]:
     articles = read_articles(path)
     errors: list[str] = []
@@ -247,6 +288,8 @@ def validate_batch(path: Path) -> list[dict[str, Any]]:
     seen_images: set[str] = set()
     source_families: list[str] = []
     x_based_count = 0
+    social_based_count = 0
+    image_dimensions: dict[str, tuple[int, int] | str] = {}
 
     if not re.fullmatch(r"\d{4}-\d{2}-\d{2}T(?:[01]\d|2[0-3])\.json", path.name):
         errors.append(f"{path.name} must use UTC hour format YYYY-MM-DDTHH.json with HH from 00 to 23")
@@ -295,6 +338,32 @@ def validate_batch(path: Path) -> list[dict[str, Any]]:
             errors.append(f"{label} duplicate image in batch: {image}")
         if image:
             seen_images.add(image)
+            dimensions = image_dimensions.get(image)
+            if dimensions is None:
+                try:
+                    dimensions = _fetch_image_dimensions(image)
+                except Exception as exc:
+                    dimensions = f"{type(exc).__name__}: {exc}"
+                image_dimensions[image] = dimensions
+            if isinstance(dimensions, str):
+                errors.append(f"{label} image_url could not be fetched and decoded: {dimensions}")
+            else:
+                actual_width, actual_height = dimensions
+                try:
+                    declared_width = int(article.get("image_width", 0))
+                    declared_height = int(article.get("image_height", 0))
+                except Exception:
+                    declared_width = declared_height = 0
+                if declared_width != actual_width or declared_height != actual_height:
+                    errors.append(
+                        f"{label} image dimensions do not match image_url: declared "
+                        f"{declared_width}x{declared_height}, actual {actual_width}x{actual_height}"
+                    )
+                if actual_width < MIN_IMAGE_WIDTH or actual_height < MIN_IMAGE_HEIGHT:
+                    errors.append(
+                        f"{label} image is too small ({actual_width}x{actual_height}); require at least "
+                        f"{MIN_IMAGE_WIDTH}x{MIN_IMAGE_HEIGHT}"
+                    )
 
         source_key = _source_key(article.get("source", ""))
         if source_key in KOSOVO_COMPETITOR_SOURCES:
@@ -312,6 +381,7 @@ def validate_batch(path: Path) -> list[dict[str, Any]]:
         if source_family == "x/twitter":
             x_based_count += 1
         if social_platform:
+            social_based_count += 1
             if not social_post_url and _domain_platform(article.get("url")).lower() != social_platform.lower():
                 errors.append(
                     f"{label} is social-driven but missing social_post_url/source_post_url. "
@@ -340,10 +410,24 @@ def validate_batch(path: Path) -> list[dict[str, Any]]:
             if "Ã" in value or "Â" in value:
                 errors.append(f"{label} possible mojibake in {field}")
 
+        word_count = _body_word_count(article.get("body"))
+        paragraph_count = _paragraph_count(article.get("body"))
+        if word_count < MIN_ARTICLE_WORDS:
+            errors.append(f"{label} body is too short ({word_count} words); require at least {MIN_ARTICLE_WORDS}")
+        if paragraph_count < MIN_ARTICLE_PARAGRAPHS:
+            errors.append(
+                f"{label} body has only {paragraph_count} paragraphs; require at least {MIN_ARTICLE_PARAGRAPHS}"
+            )
+
         try:
             reading_time = int(article.get("reading_time", 0))
             if reading_time < 1:
                 errors.append(f"{label} reading_time must be >= 1")
+            expected_reading_time = max(1, math.ceil(word_count / WORDS_PER_READING_MINUTE))
+            if reading_time != expected_reading_time:
+                errors.append(
+                    f"{label} reading_time must equal {expected_reading_time} for {word_count} body words; got {reading_time}"
+                )
         except Exception:
             errors.append(f"{label} reading_time is not an integer")
 
@@ -364,15 +448,21 @@ def validate_batch(path: Path) -> list[dict[str, Any]]:
 
     if len(articles) >= 4:
         unique_families = {family for family in source_families if family and family != "unknown"}
-        if x_based_count > 2:
+        if x_based_count > MAX_X_ARTICLES:
             errors.append(
                 f"batch is too X/Twitter-heavy: {x_based_count} articles are based on X/Twitter. "
-                "Use X as one signal only and cap it at 2 articles per batch."
+                f"Use X as one signal only and cap it at {MAX_X_ARTICLES} articles per batch."
             )
-        if len(unique_families) < min(4, len(articles)):
+        max_social = int(len(articles) * MAX_SOCIAL_SHARE)
+        if social_based_count > max_social:
+            errors.append(
+                f"batch is too social-heavy: {social_based_count} articles are social-driven. "
+                f"Cap social-driven stories at {max_social} of {len(articles)} articles."
+            )
+        if len(unique_families) < min(MIN_SOURCE_FAMILIES, len(articles)):
             errors.append(
                 f"batch source variety is too low: {len(unique_families)} source families found "
-                f"({', '.join(sorted(unique_families)) or 'none'}). Use at least four source families when possible."
+                f"({', '.join(sorted(unique_families)) or 'none'}). Use at least {MIN_SOURCE_FAMILIES} source families when possible."
             )
 
     if errors:

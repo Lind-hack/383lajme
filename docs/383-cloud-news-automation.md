@@ -15,7 +15,7 @@ python3 scripts/codex_automation_support.py env-status
 
 `SCRAPECREATORS_API_KEY`, `XAI_API_KEY`, and `INCLUDE_SOURCES` must be present for the full social research path. Do not claim TikTok, Instagram, Threads, Pinterest, LinkedIn, or X/Twitter were searched if the required key for that source is missing.
 
-The installed `last30days` skill is mandatory for discovery. Use it as the multi-source listening layer for TikTok, Instagram/Reels, YouTube, Threads, LinkedIn, Polymarket, GitHub, Reddit/Hacker News, X/Twitter, and web discovery. X/Twitter is only one lane, not the default source for the batch.
+The installed `last30days` skill is mandatory for discovery. Read its `SKILL.md` and run its research engine with planned queries, not only `--preflight`. Use it as the multi-source listening layer for TikTok, Instagram/Reels, YouTube, Threads, LinkedIn, Polymarket, GitHub, Reddit/Hacker News, X/Twitter, and web discovery. X/Twitter is only one lane, not the default source for the batch.
 
 ## Cloud schedule
 
@@ -48,13 +48,15 @@ Required Vercel production env vars for the scheduler route:
 
 ## Core rules
 
-- Target 9-12 articles per cron run. Never publish fewer than 8 articles unless the run is intentionally failed for lack of verified current material. Do not pad with weak filler just to hit the count.
+- Target 20 articles per cron run. Validation accepts 18-22 articles only. Never publish a short batch unless the run intentionally fails for lack of verified current material. Do not pad with weak filler just to hit the count.
 - Publish only stories from today in Europe/Pristina time. Reject anything from yesterday, 3 days ago, last week, or undated material.
 - Use the last30days skill for research depth. Use it as the social/source-discovery engine, not as a generic web search replacement.
 - Search across X/Twitter, YouTube, TikTok, Instagram/Reels, Threads, Pinterest, LinkedIn, Polymarket, GitHub, Perplexity/web search, Serbian/regional sources, international outlets, official institutions, and specialist websites.
-- Enforce source variety. Do not publish a batch where X/Twitter is the basis for more than two articles. Use at least four different source families when possible, including non-X social, web/regional/international outlets, official institutions, Serbian/regional sources, specialist sites, or prediction/community sources.
+- Enforce source variety. Do not publish a batch where X/Twitter is the basis for more than two articles. No more than 40% of a batch may be social-driven. At least 60% must have a non-social primary source such as an official institution, company, court, club, specialist site, Serbian/regional outlet, or international outlet. Use at least six source families.
 - Do not use Kosovo competitor outlets as the main source. Avoid Telegrafi, Koha, Gazeta Express, Klan Kosova, RTK, Reporteri, Indeksonline, Nacionale, Sinjali, Periskopi, Kallxo, Dukagjini, KosovoPress, Bota Sot, Zeri, Lajmi.net, Insajderi, Ekonomia Online, and Albanian Post as primary sources. They may be used only as context or corroboration.
-- Every article must have a real, public `image_url` that starts with `http://` or `https://`. Do not publish blank images.
+- Every article must have a real, public, unique `image_url` that starts with `http://` or `https://`. Fetch and decode it before publication. Require at least `1200x675` pixels, record actual `image_width` and `image_height`, and reject missing, broken, low-resolution, unrelated, logo-only, placeholder, or reused images.
+- Write original 383 Lajme Albanian newsroom copy. Do not make articles read like translations or source summaries such as "Reddit says" or "Instagram wrote" unless direct attribution is essential to a claim.
+- Every body must contain at least 500 Albanian words across at least five paragraphs. Set `reading_time` to `ceil(body word count / 200)`; one-minute placeholder articles are not allowed.
 - Preserve uncertainty. For rumors, accusations, and drama, write as "pretendon", "tha", "akuzoi", "u raportua", or "nuk eshte verifikuar" unless a reliable source proves it.
 - Include conflicting angles when they are real and relevant, but do not manufacture conflict.
 
