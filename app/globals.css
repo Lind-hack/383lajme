@@ -719,6 +719,37 @@ header[data-overlay] .hamburger-bar { background: #FFFFFF !important; }
   .liquid-glass-btn::before { animation: none; }
 }
 
+/* Luxe text sheen — a soft highlight sweeps across the button label,
+   long idle hold between passes so it reads as a glint, not a strobe. */
+.btn-shimmer-text {
+  display: inline-block;
+  color: transparent;
+  background-image: linear-gradient(
+    105deg,
+    rgba(255, 255, 255, 0.88) 40%,
+    #ffffff 48%,
+    rgba(255, 255, 255, 0.55) 51%,
+    #ffffff 54%,
+    rgba(255, 255, 255, 0.88) 62%
+  );
+  background-size: 260% 100%;
+  background-position: 130% 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: btn-shimmer 6s ease-in-out infinite;
+}
+@keyframes btn-shimmer {
+  0%, 45% { background-position: 130% 0; }
+  100% { background-position: -130% 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .btn-shimmer-text {
+    animation: none;
+    background-image: none;
+    color: #ffffff;
+  }
+}
+
 /* Navbar 383 Coin balance chip + coin fly-in animation */
 .nav-coin-chip {
   display: flex;
