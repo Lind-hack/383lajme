@@ -79,6 +79,8 @@ export default function NavBalance() {
       if (next === prev) return;
       runCounter(prev, next);
       if (next > prev) {
+        // Slide the "Coins earned!" card in with the amount gained.
+        window.dispatchEvent(new CustomEvent("383:coins-earned", { detail: next - prev }));
         // One quick burst — coins stream in one by one, 55ms apart —
         // and the chip coin plays its earn flip.
         const n = Math.min(10, Math.max(4, Math.ceil((next - prev) / 25)));
@@ -127,6 +129,7 @@ export default function NavBalance() {
             runCounter(0, coins);
             setPopping(true);
             setSpinning(true);
+            window.dispatchEvent(new CustomEvent("383:coins-earned", { detail: coins }));
           }, FLIGHT_MS * 0.72),
           window.setTimeout(() => {
             setFlight([]);
@@ -206,7 +209,7 @@ export default function NavBalance() {
       >
         {flyCoins.map((id, i) => (
           <span key={id} className="nav-coin-fly" style={{ animationDelay: `${i * 55}ms` }} aria-hidden>
-            <CoinFace size={16} shine={false} />
+            <CoinFace size={16} shine={false} idle={false} />
           </span>
         ))}
         <CoinFace size={20} spinning={spinning} hoverTilt />
@@ -228,7 +231,7 @@ export default function NavBalance() {
               }
             >
               <span className="coin-tumble">
-                <CoinFace size={44} shine={false} />
+                <CoinFace size={44} shine={false} idle={false} />
               </span>
             </span>
           ))}

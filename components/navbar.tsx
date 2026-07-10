@@ -9,6 +9,7 @@ import { EASE, DUR } from "@/lib/tokens";
 import UserMenu from "./user-menu";
 import NavBalance from "./nav-balance";
 import NavSidePanel from "./nav-side-panel";
+import CoinToast from "./tregu/coin-toast";
 
 export const NAV_LINKS = [
   { label: "Politikë", href: "/kategori/politike" },
@@ -263,6 +264,7 @@ export default function Navbar() {
       </div>
 
       <NavSidePanel open={menuOpen} onClose={() => setMenuOpen(false)} />
+      <CoinToast />
     </header>
   );
 }
