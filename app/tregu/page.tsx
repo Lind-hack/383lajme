@@ -64,6 +64,12 @@ export default function TreguHub() {
     if (res.ok) {
       setBonusMsg(`+${data.bonus} 383C!`);
       setBalance((b) => (b === null ? null : b + Number(data.bonus)));
+      if (balance !== null) {
+        // The navbar balance chip listens for this and plays the coin fly-in.
+        window.dispatchEvent(
+          new CustomEvent("tregu:balance", { detail: balance + Number(data.bonus) })
+        );
+      }
     } else {
       setBonusMsg(data.error ?? "Gabim");
     }
