@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Navbar from "@/components/navbar";
-import CoinIcon from "@/components/tregu/coin-icon";
+import CoinFace from "@/components/tregu/coin-face";
 import { createClient } from "@/lib/supabase/client";
 
 interface Position {
@@ -110,7 +110,7 @@ export default function PortofoliPage() {
         <h1 style={{ fontSize: 30, fontWeight: 800, margin: "0 0 24px" }}>Portofoli</h1>
 
         <div className="tregu-glass tregu-glass-hi" style={{ padding: 24, display: "flex", alignItems: "center", gap: 16, marginBottom: 28 }}>
-          <CoinIcon size={44} />
+          <CoinFace size={44} hoverTilt />
           <div>
             <div style={{ fontSize: 34, fontWeight: 800 }}>{(profile?.coins ?? 0).toLocaleString("sq-AL")}</div>
             <div style={{ color: "#6B6B6B", fontSize: 12 }}>383 Coin · 10,000 = 10€</div>

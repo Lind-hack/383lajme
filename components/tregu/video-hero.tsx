@@ -184,7 +184,7 @@ export default function VideoHero({ loggedIn }: { loggedIn: boolean }) {
                 {!loggedIn && (
                   <Reveal delay={1250}>
                     <Link
-                      href="/hyr"
+                      href="/hyr?tab=regjistrohu&next=/tregu"
                       className="liquid-glass liquid-glass-btn btn-shimmer border border-white/25 text-white px-8 py-3 rounded-lg font-medium"
                     >
                       <span className="btn-shimmer-text">Merr 100 383 Coin falas</span>

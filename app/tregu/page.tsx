@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Navbar from "@/components/navbar";
 import MarketMiniCard from "@/components/tregu/market-mini-card";
 import VideoHero from "@/components/tregu/video-hero";
-import CoinIcon from "@/components/tregu/coin-icon";
+import CoinFace from "@/components/tregu/coin-face";
 import { createClient } from "@/lib/supabase/client";
 import Link from "next/link";
 
@@ -36,6 +36,7 @@ export default function TreguHub() {
   const [balance, setBalance] = useState<number | null>(null);
   const [claiming, setClaiming] = useState(false);
   const [bonusMsg, setBonusMsg] = useState<string | null>(null);
+  const [coinSpin, setCoinSpin] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -64,6 +65,9 @@ export default function TreguHub() {
     if (res.ok) {
       setBonusMsg(`+${data.bonus} 383C!`);
       setBalance((b) => (b === null ? null : b + Number(data.bonus)));
+      // Earn flip on the chip coin — same state as the approved coin mock.
+      setCoinSpin(true);
+      window.setTimeout(() => setCoinSpin(false), 950);
       if (balance !== null) {
         // The navbar balance chip listens for this and plays the coin fly-in.
         window.dispatchEvent(
@@ -97,7 +101,7 @@ export default function TreguHub() {
 
           {balance !== null && (
             <div className="tregu-glass" style={{ display: "flex", alignItems: "center", gap: 12, padding: "10px 16px" }}>
-              <CoinIcon size={24} />
+              <CoinFace size={28} spinning={coinSpin} hoverTilt />
               <span style={{ fontWeight: 800, fontSize: 16, fontVariantNumeric: "tabular-nums" }}>
                 {balance.toLocaleString("sq-AL")}
               </span>
