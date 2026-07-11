@@ -91,6 +91,15 @@ def test_strict_batch_validation():
             assert len(support.validate_batch(path)) == 20
             assert source_mix.validate(path) == 0
 
+            articles[0]["engagement_score"] = 8.3
+            articles[0]["reading_time"] = 1
+            path.write_text(json.dumps(articles), encoding="utf-8")
+            normalized = support.normalize_batch(path)
+            assert normalized[0]["engagement_score"] == 7.0
+            assert normalized[0]["reading_time"] == 3
+            assert len(support.validate_batch(path)) == 20
+            articles = normalized
+
             articles[0]["body"] = "Shume shkurt."
             articles[0]["reading_time"] = 1
             path.write_text(json.dumps(articles), encoding="utf-8")
