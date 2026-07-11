@@ -259,6 +259,7 @@ jobs:
           key = os.environ.get("RESEND_API_KEY", "").strip()
           sender = os.environ.get("EMAIL_FROM", "").strip() or "383ks@resend.dev"
           recipient = os.environ.get("RECIPIENT_EMAIL", "").strip()
+          cron_slot = os.environ.get("CRON_SLOT_LABEL", "").strip() or "Unknown Kosovo-time slot"
           if not key or not recipient:
               print("Failure email skipped: missing RESEND_API_KEY/RECIPIENT_EMAIL")
               raise SystemExit(0)
@@ -267,8 +268,8 @@ jobs:
           payload = {
               "from": sender,
               "to": [recipient],
-              "subject": "383 Lajme cloud cron failed",
-              "html": f"<p>The hosted Codex cloud news cron failed.</p><p><a href='{run_url}'>Open GitHub Actions run</a></p>",
+              "subject": f"383 Lajme cloud cron failed [{cron_slot}]",
+              "html": f"<p>The hosted Codex cloud news cron failed.</p><p>Cron slot: {cron_slot}</p><p><a href='{run_url}'>Open GitHub Actions run</a></p>",
           }
           req = urllib.request.Request(
               "https://api.resend.com/emails",
