@@ -1022,13 +1022,19 @@ header[data-overlay] .nav-coin-chip {
 @media (max-width: 768px) {
   .tregu-mbar {
     display: block;
-    position: sticky;
+    /* Pinned directly under the 64px navbar so the balance is always in view —
+       the floor sits under a full-screen hero, so a sticky bar stayed below
+       the fold at landing and the balance never showed on mobile. */
+    position: fixed;
     top: 64px;
+    left: 0;
+    right: 0;
     z-index: 40;
-    background: rgba(249, 246, 241, 0.92);
+    background: rgba(249, 246, 241, 0.94);
     -webkit-backdrop-filter: saturate(1.4) blur(12px);
     backdrop-filter: saturate(1.4) blur(12px);
     border-bottom: 1px solid var(--tg-border);
+    box-shadow: 0 6px 20px rgba(17, 17, 17, 0.08);
   }
   /* On the floor head the desktop chip is redundant with this bar. */
   .tregu-headchip { display: none; }
