@@ -66,13 +66,81 @@ export default function TreguHub() {
   }, [category]);
 
   useEffect(() => {
+    if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) return;
     const supabase = createClient();
-    supabase.auth.getUser().then(({ data: { user } }) => {
-      if (!user) return;
+    let cancelled = false;
+
+    const isMobile = () =>
+      typeof window !== "undefined" && window.matchMedia("(max-width: 768px)").matches;
+
+    // Fresh signup/login sets this flag in /hyr. On desktop NavBalance owns the
+    // celebration, but NavBalance is never mounted on mobile (collapsed navbar),
+    // so the mobile account bar plays the coins-flowing animation here instead.
+    const takeCelebrate = () => {
+      try {
+        const raw = sessionStorage.getItem("383-coin-celebrate");
+        if (!raw) return false;
+        sessionStorage.removeItem("383-coin-celebrate");
+        return Date.now() - Number(raw) < 90_000;
+      } catch {
+        return false;
+      }
+    };
+
+    const celebrateMobile = (coins: number) => {
+      // Stream coins into the mobile chip, flip its coin, and raise the toast.
+      const n = Math.min(12, Math.max(6, Math.ceil(coins / 20)));
+      setFlyCoins(Array.from({ length: n }, (_, i) => performance.now() + i));
+      setCoinSpin(true);
+      window.setTimeout(() => setFlyCoins([]), n * 55 + 600);
+      window.setTimeout(() => setCoinSpin(false), 950);
+      window.dispatchEvent(new CustomEvent("383:coins-earned", { detail: coins }));
+    };
+
+    let tries = 0;
+    const load = () => {
       fetch("/api/tregu/portfolio")
-        .then((r) => r.json())
-        .then((d) => setBalance(d.profile?.coins ?? null));
+        .then((r) => (r.ok ? r.json() : null))
+        .then((d) => {
+          if (cancelled || !d) return;
+          const coins = d.profile?.coins;
+          if (typeof coins !== "number") {
+            // Brand-new signup: the profile row/coins may not exist the instant
+            // we land on the floor. Retry briefly so the balance still shows.
+            if (tries++ < 4) window.setTimeout(load, 1200);
+            return;
+          }
+          setBalance(coins);
+          if (isMobile() && takeCelebrate()) celebrateMobile(coins);
+        })
+        .catch(() => {});
+    };
+
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      if (user && !cancelled) load();
     });
+
+    // Signup redirects can mount the floor before the session settles — the
+    // SIGNED_IN event then delivers the balance (and its celebration).
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((event, session) => {
+      if (event === "SIGNED_IN" && session?.user) load();
+      if (event === "SIGNED_OUT" && !cancelled) setBalance(null);
+    });
+
+    // Bonus/bet updates from elsewhere report the new balance via this event.
+    const onBalance = (e: Event) => {
+      const next = (e as CustomEvent<number>).detail;
+      if (typeof next === "number") setBalance(next);
+    };
+    window.addEventListener("tregu:balance", onBalance);
+
+    return () => {
+      cancelled = true;
+      subscription.unsubscribe();
+      window.removeEventListener("tregu:balance", onBalance);
+    };
   }, []);
 
   // Live floor totals — real numbers computed from the loaded book.
