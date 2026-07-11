@@ -48,7 +48,7 @@ Required Vercel production env vars for the scheduler route:
 
 ## Core rules
 
-- Target 20 articles per cron run. Validation accepts 18-22 articles only. Never publish a short batch unless the run intentionally fails for lack of verified current material. Do not pad with weak filler just to hit the count.
+- Target up to 20 articles per cron run. Publish every independently verified current story that passes quality checks, even when the strict today-only pool is smaller. Never pad a batch with weak filler, repeated stories, or invented stories merely to reach 20.
 - Publish only stories from today in Europe/Pristina time. Reject anything from yesterday, 3 days ago, last week, or undated material.
 - Use the last30days skill for research depth. Use it as the social/source-discovery engine, not as a generic web search replacement.
 - Search across X/Twitter, YouTube, TikTok, Instagram/Reels, Threads, Pinterest, LinkedIn, Polymarket, GitHub, Perplexity/web search, Serbian/regional sources, international outlets, official institutions, and specialist websites.

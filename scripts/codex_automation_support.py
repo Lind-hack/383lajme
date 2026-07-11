@@ -133,7 +133,7 @@ SCORE_WEIGHTS = {
 
 DEFAULT_SITE_URL = "https://383lajme.vercel.app"
 DEFAULT_GITHUB_REPO = "Lind-hack/383lajme"
-MIN_ARTICLES_PER_BATCH = 18
+MIN_ARTICLES_PER_BATCH = 1
 MAX_ARTICLES_PER_BATCH = 22
 MAX_X_ARTICLES = 2
 MAX_SOCIAL_SHARE = 0.40
@@ -173,6 +173,29 @@ def read_articles(path: Path) -> list[dict[str, Any]]:
     if not isinstance(data, list):
         raise ValueError(f"{path.name} must contain a JSON array")
     return data
+
+
+def normalize_batch(path: Path) -> list[dict[str, Any]]:
+    """Correct deterministic fields that the editorial model should not calculate."""
+    articles = read_articles(path)
+    changed = 0
+    for article in articles:
+        breakdown = article.get("score_breakdown")
+        if isinstance(breakdown, dict) and all(key in breakdown for key in SCORE_WEIGHTS):
+            score = _score_from_breakdown(breakdown)
+            if article.get("engagement_score") != score:
+                article["engagement_score"] = score
+                changed += 1
+
+        reading_time = max(1, math.ceil(_body_word_count(article.get("body")) / WORDS_PER_READING_MINUTE))
+        if article.get("reading_time") != reading_time:
+            article["reading_time"] = reading_time
+            changed += 1
+
+    if changed:
+        path.write_text(json.dumps(articles, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    print(f"NORMALIZED {path.name}: {changed} deterministic field update(s)")
+    return articles
 
 
 def _score_from_breakdown(breakdown: dict[str, Any]) -> float:
@@ -454,7 +477,7 @@ def validate_batch(path: Path) -> list[dict[str, Any]]:
                 f"batch is too X/Twitter-heavy: {x_based_count} articles are based on X/Twitter. "
                 f"Use X as one signal only and cap it at {MAX_X_ARTICLES} articles per batch."
             )
-        max_social = int(len(articles) * MAX_SOCIAL_SHARE)
+        max_social = max(1, int(len(articles) * MAX_SOCIAL_SHARE))
         if social_based_count > max_social:
             errors.append(
                 f"batch is too social-heavy: {social_based_count} articles are social-driven. "
@@ -1180,12 +1203,12 @@ def finalize(path: Path) -> int:
 
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("command", choices=["env-status", "github-auth", "validate", "test-email", "deploy", "verify-site", "send-report", "publish", "finalize"])
+    parser.add_argument("command", choices=["env-status", "github-auth", "normalize", "validate", "test-email", "deploy", "verify-site", "send-report", "publish", "finalize"])
     parser.add_argument("--file", help="Article JSON file. Defaults to latest data/auto-articles/*.json")
     args = parser.parse_args()
 
     path = Path(args.file).resolve() if args.file else latest_batch_path()
-    if args.command in {"validate", "send-report", "publish", "finalize"}:
+    if args.command in {"normalize", "validate", "send-report", "publish", "finalize"}:
         if path is None:
             print("No article batch found")
             return 2
@@ -1197,6 +1220,10 @@ def main() -> int:
         return env_status()
     if args.command == "github-auth":
         return github_auth_status()
+    if args.command == "normalize":
+        assert path is not None
+        normalize_batch(path)
+        return 0
     if args.command == "validate":
         assert path is not None
         articles = validate_batch(path)
