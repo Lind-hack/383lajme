@@ -181,6 +181,7 @@ jobs:
           set -euo pipefail
           TARGET_BATCH_FILE="data/auto-articles/$(date -u +%Y-%m-%dT%H).json"
           export TARGET_BATCH_FILE
+          echo "TARGET_BATCH_FILE=$TARGET_BATCH_FILE" >> "$GITHUB_ENV"
           echo "Target batch file: $TARGET_BATCH_FILE"
           LOCAL_DATE="$(date +%Y-%m-%d)"
           LOCAL_HOUR="$(date +%H)"
@@ -198,6 +199,7 @@ jobs:
             CRON_SLOT_LABEL="Manual run $(date +'%Y-%m-%d %H:%M Kosovo time')"
           fi
           export CRON_SLOT_LABEL
+          echo "CRON_SLOT_LABEL=$CRON_SLOT_LABEL" >> "$GITHUB_ENV"
           echo "Cron slot label: $CRON_SLOT_LABEL"
           MODEL="${CODEX_MODEL:-gpt-5.6-luna}"
           if [ "$MODEL" = "gpt-5-codex" ]; then
@@ -225,9 +227,24 @@ jobs:
 
           Before adding any candidate, fetch and inspect its image. Publish only if image_url is public, unique in batch, decodes successfully, and is at least 1200x675 pixels. Record actual image_width and image_height in the JSON. Reject missing, broken, low-resolution, reused, logo-only, or unrelated images. Do not use stock placeholders.
 
-          Create the new JSON batch at TARGET_BATCH_FILE when that environment variable is present; otherwise create data/auto-articles/YYYY-MM-DDTHH.json using UTC HH 00-23. Preserve CRON_SLOT_LABEL so the email report shows which scheduled Kosovo-time slot produced the batch. Validate it with python scripts/codex_automation_support.py validate --file "$TARGET_BATCH_FILE" and python scripts/validate_source_mix.py --file "$TARGET_BATCH_FILE". Run npm run build. Finish with python scripts/codex_automation_support.py finalize --file "$TARGET_BATCH_FILE" so it commits, pushes to origin/main, triggers deploy, verifies https://383lajme.vercel.app, and sends the email report. If push/deploy/verify/email fails, report the exact failing step without exposing secrets.
+          Create the new JSON batch at TARGET_BATCH_FILE when that environment variable is present; otherwise create data/auto-articles/YYYY-MM-DDTHH.json using UTC HH 00-23. Preserve CRON_SLOT_LABEL so the email report shows which scheduled Kosovo-time slot produced the batch. Your responsibility ends after writing the complete JSON batch. Do not run validate, build, publish, deploy, verify, send-report, or finalize yourself. The workflow runs those required post-generation steps and owns the one email report.
           PROMPT
           codex exec --cd "$GITHUB_WORKSPACE" --dangerously-bypass-approvals-and-sandbox -m "$MODEL" - < /tmp/383-codex-news-prompt.md
+
+      - name: Validate, publish, and email generated batch
+        shell: bash
+        run: |
+          set -euo pipefail
+          : "${TARGET_BATCH_FILE:?Codex did not provide TARGET_BATCH_FILE}"
+          : "${CRON_SLOT_LABEL:?Codex did not provide CRON_SLOT_LABEL}"
+          if [ ! -f "$TARGET_BATCH_FILE" ]; then
+            echo "ERROR Codex did not create the required article batch: $TARGET_BATCH_FILE"
+            exit 1
+          fi
+          python scripts/codex_automation_support.py validate --file "$TARGET_BATCH_FILE"
+          python scripts/validate_source_mix.py --file "$TARGET_BATCH_FILE"
+          npm run build
+          python scripts/codex_automation_support.py finalize --file "$TARGET_BATCH_FILE"
 
       - name: Notify failure by email
         if: failure()
