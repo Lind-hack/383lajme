@@ -1,6 +1,8 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import CoinFace from "@/components/tregu/coin-face";
 
 // Mobile-only account bar for the Tregu floor. The collapsed mobile navbar is
@@ -24,8 +26,21 @@ export default function MobileAccountBar({
   flyCoins: number[];
   onClaim: () => void;
 }) {
+  // Mirror the navbar: over the full-screen hero (before ~80px of scroll) the
+  // bar wears dark glass that melts into the image; once the hero scrolls past
+  // it crossfades to the cream "surfaced" look in lockstep with the navbar.
+  const pathname = usePathname();
+  const [overlay, setOverlay] = useState(true);
+  useEffect(() => {
+    const onScroll = () =>
+      setOverlay(pathname === "/tregu" && window.scrollY <= 80);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [pathname]);
+
   return (
-    <div className="tregu-mbar">
+    <div className="tregu-mbar" data-overlay={overlay ? "true" : undefined}>
       <div className="tregu-mbar-inner">
         {/* Balance chip doubles as the portfolio entry, mirroring the navbar chip. */}
         <Link

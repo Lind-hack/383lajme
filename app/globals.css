@@ -1030,11 +1030,31 @@ header[data-overlay] .nav-coin-chip {
     left: 0;
     right: 0;
     z-index: 40;
-    background: rgba(249, 246, 241, 0.94);
-    -webkit-backdrop-filter: saturate(1.4) blur(12px);
-    backdrop-filter: saturate(1.4) blur(12px);
+    /* Default = "surfaced" state: solid cream, matched to the navbar once the
+       hero has been scrolled past. The overlay state below melts it into the
+       hero image while it's still in view. */
+    background: rgba(249, 246, 241, 0.92);
+    -webkit-backdrop-filter: saturate(1.5) blur(16px);
+    backdrop-filter: saturate(1.5) blur(16px);
     border-bottom: 1px solid var(--tg-border);
     box-shadow: 0 6px 20px rgba(17, 17, 17, 0.08);
+    /* Melt in on first paint when the floor mounts. */
+    animation: tregu-mbar-melt 560ms var(--ease-out) both;
+    /* Crossfade between overlay (glass-over-hero) and surfaced (cream). */
+    transition:
+      background 300ms ease,
+      border-color 300ms ease,
+      box-shadow 300ms ease;
+  }
+  /* Over the hero, before scroll: dark warm glass so the bar dissolves into
+     the night-city image instead of cutting a bright strip across it. The
+     inner top highlight + soft drop shadow give it a real lifted-glass edge. */
+  .tregu-mbar[data-overlay="true"] {
+    background: rgba(20, 17, 13, 0.28);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.10);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.16),
+      0 12px 34px rgba(0, 0, 0, 0.32);
   }
   /* On the floor head the desktop chip is redundant with this bar. */
   .tregu-headchip { display: none; }
@@ -1065,6 +1085,7 @@ header[data-overlay] .nav-coin-chip {
   color: var(--tg-text);
   font-variant-numeric: tabular-nums;
   letter-spacing: -0.01em;
+  transition: color 300ms ease;
 }
 .tregu-mbar-unit {
   font-size: 10px;
@@ -1072,12 +1093,14 @@ header[data-overlay] .nav-coin-chip {
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--tg-muted);
+  transition: color 300ms ease;
 }
 .tregu-mbar-chev {
   font-size: 18px;
   line-height: 1;
   color: var(--tg-muted);
   margin-left: 1px;
+  transition: color 300ms ease;
 }
 .tregu-mbar-actions {
   display: flex;
@@ -1099,12 +1122,37 @@ header[data-overlay] .nav-coin-chip {
   font-size: 12.5px;
   font-weight: 800;
   cursor: pointer;
+  transition: background-color 300ms ease, color 300ms ease, border-color 300ms ease;
 }
+
+/* Overlay (glass-over-hero) text + control colours. Flip to white on the dark
+   glass, brighten the earn-message green for contrast, and turn the bonus
+   button into a frosted-white pill so the dark #111 base doesn't disappear. */
+.tregu-mbar[data-overlay="true"] .tregu-mbar-bal { color: #FFFFFF; }
+.tregu-mbar[data-overlay="true"] .tregu-mbar-unit { color: rgba(255, 255, 255, 0.60); }
+.tregu-mbar[data-overlay="true"] .tregu-mbar-chev { color: rgba(255, 255, 255, 0.55); }
+.tregu-mbar[data-overlay="true"] .tregu-mbar-msg { color: #3BE083; }
+.tregu-mbar[data-overlay="true"] .tregu-mbar-bonus {
+  background: rgba(255, 255, 255, 0.15);
+  color: #FFFFFF;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+.tregu-mbar[data-overlay="true"] .tregu-mbar-bonus:hover {
+  background: rgba(255, 255, 255, 0.24);
+}
+
 @keyframes tregu-msg-in {
   from { opacity: 0; transform: translateY(-4px); }
   to   { opacity: 1; transform: translateY(0); }
 }
+@keyframes tregu-mbar-melt {
+  from { opacity: 0; transform: translateY(-10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
 @media (prefers-reduced-motion: reduce) {
+  .tregu-mbar { animation: none; }
   .tregu-mbar-chip[data-anim] { animation: none; }
   .tregu-mbar-msg { animation: none; }
 }
