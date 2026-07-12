@@ -1,5 +1,6 @@
 import importlib.util
 import json
+import os
 import tempfile
 from pathlib import Path
 
@@ -118,6 +119,50 @@ def test_strict_batch_validation():
         support._fetch_image_dimensions = old_fetch
 
 
+def test_status_report_uses_gmail_fallback():
+    support = load_support()
+    original_env = {key: os.environ.get(key) for key in ("RESEND_API_KEY", "GMAIL_USER", "GMAIL_APP_PASSWORD", "RECIPIENT_EMAIL", "CRON_SLOT_LABEL")}
+    original_load_env = support.load_env
+    original_resend = support._send_resend_report
+    original_gmail = support._send_gmail_report
+    original_clock = support._kosovo_time_label
+    sent: dict[str, str] = {}
+    try:
+        os.environ.update(
+            {
+                "RESEND_API_KEY": "test-resend",
+                "GMAIL_USER": "bot@example.com",
+                "GMAIL_APP_PASSWORD": "test-password",
+                "RECIPIENT_EMAIL": "reader@example.com",
+                "CRON_SLOT_LABEL": "2026-07-10 13:00 Kosovo time",
+            }
+        )
+        support.load_env = lambda: None
+        support._kosovo_time_label = lambda: "2026-07-10 13:05 Kosovo time"
+        support._send_resend_report = lambda *_: 1
+
+        def fake_gmail(user, password, recipient, subject, report_html):
+            sent.update({"user": user, "recipient": recipient, "subject": subject, "html": report_html})
+            return 0
+
+        support._send_gmail_report = fake_gmail
+        assert support.send_status_report("Nuk u gjet lajm i verifikuar.") == 0
+        assert sent["recipient"] == "reader@example.com"
+        assert "pa artikuj" in sent["subject"]
+        assert "Nuk u gjet lajm" in sent["html"]
+    finally:
+        support.load_env = original_load_env
+        support._send_resend_report = original_resend
+        support._send_gmail_report = original_gmail
+        support._kosovo_time_label = original_clock
+        for key, value in original_env.items():
+            if value is None:
+                os.environ.pop(key, None)
+            else:
+                os.environ[key] = value
+
+
 if __name__ == "__main__":
     test_strict_batch_validation()
+    test_status_report_uses_gmail_fallback()
     print("codex automation support checks passed")
