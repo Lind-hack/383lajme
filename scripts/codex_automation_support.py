@@ -181,6 +181,10 @@ def normalize_batch(path: Path) -> list[dict[str, Any]]:
     articles = read_articles(path)
     changed = 0
     for article in articles:
+        if article.get("category") == "Shëndetësi":
+            article["category"] = "Shoqëri"
+            changed += 1
+
         breakdown = article.get("score_breakdown")
         if isinstance(breakdown, dict) and all(key in breakdown for key in SCORE_WEIGHTS):
             score = _score_from_breakdown(breakdown)
@@ -192,6 +196,18 @@ def normalize_batch(path: Path) -> list[dict[str, Any]]:
         if article.get("reading_time") != reading_time:
             article["reading_time"] = reading_time
             changed += 1
+
+        image_url = str(article.get("image_url") or "").strip()
+        if image_url.startswith(("http://", "https://")):
+            dimensions = _fetch_image_dimensions(image_url)
+            if dimensions:
+                width, height = dimensions
+                if article.get("image_width") != width:
+                    article["image_width"] = width
+                    changed += 1
+                if article.get("image_height") != height:
+                    article["image_height"] = height
+                    changed += 1
 
     if changed:
         path.write_text(json.dumps(articles, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
