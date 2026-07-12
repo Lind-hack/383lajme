@@ -298,6 +298,22 @@ jobs:
             codex exec --cd "$GITHUB_WORKSPACE" --dangerously-bypass-approvals-and-sandbox -m "$MODEL" - < /tmp/383-codex-empty-batch-retry.md
           fi
 
+          python scripts/codex_automation_support.py normalize --file "$TARGET_BATCH_FILE"
+          if ! python scripts/codex_automation_support.py validate --file "$TARGET_BATCH_FILE" > /tmp/383-batch-validation.log 2>&1 || ! python scripts/validate_source_mix.py --file "$TARGET_BATCH_FILE" >> /tmp/383-batch-validation.log 2>&1; then
+            cat > /tmp/383-codex-batch-repair.md <<'PROMPT'
+            Repair the existing JSON batch at $TARGET_BATCH_FILE. Do not create a helper script, placeholder, stock image, logo image, or fabricated story.
+
+            Read /tmp/383-batch-validation.log. Fix every reported issue in the JSON while preserving 20 to 22 independently verified current-day stories: replace duplicate URLs with distinct original article URLs, remove source/platform/account names from title and excerpt, use only accepted categories, and keep accurate image_width/image_height for the exact image_url. Use the existing discovery files and original publisher pages for replacements. Do not publish or finalize.
+
+            Before ending, run exactly:
+            python scripts/codex_automation_support.py normalize --file "$TARGET_BATCH_FILE"
+            python scripts/codex_automation_support.py validate --file "$TARGET_BATCH_FILE"
+            python scripts/validate_source_mix.py --file "$TARGET_BATCH_FILE"
+            Do not stop until all three commands pass.
+          PROMPT
+            codex exec --cd "$GITHUB_WORKSPACE" --dangerously-bypass-approvals-and-sandbox -m "$MODEL" - < /tmp/383-codex-batch-repair.md
+          fi
+
       - name: Validate, publish, and email generated batch
         shell: bash
         run: |
