@@ -24,11 +24,12 @@ SOCIAL_DOMAINS = {
     "pinterest.com": "pinterest",
     "github.com": "github",
 }
-MIN_ARTICLES_PER_BATCH = 1
+MIN_ARTICLES_PER_BATCH = 20
 MAX_ARTICLES_PER_BATCH = 22
 MAX_X_ARTICLES = 2
 MAX_SOCIAL_SHARE = 0.40
-MIN_SOURCE_FAMILIES = 6
+MIN_SOCIAL_ARTICLES = 4
+MIN_SOURCE_FAMILIES = 8
 
 
 def hostname(value: object) -> str:
@@ -112,6 +113,11 @@ def validate(path: Path) -> int:
                 f"too many X/Twitter-based articles ({x_count}); cap X/Twitter at {MAX_X_ARTICLES} articles per batch"
             )
         max_social = max(1, int(len(articles) * MAX_SOCIAL_SHARE))
+        if social_count < MIN_SOCIAL_ARTICLES:
+            errors.append(
+                f"not enough social-driven articles ({social_count}); require at least "
+                f"{MIN_SOCIAL_ARTICLES} verified social listening stories per batch"
+            )
         if social_count > max_social:
             errors.append(
                 f"too many social-driven articles ({social_count}); cap social platforms at {max_social} of {len(articles)} articles"

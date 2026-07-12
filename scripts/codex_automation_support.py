@@ -133,11 +133,12 @@ SCORE_WEIGHTS = {
 
 DEFAULT_SITE_URL = "https://383lajme.vercel.app"
 DEFAULT_GITHUB_REPO = "Lind-hack/383lajme"
-MIN_ARTICLES_PER_BATCH = 1
+MIN_ARTICLES_PER_BATCH = 20
 MAX_ARTICLES_PER_BATCH = 22
 MAX_X_ARTICLES = 2
 MAX_SOCIAL_SHARE = 0.40
-MIN_SOURCE_FAMILIES = 6
+MIN_SOCIAL_ARTICLES = 4
+MIN_SOURCE_FAMILIES = 8
 MIN_ARTICLE_WORDS = 500
 MIN_ARTICLE_PARAGRAPHS = 5
 WORDS_PER_READING_MINUTE = 200
@@ -238,6 +239,18 @@ def _social_account(article: dict[str, Any]) -> str:
 
 def _social_basis(article: dict[str, Any]) -> str:
     return str(article.get("social_post_basis") or article.get("source_post_basis") or article.get("source_post_quote") or "").strip()
+
+
+def _reader_facing_source_terms(article: dict[str, Any]) -> list[str]:
+    terms: list[str] = []
+    source = str(article.get("source") or "").strip()
+    account = _social_account(article).lstrip("@").strip()
+    platform = _social_platform(article).strip()
+    for value in (source, account, platform):
+        normalized = value.casefold()
+        if len(normalized) >= 4 and normalized not in terms:
+            terms.append(normalized)
+    return terms
 
 
 def _hostname(value: object) -> str:
@@ -415,6 +428,14 @@ def validate_batch(path: Path) -> list[dict[str, Any]]:
             if not social_basis:
                 errors.append(f"{label} is social-driven but missing social_post_basis/source_post_basis.")
 
+        reader_text = f"{article.get('title', '')} {article.get('excerpt', '')}".casefold()
+        for term in _reader_facing_source_terms(article):
+            if term in reader_text:
+                errors.append(
+                    f"{label} reader-facing title/excerpt mentions source, platform, or account {term!r}. "
+                    "Keep source attribution in metadata or the body only when necessary."
+                )
+
         if category == "Teknologji":
             combined_source = f"{article.get('source', '')} {social_account}".lower()
             url_host = _hostname(article.get("url"))
@@ -478,6 +499,11 @@ def validate_batch(path: Path) -> list[dict[str, Any]]:
                 f"Use X as one signal only and cap it at {MAX_X_ARTICLES} articles per batch."
             )
         max_social = max(1, int(len(articles) * MAX_SOCIAL_SHARE))
+        if social_based_count < MIN_SOCIAL_ARTICLES:
+            errors.append(
+                f"batch needs at least {MIN_SOCIAL_ARTICLES} social-driven stories from the required listening lanes; "
+                f"found {social_based_count}."
+            )
         if social_based_count > max_social:
             errors.append(
                 f"batch is too social-heavy: {social_based_count} articles are social-driven. "
