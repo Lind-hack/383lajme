@@ -97,10 +97,16 @@ jobs:
           python3 ~/.codex/skills/last30days/scripts/last30days.py "Kosovo" \
             --days 1 \
             --emit=compact \
-            --search=reddit,x,youtube,tiktok,instagram,hackernews,polymarket \
+            --search=reddit,x,youtube,tiktok,instagram,threads,pinterest,linkedin,hackernews,polymarket \
             --auto-resolve \
             --save-dir "$DISCOVERY_DIR" \
             --output "$DISCOVERY_DIR/kosovo-discovery.md"
+
+      - name: Run current-day web and RSS discovery
+        shell: bash
+        run: |
+          set -euo pipefail
+          python scripts/cloud_news_discovery.py --output "$GITHUB_WORKSPACE/.last30days/web-discovery.md"
 
       - name: Install Codex CLI
         run: npm install -g @openai/codex
@@ -209,7 +215,7 @@ jobs:
           cat > /tmp/383-codex-news-prompt.md <<'PROMPT'
           Run the 383 Lajme GPT-5.6 Luna production news pipeline from this GitHub Actions cloud runner.
 
-          Pull/rebase latest origin/main first. Read docs/383-cloud-news-automation.md and follow it exactly. Read .last30days/kosovo-discovery.md produced by the required one-day last30days engine run. Then read the installed ~/.codex/skills/last30days/SKILL.md and use its actual research engine as the discovery/listening layer, not as an X/Twitter shortcut. Run planned multi-source research queries for Kosovo breaking news, Kosovo-Serbia relations, Kosovo economy/everyday impact, Kosovo social/public debate, sport, technology, and showbiz. Use its TikTok, Instagram/Reels, YouTube, Threads, LinkedIn, Polymarket, GitHub, Reddit/HN, X, and web/regional/international discovery lanes. Filter all results to stories from today in Europe/Pristina time before publishing.
+          Pull/rebase latest origin/main first. Read docs/383-cloud-news-automation.md and follow it exactly. Read .last30days/kosovo-discovery.md from the required one-day last30days social/listening run and .last30days/web-discovery.md from the current-day web/RSS discovery run. Then read the installed ~/.codex/skills/last30days/SKILL.md and use its actual research engine as the discovery/listening layer, not as an X/Twitter shortcut. The RSS file exists because optional last30days web planning can be unavailable; use its current leads alongside the social discovery. Run planned multi-source research queries for Kosovo breaking news, Kosovo-Serbia relations, Kosovo economy/everyday impact, Kosovo social/public debate, sport, technology, and showbiz. Use its TikTok, Instagram/Reels, YouTube, Threads, LinkedIn, Polymarket, GitHub, Reddit/HN, X, and web/regional/international discovery lanes. Filter all results to stories from today in Europe/Pristina time before publishing.
 
           Generate only today's Europe/Pristina news. Target up to 20 publishable articles per run. Publish every independently verified current story that passes all quality rules, even when the strict today-only source pool produces fewer than 20. Never add weak filler, invent stories, repeat earlier stories, or stop after one candidate merely because the first last30days discovery file is thin; continue targeted research across the required beats until sources are exhausted. Use SCRAPECREATORS_API_KEY for TikTok/Instagram/Reels discovery and other supported social sources, XAI_API_KEY for X/Twitter only as one lane, INCLUDE_SOURCES, Resend email vars, GitHub push auth, Vercel deploy hook, SITE_URL, REMOVE_SECRET, and public Supabase vars. Never print secret values.
 
@@ -227,9 +233,32 @@ jobs:
 
           Before adding any candidate, fetch and inspect its image. Publish only if image_url is public, unique in batch, decodes successfully, and is at least 1200x675 pixels. Record actual image_width and image_height in the JSON. Reject missing, broken, low-resolution, reused, logo-only, or unrelated images. Do not use stock placeholders.
 
-          Create the new JSON batch at TARGET_BATCH_FILE when that environment variable is present; otherwise create data/auto-articles/YYYY-MM-DDTHH.json using UTC HH 00-23. Preserve CRON_SLOT_LABEL so the email report shows which scheduled Kosovo-time slot produced the batch. Your responsibility ends after writing the complete JSON batch. Do not run validate, build, publish, deploy, verify, send-report, or finalize yourself. The workflow runs those required post-generation steps and owns the one email report.
+          Create the new JSON batch at TARGET_BATCH_FILE when that environment variable is present; otherwise create data/auto-articles/YYYY-MM-DDTHH.json using UTC HH 00-23. Preserve CRON_SLOT_LABEL so the email report shows which scheduled Kosovo-time slot produced the batch. Never write an empty JSON array: use the verified web/RSS leads and social discovery to make at least one real article, or leave no batch file and explain the blocking evidence. Your responsibility ends after writing the complete JSON batch. Do not run validate, build, publish, deploy, verify, send-report, or finalize yourself. The workflow runs those required post-generation steps and owns the one email report.
           PROMPT
           codex exec --cd "$GITHUB_WORKSPACE" --dangerously-bypass-approvals-and-sandbox -m "$MODEL" - < /tmp/383-codex-news-prompt.md
+
+          if [ -f "$TARGET_BATCH_FILE" ] && python3 - "$TARGET_BATCH_FILE" <<'PY'
+          import json
+          import sys
+
+          try:
+              batch = json.load(open(sys.argv[1], encoding="utf-8"))
+          except Exception:
+              raise SystemExit(0)
+          raise SystemExit(0 if isinstance(batch, list) and not batch else 1)
+          PY
+          then
+            echo "Codex wrote an empty batch; retrying once with the current-day lead file."
+            rm -f "$TARGET_BATCH_FILE"
+            cat > /tmp/383-codex-empty-batch-retry.md <<'PROMPT'
+            The first 383 Lajme cloud generation pass produced no candidates. Recover this run now.
+
+            Read docs/383-cloud-news-automation.md, .last30days/kosovo-discovery.md, and .last30days/web-discovery.md. The latter has current-day non-competitor web/RSS leads, including regional, Serbian Kosovo-watch, sport, and showbiz lanes. Open the original publisher links, verify publication date and facts, inspect the actual image, and write at least one complete, original Albanian 383 Lajme article that passes every documented quality rule. Prefer Kosovo relevance, but current high-interest sport or showbiz is valid when a Kosovo-specific source has no eligible story.
+
+            Write the batch only to $TARGET_BATCH_FILE. Never write an empty JSON array. Do not run validation, build, publish, deploy, verification, email, or finalize; this workflow owns those steps.
+          PROMPT
+            codex exec --cd "$GITHUB_WORKSPACE" --dangerously-bypass-approvals-and-sandbox -m "$MODEL" - < /tmp/383-codex-empty-batch-retry.md
+          fi
 
       - name: Validate, publish, and email generated batch
         shell: bash
