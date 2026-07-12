@@ -48,7 +48,7 @@ Required Vercel production env vars for the scheduler route:
 
 ## Core rules
 
-- Target up to 20 articles per cron run. Publish every independently verified current story that passes quality checks, even when the strict today-only pool is smaller. Never pad a batch with weak filler, repeated stories, or invented stories merely to reach 20.
+- Publish 20 to 22 independently verified articles per cron run. A valid batch must include at least four social-driven stories and at least eight source families, while keeping X/Twitter to two stories maximum and social-driven stories to eight maximum. Do not pad with repeated or invented stories.
 - Publish only stories from today in Europe/Pristina time. Reject anything from yesterday, 3 days ago, last week, or undated material.
 - Use the last30days skill for research depth. Use it as the social/source-discovery engine, not as a generic web search replacement.
 - Pair last30days social discovery with the pipeline's current-day web/RSS lead file. The social layer may be degraded when an optional provider rejects requests; that is never a reason to publish an empty batch or to treat X as the only available source.
@@ -57,6 +57,7 @@ Required Vercel production env vars for the scheduler route:
 - Do not use Kosovo competitor outlets as the main source. Avoid Telegrafi, Koha, Gazeta Express, Klan Kosova, RTK, Reporteri, Indeksonline, Nacionale, Sinjali, Periskopi, Kallxo, Dukagjini, KosovoPress, Bota Sot, Zeri, Lajmi.net, Insajderi, Ekonomia Online, and Albanian Post as primary sources. They may be used only as context or corroboration.
 - Every article must have a real, public, unique `image_url` that starts with `http://` or `https://`. Fetch and decode it before publication. Require at least `1200x675` pixels, record actual `image_width` and `image_height`, and reject missing, broken, low-resolution, unrelated, logo-only, placeholder, or reused images.
 - Write original 383 Lajme Albanian newsroom copy. Do not make articles read like translations or source summaries such as "Reddit says" or "Instagram wrote" unless direct attribution is essential to a claim.
+- Reader-facing titles and excerpts must never name the source outlet, platform, or account. Write clear Albanian newsroom headlines with a factual hook that makes the story worth opening. Keep social account, platform, and post URL only in the JSON `social_*` metadata used by the internal email report.
 - Non-social articles must contain at least 500 Albanian words across at least five paragraphs. Social-driven articles may be short dispatches when their complete social metadata and accurate attribution are present. Set `reading_time` to `ceil(body word count / 200)`; the value must always reflect the actual body length.
 - Preserve uncertainty. For rumors, accusations, and drama, write as "pretendon", "tha", "akuzoi", "u raportua", or "nuk eshte verifikuar" unless a reliable source proves it.
 - Include conflicting angles when they are real and relevant, but do not manufacture conflict.

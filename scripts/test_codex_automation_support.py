@@ -92,6 +92,20 @@ def test_strict_batch_validation():
             assert len(support.validate_batch(path)) == 20
             assert source_mix.validate(path) == 0
 
+            social_fields = {key: articles[0][key] for key in ("social_platform", "social_post_account", "social_post_url", "social_post_basis")}
+            articles[0]["social_post_account"] = "@FabrizioRomano"
+            articles[0]["title"] = "FabrizioRomano sjell lajmin e transferimit"
+            path.write_text(json.dumps(articles), encoding="utf-8")
+            try:
+                support.validate_batch(path)
+            except ValueError as exc:
+                assert "reader-facing title/excerpt mentions" in str(exc)
+            else:
+                raise AssertionError("source account leaked into reader-facing title")
+            articles[0].update(social_fields)
+            articles[0]["title"] = "Titulli i artikullit testues 1"
+            path.write_text(json.dumps(articles), encoding="utf-8")
+
             articles[0]["engagement_score"] = 8.3
             articles[0]["reading_time"] = 1
             path.write_text(json.dumps(articles), encoding="utf-8")
