@@ -181,10 +181,6 @@ def normalize_batch(path: Path) -> list[dict[str, Any]]:
     articles = read_articles(path)
     changed = 0
     for article in articles:
-        if article.get("category") == "Shëndetësi":
-            article["category"] = "Shoqëri"
-            changed += 1
-
         breakdown = article.get("score_breakdown")
         if isinstance(breakdown, dict) and all(key in breakdown for key in SCORE_WEIGHTS):
             score = _score_from_breakdown(breakdown)
