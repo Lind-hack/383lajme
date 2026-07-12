@@ -895,6 +895,41 @@ def send_report(path: Path) -> int:
     return _send_gmail_report(user, password, recipient, subject, report_html)
 
 
+def send_status_report(message: str) -> int:
+    """Send a cron outcome when a run has no batch to publish."""
+    load_env()
+    user = os.environ.get("GMAIL_USER", "").strip()
+    password = _gmail_app_password()
+    recipient = os.environ.get("RECIPIENT_EMAIL", "").strip() or "lindsylqa@gmail.com"
+    resend_key = os.environ.get("RESEND_API_KEY", "").strip()
+    if not resend_key and (not user or not password):
+        print("EMAIL skipped: set RESEND_API_KEY or GMAIL_USER/GMAIL_APP_PASSWORD")
+        return 2
+
+    now = _kosovo_time_label()
+    cron_slot = _cron_slot_label()
+    subject_time = cron_slot or now
+    report_html = (
+        "<html><body style='margin:0;background:#f1f5f9;color:#0f172a;font-family:Arial,sans-serif'>"
+        "<div style='max-width:720px;margin:0 auto;background:#ffffff'>"
+        "<div style='background:#0f172a;color:#ffffff;padding:22px'>"
+        "<h2 style='font-size:22px;line-height:1.2;padding:0;margin:0'>383 Lajme: pa publikim të ri</h2>"
+        f"<p style='font-size:13px;line-height:1.5;margin:8px 0 0;color:#cbd5e1'>Cron slot: {html.escape(cron_slot or 'Manual run')} | Kontrolluar: {html.escape(now)}</p>"
+        "</div>"
+        f"<div style='padding:22px;font-size:15px;line-height:1.55'>{html.escape(message)}</div>"
+        "</div></body></html>"
+    )
+    subject = f"383 Lajme - pa artikuj të rinj [{subject_time}]"
+    if resend_key:
+        resend_code = _send_resend_report(resend_key, recipient, subject, report_html)
+        if resend_code == 0:
+            return 0
+        if not user or not password:
+            return resend_code
+        print("EMAIL Resend failed; trying Gmail SMTP fallback.")
+    return _send_gmail_report(user, password, recipient, subject, report_html)
+
+
 def _send_gmail_report(user: str, password: str, recipient: str, subject: str, report_html: str) -> int:
     message = MIMEMultipart("alternative")
     message["Subject"] = subject
@@ -1203,8 +1238,9 @@ def finalize(path: Path) -> int:
 
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("command", choices=["env-status", "github-auth", "normalize", "validate", "test-email", "deploy", "verify-site", "send-report", "publish", "finalize"])
+    parser.add_argument("command", choices=["env-status", "github-auth", "normalize", "validate", "test-email", "deploy", "verify-site", "send-report", "send-status-report", "publish", "finalize"])
     parser.add_argument("--file", help="Article JSON file. Defaults to latest data/auto-articles/*.json")
+    parser.add_argument("--message", help="Status text for send-status-report")
     args = parser.parse_args()
 
     path = Path(args.file).resolve() if args.file else latest_batch_path()
@@ -1238,6 +1274,8 @@ def main() -> int:
     if args.command == "send-report":
         assert path is not None
         return send_report(path)
+    if args.command == "send-status-report":
+        return send_status_report(args.message or "Nuk u gjet asnjë artikull i verifikuar për publikim në këtë kontroll.")
     if args.command == "publish":
         assert path is not None
         return git_publish(path)

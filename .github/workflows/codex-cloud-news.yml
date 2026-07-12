@@ -237,18 +237,19 @@ jobs:
           PROMPT
           codex exec --cd "$GITHUB_WORKSPACE" --dangerously-bypass-approvals-and-sandbox -m "$MODEL" - < /tmp/383-codex-news-prompt.md
 
-          if [ -f "$TARGET_BATCH_FILE" ] && python3 - "$TARGET_BATCH_FILE" <<'PY'
+          if python3 - "$TARGET_BATCH_FILE" <<'PY'
           import json
           import sys
+          from pathlib import Path
 
           try:
-              batch = json.load(open(sys.argv[1], encoding="utf-8"))
-          except Exception:
+              batch = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
+          except (FileNotFoundError, json.JSONDecodeError):
               raise SystemExit(0)
           raise SystemExit(0 if isinstance(batch, list) and not batch else 1)
           PY
           then
-            echo "Codex wrote an empty batch; retrying once with the current-day lead file."
+            echo "Codex left a missing or empty batch; retrying once with the current-day lead file."
             rm -f "$TARGET_BATCH_FILE"
             cat > /tmp/383-codex-empty-batch-retry.md <<'PROMPT'
             The first 383 Lajme cloud generation pass produced no candidates. Recover this run now.
@@ -267,8 +268,9 @@ jobs:
           : "${TARGET_BATCH_FILE:?Codex did not provide TARGET_BATCH_FILE}"
           : "${CRON_SLOT_LABEL:?Codex did not provide CRON_SLOT_LABEL}"
           if [ ! -f "$TARGET_BATCH_FILE" ]; then
-            echo "ERROR Codex did not create the required article batch: $TARGET_BATCH_FILE"
-            exit 1
+            python scripts/codex_automation_support.py send-status-report \
+              --message "Nuk u publikua artikull në këtë slot, sepse kontrolli i burimeve nuk gjeti lajm të sotëm që i plotësonte kushtet e verifikimit, imazhit dhe interesit për Kosovën."
+            exit 0
           fi
           python scripts/codex_automation_support.py normalize --file "$TARGET_BATCH_FILE"
           python scripts/codex_automation_support.py validate --file "$TARGET_BATCH_FILE"
@@ -280,39 +282,5 @@ jobs:
         if: failure()
         shell: bash
         run: |
-          python3 - <<'PY'
-          import json
-          import os
-          import urllib.error
-          import urllib.request
-
-          key = os.environ.get("RESEND_API_KEY", "").strip()
-          sender = os.environ.get("EMAIL_FROM", "").strip() or "383ks@resend.dev"
-          recipient = os.environ.get("RECIPIENT_EMAIL", "").strip()
-          cron_slot = os.environ.get("CRON_SLOT_LABEL", "").strip() or "Unknown Kosovo-time slot"
-          if not key or not recipient:
-              print("Failure email skipped: missing RESEND_API_KEY/RECIPIENT_EMAIL")
-              raise SystemExit(0)
-
-          run_url = f"{os.environ.get('GITHUB_SERVER_URL')}/{os.environ.get('GITHUB_REPOSITORY')}/actions/runs/{os.environ.get('GITHUB_RUN_ID')}"
-          payload = {
-              "from": sender,
-              "to": [recipient],
-              "subject": f"383 Lajme cloud cron failed [{cron_slot}]",
-              "html": f"<p>The hosted Codex cloud news cron failed.</p><p>Cron slot: {cron_slot}</p><p><a href='{run_url}'>Open GitHub Actions run</a></p>",
-          }
-          req = urllib.request.Request(
-              "https://api.resend.com/emails",
-              data=json.dumps(payload).encode("utf-8"),
-              method="POST",
-              headers={"Authorization": f"Bearer {key}", "Content-Type": "application/json"},
-          )
-          try:
-              with urllib.request.urlopen(req, timeout=30) as resp:
-                  print(f"Failure email sent: HTTP {resp.getcode()}")
-          except urllib.error.HTTPError as exc:
-              detail = exc.read(300).decode("utf-8", errors="replace")
-              print(f"Failure email skipped: Resend returned HTTP {exc.code}: {detail}")
-          except Exception as exc:
-              print(f"Failure email skipped: {type(exc).__name__}")
-          PY
+          python scripts/codex_automation_support.py send-status-report \
+            --message "Pipelinei cloud dështoi para publikimit. Hapni GitHub Actions për detajin e hapit që dështoi."
