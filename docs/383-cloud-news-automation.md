@@ -48,7 +48,7 @@ Required Vercel production env vars for the scheduler route:
 
 ## Core rules
 
-- Publish 20 to 22 independently verified articles per cron run. A valid batch must include at least four social-driven stories and at least eight source families, while keeping X/Twitter to two stories maximum and social-driven stories to eight maximum. Do not pad with repeated or invented stories.
+- Publish 13 to 20 independently verified articles per cron run. Social-driven stories are preferred when independently corroborated, but their temporary unavailability must never block a verified non-social batch. Keep X/Twitter to two stories maximum and social-driven stories to 40% maximum. Do not pad with repeated or invented stories.
 - Publish only stories from today in Europe/Pristina time. Reject anything from yesterday, 3 days ago, last week, or undated material.
 - Use the last30days skill for research depth. Use it as the social/source-discovery engine, not as a generic web search replacement.
 - Pair last30days social discovery with the pipeline's current-day web/RSS lead file. The social layer may be degraded when an optional provider rejects requests; that is never a reason to publish an empty batch or to treat X as the only available source.
