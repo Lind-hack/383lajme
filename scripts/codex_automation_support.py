@@ -327,7 +327,14 @@ def _fetch_image_dimensions(image_url: str) -> tuple[int, int]:
 
     request = urllib.request.Request(
         image_url,
-        headers={"User-Agent": "383-Lajme-Image-Validator/1.0"},
+        headers={
+            "User-Agent": (
+                "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
+                "(KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
+            ),
+            "Accept": "image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8",
+            "Accept-Language": "en-US,en;q=0.9",
+        },
     )
     for attempt in range(3):
         try:
