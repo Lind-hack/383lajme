@@ -10,6 +10,34 @@ export interface MiniMarket {
   prob: number; // 0..1 YES probability
   volume?: number; // cumulative shares outstanding (q_yes + q_no)
   closesAt?: string;
+  spark?: number[]; // downsampled PO price tape, 0..1, oldest first
+  delta7d?: number | null; // prob change vs 7 days ago, 0..1 scale
+}
+
+// Tiny trade-tape sparkline. Stretched SVG holds no text, so
+// preserveAspectRatio="none" is safe here.
+function Sparkline({ points, dir }: { points: number[]; dir: "up" | "down" | "flat" }) {
+  const W = 100;
+  const H = 28;
+  const min = Math.min(...points);
+  const max = Math.max(...points);
+  const span = Math.max(max - min, 0.02); // floor so a flat tape stays a visible line
+  const step = points.length > 1 ? W / (points.length - 1) : W;
+  const y = (p: number) => 3 + (H - 6) * (1 - (p - min) / span);
+  const path = points.map((p, i) => `${i === 0 ? "M" : "L"}${(i * step).toFixed(1)} ${y(p).toFixed(1)}`).join(" ");
+  const color = dir === "up" ? "#00854A" : dir === "down" ? "#B91C1C" : "#6B6B6B";
+  return (
+    <svg
+      viewBox={`0 0 ${W} ${H}`}
+      preserveAspectRatio="none"
+      style={{ width: "100%", height: H, display: "block" }}
+      aria-hidden
+    >
+      <path d={`${path} L${W} ${H} L0 ${H} Z`} fill={color} opacity={0.08} />
+      <path d={path} fill="none" stroke={color} strokeWidth={2} vectorEffect="non-scaling-stroke" />
+      <circle cx={W} cy={y(points[points.length - 1])} r={2.5} fill={color} />
+    </svg>
+  );
 }
 
 const CATEGORY_LABEL: Record<string, string> = {
@@ -44,6 +72,13 @@ export default function MarketMiniCard({ market }: { market: MiniMarket; compact
   const remaining = closeLabel(market.closesAt);
   const closed = remaining === "Mbyllur";
 
+  // Weekly movement — the "why now" signal. Hidden until the tape has a week
+  // of history or the move rounds to at least 1pp.
+  const deltaPp = market.delta7d != null ? Math.round(market.delta7d * 100) : null;
+  const dir: "up" | "down" | "flat" =
+    deltaPp != null && deltaPp > 0 ? "up" : deltaPp != null && deltaPp < 0 ? "down" : "flat";
+  const spark = market.spark && market.spark.length >= 2 ? market.spark : null;
+
   const goToSide = (e: React.MouseEvent, side: "PO" | "JO") => {
     // The whole card links to the market; PO/JO jump straight to that side.
     e.preventDefault();
@@ -65,6 +100,23 @@ export default function MarketMiniCard({ market }: { market: MiniMarket; compact
       </div>
 
       <p className="tregu-market-q">{market.question}</p>
+
+      {spark && (
+        <div style={{ display: "flex", alignItems: "center", gap: 10, margin: "2px 0 8px" }}>
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <Sparkline points={spark} dir={dir} />
+          </div>
+          {deltaPp != null && deltaPp !== 0 && (
+            <span
+              className="tregu-delta-chip"
+              data-dir={dir}
+              style={{ fontSize: 11, padding: "2px 9px", flexShrink: 0 }}
+            >
+              {deltaPp > 0 ? "▲" : "▼"} {Math.abs(deltaPp)}pp / 7d
+            </span>
+          )}
+        </div>
+      )}
 
       <div className="tregu-depth" aria-hidden>
         <div className="tregu-depth-yes" style={{ width: `${pct}%` }} />

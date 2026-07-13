@@ -19,6 +19,29 @@ interface MarketRow {
   closes_at: string;
   q_yes: number;
   q_no: number;
+  spark?: number[];
+  delta7d?: number | null;
+  trade_count?: number;
+}
+
+interface ActivityItem {
+  name: string;
+  action: string;
+  side: string;
+  coins: number;
+  createdAt: string;
+  question: string;
+  slug: string;
+}
+
+function timeAgo(iso: string): string {
+  const ms = Date.now() - new Date(iso).getTime();
+  const min = Math.floor(ms / 60_000);
+  if (min < 1) return "tani";
+  if (min < 60) return `${min}m`;
+  const h = Math.floor(min / 60);
+  if (h < 24) return `${h}h`;
+  return `${Math.floor(h / 24)}d`;
 }
 
 const CATEGORIES: { value: string; label: string }[] = [
@@ -43,6 +66,7 @@ function vol(m: MarketRow): number {
 
 export default function TreguHub() {
   const [markets, setMarkets] = useState<MarketRow[]>([]);
+  const [activity, setActivity] = useState<ActivityItem[]>([]);
   const [category, setCategory] = useState("all");
   const [sort, setSort] = useState<SortKey>("vellim");
   const [loading, setLoading] = useState(true);
@@ -60,6 +84,7 @@ export default function TreguHub() {
       .then((r) => r.json())
       .then((d) => {
         setMarkets(d.markets ?? []);
+        setActivity(d.activity ?? []);
         setUpdatedAt(new Date().toLocaleTimeString("sq-AL", { hour: "2-digit", minute: "2-digit" }));
       })
       .finally(() => setLoading(false));
@@ -295,6 +320,35 @@ export default function TreguHub() {
           })}
         </div>
 
+        {/* Live tape — latest real trades across the floor, the hub's pulse. */}
+        {activity.length > 0 && (
+          <div className="tregu-ticker" aria-label="Tregtimet e fundit">
+            <span className="tregu-ticker-label">
+              <span className="tregu-live-dot" aria-hidden />
+              Live
+            </span>
+            <div className="tregu-ticker-track">
+              {activity.map((a, i) => (
+                <Link key={i} href={`/tregu/${a.slug}`} className="tregu-ticker-item">
+                  <strong>{a.name}</strong>
+                  <span>{a.action === "sell" ? "shiti" : "bleu"}</span>
+                  <span
+                    className="tregu-ticker-side"
+                    data-side={a.side === "PO" ? "po" : "jo"}
+                  >
+                    {a.side}
+                  </span>
+                  <span className="tregu-ticker-coins">
+                    {Math.round(a.coins).toLocaleString("sq-AL")} 383C
+                  </span>
+                  <span className="tregu-ticker-q">{a.question}</span>
+                  <span className="tregu-ticker-time">{timeAgo(a.createdAt)}</span>
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* Controls — count + segmented sort (traders sort). */}
         <div className="tregu-controls">
           <span className="tregu-count">
@@ -340,6 +394,8 @@ export default function TreguHub() {
                   prob: m.market_prob,
                   volume: vol(m),
                   closesAt: m.closes_at,
+                  spark: m.spark,
+                  delta7d: m.delta7d,
                 }}
               />
             ))}

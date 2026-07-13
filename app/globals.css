@@ -1595,6 +1595,73 @@ header[data-overlay] .nav-coin-chip {
 }
 .tregu-activity-row:last-child { border-bottom: none; }
 
+/* Hub live tape — one scrollable row of the latest trades on the floor. */
+.tregu-ticker {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
+  padding: 9px 14px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid var(--tg-border);
+  overflow: hidden;
+}
+.tregu-ticker-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--tg-muted);
+  flex-shrink: 0;
+}
+.tregu-live-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #00A651;
+  box-shadow: 0 0 0 3px rgba(0, 166, 81, 0.18);
+}
+.tregu-ticker-track {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.tregu-ticker-track::-webkit-scrollbar { display: none; }
+.tregu-ticker-item {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  font-size: 12.5px;
+  color: var(--tg-muted);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.tregu-ticker-item strong { color: var(--tg-text); font-weight: 800; }
+.tregu-ticker-item:hover .tregu-ticker-q { color: var(--tg-text); }
+.tregu-ticker-side {
+  font-weight: 800;
+  font-size: 11px;
+  padding: 1px 7px;
+  border-radius: 100px;
+}
+.tregu-ticker-side[data-side="po"] { color: #00854A; background: rgba(0, 166, 81, 0.12); }
+.tregu-ticker-side[data-side="jo"] { color: #B91C1C; background: rgba(228, 30, 32, 0.10); }
+.tregu-ticker-coins { font-weight: 700; font-variant-numeric: tabular-nums; color: var(--tg-text); }
+.tregu-ticker-q {
+  max-width: 260px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color 160ms var(--ease-out);
+}
+.tregu-ticker-time { font-size: 11px; font-variant-numeric: tabular-nums; }
+
 /* Chart overlays — HTML text so the stretched SVG never distorts it. */
 .tregu-axis-label {
   position: absolute;
