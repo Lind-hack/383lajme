@@ -5,6 +5,7 @@ import Link from "next/link";
 import Navbar from "@/components/navbar";
 import CoinFace from "@/components/tregu/coin-face";
 import { createClient } from "@/lib/supabase/client";
+import { fmtNum } from "@/lib/format";
 
 interface Position {
   id: string;
@@ -133,7 +134,7 @@ function BalanceChart({ history }: { history: { t: number; coins: number }[] }) 
           <div className="tregu-chart-tip-date">{new Date(hover.t).toLocaleDateString("sq-AL", { day: "numeric", month: "short" })}</div>
           <div className="tregu-chart-tip-row">
             <span className="tregu-chart-tip-dot" style={{ background: stroke }} />
-            <strong>{Math.round(hover.coins).toLocaleString("sq-AL")} 383C</strong>
+            <strong>{fmtNum(hover.coins)} 383C</strong>
           </div>
         </div>
       )}
@@ -144,6 +145,8 @@ function BalanceChart({ history }: { history: { t: number; coins: number }[] }) 
 export default function PortofoliPage() {
   const [checkedAuth, setCheckedAuth] = useState(false);
   const [signedIn, setSignedIn] = useState(false);
+  const [loadingProfile, setLoadingProfile] = useState(true);
+  const [loadError, setLoadError] = useState(false);
   const [profile, setProfile] = useState<Profile | null>(null);
   const [positions, setPositions] = useState<Position[]>([]);
   const [transactions, setTransactions] = useState<Transaction[]>([]);
@@ -158,17 +161,28 @@ export default function PortofoliPage() {
   const [sellMsg, setSellMsg] = useState<string | null>(null);
 
   const load = () => {
+    setLoadError(false);
     Promise.all([
-      fetch("/api/tregu/portfolio").then((r) => r.json()),
-      fetch("/api/tregu/withdraw").then((r) => r.json()),
-    ]).then(([p, w]) => {
-      setProfile(p.profile ?? null);
-      setPositions(p.positions ?? []);
-      setTransactions(p.transactions ?? []);
-      setStats(p.stats ?? null);
-      setBalanceHistory(p.balanceHistory ?? []);
-      setWithdrawals(w.withdrawals ?? []);
-    });
+      fetch("/api/tregu/portfolio").then((r) => {
+        if (!r.ok) throw new Error(`portfolio ${r.status}`);
+        return r.json();
+      }),
+      fetch("/api/tregu/withdraw").then((r) => {
+        if (!r.ok) throw new Error(`withdraw ${r.status}`);
+        return r.json();
+      }),
+    ])
+      .then(([p, w]) => {
+        setProfile(p.profile ?? null);
+        setPositions(p.positions ?? []);
+        setTransactions(p.transactions ?? []);
+        setStats(p.stats ?? null);
+        setBalanceHistory(p.balanceHistory ?? []);
+        setWithdrawals(w.withdrawals ?? []);
+      })
+      // A failed fetch must never render as a zero balance.
+      .catch(() => setLoadError(true))
+      .finally(() => setLoadingProfile(false));
   };
 
   useEffect(() => {
@@ -239,6 +253,54 @@ export default function PortofoliPage() {
     );
   }
 
+  if (checkedAuth && signedIn && loadingProfile) {
+    return (
+      <div className="tregu-scope">
+        <Navbar />
+        <main style={{ maxWidth: 960, margin: "0 auto", padding: "104px 24px 80px" }}>
+          <h1 style={{ fontSize: 30, fontWeight: 800, margin: "0 0 24px" }}>Portofoli</h1>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 16 }}>
+            {[0, 1, 2, 3].map((i) => (
+              <div
+                key={i}
+                className="tregu-glass"
+                style={{ height: 92, borderRadius: 16, opacity: 0.5 }}
+                aria-hidden
+              />
+            ))}
+          </div>
+        </main>
+      </div>
+    );
+  }
+
+  if (checkedAuth && signedIn && loadError) {
+    return (
+      <div className="tregu-scope">
+        <Navbar />
+        <main style={{ maxWidth: 960, margin: "0 auto", padding: "104px 24px 80px" }}>
+          <h1 style={{ fontSize: 30, fontWeight: 800, margin: "0 0 24px" }}>Portofoli</h1>
+          <div className="tregu-glass" style={{ padding: "40px 28px", textAlign: "center" }}>
+            <p style={{ fontWeight: 800, fontSize: 16, margin: 0 }}>Portofoli nuk u ngarkua</p>
+            <p style={{ color: "#6B6B6B", fontSize: 14, margin: "6px 0 16px" }}>
+              Kontrollo lidhjen me internetin dhe provo përsëri.
+            </p>
+            <button
+              onClick={() => {
+                setLoadingProfile(true);
+                load();
+              }}
+              className="tregu-btn-primary"
+              style={{ padding: "10px 22px", borderRadius: 100, fontSize: 13, cursor: "pointer" }}
+            >
+              Provo përsëri
+            </button>
+          </div>
+        </main>
+      </div>
+    );
+  }
+
   const canWithdraw = (profile?.coins ?? 0) >= 10000;
 
   return (
@@ -253,14 +315,14 @@ export default function PortofoliPage() {
             <span className="tregu-tile-label">Vlera totale</span>
             <span className="tregu-tile-value" style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
               <CoinFace size={22} />
-              {Math.round(stats?.totalValue ?? profile?.coins ?? 0).toLocaleString("sq-AL")}
+              {fmtNum(stats?.totalValue ?? profile?.coins ?? 0)}
             </span>
-            <span className="tregu-tile-sub">{(profile?.coins ?? 0).toLocaleString("sq-AL")} të lira · 10,000 = 10€</span>
+            <span className="tregu-tile-sub">{fmtNum(profile?.coins ?? 0)} të lira · 10,000 = 10€</span>
           </div>
           <div className="tregu-glass tregu-tile">
             <span className="tregu-tile-label">Në pozicione</span>
-            <span className="tregu-tile-value">{Math.round(stats?.openValue ?? 0).toLocaleString("sq-AL")}</span>
-            <span className="tregu-tile-sub">{Math.round(stats?.openStaked ?? 0).toLocaleString("sq-AL")} 383C të investuara</span>
+            <span className="tregu-tile-value">{fmtNum(stats?.openValue ?? 0)}</span>
+            <span className="tregu-tile-sub">{fmtNum(stats?.openStaked ?? 0)} 383C të investuara</span>
           </div>
           <div className="tregu-glass tregu-tile">
             <span className="tregu-tile-label">P/L i hapur</span>
@@ -350,7 +412,7 @@ export default function PortofoliPage() {
           {canWithdraw ? (
             <>
               <p style={{ fontSize: 13, color: "#6B6B6B", marginBottom: 12 }}>
-                Ke {profile?.coins.toLocaleString("sq-AL")} 383 Coin — mund të tërheqësh 10,000 për 10€.
+                Ke {fmtNum(profile?.coins ?? 0)} 383 Coin — mund të tërheqësh 10,000 për 10€.
               </p>
               <div style={{ display: "flex", gap: 10 }}>
                 <input
@@ -373,7 +435,7 @@ export default function PortofoliPage() {
             </>
           ) : (
             <p style={{ fontSize: 13, color: "#6B6B6B" }}>
-              Duhen 10,000 383 Coin për të tërhequr (ke {profile?.coins.toLocaleString("sq-AL") ?? 0}).
+              Duhen 10,000 383 Coin për të tërhequr (ke {fmtNum(profile?.coins ?? 0)}).
             </p>
           )}
 

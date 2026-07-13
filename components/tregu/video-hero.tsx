@@ -23,8 +23,15 @@ function CinematicBackdrop() {
   // never re-render; React state only changes at the crossfade moment.
   const pb = useRef({ front: 0, index: 0, switching: false });
   const [front, setFront] = useState(0);
+  // The videos mount client-side only: browser extensions (video-speed
+  // controllers etc.) inject sibling DOM next to <video> tags they find in
+  // the served HTML before React hydrates, which breaks hydration (#418).
+  // SSR gains nothing from empty <video> shells — src is set in an effect.
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
 
   useEffect(() => {
+    if (!mounted) return;
     const layers = [layerA.current, layerB.current];
     const a = layers[0];
     const b = layers[1];
@@ -65,9 +72,10 @@ function CinematicBackdrop() {
       a.removeEventListener("timeupdate", onTime);
       b.removeEventListener("timeupdate", onTime);
     };
-  }, []);
+  }, [mounted]);
 
   const layerClass = "absolute inset-0 h-full w-full object-cover transition-opacity";
+  if (!mounted) return null;
   return (
     <>
       <video
@@ -140,24 +148,38 @@ function AnimatedHeading({ text, initialDelay = 200 }: { text: string; initialDe
       className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-normal mb-4 text-white"
       style={{ letterSpacing: "-0.04em" }}
     >
-      {lines.map((line, lineIndex) => (
-        <span key={lineIndex} className="block">
-          {line.split("").map((ch, charIndex) => (
-            <span
-              key={charIndex}
-              className="inline-block"
-              style={{
-                opacity: started ? 1 : 0,
-                transform: started ? "translateX(0)" : "translateX(-18px)",
-                transition: "opacity 500ms ease, transform 500ms ease",
-                transitionDelay: `${lineIndex * line.length * charDelay + charIndex * charDelay}ms`,
-              }}
-            >
-              {ch === " " ? " " : ch}
-            </span>
-          ))}
-        </span>
-      ))}
+      {lines.map((line, lineIndex) => {
+        const lineOffset = lines.slice(0, lineIndex).reduce((n, l) => n + l.length, 0);
+        const words = line.split(" ");
+        return (
+          <span key={lineIndex} className="block">
+            {words.map((word, wordIndex) => {
+              // Words are atomic inline-blocks so a wrap never lands mid-word;
+              // per-letter spans alone let the browser break inside a word.
+              const wordOffset = words.slice(0, wordIndex).reduce((n, w) => n + w.length + 1, 0);
+              return (
+                <span key={wordIndex} className="inline-block whitespace-nowrap">
+                  {word.split("").map((ch, charIndex) => (
+                    <span
+                      key={charIndex}
+                      className="inline-block"
+                      style={{
+                        opacity: started ? 1 : 0,
+                        transform: started ? "translateX(0)" : "translateX(-18px)",
+                        transition: "opacity 500ms ease, transform 500ms ease",
+                        transitionDelay: `${(lineOffset + wordOffset + charIndex) * charDelay}ms`,
+                      }}
+                    >
+                      {ch}
+                    </span>
+                  ))}
+                  {wordIndex < words.length - 1 ? " " : ""}
+                </span>
+              );
+            })}
+          </span>
+        );
+      })}
     </h1>
   );
 }

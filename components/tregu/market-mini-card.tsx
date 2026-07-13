@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { fmtNum } from "@/lib/format";
 
 export interface MiniMarket {
   slug: string;
@@ -143,7 +144,7 @@ export default function MarketMiniCard({ market }: { market: MiniMarket; compact
       <div className="tregu-market-foot">
         <span>
           {market.volume !== undefined && market.volume > 0
-            ? `Vëllimi ${Math.round(market.volume).toLocaleString("sq-AL")} 383C`
+            ? `Vëllimi ${fmtNum(market.volume)} 383C`
             : "Treg i ri"}
         </span>
         <span className="tregu-market-open">Hap tregun →</span>

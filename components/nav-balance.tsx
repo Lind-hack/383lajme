@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import CoinFace from "@/components/tregu/coin-face";
+import { fmtNum } from "@/lib/format";
 
 // Last balance the user saw — lets the counter animate old → new across
 // page loads (login, bonus claimed on another page, bet payout).
@@ -62,7 +63,7 @@ export default function NavBalance() {
       const t = Math.min((now - start) / dur, 1);
       const eased = 1 - Math.pow(1 - t, 3);
       if (numRef.current) {
-        numRef.current.textContent = Math.round(from + (to - from) * eased).toLocaleString("sq-AL");
+        numRef.current.textContent = fmtNum(from + (to - from) * eased);
       }
       if (t < 1) rafRef.current = requestAnimationFrame(tick);
     };
@@ -213,7 +214,7 @@ export default function NavBalance() {
           </span>
         ))}
         <CoinFace size={20} spinning={spinning} hoverTilt />
-        <span ref={numRef}>{balance.toLocaleString("sq-AL")}</span>
+        <span ref={numRef}>{fmtNum(balance)}</span>
       </Link>
       {flight.length > 0 && (
         <div className="coin-flight-layer" aria-hidden>
