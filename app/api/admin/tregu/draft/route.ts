@@ -30,6 +30,8 @@ export async function POST(request: NextRequest) {
     status: "draft" as const,
     source_article_slugs: d.source_slugs ?? [],
     ai_generated: true,
+    resolution_rules: d.resolution_rules?.trim() || null,
+    resolution_source: d.resolution_source?.trim() || null,
     closes_at: new Date(Date.now() + (d.closes_in_days ?? 30) * 86_400_000).toISOString(),
   }));
 

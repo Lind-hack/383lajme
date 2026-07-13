@@ -64,6 +64,8 @@ interface DraftedMarket {
   category: MarketCategory;
   closes_in_days: number;
   source_slugs: string[];
+  resolution_rules?: string;
+  resolution_source?: string;
 }
 
 /** Ask Groq to draft new market questions from today's top articles (admin approves before going live). */
@@ -74,7 +76,8 @@ export async function draftMarketsFromNews(limit = 5): Promise<DraftedMarket[]> 
   const system =
     "Je editor per 383 Tregu, nje treg parashikimesh si Polymarket per lajme nga Kosova/rajoni. " +
     "Nga artikujt e dhene, propozo pyetje TREGU qarta, binare (PO/JO), te verifikueshme brenda javeve/muajve, interesante per publikun. " +
-    `Kthe VETEM JSON: {"markets": [{"question": "...?", "description": "...", "category": "politike|ekonomi|sport|bote|te-tjera", "closes_in_days": 30, "source_slugs": ["slug1"]}]}`;
+    "Per cdo treg shkruaj edhe rregullat e zgjidhjes: cfare sakteisht duhet te ndodhe (dhe deri kur) qe tregu te zgjidhet PO, dhe cili burim zyrtar e verifikon. " +
+    `Kthe VETEM JSON: {"markets": [{"question": "...?", "description": "...", "category": "politike|ekonomi|sport|bote|te-tjera", "closes_in_days": 30, "source_slugs": ["slug1"], "resolution_rules": "Zgjidhet PO nese ... para dates ... Cdo rezultat tjeter zgjidhet JO.", "resolution_source": "p.sh. njoftimi zyrtar i institucionit + raportimi i 383"}]}`;
   const user = `Artikuj te fundit:\n${context}\n\nPropozo deri ne ${limit} tregje te reja.`;
 
   const raw = await groqChat(system, user, { json: true, maxTokens: 1200 });

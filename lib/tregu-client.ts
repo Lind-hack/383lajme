@@ -18,6 +18,8 @@ export interface Market {
   b: number;
   q_yes: number;
   q_no: number;
+  resolution_rules?: string | null;
+  resolution_source?: string | null;
   closes_at: string;
   resolved_at: string | null;
   created_at: string;
@@ -32,6 +34,24 @@ export interface MarketSnapshot {
   volume: number;
   evidence: { title: string; slug: string; url?: string }[] | null;
   created_at: string;
+}
+
+export interface MarketTrade {
+  id: string;
+  market_id: string;
+  action: "buy" | "sell";
+  side: Side;
+  coins: number;
+  shares: number;
+  price_yes: number;
+  created_at: string;
+  /** Embedded via the profiles FK — present on activity feeds. */
+  profiles?: { display_name: string | null } | null;
+}
+
+/** LMSR cost function C(q) = b·ln(e^(qYes/b) + e^(qNo/b)). */
+export function lmsrCost(qYes: number, qNo: number, b: number): number {
+  return b * Math.log(Math.exp(qYes / b) + Math.exp(qNo / b));
 }
 
 /** LMSR price of YES ("PO"), 0..1. Mirrors the SQL function `lmsr_price_yes`. */
@@ -66,4 +86,22 @@ export function previewBet(
 
   const newPriceYes = lmsrPriceYes(newQYes, newQNo, b);
   return { shares: delta, newPriceYes, avgPrice: delta > 0 ? coins / delta : 0 };
+}
+
+/** Preview coins received + resulting price for selling shares back to the
+ *  market maker. Mirrors the SQL function `sell_shares`. */
+export function previewSell(
+  market: Pick<Market, "q_yes" | "q_no" | "b">,
+  side: Side,
+  shares: number
+): { coins: number; newPriceYes: number; avgPrice: number } {
+  const { q_yes, q_no, b } = market;
+  const newQYes = side === "PO" ? q_yes - shares : q_yes;
+  const newQNo = side === "JO" ? q_no - shares : q_no;
+  const coins = Math.max(0, lmsrCost(q_yes, q_no, b) - lmsrCost(newQYes, newQNo, b));
+  return {
+    coins,
+    newPriceYes: lmsrPriceYes(newQYes, newQNo, b),
+    avgPrice: shares > 0 ? coins / shares : 0,
+  };
 }
