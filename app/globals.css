@@ -1469,3 +1469,246 @@ header[data-overlay] .nav-coin-chip {
     transform: translateX(0);
   }
 }
+
+/* ── Market detail — 2-col trading layout ─────────────────── */
+.tregu-detail-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  gap: 24px;
+  align-items: start;
+}
+.tregu-detail-side {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  position: sticky;
+  top: 96px;
+}
+@media (max-width: 940px) {
+  .tregu-detail-grid { grid-template-columns: 1fr; }
+  .tregu-detail-side { position: static; }
+}
+.tregu-related-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+/* Weekly movement chip next to the big ticker. */
+.tregu-delta-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 11px;
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.01em;
+}
+.tregu-delta-chip[data-dir="up"] {
+  color: #00854A;
+  background: rgba(0, 166, 81, 0.12);
+  border: 1px solid rgba(0, 166, 81, 0.25);
+}
+.tregu-delta-chip[data-dir="down"] {
+  color: #B91C1C;
+  background: rgba(228, 30, 32, 0.10);
+  border: 1px solid rgba(228, 30, 32, 0.22);
+}
+
+/* Quick-amount chips + small secondary actions (Max, Të gjitha, Dil). */
+.tregu-chip {
+  padding: 6px 13px;
+  border-radius: 100px;
+  border: 1px solid rgba(17, 17, 17, 0.12);
+  background: rgba(255, 255, 255, 0.6);
+  color: #111111;
+  font-size: 12px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+  transition: background-color 160ms var(--ease-out), border-color 160ms var(--ease-out), color 160ms var(--ease-out);
+}
+.tregu-chip:hover { border-color: rgba(17, 17, 17, 0.28); }
+.tregu-chip[data-active="true"] {
+  background: #111111;
+  border-color: #111111;
+  color: #FFFFFF;
+}
+.tregu-chip:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.tregu-input {
+  flex: 1;
+  min-width: 0;
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(17, 17, 17, 0.12);
+  border-radius: 10px;
+  padding: 10px 12px;
+  color: #111111;
+  font-size: 16px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  transition: border-color 160ms var(--ease-out), background-color 160ms var(--ease-out);
+}
+.tregu-input:focus {
+  outline: none;
+  border-color: rgba(17, 17, 17, 0.34);
+  background: rgba(255, 255, 255, 0.85);
+}
+
+/* Bet-slip preview rows: label left, value right. */
+.tregu-slip-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(17, 17, 17, 0.035);
+  border: 1px solid var(--tg-border);
+  margin-bottom: 16px;
+  font-size: 13px;
+}
+.tregu-slip-summary > div {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+.tregu-slip-summary span { color: var(--tg-muted); }
+.tregu-slip-summary strong {
+  color: var(--tg-text);
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* Activity feed rows. */
+.tregu-activity-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 9px 0;
+  font-size: 13px;
+  border-bottom: 1px solid rgba(17, 17, 17, 0.06);
+}
+.tregu-activity-row:last-child { border-bottom: none; }
+
+/* Chart overlays — HTML text so the stretched SVG never distorts it. */
+.tregu-axis-label {
+  position: absolute;
+  font-size: 10px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+  color: var(--tg-muted);
+  pointer-events: none;
+  white-space: nowrap;
+}
+.tregu-chart-tip {
+  position: absolute;
+  transform: translateX(-50%);
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid var(--tg-border-hi);
+  border-radius: 10px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 6px 20px rgba(17, 17, 17, 0.12);
+  padding: 8px 11px;
+  font-size: 12px;
+  pointer-events: none;
+  white-space: nowrap;
+  z-index: 2;
+}
+.tregu-chart-tip-date {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--tg-muted);
+  margin-bottom: 3px;
+}
+.tregu-chart-tip-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--tg-muted);
+  font-weight: 600;
+}
+.tregu-chart-tip-row strong {
+  color: var(--tg-text);
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+.tregu-chart-tip-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 100px;
+  flex-shrink: 0;
+}
+
+/* ── Portfolio — stat tiles + positions table ─────────────── */
+.tregu-tiles {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 28px;
+}
+@media (max-width: 860px) {
+  .tregu-tiles { grid-template-columns: repeat(2, 1fr); }
+}
+.tregu-tile {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 18px 20px;
+}
+.tregu-tile-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--tg-muted);
+}
+.tregu-tile-value {
+  font-size: 26px;
+  font-weight: 800;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+  color: var(--tg-text);
+}
+.tregu-tile-sub {
+  font-size: 11px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--tg-muted);
+}
+
+.tregu-table-wrap {
+  overflow-x: auto;
+  padding: 6px 0;
+}
+.tregu-table {
+  min-width: 720px;
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+}
+.tregu-table-head,
+.tregu-table-row {
+  display: grid;
+  grid-template-columns: minmax(160px, 1fr) 52px 76px 62px 62px 70px 70px 84px;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 18px;
+}
+.tregu-table-head {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--tg-muted);
+  border-bottom: 1px solid var(--tg-border);
+}
+.tregu-table-row {
+  border-bottom: 1px solid rgba(17, 17, 17, 0.05);
+}
+.tregu-table-row:last-child { border-bottom: none; }

@@ -33,6 +33,8 @@ export async function POST(request: NextRequest) {
         sourceSlugs?: string[];
         aiGenerated?: boolean;
         status?: "draft" | "open";
+        resolutionRules?: string;
+        resolutionSource?: string;
       }
     | null;
 
@@ -53,6 +55,8 @@ export async function POST(request: NextRequest) {
       status: body.status ?? "draft",
       source_article_slugs: body.sourceSlugs ?? [],
       ai_generated: body.aiGenerated ?? false,
+      resolution_rules: body.resolutionRules?.trim() || null,
+      resolution_source: body.resolutionSource?.trim() || null,
       closes_at: closesAt,
     })
     .select()

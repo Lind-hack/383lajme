@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Navbar from "@/components/navbar";
 import CoinFace from "@/components/tregu/coin-face";
@@ -8,9 +8,14 @@ import { createClient } from "@/lib/supabase/client";
 
 interface Position {
   id: string;
+  market_id: string;
   side: "PO" | "JO";
   shares: number;
+  coins_staked: number;
+  currentPrice: number | null;
   currentValue: number | null;
+  entryPrice: number | null;
+  unrealizedPnl: number | null;
   markets: { question: string; slug: string; status: string; outcome: string | null } | null;
 }
 
@@ -35,16 +40,122 @@ interface Withdrawal {
   requested_at: string;
 }
 
+interface Stats {
+  coins: number;
+  openValue: number;
+  totalValue: number;
+  openStaked: number;
+  openPnl: number;
+  realizedPnl: number;
+  winRate: number | null;
+  settledCount: number;
+}
+
+const TX_LABEL: Record<string, string> = {
+  signup_bonus: "Bonus regjistrimi",
+  daily_bonus: "Bonus ditor",
+  bet: "Blerje",
+  sell: "Shitje",
+  payout: "Fitim",
+  withdrawal: "Tërheqje",
+};
+
+function pnlColor(v: number | null | undefined): string {
+  if (v === null || v === undefined || v === 0) return "#6B6B6B";
+  return v > 0 ? "#00854A" : "#E41E20";
+}
+
+function signed(v: number, digits = 1): string {
+  return `${v > 0 ? "+" : ""}${v.toFixed(digits)}`;
+}
+
+// 30-day coin balance — small dependency-free SVG area chart with hover.
+function BalanceChart({ history }: { history: { t: number; coins: number }[] }) {
+  const [hover, setHover] = useState<{ frac: number; t: number; coins: number } | null>(null);
+  const boxRef = useRef<HTMLDivElement>(null);
+  const W = 640;
+  const H = 140;
+  const PAD = 10;
+
+  if (history.length < 2) {
+    return <div style={{ height: H, display: "flex", alignItems: "center", justifyContent: "center", color: "#6B6B6B", fontSize: 13 }}>Ende pa histori</div>;
+  }
+
+  const tMin = history[0].t;
+  const tMax = history[history.length - 1].t;
+  const vals = history.map((h) => h.coins);
+  const vMin = Math.min(...vals);
+  const vMax = Math.max(...vals);
+  const spread = vMax - vMin || 1;
+  const xFor = (t: number) => ((t - tMin) / (tMax - tMin || 1)) * W;
+  const yFor = (v: number) => PAD + (1 - (v - vMin) / spread) * (H - PAD * 2);
+
+  // Step line — the balance holds between transactions.
+  let path = "";
+  history.forEach((h, i) => {
+    path += i === 0 ? `M ${xFor(h.t).toFixed(1)} ${yFor(h.coins).toFixed(1)}` : ` H ${xFor(h.t).toFixed(1)} V ${yFor(h.coins).toFixed(1)}`;
+  });
+  const area = `${path} L ${W} ${H - PAD} L 0 ${H - PAD} Z`;
+  const last = history[history.length - 1];
+  const up = last.coins >= history[0].coins;
+  const stroke = up ? "#00854A" : "#B91C1C";
+
+  const onMove = (clientX: number) => {
+    const rect = boxRef.current?.getBoundingClientRect();
+    if (!rect || rect.width === 0) return;
+    const frac = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
+    const t = tMin + frac * (tMax - tMin);
+    // Step semantics: the balance at time t is the last entry at or before t.
+    let cur = history[0];
+    for (const h of history) if (h.t <= t) cur = h;
+    setHover({ frac, t, coins: cur.coins });
+  };
+
+  return (
+    <div ref={boxRef} style={{ position: "relative", touchAction: "pan-y" }} onPointerMove={(e) => onMove(e.clientX)} onPointerLeave={() => setHover(null)}>
+      <svg viewBox={`0 0 ${W} ${H}`} width="100%" height={H} preserveAspectRatio="none" style={{ display: "block" }}>
+        <defs>
+          <linearGradient id="tg-bal" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor={stroke} stopOpacity="0.16" />
+            <stop offset="100%" stopColor={stroke} stopOpacity="0" />
+          </linearGradient>
+        </defs>
+        <path d={area} fill="url(#tg-bal)" />
+        <path d={path} fill="none" stroke={stroke} strokeWidth="2.5" strokeLinejoin="round" />
+        {hover ? (
+          <line x1={hover.frac * W} y1={PAD} x2={hover.frac * W} y2={H - PAD} stroke="rgba(17,17,17,0.28)" strokeDasharray="3 3" />
+        ) : (
+          <circle cx={W} cy={yFor(last.coins)} r="4" fill={stroke} stroke="#FFFFFF" strokeWidth="2" />
+        )}
+      </svg>
+      {hover && (
+        <div className="tregu-chart-tip" style={{ left: `${Math.max(12, Math.min(88, hover.frac * 100))}%`, top: 0 }}>
+          <div className="tregu-chart-tip-date">{new Date(hover.t).toLocaleDateString("sq-AL", { day: "numeric", month: "short" })}</div>
+          <div className="tregu-chart-tip-row">
+            <span className="tregu-chart-tip-dot" style={{ background: stroke }} />
+            <strong>{Math.round(hover.coins).toLocaleString("sq-AL")} 383C</strong>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function PortofoliPage() {
   const [checkedAuth, setCheckedAuth] = useState(false);
   const [signedIn, setSignedIn] = useState(false);
   const [profile, setProfile] = useState<Profile | null>(null);
   const [positions, setPositions] = useState<Position[]>([]);
   const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [stats, setStats] = useState<Stats | null>(null);
+  const [balanceHistory, setBalanceHistory] = useState<{ t: number; coins: number }[]>([]);
   const [withdrawals, setWithdrawals] = useState<Withdrawal[]>([]);
   const [payoutMethod, setPayoutMethod] = useState("");
   const [withdrawMsg, setWithdrawMsg] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
+  const [confirmSell, setConfirmSell] = useState<string | null>(null); // position id awaiting confirm
+  const [sellingId, setSellingId] = useState<string | null>(null);
+  const [sellMsg, setSellMsg] = useState<string | null>(null);
 
   const load = () => {
     Promise.all([
@@ -54,6 +165,8 @@ export default function PortofoliPage() {
       setProfile(p.profile ?? null);
       setPositions(p.positions ?? []);
       setTransactions(p.transactions ?? []);
+      setStats(p.stats ?? null);
+      setBalanceHistory(p.balanceHistory ?? []);
       setWithdrawals(w.withdrawals ?? []);
     });
   };
@@ -66,6 +179,31 @@ export default function PortofoliPage() {
       if (user) load();
     });
   }, []);
+
+  const cashOut = async (p: Position) => {
+    if (confirmSell !== p.id) {
+      setConfirmSell(p.id);
+      // Confirm window expires so a stray click never sells later.
+      setTimeout(() => setConfirmSell((c) => (c === p.id ? null : c)), 4000);
+      return;
+    }
+    setConfirmSell(null);
+    setSellingId(p.id);
+    setSellMsg(null);
+    const res = await fetch("/api/tregu/sell", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ marketId: p.market_id, side: p.side, shares: p.shares }),
+    });
+    const data = await res.json();
+    if (res.ok) {
+      setSellMsg(`✓ Dole nga pozicioni — more ${Number(data.coinsReceived ?? 0).toFixed(1)} 383C`);
+      load();
+    } else {
+      setSellMsg(data.error ?? "Gabim gjatë shitjes");
+    }
+    setSellingId(null);
+  };
 
   const requestWithdraw = async () => {
     if (!payoutMethod.trim()) return;
@@ -106,41 +244,107 @@ export default function PortofoliPage() {
   return (
     <div className="tregu-scope">
       <Navbar />
-      <main style={{ maxWidth: 900, margin: "0 auto", padding: "104px 24px 80px" }}>
+      <main style={{ maxWidth: 960, margin: "0 auto", padding: "104px 24px 80px" }}>
         <h1 style={{ fontSize: 30, fontWeight: 800, margin: "0 0 24px" }}>Portofoli</h1>
 
-        <div className="tregu-glass tregu-glass-hi" style={{ padding: 24, display: "flex", alignItems: "center", gap: 16, marginBottom: 28 }}>
-          <CoinFace size={44} hoverTilt />
-          <div>
-            <div style={{ fontSize: 34, fontWeight: 800 }}>{(profile?.coins ?? 0).toLocaleString("sq-AL")}</div>
-            <div style={{ color: "#6B6B6B", fontSize: 12 }}>383 Coin · 10,000 = 10€</div>
+        {/* ── Stat tiles ── */}
+        <div className="tregu-tiles">
+          <div className="tregu-glass tregu-glass-hi tregu-tile">
+            <span className="tregu-tile-label">Vlera totale</span>
+            <span className="tregu-tile-value" style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
+              <CoinFace size={22} />
+              {Math.round(stats?.totalValue ?? profile?.coins ?? 0).toLocaleString("sq-AL")}
+            </span>
+            <span className="tregu-tile-sub">{(profile?.coins ?? 0).toLocaleString("sq-AL")} të lira · 10,000 = 10€</span>
+          </div>
+          <div className="tregu-glass tregu-tile">
+            <span className="tregu-tile-label">Në pozicione</span>
+            <span className="tregu-tile-value">{Math.round(stats?.openValue ?? 0).toLocaleString("sq-AL")}</span>
+            <span className="tregu-tile-sub">{Math.round(stats?.openStaked ?? 0).toLocaleString("sq-AL")} 383C të investuara</span>
+          </div>
+          <div className="tregu-glass tregu-tile">
+            <span className="tregu-tile-label">P/L i hapur</span>
+            <span className="tregu-tile-value" style={{ color: pnlColor(stats?.openPnl) }}>
+              {stats ? signed(stats.openPnl) : "—"}
+            </span>
+            <span className="tregu-tile-sub">vlera kundrejt investimit</span>
+          </div>
+          <div className="tregu-glass tregu-tile">
+            <span className="tregu-tile-label">P/L i realizuar</span>
+            <span className="tregu-tile-value" style={{ color: pnlColor(stats?.realizedPnl) }}>
+              {stats ? signed(stats.realizedPnl) : "—"}
+            </span>
+            <span className="tregu-tile-sub">
+              {stats?.winRate !== null && stats?.winRate !== undefined
+                ? `${Math.round(stats.winRate * 100)}% fitore · ${stats.settledCount} tregje`
+                : "ende pa tregje të mbyllura"}
+            </span>
           </div>
         </div>
 
+        {/* ── 30-day balance ── */}
+        <div className="tregu-glass" style={{ padding: 24, marginBottom: 28 }}>
+          <h2 style={{ fontSize: 16, fontWeight: 800, margin: "0 0 14px" }}>Bilanci — 30 ditët e fundit</h2>
+          <BalanceChart history={balanceHistory} />
+        </div>
+
+        {/* ── Positions table ── */}
         <h2 style={{ fontSize: 16, fontWeight: 800, margin: "0 0 12px" }}>Pozicionet aktive</h2>
+        {sellMsg && <p style={{ fontSize: 13, fontWeight: 600, color: sellMsg.startsWith("✓") ? "#00854A" : "#E41E20", marginBottom: 12 }}>{sellMsg}</p>}
         {positions.length === 0 ? (
-          <p style={{ color: "#6B6B6B", fontSize: 13, marginBottom: 28 }}>Ende pa pozicione — shko te Tregu dhe vër bastin e parë.</p>
+          <p style={{ color: "#6B6B6B", fontSize: 13, marginBottom: 28 }}>
+            Ende pa pozicione — <Link href="/tregu" style={{ color: "#00854A" }}>shko te Tregu</Link> dhe vër bastin e parë.
+          </p>
         ) : (
-          <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 28 }}>
-            {positions.map((p) => (
-              <Link
-                key={p.id}
-                href={`/tregu/${p.markets?.slug}`}
-                className="tregu-glass"
-                style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: 16, textDecoration: "none", color: "#111111" }}
-              >
-                <div>
-                  <div style={{ fontSize: 14, fontWeight: 700 }}>{p.markets?.question}</div>
-                  <div style={{ fontSize: 12, color: p.side === "PO" ? "#00A651" : "#E41E20" }}>
-                    {p.side} · {p.shares.toFixed(2)} aksione
+          <div className="tregu-glass tregu-table-wrap" style={{ marginBottom: 28 }}>
+            <div className="tregu-table">
+              <div className="tregu-table-head">
+                <span>Tregu</span>
+                <span>Ana</span>
+                <span>Aksione</span>
+                <span>Hyrja</span>
+                <span>Tani</span>
+                <span>Vlera</span>
+                <span>P/L</span>
+                <span />
+              </div>
+              {positions.map((p) => {
+                const open = p.markets?.status === "open";
+                return (
+                  <div key={p.id} className="tregu-table-row">
+                    <Link href={`/tregu/${p.markets?.slug}`} style={{ color: "#111111", textDecoration: "none", fontWeight: 700, fontSize: 13, minWidth: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                      {p.markets?.question}
+                    </Link>
+                    <span className="tregu-pill" style={{ color: p.side === "PO" ? "#00A651" : "#E41E20", justifySelf: "start" }}>{p.side}</span>
+                    <span>{Number(p.shares).toFixed(2)}</span>
+                    <span>{p.entryPrice !== null ? `${(p.entryPrice * 100).toFixed(0)}%` : "—"}</span>
+                    <span>{p.currentPrice !== null ? `${(p.currentPrice * 100).toFixed(0)}%` : "—"}</span>
+                    <span style={{ fontWeight: 800 }}>{p.currentValue !== null ? p.currentValue.toFixed(1) : "—"}</span>
+                    <span style={{ fontWeight: 800, color: pnlColor(p.unrealizedPnl) }}>
+                      {p.unrealizedPnl !== null ? signed(p.unrealizedPnl) : "—"}
+                    </span>
+                    {open ? (
+                      <button
+                        className="tregu-chip"
+                        data-active={confirmSell === p.id}
+                        onClick={() => cashOut(p)}
+                        disabled={sellingId === p.id}
+                        type="button"
+                        style={{ whiteSpace: "nowrap" }}
+                      >
+                        {sellingId === p.id ? "..." : confirmSell === p.id ? "Konfirmo" : "Dil"}
+                      </button>
+                    ) : (
+                      <span style={{ fontSize: 11, color: "#6B6B6B" }}>{p.markets?.status === "resolved" ? "U zgjidh" : "Mbyllur"}</span>
+                    )}
                   </div>
-                </div>
-                <div style={{ fontWeight: 800 }}>{p.currentValue !== null ? p.currentValue.toFixed(1) : "—"} 383C</div>
-              </Link>
-            ))}
+                );
+              })}
+            </div>
           </div>
         )}
 
+        {/* ── Withdraw ── */}
         <h2 style={{ fontSize: 16, fontWeight: 800, margin: "0 0 12px" }}>Tërhiqe fitimin</h2>
         <div className="tregu-glass" style={{ padding: 20, marginBottom: 28 }}>
           {canWithdraw ? (
@@ -153,16 +357,8 @@ export default function PortofoliPage() {
                   value={payoutMethod}
                   onChange={(e) => setPayoutMethod(e.target.value)}
                   placeholder="PayPal email ose IBAN"
-                  style={{
-                    flex: 1,
-                    background: "rgba(255,255,255,0.6)",
-                    border: "1px solid rgba(17,17,17,0.12)",
-                    borderRadius: 10,
-                    padding: "10px 12px",
-                    color: "#111111",
-                    fontSize: 13,
-                    transition: "border-color 160ms var(--ease-out), background-color 160ms var(--ease-out)",
-                  }}
+                  className="tregu-input"
+                  style={{ fontSize: 13, fontWeight: 500 }}
                 />
                 <button
                   onClick={requestWithdraw}
@@ -193,14 +389,15 @@ export default function PortofoliPage() {
           )}
         </div>
 
+        {/* ── History ── */}
         <h2 style={{ fontSize: 16, fontWeight: 800, margin: "0 0 12px" }}>Historiku</h2>
         <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
           {transactions.map((t) => (
             <div key={t.id} style={{ display: "flex", justifyContent: "space-between", fontSize: 12, color: "#6B6B6B", padding: "8px 4px", borderBottom: "1px solid rgba(17,17,17,0.08)" }}>
-              <span>{t.type} · {new Date(t.created_at).toLocaleDateString("sq-AL")}</span>
-              <span style={{ color: t.amount >= 0 ? "#00A651" : "#E41E20", fontWeight: 700 }}>
+              <span>{TX_LABEL[t.type] ?? t.type} · {new Date(t.created_at).toLocaleDateString("sq-AL")}</span>
+              <span style={{ color: t.amount >= 0 ? "#00854A" : "#E41E20", fontWeight: 700, fontVariantNumeric: "tabular-nums" }}>
                 {t.amount >= 0 ? "+" : ""}
-                {t.amount}
+                {Number(t.amount).toFixed(0)}
               </span>
             </div>
           ))}
