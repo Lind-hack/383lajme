@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import CoinFace from "@/components/tregu/coin-face";
+import { fmtNum } from "@/lib/format";
 
 // Mobile-only account bar for the Tregu floor. The collapsed mobile navbar is
 // just a hamburger, so the coin balance chip (NavBalance) never shows there.
@@ -60,7 +61,7 @@ export default function MobileAccountBar({
             </span>
           ))}
           <CoinFace size={22} spinning={coinSpin} hoverTilt />
-          <span className="tregu-mbar-bal">{balance.toLocaleString("sq-AL")}</span>
+          <span className="tregu-mbar-bal">{fmtNum(balance)}</span>
           <span className="tregu-mbar-unit">383C</span>
           <span className="tregu-mbar-chev" aria-hidden>
             ›

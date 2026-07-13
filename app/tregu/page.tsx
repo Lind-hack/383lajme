@@ -3,11 +3,14 @@
 import { useEffect, useMemo, useState } from "react";
 import Navbar from "@/components/navbar";
 import MarketMiniCard from "@/components/tregu/market-mini-card";
+import MarketFeatureCard from "@/components/tregu/market-feature-card";
+import type { MiniMarket } from "@/components/tregu/market-mini-card";
 import VideoHero from "@/components/tregu/video-hero";
 import CoinFace from "@/components/tregu/coin-face";
 import MobileAccountBar from "@/components/tregu/mobile-account-bar";
 import { createClient } from "@/lib/supabase/client";
 import Link from "next/link";
+import { fmtNum } from "@/lib/format";
 
 interface MarketRow {
   id: string;
@@ -36,6 +39,7 @@ interface ActivityItem {
 
 function timeAgo(iso: string): string {
   const ms = Date.now() - new Date(iso).getTime();
+  if (!Number.isFinite(ms)) return "—";
   const min = Math.floor(ms / 60_000);
   if (min < 1) return "tani";
   if (min < 60) return `${min}m`;
@@ -70,6 +74,8 @@ export default function TreguHub() {
   const [category, setCategory] = useState("all");
   const [sort, setSort] = useState<SortKey>("vellim");
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState(false);
+  const [reloadKey, setReloadKey] = useState(0);
   const [updatedAt, setUpdatedAt] = useState<string | null>(null);
   const [balance, setBalance] = useState<number | null>(null);
   const [claiming, setClaiming] = useState(false);
@@ -79,16 +85,22 @@ export default function TreguHub() {
 
   useEffect(() => {
     setLoading(true);
+    setLoadError(false);
     const qs = category === "all" ? "" : `?category=${category}`;
     fetch(`/api/tregu/markets${qs}`)
-      .then((r) => r.json())
+      .then((r) => {
+        if (!r.ok) throw new Error(`markets ${r.status}`);
+        return r.json();
+      })
       .then((d) => {
         setMarkets(d.markets ?? []);
         setActivity(d.activity ?? []);
         setUpdatedAt(new Date().toLocaleTimeString("sq-AL", { hour: "2-digit", minute: "2-digit" }));
       })
+      // Offline or a 5xx must never masquerade as "no markets exist".
+      .catch(() => setLoadError(true))
       .finally(() => setLoading(false));
-  }, [category]);
+  }, [category, reloadKey]);
 
   useEffect(() => {
     if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) return;
@@ -228,12 +240,12 @@ export default function TreguHub() {
           <span className="tregu-stat-live">Tregu hapur</span>
           <span className="tregu-stat">
             <span className="tregu-stat-label">Tregje</span>
-            <span className="tregu-stat-value">{loading ? "—" : totals.count.toLocaleString("sq-AL")}</span>
+            <span className="tregu-stat-value">{loading || loadError ? "—" : fmtNum(totals.count)}</span>
           </span>
           <span className="tregu-stat">
             <span className="tregu-stat-label">Vëllimi</span>
             <span className="tregu-stat-value">
-              {loading ? "—" : `${Math.round(totals.volume).toLocaleString("sq-AL")} 383C`}
+              {loading || loadError ? "—" : `${fmtNum(totals.volume)} 383C`}
             </span>
           </span>
           <span className="tregu-stat">
@@ -275,7 +287,7 @@ export default function TreguHub() {
             <div className="tregu-glass tregu-glass-hi tregu-headchip" style={{ display: "flex", alignItems: "center", gap: 12, padding: "9px 10px 9px 14px" }}>
               <CoinFace size={26} spinning={coinSpin} hoverTilt />
               <span style={{ fontWeight: 800, fontSize: 16, fontVariantNumeric: "tabular-nums" }}>
-                {balance.toLocaleString("sq-AL")}
+                {fmtNum(balance)}
               </span>
               {bonusMsg && <span style={{ fontSize: 12, fontWeight: 700, color: "#00A651", fontVariantNumeric: "tabular-nums" }}>{bonusMsg}</span>}
               <button
@@ -339,7 +351,7 @@ export default function TreguHub() {
                     {a.side}
                   </span>
                   <span className="tregu-ticker-coins">
-                    {Math.round(a.coins).toLocaleString("sq-AL")} 383C
+                    {fmtNum(a.coins)} 383C
                   </span>
                   <span className="tregu-ticker-q">{a.question}</span>
                   <span className="tregu-ticker-time">{timeAgo(a.createdAt)}</span>
@@ -354,6 +366,8 @@ export default function TreguHub() {
           <span className="tregu-count">
             {loading ? (
               "Duke ngarkuar tregjet…"
+            ) : loadError ? (
+              "Tregjet nuk u ngarkuan"
             ) : (
               <>
                 <strong>{sorted.length}</strong> {sorted.length === 1 ? "treg aktiv" : "tregje aktive"}
@@ -375,6 +389,20 @@ export default function TreguHub() {
               <div key={i} className="tregu-glass" style={{ height: 208, opacity: 0.5 }} />
             ))}
           </div>
+        ) : loadError ? (
+          <div className="tregu-glass" style={{ padding: "40px 28px", textAlign: "center" }}>
+            <p style={{ fontWeight: 800, fontSize: 16, margin: 0 }}>Tregjet nuk u ngarkuan</p>
+            <p style={{ color: "#6B6B6B", fontSize: 14, margin: "6px 0 16px" }}>
+              Kontrollo lidhjen me internetin dhe provo përsëri.
+            </p>
+            <button
+              onClick={() => setReloadKey((k) => k + 1)}
+              className="tregu-btn-primary"
+              style={{ padding: "10px 22px", borderRadius: 100, fontSize: 13, cursor: "pointer" }}
+            >
+              Provo përsëri
+            </button>
+          </div>
         ) : sorted.length === 0 ? (
           <div className="tregu-glass" style={{ padding: "40px 28px", textAlign: "center" }}>
             <p style={{ fontWeight: 800, fontSize: 16, margin: 0 }}>Asnjë treg aktiv këtu ende</p>
@@ -384,21 +412,26 @@ export default function TreguHub() {
           </div>
         ) : (
           <div className="tregu-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 14 }}>
-            {sorted.map((m) => (
-              <MarketMiniCard
-                key={m.id}
-                market={{
-                  slug: m.slug,
-                  question: m.question,
-                  category: m.category,
-                  prob: m.market_prob,
-                  volume: vol(m),
-                  closesAt: m.closes_at,
-                  spark: m.spark,
-                  delta7d: m.delta7d,
-                }}
-              />
-            ))}
+            {sorted.map((m, i) => {
+              const mini: MiniMarket = {
+                slug: m.slug,
+                question: m.question,
+                category: m.category,
+                prob: m.market_prob,
+                volume: vol(m),
+                closesAt: m.closes_at,
+                spark: m.spark,
+                delta7d: m.delta7d,
+              };
+              // The top market of the active sort earns the full-width
+              // feature slot — size is the signal, no label needed. Only
+              // when the floor is busy enough for a hierarchy to read.
+              return i === 0 && sorted.length >= 3 ? (
+                <MarketFeatureCard key={m.id} market={mini} />
+              ) : (
+                <MarketMiniCard key={m.id} market={mini} />
+              );
+            })}
           </div>
         )}
       </main>

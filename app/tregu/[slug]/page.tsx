@@ -8,6 +8,8 @@ import MarketMiniCard, { type MiniMarket } from "@/components/tregu/market-mini-
 import CoinFace from "@/components/tregu/coin-face";
 import { createClient } from "@/lib/supabase/client";
 import { previewBet, previewSell, lmsrPriceYes, type Side, type MarketTrade } from "@/lib/tregu-client";
+import { fmtNum } from "@/lib/format";
+import { DEMO_SLUG, demoDetail, isDemoEnabled } from "@/lib/tregu-demo";
 
 interface MarketDetail {
   id: string;
@@ -63,6 +65,7 @@ function closesIn(iso: string): string {
 
 function timeAgo(iso: string): string {
   const ms = Date.now() - new Date(iso).getTime();
+  if (!Number.isFinite(ms)) return "—";
   if (ms < 60_000) return "tani";
   const min = Math.floor(ms / 60_000);
   if (min < 60) return `para ${min} min`;
@@ -93,7 +96,24 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
   const [placing, setPlacing] = useState(false);
   const [tradeMsg, setTradeMsg] = useState<{ ok: boolean; text: string } | null>(null);
 
+  // /tregu/demo renders the full trading interface from local sample data —
+  // dev-only design preview, no DB market needed.
+  const demo = isDemoEnabled && slug.startsWith(DEMO_SLUG);
+
   const load = useCallback(() => {
+    if (demo) {
+      const d = demoDetail();
+      setMarket(d.market as MarketDetail);
+      setSnapshots(d.snapshots);
+      setTrades(d.trades);
+      setActivity(d.activity);
+      setRelated(d.related);
+      setWeeklyDelta(d.weeklyDelta);
+      setTradeCount(d.tradeCount);
+      setPositions(d.positions);
+      setLoading(false);
+      return;
+    }
     fetch(`/api/tregu/markets/${slug}`)
       .then((r) => r.json())
       .then((d) => {
@@ -111,7 +131,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
         setPositions(Array.isArray(d.position) ? d.position : []);
       })
       .finally(() => setLoading(false));
-  }, [slug]);
+  }, [slug, demo]);
 
   const refreshBalance = useCallback(() => {
     fetch("/api/tregu/portfolio")
@@ -126,18 +146,28 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
     const ana = new URLSearchParams(window.location.search).get("ana");
     if (ana === "po") setSide("PO");
     if (ana === "jo") setSide("JO");
+    if (demo) {
+      // Fake session so the trade panel renders instead of the login prompt.
+      setUser({ id: "demo" });
+      setBalance(500);
+      return;
+    }
     const supabase = createClient();
     supabase.auth.getUser().then(({ data: { user } }) => {
       setUser(user);
       if (user) refreshBalance();
     });
-  }, [slug, load, refreshBalance]);
+  }, [slug, load, refreshBalance, demo]);
 
   const heldOn = (s: Side) => positions.find((p) => p.side === s && p.shares > 0);
   const held = heldOn(side);
 
   const submitTrade = async () => {
     if (!market) return;
+    if (demo) {
+      setTradeMsg({ ok: true, text: "Treg demonstrimi — tregtimet e vërteta hapen kur tregu të jetë live." });
+      return;
+    }
     setPlacing(true);
     setTradeMsg(null);
     if (mode === "buy") {
@@ -203,6 +233,10 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
   const isClosed = market.status !== "open";
   const volume = Math.round(market.q_yes + market.q_no);
   const deltaPp = weeklyDelta === null ? null : Math.round(weeklyDelta * 100);
+  const closesMs = market.closes_at ? new Date(market.closes_at).getTime() : NaN;
+  const closesDateLabel = Number.isNaN(closesMs)
+    ? null
+    : new Date(closesMs).toLocaleDateString("sq-AL", { day: "numeric", month: "short" });
 
   const buyPreview =
     mode === "buy" && amount > 0
@@ -243,24 +277,41 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
             )}
             {market.status === "closed" && <span className="tregu-pill">Mbyllur</span>}
             {market.status === "open" && <span className="tregu-pill">{closesIn(market.closes_at)}</span>}
-            <span className="tregu-pill" style={{ fontVariantNumeric: "tabular-nums" }}>
-              Vëllimi {volume.toLocaleString("sq-AL")} 383C · {tradeCount} tregtime
-            </span>
           </div>
           <h1 style={{ fontSize: "clamp(24px, 3.5vw, 32px)", fontWeight: 800, margin: "0 0 8px", lineHeight: 1.25 }}>
             {market.question}
           </h1>
           {market.description && <p style={{ color: "#6B6B6B", fontSize: 14, margin: "0 0 16px" }}>{market.description}</p>}
-          <div style={{ display: "flex", alignItems: "baseline", flexWrap: "wrap", gap: 12 }}>
-            <span style={{ fontSize: 44, fontWeight: 800, lineHeight: 1, color: pct >= 50 ? "#00A651" : "#E41E20", fontVariantNumeric: "tabular-nums" }}>
-              {pct}%
-            </span>
-            <span style={{ fontSize: 15, fontWeight: 700, color: "#6B6B6B" }}>gjasa PO</span>
-            {deltaPp !== null && deltaPp !== 0 && (
-              <span className="tregu-delta-chip" data-dir={deltaPp > 0 ? "up" : "down"}>
-                {deltaPp > 0 ? "▲" : "▼"} {Math.abs(deltaPp)}pp këtë javë
+          <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", flexWrap: "wrap", gap: 16 }}>
+            <div style={{ display: "flex", alignItems: "baseline", flexWrap: "wrap", gap: 12 }}>
+              <span style={{ fontSize: 44, fontWeight: 800, lineHeight: 1, color: "#111111", fontVariantNumeric: "tabular-nums" }}>
+                {pct}%
               </span>
-            )}
+              <span style={{ fontSize: 15, fontWeight: 700, color: "#6B6B6B" }}>gjasa PO</span>
+              {deltaPp !== null && deltaPp !== 0 && (
+                <span className="tregu-delta-chip" data-dir={deltaPp > 0 ? "up" : "down"}>
+                  {deltaPp > 0 ? "▲" : "▼"} {Math.abs(deltaPp)}pp këtë javë
+                </span>
+              )}
+            </div>
+            <div style={{ display: "flex", gap: 28, flexWrap: "wrap" }}>
+              {[
+                { label: "Vëllimi", value: `${fmtNum(volume)} 383C` },
+                { label: "Tregtime", value: fmtNum(tradeCount) },
+                ...(closesDateLabel ? [{ label: isClosed ? "U mbyll" : "Mbyllet", value: closesDateLabel }] : []),
+              ].map((s) => (
+                <div key={s.label}>
+                  <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "#6B6B6B", marginBottom: 4 }}>
+                    {s.label}
+                  </div>
+                  <div style={{ fontSize: 15, fontWeight: 800, color: "#111111", fontVariantNumeric: "tabular-nums" }}>{s.value}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="tregu-depth" aria-hidden style={{ marginTop: 18 }}>
+            <div className="tregu-depth-yes" style={{ width: `${pct}%` }} />
+            <div className="tregu-depth-no" style={{ width: `${100 - pct}%` }} />
           </div>
         </div>
 
@@ -352,7 +403,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                     </div>
                     {balance !== null && (
                       <span style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: 12, fontWeight: 800, fontVariantNumeric: "tabular-nums" }}>
-                        <CoinFace size={16} /> {balance.toLocaleString("sq-AL")}
+                        <CoinFace size={16} /> {fmtNum(balance)}
                       </span>
                     )}
                   </div>
