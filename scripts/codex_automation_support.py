@@ -195,7 +195,13 @@ def normalize_batch(path: Path) -> list[dict[str, Any]]:
 
         image_url = str(article.get("image_url") or "").strip()
         if image_url.startswith(("http://", "https://")):
-            dimensions = _fetch_image_dimensions(image_url)
+            try:
+                dimensions = _fetch_image_dimensions(image_url)
+            except (urllib.error.HTTPError, urllib.error.URLError, TimeoutError, OSError) as exc:
+                # Leave the article unchanged so strict validation can report this
+                # image precisely and the workflow's repair pass can replace it.
+                print(f"WARN image normalization skipped for {image_url}: {type(exc).__name__}: {exc}")
+                continue
             if dimensions:
                 width, height = dimensions
                 if article.get("image_width") != width:
@@ -308,7 +314,12 @@ def _paragraph_count(value: object) -> int:
 
 
 def _fetch_image_dimensions(image_url: str) -> tuple[int, int]:
-    """Fetch a public image and return decoded pixel dimensions."""
+    """Fetch a public image and return decoded pixel dimensions.
+
+    Image CDNs occasionally throttle the first request from a cloud runner. Retry
+    a 429 response with the server's Retry-After value (when present) before
+    treating the image as unavailable.
+    """
     try:
         from PIL import Image
     except ImportError as exc:
@@ -318,8 +329,20 @@ def _fetch_image_dimensions(image_url: str) -> tuple[int, int]:
         image_url,
         headers={"User-Agent": "383-Lajme-Image-Validator/1.0"},
     )
-    with urllib.request.urlopen(request, timeout=20) as response:
-        payload = response.read(15_000_000)
+    for attempt in range(3):
+        try:
+            with urllib.request.urlopen(request, timeout=20) as response:
+                payload = response.read(15_000_000)
+            break
+        except urllib.error.HTTPError as exc:
+            if exc.code != 429 or attempt == 2:
+                raise
+            retry_after = exc.headers.get("Retry-After", "") if exc.headers else ""
+            try:
+                delay = float(retry_after)
+            except (TypeError, ValueError):
+                delay = float(2**attempt)
+            time.sleep(min(15.0, max(0.0, delay)))
     if not payload:
         raise ValueError("empty response")
     with Image.open(BytesIO(payload)) as image:
