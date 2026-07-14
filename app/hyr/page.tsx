@@ -3,7 +3,7 @@
 import { Suspense, useEffect, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, MailCheck } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import Navbar from "@/components/navbar";
 import { EASE, DUR } from "@/lib/tokens";
@@ -29,6 +29,10 @@ function markCelebrate() {
   } catch {}
 }
 
+// Shape check only. Whether the address actually exists is settled by the
+// confirmation link, not by us guessing at domains.
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
 function HyrForm() {
   const searchParams = useSearchParams();
   const initialTab = (searchParams.get("tab") === "regjistrohu" ? "regjistrohu" : "hyr") as Tab;
@@ -45,6 +49,11 @@ function HyrForm() {
   const [error, setError] = useState("");
   const [focused, setFocused] = useState<string | null>(null);
   const [bloom, setBloom] = useState(false);
+  // Set once a signup is awaiting email confirmation — the account exists but
+  // has no session until the link is clicked.
+  const [awaiting, setAwaiting] = useState<string | null>(null);
+  const [resendIn, setResendIn] = useState(0);
+  const [resent, setResent] = useState(false);
   const router = useRouter();
   const supabaseRef = useRef<SupabaseClient | null>(null);
   const bloomTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -59,6 +68,13 @@ function HyrForm() {
   useEffect(() => () => {
     if (bloomTimer.current) clearTimeout(bloomTimer.current);
   }, []);
+
+  // Supabase rate-limits confirmation mail to roughly one per minute.
+  useEffect(() => {
+    if (resendIn <= 0) return;
+    const t = setTimeout(() => setResendIn((s) => s - 1), 1000);
+    return () => clearTimeout(t);
+  }, [resendIn]);
 
   function getSupabase(): SupabaseClient | null {
     if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) return null;
@@ -79,6 +95,11 @@ function HyrForm() {
     setFullName("");
     setEmail("");
     setPassword("");
+    setAwaiting(null);
+  }
+
+  function callbackUrl() {
+    return `${window.location.origin}/auth/callback?next=${encodeURIComponent(nextPath)}`;
   }
 
   async function handleEmailAuth() {
@@ -87,36 +108,89 @@ function HyrForm() {
       setError("Auth not configured.");
       return;
     }
+    const cleanEmail = email.trim().toLowerCase();
+    if (!EMAIL_RE.test(cleanEmail)) {
+      setError("Shkruaj një adresë emaili të vlefshme.");
+      return;
+    }
     setError("");
     setLoading(true);
     try {
       if (tab === "regjistrohu") {
-        const { error } = await supabase.auth.signUp({
-          email,
+        const { data, error } = await supabase.auth.signUp({
+          email: cleanEmail,
           password,
           options: {
             data: { full_name: fullName },
-            emailRedirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent(nextPath)}`,
+            emailRedirectTo: callbackUrl(),
           },
         });
         if (error) throw error;
+
+        // Supabase returns a user with an empty identities array when the
+        // address is already taken — it won't say so outright, to avoid
+        // leaking which emails are registered.
+        if (data.user && data.user.identities?.length === 0) {
+          setError("Ky email është regjistruar tashmë. Provo të hysh.");
+          return;
+        }
+
+        // No session means the project requires email confirmation. The
+        // account is not usable until the link is clicked, so don't pretend
+        // the user is in.
+        if (!data.session) {
+          setAwaiting(cleanEmail);
+          setResendIn(60);
+          return;
+        }
+
         markCelebrate();
         router.push(nextPath);
       } else {
-        const { error } = await supabase.auth.signInWithPassword({ email, password });
+        const { error } = await supabase.auth.signInWithPassword({ email: cleanEmail, password });
         if (error) throw error;
         markCelebrate();
         router.push(nextPath);
       }
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : "Ndodhi një gabim.";
-      if (msg.includes("Invalid login")) setError("Email ose fjalëkalim i gabuar.");
+      const low = msg.toLowerCase();
+      if (low.includes("email not confirmed")) {
+        setAwaiting(cleanEmail);
+        setResendIn(0);
+      }
+      else if (msg.includes("Invalid login")) setError("Email ose fjalëkalim i gabuar.");
       else if (msg.includes("already registered") || msg.includes("User already registered"))
         setError("Ky email është regjistruar tashmë.");
       else if (msg.includes("Password should be"))
         setError("Fjalëkalimi duhet të ketë të paktën 6 karaktere.");
-      else if (msg.toLowerCase().includes("rate limit") || msg.toLowerCase().includes("email rate"))
+      else if (low.includes("invalid") && low.includes("email"))
+        setError("Kjo adresë emaili nuk pranohet.");
+      else if (low.includes("rate limit") || low.includes("email rate"))
         setError("Shumë kërkesa. Provo përsëri pas disa minutash.");
+      else setError(msg);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function handleResend() {
+    const supabase = getSupabase();
+    if (!supabase || !awaiting || resendIn > 0) return;
+    setError("");
+    setLoading(true);
+    try {
+      const { error } = await supabase.auth.resend({
+        type: "signup",
+        email: awaiting,
+        options: { emailRedirectTo: callbackUrl() },
+      });
+      if (error) throw error;
+      setResent(true);
+      setResendIn(60);
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "Ndodhi një gabim.";
+      if (msg.toLowerCase().includes("rate limit")) setError("Shumë kërkesa. Prit pak minuta.");
       else setError(msg);
     } finally {
       setLoading(false);
@@ -217,6 +291,83 @@ function HyrForm() {
             <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#FF4422", display: "inline-block", marginBottom: "3px" }} />
           </div>
 
+          {awaiting ? (
+            /* Signup succeeded but the account is inert until the link in the
+               email is clicked. This is the gate that makes a fake address
+               useless. */
+            <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
+              <div
+                style={{
+                  width: "44px",
+                  height: "44px",
+                  borderRadius: "50%",
+                  background: "rgba(255,68,34,0.10)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  color: "#FF4422",
+                }}
+              >
+                <MailCheck size={22} strokeWidth={2} />
+              </div>
+              <h1 style={{ fontSize: "20px", fontWeight: 800, color: "#111", margin: 0, letterSpacing: "-0.02em" }}>
+                Konfirmo emailin
+              </h1>
+              <p style={{ fontSize: "14px", lineHeight: 1.6, color: "#555", margin: 0 }}>
+                Dërguam një link te <strong style={{ color: "#111" }}>{awaiting}</strong>. Kliko atë link
+                për të aktivizuar llogarinë. Pa këtë hap, llogaria nuk funksionon.
+              </p>
+              <p style={{ fontSize: "13px", lineHeight: 1.6, color: "#888", margin: 0 }}>
+                Nuk e gjen? Kontrollo dosjen e spamit.
+              </p>
+
+              <div style={{ minHeight: "20px" }}>
+                {error && <p style={{ color: "#e53e3e", fontSize: "13px", margin: 0 }}>{error}</p>}
+                {!error && resent && (
+                  <p style={{ color: "#2f855a", fontSize: "13px", margin: 0 }}>Emaili u dërgua përsëri.</p>
+                )}
+              </div>
+
+              <motion.button
+                onClick={handleResend}
+                disabled={loading || resendIn > 0}
+                whileHover={loading || resendIn > 0 ? {} : { y: -2, boxShadow: "0 6px 20px rgba(255,68,34,0.25)" }}
+                whileTap={loading || resendIn > 0 ? {} : { scale: 0.98 }}
+                transition={{ duration: DUR.base, ease: EASE }}
+                style={{
+                  padding: "13px",
+                  borderRadius: "var(--radius-sm)",
+                  background: "#FF4422",
+                  color: "#fff",
+                  border: "none",
+                  fontWeight: 700,
+                  fontSize: "14px",
+                  cursor: loading || resendIn > 0 ? "not-allowed" : "pointer",
+                  fontFamily: "inherit",
+                  opacity: loading || resendIn > 0 ? 0.55 : 1,
+                  width: "100%",
+                }}
+              >
+                {resendIn > 0 ? `Dërgo përsëri (${resendIn}s)` : "Dërgo emailin përsëri"}
+              </motion.button>
+
+              <button
+                onClick={() => { setAwaiting(null); setResent(false); setError(""); }}
+                style={{
+                  background: "none",
+                  border: "none",
+                  cursor: "pointer",
+                  fontSize: "13px",
+                  color: "#999",
+                  fontFamily: "inherit",
+                  padding: 0,
+                }}
+              >
+                Përdor një email tjetër
+              </button>
+            </div>
+          ) : (
+          <>
           {/* Tabs — framer layoutId active pill */}
           <div
             style={{
@@ -385,6 +536,8 @@ function HyrForm() {
               Hyr me Facebook
             </motion.button>
           </div>
+          </>
+          )}
 
           {/* Back link with lucide ArrowLeft */}
           <div style={{ textAlign: "center", marginTop: "20px" }}>
