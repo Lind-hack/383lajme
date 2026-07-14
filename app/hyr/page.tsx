@@ -190,12 +190,12 @@ function HyrForm() {
         {/* Ambient orange plume field. Soft radial gradients, not blurred
             shapes — nothing here re-paints, only transform + opacity move. */}
         <div className="auth-plumes" data-bloom={bloom ? "1" : "0"} aria-hidden="true">
-          <div className="auth-plume auth-plume-l1" />
-          <div className="auth-plume auth-plume-l2" />
-          <div className="auth-plume auth-plume-l3" />
-          <div className="auth-plume auth-plume-r1" />
-          <div className="auth-plume auth-plume-r2" />
-          <div className="auth-plume auth-plume-r3" />
+          {["l1", "l2", "l3", "r1", "r2", "r3"].map((id) => (
+            <div key={id} className={`auth-plume auth-plume-${id}`}>
+              {/* Outer element roams, inner one jiggles. */}
+              <div className="auth-plume-body" />
+            </div>
+          ))}
         </div>
         <div className="auth-grain" aria-hidden="true" />
 
