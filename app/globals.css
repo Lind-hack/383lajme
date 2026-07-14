@@ -1884,3 +1884,261 @@ header[data-overlay] .nav-coin-chip {
   border-bottom: 1px solid rgba(17, 17, 17, 0.05);
 }
 .tregu-table-row:last-child { border-bottom: none; }
+
+/* ════════════════════════════════════════════════════════════
+   AUTH (/hyr) — ambient plume field + liquid-glass card rim
+   No filter: blur() anywhere. Softness comes from the gradient
+   stops themselves, so nothing re-blurs per frame; the only
+   animated properties are transform and opacity.
+   ════════════════════════════════════════════════════════════ */
+
+.auth-stage {
+  position: relative;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  padding-top: 96px;
+  padding-bottom: 48px;
+  overflow: hidden;
+  isolation: isolate;
+  background:
+    radial-gradient(110% 80% at 50% 32%, #FEFCF9 0%, #F9F6F1 34%, #EFE3D5 68%, #E2CDB8 100%);
+}
+
+.auth-plumes {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+  transition: transform 900ms var(--ease-out), opacity 900ms var(--ease-out);
+}
+/* One bloom beat when the primary CTA is pressed. */
+.auth-plumes[data-bloom="1"] {
+  transform: scale(1.07);
+  opacity: 1.25;
+}
+
+.auth-plume {
+  position: absolute;
+  border-radius: 50%;
+  will-change: transform, opacity;
+  /* Multiply keeps the orange saturated against cream instead of
+     washing out to pastel pink the way a normal-blend overlay does. */
+  mix-blend-mode: multiply;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1);
+}
+
+/* Left cluster */
+.auth-plume-l1 {
+  left: -10vw; top: 8%;
+  width: 46vw; height: 46vw;
+  min-width: 380px; min-height: 380px;
+  background: radial-gradient(closest-side,
+    rgba(255, 68, 34, 0.58) 0%,
+    rgba(255, 68, 34, 0.30) 38%,
+    rgba(255, 92, 40, 0.10) 64%,
+    rgba(255, 120, 60, 0) 80%);
+  animation-name: auth-drift-a;
+  animation-duration: 21s;
+}
+.auth-plume-l2 {
+  left: 2vw; bottom: 4%;
+  width: 34vw; height: 34vw;
+  min-width: 300px; min-height: 300px;
+  background: radial-gradient(closest-side,
+    rgba(232, 51, 15, 0.42) 0%,
+    rgba(255, 68, 34, 0.18) 44%,
+    rgba(255, 68, 34, 0) 76%);
+  animation-name: auth-drift-b;
+  animation-duration: 27s;
+}
+.auth-plume-l3 {
+  left: 8vw; top: 34%;
+  width: 22vw; height: 22vw;
+  min-width: 200px; min-height: 200px;
+  background: radial-gradient(closest-side,
+    rgba(255, 88, 30, 0.40) 0%,
+    rgba(255, 68, 34, 0.14) 48%,
+    rgba(255, 68, 34, 0) 78%);
+  animation-name: auth-drift-c;
+  animation-duration: 17s;
+}
+
+/* Right cluster */
+.auth-plume-r1 {
+  right: -10vw; bottom: 6%;
+  width: 48vw; height: 48vw;
+  min-width: 380px; min-height: 380px;
+  background: radial-gradient(closest-side,
+    rgba(255, 68, 34, 0.55) 0%,
+    rgba(255, 68, 34, 0.28) 40%,
+    rgba(255, 92, 40, 0.09) 66%,
+    rgba(255, 120, 60, 0) 82%);
+  animation-name: auth-drift-b;
+  animation-duration: 24s;
+}
+.auth-plume-r2 {
+  right: 1vw; top: 2%;
+  width: 32vw; height: 32vw;
+  min-width: 300px; min-height: 300px;
+  background: radial-gradient(closest-side,
+    rgba(255, 104, 40, 0.40) 0%,
+    rgba(255, 68, 34, 0.16) 46%,
+    rgba(255, 68, 34, 0) 77%);
+  animation-name: auth-drift-a;
+  animation-duration: 30s;
+}
+.auth-plume-r3 {
+  right: 9vw; top: 42%;
+  width: 20vw; height: 20vw;
+  min-width: 190px; min-height: 190px;
+  background: radial-gradient(closest-side,
+    rgba(232, 51, 15, 0.36) 0%,
+    rgba(255, 68, 34, 0.12) 50%,
+    rgba(255, 68, 34, 0) 80%);
+  animation-name: auth-drift-c;
+  animation-duration: 19s;
+}
+
+@keyframes auth-drift-a {
+  from { transform: translate3d(0, 0, 0) scale(1);        opacity: 0.75; }
+  to   { transform: translate3d(4vw, -5vh, 0) scale(1.12); opacity: 1; }
+}
+@keyframes auth-drift-b {
+  from { transform: translate3d(0, 0, 0) scale(1.08);      opacity: 1; }
+  to   { transform: translate3d(-3vw, 5vh, 0) scale(0.94); opacity: 0.7; }
+}
+@keyframes auth-drift-c {
+  from { transform: translate3d(0, 3vh, 0) scale(0.96);    opacity: 0.6; }
+  to   { transform: translate3d(2vw, -4vh, 0) scale(1.14); opacity: 0.95; }
+}
+
+/* Fine grain so the soft gradients never band on 8-bit panels. */
+.auth-grain {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ── The card ─────────────────────────────────────────────── */
+.auth-card {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 440px;
+  padding: 40px 44px;
+  border-radius: var(--radius-lg);
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow:
+    0 1px 1px rgba(17, 17, 17, 0.04),
+    0 24px 60px -20px rgba(255, 68, 34, 0.18),
+    0 40px 90px -40px rgba(17, 17, 17, 0.28);
+}
+
+/* Inner light: bright top edge, weighted bottom. Reads as thickness. */
+.auth-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.95),
+    inset 0 -1px 0 rgba(17, 17, 17, 0.06),
+    inset 0 -24px 40px -34px rgba(255, 68, 34, 0.35);
+}
+
+/* The rim. A ring-shaped mask, so the backdrop-filter only ever
+   samples ~2px of border, not the whole card. */
+.auth-rim {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 2px;
+  overflow: hidden;
+  pointer-events: none;
+  background: rgba(255, 68, 34, 0.16);
+  backdrop-filter: blur(6px) saturate(1.4);
+  -webkit-backdrop-filter: blur(6px) saturate(1.4);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+          mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+}
+
+/* Rotating gradient plate behind the mask. Transform only. */
+.auth-rim-sweep {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 190%;
+  aspect-ratio: 1;
+  will-change: transform;
+  transform-origin: center;
+  animation: auth-sweep 9s linear infinite;
+  background: conic-gradient(
+    from 0deg,
+    rgba(255, 68, 34, 0.20) 0deg,
+    rgba(255, 255, 255, 1) 22deg,
+    rgba(255, 68, 34, 1) 54deg,
+    rgba(255, 160, 90, 0.75) 92deg,
+    rgba(255, 255, 255, 0.95) 130deg,
+    rgba(255, 68, 34, 0.30) 190deg,
+    rgba(255, 68, 34, 0.85) 244deg,
+    rgba(255, 255, 255, 1) 288deg,
+    rgba(255, 120, 60, 0.55) 326deg,
+    rgba(255, 68, 34, 0.20) 360deg);
+}
+
+@keyframes auth-sweep {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to   { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Phones: the card fills the width, so the flanks vanish. Pull the
+   plumes behind and around the card instead of off the edges. */
+@media (max-width: 768px) {
+  .auth-stage { padding-top: 88px; }
+  .auth-plume-l1 { left: -30vw; top: 2%;  width: 90vw; height: 90vw; }
+  .auth-plume-l2 { left: -18vw; bottom: 2%; width: 74vw; height: 74vw; }
+  .auth-plume-l3 { display: none; }
+  .auth-plume-r1 { right: -32vw; bottom: 0%; width: 92vw; height: 92vw; }
+  .auth-plume-r2 { right: -20vw; top: 0%;   width: 76vw; height: 76vw; }
+  .auth-plume-r3 { display: none; }
+  .auth-card { padding: 32px 24px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .auth-plume {
+    animation: none;
+    opacity: 0.85;
+    transform: none;
+  }
+  .auth-plumes,
+  .auth-plumes[data-bloom="1"] {
+    transition: none;
+    transform: none;
+    opacity: 1;
+  }
+  .auth-rim-sweep { animation: none; transform: translate(-50%, -50%) rotate(38deg); }
+}
+
+/* No glass where the OS says no glass. */
+@media (prefers-reduced-transparency: reduce) {
+  .auth-card { background: #FFFFFF; }
+  .auth-rim {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: rgba(255, 68, 34, 0.45);
+  }
+  .auth-rim-sweep { display: none; }
+}
