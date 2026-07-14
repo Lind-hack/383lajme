@@ -18,6 +18,7 @@ from urllib.parse import quote_plus
 
 import feedparser
 import requests
+from googlenewsdecoder import gnewsdecoder
 from zoneinfo import ZoneInfo
 
 
@@ -58,6 +59,27 @@ KOSOVO_COMPETITOR_MARKERS = (
 
 def google_news_url(query: str, language: str = "en", country: str = "US", ceid: str = "US:en") -> str:
     return f"https://news.google.com/rss/search?q={quote_plus(query)}&hl={language}&gl={country}&ceid={ceid}"
+
+
+def resolve_google_news_url(url: str) -> str:
+    """Decode a Google News RSS intermediary into the publisher's article URL.
+
+    Google no longer serves a normal HTTP redirect for RSS article links.  Its
+    batchexecute endpoint is required to recover the original publisher URL.
+    A failed decode deliberately leaves the intermediary URL intact, so the
+    later strict verifier can reject it instead of publishing from Google.
+    """
+    if "news.google.com/" not in url:
+        return url
+    try:
+        decoded = gnewsdecoder(url).get("decoded_url")
+    except Exception as exc:
+        print(f"DISCOVERY warn Google News decode: {type(exc).__name__}")
+        return url
+    if isinstance(decoded, str) and decoded.startswith(("https://", "http://")) and "news.google.com/" not in decoded:
+        return decoded
+    print("DISCOVERY warn Google News decode: no original publisher URL")
+    return url
 
 
 def published_at(entry: object) -> datetime | None:
@@ -109,6 +131,8 @@ def fetch_feed(feed_url: str, label: str) -> list[dict[str, str]]:
         if not title or not url:
             continue
         summary = clean_text(entry.get("summary"))[:600]
+        if "news.google.com" in feed_url:
+            url = resolve_google_news_url(url)
         if "news.google.com" in feed_url and " - " in title:
             title, publisher = title.rsplit(" - ", 1)
             source = publisher.strip() or label
