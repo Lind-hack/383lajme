@@ -40,13 +40,18 @@ function HyrForm() {
   // paths only — anything else falls back to the homepage.
   const rawNext = searchParams.get("next") ?? "/";
   const nextPath = rawNext.startsWith("/") && !rawNext.startsWith("//") ? rawNext : "/";
+  // /auth/confirm sends expired or already-used links back here.
+  const initialError =
+    searchParams.get("error") === "confirm"
+      ? "Linku i konfirmimit ka skaduar ose është përdorur. Provo të hysh."
+      : "";
 
   const [tab, setTab] = useState<Tab>(initialTab);
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState(initialError);
   const [focused, setFocused] = useState<string | null>(null);
   const [bloom, setBloom] = useState(false);
   // Set once a signup is awaiting email confirmation — the account exists but
