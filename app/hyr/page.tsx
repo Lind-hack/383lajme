@@ -44,8 +44,21 @@ function HyrForm() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [focused, setFocused] = useState<string | null>(null);
+  const [bloom, setBloom] = useState(false);
   const router = useRouter();
   const supabaseRef = useRef<SupabaseClient | null>(null);
+  const bloomTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // One outward pulse of the plume field when the primary CTA is pressed.
+  function pulsePlumes() {
+    if (bloomTimer.current) clearTimeout(bloomTimer.current);
+    setBloom(true);
+    bloomTimer.current = setTimeout(() => setBloom(false), 900);
+  }
+
+  useEffect(() => () => {
+    if (bloomTimer.current) clearTimeout(bloomTimer.current);
+  }, []);
 
   function getSupabase(): SupabaseClient | null {
     if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) return null;
@@ -173,32 +186,31 @@ function HyrForm() {
   return (
     <>
       <Navbar />
-      <div
-        style={{
-          minHeight: "100vh",
-          background: "#F9F6F1",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          padding: "24px",
-          paddingTop: "80px",
-          fontFamily: "var(--font-manrope), sans-serif",
-        }}
-      >
+      <div className="auth-stage" style={{ fontFamily: "var(--font-manrope), sans-serif" }}>
+        {/* Ambient orange plume field. Soft radial gradients, not blurred
+            shapes — nothing here re-paints, only transform + opacity move. */}
+        <div className="auth-plumes" data-bloom={bloom ? "1" : "0"} aria-hidden="true">
+          <div className="auth-plume auth-plume-l1" />
+          <div className="auth-plume auth-plume-l2" />
+          <div className="auth-plume auth-plume-l3" />
+          <div className="auth-plume auth-plume-r1" />
+          <div className="auth-plume auth-plume-r2" />
+          <div className="auth-plume auth-plume-r3" />
+        </div>
+        <div className="auth-grain" aria-hidden="true" />
+
         <motion.div
+          className="auth-card"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: DUR.reveal, ease: EASE }}
-          style={{
-            background: "#FFFFFF",
-            borderRadius: "var(--radius-lg)",
-            padding: "40px 44px",
-            width: "100%",
-            maxWidth: "440px",
-            boxShadow: "var(--shadow-2)",
-            border: "1.5px solid #E8E3DB",
-          }}
         >
+          {/* Liquid-glass approximation: a masked ring, so the backdrop
+              filter only ever samples the border, never the card face. */}
+          <div className="auth-rim" aria-hidden="true">
+            <div className="auth-rim-sweep" />
+          </div>
+
           {/* Logo */}
           <div style={{ display: "flex", alignItems: "baseline", gap: "4px", marginBottom: "32px" }}>
             <span style={{ fontSize: "28px", fontWeight: 900, color: "#111", letterSpacing: "-0.04em" }}>383</span>
@@ -310,6 +322,7 @@ function HyrForm() {
 
             <motion.button
               onClick={handleEmailAuth}
+              onPointerDown={loading ? undefined : pulsePlumes}
               disabled={loading}
               whileHover={loading ? {} : { y: -2, boxShadow: "0 6px 20px rgba(255,68,34,0.25)" }}
               whileTap={loading ? {} : { scale: 0.98 }}
