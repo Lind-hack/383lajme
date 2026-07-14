@@ -40,11 +40,16 @@ function HyrForm() {
   // paths only — anything else falls back to the homepage.
   const rawNext = searchParams.get("next") ?? "/";
   const nextPath = rawNext.startsWith("/") && !rawNext.startsWith("//") ? rawNext : "/";
-  // /auth/confirm sends expired or already-used links back here.
+  // /auth/confirm and /auth/callback send failures back here. The OAuth reason
+  // comes straight from the provider, so it is shown as-is rather than flattened
+  // into a generic message we would then have to debug blind.
+  const errorKind = searchParams.get("error");
   const initialError =
-    searchParams.get("error") === "confirm"
+    errorKind === "confirm"
       ? "Linku i konfirmimit ka skaduar ose është përdorur. Provo të hysh."
-      : "";
+      : errorKind === "oauth"
+        ? `Hyrja dështoi: ${searchParams.get("reason") ?? "arsye e panjohur"}`
+        : "";
 
   const [tab, setTab] = useState<Tab>(initialTab);
   const [fullName, setFullName] = useState("");
