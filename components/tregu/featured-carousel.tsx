@@ -223,7 +223,8 @@ export default function FeaturedCarousel({ markets }: { markets: MiniMarket[] })
 
   return (
     <section
-      className="tregu-glass tregu-carousel"
+      className="tregu-glass tregu-carousel tregu-edge"
+      data-cat={markets[Math.min(index, count - 1)]?.category}
       role="region"
       aria-roledescription="karusel"
       aria-label="Ngjarjet e mëdha"

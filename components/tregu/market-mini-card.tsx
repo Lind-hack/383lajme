@@ -17,9 +17,9 @@ export interface MiniMarket {
 
 // Tiny trade-tape sparkline. Stretched SVG holds no text, so
 // preserveAspectRatio="none" is safe here.
-function Sparkline({ points, dir }: { points: number[]; dir: "up" | "down" | "flat" }) {
+function Sparkline({ points, dir, height = 28 }: { points: number[]; dir: "up" | "down" | "flat"; height?: number }) {
   const W = 100;
-  const H = 28;
+  const H = height;
   const min = Math.min(...points);
   const max = Math.max(...points);
   const span = Math.max(max - min, 0.02); // floor so a flat tape stays a visible line
@@ -62,6 +62,20 @@ function closeLabel(iso?: string): string | null {
   return `${Math.max(1, Math.floor(ms / 60_000))}m`;
 }
 
+function msToClose(iso?: string): number | null {
+  if (!iso) return null;
+  const ms = new Date(iso).getTime() - Date.now();
+  return Number.isNaN(ms) ? null : ms;
+}
+
+// Every market wears the face its data earns — the grid is not one
+// repeated template:
+//   new     — no volume yet: an invitation to set the first price
+//   closing — under 48h left: the countdown leads
+//   mover   — ≥3pp weekly move with a tape: the chart leads
+//   default — question + book, the plain instrument
+type Variant = "new" | "closing" | "mover" | "default";
+
 export default function MarketMiniCard({ market }: { market: MiniMarket; compact?: boolean }) {
   const router = useRouter();
   const pct = Math.round(Math.max(0, Math.min(1, market.prob)) * 100);
@@ -80,6 +94,12 @@ export default function MarketMiniCard({ market }: { market: MiniMarket; compact
     deltaPp != null && deltaPp > 0 ? "up" : deltaPp != null && deltaPp < 0 ? "down" : "flat";
   const spark = market.spark && market.spark.length >= 2 ? market.spark : null;
 
+  const ms = msToClose(market.closesAt);
+  const isNew = !market.volume;
+  const isClosingSoon = !closed && ms !== null && ms > 0 && ms < 48 * 3_600_000;
+  const isMover = Boolean(spark) && deltaPp !== null && Math.abs(deltaPp) >= 3;
+  const variant: Variant = isNew ? "new" : isClosingSoon ? "closing" : isMover ? "mover" : "default";
+
   const goToSide = (e: React.MouseEvent, side: "PO" | "JO") => {
     // The whole card links to the market; PO/JO jump straight to that side.
     e.preventDefault();
@@ -90,24 +110,36 @@ export default function MarketMiniCard({ market }: { market: MiniMarket; compact
   return (
     <Link
       href={`/tregu/${market.slug}`}
-      className="tregu-glass tregu-market"
+      className="tregu-glass tregu-market tregu-edge"
+      data-cat={market.category}
+      data-variant={variant}
       style={{ display: "flex", flexDirection: "column", textDecoration: "none", color: "#111111" }}
     >
       <div className="tregu-market-top">
         <span className="tregu-pill">{CATEGORY_LABEL[market.category] ?? market.category}</span>
-        {remaining && (
-          <span className="tregu-market-close">{closed ? remaining : `Mbyllet ${remaining}`}</span>
+        {variant === "mover" && deltaPp !== null ? (
+          <span className="tregu-market-flag">
+            {deltaPp > 0 ? "▲" : "▼"} Në lëvizje
+          </span>
+        ) : variant === "new" ? (
+          <span className="tregu-market-flag">Treg i ri</span>
+        ) : variant === "closing" ? (
+          <span className="tregu-market-close">Afati po skadon</span>
+        ) : (
+          remaining && (
+            <span className="tregu-market-close">{closed ? remaining : `Mbyllet ${remaining}`}</span>
+          )
         )}
       </div>
 
       <p className="tregu-market-q">{market.question}</p>
 
-      {spark && (
-        <div style={{ display: "flex", alignItems: "center", gap: 10, margin: "2px 0 8px" }}>
+      {variant === "mover" && spark && (
+        <div style={{ display: "flex", alignItems: "center", gap: 10, margin: "2px 0 10px" }}>
           <div style={{ flex: 1, minWidth: 0 }}>
-            <Sparkline points={spark} dir={dir} />
+            <Sparkline points={spark} dir={dir} height={44} />
           </div>
-          {deltaPp != null && deltaPp !== 0 && (
+          {deltaPp !== null && deltaPp !== 0 && (
             <span
               className="tregu-delta-chip"
               data-dir={dir}
@@ -116,6 +148,19 @@ export default function MarketMiniCard({ market }: { market: MiniMarket; compact
               {deltaPp > 0 ? "▲" : "▼"} {Math.abs(deltaPp)}pp / 7d
             </span>
           )}
+        </div>
+      )}
+
+      {variant === "closing" && remaining && (
+        <div className="tregu-market-count">
+          <strong>{remaining}</strong>
+          <span>deri në mbyllje — çmimi ngrin pas kësaj</span>
+        </div>
+      )}
+
+      {variant === "new" && (
+        <div className="tregu-market-invite">
+          <strong>Bëhu i pari.</strong> Asnjë tregtim ende — vendos ti çmimin e parë të kësaj ngjarjeje.
         </div>
       )}
 

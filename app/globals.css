@@ -2363,3 +2363,270 @@ header[data-overlay] .nav-coin-chip {
   }
   .auth-rim-sweep { display: none; }
 }
+
+/* ══════════════════════════════════════════════════════════
+   Tregu category edge — a tinted liquid-glass arc orbits the
+   card border. Each category owns the color of its filter tab:
+   politike blue, ekonomi green, sport rose, bote amber, te-tjera
+   brand orange. Same conic-gradient + xor-mask technique as
+   .liquid-glass-btn, reusing --lg-angle (registered above). A
+   faint ring in the same tint stays visible between passes so
+   the category reads even while the arc is on the far side.
+   ══════════════════════════════════════════════════════════ */
+@property --tg-cat {
+  syntax: "<color>";
+  initial-value: #FF4422;
+  inherits: true;
+}
+.tregu-edge {
+  position: relative;
+  /* Registered <color> interpolates: the carousel edge morphs smoothly
+     between category tints as slides change. */
+  transition: --tg-cat 600ms var(--ease-out);
+}
+.tregu-edge[data-cat="politike"] { --tg-cat: #0047FF; }
+.tregu-edge[data-cat="ekonomi"]  { --tg-cat: #00A651; }
+.tregu-edge[data-cat="sport"]    { --tg-cat: #F43F5E; }
+.tregu-edge[data-cat="bote"]     { --tg-cat: #F59E0B; }
+.tregu-edge[data-cat="te-tjera"] { --tg-cat: #FF4422; }
+.tregu-edge::after {
+  content: "";
+  position: absolute;
+  inset: -1px; /* sits over the card's own 1px border */
+  border-radius: inherit;
+  padding: 1.5px;
+  background: conic-gradient(
+    from var(--lg-angle),
+    color-mix(in srgb, var(--tg-cat) 90%, #ffffff) 0deg,
+    color-mix(in srgb, var(--tg-cat) 55%, transparent) 26deg,
+    color-mix(in srgb, var(--tg-cat) 16%, transparent) 70deg,
+    color-mix(in srgb, var(--tg-cat) 9%, transparent) 130deg,
+    color-mix(in srgb, var(--tg-cat) 9%, transparent) 320deg,
+    color-mix(in srgb, var(--tg-cat) 40%, transparent) 350deg,
+    color-mix(in srgb, var(--tg-cat) 90%, #ffffff) 360deg
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  animation: lg-orbit 9s linear infinite;
+}
+/* Grid neighbours start the orbit at different phases so the floor
+   never sweeps in unison. */
+.tregu-grid > .tregu-edge:nth-child(4n+2)::after { animation-delay: -2.25s; }
+.tregu-grid > .tregu-edge:nth-child(4n+3)::after { animation-delay: -4.5s; }
+.tregu-grid > .tregu-edge:nth-child(4n)::after   { animation-delay: -6.75s; }
+@media (prefers-reduced-motion: reduce) {
+  .tregu-edge::after {
+    animation: none;
+    /* Static tinted ring keeps the category signal without motion. */
+    background: color-mix(in srgb, var(--tg-cat) 35%, transparent);
+  }
+}
+
+/* ── Hero row: flagship carousel left, floor rail right ────── */
+.tregu-hero-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 316px;
+  gap: 16px;
+  align-items: stretch;
+  margin-bottom: 18px;
+}
+.tregu-hero-row .tregu-carousel { margin-bottom: 0; }
+@media (max-width: 1024px) {
+  .tregu-hero-row { grid-template-columns: 1fr; }
+}
+
+/* ── Floor rail — hot topics, deadlines, promo ─────────────── */
+.tregu-rail {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+}
+.tregu-rail-panel { padding: 16px 18px; }
+.tregu-rail-title {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin: 0 0 8px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--tg-muted);
+}
+.tregu-hot-row {
+  display: grid;
+  grid-template-columns: 20px minmax(0, 1fr) auto;
+  column-gap: 10px;
+  align-items: center;
+  padding: 8px 0;
+  text-decoration: none;
+  color: var(--tg-text);
+  border-bottom: 1px solid rgba(17, 17, 17, 0.06);
+  transition: opacity 160ms var(--ease-out);
+}
+.tregu-hot-row:last-child { border-bottom: none; padding-bottom: 2px; }
+.tregu-hot-row:hover .tregu-hot-q { text-decoration: underline; text-underline-offset: 3px; }
+.tregu-hot-rank {
+  font-size: 14px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  color: rgba(17, 17, 17, 0.3);
+}
+.tregu-hot-q {
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.35;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+.tregu-hot-meta {
+  grid-column: 2;
+  font-size: 11px;
+  color: var(--tg-muted);
+  font-variant-numeric: tabular-nums;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.tregu-hot-pct {
+  grid-row: 1 / span 2;
+  grid-column: 3;
+  font-size: 15px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+.tregu-rail-flame { color: #FF4422; display: inline-flex; }
+
+/* Promo tile — the one committed-orange surface on the floor. */
+.tregu-rail-promo {
+  position: relative;
+  border-radius: 16px;
+  padding: 18px 20px 20px;
+  background:
+    radial-gradient(340px 200px at 110% -30%, rgba(255, 255, 255, 0.28), transparent 65%),
+    linear-gradient(140deg, #FF4422 0%, #E03318 100%);
+  color: #ffffff;
+  overflow: hidden;
+  box-shadow: 0 14px 34px -14px rgba(255, 68, 34, 0.55);
+}
+.tregu-rail-promo h3 {
+  margin: 0 0 4px;
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+}
+.tregu-rail-promo p {
+  margin: 0 0 14px;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.92);
+}
+.tregu-rail-promo-btn {
+  display: inline-block;
+  padding: 9px 18px;
+  border: none;
+  border-radius: 100px;
+  background: #ffffff;
+  color: #C23315;
+  font-size: 13px;
+  font-weight: 800;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 160ms var(--ease-out), box-shadow 200ms var(--ease-out);
+}
+.tregu-rail-promo-btn:hover { box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18); }
+.tregu-rail-promo-btn:active { transform: scale(0.97); }
+.tregu-rail-promo-btn:disabled { opacity: 0.6; cursor: default; }
+
+/* ── Mini-card variants — the grid stops being one repeated
+      interface. Data decides the face each market wears. ───── */
+
+/* Mover: the tape is the story — taller chart, tinted wash. */
+.tregu-market[data-variant="mover"] {
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--tg-cat) 7%, transparent), transparent 44%),
+    var(--tg-panel);
+}
+.tregu-market-flag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--tg-cat) 82%, #111111);
+}
+
+/* Closing soon: the clock is the story. */
+.tregu-market-count {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin: 2px 0 10px;
+}
+.tregu-market-count strong {
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+  color: #B45309;
+}
+.tregu-market-count span {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--tg-muted);
+}
+.tregu-market[data-variant="closing"] .tregu-market-close {
+  color: #B45309;
+  font-weight: 800;
+}
+
+/* New market: an invitation, not a scoreboard. */
+.tregu-market[data-variant="new"] {
+  border-style: dashed;
+  border-color: rgba(17, 17, 17, 0.14);
+}
+.tregu-market-invite {
+  margin: 2px 0 10px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: rgba(17, 17, 17, 0.035);
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--tg-muted);
+}
+.tregu-market-invite strong { color: var(--tg-text); }
+
+/* Grid entrance — cards surface in a quick cascade, not all at once. */
+.tregu-grid > *:nth-child(2) { animation-delay: 45ms; }
+.tregu-grid > *:nth-child(3) { animation-delay: 90ms; }
+.tregu-grid > *:nth-child(4) { animation-delay: 135ms; }
+.tregu-grid > *:nth-child(5) { animation-delay: 180ms; }
+.tregu-grid > *:nth-child(6) { animation-delay: 225ms; }
+.tregu-grid > *:nth-child(n+7) { animation-delay: 260ms; }
+
+/* Inside the hero row the rail sets the row height — let the flagship
+   card use it: slide content stretches so the chart deepens and the
+   PO/JO rack sits at the bottom instead of floating in dead space. */
+.tregu-hero-row .tregu-carousel { display: flex; flex-direction: column; }
+.tregu-hero-row .tregu-car-viewport { flex: 1; }
+.tregu-hero-row .tregu-car-track,
+.tregu-hero-row .tregu-car-slide,
+.tregu-hero-row .tregu-car-slide-link,
+.tregu-hero-row .tregu-feature-grid { height: 100%; }
+.tregu-hero-row .tregu-feature-main { display: flex; flex-direction: column; }
+@media (max-width: 1024px) {
+  .tregu-hero-row .tregu-carousel { display: block; }
+  .tregu-hero-row .tregu-car-track,
+  .tregu-hero-row .tregu-car-slide,
+  .tregu-hero-row .tregu-car-slide-link,
+  .tregu-hero-row .tregu-feature-grid { height: auto; }
+}
