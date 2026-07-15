@@ -4,12 +4,14 @@ import { useCallback, useEffect, useState, use as usePromise } from "react";
 import Link from "next/link";
 import Navbar from "@/components/navbar";
 import MarketChart from "@/components/tregu/market-chart";
+import GroupChart, { OutcomeMiniChart } from "@/components/tregu/group-chart";
 import MarketMiniCard, { type MiniMarket } from "@/components/tregu/market-mini-card";
 import CoinFace from "@/components/tregu/coin-face";
 import { createClient } from "@/lib/supabase/client";
 import { previewBet, previewSell, lmsrPriceYes, type Side, type MarketTrade } from "@/lib/tregu-client";
 import { fmtNum } from "@/lib/format";
-import { DEMO_SLUG, demoDetail, isDemoEnabled } from "@/lib/tregu-demo";
+import { DEMO_SLUG, demoDetail, demoEventMinis, isDemoEnabled } from "@/lib/tregu-demo";
+import { groupForSlug, type MarketGroup } from "@/lib/tregu-groups";
 
 interface MarketDetail {
   id: string;
@@ -41,6 +43,19 @@ interface Position {
   shares: number;
   coins_staked: number;
   market_id: string;
+}
+
+// Row shape from /api/tregu/markets — only what grouping needs.
+interface HubRow {
+  slug: string;
+  question: string;
+  category: string;
+  market_prob: number;
+  closes_at: string;
+  q_yes: number;
+  q_no: number;
+  spark?: number[];
+  delta7d?: number | null;
 }
 
 const CATEGORY_LABEL: Record<string, string> = {
@@ -84,6 +99,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
   const [weeklyDelta, setWeeklyDelta] = useState<number | null>(null);
   const [tradeCount, setTradeCount] = useState(0);
   const [positions, setPositions] = useState<Position[]>([]);
+  const [group, setGroup] = useState<MarketGroup | null>(null);
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
   const [user, setUser] = useState<{ id: string } | null>(null);
@@ -102,7 +118,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
 
   const load = useCallback(() => {
     if (demo) {
-      const d = demoDetail();
+      const d = demoDetail(slug);
       setMarket(d.market as MarketDetail);
       setSnapshots(d.snapshots);
       setTrades(d.trades);
@@ -111,6 +127,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
       setWeeklyDelta(d.weeklyDelta);
       setTradeCount(d.tradeCount);
       setPositions(d.positions);
+      setGroup(groupForSlug(demoEventMinis(), slug));
       setLoading(false);
       return;
     }
@@ -131,6 +148,29 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
         setPositions(Array.isArray(d.position) ? d.position : []);
       })
       .finally(() => setLoading(false));
+    // Sibling outcome books ("<Ngjarja>: <Rezultati>?") live in the hub list —
+    // when this market belongs to a multi-outcome event, render the event view.
+    fetch("/api/tregu/markets")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => {
+        const rows: HubRow[] = d?.markets ?? [];
+        setGroup(
+          groupForSlug(
+            rows.map((m) => ({
+              slug: m.slug,
+              question: m.question,
+              category: m.category,
+              prob: m.market_prob,
+              volume: (m.q_yes ?? 0) + (m.q_no ?? 0),
+              closesAt: m.closes_at,
+              spark: m.spark,
+              delta7d: m.delta7d,
+            })),
+            slug
+          )
+        );
+      })
+      .catch(() => {});
   }, [slug, demo]);
 
   const refreshBalance = useCallback(() => {
@@ -227,6 +267,11 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
   }
 
   const latestEvidence = [...snapshots].reverse().find((s) => s.evidence && s.evidence.length > 0)?.evidence ?? [];
+  const currentOutcome = group?.outcomes.find((o) => o.slug === slug) ?? null;
+  // Grouped events trade in outcome language, not raw PO/JO:
+  // PO → "Barazim", JO → "Jo Barazim".
+  const sideLabel = (s: Side) =>
+    currentOutcome ? (s === "PO" ? currentOutcome.label : `Jo ${currentOutcome.label}`) : s;
   const currentPrice = lmsrPriceYes(market.q_yes, market.q_no, market.b);
   const sidePrice = side === "PO" ? currentPrice : 1 - currentPrice;
   const pct = Math.round(market.market_prob * 100);
@@ -279,15 +324,34 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
             {market.status === "open" && <span className="tregu-pill">{closesIn(market.closes_at)}</span>}
           </div>
           <h1 style={{ fontSize: "clamp(24px, 3.5vw, 32px)", fontWeight: 800, margin: "0 0 8px", lineHeight: 1.25 }}>
-            {market.question}
+            {group && currentOutcome ? group.title : market.question}
           </h1>
+          {group && currentOutcome && (
+            <div className="tregu-event-tabs" role="tablist" aria-label="Rezultatet e ngjarjes">
+              {group.outcomes.map((o) => (
+                <Link
+                  key={o.slug}
+                  href={`/tregu/${o.slug}`}
+                  className="tregu-event-tab"
+                  data-active={o.slug === slug}
+                  role="tab"
+                  aria-selected={o.slug === slug}
+                >
+                  <span className="tregu-gchart-chip-dot" style={{ background: o.color }} />
+                  {o.label} · {Math.round(o.prob * 100)}%
+                </Link>
+              ))}
+            </div>
+          )}
           {market.description && <p style={{ color: "#6B6B6B", fontSize: 14, margin: "0 0 16px" }}>{market.description}</p>}
           <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", flexWrap: "wrap", gap: 16 }}>
             <div style={{ display: "flex", alignItems: "baseline", flexWrap: "wrap", gap: 12 }}>
               <span style={{ fontSize: 44, fontWeight: 800, lineHeight: 1, color: "#111111", fontVariantNumeric: "tabular-nums" }}>
                 {pct}%
               </span>
-              <span style={{ fontSize: 15, fontWeight: 700, color: "#6B6B6B" }}>gjasa PO</span>
+              <span style={{ fontSize: 15, fontWeight: 700, color: "#6B6B6B" }}>
+                {currentOutcome ? `gjasa ${currentOutcome.label}` : "gjasa PO"}
+              </span>
               {deltaPp !== null && deltaPp !== 0 && (
                 <span className="tregu-delta-chip" data-dir={deltaPp > 0 ? "up" : "down"}>
                   {deltaPp > 0 ? "▲" : "▼"} {Math.abs(deltaPp)}pp këtë javë
@@ -318,9 +382,36 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
         {/* ── 2-col: chart + feed | bet slip + rules ── */}
         <div className="tregu-detail-grid">
           <div style={{ display: "flex", flexDirection: "column", gap: 24, minWidth: 0 }}>
-            <div className="tregu-glass" style={{ padding: 24 }}>
-              <MarketChart trades={trades} snapshots={snapshots} currentProb={market.market_prob} />
-            </div>
+            {group && currentOutcome ? (
+              <>
+                {/* Combined event chart — every outcome's live line, Polymarket-style. */}
+                <div className="tregu-glass" style={{ padding: 24 }}>
+                  <h3 style={{ fontSize: 15, fontWeight: 800, margin: "0 0 14px" }}>Të gjitha rezultatet</h3>
+                  <GroupChart
+                    height={220}
+                    series={group.outcomes.map((o) => ({
+                      label: o.label,
+                      color: o.color,
+                      points: o.spark,
+                      prob: o.prob,
+                    }))}
+                  />
+                </div>
+                {/* One graph per outcome — each book's own live probability. */}
+                <div className="tregu-glass" style={{ padding: 24 }}>
+                  <h3 style={{ fontSize: 15, fontWeight: 800, margin: "0 0 14px" }}>Gjasat sipas rezultatit</h3>
+                  <div className="tregu-omini-grid">
+                    {group.outcomes.map((o) => (
+                      <OutcomeMiniChart key={o.slug} label={o.label} color={o.color} points={o.spark} prob={o.prob} />
+                    ))}
+                  </div>
+                </div>
+              </>
+            ) : (
+              <div className="tregu-glass" style={{ padding: 24 }}>
+                <MarketChart trades={trades} snapshots={snapshots} currentProb={market.market_prob} />
+              </div>
+            )}
 
             {activity.length > 0 && (
               <div className="tregu-glass" style={{ padding: 24 }}>
@@ -441,7 +532,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                             transition: "transform 160ms var(--ease-out), background-color 200ms var(--ease-out)",
                           }}
                         >
-                          <span>{s}</span>
+                          <span>{sideLabel(s)}</span>
                           <span style={{ fontSize: 12, fontWeight: 700, opacity: 0.75, fontVariantNumeric: "tabular-nums" }}>
                             {(p * 100).toFixed(0)}%
                           </span>
@@ -487,7 +578,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
 
                       {buyPreview && (
                         <div className="tregu-slip-summary">
-                          <div><span>Çmimi aktual {side}</span><strong>{(sidePrice * 100).toFixed(1)}%</strong></div>
+                          <div><span>Çmimi aktual {sideLabel(side)}</span><strong>{(sidePrice * 100).toFixed(1)}%</strong></div>
                           <div><span>Aksione</span><strong>{buyPreview.shares.toFixed(2)}</strong></div>
                           <div><span>Çmimi mesatar</span><strong>{(buyPreview.avgPrice * 100).toFixed(1)}%</strong></div>
                           <div>
@@ -497,7 +588,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                             </strong>
                           </div>
                           <div>
-                            <span>Fitimi nëse {side}</span>
+                            <span>Fitimi nëse {sideLabel(side)}</span>
                             <strong style={{ color: "#00854A" }}>
                               +{potentialProfit.toFixed(1)} 383C ({roi.toFixed(0)}%)
                             </strong>
@@ -515,7 +606,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                         className="tregu-btn-primary"
                         style={{ width: "100%", padding: "14px", borderRadius: 12, fontSize: 15, cursor: "pointer" }}
                       >
-                        {placing ? "Duke blerë..." : `Blej ${side} · ${amount} 383C`}
+                        {placing ? "Duke blerë..." : `Blej ${sideLabel(side)} · ${amount} 383C`}
                       </button>
                     </>
                   ) : (
@@ -560,7 +651,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                         className="tregu-btn-primary"
                         style={{ width: "100%", padding: "14px", borderRadius: 12, fontSize: 15, cursor: "pointer" }}
                       >
-                        {placing ? "Duke shitur..." : `Shit ${side}`}
+                        {placing ? "Duke shitur..." : `Shit ${sideLabel(side)}`}
                       </button>
                     </>
                   )}

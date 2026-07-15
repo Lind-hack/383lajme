@@ -8,7 +8,9 @@ import Link from "next/link";
 import Navbar from "@/components/navbar";
 import MarketFeatureCard from "@/components/tregu/market-feature-card";
 import MarketMiniCard from "@/components/tregu/market-mini-card";
-import { demoMinis, isDemoEnabled } from "@/lib/tregu-demo";
+import MarketEventCard from "@/components/tregu/market-event-card";
+import { groupMarkets } from "@/lib/tregu-groups";
+import { demoEventMinis, demoMinis, isDemoEnabled } from "@/lib/tregu-demo";
 
 export default function TreguPreviewPage() {
   if (!isDemoEnabled) {
@@ -24,6 +26,8 @@ export default function TreguPreviewPage() {
 
   const minis = demoMinis();
   const [flagship, ...rest] = minis;
+  // Multi-outcome sample: Anglia – Argjentina folds into one event card.
+  const { groups } = groupMarkets(demoEventMinis());
 
   return (
     <div className="tregu-scope">
@@ -41,6 +45,9 @@ export default function TreguPreviewPage() {
 
         <div className="tregu-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 14 }}>
           <MarketFeatureCard market={flagship} />
+          {groups.map((g) => (
+            <MarketEventCard key={g.key} group={g} />
+          ))}
           {rest.map((m, i) => (
             <MarketMiniCard key={i} market={m} />
           ))}

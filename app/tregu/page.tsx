@@ -3,6 +3,8 @@
 import { useEffect, useMemo, useState } from "react";
 import Navbar from "@/components/navbar";
 import MarketMiniCard from "@/components/tregu/market-mini-card";
+import MarketEventCard from "@/components/tregu/market-event-card";
+import { groupMarkets } from "@/lib/tregu-groups";
 import FeaturedCarousel from "@/components/tregu/featured-carousel";
 import FloorRail from "@/components/tregu/floor-rail";
 import type { MiniMarket } from "@/components/tregu/market-mini-card";
@@ -190,28 +192,53 @@ export default function TreguHub() {
     [markets]
   );
 
+  // Multi-outcome events: markets titled "<Ngjarja>: <Rezultati>?" fold into
+  // one Polymarket-style card with a combined chart and one buy row per
+  // outcome. Their sibling books leave the plain grid and the carousel.
+  const eventGroups = useMemo(
+    () =>
+      groupMarkets(
+        markets.map((m) => ({
+          slug: m.slug,
+          question: m.question,
+          category: m.category,
+          prob: m.market_prob,
+          volume: vol(m),
+          closesAt: m.closes_at,
+          spark: m.spark,
+          delta7d: m.delta7d,
+        }))
+      ).groups,
+    [markets]
+  );
+  const groupedSlugs = useMemo(
+    () => new Set(eventGroups.flatMap((g) => g.outcomes.map((o) => o.slug))),
+    [eventGroups]
+  );
+
   // The big events: highest-volume open markets rotate through the flagship
   // carousel. Always volume-ranked regardless of the grid sort — size of the
   // book is what makes an event "big". Capped at 4 and never more than half
   // the floor, so the grid below always keeps something to browse.
   const featured = useMemo(() => {
-    if (markets.length < 3) return [] as MarketRow[];
-    const n = Math.min(4, Math.floor(markets.length / 2));
-    return [...markets].sort((a, b) => vol(b) - vol(a)).slice(0, n);
-  }, [markets]);
+    const pool = markets.filter((m) => !groupedSlugs.has(m.slug));
+    if (pool.length < 3) return [] as MarketRow[];
+    const n = Math.min(4, Math.floor(pool.length / 2));
+    return [...pool].sort((a, b) => vol(b) - vol(a)).slice(0, n);
+  }, [markets, groupedSlugs]);
 
   // Sorting is the affordance that makes the trader think: chase volume,
   // beat the clock, or hunt the most contested (closest-to-50) markets.
   const sorted = useMemo(() => {
     const featuredSlugs = new Set(featured.map((m) => m.slug));
-    const arr = markets.filter((m) => !featuredSlugs.has(m.slug));
+    const arr = markets.filter((m) => !featuredSlugs.has(m.slug) && !groupedSlugs.has(m.slug));
     if (sort === "vellim") arr.sort((a, b) => vol(b) - vol(a));
     else if (sort === "afat")
       arr.sort((a, b) => new Date(a.closes_at).getTime() - new Date(b.closes_at).getTime());
     else if (sort === "nxehta")
       arr.sort((a, b) => Math.abs(0.5 - a.market_prob) - Math.abs(0.5 - b.market_prob));
     return arr;
-  }, [markets, featured, sort]);
+  }, [markets, featured, groupedSlugs, sort]);
 
   const toMini = (m: MarketRow): MiniMarket => ({
     slug: m.slug,
@@ -452,7 +479,7 @@ export default function TreguHub() {
               Provo përsëri
             </button>
           </div>
-        ) : sorted.length === 0 ? (
+        ) : sorted.length === 0 && eventGroups.length === 0 ? (
           <div className="tregu-glass" style={{ padding: "40px 28px", textAlign: "center" }}>
             <p style={{ fontWeight: 800, fontSize: 16, margin: 0 }}>Asnjë treg aktiv këtu ende</p>
             <p style={{ color: "#6B6B6B", fontSize: 14, margin: "6px 0 0" }}>
@@ -461,6 +488,9 @@ export default function TreguHub() {
           </div>
         ) : (
           <div className="tregu-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 14 }}>
+            {eventGroups.map((g) => (
+              <MarketEventCard key={g.key} group={g} />
+            ))}
             {sorted.map((m) => (
               <MarketMiniCard key={m.id} market={toMini(m)} />
             ))}

@@ -98,8 +98,114 @@ export function demoMinis(): MiniMarket[] {
   ];
 }
 
+// ── Multi-outcome event sample: Anglia – Argjentina, 3 linked books ──
+// Question prefix "<title>: <outcome>?" is what lib/tregu-groups.ts groups on.
+// Slugs start with "demo" so each outcome routes into the demo trading page.
+export function demoEventMinis(): MiniMarket[] {
+  const closes = new Date(now() + 8 * DAY).toISOString();
+  return [
+    {
+      slug: "demo-ev-anglia",
+      question: "Anglia – Argjentina: Fiton Anglia?",
+      category: "sport",
+      prob: 0.33,
+      volume: 1240,
+      closesAt: closes,
+      spark: tape(0.38, 0.33),
+      delta7d: -0.05,
+    },
+    {
+      slug: "demo-ev-barazim",
+      question: "Anglia – Argjentina: Barazim?",
+      category: "sport",
+      prob: 0.42,
+      volume: 980,
+      closesAt: closes,
+      spark: tape(0.31, 0.42),
+      delta7d: 0.11,
+    },
+    {
+      slug: "demo-ev-argjentina",
+      question: "Anglia – Argjentina: Fiton Argjentina?",
+      category: "sport",
+      prob: 0.26,
+      volume: 860,
+      closesAt: closes,
+      spark: tape(0.31, 0.26),
+      delta7d: -0.05,
+    },
+  ];
+}
+
 // ── Detail page sample: flagship market with a week of history ──
-export function demoDetail() {
+export function demoDetail(slug?: string) {
+  // Demo event outcomes get their own detail fixture built from the mini,
+  // so /tregu/demo-ev-* renders the event trading page without a DB.
+  const ev = slug ? demoEventMinis().find((m) => m.slug === slug) : undefined;
+  if (ev) return demoEventDetail(ev);
+  return demoFlagshipDetail();
+}
+
+function demoEventDetail(ev: MiniMarket) {
+  const b = 100;
+  // LMSR quantities that price PO at ev.prob: q_yes − q_no = b·ln(p/(1−p)).
+  const base = 400;
+  const diff = b * Math.log(ev.prob / (1 - ev.prob));
+  const q_yes = Math.round((base + diff / 2) * 10) / 10;
+  const q_no = Math.round((base - diff / 2) * 10) / 10;
+
+  const market = {
+    id: ev.slug,
+    slug: ev.slug,
+    question: ev.question,
+    description:
+      "Miqësorja Anglia – Argjentina. Ky treg mbulon vetëm rezultatin pas 90 minutash (plus shtesat e gjyqtarit) — pa vazhdime, pa penallti.",
+    category: "sport",
+    status: "open",
+    outcome: null as Side | null,
+    market_prob: ev.prob,
+    q_yes,
+    q_no,
+    b,
+    closes_at: ev.closesAt!,
+    source_article_slugs: [] as string[],
+    resolution_rules:
+      "Zgjidhet PO nëse ky rezultat ndodh pas 90 minutash lojë (përfshirë shtesat e gjyqtarit). Vazhdimet dhe penalltitë nuk llogariten.",
+    resolution_source: "Rezultati zyrtar i FIFA-s / transmetuesit zyrtar",
+  };
+
+  const prices = ev.spark ?? tape(ev.prob, ev.prob, 16);
+  const names = ["Arbër K.", "Dua M.", "Fitim R.", "Elira B.", "Driton S.", "Anonim", "Blerta H.", "Leart P."];
+  const trades: MarketTrade[] = prices.map((p, i) => ({
+    id: `${ev.slug}-t${i}`,
+    market_id: ev.slug,
+    action: i % 5 === 3 ? "sell" : "buy",
+    side: (p >= (prices[i - 1] ?? p) ? "PO" : "JO") as Side,
+    coins: [10, 25, 15, 50, 20, 100, 25, 40][i % 8],
+    shares: 18 + noise(i) * 6,
+    price_yes: p,
+    created_at: new Date(now() - (prices.length - i) * 8 * HOUR).toISOString(),
+    profiles: { display_name: names[i % names.length] },
+  }));
+
+  return {
+    market,
+    snapshots: [] as {
+      ai_prob: number | null;
+      market_prob: number;
+      created_at: string;
+      evidence: { title: string; slug: string }[] | null;
+    }[],
+    trades,
+    activity: [...trades].reverse().slice(0, 6),
+    related: demoMinis().slice(1, 4),
+    weeklyDelta: ev.delta7d ?? null,
+    tradeCount: 31,
+    positions: [] as { side: Side; shares: number; coins_staked: number; market_id: string }[],
+  };
+}
+
+function demoFlagshipDetail() {
   // b=100; q_yes−q_no = 49 puts the LMSR PO price at ~62%.
   const q_yes = 480;
   const q_no = 431;

@@ -2630,3 +2630,196 @@ header[data-overlay] .nav-coin-chip {
   .tregu-hero-row .tregu-car-slide-link,
   .tregu-hero-row .tregu-feature-grid { height: auto; }
 }
+
+/* ── Multi-outcome event: combined chart ────────────────────
+   All outcome lines share one plot; a fixed right gutter holds
+   the % axis, and each line gets an endpoint dot + name chip. */
+.tregu-gchart {
+  position: relative;
+  display: flex;
+  min-width: 0;
+}
+.tregu-gchart-plot {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+}
+.tregu-gchart-plot svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.tregu-gchart-dot {
+  position: absolute;
+  right: -3px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  transform: translateY(-50%);
+  box-shadow: 0 0 0 2.5px var(--tg-bg, #F9F6F1);
+}
+.tregu-gchart-gutter {
+  position: relative;
+  width: 42px;
+  flex-shrink: 0;
+}
+.tregu-gchart-tick {
+  position: absolute;
+  right: 0;
+  transform: translateY(-50%);
+  font-size: 10px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: rgba(17, 17, 17, 0.34);
+}
+.tregu-gchart-chip {
+  position: absolute;
+  right: 50px;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 8px;
+  border-radius: 100px;
+  background: rgba(255, 255, 255, 0.86);
+  border: 1px solid rgba(17, 17, 17, 0.08);
+  font-size: 11px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  color: var(--tg-text);
+  pointer-events: none;
+  box-shadow: 0 2px 8px rgba(17, 17, 17, 0.06);
+}
+.tregu-gchart-chip-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ── Multi-outcome event: per-outcome breakdown graph ─────── */
+.tregu-omini {
+  border: 1px solid var(--tg-border);
+  border-radius: 12px;
+  padding: 12px 14px 8px;
+  background: rgba(255, 255, 255, 0.5);
+  min-width: 0;
+}
+.tregu-omini-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+.tregu-omini-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--tg-text);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.tregu-omini-pct {
+  font-size: 16px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  flex-shrink: 0;
+}
+.tregu-omini-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 10px;
+}
+
+/* ── Multi-outcome event card — outcome rows, Polymarket-style ── */
+/* Chart + N outcome rows need room: two grid tracks when they exist. */
+@media (min-width: 620px) {
+  .tregu-grid .tregu-event { grid-column: span 2; }
+}
+.tregu-event-rows {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 12px;
+}
+.tregu-event-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: center;
+  column-gap: 12px;
+  padding: 9px 0;
+  border-bottom: 1px solid rgba(17, 17, 17, 0.06);
+}
+.tregu-event-row:last-child { border-bottom: none; }
+.tregu-event-row-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--tg-text);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.tregu-event-row-pct {
+  font-size: 16px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  color: var(--tg-text);
+}
+.tregu-event-buy {
+  padding: 7px 14px;
+  border: none;
+  border-radius: 100px;
+  background: color-mix(in srgb, var(--row-color, #111111) 12%, transparent);
+  color: color-mix(in srgb, var(--row-color, #111111) 85%, #111111);
+  font-size: 12px;
+  font-weight: 800;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 160ms var(--ease-out), color 160ms var(--ease-out), transform 160ms var(--ease-out);
+}
+.tregu-event-buy:hover {
+  background: var(--row-color, #111111);
+  color: #ffffff;
+}
+.tregu-event-buy:active { transform: scale(0.96); }
+
+/* Outcome switcher on the detail page — one tab per outcome. */
+.tregu-event-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.tregu-event-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 14px;
+  border-radius: 100px;
+  border: 1px solid var(--tg-border);
+  background: rgba(255, 255, 255, 0.55);
+  color: var(--tg-text);
+  font-size: 12.5px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  text-decoration: none;
+  transition: background-color 160ms var(--ease-out), border-color 160ms var(--ease-out), box-shadow 160ms var(--ease-out);
+}
+.tregu-event-tab:hover { border-color: rgba(17, 17, 17, 0.28); }
+.tregu-event-tab[data-active="true"] {
+  background: #111111;
+  color: #ffffff;
+  border-color: #111111;
+}
+.tregu-event-tab[data-active="true"] .tregu-gchart-chip-dot {
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.35);
+}
