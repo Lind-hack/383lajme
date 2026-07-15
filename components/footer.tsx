@@ -70,6 +70,8 @@ export default function Footer() {
             </div>
             <p style={{ fontSize: "14px", color: "rgba(255,255,255,0.45)", margin: "0 0 28px", fontWeight: 400, maxWidth: "280px", lineHeight: 1.75 }}>
               Lajmet kryesore ndërkombëtare, të filtruar dhe analizuar çdo ditë për Kosovën.
+              Llogaria juaj (me Google ose Facebook) përdoret vetëm për identifikim — emrin dhe
+              email-in tuaj — dhe për të personalizuar përvojën tuaj në 383.
             </p>
 
             <p style={{ fontSize: "10px", fontWeight: 700, letterSpacing: "0.18em", textTransform: "uppercase" as const, color: "rgba(255,255,255,0.3)", margin: "0 0 10px" }}>
