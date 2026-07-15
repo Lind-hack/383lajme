@@ -1575,6 +1575,136 @@ header[data-overlay] .nav-coin-chip {
   .tregu-feature-empty { min-height: 90px; }
 }
 
+/* ── Featured carousel — the biggest open markets rotating through
+   one flagship glass card above the floor grid. Slides share the
+   feature-card anatomy (tregu-feature-grid inside), the carousel
+   only owns the chrome: head strip, sliding track, arrows, dots. ── */
+.tregu-carousel {
+  display: block;
+  padding: 20px 26px 18px;
+  border-radius: 18px;
+  margin-bottom: 18px;
+}
+.tregu-car-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.tregu-car-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--tg-text);
+}
+.tregu-car-nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.tregu-car-count {
+  font-size: 12px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--tg-muted);
+  margin-right: 4px;
+}
+.tregu-car-arrow {
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 100px;
+  border: 1px solid var(--tg-border);
+  background: rgba(255,255,255,0.6);
+  color: var(--tg-text);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 200ms var(--ease-out),
+    border-color 200ms var(--ease-out),
+    transform 160ms var(--ease-out);
+}
+.tregu-car-arrow:hover {
+  background: #111111;
+  border-color: #111111;
+  color: #FFFFFF;
+}
+.tregu-car-arrow:active { transform: scale(0.94); }
+.tregu-car-viewport {
+  /* Clip at the card edge; each slide carries the card's horizontal
+     padding so neighbours sit fully outside the visible window. */
+  overflow: hidden;
+  margin: 0 -26px;
+}
+.tregu-car-track {
+  display: flex;
+  align-items: stretch;
+  transition: transform 640ms cubic-bezier(0.77, 0, 0.175, 1);
+}
+.tregu-car-slide {
+  flex: 0 0 100%;
+  min-width: 0;
+  padding: 0 26px;
+}
+.tregu-car-slide-link {
+  display: block;
+  height: 100%;
+}
+.tregu-car-dots {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 18px;
+}
+.tregu-car-dot {
+  position: relative;
+  width: 7px;
+  height: 7px;
+  padding: 0;
+  border: none;
+  border-radius: 100px;
+  background: rgba(17,17,17,0.16);
+  cursor: pointer;
+  overflow: hidden;
+  transition: width 320ms var(--ease-out), background-color 200ms var(--ease-out);
+}
+.tregu-car-dot:hover { background: rgba(17,17,17,0.32); }
+.tregu-car-dot[data-active] {
+  width: 30px;
+  background: rgba(17,17,17,0.14);
+}
+.tregu-car-dot-fill {
+  position: absolute;
+  inset: 0;
+  border-radius: 100px;
+  background: #111111;
+  transform-origin: left;
+  animation: tregu-car-fill 7s linear both;
+}
+.tregu-carousel[data-paused] .tregu-car-dot-fill {
+  animation-play-state: paused;
+}
+@keyframes tregu-car-fill {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+@media (max-width: 860px) {
+  .tregu-carousel { padding: 16px 18px 14px; }
+  .tregu-car-viewport { margin: 0 -18px; }
+  .tregu-car-slide { padding: 0 18px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tregu-car-track { transition: none; }
+  .tregu-car-dot-fill { animation: none; transform: scaleX(1); }
+}
+
 /* ── Market detail — 2-col trading layout ─────────────────── */
 .tregu-detail-grid {
   display: grid;

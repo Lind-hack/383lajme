@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import Navbar from "@/components/navbar";
 import MarketMiniCard from "@/components/tregu/market-mini-card";
-import MarketFeatureCard from "@/components/tregu/market-feature-card";
+import FeaturedCarousel from "@/components/tregu/featured-carousel";
 import type { MiniMarket } from "@/components/tregu/market-mini-card";
 import VideoHero from "@/components/tregu/video-hero";
 import CoinFace from "@/components/tregu/coin-face";
@@ -189,17 +189,39 @@ export default function TreguHub() {
     [markets]
   );
 
+  // The big events: highest-volume open markets rotate through the flagship
+  // carousel. Always volume-ranked regardless of the grid sort — size of the
+  // book is what makes an event "big". Capped at 4 and never more than half
+  // the floor, so the grid below always keeps something to browse.
+  const featured = useMemo(() => {
+    if (markets.length < 3) return [] as MarketRow[];
+    const n = Math.min(4, Math.floor(markets.length / 2));
+    return [...markets].sort((a, b) => vol(b) - vol(a)).slice(0, n);
+  }, [markets]);
+
   // Sorting is the affordance that makes the trader think: chase volume,
   // beat the clock, or hunt the most contested (closest-to-50) markets.
   const sorted = useMemo(() => {
-    const arr = [...markets];
+    const featuredSlugs = new Set(featured.map((m) => m.slug));
+    const arr = markets.filter((m) => !featuredSlugs.has(m.slug));
     if (sort === "vellim") arr.sort((a, b) => vol(b) - vol(a));
     else if (sort === "afat")
       arr.sort((a, b) => new Date(a.closes_at).getTime() - new Date(b.closes_at).getTime());
     else if (sort === "nxehta")
       arr.sort((a, b) => Math.abs(0.5 - a.market_prob) - Math.abs(0.5 - b.market_prob));
     return arr;
-  }, [markets, sort]);
+  }, [markets, featured, sort]);
+
+  const toMini = (m: MarketRow): MiniMarket => ({
+    slug: m.slug,
+    question: m.question,
+    category: m.category,
+    prob: m.market_prob,
+    volume: vol(m),
+    closesAt: m.closes_at,
+    spark: m.spark,
+    delta7d: m.delta7d,
+  });
 
   const claimBonus = async () => {
     setClaiming(true);
@@ -361,6 +383,11 @@ export default function TreguHub() {
           </div>
         )}
 
+        {/* Flagship carousel — the biggest books rotate through one big card. */}
+        {!loading && !loadError && featured.length > 0 && (
+          <FeaturedCarousel key={category} markets={featured.map(toMini)} />
+        )}
+
         {/* Controls — count + segmented sort (traders sort). */}
         <div className="tregu-controls">
           <span className="tregu-count">
@@ -370,7 +397,7 @@ export default function TreguHub() {
               "Tregjet nuk u ngarkuan"
             ) : (
               <>
-                <strong>{sorted.length}</strong> {sorted.length === 1 ? "treg aktiv" : "tregje aktive"}
+                <strong>{markets.length}</strong> {markets.length === 1 ? "treg aktiv" : "tregje aktive"}
               </>
             )}
           </span>
@@ -384,11 +411,15 @@ export default function TreguHub() {
         </div>
 
         {loading ? (
-          <div className="tregu-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 14 }}>
-            {[0, 1, 2, 3, 4, 5].map((i) => (
-              <div key={i} className="tregu-glass" style={{ height: 208, opacity: 0.5 }} />
-            ))}
-          </div>
+          <>
+            {/* Carousel-shaped skeleton so the flagship slot doesn't pop in late. */}
+            <div className="tregu-glass" style={{ height: 280, opacity: 0.5, marginBottom: 18, borderRadius: 18 }} />
+            <div className="tregu-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 14 }}>
+              {[0, 1, 2, 3, 4, 5].map((i) => (
+                <div key={i} className="tregu-glass" style={{ height: 208, opacity: 0.5 }} />
+              ))}
+            </div>
+          </>
         ) : loadError ? (
           <div className="tregu-glass" style={{ padding: "40px 28px", textAlign: "center" }}>
             <p style={{ fontWeight: 800, fontSize: 16, margin: 0 }}>Tregjet nuk u ngarkuan</p>
@@ -412,26 +443,9 @@ export default function TreguHub() {
           </div>
         ) : (
           <div className="tregu-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 14 }}>
-            {sorted.map((m, i) => {
-              const mini: MiniMarket = {
-                slug: m.slug,
-                question: m.question,
-                category: m.category,
-                prob: m.market_prob,
-                volume: vol(m),
-                closesAt: m.closes_at,
-                spark: m.spark,
-                delta7d: m.delta7d,
-              };
-              // The top market of the active sort earns the full-width
-              // feature slot — size is the signal, no label needed. Only
-              // when the floor is busy enough for a hierarchy to read.
-              return i === 0 && sorted.length >= 3 ? (
-                <MarketFeatureCard key={m.id} market={mini} />
-              ) : (
-                <MarketMiniCard key={m.id} market={mini} />
-              );
-            })}
+            {sorted.map((m) => (
+              <MarketMiniCard key={m.id} market={toMini(m)} />
+            ))}
           </div>
         )}
       </main>
