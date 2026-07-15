@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import Navbar from "@/components/navbar";
 import MarketMiniCard from "@/components/tregu/market-mini-card";
 import FeaturedCarousel from "@/components/tregu/featured-carousel";
+import FloorRail from "@/components/tregu/floor-rail";
 import type { MiniMarket } from "@/components/tregu/market-mini-card";
 import VideoHero from "@/components/tregu/video-hero";
 import CoinFace from "@/components/tregu/coin-face";
@@ -383,9 +384,20 @@ export default function TreguHub() {
           </div>
         )}
 
-        {/* Flagship carousel — the biggest books rotate through one big card. */}
+        {/* Hero row — flagship carousel left, floor rail right. The big
+            books rotate through one big card; the rail ranks the whole
+            floor: hot topics, nearest deadlines, and the promo tile. */}
         {!loading && !loadError && featured.length > 0 && (
-          <FeaturedCarousel key={category} markets={featured.map(toMini)} />
+          <div className="tregu-hero-row">
+            <FeaturedCarousel key={category} markets={featured.map(toMini)} />
+            <FloorRail
+              markets={markets.map(toMini)}
+              loggedIn={balance !== null}
+              claiming={claiming}
+              bonusMsg={bonusMsg}
+              onClaim={claimBonus}
+            />
+          </div>
         )}
 
         {/* Controls — count + segmented sort (traders sort). */}
@@ -412,8 +424,14 @@ export default function TreguHub() {
 
         {loading ? (
           <>
-            {/* Carousel-shaped skeleton so the flagship slot doesn't pop in late. */}
-            <div className="tregu-glass" style={{ height: 280, opacity: 0.5, marginBottom: 18, borderRadius: 18 }} />
+            {/* Hero-row-shaped skeleton so the flagship slot doesn't pop in late. */}
+            <div className="tregu-hero-row">
+              <div className="tregu-glass" style={{ height: 300, opacity: 0.5, borderRadius: 18 }} />
+              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                <div className="tregu-glass" style={{ flex: 1, opacity: 0.5 }} />
+                <div className="tregu-glass" style={{ height: 96, opacity: 0.5 }} />
+              </div>
+            </div>
             <div className="tregu-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 14 }}>
               {[0, 1, 2, 3, 4, 5].map((i) => (
                 <div key={i} className="tregu-glass" style={{ height: 208, opacity: 0.5 }} />

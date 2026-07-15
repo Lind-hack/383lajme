@@ -267,7 +267,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
         </Link>
 
         {/* ── Header: pills, question, ticker ── */}
-        <div className="tregu-glass" style={{ padding: "24px 28px", marginTop: 16, marginBottom: 24 }}>
+        <div className="tregu-glass tregu-edge" data-cat={market.category} style={{ padding: "24px 28px", marginTop: 16, marginBottom: 24 }}>
           <div style={{ display: "flex", alignItems: "center", flexWrap: "wrap", gap: 10, marginBottom: 14 }}>
             <span className="tregu-pill">{CATEGORY_LABEL[market.category] ?? market.category}</span>
             {market.status === "resolved" && (
@@ -363,7 +363,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
 
           {/* ── Right column ── */}
           <aside className="tregu-detail-side">
-            <div className="tregu-glass tregu-glass-hi" style={{ padding: 24 }}>
+            <div className="tregu-glass tregu-glass-hi tregu-edge" data-cat={market.category} style={{ padding: 24 }}>
               {!user ? (
                 <div style={{ textAlign: "center", padding: "20px 0" }}>
                   <p style={{ color: "#6B6B6B", marginBottom: 14 }}>
