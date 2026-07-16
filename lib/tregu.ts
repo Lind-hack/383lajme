@@ -1,6 +1,6 @@
 import { getArticles } from "./db";
 import type { Article } from "./mock-data";
-import { groqChat, parseJSON } from "./groq";
+import { llmJSON } from "./llm";
 
 export type { MarketCategory, MarketStatus, Side, Market, MarketSnapshot } from "./tregu-client";
 export { lmsrPriceYes, previewBet } from "./tregu-client";
@@ -49,8 +49,7 @@ export async function scoreMarketWithAI(market: Market): Promise<AiScoreResult> 
     `{"probability": 0.0-1.0, "reasoning": "shpjegim i shkurter shqip", "cited_slugs": ["slug1", "slug2"]}`;
   const user = `Pyetja e tregut: "${market.question}"\n${market.description ? `Kontekst: ${market.description}\n` : ""}\nArtikuj te fundit:\n\n${context || "(pa artikuj te lidhur)"}`;
 
-  const raw = await groqChat(system, user, { json: true, maxTokens: 600 });
-  const parsed = parseJSON<AiScoreResult>(raw);
+  const parsed = await llmJSON<AiScoreResult>(system, user, { maxTokens: 600 });
   return {
     probability: Math.min(1, Math.max(0, Number(parsed.probability))),
     reasoning: String(parsed.reasoning ?? ""),
@@ -80,8 +79,7 @@ export async function draftMarketsFromNews(limit = 5): Promise<DraftedMarket[]> 
     `Kthe VETEM JSON: {"markets": [{"question": "...?", "description": "...", "category": "politike|ekonomi|sport|bote|te-tjera", "closes_in_days": 30, "source_slugs": ["slug1"], "resolution_rules": "Zgjidhet PO nese ... para dates ... Cdo rezultat tjeter zgjidhet JO.", "resolution_source": "p.sh. njoftimi zyrtar i institucionit + raportimi i 383"}]}`;
   const user = `Artikuj te fundit:\n${context}\n\nPropozo deri ne ${limit} tregje te reja.`;
 
-  const raw = await groqChat(system, user, { json: true, maxTokens: 1200 });
-  const parsed = parseJSON<{ markets: DraftedMarket[] }>(raw);
+  const parsed = await llmJSON<{ markets: DraftedMarket[] }>(system, user, { maxTokens: 1200 });
   return Array.isArray(parsed.markets) ? parsed.markets.slice(0, limit) : [];
 }
 
