@@ -35,7 +35,7 @@ interface RefreshSourceHealth {
 }
 
 interface RefreshHealth {
-  llm_refresh: RefreshSourceHealth;
+  sports_refresh: RefreshSourceHealth;
   tregu_live: RefreshSourceHealth;
 }
 
@@ -57,7 +57,7 @@ export default function TreguAdminClient() {
     try {
       const response = await fetch("/api/admin/tregu/health", { cache: "no-store" });
       const data = await response.json().catch(() => ({}));
-      if (!response.ok || !data.llm_refresh || !data.tregu_live) throw new Error(data.error ?? `HTTP ${response.status}`);
+      if (!response.ok || !data.sports_refresh || !data.tregu_live) throw new Error(data.error ?? `HTTP ${response.status}`);
       setRefreshHealth(data);
       setHealthError(null);
     } catch (error) {
@@ -244,12 +244,14 @@ export default function TreguAdminClient() {
 
 function RefreshHealthPanel({ health, error }: { health: RefreshHealth | null; error: string | null }) {
   const colors: Record<string, string> = { active: "#047857", healthy: "#2563EB", stale: "#B45309", failed: "#DC2626" };
-  const llm = health?.llm_refresh;
+  const sports = health?.sports_refresh;
   const live = health?.tregu_live;
   const details = live?.latest_run?.details ?? {};
   const providers = Array.isArray(details.provider_used) ? details.provider_used.map(String) : [];
-  const providerState = (provider: string) => providers.includes(provider) ? "u përdor në run-in e fundit" : "nuk u përdor në run-in e fundit";
-  const googleState = providers.some((provider) => provider === "google" || provider === "gemini") ? "u përdor në run-in e fundit" : "nuk u përdor në run-in e fundit";
+  const noVerifiedEvidence = Number(details.markets_with_evidence ?? 0) === 0;
+  const unusedProvider = noVerifiedEvidence ? "nuk u thirr — pa evidencë të freskët" : "nuk u përdor në run-in e fundit";
+  const providerState = (provider: string) => providers.includes(provider) ? "u përdor në run-in e fundit" : unusedProvider;
+  const googleState = providers.some((provider) => provider === "google" || provider === "gemini") ? "u përdor në run-in e fundit" : unusedProvider;
   const percentage = (value: number | null) => value === null ? "—" : `${(value * 100).toFixed(2)}%`;
   const runBlock = (label: string, source: RefreshSourceHealth | undefined, extras: React.ReactNode) => <div style={{ borderLeft: `4px solid ${colors[source?.status ?? "stale"]}`, paddingLeft: 12 }}>
     <strong>{label}: {source?.status?.toUpperCase() ?? "DUKE U NGARKUAR"}</strong>
@@ -262,7 +264,7 @@ function RefreshHealthPanel({ health, error }: { health: RefreshHealth | null; e
     {source?.latest_run?.error && <p style={{ color: "#B91C1C", margin: "8px 0 0", fontSize: 12 }}>Gabim i run-it: {source.latest_run.error}</p>}
   </div>;
   const activity = live?.recent_market_activity ?? [];
-  return <section style={{ ...card, borderLeft: `5px solid ${colors[live?.status ?? llm?.status ?? "stale"]}`, marginBottom: 20 }} aria-live="polite">
+  return <section style={{ ...card, borderLeft: `5px solid ${colors[live?.status ?? sports?.status ?? "stale"]}`, marginBottom: 20 }} aria-live="polite">
     <strong>Shëndeti i automatizimit Tregu</strong>
     {error && <p style={{ color: "#B91C1C", margin: "8px 0 0", fontSize: 13 }}>Nuk u lexua shëndeti i fundit; po shfaqet gjendja e ruajtur. Gabim: {error}</p>}
     <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(270px, 1fr))", gap: 18, marginTop: 12, fontSize: 13 }}>
@@ -271,7 +273,7 @@ function RefreshHealthPanel({ health, error }: { health: RefreshHealth | null; e
         <span>Tregje të hapura të skanuara: {String(details.open_markets_scanned ?? "—")} · Ndryshime të aplikuara: {String(details.updates_applied ?? "—")}</span>
         <span>Fallback: {Number(details.fallback_index ?? 0) > 0 ? `po (${String(details.fallback_reason ?? "gabim i pranueshëm i furnizuesit")})` : "jo"}</span>
       </>)}
-      {runBlock("Historiku lokal LLM (2 min)", llm, <><span>Ky stream shfaq vetëm auditin lokal; nuk përdoret për të pretenduar ndryshime pa evidencë.</span></>)}
+      {runBlock("Procesori zyrtar sportiv (2 min)", sports, <><span>ESPN ngjarje: {String(sports?.latest_run?.details?.official_espn_events ?? "—")} · Përditësime: {String(sports?.latest_run?.details?.official_updates ?? "—")} · Shlyerje: {String(sports?.latest_run?.details?.settled_market_count ?? "—")}</span></>)}
     </div>
     <div style={{ marginTop: 18, borderTop: "1px solid #E8E3DB", paddingTop: 14 }}>
       <strong style={{ fontSize: 13 }}>Tregjet e kontrolluara — run-i i fundit 5-minutësh</strong>

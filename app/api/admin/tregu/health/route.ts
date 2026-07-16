@@ -33,15 +33,15 @@ export async function GET(request: NextRequest) {
   if (!admin) return NextResponse.json({ error: "Supabase not configured" }, { status: 500 });
 
   const select = "run_key,status,details,error,started_at,finished_at";
-  const [llmResult, liveResult] = await Promise.all([
-    admin.from("market_automation_runs").select(select).eq("action", "reprice").order("started_at", { ascending: false }).limit(20),
+  const [sportsResult, liveResult] = await Promise.all([
+    admin.from("market_automation_runs").select(select).eq("action", "live_sports").order("started_at", { ascending: false }).limit(20),
     admin.from("market_automation_runs").select(select).eq("action", "tregu_live").order("started_at", { ascending: false }).limit(20),
   ]);
-  const error = llmResult.error ?? liveResult.error;
+  const error = sportsResult.error ?? liveResult.error;
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
 
   return NextResponse.json({
-    llm_refresh: summarize(llmResult.data as Run[] | null, 120),
+    sports_refresh: summarize(sportsResult.data as Run[] | null, 120),
     tregu_live: summarize(liveResult.data as Run[] | null, 300),
   }, { headers: { "Cache-Control": "no-store" } });
 }
