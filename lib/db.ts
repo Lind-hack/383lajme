@@ -1,6 +1,7 @@
 import Database from "better-sqlite3";
 import path from "path";
 import fs from "fs";
+import { createClient as createSupabaseClient } from "@supabase/supabase-js";
 import { MOCK_ARTICLES, type Article } from "./mock-data";
 import { fixMojibake } from "./encoding";
 
@@ -95,7 +96,31 @@ function effectiveScore(article: Article): number {
   return Math.max(0, base - ageHours * DECAY_RATE);
 }
 
-export function getArticles(limit = 50, category?: string): Article[] {
+function supabaseNewsClient() {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  if (!url || !anonKey) return null;
+  return createSupabaseClient(url, anonKey, {
+    auth: { autoRefreshToken: false, persistSession: false },
+  });
+}
+
+export async function getArticles(limit = 50, category?: string): Promise<Article[]> {
+  const supabase = supabaseNewsClient();
+  if (supabase) {
+    let query = supabase
+      .from("news_articles")
+      .select("*")
+      .order("featured", { ascending: false })
+      .order("engagement_score", { ascending: false })
+      .order("published_at", { ascending: false })
+      .limit(limit);
+    if (category) query = query.eq("category", category);
+    const { data, error } = await query;
+    if (error) throw new Error(`Supabase news_articles query failed: ${error.message}`);
+    if (data?.length) return data.map((article) => mapAutoRow(article as Record<string, unknown>));
+  }
+
   const autoArticles = getAutoArticles();
   const db = getDb();
 
@@ -133,7 +158,18 @@ export function getArticles(limit = 50, category?: string): Article[] {
   return filtered.slice(0, limit);
 }
 
-export function getArticleBySlug(slug: string): Article | null {
+export async function getArticleBySlug(slug: string): Promise<Article | null> {
+  const supabase = supabaseNewsClient();
+  if (supabase) {
+    const { data, error } = await supabase
+      .from("news_articles")
+      .select("*")
+      .eq("slug", slug)
+      .maybeSingle();
+    if (error) throw new Error(`Supabase news_articles query failed: ${error.message}`);
+    if (data) return mapAutoRow(data as Record<string, unknown>);
+  }
+
   const autoArticle = getAutoArticles().find((a) => a.slug === slug);
   if (autoArticle) return autoArticle;
 

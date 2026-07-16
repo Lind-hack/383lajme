@@ -37,7 +37,7 @@ export default async function CategoryPage({
   const categoryName = SLUG_TO_CATEGORY[category];
   if (!categoryName) notFound();
 
-  const articles = getArticles(50, categoryName);
+  const articles = await getArticles(50, categoryName);
   const accent = getCategoryColor(categoryName);
   const [gradFrom, gradTo] = getCategoryGradient(categoryName);
   const lightBg = CATEGORY_LIGHT_BG.has(categoryName);

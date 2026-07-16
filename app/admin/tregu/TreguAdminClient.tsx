@@ -9,10 +9,12 @@ interface Market {
   question: string;
   description: string | null;
   category: string;
-  status: "draft" | "open" | "closed" | "resolved";
+  status: "draft" | "open" | "stale" | "closed" | "resolved";
   outcome: "PO" | "JO" | null;
   closes_at: string;
   ai_generated: boolean;
+  last_checked_at?: string | null;
+  last_scan_result?: { status?: string; evidence_count?: number } | null;
 }
 
 interface Withdrawal {
@@ -24,6 +26,18 @@ interface Withdrawal {
   profiles?: { display_name: string | null } | null;
 }
 
+interface RefreshSourceHealth {
+  status: "active" | "healthy" | "stale" | "failed";
+  cadence_seconds: number;
+  last_successful_refresh: string | null;
+  latest_run: { status?: string; details?: Record<string, unknown>; error?: string | null } | null;
+}
+
+interface RefreshHealth {
+  llm_refresh: RefreshSourceHealth;
+  tregu_live: RefreshSourceHealth;
+}
+
 const wrap: React.CSSProperties = { minHeight: "100vh", background: "#F9F6F1", fontFamily: "inherit", padding: "40px 32px" };
 const card: React.CSSProperties = { background: "#fff", border: "1px solid #E8E3DB", borderRadius: 16, padding: 20, marginBottom: 14 };
 const btn: React.CSSProperties = { padding: "7px 14px", borderRadius: 8, border: "1px solid #E8E3DB", background: "#F3F4F6", fontSize: 13, fontWeight: 700, cursor: "pointer", fontFamily: "inherit" };
@@ -31,15 +45,31 @@ const btn: React.CSSProperties = { padding: "7px 14px", borderRadius: 8, border:
 export default function TreguAdminClient() {
   const [markets, setMarkets] = useState<Market[]>([]);
   const [withdrawals, setWithdrawals] = useState<Withdrawal[]>([]);
+  const [refreshHealth, setRefreshHealth] = useState<RefreshHealth | null>(null);
+  const [healthError, setHealthError] = useState<string | null>(null);
   const [drafting, setDrafting] = useState(false);
   const [tab, setTab] = useState<"markets" | "withdrawals">("markets");
 
   const loadMarkets = () => fetch("/api/admin/tregu/markets").then((r) => r.json()).then((d) => setMarkets(d.markets ?? []));
   const loadWithdrawals = () => fetch("/api/admin/tregu/withdrawals").then((r) => r.json()).then((d) => setWithdrawals(d.withdrawals ?? []));
+  const loadRefreshHealth = async () => {
+    try {
+      const response = await fetch("/api/admin/tregu/health", { cache: "no-store" });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok || !data.llm_refresh || !data.tregu_live) throw new Error(data.error ?? `HTTP ${response.status}`);
+      setRefreshHealth(data);
+      setHealthError(null);
+    } catch (error) {
+      setHealthError(String(error instanceof Error ? error.message : error));
+    }
+  };
 
   useEffect(() => {
     loadMarkets();
     loadWithdrawals();
+    loadRefreshHealth();
+    const healthTimer = window.setInterval(loadRefreshHealth, 30_000);
+    return () => window.clearInterval(healthTimer);
   }, []);
 
   const draftFromNews = async () => {
@@ -87,6 +117,8 @@ export default function TreguAdminClient() {
           </button>
         </div>
       </div>
+
+      <RefreshHealthPanel health={refreshHealth} error={healthError} />
 
       <div style={{ display: "flex", gap: 8, marginBottom: 20 }}>
         <button onClick={() => setTab("markets")} style={{ ...btn, background: tab === "markets" ? "#111" : "#F3F4F6", color: tab === "markets" ? "#fff" : "#111" }}>
@@ -147,6 +179,18 @@ export default function TreguAdminClient() {
             {byStatus("closed").length === 0 && <Empty />}
           </Section>
 
+          <Section title={`Pezulluara nga lajmet — pa baste (${byStatus("stale").length})`}>
+            {byStatus("stale").map((m) => (
+              <div key={m.id} style={card}>
+                <MarketRow m={m} />
+                <p style={{ margin: "10px 0 0", fontSize: 12, color: "#b45309" }}>
+                  Prit referencën e suksesshme nga lajmet; automatizimi nuk ndryshon 383C ose pozicionet.
+                </p>
+              </div>
+            ))}
+            {byStatus("stale").length === 0 && <Empty />}
+          </Section>
+
           <Section title={`Të zgjidhura (${byStatus("resolved").length})`}>
             {byStatus("resolved").map((m) => (
               <div key={m.id} style={card}>
@@ -197,6 +241,39 @@ export default function TreguAdminClient() {
   );
 }
 
+function RefreshHealthPanel({ health, error }: { health: RefreshHealth | null; error: string | null }) {
+  const colors: Record<string, string> = { active: "#047857", healthy: "#2563EB", stale: "#B45309", failed: "#DC2626" };
+  const llm = health?.llm_refresh;
+  const live = health?.tregu_live;
+  const llmDetails = llm?.latest_run?.details ?? {};
+  const providers = Array.isArray(llmDetails.provider_used) ? llmDetails.provider_used.map(String) : [];
+  const providerState = (provider: string) => providers.includes(provider) ? "aktiv në run-in e fundit" : "pa përdorim në run-in e fundit";
+  const runBlock = (label: string, source: RefreshSourceHealth | undefined, extras: React.ReactNode) => <div style={{ borderLeft: `4px solid ${colors[source?.status ?? "stale"]}`, paddingLeft: 12 }}>
+    <strong>{label}: {source?.status?.toUpperCase() ?? "DUKE U NGARKUAR"}</strong>
+    <div style={{ display: "grid", gap: 5, marginTop: 6 }}>
+      <span>Kadenca: çdo {source?.cadence_seconds ?? "—"} sekonda</span>
+      <span>I fundit i suksesshëm: {source?.last_successful_refresh ? new Date(source.last_successful_refresh).toLocaleString("sq-AL") : "—"}</span>
+      {extras}
+      <span>Rezultati: {String(source?.latest_run?.details?.outcome ?? source?.latest_run?.status ?? "—")}</span>
+    </div>
+    {source?.latest_run?.error && <p style={{ color: "#B91C1C", margin: "8px 0 0", fontSize: 12 }}>Gabim i run-it: {source.latest_run.error}</p>}
+  </div>;
+  return <section style={{ ...card, borderLeft: `5px solid ${colors[live?.status ?? llm?.status ?? "stale"]}`, marginBottom: 20 }} aria-live="polite">
+    <strong>Shëndeti i automatizimit Tregu</strong>
+    {error && <p style={{ color: "#B91C1C", margin: "8px 0 0", fontSize: 13 }}>Nuk u lexua shëndeti i fundit; po shfaqet gjendja e ruajtur. Gabim: {error}</p>}
+    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(270px, 1fr))", gap: 18, marginTop: 12, fontSize: 13 }}>
+      {runBlock("Rifreskimi LLM (2 min)", llm, <>
+        <span>Groq: {providerState("groq")}</span><span>Google: {providerState("google")}</span>
+        <span>Skanuar: {String(llmDetails.open_markets_scanned ?? "—")} · Përditësime: {String(llmDetails.updates_applied ?? "—")}</span>
+      </>)}
+      {runBlock("tregu-live heartbeat (5 min)", live, <>
+        <span>Përditësime zyrtare: {String(live?.latest_run?.details?.official_updates ?? "—")}</span>
+        <span>ESPN ngjarje: {String(live?.latest_run?.details?.official_espn_events ?? "—")} · Shlyerje: {String(live?.latest_run?.details?.settled_market_count ?? "—")}</span>
+      </>)}
+    </div>
+  </section>;
+}
+
 function MarketRow({ m }: { m: Market }) {
   return (
     <div>
@@ -208,6 +285,7 @@ function MarketRow({ m }: { m: Market }) {
       <p style={{ margin: 0, fontWeight: 700, fontSize: 15 }}>{m.question}</p>
       {m.description && <p style={{ margin: "6px 0 0", fontSize: 13, color: "#6B6B6B" }}>{m.description}</p>}
       <p style={{ margin: "6px 0 0", fontSize: 11, color: "#999" }}>Mbyllet: {new Date(m.closes_at).toLocaleDateString("sq-AL")}</p>
+      {m.last_checked_at && <p style={{ margin: "4px 0 0", fontSize: 11, color: "#6B6B6B" }}>Kontrolli i fundit: {new Date(m.last_checked_at).toLocaleString("sq-AL")} · {m.last_scan_result?.status ?? "—"}{typeof m.last_scan_result?.evidence_count === "number" ? ` · evidencë ${m.last_scan_result.evidence_count}` : ""}</p>}
     </div>
   );
 }

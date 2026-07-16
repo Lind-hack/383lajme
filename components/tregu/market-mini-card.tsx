@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { fmtNum } from "@/lib/format";
+import { formatOfficialLiveScore, officialMetricsForDisplay } from "@/lib/tregu-market-detail.mjs";
 
 export interface MiniMarket {
   slug: string;
@@ -10,35 +10,21 @@ export interface MiniMarket {
   category: string;
   prob: number; // 0..1 YES probability
   volume?: number; // cumulative shares outstanding (q_yes + q_no)
+  delta7d?: number; // probability change over seven days, when available
+  spark?: number[]; // recent probability points, when available
   closesAt?: string;
-  spark?: number[]; // downsampled PO price tape, 0..1, oldest first
-  delta7d?: number | null; // prob change vs 7 days ago, 0..1 scale
-}
-
-// Tiny trade-tape sparkline. Stretched SVG holds no text, so
-// preserveAspectRatio="none" is safe here.
-function Sparkline({ points, dir, height = 28 }: { points: number[]; dir: "up" | "down" | "flat"; height?: number }) {
-  const W = 100;
-  const H = height;
-  const min = Math.min(...points);
-  const max = Math.max(...points);
-  const span = Math.max(max - min, 0.02); // floor so a flat tape stays a visible line
-  const step = points.length > 1 ? W / (points.length - 1) : W;
-  const y = (p: number) => 3 + (H - 6) * (1 - (p - min) / span);
-  const path = points.map((p, i) => `${i === 0 ? "M" : "L"}${(i * step).toFixed(1)} ${y(p).toFixed(1)}`).join(" ");
-  const color = dir === "up" ? "#00854A" : dir === "down" ? "#B91C1C" : "#6B6B6B";
-  return (
-    <svg
-      viewBox={`0 0 ${W} ${H}`}
-      preserveAspectRatio="none"
-      style={{ width: "100%", height: H, display: "block" }}
-      aria-hidden
-    >
-      <path d={`${path} L${W} ${H} L0 ${H} Z`} fill={color} opacity={0.08} />
-      <path d={path} fill="none" stroke={color} strokeWidth={2} vectorEffect="non-scaling-stroke" />
-      <circle cx={W} cy={y(points[points.length - 1])} r={2.5} fill={color} />
-    </svg>
-  );
+  lastCheckedAt?: string | null;
+  threeOutcomePrices?: { england: number; draw: number; argentina: number } | null;
+  referenceProbabilities?: { england: number; draw: number; argentina: number } | null;
+  liveScoreState?: {
+    status?: string;
+    detail?: string;
+    competitors?: { team: string; score: number }[];
+    metrics?: Record<string, { shots?: number; shots_on_target?: number; possession?: number; xg?: number }>;
+    metric_sources?: Record<string, Record<string, "espn" | "flashscore">>;
+    supplemental?: { flashscore?: { availability?: "available" | "unavailable" } };
+  } | null;
+  refreshHealth?: { status?: "active" | "healthy" | "stale"; last_successful_scan_at?: string | null; lineup_status?: "confirmed" | "predicted_or_unknown" } | null;
 }
 
 const CATEGORY_LABEL: Record<string, string> = {
@@ -62,20 +48,6 @@ function closeLabel(iso?: string): string | null {
   return `${Math.max(1, Math.floor(ms / 60_000))}m`;
 }
 
-function msToClose(iso?: string): number | null {
-  if (!iso) return null;
-  const ms = new Date(iso).getTime() - Date.now();
-  return Number.isNaN(ms) ? null : ms;
-}
-
-// Every market wears the face its data earns — the grid is not one
-// repeated template:
-//   new     — no volume yet: an invitation to set the first price
-//   closing — under 48h left: the countdown leads
-//   mover   — ≥3pp weekly move with a tape: the chart leads
-//   default — question + book, the plain instrument
-type Variant = "new" | "closing" | "mover" | "default";
-
 export default function MarketMiniCard({ market }: { market: MiniMarket; compact?: boolean }) {
   const router = useRouter();
   const pct = Math.round(Math.max(0, Math.min(1, market.prob)) * 100);
@@ -86,19 +58,14 @@ export default function MarketMiniCard({ market }: { market: MiniMarket; compact
   const noMult = noPct >= 1 ? (100 / noPct).toFixed(2) : null;
   const remaining = closeLabel(market.closesAt);
   const closed = remaining === "Mbyllur";
-
-  // Weekly movement — the "why now" signal. Hidden until the tape has a week
-  // of history or the move rounds to at least 1pp.
-  const deltaPp = market.delta7d != null ? Math.round(market.delta7d * 100) : null;
-  const dir: "up" | "down" | "flat" =
-    deltaPp != null && deltaPp > 0 ? "up" : deltaPp != null && deltaPp < 0 ? "down" : "flat";
-  const spark = market.spark && market.spark.length >= 2 ? market.spark : null;
-
-  const ms = msToClose(market.closesAt);
-  const isNew = !market.volume;
-  const isClosingSoon = !closed && ms !== null && ms > 0 && ms < 48 * 3_600_000;
-  const isMover = Boolean(spark) && deltaPp !== null && Math.abs(deltaPp) >= 3;
-  const variant: Variant = isNew ? "new" : isClosingSoon ? "closing" : isMover ? "mover" : "default";
+  const health = market.refreshHealth;
+  const healthLabel = health?.status === "stale" ? "Stale" : health?.status === "active" ? "Aktiv" : health?.status === "healthy" ? "Healthy" : null;
+  const officialMetrics = officialMetricsForDisplay(market.liveScoreState?.metrics, market.liveScoreState?.metric_sources);
+  const officialLiveScore = formatOfficialLiveScore(market.liveScoreState ?? undefined);
+  const flashscoreAvailable = market.liveScoreState?.supplemental?.flashscore?.availability === "available";
+  const lastCheckedLabel = market.lastCheckedAt && !Number.isNaN(new Date(market.lastCheckedAt).getTime())
+    ? `Kontrolluar ${new Date(market.lastCheckedAt).toLocaleString("sq-AL", { hour: "2-digit", minute: "2-digit" })}`
+    : null;
 
   const goToSide = (e: React.MouseEvent, side: "PO" | "JO") => {
     // The whole card links to the market; PO/JO jump straight to that side.
@@ -110,58 +77,27 @@ export default function MarketMiniCard({ market }: { market: MiniMarket; compact
   return (
     <Link
       href={`/tregu/${market.slug}`}
-      className="tregu-glass tregu-market tregu-edge"
-      data-cat={market.category}
-      data-variant={variant}
+      className="tregu-glass tregu-market"
       style={{ display: "flex", flexDirection: "column", textDecoration: "none", color: "#111111" }}
     >
       <div className="tregu-market-top">
         <span className="tregu-pill">{CATEGORY_LABEL[market.category] ?? market.category}</span>
-        {variant === "mover" && deltaPp !== null ? (
-          <span className="tregu-market-flag">
-            {deltaPp > 0 ? "▲" : "▼"} Në lëvizje
-          </span>
-        ) : variant === "new" ? (
-          <span className="tregu-market-flag">Treg i ri</span>
-        ) : variant === "closing" ? (
-          <span className="tregu-market-close">Afati po skadon</span>
-        ) : (
-          remaining && (
-            <span className="tregu-market-close">{closed ? remaining : `Mbyllet ${remaining}`}</span>
-          )
+        {healthLabel && <span role="status" aria-label={`Groq/market scan ${healthLabel}${health?.last_successful_scan_at ? `; i fundit ${new Date(health.last_successful_scan_at).toLocaleString("sq-AL")}` : ""}`} style={{ display: "inline-flex", alignItems: "center", gap: 5, color: health?.status === "stale" ? "#B45309" : "#047857", fontSize: 11, fontWeight: 800 }}><span aria-hidden="true" style={{ width: 7, height: 7, borderRadius: "50%", background: "currentColor", display: "inline-block" }} />Groq {healthLabel}</span>}
+        {health?.lineup_status && <span style={{ color: "#6B6B6B", fontSize: 11, fontWeight: 700 }}>{health.lineup_status === "confirmed" ? "Formacionet: të konfirmuara" : "Formacionet: të panjohura"}</span>}
+        {remaining && (
+          <span className="tregu-market-close">{closed ? remaining : `Mbyllet ${remaining}`}</span>
         )}
       </div>
 
       <p className="tregu-market-q">{market.question}</p>
 
-      {variant === "mover" && spark && (
-        <div style={{ display: "flex", alignItems: "center", gap: 10, margin: "2px 0 10px" }}>
-          <div style={{ flex: 1, minWidth: 0 }}>
-            <Sparkline points={spark} dir={dir} height={44} />
-          </div>
-          {deltaPp !== null && deltaPp !== 0 && (
-            <span
-              className="tregu-delta-chip"
-              data-dir={dir}
-              style={{ fontSize: 11, padding: "2px 9px", flexShrink: 0 }}
-            >
-              {deltaPp > 0 ? "▲" : "▼"} {Math.abs(deltaPp)}pp / 7d
-            </span>
-          )}
-        </div>
-      )}
-
-      {variant === "closing" && remaining && (
-        <div className="tregu-market-count">
-          <strong>{remaining}</strong>
-          <span>deri në mbyllje — çmimi ngrin pas kësaj</span>
-        </div>
-      )}
-
-      {variant === "new" && (
-        <div className="tregu-market-invite">
-          <strong>Bëhu i pari.</strong> Asnjë tregtim ende — vendos ti çmimin e parë të kësaj ngjarjeje.
-        </div>
+      {market.liveScoreState && (
+        <section aria-label="Gjendja zyrtare live ESPN" style={{ margin: "0 0 12px", padding: 10, borderRadius: 10, background: "rgba(17,17,17,.045)", fontSize: 12 }}>
+          <strong>{officialLiveScore.sourceLabel} · {officialLiveScore.status}</strong>
+          {officialLiveScore.score && <div style={{ marginTop: 4, fontWeight: 800 }}>{officialLiveScore.score}</div>}
+          {officialMetrics.map((metrics) => <div key={metrics.team} style={{ marginTop: 5 }}>{metrics.team}: {metrics.possession !== undefined && `Posedim ${metrics.possession}%${flashscoreAvailable && metrics.sources.possession === "flashscore" ? " (Flashscore)" : ""}`} {metrics.shots !== undefined && `· Goditje ${metrics.shots}${flashscoreAvailable && metrics.sources.shots === "flashscore" ? " (Flashscore)" : ""}`} {metrics.shotsOnTarget !== undefined && `· në portë ${metrics.shotsOnTarget}${flashscoreAvailable && metrics.sources.shots_on_target === "flashscore" ? " (Flashscore)" : ""}`} {metrics.xg !== undefined && `· xG ${metrics.xg}${flashscoreAvailable && metrics.sources.xg === "flashscore" ? " (Flashscore)" : ""}`}</div>)}
+          {market.referenceProbabilities && <div style={{ marginTop: 5, color: "#6B6B6B" }}>Referenca: England {(market.referenceProbabilities.england * 100).toFixed(1)}% · Draw {(market.referenceProbabilities.draw * 100).toFixed(1)}% · Argentina {(market.referenceProbabilities.argentina * 100).toFixed(1)}%</div>}
+        </section>
       )}
 
       <div className="tregu-depth" aria-hidden>
@@ -189,9 +125,10 @@ export default function MarketMiniCard({ market }: { market: MiniMarket; compact
       <div className="tregu-market-foot">
         <span>
           {market.volume !== undefined && market.volume > 0
-            ? `Vëllimi ${fmtNum(market.volume)} 383C`
+            ? `Vëllimi ${Math.round(market.volume).toLocaleString("sq-AL")} 383C`
             : "Treg i ri"}
         </span>
+        {lastCheckedLabel && <span style={{ color: "#6B6B6B", fontSize: 11 }}>{lastCheckedLabel}</span>}
         <span className="tregu-market-open">Hap tregun →</span>
       </div>
     </Link>

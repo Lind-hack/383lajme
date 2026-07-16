@@ -36,7 +36,7 @@ function flagToCode(flag: string): string {
 }
 
 export default async function HomePage() {
-  const articles = getArticles(60);
+  const articles = await getArticles(60);
 
   // Tier 1: hero — featured (score ≥ 9 or breaking), fallback to highest scored
   const hero = articles.find((a) => a.featured) ?? articles[0];
