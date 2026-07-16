@@ -7,6 +7,7 @@ export const dynamic = "force-dynamic";
 // PATCH { action: "approve" }              -> draft -> open
 // PATCH { action: "close" }                -> open -> closed (betting stops, awaiting resolution)
 // PATCH { action: "resolve", outcome }     -> resolves + pays out winners via RPC
+// PATCH { action: "seed", initialProb }    -> reseed LMSR opening odds (only before the first trade)
 // PATCH { question, description, ... }     -> plain field edit (draft markets only)
 export async function PATCH(
   request: NextRequest,
@@ -20,7 +21,12 @@ export async function PATCH(
 
   const { id } = await params;
   const body = (await request.json().catch(() => null)) as
-    | { action?: "approve" | "close" | "resolve"; outcome?: "PO" | "JO"; [key: string]: unknown }
+    | {
+        action?: "approve" | "close" | "resolve" | "seed";
+        outcome?: "PO" | "JO";
+        initialProb?: number;
+        [key: string]: unknown;
+      }
     | null;
 
   if (!body) return NextResponse.json({ error: "Trup i pavlefshëm" }, { status: 400 });
@@ -43,6 +49,38 @@ export async function PATCH(
       .update({ status: "closed" })
       .eq("id", id)
       .eq("status", "open")
+      .select()
+      .single();
+    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ market: data });
+  }
+
+  if (body.action === "seed") {
+    if (typeof body.initialProb !== "number" || !Number.isFinite(body.initialProb)) {
+      return NextResponse.json({ error: "initialProb duhet të jetë numër" }, { status: 400 });
+    }
+    // Reseeding after real money has traded would silently reprice open
+    // positions, so it's only allowed while the book is untouched.
+    const { count, error: tradeErr } = await admin
+      .from("market_trades")
+      .select("id", { count: "exact", head: true })
+      .eq("market_id", id);
+    if (tradeErr) return NextResponse.json({ error: tradeErr.message }, { status: 500 });
+    if ((count ?? 0) > 0) {
+      return NextResponse.json({ error: "Tregu ka tregtime — nuk mund të rivendosen gjasat" }, { status: 409 });
+    }
+    const p = Math.min(0.98, Math.max(0.02, body.initialProb));
+    const b = 100;
+    const diff = b * Math.log(p / (1 - p));
+    const { data, error } = await admin
+      .from("markets")
+      .update({
+        q_yes: Math.round(Math.max(0, diff) * 100) / 100,
+        q_no: Math.round(Math.max(0, -diff) * 100) / 100,
+        b,
+      })
+      .eq("id", id)
+      .in("status", ["draft", "open"])
       .select()
       .single();
     if (error) return NextResponse.json({ error: error.message }, { status: 500 });

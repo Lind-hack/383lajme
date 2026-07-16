@@ -15,6 +15,8 @@ export interface GroupOutcome extends MiniMarket {
   /** Short display label — "Fiton Anglia" → "Anglia". */
   label: string;
   color: string;
+  /** Raw LMSR book price before cross-outcome normalization. */
+  rawProb: number;
 }
 
 export interface MarketGroup {
@@ -31,7 +33,7 @@ export interface MarketGroup {
 // the probability ranking reshuffles mid-match.
 const OUTCOME_COLORS = ["#E41E20", "#0047FF", "#6B6B6B", "#B45309", "#00854A"];
 
-function parseEvent(question: string): { title: string; outcome: string } | null {
+export function parseEvent(question: string): { title: string; outcome: string } | null {
   const m = question.match(/^(.{3,80}?):\s+(.{2,60}?)\s*\??$/);
   if (!m) return null;
   return { title: m[1].trim(), outcome: m[2].trim() };
@@ -42,7 +44,7 @@ export function shortLabel(outcome: string): string {
   return outcome.replace(/^fiton\s+/i, "").replace(/\s+fiton$/i, "").trim() || outcome;
 }
 
-function slugKey(title: string): string {
+export function slugKey(title: string): string {
   return title
     .toLowerCase()
     .normalize("NFKD")
@@ -74,8 +76,18 @@ export function groupMarkets(minis: MiniMarket[]): {
       shortLabel(a.outcome).localeCompare(shortLabel(b.outcome), "sq")
     );
     const colorOf = new Map(colorOrder.map((m, i) => [m.mini.slug, OUTCOME_COLORS[i % OUTCOME_COLORS.length]]));
+    // Each outcome is an independent binary book, so raw PO prices can sum to
+    // anything (e.g. 136%). Displayed odds are normalized to a 100% total —
+    // trade execution still uses the raw book price.
+    const rawSum = g.members.reduce((s, m) => s + m.mini.prob, 0);
     const outcomes: GroupOutcome[] = g.members
-      .map((m) => ({ ...m.mini, label: shortLabel(m.outcome), color: colorOf.get(m.mini.slug)! }))
+      .map((m) => ({
+        ...m.mini,
+        rawProb: m.mini.prob,
+        prob: rawSum > 0 ? m.mini.prob / rawSum : 1 / g.members.length,
+        label: shortLabel(m.outcome),
+        color: colorOf.get(m.mini.slug)!,
+      }))
       .sort((a, b) => b.prob - a.prob);
     for (const o of outcomes) grouped.add(o.slug);
     groups.push({

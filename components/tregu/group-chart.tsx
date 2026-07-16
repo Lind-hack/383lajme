@@ -1,44 +1,54 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 
-// Multi-outcome price charts — the Polymarket-style view for grouped events.
-// GroupChart overlays every outcome's tape in its own colour with endpoint
-// dot + "Label NN%" chips, plus a hover crosshair that reads every line at
-// the pointer; OutcomeMiniChart is the single-outcome graph used for the
-// per-outcome breakdown row. SVG carries only geometry
-// (preserveAspectRatio="none" stretches text), so all labels are HTML
-// positioned over the plot.
+// Multi-outcome event chart — the Polymarket-style view for grouped events.
+// Time-aware: every outcome's line is drawn from real timestamped points
+// (5-minute cron snapshots + live price), values are normalized per timestamp
+// so displayed odds always sum to 100%, and hovering snaps to the nearest
+// recorded point with a date/time tooltip reading every line.
+// SVG carries only geometry (preserveAspectRatio="none" stretches text), so
+// all labels are HTML positioned over the plot.
 
-export interface GroupSeries {
+export interface EventSeries {
   label: string;
   color: string;
-  /** 0..1 price tape. Missing/short tapes render as a flat line at `prob`. */
-  points?: number[];
+  /** Timestamped raw book prices, ascending. Missing → flat at `prob`. */
+  series?: { t: number; p: number }[];
   prob: number;
 }
 
-const PAD = 10; // px breathing room above/below the extreme lines
+const RANGES = [
+  { key: "1D", ms: 86_400_000 },
+  { key: "1J", ms: 7 * 86_400_000 },
+  { key: "1M", ms: 30 * 86_400_000 },
+  { key: "Gjithë", ms: Infinity },
+] as const;
 
-function tapeOf(s: GroupSeries): number[] {
-  return s.points && s.points.length >= 2 ? s.points : [s.prob, s.prob];
+type RangeKey = (typeof RANGES)[number]["key"];
+
+const W = 640;
+const AXIS_H = 22;
+const PLOT_TOP = 10;
+
+function seriesOf(s: EventSeries): { t: number; p: number }[] {
+  if (s.series && s.series.length >= 2) return s.series;
+  const now = Date.now();
+  return [
+    { t: now - 86_400_000, p: s.prob },
+    { t: now, p: s.prob },
+  ];
 }
 
-function domain(series: GroupSeries[]): { lo: number; hi: number } {
-  let lo = 1;
-  let hi = 0;
-  for (const s of series) for (const p of tapeOf(s)) {
-    if (p < lo) lo = p;
-    if (p > hi) hi = p;
+// Last known value at time t (step/forward-fill — a book holds its price
+// between snapshots).
+function valueAt(pts: { t: number; p: number }[], t: number): number {
+  let v = pts[0].p;
+  for (const pt of pts) {
+    if (pt.t > t) break;
+    v = pt.p;
   }
-  lo = Math.max(0, lo - 0.06);
-  hi = Math.min(1, hi + 0.06);
-  if (hi - lo < 0.28) {
-    const mid = (hi + lo) / 2;
-    lo = Math.max(0, mid - 0.14);
-    hi = Math.min(1, lo + 0.28);
-  }
-  return { lo, hi };
+  return v;
 }
 
 function ticksFor(lo: number, hi: number): number[] {
@@ -51,146 +61,243 @@ function ticksFor(lo: number, hi: number): number[] {
   return out;
 }
 
-// Linear read of a tape at fractional position 0..1.
-function valueAt(pts: number[], frac: number): number {
-  const pos = frac * (pts.length - 1);
-  const i = Math.floor(pos);
-  const j = Math.min(pts.length - 1, i + 1);
-  return pts[i] + (pts[j] - pts[i]) * (pos - i);
-}
-
 export default function GroupChart({
   series,
-  height = 200,
+  height = 280,
 }: {
-  series: GroupSeries[];
+  series: EventSeries[];
   height?: number;
 }) {
-  const { lo, hi } = domain(series);
-  const yPx = (p: number) => PAD + (height - 2 * PAD) * (1 - (p - lo) / (hi - lo));
-  const yPct = (p: number) => ((yPx(p) / height) * 100).toFixed(2);
+  const [range, setRange] = useState<RangeKey>("Gjithë");
+  const [hoverI, setHoverI] = useState<number | null>(null);
   const plotRef = useRef<HTMLDivElement>(null);
-  const [hover, setHover] = useState<number | null>(null); // frac 0..1
+
+  const H = height;
+  const PLOT_BOTTOM = H - AXIS_H;
+
+  // Union time grid across every outcome, normalized per grid point so the
+  // lines mirror each other: a spike in one outcome dips its rivals.
+  const { grid, tMin, tMax, lo, hi } = useMemo(() => {
+    const now = Date.now();
+    const tapes = series.map(seriesOf);
+    const span = RANGES.find((r) => r.key === range)!.ms;
+    const cutoff = span === Infinity ? -Infinity : now - span;
+
+    const stamps = new Set<number>();
+    for (const tape of tapes) {
+      for (const pt of tape) if (pt.t >= cutoff) stamps.add(pt.t);
+    }
+    stamps.add(now);
+    // Anchor the left edge so lines enter the frame at their true level.
+    if (cutoff !== -Infinity) stamps.add(cutoff);
+    const times = [...stamps].sort((a, b) => a - b);
+
+    const grid = times.map((t) => {
+      const raw = tapes.map((tape) => valueAt(tape, t));
+      const sum = raw.reduce((s, v) => s + v, 0);
+      return { t, values: raw.map((v) => (sum > 0 ? v / sum : 1 / raw.length)) };
+    });
+
+    const tMin = grid.length > 0 ? grid[0].t : now - 86_400_000;
+    const tMaxRaw = grid.length > 0 ? grid[grid.length - 1].t : now;
+    const tMax = tMaxRaw > tMin ? tMaxRaw : tMin + 1;
+
+    let lo = 1;
+    let hi = 0;
+    for (const g of grid) for (const v of g.values) {
+      if (v < lo) lo = v;
+      if (v > hi) hi = v;
+    }
+    lo = Math.max(0, lo - 0.05);
+    hi = Math.min(1, hi + 0.05);
+    if (hi - lo < 0.25) {
+      const mid = (hi + lo) / 2;
+      lo = Math.max(0, mid - 0.125);
+      hi = Math.min(1, lo + 0.25);
+    }
+    return { grid, tMin, tMax, lo, hi };
+  }, [series, range]);
+
+  const xFor = (t: number) => ((t - tMin) / (tMax - tMin)) * W;
+  const yFor = (p: number) => PLOT_TOP + (PLOT_BOTTOM - PLOT_TOP) * (1 - (p - lo) / (hi - lo));
+  // HTML overlays position in % of the rendered box, not SVG units.
+  const xPct = (t: number) => ((t - tMin) / (tMax - tMin)) * 100;
+  const yPx = yFor;
+
+  if (grid.length < 2) {
+    return (
+      <div style={{ height: H, display: "flex", alignItems: "center", justifyContent: "center", color: "#6B6B6B", fontSize: 13 }}>
+        Ende pa mjaftueshëm të dhëna historike
+      </div>
+    );
+  }
 
   const onMove = (clientX: number) => {
     const rect = plotRef.current?.getBoundingClientRect();
     if (!rect || rect.width === 0) return;
-    setHover(Math.max(0, Math.min(1, (clientX - rect.left) / rect.width)));
+    const frac = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
+    const t = tMin + frac * (tMax - tMin);
+    // Snap to the nearest recorded point — each 5-min cron snapshot is a stop.
+    let best = 0;
+    for (let i = 1; i < grid.length; i++) {
+      if (Math.abs(grid[i].t - t) < Math.abs(grid[best].t - t)) best = i;
+    }
+    setHoverI(best);
   };
+
+  const hover = hoverI === null ? null : grid[hoverI];
+  const last = grid[grid.length - 1];
+  const ticks = ticksFor(lo, hi);
+
+  const spanMs = tMax - tMin;
+  const axisTicks = [0.08, 0.36, 0.64, 0.92].map((f) => {
+    const d = new Date(tMin + f * spanMs);
+    const label =
+      spanMs <= 2 * 86_400_000
+        ? d.toLocaleTimeString("sq-AL", { hour: "2-digit", minute: "2-digit" })
+        : d.toLocaleDateString("sq-AL", { day: "numeric", month: "short" });
+    return { f, label };
+  });
+
+  // Endpoint chips: live normalized odds at each line's end, pushed apart so
+  // labels never overlap.
+  const chips = series
+    .map((s, i) => ({ s, v: last.values[i], y: yPx(last.values[i]) }))
+    .sort((a, b) => a.y - b.y);
+  for (let i = 1; i < chips.length; i++) {
+    if (chips[i].y - chips[i - 1].y < 26) chips[i].y = chips[i - 1].y + 26;
+  }
 
   const hoverRows =
     hover === null
       ? []
       : series
-          .map((s) => ({ label: s.label, color: s.color, v: valueAt(tapeOf(s), hover) }))
+          .map((s, i) => ({ label: s.label, color: s.color, v: hover.values[i] }))
           .sort((a, b) => b.v - a.v);
 
-  const ticks = ticksFor(lo, hi);
-
-  // Endpoint chips: keep 20px apart, favourite label wins its spot first.
-  const chips = series
-    .map((s) => ({ s, y: yPx(s.prob) }))
-    .sort((a, b) => a.y - b.y);
-  for (let i = 1; i < chips.length; i++) {
-    if (chips[i].y - chips[i - 1].y < 20) chips[i].y = chips[i - 1].y + 20;
-  }
-
   return (
-    <div className="tregu-gchart" style={{ height }}>
-      <div
-        className="tregu-gchart-plot"
-        ref={plotRef}
-        style={{ touchAction: "pan-y" }}
-        onPointerMove={(e) => onMove(e.clientX)}
-        onPointerLeave={() => setHover(null)}
-      >
-        <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden>
-          {ticks.map((t) => (
-            <line
-              key={t}
-              x1="0"
-              x2="100"
-              y1={yPct(t)}
-              y2={yPct(t)}
-              stroke="rgba(17,17,17,0.07)"
-              strokeWidth="1"
-              vectorEffect="non-scaling-stroke"
-            />
+    <div>
+      <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: 10 }}>
+        <div className="tregu-sort" role="tablist" aria-label="Periudha e grafikut">
+          {RANGES.map((r) => (
+            <button key={r.key} aria-pressed={range === r.key} onClick={() => setRange(r.key)} type="button">
+              {r.key}
+            </button>
           ))}
-          {series.map((s) => {
-            const pts = tapeOf(s);
-            const step = 100 / (pts.length - 1);
-            const d = pts
-              .map((p, i) => `${i === 0 ? "M" : "L"}${(i * step).toFixed(2)} ${yPct(p)}`)
-              .join(" ");
-            return (
-              <path
-                key={s.label}
-                d={d}
-                fill="none"
-                stroke={s.color}
-                strokeWidth="2.5"
-                strokeLinejoin="round"
-                strokeLinecap="round"
+        </div>
+      </div>
+
+      <div className="tregu-gchart" style={{ height: H }}>
+        <div
+          className="tregu-gchart-plot"
+          ref={plotRef}
+          style={{ touchAction: "pan-y" }}
+          onPointerMove={(e) => onMove(e.clientX)}
+          onPointerLeave={() => setHoverI(null)}
+        >
+          <svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" aria-hidden>
+            {ticks.map((t) => (
+              <line
+                key={t}
+                x1="0"
+                x2={W}
+                y1={yFor(t)}
+                y2={yFor(t)}
+                stroke="rgba(17,17,17,0.07)"
+                strokeWidth="1"
                 vectorEffect="non-scaling-stroke"
               />
-            );
-          })}
-        </svg>
-        {/* Endpoint dots sit on the plot's right edge at each line's live price. */}
-        {series.map((s) => (
-          <span
-            key={s.label}
-            className="tregu-gchart-dot"
-            style={{ top: yPx(s.prob), background: s.color }}
-            aria-hidden
-          />
-        ))}
-
-        {/* Hover crosshair: vertical line + a dot on every outcome's line. */}
-        {hover !== null && (
-          <>
-            <span className="tregu-gchart-cross" style={{ left: `${hover * 100}%` }} aria-hidden />
-            {hoverRows.map((r) => (
-              <span
-                key={r.label}
-                className="tregu-gchart-dot"
-                style={{ top: yPx(r.v), left: `${hover * 100}%`, right: "auto", background: r.color }}
-                aria-hidden
-              />
             ))}
+            {series.map((s, si) => {
+              const d = grid
+                .map((g, i) => `${i === 0 ? "M" : "L"}${xFor(g.t).toFixed(1)} ${yFor(g.values[si]).toFixed(1)}`)
+                .join(" ");
+              return (
+                <path
+                  key={s.label}
+                  d={d}
+                  fill="none"
+                  stroke={s.color}
+                  strokeWidth="2.25"
+                  strokeLinejoin="round"
+                  strokeLinecap="round"
+                  vectorEffect="non-scaling-stroke"
+                />
+              );
+            })}
+            {hover && (
+              <line
+                x1={xFor(hover.t)}
+                x2={xFor(hover.t)}
+                y1={PLOT_TOP}
+                y2={PLOT_BOTTOM}
+                stroke="rgba(17,17,17,0.30)"
+                strokeDasharray="3 3"
+                vectorEffect="non-scaling-stroke"
+              />
+            )}
+          </svg>
+
+          {/* Live endpoint dots (hover moves them to the crosshair point). */}
+          {series.map((s, i) => (
+            <span
+              key={s.label}
+              className="tregu-gchart-dot"
+              style={
+                hover
+                  ? { top: yPx(hover.values[i]), left: `${xPct(hover.t)}%`, right: "auto", background: s.color }
+                  : { top: yPx(last.values[i]), background: s.color }
+              }
+              aria-hidden
+            />
+          ))}
+
+          {/* Time axis — HTML so it never stretches with the SVG. */}
+          {axisTicks.map((tick) => (
+            <span
+              key={tick.f}
+              className="tregu-axis-label"
+              style={{ left: `${tick.f * 100}%`, bottom: 2, transform: "translateX(-50%)" }}
+            >
+              {tick.label}
+            </span>
+          ))}
+
+          {hover && (
             <div
               className="tregu-chart-tip"
-              style={{
-                left: `${Math.max(12, Math.min(88, hover * 100))}%`,
-                top: 4,
-              }}
+              style={{ left: `${Math.max(14, Math.min(86, xPct(hover.t)))}%`, top: 2 }}
             >
+              <div className="tregu-chart-tip-date">
+                {new Date(hover.t).toLocaleDateString("sq-AL", { day: "numeric", month: "short" })}{" "}
+                {new Date(hover.t).toLocaleTimeString("sq-AL", { hour: "2-digit", minute: "2-digit" })}
+              </div>
               {hoverRows.map((r) => (
                 <div key={r.label} className="tregu-chart-tip-row">
                   <span className="tregu-chart-tip-dot" style={{ background: r.color }} />
-                  {r.label} <strong>{Math.round(r.v * 100)}%</strong>
+                  {r.label} <strong>{(r.v * 100).toFixed(1)}%</strong>
                 </div>
               ))}
             </div>
-          </>
-        )}
-      </div>
+          )}
+        </div>
 
-      {/* Right gutter: % axis + outcome chips at their line heights. */}
-      <div className="tregu-gchart-gutter" aria-hidden>
-        {ticks.map((t) => (
-          <span key={t} className="tregu-gchart-tick" style={{ top: yPx(t) }}>
-            {Math.round(t * 100)}%
+        {/* Right gutter: % axis. */}
+        <div className="tregu-gchart-gutter" aria-hidden>
+          {ticks.map((t) => (
+            <span key={t} className="tregu-gchart-tick" style={{ top: yPx(t) }}>
+              {Math.round(t * 100)}%
+            </span>
+          ))}
+        </div>
+        {chips.map(({ s, v, y }) => (
+          <span key={s.label} className="tregu-gchart-chip" style={{ top: y }}>
+            <span className="tregu-gchart-chip-dot" style={{ background: s.color }} />
+            <span className="tregu-gchart-chip-name">{s.label}</span>
+            <strong style={{ color: s.color }}>{(v * 100).toFixed(1)}%</strong>
           </span>
         ))}
       </div>
-      {chips.map(({ s, y }) => (
-        <span key={s.label} className="tregu-gchart-chip" style={{ top: y }}>
-          <span className="tregu-gchart-chip-dot" style={{ background: s.color }} />
-          {s.label} {Math.round(s.prob * 100)}%
-        </span>
-      ))}
     </div>
   );
 }

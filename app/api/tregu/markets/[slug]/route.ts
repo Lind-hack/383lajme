@@ -1,6 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { lmsrPriceYes } from "@/lib/tregu";
+import { parseEvent, slugKey } from "@/lib/tregu-groups";
 
 export const dynamic = "force-dynamic";
 
@@ -125,6 +126,48 @@ export async function GET(
     .select("id", { count: "exact", head: true })
     .eq("market_id", market.id);
 
+  // Multi-outcome event: sibling books share the "<Event>: <Outcome>?" title.
+  // Ship every sibling's timestamped snapshot series so the event chart can
+  // draw real 5-minute cron points instead of index-based sparklines.
+  let event: {
+    title: string;
+    outcomes: { slug: string; question: string; prob: number; series: { t: number; p: number }[] }[];
+  } | null = null;
+  const parsed = parseEvent(market.question);
+  if (parsed) {
+    const { data: candidates } = await supabase
+      .from("markets")
+      .select("id, slug, question, q_yes, q_no, b, status")
+      .in("status", ["open", "closed"])
+      .limit(60);
+    const key = slugKey(parsed.title);
+    const siblings = (candidates ?? []).filter((m) => {
+      const p = parseEvent(m.question);
+      return p !== null && slugKey(p.title) === key;
+    });
+    if (siblings.length >= 2) {
+      const ids = siblings.map((s) => s.id);
+      const { data: sibSnaps } = await supabase
+        .from("market_snapshots")
+        .select("market_id, market_prob, created_at")
+        .in("market_id", ids)
+        .order("created_at", { ascending: true })
+        .limit(1000);
+      const nowT = Date.now();
+      event = {
+        title: parsed.title,
+        outcomes: siblings.map((s) => {
+          const prob = lmsrPriceYes(s.q_yes, s.q_no, s.b);
+          const series = (sibSnaps ?? [])
+            .filter((r) => r.market_id === s.id)
+            .map((r) => ({ t: new Date(r.created_at).getTime(), p: Number(r.market_prob) }));
+          series.push({ t: nowT, p: prob });
+          return { slug: s.slug, question: s.question, prob, series };
+        }),
+      };
+    }
+  }
+
   const relatedWithProb = (related ?? []).map((m) => ({
     slug: m.slug,
     question: m.question,
@@ -136,6 +179,7 @@ export async function GET(
 
   return NextResponse.json({
     market: { ...market, market_prob: currentProb },
+    event,
     snapshots: snapshots ?? [],
     trades: trades ?? [],
     activity: activity ?? [],

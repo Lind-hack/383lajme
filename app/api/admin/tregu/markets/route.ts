@@ -35,6 +35,8 @@ export async function POST(request: NextRequest) {
         status?: "draft" | "open";
         resolutionRules?: string;
         resolutionSource?: string;
+        /** Seed LMSR opening price (0.02–0.98) instead of the 50/50 default. */
+        initialProb?: number;
       }
     | null;
 
@@ -45,9 +47,25 @@ export async function POST(request: NextRequest) {
   const slug = slugifyQuestion(body.question) || `treg-${Date.now()}`;
   const closesAt = new Date(Date.now() + (body.closesInDays ?? 30) * 86_400_000).toISOString();
 
+  // Seeded opening odds: lmsrPriceYes = 1/(1+e^((q_no−q_yes)/b)) = p when
+  // q_yes − q_no = b·ln(p/(1−p)). Keep one side at 0 so seeded volume is
+  // minimal and traders move the price easily.
+  let seed: { q_yes: number; q_no: number; b: number } | null = null;
+  if (typeof body.initialProb === "number" && Number.isFinite(body.initialProb)) {
+    const p = Math.min(0.98, Math.max(0.02, body.initialProb));
+    const b = 100;
+    const diff = b * Math.log(p / (1 - p));
+    seed = {
+      q_yes: Math.round(Math.max(0, diff) * 100) / 100,
+      q_no: Math.round(Math.max(0, -diff) * 100) / 100,
+      b,
+    };
+  }
+
   const { data, error } = await admin
     .from("markets")
     .insert({
+      ...(seed ?? {}),
       slug,
       question: body.question.trim(),
       description: body.description?.trim() || null,
