@@ -1,14 +1,15 @@
-# Pings the tregu odds-refresh endpoint every ~5 minutes so breaking news
-# moves market odds near-real-time. Vercel Hobby cron only fires daily —
-# GitHub Actions provides the high-frequency loop for free.
+# BACKUP pinger only. The primary 5-minute loop runs on cron-job.org
+# (exact timing, free) hitting the same endpoint with the same Bearer secret.
+# GitHub cron drifts/skips under load, so it's demoted to a 30-min safety net —
+# if cron-job.org ever lapses, odds still refresh at least twice an hour.
 #
 # Setup (one-time): repo → Settings → Secrets and variables → Actions →
 # add secret CRON_SECRET with the same value as the Vercel env var.
-name: Tregu Live Refresh
+name: Tregu Live Refresh (backup)
 
 on:
   schedule:
-    - cron: "*/5 * * * *"
+    - cron: "7,37 * * * *"
   workflow_dispatch:
 
 jobs:
