@@ -10,7 +10,19 @@ function summarize(runs: Run[] | null, cadenceSeconds: number) {
   const lastAt = lastSuccessful?.finished_at ? new Date(lastSuccessful.finished_at).getTime() : 0;
   const ageMs = lastAt ? Date.now() - lastAt : null;
   const status = latest?.status === "failed" ? "failed" : ageMs === null || ageMs > cadenceSeconds * 2_500 ? "stale" : ageMs <= cadenceSeconds * 1_250 ? "active" : "healthy";
-  return { cadence_seconds: cadenceSeconds, status, last_successful_refresh: lastSuccessful?.finished_at ?? null, latest_run: latest };
+  const details = (lastSuccessful?.details ?? latest?.details ?? {}) as Record<string, unknown>;
+  const recent_market_activity = Array.isArray(details.results) ? details.results.slice(0, 12).map((result) => {
+    const item = result && typeof result === "object" ? result as Record<string, unknown> : {};
+    const email = item.email_update && typeof item.email_update === "object" ? item.email_update as Record<string, unknown> : {};
+    return {
+      slug: String(item.slug ?? "—"), status: String(item.status ?? "unknown"), provider: item.provider ? String(item.provider) : null,
+      fallback_index: Number(item.fallback_index ?? 0),
+      before_probability: typeof email.before_probability === "number" ? email.before_probability : null,
+      after_probability: typeof email.after_probability === "number" ? email.after_probability : null,
+      question: typeof email.question === "string" ? email.question : null,
+    };
+  }) : [];
+  return { cadence_seconds: cadenceSeconds, status, last_successful_refresh: lastSuccessful?.finished_at ?? null, latest_run: latest, recent_market_activity };
 }
 
 export const dynamic = "force-dynamic";
