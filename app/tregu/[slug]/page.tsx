@@ -13,7 +13,7 @@ import { createClient } from "@/lib/supabase/client";
 import { previewBet, previewSell, lmsrPriceYes, type Side, type MarketTrade } from "@/lib/tregu-client";
 import { fmtNum } from "@/lib/format";
 import { DEMO_SLUG, demoDetail, demoEventMinis, isDemoEnabled } from "@/lib/tregu-demo";
-import { groupForSlug, type GroupOutcome, type MarketGroup } from "@/lib/tregu-groups";
+import { groupForSlug, parseEvent, type GroupOutcome, type MarketGroup } from "@/lib/tregu-groups";
 
 // Sibling outcome series from the detail API — real 5-min cron snapshots.
 interface EventOutcome {
@@ -768,7 +768,13 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                 <div style={{ display: "flex", flexDirection: "column" }}>
                   {related.map((m) => (
                     <Link key={m.slug} href={`/tregu/${m.slug}`} className="tregu-rel-row">
-                      <TeamFlag team={m.question} size={30} radius={9} label={m.question} />
+                      {/* Event questions carry both team names — flag must key off the outcome half. */}
+                      <TeamFlag
+                        team={parseEvent(m.question)?.outcome ?? m.question}
+                        size={30}
+                        radius={9}
+                        label={m.question}
+                      />
                       <span className="tregu-rel-q">{m.question}</span>
                       <span className="tregu-rel-pct">{Math.round(m.prob * 100)}%</span>
                     </Link>
