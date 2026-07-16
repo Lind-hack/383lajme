@@ -1,6 +1,7 @@
 import { getArticles } from "./db";
 import type { Article } from "./mock-data";
 import { llmJSON } from "./llm";
+import { liveHeadlinesFor } from "./live-news";
 
 export type { MarketCategory, MarketStatus, Side, Market, MarketSnapshot } from "./tregu-client";
 export { lmsrPriceYes, previewBet } from "./tregu-client";
@@ -39,15 +40,25 @@ interface AiScoreResult {
 
 /** Ask Groq to estimate P(market resolves PO) from recent article context. */
 export async function scoreMarketWithAI(market: Market): Promise<AiScoreResult> {
-  const articles = articlesForMarket(market);
+  const [articles, live] = await Promise.all([
+    Promise.resolve(articlesForMarket(market)),
+    liveHeadlinesFor(market.question, market.category),
+  ]);
   const context = articles
     .map((a) => `[${a.slug}] (${a.publishedAt}) ${a.title}\n${a.excerpt}`)
     .join("\n\n");
+  const liveContext = live
+    .map((h) => `- (para ${h.ageMin} min${h.source ? `, ${h.source}` : ""}) ${h.title}`)
+    .join("\n");
 
   const system =
-    "Je analist lajmesh per 383, nje sajt lajmesh ne Kosove. Vleresoje probabilitetin qe nje treg parashikimi te zgjidhet 'PO', bazuar VETEM ne artikujt e dhene. Kthe VETEM JSON: " +
+    "Je analist lajmesh per 383, nje sajt lajmesh ne Kosove. Vleresoje probabilitetin qe nje treg parashikimi te zgjidhet 'PO', bazuar VETEM ne artikujt dhe titujt e dhene. " +
+    "Titujt LIVE jane lajmet me te fundit nga interneti — nese nje titull i freskët ndryshon situaten, peshoje me shume se artikujt me te vjeter. Kthe VETEM JSON: " +
     `{"probability": 0.0-1.0, "reasoning": "shpjegim i shkurter shqip", "cited_slugs": ["slug1", "slug2"]}`;
-  const user = `Pyetja e tregut: "${market.question}"\n${market.description ? `Kontekst: ${market.description}\n` : ""}\nArtikuj te fundit:\n\n${context || "(pa artikuj te lidhur)"}`;
+  const user =
+    `Pyetja e tregut: "${market.question}"\n${market.description ? `Kontekst: ${market.description}\n` : ""}` +
+    `\nTituj LIVE nga interneti (oret e fundit):\n${liveContext || "(asnje titull live)"}` +
+    `\n\nArtikuj te fundit:\n\n${context || "(pa artikuj te lidhur)"}`;
 
   const parsed = await llmJSON<AiScoreResult>(system, user, { maxTokens: 600 });
   return {
