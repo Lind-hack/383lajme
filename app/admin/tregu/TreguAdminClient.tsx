@@ -31,6 +31,7 @@ interface RefreshSourceHealth {
   cadence_seconds: number;
   last_successful_refresh: string | null;
   latest_run: { status?: string; details?: Record<string, unknown>; error?: string | null } | null;
+  recent_market_activity: Array<{ slug: string; status: string; provider: string | null; fallback_index: number; before_probability: number | null; after_probability: number | null; question: string | null }>;
 }
 
 interface RefreshHealth {
@@ -245,9 +246,11 @@ function RefreshHealthPanel({ health, error }: { health: RefreshHealth | null; e
   const colors: Record<string, string> = { active: "#047857", healthy: "#2563EB", stale: "#B45309", failed: "#DC2626" };
   const llm = health?.llm_refresh;
   const live = health?.tregu_live;
-  const llmDetails = llm?.latest_run?.details ?? {};
-  const providers = Array.isArray(llmDetails.provider_used) ? llmDetails.provider_used.map(String) : [];
-  const providerState = (provider: string) => providers.includes(provider) ? "aktiv në run-in e fundit" : "pa përdorim në run-in e fundit";
+  const details = live?.latest_run?.details ?? {};
+  const providers = Array.isArray(details.provider_used) ? details.provider_used.map(String) : [];
+  const providerState = (provider: string) => providers.includes(provider) ? "u përdor në run-in e fundit" : "nuk u përdor në run-in e fundit";
+  const googleState = providers.some((provider) => provider === "google" || provider === "gemini") ? "u përdor në run-in e fundit" : "nuk u përdor në run-in e fundit";
+  const percentage = (value: number | null) => value === null ? "—" : `${(value * 100).toFixed(2)}%`;
   const runBlock = (label: string, source: RefreshSourceHealth | undefined, extras: React.ReactNode) => <div style={{ borderLeft: `4px solid ${colors[source?.status ?? "stale"]}`, paddingLeft: 12 }}>
     <strong>{label}: {source?.status?.toUpperCase() ?? "DUKE U NGARKUAR"}</strong>
     <div style={{ display: "grid", gap: 5, marginTop: 6 }}>
@@ -258,18 +261,27 @@ function RefreshHealthPanel({ health, error }: { health: RefreshHealth | null; e
     </div>
     {source?.latest_run?.error && <p style={{ color: "#B91C1C", margin: "8px 0 0", fontSize: 12 }}>Gabim i run-it: {source.latest_run.error}</p>}
   </div>;
+  const activity = live?.recent_market_activity ?? [];
   return <section style={{ ...card, borderLeft: `5px solid ${colors[live?.status ?? llm?.status ?? "stale"]}`, marginBottom: 20 }} aria-live="polite">
     <strong>Shëndeti i automatizimit Tregu</strong>
     {error && <p style={{ color: "#B91C1C", margin: "8px 0 0", fontSize: 13 }}>Nuk u lexua shëndeti i fundit; po shfaqet gjendja e ruajtur. Gabim: {error}</p>}
     <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(270px, 1fr))", gap: 18, marginTop: 12, fontSize: 13 }}>
-      {runBlock("Rifreskimi LLM (2 min)", llm, <>
-        <span>Groq: {providerState("groq")}</span><span>Google: {providerState("google")}</span>
-        <span>Skanuar: {String(llmDetails.open_markets_scanned ?? "—")} · Përditësime: {String(llmDetails.updates_applied ?? "—")}</span>
+      {runBlock("Groq → Google, lajme të verifikuara (5 min)", live, <>
+        <span>Groq: {providerState("groq")}</span><span>Google: {googleState}</span>
+        <span>Tregje të hapura të skanuara: {String(details.open_markets_scanned ?? "—")} · Ndryshime të aplikuara: {String(details.updates_applied ?? "—")}</span>
+        <span>Fallback: {Number(details.fallback_index ?? 0) > 0 ? `po (${String(details.fallback_reason ?? "gabim i pranueshëm i furnizuesit")})` : "jo"}</span>
       </>)}
-      {runBlock("tregu-live heartbeat (5 min)", live, <>
-        <span>Përditësime zyrtare: {String(live?.latest_run?.details?.official_updates ?? "—")}</span>
-        <span>ESPN ngjarje: {String(live?.latest_run?.details?.official_espn_events ?? "—")} · Shlyerje: {String(live?.latest_run?.details?.settled_market_count ?? "—")}</span>
-      </>)}
+      {runBlock("Historiku lokal LLM (2 min)", llm, <><span>Ky stream shfaq vetëm auditin lokal; nuk përdoret për të pretenduar ndryshime pa evidencë.</span></>)}
+    </div>
+    <div style={{ marginTop: 18, borderTop: "1px solid #E8E3DB", paddingTop: 14 }}>
+      <strong style={{ fontSize: 13 }}>Tregjet e kontrolluara — run-i i fundit 5-minutësh</strong>
+      {activity.length === 0 ? <p style={{ margin: "8px 0 0", fontSize: 12, color: "#6B6B6B" }}>Ende nuk ka tregje të ruajtura nga run-i i fundit.</p> : <div style={{ display: "grid", gap: 7, marginTop: 10 }}>
+        {activity.map((item, index) => <div key={`${item.slug}-${index}`} style={{ display: "grid", gridTemplateColumns: "minmax(0,1fr) auto", gap: 12, padding: "10px 12px", background: "#FAFAF9", borderRadius: 9, fontSize: 12 }}>
+          <div><strong>{item.question ?? item.slug}</strong><div style={{ color: "#6B6B6B", marginTop: 3 }}>{item.slug} · {item.status} · {item.provider ?? "pa thirrje AI"}{item.fallback_index > 0 ? ` · fallback ${item.fallback_index}` : ""}</div></div>
+          <div style={{ textAlign: "right", fontWeight: 800, color: item.before_probability === null ? "#6B6B6B" : "#047857" }}>{item.before_probability === null ? "Pa ndryshim" : `${percentage(item.before_probability)} → ${percentage(item.after_probability)}`}</div>
+        </div>)}
+      </div>}
+      <div style={{ marginTop: 10, fontSize: 11, color: "#6B6B6B" }}>Ndryshimet e aplikuara shfaqen me odds para/pas. Pa evidencë, tregu ruan rezultatin “Pa ndryshim”.</div>
     </div>
   </section>;
 }
