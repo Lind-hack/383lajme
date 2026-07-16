@@ -448,7 +448,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
             {group && currentOutcome ? (
               <>
                 {/* Combined event chart — every outcome's live line, Polymarket-style. */}
-                <div className="tregu-panel" style={{ padding: 24 }}>
+                <div className="tregu-panel tregu-polymarket-compare" style={{ padding: 24 }}>
                   <h3 style={{ fontSize: 15, fontWeight: 800, margin: "0 0 14px" }}>Të gjitha rezultatet</h3>
                   <GroupChart
                     height={280}

@@ -3094,3 +3094,22 @@ header[data-overlay] .nav-coin-chip {
   font-size: 13px;
 }
 .tregu-activity-row:last-child { border-bottom: none; }
+
+
+/* Polymarket-inspired comparison treatment for grouped event outcomes only. */
+.tregu-polymarket-compare {
+  background: #151a1f;
+  border-color: #29313a;
+  color: #edf3f8;
+  box-shadow: none;
+}
+.tregu-polymarket-compare .tregu-sort { background: #20272f; border-color: #36404b; }
+.tregu-polymarket-compare .tregu-sort button { color: #aeb9c5; }
+.tregu-polymarket-compare .tregu-sort button[aria-pressed="true"] { background: #303a45; color: #ffffff; }
+.tregu-polymarket-compare .tregu-gchart-tick,
+.tregu-polymarket-compare .tregu-axis-label { color: #91a0ae; }
+.tregu-polymarket-compare .tregu-gchart-dot { box-shadow: 0 0 0 3px #151a1f; }
+.tregu-polymarket-compare .tregu-gchart-chip { background: #20272f; border-color: #36404b; color: #edf3f8; box-shadow: none; }
+.tregu-polymarket-compare .tregu-gchart-chip-name { color: #d4dde7; }
+.tregu-polymarket-compare .tregu-chart-tip { background: #20272f; border-color: #3a4652; color: #edf3f8; }
+.tregu-polymarket-compare .tregu-chart-tip-date { color: #9eacba; }

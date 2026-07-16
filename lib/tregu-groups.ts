@@ -75,7 +75,11 @@ export function groupMarkets(minis: MiniMarket[]): {
     const colorOrder = [...g.members].sort((a, b) =>
       shortLabel(a.outcome).localeCompare(shortLabel(b.outcome), "sq")
     );
-    const colorOf = new Map(colorOrder.map((m, i) => [m.mini.slug, OUTCOME_COLORS[i % OUTCOME_COLORS.length]]));
+    const colorOf = new Map(colorOrder.map((m, i) => {
+      const label = shortLabel(m.outcome).toLowerCase();
+      const color = label === "spanja" ? "#ff5a52" : label === "argjentina" ? "#7bb6ff" : OUTCOME_COLORS[i % OUTCOME_COLORS.length];
+      return [m.mini.slug, color];
+    }));
     // Each outcome is an independent binary book, so raw PO prices can sum to
     // anything (e.g. 136%). Displayed odds are normalized to a 100% total —
     // trade execution still uses the raw book price.
