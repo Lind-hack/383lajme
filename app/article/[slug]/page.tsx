@@ -19,12 +19,12 @@ export default async function ArticlePage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const article = getArticleBySlug(slug);
+  const article = await getArticleBySlug(slug);
   if (!article) notFound();
 
   const catColor = getCategoryColor(article.category);
   const catBg = getCategoryBg(article.category, 0.08);
-  const allArticles = getArticles(50);
+  const allArticles = await getArticles(50);
 
   const related: typeof allArticles = [];
   const relatedKws: Set<string>[] = [];

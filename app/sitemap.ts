@@ -12,7 +12,7 @@ function toDate(value?: string): Date | undefined {
   return isNaN(d.getTime()) ? undefined : d;
 }
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticPages: MetadataRoute.Sitemap = [
     { url: BASE, changeFrequency: "hourly", priority: 1 },
     { url: `${BASE}/tregu`, changeFrequency: "daily", priority: 0.7 },
@@ -27,7 +27,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     })
   );
 
-  const articlePages: MetadataRoute.Sitemap = getArticles(500)
+  const articlePages: MetadataRoute.Sitemap = (await getArticles(500))
     .filter((a) => a.slug)
     .map((a) => ({
       url: `${BASE}/article/${a.slug}`,
