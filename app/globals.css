@@ -2697,6 +2697,10 @@ header[data-overlay] .nav-coin-chip {
   border-radius: 50%;
   flex-shrink: 0;
 }
+.tregu-gchart-chip-name {
+  font-weight: 600;
+  color: rgba(17, 17, 17, 0.62);
+}
 
 /* ── Multi-outcome event: per-outcome breakdown graph ─────── */
 .tregu-omini {
@@ -2822,6 +2826,72 @@ header[data-overlay] .nav-coin-chip {
 }
 .tregu-event-tab[data-active="true"] .tregu-gchart-chip-dot {
   box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.35);
+}
+
+/* ── Trade card: team switcher + related event rows ───────── */
+.tregu-team-switch {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 9px 10px;
+  border-radius: 12px;
+  border: 1px solid rgba(17, 17, 17, 0.1);
+  background: rgba(17, 17, 17, 0.03);
+  font-size: 13px;
+  font-weight: 800;
+  color: #111111;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    transform 160ms var(--ease-out),
+    background-color 200ms var(--ease-out),
+    border-color 200ms var(--ease-out);
+}
+.tregu-team-switch:hover {
+  background: rgba(17, 17, 17, 0.06);
+}
+.tregu-team-switch:active {
+  transform: scale(0.97);
+}
+.tregu-team-switch[data-active="true"] {
+  background: #111111;
+  border-color: #111111;
+  color: #f9f6f1;
+}
+.tregu-rel-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 0;
+  text-decoration: none;
+  color: #111111;
+  border-top: 1px solid rgba(17, 17, 17, 0.07);
+}
+.tregu-rel-row:first-child {
+  border-top: 0;
+  padding-top: 2px;
+}
+.tregu-rel-row:hover .tregu-rel-q {
+  text-decoration: underline;
+}
+.tregu-rel-q {
+  flex: 1;
+  min-width: 0;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.35;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.tregu-rel-pct {
+  font-size: 14px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  color: #00854a;
 }
 
 /* ── Group chart hover crosshair ──────────────────────────── */

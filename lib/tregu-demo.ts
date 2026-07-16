@@ -21,11 +21,18 @@ function noise(i: number): number {
 }
 
 // A price tape that drifts from `from` to `to` with believable wobble.
+// High-frequency jitter + occasional larger jolts make the line spike and
+// dip like a real order book instead of gliding smoothly.
 function tape(from: number, to: number, n = 22): number[] {
+  // Seed decorrelates tapes that share indices — without it, sibling
+  // outcomes get identical jitter and per-point normalization flattens it.
+  const seed = from * 137.31 + to * 61.7;
   return Array.from({ length: n }, (_, i) => {
     const t = i / (n - 1);
     const drift = from + (to - from) * (t * t * (3 - 2 * t)); // smoothstep
-    return Math.max(0.03, Math.min(0.97, drift + noise(i) * 0.03));
+    const jitter = noise(i + seed) * 0.035 + Math.sin((i + seed) * 78.233) * 0.5 * 0.02;
+    const jolt = i % 6 === 2 ? Math.sin((i + seed) * 39.425) * 0.5 * 0.08 : 0;
+    return Math.max(0.03, Math.min(0.97, drift + jitter + jolt));
   });
 }
 
@@ -98,41 +105,32 @@ export function demoMinis(): MiniMarket[] {
   ];
 }
 
-// ── Multi-outcome event sample: Anglia – Argjentina, 3 linked books ──
+// ── Multi-outcome event sample: Argjentina – Spanja (finalja e Botërorit) ──
 // Question prefix "<title>: <outcome>?" is what lib/tregu-groups.ts groups on.
 // Slugs start with "demo" so each outcome routes into the demo trading page.
+// A final always has a winner (vazhdime + penallti), so only 2 books.
 export function demoEventMinis(): MiniMarket[] {
-  const closes = new Date(now() + 8 * DAY).toISOString();
+  const closes = new Date(now() + 4 * DAY).toISOString();
   return [
     {
-      slug: "demo-ev-anglia",
-      question: "Anglia – Argjentina: Fiton Anglia?",
-      category: "sport",
-      prob: 0.33,
-      volume: 1240,
-      closesAt: closes,
-      spark: tape(0.38, 0.33),
-      delta7d: -0.05,
-    },
-    {
-      slug: "demo-ev-barazim",
-      question: "Anglia – Argjentina: Barazim?",
+      slug: "demo-ev-argjentina",
+      question: "Argjentina – Spanja: Fiton Argjentina?",
       category: "sport",
       prob: 0.42,
-      volume: 980,
+      volume: 2140,
       closesAt: closes,
-      spark: tape(0.31, 0.42),
-      delta7d: 0.11,
+      spark: tape(0.51, 0.42),
+      delta7d: -0.09,
     },
     {
-      slug: "demo-ev-argjentina",
-      question: "Anglia – Argjentina: Fiton Argjentina?",
+      slug: "demo-ev-spanja",
+      question: "Argjentina – Spanja: Fiton Spanja?",
       category: "sport",
-      prob: 0.26,
-      volume: 860,
+      prob: 0.58,
+      volume: 1890,
       closesAt: closes,
-      spark: tape(0.31, 0.26),
-      delta7d: -0.05,
+      spark: tape(0.49, 0.58),
+      delta7d: 0.09,
     },
   ];
 }
@@ -159,7 +157,7 @@ function demoEventDetail(ev: MiniMarket) {
     slug: ev.slug,
     question: ev.question,
     description:
-      "Miqësorja Anglia – Argjentina. Ky treg mbulon vetëm rezultatin pas 90 minutash (plus shtesat e gjyqtarit) — pa vazhdime, pa penallti.",
+      "Finalja e Kupës së Botës 2026: Argjentina – Spanja. Tregu ndjek fituesin e trofeut — vazhdimet dhe penalltitë llogariten, finalja ka gjithmonë një fitues.",
     category: "sport",
     status: "open",
     outcome: null as Side | null,
@@ -170,7 +168,7 @@ function demoEventDetail(ev: MiniMarket) {
     closes_at: ev.closesAt!,
     source_article_slugs: [] as string[],
     resolution_rules:
-      "Zgjidhet PO nëse ky rezultat ndodh pas 90 minutash lojë (përfshirë shtesat e gjyqtarit). Vazhdimet dhe penalltitë nuk llogariten.",
+      "Zgjidhet PO nëse kjo skuadër ngre trofeun — përfshirë vazhdimet dhe penalltitë. Finalja ka gjithmonë një fitues, prandaj njëri nga dy tregjet zgjidhet PO.",
     resolution_source: "Rezultati zyrtar i FIFA-s / transmetuesit zyrtar",
   };
 

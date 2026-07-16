@@ -5,14 +5,23 @@ import Link from "next/link";
 import Navbar from "@/components/navbar";
 import MarketChart from "@/components/tregu/market-chart";
 import GroupChart, { OutcomeMiniChart } from "@/components/tregu/group-chart";
-import MarketMiniCard, { type MiniMarket } from "@/components/tregu/market-mini-card";
+import { type MiniMarket } from "@/components/tregu/market-mini-card";
+import TeamFlag from "@/components/tregu/team-flag";
 import MarketSocial, { type HolderRow, type CommentItem } from "@/components/tregu/market-social";
 import CoinFace from "@/components/tregu/coin-face";
 import { createClient } from "@/lib/supabase/client";
 import { previewBet, previewSell, lmsrPriceYes, type Side, type MarketTrade } from "@/lib/tregu-client";
 import { fmtNum } from "@/lib/format";
 import { DEMO_SLUG, demoDetail, demoEventMinis, isDemoEnabled } from "@/lib/tregu-demo";
-import { groupForSlug, type MarketGroup } from "@/lib/tregu-groups";
+import { groupForSlug, type GroupOutcome, type MarketGroup } from "@/lib/tregu-groups";
+
+// Sibling outcome series from the detail API — real 5-min cron snapshots.
+interface EventOutcome {
+  slug: string;
+  question: string;
+  prob: number;
+  series: { t: number; p: number }[];
+}
 
 interface MarketDetail {
   id: string;
@@ -103,6 +112,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
   const [holders, setHolders] = useState<HolderRow[]>([]);
   const [comments, setComments] = useState<CommentItem[]>([]);
   const [group, setGroup] = useState<MarketGroup | null>(null);
+  const [eventData, setEventData] = useState<{ title: string; outcomes: EventOutcome[] } | null>(null);
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
   const [user, setUser] = useState<{ id: string } | null>(null);
@@ -164,6 +174,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
           return;
         }
         setMarket(d.market);
+        setEventData(d.event ?? null);
         setSnapshots(d.snapshots ?? []);
         setTrades(d.trades ?? []);
         setActivity(d.activity ?? []);
@@ -225,6 +236,14 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
       if (user) refreshBalance();
     });
   }, [slug, load, refreshBalance, demo]);
+
+  // Live refresh: the VPS cron reprices every 5 min and inserts a snapshot;
+  // polling each minute picks the new chart point up without a reload.
+  useEffect(() => {
+    if (demo) return;
+    const id = setInterval(load, 60_000);
+    return () => clearInterval(id);
+  }, [load, demo]);
 
   const heldOn = (s: Side) => positions.find((p) => p.side === s && p.shares > 0);
   const held = heldOn(side);
@@ -301,6 +320,20 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
   // PO → "Barazim", JO → "Jo Barazim".
   const sideLabel = (s: Side) =>
     currentOutcome ? (s === "PO" ? currentOutcome.label : `Jo ${currentOutcome.label}`) : s;
+  // Timestamped tape per outcome: real cron snapshots from the API when
+  // available, otherwise the hub sparkline mapped onto a 5-min grid ending now
+  // (demo + brand-new markets without snapshot history yet).
+  const eventSeriesFor = (o: GroupOutcome): { t: number; p: number }[] | undefined => {
+    const fromApi = eventData?.outcomes.find((x) => x.slug === o.slug)?.series;
+    if (fromApi && fromApi.length >= 2) return fromApi;
+    if (o.spark && o.spark.length >= 2) {
+      const now = Date.now();
+      const step = 5 * 60_000;
+      const n = o.spark.length;
+      return o.spark.map((p, i) => ({ t: now - (n - 1 - i) * step, p }));
+    }
+    return undefined;
+  };
   const currentPrice = lmsrPriceYes(market.q_yes, market.q_no, market.b);
   const sidePrice = side === "PO" ? currentPrice : 1 - currentPrice;
   const pct = Math.round(market.market_prob * 100);
@@ -418,12 +451,12 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                 <div className="tregu-panel" style={{ padding: 24 }}>
                   <h3 style={{ fontSize: 15, fontWeight: 800, margin: "0 0 14px" }}>Të gjitha rezultatet</h3>
                   <GroupChart
-                    height={220}
+                    height={280}
                     series={group.outcomes.map((o) => ({
                       label: o.label,
                       color: o.color,
-                      points: o.spark,
-                      prob: o.prob,
+                      series: eventSeriesFor(o),
+                      prob: o.rawProb,
                     }))}
                   />
                 </div>
@@ -476,6 +509,50 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
           {/* ── Right column ── */}
           <aside className="tregu-detail-side">
             <div className="tregu-panel tregu-edge" data-cat={market.category} style={{ padding: 24 }}>
+              {/* Event trade card header: cubic flag avatar + team, plus a
+                 switcher — changing team swaps BOTH the name and the flag. */}
+              {group && currentOutcome && (
+                <div style={{ marginBottom: 18 }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 14 }}>
+                    <TeamFlag team={currentOutcome.label} size={46} radius={13} label={currentOutcome.label} />
+                    <div style={{ minWidth: 0 }}>
+                      <div style={{ fontSize: 11.5, fontWeight: 700, color: "#6B6B6B", marginBottom: 2 }}>
+                        {group.title}
+                      </div>
+                      <div style={{ fontSize: 17, fontWeight: 800, lineHeight: 1.2 }}>{currentOutcome.label}</div>
+                    </div>
+                    <span
+                      style={{
+                        marginLeft: "auto",
+                        fontSize: 20,
+                        fontWeight: 800,
+                        color: currentOutcome.color,
+                        fontVariantNumeric: "tabular-nums",
+                      }}
+                    >
+                      {Math.round(currentOutcome.prob * 100)}%
+                    </span>
+                  </div>
+                  <div style={{ display: "flex", gap: 8 }} role="tablist" aria-label="Zgjidh skuadrën">
+                    {group.outcomes.map((o) => (
+                      <Link
+                        key={o.slug}
+                        href={`/tregu/${o.slug}`}
+                        className="tregu-team-switch"
+                        data-active={o.slug === slug}
+                        role="tab"
+                        aria-selected={o.slug === slug}
+                      >
+                        <TeamFlag team={o.label} size={20} radius={6} label={o.label} />
+                        <span>{o.label}</span>
+                        <span style={{ opacity: 0.72, fontVariantNumeric: "tabular-nums" }}>
+                          {Math.round(o.prob * 100)}%
+                        </span>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )}
               {!user ? (
                 <div style={{ textAlign: "center", padding: "20px 0" }}>
                   <p style={{ color: "#6B6B6B", marginBottom: 14 }}>
@@ -684,6 +761,22 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
               )}
             </div>
 
+            {/* Related events — compact rows under the trade card. */}
+            {related.length > 0 && (
+              <div className="tregu-panel" style={{ padding: "18px 20px" }}>
+                <h3 style={{ fontSize: 14, fontWeight: 800, margin: "0 0 10px" }}>Ngjarje të lidhura</h3>
+                <div style={{ display: "flex", flexDirection: "column" }}>
+                  {related.map((m) => (
+                    <Link key={m.slug} href={`/tregu/${m.slug}`} className="tregu-rel-row">
+                      <TeamFlag team={m.question} size={30} radius={9} label={m.question} />
+                      <span className="tregu-rel-q">{m.question}</span>
+                      <span className="tregu-rel-pct">{Math.round(m.prob * 100)}%</span>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {/* Sinjali AI — how the newest news-scored probability compares to
                the crowd. This is the surface of the 5-min refresh loop: when
                news moves the AI line away from the market, traders see the
@@ -747,17 +840,6 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
           </aside>
         </div>
 
-        {/* ── Related markets ── */}
-        {related.length > 0 && (
-          <section style={{ marginTop: 40 }}>
-            <h2 style={{ fontSize: 18, fontWeight: 800, margin: "0 0 16px" }}>Tregje të ngjashme</h2>
-            <div className="tregu-related-grid">
-              {related.map((m) => (
-                <MarketMiniCard key={m.slug} market={m} />
-              ))}
-            </div>
-          </section>
-        )}
       </main>
     </div>
   );
