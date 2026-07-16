@@ -6,6 +6,7 @@ import Navbar from "@/components/navbar";
 import MarketChart from "@/components/tregu/market-chart";
 import GroupChart, { OutcomeMiniChart } from "@/components/tregu/group-chart";
 import MarketMiniCard, { type MiniMarket } from "@/components/tregu/market-mini-card";
+import MarketSocial, { type HolderRow, type CommentItem } from "@/components/tregu/market-social";
 import CoinFace from "@/components/tregu/coin-face";
 import { createClient } from "@/lib/supabase/client";
 import { previewBet, previewSell, lmsrPriceYes, type Side, type MarketTrade } from "@/lib/tregu-client";
@@ -99,6 +100,8 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
   const [weeklyDelta, setWeeklyDelta] = useState<number | null>(null);
   const [tradeCount, setTradeCount] = useState(0);
   const [positions, setPositions] = useState<Position[]>([]);
+  const [holders, setHolders] = useState<HolderRow[]>([]);
+  const [comments, setComments] = useState<CommentItem[]>([]);
   const [group, setGroup] = useState<MarketGroup | null>(null);
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
@@ -127,6 +130,28 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
       setWeeklyDelta(d.weeklyDelta);
       setTradeCount(d.tradeCount);
       setPositions(d.positions);
+      // Demo social fixtures — design preview for the tabs.
+      setHolders([
+        { name: "Arbnor K.", side: "PO", shares: 240, coinsStaked: 132 },
+        { name: "Elira", side: "PO", shares: 155, coinsStaked: 96 },
+        { name: "Driton88", side: "JO", shares: 210, coinsStaked: 88 },
+        { name: "Vesa M.", side: "JO", shares: 74, coinsStaked: 41 },
+        { name: "Gent", side: "PO", shares: 52, coinsStaked: 30 },
+      ]);
+      setComments([
+        {
+          id: "demo-c1",
+          name: "Arbnor K.",
+          body: "Sondazhet e fundit tregojnë rritje të qartë — PO duket i fortë këtu.",
+          createdAt: new Date(Date.now() - 3 * 3_600_000).toISOString(),
+        },
+        {
+          id: "demo-c2",
+          name: "Driton88",
+          body: "Mos harroni çfarë ndodhi herën e kaluar, tregu po e mbivlerëson.",
+          createdAt: new Date(Date.now() - 26 * 3_600_000).toISOString(),
+        },
+      ]);
       setGroup(groupForSlug(demoEventMinis(), slug));
       setLoading(false);
       return;
@@ -146,6 +171,8 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
         setWeeklyDelta(d.weeklyDelta ?? null);
         setTradeCount(d.tradeCount ?? 0);
         setPositions(Array.isArray(d.position) ? d.position : []);
+        setHolders(d.holders ?? []);
+        setComments(d.comments ?? []);
       })
       .finally(() => setLoading(false));
     // Sibling outcome books ("<Ngjarja>: <Rezultati>?") live in the hub list —
@@ -267,6 +294,8 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
   }
 
   const latestEvidence = [...snapshots].reverse().find((s) => s.evidence && s.evidence.length > 0)?.evidence ?? [];
+  // Bonus: live AI signal — the newest news-scored probability vs the market.
+  const latestAiSnap = [...snapshots].reverse().find((s) => s.ai_prob !== null) ?? null;
   const currentOutcome = group?.outcomes.find((o) => o.slug === slug) ?? null;
   // Grouped events trade in outcome language, not raw PO/JO:
   // PO → "Barazim", JO → "Jo Barazim".
@@ -306,24 +335,35 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
   return (
     <div className="tregu-scope">
       <Navbar />
-      <main style={{ maxWidth: 1120, margin: "0 auto", padding: "104px 24px 80px" }}>
+      {/* Left-anchored container — Polymarket-style, not centered. */}
+      <main style={{ maxWidth: 1200, margin: 0, padding: "96px 24px 80px 32px" }}>
         <Link href="/tregu" style={{ color: "#6B6B6B", fontSize: 13, textDecoration: "none" }}>
           ← Tregu
         </Link>
 
-        {/* ── Header: pills, question, ticker ── */}
-        <div className="tregu-glass tregu-edge" data-cat={market.category} style={{ padding: "24px 28px", marginTop: 16, marginBottom: 24 }}>
-          <div style={{ display: "flex", alignItems: "center", flexWrap: "wrap", gap: 10, marginBottom: 14 }}>
+        {/* ── Header: flat, no card — question + live ticker row ── */}
+        <header style={{ marginTop: 14, marginBottom: 20 }}>
+          <div style={{ display: "flex", alignItems: "center", flexWrap: "wrap", gap: 10, marginBottom: 12 }}>
             <span className="tregu-pill">{CATEGORY_LABEL[market.category] ?? market.category}</span>
             {market.status === "resolved" && (
-              <span className="tregu-pill" style={{ color: market.outcome === "PO" ? "#00A651" : "#E41E20" }}>
+              <span className="tregu-pill" style={{ color: market.outcome === "PO" ? "#00854A" : "#C51518" }}>
                 U zgjidh: {market.outcome}
               </span>
             )}
             {market.status === "closed" && <span className="tregu-pill">Mbyllur</span>}
             {market.status === "open" && <span className="tregu-pill">{closesIn(market.closes_at)}</span>}
           </div>
-          <h1 style={{ fontSize: "clamp(24px, 3.5vw, 32px)", fontWeight: 800, margin: "0 0 8px", lineHeight: 1.25 }}>
+          <h1
+            style={{
+              fontSize: "clamp(24px, 3.2vw, 34px)",
+              fontWeight: 800,
+              margin: "0 0 10px",
+              lineHeight: 1.2,
+              letterSpacing: "-0.015em",
+              textWrap: "balance",
+              maxWidth: "26ch",
+            }}
+          >
             {group && currentOutcome ? group.title : market.question}
           </h1>
           {group && currentOutcome && (
@@ -343,49 +383,39 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
               ))}
             </div>
           )}
-          {market.description && <p style={{ color: "#6B6B6B", fontSize: 14, margin: "0 0 16px" }}>{market.description}</p>}
-          <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", flexWrap: "wrap", gap: 16 }}>
-            <div style={{ display: "flex", alignItems: "baseline", flexWrap: "wrap", gap: 12 }}>
-              <span style={{ fontSize: 44, fontWeight: 800, lineHeight: 1, color: "#111111", fontVariantNumeric: "tabular-nums" }}>
+          {market.description && (
+            <p style={{ color: "#555555", fontSize: 14, margin: "0 0 14px", maxWidth: "70ch", lineHeight: 1.55 }}>
+              {market.description}
+            </p>
+          )}
+          <div style={{ display: "flex", alignItems: "baseline", flexWrap: "wrap", gap: "12px 22px" }}>
+            <span style={{ display: "inline-flex", alignItems: "baseline", gap: 10 }}>
+              <span style={{ fontSize: 40, fontWeight: 800, lineHeight: 1, color: "#111111", fontVariantNumeric: "tabular-nums" }}>
                 {pct}%
               </span>
-              <span style={{ fontSize: 15, fontWeight: 700, color: "#6B6B6B" }}>
+              <span style={{ fontSize: 14, fontWeight: 700, color: "#6B6B6B" }}>
                 {currentOutcome ? `gjasa ${currentOutcome.label}` : "gjasa PO"}
               </span>
-              {deltaPp !== null && deltaPp !== 0 && (
-                <span className="tregu-delta-chip" data-dir={deltaPp > 0 ? "up" : "down"}>
-                  {deltaPp > 0 ? "▲" : "▼"} {Math.abs(deltaPp)}pp këtë javë
-                </span>
-              )}
-            </div>
-            <div style={{ display: "flex", gap: 28, flexWrap: "wrap" }}>
-              {[
-                { label: "Vëllimi", value: `${fmtNum(volume)} 383C` },
-                { label: "Tregtime", value: fmtNum(tradeCount) },
-                ...(closesDateLabel ? [{ label: isClosed ? "U mbyll" : "Mbyllet", value: closesDateLabel }] : []),
-              ].map((s) => (
-                <div key={s.label}>
-                  <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "#6B6B6B", marginBottom: 4 }}>
-                    {s.label}
-                  </div>
-                  <div style={{ fontSize: 15, fontWeight: 800, color: "#111111", fontVariantNumeric: "tabular-nums" }}>{s.value}</div>
-                </div>
-              ))}
-            </div>
+            </span>
+            {deltaPp !== null && deltaPp !== 0 && (
+              <span className="tregu-delta-chip" data-dir={deltaPp > 0 ? "up" : "down"}>
+                {deltaPp > 0 ? "▲" : "▼"} {Math.abs(deltaPp)}pp këtë javë
+              </span>
+            )}
+            <span style={{ fontSize: 13, fontWeight: 700, color: "#555555", fontVariantNumeric: "tabular-nums" }}>
+              {fmtNum(volume)} 383C vëllim · {fmtNum(tradeCount)} tregtime
+              {closesDateLabel ? ` · ${isClosed ? "u mbyll" : "mbyllet"} ${closesDateLabel}` : ""}
+            </span>
           </div>
-          <div className="tregu-depth" aria-hidden style={{ marginTop: 18 }}>
-            <div className="tregu-depth-yes" style={{ width: `${pct}%` }} />
-            <div className="tregu-depth-no" style={{ width: `${100 - pct}%` }} />
-          </div>
-        </div>
+        </header>
 
-        {/* ── 2-col: chart + feed | bet slip + rules ── */}
+        {/* ── 2-col: chart + social tabs | bet slip + AI signal + rules ── */}
         <div className="tregu-detail-grid">
-          <div style={{ display: "flex", flexDirection: "column", gap: 24, minWidth: 0 }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 20, minWidth: 0 }}>
             {group && currentOutcome ? (
               <>
                 {/* Combined event chart — every outcome's live line, Polymarket-style. */}
-                <div className="tregu-glass" style={{ padding: 24 }}>
+                <div className="tregu-panel" style={{ padding: 24 }}>
                   <h3 style={{ fontSize: 15, fontWeight: 800, margin: "0 0 14px" }}>Të gjitha rezultatet</h3>
                   <GroupChart
                     height={220}
@@ -398,7 +428,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                   />
                 </div>
                 {/* One graph per outcome — each book's own live probability. */}
-                <div className="tregu-glass" style={{ padding: 24 }}>
+                <div className="tregu-panel" style={{ padding: 24 }}>
                   <h3 style={{ fontSize: 15, fontWeight: 800, margin: "0 0 14px" }}>Gjasat sipas rezultatit</h3>
                   <div className="tregu-omini-grid">
                     {group.outcomes.map((o) => (
@@ -408,34 +438,25 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                 </div>
               </>
             ) : (
-              <div className="tregu-glass" style={{ padding: 24 }}>
+              <div className="tregu-panel" style={{ padding: 24 }}>
                 <MarketChart trades={trades} snapshots={snapshots} currentProb={market.market_prob} />
               </div>
             )}
 
-            {activity.length > 0 && (
-              <div className="tregu-glass" style={{ padding: 24 }}>
-                <h3 style={{ fontSize: 15, fontWeight: 800, margin: "0 0 14px" }}>Aktiviteti</h3>
-                <div style={{ display: "flex", flexDirection: "column" }}>
-                  {activity.map((t) => (
-                    <div key={t.id} className="tregu-activity-row">
-                      <div style={{ minWidth: 0 }}>
-                        <span style={{ fontWeight: 700 }}>{t.profiles?.display_name || "Anonim"}</span>{" "}
-                        <span style={{ color: "#6B6B6B" }}>{t.action === "buy" ? "bleu" : "shiti"}</span>{" "}
-                        <span style={{ fontWeight: 800, color: t.side === "PO" ? "#00A651" : "#E41E20" }}>{t.side}</span>{" "}
-                        <span style={{ color: "#6B6B6B", fontVariantNumeric: "tabular-nums" }}>
-                          {Number(t.coins).toFixed(0)} 383C · {Math.round(t.price_yes * 100)}%
-                        </span>
-                      </div>
-                      <span style={{ color: "#6B6B6B", fontSize: 11, whiteSpace: "nowrap" }}>{timeAgo(t.created_at)}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
+            {/* Komentet | Mbajtësit | Pozicionet | Aktiviteti */}
+            <MarketSocial
+              marketId={market.id}
+              holders={holders}
+              comments={comments}
+              activity={activity}
+              priceYes={currentPrice}
+              sideLabel={sideLabel}
+              loggedIn={Boolean(user)}
+              demo={demo}
+            />
 
             {latestEvidence.length > 0 && (
-              <div className="tregu-glass" style={{ padding: 24 }}>
+              <div className="tregu-panel" style={{ padding: 24 }}>
                 <h3 style={{ fontSize: 15, fontWeight: 800, margin: "0 0 14px" }}>Bazuar në lajme</h3>
                 <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                   {latestEvidence.map((e) => (
@@ -454,7 +475,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
 
           {/* ── Right column ── */}
           <aside className="tregu-detail-side">
-            <div className="tregu-glass tregu-glass-hi tregu-edge" data-cat={market.category} style={{ padding: 24 }}>
+            <div className="tregu-panel tregu-edge" data-cat={market.category} style={{ padding: 24 }}>
               {!user ? (
                 <div style={{ textAlign: "center", padding: "20px 0" }}>
                   <p style={{ color: "#6B6B6B", marginBottom: 14 }}>
@@ -663,8 +684,50 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
               )}
             </div>
 
+            {/* Sinjali AI — how the newest news-scored probability compares to
+               the crowd. This is the surface of the 5-min refresh loop: when
+               news moves the AI line away from the market, traders see the
+               edge before the odds catch up. */}
+            {latestAiSnap && latestAiSnap.ai_prob !== null && (
+              <div className="tregu-panel" style={{ padding: 24 }}>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
+                  <h3 style={{ fontSize: 15, fontWeight: 800, margin: 0 }}>Sinjali AI</h3>
+                  <span style={{ fontSize: 11, color: "#6B6B6B" }}>{timeAgo(latestAiSnap.created_at)}</span>
+                </div>
+                {(() => {
+                  const ai = latestAiSnap.ai_prob as number;
+                  const gapPp = Math.round((ai - market.market_prob) * 100);
+                  return (
+                    <>
+                      <div style={{ display: "flex", gap: 24, marginBottom: 12 }}>
+                        <div>
+                          <div style={{ fontSize: 11, fontWeight: 700, color: "#6B6B6B", marginBottom: 2 }}>AI nga lajmet</div>
+                          <div style={{ fontSize: 22, fontWeight: 800, color: "#B45309", fontVariantNumeric: "tabular-nums" }}>
+                            {Math.round(ai * 100)}%
+                          </div>
+                        </div>
+                        <div>
+                          <div style={{ fontSize: 11, fontWeight: 700, color: "#6B6B6B", marginBottom: 2 }}>Tregu</div>
+                          <div style={{ fontSize: 22, fontWeight: 800, color: "#00854A", fontVariantNumeric: "tabular-nums" }}>
+                            {pct}%
+                          </div>
+                        </div>
+                      </div>
+                      <p style={{ fontSize: 12.5, color: "#555555", lineHeight: 1.55, margin: 0 }}>
+                        {Math.abs(gapPp) < 3
+                          ? "AI dhe tregu pajtohen — çmimi duket i drejtë."
+                          : gapPp > 0
+                            ? `AI e vlerëson ${sideLabel("PO")} ${Math.abs(gapPp)}pp më lart se tregu — lajmet e fundit anojnë PO.`
+                            : `AI e vlerëson ${sideLabel("PO")} ${Math.abs(gapPp)}pp më poshtë se tregu — lajmet e fundit anojnë JO.`}
+                      </p>
+                    </>
+                  );
+                })()}
+              </div>
+            )}
+
             {/* Resolution rules — the trust surface. */}
-            <div className="tregu-glass" style={{ padding: 24 }}>
+            <div className="tregu-panel" style={{ padding: 24 }}>
               <h3 style={{ fontSize: 15, fontWeight: 800, margin: "0 0 10px" }}>Rregullat e zgjidhjes</h3>
               <p style={{ fontSize: 13, color: "#111111", lineHeight: 1.6, margin: "0 0 12px" }}>
                 {market.resolution_rules ||

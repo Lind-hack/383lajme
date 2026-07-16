@@ -2823,3 +2823,204 @@ header[data-overlay] .nav-coin-chip {
 .tregu-event-tab[data-active="true"] .tregu-gchart-chip-dot {
   box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.35);
 }
+
+/* ── Group chart hover crosshair ──────────────────────────── */
+.tregu-gchart-cross {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 0;
+  border-left: 1px dashed rgba(17, 17, 17, 0.35);
+  pointer-events: none;
+}
+
+/* ── Detail page: serious panel (flat, hairline — not glass) ── */
+.tregu-panel {
+  background: #ffffff;
+  border: 1px solid rgba(17, 17, 17, 0.09);
+  border-radius: 14px;
+  box-shadow: 0 1px 3px rgba(17, 17, 17, 0.04);
+}
+
+/* ── Social tabs: Komentet | Mbajtësit | Pozicionet | Aktiviteti ── */
+.tregu-tabs {
+  display: flex;
+  gap: 2px;
+  padding: 0 12px;
+  border-bottom: 1px solid rgba(17, 17, 17, 0.08);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.tregu-tabs::-webkit-scrollbar { display: none; }
+.tregu-tab {
+  appearance: none;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  padding: 14px 12px 12px;
+  font-family: inherit;
+  font-size: 13.5px;
+  font-weight: 800;
+  color: var(--tg-muted, #6B6B6B);
+  cursor: pointer;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 160ms var(--ease-out), border-color 160ms var(--ease-out);
+}
+.tregu-tab:hover { color: var(--tg-text, #111111); }
+.tregu-tab[data-active="true"] {
+  color: var(--tg-text, #111111);
+  border-bottom-color: #111111;
+}
+.tregu-tab-count {
+  font-size: 11px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  padding: 1px 7px;
+  border-radius: 100px;
+  background: rgba(17, 17, 17, 0.07);
+  color: #444444;
+}
+
+.tregu-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 800;
+  flex-shrink: 0;
+  user-select: none;
+}
+
+.tregu-comment-box { margin-bottom: 20px; }
+.tregu-comment-box textarea {
+  width: 100%;
+  resize: vertical;
+  min-height: 56px;
+  padding: 12px 14px;
+  border: 1px solid rgba(17, 17, 17, 0.12);
+  border-radius: 12px;
+  background: rgba(17, 17, 17, 0.02);
+  font-family: inherit;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--tg-text, #111111);
+  margin-bottom: 8px;
+  transition: border-color 160ms var(--ease-out), background-color 160ms var(--ease-out);
+}
+.tregu-comment-box textarea:focus {
+  outline: none;
+  border-color: rgba(17, 17, 17, 0.35);
+  background: #ffffff;
+}
+.tregu-comment-box textarea::placeholder { color: #767676; }
+
+.tregu-comment {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.tregu-social-empty {
+  font-size: 13px;
+  color: #6B6B6B;
+  margin: 6px 0;
+}
+
+.tregu-holders-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px 28px;
+}
+.tregu-holders-head {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(17, 17, 17, 0.08);
+}
+.tregu-holder-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 0;
+}
+.tregu-holder-rank {
+  width: 18px;
+  font-size: 11px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  color: #767676;
+  flex-shrink: 0;
+}
+.tregu-holder-name {
+  font-size: 13px;
+  font-weight: 700;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+}
+.tregu-holder-shares {
+  font-size: 12px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: #444444;
+  white-space: nowrap;
+}
+
+.tregu-positions-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.tregu-positions-table th {
+  text-align: left;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: #6B6B6B;
+  padding: 6px 12px 8px 0;
+  border-bottom: 1px solid rgba(17, 17, 17, 0.09);
+  white-space: nowrap;
+}
+.tregu-positions-table td {
+  padding: 9px 12px 9px 0;
+  border-bottom: 1px solid rgba(17, 17, 17, 0.05);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.tregu-positions-table tr:last-child td { border-bottom: none; }
+
+.tregu-side-chip {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 100px;
+  font-size: 11px;
+  font-weight: 800;
+}
+.tregu-side-chip[data-side="PO"] { background: var(--tg-yes-dim, rgba(0,166,81,0.12)); color: #007040; }
+.tregu-side-chip[data-side="JO"] { background: var(--tg-no-dim, rgba(228,30,32,0.12)); color: #B01214; }
+
+.tregu-pnl-pos { color: #007040; font-weight: 800; }
+.tregu-pnl-neg { color: #C51518; font-weight: 800; }
+
+.tregu-activity-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 9px 0;
+  border-bottom: 1px solid rgba(17, 17, 17, 0.05);
+  font-size: 13px;
+}
+.tregu-activity-row:last-child { border-bottom: none; }

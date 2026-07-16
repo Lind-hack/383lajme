@@ -1,9 +1,12 @@
 "use client";
 
+import { useRef, useState } from "react";
+
 // Multi-outcome price charts — the Polymarket-style view for grouped events.
 // GroupChart overlays every outcome's tape in its own colour with endpoint
-// dot + "Label NN%" chips; OutcomeMiniChart is the single-outcome graph used
-// for the per-outcome breakdown row. SVG carries only geometry
+// dot + "Label NN%" chips, plus a hover crosshair that reads every line at
+// the pointer; OutcomeMiniChart is the single-outcome graph used for the
+// per-outcome breakdown row. SVG carries only geometry
 // (preserveAspectRatio="none" stretches text), so all labels are HTML
 // positioned over the plot.
 
@@ -48,6 +51,14 @@ function ticksFor(lo: number, hi: number): number[] {
   return out;
 }
 
+// Linear read of a tape at fractional position 0..1.
+function valueAt(pts: number[], frac: number): number {
+  const pos = frac * (pts.length - 1);
+  const i = Math.floor(pos);
+  const j = Math.min(pts.length - 1, i + 1);
+  return pts[i] + (pts[j] - pts[i]) * (pos - i);
+}
+
 export default function GroupChart({
   series,
   height = 200,
@@ -58,6 +69,21 @@ export default function GroupChart({
   const { lo, hi } = domain(series);
   const yPx = (p: number) => PAD + (height - 2 * PAD) * (1 - (p - lo) / (hi - lo));
   const yPct = (p: number) => ((yPx(p) / height) * 100).toFixed(2);
+  const plotRef = useRef<HTMLDivElement>(null);
+  const [hover, setHover] = useState<number | null>(null); // frac 0..1
+
+  const onMove = (clientX: number) => {
+    const rect = plotRef.current?.getBoundingClientRect();
+    if (!rect || rect.width === 0) return;
+    setHover(Math.max(0, Math.min(1, (clientX - rect.left) / rect.width)));
+  };
+
+  const hoverRows =
+    hover === null
+      ? []
+      : series
+          .map((s) => ({ label: s.label, color: s.color, v: valueAt(tapeOf(s), hover) }))
+          .sort((a, b) => b.v - a.v);
 
   const ticks = ticksFor(lo, hi);
 
@@ -71,7 +97,13 @@ export default function GroupChart({
 
   return (
     <div className="tregu-gchart" style={{ height }}>
-      <div className="tregu-gchart-plot">
+      <div
+        className="tregu-gchart-plot"
+        ref={plotRef}
+        style={{ touchAction: "pan-y" }}
+        onPointerMove={(e) => onMove(e.clientX)}
+        onPointerLeave={() => setHover(null)}
+      >
         <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden>
           {ticks.map((t) => (
             <line
@@ -114,6 +146,35 @@ export default function GroupChart({
             aria-hidden
           />
         ))}
+
+        {/* Hover crosshair: vertical line + a dot on every outcome's line. */}
+        {hover !== null && (
+          <>
+            <span className="tregu-gchart-cross" style={{ left: `${hover * 100}%` }} aria-hidden />
+            {hoverRows.map((r) => (
+              <span
+                key={r.label}
+                className="tregu-gchart-dot"
+                style={{ top: yPx(r.v), left: `${hover * 100}%`, right: "auto", background: r.color }}
+                aria-hidden
+              />
+            ))}
+            <div
+              className="tregu-chart-tip"
+              style={{
+                left: `${Math.max(12, Math.min(88, hover * 100))}%`,
+                top: 4,
+              }}
+            >
+              {hoverRows.map((r) => (
+                <div key={r.label} className="tregu-chart-tip-row">
+                  <span className="tregu-chart-tip-dot" style={{ background: r.color }} />
+                  {r.label} <strong>{Math.round(r.v * 100)}%</strong>
+                </div>
+              ))}
+            </div>
+          </>
+        )}
       </div>
 
       {/* Right gutter: % axis + outcome chips at their line heights. */}

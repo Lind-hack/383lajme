@@ -22,7 +22,7 @@ export async function GET(
     return NextResponse.json({ error: "Tregu nuk u gjet" }, { status: 404 });
   }
 
-  const [{ data: snapshots }, { data: trades }, { data: activity }, { data: related }] =
+  const [{ data: snapshots }, { data: trades }, { data: activity }, { data: related }, holdersRes, commentsRes] =
     await Promise.all([
       supabase
         .from("market_snapshots")
@@ -52,7 +52,42 @@ export async function GET(
         .neq("id", market.id)
         .order("updated_at", { ascending: false })
         .limit(3),
+      // Public holder board — SECURITY DEFINER RPC (0004) past the owner-only
+      // positions RLS. Returns [] gracefully if the migration hasn't run yet.
+      supabase.rpc("market_top_holders", { p_market_id: market.id, p_limit: 30 }),
+      supabase
+        .from("market_comments")
+        .select("id, body, created_at, user_id, profiles(display_name)")
+        .eq("market_id", market.id)
+        .order("created_at", { ascending: false })
+        .limit(50),
     ]);
+
+  const holders = ((holdersRes.data ?? []) as {
+    display_name: string;
+    side: string;
+    shares: number;
+    coins_staked: number;
+  }[]).map((h) => ({
+    name: h.display_name || "Anonim",
+    side: h.side,
+    shares: Number(h.shares),
+    coinsStaked: Number(h.coins_staked),
+  }));
+
+  const comments = ((commentsRes.data ?? []) as unknown as {
+    id: string;
+    body: string;
+    created_at: string;
+    user_id: string;
+    profiles: { display_name: string | null } | null;
+  }[]).map((c) => ({
+    id: c.id,
+    body: c.body,
+    createdAt: c.created_at,
+    userId: c.user_id,
+    name: c.profiles?.display_name ?? "Anonim",
+  }));
 
   let position = null;
   const {
@@ -109,5 +144,7 @@ export async function GET(
     tradeCount: tradeCount ?? 0,
     tradersApprox: traders.size,
     position,
+    holders,
+    comments,
   });
 }
