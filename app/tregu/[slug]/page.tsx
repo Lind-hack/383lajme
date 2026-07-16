@@ -3,11 +3,25 @@
 import { useCallback, useEffect, useState, use as usePromise } from "react";
 import Link from "next/link";
 import Navbar from "@/components/navbar";
-import ProbChart, { type ChartPoint } from "@/components/tregu/prob-chart";
+import MarketChart from "@/components/tregu/market-chart";
+import GroupChart, { OutcomeMiniChart } from "@/components/tregu/group-chart";
+import { type MiniMarket } from "@/components/tregu/market-mini-card";
+import TeamFlag from "@/components/tregu/team-flag";
+import MarketSocial, { type HolderRow, type CommentItem } from "@/components/tregu/market-social";
 import CoinFace from "@/components/tregu/coin-face";
 import { createClient } from "@/lib/supabase/client";
-import { lmsrThreeOutcomePrices, previewBet, type BinarySide, type Side } from "@/lib/tregu-client";
-import { formatOfficialLiveScore, getMarketPrices, officialMetricsForDisplay } from "@/lib/tregu-market-detail.mjs";
+import { previewBet, previewSell, lmsrPriceYes, type Side, type MarketTrade } from "@/lib/tregu-client";
+import { fmtNum } from "@/lib/format";
+import { DEMO_SLUG, demoDetail, demoEventMinis, isDemoEnabled } from "@/lib/tregu-demo";
+import { groupForSlug, parseEvent, type GroupOutcome, type MarketGroup } from "@/lib/tregu-groups";
+
+// Sibling outcome series from the detail API — real 5-min cron snapshots.
+interface EventOutcome {
+  slug: string;
+  question: string;
+  prob: number;
+  series: { t: number; p: number }[];
+}
 
 interface MarketDetail {
   id: string;
@@ -20,81 +34,189 @@ interface MarketDetail {
   market_prob: number;
   q_yes: number;
   q_no: number;
-  market_type?: "binary" | "three_outcome";
-  q_england?: number;
-  q_draw?: number;
-  q_argentina?: number;
-  three_outcome_prices?: { england: number; draw: number; argentina: number } | null;
-  live_event?: { provider: "espn"; event_id: string } | null;
-  live_score_state?: {
-    status?: string;
-    detail?: string;
-    competitors?: { team: string; score: number }[];
-    metrics?: Record<string, { shots?: number; shots_on_target?: number; possession?: number; corners?: number; xg?: number }>;
-    metric_sources?: Record<string, Record<string, "espn" | "flashscore">>;
-    supplemental?: { flashscore?: { availability?: "available" | "unavailable"; source_url?: string; retrieved_at?: string; reason?: string } };
-    starting_lineups?: Record<string, string[]>;
-  } | null;
-  official_final_at?: string | null;
-  settlement_due_at?: string | null;
-  pre_match_analysis?: { claims?: unknown[]; sources?: { title: string; url: string; source: string }[] } | null;
   b: number;
   closes_at: string;
   source_article_slugs: string[];
+  resolution_rules: string | null;
+  resolution_source: string | null;
 }
 
 interface Snapshot {
   ai_prob: number | null;
-  reference_probability?: number | null;
-  oracle_kind?: string | null;
-  oracle_reasoning?: string | null;
-  oracle_cap?: number | null;
-  market_prob_before?: number | null;
-
   market_prob: number;
-  volume: number;
   created_at: string;
   evidence: { title: string; slug: string; url?: string }[] | null;
+}
+
+interface Position {
+  side: Side;
+  shares: number;
+  coins_staked: number;
+  market_id: string;
+}
+
+// Row shape from /api/tregu/markets — only what grouping needs.
+interface HubRow {
+  slug: string;
+  question: string;
+  category: string;
+  market_prob: number;
+  closes_at: string;
+  q_yes: number;
+  q_no: number;
+  spark?: number[];
+  delta7d?: number | null;
+}
+
+const CATEGORY_LABEL: Record<string, string> = {
+  politike: "Politikë",
+  ekonomi: "Ekonomi",
+  sport: "Sport",
+  bote: "Botë",
+  "te-tjera": "Të tjera",
+};
+
+const QUICK_AMOUNTS = [10, 25, 50, 100];
+
+function closesIn(iso: string): string {
+  const ms = new Date(iso).getTime() - Date.now();
+  if (Number.isNaN(ms) || ms <= 0) return "Mbyllur";
+  const days = Math.floor(ms / 86_400_000);
+  if (days >= 1) return `Mbyllet për ${days} ${days === 1 ? "ditë" : "ditë"}`;
+  const hours = Math.floor(ms / 3_600_000);
+  if (hours >= 1) return `Mbyllet për ${hours} orë`;
+  return `Mbyllet për ${Math.max(1, Math.floor(ms / 60_000))} min`;
+}
+
+function timeAgo(iso: string): string {
+  const ms = Date.now() - new Date(iso).getTime();
+  if (!Number.isFinite(ms)) return "—";
+  if (ms < 60_000) return "tani";
+  const min = Math.floor(ms / 60_000);
+  if (min < 60) return `para ${min} min`;
+  const h = Math.floor(min / 60);
+  if (h < 24) return `para ${h} orësh`;
+  return `para ${Math.floor(h / 24)} ditësh`;
 }
 
 export default function MarketDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = usePromise(params);
   const [market, setMarket] = useState<MarketDetail | null>(null);
   const [snapshots, setSnapshots] = useState<Snapshot[]>([]);
+  const [trades, setTrades] = useState<MarketTrade[]>([]);
+  const [activity, setActivity] = useState<MarketTrade[]>([]);
+  const [related, setRelated] = useState<MiniMarket[]>([]);
+  const [weeklyDelta, setWeeklyDelta] = useState<number | null>(null);
+  const [tradeCount, setTradeCount] = useState(0);
+  const [positions, setPositions] = useState<Position[]>([]);
+  const [holders, setHolders] = useState<HolderRow[]>([]);
+  const [comments, setComments] = useState<CommentItem[]>([]);
+  const [group, setGroup] = useState<MarketGroup | null>(null);
+  const [eventData, setEventData] = useState<{ title: string; outcomes: EventOutcome[] } | null>(null);
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
-  const [loadError, setLoadError] = useState<string | null>(null);
-  const [refreshMode, setRefreshMode] = useState<"live" | "polling" | "offline">("offline");
-  const [detailMode, setDetailMode] = useState<"simple" | "advanced">("simple");
-  const [movementFilter, setMovementFilter] = useState<"all" | "trade" | "news_oracle">("all");
   const [user, setUser] = useState<{ id: string } | null>(null);
   const [balance, setBalance] = useState<number | null>(null);
-  const [clockNow, setClockNow] = useState(() => Date.now());
 
+  const [mode, setMode] = useState<"buy" | "sell">("buy");
   const [side, setSide] = useState<Side>("PO");
   const [amount, setAmount] = useState(10);
+  const [sellShares, setSellShares] = useState(0);
   const [placing, setPlacing] = useState(false);
-  const [betMsg, setBetMsg] = useState<{ ok: boolean; text: string } | null>(null);
+  const [tradeMsg, setTradeMsg] = useState<{ ok: boolean; text: string } | null>(null);
 
-  const load = useCallback(async () => {
-    try {
-      const response = await fetch(`/api/tregu/markets/${slug}?fresh=${Date.now()}`, { cache: "no-store" });
-      const data = await response.json();
-      if (!response.ok || data.error) {
-        if (response.status === 404) setNotFound(true);
-        else setLoadError(data.error ?? "Nuk mund t’i përditësojmë të dhënat e tregut.");
-        return;
-      }
-      setNotFound(false);
-      setLoadError(null);
-      setMarket(data.market);
-      setSnapshots(data.snapshots ?? []);
-    } catch {
-      setLoadError("Lidhja me tregun u ndërpre. Provo përsëri.");
-    } finally {
+  // /tregu/demo renders the full trading interface from local sample data —
+  // dev-only design preview, no DB market needed.
+  const demo = isDemoEnabled && slug.startsWith(DEMO_SLUG);
+
+  const load = useCallback(() => {
+    if (demo) {
+      const d = demoDetail(slug);
+      setMarket(d.market as MarketDetail);
+      setSnapshots(d.snapshots);
+      setTrades(d.trades);
+      setActivity(d.activity);
+      setRelated(d.related);
+      setWeeklyDelta(d.weeklyDelta);
+      setTradeCount(d.tradeCount);
+      setPositions(d.positions);
+      // Demo social fixtures — design preview for the tabs.
+      setHolders([
+        { name: "Arbnor K.", side: "PO", shares: 240, coinsStaked: 132 },
+        { name: "Elira", side: "PO", shares: 155, coinsStaked: 96 },
+        { name: "Driton88", side: "JO", shares: 210, coinsStaked: 88 },
+        { name: "Vesa M.", side: "JO", shares: 74, coinsStaked: 41 },
+        { name: "Gent", side: "PO", shares: 52, coinsStaked: 30 },
+      ]);
+      setComments([
+        {
+          id: "demo-c1",
+          name: "Arbnor K.",
+          body: "Sondazhet e fundit tregojnë rritje të qartë — PO duket i fortë këtu.",
+          createdAt: new Date(Date.now() - 3 * 3_600_000).toISOString(),
+        },
+        {
+          id: "demo-c2",
+          name: "Driton88",
+          body: "Mos harroni çfarë ndodhi herën e kaluar, tregu po e mbivlerëson.",
+          createdAt: new Date(Date.now() - 26 * 3_600_000).toISOString(),
+        },
+      ]);
+      setGroup(groupForSlug(demoEventMinis(), slug));
       setLoading(false);
+      return;
     }
-  }, [slug]);
+    fetch(`/api/tregu/markets/${slug}`)
+      .then((r) => r.json())
+      .then((d) => {
+        if (d.error) {
+          setNotFound(true);
+          return;
+        }
+        setMarket(d.market);
+        setEventData(d.event ?? null);
+        setSnapshots(d.snapshots ?? []);
+        setTrades(d.trades ?? []);
+        setActivity(d.activity ?? []);
+        setRelated(d.related ?? []);
+        setWeeklyDelta(d.weeklyDelta ?? null);
+        setTradeCount(d.tradeCount ?? 0);
+        setPositions(Array.isArray(d.position) ? d.position : []);
+        setHolders(d.holders ?? []);
+        setComments(d.comments ?? []);
+      })
+      .finally(() => setLoading(false));
+    // Sibling outcome books ("<Ngjarja>: <Rezultati>?") live in the hub list —
+    // when this market belongs to a multi-outcome event, render the event view.
+    fetch("/api/tregu/markets")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => {
+        const rows: HubRow[] = d?.markets ?? [];
+        setGroup(
+          groupForSlug(
+            rows.map((m) => ({
+              slug: m.slug,
+              question: m.question,
+              category: m.category,
+              prob: m.market_prob,
+              volume: (m.q_yes ?? 0) + (m.q_no ?? 0),
+              closesAt: m.closes_at,
+              spark: m.spark,
+              delta7d: m.delta7d,
+            })),
+            slug
+          )
+        );
+      })
+      .catch(() => {});
+  }, [slug, demo]);
+
+  const refreshBalance = useCallback(() => {
+    fetch("/api/tregu/portfolio")
+      .then((r) => r.json())
+      .then((d) => setBalance(d.profile?.coins ?? null))
+      .catch(() => {});
+  }, []);
 
   useEffect(() => {
     load();
@@ -102,93 +224,67 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
     const ana = new URLSearchParams(window.location.search).get("ana");
     if (ana === "po") setSide("PO");
     if (ana === "jo") setSide("JO");
-    try {
-      const savedMode = window.localStorage.getItem("383:tregu-detail-mode");
-      if (savedMode === "simple" || savedMode === "advanced") setDetailMode(savedMode);
-    } catch {
-      // Storage can be unavailable in private browsing; Simple remains usable.
+    if (demo) {
+      // Fake session so the trade panel renders instead of the login prompt.
+      setUser({ id: "demo" });
+      setBalance(500);
+      return;
     }
     const supabase = createClient();
     supabase.auth.getUser().then(({ data: { user } }) => {
       setUser(user);
-      if (user) {
-        fetch("/api/tregu/portfolio")
-          .then((r) => r.json())
-          .then((d) => setBalance(d.profile?.coins ?? null));
-      }
+      if (user) refreshBalance();
     });
-  }, [load]);
+  }, [slug, load, refreshBalance, demo]);
 
+  // Live refresh: the VPS cron reprices every 5 min and inserts a snapshot;
+  // polling each minute picks the new chart point up without a reload.
   useEffect(() => {
-    if (!market?.id) return;
-    let cancelled = false;
-    let debounceTimer: number | undefined;
-    let pollingTimer: number | undefined;
-    const refresh = () => {
-      window.clearTimeout(debounceTimer);
-      debounceTimer = window.setTimeout(() => { if (!cancelled) load(); }, 250);
-    };
-    const startPolling = () => {
-      if (pollingTimer || cancelled) return;
-      setRefreshMode("polling");
-      pollingTimer = window.setInterval(refresh, 12_000);
-    };
+    if (demo) return;
+    const id = setInterval(load, 60_000);
+    return () => clearInterval(id);
+  }, [load, demo]);
 
-    if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
-      startPolling();
-      return () => {
-        cancelled = true;
-        window.clearTimeout(debounceTimer);
-        if (pollingTimer) window.clearInterval(pollingTimer);
-      };
-    }
+  const heldOn = (s: Side) => positions.find((p) => p.side === s && p.shares > 0);
+  const held = heldOn(side);
 
-    startPolling();
-    const supabase = createClient();
-    const channel = supabase
-      .channel(`tregu-market-${market.id}`)
-      .on("postgres_changes", { event: "*", schema: "public", table: "markets", filter: `id=eq.${market.id}` }, refresh)
-      .on("postgres_changes", { event: "*", schema: "public", table: "market_snapshots", filter: `market_id=eq.${market.id}` }, refresh)
-      .subscribe((status) => {
-        if (status === "SUBSCRIBED") {
-          setRefreshMode("live");
-        }
-      });
-
-    return () => {
-      cancelled = true;
-      window.clearTimeout(debounceTimer);
-      if (pollingTimer) window.clearInterval(pollingTimer);
-      supabase.removeChannel(channel);
-    };
-  }, [load, market?.id]);
-
-  useEffect(() => {
-    const timer = window.setInterval(() => setClockNow(Date.now()), 1000);
-    return () => window.clearInterval(timer);
-  }, []);
-
-  const selectDetailMode = (mode: "simple" | "advanced") => {
-    setDetailMode(mode);
-    try { window.localStorage.setItem("383:tregu-detail-mode", mode); } catch { /* optional preference */ }
-  };
-
-  const placeBet = async () => {
+  const submitTrade = async () => {
     if (!market) return;
+    if (demo) {
+      setTradeMsg({ ok: true, text: "Treg demonstrimi — tregtimet e vërteta hapen kur tregu të jetë live." });
+      return;
+    }
     setPlacing(true);
-    setBetMsg(null);
-    const res = await fetch("/api/tregu/bet", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ marketId: market.id, side, coins: amount }),
-    });
-    const data = await res.json();
-    if (res.ok) {
-      setBetMsg({ ok: true, text: `Bast i vendosur: ${data.sharesBought?.toFixed(2)} aksione ${side}` });
-      setBalance((b) => (b === null ? null : b - amount));
-      load();
+    setTradeMsg(null);
+    if (mode === "buy") {
+      const res = await fetch("/api/tregu/bet", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ marketId: market.id, side, coins: amount }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setTradeMsg({ ok: true, text: `✓ Bleve ${data.sharesBought?.toFixed(2)} aksione ${side} për ${amount} 383C` });
+        load();
+        refreshBalance();
+      } else {
+        setTradeMsg({ ok: false, text: data.error ?? "Gabim" });
+      }
     } else {
-      setBetMsg({ ok: false, text: data.error ?? "Gabim" });
+      const res = await fetch("/api/tregu/sell", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ marketId: market.id, side, shares: sellShares }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setTradeMsg({ ok: true, text: `✓ Shite ${sellShares.toFixed(2)} aksione ${side} për ${Number(data.coinsReceived ?? 0).toFixed(1)} 383C` });
+        setSellShares(0);
+        load();
+        refreshBalance();
+      } else {
+        setTradeMsg({ ok: false, text: data.error ?? "Gabim" });
+      }
     }
     setPlacing(false);
   };
@@ -198,18 +294,6 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
       <div className="tregu-scope">
         <Navbar />
         <div style={{ padding: "140px 24px", textAlign: "center", color: "#6B6B6B" }}>Duke ngarkuar...</div>
-      </div>
-    );
-  }
-
-  if (loadError && !market) {
-    return (
-      <div className="tregu-scope">
-        <Navbar />
-        <div style={{ padding: "140px 24px", textAlign: "center" }} role="alert">
-          <p>{loadError}</p>
-          <button onClick={load} className="tregu-btn-primary" style={{ padding: "10px 18px", borderRadius: 10, cursor: "pointer" }}>Provo përsëri</button>
-        </div>
       </div>
     );
   }
@@ -228,214 +312,541 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
     );
   }
 
-  const points: ChartPoint[] = [
-    ...snapshots.map((s) => ({
-      t: s.created_at,
-      marketProb: s.oracle_kind === "trade" || s.oracle_kind === "news_oracle" ? s.market_prob : null,
-      movementKind: (s.oracle_kind === "trade" || s.oracle_kind === "news_oracle" ? s.oracle_kind : null) as ChartPoint["movementKind"],
-    })),
-    { t: "now", marketProb: market.market_prob },
-  ];
-
   const latestEvidence = [...snapshots].reverse().find((s) => s.evidence && s.evidence.length > 0)?.evidence ?? [];
-  const latestReference = [...snapshots].reverse().find((s) => s.reference_probability !== null && s.reference_probability !== undefined);
-  const timeline = [...snapshots].reverse().filter((snapshot) => movementFilter === "all" || snapshot.oracle_kind === movementFilter);
-
-  const isThreeOutcome = market.market_type === "three_outcome";
-  const threePrices = market.three_outcome_prices ?? lmsrThreeOutcomePrices(market);
-  const preview = !isThreeOutcome && amount > 0 ? previewBet({ q_yes: market.q_yes, q_no: market.q_no, b: market.b }, side as BinarySide, amount) : null;
-  const { po: currentPrice, jo: currentJoPrice } = getMarketPrices(market.market_prob);
-  const pct = Math.round(currentPrice * 100);
-  const poPrice = Math.round(currentPrice * 100);
-  const joPrice = Math.round(currentJoPrice * 100);
+  // Bonus: live AI signal — the newest news-scored probability vs the market.
+  const latestAiSnap = [...snapshots].reverse().find((s) => s.ai_prob !== null) ?? null;
+  const currentOutcome = group?.outcomes.find((o) => o.slug === slug) ?? null;
+  // Grouped events trade in outcome language, not raw PO/JO:
+  // PO → "Barazim", JO → "Jo Barazim".
+  const sideLabel = (s: Side) =>
+    currentOutcome ? (s === "PO" ? currentOutcome.label : `Jo ${currentOutcome.label}`) : s;
+  // Timestamped tape per outcome: real cron snapshots from the API when
+  // available, otherwise the hub sparkline mapped onto a 5-min grid ending now
+  // (demo + brand-new markets without snapshot history yet).
+  const eventSeriesFor = (o: GroupOutcome): { t: number; p: number }[] | undefined => {
+    const fromApi = eventData?.outcomes.find((x) => x.slug === o.slug)?.series;
+    if (fromApi && fromApi.length >= 2) return fromApi;
+    if (o.spark && o.spark.length >= 2) {
+      const now = Date.now();
+      const step = 5 * 60_000;
+      const n = o.spark.length;
+      return o.spark.map((p, i) => ({ t: now - (n - 1 - i) * step, p }));
+    }
+    return undefined;
+  };
+  const currentPrice = lmsrPriceYes(market.q_yes, market.q_no, market.b);
+  const sidePrice = side === "PO" ? currentPrice : 1 - currentPrice;
+  const pct = Math.round(market.market_prob * 100);
   const isClosed = market.status !== "open";
-  const isStale = market.status === "stale";
-  const liveSystemActive = Boolean(market.live_event) && market.status === "open" && refreshMode !== "offline";
-  const liveMetrics = market.live_score_state?.metrics ?? {};
-  const officialMetrics = officialMetricsForDisplay(liveMetrics, market.live_score_state?.metric_sources);
-  const flashscoreAudit = market.live_score_state?.supplemental?.flashscore;
-  const officialLiveScore = formatOfficialLiveScore(market.live_score_state ?? undefined);
-  const flashscoreAvailable = flashscoreAudit?.availability === "available";
-  const settlementRemaining = market.settlement_due_at ? Math.max(0, new Date(market.settlement_due_at).getTime() - clockNow) : null;
-  const settlementCountdown = settlementRemaining === null ? null : `${Math.floor(settlementRemaining / 60_000)}:${String(Math.floor(settlementRemaining / 1000) % 60).padStart(2, "0")}`;
+  const volume = Math.round(market.q_yes + market.q_no);
+  const deltaPp = weeklyDelta === null ? null : Math.round(weeklyDelta * 100);
+  const closesMs = market.closes_at ? new Date(market.closes_at).getTime() : NaN;
+  const closesDateLabel = Number.isNaN(closesMs)
+    ? null
+    : new Date(closesMs).toLocaleDateString("sq-AL", { day: "numeric", month: "short" });
+
+  const buyPreview =
+    mode === "buy" && amount > 0
+      ? previewBet({ q_yes: market.q_yes, q_no: market.q_no, b: market.b }, side, amount)
+      : null;
+  const sellPreview =
+    mode === "sell" && sellShares > 0
+      ? previewSell({ q_yes: market.q_yes, q_no: market.q_no, b: market.b }, side, sellShares)
+      : null;
+  const impactPp =
+    buyPreview !== null
+      ? Math.abs(buyPreview.newPriceYes - currentPrice) * 100
+      : sellPreview !== null
+        ? Math.abs(sellPreview.newPriceYes - currentPrice) * 100
+        : 0;
+  const potentialProfit = buyPreview ? buyPreview.shares - amount : 0;
+  const roi = buyPreview && amount > 0 ? (potentialProfit / amount) * 100 : 0;
+
+  const canBuy = !placing && amount > 0 && (balance === null || amount <= balance);
+  const canSell = !placing && sellShares > 0 && Boolean(held);
 
   return (
     <div className="tregu-scope">
       <Navbar />
-      <main style={{ maxWidth: 1000, margin: "0 auto", padding: "104px 24px 80px" }}>
+      {/* Left-anchored container — Polymarket-style, not centered. */}
+      <main style={{ maxWidth: 1200, margin: 0, padding: "96px 24px 80px 32px" }}>
         <Link href="/tregu" style={{ color: "#6B6B6B", fontSize: 13, textDecoration: "none" }}>
           ← Tregu
         </Link>
 
-        <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 24, marginTop: 16 }}>
-          <div className="tregu-glass" style={{ padding: 28 }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14 }}>
-              <span className="tregu-pill">{market.category}</span>
-              {liveSystemActive && <span className="tregu-live-dot" role="status" aria-label="Lidhja e përditësimeve live është aktive"><span aria-hidden="true" /> LIVE</span>}
-              {market.status === "resolved" && (
-                <span className="tregu-pill" style={{ color: market.outcome === "PO" ? "#00A651" : "#E41E20" }}>
-                  U zgjidh: {market.outcome}
-                </span>
-              )}
-              {market.status === "closed" && <span className="tregu-pill">Mbyllur</span>}
-              {isStale && <span className="tregu-pill" style={{ color: "#b45309" }}>Pezulluar</span>}
-            </div>
-            <h1 style={{ fontSize: "clamp(24px, 3.5vw, 32px)", fontWeight: 800, margin: "0 0 8px", lineHeight: 1.25 }}>
-              {market.question}
-            </h1>
-            {market.description && <p style={{ color: "#6B6B6B", fontSize: 14, marginBottom: 20 }}>{market.description}</p>}
-            {isThreeOutcome ? (
-              <div aria-label="Probabilitetet e rezultatit pas 90 minutash" style={{ display: "grid", gap: 10, marginTop: 16 }}>
-                {[["England fiton", threePrices.england, "#2563EB"], ["Barazim", threePrices.draw, "#D97706"], ["Argentina fiton", threePrices.argentina, "#00A651"]].map(([label, value, color]) => (
-                  <div key={String(label)} style={{ display: "grid", gridTemplateColumns: "132px 1fr 48px", alignItems: "center", gap: 10, fontWeight: 800 }}>
-                    <span>{label}</span><span aria-hidden="true" style={{ height: 8, borderRadius: 999, background: "rgba(17,17,17,.1)", overflow: "hidden" }}><span style={{ display: "block", width: `${Number(value) * 100}%`, height: "100%", background: String(color), borderRadius: 999, transition: "width 200ms ease-out" }} /></span><span>{Math.round(Number(value) * 100)}%</span>
-                  </div>
-                ))}
-              </div>
-            ) : <div style={{ fontSize: 40, fontWeight: 800, color: pct >= 50 ? "#00A651" : "#E41E20" }}>{pct}% PO</div>}
-            <p style={{ color: "#6B6B6B", fontSize: 12, marginTop: 4 }}>
-              Mbyllet: {new Date(market.closes_at).toLocaleDateString("sq-AL")}
-            </p>
-            {market.live_event && market.live_score_state && (
-              <section aria-label="Gjendja zyrtare live ESPN" style={{ marginTop: 16, padding: 14, borderRadius: 12, background: "rgba(17,17,17,.045)" }}>
-                <strong>{market.status === "open" ? "LIVE · " : "I kyçur · "}{officialLiveScore.sourceLabel} · {officialLiveScore.status}</strong>
-                {officialLiveScore.score && <p style={{ margin: "6px 0 0", fontWeight: 700 }}>{officialLiveScore.score}</p>}
-                {officialMetrics.length > 0 && <div style={{ marginTop: 10 }}><strong style={{ fontSize: 12 }}>Statistikat live (ESPN zyrtar{flashscoreAvailable ? "; Flashscore suplementar" : ""})</strong>{officialMetrics.map((metrics) => <p key={metrics.team} style={{ fontSize: 12, margin: "5px 0 0" }}>{metrics.team}: {[metrics.shots !== undefined && `Goditje ${metrics.shots}${flashscoreAvailable && metrics.sources.shots === "flashscore" ? " (Flashscore)" : ""}`, metrics.shotsOnTarget !== undefined && `në portë ${metrics.shotsOnTarget}${flashscoreAvailable && metrics.sources.shots_on_target === "flashscore" ? " (Flashscore)" : ""}`, metrics.possession !== undefined && `Posedim ${metrics.possession}%${flashscoreAvailable && metrics.sources.possession === "flashscore" ? " (Flashscore)" : ""}`, metrics.corners !== undefined && `Kënde ${metrics.corners}${flashscoreAvailable && metrics.sources.corners === "flashscore" ? " (Flashscore)" : ""}`, metrics.xg !== undefined && `xG ${metrics.xg}${flashscoreAvailable && metrics.sources.xg === "flashscore" ? " (Flashscore)" : ""}`].filter(Boolean).join(" · ")}</p>)}</div>}
-                {flashscoreAudit && <p style={{ margin: "10px 0 0", color: "#6B6B6B", fontSize: 11 }}>{flashscoreAudit.availability === "available" ? <>Flashscore: metrika suplementare të marra {new Date(flashscoreAudit.retrieved_at ?? "").toLocaleString("sq-AL")}{flashscoreAudit.source_url ? <> · <a href={flashscoreAudit.source_url} target="_blank" rel="noreferrer">Burimi ↗</a></> : null}</> : <>Flashscore i padisponueshëm — po përdorim statistikat ESPN{flashscoreAudit.reason ? ` (${flashscoreAudit.reason})` : ""}.</>}</p>}
-              </section>
+        {/* ── Header: flat, no card — question + live ticker row ── */}
+        <header style={{ marginTop: 14, marginBottom: 20 }}>
+          <div style={{ display: "flex", alignItems: "center", flexWrap: "wrap", gap: 10, marginBottom: 12 }}>
+            <span className="tregu-pill">{CATEGORY_LABEL[market.category] ?? market.category}</span>
+            {market.status === "resolved" && (
+              <span className="tregu-pill" style={{ color: market.outcome === "PO" ? "#00854A" : "#C51518" }}>
+                U zgjidh: {market.outcome}
+              </span>
             )}
-            {market.status === "closed" && settlementCountdown && <p role="status" style={{ color: "#6B6B6B", fontSize: 13, fontWeight: 700 }}>Rezultati zyrtar verifikohet; zgjidhja për {settlementCountdown}.</p>}
-
-            <div style={{ display: "flex", flexWrap: "wrap", gap: 10, alignItems: "center", marginTop: 18 }}>
-              {!isThreeOutcome && <><strong style={{ fontSize: 24, color: "#00A651" }}>PO {poPrice}%</strong><strong style={{ fontSize: 24, color: "#E41E20" }}>JO {joPrice}%</strong></>}
-              <span style={{ fontSize: 12, color: "#6B6B6B" }}>{isThreeOutcome ? "3 çmime LMSR · 100% gjithsej" : "një çmim LMSR"} · {refreshMode === "live" ? "Live" : refreshMode === "polling" ? "Përditësim rezervë" : "Duke u lidhur"}</span>
-            </div>
-            <div role="group" aria-label="Mënyra e detajeve të grafikut" style={{ display: "flex", gap: 8, marginTop: 18 }}>
-              <button onClick={() => selectDetailMode("simple")} aria-pressed={detailMode === "simple"} style={{ padding: "8px 12px", borderRadius: 999, border: "1px solid rgba(17,17,17,.15)", background: detailMode === "simple" ? "#111111" : "transparent", color: detailMode === "simple" ? "#fff" : "#111111", cursor: "pointer", fontWeight: 700 }}>Simple</button>
-              <button onClick={() => selectDetailMode("advanced")} aria-pressed={detailMode === "advanced"} style={{ padding: "8px 12px", borderRadius: 999, border: "1px solid rgba(17,17,17,.15)", background: detailMode === "advanced" ? "#111111" : "transparent", color: detailMode === "advanced" ? "#fff" : "#111111", cursor: "pointer", fontWeight: 700 }}>Advanced</button>
-            </div>
-            {loadError && <p role="status" style={{ color: "#b45309", fontSize: 12, marginTop: 12 }}>{loadError}</p>}
-            <div style={{ marginTop: 20 }}>
-              {snapshots.length === 0 ? <div style={{ minHeight: 150, display: "grid", placeItems: "center", color: "#6B6B6B", fontSize: 13 }}>Ende nuk ka lëvizje të regjistruara; çmimi aktual është {poPrice}% PO.</div> : <ProbChart points={points} />}
-            </div>
+            {market.status === "closed" && <span className="tregu-pill">Mbyllur</span>}
+            {market.status === "open" && <span className="tregu-pill">{closesIn(market.closes_at)}</span>}
           </div>
-
-          <div className="tregu-glass" style={{ padding: 24, opacity: isClosed ? 0.62 : 1 }} aria-disabled={isClosed}>
-            <h3 style={{ fontSize: 15, fontWeight: 800, margin: "0 0 16px" }}>Vendos bast</h3>
-
-            {!user ? (
-              <div style={{ textAlign: "center", padding: "20px 0" }}>
-                <p style={{ color: "#6B6B6B", marginBottom: 14 }}>Duhet të krijosh llogari për të vënë bast — merr 100 383 Coin falas.</p>
-                <Link href="/hyr" className="tregu-btn-primary" style={{ padding: "10px 22px", borderRadius: 100, textDecoration: "none", display: "inline-block" }}>
-                  Hyr / Regjistrohu
+          <h1
+            style={{
+              fontSize: "clamp(24px, 3.2vw, 34px)",
+              fontWeight: 800,
+              margin: "0 0 10px",
+              lineHeight: 1.2,
+              letterSpacing: "-0.015em",
+              textWrap: "balance",
+              maxWidth: "26ch",
+            }}
+          >
+            {group && currentOutcome ? group.title : market.question}
+          </h1>
+          {group && currentOutcome && (
+            <div className="tregu-event-tabs" role="tablist" aria-label="Rezultatet e ngjarjes">
+              {group.outcomes.map((o) => (
+                <Link
+                  key={o.slug}
+                  href={`/tregu/${o.slug}`}
+                  className="tregu-event-tab"
+                  data-active={o.slug === slug}
+                  role="tab"
+                  aria-selected={o.slug === slug}
+                >
+                  <span className="tregu-gchart-chip-dot" style={{ background: o.color }} />
+                  {o.label} · {Math.round(o.prob * 100)}%
                 </Link>
-              </div>
-            ) : isClosed ? (
-              <p style={{ color: "#6B6B6B" }}>
-                Ky treg nuk pranon më baste.
-              </p>
-            ) : (
-              <>
-                <div style={{ display: "flex", gap: 10, marginBottom: 16 }}>
-                  {(isThreeOutcome ? [["ENGLAND", "England"], ["DRAW", "Barazim"], ["ARGENTINA", "Argentina"]] : [["PO", "PO"], ["JO", "JO"]]).map(([value, label]) => (
-                    <button key={value} onClick={() => setSide(value as Side)} className={side === value ? (value === "JO" ? "tregu-btn-no" : "tregu-btn-yes") : undefined} style={{ flex: 1, padding: "12px", borderRadius: 12, fontWeight: 800, cursor: "pointer", background: side === value ? undefined : "rgba(17,17,17,0.04)", border: side === value ? undefined : "1px solid rgba(17,17,17,0.10)", color: side === value ? undefined : "#111111", transition: "transform 160ms var(--ease-out), background-color 200ms var(--ease-out)" }}>{label}</button>
-                  ))}
-                </div>
+              ))}
+            </div>
+          )}
+          {market.description && (
+            <p style={{ color: "#555555", fontSize: 14, margin: "0 0 14px", maxWidth: "70ch", lineHeight: 1.55 }}>
+              {market.description}
+            </p>
+          )}
+          <div style={{ display: "flex", alignItems: "baseline", flexWrap: "wrap", gap: "12px 22px" }}>
+            <span style={{ display: "inline-flex", alignItems: "baseline", gap: 10 }}>
+              <span style={{ fontSize: 40, fontWeight: 800, lineHeight: 1, color: "#111111", fontVariantNumeric: "tabular-nums" }}>
+                {pct}%
+              </span>
+              <span style={{ fontSize: 14, fontWeight: 700, color: "#6B6B6B" }}>
+                {currentOutcome ? `gjasa ${currentOutcome.label}` : "gjasa PO"}
+              </span>
+            </span>
+            {deltaPp !== null && deltaPp !== 0 && (
+              <span className="tregu-delta-chip" data-dir={deltaPp > 0 ? "up" : "down"}>
+                {deltaPp > 0 ? "▲" : "▼"} {Math.abs(deltaPp)}pp këtë javë
+              </span>
+            )}
+            <span style={{ fontSize: 13, fontWeight: 700, color: "#555555", fontVariantNumeric: "tabular-nums" }}>
+              {fmtNum(volume)} 383C vëllim · {fmtNum(tradeCount)} tregtime
+              {closesDateLabel ? ` · ${isClosed ? "u mbyll" : "mbyllet"} ${closesDateLabel}` : ""}
+            </span>
+          </div>
+        </header>
 
-                <label style={{ fontSize: 12, color: "#6B6B6B", fontWeight: 700 }}>Shuma (383 Coin)</label>
-                <div style={{ display: "flex", alignItems: "center", gap: 10, margin: "8px 0 16px" }}>
-                  <CoinFace size={20} />
-                  <input
-                    type="number"
-                    min={1}
-                    value={amount}
-                    onChange={(e) => setAmount(Math.max(1, Number(e.target.value)))}
-                    style={{
-                      flex: 1,
-                      background: "rgba(255,255,255,0.6)",
-                      border: "1px solid rgba(17,17,17,0.12)",
-                      borderRadius: 10,
-                      padding: "10px 12px",
-                      color: "#111111",
-                      fontSize: 16,
-                      fontWeight: 700,
-                      transition: "border-color 160ms var(--ease-out), background-color 160ms var(--ease-out)",
-                    }}
+        {/* ── 2-col: chart + social tabs | bet slip + AI signal + rules ── */}
+        <div className="tregu-detail-grid">
+          <div style={{ display: "flex", flexDirection: "column", gap: 20, minWidth: 0 }}>
+            {group && currentOutcome ? (
+              <>
+                {/* Combined event chart — every outcome's live line, Polymarket-style. */}
+                <div className="tregu-panel" style={{ padding: 24 }}>
+                  <h3 style={{ fontSize: 15, fontWeight: 800, margin: "0 0 14px" }}>Të gjitha rezultatet</h3>
+                  <GroupChart
+                    height={280}
+                    series={group.outcomes.map((o) => ({
+                      label: o.label,
+                      color: o.color,
+                      series: eventSeriesFor(o),
+                      prob: o.rawProb,
+                    }))}
                   />
                 </div>
-
-                {preview && (
-                  <div style={{ fontSize: 13, color: "#6B6B6B", marginBottom: 16, lineHeight: 1.7 }}>
-                    Çmimi aktual: <strong style={{ color: "#111111" }}>{(currentPrice * 100).toFixed(1)}%</strong>
-                    <br />
-                    Aksione të blera: <strong style={{ color: "#111111" }}>{preview.shares.toFixed(2)}</strong>
-                    <br />
-                    Çmimi i ri: <strong style={{ color: "#111111" }}>{(preview.newPriceYes * 100).toFixed(1)}%</strong>
-                    <br />
-                    Fitim max nëse ndodh: <strong style={{ color: "#00A651" }}>{preview.shares.toFixed(0)} 383C</strong>
+                {/* One graph per outcome — each book's own live probability. */}
+                <div className="tregu-panel" style={{ padding: 24 }}>
+                  <h3 style={{ fontSize: 15, fontWeight: 800, margin: "0 0 14px" }}>Gjasat sipas rezultatit</h3>
+                  <div className="tregu-omini-grid">
+                    {group.outcomes.map((o) => (
+                      <OutcomeMiniChart key={o.slug} label={o.label} color={o.color} points={o.spark} prob={o.prob} />
+                    ))}
                   </div>
-                )}
-
-                {balance !== null && amount > balance && (
-                  <p style={{ color: "#E41E20", fontSize: 12, marginBottom: 12 }}>Nuk ke mjaftueshëm 383 Coin ({balance})</p>
-                )}
-
-                <button
-                  onClick={placeBet}
-                  disabled={placing || (balance !== null && amount > balance)}
-                  className="tregu-btn-primary"
-                  style={{ width: "100%", padding: "14px", borderRadius: 12, fontSize: 15, cursor: "pointer" }}
-                >
-                  {placing ? "Duke vendosur..." : `Vër bast ${side}`}
-                </button>
-
-                {betMsg && (
-                  <p style={{ marginTop: 12, fontSize: 13, color: betMsg.ok ? "#00A651" : "#E41E20" }}>{betMsg.text}</p>
-                )}
+                </div>
               </>
+            ) : (
+              <div className="tregu-panel" style={{ padding: 24 }}>
+                <MarketChart trades={trades} snapshots={snapshots} currentProb={market.market_prob} />
+              </div>
+            )}
+
+            {/* Komentet | Mbajtësit | Pozicionet | Aktiviteti */}
+            <MarketSocial
+              marketId={market.id}
+              holders={holders}
+              comments={comments}
+              activity={activity}
+              priceYes={currentPrice}
+              sideLabel={sideLabel}
+              loggedIn={Boolean(user)}
+              demo={demo}
+            />
+
+            {latestEvidence.length > 0 && (
+              <div className="tregu-panel" style={{ padding: 24 }}>
+                <h3 style={{ fontSize: 15, fontWeight: 800, margin: "0 0 14px" }}>Bazuar në lajme</h3>
+                <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                  {latestEvidence.map((e) => (
+                    <Link
+                      key={e.slug}
+                      href={`/article/${e.slug}`}
+                      style={{ color: "#111111", fontSize: 13, textDecoration: "none", padding: "10px 14px", borderRadius: 10, background: "rgba(17,17,17,0.04)" }}
+                    >
+                      {e.title}
+                    </Link>
+                  ))}
+                </div>
+              </div>
             )}
           </div>
 
-          {detailMode === "advanced" && (
-            <section className="tregu-glass" style={{ padding: 24 }} aria-label="Paneli i avancuar i tregut">
-              <div style={{ display: "flex", justifyContent: "space-between", gap: 16, flexWrap: "wrap", alignItems: "baseline" }}>
-                <div>
-                  <h3 style={{ fontSize: 15, fontWeight: 800, margin: "0 0 6px" }}>Kokpiti i tregut</h3>
-                  <p style={{ fontSize: 12, color: "#6B6B6B", margin: 0 }}>I njëjti grafik LMSR sipër është burimi i vetëm i çmimit; këtu shfaqet evidenca pas lëvizjeve.</p>
-                </div>
-                <span style={{ fontSize: 12, color: "#6B6B6B" }}>Likuiditeti b: <strong style={{ color: "#111111" }}>{market.b}</strong></span>
-              </div>
-              <div role="group" aria-label="Filtro lëvizjet" style={{ display: "flex", flexWrap: "wrap", gap: 8, margin: "18px 0" }}>
-                {(["all", "trade", "news_oracle"] as const).map((filter) => (
-                  <button key={filter} onClick={() => setMovementFilter(filter)} aria-pressed={movementFilter === filter} style={{ padding: "7px 10px", borderRadius: 8, border: "1px solid rgba(17,17,17,.15)", background: movementFilter === filter ? "#111111" : "transparent", color: movementFilter === filter ? "#fff" : "#111111", cursor: "pointer", fontSize: 12, fontWeight: 700 }}>{filter === "all" ? "Të gjitha" : filter === "trade" ? "Baste" : "Oracle lajmesh"}</button>
-                ))}
-              </div>
-              {timeline.length === 0 ? <p style={{ color: "#6B6B6B", fontSize: 13 }}>Nuk ka lëvizje të verifikuara për këtë filtër.</p> : (
-                <div style={{ display: "grid", gap: 10 }}>
-                  {timeline.map((snapshot, index) => (
-                    <article key={`${snapshot.created_at}-${index}`} style={{ padding: "12px 0", borderTop: "1px solid rgba(17,17,17,.09)" }}>
-                      <div style={{ display: "flex", justifyContent: "space-between", gap: 12, flexWrap: "wrap", fontSize: 13 }}>
-                        <strong>{snapshot.oracle_kind === "trade" ? "Bast 383C" : snapshot.oracle_kind === "news_oracle" ? "Oracle i verifikuar" : "Referencë lajmesh"}</strong>
-                        <span>{new Date(snapshot.created_at).toLocaleString("sq-AL")}</span>
+          {/* ── Right column ── */}
+          <aside className="tregu-detail-side">
+            <div className="tregu-panel tregu-edge" data-cat={market.category} style={{ padding: 24 }}>
+              {/* Event trade card header: cubic flag avatar + team, plus a
+                 switcher — changing team swaps BOTH the name and the flag. */}
+              {group && currentOutcome && (
+                <div style={{ marginBottom: 18 }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 14 }}>
+                    <TeamFlag team={currentOutcome.label} size={46} radius={13} label={currentOutcome.label} />
+                    <div style={{ minWidth: 0 }}>
+                      <div style={{ fontSize: 11.5, fontWeight: 700, color: "#6B6B6B", marginBottom: 2 }}>
+                        {group.title}
                       </div>
-                      <p style={{ margin: "6px 0 0", fontSize: 13, color: "#374151" }}>PO {Math.round(snapshot.market_prob * 100)}% · Vëllimi {Math.round(snapshot.volume ?? 0)} 383C{snapshot.reference_probability !== null && snapshot.reference_probability !== undefined ? ` · Referenca PO ${Math.round(snapshot.reference_probability * 100)}%` : ""}{snapshot.oracle_cap ? ` · Kufiri ${(snapshot.oracle_cap * 100).toFixed(0)} pikë` : ""}</p>
-                      {snapshot.oracle_reasoning && <p style={{ margin: "6px 0 0", fontSize: 13 }}>{snapshot.oracle_reasoning}</p>}
-                    </article>
-                  ))}
+                      <div style={{ fontSize: 17, fontWeight: 800, lineHeight: 1.2 }}>{currentOutcome.label}</div>
+                    </div>
+                    <span
+                      style={{
+                        marginLeft: "auto",
+                        fontSize: 20,
+                        fontWeight: 800,
+                        color: currentOutcome.color,
+                        fontVariantNumeric: "tabular-nums",
+                      }}
+                    >
+                      {Math.round(currentOutcome.prob * 100)}%
+                    </span>
+                  </div>
+                  <div style={{ display: "flex", gap: 8 }} role="tablist" aria-label="Zgjidh skuadrën">
+                    {group.outcomes.map((o) => (
+                      <Link
+                        key={o.slug}
+                        href={`/tregu/${o.slug}`}
+                        className="tregu-team-switch"
+                        data-active={o.slug === slug}
+                        role="tab"
+                        aria-selected={o.slug === slug}
+                      >
+                        <TeamFlag team={o.label} size={20} radius={6} label={o.label} />
+                        <span>{o.label}</span>
+                        <span style={{ opacity: 0.72, fontVariantNumeric: "tabular-nums" }}>
+                          {Math.round(o.prob * 100)}%
+                        </span>
+                      </Link>
+                    ))}
+                  </div>
                 </div>
               )}
-              <div style={{ marginTop: 22, paddingTop: 18, borderTop: "1px solid rgba(17,17,17,.09)" }}>
-                <h4 style={{ fontSize: 14, margin: "0 0 8px" }}>Burime të papërpunuara</h4>
-                {latestEvidence.length === 0 ? <p style={{ color: "#6B6B6B", fontSize: 13, margin: 0 }}>Ende nuk ka burime të dokumentuara.</p> : latestEvidence.map((e) => e.url ? (
-                  <a key={e.slug} href={e.url} target="_blank" rel="noreferrer" style={{ display: "block", color: "#111111", fontSize: 13, marginTop: 8 }}>{e.title} ↗</a>
-                ) : <p key={e.slug} style={{ color: "#6B6B6B", fontSize: 13, margin: "8px 0 0" }}>{e.title} — lidhja e burimit nuk është ruajtur.</p>)}
+              {!user ? (
+                <div style={{ textAlign: "center", padding: "20px 0" }}>
+                  <p style={{ color: "#6B6B6B", marginBottom: 14 }}>
+                    Duhet të krijosh llogari për të tregtuar — merr 100 383 Coin falas.
+                  </p>
+                  <Link href="/hyr" className="tregu-btn-primary" style={{ padding: "10px 22px", borderRadius: 100, textDecoration: "none", display: "inline-block" }}>
+                    Hyr / Regjistrohu
+                  </Link>
+                </div>
+              ) : isClosed ? (
+                <p style={{ color: "#6B6B6B", margin: 0 }}>Ky treg nuk pranon më tregtime.</p>
+              ) : (
+                <>
+                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>
+                    <div className="tregu-sort">
+                      <button aria-pressed={mode === "buy"} onClick={() => { setMode("buy"); setTradeMsg(null); }} type="button">
+                        Blej
+                      </button>
+                      <button
+                        aria-pressed={mode === "sell"}
+                        disabled={positions.every((p) => p.shares <= 0)}
+                        onClick={() => {
+                          setMode("sell");
+                          setTradeMsg(null);
+                          // Jump to a side the user actually holds.
+                          const h = heldOn(side) ?? positions.find((p) => p.shares > 0);
+                          if (h) {
+                            setSide(h.side);
+                            setSellShares(Number(h.shares));
+                          }
+                        }}
+                        type="button"
+                        style={positions.every((p) => p.shares <= 0) ? { opacity: 0.4, cursor: "not-allowed" } : undefined}
+                      >
+                        Shit
+                      </button>
+                    </div>
+                    {balance !== null && (
+                      <span style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: 12, fontWeight: 800, fontVariantNumeric: "tabular-nums" }}>
+                        <CoinFace size={16} /> {fmtNum(balance)}
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Side selector with live prices per side. */}
+                  <div style={{ display: "flex", gap: 10, marginBottom: 16 }}>
+                    {(["PO", "JO"] as Side[]).map((s) => {
+                      const p = s === "PO" ? currentPrice : 1 - currentPrice;
+                      const active = side === s;
+                      const disabled = mode === "sell" && !heldOn(s);
+                      return (
+                        <button
+                          key={s}
+                          onClick={() => {
+                            if (disabled) return;
+                            setSide(s);
+                            if (mode === "sell") setSellShares(Number(heldOn(s)?.shares ?? 0));
+                          }}
+                          className={active ? (s === "PO" ? "tregu-btn-yes" : "tregu-btn-no") : undefined}
+                          type="button"
+                          style={{
+                            flex: 1,
+                            padding: "12px 10px",
+                            borderRadius: 12,
+                            fontWeight: 800,
+                            cursor: disabled ? "not-allowed" : "pointer",
+                            opacity: disabled ? 0.4 : 1,
+                            background: active ? undefined : "rgba(17,17,17,0.04)",
+                            border: active ? undefined : "1px solid rgba(17,17,17,0.10)",
+                            color: active ? undefined : "#111111",
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                            gap: 2,
+                            transition: "transform 160ms var(--ease-out), background-color 200ms var(--ease-out)",
+                          }}
+                        >
+                          <span>{sideLabel(s)}</span>
+                          <span style={{ fontSize: 12, fontWeight: 700, opacity: 0.75, fontVariantNumeric: "tabular-nums" }}>
+                            {(p * 100).toFixed(0)}%
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  {held && (
+                    <p style={{ fontSize: 12, color: "#6B6B6B", margin: "0 0 12px", fontVariantNumeric: "tabular-nums" }}>
+                      Pozicioni yt: <strong style={{ color: "#111111" }}>{Number(held.shares).toFixed(2)} {held.side}</strong>
+                      {held.shares > 0 && (
+                        <> · hyrja {((held.coins_staked / held.shares) * 100).toFixed(0)}%</>
+                      )}
+                    </p>
+                  )}
+
+                  {mode === "buy" ? (
+                    <>
+                      <label style={{ fontSize: 12, color: "#6B6B6B", fontWeight: 700 }}>Shuma (383 Coin)</label>
+                      <div style={{ display: "flex", alignItems: "center", gap: 10, margin: "8px 0 10px" }}>
+                        <CoinFace size={20} />
+                        <input
+                          type="number"
+                          min={1}
+                          value={amount}
+                          onChange={(e) => setAmount(Math.max(1, Number(e.target.value)))}
+                          className="tregu-input"
+                        />
+                      </div>
+                      <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 16 }}>
+                        {QUICK_AMOUNTS.map((q) => (
+                          <button key={q} className="tregu-chip" data-active={amount === q} onClick={() => setAmount(q)} type="button">
+                            {q}
+                          </button>
+                        ))}
+                        {balance !== null && balance >= 1 && (
+                          <button className="tregu-chip" data-active={amount === Math.floor(balance)} onClick={() => setAmount(Math.floor(balance))} type="button">
+                            Max
+                          </button>
+                        )}
+                      </div>
+
+                      {buyPreview && (
+                        <div className="tregu-slip-summary">
+                          <div><span>Çmimi aktual {sideLabel(side)}</span><strong>{(sidePrice * 100).toFixed(1)}%</strong></div>
+                          <div><span>Aksione</span><strong>{buyPreview.shares.toFixed(2)}</strong></div>
+                          <div><span>Çmimi mesatar</span><strong>{(buyPreview.avgPrice * 100).toFixed(1)}%</strong></div>
+                          <div>
+                            <span>Ndikimi në çmim</span>
+                            <strong style={{ color: impactPp > 5 ? "#B45309" : undefined }}>
+                              {impactPp.toFixed(1)}pp{impactPp > 5 ? " ⚠" : ""}
+                            </strong>
+                          </div>
+                          <div>
+                            <span>Fitimi nëse {sideLabel(side)}</span>
+                            <strong style={{ color: "#00854A" }}>
+                              +{potentialProfit.toFixed(1)} 383C ({roi.toFixed(0)}%)
+                            </strong>
+                          </div>
+                        </div>
+                      )}
+
+                      {balance !== null && amount > balance && (
+                        <p style={{ color: "#E41E20", fontSize: 12, marginBottom: 12 }}>Nuk ke mjaftueshëm 383 Coin ({balance})</p>
+                      )}
+
+                      <button
+                        onClick={submitTrade}
+                        disabled={!canBuy}
+                        className="tregu-btn-primary"
+                        style={{ width: "100%", padding: "14px", borderRadius: 12, fontSize: 15, cursor: "pointer" }}
+                      >
+                        {placing ? "Duke blerë..." : `Blej ${sideLabel(side)} · ${amount} 383C`}
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <label style={{ fontSize: 12, color: "#6B6B6B", fontWeight: 700 }}>Aksione për të shitur</label>
+                      <div style={{ display: "flex", alignItems: "center", gap: 10, margin: "8px 0 10px" }}>
+                        <input
+                          type="number"
+                          min={0}
+                          step={0.01}
+                          max={held ? Number(held.shares) : 0}
+                          value={sellShares || ""}
+                          onChange={(e) => {
+                            const v = Math.max(0, Number(e.target.value));
+                            setSellShares(held ? Math.min(v, Number(held.shares)) : v);
+                          }}
+                          className="tregu-input"
+                        />
+                        {held && (
+                          <button className="tregu-chip" onClick={() => setSellShares(Number(held.shares))} type="button">
+                            Të gjitha
+                          </button>
+                        )}
+                      </div>
+
+                      {sellPreview && (
+                        <div className="tregu-slip-summary">
+                          <div><span>Merr</span><strong style={{ color: "#00854A" }}>{sellPreview.coins.toFixed(1)} 383C</strong></div>
+                          <div><span>Çmimi mesatar i shitjes</span><strong>{(sellPreview.avgPrice * 100).toFixed(1)}%</strong></div>
+                          <div>
+                            <span>Ndikimi në çmim</span>
+                            <strong style={{ color: impactPp > 5 ? "#B45309" : undefined }}>
+                              {impactPp.toFixed(1)}pp{impactPp > 5 ? " ⚠" : ""}
+                            </strong>
+                          </div>
+                        </div>
+                      )}
+
+                      <button
+                        onClick={submitTrade}
+                        disabled={!canSell}
+                        className="tregu-btn-primary"
+                        style={{ width: "100%", padding: "14px", borderRadius: 12, fontSize: 15, cursor: "pointer" }}
+                      >
+                        {placing ? "Duke shitur..." : `Shit ${sideLabel(side)}`}
+                      </button>
+                    </>
+                  )}
+
+                  {tradeMsg && (
+                    <p style={{ marginTop: 12, fontSize: 13, fontWeight: 600, color: tradeMsg.ok ? "#00854A" : "#E41E20" }}>{tradeMsg.text}</p>
+                  )}
+                </>
+              )}
+            </div>
+
+            {/* Related events — compact rows under the trade card. */}
+            {related.length > 0 && (
+              <div className="tregu-panel" style={{ padding: "18px 20px" }}>
+                <h3 style={{ fontSize: 14, fontWeight: 800, margin: "0 0 10px" }}>Ngjarje të lidhura</h3>
+                <div style={{ display: "flex", flexDirection: "column" }}>
+                  {related.map((m) => (
+                    <Link key={m.slug} href={`/tregu/${m.slug}`} className="tregu-rel-row">
+                      {/* Event questions carry both team names — flag must key off the outcome half. */}
+                      <TeamFlag
+                        team={parseEvent(m.question)?.outcome ?? m.question}
+                        size={30}
+                        radius={9}
+                        label={m.question}
+                      />
+                      <span className="tregu-rel-q">{m.question}</span>
+                      <span className="tregu-rel-pct">{Math.round(m.prob * 100)}%</span>
+                    </Link>
+                  ))}
+                </div>
               </div>
-              {latestReference?.oracle_reasoning && <p style={{ fontSize: 12, color: "#6B6B6B", margin: "18px 0 0" }}>Oracle lëviz vetëm gjendjen LMSR me kufi të audituar; nuk ndryshon 383C, bilancet ose pozicionet.</p>}
-            </section>
-          )}
+            )}
+
+            {/* Sinjali AI — how the newest news-scored probability compares to
+               the crowd. This is the surface of the 5-min refresh loop: when
+               news moves the AI line away from the market, traders see the
+               edge before the odds catch up. */}
+            {latestAiSnap && latestAiSnap.ai_prob !== null && (
+              <div className="tregu-panel" style={{ padding: 24 }}>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
+                  <h3 style={{ fontSize: 15, fontWeight: 800, margin: 0 }}>Sinjali AI</h3>
+                  <span style={{ fontSize: 11, color: "#6B6B6B" }}>{timeAgo(latestAiSnap.created_at)}</span>
+                </div>
+                {(() => {
+                  const ai = latestAiSnap.ai_prob as number;
+                  const gapPp = Math.round((ai - market.market_prob) * 100);
+                  return (
+                    <>
+                      <div style={{ display: "flex", gap: 24, marginBottom: 12 }}>
+                        <div>
+                          <div style={{ fontSize: 11, fontWeight: 700, color: "#6B6B6B", marginBottom: 2 }}>AI nga lajmet</div>
+                          <div style={{ fontSize: 22, fontWeight: 800, color: "#B45309", fontVariantNumeric: "tabular-nums" }}>
+                            {Math.round(ai * 100)}%
+                          </div>
+                        </div>
+                        <div>
+                          <div style={{ fontSize: 11, fontWeight: 700, color: "#6B6B6B", marginBottom: 2 }}>Tregu</div>
+                          <div style={{ fontSize: 22, fontWeight: 800, color: "#00854A", fontVariantNumeric: "tabular-nums" }}>
+                            {pct}%
+                          </div>
+                        </div>
+                      </div>
+                      <p style={{ fontSize: 12.5, color: "#555555", lineHeight: 1.55, margin: 0 }}>
+                        {Math.abs(gapPp) < 3
+                          ? "AI dhe tregu pajtohen — çmimi duket i drejtë."
+                          : gapPp > 0
+                            ? `AI e vlerëson ${sideLabel("PO")} ${Math.abs(gapPp)}pp më lart se tregu — lajmet e fundit anojnë PO.`
+                            : `AI e vlerëson ${sideLabel("PO")} ${Math.abs(gapPp)}pp më poshtë se tregu — lajmet e fundit anojnë JO.`}
+                      </p>
+                    </>
+                  );
+                })()}
+              </div>
+            )}
+
+            {/* Resolution rules — the trust surface. */}
+            <div className="tregu-panel" style={{ padding: 24 }}>
+              <h3 style={{ fontSize: 15, fontWeight: 800, margin: "0 0 10px" }}>Rregullat e zgjidhjes</h3>
+              <p style={{ fontSize: 13, color: "#111111", lineHeight: 1.6, margin: "0 0 12px" }}>
+                {market.resolution_rules ||
+                  "Tregu zgjidhet PO nëse ngjarja e përshkruar ndodh dhe konfirmohet nga burime zyrtare para datës së mbylljes. Çdo rezultat tjetër zgjidhet JO."}
+              </p>
+              <div style={{ fontSize: 12, color: "#6B6B6B", lineHeight: 1.7 }}>
+                <div>
+                  <strong style={{ color: "#111111" }}>Burimi:</strong>{" "}
+                  {market.resolution_source || "Burime zyrtare + raportimi i 383"}
+                </div>
+                <div>
+                  <strong style={{ color: "#111111" }}>Mbyllet:</strong>{" "}
+                  {new Date(market.closes_at).toLocaleDateString("sq-AL", { day: "numeric", month: "long", year: "numeric" })}
+                </div>
+              </div>
+            </div>
+          </aside>
         </div>
+
       </main>
-      <style jsx global>{`@media (prefers-reduced-motion: reduce) { .tregu-live-dot span, .tregu-scope * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; } }`}</style>
     </div>
   );
 }

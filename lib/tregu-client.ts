@@ -77,7 +77,7 @@ export function lmsrPriceYes(qYes: number, qNo: number, b: number): number {
 /** Preview shares bought + resulting price for a bet, without touching the DB. */
 export function previewBet(
   market: Pick<Market, "q_yes" | "q_no" | "b">,
-  side: BinarySide,
+  side: Side,
   coins: number
 ): { shares: number; newPriceYes: number; avgPrice: number } {
   const { q_yes, q_no, b } = market;
@@ -108,4 +108,22 @@ export function lmsrThreeOutcomePrices(market: Pick<Market, "q_england" | "q_dra
   const weights = quantities.map((q) => Math.exp((q - pivot) / market.b));
   const total = weights.reduce((sum, weight) => sum + weight, 0);
   return { england: weights[0] / total, draw: weights[1] / total, argentina: weights[2] / total };
+}
+
+
+/** Legacy 418ecb9 graph detail sell preview support. */
+export function lmsrCost(qYes: number, qNo: number, b: number): number {
+  return b * Math.log(Math.exp(qYes / b) + Math.exp(qNo / b));
+}
+
+export function previewSell(
+  market: Pick<Market, "q_yes" | "q_no" | "b">,
+  side: Side,
+  shares: number
+): { coins: number; newPriceYes: number; avgPrice: number } {
+  const { q_yes, q_no, b } = market;
+  const newQYes = side === "PO" ? q_yes - shares : q_yes;
+  const newQNo = side === "JO" ? q_no - shares : q_no;
+  const coins = Math.max(0, lmsrCost(q_yes, q_no, b) - lmsrCost(newQYes, newQNo, b));
+  return { coins, newPriceYes: lmsrPriceYes(newQYes, newQNo, b), avgPrice: shares > 0 ? coins / shares : 0 };
 }
