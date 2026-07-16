@@ -1,13 +1,19 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Navbar from "@/components/navbar";
 import MarketMiniCard from "@/components/tregu/market-mini-card";
+import MarketEventCard from "@/components/tregu/market-event-card";
+import { groupMarkets } from "@/lib/tregu-groups";
+import FeaturedCarousel from "@/components/tregu/featured-carousel";
+import FloorRail from "@/components/tregu/floor-rail";
+import type { MiniMarket } from "@/components/tregu/market-mini-card";
 import VideoHero from "@/components/tregu/video-hero";
 import CoinFace from "@/components/tregu/coin-face";
 import MobileAccountBar from "@/components/tregu/mobile-account-bar";
 import { createClient } from "@/lib/supabase/client";
 import Link from "next/link";
+import { fmtNum } from "@/lib/format";
 
 interface MarketRow {
   id: string;
@@ -19,11 +25,30 @@ interface MarketRow {
   closes_at: string;
   q_yes: number;
   q_no: number;
-  last_checked_at?: string | null;
-  three_outcome_prices?: { england: number; draw: number; argentina: number } | null;
-  reference_probabilities?: { england: number; draw: number; argentina: number } | null;
-  live_score_state?: { status?: string; detail?: string; competitors?: { team: string; score: number }[]; metrics?: Record<string, { shots?: number; shots_on_target?: number; possession?: number; xg?: number }>; metric_sources?: Record<string, Record<string, "espn" | "flashscore">>; supplemental?: { flashscore?: { availability?: "available" | "unavailable" } } } | null;
-  pre_match_analysis?: { refresh_health?: { status?: "active" | "healthy" | "stale"; last_successful_scan_at?: string | null; lineup_status?: "confirmed" | "predicted_or_unknown" } } | null;
+  spark?: number[];
+  delta7d?: number | null;
+  trade_count?: number;
+}
+
+interface ActivityItem {
+  name: string;
+  action: string;
+  side: string;
+  coins: number;
+  createdAt: string;
+  question: string;
+  slug: string;
+}
+
+function timeAgo(iso: string): string {
+  const ms = Date.now() - new Date(iso).getTime();
+  if (!Number.isFinite(ms)) return "—";
+  const min = Math.floor(ms / 60_000);
+  if (min < 1) return "tani";
+  if (min < 60) return `${min}m`;
+  const h = Math.floor(min / 60);
+  if (h < 24) return `${h}h`;
+  return `${Math.floor(h / 24)}d`;
 }
 
 const CATEGORIES: { value: string; label: string }[] = [
@@ -48,9 +73,12 @@ function vol(m: MarketRow): number {
 
 export default function TreguHub() {
   const [markets, setMarkets] = useState<MarketRow[]>([]);
+  const [activity, setActivity] = useState<ActivityItem[]>([]);
   const [category, setCategory] = useState("all");
   const [sort, setSort] = useState<SortKey>("vellim");
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState(false);
+  const [reloadKey, setReloadKey] = useState(0);
   const [updatedAt, setUpdatedAt] = useState<string | null>(null);
   const [balance, setBalance] = useState<number | null>(null);
   const [claiming, setClaiming] = useState(false);
@@ -58,37 +86,24 @@ export default function TreguHub() {
   const [coinSpin, setCoinSpin] = useState(false);
   const [flyCoins, setFlyCoins] = useState<number[]>([]);
 
-  const loadMarkets = useCallback(async () => {
-    const query = new URLSearchParams({ fresh: String(Date.now()) });
-    if (category !== "all") query.set("category", category);
-    try {
-      const response = await fetch(`/api/tregu/markets?${query}`, { cache: "no-store" });
-      const data = await response.json();
-      if (response.ok) {
-        setMarkets(data.markets ?? []);
-        setUpdatedAt(new Date().toLocaleTimeString("sq-AL", { hour: "2-digit", minute: "2-digit" }));
-      }
-    } finally {
-      setLoading(false);
-    }
-  }, [category]);
-
   useEffect(() => {
     setLoading(true);
-    void loadMarkets();
-    const pollingTimer = window.setInterval(() => void loadMarkets(), 12_000);
-    return () => window.clearInterval(pollingTimer);
-  }, [loadMarkets]);
-
-  useEffect(() => {
-    if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) return;
-    const supabase = createClient();
-    const channel = supabase
-      .channel("tregu-market-cards")
-      .on("postgres_changes", { event: "*", schema: "public", table: "markets" }, () => void loadMarkets())
-      .subscribe();
-    return () => { void supabase.removeChannel(channel); };
-  }, [loadMarkets]);
+    setLoadError(false);
+    const qs = category === "all" ? "" : `?category=${category}`;
+    fetch(`/api/tregu/markets${qs}`)
+      .then((r) => {
+        if (!r.ok) throw new Error(`markets ${r.status}`);
+        return r.json();
+      })
+      .then((d) => {
+        setMarkets(d.markets ?? []);
+        setActivity(d.activity ?? []);
+        setUpdatedAt(new Date().toLocaleTimeString("sq-AL", { hour: "2-digit", minute: "2-digit" }));
+      })
+      // Offline or a 5xx must never masquerade as "no markets exist".
+      .catch(() => setLoadError(true))
+      .finally(() => setLoading(false));
+  }, [category, reloadKey]);
 
   useEffect(() => {
     if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) return;
@@ -177,17 +192,64 @@ export default function TreguHub() {
     [markets]
   );
 
+  // Multi-outcome events: markets titled "<Ngjarja>: <Rezultati>?" fold into
+  // one Polymarket-style card with a combined chart and one buy row per
+  // outcome. Their sibling books leave the plain grid and the carousel.
+  const eventGroups = useMemo(
+    () =>
+      groupMarkets(
+        markets.map((m) => ({
+          slug: m.slug,
+          question: m.question,
+          category: m.category,
+          prob: m.market_prob,
+          volume: vol(m),
+          closesAt: m.closes_at,
+          spark: m.spark,
+          delta7d: m.delta7d,
+        }))
+      ).groups,
+    [markets]
+  );
+  const groupedSlugs = useMemo(
+    () => new Set(eventGroups.flatMap((g) => g.outcomes.map((o) => o.slug))),
+    [eventGroups]
+  );
+
+  // The big events: highest-volume open markets rotate through the flagship
+  // carousel. Always volume-ranked regardless of the grid sort — size of the
+  // book is what makes an event "big". Capped at 4 and never more than half
+  // the floor, so the grid below always keeps something to browse.
+  const featured = useMemo(() => {
+    const pool = markets.filter((m) => !groupedSlugs.has(m.slug));
+    if (pool.length < 3) return [] as MarketRow[];
+    const n = Math.min(4, Math.floor(pool.length / 2));
+    return [...pool].sort((a, b) => vol(b) - vol(a)).slice(0, n);
+  }, [markets, groupedSlugs]);
+
   // Sorting is the affordance that makes the trader think: chase volume,
   // beat the clock, or hunt the most contested (closest-to-50) markets.
   const sorted = useMemo(() => {
-    const arr = [...markets];
+    const featuredSlugs = new Set(featured.map((m) => m.slug));
+    const arr = markets.filter((m) => !featuredSlugs.has(m.slug) && !groupedSlugs.has(m.slug));
     if (sort === "vellim") arr.sort((a, b) => vol(b) - vol(a));
     else if (sort === "afat")
       arr.sort((a, b) => new Date(a.closes_at).getTime() - new Date(b.closes_at).getTime());
     else if (sort === "nxehta")
       arr.sort((a, b) => Math.abs(0.5 - a.market_prob) - Math.abs(0.5 - b.market_prob));
     return arr;
-  }, [markets, sort]);
+  }, [markets, featured, groupedSlugs, sort]);
+
+  const toMini = (m: MarketRow): MiniMarket => ({
+    slug: m.slug,
+    question: m.question,
+    category: m.category,
+    prob: m.market_prob,
+    volume: vol(m),
+    closesAt: m.closes_at,
+    spark: m.spark,
+    delta7d: m.delta7d,
+  });
 
   const claimBonus = async () => {
     setClaiming(true);
@@ -228,12 +290,12 @@ export default function TreguHub() {
           <span className="tregu-stat-live">Tregu hapur</span>
           <span className="tregu-stat">
             <span className="tregu-stat-label">Tregje</span>
-            <span className="tregu-stat-value">{loading ? "—" : totals.count.toLocaleString("sq-AL")}</span>
+            <span className="tregu-stat-value">{loading || loadError ? "—" : fmtNum(totals.count)}</span>
           </span>
           <span className="tregu-stat">
             <span className="tregu-stat-label">Vëllimi</span>
             <span className="tregu-stat-value">
-              {loading ? "—" : `${Math.round(totals.volume).toLocaleString("sq-AL")} 383C`}
+              {loading || loadError ? "—" : `${fmtNum(totals.volume)} 383C`}
             </span>
           </span>
           <span className="tregu-stat">
@@ -275,7 +337,7 @@ export default function TreguHub() {
             <div className="tregu-glass tregu-glass-hi tregu-headchip" style={{ display: "flex", alignItems: "center", gap: 12, padding: "9px 10px 9px 14px" }}>
               <CoinFace size={26} spinning={coinSpin} hoverTilt />
               <span style={{ fontWeight: 800, fontSize: 16, fontVariantNumeric: "tabular-nums" }}>
-                {balance.toLocaleString("sq-AL")}
+                {fmtNum(balance)}
               </span>
               {bonusMsg && <span style={{ fontSize: 12, fontWeight: 700, color: "#00A651", fontVariantNumeric: "tabular-nums" }}>{bonusMsg}</span>}
               <button
@@ -320,14 +382,61 @@ export default function TreguHub() {
           })}
         </div>
 
+        {/* Live tape — latest real trades across the floor, the hub's pulse. */}
+        {activity.length > 0 && (
+          <div className="tregu-ticker" aria-label="Tregtimet e fundit">
+            <span className="tregu-ticker-label">
+              <span className="tregu-live-dot" aria-hidden />
+              Live
+            </span>
+            <div className="tregu-ticker-track">
+              {activity.map((a, i) => (
+                <Link key={i} href={`/tregu/${a.slug}`} className="tregu-ticker-item">
+                  <strong>{a.name}</strong>
+                  <span>{a.action === "sell" ? "shiti" : "bleu"}</span>
+                  <span
+                    className="tregu-ticker-side"
+                    data-side={a.side === "PO" ? "po" : "jo"}
+                  >
+                    {a.side}
+                  </span>
+                  <span className="tregu-ticker-coins">
+                    {fmtNum(a.coins)} 383C
+                  </span>
+                  <span className="tregu-ticker-q">{a.question}</span>
+                  <span className="tregu-ticker-time">{timeAgo(a.createdAt)}</span>
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Hero row — flagship carousel left, floor rail right. The big
+            books rotate through one big card; the rail ranks the whole
+            floor: hot topics, nearest deadlines, and the promo tile. */}
+        {!loading && !loadError && featured.length > 0 && (
+          <div className="tregu-hero-row">
+            <FeaturedCarousel key={category} markets={featured.map(toMini)} />
+            <FloorRail
+              markets={markets.map(toMini)}
+              loggedIn={balance !== null}
+              claiming={claiming}
+              bonusMsg={bonusMsg}
+              onClaim={claimBonus}
+            />
+          </div>
+        )}
+
         {/* Controls — count + segmented sort (traders sort). */}
         <div className="tregu-controls">
           <span className="tregu-count">
             {loading ? (
               "Duke ngarkuar tregjet…"
+            ) : loadError ? (
+              "Tregjet nuk u ngarkuan"
             ) : (
               <>
-                <strong>{sorted.length}</strong> {sorted.length === 1 ? "treg aktiv" : "tregje aktive"}
+                <strong>{markets.length}</strong> {markets.length === 1 ? "treg aktiv" : "tregje aktive"}
               </>
             )}
           </span>
@@ -341,12 +450,36 @@ export default function TreguHub() {
         </div>
 
         {loading ? (
-          <div className="tregu-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 14 }}>
-            {[0, 1, 2, 3, 4, 5].map((i) => (
-              <div key={i} className="tregu-glass" style={{ height: 208, opacity: 0.5 }} />
-            ))}
+          <>
+            {/* Hero-row-shaped skeleton so the flagship slot doesn't pop in late. */}
+            <div className="tregu-hero-row">
+              <div className="tregu-glass" style={{ height: 300, opacity: 0.5, borderRadius: 18 }} />
+              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                <div className="tregu-glass" style={{ flex: 1, opacity: 0.5 }} />
+                <div className="tregu-glass" style={{ height: 96, opacity: 0.5 }} />
+              </div>
+            </div>
+            <div className="tregu-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 14 }}>
+              {[0, 1, 2, 3, 4, 5].map((i) => (
+                <div key={i} className="tregu-glass" style={{ height: 208, opacity: 0.5 }} />
+              ))}
+            </div>
+          </>
+        ) : loadError ? (
+          <div className="tregu-glass" style={{ padding: "40px 28px", textAlign: "center" }}>
+            <p style={{ fontWeight: 800, fontSize: 16, margin: 0 }}>Tregjet nuk u ngarkuan</p>
+            <p style={{ color: "#6B6B6B", fontSize: 14, margin: "6px 0 16px" }}>
+              Kontrollo lidhjen me internetin dhe provo përsëri.
+            </p>
+            <button
+              onClick={() => setReloadKey((k) => k + 1)}
+              className="tregu-btn-primary"
+              style={{ padding: "10px 22px", borderRadius: 100, fontSize: 13, cursor: "pointer" }}
+            >
+              Provo përsëri
+            </button>
           </div>
-        ) : sorted.length === 0 ? (
+        ) : sorted.length === 0 && eventGroups.length === 0 ? (
           <div className="tregu-glass" style={{ padding: "40px 28px", textAlign: "center" }}>
             <p style={{ fontWeight: 800, fontSize: 16, margin: 0 }}>Asnjë treg aktiv këtu ende</p>
             <p style={{ color: "#6B6B6B", fontSize: 14, margin: "6px 0 0" }}>
@@ -355,23 +488,11 @@ export default function TreguHub() {
           </div>
         ) : (
           <div className="tregu-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 14 }}>
+            {eventGroups.map((g) => (
+              <MarketEventCard key={g.key} group={g} />
+            ))}
             {sorted.map((m) => (
-              <MarketMiniCard
-                key={m.id}
-                market={{
-                  slug: m.slug,
-                  question: m.question,
-                  category: m.category,
-                  prob: m.market_prob,
-                  volume: vol(m),
-                  closesAt: m.closes_at,
-                  lastCheckedAt: m.last_checked_at,
-                  threeOutcomePrices: m.three_outcome_prices,
-                  referenceProbabilities: m.reference_probabilities,
-                  liveScoreState: m.live_score_state,
-                  refreshHealth: m.pre_match_analysis?.refresh_health ?? null,
-                }}
-              />
+              <MarketMiniCard key={m.id} market={toMini(m)} />
             ))}
           </div>
         )}
