@@ -1,37 +1,8 @@
 "use client";
+import { useMemo, useState } from "react";
 
-const timeline = [
-  ["30'", "0-0", "Argjentina dominon: më shumë raste, goditje në portë dhe xG"],
-  ["43'", "1-0", "Gol për Spanjën"],
-  ["65'", "2-0", "Goli i dytë i Spanjës"],
-  ["82'", "2-1", "Argjentina rikthehet në lojë"],
-  ["92'", "2-2", "Argjentina barazon pak para fundit"],
-  ["112'", "2-3", "Gol i Argjentinës në kohën shtesë"],
-  ["FT", "2-3", "TEST ONLY: Argjentina kampione"],
-];
-const stats = [
-  ["Gola të pritshëm (xG)", "2.84", "1.96", 59],
-  ["Goditje totale", "18", "13", 58],
-  ["Goditje në portë", "9", "6", 60],
-  ["Posedim", "54%", "46%", 54],
-  ["Këndore", "7", "5", 58],
-  ["Faulle", "12", "14", 46],
-  ["Kartonë të verdhë", "2", "3", 40],
-  ["Kartonë të kuq", "0", "0", 50],
-];
-export default function TestLiveArgentinaSpain() {
- return <main style={{minHeight:"100vh",background:"#151a1f",color:"#edf3f8",padding:"42px max(24px,6vw)",fontFamily:"Arial,sans-serif"}}>
-  <div style={{maxWidth:1120,margin:"auto"}}>
-   <div style={{color:"#ff6b35",fontWeight:800,fontSize:13,letterSpacing:1}}>TEST ONLY · SIMULIM LIVE · JO TË DHËNA REALE</div>
-   <h1 style={{fontSize:36,margin:"10px 0 6px"}}>Argjentina 3 - 2 Spanja</h1><p style={{color:"#aeb9c5",marginTop:0}}>Finale e simuluar · Koha shtesë · ESPN event 760517 dhe Flashscore janë vetëm referenca për ndeshjen reale të së dielës.</p>
-   <section style={{background:"#1c242c",border:"1px solid #35424e",borderRadius:16,padding:24,marginTop:24}}>
-    <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}><b>Grafiku krahasues i gjasave</b><span style={{color:"#ff6b35",fontWeight:800}}>FT · TEST</span></div>
-    <svg viewBox="0 0 1000 280" width="100%" height="280" style={{marginTop:16}} aria-label="Grafik i simuluar i gjasave"><g stroke="#40505d" strokeDasharray="3 5">{[30,90,150,210].map(y=><line key={y} x1="0" x2="940" y1={y} y2={y}/>)}</g><polyline fill="none" stroke="#ff6b35" strokeWidth="4" points="0,120 250,80 420,45 550,95 700,145 820,90 940,30"/><polyline fill="none" stroke="#c5b8a8" strokeWidth="4" points="0,100 250,145 420,180 550,130 700,90 820,145 940,220"/><text x="950" y="35" fill="#ff6b35" fontSize="18">Argjentina 72%</text><text x="950" y="225" fill="#c5b8a8" fontSize="18">Spanja 28%</text></svg>
-   </section>
-   <section style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:24,marginTop:24}}>
-    <div style={{background:"#1c242c",borderRadius:16,padding:22}}><h2 style={{marginTop:0}}>Rrjedha e ndeshjes</h2>{timeline.map(([m,s,t])=><div key={m} style={{borderTop:"1px solid #33404b",padding:"12px 0",display:"grid",gridTemplateColumns:"52px 48px 1fr",gap:10}}><b style={{color:"#ff6b35"}}>{m}</b><b>{s}</b><span style={{color:"#c7d1db"}}>{t}</span></div>)}</div>
-    <div style={{background:"#1c242c",borderRadius:16,padding:22}}><h2 style={{marginTop:0}}>Statistikat e ndeshjes</h2><p style={{fontSize:12,color:"#ffb08c"}}>Të dhëna të simuluara për testim. Flashscore do të përdoret vetëm për statistika reale live.</p>{stats.map(([l,a,b,p])=><div key={l} style={{margin:"18px 0"}}><div style={{display:"flex",justifyContent:"space-between",fontWeight:700}}><span>{a}</span><span>{l}</span><span>{b}</span></div><div style={{height:9,background:"#2b343d",borderRadius:9,marginTop:7,display:"flex"}}><span style={{width:`${p}%`,background:"#ff6b35",borderRadius:"9px 0 0 9px"}}/><span style={{flex:1,background:"#b9ad9f",borderRadius:"0 9px 9px 0"}}/></div></div>)}</div>
-   </section>
-  </div>
- </main>;
-}
+type Point={minute:number; argentina:number; spain:number; score:string; xg:string; shots:string; onTarget:string; note:string};
+const impact=(m:number)=>{let a=50,s=50; const pressure=(from:number,to:number,da:number)=>m>=from?Math.min(m,to)-from>=0?da*Math.min(1,(m-from)/(to-from)):0:0; a+=pressure(2,30,5)+pressure(46,64,7)+pressure(66,81,6)+pressure(83,91,8)+pressure(94,111,5); s-=a-50; if(m>=43){s+=16;a-=16} if(m>=65){s+=15;a-=15} if(m>=82){a+=13;s-=13} if(m>=92){a+=18;s-=18} if(m>=112){a+=16;s-=16}; return {a:Math.max(5,Math.min(95,a)),s:Math.max(5,Math.min(95,s))};};
+const points:Point[]=Array.from({length:61},(_,i)=>{const minute=i*2; const v=impact(minute); const score=minute<43?"0-0":minute<65?"0-1":minute<82?"0-2":minute<92?"1-2":minute<112?"2-2":"3-2"; const note=minute===43?"Gol Spanja":minute===65?"Gol Spanja":minute===82?"Gol Argjentina":minute===92?"Gol Argjentina":minute===112?"Gol Argjentina në kohën shtesë":minute<43?"Presion Argjentina":minute<65?"Argjentina po rrit xG":minute<82?"Argjentina po ushtron presion":"Ndeshje live e simuluar"; return {minute,argentina:v.a,spain:v.s,score,xg:`${(0.08+minute*.023+(minute>65?.3:0)).toFixed(2)} - ${(0.05+minute*.016+(minute>43?.45:0)+(minute>65?.4:0)).toFixed(2)}`,shots:`${Math.round(1+minute*.14)} - ${Math.round(1+minute*.11)}`,onTarget:`${Math.round(minute*.07)} - ${Math.round(minute*.055)}`,note}});
+function Chart(){const [hover,setHover]=useState<number|null>(null);const W=920,H=310,pad=26;const x=(i:number)=>i/(points.length-1)*(W-120);const y=(v:number)=>H-pad-(v/100)*(H-pad*2);const path=(k:"argentina"|"spain",until=points.length-1)=>points.slice(0,until+1).map((p,i)=>`${i?'L':'M'}${x(i).toFixed(1)},${y(p[k]).toFixed(1)}`).join(' ');const p=hover===null?points.at(-1)!:points[hover];return <section style={{background:'#1c242c',border:'1px solid #35424e',borderRadius:16,padding:24}}><b>Grafiku krahasues - rifreskim çdo 2 minuta</b><p style={{color:'#ffb08c',fontSize:12}}>TEST ONLY · xG, goditjet dhe presioni ndikojnë gjasat mes golave.</p><svg viewBox={`0 0 ${W} ${H}`} width="100%" height="310" onPointerMove={e=>{const r=e.currentTarget.getBoundingClientRect();setHover(Math.max(0,Math.min(60,Math.round(((e.clientX-r.left)/r.width)*60))));}} onPointerLeave={()=>setHover(null)}>{[15,30,45,60,75].map(v=><line key={v} x1="0" x2={W-100} y1={y(v)} y2={y(v)} stroke="#40505d" strokeDasharray="3 5"/>)}{hover!==null&&<><path d={path('argentina',hover)} fill="none" stroke="#ff6b35" strokeWidth="3"/><path d={path('spain',hover)} fill="none" stroke="#c5b8a8" strokeWidth="3"/><path d={path('argentina')} fill="none" stroke="#ff6b35" strokeOpacity=".2" strokeWidth="3"/><path d={path('spain')} fill="none" stroke="#c5b8a8" strokeOpacity=".2" strokeWidth="3"/><line x1={x(hover)} x2={x(hover)} y1="0" y2={H} stroke="#8b9aaa"/></>}{hover===null&&<><path d={path('argentina')} fill="none" stroke="#ff6b35" strokeWidth="3"/><path d={path('spain')} fill="none" stroke="#c5b8a8" strokeWidth="3"/></>}<text x={W-92} y={y(p.argentina)} fill="#ff6b35" fontSize="17">ARG {p.argentina.toFixed(1)}%</text><text x={W-92} y={y(p.spain)} fill="#c5b8a8" fontSize="17">SPA {p.spain.toFixed(1)}%</text></svg><div style={{background:'#11161b',padding:14,borderRadius:10}}><b>{p.minute}' · {p.score}</b><span style={{marginLeft:16}}>{p.note}</span><div style={{color:'#c7d1db',marginTop:6}}>xG {p.xg} · Goditje {p.shots} · Në portë {p.onTarget}</div></div></section>}
+export default function Page(){return <main style={{minHeight:'100vh',background:'#151a1f',color:'#edf3f8',padding:'42px 6vw',fontFamily:'Arial'}}><div style={{maxWidth:1120,margin:'auto'}}><b style={{color:'#ff6b35'}}>TEST ONLY · SIMULIM LIVE · JO TË DHËNA REALE</b><h1>Argjentina 3 - 2 Spanja</h1><Chart/></div></main>}
