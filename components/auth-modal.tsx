@@ -91,7 +91,7 @@ export default function AuthModal({
     }
   }
 
-  async function handleOAuth(provider: "google" | "facebook") {
+  async function handleOAuth(provider: "google") {
     const supabase = getSupabase();
     if (!supabase) return;
     setError("");
@@ -104,7 +104,7 @@ export default function AuthModal({
       if (error) {
         const msg = error.message;
         if (msg.includes("not enabled") || msg.includes("validation_failed"))
-          setError(`Hyrja me ${provider === "google" ? "Google" : "Facebook"} nuk është aktivizuar ende.`);
+          setError("Hyrja me Google nuk është aktivizuar ende.");
         else setError(msg);
         setLoading(false);
       }
@@ -347,35 +347,6 @@ export default function AuthModal({
               />
             </svg>
             Hyr me Google
-          </button>
-
-          <button
-            onClick={() => handleOAuth("facebook")}
-            disabled={loading}
-            style={{
-              padding: "11px 14px",
-              borderRadius: "10px",
-              border: "1.5px solid #E8E3DB",
-              background: "#fff",
-              color: "#111",
-              fontSize: "14px",
-              fontWeight: 600,
-              cursor: loading ? "not-allowed" : "pointer",
-              fontFamily: "inherit",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: "10px",
-            }}
-          >
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-              <rect width="18" height="18" rx="4" fill="#1877F2" />
-              <path
-                d="M12.5 9H10.5V15H8V9H6.5V7H8V5.5C8 4.12 8.88 3 10.5 3H12.5V5H11C10.72 5 10.5 5.22 10.5 5.5V7H12.5L12 9H10.5Z"
-                fill="white"
-              />
-            </svg>
-            Hyr me Facebook
           </button>
         </div>
       </div>
