@@ -77,7 +77,8 @@ export function groupMarkets(minis: MiniMarket[]): {
     );
     const colorOf = new Map(colorOrder.map((m, i) => {
       const label = shortLabel(m.outcome).toLowerCase();
-      const color = label === "spanja" ? "#ff5a52" : label === "argjentina" ? "#7bb6ff" : OUTCOME_COLORS[i % OUTCOME_COLORS.length];
+      // Deep enough to hold a 2px line on the cream/white chart panel.
+      const color = label === "spanja" ? "#DE3B30" : label === "argjentina" ? "#2E7CD6" : OUTCOME_COLORS[i % OUTCOME_COLORS.length];
       return [m.mini.slug, color];
     }));
     // Each outcome is an independent binary book, so raw PO prices can sum to

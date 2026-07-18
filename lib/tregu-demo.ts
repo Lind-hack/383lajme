@@ -109,6 +109,105 @@ export function demoMinis(): MiniMarket[] {
 // Question prefix "<title>: <outcome>?" is what lib/tregu-groups.ts groups on.
 // Slugs start with "demo" so each outcome routes into the demo trading page.
 // A final always has a winner (vazhdime + penallti), so only 2 books.
+//
+// The chart data is a scripted match simulation: Argjentina comes back from
+// 0-2 to win 3-2 in extra time. Goals are hard price steps; everything between
+// them is momentum — pressure, shots, shots on target, xG, and possession
+// drifting the price the way a real in-play book moves.
+//
+// Match-minute keyframes for Argjentina's win probability:
+//   14'   GOL Spanja 1-0        (crash)
+//   31'   Argjentina hits the post, xG spike   (recovery drift)
+//   45+1' GOL Spanja 2-0 on the counter        (bottom)
+//   53'   GOL Argjentina 1-2                   (jump)
+//   53-72 sustained Argjentina pressure: corners, big chances (climb)
+//   74'   GOL Argjentina 2-2                   (jump toward coin-flip+)
+//   88'   Spanja late chance saved             (dip)
+//   91-108 extra time, Argjentina fresher      (climb)
+//   109'  GOL Argjentina 3-2                   (near-certainty)
+const MATCH_KEYFRAMES: [number, number][] = [
+  [0, 0.42], [8, 0.41], [12, 0.39],
+  [14, 0.26],
+  [24, 0.25], [28, 0.24],
+  [32, 0.29],
+  [44, 0.31],
+  [46, 0.11],
+  [52, 0.13],
+  [54, 0.24],
+  [62, 0.3], [66, 0.33], [68, 0.3], [72, 0.32],
+  [74, 0.52],
+  [80, 0.55], [86, 0.53], [88, 0.49], [92, 0.53],
+  [100, 0.57], [105, 0.61], [108, 0.6],
+  [110, 0.93],
+  [116, 0.96], [122, 0.982],
+];
+const MATCH_LAST_MIN = 122;
+
+function matchProbAt(m: number): number {
+  const k = MATCH_KEYFRAMES;
+  if (m <= k[0][0]) return k[0][1];
+  for (let i = 1; i < k.length; i++) {
+    if (m <= k[i][0]) {
+      const [m0, p0] = k[i - 1];
+      const [m1, p1] = k[i];
+      return p0 + ((p1 - p0) * (m - m0)) / (m1 - m0);
+    }
+  }
+  return k[k.length - 1][1];
+}
+
+// Timestamped in-play tape at 2-minute resolution, ending now (full time).
+// Micro-jitter is decorrelated per book so the two lines don't mirror exactly.
+export function demoMatchSeries(slug: string): { t: number; p: number }[] | undefined {
+  if (slug !== "demo-ev-argjentina" && slug !== "demo-ev-spanja") return undefined;
+  const arg = slug === "demo-ev-argjentina";
+  const end = now();
+  const pts: { t: number; p: number }[] = [];
+  for (let m = 0; m <= MATCH_LAST_MIN; m += 2) {
+    const base = matchProbAt(m);
+    let p = arg ? base : 1 - base;
+    p += noise(m * 0.7 + (arg ? 3 : 11)) * 0.012;
+    p = Math.max(0.01, Math.min(0.99, p));
+    pts.push({ t: end - (MATCH_LAST_MIN - m) * 60_000, p });
+  }
+  return pts;
+}
+
+function matchSpark(slug: string): number[] {
+  return (demoMatchSeries(slug) ?? []).filter((_, i) => i % 2 === 0).map((pt) => pt.p);
+}
+
+// FotMob-style full-match stat lines, consistent with the 3-2 comeback:
+// Spanja controlled the opening 45, Argjentina dominated everything after.
+export interface MatchStatRow {
+  label: string;
+  home: number;
+  away: number;
+  homeText?: string;
+  awayText?: string;
+}
+
+export function demoMatchStats() {
+  return {
+    home: "Argjentina",
+    away: "Spanja",
+    score: "3 - 2",
+    note: "Pas vazhdimeve",
+    goals: "Golat: Spanja 14', 45+1' · Argjentina 53', 74', 109'",
+    rows: [
+      { label: "Golat e pritshëm (xG)", home: 3.24, away: 2.11, homeText: "3.24", awayText: "2.11" },
+      { label: "Posedimi i topit", home: 54, away: 46, homeText: "54%", awayText: "46%" },
+      { label: "Gjuajtjet totale", home: 19, away: 12 },
+      { label: "Gjuajtje në portë", home: 9, away: 6 },
+      { label: "Shanse të mëdha", home: 5, away: 3 },
+      { label: "Sulme të rrezikshme", home: 58, away: 41 },
+      { label: "Goditje nga këndi", home: 8, away: 4 },
+      { label: "Pasime të sakta", home: 612, away: 498, homeText: "87% (612/703)", awayText: "84% (498/593)" },
+      { label: "Kartonë të verdhë", home: 2, away: 3 },
+    ] as MatchStatRow[],
+  };
+}
+
 export function demoEventMinis(): MiniMarket[] {
   const closes = new Date(now() + 4 * DAY).toISOString();
   return [
@@ -116,21 +215,21 @@ export function demoEventMinis(): MiniMarket[] {
       slug: "demo-ev-argjentina",
       question: "Argjentina – Spanja: Fiton Argjentina?",
       category: "sport",
-      prob: 0.42,
+      prob: 0.982,
       volume: 2140,
       closesAt: closes,
-      spark: tape(0.51, 0.42),
-      delta7d: -0.09,
+      spark: matchSpark("demo-ev-argjentina"),
+      delta7d: 0.56,
     },
     {
       slug: "demo-ev-spanja",
       question: "Argjentina – Spanja: Fiton Spanja?",
       category: "sport",
-      prob: 0.58,
+      prob: 0.018,
       volume: 1890,
       closesAt: closes,
-      spark: tape(0.49, 0.58),
-      delta7d: 0.09,
+      spark: matchSpark("demo-ev-spanja"),
+      delta7d: -0.56,
     },
   ];
 }
@@ -157,7 +256,7 @@ function demoEventDetail(ev: MiniMarket) {
     slug: ev.slug,
     question: ev.question,
     description:
-      "Finalja e Kupës së Botës 2026: Argjentina – Spanja. Tregu ndjek fituesin e trofeut — vazhdimet dhe penalltitë llogariten, finalja ka gjithmonë një fitues.",
+      "Finalja e Kupës së Botës 2026: Argjentina – Spanja. Tregu ndjek fituesin e trofeut - vazhdimet dhe penalltitë llogariten, finalja ka gjithmonë një fitues.",
     category: "sport",
     status: "open",
     outcome: null as Side | null,
@@ -168,7 +267,7 @@ function demoEventDetail(ev: MiniMarket) {
     closes_at: ev.closesAt!,
     source_article_slugs: [] as string[],
     resolution_rules:
-      "Zgjidhet PO nëse kjo skuadër ngre trofeun — përfshirë vazhdimet dhe penalltitë. Finalja ka gjithmonë një fitues, prandaj njëri nga dy tregjet zgjidhet PO.",
+      "Zgjidhet PO nëse kjo skuadër ngre trofeun - përfshirë vazhdimet dhe penalltitë. Finalja ka gjithmonë një fitues, prandaj njëri nga dy tregjet zgjidhet PO.",
     resolution_source: "Rezultati zyrtar i FIFA-s / transmetuesit zyrtar",
   };
 
