@@ -12,7 +12,8 @@ import CoinFace from "@/components/tregu/coin-face";
 import { createClient } from "@/lib/supabase/client";
 import { previewBet, previewSell, lmsrPriceYes, type Side, type MarketTrade } from "@/lib/tregu-client";
 import { fmtNum } from "@/lib/format";
-import { DEMO_SLUG, demoDetail, demoEventMinis, isDemoEnabled } from "@/lib/tregu-demo";
+import { DEMO_SLUG, demoDetail, demoEventMinis, demoMatchSeries, demoMatchStats, isDemoEnabled } from "@/lib/tregu-demo";
+import MatchStats from "@/components/tregu/match-stats";
 import { groupForSlug, parseEvent, type GroupOutcome, type MarketGroup } from "@/lib/tregu-groups";
 
 // Sibling outcome series from the detail API — real 5-min cron snapshots.
@@ -324,6 +325,11 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
   // available, otherwise the hub sparkline mapped onto a 5-min grid ending now
   // (demo + brand-new markets without snapshot history yet).
   const eventSeriesFor = (o: GroupOutcome): { t: number; p: number }[] | undefined => {
+    // Demo events carry a scripted in-play match simulation at 2-min steps.
+    if (demo) {
+      const sim = demoMatchSeries(o.slug);
+      if (sim) return sim;
+    }
     const fromApi = eventData?.outcomes.find((x) => x.slug === o.slug)?.series;
     if (fromApi && fromApi.length >= 2) return fromApi;
     if (o.spark && o.spark.length >= 2) {
@@ -448,7 +454,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
             {group && currentOutcome ? (
               <>
                 {/* Combined event chart — every outcome's live line, Polymarket-style. */}
-                <div className="tregu-panel tregu-polymarket-compare" style={{ padding: 24 }}>
+                <div className="tregu-panel" style={{ padding: 24 }}>
                   <h3 style={{ fontSize: 15, fontWeight: 800, margin: "0 0 14px" }}>Të gjitha rezultatet</h3>
                   <GroupChart
                     height={280}
@@ -460,6 +466,8 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                     }))}
                   />
                 </div>
+                {/* Demo simulation: full-match stat lines behind the price moves. */}
+                {demo && <MatchStats {...demoMatchStats()} />}
                 {/* One graph per outcome — each book's own live probability. */}
                 <div className="tregu-panel" style={{ padding: 24 }}>
                   <h3 style={{ fontSize: 15, fontWeight: 800, margin: "0 0 14px" }}>Gjasat sipas rezultatit</h3>

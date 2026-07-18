@@ -3133,26 +3133,106 @@ header[data-overlay] .nav-coin-chip {
 .tregu-activity-row:last-child { border-bottom: none; }
 
 
-/* Polymarket-inspired comparison treatment for grouped event outcomes only. */
-.tregu-polymarket-compare {
-  background: #151a1f;
-  border-color: #29313a;
-  color: #edf3f8;
-  box-shadow: none;
+/* ── Match stats: FotMob-style mirrored bars growing out from the center ── */
+.tregu-mstats-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 6px 16px;
 }
-.tregu-polymarket-compare .tregu-sort { background: #20272f; border-color: #36404b; }
-.tregu-polymarket-compare .tregu-sort button { color: #aeb9c5; }
-.tregu-polymarket-compare .tregu-sort button[aria-pressed="true"] { background: #303a45; color: #ffffff; }
-.tregu-polymarket-compare .tregu-gchart-tick,
-.tregu-polymarket-compare .tregu-axis-label { color: #91a0ae; }
-.tregu-polymarket-compare .tregu-gchart-dot { box-shadow: 0 0 0 3px #151a1f; }
-.tregu-polymarket-compare .tregu-gchart-chip { background: #20272f; border-color: #36404b; color: #edf3f8; box-shadow: none; }
-.tregu-polymarket-compare .tregu-gchart-chip-name { color: #d4dde7; }
-.tregu-polymarket-compare .tregu-chart-tip { background: #20272f; border-color: #3a4652; color: #edf3f8; }
-.tregu-polymarket-compare .tregu-chart-tip-date { color: #9eacba; }
-.tregu-polymarket-compare .tregu-gchart {
-  --tg-chart-grid: rgba(237, 243, 248, 0.10);
-  --tg-chart-future: #3c4650;
-  --tg-chart-cross: rgba(237, 243, 248, 0.45);
+.tregu-mstats-head h3 {
+  font-size: 15px;
+  font-weight: 800;
+  margin: 0;
 }
-.tregu-polymarket-compare .tregu-gchart-time { background: #20272f; border-color: #3a4652; color: #aeb9c5; }
+.tregu-mstats-score {
+  font-size: 13px;
+  font-weight: 600;
+  color: #555555;
+  font-variant-numeric: tabular-nums;
+}
+.tregu-mstats-score strong {
+  font-weight: 800;
+  color: #111111;
+  margin: 0 2px;
+}
+.tregu-mstats-score em {
+  font-style: normal;
+  font-size: 12px;
+  font-weight: 600;
+  color: #999999;
+  margin-left: 8px;
+}
+.tregu-mstats-goals {
+  margin: 6px 0 0;
+  font-size: 12px;
+  font-weight: 600;
+  color: #6B6B6B;
+  font-variant-numeric: tabular-nums;
+}
+.tregu-mstats-rows {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+}
+.tregu-mstat { padding: 8px 0; }
+.tregu-mstat-line {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: baseline;
+  gap: 12px;
+}
+.tregu-mstat-val {
+  font-size: 13px;
+  font-weight: 800;
+  color: #444444;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.tregu-mstat-val--r { text-align: right; }
+.tregu-mstat-val--lead { color: #C43A10; }
+.tregu-mstat-label {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #6B6B6B;
+  text-align: center;
+}
+.tregu-mstat-bars {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  margin-top: 7px;
+}
+.tregu-mstat-half {
+  height: 6px;
+  border-radius: 100px;
+  background: rgba(17, 17, 17, 0.05);
+  overflow: hidden;
+  display: flex;
+}
+.tregu-mstat-half--l { justify-content: flex-end; }
+.tregu-mstat-bar {
+  display: block;
+  height: 100%;
+  border-radius: 100px;
+  background: #E5DCCB;
+  box-shadow: inset 0 0 0 1px rgba(17, 17, 17, 0.06);
+  transform-origin: left center;
+  animation: tg-bar-grow 600ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.tregu-mstat-bar--l { transform-origin: right center; }
+.tregu-mstat-bar--lead {
+  background: linear-gradient(to right, #FF6B3D, #FF4422);
+  box-shadow: 0 1px 8px rgba(255, 68, 34, 0.35);
+}
+.tregu-mstat-bar--l.tregu-mstat-bar--lead {
+  background: linear-gradient(to left, #FF6B3D, #FF4422);
+}
+@keyframes tg-bar-grow {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tregu-mstat-bar { animation: none; }
+}
