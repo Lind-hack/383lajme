@@ -6,7 +6,7 @@ import Footer from "@/components/footer";
 // Public and unauthenticated on purpose: Meta's crawler has to fetch this URL
 // before the Facebook app can go Live, and the footer links it from every page.
 export const metadata: Metadata = {
-  title: "Politika e privatësisë — 383",
+  title: "Politika e privatësisë",
   description:
     "Si i mbledh, përdor dhe ruan 383 të dhënat e tua personale. Llogaria, Tregu, tërheqjet, cookies dhe të drejtat e tua.",
 };

@@ -25,7 +25,7 @@ export async function generateMetadata({
 }) {
   const { category } = await params;
   const categoryName = SLUG_TO_CATEGORY[category];
-  return { title: categoryName ? `${categoryName} — 383 Lajme` : "383 Lajme" };
+  return categoryName ? { title: categoryName } : {};
 }
 
 export default async function CategoryPage({
