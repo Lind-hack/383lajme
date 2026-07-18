@@ -86,6 +86,47 @@ function HyrForm() {
     return () => clearTimeout(t);
   }, [resendIn]);
 
+  // Cross-device confirmation: the link often gets opened on the phone while
+  // this tab sits on the "check your email" screen — which used to leave THIS
+  // device logged out. Email + password are already in hand here, so keep
+  // retrying a sign-in; the attempt that lands after the link is clicked
+  // succeeds and finishes the login on this device. Paced well under the auth
+  // rate limit, with backoff if we ever hit it.
+  useEffect(() => {
+    if (!awaiting || !password) return;
+    const supabase = getSupabase();
+    if (!supabase) return;
+    let stopped = false;
+    let delay = 12_000;
+    let timer: ReturnType<typeof setTimeout>;
+    const tick = async () => {
+      if (stopped) return;
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: awaiting,
+        password,
+      });
+      if (stopped) return;
+      if (data?.session) {
+        markCelebrate();
+        router.push(nextPath);
+        return;
+      }
+      const low = (error?.message ?? "").toLowerCase();
+      // Wrong password — further attempts only burn the rate limit.
+      if (low.includes("invalid login")) return;
+      if (low.includes("rate limit") || low.includes("too many")) {
+        delay = Math.min(delay * 2, 60_000);
+      }
+      timer = setTimeout(tick, delay);
+    };
+    timer = setTimeout(tick, delay);
+    return () => {
+      stopped = true;
+      clearTimeout(timer);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [awaiting, password, nextPath]);
+
   function getSupabase(): SupabaseClient | null {
     if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) return null;
     if (!supabaseRef.current) supabaseRef.current = createClient();
@@ -328,7 +369,8 @@ function HyrForm() {
                 për të aktivizuar llogarinë. Pa këtë hap, llogaria nuk funksionon.
               </p>
               <p style={{ fontSize: "13px", lineHeight: 1.6, color: "#888", margin: 0 }}>
-                Nuk e gjen? Kontrollo dosjen e spamit.
+                Mund ta hapësh linkun edhe në telefon — sapo ta konfirmosh,
+                hyn automatikisht këtu. Nuk e gjen? Kontrollo dosjen e spamit.
               </p>
 
               <div style={{ minHeight: "20px" }}>
