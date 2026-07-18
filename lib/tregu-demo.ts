@@ -125,21 +125,27 @@ export function demoMinis(): MiniMarket[] {
 //   88'   Spanja late chance saved             (dip)
 //   91-108 extra time, Argjentina fresher      (climb)
 //   109'  GOL Argjentina 3-2                   (near-certainty)
+// Goals step the price hard in a single minute; every goal is followed by an
+// overreaction and a partial retrace (order books overshoot, then cooler
+// money fades the move). Between goals momentum swings 8-12pp, not 2-3pp —
+// that's what makes the tape read dramatic instead of square plateaus.
 const MATCH_KEYFRAMES: [number, number][] = [
-  [0, 0.42], [8, 0.41], [12, 0.39],
-  [14, 0.26],
-  [24, 0.25], [28, 0.24],
-  [32, 0.29],
-  [44, 0.31],
-  [46, 0.11],
-  [52, 0.13],
-  [54, 0.24],
-  [62, 0.3], [66, 0.33], [68, 0.3], [72, 0.32],
-  [74, 0.52],
-  [80, 0.55], [86, 0.53], [88, 0.49], [92, 0.53],
-  [100, 0.57], [105, 0.61], [108, 0.6],
-  [110, 0.93],
-  [116, 0.96], [122, 0.982],
+  [0, 0.44], [3, 0.41], [5, 0.46], [8, 0.4], [10, 0.43], [13, 0.36],
+  [14, 0.22], [16, 0.18],                      // GOL Spanja + panic overshoot
+  [19, 0.27], [22, 0.23], [26, 0.28], [28, 0.24], [30, 0.26],
+  [31, 0.37],                                   // post hit — equalizer priced in
+  [33, 0.29], [36, 0.33], [39, 0.28], [42, 0.34], [45, 0.32],
+  [46, 0.1], [48, 0.07],                        // GOL Spanja 2-0 + capitulation
+  [50, 0.12], [52, 0.1],
+  [53, 0.27], [55, 0.32],                       // GOL Argjentina + overshoot
+  [58, 0.25], [61, 0.35], [63, 0.3], [66, 0.4], [68, 0.32], [71, 0.37], [73, 0.33],
+  [74, 0.58], [76, 0.64],                       // GOL Argjentina 2-2 + euphoria
+  [79, 0.52], [82, 0.58], [85, 0.5], [87, 0.55],
+  [88, 0.41],                                   // Spanja big chance saved
+  [90, 0.53], [92, 0.48],
+  [95, 0.57], [98, 0.5], [101, 0.61], [104, 0.54], [107, 0.64], [108, 0.6],
+  [109, 0.94], [111, 0.9],                      // GOL Argjentina 3-2 + brief doubt
+  [114, 0.96], [118, 0.945], [122, 0.982],
 ];
 const MATCH_LAST_MIN = 122;
 
@@ -156,17 +162,27 @@ function matchProbAt(m: number): number {
   return k[k.length - 1][1];
 }
 
-// Timestamped in-play tape at 2-minute resolution, ending now (full time).
-// Micro-jitter is decorrelated per book so the two lines don't mirror exactly.
+// Hash noise: uniform in [-0.5, 0.5) with no smooth structure between
+// samples — this is what makes the line saw-tooth instead of undulate.
+function jag(i: number): number {
+  const x = Math.sin(i * 127.1 + 311.7) * 43758.5453;
+  return x - Math.floor(x) - 0.5;
+}
+
+// Timestamped in-play tape at 1-minute resolution, ending now (full time).
+// Two jitter octaves are decorrelated per book so the lines don't mirror
+// exactly; jitter fades over the last minutes so the price settles cleanly.
 export function demoMatchSeries(slug: string): { t: number; p: number }[] | undefined {
   if (slug !== "demo-ev-argjentina" && slug !== "demo-ev-spanja") return undefined;
   const arg = slug === "demo-ev-argjentina";
+  const seed = arg ? 3 : 11;
   const end = now();
   const pts: { t: number; p: number }[] = [];
-  for (let m = 0; m <= MATCH_LAST_MIN; m += 2) {
+  for (let m = 0; m <= MATCH_LAST_MIN; m += 1) {
     const base = matchProbAt(m);
     let p = arg ? base : 1 - base;
-    p += noise(m * 0.7 + (arg ? 3 : 11)) * 0.012;
+    const settle = m > 116 ? (MATCH_LAST_MIN - m) / 6 : 1;
+    p += (jag(m * 1.31 + seed) * 0.03 + jag(m * 0.37 + seed * 2.7) * 0.022) * settle;
     p = Math.max(0.01, Math.min(0.99, p));
     pts.push({ t: end - (MATCH_LAST_MIN - m) * 60_000, p });
   }
@@ -174,7 +190,7 @@ export function demoMatchSeries(slug: string): { t: number; p: number }[] | unde
 }
 
 function matchSpark(slug: string): number[] {
-  return (demoMatchSeries(slug) ?? []).filter((_, i) => i % 2 === 0).map((pt) => pt.p);
+  return (demoMatchSeries(slug) ?? []).filter((_, i) => i % 4 === 0).map((pt) => pt.p);
 }
 
 // FotMob-style full-match stat lines, consistent with the 3-2 comeback:
