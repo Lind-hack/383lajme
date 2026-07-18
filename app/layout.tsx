@@ -22,7 +22,7 @@ const figtree = Figtree({
 });
 
 const SITE_DESCRIPTION =
-  "Si flet bota për Kosovën — lajmet nga burimet ndërkombëtare, të përkthyera në shqip dhe të analizuara për ton. Me Tregun 383 parashikon ngjarjet me monedha virtuale — e vetmja platformë e këtij lloji në Kosovë.";
+  "383 — lajme origjinale nga Kosova dhe bota, analiza se si mediat botërore flasin për Kosovën, dhe Tregu 383 ku parashikon ngjarjet, fiton monedha dhe garon me të tjerët. Platformë e vetme e këtij lloji në Kosovë.";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.383ks.com"),
