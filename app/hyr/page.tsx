@@ -248,7 +248,7 @@ function HyrForm() {
     }
   }
 
-  async function handleOAuth(provider: "google" | "facebook") {
+  async function handleOAuth(provider: "google") {
     const supabase = getSupabase();
     if (!supabase) return;
     setError("");
@@ -263,7 +263,7 @@ function HyrForm() {
       if (error) {
         const msg = error.message;
         if (msg.includes("not enabled") || msg.includes("validation_failed"))
-          setError(`Hyrja me ${provider === "google" ? "Google" : "Facebook"} nuk është aktivizuar ende.`);
+          setError("Hyrja me Google nuk është aktivizuar ende.");
         else setError(msg);
         setLoading(false);
       }
@@ -572,21 +572,6 @@ function HyrForm() {
               Hyr me Google
             </motion.button>
 
-            {/* Facebook */}
-            <motion.button
-              onClick={() => handleOAuth("facebook")}
-              disabled={loading}
-              whileHover={loading ? {} : { y: -2 }}
-              whileTap={loading ? {} : { scale: 0.98 }}
-              transition={{ duration: DUR.base, ease: EASE }}
-              style={oauthButtonStyle}
-            >
-              <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-                <rect width="18" height="18" rx="4" fill="#1877F2" />
-                <path d="M12.5 9H10.5V15H8V9H6.5V7H8V5.5C8 4.12 8.88 3 10.5 3H12.5V5H11C10.72 5 10.5 5.22 10.5 5.5V7H12.5L12 9H10.5Z" fill="white" />
-              </svg>
-              Hyr me Facebook
-            </motion.button>
           </div>
           </>
           )}
