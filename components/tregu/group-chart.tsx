@@ -108,12 +108,14 @@ export default function GroupChart({
       if (v < lo) lo = v;
       if (v > hi) hi = v;
     }
-    lo = Math.max(0, lo - 0.05);
-    hi = Math.min(1, hi + 0.05);
-    if (hi - lo < 0.25) {
+    // Tight vertical fit — small padding so real moves fill the plot and read
+    // as sharp swings instead of a flat band.
+    lo = Math.max(0, lo - 0.02);
+    hi = Math.min(1, hi + 0.02);
+    if (hi - lo < 0.12) {
       const mid = (hi + lo) / 2;
-      lo = Math.max(0, mid - 0.125);
-      hi = Math.min(1, lo + 0.25);
+      lo = Math.max(0, mid - 0.06);
+      hi = Math.min(1, lo + 0.12);
     }
     return { grid, tMin, tMax, lo, hi };
   }, [series, range]);
@@ -168,12 +170,18 @@ export default function GroupChart({
     if (chips[i].y - chips[i - 1].y < 26) chips[i].y = chips[i - 1].y + 26;
   }
 
-  const hoverRows =
+  // Labels that ride the crosshair: name + odds at the hovered minute, pushed
+  // apart vertically so they never overlap.
+  const hoverLabels =
     hover === null
       ? []
-      : series
-          .map((s, i) => ({ label: s.label, color: s.color, v: hover.values[i] }))
-          .sort((a, b) => b.v - a.v);
+      : series.map((s, i) => ({ s, v: hover.values[i], y: yPx(hover.values[i]) })).sort((a, b) => a.y - b.y);
+  for (let i = 1; i < hoverLabels.length; i++) {
+    if (hoverLabels[i].y - hoverLabels[i - 1].y < 26) hoverLabels[i].y = hoverLabels[i - 1].y + 26;
+  }
+  const hoverX = hover === null ? 0 : xPct(hover.t);
+  // Near the right edge the labels flip to the left of the crosshair.
+  const hoverFlip = hoverX > 64;
 
   return (
     <div>
@@ -203,13 +211,40 @@ export default function GroupChart({
                 x2={W}
                 y1={yFor(t)}
                 y2={yFor(t)}
-                stroke="rgba(17,17,17,0.07)"
+                stroke="var(--tg-chart-grid, rgba(17,17,17,0.08))"
                 strokeWidth="1"
+                strokeDasharray="2 6"
                 vectorEffect="non-scaling-stroke"
               />
             ))}
+            {/* On hover the minutes after the crosshair go gray — only the
+                played part of the game keeps its colour (Polymarket-style).
+                Gray futures render first so coloured pasts sit on top. */}
+            {hoverI !== null &&
+              hoverI < grid.length - 1 &&
+              series.map((s, si) => {
+                const d = grid
+                  .slice(hoverI)
+                  .map((g, i) => `${i === 0 ? "M" : "L"}${xFor(g.t).toFixed(1)} ${yFor(g.values[si]).toFixed(1)}`)
+                  .join(" ");
+                return (
+                  <path
+                    key={`f-${s.label}`}
+                    d={d}
+                    fill="none"
+                    stroke="var(--tg-chart-future, rgba(17,17,17,0.16))"
+                    strokeWidth="2"
+                    strokeLinejoin="miter"
+                    strokeMiterlimit={3}
+                    strokeLinecap="butt"
+                    vectorEffect="non-scaling-stroke"
+                  />
+                );
+              })}
             {series.map((s, si) => {
+              const upto = hoverI === null ? grid.length : hoverI + 1;
               const d = grid
+                .slice(0, upto)
                 .map((g, i) => `${i === 0 ? "M" : "L"}${xFor(g.t).toFixed(1)} ${yFor(g.values[si]).toFixed(1)}`)
                 .join(" ");
               return (
@@ -218,9 +253,10 @@ export default function GroupChart({
                   d={d}
                   fill="none"
                   stroke={s.color}
-                  strokeWidth="2.25"
-                  strokeLinejoin="round"
-                  strokeLinecap="round"
+                  strokeWidth="2"
+                  strokeLinejoin="miter"
+                  strokeMiterlimit={3}
+                  strokeLinecap="butt"
                   vectorEffect="non-scaling-stroke"
                 />
               );
@@ -231,21 +267,22 @@ export default function GroupChart({
                 x2={xFor(hover.t)}
                 y1={PLOT_TOP}
                 y2={PLOT_BOTTOM}
-                stroke="rgba(17,17,17,0.30)"
-                strokeDasharray="3 3"
+                stroke="var(--tg-chart-cross, rgba(17,17,17,0.35))"
+                strokeWidth="1"
                 vectorEffect="non-scaling-stroke"
               />
             )}
           </svg>
 
-          {/* Live endpoint dots (hover moves them to the crosshair point). */}
+          {/* Live endpoint dots — pulsing while live, sliding to the crosshair
+              point on hover. */}
           {series.map((s, i) => (
             <span
               key={s.label}
-              className="tregu-gchart-dot"
+              className={hover ? "tregu-gchart-dot" : "tregu-gchart-dot tregu-gchart-dot--live"}
               style={
                 hover
-                  ? { top: yPx(hover.values[i]), left: `${xPct(hover.t)}%`, right: "auto", background: s.color }
+                  ? { top: yPx(hover.values[i]), left: `${hoverX}%`, right: "auto", background: s.color }
                   : { top: yPx(last.values[i]), background: s.color }
               }
               aria-hidden
@@ -263,23 +300,33 @@ export default function GroupChart({
             </span>
           ))}
 
+          {/* Timestamp pill riding the top of the crosshair. */}
           {hover && (
-            <div
-              className="tregu-chart-tip"
-              style={{ left: `${Math.max(14, Math.min(86, xPct(hover.t)))}%`, top: 2 }}
-            >
-              <div className="tregu-chart-tip-date">
-                {new Date(hover.t).toLocaleDateString("sq-AL", { day: "numeric", month: "short" })}{" "}
-                {new Date(hover.t).toLocaleTimeString("sq-AL", { hour: "2-digit", minute: "2-digit" })}
-              </div>
-              {hoverRows.map((r) => (
-                <div key={r.label} className="tregu-chart-tip-row">
-                  <span className="tregu-chart-tip-dot" style={{ background: r.color }} />
-                  {r.label} <strong>{(r.v * 100).toFixed(1)}%</strong>
-                </div>
-              ))}
+            <div className="tregu-gchart-time" style={{ left: `${Math.max(8, Math.min(92, hoverX))}%` }}>
+              {new Date(hover.t).toLocaleDateString("sq-AL", { day: "numeric", month: "short" })}{" "}
+              {new Date(hover.t).toLocaleTimeString("sq-AL", { hour: "2-digit", minute: "2-digit" })}
             </div>
           )}
+
+          {/* Name + odds at the hovered minute, next to each line's point. */}
+          {hover &&
+            hoverLabels.map(({ s, v, y }) => (
+              <span
+                key={s.label}
+                className="tregu-gchart-chip"
+                style={{
+                  top: y,
+                  left: `${hoverX}%`,
+                  right: "auto",
+                  transform: hoverFlip ? "translate(calc(-100% - 12px), -50%)" : "translate(12px, -50%)",
+                  zIndex: 2,
+                }}
+              >
+                <span className="tregu-gchart-chip-dot" style={{ background: s.color }} />
+                <span className="tregu-gchart-chip-name">{s.label}</span>
+                <strong style={{ color: s.color }}>{(v * 100).toFixed(1)}%</strong>
+              </span>
+            ))}
         </div>
 
         {/* Right gutter: % axis. */}
@@ -290,13 +337,15 @@ export default function GroupChart({
             </span>
           ))}
         </div>
-        {chips.map(({ s, v, y }) => (
-          <span key={s.label} className="tregu-gchart-chip" style={{ top: y }}>
-            <span className="tregu-gchart-chip-dot" style={{ background: s.color }} />
-            <span className="tregu-gchart-chip-name">{s.label}</span>
-            <strong style={{ color: s.color }}>{(v * 100).toFixed(1)}%</strong>
-          </span>
-        ))}
+        {/* Endpoint chips hide on hover — the crosshair labels take over. */}
+        {!hover &&
+          chips.map(({ s, v, y }) => (
+            <span key={s.label} className="tregu-gchart-chip" style={{ top: y }}>
+              <span className="tregu-gchart-chip-dot" style={{ background: s.color }} />
+              <span className="tregu-gchart-chip-name">{s.label}</span>
+              <strong style={{ color: s.color }}>{(v * 100).toFixed(1)}%</strong>
+            </span>
+          ))}
       </div>
     </div>
   );
