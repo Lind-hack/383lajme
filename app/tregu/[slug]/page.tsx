@@ -44,6 +44,7 @@ interface MarketDetail {
   source_article_slugs: string[];
   resolution_rules: string | null;
   resolution_source: string | null;
+  live_score_state?: unknown;
 }
 
 interface Snapshot {
@@ -386,7 +387,21 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
   const raceField = Boolean(group && group.outcomes.every((o) => outcomeMediaFor(o.label)?.photo));
 
   // Registered head-to-head stat sheet for this event (null when none exists).
-  const eventStats = group ? eventStatsFor(group.title) : null;
+  const fallbackEventStats = group ? eventStatsFor(group.title) : null;
+  const live = market.live_score_state as { status?: string; detail?: string; competitors?: Array<{ team?: string; score?: number }>; metrics?: Record<string, Record<string, number>> } | null;
+  const liveMetrics = live?.metrics;
+  const liveStats = live?.status === "STATUS_IN_PROGRESS" && liveMetrics && group ? {
+    home: "Argjentina", away: "Spanja",
+    score: `${live.competitors?.find((c) => c.team === "Argentina")?.score ?? 0} - ${live.competitors?.find((c) => c.team === "Spain")?.score ?? 0}`,
+    note: `LIVE · ${live.detail ?? ""}`,
+    rows: [
+      { label: "Posedimi i topit", home: liveMetrics.Argentina?.possession ?? 0, away: liveMetrics.Spain?.possession ?? 0, homeText: `${liveMetrics.Argentina?.possession ?? 0}%`, awayText: `${liveMetrics.Spain?.possession ?? 0}%` },
+      { label: "Gjuajtjet totale", home: liveMetrics.Argentina?.shots ?? 0, away: liveMetrics.Spain?.shots ?? 0 },
+      { label: "Gjuajtjet në portë", home: liveMetrics.Argentina?.shots_on_target ?? 0, away: liveMetrics.Spain?.shots_on_target ?? 0 },
+      { label: "Goditje nga këndi", home: liveMetrics.Argentina?.corners ?? 0, away: liveMetrics.Spain?.corners ?? 0 },
+    ],
+  } : null;
+  const eventStats = liveStats ?? fallbackEventStats;
 
   return (
     <div className="tregu-scope">
