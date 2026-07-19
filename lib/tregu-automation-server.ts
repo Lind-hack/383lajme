@@ -5,6 +5,7 @@ import { buildDailyDraftPlan, buildLiveEventDraftRunKey, buildRepricePlan, repri
 import { kosovoLocalDate } from "@/lib/tregu-date-key.mjs";
 import { fetchEspnLiveEvents } from "@/lib/espn-live-score.mjs";
 import { buildSportMarketPlan } from "@/lib/tregu-sport-market.mjs";
+import { buildF1MarketPlan, fetchF1LiveLiteLeaderboard } from "@/lib/f1-live-lite.mjs";
 import { classifyProviderFailure } from "@/lib/tregu-ai-provider.mjs";
 
 type AdminClient = NonNullable<ReturnType<typeof createAdminClient>>;
@@ -137,11 +138,16 @@ async function runOfficialSportsRefresh(action: "live_sports", runKey: string, n
   const started = await beginRun(admin, action, runKey);
   if (started.existing) return { ok: true, skipped: true, runKey, reason: "already_processed", run: started.run };
   try {
-    const { data: markets, error } = await admin.from("markets").select("*").eq("status", "open").not("sport_outcomes", "is", null);
+    const [{ data: markets, error }, { data: f1Markets, error: f1MarketsError }] = await Promise.all([
+      admin.from("markets").select("*").eq("status", "open").not("sport_outcomes", "is", null),
+      admin.from("markets").select("*").eq("status", "open").like("slug", "f1-belgjika-spa-fiton-%"),
+    ]);
     if (error) throw new Error(`Could not load open sport markets: ${error.message}`);
+    if (f1MarketsError) throw new Error(`Could not load open F1 markets: ${f1MarketsError.message}`);
     const events = await fetchEspnLiveEvents((markets ?? []).map((market) => market.live_event));
     const signals = buildSportMarketPlan({ markets, events, now });
     const results: Array<{ slug: string; status: "applied" | "no_score" | "failed"; error?: string }> = [];
+    const f1Results: Array<{ slug: string; status: "applied" | "unchanged" | "unavailable" | "failed"; error?: string }> = [];
     for (const signal of signals) {
       try {
         if (signal.kind === "no_score") {
@@ -169,10 +175,37 @@ async function runOfficialSportsRefresh(action: "live_sports", runKey: string, n
         results.push({ slug: signal.market.slug, status: "failed", error: String(oracleError instanceof Error ? oracleError.message : oracleError) });
       }
     }
+    if ((f1Markets ?? []).length) {
+      try {
+        const leaderboard = await fetchF1LiveLiteLeaderboard();
+        const f1Signals = buildF1MarketPlan({ markets: f1Markets, leaderboard });
+        const changedSlugs = new Set(f1Signals.map((signal: any) => signal.market.slug));
+        for (const market of f1Markets ?? []) if (!changedSlugs.has(market.slug)) f1Results.push({ slug: market.slug, status: "unchanged" });
+        for (const signal of f1Signals) {
+          try {
+            const { error: f1OracleError } = await admin.rpc("apply_f1_market_oracle", {
+              p_market_id: signal.market.id,
+              p_state: { key: signal.state_key, provider: "formula1", source_url: leaderboard.source_url, leaderboard: leaderboard.rows },
+              p_reference_probability: signal.reference_probability,
+              p_oracle_reasoning: signal.reasoning,
+              p_evidence: signal.evidence,
+              p_requested_cap: signal.oracle_cap,
+            });
+            if (f1OracleError) throw new Error(f1OracleError.message);
+            f1Results.push({ slug: signal.market.slug, status: "applied" });
+          } catch (f1OracleError) {
+            f1Results.push({ slug: signal.market.slug, status: "failed", error: String(f1OracleError instanceof Error ? f1OracleError.message : f1OracleError) });
+          }
+        }
+      } catch (f1Error) {
+        // The browser-rendered source has no static fallback: fail closed and record why.
+        for (const market of f1Markets ?? []) f1Results.push({ slug: market.slug, status: "unavailable", error: String(f1Error instanceof Error ? f1Error.message : f1Error) });
+      }
+    }
     const { data: settled, error: settlementError } = await admin.rpc("settle_due_sport_markets");
     if (settlementError) throw new Error(`Could not settle verified sport markets: ${settlementError.message}`);
-    const officialUpdates = results.filter((result) => result.status === "applied").length + Number(settled ?? 0);
-    const details = { official_espn_events: signals.length, results, settled_market_count: settled ?? 0, official_updates: officialUpdates, user_trade_ledger_changed_only_by_due_settlement: true };
+    const officialUpdates = results.filter((result) => result.status === "applied").length + f1Results.filter((result) => result.status === "applied").length + Number(settled ?? 0);
+    const details = { official_espn_events: signals.length, results, official_f1_markets: (f1Markets ?? []).length, f1_results: f1Results, settled_market_count: settled ?? 0, official_updates: officialUpdates, user_trade_ledger_changed_only_by_due_settlement: true };
     await finishRun(admin, started.run.id, "succeeded", details);
     return { ok: true, skipped: false, runKey, ...details };
   } catch (error) {
