@@ -16,6 +16,7 @@ import { DEMO_SLUG, demoDetail, demoEventMinis, demoMatchSeries, demoMatchStats,
 import MatchStats from "@/components/tregu/match-stats";
 import { groupForSlug, parseEvent, type GroupOutcome, type MarketGroup } from "@/lib/tregu-groups";
 import { outcomeMediaFor } from "@/lib/tregu-media";
+import { eventStatsFor } from "@/lib/tregu-event-stats";
 import RaceStandings from "@/components/tregu/race-standings";
 import { dramatizeSeries, dramatizeSpark } from "@/lib/tregu-tape";
 
@@ -381,6 +382,9 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
   // grid for a live timing board ranked by the odds.
   const raceField = Boolean(group && group.outcomes.every((o) => outcomeMediaFor(o.label)?.photo));
 
+  // Registered head-to-head stat sheet for this event (null when none exists).
+  const eventStats = group ? eventStatsFor(group.title) : null;
+
   return (
     <div className="tregu-scope">
       <Navbar />
@@ -476,8 +480,14 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                     }))}
                   />
                 </div>
-                {/* Demo simulation: full-match stat lines behind the price moves. */}
-                {demo && <MatchStats {...demoMatchStats()} />}
+                {/* Beneath the chart: the stat lines behind the price moves —
+                    demo matches ship their own fixture, other events pull a
+                    registered sheet from tregu-event-stats. */}
+                {demo ? (
+                  <MatchStats {...demoMatchStats()} />
+                ) : eventStats ? (
+                  <MatchStats {...eventStats} />
+                ) : null}
                 {/* Below the chart: live timing board for race grids, or one
                     graph per outcome for everything else. */}
                 <div className="tregu-panel" style={{ padding: 24 }}>
