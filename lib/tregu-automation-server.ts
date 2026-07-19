@@ -4,7 +4,7 @@ import { scoreMarketWithAI, slugifyQuestion, type Market } from "@/lib/tregu";
 import { buildDailyDraftPlan, buildLiveEventDraftRunKey, buildRepricePlan, repriceMarketSkipReason, validateDailyDraftSubmission } from "@/lib/tregu-automation.mjs";
 import { kosovoLocalDate } from "@/lib/tregu-date-key.mjs";
 import { fetchEspnLiveEvents } from "@/lib/espn-live-score.mjs";
-import { buildSportMarketPlan } from "@/lib/tregu-sport-market.mjs";
+import { ARGENTINA_SPAIN_PAIR, buildArgentinaSpainPairedBinaryPlan, buildSportMarketPlan } from "@/lib/tregu-sport-market.mjs";
 import { buildF1MarketPlan, fetchF1LiveLiteLeaderboard } from "@/lib/f1-live-lite.mjs";
 import { classifyProviderFailure } from "@/lib/tregu-ai-provider.mjs";
 
@@ -139,13 +139,16 @@ async function runOfficialSportsRefresh(action: "live_sports", runKey: string, n
   if (started.existing) return { ok: true, skipped: true, runKey, reason: "already_processed", run: started.run };
   try {
     const [{ data: markets, error }, { data: f1Markets, error: f1MarketsError }] = await Promise.all([
-      admin.from("markets").select("*").eq("status", "open").not("sport_outcomes", "is", null),
+      admin.from("markets").select("*").eq("status", "open").or(`sport_outcomes.not.is.null,slug.in.(${ARGENTINA_SPAIN_PAIR.spainSlug},${ARGENTINA_SPAIN_PAIR.argentinaSlug})`),
       admin.from("markets").select("*").eq("status", "open").like("slug", "f1-belgjika-spa-fiton-%"),
     ]);
     if (error) throw new Error(`Could not load open sport markets: ${error.message}`);
     if (f1MarketsError) throw new Error(`Could not load open F1 markets: ${f1MarketsError.message}`);
-    const events = await fetchEspnLiveEvents((markets ?? []).map((market) => market.live_event));
-    const signals = buildSportMarketPlan({ markets, events, now });
+    const pairMarkets = (markets ?? []).filter((market) => [ARGENTINA_SPAIN_PAIR.spainSlug, ARGENTINA_SPAIN_PAIR.argentinaSlug].includes(market.slug));
+    const standardMarkets = (markets ?? []).filter((market) => Array.isArray(market.sport_outcomes) && market.sport_outcomes.length);
+    const events = await fetchEspnLiveEvents([...standardMarkets.map((market) => market.live_event), ...(pairMarkets.length === 2 ? [ARGENTINA_SPAIN_PAIR.event] : [])]);
+    const signals = buildSportMarketPlan({ markets: standardMarkets, events, now });
+    const pairedSignals = buildArgentinaSpainPairedBinaryPlan({ markets: pairMarkets, events, now });
     const results: Array<{ slug: string; status: "applied" | "no_score" | "failed"; error?: string }> = [];
     const f1Results: Array<{ slug: string; status: "applied" | "unchanged" | "unavailable" | "failed"; error?: string }> = [];
     for (const signal of signals) {
@@ -173,6 +176,26 @@ async function runOfficialSportsRefresh(action: "live_sports", runKey: string, n
         results.push({ slug: signal.market.slug, status: "applied" });
       } catch (oracleError) {
         results.push({ slug: signal.market.slug, status: "failed", error: String(oracleError instanceof Error ? oracleError.message : oracleError) });
+      }
+    }
+    for (const signal of pairedSignals as any[]) {
+      try {
+        if (signal.kind === "no_score") {
+          const { error: pairStateError } = await admin.from("markets").update({ live_event: ARGENTINA_SPAIN_PAIR.event, live_score_state: signal.state }).in("id", [signal.spainMarket.id, signal.argentinaMarket.id]).eq("status", "open");
+          if (pairStateError) throw new Error(pairStateError.message);
+          results.push({ slug: signal.spainMarket.slug, status: "no_score" }, { slug: signal.argentinaMarket.slug, status: "no_score" });
+          continue;
+        }
+        const { error: pairOracleError } = await admin.rpc("apply_paired_binary_sport_oracle", {
+          p_spain_market_id: signal.spainMarket.id, p_argentina_market_id: signal.argentinaMarket.id, p_event_id: signal.event.event_id,
+          p_state: signal.state, p_spain_reference_probability: signal.reference.spain, p_evidence: signal.evidence, p_reasoning: signal.reasoning,
+          p_requested_cap: signal.oracle_cap, p_close_market: signal.close_market, p_spain_outcome: signal.spain_outcome, p_argentina_outcome: signal.argentina_outcome, p_settlement_due_at: signal.settlement_due_at,
+        });
+        if (pairOracleError) throw new Error(pairOracleError.message);
+        results.push({ slug: signal.spainMarket.slug, status: "applied" }, { slug: signal.argentinaMarket.slug, status: "applied" });
+      } catch (pairOracleError) {
+        const error = String(pairOracleError instanceof Error ? pairOracleError.message : pairOracleError);
+        results.push({ slug: signal.spainMarket.slug, status: "failed", error }, { slug: signal.argentinaMarket.slug, status: "failed", error });
       }
     }
     if ((f1Markets ?? []).length) {
