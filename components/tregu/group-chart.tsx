@@ -32,7 +32,11 @@ const AXIS_H = 22;
 const PLOT_TOP = 10;
 
 function seriesOf(s: EventSeries): { t: number; p: number }[] {
-  if (s.series && s.series.length >= 2) return s.series;
+  if (s.series && s.series.length >= 2) {
+    // A writer can record a state and odds snapshot in the same millisecond.
+    // Keep only the latest value at that timestamp so SVG paths never form an artificial vertical rectangle.
+    return [...new Map(s.series.map((point) => [point.t, point])).values()];
+  }
   const now = Date.now();
   return [
     { t: now - 86_400_000, p: s.prob },
@@ -90,7 +94,7 @@ export default function GroupChart({
   series: EventSeries[];
   height?: number;
 }) {
-  const [range, setRange] = useState<RangeKey>("Gjithë");
+  const [range, setRange] = useState<RangeKey>("1D");
   const [hoverI, setHoverI] = useState<number | null>(null);
   const plotRef = useRef<HTMLDivElement>(null);
 
