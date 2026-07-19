@@ -1,7 +1,7 @@
 import * as nodemailer from "nodemailer";
-import { buildTreguRepriceEmail } from "./tregu-live-email-content.mjs";
+import { buildArgentinaSpainLiveEmail, buildTreguRepriceEmail } from "./tregu-live-email-content.mjs";
 
-type TreguLiveEmail = {
+type NewsUpdate = {
   kind: "news_update";
   runKey: string;
   changes: Array<{
@@ -16,6 +16,19 @@ type TreguLiveEmail = {
   }>;
 };
 
+type PairedBinaryLiveUpdate = {
+  kind: "paired_binary_live_update";
+  runKey: string;
+  changes: Array<{
+    persisted: true;
+    material_change: true;
+    timestamp: string;
+    state: Record<string, unknown>;
+  }>;
+};
+
+type TreguLiveEmail = NewsUpdate | PairedBinaryLiveUpdate;
+
 function configuredRecipient() {
   const recipient = (process.env.TREGU_LIVE_RECIPIENT ?? process.env.RECIPIENT_EMAIL ?? "").trim();
   if (!recipient) throw new Error("TREGU_LIVE_RECIPIENT or RECIPIENT_EMAIL is required for tregu-live notifications.");
@@ -29,10 +42,12 @@ function gmailTransport() {
   return { user, transport: nodemailer.createTransport({ host: "smtp.gmail.com", port: 465, secure: true, auth: { user, pass } }) };
 }
 
-/** Sends one non-secret email containing every real verified-news price change in one run. */
+/** Sends a configured-recipient email only after its caller has confirmed an eligible persisted update. */
 export async function sendTreguLiveNotification(notification: TreguLiveEmail) {
   const recipient = configuredRecipient();
   const { user, transport } = gmailTransport();
-  const message = buildTreguRepriceEmail({ runKey: notification.runKey, changes: notification.changes });
+  const message = notification.kind === "paired_binary_live_update"
+    ? buildArgentinaSpainLiveEmail({ runKey: notification.runKey, changes: notification.changes })
+    : buildTreguRepriceEmail({ runKey: notification.runKey, changes: notification.changes });
   await transport.sendMail({ from: user, to: recipient, ...message });
 }

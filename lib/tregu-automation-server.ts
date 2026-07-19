@@ -7,6 +7,8 @@ import { fetchEspnLiveEvents } from "@/lib/espn-live-score.mjs";
 import { ARGENTINA_SPAIN_PAIR, buildArgentinaSpainPairedBinaryPlan, buildSportMarketPlan } from "@/lib/tregu-sport-market.mjs";
 import { buildF1MarketPlan, fetchF1LiveLiteLeaderboard } from "@/lib/f1-live-lite.mjs";
 import { classifyProviderFailure } from "@/lib/tregu-ai-provider.mjs";
+import { hasPersistedMaterialPairedBinaryChange } from "@/lib/tregu-live-email-content.mjs";
+import { sendTreguLiveNotification } from "@/lib/tregu-live-email";
 
 type AdminClient = NonNullable<ReturnType<typeof createAdminClient>>;
 type RunAction = "daily_drafts" | "reprice" | "live_sports" | "tregu_live";
@@ -149,7 +151,8 @@ async function runOfficialSportsRefresh(action: "live_sports", runKey: string, n
     const events = await fetchEspnLiveEvents([...standardMarkets.map((market) => market.live_event), ...(pairMarkets.length === 2 ? [ARGENTINA_SPAIN_PAIR.event] : [])]);
     const signals = buildSportMarketPlan({ markets: standardMarkets, events, now });
     const pairedSignals = buildArgentinaSpainPairedBinaryPlan({ markets: pairMarkets, events, now });
-    const results: Array<{ slug: string; status: "applied" | "no_score" | "failed"; error?: string }> = [];
+    const results: Array<{ slug: string; status: "applied" | "no_change" | "no_score" | "failed"; error?: string }> = [];
+    const pairedBinaryEmailUpdates: Array<{ persisted: true; material_change: true; timestamp: string; state: Record<string, unknown> }> = [];
     const f1Results: Array<{ slug: string; status: "applied" | "unchanged" | "unavailable" | "failed"; error?: string }> = [];
     for (const signal of signals) {
       try {
@@ -186,13 +189,19 @@ async function runOfficialSportsRefresh(action: "live_sports", runKey: string, n
           results.push({ slug: signal.spainMarket.slug, status: "no_score" }, { slug: signal.argentinaMarket.slug, status: "no_score" });
           continue;
         }
-        const { error: pairOracleError } = await admin.rpc("apply_paired_binary_sport_oracle", {
+        const { data: pairOracleResult, error: pairOracleError } = await admin.rpc("apply_paired_binary_sport_oracle", {
           p_spain_market_id: signal.spainMarket.id, p_argentina_market_id: signal.argentinaMarket.id, p_event_id: signal.event.event_id,
           p_state: signal.state, p_spain_reference_probability: signal.reference.spain, p_evidence: signal.evidence, p_reasoning: signal.reasoning,
           p_requested_cap: signal.oracle_cap, p_close_market: signal.close_market, p_spain_outcome: signal.spain_outcome, p_argentina_outcome: signal.argentina_outcome, p_settlement_due_at: signal.settlement_due_at,
         });
         if (pairOracleError) throw new Error(pairOracleError.message);
+        // 0022 returns true/false. The deployed 0021 function is void, where a no-error RPC is a committed paired update; only an explicit false suppresses mail.
+        if (pairOracleResult === false) {
+          results.push({ slug: signal.spainMarket.slug, status: "no_change" }, { slug: signal.argentinaMarket.slug, status: "no_change" });
+          continue;
+        }
         results.push({ slug: signal.spainMarket.slug, status: "applied" }, { slug: signal.argentinaMarket.slug, status: "applied" });
+        if (signal.material_change === true) pairedBinaryEmailUpdates.push({ persisted: true, material_change: true, timestamp: now.toISOString(), state: signal.state });
       } catch (pairOracleError) {
         const error = String(pairOracleError instanceof Error ? pairOracleError.message : pairOracleError);
         results.push({ slug: signal.spainMarket.slug, status: "failed", error }, { slug: signal.argentinaMarket.slug, status: "failed", error });
@@ -228,8 +237,16 @@ async function runOfficialSportsRefresh(action: "live_sports", runKey: string, n
     const { data: settled, error: settlementError } = await admin.rpc("settle_due_sport_markets");
     if (settlementError) throw new Error(`Could not settle verified sport markets: ${settlementError.message}`);
     const officialUpdates = results.filter((result) => result.status === "applied").length + f1Results.filter((result) => result.status === "applied").length + Number(settled ?? 0);
-    const details = { official_espn_events: signals.length, results, official_f1_markets: (f1Markets ?? []).length, f1_results: f1Results, settled_market_count: settled ?? 0, official_updates: officialUpdates, user_trade_ledger_changed_only_by_due_settlement: true };
+    const details = { official_espn_events: signals.length, results, official_f1_markets: (f1Markets ?? []).length, f1_results: f1Results, settled_market_count: settled ?? 0, official_updates: officialUpdates, paired_binary_email_updates: pairedBinaryEmailUpdates, user_trade_ledger_changed_only_by_due_settlement: true };
     await finishRun(admin, started.run.id, "succeeded", details);
+    if (hasPersistedMaterialPairedBinaryChange({ skipped: false, paired_binary_email_updates: pairedBinaryEmailUpdates })) {
+      try {
+        await sendTreguLiveNotification({ kind: "paired_binary_live_update", runKey, changes: pairedBinaryEmailUpdates });
+      } catch (emailError) {
+        // Persistence/audit succeeded. A transport failure must not turn this into a later duplicate email attempt.
+        console.error("Argentina–Spain live notification failed after persistence:", String(emailError instanceof Error ? emailError.message : emailError));
+      }
+    }
     return { ok: true, skipped: false, runKey, ...details };
   } catch (error) {
     const message = String(error instanceof Error ? error.message : error);
