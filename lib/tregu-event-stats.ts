@@ -3,7 +3,7 @@
 // head-to-head numbers behind each event live here, keyed by event title.
 // MatchStats renders them beneath the combined chart: the leading side of
 // every row wears the brand orange, the trailing side fades to cream.
-import { demoMatchStats, type MatchStatRow } from "@/lib/tregu-demo";
+import type { MatchStatRow } from "@/lib/tregu-demo";
 
 export interface EventStats {
   heading?: string;
@@ -19,9 +19,30 @@ export interface EventStats {
 // the odds. Season numbers mirror the market description (Antonelli leads the
 // championship on 179 points with the fastest car).
 const EVENT_STATS: { match: RegExp; stats: EventStats }[] = [
-  // The real Argjentina – Spanja books share the demo simulation's stat sheet —
-  // one source of truth for that match's numbers.
-  { match: /argjentina.*spanja/i, stats: demoMatchStats() },
+  // The real Argjentina – Spanja match hasn't kicked off yet, so the sheet
+  // starts at zero everywhere. With home === away on every row the bars sit
+  // even at 50/50 in cream, no side wears the lead orange. The demo
+  // simulation keeps its own played-out numbers via demoMatchStats().
+  {
+    match: /argjentina.*spanja/i,
+    stats: {
+      home: "Argjentina",
+      away: "Spanja",
+      score: "0 - 0",
+      note: "Para ndeshjes",
+      rows: [
+        { label: "Golat e pritshëm (xG)", home: 0, away: 0, homeText: "0.00", awayText: "0.00" },
+        { label: "Posedimi i topit", home: 0, away: 0, homeText: "0%", awayText: "0%" },
+        { label: "Gjuajtjet totale", home: 0, away: 0 },
+        { label: "Gjuajtje në portë", home: 0, away: 0 },
+        { label: "Shanse të mëdha", home: 0, away: 0 },
+        { label: "Sulme të rrezikshme", home: 0, away: 0 },
+        { label: "Goditje nga këndi", home: 0, away: 0 },
+        { label: "Pasime të sakta", home: 0, away: 0 },
+        { label: "Kartonë të verdhë", home: 0, away: 0 },
+      ],
+    },
+  },
   {
     match: /f1.*belgjik/i,
     stats: {
