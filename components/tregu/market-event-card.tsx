@@ -19,6 +19,17 @@ const CATEGORY_LABEL: Record<string, string> = {
   "te-tjera": "Të tjera",
 };
 
+// GroupChart is time-aware but hub sparks are plain arrays, so spread each
+// spark across the last 24h to give every point a timestamp. Without this the
+// chart's `series` field stays empty and each line collapses to a flat
+// two-point fallback at the current prob.
+function sparkSeries(spark?: number[]): { t: number; p: number }[] | undefined {
+  if (!spark || spark.length < 2) return undefined;
+  const now = Date.now();
+  const span = 86_400_000;
+  return spark.map((p, i) => ({ t: now - span + (span * i) / (spark.length - 1), p }));
+}
+
 function closeLabel(iso?: string): string | null {
   if (!iso) return null;
   const ms = new Date(iso).getTime() - Date.now();
@@ -61,7 +72,7 @@ export default function MarketEventCard({ group }: { group: MarketGroup }) {
           series={group.outcomes.map((o) => ({
             label: o.label,
             color: o.color,
-            points: o.spark,
+            series: sparkSeries(o.spark),
             prob: o.prob,
           }))}
         />
