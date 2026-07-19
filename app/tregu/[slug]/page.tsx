@@ -399,6 +399,9 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
       { label: "Gjuajtjet totale", home: liveMetrics.Argentina?.shots ?? 0, away: liveMetrics.Spain?.shots ?? 0 },
       { label: "Gjuajtjet në portë", home: liveMetrics.Argentina?.shots_on_target ?? 0, away: liveMetrics.Spain?.shots_on_target ?? 0 },
       { label: "Goditje nga këndi", home: liveMetrics.Argentina?.corners ?? 0, away: liveMetrics.Spain?.corners ?? 0 },
+      { label: "Shanse të mëdha të krijuara", home: liveMetrics.Argentina?.big_chances ?? 0, away: liveMetrics.Spain?.big_chances ?? 0 },
+      { label: "Kartonë të verdhë", home: liveMetrics.Argentina?.yellow_cards ?? 0, away: liveMetrics.Spain?.yellow_cards ?? 0 },
+      { label: "Kartonë të kuq", home: liveMetrics.Argentina?.red_cards ?? 0, away: liveMetrics.Spain?.red_cards ?? 0 },
     ],
   } : null;
   const eventStats = liveStats ?? fallbackEventStats;
