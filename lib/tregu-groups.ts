@@ -10,6 +10,7 @@
 // A title needs 2+ open markets to count as an event — a lone "X: Y?" market
 // stays a normal single card, so old questions can't group by accident.
 import type { MiniMarket } from "@/components/tregu/market-mini-card";
+import { outcomeMediaFor } from "@/lib/tregu-media";
 
 export interface GroupOutcome extends MiniMarket {
   /** Short display label — "Fiton Anglia" → "Anglia". */
@@ -78,7 +79,9 @@ export function groupMarkets(minis: MiniMarket[]): {
     const colorOf = new Map(colorOrder.map((m, i) => {
       const label = shortLabel(m.outcome).toLowerCase();
       // Deep enough to hold a 2px line on the cream/white chart panel.
-      const color = label === "spanja" ? "#DE3B30" : label === "argjentina" ? "#2E7CD6" : OUTCOME_COLORS[i % OUTCOME_COLORS.length];
+      const color =
+        outcomeMediaFor(label)?.color ??
+        (label === "spanja" ? "#DE3B30" : label === "argjentina" ? "#2E7CD6" : OUTCOME_COLORS[i % OUTCOME_COLORS.length]);
       return [m.mini.slug, color];
     }));
     // Each outcome is an independent binary book, so raw PO prices can sum to

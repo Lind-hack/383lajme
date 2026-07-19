@@ -161,10 +161,17 @@ export default function GroupChart({
     return { f, label };
   });
 
+  // Chips are pushed apart 26px, so only so many fit the plot height. Wide
+  // fields (an F1 grid) keep chips for the leaders; trailing lines stay
+  // legible through the rows/legend under the chart.
+  const maxChips = Math.max(3, Math.floor((PLOT_BOTTOM - PLOT_TOP) / 26));
+
   // Endpoint chips: live normalized odds at each line's end, pushed apart so
   // labels never overlap.
   const chips = series
     .map((s, i) => ({ s, v: last.values[i], y: yPx(last.values[i]) }))
+    .sort((a, b) => b.v - a.v)
+    .slice(0, maxChips)
     .sort((a, b) => a.y - b.y);
   for (let i = 1; i < chips.length; i++) {
     if (chips[i].y - chips[i - 1].y < 26) chips[i].y = chips[i - 1].y + 26;
@@ -175,7 +182,11 @@ export default function GroupChart({
   const hoverLabels =
     hover === null
       ? []
-      : series.map((s, i) => ({ s, v: hover.values[i], y: yPx(hover.values[i]) })).sort((a, b) => a.y - b.y);
+      : series
+          .map((s, i) => ({ s, v: hover.values[i], y: yPx(hover.values[i]) }))
+          .sort((a, b) => b.v - a.v)
+          .slice(0, maxChips)
+          .sort((a, b) => a.y - b.y);
   for (let i = 1; i < hoverLabels.length; i++) {
     if (hoverLabels[i].y - hoverLabels[i - 1].y < 26) hoverLabels[i].y = hoverLabels[i - 1].y + 26;
   }

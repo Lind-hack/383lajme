@@ -4,6 +4,8 @@
 // ("AR"), so real markup is the only reliable cross-platform option. Rendered
 // as rounded squares ("cubic" avatars) per the Polymarket-style trade card.
 
+import { outcomeMediaFor } from "@/lib/tregu-media";
+
 const FLAG_KEYS = ["argjentina", "spanja", "anglia"] as const;
 export type FlagKey = (typeof FLAG_KEYS)[number] | "generic";
 
@@ -28,6 +30,33 @@ export default function TeamFlag({
   /** Monogram source for the generic tile. */
   label?: string;
 }) {
+  // Outcomes with a registered headshot (F1 drivers etc.) wear it instead of
+  // a flag or monogram — same rounded-square tile, photo fill.
+  const media = outcomeMediaFor(label ?? team);
+  if (media?.photo) {
+    return (
+      // eslint-disable-next-line @next/next/no-img-element
+      <img
+        src={media.photo}
+        alt=""
+        width={size}
+        height={size}
+        loading="lazy"
+        style={{
+          width: size,
+          height: size,
+          borderRadius: radius,
+          objectFit: "cover",
+          objectPosition: "center top",
+          background: `color-mix(in srgb, ${media.color ?? "#111111"} 18%, #FFFFFF)`,
+          display: "block",
+          flexShrink: 0,
+        }}
+        aria-hidden
+      />
+    );
+  }
+
   const key: FlagKey = FLAG_KEYS.includes(team as (typeof FLAG_KEYS)[number])
     ? (team as FlagKey)
     : flagKeyFor(team);

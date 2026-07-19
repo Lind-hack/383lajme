@@ -10,6 +10,8 @@ import { useRouter } from "next/navigation";
 import { fmtNum } from "@/lib/format";
 import type { MarketGroup } from "@/lib/tregu-groups";
 import GroupChart from "@/components/tregu/group-chart";
+import TeamFlag from "@/components/tregu/team-flag";
+import { eventLogoFor, outcomeMediaFor } from "@/lib/tregu-media";
 
 const CATEGORY_LABEL: Record<string, string> = {
   politike: "Politikë",
@@ -45,6 +47,10 @@ function closeLabel(iso?: string): string | null {
 export default function MarketEventCard({ group }: { group: MarketGroup }) {
   const router = useRouter();
   const remaining = closeLabel(group.closesAt);
+  const logo = eventLogoFor(group.title);
+  // Big fields (F1 grids) scroll inside the card instead of stretching it far
+  // past its grid neighbours — every outcome stays reachable, odds order kept.
+  const manyOutcomes = group.outcomes.length > 6;
 
   const buy = (e: React.MouseEvent, slug: string) => {
     e.preventDefault();
@@ -64,7 +70,13 @@ export default function MarketEventCard({ group }: { group: MarketGroup }) {
         <span className="tregu-market-flag">{group.outcomes.length} rezultate</span>
       </div>
 
-      <p className="tregu-market-q">{group.title}</p>
+      <p className="tregu-market-q" style={logo ? { display: "flex", alignItems: "center", gap: 10 } : undefined}>
+        {logo && (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={logo.src} alt={logo.alt} style={{ height: logo.height, width: "auto", display: "block" }} />
+        )}
+        {group.title}
+      </p>
 
       <div style={{ margin: "0 0 12px" }}>
         <GroupChart
@@ -78,11 +90,18 @@ export default function MarketEventCard({ group }: { group: MarketGroup }) {
         />
       </div>
 
-      <div className="tregu-event-rows">
+      <div
+        className="tregu-event-rows"
+        style={manyOutcomes ? { maxHeight: 318, overflowY: "auto", paddingRight: 4 } : undefined}
+      >
         {group.outcomes.map((o) => (
           <div key={o.slug} className="tregu-event-row">
             <span className="tregu-event-row-label">
-              <span className="tregu-gchart-chip-dot" style={{ background: o.color }} />
+              {outcomeMediaFor(o.label)?.photo ? (
+                <TeamFlag team={o.label} label={o.label} size={26} radius={8} />
+              ) : (
+                <span className="tregu-gchart-chip-dot" style={{ background: o.color }} />
+              )}
               {o.label}
             </span>
             <span className="tregu-event-row-pct">{Math.round(o.prob * 100)}%</span>
