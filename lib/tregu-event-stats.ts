@@ -3,7 +3,7 @@
 // head-to-head numbers behind each event live here, keyed by event title.
 // MatchStats renders them beneath the combined chart: the leading side of
 // every row wears the brand orange, the trailing side fades to cream.
-import type { MatchStatRow } from "@/lib/tregu-demo";
+import { demoMatchStats, type MatchStatRow } from "@/lib/tregu-demo";
 
 export interface EventStats {
   heading?: string;
@@ -19,6 +19,9 @@ export interface EventStats {
 // the odds. Season numbers mirror the market description (Antonelli leads the
 // championship on 179 points with the fastest car).
 const EVENT_STATS: { match: RegExp; stats: EventStats }[] = [
+  // The real Argjentina – Spanja books share the demo simulation's stat sheet —
+  // one source of truth for that match's numbers.
+  { match: /argjentina.*spanja/i, stats: demoMatchStats() },
   {
     match: /f1.*belgjik/i,
     stats: {
