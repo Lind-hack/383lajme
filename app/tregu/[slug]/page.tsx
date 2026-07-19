@@ -193,7 +193,10 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
       .finally(() => setLoading(false));
     // Sibling outcome books ("<Ngjarja>: <Rezultati>?") live in the hub list —
     // when this market belongs to a multi-outcome event, render the event view.
-    fetch("/api/tregu/markets")
+    // status=all so the event layout survives after the markets close: the hub
+    // API defaults to open-only, which made closed events collapse back into
+    // the plain single-market page.
+    fetch("/api/tregu/markets?status=all")
       .then((r) => (r.ok ? r.json() : null))
       .then((d) => {
         const rows: HubRow[] = d?.markets ?? [];
