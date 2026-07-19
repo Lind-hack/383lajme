@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useRef, useState } from "react";
+import { dramatizeSeries } from "@/lib/tregu-tape";
 
 // Interactive market price chart — dependency-free SVG.
 // Feeds on the per-trade tape (market_trades) plus AI snapshots; the SVG
@@ -47,10 +48,12 @@ export default function MarketChart({
   trades,
   snapshots,
   currentProb,
+  seedKey = "tregu",
 }: {
   trades: TradePoint[];
   snapshots: SnapshotPoint[];
   currentProb: number;
+  seedKey?: string;
 }) {
   const [range, setRange] = useState<RangeKey>("Gjithë");
   const [hover, setHover] = useState<{ frac: number; t: number; p: number; ai: number | null } | null>(null);
@@ -73,6 +76,8 @@ export default function MarketChart({
     // enters the frame at its true level instead of appearing mid-air.
     const anchor = [...all].reverse().find((p) => p.t < cutoff);
     if (anchor) pts = [{ t: Math.max(anchor.t, cutoff === -Infinity ? anchor.t : cutoff), p: anchor.p }, ...pts];
+    // Dramatize: jagged in-between texture; every real point stays exact.
+    pts = dramatizeSeries(pts, seedKey);
 
     const tMin = pts.length > 0 ? pts[0].t : now - 86_400_000;
     const tMaxRaw = pts.length > 0 ? pts[pts.length - 1].t : now;
@@ -102,7 +107,7 @@ export default function MarketChart({
     }
 
     return { pts, aiPts, events, volBuckets, tMin, tMax };
-  }, [trades, snapshots, currentProb, range]);
+  }, [trades, snapshots, currentProb, range, seedKey]);
 
   const xFor = (t: number) => ((t - tMin) / (tMax - tMin)) * W;
   const yFor = (p: number) => PLOT_TOP + (1 - p) * (PLOT_BOTTOM - PLOT_TOP);

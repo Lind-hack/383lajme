@@ -14,6 +14,7 @@ import MobileAccountBar from "@/components/tregu/mobile-account-bar";
 import { createClient } from "@/lib/supabase/client";
 import Link from "next/link";
 import { fmtNum } from "@/lib/format";
+import { dramatizeSpark } from "@/lib/tregu-tape";
 
 interface MarketRow {
   id: string;
@@ -205,7 +206,7 @@ export default function TreguHub() {
           prob: m.market_prob,
           volume: vol(m),
           closesAt: m.closes_at,
-          spark: m.spark,
+          spark: dramatizeSpark(m.spark, m.slug),
           delta7d: m.delta7d,
         }))
       ).groups,
@@ -247,7 +248,7 @@ export default function TreguHub() {
     prob: m.market_prob,
     volume: vol(m),
     closesAt: m.closes_at,
-    spark: m.spark,
+    spark: dramatizeSpark(m.spark, m.slug),
     delta7d: m.delta7d,
   });
 
