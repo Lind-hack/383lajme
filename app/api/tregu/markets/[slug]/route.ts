@@ -168,7 +168,12 @@ export async function GET(
     }
   }
 
-  const relatedWithProb = (related ?? []).map((m) => ({
+  const currentEventTitle = parseEvent(market.question)?.title;
+  // Outcome siblings are represented by the one grouped event card; do not
+  // repeat them as separate "related" trades on an outcome detail page.
+  const relatedWithProb = (related ?? [])
+    .filter((m) => parseEvent(m.question)?.title !== currentEventTitle)
+    .map((m) => ({
     slug: m.slug,
     question: m.question,
     category: m.category,
