@@ -99,7 +99,10 @@ function BalanceChart({ history }: { history: { t: number; coins: number }[] }) 
   const area = `${path} L ${W} ${H - PAD} L 0 ${H - PAD} Z`;
   const last = history[history.length - 1];
   const up = last.coins >= history[0].coins;
-  const stroke = up ? "#00854A" : "#B91C1C";
+  // Up wears the brand orange with a glow; down fades to a washed-out black.
+  const stroke = up ? "url(#tg-bal-line)" : "rgba(17,17,17,0.40)";
+  const glow = up ? "#FF5B2E" : "#111111";
+  const solid = up ? "#FF4422" : "rgba(17,17,17,0.55)";
 
   const onMove = (clientX: number) => {
     const rect = boxRef.current?.getBoundingClientRect();
@@ -116,24 +119,36 @@ function BalanceChart({ history }: { history: { t: number; coins: number }[] }) 
     <div ref={boxRef} style={{ position: "relative", touchAction: "pan-y" }} onPointerMove={(e) => onMove(e.clientX)} onPointerLeave={() => setHover(null)}>
       <svg viewBox={`0 0 ${W} ${H}`} width="100%" height={H} preserveAspectRatio="none" style={{ display: "block" }}>
         <defs>
-          <linearGradient id="tg-bal" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor={stroke} stopOpacity="0.16" />
-            <stop offset="100%" stopColor={stroke} stopOpacity="0" />
+          <linearGradient id="tg-bal-line" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stopColor="#FF6B3D" />
+            <stop offset="100%" stopColor="#FF4422" />
           </linearGradient>
+          <linearGradient id="tg-bal" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor={glow} stopOpacity={up ? 0.22 : 0.08} />
+            <stop offset="100%" stopColor={glow} stopOpacity="0" />
+          </linearGradient>
+          <filter id="tg-bal-glow" x="-20%" y="-80%" width="140%" height="260%">
+            <feGaussianBlur stdDeviation="5" />
+          </filter>
         </defs>
         <path d={area} fill="url(#tg-bal)" />
+        {/* Blurred copy under the line is the glow itself. */}
+        <path d={path} fill="none" stroke={glow} strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" opacity={up ? 0.5 : 0.18} filter="url(#tg-bal-glow)" />
         <path d={path} fill="none" stroke={stroke} strokeWidth="2.5" strokeLinejoin="round" />
         {hover ? (
           <line x1={hover.frac * W} y1={PAD} x2={hover.frac * W} y2={H - PAD} stroke="rgba(17,17,17,0.28)" strokeDasharray="3 3" />
         ) : (
-          <circle cx={W} cy={yFor(last.coins)} r="4" fill={stroke} stroke="#FFFFFF" strokeWidth="2" />
+          <>
+            <circle cx={W} cy={yFor(last.coins)} r="8" fill={glow} opacity={up ? 0.4 : 0.18} filter="url(#tg-bal-glow)" />
+            <circle cx={W} cy={yFor(last.coins)} r="4" fill={solid} stroke="#FFFFFF" strokeWidth="2" />
+          </>
         )}
       </svg>
       {hover && (
         <div className="tregu-chart-tip" style={{ left: `${Math.max(12, Math.min(88, hover.frac * 100))}%`, top: 0 }}>
           <div className="tregu-chart-tip-date">{new Date(hover.t).toLocaleDateString("sq-AL", { day: "numeric", month: "short" })}</div>
           <div className="tregu-chart-tip-row">
-            <span className="tregu-chart-tip-dot" style={{ background: stroke }} />
+            <span className="tregu-chart-tip-dot" style={{ background: solid }} />
             <strong>{fmtNum(hover.coins)} 383C</strong>
           </div>
         </div>
