@@ -339,7 +339,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
       if (sim) return sim;
     }
     const fromApi = eventData?.outcomes.find((x) => x.slug === o.slug)?.series;
-    if (fromApi && fromApi.length >= 2) return dramatizeSeries(fromApi, o.slug);
+    if (fromApi && fromApi.length >= 2) return fromApi;
     if (o.spark && o.spark.length >= 2) {
       const now = Date.now();
       const step = 5 * 60_000;
@@ -489,6 +489,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                 <div className="tregu-panel" style={{ padding: 24 }}>
                   <h3 style={{ fontSize: 15, fontWeight: 800, margin: "0 0 14px" }}>Të gjitha rezultatet</h3>
                   <GroupChart
+                    key={(eventData?.outcomes ?? []).map((outcome) => `${outcome.slug}:${outcome.series.at(-1)?.t ?? 0}:${outcome.series.at(-1)?.p ?? 0}`).join("|")}
                     height={280}
                     series={group.outcomes.map((o) => ({
                       label: o.label,
