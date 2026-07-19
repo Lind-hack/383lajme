@@ -13,6 +13,12 @@ interface TapeRow {
   created_at: string;
 }
 
+interface SnapRow {
+  market_id: string;
+  market_prob: number;
+  created_at: string;
+}
+
 export async function GET(request: NextRequest) {
   const supabase = await createClient();
   const category = request.nextUrl.searchParams.get("category");
@@ -36,9 +42,11 @@ export async function GET(request: NextRequest) {
   const rows = data ?? [];
   const ids = rows.map((m) => m.id);
 
-  // One tape query for every listed market (sparklines + weekly deltas) and
-  // one short public feed — the hub's proof the floor is alive.
-  const [tapeRes, feedRes] = await Promise.all([
+  // One tape query for every listed market (sparklines + weekly deltas), the
+  // 5-minute cron snapshots (books move between trades, and most books have
+  // few or no trades — without snapshots every sparkline collapses to a dot),
+  // and one short public feed — the hub's proof the floor is alive.
+  const [tapeRes, snapRes, feedRes] = await Promise.all([
     ids.length
       ? supabase
           .from("market_trades")
@@ -47,6 +55,14 @@ export async function GET(request: NextRequest) {
           .order("created_at", { ascending: true })
           .limit(4000)
       : Promise.resolve({ data: [] as TapeRow[], error: null }),
+    ids.length
+      ? supabase
+          .from("market_snapshots")
+          .select("market_id, market_prob, created_at")
+          .in("market_id", ids)
+          .order("created_at", { ascending: false })
+          .limit(2000)
+      : Promise.resolve({ data: [] as SnapRow[], error: null }),
     supabase
       .from("market_trades")
       .select("action, side, coins, price_yes, created_at, profiles(display_name), markets(question, slug)")
@@ -61,26 +77,42 @@ export async function GET(request: NextRequest) {
     else byMarket.set(t.market_id, [t]);
   }
 
+  // Fetched newest-first to keep the freshest window under the row cap;
+  // reversed here so each market's snapshot tape reads oldest-first.
+  const bySnap = new Map<string, SnapRow[]>();
+  for (const s of ((snapRes.data ?? []) as SnapRow[]).reverse()) {
+    const arr = bySnap.get(s.market_id);
+    if (arr) arr.push(s);
+    else bySnap.set(s.market_id, [s]);
+  }
+
   const weekAgo = Date.now() - WEEK_MS;
 
   const markets = rows.map((m) => {
     const prob = lmsrPriceYes(m.q_yes, m.q_no, m.b);
     const tape = byMarket.get(m.id) ?? [];
 
+    // Trades and cron snapshots record the same book price; interleaved by
+    // time they form the fullest tape either source can offer.
+    const merged = [
+      ...tape.map((t) => ({ t: new Date(t.created_at).getTime(), p: t.price_yes })),
+      ...(bySnap.get(m.id) ?? []).map((s) => ({ t: new Date(s.created_at).getTime(), p: Number(s.market_prob) })),
+    ].sort((a, b) => a.t - b.t);
+
     // Weekly delta: current prob vs the last known price at/before 7 days ago
-    // (or the earliest trade if the market is younger than a week).
+    // (or the earliest point if the market is younger than a week).
     let delta7d: number | null = null;
-    if (tape.length > 0) {
-      let anchor = tape[0].price_yes;
-      for (const t of tape) {
-        if (new Date(t.created_at).getTime() <= weekAgo) anchor = t.price_yes;
+    if (merged.length > 0) {
+      let anchor = merged[0].p;
+      for (const pt of merged) {
+        if (pt.t <= weekAgo) anchor = pt.p;
         else break;
       }
       delta7d = prob - anchor;
     }
 
     // Downsample the tape to a fixed-width sparkline, always ending at now.
-    const prices = tape.map((t) => t.price_yes);
+    const prices = merged.map((pt) => pt.p);
     prices.push(prob);
     let spark: number[];
     if (prices.length <= SPARK_POINTS) {
