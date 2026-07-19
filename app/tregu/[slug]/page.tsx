@@ -390,7 +390,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
   const fallbackEventStats = group ? eventStatsFor(group.title) : null;
   const live = market.live_score_state as { status?: string; detail?: string; competitors?: Array<{ team?: string; score?: number }>; metrics?: Record<string, Record<string, number>> } | null;
   const liveMetrics = live?.metrics;
-  const liveStats = live?.status === "STATUS_IN_PROGRESS" && liveMetrics && group ? {
+  const liveStats = live?.status !== "STATUS_SCHEDULED" && liveMetrics && group ? {
     home: "Argjentina", away: "Spanja",
     score: `${live.competitors?.find((c) => c.team === "Argentina")?.score ?? 0} - ${live.competitors?.find((c) => c.team === "Spain")?.score ?? 0}`,
     note: `LIVE · ${live.detail ?? ""}`,
