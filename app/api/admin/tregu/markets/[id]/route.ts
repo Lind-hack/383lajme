@@ -6,6 +6,7 @@ export const dynamic = "force-dynamic";
 
 // PATCH { action: "approve" }              -> draft -> open
 // PATCH { action: "close" }                -> open -> closed (betting stops, awaiting resolution)
+// PATCH { action: "reopen" }               -> closed/resolved -> open (only while the book has zero trades)
 // PATCH { action: "resolve", outcome }     -> resolves + pays out winners via RPC
 // PATCH { action: "seed", initialProb }    -> reseed LMSR opening odds (only before the first trade)
 // PATCH { question, description, ... }     -> plain field edit (draft markets only)
@@ -22,7 +23,7 @@ export async function PATCH(
   const { id } = await params;
   const body = (await request.json().catch(() => null)) as
     | {
-        action?: "approve" | "close" | "resolve" | "seed";
+        action?: "approve" | "close" | "resolve" | "seed" | "reopen";
         outcome?: "PO" | "JO";
         initialProb?: number;
         [key: string]: unknown;
@@ -49,6 +50,28 @@ export async function PATCH(
       .update({ status: "closed" })
       .eq("id", id)
       .eq("status", "open")
+      .select()
+      .single();
+    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ market: data });
+  }
+
+  if (body.action === "reopen") {
+    // A resolved market with trades has already paid out — reopening it would
+    // let winners double-dip, so only untouched books can come back.
+    const { count, error: tradeErr } = await admin
+      .from("market_trades")
+      .select("id", { count: "exact", head: true })
+      .eq("market_id", id);
+    if (tradeErr) return NextResponse.json({ error: tradeErr.message }, { status: 500 });
+    if ((count ?? 0) > 0) {
+      return NextResponse.json({ error: "Tregu ka tregtime — nuk mund të rihapet" }, { status: 409 });
+    }
+    const { data, error } = await admin
+      .from("markets")
+      .update({ status: "open", resolved_outcome: null })
+      .eq("id", id)
+      .in("status", ["closed", "resolved"])
       .select()
       .single();
     if (error) return NextResponse.json({ error: error.message }, { status: 500 });

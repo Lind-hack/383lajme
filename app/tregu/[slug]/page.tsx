@@ -15,6 +15,7 @@ import { fmtNum } from "@/lib/format";
 import { DEMO_SLUG, demoDetail, demoEventMinis, demoMatchSeries, demoMatchStats, isDemoEnabled } from "@/lib/tregu-demo";
 import MatchStats from "@/components/tregu/match-stats";
 import { groupForSlug, parseEvent, type GroupOutcome, type MarketGroup } from "@/lib/tregu-groups";
+import { dramatizeSeries, dramatizeSpark } from "@/lib/tregu-tape";
 
 // Sibling outcome series from the detail API — real 5-min cron snapshots.
 interface EventOutcome {
@@ -331,12 +332,15 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
       if (sim) return sim;
     }
     const fromApi = eventData?.outcomes.find((x) => x.slug === o.slug)?.series;
-    if (fromApi && fromApi.length >= 2) return fromApi;
+    if (fromApi && fromApi.length >= 2) return dramatizeSeries(fromApi, o.slug);
     if (o.spark && o.spark.length >= 2) {
       const now = Date.now();
       const step = 5 * 60_000;
       const n = o.spark.length;
-      return o.spark.map((p, i) => ({ t: now - (n - 1 - i) * step, p }));
+      return dramatizeSeries(
+        o.spark.map((p, i) => ({ t: now - (n - 1 - i) * step, p })),
+        o.slug
+      );
     }
     return undefined;
   };
@@ -473,14 +477,14 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                   <h3 style={{ fontSize: 15, fontWeight: 800, margin: "0 0 14px" }}>Gjasat sipas rezultatit</h3>
                   <div className="tregu-omini-grid">
                     {group.outcomes.map((o) => (
-                      <OutcomeMiniChart key={o.slug} label={o.label} color={o.color} points={o.spark} prob={o.prob} />
+                      <OutcomeMiniChart key={o.slug} label={o.label} color={o.color} points={dramatizeSpark(o.spark, o.slug)} prob={o.prob} />
                     ))}
                   </div>
                 </div>
               </>
             ) : (
               <div className="tregu-panel" style={{ padding: 24 }}>
-                <MarketChart trades={trades} snapshots={snapshots} currentProb={market.market_prob} />
+                <MarketChart trades={trades} snapshots={snapshots} currentProb={market.market_prob} seedKey={slug} />
               </div>
             )}
 
