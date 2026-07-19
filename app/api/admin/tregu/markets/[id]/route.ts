@@ -69,7 +69,7 @@ export async function PATCH(
     }
     const { data, error } = await admin
       .from("markets")
-      .update({ status: "open", resolved_outcome: null })
+      .update({ status: "open" })
       .eq("id", id)
       .in("status", ["closed", "resolved"])
       .select()
