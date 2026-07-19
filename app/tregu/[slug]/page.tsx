@@ -172,7 +172,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
       setLoading(false);
       return;
     }
-    fetch(`/api/tregu/markets/${slug}`)
+    fetch(`/api/tregu/markets/${slug}`, { cache: "no-store" })
       .then((r) => r.json())
       .then((d) => {
         if (d.error) {
@@ -250,7 +250,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
   // polling each minute picks the new chart point up without a reload.
   useEffect(() => {
     if (demo) return;
-    const id = setInterval(load, 60_000);
+    const id = setInterval(load, 12_000);
     return () => clearInterval(id);
   }, [load, demo]);
 
