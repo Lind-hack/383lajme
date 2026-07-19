@@ -13,6 +13,7 @@ export default function MatchStats({
   note,
   goals,
   rows,
+  heading = "Statistikat e ndeshjes",
 }: {
   home: string;
   away: string;
@@ -20,11 +21,13 @@ export default function MatchStats({
   note?: string;
   goals?: string;
   rows: MatchStatRow[];
+  /** Panel title — races say "Statistikat e garës", football keeps the default. */
+  heading?: string;
 }) {
   return (
     <section className="tregu-panel tregu-mstats" style={{ padding: 24 }} aria-label={`Statistikat: ${home} ${score} ${away}`}>
       <div className="tregu-mstats-head">
-        <h3>Statistikat e ndeshjes</h3>
+        <h3>{heading}</h3>
         <span className="tregu-mstats-score">
           {home} <strong>{score}</strong> {away}
           {note ? <em>{note}</em> : null}
