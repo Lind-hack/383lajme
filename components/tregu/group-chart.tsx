@@ -51,6 +51,28 @@ function valueAt(pts: { t: number; p: number }[], t: number): number {
   return v;
 }
 
+// Push-apart with bounds: enforce 26px spacing downward, then walk the stack
+// back inside [minY, maxY] — without the clamp a tall stack (an F1 grid's
+// chips) marches straight past the plot's bottom edge into the next section.
+function spreadWithin(items: { y: number }[], minY: number, maxY: number) {
+  for (let i = 1; i < items.length; i++) {
+    if (items[i].y - items[i - 1].y < 26) items[i].y = items[i - 1].y + 26;
+  }
+  if (items.length === 0) return;
+  if (items[items.length - 1].y > maxY) {
+    items[items.length - 1].y = maxY;
+    for (let i = items.length - 2; i >= 0; i--) {
+      if (items[i + 1].y - items[i].y < 26) items[i].y = items[i + 1].y - 26;
+    }
+  }
+  if (items[0].y < minY) {
+    items[0].y = minY;
+    for (let i = 1; i < items.length; i++) {
+      if (items[i].y - items[i - 1].y < 26) items[i].y = items[i - 1].y + 26;
+    }
+  }
+}
+
 function ticksFor(lo: number, hi: number): number[] {
   const span = hi - lo;
   const step = span > 0.55 ? 0.2 : span > 0.3 ? 0.1 : 0.05;
@@ -173,9 +195,7 @@ export default function GroupChart({
     .sort((a, b) => b.v - a.v)
     .slice(0, maxChips)
     .sort((a, b) => a.y - b.y);
-  for (let i = 1; i < chips.length; i++) {
-    if (chips[i].y - chips[i - 1].y < 26) chips[i].y = chips[i - 1].y + 26;
-  }
+  spreadWithin(chips, PLOT_TOP + 2, PLOT_BOTTOM - 12);
 
   // Labels that ride the crosshair: name + odds at the hovered minute, pushed
   // apart vertically so they never overlap.
@@ -187,9 +207,7 @@ export default function GroupChart({
           .sort((a, b) => b.v - a.v)
           .slice(0, maxChips)
           .sort((a, b) => a.y - b.y);
-  for (let i = 1; i < hoverLabels.length; i++) {
-    if (hoverLabels[i].y - hoverLabels[i - 1].y < 26) hoverLabels[i].y = hoverLabels[i - 1].y + 26;
-  }
+  spreadWithin(hoverLabels, PLOT_TOP + 2, PLOT_BOTTOM - 12);
   const hoverX = hover === null ? 0 : xPct(hover.t);
   // Near the right edge the labels flip to the left of the crosshair.
   const hoverFlip = hoverX > 64;

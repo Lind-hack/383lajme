@@ -15,6 +15,8 @@ import { fmtNum } from "@/lib/format";
 import { DEMO_SLUG, demoDetail, demoEventMinis, demoMatchSeries, demoMatchStats, isDemoEnabled } from "@/lib/tregu-demo";
 import MatchStats from "@/components/tregu/match-stats";
 import { groupForSlug, parseEvent, type GroupOutcome, type MarketGroup } from "@/lib/tregu-groups";
+import { outcomeMediaFor } from "@/lib/tregu-media";
+import RaceStandings from "@/components/tregu/race-standings";
 import { dramatizeSeries, dramatizeSpark } from "@/lib/tregu-tape";
 
 // Sibling outcome series from the detail API — real 5-min cron snapshots.
@@ -375,6 +377,10 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
   const canBuy = !placing && amount > 0 && (balance === null || amount <= balance);
   const canSell = !placing && sellShares > 0 && Boolean(held);
 
+  // Race grids (every outcome has a registry headshot) swap the mini-chart
+  // grid for a live timing board ranked by the odds.
+  const raceField = Boolean(group && group.outcomes.every((o) => outcomeMediaFor(o.label)?.photo));
+
   return (
     <div className="tregu-scope">
       <Navbar />
@@ -472,14 +478,21 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                 </div>
                 {/* Demo simulation: full-match stat lines behind the price moves. */}
                 {demo && <MatchStats {...demoMatchStats()} />}
-                {/* One graph per outcome — each book's own live probability. */}
+                {/* Below the chart: live timing board for race grids, or one
+                    graph per outcome for everything else. */}
                 <div className="tregu-panel" style={{ padding: 24 }}>
-                  <h3 style={{ fontSize: 15, fontWeight: 800, margin: "0 0 14px" }}>Gjasat sipas rezultatit</h3>
-                  <div className="tregu-omini-grid">
-                    {group.outcomes.map((o) => (
-                      <OutcomeMiniChart key={o.slug} label={o.label} color={o.color} points={dramatizeSpark(o.spark, o.slug)} prob={o.prob} />
-                    ))}
-                  </div>
+                  <h3 style={{ fontSize: 15, fontWeight: 800, margin: "0 0 14px" }}>
+                    {raceField ? "Renditja live" : "Gjasat sipas rezultatit"}
+                  </h3>
+                  {raceField ? (
+                    <RaceStandings outcomes={group.outcomes} currentSlug={slug} />
+                  ) : (
+                    <div className="tregu-omini-grid">
+                      {group.outcomes.map((o) => (
+                        <OutcomeMiniChart key={o.slug} label={o.label} color={o.color} points={dramatizeSpark(o.spark, o.slug)} prob={o.prob} />
+                      ))}
+                    </div>
+                  )}
                 </div>
               </>
             ) : (
@@ -545,7 +558,11 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                       {Math.round(currentOutcome.prob * 100)}%
                     </span>
                   </div>
-                  <div style={{ display: "flex", gap: 8 }} role="tablist" aria-label="Zgjidh skuadrën">
+                  <div
+                    style={{ display: "flex", gap: 8, overflowX: "auto", paddingBottom: 4, scrollbarWidth: "thin" }}
+                    role="tablist"
+                    aria-label="Zgjidh skuadrën"
+                  >
                     {group.outcomes.map((o) => (
                       <Link
                         key={o.slug}
