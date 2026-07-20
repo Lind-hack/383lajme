@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useRef, useState } from "react";
+import { useId, useMemo, useRef, useState } from "react";
 
 // Multi-outcome event chart — the Polymarket-style view for grouped events.
 // Time-aware: every outcome's line is drawn from real timestamped points
@@ -30,6 +30,10 @@ type RangeKey = (typeof RANGES)[number]["key"];
 const W = 640;
 const AXIS_H = 22;
 const PLOT_TOP = 10;
+// Width of the gleam that travels along the lines once a minute. The CSS
+// keyframe translates it by W + SHINE_W, so the two must stay in sync
+// (`--tg-shine-travel` in globals.css).
+const SHINE_W = 180;
 
 function seriesOf(s: EventSeries): { t: number; p: number }[] {
   if (s.series && s.series.length >= 2) {
@@ -89,7 +93,7 @@ function ticksFor(lo: number, hi: number): number[] {
 
 export default function GroupChart({
   series,
-  height = 280,
+  height = 420,
 }: {
   series: EventSeries[];
   height?: number;
@@ -97,6 +101,13 @@ export default function GroupChart({
   const [range, setRange] = useState<RangeKey>("1D");
   const [hoverI, setHoverI] = useState<number | null>(null);
   const plotRef = useRef<HTMLDivElement>(null);
+  // Defs are document-scoped; two charts on one page would collide on a
+  // hardcoded id.
+  // React's ids carry punctuation (`:r0:` / `«r0»`) that url(#…) can't resolve.
+  const uid = useId().replace(/[^a-zA-Z0-9]/g, "");
+  const shineMaskId = `tg-shine-mask-${uid}`;
+  const shineBandId = `tg-shine-band-${uid}`;
+  const shineGlowId = `tg-shine-glow-${uid}`;
 
   const H = height;
   const PLOT_BOTTOM = H - AXIS_H;
@@ -237,6 +248,33 @@ export default function GroupChart({
           onPointerLeave={() => setHoverI(null)}
         >
           <svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" aria-hidden>
+            <defs>
+              {/* Soft-edged band; masking a duplicate of each line with it
+                  makes a gleam ride the stroke — the SVG analogue of the
+                  .glossy-orange text shine. */}
+              <linearGradient id={shineBandId} x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stopColor="#fff" stopOpacity="0" />
+                <stop offset="38%" stopColor="#fff" stopOpacity="0.3" />
+                <stop offset="55%" stopColor="#fff" stopOpacity="1" />
+                <stop offset="72%" stopColor="#fff" stopOpacity="0.3" />
+                <stop offset="100%" stopColor="#fff" stopOpacity="0" />
+              </linearGradient>
+              {/* Bleeds the glow pass outward so the gleam reads as light
+                  spilling off the line, not as the stroke thinning. */}
+              <filter id={shineGlowId} x="-20%" y="-20%" width="140%" height="140%">
+                <feGaussianBlur stdDeviation="3.5" />
+              </filter>
+              <mask id={shineMaskId} maskUnits="userSpaceOnUse" x="0" y="0" width={W} height={H}>
+                <rect
+                  className="tregu-gchart-shine"
+                  x={-SHINE_W}
+                  y="0"
+                  width={SHINE_W}
+                  height={H}
+                  fill={`url(#${shineBandId})`}
+                />
+              </mask>
+            </defs>
             {ticks.map((t) => (
               <line
                 key={t}
@@ -281,17 +319,45 @@ export default function GroupChart({
                 .map((g, i) => `${i === 0 ? "M" : "L"}${xFor(g.t).toFixed(1)} ${yFor(g.values[si]).toFixed(1)}`)
                 .join(" ");
               return (
-                <path
-                  key={s.label}
-                  d={d}
-                  fill="none"
-                  stroke={s.color}
-                  strokeWidth="2"
-                  strokeLinejoin="miter"
-                  strokeMiterlimit={3}
-                  strokeLinecap="butt"
-                  vectorEffect="non-scaling-stroke"
-                />
+                <g key={s.label}>
+                  <path
+                    d={d}
+                    fill="none"
+                    stroke={s.color}
+                    strokeWidth="2"
+                    strokeLinejoin="miter"
+                    strokeMiterlimit={3}
+                    strokeLinecap="butt"
+                    vectorEffect="non-scaling-stroke"
+                  />
+                  {/* The gleam: same geometry, warm highlight, revealed only
+                      through the travelling mask band. Suppressed on hover so
+                      it never lights up the grayed-out future. */}
+                  {hoverI === null && (
+                    <g mask={`url(#${shineMaskId})`}>
+                      <path
+                        d={d}
+                        fill="none"
+                        stroke={s.color}
+                        strokeWidth="7"
+                        strokeLinejoin="round"
+                        strokeLinecap="round"
+                        opacity="0.55"
+                        filter={`url(#${shineGlowId})`}
+                      />
+                      <path
+                        d={d}
+                        fill="none"
+                        stroke="#FFC9A8"
+                        strokeWidth="2"
+                        strokeLinejoin="miter"
+                        strokeMiterlimit={3}
+                        strokeLinecap="round"
+                        vectorEffect="non-scaling-stroke"
+                      />
+                    </g>
+                  )}
+                </g>
               );
             })}
             {hover && (

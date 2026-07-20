@@ -410,7 +410,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
     <div className="tregu-scope">
       <Navbar />
       {/* Left-anchored container — Polymarket-style, not centered. */}
-      <main style={{ maxWidth: 1200, margin: 0, padding: "96px 24px 80px 32px" }}>
+      <main style={{ maxWidth: 1560, margin: 0, padding: "96px 32px 80px 32px" }}>
         <Link href="/tregu" style={{ color: "#6B6B6B", fontSize: 13, textDecoration: "none" }}>
           ← Tregu
         </Link>
@@ -489,11 +489,11 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
             {group && currentOutcome ? (
               <>
                 {/* Combined event chart — every outcome's live line, Polymarket-style. */}
-                <div className="tregu-panel" style={{ padding: 24 }}>
-                  <h3 style={{ fontSize: 15, fontWeight: 800, margin: "0 0 14px" }}>Të gjitha rezultatet</h3>
+                <div className="tregu-panel" style={{ padding: 28 }}>
+                  <h3 style={{ fontSize: 16, fontWeight: 800, margin: "0 0 16px" }}>Të gjitha rezultatet</h3>
                   <GroupChart
                     key={(eventData?.outcomes ?? []).map((outcome) => `${outcome.slug}:${outcome.series.at(-1)?.t ?? 0}:${outcome.series.at(-1)?.p ?? 0}`).join("|")}
-                    height={280}
+                    height={460}
                     series={group.outcomes.map((o) => ({
                       label: o.label,
                       color: o.color,
@@ -512,7 +512,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                 ) : null}
                 {/* Below the chart: live timing board for race grids, or one
                     graph per outcome for everything else. */}
-                <div className="tregu-panel" style={{ padding: 24 }}>
+                <div className="tregu-panel" style={{ padding: 28 }}>
                   <h3 style={{ fontSize: 15, fontWeight: 800, margin: "0 0 14px" }}>
                     {raceField ? "Renditja live" : "Gjasat sipas rezultatit"}
                   </h3>
@@ -528,7 +528,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                 </div>
               </>
             ) : (
-              <div className="tregu-panel" style={{ padding: 24 }}>
+              <div className="tregu-panel" style={{ padding: 28 }}>
                 <MarketChart trades={trades} snapshots={snapshots} currentProb={market.market_prob} seedKey={slug} />
               </div>
             )}
@@ -546,7 +546,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
             />
 
             {latestEvidence.length > 0 && (
-              <div className="tregu-panel" style={{ padding: 24 }}>
+              <div className="tregu-panel" style={{ padding: 28 }}>
                 <h3 style={{ fontSize: 15, fontWeight: 800, margin: "0 0 14px" }}>Bazuar në lajme</h3>
                 <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                   {latestEvidence.map((e) => (
@@ -565,23 +565,23 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
 
           {/* ── Right column ── */}
           <aside className="tregu-detail-side">
-            <div className="tregu-panel tregu-edge" data-cat={market.category} style={{ padding: 24 }}>
+            <div className="tregu-panel tregu-edge" data-cat={market.category} style={{ padding: 28 }}>
               {/* Event trade card header: cubic flag avatar + team, plus a
                  switcher — changing team swaps BOTH the name and the flag. */}
               {group && currentOutcome && (
-                <div style={{ marginBottom: 18 }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 14 }}>
-                    <TeamFlag team={currentOutcome.label} size={46} radius={13} label={currentOutcome.label} />
+                <div style={{ marginBottom: 20 }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 16 }}>
+                    <TeamFlag team={currentOutcome.label} size={54} radius={15} label={currentOutcome.label} />
                     <div style={{ minWidth: 0 }}>
-                      <div style={{ fontSize: 11.5, fontWeight: 700, color: "#6B6B6B", marginBottom: 2 }}>
+                      <div style={{ fontSize: 12, fontWeight: 700, color: "#6B6B6B", marginBottom: 3 }}>
                         {group.title}
                       </div>
-                      <div style={{ fontSize: 17, fontWeight: 800, lineHeight: 1.2 }}>{currentOutcome.label}</div>
+                      <div style={{ fontSize: 19, fontWeight: 800, lineHeight: 1.2 }}>{currentOutcome.label}</div>
                     </div>
                     <span
                       style={{
                         marginLeft: "auto",
-                        fontSize: 20,
+                        fontSize: 24,
                         fontWeight: 800,
                         color: currentOutcome.color,
                         fontVariantNumeric: "tabular-nums",
@@ -604,7 +604,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                         role="tab"
                         aria-selected={o.slug === slug}
                       >
-                        <TeamFlag team={o.label} size={20} radius={6} label={o.label} />
+                        <TeamFlag team={o.label} size={22} radius={7} label={o.label} />
                         <span>{o.label}</span>
                         <span style={{ opacity: 0.72, fontVariantNumeric: "tabular-nums" }}>
                           {Math.round(o.prob * 100)}%
@@ -824,16 +824,16 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
 
             {/* Related events — compact rows under the trade card. */}
             {related.length > 0 && (
-              <div className="tregu-panel" style={{ padding: "18px 20px" }}>
-                <h3 style={{ fontSize: 14, fontWeight: 800, margin: "0 0 10px" }}>Ngjarje të lidhura</h3>
+              <div className="tregu-panel" style={{ padding: "22px 24px" }}>
+                <h3 style={{ fontSize: 15, fontWeight: 800, margin: "0 0 12px" }}>Ngjarje të lidhura</h3>
                 <div style={{ display: "flex", flexDirection: "column" }}>
                   {related.map((m) => (
                     <Link key={m.slug} href={`/tregu/${m.slug}`} className="tregu-rel-row">
                       {/* Event questions carry both team names — flag must key off the outcome half. */}
                       <TeamFlag
                         team={parseEvent(m.question)?.outcome ?? m.question}
-                        size={30}
-                        radius={9}
+                        size={34}
+                        radius={10}
                         label={m.question}
                       />
                       <span className="tregu-rel-q">{m.question}</span>
@@ -849,7 +849,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                news moves the AI line away from the market, traders see the
                edge before the odds catch up. */}
             {latestAiSnap && latestAiSnap.ai_prob !== null && (
-              <div className="tregu-panel" style={{ padding: 24 }}>
+              <div className="tregu-panel" style={{ padding: 28 }}>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
                   <h3 style={{ fontSize: 15, fontWeight: 800, margin: 0 }}>Sinjali AI</h3>
                   <span style={{ fontSize: 11, color: "#6B6B6B" }}>{timeAgo(latestAiSnap.created_at)}</span>
@@ -862,13 +862,13 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                       <div style={{ display: "flex", gap: 24, marginBottom: 12 }}>
                         <div>
                           <div style={{ fontSize: 11, fontWeight: 700, color: "#6B6B6B", marginBottom: 2 }}>AI nga lajmet</div>
-                          <div style={{ fontSize: 22, fontWeight: 800, color: "#B45309", fontVariantNumeric: "tabular-nums" }}>
+                          <div style={{ fontSize: 26, fontWeight: 800, color: "#B45309", fontVariantNumeric: "tabular-nums" }}>
                             {Math.round(ai * 100)}%
                           </div>
                         </div>
                         <div>
                           <div style={{ fontSize: 11, fontWeight: 700, color: "#6B6B6B", marginBottom: 2 }}>Tregu</div>
-                          <div style={{ fontSize: 22, fontWeight: 800, color: "#00854A", fontVariantNumeric: "tabular-nums" }}>
+                          <div style={{ fontSize: 26, fontWeight: 800, color: "#00854A", fontVariantNumeric: "tabular-nums" }}>
                             {pct}%
                           </div>
                         </div>
@@ -887,7 +887,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
             )}
 
             {/* Resolution rules — the trust surface. */}
-            <div className="tregu-panel" style={{ padding: 24 }}>
+            <div className="tregu-panel" style={{ padding: 28 }}>
               <h3 style={{ fontSize: 15, fontWeight: 800, margin: "0 0 10px" }}>Rregullat e zgjidhjes</h3>
               <p style={{ fontSize: 13, color: "#111111", lineHeight: 1.6, margin: "0 0 12px" }}>
                 {market.resolution_rules ||
