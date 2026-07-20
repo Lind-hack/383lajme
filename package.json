@@ -6,11 +6,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "test": "node --test lib/tregu-automation.test.mjs lib/tregu-reprice-regression.test.mjs lib/tregu-ai-provider.test.mjs lib/tregu-market-detail.test.mjs lib/tregu-three-outcome.test.mjs lib/tregu-argentina-england-cli.test.mjs lib/tregu-sport-market.test.mjs lib/tregu-pre-match-refresh.test.mjs lib/tregu-live.test.mjs lib/f1-live-lite.test.mjs",
+    "test": "node --test lib/tregu-automation.test.mjs lib/tregu-reprice-regression.test.mjs lib/tregu-ai-provider.test.mjs lib/tregu-market-detail.test.mjs lib/tregu-three-outcome.test.mjs lib/tregu-argentina-england-cli.test.mjs lib/tregu-sport-market.test.mjs lib/tregu-pre-match-refresh.test.mjs lib/tregu-live.test.mjs lib/f1-live-lite.test.mjs lib/tregu-f1-integration.test.mjs lib/tregu-admin-market-classification.test.mjs lib/tregu-admin-draft-market-type.test.mjs",
     "tregu:argentina-england:preflight": "node scripts/argentina-england-three-outcome-draft.mjs",
     "tregu:argentina-england:refresh": "node scripts/run-tregu-argentina-england-refresh.mjs"
   },
   "dependencies": {
+    "@sparticuz/chromium": "143.0.4",
     "@splinetool/react-spline": "^4.1.0",
     "@splinetool/runtime": "^1.12.97",
     "@supabase/ssr": "^0.10.3",

@@ -14,6 +14,7 @@ interface Market {
   market_classification?: MarketClassification;
   status: "draft" | "open" | "stale" | "closed" | "resolved";
   outcome: "PO" | "JO" | null;
+  market_type?: "binary" | "two_outcome" | "three_outcome";
   closes_at: string;
   ai_generated: boolean;
   last_checked_at?: string | null;
@@ -153,6 +154,22 @@ export default function TreguAdminClient() {
                     <option value="general_news">General / News</option>
                     <option value="live_football">Live Football</option>
                     <option value="live_f1">Live F1</option>
+                  </select>
+                </label>
+                <label style={{ display: "grid", gap: 5, width: "fit-content", marginTop: 12, fontSize: 12, fontWeight: 700 }}>
+                  Lloji i tregut
+                  <select
+                    aria-label="Lloji i tregut"
+                    value={m.market_type ?? "binary"}
+                    onChange={(event) => {
+                      const value = event.target.value as NonNullable<Market["market_type"]>;
+                      marketAction(m.id, { market_type: value });
+                    }}
+                    style={{ border: "1px solid #D6D3D1", borderRadius: 8, background: "#fff", color: "#111", padding: "7px 10px", fontFamily: "inherit", fontSize: 13 }}
+                  >
+                    <option value="binary">Binar (PO/JO)</option>
+                    <option value="two_outcome">Dy rezultate</option>
+                    <option value="three_outcome">Tri rezultate</option>
                   </select>
                 </label>
                 <div style={{ display: "flex", gap: 8, marginTop: 10 }}>
@@ -314,6 +331,9 @@ function MarketRow({ m }: { m: Market }) {
         <span style={{ fontSize: 11, fontWeight: 700, color: "#6B6B6B", textTransform: "uppercase" }}>{m.category}</span>
         <span style={{ fontSize: 10, fontWeight: 700, color: "#6B6B6B", background: "#F3F4F6", borderRadius: 999, padding: "2px 6px" }}>
           {m.market_classification === "live_football" ? "Live Football" : m.market_classification === "live_f1" ? "Live F1" : "General / News"}
+        </span>
+        <span style={{ fontSize: 10, fontWeight: 700, color: "#6B6B6B", background: "#F3F4F6", borderRadius: 999, padding: "2px 6px" }}>
+          {m.market_type === "three_outcome" ? "3 rezultate" : m.market_type === "two_outcome" ? "2 rezultate" : "PO/JO"}
         </span>
         {m.ai_generated && <span style={{ fontSize: 10, fontWeight: 700, color: "#FF4422" }}>AI</span>}
         {m.outcome && <span style={{ fontSize: 11, fontWeight: 700, color: m.outcome === "PO" ? "#22C55E" : "#e53e3e" }}>→ {m.outcome}</span>}

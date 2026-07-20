@@ -5,7 +5,7 @@ import { buildDailyDraftPlan, buildLiveEventDraftRunKey, buildRepricePlan, repri
 import { kosovoLocalDate } from "@/lib/tregu-date-key.mjs";
 import { fetchEspnLiveEvents } from "@/lib/espn-live-score.mjs";
 import { ARGENTINA_SPAIN_PAIR, buildArgentinaSpainPairedBinaryPlan, buildSportMarketPlan } from "@/lib/tregu-sport-market.mjs";
-import { buildF1MarketPlan, fetchF1LiveLiteLeaderboard } from "@/lib/f1-live-lite.mjs";
+import { buildF1MarketPlan, buildF1SettlementPlan, fetchF1LiveLiteLeaderboard } from "@/lib/f1-live-lite.mjs";
 import { classifyProviderFailure } from "@/lib/tregu-ai-provider.mjs";
 import { hasPersistedMaterialPairedBinaryChange } from "@/lib/tregu-live-email-content.mjs";
 import { sendTreguLiveNotification } from "@/lib/tregu-live-email";
@@ -142,7 +142,7 @@ async function runOfficialSportsRefresh(action: "live_sports", runKey: string, n
   try {
     const [{ data: markets, error }, { data: f1Markets, error: f1MarketsError }] = await Promise.all([
       admin.from("markets").select("*").eq("status", "open").or(`sport_outcomes.not.is.null,slug.in.(${ARGENTINA_SPAIN_PAIR.spainSlug},${ARGENTINA_SPAIN_PAIR.argentinaSlug})`),
-      admin.from("markets").select("*").eq("status", "open").like("slug", "f1-belgjika-spa-fiton-%"),
+      admin.from("markets").select("*").eq("status", "open").eq("market_classification", "live_f1"),
     ]);
     if (error) throw new Error(`Could not load open sport markets: ${error.message}`);
     if (f1MarketsError) throw new Error(`Could not load open F1 markets: ${f1MarketsError.message}`);
@@ -207,6 +207,7 @@ async function runOfficialSportsRefresh(action: "live_sports", runKey: string, n
         results.push({ slug: signal.spainMarket.slug, status: "failed", error }, { slug: signal.argentinaMarket.slug, status: "failed", error });
       }
     }
+    const f1EmailUpdates: Array<{ question: string; driver_code: string; position: number; gap: string; pits: number; before_probability: number; after_probability: number; source_url: string }> = [];
     if ((f1Markets ?? []).length) {
       try {
         const leaderboard = await fetchF1LiveLiteLeaderboard();
@@ -215,29 +216,33 @@ async function runOfficialSportsRefresh(action: "live_sports", runKey: string, n
         for (const market of f1Markets ?? []) if (!changedSlugs.has(market.slug)) f1Results.push({ slug: market.slug, status: "unchanged" });
         for (const signal of f1Signals) {
           try {
-            const { error: f1OracleError } = await admin.rpc("apply_f1_market_oracle", {
+            const { data: f1OracleRows, error: f1OracleError } = await admin.rpc("apply_f1_market_oracle", {
               p_market_id: signal.market.id,
-              p_state: { key: signal.state_key, provider: "formula1", source_url: leaderboard.source_url, leaderboard: leaderboard.rows },
-              p_reference_probability: signal.reference_probability,
-              p_oracle_reasoning: signal.reasoning,
-              p_evidence: signal.evidence,
-              p_requested_cap: signal.oracle_cap,
+              p_state: { key: signal.state_key, provider: "formula1_dashboard", source_url: leaderboard.source_url, event_id: signal.config.event_id, race: leaderboard.race, leaderboard: leaderboard.rows },
+              p_reference_probability: signal.reference_probability, p_oracle_reasoning: signal.reasoning,
+              p_evidence: signal.evidence, p_requested_cap: signal.oracle_cap,
             });
             if (f1OracleError) throw new Error(f1OracleError.message);
+            const oracle = Array.isArray(f1OracleRows) ? f1OracleRows[0] : null;
+            if (!oracle) { f1Results.push({ slug: signal.market.slug, status: "unchanged" }); continue; }
             f1Results.push({ slug: signal.market.slug, status: "applied" });
-          } catch (f1OracleError) {
-            f1Results.push({ slug: signal.market.slug, status: "failed", error: String(f1OracleError instanceof Error ? f1OracleError.message : f1OracleError) });
-          }
+            f1EmailUpdates.push({ question: signal.market.question, driver_code: signal.config.driver_code, position: signal.row.position, gap: signal.row.gap, pits: signal.row.pits, before_probability: Number(oracle.previous_price_yes), after_probability: Number(oracle.new_price_yes), source_url: leaderboard.source_url });
+          } catch (f1OracleError) { f1Results.push({ slug: signal.market.slug, status: "failed", error: String(f1OracleError instanceof Error ? f1OracleError.message : f1OracleError) }); }
+        }
+        // A FINISHED classification settles explicitly mapped markets only via
+        // the existing idempotent settlement authority; provisional rows cannot settle.
+        for (const settlement of buildF1SettlementPlan({ markets: f1Markets, leaderboard })) {
+          const { error: resolveError } = await admin.rpc("resolve_market", { p_market_id: settlement.market.id, p_outcome: settlement.outcome });
+          if (resolveError) throw new Error(`Could not settle F1 ${settlement.market.slug}: ${resolveError.message}`);
         }
       } catch (f1Error) {
-        // The browser-rendered source has no static fallback: fail closed and record why.
         for (const market of f1Markets ?? []) f1Results.push({ slug: market.slug, status: "unavailable", error: String(f1Error instanceof Error ? f1Error.message : f1Error) });
       }
     }
     const { data: settled, error: settlementError } = await admin.rpc("settle_due_sport_markets");
     if (settlementError) throw new Error(`Could not settle verified sport markets: ${settlementError.message}`);
     const officialUpdates = results.filter((result) => result.status === "applied").length + f1Results.filter((result) => result.status === "applied").length + Number(settled ?? 0);
-    const details = { official_espn_events: signals.length, results, official_f1_markets: (f1Markets ?? []).length, f1_results: f1Results, settled_market_count: settled ?? 0, official_updates: officialUpdates, paired_binary_email_updates: pairedBinaryEmailUpdates, user_trade_ledger_changed_only_by_due_settlement: true };
+    const details = { official_espn_events: signals.length, results, official_f1_markets: (f1Markets ?? []).length, f1_results: f1Results, f1_email_updates: f1EmailUpdates, settled_market_count: settled ?? 0, official_updates: officialUpdates, paired_binary_email_updates: pairedBinaryEmailUpdates, user_trade_ledger_changed_only_by_due_settlement: true };
     await finishRun(admin, started.run.id, "succeeded", details);
     if (hasPersistedMaterialPairedBinaryChange({ skipped: false, paired_binary_email_updates: pairedBinaryEmailUpdates })) {
       try {
@@ -245,6 +250,13 @@ async function runOfficialSportsRefresh(action: "live_sports", runKey: string, n
       } catch (emailError) {
         // Persistence/audit succeeded. A transport failure must not turn this into a later duplicate email attempt.
         console.error("Argentina–Spain live notification failed after persistence:", String(emailError instanceof Error ? emailError.message : emailError));
+      }
+    }
+    if (f1EmailUpdates.length) {
+      try {
+        await sendTreguLiveNotification({ kind: "f1_live_update", runKey, changes: f1EmailUpdates });
+      } catch (emailError) {
+        console.error("Formula 1 live notification failed after persistence:", String(emailError instanceof Error ? emailError.message : emailError));
       }
     }
     return { ok: true, skipped: false, runKey, ...details };

@@ -1,5 +1,5 @@
 import * as nodemailer from "nodemailer";
-import { buildArgentinaSpainLiveEmail, buildTreguRepriceEmail } from "./tregu-live-email-content.mjs";
+import { buildArgentinaSpainLiveEmail, buildF1LiveEmail, buildTreguRepriceEmail } from "./tregu-live-email-content.mjs";
 
 type NewsUpdate = {
   kind: "news_update";
@@ -27,7 +27,13 @@ type PairedBinaryLiveUpdate = {
   }>;
 };
 
-type TreguLiveEmail = NewsUpdate | PairedBinaryLiveUpdate;
+type F1LiveUpdate = {
+  kind: "f1_live_update";
+  runKey: string;
+  changes: Array<{ question: string; driver_code: string; position: number; gap: string; pits: number; before_probability: number; after_probability: number; source_url: string }>;
+};
+
+type TreguLiveEmail = NewsUpdate | PairedBinaryLiveUpdate | F1LiveUpdate;
 
 function configuredRecipient() {
   const recipient = (process.env.TREGU_LIVE_RECIPIENT ?? process.env.RECIPIENT_EMAIL ?? "").trim();
@@ -48,6 +54,8 @@ export async function sendTreguLiveNotification(notification: TreguLiveEmail) {
   const { user, transport } = gmailTransport();
   const message = notification.kind === "paired_binary_live_update"
     ? buildArgentinaSpainLiveEmail({ runKey: notification.runKey, changes: notification.changes })
-    : buildTreguRepriceEmail({ runKey: notification.runKey, changes: notification.changes });
+    : notification.kind === "f1_live_update"
+      ? buildF1LiveEmail({ runKey: notification.runKey, changes: notification.changes })
+      : buildTreguRepriceEmail({ runKey: notification.runKey, changes: notification.changes });
   await transport.sendMail({ from: user, to: recipient, ...message });
 }
