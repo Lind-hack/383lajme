@@ -1708,8 +1708,8 @@ header[data-overlay] .nav-coin-chip {
 /* ── Market detail — 2-col trading layout ─────────────────── */
 .tregu-detail-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 360px;
-  gap: 24px;
+  grid-template-columns: minmax(0, 1fr) 420px;
+  gap: 28px;
   align-items: start;
 }
 .tregu-detail-side {
@@ -1718,6 +1718,11 @@ header[data-overlay] .nav-coin-chip {
   gap: 24px;
   position: sticky;
   top: 96px;
+}
+/* Between tablet and wide desktop the rail gives space back to the chart
+   rather than squeezing both. */
+@media (max-width: 1280px) {
+  .tregu-detail-grid { grid-template-columns: minmax(0, 1fr) 360px; gap: 24px; }
 }
 @media (max-width: 940px) {
   .tregu-detail-grid { grid-template-columns: 1fr; }
@@ -2739,6 +2744,23 @@ header[data-overlay] .nav-coin-chip {
   .tregu-gchart-dot--live::after { animation: none; opacity: 0; }
 }
 
+/* Gleam travelling along the outcome lines — the SVG counterpart of the
+   .glossy-orange text shine. The mask band starts one band-width off the
+   left edge, crosses the 640-unit plot in ~2.8s, then waits out the rest of
+   the minute. Travel distance = W + SHINE_W from group-chart.tsx. */
+@keyframes tg-line-shine {
+  0% { transform: translateX(0); }
+  4.6% { transform: translateX(820px); }
+  100% { transform: translateX(820px); }
+}
+.tregu-gchart-shine {
+  animation: tg-line-shine 60s linear infinite;
+  will-change: transform;
+}
+@media (prefers-reduced-motion: reduce) {
+  .tregu-gchart-shine { animation: none; opacity: 0; }
+}
+
 /* ── Multi-outcome event: per-outcome breakdown graph ─────── */
 .tregu-omini {
   border: 1px solid var(--tg-border);
@@ -2944,12 +2966,12 @@ header[data-overlay] .nav-coin-chip {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 7px;
-  padding: 9px 10px;
+  gap: 8px;
+  padding: 11px 13px;
   border-radius: 12px;
   border: 1px solid rgba(17, 17, 17, 0.1);
   background: rgba(17, 17, 17, 0.03);
-  font-size: 13px;
+  font-size: 13.5px;
   font-weight: 800;
   color: #111111;
   text-decoration: none;
@@ -2973,15 +2995,15 @@ header[data-overlay] .nav-coin-chip {
 .tregu-rel-row {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 10px 0;
+  gap: 12px;
+  padding: 13px 0;
   text-decoration: none;
   color: #111111;
   border-top: 1px solid rgba(17, 17, 17, 0.07);
 }
 .tregu-rel-row:first-child {
   border-top: 0;
-  padding-top: 2px;
+  padding-top: 4px;
 }
 .tregu-rel-row:hover .tregu-rel-q {
   text-decoration: underline;
@@ -2989,16 +3011,16 @@ header[data-overlay] .nav-coin-chip {
 .tregu-rel-q {
   flex: 1;
   min-width: 0;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
-  line-height: 1.35;
+  line-height: 1.4;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
 .tregu-rel-pct {
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 800;
   font-variant-numeric: tabular-nums;
   color: #00854a;
