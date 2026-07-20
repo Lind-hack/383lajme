@@ -4,6 +4,9 @@ import { isAdminAuthed } from "@/lib/admin-auth";
 
 export const dynamic = "force-dynamic";
 
+type MarketClassification = "general_news" | "live_football" | "live_f1";
+const MARKET_CLASSIFICATIONS: readonly MarketClassification[] = ["general_news", "live_football", "live_f1"];
+
 // PATCH { action: "approve" }              -> draft -> open
 // PATCH { action: "close" }                -> open -> closed (betting stops, awaiting resolution)
 // PATCH { action: "reopen" }               -> closed/resolved -> open (only while the book has zero trades)
@@ -26,6 +29,7 @@ export async function PATCH(
         action?: "approve" | "close" | "resolve" | "seed" | "reopen";
         outcome?: "PO" | "JO";
         initialProb?: number;
+        market_classification?: MarketClassification;
         [key: string]: unknown;
       }
     | null;
@@ -117,6 +121,11 @@ export async function PATCH(
     const { error } = await admin.rpc("resolve_market", { p_market_id: id, p_outcome: body.outcome });
     if (error) return NextResponse.json({ error: error.message }, { status: 500 });
     return NextResponse.json({ ok: true });
+  }
+
+  const marketClassification = body.market_classification;
+  if (marketClassification !== undefined && !MARKET_CLASSIFICATIONS.includes(marketClassification)) {
+    return NextResponse.json({ error: "Klasifikimi i tregut është i pavlefshëm" }, { status: 400 });
   }
 
   const { action: _a, outcome: _o, ...fields } = body;
