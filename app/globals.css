@@ -2783,6 +2783,118 @@ header[data-overlay] .nav-coin-chip {
   .tregu-area-fade { animation: none; }
 }
 
+/* Left-to-right entrance — the whole plot (area + AI line + price line) is
+   wrapped in a <clipPath> whose rect scales from x=0 to full width, so the
+   graph starts empty and is wiped in from the left to the live tail. Works
+   under preserveAspectRatio="none" because transform-box:fill-box anchors the
+   scale to the rect's own box, geometry-stretch safe. */
+@keyframes tg-chart-reveal {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+.tregu-chart-reveal {
+  transform-box: fill-box;
+  transform-origin: 0 50%;
+  transform: scaleX(0);
+  animation: tg-chart-reveal 1300ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+@media (prefers-reduced-motion: reduce) {
+  .tregu-chart-reveal { animation: none; transform: none; }
+}
+
+/* "Lajm i ri" news marker — orange diamond sitting on the price line where an
+   article moved the market. Hover (desktop) or tap (mobile) opens the popup. */
+@keyframes tg-newsmark-in {
+  from { opacity: 0; transform: translate(-50%, -50%) rotate(45deg) scale(0.3); }
+  to { opacity: 1; transform: translate(-50%, -50%) rotate(45deg) scale(1); }
+}
+.tregu-newsmark {
+  position: absolute;
+  width: 13px;
+  height: 13px;
+  padding: 0;
+  border: 2px solid #FFFFFF;
+  border-radius: 3px;
+  cursor: pointer;
+  z-index: 4;
+  transform: translate(-50%, -50%) rotate(45deg);
+  box-shadow: 0 2px 7px -1px rgba(255, 68, 34, 0.55);
+  animation: tg-newsmark-in 320ms var(--ease-out) both;
+  transition: transform 160ms var(--ease-out), box-shadow 160ms var(--ease-out);
+}
+.tregu-newsmark:hover,
+.tregu-newsmark[data-open="true"] {
+  transform: translate(-50%, -50%) rotate(45deg) scale(1.4);
+  box-shadow: 0 3px 12px 0 rgba(255, 68, 34, 0.75);
+}
+@media (prefers-reduced-motion: reduce) {
+  .tregu-newsmark { animation: none; }
+}
+
+/* News popup — the article(s) behind the active marker, floating above it. */
+@keyframes tg-newspop-in {
+  from { opacity: 0; transform: translate(-50%, calc(-100% - 6px)) scale(0.96); }
+  to { opacity: 1; transform: translate(-50%, calc(-100% - 14px)) scale(1); }
+}
+.tregu-newspop {
+  position: absolute;
+  transform: translate(-50%, calc(-100% - 14px));
+  transform-origin: 50% 100%;
+  min-width: 210px;
+  max-width: 264px;
+  padding: 12px;
+  background: #FFFFFF;
+  border: 1px solid rgba(17, 17, 17, 0.10);
+  border-radius: 14px;
+  box-shadow: 0 14px 34px -10px rgba(17, 17, 17, 0.30);
+  z-index: 6;
+  animation: tg-newspop-in 200ms var(--ease-out) both;
+}
+.tregu-newspop-kicker {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 9px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: #FF4422;
+}
+.tregu-newspop-diamond {
+  width: 9px;
+  height: 9px;
+  border-radius: 2px;
+  transform: rotate(45deg);
+}
+.tregu-newspop-item {
+  display: block;
+  padding: 9px 0;
+  text-decoration: none;
+  border-top: 1px solid rgba(17, 17, 17, 0.07);
+}
+.tregu-newspop-item:first-of-type { border-top: 0; }
+.tregu-newspop-title {
+  display: block;
+  font-size: 13px;
+  line-height: 1.35;
+  font-weight: 600;
+  color: #111111;
+}
+.tregu-newspop-src {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 4px;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #FF4422;
+}
+.tregu-newspop-item:hover .tregu-newspop-title { color: #FF4422; }
+@media (prefers-reduced-motion: reduce) {
+  .tregu-newspop { animation: none; }
+}
+
 /* 3D raised interactive surface — layered hard bottom edge that compresses on
    press (image #8 depth). Applied to the side selectors and amount chips. */
 .tregu-raise {

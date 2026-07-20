@@ -492,8 +492,10 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                 {/* Combined event chart — every outcome's live line, Polymarket-style. */}
                 <div className="tregu-panel" style={{ padding: 28 }}>
                   <h3 style={{ fontSize: 16, fontWeight: 800, margin: "0 0 16px" }}>Të gjitha rezultatet</h3>
+                  {/* No remount key: the left-to-right reveal must play once on
+                      open, not replay every poll. Prop changes re-render in
+                      place and the internal per-second sim drives the tail. */}
                   <GroupChart
-                    key={(eventData?.outcomes ?? []).map((outcome) => `${outcome.slug}:${outcome.series.at(-1)?.t ?? 0}:${outcome.series.at(-1)?.p ?? 0}`).join("|")}
                     height={460}
                     series={group.outcomes.map((o) => ({
                       label: o.label,
