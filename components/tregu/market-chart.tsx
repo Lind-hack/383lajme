@@ -2,6 +2,7 @@
 
 import { useId, useMemo, useRef, useState } from "react";
 import { dramatizeSeries } from "@/lib/tregu-tape";
+import { useReducedMotion, useDrawReveal, useLiveTail } from "./chart-hooks";
 
 // Interactive single-market price chart — dependency-free SVG.
 // Feeds on the per-trade tape (market_trades) plus AI snapshots. Shares the
@@ -24,8 +25,10 @@ export interface SnapshotPoint {
   created_at: string;
   ai_prob: number | null;
   market_prob: number;
-  evidence?: { title: string; slug: string }[] | null;
+  evidence?: { title: string; slug: string; url?: string }[] | null;
 }
+
+type NewsEvidence = { title: string; slug: string; url?: string };
 
 const RANGES = [
   { key: "1D", ms: 86_400_000 },
@@ -78,7 +81,13 @@ export default function MarketChart({
 }) {
   const [range, setRange] = useState<RangeKey>("Gjithë");
   const [hover, setHover] = useState<{ frac: number; t: number; p: number; ai: number | null } | null>(null);
+  // News marker popup: `pinned` set by click/tap (mobile-friendly), `hovered`
+  // by mouse enter (desktop). Either one open shows the article that moved it.
+  const [pinnedNews, setPinnedNews] = useState<number | null>(null);
+  const [hoveredNews, setHoveredNews] = useState<number | null>(null);
   const boxRef = useRef<HTMLDivElement>(null);
+  const reduced = useReducedMotion();
+  const drawn = useDrawReveal(1350, reduced);
   // Defs are document-scoped; a hardcoded id would collide with another chart
   // on the page. React ids carry punctuation url(#…) can't resolve — strip it.
   const uid = useId().replace(/[^a-zA-Z0-9]/g, "");
@@ -86,6 +95,7 @@ export default function MarketChart({
   const shineMaskId = `tg-mshine-mask-${uid}`;
   const shineBandId = `tg-mshine-band-${uid}`;
   const shineGlowId = `tg-mshine-glow-${uid}`;
+  const revealId = `tg-reveal-${uid}`;
 
   const H = height;
   const PLOT_BOTTOM = H - AXIS_H;
@@ -125,20 +135,18 @@ export default function MarketChart({
 
     const events = snapshots
       .filter((s) => s.evidence && s.evidence.length > 0)
-      .map((s) => ({ t: +new Date(s.created_at), p: s.market_prob }))
+      .map((s) => ({ t: +new Date(s.created_at), p: s.market_prob, evidence: s.evidence as NewsEvidence[] }))
       .filter((e) => e.t >= tMin && e.t <= tMax);
 
-    // Fit the plot to the data (market + AI): a market living at 30–50% should
+    // Fit the plot to the MARKET line only: a market living at 30–50% should
     // fill the frame and read as real swings, not a flat line pinned to the
-    // floor of a 0–100% axis. Small padding, with a 12pt floor so a dead-flat
-    // market still gets a sane band instead of a zero-height sliver.
+    // floor. The AI estimate is deliberately excluded — when it craters toward
+    // 0% it must not drag `lo` to the floor and squash the real green movement
+    // into a thin band (the bug in the reported screenshot). Small padding,
+    // with a 12pt floor so a dead-flat market still gets a sane band.
     let plo = 1;
     let phi = 0;
     for (const p of pts) {
-      if (p.p < plo) plo = p.p;
-      if (p.p > phi) phi = p.p;
-    }
-    for (const p of aiPts) {
       if (p.p < plo) plo = p.p;
       if (p.p > phi) phi = p.p;
     }
@@ -162,7 +170,15 @@ export default function MarketChart({
     return { pts, aiPts, events, volBuckets, tMin, tMax, lo, hi };
   }, [trades, snapshots, currentProb, range, seedKey]);
 
-  const xFor = (t: number) => ((t - tMin) / (tMax - tMin)) * W;
+  // Per-second live tail: a mean-reverting micro-walk appended after the real
+  // series so the endpoint shivers every second, making the sparse 5-min /
+  // 2-min real refreshes feel like a live ticker. tMax advances with the tail
+  // so it stays framed; the walk always drifts back to the true `currentProb`.
+  const liveTail = useLiveTail(currentProb, !reduced);
+  const renderPts = liveTail.length ? [...pts, ...liveTail] : pts;
+  const tMaxD = renderPts.length ? renderPts[renderPts.length - 1].t : tMax;
+
+  const xFor = (t: number) => ((t - tMin) / (tMaxD - tMin)) * W;
   const yFor = (p: number) => PLOT_TOP + (PLOT_BOTTOM - PLOT_TOP) * (1 - (p - lo) / (hi - lo));
 
   if (pts.length < 2) {
@@ -173,33 +189,35 @@ export default function MarketChart({
     );
   }
 
-  const linePath = pts.map((pt, i) => `${i === 0 ? "M" : "L"} ${xFor(pt.t).toFixed(1)} ${yFor(pt.p).toFixed(1)}`).join(" ");
-  const areaPath = `${linePath} L ${W} ${PLOT_BOTTOM} L ${xFor(pts[0].t).toFixed(1)} ${PLOT_BOTTOM} Z`;
+  const linePath = renderPts.map((pt, i) => `${i === 0 ? "M" : "L"} ${xFor(pt.t).toFixed(1)} ${yFor(pt.p).toFixed(1)}`).join(" ");
+  const areaPath = `${linePath} L ${W} ${PLOT_BOTTOM} L ${xFor(renderPts[0].t).toFixed(1)} ${PLOT_BOTTOM} Z`;
 
-  // AI estimate as a step line — the estimate holds until re-scored.
+  // AI estimate as a gradual diagonal line — interpolates between re-scorings
+  // instead of a step line, so the odds slope from 40%→0% over their real time
+  // gap rather than dropping in a single vertical tick. Holds its last value
+  // flat to the right edge (never craters to 0 just because the line ended).
   let aiPath = "";
   aiPts.forEach((pt, i) => {
-    const x = xFor(pt.t).toFixed(1);
-    const y = yFor(pt.p).toFixed(1);
-    aiPath += i === 0 ? `M ${x} ${y}` : ` H ${x} V ${y}`;
+    aiPath += `${i === 0 ? "M" : " L"} ${xFor(pt.t).toFixed(1)} ${yFor(pt.p).toFixed(1)}`;
   });
-  if (aiPts.length > 0) aiPath += ` H ${W}`;
+  if (aiPts.length > 0) aiPath += ` L ${W} ${yFor(aiPts[aiPts.length - 1].p).toFixed(1)}`;
 
   const maxVol = Math.max(...volBuckets, 1);
   const bucketW = W / volBuckets.length;
 
-  const last = pts[pts.length - 1];
+  const last = renderPts[renderPts.length - 1];
   const ticks = ticksFor(lo, hi);
+  const activeNews = pinnedNews ?? hoveredNews;
 
   const onMove = (clientX: number) => {
     const rect = boxRef.current?.getBoundingClientRect();
     if (!rect || rect.width === 0) return;
     const frac = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
-    const t = tMin + frac * (tMax - tMin);
-    let nearest = pts[0];
-    for (const p of pts) if (Math.abs(p.t - t) < Math.abs(nearest.t - t)) nearest = p;
+    const t = tMin + frac * (tMaxD - tMin);
+    let nearest = renderPts[0];
+    for (const p of renderPts) if (Math.abs(p.t - t) < Math.abs(nearest.t - t)) nearest = p;
     const aiAt = [...aiPts].reverse().find((a) => a.t <= nearest.t);
-    setHover({ frac: (nearest.t - tMin) / (tMax - tMin), t: nearest.t, p: nearest.p, ai: aiAt?.p ?? null });
+    setHover({ frac: (nearest.t - tMin) / (tMaxD - tMin), t: nearest.t, p: nearest.p, ai: aiAt?.p ?? null });
   };
 
   const spanMs = tMax - tMin;
@@ -232,6 +250,7 @@ export default function MarketChart({
           style={{ touchAction: "pan-y" }}
           onPointerMove={(e) => onMove(e.clientX)}
           onPointerLeave={() => setHover(null)}
+          onClick={() => setPinnedNews(null)}
         >
           <svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" aria-hidden>
             <defs>
@@ -256,6 +275,12 @@ export default function MarketChart({
               <mask id={shineMaskId} maskUnits="userSpaceOnUse" x="0" y="0" width={W} height={H}>
                 <rect className="tregu-gchart-shine" x={-SHINE_W} y="0" width={SHINE_W} height={H} fill={`url(#${shineBandId})`} />
               </mask>
+              {/* Left-to-right reveal: a rect that grows from x=0 clips the plot,
+                  so on open the chart starts empty and draws in to the live edge.
+                  Reduced-motion CSS pins it fully open. */}
+              <clipPath id={revealId}>
+                <rect className="tregu-chart-reveal" x="0" y="0" width={W} height={H} />
+              </clipPath>
             </defs>
 
             {ticks.map((g) => (
@@ -285,39 +310,35 @@ export default function MarketChart({
               ) : null
             )}
 
-            <path className="tregu-area-fade" d={areaPath} fill={`url(#${areaId})`} />
+            {/* Everything price-related sits inside the reveal clip so the
+                area + line + AI wipe in together from the left on open. */}
+            <g clipPath={`url(#${revealId})`}>
+              <path className="tregu-area-fade" d={areaPath} fill={`url(#${areaId})`} />
 
-            {/* AI estimate: dashed step line in burnt orange, wrapped in the
-                same travelling gleam so it reads glossy and shiny on refresh. */}
-            {aiPath && (
-              <>
-                <path d={aiPath} fill="none" stroke={AI} strokeWidth="2" strokeDasharray="5 4" opacity="0.95" vectorEffect="non-scaling-stroke" />
-                {!hover && (
-                  <g mask={`url(#${shineMaskId})`}>
-                    <path d={aiPath} fill="none" stroke={AI} strokeWidth="6" strokeDasharray="5 4" strokeLinecap="round" opacity="0.5" filter={`url(#${shineGlowId})`} />
-                    <path d={aiPath} fill="none" stroke={AI_GLEAM} strokeWidth="2.4" strokeDasharray="5 4" strokeLinecap="round" vectorEffect="non-scaling-stroke" />
-                  </g>
-                )}
-              </>
-            )}
+              {/* AI estimate: dashed gradual line in burnt orange, wrapped in the
+                  same travelling gleam so it reads glossy and shiny on refresh. */}
+              {aiPath && (
+                <>
+                  <path d={aiPath} fill="none" stroke={AI} strokeWidth="2" strokeDasharray="5 4" opacity="0.95" vectorEffect="non-scaling-stroke" />
+                  {!hover && (
+                    <g mask={`url(#${shineMaskId})`}>
+                      <path d={aiPath} fill="none" stroke={AI} strokeWidth="6" strokeDasharray="5 4" strokeLinecap="round" opacity="0.5" filter={`url(#${shineGlowId})`} />
+                      <path d={aiPath} fill="none" stroke={AI_GLEAM} strokeWidth="2.4" strokeDasharray="5 4" strokeLinecap="round" vectorEffect="non-scaling-stroke" />
+                    </g>
+                  )}
+                </>
+              )}
 
-            {/* Price line: draws itself left-to-right on open (pathLength=1
-                normalizes the dash under preserveAspectRatio=none), then the
-                travelling gleam sweeps it (suppressed on hover so it never
-                lights up while the crosshair is reading the past). */}
-            <path className="tregu-line-draw" d={linePath} pathLength={1} fill="none" stroke={MARKET} strokeWidth="2.5" strokeLinejoin="round" vectorEffect="non-scaling-stroke" />
-            {!hover && (
-              <g mask={`url(#${shineMaskId})`}>
-                <path d={linePath} fill="none" stroke={MARKET} strokeWidth="8" strokeLinejoin="round" strokeLinecap="round" opacity="0.55" filter={`url(#${shineGlowId})`} />
-                <path d={linePath} fill="none" stroke="#FFC9A8" strokeWidth="2" strokeLinejoin="round" strokeLinecap="round" vectorEffect="non-scaling-stroke" />
-              </g>
-            )}
-
-            {events.map((e, i) => {
-              const x = xFor(e.t);
-              const y = yFor(e.p);
-              return <path key={i} d={`M ${x} ${y - 5.5} L ${x + 5.5} ${y} L ${x} ${y + 5.5} L ${x - 5.5} ${y} Z`} fill={EVENT} stroke="rgba(17,17,17,0.45)" strokeWidth="1" vectorEffect="non-scaling-stroke" />;
-            })}
+              {/* Price line + travelling gleam (gleam suppressed on hover so it
+                  never lights up while the crosshair is reading the past). */}
+              <path d={linePath} fill="none" stroke={MARKET} strokeWidth="2.5" strokeLinejoin="round" vectorEffect="non-scaling-stroke" />
+              {!hover && (
+                <g mask={`url(#${shineMaskId})`}>
+                  <path d={linePath} fill="none" stroke={MARKET} strokeWidth="8" strokeLinejoin="round" strokeLinecap="round" opacity="0.55" filter={`url(#${shineGlowId})`} />
+                  <path d={linePath} fill="none" stroke="#FFC9A8" strokeWidth="2" strokeLinejoin="round" strokeLinecap="round" vectorEffect="non-scaling-stroke" />
+                </g>
+              )}
+            </g>
 
             {hover && (
               <line
@@ -333,13 +354,74 @@ export default function MarketChart({
           </svg>
 
           {/* Live endpoint dot — pulses while live, slides to the crosshair
-              point on hover. HTML so it stays a true circle over the stretched
-              SVG. */}
-          <span
-            className={hover ? "tregu-gchart-dot" : "tregu-gchart-dot tregu-gchart-dot--live"}
-            style={hover ? { top: yFor(hover.p), left: `${hover.frac * 100}%`, right: "auto", background: MARKET } : { top: yFor(last.p), background: MARKET }}
-            aria-hidden
-          />
+              point on hover. Held back until the reveal wipe reaches the edge.
+              HTML so it stays a true circle over the stretched SVG. */}
+          {(drawn || hover) && (
+            <span
+              className={hover ? "tregu-gchart-dot" : "tregu-gchart-dot tregu-gchart-dot--live"}
+              style={hover ? { top: yFor(hover.p), left: `${hover.frac * 100}%`, right: "auto", background: MARKET } : { top: yFor(last.p), background: MARKET }}
+              aria-hidden
+            />
+          )}
+
+          {/* News markers — orange diamonds on the price line where a "lajm i
+              ri" moved the market. Hover (desktop) or tap (mobile) opens the
+              article. Held back until the reveal wipe has passed them. */}
+          {drawn &&
+            events.map((e, i) => (
+              <button
+                key={i}
+                type="button"
+                className="tregu-newsmark"
+                data-open={activeNews === i}
+                style={{ left: `${(xFor(e.t) / W) * 100}%`, top: yFor(e.p), background: EVENT }}
+                aria-label={`Lajmi që lëvizi tregun: ${e.evidence[0]?.title ?? ""}`}
+                onPointerEnter={(ev) => {
+                  if (ev.pointerType === "mouse") setHoveredNews(i);
+                }}
+                onPointerLeave={(ev) => {
+                  if (ev.pointerType === "mouse") setHoveredNews((cur) => (cur === i ? null : cur));
+                }}
+                onClick={(ev) => {
+                  ev.stopPropagation();
+                  setPinnedNews((cur) => (cur === i ? null : i));
+                }}
+              />
+            ))}
+
+          {/* News popup — the article(s) behind the active marker. */}
+          {drawn && activeNews !== null && events[activeNews] && (
+            <div
+              className="tregu-newspop"
+              style={{
+                left: `${Math.max(4, Math.min(96, (xFor(events[activeNews].t) / W) * 100))}%`,
+                top: Math.max(4, yFor(events[activeNews].p) - 16),
+              }}
+              onClick={(ev) => ev.stopPropagation()}
+            >
+              <div className="tregu-newspop-kicker">
+                <span className="tregu-newspop-diamond" style={{ background: EVENT }} />
+                Lajmi që lëvizi tregun
+              </div>
+              {events[activeNews].evidence.slice(0, 2).map((ev, j) => (
+                <a
+                  key={j}
+                  className="tregu-newspop-item"
+                  href={ev.url || `/lajme/${ev.slug}`}
+                  target={ev.url ? "_blank" : undefined}
+                  rel={ev.url ? "noopener noreferrer" : undefined}
+                >
+                  <span className="tregu-newspop-title">{ev.title}</span>
+                  <span className="tregu-newspop-src">
+                    Lexo lajmin
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" aria-hidden>
+                      <path d="M7 17L17 7M17 7H9M17 7v8" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </span>
+                </a>
+              ))}
+            </div>
+          )}
 
           {/* Time axis — HTML so it never stretches with the SVG. */}
           {axisTicks.map((tick) => (

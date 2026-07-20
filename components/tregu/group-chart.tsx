@@ -2,6 +2,7 @@
 
 import { useId, useMemo, useRef, useState } from "react";
 import { dramatizeSeries } from "@/lib/tregu-tape";
+import { useReducedMotion, useDrawReveal, useLiveVector } from "./chart-hooks";
 
 // Multi-outcome event chart — the Polymarket-style view for grouped events.
 // Time-aware: every outcome's line is drawn from real timestamped points
@@ -109,6 +110,10 @@ export default function GroupChart({
   const shineMaskId = `tg-shine-mask-${uid}`;
   const shineBandId = `tg-shine-band-${uid}`;
   const shineGlowId = `tg-shine-glow-${uid}`;
+  const revealId = `tg-reveal-${uid}`;
+
+  const reduced = useReducedMotion();
+  const drawn = useDrawReveal(1350, reduced);
 
   const H = height;
   const PLOT_BOTTOM = H - AXIS_H;
@@ -158,7 +163,18 @@ export default function GroupChart({
     return { grid, tMin, tMax, lo, hi };
   }, [series, range]);
 
-  const xFor = (t: number) => ((t - tMin) / (tMax - tMin)) * W;
+  // Per-second simulated endpoint. Real book prices refresh every 2–5 min; the
+  // walk drifts each outcome toward its true value and renormalizes so the tail
+  // breathes every second (never lying about where the odds actually sit). We
+  // append a synthetic "now" grid point so every line extends to it live.
+  const liveVec = useLiveVector(series.map((s) => s.prob), !reduced);
+  const dispGrid =
+    liveVec && liveVec.length === series.length && grid.length >= 2
+      ? [...grid, { t: Date.now(), values: liveVec }]
+      : grid;
+  const tMaxD = dispGrid.length ? dispGrid[dispGrid.length - 1].t : tMax;
+
+  const xFor = (t: number) => ((t - tMin) / (tMaxD - tMin)) * W;
   const yFor = (p: number) => PLOT_TOP + (PLOT_BOTTOM - PLOT_TOP) * (1 - (p - lo) / (hi - lo));
   // Upsample a line with jagged in-between texture (real anchors stay exact),
   // so sparse snapshots read as spiky swings instead of rectangular steps.
@@ -167,7 +183,7 @@ export default function GroupChart({
       .map((g, i) => `${i === 0 ? "M" : "L"}${xFor(g.t).toFixed(1)} ${yFor(g.p).toFixed(1)}`)
       .join(" ");
   // HTML overlays position in % of the rendered box, not SVG units.
-  const xPct = (t: number) => ((t - tMin) / (tMax - tMin)) * 100;
+  const xPct = (t: number) => ((t - tMin) / (tMaxD - tMin)) * 100;
   const yPx = yFor;
 
   if (grid.length < 2) {
@@ -182,7 +198,7 @@ export default function GroupChart({
     const rect = plotRef.current?.getBoundingClientRect();
     if (!rect || rect.width === 0) return;
     const frac = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
-    const t = tMin + frac * (tMax - tMin);
+    const t = tMin + frac * (tMaxD - tMin);
     // Snap to the nearest recorded point — each 5-min cron snapshot is a stop.
     let best = 0;
     for (let i = 1; i < grid.length; i++) {
@@ -192,7 +208,7 @@ export default function GroupChart({
   };
 
   const hover = hoverI === null ? null : grid[hoverI];
-  const last = grid[grid.length - 1];
+  const last = dispGrid[dispGrid.length - 1];
   const ticks = ticksFor(lo, hi);
 
   const spanMs = tMax - tMin;
@@ -281,6 +297,11 @@ export default function GroupChart({
                   fill={`url(#${shineBandId})`}
                 />
               </mask>
+              {/* Left-to-right entrance: a rect that grows x=0→W, clipping every
+                  outcome line so they wipe in together from the left. */}
+              <clipPath id={revealId}>
+                <rect className="tregu-chart-reveal" x="0" y="0" width={W} height={H} />
+              </clipPath>
             </defs>
             {ticks.map((t) => (
               <line
@@ -295,6 +316,7 @@ export default function GroupChart({
                 vectorEffect="non-scaling-stroke"
               />
             ))}
+            <g clipPath={`url(#${revealId})`}>
             {/* On hover the minutes after the crosshair go gray — only the
                 played part of the game keeps its colour (Polymarket-style).
                 Gray futures render first so coloured pasts sit on top. */}
@@ -317,14 +339,15 @@ export default function GroupChart({
                 );
               })}
             {series.map((s, si) => {
-              const upto = hoverI === null ? grid.length : hoverI + 1;
-              const d = texPath(grid.slice(0, upto).map((g) => ({ t: g.t, p: g.values[si] })), s.label);
+              // When not hovering, extend to the live "now" point so the tail
+              // breathes; on hover, freeze to the real recorded points.
+              const base = hoverI === null ? dispGrid : grid;
+              const upto = hoverI === null ? base.length : hoverI + 1;
+              const d = texPath(base.slice(0, upto).map((g) => ({ t: g.t, p: g.values[si] })), s.label);
               return (
                 <g key={s.label}>
                   <path
-                    className="tregu-line-draw"
                     d={d}
-                    pathLength={1}
                     fill="none"
                     stroke={s.color}
                     strokeWidth="2"
@@ -362,6 +385,7 @@ export default function GroupChart({
                 </g>
               );
             })}
+            </g>
             {hover && (
               <line
                 x1={xFor(hover.t)}
@@ -376,19 +400,20 @@ export default function GroupChart({
           </svg>
 
           {/* Live endpoint dots — pulsing while live, sliding to the crosshair
-              point on hover. */}
-          {series.map((s, i) => (
-            <span
-              key={s.label}
-              className={hover ? "tregu-gchart-dot" : "tregu-gchart-dot tregu-gchart-dot--live"}
-              style={
-                hover
-                  ? { top: yPx(hover.values[i]), left: `${hoverX}%`, right: "auto", background: s.color }
-                  : { top: yPx(last.values[i]), background: s.color }
-              }
-              aria-hidden
-            />
-          ))}
+              point on hover. Held back until the left-to-right wipe passes. */}
+          {(drawn || hover) &&
+            series.map((s, i) => (
+              <span
+                key={s.label}
+                className={hover ? "tregu-gchart-dot" : "tregu-gchart-dot tregu-gchart-dot--live"}
+                style={
+                  hover
+                    ? { top: yPx(hover.values[i]), left: `${hoverX}%`, right: "auto", background: s.color }
+                    : { top: yPx(last.values[i]), background: s.color }
+                }
+                aria-hidden
+              />
+            ))}
 
           {/* Time axis — HTML so it never stretches with the SVG. */}
           {axisTicks.map((tick) => (
