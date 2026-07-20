@@ -38,7 +38,9 @@ function ampFor(values: number[]): number {
     if (v < lo) lo = v;
     if (v > hi) hi = v;
   }
-  return Math.max(0.012, Math.min(0.035, (hi - lo) * 0.35));
+  // Wider band than a shiver: a live book should swing hard so the line reads
+  // spiky and dramatic (sharp peaks, big dips) instead of a flat Excel strip.
+  return Math.max(0.022, Math.min(0.072, (hi - lo) * 0.55));
 }
 
 function clamp01(p: number): number {
@@ -63,7 +65,14 @@ export function dramatizeSeries(pts: TapePoint[], key: string): TapePoint[] {
       // Fades to zero at both anchors so the jitter never contradicts them.
       const w = Math.sin(Math.PI * f);
       const m = t / 60_000;
-      const p = base + (jag(m * 1.31 + seed) * amp + jag(m * 0.37 + seed * 2.7) * amp * 0.7) * w;
+      // Three octaves: fine saw-tooth, a mid ripple, and a slow high-amplitude
+      // swell that carves the big dips and tall spikes the design calls for.
+      const p =
+        base +
+        (jag(m * 1.31 + seed) * amp +
+          jag(m * 0.37 + seed * 2.7) * amp * 0.7 +
+          jag(m * 0.11 + seed * 5.1) * amp * 1.35) *
+          w;
       out.push({ t, p: clamp01(p) });
     }
   }
@@ -87,7 +96,12 @@ export function dramatizeSpark(spark: number[] | undefined, key: string): number
       const base = a + (b - a) * f;
       const w = Math.sin(Math.PI * f);
       const x = i * per + k;
-      const p = base + (jag(x * 1.31 + seed) * amp + jag(x * 0.37 + seed * 2.7) * amp * 0.7) * w;
+      const p =
+        base +
+        (jag(x * 1.31 + seed) * amp +
+          jag(x * 0.37 + seed * 2.7) * amp * 0.7 +
+          jag(x * 0.11 + seed * 5.1) * amp * 1.35) *
+          w;
       out.push(clamp01(p));
     }
   }

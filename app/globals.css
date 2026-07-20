@@ -2761,6 +2761,164 @@ header[data-overlay] .nav-coin-chip {
   .tregu-gchart-shine { animation: none; opacity: 0; }
 }
 
+/* Line drawing — the price/outcome line traces itself in from the left when
+   the trade opens. pathLength=1 on the <path> normalizes the dash to [0,1]
+   so it works under preserveAspectRatio="none" (geometry-stretch safe). */
+@keyframes tg-line-draw {
+  from { stroke-dashoffset: 1; }
+  to { stroke-dashoffset: 0; }
+}
+.tregu-line-draw {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: tg-line-draw 1100ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+.tregu-area-fade { animation: tg-area-fade 1200ms var(--ease-out) both; }
+@keyframes tg-area-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tregu-line-draw { animation: none; stroke-dashoffset: 0; }
+  .tregu-area-fade { animation: none; }
+}
+
+/* 3D raised interactive surface — layered hard bottom edge that compresses on
+   press (image #8 depth). Applied to the side selectors and amount chips. */
+.tregu-raise {
+  box-shadow: 0 2px 0 rgba(17, 17, 17, 0.12), 0 4px 10px -4px rgba(17, 17, 17, 0.10);
+  transition: transform 140ms var(--ease-out), box-shadow 140ms var(--ease-out),
+    background-color 200ms var(--ease-out), border-color 200ms var(--ease-out), color 160ms var(--ease-out);
+}
+.tregu-raise:active {
+  transform: translateY(2px) scale(0.99);
+  box-shadow: 0 0 0 rgba(17, 17, 17, 0.12), 0 1px 4px -2px rgba(17, 17, 17, 0.10);
+}
+@media (prefers-reduced-motion: reduce) {
+  .tregu-raise:active { transform: none; }
+}
+
+/* Confirm trade button — deep 3D pop, click squash-and-spring, orange confetti
+   burst radiating from behind the button on submit. */
+.tregu-confirm-wrap { position: relative; }
+.tregu-confirm-btn {
+  width: 100%;
+  padding: 14px;
+  border-radius: 12px;
+  font-size: 15px;
+  cursor: pointer;
+  position: relative;
+  z-index: 1;
+  box-shadow: 0 4px 0 rgba(17, 17, 17, 0.24), 0 12px 24px -8px rgba(255, 68, 34, 0.32);
+  transition: transform 140ms var(--ease-out), box-shadow 140ms var(--ease-out),
+    background-color var(--duration-base) var(--ease-out);
+}
+.tregu-confirm-btn:hover:not(:disabled) {
+  box-shadow: 0 4px 0 rgba(196, 55, 28, 0.7), 0 14px 28px -8px rgba(255, 68, 34, 0.48);
+}
+.tregu-confirm-btn:active:not(:disabled) {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 rgba(17, 17, 17, 0.24), 0 4px 10px -6px rgba(255, 68, 34, 0.30);
+}
+.tregu-confirm-btn:disabled { box-shadow: none; }
+
+@keyframes tg-btn-pop {
+  0% { transform: scale(1); }
+  35% { transform: scale(0.9); }
+  70% { transform: scale(1.06); }
+  100% { transform: scale(1); }
+}
+.tregu-pop { animation: tg-btn-pop 300ms var(--ease-out); }
+
+.tregu-confetti {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+.tregu-confetti > i {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border-radius: 2px;
+  transform: translate(-50%, -50%) scale(0.2);
+  opacity: 0;
+  animation: tg-confetti 720ms cubic-bezier(0.22, 1, 0.36, 1) var(--d, 0ms) forwards;
+}
+@keyframes tg-confetti {
+  0% { transform: translate(-50%, -50%) scale(0.2); opacity: 0; }
+  14% { opacity: 1; }
+  100% {
+    transform: translate(calc(-50% + var(--tx)), calc(-50% + var(--ty))) scale(1) rotate(var(--r));
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tregu-pop { animation: none; }
+  .tregu-confetti { display: none; }
+}
+
+/* "Bazuar në lajme" — sources as raised 3D cards: square thumbnail tile on the
+   left (border-radius + layered depth), title, and the source domain. */
+.tregu-evidence-item {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  padding: 12px;
+  border-radius: 14px;
+  background: #FFFFFF;
+  border: 1px solid var(--tg-border);
+  text-decoration: none;
+  color: var(--tg-text);
+  box-shadow: 0 2px 0 rgba(17, 17, 17, 0.05), 0 6px 16px -8px rgba(17, 17, 17, 0.12);
+  transition: transform 160ms var(--ease-out), box-shadow 160ms var(--ease-out), border-color 160ms var(--ease-out);
+}
+.tregu-evidence-item:hover {
+  transform: translateY(-2px);
+  border-color: var(--tg-border-hi);
+  box-shadow: 0 4px 0 rgba(17, 17, 17, 0.06), 0 14px 28px -10px rgba(17, 17, 17, 0.18);
+}
+.tregu-evidence-item:active { transform: translateY(0); }
+.tregu-evidence-thumb {
+  flex-shrink: 0;
+  width: 58px;
+  height: 58px;
+  border-radius: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  font-weight: 800;
+  color: #FFFFFF;
+  background: linear-gradient(145deg, #FF6A4D 0%, #FF4422 55%, #EA580C 100%);
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.45), inset 0 -3px 6px rgba(120, 20, 0, 0.35),
+    0 4px 10px -3px rgba(255, 68, 34, 0.5);
+  text-transform: uppercase;
+  overflow: hidden;
+}
+.tregu-evidence-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.tregu-evidence-body { min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+.tregu-evidence-title {
+  font-size: 13.5px;
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--tg-text);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.tregu-evidence-src {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--tg-orange);
+  font-variant-numeric: tabular-nums;
+}
+.tregu-evidence-src svg { flex-shrink: 0; }
+
 /* ── Multi-outcome event: per-outcome breakdown graph ─────── */
 .tregu-omini {
   border: 1px solid var(--tg-border);

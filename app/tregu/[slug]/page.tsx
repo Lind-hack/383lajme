@@ -9,6 +9,7 @@ import { type MiniMarket } from "@/components/tregu/market-mini-card";
 import TeamFlag from "@/components/tregu/team-flag";
 import MarketSocial, { type HolderRow, type CommentItem } from "@/components/tregu/market-social";
 import CoinFace from "@/components/tregu/coin-face";
+import ConfirmButton from "@/components/tregu/confirm-button";
 import { createClient } from "@/lib/supabase/client";
 import { previewBet, previewSell, lmsrPriceYes, type Side, type MarketTrade } from "@/lib/tregu-client";
 import { fmtNum } from "@/lib/format";
@@ -548,16 +549,48 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
             {latestEvidence.length > 0 && (
               <div className="tregu-panel" style={{ padding: 28 }}>
                 <h3 style={{ fontSize: 15, fontWeight: 800, margin: "0 0 14px" }}>Bazuar në lajme</h3>
-                <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-                  {latestEvidence.map((e) => (
-                    <Link
-                      key={e.slug}
-                      href={`/article/${e.slug}`}
-                      style={{ color: "#111111", fontSize: 13, textDecoration: "none", padding: "10px 14px", borderRadius: 10, background: "rgba(17,17,17,0.04)" }}
-                    >
-                      {e.title}
-                    </Link>
-                  ))}
+                <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                  {latestEvidence.map((e) => {
+                    let host = "383lajme.com";
+                    if (e.url) {
+                      try {
+                        host = new URL(e.url).hostname.replace(/^www\./, "");
+                      } catch {
+                        host = "383lajme.com";
+                      }
+                    }
+                    // Evidence titles are sometimes blank; fall back to a readable
+                    // headline built from the article slug so the card never shows
+                    // an empty line.
+                    const title =
+                      e.title?.trim() ||
+                      (e.slug
+                        ? e.slug
+                            .replace(/-\d{6,}.*$/, "")
+                            .replace(/-/g, " ")
+                            .replace(/^\w/, (c) => c.toUpperCase())
+                        : "Lajm");
+                    const initial = (title || host).trim().charAt(0).toUpperCase() || "3";
+                    return (
+                      <Link
+                        key={e.slug}
+                        href={`/article/${e.slug}`}
+                        className="tregu-evidence-item"
+                      >
+                        <span className="tregu-evidence-thumb">{initial}</span>
+                        <span className="tregu-evidence-body">
+                          <span className="tregu-evidence-title">{title}</span>
+                          <span className="tregu-evidence-src">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+                              <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
+                              <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+                            </svg>
+                            {host}
+                          </span>
+                        </span>
+                      </Link>
+                    );
+                  })}
                 </div>
               </div>
             )}
@@ -672,7 +705,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                             setSide(s);
                             if (mode === "sell") setSellShares(Number(heldOn(s)?.shares ?? 0));
                           }}
-                          className={active ? (s === "PO" ? "tregu-btn-yes" : "tregu-btn-no") : undefined}
+                          className={`tregu-raise${active ? (s === "PO" ? " tregu-btn-yes" : " tregu-btn-no") : ""}`}
                           type="button"
                           style={{
                             flex: 1,
@@ -681,14 +714,13 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                             fontWeight: 800,
                             cursor: disabled ? "not-allowed" : "pointer",
                             opacity: disabled ? 0.4 : 1,
-                            background: active ? undefined : "rgba(17,17,17,0.04)",
+                            background: active ? undefined : "#FFFFFF",
                             border: active ? undefined : "1px solid rgba(17,17,17,0.10)",
                             color: active ? undefined : "#111111",
                             display: "flex",
                             flexDirection: "column",
                             alignItems: "center",
                             gap: 2,
-                            transition: "transform 160ms var(--ease-out), background-color 200ms var(--ease-out)",
                           }}
                         >
                           <span>{sideLabel(s)}</span>
@@ -724,12 +756,12 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                       </div>
                       <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 16 }}>
                         {QUICK_AMOUNTS.map((q) => (
-                          <button key={q} className="tregu-chip" data-active={amount === q} onClick={() => setAmount(q)} type="button">
+                          <button key={q} className="tregu-chip tregu-raise" data-active={amount === q} onClick={() => setAmount(q)} type="button">
                             {q}
                           </button>
                         ))}
                         {balance !== null && balance >= 1 && (
-                          <button className="tregu-chip" data-active={amount === Math.floor(balance)} onClick={() => setAmount(Math.floor(balance))} type="button">
+                          <button className="tregu-chip tregu-raise" data-active={amount === Math.floor(balance)} onClick={() => setAmount(Math.floor(balance))} type="button">
                             Max
                           </button>
                         )}
@@ -759,14 +791,9 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                         <p style={{ color: "#E41E20", fontSize: 12, marginBottom: 12 }}>Nuk ke mjaftueshëm 383 Coin ({balance})</p>
                       )}
 
-                      <button
-                        onClick={submitTrade}
-                        disabled={!canBuy}
-                        className="tregu-btn-primary"
-                        style={{ width: "100%", padding: "14px", borderRadius: 12, fontSize: 15, cursor: "pointer" }}
-                      >
+                      <ConfirmButton onClick={submitTrade} disabled={!canBuy}>
                         {placing ? "Duke blerë..." : `Blej ${sideLabel(side)} · ${amount} 383C`}
-                      </button>
+                      </ConfirmButton>
                     </>
                   ) : (
                     <>
@@ -804,14 +831,9 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                         </div>
                       )}
 
-                      <button
-                        onClick={submitTrade}
-                        disabled={!canSell}
-                        className="tregu-btn-primary"
-                        style={{ width: "100%", padding: "14px", borderRadius: 12, fontSize: 15, cursor: "pointer" }}
-                      >
+                      <ConfirmButton onClick={submitTrade} disabled={!canSell} variant="sell">
                         {placing ? "Duke shitur..." : `Shit ${sideLabel(side)}`}
-                      </button>
+                      </ConfirmButton>
                     </>
                   )}
 

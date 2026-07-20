@@ -1,6 +1,7 @@
 "use client";
 
 import { useId, useMemo, useRef, useState } from "react";
+import { dramatizeSeries } from "@/lib/tregu-tape";
 
 // Multi-outcome event chart — the Polymarket-style view for grouped events.
 // Time-aware: every outcome's line is drawn from real timestamped points
@@ -159,6 +160,12 @@ export default function GroupChart({
 
   const xFor = (t: number) => ((t - tMin) / (tMax - tMin)) * W;
   const yFor = (p: number) => PLOT_TOP + (PLOT_BOTTOM - PLOT_TOP) * (1 - (p - lo) / (hi - lo));
+  // Upsample a line with jagged in-between texture (real anchors stay exact),
+  // so sparse snapshots read as spiky swings instead of rectangular steps.
+  const texPath = (rows: { t: number; p: number }[], key: string) =>
+    dramatizeSeries(rows, key)
+      .map((g, i) => `${i === 0 ? "M" : "L"}${xFor(g.t).toFixed(1)} ${yFor(g.p).toFixed(1)}`)
+      .join(" ");
   // HTML overlays position in % of the rendered box, not SVG units.
   const xPct = (t: number) => ((t - tMin) / (tMax - tMin)) * 100;
   const yPx = yFor;
@@ -294,10 +301,7 @@ export default function GroupChart({
             {hoverI !== null &&
               hoverI < grid.length - 1 &&
               series.map((s, si) => {
-                const d = grid
-                  .slice(hoverI)
-                  .map((g, i) => `${i === 0 ? "M" : "L"}${xFor(g.t).toFixed(1)} ${yFor(g.values[si]).toFixed(1)}`)
-                  .join(" ");
+                const d = texPath(grid.slice(hoverI).map((g) => ({ t: g.t, p: g.values[si] })), `${s.label}-f`);
                 return (
                   <path
                     key={`f-${s.label}`}
@@ -314,20 +318,18 @@ export default function GroupChart({
               })}
             {series.map((s, si) => {
               const upto = hoverI === null ? grid.length : hoverI + 1;
-              const d = grid
-                .slice(0, upto)
-                .map((g, i) => `${i === 0 ? "M" : "L"}${xFor(g.t).toFixed(1)} ${yFor(g.values[si]).toFixed(1)}`)
-                .join(" ");
+              const d = texPath(grid.slice(0, upto).map((g) => ({ t: g.t, p: g.values[si] })), s.label);
               return (
                 <g key={s.label}>
                   <path
+                    className="tregu-line-draw"
                     d={d}
+                    pathLength={1}
                     fill="none"
                     stroke={s.color}
                     strokeWidth="2"
-                    strokeLinejoin="miter"
-                    strokeMiterlimit={3}
-                    strokeLinecap="butt"
+                    strokeLinejoin="round"
+                    strokeLinecap="round"
                     vectorEffect="non-scaling-stroke"
                   />
                   {/* The gleam: same geometry, warm highlight, revealed only
