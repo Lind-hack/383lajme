@@ -36,6 +36,14 @@ Automation routes require `Authorization: Bearer $TREGU...ET`:
 
 Codex daily drafts use `closes_in_hours`; breaking and controversy markets must close in 2–48 hours. Official live-event cards instead carry an explicit fallback `closes_at` and close early at ESPN final time.
 
+## Formula 1 Dashboard live winner markets
+
+A live F1 winner draft is an explicit `live_f1` binary market, not a football/ESPN market. Before it may be approved, its `live_event` must be `{ "provider": "formula1_dashboard", "event_id": "<season-race-id>", "driver_code": "<three-letter-code>" }`. Create one mapped binary market per driver for the same event ID. The two-minute `run-tregu-live-sports.mjs` processor renders `https://app.formula1dashboard.com/live-timing/` in Chromium; a static shell, incomplete leaderboard, missing race state, unmapped driver, or non-live race is recorded as unavailable/no-change and cannot move prices.
+
+Only changed rendered position, gap, pit, tyre/stint, or status rows can call `apply_f1_market_oracle`. That RPC validates the source/event mapping, clamps every movement to 5 percentage points, writes an attributable `f1_dashboard` market snapshot, and never touches balances, positions, or trades. It sends a single source-linked email only after the RPC returns a persisted adjustment. `FINISHED` produces a settlement plan only when all open mapped markets belong to exactly one event; it then calls the existing idempotent `resolve_market` authority for one `PO` winner and every other `JO` market. Never settle a provisional leaderboard.
+
+Apply `0024_tregu_f1_dashboard_oracle.sql` after `0023_tregu_market_classification.sql` before enabling F1 writes. The 07:00 Europe/Pristina daily draft review already exposes `General / News`, `Live Football`, and `Live F1` selectors; live modes cannot be approved without their required source configuration.
+
 ## Safe four-card live-event preview
 
 `node scripts/preview-tregu-live-event-drafts.mjs` requests exactly three source-cited Codex cards, adds the fixed Spain–France ESPN event `760514` card, and submits only `dryRun: true`. It requires exactly four validated cards and returns zero created markets; it does not create a run audit, insert a draft, email, schedule, deploy, or apply a migration.
