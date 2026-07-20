@@ -45,8 +45,11 @@ const VOL_H = 34;
 const SHINE_W = 180;
 
 const MARKET = "#00854A";
-const AI = "#B45309";
-const EVENT = "#F59E0B";
+// AI estimate now rides a glossy burnt-orange; the news marker takes the
+// brand orange — both on-brand, distinct shapes (dashed line vs diamond).
+const AI = "#EA580C";
+const AI_GLEAM = "#FFD8B0";
+const EVENT = "#FF4422";
 
 // Dynamic Y ticks over the fitted [lo, hi] band — mirrors GroupChart so both
 // charts read the same. Coarser steps for wide ranges, finer for tight ones.
@@ -282,12 +285,27 @@ export default function MarketChart({
               ) : null
             )}
 
-            <path d={areaPath} fill={`url(#${areaId})`} />
-            {aiPath && <path d={aiPath} fill="none" stroke={AI} strokeWidth="2" strokeDasharray="5 4" opacity="0.9" vectorEffect="non-scaling-stroke" />}
+            <path className="tregu-area-fade" d={areaPath} fill={`url(#${areaId})`} />
 
-            {/* Price line + the travelling gleam (suppressed on hover so it
-                never lights up while the crosshair is reading the past). */}
-            <path d={linePath} fill="none" stroke={MARKET} strokeWidth="2.5" strokeLinejoin="round" vectorEffect="non-scaling-stroke" />
+            {/* AI estimate: dashed step line in burnt orange, wrapped in the
+                same travelling gleam so it reads glossy and shiny on refresh. */}
+            {aiPath && (
+              <>
+                <path d={aiPath} fill="none" stroke={AI} strokeWidth="2" strokeDasharray="5 4" opacity="0.95" vectorEffect="non-scaling-stroke" />
+                {!hover && (
+                  <g mask={`url(#${shineMaskId})`}>
+                    <path d={aiPath} fill="none" stroke={AI} strokeWidth="6" strokeDasharray="5 4" strokeLinecap="round" opacity="0.5" filter={`url(#${shineGlowId})`} />
+                    <path d={aiPath} fill="none" stroke={AI_GLEAM} strokeWidth="2.4" strokeDasharray="5 4" strokeLinecap="round" vectorEffect="non-scaling-stroke" />
+                  </g>
+                )}
+              </>
+            )}
+
+            {/* Price line: draws itself left-to-right on open (pathLength=1
+                normalizes the dash under preserveAspectRatio=none), then the
+                travelling gleam sweeps it (suppressed on hover so it never
+                lights up while the crosshair is reading the past). */}
+            <path className="tregu-line-draw" d={linePath} pathLength={1} fill="none" stroke={MARKET} strokeWidth="2.5" strokeLinejoin="round" vectorEffect="non-scaling-stroke" />
             {!hover && (
               <g mask={`url(#${shineMaskId})`}>
                 <path d={linePath} fill="none" stroke={MARKET} strokeWidth="8" strokeLinejoin="round" strokeLinecap="round" opacity="0.55" filter={`url(#${shineGlowId})`} />
