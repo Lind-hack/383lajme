@@ -146,7 +146,7 @@ export function useLiveTape(
   dataKey: string,
   target: number,
   enabled: boolean
-): { now: number; tape: { t: number; p: number }[] } {
+): { now: number; tape: { t: number; p: number }[]; live: number } {
   const [now, setNow] = useState(() => Date.now());
   const tapeRef = useRef<{ t: number; p: number }[]>([]);
   const curRef = useRef(target);
@@ -195,7 +195,10 @@ export function useLiveTape(
     return () => clearInterval(id);
   }, [enabled]);
 
-  return { now, tape: tapeRef.current };
+  // `live` is the eased leading value (updated every frame). The render uses it
+  // only for the sub-second tip beyond the last committed second, so the tip
+  // glides smoothly while every committed point behind it stays frozen.
+  return { now, tape: tapeRef.current, live: curRef.current };
 }
 
 /**
@@ -209,7 +212,7 @@ export function useLiveTapeVector(
   dataKey: string,
   targets: number[],
   enabled: boolean
-): { now: number; tapes: { t: number; p: number }[][] } {
+): { now: number; tapes: { t: number; p: number }[][]; lives: number[] } {
   const [now, setNow] = useState(() => Date.now());
   const tapesRef = useRef<{ t: number; p: number }[][]>([]);
   const curRef = useRef<number[]>(targets);
@@ -271,7 +274,11 @@ export function useLiveTapeVector(
     return () => clearInterval(id);
   }, [enabled]);
 
-  return { now, tapes: tapesRef.current };
+  // Column-normalized leading values (sum ~1), used only for the live tip so
+  // the right edge glides while every committed column behind it stays frozen.
+  const lsum = curRef.current.reduce((a, b) => a + b, 0) || 1;
+  const lives = curRef.current.map((v) => v / lsum);
+  return { now, tapes: tapesRef.current, lives };
 }
 
 /**

@@ -67,13 +67,39 @@ function anchorsOf(s: EventSeries, now: number): { t: number; p: number }[] {
   return [...base, { t: now, p: s.prob }];
 }
 
-// Continuous per-outcome price read: live tape where it covers `t`, deterministic
-// sampler for anything older (the two agree at the tape's seeded left edge).
-function priceOf(tape: { t: number; p: number }[], sampler: (t: number) => number, t: number): number {
+// Interpolate a FROZEN history curve (immutable between refreshes). Never calls
+// the hash sampler at moving `t`, so the past scrolls but never reshuffles.
+function histAt(hist: { t: number; p: number }[], t: number): number {
+  const n = hist.length;
+  if (n === 0) return 0;
+  if (t <= hist[0].t) return hist[0].p;
+  if (t >= hist[n - 1].t) return hist[n - 1].p;
+  let lo = 0;
+  let hi = n - 1;
+  while (lo < hi - 1) {
+    const mid = (lo + hi) >> 1;
+    if (hist[mid].t <= t) lo = mid;
+    else hi = mid;
+  }
+  const a = hist[lo];
+  const b = hist[hi];
+  const f = b.t > a.t ? (t - a.t) / (b.t - a.t) : 0;
+  return a.p + (b.p - a.p) * f;
+}
+
+// Continuous per-outcome price read: frozen history for older `t`, the
+// append-only live tape for recent seconds, and the gliding `live` value at the
+// very tip. Every point behind the tip is immutable; only the edge animates.
+function priceOf(
+  tape: { t: number; p: number }[],
+  hist: { t: number; p: number }[],
+  live: number,
+  t: number
+): number {
   const n = tape.length;
-  if (n === 0) return sampler(t);
-  if (t <= tape[0].t) return sampler(t);
-  if (t >= tape[n - 1].t) return tape[n - 1].p;
+  if (n === 0) return histAt(hist, t);
+  if (t <= tape[0].t) return histAt(hist, t);
+  if (t >= tape[n - 1].t) return live;
   let lo = 0;
   let hi = n - 1;
   while (lo < hi - 1) {
@@ -159,12 +185,24 @@ export default function GroupChart({
       if (a.length > 0 && a[0].t < tMinAll) tMinAll = a[0].t;
       realCount += a.length;
     }
+    // FREEZE each outcome's history once (see MarketChart for the full rationale):
+    // the hash sampler is evaluated here into immutable curves, so between 5-min
+    // refreshes the past is drawn once and never rewritten — only the live edge
+    // moves. Render interpolates these curves, never the hash at scrolling `t`.
+    const HIST_MAX = 5000;
+    const histStep = Math.max(60_000, Math.ceil((now0 - tMinAll) / HIST_MAX));
+    const histories = samplers.map((fn) => {
+      const h: { t: number; p: number }[] = [];
+      for (let t = tMinAll; t < now0; t += histStep) h.push({ t, p: fn(t) });
+      h.push({ t: now0, p: fn(now0) });
+      return h;
+    });
     const dataKey = `${series.map((s) => s.label).join("|")}|${realCount}|${Math.round(tMinAll / 60_000)}`;
-    return { samplers, tMinAll, realCount, dataKey };
+    return { samplers, histories, tMinAll, realCount, dataKey };
   }, [series]);
 
   const targets = series.map((s) => s.prob);
-  const { now: tapeNow, tapes } = useLiveTapeVector(data.samplers, data.dataKey, targets, !reduced);
+  const { now: tapeNow, tapes, lives } = useLiveTapeVector(data.samplers, data.dataKey, targets, !reduced);
 
   // Window geometry — identical model to MarketChart.
   const rangeMs = RANGES.find((r) => r.key === range)!.ms;
@@ -187,22 +225,39 @@ export default function GroupChart({
   const spanMs = Math.max(1, rightT - leftT);
   const n = series.length;
 
-  // Sample the window: at each column read every outcome's continuous price,
-  // renormalize so the stack sums to 1, and track min/max for the vertical fit.
+  // Committed per-outcome tip values (last whole second, NOT the 30fps easing
+  // `lives`). The vertical fit uses these so the axis steps at most once per
+  // second instead of breathing at frame rate under the easing tip.
+  const committedTip = (s: number) => {
+    const tp = tapes[s];
+    return tp && tp.length ? tp[tp.length - 1].p : targets[s] ?? 0;
+  };
+
+  // Sample the window: at each column read every outcome's continuous price and
+  // renormalize so the stack sums to 1. The drawn stack uses the gliding tip;
+  // the vertical fit uses the committed tip so history never re-scales per frame.
   const cols: { t: number; x: number; vals: number[] }[] = [];
   let plo = 1;
   let phi = 0;
   for (let i = 0; i <= N_SAMPLES; i++) {
     const t = leftT + (i / N_SAMPLES) * spanMs;
     const raw = new Array<number>(n);
+    const rawFit = new Array<number>(n);
     let sum = 0;
+    let sumFit = 0;
     for (let s = 0; s < n; s++) {
-      const v = priceOf(tapes[s] ?? [], data.samplers[s], t);
+      const hist = data.histories[s] ?? [];
+      const tp = tapes[s] ?? [];
+      const v = priceOf(tp, hist, lives[s] ?? targets[s], t);
+      const vf = priceOf(tp, hist, committedTip(s), t);
       raw[s] = v;
+      rawFit[s] = vf;
       sum += v;
+      sumFit += vf;
     }
     const vals = sum > 0 ? raw.map((v) => v / sum) : raw.map(() => 1 / n);
-    for (const v of vals) {
+    const valsFit = sumFit > 0 ? rawFit.map((v) => v / sumFit) : rawFit.map(() => 1 / n);
+    for (const v of valsFit) {
       if (v < plo) plo = v;
       if (v > phi) phi = v;
     }

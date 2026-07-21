@@ -172,6 +172,19 @@ export default function MarketChart({
     const sampler = makeSampler(anchors, seedKey);
     const tMinAll = real.length > 0 ? real[0].t : now0 - 86_400_000;
 
+    // FREEZE history once. The sampler is a high-frequency deterministic hash;
+    // evaluating it live at scrolling `t` every frame reshuffles the whole past
+    // ("disco"). Instead we evaluate it ONCE here into an immutable curve. This
+    // array is rebuilt only when [trades, snapshots, currentProb, seedKey]
+    // change (~every 5-min refresh), so between refreshes history is drawn once
+    // and never rewritten — only the live edge moves. Render interpolates THIS
+    // curve, never the hash. (Polymarket/Kalshi: committed history, live tail.)
+    const HIST_MAX = 5000;
+    const histStep = Math.max(60_000, Math.ceil((now0 - tMinAll) / HIST_MAX));
+    const history: { t: number; p: number }[] = [];
+    for (let t = tMinAll; t < now0; t += histStep) history.push({ t, p: sampler(t) });
+    history.push({ t: now0, p: sampler(now0) });
+
     const aiAnchors = snapshots
       .filter((s) => s.ai_prob !== null)
       .map((s) => ({ t: +new Date(s.created_at), p: s.ai_prob as number }))
@@ -191,12 +204,13 @@ export default function MarketChart({
     // dataKey reseeds the live tape only on structural change — NOT on every
     // currentProb tick (that flows through the tape's target ref instead).
     const dataKey = `${seedKey}|${realCount}|${Math.round(tMinAll / 60_000)}`;
-    return { sampler, aiAnchors, events, tradeTimes, tMinAll, realCount, dataKey };
+    return { sampler, history, aiAnchors, events, tradeTimes, tMinAll, realCount, dataKey };
   }, [trades, snapshots, currentProb, seedKey]);
 
   // The live per-second tape (recent history + gliding right edge). `tapeNow`
   // ticks every frame and drives the window; the tape is read during render.
-  const { now: tapeNow, tape } = useLiveTape(data.sampler, data.dataKey, currentProb, !reduced);
+  // `live` is the eased sub-second tip value (glides smoothly at the edge).
+  const { now: tapeNow, tape, live } = useLiveTape(data.sampler, data.dataKey, currentProb, !reduced);
 
   // Window geometry. `windowMs` is the visible span; `maxPanMs` how far back the
   // window can be dragged. Both recompute each frame as `now` advances.
@@ -207,13 +221,35 @@ export default function MarketChart({
   const maxPanMs = isAll ? 0 : Math.max(0, fullSpan - windowMs);
   const pan = useChartPan(boxRef, maxPanMs, windowMs, !reduced);
 
-  // Continuous price read: live tape where it covers `t`, deterministic sampler
-  // for anything older (the two agree at the tape's seeded left edge → no seam).
+  // Interpolate the FROZEN history curve (immutable between refreshes). Never
+  // calls the hash at moving `t`, so the past never reshuffles — it only scrolls.
+  const histAt = (t: number): number => {
+    const h = data.history;
+    const n = h.length;
+    if (n === 0) return currentProb;
+    if (t <= h[0].t) return h[0].p;
+    if (t >= h[n - 1].t) return h[n - 1].p;
+    let loI = 0;
+    let hiI = n - 1;
+    while (loI < hiI - 1) {
+      const mid = (loI + hiI) >> 1;
+      if (h[mid].t <= t) loI = mid;
+      else hiI = mid;
+    }
+    const a = h[loI];
+    const b = h[hiI];
+    const f = b.t > a.t ? (t - a.t) / (b.t - a.t) : 0;
+    return a.p + (b.p - a.p) * f;
+  };
+
+  // Continuous price read: frozen history for older `t`, the append-only live
+  // tape for recent seconds, and the gliding `live` value at the very tip. Every
+  // point behind the tip is immutable; only the edge animates.
   const priceAt = (t: number): number => {
     const n = tape.length;
-    if (n === 0) return data.sampler(t);
-    if (t <= tape[0].t) return data.sampler(t);
-    if (t >= tape[n - 1].t) return tape[n - 1].p;
+    if (n === 0) return histAt(t);
+    if (t <= tape[0].t) return histAt(t);
+    if (t >= tape[n - 1].t) return live;
     let loI = 0;
     let hiI = n - 1;
     while (loI < hiI - 1) {
@@ -241,15 +277,24 @@ export default function MarketChart({
   const leftT = isAll ? data.tMinAll : rightT - windowMs;
   const spanMs = Math.max(1, rightT - leftT);
 
-  // Sample the window across the plot, tracking the visible min/max for the fit.
+  // Committed price at the tip (last whole-second value, NOT the 30fps easing
+  // `live`). The vertical fit uses this so the axis steps at most once per second
+  // — the real-time change — instead of breathing at frame rate under the tip.
+  const tipCommitted = tape.length ? tape[tape.length - 1].p : currentProb;
+  const priceForFit = (t: number, drawn: number): number =>
+    tape.length && t >= tape[tape.length - 1].t ? tipCommitted : drawn;
+
+  // Sample the window across the plot; draw uses the gliding tip, the fit uses
+  // the committed value so history never re-scales frame to frame.
   const samp: { t: number; p: number; x: number }[] = [];
   let plo = 1;
   let phi = 0;
   for (let i = 0; i <= N_SAMPLES; i++) {
     const t = leftT + (i / N_SAMPLES) * spanMs;
     const p = priceAt(t);
-    if (p < plo) plo = p;
-    if (p > phi) phi = p;
+    const pf = priceForFit(t, p);
+    if (pf < plo) plo = pf;
+    if (pf > phi) phi = pf;
     samp.push({ t, p, x: (i / N_SAMPLES) * W });
   }
 
