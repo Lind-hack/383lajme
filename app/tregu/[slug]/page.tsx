@@ -343,11 +343,14 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
     const fromApi = eventData?.outcomes.find((x) => x.slug === o.slug)?.series;
     if (fromApi && fromApi.length >= 2) return fromApi;
     if (o.spark && o.spark.length >= 2) {
-      const now = Date.now();
       const step = 5 * 60_000;
+      // Quantize the grid's end to the step so the anchor timestamps are stable
+      // across renders/polls — an un-quantized Date.now() end shifted every
+      // anchor a few seconds per render, redrawing the outcome's whole history.
+      const end = Math.floor(Date.now() / step) * step;
       const n = o.spark.length;
       return dramatizeSeries(
-        o.spark.map((p, i) => ({ t: now - (n - 1 - i) * step, p })),
+        o.spark.map((p, i) => ({ t: end - (n - 1 - i) * step, p })),
         o.slug
       );
     }

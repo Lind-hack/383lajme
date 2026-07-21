@@ -179,6 +179,49 @@ export function useLiveTail(
 const TAPE_SEED_S = 2700; // 45 min of per-second points
 const TAPE_CAP_S = 3600; // 60 min ceiling
 
+// Persisted tape storage. The per-second walk is random when first drawn, so
+// once it is on screen it is *recorded history* — a reload must replay the same
+// walk, not roll a new one. Rows are [t, p0, ...pn] (n = 1 for single-value
+// tapes), stored per market key and replayed verbatim on the next seed; the
+// deterministic sampler only fills whatever the recording doesn't cover.
+const TAPE_STORE_PREFIX = "tregu:tape:v1:";
+const TAPE_SAVE_EVERY_COMMITS = 15; // throttle: persist roughly every 15 s
+
+function loadTapeRows(key: string, cols: number): { t: number; ps: number[] }[] {
+  try {
+    const raw = localStorage.getItem(TAPE_STORE_PREFIX + key);
+    if (!raw) return [];
+    const arr: unknown = JSON.parse(raw);
+    if (!Array.isArray(arr)) return [];
+    const out: { t: number; ps: number[] }[] = [];
+    for (const row of arr) {
+      if (!Array.isArray(row) || row.length !== cols + 1) return [];
+      const [t, ...ps] = row as number[];
+      if (!Number.isFinite(t) || ps.some((p) => !Number.isFinite(p))) return [];
+      out.push({ t, ps });
+    }
+    out.sort((a, b) => a.t - b.t);
+    return out;
+  } catch {
+    return [];
+  }
+}
+
+function saveTapeRows(key: string, rows: number[][]): void {
+  try {
+    localStorage.setItem(TAPE_STORE_PREFIX + key, JSON.stringify(rows));
+  } catch {
+    // Quota exceeded or storage unavailable — drop the entry rather than throw.
+    try {
+      localStorage.removeItem(TAPE_STORE_PREFIX + key);
+    } catch {
+      /* noop */
+    }
+  }
+}
+
+const round4 = (p: number) => Math.round(p * 10000) / 10000;
+
 /**
  * The single source of truth for a live single-value chart. Seeds a persistent
  * per-second tape from the deterministic `sampler` (so it's continuous with the
@@ -206,17 +249,34 @@ export function useLiveTape(
   targetRef.current = target;
   const samplerRef = useRef(sampler);
   samplerRef.current = sampler;
+  const storeKeyRef = useRef("");
+  const commitCountRef = useRef(0);
 
-  // Seed the tape from the deterministic sampler so its left edge joins the
-  // older history seamlessly; the final point is the true current value.
+  // Seed the tape: replay the stored walk from the last visit verbatim (drawn
+  // history is recorded history), and let the deterministic sampler fill only
+  // what the recording doesn't cover. The final point is the true current value.
   useEffect(() => {
     const t0 = Date.now();
+    const stored = loadTapeRows(dataKey, 1).filter(
+      (r) => r.t > t0 - TAPE_SEED_S * 1000 && r.t < t0
+    );
+    const coverStart = stored.length > 0 ? stored[0].t : Infinity;
     const seed: { t: number; p: number }[] = [];
-    for (let s = TAPE_SEED_S; s >= 0; s--) {
-      const t = t0 - s * 1000;
-      seed.push({ t, p: s === 0 ? targetRef.current : samplerRef.current(t) });
+    let cursor = t0 - TAPE_SEED_S * 1000;
+    while (cursor < Math.min(coverStart, t0)) {
+      seed.push({ t: cursor, p: samplerRef.current(cursor) });
+      cursor += 1000;
     }
+    for (const r of stored) seed.push({ t: r.t, p: r.ps[0] });
+    if (stored.length > 0) cursor = stored[stored.length - 1].t + 1000;
+    while (cursor < t0) {
+      seed.push({ t: cursor, p: samplerRef.current(cursor) });
+      cursor += 1000;
+    }
+    seed.push({ t: t0, p: targetRef.current });
+    if (seed.length > TAPE_CAP_S) seed.splice(0, seed.length - TAPE_CAP_S);
     tapeRef.current = seed;
+    storeKeyRef.current = dataKey;
     curRef.current = targetRef.current;
     goalRef.current = targetRef.current;
     lastStepRef.current = t0;
@@ -228,6 +288,14 @@ export function useLiveTape(
       setNow(Date.now());
       return;
     }
+    const save = () => {
+      if (!storeKeyRef.current) return;
+      saveTapeRows(
+        storeKeyRef.current,
+        tapeRef.current.map((pt) => [pt.t, round4(pt.p)])
+      );
+    };
+    window.addEventListener("pagehide", save);
     const id = setInterval(() => {
       const t = Date.now();
       curRef.current += (goalRef.current - curRef.current) * EASE;
@@ -239,10 +307,15 @@ export function useLiveTape(
         const tape = tapeRef.current;
         tape.push({ t, p: curRef.current });
         if (tape.length > TAPE_CAP_S) tape.splice(0, tape.length - TAPE_CAP_S);
+        if (++commitCountRef.current % TAPE_SAVE_EVERY_COMMITS === 0) save();
       }
       setNow(t);
     }, FRAME_MS);
-    return () => clearInterval(id);
+    return () => {
+      clearInterval(id);
+      window.removeEventListener("pagehide", save);
+      save();
+    };
   }, [enabled]);
 
   // `live` is the eased leading value (updated every frame). The render uses it
@@ -272,22 +345,43 @@ export function useLiveTapeVector(
   targetsRef.current = targets;
   const samplersRef = useRef(samplers);
   samplersRef.current = samplers;
+  const storeKeyRef = useRef("");
+  const storeColsRef = useRef(0);
+  const commitCountRef = useRef(0);
 
+  // Seed the tapes: replay the stored vector walk from the last visit verbatim,
+  // sampler-fill only the uncovered stretches (normalized so the stack sums to
+  // 1). Stored rows were normalized when recorded, so they replay as-is.
   useEffect(() => {
     const t0 = Date.now();
     const n = samplersRef.current.length;
     const tapes: { t: number; p: number }[][] = Array.from({ length: n }, () => []);
-    for (let s = TAPE_SEED_S; s >= 0; s--) {
-      const t = t0 - s * 1000;
-      // Sample every outcome at t, then normalize so the stack sums to 1.
-      const raw =
-        s === 0
-          ? targetsRef.current.slice()
-          : samplersRef.current.map((fn) => fn(t));
+    const stored = loadTapeRows(dataKey, n).filter(
+      (r) => r.t > t0 - TAPE_SEED_S * 1000 && r.t < t0
+    );
+    const pushColumn = (t: number, raw: number[]) => {
       const sum = raw.reduce((a, b) => a + b, 0) || 1;
       raw.forEach((v, i) => tapes[i].push({ t, p: v / sum }));
+    };
+    const coverStart = stored.length > 0 ? stored[0].t : Infinity;
+    let cursor = t0 - TAPE_SEED_S * 1000;
+    while (cursor < Math.min(coverStart, t0)) {
+      pushColumn(cursor, samplersRef.current.map((fn) => fn(cursor)));
+      cursor += 1000;
     }
+    for (const r of stored) r.ps.forEach((v, i) => tapes[i].push({ t: r.t, p: v }));
+    if (stored.length > 0) cursor = stored[stored.length - 1].t + 1000;
+    while (cursor < t0) {
+      pushColumn(cursor, samplersRef.current.map((fn) => fn(cursor)));
+      cursor += 1000;
+    }
+    pushColumn(t0, targetsRef.current.slice());
+    tapes.forEach((tp) => {
+      if (tp.length > TAPE_CAP_S) tp.splice(0, tp.length - TAPE_CAP_S);
+    });
     tapesRef.current = tapes;
+    storeKeyRef.current = dataKey;
+    storeColsRef.current = n;
     curRef.current = [...targetsRef.current];
     goalRef.current = [...targetsRef.current];
     lastStepRef.current = t0;
@@ -299,6 +393,17 @@ export function useLiveTapeVector(
       setNow(Date.now());
       return;
     }
+    const save = () => {
+      if (!storeKeyRef.current || storeColsRef.current === 0) return;
+      const tapes = tapesRef.current;
+      const first = tapes[0];
+      if (!first) return;
+      saveTapeRows(
+        storeKeyRef.current,
+        first.map((pt, idx) => [pt.t, ...tapes.map((tp) => round4(tp[idx]?.p ?? 0))])
+      );
+    };
+    window.addEventListener("pagehide", save);
     const id = setInterval(() => {
       const t = Date.now();
       curRef.current = curRef.current.map(
@@ -318,10 +423,15 @@ export function useLiveTapeVector(
           tapes[i]?.push({ t, p: v / csum });
           if (tapes[i] && tapes[i].length > TAPE_CAP_S) tapes[i].splice(0, tapes[i].length - TAPE_CAP_S);
         });
+        if (++commitCountRef.current % TAPE_SAVE_EVERY_COMMITS === 0) save();
       }
       setNow(t);
     }, FRAME_MS);
-    return () => clearInterval(id);
+    return () => {
+      clearInterval(id);
+      window.removeEventListener("pagehide", save);
+      save();
+    };
   }, [enabled]);
 
   // Column-normalized leading values (sum ~1), used only for the live tip so
