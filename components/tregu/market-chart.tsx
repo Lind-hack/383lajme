@@ -133,6 +133,10 @@ export default function MarketChart({
   // popup cancels it, so the popup stays open while the cursor is over it.
   const closeRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const fitRef = useRef<FitBand>(null);
+  // Growing-trace anchor: the pinned left-edge time for short windows (1s/1m).
+  // While the trace fills, leftT stays at t0 so every drawn second holds a fixed
+  // x — pixel-static history — and only the tip advances. Reseeds per view.
+  const growRef = useRef<{ key: string; t0: number } | null>(null);
   const reduced = useReducedMotion();
   const drawn = useDrawReveal(1350, reduced);
   const { now: clockNow, nextInMs } = useLiveClock(cadenceMs);
@@ -281,9 +285,31 @@ export default function MarketChart({
   // second commits. The one segment from the last committed second to this edge is
   // the live line being drawn; its tip uses the gliding `live` value.
   const edge = Math.ceil(tapeNow / 1000) * 1000;
-  const rightT = edge - (isAll ? 0 : pan.panMs);
-  const leftT = isAll ? data.tMinAll : rightT - windowMs;
-  const spanMs = Math.max(1, rightT - leftT);
+  // Growing-trace on short windows (1s/1m): the line draws left -> right into
+  // empty space, every drawn second frozen in place (leftT pinned at t0), only
+  // the tip moving. When the window fills after `windowMs`, leftT begins to
+  // scroll (max() flips over), matching the accepted "then it scrolls" fallback.
+  // Wider windows keep the right-anchored model — already static and they show
+  // the whole history immediately instead of sitting empty for hours.
+  const isGrow = !isAll && windowMs <= 600_000;
+  let leftT: number;
+  let rightT: number;
+  let spanMs: number;
+  let tipT: number;
+  if (isGrow) {
+    const key = `${range}|${data.dataKey}`;
+    if (!growRef.current || growRef.current.key !== key) growRef.current = { key, t0: edge - 1000 };
+    const t0 = growRef.current.t0;
+    leftT = Math.max(t0, edge - windowMs);
+    rightT = leftT + windowMs;
+    spanMs = windowMs;
+    tipT = edge;
+  } else {
+    rightT = edge - (isAll ? 0 : pan.panMs);
+    leftT = isAll ? data.tMinAll : rightT - windowMs;
+    spanMs = Math.max(1, rightT - leftT);
+    tipT = rightT;
+  }
 
   // Committed price at the tip (last whole-second value, NOT the 30fps easing
   // `live`). The vertical fit uses this so the axis steps at most once per second
@@ -299,11 +325,36 @@ export default function MarketChart({
   let phi = 0;
   for (let i = 0; i <= N_SAMPLES; i++) {
     const t = leftT + (i / N_SAMPLES) * spanMs;
+    if (t > tipT + 1) break; // growing trace: draw nothing right of the live tip
     const p = priceAt(t);
     const pf = priceForFit(t, p);
     if (pf < plo) plo = pf;
     if (pf > phi) phi = pf;
     samp.push({ t, p, x: (i / N_SAMPLES) * W });
+  }
+  // End the trace exactly at the tip so the drawing edge is crisp (the last grid
+  // sample usually lands just short of `tipT`).
+  if (isGrow && samp.length && samp[samp.length - 1].t < tipT - 1) {
+    const p = priceAt(tipT);
+    const pf = priceForFit(tipT, p);
+    if (pf < plo) plo = pf;
+    if (pf > phi) phi = pf;
+    samp.push({ t: tipT, p, x: ((tipT - leftT) / spanMs) * W });
+  }
+  // Growing trace only draws a sliver of the window, so its fit would start tiny
+  // and expand as the trace fills — dragging the drawn history up and down. Seed
+  // the band from the full recent committed window instead: representative from
+  // the first frame, then frozen, so drawn seconds hold their vertical position
+  // and only the tip moves.
+  if (isGrow) {
+    const from = edge - windowMs;
+    for (let i = 0; i <= N_SAMPLES; i++) {
+      const t = from + (i / N_SAMPLES) * windowMs;
+      if (t > edge) break;
+      const pf = priceForFit(t, priceAt(t));
+      if (pf < plo) plo = pf;
+      if (pf > phi) phi = pf;
+    }
   }
 
   // Fit the plot to the visible window so real moves fill the frame; 12pt floor
