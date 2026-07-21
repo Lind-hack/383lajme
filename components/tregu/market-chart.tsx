@@ -3,7 +3,7 @@
 import { useId, useMemo, useRef, useState } from "react";
 import { makeSampler, smoothPath } from "@/lib/tregu-tape";
 import { getCategoryColor } from "@/lib/category-colors";
-import { useReducedMotion, useDrawReveal, useLiveTape, useChartPan, useLiveClock, easeFitRange, type FitBand } from "./chart-hooks";
+import { useReducedMotion, useDrawReveal, useLiveTape, useChartPan, useLiveClock, frozenFitRange, type FitBand } from "./chart-hooks";
 
 // Interactive single-market price chart — dependency-free SVG.
 //
@@ -274,7 +274,14 @@ export default function MarketChart({
 
   // Absolute window edges (right = live minus pan). Clamp keeps the left edge at
   // the true start of history for "Gjithë" and when panned to the far past.
-  const rightT = tapeNow - (isAll ? 0 : pan.panMs);
+  //
+  // Quantize the right edge to whole seconds: within a second every committed
+  // sample maps to a fixed time -> fixed x/y, so drawn history is pixel-frozen and
+  // only advances one grid step (sub-pixel on all but the 1s window) when a new
+  // second commits. The one segment from the last committed second to this edge is
+  // the live line being drawn; its tip uses the gliding `live` value.
+  const edge = Math.ceil(tapeNow / 1000) * 1000;
+  const rightT = edge - (isAll ? 0 : pan.panMs);
   const leftT = isAll ? data.tMinAll : rightT - windowMs;
   const spanMs = Math.max(1, rightT - leftT);
 
@@ -308,10 +315,11 @@ export default function MarketChart({
     tLo = Math.max(0, mid - 0.06);
     tHi = Math.min(1, tLo + 0.12);
   }
-  // Ease the band toward that target so a new high/low glides in instead of the
-  // whole curve (frozen history included) snapping. Deadband holds it rock-still
-  // while the live value wobbles inside the existing frame.
-  const [lo, hi] = easeFitRange(fitRef, tLo, tHi, reduced);
+  // Freeze the band for this view so drawn history never re-scales frame to frame;
+  // it only grows (eased) when the live value pushes a genuine new high/low into
+  // view. Keyed by range+dataKey so it reseeds on a timeframe switch or a data
+  // refresh, and holds rock-still otherwise.
+  const [lo, hi] = frozenFitRange(fitRef, `${range}|${data.dataKey}`, tLo, tHi, reduced);
 
   const lineXY = samp.map((s) => ({ x: s.x, y: yFor(s.p) }));
   const linePath = smoothPath(lineXY);
