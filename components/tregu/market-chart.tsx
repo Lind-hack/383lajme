@@ -133,10 +133,11 @@ export default function MarketChart({
   // popup cancels it, so the popup stays open while the cursor is over it.
   const closeRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const fitRef = useRef<FitBand>(null);
-  // Growing-trace anchor: the pinned left-edge time for short windows (1s/1m).
-  // While the trace fills, leftT stays at t0 so every drawn second holds a fixed
-  // x — pixel-static history — and only the tip advances. Reseeds per view.
-  const growRef = useRef<{ key: string; t0: number } | null>(null);
+  // Sweep (oscilloscope) frame anchor for the live timeframes. `T0` pins the
+  // frame so x positions never move: the realtime line sweeps left→right and
+  // each drawn second freezes at its x, overwritten only a full frame later when
+  // the sweep head comes back around. Reseeds per view (range + data refresh).
+  const sweepRef = useRef<{ key: string; T0: number } | null>(null);
   const reduced = useReducedMotion();
   const drawn = useDrawReveal(1350, reduced);
   const { now: clockNow, nextInMs } = useLiveClock(cadenceMs);
@@ -285,23 +286,31 @@ export default function MarketChart({
   // second commits. The one segment from the last committed second to this edge is
   // the live line being drawn; its tip uses the gliding `live` value.
   const edge = Math.ceil(tapeNow / 1000) * 1000;
-  // Growing-trace on short windows (1s/1m): the line draws left -> right into
-  // empty space, every drawn second frozen in place (leftT pinned at t0), only
-  // the tip moving. When the window fills after `windowMs`, leftT begins to
-  // scroll (max() flips over), matching the accepted "then it scrolls" fallback.
-  // Wider windows keep the right-anchored model — already static and they show
-  // the whole history immediately instead of sitting empty for hours.
-  const isGrow = !isAll && windowMs <= 600_000;
+  // Sweep (oscilloscope) on the live timeframes (1s/1m/5m). The frame is FIXED —
+  // it never scrolls. `T0` pins the left edge once; the realtime line sweeps
+  // left -> right and every drawn second freezes at its x. When the head reaches
+  // the right edge it wraps to the left and overwrites the oldest second in
+  // place. Nothing behind the head ever shifts sideways — only the tip moves,
+  // exactly the accepted model. Wider windows (15m+) keep the right-anchored
+  // model: a per-second step there is sub-pixel, so they already read static and
+  // they show the whole history immediately.
+  const isSweep = !isAll && windowMs <= 2_700_000;
   let leftT: number;
   let rightT: number;
   let spanMs: number;
   let tipT: number;
-  if (isGrow) {
+  let sweep: { T0: number; cycle: number; headF: number } | null = null;
+  if (isSweep) {
     const key = `${range}|${data.dataKey}`;
-    if (!growRef.current || growRef.current.key !== key) growRef.current = { key, t0: edge - 1000 };
-    const t0 = growRef.current.t0;
-    leftT = Math.max(t0, edge - windowMs);
-    rightT = leftT + windowMs;
+    // Seed T0 so the frame opens FULL — the head sits at the left edge with the
+    // last `windowMs` of history laid out across the frame, about to sweep.
+    if (!sweepRef.current || sweepRef.current.key !== key) sweepRef.current = { key, T0: edge - windowMs };
+    const T0 = sweepRef.current.T0;
+    const cycle = Math.floor((edge - T0) / windowMs); // which sweep pass we're on
+    const headF = ((edge - T0) % windowMs) / windowMs; // head position, 0..1 across the frame
+    sweep = { T0, cycle, headF };
+    leftT = edge - windowMs;
+    rightT = edge;
     spanMs = windowMs;
     tipT = edge;
   } else {
@@ -318,44 +327,52 @@ export default function MarketChart({
   const priceForFit = (t: number, drawn: number): number =>
     tape.length && t >= tape[tape.length - 1].t ? tipCommitted : drawn;
 
-  // Sample the window across the plot; draw uses the gliding tip, the fit uses
-  // the committed value so history never re-scales frame to frame.
-  const samp: { t: number; p: number; x: number }[] = [];
+  // Sample into contiguous runs — one for the normal right-anchored frame; two
+  // for the sweep (the fresh trace behind the head and the older frozen trace
+  // ahead of it, split by a small blank at the head so the live pen reads
+  // clearly). Draw uses the gliding tip; the fit uses the committed value so
+  // history never re-scales frame to frame.
+  const runs: { t: number; p: number; x: number }[][] = [];
   let plo = 1;
   let phi = 0;
-  for (let i = 0; i <= N_SAMPLES; i++) {
-    const t = leftT + (i / N_SAMPLES) * spanMs;
-    if (t > tipT + 1) break; // growing trace: draw nothing right of the live tip
+  const pushSample = (arr: { t: number; p: number; x: number }[], t: number, x: number) => {
     const p = priceAt(t);
     const pf = priceForFit(t, p);
     if (pf < plo) plo = pf;
     if (pf > phi) phi = pf;
-    samp.push({ t, p, x: (i / N_SAMPLES) * W });
-  }
-  // End the trace exactly at the tip so the drawing edge is crisp (the last grid
-  // sample usually lands just short of `tipT`).
-  if (isGrow && samp.length && samp[samp.length - 1].t < tipT - 1) {
-    const p = priceAt(tipT);
-    const pf = priceForFit(tipT, p);
-    if (pf < plo) plo = pf;
-    if (pf > phi) phi = pf;
-    samp.push({ t: tipT, p, x: ((tipT - leftT) / spanMs) * W });
-  }
-  // Growing trace only draws a sliver of the window, so its fit would start tiny
-  // and expand as the trace fills — dragging the drawn history up and down. Seed
-  // the band from the full recent committed window instead: representative from
-  // the first frame, then frozen, so drawn seconds hold their vertical position
-  // and only the tip moves.
-  if (isGrow) {
-    const from = edge - windowMs;
-    for (let i = 0; i <= N_SAMPLES; i++) {
-      const t = from + (i / N_SAMPLES) * windowMs;
-      if (t > edge) break;
-      const pf = priceForFit(t, priceAt(t));
-      if (pf < plo) plo = pf;
-      if (pf > phi) phi = pf;
+    arr.push({ t, p, x });
+  };
+  if (isSweep && sweep) {
+    const { T0, cycle, headF } = sweep;
+    const gapF = Math.min(0.5, 7 / W); // small blank at the head, in frame fractions
+    // Fresh trace: x 0 -> head, times (edge − headF·win) -> edge, tip = live.
+    const cur: { t: number; p: number; x: number }[] = [];
+    const curN = Math.max(2, Math.round(headF * N_SAMPLES));
+    for (let i = 0; i <= curN; i++) {
+      const f = headF * (i / curN);
+      pushSample(cur, T0 + cycle * windowMs + f * windowMs, f * W);
     }
+    // Older frozen trace: x head+gap -> right edge, from the previous sweep pass.
+    const prev: { t: number; p: number; x: number }[] = [];
+    const startF = Math.min(1, headF + gapF);
+    const prevN = Math.max(2, Math.round((1 - startF) * N_SAMPLES));
+    for (let i = 0; i <= prevN; i++) {
+      const f = startF + (1 - startF) * (i / prevN);
+      pushSample(prev, T0 + (cycle - 1) * windowMs + f * windowMs, f * W);
+    }
+    if (cur.length > 1) runs.push(cur);
+    if (prev.length > 1) runs.push(prev);
+  } else {
+    const run: { t: number; p: number; x: number }[] = [];
+    for (let i = 0; i <= N_SAMPLES; i++) {
+      const t = leftT + (i / N_SAMPLES) * spanMs;
+      if (t > tipT + 1) break;
+      pushSample(run, t, (i / N_SAMPLES) * W);
+    }
+    runs.push(run);
   }
+  // Flat view of all samples (x-sorted: cur is left of prev) for hover + nearest.
+  const samp = runs.flat();
 
   // Fit the plot to the visible window so real moves fill the frame; 12pt floor
   // so a dead-flat stretch still gets a readable band instead of a pinned line.
@@ -372,20 +389,28 @@ export default function MarketChart({
   // refresh, and holds rock-still otherwise.
   const [lo, hi] = frozenFitRange(fitRef, `${range}|${data.dataKey}`, tLo, tHi, reduced);
 
-  const lineXY = samp.map((s) => ({ x: s.x, y: yFor(s.p) }));
-  const linePath = smoothPath(lineXY);
-  const firstXY = lineXY[0];
-  const lastXY = lineXY[lineXY.length - 1];
-  const areaPath = `${linePath} L ${lastXY.x.toFixed(1)} ${PLOT_BOTTOM} L ${firstXY.x.toFixed(1)} ${PLOT_BOTTOM} Z`;
+  // One path per run — the sweep renders its two frozen segments as separate
+  // paths so they never join across the head blank or the frame wrap.
+  const runXY = runs.map((r) => r.map((s) => ({ x: s.x, y: yFor(s.p) })));
+  const linePaths = runXY.filter((xy) => xy.length > 1).map((xy) => smoothPath(xy));
+  const areaPaths = runXY
+    .filter((xy) => xy.length > 1)
+    .map((xy) => {
+      const f0 = xy[0];
+      const l0 = xy[xy.length - 1];
+      return `${smoothPath(xy)} L ${l0.x.toFixed(1)} ${PLOT_BOTTOM} L ${f0.x.toFixed(1)} ${PLOT_BOTTOM} Z`;
+    });
 
   // AI estimate: calm linear line across the window, only where AI data exists
-  // (t ≥ first AI anchor), held flat to the right edge afterwards.
+  // (t ≥ first AI anchor), held flat afterwards. One path per run, same as above.
   const firstAiT = data.aiAnchors[0]?.t;
-  const aiXY =
+  const aiPaths =
     firstAiT != null
-      ? samp.filter((s) => s.t >= firstAiT).map((s) => ({ x: s.x, y: yFor(valueAt(data.aiAnchors, s.t) ?? 0) }))
+      ? runs
+          .map((r) => r.filter((s) => s.t >= firstAiT).map((s) => ({ x: s.x, y: yFor(valueAt(data.aiAnchors, s.t) ?? 0) })))
+          .filter((xy) => xy.length > 1)
+          .map((xy) => smoothPath(xy))
       : [];
-  const aiPath = aiXY.length > 1 ? smoothPath(aiXY) : "";
 
   // Volume histogram over the visible window.
   const volBuckets = new Array<number>(N_BUCKETS).fill(0);
@@ -397,14 +422,19 @@ export default function MarketChart({
   const maxVol = Math.max(...volBuckets, 1);
   const bucketW = W / N_BUCKETS;
 
-  // News markers within the window.
-  const xForT = (t: number) => ((t - leftT) / spanMs) * W;
+  // News markers within the window. On the sweep the x is the phase position, so
+  // a marker sits wherever the head painted it and stays there until overwritten.
+  const xForT = (t: number) =>
+    isSweep && sweep ? ((((t - sweep.T0) % windowMs) + windowMs) % windowMs) / windowMs * W : ((t - leftT) / spanMs) * W;
   const shownEvents = data.events
     .map((e, gi) => ({ ...e, gi }))
     .filter((e) => e.t >= leftT && e.t <= rightT);
 
   const isLiveEdge = isAll || pan.panMs < 1500;
-  const lastP = samp[samp.length - 1].p;
+  // Tip: the sweep pen sits at the head (headF across the frame) carrying the
+  // gliding live value; the right-anchored frame keeps its tip at the right edge.
+  const tipFrac = isSweep && sweep ? sweep.headF : 1;
+  const lastP = isSweep ? live : samp[samp.length - 1].p;
   const ticks = ticksFor(lo, hi);
   const activeNews = pinnedNews ?? hoveredNews;
 
@@ -415,7 +445,7 @@ export default function MarketChart({
     let nearest = samp[0];
     for (const s of samp) if (Math.abs(s.x - xpx) < Math.abs(nearest.x - xpx)) nearest = s;
     const ai = valueAt(data.aiAnchors, nearest.t);
-    const live = rightT - nearest.t < 2000 && isLiveEdge;
+    const live = isSweep && sweep ? Math.abs(nearest.x - sweep.headF * W) < 8 : rightT - nearest.t < 2000 && isLiveEdge;
     setHover({ frac: nearest.x / W, t: nearest.t, p: nearest.p, ai, live });
   };
 
@@ -427,7 +457,17 @@ export default function MarketChart({
     if (spanMs <= 2 * 86_400_000) return d.toLocaleTimeString("sq-AL", { hour: "2-digit", minute: "2-digit" });
     return d.toLocaleDateString("sq-AL", { day: "numeric", month: "short" });
   };
-  const axisTicks = [0.08, 0.5, 0.92].map((f) => ({ f, label: fmtAxis(leftT + f * spanMs) }));
+  // Sweep axis is a FIXED elapsed-position grid (0 at the left edge -> windowMs at
+  // the right) so the labels never move as the head sweeps — the frame's time span
+  // read as m:ss. The right-anchored frame keeps wall-clock labels.
+  const fmtDur = (ms: number) => {
+    const s = Math.max(0, Math.round(ms / 1000));
+    return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`;
+  };
+  const axisTicks = [0.08, 0.5, 0.92].map((f) => ({
+    f,
+    label: isSweep ? fmtDur(f * windowMs) : fmtAxis(leftT + f * spanMs),
+  }));
 
   // News hover-intent helpers.
   const cancelClose = () => {
@@ -547,31 +587,37 @@ export default function MarketChart({
             {/* Everything price-related sits inside the reveal clip so the
                 area + line + AI wipe in together from the left on open. */}
             <g clipPath={`url(#${revealId})`}>
-              <path className="tregu-area-fade" d={areaPath} fill={`url(#${areaId})`} />
+              {areaPaths.map((d, i) => (
+                <path key={`a${i}`} className="tregu-area-fade" d={d} fill={`url(#${areaId})`} />
+              ))}
 
               {/* AI estimate: dashed gradual line in burnt orange, wrapped in the
                   same travelling gleam so it reads glossy and shiny on refresh. */}
-              {aiPath && (
-                <>
-                  <path d={aiPath} fill="none" stroke={AI} strokeWidth="2" strokeDasharray="5 4" opacity="0.95" vectorEffect="non-scaling-stroke" />
+              {aiPaths.map((d, i) => (
+                <g key={`ai${i}`}>
+                  <path d={d} fill="none" stroke={AI} strokeWidth="2" strokeDasharray="5 4" opacity="0.95" vectorEffect="non-scaling-stroke" />
                   {!hover && !pan.dragging && (
                     <g mask={`url(#${shineMaskId})`}>
-                      <path d={aiPath} fill="none" stroke={AI} strokeWidth="6" strokeDasharray="5 4" strokeLinecap="round" opacity="0.5" filter={`url(#${shineGlowId})`} />
-                      <path d={aiPath} fill="none" stroke={AI_GLEAM} strokeWidth="2.4" strokeDasharray="5 4" strokeLinecap="round" vectorEffect="non-scaling-stroke" />
+                      <path d={d} fill="none" stroke={AI} strokeWidth="6" strokeDasharray="5 4" strokeLinecap="round" opacity="0.5" filter={`url(#${shineGlowId})`} />
+                      <path d={d} fill="none" stroke={AI_GLEAM} strokeWidth="2.4" strokeDasharray="5 4" strokeLinecap="round" vectorEffect="non-scaling-stroke" />
                     </g>
                   )}
-                </>
-              )}
+                </g>
+              ))}
 
               {/* Price line + travelling gleam (gleam suppressed on hover/drag so
                   it never lights up while the crosshair is reading the past). */}
-              <path d={linePath} fill="none" stroke={accent} strokeWidth="2.5" strokeLinejoin="round" strokeLinecap="round" vectorEffect="non-scaling-stroke" />
-              {!hover && !pan.dragging && (
-                <g mask={`url(#${shineMaskId})`}>
-                  <path d={linePath} fill="none" stroke={accent} strokeWidth="8" strokeLinejoin="round" strokeLinecap="round" opacity="0.55" filter={`url(#${shineGlowId})`} />
-                  <path d={linePath} fill="none" stroke="#FFFFFF" strokeWidth="2" strokeLinejoin="round" strokeLinecap="round" opacity="0.9" vectorEffect="non-scaling-stroke" />
+              {linePaths.map((d, i) => (
+                <g key={`l${i}`}>
+                  <path d={d} fill="none" stroke={accent} strokeWidth="2.5" strokeLinejoin="round" strokeLinecap="round" vectorEffect="non-scaling-stroke" />
+                  {!hover && !pan.dragging && (
+                    <g mask={`url(#${shineMaskId})`}>
+                      <path d={d} fill="none" stroke={accent} strokeWidth="8" strokeLinejoin="round" strokeLinecap="round" opacity="0.55" filter={`url(#${shineGlowId})`} />
+                      <path d={d} fill="none" stroke="#FFFFFF" strokeWidth="2" strokeLinejoin="round" strokeLinecap="round" opacity="0.9" vectorEffect="non-scaling-stroke" />
+                    </g>
+                  )}
                 </g>
-              )}
+              ))}
             </g>
 
             {hover && (
@@ -593,7 +639,13 @@ export default function MarketChart({
           {(drawn || hover) && (
             <span
               className={hover ? "tregu-gchart-dot" : isLiveEdge ? "tregu-gchart-dot tregu-gchart-dot--live" : "tregu-gchart-dot"}
-              style={hover ? { top: yFor(hover.p), left: `${hover.frac * 100}%`, right: "auto", background: accent } : { top: yFor(lastP), background: accent }}
+              style={
+                hover
+                  ? { top: yFor(hover.p), left: `${hover.frac * 100}%`, right: "auto", background: accent }
+                  : isSweep
+                    ? { top: yFor(lastP), left: `${tipFrac * 100}%`, right: "auto", background: accent }
+                    : { top: yFor(lastP), background: accent }
+              }
               aria-hidden
             />
           )}

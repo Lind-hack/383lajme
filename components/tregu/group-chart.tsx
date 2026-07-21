@@ -158,9 +158,11 @@ export default function GroupChart({
   const [hoverI, setHoverI] = useState<{ x: number; t: number; values: number[]; live: boolean; col: number } | null>(null);
   const plotRef = useRef<HTMLDivElement>(null);
   const fitRef = useRef<FitBand>(null);
-  // Growing-trace anchor for short windows (1s/1m) — see MarketChart. Pins the
-  // left edge at t0 while the stack fills so every drawn second is pixel-static.
-  const growRef = useRef<{ key: string; t0: number } | null>(null);
+  // Sweep (oscilloscope) frame anchor for the live timeframes — see MarketChart.
+  // `T0` pins the frame; the realtime line sweeps left -> right and every drawn
+  // second freezes at its x, overwritten only a full frame later. Nothing behind
+  // the head ever shifts sideways. Reseeds per view (range + data refresh).
+  const sweepRef = useRef<{ key: string; T0: number } | null>(null);
   // Defs are document-scoped; two charts on one page would collide on a
   // hardcoded id. React's ids carry punctuation url(#…) can't resolve — strip it.
   const uid = useId().replace(/[^a-zA-Z0-9]/g, "");
@@ -224,27 +226,28 @@ export default function GroupChart({
     );
   }
 
-  // Quantize the right edge to whole seconds: within a second every committed
-  // sample maps to a fixed time -> fixed x/y, so the drawn stack is pixel-frozen
-  // and only advances one grid step (sub-pixel on all but the 1s window) when a
-  // new second commits. The segment from the last committed second to this edge is
-  // the live line being drawn; its tip uses the gliding `lives` value.
-  // Growing-trace on short windows (1s/1m): the stack draws left -> right into
-  // empty space, every drawn second frozen (leftT pinned at t0), only the tip
-  // moving; when full after `windowMs`, leftT begins to scroll. Wider windows
-  // keep the right-anchored model (already static, full history shown at once).
+  // Sweep (oscilloscope) on the live timeframes (1s/1m/5m) — identical model to
+  // MarketChart. The frame is FIXED: `T0` pins the left edge, the stack sweeps
+  // left -> right, every drawn second freezes at its x, and the head wraps at the
+  // right edge to overwrite the oldest column in place. Nothing behind the head
+  // shifts sideways — only the tip moves. Wider windows keep the right-anchored
+  // model (per-second step sub-pixel there, and full history shown at once).
   const edge = Math.ceil(tapeNow / 1000) * 1000;
-  const isGrow = !isAll && windowMs <= 600_000;
+  const isSweep = !isAll && windowMs <= 2_700_000;
   let leftT: number;
   let rightT: number;
   let spanMs: number;
   let tipT: number;
-  if (isGrow) {
+  let sweep: { T0: number; cycle: number; headF: number } | null = null;
+  if (isSweep) {
     const key = `${range}|${data.dataKey}`;
-    if (!growRef.current || growRef.current.key !== key) growRef.current = { key, t0: edge - 1000 };
-    const t0 = growRef.current.t0;
-    leftT = Math.max(t0, edge - windowMs);
-    rightT = leftT + windowMs;
+    if (!sweepRef.current || sweepRef.current.key !== key) sweepRef.current = { key, T0: edge - windowMs };
+    const T0 = sweepRef.current.T0;
+    const cycle = Math.floor((edge - T0) / windowMs);
+    const headF = ((edge - T0) % windowMs) / windowMs;
+    sweep = { T0, cycle, headF };
+    leftT = edge - windowMs;
+    rightT = edge;
     spanMs = windowMs;
     tipT = edge;
   } else {
@@ -263,16 +266,16 @@ export default function GroupChart({
     return tp && tp.length ? tp[tp.length - 1].p : targets[s] ?? 0;
   };
 
-  // Sample the window: at each column read every outcome's continuous price and
-  // renormalize so the stack sums to 1. The drawn stack uses the gliding tip;
-  // the vertical fit uses the committed tip so history never re-scales per frame.
-  const cols: { t: number; x: number; vals: number[] }[] = [];
+  // Sample into contiguous column-runs — one for the right-anchored frame; two
+  // for the sweep (fresh trace behind the head, older frozen trace ahead of it,
+  // split by a small blank at the head). At each column read every outcome's
+  // continuous price and renormalize so the stack sums to 1. The drawn stack uses
+  // the gliding tip; the vertical fit uses the committed tip so history never
+  // re-scales per frame.
+  const runsCols: { t: number; x: number; vals: number[] }[][] = [];
   let plo = 1;
   let phi = 0;
-  // Read every outcome at time `t`, renormalize the stack to sum to 1, and fold
-  // the committed-tip variant into the vertical fit. `x` is passed in so the tip
-  // column can land at its exact fractional position.
-  const buildCol = (t: number, x: number, fitOnly = false) => {
+  const buildCol = (arr: { t: number; x: number; vals: number[] }[], t: number, x: number) => {
     const raw = new Array<number>(n);
     const rawFit = new Array<number>(n);
     let sum = 0;
@@ -292,32 +295,37 @@ export default function GroupChart({
       if (v < plo) plo = v;
       if (v > phi) phi = v;
     }
-    if (fitOnly) return;
     const vals = sum > 0 ? raw.map((v) => v / sum) : raw.map(() => 1 / n);
-    cols.push({ t, x, vals });
+    arr.push({ t, x, vals });
   };
-  for (let i = 0; i <= N_SAMPLES; i++) {
-    const t = leftT + (i / N_SAMPLES) * spanMs;
-    if (t > tipT + 1) break; // growing trace: nothing right of the live tip
-    buildCol(t, (i / N_SAMPLES) * W);
-  }
-  // End the stack exactly at the tip so the drawing edge is crisp.
-  if (isGrow && cols.length && cols[cols.length - 1].t < tipT - 1) {
-    buildCol(tipT, ((tipT - leftT) / spanMs) * W);
-  }
-  // Growing trace draws only a sliver of the window, so its fit would start tiny
-  // and expand as the stack fills — dragging drawn history up and down. Seed the
-  // band from the full recent committed window (fit-only, not drawn) so it is
-  // representative from frame one and then frozen: drawn columns hold their
-  // vertical position and only the tip moves.
-  if (isGrow) {
-    const from = edge - windowMs;
-    for (let i = 0; i <= N_SAMPLES; i++) {
-      const t = from + (i / N_SAMPLES) * windowMs;
-      if (t > edge) break;
-      buildCol(t, 0, true);
+  if (isSweep && sweep) {
+    const { T0, cycle, headF } = sweep;
+    const gapF = Math.min(0.5, 7 / W);
+    const cur: { t: number; x: number; vals: number[] }[] = [];
+    const curN = Math.max(2, Math.round(headF * N_SAMPLES));
+    for (let i = 0; i <= curN; i++) {
+      const f = headF * (i / curN);
+      buildCol(cur, T0 + cycle * windowMs + f * windowMs, f * W);
     }
+    const prev: { t: number; x: number; vals: number[] }[] = [];
+    const startF = Math.min(1, headF + gapF);
+    const prevN = Math.max(2, Math.round((1 - startF) * N_SAMPLES));
+    for (let i = 0; i <= prevN; i++) {
+      const f = startF + (1 - startF) * (i / prevN);
+      buildCol(prev, T0 + (cycle - 1) * windowMs + f * windowMs, f * W);
+    }
+    if (cur.length > 1) runsCols.push(cur);
+    if (prev.length > 1) runsCols.push(prev);
+  } else {
+    const run: { t: number; x: number; vals: number[] }[] = [];
+    for (let i = 0; i <= N_SAMPLES; i++) {
+      const t = leftT + (i / N_SAMPLES) * spanMs;
+      if (t > tipT + 1) break;
+      buildCol(run, t, (i / N_SAMPLES) * W);
+    }
+    runsCols.push(run);
   }
+  const cols = runsCols.flat();
 
   // Tight vertical fit — small padding so real moves fill the plot.
   let tLo = Math.max(0, plo - 0.02);
@@ -335,12 +343,20 @@ export default function GroupChart({
 
   const isLiveEdge = isAll || pan.panMs < 1500;
   const hover = hoverI;
-  const lastValues = cols[cols.length - 1].vals;
+  // The live head carries current odds: on the sweep it's the last column of the
+  // fresh (first) run; otherwise the right-edge column. Chips + dots read this.
+  const tipCol = isSweep && runsCols[0]?.length ? runsCols[0][runsCols[0].length - 1] : cols[cols.length - 1];
+  const lastValues = tipCol.vals;
+  const tipFrac = isSweep && sweep ? sweep.headF : 1;
   const ticks = ticksFor(lo, hi);
 
   // Build one smoothed path for a slice of columns for outcome si.
   const pathFor = (si: number, from: number, to: number) =>
     smoothPath(cols.slice(from, to).map((c) => ({ x: c.x, y: yFor(c.vals[si]) })));
+  // Path over an explicit column-run (used to draw each sweep segment separately
+  // so they never join across the head blank or the frame wrap).
+  const pathForCols = (arr: { x: number; vals: number[] }[], si: number) =>
+    smoothPath(arr.map((c) => ({ x: c.x, y: yFor(c.vals[si]) })));
 
   const onMove = (clientX: number) => {
     const rect = plotRef.current?.getBoundingClientRect();
@@ -349,7 +365,7 @@ export default function GroupChart({
     let bi = 0;
     for (let i = 0; i < cols.length; i++) if (Math.abs(cols[i].x - xpx) < Math.abs(cols[bi].x - xpx)) bi = i;
     const c = cols[bi];
-    const live = rightT - c.t < 2000 && isLiveEdge;
+    const live = isSweep && sweep ? Math.abs(c.x - sweep.headF * W) < 8 : rightT - c.t < 2000 && isLiveEdge;
     setHoverI({ x: c.x, t: c.t, values: c.vals, live, col: bi });
   };
 
@@ -359,7 +375,17 @@ export default function GroupChart({
     if (spanMs <= 2 * 86_400_000) return d.toLocaleTimeString("sq-AL", { hour: "2-digit", minute: "2-digit" });
     return d.toLocaleDateString("sq-AL", { day: "numeric", month: "short" });
   };
-  const axisTicks = [0.08, 0.5, 0.92].map((f) => ({ f, label: fmtAxis(leftT + f * spanMs) }));
+  // Sweep axis is a FIXED elapsed-position grid (0 -> windowMs across the frame)
+  // so labels never move as the head sweeps; the right-anchored frame keeps wall
+  // clock labels.
+  const fmtDur = (ms: number) => {
+    const s = Math.max(0, Math.round(ms / 1000));
+    return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`;
+  };
+  const axisTicks = [0.08, 0.5, 0.92].map((f) => ({
+    f,
+    label: isSweep ? fmtDur(f * windowMs) : fmtAxis(leftT + f * spanMs),
+  }));
 
   // Chips are pushed apart 26px, so only so many fit the plot height.
   const maxChips = Math.max(3, Math.floor((PLOT_BOTTOM - PLOT_TOP) / 26));
@@ -382,7 +408,9 @@ export default function GroupChart({
   spreadWithin(hoverLabels, PLOT_TOP + 2, PLOT_BOTTOM - 12);
   const hoverXpct = hover === null ? 0 : (hover.x / W) * 100;
   const hoverFlip = hoverXpct > 64;
-  const showFuture = hover !== null && !hover.live && hover.col < cols.length - 1;
+  // Future-graying (played vs upcoming split at the crosshair) only makes sense
+  // on the single right-anchored run; the sweep draws each frozen run whole.
+  const showFuture = !isSweep && hover !== null && !hover.live && hover.col < cols.length - 1;
 
   return (
     <div>
@@ -476,31 +504,34 @@ export default function GroupChart({
                     vectorEffect="non-scaling-stroke"
                   />
                 ))}
-              {series.map((s, si) => {
-                const to = showFuture ? hover!.col + 1 : cols.length;
-                const d = pathFor(si, 0, to);
-                return (
-                  <g key={s.label}>
-                    <path
-                      d={d}
-                      fill="none"
-                      stroke={s.color}
-                      strokeWidth="2"
-                      strokeLinejoin="round"
-                      strokeLinecap="round"
-                      vectorEffect="non-scaling-stroke"
-                    />
-                    {/* The gleam: same geometry, revealed only through the
-                        travelling mask band. Suppressed on hover/drag. */}
-                    {hover === null && !pan.dragging && (
-                      <g mask={`url(#${shineMaskId})`}>
-                        <path d={d} fill="none" stroke={s.color} strokeWidth="7" strokeLinejoin="round" strokeLinecap="round" opacity="0.55" filter={`url(#${shineGlowId})`} />
-                        <path d={d} fill="none" stroke="#FFFFFF" strokeWidth="2" strokeLinejoin="round" strokeLinecap="round" opacity="0.9" vectorEffect="non-scaling-stroke" />
-                      </g>
-                    )}
-                  </g>
-                );
-              })}
+              {runsCols.map((run, ri) =>
+                series.map((s, si) => {
+                  // One path per (run, outcome). Non-sweep honors the played/future
+                  // split; the sweep draws each frozen run whole.
+                  const d = !isSweep && showFuture ? pathFor(si, 0, hover!.col + 1) : pathForCols(run, si);
+                  return (
+                    <g key={`${ri}-${s.label}`}>
+                      <path
+                        d={d}
+                        fill="none"
+                        stroke={s.color}
+                        strokeWidth="2"
+                        strokeLinejoin="round"
+                        strokeLinecap="round"
+                        vectorEffect="non-scaling-stroke"
+                      />
+                      {/* The gleam: same geometry, revealed only through the
+                          travelling mask band. Suppressed on hover/drag. */}
+                      {hover === null && !pan.dragging && (
+                        <g mask={`url(#${shineMaskId})`}>
+                          <path d={d} fill="none" stroke={s.color} strokeWidth="7" strokeLinejoin="round" strokeLinecap="round" opacity="0.55" filter={`url(#${shineGlowId})`} />
+                          <path d={d} fill="none" stroke="#FFFFFF" strokeWidth="2" strokeLinejoin="round" strokeLinecap="round" opacity="0.9" vectorEffect="non-scaling-stroke" />
+                        </g>
+                      )}
+                    </g>
+                  );
+                })
+              )}
             </g>
             {hover && (
               <line
@@ -525,7 +556,9 @@ export default function GroupChart({
                 style={
                   hover
                     ? { top: yFor(hover.values[i]), left: `${hoverXpct}%`, right: "auto", background: s.color }
-                    : { top: yFor(lastValues[i]), background: s.color }
+                    : isSweep
+                      ? { top: yFor(lastValues[i]), left: `${tipFrac * 100}%`, right: "auto", background: s.color }
+                      : { top: yFor(lastValues[i]), background: s.color }
                 }
                 aria-hidden
               />
