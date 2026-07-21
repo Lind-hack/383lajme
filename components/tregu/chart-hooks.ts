@@ -54,49 +54,53 @@ export function useDrawReveal(durationMs: number, reduced: boolean): boolean {
   return drawn;
 }
 
-/** Persisted vertical-fit band. Create one per chart with `useRef`. */
-export type FitBand = { lo: number; hi: number } | null;
+/** Persisted vertical-fit band, tagged with the view it was frozen for. */
+export type FitBand = { key: string; lo: number; hi: number } | null;
 
 /**
- * Smoothly eases the plot's vertical fit range so the axis never snaps.
+ * Freezes the plot's vertical fit range for the lifetime of a view.
  *
- * The charts recompute a target [lo, hi] every frame from the committed
- * per-second values. Applying that target directly makes the whole curve —
- * including frozen history — jump the instant a new second pushes a new
- * high/low into view (the "stutter" on a 55%→60% move where 60 wasn't yet on
- * screen). Instead we hold the rendered band in a ref and:
+ * The charts recompute a target [lo, hi] every frame from the visible window.
+ * Applying it live makes the whole curve — frozen history included — breathe
+ * vertically as the window scrolls and the live value reprices, which reads as
+ * "the drawn lines keep moving". Easing that moving target only chases it; it
+ * never settles. Instead we compute the band ONCE per view and hold it EXACTLY:
  *
- *  - **Deadband:** if the target sits within `DEAD` of the current band, hold —
- *    below ~1px of movement the band never changes, so drawn history is truly
- *    frozen while the live value wobbles inside the existing frame.
- *  - **Ease:** when a genuine new extreme arrives, glide the edge toward it at a
- *    fixed fraction per frame (~350ms settle, no overshoot) — a smooth zoom, not
- *    a snap.
+ *  - **Seed & hold:** on first render, on a timeframe switch, or when the
+ *    underlying data refreshes (all captured by `key`), snap the band to the
+ *    target and keep it. While `key` is unchanged the band never moves, so every
+ *    already-drawn point keeps its exact y — history is truly static.
+ *  - **Grow-only, eased:** the one case the band may change mid-view is when the
+ *    live value pushes a new high/low past the frozen band. Then the edge eases
+ *    outward to bring it in — the single legitimate "a new percentage came into
+ *    view" transition — and only ever grows, never shrinks, so calmer stretches
+ *    can't re-tighten and jitter the curve.
  *
  * Not a hook — takes a caller-owned ref so it can run after an early return.
- * Reduced motion snaps straight to the target.
+ * Reduced motion snaps straight to the (re)seeded target.
  */
-export function easeFitRange(
+export function frozenFitRange(
   ref: { current: FitBand },
+  key: string,
   targetLo: number,
   targetHi: number,
   reduced: boolean,
 ): [number, number] {
-  if (ref.current === null || reduced) {
-    ref.current = { lo: targetLo, hi: targetHi };
-  } else {
-    const DEAD = 0.006; // < ~1px on a 0..1 band — below this, hold the band
-    const FIT_EASE = 0.1; // gentler than the tail so a big rescale spreads over
-    //                       ~600ms of sub-2px steps — a glide, never a snap
-    const cur = ref.current;
-    const dLo = targetLo - cur.lo;
-    const dHi = targetHi - cur.hi;
-    ref.current = {
-      lo: Math.abs(dLo) > DEAD ? cur.lo + dLo * FIT_EASE : cur.lo,
-      hi: Math.abs(dHi) > DEAD ? cur.hi + dHi * FIT_EASE : cur.hi,
-    };
+  const cur = ref.current;
+  if (!cur || cur.key !== key || reduced) {
+    ref.current = { key, lo: targetLo, hi: targetHi };
+    return [targetLo, targetHi];
   }
-  return [ref.current.lo, ref.current.hi];
+  const wantLo = Math.min(cur.lo, targetLo);
+  const wantHi = Math.max(cur.hi, targetHi);
+  if (wantLo < cur.lo - 1e-4 || wantHi > cur.hi + 1e-4) {
+    const GROW = 0.08; // ~450ms eased expansion when a genuine new extreme lands
+    const lo = cur.lo + (wantLo - cur.lo) * GROW;
+    const hi = cur.hi + (wantHi - cur.hi) * GROW;
+    ref.current = { key, lo, hi };
+    return [lo, hi];
+  }
+  return [cur.lo, cur.hi];
 }
 
 /**

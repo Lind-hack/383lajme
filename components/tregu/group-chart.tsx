@@ -2,7 +2,7 @@
 
 import { useId, useMemo, useRef, useState } from "react";
 import { makeSampler, smoothPath } from "@/lib/tregu-tape";
-import { useReducedMotion, useDrawReveal, useLiveTapeVector, useChartPan, useLiveClock, easeFitRange, type FitBand } from "./chart-hooks";
+import { useReducedMotion, useDrawReveal, useLiveTapeVector, useChartPan, useLiveClock, frozenFitRange, type FitBand } from "./chart-hooks";
 
 // Multi-outcome event chart — the Polymarket-style view for grouped events.
 //
@@ -221,7 +221,13 @@ export default function GroupChart({
     );
   }
 
-  const rightT = tapeNow - (isAll ? 0 : pan.panMs);
+  // Quantize the right edge to whole seconds: within a second every committed
+  // sample maps to a fixed time -> fixed x/y, so the drawn stack is pixel-frozen
+  // and only advances one grid step (sub-pixel on all but the 1s window) when a
+  // new second commits. The segment from the last committed second to this edge is
+  // the live line being drawn; its tip uses the gliding `lives` value.
+  const edge = Math.ceil(tapeNow / 1000) * 1000;
+  const rightT = edge - (isAll ? 0 : pan.panMs);
   const leftT = isAll ? data.tMinAll : rightT - windowMs;
   const spanMs = Math.max(1, rightT - leftT);
   const n = series.length;
@@ -273,10 +279,11 @@ export default function GroupChart({
     tLo = Math.max(0, mid - 0.06);
     tHi = Math.min(1, tLo + 0.12);
   }
-  // Ease the band toward that target so a new high/low glides in instead of the
-  // whole stack (frozen history included) snapping. Deadband holds it rock-still
-  // while the live values wobble inside the existing frame.
-  const [lo, hi] = easeFitRange(fitRef, tLo, tHi, reduced);
+  // Freeze the band for this view so the drawn stack never re-scales frame to
+  // frame; it only grows (eased) when a live value pushes a genuine new high/low
+  // into view. Keyed by range+dataKey so it reseeds on a timeframe switch or a
+  // data refresh, and holds rock-still otherwise.
+  const [lo, hi] = frozenFitRange(fitRef, `${range}|${data.dataKey}`, tLo, tHi, reduced);
 
   const isLiveEdge = isAll || pan.panMs < 1500;
   const hover = hoverI;
