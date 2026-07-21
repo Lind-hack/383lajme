@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 // Shared client-side motion helpers for the tregu charts.
 //
@@ -121,6 +121,306 @@ export function useLiveTail(
   }, [enabled, window]);
 
   return tail;
+}
+
+// How much per-second history the live tape seeds on mount, and its hard cap.
+// SEED covers the widest "detail" timeframe at full per-second fidelity; older
+// than the tape, the deterministic sampler fills in (invisible at that zoom).
+const TAPE_SEED_S = 2700; // 45 min of per-second points
+const TAPE_CAP_S = 3600; // 60 min ceiling
+
+/**
+ * The single source of truth for a live single-value chart. Seeds a persistent
+ * per-second tape from the deterministic `sampler` (so it's continuous with the
+ * older history the sampler also draws), then appends one eased point per second
+ * with the newest value gliding toward `target` every frame. Returns a frame
+ * clock (`now`, drives re-render) and the tape by ref (read during render). The
+ * tape is append-only and capped — history never rewrites itself, which is what
+ * removes the historical→live discontinuity of the old two-zone model.
+ *
+ * `dataKey` reseeds the tape when the underlying market/data changes; `enabled`
+ * is false under reduced motion (the seeded tape still renders, just frozen).
+ */
+export function useLiveTape(
+  sampler: (t: number) => number,
+  dataKey: string,
+  target: number,
+  enabled: boolean
+): { now: number; tape: { t: number; p: number }[] } {
+  const [now, setNow] = useState(() => Date.now());
+  const tapeRef = useRef<{ t: number; p: number }[]>([]);
+  const curRef = useRef(target);
+  const goalRef = useRef(target);
+  const lastStepRef = useRef(0);
+  const targetRef = useRef(target);
+  targetRef.current = target;
+  const samplerRef = useRef(sampler);
+  samplerRef.current = sampler;
+
+  // Seed the tape from the deterministic sampler so its left edge joins the
+  // older history seamlessly; the final point is the true current value.
+  useEffect(() => {
+    const t0 = Date.now();
+    const seed: { t: number; p: number }[] = [];
+    for (let s = TAPE_SEED_S; s >= 0; s--) {
+      const t = t0 - s * 1000;
+      seed.push({ t, p: s === 0 ? targetRef.current : samplerRef.current(t) });
+    }
+    tapeRef.current = seed;
+    curRef.current = targetRef.current;
+    goalRef.current = targetRef.current;
+    lastStepRef.current = t0;
+    setNow(t0);
+  }, [dataKey]);
+
+  useEffect(() => {
+    if (!enabled) {
+      setNow(Date.now());
+      return;
+    }
+    const id = setInterval(() => {
+      const t = Date.now();
+      curRef.current += (goalRef.current - curRef.current) * EASE;
+      if (t - lastStepRef.current >= 1000) {
+        lastStepRef.current = t;
+        const drift = (targetRef.current - goalRef.current) * 0.5;
+        const noise = (Math.random() - 0.5) * 0.02;
+        goalRef.current = clamp01(goalRef.current + drift + noise);
+        const tape = tapeRef.current;
+        tape.push({ t, p: curRef.current });
+        if (tape.length > TAPE_CAP_S) tape.splice(0, tape.length - TAPE_CAP_S);
+      }
+      setNow(t);
+    }, FRAME_MS);
+    return () => clearInterval(id);
+  }, [enabled]);
+
+  return { now, tape: tapeRef.current };
+}
+
+/**
+ * Multi-outcome twin of `useLiveTape`. Seeds one per-second tape per outcome
+ * from each outcome's deterministic sampler, appends eased+renormalized vectors
+ * so displayed odds always sum to ~100%, and drifts back toward the real
+ * `targets`. Returns a frame clock and the tapes by ref (parallel to `samplers`).
+ */
+export function useLiveTapeVector(
+  samplers: ((t: number) => number)[],
+  dataKey: string,
+  targets: number[],
+  enabled: boolean
+): { now: number; tapes: { t: number; p: number }[][] } {
+  const [now, setNow] = useState(() => Date.now());
+  const tapesRef = useRef<{ t: number; p: number }[][]>([]);
+  const curRef = useRef<number[]>(targets);
+  const goalRef = useRef<number[]>(targets);
+  const lastStepRef = useRef(0);
+  const targetsRef = useRef(targets);
+  targetsRef.current = targets;
+  const samplersRef = useRef(samplers);
+  samplersRef.current = samplers;
+
+  useEffect(() => {
+    const t0 = Date.now();
+    const n = samplersRef.current.length;
+    const tapes: { t: number; p: number }[][] = Array.from({ length: n }, () => []);
+    for (let s = TAPE_SEED_S; s >= 0; s--) {
+      const t = t0 - s * 1000;
+      // Sample every outcome at t, then normalize so the stack sums to 1.
+      const raw =
+        s === 0
+          ? targetsRef.current.slice()
+          : samplersRef.current.map((fn) => fn(t));
+      const sum = raw.reduce((a, b) => a + b, 0) || 1;
+      raw.forEach((v, i) => tapes[i].push({ t, p: v / sum }));
+    }
+    tapesRef.current = tapes;
+    curRef.current = [...targetsRef.current];
+    goalRef.current = [...targetsRef.current];
+    lastStepRef.current = t0;
+    setNow(t0);
+  }, [dataKey]);
+
+  useEffect(() => {
+    if (!enabled) {
+      setNow(Date.now());
+      return;
+    }
+    const id = setInterval(() => {
+      const t = Date.now();
+      curRef.current = curRef.current.map(
+        (v, i) => v + ((goalRef.current[i] ?? v) - v) * EASE
+      );
+      if (t - lastStepRef.current >= 1000) {
+        lastStepRef.current = t;
+        const tg = targetsRef.current;
+        const next = goalRef.current.map((v, i) =>
+          clamp01(v + ((tg[i] ?? v) - v) * 0.5 + (Math.random() - 0.5) * 0.016)
+        );
+        const sum = next.reduce((s, v) => s + v, 0) || 1;
+        goalRef.current = next.map((v) => v / sum);
+        const csum = curRef.current.reduce((a, b) => a + b, 0) || 1;
+        const tapes = tapesRef.current;
+        curRef.current.forEach((v, i) => {
+          tapes[i]?.push({ t, p: v / csum });
+          if (tapes[i] && tapes[i].length > TAPE_CAP_S) tapes[i].splice(0, tapes[i].length - TAPE_CAP_S);
+        });
+      }
+      setNow(t);
+    }, FRAME_MS);
+    return () => clearInterval(id);
+  }, [enabled]);
+
+  return { now, tapes: tapesRef.current };
+}
+
+/**
+ * Drag/swipe-to-pan for a scrolling time window. `panMs` is how far back from
+ * the live edge the window's right edge sits (0 = live). Handles mouse drag and
+ * touch (horizontal), clamps to [0, maxPanMs], damps past the boundary, and
+ * carries flick momentum with an eased decay. `plotRef` supplies the pixel width
+ * for px→ms conversion. Returns the current pan and pointer handlers plus a
+ * `dragging` flag so the chart can suppress the hover crosshair mid-drag.
+ */
+export function useChartPan(
+  plotRef: React.RefObject<HTMLDivElement | null>,
+  maxPanMs: number,
+  windowMs: number,
+  enabled: boolean
+): {
+  panMs: number;
+  dragging: boolean;
+  onPointerDown: (e: React.PointerEvent) => void;
+  onPointerMove: (e: React.PointerEvent) => boolean; // true = consumed as pan
+  onPointerUp: (e: React.PointerEvent) => void;
+  resetPan: () => void;
+} {
+  const [panMs, setPanMs] = useState(0);
+  const [dragging, setDragging] = useState(false);
+  const panRef = useRef(0);
+  panRef.current = panMs;
+  const maxRef = useRef(maxPanMs);
+  maxRef.current = maxPanMs;
+  const winRef = useRef(windowMs);
+  winRef.current = windowMs;
+  const drag = useRef<{
+    id: number;
+    startX: number;
+    startPan: number;
+    moved: boolean;
+    lastX: number;
+    lastT: number;
+    vel: number; // ms-of-window per ms-of-time
+  } | null>(null);
+  const raf = useRef(0);
+
+  // Keep pan inside bounds when the timeframe (and thus maxPan) changes.
+  useEffect(() => {
+    setPanMs((p) => Math.max(0, Math.min(p, maxPanMs)));
+  }, [maxPanMs]);
+
+  useEffect(() => () => cancelAnimationFrame(raf.current), []);
+
+  const widthPx = () => plotRef.current?.getBoundingClientRect().width || 1;
+  const msPerPx = () => winRef.current / widthPx();
+  const clampPan = (v: number) => Math.max(0, Math.min(v, maxRef.current));
+
+  const resetPan = useCallback(() => {
+    cancelAnimationFrame(raf.current);
+    setPanMs(0);
+  }, []);
+
+  const onPointerDown = useCallback(
+    (e: React.PointerEvent) => {
+      if (!enabled || maxRef.current <= 0) return;
+      cancelAnimationFrame(raf.current);
+      drag.current = {
+        id: e.pointerId,
+        startX: e.clientX,
+        startPan: panRef.current,
+        moved: false,
+        lastX: e.clientX,
+        lastT: performance.now(),
+        vel: 0,
+      };
+    },
+    [enabled]
+  );
+
+  const onPointerMove = useCallback((e: React.PointerEvent): boolean => {
+    const d = drag.current;
+    if (!d || e.pointerId !== d.id) return false;
+    const dx = e.clientX - d.startX;
+    if (!d.moved && Math.abs(dx) < 4) return false;
+    if (!d.moved) {
+      d.moved = true;
+      setDragging(true);
+      try {
+        (e.currentTarget as HTMLElement).setPointerCapture(d.id);
+      } catch {
+        /* capture is best-effort */
+      }
+    }
+    // Drag right → reveal older data → larger panMs.
+    let next = d.startPan + dx * msPerPx();
+    // Damp past the edges instead of a hard stop.
+    if (next < 0) next *= 0.35;
+    else if (next > maxRef.current) next = maxRef.current + (next - maxRef.current) * 0.35;
+    const tNow = performance.now();
+    const dt = Math.max(1, tNow - d.lastT);
+    d.vel = ((e.clientX - d.lastX) * msPerPx()) / dt;
+    d.lastX = e.clientX;
+    d.lastT = tNow;
+    setPanMs(next);
+    return true;
+  }, []);
+
+  const onPointerUp = useCallback((e: React.PointerEvent) => {
+    const d = drag.current;
+    drag.current = null;
+    if (!d) return;
+    try {
+      (e.currentTarget as HTMLElement).releasePointerCapture(d.id);
+    } catch {
+      /* noop */
+    }
+    if (!d.moved) {
+      setDragging(false);
+      return;
+    }
+    // Snap any over-drag back inside bounds, then coast on flick momentum.
+    let v = d.vel; // window-ms per real-ms
+    const step = () => {
+      const p = panRef.current;
+      const clamped = clampPan(p);
+      if (clamped !== p) {
+        // Outside bounds → spring back.
+        const nv = p + (clamped - p) * 0.2;
+        setPanMs(Math.abs(nv - clamped) < 60 ? clamped : nv);
+        if (Math.abs(nv - clamped) < 60) {
+          setDragging(false);
+          return;
+        }
+        raf.current = requestAnimationFrame(step);
+        return;
+      }
+      v *= 0.92; // decay
+      const nv = clampPan(p + v * 16);
+      setPanMs(nv);
+      if (Math.abs(v) < 0.02 || nv === 0 || nv === maxRef.current) {
+        setDragging(false);
+        return;
+      }
+      raf.current = requestAnimationFrame(step);
+    };
+    if (Math.abs(v) > 0.05 || clampPan(panRef.current) !== panRef.current) {
+      raf.current = requestAnimationFrame(step);
+    } else {
+      setDragging(false);
+    }
+  }, []);
+
+  return { panMs, dragging, onPointerDown, onPointerMove, onPointerUp, resetPan };
 }
 
 /**

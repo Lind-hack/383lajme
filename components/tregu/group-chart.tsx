@@ -1,20 +1,19 @@
 "use client";
 
 import { useId, useMemo, useRef, useState } from "react";
-import { dramatizeSeries, smoothPath } from "@/lib/tregu-tape";
-import { useReducedMotion, useDrawReveal, useLiveVector, useLiveClock } from "./chart-hooks";
+import { makeSampler, smoothPath } from "@/lib/tregu-tape";
+import { useReducedMotion, useDrawReveal, useLiveTapeVector, useChartPan, useLiveClock } from "./chart-hooks";
 
 // Multi-outcome event chart — the Polymarket-style view for grouped events.
-// Time-aware: every outcome's line is drawn from real timestamped points
-// (5-minute cron snapshots + live price), values are normalized per timestamp
-// so displayed odds always sum to 100%, and hovering snaps to the nearest
-// recorded point with a live date/time tooltip reading every line.
 //
-// The rightmost ~16% is a live band: a per-second eased vector flows there
-// toward the next real refresh (2 min live sports · 5 min general), so every
-// line visibly breathes each second on any time range. Lines are smoothed into
-// rounded curves (no sharp rectangle corners), and a countdown pill shows the
-// real clock and time to the next repricing.
+// Like MarketChart, every outcome is ONE continuous per-second series: a live
+// tape (useLiveTapeVector) covers the recent past at per-second fidelity and a
+// deterministic per-outcome sampler (makeSampler) fills everything older, so
+// history and the live edge meet with no seam and no "jump". Each timeframe is a
+// *window* (zoom) over those series; the right edge is always `now`, updating
+// ~30fps. Values are renormalized per sampled column so displayed odds always
+// sum to ~100%. Drag/swipe left pans back through the full history; a "back to
+// live" chip snaps to the edge.
 //
 // SVG carries only geometry (preserveAspectRatio="none" stretches text), so all
 // labels are HTML positioned over the plot.
@@ -27,10 +26,17 @@ export interface EventSeries {
   prob: number;
 }
 
+// Timeframe = window width (zoom) over ONE continuous per-second series — the
+// same set MarketChart uses so both charts read identically.
 const RANGES = [
-  { key: "1D", ms: 86_400_000 },
-  { key: "1J", ms: 7 * 86_400_000 },
-  { key: "1M", ms: 30 * 86_400_000 },
+  { key: "1s", ms: 60_000 },
+  { key: "1m", ms: 600_000 },
+  { key: "5m", ms: 2_700_000 },
+  { key: "15m", ms: 10_800_000 },
+  { key: "1h", ms: 43_200_000 },
+  { key: "4h", ms: 172_800_000 },
+  { key: "1d", ms: 1_209_600_000 },
+  { key: "1w", ms: 7_257_600_000 },
   { key: "Gjithë", ms: Infinity },
 ] as const;
 
@@ -43,41 +49,47 @@ const PLOT_TOP = 10;
 // keyframe translates it by W + SHINE_W, so the two must stay in sync
 // (`--tg-shine-travel` in globals.css).
 const SHINE_W = 180;
-// Fraction of the plot width reserved for the live flow band at the right edge.
-const LIVE_FRAC = 0.16;
+
+const N_SAMPLES = 220; // screen-space resolution of the windowed lines
 
 const mmss = (ms: number) => {
   const s = Math.max(0, Math.ceil(ms / 1000));
   return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`;
 };
 
-function seriesOf(s: EventSeries): { t: number; p: number }[] {
-  if (s.series && s.series.length >= 2) {
-    // A writer can record a state and odds snapshot in the same millisecond.
-    // Keep only the latest value at that timestamp so paths never form an artificial vertical rectangle.
-    return [...new Map(s.series.map((point) => [point.t, point])).values()];
-  }
-  const now = Date.now();
-  return [
-    { t: now - 86_400_000, p: s.prob },
-    { t: now, p: s.prob },
-  ];
+// Real anchors for one outcome (dedup same-ms writes so a state+odds snapshot
+// in the same millisecond never forms an artificial vertical rectangle).
+function anchorsOf(s: EventSeries, now: number): { t: number; p: number }[] {
+  const base =
+    s.series && s.series.length >= 1
+      ? [...new Map(s.series.map((point) => [point.t, point])).values()].sort((a, b) => a.t - b.t)
+      : [{ t: now - 86_400_000, p: s.prob }];
+  return [...base, { t: now, p: s.prob }];
 }
 
-// Last known value at time t (step/forward-fill — a book holds its price
-// between snapshots).
-function valueAt(pts: { t: number; p: number }[], t: number): number {
-  let v = pts[0].p;
-  for (const pt of pts) {
-    if (pt.t > t) break;
-    v = pt.p;
+// Continuous per-outcome price read: live tape where it covers `t`, deterministic
+// sampler for anything older (the two agree at the tape's seeded left edge).
+function priceOf(tape: { t: number; p: number }[], sampler: (t: number) => number, t: number): number {
+  const n = tape.length;
+  if (n === 0) return sampler(t);
+  if (t <= tape[0].t) return sampler(t);
+  if (t >= tape[n - 1].t) return tape[n - 1].p;
+  let lo = 0;
+  let hi = n - 1;
+  while (lo < hi - 1) {
+    const mid = (lo + hi) >> 1;
+    if (tape[mid].t <= t) lo = mid;
+    else hi = mid;
   }
-  return v;
+  const a = tape[lo];
+  const b = tape[hi];
+  const f = b.t > a.t ? (t - a.t) / (b.t - a.t) : 0;
+  return a.p + (b.p - a.p) * f;
 }
 
 // Push-apart with bounds: enforce 26px spacing downward, then walk the stack
-// back inside [minY, maxY] — without the clamp a tall stack (an F1 grid's
-// chips) marches straight past the plot's bottom edge into the next section.
+// back inside [minY, maxY] — without the clamp a tall stack marches straight
+// past the plot's bottom edge into the next section.
 function spreadWithin(items: { y: number }[], minY: number, maxY: number) {
   for (let i = 1; i < items.length; i++) {
     if (items[i].y - items[i - 1].y < 26) items[i].y = items[i - 1].y + 26;
@@ -116,8 +128,8 @@ export default function GroupChart({
   height?: number;
   cadenceMs?: number;
 }) {
-  const [range, setRange] = useState<RangeKey>("1D");
-  const [hoverI, setHoverI] = useState<{ x: number; t: number; values: number[]; live: boolean; gi: number | null } | null>(null);
+  const [range, setRange] = useState<RangeKey>("1d");
+  const [hoverI, setHoverI] = useState<{ x: number; t: number; values: number[]; live: boolean; col: number } | null>(null);
   const plotRef = useRef<HTMLDivElement>(null);
   // Defs are document-scoped; two charts on one page would collide on a
   // hardcoded id. React's ids carry punctuation url(#…) can't resolve — strip it.
@@ -133,79 +145,36 @@ export default function GroupChart({
 
   const H = height;
   const PLOT_BOTTOM = H - AXIS_H;
+  const yFor = (p: number) => (lo === hi ? PLOT_TOP : PLOT_TOP + (PLOT_BOTTOM - PLOT_TOP) * (1 - (p - lo) / (hi - lo)));
 
-  // Union time grid across every outcome, normalized per grid point so the
-  // lines mirror each other: a spike in one outcome dips its rivals.
-  const { grid, tMin, tMax, lo, hi } = useMemo(() => {
-    const now = Date.now();
-    const tapes = series.map(seriesOf);
-    const span = RANGES.find((r) => r.key === range)!.ms;
-    const cutoff = span === Infinity ? -Infinity : now - span;
-
-    const stamps = new Set<number>();
-    for (const tape of tapes) {
-      for (const pt of tape) if (pt.t >= cutoff) stamps.add(pt.t);
+  // One deterministic sampler per outcome + the full-history floor. Rebuilt only
+  // on structural data change (NOT every live tick — that flows through targets).
+  const data = useMemo(() => {
+    const now0 = Date.now();
+    const anchors = series.map((s, i) => anchorsOf(s, now0));
+    const samplers = anchors.map((a, i) => makeSampler(a, `${series[i]?.label ?? "o"}-${i}`));
+    let tMinAll = now0;
+    let realCount = 0;
+    for (const a of anchors) {
+      if (a.length > 0 && a[0].t < tMinAll) tMinAll = a[0].t;
+      realCount += a.length;
     }
-    stamps.add(now);
-    // Anchor the left edge so lines enter the frame at their true level.
-    if (cutoff !== -Infinity) stamps.add(cutoff);
-    const times = [...stamps].sort((a, b) => a - b);
+    const dataKey = `${series.map((s) => s.label).join("|")}|${realCount}|${Math.round(tMinAll / 60_000)}`;
+    return { samplers, tMinAll, realCount, dataKey };
+  }, [series]);
 
-    const grid = times.map((t) => {
-      const raw = tapes.map((tape) => valueAt(tape, t));
-      const sum = raw.reduce((s, v) => s + v, 0);
-      return { t, values: raw.map((v) => (sum > 0 ? v / sum : 1 / raw.length)) };
-    });
+  const targets = series.map((s) => s.prob);
+  const { now: tapeNow, tapes } = useLiveTapeVector(data.samplers, data.dataKey, targets, !reduced);
 
-    const tMin = grid.length > 0 ? grid[0].t : now - 86_400_000;
-    const tMaxRaw = grid.length > 0 ? grid[grid.length - 1].t : now;
-    const tMax = tMaxRaw > tMin ? tMaxRaw : tMin + 1;
+  // Window geometry — identical model to MarketChart.
+  const rangeMs = RANGES.find((r) => r.key === range)!.ms;
+  const isAll = !Number.isFinite(rangeMs);
+  const fullSpan = Math.max(tapeNow - data.tMinAll, 60_000);
+  const windowMs = isAll ? fullSpan : Math.min(rangeMs, fullSpan);
+  const maxPanMs = isAll ? 0 : Math.max(0, fullSpan - windowMs);
+  const pan = useChartPan(plotRef, maxPanMs, windowMs, !reduced);
 
-    let lo = 1;
-    let hi = 0;
-    for (const g of grid) for (const v of g.values) {
-      if (v < lo) lo = v;
-      if (v > hi) hi = v;
-    }
-    // Tight vertical fit — small padding so real moves fill the plot and read
-    // as sharp swings instead of a flat band.
-    lo = Math.max(0, lo - 0.02);
-    hi = Math.min(1, hi + 0.02);
-    if (hi - lo < 0.12) {
-      const mid = (hi + lo) / 2;
-      lo = Math.max(0, mid - 0.06);
-      hi = Math.min(1, lo + 0.12);
-    }
-    return { grid, tMin, tMax, lo, hi };
-  }, [series, range]);
-
-  // Per-second eased vector buffer. Real book prices refresh every 2–5 min; the
-  // walk drifts each outcome toward its true value and renormalizes so the tail
-  // breathes every second (never lying about where the odds sit). Rendered in
-  // the right-edge live band, mapped by index so the flow stays visible on any
-  // time range.
-  const liveVec = useLiveVector(series.map((s) => s.prob), !reduced);
-  const liveActive = !reduced && !!liveVec && liveVec.length > 1 && (liveVec[0]?.length ?? 0) === series.length;
-  const REAL_W = W * (1 - (liveActive ? LIVE_FRAC : 0));
-
-  const xForReal = (t: number) => {
-    const denom = tMax - tMin || 1;
-    const f = Math.max(0, Math.min(1, (t - tMin) / denom));
-    return f * REAL_W;
-  };
-  const tailX = (idx: number) => REAL_W + ((idx + 1) / ((liveVec?.length ?? 2) - 1)) * (W - REAL_W);
-  const yFor = (p: number) => PLOT_TOP + (PLOT_BOTTOM - PLOT_TOP) * (1 - (p - lo) / (hi - lo));
-
-  // Project real rows for one outcome: dramatize (jagged in-between texture,
-  // real anchors exact) then map to screen space in the real zone.
-  const projReal = (rows: { t: number; p: number }[], key: string) =>
-    dramatizeSeries(rows, key).map((g) => ({ x: xForReal(g.t), y: yFor(g.p) }));
-  const tailXYFor = (si: number) =>
-    liveActive && liveVec
-      ? liveVec.slice(1).map((row, idx) => ({ x: tailX(idx), y: yFor(row[si]) }))
-      : [];
-
-  if (grid.length < 2) {
+  if (series.length === 0 || data.realCount < 2 * series.length) {
     return (
       <div style={{ height: H, display: "flex", alignItems: "center", justifyContent: "center", color: "#6B6B6B", fontSize: 13 }}>
         Ende pa mjaftueshëm të dhëna historike
@@ -213,42 +182,73 @@ export default function GroupChart({
     );
   }
 
-  // Unified hover stops (real points + live tail) for nearest-by-x snapping.
-  const hoverStops: { x: number; t: number; values: number[]; live: boolean; gi: number | null }[] = [
-    ...grid.map((g, i) => ({ x: xForReal(g.t), t: g.t, values: g.values, live: false, gi: i })),
-    ...(liveActive && liveVec
-      ? liveVec.slice(1).map((row, idx) => ({ x: tailX(idx), t: clockNow, values: row, live: true, gi: null as number | null }))
-      : []),
-  ];
+  const rightT = tapeNow - (isAll ? 0 : pan.panMs);
+  const leftT = isAll ? data.tMinAll : rightT - windowMs;
+  const spanMs = Math.max(1, rightT - leftT);
+  const n = series.length;
+
+  // Sample the window: at each column read every outcome's continuous price,
+  // renormalize so the stack sums to 1, and track min/max for the vertical fit.
+  const cols: { t: number; x: number; vals: number[] }[] = [];
+  let plo = 1;
+  let phi = 0;
+  for (let i = 0; i <= N_SAMPLES; i++) {
+    const t = leftT + (i / N_SAMPLES) * spanMs;
+    const raw = new Array<number>(n);
+    let sum = 0;
+    for (let s = 0; s < n; s++) {
+      const v = priceOf(tapes[s] ?? [], data.samplers[s], t);
+      raw[s] = v;
+      sum += v;
+    }
+    const vals = sum > 0 ? raw.map((v) => v / sum) : raw.map(() => 1 / n);
+    for (const v of vals) {
+      if (v < plo) plo = v;
+      if (v > phi) phi = v;
+    }
+    cols.push({ t, x: (i / N_SAMPLES) * W, vals });
+  }
+
+  // Tight vertical fit — small padding so real moves fill the plot.
+  let lo = Math.max(0, plo - 0.02);
+  let hi = Math.min(1, phi + 0.02);
+  if (hi - lo < 0.12) {
+    const mid = (hi + lo) / 2;
+    lo = Math.max(0, mid - 0.06);
+    hi = Math.min(1, lo + 0.12);
+  }
+
+  const isLiveEdge = isAll || pan.panMs < 1500;
+  const hover = hoverI;
+  const lastValues = cols[cols.length - 1].vals;
+  const ticks = ticksFor(lo, hi);
+
+  // Build one smoothed path for a slice of columns for outcome si.
+  const pathFor = (si: number, from: number, to: number) =>
+    smoothPath(cols.slice(from, to).map((c) => ({ x: c.x, y: yFor(c.vals[si]) })));
 
   const onMove = (clientX: number) => {
     const rect = plotRef.current?.getBoundingClientRect();
     if (!rect || rect.width === 0) return;
     const xpx = Math.max(0, Math.min(W, ((clientX - rect.left) / rect.width) * W));
-    let best = hoverStops[0];
-    for (const stop of hoverStops) if (Math.abs(stop.x - xpx) < Math.abs(best.x - xpx)) best = stop;
-    setHoverI(best);
+    let bi = 0;
+    for (let i = 0; i < cols.length; i++) if (Math.abs(cols[i].x - xpx) < Math.abs(cols[bi].x - xpx)) bi = i;
+    const c = cols[bi];
+    const live = rightT - c.t < 2000 && isLiveEdge;
+    setHoverI({ x: c.x, t: c.t, values: c.vals, live, col: bi });
   };
 
-  const hover = hoverI;
-  const lastValues = liveActive && liveVec ? liveVec[liveVec.length - 1] : grid[grid.length - 1].values;
-  const ticks = ticksFor(lo, hi);
-
-  const realFrac = 1 - (liveActive ? LIVE_FRAC : 0);
-  const spanMs = tMax - tMin;
-  const axisTicks = [0.08, 0.4, 0.72].map((f) => {
-    const d = new Date(tMin + f * spanMs);
-    const label =
-      spanMs <= 2 * 86_400_000
-        ? d.toLocaleTimeString("sq-AL", { hour: "2-digit", minute: "2-digit" })
-        : d.toLocaleDateString("sq-AL", { day: "numeric", month: "short" });
-    return { f: f * realFrac, label };
-  });
+  const fmtAxis = (t: number) => {
+    const d = new Date(t);
+    if (spanMs <= 180_000) return d.toLocaleTimeString("sq-AL", { minute: "2-digit", second: "2-digit" });
+    if (spanMs <= 2 * 86_400_000) return d.toLocaleTimeString("sq-AL", { hour: "2-digit", minute: "2-digit" });
+    return d.toLocaleDateString("sq-AL", { day: "numeric", month: "short" });
+  };
+  const axisTicks = [0.08, 0.5, 0.92].map((f) => ({ f, label: fmtAxis(leftT + f * spanMs) }));
 
   // Chips are pushed apart 26px, so only so many fit the plot height.
   const maxChips = Math.max(3, Math.floor((PLOT_BOTTOM - PLOT_TOP) / 26));
 
-  // Endpoint chips: live normalized odds at each line's end, pushed apart.
   const chips = series
     .map((s, i) => ({ s, v: lastValues[i], y: yFor(lastValues[i]) }))
     .sort((a, b) => b.v - a.v)
@@ -256,7 +256,6 @@ export default function GroupChart({
     .sort((a, b) => a.y - b.y);
   spreadWithin(chips, PLOT_TOP + 2, PLOT_BOTTOM - 12);
 
-  // Labels that ride the crosshair.
   const hoverLabels =
     hover === null
       ? []
@@ -268,10 +267,11 @@ export default function GroupChart({
   spreadWithin(hoverLabels, PLOT_TOP + 2, PLOT_BOTTOM - 12);
   const hoverXpct = hover === null ? 0 : (hover.x / W) * 100;
   const hoverFlip = hoverXpct > 64;
+  const showFuture = hover !== null && !hover.live && hover.col < cols.length - 1;
 
   return (
     <div>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, marginBottom: 10 }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 10, marginBottom: 10, flexWrap: "wrap" }}>
         <div className="tregu-live-pill" aria-live="off">
           <span className="tregu-live-dot" aria-hidden />
           <span className="tregu-live-clock">
@@ -280,7 +280,7 @@ export default function GroupChart({
           <span className="tregu-live-sep" aria-hidden>·</span>
           <span className="tregu-live-refresh">Rifreskim {mmss(nextInMs)}</span>
         </div>
-        <div className="tregu-sort" role="tablist" aria-label="Periudha e grafikut">
+        <div className="tregu-sort tregu-sort--scroll" role="tablist" aria-label="Periudha e grafikut">
           {RANGES.map((r) => (
             <button key={r.key} aria-pressed={range === r.key} onClick={() => setRange(r.key)} type="button">
               {r.key}
@@ -293,9 +293,21 @@ export default function GroupChart({
         <div
           className="tregu-gchart-plot"
           ref={plotRef}
-          style={{ touchAction: "pan-y" }}
-          onPointerMove={(e) => onMove(e.clientX)}
-          onPointerLeave={() => setHoverI(null)}
+          style={{ touchAction: "pan-y", cursor: pan.dragging ? "grabbing" : maxPanMs > 0 && !reduced ? "grab" : "default" }}
+          onPointerDown={pan.onPointerDown}
+          onPointerMove={(e) => {
+            const consumed = pan.onPointerMove(e);
+            if (consumed) {
+              if (hover) setHoverI(null);
+            } else if (e.pointerType === "mouse" && !pan.dragging) {
+              onMove(e.clientX);
+            }
+          }}
+          onPointerUp={pan.onPointerUp}
+          onPointerCancel={pan.onPointerUp}
+          onPointerLeave={() => {
+            if (!pan.dragging) setHoverI(null);
+          }}
         >
           <svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" aria-hidden>
             <defs>
@@ -332,51 +344,26 @@ export default function GroupChart({
               />
             ))}
 
-            {liveActive && (
-              <line
-                x1={REAL_W}
-                x2={REAL_W}
-                y1={PLOT_TOP}
-                y2={PLOT_BOTTOM}
-                stroke="var(--tg-chart-grid, rgba(17,17,17,0.12))"
-                strokeWidth="1"
-                strokeDasharray="3 4"
-                vectorEffect="non-scaling-stroke"
-              />
-            )}
-
             <g clipPath={`url(#${revealId})`}>
-              {/* On hover the minutes after the crosshair go gray — only the
-                  played part of the game keeps its colour (Polymarket-style).
-                  Only applies when hovering a real point; live has no future. */}
-              {hover !== null &&
-                !hover.live &&
-                hover.gi !== null &&
-                hover.gi < grid.length - 1 &&
-                series.map((s, si) => {
-                  const d = smoothPath(projReal(grid.slice(hover.gi as number).map((g) => ({ t: g.t, p: g.values[si] })), `${s.label}-f`));
-                  return (
-                    <path
-                      key={`f-${s.label}`}
-                      d={d}
-                      fill="none"
-                      stroke="var(--tg-chart-future, rgba(17,17,17,0.16))"
-                      strokeWidth="2"
-                      strokeLinejoin="round"
-                      strokeLinecap="round"
-                      vectorEffect="non-scaling-stroke"
-                    />
-                  );
-                })}
+              {/* On hover the columns after the crosshair go gray — only the
+                  played part keeps its colour (Polymarket-style). Live edge has
+                  no future, so it colours everything. */}
+              {showFuture &&
+                series.map((s, si) => (
+                  <path
+                    key={`f-${s.label}`}
+                    d={pathFor(si, hover!.col, cols.length)}
+                    fill="none"
+                    stroke="var(--tg-chart-future, rgba(17,17,17,0.16))"
+                    strokeWidth="2"
+                    strokeLinejoin="round"
+                    strokeLinecap="round"
+                    vectorEffect="non-scaling-stroke"
+                  />
+                ))}
               {series.map((s, si) => {
-                // Not hovering → colour the full real+live line. Hovering a real
-                // point → freeze the coloured past up to it. Hovering live →
-                // colour everything (there is no future).
-                const coloredXY =
-                  hover === null || hover.live
-                    ? [...projReal(grid.map((g) => ({ t: g.t, p: g.values[si] })), s.label), ...tailXYFor(si)]
-                    : projReal(grid.slice(0, (hover.gi as number) + 1).map((g) => ({ t: g.t, p: g.values[si] })), s.label);
-                const d = smoothPath(coloredXY);
+                const to = showFuture ? hover!.col + 1 : cols.length;
+                const d = pathFor(si, 0, to);
                 return (
                   <g key={s.label}>
                     <path
@@ -389,8 +376,8 @@ export default function GroupChart({
                       vectorEffect="non-scaling-stroke"
                     />
                     {/* The gleam: same geometry, revealed only through the
-                        travelling mask band. Suppressed on hover. */}
-                    {hover === null && (
+                        travelling mask band. Suppressed on hover/drag. */}
+                    {hover === null && !pan.dragging && (
                       <g mask={`url(#${shineMaskId})`}>
                         <path d={d} fill="none" stroke={s.color} strokeWidth="7" strokeLinejoin="round" strokeLinecap="round" opacity="0.55" filter={`url(#${shineGlowId})`} />
                         <path d={d} fill="none" stroke="#FFFFFF" strokeWidth="2" strokeLinejoin="round" strokeLinecap="round" opacity="0.9" vectorEffect="non-scaling-stroke" />
@@ -413,13 +400,13 @@ export default function GroupChart({
             )}
           </svg>
 
-          {/* Live endpoint dots — pulsing while live, sliding to the crosshair
-              point on hover. Held back until the left-to-right wipe passes. */}
+          {/* Live endpoint dots — pulsing while at the live edge, sliding to the
+              crosshair point on hover. Held back until the wipe passes. */}
           {(drawn || hover) &&
             series.map((s, i) => (
               <span
                 key={s.label}
-                className={hover ? "tregu-gchart-dot" : "tregu-gchart-dot tregu-gchart-dot--live"}
+                className={hover ? "tregu-gchart-dot" : isLiveEdge ? "tregu-gchart-dot tregu-gchart-dot--live" : "tregu-gchart-dot"}
                 style={
                   hover
                     ? { top: yFor(hover.values[i]), left: `${hoverXpct}%`, right: "auto", background: s.color }
@@ -429,24 +416,31 @@ export default function GroupChart({
               />
             ))}
 
+          {/* Back-to-live chip — appears when panned into the past. */}
+          {!isAll && pan.panMs > 2000 && (
+            <button type="button" className="tregu-tolive" onClick={pan.resetPan} aria-label="Kthehu te tani">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden>
+                <path d="M13 5l7 7-7 7M20 12H4" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+              Live
+            </button>
+          )}
+
           {/* Time axis — HTML so it never stretches with the SVG. */}
           {axisTicks.map((tick) => (
             <span key={tick.f} className="tregu-axis-label" style={{ left: `${tick.f * 100}%`, bottom: 2, transform: "translateX(-50%)" }}>
               {tick.label}
             </span>
           ))}
-          {liveActive && (
-            <span className="tregu-axis-label tregu-axis-label--live" style={{ left: `${(1 - LIVE_FRAC / 2) * 100}%`, bottom: 2, transform: "translateX(-50%)" }}>
-              tani
-            </span>
-          )}
 
           {/* Timestamp pill riding the top of the crosshair — live wall clock. */}
           {hover && (
             <div className="tregu-gchart-time" style={{ left: `${Math.max(8, Math.min(92, hoverXpct))}%` }}>
               {hover.live
                 ? `Tani · ${new Date(hover.t).toLocaleTimeString("sq-AL", { hour: "2-digit", minute: "2-digit", second: "2-digit" })}`
-                : `${new Date(hover.t).toLocaleDateString("sq-AL", { day: "numeric", month: "short" })} ${new Date(hover.t).toLocaleTimeString("sq-AL", { hour: "2-digit", minute: "2-digit" })}`}
+                : spanMs <= 180_000
+                  ? new Date(hover.t).toLocaleTimeString("sq-AL", { hour: "2-digit", minute: "2-digit", second: "2-digit" })
+                  : `${new Date(hover.t).toLocaleDateString("sq-AL", { day: "numeric", month: "short" })} ${new Date(hover.t).toLocaleTimeString("sq-AL", { hour: "2-digit", minute: "2-digit" })}`}
             </div>
           )}
 
