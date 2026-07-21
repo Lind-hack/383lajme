@@ -80,6 +80,35 @@ export function dramatizeSeries(pts: TapePoint[], key: string): TapePoint[] {
   return out;
 }
 
+/**
+ * Smooth an already-projected polyline into a rounded curve. Takes screen-space
+ * points ({x,y}, x strictly ascending) and returns an SVG path where every
+ * corner is a Catmull-Rom→cubic-Bézier arc instead of a sharp vertex — so a
+ * spiky tape reads as smooth ovaled peaks and dips, never angular rectangles.
+ * Tension ~0.16 hugs the points closely while rounding the joints.
+ */
+export function smoothPath(pts: { x: number; y: number }[], tension = 0.16): string {
+  if (pts.length === 0) return "";
+  if (pts.length < 3) {
+    return pts.map((p, i) => `${i === 0 ? "M" : "L"}${p.x.toFixed(1)} ${p.y.toFixed(1)}`).join(" ");
+  }
+  const d = [`M${pts[0].x.toFixed(1)} ${pts[0].y.toFixed(1)}`];
+  for (let i = 0; i < pts.length - 1; i++) {
+    const p0 = pts[i - 1] ?? pts[i];
+    const p1 = pts[i];
+    const p2 = pts[i + 1];
+    const p3 = pts[i + 2] ?? p2;
+    const c1x = p1.x + (p2.x - p0.x) * tension;
+    const c1y = p1.y + (p2.y - p0.y) * tension;
+    const c2x = p2.x - (p3.x - p1.x) * tension;
+    const c2y = p2.y - (p3.y - p1.y) * tension;
+    d.push(
+      `C${c1x.toFixed(1)} ${c1y.toFixed(1)} ${c2x.toFixed(1)} ${c2y.toFixed(1)} ${p2.x.toFixed(1)} ${p2.y.toFixed(1)}`
+    );
+  }
+  return d.join(" ");
+}
+
 /** Plain sparkline (hub cards, carousel, rail, outcome minis). */
 export function dramatizeSpark(spark: number[] | undefined, key: string): number[] | undefined {
   if (!spark || spark.length < 2) return spark;
