@@ -3,7 +3,7 @@
 import { useId, useMemo, useRef, useState } from "react";
 import { makeSampler, smoothPath } from "@/lib/tregu-tape";
 import { getCategoryColor } from "@/lib/category-colors";
-import { useReducedMotion, useDrawReveal, useLiveTape, useChartPan, useLiveClock } from "./chart-hooks";
+import { useReducedMotion, useDrawReveal, useLiveTape, useChartPan, useLiveClock, easeFitRange, type FitBand } from "./chart-hooks";
 
 // Interactive single-market price chart — dependency-free SVG.
 //
@@ -132,6 +132,7 @@ export default function MarketChart({
   // Hover-intent bridge: leaving a marker schedules a close, but entering the
   // popup cancels it, so the popup stays open while the cursor is over it.
   const closeRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const fitRef = useRef<FitBand>(null);
   const reduced = useReducedMotion();
   const drawn = useDrawReveal(1350, reduced);
   const { now: clockNow, nextInMs } = useLiveClock(cadenceMs);
@@ -300,13 +301,17 @@ export default function MarketChart({
 
   // Fit the plot to the visible window so real moves fill the frame; 12pt floor
   // so a dead-flat stretch still gets a readable band instead of a pinned line.
-  let lo = Math.max(0, plo - 0.03);
-  let hi = Math.min(1, phi + 0.03);
-  if (hi - lo < 0.12) {
-    const mid = (hi + lo) / 2;
-    lo = Math.max(0, mid - 0.06);
-    hi = Math.min(1, lo + 0.12);
+  let tLo = Math.max(0, plo - 0.03);
+  let tHi = Math.min(1, phi + 0.03);
+  if (tHi - tLo < 0.12) {
+    const mid = (tHi + tLo) / 2;
+    tLo = Math.max(0, mid - 0.06);
+    tHi = Math.min(1, tLo + 0.12);
   }
+  // Ease the band toward that target so a new high/low glides in instead of the
+  // whole curve (frozen history included) snapping. Deadband holds it rock-still
+  // while the live value wobbles inside the existing frame.
+  const [lo, hi] = easeFitRange(fitRef, tLo, tHi, reduced);
 
   const lineXY = samp.map((s) => ({ x: s.x, y: yFor(s.p) }));
   const linePath = smoothPath(lineXY);
