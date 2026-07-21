@@ -20,6 +20,7 @@ import { outcomeMediaFor } from "@/lib/tregu-media";
 import { eventStatsFor } from "@/lib/tregu-event-stats";
 import RaceStandings from "@/components/tregu/race-standings";
 import { dramatizeSeries, dramatizeSpark } from "@/lib/tregu-tape";
+import { SLUG_TO_CATEGORY } from "@/lib/category-map";
 
 // Sibling outcome series from the detail API — real 5-min cron snapshots.
 interface EventOutcome {
@@ -386,6 +387,12 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
   // Race grids (every outcome has a registry headshot) swap the mini-chart
   // grid for a live timing board ranked by the odds.
   const raceField = Boolean(group && group.outcomes.every((o) => outcomeMediaFor(o.label)?.photo));
+  // Repricing cadence: live sports (football, F1 grids) reprice every 2 min,
+  // general/news markets every 5 min. Drives the chart's countdown pill.
+  const isLiveSport = market.category === "sport" || raceField;
+  const chartCadenceMs = isLiveSport ? 120_000 : 300_000;
+  // Per-category chart accent (blue Politikë, green Ekonomi, gold Botë…).
+  const chartCategory = SLUG_TO_CATEGORY[market.category] ?? market.category;
 
   // Registered head-to-head stat sheet for this event (null when none exists).
   const fallbackEventStats = group ? eventStatsFor(group.title) : null;
@@ -497,6 +504,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                       place and the internal per-second sim drives the tail. */}
                   <GroupChart
                     height={460}
+                    cadenceMs={chartCadenceMs}
                     series={group.outcomes.map((o) => ({
                       label: o.label,
                       color: o.color,
@@ -532,7 +540,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
               </>
             ) : (
               <div className="tregu-panel" style={{ padding: 28 }}>
-                <MarketChart trades={trades} snapshots={snapshots} currentProb={market.market_prob} seedKey={slug} />
+                <MarketChart trades={trades} snapshots={snapshots} currentProb={market.market_prob} seedKey={slug} category={chartCategory} cadenceMs={chartCadenceMs} />
               </div>
             )}
 

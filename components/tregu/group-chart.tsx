@@ -1,16 +1,23 @@
 "use client";
 
 import { useId, useMemo, useRef, useState } from "react";
-import { dramatizeSeries } from "@/lib/tregu-tape";
-import { useReducedMotion, useDrawReveal, useLiveVector } from "./chart-hooks";
+import { dramatizeSeries, smoothPath } from "@/lib/tregu-tape";
+import { useReducedMotion, useDrawReveal, useLiveVector, useLiveClock } from "./chart-hooks";
 
 // Multi-outcome event chart — the Polymarket-style view for grouped events.
 // Time-aware: every outcome's line is drawn from real timestamped points
 // (5-minute cron snapshots + live price), values are normalized per timestamp
 // so displayed odds always sum to 100%, and hovering snaps to the nearest
-// recorded point with a date/time tooltip reading every line.
-// SVG carries only geometry (preserveAspectRatio="none" stretches text), so
-// all labels are HTML positioned over the plot.
+// recorded point with a live date/time tooltip reading every line.
+//
+// The rightmost ~16% is a live band: a per-second eased vector flows there
+// toward the next real refresh (2 min live sports · 5 min general), so every
+// line visibly breathes each second on any time range. Lines are smoothed into
+// rounded curves (no sharp rectangle corners), and a countdown pill shows the
+// real clock and time to the next repricing.
+//
+// SVG carries only geometry (preserveAspectRatio="none" stretches text), so all
+// labels are HTML positioned over the plot.
 
 export interface EventSeries {
   label: string;
@@ -36,11 +43,18 @@ const PLOT_TOP = 10;
 // keyframe translates it by W + SHINE_W, so the two must stay in sync
 // (`--tg-shine-travel` in globals.css).
 const SHINE_W = 180;
+// Fraction of the plot width reserved for the live flow band at the right edge.
+const LIVE_FRAC = 0.16;
+
+const mmss = (ms: number) => {
+  const s = Math.max(0, Math.ceil(ms / 1000));
+  return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`;
+};
 
 function seriesOf(s: EventSeries): { t: number; p: number }[] {
   if (s.series && s.series.length >= 2) {
     // A writer can record a state and odds snapshot in the same millisecond.
-    // Keep only the latest value at that timestamp so SVG paths never form an artificial vertical rectangle.
+    // Keep only the latest value at that timestamp so paths never form an artificial vertical rectangle.
     return [...new Map(s.series.map((point) => [point.t, point])).values()];
   }
   const now = Date.now();
@@ -96,16 +110,17 @@ function ticksFor(lo: number, hi: number): number[] {
 export default function GroupChart({
   series,
   height = 420,
+  cadenceMs = 120_000,
 }: {
   series: EventSeries[];
   height?: number;
+  cadenceMs?: number;
 }) {
   const [range, setRange] = useState<RangeKey>("1D");
-  const [hoverI, setHoverI] = useState<number | null>(null);
+  const [hoverI, setHoverI] = useState<{ x: number; t: number; values: number[]; live: boolean; gi: number | null } | null>(null);
   const plotRef = useRef<HTMLDivElement>(null);
   // Defs are document-scoped; two charts on one page would collide on a
-  // hardcoded id.
-  // React's ids carry punctuation (`:r0:` / `«r0»`) that url(#…) can't resolve.
+  // hardcoded id. React's ids carry punctuation url(#…) can't resolve — strip it.
   const uid = useId().replace(/[^a-zA-Z0-9]/g, "");
   const shineMaskId = `tg-shine-mask-${uid}`;
   const shineBandId = `tg-shine-band-${uid}`;
@@ -114,6 +129,7 @@ export default function GroupChart({
 
   const reduced = useReducedMotion();
   const drawn = useDrawReveal(1350, reduced);
+  const { now: clockNow, nextInMs } = useLiveClock(cadenceMs);
 
   const H = height;
   const PLOT_BOTTOM = H - AXIS_H;
@@ -163,28 +179,31 @@ export default function GroupChart({
     return { grid, tMin, tMax, lo, hi };
   }, [series, range]);
 
-  // Per-second simulated endpoint. Real book prices refresh every 2–5 min; the
+  // Per-second eased vector buffer. Real book prices refresh every 2–5 min; the
   // walk drifts each outcome toward its true value and renormalizes so the tail
-  // breathes every second (never lying about where the odds actually sit). We
-  // append a synthetic "now" grid point so every line extends to it live.
+  // breathes every second (never lying about where the odds sit). Rendered in
+  // the right-edge live band, mapped by index so the flow stays visible on any
+  // time range.
   const liveVec = useLiveVector(series.map((s) => s.prob), !reduced);
-  const dispGrid =
-    liveVec && liveVec.length === series.length && grid.length >= 2
-      ? [...grid, { t: Date.now(), values: liveVec }]
-      : grid;
-  const tMaxD = dispGrid.length ? dispGrid[dispGrid.length - 1].t : tMax;
+  const liveActive = !reduced && !!liveVec && liveVec.length > 1 && (liveVec[0]?.length ?? 0) === series.length;
+  const REAL_W = W * (1 - (liveActive ? LIVE_FRAC : 0));
 
-  const xFor = (t: number) => ((t - tMin) / (tMaxD - tMin)) * W;
+  const xForReal = (t: number) => {
+    const denom = tMax - tMin || 1;
+    const f = Math.max(0, Math.min(1, (t - tMin) / denom));
+    return f * REAL_W;
+  };
+  const tailX = (idx: number) => REAL_W + ((idx + 1) / ((liveVec?.length ?? 2) - 1)) * (W - REAL_W);
   const yFor = (p: number) => PLOT_TOP + (PLOT_BOTTOM - PLOT_TOP) * (1 - (p - lo) / (hi - lo));
-  // Upsample a line with jagged in-between texture (real anchors stay exact),
-  // so sparse snapshots read as spiky swings instead of rectangular steps.
-  const texPath = (rows: { t: number; p: number }[], key: string) =>
-    dramatizeSeries(rows, key)
-      .map((g, i) => `${i === 0 ? "M" : "L"}${xFor(g.t).toFixed(1)} ${yFor(g.p).toFixed(1)}`)
-      .join(" ");
-  // HTML overlays position in % of the rendered box, not SVG units.
-  const xPct = (t: number) => ((t - tMin) / (tMaxD - tMin)) * 100;
-  const yPx = yFor;
+
+  // Project real rows for one outcome: dramatize (jagged in-between texture,
+  // real anchors exact) then map to screen space in the real zone.
+  const projReal = (rows: { t: number; p: number }[], key: string) =>
+    dramatizeSeries(rows, key).map((g) => ({ x: xForReal(g.t), y: yFor(g.p) }));
+  const tailXYFor = (si: number) =>
+    liveActive && liveVec
+      ? liveVec.slice(1).map((row, idx) => ({ x: tailX(idx), y: yFor(row[si]) }))
+      : [];
 
   if (grid.length < 2) {
     return (
@@ -194,65 +213,73 @@ export default function GroupChart({
     );
   }
 
+  // Unified hover stops (real points + live tail) for nearest-by-x snapping.
+  const hoverStops: { x: number; t: number; values: number[]; live: boolean; gi: number | null }[] = [
+    ...grid.map((g, i) => ({ x: xForReal(g.t), t: g.t, values: g.values, live: false, gi: i })),
+    ...(liveActive && liveVec
+      ? liveVec.slice(1).map((row, idx) => ({ x: tailX(idx), t: clockNow, values: row, live: true, gi: null as number | null }))
+      : []),
+  ];
+
   const onMove = (clientX: number) => {
     const rect = plotRef.current?.getBoundingClientRect();
     if (!rect || rect.width === 0) return;
-    const frac = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
-    const t = tMin + frac * (tMaxD - tMin);
-    // Snap to the nearest recorded point — each 5-min cron snapshot is a stop.
-    let best = 0;
-    for (let i = 1; i < grid.length; i++) {
-      if (Math.abs(grid[i].t - t) < Math.abs(grid[best].t - t)) best = i;
-    }
+    const xpx = Math.max(0, Math.min(W, ((clientX - rect.left) / rect.width) * W));
+    let best = hoverStops[0];
+    for (const stop of hoverStops) if (Math.abs(stop.x - xpx) < Math.abs(best.x - xpx)) best = stop;
     setHoverI(best);
   };
 
-  const hover = hoverI === null ? null : grid[hoverI];
-  const last = dispGrid[dispGrid.length - 1];
+  const hover = hoverI;
+  const lastValues = liveActive && liveVec ? liveVec[liveVec.length - 1] : grid[grid.length - 1].values;
   const ticks = ticksFor(lo, hi);
 
+  const realFrac = 1 - (liveActive ? LIVE_FRAC : 0);
   const spanMs = tMax - tMin;
-  const axisTicks = [0.08, 0.36, 0.64, 0.92].map((f) => {
+  const axisTicks = [0.08, 0.4, 0.72].map((f) => {
     const d = new Date(tMin + f * spanMs);
     const label =
       spanMs <= 2 * 86_400_000
         ? d.toLocaleTimeString("sq-AL", { hour: "2-digit", minute: "2-digit" })
         : d.toLocaleDateString("sq-AL", { day: "numeric", month: "short" });
-    return { f, label };
+    return { f: f * realFrac, label };
   });
 
-  // Chips are pushed apart 26px, so only so many fit the plot height. Wide
-  // fields (an F1 grid) keep chips for the leaders; trailing lines stay
-  // legible through the rows/legend under the chart.
+  // Chips are pushed apart 26px, so only so many fit the plot height.
   const maxChips = Math.max(3, Math.floor((PLOT_BOTTOM - PLOT_TOP) / 26));
 
-  // Endpoint chips: live normalized odds at each line's end, pushed apart so
-  // labels never overlap.
+  // Endpoint chips: live normalized odds at each line's end, pushed apart.
   const chips = series
-    .map((s, i) => ({ s, v: last.values[i], y: yPx(last.values[i]) }))
+    .map((s, i) => ({ s, v: lastValues[i], y: yFor(lastValues[i]) }))
     .sort((a, b) => b.v - a.v)
     .slice(0, maxChips)
     .sort((a, b) => a.y - b.y);
   spreadWithin(chips, PLOT_TOP + 2, PLOT_BOTTOM - 12);
 
-  // Labels that ride the crosshair: name + odds at the hovered minute, pushed
-  // apart vertically so they never overlap.
+  // Labels that ride the crosshair.
   const hoverLabels =
     hover === null
       ? []
       : series
-          .map((s, i) => ({ s, v: hover.values[i], y: yPx(hover.values[i]) }))
+          .map((s, i) => ({ s, v: hover.values[i], y: yFor(hover.values[i]) }))
           .sort((a, b) => b.v - a.v)
           .slice(0, maxChips)
           .sort((a, b) => a.y - b.y);
   spreadWithin(hoverLabels, PLOT_TOP + 2, PLOT_BOTTOM - 12);
-  const hoverX = hover === null ? 0 : xPct(hover.t);
-  // Near the right edge the labels flip to the left of the crosshair.
-  const hoverFlip = hoverX > 64;
+  const hoverXpct = hover === null ? 0 : (hover.x / W) * 100;
+  const hoverFlip = hoverXpct > 64;
 
   return (
     <div>
-      <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: 10 }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, marginBottom: 10 }}>
+        <div className="tregu-live-pill" aria-live="off">
+          <span className="tregu-live-dot" aria-hidden />
+          <span className="tregu-live-clock">
+            {new Date(clockNow).toLocaleTimeString("sq-AL", { hour: "2-digit", minute: "2-digit", second: "2-digit" })}
+          </span>
+          <span className="tregu-live-sep" aria-hidden>·</span>
+          <span className="tregu-live-refresh">Rifreskim {mmss(nextInMs)}</span>
+        </div>
         <div className="tregu-sort" role="tablist" aria-label="Periudha e grafikut">
           {RANGES.map((r) => (
             <button key={r.key} aria-pressed={range === r.key} onClick={() => setRange(r.key)} type="button">
@@ -272,9 +299,8 @@ export default function GroupChart({
         >
           <svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" aria-hidden>
             <defs>
-              {/* Soft-edged band; masking a duplicate of each line with it
-                  makes a gleam ride the stroke — the SVG analogue of the
-                  .glossy-orange text shine. */}
+              {/* Soft-edged band; masking a duplicate of each line with it makes
+                  a gleam ride the stroke — the SVG analogue of the shine. */}
               <linearGradient id={shineBandId} x1="0" y1="0" x2="1" y2="0">
                 <stop offset="0%" stopColor="#fff" stopOpacity="0" />
                 <stop offset="38%" stopColor="#fff" stopOpacity="0.3" />
@@ -282,23 +308,12 @@ export default function GroupChart({
                 <stop offset="72%" stopColor="#fff" stopOpacity="0.3" />
                 <stop offset="100%" stopColor="#fff" stopOpacity="0" />
               </linearGradient>
-              {/* Bleeds the glow pass outward so the gleam reads as light
-                  spilling off the line, not as the stroke thinning. */}
               <filter id={shineGlowId} x="-20%" y="-20%" width="140%" height="140%">
                 <feGaussianBlur stdDeviation="3.5" />
               </filter>
               <mask id={shineMaskId} maskUnits="userSpaceOnUse" x="0" y="0" width={W} height={H}>
-                <rect
-                  className="tregu-gchart-shine"
-                  x={-SHINE_W}
-                  y="0"
-                  width={SHINE_W}
-                  height={H}
-                  fill={`url(#${shineBandId})`}
-                />
+                <rect className="tregu-gchart-shine" x={-SHINE_W} y="0" width={SHINE_W} height={H} fill={`url(#${shineBandId})`} />
               </mask>
-              {/* Left-to-right entrance: a rect that grows x=0→W, clipping every
-                  outcome line so they wipe in together from the left. */}
               <clipPath id={revealId}>
                 <rect className="tregu-chart-reveal" x="0" y="0" width={W} height={H} />
               </clipPath>
@@ -316,80 +331,79 @@ export default function GroupChart({
                 vectorEffect="non-scaling-stroke"
               />
             ))}
+
+            {liveActive && (
+              <line
+                x1={REAL_W}
+                x2={REAL_W}
+                y1={PLOT_TOP}
+                y2={PLOT_BOTTOM}
+                stroke="var(--tg-chart-grid, rgba(17,17,17,0.12))"
+                strokeWidth="1"
+                strokeDasharray="3 4"
+                vectorEffect="non-scaling-stroke"
+              />
+            )}
+
             <g clipPath={`url(#${revealId})`}>
-            {/* On hover the minutes after the crosshair go gray — only the
-                played part of the game keeps its colour (Polymarket-style).
-                Gray futures render first so coloured pasts sit on top. */}
-            {hoverI !== null &&
-              hoverI < grid.length - 1 &&
-              series.map((s, si) => {
-                const d = texPath(grid.slice(hoverI).map((g) => ({ t: g.t, p: g.values[si] })), `${s.label}-f`);
+              {/* On hover the minutes after the crosshair go gray — only the
+                  played part of the game keeps its colour (Polymarket-style).
+                  Only applies when hovering a real point; live has no future. */}
+              {hover !== null &&
+                !hover.live &&
+                hover.gi !== null &&
+                hover.gi < grid.length - 1 &&
+                series.map((s, si) => {
+                  const d = smoothPath(projReal(grid.slice(hover.gi as number).map((g) => ({ t: g.t, p: g.values[si] })), `${s.label}-f`));
+                  return (
+                    <path
+                      key={`f-${s.label}`}
+                      d={d}
+                      fill="none"
+                      stroke="var(--tg-chart-future, rgba(17,17,17,0.16))"
+                      strokeWidth="2"
+                      strokeLinejoin="round"
+                      strokeLinecap="round"
+                      vectorEffect="non-scaling-stroke"
+                    />
+                  );
+                })}
+              {series.map((s, si) => {
+                // Not hovering → colour the full real+live line. Hovering a real
+                // point → freeze the coloured past up to it. Hovering live →
+                // colour everything (there is no future).
+                const coloredXY =
+                  hover === null || hover.live
+                    ? [...projReal(grid.map((g) => ({ t: g.t, p: g.values[si] })), s.label), ...tailXYFor(si)]
+                    : projReal(grid.slice(0, (hover.gi as number) + 1).map((g) => ({ t: g.t, p: g.values[si] })), s.label);
+                const d = smoothPath(coloredXY);
                 return (
-                  <path
-                    key={`f-${s.label}`}
-                    d={d}
-                    fill="none"
-                    stroke="var(--tg-chart-future, rgba(17,17,17,0.16))"
-                    strokeWidth="2"
-                    strokeLinejoin="miter"
-                    strokeMiterlimit={3}
-                    strokeLinecap="butt"
-                    vectorEffect="non-scaling-stroke"
-                  />
+                  <g key={s.label}>
+                    <path
+                      d={d}
+                      fill="none"
+                      stroke={s.color}
+                      strokeWidth="2"
+                      strokeLinejoin="round"
+                      strokeLinecap="round"
+                      vectorEffect="non-scaling-stroke"
+                    />
+                    {/* The gleam: same geometry, revealed only through the
+                        travelling mask band. Suppressed on hover. */}
+                    {hover === null && (
+                      <g mask={`url(#${shineMaskId})`}>
+                        <path d={d} fill="none" stroke={s.color} strokeWidth="7" strokeLinejoin="round" strokeLinecap="round" opacity="0.55" filter={`url(#${shineGlowId})`} />
+                        <path d={d} fill="none" stroke="#FFFFFF" strokeWidth="2" strokeLinejoin="round" strokeLinecap="round" opacity="0.9" vectorEffect="non-scaling-stroke" />
+                      </g>
+                    )}
+                  </g>
                 );
               })}
-            {series.map((s, si) => {
-              // When not hovering, extend to the live "now" point so the tail
-              // breathes; on hover, freeze to the real recorded points.
-              const base = hoverI === null ? dispGrid : grid;
-              const upto = hoverI === null ? base.length : hoverI + 1;
-              const d = texPath(base.slice(0, upto).map((g) => ({ t: g.t, p: g.values[si] })), s.label);
-              return (
-                <g key={s.label}>
-                  <path
-                    d={d}
-                    fill="none"
-                    stroke={s.color}
-                    strokeWidth="2"
-                    strokeLinejoin="round"
-                    strokeLinecap="round"
-                    vectorEffect="non-scaling-stroke"
-                  />
-                  {/* The gleam: same geometry, warm highlight, revealed only
-                      through the travelling mask band. Suppressed on hover so
-                      it never lights up the grayed-out future. */}
-                  {hoverI === null && (
-                    <g mask={`url(#${shineMaskId})`}>
-                      <path
-                        d={d}
-                        fill="none"
-                        stroke={s.color}
-                        strokeWidth="7"
-                        strokeLinejoin="round"
-                        strokeLinecap="round"
-                        opacity="0.55"
-                        filter={`url(#${shineGlowId})`}
-                      />
-                      <path
-                        d={d}
-                        fill="none"
-                        stroke="#FFC9A8"
-                        strokeWidth="2"
-                        strokeLinejoin="miter"
-                        strokeMiterlimit={3}
-                        strokeLinecap="round"
-                        vectorEffect="non-scaling-stroke"
-                      />
-                    </g>
-                  )}
-                </g>
-              );
-            })}
             </g>
             {hover && (
               <line
-                x1={xFor(hover.t)}
-                x2={xFor(hover.t)}
+                x1={hover.x}
+                x2={hover.x}
                 y1={PLOT_TOP}
                 y2={PLOT_BOTTOM}
                 stroke="var(--tg-chart-cross, rgba(17,17,17,0.35))"
@@ -408,8 +422,8 @@ export default function GroupChart({
                 className={hover ? "tregu-gchart-dot" : "tregu-gchart-dot tregu-gchart-dot--live"}
                 style={
                   hover
-                    ? { top: yPx(hover.values[i]), left: `${hoverX}%`, right: "auto", background: s.color }
-                    : { top: yPx(last.values[i]), background: s.color }
+                    ? { top: yFor(hover.values[i]), left: `${hoverXpct}%`, right: "auto", background: s.color }
+                    : { top: yFor(lastValues[i]), background: s.color }
                 }
                 aria-hidden
               />
@@ -417,24 +431,26 @@ export default function GroupChart({
 
           {/* Time axis — HTML so it never stretches with the SVG. */}
           {axisTicks.map((tick) => (
-            <span
-              key={tick.f}
-              className="tregu-axis-label"
-              style={{ left: `${tick.f * 100}%`, bottom: 2, transform: "translateX(-50%)" }}
-            >
+            <span key={tick.f} className="tregu-axis-label" style={{ left: `${tick.f * 100}%`, bottom: 2, transform: "translateX(-50%)" }}>
               {tick.label}
             </span>
           ))}
+          {liveActive && (
+            <span className="tregu-axis-label tregu-axis-label--live" style={{ left: `${(1 - LIVE_FRAC / 2) * 100}%`, bottom: 2, transform: "translateX(-50%)" }}>
+              tani
+            </span>
+          )}
 
-          {/* Timestamp pill riding the top of the crosshair. */}
+          {/* Timestamp pill riding the top of the crosshair — live wall clock. */}
           {hover && (
-            <div className="tregu-gchart-time" style={{ left: `${Math.max(8, Math.min(92, hoverX))}%` }}>
-              {new Date(hover.t).toLocaleDateString("sq-AL", { day: "numeric", month: "short" })}{" "}
-              {new Date(hover.t).toLocaleTimeString("sq-AL", { hour: "2-digit", minute: "2-digit" })}
+            <div className="tregu-gchart-time" style={{ left: `${Math.max(8, Math.min(92, hoverXpct))}%` }}>
+              {hover.live
+                ? `Tani · ${new Date(hover.t).toLocaleTimeString("sq-AL", { hour: "2-digit", minute: "2-digit", second: "2-digit" })}`
+                : `${new Date(hover.t).toLocaleDateString("sq-AL", { day: "numeric", month: "short" })} ${new Date(hover.t).toLocaleTimeString("sq-AL", { hour: "2-digit", minute: "2-digit" })}`}
             </div>
           )}
 
-          {/* Name + odds at the hovered minute, next to each line's point. */}
+          {/* Name + odds at the hovered point, next to each line. */}
           {hover &&
             hoverLabels.map(({ s, v, y }) => (
               <span
@@ -442,7 +458,7 @@ export default function GroupChart({
                 className="tregu-gchart-chip"
                 style={{
                   top: y,
-                  left: `${hoverX}%`,
+                  left: `${hoverXpct}%`,
                   right: "auto",
                   transform: hoverFlip ? "translate(calc(-100% - 12px), -50%)" : "translate(12px, -50%)",
                   zIndex: 2,
@@ -458,7 +474,7 @@ export default function GroupChart({
         {/* Right gutter: % axis. */}
         <div className="tregu-gchart-gutter" aria-hidden>
           {ticks.map((t) => (
-            <span key={t} className="tregu-gchart-tick" style={{ top: yPx(t) }}>
+            <span key={t} className="tregu-gchart-tick" style={{ top: yFor(t) }}>
               {Math.round(t * 100)}%
             </span>
           ))}
@@ -500,7 +516,8 @@ export function OutcomeMiniChart({
   const H = 100;
   const y = (p: number) => 12 + (H - 24) * (1 - (p - min) / span);
   const step = W / (pts.length - 1);
-  const path = pts.map((p, i) => `${i === 0 ? "M" : "L"}${(i * step).toFixed(2)} ${y(p).toFixed(2)}`).join(" ");
+  // Smooth rounded curve rather than sharp vertices.
+  const path = smoothPath(pts.map((p, i) => ({ x: i * step, y: y(p) })));
   const gid = `tg-omini-${label.replace(/[^a-z0-9]/gi, "")}`;
   return (
     <div className="tregu-omini">

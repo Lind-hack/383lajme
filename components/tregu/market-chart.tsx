@@ -1,8 +1,9 @@
 "use client";
 
 import { useId, useMemo, useRef, useState } from "react";
-import { dramatizeSeries } from "@/lib/tregu-tape";
-import { useReducedMotion, useDrawReveal, useLiveTail } from "./chart-hooks";
+import { dramatizeSeries, smoothPath } from "@/lib/tregu-tape";
+import { getCategoryColor } from "@/lib/category-colors";
+import { useReducedMotion, useDrawReveal, useLiveTail, useLiveClock } from "./chart-hooks";
 
 // Interactive single-market price chart — dependency-free SVG.
 // Feeds on the per-trade tape (market_trades) plus AI snapshots. Shares the
@@ -12,8 +13,15 @@ import { useReducedMotion, useDrawReveal, useLiveTail } from "./chart-hooks";
 // endpoint pulses. The SVG carries only geometry — every label, dot and the
 // tooltip live in HTML overlays so nothing distorts when the SVG stretches.
 //
-// Chart-grade strokes (validated ≥3:1 on cream #F9F6F1): market #00854A,
-// AI #B45309, event diamonds #F59E0B. Brand greens/reds stay on buttons.
+// The price line is drawn per-category: the market's own theme colour (blue
+// for Politikë, green for Ekonomi, gold for Botë, red for Siguri…) carries the
+// stroke, area and endpoint, resolved from category-colors. The AI estimate
+// keeps its distinct burnt-orange dashed line; news markers keep brand orange.
+//
+// The rightmost ~16% is a live band: a per-second eased tail flows there toward
+// the next real refresh (2 min live sports · 5 min general), so the chart
+// visibly breathes every second on any time range. A countdown pill shows the
+// real clock and time to the next repricing.
 
 export interface TradePoint {
   created_at: string;
@@ -46,13 +54,20 @@ const VOL_H = 34;
 // Width of the gleam that travels along the line once a minute — kept in sync
 // with the `tg-line-shine` keyframe in globals.css (travel = W + SHINE_W).
 const SHINE_W = 180;
+// Fraction of the plot width reserved for the live flow band at the right edge.
+const LIVE_FRAC = 0.16;
 
-const MARKET = "#00854A";
-// AI estimate now rides a glossy burnt-orange; the news marker takes the
-// brand orange — both on-brand, distinct shapes (dashed line vs diamond).
+// AI estimate rides a glossy burnt-orange; the news marker takes the brand
+// orange — both distinct shapes (dashed line vs diamond) and hues that stay
+// legible against every category accent.
 const AI = "#EA580C";
 const AI_GLEAM = "#FFD8B0";
 const EVENT = "#FF4422";
+
+const mmss = (ms: number) => {
+  const s = Math.max(0, Math.ceil(ms / 1000));
+  return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`;
+};
 
 // Dynamic Y ticks over the fitted [lo, hi] band — mirrors GroupChart so both
 // charts read the same. Coarser steps for wide ranges, finer for tight ones.
@@ -72,22 +87,34 @@ export default function MarketChart({
   currentProb,
   seedKey = "tregu",
   height = 460,
+  category,
+  cadenceMs = 300_000,
 }: {
   trades: TradePoint[];
   snapshots: SnapshotPoint[];
   currentProb: number;
   seedKey?: string;
   height?: number;
+  category?: string;
+  cadenceMs?: number;
 }) {
   const [range, setRange] = useState<RangeKey>("Gjithë");
-  const [hover, setHover] = useState<{ frac: number; t: number; p: number; ai: number | null } | null>(null);
+  const [hover, setHover] = useState<{ frac: number; t: number; p: number; ai: number | null; live: boolean } | null>(null);
   // News marker popup: `pinned` set by click/tap (mobile-friendly), `hovered`
   // by mouse enter (desktop). Either one open shows the article that moved it.
   const [pinnedNews, setPinnedNews] = useState<number | null>(null);
   const [hoveredNews, setHoveredNews] = useState<number | null>(null);
   const boxRef = useRef<HTMLDivElement>(null);
+  // Hover-intent bridge: leaving a marker schedules a close, but entering the
+  // popup cancels it, so the popup stays open while the cursor is over it.
+  const closeRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const reduced = useReducedMotion();
   const drawn = useDrawReveal(1350, reduced);
+  const { now: clockNow, nextInMs } = useLiveClock(cadenceMs);
+
+  // Per-category accent — drives the whole price line, area, dot and legend.
+  const accent = getCategoryColor(category ?? "");
+
   // Defs are document-scoped; a hardcoded id would collide with another chart
   // on the page. React ids carry punctuation url(#…) can't resolve — strip it.
   const uid = useId().replace(/[^a-zA-Z0-9]/g, "");
@@ -141,9 +168,8 @@ export default function MarketChart({
     // Fit the plot to the MARKET line only: a market living at 30–50% should
     // fill the frame and read as real swings, not a flat line pinned to the
     // floor. The AI estimate is deliberately excluded — when it craters toward
-    // 0% it must not drag `lo` to the floor and squash the real green movement
-    // into a thin band (the bug in the reported screenshot). Small padding,
-    // with a 12pt floor so a dead-flat market still gets a sane band.
+    // 0% it must not drag `lo` to the floor and squash the real movement into a
+    // thin band. Small padding, 12pt floor so a dead-flat market gets a band.
     let plo = 1;
     let phi = 0;
     for (const p of pts) {
@@ -170,15 +196,18 @@ export default function MarketChart({
     return { pts, aiPts, events, volBuckets, tMin, tMax, lo, hi };
   }, [trades, snapshots, currentProb, range, seedKey]);
 
-  // Per-second live tail: a mean-reverting micro-walk appended after the real
-  // series so the endpoint shivers every second, making the sparse 5-min /
-  // 2-min real refreshes feel like a live ticker. tMax advances with the tail
-  // so it stays framed; the walk always drifts back to the true `currentProb`.
+  // Per-second eased live tail. Rendered in the right-edge live band so the
+  // per-second flow is visible on any time range; drifts back to currentProb.
   const liveTail = useLiveTail(currentProb, !reduced);
-  const renderPts = liveTail.length ? [...pts, ...liveTail] : pts;
-  const tMaxD = renderPts.length ? renderPts[renderPts.length - 1].t : tMax;
+  const liveActive = !reduced && liveTail.length > 1;
+  const REAL_W = W * (1 - (liveActive ? LIVE_FRAC : 0));
 
-  const xFor = (t: number) => ((t - tMin) / (tMaxD - tMin)) * W;
+  // Real data maps into the left [0, REAL_W]; the live tail owns [REAL_W, W].
+  const xForReal = (t: number) => {
+    const denom = tMax - tMin || 1;
+    const f = Math.max(0, Math.min(1, (t - tMin) / denom));
+    return f * REAL_W;
+  };
   const yFor = (p: number) => PLOT_TOP + (PLOT_BOTTOM - PLOT_TOP) * (1 - (p - lo) / (hi - lo));
 
   if (pts.length < 2) {
@@ -189,51 +218,89 @@ export default function MarketChart({
     );
   }
 
-  const linePath = renderPts.map((pt, i) => `${i === 0 ? "M" : "L"} ${xFor(pt.t).toFixed(1)} ${yFor(pt.p).toFixed(1)}`).join(" ");
-  const areaPath = `${linePath} L ${W} ${PLOT_BOTTOM} L ${xFor(renderPts[0].t).toFixed(1)} ${PLOT_BOTTOM} Z`;
+  // Screen-space points. Real series first, then the live tail spread across
+  // the band by index (skip index 0 — the real end already sits at REAL_W).
+  const realXY = pts.map((p) => ({ x: xForReal(p.t), y: yFor(p.p) }));
+  const tailXY = liveActive
+    ? liveTail.slice(1).map((pt, idx) => ({
+        x: REAL_W + ((idx + 1) / (liveTail.length - 1)) * (W - REAL_W),
+        y: yFor(pt.p),
+      }))
+    : [];
+  const lineXY = [...realXY, ...tailXY];
 
-  // AI estimate as a gradual diagonal line — interpolates between re-scorings
-  // instead of a step line, so the odds slope from 40%→0% over their real time
-  // gap rather than dropping in a single vertical tick. Holds its last value
-  // flat to the right edge (never craters to 0 just because the line ended).
-  let aiPath = "";
-  aiPts.forEach((pt, i) => {
-    aiPath += `${i === 0 ? "M" : " L"} ${xFor(pt.t).toFixed(1)} ${yFor(pt.p).toFixed(1)}`;
-  });
-  if (aiPts.length > 0) aiPath += ` L ${W} ${yFor(aiPts[aiPts.length - 1].p).toFixed(1)}`;
+  // Smooth Catmull-Rom curve — rounded oval peaks/dips, never sharp corners.
+  const linePath = smoothPath(lineXY);
+  const first = lineXY[0];
+  const lastXY = lineXY[lineXY.length - 1];
+  const areaPath = `${linePath} L ${lastXY.x.toFixed(1)} ${PLOT_BOTTOM} L ${first.x.toFixed(1)} ${PLOT_BOTTOM} Z`;
+
+  // AI estimate: smooth gradual line, held flat across the live band to the
+  // right edge (never craters just because the sampling ended).
+  const aiXY = aiPts.map((p) => ({ x: xForReal(p.t), y: yFor(p.p) }));
+  if (aiXY.length > 0) aiXY.push({ x: W, y: aiXY[aiXY.length - 1].y });
+  const aiPath = aiXY.length > 1 ? smoothPath(aiXY) : "";
 
   const maxVol = Math.max(...volBuckets, 1);
-  const bucketW = W / volBuckets.length;
+  const bucketW = REAL_W / volBuckets.length;
 
-  const last = renderPts[renderPts.length - 1];
+  const lastP = liveActive ? liveTail[liveTail.length - 1].p : pts[pts.length - 1].p;
   const ticks = ticksFor(lo, hi);
   const activeNews = pinnedNews ?? hoveredNews;
+  const lastAi = aiPts.length > 0 ? aiPts[aiPts.length - 1].p : null;
+
+  // Unified hover points (real + live) for nearest-by-x snapping. Real points
+  // carry their true timestamp; live points read as "Tani" (now).
+  const hoverPts: { x: number; p: number; t: number; live: boolean }[] = [
+    ...pts.map((p, i) => ({ x: realXY[i].x, p: p.p, t: p.t, live: false })),
+    ...(liveActive ? tailXY.map((xy, idx) => ({ x: xy.x, p: liveTail[idx + 1].p, t: clockNow, live: true })) : []),
+  ];
 
   const onMove = (clientX: number) => {
     const rect = boxRef.current?.getBoundingClientRect();
     if (!rect || rect.width === 0) return;
-    const frac = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
-    const t = tMin + frac * (tMaxD - tMin);
-    let nearest = renderPts[0];
-    for (const p of renderPts) if (Math.abs(p.t - t) < Math.abs(nearest.t - t)) nearest = p;
-    const aiAt = [...aiPts].reverse().find((a) => a.t <= nearest.t);
-    setHover({ frac: (nearest.t - tMin) / (tMaxD - tMin), t: nearest.t, p: nearest.p, ai: aiAt?.p ?? null });
+    const xpx = Math.max(0, Math.min(W, ((clientX - rect.left) / rect.width) * W));
+    let nearest = hoverPts[0];
+    for (const hp of hoverPts) if (Math.abs(hp.x - xpx) < Math.abs(nearest.x - xpx)) nearest = hp;
+    const ai = nearest.live ? lastAi : [...aiPts].reverse().find((a) => a.t <= nearest.t)?.p ?? null;
+    setHover({ frac: nearest.x / W, t: nearest.t, p: nearest.p, ai, live: nearest.live });
   };
 
+  const realFrac = 1 - (liveActive ? LIVE_FRAC : 0);
   const spanMs = tMax - tMin;
-  const axisTicks = [0.08, 0.36, 0.64, 0.92].map((f) => {
+  const axisTicks = [0.08, 0.42, 0.78].map((f) => {
     const t = tMin + f * spanMs;
     const d = new Date(t);
     const label =
       spanMs <= 2 * 86_400_000
         ? d.toLocaleTimeString("sq-AL", { hour: "2-digit", minute: "2-digit" })
         : d.toLocaleDateString("sq-AL", { day: "numeric", month: "short" });
-    return { f, label };
+    return { f: f * realFrac, label };
   });
+
+  // News hover-intent helpers.
+  const cancelClose = () => {
+    if (closeRef.current) {
+      clearTimeout(closeRef.current);
+      closeRef.current = undefined;
+    }
+  };
+  const scheduleClose = () => {
+    cancelClose();
+    closeRef.current = setTimeout(() => setHoveredNews(null), 160);
+  };
 
   return (
     <div>
-      <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: 10 }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, marginBottom: 10 }}>
+        <div className="tregu-live-pill" aria-live="off">
+          <span className="tregu-live-dot" aria-hidden />
+          <span className="tregu-live-clock">
+            {new Date(clockNow).toLocaleTimeString("sq-AL", { hour: "2-digit", minute: "2-digit", second: "2-digit" })}
+          </span>
+          <span className="tregu-live-sep" aria-hidden>·</span>
+          <span className="tregu-live-refresh">Rifreskim {mmss(nextInMs)}</span>
+        </div>
         <div className="tregu-sort" role="tablist" aria-label="Periudha e grafikut">
           {RANGES.map((r) => (
             <button key={r.key} aria-pressed={range === r.key} onClick={() => setRange(r.key)} type="button">
@@ -255,8 +322,8 @@ export default function MarketChart({
           <svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" aria-hidden>
             <defs>
               <linearGradient id={areaId} x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor={MARKET} stopOpacity="0.20" />
-                <stop offset="100%" stopColor={MARKET} stopOpacity="0" />
+                <stop offset="0%" stopColor={accent} stopOpacity="0.20" />
+                <stop offset="100%" stopColor={accent} stopOpacity="0" />
               </linearGradient>
               {/* Soft-edged band; masking a duplicate of the line with it makes
                   a gleam ride the stroke — the SVG analogue of .glossy-orange. */}
@@ -297,6 +364,21 @@ export default function MarketChart({
               />
             ))}
 
+            {/* Live band separator — a faint line marking where real history
+                ends and the per-second flow begins. */}
+            {liveActive && (
+              <line
+                x1={REAL_W}
+                x2={REAL_W}
+                y1={PLOT_TOP}
+                y2={PLOT_BOTTOM}
+                stroke="var(--tg-chart-grid, rgba(17,17,17,0.12))"
+                strokeWidth="1"
+                strokeDasharray="3 4"
+                vectorEffect="non-scaling-stroke"
+              />
+            )}
+
             {volBuckets.map((v, i) =>
               v > 0 ? (
                 <rect
@@ -331,11 +413,11 @@ export default function MarketChart({
 
               {/* Price line + travelling gleam (gleam suppressed on hover so it
                   never lights up while the crosshair is reading the past). */}
-              <path d={linePath} fill="none" stroke={MARKET} strokeWidth="2.5" strokeLinejoin="round" vectorEffect="non-scaling-stroke" />
+              <path d={linePath} fill="none" stroke={accent} strokeWidth="2.5" strokeLinejoin="round" strokeLinecap="round" vectorEffect="non-scaling-stroke" />
               {!hover && (
                 <g mask={`url(#${shineMaskId})`}>
-                  <path d={linePath} fill="none" stroke={MARKET} strokeWidth="8" strokeLinejoin="round" strokeLinecap="round" opacity="0.55" filter={`url(#${shineGlowId})`} />
-                  <path d={linePath} fill="none" stroke="#FFC9A8" strokeWidth="2" strokeLinejoin="round" strokeLinecap="round" vectorEffect="non-scaling-stroke" />
+                  <path d={linePath} fill="none" stroke={accent} strokeWidth="8" strokeLinejoin="round" strokeLinecap="round" opacity="0.55" filter={`url(#${shineGlowId})`} />
+                  <path d={linePath} fill="none" stroke="#FFFFFF" strokeWidth="2" strokeLinejoin="round" strokeLinecap="round" opacity="0.9" vectorEffect="non-scaling-stroke" />
                 </g>
               )}
             </g>
@@ -359,7 +441,7 @@ export default function MarketChart({
           {(drawn || hover) && (
             <span
               className={hover ? "tregu-gchart-dot" : "tregu-gchart-dot tregu-gchart-dot--live"}
-              style={hover ? { top: yFor(hover.p), left: `${hover.frac * 100}%`, right: "auto", background: MARKET } : { top: yFor(last.p), background: MARKET }}
+              style={hover ? { top: yFor(hover.p), left: `${hover.frac * 100}%`, right: "auto", background: accent } : { top: yFor(lastP), background: accent }}
               aria-hidden
             />
           )}
@@ -374,13 +456,16 @@ export default function MarketChart({
                 type="button"
                 className="tregu-newsmark"
                 data-open={activeNews === i}
-                style={{ left: `${(xFor(e.t) / W) * 100}%`, top: yFor(e.p), background: EVENT }}
+                style={{ left: `${(xForReal(e.t) / W) * 100}%`, top: yFor(e.p), background: EVENT }}
                 aria-label={`Lajmi që lëvizi tregun: ${e.evidence[0]?.title ?? ""}`}
                 onPointerEnter={(ev) => {
-                  if (ev.pointerType === "mouse") setHoveredNews(i);
+                  if (ev.pointerType === "mouse") {
+                    cancelClose();
+                    setHoveredNews(i);
+                  }
                 }}
                 onPointerLeave={(ev) => {
-                  if (ev.pointerType === "mouse") setHoveredNews((cur) => (cur === i ? null : cur));
+                  if (ev.pointerType === "mouse") scheduleClose();
                 }}
                 onClick={(ev) => {
                   ev.stopPropagation();
@@ -389,13 +474,18 @@ export default function MarketChart({
               />
             ))}
 
-          {/* News popup — the article(s) behind the active marker. */}
+          {/* News popup — the article(s) behind the active marker. Hovering the
+              popup itself cancels the pending close, so it stays put. */}
           {drawn && activeNews !== null && events[activeNews] && (
             <div
               className="tregu-newspop"
               style={{
-                left: `${Math.max(4, Math.min(96, (xFor(events[activeNews].t) / W) * 100))}%`,
+                left: `${Math.max(4, Math.min(96, (xForReal(events[activeNews].t) / W) * 100))}%`,
                 top: Math.max(4, yFor(events[activeNews].p) - 16),
+              }}
+              onPointerEnter={cancelClose}
+              onPointerLeave={(ev) => {
+                if (ev.pointerType === "mouse" && pinnedNews === null) scheduleClose();
               }}
               onClick={(ev) => ev.stopPropagation()}
             >
@@ -429,6 +519,11 @@ export default function MarketChart({
               {tick.label}
             </span>
           ))}
+          {liveActive && (
+            <span className="tregu-axis-label tregu-axis-label--live" style={{ left: `${(1 - LIVE_FRAC / 2) * 100}%`, bottom: 2, transform: "translateX(-50%)" }}>
+              tani
+            </span>
+          )}
 
           {hover && (
             <div
@@ -439,11 +534,12 @@ export default function MarketChart({
               }}
             >
               <div className="tregu-chart-tip-date">
-                {new Date(hover.t).toLocaleDateString("sq-AL", { day: "numeric", month: "short" })}{" "}
-                {new Date(hover.t).toLocaleTimeString("sq-AL", { hour: "2-digit", minute: "2-digit" })}
+                {hover.live
+                  ? `Tani · ${new Date(hover.t).toLocaleTimeString("sq-AL", { hour: "2-digit", minute: "2-digit", second: "2-digit" })}`
+                  : `${new Date(hover.t).toLocaleDateString("sq-AL", { day: "numeric", month: "short" })} ${new Date(hover.t).toLocaleTimeString("sq-AL", { hour: "2-digit", minute: "2-digit" })}`}
               </div>
               <div className="tregu-chart-tip-row">
-                <span className="tregu-chart-tip-dot" style={{ background: MARKET }} />
+                <span className="tregu-chart-tip-dot" style={{ background: accent }} />
                 Tregu <strong>{Math.round(hover.p * 100)}%</strong>
               </div>
               {hover.ai !== null && (
@@ -468,7 +564,7 @@ export default function MarketChart({
 
       <div style={{ display: "flex", flexWrap: "wrap", gap: 16, marginTop: 10, fontSize: 11, color: "#6B6B6B", fontWeight: 600 }}>
         <span style={{ display: "flex", alignItems: "center", gap: 5 }}>
-          <span style={{ width: 12, height: 2.5, background: MARKET, display: "inline-block", borderRadius: 2 }} /> Çmimi i tregut
+          <span style={{ width: 12, height: 2.5, background: accent, display: "inline-block", borderRadius: 2 }} /> Çmimi i tregut
         </span>
         {aiPts.length > 0 && (
           <span style={{ display: "flex", alignItems: "center", gap: 5 }}>
