@@ -275,7 +275,7 @@ export default function GroupChart({
   const runsCols: { t: number; x: number; vals: number[] }[][] = [];
   let plo = 1;
   let phi = 0;
-  const buildCol = (arr: { t: number; x: number; vals: number[] }[], t: number, x: number) => {
+  const buildCol = (arr: { t: number; x: number; vals: number[] }[], t: number, x: number, committed = false) => {
     const raw = new Array<number>(n);
     const rawFit = new Array<number>(n);
     let sum = 0;
@@ -283,8 +283,12 @@ export default function GroupChart({
     for (let s = 0; s < n; s++) {
       const hist = data.histories[s] ?? [];
       const tp = tapes[s] ?? [];
-      const v = priceOf(tp, hist, lives[s] ?? targets[s], t);
       const vf = priceOf(tp, hist, committedTip(s), t);
+      // Sweep columns behind the pen must NOT track the 30fps easing tip — the
+      // committed variant equals the tape for historical t and freezes the head
+      // column at the last whole second. The gliding live value lives only in
+      // the separate straight tip segment.
+      const v = committed ? vf : priceOf(tp, hist, lives[s] ?? targets[s], t);
       raw[s] = v;
       rawFit[s] = vf;
       sum += v;
@@ -298,22 +302,27 @@ export default function GroupChart({
     const vals = sum > 0 ? raw.map((v) => v / sum) : raw.map(() => 1 / n);
     arr.push({ t, x, vals });
   };
+  // Sweep's fresh run kept out here so the live tip segments can attach to it.
+  let sweepCurCols: { t: number; x: number; vals: number[] }[] | null = null;
   if (isSweep && sweep) {
     const { T0, cycle, headF } = sweep;
     const gapF = Math.min(0.5, 7 / W);
+    // FIXED global grid: every column sits at f = i/N of the FRAME, forever.
+    // The pen only decides which cycle a column reads from — its x never moves.
+    // Grids derived from headF (the old approach) shifted every column each
+    // second, which read as the whole drawn stack jiggling.
     const cur: { t: number; x: number; vals: number[] }[] = [];
-    const curN = Math.max(2, Math.round(headF * N_SAMPLES));
-    for (let i = 0; i <= curN; i++) {
-      const f = headF * (i / curN);
-      buildCol(cur, T0 + cycle * windowMs + f * windowMs, f * W);
-    }
     const prev: { t: number; x: number; vals: number[] }[] = [];
-    const startF = Math.min(1, headF + gapF);
-    const prevN = Math.max(2, Math.round((1 - startF) * N_SAMPLES));
-    for (let i = 0; i <= prevN; i++) {
-      const f = startF + (1 - startF) * (i / prevN);
-      buildCol(prev, T0 + (cycle - 1) * windowMs + f * windowMs, f * W);
+    for (let i = 0; i <= N_SAMPLES; i++) {
+      const f = i / N_SAMPLES;
+      if (f <= headF) {
+        buildCol(cur, T0 + cycle * windowMs + f * windowMs, f * W, true);
+      } else if (f >= headF + gapF) {
+        buildCol(prev, T0 + (cycle - 1) * windowMs + f * windowMs, f * W);
+      }
+      // columns inside the pen gap stay blank this pass
     }
+    sweepCurCols = cur;
     if (cur.length > 1) runsCols.push(cur);
     if (prev.length > 1) runsCols.push(prev);
   } else {
@@ -345,8 +354,15 @@ export default function GroupChart({
   const hover = hoverI;
   // The live head carries current odds: on the sweep it's the last column of the
   // fresh (first) run; otherwise the right-edge column. Chips + dots read this.
-  const tipCol = isSweep && runsCols[0]?.length ? runsCols[0][runsCols[0].length - 1] : cols[cols.length - 1];
-  const lastValues = tipCol.vals;
+  // On the sweep the head carries the gliding live odds (renormalized) — the
+  // dot IS the tip, the only element allowed to move. Otherwise the right-edge
+  // column.
+  const liveNorm = (() => {
+    const raw = series.map((_, s) => lives[s] ?? targets[s] ?? 0);
+    const sum = raw.reduce((a, b) => a + b, 0);
+    return sum > 0 ? raw.map((v) => v / sum) : raw.map(() => 1 / n);
+  })();
+  const lastValues = isSweep ? liveNorm : cols[cols.length - 1].vals;
   const tipFrac = isSweep && sweep ? sweep.headF : 1;
   const ticks = ticksFor(lo, hi);
 
@@ -357,6 +373,20 @@ export default function GroupChart({
   // so they never join across the head blank or the frame wrap).
   const pathForCols = (arr: { x: number; vals: number[] }[], si: number) =>
     smoothPath(arr.map((c) => ({ x: c.x, y: yFor(c.vals[si]) })));
+  // The ONLY moving pieces: straight pen segments from each series' last
+  // committed column to its gliding live tip. Kept out of the smoothed
+  // committed paths so the tip's 30fps easing can't bend the neighbouring
+  // curve control points.
+  const tipSegs =
+    isSweep && sweep && sweepCurCols && sweepCurCols.length
+      ? series.map((s, si) => {
+          const a = sweepCurCols![sweepCurCols!.length - 1];
+          return {
+            color: s.color,
+            d: `M ${a.x.toFixed(1)} ${yFor(a.vals[si]).toFixed(1)} L ${(sweep!.headF * W).toFixed(1)} ${yFor(liveNorm[si]).toFixed(1)}`,
+          };
+        })
+      : null;
 
   const onMove = (clientX: number) => {
     const rect = plotRef.current?.getBoundingClientRect();
@@ -532,6 +562,18 @@ export default function GroupChart({
                   );
                 })
               )}
+              {tipSegs &&
+                tipSegs.map((seg, si) => (
+                  <path
+                    key={`tip-${si}`}
+                    d={seg.d}
+                    fill="none"
+                    stroke={seg.color}
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    vectorEffect="non-scaling-stroke"
+                  />
+                ))}
             </g>
             {hover && (
               <line
