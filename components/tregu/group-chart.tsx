@@ -158,6 +158,9 @@ export default function GroupChart({
   const [hoverI, setHoverI] = useState<{ x: number; t: number; values: number[]; live: boolean; col: number } | null>(null);
   const plotRef = useRef<HTMLDivElement>(null);
   const fitRef = useRef<FitBand>(null);
+  // Growing-trace anchor for short windows (1s/1m) — see MarketChart. Pins the
+  // left edge at t0 while the stack fills so every drawn second is pixel-static.
+  const growRef = useRef<{ key: string; t0: number } | null>(null);
   // Defs are document-scoped; two charts on one page would collide on a
   // hardcoded id. React's ids carry punctuation url(#…) can't resolve — strip it.
   const uid = useId().replace(/[^a-zA-Z0-9]/g, "");
@@ -226,10 +229,30 @@ export default function GroupChart({
   // and only advances one grid step (sub-pixel on all but the 1s window) when a
   // new second commits. The segment from the last committed second to this edge is
   // the live line being drawn; its tip uses the gliding `lives` value.
+  // Growing-trace on short windows (1s/1m): the stack draws left -> right into
+  // empty space, every drawn second frozen (leftT pinned at t0), only the tip
+  // moving; when full after `windowMs`, leftT begins to scroll. Wider windows
+  // keep the right-anchored model (already static, full history shown at once).
   const edge = Math.ceil(tapeNow / 1000) * 1000;
-  const rightT = edge - (isAll ? 0 : pan.panMs);
-  const leftT = isAll ? data.tMinAll : rightT - windowMs;
-  const spanMs = Math.max(1, rightT - leftT);
+  const isGrow = !isAll && windowMs <= 600_000;
+  let leftT: number;
+  let rightT: number;
+  let spanMs: number;
+  let tipT: number;
+  if (isGrow) {
+    const key = `${range}|${data.dataKey}`;
+    if (!growRef.current || growRef.current.key !== key) growRef.current = { key, t0: edge - 1000 };
+    const t0 = growRef.current.t0;
+    leftT = Math.max(t0, edge - windowMs);
+    rightT = leftT + windowMs;
+    spanMs = windowMs;
+    tipT = edge;
+  } else {
+    rightT = edge - (isAll ? 0 : pan.panMs);
+    leftT = isAll ? data.tMinAll : rightT - windowMs;
+    spanMs = Math.max(1, rightT - leftT);
+    tipT = rightT;
+  }
   const n = series.length;
 
   // Committed per-outcome tip values (last whole second, NOT the 30fps easing
@@ -246,8 +269,10 @@ export default function GroupChart({
   const cols: { t: number; x: number; vals: number[] }[] = [];
   let plo = 1;
   let phi = 0;
-  for (let i = 0; i <= N_SAMPLES; i++) {
-    const t = leftT + (i / N_SAMPLES) * spanMs;
+  // Read every outcome at time `t`, renormalize the stack to sum to 1, and fold
+  // the committed-tip variant into the vertical fit. `x` is passed in so the tip
+  // column can land at its exact fractional position.
+  const buildCol = (t: number, x: number, fitOnly = false) => {
     const raw = new Array<number>(n);
     const rawFit = new Array<number>(n);
     let sum = 0;
@@ -262,13 +287,36 @@ export default function GroupChart({
       sum += v;
       sumFit += vf;
     }
-    const vals = sum > 0 ? raw.map((v) => v / sum) : raw.map(() => 1 / n);
     const valsFit = sumFit > 0 ? rawFit.map((v) => v / sumFit) : rawFit.map(() => 1 / n);
     for (const v of valsFit) {
       if (v < plo) plo = v;
       if (v > phi) phi = v;
     }
-    cols.push({ t, x: (i / N_SAMPLES) * W, vals });
+    if (fitOnly) return;
+    const vals = sum > 0 ? raw.map((v) => v / sum) : raw.map(() => 1 / n);
+    cols.push({ t, x, vals });
+  };
+  for (let i = 0; i <= N_SAMPLES; i++) {
+    const t = leftT + (i / N_SAMPLES) * spanMs;
+    if (t > tipT + 1) break; // growing trace: nothing right of the live tip
+    buildCol(t, (i / N_SAMPLES) * W);
+  }
+  // End the stack exactly at the tip so the drawing edge is crisp.
+  if (isGrow && cols.length && cols[cols.length - 1].t < tipT - 1) {
+    buildCol(tipT, ((tipT - leftT) / spanMs) * W);
+  }
+  // Growing trace draws only a sliver of the window, so its fit would start tiny
+  // and expand as the stack fills — dragging drawn history up and down. Seed the
+  // band from the full recent committed window (fit-only, not drawn) so it is
+  // representative from frame one and then frozen: drawn columns hold their
+  // vertical position and only the tip moves.
+  if (isGrow) {
+    const from = edge - windowMs;
+    for (let i = 0; i <= N_SAMPLES; i++) {
+      const t = from + (i / N_SAMPLES) * windowMs;
+      if (t > edge) break;
+      buildCol(t, 0, true);
+    }
   }
 
   // Tight vertical fit — small padding so real moves fill the plot.
