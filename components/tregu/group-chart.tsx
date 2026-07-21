@@ -2,7 +2,7 @@
 
 import { useId, useMemo, useRef, useState } from "react";
 import { makeSampler, smoothPath } from "@/lib/tregu-tape";
-import { useReducedMotion, useDrawReveal, useLiveTapeVector, useChartPan, useLiveClock } from "./chart-hooks";
+import { useReducedMotion, useDrawReveal, useLiveTapeVector, useChartPan, useLiveClock, easeFitRange, type FitBand } from "./chart-hooks";
 
 // Multi-outcome event chart — the Polymarket-style view for grouped events.
 //
@@ -157,6 +157,7 @@ export default function GroupChart({
   const [range, setRange] = useState<RangeKey>("1d");
   const [hoverI, setHoverI] = useState<{ x: number; t: number; values: number[]; live: boolean; col: number } | null>(null);
   const plotRef = useRef<HTMLDivElement>(null);
+  const fitRef = useRef<FitBand>(null);
   // Defs are document-scoped; two charts on one page would collide on a
   // hardcoded id. React's ids carry punctuation url(#…) can't resolve — strip it.
   const uid = useId().replace(/[^a-zA-Z0-9]/g, "");
@@ -265,13 +266,17 @@ export default function GroupChart({
   }
 
   // Tight vertical fit — small padding so real moves fill the plot.
-  let lo = Math.max(0, plo - 0.02);
-  let hi = Math.min(1, phi + 0.02);
-  if (hi - lo < 0.12) {
-    const mid = (hi + lo) / 2;
-    lo = Math.max(0, mid - 0.06);
-    hi = Math.min(1, lo + 0.12);
+  let tLo = Math.max(0, plo - 0.02);
+  let tHi = Math.min(1, phi + 0.02);
+  if (tHi - tLo < 0.12) {
+    const mid = (tHi + tLo) / 2;
+    tLo = Math.max(0, mid - 0.06);
+    tHi = Math.min(1, tLo + 0.12);
   }
+  // Ease the band toward that target so a new high/low glides in instead of the
+  // whole stack (frozen history included) snapping. Deadband holds it rock-still
+  // while the live values wobble inside the existing frame.
+  const [lo, hi] = easeFitRange(fitRef, tLo, tHi, reduced);
 
   const isLiveEdge = isAll || pan.panMs < 1500;
   const hover = hoverI;

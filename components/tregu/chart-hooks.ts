@@ -54,6 +54,51 @@ export function useDrawReveal(durationMs: number, reduced: boolean): boolean {
   return drawn;
 }
 
+/** Persisted vertical-fit band. Create one per chart with `useRef`. */
+export type FitBand = { lo: number; hi: number } | null;
+
+/**
+ * Smoothly eases the plot's vertical fit range so the axis never snaps.
+ *
+ * The charts recompute a target [lo, hi] every frame from the committed
+ * per-second values. Applying that target directly makes the whole curve —
+ * including frozen history — jump the instant a new second pushes a new
+ * high/low into view (the "stutter" on a 55%→60% move where 60 wasn't yet on
+ * screen). Instead we hold the rendered band in a ref and:
+ *
+ *  - **Deadband:** if the target sits within `DEAD` of the current band, hold —
+ *    below ~1px of movement the band never changes, so drawn history is truly
+ *    frozen while the live value wobbles inside the existing frame.
+ *  - **Ease:** when a genuine new extreme arrives, glide the edge toward it at a
+ *    fixed fraction per frame (~350ms settle, no overshoot) — a smooth zoom, not
+ *    a snap.
+ *
+ * Not a hook — takes a caller-owned ref so it can run after an early return.
+ * Reduced motion snaps straight to the target.
+ */
+export function easeFitRange(
+  ref: { current: FitBand },
+  targetLo: number,
+  targetHi: number,
+  reduced: boolean,
+): [number, number] {
+  if (ref.current === null || reduced) {
+    ref.current = { lo: targetLo, hi: targetHi };
+  } else {
+    const DEAD = 0.006; // < ~1px on a 0..1 band — below this, hold the band
+    const FIT_EASE = 0.1; // gentler than the tail so a big rescale spreads over
+    //                       ~600ms of sub-2px steps — a glide, never a snap
+    const cur = ref.current;
+    const dLo = targetLo - cur.lo;
+    const dHi = targetHi - cur.hi;
+    ref.current = {
+      lo: Math.abs(dLo) > DEAD ? cur.lo + dLo * FIT_EASE : cur.lo,
+      hi: Math.abs(dHi) > DEAD ? cur.hi + dHi * FIT_EASE : cur.hi,
+    };
+  }
+  return [ref.current.lo, ref.current.hi];
+}
+
 /**
  * Live wall clock + countdown to the next scheduled refresh. `cadenceMs` is the
  * repricing interval for this market (120 000 live sports · 300 000 general).
