@@ -133,11 +133,6 @@ export default function MarketChart({
   // popup cancels it, so the popup stays open while the cursor is over it.
   const closeRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const fitRef = useRef<FitBand>(null);
-  // Sweep (oscilloscope) frame anchor for the live timeframes. `T0` pins the
-  // frame so x positions never move: the realtime line sweeps left→right and
-  // each drawn second freezes at its x, overwritten only a full frame later when
-  // the sweep head comes back around. Reseeds per view (range + data refresh).
-  const sweepRef = useRef<{ key: string; T0: number } | null>(null);
   const reduced = useReducedMotion();
   const drawn = useDrawReveal(1350, reduced);
   const { now: clockNow, nextInMs } = useLiveClock(cadenceMs);
@@ -222,7 +217,17 @@ export default function MarketChart({
   // window can be dragged. Both recompute each frame as `now` advances.
   const rangeMs = RANGES.find((r) => r.key === range)!.ms;
   const isAll = !Number.isFinite(rangeMs);
-  const fullSpan = Math.max(tapeNow - data.tMinAll, 60_000);
+  // Anchor the right edge to the LAST TAPE COMMIT, not the wall clock. The tape
+  // pushes on its own 1s cadence (offset by mount time), so a wall-clock edge
+  // steps ~500ms out of phase with the commit — two separate discrete moves per
+  // second (frame shift, then tip rewrite). Deriving the edge from the commit
+  // collapses both into the single per-second step the chart is allowed.
+  const lastCommitT = tape.length ? tape[tape.length - 1].t : Math.ceil(tapeNow / 1000) * 1000;
+  const edge = lastCommitT + 1000;
+  // fullSpan derives from the quantized edge too: when a wide range (1d/1w)
+  // clamps to the available history, a tapeNow-based span would grow every
+  // frame and drag leftT continuously — the chart must only step per second.
+  const fullSpan = Math.max(edge - data.tMinAll, 60_000);
   const windowMs = isAll ? fullSpan : Math.min(rangeMs, fullSpan);
   const maxPanMs = isAll ? 0 : Math.max(0, fullSpan - windowMs);
   const pan = useChartPan(boxRef, maxPanMs, windowMs, !reduced);
@@ -280,45 +285,15 @@ export default function MarketChart({
   // Absolute window edges (right = live minus pan). Clamp keeps the left edge at
   // the true start of history for "Gjithë" and when panned to the far past.
   //
-  // Quantize the right edge to whole seconds: within a second every committed
-  // sample maps to a fixed time -> fixed x/y, so drawn history is pixel-frozen and
-  // only advances one grid step (sub-pixel on all but the 1s window) when a new
-  // second commits. The one segment from the last committed second to this edge is
-  // the live line being drawn; its tip uses the gliding `live` value.
-  const edge = Math.ceil(tapeNow / 1000) * 1000;
-  // Sweep (oscilloscope) on the live timeframes (1s/1m/5m). The frame is FIXED —
-  // it never scrolls. `T0` pins the left edge once; the realtime line sweeps
-  // left -> right and every drawn second freezes at its x. When the head reaches
-  // the right edge it wraps to the left and overwrites the oldest second in
-  // place. Nothing behind the head ever shifts sideways — only the tip moves,
-  // exactly the accepted model. Wider windows (15m+) keep the right-anchored
-  // model: a per-second step there is sub-pixel, so they already read static and
-  // they show the whole history immediately.
-  const isSweep = !isAll && windowMs <= 2_700_000;
-  let leftT: number;
-  let rightT: number;
-  let spanMs: number;
-  let tipT: number;
-  let sweep: { T0: number; cycle: number; headF: number } | null = null;
-  if (isSweep) {
-    const key = `${range}|${data.dataKey}`;
-    // Seed T0 so the frame opens FULL — the head sits at the left edge with the
-    // last `windowMs` of history laid out across the frame, about to sweep.
-    if (!sweepRef.current || sweepRef.current.key !== key) sweepRef.current = { key, T0: edge - windowMs };
-    const T0 = sweepRef.current.T0;
-    const cycle = Math.floor((edge - T0) / windowMs); // which sweep pass we're on
-    const headF = ((edge - T0) % windowMs) / windowMs; // head position, 0..1 across the frame
-    sweep = { T0, cycle, headF };
-    leftT = edge - windowMs;
-    rightT = edge;
-    spanMs = windowMs;
-    tipT = edge;
-  } else {
-    rightT = edge - (isAll ? 0 : pan.panMs);
-    leftT = isAll ? data.tMinAll : rightT - windowMs;
-    spanMs = Math.max(1, rightT - leftT);
-    tipT = rightT;
-  }
+  // Right-anchored trading-chart frame on EVERY timeframe: the live pen is
+  // pinned at the right edge writing the newest odds; committed history extends
+  // leftward. Because everything derives from the quantized `edge` and the
+  // committed tape, the drawn curve is pixel-frozen between whole seconds and
+  // advances one exact grid step per second commit.
+  const rightT = edge - (isAll ? 0 : pan.panMs);
+  const leftT = isAll ? data.tMinAll : rightT - windowMs;
+  const spanMs = Math.max(1, rightT - leftT);
+  const tipT = rightT;
 
   // Committed price at the tip (last whole-second value, NOT the 30fps easing
   // `live`). The vertical fit uses this so the axis steps at most once per second
@@ -327,11 +302,10 @@ export default function MarketChart({
   const priceForFit = (t: number, drawn: number): number =>
     tape.length && t >= tape[tape.length - 1].t ? tipCommitted : drawn;
 
-  // Sample into contiguous runs — one for the normal right-anchored frame; two
-  // for the sweep (the fresh trace behind the head and the older frozen trace
-  // ahead of it, split by a small blank at the head so the live pen reads
-  // clearly). Draw uses the gliding tip; the fit uses the committed value so
-  // history never re-scales frame to frame.
+  // Sample one contiguous run across the window on a fixed fractional grid
+  // (x = i/N * W, constant forever). Samples at or past the last committed
+  // second are clamped to the committed tip so nothing behind the pen tracks
+  // the gliding live value; the pen segment below is the only moving piece.
   const runs: { t: number; p: number; x: number }[][] = [];
   let plo = 1;
   let phi = 0;
@@ -342,42 +316,13 @@ export default function MarketChart({
     if (pf > phi) phi = pf;
     arr.push({ t, p, x });
   };
-  // Sweep's cur run kept out here so the live tip segment can attach to its end.
-  let sweepCur: { t: number; p: number; x: number }[] | null = null;
-  if (isSweep && sweep) {
-    const { T0, cycle, headF } = sweep;
-    const gapF = Math.min(0.5, 7 / W); // small blank at the head, in frame fractions
-    // FIXED global grid: every sample sits at f = i/N of the FRAME, forever.
-    // The head only decides which cycle each grid point reads from — it never
-    // moves the grid itself. (Sampling each run at fractions of its own span
-    // re-gridded the entire curve every second: the jiggle.) Grid values are
-    // clamped to the committed tape so nothing behind the pen tracks the
-    // gliding live value; the pen segment below is the only moving piece.
-    const cur: { t: number; p: number; x: number }[] = [];
-    const prev: { t: number; p: number; x: number }[] = [];
-    const lastCommitT = tape.length ? tape[tape.length - 1].t : edge;
-    for (let i = 0; i <= N_SAMPLES; i++) {
-      const f = i / N_SAMPLES;
-      if (f <= headF) {
-        const t = T0 + cycle * windowMs + f * windowMs;
-        pushSample(cur, t, f * W, t >= lastCommitT ? tipCommitted : undefined);
-      } else if (f >= headF + gapF) {
-        pushSample(prev, T0 + (cycle - 1) * windowMs + f * windowMs, f * W);
-      }
-      // grid points inside the pen gap stay blank this pass
-    }
-    sweepCur = cur;
-    if (cur.length > 1) runs.push(cur);
-    if (prev.length > 1) runs.push(prev);
-  } else {
-    const run: { t: number; p: number; x: number }[] = [];
-    for (let i = 0; i <= N_SAMPLES; i++) {
-      const t = leftT + (i / N_SAMPLES) * spanMs;
-      if (t > tipT + 1) break;
-      pushSample(run, t, (i / N_SAMPLES) * W);
-    }
-    runs.push(run);
+  const run: { t: number; p: number; x: number }[] = [];
+  for (let i = 0; i <= N_SAMPLES; i++) {
+    const t = leftT + (i / N_SAMPLES) * spanMs;
+    if (t > tipT + 1) break;
+    pushSample(run, t, (i / N_SAMPLES) * W, t >= lastCommitT ? tipCommitted : undefined);
   }
+  runs.push(run);
   // Flat view of all samples (x-sorted: cur is left of prev) for hover + nearest.
   const samp = runs.flat();
 
@@ -396,20 +341,8 @@ export default function MarketChart({
   // refresh, and holds rock-still otherwise.
   const [lo, hi] = frozenFitRange(fitRef, `${range}|${data.dataKey}`, tLo, tHi, reduced);
 
-  // One path per run — the sweep renders its two frozen segments as separate
-  // paths so they never join across the head blank or the frame wrap.
   const runXY = runs.map((r) => r.map((s) => ({ x: s.x, y: yFor(s.p) })));
   const linePaths = runXY.filter((xy) => xy.length > 1).map((xy) => smoothPath(xy));
-  // The ONLY moving piece: a straight pen segment from the last committed grid
-  // point to the gliding live tip. Kept out of the smoothed committed path so
-  // the tip's 30fps easing can't bend the neighbouring curve control points.
-  const tipSeg =
-    isSweep && sweep && sweepCur && sweepCur.length
-      ? (() => {
-          const a = sweepCur[sweepCur.length - 1];
-          return `M ${a.x.toFixed(1)} ${yFor(a.p).toFixed(1)} L ${(sweep.headF * W).toFixed(1)} ${yFor(live).toFixed(1)}`;
-        })()
-      : null;
   const areaPaths = runXY
     .filter((xy) => xy.length > 1)
     .map((xy) => {
@@ -439,19 +372,24 @@ export default function MarketChart({
   const maxVol = Math.max(...volBuckets, 1);
   const bucketW = W / N_BUCKETS;
 
-  // News markers within the window. On the sweep the x is the phase position, so
-  // a marker sits wherever the head painted it and stays there until overwritten.
-  const xForT = (t: number) =>
-    isSweep && sweep ? ((((t - sweep.T0) % windowMs) + windowMs) % windowMs) / windowMs * W : ((t - leftT) / spanMs) * W;
+  // News markers within the window.
+  const xForT = (t: number) => ((t - leftT) / spanMs) * W;
   const shownEvents = data.events
     .map((e, gi) => ({ ...e, gi }))
     .filter((e) => e.t >= leftT && e.t <= rightT);
 
   const isLiveEdge = isAll || pan.panMs < 1500;
-  // Tip: the sweep pen sits at the head (headF across the frame) carrying the
-  // gliding live value; the right-anchored frame keeps its tip at the right edge.
-  const tipFrac = isSweep && sweep ? sweep.headF : 1;
-  const lastP = isSweep ? live : samp[samp.length - 1].p;
+  // The ONLY moving piece: a straight pen segment at the right edge, from the
+  // last committed grid point up/down to the gliding live tip. Kept out of the
+  // smoothed committed path so the tip's 30fps easing can't bend the curve.
+  const tipSeg =
+    isLiveEdge && runs[0] && runs[0].length
+      ? (() => {
+          const a = runs[0][runs[0].length - 1];
+          return `M ${a.x.toFixed(1)} ${yFor(a.p).toFixed(1)} L ${W} ${yFor(live).toFixed(1)}`;
+        })()
+      : null;
+  const lastP = isLiveEdge ? live : samp[samp.length - 1].p;
   const ticks = ticksFor(lo, hi);
   const activeNews = pinnedNews ?? hoveredNews;
 
@@ -462,7 +400,7 @@ export default function MarketChart({
     let nearest = samp[0];
     for (const s of samp) if (Math.abs(s.x - xpx) < Math.abs(nearest.x - xpx)) nearest = s;
     const ai = valueAt(data.aiAnchors, nearest.t);
-    const live = isSweep && sweep ? Math.abs(nearest.x - sweep.headF * W) < 8 : rightT - nearest.t < 2000 && isLiveEdge;
+    const live = rightT - nearest.t < 2000 && isLiveEdge;
     setHover({ frac: nearest.x / W, t: nearest.t, p: nearest.p, ai, live });
   };
 
@@ -474,16 +412,9 @@ export default function MarketChart({
     if (spanMs <= 2 * 86_400_000) return d.toLocaleTimeString("sq-AL", { hour: "2-digit", minute: "2-digit" });
     return d.toLocaleDateString("sq-AL", { day: "numeric", month: "short" });
   };
-  // Sweep axis is a FIXED elapsed-position grid (0 at the left edge -> windowMs at
-  // the right) so the labels never move as the head sweeps — the frame's time span
-  // read as m:ss. The right-anchored frame keeps wall-clock labels.
-  const fmtDur = (ms: number) => {
-    const s = Math.max(0, Math.round(ms / 1000));
-    return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`;
-  };
   const axisTicks = [0.08, 0.5, 0.92].map((f) => ({
     f,
-    label: isSweep ? fmtDur(f * windowMs) : fmtAxis(leftT + f * spanMs),
+    label: fmtAxis(leftT + f * spanMs),
   }));
 
   // News hover-intent helpers.
@@ -662,9 +593,7 @@ export default function MarketChart({
               style={
                 hover
                   ? { top: yFor(hover.p), left: `${hover.frac * 100}%`, right: "auto", background: accent }
-                  : isSweep
-                    ? { top: yFor(lastP), left: `${tipFrac * 100}%`, right: "auto", background: accent }
-                    : { top: yFor(lastP), background: accent }
+                  : { top: yFor(lastP), background: accent }
               }
               aria-hidden
             />
