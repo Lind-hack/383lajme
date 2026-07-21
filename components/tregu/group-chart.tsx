@@ -158,11 +158,6 @@ export default function GroupChart({
   const [hoverI, setHoverI] = useState<{ x: number; t: number; values: number[]; live: boolean; col: number } | null>(null);
   const plotRef = useRef<HTMLDivElement>(null);
   const fitRef = useRef<FitBand>(null);
-  // Sweep (oscilloscope) frame anchor for the live timeframes — see MarketChart.
-  // `T0` pins the frame; the realtime line sweeps left -> right and every drawn
-  // second freezes at its x, overwritten only a full frame later. Nothing behind
-  // the head ever shifts sideways. Reseeds per view (range + data refresh).
-  const sweepRef = useRef<{ key: string; T0: number } | null>(null);
   // Defs are document-scoped; two charts on one page would collide on a
   // hardcoded id. React's ids carry punctuation url(#…) can't resolve — strip it.
   const uid = useId().replace(/[^a-zA-Z0-9]/g, "");
@@ -213,7 +208,19 @@ export default function GroupChart({
   // Window geometry — identical model to MarketChart.
   const rangeMs = RANGES.find((r) => r.key === range)!.ms;
   const isAll = !Number.isFinite(rangeMs);
-  const fullSpan = Math.max(tapeNow - data.tMinAll, 60_000);
+  // Edge anchors to the last tape commit (not the wall clock) so the frame
+  // shift and tip rewrite are one per-second event; fullSpan derives from it
+  // too so a clamped wide range (1d/1w) steps instead of growing every frame.
+  let lastCommitT = 0;
+  for (const tp of tapes) {
+    if (tp && tp.length) {
+      lastCommitT = tp[tp.length - 1].t;
+      break;
+    }
+  }
+  if (!lastCommitT) lastCommitT = Math.ceil(tapeNow / 1000) * 1000;
+  const edge = lastCommitT + 1000;
+  const fullSpan = Math.max(edge - data.tMinAll, 60_000);
   const windowMs = isAll ? fullSpan : Math.min(rangeMs, fullSpan);
   const maxPanMs = isAll ? 0 : Math.max(0, fullSpan - windowMs);
   const pan = useChartPan(plotRef, maxPanMs, windowMs, !reduced);
@@ -226,36 +233,14 @@ export default function GroupChart({
     );
   }
 
-  // Sweep (oscilloscope) on the live timeframes (1s/1m/5m) — identical model to
-  // MarketChart. The frame is FIXED: `T0` pins the left edge, the stack sweeps
-  // left -> right, every drawn second freezes at its x, and the head wraps at the
-  // right edge to overwrite the oldest column in place. Nothing behind the head
-  // shifts sideways — only the tip moves. Wider windows keep the right-anchored
-  // model (per-second step sub-pixel there, and full history shown at once).
-  const edge = Math.ceil(tapeNow / 1000) * 1000;
-  const isSweep = !isAll && windowMs <= 2_700_000;
-  let leftT: number;
-  let rightT: number;
-  let spanMs: number;
-  let tipT: number;
-  let sweep: { T0: number; cycle: number; headF: number } | null = null;
-  if (isSweep) {
-    const key = `${range}|${data.dataKey}`;
-    if (!sweepRef.current || sweepRef.current.key !== key) sweepRef.current = { key, T0: edge - windowMs };
-    const T0 = sweepRef.current.T0;
-    const cycle = Math.floor((edge - T0) / windowMs);
-    const headF = ((edge - T0) % windowMs) / windowMs;
-    sweep = { T0, cycle, headF };
-    leftT = edge - windowMs;
-    rightT = edge;
-    spanMs = windowMs;
-    tipT = edge;
-  } else {
-    rightT = edge - (isAll ? 0 : pan.panMs);
-    leftT = isAll ? data.tMinAll : rightT - windowMs;
-    spanMs = Math.max(1, rightT - leftT);
-    tipT = rightT;
-  }
+  // Right-anchored trading-chart frame on EVERY timeframe — identical model to
+  // MarketChart: the live pen is pinned at the right edge writing the newest
+  // odds; committed history extends leftward, pixel-frozen between whole
+  // seconds, advancing one exact grid step per second commit.
+  const rightT = edge - (isAll ? 0 : pan.panMs);
+  const leftT = isAll ? data.tMinAll : rightT - windowMs;
+  const spanMs = Math.max(1, rightT - leftT);
+  const tipT = rightT;
   const n = series.length;
 
   // Committed per-outcome tip values (last whole second, NOT the 30fps easing
@@ -266,12 +251,12 @@ export default function GroupChart({
     return tp && tp.length ? tp[tp.length - 1].p : targets[s] ?? 0;
   };
 
-  // Sample into contiguous column-runs — one for the right-anchored frame; two
-  // for the sweep (fresh trace behind the head, older frozen trace ahead of it,
-  // split by a small blank at the head). At each column read every outcome's
-  // continuous price and renormalize so the stack sums to 1. The drawn stack uses
-  // the gliding tip; the vertical fit uses the committed tip so history never
-  // re-scales per frame.
+  // Sample one contiguous column-run across the window on a fixed fractional
+  // grid (x = i/N * W, constant forever). At each column read every outcome's
+  // continuous price and renormalize so the stack sums to 1. Columns at or past
+  // the last committed second are clamped to the committed tip so nothing behind
+  // the pen tracks the 30fps easing; the pen segments below are the only moving
+  // pieces. The vertical fit uses the committed tip so history never re-scales.
   const runsCols: { t: number; x: number; vals: number[] }[][] = [];
   let plo = 1;
   let phi = 0;
@@ -284,10 +269,10 @@ export default function GroupChart({
       const hist = data.histories[s] ?? [];
       const tp = tapes[s] ?? [];
       const vf = priceOf(tp, hist, committedTip(s), t);
-      // Sweep columns behind the pen must NOT track the 30fps easing tip — the
-      // committed variant equals the tape for historical t and freezes the head
-      // column at the last whole second. The gliding live value lives only in
-      // the separate straight tip segment.
+      // Committed columns must NOT track the 30fps easing tip — the committed
+      // variant equals the tape for historical t and freezes the newest column
+      // at the last whole second. The gliding live value lives only in the
+      // separate straight pen segments at the right edge.
       const v = committed ? vf : priceOf(tp, hist, lives[s] ?? targets[s], t);
       raw[s] = v;
       rawFit[s] = vf;
@@ -302,38 +287,13 @@ export default function GroupChart({
     const vals = sum > 0 ? raw.map((v) => v / sum) : raw.map(() => 1 / n);
     arr.push({ t, x, vals });
   };
-  // Sweep's fresh run kept out here so the live tip segments can attach to it.
-  let sweepCurCols: { t: number; x: number; vals: number[] }[] | null = null;
-  if (isSweep && sweep) {
-    const { T0, cycle, headF } = sweep;
-    const gapF = Math.min(0.5, 7 / W);
-    // FIXED global grid: every column sits at f = i/N of the FRAME, forever.
-    // The pen only decides which cycle a column reads from — its x never moves.
-    // Grids derived from headF (the old approach) shifted every column each
-    // second, which read as the whole drawn stack jiggling.
-    const cur: { t: number; x: number; vals: number[] }[] = [];
-    const prev: { t: number; x: number; vals: number[] }[] = [];
-    for (let i = 0; i <= N_SAMPLES; i++) {
-      const f = i / N_SAMPLES;
-      if (f <= headF) {
-        buildCol(cur, T0 + cycle * windowMs + f * windowMs, f * W, true);
-      } else if (f >= headF + gapF) {
-        buildCol(prev, T0 + (cycle - 1) * windowMs + f * windowMs, f * W);
-      }
-      // columns inside the pen gap stay blank this pass
-    }
-    sweepCurCols = cur;
-    if (cur.length > 1) runsCols.push(cur);
-    if (prev.length > 1) runsCols.push(prev);
-  } else {
-    const run: { t: number; x: number; vals: number[] }[] = [];
-    for (let i = 0; i <= N_SAMPLES; i++) {
-      const t = leftT + (i / N_SAMPLES) * spanMs;
-      if (t > tipT + 1) break;
-      buildCol(run, t, (i / N_SAMPLES) * W);
-    }
-    runsCols.push(run);
+  const run: { t: number; x: number; vals: number[] }[] = [];
+  for (let i = 0; i <= N_SAMPLES; i++) {
+    const t = leftT + (i / N_SAMPLES) * spanMs;
+    if (t > tipT + 1) break;
+    buildCol(run, t, (i / N_SAMPLES) * W, t >= lastCommitT);
   }
+  runsCols.push(run);
   const cols = runsCols.flat();
 
   // Tight vertical fit — small padding so real moves fill the plot.
@@ -352,38 +312,33 @@ export default function GroupChart({
 
   const isLiveEdge = isAll || pan.panMs < 1500;
   const hover = hoverI;
-  // The live head carries current odds: on the sweep it's the last column of the
-  // fresh (first) run; otherwise the right-edge column. Chips + dots read this.
-  // On the sweep the head carries the gliding live odds (renormalized) — the
-  // dot IS the tip, the only element allowed to move. Otherwise the right-edge
-  // column.
+  // Gliding live odds (renormalized) — feed ONLY the pen segments, dots and
+  // chips at the right edge; nothing in the committed stack reads them.
   const liveNorm = (() => {
     const raw = series.map((_, s) => lives[s] ?? targets[s] ?? 0);
     const sum = raw.reduce((a, b) => a + b, 0);
     return sum > 0 ? raw.map((v) => v / sum) : raw.map(() => 1 / n);
   })();
-  const lastValues = isSweep ? liveNorm : cols[cols.length - 1].vals;
-  const tipFrac = isSweep && sweep ? sweep.headF : 1;
+  const lastValues = isLiveEdge ? liveNorm : cols[cols.length - 1].vals;
   const ticks = ticksFor(lo, hi);
 
   // Build one smoothed path for a slice of columns for outcome si.
   const pathFor = (si: number, from: number, to: number) =>
     smoothPath(cols.slice(from, to).map((c) => ({ x: c.x, y: yFor(c.vals[si]) })));
-  // Path over an explicit column-run (used to draw each sweep segment separately
-  // so they never join across the head blank or the frame wrap).
+  // Path over an explicit column-run.
   const pathForCols = (arr: { x: number; vals: number[] }[], si: number) =>
     smoothPath(arr.map((c) => ({ x: c.x, y: yFor(c.vals[si]) })));
-  // The ONLY moving pieces: straight pen segments from each series' last
-  // committed column to its gliding live tip. Kept out of the smoothed
-  // committed paths so the tip's 30fps easing can't bend the neighbouring
-  // curve control points.
+  // The ONLY moving pieces: straight pen segments at the right edge, from each
+  // series' last committed column up/down to its gliding live tip. Kept out of
+  // the smoothed committed paths so the tip's 30fps easing can't bend the
+  // neighbouring curve control points.
   const tipSegs =
-    isSweep && sweep && sweepCurCols && sweepCurCols.length
+    isLiveEdge && run.length
       ? series.map((s, si) => {
-          const a = sweepCurCols![sweepCurCols!.length - 1];
+          const a = run[run.length - 1];
           return {
             color: s.color,
-            d: `M ${a.x.toFixed(1)} ${yFor(a.vals[si]).toFixed(1)} L ${(sweep!.headF * W).toFixed(1)} ${yFor(liveNorm[si]).toFixed(1)}`,
+            d: `M ${a.x.toFixed(1)} ${yFor(a.vals[si]).toFixed(1)} L ${W} ${yFor(liveNorm[si]).toFixed(1)}`,
           };
         })
       : null;
@@ -395,7 +350,7 @@ export default function GroupChart({
     let bi = 0;
     for (let i = 0; i < cols.length; i++) if (Math.abs(cols[i].x - xpx) < Math.abs(cols[bi].x - xpx)) bi = i;
     const c = cols[bi];
-    const live = isSweep && sweep ? Math.abs(c.x - sweep.headF * W) < 8 : rightT - c.t < 2000 && isLiveEdge;
+    const live = rightT - c.t < 2000 && isLiveEdge;
     setHoverI({ x: c.x, t: c.t, values: c.vals, live, col: bi });
   };
 
@@ -405,16 +360,9 @@ export default function GroupChart({
     if (spanMs <= 2 * 86_400_000) return d.toLocaleTimeString("sq-AL", { hour: "2-digit", minute: "2-digit" });
     return d.toLocaleDateString("sq-AL", { day: "numeric", month: "short" });
   };
-  // Sweep axis is a FIXED elapsed-position grid (0 -> windowMs across the frame)
-  // so labels never move as the head sweeps; the right-anchored frame keeps wall
-  // clock labels.
-  const fmtDur = (ms: number) => {
-    const s = Math.max(0, Math.round(ms / 1000));
-    return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`;
-  };
   const axisTicks = [0.08, 0.5, 0.92].map((f) => ({
     f,
-    label: isSweep ? fmtDur(f * windowMs) : fmtAxis(leftT + f * spanMs),
+    label: fmtAxis(leftT + f * spanMs),
   }));
 
   // Chips are pushed apart 26px, so only so many fit the plot height.
@@ -438,9 +386,8 @@ export default function GroupChart({
   spreadWithin(hoverLabels, PLOT_TOP + 2, PLOT_BOTTOM - 12);
   const hoverXpct = hover === null ? 0 : (hover.x / W) * 100;
   const hoverFlip = hoverXpct > 64;
-  // Future-graying (played vs upcoming split at the crosshair) only makes sense
-  // on the single right-anchored run; the sweep draws each frozen run whole.
-  const showFuture = !isSweep && hover !== null && !hover.live && hover.col < cols.length - 1;
+  // Future-graying: played vs upcoming split at the crosshair.
+  const showFuture = hover !== null && !hover.live && hover.col < cols.length - 1;
 
   return (
     <div>
@@ -536,9 +483,8 @@ export default function GroupChart({
                 ))}
               {runsCols.map((run, ri) =>
                 series.map((s, si) => {
-                  // One path per (run, outcome). Non-sweep honors the played/future
-                  // split; the sweep draws each frozen run whole.
-                  const d = !isSweep && showFuture ? pathFor(si, 0, hover!.col + 1) : pathForCols(run, si);
+                  // One path per (run, outcome), honoring the played/future split.
+                  const d = showFuture ? pathFor(si, 0, hover!.col + 1) : pathForCols(run, si);
                   return (
                     <g key={`${ri}-${s.label}`}>
                       <path
@@ -598,9 +544,7 @@ export default function GroupChart({
                 style={
                   hover
                     ? { top: yFor(hover.values[i]), left: `${hoverXpct}%`, right: "auto", background: s.color }
-                    : isSweep
-                      ? { top: yFor(lastValues[i]), left: `${tipFrac * 100}%`, right: "auto", background: s.color }
-                      : { top: yFor(lastValues[i]), background: s.color }
+                    : { top: yFor(lastValues[i]), background: s.color }
                 }
                 aria-hidden
               />
