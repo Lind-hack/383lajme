@@ -335,31 +335,38 @@ export default function MarketChart({
   const runs: { t: number; p: number; x: number }[][] = [];
   let plo = 1;
   let phi = 0;
-  const pushSample = (arr: { t: number; p: number; x: number }[], t: number, x: number) => {
-    const p = priceAt(t);
+  const pushSample = (arr: { t: number; p: number; x: number }[], t: number, x: number, pOverride?: number) => {
+    const p = pOverride ?? priceAt(t);
     const pf = priceForFit(t, p);
     if (pf < plo) plo = pf;
     if (pf > phi) phi = pf;
     arr.push({ t, p, x });
   };
+  // Sweep's cur run kept out here so the live tip segment can attach to its end.
+  let sweepCur: { t: number; p: number; x: number }[] | null = null;
   if (isSweep && sweep) {
     const { T0, cycle, headF } = sweep;
     const gapF = Math.min(0.5, 7 / W); // small blank at the head, in frame fractions
-    // Fresh trace: x 0 -> head, times (edge − headF·win) -> edge, tip = live.
+    // FIXED global grid: every sample sits at f = i/N of the FRAME, forever.
+    // The head only decides which cycle each grid point reads from — it never
+    // moves the grid itself. (Sampling each run at fractions of its own span
+    // re-gridded the entire curve every second: the jiggle.) Grid values are
+    // clamped to the committed tape so nothing behind the pen tracks the
+    // gliding live value; the pen segment below is the only moving piece.
     const cur: { t: number; p: number; x: number }[] = [];
-    const curN = Math.max(2, Math.round(headF * N_SAMPLES));
-    for (let i = 0; i <= curN; i++) {
-      const f = headF * (i / curN);
-      pushSample(cur, T0 + cycle * windowMs + f * windowMs, f * W);
-    }
-    // Older frozen trace: x head+gap -> right edge, from the previous sweep pass.
     const prev: { t: number; p: number; x: number }[] = [];
-    const startF = Math.min(1, headF + gapF);
-    const prevN = Math.max(2, Math.round((1 - startF) * N_SAMPLES));
-    for (let i = 0; i <= prevN; i++) {
-      const f = startF + (1 - startF) * (i / prevN);
-      pushSample(prev, T0 + (cycle - 1) * windowMs + f * windowMs, f * W);
+    const lastCommitT = tape.length ? tape[tape.length - 1].t : edge;
+    for (let i = 0; i <= N_SAMPLES; i++) {
+      const f = i / N_SAMPLES;
+      if (f <= headF) {
+        const t = T0 + cycle * windowMs + f * windowMs;
+        pushSample(cur, t, f * W, t >= lastCommitT ? tipCommitted : undefined);
+      } else if (f >= headF + gapF) {
+        pushSample(prev, T0 + (cycle - 1) * windowMs + f * windowMs, f * W);
+      }
+      // grid points inside the pen gap stay blank this pass
     }
+    sweepCur = cur;
     if (cur.length > 1) runs.push(cur);
     if (prev.length > 1) runs.push(prev);
   } else {
@@ -393,6 +400,16 @@ export default function MarketChart({
   // paths so they never join across the head blank or the frame wrap.
   const runXY = runs.map((r) => r.map((s) => ({ x: s.x, y: yFor(s.p) })));
   const linePaths = runXY.filter((xy) => xy.length > 1).map((xy) => smoothPath(xy));
+  // The ONLY moving piece: a straight pen segment from the last committed grid
+  // point to the gliding live tip. Kept out of the smoothed committed path so
+  // the tip's 30fps easing can't bend the neighbouring curve control points.
+  const tipSeg =
+    isSweep && sweep && sweepCur && sweepCur.length
+      ? (() => {
+          const a = sweepCur[sweepCur.length - 1];
+          return `M ${a.x.toFixed(1)} ${yFor(a.p).toFixed(1)} L ${(sweep.headF * W).toFixed(1)} ${yFor(live).toFixed(1)}`;
+        })()
+      : null;
   const areaPaths = runXY
     .filter((xy) => xy.length > 1)
     .map((xy) => {
@@ -607,6 +624,9 @@ export default function MarketChart({
 
               {/* Price line + travelling gleam (gleam suppressed on hover/drag so
                   it never lights up while the crosshair is reading the past). */}
+              {tipSeg && (
+                <path d={tipSeg} fill="none" stroke={accent} strokeWidth="2.5" strokeLinecap="round" vectorEffect="non-scaling-stroke" />
+              )}
               {linePaths.map((d, i) => (
                 <g key={`l${i}`}>
                   <path d={d} fill="none" stroke={accent} strokeWidth="2.5" strokeLinejoin="round" strokeLinecap="round" vectorEffect="non-scaling-stroke" />

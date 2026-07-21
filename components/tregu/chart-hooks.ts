@@ -94,11 +94,12 @@ export function frozenFitRange(
   const wantLo = Math.min(cur.lo, targetLo);
   const wantHi = Math.max(cur.hi, targetHi);
   if (wantLo < cur.lo - 1e-4 || wantHi > cur.hi + 1e-4) {
-    const GROW = 0.08; // ~450ms eased expansion when a genuine new extreme lands
-    const lo = cur.lo + (wantLo - cur.lo) * GROW;
-    const hi = cur.hi + (wantHi - cur.hi) * GROW;
-    ref.current = { key, lo, hi };
-    return [lo, hi];
+    // Grow INSTANTLY — one step, then still. Easing the expansion means the
+    // whole drawn history glides for ~half a second, which is exactly the
+    // "already-drawn lines are moving" violation. A new extreme is rare; a
+    // single-frame step is the minimum motion that can fit it on screen.
+    ref.current = { key, lo: wantLo, hi: wantHi };
+    return [wantLo, wantHi];
   }
   return [cur.lo, cur.hi];
 }
