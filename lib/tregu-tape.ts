@@ -81,6 +81,44 @@ export function dramatizeSeries(pts: TapePoint[], key: string): TapePoint[] {
 }
 
 /**
+ * Continuous deterministic price sampler over sparse real anchors. Same noise
+ * model as `dramatizeSeries`, but as a *pure function of time* — evaluate it at
+ * any timestamp and it always returns the same value (anchors exact, smooth
+ * jagged texture between). This is what lets every timeframe be a window over
+ * one continuous series: the live per-second tape covers the recent past, and
+ * this sampler fills in everything older, so the two meet with no seam and no
+ * "jump" from history to live.
+ */
+export function makeSampler(anchors: TapePoint[], key: string): (t: number) => number {
+  const pts = [...new Map(anchors.map((p) => [p.t, p])).values()].sort((a, b) => a.t - b.t);
+  if (pts.length === 0) return () => 0.5;
+  const seed = seedOf(key);
+  const amp = ampFor(pts.map((p) => p.p));
+  const first = pts[0];
+  const last = pts[pts.length - 1];
+  return (t: number): number => {
+    if (t <= first.t) return clamp01(first.p);
+    if (t >= last.t) return clamp01(last.p);
+    // Locate the segment [a, b] containing t (linear scan — anchor counts are
+    // small; the hot per-second path uses the live tape, not this).
+    let i = 0;
+    while (i < pts.length - 1 && pts[i + 1].t <= t) i++;
+    const a = pts[i];
+    const b = pts[i + 1] ?? a;
+    const f = b.t > a.t ? (t - a.t) / (b.t - a.t) : 0;
+    const base = a.p + (b.p - a.p) * f;
+    // Fades to zero at both anchors so the texture never contradicts them.
+    const w = Math.sin(Math.PI * f);
+    const m = t / 60_000;
+    const noise =
+      jag(m * 1.31 + seed) * amp +
+      jag(m * 0.37 + seed * 2.7) * amp * 0.7 +
+      jag(m * 0.11 + seed * 5.1) * amp * 1.35;
+    return clamp01(base + noise * w);
+  };
+}
+
+/**
  * Smooth an already-projected polyline into a rounded curve. Takes screen-space
  * points ({x,y}, x strictly ascending) and returns an SVG path where every
  * corner is a Catmull-Rom→cubic-Bézier arc instead of a sharp vertex — so a
