@@ -93,12 +93,43 @@ export function makeSampler(anchors: TapePoint[], key: string): (t: number) => n
   const pts = [...new Map(anchors.map((p) => [p.t, p])).values()].sort((a, b) => a.t - b.t);
   if (pts.length === 0) return () => 0.5;
   const seed = seedOf(key);
-  const amp = ampFor(pts.map((p) => p.p));
+  // Append-stable amplitude: each segment's amp derives from the price range of
+  // the anchors seen UP TO its right endpoint (prefix range). Appending newer
+  // anchors — a fresh cron snapshot, a trade — can therefore never rescale the
+  // texture of segments already drawn, which is what keeps the chart's history
+  // identical across data refetches and page reloads.
+  const amps: number[] = [];
+  {
+    let lo = pts[0].p;
+    let hi = pts[0].p;
+    for (const p of pts) {
+      if (p.p < lo) lo = p.p;
+      if (p.p > hi) hi = p.p;
+      amps.push(Math.max(0.022, Math.min(0.072, (hi - lo) * 0.55)));
+    }
+  }
   const first = pts[0];
   const last = pts[pts.length - 1];
+  const lastAmp = amps[amps.length - 1];
+  const noiseAt = (t: number, amp: number): number => {
+    const m = t / 60_000;
+    return (
+      jag(m * 1.31 + seed) * amp +
+      jag(m * 0.37 + seed * 2.7) * amp * 0.7 +
+      jag(m * 0.11 + seed * 5.1) * amp * 1.35
+    );
+  };
   return (t: number): number => {
     if (t <= first.t) return clamp01(first.p);
-    if (t >= last.t) return clamp01(last.p);
+    if (t >= last.t) {
+      // Beyond the last real anchor: hold the last price with texture fading in
+      // over ~4 min. A pure function of absolute time — NOT of "now" — so the
+      // fill between the last snapshot and the live edge is the same series no
+      // matter when it is evaluated. (The old model anchored this stretch to a
+      // moving {now, liveProb} point, which redrew it on every poll.)
+      const w = Math.min(1, (t - last.t) / 240_000);
+      return clamp01(last.p + noiseAt(t, lastAmp) * w);
+    }
     // Locate the segment [a, b] containing t (linear scan — anchor counts are
     // small; the hot per-second path uses the live tape, not this).
     let i = 0;
@@ -109,12 +140,7 @@ export function makeSampler(anchors: TapePoint[], key: string): (t: number) => n
     const base = a.p + (b.p - a.p) * f;
     // Fades to zero at both anchors so the texture never contradicts them.
     const w = Math.sin(Math.PI * f);
-    const m = t / 60_000;
-    const noise =
-      jag(m * 1.31 + seed) * amp +
-      jag(m * 0.37 + seed * 2.7) * amp * 0.7 +
-      jag(m * 0.11 + seed * 5.1) * amp * 1.35;
-    return clamp01(base + noise * w);
+    return clamp01(base + noiseAt(t, amps[Math.min(i + 1, amps.length - 1)]) * w);
   };
 }
 

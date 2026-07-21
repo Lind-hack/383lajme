@@ -166,24 +166,30 @@ export default function MarketChart({
       .sort((a, b) => a.t - b.t);
     const realCount = real.length;
 
-    // Anchor the sampler's right edge at the live value so the gap between the
-    // last real repricing and now fills with textured drift (not a flat hold),
-    // and joins the live tape continuously.
-    const anchors = [...real, { t: now0, p: currentProb }];
-    const sampler = makeSampler(anchors, seedKey);
+    // Real anchors ONLY — no {now, liveProb} endpoint. The sampler extrapolates
+    // past the last real anchor as a pure function of absolute time, so the
+    // stretch between the last repricing and the live edge is the same series on
+    // every rebuild. (The old moving endpoint re-based that stretch — and the
+    // global noise amplitude — on every 12 s poll, redrawing drawn history.)
+    const sampler = makeSampler(real, seedKey);
     const tMinAll = real.length > 0 ? real[0].t : now0 - 86_400_000;
 
-    // FREEZE history once. The sampler is a high-frequency deterministic hash;
-    // evaluating it live at scrolling `t` every frame reshuffles the whole past
-    // ("disco"). Instead we evaluate it ONCE here into an immutable curve. This
-    // array is rebuilt only when [trades, snapshots, currentProb, seedKey]
-    // change (~every 5-min refresh), so between refreshes history is drawn once
-    // and never rewritten — only the live edge moves. Render interpolates THIS
-    // curve, never the hash. (Polymarket/Kalshi: committed history, live tail.)
-    const HIST_MAX = 5000;
-    const histStep = Math.max(60_000, Math.ceil((now0 - tMinAll) / HIST_MAX));
+    // FREEZE history once, on a grid that never reshuffles. Two rules make the
+    // sampled curve identical across rebuilds (12 s polls, cron refreshes,
+    // reloads): (1) sample at absolute multiples of the step, never offsets of
+    // "now"; (2) the step comes from a doubling ladder (60 s · 2^k), so when a
+    // growing span forces a coarser step the new timestamps are a subset of the
+    // old ones — points move only by disappearing, never by shifting. The old
+    // `ceil(span/N)` step changed with every rebuild and resampled the entire
+    // hash-noise texture at shifted timestamps: a brand-new chart each poll.
+    const HIST_MAX = 10_000;
+    let histStep = 60_000;
+    while ((now0 - tMinAll) / histStep > HIST_MAX) histStep *= 2;
     const history: { t: number; p: number }[] = [];
-    for (let t = tMinAll; t < now0; t += histStep) history.push({ t, p: sampler(t) });
+    if (tMinAll % histStep !== 0) history.push({ t: tMinAll, p: sampler(tMinAll) });
+    for (let t = Math.ceil(tMinAll / histStep) * histStep; t < now0; t += histStep) {
+      history.push({ t, p: sampler(t) });
+    }
     history.push({ t: now0, p: sampler(now0) });
 
     const aiAnchors = snapshots
@@ -202,11 +208,13 @@ export default function MarketChart({
       .map((tr) => ({ t: +new Date(tr.created_at), c: Math.abs(tr.coins) }))
       .filter((x) => Number.isFinite(x.t));
 
-    // dataKey reseeds the live tape only on structural change — NOT on every
-    // currentProb tick (that flows through the tape's target ref instead).
-    const dataKey = `${seedKey}|${realCount}|${Math.round(tMinAll / 60_000)}`;
+    // dataKey is the market identity, nothing else. The tape's per-second walk
+    // is drawn-once history: reseeding it on snapshot/trade count (as before)
+    // discarded the recorded walk on every cron refresh and redrew the recent
+    // past. New data flows in through refs; the tape itself never restarts.
+    const dataKey = seedKey;
     return { sampler, history, aiAnchors, events, tradeTimes, tMinAll, realCount, dataKey };
-  }, [trades, snapshots, currentProb, seedKey]);
+  }, [trades, snapshots, seedKey]);
 
   // The live per-second tape (recent history + gliding right edge). `tapeNow`
   // ticks every frame and drives the window; the tape is read during render.
@@ -302,10 +310,13 @@ export default function MarketChart({
   const priceForFit = (t: number, drawn: number): number =>
     tape.length && t >= tape[tape.length - 1].t ? tipCommitted : drawn;
 
-  // Sample one contiguous run across the window on a fixed fractional grid
-  // (x = i/N * W, constant forever). Samples at or past the last committed
-  // second are clamped to the committed tip so nothing behind the pen tracks
-  // the gliding live value; the pen segment below is the only moving piece.
+  // Sample the committed curve at ABSOLUTE quantized timestamps (multiples of a
+  // stable step ladder), never at screen-uniform fractions of the window.
+  // Fractional sampling re-evaluated the curve at times that slid with the
+  // advancing edge, so every wiggle slowly migrated across minutes even though
+  // the underlying series was frozen. Absolute-grid samples are pinned to fixed
+  // timestamps forever — the window slides over them, each point drifts
+  // sub-pixel leftward per second, and its value never changes.
   const runs: { t: number; p: number; x: number }[][] = [];
   let plo = 1;
   let phi = 0;
@@ -317,11 +328,16 @@ export default function MarketChart({
     arr.push({ t, p, x });
   };
   const run: { t: number; p: number; x: number }[] = [];
-  for (let i = 0; i <= N_SAMPLES; i++) {
-    const t = leftT + (i / N_SAMPLES) * spanMs;
-    if (t > tipT + 1) break;
-    pushSample(run, t, (i / N_SAMPLES) * W, t >= lastCommitT ? tipCommitted : undefined);
+  let sampleStep = 1000;
+  while (spanMs / sampleStep > N_SAMPLES) sampleStep *= 2;
+  const xForSample = (t: number) => ((t - leftT) / spanMs) * W;
+  if (leftT % sampleStep !== 0) {
+    pushSample(run, leftT, 0, leftT >= lastCommitT ? tipCommitted : undefined);
   }
+  for (let t = Math.ceil(leftT / sampleStep) * sampleStep; t < tipT; t += sampleStep) {
+    pushSample(run, t, xForSample(t), t >= lastCommitT ? tipCommitted : undefined);
+  }
+  pushSample(run, tipT, W, tipT >= lastCommitT ? tipCommitted : undefined);
   runs.push(run);
   // Flat view of all samples (x-sorted: cur is left of prev) for hover + nearest.
   const samp = runs.flat();

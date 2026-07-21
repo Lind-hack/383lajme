@@ -59,12 +59,13 @@ const mmss = (ms: number) => {
 
 // Real anchors for one outcome (dedup same-ms writes so a state+odds snapshot
 // in the same millisecond never forms an artificial vertical rectangle).
+// Real anchors ONLY — no {now, prob} endpoint: the sampler extrapolates past
+// the last real anchor as a pure function of absolute time, so nothing in the
+// drawn series depends on when it was evaluated (see MarketChart's data memo).
 function anchorsOf(s: EventSeries, now: number): { t: number; p: number }[] {
-  const base =
-    s.series && s.series.length >= 1
-      ? [...new Map(s.series.map((point) => [point.t, point])).values()].sort((a, b) => a.t - b.t)
-      : [{ t: now - 86_400_000, p: s.prob }];
-  return [...base, { t: now, p: s.prob }];
+  return s.series && s.series.length >= 1
+    ? [...new Map(s.series.map((point) => [point.t, point])).values()].sort((a, b) => a.t - b.t)
+    : [{ t: now - 86_400_000, p: s.prob }];
 }
 
 // Interpolate a FROZEN history curve (immutable between refreshes). Never calls
@@ -186,19 +187,24 @@ export default function GroupChart({
       if (a.length > 0 && a[0].t < tMinAll) tMinAll = a[0].t;
       realCount += a.length;
     }
-    // FREEZE each outcome's history once (see MarketChart for the full rationale):
-    // the hash sampler is evaluated here into immutable curves, so between 5-min
-    // refreshes the past is drawn once and never rewritten — only the live edge
-    // moves. Render interpolates these curves, never the hash at scrolling `t`.
-    const HIST_MAX = 5000;
-    const histStep = Math.max(60_000, Math.ceil((now0 - tMinAll) / HIST_MAX));
+    // FREEZE each outcome's history once, on the same never-reshuffling grid as
+    // MarketChart: absolute-multiple timestamps + a doubling step ladder, so
+    // every rebuild samples identical points and the drawn curves never change.
+    const HIST_MAX = 10_000;
+    let histStep = 60_000;
+    while ((now0 - tMinAll) / histStep > HIST_MAX) histStep *= 2;
     const histories = samplers.map((fn) => {
       const h: { t: number; p: number }[] = [];
-      for (let t = tMinAll; t < now0; t += histStep) h.push({ t, p: fn(t) });
+      if (tMinAll % histStep !== 0) h.push({ t: tMinAll, p: fn(tMinAll) });
+      for (let t = Math.ceil(tMinAll / histStep) * histStep; t < now0; t += histStep) {
+        h.push({ t, p: fn(t) });
+      }
       h.push({ t: now0, p: fn(now0) });
       return h;
     });
-    const dataKey = `${series.map((s) => s.label).join("|")}|${realCount}|${Math.round(tMinAll / 60_000)}`;
+    // dataKey is the market identity (outcome labels) only — never counts or
+    // times, so the tapes' recorded walks survive polls and cron refreshes.
+    const dataKey = series.map((s) => s.label).join("|");
     return { samplers, histories, tMinAll, realCount, dataKey };
   }, [series]);
 
@@ -225,7 +231,9 @@ export default function GroupChart({
   const maxPanMs = isAll ? 0 : Math.max(0, fullSpan - windowMs);
   const pan = useChartPan(plotRef, maxPanMs, windowMs, !reduced);
 
-  if (series.length === 0 || data.realCount < 2 * series.length) {
+  // Anchors no longer include a synthetic live endpoint, so ≥1 per outcome is
+  // the same coverage the old ≥2 (real + appended live) guard required.
+  if (series.length === 0 || data.realCount < series.length) {
     return (
       <div style={{ height: H, display: "flex", alignItems: "center", justifyContent: "center", color: "#6B6B6B", fontSize: 13 }}>
         Ende pa mjaftueshëm të dhëna historike
@@ -251,9 +259,8 @@ export default function GroupChart({
     return tp && tp.length ? tp[tp.length - 1].p : targets[s] ?? 0;
   };
 
-  // Sample one contiguous column-run across the window on a fixed fractional
-  // grid (x = i/N * W, constant forever). At each column read every outcome's
-  // continuous price and renormalize so the stack sums to 1. Columns at or past
+  // Sample one contiguous column-run across the window. At each column read
+  // every outcome's continuous price and renormalize so the stack sums to 1. Columns at or past
   // the last committed second are clamped to the committed tip so nothing behind
   // the pen tracks the 30fps easing; the pen segments below are the only moving
   // pieces. The vertical fit uses the committed tip so history never re-scales.
@@ -287,12 +294,18 @@ export default function GroupChart({
     const vals = sum > 0 ? raw.map((v) => v / sum) : raw.map(() => 1 / n);
     arr.push({ t, x, vals });
   };
+  // Absolute quantized sample grid — identical model to MarketChart: columns
+  // pinned to fixed timestamps so the drawn stack never migrates as the edge
+  // advances; the window slides over immutable samples.
   const run: { t: number; x: number; vals: number[] }[] = [];
-  for (let i = 0; i <= N_SAMPLES; i++) {
-    const t = leftT + (i / N_SAMPLES) * spanMs;
-    if (t > tipT + 1) break;
-    buildCol(run, t, (i / N_SAMPLES) * W, t >= lastCommitT);
+  let sampleStep = 1000;
+  while (spanMs / sampleStep > N_SAMPLES) sampleStep *= 2;
+  const xForSample = (t: number) => ((t - leftT) / spanMs) * W;
+  if (leftT % sampleStep !== 0) buildCol(run, leftT, 0, leftT >= lastCommitT);
+  for (let t = Math.ceil(leftT / sampleStep) * sampleStep; t < tipT; t += sampleStep) {
+    buildCol(run, t, xForSample(t), t >= lastCommitT);
   }
+  buildCol(run, tipT, W, tipT >= lastCommitT);
   runsCols.push(run);
   const cols = runsCols.flat();
 
