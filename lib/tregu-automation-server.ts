@@ -1,4 +1,5 @@
 import { getArticles } from "@/lib/db";
+import { liveHeadlinesFor } from "@/lib/live-news";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { scoreMarketWithAI, slugifyQuestion, type Market } from "@/lib/tregu";
 import { buildDailyDraftPlan, buildLiveEventDraftRunKey, buildRepricePlan, repriceMarketSkipReason, validateDailyDraftSubmission } from "@/lib/tregu-automation.mjs";
@@ -281,25 +282,19 @@ async function runNewsReprice(action: "reprice" | "tregu_live", runKey: string, 
   const startedAt = Date.now();
 
   try {
-    const [{ data: markets, error: marketsError }, articles] = await Promise.all([
-      admin.from("markets").select("*").eq("status", "open"),
-      getArticles(80),
-    ]);
+    const { data: markets, error: marketsError } = await admin.from("markets").select("*").eq("status", "open");
     if (marketsError) throw new Error(`Could not load open markets: ${marketsError.message}`);
 
-    const plan = buildRepricePlan({
-      markets: markets ?? [],
-      verifiedArticles: articles.map((article) => ({
-        slug: article.slug,
-        category: article.category,
-        publishedAt: article.publishedAt,
-        source: article.source,
-        url: article.url,
-        title: article.title,
-        excerpt: article.excerpt,
-        imageUrl: article.imageUrl,
-      })),
-    });
+    // Per-market external discovery only. Never use 383's article pool as repricing evidence.
+    const researchedMarkets = await Promise.all((markets ?? []).map(async (market) => {
+      const headlines = await liveHeadlinesFor(String(market.question ?? ""), market.category as Parameters<typeof liveHeadlinesFor>[1]);
+      return { market, articles: headlines.map((headline, index) => ({
+        slug: `google-news:${encodeURIComponent(`${headline.source}:${headline.title}`).slice(0, 180)}:${index}`,
+        category: "external-google-news", publishedAt: new Date(now.getTime() - headline.ageMin * 60_000).toISOString(),
+        source: headline.source, title: headline.title, excerpt: headline.title, verification: "external_google_news",
+      })) };
+    }));
+    const plan = researchedMarkets.flatMap(({ market, articles }) => buildRepricePlan({ markets: [market], verifiedArticles: articles }));
     const results: Array<{
       slug: string;
       status: "oracle_applied" | "settled" | "oracle_failed" | "no_change" | "no_fresh_evidence" | "skipped_closed";

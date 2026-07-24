@@ -110,9 +110,8 @@ export async function liveHeadlinesFor(
   question: string,
   category: MarketCategory,
 ): Promise<LiveHeadline[]> {
-  const urls = [questionFeedUrl(question), CATEGORY_FEED[category]].filter(
-    (u): u is string => Boolean(u),
-  );
+  // Category feeds are forbidden: a Tregu market researches only its own question.
+  const urls = [questionFeedUrl(question)].filter((u): u is string => Boolean(u));
   if (urls.length === 0) return [];
 
   const batches = await Promise.all(urls.map(fetchFeed));
