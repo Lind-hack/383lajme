@@ -37,6 +37,7 @@ interface AiScoreResult {
   reasoning: string;
   cited_slugs: string[];
   evidence_level: "ordinary" | "decisive";
+  resolution_action: "unresolved" | "settle_po" | "settle_jo";
   provider: string;
   fallback_index: number;
   fallback_reason: string | null;
@@ -50,9 +51,10 @@ export async function scoreMarketWithAI(market: Market, suppliedArticles?: Artic
     .join("\n\n");
 
   const system =
-    "Je analist lajmesh per 383, nje sajt lajmesh ne Kosove. Vleresoje probabilitetin qe nje treg parashikimi te zgjidhet 'PO', bazuar VETEM ne artikujt e dhene. evidence_level duhet te jete 'decisive' VETEM kur te pakten dy artikuj te cituar nga botues te pavarur e vertetojne qarte se rezultati PO eshte pothuajse i pamundur ose pothuajse i sigurt sipas pyetjes dhe kritereve te zgjidhjes. Per cdo rast tjeter perdor 'ordinary'. Mos shpik fakte, transferime, rezultate ose kritere. Kthe VETEM JSON: " +
-    `{"probability": 0.0-1.0, "evidence_level": "ordinary|decisive", "reasoning": "shpjegim i shkurter shqip", "cited_slugs": ["slug1", "slug2"]}`;
-  const user = `Pyetja e tregut: "${market.question}"\n${market.description ? `Kontekst: ${market.description}\n` : ""}\nArtikuj te fundit:\n\n${context || "(pa artikuj te lidhur)"}`;
+    "Je analist lajmesh per 383, nje sajt lajmesh ne Kosove. Vleresoje probabilitetin qe nje treg parashikimi te zgjidhet 'PO', bazuar VETEM ne artikujt e dhene. evidence_level duhet te jete 'decisive' VETEM kur te pakten dy artikuj te cituar nga botues te pavarur e vertetojne qarte se rezultati PO eshte pothuajse i pamundur ose pothuajse i sigurt sipas pyetjes dhe kritereve te zgjidhjes. resolution_action duhet te jete 'settle_po' ose 'settle_jo' VETEM kur dy burime te pavarura te cituara konfirmojne nje fakt perfundimtar qe ploteson drejtperdrejt kriteret e zgjidhjes; ndryshe duhet te jete 'unresolved'. Numri i artikujve nuk vendos madhesine e levizjes; lidhja direkte me kriteret e zgjidhjes e vendos. Per cdo rast tjeter perdor 'ordinary' dhe 'unresolved'. Mos shpik fakte, transferime, rezultate ose kritere. Kthe VETEM JSON: " +
+    `{"probability": 0.0-1.0, "evidence_level": "ordinary|decisive", "resolution_action": "unresolved|settle_po|settle_jo", "reasoning": "shpjegim i shkurter shqip", "cited_slugs": ["slug1", "slug2"]}`;
+  const criteria = String((market as Market & { resolution_criteria?: string; resolution_rules?: string }).resolution_criteria ?? (market as Market & { resolution_rules?: string }).resolution_rules ?? "").trim();
+  const user = `Pyetja e tregut: "${market.question}"\n${market.description ? `Kontekst: ${market.description}\n` : ""}${criteria ? `Kriteret e zgjidhjes: ${criteria}\n` : ""}\nArtikuj te fundit:\n\n${context || "(pa artikuj te lidhur)"}`;
 
   const response = await marketAiChat(system, user, { json: true, maxTokens: 600 });
   const parsed = parseJSON<Omit<AiScoreResult, "provider" | "fallback_index" | "fallback_reason">>(response.content);
@@ -61,6 +63,7 @@ export async function scoreMarketWithAI(market: Market, suppliedArticles?: Artic
     reasoning: String(parsed.reasoning ?? ""),
     cited_slugs: Array.isArray(parsed.cited_slugs) ? parsed.cited_slugs.map(String) : [],
     evidence_level: parsed.evidence_level === "decisive" ? "decisive" : "ordinary",
+    resolution_action: parsed.resolution_action === "settle_po" || parsed.resolution_action === "settle_jo" ? parsed.resolution_action : "unresolved",
     provider: response.provider,
     fallback_index: response.fallback_index,
     fallback_reason: response.fallback_reason,
