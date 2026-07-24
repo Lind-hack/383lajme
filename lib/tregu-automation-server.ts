@@ -297,6 +297,7 @@ async function runNewsReprice(action: "reprice" | "tregu_live", runKey: string, 
         url: article.url,
         title: article.title,
         excerpt: article.excerpt,
+        imageUrl: article.imageUrl,
       })),
     });
     const results: Array<{
@@ -355,10 +356,9 @@ async function runNewsReprice(action: "reprice" | "tregu_live", runKey: string, 
         // neither influence Groq nor reach the database adjustment boundary.
         const score = await scoreMarketWithAI(item.market as Market, item.evidence);
         const outcome = item.scoreSuccess(score);
-        if (!outcome.snapshot) throw new Error(outcome.audit.error ?? "Could not build news reference signal.");
         const evidence = item.evidence
           .filter((article: { slug: string }) => outcome.snapshot!.evidence_slugs.includes(article.slug))
-          .map((article: { title: string; slug: string; source?: string; url?: string }) => ({ title: article.title, slug: article.slug, source: article.source, url: article.url }));
+          .map((article: { title: string; slug: string; source?: string; url?: string; imageUrl?: string }) => ({ title: article.title, slug: article.slug, source: article.source, url: article.url, imageUrl: article.imageUrl }));
         if (evidence.length === 0) throw new Error(`No verified cited evidence for ${item.market.slug}.`);
         if ("settlement" in outcome && outcome.settlement) {
           const { data: settlementRows, error: settlementError } = await admin.rpc("apply_verified_news_settlement", {
@@ -394,6 +394,7 @@ async function runNewsReprice(action: "reprice" | "tregu_live", runKey: string, 
           });
           continue;
         }
+        if (!outcome.snapshot) throw new Error(outcome.audit.error ?? "Could not build news reference signal.");
         const latestNewsAt = item.evidence.map((article: { publishedAt: string }) => article.publishedAt).sort().at(-1) ?? now.toISOString();
         const { data: oracleRows, error: oracleError } = await admin.rpc("apply_news_oracle", {
           p_market_id: item.market.id,
