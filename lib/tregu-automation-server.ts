@@ -294,10 +294,10 @@ async function runNewsReprice(action: "reprice" | "tregu_live", runKey: string, 
         source: headline.source, title: headline.title, excerpt: headline.title, verification: "external_google_news",
       })) };
     }));
-    const plan = researchedMarkets.flatMap(({ market, articles }) => buildRepricePlan({ markets: [market], verifiedArticles: articles }));
+    const plan = researchedMarkets.flatMap(({ market, articles }) => buildRepricePlan({ markets: [market], verifiedArticles: articles, now }));
     const results: Array<{
       slug: string;
-      status: "oracle_applied" | "settled" | "oracle_failed" | "no_change" | "no_fresh_evidence" | "skipped_closed";
+      status: "oracle_applied" | "settled" | "deadline_settled" | "deadline_decay" | "oracle_failed" | "no_change" | "no_fresh_evidence" | "skipped_closed";
       provider?: string;
       fallback_index?: number;
       fallback_reason?: string | null;
@@ -336,8 +336,24 @@ async function runNewsReprice(action: "reprice" | "tregu_live", runKey: string, 
           .eq("id", item.market.id)
           .maybeSingle();
         if (currentMarketError) throw new Error(`Could not recheck market ${item.market.slug}: ${currentMarketError.message}`);
+        if (item.deadline?.requires_deadline_oracle) {
+          const { error: deadlineError } = await admin.rpc("apply_news_deadline_settlement", { p_market_id: item.market.id });
+          if (deadlineError) throw new Error(`Could not apply deadline settlement for ${item.market.slug}: ${deadlineError.message}`);
+          results.push({ slug: item.market.slug, status: "deadline_settled" });
+          continue;
+        }
         if (repriceMarketSkipReason(currentMarket, now)) {
           results.push({ slug: item.market.slug, status: "skipped_closed" });
+          continue;
+        }
+        if (item.deadline && !item.deadline.requires_deadline_oracle && item.deadline.reference_probability != null) {
+          const { error: deadlineDecayError } = await admin.rpc("apply_news_deadline_decay", {
+            p_market_id: item.market.id,
+            p_reference_probability: item.deadline.reference_probability,
+          });
+          if (deadlineDecayError) throw new Error(`Could not apply deadline decay for ${item.market.slug}: ${deadlineDecayError.message}`);
+          const persisted = await recordMarketCheck(item.market.id, { status: "deadline_decay", checked_at: now.toISOString(), reference_probability: item.deadline.reference_probability });
+          results.push(persisted ? { slug: item.market.slug, status: "deadline_decay" } : { slug: item.market.slug, status: "skipped_closed" });
           continue;
         }
         if (item.evidence.length === 0) {
