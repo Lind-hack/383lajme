@@ -301,7 +301,7 @@ async function runNewsReprice(action: "reprice" | "tregu_live", runKey: string, 
     });
     const results: Array<{
       slug: string;
-      status: "oracle_applied" | "oracle_failed" | "no_change" | "no_fresh_evidence" | "skipped_closed";
+      status: "oracle_applied" | "settled" | "oracle_failed" | "no_change" | "no_fresh_evidence" | "skipped_closed";
       provider?: string;
       fallback_index?: number;
       fallback_reason?: string | null;
@@ -360,6 +360,40 @@ async function runNewsReprice(action: "reprice" | "tregu_live", runKey: string, 
           .filter((article: { slug: string }) => outcome.snapshot!.evidence_slugs.includes(article.slug))
           .map((article: { title: string; slug: string; source?: string; url?: string }) => ({ title: article.title, slug: article.slug, source: article.source, url: article.url }));
         if (evidence.length === 0) throw new Error(`No verified cited evidence for ${item.market.slug}.`);
+        if ("settlement" in outcome && outcome.settlement) {
+          const { data: settlementRows, error: settlementError } = await admin.rpc("apply_verified_news_settlement", {
+            p_market_id: item.market.id,
+            p_outcome: outcome.settlement.outcome,
+            p_oracle_reasoning: String(score.reasoning ?? ""),
+            p_evidence_slugs: outcome.settlement.evidence_slugs,
+            p_evidence: evidence,
+            p_evidence_sources: evidence.map((article: { source?: string }) => String(article.source ?? "")).filter(Boolean),
+          });
+          if (settlementError) throw new Error(`Could not settle verified-news market ${item.market.slug}: ${settlementError.message}`);
+          const settlement = Array.isArray(settlementRows) ? settlementRows[0] : null;
+          if (!settlement) throw new Error(`Verified-news settlement did not return an audit result for ${item.market.slug}.`);
+          const afterProbability = outcome.settlement.outcome === "PO" ? 1 : 0;
+          const persisted = await recordMarketCheck(item.market.id, { status: "settled", checked_at: now.toISOString(), evidence_count: evidence.length, provider: score.provider, outcome: outcome.settlement.outcome });
+          if (!persisted) { results.push({ slug: item.market.slug, status: "skipped_closed" }); continue; }
+          results.push({
+            slug: item.market.slug,
+            status: "settled",
+            provider: score.provider,
+            fallback_index: score.fallback_index,
+            fallback_reason: score.fallback_reason,
+            email_update: {
+              question: item.market.question,
+              slug: item.market.slug,
+              provider: score.provider,
+              before_probability: Number(settlement.previous_price_yes),
+              after_probability: afterProbability,
+              absolute_percentage_point_change: Math.abs(afterProbability - Number(settlement.previous_price_yes)),
+              timestamp: now.toISOString(),
+              verified_sources: evidence.map((article: { source?: string; title: string; slug: string; url?: string }) => ({ label: String(article.source ?? "Verified source"), title: article.title, slug: article.slug, url: article.url })),
+            },
+          });
+          continue;
+        }
         const latestNewsAt = item.evidence.map((article: { publishedAt: string }) => article.publishedAt).sort().at(-1) ?? now.toISOString();
         const { data: oracleRows, error: oracleError } = await admin.rpc("apply_news_oracle", {
           p_market_id: item.market.id,
@@ -426,7 +460,7 @@ async function runNewsReprice(action: "reprice" | "tregu_live", runKey: string, 
       }
     }
 
-    const successfulScores = results.filter((result) => result.status === "oracle_applied");
+    const successfulScores = results.filter((result) => result.status === "oracle_applied" || result.status === "settled");
     const fallbacks = successfulScores.filter((result) => (result.fallback_index ?? 0) > 0);
     const skippedClosed = results.filter((result) => result.status === "skipped_closed");
     const details = {
