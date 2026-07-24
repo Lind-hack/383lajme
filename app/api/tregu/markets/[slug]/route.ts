@@ -1,6 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { lmsrPriceYes } from "@/lib/tregu";
+import { getArticles } from "@/lib/db";
 import { parseEvent, slugKey } from "@/lib/tregu-groups";
 
 export const dynamic = "force-dynamic";
@@ -63,6 +64,23 @@ export async function GET(
         .order("created_at", { ascending: false })
         .limit(50),
     ]);
+
+  const articleBySlug = new Map((await getArticles(500)).map((article) => [article.slug, article]));
+  const snapshotsWithEvidence = (snapshots ?? []).map((snapshot) => {
+    const rawEvidence: unknown[] = Array.isArray(snapshot.evidence) ? snapshot.evidence : [];
+    const evidence = rawEvidence.map((raw) => {
+      const item = (raw ?? {}) as { slug?: string; title?: string; source?: string; url?: string; imageUrl?: string };
+      const article = item.slug ? articleBySlug.get(item.slug) : undefined;
+      return {
+        ...item,
+        title: item.title || article?.title || "Lajm i verifikuar që ndikoi në treg",
+        source: item.source || article?.source || "Burim i verifikuar",
+        url: item.url || article?.url,
+        imageUrl: item.imageUrl || article?.imageUrl,
+      };
+    });
+    return { ...snapshot, evidence };
+  });
 
   const holders = ((holdersRes.data ?? []) as {
     display_name: string;
