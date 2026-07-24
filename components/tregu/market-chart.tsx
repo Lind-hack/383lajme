@@ -680,7 +680,7 @@ export default function MarketChart({
               className="tregu-newspop"
               data-open={newsPopupOpen}
               style={{
-                left: `${Math.max(7, Math.min(93, (xForT(data.events[renderedNews].t) / W) * 100))}%`,
+                left: `${Math.max(22, Math.min(78, (xForT(data.events[renderedNews].t) / W) * 100))}%`,
                 top: Math.max(4, yFor(data.events[renderedNews].p) - 16),
               }}
               onPointerEnter={cancelClose}
