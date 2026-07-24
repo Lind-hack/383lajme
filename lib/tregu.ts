@@ -36,6 +36,7 @@ interface AiScoreResult {
   probability: number; // 0..1
   reasoning: string;
   cited_slugs: string[];
+  evidence_level: "ordinary" | "decisive";
   provider: string;
   fallback_index: number;
   fallback_reason: string | null;
@@ -49,8 +50,8 @@ export async function scoreMarketWithAI(market: Market, suppliedArticles?: Artic
     .join("\n\n");
 
   const system =
-    "Je analist lajmesh per 383, nje sajt lajmesh ne Kosove. Vleresoje probabilitetin qe nje treg parashikimi te zgjidhet 'PO', bazuar VETEM ne artikujt e dhene. Kthe VETEM JSON: " +
-    `{"probability": 0.0-1.0, "reasoning": "shpjegim i shkurter shqip", "cited_slugs": ["slug1", "slug2"]}`;
+    "Je analist lajmesh per 383, nje sajt lajmesh ne Kosove. Vleresoje probabilitetin qe nje treg parashikimi te zgjidhet 'PO', bazuar VETEM ne artikujt e dhene. evidence_level duhet te jete 'decisive' VETEM kur te pakten dy artikuj te cituar nga botues te pavarur e vertetojne qarte se rezultati PO eshte pothuajse i pamundur ose pothuajse i sigurt sipas pyetjes dhe kritereve te zgjidhjes. Per cdo rast tjeter perdor 'ordinary'. Mos shpik fakte, transferime, rezultate ose kritere. Kthe VETEM JSON: " +
+    `{"probability": 0.0-1.0, "evidence_level": "ordinary|decisive", "reasoning": "shpjegim i shkurter shqip", "cited_slugs": ["slug1", "slug2"]}`;
   const user = `Pyetja e tregut: "${market.question}"\n${market.description ? `Kontekst: ${market.description}\n` : ""}\nArtikuj te fundit:\n\n${context || "(pa artikuj te lidhur)"}`;
 
   const response = await marketAiChat(system, user, { json: true, maxTokens: 600 });
@@ -59,6 +60,7 @@ export async function scoreMarketWithAI(market: Market, suppliedArticles?: Artic
     probability: Math.min(1, Math.max(0, Number(parsed.probability))),
     reasoning: String(parsed.reasoning ?? ""),
     cited_slugs: Array.isArray(parsed.cited_slugs) ? parsed.cited_slugs.map(String) : [],
+    evidence_level: parsed.evidence_level === "decisive" ? "decisive" : "ordinary",
     provider: response.provider,
     fallback_index: response.fallback_index,
     fallback_reason: response.fallback_reason,

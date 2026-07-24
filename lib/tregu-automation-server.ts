@@ -295,6 +295,8 @@ async function runNewsReprice(action: "reprice" | "tregu_live", runKey: string, 
         publishedAt: article.publishedAt,
         source: article.source,
         url: article.url,
+        title: article.title,
+        excerpt: article.excerpt,
       })),
     });
     const results: Array<{
@@ -368,6 +370,7 @@ async function runNewsReprice(action: "reprice" | "tregu_live", runKey: string, 
           p_evidence_sources: outcome.snapshot.evidence_sources,
           p_last_news_at: latestNewsAt,
           p_requested_cap: outcome.snapshot.oracle_cap,
+          p_evidence_kind: outcome.snapshot.evidence_kind,
         });
         if (oracleError) throw new Error(`Could not apply hybrid oracle for ${item.market.slug}: ${oracleError.message}`);
         const oracle = Array.isArray(oracleRows) ? oracleRows[0] : null;
