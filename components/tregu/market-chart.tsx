@@ -1,6 +1,6 @@
 "use client";
 
-import { useId, useMemo, useRef, useState } from "react";
+import { useEffect, useId, useMemo, useRef, useState } from "react";
 import { makeSampler, smoothPath } from "@/lib/tregu-tape";
 import { getCategoryColor } from "@/lib/category-colors";
 import { useReducedMotion, useDrawReveal, useLiveTape, useChartPan, useLiveClock, frozenFitRange, type FitBand } from "./chart-hooks";
@@ -32,10 +32,10 @@ export interface SnapshotPoint {
   created_at: string;
   ai_prob: number | null;
   market_prob: number;
-  evidence?: { title: string; slug: string; url?: string }[] | null;
+  evidence?: { title: string; slug: string; url?: string; source?: string; imageUrl?: string }[] | null;
 }
 
-type NewsEvidence = { title: string; slug: string; url?: string };
+type NewsEvidence = { title: string; slug: string; url?: string; source?: string; imageUrl?: string };
 
 // Timeframe = window width (zoom) over ONE continuous per-second series. Every
 // frame the right edge is `now`; a narrower window makes each per-second move
@@ -128,10 +128,13 @@ export default function MarketChart({
   // by mouse enter (desktop). Either one open shows the article that moved it.
   const [pinnedNews, setPinnedNews] = useState<number | null>(null);
   const [hoveredNews, setHoveredNews] = useState<number | null>(null);
+  const [renderedNews, setRenderedNews] = useState<number | null>(null);
+  const [newsPopupOpen, setNewsPopupOpen] = useState(false);
   const boxRef = useRef<HTMLDivElement>(null);
   // Hover-intent bridge: leaving a marker schedules a close, but entering the
   // popup cancels it, so the popup stays open while the cursor is over it.
   const closeRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const popupExitRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const fitRef = useRef<FitBand>(null);
   const reduced = useReducedMotion();
   const drawn = useDrawReveal(1350, reduced);
@@ -409,6 +412,22 @@ export default function MarketChart({
   const ticks = ticksFor(lo, hi);
   const activeNews = pinnedNews ?? hoveredNews;
 
+  // Keep the card mounted just long enough to animate out after a hover leaves.
+  // Tap/click pins it for touch devices; a second tap closes it.
+  useEffect(() => {
+    if (popupExitRef.current) clearTimeout(popupExitRef.current);
+    if (activeNews !== null) {
+      setRenderedNews(activeNews);
+      const frame = requestAnimationFrame(() => setNewsPopupOpen(true));
+      return () => cancelAnimationFrame(frame);
+    }
+    setNewsPopupOpen(false);
+    popupExitRef.current = setTimeout(() => setRenderedNews(null), 180);
+    return () => {
+      if (popupExitRef.current) clearTimeout(popupExitRef.current);
+    };
+  }, [activeNews]);
+
   const onMove = (clientX: number) => {
     const rect = boxRef.current?.getBoundingClientRect();
     if (!rect || rect.width === 0) return;
@@ -655,12 +674,14 @@ export default function MarketChart({
 
           {/* News popup — the article(s) behind the active marker. Hovering the
               popup itself cancels the pending close, so it stays put. */}
-          {drawn && activeNews !== null && data.events[activeNews] && data.events[activeNews].t >= leftT && data.events[activeNews].t <= rightT && (
+          {drawn && renderedNews !== null && data.events[renderedNews] && data.events[renderedNews].t >= leftT && data.events[renderedNews].t <= rightT && (
             <div
+              key={renderedNews}
               className="tregu-newspop"
+              data-open={newsPopupOpen}
               style={{
-                left: `${Math.max(4, Math.min(96, (xForT(data.events[activeNews].t) / W) * 100))}%`,
-                top: Math.max(4, yFor(data.events[activeNews].p) - 16),
+                left: `${Math.max(7, Math.min(93, (xForT(data.events[renderedNews].t) / W) * 100))}%`,
+                top: Math.max(4, yFor(data.events[renderedNews].p) - 16),
               }}
               onPointerEnter={cancelClose}
               onPointerLeave={(ev) => {
@@ -672,20 +693,27 @@ export default function MarketChart({
                 <span className="tregu-newspop-diamond" style={{ background: EVENT }} />
                 Lajmi që lëvizi tregun
               </div>
-              {data.events[activeNews].evidence.slice(0, 2).map((ev, j) => (
+              {data.events[renderedNews].evidence.slice(0, 2).map((ev, j) => (
                 <a
-                  key={j}
+                  key={`${ev.slug}-${j}`}
                   className="tregu-newspop-item"
                   href={ev.url || `/lajme/${ev.slug}`}
                   target={ev.url ? "_blank" : undefined}
                   rel={ev.url ? "noopener noreferrer" : undefined}
                 >
-                  <span className="tregu-newspop-title">{ev.title}</span>
-                  <span className="tregu-newspop-src">
-                    Lexo lajmin
-                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" aria-hidden>
-                      <path d="M7 17L17 7M17 7H9M17 7v8" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
+                  <span className="tregu-newspop-media" aria-hidden>
+                    <span className="tregu-newspop-fallback">{(ev.source || ev.title || "L").trim().charAt(0).toUpperCase()}</span>
+                    {ev.imageUrl && <img src={ev.imageUrl} alt="" onError={(event) => { event.currentTarget.style.display = "none"; }} />}
+                  </span>
+                  <span className="tregu-newspop-copy">
+                    <span className="tregu-newspop-title">{ev.title}</span>
+                    <span className="tregu-newspop-source">{ev.source || "Burim i verifikuar"}</span>
+                    <span className="tregu-newspop-src">
+                      Lexo lajmin
+                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" aria-hidden>
+                        <path d="M7 17L17 7M17 7H9M17 7v8" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </span>
                   </span>
                 </a>
               ))}
