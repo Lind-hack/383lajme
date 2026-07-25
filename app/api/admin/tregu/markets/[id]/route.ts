@@ -4,8 +4,8 @@ import { isAdminAuthed } from "@/lib/admin-auth";
 
 export const dynamic = "force-dynamic";
 
-type MarketClassification = "general_news" | "live_football" | "live_f1";
-const MARKET_CLASSIFICATIONS: readonly MarketClassification[] = ["general_news", "live_football", "live_f1"];
+type MarketClassification = "general_news" | "live_football" | "live_basketball" | "live_f1";
+const MARKET_CLASSIFICATIONS: readonly MarketClassification[] = ["general_news", "live_football", "live_basketball", "live_f1"];
 
 // PATCH { action: "approve" }              -> draft -> open
 // PATCH { action: "close" }                -> open -> closed (betting stops, awaiting resolution)
