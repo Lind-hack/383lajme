@@ -200,8 +200,11 @@ export async function GET(
     closesAt: m.closes_at,
   }));
 
+  const f1 = market.market_type === "f1_race_winner" && Array.isArray(market.sport_outcomes)
+    ? { outcomes: market.sport_outcomes.map((row: { key?: string; label?: string; team?: string }) => ({ key: row.key, label: row.label, team: row.team, probability: Number(market.reference_probabilities?.[row.key ?? ""] ?? 0) })), timing: market.live_score_state ?? null }
+    : null;
   return NextResponse.json({
-    market: { ...market, market_prob: currentProb },
+    market: { ...market, market_prob: currentProb }, f1,
     event,
     snapshots: snapshots ?? [],
     trades: trades ?? [],
