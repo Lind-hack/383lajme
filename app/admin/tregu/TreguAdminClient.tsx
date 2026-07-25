@@ -189,10 +189,10 @@ export default function TreguAdminClient() {
                   </select>
                 </label>
                 <div style={{ display: "flex", gap: 8, marginTop: 10 }}>
-                  <button onClick={() => marketAction(m.id, { action: "approve" })} style={{ ...btn, background: "#22C55E", color: "#fff", border: "none" }}>
+                  <button type="button" onClick={() => marketAction(m.id, { action: "approve" })} style={{ ...btn, background: "#22C55E", color: "#fff", border: "none" }}>
                     Mirato
                   </button>
-                  <button onClick={() => deleteDraft(m.id)} style={{ ...btn, color: "#e53e3e" }}>
+                  <button type="button" onClick={() => deleteDraft(m.id)} style={{ ...btn, color: "#e53e3e" }}>
                     Fshi
                   </button>
                 </div>
