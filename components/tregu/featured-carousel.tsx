@@ -104,6 +104,7 @@ function Slide({ market, active }: { market: MiniMarket; active: boolean }) {
         {/* ── The proposition ── */}
         <div className="tregu-feature-main">
           <div style={{ display: "flex", alignItems: "center", flexWrap: "wrap", gap: 10, marginBottom: 14 }}>
+            {/\bF1\b|Çmimin e Madh/i.test(market.question) && <span aria-label="Formula 1" style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 38, height: 26, borderRadius: 5, background: "#e10600", color: "#fff", fontSize: 13, fontWeight: 950, fontStyle: "italic", letterSpacing: "-1px", boxShadow: "0 6px 18px rgba(225,6,0,.28)" }}>F1</span>}
             <span className="tregu-pill">{CATEGORY_LABEL[market.category] ?? market.category}</span>
             {remaining && <span className="tregu-market-close">{remaining}</span>}
           </div>
