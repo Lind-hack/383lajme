@@ -77,6 +77,17 @@ export default function TreguAdminClient() {
     return () => window.clearInterval(healthTimer);
   }, []);
 
+  const createHungaryF1Drafts = async () => {
+    const drivers = [["ANT","Andrea Kimi Antonelli","Mercedes"],["RUS","George Russell","Mercedes"],["LEC","Charles Leclerc","Ferrari"],["HAM","Lewis Hamilton","Ferrari"],["VER","Max Verstappen","Red Bull"],["HAD","Isack Hadjar","Red Bull"],["PIA","Oscar Piastri","McLaren"],["NOR","Lando Norris","McLaren"],["BOR","Gabriel Bortoleto","Audi"],["HUL","Nico Hülkenberg","Audi"],["LIN","Arvid Lindblad","RB F1 Team"],["LAW","Liam Lawson","RB F1 Team"],["COL","Franco Colapinto","Alpine F1 Team"],["GAS","Pierre Gasly","Alpine F1 Team"],["BEA","Oliver Bearman","Haas F1 Team"],["OCO","Esteban Ocon","Haas F1 Team"],["ALB","Alexander Albon","Williams"],["SAI","Carlos Sainz","Williams"],["BOT","Valtteri Bottas","Cadillac F1 Team"],["PER","Sergio Pérez","Cadillac F1 Team"],["ALO","Fernando Alonso","Aston Martin"],["STR","Lance Stroll","Aston Martin"]] as const;
+    if (!window.confirm(`Krijo ${drivers.length} draft-e F1 për Hungari? Ato mbeten draft derisa të konfigurohen dhe miratohen.`)) return;
+    setDrafting(true);
+    for (const [code, name, team] of drivers) {
+      const created = await fetch("/api/admin/tregu/markets", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ question: `${name} fiton Çmimin e Madh të Hungarisë 2026?`, description: "Draft F1 — vendos gridin zyrtar pas kualifikimit para miratimit.", category: "Sport", closesInDays: 2, status: "draft", initialProb: 0.02, resolutionRules: "PO vetëm nëse piloti fiton klasifikimin zyrtar final të garës.", resolutionSource: "Formula 1 Dashboard / klasifikimi zyrtar F1" }) }).then((r) => r.json());
+      if (created.market?.id) await fetch(`/api/admin/tregu/markets/${created.market.id}`, { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ market_classification: "live_f1", live_event: { provider: "formula1_dashboard", event_id: "hungarian-grand-prix-2026", driver_code: code, team } }) });
+    }
+    await loadMarkets(); setDrafting(false);
+  };
+
   const draftFromNews = async () => {
     setDrafting(true);
     await fetch("/api/admin/tregu/draft", { method: "POST" });
@@ -120,6 +131,7 @@ export default function TreguAdminClient() {
           <button onClick={draftFromNews} disabled={drafting} style={{ ...btn, background: "#FF4422", color: "#fff", border: "none" }}>
             {drafting ? "Duke krijuar..." : "Krijo tregje nga lajmet"}
           </button>
+          <button onClick={createHungaryF1Drafts} disabled={drafting} style={{ ...btn, background: "#111", color: "#fff" }}>Krijo 22 draft-e F1 Hungari</button>
         </div>
       </div>
 
