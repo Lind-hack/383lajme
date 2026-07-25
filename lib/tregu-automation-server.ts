@@ -6,7 +6,7 @@ import { buildDailyDraftPlan, buildLiveEventDraftRunKey, buildRepricePlan, repri
 import { kosovoLocalDate } from "@/lib/tregu-date-key.mjs";
 import { fetchEspnLiveEvents } from "@/lib/espn-live-score.mjs";
 import { ARGENTINA_SPAIN_PAIR, buildArgentinaSpainPairedBinaryPlan, buildSportMarketPlan } from "@/lib/tregu-sport-market.mjs";
-import { buildF1MarketPlan, buildF1SettlementPlan, fetchF1LiveLiteLeaderboard } from "@/lib/f1-live-lite.mjs";
+import { buildF1MarketPlan, buildF1RaceWinnerPlan, buildF1SettlementPlan, fetchF1LiveLiteLeaderboard } from "@/lib/f1-live-lite.mjs";
 import { classifyProviderFailure } from "@/lib/tregu-ai-provider.mjs";
 import { hasPersistedMaterialPairedBinaryChange } from "@/lib/tregu-live-email-content.mjs";
 import { sendTreguLiveNotification } from "@/lib/tregu-live-email";
@@ -213,7 +213,15 @@ async function runOfficialSportsRefresh(action: "live_sports", runKey: string, n
       try {
         const leaderboard = await fetchF1LiveLiteLeaderboard();
         const f1Signals = buildF1MarketPlan({ markets: f1Markets, leaderboard });
-        const changedSlugs = new Set(f1Signals.map((signal: any) => signal.market.slug));
+        const f1RaceWinnerSignals = buildF1RaceWinnerPlan({ markets: f1Markets, leaderboard });
+        for (const signal of f1RaceWinnerSignals) {
+          try {
+            const { error: f1RaceOracleError } = await admin.rpc("apply_f1_race_winner_oracle", { p_market_id: signal.market.id, p_state: signal.state, p_probabilities: signal.probabilities, p_evidence: signal.evidence, p_reasoning: signal.reasoning, p_cap: signal.oracle_cap, p_final: false, p_winner: null });
+            if (f1RaceOracleError) throw new Error(f1RaceOracleError.message);
+            f1Results.push({ slug: signal.market.slug, status: "applied" });
+          } catch (f1RaceOracleError) { f1Results.push({ slug: signal.market.slug, status: "failed", error: String(f1RaceOracleError instanceof Error ? f1RaceOracleError.message : f1RaceOracleError) }); }
+        }
+        const changedSlugs = new Set([...f1Signals, ...f1RaceWinnerSignals].map((signal: any) => signal.market.slug));
         for (const market of f1Markets ?? []) if (!changedSlugs.has(market.slug)) f1Results.push({ slug: market.slug, status: "unchanged" });
         for (const signal of f1Signals) {
           try {
