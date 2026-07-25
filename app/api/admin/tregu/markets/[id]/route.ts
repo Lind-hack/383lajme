@@ -29,7 +29,7 @@ export async function PATCH(
       action?: "approve" | "close" | "resolve" | "seed" | "reopen";
       outcome?: "PO" | "JO";
       initialProb?: number;
-      market_type?: "binary" | "two_outcome" | "three_outcome";
+      market_type?: "binary" | "two_outcome" | "three_outcome" | "f1_race_winner";
       market_classification?: MarketClassification;
       [key: string]: unknown;
       }
@@ -139,7 +139,7 @@ export async function PATCH(
   if (marketClassification !== undefined && !MARKET_CLASSIFICATIONS.includes(marketClassification)) {
     return NextResponse.json({ error: "Klasifikimi i tregut është i pavlefshëm" }, { status: 400 });
   }
-  if (marketType !== undefined && !["binary", "two_outcome", "three_outcome"].includes(marketType)) {
+  if (marketType !== undefined && !["binary", "two_outcome", "three_outcome", "f1_race_winner"].includes(marketType)) {
     return NextResponse.json({ error: "Lloji i tregut është i pavlefshëm" }, { status: 400 });
   }
 
@@ -151,7 +151,7 @@ export async function PATCH(
     two_outcome: ["ARGENTINA", "SPAIN"],
     three_outcome: ["ENGLAND", "DRAW", "ARGENTINA"],
   } as const;
-  const draftFields = marketType ? { ...fields, outcomes: outcomeSchema[marketType] } : fields;
+  const draftFields = marketType === "f1_race_winner" ? fields : marketType ? { ...fields, outcomes: outcomeSchema[marketType as keyof typeof outcomeSchema] } : fields;
   const { data, error } = await admin
     .from("markets")
     .update(draftFields)
