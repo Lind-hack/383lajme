@@ -159,6 +159,7 @@ export default function TreguAdminClient() {
                     </optgroup>
                   </select>
                 </label>
+                {m.market_classification === "live_f1" && <F1ConfigEditor market={m} onSaved={loadMarkets} />}
                 <label style={{ display: "grid", gap: 5, width: "fit-content", marginTop: 12, fontSize: 12, fontWeight: 700 }}>
                   Lloji i tregut
                   <select
@@ -360,4 +361,19 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 
 function Empty() {
   return <p style={{ color: "#999", fontSize: 13 }}>Asgjë këtu ende.</p>;
+}
+
+
+function F1ConfigEditor({ market, onSaved }: { market: Market; onSaved: () => void }) {
+  const existing = (market as Market & { live_event?: Record<string, unknown> }).live_event ?? {};
+  const [eventId, setEventId] = useState(String(existing.event_id ?? "hungarian-grand-prix-2026"));
+  const [driverCode, setDriverCode] = useState(String(existing.driver_code ?? ""));
+  const [team, setTeam] = useState(String(existing.team ?? ""));
+  const save = async () => {
+    const code = driverCode.trim().toUpperCase();
+    if (!/^[A-Z]{3}$/.test(code) || !/^[A-Za-z0-9_-]+$/.test(eventId.trim()) || !team.trim()) return;
+    await fetch(`/api/admin/tregu/markets/${market.id}`, { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ live_event: { provider: "formula1_dashboard", event_id: eventId.trim(), driver_code: code, team: team.trim() } }) });
+    onSaved();
+  };
+  return <fieldset style={{ display: "grid", gap: 7, marginTop: 12, border: "1px solid #FED7AA", borderRadius: 8, padding: 10 }}><legend>F1 Live configuration</legend><input aria-label="F1 event ID" value={eventId} onChange={(e) => setEventId(e.target.value)} placeholder="event ID" /><input aria-label="F1 driver code" value={driverCode} onChange={(e) => setDriverCode(e.target.value)} placeholder="VER" maxLength={3} /><input aria-label="F1 team" value={team} onChange={(e) => setTeam(e.target.value)} placeholder="Red Bull" /><button type="button" onClick={save} style={btn}>Ruaj F1 konfigurimin</button></fieldset>;
 }
