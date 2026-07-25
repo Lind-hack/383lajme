@@ -96,17 +96,17 @@ export default function TreguAdminClient() {
   };
 
   const marketAction = async (id: string, body: Record<string, unknown>) => {
-    await fetch(`/api/admin/tregu/markets/${id}`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body),
-    });
-    loadMarkets();
+    const response = await fetch(`/api/admin/tregu/markets/${id}`, { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
+    const result = await response.json().catch(() => ({}));
+    if (!response.ok) { window.alert(result.error ?? "Veprimi dështoi"); return; }
+    await loadMarkets();
   };
 
   const deleteDraft = async (id: string) => {
-    await fetch(`/api/admin/tregu/markets/${id}`, { method: "DELETE" });
-    loadMarkets();
+    const response = await fetch(`/api/admin/tregu/markets/${id}`, { method: "DELETE" });
+    const result = await response.json().catch(() => ({}));
+    if (!response.ok) { window.alert(result.error ?? "Fshirja dështoi"); return; }
+    await loadMarkets();
   };
 
   const withdrawalAction = async (id: string, status: "approved" | "paid" | "rejected") => {
