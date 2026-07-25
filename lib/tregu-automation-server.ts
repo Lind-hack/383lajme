@@ -218,6 +218,8 @@ async function runOfficialSportsRefresh(action: "live_sports", runKey: string, n
           try {
             const { error: f1RaceOracleError } = await admin.rpc("apply_f1_race_winner_oracle", { p_market_id: signal.market.id, p_state: signal.state, p_probabilities: signal.probabilities, p_evidence: signal.evidence, p_reasoning: signal.reasoning, p_cap: signal.oracle_cap, p_final: false, p_winner: null });
             if (f1RaceOracleError) throw new Error(f1RaceOracleError.message);
+            const { error: f1SnapshotError } = await admin.rpc("record_f1_vector_snapshot", { p_market_id: signal.market.id, p_state: signal.state, p_probabilities: signal.probabilities, p_reasoning: signal.reasoning });
+            if (f1SnapshotError) throw new Error(f1SnapshotError.message);
             f1Results.push({ slug: signal.market.slug, status: "applied" });
           } catch (f1RaceOracleError) { f1Results.push({ slug: signal.market.slug, status: "failed", error: String(f1RaceOracleError instanceof Error ? f1RaceOracleError.message : f1RaceOracleError) }); }
         }

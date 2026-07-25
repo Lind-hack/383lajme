@@ -19,6 +19,7 @@ import { groupForSlug, parseEvent, type GroupOutcome, type MarketGroup } from "@
 import { outcomeMediaFor } from "@/lib/tregu-media";
 import { eventStatsFor } from "@/lib/tregu-event-stats";
 import RaceStandings from "@/components/tregu/race-standings";
+import F1RaceControl from "@/components/tregu/f1-race-control";
 import { dramatizeSeries, dramatizeSpark } from "@/lib/tregu-tape";
 import { SLUG_TO_CATEGORY } from "@/lib/category-map";
 
@@ -55,6 +56,8 @@ interface Snapshot {
   created_at: string;
   evidence: { title: string; slug: string; url?: string }[] | null;
 }
+
+interface F1Payload { outcomes: { key: string; label: string; team: string; probability: number }[]; timing: { race?: { status?: string; current_lap?: number; total_laps?: number }; rows?: { driver_code?: string; position?: number; gap?: string; pits?: number; status?: string }[] } | null; }
 
 interface Position {
   side: Side;
@@ -121,6 +124,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
   const [comments, setComments] = useState<CommentItem[]>([]);
   const [group, setGroup] = useState<MarketGroup | null>(null);
   const [eventData, setEventData] = useState<{ title: string; outcomes: EventOutcome[] } | null>(null);
+  const [f1, setF1] = useState<F1Payload | null>(null);
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
   const [user, setUser] = useState<{ id: string } | null>(null);
@@ -183,6 +187,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
         }
         setMarket(d.market);
         setEventData(d.event ?? null);
+        setF1(d.f1 ?? null);
         setSnapshots(d.snapshots ?? []);
         setTrades(d.trades ?? []);
         setActivity(d.activity ?? []);
@@ -497,7 +502,9 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
         {/* ── 2-col: chart + social tabs | bet slip + AI signal + rules ── */}
         <div className="tregu-detail-grid">
           <div style={{ display: "flex", flexDirection: "column", gap: 20, minWidth: 0 }}>
-            {group && currentOutcome ? (
+            {f1 ? (
+              <F1RaceControl drivers={f1.outcomes} timing={f1.timing} />
+            ) : group && currentOutcome ? (
               <>
                 {/* Combined event chart — every outcome's live line, Polymarket-style. */}
                 <div className="tregu-panel" style={{ padding: 28 }}>
