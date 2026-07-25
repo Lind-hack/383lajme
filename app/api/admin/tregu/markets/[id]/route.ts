@@ -38,14 +38,17 @@ export async function PATCH(
   if (!body) return NextResponse.json({ error: "Trup i pavlefshëm" }, { status: 400 });
 
   if (body.action === "approve") {
-    const { data: draft, error: draftError } = await admin.from("markets").select("market_classification, market_type, live_event").eq("id", id).eq("status", "draft").maybeSingle();
+    const { data: draft, error: draftError } = await admin.from("markets").select("market_classification, market_type, live_event, sport_outcomes").eq("id", id).eq("status", "draft").maybeSingle();
     if (draftError) return NextResponse.json({ error: draftError.message }, { status: 500 });
     if (!draft) return NextResponse.json({ error: "Drafti nuk u gjet" }, { status: 404 });
     const liveEvent = draft.live_event as Record<string, unknown> | null;
     if (draft.market_classification === "live_football" && (liveEvent?.provider !== "espn" || !String(liveEvent.event_id ?? "").trim() || !String(liveEvent.yes_team ?? "").trim() || !String(liveEvent.league ?? "").trim())) {
       return NextResponse.json({ error: "Live Football kërkon provider ESPN, event_id, yes_team dhe league para miratimit." }, { status: 400 });
     }
-    if (draft.market_classification === "live_f1" && (draft.market_type !== "binary" || liveEvent?.provider !== "formula1_dashboard" || !/^[A-Za-z0-9_-]+$/.test(String(liveEvent.event_id ?? "")) || !/^[A-Z]{3}$/.test(String(liveEvent.driver_code ?? "").toUpperCase()))) {
+    if (draft.market_classification === "live_f1" && draft.market_type === "f1_race_winner" && (liveEvent?.provider !== "formula1_dashboard" || !/^[A-Za-z0-9_-]+$/.test(String(liveEvent.event_id ?? "")) || !Array.isArray((draft as Record<string, unknown>).sport_outcomes) || ((draft as Record<string, unknown>).sport_outcomes as unknown[]).length < 20)) {
+      return NextResponse.json({ error: "F1 Race Winner kërkon Formula 1 Dashboard event_id dhe 20–22 pilotë para miratimit." }, { status: 400 });
+    }
+    if (draft.market_classification === "live_f1" && draft.market_type !== "f1_race_winner" && (draft.market_type !== "binary" || liveEvent?.provider !== "formula1_dashboard" || !/^[A-Za-z0-9_-]+$/.test(String(liveEvent.event_id ?? "")) || !/^[A-Z]{3}$/.test(String(liveEvent.driver_code ?? "").toUpperCase()))) {
       return NextResponse.json({ error: "Live F1 kërkon treg binar dhe Formula 1 Dashboard event_id/race_id me driver_code me 3 shkronja para miratimit." }, { status: 400 });
     }
     const { data, error } = await admin
