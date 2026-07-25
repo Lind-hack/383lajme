@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
-type MarketClassification = "general_news" | "live_football" | "live_f1";
+type MarketClassification = "general_news" | "live_football" | "live_basketball" | "live_f1";
 
 interface Market {
   id: string;
@@ -152,8 +152,11 @@ export default function TreguAdminClient() {
                     style={{ border: "1px solid #D6D3D1", borderRadius: 8, background: "#fff", color: "#111", padding: "7px 10px", fontFamily: "inherit", fontSize: 13 }}
                   >
                     <option value="general_news">General / News</option>
-                    <option value="live_football">Live Football</option>
-                    <option value="live_f1">Live F1</option>
+                    <optgroup label="Sport">
+                      <option value="live_football">Football — score, cards, time</option>
+                      <option value="live_basketball">Basketball — NBA / FBK Superliga</option>
+                      <option value="live_f1">F1 — official live timing</option>
+                    </optgroup>
                   </select>
                 </label>
                 <label style={{ display: "grid", gap: 5, width: "fit-content", marginTop: 12, fontSize: 12, fontWeight: 700 }}>
@@ -330,7 +333,7 @@ function MarketRow({ m }: { m: Market }) {
       <div style={{ display: "flex", gap: 8, alignItems: "center", marginBottom: 6 }}>
         <span style={{ fontSize: 11, fontWeight: 700, color: "#6B6B6B", textTransform: "uppercase" }}>{m.category}</span>
         <span style={{ fontSize: 10, fontWeight: 700, color: "#6B6B6B", background: "#F3F4F6", borderRadius: 999, padding: "2px 6px" }}>
-          {m.market_classification === "live_football" ? "Live Football" : m.market_classification === "live_f1" ? "Live F1" : "General / News"}
+          {m.market_classification === "live_football" ? "Live Football" : m.market_classification === "live_basketball" ? "Live Basketball" : m.market_classification === "live_f1" ? "Live F1" : "General / News"}
         </span>
         <span style={{ fontSize: 10, fontWeight: 700, color: "#6B6B6B", background: "#F3F4F6", borderRadius: 999, padding: "2px 6px" }}>
           {m.market_type === "three_outcome" ? "3 rezultate" : m.market_type === "two_outcome" ? "2 rezultate" : "PO/JO"}
