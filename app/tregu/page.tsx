@@ -23,6 +23,7 @@ interface MarketRow {
   category: string;
   market_prob: number;
   status: string;
+  market_classification?: string;
   closes_at: string;
   q_yes: number;
   q_no: number;
@@ -90,14 +91,14 @@ export default function TreguHub() {
   useEffect(() => {
     setLoading(true);
     setLoadError(false);
-    const qs = category === "all" ? "" : `?category=${category}`;
+    const qs = category === "all" ? "?status=all" : `?category=${category}&status=all`;
     fetch(`/api/tregu/markets${qs}`)
       .then((r) => {
         if (!r.ok) throw new Error(`markets ${r.status}`);
         return r.json();
       })
       .then((d) => {
-        setMarkets(d.markets ?? []);
+        setMarkets((d.markets ?? []).filter((m: MarketRow) => m.status === "open" || m.market_classification === "live_f1"));
         setActivity(d.activity ?? []);
         setUpdatedAt(new Date().toLocaleTimeString("sq-AL", { hour: "2-digit", minute: "2-digit" }));
       })
@@ -223,6 +224,8 @@ export default function TreguHub() {
   // the floor, so the grid below always keeps something to browse.
   const featured = useMemo(() => {
     const pool = markets.filter((m) => !groupedSlugs.has(m.slug));
+    const f1 = pool.filter((m) => m.market_classification === "live_f1");
+    if (f1.length) return [...f1, ...pool.filter((m) => m.market_classification !== "live_f1").sort((a, b) => vol(b) - vol(a))].slice(0, 4);
     if (pool.length < 3) return [] as MarketRow[];
     const n = Math.min(4, Math.floor(pool.length / 2));
     return [...pool].sort((a, b) => vol(b) - vol(a)).slice(0, n);
