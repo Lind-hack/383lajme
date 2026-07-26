@@ -58,7 +58,7 @@ interface Snapshot {
   evidence: { title: string; slug: string; url?: string }[] | null;
 }
 
-interface F1Payload { outcomes: { key: string; label: string; team: string; probability: number }[]; timing: { race?: { status?: string; current_lap?: number; total_laps?: number }; rows?: { driver_code?: string; position?: number; gap?: string; pits?: number; status?: string }[] } | null; }
+interface F1Payload { outcomes: { key: string; label: string; team: string; probability: number; headshot_url?: string; grid_position?: number }[]; timing: { race?: { status?: string; current_lap?: number; total_laps?: number }; rows?: { driver_code?: string; position?: number; gap?: string; pits?: number; status?: string }[] } | null; history?: { createdAt: string; probabilities: Record<string, number>; lap?: number; status?: string }[]; }
 
 interface Position {
   side: Side;
@@ -504,7 +504,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
         <div className="tregu-detail-grid">
           <div style={{ display: "flex", flexDirection: "column", gap: 20, minWidth: 0 }}>
             {f1 ? (
-              <F1RaceControl drivers={f1.outcomes} timing={f1.timing} />
+              <F1RaceControl marketId={market.id} marketOpen={market.status === "open"} drivers={f1.outcomes} timing={f1.timing} history={f1.history} />
             ) : group && currentOutcome ? (
               <>
                 {/* Combined event chart — every outcome's live line, Polymarket-style. */}
