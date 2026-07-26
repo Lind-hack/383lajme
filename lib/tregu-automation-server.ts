@@ -14,6 +14,11 @@ import { sendTreguLiveNotification } from "@/lib/tregu-live-email";
 type AdminClient = NonNullable<ReturnType<typeof createAdminClient>>;
 type RunAction = "daily_drafts" | "reprice" | "live_sports" | "tregu_live";
 
+function oneMinuteRunKey(now: Date): string {
+  const bucket = Math.floor(now.getTime() / 60_000) * 60_000;
+  return `live-sports:${new Date(bucket).toISOString()}`;
+}
+
 function twoMinuteRunKey(now: Date): string {
   const bucket = Math.floor(now.getTime() / 120_000) * 120_000;
   return `reprice:${new Date(bucket).toISOString()}`;
@@ -278,9 +283,9 @@ async function runOfficialSportsRefresh(action: "live_sports", runKey: string, n
   }
 }
 
-/** Existing two-minute official sports/settlement unit. It is deliberately isolated from news repricing. */
+/** One-minute official sports/settlement unit. It is deliberately isolated from news repricing. */
 export async function runLiveSportsAutomation(now = new Date()) {
-  return runOfficialSportsRefresh("live_sports", `live-sports:${twoMinuteRunKey(now)}`, now);
+  return runOfficialSportsRefresh("live_sports", oneMinuteRunKey(now), now);
 }
 
 /** Shared news-only AI repricer. The caller selects an explicit audit action and idempotency bucket. */
