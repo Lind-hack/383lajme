@@ -6,6 +6,7 @@ import MarketMiniCard from "@/components/tregu/market-mini-card";
 import MarketEventCard from "@/components/tregu/market-event-card";
 import { groupMarkets } from "@/lib/tregu-groups";
 import FeaturedCarousel from "@/components/tregu/featured-carousel";
+import F1ArchiveFeature from "@/components/tregu/f1-archive-feature";
 import FloorRail from "@/components/tregu/floor-rail";
 import type { MiniMarket } from "@/components/tregu/market-mini-card";
 import VideoHero from "@/components/tregu/video-hero";
@@ -225,8 +226,9 @@ export default function TreguHub() {
   // the floor, so the grid below always keeps something to browse.
   const featured = useMemo(() => {
     const pool = markets.filter((m) => !groupedSlugs.has(m.slug));
-    const f1 = pool.filter((m) => m.market_classification === "live_f1" && m.market_type === "f1_race_winner");
-    if (f1.length) return [...f1, ...pool.filter((m) => m.market_classification !== "live_f1").sort((a, b) => vol(b) - vol(a))].slice(0, 4);
+    const nonF1 = pool.filter((m) => !(m.market_classification === "live_f1" && m.market_type === "f1_race_winner"));
+    if (nonF1.length < 3) return [] as MarketRow[];
+    return [...nonF1].sort((a, b) => vol(b) - vol(a)).slice(0, 4);
     if (pool.length < 3) return [] as MarketRow[];
     const n = Math.min(4, Math.floor(pool.length / 2));
     return [...pool].sort((a, b) => vol(b) - vol(a)).slice(0, n);
@@ -419,6 +421,7 @@ export default function TreguHub() {
         {/* Hero row — flagship carousel left, floor rail right. The big
             books rotate through one big card; the rail ranks the whole
             floor: hot topics, nearest deadlines, and the promo tile. */}
+        {!loading && !loadError && markets.filter((m) => m.status === "closed" && m.market_classification === "live_f1" && m.market_type === "f1_race_winner").map((market) => <F1ArchiveFeature key={market.id} market={market} />)}
         {!loading && !loadError && featured.length > 0 && (
           <div className="tregu-hero-row">
             <FeaturedCarousel key={category} markets={featured.map(toMini)} />
