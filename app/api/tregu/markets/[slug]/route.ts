@@ -3,6 +3,7 @@ import { createClient } from "@/lib/supabase/server";
 import { lmsrPriceYes } from "@/lib/tregu";
 import { getArticles } from "@/lib/db";
 import { parseEvent, slugKey } from "@/lib/tregu-groups";
+import { fetchF1LiveLiteLeaderboard } from "@/lib/f1-live-lite";
 
 export const dynamic = "force-dynamic";
 
@@ -200,9 +201,13 @@ export async function GET(
     closesAt: m.closes_at,
   }));
 
-  const f1 = market.market_type === "f1_race_winner" && Array.isArray(market.sport_outcomes)
-    ? { outcomes: market.sport_outcomes.map((row: { key?: string; label?: string; team?: string }) => ({ key: row.key, label: row.label, team: row.team, probability: Number(market.reference_probabilities?.[row.key ?? ""] ?? 0) })), timing: market.live_score_state ?? null }
-    : null;
+  let f1 = null;
+  if (market.market_type === "f1_race_winner" && Array.isArray(market.sport_outcomes)) {
+    let board = market.live_score_state ?? null;
+    try { board = await fetchF1LiveLiteLeaderboard(); } catch { /* cached audited timing remains the fallback */ }
+    const positions = new Map((board?.rows ?? []).map((row: { driver_code?: string; position?: number }) => [row.driver_code, row.position]));
+    f1 = { outcomes: market.sport_outcomes.map((row: { key?: string; label?: string; team?: string; headshot_url?: string }) => ({ key: row.key, label: row.label, team: row.team, headshot_url: row.headshot_url, grid_position: positions.get(row.key), probability: Number(market.reference_probabilities?.[row.key ?? ""] ?? 0) })), timing: board };
+  }
   return NextResponse.json({
     market: { ...market, market_prob: currentProb }, f1,
     event,
