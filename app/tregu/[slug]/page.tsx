@@ -38,6 +38,7 @@ interface MarketDetail {
   description: string | null;
   category: string;
   status: string;
+  market_type?: string;
   outcome: Side | null;
   market_prob: number;
   q_yes: number;
@@ -526,7 +527,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                 {/* Beneath the chart: the stat lines behind the price moves —
                     demo matches ship their own fixture, other events pull a
                     registered sheet from tregu-event-stats. */}
-                {demo ? (
+                {market?.market_type === "f1_race_winner" ? null : demo ? (
                   <MatchStats {...demoMatchStats()} />
                 ) : eventStats ? (
                   <MatchStats {...eventStats} />
