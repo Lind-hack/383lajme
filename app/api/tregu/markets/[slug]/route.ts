@@ -205,7 +205,10 @@ export async function GET(
   if (market.market_type === "f1_race_winner" && Array.isArray(market.sport_outcomes)) {
     let board = market.live_score_state ?? null;
     try { board = await fetchF1LiveLiteLeaderboard(); } catch { /* cached audited timing remains the fallback */ }
-    const positions = new Map((board?.rows ?? []).map((row: { driver_code?: string; position?: number }) => [row.driver_code, row.position]));
+    // Live/final classification is not a starting grid. Expose slots only from an explicitly pre-race board.
+    const positions = board?.race?.status === "INACTIVE"
+      ? new Map((board.rows ?? []).map((row: { driver_code?: string; position?: number }) => [row.driver_code, row.position]))
+      : new Map<string | undefined, number | undefined>();
     const history = (snapshots ?? []).flatMap((snapshot: { created_at?: string; oracle_kind?: string; evidence?: unknown[] }) => {
       const evidence = Array.isArray(snapshot.evidence) ? snapshot.evidence[0] as { probabilities?: unknown; timing?: { race?: { current_lap?: number; status?: string } } } : null;
       return snapshot.oracle_kind === "f1_vector" && evidence && typeof evidence.probabilities === "object" && evidence.probabilities !== null ? [{ createdAt: snapshot.created_at ?? "", probabilities: evidence.probabilities as Record<string, number>, lap: evidence.timing?.race?.current_lap, status: evidence.timing?.race?.status }] : [];
