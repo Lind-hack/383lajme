@@ -285,7 +285,9 @@ async function runOfficialSportsRefresh(action: "live_sports", runKey: string, n
 
 /** One-minute official sports/settlement unit. It is deliberately isolated from news repricing. */
 export async function runLiveSportsAutomation(now = new Date()) {
-  return runOfficialSportsRefresh("live_sports", oneMinuteRunKey(now), now);
+  const template = await runUpcomingF1TemplateAutomation(now);
+  const live = await runOfficialSportsRefresh("live_sports", oneMinuteRunKey(now), now);
+  return { ...live, f1_template: template };
 }
 
 /** Shared news-only AI repricer. The caller selects an explicit audit action and idempotency bucket. */
@@ -539,4 +541,24 @@ export async function runRepriceAutomation(now = new Date()) {
 /** Vercel's five-minute remote-only heartbeat: verified-news Groq, with Google fallback. */
 export async function runTreguLiveAutomation(now = new Date()) {
   return runNewsReprice("tregu_live", fiveMinuteRunKey(now), now);
+}
+
+
+export async function runUpcomingF1TemplateAutomation(now = new Date()) {
+  const admin = createAdminClient(); if (!admin) throw new Error("Supabase service-role configuration is required for F1 templates.");
+  const runKey = `f1-template:${kosovoLocalDate(now)}`; const started = await beginRun(admin, "daily_drafts", runKey);
+  if (started.existing) return { ok:true, skipped:true, runKey, reason:"already_processed", run:started.run };
+  try {
+    const { fetchUpcomingOpenF1Race, fetchOpenF1Roster, buildUpcomingF1MarketTemplate } = await import("@/lib/f1-upcoming-race.mjs");
+    const race = await fetchUpcomingOpenF1Race({ now, leadDays: 3 });
+    if (!race) { await finishRun(admin, started.run.id, "succeeded", { created:0, reason:"no_race_within_three_days" }); return { ok:true, created:0, reason:"no_race_within_three_days" }; }
+    const { data: existing, error: existingError } = await admin.from("markets").select("id,slug").contains("live_event", { event_id: race.event_id }).limit(1);
+    if (existingError) throw new Error(`Could not check F1 template duplicate: ${existingError.message}`);
+    if (existing?.length) { await finishRun(admin, started.run.id, "succeeded", { created:0, reason:"already_exists", event_id:race.event_id }); return { ok:true, created:0, reason:"already_exists", event_id:race.event_id }; }
+    const roster = await (fetchOpenF1Roster as any)({ sessionKey: race.session_key });
+    const template = buildUpcomingF1MarketTemplate({ race, roster, now });
+    const { data, error } = await admin.from("markets").insert(template).select("id,slug,status").single();
+    if (error) throw new Error(`Could not create F1 race template: ${error.message}`);
+    await finishRun(admin, started.run.id, "succeeded", { created:1, event_id:race.event_id, market:data }); return { ok:true, created:1, event_id:race.event_id, market:data };
+  } catch (error) { const message=String(error instanceof Error?error.message:error); await finishRun(admin, started.run.id, "failed", {}, message); throw error; }
 }
