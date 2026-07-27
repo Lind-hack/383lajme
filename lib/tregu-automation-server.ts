@@ -6,7 +6,8 @@ import { buildDailyDraftPlan, buildLiveEventDraftRunKey, buildRepricePlan, repri
 import { kosovoLocalDate } from "@/lib/tregu-date-key.mjs";
 import { fetchEspnLiveEvents } from "@/lib/espn-live-score.mjs";
 import { ARGENTINA_SPAIN_PAIR, buildArgentinaSpainPairedBinaryPlan, buildSportMarketPlan } from "@/lib/tregu-sport-market.mjs";
-import { buildF1MarketPlan, buildF1RaceWinnerPlan, buildF1SettlementPlan, fetchF1LiveLiteLeaderboard } from "@/lib/f1-live-lite.mjs";
+import { buildF1MarketPlan, buildF1RaceWinnerPlan, buildF1SettlementPlan, openF1ToWinnerLeaderboard } from "@/lib/f1-live-lite.mjs";
+import { fetchOpenF1LiveRace } from "@/lib/openf1-live.mjs";
 import { classifyProviderFailure } from "@/lib/tregu-ai-provider.mjs";
 import { hasPersistedMaterialPairedBinaryChange } from "@/lib/tregu-live-email-content.mjs";
 import { sendTreguLiveNotification } from "@/lib/tregu-live-email";
@@ -216,7 +217,9 @@ async function runOfficialSportsRefresh(action: "live_sports", runKey: string, n
     const f1EmailUpdates: Array<{ question: string; driver_code: string; position: number; gap: string; pits: number; before_probability: number; after_probability: number; source_url: string }> = [];
     if ((f1Markets ?? []).length) {
       try {
-        const leaderboard = await fetchF1LiveLiteLeaderboard();
+        const openF1Live = await fetchOpenF1LiveRace({ now });
+        const leaderboard = openF1ToWinnerLeaderboard(openF1Live);
+        if (!leaderboard) throw new Error("OpenF1 did not expose a complete active race session.");
         const f1Signals = buildF1MarketPlan({ markets: f1Markets, leaderboard });
         const f1RaceWinnerSignals = buildF1RaceWinnerPlan({ markets: f1Markets, leaderboard });
         for (const signal of f1RaceWinnerSignals) {
