@@ -565,3 +565,21 @@ export async function runUpcomingF1TemplateAutomation(now = new Date()) {
     await finishRun(admin, started.run.id, "succeeded", { created:1, event_id:race.event_id, market:data }); return { ok:true, created:1, event_id:race.event_id, market:data };
   } catch (error) { const message=String(error instanceof Error?error.message:error); await finishRun(admin, started.run.id, "failed", {}, message); throw error; }
 }
+
+export async function runUpcomingFootballTemplateAutomation(now = new Date()) {
+  const admin = createAdminClient(); if (!admin) throw new Error("Supabase service-role configuration is required for football templates.");
+  const runKey = `football-template:${kosovoLocalDate(now)}`; const started = await beginRun(admin, "daily_drafts", runKey);
+  if (started.existing) return { ok:true, skipped:true, runKey, reason:"already_processed", run:started.run };
+  try {
+    const { fetchUpcomingEspnFootballFixtures, buildUpcomingFootballTemplate } = await import("@/lib/espn-upcoming-football.mjs");
+    const fixtures = await fetchUpcomingEspnFootballFixtures({ now, windowHours:72 }); const created=[];
+    for (const fixture of fixtures) {
+      const { data: existing, error: checkError } = await admin.from("markets").select("id").contains("live_event", { event_id:fixture.event_id }).limit(1);
+      if (checkError) throw new Error(`Could not check football template duplicate: ${checkError.message}`);
+      if (existing?.length) continue;
+      const template=buildUpcomingFootballTemplate(fixture); const { data, error }=await admin.from("markets").insert(template).select("id,slug,status").single();
+      if (error) throw new Error(`Could not create football template ${fixture.event_id}: ${error.message}`); created.push(data);
+    }
+    await finishRun(admin, started.run.id, "succeeded", { created:created.length, fixtures:fixtures.length, markets:created }); return { ok:true, created:created.length, fixtures:fixtures.length, markets:created };
+  } catch (error) { const message=String(error instanceof Error?error.message:error); await finishRun(admin, started.run.id, "failed", {}, message); throw error; }
+}
