@@ -3,6 +3,7 @@
 import { useEffect, useId, useMemo, useRef, useState } from "react";
 import { makeSampler, smoothPath } from "@/lib/tregu-tape";
 import { getCategoryColor } from "@/lib/category-colors";
+import { TREGU_CHART_UI_VERSION } from "@/lib/tregu-ui-contract";
 import { useReducedMotion, useDrawReveal, useLiveTape, useChartPan, useLiveClock, frozenFitRange, type FitBand } from "./chart-hooks";
 
 // Interactive single-market price chart — dependency-free SVG.
@@ -467,7 +468,7 @@ export default function MarketChart({
   const canPan = maxPanMs > 0 && !reduced;
 
   return (
-    <div>
+    <div data-tregu-chart-version={TREGU_CHART_UI_VERSION}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 10, marginBottom: 10, flexWrap: "wrap" }}>
         <div className="tregu-live-pill" aria-live="off">
           <span className="tregu-live-dot" aria-hidden />
