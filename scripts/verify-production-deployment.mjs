@@ -5,7 +5,7 @@ import { fileURLToPath } from "node:url";
 const REPOSITORY = "Lind-hack/383lajme";
 const PRODUCTION_BRANCH = "main";
 const CHART_UI_VERSION = "live-tape-v1";
-const F1_RACE_UI_VERSION = "race-grid-v2";
+const F1_RACE_UI_VERSION = "race-grid-v3";
 const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
 const DEFAULT_ROOT = path.resolve(SCRIPT_DIR, "..");
 
@@ -31,6 +31,8 @@ const REQUIRED_CHART_MARKERS = {
   "components/tregu/f1-race-control.tsx": [
     "GroupChart",
     "data-f1-race-ui-version",
+    'className="f1-grid-pair"',
+    "aria-expanded={showAllDrivers}",
     "timingRow?.gap",
     "onBetDriver",
   ],

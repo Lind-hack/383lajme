@@ -1,7 +1,7 @@
 "use client";
 
-import { useMemo, useRef, type CSSProperties } from "react";
-import { ArrowDown, Flag, Radio, Ticket, Trophy } from "lucide-react";
+import { useMemo, useState, type CSSProperties } from "react";
+import { ChevronDown, Flag, Radio, Ticket, Trophy } from "lucide-react";
 import GroupChart from "@/components/tregu/group-chart";
 import { f1DriverHeadshot, f1TeamColor } from "@/lib/f1-driver-presentation";
 import { F1_RACE_UI_VERSION } from "@/lib/tregu-ui-contract";
@@ -60,9 +60,11 @@ function teamColor(driver: Driver): string {
 function DriverFace({
   driver,
   className,
+  eager = false,
 }: {
   driver: Driver;
   className: string;
+  eager?: boolean;
 }) {
   const headshot = f1DriverHeadshot(driver.key, driver.headshot_url);
   if (headshot) {
@@ -71,7 +73,7 @@ function DriverFace({
         src={headshot}
         alt={`Portreti i ${driver.label}`}
         className={className}
-        loading="lazy"
+        loading={eager ? "eager" : "lazy"}
         decoding="async"
       />
     );
@@ -122,29 +124,37 @@ function GridMarquee({ drivers }: { drivers: Driver[] }) {
     );
   }
 
-  const renderGrid = (duplicate: boolean) => (
-    <ol className="f1-grid-list" aria-hidden={duplicate || undefined}>
-      {drivers.map((driver) => (
-        <li key={`${duplicate ? "copy-" : ""}${driver.key}`} className="f1-grid-slot">
-          <span className="f1-grid-position">P{driver.grid_position}</span>
-          <DriverFace driver={driver} className="f1-grid-face" />
-          <span className="f1-grid-driver">
-            <strong>{driver.label}</strong>
-            <small>{driver.team}</small>
-          </span>
-        </li>
-      ))}
-    </ol>
+  const pairs = Array.from({ length: Math.ceil(drivers.length / 2) }, (_, index) =>
+    drivers.slice(index * 2, index * 2 + 2)
   );
 
   return (
     <div
       className="f1-grid-marquee"
-      style={{ "--f1-grid-duration": `${Math.max(34, drivers.length * 2.15)}s` } as CSSProperties}
+      style={{ "--f1-grid-duration": `${Math.max(30, pairs.length * 3.1)}s` } as CSSProperties}
     >
       <div className="f1-grid-track">
-        {renderGrid(false)}
-        {renderGrid(true)}
+        <ol className="f1-grid-list">
+          {pairs.map((pair, pairIndex) => (
+            <li key={`grid-row-${pairIndex + 1}`} className="f1-grid-pair">
+              {pair.map((driver, laneIndex) => (
+                <article
+                  key={driver.key}
+                  className="f1-grid-slot"
+                  data-lane={laneIndex === 0 ? "left" : "right"}
+                  aria-label={`Pozita ${driver.grid_position}: ${driver.label}, ${driver.team}`}
+                >
+                  <span className="f1-grid-position">P{driver.grid_position}</span>
+                  <DriverFace driver={driver} className="f1-grid-face" eager />
+                  <span className="f1-grid-driver">
+                    <strong>{driver.label}</strong>
+                    <small>{driver.team}</small>
+                  </span>
+                </article>
+              ))}
+            </li>
+          ))}
+        </ol>
       </div>
     </div>
   );
@@ -158,7 +168,7 @@ export default function F1RaceControl({
   selectedDriverKey,
   onBetDriver,
 }: Props) {
-  const fieldRef = useRef<HTMLElement>(null);
+  const [showAllDrivers, setShowAllDrivers] = useState(false);
   const raceStatus = String(timing?.race?.status ?? "UNAVAILABLE").toUpperCase();
   const isLive = raceStatus === "LIVE";
   const isFinished = raceStatus === "FINISHED";
@@ -189,8 +199,8 @@ export default function F1RaceControl({
   );
 
   const chartDrivers = (gridOrder.length >= 10 ? gridOrder : oddsOrder).slice(0, 10);
-  const topTen = oddsOrder.slice(0, 10);
   const field = isLive || isFinished ? liveOrder : oddsOrder;
+  const visibleDrivers = showAllDrivers ? field : field.slice(0, 10);
   const chartSeries = useMemo(
     () =>
       chartDrivers.map((driver) => {
@@ -208,13 +218,6 @@ export default function F1RaceControl({
       }),
     [chartDrivers, history]
   );
-
-  const scrollToField = () => {
-    fieldRef.current?.scrollIntoView({
-      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
-      block: "start",
-    });
-  };
 
   const lap = timing?.race?.current_lap;
   const totalLaps = timing?.race?.total_laps;
@@ -286,28 +289,58 @@ export default function F1RaceControl({
       <section className="f1-favorites-section" aria-labelledby="f1-favorites-title">
         <div className="f1-section-heading">
           <div>
-            <h3 id="f1-favorites-title">10 favoritët për fitore</h3>
-            <p>Renditur nga gjasa më e lartë</p>
+            <h3 id="f1-favorites-title">
+              {showAllDrivers
+                ? drivers.length === 22
+                  ? "Të 22 pilotët"
+                  : "Të gjithë pilotët"
+                : "10 favoritët për fitore"}
+            </h3>
+            <p>
+              {isLive || isFinished
+                ? "Renditja dhe diferenca ndaj liderit"
+                : showAllDrivers
+                  ? "Nga favoriti te piloti me gjasën më të ulët"
+                  : "Renditur nga gjasa më e lartë"}
+            </p>
           </div>
-          <Trophy size={19} strokeWidth={1.9} aria-hidden />
+          <span className="f1-driver-market-state">
+            <Trophy size={18} strokeWidth={1.9} aria-hidden />
+            {isLive || isFinished ? "LIVE TIMING" : "GJASA PËR FITORE"}
+          </span>
         </div>
-        <ol className="f1-favorites">
-          {topTen.map((driver, index) => {
+        <ol id="f1-driver-market-list" className="f1-favorites">
+          {visibleDrivers.map((driver, index) => {
             const color = teamColor(driver);
+            const timingRow = timingByDriver.get(driver.key.toUpperCase());
+            const position = isLive || isFinished ? timingRow?.position ?? index + 1 : index + 1;
+            const gap =
+              position === 1
+                ? "Lider"
+                : String(timingRow?.gap ?? "Pa të dhëna").replace(/^LEADER$/i, "Lider");
             return (
               <li
                 key={driver.key}
                 className="f1-favorite-card"
-                style={{ "--f1-team": color } as CSSProperties}
+                data-revealed={index >= 10 || undefined}
+                data-selected={selectedDriverKey === driver.key || undefined}
+                style={
+                  {
+                    "--f1-team": color,
+                    "--f1-reveal-delay": `${Math.max(0, index - 10) * 34}ms`,
+                  } as CSSProperties
+                }
               >
-                <span className="f1-favorite-rank">{String(index + 1).padStart(2, "0")}</span>
+                <span className="f1-favorite-rank">{String(position).padStart(2, "0")}</span>
                 <DriverFace driver={driver} className="f1-favorite-face" />
                 <span className="f1-favorite-name">
                   <strong>{driver.label}</strong>
                   <small>{driver.team}</small>
                 </span>
-                <span className="f1-favorite-odds">
-                  {(cleanProbability(driver.probability) * 100).toFixed(1)}%
+                <span className="f1-favorite-odds" data-live={isLive || isFinished || undefined}>
+                  {isLive || isFinished
+                    ? gap
+                    : `${(cleanProbability(driver.probability) * 100).toFixed(1)}%`}
                 </span>
                 <BetButton
                   driver={driver}
@@ -320,72 +353,22 @@ export default function F1RaceControl({
             );
           })}
         </ol>
-      </section>
-
-      <button type="button" className="f1-continue-button" onClick={scrollToField}>
-        <span>
-          <strong>Vazhdo</strong>
-          Shiko të gjithë pilotët
-        </span>
-        <ArrowDown size={19} strokeWidth={2} aria-hidden />
-      </button>
-
-      <section ref={fieldRef} className="f1-full-field" aria-labelledby="f1-full-field-title">
-        <div className="f1-full-field-head">
-          <div>
-            <h3 id="f1-full-field-title">
-              {drivers.length === 22 ? "Të 22 pilotët" : "Të gjithë pilotët"}
-            </h3>
-            <p>
-              {isLive || isFinished
-                ? "Renditja dhe diferenca ndaj liderit"
-                : "Nga favoriti te piloti me gjasën më të ulët"}
-            </p>
-          </div>
-          <span>{isLive ? "LIVE TIMING" : "GJASA PËR FITORE"}</span>
-        </div>
-
-        <div className="f1-field-columns" aria-hidden>
-          <span>Poz.</span>
-          <span>Piloti</span>
-          <span>{isLive || isFinished ? "Diferenca" : "Gjasa"}</span>
-          <span>Veprimi</span>
-        </div>
-
-        <ol className="f1-field-list">
-          {field.map((driver, index) => {
-            const timingRow = timingByDriver.get(driver.key.toUpperCase());
-            const position = isLive || isFinished ? timingRow?.position ?? index + 1 : index + 1;
-            const gap =
-              position === 1
-                ? "Lider"
-                : String(timingRow?.gap ?? "Pa të dhëna").replace(/^LEADER$/i, "Lider");
-            return (
-              <li
-                key={driver.key}
-                className="f1-field-row"
-                data-selected={selectedDriverKey === driver.key || undefined}
-                style={{ "--f1-team": teamColor(driver) } as CSSProperties}
-              >
-                <span className="f1-field-position">{String(position).padStart(2, "0")}</span>
-                <DriverFace driver={driver} className="f1-field-face" />
-                <span className="f1-field-driver">
-                  <strong>{driver.label}</strong>
-                  <small>{driver.team}</small>
-                </span>
-                <span className="f1-field-value">
-                  {isLive || isFinished ? gap : `${(cleanProbability(driver.probability) * 100).toFixed(1)}%`}
-                </span>
-                <BetButton
-                  driver={driver}
-                  marketOpen={marketOpen}
-                  selected={selectedDriverKey === driver.key}
-                  onBet={onBetDriver}
-                />
-              </li>
-            );
-          })}
-        </ol>
+        {field.length > 10 && (
+          <button
+            type="button"
+            className="f1-continue-button"
+            data-expanded={showAllDrivers || undefined}
+            aria-expanded={showAllDrivers}
+            aria-controls="f1-driver-market-list"
+            onClick={() => setShowAllDrivers((current) => !current)}
+          >
+            <span>
+              <strong>{showAllDrivers ? "Mbyll" : "Vazhdo"}</strong>
+              {showAllDrivers ? "Shfaq vetëm top 10" : `Shfaq edhe ${field.length - 10} pilotët e tjerë`}
+            </span>
+            <ChevronDown size={19} strokeWidth={2} aria-hidden />
+          </button>
+        )}
       </section>
     </section>
   );
