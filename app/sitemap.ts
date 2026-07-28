@@ -27,14 +27,22 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     })
   );
 
-  const articlePages: MetadataRoute.Sitemap = (await getArticles(500))
-    .filter((a) => a.slug)
-    .map((a) => ({
-      url: `${BASE}/article/${a.slug}`,
-      lastModified: toDate(a.createdAt) ?? toDate(a.publishedAt),
-      changeFrequency: "daily" as const,
-      priority: 0.6,
-    }));
+  // A temporary upstream database outage must not prevent an otherwise valid
+  // deployment. The route revalidates hourly, so article URLs are restored on
+  // the next successful refresh without serving invented data.
+  let articlePages: MetadataRoute.Sitemap = [];
+  try {
+    articlePages = (await getArticles(500))
+      .filter((a) => a.slug)
+      .map((a) => ({
+        url: `${BASE}/article/${a.slug}`,
+        lastModified: toDate(a.createdAt) ?? toDate(a.publishedAt),
+        changeFrequency: "daily" as const,
+        priority: 0.6,
+      }));
+  } catch (error) {
+    console.error("[sitemap] article lookup unavailable; emitting static sitemap", error);
+  }
 
   return [...staticPages, ...categoryPages, ...articlePages];
 }
