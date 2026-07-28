@@ -2,6 +2,7 @@
 .next/
 out/
 node_modules/
+.vercel/
 
 # SQLite — not committed; pipeline writes JSON to data/auto-articles/ instead
 data/articles.db

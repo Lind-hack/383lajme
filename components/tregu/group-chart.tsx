@@ -2,6 +2,7 @@
 
 import { useId, useMemo, useRef, useState } from "react";
 import { makeSampler, smoothPath } from "@/lib/tregu-tape";
+import { TREGU_CHART_UI_VERSION } from "@/lib/tregu-ui-contract";
 import { useReducedMotion, useDrawReveal, useLiveTapeVector, useChartPan, useLiveClock, frozenFitRange, type FitBand } from "./chart-hooks";
 
 // Multi-outcome event chart — the Polymarket-style view for grouped events.
@@ -403,7 +404,7 @@ export default function GroupChart({
   const showFuture = hover !== null && !hover.live && hover.col < cols.length - 1;
 
   return (
-    <div>
+    <div data-tregu-chart-version={TREGU_CHART_UI_VERSION}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 10, marginBottom: 10, flexWrap: "wrap" }}>
         <div className="tregu-live-pill" aria-live="off">
           <span className="tregu-live-dot" aria-hidden />

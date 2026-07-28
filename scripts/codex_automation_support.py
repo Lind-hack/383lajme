@@ -131,8 +131,9 @@ SCORE_WEIGHTS = {
     "editorial_safety": 0.04,
 }
 
-DEFAULT_SITE_URL = "https://383lajme.vercel.app"
+DEFAULT_SITE_URL = "https://383ks.com"
 DEFAULT_GITHUB_REPO = "Lind-hack/383lajme"
+TREGU_CHART_UI_VERSION = "live-tape-v1"
 MIN_ARTICLES_PER_BATCH = 13
 MAX_ARTICLES_PER_BATCH = 22
 MAX_X_ARTICLES = 2
@@ -690,10 +691,36 @@ def verify_public_site(path: Path) -> int:
     last_cache = "unknown"
     last_age = "unknown"
     last_etag = "unknown"
+    expected_commit = _git_stdout(["git", "rev-parse", "HEAD"]).strip()
 
     while True:
         attempt += 1
         try:
+            contract_request = urllib.request.Request(
+                _cache_busted_url(f"{site_url}/api/deployment-info"),
+                headers={
+                    "Cache-Control": "no-cache",
+                    "Pragma": "no-cache",
+                    "User-Agent": "383-codex-site-verifier/1.0",
+                },
+            )
+            with urllib.request.urlopen(contract_request, timeout=30) as contract_response:
+                contract = json.loads(
+                    contract_response.read().decode("utf-8", errors="replace") or "{}"
+                )
+            deployed_commit = str(contract.get("commit_sha", "") or "").strip()
+            chart_version = str(
+                contract.get("tregu_chart_ui_version", "") or ""
+            ).strip()
+            if chart_version != TREGU_CHART_UI_VERSION:
+                raise ValueError(
+                    f"Tregu chart UI is {chart_version or 'missing'}, expected {TREGU_CHART_UI_VERSION}"
+                )
+            if expected_commit and deployed_commit != expected_commit:
+                raise ValueError(
+                    f"production commit is {deployed_commit[:12] or 'missing'}, expected {expected_commit[:12]}"
+                )
+
             request = urllib.request.Request(
                 _cache_busted_url(site_url),
                 headers={
@@ -720,6 +747,7 @@ def verify_public_site(path: Path) -> int:
                     print(
                         "SITE VERIFY ok: "
                         f"{site_url} contains batch marker {matched_slug!r} "
+                        f"and Tregu {chart_version} at {deployed_commit[:12]} "
                         f"(attempt {attempt}, cache {last_cache}, age {last_age})"
                     )
                     return 0

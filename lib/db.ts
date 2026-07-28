@@ -108,17 +108,23 @@ function supabaseNewsClient() {
 export async function getArticles(limit = 50, category?: string): Promise<Article[]> {
   const supabase = supabaseNewsClient();
   if (supabase) {
-    let query = supabase
-      .from("news_articles")
-      .select("*")
-      .order("featured", { ascending: false })
-      .order("engagement_score", { ascending: false })
-      .order("published_at", { ascending: false })
-      .limit(limit);
-    if (category) query = query.eq("category", category);
-    const { data, error } = await query;
-    if (error) throw new Error(`Supabase news_articles query failed: ${error.message}`);
-    if (data?.length) return data.map((article) => mapAutoRow(article as Record<string, unknown>));
+    try {
+      let query = supabase
+        .from("news_articles")
+        .select("*")
+        .order("featured", { ascending: false })
+        .order("engagement_score", { ascending: false })
+        .order("published_at", { ascending: false })
+        .limit(limit);
+      if (category) query = query.eq("category", category);
+      const { data, error } = await query;
+      if (error) throw new Error(error.message);
+      if (data?.length) return data.map((article) => mapAutoRow(article as Record<string, unknown>));
+    } catch (error) {
+      // News batches are committed to data/auto-articles specifically so a
+      // temporary Supabase/Cloudflare outage cannot block a production build.
+      console.error("[news] Supabase article list unavailable; using committed fallback", error);
+    }
   }
 
   const autoArticles = getAutoArticles();
@@ -161,13 +167,17 @@ export async function getArticles(limit = 50, category?: string): Promise<Articl
 export async function getArticleBySlug(slug: string): Promise<Article | null> {
   const supabase = supabaseNewsClient();
   if (supabase) {
-    const { data, error } = await supabase
-      .from("news_articles")
-      .select("*")
-      .eq("slug", slug)
-      .maybeSingle();
-    if (error) throw new Error(`Supabase news_articles query failed: ${error.message}`);
-    if (data) return mapAutoRow(data as Record<string, unknown>);
+    try {
+      const { data, error } = await supabase
+        .from("news_articles")
+        .select("*")
+        .eq("slug", slug)
+        .maybeSingle();
+      if (error) throw new Error(error.message);
+      if (data) return mapAutoRow(data as Record<string, unknown>);
+    } catch (error) {
+      console.error("[news] Supabase article lookup unavailable; using committed fallback", error);
+    }
   }
 
   const autoArticle = getAutoArticles().find((a) => a.slug === slug);
