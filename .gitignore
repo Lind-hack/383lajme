@@ -13,6 +13,7 @@ __pycache__/
 .env
 .env.local
 .env*.local
+.firecrawl/
 
 # OS
 .DS_Store

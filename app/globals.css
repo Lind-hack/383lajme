@@ -3781,3 +3781,760 @@ header[data-overlay] .nav-coin-chip {
 @media (prefers-reduced-motion: reduce) {
   .tregu-mstat-bar { animation: none; }
 }
+
+/* ── Formula 1 race market: live tape, grid marquee and driver book ── */
+.f1-race-control {
+  --f1-ink: #17130f;
+  --f1-muted: #695f55;
+  --f1-line: rgba(23, 19, 15, 0.1);
+  --f1-orange: #ff4422;
+  overflow: hidden;
+  border: 1px solid var(--f1-line);
+  border-radius: 16px;
+  background: #fffdf9;
+  color: var(--f1-ink);
+  box-shadow: 0 2px 14px rgba(45, 33, 20, 0.06);
+}
+
+.f1-race-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 24px 26px 20px;
+  border-bottom: 1px solid var(--f1-line);
+  background:
+    radial-gradient(circle at 100% 0, rgba(255, 68, 34, 0.1), transparent 38%),
+    #fffdf9;
+}
+.f1-race-header > div:first-child {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  column-gap: 12px;
+}
+.f1-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  grid-row: 1 / 3;
+  width: 46px;
+  height: 34px;
+  border-radius: 10px;
+  background: #e10600;
+  color: #fff;
+  font-size: 18px;
+  font-style: italic;
+  font-weight: 900;
+  letter-spacing: -0.08em;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+.f1-race-header h2 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 850;
+  letter-spacing: -0.025em;
+  line-height: 1.15;
+}
+.f1-race-header p {
+  margin: 4px 0 0;
+  color: var(--f1-muted);
+  font-size: 13px;
+  line-height: 1.45;
+}
+.f1-race-status {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 7px;
+  min-height: 34px;
+  padding: 7px 11px;
+  border: 1px solid rgba(23, 19, 15, 0.12);
+  border-radius: 100px;
+  background: #fff;
+  color: #4f4942;
+  font-size: 11px;
+  font-weight: 850;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.04em;
+}
+.f1-race-status[data-live] {
+  border-color: rgba(193, 29, 21, 0.25);
+  background: #fff1ef;
+  color: #a81712;
+}
+.f1-race-status[data-live] svg {
+  animation: f1-live-pulse 1.4s ease-in-out infinite;
+}
+@keyframes f1-live-pulse {
+  50% { opacity: 0.4; transform: scale(0.92); }
+}
+
+.f1-race-stage {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 270px;
+  gap: 14px;
+  padding: 14px;
+  background: #f7f2e9;
+}
+.f1-chart-shell,
+.f1-grid-card {
+  min-width: 0;
+  border: 1px solid rgba(23, 19, 15, 0.09);
+  border-radius: 14px;
+  background: #fff;
+}
+.f1-chart-shell {
+  padding: 18px 18px 12px;
+}
+.f1-section-heading,
+.f1-full-field-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.f1-section-heading h3,
+.f1-full-field-head h3 {
+  margin: 0;
+  color: var(--f1-ink);
+  font-size: 16px;
+  font-weight: 850;
+  letter-spacing: -0.015em;
+}
+.f1-section-heading p,
+.f1-full-field-head p {
+  margin: 3px 0 0;
+  color: var(--f1-muted);
+  font-size: 12px;
+}
+.f1-refresh-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #9f2a1b;
+  font-size: 11px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+.f1-refresh-label svg {
+  color: var(--f1-orange);
+}
+
+.f1-grid-card {
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 90% 0, rgba(255, 127, 58, 0.2), transparent 42%),
+    #fff8ed;
+}
+.f1-grid-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 52px;
+  padding: 0 14px;
+  border-bottom: 1px solid rgba(132, 66, 27, 0.12);
+}
+.f1-grid-card-head span {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13px;
+  font-weight: 850;
+}
+.f1-grid-card-head strong {
+  color: #a63d15;
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+}
+.f1-grid-marquee {
+  position: relative;
+  height: 414px;
+  overflow: hidden;
+}
+.f1-grid-marquee::before,
+.f1-grid-marquee::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  left: 0;
+  z-index: 1;
+  height: 38px;
+  pointer-events: none;
+}
+.f1-grid-marquee::before {
+  top: 0;
+  background: linear-gradient(#fff8ed, transparent);
+}
+.f1-grid-marquee::after {
+  bottom: 0;
+  background: linear-gradient(transparent, #fff8ed);
+}
+.f1-grid-track {
+  display: flex;
+  flex-direction: column;
+  will-change: transform;
+  animation: f1-grid-roll var(--f1-grid-duration, 44s) linear infinite;
+}
+.f1-grid-card:hover .f1-grid-track {
+  animation-play-state: paused;
+}
+@keyframes f1-grid-roll {
+  to { transform: translateY(-50%); }
+}
+.f1-grid-list {
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  padding: 10px;
+  list-style: none;
+}
+.f1-grid-slot {
+  position: relative;
+  display: grid;
+  grid-template-columns: 38px 50px minmax(0, 1fr);
+  align-items: center;
+  min-height: 58px;
+  overflow: hidden;
+  border: 1px solid rgba(188, 65, 16, 0.24);
+  border-radius: 12px;
+  background:
+    radial-gradient(circle at 18% 0, rgba(255, 255, 255, 0.62), transparent 30%),
+    linear-gradient(135deg, #ff8754, #ff5a2f 58%, #ef431c);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.48),
+    0 5px 14px rgba(166, 61, 21, 0.12);
+  color: #21150f;
+}
+.f1-grid-position {
+  padding-left: 10px;
+  font-size: 12px;
+  font-weight: 900;
+  font-variant-numeric: tabular-nums;
+}
+.f1-grid-face {
+  align-self: end;
+  width: 50px;
+  height: 54px;
+  object-fit: contain;
+  object-position: center bottom;
+  filter: drop-shadow(0 4px 5px rgba(66, 28, 13, 0.18));
+}
+.f1-grid-driver {
+  min-width: 0;
+  padding: 7px 8px 7px 4px;
+}
+.f1-grid-driver strong,
+.f1-grid-driver small {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.f1-grid-driver strong {
+  font-size: 12px;
+  font-weight: 900;
+}
+.f1-grid-driver small {
+  margin-top: 2px;
+  color: rgba(33, 21, 15, 0.72);
+  font-size: 10px;
+  font-weight: 700;
+}
+.f1-grid-empty {
+  display: flex;
+  height: 100%;
+  min-height: 330px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 28px;
+  color: #75685c;
+  text-align: center;
+}
+.f1-grid-empty strong {
+  margin-top: 12px;
+  color: #332820;
+  font-size: 14px;
+}
+.f1-grid-empty span {
+  margin-top: 5px;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.f1-favorites-section {
+  padding: 24px 26px 8px;
+}
+.f1-favorites {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9px;
+  margin: 16px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.f1-favorite-card {
+  display: grid;
+  grid-template-columns: 28px 58px minmax(0, 1fr) auto auto;
+  align-items: center;
+  min-height: 72px;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--f1-team) 42%, transparent);
+  border-radius: 14px;
+  background:
+    linear-gradient(105deg, color-mix(in srgb, var(--f1-team) 88%, #fff) 0 30%, rgba(29, 26, 23, 0.98) 53%),
+    #211e1b;
+  color: #fff;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+.f1-favorite-rank {
+  padding-left: 10px;
+  color: rgba(255, 255, 255, 0.86);
+  font-size: 11px;
+  font-weight: 900;
+  font-variant-numeric: tabular-nums;
+}
+.f1-favorite-face {
+  align-self: end;
+  width: 58px;
+  height: 68px;
+  object-fit: contain;
+  object-position: center bottom;
+  filter: drop-shadow(0 5px 5px rgba(0, 0, 0, 0.2));
+}
+.f1-favorite-name {
+  min-width: 0;
+  padding: 8px 9px;
+}
+.f1-favorite-name strong,
+.f1-favorite-name small {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.f1-favorite-name strong {
+  font-size: 13px;
+  font-weight: 850;
+}
+.f1-favorite-name small {
+  margin-top: 3px;
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 10px;
+}
+.f1-favorite-odds {
+  padding-right: 8px;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 900;
+  font-variant-numeric: tabular-nums;
+}
+.f1-bet-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-width: 72px;
+  min-height: 34px;
+  margin-right: 8px;
+  padding: 8px 11px;
+  border: 1px solid rgba(23, 19, 15, 0.08);
+  border-radius: 10px;
+  background: var(--f1-orange);
+  color: #17130f;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 900;
+  cursor: pointer;
+  transition:
+    transform 150ms cubic-bezier(0.23, 1, 0.32, 1),
+    background-color 180ms ease,
+    color 180ms ease;
+}
+.f1-bet-button[data-selected] {
+  background: #17130f;
+  color: #fff;
+}
+.f1-favorite-card .f1-bet-button {
+  border-color: rgba(255, 255, 255, 0.18);
+  background: #fff7ee;
+}
+.f1-favorite-card .f1-bet-button[data-selected] {
+  background: var(--f1-orange);
+  color: #17130f;
+}
+.f1-bet-button:active,
+.f1-continue-button:active {
+  transform: scale(0.97);
+}
+.f1-bet-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.54;
+}
+.f1-bet-button:focus-visible,
+.f1-continue-button:focus-visible {
+  outline: 3px solid rgba(255, 68, 34, 0.3);
+  outline-offset: 2px;
+}
+
+.f1-continue-button {
+  display: flex;
+  width: calc(100% - 52px);
+  align-items: center;
+  justify-content: space-between;
+  margin: 14px 26px 24px;
+  padding: 13px 15px 13px 17px;
+  border: 1px solid rgba(23, 19, 15, 0.12);
+  border-radius: 12px;
+  background: #f5f0e8;
+  color: #17130f;
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    transform 150ms cubic-bezier(0.23, 1, 0.32, 1),
+    border-color 180ms ease,
+    background-color 180ms ease;
+}
+.f1-continue-button span {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  color: #6b6259;
+  font-size: 12px;
+}
+.f1-continue-button strong {
+  color: #17130f;
+  font-size: 13px;
+}
+
+.f1-full-field {
+  scroll-margin-top: 92px;
+  padding: 24px 26px 28px;
+  border-top: 1px solid var(--f1-line);
+  background: #f7f2e9;
+}
+.f1-full-field-head > span {
+  color: #a2361b;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+}
+.f1-field-columns {
+  display: grid;
+  grid-template-columns: 46px 56px minmax(120px, 1fr) 116px 94px;
+  gap: 0;
+  margin-top: 16px;
+  padding: 0 12px 7px;
+  color: #786d62;
+  font-size: 10px;
+  font-weight: 800;
+}
+.f1-field-columns span:nth-child(2) {
+  grid-column: 2 / 4;
+}
+.f1-field-columns span:nth-child(3),
+.f1-field-columns span:nth-child(4) {
+  text-align: right;
+}
+.f1-field-list {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.f1-field-row {
+  display: grid;
+  grid-template-columns: 46px 56px minmax(120px, 1fr) 116px 94px;
+  align-items: center;
+  min-height: 62px;
+  overflow: hidden;
+  border: 1px solid rgba(23, 19, 15, 0.09);
+  border-radius: 12px;
+  background:
+    linear-gradient(105deg, color-mix(in srgb, var(--f1-team) 24%, #fff) 0 24%, rgba(255, 255, 255, 0.96) 52%),
+    #fff;
+  transition:
+    transform 180ms cubic-bezier(0.23, 1, 0.32, 1),
+    border-color 180ms ease,
+    box-shadow 180ms ease;
+}
+.f1-field-row[data-selected] {
+  border-color: color-mix(in srgb, var(--f1-team) 64%, #17130f);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--f1-team) 22%, transparent);
+}
+.f1-field-position {
+  padding-left: 13px;
+  font-size: 13px;
+  font-weight: 900;
+  font-variant-numeric: tabular-nums;
+}
+.f1-field-face {
+  align-self: end;
+  width: 54px;
+  height: 58px;
+  object-fit: contain;
+  object-position: center bottom;
+  filter: drop-shadow(0 4px 4px rgba(23, 19, 15, 0.13));
+}
+.f1-field-driver {
+  min-width: 0;
+  padding: 7px 12px;
+}
+.f1-field-driver strong,
+.f1-field-driver small {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.f1-field-driver strong {
+  font-size: 13px;
+  font-weight: 850;
+}
+.f1-field-driver small {
+  margin-top: 2px;
+  color: #71675d;
+  font-size: 10px;
+}
+.f1-field-value {
+  justify-self: end;
+  color: #2d2925;
+  font-size: 13px;
+  font-weight: 900;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.f1-driver-fallback {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(23, 19, 15, 0.12);
+  color: currentColor;
+  font-size: 10px;
+  font-weight: 900;
+}
+
+.f1-trade-driver {
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr) auto;
+  align-items: center;
+  min-height: 76px;
+  margin: -8px -8px 20px;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--f1-team) 38%, transparent);
+  border-radius: 14px;
+  background:
+    linear-gradient(110deg, color-mix(in srgb, var(--f1-team) 76%, #fff) 0 28%, #211e1b 52%),
+    #211e1b;
+  color: #fff;
+}
+.f1-trade-driver img,
+.f1-trade-driver .f1-driver-fallback {
+  align-self: end;
+  width: 64px;
+  height: 72px;
+  object-fit: contain;
+  object-position: center bottom;
+}
+.f1-trade-driver > span:nth-child(2) {
+  min-width: 0;
+  padding: 10px;
+}
+.f1-trade-driver strong,
+.f1-trade-driver small {
+  display: block;
+}
+.f1-trade-driver strong {
+  overflow: hidden;
+  font-size: 14px;
+  font-weight: 850;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.f1-trade-driver small {
+  margin-top: 3px;
+  color: rgba(255, 255, 255, 0.64);
+  font-size: 11px;
+}
+.f1-trade-driver > b {
+  padding: 10px 12px 10px 0;
+  font-size: 20px;
+  font-weight: 900;
+  font-variant-numeric: tabular-nums;
+}
+.f1-trade-note {
+  margin: -4px 0 14px;
+  color: #6b6259;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .f1-field-row:hover {
+    transform: translateY(-1px);
+    border-color: color-mix(in srgb, var(--f1-team) 45%, rgba(23, 19, 15, 0.12));
+    box-shadow: 0 7px 18px rgba(48, 35, 22, 0.07);
+  }
+  .f1-bet-button:hover {
+    background: #ff7354;
+  }
+  .f1-continue-button:hover {
+    border-color: rgba(23, 19, 15, 0.24);
+    background: #eee7dd;
+  }
+}
+
+@media (max-width: 1120px) {
+  .f1-race-stage {
+    grid-template-columns: minmax(0, 1fr) 230px;
+  }
+  .f1-favorite-card {
+    grid-template-columns: 24px 50px minmax(0, 1fr) auto;
+  }
+  .f1-favorite-face {
+    width: 50px;
+  }
+  .f1-favorite-odds {
+    display: none;
+  }
+}
+
+@media (max-width: 760px) {
+  .f1-race-header {
+    flex-direction: column;
+    padding: 20px 18px 16px;
+  }
+  .f1-race-status {
+    margin-left: 58px;
+  }
+  .f1-race-stage {
+    grid-template-columns: 1fr;
+    padding: 9px;
+  }
+  .f1-chart-shell {
+    padding: 15px 12px 8px;
+  }
+  .f1-grid-card {
+    max-height: 330px;
+  }
+  .f1-grid-marquee {
+    height: 274px;
+  }
+  .f1-favorites-section,
+  .f1-full-field {
+    padding-right: 14px;
+    padding-left: 14px;
+  }
+  .f1-favorites {
+    grid-template-columns: 1fr;
+  }
+  .f1-favorite-card {
+    grid-template-columns: 27px 56px minmax(0, 1fr) auto auto;
+  }
+  .f1-favorite-face {
+    width: 56px;
+  }
+  .f1-favorite-odds {
+    display: inline;
+  }
+  .f1-continue-button {
+    width: calc(100% - 28px);
+    margin-right: 14px;
+    margin-left: 14px;
+  }
+  .f1-field-columns {
+    display: none;
+  }
+  .f1-field-list {
+    margin-top: 16px;
+  }
+  .f1-field-row {
+    grid-template-columns: 38px 52px minmax(0, 1fr) auto;
+    min-height: 66px;
+  }
+  .f1-field-position {
+    padding-left: 10px;
+  }
+  .f1-field-face {
+    width: 50px;
+    height: 62px;
+  }
+  .f1-field-driver {
+    padding-right: 6px;
+    padding-left: 7px;
+  }
+  .f1-field-value {
+    grid-column: 4;
+    grid-row: 1;
+    align-self: start;
+    margin: 10px 10px 0 0;
+    font-size: 12px;
+  }
+  .f1-field-row .f1-bet-button {
+    grid-column: 4;
+    grid-row: 1;
+    align-self: end;
+    min-width: 68px;
+    min-height: 30px;
+    margin: 0 8px 7px 0;
+    padding: 6px 8px;
+  }
+}
+
+@media (max-width: 470px) {
+  .f1-race-header h2 {
+    font-size: 19px;
+  }
+  .f1-refresh-label {
+    display: none;
+  }
+  .f1-favorite-card {
+    grid-template-columns: 24px 50px minmax(0, 1fr) auto;
+  }
+  .f1-favorite-face {
+    width: 50px;
+  }
+  .f1-favorite-odds {
+    display: none;
+  }
+  .f1-favorite-name {
+    padding-right: 4px;
+    padding-left: 5px;
+  }
+  .f1-bet-button {
+    min-width: 65px;
+    margin-right: 6px;
+    padding-right: 8px;
+    padding-left: 8px;
+  }
+  .f1-full-field-head > span {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .f1-race-status[data-live] svg {
+    animation: none;
+  }
+  .f1-grid-marquee {
+    overflow-y: auto;
+  }
+  .f1-grid-track {
+    animation: none;
+    will-change: auto;
+  }
+  .f1-grid-list[aria-hidden="true"] {
+    display: none;
+  }
+  .f1-bet-button,
+  .f1-continue-button,
+  .f1-field-row {
+    transition-duration: 0.01ms;
+  }
+}

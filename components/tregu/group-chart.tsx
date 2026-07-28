@@ -151,10 +151,16 @@ export default function GroupChart({
   series,
   height = 420,
   cadenceMs = 120_000,
+  normalize = true,
+  animate = true,
 }: {
   series: EventSeries[];
   height?: number;
   cadenceMs?: number;
+  /** Multi-book events sum to 100%; a filtered field such as F1 top 10 must keep raw odds. */
+  normalize?: boolean;
+  /** Closed archives keep their recorded geometry instead of generating a moving live edge. */
+  animate?: boolean;
 }) {
   const [range, setRange] = useState<RangeKey>("1d");
   const [hoverI, setHoverI] = useState<{ x: number; t: number; values: number[]; live: boolean; col: number } | null>(null);
@@ -210,7 +216,7 @@ export default function GroupChart({
   }, [series]);
 
   const targets = series.map((s) => s.prob);
-  const { now: tapeNow, tapes, lives } = useLiveTapeVector(data.samplers, data.dataKey, targets, !reduced);
+  const { now: tapeNow, tapes, lives } = useLiveTapeVector(data.samplers, data.dataKey, targets, !reduced && animate);
 
   // Window geometry — identical model to MarketChart.
   const rangeMs = RANGES.find((r) => r.key === range)!.ms;
@@ -287,12 +293,16 @@ export default function GroupChart({
       sum += v;
       sumFit += vf;
     }
-    const valsFit = sumFit > 0 ? rawFit.map((v) => v / sumFit) : rawFit.map(() => 1 / n);
+    const valsFit = normalize
+      ? (sumFit > 0 ? rawFit.map((v) => v / sumFit) : rawFit.map(() => 1 / n))
+      : rawFit;
     for (const v of valsFit) {
       if (v < plo) plo = v;
       if (v > phi) phi = v;
     }
-    const vals = sum > 0 ? raw.map((v) => v / sum) : raw.map(() => 1 / n);
+    const vals = normalize
+      ? (sum > 0 ? raw.map((v) => v / sum) : raw.map(() => 1 / n))
+      : raw;
     arr.push({ t, x, vals });
   };
   // Absolute quantized sample grid — identical model to MarketChart: columns
@@ -322,7 +332,7 @@ export default function GroupChart({
   // frame; it only grows (eased) when a live value pushes a genuine new high/low
   // into view. Keyed by range+dataKey so it reseeds on a timeframe switch or a
   // data refresh, and holds rock-still otherwise.
-  const [lo, hi] = frozenFitRange(fitRef, `${range}|${data.dataKey}`, tLo, tHi, reduced);
+  const [lo, hi] = frozenFitRange(fitRef, `${range}|${data.dataKey}|${normalize ? "norm" : "raw"}`, tLo, tHi, reduced);
 
   const isLiveEdge = isAll || pan.panMs < 1500;
   const hover = hoverI;
@@ -330,6 +340,7 @@ export default function GroupChart({
   // chips at the right edge; nothing in the committed stack reads them.
   const liveNorm = (() => {
     const raw = series.map((_, s) => lives[s] ?? targets[s] ?? 0);
+    if (!normalize) return raw;
     const sum = raw.reduce((a, b) => a + b, 0);
     return sum > 0 ? raw.map((v) => v / sum) : raw.map(() => 1 / n);
   })();
