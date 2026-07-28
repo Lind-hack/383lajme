@@ -34,6 +34,11 @@ const REQUIRED_CHART_MARKERS = {
     "timingRow?.gap",
     "onBetDriver",
   ],
+  "lib/f1-driver-presentation.ts": [
+    "f1DriverHeadshot",
+    "f1TeamColor",
+    "media.formula1.com",
+  ],
   "app/tregu/[slug]/page.tsx": [
     'kind: "f1_race_winner"',
     "outcomeKey: f1OutcomeKey",

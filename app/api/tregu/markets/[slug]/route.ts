@@ -216,11 +216,11 @@ export async function GET(
     const latest = history.at(-1)?.probabilities ?? market.reference_probabilities ?? {};
     f1 = {
       outcomes: market.sport_outcomes.map(
-        (row: { key?: string; label?: string; team?: string; team_colour?: string; headshot_url?: string }) => ({
+        (row: { key?: string; label?: string; team?: string; team_colour?: string; team_color?: string; headshot_url?: string }) => ({
           key: row.key,
           label: row.label,
           team: row.team,
-          team_colour: row.team_colour,
+          team_colour: row.team_colour ?? row.team_color,
           headshot_url: row.headshot_url,
           grid_position: positions.get(row.key),
           probability: Number(latest[row.key ?? ""] ?? 0),
