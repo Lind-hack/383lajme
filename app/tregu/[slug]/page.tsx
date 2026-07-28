@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState, use as usePromise } from "react";
+import { useCallback, useEffect, useState, use as usePromise, type CSSProperties } from "react";
 import Link from "next/link";
 import Navbar from "@/components/navbar";
 import MarketChart from "@/components/tregu/market-chart";
@@ -58,7 +58,7 @@ interface Snapshot {
   evidence: { title: string; slug: string; url?: string }[] | null;
 }
 
-interface F1Payload { outcomes: { key: string; label: string; team: string; probability: number; headshot_url?: string; grid_position?: number }[]; timing: { race?: { status?: string; current_lap?: number; total_laps?: number }; rows?: { driver_code?: string; position?: number; gap?: string; pits?: number; status?: string }[] } | null; history?: { createdAt: string; probabilities: Record<string, number>; lap?: number; status?: string }[]; }
+interface F1Payload { outcomes: { key: string; label: string; team: string; probability: number; headshot_url?: string; team_colour?: string; grid_position?: number }[]; timing: { race?: { status?: string; current_lap?: number; total_laps?: number }; rows?: { driver_code?: string; position?: number; gap?: string; pits?: number; status?: string }[] } | null; history?: { createdAt: string; probabilities: Record<string, number>; lap?: number; status?: string }[]; }
 
 interface Position {
   side: Side;
@@ -89,6 +89,11 @@ const CATEGORY_LABEL: Record<string, string> = {
 };
 
 const QUICK_AMOUNTS = [10, 25, 50, 100];
+
+function f1TeamColor(value?: string): string {
+  const color = String(value ?? "").trim().replace(/^#/, "");
+  return /^[0-9a-f]{6}$/i.test(color) ? `#${color}` : "#625A50";
+}
 
 function closesIn(iso: string): string {
   const ms = new Date(iso).getTime() - Date.now();
@@ -126,6 +131,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
   const [group, setGroup] = useState<MarketGroup | null>(null);
   const [eventData, setEventData] = useState<{ title: string; outcomes: EventOutcome[] } | null>(null);
   const [f1, setF1] = useState<F1Payload | null>(null);
+  const [f1OutcomeKey, setF1OutcomeKey] = useState("");
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
   const [user, setUser] = useState<{ id: string } | null>(null);
@@ -188,7 +194,13 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
         }
         setMarket(d.market);
         setEventData(d.event ?? null);
-        setF1(d.f1 ?? null);
+        const nextF1 = (d.f1 ?? null) as F1Payload | null;
+        setF1(nextF1);
+        setF1OutcomeKey((current) => {
+          if (!nextF1?.outcomes?.length) return "";
+          if (nextF1.outcomes.some((driver) => driver.key === current)) return current;
+          return [...nextF1.outcomes].sort((a, b) => b.probability - a.probability)[0]?.key ?? "";
+        });
         setSnapshots(d.snapshots ?? []);
         setTrades(d.trades ?? []);
         setActivity(d.activity ?? []);
@@ -273,6 +285,37 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
     }
     setPlacing(true);
     setTradeMsg(null);
+    if (f1) {
+      if (!f1OutcomeKey) {
+        setTradeMsg({ ok: false, text: "Zgjidh një pilot para se të vendosësh bastin." });
+        setPlacing(false);
+        return;
+      }
+      const selectedDriver = f1.outcomes.find((driver) => driver.key === f1OutcomeKey);
+      const res = await fetch("/api/tregu/bet", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          marketId: market.id,
+          kind: "f1_race_winner",
+          outcomeKey: f1OutcomeKey,
+          coins: amount,
+        }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setTradeMsg({
+          ok: true,
+          text: `Basti u vendos te ${selectedDriver?.label ?? f1OutcomeKey} për ${amount} 383C.`,
+        });
+        load();
+        refreshBalance();
+      } else {
+        setTradeMsg({ ok: false, text: data.error ?? "Gabim" });
+      }
+      setPlacing(false);
+      return;
+    }
     if (mode === "buy") {
       const res = await fetch("/api/tregu/bet", {
         method: "POST",
@@ -333,6 +376,9 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
   // Bonus: live AI signal — the newest news-scored probability vs the market.
   const latestAiSnap = [...snapshots].reverse().find((s) => s.ai_prob !== null) ?? null;
   const currentOutcome = group?.outcomes.find((o) => o.slug === slug) ?? null;
+  const f1SelectedDriver =
+    f1?.outcomes.find((driver) => driver.key === f1OutcomeKey) ??
+    (f1 ? [...f1.outcomes].sort((a, b) => b.probability - a.probability)[0] : undefined);
   // Grouped events trade in outcome language, not raw PO/JO:
   // PO → "Barazim", JO → "Jo Barazim".
   const sideLabel = (s: Side) =>
@@ -364,7 +410,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
   };
   const currentPrice = lmsrPriceYes(market.q_yes, market.q_no, market.b);
   const sidePrice = side === "PO" ? currentPrice : 1 - currentPrice;
-  const pct = Math.round(market.market_prob * 100);
+  const pct = Math.round((f1SelectedDriver?.probability ?? market.market_prob) * 100);
   const isClosed = market.status !== "open";
   const volume = Math.round(market.q_yes + market.q_no);
   const deltaPp = weeklyDelta === null ? null : Math.round(weeklyDelta * 100);
@@ -485,10 +531,14 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                 {pct}%
               </span>
               <span style={{ fontSize: 14, fontWeight: 700, color: "#6B6B6B" }}>
-                {currentOutcome ? `gjasa ${currentOutcome.label}` : "gjasa PO"}
+                {f1SelectedDriver
+                  ? `gjasa ${f1SelectedDriver.label}`
+                  : currentOutcome
+                    ? `gjasa ${currentOutcome.label}`
+                    : "gjasa PO"}
               </span>
             </span>
-            {deltaPp !== null && deltaPp !== 0 && (
+            {!f1 && deltaPp !== null && deltaPp !== 0 && (
               <span className="tregu-delta-chip" data-dir={deltaPp > 0 ? "up" : "down"}>
                 {deltaPp > 0 ? "▲" : "▼"} {Math.abs(deltaPp)}pp këtë javë
               </span>
@@ -504,7 +554,25 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
         <div className="tregu-detail-grid">
           <div style={{ display: "flex", flexDirection: "column", gap: 20, minWidth: 0 }}>
             {f1 ? (
-              <F1RaceControl marketId={market.id} marketOpen={market.status === "open"} drivers={f1.outcomes} timing={f1.timing} history={f1.history} />
+              <F1RaceControl
+                marketId={market.id}
+                marketOpen={market.status === "open"}
+                drivers={f1.outcomes}
+                timing={f1.timing}
+                history={f1.history}
+                selectedDriverKey={f1OutcomeKey}
+                onBetDriver={(driverKey) => {
+                  setF1OutcomeKey(driverKey);
+                  setMode("buy");
+                  setTradeMsg(null);
+                  requestAnimationFrame(() => {
+                    document.getElementById("f1-bet-slip")?.scrollIntoView({
+                      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+                      block: "center",
+                    });
+                  });
+                }}
+              />
             ) : group && currentOutcome ? (
               <>
                 {/* Combined event chart — every outcome's live line, Polymarket-style. */}
@@ -619,7 +687,12 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
 
           {/* ── Right column ── */}
           <aside className="tregu-detail-side">
-            <div className="tregu-panel tregu-edge" data-cat={market.category} style={{ padding: 28 }}>
+            <div
+              id={f1 ? "f1-bet-slip" : undefined}
+              className="tregu-panel tregu-edge"
+              data-cat={market.category}
+              style={{ padding: 28 }}
+            >
               {/* Event trade card header: cubic flag avatar + team, plus a
                  switcher — changing team swaps BOTH the name and the flag. */}
               {group && currentOutcome && (
@@ -668,6 +741,27 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                   </div>
                 </div>
               )}
+              {f1 && f1SelectedDriver && (
+                <div
+                  className="f1-trade-driver"
+                  style={{ "--f1-team": f1TeamColor(f1SelectedDriver.team_colour) } as CSSProperties}
+                >
+                  {f1SelectedDriver.headshot_url ? (
+                    <img
+                      src={f1SelectedDriver.headshot_url}
+                      alt={`Portreti i ${f1SelectedDriver.label}`}
+                      decoding="async"
+                    />
+                  ) : (
+                    <span className="f1-driver-fallback" aria-hidden>{f1SelectedDriver.key}</span>
+                  )}
+                  <span>
+                    <strong>{f1SelectedDriver.label}</strong>
+                    <small>{f1SelectedDriver.team}</small>
+                  </span>
+                  <b>{(f1SelectedDriver.probability * 100).toFixed(1)}%</b>
+                </div>
+              )}
               {!user ? (
                 <div style={{ textAlign: "center", padding: "20px 0" }}>
                   <p style={{ color: "#6B6B6B", marginBottom: 14 }}>
@@ -679,6 +773,69 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                 </div>
               ) : isClosed ? (
                 <p style={{ color: "#6B6B6B", margin: 0 }}>Ky treg nuk pranon më tregtime.</p>
+              ) : f1 ? (
+                <>
+                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>
+                    <strong style={{ fontSize: 14 }}>Basto për fituesin</strong>
+                    {balance !== null && (
+                      <span style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: 12, fontWeight: 800, fontVariantNumeric: "tabular-nums" }}>
+                        <CoinFace size={16} /> {fmtNum(balance)}
+                      </span>
+                    )}
+                  </div>
+                  <p className="f1-trade-note">
+                    Zgjidh një pilot nga lista. Gjasat dhe renditja rifreskohen pa ringarkuar faqen.
+                  </p>
+                  <label style={{ fontSize: 12, color: "#6B6B6B", fontWeight: 700 }}>Shuma (383 Coin)</label>
+                  <div style={{ display: "flex", alignItems: "center", gap: 10, margin: "8px 0 10px" }}>
+                    <CoinFace size={20} />
+                    <input
+                      type="number"
+                      min={1}
+                      value={amount}
+                      onChange={(event) => setAmount(Math.max(1, Number(event.target.value)))}
+                      className="tregu-input"
+                    />
+                  </div>
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 16 }}>
+                    {QUICK_AMOUNTS.map((quickAmount) => (
+                      <button
+                        key={quickAmount}
+                        className="tregu-chip tregu-raise"
+                        data-active={amount === quickAmount}
+                        onClick={() => setAmount(quickAmount)}
+                        type="button"
+                      >
+                        {quickAmount}
+                      </button>
+                    ))}
+                    {balance !== null && balance >= 1 && (
+                      <button
+                        className="tregu-chip tregu-raise"
+                        data-active={amount === Math.floor(balance)}
+                        onClick={() => setAmount(Math.floor(balance))}
+                        type="button"
+                      >
+                        Max
+                      </button>
+                    )}
+                  </div>
+                  {balance !== null && amount > balance && (
+                    <p style={{ color: "#E41E20", fontSize: 12, marginBottom: 12 }}>
+                      Nuk ke mjaftueshëm 383 Coin ({balance})
+                    </p>
+                  )}
+                  <ConfirmButton onClick={submitTrade} disabled={!canBuy || !f1OutcomeKey}>
+                    {placing
+                      ? "Duke vendosur bastin..."
+                      : `Basto ${amount} 383C te ${f1SelectedDriver?.key ?? "piloti"}`}
+                  </ConfirmButton>
+                  {tradeMsg && (
+                    <p style={{ marginTop: 12, fontSize: 13, fontWeight: 600, color: tradeMsg.ok ? "#00854A" : "#E41E20" }}>
+                      {tradeMsg.text}
+                    </p>
+                  )}
+                </>
               ) : (
                 <>
                   <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>

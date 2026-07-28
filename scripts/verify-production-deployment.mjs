@@ -5,11 +5,15 @@ import { fileURLToPath } from "node:url";
 const REPOSITORY = "Lind-hack/383lajme";
 const PRODUCTION_BRANCH = "main";
 const CHART_UI_VERSION = "live-tape-v1";
+const F1_RACE_UI_VERSION = "race-grid-v2";
 const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
 const DEFAULT_ROOT = path.resolve(SCRIPT_DIR, "..");
 
 const REQUIRED_CHART_MARKERS = {
-  "lib/tregu-ui-contract.ts": [`TREGU_CHART_UI_VERSION = "${CHART_UI_VERSION}"`],
+  "lib/tregu-ui-contract.ts": [
+    `TREGU_CHART_UI_VERSION = "${CHART_UI_VERSION}"`,
+    `F1_RACE_UI_VERSION = "${F1_RACE_UI_VERSION}"`,
+  ],
   "components/tregu/chart-hooks.ts": [
     "export function useLiveTape(",
     "export function useLiveTapeVector(",
@@ -23,6 +27,25 @@ const REQUIRED_CHART_MARKERS = {
   "components/tregu/group-chart.tsx": [
     "useLiveTapeVector",
     "data-tregu-chart-version",
+  ],
+  "components/tregu/f1-race-control.tsx": [
+    "GroupChart",
+    "data-f1-race-ui-version",
+    "timingRow?.gap",
+    "onBetDriver",
+  ],
+  "app/tregu/[slug]/page.tsx": [
+    'kind: "f1_race_winner"',
+    "outcomeKey: f1OutcomeKey",
+    'id={f1 ? "f1-bet-slip" : undefined}',
+  ],
+  "app/api/tregu/markets/[slug]/route.ts": [
+    "team_colour: row.team_colour",
+    "timing: board",
+  ],
+  "scripts/codex_automation_support.py": [
+    `F1_RACE_UI_VERSION = "${F1_RACE_UI_VERSION}"`,
+    'contract.get("f1_race_ui_version", "")',
   ],
 };
 
@@ -102,6 +125,7 @@ export async function verifyProductionSource({
     skipped: false,
     commitSha: deployedSha,
     chartUiVersion: CHART_UI_VERSION,
+    f1RaceUiVersion: F1_RACE_UI_VERSION,
   };
 }
 
@@ -112,7 +136,7 @@ async function main() {
     return;
   }
   console.log(
-    `DEPLOY GUARD ok: ${result.commitSha.slice(0, 12)} includes Tregu ${result.chartUiVersion}`
+    `DEPLOY GUARD ok: ${result.commitSha.slice(0, 12)} includes Tregu ${result.chartUiVersion} and F1 ${result.f1RaceUiVersion}`
   );
 }
 

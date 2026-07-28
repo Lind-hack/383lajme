@@ -134,6 +134,7 @@ SCORE_WEIGHTS = {
 DEFAULT_SITE_URL = "https://383ks.com"
 DEFAULT_GITHUB_REPO = "Lind-hack/383lajme"
 TREGU_CHART_UI_VERSION = "live-tape-v1"
+F1_RACE_UI_VERSION = "race-grid-v2"
 MIN_ARTICLES_PER_BATCH = 13
 MAX_ARTICLES_PER_BATCH = 22
 MAX_X_ARTICLES = 2
@@ -715,6 +716,13 @@ def verify_public_site(path: Path) -> int:
             if chart_version != TREGU_CHART_UI_VERSION:
                 raise ValueError(
                     f"Tregu chart UI is {chart_version or 'missing'}, expected {TREGU_CHART_UI_VERSION}"
+                )
+            f1_race_version = str(
+                contract.get("f1_race_ui_version", "") or ""
+            ).strip()
+            if f1_race_version != F1_RACE_UI_VERSION:
+                raise ValueError(
+                    f"F1 race UI is {f1_race_version or 'missing'}, expected {F1_RACE_UI_VERSION}"
                 )
             if expected_commit and deployed_commit != expected_commit:
                 raise ValueError(

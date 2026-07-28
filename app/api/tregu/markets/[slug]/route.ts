@@ -214,7 +214,21 @@ export async function GET(
       return snapshot.oracle_kind === "f1_vector" && evidence && typeof evidence.probabilities === "object" && evidence.probabilities !== null ? [{ createdAt: snapshot.created_at ?? "", probabilities: evidence.probabilities as Record<string, number>, lap: evidence.timing?.race?.current_lap, status: evidence.timing?.race?.status }] : [];
     });
     const latest = history.at(-1)?.probabilities ?? market.reference_probabilities ?? {};
-    f1 = { outcomes: market.sport_outcomes.map((row: { key?: string; label?: string; team?: string; headshot_url?: string }) => ({ key: row.key, label: row.label, team: row.team, headshot_url: row.headshot_url, grid_position: positions.get(row.key), probability: Number(latest[row.key ?? ""] ?? 0) })), timing: board, history };
+    f1 = {
+      outcomes: market.sport_outcomes.map(
+        (row: { key?: string; label?: string; team?: string; team_colour?: string; headshot_url?: string }) => ({
+          key: row.key,
+          label: row.label,
+          team: row.team,
+          team_colour: row.team_colour,
+          headshot_url: row.headshot_url,
+          grid_position: positions.get(row.key),
+          probability: Number(latest[row.key ?? ""] ?? 0),
+        })
+      ),
+      timing: board,
+      history,
+    };
   }
   return NextResponse.json({
     market: { ...market, market_prob: currentProb }, f1,
