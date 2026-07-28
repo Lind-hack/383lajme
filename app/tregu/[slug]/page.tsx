@@ -22,6 +22,7 @@ import RaceStandings from "@/components/tregu/race-standings";
 import F1RaceControl from "@/components/tregu/f1-race-control";
 import { dramatizeSeries, dramatizeSpark } from "@/lib/tregu-tape";
 import { SLUG_TO_CATEGORY } from "@/lib/category-map";
+import { f1DriverHeadshot, f1TeamColor } from "@/lib/f1-driver-presentation";
 
 // Sibling outcome series from the detail API — real 5-min cron snapshots.
 interface EventOutcome {
@@ -89,11 +90,6 @@ const CATEGORY_LABEL: Record<string, string> = {
 };
 
 const QUICK_AMOUNTS = [10, 25, 50, 100];
-
-function f1TeamColor(value?: string): string {
-  const color = String(value ?? "").trim().replace(/^#/, "");
-  return /^[0-9a-f]{6}$/i.test(color) ? `#${color}` : "#625A50";
-}
 
 function closesIn(iso: string): string {
   const ms = new Date(iso).getTime() - Date.now();
@@ -744,11 +740,11 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
               {f1 && f1SelectedDriver && (
                 <div
                   className="f1-trade-driver"
-                  style={{ "--f1-team": f1TeamColor(f1SelectedDriver.team_colour) } as CSSProperties}
+                  style={{ "--f1-team": f1TeamColor(f1SelectedDriver.team, f1SelectedDriver.team_colour) } as CSSProperties}
                 >
-                  {f1SelectedDriver.headshot_url ? (
+                  {f1DriverHeadshot(f1SelectedDriver.key, f1SelectedDriver.headshot_url) ? (
                     <img
-                      src={f1SelectedDriver.headshot_url}
+                      src={f1DriverHeadshot(f1SelectedDriver.key, f1SelectedDriver.headshot_url)}
                       alt={`Portreti i ${f1SelectedDriver.label}`}
                       decoding="async"
                     />

@@ -3,6 +3,7 @@
 import { useMemo, useRef, type CSSProperties } from "react";
 import { ArrowDown, Flag, Radio, Ticket, Trophy } from "lucide-react";
 import GroupChart from "@/components/tregu/group-chart";
+import { f1DriverHeadshot, f1TeamColor } from "@/lib/f1-driver-presentation";
 import { F1_RACE_UI_VERSION } from "@/lib/tregu-ui-contract";
 
 type Driver = {
@@ -49,28 +50,11 @@ type Props = {
   onBetDriver?: (driverKey: string) => void;
 };
 
-const TEAM_COLORS: Record<string, string> = {
-  mclaren: "#FF8000",
-  ferrari: "#E8002D",
-  mercedes: "#00A19C",
-  "red bull": "#3671C6",
-  "racing bulls": "#4E7CFF",
-  williams: "#168BFF",
-  "aston martin": "#229971",
-  audi: "#B6B6B6",
-  alpine: "#FF87BC",
-  haas: "#8B8D91",
-  cadillac: "#B8903E",
-};
-
 const cleanProbability = (value: number) =>
   Number.isFinite(value) ? Math.max(0, Math.min(1, value)) : 0;
 
 function teamColor(driver: Driver): string {
-  const supplied = String(driver.team_colour ?? "").trim().replace(/^#/, "");
-  if (/^[0-9a-f]{6}$/i.test(supplied)) return `#${supplied}`;
-  const team = String(driver.team ?? "").toLowerCase();
-  return Object.entries(TEAM_COLORS).find(([name]) => team.includes(name))?.[1] ?? "#625A50";
+  return f1TeamColor(driver.team, driver.team_colour);
 }
 
 function DriverFace({
@@ -80,10 +64,11 @@ function DriverFace({
   driver: Driver;
   className: string;
 }) {
-  if (driver.headshot_url) {
+  const headshot = f1DriverHeadshot(driver.key, driver.headshot_url);
+  if (headshot) {
     return (
       <img
-        src={driver.headshot_url}
+        src={headshot}
         alt={`Portreti i ${driver.label}`}
         className={className}
         loading="lazy"
