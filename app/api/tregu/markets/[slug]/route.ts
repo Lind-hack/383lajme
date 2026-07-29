@@ -204,9 +204,11 @@ export async function GET(
 
   let football = null;
   if (
-    market.market_type === "three_outcome" &&
+    market.market_classification === "live_football" &&
+    (market.market_type === "two_outcome" || market.market_type === "three_outcome") &&
     Array.isArray(market.sport_outcomes) &&
-    market.sport_outcomes.length === 3 &&
+    market.sport_outcomes.length >= 2 &&
+    market.sport_outcomes.length <= 3 &&
     market.outcome_quantities &&
     typeof market.outcome_quantities === "object"
   ) {
@@ -223,6 +225,34 @@ export async function GET(
       .limit(500);
     const nowT = Date.now();
     const palette = ["#C92F2F", "#7A7A78", "#2E70C9"];
+    const storedFormat =
+      market.live_event?.football_format &&
+      typeof market.live_event.football_format === "object"
+        ? market.live_event.football_format
+        : null;
+    const format = {
+      competitionKind: String(storedFormat?.competitionKind ?? "league"),
+      stageKind: String(storedFormat?.stageKind ?? "league"),
+      stageLabel: String(storedFormat?.stageLabel ?? market.live_event?.stage ?? "Ndeshje"),
+      leg: Number(storedFormat?.leg ?? market.live_event?.leg) || null,
+      marketIntent: String(
+        storedFormat?.marketIntent ??
+          (market.sport_outcomes.length === 2 ? "to_qualify" : "match_result")
+      ),
+      outcomeMode: market.sport_outcomes.length === 2 ? "two_way" : "three_way",
+      drawAllowed: market.sport_outcomes.some(
+        (outcome: { key?: string }) => String(outcome.key).toLowerCase() === "draw"
+      ),
+      decisive: Boolean(
+        storedFormat?.decisive ?? market.sport_outcomes.length === 2
+      ),
+      resolutionBasis: String(
+        storedFormat?.resolutionBasis ??
+          (market.sport_outcomes.length === 2
+            ? "aggregate_then_extra_time_then_penalties"
+            : "regulation_time_90_minutes")
+      ),
+    };
     football = {
       outcomes: market.sport_outcomes.map(
         (
@@ -245,7 +275,11 @@ export async function GET(
               ? "#C92F2F"
               : /angl|england/i.test(teamName)
                 ? "#C8102E"
-                : palette[index % palette.length];
+                : key.toLowerCase() === "away"
+                  ? "#2E70C9"
+                  : key.toLowerCase() === "home"
+                    ? "#C92F2F"
+                    : palette[index % palette.length];
           const series = (oracleEvents ?? [])
             .map((row) => {
               const values = row.reference_probabilities as Record<string, unknown> | null;
@@ -268,6 +302,7 @@ export async function GET(
           };
         }
       ),
+      format,
       liveState: market.live_score_state ?? oracleEvents?.at(-1)?.official_state ?? null,
       refreshMs: 120_000,
     };

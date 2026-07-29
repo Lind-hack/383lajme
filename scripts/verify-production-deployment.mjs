@@ -6,7 +6,7 @@ const REPOSITORY = "Lind-hack/383lajme";
 const PRODUCTION_BRANCH = "main";
 const CHART_UI_VERSION = "live-tape-v1";
 const F1_RACE_UI_VERSION = "race-grid-v3";
-const FOOTBALL_MARKET_UI_VERSION = "three-way-live-v1";
+const FOOTBALL_MARKET_UI_VERSION = "stage-aware-v2";
 const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
 const DEFAULT_ROOT = path.resolve(SCRIPT_DIR, "..");
 
@@ -61,6 +61,8 @@ const REQUIRED_CHART_MARKERS = {
     "outcomeKey: f1OutcomeKey",
     'id={f1 ? "f1-bet-slip" : undefined}',
     "data-football-market-ui-version={FOOTBALL_MARKET_UI_VERSION}",
+    "data-market-intent={football.format.marketIntent}",
+    "football.format.drawAllowed",
     "cadenceMs={120_000}",
     'kind: "sport_outcome"',
     "outcomeKey: selectedOutcome.key",
@@ -70,9 +72,39 @@ const REQUIRED_CHART_MARKERS = {
     'status: "ARCHIVED"',
     "grid_position: gridPosition",
     "timing: board",
-    'market.market_type === "three_outcome"',
+    'market.market_type === "two_outcome" || market.market_type === "three_outcome"',
     "sport_oracle_events",
     "refreshMs: 120_000",
+    "aggregate_then_extra_time_then_penalties",
+  ],
+  "lib/football-market-format.mjs": [
+    "export function classifyFootballFixture(",
+    'marketIntent: decisive ? "to_qualify" : "match_result"',
+    'outcomeMode: decisive ? "two_way" : "three_way"',
+    "leg === 2",
+  ],
+  "lib/espn-upcoming-football.mjs": [
+    "classifyFootballFixture",
+    'status: "open"',
+    "football_format: footballFormat",
+    "outcomes: outcomeKeys",
+  ],
+  "lib/tregu-sport-market.mjs": [
+    "function decisiveWinnerTeam(",
+    '"final_unresolved"',
+    "aggregate_score",
+    "shootout_score",
+  ],
+  "lib/tregu-automation-server.ts": [
+    "runUpcomingFootballTemplateAutomation(now)",
+    "football_template: footballTemplate",
+    '"awaiting_official_winner"',
+  ],
+  "supabase/migrations/0038_tregu_football_stage_template.sql": [
+    "market_type in ('two_outcome', 'three_outcome', 'f1_race_winner')",
+    "sport_outcomes @> jsonb_build_array",
+    "home_team",
+    "away_team",
   ],
   "app/api/tregu/bet/route.ts": [
     'body.kind === "sport_outcome"',

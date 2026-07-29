@@ -3827,11 +3827,26 @@ header[data-overlay] .nav-coin-chip {
   letter-spacing: 0;
   text-transform: none;
 }
+.tregu-football-meta {
+  display: flex;
+  align-items: flex-end;
+  flex-direction: column;
+  gap: 7px;
+}
+.tregu-football-stage {
+  color: #4B4B49;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: capitalize;
+}
 .tregu-football-legend {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 8px;
   margin-bottom: 12px;
+}
+.tregu-football-legend[data-outcome-count="2"] {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 .tregu-football-legend button {
   display: grid;
@@ -3955,6 +3970,7 @@ header[data-overlay] .nav-coin-chip {
 @media (max-width: 620px) {
   .tregu-football-market { padding: 20px !important; }
   .tregu-football-market-head { align-items: stretch; flex-direction: column; }
+  .tregu-football-meta { align-items: flex-start; }
   .tregu-football-cadence { align-self: flex-start; }
   .tregu-football-legend { grid-template-columns: 1fr; }
 }
