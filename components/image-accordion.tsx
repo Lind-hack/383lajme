@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
-import { type Article, timeAgo } from '@/lib/mock-data'
+import { type Article } from '@/lib/mock-data'
 import { getCategoryColor } from '@/lib/category-colors'
 import { FONT } from '@/lib/tokens'
 import { useCanHover } from '@/hooks/use-can-hover'
@@ -15,199 +15,40 @@ export interface AccordionSlide {
 }
 
 interface Props {
-  featured: Article
   slides: AccordionSlide[]
 }
 
-export default function ImageAccordion({ featured, slides }: Props) {
+export default function ImageAccordion({ slides }: Props) {
   const canHover = useCanHover()
-  const [active, setActive] = useState(-1)
-
-  const featuredColor = getCategoryColor(featured.category)
+  const [active, setActive] = useState(0)
 
   return (
     <section
-      className="split-hero"
-      aria-label="Lajmi kryesor"
+      className="feature-accordion"
+      aria-label="Pesë lajme të zgjedhura"
       style={{
         position: 'relative',
         zIndex: 1,
         width: '100%',
         background: 'transparent',
-        display: 'flex',
-        flexDirection: 'row',
-        height: 'clamp(380px, 44vh, 480px)',
+        height: 'clamp(380px, 42vw, 460px)',
         overflow: 'hidden',
       }}
     >
-      {/* Orange radial glow — top-right corner accent */}
       <div
-        aria-hidden
+        className="feature-accordion-track"
         style={{
-          position: 'absolute',
-          top: '-60px',
-          right: '-60px',
-          width: '400px',
-          height: '400px',
-          borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(255,68,34,0.08) 0%, transparent 65%)',
-          pointerEvents: 'none',
-          zIndex: 0,
-        }}
-      />
-
-      {/* ── Left: featured article — text only ── */}
-      <div
-        className="split-hero-left"
-        style={{
-          flex: '0 0 48%',
+          width: '100%',
+          height: '100%',
           display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          padding: '28px clamp(20px, 3vw, 44px)',
-          position: 'relative',
-          zIndex: 1,
-        }}
-      >
-        {/* Overline */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
-          <span
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '5px',
-              fontSize: '10px',
-              fontWeight: 800,
-              letterSpacing: '0.18em',
-              textTransform: 'uppercase',
-              color: '#FF4422',
-            }}
-          >
-            <span
-              className="pulse-dot"
-              style={{
-                width: '5px',
-                height: '5px',
-                borderRadius: '50%',
-                background: '#FF4422',
-                display: 'inline-block',
-                boxShadow: '0 0 8px rgba(255,68,34,0.7)',
-                flexShrink: 0,
-              }}
-            />
-            LAJMI KRYESOR
-          </span>
-          <span
-            style={{
-              fontSize: '10px',
-              fontWeight: 700,
-              letterSpacing: '0.1em',
-              textTransform: 'uppercase',
-              color: featuredColor,
-              background: `${featuredColor}15`,
-              border: `1.5px solid ${featuredColor}40`,
-              padding: '2px 8px',
-              borderRadius: '100px',
-            }}
-          >
-            {featured.category}
-          </span>
-        </div>
-
-        {/* Age */}
-        <span
-          suppressHydrationWarning
-          style={{
-            display: 'block',
-            fontSize: '10px',
-            color: '#9C9C9C',
-            fontWeight: 500,
-            marginBottom: '8px',
-          }}
-        >
-          {timeAgo(featured.publishedAt)}
-        </span>
-
-        {/* Headline */}
-        <h2
-          style={{
-            fontFamily: FONT.serif,
-            fontSize: 'clamp(20px, 2.8vw, 40px)',
-            fontWeight: 700,
-            lineHeight: 1.1,
-            letterSpacing: '-0.02em',
-            color: '#111111',
-            margin: '0 0 10px',
-          }}
-        >
-          {featured.title}
-        </h2>
-
-        {/* Excerpt */}
-        <p
-          style={{
-            fontSize: '13px',
-            lineHeight: 1.6,
-            color: '#6B6B6B',
-            margin: '0 0 14px',
-            fontWeight: 400,
-            display: '-webkit-box',
-            WebkitLineClamp: 2,
-            WebkitBoxOrient: 'vertical',
-            overflow: 'hidden',
-          }}
-        >
-          {featured.excerpt}
-        </p>
-
-        {/* Meta + CTA */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
-          <span style={{ fontSize: '11px', color: '#9C9C9C', fontWeight: 500 }}>
-            {featured.readingTime ?? 3} min lexim
-          </span>
-          <div style={{ width: '1px', height: '12px', background: 'rgba(17,17,17,0.12)' }} />
-          <span style={{ fontSize: '11px', color: '#9C9C9C', fontWeight: 500 }}>
-            {featured.source}
-          </span>
-          <Link
-            href={`/article/${featured.slug}`}
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '6px',
-              fontSize: '11px',
-              fontWeight: 800,
-              color: '#ffffff',
-              background: '#FF4422',
-              padding: '8px 18px',
-              borderRadius: '100px',
-              letterSpacing: '0.08em',
-              textTransform: 'uppercase',
-              textDecoration: 'none',
-              boxShadow: '0 4px 18px rgba(255,68,34,0.35)',
-              marginLeft: 'auto',
-            }}
-          >
-            Lexo lajmin
-            <ArrowRight size={11} strokeWidth={2.5} />
-          </Link>
-        </div>
-      </div>
-
-      {/* ── Right: image accordion ── */}
-      <div
-        className="split-hero-right"
-        style={{
-          flex: 1,
-          display: 'flex',
-          gap: '6px',
-          padding: '10px 14px',
+          gap: '12px',
+          padding: 0,
           minWidth: 0,
           position: 'relative',
           zIndex: 1,
           alignItems: 'stretch',
         }}
-        onMouseLeave={() => canHover && setActive(-1)}
+        onMouseLeave={() => canHover && setActive(0)}
       >
         {slides.map((slide, i) => {
           const isActive = active === i
@@ -218,6 +59,7 @@ export default function ImageAccordion({ featured, slides }: Props) {
 
           return (
             <div
+              className="feature-accordion-card"
               key={slide.article.id ?? i}
               role="button"
               tabIndex={0}
@@ -231,8 +73,8 @@ export default function ImageAccordion({ featured, slides }: Props) {
                 if (e.key === 'Enter' || e.key === ' ') setActive(i)
               }}
               style={{
-                flex: isActive ? 4.5 : 1,
-                transition: 'flex 0.6s cubic-bezier(0.4, 0, 0.2, 1)',
+                flex: isActive ? 2.35 : 1,
+                transition: 'flex 0.55s cubic-bezier(0.22, 1, 0.36, 1)',
                 position: 'relative',
                 overflow: 'hidden',
                 cursor: 'pointer',
@@ -240,7 +82,7 @@ export default function ImageAccordion({ featured, slides }: Props) {
                 backgroundImage: bgImage,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
-                borderRadius: '12px',
+                borderRadius: '16px',
                 minWidth: 0,
                 outline: 'none',
                 boxShadow: '0 2px 12px rgba(17,17,17,0.08)',
@@ -248,6 +90,7 @@ export default function ImageAccordion({ featured, slides }: Props) {
             >
               {/* Dark overlay */}
               <div
+                className="feature-accordion-overlay"
                 aria-hidden
                 style={{
                   position: 'absolute',
@@ -261,6 +104,7 @@ export default function ImageAccordion({ featured, slides }: Props) {
 
               {/* Category color top bar */}
               <div
+                className="feature-accordion-topbar"
                 aria-hidden
                 style={{
                   position: 'absolute',
@@ -272,12 +116,13 @@ export default function ImageAccordion({ featured, slides }: Props) {
                   opacity: isActive ? 1 : 0,
                   transition: 'opacity 0.35s ease',
                   zIndex: 3,
-                  borderRadius: '12px 12px 0 0',
+                  borderRadius: '16px 16px 0 0',
                 }}
               />
 
               {/* Collapsed: vertical label */}
               <div
+                className="feature-accordion-vertical-label"
                 aria-hidden
                 style={{
                   position: 'absolute',
@@ -296,7 +141,7 @@ export default function ImageAccordion({ featured, slides }: Props) {
                     writingMode: 'vertical-rl',
                     textOrientation: 'mixed',
                     transform: 'rotate(180deg)',
-                    fontSize: '9px',
+                    fontSize: '11px',
                     fontWeight: 800,
                     letterSpacing: '0.2em',
                     textTransform: 'uppercase',
@@ -311,12 +156,13 @@ export default function ImageAccordion({ featured, slides }: Props) {
 
               {/* Expanded: article content */}
               <div
+                className="feature-accordion-content"
                 style={{
                   position: 'absolute',
                   bottom: 0,
                   left: 0,
                   right: 0,
-                  padding: 'clamp(12px, 1.5vw, 20px)',
+                  padding: 'clamp(18px, 2vw, 28px)',
                   opacity: isActive ? 1 : 0,
                   transform: isActive ? 'translateY(0)' : 'translateY(14px)',
                   transition: 'opacity 0.3s ease 0.2s, transform 0.3s ease 0.2s',
@@ -327,7 +173,7 @@ export default function ImageAccordion({ featured, slides }: Props) {
                 <span
                   style={{
                     display: 'inline-block',
-                    fontSize: '9px',
+                    fontSize: '10px',
                     fontWeight: 800,
                     letterSpacing: '0.16em',
                     textTransform: 'uppercase',
@@ -346,7 +192,7 @@ export default function ImageAccordion({ featured, slides }: Props) {
                 <h3
                   style={{
                     fontFamily: FONT.serif,
-                    fontSize: 'clamp(13px, 1.4vw, 20px)',
+                    fontSize: 'clamp(18px, 1.75vw, 26px)',
                     fontWeight: 700,
                     lineHeight: 1.2,
                     color: '#FFFFFF',
@@ -368,7 +214,7 @@ export default function ImageAccordion({ featured, slides }: Props) {
                     display: 'inline-flex',
                     alignItems: 'center',
                     gap: '5px',
-                    fontSize: '9px',
+                    fontSize: '10px',
                     fontWeight: 800,
                     letterSpacing: '0.1em',
                     textTransform: 'uppercase',
@@ -391,9 +237,46 @@ export default function ImageAccordion({ featured, slides }: Props) {
 
       <style>{`
         @media (max-width: 900px) {
-          .split-hero { flex-direction: column !important; height: auto !important; }
-          .split-hero-left { flex: 0 0 auto !important; }
-          .split-hero-right { height: 200px; padding: 10px !important; }
+          .feature-accordion {
+            height: 312px !important;
+            overflow: visible !important;
+          }
+          .feature-accordion-track {
+            gap: 16px !important;
+            overflow-x: auto !important;
+            overflow-y: hidden !important;
+            padding: 0 0 12px !important;
+            scroll-snap-type: x mandatory;
+            scrollbar-width: none;
+          }
+          .feature-accordion-track::-webkit-scrollbar {
+            display: none;
+          }
+          .feature-accordion-card {
+            flex: 0 0 min(82vw, 390px) !important;
+            height: 300px !important;
+            scroll-snap-align: start;
+          }
+          .feature-accordion-overlay {
+            background: linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.28) 62%, rgba(0,0,0,0.08) 100%) !important;
+          }
+          .feature-accordion-topbar {
+            opacity: 1 !important;
+          }
+          .feature-accordion-vertical-label {
+            display: none !important;
+          }
+          .feature-accordion-content {
+            opacity: 1 !important;
+            transform: none !important;
+            pointer-events: auto !important;
+            padding: 20px !important;
+          }
+        }
+        @media (max-width: 520px) {
+          .feature-accordion-card {
+            flex-basis: 86vw !important;
+          }
         }
       `}</style>
     </section>
