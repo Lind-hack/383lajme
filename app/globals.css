@@ -4765,98 +4765,35 @@ header[data-overlay] .nav-coin-chip {
 .home-front-fuel { grid-area: fuel; }
 
 .home-market-card {
+  position: relative;
   min-width: 0;
-  color: #201812;
-}
-.glass-card-scene {
-  min-height: 374px;
-  transform-style: preserve-3d;
-}
-.glass-card-surface {
-  min-height: 374px;
   overflow: hidden;
   border: 1px solid rgba(143, 76, 39, 0.18);
-  border-radius: 28px;
+  border-radius: 22px;
   background:
-    radial-gradient(circle at 88% 4%, rgba(255, 139, 67, 0.38), transparent 33%),
-    linear-gradient(148deg, rgba(255, 255, 255, 0.98), rgba(255, 243, 226, 0.95));
+    radial-gradient(circle at 88% 4%, rgba(255, 167, 105, 0.27), transparent 29%),
+    linear-gradient(148deg, rgba(255, 255, 255, 0.96), rgba(255, 247, 235, 0.93));
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.95),
     inset 0 -1px 0 rgba(194, 94, 38, 0.08),
-    0 20px 45px rgba(88, 48, 24, 0.13);
+    0 18px 48px rgba(88, 48, 24, 0.1);
+  color: #201812;
   isolation: isolate;
-  transform: rotate3d(0, 0, 0, 0deg);
-  transform-origin: 50% 62%;
+  transform: perspective(900px) translateZ(0);
   transition:
-    transform 500ms ease-in-out,
-    box-shadow 500ms ease-in-out,
-    border-color 500ms ease-in-out;
-  will-change: transform;
+    transform 280ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 280ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 280ms ease;
 }
-.glass-card-surface::before {
+.home-market-card::before {
   content: "";
   position: absolute;
   inset: 0;
-  z-index: 0;
+  z-index: -1;
   pointer-events: none;
   background:
-    linear-gradient(118deg, rgba(255, 255, 255, 0.72), transparent 30% 70%, rgba(255, 109, 47, 0.09)),
-    repeating-linear-gradient(135deg, transparent 0 18px, rgba(118, 59, 27, 0.022) 18px 19px);
-}
-.glass-card-inset {
-  z-index: 1;
-  border-bottom: 1px solid rgba(170, 74, 31, 0.16);
-  border-left: 1px solid rgba(255, 255, 255, 0.84);
-  border-radius: 24px;
-  background:
-    linear-gradient(155deg, rgba(255, 255, 255, 0.4), rgba(255, 230, 204, 0.12));
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.78),
-    inset 0 -1px 0 rgba(174, 70, 24, 0.06);
-  backdrop-filter: blur(5px) saturate(125%);
-  -webkit-backdrop-filter: blur(5px) saturate(125%);
-  pointer-events: none;
-}
-.glass-card-content {
-  z-index: 2;
-}
-.glass-card-depth {
-  z-index: 4;
-  width: 190px;
-  height: 190px;
-  pointer-events: none;
-}
-.glass-card-depth-ring {
-  border: 1px solid rgba(255, 255, 255, 0.42);
-  background:
-    radial-gradient(circle at 30% 24%, rgba(255, 255, 255, 0.36), transparent 32%),
-    linear-gradient(145deg, rgba(255, 154, 91, 0.27), rgba(255, 68, 34, 0.15));
-  box-shadow:
-    inset -12px -14px 24px rgba(194, 54, 12, 0.06),
-    -10px 10px 20px rgba(146, 66, 27, 0.08);
-  backdrop-filter: blur(2px);
-  -webkit-backdrop-filter: blur(2px);
-}
-.glass-card-depth-badge {
-  top: 30px;
-  right: 30px;
-  z-index: 5;
-  border: 1px solid rgba(159, 52, 16, 0.28);
-  background:
-    radial-gradient(circle at 28% 14%, rgba(255, 255, 255, 0.9), transparent 30%),
-    linear-gradient(145deg, #ffa066, #ff4c26);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.75),
-    -10px 12px 20px rgba(132, 53, 18, 0.18);
-  color: #32180f;
-  transition:
-    transform 500ms ease-in-out 480ms,
-    box-shadow 500ms ease-in-out 480ms;
-}
-.glass-card-scene:hover .glass-card-depth-ring {
-  box-shadow:
-    inset -12px -14px 24px rgba(194, 54, 12, 0.08),
-    -16px 20px 26px rgba(146, 66, 27, 0.14);
+    linear-gradient(118deg, rgba(255, 255, 255, 0.62), transparent 30% 70%, rgba(255, 109, 47, 0.07)),
+    repeating-linear-gradient(135deg, transparent 0 18px, rgba(118, 59, 27, 0.018) 18px 19px);
 }
 .home-market-card-inner {
   position: relative;
@@ -4869,12 +4806,11 @@ header[data-overlay] .nav-coin-chip {
 .home-market-card-head {
   display: flex;
   align-items: center;
-  min-height: 52px;
-  padding-right: 58px;
-  transform: translate3d(0, 0, 28px);
-  transform-style: preserve-3d;
+  gap: 11px;
+  min-height: 46px;
+  padding-right: 32px;
 }
-.home-market-card-head > span {
+.home-market-card-head > span:last-child {
   display: flex;
   min-width: 0;
   flex-direction: column;
@@ -4893,6 +4829,50 @@ header[data-overlay] .nav-coin-chip {
   letter-spacing: -0.025em;
   line-height: 1.15;
 }
+.home-market-icon {
+  display: inline-flex;
+  width: 40px;
+  height: 40px;
+  flex: 0 0 40px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(169, 62, 21, 0.22);
+  border-radius: 13px;
+  background:
+    radial-gradient(circle at 28% 12%, rgba(255, 255, 255, 0.9), transparent 32%),
+    linear-gradient(145deg, #ff995d, #ff5129);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.72),
+    0 7px 15px rgba(196, 67, 24, 0.2);
+  color: #3a1b10;
+}
+.home-market-orb {
+  position: absolute;
+  z-index: 1;
+  display: block;
+  border: 1px solid rgba(255, 255, 255, 0.56);
+  border-radius: 50%;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 28% 20%, rgba(255, 255, 255, 0.92), transparent 26%),
+    linear-gradient(145deg, rgba(255, 160, 96, 0.92), rgba(255, 68, 34, 0.92));
+  box-shadow:
+    inset -8px -10px 18px rgba(156, 40, 8, 0.16),
+    0 9px 24px rgba(195, 61, 17, 0.16);
+}
+.home-market-orb-large {
+  top: -34px;
+  right: -28px;
+  width: 91px;
+  height: 91px;
+}
+.home-market-orb-small {
+  top: 48px;
+  right: 16px;
+  width: 22px;
+  height: 22px;
+  opacity: 0.82;
+}
 .home-market-card-footer {
   display: flex;
   align-items: center;
@@ -4905,8 +4885,6 @@ header[data-overlay] .nav-coin-chip {
   font-size: 9px;
   font-weight: 700;
   line-height: 1.25;
-  transform: translate3d(0, 0, 42px);
-  transform-style: preserve-3d;
 }
 .home-market-card-footer span,
 .home-market-card-footer a {
@@ -4925,7 +4903,6 @@ header[data-overlay] .nav-coin-chip {
   font-size: 9px;
   font-weight: 550;
   line-height: 1.5;
-  transform: translate3d(0, 0, 30px);
 }
 
 .home-exchange-rate {
@@ -4938,8 +4915,6 @@ header[data-overlay] .nav-coin-chip {
   border-radius: 15px;
   background: rgba(255, 255, 255, 0.59);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.82);
-  transform: translate3d(0, 0, 34px);
-  transform-style: preserve-3d;
 }
 .home-exchange-rate > span {
   grid-column: 1 / -1;
@@ -4969,8 +4944,6 @@ header[data-overlay] .nav-coin-chip {
   position: relative;
   display: grid;
   gap: 9px;
-  transform: translate3d(0, 0, 46px);
-  transform-style: preserve-3d;
 }
 .home-exchange-fields label {
   display: grid;
@@ -5056,7 +5029,6 @@ header[data-overlay] .nav-coin-chip {
   font-weight: 850;
   letter-spacing: 0.04em;
   text-align: right;
-  transform: translate3d(0, 0, 31px);
 }
 .home-fuel-heading span:first-child { text-align: left; }
 .home-fuel-table {
@@ -5064,8 +5036,6 @@ header[data-overlay] .nav-coin-chip {
   border: 1px solid rgba(104, 57, 33, 0.12);
   border-radius: 14px;
   background: rgba(255, 255, 255, 0.63);
-  transform: translate3d(0, 0, 44px);
-  transform-style: preserve-3d;
 }
 .home-fuel-row {
   min-height: 65px;
@@ -5108,40 +5078,23 @@ header[data-overlay] .nav-coin-chip {
 }
 .home-fuel-unavailable { color: #ab9c92; }
 
-.home-market-card-currency .glass-card-scene:hover .glass-card-surface {
-  transform: rotate3d(1, 1, 0, 30deg);
-}
-.home-market-card-fuel .glass-card-scene:hover .glass-card-surface {
-  transform: rotate3d(1, -1, 0, 30deg);
-}
-.glass-card-scene:hover .glass-card-depth-badge {
-  transform: translate3d(0, 0, 120px);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.82),
-    -17px 22px 25px rgba(132, 53, 18, 0.24);
-}
-
 @media (hover: hover) and (pointer: fine) {
-  .home-market-card-currency:hover .glass-card-surface,
-  .home-market-card-fuel:hover .glass-card-surface {
+  .home-market-card-currency:hover {
     border-color: rgba(206, 83, 31, 0.28);
     box-shadow:
       inset 0 1px 0 rgba(255, 255, 255, 0.95),
-      rgba(92, 40, 17, 0.28) 30px 50px 25px -40px,
-      rgba(92, 40, 17, 0.14) 0 25px 30px 0;
+      0 24px 55px rgba(110, 51, 20, 0.14);
+    transform: perspective(900px) translateY(-5px) rotateY(1.5deg);
+  }
+  .home-market-card-fuel:hover {
+    border-color: rgba(206, 83, 31, 0.28);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.95),
+      0 24px 55px rgba(110, 51, 20, 0.14);
+    transform: perspective(900px) translateY(-5px) rotateY(-1.5deg);
   }
   .home-exchange-swap:hover { background: #e9431e; }
   .home-market-card-footer a:hover { color: #ff4422; }
-}
-
-@media (hover: none) {
-  .home-market-card-currency .glass-card-scene:hover .glass-card-surface,
-  .home-market-card-fuel .glass-card-scene:hover .glass-card-surface {
-    transform: none !important;
-  }
-  .glass-card-scene:hover .glass-card-depth-badge {
-    transform: translate3d(0, 0, 100px) !important;
-  }
 }
 
 @media (max-width: 1120px) {
@@ -5187,17 +5140,12 @@ header[data-overlay] .nav-coin-chip {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .glass-card-surface,
-  .glass-card-depth-ring,
-  .glass-card-depth-badge,
+  .home-market-card,
   .home-exchange-swap {
     transition-duration: 0.01ms;
   }
-  .home-market-card-currency .glass-card-scene:hover .glass-card-surface,
-  .home-market-card-fuel .glass-card-scene:hover .glass-card-surface {
-    transform: none !important;
-  }
-  .glass-card-scene:hover .glass-card-depth-badge {
-    transform: translate3d(0, 0, 100px) !important;
+  .home-market-card-currency:hover,
+  .home-market-card-fuel:hover {
+    transform: none;
   }
 }
