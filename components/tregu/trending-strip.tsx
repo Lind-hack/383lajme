@@ -39,7 +39,7 @@ export default function TrendingStrip() {
   return (
     <div className="tregu-scope" style={{ background: "none", minHeight: 0, marginBottom: "var(--space-section)" }}>
       <SectionLabel
-        label="Tregu — Parashiko"
+        label="Tregu - Parashiko"
         right={
           <Link href="/tregu" style={{ fontSize: 13, fontWeight: 700, color: "#FF4422", textDecoration: "none", whiteSpace: "nowrap" }}>
             Shiko të gjitha →
@@ -51,7 +51,7 @@ export default function TrendingStrip() {
         style={{
           display: "grid",
           gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
-          gap: 14,
+          gap: 16,
         }}
       >
         {minis.map((m) => (

@@ -25,21 +25,57 @@ export default function ImageAccordion({ slides }: Props) {
   return (
     <section
       className="feature-accordion"
-      aria-label="Pesë lajme të zgjedhura"
+      aria-labelledby="feature-accordion-title"
       style={{
         position: 'relative',
         zIndex: 1,
         width: '100%',
         background: 'transparent',
-        height: 'clamp(380px, 42vw, 460px)',
-        overflow: 'hidden',
       }}
     >
+      <header
+        className="feature-accordion-heading"
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'flex-start',
+          gap: '6px',
+          marginBottom: '20px',
+        }}
+      >
+        <h2
+          id="feature-accordion-title"
+          style={{
+            margin: 0,
+            color: '#111111',
+            fontSize: 'clamp(22px, 2vw, 28px)',
+            fontWeight: 800,
+            lineHeight: 1.15,
+            letterSpacing: '-0.025em',
+            textWrap: 'balance',
+          }}
+        >
+          5 tema, 5 lajme
+        </h2>
+        <p
+          style={{
+            margin: 0,
+            maxWidth: '65ch',
+            color: '#5F5B56',
+            fontSize: '15px',
+            lineHeight: 1.55,
+            textWrap: 'pretty',
+          }}
+        >
+          Një lajm kryesor nga secila prej pesë temave kryesore të faqes.
+        </p>
+      </header>
+
       <div
         className="feature-accordion-track"
         style={{
           width: '100%',
-          height: '100%',
+          height: 'clamp(380px, 38vw, 430px)',
           display: 'flex',
           gap: '12px',
           padding: 0,
@@ -47,6 +83,7 @@ export default function ImageAccordion({ slides }: Props) {
           position: 'relative',
           zIndex: 1,
           alignItems: 'stretch',
+          overflow: 'hidden',
         }}
         onMouseLeave={() => canHover && setActive(0)}
       >
@@ -58,26 +95,20 @@ export default function ImageAccordion({ slides }: Props) {
             : undefined
 
           return (
-            <div
+            <Link
               className="feature-accordion-card"
               key={slide.article.id ?? i}
-              role="button"
-              tabIndex={0}
+              href={`/article/${slide.article.slug}`}
               aria-label={`${slide.label}: ${slide.article.title}`}
-              aria-expanded={isActive}
               onMouseEnter={() => canHover && setActive(i)}
               onFocus={() => setActive(i)}
-              onBlur={() => setActive(-1)}
-              onClick={() => !canHover && setActive(isActive ? -1 : i)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') setActive(i)
-              }}
               style={{
-                flex: isActive ? 2.35 : 1,
+                flex: isActive ? 2.25 : 1,
                 transition: 'flex 0.55s cubic-bezier(0.22, 1, 0.36, 1)',
                 position: 'relative',
                 overflow: 'hidden',
                 cursor: 'pointer',
+                display: 'block',
                 background: bgImage ? '#1a1a1a' : '#F0EDE8',
                 backgroundImage: bgImage,
                 backgroundSize: 'cover',
@@ -86,6 +117,7 @@ export default function ImageAccordion({ slides }: Props) {
                 minWidth: 0,
                 outline: 'none',
                 boxShadow: '0 2px 12px rgba(17,17,17,0.08)',
+                textDecoration: 'none',
               }}
             >
               {/* Dark overlay */}
@@ -97,7 +129,7 @@ export default function ImageAccordion({ slides }: Props) {
                   inset: 0,
                   background: isActive
                     ? 'linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.35) 55%, rgba(0,0,0,0.06) 100%)'
-                    : 'rgba(0,0,0,0.48)',
+                    : 'linear-gradient(to top, rgba(0,0,0,0.84) 0%, rgba(0,0,0,0.22) 66%, rgba(0,0,0,0.12) 100%)',
                   transition: 'background 0.45s ease',
                 }}
               />
@@ -113,48 +145,35 @@ export default function ImageAccordion({ slides }: Props) {
                   right: 0,
                   height: '3px',
                   background: catColor,
-                  opacity: isActive ? 1 : 0,
-                  transition: 'opacity 0.35s ease',
+                  opacity: 1,
                   zIndex: 3,
                   borderRadius: '16px 16px 0 0',
                 }}
               />
 
-              {/* Collapsed: vertical label */}
-              <div
-                className="feature-accordion-vertical-label"
-                aria-hidden
+              {/* Topic stays horizontal and readable in every card state. */}
+              <span
+                className="feature-accordion-topic"
                 style={{
                   position: 'absolute',
-                  inset: 0,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  opacity: isActive ? 0 : 1,
-                  transition: 'opacity 0.18s ease',
-                  pointerEvents: 'none',
+                  top: '18px',
+                  left: '18px',
                   zIndex: 2,
+                  color: '#FFFFFF',
+                  fontSize: '11px',
+                  fontWeight: 800,
+                  letterSpacing: '0.12em',
+                  lineHeight: 1,
+                  textTransform: 'uppercase',
+                  textShadow: '0 1px 8px rgba(0,0,0,0.9)',
+                  paddingBottom: '5px',
+                  borderBottom: `2px solid ${catColor}`,
                 }}
               >
-                <span
-                  style={{
-                    writingMode: 'vertical-rl',
-                    textOrientation: 'mixed',
-                    transform: 'rotate(180deg)',
-                    fontSize: '11px',
-                    fontWeight: 800,
-                    letterSpacing: '0.2em',
-                    textTransform: 'uppercase',
-                    color: 'rgba(255,255,255,0.92)',
-                    whiteSpace: 'nowrap',
-                    textShadow: '0 1px 8px rgba(0,0,0,0.9)',
-                  }}
-                >
-                  {slide.label}
-                </span>
-              </div>
+                {slide.label}
+              </span>
 
-              {/* Expanded: article content */}
+              {/* Every card names its story; the active card adds a stronger CTA. */}
               <div
                 className="feature-accordion-content"
                 style={{
@@ -162,45 +181,23 @@ export default function ImageAccordion({ slides }: Props) {
                   bottom: 0,
                   left: 0,
                   right: 0,
-                  padding: 'clamp(18px, 2vw, 28px)',
-                  opacity: isActive ? 1 : 0,
-                  transform: isActive ? 'translateY(0)' : 'translateY(14px)',
-                  transition: 'opacity 0.3s ease 0.2s, transform 0.3s ease 0.2s',
-                  pointerEvents: isActive ? 'auto' : 'none',
+                  padding: isActive ? 'clamp(20px, 2vw, 28px)' : '18px',
                   zIndex: 2,
                 }}
               >
-                <span
-                  style={{
-                    display: 'inline-block',
-                    fontSize: '10px',
-                    fontWeight: 800,
-                    letterSpacing: '0.16em',
-                    textTransform: 'uppercase',
-                    color: catColor,
-                    background: `${catColor}22`,
-                    border: `1.5px solid ${catColor}50`,
-                    padding: '2px 8px',
-                    borderRadius: '100px',
-                    marginBottom: '8px',
-                    backdropFilter: 'blur(8px)',
-                  }}
-                >
-                  {slide.label}
-                </span>
-
                 <h3
+                  className="feature-accordion-title"
                   style={{
                     fontFamily: FONT.serif,
-                    fontSize: 'clamp(18px, 1.75vw, 26px)',
+                    fontSize: isActive ? 'clamp(20px, 1.7vw, 26px)' : '15px',
                     fontWeight: 700,
-                    lineHeight: 1.2,
+                    lineHeight: isActive ? 1.2 : 1.3,
                     color: '#FFFFFF',
-                    margin: '0 0 6px',
+                    margin: `0 0 ${isActive ? '12px' : '0'}`,
                     maxWidth: '420px',
                     textShadow: '0 2px 10px rgba(0,0,0,0.5)',
                     display: '-webkit-box',
-                    WebkitLineClamp: 3,
+                    WebkitLineClamp: isActive ? 3 : 4,
                     WebkitBoxOrient: 'vertical',
                     overflow: 'hidden',
                   }}
@@ -208,10 +205,10 @@ export default function ImageAccordion({ slides }: Props) {
                   {slide.article.title}
                 </h3>
 
-                <Link
-                  href={`/article/${slide.article.slug}`}
+                <span
+                  className="feature-accordion-cta"
                   style={{
-                    display: 'inline-flex',
+                    display: isActive ? 'inline-flex' : 'none',
                     alignItems: 'center',
                     gap: '5px',
                     fontSize: '10px',
@@ -222,15 +219,14 @@ export default function ImageAccordion({ slides }: Props) {
                     background: catColor,
                     padding: '6px 12px',
                     borderRadius: '100px',
-                    textDecoration: 'none',
                     boxShadow: `0 3px 14px ${catColor}45`,
                   }}
                 >
                   Lexo lajmin
                   <ArrowRight size={10} strokeWidth={2.5} />
-                </Link>
+                </span>
               </div>
-            </div>
+            </Link>
           )
         })}
       </div>
@@ -238,10 +234,10 @@ export default function ImageAccordion({ slides }: Props) {
       <style>{`
         @media (max-width: 900px) {
           .feature-accordion {
-            height: 312px !important;
             overflow: visible !important;
           }
           .feature-accordion-track {
+            height: 312px !important;
             gap: 16px !important;
             overflow-x: auto !important;
             overflow-y: hidden !important;
@@ -263,14 +259,21 @@ export default function ImageAccordion({ slides }: Props) {
           .feature-accordion-topbar {
             opacity: 1 !important;
           }
-          .feature-accordion-vertical-label {
-            display: none !important;
+          .feature-accordion-topic {
+            top: 16px !important;
+            left: 16px !important;
           }
           .feature-accordion-content {
-            opacity: 1 !important;
-            transform: none !important;
-            pointer-events: auto !important;
             padding: 20px !important;
+          }
+          .feature-accordion-title {
+            font-size: 20px !important;
+            line-height: 1.22 !important;
+            margin-bottom: 12px !important;
+            -webkit-line-clamp: 3 !important;
+          }
+          .feature-accordion-cta {
+            display: inline-flex !important;
           }
         }
         @media (max-width: 520px) {

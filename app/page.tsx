@@ -148,7 +148,13 @@ export default async function HomePage() {
         {/* Daily video reaction */}
         <ReagimiDites article={reagimiArticle} />
 
-        {/* Section label: NJOFTIME */}
+        {/* Daily poll */}
+        <DailyPoll />
+
+        {/* 383 Tregu — trending prediction markets */}
+        <TrendingStrip />
+
+        {/* Fast news and topic leaders now bridge Tregu with the latest-news archive. */}
         <SectionLabel
           label="NJOFTIME"
           right={
@@ -158,21 +164,13 @@ export default async function HomePage() {
           }
         />
 
-        {/* Horizontal scroll row */}
-        <div style={{ marginBottom: "var(--space-section)" }}>
+        <div style={{ marginBottom: "40px" }}>
           <DispatchRow articles={njoftimeArticles} />
         </div>
 
-        {/* Five visual stories, moved below Njoftime and given the full content width. */}
         <div style={{ marginBottom: "var(--space-section)" }}>
           <ImageAccordion slides={accordionSlides} />
         </div>
-
-        {/* Daily poll */}
-        <DailyPoll />
-
-        {/* 383 Tregu — trending prediction markets */}
-        <TrendingStrip />
 
         {/* Dispatch list — hidden when every article is already placed above */}
         {listArticles.length > 0 && (
