@@ -33,8 +33,19 @@ const REQUIRED_CHART_MARKERS = {
     "data-f1-race-ui-version",
     'className="f1-grid-pair"',
     "aria-expanded={showAllDrivers}",
+    "{!isLive && (",
     "timingRow?.gap",
     "onBetDriver",
+  ],
+  "components/tregu/f1-archive-feature.tsx": [
+    "data-f1-archive-feature",
+    "F1ProbabilityHistory",
+    "Shiko arkivin",
+  ],
+  "app/tregu/page.tsx": [
+    'const qs = category === "all" ? "?status=all"',
+    "function isF1Archive(",
+    "<F1ArchiveFeature",
   ],
   "lib/f1-driver-presentation.ts": [
     "f1DriverHeadshot",
@@ -48,11 +59,22 @@ const REQUIRED_CHART_MARKERS = {
   ],
   "app/api/tregu/markets/[slug]/route.ts": [
     "team_colour: row.team_colour",
+    'status: "ARCHIVED"',
+    "grid_position: gridPosition",
     "timing: board",
+  ],
+  "app/api/deployment-info/route.ts": [
+    "F1_RACE_UI_VERSION",
+    "TREGU_CHART_UI_VERSION",
+    '"Cache-Control": "no-store, max-age=0"',
+  ],
+  "package.json": [
+    '"prebuild": "node scripts/verify-production-deployment.mjs"',
   ],
   "scripts/codex_automation_support.py": [
     `F1_RACE_UI_VERSION = "${F1_RACE_UI_VERSION}"`,
     'contract.get("f1_race_ui_version", "")',
+    "VERCEL deploy delegated to the GitHub main integration",
   ],
 };
 

@@ -1,6 +1,98 @@
 "use client";
-import Link from "next/link";
+
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import F1ProbabilityHistory from "@/components/tregu/f1-probability-history";
-type Market={id:string;slug:string;question:string}; type Detail={f1?:{outcomes?:{key:string;label:string;team:string;probability:number}[];history?:{createdAt:string;probabilities:Record<string,number>;lap?:number;status?:string}[]}};
-export default function F1ArchiveFeature({market}:{market:Market}){const[detail,setDetail]=useState<Detail|null>(null);useEffect(()=>{fetch(`/api/tregu/markets/${market.slug}`).then(r=>r.ok?r.json():null).then(setDetail).catch(()=>setDetail(null))},[market.slug]);return <section className="tregu-glass tregu-edge" style={{padding:22,marginBottom:20}}><div style={{display:"flex",justifyContent:"space-between",gap:16,alignItems:"flex-start",flexWrap:"wrap"}}><div><span style={{display:"inline-flex",borderRadius:5,background:"#e10600",color:"white",padding:"4px 9px",fontWeight:900,fontStyle:"italic"}}>F1</span><p style={{fontSize:22,fontWeight:850,margin:"12px 0 4px"}}>{market.question}</p><p style={{margin:0,color:"#6b6b6b"}}>Arkivi i garës. Tregtia është e mbyllur.</p></div><Link href={`/tregu/${market.slug}`} className="tregu-event-buy" style={{textDecoration:"none",alignSelf:"center"}}>Shiko arkivin</Link></div><div style={{marginTop:18}}>{detail?.f1?<F1ProbabilityHistory drivers={detail.f1.outcomes??[]} history={detail.f1.history??[]}/>:<div style={{color:"#6b6b6b",fontSize:14}}>Duke ngarkuar arkivin e verifikuar...</div>}</div></section>}
+
+type Market = {
+  id: string;
+  slug: string;
+  question: string;
+};
+
+type Detail = {
+  f1?: {
+    outcomes?: {
+      key: string;
+      label: string;
+      team: string;
+      probability: number;
+    }[];
+    history?: {
+      createdAt: string;
+      probabilities: Record<string, number>;
+      lap?: number;
+      status?: string;
+    }[];
+  };
+};
+
+export default function F1ArchiveFeature({ market }: { market: Market }) {
+  const [detail, setDetail] = useState<Detail | null>(null);
+
+  useEffect(() => {
+    fetch(`/api/tregu/markets/${market.slug}`)
+      .then((response) => (response.ok ? response.json() : null))
+      .then(setDetail)
+      .catch(() => setDetail(null));
+  }, [market.slug]);
+
+  return (
+    <section
+      className="tregu-glass tregu-edge"
+      data-f1-archive-feature
+      style={{ padding: 22, marginBottom: 20 }}
+    >
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          gap: 16,
+          alignItems: "flex-start",
+          flexWrap: "wrap",
+        }}
+      >
+        <div>
+          <span
+            style={{
+              display: "inline-flex",
+              borderRadius: 5,
+              background: "#e10600",
+              color: "white",
+              padding: "4px 9px",
+              fontWeight: 900,
+              fontStyle: "italic",
+            }}
+          >
+            F1
+          </span>
+          <p style={{ fontSize: 22, fontWeight: 850, margin: "12px 0 4px" }}>
+            {market.question}
+          </p>
+          <p style={{ margin: 0, color: "#6b6b6b" }}>
+            Arkivi i garës. Tregtia është e mbyllur.
+          </p>
+        </div>
+        <Link
+          href={`/tregu/${market.slug}`}
+          className="tregu-event-buy"
+          style={{ textDecoration: "none", alignSelf: "center" }}
+        >
+          Shiko arkivin
+        </Link>
+      </div>
+      <div style={{ marginTop: 18 }}>
+        {detail?.f1 ? (
+          <F1ProbabilityHistory
+            drivers={detail.f1.outcomes ?? []}
+            history={detail.f1.history ?? []}
+          />
+        ) : (
+          <div style={{ color: "#6b6b6b", fontSize: 14 }}>
+            Duke ngarkuar arkivin e verifikuar...
+          </div>
+        )}
+      </div>
+    </section>
+  );
+}

@@ -75,6 +75,14 @@ function vol(m: MarketRow): number {
   return (m.q_yes ?? 0) + (m.q_no ?? 0);
 }
 
+function isF1Archive(market: MarketRow): boolean {
+  return (
+    (market.status === "closed" || market.status === "resolved") &&
+    market.market_classification === "live_f1" &&
+    market.market_type === "f1_race_winner"
+  );
+}
+
 export default function TreguHub() {
   const [markets, setMarkets] = useState<MarketRow[]>([]);
   const [activity, setActivity] = useState<ActivityItem[]>([]);
@@ -100,7 +108,11 @@ export default function TreguHub() {
         return r.json();
       })
       .then((d) => {
-        setMarkets((d.markets ?? []).filter((m: MarketRow) => m.status === "open" || (m.status === "closed" && m.market_classification === "live_f1" && m.market_type === "f1_race_winner" && m.market_type === "f1_race_winner")));
+        setMarkets(
+          (d.markets ?? []).filter(
+            (market: MarketRow) => market.status === "open" || isF1Archive(market)
+          )
+        );
         setActivity(d.activity ?? []);
         setUpdatedAt(new Date().toLocaleTimeString("sq-AL", { hour: "2-digit", minute: "2-digit" }));
       })
@@ -190,11 +202,14 @@ export default function TreguHub() {
   // Live floor totals — real numbers computed from the loaded book.
   const totals = useMemo(
     () => ({
-      count: markets.length,
-      volume: markets.reduce((s, m) => s + vol(m), 0),
+      count: markets.filter((market) => market.status === "open").length,
+      volume: markets
+        .filter((market) => market.status === "open")
+        .reduce((sum, market) => sum + vol(market), 0),
     }),
     [markets]
   );
+  const f1Archives = useMemo(() => markets.filter(isF1Archive), [markets]);
 
   // Multi-outcome events: markets titled "<Ngjarja>: <Rezultati>?" fold into
   // one Polymarket-style card with a combined chart and one buy row per
@@ -226,19 +241,21 @@ export default function TreguHub() {
   // the floor, so the grid below always keeps something to browse.
   const featured = useMemo(() => {
     const pool = markets.filter((m) => !groupedSlugs.has(m.slug));
-    const nonF1 = pool.filter((m) => !(m.market_classification === "live_f1" && m.market_type === "f1_race_winner"));
+    const nonF1 = pool.filter((market) => !isF1Archive(market));
     if (nonF1.length < 3) return [] as MarketRow[];
     return [...nonF1].sort((a, b) => vol(b) - vol(a)).slice(0, 4);
-    if (pool.length < 3) return [] as MarketRow[];
-    const n = Math.min(4, Math.floor(pool.length / 2));
-    return [...pool].sort((a, b) => vol(b) - vol(a)).slice(0, n);
   }, [markets, groupedSlugs]);
 
   // Sorting is the affordance that makes the trader think: chase volume,
   // beat the clock, or hunt the most contested (closest-to-50) markets.
   const sorted = useMemo(() => {
     const featuredSlugs = new Set(featured.map((m) => m.slug));
-    const arr = markets.filter((m) => !featuredSlugs.has(m.slug) && !groupedSlugs.has(m.slug));
+    const arr = markets.filter(
+      (market) =>
+        !isF1Archive(market) &&
+        !featuredSlugs.has(market.slug) &&
+        !groupedSlugs.has(market.slug)
+    );
     if (sort === "vellim") arr.sort((a, b) => vol(b) - vol(a));
     else if (sort === "afat")
       arr.sort((a, b) => new Date(a.closes_at).getTime() - new Date(b.closes_at).getTime());
@@ -421,7 +438,11 @@ export default function TreguHub() {
         {/* Hero row — flagship carousel left, floor rail right. The big
             books rotate through one big card; the rail ranks the whole
             floor: hot topics, nearest deadlines, and the promo tile. */}
-        {!loading && !loadError && markets.filter((m) => m.status === "closed" && m.market_classification === "live_f1" && m.market_type === "f1_race_winner").map((market) => <F1ArchiveFeature key={market.id} market={market} />)}
+        {!loading &&
+          !loadError &&
+          f1Archives.map((market) => (
+            <F1ArchiveFeature key={market.id} market={market} />
+          ))}
         {!loading && !loadError && featured.length > 0 && (
           <div className="tregu-hero-row">
             <FeaturedCarousel key={category} markets={featured.map(toMini)} />
@@ -487,7 +508,7 @@ export default function TreguHub() {
               Provo përsëri
             </button>
           </div>
-        ) : sorted.length === 0 && eventGroups.length === 0 ? (
+        ) : sorted.length === 0 && eventGroups.length === 0 && f1Archives.length === 0 ? (
           <div className="tregu-glass" style={{ padding: "40px 28px", textAlign: "center" }}>
             <p style={{ fontWeight: 800, fontSize: 16, margin: 0 }}>Asnjë treg aktiv këtu ende</p>
             <p style={{ color: "#6B6B6B", fontSize: 14, margin: "6px 0 0" }}>
