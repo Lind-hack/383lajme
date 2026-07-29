@@ -82,6 +82,17 @@ interface FootballPayload {
     probability: number;
     series: { t: number; p: number }[];
   }[];
+  format: {
+    competitionKind: string;
+    stageKind: string;
+    stageLabel: string;
+    leg: number | null;
+    marketIntent: "match_result" | "to_qualify";
+    outcomeMode: "two_way" | "three_way";
+    drawAllowed: boolean;
+    decisive: boolean;
+    resolutionBasis: string;
+  };
   liveState?: unknown;
   refreshMs: number;
 }
@@ -336,7 +347,12 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
     if (football) {
       const selectedOutcome = football.outcomes.find((outcome) => outcome.key === footballOutcomeKey);
       if (!selectedOutcome) {
-        setTradeMsg({ ok: false, text: "Zgjidh një rezultat para se të vendosësh bastin." });
+        setTradeMsg({
+          ok: false,
+          text: football.format.marketIntent === "to_qualify"
+            ? "Zgjidh skuadrën që mendon se do të kualifikohet."
+            : "Zgjidh një rezultat para se të vendosësh bastin.",
+        });
         setPlacing(false);
         return;
       }
@@ -697,17 +713,37 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                   data-football-live-chart
                   data-football-market-ui-version={FOOTBALL_MARKET_UI_VERSION}
                   data-outcome-count={football.outcomes.length}
+                  data-market-intent={football.format.marketIntent}
+                  data-draw-allowed={football.format.drawAllowed}
                   style={{ padding: 28 }}
-                  aria-label="Gjasat live të ndeshjes"
+                  aria-label={football.format.marketIntent === "to_qualify" ? "Gjasat live të kualifikimit" : "Gjasat live të ndeshjes"}
                 >
                   <div className="tregu-football-market-head">
                     <div>
-                      <span className="tregu-football-eyebrow">Tregu i ndeshjes</span>
-                      <h2>Gjasat live</h2>
+                      <span className="tregu-football-eyebrow">
+                        {football.format.marketIntent === "to_qualify"
+                          ? "Tregu i kualifikimit"
+                          : "Tregu i ndeshjes"}
+                      </span>
+                      <h2>
+                        {football.format.marketIntent === "to_qualify"
+                          ? "Kush kualifikohet?"
+                          : "Gjasat live"}
+                      </h2>
                     </div>
-                    <span className="tregu-football-cadence">Përditësim automatik çdo 2 min</span>
+                    <div className="tregu-football-meta">
+                      <span className="tregu-football-stage">
+                        {football.format.stageLabel}
+                        {football.format.leg ? ` · Ndeshja ${football.format.leg}` : ""}
+                      </span>
+                      <span className="tregu-football-cadence">Përditësim automatik çdo 2 min</span>
+                    </div>
                   </div>
-                  <div className="tregu-football-legend" aria-label="Rezultatet e ndeshjes">
+                  <div
+                    className="tregu-football-legend"
+                    data-outcome-count={football.outcomes.length}
+                    aria-label={football.format.drawAllowed ? "Rezultatet e ndeshjes" : "Skuadrat që mund të kualifikohen"}
+                  >
                     {football.outcomes.map((outcome) => (
                       <button
                         key={outcome.key}
@@ -935,7 +971,11 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                     label={footballSelectedOutcome.label}
                   />
                   <span>
-                    <small>Rezultati i zgjedhur</small>
+                    <small>
+                      {football.format.marketIntent === "to_qualify"
+                        ? "Kualifikimi i zgjedhur"
+                        : "Rezultati i zgjedhur"}
+                    </small>
                     <strong>{footballSelectedOutcome.label}</strong>
                   </span>
                   <b style={{ color: footballSelectedOutcome.color }}>
@@ -978,14 +1018,22 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
               ) : football ? (
                 <>
                   <div className="tregu-football-bet-head">
-                    <strong>Basto për rezultatin</strong>
+                    <strong>
+                      {football.format.marketIntent === "to_qualify"
+                        ? "Basto kush kualifikohet"
+                        : "Basto për rezultatin"}
+                    </strong>
                     {balance !== null && (
                       <span>
                         <CoinFace size={16} /> {fmtNum(balance)}
                       </span>
                     )}
                   </div>
-                  <div className="tregu-football-outcomes" role="radiogroup" aria-label="Zgjidh rezultatin">
+                  <div
+                    className="tregu-football-outcomes"
+                    role="radiogroup"
+                    aria-label={football.format.marketIntent === "to_qualify" ? "Zgjidh skuadrën që kualifikohet" : "Zgjidh rezultatin"}
+                  >
                     {football.outcomes.map((outcome) => (
                       <button
                         key={outcome.key}

@@ -42,8 +42,36 @@ export async function PATCH(
     if (draftError) return NextResponse.json({ error: draftError.message }, { status: 500 });
     if (!draft) return NextResponse.json({ error: "Drafti nuk u gjet" }, { status: 404 });
     const liveEvent = draft.live_event as Record<string, unknown> | null;
-    if (draft.market_classification === "live_football" && (liveEvent?.provider !== "espn" || !String(liveEvent.event_id ?? "").trim() || !String(liveEvent.yes_team ?? "").trim() || !String(liveEvent.league ?? "").trim())) {
-      return NextResponse.json({ error: "Live Football kërkon provider ESPN, event_id, yes_team dhe league para miratimit." }, { status: 400 });
+    const sportOutcomes = Array.isArray(draft.sport_outcomes)
+      ? draft.sport_outcomes as Array<{ key?: unknown }>
+      : [];
+    const expectedFootballOutcomes = draft.market_type === "two_outcome"
+      ? 2
+      : draft.market_type === "three_outcome"
+        ? 3
+        : 0;
+    const footballTeamsConfigured =
+      Boolean(String(liveEvent?.home_team ?? "").trim()) &&
+      Boolean(String(liveEvent?.away_team ?? "").trim());
+    const footballFormat = liveEvent?.football_format as Record<string, unknown> | undefined;
+    const validFootballFormat =
+      footballFormat?.marketIntent === "match_result" ||
+      footballFormat?.marketIntent === "to_qualify";
+    if (
+      draft.market_classification === "live_football" &&
+      (
+        liveEvent?.provider !== "espn" ||
+        !String(liveEvent.event_id ?? "").trim() ||
+        !String(liveEvent.league ?? "").trim() ||
+        !footballTeamsConfigured ||
+        expectedFootballOutcomes === 0 ||
+        sportOutcomes.length !== expectedFootballOutcomes ||
+        sportOutcomes.some((outcome) => !String(outcome.key ?? "").trim()) ||
+        !validFootballFormat ||
+        (draft.market_type === "two_outcome" && footballFormat?.marketIntent !== "to_qualify")
+      )
+    ) {
+      return NextResponse.json({ error: "Live Football kërkon provider ESPN, event, dy skuadra, format faze dhe 2 ose 3 rezultate që përputhen me tregun." }, { status: 400 });
     }
     if (draft.market_classification === "live_f1" && draft.market_type === "f1_race_winner" && (liveEvent?.provider !== "formula1_dashboard" || !/^[A-Za-z0-9_-]+$/.test(String(liveEvent.event_id ?? "")) || !Array.isArray((draft as Record<string, unknown>).sport_outcomes) || ((draft as Record<string, unknown>).sport_outcomes as unknown[]).length < 20)) {
       return NextResponse.json({ error: "F1 Race Winner kërkon Formula 1 Dashboard event_id dhe 20–22 pilotë para miratimit." }, { status: 400 });
