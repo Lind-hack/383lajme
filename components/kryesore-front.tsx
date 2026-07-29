@@ -6,7 +6,6 @@ import Link from "next/link";
 import { type Article, timeAgo, calcReadingTime } from "@/lib/mock-data";
 import { getCategoryColor } from "@/lib/category-colors";
 import { EASE, DUR, STAGGER, RADIUS, SHADOW } from "@/lib/tokens";
-import SectionLabel from "./section-label";
 import SourceBadge from "./source-badge";
 
 interface KryesoreFrontProps {
@@ -415,16 +414,6 @@ export default function KryesoreFront({ lead, secondary, mostRead }: KryesoreFro
 
   return (
     <section>
-      <SectionLabel
-        label="KRYESORE"
-        marginBottom={24}
-        right={
-          <span style={{ fontSize: "11px", color: "#6B6B6B", fontWeight: 600, letterSpacing: "0.04em", whiteSpace: "nowrap" }}>
-            Përditësuar {timeAgo(lead.publishedAt)}
-          </span>
-        }
-      />
-
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Lead story */}
         <div className={mostRead.length > 0 ? "lg:col-span-8" : "lg:col-span-12"}>

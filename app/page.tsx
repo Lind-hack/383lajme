@@ -19,6 +19,14 @@ import AlertsCta from "@/components/alerts-cta";
 import DailyPoll from "@/components/daily-poll";
 import ImageAccordion, { type AccordionSlide } from "@/components/image-accordion";
 import TrendingStrip from "@/components/tregu/trending-strip";
+import {
+  CurrencyExchangeCard,
+  FuelPricesCard,
+} from "@/components/home-market-cards";
+import {
+  getWeeklyExchangeSnapshot,
+  getWeeklyFuelSnapshot,
+} from "@/lib/home-market-data";
 
 export const revalidate = 3600;
 
@@ -36,7 +44,11 @@ function flagToCode(flag: string): string {
 }
 
 export default async function HomePage() {
-  const articles = await getArticles(60);
+  const [articles, exchangeSnapshot, fuelSnapshot] = await Promise.all([
+    getArticles(60),
+    getWeeklyExchangeSnapshot(),
+    getWeeklyFuelSnapshot(),
+  ]);
 
   // Tier 1: hero — featured (score ≥ 9 or breaking), fallback to highest scored
   const hero = articles.find((a) => a.featured) ?? articles[0];
@@ -120,18 +132,20 @@ export default async function HomePage() {
 
       {/* Kryesore now opens the editorial page instead of arriving after utility modules. */}
       {kryesoreLead && (
-        <div
-          style={{
-            maxWidth: "1400px",
-            margin: "0 auto",
-            padding: "clamp(32px, 4vw, 56px) 24px 0",
-          }}
-        >
-          <KryesoreFront
-            lead={kryesoreLead}
-            secondary={kryesoreSecondary}
-            mostRead={mostRead}
-          />
+        <div className="home-front-layout">
+          <div className="home-front-currency">
+            <CurrencyExchangeCard snapshot={exchangeSnapshot} />
+          </div>
+          <div className="home-front-editorial">
+            <KryesoreFront
+              lead={kryesoreLead}
+              secondary={kryesoreSecondary}
+              mostRead={mostRead}
+            />
+          </div>
+          <div className="home-front-fuel">
+            <FuelPricesCard snapshot={fuelSnapshot} />
+          </div>
         </div>
       )}
 
