@@ -1,6 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { lmsrPriceYes } from "@/lib/tregu";
+import { lmsrSportOutcomePrices } from "@/lib/tregu-client";
 import { getArticles } from "@/lib/db";
 import { parseEvent, slugKey } from "@/lib/tregu-groups";
 import { fetchF1LiveLiteLeaderboard } from "@/lib/f1-live-lite";
@@ -201,6 +202,77 @@ export async function GET(
     closesAt: m.closes_at,
   }));
 
+  let football = null;
+  if (
+    market.market_type === "three_outcome" &&
+    Array.isArray(market.sport_outcomes) &&
+    market.sport_outcomes.length === 3 &&
+    market.outcome_quantities &&
+    typeof market.outcome_quantities === "object"
+  ) {
+    const prices = lmsrSportOutcomePrices({
+      sport_outcomes: market.sport_outcomes,
+      outcome_quantities: market.outcome_quantities,
+      b: Number(market.b),
+    });
+    const { data: oracleEvents } = await supabase
+      .from("sport_oracle_events")
+      .select("reference_probabilities, official_state, created_at")
+      .eq("market_id", market.id)
+      .order("created_at", { ascending: true })
+      .limit(500);
+    const nowT = Date.now();
+    const palette = ["#C92F2F", "#7A7A78", "#2E70C9"];
+    football = {
+      outcomes: market.sport_outcomes.map(
+        (
+          outcome: {
+            key?: string;
+            label?: string;
+            team?: string;
+            color?: string;
+            team_color?: string;
+            team_colour?: string;
+          },
+          index: number
+        ) => {
+          const key = String(outcome.key ?? `outcome-${index + 1}`);
+          const isDraw = key.toLowerCase() === "draw" || /baraz|draw/i.test(String(outcome.label ?? ""));
+          const teamName = String(outcome.team ?? outcome.label ?? "");
+          const knownTeamColor = /argentin/i.test(teamName)
+            ? "#2E70C9"
+            : /spanj|spain/i.test(teamName)
+              ? "#C92F2F"
+              : /angl|england/i.test(teamName)
+                ? "#C8102E"
+                : palette[index % palette.length];
+          const series = (oracleEvents ?? [])
+            .map((row) => {
+              const values = row.reference_probabilities as Record<string, unknown> | null;
+              const probability = Number(values?.[key]);
+              return Number.isFinite(probability)
+                ? { t: new Date(row.created_at).getTime(), p: probability }
+                : null;
+            })
+            .filter((point): point is { t: number; p: number } => point !== null);
+          series.push({ t: nowT, p: Number(prices[key] ?? 1 / market.sport_outcomes.length) });
+          return {
+            key,
+            label: String(outcome.label ?? outcome.team ?? key),
+            team: outcome.team ? String(outcome.team) : undefined,
+            color: isDraw
+              ? "#7A7A78"
+              : String(outcome.color ?? outcome.team_color ?? outcome.team_colour ?? knownTeamColor),
+            probability: Number(prices[key] ?? 1 / market.sport_outcomes.length),
+            series,
+          };
+        }
+      ),
+      liveState: market.live_score_state ?? oracleEvents?.at(-1)?.official_state ?? null,
+      refreshMs: 120_000,
+    };
+  }
+
   let f1 = null;
   if (market.market_type === "f1_race_winner" && Array.isArray(market.sport_outcomes)) {
     let board = market.live_score_state ?? null;
@@ -260,7 +332,7 @@ export async function GET(
   }
   return NextResponse.json({
     market: { ...market, market_prob: currentProb }, f1,
-    event,
+    event, football,
     snapshots: snapshots ?? [],
     trades: trades ?? [],
     activity: activity ?? [],

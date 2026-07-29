@@ -32,11 +32,14 @@ export interface Market {
   b: number;
   q_yes: number;
   q_no: number;
-  market_type?: "binary" | "three_outcome";
+  market_type?: "binary" | "two_outcome" | "three_outcome" | "f1_race_winner";
   q_england?: number;
   q_draw?: number;
   q_argentina?: number;
   outcomes?: Side[];
+  sport_outcomes?: { key: string; label: string; team?: string; color?: string }[] | null;
+  outcome_quantities?: Record<string, number> | null;
+  reference_probabilities?: Record<string, number> | null;
   pre_match_analysis?: { claims?: unknown[]; sources?: { title: string; url: string; source: string }[] } | null;
   closes_at: string;
   resolved_at: string | null;
@@ -108,6 +111,45 @@ export function lmsrThreeOutcomePrices(market: Pick<Market, "q_england" | "q_dra
   const weights = quantities.map((q) => Math.exp((q - pivot) / market.b));
   const total = weights.reduce((sum, weight) => sum + weight, 0);
   return { england: weights[0] / total, draw: weights[1] / total, argentina: weights[2] / total };
+}
+
+/** Normalized prices for any configured sport-outcome LMSR book. */
+export function lmsrSportOutcomePrices(
+  market: Pick<Market, "sport_outcomes" | "outcome_quantities" | "b">
+): Record<string, number> {
+  const outcomes = market.sport_outcomes ?? [];
+  if (outcomes.length < 2 || !Number.isFinite(market.b) || market.b <= 0) return {};
+  const quantities = outcomes.map((outcome) => Number(market.outcome_quantities?.[outcome.key] ?? 0));
+  if (quantities.some((quantity) => !Number.isFinite(quantity))) return {};
+  const pivot = Math.max(...quantities);
+  const weights = quantities.map((quantity) => Math.exp(Math.max(-700, Math.min(700, (quantity - pivot) / market.b))));
+  const total = weights.reduce((sum, weight) => sum + weight, 0);
+  if (!(total > 0)) return {};
+  return Object.fromEntries(outcomes.map((outcome, index) => [outcome.key, weights[index] / total]));
+}
+
+/** Client-side buy preview for the generic sport-outcome LMSR. */
+export function previewSportOutcomeBet(
+  market: Pick<Market, "sport_outcomes" | "outcome_quantities" | "b">,
+  outcomeKey: string,
+  coins: number
+): { shares: number; prices: Record<string, number>; avgPrice: number } | null {
+  const outcomes = market.sport_outcomes ?? [];
+  const selectedIndex = outcomes.findIndex((outcome) => outcome.key === outcomeKey);
+  if (selectedIndex < 0 || !Number.isFinite(coins) || coins <= 0 || market.b <= 0) return null;
+  const quantities = outcomes.map((outcome) => Number(market.outcome_quantities?.[outcome.key] ?? 0));
+  if (quantities.some((quantity) => !Number.isFinite(quantity))) return null;
+  const pivot = Math.max(...quantities);
+  const weights = quantities.map((quantity) => Math.exp(Math.max(-700, Math.min(700, (quantity - pivot) / market.b))));
+  const total = weights.reduce((sum, weight) => sum + weight, 0);
+  const selectedWeight = weights[selectedIndex];
+  const otherWeight = total - selectedWeight;
+  const shares = market.b * Math.log((total * Math.exp(coins / market.b) - otherWeight) / selectedWeight);
+  const nextQuantities = Object.fromEntries(
+    outcomes.map((outcome, index) => [outcome.key, quantities[index] + (index === selectedIndex ? shares : 0)])
+  );
+  const prices = lmsrSportOutcomePrices({ ...market, outcome_quantities: nextQuantities });
+  return { shares, prices, avgPrice: shares > 0 ? coins / shares : 0 };
 }
 
 

@@ -135,6 +135,7 @@ DEFAULT_SITE_URL = "https://383ks.com"
 DEFAULT_GITHUB_REPO = "Lind-hack/383lajme"
 TREGU_CHART_UI_VERSION = "live-tape-v1"
 F1_RACE_UI_VERSION = "race-grid-v3"
+FOOTBALL_MARKET_UI_VERSION = "three-way-live-v1"
 MIN_ARTICLES_PER_BATCH = 13
 MAX_ARTICLES_PER_BATCH = 22
 MAX_X_ARTICLES = 2
@@ -723,6 +724,13 @@ def verify_public_site(path: Path) -> int:
             if f1_race_version != F1_RACE_UI_VERSION:
                 raise ValueError(
                     f"F1 race UI is {f1_race_version or 'missing'}, expected {F1_RACE_UI_VERSION}"
+                )
+            football_market_version = str(
+                contract.get("football_market_ui_version", "") or ""
+            ).strip()
+            if football_market_version != FOOTBALL_MARKET_UI_VERSION:
+                raise ValueError(
+                    f"Football market UI is {football_market_version or 'missing'}, expected {FOOTBALL_MARKET_UI_VERSION}"
                 )
             if expected_commit and deployed_commit != expected_commit:
                 raise ValueError(
