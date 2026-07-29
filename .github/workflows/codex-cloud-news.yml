@@ -38,7 +38,6 @@ jobs:
       # The custom production domain belongs to the `383` Vercel project.
       # Do not point verification at the duplicate `383lajme` project.
       SITE_URL: https://383ks.com
-      VERCEL_DEPLOY_HOOK_URL: ${{ secrets.VERCEL_DEPLOY_HOOK_URL }}
       GMAIL_USER: ${{ secrets.GMAIL_USER }}
       GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
       RECIPIENT_EMAIL: ${{ secrets.RECIPIENT_EMAIL || vars.RECIPIENT_EMAIL }}

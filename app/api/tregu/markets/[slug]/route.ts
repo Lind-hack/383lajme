@@ -204,8 +204,16 @@ export async function GET(
   let f1 = null;
   if (market.market_type === "f1_race_winner" && Array.isArray(market.sport_outcomes)) {
     let board = market.live_score_state ?? null;
-    try { board = await fetchF1LiveLiteLeaderboard(); } catch { /* cached audited timing remains the fallback */ }
-    // Live/final classification is not a starting grid. Expose slots only from an explicitly pre-race board.
+    const isArchived = market.status === "closed" || market.status === "resolved";
+    if (!isArchived) {
+      try { board = await fetchF1LiveLiteLeaderboard(); } catch { /* cached audited timing remains the fallback */ }
+    }
+    if (isArchived && !board) {
+      board = { race: { status: "ARCHIVED" }, rows: [] };
+    }
+    // Prefer a stored official slot, then a verified pre-race board. Older
+    // archives did not persist either, so retain their original 22-driver
+    // ordering as a deterministic historical grid instead of rendering empty.
     const positions = board?.race?.status === "INACTIVE"
       ? new Map((board.rows ?? []).map((row: { driver_code?: string; position?: number }) => [row.driver_code, row.position]))
       : new Map<string | undefined, number | undefined>();
@@ -216,15 +224,35 @@ export async function GET(
     const latest = history.at(-1)?.probabilities ?? market.reference_probabilities ?? {};
     f1 = {
       outcomes: market.sport_outcomes.map(
-        (row: { key?: string; label?: string; team?: string; team_colour?: string; team_color?: string; headshot_url?: string }) => ({
-          key: row.key,
-          label: row.label,
-          team: row.team,
-          team_colour: row.team_colour ?? row.team_color,
-          headshot_url: row.headshot_url,
-          grid_position: positions.get(row.key),
-          probability: Number(latest[row.key ?? ""] ?? 0),
-        })
+        (
+          row: {
+            key?: string;
+            label?: string;
+            team?: string;
+            team_colour?: string;
+            team_color?: string;
+            headshot_url?: string;
+            grid_position?: number;
+          },
+          index: number
+        ) => {
+          const storedPosition = Number(row.grid_position);
+          const boardPosition = Number(positions.get(row.key));
+          const gridPosition = Number.isInteger(storedPosition) && storedPosition > 0
+            ? storedPosition
+            : Number.isInteger(boardPosition) && boardPosition > 0
+              ? boardPosition
+              : index + 1;
+          return {
+            key: row.key,
+            label: row.label,
+            team: row.team,
+            team_colour: row.team_colour ?? row.team_color,
+            headshot_url: row.headshot_url,
+            grid_position: gridPosition,
+            probability: Number(latest[row.key ?? ""] ?? 0),
+          };
+        }
       ),
       timing: board,
       history,

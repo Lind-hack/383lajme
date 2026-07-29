@@ -1321,9 +1321,10 @@ def finalize(path: Path) -> int:
     print(f"VALID {path.name}: {len(articles)} articles")
     git_publish(path)
 
-    deploy_code = post_vercel_hook()
-    if deploy_code != 0:
-        print("WARN deploy hook did not complete. If Vercel is connected to GitHub, the git push may still deploy automatically.")
+    # GitHub main is the only production source. Vercel's Git integration
+    # deploys the commit pushed above; invoking an old deploy hook here can
+    # rebuild a stale dirty snapshot and overwrite the protected release.
+    print("VERCEL deploy delegated to the GitHub main integration")
 
     email_code = send_report(path)
     if email_code != 0:

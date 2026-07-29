@@ -272,7 +272,7 @@ export default function F1RaceControl({
           />
         </div>
 
-        {!isLive && !isFinished && (
+        {!isLive && (
           <aside className="f1-grid-card" aria-label="Gridi zyrtar i nisjes">
             <div className="f1-grid-card-head">
               <span>
