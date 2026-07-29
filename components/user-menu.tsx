@@ -86,18 +86,20 @@ export default function UserMenu() {
           href="/hyr"
           className="btn-outline"
           style={{
-            padding: "7px 16px",
+            padding: "10px 18px",
             borderRadius: "100px",
             border: "1.5px solid rgba(17,17,17,0.2)",
-            background: "transparent",
-            fontSize: "13px",
-            fontWeight: 700,
+            background: "rgba(255,255,255,0.42)",
+            fontSize: "14px",
+            fontWeight: 800,
             color: "#111",
             fontFamily: "var(--font-manrope), sans-serif",
             letterSpacing: "0.03em",
             textDecoration: "none",
             WebkitTapHighlightColor: "transparent",
-            display: "inline-block",
+            display: "inline-flex",
+            alignItems: "center",
+            minHeight: "42px",
           }}
         >
           Hyr
@@ -106,17 +108,19 @@ export default function UserMenu() {
           href="/hyr?tab=regjistrohu"
           className="btn-primary"
           style={{
-            padding: "7px 16px",
+            padding: "10px 19px",
             borderRadius: "100px",
             border: "none",
-            fontSize: "13px",
-            fontWeight: 700,
+            fontSize: "14px",
+            fontWeight: 800,
             color: "#fff",
             fontFamily: "var(--font-manrope), sans-serif",
             letterSpacing: "0.03em",
             textDecoration: "none",
             WebkitTapHighlightColor: "transparent",
-            display: "inline-block",
+            display: "inline-flex",
+            alignItems: "center",
+            minHeight: "42px",
           }}
         >
           Regjistrohu

@@ -164,6 +164,68 @@ export async function getArticles(limit = 50, category?: string): Promise<Articl
   return filtered.slice(0, limit);
 }
 
+/**
+ * Chronological feed for time-sensitive surfaces such as the homepage news
+ * strip. This intentionally ignores featured and engagement ranking so a new
+ * pipeline article can never be hidden behind older, higher-scored stories.
+ */
+export async function getLatestArticles(limit = 10): Promise<Article[]> {
+  const supabase = supabaseNewsClient();
+  if (supabase) {
+    try {
+      const { data, error } = await supabase
+        .from("news_articles")
+        .select("*")
+        .order("published_at", { ascending: false })
+        .limit(limit);
+      if (error) throw new Error(error.message);
+      if (data?.length) {
+        return data.map((article) =>
+          mapAutoRow(article as Record<string, unknown>)
+        );
+      }
+    } catch (error) {
+      console.error(
+        "[news] Supabase latest-article feed unavailable; using committed fallback",
+        error
+      );
+    }
+  }
+
+  const autoArticles = getAutoArticles();
+  const db = getDb();
+  let sqliteArticles: Article[] = [];
+
+  if (db) {
+    const rows = db
+      .prepare(
+        `SELECT ${SELECT_COLUMNS} FROM articles WHERE processed = 1 ORDER BY published_at DESC LIMIT ?`
+      )
+      .all(limit) as DbRow[];
+    db.close();
+    sqliteArticles = rows.map(mapRow);
+  }
+
+  const candidates =
+    autoArticles.length || sqliteArticles.length
+      ? [...autoArticles, ...sqliteArticles]
+      : MOCK_ARTICLES.map(sanitizeArticle);
+  const seen = new Set<string>();
+
+  return candidates
+    .sort(
+      (a, b) =>
+        new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
+    )
+    .filter((article) => {
+      const key = article.url ?? article.slug;
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    })
+    .slice(0, limit);
+}
+
 export async function getArticleBySlug(slug: string): Promise<Article | null> {
   const supabase = supabaseNewsClient();
   if (supabase) {

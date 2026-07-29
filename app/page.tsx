@@ -1,5 +1,4 @@
-import { BREAKING_ITEMS } from "@/lib/mock-data";
-import { getArticles } from "@/lib/db";
+import { getArticles, getLatestArticles } from "@/lib/db";
 import { MoveHorizontal } from "lucide-react";
 import TextureBg from "@/components/aurora-bg";
 import SectionLabel from "@/components/section-label";
@@ -44,8 +43,9 @@ function flagToCode(flag: string): string {
 }
 
 export default async function HomePage() {
-  const [articles, exchangeSnapshot, fuelSnapshot] = await Promise.all([
+  const [articles, tickerArticles, exchangeSnapshot, fuelSnapshot] = await Promise.all([
     getArticles(60),
+    getLatestArticles(10),
     getWeeklyExchangeSnapshot(),
     getWeeklyFuelSnapshot(),
   ]);
@@ -127,7 +127,7 @@ export default async function HomePage() {
 
       {/* Breaking ticker — sits just under nav */}
       <div style={{ position: "relative", zIndex: 10, paddingTop: "var(--nav-h)" }}>
-        <BreakingTicker />
+        <BreakingTicker articles={tickerArticles} />
       </div>
 
       {/* Kryesore now opens the editorial page instead of arriving after utility modules. */}
