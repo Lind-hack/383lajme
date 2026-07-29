@@ -57,5 +57,5 @@ test("production accepts the exact current main commit", async () => {
   assert.equal(result.commitSha, CURRENT_SHA);
   assert.equal(result.chartUiVersion, "live-tape-v1");
   assert.equal(result.f1RaceUiVersion, "race-grid-v3");
-  assert.equal(result.footballMarketUiVersion, "stage-aware-v2");
+  assert.equal(result.footballMarketUiVersion, "stage-aware-v3");
 });

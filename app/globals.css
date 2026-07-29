@@ -3922,6 +3922,28 @@ header[data-overlay] .nav-coin-chip {
   margin-bottom: 12px;
   font-size: 14px;
 }
+.tregu-football-trade-mode {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.tregu-football-trade-mode > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+.tregu-football-position {
+  margin: -4px 0 12px;
+  color: #6B6B6B;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+.tregu-football-position strong { color: #111111; }
 .tregu-football-bet-head > span {
   display: inline-flex;
   align-items: center;
@@ -3959,13 +3981,25 @@ header[data-overlay] .nav-coin-chip {
   box-shadow: inset 3px 0 0 var(--football-outcome);
 }
 .tregu-football-outcomes span {
+  flex: 1;
   font-size: 13px;
   font-weight: 750;
+}
+.tregu-football-outcomes small {
+  color: #6B6B6B;
+  font-size: 10px;
+  font-weight: 700;
+  white-space: nowrap;
 }
 .tregu-football-outcomes strong {
   color: var(--football-outcome);
   font-size: 13px;
   font-variant-numeric: tabular-nums;
+}
+.tregu-football-outcomes button[aria-disabled="true"] {
+  cursor: not-allowed;
+  opacity: 0.42;
+  transform: none;
 }
 @media (max-width: 620px) {
   .tregu-football-market { padding: 20px !important; }

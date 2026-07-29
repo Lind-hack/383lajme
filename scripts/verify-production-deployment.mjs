@@ -6,7 +6,7 @@ const REPOSITORY = "Lind-hack/383lajme";
 const PRODUCTION_BRANCH = "main";
 const CHART_UI_VERSION = "live-tape-v1";
 const F1_RACE_UI_VERSION = "race-grid-v3";
-const FOOTBALL_MARKET_UI_VERSION = "stage-aware-v2";
+const FOOTBALL_MARKET_UI_VERSION = "stage-aware-v3";
 const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
 const DEFAULT_ROOT = path.resolve(SCRIPT_DIR, "..");
 
@@ -66,6 +66,8 @@ const REQUIRED_CHART_MARKERS = {
     "cadenceMs={120_000}",
     'kind: "sport_outcome"',
     "outcomeKey: selectedOutcome.key",
+    "previewSportOutcomeSell",
+    "canSellFootball",
   ],
   "app/api/tregu/markets/[slug]/route.ts": [
     "team_colour: row.team_colour",
@@ -74,6 +76,7 @@ const REQUIRED_CHART_MARKERS = {
     "timing: board",
     'market.market_type === "two_outcome" || market.market_type === "three_outcome"',
     "sport_oracle_events",
+    "outcome_prices",
     "refreshMs: 120_000",
     "aggregate_then_extra_time_then_penalties",
   ],
@@ -106,9 +109,19 @@ const REQUIRED_CHART_MARKERS = {
     "home_team",
     "away_team",
   ],
+  "supabase/migrations/0039_tregu_sport_outcome_sell_and_tape.sql": [
+    "sell_sport_market_shares",
+    "outcome_prices",
+    "market_trades_side_check",
+    "positions_side_check",
+  ],
   "app/api/tregu/bet/route.ts": [
     'body.kind === "sport_outcome"',
     '"place_sport_market_bet"',
+  ],
+  "app/api/tregu/sell/route.ts": [
+    'body.kind === "sport_outcome"',
+    '"sell_sport_market_shares"',
   ],
   "app/api/deployment-info/route.ts": [
     "F1_RACE_UI_VERSION",

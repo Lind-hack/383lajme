@@ -11,10 +11,11 @@ export interface MarketTrade {
   id: string;
   market_id: string;
   action: "buy" | "sell";
-  side: Side;
+  side: string;
   coins: number;
   shares: number;
   price_yes: number;
+  outcome_prices?: Record<string, number> | null;
   created_at: string;
   profiles?: { display_name?: string | null } | null;
 }
@@ -150,6 +151,40 @@ export function previewSportOutcomeBet(
   );
   const prices = lmsrSportOutcomePrices({ ...market, outcome_quantities: nextQuantities });
   return { shares, prices, avgPrice: shares > 0 ? coins / shares : 0 };
+}
+
+/** Client-side cash-out preview for any configured sport-outcome LMSR book. */
+export function previewSportOutcomeSell(
+  market: Pick<Market, "sport_outcomes" | "outcome_quantities" | "b">,
+  outcomeKey: string,
+  shares: number
+): { coins: number; prices: Record<string, number>; avgPrice: number } | null {
+  const outcomes = market.sport_outcomes ?? [];
+  const selectedIndex = outcomes.findIndex((outcome) => outcome.key === outcomeKey);
+  if (selectedIndex < 0 || !Number.isFinite(shares) || shares <= 0 || market.b <= 0) return null;
+  const quantities = outcomes.map((outcome) => Number(market.outcome_quantities?.[outcome.key] ?? 0));
+  if (quantities.some((quantity) => !Number.isFinite(quantity))) return null;
+
+  const cost = (values: number[]) => {
+    const pivot = Math.max(...values);
+    const weightSum = values.reduce(
+      (sum, quantity) => sum + Math.exp(Math.max(-700, Math.min(700, (quantity - pivot) / market.b))),
+      0
+    );
+    return pivot + market.b * Math.log(weightSum);
+  };
+
+  const nextQuantities = quantities.map((quantity, index) =>
+    index === selectedIndex ? quantity - shares : quantity
+  );
+  const coins = Math.max(0, cost(quantities) - cost(nextQuantities));
+  const prices = lmsrSportOutcomePrices({
+    ...market,
+    outcome_quantities: Object.fromEntries(
+      outcomes.map((outcome, index) => [outcome.key, nextQuantities[index]])
+    ),
+  });
+  return { coins, prices, avgPrice: shares > 0 ? coins / shares : 0 };
 }
 
 
