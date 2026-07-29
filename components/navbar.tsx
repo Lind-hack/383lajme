@@ -28,15 +28,15 @@ export function KosovoTag() {
       style={{
         display: "flex",
         alignItems: "center",
-        gap: "5px",
-        color: "#6B6B6B",
-        fontSize: "12px",
-        fontWeight: 700,
-        letterSpacing: "0.08em",
+        gap: "6px",
+        color: "#44413D",
+        fontSize: "13px",
+        fontWeight: 800,
+        letterSpacing: "0.07em",
         whiteSpace: "nowrap",
       }}
     >
-      <MapPin size={13} strokeWidth={2.5} color="#FF4422" />
+      <MapPin size={15} strokeWidth={2.5} color="#FF4422" />
       <span>KOSOVË</span>
     </div>
   );
@@ -94,10 +94,10 @@ export default function Navbar() {
     >
       <div
         style={{
-          maxWidth: "1280px",
+          maxWidth: "1500px",
           margin: "0 auto",
-          padding: "0 24px",
-          height: "64px",
+          padding: "0 clamp(20px, 2vw, 32px)",
+          height: "72px",
           display: "flex",
           alignItems: "center",
           gap: "8px",
@@ -113,12 +113,12 @@ export default function Navbar() {
             alignItems: "baseline",
             gap: "4px",
             flexShrink: 0,
-            marginRight: "28px",
+            marginRight: "24px",
           }}
         >
           <span
             style={{
-              fontSize: "32px",
+              fontSize: "34px",
               fontWeight: 800,
               color: overlay ? "#FFFFFF" : "#111111",
               letterSpacing: "-0.04em",
@@ -222,21 +222,8 @@ export default function Navbar() {
               {/* Tregu — prediction markets, pinned so it never scrolls out of the category row */}
               <Link
                 href="/tregu"
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "6px",
-                  flexShrink: 0,
-                  padding: "7px 14px",
-                  borderRadius: "100px",
-                  background: pathname?.startsWith("/tregu") ? "#111111" : "rgba(17,17,17,0.06)",
-                  color: pathname?.startsWith("/tregu") ? "#FFFFFF" : "#111111",
-                  fontSize: "13px",
-                  fontWeight: 700,
-                  textDecoration: "none",
-                  whiteSpace: "nowrap",
-                  marginLeft: "4px",
-                }}
+                className="nav-tregu-link"
+                data-active={pathname?.startsWith("/tregu") ? "true" : undefined}
               >
                 <span
                   style={{

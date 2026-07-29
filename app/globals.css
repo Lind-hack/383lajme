@@ -126,11 +126,135 @@ body {
 }
 
 .ticker-track {
-  animation: marquee 45s linear infinite;
+  display: flex;
+  align-items: stretch;
+  width: max-content;
+  min-width: 100%;
+  height: 100%;
+  animation: marquee 58s linear infinite;
+  will-change: transform;
 }
 
+.breaking-ticker-viewport:hover .ticker-track,
+.breaking-ticker:focus-within .ticker-track,
 .ticker-track:hover {
   animation-play-state: paused;
+}
+
+.breaking-ticker {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: stretch;
+  height: 48px;
+  overflow: hidden;
+  color: #FFFFFF;
+  background: #FF4422;
+  border-bottom: 1px solid rgba(17, 17, 17, 0.12);
+  box-shadow: 0 5px 16px rgba(255, 68, 34, 0.12);
+}
+.breaking-ticker-label {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  flex-shrink: 0;
+  padding: 0 clamp(18px, 2.2vw, 34px);
+  color: #FFFFFF;
+  background: #CE3016;
+  border-right: 1px solid rgba(255, 255, 255, 0.2);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  white-space: nowrap;
+}
+.breaking-ticker-label::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: -20px;
+  width: 20px;
+  height: 100%;
+  pointer-events: none;
+  background: linear-gradient(to right, rgba(206, 48, 22, 0.72), transparent);
+}
+.breaking-ticker-live-dot {
+  width: 8px;
+  height: 8px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: #FFFFFF;
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.16);
+  animation: pulse 1.6s ease-in-out infinite;
+}
+.breaking-ticker-viewport {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+}
+.breaking-ticker-group {
+  display: flex;
+  align-items: stretch;
+  flex-shrink: 0;
+}
+.breaking-ticker-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 34px;
+  color: #FFFFFF;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color var(--duration-fast) ease;
+}
+.breaking-ticker-link::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 0;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.58);
+  transform: translate(50%, -50%);
+}
+.breaking-ticker-link:hover,
+.breaking-ticker-link:focus-visible {
+  background: rgba(133, 25, 7, 0.22);
+}
+.breaking-ticker-link:focus-visible {
+  outline-color: #FFFFFF;
+  outline-offset: -4px;
+}
+.breaking-ticker-category {
+  padding: 4px 7px;
+  border-radius: 5px;
+  color: #8F1E0C;
+  background: #FFF4EA;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.07em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+.breaking-ticker-title {
+  font-size: 14px;
+  font-weight: 750;
+  letter-spacing: -0.01em;
+}
+.breaking-ticker-arrow {
+  font-size: 17px;
+  font-weight: 800;
+  opacity: 0.72;
+  transition: transform var(--duration-fast) var(--ease-out),
+    opacity var(--duration-fast) ease;
+}
+.breaking-ticker-link:hover .breaking-ticker-arrow {
+  opacity: 1;
+  transform: translateX(3px);
 }
 
 /* ── Gradient CTA animation ─────────────────────────────── */
@@ -335,7 +459,7 @@ body {
 .nav-auth-desktop {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 14px;
   flex-shrink: 0;
 }
 @media (max-width: 768px) {
@@ -369,6 +493,11 @@ body {
    to beat the inline styles on these elements. */
 header[data-overlay] .nav-pill::after { background: #FFFFFF; }
 header[data-overlay] .kosovo-tag { color: rgba(255, 255, 255, 0.85) !important; }
+header[data-overlay] .nav-tregu-link {
+  color: #FFFFFF;
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.26);
+}
 header[data-overlay] .btn-outline {
   color: #FFFFFF !important;
   border-color: rgba(255, 255, 255, 0.45) !important;
@@ -386,9 +515,9 @@ header[data-overlay] .hamburger-bar { background: #FFFFFF !important; }
   text-decoration: none;
   color: #FF4422;
   font-family: var(--font-manrope), sans-serif;
-  font-size: 16px;
-  font-weight: 700;
-  letter-spacing: 0.02em;
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: 0.005em;
   text-transform: uppercase;
   display: inline-block;
   white-space: nowrap;
@@ -396,8 +525,8 @@ header[data-overlay] .hamburger-bar { background: #FFFFFF !important; }
   position: relative;
   /* Extra top padding drops the baseline so the caps sit on the same
      line as the big "383" wordmark instead of floating above it. */
-  padding: 13px 0 6px;
-  margin-right: 22px;
+  padding: 14px 0 8px;
+  margin-right: clamp(18px, 1.5vw, 26px);
   transition: color var(--duration-base) var(--ease-out);
 }
 /* Underline bar: width animates 0 → 100% from the left edge. */
@@ -422,6 +551,37 @@ header[data-overlay] .hamburger-bar { background: #FFFFFF !important; }
 }
 .nav-pill[aria-current="page"] {
   color: #FF4422;
+}
+
+.nav-tregu-link {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 42px;
+  flex-shrink: 0;
+  margin-left: 2px;
+  padding: 9px 15px;
+  border: 1px solid rgba(17, 17, 17, 0.08);
+  border-radius: 100px;
+  color: #111111;
+  background: rgba(255, 255, 255, 0.5);
+  font-size: 14px;
+  font-weight: 800;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color var(--duration-base) var(--ease-out),
+    border-color var(--duration-base) var(--ease-out),
+    transform var(--duration-base) var(--ease-out);
+}
+.nav-tregu-link:hover {
+  background: #FFFFFF;
+  border-color: rgba(17, 17, 17, 0.16);
+  transform: translateY(-1px);
+}
+.nav-tregu-link[data-active="true"] {
+  color: #FFFFFF;
+  background: #111111;
+  border-color: #111111;
 }
 .nav-pill.active {
   background: var(--cat);
@@ -551,7 +711,7 @@ header[data-overlay] .hamburger-bar { background: #FFFFFF !important; }
 
 /* ── Navbar height var ── */
 :root {
-  --nav-h: 64px;
+  --nav-h: 72px;
 }
 
 /* ── Spline loader spinner ──────────────────────────────── */
