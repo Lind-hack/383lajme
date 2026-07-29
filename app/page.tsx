@@ -118,10 +118,22 @@ export default async function HomePage() {
         <BreakingTicker />
       </div>
 
-      {/* Image accordion hero — top article per category */}
-      <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 24px', marginTop: '56px' }}>
-        <ImageAccordion featured={hero} slides={accordionSlides} />
-      </div>
+      {/* Kryesore now opens the editorial page instead of arriving after utility modules. */}
+      {kryesoreLead && (
+        <div
+          style={{
+            maxWidth: "1400px",
+            margin: "0 auto",
+            padding: "clamp(32px, 4vw, 56px) 24px 0",
+          }}
+        >
+          <KryesoreFront
+            lead={kryesoreLead}
+            secondary={kryesoreSecondary}
+            mostRead={mostRead}
+          />
+        </div>
+      )}
 
       {/* Main content — cream section */}
       <main
@@ -151,18 +163,16 @@ export default async function HomePage() {
           <DispatchRow articles={njoftimeArticles} />
         </div>
 
+        {/* Five visual stories, moved below Njoftime and given the full content width. */}
+        <div style={{ marginBottom: "var(--space-section)" }}>
+          <ImageAccordion slides={accordionSlides} />
+        </div>
+
         {/* Daily poll */}
         <DailyPoll />
 
         {/* 383 Tregu — trending prediction markets */}
         <TrendingStrip />
-
-        {/* Kryesore — front-page hierarchy: lead + secondary + most-read rail */}
-        {kryesoreLead && (
-          <div style={{ marginBottom: "var(--space-section)" }}>
-            <KryesoreFront lead={kryesoreLead} secondary={kryesoreSecondary} mostRead={mostRead} />
-          </div>
-        )}
 
         {/* Dispatch list — hidden when every article is already placed above */}
         {listArticles.length > 0 && (

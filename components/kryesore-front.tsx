@@ -84,7 +84,9 @@ function ToneChip({ tone }: { tone: Article["tone"] }) {
 
 function useReveal(index: number) {
   return {
-    initial: { opacity: 0, y: 16 },
+    // Editorial content must remain visible even when IntersectionObserver is
+    // delayed or unavailable; motion enhances the card instead of gating it.
+    initial: false,
     whileInView: {
       opacity: 1,
       y: 0,
@@ -199,9 +201,9 @@ function LeadCard({ article }: { article: Article }) {
         </div>
 
         {/* Content */}
-        <div style={{ padding: "24px 28px 26px", display: "flex", flexDirection: "column", gap: "12px" }}>
+        <div style={{ padding: "28px 32px 30px", display: "flex", flexDirection: "column", gap: "12px" }}>
           <h3 style={{
-            fontSize: "clamp(22px, 2.2vw, 30px)",
+            fontSize: "clamp(25px, 2.35vw, 34px)",
             fontWeight: 800,
             lineHeight: 1.18,
             letterSpacing: "-0.02em",
@@ -216,7 +218,7 @@ function LeadCard({ article }: { article: Article }) {
           </h3>
 
           <p style={{
-            fontSize: "15px",
+            fontSize: "16px",
             lineHeight: 1.6,
             color: "#6B6B6B",
             margin: 0,
@@ -266,7 +268,7 @@ function SecondaryCard({ article, index }: { article: Article; index: number }) 
         }}
       >
         {/* Thumbnail — left */}
-        <div style={{ width: "112px", flexShrink: 0, position: "relative", overflow: "hidden" }}>
+        <div style={{ width: "148px", flexShrink: 0, position: "relative", overflow: "hidden" }}>
           {article.imageUrl && !imgFailed ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
@@ -286,7 +288,7 @@ function SecondaryCard({ article, index }: { article: Article; index: number }) 
         </div>
 
         {/* Text */}
-        <div style={{ padding: "14px 18px", display: "flex", flexDirection: "column", gap: "6px", minWidth: 0, flex: 1 }}>
+        <div style={{ padding: "18px 20px", display: "flex", flexDirection: "column", gap: "8px", minWidth: 0, flex: 1 }}>
           <span style={{
             fontSize: "10px",
             fontWeight: 700,
@@ -297,7 +299,7 @@ function SecondaryCard({ article, index }: { article: Article; index: number }) 
             {article.category}
           </span>
           <h4 style={{
-            fontSize: "16px",
+            fontSize: "18px",
             fontWeight: 800,
             lineHeight: 1.3,
             letterSpacing: "-0.01em",
@@ -310,7 +312,7 @@ function SecondaryCard({ article, index }: { article: Article; index: number }) 
           }}>
             {article.title}
           </h4>
-          <span style={{ fontSize: "11px", color: "#AAAAAA", fontWeight: 500, marginTop: "auto" }}>
+          <span style={{ fontSize: "12px", color: "#777777", fontWeight: 500, marginTop: "auto" }}>
             {article.source} · {timeAgo(article.publishedAt)}
           </span>
         </div>
@@ -330,7 +332,7 @@ function MostReadRail({ articles }: { articles: Article[] }) {
         borderRadius: RADIUS.md,
         border: "1px solid rgba(0,0,0,0.07)",
         boxShadow: SHADOW.card,
-        padding: "24px 24px 16px",
+        padding: "28px 28px 18px",
         height: "100%",
         display: "flex",
         flexDirection: "column",
@@ -338,7 +340,7 @@ function MostReadRail({ articles }: { articles: Article[] }) {
     >
       <div style={{ display: "flex", alignItems: "baseline", gap: "8px", marginBottom: "8px" }}>
         <span style={{
-          fontSize: "12px",
+          fontSize: "13px",
           fontWeight: 800,
           letterSpacing: "0.18em",
           textTransform: "uppercase",
@@ -365,9 +367,9 @@ function MostReadRail({ articles }: { articles: Article[] }) {
             style={{
               textDecoration: "none",
               display: "flex",
-              gap: "16px",
+              gap: "18px",
               alignItems: "flex-start",
-              padding: "14px 0",
+              padding: "17px 0",
               borderTop: i === 0 ? "none" : "1px solid #E8E3DB",
             }}
           >
@@ -385,9 +387,9 @@ function MostReadRail({ articles }: { articles: Article[] }) {
             </span>
             <span style={{ display: "flex", flexDirection: "column", gap: "5px", minWidth: 0 }}>
               <span className="most-read-title" style={{
-                fontSize: "14px",
+                fontSize: "16px",
                 fontWeight: 700,
-                lineHeight: 1.35,
+                lineHeight: 1.4,
                 letterSpacing: "-0.01em",
                 color: "#111111",
                 display: "-webkit-box",
@@ -397,7 +399,7 @@ function MostReadRail({ articles }: { articles: Article[] }) {
               }}>
                 {article.title}
               </span>
-              <span style={{ fontSize: "11px", color: "#AAAAAA", fontWeight: 500 }}>
+              <span style={{ fontSize: "12px", color: "#777777", fontWeight: 500 }}>
                 {article.category} · {timeAgo(article.publishedAt)}
               </span>
             </span>
@@ -415,7 +417,7 @@ export default function KryesoreFront({ lead, secondary, mostRead }: KryesoreFro
     <section>
       <SectionLabel
         label="KRYESORE"
-        marginBottom={28}
+        marginBottom={24}
         right={
           <span style={{ fontSize: "11px", color: "#6B6B6B", fontWeight: 600, letterSpacing: "0.04em", whiteSpace: "nowrap" }}>
             Përditësuar {timeAgo(lead.publishedAt)}
@@ -423,7 +425,7 @@ export default function KryesoreFront({ lead, secondary, mostRead }: KryesoreFro
         }
       />
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Lead story */}
         <div className={mostRead.length > 0 ? "lg:col-span-8" : "lg:col-span-12"}>
           <LeadCard article={lead} />
