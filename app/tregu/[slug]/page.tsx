@@ -15,6 +15,7 @@ import {
   previewBet,
   previewSell,
   previewSportOutcomeBet,
+  previewSportOutcomeSell,
   lmsrPriceYes,
   type Side,
   type MarketTrade,
@@ -335,6 +336,24 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
 
   const heldOn = (s: Side) => positions.find((p) => p.side === s && p.shares > 0);
   const held = heldOn(side);
+  const footballHeldOn = (outcomeKey: string) =>
+    positions.find(
+      (position) =>
+        position.side.toLowerCase() === outcomeKey.toLowerCase() &&
+        Number(position.shares) > 0
+    );
+  const footballHeld = footballOutcomeKey
+    ? footballHeldOn(footballOutcomeKey)
+    : undefined;
+  const footballPositions = football
+    ? positions.filter((position) =>
+        football.outcomes.some(
+          (outcome) =>
+            outcome.key.toLowerCase() === position.side.toLowerCase() &&
+            Number(position.shares) > 0
+        )
+      )
+    : [];
 
   const submitTrade = async () => {
     if (!market) return;
@@ -356,26 +375,58 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
         setPlacing(false);
         return;
       }
-      const res = await fetch("/api/tregu/bet", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          marketId: market.id,
-          kind: "sport_outcome",
-          outcomeKey: selectedOutcome.key,
-          coins: amount,
-        }),
-      });
-      const data = await res.json();
-      if (res.ok) {
-        setTradeMsg({
-          ok: true,
-          text: `Basti u vendos te ${selectedOutcome.label} për ${amount} 383C.`,
+      if (mode === "buy") {
+        const res = await fetch("/api/tregu/bet", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            marketId: market.id,
+            kind: "sport_outcome",
+            outcomeKey: selectedOutcome.key,
+            coins: amount,
+          }),
         });
-        load();
-        refreshBalance();
+        const data = await res.json();
+        if (res.ok) {
+          setTradeMsg({
+            ok: true,
+            text: `Basti u vendos te ${selectedOutcome.label} për ${amount} 383C.`,
+          });
+          load();
+          refreshBalance();
+        } else {
+          setTradeMsg({ ok: false, text: data.error ?? "Gabim" });
+        }
       } else {
-        setTradeMsg({ ok: false, text: data.error ?? "Gabim" });
+        const position = footballHeldOn(selectedOutcome.key);
+        if (!position || sellShares <= 0) {
+          setTradeMsg({ ok: false, text: `Nuk ke aksione të ${selectedOutcome.label} për të shitur.` });
+          setPlacing(false);
+          return;
+        }
+        const shares = Math.min(sellShares, Number(position.shares));
+        const res = await fetch("/api/tregu/sell", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            marketId: market.id,
+            kind: "sport_outcome",
+            outcomeKey: selectedOutcome.key,
+            shares,
+          }),
+        });
+        const data = await res.json();
+        if (res.ok) {
+          setTradeMsg({
+            ok: true,
+            text: `Shite ${shares.toFixed(2)} aksione të ${selectedOutcome.label} për ${Number(data.coinsReceived ?? 0).toFixed(1)} 383C.`,
+          });
+          setSellShares(0);
+          load();
+          refreshBalance();
+        } else {
+          setTradeMsg({ ok: false, text: data.error ?? "Gabim" });
+        }
       }
       setPlacing(false);
       return;
@@ -536,7 +587,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
   const potentialProfit = buyPreview ? buyPreview.shares - amount : 0;
   const roi = buyPreview && amount > 0 ? (potentialProfit / amount) * 100 : 0;
   const footballPreview =
-    football && footballSelectedOutcome && market.sport_outcomes && market.outcome_quantities
+    football && mode === "buy" && footballSelectedOutcome && market.sport_outcomes && market.outcome_quantities
       ? previewSportOutcomeBet(
           {
             sport_outcomes: market.sport_outcomes,
@@ -547,9 +598,31 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
           amount
         )
       : null;
+  const footballSellPreview =
+    football &&
+    mode === "sell" &&
+    footballSelectedOutcome &&
+    market.sport_outcomes &&
+    market.outcome_quantities &&
+    sellShares > 0
+      ? previewSportOutcomeSell(
+          {
+            sport_outcomes: market.sport_outcomes,
+            outcome_quantities: market.outcome_quantities,
+            b: market.b,
+          },
+          footballSelectedOutcome.key,
+          sellShares
+        )
+      : null;
 
   const canBuy = !placing && amount > 0 && (balance === null || amount <= balance);
   const canSell = !placing && sellShares > 0 && Boolean(held);
+  const canSellFootball =
+    !placing &&
+    sellShares > 0 &&
+    Boolean(footballHeld) &&
+    sellShares <= Number(footballHeld?.shares ?? 0);
 
   // Race grids (every outcome has a registry headshot) swap the mini-chart
   // grid for a live timing board ranked by the odds.
@@ -1017,17 +1090,48 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                 <p style={{ color: "#6B6B6B", margin: 0 }}>Ky treg nuk pranon më tregtime.</p>
               ) : football ? (
                 <>
-                  <div className="tregu-football-bet-head">
-                    <strong>
-                      {football.format.marketIntent === "to_qualify"
-                        ? "Basto kush kualifikohet"
-                        : "Basto për rezultatin"}
-                    </strong>
+                  <div className="tregu-football-trade-mode">
+                    <div className="tregu-sort" role="tablist" aria-label="Blej ose shit aksione">
+                      <button
+                        aria-pressed={mode === "buy"}
+                        onClick={() => {
+                          setMode("buy");
+                          setTradeMsg(null);
+                        }}
+                        type="button"
+                      >
+                        Blej
+                      </button>
+                      <button
+                        aria-pressed={mode === "sell"}
+                        disabled={footballPositions.length === 0}
+                        onClick={() => {
+                          const firstPosition = footballPositions[0];
+                          if (!firstPosition) return;
+                          setMode("sell");
+                          setTradeMsg(null);
+                          setFootballOutcomeKey(firstPosition.side);
+                          setSellShares(Number(firstPosition.shares));
+                        }}
+                        type="button"
+                      >
+                        Shit
+                      </button>
+                    </div>
                     {balance !== null && (
                       <span>
                         <CoinFace size={16} /> {fmtNum(balance)}
                       </span>
                     )}
+                  </div>
+                  <div className="tregu-football-bet-head">
+                    <strong>
+                      {mode === "sell"
+                        ? "Shit aksionet e rezultatit"
+                        : football.format.marketIntent === "to_qualify"
+                          ? "Basto kush kualifikohet"
+                          : "Basto për rezultatin"}
+                    </strong>
                   </div>
                   <div
                     className="tregu-football-outcomes"
@@ -1035,89 +1139,168 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                     aria-label={football.format.marketIntent === "to_qualify" ? "Zgjidh skuadrën që kualifikohet" : "Zgjidh rezultatin"}
                   >
                     {football.outcomes.map((outcome) => (
-                      <button
-                        key={outcome.key}
-                        type="button"
-                        role="radio"
-                        aria-checked={outcome.key === footballOutcomeKey}
-                        data-active={outcome.key === footballOutcomeKey}
-                        style={{ "--football-outcome": outcome.color } as CSSProperties}
-                        onClick={() => {
-                          setFootballOutcomeKey(outcome.key);
-                          setTradeMsg(null);
-                        }}
-                      >
-                        <span>{outcome.label}</span>
-                        <strong>{(outcome.probability * 100).toFixed(1)}%</strong>
-                      </button>
+                      (() => {
+                        const outcomePosition = footballHeldOn(outcome.key);
+                        const unavailable = mode === "sell" && !outcomePosition;
+                        return (
+                          <button
+                            key={outcome.key}
+                            type="button"
+                            role="radio"
+                            aria-checked={outcome.key === footballOutcomeKey}
+                            aria-disabled={unavailable}
+                            data-active={outcome.key === footballOutcomeKey}
+                            data-has-position={Boolean(outcomePosition)}
+                            style={{ "--football-outcome": outcome.color } as CSSProperties}
+                            onClick={() => {
+                              if (unavailable) return;
+                              setFootballOutcomeKey(outcome.key);
+                              if (mode === "sell") setSellShares(Number(outcomePosition?.shares ?? 0));
+                              setTradeMsg(null);
+                            }}
+                          >
+                            <span>{outcome.label}</span>
+                            <strong>{(outcome.probability * 100).toFixed(1)}%</strong>
+                            {mode === "sell" && outcomePosition && (
+                              <small>{Number(outcomePosition.shares).toFixed(2)} aksione</small>
+                            )}
+                          </button>
+                        );
+                      })()
                     ))}
                   </div>
-                  <label style={{ fontSize: 12, color: "#6B6B6B", fontWeight: 700 }}>
-                    Shuma (383 Coin)
-                  </label>
-                  <div style={{ display: "flex", alignItems: "center", gap: 10, margin: "8px 0 10px" }}>
-                    <CoinFace size={20} />
-                    <input
-                      type="number"
-                      min={1}
-                      value={amount}
-                      onChange={(event) => setAmount(Math.max(1, Number(event.target.value)))}
-                      className="tregu-input"
-                    />
-                  </div>
-                  <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 16 }}>
-                    {QUICK_AMOUNTS.map((quickAmount) => (
-                      <button
-                        key={quickAmount}
-                        className="tregu-chip tregu-raise"
-                        data-active={amount === quickAmount}
-                        onClick={() => setAmount(quickAmount)}
-                        type="button"
+                  {mode === "buy" ? (
+                    <>
+                      <label style={{ fontSize: 12, color: "#6B6B6B", fontWeight: 700 }}>
+                        Shuma (383 Coin)
+                      </label>
+                      <div style={{ display: "flex", alignItems: "center", gap: 10, margin: "8px 0 10px" }}>
+                        <CoinFace size={20} />
+                        <input
+                          type="number"
+                          min={1}
+                          value={amount}
+                          onChange={(event) => setAmount(Math.max(1, Number(event.target.value)))}
+                          className="tregu-input"
+                        />
+                      </div>
+                      <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 16 }}>
+                        {QUICK_AMOUNTS.map((quickAmount) => (
+                          <button
+                            key={quickAmount}
+                            className="tregu-chip tregu-raise"
+                            data-active={amount === quickAmount}
+                            onClick={() => setAmount(quickAmount)}
+                            type="button"
+                          >
+                            {quickAmount}
+                          </button>
+                        ))}
+                        {balance !== null && balance >= 1 && (
+                          <button
+                            className="tregu-chip tregu-raise"
+                            data-active={amount === Math.floor(balance)}
+                            onClick={() => setAmount(Math.floor(balance))}
+                            type="button"
+                          >
+                            Max
+                          </button>
+                        )}
+                      </div>
+                      {footballPreview && footballSelectedOutcome && (
+                        <div className="tregu-slip-summary">
+                          <div>
+                            <span>Çmimi aktual</span>
+                            <strong>{(footballSelectedOutcome.probability * 100).toFixed(1)}%</strong>
+                          </div>
+                          <div>
+                            <span>Aksione të parashikuara</span>
+                            <strong>{footballPreview.shares.toFixed(2)}</strong>
+                          </div>
+                          <div>
+                            <span>Çmimi mesatar</span>
+                            <strong>{(footballPreview.avgPrice * 100).toFixed(1)}%</strong>
+                          </div>
+                          <div>
+                            <span>Gjasa pas bastit</span>
+                            <strong>{((footballPreview.prices[footballSelectedOutcome.key] ?? 0) * 100).toFixed(1)}%</strong>
+                          </div>
+                        </div>
+                      )}
+                      {balance !== null && amount > balance && (
+                        <p style={{ color: "#E41E20", fontSize: 12, marginBottom: 12 }}>
+                          Nuk ke mjaftueshëm 383 Coin ({balance})
+                        </p>
+                      )}
+                      <ConfirmButton onClick={submitTrade} disabled={!canBuy || !footballOutcomeKey}>
+                        {placing
+                          ? "Duke vendosur bastin..."
+                          : `Basto ${amount} 383C te ${footballSelectedOutcome?.label ?? "rezultati"}`}
+                      </ConfirmButton>
+                    </>
+                  ) : (
+                    <>
+                      {footballHeld && (
+                        <p className="tregu-football-position">
+                          Pozicioni yt: <strong>{Number(footballHeld.shares).toFixed(2)} aksione</strong>
+                          {Number(footballHeld.shares) > 0 && (
+                            <> · hyrja {((Number(footballHeld.coins_staked) / Number(footballHeld.shares)) * 100).toFixed(0)}%</>
+                          )}
+                        </p>
+                      )}
+                      <label style={{ fontSize: 12, color: "#6B6B6B", fontWeight: 700 }}>
+                        Aksione për të shitur
+                      </label>
+                      <div style={{ display: "flex", alignItems: "center", gap: 10, margin: "8px 0 12px" }}>
+                        <input
+                          type="number"
+                          min={0}
+                          step={0.01}
+                          max={Number(footballHeld?.shares ?? 0)}
+                          value={sellShares || ""}
+                          onChange={(event) => {
+                            const value = Math.max(0, Number(event.target.value));
+                            setSellShares(Math.min(value, Number(footballHeld?.shares ?? 0)));
+                          }}
+                          className="tregu-input"
+                        />
+                        {footballHeld && (
+                          <button
+                            className="tregu-chip"
+                            onClick={() => setSellShares(Number(footballHeld.shares))}
+                            type="button"
+                          >
+                            Të gjitha
+                          </button>
+                        )}
+                      </div>
+                      {footballSellPreview && footballSelectedOutcome && (
+                        <div className="tregu-slip-summary">
+                          <div>
+                            <span>Merr</span>
+                            <strong style={{ color: "#00854A" }}>{footballSellPreview.coins.toFixed(1)} 383C</strong>
+                          </div>
+                          <div>
+                            <span>Çmimi mesatar i shitjes</span>
+                            <strong>{(footballSellPreview.avgPrice * 100).toFixed(1)}%</strong>
+                          </div>
+                          <div>
+                            <span>Gjasa pas shitjes</span>
+                            <strong>{((footballSellPreview.prices[footballSelectedOutcome.key] ?? 0) * 100).toFixed(1)}%</strong>
+                          </div>
+                        </div>
+                      )}
+                      <ConfirmButton
+                        onClick={submitTrade}
+                        disabled={!canSellFootball || !footballOutcomeKey}
+                        variant="sell"
                       >
-                        {quickAmount}
-                      </button>
-                    ))}
-                    {balance !== null && balance >= 1 && (
-                      <button
-                        className="tregu-chip tregu-raise"
-                        data-active={amount === Math.floor(balance)}
-                        onClick={() => setAmount(Math.floor(balance))}
-                        type="button"
-                      >
-                        Max
-                      </button>
-                    )}
-                  </div>
-                  {footballPreview && footballSelectedOutcome && (
-                    <div className="tregu-slip-summary">
-                      <div>
-                        <span>Çmimi aktual</span>
-                        <strong>{(footballSelectedOutcome.probability * 100).toFixed(1)}%</strong>
-                      </div>
-                      <div>
-                        <span>Aksione të parashikuara</span>
-                        <strong>{footballPreview.shares.toFixed(2)}</strong>
-                      </div>
-                      <div>
-                        <span>Çmimi mesatar</span>
-                        <strong>{(footballPreview.avgPrice * 100).toFixed(1)}%</strong>
-                      </div>
-                      <div>
-                        <span>Gjasa pas bastit</span>
-                        <strong>{((footballPreview.prices[footballSelectedOutcome.key] ?? 0) * 100).toFixed(1)}%</strong>
-                      </div>
-                    </div>
+                        {placing
+                          ? "Duke shitur..."
+                          : `Shit ${footballSelectedOutcome?.label ?? "rezultatin"}`}
+                      </ConfirmButton>
+                    </>
                   )}
-                  {balance !== null && amount > balance && (
-                    <p style={{ color: "#E41E20", fontSize: 12, marginBottom: 12 }}>
-                      Nuk ke mjaftueshëm 383 Coin ({balance})
-                    </p>
-                  )}
-                  <ConfirmButton onClick={submitTrade} disabled={!canBuy || !footballOutcomeKey}>
-                    {placing
-                      ? "Duke vendosur bastin..."
-                      : `Basto ${amount} 383C te ${footballSelectedOutcome?.label ?? "rezultati"}`}
-                  </ConfirmButton>
                   {tradeMsg && (
                     <p style={{ marginTop: 12, fontSize: 13, fontWeight: 600, color: tradeMsg.ok ? "#00854A" : "#E41E20" }}>
                       {tradeMsg.text}

@@ -37,7 +37,9 @@ export async function GET(
       // Full trade tape (ascending) — the chart's price history.
       supabase
         .from("market_trades")
-        .select("id, action, side, coins, shares, price_yes, created_at")
+        // `*` is backward-compatible while migration 0039 adds the optional
+        // multi-outcome price vector used by football charts.
+        .select("*")
         .eq("market_id", market.id)
         .order("created_at", { ascending: true })
         .limit(500),
@@ -280,15 +282,33 @@ export async function GET(
                   : key.toLowerCase() === "home"
                     ? "#C92F2F"
                     : palette[index % palette.length];
-          const series = (oracleEvents ?? [])
-            .map((row) => {
+          const initialProbability = Number(
+            market.reference_probabilities?.[key] ?? 1 / market.sport_outcomes.length
+          );
+          const series = [
+            {
+              t: new Date(market.created_at).getTime(),
+              p: Number.isFinite(initialProbability)
+                ? initialProbability
+                : 1 / market.sport_outcomes.length,
+            },
+            ...(trades ?? []).flatMap((row) => {
+              const values = row.outcome_prices as Record<string, unknown> | null;
+              const probability = Number(values?.[key]);
+              return Number.isFinite(probability)
+                ? [{ t: new Date(row.created_at).getTime(), p: probability }]
+                : [];
+            }),
+            ...(oracleEvents ?? []).flatMap((row) => {
               const values = row.reference_probabilities as Record<string, unknown> | null;
               const probability = Number(values?.[key]);
               return Number.isFinite(probability)
-                ? { t: new Date(row.created_at).getTime(), p: probability }
-                : null;
-            })
-            .filter((point): point is { t: number; p: number } => point !== null);
+                ? [{ t: new Date(row.created_at).getTime(), p: probability }]
+                : [];
+            }),
+          ]
+            .filter((point) => Number.isFinite(point.t))
+            .sort((a, b) => a.t - b.t);
           series.push({ t: nowT, p: Number(prices[key] ?? 1 / market.sport_outcomes.length) });
           return {
             key,
