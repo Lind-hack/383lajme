@@ -6,6 +6,7 @@ const REPOSITORY = "Lind-hack/383lajme";
 const PRODUCTION_BRANCH = "main";
 const CHART_UI_VERSION = "live-tape-v1";
 const F1_RACE_UI_VERSION = "race-grid-v3";
+const FOOTBALL_MARKET_UI_VERSION = "three-way-live-v1";
 const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
 const DEFAULT_ROOT = path.resolve(SCRIPT_DIR, "..");
 
@@ -13,6 +14,7 @@ const REQUIRED_CHART_MARKERS = {
   "lib/tregu-ui-contract.ts": [
     `TREGU_CHART_UI_VERSION = "${CHART_UI_VERSION}"`,
     `F1_RACE_UI_VERSION = "${F1_RACE_UI_VERSION}"`,
+    `FOOTBALL_MARKET_UI_VERSION = "${FOOTBALL_MARKET_UI_VERSION}"`,
   ],
   "components/tregu/chart-hooks.ts": [
     "export function useLiveTape(",
@@ -27,6 +29,8 @@ const REQUIRED_CHART_MARKERS = {
   "components/tregu/group-chart.tsx": [
     "useLiveTapeVector",
     "data-tregu-chart-version",
+    "data-live-outcome-chart",
+    "data-refresh-cadence-ms",
   ],
   "components/tregu/f1-race-control.tsx": [
     "GroupChart",
@@ -56,16 +60,29 @@ const REQUIRED_CHART_MARKERS = {
     'kind: "f1_race_winner"',
     "outcomeKey: f1OutcomeKey",
     'id={f1 ? "f1-bet-slip" : undefined}',
+    "data-football-market-ui-version={FOOTBALL_MARKET_UI_VERSION}",
+    "cadenceMs={120_000}",
+    'kind: "sport_outcome"',
+    "outcomeKey: selectedOutcome.key",
   ],
   "app/api/tregu/markets/[slug]/route.ts": [
     "team_colour: row.team_colour",
     'status: "ARCHIVED"',
     "grid_position: gridPosition",
     "timing: board",
+    'market.market_type === "three_outcome"',
+    "sport_oracle_events",
+    "refreshMs: 120_000",
+  ],
+  "app/api/tregu/bet/route.ts": [
+    'body.kind === "sport_outcome"',
+    '"place_sport_market_bet"',
   ],
   "app/api/deployment-info/route.ts": [
     "F1_RACE_UI_VERSION",
     "TREGU_CHART_UI_VERSION",
+    "FOOTBALL_MARKET_UI_VERSION",
+    "football_market_ui_version",
     '"Cache-Control": "no-store, max-age=0"',
   ],
   "package.json": [
@@ -73,7 +90,9 @@ const REQUIRED_CHART_MARKERS = {
   ],
   "scripts/codex_automation_support.py": [
     `F1_RACE_UI_VERSION = "${F1_RACE_UI_VERSION}"`,
+    `FOOTBALL_MARKET_UI_VERSION = "${FOOTBALL_MARKET_UI_VERSION}"`,
     'contract.get("f1_race_ui_version", "")',
+    'contract.get("football_market_ui_version", "")',
     "VERCEL deploy delegated to the GitHub main integration",
   ],
 };
@@ -155,6 +174,7 @@ export async function verifyProductionSource({
     commitSha: deployedSha,
     chartUiVersion: CHART_UI_VERSION,
     f1RaceUiVersion: F1_RACE_UI_VERSION,
+    footballMarketUiVersion: FOOTBALL_MARKET_UI_VERSION,
   };
 }
 
@@ -165,7 +185,7 @@ async function main() {
     return;
   }
   console.log(
-    `DEPLOY GUARD ok: ${result.commitSha.slice(0, 12)} includes Tregu ${result.chartUiVersion} and F1 ${result.f1RaceUiVersion}`
+    `DEPLOY GUARD ok: ${result.commitSha.slice(0, 12)} includes Tregu ${result.chartUiVersion}, football ${result.footballMarketUiVersion}, and F1 ${result.f1RaceUiVersion}`
   );
 }
 

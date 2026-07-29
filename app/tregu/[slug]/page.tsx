@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState, use as usePromise, type CSSProperties } from "react";
+import { useCallback, useEffect, useRef, useState, use as usePromise, type CSSProperties } from "react";
 import Link from "next/link";
 import Navbar from "@/components/navbar";
 import MarketChart from "@/components/tregu/market-chart";
@@ -11,7 +11,14 @@ import MarketSocial, { type HolderRow, type CommentItem } from "@/components/tre
 import CoinFace from "@/components/tregu/coin-face";
 import ConfirmButton from "@/components/tregu/confirm-button";
 import { createClient } from "@/lib/supabase/client";
-import { previewBet, previewSell, lmsrPriceYes, type Side, type MarketTrade } from "@/lib/tregu-client";
+import {
+  previewBet,
+  previewSell,
+  previewSportOutcomeBet,
+  lmsrPriceYes,
+  type Side,
+  type MarketTrade,
+} from "@/lib/tregu-client";
 import { fmtNum } from "@/lib/format";
 import { DEMO_SLUG, demoDetail, demoEventMinis, demoMatchSeries, demoMatchStats, isDemoEnabled } from "@/lib/tregu-demo";
 import MatchStats from "@/components/tregu/match-stats";
@@ -23,6 +30,7 @@ import F1RaceControl from "@/components/tregu/f1-race-control";
 import { dramatizeSeries, dramatizeSpark } from "@/lib/tregu-tape";
 import { SLUG_TO_CATEGORY } from "@/lib/category-map";
 import { f1DriverHeadshot, f1TeamColor } from "@/lib/f1-driver-presentation";
+import { FOOTBALL_MARKET_UI_VERSION } from "@/lib/tregu-ui-contract";
 
 // Sibling outcome series from the detail API — real 5-min cron snapshots.
 interface EventOutcome {
@@ -50,6 +58,10 @@ interface MarketDetail {
   resolution_rules: string | null;
   resolution_source: string | null;
   live_score_state?: unknown;
+  sport_outcomes?: { key: string; label: string; team?: string; color?: string }[] | null;
+  outcome_quantities?: Record<string, number> | null;
+  reference_probabilities?: Record<string, number> | null;
+  live_event?: { home_team?: string; away_team?: string } | null;
 }
 
 interface Snapshot {
@@ -61,8 +73,21 @@ interface Snapshot {
 
 interface F1Payload { outcomes: { key: string; label: string; team: string; probability: number; headshot_url?: string; team_colour?: string; grid_position?: number }[]; timing: { race?: { status?: string; current_lap?: number; total_laps?: number }; rows?: { driver_code?: string; position?: number; gap?: string; pits?: number; status?: string }[] } | null; history?: { createdAt: string; probabilities: Record<string, number>; lap?: number; status?: string }[]; }
 
+interface FootballPayload {
+  outcomes: {
+    key: string;
+    label: string;
+    team?: string;
+    color: string;
+    probability: number;
+    series: { t: number; p: number }[];
+  }[];
+  liveState?: unknown;
+  refreshMs: number;
+}
+
 interface Position {
-  side: Side;
+  side: string;
   shares: number;
   coins_staked: number;
   market_id: string;
@@ -127,6 +152,8 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
   const [group, setGroup] = useState<MarketGroup | null>(null);
   const [eventData, setEventData] = useState<{ title: string; outcomes: EventOutcome[] } | null>(null);
   const [f1, setF1] = useState<F1Payload | null>(null);
+  const [football, setFootball] = useState<FootballPayload | null>(null);
+  const [footballOutcomeKey, setFootballOutcomeKey] = useState("");
   const [f1OutcomeKey, setF1OutcomeKey] = useState("");
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
@@ -139,6 +166,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
   const [sellShares, setSellShares] = useState(0);
   const [placing, setPlacing] = useState(false);
   const [tradeMsg, setTradeMsg] = useState<{ ok: boolean; text: string } | null>(null);
+  const lastSuccessfulLoad = useRef(0);
 
   // /tregu/demo renders the full trading interface from local sample data —
   // dev-only design preview, no DB market needed.
@@ -178,6 +206,8 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
         },
       ]);
       setGroup(groupForSlug(demoEventMinis(), slug));
+      setFootball(null);
+      lastSuccessfulLoad.current = Date.now();
       setLoading(false);
       return;
     }
@@ -190,6 +220,13 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
         }
         setMarket(d.market);
         setEventData(d.event ?? null);
+        const nextFootball = (d.football ?? null) as FootballPayload | null;
+        setFootball(nextFootball);
+        setFootballOutcomeKey((current) => {
+          if (!nextFootball?.outcomes?.length) return "";
+          if (nextFootball.outcomes.some((outcome) => outcome.key === current)) return current;
+          return [...nextFootball.outcomes].sort((a, b) => b.probability - a.probability)[0]?.key ?? "";
+        });
         const nextF1 = (d.f1 ?? null) as F1Payload | null;
         setF1(nextF1);
         setF1OutcomeKey((current) => {
@@ -206,6 +243,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
         setPositions(Array.isArray(d.position) ? d.position : []);
         setHolders(d.holders ?? []);
         setComments(d.comments ?? []);
+        lastSuccessfulLoad.current = Date.now();
       })
       .finally(() => setLoading(false));
     // Sibling outcome books ("<Ngjarja>: <Rezultati>?") live in the hub list —
@@ -262,13 +300,27 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
     });
   }, [slug, load, refreshBalance, demo]);
 
-  // Live refresh: the VPS cron reprices every 5 min and inserts a snapshot;
-  // polling each minute picks the new chart point up without a reload.
+  const autoRefreshMs = market?.category === "sport" ? 120_000 : 300_000;
+
+  // The browser picks up every live-sport repricing window without a reload.
+  // Returning to a stale background tab also refreshes immediately.
   useEffect(() => {
     if (demo) return;
-    const id = setInterval(load, 12_000);
-    return () => clearInterval(id);
-  }, [load, demo]);
+    const id = window.setInterval(load, autoRefreshMs);
+    const onVisibilityChange = () => {
+      if (
+        document.visibilityState === "visible" &&
+        Date.now() - lastSuccessfulLoad.current >= autoRefreshMs
+      ) {
+        load();
+      }
+    };
+    document.addEventListener("visibilitychange", onVisibilityChange);
+    return () => {
+      window.clearInterval(id);
+      document.removeEventListener("visibilitychange", onVisibilityChange);
+    };
+  }, [load, demo, autoRefreshMs]);
 
   const heldOn = (s: Side) => positions.find((p) => p.side === s && p.shares > 0);
   const held = heldOn(side);
@@ -281,6 +333,37 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
     }
     setPlacing(true);
     setTradeMsg(null);
+    if (football) {
+      const selectedOutcome = football.outcomes.find((outcome) => outcome.key === footballOutcomeKey);
+      if (!selectedOutcome) {
+        setTradeMsg({ ok: false, text: "Zgjidh një rezultat para se të vendosësh bastin." });
+        setPlacing(false);
+        return;
+      }
+      const res = await fetch("/api/tregu/bet", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          marketId: market.id,
+          kind: "sport_outcome",
+          outcomeKey: selectedOutcome.key,
+          coins: amount,
+        }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setTradeMsg({
+          ok: true,
+          text: `Basti u vendos te ${selectedOutcome.label} për ${amount} 383C.`,
+        });
+        load();
+        refreshBalance();
+      } else {
+        setTradeMsg({ ok: false, text: data.error ?? "Gabim" });
+      }
+      setPlacing(false);
+      return;
+    }
     if (f1) {
       if (!f1OutcomeKey) {
         setTradeMsg({ ok: false, text: "Zgjidh një pilot para se të vendosësh bastin." });
@@ -372,6 +455,9 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
   // Bonus: live AI signal — the newest news-scored probability vs the market.
   const latestAiSnap = [...snapshots].reverse().find((s) => s.ai_prob !== null) ?? null;
   const currentOutcome = group?.outcomes.find((o) => o.slug === slug) ?? null;
+  const footballSelectedOutcome =
+    football?.outcomes.find((outcome) => outcome.key === footballOutcomeKey) ??
+    (football ? [...football.outcomes].sort((a, b) => b.probability - a.probability)[0] : undefined);
   const f1SelectedDriver =
     f1?.outcomes.find((driver) => driver.key === f1OutcomeKey) ??
     (f1 ? [...f1.outcomes].sort((a, b) => b.probability - a.probability)[0] : undefined);
@@ -406,7 +492,9 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
   };
   const currentPrice = lmsrPriceYes(market.q_yes, market.q_no, market.b);
   const sidePrice = side === "PO" ? currentPrice : 1 - currentPrice;
-  const pct = Math.round((f1SelectedDriver?.probability ?? market.market_prob) * 100);
+  const pct = Math.round(
+    (footballSelectedOutcome?.probability ?? f1SelectedDriver?.probability ?? market.market_prob) * 100
+  );
   const isClosed = market.status !== "open";
   const volume = Math.round(market.q_yes + market.q_no);
   const deltaPp = weeklyDelta === null ? null : Math.round(weeklyDelta * 100);
@@ -416,7 +504,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
     : new Date(closesMs).toLocaleDateString("sq-AL", { day: "numeric", month: "short" });
 
   const buyPreview =
-    mode === "buy" && amount > 0
+    !football && mode === "buy" && amount > 0
       ? previewBet({ q_yes: market.q_yes, q_no: market.q_no, b: market.b }, side, amount)
       : null;
   const sellPreview =
@@ -431,6 +519,18 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
         : 0;
   const potentialProfit = buyPreview ? buyPreview.shares - amount : 0;
   const roi = buyPreview && amount > 0 ? (potentialProfit / amount) * 100 : 0;
+  const footballPreview =
+    football && footballSelectedOutcome && market.sport_outcomes && market.outcome_quantities
+      ? previewSportOutcomeBet(
+          {
+            sport_outcomes: market.sport_outcomes,
+            outcome_quantities: market.outcome_quantities,
+            b: market.b,
+          },
+          footballSelectedOutcome.key,
+          amount
+        )
+      : null;
 
   const canBuy = !placing && amount > 0 && (balance === null || amount <= balance);
   const canSell = !placing && sellShares > 0 && Boolean(held);
@@ -447,29 +547,68 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
 
   // Registered head-to-head stat sheet for this event (null when none exists).
   const fallbackEventStats = group ? eventStatsFor(group.title) : null;
-  const live = market.live_score_state as { status?: string; detail?: string; competitors?: Array<{ team?: string; score?: number }>; metrics?: Record<string, Record<string, number>> } | null;
-  const liveMetrics = live?.metrics;
-  const liveStats = live?.status !== "STATUS_SCHEDULED" && liveMetrics && group ? {
-    home: "Argjentina", away: "Spanja",
-    score: `${live.competitors?.find((c) => c.team === "Argentina")?.score ?? 0} - ${live.competitors?.find((c) => c.team === "Spain")?.score ?? 0}`,
-    note: `LIVE · ${live.detail ?? ""}`,
+  const live = (football?.liveState ?? market.live_score_state) as {
+    status?: string;
+    detail?: string;
+    competitors?: Array<{ team?: string; homeAway?: string; score?: number }>;
+    metrics?: Record<string, Record<string, number>>;
+  } | null;
+  const liveTeams = live?.competitors ?? [];
+  const homeTeam =
+    liveTeams.find((competitor) => competitor.homeAway === "home") ??
+    liveTeams[0] ??
+    { team: market.live_event?.home_team, score: 0 };
+  const awayTeam =
+    liveTeams.find((competitor) => competitor.homeAway === "away") ??
+    liveTeams[1] ??
+    { team: market.live_event?.away_team, score: 0 };
+  const homeName = homeTeam.team ?? "Vendasit";
+  const awayName = awayTeam.team ?? "Mysafirët";
+  const homeMetrics = live?.metrics?.[homeName] ?? {};
+  const awayMetrics = live?.metrics?.[awayName] ?? {};
+  const hasLiveMetrics = Object.keys(homeMetrics).length > 0 || Object.keys(awayMetrics).length > 0;
+  const liveStats = live?.status !== "STATUS_SCHEDULED" && hasLiveMetrics && (football || group) ? {
+    home: homeName,
+    away: awayName,
+    score: `${Number(homeTeam.score ?? 0)} - ${Number(awayTeam.score ?? 0)}`,
+    note: `LIVE · ${live?.detail ?? ""}`,
     rows: [
-      { label: "Posedimi i topit", home: liveMetrics.Argentina?.possession ?? 0, away: liveMetrics.Spain?.possession ?? 0, homeText: `${liveMetrics.Argentina?.possession ?? 0}%`, awayText: `${liveMetrics.Spain?.possession ?? 0}%` },
-      { label: "Gjuajtjet totale", home: liveMetrics.Argentina?.shots ?? 0, away: liveMetrics.Spain?.shots ?? 0 },
-      { label: "Gjuajtjet në portë", home: liveMetrics.Argentina?.shots_on_target ?? 0, away: liveMetrics.Spain?.shots_on_target ?? 0 },
-      { label: "Goditje nga këndi", home: liveMetrics.Argentina?.corners ?? 0, away: liveMetrics.Spain?.corners ?? 0 },
-      { label: "Shanse të mëdha të krijuara", home: liveMetrics.Argentina?.big_chances ?? 0, away: liveMetrics.Spain?.big_chances ?? 0 },
-      { label: "Kartonë të verdhë", home: liveMetrics.Argentina?.yellow_cards ?? 0, away: liveMetrics.Spain?.yellow_cards ?? 0 },
-      { label: "Kartonë të kuq", home: liveMetrics.Argentina?.red_cards ?? 0, away: liveMetrics.Spain?.red_cards ?? 0 },
+      { label: "Golat e pritshëm (xG)", home: homeMetrics.xg ?? 0, away: awayMetrics.xg ?? 0, homeText: Number(homeMetrics.xg ?? 0).toFixed(2), awayText: Number(awayMetrics.xg ?? 0).toFixed(2) },
+      { label: "Posedimi i topit", home: homeMetrics.possession ?? 0, away: awayMetrics.possession ?? 0, homeText: `${homeMetrics.possession ?? 0}%`, awayText: `${awayMetrics.possession ?? 0}%` },
+      { label: "Gjuajtjet totale", home: homeMetrics.shots ?? 0, away: awayMetrics.shots ?? 0 },
+      { label: "Gjuajtjet në portë", home: homeMetrics.shots_on_target ?? 0, away: awayMetrics.shots_on_target ?? 0 },
+      { label: "Goditje nga këndi", home: homeMetrics.corners ?? 0, away: awayMetrics.corners ?? 0 },
+      { label: "Shanse të mëdha të krijuara", home: homeMetrics.big_chances ?? 0, away: awayMetrics.big_chances ?? 0 },
+      { label: "Kartonë të verdhë", home: homeMetrics.yellow_cards ?? 0, away: awayMetrics.yellow_cards ?? 0 },
+      { label: "Kartonë të kuq", home: homeMetrics.red_cards ?? 0, away: awayMetrics.red_cards ?? 0 },
     ],
   } : null;
-  const eventStats = liveStats ?? fallbackEventStats;
+  const footballScheduledStats = football ? {
+    home: homeName,
+    away: awayName,
+    score: `${Number(homeTeam.score ?? 0)} - ${Number(awayTeam.score ?? 0)}`,
+    note: live?.detail ?? "Para ndeshjes",
+    rows: [
+      { label: "Golat e pritshëm (xG)", home: 0, away: 0, homeText: "0.00", awayText: "0.00" },
+      { label: "Posedimi i topit", home: 0, away: 0, homeText: "0%", awayText: "0%" },
+      { label: "Gjuajtjet totale", home: 0, away: 0 },
+      { label: "Gjuajtjet në portë", home: 0, away: 0 },
+      { label: "Goditje nga këndi", home: 0, away: 0 },
+      { label: "Shanse të mëdha të krijuara", home: 0, away: 0 },
+      { label: "Kartonë të verdhë", home: 0, away: 0 },
+      { label: "Kartonë të kuq", home: 0, away: 0 },
+    ],
+  } : null;
+  const eventStats = liveStats ?? fallbackEventStats ?? footballScheduledStats;
 
   return (
     <div className="tregu-scope">
       <Navbar />
       {/* Left-anchored container — Polymarket-style, not centered. */}
-      <main style={{ maxWidth: 1560, margin: 0, padding: "96px 32px 80px 32px" }}>
+      <main
+        data-auto-refresh-ms={autoRefreshMs}
+        style={{ maxWidth: 1560, margin: 0, padding: "96px 32px 80px 32px" }}
+      >
         <Link href="/tregu" style={{ color: "#6B6B6B", fontSize: 13, textDecoration: "none" }}>
           ← Tregu
         </Link>
@@ -527,14 +666,16 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                 {pct}%
               </span>
               <span style={{ fontSize: 14, fontWeight: 700, color: "#6B6B6B" }}>
-                {f1SelectedDriver
-                  ? `gjasa ${f1SelectedDriver.label}`
+                {footballSelectedOutcome
+                  ? `gjasa ${footballSelectedOutcome.label}`
+                  : f1SelectedDriver
+                    ? `gjasa ${f1SelectedDriver.label}`
                   : currentOutcome
                     ? `gjasa ${currentOutcome.label}`
                     : "gjasa PO"}
               </span>
             </span>
-            {!f1 && deltaPp !== null && deltaPp !== 0 && (
+            {!f1 && !football && deltaPp !== null && deltaPp !== 0 && (
               <span className="tregu-delta-chip" data-dir={deltaPp > 0 ? "up" : "down"}>
                 {deltaPp > 0 ? "▲" : "▼"} {Math.abs(deltaPp)}pp këtë javë
               </span>
@@ -549,7 +690,54 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
         {/* ── 2-col: chart + social tabs | bet slip + AI signal + rules ── */}
         <div className="tregu-detail-grid">
           <div style={{ display: "flex", flexDirection: "column", gap: 20, minWidth: 0 }}>
-            {f1 ? (
+            {football ? (
+              <>
+                <section
+                  className="tregu-panel tregu-football-market"
+                  data-football-live-chart
+                  data-football-market-ui-version={FOOTBALL_MARKET_UI_VERSION}
+                  data-outcome-count={football.outcomes.length}
+                  style={{ padding: 28 }}
+                  aria-label="Gjasat live të ndeshjes"
+                >
+                  <div className="tregu-football-market-head">
+                    <div>
+                      <span className="tregu-football-eyebrow">Tregu i ndeshjes</span>
+                      <h2>Gjasat live</h2>
+                    </div>
+                    <span className="tregu-football-cadence">Përditësim automatik çdo 2 min</span>
+                  </div>
+                  <div className="tregu-football-legend" aria-label="Rezultatet e ndeshjes">
+                    {football.outcomes.map((outcome) => (
+                      <button
+                        key={outcome.key}
+                        type="button"
+                        data-active={outcome.key === footballOutcomeKey}
+                        onClick={() => {
+                          setFootballOutcomeKey(outcome.key);
+                          setTradeMsg(null);
+                        }}
+                      >
+                        <span style={{ background: outcome.color }} aria-hidden />
+                        <strong>{outcome.label}</strong>
+                        <b>{(outcome.probability * 100).toFixed(1)}%</b>
+                      </button>
+                    ))}
+                  </div>
+                  <GroupChart
+                    height={460}
+                    cadenceMs={120_000}
+                    series={football.outcomes.map((outcome) => ({
+                      label: outcome.label,
+                      color: outcome.color,
+                      series: outcome.series,
+                      prob: outcome.probability,
+                    }))}
+                  />
+                </section>
+                {eventStats ? <MatchStats {...eventStats} /> : null}
+              </>
+            ) : f1 ? (
               <F1RaceControl
                 marketId={market.id}
                 marketOpen={market.status === "open"}
@@ -685,6 +873,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
           <aside className="tregu-detail-side">
             <div
               id={f1 ? "f1-bet-slip" : undefined}
+              data-football-bet-slip={football ? "" : undefined}
               className="tregu-panel tregu-edge"
               data-cat={market.category}
               style={{ padding: 28 }}
@@ -737,6 +926,23 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                   </div>
                 </div>
               )}
+              {football && footballSelectedOutcome && (
+                <div className="tregu-football-selection">
+                  <TeamFlag
+                    team={footballSelectedOutcome.team ?? footballSelectedOutcome.label}
+                    size={52}
+                    radius={14}
+                    label={footballSelectedOutcome.label}
+                  />
+                  <span>
+                    <small>Rezultati i zgjedhur</small>
+                    <strong>{footballSelectedOutcome.label}</strong>
+                  </span>
+                  <b style={{ color: footballSelectedOutcome.color }}>
+                    {(footballSelectedOutcome.probability * 100).toFixed(1)}%
+                  </b>
+                </div>
+              )}
               {f1 && f1SelectedDriver && (
                 <div
                   className="f1-trade-driver"
@@ -769,6 +975,107 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                 </div>
               ) : isClosed ? (
                 <p style={{ color: "#6B6B6B", margin: 0 }}>Ky treg nuk pranon më tregtime.</p>
+              ) : football ? (
+                <>
+                  <div className="tregu-football-bet-head">
+                    <strong>Basto për rezultatin</strong>
+                    {balance !== null && (
+                      <span>
+                        <CoinFace size={16} /> {fmtNum(balance)}
+                      </span>
+                    )}
+                  </div>
+                  <div className="tregu-football-outcomes" role="radiogroup" aria-label="Zgjidh rezultatin">
+                    {football.outcomes.map((outcome) => (
+                      <button
+                        key={outcome.key}
+                        type="button"
+                        role="radio"
+                        aria-checked={outcome.key === footballOutcomeKey}
+                        data-active={outcome.key === footballOutcomeKey}
+                        style={{ "--football-outcome": outcome.color } as CSSProperties}
+                        onClick={() => {
+                          setFootballOutcomeKey(outcome.key);
+                          setTradeMsg(null);
+                        }}
+                      >
+                        <span>{outcome.label}</span>
+                        <strong>{(outcome.probability * 100).toFixed(1)}%</strong>
+                      </button>
+                    ))}
+                  </div>
+                  <label style={{ fontSize: 12, color: "#6B6B6B", fontWeight: 700 }}>
+                    Shuma (383 Coin)
+                  </label>
+                  <div style={{ display: "flex", alignItems: "center", gap: 10, margin: "8px 0 10px" }}>
+                    <CoinFace size={20} />
+                    <input
+                      type="number"
+                      min={1}
+                      value={amount}
+                      onChange={(event) => setAmount(Math.max(1, Number(event.target.value)))}
+                      className="tregu-input"
+                    />
+                  </div>
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 16 }}>
+                    {QUICK_AMOUNTS.map((quickAmount) => (
+                      <button
+                        key={quickAmount}
+                        className="tregu-chip tregu-raise"
+                        data-active={amount === quickAmount}
+                        onClick={() => setAmount(quickAmount)}
+                        type="button"
+                      >
+                        {quickAmount}
+                      </button>
+                    ))}
+                    {balance !== null && balance >= 1 && (
+                      <button
+                        className="tregu-chip tregu-raise"
+                        data-active={amount === Math.floor(balance)}
+                        onClick={() => setAmount(Math.floor(balance))}
+                        type="button"
+                      >
+                        Max
+                      </button>
+                    )}
+                  </div>
+                  {footballPreview && footballSelectedOutcome && (
+                    <div className="tregu-slip-summary">
+                      <div>
+                        <span>Çmimi aktual</span>
+                        <strong>{(footballSelectedOutcome.probability * 100).toFixed(1)}%</strong>
+                      </div>
+                      <div>
+                        <span>Aksione të parashikuara</span>
+                        <strong>{footballPreview.shares.toFixed(2)}</strong>
+                      </div>
+                      <div>
+                        <span>Çmimi mesatar</span>
+                        <strong>{(footballPreview.avgPrice * 100).toFixed(1)}%</strong>
+                      </div>
+                      <div>
+                        <span>Gjasa pas bastit</span>
+                        <strong>{((footballPreview.prices[footballSelectedOutcome.key] ?? 0) * 100).toFixed(1)}%</strong>
+                      </div>
+                    </div>
+                  )}
+                  {balance !== null && amount > balance && (
+                    <p style={{ color: "#E41E20", fontSize: 12, marginBottom: 12 }}>
+                      Nuk ke mjaftueshëm 383 Coin ({balance})
+                    </p>
+                  )}
+                  <ConfirmButton onClick={submitTrade} disabled={!canBuy || !footballOutcomeKey}>
+                    {placing
+                      ? "Duke vendosur bastin..."
+                      : `Basto ${amount} 383C te ${footballSelectedOutcome?.label ?? "rezultati"}`}
+                  </ConfirmButton>
+                  {tradeMsg && (
+                    <p style={{ marginTop: 12, fontSize: 13, fontWeight: 600, color: tradeMsg.ok ? "#00854A" : "#E41E20" }}>
+                      {tradeMsg.text}
+                    </p>
+                  )}
+                </>
               ) : f1 ? (
                 <>
                   <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>
@@ -848,7 +1155,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                           // Jump to a side the user actually holds.
                           const h = heldOn(side) ?? positions.find((p) => p.shares > 0);
                           if (h) {
-                            setSide(h.side);
+                            setSide(h.side as Side);
                             setSellShares(Number(h.shares));
                           }
                         }}

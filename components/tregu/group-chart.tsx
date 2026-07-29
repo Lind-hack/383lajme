@@ -415,7 +415,15 @@ export default function GroupChart({
   const showFuture = hover !== null && !hover.live && hover.col < cols.length - 1;
 
   return (
-    <div data-tregu-chart-version={TREGU_CHART_UI_VERSION}>
+    <div
+      data-tregu-chart-version={TREGU_CHART_UI_VERSION}
+      data-live-outcome-chart
+      data-outcome-count={series.length}
+      data-refresh-cadence-ms={cadenceMs}
+      data-current-probabilities={lastValues.map((value) => value.toFixed(5)).join(",")}
+      role="region"
+      aria-label={`Grafiku live me ${series.length} rezultate`}
+    >
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 10, marginBottom: 10, flexWrap: "wrap" }}>
         <div className="tregu-live-pill" aria-live="off">
           <span className="tregu-live-dot" aria-hidden />
@@ -513,6 +521,7 @@ export default function GroupChart({
                   return (
                     <g key={`${ri}-${s.label}`}>
                       <path
+                        data-outcome-line={s.label}
                         d={d}
                         fill="none"
                         stroke={s.color}

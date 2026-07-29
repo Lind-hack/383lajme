@@ -29,7 +29,7 @@ export default function MatchStats({
       <div className="tregu-mstats-head">
         <h3>{heading}</h3>
         <span className="tregu-mstats-score">
-          {home} <strong>{score}</strong> {away}
+          {home} <strong><span key={score} className="tregu-stat-value-change">{score}</span></strong> {away}
           {note ? <em>{note}</em> : null}
         </span>
       </div>
@@ -41,27 +41,37 @@ export default function MatchStats({
           const homeLeads = r.home > r.away;
           const awayLeads = r.away > r.home;
           return (
-            <div className="tregu-mstat" key={r.label}>
+            <div
+              className="tregu-mstat"
+              key={r.label}
+              data-stat-row={r.label}
+              data-home-value={r.home}
+              data-away-value={r.away}
+            >
               <div className="tregu-mstat-line">
                 <span className={`tregu-mstat-val${homeLeads ? " tregu-mstat-val--lead" : ""}`}>
-                  {r.homeText ?? r.home}
+                  <span key={`${r.homeText ?? r.home}`} className="tregu-stat-value-change">
+                    {r.homeText ?? r.home}
+                  </span>
                 </span>
                 <span className="tregu-mstat-label">{r.label}</span>
                 <span className={`tregu-mstat-val tregu-mstat-val--r${awayLeads ? " tregu-mstat-val--lead" : ""}`}>
-                  {r.awayText ?? r.away}
+                  <span key={`${r.awayText ?? r.away}`} className="tregu-stat-value-change">
+                    {r.awayText ?? r.away}
+                  </span>
                 </span>
               </div>
               <div className="tregu-mstat-bars" aria-hidden="true">
                 <div className="tregu-mstat-half tregu-mstat-half--l">
                   <span
                     className={`tregu-mstat-bar tregu-mstat-bar--l${homeLeads ? " tregu-mstat-bar--lead" : ""}`}
-                    style={{ width: `${homePct}%` }}
+                    style={{ transform: `scaleX(${homePct / 100})` }}
                   />
                 </div>
                 <div className="tregu-mstat-half">
                   <span
                     className={`tregu-mstat-bar${awayLeads ? " tregu-mstat-bar--lead" : ""}`}
-                    style={{ width: `${100 - homePct}%` }}
+                    style={{ transform: `scaleX(${(100 - homePct) / 100})` }}
                   />
                 </div>
               </div>
