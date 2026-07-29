@@ -13,7 +13,6 @@ import type {
   FuelBrandSnapshot,
   FuelSnapshot,
 } from "@/lib/home-market-data";
-import GlassCard from "@/components/ui/glass-card";
 
 type CurrencyCode = "ALL" | "EUR";
 
@@ -50,7 +49,6 @@ function MarketCardFrame({
   children,
   footer,
   className = "",
-  tiltDirection,
 }: {
   eyebrow: string;
   title: string;
@@ -58,22 +56,24 @@ function MarketCardFrame({
   children: React.ReactNode;
   footer: React.ReactNode;
   className?: string;
-  tiltDirection: "left" | "right";
 }) {
   return (
     <aside className={`home-market-card ${className}`}>
-      <GlassCard accentIcon={icon} tiltDirection={tiltDirection}>
-        <div className="home-market-card-inner">
-          <header className="home-market-card-head">
-            <span>
-              <small>{eyebrow}</small>
-              <strong>{title}</strong>
-            </span>
-          </header>
-          {children}
-          <footer className="home-market-card-footer">{footer}</footer>
-        </div>
-      </GlassCard>
+      <span className="home-market-orb home-market-orb-large" aria-hidden="true" />
+      <span className="home-market-orb home-market-orb-small" aria-hidden="true" />
+      <div className="home-market-card-inner">
+        <header className="home-market-card-head">
+          <span className="home-market-icon" aria-hidden="true">
+            {icon}
+          </span>
+          <span>
+            <small>{eyebrow}</small>
+            <strong>{title}</strong>
+          </span>
+        </header>
+        {children}
+        <footer className="home-market-card-footer">{footer}</footer>
+      </div>
     </aside>
   );
 }
@@ -100,7 +100,6 @@ export function CurrencyExchangeCard({
       title="Lek ↔ Euro"
       icon={<Banknote size={20} strokeWidth={1.9} />}
       className="home-market-card-currency"
-      tiltDirection="left"
       footer={
         <>
           <span>
@@ -201,7 +200,6 @@ export function FuelPricesCard({ snapshot }: { snapshot: FuelSnapshot }) {
       title="Çmimi për litër"
       icon={<Fuel size={20} strokeWidth={1.9} />}
       className="home-market-card-fuel"
-      tiltDirection="right"
       footer={
         <>
           <span>
