@@ -219,7 +219,14 @@ export default function GroupChart({
   }, [series]);
 
   const targets = series.map((s) => s.prob);
-  const { now: tapeNow, tapes, lives } = useLiveTapeVector(data.samplers, data.dataKey, targets, !reduced && animate);
+  const tapeDataKey = `${data.dataKey}|${normalize ? "norm" : "raw"}`;
+  const { now: tapeNow, tapes, lives } = useLiveTapeVector(
+    data.samplers,
+    tapeDataKey,
+    targets,
+    !reduced && animate,
+    normalize
+  );
 
   // Window geometry — identical model to MarketChart.
   const rangeMs = RANGES.find((r) => r.key === range)!.ms;

@@ -326,15 +326,16 @@ export function useLiveTape(
 
 /**
  * Multi-outcome twin of `useLiveTape`. Seeds one per-second tape per outcome
- * from each outcome's deterministic sampler, appends eased+renormalized vectors
- * so displayed odds always sum to ~100%, and drifts back toward the real
- * `targets`. Returns a frame clock and the tapes by ref (parallel to `samplers`).
+ * from each outcome's deterministic sampler, appends eased vectors, and drifts
+ * back toward the real `targets`. Multi-outcome books are normalized to 100%;
+ * raw/single-series charts preserve their actual probabilities.
  */
 export function useLiveTapeVector(
   samplers: ((t: number) => number)[],
   dataKey: string,
   targets: number[],
-  enabled: boolean
+  enabled: boolean,
+  normalize = true
 ): { now: number; tapes: { t: number; p: number }[][]; lives: number[] } {
   const [now, setNow] = useState(() => Date.now());
   const tapesRef = useRef<{ t: number; p: number }[][]>([]);
@@ -360,6 +361,10 @@ export function useLiveTapeVector(
       (r) => r.t > t0 - TAPE_SEED_S * 1000 && r.t < t0
     );
     const pushColumn = (t: number, raw: number[]) => {
+      if (!normalize) {
+        raw.forEach((v, i) => tapes[i].push({ t, p: v }));
+        return;
+      }
       const sum = raw.reduce((a, b) => a + b, 0) || 1;
       raw.forEach((v, i) => tapes[i].push({ t, p: v / sum }));
     };
@@ -386,7 +391,7 @@ export function useLiveTapeVector(
     goalRef.current = [...targetsRef.current];
     lastStepRef.current = t0;
     setNow(t0);
-  }, [dataKey]);
+  }, [dataKey, normalize]);
 
   useEffect(() => {
     if (!enabled) {
@@ -416,11 +421,11 @@ export function useLiveTapeVector(
           clamp01(v + ((tg[i] ?? v) - v) * 0.5 + (Math.random() - 0.5) * 0.016)
         );
         const sum = next.reduce((s, v) => s + v, 0) || 1;
-        goalRef.current = next.map((v) => v / sum);
+        goalRef.current = normalize ? next.map((v) => v / sum) : next;
         const csum = curRef.current.reduce((a, b) => a + b, 0) || 1;
         const tapes = tapesRef.current;
         curRef.current.forEach((v, i) => {
-          tapes[i]?.push({ t, p: v / csum });
+          tapes[i]?.push({ t, p: normalize ? v / csum : v });
           if (tapes[i] && tapes[i].length > TAPE_CAP_S) tapes[i].splice(0, tapes[i].length - TAPE_CAP_S);
         });
         if (++commitCountRef.current % TAPE_SAVE_EVERY_COMMITS === 0) save();
@@ -432,12 +437,12 @@ export function useLiveTapeVector(
       window.removeEventListener("pagehide", save);
       save();
     };
-  }, [enabled]);
+  }, [enabled, normalize]);
 
-  // Column-normalized leading values (sum ~1), used only for the live tip so
-  // the right edge glides while every committed column behind it stays frozen.
+  // Leading values are normalized only for a multi-outcome book. Raw charts
+  // keep the exact probability so a single line never turns into 100%.
   const lsum = curRef.current.reduce((a, b) => a + b, 0) || 1;
-  const lives = curRef.current.map((v) => v / lsum);
+  const lives = normalize ? curRef.current.map((v) => v / lsum) : [...curRef.current];
   return { now, tapes: tapesRef.current, lives };
 }
 
