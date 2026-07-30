@@ -19,6 +19,7 @@ const REQUIRED_CHART_MARKERS = {
   "components/tregu/chart-hooks.ts": [
     "export function useLiveTape(",
     "export function useLiveTapeVector(",
+    "normalize ? curRef.current.map",
     "setInterval(() =>",
   ],
   "components/tregu/market-chart.tsx": [
@@ -28,9 +29,15 @@ const REQUIRED_CHART_MARKERS = {
   ],
   "components/tregu/group-chart.tsx": [
     "useLiveTapeVector",
+    "tapeDataKey",
     "data-tregu-chart-version",
     "data-live-outcome-chart",
     "data-refresh-cadence-ms",
+  ],
+  "components/tregu/trending-strip.tsx": [
+    'label: "Mundësia"',
+    "data-chart-line-count={chartSeries.length}",
+    "normalize={!isBinary}",
   ],
   "components/tregu/f1-race-control.tsx": [
     "GroupChart",

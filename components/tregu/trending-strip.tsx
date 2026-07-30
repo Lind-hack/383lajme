@@ -167,18 +167,29 @@ function closeLabel(iso: string): string {
 }
 
 function MarketPreviewCard({ market, index }: { market: PreviewMarket; index: number }) {
-  const chartSeries: EventSeries[] = market.outcomes.map((outcome) => ({
-    label: outcome.label,
-    color: outcome.color,
-    prob: outcome.probability,
-    series: outcome.series,
-  }));
+  const binaryYes = market.outcomes.find((outcome) => outcome.key === "po");
+  const binaryNo = market.outcomes.find((outcome) => outcome.key === "jo");
+  const isBinary = Boolean(binaryYes && binaryNo);
+  const chartSeries: EventSeries[] = binaryYes && binaryNo
+    ? [{
+        label: "Mundësia",
+        color: "#FF4422",
+        prob: binaryYes.probability,
+        series: binaryYes.series,
+      }]
+    : market.outcomes.map((outcome) => ({
+        label: outcome.label,
+        color: outcome.color,
+        prob: outcome.probability,
+        series: outcome.series,
+      }));
 
   return (
     <article
       className="tregu-home-card tregu-glass"
       data-home-market-preview
       data-outcome-count={market.outcomes.length}
+      data-chart-line-count={chartSeries.length}
       style={{ ["--preview-index" as string]: index }}
     >
       <header className="tregu-home-card-head">
@@ -201,6 +212,7 @@ function MarketPreviewCard({ market, index }: { market: PreviewMarket; index: nu
           height={220}
           cadenceMs={REFRESH_MS}
           compactControls
+          normalize={!isBinary}
           series={chartSeries}
         />
       </div>
