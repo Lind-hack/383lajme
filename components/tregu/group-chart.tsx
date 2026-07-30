@@ -153,6 +153,7 @@ export default function GroupChart({
   cadenceMs = 120_000,
   normalize = true,
   animate = true,
+  compactControls = false,
 }: {
   series: EventSeries[];
   height?: number;
@@ -161,6 +162,8 @@ export default function GroupChart({
   normalize?: boolean;
   /** Closed archives keep their recorded geometry instead of generating a moving live edge. */
   animate?: boolean;
+  /** Small embedded cards keep only the most useful zoom levels. */
+  compactControls?: boolean;
 }) {
   const [range, setRange] = useState<RangeKey>("1d");
   const [hoverI, setHoverI] = useState<{ x: number; t: number; values: number[]; live: boolean; col: number } | null>(null);
@@ -413,6 +416,9 @@ export default function GroupChart({
   const hoverFlip = hoverXpct > 64;
   // Future-graying: played vs upcoming split at the crosshair.
   const showFuture = hover !== null && !hover.live && hover.col < cols.length - 1;
+  const visibleRanges = compactControls
+    ? RANGES.filter((item) => ["1s", "1m", "15m", "1h", "1d", "Gjithë"].includes(item.key))
+    : RANGES;
 
   return (
     <div
@@ -434,7 +440,7 @@ export default function GroupChart({
           <span className="tregu-live-refresh">Rifreskim {mmss(nextInMs)}</span>
         </div>
         <div className="tregu-sort tregu-sort--scroll" role="tablist" aria-label="Periudha e grafikut">
-          {RANGES.map((r) => (
+          {visibleRanges.map((r) => (
             <button key={r.key} aria-pressed={range === r.key} onClick={() => setRange(r.key)} type="button">
               {r.key}
             </button>
