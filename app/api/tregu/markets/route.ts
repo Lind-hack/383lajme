@@ -1,6 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { lmsrPriceYes } from "@/lib/tregu";
+import { lmsrSportOutcomePrices } from "@/lib/tregu-client";
 
 export const dynamic = "force-dynamic";
 
@@ -10,12 +11,19 @@ const SPARK_POINTS = 28;
 interface TapeRow {
   market_id: string;
   price_yes: number;
+  outcome_prices?: Record<string, number> | null;
   created_at: string;
 }
 
 interface SnapRow {
   market_id: string;
   market_prob: number;
+  created_at: string;
+}
+
+interface SportOracleRow {
+  market_id: string;
+  reference_probabilities: Record<string, number> | null;
   created_at: string;
 }
 
@@ -46,11 +54,11 @@ export async function GET(request: NextRequest) {
   // 5-minute cron snapshots (books move between trades, and most books have
   // few or no trades — without snapshots every sparkline collapses to a dot),
   // and one short public feed — the hub's proof the floor is alive.
-  const [tapeRes, snapRes, feedRes] = await Promise.all([
+  const [tapeRes, snapRes, sportOracleRes, feedRes] = await Promise.all([
     ids.length
       ? supabase
           .from("market_trades")
-          .select("market_id, price_yes, created_at")
+          .select("market_id, price_yes, outcome_prices, created_at")
           .in("market_id", ids)
           .order("created_at", { ascending: true })
           .limit(4000)
@@ -63,6 +71,14 @@ export async function GET(request: NextRequest) {
           .order("created_at", { ascending: false })
           .limit(2000)
       : Promise.resolve({ data: [] as SnapRow[], error: null }),
+    ids.length
+      ? supabase
+          .from("sport_oracle_events")
+          .select("market_id, reference_probabilities, created_at")
+          .in("market_id", ids)
+          .order("created_at", { ascending: true })
+          .limit(2000)
+      : Promise.resolve({ data: [] as SportOracleRow[], error: null }),
     supabase
       .from("market_trades")
       .select("action, side, coins, price_yes, created_at, profiles(display_name), markets(question, slug)")
@@ -84,6 +100,13 @@ export async function GET(request: NextRequest) {
     const arr = bySnap.get(s.market_id);
     if (arr) arr.push(s);
     else bySnap.set(s.market_id, [s]);
+  }
+
+  const bySportOracle = new Map<string, SportOracleRow[]>();
+  for (const row of (sportOracleRes.data ?? []) as SportOracleRow[]) {
+    const arr = bySportOracle.get(row.market_id);
+    if (arr) arr.push(row);
+    else bySportOracle.set(row.market_id, [row]);
   }
 
   const weekAgo = Date.now() - WEEK_MS;
@@ -124,12 +147,73 @@ export async function GET(request: NextRequest) {
       }
     }
 
+    const history = merged.map((point) => ({
+      created_at: new Date(point.t).toISOString(),
+      probability: point.p,
+    }));
+    const sportOutcomes = Array.isArray(m.sport_outcomes) ? m.sport_outcomes : [];
+    const hasCompactOutcomeBook =
+      (m.market_type === "two_outcome" || m.market_type === "three_outcome") &&
+      sportOutcomes.length >= 2 &&
+      sportOutcomes.length <= 3 &&
+      m.outcome_quantities &&
+      typeof m.outcome_quantities === "object";
+    const outcomeProbabilities = hasCompactOutcomeBook
+      ? lmsrSportOutcomePrices({
+          sport_outcomes: sportOutcomes,
+          outcome_quantities: m.outcome_quantities,
+          b: Number(m.b),
+        })
+      : null;
+    const outcomeHistory = hasCompactOutcomeBook && outcomeProbabilities
+      ? Object.fromEntries(
+          sportOutcomes.map((outcome: { key?: string }, index: number) => {
+            const key = String(outcome.key ?? `outcome-${index + 1}`);
+            const initial = Number(
+              m.reference_probabilities?.[key] ?? 1 / sportOutcomes.length
+            );
+            const points = [
+              {
+                t: new Date(m.created_at).getTime(),
+                p: Number.isFinite(initial) ? initial : 1 / sportOutcomes.length,
+              },
+              ...tape.flatMap((trade) => {
+                const p = Number(trade.outcome_prices?.[key]);
+                return Number.isFinite(p)
+                  ? [{ t: new Date(trade.created_at).getTime(), p }]
+                  : [];
+              }),
+              ...(bySportOracle.get(m.id) ?? []).flatMap((event) => {
+                const p = Number(event.reference_probabilities?.[key]);
+                return Number.isFinite(p)
+                  ? [{ t: new Date(event.created_at).getTime(), p }]
+                  : [];
+              }),
+              { t: Date.now(), p: Number(outcomeProbabilities[key] ?? initial) },
+            ]
+              .filter((point) => Number.isFinite(point.t) && Number.isFinite(point.p))
+              .sort((a, b) => a.t - b.t);
+            const deduped = [...new Map(points.map((point) => [point.t, point])).values()];
+            return [
+              key,
+              deduped.map((point) => ({
+                created_at: new Date(point.t).toISOString(),
+                probability: point.p,
+              })),
+            ];
+          })
+        )
+      : null;
+
     return {
       ...m,
       market_prob: prob,
       spark,
       delta7d,
       trade_count: tape.length,
+      history,
+      outcome_probabilities: outcomeProbabilities,
+      outcome_history: outcomeHistory,
     };
   });
 

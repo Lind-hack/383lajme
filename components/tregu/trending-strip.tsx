@@ -1,63 +1,337 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import SectionLabel from "@/components/section-label";
-import MarketMiniCard, { type MiniMarket } from "./market-mini-card";
+import GroupChart, { type EventSeries } from "./group-chart";
+
+interface HistoryPoint {
+  created_at: string;
+  probability: number;
+}
+
+interface MarketOutcome {
+  key: string;
+  label: string;
+  team?: string;
+  color?: string;
+}
 
 interface MarketRow {
   slug: string;
   question: string;
   category: string;
   market_prob: number;
+  market_type?: string;
+  market_classification?: string;
   closes_at: string;
   q_yes: number;
   q_no: number;
+  trade_count?: number;
+  history?: HistoryPoint[];
+  spark?: number[];
+  sport_outcomes?: MarketOutcome[] | null;
+  outcome_probabilities?: Record<string, number> | null;
+  outcome_history?: Record<string, HistoryPoint[]> | null;
+}
+
+interface PreviewOutcome {
+  key: string;
+  label: string;
+  color: string;
+  probability: number;
+  series: { t: number; p: number }[];
+}
+
+interface PreviewMarket {
+  slug: string;
+  question: string;
+  category: string;
+  closesAt: string;
+  tradeCount: number;
+  outcomes: PreviewOutcome[];
+}
+
+const CATEGORY_LABEL: Record<string, string> = {
+  politike: "Politikë",
+  ekonomi: "Ekonomi",
+  sport: "Sport",
+  bote: "Botë",
+  "te-tjera": "Të tjera",
+};
+
+const FOOTBALL_COLORS = ["#C92F2F", "#7A7A78", "#2E70C9"];
+const BINARY_COLORS = ["#00854A", "#C92F2F"];
+const REFRESH_MS = 12_000;
+
+function toSeries(points: HistoryPoint[] | undefined): { t: number; p: number }[] {
+  return (points ?? [])
+    .map((point) => ({
+      t: new Date(point.created_at).getTime(),
+      p: Number(point.probability),
+    }))
+    .filter((point) => Number.isFinite(point.t) && Number.isFinite(point.p))
+    .sort((a, b) => a.t - b.t);
+}
+
+function sparkSeries(points: number[] | undefined, fallback: number): { t: number; p: number }[] {
+  const values = points && points.length > 1 ? points : [fallback];
+  const now = Date.now();
+  const span = 24 * 60 * 60 * 1000;
+  return values.map((p, index) => ({
+    t: values.length === 1 ? now - span : now - span + (span * index) / (values.length - 1),
+    p,
+  }));
+}
+
+function outcomeColor(outcome: MarketOutcome, index: number): string {
+  const draw = outcome.key.toLowerCase() === "draw" || /baraz|draw/i.test(outcome.label);
+  if (draw) return "#7A7A78";
+  return outcome.color ?? FOOTBALL_COLORS[index % FOOTBALL_COLORS.length];
+}
+
+function toPreviewMarket(market: MarketRow): PreviewMarket | null {
+  if (market.market_type === "f1_race_winner") return null;
+
+  const configured = market.sport_outcomes ?? [];
+  const structured =
+    configured.length >= 2 &&
+    configured.length <= 3 &&
+    market.outcome_probabilities &&
+    typeof market.outcome_probabilities === "object";
+
+  if (structured) {
+    return {
+      slug: market.slug,
+      question: market.question,
+      category: market.category,
+      closesAt: market.closes_at,
+      tradeCount: Number(market.trade_count ?? 0),
+      outcomes: configured.map((outcome, index) => {
+        const probability = Number(
+          market.outcome_probabilities?.[outcome.key] ?? 1 / configured.length
+        );
+        const exact = toSeries(market.outcome_history?.[outcome.key]);
+        return {
+          key: outcome.key,
+          label: outcome.label,
+          color: outcomeColor(outcome, index),
+          probability,
+          series: exact.length > 0
+            ? exact
+            : [{ t: Date.now() - 86_400_000, p: probability }],
+        };
+      }),
+    };
+  }
+
+  const yes = Math.max(0.01, Math.min(0.99, Number(market.market_prob)));
+  const exactYes = toSeries(market.history);
+  const yesSeries = exactYes.length > 0
+    ? exactYes
+    : sparkSeries(market.spark, yes);
+
+  return {
+    slug: market.slug,
+    question: market.question,
+    category: market.category,
+    closesAt: market.closes_at,
+    tradeCount: Number(market.trade_count ?? 0),
+    outcomes: [
+      {
+        key: "po",
+        label: "PO",
+        color: BINARY_COLORS[0],
+        probability: yes,
+        series: yesSeries,
+      },
+      {
+        key: "jo",
+        label: "JO",
+        color: BINARY_COLORS[1],
+        probability: 1 - yes,
+        series: yesSeries.map((point) => ({ t: point.t, p: 1 - point.p })),
+      },
+    ],
+  };
+}
+
+function closeLabel(iso: string): string {
+  const ms = new Date(iso).getTime() - Date.now();
+  if (!Number.isFinite(ms) || ms <= 0) return "Mbyllur";
+  const days = Math.floor(ms / 86_400_000);
+  if (days > 0) return `Mbyllet për ${days}d`;
+  const hours = Math.floor(ms / 3_600_000);
+  if (hours > 0) return `Mbyllet për ${hours}h`;
+  return `Mbyllet për ${Math.max(1, Math.floor(ms / 60_000))}m`;
+}
+
+function MarketPreviewCard({ market, index }: { market: PreviewMarket; index: number }) {
+  const chartSeries: EventSeries[] = market.outcomes.map((outcome) => ({
+    label: outcome.label,
+    color: outcome.color,
+    prob: outcome.probability,
+    series: outcome.series,
+  }));
+
+  return (
+    <article
+      className="tregu-home-card tregu-glass"
+      data-home-market-preview
+      data-outcome-count={market.outcomes.length}
+      style={{ ["--preview-index" as string]: index }}
+    >
+      <header className="tregu-home-card-head">
+        <div className="tregu-home-card-meta">
+          <span className="tregu-pill">{CATEGORY_LABEL[market.category] ?? market.category}</span>
+          <span className="tregu-home-live">
+            <span aria-hidden />
+            Grafik live
+          </span>
+        </div>
+        <span className="tregu-home-close">{closeLabel(market.closesAt)}</span>
+      </header>
+
+      <Link href={`/tregu/${market.slug}`} className="tregu-home-title">
+        {market.question}
+      </Link>
+
+      <div className="tregu-home-chart">
+        <GroupChart
+          height={220}
+          cadenceMs={REFRESH_MS}
+          compactControls
+          series={chartSeries}
+        />
+      </div>
+
+      <div
+        className="tregu-home-outcomes"
+        style={{ gridTemplateColumns: `repeat(${market.outcomes.length}, minmax(0, 1fr))` }}
+        aria-label="Rezultatet e tregut"
+      >
+        {market.outcomes.map((outcome) => {
+          const pct = Math.max(0.1, outcome.probability * 100);
+          const payout = outcome.probability > 0 ? 1 / outcome.probability : 0;
+          return (
+            <Link
+              key={outcome.key}
+              href={`/tregu/${market.slug}`}
+              className="tregu-home-outcome"
+              style={{ ["--outcome-color" as string]: outcome.color }}
+              aria-label={`Hap tregun për ${outcome.label}, ${pct.toFixed(1)} për qind`}
+            >
+              <span className="tregu-home-outcome-name">{outcome.label}</span>
+              <strong>{pct.toFixed(1)}%</strong>
+              <span>×{payout.toFixed(2)}</span>
+            </Link>
+          );
+        })}
+      </div>
+
+      <footer className="tregu-home-card-foot">
+        <span>{market.tradeCount} ndryshime reale në linjë</span>
+        <Link href={`/tregu/${market.slug}`}>Hap tregun <span aria-hidden>→</span></Link>
+      </footer>
+    </article>
+  );
+}
+
+function LoadingCards() {
+  return (
+    <div className="tregu-home-grid" aria-label="Tregjet po ngarkohen">
+      {[0, 1].map((index) => (
+        <div key={index} className="tregu-home-card tregu-home-card--loading" aria-hidden>
+          <span />
+          <span />
+          <span />
+        </div>
+      ))}
+    </div>
+  );
 }
 
 export default function TrendingStrip() {
   const [markets, setMarkets] = useState<MarketRow[]>([]);
+  const [loaded, setLoaded] = useState(false);
+  const [failed, setFailed] = useState(false);
 
   useEffect(() => {
-    fetch("/api/tregu/markets")
-      .then((r) => r.json())
-      .then((d) => setMarkets((d.markets ?? []).slice(0, 4)))
-      .catch(() => {});
+    let active = true;
+    let controller: AbortController | null = null;
+
+    const load = async () => {
+      if (document.visibilityState === "hidden") return;
+      controller?.abort();
+      controller = new AbortController();
+      try {
+        const response = await fetch("/api/tregu/markets", {
+          cache: "no-store",
+          signal: controller.signal,
+        });
+        if (!response.ok) throw new Error("Market feed unavailable");
+        const data = await response.json();
+        if (!active) return;
+        setMarkets(data.markets ?? []);
+        setFailed(false);
+        setLoaded(true);
+      } catch (error) {
+        if (!active || (error instanceof DOMException && error.name === "AbortError")) return;
+        setFailed(true);
+        setLoaded(true);
+      }
+    };
+
+    void load();
+    const interval = window.setInterval(() => void load(), REFRESH_MS);
+    const onVisibility = () => {
+      if (document.visibilityState === "visible") void load();
+    };
+    document.addEventListener("visibilitychange", onVisibility);
+    return () => {
+      active = false;
+      controller?.abort();
+      window.clearInterval(interval);
+      document.removeEventListener("visibilitychange", onVisibility);
+    };
   }, []);
 
-  if (markets.length === 0) return null;
-
-  const minis: MiniMarket[] = markets.map((m) => ({
-    slug: m.slug,
-    question: m.question,
-    category: m.category,
-    prob: m.market_prob,
-    volume: (m.q_yes ?? 0) + (m.q_no ?? 0),
-    closesAt: m.closes_at,
-  }));
+  const previews = useMemo(
+    () =>
+      markets
+        .map(toPreviewMarket)
+        .filter((market): market is PreviewMarket => market !== null)
+        .sort((a, b) => b.tradeCount - a.tradeCount)
+        .slice(0, 2),
+    [markets]
+  );
 
   return (
-    <div className="tregu-scope" style={{ background: "none", minHeight: 0, marginBottom: "var(--space-section)" }}>
+    <section className="tregu-scope tregu-home-preview" aria-labelledby="tregu-home-heading">
       <SectionLabel
         label="Tregu - Parashiko"
         right={
-          <Link href="/tregu" style={{ fontSize: 13, fontWeight: 700, color: "#FF4422", textDecoration: "none", whiteSpace: "nowrap" }}>
-            Shiko të gjitha →
+          <Link href="/tregu" className="tregu-home-all">
+            Shiko të gjitha <span aria-hidden>→</span>
           </Link>
         }
       />
-      <div
-        className="tregu-grid"
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
-          gap: 16,
-        }}
-      >
-        {minis.map((m) => (
-          <MarketMiniCard key={m.slug} market={m} compact />
-        ))}
-      </div>
-    </div>
+      <span id="tregu-home-heading" className="sr-only">Dy tregjet më aktive</span>
+
+      {!loaded ? (
+        <LoadingCards />
+      ) : previews.length > 0 ? (
+        <div className="tregu-home-grid">
+          {previews.map((market, index) => (
+            <MarketPreviewCard key={market.slug} market={market} index={index} />
+          ))}
+        </div>
+      ) : (
+        <div className="tregu-home-empty" role="status">
+          <strong>{failed ? "Tregjet nuk u ngarkuan." : "Ende nuk ka tregje aktive."}</strong>
+          <Link href="/tregu">Hap Tregun</Link>
+        </div>
+      )}
+    </section>
   );
 }
