@@ -59,3 +59,16 @@ test("production accepts the exact current main commit", async () => {
   assert.equal(result.f1RaceUiVersion, "race-grid-v3");
   assert.equal(result.footballMarketUiVersion, "stage-aware-v3");
 });
+
+test("production accepts a GitHub-rate-limited build only with Vercel main metadata", async () => {
+  const result = await verifyProductionSource({
+    env: {
+      VERCEL_ENV: "production",
+      VERCEL_GIT_COMMIT_REF: "main",
+      VERCEL_GIT_COMMIT_SHA: CURRENT_SHA,
+    },
+    fetchImpl: async () => ({ ok: false, status: 403 }),
+  });
+  assert.equal(result.commitSha, CURRENT_SHA);
+  assert.equal(result.githubVerification, "rate_limited");
+});
