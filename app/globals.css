@@ -5618,6 +5618,69 @@ header[data-overlay] .nav-coin-chip {
   position: absolute;
   pointer-events: none;
 }
+/* Phone widths light a slice of a card that is taller than the band. The edge
+   the slice was cut at gets a soft fade instead of a hard ring, so it reads as
+   "this carries on" rather than "this element ends here". */
+.tour-hole[data-clip-bottom]::after,
+.tour-hole[data-clip-top]::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 46px;
+  pointer-events: none;
+}
+.tour-hole[data-clip-bottom]::after {
+  bottom: 0;
+  background: linear-gradient(180deg, rgba(12, 10, 9, 0) 0%, rgba(12, 10, 9, 0.62) 100%);
+}
+.tour-hole[data-clip-top]::before {
+  top: 0;
+  background: linear-gradient(0deg, rgba(12, 10, 9, 0) 0%, rgba(12, 10, 9, 0.62) 100%);
+}
+.tour-hole[data-clip-bottom] .tour-ring {
+  border-bottom-color: transparent;
+}
+.tour-hole[data-clip-top] .tour-ring {
+  border-top-color: transparent;
+}
+/* The four panels meet at right angles, so the cut-out was a square-cornered
+   box around the rounded ring — two edges where there should be one. These
+   patches paint the scrim back into each corner wedge, up to the same radius
+   the ring inherits, leaving the ring as the only edge on screen. */
+.tour-corners {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-repeat: no-repeat;
+  background-position: top left, top right, bottom right, bottom left;
+  background-size:
+    var(--tour-corner-t) var(--tour-corner-t),
+    var(--tour-corner-t) var(--tour-corner-t),
+    var(--tour-corner-b) var(--tour-corner-b),
+    var(--tour-corner-b) var(--tour-corner-b);
+  background-image:
+    radial-gradient(
+      circle var(--tour-corner-t) at 100% 100%,
+      rgba(12, 10, 9, 0) calc(100% - 0.5px),
+      rgba(12, 10, 9, 0.74) 100%
+    ),
+    radial-gradient(
+      circle var(--tour-corner-t) at 0 100%,
+      rgba(12, 10, 9, 0) calc(100% - 0.5px),
+      rgba(12, 10, 9, 0.74) 100%
+    ),
+    radial-gradient(
+      circle var(--tour-corner-b) at 0 0,
+      rgba(12, 10, 9, 0) calc(100% - 0.5px),
+      rgba(12, 10, 9, 0.74) 100%
+    ),
+    radial-gradient(
+      circle var(--tour-corner-b) at 100% 0,
+      rgba(12, 10, 9, 0) calc(100% - 0.5px),
+      rgba(12, 10, 9, 0.74) 100%
+    );
+}
 .tour-ring {
   position: absolute;
   inset: 0;
@@ -5645,6 +5708,21 @@ header[data-overlay] .nav-coin-chip {
   border-radius: 18px;
   background: #ffffff;
   box-shadow: 0 24px 60px rgba(17, 17, 17, 0.24);
+}
+/* Docked sheet on phone widths — see SHEET_BP in components/spotlight-tour.tsx. */
+.tour-tip[data-sheet] {
+  padding-top: 12px;
+  padding-bottom: max(16px, env(safe-area-inset-bottom));
+  border-radius: 22px;
+  box-shadow: 0 -8px 40px rgba(12, 10, 9, 0.34), 0 24px 60px rgba(17, 17, 17, 0.24);
+}
+.tour-tip-grip {
+  display: block;
+  width: 36px;
+  height: 4px;
+  margin: 0 auto 12px;
+  border-radius: 100px;
+  background: rgba(17, 17, 17, 0.14);
 }
 .tour-tip-head {
   display: flex;
@@ -5688,6 +5766,20 @@ header[data-overlay] .nav-coin-chip {
   transition: background-color 260ms var(--ease-out);
 }
 .tour-rails > span[data-on] {
+  background: #ff4422;
+}
+/* Spring-filled variant — the tutorial drives each rail's width from JS so the
+   step change lands with a little weight instead of cross-fading colour. */
+.tour-rails[data-spring] > span,
+.tour-rails[data-spring] > span[data-on] {
+  overflow: hidden;
+  background: rgba(17, 17, 17, 0.1);
+  transition: none;
+}
+.tour-rails[data-spring] > span > i {
+  display: block;
+  height: 100%;
+  transform-origin: left center;
   background: #ff4422;
 }
 .tour-tip-title {
@@ -5782,11 +5874,25 @@ header[data-overlay] .nav-coin-chip {
     padding: 16px;
     border-radius: 16px;
   }
+  .tour-tip[data-sheet] {
+    padding: 12px 16px max(16px, env(safe-area-inset-bottom));
+    border-radius: 22px;
+  }
   .tour-tip-title {
     font-size: 16px;
   }
   .tour-tip-body {
     font-size: 13px;
+  }
+  /* Thumb targets, not mouse targets. */
+  .tour-tip[data-sheet] .tour-skip {
+    padding: 12px 10px;
+  }
+  .tour-tip[data-sheet] .tour-back {
+    padding: 12px 16px;
+  }
+  .tour-tip[data-sheet] .tour-next {
+    padding: 12px 20px;
   }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -5819,6 +5925,18 @@ header[data-overlay] .nav-coin-chip {
   /* Park the arrow tip on the point rather than the SVG's top-left corner. */
   margin: -2px 0 0 -2px;
 }
+/* Touch presentation — a fingertip disc centred on the point. An arrow with a
+   tip hanging off its corner is a lie on a device with no cursor. */
+.tour-cursor-tap {
+  display: block;
+  width: 34px;
+  height: 34px;
+  margin: -17px 0 0 -17px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.92);
+  background: rgba(255, 68, 34, 0.32);
+  box-shadow: inset 0 0 0 5px rgba(255, 68, 34, 0.16);
+}
 .tour-cursor-ripple {
   position: absolute;
   top: -20px;
@@ -5828,6 +5946,11 @@ header[data-overlay] .nav-coin-chip {
   border-radius: 50%;
   border: 2px solid #ff4422;
   background: rgba(255, 68, 34, 0.18);
+}
+/* The ripple is offset for the arrow tip; recentre it under the disc. */
+.tour-cursor[data-touch] .tour-cursor-ripple {
+  top: -22px;
+  left: -22px;
 }
 @media (prefers-reduced-motion: reduce) {
   .tour-cursor {
@@ -5876,12 +5999,45 @@ header[data-overlay] .nav-coin-chip {
   margin-bottom: 12px;
 }
 .tutorial-wallet {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 8px;
   margin-left: auto;
   font-size: 11.5px;
   color: #6b6b6b;
+}
+/* The act that asks the reader to look here tints the pills rather than
+   moving them — the numbers must stay legible while the eye arrives. */
+.tutorial-wallet[data-focus] > span {
+  border-color: rgba(255, 68, 34, 0.4);
+  background: rgba(255, 68, 34, 0.08);
+}
+.tutorial-wallet > span {
+  transition: border-color 200ms var(--ease-out), background-color 200ms var(--ease-out);
+}
+/* The receipt: what the trade just cost or returned, thrown off the wallet.
+   Positioned out of flow so the pills never reflow when it arrives. */
+.tutorial-flash {
+  position: absolute;
+  top: calc(100% + 7px);
+  right: 0;
+  z-index: 1;
+  padding: 5px 10px;
+  border-radius: 100px;
+  font-size: 11px;
+  font-weight: 800;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+  pointer-events: none;
+}
+.tutorial-flash[data-tone="out"] {
+  background: rgba(197, 21, 24, 0.1);
+  color: #a71114;
+}
+.tutorial-flash[data-tone="in"] {
+  background: rgba(0, 133, 74, 0.11);
+  color: #00854a;
 }
 .tutorial-wallet > span {
   display: inline-flex;
@@ -5946,6 +6102,8 @@ header[data-overlay] .nav-coin-chip {
   grid-template-columns: 1fr 1fr;
   gap: 12px;
 }
+/* The two tiles are now pressable — act one asks the reader to poke one and
+   see what it would pay, so they have to look and behave like buttons. */
 .tutorial-side-tile {
   display: flex;
   flex-direction: column;
@@ -5954,6 +6112,23 @@ header[data-overlay] .nav-coin-chip {
   border: 1px solid rgba(17, 17, 17, 0.09);
   border-radius: 16px;
   background: #faf8f5;
+  font-family: inherit;
+  text-align: left;
+  appearance: none;
+  cursor: pointer;
+  transition: border-color 160ms var(--ease-out), background-color 160ms var(--ease-out),
+    transform 160ms var(--ease-out);
+}
+.tutorial-side-tile:active {
+  transform: scale(0.97);
+}
+.tutorial-side-tile[data-side="PO"][data-on] {
+  border-color: rgba(0, 133, 74, 0.45);
+  background: rgba(0, 133, 74, 0.07);
+}
+.tutorial-side-tile[data-side="JO"][data-on] {
+  border-color: rgba(197, 21, 24, 0.42);
+  background: rgba(197, 21, 24, 0.06);
 }
 .tutorial-side-tile > span {
   font-size: 11px;
@@ -5977,6 +6152,28 @@ header[data-overlay] .nav-coin-chip {
   color: #6b6b6b;
   font-size: 12px;
   font-style: normal;
+}
+/* Wrapper exists so the tiles and the payout line crossfade as one panel
+   against the chart, rather than the grid re-flowing under the swap. */
+.tutorial-sides-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+/* The answer to the poke: what 100 coins on that side would return. */
+.tutorial-reveal {
+  margin: 0;
+  padding: 11px 14px;
+  border-radius: 12px;
+  background: rgba(255, 68, 34, 0.07);
+  color: #4a4540;
+  font-size: 12.5px;
+  line-height: 1.55;
+}
+.tutorial-reveal strong {
+  color: #111111;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
 }
 
 /* Replica bet slip — same controls and the same maths as the real one. */
@@ -6005,7 +6202,10 @@ header[data-overlay] .nav-coin-chip {
   font-weight: 800;
   cursor: pointer;
   transition: border-color 160ms var(--ease-out), color 160ms var(--ease-out),
-    background-color 160ms var(--ease-out);
+    background-color 160ms var(--ease-out), transform 140ms var(--ease-out);
+}
+.tutorial-slip-sides button:active {
+  transform: scale(0.97);
 }
 .tutorial-slip-sides button[data-side="PO"][data-on] {
   border-color: #00854a;
@@ -6054,7 +6254,11 @@ header[data-overlay] .nav-coin-chip {
   font-size: 12px;
   font-weight: 800;
   cursor: pointer;
-  transition: border-color 160ms var(--ease-out), color 160ms var(--ease-out);
+  transition: border-color 160ms var(--ease-out), color 160ms var(--ease-out),
+    transform 140ms var(--ease-out);
+}
+.tutorial-chips button:active {
+  transform: scale(0.95);
 }
 .tutorial-chips button[data-on] {
   border-color: #111111;
@@ -6126,6 +6330,10 @@ header[data-overlay] .nav-coin-chip {
   cursor: not-allowed;
 }
 .tutorial-recap {
+  position: relative;
+  /* Clips the coin burst. Without it the coins extend the card's scroll box
+     and the panel twitches a scrollbar on the one act that should feel good. */
+  overflow: hidden;
   padding: 16px 18px;
   border: 1px solid rgba(0, 133, 74, 0.24);
   border-radius: 16px;
@@ -6167,14 +6375,72 @@ header[data-overlay] .nav-coin-chip {
   line-height: 1.65;
   text-wrap: pretty;
 }
-.tutorial-nudge {
-  margin-top: 12px !important;
+/* The coach line: what to do now, then what just happened. Always present so
+   the reader never has to hunt for the hand-off — only its contents change. */
+.tutorial-cue {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  margin-top: 12px;
   padding: 10px 12px;
-  border-radius: 10px;
+  border-radius: 12px;
   background: rgba(255, 68, 34, 0.09);
-  color: #ff4422 !important;
+  color: #d5361a;
   font-size: 12.5px;
   font-weight: 700;
+  line-height: 1.5;
+  transition: background-color 200ms var(--ease-out), color 200ms var(--ease-out);
+}
+.tutorial-cue[data-done] {
+  background: rgba(0, 133, 74, 0.09);
+  color: #00713f;
+}
+.tutorial-cue[data-note] {
+  background: rgba(17, 17, 17, 0.05);
+  color: #5f5b56;
+}
+.tutorial-cue-mark {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 17px;
+  height: 17px;
+  margin-top: 1px;
+  font-size: 11px;
+  font-style: normal;
+  line-height: 1;
+}
+.tutorial-cue-mark em {
+  font-style: normal;
+}
+/* The waiting state is a dot, not an empty box — a checkbox implies the
+   reader could tick it themselves. */
+.tutorial-cue-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+}
+/* Act 3's three moves. Pushed to the right of the cue so the line reads first
+   and the pips answer "how much is left" without being asked. */
+.tutorial-cue-steps {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex: none;
+  margin: 4px 0 0 auto;
+  padding-left: 8px;
+}
+.tutorial-cue-steps i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.28;
+  transition: opacity 200ms var(--ease-out);
+}
+.tutorial-cue-steps i[data-on] {
+  opacity: 1;
 }
 .tutorial-copy .tour-actions {
   margin-top: auto;
@@ -6186,6 +6452,74 @@ header[data-overlay] .nav-coin-chip {
 }
 .tour-next:disabled:hover {
   background: #111111;
+}
+
+/* ---------------------------------------------------------------------------
+   "Press this one." A ring that breathes around whatever the tutorial is
+   currently waiting on. It loops, so it is a keyframe rather than a
+   transition; the elements it rides carry the attribute for a whole act, so
+   nothing here is retriggered rapidly. The ring is a pseudo-element, which
+   keeps the pulse on transform/opacity instead of the host's box-shadow.
+--------------------------------------------------------------------------- */
+.tutorial-card [data-await] {
+  position: relative;
+}
+.tutorial-card [data-await]::after {
+  content: "";
+  position: absolute;
+  inset: -5px;
+  border: 2px solid #ff4422;
+  border-radius: inherit;
+  opacity: 0;
+  pointer-events: none;
+  animation: tutorial-await 1900ms var(--ease-out) infinite;
+}
+/* The period chips are a group, so the ring hugs the row. */
+.tut-chart-ranges[data-await]::after {
+  inset: -6px;
+  border-radius: 100px;
+}
+/* Act 3 rings a whole row at a time — "pick one of these", not "press this
+   exact button" — so the group carries the ring and its own radius. */
+.tutorial-slip-sides[data-await]::after {
+  inset: -6px;
+  border-radius: 15px;
+}
+.tutorial-chips[data-await]::after {
+  inset: -6px;
+  border-radius: 100px;
+}
+@keyframes tutorial-await {
+  0% {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+  35% {
+    opacity: 0.85;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.06);
+  }
+}
+
+/* Twelve coins thrown outward once, on the last act only. */
+.tutorial-burst {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+.tutorial-burst > i {
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  margin: -4.5px 0 0 -4.5px;
+  border-radius: 50%;
+  background: #ff4422;
 }
 
 /* ── the tutorial's own chart ─────────────────────────────────────────────── */
@@ -6246,7 +6580,10 @@ header[data-overlay] .nav-coin-chip {
   font-weight: 800;
   cursor: pointer;
   transition: border-color 160ms var(--ease-out), color 160ms var(--ease-out),
-    background-color 160ms var(--ease-out);
+    background-color 160ms var(--ease-out), transform 140ms var(--ease-out);
+}
+.tut-chart-ranges button:active {
+  transform: scale(0.95);
 }
 .tut-chart-ranges button[data-on] {
   border-color: #111111;
@@ -6323,14 +6660,53 @@ header[data-overlay] .nav-coin-chip {
   .tutorial-side-tile strong {
     font-size: 24px;
   }
+  /* On a phone a centred card with a scrim around it wastes the only screen
+     there is. The tutorial takes the whole sheet instead. */
+  .tutorial-root {
+    padding: 0;
+  }
+  .tutorial-card {
+    width: 100%;
+    height: 100dvh;
+    max-height: none;
+    border: 0;
+    border-radius: 0;
+    padding: max(14px, env(safe-area-inset-top)) 16px
+      max(18px, env(safe-area-inset-bottom));
+  }
+  /* Thumb targets, not mouse targets. */
+  .tutorial-copy .tour-actions .tour-skip {
+    padding: 12px 10px;
+  }
+  .tutorial-copy .tour-actions .tour-back {
+    padding: 12px 16px;
+  }
+  .tutorial-copy .tour-actions .tour-next {
+    padding: 12px 20px;
+  }
 }
 @media (prefers-reduced-motion: reduce) {
   .tutorial-close,
   .tutorial-confirm,
   .tutorial-chips button,
   .tutorial-slip-sides button,
+  .tutorial-side-tile,
+  .tutorial-cue,
+  .tutorial-wallet > span,
   .tut-chart-ranges button {
     transition-duration: 0.01ms;
+  }
+  /* Keep the ring as a static outline — the target still reads as the target,
+     it just stops breathing. */
+  .tutorial-card [data-await]::after {
+    animation: none;
+    opacity: 0.9;
+  }
+  /* Colour still answers the press; the squash doesn't. Matches .tregu-raise. */
+  .tutorial-chips button:active,
+  .tutorial-slip-sides button:active,
+  .tut-chart-ranges button:active {
+    transform: none;
   }
 }
 
@@ -6402,6 +6778,9 @@ header[data-overlay] .nav-coin-chip {
   cursor: pointer;
   transition: border-color 160ms var(--ease-out), color 160ms var(--ease-out);
 }
+.tregu-home-help-label {
+  font-style: normal;
+}
 .tregu-home-help > span {
   display: grid;
   width: 15px;
@@ -6435,7 +6814,13 @@ header[data-overlay] .nav-coin-chip {
   .tregu-home-steps > li {
     font-size: 12px;
   }
+  /* The replay button stays reachable on a phone — it is the only way back
+     into the tour once dismissed. It sheds its label, not itself. */
   .tregu-home-head-actions .tregu-home-help {
+    gap: 0;
+    padding: 6px;
+  }
+  .tregu-home-head-actions .tregu-home-help-label {
     display: none;
   }
 }
