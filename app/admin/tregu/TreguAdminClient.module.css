@@ -1,0 +1,255 @@
+.pageShell {
+  --ink: #111111;
+  --muted: #625e58;
+  --line: #e8e3db;
+  --surface: #ffffff;
+  --surface-soft: #f4f0e9;
+  --orange: #ff4422;
+  --green: #087443;
+  --green-soft: #e8f5ee;
+  --red: #b42318;
+  --red-soft: #fdf0ef;
+  --amber: #935b00;
+  --amber-soft: #fff5df;
+  min-height: 100vh;
+  background: #f9f6f1;
+  color: var(--ink);
+  padding: 40px clamp(20px, 4vw, 56px) 72px;
+}
+
+.pageShell * { box-sizing: border-box; }
+
+.pageHeader,
+.healthHeader,
+.activityHeader,
+.sectionHeader,
+.marketTopLine,
+.withdrawalCard,
+.healthSourceTitle,
+.activityTitleLine {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.pageHeader,
+.healthPanel,
+.tabs,
+.sections {
+  max-width: 1400px;
+  margin-inline: auto;
+}
+
+.pageHeader { align-items: flex-end; margin-bottom: 28px; }
+.pageHeader h1,
+.healthHeader h2,
+.sectionHeader h2,
+.activityHeader h3 { margin: 0; color: var(--ink); letter-spacing: -0.025em; text-wrap: balance; }
+.pageHeader h1 { font-size: 32px; line-height: 1.1; font-weight: 850; }
+.healthHeader h2 { font-size: 20px; line-height: 1.15; font-weight: 800; }
+.sectionHeader h2 { font-size: 18px; line-height: 1.2; font-weight: 800; }
+.activityHeader h3 { font-size: 15px; line-height: 1.2; font-weight: 800; }
+
+.kicker { margin: 0 0 7px; color: var(--orange); font-size: 11px; font-weight: 850; letter-spacing: 0.12em; text-transform: uppercase; }
+.pageIntro,
+.healthHeader p,
+.activityHeader p,
+.sectionHeader p,
+.healthSource p,
+.marketDescription,
+.marketMeta,
+.activityIdentity p,
+.withdrawalCard p,
+.withdrawalCard small,
+.emptyState,
+.emptyActivity { color: var(--muted); }
+.pageIntro { max-width: 620px; margin: 8px 0 0; font-size: 14px; line-height: 1.55; }
+
+.headerActions,
+.cardActions,
+.withdrawalActions,
+.tabs,
+.filterTabs,
+.marketTags,
+.marketMeta,
+.marketConfig,
+.f1Config > div { display: flex; flex-wrap: wrap; gap: 8px; }
+.headerActions { justify-content: flex-end; }
+
+.buttonPrimary,
+.buttonAccent,
+.buttonSecondary,
+.buttonYes,
+.buttonNo,
+.buttonDanger {
+  min-height: 38px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  padding: 0 13px;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1), background-color 160ms ease, border-color 160ms ease, color 160ms ease;
+}
+.buttonPrimary { background: var(--ink); color: #fff; }
+.buttonAccent { background: var(--orange); color: #fff; }
+.buttonSecondary { background: var(--surface); color: var(--ink); border-color: #dcd5ca; }
+.buttonYes { background: var(--green); color: #fff; }
+.buttonNo,
+.buttonDanger { background: var(--red-soft); color: var(--red); border-color: #f1c7c3; }
+.buttonPrimary:disabled,
+.buttonAccent:disabled { opacity: 0.58; cursor: not-allowed; }
+.buttonPrimary:active,
+.buttonAccent:active,
+.buttonSecondary:active,
+.buttonYes:active,
+.buttonNo:active,
+.buttonDanger:active { transform: scale(0.97); }
+.buttonPrimary:focus-visible,
+.buttonAccent:focus-visible,
+.buttonSecondary:focus-visible,
+.buttonYes:focus-visible,
+.buttonNo:focus-visible,
+.buttonDanger:focus-visible,
+.tab:focus-visible,
+.filterTab:focus-visible,
+.marketConfig select:focus-visible,
+.f1Config input:focus-visible { outline: 3px solid rgb(255 68 34 / 0.3); outline-offset: 2px; }
+@media (hover: hover) and (pointer: fine) {
+  .buttonPrimary:hover { background: #2a2722; }
+  .buttonAccent:hover { background: #db371b; }
+  .buttonSecondary:hover { background: #f4f0e9; border-color: #cfc6b9; }
+  .buttonYes:hover { background: #075f37; }
+  .buttonNo:hover,
+  .buttonDanger:hover { background: #fbe1df; }
+}
+
+.healthPanel { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: clamp(20px, 3vw, 30px); box-shadow: 0 1px 3px rgb(17 17 17 / 0.05); }
+.healthHeader { align-items: flex-start; }
+.healthHeader p { max-width: 620px; margin: 7px 0 0; font-size: 13px; line-height: 1.55; }
+.healthState { white-space: nowrap; border-radius: 999px; padding: 7px 10px; display: inline-flex; align-items: center; gap: 7px; font-size: 12px; font-weight: 800; }
+.healthState i,
+.statusDot { width: 8px; height: 8px; border-radius: 50%; background: currentColor; display: inline-block; }
+.healthActive { color: #076b3e; background: #eaf8ef; }
+.healthHealthy { color: #0d5fad; background: #eef6ff; }
+.healthStale { color: #935b00; background: var(--amber-soft); }
+.healthFailed { color: var(--red); background: var(--red-soft); }
+
+.summaryGrid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin-top: 24px; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+.summaryMetric { min-height: 116px; padding: 18px; display: grid; align-content: start; gap: 5px; border-right: 1px solid var(--line); }
+.summaryMetric:last-child { border-right: 0; }
+.summaryMetric strong { font-size: 23px; line-height: 1.1; font-weight: 850; font-variant-numeric: tabular-nums; letter-spacing: -0.03em; }
+.summaryMetric span { font-size: 12px; font-weight: 800; }
+.summaryMetric small { color: var(--muted); font-size: 11px; line-height: 1.35; }
+.summaryMetricAccent { background: #fff4ef; }
+.summaryMetricAccent strong { color: #bf321a; }
+
+.sourceGrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 16px; }
+.healthSource { border: 1px solid var(--line); border-radius: 12px; padding: 16px; background: #fcfbf9; }
+.healthSourceTitle { justify-content: flex-start; gap: 8px; }
+.healthSourceTitle strong { font-size: 13px; }
+.healthSourceTitle > span:last-child { margin-left: auto; color: var(--muted); font-size: 11px; font-weight: 750; }
+.dotActive { color: #087443; }.dotHealthy { color: #1866b2; }.dotStale { color: #c27a00; }.dotFailed { color: var(--red); }
+.healthSource p { margin: 9px 0 0; font-size: 12px; line-height: 1.45; }
+.healthSource dl { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin: 14px 0 0; }
+.healthSource dl div { display: grid; gap: 3px; }
+.healthSource dt { color: var(--muted); font-size: 10px; font-weight: 750; letter-spacing: 0.04em; text-transform: uppercase; }
+.healthSource dd { margin: 0; font-size: 12px; font-weight: 750; font-variant-numeric: tabular-nums; }
+.errorMessage { margin: 12px 0 0; color: var(--red); font-size: 12px; line-height: 1.5; }
+
+.activityPanel { margin-top: 22px; border-top: 1px solid var(--line); padding-top: 22px; }
+.activityHeader { align-items: flex-end; }
+.activityHeader p { margin: 5px 0 0; font-size: 12px; line-height: 1.45; }
+.filterTabs { justify-content: flex-end; }
+.filterTab,
+.tab { border: 1px solid transparent; background: transparent; color: var(--muted); font: inherit; cursor: pointer; }
+.filterTab { min-height: 34px; border-radius: 9px; padding: 0 9px; display: inline-flex; align-items: center; gap: 7px; font-size: 12px; font-weight: 750; }
+.filterTab span,
+.tab span { font-variant-numeric: tabular-nums; }
+.filterTab span { padding: 2px 5px; border-radius: 999px; background: #eee9e1; font-size: 10px; }
+.filterTabActive { background: var(--ink); color: #fff; }
+.filterTabActive span { background: rgb(255 255 255 / 0.16); }
+.activityList { display: grid; gap: 8px; margin-top: 14px; }
+.activityRow { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 16px; align-items: center; border: 1px solid var(--line); border-radius: 12px; padding: 13px 14px; background: #fff; }
+.activityRowChanged { border-color: #f0a590; background: #fffaf7; box-shadow: inset 0 0 0 1px rgb(255 68 34 / 0.08); }
+.activityTitleLine { justify-content: flex-start; gap: 8px; }
+.activityIdentity strong { font-size: 13px; line-height: 1.35; }
+.activityIdentity p { margin: 4px 0 0; font-size: 11px; line-height: 1.4; }
+.changedMark { display: inline-flex; flex: 0 0 auto; align-items: center; border-radius: 999px; padding: 3px 6px; background: #ffe1d8; color: #a7301a; font-size: 10px; font-weight: 850; letter-spacing: 0.02em; }
+.oddsChange { min-width: 218px; display: grid; grid-template-columns: 1fr 1fr auto; align-items: center; gap: 9px; text-align: right; font-variant-numeric: tabular-nums; }
+.oddsChange span { color: var(--muted); font-size: 12px; text-decoration: line-through; text-decoration-color: #c8c0b5; }
+.oddsChange b { color: var(--ink); font-size: 14px; }
+.oddsChange strong { border-radius: 8px; padding: 5px 7px; color: #076b3e; background: var(--green-soft); font-size: 11px; }
+.oddsChange[data-direction="down"] strong { color: var(--red); background: var(--red-soft); }
+.noChange { min-width: 145px; display: grid; justify-items: end; gap: 3px; text-align: right; }
+.noChange span { color: var(--muted); font-size: 12px; font-weight: 750; }
+.noChange small { color: #8a847b; font-size: 10px; }
+.emptyActivity,
+.emptyState { margin: 14px 0 0; padding: 16px; border: 1px dashed #d7cfc2; border-radius: 12px; font-size: 13px; text-align: center; }
+
+.tabs { margin-top: 26px; margin-bottom: 22px; gap: 4px; border-bottom: 1px solid #dcd5ca; }
+.tab { min-height: 42px; padding: 0 12px; display: inline-flex; align-items: center; gap: 8px; border-bottom: 2px solid transparent; margin-bottom: -1px; font-size: 13px; font-weight: 800; }
+.tab span { border-radius: 999px; padding: 2px 6px; background: #e9e3d9; color: #625e58; font-size: 10px; }
+.tabActive { color: var(--ink); border-bottom-color: var(--orange); }
+.tabActive span { background: #ffe0d8; color: #a7301a; }
+
+.sections { display: grid; gap: 28px; }
+.marketSection { scroll-margin-top: 20px; }
+.sectionHeader { padding-bottom: 10px; border-bottom: 1px solid #dcd5ca; }
+.sectionHeader p { margin: 4px 0 0; font-size: 12px; }
+.sectionHeader > span { min-width: 30px; height: 30px; display: grid; place-items: center; border-radius: 999px; background: var(--ink); color: #fff; font-size: 12px; font-weight: 850; font-variant-numeric: tabular-nums; }
+.marketList,
+.withdrawalList { display: grid; gap: 10px; margin-top: 12px; }
+.marketCard,
+.withdrawalCard { border: 1px solid var(--line); border-radius: 14px; padding: 17px; background: var(--surface); box-shadow: 0 1px 2px rgb(17 17 17 / 0.03); transition: transform 180ms cubic-bezier(0.23, 1, 0.32, 1), box-shadow 180ms ease, border-color 180ms ease; }
+.marketCardChanged { border-color: #f0a590; background: #fffdfb; box-shadow: inset 0 0 0 1px rgb(255 68 34 / 0.08); }
+@media (hover: hover) and (pointer: fine) { .marketCard:hover { transform: translateY(-1px); box-shadow: 0 8px 20px rgb(65 50 30 / 0.08); } }
+.marketTopLine { align-items: flex-start; }
+.marketTags { align-items: center; }
+.marketTags span { border-radius: 999px; padding: 4px 7px; background: #f1ede6; color: #514c44; font-size: 10px; font-weight: 800; }
+.marketTags .aiTag { background: #ffe1d8; color: #a7301a; }
+.marketStatus { white-space: nowrap; border-radius: 999px; padding: 4px 8px; font-size: 10px; font-weight: 850; }
+.marketDraft { color: #794f00; background: #fff1cd; }.marketOpen { color: #076b3e; background: #e8f5ee; }.marketStale { color: #935b00; background: var(--amber-soft); }.marketClosed { color: #4f46a5; background: #edecff; }.marketResolved { color: #625e58; background: #eee9e1; }
+.marketCard h3,
+.withdrawalCard h3 { margin: 12px 0 0; font-size: 15px; line-height: 1.35; font-weight: 800; letter-spacing: -0.01em; }
+.marketDescription { max-width: 78ch; margin: 7px 0 0; font-size: 13px; line-height: 1.5; }
+.marketMeta { align-items: center; margin-top: 11px; color: var(--muted); font-size: 11px; line-height: 1.4; }
+.outcomeYes { color: #076b3e; font-weight: 800; }.outcomeNo { color: var(--red); font-weight: 800; }
+.marketChange { display: flex; flex-wrap: wrap; align-items: center; gap: 7px; margin-top: 13px; padding: 9px 10px; border-radius: 10px; background: #fff2ed; color: #702315; font-variant-numeric: tabular-nums; }
+.marketChange strong { font-size: 13px; }.marketChange i { font-style: normal; color: #a7301a; }.marketChange small { color: #8c3a2b; font-size: 11px; }
+.cardActions { margin-top: 15px; }
+.marketConfig { align-items: end; margin-top: 15px; }
+.marketConfig label,
+.f1Config label { display: grid; gap: 5px; color: #514c44; font-size: 11px; font-weight: 800; }
+.marketConfig select,
+.f1Config input { min-height: 38px; border: 1px solid #d8d0c3; border-radius: 10px; padding: 0 10px; background: #fff; color: var(--ink); font: inherit; font-size: 13px; }
+.notice { margin: 14px 0 0; padding: 10px 12px; border-radius: 10px; background: var(--amber-soft); color: #794f00; font-size: 12px; line-height: 1.45; }
+.f1Config { display: grid; gap: 12px; margin: 15px 0 0; border: 1px solid #d8d0c3; border-radius: 12px; padding: 13px; }
+.f1Config legend { padding: 0 5px; color: #514c44; font-size: 12px; font-weight: 800; }.f1Config > div { display: grid; grid-template-columns: 1.4fr 0.8fr 1fr; }
+
+.withdrawalCard { align-items: center; }
+.withdrawalCard p { margin: 5px 0 0; font-size: 13px; }.withdrawalCard small { display: block; margin-top: 5px; font-size: 11px; }.withdrawalActions { justify-content: flex-end; align-items: center; }.withdrawalStatus { border-radius: 999px; padding: 5px 8px; background: #eee9e1; color: #514c44; font-size: 11px; font-weight: 800; }
+
+@media (max-width: 900px) {
+  .pageHeader { align-items: flex-start; flex-direction: column; }.headerActions { justify-content: flex-start; }.summaryGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }.summaryMetric:nth-child(2) { border-right: 0; }.summaryMetric:nth-child(-n + 2) { border-bottom: 1px solid var(--line); }.sourceGrid { grid-template-columns: 1fr; }
+}
+@media (max-width: 640px) {
+  .pageShell { padding: 24px 14px 48px; }.pageHeader h1 { font-size: 27px; }.headerActions { width: 100%; }.headerActions > * { flex: 1 1 auto; }.healthPanel { padding: 17px; border-radius: 14px; }.healthHeader { align-items: flex-start; flex-direction: column; }.summaryGrid { grid-template-columns: 1fr; }.summaryMetric { min-height: auto; border-right: 0; border-bottom: 1px solid var(--line); }.summaryMetric:last-child { border-bottom: 0; }.activityHeader { align-items: flex-start; flex-direction: column; }.filterTabs { justify-content: flex-start; width: 100%; overflow-x: auto; flex-wrap: nowrap; padding-bottom: 2px; }.filterTab { white-space: nowrap; }.activityRow { grid-template-columns: 1fr; gap: 10px; }.oddsChange { min-width: 0; justify-content: start; grid-template-columns: auto auto auto; text-align: left; }.noChange { justify-items: start; text-align: left; }.sectionHeader { align-items: flex-start; }.marketTopLine { align-items: flex-start; flex-direction: column; gap: 9px; }.marketConfig { display: grid; grid-template-columns: 1fr; }.marketConfig label { width: 100%; }.marketConfig select { width: 100%; }.f1Config > div { grid-template-columns: 1fr; }.withdrawalCard { align-items: flex-start; flex-direction: column; }.withdrawalActions { justify-content: flex-start; }.tabs { overflow-x: auto; flex-wrap: nowrap; }.tab { white-space: nowrap; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .buttonPrimary,
+  .buttonAccent,
+  .buttonSecondary,
+  .buttonYes,
+  .buttonNo,
+  .buttonDanger,
+  .marketCard { transition: none; }
+}
