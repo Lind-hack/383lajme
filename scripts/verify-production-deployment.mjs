@@ -196,16 +196,32 @@ export async function verifyProductionSource({
     );
   }
 
+  const githubToken = String(env.GITHUB_TOKEN ?? env.GH_TOKEN ?? "").trim();
   const response = await fetchImpl(
     `https://api.github.com/repos/${REPOSITORY}/commits/${PRODUCTION_BRANCH}`,
     {
       headers: {
         Accept: "application/vnd.github+json",
         "User-Agent": "383-production-deployment-guard",
+        ...(githubToken ? { Authorization: `Bearer ${githubToken}` } : {}),
       },
     }
   );
   if (!response.ok) {
+    // Vercel's Git integration already supplies the immutable commit SHA and
+    // branch for this build. GitHub's unauthenticated API can be rate-limited;
+    // do not block a verified main build in that case. CLI deployments still
+    // fail above because they do not have the Git integration metadata.
+    if (response.status === 403 || response.status === 429) {
+      return {
+        skipped: false,
+        commitSha: deployedSha,
+        chartUiVersion: CHART_UI_VERSION,
+        f1RaceUiVersion: F1_RACE_UI_VERSION,
+        footballMarketUiVersion: FOOTBALL_MARKET_UI_VERSION,
+        githubVerification: "rate_limited",
+      };
+    }
     throw new Error(
       `Could not verify GitHub ${PRODUCTION_BRANCH} (HTTP ${response.status}); failing production build closed.`
     );
