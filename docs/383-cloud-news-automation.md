@@ -146,4 +146,12 @@ npm run build
 python3 scripts/codex_automation_support.py finalize --file data/auto-articles/YYYY-MM-DDTHH.json
 ```
 
+### Production source gate
+
+The `383` Vercel project's Build Command downloads
+`scripts/verify-production-deployment.mjs` from `Lind-hack/383lajme` `main`
+before it builds. This is intentional: a locally uploaded stale checkout cannot
+replace the current production gate with an older version. Keep this project
+setting in place and publish production changes only by pushing `main`.
+
 Do not run the old Gemma/Google local generator as the source of truth for this scheduled cloud pipeline.
