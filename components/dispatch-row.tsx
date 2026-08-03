@@ -42,7 +42,8 @@ export default function DispatchRow({ articles }: DispatchRowProps) {
   const [hasScrolled, setHasScrolled] = useState(false);
 
   function scrollBy(dir: 1 | -1) {
-    scrollRef.current?.scrollBy({ left: dir * 252, behavior: "smooth" });
+    // One card (246px) plus the 16px gap.
+    scrollRef.current?.scrollBy({ left: dir * 262, behavior: "smooth" });
     if (dir === 1) setHasScrolled(true);
   }
 

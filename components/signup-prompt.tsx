@@ -41,7 +41,18 @@ export default function SignupPrompt() {
       } catch {
         // session check failed — show popup anyway
       }
-      timer = setTimeout(() => setVisible(true), 3 * 60 * 1000);
+      // Never land on top of a tour or the trade tutorial — those overlays own
+      // the screen, and the prompt would read as an error. Re-arm instead.
+      const arm = (ms: number) => {
+        timer = setTimeout(() => {
+          if (document.querySelector(".tour-root, .tutorial-root")) {
+            arm(30 * 1000);
+            return;
+          }
+          setVisible(true);
+        }, ms);
+      };
+      arm(3 * 60 * 1000);
     }
 
     setupTimer();
