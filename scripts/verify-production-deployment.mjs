@@ -4,6 +4,9 @@ import { fileURLToPath } from "node:url";
 
 const REPOSITORY = "Lind-hack/383lajme";
 const PRODUCTION_BRANCH = "main";
+const PRODUCTION_REPOSITORY_OWNER = "Lind-hack";
+const PRODUCTION_REPOSITORY_SLUG = "383lajme";
+const PRODUCTION_REPOSITORY_ID = "1245103522";
 const CHART_UI_VERSION = "live-tape-v1";
 const F1_RACE_UI_VERSION = "race-grid-v3";
 const FOOTBALL_MARKET_UI_VERSION = "stage-aware-v3";
@@ -185,14 +188,26 @@ export async function verifyProductionSource({
 
   const deployedSha = String(env.VERCEL_GIT_COMMIT_SHA ?? "").trim();
   const deployedRef = String(env.VERCEL_GIT_COMMIT_REF ?? "").trim();
+  const deployedRepositoryOwner = String(env.VERCEL_GIT_REPO_OWNER ?? "").trim();
+  const deployedRepositorySlug = String(env.VERCEL_GIT_REPO_SLUG ?? "").trim();
+  const deployedRepositoryId = String(env.VERCEL_GIT_REPO_ID ?? "").trim();
   if (!deployedSha) {
     throw new Error(
       "Refusing production deployment without VERCEL_GIT_COMMIT_SHA. Production must deploy from GitHub main."
     );
   }
-  if (deployedRef && deployedRef !== PRODUCTION_BRANCH) {
+  if (deployedRef !== PRODUCTION_BRANCH) {
     throw new Error(
       `Refusing production deployment from ${JSON.stringify(deployedRef)}; expected ${PRODUCTION_BRANCH}.`
+    );
+  }
+  if (
+    deployedRepositoryOwner !== PRODUCTION_REPOSITORY_OWNER ||
+    deployedRepositorySlug !== PRODUCTION_REPOSITORY_SLUG ||
+    deployedRepositoryId !== PRODUCTION_REPOSITORY_ID
+  ) {
+    throw new Error(
+      "Refusing production deployment without verified Vercel Git integration metadata for Lind-hack/383lajme."
     );
   }
 

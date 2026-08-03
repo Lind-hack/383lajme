@@ -140,7 +140,7 @@ python3 scripts/validate_source_mix.py --file data/auto-articles/YYYY-MM-DDTHH.j
 npm run build
 ```
 
-5. Publish, deploy, verify, and email:
+5. Publish to `main`, wait for GitHub-integrated production deployment, verify, and email:
 
 ```bash
 python3 scripts/codex_automation_support.py finalize --file data/auto-articles/YYYY-MM-DDTHH.json

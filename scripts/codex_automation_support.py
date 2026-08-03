@@ -1351,7 +1351,7 @@ def finalize(path: Path) -> int:
 
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("command", choices=["env-status", "github-auth", "normalize", "validate", "test-email", "deploy", "verify-site", "send-report", "send-status-report", "publish", "finalize"])
+    parser.add_argument("command", choices=["env-status", "github-auth", "normalize", "validate", "test-email", "verify-site", "send-report", "send-status-report", "publish", "finalize"])
     parser.add_argument("--file", help="Article JSON file. Defaults to latest data/auto-articles/*.json")
     parser.add_argument("--message", help="Status text for send-status-report")
     args = parser.parse_args()
@@ -1380,8 +1380,6 @@ def main() -> int:
         return 0
     if args.command == "test-email":
         return test_email_login()
-    if args.command == "deploy":
-        return post_vercel_hook()
     if args.command == "verify-site":
         return verify_public_site(path)
     if args.command == "send-report":

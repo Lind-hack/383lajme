@@ -7,6 +7,11 @@ import {
 
 const CURRENT_SHA = "a".repeat(40);
 const STALE_SHA = "b".repeat(40);
+const githubProductionMetadata = {
+  VERCEL_GIT_REPO_OWNER: "Lind-hack",
+  VERCEL_GIT_REPO_SLUG: "383lajme",
+  VERCEL_GIT_REPO_ID: "1245103522",
+};
 
 const githubMain = (sha = CURRENT_SHA) => async () => ({
   ok: true,
@@ -37,6 +42,7 @@ test("production rejects a stale commit", async () => {
         VERCEL_ENV: "production",
         VERCEL_GIT_COMMIT_REF: "main",
         VERCEL_GIT_COMMIT_SHA: STALE_SHA,
+        ...githubProductionMetadata,
       },
       fetchImpl: githubMain(CURRENT_SHA),
     }),
@@ -50,6 +56,7 @@ test("production accepts the exact current main commit", async () => {
       VERCEL_ENV: "production",
       VERCEL_GIT_COMMIT_REF: "main",
       VERCEL_GIT_COMMIT_SHA: CURRENT_SHA,
+      ...githubProductionMetadata,
     },
     fetchImpl: githubMain(CURRENT_SHA),
   });
@@ -66,9 +73,24 @@ test("production accepts a GitHub-rate-limited build only with Vercel main metad
       VERCEL_ENV: "production",
       VERCEL_GIT_COMMIT_REF: "main",
       VERCEL_GIT_COMMIT_SHA: CURRENT_SHA,
+      ...githubProductionMetadata,
     },
     fetchImpl: async () => ({ ok: false, status: 403 }),
   });
   assert.equal(result.commitSha, CURRENT_SHA);
   assert.equal(result.githubVerification, "rate_limited");
+});
+
+test("production rejects a local upload without Vercel Git repository metadata", async () => {
+  await assert.rejects(
+    verifyProductionSource({
+      env: {
+        VERCEL_ENV: "production",
+        VERCEL_GIT_COMMIT_REF: "main",
+        VERCEL_GIT_COMMIT_SHA: CURRENT_SHA,
+      },
+      fetchImpl: githubMain(CURRENT_SHA),
+    }),
+    /without verified Vercel Git integration metadata/
+  );
 });
