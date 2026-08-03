@@ -10,6 +10,7 @@ import TeamFlag from "@/components/tregu/team-flag";
 import MarketSocial, { type HolderRow, type CommentItem } from "@/components/tregu/market-social";
 import CoinFace from "@/components/tregu/coin-face";
 import ConfirmButton from "@/components/tregu/confirm-button";
+import TradeTutorial, { openTradeTutorial } from "@/components/tregu/trade-tutorial";
 import { createClient } from "@/lib/supabase/client";
 import {
   previewBet,
@@ -713,6 +714,11 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
             )}
             {market.status === "closed" && <span className="tregu-pill">Mbyllur</span>}
             {market.status === "open" && <span className="tregu-pill">{closesIn(market.closes_at)}</span>}
+            {/* Permanent way back into the walkthrough once it has been dismissed. */}
+            <button type="button" className="tregu-home-help" onClick={openTradeTutorial}>
+              <span aria-hidden>?</span>
+              Si funksionon
+            </button>
           </div>
           <h1
             style={{
@@ -1641,6 +1647,9 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
           </aside>
         </div>
 
+        {/* Practice sandbox — first market page a visitor opens walks them
+            through reading the graph, betting and getting back out. */}
+        <TradeTutorial />
       </main>
     </div>
   );

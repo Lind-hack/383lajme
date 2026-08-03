@@ -46,6 +46,7 @@ export default function ArticleCard({ article, variant = "grid", index = 0 }: Ar
   const catColor = getCategoryColor(article.category);
   const catBg = getCategoryBg(article.category, 0.08);
   const [imgFailed, setImgFailed] = useState(false);
+  const [hovered, setHovered] = useState(false);
   const readMins = calcReadingTime(article.body);
 
   // Shared motion config: reveal staggered up to index 6, hover lift with capped colored shadow
@@ -67,9 +68,11 @@ export default function ArticleCard({ article, variant = "grid", index = 0 }: Ar
         <motion.div
           whileHover={hoverLift}
           transition={hoverTransition}
+          onMouseEnter={() => setHovered(true)}
+          onMouseLeave={() => setHovered(false)}
           style={{
-            width: "228px",
-            height: "358px",
+            width: "246px",
+            height: "330px",
             background: "linear-gradient(180deg, #FFFFFF 0%, #FAFAF8 100%)",
             borderRadius: RADIUS.md,
             border: "1px solid rgba(0,0,0,0.07)",
@@ -81,7 +84,7 @@ export default function ArticleCard({ article, variant = "grid", index = 0 }: Ar
           }}
         >
           {/* Image area */}
-          <div style={{ height: "130px", overflow: "hidden", position: "relative", flexShrink: 0 }}>
+          <div style={{ height: "146px", overflow: "hidden", position: "relative", flexShrink: 0 }}>
             {article.imageUrl && !imgFailed ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img
@@ -168,43 +171,49 @@ export default function ArticleCard({ article, variant = "grid", index = 0 }: Ar
             {article.sourceBias === "hostile" && <HostileBadge />}
           </div>
 
-          {/* Content */}
-          <div style={{ padding: "16px", flex: 1, display: "flex", flexDirection: "column", gap: "8px" }}>
-            <p style={{
-              fontSize: "14px",
+          {/* Content — headline only. The excerpt used to compete with the
+              title for attention; on a scrolling rail the title has to win. */}
+          <div style={{ padding: "0 16px 16px", flex: 1, display: "flex", flexDirection: "column", position: "relative" }}>
+            {/* Accent rule wipes in under the image on hover. */}
+            <div aria-hidden style={{ position: "relative", height: "2px", marginBottom: "14px", background: "rgba(0,0,0,0.06)" }}>
+              <div style={{
+                position: "absolute",
+                inset: 0,
+                background: catColor,
+                transformOrigin: "left",
+                transform: `scaleX(${hovered ? 1 : 0})`,
+                transition: `transform ${DUR.slow}s cubic-bezier(0.22,1,0.36,1)`,
+              }} />
+            </div>
+
+            <h3 style={{
+              fontSize: "16.5px",
               fontWeight: 800,
-              lineHeight: 1.32,
-              color: "#111111",
+              lineHeight: 1.26,
+              color: hovered ? catColor : "#111111",
               margin: 0,
               display: "-webkit-box",
-              WebkitLineClamp: 3,
+              WebkitLineClamp: 4,
               WebkitBoxOrient: "vertical",
               overflow: "hidden",
-              letterSpacing: "-0.01em",
+              letterSpacing: "-0.022em",
+              textWrap: "balance",
+              transition: `color ${DUR.base}s ease`,
             }}>
               {article.title}
-            </p>
-
-            <p style={{
-              fontSize: "12px",
-              fontWeight: 400,
-              lineHeight: 1.55,
-              color: "#888888",
-              margin: 0,
-              display: "-webkit-box",
-              WebkitLineClamp: 2,
-              WebkitBoxOrient: "vertical",
-              overflow: "hidden",
-              flex: 1,
-            }}>
-              {article.excerpt}
-            </p>
+            </h3>
 
             {/* Footer */}
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: "auto" }}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "8px", marginTop: "auto", paddingTop: "14px" }}>
               <SourceBadge source={article.source} flag={article.sourceFlag} size="sm" bias={article.sourceBias} />
-              <span style={{ fontSize: "11px", color: "#AAAAAA", fontWeight: 500 }}>
-                {timeAgo(article.publishedAt)}
+              <span style={{
+                fontSize: "11px",
+                fontWeight: 700,
+                color: hovered ? catColor : "#AAAAAA",
+                whiteSpace: "nowrap",
+                transition: `color ${DUR.base}s ease`,
+              }}>
+                {hovered ? "Lexo →" : timeAgo(article.publishedAt)}
               </span>
             </div>
           </div>

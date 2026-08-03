@@ -81,7 +81,9 @@ export default async function HomePage() {
     if (njoftimeKws.some((rk) => [...kws].filter((w) => rk.has(w)).length >= 3)) continue;
     njoftimeArticles.push(a);
     njoftimeKws.push(kws);
-    if (njoftimeArticles.length >= 10) break;
+    // 8, not 10 — the rail and the "5 tema" block sit in the same scroll and
+    // ten more headlines in between is more news than anyone reads.
+    if (njoftimeArticles.length >= 8) break;
   }
 
   // Më të lexuarat — engagement ranking across everything outside the kryesore
@@ -171,6 +173,7 @@ export default async function HomePage() {
         {/* Fast news and topic leaders now bridge Tregu with the latest-news archive. */}
         <SectionLabel
           label="NJOFTIME"
+          marginBottom={12}
           right={
             <span style={{ display: "inline-flex", alignItems: "center", gap: "4px", fontSize: "11px", color: "#6B6B6B", fontWeight: 500 }}>
               tërhiq <MoveHorizontal size={14} strokeWidth={2} />
@@ -178,8 +181,18 @@ export default async function HomePage() {
           }
         />
 
-        <div style={{ marginBottom: "40px" }}>
-          <DispatchRow articles={njoftimeArticles} />
+        <p style={{ margin: "0 0 18px", maxWidth: "60ch", color: "#5F5B56", fontSize: "14.5px", lineHeight: 1.55 }}>
+          Titujt e shpejtë të orëve të fundit. Tërhiq anash për të parë më shumë.
+        </p>
+
+        <DispatchRow articles={njoftimeArticles} />
+
+        {/* Breather — the two news blocks used to land back to back, which read
+            as one long undifferentiated scroll of headlines. */}
+        <div className="section-breather" aria-hidden>
+          <span />
+          <em>Përzgjedhja e redaksisë</em>
+          <span />
         </div>
 
         <div style={{ marginBottom: "var(--space-section)" }}>

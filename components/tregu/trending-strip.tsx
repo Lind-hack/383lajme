@@ -3,7 +3,81 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import SectionLabel from "@/components/section-label";
+import SpotlightTour, { openTour, type TourStep } from "@/components/spotlight-tour";
 import GroupChart, { type EventSeries } from "./group-chart";
+
+const TOUR_ID = "tregu-home";
+
+/**
+ * Module-level so the tour's effects keep a stable dependency. Each step pushes
+ * in on its target and lets the ghost cursor act the interaction out, so the
+ * band reads as a demo rather than four captions.
+ */
+const TOUR_STEPS: TourStep[] = [
+  {
+    target: "[data-tour='tregu-card']",
+    title: "Çdo kartë është një pyetje",
+    body: "Tregu i kthen lajmet e ditës në pyetje me dy përgjigje: PO ose JO. Kjo është njëra nga dy pyetjet më aktive tani.",
+    padding: 12,
+    radius: 20,
+    zoom: 1.03,
+    cursor: {
+      loop: true,
+      beats: [
+        { at: ".tregu-home-title", hold: 900 },
+        { at: "[data-tour='tregu-outcomes']", hold: 700 },
+      ],
+    },
+  },
+  {
+    target: "[data-tour='tregu-chart']",
+    title: "Grafiku tregon gjasat live",
+    body: "Vija ndjek shansin që përgjigjja të dalë PO. Ngjitet kur lajmi forcohet, bie kur dobësohet — përditësohet çdo pak sekonda.",
+    padding: 8,
+    radius: 14,
+    zoom: 1.06,
+    cursor: {
+      loop: true,
+      beats: [
+        { at: { sel: "[data-tour='tregu-chart']", fx: 0.08, fy: 0.6 }, hold: 420 },
+        {
+          drag: {
+            from: { sel: "[data-tour='tregu-chart']", fx: 0.08, fy: 0.6 },
+            to: { sel: "[data-tour='tregu-chart']", fx: 0.92, fy: 0.35 },
+            ms: 1500,
+          },
+        },
+      ],
+    },
+  },
+  {
+    target: "[data-tour='tregu-outcomes']",
+    title: "Zgjidh anën tënde",
+    body: "Përqindja është gjasa e tanishme. Numri me shenjën × tregon sa herë shumëzohen monedhat e tua nëse del drejt.",
+    padding: 8,
+    radius: 14,
+    zoom: 1.08,
+    cursor: {
+      loop: true,
+      beats: [
+        { click: "[data-tour='tregu-outcomes'] > *:nth-child(1)", hold: 760 },
+        { click: "[data-tour='tregu-outcomes'] > *:nth-child(2)", hold: 760 },
+      ],
+    },
+  },
+  {
+    target: "[data-tour='tregu-cta']",
+    title: "Vë 383 Coin, jo para",
+    body: "Hap tregun, shkruaj sa Coin do të vësh dhe konfirmo. 383 Coin është monedha falas e faqes — asnjë para reale nuk hyn në lojë.",
+    padding: 8,
+    radius: 12,
+    zoom: 1.1,
+    cursor: {
+      loop: true,
+      beats: [{ click: "[data-tour='tregu-cta']", hold: 1100 }],
+    },
+  },
+];
 
 interface HistoryPoint {
   created_at: string;
@@ -188,6 +262,7 @@ function MarketPreviewCard({ market, index }: { market: PreviewMarket; index: nu
     <article
       className="tregu-home-card tregu-glass"
       data-home-market-preview
+      data-tour={index === 0 ? "tregu-card" : undefined}
       data-outcome-count={market.outcomes.length}
       data-chart-line-count={chartSeries.length}
       style={{ ["--preview-index" as string]: index }}
@@ -207,7 +282,7 @@ function MarketPreviewCard({ market, index }: { market: PreviewMarket; index: nu
         {market.question}
       </Link>
 
-      <div className="tregu-home-chart">
+      <div className="tregu-home-chart" data-tour={index === 0 ? "tregu-chart" : undefined}>
         <GroupChart
           height={220}
           cadenceMs={REFRESH_MS}
@@ -219,6 +294,7 @@ function MarketPreviewCard({ market, index }: { market: PreviewMarket; index: nu
 
       <div
         className="tregu-home-outcomes"
+        data-tour={index === 0 ? "tregu-outcomes" : undefined}
         style={{ gridTemplateColumns: `repeat(${market.outcomes.length}, minmax(0, 1fr))` }}
         aria-label="Rezultatet e tregut"
       >
@@ -243,7 +319,9 @@ function MarketPreviewCard({ market, index }: { market: PreviewMarket; index: nu
 
       <footer className="tregu-home-card-foot">
         <span>{market.tradeCount} ndryshime reale në linjë</span>
-        <Link href={`/tregu/${market.slug}`}>Hap tregun <span aria-hidden>→</span></Link>
+        <Link href={`/tregu/${market.slug}`} data-tour={index === 0 ? "tregu-cta" : undefined}>
+          Hap tregun <span aria-hidden>→</span>
+        </Link>
       </footer>
     </article>
   );
@@ -322,13 +400,35 @@ export default function TrendingStrip() {
     <section className="tregu-scope tregu-home-preview" aria-labelledby="tregu-home-heading">
       <SectionLabel
         label="Tregu - Parashiko"
+        marginBottom={14}
         right={
-          <Link href="/tregu" className="tregu-home-all">
-            Shiko të gjitha <span aria-hidden>→</span>
-          </Link>
+          <span className="tregu-home-head-actions">
+            <button
+              type="button"
+              className="tregu-home-help"
+              onClick={() => openTour(TOUR_ID)}
+            >
+              <span aria-hidden>?</span>
+              Si funksionon
+            </button>
+            <Link href="/tregu" className="tregu-home-all">
+              Shiko të gjitha <span aria-hidden>→</span>
+            </Link>
+          </span>
         }
       />
       <span id="tregu-home-heading" className="sr-only">Dy tregjet më aktive</span>
+
+      {/* One sentence and three steps — enough to get the feature at a glance. */}
+      <p className="tregu-home-intro">
+        Parashiko si përfundon lajmi. Zgjidh <strong>PO</strong> ose <strong>JO</strong> dhe vër{" "}
+        <strong>383 Coin</strong> — monedha falas e faqes, jo para reale.
+      </p>
+      <ol className="tregu-home-steps">
+        <li>Zgjidh pyetjen</li>
+        <li>Lexo gjasat</li>
+        <li>Vër PO ose JO</li>
+      </ol>
 
       {!loaded ? (
         <LoadingCards />
@@ -344,6 +444,14 @@ export default function TrendingStrip() {
           <Link href="/tregu">Hap Tregun</Link>
         </div>
       )}
+
+      {/* First scroll onto the cards explains them; afterwards it's on demand. */}
+      <SpotlightTour
+        tourId={TOUR_ID}
+        anchor="[data-tour='tregu-card']"
+        steps={TOUR_STEPS}
+        eyebrow="Si funksionon Tregu"
+      />
     </section>
   );
 }

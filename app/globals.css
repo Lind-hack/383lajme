@@ -5597,3 +5597,872 @@ header[data-overlay] .nav-coin-chip {
     transform: none;
   }
 }
+
+/* ---------------------------------------------------------------------------
+   Spotlight tour — dims the page, lights one element, explains it.
+   Used by the homepage Tregu strip and the Tregu floor.
+--------------------------------------------------------------------------- */
+.tour-root {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+}
+/* Four flat panels frame the cut-out, clipped to the viewport, instead of one
+   `box-shadow: 0 0 0 9999px` hole-punch on .tour-hole. */
+.tour-scrim {
+  position: absolute;
+  background: rgba(12, 10, 9, 0.74);
+  cursor: pointer;
+}
+.tour-hole {
+  position: absolute;
+  pointer-events: none;
+}
+.tour-ring {
+  position: absolute;
+  inset: 0;
+  border: 2px solid #ff4422;
+  border-radius: inherit;
+  box-shadow: 0 0 0 6px rgba(255, 68, 34, 0.16);
+  animation: tour-ring-pulse 2.1s var(--ease-out) infinite;
+}
+.tour-ring[data-static] {
+  animation: none;
+}
+@keyframes tour-ring-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 5px rgba(255, 68, 34, 0.14);
+  }
+  50% {
+    box-shadow: 0 0 0 11px rgba(255, 68, 34, 0.06);
+  }
+}
+.tour-tip {
+  position: absolute;
+  padding: 18px 18px 16px;
+  border: 1px solid rgba(17, 17, 17, 0.08);
+  border-radius: 18px;
+  background: #ffffff;
+  box-shadow: 0 24px 60px rgba(17, 17, 17, 0.24);
+}
+.tour-tip-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+.tour-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: #ff4422;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.tour-eyebrow > span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #ff4422;
+}
+.tour-count {
+  color: #9a938c;
+  font-size: 11px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.tour-rails {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 14px;
+}
+.tour-rails > span {
+  height: 3px;
+  flex: 1;
+  border-radius: 2px;
+  background: rgba(17, 17, 17, 0.1);
+  transition: background-color 260ms var(--ease-out);
+}
+.tour-rails > span[data-on] {
+  background: #ff4422;
+}
+.tour-tip-title {
+  margin: 0 0 6px;
+  color: #111111;
+  font-size: 17px;
+  font-weight: 800;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+.tour-tip-body {
+  margin: 0;
+  color: #5f5b56;
+  font-size: 13.5px;
+  line-height: 1.6;
+  text-wrap: pretty;
+}
+.tour-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 16px;
+}
+.tour-actions-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.tour-skip,
+.tour-back,
+.tour-next {
+  border: 1px solid transparent;
+  border-radius: 100px;
+  font-family: inherit;
+  font-size: 12.5px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: background-color 160ms var(--ease-out), color 160ms var(--ease-out),
+    border-color 160ms var(--ease-out), transform 160ms var(--ease-out);
+}
+.tour-skip {
+  padding: 8px 4px;
+  background: none;
+  color: #9a938c;
+}
+.tour-back {
+  padding: 8px 14px;
+  border-color: rgba(17, 17, 17, 0.12);
+  background: #ffffff;
+  color: #111111;
+}
+.tour-next {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 18px;
+  background: #111111;
+  color: #ffffff;
+}
+.tour-next > span {
+  transition: transform 160ms var(--ease-out);
+}
+@media (hover: hover) {
+  .tour-skip:hover {
+    color: #111111;
+  }
+  .tour-back:hover {
+    border-color: rgba(17, 17, 17, 0.24);
+  }
+  .tour-next:hover {
+    background: #ff4422;
+  }
+  .tour-next:hover > span {
+    transform: translateX(3px);
+  }
+}
+.tour-skip:active,
+.tour-back:active,
+.tour-next:active {
+  transform: scale(0.97);
+}
+.tour-skip:focus-visible,
+.tour-back:focus-visible,
+.tour-next:focus-visible {
+  outline: 2px solid #ff4422;
+  outline-offset: 2px;
+}
+@media (max-width: 640px) {
+  .tour-tip {
+    padding: 16px;
+    border-radius: 16px;
+  }
+  .tour-tip-title {
+    font-size: 16px;
+  }
+  .tour-tip-body {
+    font-size: 13px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tour-ring {
+    animation: none;
+  }
+  .tour-rails > span,
+  .tour-skip,
+  .tour-back,
+  .tour-next,
+  .tour-next > span {
+    transition-duration: 0.01ms;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Ghost pointer — acts out the interaction the copy is describing. Shared by
+   the spotlight tour and the trade tutorial; hidden under reduced motion.
+--------------------------------------------------------------------------- */
+.tour-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 2200;
+  pointer-events: none;
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.45));
+}
+.tour-cursor > svg {
+  display: block;
+  /* Park the arrow tip on the point rather than the SVG's top-left corner. */
+  margin: -2px 0 0 -2px;
+}
+.tour-cursor-ripple {
+  position: absolute;
+  top: -20px;
+  left: -20px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 2px solid #ff4422;
+  background: rgba(255, 68, 34, 0.18);
+}
+@media (prefers-reduced-motion: reduce) {
+  .tour-cursor {
+    display: none;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Trade tutorial — the interactive practice sandbox on a market page.
+   Runs a mock market: read the graph, place a bet, take it back off.
+--------------------------------------------------------------------------- */
+.tutorial-root {
+  position: fixed;
+  inset: 0;
+  z-index: 2100;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+.tutorial-scrim {
+  position: absolute;
+  inset: 0;
+  background: rgba(12, 10, 9, 0.78);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+}
+.tutorial-card {
+  position: relative;
+  width: min(1080px, 100%);
+  /* The card wears .tregu-scope for the market design tokens, which also
+     carries `min-height: 100vh` — that would stretch it to the full viewport
+     and beat its own max-height. */
+  min-height: 0;
+  max-height: calc(100dvh - 48px);
+  overflow-y: auto;
+  padding: 20px 24px 22px;
+  border: 1px solid rgba(17, 17, 17, 0.08);
+  border-radius: 24px;
+  background: #ffffff;
+  box-shadow: 0 40px 110px rgba(0, 0, 0, 0.45);
+}
+.tutorial-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+.tutorial-wallet {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+  font-size: 11.5px;
+  color: #6b6b6b;
+}
+.tutorial-wallet > span {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  padding: 6px 11px;
+  border: 1px solid rgba(17, 17, 17, 0.09);
+  border-radius: 100px;
+  background: #faf8f5;
+  white-space: nowrap;
+}
+.tutorial-wallet strong {
+  color: #111111;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+.tutorial-close {
+  width: 32px;
+  height: 32px;
+  border: 1px solid rgba(17, 17, 17, 0.1);
+  border-radius: 50%;
+  background: #ffffff;
+  color: #6b6b6b;
+  font-size: 13px;
+  line-height: 1;
+  cursor: pointer;
+  transition: color 160ms var(--ease-out), border-color 160ms var(--ease-out);
+}
+.tutorial-close:hover {
+  color: #111111;
+  border-color: rgba(17, 17, 17, 0.28);
+}
+.tutorial-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 330px;
+  gap: 26px;
+  margin-top: 4px;
+}
+.tutorial-stage {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+}
+.tutorial-question {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.tutorial-question h4 {
+  margin: 0;
+  color: #111111;
+  font-size: 17px;
+  font-weight: 800;
+  line-height: 1.3;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+.tutorial-sides {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.tutorial-side-tile {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 20px 18px;
+  border: 1px solid rgba(17, 17, 17, 0.09);
+  border-radius: 16px;
+  background: #faf8f5;
+}
+.tutorial-side-tile > span {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+.tutorial-side-tile[data-side="PO"] > span {
+  color: #00854a;
+}
+.tutorial-side-tile[data-side="JO"] > span {
+  color: #c51518;
+}
+.tutorial-side-tile strong {
+  color: #111111;
+  font-size: 30px;
+  font-weight: 800;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.tutorial-side-tile em {
+  color: #6b6b6b;
+  font-size: 12px;
+  font-style: normal;
+}
+
+/* Replica bet slip — same controls and the same maths as the real one. */
+.tutorial-slip {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid rgba(17, 17, 17, 0.09);
+  border-radius: 18px;
+  background: #faf8f5;
+}
+.tutorial-slip-sides {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.tutorial-slip-sides button {
+  padding: 12px;
+  border: 1.5px solid rgba(17, 17, 17, 0.1);
+  border-radius: 12px;
+  background: #ffffff;
+  color: #6b6b6b;
+  font-family: inherit;
+  font-size: 13.5px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: border-color 160ms var(--ease-out), color 160ms var(--ease-out),
+    background-color 160ms var(--ease-out);
+}
+.tutorial-slip-sides button[data-side="PO"][data-on] {
+  border-color: #00854a;
+  background: rgba(0, 133, 74, 0.08);
+  color: #00854a;
+}
+.tutorial-slip-sides button[data-side="JO"][data-on] {
+  border-color: #c51518;
+  background: rgba(197, 21, 24, 0.07);
+  color: #c51518;
+}
+.tutorial-amount {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #6b6b6b;
+}
+.tutorial-amount input {
+  width: 130px;
+  padding: 10px 12px;
+  border: 1px solid rgba(17, 17, 17, 0.12);
+  border-radius: 10px;
+  background: #ffffff;
+  color: #111111;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 800;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.tutorial-chips {
+  display: flex;
+  gap: 7px;
+}
+.tutorial-chips button {
+  flex: 1;
+  padding: 8px 0;
+  border: 1px solid rgba(17, 17, 17, 0.1);
+  border-radius: 100px;
+  background: #ffffff;
+  color: #6b6b6b;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: border-color 160ms var(--ease-out), color 160ms var(--ease-out);
+}
+.tutorial-chips button[data-on] {
+  border-color: #111111;
+  color: #111111;
+}
+.tutorial-summary,
+.tutorial-position {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 16px;
+  margin: 0;
+  padding: 12px 0 2px;
+  border-top: 1px solid rgba(17, 17, 17, 0.08);
+}
+.tutorial-summary > div,
+.tutorial-position > div {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+.tutorial-summary dt,
+.tutorial-position dt {
+  color: #6b6b6b;
+  font-size: 12px;
+}
+.tutorial-summary dd,
+.tutorial-position dd {
+  margin: 0;
+  color: #111111;
+  font-size: 13px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+.tutorial-summary dd[data-good],
+.tutorial-position dd[data-side="PO"] {
+  color: #00854a;
+}
+.tutorial-position dd[data-side="JO"] {
+  color: #c51518;
+}
+.tutorial-position {
+  border-top: none;
+  padding-top: 0;
+}
+.tutorial-confirm {
+  padding: 13px;
+  border: none;
+  border-radius: 12px;
+  background: #111111;
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 13.5px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: background-color 160ms var(--ease-out), transform 160ms var(--ease-out);
+}
+.tutorial-confirm[data-variant="sell"] {
+  background: #c51518;
+}
+.tutorial-confirm:hover:not(:disabled) {
+  background: #ff4422;
+}
+.tutorial-confirm:active:not(:disabled) {
+  transform: scale(0.985);
+}
+.tutorial-confirm:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.tutorial-recap {
+  padding: 16px 18px;
+  border: 1px solid rgba(0, 133, 74, 0.24);
+  border-radius: 16px;
+  background: rgba(0, 133, 74, 0.06);
+}
+.tutorial-recap p {
+  margin: 0;
+  color: #111111;
+  font-size: 13.5px;
+  line-height: 1.6;
+}
+
+.tutorial-copy {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.tutorial-step {
+  display: block;
+  margin-bottom: 6px;
+  color: #9a938c;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+.tutorial-copy h3 {
+  margin: 0 0 8px;
+  color: #111111;
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 1.22;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+.tutorial-copy p {
+  margin: 0;
+  color: #5f5b56;
+  font-size: 13.5px;
+  line-height: 1.65;
+  text-wrap: pretty;
+}
+.tutorial-nudge {
+  margin-top: 12px !important;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: rgba(255, 68, 34, 0.09);
+  color: #ff4422 !important;
+  font-size: 12.5px;
+  font-weight: 700;
+}
+.tutorial-copy .tour-actions {
+  margin-top: auto;
+  padding-top: 20px;
+}
+.tour-next:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.tour-next:disabled:hover {
+  background: #111111;
+}
+
+/* ── the tutorial's own chart ─────────────────────────────────────────────── */
+.tut-chart {
+  border: 1px solid rgba(17, 17, 17, 0.09);
+  border-radius: 18px;
+  background: #ffffff;
+  overflow: hidden;
+}
+.tut-chart-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+  padding: 14px 16px 10px;
+}
+.tut-chart-now {
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+}
+.tut-chart-now > span {
+  color: #6b6b6b;
+  font-size: 11.5px;
+  font-weight: 700;
+}
+.tut-chart-now strong {
+  color: #111111;
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.tut-chart-now em {
+  font-size: 11.5px;
+  font-style: normal;
+  font-weight: 800;
+}
+.tut-chart-now em[data-dir="up"] {
+  color: #00854a;
+}
+.tut-chart-now em[data-dir="down"] {
+  color: #c51518;
+}
+.tut-chart-ranges {
+  display: flex;
+  gap: 5px;
+}
+.tut-chart-ranges button {
+  padding: 6px 11px;
+  border: 1px solid rgba(17, 17, 17, 0.1);
+  border-radius: 100px;
+  background: #ffffff;
+  color: #6b6b6b;
+  font-family: inherit;
+  font-size: 11.5px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: border-color 160ms var(--ease-out), color 160ms var(--ease-out),
+    background-color 160ms var(--ease-out);
+}
+.tut-chart-ranges button[data-on] {
+  border-color: #111111;
+  background: #111111;
+  color: #ffffff;
+}
+.tut-chart-plot {
+  position: relative;
+  height: clamp(200px, 26vh, 280px);
+}
+.tut-chart-plot > svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.tut-chart-crosshair {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: rgba(17, 17, 17, 0.18);
+  pointer-events: none;
+}
+.tut-chart-readout {
+  position: absolute;
+  transform: translate(-50%, -150%);
+  padding: 4px 8px;
+  border-radius: 100px;
+  background: #111111;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 800;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+  pointer-events: none;
+}
+
+@media (max-width: 900px) {
+  .tutorial-root {
+    padding: 12px;
+  }
+  .tutorial-card {
+    padding: 16px 16px 18px;
+    border-radius: 20px;
+    max-height: calc(100dvh - 24px);
+  }
+  .tutorial-body {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 18px;
+  }
+  .tutorial-copy .tour-actions {
+    padding-top: 14px;
+  }
+}
+@media (max-width: 640px) {
+  .tutorial-head {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .tutorial-wallet {
+    order: 3;
+    width: 100%;
+    margin-left: 0;
+  }
+  .tutorial-close {
+    margin-left: auto;
+  }
+  .tutorial-copy h3 {
+    font-size: 18px;
+  }
+  .tut-chart-plot {
+    height: 190px;
+  }
+  .tutorial-side-tile strong {
+    font-size: 24px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tutorial-close,
+  .tutorial-confirm,
+  .tutorial-chips button,
+  .tutorial-slip-sides button,
+  .tut-chart-ranges button {
+    transition-duration: 0.01ms;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Homepage Tregu strip — plain-language explainer so a first-time reader
+   understands the betting feature without opening it.
+--------------------------------------------------------------------------- */
+.tregu-home-intro {
+  margin: -4px 0 18px;
+  max-width: 62ch;
+  color: #5f5b56;
+  font-size: 14.5px;
+  line-height: 1.6;
+  text-wrap: pretty;
+}
+.tregu-home-intro strong {
+  color: #111111;
+  font-weight: 800;
+}
+.tregu-home-steps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 20px;
+  padding: 0;
+  list-style: none;
+  counter-reset: tregu-step;
+}
+.tregu-home-steps > li {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 14px 7px 8px;
+  border: 1px solid rgba(17, 17, 17, 0.09);
+  border-radius: 100px;
+  background: rgba(255, 255, 255, 0.72);
+  color: #3c3733;
+  font-size: 12.5px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.tregu-home-steps > li::before {
+  counter-increment: tregu-step;
+  content: counter(tregu-step);
+  display: grid;
+  width: 20px;
+  height: 20px;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: 50%;
+  background: #111111;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 800;
+}
+.tregu-home-help {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 13px;
+  border: 1px solid rgba(17, 17, 17, 0.12);
+  border-radius: 100px;
+  background: rgba(255, 255, 255, 0.7);
+  color: #111111;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 800;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: border-color 160ms var(--ease-out), color 160ms var(--ease-out);
+}
+.tregu-home-help > span {
+  display: grid;
+  width: 15px;
+  height: 15px;
+  place-items: center;
+  border-radius: 50%;
+  background: #111111;
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 800;
+}
+@media (hover: hover) {
+  .tregu-home-help:hover {
+    border-color: #ff4422;
+    color: #ff4422;
+  }
+}
+.tregu-home-help:focus-visible {
+  outline: 2px solid #ff4422;
+  outline-offset: 2px;
+}
+.tregu-home-head-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+@media (max-width: 640px) {
+  .tregu-home-intro {
+    font-size: 13.5px;
+  }
+  .tregu-home-steps > li {
+    font-size: 12px;
+  }
+  .tregu-home-head-actions .tregu-home-help {
+    display: none;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Section breather — keeps two news blocks from colliding in one scroll.
+--------------------------------------------------------------------------- */
+.section-breather {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin: clamp(52px, 6vw, 84px) 0 clamp(40px, 4.5vw, 60px);
+}
+.section-breather > span:first-child,
+.section-breather > span:last-child {
+  height: 1px;
+  max-width: 220px;
+  flex: 1;
+  background: linear-gradient(90deg, transparent, #e2dcd2, transparent);
+}
+.section-breather em {
+  color: #a29a92;
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 800;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
