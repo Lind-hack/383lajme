@@ -231,7 +231,7 @@ async function runOfficialSportsRefresh(action: "live_sports", runKey: string, n
         results.push({ slug: signal.spainMarket.slug, status: "failed", error }, { slug: signal.argentinaMarket.slug, status: "failed", error });
       }
     }
-    const f1EmailUpdates: Array<{ question: string; driver_code: string; position: number; gap: string; pits: number; before_probability: number; after_probability: number; source_url: string }> = [];
+    const f1EmailUpdates: Array<{ question: string; slug: string; driver_code: string; position: number; gap: string; pits: number; before_probability: number; after_probability: number; source_url: string; timestamp: string }> = [];
     if ((f1Markets ?? []).length) {
       try {
         const openF1Live = await fetchOpenF1LiveRace({ now });
@@ -262,7 +262,7 @@ async function runOfficialSportsRefresh(action: "live_sports", runKey: string, n
             const oracle = Array.isArray(f1OracleRows) ? f1OracleRows[0] : null;
             if (!oracle) { f1Results.push({ slug: signal.market.slug, status: "unchanged" }); continue; }
             f1Results.push({ slug: signal.market.slug, status: "applied" });
-            f1EmailUpdates.push({ question: signal.market.question, driver_code: signal.config.driver_code, position: signal.row.position, gap: signal.row.gap, pits: signal.row.pits, before_probability: Number(oracle.previous_price_yes), after_probability: Number(oracle.new_price_yes), source_url: leaderboard.source_url });
+            f1EmailUpdates.push({ question: signal.market.question, slug: signal.market.slug, driver_code: signal.config.driver_code, position: signal.row.position, gap: signal.row.gap, pits: signal.row.pits, before_probability: Number(oracle.previous_price_yes), after_probability: Number(oracle.new_price_yes), source_url: leaderboard.source_url, timestamp: now.toISOString() });
           } catch (f1OracleError) { f1Results.push({ slug: signal.market.slug, status: "failed", error: String(f1OracleError instanceof Error ? f1OracleError.message : f1OracleError) }); }
         }
         // A FINISHED classification settles explicitly mapped markets only via
