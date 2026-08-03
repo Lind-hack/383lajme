@@ -6,7 +6,7 @@
 // /api/tregu/* — the pricing comes from the same pure LMSR helpers the real bet
 // slip uses, so the numbers a newcomer learns here are the numbers they'll see.
 
-import { useCallback, useEffect, useMemo, useReducer, useState } from "react";
+import { useCallback, useEffect, useMemo, useReducer, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { EASE, DUR } from "@/lib/tokens";
@@ -146,37 +146,77 @@ function reducer(state: Sandbox, action: Action): Sandbox {
 
 type ActKey = "question" | "chart" | "bet" | "position" | "exit" | "done";
 
-const ACTS: { key: ActKey; title: string; body: string }[] = [
+/**
+ * `cue` is the line that hands the act over to the user; `cueDone` is what we
+ * say back once they've done it. Acts with `task: false` have nothing to press,
+ * so their cue is a pointer rather than a checklist item.
+ */
+interface Act {
+  key: ActKey;
+  title: string;
+  body: string;
+  cue: string;
+  cueDone?: string;
+  task: boolean;
+}
+
+const ACTS: Act[] = [
   {
     key: "question",
     title: "Çdo treg është një pyetje",
     body: "Një pyetje, dy përgjigje. Çmimi i secilës anë është gjasa që tregu i jep asaj përgjigjeje tani — 60% do të thotë se tregu e sheh PO si dy herë më të mundshme se JO.",
+    cue: "Provoje ti: prek PO ose JO dhe të tregoj çfarë fiton.",
+    cueDone: "Pikërisht kështu. Çmimi është gjasa, dhe gjasa është fitimi.",
+    task: true,
   },
   {
     key: "chart",
     title: "Lexo grafikun",
     body: "Vija është historiku i asaj gjase. Kur ngjitet, lajmet po e forcojnë PO; kur bie, po e dobësojnë. Butonat lart djathtas ngushtojnë periudhën — 1o për orën e fundit, Gjithë për gjithë historikun.",
+    cue: "Tani prek një periudhë lart djathtas: 1o, 1d, 1j ose Gjithë.",
+    cueDone: "E njëjta vijë, vetëm më nga afër. Kaq është periudha.",
+    task: true,
   },
   {
     key: "bet",
     title: "Vendos bastin e provës",
-    body: "Zgjidh anën, shkruaj sa 383 Coin do të vësh dhe shiko sa aksione blen. Këto janë monedha prove — asgjë reale nuk preket. Vendose një bast për të vazhduar.",
+    body: "Zgjidh anën, shkruaj sa 383 Coin do të vësh dhe shiko sa aksione blen. Këto janë monedha prove — asgjë reale nuk preket.",
+    cue: "Radha jote plotësisht: zgjidh anën, cakto shumën, shtyp Blej.",
+    cueDone: "E vendose vetë. Shiko bilancin dhe numëruesin lart.",
+    task: true,
   },
   {
     key: "position",
     title: "Pozicioni yt",
     body: "Ja çfarë ndodhi: bilanci ra, ke aksione në dorë dhe numëruesi i tregtimeve u rrit me një. Vija e grafikut lëvizi po ashtu — çdo bast e shtyn çmimin pak.",
+    cue: "Shikoje bilancin lart. Ai ndryshim erdhi nga shtypja jote.",
+    task: false,
   },
   {
     key: "exit",
     title: "Hiqe tregtimin",
     body: "Nuk je i mbyllur brenda deri në fund. Shit aksionet me çmimin e tanishëm dhe monedhat kthehen në bilanc. Nëse çmimi ka lëvizur në favorin tënd, kthen më shumë se sa vure.",
+    cue: "Provoje edhe daljen: shtyp Shit dhe merri monedhat mbrapsht.",
+    cueDone: "Dole. Tani e di si hyhet dhe si dilet.",
+    task: true,
   },
   {
     key: "done",
     title: "Gati për tregun e vërtetë",
-    body: "E njëjta gjë, vetëm me 383 Coin që fitohen falas çdo ditë. Mbylle këtë dhe kupona e bastit të djathtë të pret.",
+    body: "E njëjta gjë, vetëm me 383 Coin që fitohen falas çdo ditë. Mbylle këtë dhe kuponi i bastit të pret gati.",
+    cue: "E bëmë bashkë. Tani provoje vetë me tregun e vërtetë.",
+    task: false,
   },
+];
+
+/**
+ * Act 3's cue, handed over one move at a time. The index is `betStep`, so the
+ * line always names the single control that is currently wearing the ring.
+ */
+const BET_CUES = [
+  "Së pari, cila anë? Prek PO ose JO.",
+  "Mirë. Tani shuma: prek një çip, ose shkruaje vetë.",
+  "Mbeti një lëvizje: shtyp Blej dhe e bëmë bashkë.",
 ];
 
 const MOCK_QUESTION = "A do të nënshkruhet marrëveshja para fundit të muajit?";
@@ -187,16 +227,63 @@ function fmt(n: number, digits = 0): string {
   return n.toLocaleString("sq-AL", { minimumFractionDigits: digits, maximumFractionDigits: digits });
 }
 
+/**
+ * A number that lands instead of swapping. Changing the key remounts it, which
+ * replays the spring — the balance and the trade counter are the two figures
+ * the sandbox exists to make a newcomer notice moving.
+ */
+function Tick({ value, motionOn }: { value: string; motionOn: boolean }) {
+  if (!motionOn) return <strong>{value}</strong>;
+  return (
+    <motion.strong
+      key={value}
+      // Full transform strings, not the x/scale shorthands: these fire the same
+      // frame the sandbox recomputes its LMSR preview.
+      initial={{ transform: "scale(0.74)", opacity: 0 }}
+      animate={{ transform: "scale(1)", opacity: 1 }}
+      transition={{
+        transform: { type: "spring", duration: 0.5, bounce: 0.3 },
+        opacity: { duration: DUR.fast, ease: EASE },
+      }}
+    >
+      {value}
+    </motion.strong>
+  );
+}
+
+/** Twelve coins thrown outward, once, on the last act. */
+const BURST = Array.from({ length: 12 }, (_, i) => {
+  const angle = (i / 12) * Math.PI * 2;
+  return { x: Math.cos(angle) * 128, y: Math.sin(angle) * 54 };
+});
+
 export default function TradeTutorial() {
   const [mounted, setMounted] = useState(false);
   const [open, setOpen] = useState(false);
   const [act, setAct] = useState(0);
   const [reduced, setReduced] = useState(false);
+  const [narrow, setNarrow] = useState(false);
   const [state, dispatch] = useReducer(reducer, INITIAL);
 
   const [range, setRange] = useState<RangeKey>("all");
   const [focus, setFocus] = useState<number | null>(null);
   const [marker, setMarker] = useState<number | null>(null);
+
+  /** Which side the user poked on act 1, and whether they've tried a period. */
+  const [tappedSide, setTappedSide] = useState<BinarySide | null>(null);
+  const [triedRange, setTriedRange] = useState(false);
+  /**
+   * Act 3 is walked one move at a time — side, then amount, then Blej — rather
+   * than handing over all three at once. Both flags track *user* presses only;
+   * the ghost cursor dispatches to the reducer directly so its demo never ticks
+   * a step off on the reader's behalf.
+   */
+  const [pickedSide, setPickedSide] = useState(false);
+  const [pickedAmount, setPickedAmount] = useState(false);
+  /** The receipt that flies off the wallet when a practice trade settles. */
+  const [flash, setFlash] = useState<{ id: number; text: string; tone: "out" | "in" } | null>(null);
+  const flashSeq = useRef(0);
+  const flashTimer = useRef(0);
 
   const current = ACTS[act];
 
@@ -210,14 +297,41 @@ export default function TradeTutorial() {
     return () => mq.removeEventListener("change", sync);
   }, []);
 
+  // Phone widths get the tap disc instead of an arrow pointer.
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 720px)");
+    const sync = () => setNarrow(mq.matches);
+    sync();
+    mq.addEventListener("change", sync);
+    return () => mq.removeEventListener("change", sync);
+  }, []);
+
   const start = useCallback(() => {
     dispatch({ type: "reset" });
     setRange("all");
     setFocus(null);
     setMarker(null);
+    setTappedSide(null);
+    setTriedRange(false);
+    setPickedSide(false);
+    setPickedAmount(false);
+    setFlash(null);
     setAct(0);
     setOpen(true);
   }, []);
+
+  /** One receipt at a time; a second trade retargets the same slot. */
+  const showFlash = useCallback((text: string, tone: "out" | "in") => {
+    flashSeq.current += 1;
+    const id = flashSeq.current;
+    setFlash({ id, text, tone });
+    window.clearTimeout(flashTimer.current);
+    flashTimer.current = window.setTimeout(() => {
+      setFlash((f) => (f && f.id === id ? null : f));
+    }, 1600);
+  }, []);
+
+  useEffect(() => () => window.clearTimeout(flashTimer.current), []);
 
   const close = useCallback(() => {
     setOpen(false);
@@ -296,10 +410,59 @@ export default function TradeTutorial() {
     return previewSell({ q_yes: state.qYes, q_no: state.qNo, b: SEED.b }, state.heldSide, state.shares);
   }, [state.shares, state.heldSide, state.qYes, state.qNo]);
 
+  /** Both trades go through here so the wallet receipt never lies about them. */
+  const buy = useCallback(() => {
+    if (!preview) return;
+    dispatch({ type: "buy" });
+    showFlash(`−${fmt(preview.coins)} 383C · +${fmt(preview.shares, 1)} aksione`, "out");
+  }, [preview, showFlash]);
+
+  const sell = useCallback(() => {
+    if (!exitValue) return;
+    dispatch({ type: "sell" });
+    showFlash(`+${fmt(exitValue.coins, 2)} 383C mbrapsht`, "in");
+  }, [exitValue, showFlash]);
+
+  /** Only a real click counts — the ghost cursor sets the range directly. */
+  const pickRange = useCallback((key: RangeKey) => {
+    setRange(key);
+    setTriedRange(true);
+  }, []);
+
+  const pickSide = useCallback((side: BinarySide) => {
+    dispatch({ type: "side", side });
+    setPickedSide(true);
+  }, []);
+
+  const pickAmount = useCallback((amount: number) => {
+    dispatch({ type: "amount", amount });
+    setPickedAmount(true);
+  }, []);
+
+  /**
+   * Where act 3 has got to: 0 waiting on a side, 1 on an amount, 2 on Blej,
+   * 3 done. Only one control wears the ring at a time, so there is always
+   * exactly one thing to press.
+   */
+  const betStep = state.shares > 0 ? 3 : !pickedSide ? 0 : !pickedAmount ? 1 : 2;
+  const onBet = current.key === "bet";
+
   // Acts 3 and 5 are gated: the point is that the user does it, not watches it.
   const blocked =
     (current.key === "bet" && state.shares === 0) ||
     (current.key === "exit" && state.shares > 0);
+
+  /** Has the user done this act's small task? Drives the cue and the pulse. */
+  const cueDone =
+    current.key === "question"
+      ? tappedSide !== null
+      : current.key === "chart"
+        ? triedRange
+        : current.key === "bet"
+          ? state.shares > 0
+          : current.key === "exit"
+            ? state.trades >= 2 && state.shares === 0
+            : true;
 
   const next = useCallback(() => {
     if (blocked) return;
@@ -369,15 +532,22 @@ export default function TradeTutorial() {
       };
     }
 
+    // One demo per move, not the whole sequence on a loop: the pointer shows
+    // the control the cue is naming and then waits there for the reader.
     if (current.key === "bet" && state.shares === 0) {
-      return {
-        loop: true,
-        beats: [
-          { click: '[data-tut="side-po"]', hold: 520, run: () => dispatch({ type: "side", side: "PO" }) },
-          { click: '[data-tut="chip-25"]', hold: 520, run: () => dispatch({ type: "amount", amount: 25 }) },
-          { at: '[data-tut="buy"]', hold: 1600 },
-        ],
-      };
+      if (betStep === 0) {
+        return {
+          loop: true,
+          beats: [
+            { at: '[data-tut="side-po"]', hold: 900 },
+            { at: '[data-tut="side-jo"]', hold: 900 },
+          ],
+        };
+      }
+      if (betStep === 1) {
+        return { loop: true, beats: [{ at: '[data-tut="chip-25"]', hold: 1500 }] };
+      }
+      return { loop: true, beats: [{ at: '[data-tut="buy"]', hold: 1600 }] };
     }
 
     if (current.key === "exit" && state.shares > 0) {
@@ -385,12 +555,38 @@ export default function TradeTutorial() {
     }
 
     return null;
-  }, [current.key, state.shares]);
+  }, [current.key, state.shares, betStep]);
 
   if (!mounted) return null;
 
   const motionOn = !reduced;
   const fade = { duration: motionOn ? DUR.slow : 0, ease: EASE };
+  const cueSaid = current.task && cueDone;
+  const cueText = cueSaid ? current.cueDone : onBet ? BET_CUES[betStep] : current.cue;
+  /** Re-keying replays the line's entrance, so every completed move gets one. */
+  const cueKey = `${current.key}-${cueSaid ? "done" : onBet ? `s${betStep}` : "todo"}`;
+  /**
+   * Stage swaps are blur-masked. Without it a crossfade reads as two separate
+   * panels overlapping; the blur bridges them into one thing changing shape.
+   * Exit is quicker than enter — the old panel is already spent.
+   */
+  const stage = motionOn
+    ? {
+        initial: { opacity: 0, filter: "blur(7px)", transform: "scale(0.985)" },
+        animate: { opacity: 1, filter: "blur(0px)", transform: "scale(1)" },
+        exit: {
+          opacity: 0,
+          filter: "blur(7px)",
+          transform: "scale(0.99)",
+          transition: { duration: 0.16, ease: EASE },
+        },
+        transition: { duration: DUR.slow, ease: EASE },
+      }
+    : { initial: false as const, animate: {}, exit: undefined, transition: { duration: 0 } };
+  /** Small, subtle spring shared by the rails, the cue check and the receipt. */
+  const pop = motionOn
+    ? { type: "spring" as const, duration: 0.5, bounce: 0.28 }
+    : { duration: 0 };
 
   return createPortal(
     <AnimatePresence>
@@ -409,32 +605,79 @@ export default function TradeTutorial() {
 
           <motion.div
             className="tutorial-card tregu-scope"
-            initial={motionOn ? { opacity: 0, y: 26, scale: 0.985 } : false}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={motionOn ? { opacity: 0, y: 16, scale: 0.99 } : undefined}
-            transition={{ duration: motionOn ? DUR.reveal : 0, ease: EASE }}
+            initial={motionOn ? { opacity: 0, transform: "translateY(26px) scale(0.985)" } : false}
+            animate={{ opacity: 1, transform: "translateY(0px) scale(1)" }}
+            exit={
+              motionOn
+                ? {
+                    opacity: 0,
+                    transform: "translateY(16px) scale(0.99)",
+                    transition: { duration: DUR.base, ease: EASE },
+                  }
+                : undefined
+            }
+            transition={{
+              // A modal is a deliberate arrival; it lands with a little weight
+              // and leaves fast. Symmetric timing would make it feel sticky.
+              transform: motionOn ? { type: "spring", duration: 0.52, bounce: 0.18 } : { duration: 0 },
+              opacity: { duration: motionOn ? DUR.base : 0, ease: EASE },
+            }}
           >
             <header className="tutorial-head">
               <span className="tour-eyebrow">
                 <span aria-hidden />
                 Si tregtohet
               </span>
-              <div className="tutorial-wallet">
+              <div className="tutorial-wallet" data-focus={current.key === "position" ? "" : undefined}>
                 <span>
-                  Bilanc prove <strong>{fmt(state.balance)} 383C</strong>
+                  Bilanc prove{" "}
+                  <Tick value={`${fmt(state.balance)} 383C`} motionOn={motionOn} />
                 </span>
                 <span>
-                  Tregtime <strong data-tut="trade-count">{state.trades}</strong>
+                  Tregtime{" "}
+                  <span data-tut="trade-count">
+                    <Tick value={String(state.trades)} motionOn={motionOn} />
+                  </span>
                 </span>
+                <AnimatePresence>
+                  {flash && (
+                    <motion.span
+                      key={flash.id}
+                      className="tutorial-flash"
+                      data-tone={flash.tone}
+                      role="status"
+                      initial={motionOn ? { opacity: 0, transform: "translateY(8px)" } : false}
+                      animate={{ opacity: 1, transform: "translateY(0px)" }}
+                      exit={
+                        motionOn
+                          ? {
+                              opacity: 0,
+                              transform: "translateY(-14px)",
+                              transition: { duration: DUR.slow, ease: EASE },
+                            }
+                          : undefined
+                      }
+                      transition={{ transform: pop, opacity: { duration: DUR.fast, ease: EASE } }}
+                    >
+                      {flash.text}
+                    </motion.span>
+                  )}
+                </AnimatePresence>
               </div>
               <button type="button" className="tutorial-close" onClick={close} aria-label="Mbyll">
                 ✕
               </button>
             </header>
 
-            <div className="tour-rails" aria-hidden>
+            <div className="tour-rails" data-spring aria-hidden>
               {ACTS.map((_, i) => (
-                <span key={i} data-on={i <= act ? "" : undefined} />
+                <span key={i}>
+                  <motion.i
+                    initial={false}
+                    animate={{ transform: i <= act ? "scaleX(1)" : "scaleX(0)" }}
+                    transition={pop}
+                  />
+                </span>
               ))}
             </div>
 
@@ -445,35 +688,89 @@ export default function TradeTutorial() {
                   <h4>{MOCK_QUESTION}</h4>
                 </div>
 
-                {current.key === "question" ? (
-                  <div className="tutorial-sides" aria-label="Përgjigjet">
-                    {(["PO", "JO"] as BinarySide[]).map((s) => {
-                      const p = s === "PO" ? price : 1 - price;
-                      return (
-                        <div key={s} className="tutorial-side-tile" data-side={s}>
-                          <span>{s}</span>
-                          <strong>{(p * 100).toFixed(1)}%</strong>
-                          <em>×{(1 / p).toFixed(2)} nëse del drejt</em>
-                        </div>
-                      );
-                    })}
-                  </div>
-                ) : (
-                  <TutorialChart
-                    points={points}
-                    range={range}
-                    onRange={setRange}
-                    focus={focus}
-                    marker={marker}
-                    reduced={reduced}
-                  />
-                )}
+                <AnimatePresence mode="wait" initial={false}>
+                  {current.key === "question" ? (
+                    <motion.div key="sides" className="tutorial-sides-wrap" {...stage}>
+                      <div className="tutorial-sides" aria-label="Përgjigjet">
+                        {(["PO", "JO"] as BinarySide[]).map((s) => {
+                          const p = s === "PO" ? price : 1 - price;
+                          return (
+                            <button
+                              key={s}
+                              type="button"
+                              className="tutorial-side-tile"
+                              data-side={s}
+                              data-on={tappedSide === s ? "" : undefined}
+                              data-await={tappedSide === null ? "" : undefined}
+                              onClick={() => setTappedSide(s)}
+                            >
+                              <span>{s}</span>
+                              <strong>{(p * 100).toFixed(1)}%</strong>
+                              <em>×{(1 / p).toFixed(2)} nëse del drejt</em>
+                            </button>
+                          );
+                        })}
+                      </div>
 
-                {(current.key === "bet" || current.key === "position" || current.key === "exit") && (
-                  <div className="tutorial-slip" data-tut="slip">
+                      <AnimatePresence mode="wait" initial={false}>
+                        {tappedSide && (
+                          <motion.p
+                            key={tappedSide}
+                            className="tutorial-reveal"
+                            data-side={tappedSide}
+                            initial={motionOn ? { opacity: 0, transform: "translateY(6px)" } : false}
+                            animate={{ opacity: 1, transform: "translateY(0px)" }}
+                            exit={
+                              motionOn
+                                ? {
+                                    opacity: 0,
+                                    transform: "translateY(-4px)",
+                                    transition: { duration: DUR.fast, ease: EASE },
+                                  }
+                                : undefined
+                            }
+                            transition={{ transform: pop, opacity: { duration: DUR.base, ease: EASE } }}
+                          >
+                            100 383C te <strong>{tappedSide}</strong> të kthejnë rreth{" "}
+                            <strong>
+                              {fmt(100 / (tappedSide === "PO" ? price : 1 - price))} 383C
+                            </strong>{" "}
+                            nëse del drejt. Sa më pak e mundshme ana, aq më shumë paguan.
+                          </motion.p>
+                        )}
+                      </AnimatePresence>
+                    </motion.div>
+                  ) : (
+                    <motion.div key="chart" {...stage}>
+                      <TutorialChart
+                        points={points}
+                        range={range}
+                        onRange={pickRange}
+                        focus={focus}
+                        marker={marker}
+                        reduced={reduced}
+                        hint={current.key === "chart" && !triedRange}
+                      />
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+
+                <AnimatePresence mode="wait" initial={false}>
+                  {(current.key === "bet" || current.key === "position" || current.key === "exit") && (
+                    <motion.div
+                      // Keyed on the slip's two faces so buying morphs the panel
+                      // rather than swapping half its rows in place.
+                      key={state.shares === 0 ? "slip-buy" : "slip-hold"}
+                      className="tutorial-slip"
+                      data-tut="slip"
+                      {...stage}
+                    >
                     {state.shares === 0 ? (
                       <>
-                        <div className="tutorial-slip-sides">
+                        <div
+                          className="tutorial-slip-sides"
+                          data-await={onBet && betStep === 0 ? "" : undefined}
+                        >
                           {(["PO", "JO"] as BinarySide[]).map((s) => (
                             <button
                               key={s}
@@ -481,7 +778,7 @@ export default function TradeTutorial() {
                               data-tut={s === "PO" ? "side-po" : "side-jo"}
                               data-on={state.side === s ? "" : undefined}
                               data-side={s}
-                              onClick={() => dispatch({ type: "side", side: s })}
+                              onClick={() => pickSide(s)}
                             >
                               {s} · {((s === "PO" ? price : 1 - price) * 100).toFixed(1)}%
                             </button>
@@ -495,20 +792,21 @@ export default function TradeTutorial() {
                             min={1}
                             max={state.balance}
                             value={state.amount}
-                            onChange={(e) =>
-                              dispatch({ type: "amount", amount: Math.max(0, Number(e.target.value) || 0) })
-                            }
+                            onChange={(e) => pickAmount(Math.max(0, Number(e.target.value) || 0))}
                           />
                         </label>
 
-                        <div className="tutorial-chips">
+                        <div
+                          className="tutorial-chips"
+                          data-await={onBet && betStep === 1 ? "" : undefined}
+                        >
                           {QUICK_AMOUNTS.map((a) => (
                             <button
                               key={a}
                               type="button"
                               data-tut={`chip-${a}`}
                               data-on={state.amount === a ? "" : undefined}
-                              onClick={() => dispatch({ type: "amount", amount: a })}
+                              onClick={() => pickAmount(a)}
                             >
                               {a}
                             </button>
@@ -540,8 +838,9 @@ export default function TradeTutorial() {
                           type="button"
                           className="tutorial-confirm"
                           data-tut="buy"
+                          data-await={onBet && betStep === 2 && preview ? "" : undefined}
                           disabled={!preview}
-                          onClick={() => dispatch({ type: "buy" })}
+                          onClick={buy}
                         >
                           Blej {state.side} për {fmt(Math.min(state.amount, state.balance))} 383C
                         </button>
@@ -572,33 +871,56 @@ export default function TradeTutorial() {
                           className="tutorial-confirm"
                           data-variant="sell"
                           data-tut="sell"
-                          onClick={() => dispatch({ type: "sell" })}
+                          data-await={current.key === "exit" ? "" : undefined}
+                          onClick={sell}
                         >
                           Shit aksionet · merr {exitValue ? fmt(exitValue.coins, 2) : "0"} 383C
                         </button>
                       </>
                     )}
-                  </div>
-                )}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
 
-                {current.key === "done" && (
-                  <div className="tutorial-recap">
-                    <p>
-                      Ke vendosur një bast dhe e ke hequr — <strong>{state.trades} tregtime</strong>{" "}
-                      në total. Bilanci i provës mbylli në{" "}
-                      <strong>{fmt(state.balance)} 383C</strong>.
-                    </p>
-                  </div>
-                )}
+                <AnimatePresence initial={false}>
+                  {current.key === "done" && (
+                    <motion.div key="recap" className="tutorial-recap" {...stage}>
+                      <p>
+                        Ke vendosur një bast dhe e ke hequr:{" "}
+                        <strong>{state.trades} tregtime</strong> në total. Bilanci i provës mbylli
+                        në <strong>{fmt(state.balance)} 383C</strong>.
+                      </p>
+                      {motionOn && (
+                        <span className="tutorial-burst" aria-hidden>
+                          {BURST.map((b, i) => (
+                            <motion.i
+                              key={i}
+                              initial={{ transform: "translate(0px, 0px) scale(0.4)", opacity: 0 }}
+                              animate={{
+                                transform: `translate(${b.x}px, ${b.y}px) scale(1)`,
+                                opacity: [0, 1, 0],
+                              }}
+                              transition={{
+                                transform: { type: "spring", duration: 1.1, bounce: 0.24 },
+                                opacity: { duration: 1.1, times: [0, 0.18, 1], ease: EASE },
+                                delay: 0.12 + i * 0.022,
+                              }}
+                            />
+                          ))}
+                        </span>
+                      )}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
 
               <div className="tutorial-copy">
                 <AnimatePresence mode="wait" initial={false}>
                   <motion.div
                     key={current.key}
-                    initial={motionOn ? { opacity: 0, y: 10 } : false}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={motionOn ? { opacity: 0, y: -8 } : undefined}
+                    initial={motionOn ? { opacity: 0, transform: "translateY(10px)" } : false}
+                    animate={{ opacity: 1, transform: "translateY(0px)" }}
+                    exit={motionOn ? { opacity: 0, transform: "translateY(-8px)" } : undefined}
                     transition={{ duration: motionOn ? DUR.base : 0, ease: EASE }}
                   >
                     <span className="tutorial-step">
@@ -609,13 +931,79 @@ export default function TradeTutorial() {
                   </motion.div>
                 </AnimatePresence>
 
-                {blocked && (
-                  <p className="tutorial-nudge" role="status">
-                    {current.key === "bet"
-                      ? "Provoje vetë: shtyp «Blej» për të vazhduar."
-                      : "Shit aksionet për të vazhduar."}
-                  </p>
-                )}
+                {/* The hand on the shoulder: what to do now, then what just
+                    happened. Acts with nothing to press get the same slot as a
+                    pointer rather than a checklist item. */}
+                <div
+                  className="tutorial-cue"
+                  data-done={current.task && cueDone ? "" : undefined}
+                  data-note={current.task ? undefined : ""}
+                >
+                  <span className="tutorial-cue-mark" aria-hidden>
+                    <AnimatePresence mode="wait" initial={false}>
+                      {!current.task ? (
+                        <motion.em key="note">→</motion.em>
+                      ) : cueDone ? (
+                        <motion.em
+                          key="ok"
+                          initial={motionOn ? { transform: "scale(0.4)", opacity: 0 } : false}
+                          animate={{ transform: "scale(1)", opacity: 1 }}
+                          transition={{
+                            transform: motionOn
+                              ? { type: "spring", duration: 0.44, bounce: 0.42 }
+                              : { duration: 0 },
+                            opacity: { duration: motionOn ? DUR.fast : 0, ease: EASE },
+                          }}
+                        >
+                          ✓
+                        </motion.em>
+                      ) : (
+                        <motion.em
+                          key="todo"
+                          className="tutorial-cue-dot"
+                          initial={motionOn ? { opacity: 0 } : false}
+                          animate={{ opacity: 1 }}
+                          exit={motionOn ? { opacity: 0 } : undefined}
+                          transition={{ duration: motionOn ? DUR.fast : 0, ease: EASE }}
+                        />
+                      )}
+                    </AnimatePresence>
+                  </span>
+                  {/* Remounted on `cueKey`, not held open by an AnimatePresence:
+                      act 3 rewrites this line three times in a row, and
+                      `mode="wait"` queues each swap behind the previous exit —
+                      the ring had already moved on while the line still read
+                      one move behind. Same keyed-remount idiom as `Tick`. */}
+                  <motion.span
+                    key={cueKey}
+                    role="status"
+                    initial={motionOn ? { opacity: 0, transform: "translateY(5px)" } : false}
+                    animate={{ opacity: 1, transform: "translateY(0px)" }}
+                    transition={{ duration: motionOn ? DUR.base : 0, ease: EASE }}
+                  >
+                    {cueText}
+                  </motion.span>
+
+                  {/* Three real moves, so three real pips. They fill as the
+                      reader works, which is the only place in the tutorial that
+                      shows progress *inside* an act rather than across them. */}
+                  {onBet && !cueSaid && (
+                    <span className="tutorial-cue-steps" aria-hidden>
+                      {[0, 1, 2].map((i) => (
+                        <motion.i
+                          key={i}
+                          data-on={i < betStep ? "" : undefined}
+                          animate={{ transform: i === betStep ? "scale(1)" : "scale(0.66)" }}
+                          transition={
+                            motionOn
+                              ? { type: "spring", duration: 0.42, bounce: 0.34 }
+                              : { duration: 0 }
+                          }
+                        />
+                      ))}
+                    </span>
+                  )}
+                </div>
 
                 <div className="tour-actions">
                   <button type="button" className="tour-skip" onClick={close}>
@@ -634,6 +1022,7 @@ export default function TradeTutorial() {
                     <button
                       type="button"
                       className="tour-next"
+                      data-await={!blocked && cueDone ? "" : undefined}
                       disabled={blocked}
                       onClick={act >= ACTS.length - 1 ? finish : next}
                     >
@@ -646,7 +1035,7 @@ export default function TradeTutorial() {
             </div>
           </motion.div>
 
-          <TourCursor script={script} active={open} reduced={reduced} />
+          <TourCursor script={script} active={open} reduced={reduced} touch={narrow} />
         </motion.div>
       )}
     </AnimatePresence>,

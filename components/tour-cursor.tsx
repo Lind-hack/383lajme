@@ -37,6 +37,10 @@ interface Props {
   /** The cursor only runs while its owner is on screen. */
   active: boolean;
   reduced: boolean;
+  /** Phone widths get a tap disc — an arrow pointer is a lie on a touchscreen. */
+  touch?: boolean;
+  /** Keep the pointer inside the lit band; on a phone the rest is under the sheet. */
+  bounds?: { top: number; bottom: number } | null;
 }
 
 interface Point {
@@ -47,6 +51,14 @@ interface Point {
 const MOVE_MS = 620;
 const CLICK_MS = 420;
 const HOLD_MS = 520;
+/**
+ * How long to wait when a beat's target isn't on screen yet. A script switches
+ * the instant the act changes, but the stage it points at is still mid-swap
+ * behind an `AnimatePresence mode="wait"` — so the first pass resolves nothing.
+ * Without a yield here the `do…while (loop)` runs a pass with no `await` in it
+ * and pins the main thread, which then never gets to mount the target at all.
+ */
+const RETRY_MS = 140;
 
 function resolve(anchor: CursorAnchor): Point | null {
   if (typeof anchor === "object" && "x" in anchor) return anchor;
@@ -60,11 +72,13 @@ function resolve(anchor: CursorAnchor): Point | null {
   return { x: r.left + r.width * fx, y: r.top + r.height * fy };
 }
 
-export default function TourCursor({ script, active, reduced }: Props) {
+export default function TourCursor({ script, active, reduced, touch, bounds }: Props) {
   const [point, setPoint] = useState<Point | null>(null);
   const [clicking, setClicking] = useState(false);
   const [pressed, setPressed] = useState(false);
   const timers = useRef<number[]>([]);
+  const boundsRef = useRef(bounds);
+  boundsRef.current = bounds;
 
   useEffect(() => {
     timers.current.forEach(window.clearTimeout);
@@ -78,9 +92,24 @@ export default function TourCursor({ script, active, reduced }: Props) {
     }
 
     let cancelled = false;
+    /** A beat can resolve to a point the sheet is covering; pin it to the band. */
+    const place = (p: Point) => {
+      const b = boundsRef.current;
+      if (!b || b.bottom <= b.top) {
+        setPoint(p);
+        return;
+      }
+      setPoint({ x: p.x, y: Math.min(Math.max(p.y, b.top), b.bottom) });
+    };
+    // Timers drop themselves once they fire — a looping script would otherwise
+    // grow this array for as long as the act is on screen.
     const wait = (ms: number) =>
       new Promise<void>((resolve) => {
-        timers.current.push(window.setTimeout(resolve, ms));
+        const id = window.setTimeout(() => {
+          timers.current = timers.current.filter((t) => t !== id);
+          resolve();
+        }, ms);
+        timers.current.push(id);
       });
 
     const play = async () => {
@@ -91,14 +120,17 @@ export default function TourCursor({ script, active, reduced }: Props) {
           if ("drag" in beat) {
             const from = resolve(beat.drag.from);
             const to = resolve(beat.drag.to);
-            if (!from || !to) continue;
-            setPoint(from);
+            if (!from || !to) {
+              await wait(RETRY_MS);
+              continue;
+            }
+            place(from);
             await wait(MOVE_MS);
             if (cancelled) return;
             setPressed(true);
             await wait(180);
             if (cancelled) return;
-            setPoint(to);
+            place(to);
             await wait(beat.drag.ms ?? 900);
             if (cancelled) return;
             setPressed(false);
@@ -108,8 +140,11 @@ export default function TourCursor({ script, active, reduced }: Props) {
 
           if ("click" in beat) {
             const target = resolve(beat.click);
-            if (!target) continue;
-            setPoint(target);
+            if (!target) {
+              await wait(RETRY_MS);
+              continue;
+            }
+            place(target);
             await wait(MOVE_MS);
             if (cancelled) return;
             setClicking(true);
@@ -122,8 +157,11 @@ export default function TourCursor({ script, active, reduced }: Props) {
           }
 
           const target = resolve(beat.at);
-          if (!target) continue;
-          setPoint(target);
+          if (!target) {
+            await wait(RETRY_MS);
+            continue;
+          }
+          place(target);
           beat.run?.();
           await wait(MOVE_MS + (beat.hold ?? HOLD_MS));
         }
@@ -144,6 +182,7 @@ export default function TourCursor({ script, active, reduced }: Props) {
   return (
     <motion.div
       className="tour-cursor"
+      data-touch={touch ? "" : undefined}
       aria-hidden
       initial={{ opacity: 0, scale: 0.7 }}
       animate={{ opacity: 1, scale: pressed ? 0.86 : 1, x: point.x, y: point.y }}
@@ -155,15 +194,19 @@ export default function TourCursor({ script, active, reduced }: Props) {
         scale: { duration: 0.18 },
       }}
     >
-      <svg width="26" height="30" viewBox="0 0 26 30" fill="none">
-        <path
-          d="M3 2.2 21.4 15.1l-7.6 1.1 4.2 8.8-3.6 1.7-4.2-8.8-4.6 4.9z"
-          fill="#111111"
-          stroke="#ffffff"
-          strokeWidth="1.8"
-          strokeLinejoin="round"
-        />
-      </svg>
+      {touch ? (
+        <span className="tour-cursor-tap" />
+      ) : (
+        <svg width="26" height="30" viewBox="0 0 26 30" fill="none">
+          <path
+            d="M3 2.2 21.4 15.1l-7.6 1.1 4.2 8.8-3.6 1.7-4.2-8.8-4.6 4.9z"
+            fill="#111111"
+            stroke="#ffffff"
+            strokeWidth="1.8"
+            strokeLinejoin="round"
+          />
+        </svg>
+      )}
       <AnimatePresence>
         {clicking && (
           <motion.span

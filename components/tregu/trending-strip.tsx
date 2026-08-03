@@ -406,10 +406,13 @@ export default function TrendingStrip() {
             <button
               type="button"
               className="tregu-home-help"
+              aria-label="Si funksionon Tregu"
               onClick={() => openTour(TOUR_ID)}
             >
               <span aria-hidden>?</span>
-              Si funksionon
+              {/* Collapses to the bare disc on phones, where the row also
+                  carries "Shiko të gjitha" and both labels will not fit. */}
+              <em className="tregu-home-help-label">Si funksionon</em>
             </button>
             <Link href="/tregu" className="tregu-home-all">
               Shiko të gjitha <span aria-hidden>→</span>

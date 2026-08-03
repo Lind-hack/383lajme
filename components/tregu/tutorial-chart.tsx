@@ -37,6 +37,8 @@ interface Props {
   /** 0–1 across the visible slice; draws the readout marker. */
   marker: number | null;
   reduced: boolean;
+  /** Ring the period chips — the tutorial is waiting on the user to try one. */
+  hint?: boolean;
 }
 
 type Box = [number, number, number, number];
@@ -45,7 +47,15 @@ function ease(t: number): number {
   return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
 }
 
-export default function TutorialChart({ points, range, onRange, focus, marker, reduced }: Props) {
+export default function TutorialChart({
+  points,
+  range,
+  onRange,
+  focus,
+  marker,
+  reduced,
+  hint,
+}: Props) {
   const wrapRef = useRef<HTMLDivElement>(null);
   const [size, setSize] = useState({ w: 0, h: 0 });
   const [box, setBox] = useState<Box>([0, 0, W, H]);
@@ -166,7 +176,12 @@ export default function TutorialChart({ points, range, onRange, focus, marker, r
             {delta >= 0 ? "▲" : "▼"} {Math.abs(delta).toFixed(1)} pikë
           </em>
         </div>
-        <div className="tut-chart-ranges" role="group" aria-label="Periudha">
+        <div
+          className="tut-chart-ranges"
+          role="group"
+          aria-label="Periudha"
+          data-await={hint ? "" : undefined}
+        >
           {RANGES.map((r) => (
             <button
               key={r.key}
