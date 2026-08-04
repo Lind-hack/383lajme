@@ -5686,19 +5686,23 @@ header[data-overlay] .nav-coin-chip {
   inset: 0;
   border: 2px solid #ff4422;
   border-radius: inherit;
-  box-shadow: 0 0 0 6px rgba(255, 68, 34, 0.16);
-  animation: tour-ring-pulse 2.1s var(--ease-out) infinite;
+  box-shadow: 0 0 0 6px rgba(255, 68, 34, 0.14);
+  animation: tour-ring-pulse 3.2s ease-in-out infinite;
 }
-.tour-ring[data-static] {
+/* The pulse is an idle animation: it says "read this", so it only runs on a
+   ring that has landed. Breathing while the camera is still travelling reads
+   as two motions fighting for the same edge. */
+.tour-ring[data-static],
+.tour-ring[data-travel] {
   animation: none;
 }
 @keyframes tour-ring-pulse {
   0%,
   100% {
-    box-shadow: 0 0 0 5px rgba(255, 68, 34, 0.14);
+    box-shadow: 0 0 0 5px rgba(255, 68, 34, 0.13);
   }
   50% {
-    box-shadow: 0 0 0 11px rgba(255, 68, 34, 0.06);
+    box-shadow: 0 0 0 9px rgba(255, 68, 34, 0.07);
   }
 }
 .tour-tip {

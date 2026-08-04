@@ -163,48 +163,48 @@ interface Act {
 const ACTS: Act[] = [
   {
     key: "question",
-    title: "Çdo treg është një pyetje",
-    body: "Një pyetje, dy përgjigje. Çmimi i secilës anë është gjasa që tregu i jep asaj përgjigjeje tani — 60% do të thotë se tregu e sheh PO si dy herë më të mundshme se JO.",
-    cue: "Provoje ti: prek PO ose JO dhe të tregoj çfarë fiton.",
-    cueDone: "Pikërisht kështu. Çmimi është gjasa, dhe gjasa është fitimi.",
+    title: "Një pyetje. Dy përgjigje.",
+    body: "Përqindja tregon sa e mundur e sheh tregu secilën anë. Sa më e ulët ana jote, aq më shumë fiton.",
+    cue: "Prek PO ose JO. Të tregoj sa fiton.",
+    cueDone: "Pikërisht. Ana më pak e pritur paguan më shumë.",
     task: true,
   },
   {
     key: "chart",
-    title: "Lexo grafikun",
-    body: "Vija është historiku i asaj gjase. Kur ngjitet, lajmet po e forcojnë PO; kur bie, po e dobësojnë. Butonat lart djathtas ngushtojnë periudhën — 1o për orën e fundit, Gjithë për gjithë historikun.",
-    cue: "Tani prek një periudhë lart djathtas: 1o, 1d, 1j ose Gjithë.",
-    cueDone: "E njëjta vijë, vetëm më nga afër. Kaq është periudha.",
+    title: "Vija tregon historinë",
+    body: "Ngjitet kur lajmet forcojnë PO, bie kur e dobësojnë.",
+    cue: "Prek një periudhë lart djathtas: 1o, 1d, 1j ose Gjithë.",
+    cueDone: "E njëjta vijë, vetëm më nga afër.",
     task: true,
   },
   {
     key: "bet",
-    title: "Vendos bastin e provës",
-    body: "Zgjidh anën, shkruaj sa 383 Coin do të vësh dhe shiko sa aksione blen. Këto janë monedha prove — asgjë reale nuk preket.",
-    cue: "Radha jote plotësisht: zgjidh anën, cakto shumën, shtyp Blej.",
-    cueDone: "E vendose vetë. Shiko bilancin dhe numëruesin lart.",
+    title: "Provoje me monedha prove",
+    body: "Zgjidh anën, cakto sa Coin, shtyp Blej. Asgjë reale nuk preket.",
+    cue: "Radha jote: anën, shumën, Blej.",
+    cueDone: "E bëre vetë. Shiko bilancin lart.",
     task: true,
   },
   {
     key: "position",
-    title: "Pozicioni yt",
-    body: "Ja çfarë ndodhi: bilanci ra, ke aksione në dorë dhe numëruesi i tregtimeve u rrit me një. Vija e grafikut lëvizi po ashtu — çdo bast e shtyn çmimin pak.",
-    cue: "Shikoje bilancin lart. Ai ndryshim erdhi nga shtypja jote.",
+    title: "Çfarë ndodhi",
+    body: "Bilanci ra, ti mban aksione. Çdo blerje e shtyn vijën pak lart.",
+    cue: "Shiko bilancin lart — atë ndryshim e bëre ti.",
     task: false,
   },
   {
     key: "exit",
-    title: "Hiqe tregtimin",
-    body: "Nuk je i mbyllur brenda deri në fund. Shit aksionet me çmimin e tanishëm dhe monedhat kthehen në bilanc. Nëse çmimi ka lëvizur në favorin tënd, kthen më shumë se sa vure.",
-    cue: "Provoje edhe daljen: shtyp Shit dhe merri monedhat mbrapsht.",
-    cueDone: "Dole. Tani e di si hyhet dhe si dilet.",
+    title: "Dil kur të duash",
+    body: "Shit aksionet dhe Coin-at kthehen. Nëse vija lëvizi për ty, kthen më shumë.",
+    cue: "Shtyp Shit dhe merri Coin-at mbrapsht.",
+    cueDone: "Dole. Tani di të hysh dhe të dalësh.",
     task: true,
   },
   {
     key: "done",
-    title: "Gati për tregun e vërtetë",
-    body: "E njëjta gjë, vetëm me 383 Coin që fitohen falas çdo ditë. Mbylle këtë dhe kuponi i bastit të pret gati.",
-    cue: "E bëmë bashkë. Tani provoje vetë me tregun e vërtetë.",
+    title: "Kaq ishte",
+    body: "Tregu i vërtetë punon njësoj, me 383 Coin që i merr falas çdo ditë.",
+    cue: "Mbylle këtë dhe provoje vetë.",
     task: false,
   },
 ];
@@ -214,9 +214,9 @@ const ACTS: Act[] = [
  * line always names the single control that is currently wearing the ring.
  */
 const BET_CUES = [
-  "Së pari, cila anë? Prek PO ose JO.",
-  "Mirë. Tani shuma: prek një çip, ose shkruaje vetë.",
-  "Mbeti një lëvizje: shtyp Blej dhe e bëmë bashkë.",
+  "Cila anë? Prek PO ose JO.",
+  "Sa Coin? Prek një çip.",
+  "Shtyp Blej.",
 ];
 
 const MOCK_QUESTION = "A do të nënshkruhet marrëveshja para fundit të muajit?";
