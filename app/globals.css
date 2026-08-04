@@ -5981,16 +5981,20 @@ header[data-overlay] .nav-coin-chip {
   backdrop-filter: blur(3px);
   -webkit-backdrop-filter: blur(3px);
 }
+/* One narrow column, head and foot pinned. The card itself never scrolls —
+   only .tutorial-body does — so the nav can't be pushed below the fold. */
 .tutorial-card {
   position: relative;
-  width: min(1080px, 100%);
+  display: flex;
+  flex-direction: column;
+  width: min(560px, 100%);
   /* The card wears .tregu-scope for the market design tokens, which also
      carries `min-height: 100vh` — that would stretch it to the full viewport
      and beat its own max-height. */
   min-height: 0;
-  max-height: calc(100dvh - 48px);
-  overflow-y: auto;
-  padding: 20px 24px 22px;
+  max-height: min(calc(100dvh - 48px), 760px);
+  overflow: hidden;
+  padding: 18px 20px 18px;
   border: 1px solid rgba(17, 17, 17, 0.08);
   border-radius: 24px;
   background: #ffffff;
@@ -6074,11 +6078,17 @@ header[data-overlay] .nav-coin-chip {
   color: #111111;
   border-color: rgba(17, 17, 17, 0.28);
 }
+/* The only scroll container in the tutorial. Negative side margins give the
+   [data-await] ring its 5px of bleed back without letting it clip. */
 .tutorial-body {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 330px;
-  gap: 26px;
-  margin-top: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  margin: 0 -7px;
+  padding: 2px 7px 6px;
 }
 .tutorial-stage {
   display: flex;
@@ -6095,7 +6105,7 @@ header[data-overlay] .nav-coin-chip {
 .tutorial-question h4 {
   margin: 0;
   color: #111111;
-  font-size: 17px;
+  font-size: 15.5px;
   font-weight: 800;
   line-height: 1.3;
   letter-spacing: -0.015em;
@@ -6111,8 +6121,8 @@ header[data-overlay] .nav-coin-chip {
 .tutorial-side-tile {
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  padding: 20px 18px;
+  gap: 3px;
+  padding: 14px 16px;
   border: 1px solid rgba(17, 17, 17, 0.09);
   border-radius: 16px;
   background: #faf8f5;
@@ -6145,9 +6155,20 @@ header[data-overlay] .nav-coin-chip {
 .tutorial-side-tile[data-side="JO"] > span {
   color: #c51518;
 }
+/* Locked once shares are held. The chosen tile stays at full strength — it is
+   still the answer to "which side am I on" — the other one recedes. */
+.tutorial-side-tile:disabled {
+  cursor: default;
+}
+.tutorial-side-tile:disabled:not([data-on]) {
+  opacity: 0.5;
+}
+.tutorial-side-tile:disabled:active {
+  transform: none;
+}
 .tutorial-side-tile strong {
   color: #111111;
-  font-size: 30px;
+  font-size: 22px;
   font-weight: 800;
   line-height: 1;
   font-variant-numeric: tabular-nums;
@@ -6156,13 +6177,6 @@ header[data-overlay] .nav-coin-chip {
   color: #6b6b6b;
   font-size: 12px;
   font-style: normal;
-}
-/* Wrapper exists so the tiles and the payout line crossfade as one panel
-   against the chart, rather than the grid re-flowing under the swap. */
-.tutorial-sides-wrap {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
 }
 /* The answer to the poke: what 100 coins on that side would return. */
 .tutorial-reveal {
@@ -6190,59 +6204,6 @@ header[data-overlay] .nav-coin-chip {
   border-radius: 18px;
   background: #faf8f5;
 }
-.tutorial-slip-sides {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-}
-.tutorial-slip-sides button {
-  padding: 12px;
-  border: 1.5px solid rgba(17, 17, 17, 0.1);
-  border-radius: 12px;
-  background: #ffffff;
-  color: #6b6b6b;
-  font-family: inherit;
-  font-size: 13.5px;
-  font-weight: 800;
-  cursor: pointer;
-  transition: border-color 160ms var(--ease-out), color 160ms var(--ease-out),
-    background-color 160ms var(--ease-out), transform 140ms var(--ease-out);
-}
-.tutorial-slip-sides button:active {
-  transform: scale(0.97);
-}
-.tutorial-slip-sides button[data-side="PO"][data-on] {
-  border-color: #00854a;
-  background: rgba(0, 133, 74, 0.08);
-  color: #00854a;
-}
-.tutorial-slip-sides button[data-side="JO"][data-on] {
-  border-color: #c51518;
-  background: rgba(197, 21, 24, 0.07);
-  color: #c51518;
-}
-.tutorial-amount {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  font-size: 12px;
-  font-weight: 700;
-  color: #6b6b6b;
-}
-.tutorial-amount input {
-  width: 130px;
-  padding: 10px 12px;
-  border: 1px solid rgba(17, 17, 17, 0.12);
-  border-radius: 10px;
-  background: #ffffff;
-  color: #111111;
-  font-family: inherit;
-  font-size: 15px;
-  font-weight: 800;
-  text-align: right;
-  font-variant-numeric: tabular-nums;
-}
 .tutorial-chips {
   display: flex;
   gap: 7px;
@@ -6268,45 +6229,28 @@ header[data-overlay] .nav-coin-chip {
   border-color: #111111;
   color: #111111;
 }
-.tutorial-summary,
-.tutorial-position {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px 16px;
+.tutorial-chips button:disabled {
+  cursor: default;
+  opacity: 0.55;
+}
+/* One line where the old slip had four rows of jargon: the single number that
+   answers "what do I get out of this". */
+.tutorial-line {
   margin: 0;
-  padding: 12px 0 2px;
-  border-top: 1px solid rgba(17, 17, 17, 0.08);
+  color: #5f5b56;
+  font-size: 12.5px;
+  line-height: 1.5;
 }
-.tutorial-summary > div,
-.tutorial-position > div {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 10px;
-}
-.tutorial-summary dt,
-.tutorial-position dt {
-  color: #6b6b6b;
-  font-size: 12px;
-}
-.tutorial-summary dd,
-.tutorial-position dd {
-  margin: 0;
+.tutorial-line strong {
   color: #111111;
-  font-size: 13px;
   font-weight: 800;
   font-variant-numeric: tabular-nums;
 }
-.tutorial-summary dd[data-good],
-.tutorial-position dd[data-side="PO"] {
+.tutorial-line strong[data-side="PO"] {
   color: #00854a;
 }
-.tutorial-position dd[data-side="JO"] {
+.tutorial-line strong[data-side="JO"] {
   color: #c51518;
-}
-.tutorial-position {
-  border-top: none;
-  padding-top: 0;
 }
 .tutorial-confirm {
   padding: 13px;
@@ -6350,23 +6294,31 @@ header[data-overlay] .nav-coin-chip {
   line-height: 1.6;
 }
 
+/* Title block: the counter sits on the same line as the title so the header
+   costs one line instead of two, and the market stays above the fold. */
 .tutorial-copy {
   display: flex;
   flex-direction: column;
   min-width: 0;
 }
 .tutorial-step {
-  display: block;
-  margin-bottom: 6px;
-  color: #9a938c;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.06em;
+  flex: none;
+  padding: 3px 7px;
+  border-radius: 100px;
+  background: rgba(17, 17, 17, 0.06);
+  color: #6b645e;
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  font-variant-numeric: tabular-nums;
 }
 .tutorial-copy h3 {
-  margin: 0 0 8px;
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+  margin: 0 0 6px;
   color: #111111;
-  font-size: 20px;
+  font-size: 19px;
   font-weight: 800;
   line-height: 1.22;
   letter-spacing: -0.02em;
@@ -6398,10 +6350,6 @@ header[data-overlay] .nav-coin-chip {
 .tutorial-cue[data-done] {
   background: rgba(0, 133, 74, 0.09);
   color: #00713f;
-}
-.tutorial-cue[data-note] {
-  background: rgba(17, 17, 17, 0.05);
-  color: #5f5b56;
 }
 .tutorial-cue-mark {
   display: grid;
@@ -6446,9 +6394,26 @@ header[data-overlay] .nav-coin-chip {
 .tutorial-cue-steps i[data-on] {
   opacity: 1;
 }
-.tutorial-copy .tour-actions {
-  margin-top: auto;
-  padding-top: 20px;
+/* Pinned under the scroll area: the cue and the nav travel together, so the
+   button that moves the reader forward is always on screen. */
+.tutorial-foot {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex: none;
+  flex-wrap: wrap;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(17, 17, 17, 0.08);
+}
+.tutorial-foot .tutorial-cue {
+  flex: 1 1 220px;
+  margin-top: 0;
+}
+.tutorial-foot .tour-actions {
+  flex: none;
+  gap: 8px;
+  margin-top: 0;
 }
 .tour-next:disabled {
   opacity: 0.4;
@@ -6482,12 +6447,6 @@ header[data-overlay] .nav-coin-chip {
 .tut-chart-ranges[data-await]::after {
   inset: -6px;
   border-radius: 100px;
-}
-/* Act 3 rings a whole row at a time — "pick one of these", not "press this
-   exact button" — so the group carries the ring and its own radius. */
-.tutorial-slip-sides[data-await]::after {
-  inset: -6px;
-  border-radius: 15px;
 }
 .tutorial-chips[data-await]::after {
   inset: -6px;
@@ -6594,9 +6553,11 @@ header[data-overlay] .nav-coin-chip {
   background: #111111;
   color: #ffffff;
 }
+/* The chart is context here, not the subject — it has to leave room for the
+   tiles and the act panel inside one 560px column. */
 .tut-chart-plot {
   position: relative;
-  height: clamp(200px, 26vh, 280px);
+  height: clamp(132px, 16vh, 168px);
 }
 .tut-chart-plot > svg {
   display: block;
@@ -6634,13 +6595,6 @@ header[data-overlay] .nav-coin-chip {
     border-radius: 20px;
     max-height: calc(100dvh - 24px);
   }
-  .tutorial-body {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 18px;
-  }
-  .tutorial-copy .tour-actions {
-    padding-top: 14px;
-  }
 }
 @media (max-width: 640px) {
   .tutorial-head {
@@ -6659,10 +6613,10 @@ header[data-overlay] .nav-coin-chip {
     font-size: 18px;
   }
   .tut-chart-plot {
-    height: 190px;
+    height: 128px;
   }
   .tutorial-side-tile strong {
-    font-size: 24px;
+    font-size: 21px;
   }
   /* On a phone a centred card with a scrim around it wastes the only screen
      there is. The tutorial takes the whole sheet instead. */
@@ -6679,13 +6633,13 @@ header[data-overlay] .nav-coin-chip {
       max(18px, env(safe-area-inset-bottom));
   }
   /* Thumb targets, not mouse targets. */
-  .tutorial-copy .tour-actions .tour-skip {
+  .tutorial-foot .tour-actions .tour-skip {
     padding: 12px 10px;
   }
-  .tutorial-copy .tour-actions .tour-back {
+  .tutorial-foot .tour-actions .tour-back {
     padding: 12px 16px;
   }
-  .tutorial-copy .tour-actions .tour-next {
+  .tutorial-foot .tour-actions .tour-next {
     padding: 12px 20px;
   }
 }
@@ -6693,7 +6647,6 @@ header[data-overlay] .nav-coin-chip {
   .tutorial-close,
   .tutorial-confirm,
   .tutorial-chips button,
-  .tutorial-slip-sides button,
   .tutorial-side-tile,
   .tutorial-cue,
   .tutorial-wallet > span,
@@ -6708,7 +6661,7 @@ header[data-overlay] .nav-coin-chip {
   }
   /* Colour still answers the press; the squash doesn't. Matches .tregu-raise. */
   .tutorial-chips button:active,
-  .tutorial-slip-sides button:active,
+  .tutorial-side-tile:active,
   .tut-chart-ranges button:active {
     transform: none;
   }
