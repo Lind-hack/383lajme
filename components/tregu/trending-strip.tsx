@@ -9,15 +9,16 @@ import GroupChart, { type EventSeries } from "./group-chart";
 const TOUR_ID = "tregu-home";
 
 /**
- * Module-level so the tour's effects keep a stable dependency. Each step pushes
- * in on its target and lets the ghost cursor act the interaction out, so the
- * band reads as a demo rather than four captions.
+ * Module-level so the tour's effects keep a stable dependency. Three steps, one
+ * idea each: what a card is, how you pick a side, what you are risking. The
+ * ghost cursor acts each one out, so the band reads as a demo rather than a
+ * caption. Anything that needs a second read belongs in the market itself.
  */
 const TOUR_STEPS: TourStep[] = [
   {
     target: "[data-tour='tregu-card']",
-    title: "Çdo kartë është një pyetje",
-    body: "Tregu i kthen lajmet e ditës në pyetje me dy përgjigje: PO ose JO. Kjo është njëra nga dy pyetjet më aktive tani.",
+    title: "Një pyetje. Dy përgjigje.",
+    body: "Lajmi i ditës bëhet pyetje. Ti zgjedh: PO ose JO.",
     padding: 12,
     radius: 20,
     zoom: 1.03,
@@ -30,33 +31,12 @@ const TOUR_STEPS: TourStep[] = [
     },
   },
   {
-    target: "[data-tour='tregu-chart']",
-    title: "Grafiku tregon gjasat live",
-    body: "Vija ndjek shansin që përgjigjja të dalë PO. Ngjitet kur lajmi forcohet, bie kur dobësohet — përditësohet çdo pak sekonda.",
+    target: "[data-tour='tregu-outcomes']",
+    title: "Zgjidh anën tënde",
+    body: "Përqindja tregon çfarë mendojnë të tjerët. Sa më pak e pritur ana jote, aq më shumë fiton.",
     padding: 8,
     radius: 14,
     zoom: 1.06,
-    cursor: {
-      loop: true,
-      beats: [
-        { at: { sel: "[data-tour='tregu-chart']", fx: 0.08, fy: 0.6 }, hold: 420 },
-        {
-          drag: {
-            from: { sel: "[data-tour='tregu-chart']", fx: 0.08, fy: 0.6 },
-            to: { sel: "[data-tour='tregu-chart']", fx: 0.92, fy: 0.35 },
-            ms: 1500,
-          },
-        },
-      ],
-    },
-  },
-  {
-    target: "[data-tour='tregu-outcomes']",
-    title: "Zgjidh anën tënde",
-    body: "Përqindja është gjasa e tanishme. Numri me shenjën × tregon sa herë shumëzohen monedhat e tua nëse del drejt.",
-    padding: 8,
-    radius: 14,
-    zoom: 1.08,
     cursor: {
       loop: true,
       beats: [
@@ -67,11 +47,11 @@ const TOUR_STEPS: TourStep[] = [
   },
   {
     target: "[data-tour='tregu-cta']",
-    title: "Vë 383 Coin, jo para",
-    body: "Hap tregun, shkruaj sa Coin do të vësh dhe konfirmo. 383 Coin është monedha falas e faqes — asnjë para reale nuk hyn në lojë.",
+    title: "Me 383 Coin, jo me para",
+    body: "Monedha falas e faqes. Hape tregun dhe provo — pa asnjë rrezik.",
     padding: 8,
     radius: 12,
-    zoom: 1.1,
+    zoom: 1.06,
     cursor: {
       loop: true,
       beats: [{ click: "[data-tour='tregu-cta']", hold: 1100 }],

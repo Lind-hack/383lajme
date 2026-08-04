@@ -20,12 +20,15 @@ import SpotlightTour, { openTour, type TourStep } from "@/components/spotlight-t
 
 const TOUR_ID = "tregu-floor";
 
-/** Steps whose target is absent (logged out, no featured market) are skipped. */
+/**
+ * Three steps: where to start, what to do, what it costs. Steps whose target is
+ * absent (logged out, no featured market) are skipped by the tour itself.
+ */
 const TOUR_STEPS: TourStep[] = [
   {
     target: "[data-tour='floor-filters']",
-    title: "Fillo nga tema që njeh",
-    body: "Politikë, sport, ekonomi — filtro dyshemenë te fusha ku parashikimi yt vlen më shumë.",
+    title: "Fillo te tema jote",
+    body: "Politikë, sport, ekonomi — zgjidh çfarë njeh.",
     padding: 10,
     radius: 100,
     zoom: 1.04,
@@ -38,44 +41,9 @@ const TOUR_STEPS: TourStep[] = [
     },
   },
   {
-    target: "[data-tour='floor-tape']",
-    title: "Shiriti live",
-    body: "Çdo tregtim real kalon këtu: kush e bëri, cilën anë zgjodhi dhe me sa 383 Coin.",
-    padding: 8,
-    radius: 14,
-    zoom: 1.04,
-    cursor: {
-      loop: true,
-      beats: [
-        {
-          drag: {
-            from: { sel: "[data-tour='floor-tape']", fx: 0.85, fy: 0.5 },
-            to: { sel: "[data-tour='floor-tape']", fx: 0.2, fy: 0.5 },
-            ms: 1400,
-          },
-        },
-      ],
-    },
-  },
-  {
-    target: "[data-tour='floor-featured']",
-    title: "Tregu kryesor i momentit",
-    body: "Karta e madhe mban pyetjen më aktive, me grafikun e plotë të gjasave. Djathtas rrinë temat e nxehta dhe afatet më të afërta.",
-    padding: 10,
-    radius: 20,
-    zoom: 1.02,
-    cursor: {
-      loop: true,
-      beats: [
-        { at: { sel: "[data-tour='floor-featured']", fx: 0.3, fy: 0.45 }, hold: 820 },
-        { at: { sel: "[data-tour='floor-featured']", fx: 0.85, fy: 0.35 }, hold: 820 },
-      ],
-    },
-  },
-  {
     target: "[data-tour='floor-grid'] > *:first-child",
-    title: "Si tregtohet",
-    body: "Hap një kartë, zgjidh PO ose JO, shkruaj sa Coin do të vësh dhe konfirmo. Nëse del drejt, Coin-at shumëzohen me kursin e shfaqur.",
+    title: "Hap një pyetje",
+    body: "Zgjidh PO ose JO, vendos sa Coin, konfirmo. Kaq.",
     padding: 10,
     radius: 18,
     zoom: 1.06,
@@ -86,11 +54,11 @@ const TOUR_STEPS: TourStep[] = [
   },
   {
     target: "[data-tour='floor-balance']",
-    title: "383 Coin, gjithmonë falas",
-    body: "Ky është bilanci yt. Merr bonusin ditor sa herë kthehesh — asnjë para reale nuk përdoret në Treg.",
+    title: "383 Coin janë falas",
+    body: "Ky është bilanci yt. Merr bonusin çdo ditë.",
     padding: 8,
     radius: 100,
-    zoom: 1.1,
+    zoom: 1.06,
     cursor: {
       loop: true,
       beats: [{ at: "[data-tour='floor-balance']", hold: 1200 }],
