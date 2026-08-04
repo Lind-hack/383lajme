@@ -30,15 +30,17 @@ const LABEL_INSET = 30;
 interface Props {
   /** Probabilities 0–1, oldest first. */
   points: number[];
-  range: RangeKey;
-  onRange: (range: RangeKey) => void;
+  range?: RangeKey;
+  onRange?: (range: RangeKey) => void;
   /** 0–1 across the visible slice; the camera pushes in here. null = full view. */
-  focus: number | null;
+  focus?: number | null;
   /** 0–1 across the visible slice; draws the readout marker. */
-  marker: number | null;
+  marker?: number | null;
   reduced: boolean;
   /** Ring the period chips — the tutorial is waiting on the user to try one. */
   hint?: boolean;
+  /** Off when the chart is context rather than something to explore. */
+  showRanges?: boolean;
 }
 
 type Box = [number, number, number, number];
@@ -49,12 +51,13 @@ function ease(t: number): number {
 
 export default function TutorialChart({
   points,
-  range,
+  range = "all",
   onRange,
-  focus,
-  marker,
+  focus = null,
+  marker = null,
   reduced,
   hint,
+  showRanges = true,
 }: Props) {
   const wrapRef = useRef<HTMLDivElement>(null);
   const [size, setSize] = useState({ w: 0, h: 0 });
@@ -176,24 +179,26 @@ export default function TutorialChart({
             {delta >= 0 ? "▲" : "▼"} {Math.abs(delta).toFixed(1)} pikë
           </em>
         </div>
-        <div
-          className="tut-chart-ranges"
-          role="group"
-          aria-label="Periudha"
-          data-await={hint ? "" : undefined}
-        >
-          {RANGES.map((r) => (
-            <button
-              key={r.key}
-              type="button"
-              data-tut-range={r.key}
-              data-on={range === r.key ? "" : undefined}
-              onClick={() => onRange(r.key)}
-            >
-              {r.label}
-            </button>
-          ))}
-        </div>
+        {showRanges && (
+          <div
+            className="tut-chart-ranges"
+            role="group"
+            aria-label="Periudha"
+            data-await={hint ? "" : undefined}
+          >
+            {RANGES.map((r) => (
+              <button
+                key={r.key}
+                type="button"
+                data-tut-range={r.key}
+                data-on={range === r.key ? "" : undefined}
+                onClick={() => onRange?.(r.key)}
+              >
+                {r.label}
+              </button>
+            ))}
+          </div>
+        )}
       </div>
 
       <div className="tut-chart-plot" ref={wrapRef} data-tut="chart-plot">
