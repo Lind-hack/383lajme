@@ -186,6 +186,12 @@ const ACTS: Act[] = [
 const BET_CUES = ["Sa Coin? Prek një çip.", "Shtyp Blej."];
 
 const MOCK_QUESTION = "A do të nënshkruhet marrëveshja para fundit të muajit?";
+/**
+ * Both act swaps run `mode="wait"`, so the user waits out an exit before the
+ * entrance starts. One shared, short exit keeps the copy and the panel landing
+ * on the same beat instead of lurching twice.
+ */
+const EXIT = 0.12;
 
 /* ── component ────────────────────────────────────────────────────────────── */
 
@@ -339,8 +345,23 @@ export default function TradeTutorial() {
     if (!open) return;
     const previous = document.body.style.overflow;
     document.body.style.overflow = "hidden";
+    // Freezes the page's own decorative animations for as long as we're up —
+    // see the body[data-tour-open] rule in globals.css.
+    document.body.dataset.tourOpen = "";
+    // And then stops it painting at all. It is invisible behind the scrim
+    // either way, but painting it costs half the frame budget on a slow
+    // device. The delay matters: hide it at once and the entrance fades in
+    // over a blank page rather than over the market it belongs to.
+    const veil = window.setTimeout(() => {
+      document.body.dataset.tourVeil = "";
+    }, 600);
     return () => {
+      // Cleanup runs as the exit begins, so the page is back before the
+      // scrim has faded far enough for anyone to see it return.
+      window.clearTimeout(veil);
       document.body.style.overflow = previous;
+      delete document.body.dataset.tourOpen;
+      delete document.body.dataset.tourVeil;
     };
   }, [open]);
 
@@ -478,7 +499,7 @@ export default function TradeTutorial() {
         exit: {
           opacity: 0,
           transform: "translateY(-6px)",
-          transition: { duration: DUR.fast, ease: EASE },
+          transition: { duration: EXIT, ease: EASE },
         },
         transition: { duration: DUR.base, ease: EASE },
       }
@@ -588,7 +609,15 @@ export default function TradeTutorial() {
                     key={current.key}
                     initial={motionOn ? { opacity: 0, transform: "translateY(10px)" } : false}
                     animate={{ opacity: 1, transform: "translateY(0px)" }}
-                    exit={motionOn ? { opacity: 0, transform: "translateY(-8px)" } : undefined}
+                    exit={
+                      motionOn
+                        ? {
+                            opacity: 0,
+                            transform: "translateY(-8px)",
+                            transition: { duration: EXIT, ease: EASE },
+                          }
+                        : undefined
+                    }
                     transition={{ duration: motionOn ? DUR.base : 0, ease: EASE }}
                   >
                     <h3 id="tutorial-title">

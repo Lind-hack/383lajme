@@ -130,6 +130,10 @@ export default function TutorialChart({
       return;
     }
     const from = boxRef.current;
+    // Nothing to tween. Callers that never pass `focus` (the tutorial) would
+    // otherwise burn 900ms of rAF and a re-render a frame interpolating the
+    // viewBox to itself — during the modal's own entrance, of all moments.
+    if (from.every((v, i) => v === target[i])) return;
     const started = performance.now();
     let frame = 0;
     const tick = (now: number) => {
