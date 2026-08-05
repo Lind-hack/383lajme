@@ -5974,12 +5974,31 @@ header[data-overlay] .nav-coin-chip {
   place-items: center;
   padding: 24px;
 }
+/* No backdrop-filter here on purpose. A full-viewport blur costs the whole
+   budget — measured 55fps with it, 60fps without — and at 86% black it buys
+   nothing you can see. The depth comes from the scrim being opaque enough. */
 .tutorial-scrim {
   position: absolute;
   inset: 0;
-  background: rgba(12, 10, 9, 0.78);
-  backdrop-filter: blur(3px);
-  -webkit-backdrop-filter: blur(3px);
+  background: rgba(12, 10, 9, 0.86);
+}
+/* While the sandbox owns the screen, the market page under it is a backdrop.
+   Its decorative loops (shine sweeps, pulse rings, the conic orbit) repaint
+   forever on paint-only properties, and every one of those frames is stolen
+   from the overlay's own motion. Pausing them is worth ~13ms of median frame
+   time on a throttled CPU. They resume untouched when the attribute goes. */
+body[data-tour-open] > *:not(.tutorial-root),
+body[data-tour-open] > *:not(.tutorial-root) *,
+body[data-tour-open] > *:not(.tutorial-root) *::before,
+body[data-tour-open] > *:not(.tutorial-root) *::after {
+  animation-play-state: paused !important;
+}
+/* Then drop it out of paint entirely, once the scrim is opaque enough that
+   nobody can tell. `visibility` rather than `content-visibility` on purpose:
+   it skips paint while keeping layout, so the page doesn't collapse to zero
+   height and lose the reader's scroll position while the sandbox is up. */
+body[data-tour-veil] > *:not(.tutorial-root) {
+  visibility: hidden;
 }
 /* One narrow column, head and foot pinned. The card itself never scrolls —
    only .tutorial-body does — so the nav can't be pushed below the fold. */
@@ -6087,6 +6106,10 @@ header[data-overlay] .nav-coin-chip {
   flex: 1 1 auto;
   min-height: 0;
   overflow-y: auto;
+  /* `overflow-y: auto` alone makes the x-axis a scroll container too, and the
+     ring's bleed is enough to trip a stray horizontal scrollbar across the
+     card. Clipping at the padding edge leaves the bleed room intact. */
+  overflow-x: clip;
   margin: 0 -7px;
   padding: 2px 7px 6px;
 }
