@@ -1,0 +1,66 @@
+name: Verify production provenance
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "*/5 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: verify-production-provenance
+  cancel-in-progress: false
+
+jobs:
+  verify-and-repair:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Verify the production alias points to GitHub main
+        id: verify
+        env:
+          EXPECTED_SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          for attempt in $(seq 1 80); do
+            payload="$(curl --fail --silent --show-error --max-time 20 -H 'Cache-Control: no-cache' "https://www.383ks.com/api/deployment-info?verify=${GITHUB_RUN_ID}-${attempt}" || true)"
+            if [ -n "$payload" ]; then
+              if node -e '
+                const [payload, expected] = process.argv.slice(1);
+                const data = JSON.parse(payload);
+                process.exit(
+                  data.commit_sha === expected &&
+                  data.commit_ref === "main" &&
+                  data.environment === "production" &&
+                  data.deployment_source === "github-main"
+                    ? 0
+                    : 1,
+                );
+              ' "$payload" "$EXPECTED_SHA"; then
+                echo "Production verified at ${EXPECTED_SHA}"
+                exit 0
+              fi
+            fi
+            sleep 15
+          done
+          echo "Production did not reach expected GitHub main commit ${EXPECTED_SHA}" >&2
+          exit 1
+
+      - name: Restore GitHub main after a stale production replacement
+        if: failure() && github.event_name == 'schedule'
+        env:
+          EXPECTED_SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          git config user.name "383 Production Guard"
+          git config user.email "bot@383lajme.com"
+          git commit --allow-empty -m "fix(deploy): restore GitHub main production source"
+          git push origin HEAD:main
+          echo "Queued a clean GitHub-main deployment after production failed provenance verification for ${EXPECTED_SHA}."
