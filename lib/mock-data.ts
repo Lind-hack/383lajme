@@ -277,69 +277,10 @@ export function getDailyThrowback() {
   return THROWBACK_ARTICLES[getDayOfYear() % THROWBACK_ARTICLES.length];
 }
 
-export const TONE_STATS = [
-  { country: "Gjermani", flag: "🇩🇪", positive: 58, neutral: 30, negative: 12 },
-  { country: "SHBA",     flag: "🇺🇸", positive: 72, neutral: 22, negative: 6  },
-  { country: "Britani",  flag: "🇬🇧", positive: 61, neutral: 28, negative: 11 },
-  { country: "Francë",   flag: "🇫🇷", positive: 55, neutral: 35, negative: 10 },
-  { country: "Itali",    flag: "🇮🇹", positive: 70, neutral: 24, negative: 6  },
-];
-
-const TONE_STATS_BY_DAY = [
-  [ // day % 7 === 0
-    { country: "Gjermani", flag: "🇩🇪", positive: 58, neutral: 30, negative: 12 },
-    { country: "SHBA",     flag: "🇺🇸", positive: 72, neutral: 22, negative: 6  },
-    { country: "Britani",  flag: "🇬🇧", positive: 61, neutral: 28, negative: 11 },
-    { country: "Francë",   flag: "🇫🇷", positive: 55, neutral: 35, negative: 10 },
-    { country: "Itali",    flag: "🇮🇹", positive: 70, neutral: 24, negative: 6  },
-  ],
-  [ // day % 7 === 1
-    { country: "Gjermani", flag: "🇩🇪", positive: 61, neutral: 27, negative: 12 },
-    { country: "SHBA",     flag: "🇺🇸", positive: 74, neutral: 20, negative: 6  },
-    { country: "Britani",  flag: "🇬🇧", positive: 59, neutral: 30, negative: 11 },
-    { country: "Francë",   flag: "🇫🇷", positive: 53, neutral: 36, negative: 11 },
-    { country: "Itali",    flag: "🇮🇹", positive: 68, neutral: 25, negative: 7  },
-  ],
-  [ // day % 7 === 2
-    { country: "Gjermani", flag: "🇩🇪", positive: 55, neutral: 33, negative: 12 },
-    { country: "SHBA",     flag: "🇺🇸", positive: 69, neutral: 24, negative: 7  },
-    { country: "Britani",  flag: "🇬🇧", positive: 63, neutral: 26, negative: 11 },
-    { country: "Francë",   flag: "🇫🇷", positive: 57, neutral: 33, negative: 10 },
-    { country: "Itali",    flag: "🇮🇹", positive: 72, neutral: 22, negative: 6  },
-  ],
-  [ // day % 7 === 3
-    { country: "Gjermani", flag: "🇩🇪", positive: 60, neutral: 29, negative: 11 },
-    { country: "SHBA",     flag: "🇺🇸", positive: 75, neutral: 19, negative: 6  },
-    { country: "Britani",  flag: "🇬🇧", positive: 58, neutral: 31, negative: 11 },
-    { country: "Francë",   flag: "🇫🇷", positive: 52, neutral: 37, negative: 11 },
-    { country: "Itali",    flag: "🇮🇹", positive: 67, neutral: 26, negative: 7  },
-  ],
-  [ // day % 7 === 4
-    { country: "Gjermani", flag: "🇩🇪", positive: 63, neutral: 26, negative: 11 },
-    { country: "SHBA",     flag: "🇺🇸", positive: 71, neutral: 23, negative: 6  },
-    { country: "Britani",  flag: "🇬🇧", positive: 65, neutral: 24, negative: 11 },
-    { country: "Francë",   flag: "🇫🇷", positive: 58, neutral: 32, negative: 10 },
-    { country: "Itali",    flag: "🇮🇹", positive: 73, neutral: 21, negative: 6  },
-  ],
-  [ // day % 7 === 5
-    { country: "Gjermani", flag: "🇩🇪", positive: 56, neutral: 31, negative: 13 },
-    { country: "SHBA",     flag: "🇺🇸", positive: 70, neutral: 23, negative: 7  },
-    { country: "Britani",  flag: "🇬🇧", positive: 60, neutral: 29, negative: 11 },
-    { country: "Francë",   flag: "🇫🇷", positive: 54, neutral: 36, negative: 10 },
-    { country: "Itali",    flag: "🇮🇹", positive: 69, neutral: 24, negative: 7  },
-  ],
-  [ // day % 7 === 6
-    { country: "Gjermani", flag: "🇩🇪", positive: 59, neutral: 28, negative: 13 },
-    { country: "SHBA",     flag: "🇺🇸", positive: 73, neutral: 21, negative: 6  },
-    { country: "Britani",  flag: "🇬🇧", positive: 62, neutral: 27, negative: 11 },
-    { country: "Francë",   flag: "🇫🇷", positive: 56, neutral: 34, negative: 10 },
-    { country: "Itali",    flag: "🇮🇹", positive: 71, neutral: 23, negative: 6  },
-  ],
-];
-
-export function getDailyToneStats() {
-  return TONE_STATS_BY_DAY[getDayOfYear() % TONE_STATS_BY_DAY.length];
-}
+// Fabricated day-of-week tone percentages used to live here (TONE_STATS /
+// TONE_STATS_BY_DAY / getDailyToneStats). ToneDashboard now reads real
+// numbers from tools/tone_scraper.py's output via lib/tone-data.ts —
+// see summarizeToneHistory().
 
 export interface DiasporaArticle {
   id: string;

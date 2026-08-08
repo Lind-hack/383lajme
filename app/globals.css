@@ -427,6 +427,24 @@ body {
   }
 }
 
+/* ── Bota Flet grid (lead + stacked list) ──────────────────
+   Two columns down to tablet width; below that the row cards
+   were being squeezed to ~180px and clipping headlines mid-word,
+   so it collapses to one column and the lead stops being forced
+   to stretch-match the taller stacked list. */
+.bota-flet-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  gap: 20px;
+  align-items: stretch;
+}
+@media (max-width: 760px) {
+  .bota-flet-grid {
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+}
+
 /* ── Navbar scroll row (mobile) ─────────────────────────── */
 .nav-scroll {
   overflow-x: auto;

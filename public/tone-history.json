@@ -1,0 +1,100 @@
+[
+  {
+    "date": "2026-08-08",
+    "overallIndex": 39,
+    "totalArticles": 288,
+    "sourceCount": 185,
+    "countries": {
+      "Gjermani": {
+        "index": 41,
+        "positive": 19,
+        "neutral": 44,
+        "negative": 37,
+        "n": 59,
+        "confident": true
+      },
+      "SHBA": {
+        "index": 44,
+        "positive": 32,
+        "neutral": 23,
+        "negative": 45,
+        "n": 56,
+        "confident": true
+      },
+      "Britani": {
+        "index": 28,
+        "positive": 21,
+        "neutral": 16,
+        "negative": 64,
+        "n": 58,
+        "confident": true
+      },
+      "Francë": {
+        "index": 39,
+        "positive": 16,
+        "neutral": 47,
+        "negative": 37,
+        "n": 57,
+        "confident": true
+      },
+      "Itali": {
+        "index": 44,
+        "positive": 16,
+        "neutral": 57,
+        "negative": 28,
+        "n": 58,
+        "confident": true
+      }
+    },
+    "headlines": [
+      {
+        "title": "Kosovo: Gesänge erzählen die Geschichte der Albaner - Stadt, Land, Kunst - 07/05/2026 - Die ganze Doku - Arte.tv",
+        "source": "Arte.tv",
+        "country": "Gjermani",
+        "flag": "🇩🇪",
+        "url": "https://news.google.com/rss/articles/CBMinAFBVV95cUxPQzB4VnJJWFNSOHhQX09IcTRQVllkMnlBQVdYOVAzWUFRbFVEZlNLbklJNXdRZDNhNnBkb3JwdDJPd1hXeENvWTQzX0JSQTJUUloyM1ZHSDlTNmFnUnFOQnJ3b1RDQ3V3QzViRGxGUTNqSHJCTThYVGZVT1hfOWZfZEJrandPMjhBWEdCRVJadnNGUjdEMkpnalFoT1o?oc=5",
+        "sentiment": "positive"
+      },
+      {
+        "title": "‘Our Parents Carried us to Safety’: Disabled Kosovo Children Recall Escape in 1999 - Balkan Insight",
+        "source": "Balkan Insight",
+        "country": "SHBA",
+        "flag": "🇺🇸",
+        "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxOT0k5SUlwRmJWNVAwV3hjbnFkN3JkM2xTQk9hZUpYenJTR25RME5JbGZycGlHZ01sU0VrSFZCWXV3dXFOZkwxYjB3QVFjRkptdDVKSklCT1czMUFYbkRuTVItTlVhQzNtc3c3LXhqZHJJdjVseEtiRlpvX2dmNDVpNGlpZnVRSWc5cEFXMS1HckNSa0NuNTZvLTA3ei1hWHdOWTZGSE1seWNVNmtJYkxWVWZLclRuVC1IaG03V2VR?oc=5",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Kosovo finds third wartime mass grave site as officials widen search - Al Jazeera",
+        "source": "Al Jazeera",
+        "country": "Britani",
+        "flag": "🇬🇧",
+        "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxPVDdHaVIxalEwSG1UU1VGQ3kzZUR4VjZvWklGMHZCbTRJMV9tVmVjWmliQm5EbjRPY0REb0hEWkpCOVpaZkdmMEpvcVpacVdOWlVhOXEyWGExeTd2TXhKc2wzZF80ODhTenJZZjN0Y2p2TXFjaFlLQ2MxZ2hGcm5mWjYwVXpLZlhHNjR3a1BkSWhmel90d09vNDBwcUdKdkNkd3dpbG56aVdyTFd40gGyAUFVX3lxTE9QWUI0ZDB3OHdnZWIxREhtQjR6bFJQclFZMzB2SElHT3Q3T0hDY3pqWGFOdFpLbDRnX2d3bHJIUUh2dXRUbFgySjdkQlJPcDRhd0hleDJlZ1VCUExnMTFwR29XUTltZUFYN1JpY2ltWVczd1E5aTFhbmRBVllfSUo3NW1INnR5d2Ixb29nUTFvREdIbU9XNGViUjJ0YkFNTktiZE9mYmkxR0lhOEdwWWZwUnc?oc=5",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Serbien: Ministerin hätte Kosovo gerne \"ethnisch gesäubert\" - DW.com",
+        "source": "DW.com",
+        "country": "Gjermani",
+        "flag": "🇩🇪",
+        "url": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxQbmRyY3UwT2gtYTQ2WGpSd2J4ek1NME93Y1JnMFpyV2p1cGo2YWNQUVhncE1WTkxpZ3J5Nlg1X29WRkpwNk9hT3BEeVVZSjVibEZWX3RPelRjWVVRMW9MWV9QeVRCWk1USlQtN2ZtcFZMN05jdTJaZVpheGp6eE1MWFc1UlRFSS1rLTZsQ2MwZDVtTVAtcHpOTFFaanA4OW0ySjN1MXZzSGdCWWpRX1ZNd014ZngxLTczQXpoUVFSRTXSAcABQVVfeXFMT0RVNFozVHlFX3lIZnBFaExaMHZyVk0wWjB6Zlg1VHJvb2lFZU52V1djZ2wxWkpwc1pQZHo5ZnR4MWVQTnJzamVUUkpUX2tVN3NVcHQ2YmUydnU2N3puLUJyNktQQUtmZmhfX3NyaUxESzVqSDR1dGxBdkRnV1BqZW52OENVNHB6dUNKUVVRMllZN2tRcl8xSnFFc215ZGtOU1FXVkxsV1U0am52WFQ2VEJLaGtDYk1vVS1MNGRzY1hm?oc=5",
+        "sentiment": "negative"
+      },
+      {
+        "title": "Forensic teams search a suspected mass grave from the Kosovo war - AP News",
+        "source": "AP News",
+        "country": "SHBA",
+        "flag": "🇺🇸",
+        "url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxOUmhmV1YxZ0J6NHZzY0hpTjFWX1IxU1lJc0x2QVlicXNDQUJETk9BLTBRc1NHUC1JNjVpcHQtNFZVLWNaS29mcnNZQkNyZllGZlZucDJHbGFXTXFXNE9VajlkMFVBN0tzc1g3cGZxTTRyTjlNOWZib1o5cmFoVjI5NW4yVkI0U1dHOWQtQjNaZ0otSXFseWhGNWN2amZTZ28?oc=5",
+        "sentiment": "negative"
+      },
+      {
+        "title": "Opposition MP hurls eggs at Kosovo Prime Minister - Al Jazeera",
+        "source": "Al Jazeera",
+        "country": "Britani",
+        "flag": "🇬🇧",
+        "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxQTU04VzBENWJpby1LRVpIeDZhQjAxLTBpZW1iTEhkZXpackRlQWNtUktvLXJENFVkdVZYcEl0ZEJ6V3N4TDQ0MlN4UlAtekJPT3dYX3ZDb3lxZTFJS2d4RWkzNkQzQm5WYkRuNGZOVFNlVWt3eUFpZFl6OXhVUW5TNWN0cnkyY2J0ODNkcWFYOC1YZS00UjhEdjh1dVlxS2FL0gGmAUFVX3lxTE9uSkR6WG90NE1rQ0RUVmFKc0o2WkZNVlNHZkFqUUliZFJ5R0NoSFZCRlNjUENxY2hlVUhkVDJKWDAtZUk5NGp0VWk0dzBmZ1R6S09CUUw0QlFKaUNtZ2Y0ejdSVWJFQXVhLTFWOVh1UkM3OWdKSVAzeUhjNFBOU0Fabm91a3l3aWNtMFI0MEtfc0pjcUhCRS0wNHozWm5DTzE3Y2tBM3c?oc=5",
+        "sentiment": "negative"
+      }
+    ]
+  }
+]
