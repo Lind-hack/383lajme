@@ -2,31 +2,12 @@
 
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { TrendingUp, X, ArrowLeft } from "lucide-react";
-import { getDailyToneStats } from "@/lib/mock-data";
+import { TrendingUp, TrendingDown, Minus, X, ArrowLeft, ArrowUpRight } from "lucide-react";
 import { EASE, DUR, STAGGER } from "@/lib/tokens";
 import { useCanHover } from "@/hooks/use-can-hover";
 import SectionLabel from "./section-label";
-
-interface ToneArticle {
-  title: string;
-  url: string;
-  date: string;
-}
-
-interface ToneOutlet {
-  name: string;
-  sentiment: "positive" | "neutral" | "negative";
-  articleCount: number;
-  articles: ToneArticle[];
-}
-
-interface ToneOutletData {
-  lastUpdated: string;
-  countries: Record<string, { outlets: ToneOutlet[] }>;
-}
-
-const TONE_STATS = getDailyToneStats();
+import Sparkline from "./tone/sparkline";
+import type { ToneOutletsData, ToneSummary } from "@/lib/tone-data";
 
 const SENTIMENT_META: Record<string, { label: string; color: string }> = {
   positive: { label: "Pozitiv", color: "#16A34A" },
@@ -43,11 +24,11 @@ function flagToCode(flag: string): string {
   return String.fromCharCode(a, b);
 }
 
-export default function ToneDashboard() {
+export default function ToneDashboard({ summary }: { summary: ToneSummary }) {
   const canHover = useCanHover();
   const [hoveredCountry, setHoveredCountry] = useState<string | null>(null);
   const [activeOutlet, setActiveOutlet] = useState<{ country: string; name: string } | null>(null);
-  const [outletData, setOutletData] = useState<ToneOutletData | null>(null);
+  const [outletData, setOutletData] = useState<ToneOutletsData | null>(null);
   const leaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
@@ -56,10 +37,6 @@ export default function ToneDashboard() {
       .then(setOutletData)
       .catch(() => {});
   }, []);
-
-  const overallPositive = Math.round(
-    TONE_STATS.reduce((sum, s) => sum + s.positive, 0) / TONE_STATS.length
-  );
 
   function onRowEnter(country: string) {
     if (leaveTimer.current) clearTimeout(leaveTimer.current);
@@ -89,39 +66,57 @@ export default function ToneDashboard() {
         ) ?? null
       : null;
 
+  // No scraper history yet (fresh checkout, or the daily job hasn't run) —
+  // say so plainly instead of rendering a fabricated chart.
+  if (!summary.hasData) {
+    return (
+      <section style={{ marginBottom: "var(--space-section)" }}>
+        <SectionLabel label="Toni i Mediave Botërore ndaj Kosovës" marginBottom={20} />
+        <div
+          style={{
+            background: "#FFFFFF",
+            borderRadius: "16px",
+            border: "1px solid #E8E3DB",
+            padding: "32px",
+            fontSize: "13.5px",
+            color: "#6B6B6B",
+          }}
+        >
+          Analiza po ndërtohet — te dhënat e para do të shfaqen pas mbledhjes ditore të parë.
+        </div>
+      </section>
+    );
+  }
+
+  const idx = summary.overallIndex ?? 0;
+  const delta = summary.weekDelta;
+  const DeltaIcon = delta == null ? Minus : delta > 0 ? TrendingUp : delta < 0 ? TrendingDown : Minus;
+  const deltaColor = delta == null || delta === 0 ? "#9CA3AF" : delta > 0 ? "#16A34A" : "#E41E20";
+
   return (
     <section style={{ marginBottom: "var(--space-section)" }}>
       <SectionLabel
         label="Toni i Mediave Botërore ndaj Kosovës"
         marginBottom={20}
         right={
-          <div
+          <a
+            href="/toni"
             style={{
-              background: "rgba(22,163,74,0.1)",
-              border: "1px solid rgba(22,163,74,0.25)",
-              borderRadius: "100px",
-              padding: "6px 14px",
-              display: "flex",
+              fontSize: "12px",
+              fontWeight: 700,
+              color: "#6B6B6B",
+              textDecoration: "none",
+              display: "inline-flex",
               alignItems: "center",
-              gap: "6px",
+              gap: "4px",
+              whiteSpace: "nowrap",
             }}
           >
-            <TrendingUp size={14} color="#16A34A" strokeWidth={2} />
-            <span
-              style={{
-                fontSize: "12px",
-                fontWeight: 700,
-                color: "#16A34A",
-                letterSpacing: "0.04em",
-              }}
-            >
-              Ky muaj: {overallPositive}% pozitive ndaj Kosovës
-            </span>
-          </div>
+            Analiza e plotë <ArrowUpRight size={13} strokeWidth={2} />
+          </a>
         }
       />
 
-      {/* Dashboard card */}
       <motion.div
         initial={{ opacity: 0, y: 16 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -137,41 +132,82 @@ export default function ToneDashboard() {
           overflow: "hidden",
         }}
       >
-        {/* Legend */}
+        {/* Index hero — the one number that anchors the whole feature */}
         <div
           style={{
             display: "flex",
-            gap: "20px",
-            marginBottom: "20px",
+            alignItems: "center",
+            justifyContent: "space-between",
             flexWrap: "wrap",
+            gap: "20px",
+            paddingBottom: "20px",
+            marginBottom: "20px",
+            borderBottom: "1px solid #F0EDE6",
           }}
         >
+          <div style={{ display: "flex", alignItems: "flex-end", gap: "14px" }}>
+            <div>
+              <p style={{ margin: "0 0 4px", fontSize: "11px", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "#9CA3AF" }}>
+                Indeksi i Tonit
+              </p>
+              <div style={{ display: "flex", alignItems: "baseline", gap: "10px" }}>
+                <span style={{ fontSize: "clamp(36px, 6vw, 48px)", fontWeight: 800, color: "#111111", lineHeight: 1, fontVariantNumeric: "tabular-nums" }}>
+                  {idx}
+                </span>
+                <span
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "4px",
+                    fontSize: "13px",
+                    fontWeight: 700,
+                    color: deltaColor,
+                  }}
+                >
+                  <DeltaIcon size={14} strokeWidth={2.5} />
+                  {delta == null ? "e re" : `${delta > 0 ? "+" : ""}${delta} këtë javë`}
+                </span>
+              </div>
+            </div>
+            {summary.sparkline.length >= 2 && (
+              <Sparkline points={summary.sparkline.map((p) => p.index)} color={idx >= 50 ? "#16A34A" : "#E41E20"} />
+            )}
+          </div>
+
+          <div style={{ textAlign: "right", fontSize: "12px", color: "#9CA3AF", lineHeight: 1.6 }}>
+            <p style={{ margin: 0 }}>
+              Bazuar në <strong style={{ color: "#6B6B6B" }}>{summary.totalArticles}</strong> artikuj nga{" "}
+              <strong style={{ color: "#6B6B6B" }}>{summary.sourceCount}</strong> burime, {summary.daysTracked} ditë histori
+            </p>
+            {summary.topMover && Math.abs(summary.topMover.delta) >= 3 && (
+              <p style={{ margin: "2px 0 0" }}>
+                Lëvizja më e madhe: {summary.topMover.flag} {summary.topMover.country}{" "}
+                <span style={{ color: summary.topMover.delta > 0 ? "#16A34A" : "#E41E20", fontWeight: 700 }}>
+                  {summary.topMover.delta > 0 ? "+" : ""}
+                  {summary.topMover.delta}
+                </span>
+              </p>
+            )}
+          </div>
+        </div>
+
+        {/* Legend */}
+        <div style={{ display: "flex", gap: "20px", marginBottom: "20px", flexWrap: "wrap" }}>
           {[
             { color: "#16A34A", label: "Pozitiv" },
             { color: "#9CA3AF", label: "Neutral" },
             { color: "#E41E20", label: "Kritik" },
           ].map((item) => (
             <div key={item.label} style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-              <span
-                style={{
-                  width: "10px",
-                  height: "10px",
-                  borderRadius: "3px",
-                  background: item.color,
-                  display: "inline-block",
-                  flexShrink: 0,
-                }}
-              />
-              <span style={{ fontSize: "11px", fontWeight: 600, color: "#6B6B6B" }}>
-                {item.label}
-              </span>
+              <span style={{ width: "10px", height: "10px", borderRadius: "3px", background: item.color, display: "inline-block", flexShrink: 0 }} />
+              <span style={{ fontSize: "11px", fontWeight: 600, color: "#6B6B6B" }}>{item.label}</span>
             </div>
           ))}
         </div>
 
         {/* Country rows */}
         <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-          {TONE_STATS.map((stat, i) => (
+          {summary.countries.map((stat, i) => (
             <div
               key={stat.country}
               onMouseEnter={() => canHover && onRowEnter(stat.country)}
@@ -185,40 +221,14 @@ export default function ToneDashboard() {
                 transition={{ duration: DUR.reveal, delay: Math.min(i, 6) * STAGGER, ease: EASE }}
                 style={{ display: "flex", alignItems: "center", gap: "clamp(8px, 2vw, 16px)" }}
               >
-                {/* Country — fixed 90px */}
-                <div
-                  style={{
-                    width: "90px",
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "8px",
-                    flexShrink: 0,
-                  }}
-                >
+                <div style={{ width: "90px", display: "flex", alignItems: "center", gap: "8px", flexShrink: 0 }}>
                   <span style={{ fontSize: "10px", fontWeight: 700, letterSpacing: "0.08em", color: "#9CA3AF" }}>{flagToCode(stat.flag)}</span>
-                  <span
-                    style={{
-                      fontSize: "clamp(11px, 2.5vw, 13px)",
-                      fontWeight: 700,
-                      color: "#111111",
-                      whiteSpace: "nowrap" as const,
-                    }}
-                  >
+                  <span style={{ fontSize: "clamp(11px, 2.5vw, 13px)", fontWeight: 700, color: "#111111", whiteSpace: "nowrap" as const }}>
                     {stat.country}
                   </span>
                 </div>
 
-                {/* Segmented bar */}
-                <div
-                  style={{
-                    flex: 1,
-                    height: "10px",
-                    borderRadius: "100px",
-                    overflow: "hidden",
-                    display: "flex",
-                    background: "#F3F4F6",
-                  }}
-                >
+                <div style={{ flex: 1, height: "10px", borderRadius: "100px", overflow: "hidden", display: "flex", background: "#F3F4F6" }}>
                   <motion.div
                     initial={{ scaleX: 0 }}
                     whileInView={{ scaleX: 1 }}
@@ -242,30 +252,27 @@ export default function ToneDashboard() {
                   />
                 </div>
 
-                {/* Percentages */}
-                <div
-                  style={{
-                    display: "flex",
-                    gap: "8px",
-                    flexShrink: 0,
-                    width: "clamp(72px, 22vw, 120px)",
-                    justifyContent: "flex-end",
-                  }}
-                >
-                  <span style={{ fontSize: "11px", fontWeight: 700, color: "#16A34A" }}>
-                    {stat.positive}%
-                  </span>
-                  <span style={{ fontSize: "11px", fontWeight: 600, color: "#9CA3AF" }}>
-                    {stat.neutral}%
-                  </span>
-                  <span style={{ fontSize: "11px", fontWeight: 700, color: "#E41E20" }}>
-                    {stat.negative}%
-                  </span>
+                <div style={{ display: "flex", gap: "8px", flexShrink: 0, width: "clamp(72px, 22vw, 120px)", justifyContent: "flex-end", alignItems: "baseline" }}>
+                  <span style={{ fontSize: "11px", fontWeight: 700, color: "#16A34A" }}>{stat.positive}%</span>
+                  <span style={{ fontSize: "11px", fontWeight: 600, color: "#9CA3AF" }}>{stat.neutral}%</span>
+                  <span style={{ fontSize: "11px", fontWeight: 700, color: "#E41E20" }}>{stat.negative}%</span>
                 </div>
               </motion.div>
+              {!stat.confident && (
+                <p style={{ margin: "4px 0 0 90px", fontSize: "10px", color: "#B8860B" }}>
+                  të dhëna të pakta sot (n={stat.n}) — merren me rezervë
+                </p>
+              )}
             </div>
           ))}
         </div>
+
+        <p style={{ margin: "18px 0 0", fontSize: "11px", color: "#B4B0A6" }}>
+          {summary.lastUpdated && `Përditësuar më ${summary.lastUpdated}. `}
+          <a href="/toni#metodologjia" style={{ color: "#9CA3AF", textDecoration: "underline" }}>
+            Si e llogarisim →
+          </a>
+        </p>
 
         {/* Hover popup panel */}
         <AnimatePresence>
@@ -292,7 +299,6 @@ export default function ToneDashboard() {
                 boxShadow: "-6px 0 20px rgba(0,0,0,0.07)",
               }}
             >
-              {/* Close button */}
               <button
                 onClick={() => { setHoveredCountry(null); setActiveOutlet(null); }}
                 style={{
@@ -317,7 +323,6 @@ export default function ToneDashboard() {
               </button>
 
               {activeOutletData ? (
-                /* Level 2 — articles from outlet */
                 <>
                   <button
                     onClick={() => setActiveOutlet(null)}
@@ -337,20 +342,13 @@ export default function ToneDashboard() {
                   >
                     <ArrowLeft size={12} strokeWidth={2} /> Kthehu
                   </button>
-                  <p
-                    style={{
-                      fontSize: "12px",
-                      fontWeight: 800,
-                      color: "#111111",
-                      margin: "0 0 10px",
-                    }}
-                  >
+                  <p style={{ fontSize: "12px", fontWeight: 800, color: "#111111", margin: "0 0 10px" }}>
                     {activeOutletData.name}
                   </p>
                   <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-                    {activeOutletData.articles.map((article, idx) => (
+                    {activeOutletData.articles.map((article, idx2) => (
                       <a
-                        key={idx}
+                        key={idx2}
                         href={article.url}
                         target="_blank"
                         rel="noopener noreferrer"
@@ -363,37 +361,17 @@ export default function ToneDashboard() {
                           textDecoration: "none",
                         }}
                       >
-                        <p
-                          style={{
-                            fontSize: "11px",
-                            fontWeight: 700,
-                            color: "#111111",
-                            margin: "0 0 3px",
-                            lineHeight: 1.35,
-                          }}
-                        >
+                        <p style={{ fontSize: "11px", fontWeight: 700, color: "#111111", margin: "0 0 3px", lineHeight: 1.35 }}>
                           {article.title}
                         </p>
-                        <p style={{ fontSize: "10px", color: "#9CA3AF", margin: 0 }}>
-                          {article.date}
-                        </p>
+                        <p style={{ fontSize: "10px", color: "#9CA3AF", margin: 0 }}>{article.date}</p>
                       </a>
                     ))}
                   </div>
                 </>
               ) : (
-                /* Level 1 — outlets by sentiment */
                 <>
-                  <p
-                    style={{
-                      fontSize: "11px",
-                      fontWeight: 800,
-                      letterSpacing: "0.08em",
-                      textTransform: "uppercase" as const,
-                      color: "#6B6B6B",
-                      margin: "0 0 12px",
-                    }}
-                  >
+                  <p style={{ fontSize: "11px", fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase" as const, color: "#6B6B6B", margin: "0 0 12px" }}>
                     Media — {hoveredCountry}
                   </p>
                   {(["positive", "neutral", "negative"] as const).map((sentiment) => {
@@ -402,28 +380,14 @@ export default function ToneDashboard() {
                     const meta = SENTIMENT_META[sentiment];
                     return (
                       <div key={sentiment} style={{ marginBottom: "14px" }}>
-                        <p
-                          style={{
-                            fontSize: "10px",
-                            fontWeight: 700,
-                            color: meta.color,
-                            letterSpacing: "0.06em",
-                            textTransform: "uppercase" as const,
-                            margin: "0 0 6px",
-                          }}
-                        >
+                        <p style={{ fontSize: "10px", fontWeight: 700, color: meta.color, letterSpacing: "0.06em", textTransform: "uppercase" as const, margin: "0 0 6px" }}>
                           {meta.label}
                         </p>
                         <div style={{ display: "flex", flexWrap: "wrap", gap: "5px" }}>
                           {group.map((outlet) => (
                             <button
                               key={outlet.name}
-                              onClick={() =>
-                                setActiveOutlet({
-                                  country: hoveredCountry!,
-                                  name: outlet.name,
-                                })
-                              }
+                              onClick={() => setActiveOutlet({ country: hoveredCountry!, name: outlet.name })}
                               style={{
                                 padding: "4px 10px",
                                 borderRadius: "100px",

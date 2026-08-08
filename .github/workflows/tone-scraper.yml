@@ -34,7 +34,7 @@ jobs:
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
-          git add public/tone-outlets.json
+          git add public/tone-outlets.json public/tone-history.json
           if git diff --cached --quiet; then
             echo "No tone data changes"
             exit 0
