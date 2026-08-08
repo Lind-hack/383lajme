@@ -575,7 +575,6 @@ def env_status() -> int:
         "SITE_URL": bool(os.environ.get("SITE_URL", "").strip()),
         "REMOVE_SECRET": bool(os.environ.get("REMOVE_SECRET", "").strip()),
         "ADMIN_SECRET": bool(os.environ.get("ADMIN_SECRET", "").strip()),
-        "VERCEL_DEPLOY_HOOK_URL": bool(os.environ.get("VERCEL_DEPLOY_HOOK_URL", "").strip()),
         "GITHUB_TOKEN/GITHUB_PAT/GH_TOKEN": bool(github_token),
         "RESEND_API_KEY": bool(os.environ.get("RESEND_API_KEY", "").strip()),
         "EMAIL_FROM": bool(os.environ.get("EMAIL_FROM", "").strip()),
@@ -590,9 +589,6 @@ def env_status() -> int:
     for key, present in checks.items():
         print(f"  - {key}: {'present' if present else 'missing'}")
 
-    hook = os.environ.get("VERCEL_DEPLOY_HOOK_URL", "").strip()
-    if hook and "/v1/integrations/deploy/" not in hook:
-        print("WARN VERCEL_DEPLOY_HOOK_URL does not look like a Vercel deploy hook URL.")
     origin = _git_stdout(["git", "remote", "get-url", "origin"])
     print(f"Git origin: {'present' if origin else 'missing'}")
     return 0
@@ -625,44 +621,6 @@ def test_email_login() -> int:
     except Exception as exc:
         print(f"EMAIL login failed: {type(exc).__name__}")
         return 1
-
-
-def post_vercel_hook() -> int:
-    load_env()
-    hook = os.environ.get("VERCEL_DEPLOY_HOOK_URL", "").strip()
-    if not hook:
-        print("VERCEL skipped: VERCEL_DEPLOY_HOOK_URL missing")
-        return 2
-    if "/v1/integrations/deploy/" not in hook:
-        print("VERCEL failed: URL does not look like a Vercel deploy hook. Re-copy the Deploy Hook URL from Vercel.")
-        return 1
-
-    attempts = [
-        ("empty", b"", {}),
-        ("json", b"{}", {"Content-Type": "application/json"}),
-    ]
-    for label, body, headers in attempts:
-        try:
-            request = urllib.request.Request(hook, data=body, method="POST", headers=headers)
-            with urllib.request.urlopen(request, timeout=30) as response:
-                status = response.getcode()
-                if 200 <= status < 300:
-                    print(f"VERCEL deploy hook ok via {label} POST")
-                    try:
-                        payload = json.loads(response.read().decode("utf-8", errors="replace") or "{}")
-                        deployment_url = payload.get("url")
-                        if deployment_url:
-                            print(f"VERCEL deployment url: https://{deployment_url}")
-                    except Exception:
-                        pass
-                    return 0
-                print(f"VERCEL {label} POST status {status}")
-        except urllib.error.HTTPError as exc:
-            detail = exc.read(200).decode("utf-8", errors="replace")
-            print(f"VERCEL {label} POST failed HTTP {exc.code}: {detail}")
-        except Exception as exc:
-            print(f"VERCEL {label} POST failed: {type(exc).__name__}")
-    return 1
 
 
 def _cache_busted_url(site_url: str) -> str:

@@ -137,6 +137,8 @@ const REQUIRED_CHART_MARKERS = {
     "F1_RACE_UI_VERSION",
     "TREGU_CHART_UI_VERSION",
     "FOOTBALL_MARKET_UI_VERSION",
+    'return isVerifiedGitHubMain ? "github-main" : "unverified"',
+    "deployment_source: deploymentSource()",
     "football_market_ui_version",
     '"Cache-Control": "no-store, max-age=0"',
   ],
@@ -223,22 +225,8 @@ export async function verifyProductionSource({
     }
   );
   if (!response.ok) {
-    // Vercel's Git integration already supplies the immutable commit SHA and
-    // branch for this build. GitHub's unauthenticated API can be rate-limited;
-    // do not block a verified main build in that case. CLI deployments still
-    // fail above because they do not have the Git integration metadata.
-    if (response.status === 403 || response.status === 429) {
-      return {
-        skipped: false,
-        commitSha: deployedSha,
-        chartUiVersion: CHART_UI_VERSION,
-        f1RaceUiVersion: F1_RACE_UI_VERSION,
-        footballMarketUiVersion: FOOTBALL_MARKET_UI_VERSION,
-        githubVerification: "rate_limited",
-      };
-    }
     throw new Error(
-      `Could not verify GitHub ${PRODUCTION_BRANCH} (HTTP ${response.status}); failing production build closed.`
+      `Could not verify GitHub ${PRODUCTION_BRANCH} (HTTP ${response.status}); refusing production build.`
     );
   }
   const payload = await response.json();
