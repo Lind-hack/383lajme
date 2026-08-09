@@ -5624,17 +5624,30 @@ header[data-overlay] .nav-coin-chip {
   position: fixed;
   inset: 0;
   z-index: 2000;
+  overflow: hidden;
+  --tour-dim: rgba(12, 10, 9, 0.74);
 }
-/* Four flat panels frame the cut-out, clipped to the viewport, instead of one
-   `box-shadow: 0 0 0 9999px` hole-punch on .tour-hole. */
-.tour-scrim {
+/* Takes every click that lands outside the lit element. It sits *under* the
+   hole rather than tiling around it: the dim is the hole's own spread shadow
+   now, and a shadow is not a hit target, so one flat catcher is enough. */
+.tour-catch {
   position: absolute;
-  background: rgba(12, 10, 9, 0.74);
+  inset: 0;
   cursor: pointer;
 }
+/* The cut-out, and the scrim, and the only element either is made of. A spread
+   shadow follows the element's *rendered* border-radius, so the dim wraps the
+   rounded corner exactly at any radius — including the ones the browser scales
+   down on a short box, which is where the four-panel version came apart. */
 .tour-hole {
   position: absolute;
-  pointer-events: none;
+  /* Spread, not blur. The radius clamp in the component keeps the authored
+     radius at or under half the box, which is exactly the condition under
+     which the browser leaves a spread shadow's own corners unscaled — so the
+     dim reaches every corner of any viewport whatever the hole is doing. */
+  box-shadow: 0 0 0 200vmax var(--tour-dim);
+  /* Sits above the catcher, so a click on the lit element is not a dismissal. */
+  cursor: default;
 }
 /* Phone widths light a slice of a card that is taller than the band. The edge
    the slice was cut at gets a soft fade instead of a hard ring, so it reads as
@@ -5662,74 +5675,94 @@ header[data-overlay] .nav-coin-chip {
 .tour-hole[data-clip-top] .tour-ring {
   border-top-color: transparent;
 }
-/* The four panels meet at right angles, so the cut-out was a square-cornered
-   box around the rounded ring — two edges where there should be one. These
-   patches paint the scrim back into each corner wedge, up to the same radius
-   the ring inherits, leaving the ring as the only edge on screen. */
-.tour-corners {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background-repeat: no-repeat;
-  background-position: top left, top right, bottom right, bottom left;
-  background-size:
-    var(--tour-corner-t) var(--tour-corner-t),
-    var(--tour-corner-t) var(--tour-corner-t),
-    var(--tour-corner-b) var(--tour-corner-b),
-    var(--tour-corner-b) var(--tour-corner-b);
-  background-image:
-    radial-gradient(
-      circle var(--tour-corner-t) at 100% 100%,
-      rgba(12, 10, 9, 0) calc(100% - 0.5px),
-      rgba(12, 10, 9, 0.74) 100%
-    ),
-    radial-gradient(
-      circle var(--tour-corner-t) at 0 100%,
-      rgba(12, 10, 9, 0) calc(100% - 0.5px),
-      rgba(12, 10, 9, 0.74) 100%
-    ),
-    radial-gradient(
-      circle var(--tour-corner-b) at 0 0,
-      rgba(12, 10, 9, 0) calc(100% - 0.5px),
-      rgba(12, 10, 9, 0.74) 100%
-    ),
-    radial-gradient(
-      circle var(--tour-corner-b) at 100% 0,
-      rgba(12, 10, 9, 0) calc(100% - 0.5px),
-      rgba(12, 10, 9, 0.74) 100%
-    );
-}
 .tour-ring {
   position: absolute;
   inset: 0;
   border: 2px solid #ff4422;
   border-radius: inherit;
-  box-shadow: 0 0 0 6px rgba(255, 68, 34, 0.14);
+  pointer-events: none;
+}
+/* The glow is its own layer so the pulse can run on opacity alone. Animating
+   the spread of a box-shadow repaints the whole ring every frame, forever, for
+   as long as the step is open; opacity is a compositor property and costs the
+   main thread nothing. */
+.tour-ring::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  box-shadow: 0 0 0 7px rgba(255, 68, 34, 0.16);
+  opacity: 0.85;
   animation: tour-ring-pulse 3.2s ease-in-out infinite;
 }
 /* The pulse is an idle animation: it says "read this", so it only runs on a
    ring that has landed. Breathing while the camera is still travelling reads
    as two motions fighting for the same edge. */
-.tour-ring[data-static],
-.tour-ring[data-travel] {
+.tour-ring[data-static]::after,
+.tour-ring[data-travel]::after {
   animation: none;
 }
 @keyframes tour-ring-pulse {
   0%,
   100% {
-    box-shadow: 0 0 0 5px rgba(255, 68, 34, 0.13);
+    opacity: 0.9;
   }
   50% {
-    box-shadow: 0 0 0 9px rgba(255, 68, 34, 0.07);
+    opacity: 0.34;
   }
 }
+/* Placed by a transform, not by top/left — see the comment on the card in
+   components/spotlight-tour.tsx — so the two offsets stay pinned at zero. */
 .tour-tip {
   position: absolute;
-  padding: 18px 18px 16px;
+  top: 0;
+  left: 0;
+  padding: 18px 20px 16px;
   border: 1px solid rgba(17, 17, 17, 0.08);
   border-radius: 18px;
   background: #ffffff;
   box-shadow: 0 24px 60px rgba(17, 17, 17, 0.24);
+  will-change: transform;
+}
+/* The connector: a rotated square wearing the card's own border on the two
+   edges that stay outside it, so it reads as the card pulled into a point at
+   the thing being explained rather than as a separate arrow stuck on. */
+.tour-tip[data-beak]::before {
+  content: "";
+  position: absolute;
+  width: 13px;
+  height: 13px;
+  border: 1px solid rgba(17, 17, 17, 0.08);
+  border-radius: 2px;
+  background: #ffffff;
+}
+.tour-tip[data-beak="top"]::before {
+  top: -7px;
+  left: var(--beak);
+  border-right: 0;
+  border-bottom: 0;
+  transform: translateX(-50%) rotate(45deg);
+}
+.tour-tip[data-beak="bottom"]::before {
+  bottom: -7px;
+  left: var(--beak);
+  border-left: 0;
+  border-top: 0;
+  transform: translateX(-50%) rotate(45deg);
+}
+.tour-tip[data-beak="left"]::before {
+  left: -7px;
+  top: var(--beak);
+  border-right: 0;
+  border-top: 0;
+  transform: translateY(-50%) rotate(45deg);
+}
+.tour-tip[data-beak="right"]::before {
+  right: -7px;
+  top: var(--beak);
+  border-left: 0;
+  border-bottom: 0;
+  transform: translateY(-50%) rotate(45deg);
 }
 /* Docked sheet on phone widths — see SHEET_BP in components/spotlight-tour.tsx. */
 .tour-tip[data-sheet] {
@@ -5750,8 +5783,15 @@ header[data-overlay] .nav-coin-chip {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 10px;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+/* In the head the rails are the step counter, so they get a fixed span rather
+   than the full width they take when they sit on their own line. */
+.tour-tip-head .tour-rails {
+  flex: none;
+  width: 64px;
+  margin-bottom: 0;
 }
 .tour-eyebrow {
   display: inline-flex;
@@ -5768,12 +5808,6 @@ header[data-overlay] .nav-coin-chip {
   height: 6px;
   border-radius: 50%;
   background: #ff4422;
-}
-.tour-count {
-  color: #9a938c;
-  font-size: 11px;
-  font-weight: 700;
-  font-variant-numeric: tabular-nums;
 }
 .tour-rails {
   display: flex;
@@ -5805,19 +5839,19 @@ header[data-overlay] .nav-coin-chip {
   background: #ff4422;
 }
 .tour-tip-title {
-  margin: 0 0 6px;
+  margin: 0 0 7px;
   color: #111111;
-  font-size: 17px;
+  font-size: 18px;
   font-weight: 800;
-  line-height: 1.25;
+  line-height: 1.24;
   letter-spacing: -0.02em;
   text-wrap: balance;
 }
 .tour-tip-body {
   margin: 0;
-  color: #5f5b56;
-  font-size: 13.5px;
-  line-height: 1.6;
+  color: #57534e;
+  font-size: 14px;
+  line-height: 1.55;
   text-wrap: pretty;
 }
 .tour-actions {
@@ -5825,7 +5859,7 @@ header[data-overlay] .nav-coin-chip {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  margin-top: 16px;
+  margin-top: 18px;
 }
 .tour-actions-right {
   display: flex;
@@ -6004,11 +6038,13 @@ header[data-overlay] .nav-coin-chip {
    Its decorative loops (shine sweeps, pulse rings, the conic orbit) repaint
    forever on paint-only properties, and every one of those frames is stolen
    from the overlay's own motion. Pausing them is worth ~13ms of median frame
-   time on a throttled CPU. They resume untouched when the attribute goes. */
-body[data-tour-open] > *:not(.tutorial-root),
-body[data-tour-open] > *:not(.tutorial-root) *,
-body[data-tour-open] > *:not(.tutorial-root) *::before,
-body[data-tour-open] > *:not(.tutorial-root) *::after {
+   time on a throttled CPU. They resume untouched when the attribute goes.
+   The spotlight tour sets the same flag, so both overlays are excluded here —
+   the tour's own ring lives inside .tour-root and has to keep breathing. */
+body[data-tour-open] > *:not(.tutorial-root):not(.tour-root),
+body[data-tour-open] > *:not(.tutorial-root):not(.tour-root) *,
+body[data-tour-open] > *:not(.tutorial-root):not(.tour-root) *::before,
+body[data-tour-open] > *:not(.tutorial-root):not(.tour-root) *::after {
   animation-play-state: paused !important;
 }
 /* Then drop it out of paint entirely, once the scrim is opaque enough that
@@ -6062,12 +6098,15 @@ body[data-tour-veil] > *:not(.tutorial-root) {
   transition: border-color 200ms var(--ease-out), background-color 200ms var(--ease-out);
 }
 /* The receipt: what the trade just cost or returned, thrown off the wallet.
-   Positioned out of flow so the pills never reflow when it arrives. */
+   Positioned out of flow so the pills never reflow when it arrives, and cleared
+   past the rails — at 7px it fell straight onto them and crossed the progress
+   line at the exact moment the reader was told to look up here. Opaque fill for
+   the same reason: it lands over live copy and has to stay the top layer. */
 .tutorial-flash {
   position: absolute;
-  top: calc(100% + 7px);
+  top: calc(100% + 30px);
   right: 0;
-  z-index: 1;
+  z-index: 2;
   padding: 5px 10px;
   border-radius: 100px;
   font-size: 11px;
@@ -6077,11 +6116,11 @@ body[data-tour-veil] > *:not(.tutorial-root) {
   pointer-events: none;
 }
 .tutorial-flash[data-tone="out"] {
-  background: rgba(197, 21, 24, 0.1);
+  background: #fdeaea;
   color: #a71114;
 }
 .tutorial-flash[data-tone="in"] {
-  background: rgba(0, 133, 74, 0.11);
+  background: #e4f4ec;
   color: #00854a;
 }
 .tutorial-wallet > span {
@@ -6342,17 +6381,6 @@ body[data-tour-veil] > *:not(.tutorial-root) {
   flex-direction: column;
   min-width: 0;
 }
-.tutorial-step {
-  flex: none;
-  padding: 3px 7px;
-  border-radius: 100px;
-  background: rgba(17, 17, 17, 0.06);
-  color: #6b645e;
-  font-size: 10.5px;
-  font-weight: 800;
-  letter-spacing: 0.04em;
-  font-variant-numeric: tabular-nums;
-}
 .tutorial-copy h3 {
   display: flex;
   align-items: baseline;
@@ -6413,27 +6441,6 @@ body[data-tour-veil] > *:not(.tutorial-root) {
   height: 7px;
   border-radius: 50%;
   background: currentColor;
-}
-/* Act 3's three moves. Pushed to the right of the cue so the line reads first
-   and the pips answer "how much is left" without being asked. */
-.tutorial-cue-steps {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  flex: none;
-  margin: 4px 0 0 auto;
-  padding-left: 8px;
-}
-.tutorial-cue-steps i {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: currentColor;
-  opacity: 0.28;
-  transition: opacity 200ms var(--ease-out);
-}
-.tutorial-cue-steps i[data-on] {
-  opacity: 1;
 }
 /* Pinned under the scroll area: the cue and the nav travel together, so the
    button that moves the reader forward is always on screen. */

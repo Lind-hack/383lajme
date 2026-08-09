@@ -29,8 +29,11 @@ const TOUR_STEPS: TourStep[] = [
     target: "[data-tour='floor-filters']",
     title: "Fillo te tema jote",
     body: "Politikë, sport, ekonomi — zgjidh çfarë njeh.",
-    padding: 10,
-    radius: 100,
+    // A strip of pills, not a pill. At the full stadium radius this row asks
+    // for, the arc at each end reaches inward to within ~2px of the first and
+    // last chip — clearance that any change to the chip height would spend.
+    padding: 12,
+    radius: 28,
     zoom: 1.04,
     cursor: {
       loop: true,

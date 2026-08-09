@@ -18,7 +18,6 @@ import {
   useMemo,
   useRef,
   useState,
-  type CSSProperties,
 } from "react";
 import { createPortal } from "react-dom";
 import { AnimatePresence, motion, useMotionValue, useTransform } from "framer-motion";
@@ -56,10 +55,29 @@ interface Box {
   height: number;
 }
 
+/**
+ * The connector that ties the card to the lit element. Without it the card is
+ * just copy floating on a dim page; with it, it reads as someone pointing at
+ * the thing while they explain it. `offset` runs along the named edge.
+ */
+interface Beak {
+  side: "top" | "bottom" | "left" | "right";
+  offset: number;
+}
+
+interface Tip {
+  top: number;
+  left: number;
+  width: number;
+  beak: Beak | null;
+}
+
 const STORAGE_PREFIX = "383:tour:";
 const OPEN_EVENT = "383-tour-open";
 const TIP_WIDTH = 340;
 const TIP_GAP = 18;
+/** Keep the beak clear of the card's rounded corners. */
+const BEAK_INSET = 26;
 const EDGE = 16;
 const ZOOM_MS = 700;
 /**
@@ -75,6 +93,12 @@ const SHEET_BP = 720;
 const BAND_TOP = 88;
 /** Never light a sliver — below this the step is not readable. */
 const BAND_MIN = 96;
+/**
+ * How far past the band a hole has to reach before it counts as clipped. The
+ * camera lands on sub-pixel scroll positions, so without a tolerance a step
+ * that fits perfectly still trips the clip path and loses two of its corners.
+ */
+const CLIP_EPS = 6;
 /** Camera travel time, scaled by distance between these bounds. */
 const CAM_MIN_MS = 320;
 const CAM_MAX_MS = 720;
@@ -82,6 +106,13 @@ const CAM_MAX_MS = 720;
 const IDLE_MS = 160;
 /** …and never sooner than this after the anchor came into view. */
 const DWELL_MS = 260;
+/**
+ * How far the lit element may drift from where the camera parked it before the
+ * step is re-aimed. The market grid arrives from a fetch, so a step opened
+ * against the filter row can find itself several hundred pixels further down
+ * the page a moment later — with the card still pointing at where it used to be.
+ */
+const REAIM_EPS = 24;
 /** Keys that scroll the page. Left/Right drive the steps and stay live. */
 const SCROLL_KEYS = new Set([
   " ",
@@ -144,6 +175,8 @@ export default function SpotlightTour({
   const [anchorBox, setAnchorBox] = useState<Box | null>(null);
   /** Steps whose target actually exists — sections render conditionally. */
   const [live, setLive] = useState<TourStep[]>(steps);
+  /** 1 or -1: which way the last step change went, for the copy swap. */
+  const [dir, setDir] = useState(1);
 
   const tipRef = useRef<HTMLDivElement>(null);
   const nextRef = useRef<HTMLButtonElement>(null);
@@ -168,8 +201,6 @@ export default function SpotlightTour({
   const mW = useMotionValue(0);
   const mH = useMotionValue(0);
   const mScroll = useMotionValue(0);
-  const mVw = useMotionValue(0);
-  const mVh = useMotionValue(0);
   /** Phone band, mirrored into motion values so the transforms can clamp. */
   const mSheet = useMotionValue(0);
   const mBand = useMotionValue(0);
@@ -179,30 +210,27 @@ export default function SpotlightTour({
   const hTop = useTransform([mTop, mScroll, mSheet], ([t, s, sh]: number[]) =>
     sh ? Math.max(BAND_TOP, t - s) : t - s
   );
+  // Clipping may only ever take height away. Flooring at BAND_MIN unconditionally
+  // *grew* a short target — the filter row is about 70px tall — until the hole
+  // reached past its own element and lit whatever happened to sit underneath.
   const hH = useTransform(
     [mTop, mH, mScroll, mSheet, mBand],
     ([t, h, s, sh, band]: number[]) => {
       if (!sh) return h;
       const top = Math.max(BAND_TOP, t - s);
       const bottom = Math.min(t - s + h, band);
-      return Math.max(BAND_MIN, bottom - top);
+      return Math.max(Math.min(h, BAND_MIN), bottom - top);
     }
   );
-
-  // The four scrim panels tile the viewport around the hole. They share the
-  // hole's own numbers, so no lit seam can open between them mid-flight.
-  const cTop = useTransform([hTop, mVh], ([t, vh]: number[]) => clamp(t, 0, vh));
-  const cBottom = useTransform([hTop, hH, mVh], ([t, h, vh]: number[]) => clamp(t + h, 0, vh));
-  const cLeft = useTransform([hLeft, mVw], ([l, vw]: number[]) => clamp(l, 0, vw));
-  const cRight = useTransform([hLeft, hW, mVw], ([l, w, vw]: number[]) => clamp(l + w, 0, vw));
-  const bandH = useTransform([cTop, cBottom], ([a, b]: number[]) => Math.max(0, b - a));
-  const bottomH = useTransform([cBottom, mVh], ([b, vh]: number[]) => Math.max(0, vh - b));
-  const rightW = useTransform([cRight, mVw], ([r, vw]: number[]) => Math.max(0, vw - r));
 
   const camRef = useRef(0);
   const trackRef = useRef(0);
   /** False until the first step of a run has placed the spotlight. */
   const placed = useRef(false);
+  /** Where the camera parked the padded box, in viewport space. */
+  const landedAt = useRef<{ top: number; left: number } | null>(null);
+  /** Bumped when the page has moved the target out from under a landed step. */
+  const [reaim, setReaim] = useState(0);
 
   const openRef = useRef(open);
   openRef.current = open;
@@ -232,14 +260,12 @@ export default function SpotlightTour({
     const sync = () => {
       const w = window.innerWidth;
       const h = window.innerHeight;
-      mVw.set(w);
-      mVh.set(h);
       setView((prev) => (prev.w === w && prev.h === h ? prev : { w, h }));
     };
     sync();
     window.addEventListener("resize", sync);
     return () => window.removeEventListener("resize", sync);
-  }, [mVw, mVh]);
+  }, []);
 
   const start = useCallback(() => {
     // Already running. The two entry points can race — a visitor who taps the
@@ -257,8 +283,15 @@ export default function SpotlightTour({
     placed.current = false;
     setAnchorBox(null);
     setIndex(0);
+    setDir(1);
     setOpen(true);
   }, [steps]);
+
+  /** Every step change goes through here, so the copy always knows which way. */
+  const go = useCallback((delta: number) => {
+    setDir(delta >= 0 ? 1 : -1);
+    setIndex((i) => clamp(i + delta, 0, live.length - 1));
+  }, [live.length]);
 
   const finish = useCallback(() => {
     window.cancelAnimationFrame(camRef.current);
@@ -354,6 +387,11 @@ export default function SpotlightTour({
     const root = document.documentElement;
     const prevOverscroll = root.style.overscrollBehavior;
     root.style.overscrollBehavior = "none";
+    // The page stays visible here — it is the thing being explained — but its
+    // decorative loops (ticker marquee, shine sweeps, the aurora) keep
+    // repainting behind the scrim at 74% black, and every one of those frames
+    // comes out of the camera's budget. See body[data-tour-open] in globals.css.
+    document.body.dataset.tourOpen = "";
 
     // A gesture is let through only when something inside the card can really
     // consume it — a scrollable box that is not already pinned against the end
@@ -394,6 +432,7 @@ export default function SpotlightTour({
     window.addEventListener("keydown", onKey, { passive: false });
     return () => {
       root.style.overscrollBehavior = prevOverscroll;
+      delete document.body.dataset.tourOpen;
       window.removeEventListener("wheel", onWheel);
       window.removeEventListener("touchmove", onTouchMove);
       window.removeEventListener("keydown", onKey);
@@ -434,12 +473,20 @@ export default function SpotlightTour({
 
     let to = from;
     if (isSheet) {
-      if (!(r.top >= BAND_TOP && r.bottom <= band)) to = from + r.top - BAND_TOP - 8;
+      // Aim the *padded* box, not the element. Aiming the element parked the
+      // hole `pad` pixels higher than intended — a hair above BAND_TOP — which
+      // read as "this element runs off the top of the band" and clipped a step
+      // that fits inside it with room to spare.
+      if (!(r.top - pad >= BAND_TOP && r.bottom + pad <= band)) {
+        to = from + r.top - pad - BAND_TOP - 12;
+      }
     } else if (!(r.top >= 110 && r.bottom <= vh - 110)) {
       to = from + r.top - Math.max(110, (vh - r.height) / 2);
     }
     const maxScroll = Math.max(0, document.documentElement.scrollHeight - vh);
-    to = clamp(to, 0, maxScroll);
+    // Rounded once, here, so the tween, the landing and the tooltip placement
+    // all agree on the same integer offset.
+    to = Math.round(clamp(to, 0, maxScroll));
 
     // Where the box ends up once the camera has landed — zoom included, so the
     // tooltip is placed against the size the user will actually see.
@@ -461,6 +508,7 @@ export default function SpotlightTour({
       mLeft.set(doc.left);
       mW.set(doc.width);
       mH.set(doc.height);
+      landedAt.current = { top: doc.top - to, left: doc.left };
       placed.current = true;
       setPhase("land");
     };
@@ -500,7 +548,10 @@ export default function SpotlightTour({
     const tick = (now: number) => {
       const p = Math.min(1, (now - t0) / ms);
       const e = easeOutQuint(p);
-      const scroll = from + (to - from) * e;
+      // Whole pixels. A fractional scroll offset resamples every glyph on the
+      // page each frame, which reads as the text crawling rather than the page
+      // moving — the roughest part of a scroll the user never asked for.
+      const scroll = Math.round(from + (to - from) * e);
       window.scrollTo(0, scroll);
       mScroll.set(scroll);
       mTop.set(start0.top + (doc.top - start0.top) * e);
@@ -516,7 +567,7 @@ export default function SpotlightTour({
     camRef.current = window.requestAnimationFrame(tick);
 
     return () => window.cancelAnimationFrame(camRef.current);
-  }, [open, index, step, mTop, mLeft, mW, mH, mScroll]);
+  }, [open, index, step, reaim, mTop, mLeft, mW, mH, mScroll]);
 
   // Push in on the target for the length of the step, once the camera has
   // landed. Skipped on phone widths: the targets are already full-bleed there,
@@ -546,28 +597,61 @@ export default function SpotlightTour({
     };
   }, [open, phase, index, step, reduced, sheet]);
 
-  // Once landed, keep the lit box glued to the element: the zoom transform is
-  // still easing, and content around it can reflow. Writes motion values only,
-  // so a settled step costs one measurement per frame and no React work.
+  // Once landed, keep the lit box glued to the element while the push-in is
+  // still easing — then stop. Holding the rAF open for the life of the step
+  // cost a forced layout every frame on a screen that had finished moving,
+  // which is most of a step's duration and most of its frame budget. A
+  // ResizeObserver picks up the rare reflow underneath for nothing.
   useEffect(() => {
     if (!open || !step || phase !== "land") return;
     const pad = step.padding ?? 10;
-    const tick = () => {
+    const sync = () => {
       const el = document.querySelector(step.target);
-      if (el) {
-        const r = el.getBoundingClientRect();
-        const s = window.scrollY;
-        mScroll.set(s);
-        mTop.set(r.top + s - pad);
-        mLeft.set(r.left - pad);
-        mW.set(r.width + pad * 2);
-        mH.set(r.height + pad * 2);
+      if (!el) return;
+      const r = el.getBoundingClientRect();
+      const s = window.scrollY;
+      mScroll.set(s);
+      mTop.set(r.top + s - pad);
+      mLeft.set(r.left - pad);
+      mW.set(r.width + pad * 2);
+      mH.set(r.height + pad * 2);
+
+      // The hole is welded to the element and will follow it anywhere. The
+      // camera and the card are not: they were placed once, against where the
+      // element stood then. Past a threshold, run the step again rather than
+      // leave a card explaining something that is no longer on screen.
+      const parked = landedAt.current;
+      if (
+        parked &&
+        (Math.abs(r.top - pad - parked.top) > REAIM_EPS ||
+          Math.abs(r.left - pad - parked.left) > REAIM_EPS)
+      ) {
+        landedAt.current = null;
+        setReaim((n) => n + 1);
       }
-      trackRef.current = window.requestAnimationFrame(tick);
+    };
+
+    const zooming = Boolean(step.zoom) && !reduced && !sheet;
+    const until = performance.now() + (zooming ? ZOOM_MS + 90 : 90);
+    const tick = () => {
+      sync();
+      if (performance.now() < until) trackRef.current = window.requestAnimationFrame(tick);
     };
     tick();
-    return () => window.cancelAnimationFrame(trackRef.current);
-  }, [open, phase, index, step, mTop, mLeft, mW, mH, mScroll]);
+
+    // The element's own box catches it growing; the body's catches everything
+    // above it growing, which is how a fetch four sections up moves this step.
+    const el = document.querySelector(step.target);
+    const ro = new ResizeObserver(sync);
+    if (el) ro.observe(el);
+    ro.observe(document.body);
+    window.addEventListener("resize", sync);
+    return () => {
+      window.cancelAnimationFrame(trackRef.current);
+      ro.disconnect();
+      window.removeEventListener("resize", sync);
+    };
+  }, [open, phase, index, step, reduced, sheet, mTop, mLeft, mW, mH, mScroll]);
 
   useLayoutEffect(() => {
     const el = tipRef.current;
@@ -591,9 +675,9 @@ export default function SpotlightTour({
         event.preventDefault();
         finish();
       } else if (event.key === "ArrowRight") {
-        setIndex((i) => Math.min(i + 1, live.length - 1));
+        go(1);
       } else if (event.key === "ArrowLeft") {
-        setIndex((i) => Math.max(i - 1, 0));
+        go(-1);
       } else if (event.key === "Tab") {
         // The page underneath is dimmed and inert; keep Tab inside the card.
         const focusable = tipRef.current?.querySelectorAll<HTMLElement>("button");
@@ -612,7 +696,7 @@ export default function SpotlightTour({
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [open, live.length, finish]);
+  }, [open, go, finish]);
 
   // The landed box, clipped into the band above the sheet on phone widths —
   // which is what makes the dim visible again there, since an unclipped
@@ -626,28 +710,47 @@ export default function SpotlightTour({
       top,
       left: anchorBox.left,
       width: anchorBox.width,
-      height: Math.max(BAND_MIN, bottom - top),
-      clipTop: anchorBox.top < BAND_TOP - 0.5,
-      clipBottom: anchorBox.top + anchorBox.height > bandBottom + 0.5,
+      height: Math.max(Math.min(anchorBox.height, BAND_MIN), bottom - top),
+      clipTop: anchorBox.top < BAND_TOP - CLIP_EPS,
+      clipBottom: anchorBox.top + anchorBox.height > bandBottom + CLIP_EPS,
     };
   }, [anchorBox, view, sheet, bandBottom]);
 
-  const tip = useMemo(() => {
+  const tip = useMemo<Tip | null>(() => {
     if (!hole || view.w === 0) return null;
     const vw = view.w;
     const vh = view.h;
 
-    // Phone: docked sheet, full width, always clear of the lit band.
+    // Phone: docked sheet, full width, always clear of the lit band. No beak —
+    // the sheet spans the screen, so it has no free edge to point from.
     if (sheet) {
       return {
         top: Math.max(EDGE, vh - tipHeight - EDGE),
         left: EDGE,
         width: vw - EDGE * 2,
+        beak: null,
       };
     }
 
     const width = Math.min(TIP_WIDTH, vw - EDGE * 2);
     const clampY = (y: number) => Math.min(Math.max(EDGE, y), Math.max(EDGE, vh - tipHeight - EDGE));
+    const cx = hole.left + hole.width / 2;
+    const cy = hole.top + hole.height / 2;
+    const centred = Math.min(
+      Math.max(EDGE, cx - width / 2),
+      Math.max(EDGE, vw - width - EDGE)
+    );
+
+    // The beak earns its place only when it can point at the lit element
+    // honestly. Once the card has been pushed against a viewport edge the hole
+    // can sit past the end of the edge it would grow from, and a beak clamped
+    // to the corner would be aiming at nothing.
+    const beakAt = (side: Beak["side"], span: number, centre: number, start: number): Beak | null => {
+      if (span < BEAK_INSET * 2 + 10) return null;
+      const offset = centre - start;
+      if (offset < -10 || offset > span + 10) return null;
+      return { side, offset: clamp(offset, BEAK_INSET, span - BEAK_INSET) };
+    };
 
     const below = hole.top + hole.height + TIP_GAP;
     const above = hole.top - TIP_GAP - tipHeight;
@@ -657,54 +760,47 @@ export default function SpotlightTour({
     // Below and above read best; fall to the sides before ever covering the
     // thing we are pointing at. A tall card in a short viewport hits this.
     if (below + tipHeight <= vh - EDGE) {
-      const left = Math.min(
-        Math.max(EDGE, hole.left + hole.width / 2 - width / 2),
-        Math.max(EDGE, vw - width - EDGE)
-      );
-      return { top: below, left, width };
+      return { top: below, left: centred, width, beak: beakAt("top", width, cx, centred) };
     }
     if (above >= EDGE) {
-      const left = Math.min(
-        Math.max(EDGE, hole.left + hole.width / 2 - width / 2),
-        Math.max(EDGE, vw - width - EDGE)
-      );
-      return { top: above, left, width };
+      return { top: above, left: centred, width, beak: beakAt("bottom", width, cx, centred) };
     }
     if (rightOf + width <= vw - EDGE) {
-      return { top: clampY(hole.top + hole.height / 2 - tipHeight / 2), left: rightOf, width };
+      const top = clampY(cy - tipHeight / 2);
+      return { top, left: rightOf, width, beak: beakAt("left", tipHeight, cy, top) };
     }
     if (leftOf >= EDGE) {
-      return { top: clampY(hole.top + hole.height / 2 - tipHeight / 2), left: leftOf, width };
+      const top = clampY(cy - tipHeight / 2);
+      return { top, left: leftOf, width, beak: beakAt("right", tipHeight, cy, top) };
     }
-    return {
-      top: Math.max(EDGE, vh - tipHeight - EDGE),
-      left: Math.min(
-        Math.max(EDGE, hole.left + hole.width / 2 - width / 2),
-        Math.max(EDGE, vw - width - EDGE)
-      ),
-      width,
-    };
+    return { top: Math.max(EDGE, vh - tipHeight - EDGE), left: centred, width, beak: null };
   }, [hole, view, tipHeight, sheet]);
 
   if (!mounted || !step) return null;
 
   const motionOn = !reduced;
   const travelling = motionOn && phase === "travel";
-  const radius = step.radius ?? 18;
+  // A radius larger than the box can carry gets silently scaled down by the
+  // browser, and then nothing downstream agrees with what is actually painted.
+  // Clamp it ourselves so the authored number and the drawn shape are the same
+  // number — `radius: 100` on a row of pill chips still reads as a stadium.
+  const authored = step.radius ?? 18;
+  const radius = hole
+    ? Math.max(0, Math.min(authored, Math.min(hole.width, hole.height) / 2))
+    : authored;
   const holeRadius = hole?.clipBottom
     ? `${radius}px ${radius}px 0 0`
     : hole?.clipTop
       ? `0 0 ${radius}px ${radius}px`
       : `${radius}px`;
-  // The corner patches follow the same two-corner rule as the radius: a clipped
-  // edge is square on purpose, and a patch there would dim a real right angle.
-  const cornerVars = {
-    "--tour-corner-t": `${hole?.clipTop ? 0 : radius}px`,
-    "--tour-corner-b": `${hole?.clipBottom ? 0 : radius}px`,
-  } as CSSProperties;
   // The tooltip is the only thing that moves on its own clock: it is invisible
-  // while the camera travels, so its jump to the new spot is never seen.
+  // while the camera travels, so its jump to the new spot is never seen. It
+  // travels on a transform, so the move costs no layout on the way.
   const tipMove = { duration: motionOn ? DUR.slow : 0, ease: EASE };
+  const tipAt = (t: Tip, dip: boolean) =>
+    `translate3d(${Math.round(t.left)}px, ${Math.round(t.top) + (dip ? 6 : 0)}px, 0) scale(${
+      dip ? 0.985 : 1
+    })`;
 
   return createPortal(
     <AnimatePresence>
@@ -720,53 +816,37 @@ export default function SpotlightTour({
           exit={{ opacity: 0 }}
           transition={{ duration: motionOn ? DUR.slow : 0, ease: EASE }}
         >
-          <motion.div
-            className="tour-scrim"
-            aria-hidden
-            style={{ top: 0, left: 0, width: mVw, height: cTop }}
-            onClick={finish}
-          />
-          <motion.div
-            className="tour-scrim"
-            aria-hidden
-            style={{ top: cBottom, left: 0, width: mVw, height: bottomH }}
-            onClick={finish}
-          />
-          <motion.div
-            className="tour-scrim"
-            aria-hidden
-            style={{ top: cTop, left: 0, width: cLeft, height: bandH }}
-            onClick={finish}
-          />
-          <motion.div
-            className="tour-scrim"
-            aria-hidden
-            style={{ top: cTop, left: cRight, width: rightW, height: bandH }}
-            onClick={finish}
-          />
+          {/* Catches every click that lands outside the lit element. It sits
+              under the hole rather than around it, because the dim is now the
+              hole's own shadow and a shadow is not a hit target. */}
+          <div className="tour-catch" aria-hidden onClick={finish} />
 
-          {anchorBox && (
-            <motion.div
-              className="tour-hole"
+          {/* One element, one paint. The scrim used to be four flat panels
+              tiling the viewport around this box, which meant the cut-out was
+              square-cornered whatever the ring did, and the corner patches that
+              papered over that only ever matched at small radii. A spread
+              shadow follows the *rendered* radius exactly, at any size, on
+              every clipped edge. */}
+          <motion.div
+            className="tour-hole"
+            aria-hidden
+            data-clip-bottom={hole?.clipBottom ? "" : undefined}
+            data-clip-top={hole?.clipTop ? "" : undefined}
+            style={{
+              top: hTop,
+              left: hLeft,
+              width: hW,
+              height: hH,
+              borderRadius: holeRadius,
+            }}
+          >
+            <span
+              className="tour-ring"
               aria-hidden
-              data-clip-bottom={hole?.clipBottom ? "" : undefined}
-              data-clip-top={hole?.clipTop ? "" : undefined}
-              style={{
-                top: hTop,
-                left: hLeft,
-                width: hW,
-                height: hH,
-                borderRadius: holeRadius,
-              }}
-            >
-              <span className="tour-corners" style={cornerVars} />
-              <span
-                className="tour-ring"
-                data-static={reduced ? "" : undefined}
-                data-travel={travelling ? "" : undefined}
-              />
-            </motion.div>
-          )}
+              data-static={reduced ? "" : undefined}
+              data-travel={travelling ? "" : undefined}
+            />
+          </motion.div>
 
           <TourCursor
             script={phase === "land" ? step.cursor ?? null : null}
@@ -781,28 +861,24 @@ export default function SpotlightTour({
               ref={tipRef}
               className="tour-tip"
               data-sheet={sheet ? "" : undefined}
-              // Explicit position in `initial` so only opacity and scale play
-              // on mount — leaving top/left unset makes it fly in from 0,0.
-              initial={
-                motionOn
-                  ? { top: tip.top, left: tip.left, opacity: 0, scale: 0.97 }
-                  : false
-              }
+              data-beak={tip.beak?.side}
+              // Position lives in the transform, not in top/left: the card moves
+              // once per step, and moving it by layout re-flows the whole
+              // overlay on every frame of that move. Explicit in `initial` too,
+              // or it flies in from the top-left corner on mount.
+              initial={motionOn ? { transform: tipAt(tip, false), opacity: 0 } : false}
               animate={{
-                top: tip.top,
-                left: tip.left,
+                transform: tipAt(tip, travelling),
                 opacity: travelling ? 0 : 1,
-                scale: travelling ? 0.985 : 1,
-                y: travelling ? 6 : 0,
               }}
               transition={{
-                top: tipMove,
-                left: tipMove,
+                transform: tipMove,
                 opacity: { duration: motionOn ? DUR.base : 0, ease: EASE },
-                scale: { duration: motionOn ? DUR.slow : 0, ease: EASE },
-                y: { duration: motionOn ? DUR.slow : 0, ease: EASE },
               }}
-              style={{ width: tip.width }}
+              style={{
+                width: tip.width,
+                ["--beak" as string]: tip.beak ? `${Math.round(tip.beak.offset)}px` : "0px",
+              }}
             >
               {sheet && <span className="tour-tip-grip" aria-hidden />}
               <div className="tour-tip-head">
@@ -810,23 +886,29 @@ export default function SpotlightTour({
                   <span aria-hidden />
                   {eyebrow}
                 </span>
-                <span className="tour-count">
-                  {index + 1}/{live.length}
-                </span>
+                {/* The rails carry the count. A "2/3" next to them says the
+                    same thing twice, on a card whose whole job is to hold one
+                    idea at a time. */}
+                <div className="tour-rails" aria-hidden>
+                  {live.map((_, i) => (
+                    <span key={i} data-on={i <= index ? "" : undefined} />
+                  ))}
+                </div>
               </div>
 
-              <div className="tour-rails" aria-hidden>
-                {live.map((_, i) => (
-                  <span key={i} data-on={i <= index ? "" : undefined} />
-                ))}
-              </div>
-
-              <AnimatePresence mode="wait" initial={false}>
+              {/* Direction-aware: forward and back are opposite motions, so the
+                  copy carries a sense of place inside the tour. */}
+              <AnimatePresence mode="wait" initial={false} custom={dir}>
                 <motion.div
                   key={index}
-                  initial={motionOn ? { opacity: 0, y: 8 } : false}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={motionOn ? { opacity: 0, y: -6 } : undefined}
+                  custom={dir}
+                  initial={motionOn ? { opacity: 0, transform: `translateY(${dir * 10}px)` } : false}
+                  animate={{ opacity: 1, transform: "translateY(0px)" }}
+                  exit={
+                    motionOn
+                      ? { opacity: 0, transform: `translateY(${dir * -8}px)` }
+                      : undefined
+                  }
                   transition={{ duration: motionOn ? DUR.base : 0, ease: EASE }}
                 >
                   <h3 id="tour-title" className="tour-tip-title">
@@ -845,7 +927,7 @@ export default function SpotlightTour({
                     <button
                       type="button"
                       className="tour-back"
-                      onClick={() => setIndex((i) => Math.max(0, i - 1))}
+                      onClick={() => go(-1)}
                     >
                       Mbrapa
                     </button>
@@ -854,7 +936,7 @@ export default function SpotlightTour({
                     ref={nextRef}
                     type="button"
                     className="tour-next"
-                    onClick={() => (isLast ? finish() : setIndex((i) => i + 1))}
+                    onClick={() => (isLast ? finish() : go(1))}
                   >
                     {isLast ? "E kuptova" : "Vazhdo"}
                     <span aria-hidden>→</span>
