@@ -17,7 +17,12 @@ import { previewBet, previewSell, lmsrPriceYes, type BinarySide } from "@/lib/tr
 const STORAGE_KEY = "383:tour:tregu-trade";
 const OPEN_EVENT = "383-tour-open";
 const TOUR_ID = "tregu-trade";
-const QUICK_AMOUNTS = [10, 25, 50, 100];
+/**
+ * Three, not four. The act asks the reader to press *a* chip, not to choose
+ * well — a fourth option is one more thing to weigh in a step whose only job is
+ * "any number works, the maths is the same".
+ */
+const QUICK_AMOUNTS = [10, 25, 50];
 const START_BALANCE = 500;
 const SEED = { q_yes: 60, q_no: 0, b: 150 };
 
@@ -223,9 +228,9 @@ function Tick({ value, motionOn }: { value: string; motionOn: boolean }) {
   );
 }
 
-/** Twelve coins thrown outward, once, when the practice trade closes. */
-const BURST = Array.from({ length: 12 }, (_, i) => {
-  const angle = (i / 12) * Math.PI * 2;
+/** Eight coins thrown outward, once, when the practice trade closes. */
+const BURST = Array.from({ length: 8 }, (_, i) => {
+  const angle = (i / 8) * Math.PI * 2;
   return { x: Math.cos(angle) * 128, y: Math.sin(angle) * 54 };
 });
 
@@ -443,8 +448,6 @@ export default function TradeTutorial() {
         close();
       } else if (event.key === "ArrowRight" && !blocked) {
         setAct((i) => Math.min(i + 1, ACTS.length - 1));
-      } else if (event.key === "ArrowLeft") {
-        setAct((i) => Math.max(i - 1, 0));
       }
     };
     window.addEventListener("keydown", onKey);
@@ -549,16 +552,13 @@ export default function TradeTutorial() {
                 <span aria-hidden />
                 Si tregtohet
               </span>
+              {/* One number. The trade counter next to it was a second thing to
+                  watch on a screen that is asking the reader to watch the
+                  balance — and the counter is the one that teaches nothing. */}
               <div className="tutorial-wallet" data-focus={state.shares > 0 ? "" : undefined}>
                 <span>
                   Bilanc prove{" "}
                   <Tick value={`${fmt(state.balance)} 383C`} motionOn={motionOn} />
-                </span>
-                <span>
-                  Tregtime{" "}
-                  <span data-tut="trade-count">
-                    <Tick value={String(state.trades)} motionOn={motionOn} />
-                  </span>
                 </span>
                 <AnimatePresence>
                   {flash && (
@@ -620,12 +620,9 @@ export default function TradeTutorial() {
                     }
                     transition={{ duration: motionOn ? DUR.base : 0, ease: EASE }}
                   >
-                    <h3 id="tutorial-title">
-                      <span className="tutorial-step">
-                        {act + 1}/{ACTS.length}
-                      </span>
-                      {current.title}
-                    </h3>
+                    {/* The rails above are the step counter; a "2/3" chip
+                        welded to the heading says it a second time. */}
+                    <h3 id="tutorial-title">{current.title}</h3>
                     <p>{current.body}</p>
                   </motion.div>
                 </AnimatePresence>
@@ -717,8 +714,8 @@ export default function TradeTutorial() {
                   ) : sold ? (
                     <motion.div key="recap" className="tutorial-recap" {...stage}>
                       <p>
-                        Hyre dhe dole: <strong>{state.trades} tregtime</strong>. Bilanci i provës
-                        mbylli në <strong>{fmt(state.balance)} 383C</strong>.
+                        Hyre dhe dole. Bilanci i provës mbylli në{" "}
+                        <strong>{fmt(state.balance)} 383C</strong>.
                       </p>
                       {motionOn && (
                         <span className="tutorial-burst" aria-hidden>
@@ -811,38 +808,16 @@ export default function TradeTutorial() {
                   {cueText}
                 </motion.span>
 
-                {/* Two real moves, so two real pips. They fill as the reader
-                    works — the only progress shown *inside* an act. */}
-                {onBet && !cueDone && (
-                  <span className="tutorial-cue-steps" aria-hidden>
-                    {[0, 1].map((i) => (
-                      <motion.i
-                        key={i}
-                        data-on={i < betStep ? "" : undefined}
-                        animate={{ transform: i === betStep ? "scale(1)" : "scale(0.66)" }}
-                        transition={
-                          motionOn ? { type: "spring", duration: 0.42, bounce: 0.34 } : { duration: 0 }
-                        }
-                      />
-                    ))}
-                  </span>
-                )}
               </div>
 
+              {/* No "Mbrapa". The sandbox is a sequence the reader performs, and
+                  its state does not rewind with the act — stepping back landed
+                  them on a finished instruction with nothing left to press. */}
               <div className="tour-actions">
                 <button type="button" className="tour-skip" onClick={close}>
                   Kalo
                 </button>
                 <div className="tour-actions-right">
-                  {act > 0 && (
-                    <button
-                      type="button"
-                      className="tour-back"
-                      onClick={() => setAct((i) => Math.max(0, i - 1))}
-                    >
-                      Mbrapa
-                    </button>
-                  )}
                   <button
                     type="button"
                     className="tour-next"
