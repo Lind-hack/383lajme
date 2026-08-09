@@ -176,9 +176,51 @@ export function summarizeToneHistory(history: ToneHistoryRow[]): ToneSummary {
   };
 }
 
-export interface ForeignCoverageItem {
+// ── Article cache (public/tone-article-cache.json) ───────────────────────
+// Written by tools/tone_scraper.py, which now runs 9x/day (07:00–23:00
+// Kosovo time) instead of once. This is the persistent, cross-run store
+// that lets Bota Flet show new articles throughout the day instead of only
+// once daily — see getForeignCoverage() below, which reads this instead of
+// today's tone-outlets.json snapshot.
+
+export interface ToneArticleCacheEntry {
+  key: string;
   title: string;
+  /** Albanian translation, or null if translation never succeeded. */
+  albanianTitle: string | null;
+  translated: boolean;
   url: string;
+  googleNewsUrl: string;
+  /** Resolved og:image from the real publisher page, or null if scraping
+   * failed or hasn't been retried yet. */
+  imageUrl: string | null;
+  imageAttempts: number;
+  outlet: string;
+  country: string;
+  sentiment: "positive" | "neutral" | "negative";
+  date: string;
+  firstSeen: string;
+  lastSeen: string;
+}
+
+export interface ToneArticleCache {
+  version: number;
+  articles: Record<string, ToneArticleCacheEntry>;
+}
+
+export async function getToneArticleCache(): Promise<ToneArticleCache | null> {
+  return readJson<ToneArticleCache>("tone-article-cache.json");
+}
+
+export interface ForeignCoverageItem {
+  /** Albanian translation — what's actually displayed. */
+  title: string;
+  /** Original-language headline, kept for transparency even though not
+   * shown today (a future "shiko origjinalin" link, hover title, etc). */
+  originalTitle: string;
+  url: string;
+  /** Guaranteed non-null — see the imageUrl filter below. */
+  imageUrl: string;
   date: string;
   sentiment: "positive" | "neutral" | "negative";
   outlet: string;
@@ -187,47 +229,58 @@ export interface ForeignCoverageItem {
 }
 
 /**
- * Flattens tone-outlets.json into a flat, most-relevant-first list of
- * foreign-outlet articles about Kosovo — this is the real feed behind
- * "Bota Flet" (as opposed to the site's own general article pool).
- * Leads with negative/positive (the pieces worth a reader's attention)
- * before neutral wire copy.
+ * Reads the article cache (not today's tone-outlets.json snapshot) for
+ * Bota Flet's display pool — this is what makes the section refresh across
+ * the day instead of once, and what keeps it non-empty right after
+ * midnight before the first run of a new day has landed.
+ *
+ * Filters to entries that have BOTH a resolved image (the user explicitly
+ * chose "only show articles with a real image" over any fake/AI fallback)
+ * AND a successful Albanian translation (untranslated headlines aren't
+ * shown here at all — Toni still counts their sentiment, translation and
+ * display are independent concerns), within a recent window so the section
+ * always reads as current news, not a stale backlog.
  */
-export function getForeignCoverage(data: ToneOutletsData | null, limit = 6): ForeignCoverageItem[] {
-  if (!data?.countries) return [];
+export function getForeignCoverage(
+  cache: ToneArticleCache | null,
+  limit = 6,
+  windowHours = 72
+): ForeignCoverageItem[] {
+  if (!cache?.articles) return [];
 
-  const items: ForeignCoverageItem[] = [];
-  // The scraper dedupes wire copy (AP/Reuters/AFP) within each country's own
-  // feed, but not across countries — the same English-language story
-  // legitimately shows up in both the SHBA and Britani editions of Google
-  // News. Flattened across all 5 countries that reads as this list glitching
-  // and repeating itself, so dedupe again here on the way out.
-  const seenTitles = new Set<string>();
-  function normalizeTitle(title: string): string {
-    return title.toLowerCase().replace(/[^\p{L}\p{N}]+/gu, " ").trim().slice(0, 80);
-  }
-
-  for (const [country, entry] of Object.entries(data.countries)) {
-    for (const outlet of entry?.outlets ?? []) {
-      for (const article of outlet?.articles ?? []) {
-        if (!article?.title || !article?.url) continue;
-        const key = normalizeTitle(article.title);
-        if (seenTitles.has(key)) continue;
-        seenTitles.add(key);
-        items.push({
-          title: article.title,
-          url: article.url,
-          date: article.date ?? "",
-          sentiment: article.sentiment ?? "neutral",
-          outlet: outlet.name,
-          country,
-          flag: FLAGS[country] ?? "",
-        });
-      }
-    }
+  const cutoff = Date.now() - windowHours * 60 * 60 * 1000;
+  // Window is based on firstSeen (when OUR pipeline discovered the story —
+  // always a clean "YYYY-MM-DD" we generate ourselves), not entry.date (the
+  // article's own original publish date from the RSS feed, which the
+  // scraper stores as a truncated, non-ISO display string like "Sun, 09 Au"
+  // — Date.parse() can't read that at all, and even a fixed format would be
+  // the wrong field: a genuinely old story we only just found today should
+  // still count as fresh for the pool, and one we found days ago shouldn't
+  // resurface just because the original publish date is recent).
+  const candidates: Array<{ entry: ToneArticleCacheEntry; ts: number }> = [];
+  for (const entry of Object.values(cache.articles)) {
+    if (!entry?.imageUrl || !entry?.albanianTitle || !entry?.translated) continue;
+    const ts = Date.parse(entry.firstSeen || "");
+    if (Number.isNaN(ts) || ts < cutoff) continue;
+    candidates.push({ entry, ts });
   }
 
   const weight = { negative: 0, positive: 1, neutral: 2 } as const;
-  items.sort((a, b) => weight[a.sentiment] - weight[b.sentiment]);
-  return items.slice(0, limit);
+  candidates.sort((a, b) => {
+    const bySentiment = weight[a.entry.sentiment] - weight[b.entry.sentiment];
+    if (bySentiment !== 0) return bySentiment;
+    return b.ts - a.ts;
+  });
+
+  return candidates.slice(0, limit).map(({ entry }) => ({
+    title: entry.albanianTitle as string,
+    originalTitle: entry.title,
+    url: entry.url,
+    imageUrl: entry.imageUrl as string,
+    date: entry.date,
+    sentiment: entry.sentiment ?? "neutral",
+    outlet: entry.outlet,
+    country: entry.country,
+    flag: FLAGS[entry.country] ?? "",
+  }));
 }
