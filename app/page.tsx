@@ -27,7 +27,7 @@ import {
   getWeeklyExchangeSnapshot,
   getWeeklyFuelSnapshot,
 } from "@/lib/home-market-data";
-import { getToneOutlets, getToneHistory, summarizeToneHistory, getForeignCoverage } from "@/lib/tone-data";
+import { getToneHistory, getToneArticleCache, summarizeToneHistory, getForeignCoverage } from "@/lib/tone-data";
 
 export const revalidate = 3600;
 
@@ -36,17 +36,26 @@ function titleKws(text: string) {
 }
 
 export default async function HomePage() {
-  const [articles, tickerArticles, exchangeSnapshot, fuelSnapshot, toneOutlets, toneHistory] = await Promise.all([
+  // tone-outlets.json (today's per-country snapshot, used only by
+  // ToneDashboard's client-side hover drill-down via its own fetch()) isn't
+  // read here — Bota Flet now sources from the article cache below instead.
+  const [articles, tickerArticles, exchangeSnapshot, fuelSnapshot, toneHistory, toneCache] = await Promise.all([
     getArticles(60),
     getLatestArticles(10),
     getWeeklyExchangeSnapshot(),
     getWeeklyFuelSnapshot(),
-    getToneOutlets(),
     getToneHistory(),
+    getToneArticleCache(),
   ]);
 
   const toneSummary = summarizeToneHistory(toneHistory);
-  const foreignCoverage = getForeignCoverage(toneOutlets, 5);
+  // Bota Flet reads the cache (72h rolling pool, refreshed 9x/day), not
+  // today's outlets snapshot — see getForeignCoverage()'s doc comment.
+  const foreignCoverage = getForeignCoverage(toneCache, 5);
+  const botaFletPool = Object.values(toneCache?.articles ?? {}).filter(
+    (a) => a.imageUrl && a.translated
+  );
+  const botaFletCountries = new Set(botaFletPool.map((a) => a.country)).size;
 
   // Tier 1: hero — featured (score ≥ 9 or breaking), fallback to highest scored
   const hero = articles.find((a) => a.featured) ?? articles[0];
@@ -208,8 +217,8 @@ export default async function HomePage() {
       {/* Bota Flet — foreign-media coverage of Kosovo, from the tone-scraper pipeline */}
       <BotaFlet
         items={foreignCoverage}
-        totalArticles={toneOutlets?.totalArticles ?? 0}
-        countryCount={toneOutlets ? Object.keys(toneOutlets.countries).length : 0}
+        totalArticles={botaFletPool.length}
+        countryCount={botaFletCountries}
       />
 
       {/* Tone dashboard + Diaspora series */}

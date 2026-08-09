@@ -2,7 +2,10 @@
 // Used across homepage sections, article page, and category pages.
 
 type SectionLabelProps = {
-  label: string;
+  /** Usually a string; accepts ReactNode so a caller can wrap it (e.g. the
+   * .glossy-orange shine treatment on Bota Flet's heading) without a type
+   * hack at the call site. */
+  label: React.ReactNode;
   accent?: string;
   dark?: boolean;
   right?: React.ReactNode;

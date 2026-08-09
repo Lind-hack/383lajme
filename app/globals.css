@@ -415,7 +415,9 @@ body {
   color: #111111;
 }
 
-/* ── World-card hover (BOTA FLET section, server-component safe) ── */
+/* ── World-card hover (BOTA FLET section, server-component safe) ──
+   Shadow was tuned for cards sitting on the old #1A1A1A section — a
+   heavy black smudge on a white supercard now, softened accordingly. */
 .world-card {
   transition: transform var(--duration-base) var(--ease-out),
     box-shadow var(--duration-base) var(--ease-out);
@@ -423,7 +425,7 @@ body {
 @media (hover: hover) and (pointer: fine) {
   .world-card:hover {
     transform: translateY(-4px);
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 12px 28px rgba(17, 17, 17, 0.12);
   }
 }
 
@@ -442,6 +444,54 @@ body {
   .bota-flet-grid {
     grid-template-columns: 1fr;
     align-items: start;
+  }
+}
+
+/* ── Bota Flet supercard — white container holding the whole section,
+   with a dashed orange/rose edge and a slow orbiting glow traced around
+   it. Reuses --lg-angle / @keyframes lg-orbit (registered further down,
+   already driving .liquid-glass-btn and .tregu-edge) rather than
+   introducing a second rotation mechanism.
+
+   The dashes themselves are static geometry, not animated — border-image
+   ignores border-radius, so a literal marching-ants dashed border isn't
+   reliably doable in pure CSS at a rounded corner; a real dash animation
+   would need an SVG stroke-dashoffset asset, a new asset type this
+   codebase doesn't otherwise use. The glow supplies the "animated" half
+   of the ask; the dashes supply the reference screenshot's static look. */
+.bota-flet-supercard {
+  position: relative;
+  background: #FFFFFF;
+  border-radius: 24px;
+  border: 2px dashed color-mix(in srgb, #FF4422 55%, #F43F5E 45%);
+  padding: 40px clamp(20px, 4vw, 40px) 36px;
+}
+.bota-flet-supercard::after {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: inherit;
+  padding: 6px;
+  background: conic-gradient(
+    from var(--lg-angle),
+    color-mix(in srgb, #FF4422 85%, #fff) 0deg,
+    color-mix(in srgb, #F43F5E 55%, transparent) 90deg,
+    transparent 180deg,
+    color-mix(in srgb, #FF4422 55%, transparent) 270deg,
+    color-mix(in srgb, #FF4422 85%, #fff) 360deg
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0.55;
+  filter: blur(2px);
+  pointer-events: none;
+  animation: lg-orbit 9s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .bota-flet-supercard::after {
+    animation: none;
+    opacity: 0.35;
   }
 }
 

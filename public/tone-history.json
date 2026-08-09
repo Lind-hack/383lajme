@@ -96,5 +96,103 @@
         "sentiment": "negative"
       }
     ]
+  },
+  {
+    "date": "2026-08-09",
+    "overallIndex": 40,
+    "totalArticles": 296,
+    "sourceCount": 187,
+    "countries": {
+      "Gjermani": {
+        "index": 44,
+        "positive": 5,
+        "neutral": 78,
+        "negative": 17,
+        "n": 60,
+        "confident": true
+      },
+      "SHBA": {
+        "index": 36,
+        "positive": 3,
+        "neutral": 66,
+        "negative": 31,
+        "n": 59,
+        "confident": true
+      },
+      "Britani": {
+        "index": 33,
+        "positive": 2,
+        "neutral": 63,
+        "negative": 35,
+        "n": 60,
+        "confident": true
+      },
+      "Francë": {
+        "index": 42,
+        "positive": 0,
+        "neutral": 85,
+        "negative": 15,
+        "n": 59,
+        "confident": true
+      },
+      "Itali": {
+        "index": 43,
+        "positive": 2,
+        "neutral": 83,
+        "negative": 16,
+        "n": 58,
+        "confident": true
+      }
+    },
+    "headlines": [
+      {
+        "title": "Abgeordnete bewirft Kosovos Ministerpräsidenten mit Eiern - bluewin.ch",
+        "source": "bluewin.ch",
+        "country": "Gjermani",
+        "flag": "🇩🇪",
+        "url": "https://news.google.com/rss/articles/CBMiwwFBVV95cUxQUEYyeDVINmlndlkyTkttUVZ1bFZVdnl3WGVwQnpDQVAzbXd5XzhyYXlEOUFxR1dMU04tRnRIVGIwb1RHN0otcFdfSjl4b29RRkd5UWtTWHBvX3ZlRkIxejFQbGhXaWFzemR1NUJ0aHp3X2F0ZTF0MVVLa1pPbVd6VlU0VTZFVXM5eFRhTjFkTjMwNGxObnhSRk9ScXF1MnVHRXJIbWV4N09sLVoxZU9FTTUzS1VBWjJ0Q0tWN2VDaWNieDA?oc=5",
+        "sentiment": "positive"
+      },
+      {
+        "title": "KFOR RC-E supports local veterinary clinic through donation, surgery [Image 6 of 6] - DVIDS",
+        "source": "DVIDS",
+        "country": "SHBA",
+        "flag": "🇺🇸",
+        "url": "https://www.dvidshub.net/image/9807226/kfor-rc-e-supports-local-veterinary-clinic-through-donation-surgery",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Two wins and four losses for Kosovo U18 in European C - KOHA.net",
+        "source": "KOHA.net",
+        "country": "Britani",
+        "flag": "🇬🇧",
+        "url": "https://www.koha.net/en/futboll/dy-fitore-e-kater-humbje-per-kosoven-u18-ne-evropianin-c",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Kosovo: Abgeordnete bewirft Regierungschef Kurti im Parlament mit Eiern - Spiegel",
+        "source": "Spiegel",
+        "country": "Gjermani",
+        "flag": "🇩🇪",
+        "url": "https://www.spiegel.de/ausland/kosovo-regierungschef-albin-kurti-mit-eiern-beworfen-von-wuetender-abgeordneter-a-6d4f89ab-c9d9-4fb3-bb18-3ad17c594eb4",
+        "sentiment": "negative"
+      },
+      {
+        "title": "Kosovo PM Kurti egged in parliament amid political crisis - dw.com",
+        "source": "dw.com",
+        "country": "SHBA",
+        "flag": "🇺🇸",
+        "url": "https://www.dw.com/en/kosovo-pm-kurti-egged-in-parliament-amid-political-crisis/a-78291171",
+        "sentiment": "negative"
+      },
+      {
+        "title": "Kosovan lawmaker hurls eggs at the prime minister – video - theguardian.com",
+        "source": "theguardian.com",
+        "country": "Britani",
+        "flag": "🇬🇧",
+        "url": "https://www.theguardian.com/world/video/2026/aug/08/lawmaker-hurls-eggs-at-kosovo-prime-minister-video",
+        "sentiment": "negative"
+      }
+    ]
   }
 ]
