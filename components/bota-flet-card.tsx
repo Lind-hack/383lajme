@@ -22,91 +22,39 @@ const SENTIMENT_LABEL: Record<ForeignCoverageItem["sentiment"], string> = {
   negative: "Kritik",
 };
 
-export default function CoverageCard({
-  item,
-  size,
-}: {
-  item: ForeignCoverageItem;
-  size: "lead" | "row";
-}) {
-  const [imgFailed, setImgFailed] = useState(false);
+function useImage(url: string) {
+  const [failed, setFailed] = useState(false);
+  return { showImage: !failed, onError: () => setFailed(true) };
+}
+
+/** Full-bleed text-over-image hero — the section's one dramatic moment. */
+export function HeroCard({ item }: { item: ForeignCoverageItem }) {
+  const { showImage, onError } = useImage(item.imageUrl);
   const color = SENTIMENT_COLOR[item.sentiment];
-  const isLead = size === "lead";
-  const showImage = !imgFailed;
 
   return (
-    <a
-      href={item.url}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="world-card"
-      style={{
-        textDecoration: "none",
-        display: "flex",
-        flexDirection: isLead ? "column" : "row",
-        gap: isLead ? 0 : "14px",
-        background: "#FFFFFF",
-        border: "1px solid #EFE9DF",
-        borderRadius: "var(--radius-md)",
-        overflow: "hidden",
-        // Row cards size to their own content — see the same reasoning as
-        // the pre-image version of this component: forcing height:100% here
-        // (needed for the lead card's grid-stretch) could clip a 2-line
-        // headline shorter than the tallest neighboring card.
-        height: isLead ? "100%" : "auto",
-        boxShadow: "0 1px 3px rgba(17,17,17,0.05)",
-      }}
-    >
+    <a href={item.url} target="_blank" rel="noopener noreferrer" className="bota-flet-hero" style={{ textDecoration: "none" }}>
       {showImage ? (
-        <img
-          src={item.imageUrl}
-          alt=""
-          onError={() => setImgFailed(true)}
-          style={{
-            width: isLead ? "100%" : "92px",
-            height: isLead ? undefined : "92px",
-            aspectRatio: isLead ? "16 / 9" : undefined,
-            objectFit: "cover",
-            flexShrink: 0,
-            display: "block",
-          }}
-        />
+        <img src={item.imageUrl} alt="" onError={onError} />
       ) : (
-        <div
-          aria-hidden
-          style={{
-            width: isLead ? "100%" : "92px",
-            height: isLead ? undefined : "92px",
-            aspectRatio: isLead ? "16 / 9" : undefined,
-            flexShrink: 0,
-            background: `linear-gradient(135deg, ${color}CC 0%, ${color}33 100%)`,
-          }}
-        />
+        <div aria-hidden style={{ width: "100%", height: "100%", background: `linear-gradient(135deg, ${color}CC 0%, ${color}33 100%)` }} />
       )}
 
+      {/* Scrim — text needs to stay legible over an arbitrary photo, not
+          just a dark one, so this is a fixed gradient, not theme-dependent. */}
       <div
+        aria-hidden
         style={{
-          padding: isLead ? "20px 24px 22px" : "10px 16px 10px 0",
-          flex: 1,
-          display: "flex",
-          flexDirection: "column",
-          minWidth: 0,
+          position: "absolute",
+          inset: 0,
+          background: "linear-gradient(to top, rgba(10,8,6,0.88) 0%, rgba(10,8,6,0.45) 42%, transparent 72%)",
         }}
-      >
-        <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: isLead ? "12px" : "6px", flexWrap: "wrap" }}>
-          {item.flag && <span style={{ fontSize: isLead ? "18px" : "13px" }}>{item.flag}</span>}
-          <span
-            style={{
-              fontSize: isLead ? "13px" : "11px",
-              fontWeight: 800,
-              color: "#6B6B6B",
-              letterSpacing: "0.02em",
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-              whiteSpace: "nowrap",
-              maxWidth: isLead ? "none" : "110px",
-            }}
-          >
+      />
+
+      <div style={{ position: "absolute", left: 0, right: 0, bottom: 0, padding: "clamp(16px, 3vw, 26px)" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "10px" }}>
+          {item.flag && <span style={{ fontSize: "17px" }}>{item.flag}</span>}
+          <span style={{ fontSize: "13px", fontWeight: 800, color: "rgba(255,255,255,0.92)", letterSpacing: "0.02em" }}>
             {item.outlet}
           </span>
           <span
@@ -115,34 +63,29 @@ export default function CoverageCard({
               display: "inline-flex",
               alignItems: "center",
               gap: "5px",
+              padding: "3px 10px",
+              borderRadius: "100px",
+              background: color,
               fontSize: "10px",
-              fontWeight: 700,
+              fontWeight: 800,
               letterSpacing: "0.06em",
               textTransform: "uppercase",
-              color,
-              flexShrink: 0,
+              color: "#FFFFFF",
             }}
           >
-            <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: color }} />
             {SENTIMENT_LABEL[item.sentiment]}
           </span>
         </div>
 
-        {/* Lead headline gets the site's existing glossy-orange shine (the
-            hero moment); row headlines stay a static solid color — five
-            simultaneously-shimmering headlines would read as noise, not
-            polish. .glossy-orange supplies its own text color via
-            background-clip, so no `color` here when it's applied. */}
         <h3
-          className={isLead ? "glossy-orange" : undefined}
           style={{
-            fontSize: isLead ? "clamp(19px, 2.4vw, 25px)" : "14.5px",
+            fontSize: "clamp(21px, 3vw, 30px)",
             fontWeight: 800,
-            color: isLead ? undefined : "#E41E20",
+            color: "#FFFFFF",
             margin: "0 0 6px",
-            lineHeight: 1.32,
+            lineHeight: 1.28,
             display: "-webkit-box",
-            WebkitLineClamp: isLead ? 3 : 2,
+            WebkitLineClamp: 3,
             WebkitBoxOrient: "vertical",
             overflow: "hidden",
           }}
@@ -150,11 +93,90 @@ export default function CoverageCard({
           {item.title}
         </h3>
 
-        <div style={{ marginTop: "auto", paddingTop: isLead ? "8px" : "2px" }}>
-          <span style={{ fontSize: "11px", fontWeight: 600, color: "#B4B0A6" }}>
-            {item.date || item.country}
+        <span style={{ fontSize: "11.5px", fontWeight: 600, color: "rgba(255,255,255,0.62)" }}>
+          {item.date || item.country}
+        </span>
+      </div>
+    </a>
+  );
+}
+
+/** Compact card for the horizontal scroll strip. */
+export function StripCard({ item }: { item: ForeignCoverageItem }) {
+  const { showImage, onError } = useImage(item.imageUrl);
+  const color = SENTIMENT_COLOR[item.sentiment];
+
+  return (
+    <a
+      href={item.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="world-card bota-flet-strip-card"
+      style={{
+        textDecoration: "none",
+        display: "flex",
+        flexDirection: "column",
+        background: "#FFFFFF",
+        border: "1px solid #EFE9DF",
+        borderRadius: "16px",
+        overflow: "hidden",
+        boxShadow: "0 1px 3px rgba(17,17,17,0.05)",
+      }}
+    >
+      {showImage ? (
+        <img src={item.imageUrl} alt="" onError={onError} style={{ width: "100%", height: "132px", objectFit: "cover", display: "block" }} />
+      ) : (
+        <div aria-hidden style={{ width: "100%", height: "132px", background: `linear-gradient(135deg, ${color}CC 0%, ${color}33 100%)` }} />
+      )}
+
+      <div style={{ padding: "13px 14px 14px", display: "flex", flexDirection: "column", flex: 1 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "6px", marginBottom: "7px" }}>
+          {item.flag && <span style={{ fontSize: "12px" }}>{item.flag}</span>}
+          <span
+            style={{
+              fontSize: "10.5px",
+              fontWeight: 800,
+              color: "#6B6B6B",
+              letterSpacing: "0.02em",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
+            }}
+          >
+            {item.outlet}
           </span>
+          <span
+            style={{
+              marginLeft: "auto",
+              width: "6px",
+              height: "6px",
+              borderRadius: "50%",
+              background: color,
+              flexShrink: 0,
+            }}
+            title={SENTIMENT_LABEL[item.sentiment]}
+          />
         </div>
+
+        <h3
+          style={{
+            fontSize: "13.5px",
+            fontWeight: 700,
+            color: "#111111",
+            margin: "0 0 6px",
+            lineHeight: 1.32,
+            display: "-webkit-box",
+            WebkitLineClamp: 3,
+            WebkitBoxOrient: "vertical",
+            overflow: "hidden",
+          }}
+        >
+          {item.title}
+        </h3>
+
+        <span style={{ marginTop: "auto", fontSize: "10.5px", fontWeight: 600, color: "#B4B0A6" }}>
+          {item.date || item.country}
+        </span>
       </div>
     </a>
   );

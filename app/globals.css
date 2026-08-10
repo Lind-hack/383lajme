@@ -429,70 +429,111 @@ body {
   }
 }
 
-/* ── Bota Flet grid (lead + stacked list) ──────────────────
-   Two columns down to tablet width; below that the row cards
-   were being squeezed to ~180px and clipping headlines mid-word,
-   so it collapses to one column and the lead stops being forced
-   to stretch-match the taller stacked list. */
-.bota-flet-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
-  gap: 20px;
-  align-items: stretch;
-}
-@media (max-width: 760px) {
-  .bota-flet-grid {
-    grid-template-columns: 1fr;
-    align-items: start;
-  }
-}
-
-/* ── Bota Flet supercard — white container holding the whole section,
-   with a dashed orange/rose edge and a slow orbiting glow traced around
-   it. Reuses --lg-angle / @keyframes lg-orbit (registered further down,
-   already driving .liquid-glass-btn and .tregu-edge) rather than
-   introducing a second rotation mechanism.
-
-   The dashes themselves are static geometry, not animated — border-image
-   ignores border-radius, so a literal marching-ants dashed border isn't
-   reliably doable in pure CSS at a rounded corner; a real dash animation
-   would need an SVG stroke-dashoffset asset, a new asset type this
-   codebase doesn't otherwise use. The glow supplies the "animated" half
-   of the ask; the dashes supply the reference screenshot's static look. */
+/* ── Bota Flet supercard — white container holding the whole section.
+   v2: the v1 border (CSS dashed + a blurred conic-gradient mask ring) read
+   as timid rather than eye-catching — thin, low-opacity, soft-focus. This
+   version drops the CSS approach for a real SVG marching-dash border (see
+   .bota-flet-border below): only SVG stroke-dashoffset can genuinely
+   animate dashes around a rounded rect, which is what "the border needs
+   real work" turned out to mean once seen live. An ambient warm shadow
+   adds presence without needing the old blur layer. */
 .bota-flet-supercard {
   position: relative;
   background: #FFFFFF;
   border-radius: 24px;
-  border: 2px dashed color-mix(in srgb, #FF4422 55%, #F43F5E 45%);
   padding: 40px clamp(20px, 4vw, 40px) 36px;
+  box-shadow: 0 40px 90px -30px rgba(255, 68, 34, 0.22), 0 2px 8px rgba(17, 17, 17, 0.04);
 }
-.bota-flet-supercard::after {
-  content: "";
+
+/* Real marching dashed border — an SVG <rect> child (not a CSS pseudo-
+   element), because CSS border-image ignores border-radius and a masked
+   conic-gradient (the v1 approach) can only rotate a glow, not march
+   dashes. stroke-dashoffset is the one primitive that actually does this,
+   and it handles the rounded corner correctly via the rect's own rx. */
+.bota-flet-border {
   position: absolute;
-  inset: -6px;
-  border-radius: inherit;
-  padding: 6px;
-  background: conic-gradient(
-    from var(--lg-angle),
-    color-mix(in srgb, #FF4422 85%, #fff) 0deg,
-    color-mix(in srgb, #F43F5E 55%, transparent) 90deg,
-    transparent 180deg,
-    color-mix(in srgb, #FF4422 55%, transparent) 270deg,
-    color-mix(in srgb, #FF4422 85%, #fff) 360deg
-  );
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  opacity: 0.55;
-  filter: blur(2px);
+  inset: 0;
+  /* inset:0 alone doesn't reliably stretch a replaced element like <svg> —
+     without explicit width/height it falls back to the browser's intrinsic
+     default box (300x150), not the parent's size. */
+  width: 100%;
+  height: 100%;
   pointer-events: none;
-  animation: lg-orbit 9s linear infinite;
+}
+.bota-flet-border rect {
+  fill: none;
+  stroke: url(#bota-flet-border-gradient);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-dasharray: 15 11;
+  animation: bota-flet-march 1.4s linear infinite;
+}
+@keyframes bota-flet-march {
+  to { stroke-dashoffset: -52; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .bota-flet-supercard::after {
+  .bota-flet-border rect {
     animation: none;
-    opacity: 0.35;
   }
+}
+
+/* ── Hero (text-over-image) ──────────────────────────────── */
+.bota-flet-hero {
+  position: relative;
+  border-radius: 18px;
+  overflow: hidden;
+  display: block;
+  aspect-ratio: 16 / 8;
+}
+.bota-flet-hero img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 500ms var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .bota-flet-hero:hover img {
+    transform: scale(1.035);
+  }
+}
+
+/* ── Secondary stories: horizontal scroll-snap strip, not a static list —
+   same edge-fade technique as .nav-scroll-wrap (mobile category nav),
+   recolored white to match this card's background instead of the page's
+   cream. Scroll-snapping a horizontal strip both fits more stories than a
+   4-row stack and gives the section its own bit of tactile interaction,
+   distinct from just scrolling past it. ── */
+.bota-flet-strip-wrap {
+  position: relative;
+}
+.bota-flet-strip-wrap::before,
+.bota-flet-strip-wrap::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 8px;
+  width: 36px;
+  z-index: 2;
+  pointer-events: none;
+}
+.bota-flet-strip-wrap::before { left: 0; background: linear-gradient(to right, #FFFFFF, transparent); }
+.bota-flet-strip-wrap::after { right: 0; background: linear-gradient(to left, #FFFFFF, transparent); }
+.bota-flet-strip {
+  display: flex;
+  gap: 14px;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding: 2px 2px 10px;
+}
+.bota-flet-strip::-webkit-scrollbar {
+  display: none;
+}
+.bota-flet-strip-card {
+  flex: 0 0 auto;
+  width: clamp(200px, 42vw, 250px);
+  scroll-snap-align: start;
 }
 
 /* ── Navbar scroll row (mobile) ─────────────────────────── */

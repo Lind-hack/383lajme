@@ -228,6 +228,17 @@ export interface ForeignCoverageItem {
   flag: string;
 }
 
+/** Same shape as app/page.tsx's titleKws, tuned slightly differently: that
+ * one dedupes same-language articles from the site's own pool, where
+ * near-duplicate stories tend to share long literal phrases. Here, five
+ * outlets independently write their OWN headline (then get independently
+ * translated to Albanian) about the same event — "hedh gurë" (threw
+ * stones) turning up as a signal needs a shorter minimum length and a
+ * lower match threshold than the 5+/3 pairing works with. */
+function titleKeywords(title: string): Set<string> {
+  return new Set(title.toLowerCase().split(/\W+/).filter((w) => w.length > 3));
+}
+
 /**
  * Reads the article cache (not today's tone-outlets.json snapshot) for
  * Bota Flet's display pool — this is what makes the section refresh across
@@ -272,7 +283,36 @@ export function getForeignCoverage(
     return b.ts - a.ts;
   });
 
-  return candidates.slice(0, limit).map(({ entry }) => ({
+  // Topic diversity pass — same keyword-overlap technique app/page.tsx
+  // already uses for NJOFTIME. Without this, a single big story (multiple
+  // outlets covering the same parliament incident, say) can legitimately
+  // win every negative-first slot and the section shows one event five
+  // times instead of five different ones — technically correct sorting,
+  // but reads as repetitive rather than "here's what the world is saying."
+  const selected: Array<{ entry: ToneArticleCacheEntry; ts: number }> = [];
+  const selectedKws: Set<string>[] = [];
+  for (const candidate of candidates) {
+    if (selected.length >= limit) break;
+    const kws = titleKeywords(candidate.entry.albanianTitle as string);
+    const isDuplicateTopic = selectedKws.some(
+      (kw) => [...kws].filter((w) => kw.has(w)).length >= 2
+    );
+    if (isDuplicateTopic) continue;
+    selected.push(candidate);
+    selectedKws.push(kws);
+  }
+  // If diversity filtering left us short (a genuinely slow news day with
+  // few distinct stories), top back up with the next-best candidates even
+  // if they overlap, rather than showing fewer articles than asked for.
+  if (selected.length < limit) {
+    for (const candidate of candidates) {
+      if (selected.length >= limit) break;
+      if (selected.includes(candidate)) continue;
+      selected.push(candidate);
+    }
+  }
+
+  return selected.map(({ entry }) => ({
     title: entry.albanianTitle as string,
     originalTitle: entry.title,
     url: entry.url,

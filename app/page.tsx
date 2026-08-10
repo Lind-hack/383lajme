@@ -51,7 +51,7 @@ export default async function HomePage() {
   const toneSummary = summarizeToneHistory(toneHistory);
   // Bota Flet reads the cache (72h rolling pool, refreshed 9x/day), not
   // today's outlets snapshot — see getForeignCoverage()'s doc comment.
-  const foreignCoverage = getForeignCoverage(toneCache, 5);
+  const foreignCoverage = getForeignCoverage(toneCache, 6);
   const botaFletPool = Object.values(toneCache?.articles ?? {}).filter(
     (a) => a.imageUrl && a.translated
   );
