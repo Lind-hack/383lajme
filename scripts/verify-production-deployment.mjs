@@ -145,6 +145,7 @@ const REQUIRED_CHART_MARKERS = {
   ],
   "package.json": [
     '"prebuild": "node scripts/verify-production-deployment.mjs"',
+    '"postbuild": "node scripts/verify-production-deployment.mjs"',
   ],
   "scripts/codex_automation_support.py": [
     `F1_RACE_UI_VERSION = "${F1_RACE_UI_VERSION}"`,

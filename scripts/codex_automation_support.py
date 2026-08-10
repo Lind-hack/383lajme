@@ -651,7 +651,14 @@ def verify_public_site(path: Path) -> int:
     last_cache = "unknown"
     last_age = "unknown"
     last_etag = "unknown"
-    expected_commit = _git_stdout(["git", "rev-parse", "HEAD"]).strip()
+    # Always compare the public domain with the newest remote main, not merely
+    # with this runner's checkout. A concurrent news or data job can advance
+    # main while this job is still waiting for Vercel.
+    _git_stdout(["git", "fetch", "origin", "main"])
+    expected_commit = (
+        _git_stdout(["git", "rev-parse", "origin/main"]).strip()
+        or _git_stdout(["git", "rev-parse", "HEAD"]).strip()
+    )
 
     while True:
         attempt += 1
@@ -669,6 +676,22 @@ def verify_public_site(path: Path) -> int:
                     contract_response.read().decode("utf-8", errors="replace") or "{}"
                 )
             deployed_commit = str(contract.get("commit_sha", "") or "").strip()
+            deployed_ref = str(contract.get("commit_ref", "") or "").strip()
+            deployment_environment = str(contract.get("environment", "") or "").strip()
+            deployment_source = str(contract.get("deployment_source", "") or "").strip()
+            if deployed_ref != "main":
+                raise ValueError(
+                    f"production ref is {deployed_ref or 'missing'}, expected main"
+                )
+            if deployment_environment != "production":
+                raise ValueError(
+                    "production environment is "
+                    f"{deployment_environment or 'missing'}, expected production"
+                )
+            if deployment_source != "github-main":
+                raise ValueError(
+                    f"production source is {deployment_source or 'missing'}, expected github-main"
+                )
             chart_version = str(
                 contract.get("tregu_chart_ui_version", "") or ""
             ).strip()
@@ -721,7 +744,7 @@ def verify_public_site(path: Path) -> int:
                     print(
                         "SITE VERIFY ok: "
                         f"{site_url} contains batch marker {matched_slug!r} "
-                        f"and Tregu {chart_version} at {deployed_commit[:12]} "
+                        f"from {deployment_source} with Tregu {chart_version} at {deployed_commit[:12]} "
                         f"(attempt {attempt}, cache {last_cache}, age {last_age})"
                     )
                     return 0

@@ -12,7 +12,10 @@ permissions:
 
 concurrency:
   group: verify-production-provenance
-  cancel-in-progress: false
+  # A newer main commit supersedes any earlier verification target. Keeping an
+  # old guard run alive could otherwise repair an obsolete commit after a newer
+  # release is already available.
+  cancel-in-progress: true
 
 jobs:
   verify-and-repair:
