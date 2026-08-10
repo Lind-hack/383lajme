@@ -1,4 +1,5 @@
 {
-  "release": "github-main-release-v1",
-  "reason": "A tracked release marker ensures a provenance recovery always creates a fresh GitHub-main build."
+  "release": "github-main-ed4ef0de81c3922466ff3227a77c42f44ec4577e",
+  "recovered_from": "ed4ef0de81c3922466ff3227a77c42f44ec4577e",
+  "requested_at": "2026-08-10T20:09:39.993Z"
 }
