@@ -430,60 +430,68 @@ body {
 }
 
 /* ── Bota Flet supercard — white container holding the whole section.
-   v2: the v1 border (CSS dashed + a blurred conic-gradient mask ring) read
-   as timid rather than eye-catching — thin, low-opacity, soft-focus. This
-   version drops the CSS approach for a real SVG marching-dash border (see
-   .bota-flet-border below): only SVG stroke-dashoffset can genuinely
-   animate dashes around a rounded rect, which is what "the border needs
-   real work" turned out to mean once seen live. An ambient warm shadow
-   adds presence without needing the old blur layer. */
+   v3, border: v1 was CSS-dashed + a blurred conic mask (too timid). v2
+   switched to a real SVG marching-dash border (crisp, but explicitly
+   rejected: "solid orange line", not dots/dashes). This version keeps a
+   real SOLID border (a normal CSS `border`, always fully opaque, never
+   interrupted) and puts the "animated" half of the ask into a separate
+   highlight ring layered on top — a conic-gradient hot spot that sweeps
+   around, reusing --lg-angle / @keyframes lg-orbit (already driving
+   .liquid-glass-btn / .tregu-edge elsewhere in this file). Unlike v1, this
+   gradient never drops to transparent, so the base solid line is never
+   interrupted by the moving highlight — just brightened as it passes. */
 .bota-flet-supercard {
   position: relative;
   background: #FFFFFF;
   border-radius: 24px;
-  padding: 40px clamp(20px, 4vw, 40px) 36px;
+  border: 2.5px solid #FF4422;
+  padding: 40px 0 36px;
+  overflow: hidden;
   box-shadow: 0 40px 90px -30px rgba(255, 68, 34, 0.22), 0 2px 8px rgba(17, 17, 17, 0.04);
 }
-
-/* Real marching dashed border — an SVG <rect> child (not a CSS pseudo-
-   element), because CSS border-image ignores border-radius and a masked
-   conic-gradient (the v1 approach) can only rotate a glow, not march
-   dashes. stroke-dashoffset is the one primitive that actually does this,
-   and it handles the rounded corner correctly via the rect's own rx. */
-.bota-flet-border {
+.bota-flet-supercard::after {
+  content: "";
   position: absolute;
-  inset: 0;
-  /* inset:0 alone doesn't reliably stretch a replaced element like <svg> —
-     without explicit width/height it falls back to the browser's intrinsic
-     default box (300x150), not the parent's size. */
-  width: 100%;
-  height: 100%;
+  inset: -2.5px;
+  border-radius: inherit;
+  padding: 2.5px;
+  background: conic-gradient(
+    from var(--lg-angle),
+    #FF4422 0%,
+    #FF4422 78%,
+    #FFD9B8 88%,
+    #FFFFFF 92%,
+    #FFD9B8 96%,
+    #FF4422 100%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
   pointer-events: none;
-}
-.bota-flet-border rect {
-  fill: none;
-  stroke: url(#bota-flet-border-gradient);
-  stroke-width: 3;
-  stroke-linecap: round;
-  stroke-dasharray: 15 11;
-  animation: bota-flet-march 1.4s linear infinite;
-}
-@keyframes bota-flet-march {
-  to { stroke-dashoffset: -52; }
+  animation: lg-orbit 3.6s linear infinite;
 }
 @media (prefers-reduced-motion: reduce) {
-  .bota-flet-border rect {
+  .bota-flet-supercard::after {
     animation: none;
   }
 }
 
-/* ── Hero (text-over-image) ──────────────────────────────── */
+/* Horizontally-padded content wrapper — everything except the hero image,
+   which now bleeds to the card's own edges (see .bota-flet-hero) instead
+   of sitting inset with dead space on both sides. */
+.bota-flet-padded {
+  padding-left: clamp(20px, 4vw, 40px);
+  padding-right: clamp(20px, 4vw, 40px);
+}
+
+/* ── Hero (text-over-image) — full-bleed to the card's edges, not inset
+   inside the card's own padding, per the explicit "fill almost the entire
+   screen, no dead space left/right" request. ── */
 .bota-flet-hero {
   position: relative;
-  border-radius: 18px;
-  overflow: hidden;
   display: block;
   aspect-ratio: 16 / 8;
+  width: 100%;
 }
 .bota-flet-hero img {
   width: 100%;
@@ -534,6 +542,74 @@ body {
   flex: 0 0 auto;
   width: clamp(200px, 42vw, 250px);
   scroll-snap-align: start;
+  /* --bf-accent is set inline per card (the article's sentiment color) —
+     the hover state below reads it, so one CSS rule serves every sentiment
+     instead of three near-duplicate rules. */
+  --bf-accent: #9CA3AF;
+}
+
+/* Strip-card hover: badge grows from a bare dot into a filled label pill,
+   the headline recolors to the sentiment accent, and the trailing date
+   crossfades into a "Lexo →" prompt — mirrors the reference hover exactly
+   (category pill fills with color, headline recolors, trailing meta swaps
+   to a read-more prompt), remapped from "category" to this card's real
+   per-article signal, sentiment. */
+.bota-flet-strip-card img {
+  transition: transform 400ms var(--ease-out);
+}
+.bota-flet-strip-title {
+  /* Set here, not inline on the element — an inline style color would
+     always win over the :hover rule below regardless of specificity. */
+  color: #111111;
+  transition: color 180ms var(--ease-out);
+}
+.bota-flet-strip-badge-label {
+  display: inline-block;
+  max-width: 0;
+  opacity: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  transition: max-width 220ms var(--ease-out), opacity 160ms var(--ease-out), margin-left 220ms var(--ease-out);
+}
+.bota-flet-strip-badge-dot {
+  transition: transform 200ms var(--ease-out);
+}
+.bota-flet-strip-meta {
+  position: relative;
+  height: 15px;
+  margin-top: auto;
+}
+.bota-flet-strip-date,
+.bota-flet-strip-cta {
+  position: absolute;
+  inset: 0;
+  transition: opacity 180ms var(--ease-out);
+}
+.bota-flet-strip-cta {
+  opacity: 0;
+  color: var(--bf-accent);
+}
+@media (hover: hover) and (pointer: fine) {
+  .bota-flet-strip-card:hover img {
+    transform: scale(1.06);
+  }
+  .bota-flet-strip-card:hover .bota-flet-strip-title {
+    color: var(--bf-accent);
+  }
+  .bota-flet-strip-card:hover .bota-flet-strip-badge-label {
+    max-width: 70px;
+    opacity: 1;
+    margin-left: 5px;
+  }
+  .bota-flet-strip-card:hover .bota-flet-strip-badge-dot {
+    transform: scale(1.15);
+  }
+  .bota-flet-strip-card:hover .bota-flet-strip-date {
+    opacity: 0;
+  }
+  .bota-flet-strip-card:hover .bota-flet-strip-cta {
+    opacity: 1;
+  }
 }
 
 /* ── Navbar scroll row (mobile) ─────────────────────────── */

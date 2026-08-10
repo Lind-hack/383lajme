@@ -7,7 +7,7 @@
 // image that can still 404/rot/hotlink-block after the fact — the gradient
 // fallback below is a real, reachable path, not just defensive theater.
 
-import { useState } from "react";
+import { useState, type CSSProperties } from "react";
 import type { ForeignCoverageItem } from "@/lib/tone-data";
 
 const SENTIMENT_COLOR: Record<ForeignCoverageItem["sentiment"], string> = {
@@ -22,14 +22,14 @@ const SENTIMENT_LABEL: Record<ForeignCoverageItem["sentiment"], string> = {
   negative: "Kritik",
 };
 
-function useImage(url: string) {
+function useImage() {
   const [failed, setFailed] = useState(false);
   return { showImage: !failed, onError: () => setFailed(true) };
 }
 
 /** Full-bleed text-over-image hero — the section's one dramatic moment. */
 export function HeroCard({ item }: { item: ForeignCoverageItem }) {
-  const { showImage, onError } = useImage(item.imageUrl);
+  const { showImage, onError } = useImage();
   const color = SENTIMENT_COLOR[item.sentiment];
 
   return (
@@ -101,9 +101,12 @@ export function HeroCard({ item }: { item: ForeignCoverageItem }) {
   );
 }
 
-/** Compact card for the horizontal scroll strip. */
+/** Compact card for the horizontal scroll strip. Hover state mirrors the
+ * reference: the sentiment badge fills out with its label, the headline
+ * recolors to the sentiment accent, and the trailing date crossfades into
+ * a "Lexo →" prompt — see the .bota-flet-strip-* rules in globals.css. */
 export function StripCard({ item }: { item: ForeignCoverageItem }) {
-  const { showImage, onError } = useImage(item.imageUrl);
+  const { showImage, onError } = useImage();
   const color = SENTIMENT_COLOR[item.sentiment];
 
   return (
@@ -121,7 +124,8 @@ export function StripCard({ item }: { item: ForeignCoverageItem }) {
         borderRadius: "16px",
         overflow: "hidden",
         boxShadow: "0 1px 3px rgba(17,17,17,0.05)",
-      }}
+        "--bf-accent": color,
+      } as CSSProperties}
     >
       {showImage ? (
         <img src={item.imageUrl} alt="" onError={onError} style={{ width: "100%", height: "132px", objectFit: "cover", display: "block" }} />
@@ -145,38 +149,26 @@ export function StripCard({ item }: { item: ForeignCoverageItem }) {
           >
             {item.outlet}
           </span>
-          <span
-            style={{
-              marginLeft: "auto",
-              width: "6px",
-              height: "6px",
-              borderRadius: "50%",
-              background: color,
-              flexShrink: 0,
-            }}
-            title={SENTIMENT_LABEL[item.sentiment]}
-          />
+          <span style={{ marginLeft: "auto", display: "inline-flex", alignItems: "center", flexShrink: 0 }}>
+            <span className="bota-flet-strip-badge-dot" style={{ width: "6px", height: "6px", borderRadius: "50%", background: color, flexShrink: 0 }} />
+            <span className="bota-flet-strip-badge-label" style={{ fontSize: "9px", fontWeight: 800, color, letterSpacing: "0.05em", textTransform: "uppercase" }}>
+              {SENTIMENT_LABEL[item.sentiment]}
+            </span>
+          </span>
         </div>
 
-        <h3
-          style={{
-            fontSize: "13.5px",
-            fontWeight: 700,
-            color: "#111111",
-            margin: "0 0 6px",
-            lineHeight: 1.32,
-            display: "-webkit-box",
-            WebkitLineClamp: 3,
-            WebkitBoxOrient: "vertical",
-            overflow: "hidden",
-          }}
-        >
+        <h3 className="bota-flet-strip-title" style={{ fontSize: "13.5px", fontWeight: 700, margin: "0 0 6px", lineHeight: 1.32, display: "-webkit-box", WebkitLineClamp: 3, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
           {item.title}
         </h3>
 
-        <span style={{ marginTop: "auto", fontSize: "10.5px", fontWeight: 600, color: "#B4B0A6" }}>
-          {item.date || item.country}
-        </span>
+        <div className="bota-flet-strip-meta">
+          <span className="bota-flet-strip-date" style={{ fontSize: "10.5px", fontWeight: 600, color: "#B4B0A6" }}>
+            {item.date || item.country}
+          </span>
+          <span className="bota-flet-strip-cta" style={{ fontSize: "10.5px", fontWeight: 700 }}>
+            Lexo →
+          </span>
+        </div>
       </div>
     </a>
   );
