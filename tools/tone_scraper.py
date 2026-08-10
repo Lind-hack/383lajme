@@ -56,7 +56,21 @@ ROOT = Path(__file__).parent.parent
 OUTLETS_PATH = ROOT / "public" / "tone-outlets.json"
 HISTORY_PATH = ROOT / "public" / "tone-history.json"
 CACHE_PATH = ROOT / "public" / "tone-article-cache.json"
-GROQ_MODEL = os.environ.get("GROQ_MODEL", "llama-3.1-8b-instant")
+# Two jobs, two models, two budgets. Stance is the hard call — an 8B model gave
+# the same story opposite labels at two outlets on the same day — so it runs on
+# the strongest production model Groq offers. Translation is the easy job and
+# runs on the model with 5x the daily token allowance. Classification only ever
+# touches cache misses (see main()), which is dozens of articles a day, not the
+# ~300 fetched — single-digit calls, well inside llama-3.3-70b's free-tier
+# ceiling of 1K requests / 100K tokens per day.
+CLASSIFY_MODEL = os.environ.get("GROQ_CLASSIFY_MODEL", "llama-3.3-70b-versatile")
+TRANSLATE_MODEL = os.environ.get("GROQ_TRANSLATE_MODEL", "llama-3.1-8b-instant")
+
+# What the label means, not what the code version is. v1 read "is this good or
+# bad news about Kosovo"; v2 reads "is this outlet's own voice hostile toward
+# Kosovo". A row carries the version that produced it so the trend chart can
+# mark where the definition changed instead of splicing two of them together.
+STANCE_SCHEMA_VERSION = 2
 
 # Cap so tone-history.json stays a small, fast-to-fetch file (~4 months of
 # daily rows) instead of growing forever.
@@ -85,6 +99,10 @@ IMAGE_BATCH_TIMEOUT = 240
 # numbered list; small enough that one malformed-JSON response only costs
 # one chunk's retry, not the whole run's.
 TRANSLATE_BATCH_SIZE = 10
+# Stance asks for five fields per item and reasoning about each one, so the
+# chunks are smaller — accuracy per item matters more here than throughput,
+# and the volume is tiny either way.
+CLASSIFY_BATCH_SIZE = 6
 
 FEEDS = {
     "Gjermani": "https://news.google.com/rss/search?q=Kosovo&hl=de&gl=DE&ceid=DE:de",
@@ -143,6 +161,51 @@ KNOWN_OUTLETS: dict[str, dict[str, str]] = {
     },
 }
 
+# KNOWN_OUTLETS above only *renames* — it never filtered, so anything Google
+# News attached a <source> title to counted as that country's press. Two kinds
+# of thing slip through and both corrupt the index:
+#
+#   1. Kosovar and Albanian outlets. KOHA.net writing about Kosovo is not
+#      "how German media sees Kosovo" — it is Kosovo talking about itself, and
+#      it lands in the German feed only because Google served it there.
+#   2. Things that are not press at all: military PR wires, an army's own
+#      newsroom, a sports streamer, a legal-directory blog.
+#
+# Matched against both the domain and the source name, since Google supplies
+# whichever it has. Substring match is deliberate — "koha.net" must also catch
+# "arkiva.koha.net".
+BLOCKED_DOMAINS = {
+    # Kosovar / Albanian press — the subject, not the observer.
+    "koha.net", "telegrafi.com", "kallxo.com", "gazetaexpress.com",
+    "klankosova.tv", "rtklive.com", "indeksonline.net", "botasot.info",
+    "zeri.info", "insajderi.com", "kosova-sot.info", "epokaere.com",
+    "top-channel.tv", "panorama.com.al", "shqiptarja.com", "balkanweb.com",
+    "syri.net", "albaniandailynews.com", "tiranatimes.com",
+    # Not press.
+    "dvidshub.net", "bundeswehr.de", "nato.int", "kfor.nato.int",
+    "dazn.com", "anwalt.de", "audimax.de",
+}
+BLOCKED_NAMES = {
+    "koha.net", "koha ditore", "telegrafi", "kallxo", "gazeta express",
+    "klan kosova", "rtk", "indeksonline", "bota sot", "zëri", "zeri",
+    "insajderi", "kosova sot", "top channel", "panorama", "shqiptarja",
+    "balkanweb", "syri", "albanian daily news", "tirana times",
+    "dvids", "bundeswehr", "nato", "kfor", "dazn", "anwalt.de", "audimax",
+}
+
+
+def is_foreign_press(outlet: str, url: str) -> bool:
+    """False for outlets that must not count toward a foreign country's tone."""
+    name = (outlet or "").strip().lower()
+    if any(blocked == name or blocked in name for blocked in BLOCKED_NAMES):
+        return False
+    try:
+        host = urlparse(url).netloc.lower()
+    except Exception:
+        return True
+    return not any(blocked in host for blocked in BLOCKED_DOMAINS)
+
+
 # Mirrors kosovo_pipeline.py's ALBANIAN_MARKERS / is_albanian_output pattern,
 # scaled down for headline-length text (~5-15 words) instead of full
 # articles — the original's word-count/ratio thresholds don't transfer to
@@ -192,22 +255,19 @@ def normalize_title(title: str) -> str:
     return re.sub(r"\s+", " ", stripped).strip()[:80]
 
 
-def heuristic_sentiment(text: str) -> str:
-    t = text.lower()
-    negative_words = [
-        "war", "crime", "criminal", "attack", "tension", "conflict", "ban",
-        "condemned", "corruption", "arrest", "sanction", "crisis", "threat",
-        "violence", "protest", "failure", "failed",
-    ]
-    positive_words = [
-        "cooperation", "agreement", "win", "growth", "investment", "support",
-        "progress", "approved", "success", "opens", "joins", "deal",
-    ]
-    if any(word in t for word in negative_words):
-        return "negative"
-    if any(word in t for word in positive_words):
-        return "positive"
-    return "neutral"
+# There is deliberately no keyword fallback here any more.
+#
+# There used to be one: an English word list ("war", "crime", "protest" →
+# negative) that fired on every malformed-JSON response. Three things were
+# wrong with it. It ran on German, French and Italian headlines, where it can
+# only ever return "neutral" or match by accident. It scored the *event*, so a
+# neutral report of a bad thing came back negative — the exact confusion this
+# rewrite exists to remove. And it failed silently, so a run where Groq was
+# down looked identical to a run where it worked.
+#
+# An article we cannot classify is now "unknown" and is excluded from the
+# index instead of being guessed at. See summarize_country().
+UNKNOWN = "unknown"
 
 
 def is_albanian_text(text: str | None) -> bool:
@@ -271,100 +331,206 @@ def resolve_article_media(google_news_url: str) -> tuple[str, str | None]:
     return real_url, image_url
 
 
-# ── Classification + translation, one combined Groq call ────────────────
-# The old prompt just asked "how does this portray Kosovo" — which scored a
-# neutral AP report quoting a hostile foreign statement (e.g. Vučić saying
-# "Kosovo is not a country") the same as an outlet's own hostile framing.
-# Fixed with explicit few-shot examples: a small fast model benefits more
-# from concrete examples than abstract rules.
-CLASSIFY_TRANSLATE_INSTRUCTIONS = (
+# ── Stance classification ───────────────────────────────────────────────
+# Two rewrites happened here. The first asked "how does this portray Kosovo",
+# which scored a neutral wire report of a hostile quote the same as an outlet's
+# own hostility. The second bolted few-shot examples onto that, and did not
+# hold: 9 of 258 articles translated successfully, meaning most batches failed
+# to parse and fell through to an English keyword list.
+#
+# The real faults were structural, not wording:
+#
+#   * One call did classification AND translation, so a translation failure
+#     silently destroyed a sentiment label. They are two calls now.
+#   * The question conflated the news with the newsroom. "Kosovo finds a
+#     wartime mass grave" is grim news reported flatly; it says nothing about
+#     how the outlet regards Kosovo. It was scoring negative and dragging the
+#     index down. The index is named for the media's tone toward Kosovo, so
+#     that is the only thing this asks about now.
+#   * Nothing forced the model to point at the words that decided it. It has
+#     to produce an `evidence` span from the outlet's own prose now — which is
+#     what actually separates "the outlet is hostile" from "the outlet quoted
+#     someone hostile", far more reliably than an instruction not to confuse
+#     them.
+#
+# Enum values stay English (positive/neutral/negative) because the whole
+# downstream schema and UI already speak them; only the meaning changed.
+STANCE_INSTRUCTIONS = (
     "You are a media analyst for a Kosovo newsroom. For each numbered "
-    "foreign-press item below (its own headline + snippet, about Kosovo), "
-    "do two things:\n\n"
-    "1. Classify SENTIMENT as positive, neutral, or negative — based ONLY "
-    "on how the outlet's OWN voice and framing portrays Kosovo. Do NOT "
-    "classify based on what a quoted person says. A report that neutrally "
-    "quotes someone being hostile to Kosovo is still \"neutral\" (or "
-    "\"positive\") if the outlet is just reporting the statement, not "
-    "endorsing it. Only mark \"negative\" if the outlet's own reporting, "
-    "word choice, or framing is itself critical, hostile, or dismissive of "
-    "Kosovo.\n\n"
-    "2. Translate the headline into natural Albanian (\"shqip\"), the way a "
-    "Kosovo journalist would write it — translate the MEANING, not word "
-    "order. Never produce literal English/German/French/Italian-to-Albanian "
-    "phrasing. Keep it a real headline: concise, factual, no invented "
-    "details.\n\n"
+    "foreign-press item (headline + snippet, about Kosovo), judge ONE thing: "
+    "the stance of THE OUTLET ITSELF toward Kosovo.\n\n"
+    "This is NOT about whether the news is good or bad. Terrible events "
+    "reported plainly are NEUTRAL. War crimes, corruption trials, protests, "
+    "mass graves, political chaos — all neutral when the outlet is simply "
+    "reporting them. Bad news about Kosovo is not the same as an outlet being "
+    "against Kosovo.\n\n"
+    "Rules:\n"
+    "- negative ONLY when the outlet's OWN words are hostile, contemptuous, "
+    "belittling, or push a line against Kosovo. Loaded adjectives, sneering "
+    "framing, or treating Kosovo's statehood as illegitimate in the outlet's "
+    "own voice.\n"
+    "- If the charged language sits inside quotation marks, or is attributed "
+    "(\"says\", \"according to\", \"claims\", \"accuses\"), it belongs to the "
+    "SPEAKER, not the outlet. Set is_quote=true and stance=neutral. Reporting "
+    "a hostile statement is journalism, not hostility.\n"
+    "- Quotation marks are not only the English ones. Treat all of these as "
+    "quoting: \" \"  ' '  « »  » «  „ \"  ‚ '  ‹ ›  「 」. German, French and "
+    "Italian headlines mostly use « » or „ \", and text inside them is ALWAYS "
+    "the speaker's, never the outlet's.\n"
+    "- positive ONLY when the outlet's own voice is warm, admiring or "
+    "advocating for Kosovo. Not merely 'a good thing happened'.\n"
+    "- Most real journalism is neutral. Expect most items to be neutral, and "
+    "do not hunt for reasons to call something negative.\n"
+    "- evidence MUST be words copied from the item itself, in its own "
+    "language. For neutral, use \"\".\n"
+    "- If you cannot tell from the text given, use \"unknown\". That is a "
+    "valid, useful answer — never guess.\n\n"
     "EXAMPLES:\n\n"
-    "Example 1\n"
-    "Original: \"Serbian president Vučić says 'Kosovo is not a country' in "
-    "UN speech\"\n"
-    "Reasoning: AP is neutrally reporting what Vučić said, not endorsing "
-    "it.\n"
-    "sentiment: neutral\n"
-    "albanian_title: \"Vuçiq në OKB: 'Kosova nuk është shtet'\"\n\n"
-    "Example 2\n"
-    "Original: \"Kosovo's fragile ethnic peace shattered by police raid, "
-    "critics say\"\n"
-    "Reasoning: the outlet's own words (\"fragile\", \"shattered\") frame "
-    "Kosovo negatively — this is the outlet's editorial voice, not just a "
-    "quote.\n"
-    "sentiment: negative\n"
-    "albanian_title: \"Paqja e brishtë etnike në Kosovë, e goditur nga reid "
-    "policor, thonë kritikët\"\n\n"
-    "Example 3\n"
-    "Original: \"Kosovo and Serbia sign landmark energy deal, EU welcomes "
-    "step forward\"\n"
-    "Reasoning: positive framing in the outlet's own words.\n"
-    "sentiment: positive\n"
-    "albanian_title: \"Kosova dhe Serbia nënshkruajnë marrëveshje historike "
-    "për energjinë, BE e mirëpret hapin\"\n\n"
+    "1. \"Serbian president Vučić says 'Kosovo is not a country' in UN speech\"\n"
+    "   -> {\"stance\":\"neutral\",\"is_quote\":true,\"speaker\":\"Vučić\","
+    "\"evidence\":\"\",\"reason\":\"Raporton deklaratën e Vuçiqit, nuk e "
+    "përvetëson\",\"confidence\":\"high\"}\n\n"
+    "2. \"Kosovo's fragile ethnic peace shattered by police raid\"\n"
+    "   -> {\"stance\":\"negative\",\"is_quote\":false,\"speaker\":\"\","
+    "\"evidence\":\"fragile ethnic peace shattered\",\"reason\":\"Fjalët e vetë "
+    "mediumit e kornizojnë Kosovën si të brishtë\",\"confidence\":\"high\"}\n\n"
+    "3. \"Kosovo finds third wartime mass grave, forensic team says\"\n"
+    "   -> {\"stance\":\"neutral\",\"is_quote\":false,\"speaker\":\"\","
+    "\"evidence\":\"\",\"reason\":\"Lajm i rëndë, i raportuar në mënyrë "
+    "faktike\",\"confidence\":\"high\"}\n\n"
+    "4. \"Kosovo: Gesänge erzählen die Geschichte der Albaner — Die ganze Doku\"\n"
+    "   -> {\"stance\":\"positive\",\"is_quote\":false,\"speaker\":\"\","
+    "\"evidence\":\"Gesänge erzählen die Geschichte\",\"reason\":\"Dokumentar "
+    "kulturor me ton respektues\",\"confidence\":\"medium\"}\n\n"
+    "5. \"Albania says Kosovo independence irreversible after Zelenskyy remarks\"\n"
+    "   -> {\"stance\":\"neutral\",\"is_quote\":true,\"speaker\":\"Albania\","
+    "\"evidence\":\"\",\"reason\":\"Raporton qëndrimin e Shqipërisë\","
+    "\"confidence\":\"high\"}\n\n"
+    "6. \"Diaspora-Besuch im Kosovo: «Albaner lieben es, VIP zu sein»\"\n"
+    "   -> {\"stance\":\"neutral\",\"is_quote\":true,\"speaker\":\"vizitor nga "
+    "diaspora\",\"evidence\":\"\",\"reason\":\"Fjalia është citim brenda «», jo "
+    "zëri i mediumit\",\"confidence\":\"high\"}\n\n"
+    "7. \"Kosovo erhält Visafreiheit für den Schengen-Raum\"\n"
+    "   -> {\"stance\":\"neutral\",\"is_quote\":false,\"speaker\":\"\","
+    "\"evidence\":\"\",\"reason\":\"Lajm i mirë, i raportuar në mënyrë "
+    "faktike\",\"confidence\":\"high\"}\n\n"
+    "Write field values WITHOUT any double-quote characters inside them, so "
+    "the JSON stays valid.\n\n"
 )
 
+VALID_STANCES = {"positive", "neutral", "negative"}
 
-def classify_and_translate_batch(client: "Groq | None", items: list[dict]) -> list[dict]:
-    """items: [{'title':..., 'summary':...}, ...]
-    Returns [{'sentiment': ..., 'albanian_title': ... | None}, ...] in order."""
+
+def _parse_stance_item(raw: object) -> dict:
+    """One item of the model's array -> a normalised record. Anything we can't
+    read becomes UNKNOWN rather than a guess."""
+    if not isinstance(raw, dict):
+        return {"stance": UNKNOWN, "isQuote": False, "speaker": "",
+                "evidence": "", "reason": "", "confidence": "low"}
+    stance = str(raw.get("stance", "")).strip().lower()
+    confidence = str(raw.get("confidence", "")).strip().lower()
+    if stance not in VALID_STANCES:
+        stance = UNKNOWN
+    # A non-neutral call with no evidence from the outlet's own prose is
+    # exactly the failure mode this rewrite exists to stop, so it does not
+    # get to stand: without a span to point at, it is neutral.
+    evidence = str(raw.get("evidence", "") or "").strip()
+    if stance in ("positive", "negative") and not evidence:
+        stance = "neutral"
+    if confidence == "low" and stance != "neutral":
+        stance = UNKNOWN
+    return {
+        "stance": stance,
+        "isQuote": bool(raw.get("is_quote", False)),
+        "speaker": str(raw.get("speaker", "") or "").strip()[:80],
+        "evidence": evidence[:200],
+        "reason": str(raw.get("reason", "") or "").strip()[:160],
+        "confidence": confidence or "medium",
+    }
+
+
+def classify_stance_batch(client: "Groq | None", items: list[dict]) -> list[dict]:
+    """items: [{'title':..., 'summary':...}, ...] -> one stance record each,
+    in order. No API key, or an unparseable answer after one retry, yields
+    UNKNOWN — which is excluded from the index rather than guessed at."""
     if not items:
         return []
-    texts = [f"{a['title']} — {a.get('summary', '')}".strip(" —") for a in items]
-
+    unknown = [_parse_stance_item(None) for _ in items]
     if client is None:
-        return [{"sentiment": heuristic_sentiment(t), "albanian_title": None} for t in texts]
+        return unknown
 
+    texts = [f"{a['title']} — {a.get('summary', '')}".strip(" —") for a in items]
     numbered = "\n".join(f"{i + 1}. {t}" for i, t in enumerate(texts))
     prompt = (
-        CLASSIFY_TRANSLATE_INSTRUCTIONS
-        + f"Now classify and translate these {len(texts)} items. Reply with "
-        "ONLY a JSON array, no markdown, no explanation, in this exact "
-        "order:\n"
-        '[{"sentiment": "positive|neutral|negative", "albanian_title": "..."}, ...]\n\n'
+        STANCE_INSTRUCTIONS
+        + f"Now judge these {len(texts)} items. Reply with ONLY a JSON array "
+        "of exactly "
+        + str(len(texts))
+        + " objects, in the same order, no markdown and no commentary:\n"
+        '[{"stance":"positive|neutral|negative|unknown","is_quote":bool,'
+        '"speaker":"","evidence":"","reason":"","confidence":"high|medium|low"}]\n\n'
+        + numbered
+    )
+
+    for attempt in (1, 2):
+        try:
+            resp = client.chat.completions.create(
+                model=CLASSIFY_MODEL,
+                messages=[{"role": "user", "content": prompt}],
+                max_tokens=1600,
+                # Deterministic on purpose. At 0.3 the same egg-throwing story
+                # came back positive at one outlet and negative at another on
+                # the same day.
+                temperature=0,
+            )
+            raw = resp.choices[0].message.content.strip()
+            raw = re.sub(r"^```(?:json)?\s*|\s*```$", "", raw, flags=re.MULTILINE).strip()
+            parsed = json.loads(raw)
+            if not isinstance(parsed, list) or len(parsed) != len(texts):
+                raise ValueError(f"expected {len(texts)} items, got {len(parsed) if isinstance(parsed, list) else parsed!r}")
+            return [_parse_stance_item(p) for p in parsed]
+        except Exception as e:
+            print(f"  stance attempt {attempt}/2 failed: {e}", file=sys.stderr)
+
+    print(f"  {len(texts)} articles left UNKNOWN (excluded from index)", file=sys.stderr)
+    return unknown
+
+
+def translate_batch(client: "Groq | None", items: list[dict]) -> list[str | None]:
+    """Albanian headlines, entirely separate from stance. This failing now
+    costs a translation and nothing else."""
+    if not items:
+        return []
+    if client is None:
+        return [None for _ in items]
+
+    titles = [a["title"] for a in items]
+    numbered = "\n".join(f"{i + 1}. {t}" for i, t in enumerate(titles))
+    prompt = (
+        "Translate each numbered headline into natural Albanian (shqip), the "
+        "way a Kosovo journalist would write it — translate the MEANING, not "
+        "the word order. Concise, factual, no invented details. Reply with "
+        "ONLY a JSON array of "
+        + str(len(titles))
+        + " strings, in order, no markdown.\n\n"
         + numbered
     )
     try:
         resp = client.chat.completions.create(
-            model=GROQ_MODEL,
+            model=TRANSLATE_MODEL,
             messages=[{"role": "user", "content": prompt}],
-            max_tokens=2000,
+            max_tokens=1400,
             temperature=0.3,
         )
         raw = resp.choices[0].message.content.strip()
         raw = re.sub(r"^```(?:json)?\s*|\s*```$", "", raw, flags=re.MULTILINE).strip()
         parsed = json.loads(raw)
-        if not isinstance(parsed, list) or len(parsed) != len(texts):
-            raise ValueError(f"expected {len(texts)} items, got {parsed!r}")
-
-        out = []
-        valid_sentiments = {"positive", "neutral", "negative"}
-        for i, p in enumerate(parsed):
-            sentiment = p.get("sentiment") if isinstance(p, dict) else None
-            if sentiment not in valid_sentiments:
-                sentiment = heuristic_sentiment(texts[i])
-            albanian_title = p.get("albanian_title") if isinstance(p, dict) else None
-            out.append({"sentiment": sentiment, "albanian_title": albanian_title})
-        return out
+        if not isinstance(parsed, list) or len(parsed) != len(titles):
+            raise ValueError(f"expected {len(titles)} strings")
+        return [str(p).strip() or None for p in parsed]
     except Exception as e:
-        print(f"  Groq classify+translate error: {e}", file=sys.stderr)
-        return [{"sentiment": heuristic_sentiment(t), "albanian_title": None} for t in texts]
+        print(f"  Groq translation error: {e}", file=sys.stderr)
+        return [None for _ in titles]
 
 
 def retry_translation(client: "Groq | None", title: str) -> str | None:
@@ -381,7 +547,7 @@ def retry_translation(client: "Groq | None", title: str) -> str | None:
     )
     try:
         resp = client.chat.completions.create(
-            model=GROQ_MODEL,
+            model=TRANSLATE_MODEL,
             messages=[{"role": "user", "content": prompt}],
             max_tokens=100,
             temperature=0.3,
@@ -430,6 +596,7 @@ def fetch_candidates() -> dict[str, list[dict]]:
 
         seen_titles: set[str] = set()
         items: list[dict] = []
+        dropped: list[str] = []
         for entry in feed.entries[:60]:
             url = entry.get("link", "")
             title = entry.get("title", "").strip()
@@ -445,6 +612,12 @@ def fetch_candidates() -> dict[str, list[dict]]:
             outlet = extract_outlet(url, country, source.get("title", ""))
             if not outlet or not title:
                 continue
+            # Google serves Kosovar outlets into the German and US feeds. Their
+            # coverage is Kosovo talking about itself, which is not what an
+            # index of foreign press means.
+            if not is_foreign_press(outlet, url):
+                dropped.append(outlet)
+                continue
 
             key = normalize_title(title)
             if key in seen_titles:
@@ -455,6 +628,11 @@ def fetch_candidates() -> dict[str, list[dict]]:
                 "date": published, "outlet": outlet,
             })
         by_country[country] = items
+        if dropped:
+            # Logged, not silent — the blocklist is a judgement call and this
+            # is how it gets tuned.
+            names = ", ".join(sorted(set(dropped))[:6])
+            print(f"  {country}: dropped {len(dropped)} non-foreign-press ({names})")
     return by_country
 
 
@@ -462,7 +640,11 @@ def main():
     api_key = os.environ.get("GROQ_API_KEY")
     client = Groq(api_key=api_key) if api_key else None
     if client is None:
-        print("GROQ_API_KEY not set; using heuristic tone labels, no translation", file=sys.stderr)
+        print(
+            "GROQ_API_KEY not set; every new article will be UNKNOWN and "
+            "excluded from the index (no guessing, no translation)",
+            file=sys.stderr,
+        )
 
     today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     cache = load_cache()
@@ -495,37 +677,61 @@ def main():
 
     print(f"  {len(new_items)} new articles, {len(image_retry_keys)} pending image retries")
 
-    # ── Classify + translate new items, batched ──
+    # ── Stance, then translation. Two passes, two models, two failure
+    # domains: a translation that fails no longer takes a stance label with it.
+    stances: dict[str, dict] = {}
+    for i in range(0, len(new_items), CLASSIFY_BATCH_SIZE):
+        chunk = new_items[i:i + CLASSIFY_BATCH_SIZE]
+        for (key, _), stance in zip(chunk, classify_stance_batch(client, [c for _, c in chunk])):
+            stances[key] = stance
+
+    translations: dict[str, str | None] = {}
     for i in range(0, len(new_items), TRANSLATE_BATCH_SIZE):
         chunk = new_items[i:i + TRANSLATE_BATCH_SIZE]
-        results = classify_and_translate_batch(client, [c for _, c in chunk])
-        for (key, item), result in zip(chunk, results):
-            sentiment = result["sentiment"]
-            albanian_title = result["albanian_title"]
-            translated = is_albanian_text(albanian_title)
-            if albanian_title and not translated:
+        for (key, item), title in zip(chunk, translate_batch(client, [c for _, c in chunk])):
+            if title and not is_albanian_text(title):
                 retried = retry_translation(client, item["title"])
-                if retried and is_albanian_text(retried):
-                    albanian_title, translated = retried, True
-                else:
-                    albanian_title, translated = None, False
+                title = retried if retried and is_albanian_text(retried) else None
+            translations[key] = title if is_albanian_text(title) else None
 
-            articles_cache[key] = {
-                "key": key,
-                "title": item["title"],
-                "albanianTitle": albanian_title,
-                "translated": translated,
-                "url": item["url"],
-                "googleNewsUrl": item["url"],
-                "imageUrl": None,
-                "imageAttempts": 0,
-                "outlet": item["outlet"],
-                "country": item["country"],
-                "sentiment": sentiment,
-                "date": item["date"] or today,
-                "firstSeen": today,
-                "lastSeen": today,
-            }
+    unknown_count = sum(1 for s in stances.values() if s["stance"] == UNKNOWN)
+    if unknown_count:
+        print(f"  {unknown_count}/{len(new_items)} new articles unresolved (excluded from index)")
+
+    for key, item in new_items:
+        stance = stances.get(key) or _parse_stance_item(None)
+        albanian_title = translations.get(key)
+        articles_cache[key] = {
+            "key": key,
+            "title": item["title"],
+            # Persisted now. It is fed to the classifier and used to be thrown
+            # away here, which meant the cache could never be re-classified at
+            # the same signal the live run had.
+            "summary": (item.get("summary") or "")[:400],
+            "albanianTitle": albanian_title,
+            "translated": bool(albanian_title),
+            "url": item["url"],
+            "googleNewsUrl": item["url"],
+            "imageUrl": None,
+            "imageAttempts": 0,
+            "outlet": item["outlet"],
+            "country": item["country"],
+            # `sentiment` stays as the name the frontend still reads; `stance`
+            # is the same value under the name that says what it means. Drop
+            # the alias once lib/tone-data.ts has migrated.
+            "sentiment": stance["stance"],
+            "stance": stance["stance"],
+            "stanceReason": stance["reason"],
+            "isQuote": stance["isQuote"],
+            "speaker": stance["speaker"],
+            "evidence": stance["evidence"],
+            "confidence": stance["confidence"],
+            "model": CLASSIFY_MODEL if client else "",
+            "stanceVersion": STANCE_SCHEMA_VERSION,
+            "date": item["date"] or today,
+            "firstSeen": today,
+            "lastSeen": today,
+        }
 
     # ── Image resolution: new items + retry-eligible cached items, one flat
     # batch across all countries so the worker pool stays fully utilized.
@@ -608,6 +814,11 @@ def main():
                 "url": entry["url"],
                 "date": entry["date"],
                 "sentiment": entry["sentiment"],
+                # Why it was labelled that way, carried through so the UI can
+                # answer "why is Britani 33?" with the outlet's own words
+                # instead of asking to be believed.
+                "reason": entry.get("stanceReason", ""),
+                "isQuote": bool(entry.get("isQuote", False)),
             }
             by_outlet.setdefault(candidate["outlet"], []).append(article_out)
             flat.append({**article_out, "outlet": candidate["outlet"]})
@@ -615,7 +826,10 @@ def main():
         outlets_list = []
         for outlet_name, arts in by_outlet.items():
             arts = arts[:6]
-            vote = Counter(a["sentiment"] for a in arts).most_common(1)[0][0] if arts else "neutral"
+            # An outlet whose articles we could not read has no label. Voting
+            # over UNKNOWNs would manufacture one.
+            scored = [a for a in arts if a["sentiment"] in VALID_STANCES]
+            vote = Counter(a["sentiment"] for a in scored).most_common(1)[0][0] if scored else UNKNOWN
             outlets_list.append({
                 "name": outlet_name, "sentiment": vote,
                 "articleCount": len(arts), "articles": arts,
@@ -624,6 +838,10 @@ def main():
 
         counts = Counter(a["sentiment"] for a in flat)
         positive, neutral, negative = counts.get("positive", 0), counts.get("neutral", 0), counts.get("negative", 0)
+        # Unresolved articles are counted and reported, never folded into
+        # neutral. Burying them in neutral would move the index and hide the
+        # fact that the classifier was down.
+        excluded = counts.get(UNKNOWN, 0)
         n = positive + neutral + negative
         idx = country_index(positive, neutral, negative)
         summary = {
@@ -632,7 +850,9 @@ def main():
             "neutral": round(100 * neutral / n) if n else 0,
             "negative": round(100 * negative / n) if n else 0,
             "n": n,
+            "excluded": excluded,
             "confident": n >= MIN_CONFIDENT_N,
+            "stanceVersion": STANCE_SCHEMA_VERSION,
         }
         countries_data[country] = {"outlets": outlets_list, "summary": summary}
         country_summaries[country] = summary
