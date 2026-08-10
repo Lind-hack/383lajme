@@ -59,8 +59,18 @@ jobs:
           EXPECTED_SHA: ${{ github.sha }}
         run: |
           set -euo pipefail
+          node <<'NODE'
+          const fs = require("node:fs");
+          const release = {
+            release: `github-main-${process.env.GITHUB_SHA}`,
+            recovered_from: process.env.EXPECTED_SHA,
+            requested_at: new Date().toISOString(),
+          };
+          fs.writeFileSync("public/production-release.json", `${JSON.stringify(release, null, 2)}\n`);
+          NODE
           git config user.name "383 Production Guard"
           git config user.email "bot@383lajme.com"
-          git commit --allow-empty -m "fix(deploy): restore GitHub main production source"
+          git add public/production-release.json
+          git commit -m "fix(deploy): restore GitHub main production source"
           git push origin HEAD:main
-          echo "Queued a clean GitHub-main deployment after production failed provenance verification for ${EXPECTED_SHA}."
+          echo "Queued a fresh GitHub-main deployment after production failed provenance verification for ${EXPECTED_SHA}."

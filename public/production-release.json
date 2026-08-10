@@ -1,0 +1,4 @@
+{
+  "release": "github-main-release-v1",
+  "reason": "A tracked release marker ensures a provenance recovery always creates a fresh GitHub-main build."
+}
