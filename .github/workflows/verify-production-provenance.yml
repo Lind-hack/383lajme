@@ -4,11 +4,11 @@ on:
   push:
     branches: [main]
   schedule:
-    - cron: "*/5 * * * *"
+    - cron: "*/15 * * * *"
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
   group: verify-production-provenance
@@ -20,6 +20,7 @@ concurrency:
 jobs:
   verify-and-repair:
     runs-on: ubuntu-latest
+    timeout-minutes: 8
     steps:
       - uses: actions/checkout@v4
         with:
@@ -30,10 +31,11 @@ jobs:
         id: verify
         env:
           EXPECTED_SHA: ${{ github.sha }}
+          PRODUCTION_URL: https://383lajme.vercel.app
         run: |
           set -euo pipefail
-          for attempt in $(seq 1 80); do
-            payload="$(curl --fail --silent --show-error --max-time 20 -H 'Cache-Control: no-cache' "https://www.383ks.com/api/deployment-info?verify=${GITHUB_RUN_ID}-${attempt}" || true)"
+          for attempt in $(seq 1 30); do
+            payload="$(curl --fail --silent --show-error --max-time 20 -H 'Cache-Control: no-cache' "${PRODUCTION_URL}/api/deployment-info?verify=${GITHUB_RUN_ID}-${attempt}" || true)"
             if [ -n "$payload" ]; then
               if node -e '
                 const [payload, expected] = process.argv.slice(1);
@@ -55,25 +57,3 @@ jobs:
           done
           echo "Production did not reach expected GitHub main commit ${EXPECTED_SHA}" >&2
           exit 1
-
-      - name: Restore GitHub main after a stale production replacement
-        if: failure() && github.event_name == 'schedule'
-        env:
-          EXPECTED_SHA: ${{ github.sha }}
-        run: |
-          set -euo pipefail
-          node <<'NODE'
-          const fs = require("node:fs");
-          const release = {
-            release: `github-main-${process.env.GITHUB_SHA}`,
-            recovered_from: process.env.EXPECTED_SHA,
-            requested_at: new Date().toISOString(),
-          };
-          fs.writeFileSync("public/production-release.json", `${JSON.stringify(release, null, 2)}\n`);
-          NODE
-          git config user.name "383 Production Guard"
-          git config user.email "bot@383lajme.com"
-          git add public/production-release.json
-          git commit -m "fix(deploy): restore GitHub main production source"
-          git push origin HEAD:main
-          echo "Queued a fresh GitHub-main deployment after production failed provenance verification for ${EXPECTED_SHA}."

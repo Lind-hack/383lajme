@@ -35,9 +35,10 @@ jobs:
       CODEX_AUTH_JSON_B64: ${{ secrets.CODEX_AUTH_JSON_B64 }}
       GITHUB_TOKEN: ${{ secrets.CODEX_PUSH_TOKEN || github.token }}
       GITHUB_REPOSITORY: Lind-hack/383lajme
-      # The custom production domain belongs to the `383` Vercel project.
-      # Do not point verification at the duplicate `383lajme` project.
-      SITE_URL: https://383ks.com
+      # Stable GitHub-integrated production alias. This avoids a second Vercel
+      # project or a custom-domain reassignment ever redirecting the automation
+      # to an unrelated deployment.
+      SITE_URL: https://383lajme.vercel.app
       GMAIL_USER: ${{ secrets.GMAIL_USER }}
       GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
       RECIPIENT_EMAIL: ${{ secrets.RECIPIENT_EMAIL || vars.RECIPIENT_EMAIL }}

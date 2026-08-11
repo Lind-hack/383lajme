@@ -22,7 +22,7 @@ They have previously replaced the current Tregu interface with stale commit
 2. Run the relevant tests and `npm run build`.
 3. Commit the intended files and push the commit to `origin/main`.
 4. Wait for the Vercel deployment whose metadata SHA equals `origin/main`.
-5. Verify `https://www.383ks.com/api/deployment-info` reports that SHA.
+5. Verify `https://383lajme.vercel.app/api/deployment-info` reports that SHA.
 6. For Tregu/F1 changes, also verify `race-grid-v3`, the archived F1 card on
    `/tregu`, and 22 rendered `.f1-grid-slot` elements on the market page.
 

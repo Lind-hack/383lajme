@@ -131,7 +131,9 @@ SCORE_WEIGHTS = {
     "editorial_safety": 0.04,
 }
 
-DEFAULT_SITE_URL = "https://383ks.com"
+# Automation must verify the GitHub-integrated Vercel project, not the branded
+# domain. The branded domain can be reassigned between Vercel projects.
+DEFAULT_SITE_URL = "https://383lajme.vercel.app"
 DEFAULT_GITHUB_REPO = "Lind-hack/383lajme"
 TREGU_CHART_UI_VERSION = "live-tape-v1"
 F1_RACE_UI_VERSION = "race-grid-v3"

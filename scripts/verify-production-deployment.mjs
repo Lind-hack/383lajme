@@ -139,7 +139,7 @@ const REQUIRED_CHART_MARKERS = {
     "FOOTBALL_MARKET_UI_VERSION",
     'return isVerifiedGitHubMain ? "github-main" : "unverified"',
     "deployment_source: deploymentSource()",
-    "production_release: productionRelease.release",
+    "production_release: process.env.VERCEL_GIT_COMMIT_SHA",
     "football_market_ui_version",
     '"Cache-Control": "no-store, max-age=0"',
   ],
