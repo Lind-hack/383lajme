@@ -42,6 +42,15 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--write", action="store_true", help="commit changes to the cache")
     ap.add_argument("--limit", type=int, default=0, help="only re-classify the first N")
+    ap.add_argument(
+        "--only-unknown",
+        action="store_true",
+        help="retry just the entries left unresolved by an earlier run. Pair "
+             "it with GROQ_CLASSIFY_MODEL=openai/gpt-oss-120b: a full 258-article "
+             "backfill costs ~99K tokens and llama-3.3-70b only has 100K a day, "
+             "so the tail of a big run rate-limits. gpt-oss-120b is a separate "
+             "200K bucket.",
+    )
     args = ap.parse_args()
 
     key = os.environ.get("GROQ_API_KEY")
@@ -53,8 +62,13 @@ def main() -> int:
 
     cache = ts.load_cache()
     entries = list(cache["articles"].values())
+    if args.only_unknown:
+        entries = [e for e in entries if e.get("stance", e.get("sentiment")) == ts.UNKNOWN]
     if args.limit:
         entries = entries[: args.limit]
+    if not entries:
+        print("nothing to do")
+        return 0
     print(f"{len(entries)} cached articles, model {ts.CLASSIFY_MODEL}\n")
 
     before = Counter(e.get("sentiment", "?") for e in entries)
@@ -109,6 +123,101 @@ def main() -> int:
             encoding="utf-8",
         )
         print(f"\nwritten to {ts.CACHE_PATH}")
+        rederive(cache["articles"])
+    return 0
+
+
+def rederive(articles: dict) -> None:
+    """Rebuild tone-outlets.json from the cache.
+
+    Without this the cache holds v2 labels while the summaries the site reads
+    still hold v1 indices, so every country renders at its old colour until
+    the next scheduled scrape. Grouping is by the cache's own `country`, which
+    is where an article was first seen — the scraper's per-country attribution
+    is richer, and its next run supersedes this.
+    """
+    countries: dict[str, dict] = {}
+    summaries: dict[str, dict] = {}
+    for country in ts.FEEDS:
+        mine = [a for a in articles.values() if a.get("country") == country]
+        by_outlet: dict[str, list[dict]] = {}
+        for a in mine:
+            by_outlet.setdefault(a.get("outlet", "?"), []).append({
+                "title": a["title"], "url": a["url"], "date": a.get("date", ""),
+                "sentiment": a.get("stance", a.get("sentiment")),
+                "reason": a.get("stanceReason", ""), "isQuote": bool(a.get("isQuote")),
+            })
+
+        outlets = []
+        for name, arts in sorted(by_outlet.items()):
+            arts = arts[:6]
+            scored = [x for x in arts if x["sentiment"] in ts.VALID_STANCES]
+            vote = Counter(x["sentiment"] for x in scored).most_common(1)[0][0] if scored else ts.UNKNOWN
+            outlets.append({"name": name, "sentiment": vote, "articleCount": len(arts), "articles": arts})
+
+        counts = Counter(a.get("stance", a.get("sentiment")) for a in mine)
+        pos, neu, neg = counts.get("positive", 0), counts.get("neutral", 0), counts.get("negative", 0)
+        n = pos + neu + neg
+        summary = {
+            "index": ts.country_index(pos, neu, neg),
+            "positive": round(100 * pos / n) if n else 0,
+            "neutral": round(100 * neu / n) if n else 0,
+            "negative": round(100 * neg / n) if n else 0,
+            "n": n,
+            "excluded": counts.get(ts.UNKNOWN, 0),
+            "confident": n >= ts.MIN_CONFIDENT_N,
+            "stanceVersion": ts.STANCE_SCHEMA_VERSION,
+        }
+        countries[country] = {"outlets": outlets, "summary": summary}
+        summaries[country] = summary
+
+    total = sum(s["n"] for s in summaries.values())
+    weighted = sum(s["index"] * s["n"] for s in summaries.values() if s["index"] is not None)
+    overall = round(weighted / total) if total else None
+
+    ts.OUTLETS_PATH.write_text(
+        json.dumps({
+            "lastUpdated": max((a.get("lastSeen", "") for a in articles.values()), default=""),
+            "overallIndex": overall,
+            "totalArticles": total,
+            "sourceCount": sum(len(c["outlets"]) for c in countries.values()),
+            "countries": countries,
+            "stanceVersion": ts.STANCE_SCHEMA_VERSION,
+        }, ensure_ascii=False, indent=2),
+        encoding="utf-8",
+    )
+    # The homepage module reads its summary from the history, not from the
+    # outlets file, so re-deriving only the latter leaves every country
+    # rendering at its old colour. Upsert today's row here too.
+    #
+    # Earlier rows are deliberately left alone: they were produced under the
+    # v1 definition and the articles behind them have aged out of the cache,
+    # so they cannot be recomputed. They keep stanceVersion 1, and the trend
+    # chart is expected to mark the boundary rather than pretend one
+    # continuous line means one continuous thing.
+    today = max((a.get("lastSeen", "") for a in articles.values()), default="")
+    history = json.loads(ts.HISTORY_PATH.read_text("utf-8")) if ts.HISTORY_PATH.exists() else []
+    history = [row for row in history if row.get("date") != today]
+    picked = [a for a in articles.values() if a.get("stance") in ("positive", "negative")][:6]
+    history.append({
+        "date": today,
+        "overallIndex": overall,
+        "totalArticles": total,
+        "sourceCount": sum(len(c["outlets"]) for c in countries.values()),
+        "countries": summaries,
+        "stanceVersion": ts.STANCE_SCHEMA_VERSION,
+        "headlines": [{
+            "title": a["title"], "source": a.get("outlet", ""), "country": a.get("country", ""),
+            "flag": ts.FLAGS.get(a.get("country", ""), ""), "url": a["url"],
+            "sentiment": a.get("stance"),
+        } for a in picked],
+    })
+    history.sort(key=lambda r: r.get("date", ""))
+    ts.HISTORY_PATH.write_text(json.dumps(history[-ts.HISTORY_DAYS:], ensure_ascii=False, indent=2), encoding="utf-8")
+
+    print(f"\nrederived {ts.OUTLETS_PATH.name} + {ts.HISTORY_PATH.name}: overall {overall}")
+    for country, s in summaries.items():
+        print(f"  {country:10} {s['index']:>4}  (n={s['n']}, +{s['positive']}% ={s['neutral']}% -{s['negative']}%)")
     else:
         print("\ndry run — nothing written. Re-run with --write to commit.")
     return 0

@@ -7,16 +7,29 @@
 import { readFile } from "fs/promises";
 import path from "path";
 
+// tools/tone_scraper.py can now return "unknown" for an article it isn't
+// confident enough to score (deliberately, not a bug — see UNKNOWN in that
+// file) — the raw types below reflect that honestly. Display-facing types
+// further down (ForeignCoverageItem) stay narrowed to the confident three,
+// guaranteed by an explicit filter rather than by the type alone.
+export type ToneSentimentRaw = "positive" | "neutral" | "negative" | "unknown";
+
 export interface ToneArticle {
   title: string;
   url: string;
   date: string;
-  sentiment: "positive" | "neutral" | "negative";
+  sentiment: ToneSentimentRaw;
+  /** One clause on why the outlet was read this way, from the classifier.
+   * Optional: entries written before the v2 stance rewrite have none. */
+  reason?: string;
+  /** True when the charged language belonged to a quoted speaker rather than
+   * to the outlet — which is why the article is not counted against it. */
+  isQuote?: boolean;
 }
 
 export interface ToneOutlet {
   name: string;
-  sentiment: "positive" | "neutral" | "negative";
+  sentiment: ToneSentimentRaw;
   articleCount: number;
   articles: ToneArticle[];
 }
@@ -43,6 +56,11 @@ export interface ToneHistoryRow {
   overallIndex: number | null;
   totalArticles: number;
   sourceCount: number;
+  /** Which definition of "tone" produced this row. Absent means 1, the
+   * original "is this good or bad news" reading; 2 is "is the outlet's own
+   * voice hostile toward Kosovo". Rows of different versions are not
+   * comparable and must not be subtracted from one another. */
+  stanceVersion?: number;
   countries: Record<string, CountrySummary>;
   headlines: Array<{
     title: string;
@@ -50,7 +68,7 @@ export interface ToneHistoryRow {
     country: string;
     flag: string;
     url: string;
-    sentiment: "positive" | "neutral" | "negative";
+    sentiment: ToneSentimentRaw;
   }>;
 }
 
@@ -125,8 +143,20 @@ export function summarizeToneHistory(history: ToneHistoryRow[]): ToneSummary {
   const weekAgoIdx = Math.max(0, sorted.length - 8);
   const weekAgo = sorted[weekAgoIdx];
 
+  // A delta is only meaningful between two rows that measured the same thing.
+  // On 2026-08-10 the index changed from "was the news about Kosovo good or
+  // bad" to "was the outlet's own voice hostile toward Kosovo", which moved
+  // the number about twelve points on its own. Subtracting across that
+  // boundary would report a methodology change as a swing in world opinion,
+  // so it reports nothing at all until there are two v2 rows to compare.
+  const sameDefinition =
+    (today?.stanceVersion ?? 1) === (weekAgo?.stanceVersion ?? 1);
+
   const weekDelta =
-    today?.overallIndex != null && weekAgo?.overallIndex != null && weekAgoIdx !== sorted.length - 1
+    today?.overallIndex != null &&
+    weekAgo?.overallIndex != null &&
+    weekAgoIdx !== sorted.length - 1 &&
+    sameDefinition
       ? today.overallIndex - weekAgo.overallIndex
       : null;
 
@@ -197,7 +227,7 @@ export interface ToneArticleCacheEntry {
   imageAttempts: number;
   outlet: string;
   country: string;
-  sentiment: "positive" | "neutral" | "negative";
+  sentiment: ToneSentimentRaw;
   date: string;
   firstSeen: string;
   lastSeen: string;
@@ -222,6 +252,10 @@ export interface ForeignCoverageItem {
   /** Guaranteed non-null — see the imageUrl filter below. */
   imageUrl: string;
   date: string;
+  /** Deliberately narrower than ToneSentimentRaw — getForeignCoverage()
+   * excludes "unknown" articles before this type is ever constructed, so
+   * every consumer (the sentiment-color/label lookups in bota-flet-card.tsx)
+   * can assume a real value without a fallback branch. */
   sentiment: "positive" | "neutral" | "negative";
   outlet: string;
   country: string;
@@ -271,12 +305,30 @@ export function getForeignCoverage(
   const candidates: Array<{ entry: ToneArticleCacheEntry; ts: number }> = [];
   for (const entry of Object.values(cache.articles)) {
     if (!entry?.imageUrl || !entry?.albanianTitle || !entry?.translated) continue;
+    // tools/tone_scraper.py now writes sentiment: "unknown" for an article
+    // it isn't confident enough to score (evidence-based classification,
+    // not the old keyword guess) — a real, expected value, not corrupt
+    // data. Showing it here would mean SENTIMENT_COLOR/SENTIMENT_LABEL in
+    // bota-flet-card.tsx (only positive/neutral/negative) silently render
+    // a blank badge. The whole point of "unknown" is not guessing, so it's
+    // excluded from the one section whose entire premise is a sentiment
+    // badge on every card, same as it's already excluded from the country
+    // index math on the Python side.
+    if (entry.sentiment === "unknown") continue;
     const ts = Date.parse(entry.firstSeen || "");
     if (Number.isNaN(ts) || ts < cutoff) continue;
     candidates.push({ entry, ts });
   }
 
-  const weight = { negative: 0, positive: 1, neutral: 2 } as const;
+  // Covers every raw value, including "unknown". The loop above skips those,
+  // but the skip does not narrow the type of what was already pushed, and an
+  // unlisted key would silently sort as NaN rather than fail loudly.
+  const weight: Record<ToneSentimentRaw, number> = {
+    negative: 0,
+    positive: 1,
+    neutral: 2,
+    unknown: 3,
+  };
   candidates.sort((a, b) => {
     const bySentiment = weight[a.entry.sentiment] - weight[b.entry.sentiment];
     if (bySentiment !== 0) return bySentiment;
@@ -318,7 +370,10 @@ export function getForeignCoverage(
     url: entry.url,
     imageUrl: entry.imageUrl as string,
     date: entry.date,
-    sentiment: entry.sentiment ?? "neutral",
+    // "unknown" was filtered out at the top of the candidate loop, which is
+    // what ForeignCoverageItem's narrower type documents — but the filter is
+    // a `continue` on a different variable, so the compiler cannot see it.
+    sentiment: (entry.sentiment ?? "neutral") as ForeignCoverageItem["sentiment"],
     outlet: entry.outlet,
     country: entry.country,
     flag: FLAGS[entry.country] ?? "",

@@ -15,7 +15,15 @@
       "sentiment": "neutral",
       "date": "Sun, 09 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i rëndë, i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "zu besuch beim putin freund vučić die opferung kosovos taz de": {
       "key": "zu besuch beim putin freund vučić die opferung kosovos taz de",
@@ -28,10 +36,18 @@
       "imageAttempts": 1,
       "outlet": "taz.de",
       "country": "Gjermani",
-      "sentiment": "neutral",
+      "sentiment": "negative",
       "date": "Sun, 09 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "negative",
+      "stanceReason": "Fjalët e vetë mediumit e kornizojnë Kosovën si viktimë",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "Opferung Kosovos",
+      "confidence": "medium",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "kosovo entfernt ukrainische flagge nach selenskyjs erklärung der nichtanerkennun": {
       "key": "kosovo entfernt ukrainische flagge nach selenskyjs erklärung der nichtanerkennun",
@@ -44,10 +60,18 @@
       "imageAttempts": 2,
       "outlet": "KOHA.net",
       "country": "Gjermani",
-      "sentiment": "negative",
+      "sentiment": "neutral",
       "date": "Sun, 09 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "kosovo parlament regierungschef kurti mit eiern beworfen zdfheute": {
       "key": "kosovo parlament regierungschef kurti mit eiern beworfen zdfheute",
@@ -63,7 +87,15 @@
       "sentiment": "neutral",
       "date": "Sun, 09 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i rëndë, i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "kosovos premierminister im parlament mit eiern beworfen politische krise spitzt ": {
       "key": "kosovos premierminister im parlament mit eiern beworfen politische krise spitzt ",
@@ -79,7 +111,15 @@
       "sentiment": "neutral",
       "date": "Sun, 09 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i rëndë, i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "experte warnt trotz kurtis wahlsieg droht dauerkrise im kosovo frankfurter runds": {
       "key": "experte warnt trotz kurtis wahlsieg droht dauerkrise im kosovo frankfurter runds",
@@ -92,10 +132,18 @@
       "imageAttempts": 1,
       "outlet": "Frankfurter Rundschau",
       "country": "Gjermani",
-      "sentiment": "negative",
+      "sentiment": "neutral",
       "date": "Thu, 06 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i rëndë, i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "serbien ministerin hätte kosovo gerne ethnisch gesäubert dw com": {
       "key": "serbien ministerin hätte kosovo gerne ethnisch gesäubert dw com",
@@ -108,10 +156,18 @@
       "imageAttempts": 1,
       "outlet": "dw.com",
       "country": "Gjermani",
-      "sentiment": "neutral",
+      "sentiment": "negative",
       "date": "Thu, 16 Ju",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "negative",
+      "stanceReason": "Fjalët e vetë mediumit e kornizojnë Kosovën si objekt të paçmueshëm",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "ethnisch gesäubert",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "kosovo mit zwei athleten bei den europameisterschaften koha net": {
       "key": "kosovo mit zwei athleten bei den europameisterschaften koha net",
@@ -127,7 +183,15 @@
       "sentiment": "neutral",
       "date": "Sun, 09 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i thjeshtë dhe faktik",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "kriegsverbrechen im kosovo prozess gegen serben beginnt spiegel": {
       "key": "kriegsverbrechen im kosovo prozess gegen serben beginnt spiegel",
@@ -143,7 +207,15 @@
       "sentiment": "neutral",
       "date": "Fri, 31 Ju",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i rëndë i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "heilkräuterindustrie im kosovo die ernte nach dem krieg taz de": {
       "key": "heilkräuterindustrie im kosovo die ernte nach dem krieg taz de",
@@ -159,7 +231,15 @@
       "sentiment": "neutral",
       "date": "Thu, 23 Ju",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm ekonomik i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "trotz nähe zu russland ukraine will mit serbien kooperieren zdfheute": {
       "key": "trotz nähe zu russland ukraine will mit serbien kooperieren zdfheute",
@@ -175,7 +255,15 @@
       "sentiment": "neutral",
       "date": "Sat, 08 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike pa lidhje drejtpërdrejtë me Kosovën",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "kosovo günstiges umfeld für banken gebühren steigen koha net": {
       "key": "kosovo günstiges umfeld für banken gebühren steigen koha net",
@@ -188,10 +276,18 @@
       "imageAttempts": 2,
       "outlet": "KOHA.net",
       "country": "Gjermani",
-      "sentiment": "negative",
+      "sentiment": "neutral",
       "date": "Sun, 09 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm ekonomik i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "kosovo übertrifft die länder der region in der anzahl der athleten bei den mitte": {
       "key": "kosovo übertrifft die länder der region in der anzahl der athleten bei den mitte",
@@ -207,7 +303,15 @@
       "sentiment": "neutral",
       "date": "Sun, 09 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i mirë, i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "bushati selenskyj hätte kosovo mehr wertschätzung entgegenbringen können koha ne": {
       "key": "bushati selenskyj hätte kosovo mehr wertschätzung entgegenbringen können koha ne",
@@ -223,7 +327,15 @@
       "sentiment": "neutral",
       "date": "Sat, 08 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Raporton deklaratën e Bushatit, nuk e përvetëson",
+      "isQuote": true,
+      "speaker": "Bushati",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "albanien zu selenskyj in serbien es dient den interessen der ukraine kosovo hat ": {
       "key": "albanien zu selenskyj in serbien es dient den interessen der ukraine kosovo hat ",
@@ -236,10 +348,18 @@
       "imageAttempts": 2,
       "outlet": "KOHA.net",
       "country": "Gjermani",
-      "sentiment": "negative",
+      "sentiment": "neutral",
       "date": "Sun, 09 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "eierattacke im kosovarischen parlament unmut gegen albin kurti srf": {
       "key": "eierattacke im kosovarischen parlament unmut gegen albin kurti srf",
@@ -252,10 +372,18 @@
       "imageAttempts": 1,
       "outlet": "SRF",
       "country": "Gjermani",
-      "sentiment": "negative",
+      "sentiment": "neutral",
       "date": "Sun, 09 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "die erfahrungen aus duderstadt und vom seeburger see nutze ich noch heute so vie": {
       "key": "die erfahrungen aus duderstadt und vom seeburger see nutze ich noch heute so vie",
@@ -268,10 +396,18 @@
       "imageAttempts": 2,
       "outlet": "GT/ET Göttinger Tageblatt - Eichsfelder Tageblatt",
       "country": "Gjermani",
-      "sentiment": "neutral",
+      "sentiment": "positive",
       "date": "Sat, 08 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "positive",
+      "stanceReason": "Toni pozitiv dhe respektues ndaj Kosovës",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "So viel Eichsfeld steckt im Kosovo",
+      "confidence": "medium",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "die einrichtung einer nationalen tourismusagentur ist erforderlich so sogojeva n": {
       "key": "die einrichtung einer nationalen tourismusagentur ist erforderlich so sogojeva n",
@@ -287,7 +423,15 @@
       "sentiment": "neutral",
       "date": "Sun, 09 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "ukrainischer abgeordneter reagiert auf selenskyjs äußerungen zum kosovo diplomat": {
       "key": "ukrainischer abgeordneter reagiert auf selenskyjs äußerungen zum kosovo diplomat",
@@ -303,7 +447,15 @@
       "sentiment": "neutral",
       "date": "Sun, 09 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "die einwohner von fushë kosovo leiden unter der abfallproblematik verzögerungen ": {
       "key": "die einwohner von fushë kosovo leiden unter der abfallproblematik verzögerungen ",
@@ -319,7 +471,15 @@
       "sentiment": "neutral",
       "date": "Sun, 09 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i rëndë, i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "massaker von reçak kosovo beginnt prozess gegen serben wegen möglicher kriegsver": {
       "key": "massaker von reçak kosovo beginnt prozess gegen serben wegen möglicher kriegsver",
@@ -335,7 +495,15 @@
       "sentiment": "neutral",
       "date": "Fri, 31 Ju",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "mazedonisch kosovo ist sicher und die ksf wird jeden tag stärker koha net": {
       "key": "mazedonisch kosovo ist sicher und die ksf wird jeden tag stärker koha net",
@@ -351,7 +519,15 @@
       "sentiment": "neutral",
       "date": "Sun, 26 Ju",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "selenskyj aus serbien die position zur nichtanerkennung des kosovo ändert sich n": {
       "key": "selenskyj aus serbien die position zur nichtanerkennung des kosovo ändert sich n",
@@ -367,7 +543,15 @@
       "sentiment": "neutral",
       "date": "Sat, 08 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "kadrijaj rief dabei schäm dich abgeordnete bewirft kosovos regierungschef mit ei": {
       "key": "kadrijaj rief dabei schäm dich abgeordnete bewirft kosovos regierungschef mit ei",
@@ -383,7 +567,15 @@
       "sentiment": "neutral",
       "date": "Sun, 09 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Fjalia është citim, jo zëri i mediumit",
+      "isQuote": true,
+      "speaker": "Kadrijaj",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "die nicht konstituierte versammlung öffnet türen zur diaspora koha net": {
       "key": "die nicht konstituierte versammlung öffnet türen zur diaspora koha net",
@@ -399,7 +591,15 @@
       "sentiment": "neutral",
       "date": "Sun, 09 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "kosovos premierminister im parlament mit eiern beworfen blick": {
       "key": "kosovos premierminister im parlament mit eiern beworfen blick",
@@ -415,7 +615,15 @@
       "sentiment": "neutral",
       "date": "Sun, 09 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "politische krise kosovos regierungschef kurti von oppositionspolitikerin mit eie": {
       "key": "politische krise kosovos regierungschef kurti von oppositionspolitikerin mit eie",
@@ -431,7 +639,15 @@
       "sentiment": "neutral",
       "date": "Sun, 09 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "zwei siege und vier niederlagen für kosovos u18 mannschaft bei der europameister": {
       "key": "zwei siege und vier niederlagen für kosovos u18 mannschaft bei der europameister",
@@ -447,7 +663,15 @@
       "sentiment": "neutral",
       "date": "Sun, 09 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "prozess gegen 21 serben wegen massaker im jahr 1999 im kosovo eröffnet stern de": {
       "key": "prozess gegen 21 serben wegen massaker im jahr 1999 im kosovo eröffnet stern de",
@@ -463,7 +687,15 @@
       "sentiment": "neutral",
       "date": "Fri, 31 Ju",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "eulex council appoints head of eu rule of law mission in kosovo consilium europa": {
       "key": "eulex council appoints head of eu rule of law mission in kosovo consilium europa",
@@ -479,7 +711,15 @@
       "sentiment": "neutral",
       "date": "Thu, 16 Ju",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "rama kosovo ist nicht albin kurtis eigentum koha net": {
       "key": "rama kosovo ist nicht albin kurtis eigentum koha net",
@@ -495,7 +735,15 @@
       "sentiment": "neutral",
       "date": "Sat, 08 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Raporton deklaratën e Ramës, nuk e përvetëson",
+      "isQuote": true,
+      "speaker": "Rama",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "abgeordnete bewirft kosovos ministerpräsidenten mit eiern bluewin ch": {
       "key": "abgeordnete bewirft kosovos ministerpräsidenten mit eiern bluewin ch",
@@ -508,10 +756,18 @@
       "imageAttempts": 1,
       "outlet": "bluewin.ch",
       "country": "Gjermani",
-      "sentiment": "positive",
+      "sentiment": "neutral",
       "date": "Sun, 09 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "massengrab im kosovo entdeckt orf": {
       "key": "massengrab im kosovo entdeckt orf",
@@ -527,7 +783,15 @@
       "sentiment": "neutral",
       "date": "Fri, 31 Ju",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i rëndë, i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "rechtliche rahmenbedingungen für investitionen im kosovo anwalt de": {
       "key": "rechtliche rahmenbedingungen für investitionen im kosovo anwalt de",
@@ -543,7 +807,15 @@
       "sentiment": "neutral",
       "date": "Mon, 27 Ju",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "rb leipzig kosovo trainer franco foda fisnik hat richtig bock auf fußball lvz le": {
       "key": "rb leipzig kosovo trainer franco foda fisnik hat richtig bock auf fußball lvz le",
@@ -559,7 +831,15 @@
       "sentiment": "neutral",
       "date": "Sat, 25 Ju",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Fjalia është citim, jo zëri i mediumit",
+      "isQuote": true,
+      "speaker": "Franco Foda",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "kosovo lettland statistiken uefa u17 em 2027 uefa com": {
       "key": "kosovo lettland statistiken uefa u17 em 2027 uefa com",
@@ -575,7 +855,15 @@
       "sentiment": "neutral",
       "date": "Wed, 22 Ju",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "massengrab im kosovo entdeckt der standard": {
       "key": "massengrab im kosovo entdeckt der standard",
@@ -591,7 +879,15 @@
       "sentiment": "neutral",
       "date": "Fri, 31 Ju",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i rëndë, i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "delegation aus dem kosovo boku": {
       "key": "delegation aus dem kosovo boku",
@@ -607,7 +903,15 @@
       "sentiment": "neutral",
       "date": "Wed, 29 Ju",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i thjeshtë, pa koment",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "massaker von recak im januar 1999 fünf serben im kosovo wegen kriegsverbrechen f": {
       "key": "massaker von recak im januar 1999 fünf serben im kosovo wegen kriegsverbrechen f",
@@ -623,7 +927,15 @@
       "sentiment": "neutral",
       "date": "Tue, 16 Ju",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i rëndë, i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "die riesige ukrainische flagge die im zentrum von pristina aufgestellt war wurde": {
       "key": "die riesige ukrainische flagge die im zentrum von pristina aufgestellt war wurde",
@@ -636,10 +948,18 @@
       "imageAttempts": 2,
       "outlet": "KOHA.net",
       "country": "Gjermani",
-      "sentiment": "negative",
+      "sentiment": "neutral",
       "date": "Sun, 09 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i thjeshtë, pa koment",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "vom kosovo einsatz ins porträt eines weltstars zdfheute": {
       "key": "vom kosovo einsatz ins porträt eines weltstars zdfheute",
@@ -655,7 +975,15 @@
       "sentiment": "neutral",
       "date": "Fri, 17 Ju",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i thjeshtë, pa koment",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "massaker von reçak fünf serben im kosovo wegen mutmaßlicher kriegsverbrechen fes": {
       "key": "massaker von reçak fünf serben im kosovo wegen mutmaßlicher kriegsverbrechen fes",
@@ -671,7 +999,15 @@
       "sentiment": "neutral",
       "date": "Mon, 15 Ju",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i rëndë, i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "kosovo abkommen stellen den namen wieder her lösen memorandum und erbe auf koha ": {
       "key": "kosovo abkommen stellen den namen wieder her lösen memorandum und erbe auf koha ",
@@ -687,7 +1023,15 @@
       "sentiment": "neutral",
       "date": "Mon, 27 Ju",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "nato truppe im kosovo wird kleiner dw com": {
       "key": "nato truppe im kosovo wird kleiner dw com",
@@ -703,7 +1047,15 @@
       "sentiment": "neutral",
       "date": "Fri, 12 Ju",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "da fliegen eier eklat im kosovarischen parlamentssaal web de": {
       "key": "da fliegen eier eklat im kosovarischen parlamentssaal web de",
@@ -719,7 +1071,15 @@
       "sentiment": "neutral",
       "date": "Sun, 09 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "sprung in die tiefe mutige sportler stürzen sich von 22 meter brücke in kosovo g": {
       "key": "sprung in die tiefe mutige sportler stürzen sich von 22 meter brücke in kosovo g",
@@ -735,7 +1095,15 @@
       "sentiment": "neutral",
       "date": "Mon, 03 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "hoxhaj gestern haben sie den saal verschlossen heute die demokratie koha net": {
       "key": "hoxhaj gestern haben sie den saal verschlossen heute die demokratie koha net",
@@ -751,7 +1119,15 @@
       "sentiment": "neutral",
       "date": "Sat, 08 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Fjalia është citim i Hoxhajt",
+      "isQuote": true,
+      "speaker": "Hoxhaj",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "luftqualitätsindex aqi für gjakova und luftverschmutzung in kosovo iqair deutsch": {
       "key": "luftqualitätsindex aqi für gjakova und luftverschmutzung in kosovo iqair deutsch",
@@ -767,7 +1143,15 @@
       "sentiment": "neutral",
       "date": "Fri, 17 Ju",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "mann soll seine tochter von mallorca in den kosovo entführt haben spiegel": {
       "key": "mann soll seine tochter von mallorca in den kosovo entführt haben spiegel",
@@ -783,7 +1167,15 @@
       "sentiment": "neutral",
       "date": "Sat, 27 Ju",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "luftqualitätsindex aqi und luftverschmutzung in kosovo iqair deutschland iqair": {
       "key": "luftqualitätsindex aqi und luftverschmutzung in kosovo iqair deutschland iqair",
@@ -799,7 +1191,15 @@
       "sentiment": "neutral",
       "date": "Tue, 23 Ju",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Informacion i thjeshtë mbi Luftqualitätsindex",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "kosovo bundeswehr": {
       "key": "kosovo bundeswehr",
@@ -815,7 +1215,15 @@
       "sentiment": "neutral",
       "date": "Wed, 20 Ma",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Informacion zyrtar mbi misionin e Bundeswehr",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "verfahren wegen kriegsverbrechen fünf serben im kosovo festgenommen n tv de": {
       "key": "verfahren wegen kriegsverbrechen fünf serben im kosovo festgenommen n tv de",
@@ -831,7 +1239,15 @@
       "sentiment": "neutral",
       "date": "Mon, 15 Ju",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Raportim i ngjarjes pa koment",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "kosovo gesänge erzählen die geschichte der albaner stadt land kunst 07 05 2026 d": {
       "key": "kosovo gesänge erzählen die geschichte der albaner stadt land kunst 07 05 2026 d",
@@ -844,10 +1260,18 @@
       "imageAttempts": 2,
       "outlet": "Arte.tv",
       "country": "Gjermani",
-      "sentiment": "negative",
+      "sentiment": "positive",
       "date": "Tue, 05 Ma",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "positive",
+      "stanceReason": "Dokumentar kulturor me ton respektues",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "Gesänge erzählen die Geschichte der Albaner",
+      "confidence": "medium",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "großbritannien an die abgeordneten arbeiten sie dringend zusammen zum wohle inte": {
       "key": "großbritannien an die abgeordneten arbeiten sie dringend zusammen zum wohle inte",
@@ -863,7 +1287,15 @@
       "sentiment": "neutral",
       "date": "Sat, 08 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Mesazh i qëndrueshëm ndaj bashkëpunimit",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "kosovo irland nations league im liveticker t online": {
       "key": "kosovo irland nations league im liveticker t online",
@@ -879,7 +1311,15 @@
       "sentiment": "neutral",
       "date": "Wed, 22 Ju",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i thjeshtë sportiv",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "kosovo regierungspartei gewinnt wahl im kosovo die zeit": {
       "key": "kosovo regierungspartei gewinnt wahl im kosovo die zeit",
@@ -892,10 +1332,18 @@
       "imageAttempts": 2,
       "outlet": "Die Zeit",
       "country": "Gjermani",
-      "sentiment": "positive",
+      "sentiment": "neutral",
       "date": "Mon, 08 Ju",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i thjeshtë politik",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "diaspora besuch im kosovo albaner lieben es vip zu sein 20 minuten": {
       "key": "diaspora besuch im kosovo albaner lieben es vip zu sein 20 minuten",
@@ -908,10 +1356,18 @@
       "imageAttempts": 2,
       "outlet": "20 Minuten",
       "country": "Gjermani",
-      "sentiment": "negative",
+      "sentiment": "neutral",
       "date": "Sun, 26 Ju",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Fjalia është citim brenda «», jo zëri i mediumit",
+      "isQuote": true,
+      "speaker": "vizitor nga diaspora",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "wahlen im kosovo der preis der politischen polarisierung dw com": {
       "key": "wahlen im kosovo der preis der politischen polarisierung dw com",
@@ -927,7 +1383,15 @@
       "sentiment": "neutral",
       "date": "Sat, 06 Ju",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Analizë politike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "medium",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "kfz deal kosovo brüskiert eu und kritisiert serbien euractiv com": {
       "key": "kfz deal kosovo brüskiert eu und kritisiert serbien euractiv com",
@@ -940,10 +1404,18 @@
       "imageAttempts": 2,
       "outlet": "euractiv.com",
       "country": "Gjermani",
-      "sentiment": "positive",
+      "sentiment": "neutral",
       "date": "Fri, 15 Ma",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i thjeshtë politik",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "ein solinger läuft quer durch europa bis in den kosovo wdr": {
       "key": "ein solinger läuft quer durch europa bis in den kosovo wdr",
@@ -959,7 +1431,15 @@
       "sentiment": "neutral",
       "date": "Mon, 01 Ju",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i thjeshtë",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "ukrainian flag removed from building in central pristina kosovo must be respecte": {
       "key": "ukrainian flag removed from building in central pristina kosovo must be respecte",
@@ -975,7 +1455,15 @@
       "sentiment": "neutral",
       "date": "Sun, 09 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Raporton deklaratën e një deklarate, nuk e përvetëson",
+      "isQuote": true,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "watch moment opposition mp throws eggs at kosovo s acting pm bbc": {
       "key": "watch moment opposition mp throws eggs at kosovo s acting pm bbc",
@@ -991,7 +1479,15 @@
       "sentiment": "neutral",
       "date": "Sat, 08 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i rëndë, i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "lawmaker hurls eggs at kosovo s acting pm cnn": {
       "key": "lawmaker hurls eggs at kosovo s acting pm cnn",
@@ -1007,7 +1503,15 @@
       "sentiment": "neutral",
       "date": "Sun, 09 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i rëndë, i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "kosovo lawmaker throws eggs at acting prime minister nbc news": {
       "key": "kosovo lawmaker throws eggs at acting prime minister nbc news",
@@ -1023,7 +1527,15 @@
       "sentiment": "neutral",
       "date": "Sat, 08 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i rëndë, i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "kosovo pm kurti egged in parliament amid political crisis dw com": {
       "key": "kosovo pm kurti egged in parliament amid political crisis dw com",
@@ -1036,10 +1548,18 @@
       "imageAttempts": 2,
       "outlet": "dw.com",
       "country": "SHBA",
-      "sentiment": "negative",
+      "sentiment": "neutral",
       "date": "Sun, 09 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i rëndë, i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "zelenskyy reaffirms ukraine will not change its position on kosovo межа новини у": {
       "key": "zelenskyy reaffirms ukraine will not change its position on kosovo межа новини у",
@@ -1055,7 +1575,15 @@
       "sentiment": "neutral",
       "date": "Sat, 08 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike, pa koment",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "kosovo must be respected ukrainian flag stripped from kosovo building after zele": {
       "key": "kosovo must be respected ukrainian flag stripped from kosovo building after zele",
@@ -1071,7 +1599,15 @@
       "sentiment": "neutral",
       "date": "Sun, 09 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Raporton deklaratën e një vendi tjetër",
+      "isQuote": true,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "kosovo pm pelted with eggs in parliament ukrinform": {
       "key": "kosovo pm pelted with eggs in parliament ukrinform",
@@ -1087,7 +1623,15 @@
       "sentiment": "neutral",
       "date": "Sat, 08 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i rëndë i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "zelensky ukraine s position on kosovo remains unchanged ukrinform": {
       "key": "zelensky ukraine s position on kosovo remains unchanged ukrinform",
@@ -1103,7 +1647,15 @@
       "sentiment": "neutral",
       "date": "Sat, 08 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Raporton qëndrimin e Ukrainës",
+      "isQuote": true,
+      "speaker": "Zelensky",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "kosovo finds third wartime mass grave site as officials widen search al jazeera": {
       "key": "kosovo finds third wartime mass grave site as officials widen search al jazeera",
@@ -1116,10 +1668,18 @@
       "imageAttempts": 2,
       "outlet": "Al Jazeera",
       "country": "SHBA",
-      "sentiment": "negative",
+      "sentiment": "neutral",
       "date": "Tue, 04 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i rëndë i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "albania says kosovo independence irreversible after zelenskyy s serbia remarks t": {
       "key": "albania says kosovo independence irreversible after zelenskyy s serbia remarks t",
@@ -1132,10 +1692,18 @@
       "imageAttempts": 2,
       "outlet": "Türkiye Today",
       "country": "SHBA",
-      "sentiment": "negative",
+      "sentiment": "neutral",
       "date": "Sun, 09 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Raporton qëndrimin e Shqipërisë",
+      "isQuote": true,
+      "speaker": "Albania",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "kosovo and albania react to zelenskyy vučić reaffirmation of mutual territorial ": {
       "key": "kosovo and albania react to zelenskyy vučić reaffirmation of mutual territorial ",
@@ -1148,10 +1716,18 @@
       "imageAttempts": 2,
       "outlet": "EUalive",
       "country": "SHBA",
-      "sentiment": "negative",
+      "sentiment": "neutral",
       "date": "Sun, 09 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "zelenskyy s kosovo comments in belgrade prompt flag removal in prishtina euromai": {
       "key": "zelenskyy s kosovo comments in belgrade prompt flag removal in prishtina euromai",
@@ -1167,7 +1743,15 @@
       "sentiment": "neutral",
       "date": "Sun, 09 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "kosovo pm egged in parliament as political crisis spirals euractiv com": {
       "key": "kosovo pm egged in parliament as political crisis spirals euractiv com",
@@ -1180,10 +1764,18 @@
       "imageAttempts": 2,
       "outlet": "euractiv.com",
       "country": "SHBA",
-      "sentiment": "negative",
+      "sentiment": "neutral",
       "date": "Sat, 08 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "albania reaffirms support for kosovo s sovereignty after zelensky s serbia remar": {
       "key": "albania reaffirms support for kosovo s sovereignty after zelensky s serbia remar",
@@ -1196,10 +1788,18 @@
       "imageAttempts": 2,
       "outlet": "A News",
       "country": "SHBA",
-      "sentiment": "negative",
+      "sentiment": "neutral",
       "date": "Sun, 09 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "kosovo s prime minister pelted with eggs in parliament tvp world": {
       "key": "kosovo s prime minister pelted with eggs in parliament tvp world",
@@ -1215,7 +1815,15 @@
       "sentiment": "neutral",
       "date": "Sun, 09 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "from grassroots to policy the case for kosovo international association for suic": {
       "key": "from grassroots to policy the case for kosovo international association for suic",
@@ -1228,10 +1836,18 @@
       "imageAttempts": 2,
       "outlet": "International Association for Suicide Prevention - IASP",
       "country": "SHBA",
-      "sentiment": "neutral",
+      "sentiment": "positive",
       "date": "Wed, 05 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "positive",
+      "stanceReason": "Titulli i artikullit është mbështetës",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "The Case for Kosovo",
+      "confidence": "medium",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "kosovo s acting prime minister pelted with eggs by opposition mp yahoo": {
       "key": "kosovo s acting prime minister pelted with eggs by opposition mp yahoo",
@@ -1247,7 +1863,15 @@
       "sentiment": "neutral",
       "date": "Sun, 09 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "watch opposition lawmaker hurls egg at kosovo s caretaker pm amid political cris": {
       "key": "watch opposition lawmaker hurls egg at kosovo s caretaker pm amid political cris",
@@ -1260,10 +1884,18 @@
       "imageAttempts": 2,
       "outlet": "Firstpost",
       "country": "SHBA",
-      "sentiment": "negative",
+      "sentiment": "neutral",
       "date": "Sun, 09 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "global law in action strengthens ties between kosovo and minnesota center for la": {
       "key": "global law in action strengthens ties between kosovo and minnesota center for la",
@@ -1276,10 +1908,18 @@
       "imageAttempts": 2,
       "outlet": "Mitchell Hamline School of Law",
       "country": "SHBA",
-      "sentiment": "neutral",
+      "sentiment": "positive",
       "date": "Tue, 04 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "positive",
+      "stanceReason": "Fjalët e vetë mediumit tregojnë mbështetje për Kosovën",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "strengthens ties",
+      "confidence": "medium",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "opposition mp hurls eggs at kosovo prime minister al jazeera": {
       "key": "opposition mp hurls eggs at kosovo prime minister al jazeera",
@@ -1295,7 +1935,15 @@
       "sentiment": "neutral",
       "date": "Sat, 08 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "kosovo s acting pm egged in parliament news cgtn com": {
       "key": "kosovo s acting pm egged in parliament news cgtn com",
@@ -1311,7 +1959,15 @@
       "sentiment": "neutral",
       "date": "Sun, 09 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "mp eggs kosovo s pm in parliament as political crisis worsens intellinews": {
       "key": "mp eggs kosovo s pm in parliament as political crisis worsens intellinews",
@@ -1324,10 +1980,18 @@
       "imageAttempts": 2,
       "outlet": "IntelliNews",
       "country": "SHBA",
-      "sentiment": "negative",
+      "sentiment": "neutral",
       "date": "Sun, 09 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "in kosovo an mp throws eggs at the prime minister video наша ніва": {
       "key": "in kosovo an mp throws eggs at the prime minister video наша ніва",
@@ -1343,7 +2007,15 @@
       "sentiment": "neutral",
       "date": "Sun, 09 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "a female mp in kosovo threw eggs at the prime minister amid a political crisis у": {
       "key": "a female mp in kosovo threw eggs at the prime minister amid a political crisis у",
@@ -1356,10 +2028,18 @@
       "imageAttempts": 2,
       "outlet": "Українські Національні Новини (УНН)",
       "country": "SHBA",
-      "sentiment": "negative",
+      "sentiment": "neutral",
       "date": "Sun, 09 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i rëndë, i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "watch eggs thrown in parliament as protest spirals out of control israel nationa": {
       "key": "watch eggs thrown in parliament as protest spirals out of control israel nationa",
@@ -1372,10 +2052,18 @@
       "imageAttempts": 2,
       "outlet": "Israel National News",
       "country": "SHBA",
-      "sentiment": "negative",
+      "sentiment": "neutral",
       "date": "Sun, 09 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i rëndë, i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "forensic teams search a suspected mass grave from the kosovo war ap news": {
       "key": "forensic teams search a suspected mass grave from the kosovo war ap news",
@@ -1388,10 +2076,18 @@
       "imageAttempts": 2,
       "outlet": "AP News",
       "country": "SHBA",
-      "sentiment": "negative",
+      "sentiment": "neutral",
       "date": "Thu, 30 Ju",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i rëndë, i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "kosovo removes ukrainian flag after zelensky s declaration of non recognition al": {
       "key": "kosovo removes ukrainian flag after zelensky s declaration of non recognition al",
@@ -1404,10 +2100,18 @@
       "imageAttempts": 2,
       "outlet": "KOHA.net",
       "country": "SHBA",
-      "sentiment": "negative",
+      "sentiment": "neutral",
       "date": "Sun, 09 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "kosovo s acting prime minister pelted with eggs by opposition the independent": {
       "key": "kosovo s acting prime minister pelted with eggs by opposition the independent",
@@ -1423,7 +2127,15 @@
       "sentiment": "neutral",
       "date": "Sun, 09 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i rëndë, i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "pristina removes free ukraine banner after zelenskyy visits serbia the new voice": {
       "key": "pristina removes free ukraine banner after zelenskyy visits serbia the new voice",
@@ -1436,10 +2148,18 @@
       "imageAttempts": 2,
       "outlet": "The New Voice of Ukraine",
       "country": "SHBA",
-      "sentiment": "negative",
+      "sentiment": "neutral",
       "date": "Sun, 09 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "vucic backs ukraine s eu bid as zelenskyy reaffirms kosovo stance novinite com": {
       "key": "vucic backs ukraine s eu bid as zelenskyy reaffirms kosovo stance novinite com",
@@ -1455,7 +2175,15 @@
       "sentiment": "neutral",
       "date": "Sun, 09 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "in pristina a banner with the ukrainian flag was removed respect for kosovo s so": {
       "key": "in pristina a banner with the ukrainian flag was removed respect for kosovo s so",
@@ -1468,10 +2196,18 @@
       "imageAttempts": 2,
       "outlet": "Українські Національні Новини (УНН)",
       "country": "SHBA",
-      "sentiment": "negative",
+      "sentiment": "neutral",
       "date": "Sun, 09 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "kosovo s acting prime minister pelted with eggs by opposition aol com": {
       "key": "kosovo s acting prime minister pelted with eggs by opposition aol com",
@@ -1487,7 +2223,15 @@
       "sentiment": "neutral",
       "date": "Sun, 09 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "egg attack in kosovo parliament albin kurti faces opposition fury amid governmen": {
       "key": "egg attack in kosovo parliament albin kurti faces opposition fury amid governmen",
@@ -1500,10 +2244,18 @@
       "imageAttempts": 2,
       "outlet": "The Times of India",
       "country": "SHBA",
-      "sentiment": "negative",
+      "sentiment": "neutral",
       "date": "Sun, 09 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "serbian minister backs ethnic cleansing of kosovo genocide watch": {
       "key": "serbian minister backs ethnic cleansing of kosovo genocide watch",
@@ -1516,10 +2268,18 @@
       "imageAttempts": 2,
       "outlet": "Genocide Watch",
       "country": "SHBA",
-      "sentiment": "neutral",
+      "sentiment": "negative",
       "date": "Mon, 20 Ju",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "negative",
+      "stanceReason": "Fjala e mediumit e kundër Kosovës",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "Backs ‘Ethnic Cleansing’ of Kosovo",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "lawmaker hurls eggs at kosovo s acting pm modern ghana": {
       "key": "lawmaker hurls eggs at kosovo s acting pm modern ghana",
@@ -1535,7 +2295,15 @@
       "sentiment": "neutral",
       "date": "Sun, 09 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "zelenskyy explained ukraine s position on kosovo ua news": {
       "key": "zelenskyy explained ukraine s position on kosovo ua news",
@@ -1551,7 +2319,15 @@
       "sentiment": "neutral",
       "date": "Sat, 08 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "video ukrainian flag removed in kosovo s capital calls for respect ua news": {
       "key": "video ukrainian flag removed in kosovo s capital calls for respect ua news",
@@ -1567,7 +2343,15 @@
       "sentiment": "neutral",
       "date": "Sun, 09 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "video a female lawmaker in kosovo s parliament pelted the prime minister with eg": {
       "key": "video a female lawmaker in kosovo s parliament pelted the prime minister with eg",
@@ -1583,7 +2367,15 @@
       "sentiment": "neutral",
       "date": "Sun, 09 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "kosovo s sunny hill festival 2026 features katy perry esdeekid and more the fade": {
       "key": "kosovo s sunny hill festival 2026 features katy perry esdeekid and more the fade",
@@ -1596,10 +2388,18 @@
       "imageAttempts": 2,
       "outlet": "The Fader",
       "country": "SHBA",
-      "sentiment": "neutral",
+      "sentiment": "positive",
       "date": "Mon, 27 Ju",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "positive",
+      "stanceReason": "Artikull me ton pozitiv dhe promovues",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "Sunny Hill Festival 2026 features Katy Perry, EsDeeKid, and more",
+      "confidence": "medium",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "kosovo opposition lawmaker hurls eggs at caretaker pm in parliament amid politic": {
       "key": "kosovo opposition lawmaker hurls eggs at caretaker pm in parliament amid politic",
@@ -1612,10 +2412,18 @@
       "imageAttempts": 2,
       "outlet": "Nepalnews.com",
       "country": "SHBA",
-      "sentiment": "negative",
+      "sentiment": "neutral",
       "date": "Sun, 09 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "kosovo pm pelted with eggs during parliamentary session rbc ukraine": {
       "key": "kosovo pm pelted with eggs during parliamentary session rbc ukraine",
@@ -1631,7 +2439,15 @@
       "sentiment": "neutral",
       "date": "Sun, 09 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "albania to zelensky in serbia serves ukraine s interests kosovo has its own real": {
       "key": "albania to zelensky in serbia serves ukraine s interests kosovo has its own real",
@@ -1644,10 +2460,18 @@
       "imageAttempts": 2,
       "outlet": "KOHA.net",
       "country": "SHBA",
-      "sentiment": "negative",
+      "sentiment": "neutral",
       "date": "Sun, 09 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "11 000 home visits thousands of heartbeats one mission unicef": {
       "key": "11 000 home visits thousands of heartbeats one mission unicef",
@@ -1663,7 +2487,15 @@
       "sentiment": "neutral",
       "date": "Fri, 07 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i mirë, i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "kosovo parliament erupts as opposition mp throws eggs at acting pm albin kurti v": {
       "key": "kosovo parliament erupts as opposition mp throws eggs at acting pm albin kurti v",
@@ -1679,7 +2511,15 @@
       "sentiment": "neutral",
       "date": "Sun, 09 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "kosovo s acting pm egged in parliament worldnow modern ghana": {
       "key": "kosovo s acting pm egged in parliament worldnow modern ghana",
@@ -1695,7 +2535,15 @@
       "sentiment": "neutral",
       "date": "Sun, 09 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "in kosovo childcare vouchers help kids learn and mothers work world bank group": {
       "key": "in kosovo childcare vouchers help kids learn and mothers work world bank group",
@@ -1708,10 +2556,18 @@
       "imageAttempts": 2,
       "outlet": "World Bank Group",
       "country": "SHBA",
-      "sentiment": "negative",
+      "sentiment": "positive",
       "date": "Thu, 30 Ju",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "positive",
+      "stanceReason": "Lajm i mirë, i raportuar në mënyrë pozitive",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "Help Kids Learn and Mothers Work",
+      "confidence": "medium",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "kosovo lawmaker throws eggs at acting prime minister modern ghana": {
       "key": "kosovo lawmaker throws eggs at acting prime minister modern ghana",
@@ -1727,7 +2583,15 @@
       "sentiment": "neutral",
       "date": "Sat, 08 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "in playing kosovo card serbian students risk losing liberals in snap polls balka": {
       "key": "in playing kosovo card serbian students risk losing liberals in snap polls balka",
@@ -1743,7 +2607,15 @@
       "sentiment": "neutral",
       "date": "Wed, 05 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "kosovo parliament showdown eggs thrown at acting pm albin kurti by opposition la": {
       "key": "kosovo parliament showdown eggs thrown at acting pm albin kurti by opposition la",
@@ -1759,7 +2631,15 @@
       "sentiment": "neutral",
       "date": "Sun, 09 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "kosovo with two athletes at the european championships koha net": {
       "key": "kosovo with two athletes at the european championships koha net",
@@ -1775,7 +2655,15 @@
       "sentiment": "neutral",
       "date": "Sun, 09 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "more remains found as kosovo mass grave search widens arab news": {
       "key": "more remains found as kosovo mass grave search widens arab news",
@@ -1791,7 +2679,15 @@
       "sentiment": "neutral",
       "date": "Tue, 04 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i rëndë, i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "kosovo surpasses regional countries in number of athletes at mediterranean games": {
       "key": "kosovo surpasses regional countries in number of athletes at mediterranean games",
@@ -1807,7 +2703,15 @@
       "sentiment": "neutral",
       "date": "Sun, 09 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i mirë, i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "two wins and four losses for kosovo u18 in european c koha net": {
       "key": "two wins and four losses for kosovo u18 in european c koha net",
@@ -1820,10 +2724,18 @@
       "imageAttempts": 2,
       "outlet": "KOHA.net",
       "country": "SHBA",
-      "sentiment": "positive",
+      "sentiment": "neutral",
       "date": "Sun, 09 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "kosovo delays speaker s election amid coalition talks uncertainty balkan insight": {
       "key": "kosovo delays speaker s election amid coalition talks uncertainty balkan insight",
@@ -1839,7 +2751,15 @@
       "sentiment": "neutral",
       "date": "Thu, 06 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "opposition lawmaker throws eggs at kosovo s acting pm albin kurti at parliamenta": {
       "key": "opposition lawmaker throws eggs at kosovo s acting pm albin kurti at parliamenta",
@@ -1855,7 +2775,15 @@
       "sentiment": "neutral",
       "date": "Sat, 08 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "kfor rc e supports local veterinary clinic through donation surgery image 6 of 6": {
       "key": "kfor rc e supports local veterinary clinic through donation surgery image 6 of 6",
@@ -1868,10 +2796,18 @@
       "imageAttempts": 2,
       "outlet": "DVIDS",
       "country": "SHBA",
-      "sentiment": "positive",
+      "sentiment": "neutral",
       "date": "Thu, 06 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "we regret kosovo remains steadfast konjufca responds to zelensky cna al": {
       "key": "we regret kosovo remains steadfast konjufca responds to zelensky cna al",
@@ -1887,7 +2823,15 @@
       "sentiment": "neutral",
       "date": "Sun, 09 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Fjalia është citim i Konjufcës",
+      "isQuote": true,
+      "speaker": "Konjufca",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "kosovo detains third suspect as mass grave probe expands in north balkan insight": {
       "key": "kosovo detains third suspect as mass grave probe expands in north balkan insight",
@@ -1903,7 +2847,15 @@
       "sentiment": "neutral",
       "date": "Tue, 04 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "moment opposition mp throws eggs at kosovo s acting pm albin kurti at parliament": {
       "key": "moment opposition mp throws eggs at kosovo s acting pm albin kurti at parliament",
@@ -1919,7 +2871,15 @@
       "sentiment": "neutral",
       "date": "Sat, 08 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "kosovan lawmaker hurls eggs at the prime minister video the guardian": {
       "key": "kosovan lawmaker hurls eggs at the prime minister video the guardian",
@@ -1935,7 +2895,15 @@
       "sentiment": "neutral",
       "date": "Sat, 08 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i pazakonshëm, i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "in kosovo an mp throws eggs at the prime minister video nashaniva com": {
       "key": "in kosovo an mp throws eggs at the prime minister video nashaniva com",
@@ -1951,7 +2919,15 @@
       "sentiment": "neutral",
       "date": "Sun, 09 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i pazakonshëm, i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "kosovo parliament chaos oppn mp throws eggs at acting pm albin kurti amid politi": {
       "key": "kosovo parliament chaos oppn mp throws eggs at acting pm albin kurti amid politi",
@@ -1967,7 +2943,15 @@
       "sentiment": "neutral",
       "date": "Sun, 09 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i pazakonshëm, i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "lawmaker throws eggs at acting prime minister in kosovo fox news": {
       "key": "lawmaker throws eggs at acting prime minister in kosovo fox news",
@@ -1983,7 +2967,15 @@
       "sentiment": "neutral",
       "date": "Sun, 09 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i pazakonshëm, i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "foreign tourist overnights in kosovo up 13 y y in june seenews": {
       "key": "foreign tourist overnights in kosovo up 13 y y in june seenews",
@@ -1999,7 +2991,15 @@
       "sentiment": "neutral",
       "date": "Fri, 07 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i mirë, i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "can hibs recover from calamity in kosovo bbc": {
       "key": "can hibs recover from calamity in kosovo bbc",
@@ -2015,7 +3015,15 @@
       "sentiment": "neutral",
       "date": "Thu, 23 Ju",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm sportiv, i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "mp throws four eggs at kosovo s prime minister in parliament views bangladesh": {
       "key": "mp throws four eggs at kosovo s prime minister in parliament views bangladesh",
@@ -2028,10 +3036,18 @@
       "imageAttempts": 2,
       "outlet": "Views Bangladesh",
       "country": "Britani",
-      "sentiment": "negative",
+      "sentiment": "neutral",
       "date": "Sun, 09 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i rëndë, i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "kosovo favorable environment for banks fees increase koha net": {
       "key": "kosovo favorable environment for banks fees increase koha net",
@@ -2044,10 +3060,18 @@
       "imageAttempts": 2,
       "outlet": "KOHA.net",
       "country": "Britani",
-      "sentiment": "negative",
+      "sentiment": "neutral",
       "date": "Sun, 09 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "eu osce missions criticise kosovo s demolition of serb owned villas balkan insig": {
       "key": "eu osce missions criticise kosovo s demolition of serb owned villas balkan insig",
@@ -2063,7 +3087,15 @@
       "sentiment": "neutral",
       "date": "Wed, 22 Ju",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "pioneering local deliberative democracy citizens assembly simulation held in kos": {
       "key": "pioneering local deliberative democracy citizens assembly simulation held in kos",
@@ -2076,10 +3108,18 @@
       "imageAttempts": 2,
       "outlet": "coe.int",
       "country": "Britani",
-      "sentiment": "neutral",
+      "sentiment": "positive",
       "date": "Fri, 24 Ju",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "positive",
+      "stanceReason": "Zëri i mediumit është mbështetës dhe admirues",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "Pioneering local deliberative democracy",
+      "confidence": "medium",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "interview kosovo deserves more from the eu says envoy euractiv com": {
       "key": "interview kosovo deserves more from the eu says envoy euractiv com",
@@ -2095,7 +3135,15 @@
       "sentiment": "neutral",
       "date": "Fri, 24 Ju",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Raporton qëndrimin e një ambasadori",
+      "isQuote": true,
+      "speaker": "envoy",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "nation s parliament descends into chaos news com au": {
       "key": "nation s parliament descends into chaos news com au",
@@ -2111,7 +3159,15 @@
       "sentiment": "neutral",
       "date": "Sun, 09 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i rëndë, i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "honte à vous une députée lance des œufs sur le premier ministre du kosovo en ple": {
       "key": "honte à vous une députée lance des œufs sur le premier ministre du kosovo en ple",
@@ -2127,7 +3183,15 @@
       "sentiment": "neutral",
       "date": "Sat, 08 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "selon volodymyr zelensky la position de l ukraine sur le kosovo reste inchangée ": {
       "key": "selon volodymyr zelensky la position de l ukraine sur le kosovo reste inchangée ",
@@ -2143,7 +3207,15 @@
       "sentiment": "neutral",
       "date": "Sat, 08 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "il tentait de retarder un vote crucial au kosovo une députée lance des oeufs sur": {
       "key": "il tentait de retarder un vote crucial au kosovo une députée lance des oeufs sur",
@@ -2159,7 +3231,15 @@
       "sentiment": "neutral",
       "date": "Sat, 08 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "kosovo le verdict contre hashim thaçi et ses co accusés reporté au 16 septembre ": {
       "key": "kosovo le verdict contre hashim thaçi et ses co accusés reporté au 16 septembre ",
@@ -2175,7 +3255,15 @@
       "sentiment": "neutral",
       "date": "Thu, 06 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "le kosovo retire le drapeau ukrainien après la déclaration de non reconnaissance": {
       "key": "le kosovo retire le drapeau ukrainien après la déclaration de non reconnaissance",
@@ -2188,10 +3276,18 @@
       "imageAttempts": 2,
       "outlet": "KOHA.net",
       "country": "Francë",
-      "sentiment": "negative",
+      "sentiment": "neutral",
       "date": "Sun, 09 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "deux présumées fosses communes découvertes en l espace de trois jours dans le no": {
       "key": "deux présumées fosses communes découvertes en l espace de trois jours dans le no",
@@ -2207,7 +3303,15 @@
       "sentiment": "neutral",
       "date": "Tue, 04 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "destination francophonie au kosovo france tv": {
       "key": "destination francophonie au kosovo france tv",
@@ -2223,7 +3327,15 @@
       "sentiment": "neutral",
       "date": "Mon, 03 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i thjeshtë, pa koment",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "le rôle de l otan au kosovo north atlantic treaty organization nato": {
       "key": "le rôle de l otan au kosovo north atlantic treaty organization nato",
@@ -2239,7 +3351,15 @@
       "sentiment": "neutral",
       "date": "Fri, 19 Ju",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Raportim i thjeshtë, pa koment",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "kosovo environnement favorable aux banques hausse des frais koha net": {
       "key": "kosovo environnement favorable aux banques hausse des frais koha net",
@@ -2252,10 +3372,18 @@
       "imageAttempts": 2,
       "outlet": "KOHA.net",
       "country": "Francë",
-      "sentiment": "negative",
+      "sentiment": "neutral",
       "date": "Sun, 09 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Raportim i thjeshtë, pa koment",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "deux victoires et quatre défaites pour les moins de 18 ans du kosovo en coupe d ": {
       "key": "deux victoires et quatre défaites pour les moins de 18 ans du kosovo en coupe d ",
@@ -2271,7 +3399,15 @@
       "sentiment": "neutral",
       "date": "Sun, 09 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Raportim i thjeshtë, pa koment",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "le kosovo surpasse les pays de la région en nombre d athlètes aux jeux méditerra": {
       "key": "le kosovo surpasse les pays de la région en nombre d athlètes aux jeux méditerra",
@@ -2284,10 +3420,18 @@
       "imageAttempts": 2,
       "outlet": "KOHA.net",
       "country": "Francë",
-      "sentiment": "neutral",
+      "sentiment": "positive",
       "date": "Sun, 09 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "positive",
+      "stanceReason": "Toni i ngrohtë, vlerësim për Kosovën",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "surpasse les pays de la région",
+      "confidence": "medium",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "l albanie à zelensky en serbie cela sert les intérêts de l ukraine le kosovo a s": {
       "key": "l albanie à zelensky en serbie cela sert les intérêts de l ukraine le kosovo a s",
@@ -2300,10 +3444,18 @@
       "imageAttempts": 2,
       "outlet": "KOHA.net",
       "country": "Francë",
-      "sentiment": "negative",
+      "sentiment": "neutral",
       "date": "Sun, 09 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Raportim i thjeshtë, pa koment",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "un député ukrainien réagit aux déclarations de zelensky sur le kosovo une erreur": {
       "key": "un député ukrainien réagit aux déclarations de zelensky sur le kosovo une erreur",
@@ -2319,7 +3471,15 @@
       "sentiment": "neutral",
       "date": "Sun, 09 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "une assemblée non constituée ouvre des portes à la diaspora koha net": {
       "key": "une assemblée non constituée ouvre des portes à la diaspora koha net",
@@ -2335,7 +3495,15 @@
       "sentiment": "neutral",
       "date": "Sun, 09 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "j aurais procédé à un nettoyage ethnique au kosovo en 1998 les propos d une mini": {
       "key": "j aurais procédé à un nettoyage ethnique au kosovo en 1998 les propos d une mini",
@@ -2351,7 +3519,15 @@
       "sentiment": "neutral",
       "date": "Tue, 14 Ju",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Fjalia është citim i ministres serbe",
+      "isQuote": true,
+      "speaker": "ministre serbe",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "les habitants de fushë kosovo rencontrent des difficultés en raison des déchets ": {
       "key": "les habitants de fushë kosovo rencontrent des difficultés en raison des déchets ",
@@ -2367,7 +3543,15 @@
       "sentiment": "neutral",
       "date": "Sun, 09 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "guerre du kosovo les charniers de zubin potok enfin fouillés le courrier des bal": {
       "key": "guerre du kosovo les charniers de zubin potok enfin fouillés le courrier des bal",
@@ -2383,7 +3567,15 @@
       "sentiment": "neutral",
       "date": "Tue, 04 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "la france et le kosovo renforcent leur partenariat avec un financement de l afd ": {
       "key": "la france et le kosovo renforcent leur partenariat avec un financement de l afd ",
@@ -2396,10 +3588,18 @@
       "imageAttempts": 2,
       "outlet": "AFD - Agence Française de Développement",
       "country": "Francë",
-      "sentiment": "neutral",
+      "sentiment": "positive",
       "date": "Mon, 27 Ju",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "positive",
+      "stanceReason": "Toni i lajmit është mbështetës",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "renforcent leur partenariat",
+      "confidence": "medium",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "vidéo honte à vous en pleine séance parlementaire une députée de l opposition je": {
       "key": "vidéo honte à vous en pleine séance parlementaire une députée de l opposition je",
@@ -2415,7 +3615,15 @@
       "sentiment": "neutral",
       "date": "Sun, 09 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Raporton një deklaratë të dhënë nga një deputet",
+      "isQuote": true,
+      "speaker": "députée de l’opposition",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "rama le kosovo n est pas la propriété d albin kurti koha net": {
       "key": "rama le kosovo n est pas la propriété d albin kurti koha net",
@@ -2431,7 +3639,15 @@
       "sentiment": "neutral",
       "date": "Sat, 08 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Raporton qëndrimin e Ramës",
+      "isQuote": true,
+      "speaker": "Rama",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "la création d une agence nationale du tourisme est nécessaire sogojeva seul le k": {
       "key": "la création d une agence nationale du tourisme est nécessaire sogojeva seul le k",
@@ -2447,7 +3663,15 @@
       "sentiment": "neutral",
       "date": "Sun, 09 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "les joueurs de volley ball entament leur préparation pour les jeux méditerranéen": {
       "key": "les joueurs de volley ball entament leur préparation pour les jeux méditerranéen",
@@ -2463,7 +3687,15 @@
       "sentiment": "neutral",
       "date": "Sun, 09 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i mirë i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "un avant goût du népal au cœur du kosovo iom storyteller": {
       "key": "un avant goût du népal au cœur du kosovo iom storyteller",
@@ -2476,10 +3708,18 @@
       "imageAttempts": 2,
       "outlet": "IOM Storyteller",
       "country": "Francë",
-      "sentiment": "neutral",
+      "sentiment": "positive",
       "date": "Tue, 23 Ju",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "positive",
+      "stanceReason": "Përshkrim i ngrohtë dhe mikpritës",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "avant-goût du Népal au cœur du Kosovo",
+      "confidence": "medium",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "législatives anticipées au kosovo le parti du premier ministre arrive en tête ma": {
       "key": "législatives anticipées au kosovo le parti du premier ministre arrive en tête ma",
@@ -2495,7 +3735,15 @@
       "sentiment": "neutral",
       "date": "Mon, 08 Ju",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "scène surréaliste au parlement du kosovo une députée lance des œufs sur le premi": {
       "key": "scène surréaliste au parlement du kosovo une députée lance des œufs sur le premi",
@@ -2511,7 +3759,15 @@
       "sentiment": "neutral",
       "date": "Sat, 08 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Raporton një ngjarje pa koment",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "zelensky serbie la position sur la non reconnaissance du kosovo reste inchangée ": {
       "key": "zelensky serbie la position sur la non reconnaissance du kosovo reste inchangée ",
@@ -2527,7 +3783,15 @@
       "sentiment": "neutral",
       "date": "Sat, 08 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Raporton qëndrimin e Serbisë",
+      "isQuote": false,
+      "speaker": "Zelensky",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "kosovo une députée lance des oeufs sur le premier ministre rtl info": {
       "key": "kosovo une députée lance des oeufs sur le premier ministre rtl info",
@@ -2543,7 +3807,15 @@
       "sentiment": "neutral",
       "date": "Sun, 09 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Raporton një ngjarje pa koment",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "kosovo sept dépouilles retrouvées dans une fosse commune de la guerre des années": {
       "key": "kosovo sept dépouilles retrouvées dans une fosse commune de la guerre des années",
@@ -2559,7 +3831,15 @@
       "sentiment": "neutral",
       "date": "Sat, 01 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Raporton një ngjarje pa koment",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "qualité de l air en kosovo iqair": {
       "key": "qualité de l air en kosovo iqair",
@@ -2575,7 +3855,15 @@
       "sentiment": "neutral",
       "date": "Wed, 24 Ju",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Raporton një temë pa koment",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "kosovo des équipes médico légales fouillent un site qui abriterait une fosse com": {
       "key": "kosovo des équipes médico légales fouillent un site qui abriterait une fosse com",
@@ -2591,7 +3879,15 @@
       "sentiment": "neutral",
       "date": "Wed, 29 Ju",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Raporton një ngjarje pa koment",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "le kosovo figé dans une impasse politique organise de nouvelles élections législ": {
       "key": "le kosovo figé dans une impasse politique organise de nouvelles élections législ",
@@ -2607,7 +3903,15 @@
       "sentiment": "neutral",
       "date": "Sun, 07 Ju",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "albanie kosovo effectifs moins de 17 ans féminines 2027 uefa com": {
       "key": "albanie kosovo effectifs moins de 17 ans féminines 2027 uefa com",
@@ -2620,10 +3924,18 @@
       "imageAttempts": 2,
       "outlet": "UEFA.com",
       "country": "Francë",
-      "sentiment": "negative",
+      "sentiment": "neutral",
       "date": "Fri, 31 Ju",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Informacion sportiv i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "kosovo sept dépouilles retrouvées dans une fosse commune datant de la guerre des": {
       "key": "kosovo sept dépouilles retrouvées dans une fosse commune datant de la guerre des",
@@ -2639,7 +3951,15 @@
       "sentiment": "neutral",
       "date": "Sat, 01 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i rëndë i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "la minuk incarne à pristina les valeurs de la charte france onu": {
       "key": "la minuk incarne à pristina les valeurs de la charte france onu",
@@ -2652,10 +3972,18 @@
       "imageAttempts": 2,
       "outlet": "France ONU",
       "country": "Francë",
-      "sentiment": "neutral",
+      "sentiment": "positive",
       "date": "Thu, 09 Ap",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "positive",
+      "stanceReason": "Toni i shkruar është mbështetës",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "incarne les valeurs de la Charte",
+      "confidence": "medium",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "l otan annonce une réduction de sa présence militaire au kosovo franceinfo": {
       "key": "l otan annonce une réduction de sa présence militaire au kosovo franceinfo",
@@ -2671,7 +3999,15 @@
       "sentiment": "neutral",
       "date": "Fri, 12 Ju",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "albanie kosovo stats moins de 17 ans féminines 2027 uefa com": {
       "key": "albanie kosovo stats moins de 17 ans féminines 2027 uefa com",
@@ -2684,10 +4020,18 @@
       "imageAttempts": 2,
       "outlet": "UEFA.com",
       "country": "Francë",
-      "sentiment": "negative",
+      "sentiment": "neutral",
       "date": "Fri, 31 Ju",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Informacion sportiv i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "l europe centrale atteint des niveaux exceptionnels de sécheresse 20 minutes": {
       "key": "l europe centrale atteint des niveaux exceptionnels de sécheresse 20 minutes",
@@ -2703,7 +4047,15 @@
       "sentiment": "neutral",
       "date": "Mon, 20 Ju",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i rëndë, i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "au kosovo l histoire chantée des albanais arte tv": {
       "key": "au kosovo l histoire chantée des albanais arte tv",
@@ -2716,10 +4068,18 @@
       "imageAttempts": 2,
       "outlet": "Arte.tv",
       "country": "Francë",
-      "sentiment": "negative",
+      "sentiment": "positive",
       "date": "Tue, 05 Ma",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "positive",
+      "stanceReason": "Dokumentar kulturor me ton respektues",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "l’histoire chantée des Albanais",
+      "confidence": "medium",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "kosovo début du procès par contumace de 21 serbes accusés du massacre de racak f": {
       "key": "kosovo début du procès par contumace de 21 serbes accusés du massacre de racak f",
@@ -2735,7 +4095,15 @@
       "sentiment": "neutral",
       "date": "Fri, 31 Ju",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "le kosovo échoue encore à élire un président et doit organiser de nouvelles élec": {
       "key": "le kosovo échoue encore à élire un président et doit organiser de nouvelles élec",
@@ -2751,7 +4119,15 @@
       "sentiment": "neutral",
       "date": "Wed, 29 Ap",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "les perspectives de coopération entre l arménie et le kosovo ont été discutées վ": {
       "key": "les perspectives de coopération entre l arménie et le kosovo ont été discutées վ",
@@ -2767,7 +4143,15 @@
       "sentiment": "neutral",
       "date": "Sun, 03 Ma",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "le kosovo a besoin d un président qui soit guidé par la justice et non par des c": {
       "key": "le kosovo a besoin d un président qui soit guidé par la justice et non par des c",
@@ -2780,10 +4164,18 @@
       "imageAttempts": 2,
       "outlet": "KOHA.net",
       "country": "Francë",
-      "sentiment": "neutral",
+      "sentiment": "positive",
       "date": "Tue, 04 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "positive",
+      "stanceReason": "Zëri i mediumit është mbështetës",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "guidé par la justice",
+      "confidence": "medium",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2
     },
     "kosovo sept dépouilles de kosovars albanais retrouvées dans un charnier datant d": {
       "key": "kosovo sept dépouilles de kosovars albanais retrouvées dans un charnier datant d",
@@ -2796,10 +4188,18 @@
       "imageAttempts": 2,
       "outlet": "Sud Ouest",
       "country": "Francë",
-      "sentiment": "negative",
+      "sentiment": "neutral",
       "date": "Sat, 01 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike pa gjuhë ngarkuar",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "openai/gpt-oss-120b",
+      "stanceVersion": 2
     },
     "kosovo fédération française de handball": {
       "key": "kosovo fédération française de handball",
@@ -2815,7 +4215,15 @@
       "sentiment": "neutral",
       "date": "Thu, 09 Ap",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i thjeshtë faktik pa ndonjë ton pozitiv apo negativ",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "openai/gpt-oss-120b",
+      "stanceVersion": 2
     },
     "kosovo les roms toujours exclus de l éducation et du marché du travail le courri": {
       "key": "kosovo les roms toujours exclus de l éducation et du marché du travail le courri",
@@ -2831,7 +4239,15 @@
       "sentiment": "neutral",
       "date": "Sat, 27 Ju",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Raportim neutral i diskriminimit, pa gjuhë ngarkuar nga media",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "openai/gpt-oss-120b",
+      "stanceVersion": 2
     },
     "au kosovo des élections législatives anticipées convoquées le 7 juin le monde fr": {
       "key": "au kosovo des élections législatives anticipées convoquées le 7 juin le monde fr",
@@ -2847,7 +4263,15 @@
       "sentiment": "neutral",
       "date": "Thu, 30 Ap",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Informim faktik për zgjedhjet, pa ton negativ apo pozitiv",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "openai/gpt-oss-120b",
+      "stanceVersion": 2
     },
     "au kosovo la formation du premier ministre remporte les nouvelles législatives a": {
       "key": "au kosovo la formation du premier ministre remporte les nouvelles législatives a",
@@ -2863,7 +4287,15 @@
       "sentiment": "neutral",
       "date": "Mon, 08 Ju",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Raportim neutral i rezultateve të zgjedhjeve, pa gjuhë ngarkuar",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "openai/gpt-oss-120b",
+      "stanceVersion": 2
     },
     "au kosovo le voile de la discorde libération": {
       "key": "au kosovo le voile de la discorde libération",
@@ -2876,10 +4308,18 @@
       "imageAttempts": 2,
       "outlet": "Libération",
       "country": "Francë",
-      "sentiment": "neutral",
+      "sentiment": "negative",
       "date": "Sat, 13 Ju",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "negative",
+      "stanceReason": "Fjalët e vetë mediumit i paraqesin Kosovën si të mbuluar nga mërzia, ton negativ",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "le voile du discorde",
+      "confidence": "high",
+      "model": "openai/gpt-oss-120b",
+      "stanceVersion": 2
     },
     "kosovo apporter la foi à ceux qui ont perdu leurs racines chrétiennes vatican ne": {
       "key": "kosovo apporter la foi à ceux qui ont perdu leurs racines chrétiennes vatican ne",
@@ -2895,7 +4335,15 @@
       "sentiment": "neutral",
       "date": "Sun, 31 Ma",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Raportim faktik, citim brenda «»",
+      "isQuote": true,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "openai/gpt-oss-120b",
+      "stanceVersion": 2
     },
     "au kosovo la présidente du parlement albulena haxhiu devient présidente par inté": {
       "key": "au kosovo la présidente du parlement albulena haxhiu devient présidente par inté",
@@ -2911,7 +4359,15 @@
       "sentiment": "neutral",
       "date": "Sat, 04 Ap",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i thjeshte, pa gjuhe ngarkuar",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "openai/gpt-oss-120b",
+      "stanceVersion": 2
     },
     "albanie kosovo moins de 17 ans féminines 2027 uefa com": {
       "key": "albanie kosovo moins de 17 ans féminines 2027 uefa com",
@@ -2924,10 +4380,18 @@
       "imageAttempts": 2,
       "outlet": "UEFA.com",
       "country": "Francë",
-      "sentiment": "negative",
+      "sentiment": "neutral",
       "date": "Fri, 31 Ju",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm sportiv i raportuar ne menyre faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "openai/gpt-oss-120b",
+      "stanceVersion": 2
     },
     "kosovo contre le chômage des jeunes la promesse d emploi dans l informatique la ": {
       "key": "kosovo contre le chômage des jeunes la promesse d emploi dans l informatique la ",
@@ -2940,10 +4404,18 @@
       "imageAttempts": 2,
       "outlet": "La Croix",
       "country": "Francë",
-      "sentiment": "neutral",
+      "sentiment": "positive",
       "date": "Tue, 21 Ju",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "positive",
+      "stanceReason": "Ton mbeshtetes, vlereson iniciativen per punesim te rinoreve",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "la promesse d’emploi dans l’informatique",
+      "confidence": "high",
+      "model": "openai/gpt-oss-120b",
+      "stanceVersion": 2
     },
     "kosovo de nouveaux restes découverts les recherches de fosses communes se poursu": {
       "key": "kosovo de nouveaux restes découverts les recherches de fosses communes se poursu",
@@ -2959,7 +4431,15 @@
       "sentiment": "neutral",
       "date": "Tue, 04 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i rende, i raportuar ne menyre faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "openai/gpt-oss-120b",
+      "stanceVersion": 2
     },
     "la présidente du parlement du kosovo devient présidente par intérim 20 minutes": {
       "key": "la présidente du parlement du kosovo devient présidente par intérim 20 minutes",
@@ -2975,7 +4455,15 @@
       "sentiment": "neutral",
       "date": "Sat, 04 Ap",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i thjeshte, pa gjuhe ngarkuar",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "openai/gpt-oss-120b",
+      "stanceVersion": 2
     },
     "kosovo nouvelles découvertes macabres 4 corps retrouvés dans un charnier 20 minu": {
       "key": "kosovo nouvelles découvertes macabres 4 corps retrouvés dans un charnier 20 minu",
@@ -2991,7 +4479,15 @@
       "sentiment": "neutral",
       "date": "Tue, 04 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Faktik raportim i gjetjeve të tmerrshme, pa gjuhë kundërshtuese ndaj Kosovës",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "nouvelles découvertes macabres",
+      "confidence": "high",
+      "model": "openai/gpt-oss-120b",
+      "stanceVersion": 2
     },
     "une députée lance des oeufs sur le premier ministre kosovar en pleine session pa": {
       "key": "une députée lance des oeufs sur le premier ministre kosovar en pleine session pa",
@@ -3007,7 +4503,15 @@
       "sentiment": "neutral",
       "date": "Sat, 08 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Raportim faktik i incidentit pa gjuhë ngjituese ndaj Kosovës",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "Une députée lance des oeufs",
+      "confidence": "high",
+      "model": "openai/gpt-oss-120b",
+      "stanceVersion": 2
     },
     "titre seo chambres spécialisées du kosovo un implacable réquisitoire contre thaç": {
       "key": "titre seo chambres spécialisées du kosovo un implacable réquisitoire contre thaç",
@@ -3023,7 +4527,15 @@
       "sentiment": "neutral",
       "date": "Fri, 13 Fe",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Fjalë të ashpra për individë, jo për shtetin e Kosovës",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "un implacable réquisitoire",
+      "confidence": "medium",
+      "model": "openai/gpt-oss-120b",
+      "stanceVersion": 2
     },
     "edff 5e tour qualifications ehf euro 2026 présentation de kosovo france fédérati": {
       "key": "edff 5e tour qualifications ehf euro 2026 présentation de kosovo france fédérati",
@@ -3039,7 +4551,15 @@
       "sentiment": "neutral",
       "date": "Wed, 08 Ap",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Informim faktik për pjesëmarrjen sportive, pa gjuhë pozitive apo negative",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "PRÉSENTATION DE KOSOVO",
+      "confidence": "high",
+      "model": "openai/gpt-oss-120b",
+      "stanceVersion": 2
     },
     "la formation d albin kurti remporte les législatives anticipées au kosovo sans m": {
       "key": "la formation d albin kurti remporte les législatives anticipées au kosovo sans m",
@@ -3055,7 +4575,15 @@
       "sentiment": "neutral",
       "date": "Sun, 07 Ju",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Raportim neutral i rezultateve zgjedhore në Kosovë",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "remporte les législatives anticipées",
+      "confidence": "high",
+      "model": "openai/gpt-oss-120b",
+      "stanceVersion": 2
     },
     "kosovo deputata lancia uova contro il premier kurti in aula sky tg24": {
       "key": "kosovo deputata lancia uova contro il premier kurti in aula sky tg24",
@@ -3071,7 +4599,15 @@
       "sentiment": "neutral",
       "date": "Sat, 08 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Raportim faktik i protestës pa gjuhë kundërshtuese ndaj Kosovës",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "deputata lancia uova",
+      "confidence": "high",
+      "model": "openai/gpt-oss-120b",
+      "stanceVersion": 2
     },
     "kosovo deputata lancia uova contro il premier kurti in parlamento corriere della": {
       "key": "kosovo deputata lancia uova contro il premier kurti in parlamento corriere della",
@@ -3087,7 +4623,15 @@
       "sentiment": "neutral",
       "date": "Sun, 09 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Faktikisht raporton veprën pa gjuhë ngarkuar",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "deputata lancia uova contro il premier Kurti",
+      "confidence": "high",
+      "model": "openai/gpt-oss-120b",
+      "stanceVersion": 2
     },
     "kosovo uova contro il premier in parlamento la protesta per lo stallo politico l": {
       "key": "kosovo uova contro il premier in parlamento la protesta per lo stallo politico l",
@@ -3100,10 +4644,18 @@
       "imageAttempts": 2,
       "outlet": "La Stampa",
       "country": "Itali",
-      "sentiment": "negative",
+      "sentiment": "neutral",
       "date": "Sat, 08 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Përshkrim faktik i protestës pa gjuhë ngarkuar",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "la protesta per lo stallo politico",
+      "confidence": "high",
+      "model": "openai/gpt-oss-120b",
+      "stanceVersion": 2
     },
     "kosovo lancio di uova contro il primo ministro e parlamento nel caos tgcom24": {
       "key": "kosovo lancio di uova contro il primo ministro e parlamento nel caos tgcom24",
@@ -3116,10 +4668,18 @@
       "imageAttempts": 2,
       "outlet": "Tgcom24",
       "country": "Itali",
-      "sentiment": "neutral",
+      "sentiment": "negative",
       "date": "Sat, 08 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "negative",
+      "stanceReason": "Përdor fjalë të ngarkuara që portretizojnë parlamentin si i çrregulluar",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "nel caos",
+      "confidence": "high",
+      "model": "openai/gpt-oss-120b",
+      "stanceVersion": 2
     },
     "kosovo uova in faccia al primo ministro kurti il video della protesta di una par": {
       "key": "kosovo uova in faccia al primo ministro kurti il video della protesta di una par",
@@ -3132,10 +4692,18 @@
       "imageAttempts": 2,
       "outlet": "TGLA7",
       "country": "Itali",
-      "sentiment": "negative",
+      "sentiment": "neutral",
       "date": "Sat, 08 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Thjesht raporton ngjarjen pa gjuhë ngarkuar",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "il video della protesta di una parlamentare",
+      "confidence": "high",
+      "model": "openai/gpt-oss-120b",
+      "stanceVersion": 2
     },
     "uova contro il premier in parlamento la protesta choc di una deputata dell oppos": {
       "key": "uova contro il premier in parlamento la protesta choc di una deputata dell oppos",
@@ -3148,10 +4716,18 @@
       "imageAttempts": 2,
       "outlet": "Corriere della Sera",
       "country": "Itali",
-      "sentiment": "negative",
+      "sentiment": "neutral",
       "date": "Sat, 08 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Termi 'choc' përshkruan protestën, jo vendin, prandaj mbetet neutral",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "la protesta choc",
+      "confidence": "medium",
+      "model": "openai/gpt-oss-120b",
+      "stanceVersion": 2
     },
     "deputata lancia uova contro il premier kosovaro in parlamento succede di tutto t": {
       "key": "deputata lancia uova contro il premier kosovaro in parlamento succede di tutto t",
@@ -3164,10 +4740,18 @@
       "imageAttempts": 2,
       "outlet": "today.it",
       "country": "Itali",
-      "sentiment": "neutral",
+      "sentiment": "negative",
       "date": "Sat, 08 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "negative",
+      "stanceReason": "Gjuha 'succede di tutto' sugjeron kaos dhe është ngarkuar kundër institucioneve kosovare",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "in parlamento succede di tutto",
+      "confidence": "medium",
+      "model": "openai/gpt-oss-120b",
+      "stanceVersion": 2
     },
     "tensione al parlamento del kosovo deputata lancia uova contro il premier ansa": {
       "key": "tensione al parlamento del kosovo deputata lancia uova contro il premier ansa",
@@ -3180,10 +4764,18 @@
       "imageAttempts": 2,
       "outlet": "ANSA",
       "country": "Itali",
-      "sentiment": "negative",
+      "sentiment": "neutral",
       "date": "Sun, 09 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Factual report of parliamentary tension without loaded language",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "openai/gpt-oss-120b",
+      "stanceVersion": 2
     },
     "nuove fosse comuni in kosovo è scontro aperto con la serbia avvenire": {
       "key": "nuove fosse comuni in kosovo è scontro aperto con la serbia avvenire",
@@ -3199,7 +4791,15 @@
       "sentiment": "neutral",
       "date": "Wed, 05 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Straightforward reporting of new mass graves and Serbia clash",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "openai/gpt-oss-120b",
+      "stanceVersion": 2
     },
     "kosovo deputata dell opposizione lancia uova contro il premier ad interim kurti ": {
       "key": "kosovo deputata dell opposizione lancia uova contro il premier ad interim kurti ",
@@ -3215,7 +4815,15 @@
       "sentiment": "neutral",
       "date": "Sat, 08 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Plain description of opposition deputy throwing eggs at interim premier",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "openai/gpt-oss-120b",
+      "stanceVersion": 2
     },
     "rse quanto costa al kosovo il blocco del commercio di energia elettrica con la s": {
       "key": "rse quanto costa al kosovo il blocco del commercio di energia elettrica con la s",
@@ -3231,7 +4839,15 @@
       "sentiment": "neutral",
       "date": "Sun, 09 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Neutral question about economic cost of electricity blockade",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "openai/gpt-oss-120b",
+      "stanceVersion": 2
     },
     "kosovo i cavalleggeri di lodi alla guida del regional command west ministero del": {
       "key": "kosovo i cavalleggeri di lodi alla guida del regional command west ministero del",
@@ -3247,7 +4863,15 @@
       "sentiment": "neutral",
       "date": "Mon, 27 Ju",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Objective statement about Italian cavalry leading a regional command in Kosovo",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "openai/gpt-oss-120b",
+      "stanceVersion": 2
     },
     "delle guerre ibride dal kosovo a ceuta rifondazione comunista sinistra europea": {
       "key": "delle guerre ibride dal kosovo a ceuta rifondazione comunista sinistra europea",
@@ -3263,7 +4887,15 @@
       "sentiment": "neutral",
       "date": "Thu, 06 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Generic headline linking Kosovo to broader conflict narrative, no hostile wording",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "openai/gpt-oss-120b",
+      "stanceVersion": 2
     },
     "biennale arte 2026 kosovo repubblica del la biennale di venezia": {
       "key": "biennale arte 2026 kosovo repubblica del la biennale di venezia",
@@ -3279,7 +4911,15 @@
       "sentiment": "neutral",
       "date": "Wed, 06 Ma",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike pa gjuhë ngarkuese",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "openai/gpt-oss-120b",
+      "stanceVersion": 2
     },
     "dal kosovo a trento sku rileva il cafè portici e apre in piazza duomo il suo qui": {
       "key": "dal kosovo a trento sku rileva il cafè portici e apre in piazza duomo il suo qui",
@@ -3295,7 +4935,15 @@
       "sentiment": "neutral",
       "date": "Tue, 04 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Titulli përshkruan faktin e hapjes së një lokali pa gjuhë vete të medias",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "openai/gpt-oss-120b",
+      "stanceVersion": 2
     },
     "video kosovo torna la storica gara di tuffi dal ponte euronews com": {
       "key": "video kosovo torna la storica gara di tuffi dal ponte euronews com",
@@ -3311,7 +4959,15 @@
       "sentiment": "neutral",
       "date": "Mon, 03 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Raportim i thjeshtë i një ngjarjeje historike sportive",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "openai/gpt-oss-120b",
+      "stanceVersion": 2
     },
     "young europeans kosovo week prima edizione padova 11 17 maggio 2026 centro di at": {
       "key": "young europeans kosovo week prima edizione padova 11 17 maggio 2026 centro di at",
@@ -3327,7 +4983,15 @@
       "sentiment": "neutral",
       "date": "Sun, 17 Ma",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Informim për një eveniment pa gjuhë pozitive ose negative nga media",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "openai/gpt-oss-120b",
+      "stanceVersion": 2
     },
     "tension in the kosovo parliament female lawmaker throws eggs at the prime minist": {
       "key": "tension in the kosovo parliament female lawmaker throws eggs at the prime minist",
@@ -3340,10 +5004,18 @@
       "imageAttempts": 2,
       "outlet": "ANSA",
       "country": "Itali",
-      "sentiment": "negative",
+      "sentiment": "neutral",
       "date": "Sun, 09 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Përshkrim i tensionit në parlament pa gjuhë ngarkuese nga media",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "openai/gpt-oss-120b",
+      "stanceVersion": 2
     },
     "l eccidio che insanguinò il kosovo gli agenti serbi arrestati dopo 27 anni corri": {
       "key": "l eccidio che insanguinò il kosovo gli agenti serbi arrestati dopo 27 anni corri",
@@ -3356,10 +5028,18 @@
       "imageAttempts": 2,
       "outlet": "Corriere della Sera",
       "country": "Itali",
-      "sentiment": "negative",
+      "sentiment": "neutral",
       "date": "Tue, 16 Ju",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Titulli përshkruan një ngjarje historike pa gjuhë përçmuesse ndaj Kosovës",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "openai/gpt-oss-120b",
+      "stanceVersion": 2
     },
     "riunito il parlamento del kosovo dopo voto 7 giugno si cerca uno speaker ansa": {
       "key": "riunito il parlamento del kosovo dopo voto 7 giugno si cerca uno speaker ansa",
@@ -3375,7 +5055,15 @@
       "sentiment": "neutral",
       "date": "Thu, 06 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Faktikë raportuar pa ngarkim",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "openai/gpt-oss-120b",
+      "stanceVersion": 2
     },
     "tre fiori prandelli partita tatticamente perfetta per 60 in kosovo per crederci ": {
       "key": "tre fiori prandelli partita tatticamente perfetta per 60 in kosovo per crederci ",
@@ -3391,7 +5079,15 @@
       "sentiment": "neutral",
       "date": "Fri, 07 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Citimi i Prandellit, media nuk shpreh qëndrim",
+      "isQuote": true,
+      "speaker": "Prandelli",
+      "evidence": "",
+      "confidence": "high",
+      "model": "openai/gpt-oss-120b",
+      "stanceVersion": 2
     },
     "kosovo il vescovo gjergji portare la fede a chi ha perso le radici cristiane vat": {
       "key": "kosovo il vescovo gjergji portare la fede a chi ha perso le radici cristiane vat",
@@ -3407,7 +5103,15 @@
       "sentiment": "neutral",
       "date": "Sat, 30 Ma",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Raportim faktik i bishtit fetar",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "openai/gpt-oss-120b",
+      "stanceVersion": 2
     },
     "kosovo rinvenuta seconda fossa comune nel nord del paese euronews com": {
       "key": "kosovo rinvenuta seconda fossa comune nel nord del paese euronews com",
@@ -3423,7 +5127,15 @@
       "sentiment": "neutral",
       "date": "Mon, 03 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i fakteve për varrin e përbashkët",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "openai/gpt-oss-120b",
+      "stanceVersion": 2
     },
     "kosovo l annuale competizione di tuffi dal ponte di fshajt salti nel vuoto da 22": {
       "key": "kosovo l annuale competizione di tuffi dal ponte di fshajt salti nel vuoto da 22",
@@ -3439,7 +5151,15 @@
       "sentiment": "neutral",
       "date": "Sun, 02 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Raportim neutral i garës së sportit",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "openai/gpt-oss-120b",
+      "stanceVersion": 2
     },
     "w17 ehf championships quarta vittoria 29 24 al kosovo e azzurrine in finale 5 6 ": {
       "key": "w17 ehf championships quarta vittoria 29 24 al kosovo e azzurrine in finale 5 6 ",
@@ -3455,7 +5175,15 @@
       "sentiment": "neutral",
       "date": "Thu, 30 Ju",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Raportim neutral i rezultatit sportiv",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "openai/gpt-oss-120b",
+      "stanceVersion": 2
     },
     "in kosovo primi corpi estratti da nuova fossa comune ansa": {
       "key": "in kosovo primi corpi estratti da nuova fossa comune ansa",
@@ -3471,7 +5199,15 @@
       "sentiment": "neutral",
       "date": "Tue, 04 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Factual report of exhumation",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "openai/gpt-oss-120b",
+      "stanceVersion": 2
     },
     "uranio impoverito in kosovo poi il tumore risarcimento da 300mila euro per un ex": {
       "key": "uranio impoverito in kosovo poi il tumore risarcimento da 300mila euro per un ex",
@@ -3487,7 +5223,15 @@
       "sentiment": "neutral",
       "date": "Thu, 16 Ju",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Factual report of health‑related compensation claim",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "openai/gpt-oss-120b",
+      "stanceVersion": 2
     },
     "mhc championship l italia cede il passo alla slovenia contro kosovo e croazia le": {
       "key": "mhc championship l italia cede il passo alla slovenia contro kosovo e croazia le",
@@ -3503,7 +5247,15 @@
       "sentiment": "neutral",
       "date": "Thu, 30 Ju",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Factual schedule of handball matches",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "openai/gpt-oss-120b",
+      "stanceVersion": 2
     },
     "kosovo al voto anticipato per uscire dallo stallo parlamentare vatican news": {
       "key": "kosovo al voto anticipato per uscire dallo stallo parlamentare vatican news",
@@ -3519,7 +5271,15 @@
       "sentiment": "neutral",
       "date": "Sun, 07 Ju",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Factual report of early elections to break deadlock",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "openai/gpt-oss-120b",
+      "stanceVersion": 2
     },
     "cechia kosovo qualificazioni europee 2026 uefa com": {
       "key": "cechia kosovo qualificazioni europee 2026 uefa com",
@@ -3535,7 +5295,15 @@
       "sentiment": "neutral",
       "date": "Sun, 31 Ma",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Listing of a Euro 2026 qualifier match",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "openai/gpt-oss-120b",
+      "stanceVersion": 2
     },
     "belgio kosovo gironi uefa under 17 2027 uefa com": {
       "key": "belgio kosovo gironi uefa under 17 2027 uefa com",
@@ -3551,7 +5319,15 @@
       "sentiment": "neutral",
       "date": "Wed, 22 Ju",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Listing of a UEFA Under‑17 2027 match",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "openai/gpt-oss-120b",
+      "stanceVersion": 2
     },
     "kosovo ritrovati resti umani nel nord del paese potrebbero essere persone scompa": {
       "key": "kosovo ritrovati resti umani nel nord del paese potrebbero essere persone scompa",
@@ -3567,7 +5343,15 @@
       "sentiment": "neutral",
       "date": "Wed, 29 Ju",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "openai/gpt-oss-120b",
+      "stanceVersion": 2
     },
     "koha invece di normalizzare le relazioni tra kosovo e serbia le tensioni aumente": {
       "key": "koha invece di normalizzare le relazioni tra kosovo e serbia le tensioni aumente",
@@ -3580,10 +5364,18 @@
       "imageAttempts": 2,
       "outlet": "KoSSev",
       "country": "Itali",
-      "sentiment": "negative",
+      "sentiment": "neutral",
       "date": "Wed, 05 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Raporton deklaratën e citimit, nuk e përvetëson",
+      "isQuote": true,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "openai/gpt-oss-120b",
+      "stanceVersion": 2
     },
     "il consiglio nomina un nuovo rappresentante speciale dell ue per il kosovo e rin": {
       "key": "il consiglio nomina un nuovo rappresentante speciale dell ue per il kosovo e rin",
@@ -3599,7 +5391,15 @@
       "sentiment": "neutral",
       "date": "Mon, 13 Ju",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "openai/gpt-oss-120b",
+      "stanceVersion": 2
     },
     "elezioni in kosovo vince kurti ma senza maggioranza assoluta sky tg24": {
       "key": "elezioni in kosovo vince kurti ma senza maggioranza assoluta sky tg24",
@@ -3615,7 +5415,15 @@
       "sentiment": "neutral",
       "date": "Sun, 07 Ju",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "openai/gpt-oss-120b",
+      "stanceVersion": 2
     },
     "kosovo andorra qualificazioni europee 2026 uefa com": {
       "key": "kosovo andorra qualificazioni europee 2026 uefa com",
@@ -3631,7 +5439,15 @@
       "sentiment": "neutral",
       "date": "Thu, 21 Ma",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "openai/gpt-oss-120b",
+      "stanceVersion": 2
     },
     "il ministro agli enti locali del kosovo ricevuto dal vicepresidente spinelli uff": {
       "key": "il ministro agli enti locali del kosovo ricevuto dal vicepresidente spinelli uff",
@@ -3647,7 +5463,15 @@
       "sentiment": "neutral",
       "date": "Mon, 29 Ju",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "openai/gpt-oss-120b",
+      "stanceVersion": 2
     },
     "kosovo andorra info partita qualificazioni europee 2026 uefa com": {
       "key": "kosovo andorra info partita qualificazioni europee 2026 uefa com",
@@ -3663,7 +5487,15 @@
       "sentiment": "neutral",
       "date": "Sun, 07 Ju",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Faktik, pa gjuhë ngarkuar, raportim neutral i ngjarjes",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "openai/gpt-oss-120b",
+      "stanceVersion": 2
     },
     "kosovo il primo ministro e il leader dell opposizione alle urne il sole 24 ore": {
       "key": "kosovo il primo ministro e il leader dell opposizione alle urne il sole 24 ore",
@@ -3679,7 +5511,15 @@
       "sentiment": "neutral",
       "date": "Sun, 07 Ju",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Faktik, pa gjuhë ngarkuar, raportim neutral i ngjarjes",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "openai/gpt-oss-120b",
+      "stanceVersion": 2
     },
     "gli azzurrini battono il kosovo 3 0 domani il secondo test match federvolley it": {
       "key": "gli azzurrini battono il kosovo 3 0 domani il secondo test match federvolley it",
@@ -3695,7 +5535,15 @@
       "sentiment": "neutral",
       "date": "Tue, 26 Ma",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Faktik, pa gjuhë ngarkuar, raportim neutral i ngjarjes",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "openai/gpt-oss-120b",
+      "stanceVersion": 2
     },
     "albania macedonia del nord e kosovo luci ombre e stallo sulla via di bruxelles g": {
       "key": "albania macedonia del nord e kosovo luci ombre e stallo sulla via di bruxelles g",
@@ -3708,10 +5556,18 @@
       "imageAttempts": 2,
       "outlet": "Gariwo",
       "country": "Itali",
-      "sentiment": "negative",
+      "sentiment": "neutral",
       "date": "Fri, 08 Ma",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Faktik, pa gjuhë ngarkuar, raportim neutral i ngjarjes",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "openai/gpt-oss-120b",
+      "stanceVersion": 2
     },
     "associazione dei comuni del kosovo contro il progetto di legge sulla proprietà p": {
       "key": "associazione dei comuni del kosovo contro il progetto di legge sulla proprietà p",
@@ -3727,7 +5583,15 @@
       "sentiment": "neutral",
       "date": "Wed, 05 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Faktik, pa gjuhë ngarkuar, raportim neutral i ngjarjes",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "openai/gpt-oss-120b",
+      "stanceVersion": 2
     },
     "indice di qualità dell aria aqi e informazioni sull inquinamento atmosferico in ": {
       "key": "indice di qualità dell aria aqi e informazioni sull inquinamento atmosferico in ",
@@ -3743,7 +5607,15 @@
       "sentiment": "neutral",
       "date": "Tue, 23 Ju",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Faktik, pa gjuhë ngarkuar, raportim neutral i ngjarjes",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "openai/gpt-oss-120b",
+      "stanceVersion": 2
     },
     "missione del vice ministro cirielli in macedonia del nord e in kosovo ministero ": {
       "key": "missione del vice ministro cirielli in macedonia del nord e in kosovo ministero ",
@@ -3759,7 +5631,15 @@
       "sentiment": "neutral",
       "date": "Thu, 09 Ju",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Raportim faktik i misionit dhe vizitës",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "openai/gpt-oss-120b",
+      "stanceVersion": 2
     },
     "la nato ridurrà il contingente kfor in kosovo l italia frena missione indispensa": {
       "key": "la nato ridurrà il contingente kfor in kosovo l italia frena missione indispensa",
@@ -3775,7 +5655,15 @@
       "sentiment": "neutral",
       "date": "Sat, 13 Ju",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Citim i përfshirë, por media raporton në mënyrë neutrale",
+      "isQuote": true,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "openai/gpt-oss-120b",
+      "stanceVersion": 2
     },
     "elezioni kosovo vince kurti ma serve difficile alleanza per governare euronews c": {
       "key": "elezioni kosovo vince kurti ma serve difficile alleanza per governare euronews c",
@@ -3791,7 +5679,15 @@
       "sentiment": "neutral",
       "date": "Sun, 07 Ju",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Lajm i thjeshtë për rezultatet e zgjedhjeve",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "openai/gpt-oss-120b",
+      "stanceVersion": 2
     },
     "kosovo visita dell ordinario militare al contingente italiano di kfor ministero ": {
       "key": "kosovo visita dell ordinario militare al contingente italiano di kfor ministero ",
@@ -3807,7 +5703,15 @@
       "sentiment": "neutral",
       "date": "Tue, 14 Ap",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Raportim i thjeshtë i vizitës së ordinarit",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "openai/gpt-oss-120b",
+      "stanceVersion": 2
     },
     "prístina ritira il suo grande simbolo di supporto all ucraina dopo il rifiuto di": {
       "key": "prístina ritira il suo grande simbolo di supporto all ucraina dopo il rifiuto di",
@@ -3820,10 +5724,18 @@
       "imageAttempts": 2,
       "outlet": "Demócrata",
       "country": "Itali",
-      "sentiment": "positive",
+      "sentiment": "neutral",
       "date": "Sun, 09 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Faktik, pa gjuhë ngacmuese ndaj Kosovës",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "openai/gpt-oss-120b",
+      "stanceVersion": 2
     },
     "elezioni in kosovo quando si vota e chi sono i candidati alle parlamentari sky t": {
       "key": "elezioni in kosovo quando si vota e chi sono i candidati alle parlamentari sky t",
@@ -3839,7 +5751,15 @@
       "sentiment": "neutral",
       "date": "Thu, 04 Ju",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Informacion i thjeshtë për datat dhe kandidatët",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "openai/gpt-oss-120b",
+      "stanceVersion": 2
     },
     "kosovo kurti vince le elezioni ma perde sostegno osservatorio balcani caucaso tr": {
       "key": "kosovo kurti vince le elezioni ma perde sostegno osservatorio balcani caucaso tr",
@@ -3855,7 +5775,15 @@
       "sentiment": "neutral",
       "date": "Mon, 08 Ju",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Faktikisht raportim neutral i ngjarjes",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "openai/gpt-oss-120b",
+      "stanceVersion": 2
     },
     "kosovo albin kurti ha vinto le elezioni rsi": {
       "key": "kosovo albin kurti ha vinto le elezioni rsi",
@@ -3871,7 +5799,15 @@
       "sentiment": "neutral",
       "date": "Sun, 07 Ju",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Faktikisht raportim neutral i ngjarjes",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "openai/gpt-oss-120b",
+      "stanceVersion": 2
     },
     "kosovo l instabilità politica rischia di intaccare l integrazione europea osserv": {
       "key": "kosovo l instabilità politica rischia di intaccare l integrazione europea osserv",
@@ -3887,7 +5823,15 @@
       "sentiment": "neutral",
       "date": "Mon, 01 Ju",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Faktikisht raportim neutral i ngjarjes",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "openai/gpt-oss-120b",
+      "stanceVersion": 2
     },
     "kosovo 18 anni dopo tra il sogno della ue e le tensioni con belgrado il sole 24 ": {
       "key": "kosovo 18 anni dopo tra il sogno della ue e le tensioni con belgrado il sole 24 ",
@@ -3900,10 +5844,18 @@
       "imageAttempts": 2,
       "outlet": "Il Sole 24 ORE",
       "country": "Itali",
-      "sentiment": "negative",
+      "sentiment": "neutral",
       "date": "Mon, 16 Fe",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Faktikisht raportim neutral i ngjarjes",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "openai/gpt-oss-120b",
+      "stanceVersion": 2
     },
     "m20 ehf championship l italia chiude il preliminary round con una sconfitta e sf": {
       "key": "m20 ehf championship l italia chiude il preliminary round con una sconfitta e sf",
@@ -3919,7 +5871,15 @@
       "sentiment": "neutral",
       "date": "Sat, 18 Ju",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Faktikisht raportim neutral i ngjarjes",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "openai/gpt-oss-120b",
+      "stanceVersion": 2
     },
     "missione psdc eulex kosovo 2 call for contributions 2026 siap polizia": {
       "key": "missione psdc eulex kosovo 2 call for contributions 2026 siap polizia",
@@ -3935,7 +5895,15 @@
       "sentiment": "neutral",
       "date": "Tue, 16 Ju",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Faktikisht raportim neutral i ngjarjes",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "openai/gpt-oss-120b",
+      "stanceVersion": 2
     },
     "una nuova fossa comune scoperta in kosovo si scava per trovare i resti il nord e": {
       "key": "una nuova fossa comune scoperta in kosovo si scava per trovare i resti il nord e",
@@ -3951,7 +5919,15 @@
       "sentiment": "neutral",
       "date": "Sun, 02 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Faktikë raportuar pa gjuhë ngarkuar",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "openai/gpt-oss-120b",
+      "stanceVersion": 2
     },
     "kosovo sciolto il parlamento e nuove elezioni per la terza volta in un anno vati": {
       "key": "kosovo sciolto il parlamento e nuove elezioni per la terza volta in un anno vati",
@@ -3967,7 +5943,15 @@
       "sentiment": "neutral",
       "date": "Wed, 29 Ap",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Faktikë raportuar pa gjuhë ngarkuar",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "openai/gpt-oss-120b",
+      "stanceVersion": 2
     },
     "la nato ridurrà il contingente di peacekeeping in kosovo rainews": {
       "key": "la nato ridurrà il contingente di peacekeeping in kosovo rainews",
@@ -3983,7 +5967,15 @@
       "sentiment": "neutral",
       "date": "Fri, 12 Ju",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Faktikë raportuar pa gjuhë ngarkuar",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "openai/gpt-oss-120b",
+      "stanceVersion": 2
     },
     "kosovo abgeordnete bewirft regierungschef kurti im parlament mit eiern spiegel": {
       "key": "kosovo abgeordnete bewirft regierungschef kurti im parlament mit eiern spiegel",
@@ -3996,10 +5988,18 @@
       "imageAttempts": 1,
       "outlet": "Spiegel",
       "country": "Gjermani",
-      "sentiment": "negative",
+      "sentiment": "neutral",
       "date": "Sun, 09 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Faktikë raportuar pa gjuhë ngarkuar",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "openai/gpt-oss-120b",
+      "stanceVersion": 2
     },
     "durchbruch bei gesprächen zwischen serbien und kosovo euractiv com": {
       "key": "durchbruch bei gesprächen zwischen serbien und kosovo euractiv com",
@@ -4015,7 +6015,15 @@
       "sentiment": "neutral",
       "date": "Wed, 13 Ma",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Faktikë raportuar pa gjuhë ngarkuar",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "openai/gpt-oss-120b",
+      "stanceVersion": 2
     },
     "kosovo präsidentenwahl im kosovo scheitert im parlament die zeit": {
       "key": "kosovo präsidentenwahl im kosovo scheitert im parlament die zeit",
@@ -4028,10 +6036,18 @@
       "imageAttempts": 1,
       "outlet": "Die Zeit",
       "country": "Gjermani",
-      "sentiment": "negative",
+      "sentiment": "neutral",
       "date": "Wed, 29 Ap",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Faktikë raportuar pa gjuhë ngarkuar",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "openai/gpt-oss-120b",
+      "stanceVersion": 2
     },
     "zelenskyy s kosovo stance puts solidarity with ukraine to the test tirana times": {
       "key": "zelenskyy s kosovo stance puts solidarity with ukraine to the test tirana times",
@@ -4047,7 +6063,15 @@
       "sentiment": "neutral",
       "date": "Sun, 09 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Headline reports factual situation without evaluative language toward Kosovo",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "openai/gpt-oss-120b",
+      "stanceVersion": 2
     },
     "kosovan lawmaker hurls eggs at the prime minister video theguardian com": {
       "key": "kosovan lawmaker hurls eggs at the prime minister video theguardian com",
@@ -4060,10 +6084,18 @@
       "imageAttempts": 1,
       "outlet": "theguardian.com",
       "country": "Britani",
-      "sentiment": "negative",
+      "sentiment": "neutral",
       "date": "Sat, 08 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Headline reports factual incident without hostile language toward Kosovo",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "openai/gpt-oss-120b",
+      "stanceVersion": 2
     },
     "shocking moment kosovo politician throws eggs at country s acting pm thesun co u": {
       "key": "shocking moment kosovo politician throws eggs at country s acting pm thesun co u",
@@ -4076,10 +6108,18 @@
       "imageAttempts": 1,
       "outlet": "thesun.co.uk",
       "country": "Britani",
-      "sentiment": "negative",
+      "sentiment": "neutral",
       "date": "Sat, 08 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Sensational adjective describes event but does not target Kosovo itself",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "openai/gpt-oss-120b",
+      "stanceVersion": 2
     },
     "watch politician goes ham with eggs after acting pm asks for more time mediaite": {
       "key": "watch politician goes ham with eggs after acting pm asks for more time mediaite",
@@ -4095,7 +6135,15 @@
       "sentiment": "neutral",
       "date": "Sat, 08 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Mocking tone refers to politician's behavior, not Kosovo as a state",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "openai/gpt-oss-120b",
+      "stanceVersion": 2
     },
     "kosovo s kurti urged to share power to avoid new polls balkan insight": {
       "key": "kosovo s kurti urged to share power to avoid new polls balkan insight",
@@ -4111,7 +6159,15 @@
       "sentiment": "neutral",
       "date": "Wed, 05 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Headline conveys political development without loaded language toward Kosovo",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "openai/gpt-oss-120b",
+      "stanceVersion": 2
     },
     "kosovo nouvelles découvertes macabres 4 corps retrouvés dans un charnier 20 min": {
       "key": "kosovo nouvelles découvertes macabres 4 corps retrouvés dans un charnier 20 min",
@@ -4124,10 +6180,18 @@
       "imageAttempts": 1,
       "outlet": "20 Min",
       "country": "Francë",
-      "sentiment": "negative",
+      "sentiment": "neutral",
       "date": "Tue, 04 Au",
       "firstSeen": "2026-08-09",
-      "lastSeen": "2026-08-09"
+      "lastSeen": "2026-08-09",
+      "stance": "neutral",
+      "stanceReason": "Report of grim findings uses factual description without contempt toward Kosovo",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "openai/gpt-oss-120b",
+      "stanceVersion": 2
     }
   }
 }

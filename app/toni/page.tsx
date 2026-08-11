@@ -6,6 +6,7 @@ import Footer from "@/components/footer";
 import SectionLabel from "@/components/section-label";
 import ToneLineChart from "@/components/tone/tone-line-chart";
 import { getToneHistory, summarizeToneHistory } from "@/lib/tone-data";
+import { flagToCode } from "@/lib/tone-scale";
 
 export const revalidate = 3600;
 
@@ -14,14 +15,6 @@ export const metadata: Metadata = {
   description:
     "Si e trajtojnë Kosovën mediat në Gjermani, SHBA, Britani, Francë dhe Itali — indeks ditor, i mbledhur dhe llogaritur nga artikuj të vërtetë, jo vlerësim subjektiv.",
 };
-
-function flagToCode(flag: string): string {
-  const cps = [...flag].map((c) => c.codePointAt(0) ?? 0);
-  if (cps.length !== 2) return "";
-  const a = cps[0] - 0x1f1e6 + 65;
-  const b = cps[1] - 0x1f1e6 + 65;
-  return String.fromCharCode(a, b);
-}
 
 export default async function ToniPage() {
   const history = await getToneHistory();
@@ -113,19 +106,34 @@ export default async function ToniPage() {
           <div id="metodologjia" style={{ scrollMarginTop: "100px", marginBottom: "64px" }}>
             <SectionLabel label="Si e Llogarisim" marginBottom={16} />
             <div style={{ background: "#FAFAF8", border: "1px solid #E8E3DB", borderRadius: "16px", padding: "clamp(18px, 3vw, 28px)", fontSize: "13.5px", color: "#4A463F", lineHeight: 1.75 }}>
+              <p style={{ margin: "0 0 14px", fontWeight: 700, color: "#111111" }}>
+                Çfarë mat ky indeks — dhe çfarë jo:
+              </p>
+              <p style={{ margin: "0 0 16px" }}>
+                Ky indeks mat <strong>qëndrimin e vetë mediumit ndaj Kosovës</strong>, jo nëse
+                lajmi është i mirë apo i keq. Një raportim i thatë për një varrezë masive
+                është <strong style={{ color: "#9CA3AF" }}>neutral</strong>: lajmi është i rëndë,
+                por mediumi thjesht po raporton. Po ashtu, kur një medium citon dikë që flet
+                keq për Kosovën, ajo llogaritet te <em>folësi</em>, jo te mediumi — raportimi
+                i një deklarate armiqësore është gazetari, jo armiqësi.
+              </p>
               <ol style={{ margin: "0 0 16px", paddingLeft: "20px" }}>
-                <li>Çdo ditë mbledhim automatikisht artikuj rreth Kosovës nga Google News, në gjuhën lokale të 5 vendeve: Gjermani, SHBA, Britani, Francë, Itali.</li>
+                <li>Çdo dy orë, nga ora 07:00 deri në 23:00, mbledhim automatikisht artikuj rreth Kosovës nga Google News, në gjuhën lokale të 5 vendeve: Gjermani, SHBA, Britani, Francë, Itali.</li>
                 <li>Artikujt e përsëritur (p.sh. e njëjta lajme e agjencive AP/AFP/Reuters e ribotuar nga disa media) hiqen — llogariten vetëm një herë, që një lajm i vetëm të mos e shtrembërojë rezultatin.</li>
-                <li>Titulli dhe përmbledhja e çdo artikulli klasifikohen si <strong style={{ color: "#16A34A" }}>pozitiv</strong>, <strong style={{ color: "#9CA3AF" }}>neutral</strong>, ose <strong style={{ color: "#E41E20" }}>kritik</strong> nga një model gjuhësor (Groq / Llama), jo nga një person.</li>
+                <li>Mediat kosovare dhe shqiptare, si dhe burimet që nuk janë media (p.sh. faqe ushtarake apo sportive), nuk llogariten — ky është indeks i <em>shtypit të huaj</em>.</li>
+                <li>Titulli dhe përmbledhja klasifikohen si <strong style={{ color: "#4FC77C" }}>pozitiv</strong>, <strong style={{ color: "#9CA3AF" }}>neutral</strong>, ose <strong style={{ color: "#A3121A" }}>kritik</strong> nga një model gjuhësor (Groq / Llama 3.3), jo nga një person. Modeli duhet të citojë fjalët e sakta të mediumit që e vendosin klasifikimin; pa ato fjalë, artikulli mbetet neutral.</li>
+                <li>Artikujt që modeli nuk arrin t&apos;i lexojë me siguri shënohen si të pazgjidhur dhe <strong>përjashtohen</strong> nga llogaritja — nuk hamendësohen.</li>
                 <li>Indeksi i një vendi = 50 + 50 × (pozitivë − kritikë) / totali. 50 do të thotë e balancuar; mbi 50 anon nga pozitivja, nën 50 nga kritika.</li>
                 <li>Indeksi i përgjithshëm është mesatarja e 5 vendeve, peshuar sipas numrit të artikujve të secilit — një vend me shumë mbulim ndikon më shumë se një me pak.</li>
               </ol>
               <p style={{ margin: "0 0 8px", fontWeight: 700, color: "#111111" }}>Kufizimet — thënë hapur:</p>
               <ul style={{ margin: 0, paddingLeft: "20px" }}>
+                <li>Shumica e artikujve janë neutralë, dhe kjo është normale — gazetaria raporton, nuk mban anë. Prandaj indeksi qëndron afër 50 dhe lëviz ngadalë.</li>
+                <li>Harta e ngjyros vendet në shkallën 35–65, jo 0–100. Pa këtë ngushtim të gjitha vendet do të dilnin me të njëjtën ngjyrë gri.</li>
                 <li>Klasifikimi bazohet te titulli dhe përmbledhja e RSS-së, jo gjithmonë artikulli i plotë.</li>
                 <li>Google News RSS nuk mbulon çdo botim (p.sh. artikuj pas paywall-i mund të mungojnë).</li>
                 <li>Ditët me pak artikuj për një vend (nën 8) shënohen si &quot;pak të dhëna&quot; — merrini me rezervë.</li>
-                <li>Mbledhja bëhet një herë në ditë, jo në kohë reale.</li>
+                <li>Më 2026-08-10 ndryshuam mënyrën e llogaritjes: më parë indeksi matte nëse lajmi ishte i mirë apo i keq. Ditët para kësaj date janë llogaritur me metodën e vjetër dhe nuk krahasohen drejtpërdrejt me ditët pas saj.</li>
               </ul>
               <p style={{ margin: "16px 0 0", fontSize: "12px", color: "#9CA3AF" }}>
                 Të dhënat e papërpunuara janë publike:{" "}
