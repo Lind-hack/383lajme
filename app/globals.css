@@ -669,6 +669,11 @@ body {
 .bota-flet-strip-nav:active {
   transform: translateY(-50%) scale(0.92);
 }
+.bota-flet-strip-nav:disabled {
+  opacity: 0.35;
+  box-shadow: none;
+  cursor: default;
+}
 .bota-flet-strip-nav-prev { left: -4px; }
 .bota-flet-strip-nav-next { right: -4px; }
 @media (hover: hover) and (pointer: fine) {
