@@ -53,8 +53,8 @@ export function HeroCard({ item }: { item: ForeignCoverageItem }) {
 
       <div style={{ position: "absolute", left: 0, right: 0, bottom: 0, padding: "clamp(16px, 3vw, 26px)" }}>
         <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "10px" }}>
-          {item.flag && <span style={{ fontSize: "17px" }}>{item.flag}</span>}
-          <span style={{ fontSize: "13px", fontWeight: 800, color: "rgba(255,255,255,0.92)", letterSpacing: "0.02em" }}>
+          {item.flag && <span style={{ fontSize: "19px" }}>{item.flag}</span>}
+          <span style={{ fontSize: "14.5px", fontWeight: 800, color: "rgba(255,255,255,0.92)", letterSpacing: "0.02em" }}>
             {item.outlet}
           </span>
           <span
@@ -63,10 +63,10 @@ export function HeroCard({ item }: { item: ForeignCoverageItem }) {
               display: "inline-flex",
               alignItems: "center",
               gap: "5px",
-              padding: "3px 10px",
+              padding: "4px 11px",
               borderRadius: "100px",
               background: color,
-              fontSize: "10px",
+              fontSize: "11px",
               fontWeight: 800,
               letterSpacing: "0.06em",
               textTransform: "uppercase",
@@ -79,11 +79,11 @@ export function HeroCard({ item }: { item: ForeignCoverageItem }) {
 
         <h3
           style={{
-            fontSize: "clamp(23px, 3.4vw, 34px)",
+            fontSize: "clamp(26px, 3.8vw, 38px)",
             fontWeight: 800,
             color: "#FFFFFF",
-            margin: "0 0 6px",
-            lineHeight: 1.28,
+            margin: "0 0 8px",
+            lineHeight: 1.26,
             display: "-webkit-box",
             WebkitLineClamp: 3,
             WebkitBoxOrient: "vertical",
@@ -93,7 +93,7 @@ export function HeroCard({ item }: { item: ForeignCoverageItem }) {
           {item.title}
         </h3>
 
-        <span style={{ fontSize: "11.5px", fontWeight: 600, color: "rgba(255,255,255,0.62)" }}>
+        <span style={{ fontSize: "13px", fontWeight: 600, color: "rgba(255,255,255,0.62)" }}>
           {item.date || item.country}
         </span>
       </div>
@@ -135,10 +135,10 @@ export function StripCard({ item }: { item: ForeignCoverageItem }) {
 
       <div style={{ padding: "13px 14px 14px", display: "flex", flexDirection: "column", flex: 1 }}>
         <div style={{ display: "flex", alignItems: "center", gap: "6px", marginBottom: "7px" }}>
-          {item.flag && <span style={{ fontSize: "12px" }}>{item.flag}</span>}
+          {item.flag && <span style={{ fontSize: "13.5px" }}>{item.flag}</span>}
           <span
             style={{
-              fontSize: "10.5px",
+              fontSize: "12px",
               fontWeight: 800,
               color: "#6B6B6B",
               letterSpacing: "0.02em",
@@ -150,22 +150,22 @@ export function StripCard({ item }: { item: ForeignCoverageItem }) {
             {item.outlet}
           </span>
           <span style={{ marginLeft: "auto", display: "inline-flex", alignItems: "center", flexShrink: 0 }}>
-            <span className="bota-flet-strip-badge-dot" style={{ width: "6px", height: "6px", borderRadius: "50%", background: color, flexShrink: 0 }} />
-            <span className="bota-flet-strip-badge-label" style={{ fontSize: "9px", fontWeight: 800, color, letterSpacing: "0.05em", textTransform: "uppercase" }}>
+            <span className="bota-flet-strip-badge-dot" style={{ width: "7px", height: "7px", borderRadius: "50%", background: color, flexShrink: 0 }} />
+            <span className="bota-flet-strip-badge-label" style={{ fontSize: "10.5px", fontWeight: 800, color, letterSpacing: "0.05em", textTransform: "uppercase" }}>
               {SENTIMENT_LABEL[item.sentiment]}
             </span>
           </span>
         </div>
 
-        <h3 className="bota-flet-strip-title" style={{ fontSize: "15px", fontWeight: 700, margin: "0 0 6px", lineHeight: 1.34, display: "-webkit-box", WebkitLineClamp: 3, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
+        <h3 className="bota-flet-strip-title" style={{ fontSize: "17px", fontWeight: 700, margin: "0 0 8px", lineHeight: 1.36, display: "-webkit-box", WebkitLineClamp: 3, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
           {item.title}
         </h3>
 
         <div className="bota-flet-strip-meta">
-          <span className="bota-flet-strip-date" style={{ fontSize: "10.5px", fontWeight: 600, color: "#B4B0A6" }}>
+          <span className="bota-flet-strip-date" style={{ fontSize: "12px", fontWeight: 600, color: "#B4B0A6" }}>
             {item.date || item.country}
           </span>
-          <span className="bota-flet-strip-cta" style={{ fontSize: "10.5px", fontWeight: 700 }}>
+          <span className="bota-flet-strip-cta" style={{ fontSize: "12px", fontWeight: 700 }}>
             Lexo →
           </span>
         </div>

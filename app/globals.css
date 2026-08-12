@@ -602,7 +602,7 @@ body {
 }
 .bota-flet-strip-meta {
   position: relative;
-  height: 15px;
+  height: 17px;
   margin-top: auto;
 }
 .bota-flet-strip-date,
@@ -627,7 +627,9 @@ body {
     color: var(--bf-accent);
   }
   .bota-flet-strip-card:hover .bota-flet-strip-badge-label {
-    max-width: 70px;
+    /* Bumped from 70px alongside the badge's own font-size increase
+       (9px→10.5px) — "NEUTRAL"/"POZITIV" need the extra room now. */
+    max-width: 82px;
     opacity: 1;
     margin-left: 5px;
   }

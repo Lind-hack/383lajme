@@ -44,7 +44,7 @@ export default function BotaFlet({
                 <a
                   href="/toni"
                   style={{
-                    fontSize: "12px",
+                    fontSize: "14px",
                     fontWeight: 700,
                     color: "#6B6B6B",
                     textDecoration: "none",
@@ -56,27 +56,32 @@ export default function BotaFlet({
               }
             />
 
-            {/* Hook first, mechanism second, legend as scannable chips —
-                the old version buried "jeshile/kuq/gri" inside a run-on
-                sentence, which reads as prose nobody actually parses. */}
-            <p style={{ margin: "0 0 8px", fontSize: "20px", fontWeight: 800, color: "#111111", lineHeight: 1.32 }}>
-              Kosova, siç e sheh bota.
+            {/* Hook asks the question a first-time visitor actually has
+                ("what does the world say about Kosovo?"); the body answers
+                it in one breath — source, translation, and the color code —
+                instead of describing the pipeline mechanically. Legend
+                stays as scannable chips right under it so "jeshile/kuq/gri"
+                is never just a claim, it's pointing at the actual colors. */}
+            <p style={{ margin: "0 0 10px", fontSize: "24px", fontWeight: 800, color: "#111111", lineHeight: 1.3 }}>
+              Si flet bota për Kosovën.
             </p>
-            <p style={{ margin: "0 0 18px", maxWidth: "62ch", fontSize: "15.5px", color: "rgba(17,17,17,0.62)", lineHeight: 1.55 }}>
-              Çdo ditë mbledhim si shkruajnë për Kosovën mediat gjermane, amerikane, britanike,
-              franceze dhe italiane, dhe i përkthejmë në shqip sapo botohen.
+            <p style={{ margin: "0 0 20px", maxWidth: "62ch", fontSize: "17px", color: "rgba(17,17,17,0.62)", lineHeight: 1.6 }}>
+              Përditë mbledhim artikuj nga gazetat më të mëdha të botës — gjermane, amerikane,
+              britanike, franceze e italiane — që shkruajnë për Kosovën. I përkthejmë në shqip
+              dhe i ngjyrosim sipas tonit: jeshile kur janë pozitivë, kuq kur janë kritikë,
+              gri kur janë thjesht neutralë.
             </p>
 
             <div style={{ display: "flex", alignItems: "center", flexWrap: "wrap", gap: "16px", marginBottom: "20px" }}>
-              <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
+              <div style={{ display: "flex", gap: "14px", flexWrap: "wrap" }}>
                 {LEGEND.map((item) => (
-                  <span key={item.label} style={{ display: "inline-flex", alignItems: "center", gap: "6px", fontSize: "11.5px", fontWeight: 700, color: "#4A463F" }}>
-                    <span style={{ width: "8px", height: "8px", borderRadius: "50%", background: item.color, flexShrink: 0 }} />
+                  <span key={item.label} style={{ display: "inline-flex", alignItems: "center", gap: "7px", fontSize: "13px", fontWeight: 700, color: "#4A463F" }}>
+                    <span style={{ width: "9px", height: "9px", borderRadius: "50%", background: item.color, flexShrink: 0 }} />
                     {item.label}
                   </span>
                 ))}
               </div>
-              <span style={{ fontSize: "11.5px", color: "rgba(17,17,17,0.4)" }}>
+              <span style={{ fontSize: "13px", color: "rgba(17,17,17,0.4)" }}>
                 {totalArticles} artikuj · {countryCount} vende · gjatë gjithë ditës
               </span>
             </div>
