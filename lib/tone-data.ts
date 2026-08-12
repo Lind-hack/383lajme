@@ -15,7 +15,11 @@ import path from "path";
 export type ToneSentimentRaw = "positive" | "neutral" | "negative" | "unknown";
 
 export interface ToneArticle {
+  /** Original-language headline, as published. */
   title: string;
+  /** Albanian rendering, or null when translation never succeeded. This is
+   * what the drill-down leads with — the original is in German or Turkish. */
+  albanianTitle?: string | null;
   url: string;
   date: string;
   sentiment: ToneSentimentRaw;
@@ -72,12 +76,15 @@ export interface ToneHistoryRow {
   }>;
 }
 
+/** Must stay in step with FEEDS/FLAGS in tools/tone_scraper.py. A country
+ *  missing here still gets a row and an index, but loses its flag — and with
+ *  it the ISO code the map keys its shapes by, so it silently stops being
+ *  clickable on the map. */
 const FLAGS: Record<string, string> = {
-  Gjermani: "🇩🇪",
-  SHBA: "🇺🇸",
-  Britani: "🇬🇧",
-  Francë: "🇫🇷",
-  Itali: "🇮🇹",
+  Gjermani: "🇩🇪", SHBA: "🇺🇸", Britani: "🇬🇧", Francë: "🇫🇷",
+  Itali: "🇮🇹", Serbi: "🇷🇸", Austri: "🇦🇹", Zvicër: "🇨🇭",
+  Holandë: "🇳🇱", Belgjikë: "🇧🇪", Spanjë: "🇪🇸", Greqi: "🇬🇷",
+  Suedi: "🇸🇪", Poloni: "🇵🇱", Turqi: "🇹🇷", Kroaci: "🇭🇷",
 };
 
 async function readJson<T>(file: string): Promise<T | null> {

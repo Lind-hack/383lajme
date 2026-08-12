@@ -19,6 +19,7 @@ recovered, which is why rows carry stanceVersion.
 import argparse
 import json
 import os
+import re
 import sys
 import time
 from collections import Counter
@@ -43,6 +44,14 @@ def main() -> int:
     ap.add_argument("--write", action="store_true", help="commit changes to the cache")
     ap.add_argument("--limit", type=int, default=0, help="only re-classify the first N")
     ap.add_argument(
+        "--only-foreign-reason",
+        action="store_true",
+        help="re-judge entries whose stanceReason is not Albanian. The "
+             "rate-limit fallback to openai/gpt-oss-120b ignored the Albanian "
+             "few-shots and wrote English reasons, which render straight into "
+             "the UI on an Albanian site. Run this on the default model.",
+    )
+    ap.add_argument(
         "--only-unknown",
         action="store_true",
         help="retry just the entries left unresolved by an earlier run. Pair "
@@ -64,6 +73,23 @@ def main() -> int:
     entries = list(cache["articles"].values())
     if args.only_unknown:
         entries = [e for e in entries if e.get("stance", e.get("sentiment")) == ts.UNKNOWN]
+    if args.only_foreign_reason:
+        # Two weak signals, unioned, because neither is reliable alone on a
+        # six-word phrase: the translator's Albanian-marker test misses short
+        # Albanian that happens to contain no marker word, and a keyword test
+        # trips over "neutral" and "media", which are spelled the same in both
+        # languages. Over-inclusion is cheap — re-judging an entry that was
+        # already fine just reproduces it.
+        english_only = re.compile(
+            r"\b(the|of|without|toward|towards|uses|factual|loaded|contempt|"
+            r"describes?|coverage|hostile|report(s|ing|ed)?)\b",
+            re.I,
+        )
+        entries = [
+            e for e in entries
+            if not ts.is_albanian_text(e.get("stanceReason") or "")
+            or english_only.search(e.get("stanceReason") or "")
+        ]
     if args.limit:
         entries = entries[: args.limit]
     if not entries:
@@ -143,9 +169,11 @@ def rederive(articles: dict) -> None:
         by_outlet: dict[str, list[dict]] = {}
         for a in mine:
             by_outlet.setdefault(a.get("outlet", "?"), []).append({
-                "title": a["title"], "url": a["url"], "date": a.get("date", ""),
+                "title": a["title"], "albanianTitle": a.get("albanianTitle"),
+                "url": a["url"], "date": a.get("date", ""),
                 "sentiment": a.get("stance", a.get("sentiment")),
                 "reason": a.get("stanceReason", ""), "isQuote": bool(a.get("isQuote")),
+                "speaker": a.get("speaker", ""), "evidence": a.get("evidence", ""),
             })
 
         outlets = []

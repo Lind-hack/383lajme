@@ -14,16 +14,21 @@ import { writeFileSync } from "node:fs";
 const SRC =
   "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_110m_admin_0_countries.geojson";
 
-// North Atlantic crop: continental US on the left, western Europe on the
-// right, nothing else. Wide and short so it sits above the country rows and
-// still reads at 390px.
-const LON0 = -128, LON1 = 20;
-const LAT0 = 24, LAT1 = 64;
+// Europe-weighted crop. The old one ran to -128 to fit the continental US,
+// which spent forty percent of the frame on empty Atlantic and squeezed
+// Europe — where fifteen of the sixteen tracked countries live — into a
+// thumbnail. This keeps the US eastern seaboard in frame and gives Europe
+// roughly four times the pixels it had.
+const LON0 = -88, LON1 = 42;
+const LAT0 = 30, LAT1 = 64;
 const W = 1000;
 
-// The five the scraper tracks. Everything else in frame is drawn as recessive
-// context so the map doesn't look like an empty grey sheet.
-const TRACKED = new Set(["US", "GB", "FR", "DE", "IT"]);
+// The sixteen editions the scraper reads. Everything else in frame is drawn
+// as recessive context so the map reads as a place, not a chart of holes.
+const TRACKED = new Set([
+  "US", "GB", "FR", "DE", "IT", "RS", "AT", "CH",
+  "NL", "BE", "ES", "GR", "SE", "PL", "TR", "HR",
+]);
 
 const rad = (d) => (d * Math.PI) / 180;
 const merc = (lat) => Math.log(Math.tan(Math.PI / 4 + rad(lat) / 2));

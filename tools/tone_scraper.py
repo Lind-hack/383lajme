@@ -104,21 +104,46 @@ TRANSLATE_BATCH_SIZE = 10
 # and the volume is tiny either way.
 CLASSIFY_BATCH_SIZE = 6
 
+# Sixteen editions, not five. Five made "Toni i Mediave Botërore" a claim the
+# data could not support, and left a map that was mostly empty sea.
+#
+# Serbia is the deliberate one. It is the single most consequential press for
+# how Kosovo is written about, and leaving it out was the largest blind spot
+# in the whole feature.
 FEEDS = {
     "Gjermani": "https://news.google.com/rss/search?q=Kosovo&hl=de&gl=DE&ceid=DE:de",
     "SHBA":     "https://news.google.com/rss/search?q=Kosovo&hl=en-US&gl=US&ceid=US:en",
     "Britani":  "https://news.google.com/rss/search?q=Kosovo&hl=en-GB&gl=GB&ceid=GB:en",
     "Francë":   "https://news.google.com/rss/search?q=Kosovo&hl=fr&gl=FR&ceid=FR:fr",
     "Itali":    "https://news.google.com/rss/search?q=Kosovo&hl=it&gl=IT&ceid=IT:it",
+    "Serbi":    "https://news.google.com/rss/search?q=Kosovo&hl=sr&gl=RS&ceid=RS:sr",
+    "Austri":   "https://news.google.com/rss/search?q=Kosovo&hl=de&gl=AT&ceid=AT:de",
+    "Zvicër":   "https://news.google.com/rss/search?q=Kosovo&hl=de&gl=CH&ceid=CH:de",
+    "Holandë":  "https://news.google.com/rss/search?q=Kosovo&hl=nl&gl=NL&ceid=NL:nl",
+    "Belgjikë": "https://news.google.com/rss/search?q=Kosovo&hl=fr&gl=BE&ceid=BE:fr",
+    "Spanjë":   "https://news.google.com/rss/search?q=Kosovo&hl=es&gl=ES&ceid=ES:es",
+    "Greqi":    "https://news.google.com/rss/search?q=Kosovo&hl=el&gl=GR&ceid=GR:el",
+    "Suedi":    "https://news.google.com/rss/search?q=Kosovo&hl=sv&gl=SE&ceid=SE:sv",
+    "Poloni":   "https://news.google.com/rss/search?q=Kosovo&hl=pl&gl=PL&ceid=PL:pl",
+    "Turqi":    "https://news.google.com/rss/search?q=Kosovo&hl=tr&gl=TR&ceid=TR:tr",
+    "Kroaci":   "https://news.google.com/rss/search?q=Kosovo&hl=hr&gl=HR&ceid=HR:hr",
 }
 
 FLAGS = {
-    "Gjermani": "🇩🇪",
-    "SHBA": "🇺🇸",
-    "Britani": "🇬🇧",
-    "Francë": "🇫🇷",
-    "Itali": "🇮🇹",
+    "Gjermani": "🇩🇪", "SHBA": "🇺🇸", "Britani": "🇬🇧", "Francë": "🇫🇷",
+    "Itali": "🇮🇹", "Serbi": "🇷🇸", "Austri": "🇦🇹", "Zvicër": "🇨🇭",
+    "Holandë": "🇳🇱", "Belgjikë": "🇧🇪", "Spanjë": "🇪🇸", "Greqi": "🇬🇷",
+    "Suedi": "🇸🇪", "Poloni": "🇵🇱", "Turqi": "🇹🇷", "Kroaci": "🇭🇷",
 }
+
+# Sixteen feeds mean ~960 candidates a run, and on the first run after this
+# change nearly all of them are cache misses. At six per batch that is 160
+# classification calls in one go, well past llama-3.3-70b's 100K tokens a day
+# — the backfill already proved that ceiling is real. So the backlog is filled
+# a slice at a time: each run classifies at most this many new articles and
+# leaves the rest for the next one, ninety minutes later. Steady state is far
+# below the cap; this only bites while a new country is warming up.
+MAX_NEW_PER_RUN = 48
 
 KNOWN_OUTLETS: dict[str, dict[str, str]] = {
     "Gjermani": {
@@ -677,6 +702,12 @@ def main():
 
     print(f"  {len(new_items)} new articles, {len(image_retry_keys)} pending image retries")
 
+    # Take a slice and leave the rest for the next run rather than trying the
+    # whole backlog and rate-limiting most of it into UNKNOWN.
+    if len(new_items) > MAX_NEW_PER_RUN:
+        print(f"  capping at {MAX_NEW_PER_RUN} this run; {len(new_items) - MAX_NEW_PER_RUN} deferred")
+        new_items = new_items[:MAX_NEW_PER_RUN]
+
     # ── Stance, then translation. Two passes, two models, two failure
     # domains: a translation that fails no longer takes a stance label with it.
     stances: dict[str, dict] = {}
@@ -811,6 +842,9 @@ def main():
                 continue
             article_out = {
                 "title": entry["title"],
+                # The Albanian rendering is the point of the drill-down for a
+                # Kosovo reader: the original headline is in German or Turkish.
+                "albanianTitle": entry.get("albanianTitle"),
                 "url": entry["url"],
                 "date": entry["date"],
                 "sentiment": entry["sentiment"],

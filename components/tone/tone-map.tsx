@@ -27,23 +27,26 @@ export interface ToneMapCountry {
 
 interface Props {
   countries: ToneMapCountry[];
-  /** Albanian country name, or null. Shared with the rows below the map. */
+  /** Highlighted right now — hover or selection. Shared with the rows below. */
   active: string | null;
-  onActivate: (country: string | null) => void;
+  /** Clicked open. Gets a heavier outline that survives the mouse leaving. */
+  selected: string | null;
+  onHover: (country: string | null) => void;
+  onSelect: (country: string) => void;
 }
 
 const CONTEXT_FILL = "rgba(17,17,17,0.05)";
 const BORDER = "rgba(17,17,17,0.12)";
 
-export default function ToneMap({ countries, active, onActivate }: Props) {
+export default function ToneMap({ countries, active, selected, onHover, onSelect }: Props) {
   const uid = useId().replace(/[^a-zA-Z0-9]/g, "");
   const byCode = new Map(countries.map((c) => [c.code, c]));
 
   return (
-    // Inset, not centrepiece. At full card width this is ~330px tall and the
-    // empty Atlantic through the middle becomes the loudest thing in the
-    // module; the five bars underneath are what carry the detail.
-    <div style={{ position: "relative", maxWidth: "560px", margin: "0 auto" }}>
+    // Full width. It was capped at 560px while it covered five countries and
+    // half an ocean; with sixteen countries and a Europe-weighted crop the
+    // map is the primary object in the module and gets the room.
+    <div style={{ position: "relative" }}>
       <svg
         viewBox={`0 0 ${MAP_VIEWBOX.width} ${MAP_VIEWBOX.height}`}
         preserveAspectRatio="xMidYMid meet"
@@ -63,6 +66,7 @@ export default function ToneMap({ countries, active, onActivate }: Props) {
         {MAP_SHAPES.filter((s) => s.tracked).map((s, i) => {
           const data = byCode.get(s.code);
           const on = data != null && active === data.country;
+          const isOpen = data != null && selected === data.country;
           const label = data
             ? `${data.country}: ${data.index ?? "pa të dhëna"} — ${toneLabel(data.index)}`
             : s.code;
@@ -71,22 +75,31 @@ export default function ToneMap({ countries, active, onActivate }: Props) {
               key={`hit-${uid}-${i}`}
               d={s.d}
               fill={toneFill(data?.index ?? null)}
-              stroke={on ? "#111111" : BORDER}
-              strokeWidth={on ? 1.6 : 0.8}
+              stroke={isOpen ? "#111111" : on ? "rgba(17,17,17,0.55)" : BORDER}
+              strokeWidth={isOpen ? 2.2 : on ? 1.6 : 0.8}
               vectorEffect="non-scaling-stroke"
               tabIndex={data ? 0 : -1}
               role={data ? "button" : undefined}
               aria-label={data ? label : undefined}
-              onPointerEnter={() => data && onActivate(data.country)}
-              onPointerLeave={() => data && onActivate(null)}
-              onFocus={() => data && onActivate(data.country)}
-              onBlur={() => data && onActivate(null)}
-              onClick={() => data && onActivate(on ? null : data.country)}
+              aria-pressed={data ? isOpen : undefined}
+              // Hover only ever highlights. Opening is a click, so nothing a
+              // reader is travelling toward can vanish under the pointer.
+              onPointerEnter={() => data && onHover(data.country)}
+              onPointerLeave={() => data && onHover(null)}
+              onFocus={() => data && onHover(data.country)}
+              onBlur={() => data && onHover(null)}
+              onClick={() => data && onSelect(data.country)}
+              onKeyDown={(e) => {
+                if (data && (e.key === "Enter" || e.key === " ")) {
+                  e.preventDefault();
+                  onSelect(data.country);
+                }
+              }}
               style={{
                 cursor: data ? "pointer" : "default",
                 outline: "none",
-                transition: "stroke-width 160ms var(--ease-out), opacity 160ms var(--ease-out)",
-                opacity: active && !on ? 0.55 : 1,
+                transition: "stroke-width 160ms var(--ease-out), opacity 160ms var(--ease-out), stroke 160ms var(--ease-out)",
+                opacity: active && !on && !isOpen ? 0.5 : 1,
               }}
             />
           );
