@@ -79,7 +79,7 @@ export function HeroCard({ item }: { item: ForeignCoverageItem }) {
 
         <h3
           style={{
-            fontSize: "clamp(21px, 3vw, 30px)",
+            fontSize: "clamp(23px, 3.4vw, 34px)",
             fontWeight: 800,
             color: "#FFFFFF",
             margin: "0 0 6px",
@@ -157,7 +157,7 @@ export function StripCard({ item }: { item: ForeignCoverageItem }) {
           </span>
         </div>
 
-        <h3 className="bota-flet-strip-title" style={{ fontSize: "13.5px", fontWeight: 700, margin: "0 0 6px", lineHeight: 1.32, display: "-webkit-box", WebkitLineClamp: 3, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
+        <h3 className="bota-flet-strip-title" style={{ fontSize: "15px", fontWeight: 700, margin: "0 0 6px", lineHeight: 1.34, display: "-webkit-box", WebkitLineClamp: 3, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
           {item.title}
         </h3>
 

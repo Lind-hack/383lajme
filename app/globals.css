@@ -446,7 +446,13 @@ body {
   border-radius: 24px;
   border: 2.5px solid #FF4422;
   padding: 40px 0 36px;
-  overflow: hidden;
+  /* No overflow:hidden here — the hero used to need it clipped to the card's
+     own rounded corners for its old edge-to-edge treatment, but that clipped
+     the ::after glow ring below too (it extends 2.5px past this box via a
+     negative inset, which is exactly what "isn't animating, just a solid
+     line" turned out to be: the ring was rendering, just invisible outside
+     the clip). The hero now sits inset with its own rounded corners instead
+     (see .bota-flet-hero), so nothing here needs to clip anything. */
   box-shadow: 0 40px 90px -30px rgba(255, 68, 34, 0.22), 0 2px 8px rgba(17, 17, 17, 0.04);
 }
 .bota-flet-supercard::after {
@@ -476,22 +482,34 @@ body {
   }
 }
 
-/* Horizontally-padded content wrapper — everything except the hero image,
-   which now bleeds to the card's own edges (see .bota-flet-hero) instead
-   of sitting inset with dead space on both sides. */
+/* Horizontally-padded content wrapper — header copy, legend, hero, and the
+   article strip all share this same inset now (see .bota-flet-hero). */
 .bota-flet-padded {
   padding-left: clamp(20px, 4vw, 40px);
   padding-right: clamp(20px, 4vw, 40px);
 }
 
-/* ── Hero (text-over-image) — full-bleed to the card's edges, not inset
-   inside the card's own padding, per the explicit "fill almost the entire
-   screen, no dead space left/right" request. ── */
+/* ── Hero (text-over-image) — inset with the same padding as the rest of
+   the card's content (a previous round made this edge-to-edge; the follow-
+   up feedback was that it then filled too much of the card with no breathing
+   room). Rounded corners of its own now that it isn't flush with the card's
+   own edges, and a shorter, wider aspect ratio than before. ── */
 .bota-flet-hero {
   position: relative;
   display: block;
-  aspect-ratio: 16 / 8;
+  aspect-ratio: 2.5 / 1;
   width: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+}
+/* At narrow widths the 2.5/1 box gets too short for the (now larger,
+   up-to-3-line) headline plus the outlet/badge row above it — the text
+   block was overflowing past the top of the image entirely. Taller ratio
+   below the point where that starts to bite. */
+@media (max-width: 640px) {
+  .bota-flet-hero {
+    aspect-ratio: 4 / 3;
+  }
 }
 .bota-flet-hero img {
   width: 100%;
@@ -546,6 +564,10 @@ body {
      the hover state below reads it, so one CSS rule serves every sentiment
      instead of three near-duplicate rules. */
   --bf-accent: #9CA3AF;
+  /* The whole card eases together now (was: only the inner image/text
+     pieces moved) — a slight lift + shadow bloom reads as one coherent
+     motion instead of several independently-timed micro-animations. */
+  transition: transform 280ms var(--ease-out), box-shadow 280ms var(--ease-out);
 }
 
 /* Strip-card hover: badge grows from a bare dot into a filled label pill,
@@ -553,15 +575,16 @@ body {
    crossfades into a "Lexo →" prompt — mirrors the reference hover exactly
    (category pill fills with color, headline recolors, trailing meta swaps
    to a read-more prompt), remapped from "category" to this card's real
-   per-article signal, sentiment. */
+   per-article signal, sentiment. All pieces share one duration/easing pair
+   now so nothing lags or overshoots the rest of the card. */
 .bota-flet-strip-card img {
-  transition: transform 400ms var(--ease-out);
+  transition: transform 280ms var(--ease-out);
 }
 .bota-flet-strip-title {
   /* Set here, not inline on the element — an inline style color would
      always win over the :hover rule below regardless of specificity. */
   color: #111111;
-  transition: color 180ms var(--ease-out);
+  transition: color 280ms var(--ease-out);
 }
 .bota-flet-strip-badge-label {
   display: inline-block;
@@ -569,10 +592,13 @@ body {
   opacity: 0;
   overflow: hidden;
   white-space: nowrap;
-  transition: max-width 220ms var(--ease-out), opacity 160ms var(--ease-out), margin-left 220ms var(--ease-out);
+  /* Same duration/easing as everything else on the card now (was 220/160ms,
+     out of step with the rest) — one unified timing reads as smoother than
+     several pieces individually tuned. */
+  transition: max-width 280ms var(--ease-out), opacity 220ms var(--ease-out), margin-left 280ms var(--ease-out);
 }
 .bota-flet-strip-badge-dot {
-  transition: transform 200ms var(--ease-out);
+  transition: transform 280ms var(--ease-out);
 }
 .bota-flet-strip-meta {
   position: relative;
@@ -583,13 +609,17 @@ body {
 .bota-flet-strip-cta {
   position: absolute;
   inset: 0;
-  transition: opacity 180ms var(--ease-out);
+  transition: opacity 280ms var(--ease-out);
 }
 .bota-flet-strip-cta {
   opacity: 0;
   color: var(--bf-accent);
 }
 @media (hover: hover) and (pointer: fine) {
+  .bota-flet-strip-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 28px -14px rgba(17, 17, 17, 0.18);
+  }
   .bota-flet-strip-card:hover img {
     transform: scale(1.06);
   }
@@ -609,6 +639,39 @@ body {
   }
   .bota-flet-strip-card:hover .bota-flet-strip-cta {
     opacity: 1;
+  }
+}
+
+/* ── Mobile scroll buttons — coarse/no-hover pointers only; a mouse user
+   already has cursor affordance + trackpad/wheel scroll, a touch user has
+   no signal this row continues offscreen besides trial-and-error swiping. */
+.bota-flet-strip-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 3;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid #EFE9DF;
+  background: #FFFFFF;
+  color: #FF4422;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 14px rgba(17, 17, 17, 0.14);
+  cursor: pointer;
+  padding: 0;
+  transition: transform 200ms var(--ease-out), box-shadow 200ms var(--ease-out);
+}
+.bota-flet-strip-nav:active {
+  transform: translateY(-50%) scale(0.92);
+}
+.bota-flet-strip-nav-prev { left: -4px; }
+.bota-flet-strip-nav-next { right: -4px; }
+@media (hover: hover) and (pointer: fine) {
+  .bota-flet-strip-nav {
+    display: none;
   }
 }
 

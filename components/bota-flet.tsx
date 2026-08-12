@@ -5,7 +5,8 @@
 // lib/tone-data.ts:getForeignCoverage() for the selection/filtering rules.
 
 import SectionLabel from "./section-label";
-import { HeroCard, StripCard } from "./bota-flet-card";
+import { HeroCard } from "./bota-flet-card";
+import BotaFletStrip from "./bota-flet-strip";
 import type { ForeignCoverageItem } from "@/lib/tone-data";
 
 const LEGEND: Array<{ color: string; label: string }> = [
@@ -30,10 +31,9 @@ export default function BotaFlet({
   return (
     <section style={{ padding: "64px 24px", position: "relative", zIndex: 1 }}>
       <div style={{ maxWidth: "1280px", margin: "0 auto" }}>
-        {/* Border is pure CSS now (solid line + an animated highlight
-            sweep) — see .bota-flet-supercard in globals.css. The hero
-            below bleeds to this card's own edges, so only the header/copy
-            and the strip get the horizontal .bota-flet-padded inset. */}
+        {/* Border is pure CSS (solid line + an animated highlight sweep) —
+            see .bota-flet-supercard in globals.css. Everything, including
+            the hero, sits inside the same .bota-flet-padded inset now. */}
         <div className="bota-flet-supercard">
           <div className="bota-flet-padded">
             <SectionLabel
@@ -59,10 +59,10 @@ export default function BotaFlet({
             {/* Hook first, mechanism second, legend as scannable chips —
                 the old version buried "jeshile/kuq/gri" inside a run-on
                 sentence, which reads as prose nobody actually parses. */}
-            <p style={{ margin: "0 0 6px", fontSize: "17px", fontWeight: 800, color: "#111111", lineHeight: 1.35 }}>
+            <p style={{ margin: "0 0 8px", fontSize: "20px", fontWeight: 800, color: "#111111", lineHeight: 1.32 }}>
               Kosova, siç e sheh bota.
             </p>
-            <p style={{ margin: "0 0 16px", maxWidth: "62ch", fontSize: "13.5px", color: "rgba(17,17,17,0.62)", lineHeight: 1.55 }}>
+            <p style={{ margin: "0 0 18px", maxWidth: "62ch", fontSize: "15.5px", color: "rgba(17,17,17,0.62)", lineHeight: 1.55 }}>
               Çdo ditë mbledhim si shkruajnë për Kosovën mediat gjermane, amerikane, britanike,
               franceze dhe italiane, dhe i përkthejmë në shqip sapo botohen.
             </p>
@@ -80,17 +80,13 @@ export default function BotaFlet({
                 {totalArticles} artikuj · {countryCount} vende · gjatë gjithë ditës
               </span>
             </div>
+
+            <HeroCard item={hero} />
           </div>
 
-          <HeroCard item={hero} />
-
           {rest.length > 0 && (
-            <div className="bota-flet-padded bota-flet-strip-wrap" style={{ marginTop: "16px" }}>
-              <div className="bota-flet-strip">
-                {rest.map((item) => (
-                  <StripCard key={item.url} item={item} />
-                ))}
-              </div>
+            <div className="bota-flet-padded" style={{ marginTop: "16px" }}>
+              <BotaFletStrip items={rest} />
             </div>
           )}
         </div>
