@@ -209,8 +209,8 @@
   {
     "date": "2026-08-12",
     "overallIndex": 52,
-    "totalArticles": 432,
-    "sourceCount": 323,
+    "totalArticles": 423,
+    "sourceCount": 335,
     "countries": {
       "Gjermani": {
         "index": 51,
@@ -224,10 +224,10 @@
       },
       "SHBA": {
         "index": 55,
-        "positive": 12,
+        "positive": 11,
         "neutral": 87,
         "negative": 2,
-        "n": 52,
+        "n": 53,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -243,11 +243,11 @@
         "stanceVersion": 2
       },
       "Francë": {
-        "index": 55,
+        "index": 57,
         "positive": 13,
-        "neutral": 85,
-        "negative": 3,
-        "n": 39,
+        "neutral": 87,
+        "negative": 0,
+        "n": 38,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -263,32 +263,32 @@
         "stanceVersion": 2
       },
       "Serbi": {
-        "index": 48,
+        "index": 47,
         "positive": 0,
-        "neutral": 97,
-        "negative": 3,
-        "n": 58,
-        "excluded": 2,
+        "neutral": 94,
+        "negative": 6,
+        "n": 53,
+        "excluded": 7,
         "confident": true,
         "stanceVersion": 2
       },
       "Austri": {
-        "index": 51,
-        "positive": 3,
-        "neutral": 97,
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 37,
-        "excluded": 5,
+        "n": 31,
+        "excluded": 4,
         "confident": true,
         "stanceVersion": 2
       },
       "Zvicër": {
-        "index": 50,
-        "positive": 4,
-        "neutral": 91,
+        "index": 52,
+        "positive": 8,
+        "neutral": 88,
         "negative": 4,
-        "n": 23,
-        "excluded": 20,
+        "n": 24,
+        "excluded": 19,
         "confident": true,
         "stanceVersion": 2
       },
@@ -298,7 +298,7 @@
         "neutral": 0,
         "negative": 0,
         "n": 0,
-        "excluded": 14,
+        "excluded": 43,
         "confident": false,
         "stanceVersion": 2
       },
@@ -307,7 +307,7 @@
         "positive": 4,
         "neutral": 96,
         "negative": 0,
-        "n": 24,
+        "n": 23,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -317,7 +317,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 1,
+        "n": 2,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
@@ -364,10 +364,10 @@
       },
       "Kroaci": {
         "index": 55,
-        "positive": 12,
+        "positive": 11,
         "neutral": 87,
         "negative": 2,
-        "n": 52,
+        "n": 53,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -384,7 +384,7 @@
       },
       {
         "title": "Kosovo stood with Ukraine, Zelensky’s words in Belgrade were a painful betrayal - opinion - The Jerusalem Post",
-        "source": "jpost.com",
+        "source": "The Jerusalem Post",
         "country": "SHBA",
         "flag": "🇺🇸",
         "url": "https://www.jpost.com/opinion/article-905061",
@@ -415,11 +415,11 @@
         "sentiment": "negative"
       },
       {
-        "title": "Au Kosovo, le voile de la discorde - Libération",
-        "source": "Libération",
-        "country": "Francë",
-        "flag": "🇫🇷",
-        "url": "https://www.liberation.fr/international/europe/au-kosovo-le-voile-de-la-discorde-20260613_NXSAE3C56VCZZN4Z52RNXNGCUQ/",
+        "title": "Kosovo, lancio di uova contro il primo ministro e Parlamento nel caos - Tgcom24",
+        "source": "Tgcom24",
+        "country": "Itali",
+        "flag": "🇮🇹",
+        "url": "https://www.tgcom24.mediaset.it/2026/video/kosovo-lancio-uova-parlamento_115281699-02k.shtml",
         "sentiment": "negative"
       }
     ]
