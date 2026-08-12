@@ -205,5 +205,113 @@
         "sentiment": "positive"
       }
     ]
+  },
+  {
+    "date": "2026-08-12",
+    "overallIndex": 53,
+    "totalArticles": 243,
+    "sourceCount": 175,
+    "countries": {
+      "Gjermani": {
+        "index": 52,
+        "positive": 8,
+        "neutral": 90,
+        "negative": 2,
+        "n": 40,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 2
+      },
+      "SHBA": {
+        "index": 57,
+        "positive": 16,
+        "neutral": 82,
+        "negative": 2,
+        "n": 51,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 2
+      },
+      "Britani": {
+        "index": 57,
+        "positive": 14,
+        "neutral": 86,
+        "negative": 0,
+        "n": 51,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 2
+      },
+      "Francë": {
+        "index": 54,
+        "positive": 10,
+        "neutral": 88,
+        "negative": 2,
+        "n": 42,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 2
+      },
+      "Itali": {
+        "index": 47,
+        "positive": 0,
+        "neutral": 95,
+        "negative": 5,
+        "n": 59,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 2
+      }
+    },
+    "headlines": [
+      {
+        "title": "„Die Erfahrungen aus Duderstadt und vom Seeburger See nutze ich noch heute“: So viel Eichsfeld steckt im Kosovo - GT/ET Göttinger Tageblatt - Eichsfelder Tageblatt",
+        "source": "GT/ET Göttinger Tageblatt - Eichsfelder Tageblatt",
+        "country": "Gjermani",
+        "flag": "🇩🇪",
+        "url": "https://www.goettinger-tageblatt.de/lokales/goettingen-lk/duderstadt/was-ein-student-im-eichsfeld-lernte-und-damit-im-kosovo-bewirkte-4FRDBASIUBA7ZMHD7TBANCVOX4.html",
+        "sentiment": "positive"
+      },
+      {
+        "title": "A Kosovo-Swiss Director’s Idyllic Journey through a Village’s Turbulent Past - Prishtina Insight",
+        "source": "Prishtina Insight",
+        "country": "SHBA",
+        "flag": "🇺🇸",
+        "url": "https://prishtinainsight.com/a-kosovo-swiss-directors-idyllic-journey-through-a-villages-turbulent-past-mag/",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Kosovo stood with Ukraine, Zelensky’s words in Belgrade were a painful betrayal - opinion - The Jerusalem Post",
+        "source": "The Jerusalem Post",
+        "country": "Britani",
+        "flag": "🇬🇧",
+        "url": "https://www.jpost.com/opinion/article-905061",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Serbien: Ministerin hätte Kosovo gerne \"ethnisch gesäubert\" - dw.com",
+        "source": "dw.com",
+        "country": "Gjermani",
+        "flag": "🇩🇪",
+        "url": "https://www.dw.com/de/serbiens-ministerin-snezana-paunovic-haette-kosovo-im-krieg-1999-gerne-ethnisch-gesaeubert/a-77983728",
+        "sentiment": "negative"
+      },
+      {
+        "title": "Serbian Minister Backs ‘Ethnic Cleansing’ of Kosovo - Genocide Watch",
+        "source": "Genocide Watch",
+        "country": "SHBA",
+        "flag": "🇺🇸",
+        "url": "https://www.genocidewatch.com/single-post/eu-condemns-serbian-minister-for-backing-ethnic-cleansing-of-kosovo",
+        "sentiment": "negative"
+      },
+      {
+        "title": "Au Kosovo, le voile de la discorde - Libération",
+        "source": "Libération",
+        "country": "Francë",
+        "flag": "🇫🇷",
+        "url": "https://www.liberation.fr/international/europe/au-kosovo-le-voile-de-la-discorde-20260613_NXSAE3C56VCZZN4Z52RNXNGCUQ/",
+        "sentiment": "negative"
+      }
+    ]
   }
 ]
