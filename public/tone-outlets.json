@@ -1,30 +1,22 @@
 {
   "lastUpdated": "2026-08-12",
   "overallIndex": 53,
-  "totalArticles": 243,
-  "sourceCount": 175,
+  "totalArticles": 241,
+  "sourceCount": 178,
   "countries": {
     "Gjermani": {
       "outlets": [
         {
-          "name": "Arte.tv",
-          "sentiment": "positive",
-          "articleCount": 2,
+          "name": "BOKU",
+          "sentiment": "neutral",
+          "articleCount": 1,
           "articles": [
             {
-              "title": "Kosovo: Gesänge erzählen die Geschichte der Albaner - Stadt, Land, Kunst - 07/05/2026 - Die ganze Doku - Arte.tv",
-              "url": "https://www.arte.tv/de/videos/132970-000-A/kosovo-gesaenge-erzaehlen-die-geschichte-der-albaner/",
-              "date": "Tue, 05 Ma",
-              "sentiment": "positive",
-              "reason": "Dokumentar kulturor me ton respektues",
-              "isQuote": false
-            },
-            {
-              "title": "Kosovo: Im Reich der Derwische - Stadt, Land, Kunst - 14/04/2026 - Die ganze Doku - Arte.tv",
-              "url": "https://www.arte.tv/de/videos/132538-000-A/kosovo-im-reich-der-derwische/",
-              "date": "2026-04-14",
-              "sentiment": "positive",
-              "reason": "Dokumentar kulturor me ton respektues",
+              "title": "Delegation aus dem Kosovo - BOKU",
+              "url": "https://boku.ac.at/news/newsitem/93052",
+              "date": "Wed, 29 Ju",
+              "sentiment": "neutral",
+              "reason": "Lajm i thjeshtë, pa koment",
               "isQuote": false
             }
           ]
@@ -45,6 +37,29 @@
           ]
         },
         {
+          "name": "Der Standard",
+          "sentiment": "neutral",
+          "articleCount": 2,
+          "articles": [
+            {
+              "title": "Kosovos Regierungschef Kurti von Abgeordneter mit Eiern beworfen - Der Standard",
+              "url": "https://www.derstandard.at/story/3000000334800/kosovos-regierungschef-kurti-von-abgeordneter-mit-eiern-beworfen",
+              "date": "2026-08-09",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false
+            },
+            {
+              "title": "Massengrab im Kosovo entdeckt - Der Standard",
+              "url": "https://www.derstandard.at/story/3000000333728/massengrab-im-kosovo-entdeckt",
+              "date": "Fri, 31 Ju",
+              "sentiment": "neutral",
+              "reason": "Lajm i rëndë, i raportuar në mënyrë faktike",
+              "isQuote": false
+            }
+          ]
+        },
+        {
           "name": "Deutschlandfunk",
           "sentiment": "neutral",
           "articleCount": 2,
@@ -61,6 +76,37 @@
               "title": "Massaker von Recak im Januar 1999 - Fünf Serben im Kosovo wegen Kriegsverbrechen festgenommen - Deutschlandfunk",
               "url": "https://www.deutschlandfunk.de/fuenf-serben-im-kosovo-wegen-kriegsverbrechen-festgenommen-100.html",
               "date": "Tue, 16 Ju",
+              "sentiment": "neutral",
+              "reason": "Lajm i rëndë, i raportuar në mënyrë faktike",
+              "isQuote": false
+            }
+          ]
+        },
+        {
+          "name": "Die Zeit",
+          "sentiment": "neutral",
+          "articleCount": 3,
+          "articles": [
+            {
+              "title": "Politische Blockade: Kosovos Ministerpräsident im Parlament mit Eiern beworfen - DIE ZEIT",
+              "url": "https://www.zeit.de/politik/ausland/2026-08/albin-kurti-angriff-parlament-kosovo-time-kadrijaj-eier",
+              "date": "2026-08-09",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false
+            },
+            {
+              "title": "Massaker von Reçak: Kosovo beginnt Prozess gegen Serben wegen möglicher Kriegsverbrechen - DIE ZEIT",
+              "url": "https://www.zeit.de/politik/ausland/2026-07/massaker-recak-kosovo-serbien-prozess-pristina",
+              "date": "Fri, 31 Ju",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false
+            },
+            {
+              "title": "Massaker von Reçak: Fünf Serben im Kosovo wegen mutmaßlicher Kriegsverbrechen festgenommen - DIE ZEIT",
+              "url": "https://www.zeit.de/gesellschaft/2026-06/massaker-recak-kosovo-serben-festnahme-gxe",
+              "date": "Mon, 15 Ju",
               "sentiment": "neutral",
               "reason": "Lajm i rëndë, i raportuar në mënyrë faktike",
               "isQuote": false
@@ -115,7 +161,7 @@
         {
           "name": "IQAir",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 1,
           "articles": [
             {
               "title": "Luftqualitätsindex (AQI) und Luftverschmutzung in Kosovo | IQAir Deutschland - IQAir",
@@ -124,11 +170,18 @@
               "sentiment": "neutral",
               "reason": "Informacion i thjeshtë mbi Luftqualitätsindex",
               "isQuote": false
-            },
+            }
+          ]
+        },
+        {
+          "name": "Informat.ro",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
             {
-              "title": "Luftqualitätsindex (AQI) für Pristina und Luftverschmutzung in Kosovo | IQAir Deutschland - IQAir",
-              "url": "https://www.iqair.com/de/air-quality/kosovo/pristina/pristina",
-              "date": "2026-06-23",
+              "title": "Kosovo entfernt die Symbole zur Unterstützung der Ukraine nach der Weigerung von Zelenski, die Unabhängigkeit anzuerkennen. - Informat.ro",
+              "url": "https://informat.ro/de/international/spannungen-zwischen-kosovo-und-der-ukraine-nach-den-erklarungen-von-zelenski-134229",
+              "date": "2026-08-11",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike",
               "isQuote": false
@@ -161,21 +214,6 @@
               "date": "Fri, 31 Ju",
               "sentiment": "neutral",
               "reason": "Lajm i rëndë, i raportuar në mënyrë faktike",
-              "isQuote": false
-            }
-          ]
-        },
-        {
-          "name": "RTL.de",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosovo: Abgeordnete Time Kadrijaj bewirft Premierminister Albin Kurti mit Eiern - RTL.de",
-              "url": "https://www.rtl.de/news/videos/kosovo-abgeordnete-time-kadrijaj-bewirft-premierminister-albin-kurti-mit-eiern-6a784c96fd305b498104aa12.html",
-              "date": "2026-08-09",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
               "isQuote": false
             }
           ]
@@ -250,6 +288,36 @@
           ]
         },
         {
+          "name": "T-Online",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "\"Schäm dich!\": Abgeordnete bewirft Regierungschef im Parlament mit Eiern - T-Online",
+              "url": "https://www.t-online.de/nachrichten/ausland/id_101380596/kosovo-abgeordnete-bewirft-premier-albin-kurti-mit-eiern-im-parlament.html",
+              "date": "2026-08-09",
+              "sentiment": "neutral",
+              "reason": "Fjalia është citim brenda „“, jo zëri i mediumit",
+              "isQuote": true
+            }
+          ]
+        },
+        {
+          "name": "Tagesspiegel",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kadrijaj rief dabei „Schäm dich!“: Abgeordnete bewirft Kosovos Regierungschef mit Eiern - Tagesspiegel",
+              "url": "https://www.tagesspiegel.de/internationales/kadrijaj-rief-dabei-scham-dich-abgeordnete-bewirft-kosovos-regierungschef-mit-eiern-15928011.html",
+              "date": "Sun, 09 Au",
+              "sentiment": "neutral",
+              "reason": "Fjalia është citim, jo zëri i mediumit",
+              "isQuote": true
+            }
+          ]
+        },
+        {
           "name": "UEFA.com",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -265,36 +333,21 @@
           ]
         },
         {
-          "name": "WDR",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Ein Solinger läuft quer durch Europa bis in den Kosovo - WDR",
-              "url": "https://www1.wdr.de/mediathek/video/nrw-video/ardi-laueft-solingen-kosovo-104.html",
-              "date": "Mon, 01 Ju",
-              "sentiment": "neutral",
-              "reason": "Lajm i thjeshtë",
-              "isQuote": false
-            }
-          ]
-        },
-        {
           "name": "WELT",
           "sentiment": "neutral",
           "articleCount": 2,
           "articles": [
             {
-              "title": "Kosovo: Abgeordnete wirft mit Eiern - Video - WELT",
-              "url": "https://www.welt.de/politik/ausland/video6a7864ae35268e50270235fb/kosovo-abgeordnete-wirft-mit-eiern.html",
+              "title": "Kosovo: Regierungschef von Abgeordneter im Parlament mit Eiern beworfen - WELT",
+              "url": "https://www.welt.de/politik/ausland/article6a77e70e0e3689919ec7554d/kosovo-regierungschef-von-abgeordneter-im-parlament-mit-eiern-beworfen.html",
               "date": "2026-08-09",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike",
               "isQuote": false
             },
             {
-              "title": "Kosovo: Regierungschef von Abgeordneter im Parlament mit Eiern beworfen - WELT",
-              "url": "https://www.welt.de/politik/ausland/article6a77e70e0e3689919ec7554d/kosovo-regierungschef-von-abgeordneter-im-parlament-mit-eiern-beworfen.html",
+              "title": "Kosovo: Abgeordnete wirft mit Eiern - Video - WELT",
+              "url": "https://www.welt.de/politik/ausland/video6a7864ae35268e50270235fb/kosovo-abgeordnete-wirft-mit-eiern.html",
               "date": "2026-08-09",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike",
@@ -305,7 +358,7 @@
         {
           "name": "ZDFheute",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 3,
           "articles": [
             {
               "title": "Kosovo-Parlament: Regierungschef Kurti mit Eiern beworfen - ZDFheute",
@@ -321,6 +374,14 @@
               "date": "2026-08-09",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false
+            },
+            {
+              "title": "Vom Kosovo-Einsatz ins Porträt eines Weltstars - ZDFheute",
+              "url": "https://www.zdfheute.de/video/zdf-mittagsmagazin/kosovo-soldat-foto-bryan-adams-100.html",
+              "date": "Fri, 17 Ju",
+              "sentiment": "neutral",
+              "reason": "Lajm i thjeshtë, pa koment",
               "isQuote": false
             }
           ]
@@ -343,7 +404,7 @@
         {
           "name": "dw.com",
           "sentiment": "negative",
-          "articleCount": 2,
+          "articleCount": 1,
           "articles": [
             {
               "title": "Serbien: Ministerin hätte Kosovo gerne \"ethnisch gesäubert\" - dw.com",
@@ -352,21 +413,13 @@
               "sentiment": "negative",
               "reason": "Fjalët e vetë mediumit e kornizojnë Kosovën si objekt të paçmueshëm",
               "isQuote": false
-            },
-            {
-              "title": "Wahlen im Kosovo: Der Preis der politischen Polarisierung - dw.com",
-              "url": "https://www.dw.com/de/kosovo-wahlen-parlamentswahl-albin-kurti-vjosa-osmani/a-77445543",
-              "date": "Sat, 06 Ju",
-              "sentiment": "neutral",
-              "reason": "Analizë politike",
-              "isQuote": false
             }
           ]
         },
         {
           "name": "euractiv.com",
           "sentiment": "neutral",
-          "articleCount": 3,
+          "articleCount": 1,
           "articles": [
             {
               "title": "Kosovos Premierminister im Parlament mit Eiern beworfen – politische Krise spitzt sich zu - euractiv.com",
@@ -375,29 +428,13 @@
               "sentiment": "neutral",
               "reason": "Lajm i rëndë, i raportuar në mënyrë faktike",
               "isQuote": false
-            },
-            {
-              "title": "Durchbruch bei Gesprächen zwischen Serbien und Kosovo - euractiv.com",
-              "url": "https://euractiv.com/de/news/durchbruch-bei-gesprachen-zwischen-serbien-und-kosovo/",
-              "date": "Wed, 13 Ma",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportuar pa gjuhë ngarkuar",
-              "isQuote": false
-            },
-            {
-              "title": "Kfz-Deal: Kosovo brüskiert EU und kritisiert Serbien - euractiv.com",
-              "url": "https://euractiv.com/de/news/kfz-deal-kosovo-brueskiert-eu-und-kritisiert-serbien/",
-              "date": "Fri, 15 Ma",
-              "sentiment": "neutral",
-              "reason": "Lajm i thjeshtë politik",
-              "isQuote": false
             }
           ]
         },
         {
           "name": "n-tv.de",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 1,
           "articles": [
             {
               "title": "Nato will Präsenz im Kosovo reduzieren - n-tv.de",
@@ -406,13 +443,20 @@
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike",
               "isQuote": false
-            },
+            }
+          ]
+        },
+        {
+          "name": "rtl.de",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
             {
-              "title": "Verfahren wegen Kriegsverbrechen: Fünf Serben im Kosovo festgenommen - n-tv.de",
-              "url": "https://www.n-tv.de/politik/Fuenf-Serben-im-Kosovo-festgenommen-id30966094.html",
-              "date": "Mon, 15 Ju",
+              "title": "Kosovo: Abgeordnete Time Kadrijaj bewirft Premierminister Albin Kurti mit Eiern - RTL.de",
+              "url": "https://www.rtl.de/news/videos/kosovo-abgeordnete-time-kadrijaj-bewirft-premierminister-albin-kurti-mit-eiern-6a784c96fd305b498104aa12.html",
+              "date": "2026-08-09",
               "sentiment": "neutral",
-              "reason": "Raportim i ngjarjes pa koment",
+              "reason": "Lajm i raportuar në mënyrë faktike",
               "isQuote": false
             }
           ]
@@ -446,61 +490,14 @@
               "isQuote": true
             }
           ]
-        },
-        {
-          "name": "zeit.de",
-          "sentiment": "neutral",
-          "articleCount": 5,
-          "articles": [
-            {
-              "title": "Politische Blockade: Kosovos Ministerpräsident im Parlament mit Eiern beworfen - zeit.de",
-              "url": "https://www.zeit.de/politik/ausland/2026-08/albin-kurti-angriff-parlament-kosovo-time-kadrijaj-eier",
-              "date": "2026-08-09",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false
-            },
-            {
-              "title": "Massaker von Reçak: Kosovo beginnt Prozess gegen Serben wegen möglicher Kriegsverbrechen - DIE ZEIT",
-              "url": "https://www.zeit.de/politik/ausland/2026-07/massaker-recak-kosovo-serbien-prozess-pristina",
-              "date": "Fri, 31 Ju",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false
-            },
-            {
-              "title": "Massaker von Reçak: Fünf Serben im Kosovo wegen mutmaßlicher Kriegsverbrechen festgenommen - DIE ZEIT",
-              "url": "https://www.zeit.de/gesellschaft/2026-06/massaker-recak-kosovo-serben-festnahme-gxe",
-              "date": "Mon, 15 Ju",
-              "sentiment": "neutral",
-              "reason": "Lajm i rëndë, i raportuar në mënyrë faktike",
-              "isQuote": false
-            },
-            {
-              "title": "Kosovo: Regierungspartei gewinnt Wahl im Kosovo - zeit.de",
-              "url": "https://www.zeit.de/politik/ausland/2026-06/parlamentswahl-kosovo-albin-kurti-vetevendosje",
-              "date": "2026-06-08",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false
-            },
-            {
-              "title": "Kosovo: Präsidentenwahl im Kosovo scheitert im Parlament - zeit.de",
-              "url": "https://www.zeit.de/politik/ausland/2026-04/kosovo-praesidentschaft-wahl-parlament-neuwahlen-gxe",
-              "date": "2026-04-29",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false
-            }
-          ]
         }
       ],
       "summary": {
-        "index": 52,
-        "positive": 8,
-        "neutral": 90,
-        "negative": 2,
-        "n": 40,
+        "index": 50,
+        "positive": 3,
+        "neutral": 95,
+        "negative": 3,
+        "n": 37,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -511,19 +508,11 @@
         {
           "name": "AP News",
           "sentiment": "neutral",
-          "articleCount": 3,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Kosovo begins excavations at newly found mass graves tied to 1998-99 war missing - AP News",
               "url": "https://apnews.com/article/kosovo-war-missing-mass-graves-28046a4156d759ceb35f773c87b9f356",
-              "date": "2026-08-12",
-              "sentiment": "neutral",
-              "reason": "Lajm i rëndë, i raportuar në mënyrë faktike",
-              "isQuote": false
-            },
-            {
-              "title": "Families hope for answers as Kosovo discovers new mass graves from 1998-99 conflict - AP News",
-              "url": "https://apnews.com/video/families-hope-for-answers-as-kosovo-discovers-new-mass-graves-from-1998-99-conflict-8fc519ed3d3d42968f90261c547ecdcd",
               "date": "2026-08-12",
               "sentiment": "neutral",
               "reason": "Lajm i rëndë, i raportuar në mënyrë faktike",
@@ -555,6 +544,21 @@
           ]
         },
         {
+          "name": "BBC",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Watch: Moment opposition MP throws eggs at Kosovo's acting PM - BBC",
+              "url": "https://www.bbc.com/news/videos/cvg8je12xxeo",
+              "date": "Sat, 08 Au",
+              "sentiment": "neutral",
+              "reason": "Lajm i rëndë, i raportuar në mënyrë faktike",
+              "isQuote": false
+            }
+          ]
+        },
+        {
           "name": "Balkan Insight",
           "sentiment": "neutral",
           "articleCount": 3,
@@ -578,21 +582,6 @@
             {
               "title": "Kosovo Protests as Serbia Mulls Changing River’s Course - Balkan Insight",
               "url": "https://balkaninsight.com/2026/08/10/kosovo-protests-as-serbia-mulls-changing-rivers-course/bi/",
-              "date": "2026-08-10",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false
-            }
-          ]
-        },
-        {
-          "name": "Bloomberg.com",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosovo, Ukraine Ties Sour as Zelenskyy Sticks to Non-Recognition - Bloomberg.com",
-              "url": "https://www.bloomberg.com/news/articles/2026-08-10/kosovo-ukraine-ties-sour-as-zelenskyy-sticks-to-non-recognition",
               "date": "2026-08-10",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike",
@@ -631,6 +620,36 @@
           ]
         },
         {
+          "name": "Daily Pioneer",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo begins digging at newly found war-era mass graves - Daily Pioneer",
+              "url": "https://dailypioneer.com/news/slug-lite/kosovo-begins-digging-at-newly-found-war-era-mass-graves?year=2026",
+              "date": "2026-08-12",
+              "sentiment": "neutral",
+              "reason": "Lajm i rëndë, i raportuar në mënyrë faktike",
+              "isQuote": false
+            }
+          ]
+        },
+        {
+          "name": "EUalive",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Serbian President Vučić opposes KFOR withdrawal from sensitive Kosovo bridge - eualive.net",
+              "url": "https://eualive.net/serbian-president-vucic-opposes-kfor-withdrawal-from-sensitive-kosovo-bridge/",
+              "date": "2026-08-11",
+              "sentiment": "neutral",
+              "reason": "Raporton qëndrimin e Vuçiqit, nuk e përvetëson",
+              "isQuote": false
+            }
+          ]
+        },
+        {
           "name": "Eurasia Review",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -657,21 +676,6 @@
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike",
               "isQuote": false
-            }
-          ]
-        },
-        {
-          "name": "European Western Balkans",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Serbian minister causes outcry saying she \"would have ethnically cleansed Kosovo\" in the 1990s - European Western Balkans",
-              "url": "https://europeanwesternbalkans.com/2026/07/17/serbian-minister-causes-outcry-saying-she-would-have-ethnically-cleansed-kosovo-in-the-1990s/",
-              "date": "2026-07-17",
-              "sentiment": "neutral",
-              "reason": "Raporton deklaratën e ministres së Serbisë, nuk e përvetëson",
-              "isQuote": true
             }
           ]
         },
@@ -721,6 +725,21 @@
           ]
         },
         {
+          "name": "IntelliNews",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "After 27 years, KFOR begins shifting its role at Kosovo flashpoints - IntelliNews",
+              "url": "https://www.intellinews.com/after-27-years-kfor-begins-shifting-its-role-at-kosovo-flashpoints-460148/",
+              "date": "2026-08-11",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false
+            }
+          ]
+        },
+        {
           "name": "International Association for Suicide Prevention - IASP",
           "sentiment": "positive",
           "articleCount": 1,
@@ -731,21 +750,6 @@
               "date": "Wed, 05 Au",
               "sentiment": "positive",
               "reason": "Titulli i artikullit është mbështetës",
-              "isQuote": false
-            }
-          ]
-        },
-        {
-          "name": "Journal-News.com",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosovo Mass Grave - Journal-News.com",
-              "url": "https://www.journal-news.com/nation-world/kosovo-mass-grave/image_a7da495b-2a8a-5f47-8093-4b2618bafa0e.html",
-              "date": "2026-08-12",
-              "sentiment": "neutral",
-              "reason": "Lajm i rëndë, i raportuar në mënyrë faktike",
               "isQuote": false
             }
           ]
@@ -1038,32 +1042,70 @@
           ]
         },
         {
-          "name": "Yonkers Times",
-          "sentiment": "positive",
+          "name": "Yahoo",
+          "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
-              "title": "Schumer Leads Bipartisan Effort to Name US Embassy in Kosovo in Memory of Congressman Eliot Engel - Yonkers Times",
-              "url": "https://yonkerstimes.com/schumer-leads-bipartisan-effort-to-name-us-embassy-in-kosovo-in-memory-of-congressman-eliot-engel/",
-              "date": "2026-08-10",
-              "sentiment": "positive",
-              "reason": "ton i ngrohtë dhe mbështetës",
+              "title": "Families hope for answers as Kosovo discovers new mass graves from 1998-99 conflict - AP News",
+              "url": "https://apnews.com/video/families-hope-for-answers-as-kosovo-discovers-new-mass-graves-from-1998-99-conflict-8fc519ed3d3d42968f90261c547ecdcd",
+              "date": "2026-08-12",
+              "sentiment": "neutral",
+              "reason": "Lajm i rëndë, i raportuar në mënyrë faktike",
               "isQuote": false
             }
           ]
         },
         {
-          "name": "bbc.co.uk",
+          "name": "albaniandailynews.com",
+          "sentiment": "neutral",
+          "articleCount": 2,
+          "articles": [
+            {
+              "title": "Rama Rebukes Serbia’s Vucic Over Kosovo and River Ibar Dispute - albaniandailynews.com",
+              "url": "https://albaniandailynews.com/news/rama-rebukes-serbia-s-vucic-over-kosovo-and-river-ibar-dispute",
+              "date": "2026-08-11",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false
+            },
+            {
+              "title": "Albania Backs Kosovo as Serbia Considers Changing Course of Ibar River - albaniandailynews.com",
+              "url": "https://albaniandailynews.com/news/albania-backs-kosovo-as-serbia-considers-changing-course-of-ibar-river",
+              "date": "2026-08-10",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false
+            }
+          ]
+        },
+        {
+          "name": "bloomberg.com",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
-              "title": "Watch: Moment opposition MP throws eggs at Kosovo's acting PM - bbc.co.uk",
-              "url": "https://www.bbc.co.uk/news/videos/cvg8je12xxeo",
-              "date": "2026-08-08",
+              "title": "Kosovo, Ukraine Ties Sour as Zelenskyy Sticks to Non-Recognition - Bloomberg.com",
+              "url": "https://www.bloomberg.com/news/articles/2026-08-10/kosovo-ukraine-ties-sour-as-zelenskyy-sticks-to-non-recognition",
+              "date": "2026-08-10",
               "sentiment": "neutral",
-              "reason": "Lajm i rëndë, i raportuar në mënyrë faktike",
+              "reason": "Lajm i raportuar në mënyrë faktike",
               "isQuote": false
+            }
+          ]
+        },
+        {
+          "name": "censor.net",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Following Zelenskyy’s visit to Serbia, the Ukrainian flag was taken down in the centre of Pristina: \"Kosovo must be respected\". VIDEO - Цензор.НЕТ",
+              "url": "https://censor.net/en/news/4017594/the-ukrainian-flag-has-been-taken-down-in-kosovo-s-capital-what-is-known",
+              "date": "2026-08-10",
+              "sentiment": "neutral",
+              "reason": "Fjalia është citim, jo zëri i mediumit",
+              "isQuote": true
             }
           ]
         },
@@ -1098,29 +1140,29 @@
           ]
         },
         {
-          "name": "eualive.net",
+          "name": "journal-news.com",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
-              "title": "Serbian President Vučić opposes KFOR withdrawal from sensitive Kosovo bridge - eualive.net",
-              "url": "https://eualive.net/serbian-president-vucic-opposes-kfor-withdrawal-from-sensitive-kosovo-bridge/",
-              "date": "2026-08-11",
+              "title": "Kosovo Mass Grave - Journal-News.com",
+              "url": "https://www.journal-news.com/nation-world/kosovo-mass-grave/image_a7da495b-2a8a-5f47-8093-4b2618bafa0e.html",
+              "date": "2026-08-12",
               "sentiment": "neutral",
-              "reason": "Raporton qëndrimin e Vuçiqit, nuk e përvetëson",
+              "reason": "Lajm i rëndë, i raportuar në mënyrë faktike",
               "isQuote": false
             }
           ]
         },
         {
-          "name": "intellinews.com",
+          "name": "politico.eu",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
-              "title": "After 27 years, KFOR begins shifting its role at Kosovo flashpoints - intellinews.com",
-              "url": "https://www.intellinews.com/after-27-years-kfor-begins-shifting-its-role-at-kosovo-flashpoints-460148/",
-              "date": "2026-08-11",
+              "title": "Zelenskyy’s Balkan fumble - politico.eu",
+              "url": "https://www.politico.eu/article/volodymyr-zelenskyys-great-balkan-fumble-serbia/",
+              "date": "2026-08-12",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike",
               "isQuote": false
@@ -1143,14 +1185,14 @@
           ]
         },
         {
-          "name": "ukranews.com",
+          "name": "vijesti.me",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
-              "title": "Ukrainian flag taken down in Pristina following Zelenskyy’s statement on Kosovo. Here’s what he said - ukranews.com",
-              "url": "https://ukranews.com/en/news/1167808-the-ukrainian-flag-was-taken-down-in-pristina-following-zelenskyy-s-statement-on-kosovo-here-s-what",
-              "date": "2026-08-10",
+              "title": "Politiko: Serbian weapons are more important to Ukraine than the Kosovo issue - vijesti.me",
+              "url": "https://en.vijesti.me/world-a/evropa/821773/Politics-in-Ukraine%3A-Serbian-weapons-more-important-than-the-Kosovo-issue",
+              "date": "2026-08-12",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike",
               "isQuote": false
@@ -1201,29 +1243,14 @@
               "isQuote": false
             }
           ]
-        },
-        {
-          "name": "Цензор.НЕТ",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Following Zelenskyy’s visit to Serbia, the Ukrainian flag was taken down in the centre of Pristina: \"Kosovo must be respected\". VIDEO - Цензор.НЕТ",
-              "url": "https://censor.net/en/news/4017594/the-ukrainian-flag-has-been-taken-down-in-kosovo-s-capital-what-is-known",
-              "date": "2026-08-10",
-              "sentiment": "neutral",
-              "reason": "Fjalia është citim, jo zëri i mediumit",
-              "isQuote": true
-            }
-          ]
         }
       ],
       "summary": {
-        "index": 57,
-        "positive": 16,
-        "neutral": 82,
+        "index": 56,
+        "positive": 13,
+        "neutral": 85,
         "negative": 2,
-        "n": 51,
+        "n": 53,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -1234,7 +1261,7 @@
         {
           "name": "AP News",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 1,
           "articles": [
             {
               "title": "Kosovo begins excavations at newly found mass graves tied to 1998-99 war missing - AP News",
@@ -1243,13 +1270,20 @@
               "sentiment": "neutral",
               "reason": "Lajm i rëndë, i raportuar në mënyrë faktike",
               "isQuote": false
-            },
+            }
+          ]
+        },
+        {
+          "name": "Al Jazeera",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
             {
-              "title": "Families hope for answers as Kosovo discovers new mass graves from 1998-99 conflict - AP News",
-              "url": "https://apnews.com/video/families-hope-for-answers-as-kosovo-discovers-new-mass-graves-from-1998-99-conflict-8fc519ed3d3d42968f90261c547ecdcd",
-              "date": "2026-08-12",
+              "title": "Kosovo finds third wartime mass grave site as officials widen search - Al Jazeera",
+              "url": "https://www.aljazeera.com/news/2026/8/4/kosovo-finds-third-wartime-mass-grave-site-as-officials-widen-search",
+              "date": "Tue, 04 Au",
               "sentiment": "neutral",
-              "reason": "Lajm i rëndë, i raportuar në mënyrë faktike",
+              "reason": "Lajm i rëndë i raportuar në mënyrë faktike",
               "isQuote": false
             }
           ]
@@ -1257,7 +1291,7 @@
         {
           "name": "BBC",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Watch: Moment opposition MP throws eggs at Kosovo's acting PM - BBC",
@@ -1265,6 +1299,14 @@
               "date": "Sat, 08 Au",
               "sentiment": "neutral",
               "reason": "Lajm i rëndë, i raportuar në mënyrë faktike",
+              "isQuote": false
+            },
+            {
+              "title": "Can Hibs recover from calamity in Kosovo? - BBC",
+              "url": "https://www.bbc.co.uk/sport/football/articles/c0km5y4vrp7o",
+              "date": "Thu, 23 Ju",
+              "sentiment": "neutral",
+              "reason": "Lajm sportiv, i raportuar në mënyrë faktike",
               "isQuote": false
             }
           ]
@@ -1339,21 +1381,6 @@
           ]
         },
         {
-          "name": "Brussels Signal",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosovo PM egged in parliament, deepening political crisis - Brussels Signal",
-              "url": "https://brusselssignal.eu/2026/08/kosovo-pm-egged-in-parliament-deepening-political-crisis/",
-              "date": "2026-08-10",
-              "sentiment": "neutral",
-              "reason": "Lajm i keq, i raportuar në mënyrë faktike",
-              "isQuote": false
-            }
-          ]
-        },
-        {
           "name": "CNN",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1362,6 +1389,21 @@
               "title": "Lawmaker hurls eggs at Kosovo’s acting PM - CNN",
               "url": "https://www.cnn.com/2026/08/09/world/video/lawmaker-hurls-eggs-at-kosovos-acting-pm-digvid-hnk-vrtc",
               "date": "Sun, 09 Au",
+              "sentiment": "neutral",
+              "reason": "Lajm i rëndë, i raportuar në mënyrë faktike",
+              "isQuote": false
+            }
+          ]
+        },
+        {
+          "name": "Daily Pioneer",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo begins digging at newly found war-era mass graves - Daily Pioneer",
+              "url": "https://dailypioneer.com/news/slug-lite/kosovo-begins-digging-at-newly-found-war-era-mass-graves?year=2026",
+              "date": "2026-08-12",
               "sentiment": "neutral",
               "reason": "Lajm i rëndë, i raportuar në mënyrë faktike",
               "isQuote": false
@@ -1379,21 +1421,6 @@
               "date": "2026-08-11",
               "sentiment": "neutral",
               "reason": "Raporton qëndrimin e Vuçiqit, nuk e përvetëson",
-              "isQuote": false
-            }
-          ]
-        },
-        {
-          "name": "Eurasia Review",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "From Ujman To Sandzak: The Geopolitics Of Dependencies And The Doctrine Of The 'Serbian World' In The Western Balkans - Analysis - Eurasia Review",
-              "url": "https://www.eurasiareview.com/11082026-from-ujman-to-sandzak-the-geopolitics-of-dependencies-and-the-doctrine-of-the-serbian-world-in-the-western-balkans-analysis/",
-              "date": "2026-08-11",
-              "sentiment": "neutral",
-              "reason": "analizë e ngjarjeve",
               "isQuote": false
             }
           ]
@@ -1573,21 +1600,6 @@
           ]
         },
         {
-          "name": "Sky News",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Moment opposition MP throws eggs at Kosovo's acting PM Albin Kurti at parliamentary session - Sky News",
-              "url": "https://news.sky.com/video/moment-opposition-mp-throws-eggs-at-kosovos-acting-pm-albin-kurti-at-parliamentary-session-13570986",
-              "date": "Sat, 08 Au",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false
-            }
-          ]
-        },
-        {
           "name": "The Fader",
           "sentiment": "positive",
           "articleCount": 1,
@@ -1598,6 +1610,21 @@
               "date": "Mon, 27 Ju",
               "sentiment": "positive",
               "reason": "Artikull me ton pozitiv dhe promovues",
+              "isQuote": false
+            }
+          ]
+        },
+        {
+          "name": "The Guardian",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovan lawmaker hurls eggs at the prime minister – video - The Guardian",
+              "url": "https://www.theguardian.com/world/video/2026/aug/08/lawmaker-hurls-eggs-at-kosovo-prime-minister-video",
+              "date": "Sat, 08 Au",
+              "sentiment": "neutral",
+              "reason": "Lajm i pazakonshëm, i raportuar në mënyrë faktike",
               "isQuote": false
             }
           ]
@@ -1629,6 +1656,21 @@
               "sentiment": "positive",
               "reason": "Artikulli ka ton mbrojtës ndaj Kosovës",
               "isQuote": false
+            }
+          ]
+        },
+        {
+          "name": "The Kyiv Independent",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "'Kosovo must be respected' — Ukrainian flag stripped from Kosovo building after Zelensky's Serbia visit inflames controversy - The Kyiv Independent",
+              "url": "https://kyivindependent.com/kosovo-must-be-respected-ukrainian-flag-stripped-from-kosovo-building-after-zelenskys-serbia-visit-ignites-controversy/",
+              "date": "Sun, 09 Au",
+              "sentiment": "neutral",
+              "reason": "Raporton deklaratën e një vendi tjetër",
+              "isQuote": true
             }
           ]
         },
@@ -1723,6 +1765,21 @@
           ]
         },
         {
+          "name": "Yahoo News Canada",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Families hope for answers as Kosovo discovers new mass graves from 1998-99 conflict - AP News",
+              "url": "https://apnews.com/video/families-hope-for-answers-as-kosovo-discovers-new-mass-graves-from-1998-99-conflict-8fc519ed3d3d42968f90261c547ecdcd",
+              "date": "2026-08-12",
+              "sentiment": "neutral",
+              "reason": "Lajm i rëndë, i raportuar në mënyrë faktike",
+              "isQuote": false
+            }
+          ]
+        },
+        {
           "name": "Yahoo News UK",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1734,51 +1791,6 @@
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike",
               "isQuote": false
-            }
-          ]
-        },
-        {
-          "name": "aljazeera.com",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosovo finds third wartime mass grave site as officials widen search - aljazeera.com",
-              "url": "https://www.aljazeera.com/news/2026/8/4/kosovo-finds-third-wartime-mass-grave-site-as-officials-widen-search",
-              "date": "2026-08-04",
-              "sentiment": "neutral",
-              "reason": "Lajm i rëndë, i raportuar në mënyrë faktike",
-              "isQuote": false
-            }
-          ]
-        },
-        {
-          "name": "bbc.com",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Can Hibs recover from calamity in Kosovo? - bbc.com",
-              "url": "https://www.bbc.com/sport/football/articles/c0km5y4vrp7o",
-              "date": "2026-07-23",
-              "sentiment": "neutral",
-              "reason": "Lajm i sportit, i raportuar në mënyrë faktike",
-              "isQuote": false
-            }
-          ]
-        },
-        {
-          "name": "censor.net",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Following Zelenskyy’s visit to Serbia, the Ukrainian flag was taken down in the centre of Pristina: \"Kosovo must be respected\". VIDEO - Цензор.НЕТ",
-              "url": "https://censor.net/en/news/4017594/the-ukrainian-flag-has-been-taken-down-in-kosovo-s-capital-what-is-known",
-              "date": "2026-08-10",
-              "sentiment": "neutral",
-              "reason": "Fjalia është citim, jo zëri i mediumit",
-              "isQuote": true
             }
           ]
         },
@@ -1851,31 +1863,16 @@
           ]
         },
         {
-          "name": "kyivindependent.com",
+          "name": "politico.eu",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
-              "title": "'Kosovo must be respected' — Ukrainian flag stripped from Kosovo building after Zelensky's Serbia visit inflames controversy - The Kyiv Independent",
-              "url": "https://kyivindependent.com/kosovo-must-be-respected-ukrainian-flag-stripped-from-kosovo-building-after-zelenskys-serbia-visit-ignites-controversy/",
-              "date": "Sun, 09 Au",
+              "title": "Zelenskyy’s Balkan fumble - politico.eu",
+              "url": "https://www.politico.eu/article/volodymyr-zelenskyys-great-balkan-fumble-serbia/",
+              "date": "2026-08-12",
               "sentiment": "neutral",
-              "reason": "Raporton deklaratën e një vendi tjetër",
-              "isQuote": true
-            }
-          ]
-        },
-        {
-          "name": "theguardian.com",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosovan lawmaker hurls eggs at the prime minister – video - theguardian.com",
-              "url": "https://www.theguardian.com/world/video/2026/aug/08/lawmaker-hurls-eggs-at-kosovo-prime-minister-video",
-              "date": "Sat, 08 Au",
-              "sentiment": "neutral",
-              "reason": "Headline reports factual incident without hostile language toward Kosovo",
+              "reason": "Lajm i raportuar në mënyrë faktike",
               "isQuote": false
             }
           ]
@@ -1896,14 +1893,14 @@
           ]
         },
         {
-          "name": "unn.ua",
+          "name": "vijesti.me",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
-              "title": "Kosovo voiced a protest as Serbia considers the possibility of changing the course of a river - Українські Національні Новини (УНН)",
-              "url": "https://unn.ua/en/news/kosovo-voiced-protest-as-serbia-considers-changing-the-course-of-a-river",
-              "date": "2026-08-11",
+              "title": "Politiko: Serbian weapons are more important to Ukraine than the Kosovo issue - vijesti.me",
+              "url": "https://en.vijesti.me/world-a/evropa/821773/Politics-in-Ukraine%3A-Serbian-weapons-more-important-than-the-Kosovo-issue",
+              "date": "2026-08-12",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike",
               "isQuote": false
@@ -1936,6 +1933,36 @@
               "date": "Sun, 09 Au",
               "sentiment": "neutral",
               "reason": "Raporton deklaratën e një deklarate, nuk e përvetëson",
+              "isQuote": true
+            }
+          ]
+        },
+        {
+          "name": "Українські Національні Новини (УНН)",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo voiced a protest as Serbia considers the possibility of changing the course of a river - Українські Національні Новини (УНН)",
+              "url": "https://unn.ua/en/news/kosovo-voiced-protest-as-serbia-considers-changing-the-course-of-a-river",
+              "date": "2026-08-11",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false
+            }
+          ]
+        },
+        {
+          "name": "Цензор.НЕТ",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Following Zelenskyy’s visit to Serbia, the Ukrainian flag was taken down in the centre of Pristina: \"Kosovo must be respected\". VIDEO - Цензор.НЕТ",
+              "url": "https://censor.net/en/news/4017594/the-ukrainian-flag-has-been-taken-down-in-kosovo-s-capital-what-is-known",
+              "date": "2026-08-10",
+              "sentiment": "neutral",
+              "reason": "Fjalia është citim, jo zëri i mediumit",
               "isQuote": true
             }
           ]
@@ -1993,16 +2020,16 @@
           ]
         },
         {
-          "name": "Actualités Ukrinform",
-          "sentiment": "neutral",
+          "name": "AFD - Agence Française de Développement",
+          "sentiment": "positive",
           "articleCount": 1,
           "articles": [
             {
-              "title": "Selon Volodymyr Zelensky, la position de l'Ukraine sur le Kosovo reste inchangée - Actualités Ukrinform",
-              "url": "https://www.ukrinform.fr/rubric-polytics/4152399-selon-volodymyr-zelensky-la-position-de-lukraine-sur-le-kosovo-reste-inchangee.html",
-              "date": "Sat, 08 Au",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
+              "title": "La France et le Kosovo renforcent leur partenariat avec un financement de l'AFD de 60 millions d'euros en soutien aux Jeux méditerranéens 2030 - AFD - Agence Française de Développement",
+              "url": "https://www.afd.fr/fr/commmuniques-de-presse/la-france-et-le-kosovo-renforcent-leur-partenariat-avec-un-financement-de",
+              "date": "Mon, 27 Ju",
+              "sentiment": "positive",
+              "reason": "Toni i lajmit është mbështetës",
               "isQuote": false
             }
           ]
@@ -2064,6 +2091,21 @@
               "date": "Tue, 14 Ju",
               "sentiment": "neutral",
               "reason": "Fjalia është citim i ministres serbe",
+              "isQuote": true
+            }
+          ]
+        },
+        {
+          "name": "Euronews.com",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo : les propos de Zelensky irritent les autorités de Pristina - Euronews.com",
+              "url": "https://fr.euronews.com/my-europe/2026/08/11/le-casse-tete-kosovo-de-kyiv-les-propos-de-zelensky-sur-lindependance-fachent-prishtina",
+              "date": "2026-08-11",
+              "sentiment": "neutral",
+              "reason": "Fjalia është citim i Zelensky",
               "isQuote": true
             }
           ]
@@ -2167,6 +2209,36 @@
           ]
         },
         {
+          "name": "Informat.ro",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Le Kosovo a retiré les symboles de soutien à l'Ukraine après le refus de Zelenski de reconnaître son indépendance. - informat.ro",
+              "url": "https://informat.ro/fr/international/tensions-entre-le-kosovo-et-lukraine-apres-les-declarations-de-zelenski-134229",
+              "date": "2026-08-11",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false
+            }
+          ]
+        },
+        {
+          "name": "L'Aisne nouvelle",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Haltérophilie : trois jeunes athlètes de La Ferté-Milon sélectionnées pour les championnats d’Europe U17 - aisnenouvelle.fr",
+              "url": "https://www.aisnenouvelle.fr/id737783/article/2026-08-10/halterophilie-trois-jeunes-athletes-de-la-ferte-milon-selectionnees-pour-les",
+              "date": "2026-08-10",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false
+            }
+          ]
+        },
+        {
           "name": "La Libre.be",
           "sentiment": "neutral",
           "articleCount": 2,
@@ -2195,12 +2267,12 @@
           "articleCount": 3,
           "articles": [
             {
-              "title": "Malaise côté albanophone pro-ukrainien après les propos de Zelensky défendant « l’intégrité territoriale » de la Serbie - Le Courrier des Balkans",
+              "title": "Malaise au Kosovo et en Albanie après les propos de Zelensky défendant « l’intégrité territoriale » de la Serbie - Le Courrier des Balkans",
               "url": "https://www.courrierdesbalkans.fr/malaise-cote-albanophone-pro-ukrainien-apres-les-propos-de-zelensky-defendant-lintegrite-territoriale-de-la-serbie-98125/",
               "date": "2026-08-12",
               "sentiment": "neutral",
-              "reason": "Raporton reagimet ndaj deklaratave të Zelenskit",
-              "isQuote": false
+              "reason": "Fjalia është citim brenda «»",
+              "isQuote": true
             },
             {
               "title": "Kosovo : le verdict contre Hashim Thaçi et ses co-accusés reporté au 16 septembre - Le Courrier des Balkans",
@@ -2366,21 +2438,6 @@
           ]
         },
         {
-          "name": "Sud Ouest",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosovo : sept dépouilles de Kosovars albanais retrouvées dans un charnier datant de la guerre de 1998-1999 - Sud Ouest",
-              "url": "https://www.sudouest.fr/justice/kosovo-sept-depouilles-de-kosovars-albanais-retrouvees-dans-un-charnier-datant-de-la-guerre-de-1998-1999-30138639.php",
-              "date": "Sat, 01 Au",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike pa gjuhë ngarkuar",
-              "isQuote": false
-            }
-          ]
-        },
-        {
           "name": "Vatican News",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -2392,51 +2449,6 @@
               "sentiment": "neutral",
               "reason": "Raportim faktik, citim brenda «»",
               "isQuote": true
-            }
-          ]
-        },
-        {
-          "name": "afd.fr",
-          "sentiment": "positive",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "La France et le Kosovo renforcent leur partenariat avec un financement de l'AFD de 60 millions d'euros en soutien aux Jeux méditerranéens 2030 - AFD - Agence Française de Développement",
-              "url": "https://www.afd.fr/fr/commmuniques-de-presse/la-france-et-le-kosovo-renforcent-leur-partenariat-avec-un-financement-de",
-              "date": "Mon, 27 Ju",
-              "sentiment": "positive",
-              "reason": "Toni i lajmit është mbështetës",
-              "isQuote": false
-            }
-          ]
-        },
-        {
-          "name": "aisnenouvelle.fr",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Haltérophilie : trois jeunes athlètes de La Ferté-Milon sélectionnées pour les championnats d’Europe U17 - aisnenouvelle.fr",
-              "url": "https://www.aisnenouvelle.fr/id737783/article/2026-08-10/halterophilie-trois-jeunes-athletes-de-la-ferte-milon-selectionnees-pour-les",
-              "date": "2026-08-10",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false
-            }
-          ]
-        },
-        {
-          "name": "fr.euronews.com",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosovo : les propos de Zelensky irritent les autorités de Pristina - fr.euronews.com",
-              "url": "https://fr.euronews.com/my-europe/2026/08/11/le-casse-tete-kosovo-de-kyiv-les-propos-de-zelensky-sur-lindependance-fachent-prishtina",
-              "date": "2026-08-11",
-              "sentiment": "neutral",
-              "reason": "Raporton reagimet ndaj deklaratave të Zelenskit",
-              "isQuote": false
             }
           ]
         },
@@ -2464,14 +2476,14 @@
           ]
         },
         {
-          "name": "informat.ro",
+          "name": "ukrinform.fr",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
-              "title": "Le Kosovo a retiré les symboles de soutien à l'Ukraine après le refus de Zelenski de reconnaître son indépendance. - informat.ro",
-              "url": "https://informat.ro/fr/international/tensions-entre-le-kosovo-et-lukraine-apres-les-declarations-de-zelenski-134229",
-              "date": "2026-08-11",
+              "title": "Selon Volodymyr Zelensky, la position de l'Ukraine sur le Kosovo reste inchangée - Actualités Ukrinform",
+              "url": "https://www.ukrinform.fr/rubric-polytics/4152399-selon-volodymyr-zelensky-la-position-de-lukraine-sur-le-kosovo-reste-inchangee.html",
+              "date": "Sat, 08 Au",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike",
               "isQuote": false
@@ -2499,7 +2511,7 @@
         "positive": 10,
         "neutral": 88,
         "negative": 2,
-        "n": 42,
+        "n": 41,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -2731,16 +2743,16 @@
           ]
         },
         {
-          "name": "IQAir",
+          "name": "Il Foglio",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
-              "title": "Indice di qualità dell'aria (AQI) e informazioni sull'inquinamento atmosferico in Cossovo | IQAir Italia - IQAir",
-              "url": "https://www.iqair.com/it/air-quality/kosovo",
-              "date": "Tue, 23 Ju",
+              "title": "Non sparate a Zelensky sul Kosovo - Il Foglio",
+              "url": "https://www.ilfoglio.it/esteri/2026/08/11/news/non-sparate-a-zelensky-sul-kosovo--404515",
+              "date": "2026-08-11",
               "sentiment": "neutral",
-              "reason": "Faktik, pa gjuhë ngarkuar, raportim neutral i ngjarjes",
+              "reason": "Lajm i raportuar në mënyrë faktike",
               "isQuote": false
             }
           ]
@@ -2784,41 +2796,17 @@
           ]
         },
         {
-          "name": "KoSSev",
+          "name": "La Biennale di Venezia",
           "sentiment": "neutral",
-          "articleCount": 4,
+          "articleCount": 1,
           "articles": [
             {
-              "title": "RSE: Quanto costa al Kosovo il blocco del commercio di energia elettrica con la Serbia? - KoSSev",
-              "url": "https://kossev.info/it/koliko-kosovo-kosta-blokada-trgovine-elektricnom-energijom-sa-srbijom/",
-              "date": "Sun, 09 Au",
+              "title": "Biennale Arte 2026 | Kosovo (Repubblica del) - La Biennale di Venezia",
+              "url": "https://www.labiennale.org/it/arte/2026/kosovo-repubblica-del",
+              "date": "Wed, 06 Ma",
               "sentiment": "neutral",
-              "reason": "Neutral question about economic cost of electricity blockade",
+              "reason": "Lajm i raportuar në mënyrë faktike pa gjuhë ngarkuese",
               "isQuote": false
-            },
-            {
-              "title": "Il Kosovo ha battuto la Serbia nel golf. - KoSSev",
-              "url": "https://kossev.info/it/kosovo-pobedilo-srbiju-u-golfu/",
-              "date": "2026-07-31",
-              "sentiment": "neutral",
-              "reason": "Lajm i mirë, i raportuar në mënyrë faktike",
-              "isQuote": false
-            },
-            {
-              "title": "Koha: \"Invece di normalizzare le relazioni tra Kosovo e Serbia, le tensioni aumenteranno\". - KoSSev",
-              "url": "https://kossev.info/it/koha-umesto-normalizacije-odnosa-izmedju-kosova-i-srbije-tenzije-ce-rasti/",
-              "date": "Wed, 05 Au",
-              "sentiment": "neutral",
-              "reason": "Raporton deklaratën e citimit, nuk e përvetëson",
-              "isQuote": true
-            },
-            {
-              "title": "Vučić ai nuovi ufficiali: \"Il Kosovo e Metohija fa parte della nostra patria, secondo la Costituzione e secondo la giustizia di Dio\" - KoSSev",
-              "url": "https://kossev.info/it/vucic-novim-oficirima-kosovo-i-metohija-je-deo-srbije-po-ustavu-i-po-pravdi-boga/",
-              "date": "2026-07-25",
-              "sentiment": "neutral",
-              "reason": "Raporton deklaratën e Vuçiqit, nuk e përvetëson",
-              "isQuote": true
             }
           ]
         },
@@ -2893,6 +2881,36 @@
               "date": "2026-08-11",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false
+            }
+          ]
+        },
+        {
+          "name": "Rifondazione Comunista – Sinistra Europea",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Delle guerre ibride dal Kosovo a Ceuta - Rifondazione Comunista – Sinistra Europea",
+              "url": "https://home.rifondazione.eu/2026/08/06/delle-guerre-ibride-dal-kosovo-a-ceuta/",
+              "date": "Thu, 06 Au",
+              "sentiment": "neutral",
+              "reason": "Generic headline linking Kosovo to broader conflict narrative, no hostile wording",
+              "isQuote": false
+            }
+          ]
+        },
+        {
+          "name": "RomaToday",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Uranio impoverito in Kosovo, poi il tumore. Risarcimento da 300mila euro per un ex comandante dell'aeronautica - RomaToday",
+              "url": "https://www.romatoday.it/cronaca/amianto-kosovo-tumore-comandante-aeronautica-risarcimento.html",
+              "date": "Thu, 16 Ju",
+              "sentiment": "neutral",
+              "reason": "Factual report of health‑related compensation claim",
               "isQuote": false
             }
           ]
@@ -2991,7 +3009,7 @@
         {
           "name": "UEFA.com",
           "sentiment": "neutral",
-          "articleCount": 3,
+          "articleCount": 4,
           "articles": [
             {
               "title": "Belgio-Kosovo | Gironi | UEFA Under 17 2027 - UEFA.com",
@@ -2999,6 +3017,14 @@
               "date": "Wed, 22 Ju",
               "sentiment": "neutral",
               "reason": "Listing of a UEFA Under‑17 2027 match",
+              "isQuote": false
+            },
+            {
+              "title": "Cechia-Kosovo | Qualificazioni Europee 2026 - UEFA.com",
+              "url": "https://it.uefa.com/european-qualifiers/friendlies/match/2048310--czechia-vs-kosovo/",
+              "date": "Sun, 31 Ma",
+              "sentiment": "neutral",
+              "reason": "Listing of a Euro 2026 qualifier match",
               "isQuote": false
             },
             {
@@ -3126,32 +3152,41 @@
           ]
         },
         {
-          "name": "ilfoglio.it",
+          "name": "kossev.info",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 4,
           "articles": [
             {
-              "title": "Non sparate a Zelensky sul Kosovo - ilfoglio.it",
-              "url": "https://www.ilfoglio.it/esteri/2026/08/11/news/non-sparate-a-zelensky-sul-kosovo--404515",
-              "date": "2026-08-11",
+              "title": "RSE: Quanto costa al Kosovo il blocco del commercio di energia elettrica con la Serbia? - KoSSev",
+              "url": "https://kossev.info/it/koliko-kosovo-kosta-blokada-trgovine-elektricnom-energijom-sa-srbijom/",
+              "date": "Sun, 09 Au",
               "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
+              "reason": "Neutral question about economic cost of electricity blockade",
               "isQuote": false
-            }
-          ]
-        },
-        {
-          "name": "labiennale.org",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
+            },
             {
-              "title": "Biennale Arte 2026 | Kosovo (Repubblica del) - labiennale.org",
-              "url": "https://www.labiennale.org/it/arte/2026/kosovo-repubblica-del",
-              "date": "2026-05-06",
+              "title": "Il Kosovo ha battuto la Serbia nel golf. - kossev.info",
+              "url": "https://kossev.info/it/kosovo-pobedilo-srbiju-u-golfu/",
+              "date": "2026-07-31",
               "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
+              "reason": "Lajm i mirë, i raportuar në mënyrë faktike",
               "isQuote": false
+            },
+            {
+              "title": "Koha: \"Invece di normalizzare le relazioni tra Kosovo e Serbia, le tensioni aumenteranno\". - KoSSev",
+              "url": "https://kossev.info/it/koha-umesto-normalizacije-odnosa-izmedju-kosova-i-srbije-tenzije-ce-rasti/",
+              "date": "Wed, 05 Au",
+              "sentiment": "neutral",
+              "reason": "Raporton deklaratën e citimit, nuk e përvetëson",
+              "isQuote": true
+            },
+            {
+              "title": "Vučić ai nuovi ufficiali: \"Il Kosovo e Metohija fa parte della nostra patria, secondo la Costituzione e secondo la giustizia di Dio\" - KoSSev",
+              "url": "https://kossev.info/it/vucic-novim-oficirima-kosovo-i-metohija-je-deo-srbije-po-ustavu-i-po-pravdi-boga/",
+              "date": "2026-07-25",
+              "sentiment": "neutral",
+              "reason": "Raporton deklaratën e Vuçiqit, nuk e përvetëson",
+              "isQuote": true
             }
           ]
         },
@@ -3166,36 +3201,6 @@
               "date": "Sat, 08 Au",
               "sentiment": "neutral",
               "reason": "Plain description of opposition deputy throwing eggs at interim premier",
-              "isQuote": false
-            }
-          ]
-        },
-        {
-          "name": "rifondazione.eu",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Delle guerre ibride dal Kosovo a Ceuta - rifondazione.eu",
-              "url": "https://home.rifondazione.eu/2026/08/06/delle-guerre-ibride-dal-kosovo-a-ceuta/",
-              "date": "2026-08-06",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false
-            }
-          ]
-        },
-        {
-          "name": "romatoday.it",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Uranio impoverito in Kosovo, poi il tumore. Risarcimento da 300mila euro per un ex comandante dell'aeronautica - RomaToday",
-              "url": "https://www.romatoday.it/cronaca/amianto-kosovo-tumore-comandante-aeronautica-risarcimento.html",
-              "date": "Thu, 16 Ju",
-              "sentiment": "neutral",
-              "reason": "Factual report of health‑related compensation claim",
               "isQuote": false
             }
           ]
