@@ -209,55 +209,55 @@
   {
     "date": "2026-08-12",
     "overallIndex": 52,
-    "totalArticles": 401,
-    "sourceCount": 239,
+    "totalArticles": 414,
+    "sourceCount": 345,
     "countries": {
       "Gjermani": {
         "index": 51,
-        "positive": 4,
-        "neutral": 94,
-        "negative": 2,
-        "n": 82,
+        "positive": 6,
+        "neutral": 92,
+        "negative": 3,
+        "n": 36,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
       },
       "SHBA": {
-        "index": 54,
+        "index": 53,
         "positive": 8,
-        "neutral": 91,
-        "negative": 1,
-        "n": 99,
+        "neutral": 90,
+        "negative": 2,
+        "n": 52,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
       },
       "Britani": {
-        "index": 52,
-        "positive": 4,
-        "neutral": 96,
-        "negative": 0,
-        "n": 24,
+        "index": 53,
+        "positive": 8,
+        "neutral": 90,
+        "negative": 2,
+        "n": 51,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
       },
       "Francë": {
-        "index": 54,
-        "positive": 10,
+        "index": 55,
+        "positive": 11,
         "neutral": 89,
-        "negative": 1,
-        "n": 73,
+        "negative": 0,
+        "n": 37,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
       },
       "Itali": {
         "index": 49,
-        "positive": 2,
-        "neutral": 94,
-        "negative": 4,
-        "n": 81,
+        "positive": 3,
+        "neutral": 92,
+        "negative": 5,
+        "n": 59,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -267,29 +267,29 @@
         "positive": 0,
         "neutral": 98,
         "negative": 2,
-        "n": 42,
-        "excluded": 0,
+        "n": 44,
+        "excluded": 16,
         "confident": true,
         "stanceVersion": 2
       },
       "Austri": {
-        "index": null,
+        "index": 50,
         "positive": 0,
-        "neutral": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 0,
-        "excluded": 0,
-        "confident": false,
+        "n": 33,
+        "excluded": 7,
+        "confident": true,
         "stanceVersion": 2
       },
       "Zvicër": {
-        "index": null,
-        "positive": 0,
-        "neutral": 0,
-        "negative": 0,
-        "n": 0,
-        "excluded": 0,
-        "confident": false,
+        "index": 52,
+        "positive": 8,
+        "neutral": 88,
+        "negative": 4,
+        "n": 25,
+        "excluded": 18,
+        "confident": true,
         "stanceVersion": 2
       },
       "Holandë": {
@@ -298,26 +298,26 @@
         "neutral": 0,
         "negative": 0,
         "n": 0,
-        "excluded": 0,
+        "excluded": 56,
         "confident": false,
         "stanceVersion": 2
       },
       "Belgjikë": {
-        "index": null,
-        "positive": 0,
-        "neutral": 0,
+        "index": 52,
+        "positive": 4,
+        "neutral": 96,
         "negative": 0,
-        "n": 0,
+        "n": 24,
         "excluded": 0,
-        "confident": false,
+        "confident": true,
         "stanceVersion": 2
       },
       "Spanjë": {
-        "index": null,
+        "index": 50,
         "positive": 0,
-        "neutral": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 0,
+        "n": 1,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
@@ -363,6 +363,194 @@
         "stanceVersion": 2
       },
       "Kroaci": {
+        "index": 53,
+        "positive": 8,
+        "neutral": 90,
+        "negative": 2,
+        "n": 52,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 2
+      }
+    },
+    "headlines": [
+      {
+        "title": "„Die Erfahrungen aus Duderstadt und vom Seeburger See nutze ich noch heute“: So viel Eichsfeld steckt im Kosovo - GT/ET Göttinger Tageblatt - Eichsfelder Tageblatt",
+        "source": "GT/ET Göttinger Tageblatt - Eichsfelder Tageblatt",
+        "country": "Gjermani",
+        "flag": "🇩🇪",
+        "url": "https://www.goettinger-tageblatt.de/lokales/goettingen-lk/duderstadt/was-ein-student-im-eichsfeld-lernte-und-damit-im-kosovo-bewirkte-4FRDBASIUBA7ZMHD7TBANCVOX4.html",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Kosovo stood with Ukraine, Zelensky’s words in Belgrade were a painful betrayal - opinion - The Jerusalem Post",
+        "source": "The Jerusalem Post",
+        "country": "SHBA",
+        "flag": "🇺🇸",
+        "url": "https://www.jpost.com/opinion/article-905061",
+        "sentiment": "positive"
+      },
+      {
+        "title": "From Grassroots to Policy – The Case for Kosovo - International Association for Suicide Prevention - IASP",
+        "source": "International Association for Suicide Prevention - IASP",
+        "country": "Britani",
+        "flag": "🇬🇧",
+        "url": "https://www.iasp.info/2026/08/05/from-grassroots-to-policy-the-case-for-kosovo/",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Serbien: Ministerin hätte Kosovo gerne \"ethnisch gesäubert\" - dw.com",
+        "source": "DW.com",
+        "country": "Gjermani",
+        "flag": "🇩🇪",
+        "url": "https://www.dw.com/de/serbiens-ministerin-snezana-paunovic-haette-kosovo-im-krieg-1999-gerne-ethnisch-gesaeubert/a-77983728",
+        "sentiment": "negative"
+      },
+      {
+        "title": "Serbian Minister Backs ‘Ethnic Cleansing’ of Kosovo - Genocide Watch",
+        "source": "Genocide Watch",
+        "country": "SHBA",
+        "flag": "🇺🇸",
+        "url": "https://www.genocidewatch.com/single-post/eu-condemns-serbian-minister-for-backing-ethnic-cleansing-of-kosovo",
+        "sentiment": "negative"
+      },
+      {
+        "title": "Kosovo, lancio di uova contro il primo ministro e Parlamento nel caos - Tgcom24",
+        "source": "Tgcom24",
+        "country": "Itali",
+        "flag": "🇮🇹",
+        "url": "https://www.tgcom24.mediaset.it/2026/video/kosovo-lancio-uova-parlamento_115281699-02k.shtml",
+        "sentiment": "negative"
+      }
+    ]
+  },
+  {
+    "date": "2026-08-13",
+    "overallIndex": 52,
+    "totalArticles": 437,
+    "sourceCount": 363,
+    "countries": {
+      "Gjermani": {
+        "index": 51,
+        "positive": 6,
+        "neutral": 91,
+        "negative": 3,
+        "n": 35,
+        "excluded": 1,
+        "confident": true,
+        "stanceVersion": 2
+      },
+      "SHBA": {
+        "index": 53,
+        "positive": 9,
+        "neutral": 87,
+        "negative": 4,
+        "n": 54,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 2
+      },
+      "Britani": {
+        "index": 53,
+        "positive": 9,
+        "neutral": 88,
+        "negative": 4,
+        "n": 56,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 2
+      },
+      "Francë": {
+        "index": 55,
+        "positive": 13,
+        "neutral": 84,
+        "negative": 3,
+        "n": 38,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 2
+      },
+      "Itali": {
+        "index": 49,
+        "positive": 4,
+        "neutral": 91,
+        "negative": 5,
+        "n": 57,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 2
+      },
+      "Serbi": {
+        "index": 48,
+        "positive": 0,
+        "neutral": 96,
+        "negative": 4,
+        "n": 49,
+        "excluded": 11,
+        "confident": true,
+        "stanceVersion": 2
+      },
+      "Austri": {
+        "index": 53,
+        "positive": 5,
+        "neutral": 95,
+        "negative": 0,
+        "n": 37,
+        "excluded": 5,
+        "confident": true,
+        "stanceVersion": 2
+      },
+      "Zvicër": {
+        "index": 50,
+        "positive": 4,
+        "neutral": 91,
+        "negative": 4,
+        "n": 23,
+        "excluded": 11,
+        "confident": true,
+        "stanceVersion": 2
+      },
+      "Holandë": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 7,
+        "excluded": 53,
+        "confident": false,
+        "stanceVersion": 2
+      },
+      "Belgjikë": {
+        "index": 52,
+        "positive": 4,
+        "neutral": 96,
+        "negative": 0,
+        "n": 27,
+        "excluded": 2,
+        "confident": true,
+        "stanceVersion": 2
+      },
+      "Spanjë": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 44,
+        "confident": false,
+        "stanceVersion": 2
+      },
+      "Greqi": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 16,
+        "confident": false,
+        "stanceVersion": 2
+      },
+      "Suedi": {
         "index": null,
         "positive": 0,
         "neutral": 0,
@@ -371,17 +559,62 @@
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
+      },
+      "Poloni": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 2
+      },
+      "Turqi": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 2
+      },
+      "Kroaci": {
+        "index": 53,
+        "positive": 9,
+        "neutral": 87,
+        "negative": 4,
+        "n": 54,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 2
       }
     },
-    "stanceVersion": 2,
     "headlines": [
       {
-        "title": "Zu Besuch beim Putin-Freund Vučić: Die Opferung Kosovos - taz.de",
-        "source": "taz.de",
+        "title": "„Die Erfahrungen aus Duderstadt und vom Seeburger See nutze ich noch heute“: So viel Eichsfeld steckt im Kosovo - GT/ET Göttinger Tageblatt - Eichsfelder Tageblatt",
+        "source": "GT/ET Göttinger Tageblatt - Eichsfelder Tageblatt",
         "country": "Gjermani",
         "flag": "🇩🇪",
-        "url": "https://taz.de/Zu-Besuch-beim-Putin-Freund-Vucic/!6202940/",
-        "sentiment": "negative"
+        "url": "https://www.goettinger-tageblatt.de/lokales/goettingen-lk/duderstadt/was-ein-student-im-eichsfeld-lernte-und-damit-im-kosovo-bewirkte-4FRDBASIUBA7ZMHD7TBANCVOX4.html",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Kosovo stood with Ukraine, Zelensky’s words in Belgrade were a painful betrayal - opinion - The Jerusalem Post",
+        "source": "jpost.com",
+        "country": "SHBA",
+        "flag": "🇺🇸",
+        "url": "https://www.jpost.com/opinion/article-905061",
+        "sentiment": "positive"
+      },
+      {
+        "title": "From Grassroots to Policy – The Case for Kosovo - International Association for Suicide Prevention - IASP",
+        "source": "International Association for Suicide Prevention - IASP",
+        "country": "Britani",
+        "flag": "🇬🇧",
+        "url": "https://www.iasp.info/2026/08/05/from-grassroots-to-policy-the-case-for-kosovo/",
+        "sentiment": "positive"
       },
       {
         "title": "Serbien: Ministerin hätte Kosovo gerne \"ethnisch gesäubert\" - dw.com",
@@ -392,36 +625,20 @@
         "sentiment": "negative"
       },
       {
-        "title": "„Die Erfahrungen aus Duderstadt und vom Seeburger See nutze ich noch heute“: So viel Eichsfeld steckt im Kosovo - GT/ET Göttinger Tageblatt - Eichsfelder Tageblatt",
-        "source": "GT/ET Göttinger Tageblatt - Eichsfelder Tageblatt",
-        "country": "Gjermani",
-        "flag": "🇩🇪",
-        "url": "https://www.goettinger-tageblatt.de/lokales/goettingen-lk/duderstadt/was-ein-student-im-eichsfeld-lernte-und-damit-im-kosovo-bewirkte-4FRDBASIUBA7ZMHD7TBANCVOX4.html",
-        "sentiment": "positive"
-      },
-      {
-        "title": "Kosovo: Gesänge erzählen die Geschichte der Albaner - Stadt, Land, Kunst - 07/05/2026 - Die ganze Doku - Arte.tv",
-        "source": "Arte.tv",
-        "country": "Gjermani",
-        "flag": "🇩🇪",
-        "url": "https://www.arte.tv/de/videos/132970-000-A/kosovo-gesaenge-erzaehlen-die-geschichte-der-albaner/",
-        "sentiment": "positive"
-      },
-      {
-        "title": "From Grassroots to Policy – The Case for Kosovo - International Association for Suicide Prevention - IASP",
-        "source": "International Association for Suicide Prevention - IASP",
+        "title": "Serbian Minister Backs ‘Ethnic Cleansing’ of Kosovo - Genocide Watch",
+        "source": "Genocide Watch",
         "country": "SHBA",
         "flag": "🇺🇸",
-        "url": "https://www.iasp.info/2026/08/05/from-grassroots-to-policy-the-case-for-kosovo/",
-        "sentiment": "positive"
+        "url": "https://www.genocidewatch.com/single-post/eu-condemns-serbian-minister-for-backing-ethnic-cleansing-of-kosovo",
+        "sentiment": "negative"
       },
       {
-        "title": "‘Global Law in Action’ strengthens ties between Kosovo and Minnesota – Center for Law and Business - Mitchell Hamline School of Law",
-        "source": "Mitchell Hamline School of Law",
-        "country": "SHBA",
-        "flag": "🇺🇸",
-        "url": "https://mitchellhamline.edu/news/2026/08/04/global-law-in-action-strengthens-ties-between-kosovo-and-minnesota/",
-        "sentiment": "positive"
+        "title": "Ukraine should condemn Putin's visit to Japan's Northern Territories and reconsider its position on Kosovo - shelter.in.ua",
+        "source": "shelter.in.ua",
+        "country": "Britani",
+        "flag": "🇬🇧",
+        "url": "https://shelter.in.ua/en/opinions/ukrayina-povynna-zasudyty-vizyt-putina-na-pivnichni-terytoriyi-iaponiyi-ta-perehlianuty-pozytsiiu-shchodo-kosova",
+        "sentiment": "negative"
       }
     ]
   }
