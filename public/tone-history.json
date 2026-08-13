@@ -423,5 +423,223 @@
         "sentiment": "negative"
       }
     ]
+  },
+  {
+    "date": "2026-08-13",
+    "overallIndex": 52,
+    "totalArticles": 447,
+    "sourceCount": 342,
+    "countries": {
+      "Gjermani": {
+        "index": 52,
+        "positive": 8,
+        "neutral": 90,
+        "negative": 2,
+        "n": 40,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 2
+      },
+      "SHBA": {
+        "index": 54,
+        "positive": 9,
+        "neutral": 89,
+        "negative": 2,
+        "n": 53,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 2
+      },
+      "Britani": {
+        "index": 54,
+        "positive": 9,
+        "neutral": 89,
+        "negative": 2,
+        "n": 55,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 2
+      },
+      "Francë": {
+        "index": 55,
+        "positive": 13,
+        "neutral": 85,
+        "negative": 3,
+        "n": 39,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 2
+      },
+      "Itali": {
+        "index": 51,
+        "positive": 5,
+        "neutral": 91,
+        "negative": 4,
+        "n": 57,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 2
+      },
+      "Serbi": {
+        "index": 49,
+        "positive": 0,
+        "neutral": 98,
+        "negative": 2,
+        "n": 51,
+        "excluded": 8,
+        "confident": true,
+        "stanceVersion": 2
+      },
+      "Austri": {
+        "index": 51,
+        "positive": 3,
+        "neutral": 97,
+        "negative": 0,
+        "n": 37,
+        "excluded": 3,
+        "confident": true,
+        "stanceVersion": 2
+      },
+      "Zvicër": {
+        "index": 52,
+        "positive": 8,
+        "neutral": 88,
+        "negative": 4,
+        "n": 26,
+        "excluded": 18,
+        "confident": true,
+        "stanceVersion": 2
+      },
+      "Holandë": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 6,
+        "excluded": 54,
+        "confident": false,
+        "stanceVersion": 2
+      },
+      "Belgjikë": {
+        "index": 52,
+        "positive": 3,
+        "neutral": 97,
+        "negative": 0,
+        "n": 29,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 2
+      },
+      "Spanjë": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 1,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 2
+      },
+      "Greqi": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 2
+      },
+      "Suedi": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 2
+      },
+      "Poloni": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 2
+      },
+      "Turqi": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 2
+      },
+      "Kroaci": {
+        "index": 54,
+        "positive": 9,
+        "neutral": 89,
+        "negative": 2,
+        "n": 53,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 2
+      }
+    },
+    "headlines": [
+      {
+        "title": "„Die Erfahrungen aus Duderstadt und vom Seeburger See nutze ich noch heute“: So viel Eichsfeld steckt im Kosovo - GT/ET Göttinger Tageblatt - Eichsfelder Tageblatt",
+        "source": "GT/ET Göttinger Tageblatt - Eichsfelder Tageblatt",
+        "country": "Gjermani",
+        "flag": "🇩🇪",
+        "url": "https://www.goettinger-tageblatt.de/lokales/goettingen-lk/duderstadt/was-ein-student-im-eichsfeld-lernte-und-damit-im-kosovo-bewirkte-4FRDBASIUBA7ZMHD7TBANCVOX4.html",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Kosovo stood with Ukraine, Zelensky’s words in Belgrade were a painful betrayal - opinion - The Jerusalem Post",
+        "source": "The Jerusalem Post",
+        "country": "SHBA",
+        "flag": "🇺🇸",
+        "url": "https://www.jpost.com/opinion/article-905061",
+        "sentiment": "positive"
+      },
+      {
+        "title": "From Grassroots to Policy – The Case for Kosovo - International Association for Suicide Prevention - IASP",
+        "source": "International Association for Suicide Prevention - IASP",
+        "country": "Britani",
+        "flag": "🇬🇧",
+        "url": "https://www.iasp.info/2026/08/05/from-grassroots-to-policy-the-case-for-kosovo/",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Serbien: Ministerin hätte Kosovo gerne \"ethnisch gesäubert\" - dw.com",
+        "source": "dw.com",
+        "country": "Gjermani",
+        "flag": "🇩🇪",
+        "url": "https://www.dw.com/de/serbiens-ministerin-snezana-paunovic-haette-kosovo-im-krieg-1999-gerne-ethnisch-gesaeubert/a-77983728",
+        "sentiment": "negative"
+      },
+      {
+        "title": "Serbian Minister Backs ‘Ethnic Cleansing’ of Kosovo - Genocide Watch",
+        "source": "Genocide Watch",
+        "country": "SHBA",
+        "flag": "🇺🇸",
+        "url": "https://www.genocidewatch.com/single-post/eu-condemns-serbian-minister-for-backing-ethnic-cleansing-of-kosovo",
+        "sentiment": "negative"
+      },
+      {
+        "title": "Au Kosovo, le voile de la discorde - Libération",
+        "source": "Libération",
+        "country": "Francë",
+        "flag": "🇫🇷",
+        "url": "https://www.liberation.fr/international/europe/au-kosovo-le-voile-de-la-discorde-20260613_NXSAE3C56VCZZN4Z52RNXNGCUQ/",
+        "sentiment": "negative"
+      }
+    ]
   }
 ]
