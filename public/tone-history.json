@@ -426,74 +426,74 @@
   },
   {
     "date": "2026-08-13",
-    "overallIndex": 52,
-    "totalArticles": 448,
-    "sourceCount": 326,
+    "overallIndex": 51,
+    "totalArticles": 427,
+    "sourceCount": 330,
     "countries": {
       "Gjermani": {
         "index": 51,
-        "positive": 6,
+        "positive": 5,
         "neutral": 92,
         "negative": 3,
-        "n": 36,
-        "excluded": 1,
-        "confident": true,
-        "stanceVersion": 2
-      },
-      "SHBA": {
-        "index": 54,
-        "positive": 9,
-        "neutral": 89,
-        "negative": 2,
-        "n": 54,
+        "n": 37,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
       },
-      "Britani": {
-        "index": 54,
+      "SHBA": {
+        "index": 53,
         "positive": 9,
-        "neutral": 89,
-        "negative": 2,
+        "neutral": 88,
+        "negative": 4,
         "n": 56,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
       },
+      "Britani": {
+        "index": 53,
+        "positive": 9,
+        "neutral": 87,
+        "negative": 4,
+        "n": 55,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 2
+      },
       "Francë": {
-        "index": 55,
-        "positive": 13,
-        "neutral": 85,
-        "negative": 3,
-        "n": 39,
+        "index": 53,
+        "positive": 7,
+        "neutral": 93,
+        "negative": 0,
+        "n": 29,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
       },
       "Itali": {
         "index": 49,
-        "positive": 2,
-        "neutral": 95,
-        "negative": 3,
+        "positive": 3,
+        "neutral": 91,
+        "negative": 5,
         "n": 58,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
       },
       "Serbi": {
-        "index": 49,
+        "index": 48,
         "positive": 0,
-        "neutral": 98,
-        "negative": 2,
-        "n": 52,
-        "excluded": 8,
+        "neutral": 96,
+        "negative": 4,
+        "n": 46,
+        "excluded": 14,
         "confident": true,
         "stanceVersion": 2
       },
       "Austri": {
-        "index": 53,
-        "positive": 5,
-        "neutral": 95,
+        "index": 54,
+        "positive": 8,
+        "neutral": 92,
         "negative": 0,
         "n": 37,
         "excluded": 5,
@@ -501,12 +501,12 @@
         "stanceVersion": 2
       },
       "Zvicër": {
-        "index": 52,
-        "positive": 8,
-        "neutral": 88,
-        "negative": 4,
-        "n": 26,
-        "excluded": 19,
+        "index": 50,
+        "positive": 5,
+        "neutral": 91,
+        "negative": 5,
+        "n": 22,
+        "excluded": 14,
         "confident": true,
         "stanceVersion": 2
       },
@@ -521,12 +521,12 @@
         "stanceVersion": 2
       },
       "Belgjikë": {
-        "index": 52,
-        "positive": 4,
-        "neutral": 96,
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 28,
-        "excluded": 1,
+        "n": 23,
+        "excluded": 2,
         "confident": true,
         "stanceVersion": 2
       },
@@ -536,7 +536,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 1,
-        "excluded": 5,
+        "excluded": 33,
         "confident": false,
         "stanceVersion": 2
       },
@@ -581,11 +581,11 @@
         "stanceVersion": 2
       },
       "Kroaci": {
-        "index": 54,
+        "index": 53,
         "positive": 9,
-        "neutral": 89,
-        "negative": 2,
-        "n": 54,
+        "neutral": 88,
+        "negative": 4,
+        "n": 56,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -618,7 +618,7 @@
       },
       {
         "title": "Serbien: Ministerin hätte Kosovo gerne \"ethnisch gesäubert\" - dw.com",
-        "source": "dw.com",
+        "source": "DW.com",
         "country": "Gjermani",
         "flag": "🇩🇪",
         "url": "https://www.dw.com/de/serbiens-ministerin-snezana-paunovic-haette-kosovo-im-krieg-1999-gerne-ethnisch-gesaeubert/a-77983728",
@@ -633,11 +633,11 @@
         "sentiment": "negative"
       },
       {
-        "title": "Au Kosovo, le voile de la discorde - Libération",
-        "source": "Libération",
-        "country": "Francë",
-        "flag": "🇫🇷",
-        "url": "https://www.liberation.fr/international/europe/au-kosovo-le-voile-de-la-discorde-20260613_NXSAE3C56VCZZN4Z52RNXNGCUQ/",
+        "title": "Ukraine should condemn Putin's visit to Japan's Northern Territories and reconsider its position on Kosovo - shelter.in.ua",
+        "source": "shelter.in.ua",
+        "country": "Britani",
+        "flag": "🇬🇧",
+        "url": "https://shelter.in.ua/en/opinions/ukrayina-povynna-zasudyty-vizyt-putina-na-pivnichni-terytoriyi-iaponiyi-ta-perehlianuty-pozytsiiu-shchodo-kosova",
         "sentiment": "negative"
       }
     ]
