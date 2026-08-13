@@ -17,13 +17,14 @@
 import { useState, useEffect, useMemo, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { TrendingUp, TrendingDown, Minus, ArrowLeft, ArrowUpRight, ExternalLink, Quote, MousePointerClick } from "lucide-react";
-import { EASE, DUR, STAGGER } from "@/lib/tokens";
+import { EASE, DUR } from "@/lib/tokens";
 import SectionLabel from "./section-label";
 import ToneMap from "./tone/tone-map";
 import {
   TONE_COLOR,
   TONE_INK,
   flagToCode,
+  toneFill,
   toneLabel,
   verdictSentence,
   NEUTRAL_IS_NORMAL,
@@ -35,12 +36,6 @@ const META: Record<string, { label: string; color: string }> = {
   neutral: { label: "Neutral", color: TONE_COLOR.neutral },
   negative: { label: "Kritik", color: TONE_COLOR.critical },
 };
-
-/** Diverging geometry: the axis runs -100..+100, the bar occupies 100 of it,
- *  and neutral straddles the centre so every row shares one zero. */
-function divergingOffsets(negative: number, neutral: number) {
-  return { left: (100 - negative - neutral / 2) / 2, scale: (v: number) => v / 2 };
-}
 
 type FlatArticle = ToneArticle & { outlet: string };
 
@@ -57,12 +52,22 @@ export default function ToneDashboard({ summary }: { summary: ToneSummary }) {
     fetch("/tone-outlets.json").then((r) => r.json()).then(setOutletData).catch(() => {});
   }, []);
 
-  // Most critical first. A ranked list answers "who is hardest on us" at a
+  // Only countries the scraper has actually resolved. The rest sit behind the
+  // per-run classification cap with nothing to say yet, and a row reading "pa
+  // të dhëna" is a row spent on absence — ten of sixteen were doing that.
+  //
+  // Most critical first: a ranked list answers "who is hardest on us" at a
   // glance, which an alphabetical one never does.
-  const ranked = useMemo(
-    () => [...summary.countries].sort((a, b) => (a.index ?? 50) - (b.index ?? 50)),
+  const withData = useMemo(
+    () =>
+      summary.countries
+        .filter((c) => c.index != null)
+        .sort((a, b) => (a.index ?? 50) - (b.index ?? 50)),
     [summary.countries]
   );
+  const pending = summary.countries.length - withData.length;
+  /** The homepage shows a shortlist; the full instrument lives on /toni. */
+  const shown = withData.slice(0, 6);
 
   const detail = useMemo(() => {
     if (!selected || !outletData) return null;
@@ -99,8 +104,11 @@ export default function ToneDashboard({ summary }: { summary: ToneSummary }) {
   const delta = summary.weekDelta;
   const DeltaIcon = delta == null ? Minus : delta > 0 ? TrendingUp : delta < 0 ? TrendingDown : Minus;
   const deltaColor = delta == null || delta === 0 ? TONE_INK.faint : delta > 0 ? TONE_COLOR.positive : TONE_COLOR.critical;
-  const neutralShare = ranked.length
-    ? Math.round(ranked.reduce((s, c) => s + c.neutral, 0) / ranked.length)
+  // Averaged over countries that HAVE data. Dividing by all sixteen while ten
+  // contribute a structural zero reported "35% neutral" above a chart that was
+  // plainly ~93% grey — the lead sentence contradicting the picture under it.
+  const neutralShare = withData.length
+    ? Math.round(withData.reduce((s, c) => s + c.neutral, 0) / withData.length)
     : 0;
   const active = selected ?? hovered;
 
@@ -128,7 +136,7 @@ export default function ToneDashboard({ summary }: { summary: ToneSummary }) {
         </h3>
         <p style={{ margin: "0 0 6px", fontSize: "15.5px", color: TONE_INK.muted, lineHeight: 1.6 }}>
           Nga <strong style={{ color: TONE_INK.strong }}>{summary.totalArticles}</strong> artikuj në{" "}
-          <strong style={{ color: TONE_INK.strong }}>{ranked.length}</strong> vende,{" "}
+          <strong style={{ color: TONE_INK.strong }}>{withData.length}</strong> vende,{" "}
           <strong style={{ color: TONE_INK.strong }}>{neutralShare}%</strong> ishin raportim neutral.
         </p>
         <p style={{ margin: "0 0 20px", fontSize: "13.5px", color: TONE_INK.faint, lineHeight: 1.55 }}>
@@ -138,7 +146,6 @@ export default function ToneDashboard({ summary }: { summary: ToneSummary }) {
         <div style={{ display: "flex", alignItems: "center", gap: "14px", flexWrap: "wrap", paddingBottom: "18px", marginBottom: "20px", borderBottom: "1px solid #F0EDE6" }}>
           <span style={{ fontSize: "12px", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: TONE_INK.faint }}>Indeksi</span>
           <span style={{ fontSize: "34px", fontWeight: 800, color: TONE_INK.strong, lineHeight: 1, fontVariantNumeric: "tabular-nums" }}>{idx ?? "—"}</span>
-          <span style={{ fontSize: "13.5px", color: TONE_INK.faint }}>/ 100 · 50 = i balancuar</span>
           <span style={{ display: "inline-flex", alignItems: "center", gap: "4px", fontSize: "13.5px", fontWeight: 700, color: deltaColor, marginLeft: "auto" }}>
             <DeltaIcon size={15} strokeWidth={2.5} />
             {delta == null ? "e re" : `${delta > 0 ? "+" : ""}${delta} këtë javë`}
@@ -146,7 +153,7 @@ export default function ToneDashboard({ summary }: { summary: ToneSummary }) {
         </div>
 
         <ToneMap
-          countries={ranked.map((c) => ({ code: flagToCode(c.flag), country: c.country, index: c.index }))}
+          countries={summary.countries.map((c) => ({ code: flagToCode(c.flag), country: c.country, index: c.index }))}
           active={active}
           selected={selected}
           onHover={setHovered}
@@ -177,18 +184,10 @@ export default function ToneDashboard({ summary }: { summary: ToneSummary }) {
           )}
         </AnimatePresence>
 
-        <div style={{ display: "flex", gap: "20px", margin: "22px 0 14px", flexWrap: "wrap" }}>
-          {(["negative", "neutral", "positive"] as const).map((k) => (
-            <div key={k} style={{ display: "flex", alignItems: "center", gap: "7px" }}>
-              <span style={{ width: "11px", height: "11px", borderRadius: "3px", background: META[k].color, display: "inline-block", flexShrink: 0 }} />
-              <span style={{ fontSize: "12.5px", fontWeight: 600, color: TONE_INK.muted }}>{META[k].label}</span>
-            </div>
-          ))}
-        </div>
-
-        <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
-          {ranked.map((stat, i) => {
-            const { left, scale } = divergingOffsets(stat.negative, stat.neutral);
+        {/* The three-swatch legend is gone: the map's own gradient already runs
+            Kritik → Pozitiv one line above and says the same thing. */}
+        <div style={{ display: "flex", flexDirection: "column", gap: "4px", marginTop: "18px" }}>
+          {shown.map((stat) => {
             const on = active === stat.country;
             const isOpen = selected === stat.country;
             return (
@@ -217,26 +216,18 @@ export default function ToneDashboard({ summary }: { summary: ToneSummary }) {
                   <span style={{ fontSize: "clamp(13px, 2.4vw, 15.5px)", fontWeight: 700, color: TONE_INK.strong, whiteSpace: "nowrap" }}>{stat.country}</span>
                 </span>
 
-                <span style={{ flex: 1, position: "relative", height: "20px", minWidth: 0 }}>
-                  <span aria-hidden style={{ position: "absolute", left: "50%", top: -3, bottom: -3, width: "1px", background: "rgba(17,17,17,0.14)" }} />
-                  <span style={{ position: "absolute", inset: 0, display: "flex", borderRadius: "4px", overflow: "hidden" }}>
-                    <span style={{ width: `${left}%`, flexShrink: 0 }} />
-                    {([["negative", stat.negative], ["neutral", stat.neutral], ["positive", stat.positive]] as const).map(([k, v], si) => (
-                      <motion.span
-                        key={k}
-                        initial={{ scaleX: 0 }}
-                        whileInView={{ scaleX: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: DUR.reveal, delay: Math.min(i, 8) * STAGGER + 0.12 + si * 0.05, ease: EASE }}
-                        style={{ width: `${scale(v)}%`, background: META[k].color, height: "100%", transformOrigin: k === "negative" ? "right" : "left" }}
-                      />
-                    ))}
-                  </span>
+                {/* No bar. At ~93% neutral every country's stack was the same
+                    grey stub with a hairline of red — Italy and Serbia were
+                    visually identical at 49 and 49. Swatch and number carry it;
+                    the full breakdown is on /toni. */}
+                <span style={{ flex: 1, minWidth: 0, fontSize: "12.5px", color: TONE_INK.faint, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                  {stat.n} artikuj
                 </span>
 
-                <span style={{ display: "flex", alignItems: "baseline", gap: "8px", flexShrink: 0, width: "clamp(96px, 26vw, 148px)", justifyContent: "flex-end" }}>
-                  <span style={{ fontSize: "16px", fontWeight: 800, color: TONE_INK.strong, fontVariantNumeric: "tabular-nums" }}>{stat.index ?? "—"}</span>
-                  <span style={{ fontSize: "12px", color: TONE_INK.muted, whiteSpace: "nowrap" }}>{toneLabel(stat.index)}</span>
+                <span style={{ display: "flex", alignItems: "center", gap: "9px", flexShrink: 0 }}>
+                  <span style={{ fontSize: "17px", fontWeight: 800, color: TONE_INK.strong, fontVariantNumeric: "tabular-nums" }}>{stat.index ?? "—"}</span>
+                  <span style={{ fontSize: "12.5px", color: TONE_INK.muted, whiteSpace: "nowrap", width: "clamp(64px, 18vw, 92px)" }}>{toneLabel(stat.index)}</span>
+                  <span aria-hidden style={{ width: "14px", height: "14px", borderRadius: "4px", background: toneFill(stat.index), flexShrink: 0 }} />
                 </span>
               </button>
             );
@@ -266,7 +257,20 @@ export default function ToneDashboard({ summary }: { summary: ToneSummary }) {
           )}
         </AnimatePresence>
 
-        <p style={{ margin: "20px 0 0", fontSize: "12px", color: "#B4B0A6" }}>
+        {/* One line where ten empty rows used to be, and the door to the full
+            sixteen-country view instead of cramming it onto a news homepage. */}
+        <div style={{ display: "flex", alignItems: "baseline", gap: "10px", flexWrap: "wrap", marginTop: "14px", paddingTop: "12px", borderTop: "1px solid #F0EDE6" }}>
+          <span style={{ fontSize: "12.5px", color: TONE_INK.muted }}>
+            {withData.length} vende me të dhëna sot
+            {pending > 0 && `, ${pending} ende në pritje`}
+            {withData.length > shown.length && ` · po shfaqen ${shown.length}`}
+          </span>
+          <a href="/toni" style={{ marginLeft: "auto", fontSize: "12.5px", fontWeight: 700, color: "#FF4422", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "4px" }}>
+            Të gjitha vendet <ArrowUpRight size={13} strokeWidth={2.2} />
+          </a>
+        </div>
+
+        <p style={{ margin: "12px 0 0", fontSize: "12px", color: "#B4B0A6" }}>
           {summary.lastUpdated && `Përditësuar më ${summary.lastUpdated}. `}
           <a href="/toni#metodologjia" style={{ color: TONE_INK.faint, textDecoration: "underline" }}>Si e llogarisim →</a>
         </p>
