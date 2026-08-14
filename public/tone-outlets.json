@@ -1,8 +1,8 @@
 {
   "lastUpdated": "2026-08-14",
   "overallIndex": 52,
-  "totalArticles": 440,
-  "sourceCount": 434,
+  "totalArticles": 448,
+  "sourceCount": 460,
   "countries": {
     "Gjermani": {
       "outlets": [
@@ -23,26 +23,58 @@
           ]
         },
         {
-          "name": "Arte.tv",
-          "sentiment": "positive",
+          "name": "BOKU",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Delegation aus dem Kosovo - BOKU",
+              "albanianTitle": null,
+              "url": "https://boku.ac.at/news/newsitem/93052",
+              "date": "Wed, 29 Ju",
+              "sentiment": "neutral",
+              "reason": "Lajm i thjeshtë, pa koment",
+              "isQuote": false
+            }
+          ]
+        },
+        {
+          "name": "DW.com",
+          "sentiment": "negative",
           "articleCount": 2,
           "articles": [
             {
-              "title": "Kosovo: Gesänge erzählen die Geschichte der Albaner - Stadt, Land, Kunst - 07/05/2026 - Die ganze Doku - Arte.tv",
+              "title": "Serbien: Ministerin hätte Kosovo gerne \"ethnisch gesäubert\" - dw.com",
               "albanianTitle": null,
-              "url": "https://www.arte.tv/de/videos/132970-000-A/kosovo-gesaenge-erzaehlen-die-geschichte-der-albaner/",
-              "date": "Tue, 05 Ma",
-              "sentiment": "positive",
-              "reason": "Dokumentar kulturor me ton respektues",
+              "url": "https://www.dw.com/de/serbiens-ministerin-snezana-paunovic-haette-kosovo-im-krieg-1999-gerne-ethnisch-gesaeubert/a-77983728",
+              "date": "Thu, 16 Ju",
+              "sentiment": "negative",
+              "reason": "Fjalët e vetë mediumit e kornizojnë Kosovën si objekt të paçmueshëm",
               "isQuote": false
             },
             {
-              "title": "Kosovo: Im Reich der Derwische - Stadt, Land, Kunst - 14/04/2026 - Die ganze Doku - Arte.tv",
-              "albanianTitle": "Kosova: një udhëtim në botën e derwishëve",
-              "url": "https://www.arte.tv/de/videos/132538-000-A/kosovo-im-reich-der-derwische/",
-              "date": "2026-04-14",
-              "sentiment": "positive",
-              "reason": "Dokumentar kulturor me ton respektues",
+              "title": "NATO-Truppe im Kosovo wird kleiner - dw.com",
+              "albanianTitle": null,
+              "url": "https://www.dw.com/de/dayton-abkommen-kosovo-kfor-nato-serbien-bundeswehr-bosnien-herzegowina/a-77522072",
+              "date": "Fri, 12 Ju",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false
+            }
+          ]
+        },
+        {
+          "name": "Der Standard",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Massengrab im Kosovo entdeckt - Der Standard",
+              "albanianTitle": null,
+              "url": "https://www.derstandard.at/story/3000000333728/massengrab-im-kosovo-entdeckt",
+              "date": "Fri, 31 Ju",
+              "sentiment": "neutral",
+              "reason": "Lajm i rëndë, i raportuar në mënyrë faktike",
               "isQuote": false
             }
           ]
@@ -75,7 +107,7 @@
         {
           "name": "Die Zeit",
           "sentiment": "neutral",
-          "articleCount": 4,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Massaker von Reçak: Kosovo beginnt Prozess gegen Serben wegen möglicher Kriegsverbrechen - DIE ZEIT",
@@ -93,24 +125,6 @@
               "date": "Mon, 15 Ju",
               "sentiment": "neutral",
               "reason": "Lajm i rëndë, i raportuar në mënyrë faktike",
-              "isQuote": false
-            },
-            {
-              "title": "Kosovo: Präsidentenwahl im Kosovo scheitert im Parlament - DIE ZEIT",
-              "albanianTitle": "Përzënja e zgjedhjeve për president të Kosovës në Parlament",
-              "url": "https://www.zeit.de/politik/ausland/2026-04/kosovo-praesidentschaft-wahl-parlament-neuwahlen-gxe",
-              "date": "Wed, 29 Ap",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportuar pa gjuhë ngarkuar",
-              "isQuote": false
-            },
-            {
-              "title": "Kosovo: Regierungspartei gewinnt Wahl im Kosovo - DIE ZEIT",
-              "albanianTitle": null,
-              "url": "https://www.zeit.de/politik/ausland/2026-06/parlamentswahl-kosovo-albin-kurti-vetevendosje",
-              "date": "Mon, 08 Ju",
-              "sentiment": "neutral",
-              "reason": "Lajm i thjeshtë politik",
               "isQuote": false
             }
           ]
@@ -175,22 +189,6 @@
               "date": "Tue, 23 Ju",
               "sentiment": "neutral",
               "reason": "Informacion i thjeshtë mbi Luftqualitätsindex",
-              "isQuote": false
-            }
-          ]
-        },
-        {
-          "name": "L'essentiel",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Serbien droht Kosovo mit Umleitung des Ibar-Flusses - L'essentiel",
-              "albanianTitle": "Serbia ianë për të ndryshuar rruginë e lumit Ibar përballë Kosovës",
-              "url": "https://www.lessentiel.lu/de/story/mitten-in-der-hitzewelle-serbien-droht-kosovo-mit-umleitung-des-ibar-flusses-103616751",
-              "date": "2026-08-12",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
               "isQuote": false
             }
           ]
@@ -294,17 +292,8 @@
         {
           "name": "UEFA.com",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 5,
           "articles": [
-            {
-              "title": "Kosovo-Andorra | European Qualifiers 2026 - UEFA.com",
-              "albanianTitle": "Kosova kundër Andorrës | Kualifikimet Evropiane 2026 - UEFA.com",
-              "url": "https://de.uefa.com/european-qualifiers/friendlies/match/2048317--kosovo-vs-andorra/",
-              "date": "2026-05-23",
-              "sentiment": "neutral",
-              "reason": "Lajm i thjeshtë sportiv",
-              "isQuote": false
-            },
             {
               "title": "Belgien-Kosovo | UEFA U17-EM 2027 - UEFA.com",
               "albanianTitle": "UEFA U17-EM 2027: Belgjika kundër Kosovës - UEFA.com",
@@ -313,21 +302,41 @@
               "sentiment": "neutral",
               "reason": "Lajm i thjeshtë i një ngjarje sportive",
               "isQuote": false
-            }
-          ]
-        },
-        {
-          "name": "WDR",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
+            },
             {
-              "title": "Ein Solinger läuft quer durch Europa bis in den Kosovo - WDR",
-              "albanianTitle": null,
-              "url": "https://www1.wdr.de/mediathek/video/nrw-video/ardi-laueft-solingen-kosovo-104.html",
-              "date": "Mon, 01 Ju",
+              "title": "Kroatien-Kosovo | UEFA U17-EM 2027 - UEFA.com",
+              "albanianTitle": "UEFA U17-EM 2027: Kroatia kundër Kosovës - UEFA.com",
+              "url": "https://de.uefa.com/under17/match/2047304--croatia-vs-kosovo/",
+              "date": "2026-07-22",
               "sentiment": "neutral",
-              "reason": "Lajm i thjeshtë",
+              "reason": "Lajm i thjeshtë i një ngjarje sportive",
+              "isQuote": false
+            },
+            {
+              "title": "Kosovo-Lettland | Statistiken | UEFA U17-EM 2027 - UEFA.com",
+              "albanianTitle": null,
+              "url": "https://de.uefa.com/under17/match/2047330--kosovo-vs-latvia/statistics/",
+              "date": "Wed, 22 Ju",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false
+            },
+            {
+              "title": "Belgien-Kosovo | Kaderlisten | UEFA U17-EM 2027 - UEFA.com",
+              "albanianTitle": "Kosova në UEFA U17: Lista e lojtarëve për Belgjikë",
+              "url": "https://de.uefa.com/under17/match/2047277--belgium-vs-kosovo/lineups/",
+              "date": "2026-07-23",
+              "sentiment": "neutral",
+              "reason": "Lajm i thjeshtë sportiv",
+              "isQuote": false
+            },
+            {
+              "title": "Kroatien-Kosovo | Gruppen | UEFA U17-EM 2027 - UEFA.com",
+              "albanianTitle": "Kosova në UEFA U17: Grupi ku do të luajë",
+              "url": "https://de.uefa.com/under17/match/2047304--croatia-vs-kosovo/standings/",
+              "date": "2026-07-23",
+              "sentiment": "neutral",
+              "reason": "Lajm i thjeshtë sportiv",
               "isQuote": false
             }
           ]
@@ -383,22 +392,6 @@
           ]
         },
         {
-          "name": "boerse.de",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "POLITIK/Blockade im Kosovo: Ministerpräsident im Parlament mit Eiern beworfen - boerse.de - boerse.de",
-              "albanianTitle": "Politika/Blloku në Kosovë: Kryeministri i sulmohet me gomarë në parlament",
-              "url": "https://www.boerse.de/nachrichten/POLITIK-Blockade-im-Kosovo-Ministerpraesident-im-Parlament-mit-Eiern-beworfen/38519440",
-              "date": "2026-08-09",
-              "sentiment": "neutral",
-              "reason": "Lajm i rëndë, i raportuar në mënyrë faktike",
-              "isQuote": false
-            }
-          ]
-        },
-        {
           "name": "consilium.europa.eu",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -410,65 +403,6 @@
               "date": "Thu, 16 Ju",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false
-            }
-          ]
-        },
-        {
-          "name": "dw.com",
-          "sentiment": "neutral",
-          "articleCount": 3,
-          "articles": [
-            {
-              "title": "Serbien: Ministerin hätte Kosovo gerne \"ethnisch gesäubert\" - dw.com",
-              "albanianTitle": null,
-              "url": "https://www.dw.com/de/serbiens-ministerin-snezana-paunovic-haette-kosovo-im-krieg-1999-gerne-ethnisch-gesaeubert/a-77983728",
-              "date": "Thu, 16 Ju",
-              "sentiment": "negative",
-              "reason": "Fjalët e vetë mediumit e kornizojnë Kosovën si objekt të paçmueshëm",
-              "isQuote": false
-            },
-            {
-              "title": "NATO-Truppe im Kosovo wird kleiner - dw.com",
-              "albanianTitle": null,
-              "url": "https://www.dw.com/de/dayton-abkommen-kosovo-kfor-nato-serbien-bundeswehr-bosnien-herzegowina/a-77522072",
-              "date": "Fri, 12 Ju",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false
-            },
-            {
-              "title": "Wahlen im Kosovo: Der Preis der politischen Polarisierung - dw.com",
-              "albanianTitle": null,
-              "url": "https://www.dw.com/de/kosovo-wahlen-parlamentswahl-albin-kurti-vjosa-osmani/a-77445543",
-              "date": "Sat, 06 Ju",
-              "sentiment": "neutral",
-              "reason": "Analizë politike",
-              "isQuote": false
-            }
-          ]
-        },
-        {
-          "name": "euractiv.com",
-          "sentiment": "neutral",
-          "articleCount": 2,
-          "articles": [
-            {
-              "title": "Kfz-Deal: Kosovo brüskiert EU und kritisiert Serbien - euractiv.com",
-              "albanianTitle": null,
-              "url": "https://euractiv.com/de/news/kfz-deal-kosovo-brueskiert-eu-und-kritisiert-serbien/",
-              "date": "Fri, 15 Ma",
-              "sentiment": "neutral",
-              "reason": "Lajm i thjeshtë politik",
-              "isQuote": false
-            },
-            {
-              "title": "Durchbruch bei Gesprächen zwischen Serbien und Kosovo - euractiv.com",
-              "albanianTitle": "Dëshpërimi i marrëveshjeve midis Serbisë dhe Kosovës",
-              "url": "https://euractiv.com/de/news/durchbruch-bei-gesprachen-zwischen-serbien-und-kosovo/",
-              "date": "Wed, 13 Ma",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportuar pa gjuhë ngarkuar",
               "isQuote": false
             }
           ]
@@ -501,6 +435,22 @@
               "date": "2026-08-06",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false
+            }
+          ]
+        },
+        {
+          "name": "krone.at",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "„Besorgniserregend“ - Vucic droht dem Kosovo mit Umleitung von Fluss - krone.at",
+              "albanianTitle": "Vuçiçi ka kërcënuar Kosovën me të ndryshuar rruginën e Ibër",
+              "url": "https://www.krone.at/4252042",
+              "date": "2026-08-11",
+              "sentiment": "unknown",
+              "reason": "",
               "isQuote": false
             }
           ]
@@ -579,15 +529,31 @@
               "isQuote": false
             }
           ]
+        },
+        {
+          "name": "weltwoche.ch",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "«Respekt muss gegenseitig sein»: Pristina entfernt riesiges «Free Ukraine»-Banner nach Selenskyjs Weigerung, Kosovo als Staat anzuerkennen - weltwoche.ch",
+              "albanianTitle": "«Respekti duhet të jetë i këmbëngulës për të dyja anët»: Prishtina heq një banner të madh «Ukraina e Lirë» pas refuzimit të Selenskit për të njohur Kosovën si një shtet - weltwoche.ch",
+              "url": "https://weltwoche.ch/daily/respekt-muss-gegenseitig-sein-pristina-entfernt-riesiges-free-ukraine-banner-nach-selenskyjs-weigerung-kosovo-als-staat-anzuerkennen/",
+              "date": "2026-08-12",
+              "sentiment": "neutral",
+              "reason": "Fjalia është citim brenda «»",
+              "isQuote": true
+            }
+          ]
         }
       ],
       "summary": {
-        "index": 51,
-        "positive": 5,
-        "neutral": 93,
-        "negative": 2,
-        "n": 41,
-        "excluded": 1,
+        "index": 49,
+        "positive": 0,
+        "neutral": 97,
+        "negative": 3,
+        "n": 37,
+        "excluded": 2,
         "confident": true,
         "stanceVersion": 2
       }
@@ -636,9 +602,25 @@
           ]
         },
         {
+          "name": "B92",
+          "sentiment": "negative",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Svi komentari - New searches by the so-called Kosovo Police near Zubin Potok; Six people detained - B92",
+              "albanianTitle": "Njëri më njëri: Policia e Kosovës bën kërkime në afërsi të Zubin Potokut",
+              "url": "https://www.b92.net/svi-komentari/259097",
+              "date": "2026-08-14",
+              "sentiment": "negative",
+              "reason": "Fjalët e vetë mediumit e kornizojnë Kosovën si të pa njohur",
+              "isQuote": false
+            }
+          ]
+        },
+        {
           "name": "Balkan Insight",
           "sentiment": "neutral",
-          "articleCount": 5,
+          "articleCount": 4,
           "articles": [
             {
               "title": "Kosovo Detains Man Suspected of Spying for Serbian Intelligence - Balkan Insight",
@@ -674,15 +656,6 @@
               "date": "2026-08-13",
               "sentiment": "neutral",
               "reason": "Fjalia absurd nuk është e zërit të mediumit por e titullit që përshkruan një situatë",
-              "isQuote": false
-            },
-            {
-              "title": "Kosovo Pays the Price as Serbia Stalls Cross-Border Electricity Transmissions - Balkan Insight",
-              "albanianTitle": "Kosova Paguon Dëmet pas se Serbia Blokon Transferimin e Energjisë nëpër Kufi",
-              "url": "https://balkaninsight.com/2026/08/12/kosovo-pays-the-price-as-serbia-stalls-cross-border-electricity-transmissions/bi/",
-              "date": "2026-08-12",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
               "isQuote": false
             }
           ]
@@ -834,7 +807,7 @@
         {
           "name": "KosovaPress",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 1,
           "articles": [
             {
               "title": "100 new correctional officers graduate, Kurti: Kosovo needs them and expects a lot from them - KosovaPress",
@@ -844,15 +817,6 @@
               "sentiment": "neutral",
               "reason": "Raportim i thjeshtë i ngjarjes së gradimit",
               "isQuote": false
-            },
-            {
-              "title": "Democratic Party of Kosovo leader calls VV and LDK to elect the president, \"they have the numbers\" - KosovaPress",
-              "albanianTitle": "Kryetari i Partisë Demokratike i Kosovës thotë që VV dhe LDK të zgjidhin presidentin, 'atëhet numrat'",
-              "url": "https://kosovapress.com/eng/democratic-party-of-kosovo-leader-calls-vv-and-ldk-to-elect-the-president-they-have-the-numbers",
-              "date": "2026-08-14",
-              "sentiment": "neutral",
-              "reason": "Raporton thirrjen e liderit të PDK-së",
-              "isQuote": true
             }
           ]
         },
@@ -921,6 +885,40 @@
           ]
         },
         {
+          "name": "Prishtina Insight",
+          "sentiment": "neutral",
+          "articleCount": 3,
+          "articles": [
+            {
+              "title": "Kosovo Court Detains Man Over Alleged Spying for Serbian Intelligence - Prishtina Insight",
+              "albanianTitle": "Një burrë është arrestuar për shkak të shqetësimeve për veprimtari të spionazhit për shërbimet e inteligjencës serbe",
+              "url": "https://prishtinainsight.com/kosovo-court-detains-man-over-alleged-spying-for-serbian-intelligence/",
+              "date": "2026-08-14",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false
+            },
+            {
+              "title": "Kosovo’s LDK Drops Demand to Choose President in Bid to Resolve Crisis - prishtinainsight.com",
+              "albanianTitle": "LDK largon kërkesën për zgjedhjen e presidentit për të zgjidhur krizën",
+              "url": "https://prishtinainsight.com/kosovos-ldk-drops-demand-to-choose-president-in-bid-to-resolve-crisis/",
+              "date": "2026-08-13",
+              "sentiment": "neutral",
+              "reason": "Raportim i thjeshtë i krizës",
+              "isQuote": false
+            },
+            {
+              "title": "Kosovo Opposition Press Kurti’s Vetevendosje to Inaugurate Parliament - Prishtina Insight",
+              "albanianTitle": null,
+              "url": "https://prishtinainsight.com/kosovo-opposition-press-kurtis-vetevendosje-to-inaugurate-parliament/",
+              "date": "2026-08-13",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false
+            }
+          ]
+        },
+        {
           "name": "RTV Online",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -964,6 +962,22 @@
               "date": "2026-08-13",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false
+            }
+          ]
+        },
+        {
+          "name": "The Business Standard",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Bangladesh, Kosovo eye G2G mechanism for worker recruitment - The Business Standard",
+              "albanianTitle": "Kosova dhe Bangladeshi për të krijuar një mekanizëm për të shpërngulur punëtorë",
+              "url": "https://www.tbsnews.net/foreign-policy/bangladesh-kosovo-eye-g2g-mechanism-worker-recruitment-1515196",
+              "date": "2026-08-14",
+              "sentiment": "neutral",
+              "reason": "Lajm ekonomik i raportuar në mënyrë faktike",
               "isQuote": false
             }
           ]
@@ -1081,6 +1095,22 @@
           ]
         },
         {
+          "name": "Unicef",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "On International Youth Day, UNICEF Report Finds Growing Mental Health Challenges Among Children and Adolescents in Kosovo - unicef",
+              "albanianTitle": "Në ditën ndërkombëtare të Rinisë, raporti i UNICEF tregon rritjen e sfidave të shëndetit mendore në mesin e fëmijëve dhe adoleshentëve në Kosovë",
+              "url": "https://www.unicef.org/kosovoprogramme/press-releases/international-youth-day-unicef-report-finds-growing-mental-health-challenges-among",
+              "date": "2026-08-12",
+              "sentiment": "neutral",
+              "reason": "Raport i UNICEF, i pranuar në mënyrë faktike",
+              "isQuote": false
+            }
+          ]
+        },
+        {
           "name": "World Bank Group",
           "sentiment": "positive",
           "articleCount": 1,
@@ -1170,22 +1200,6 @@
           ]
         },
         {
-          "name": "en.banglanews24.com",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Bangladesh, Kosovo agree to deepen bilateral cooperation - en.banglanews24.com",
-              "albanianTitle": "Bangladeshi dhe Kosova kanë vendosur të theksojnë bashkëpunimin e tyre",
-              "url": "https://en.banglanews24.com/national/news/bd/194885.details",
-              "date": "2026-08-14",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false
-            }
-          ]
-        },
-        {
           "name": "globalpost.com",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1218,40 +1232,6 @@
           ]
         },
         {
-          "name": "prishtinainsight.com",
-          "sentiment": "neutral",
-          "articleCount": 3,
-          "articles": [
-            {
-              "title": "Kosovo Court Detains Man Over Alleged Spying for Serbian Intelligence - prishtinainsight.com",
-              "albanianTitle": "Një burrë është arrestuar për shkak të shqetësimeve për veprimtari të spionazhit për shërbimet e inteligjencës serbe",
-              "url": "https://prishtinainsight.com/kosovo-court-detains-man-over-alleged-spying-for-serbian-intelligence/",
-              "date": "2026-08-14",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false
-            },
-            {
-              "title": "Kosovo’s LDK Drops Demand to Choose President in Bid to Resolve Crisis - prishtinainsight.com",
-              "albanianTitle": "LDK largon kërkesën për zgjedhjen e presidentit për të zgjidhur krizën",
-              "url": "https://prishtinainsight.com/kosovos-ldk-drops-demand-to-choose-president-in-bid-to-resolve-crisis/",
-              "date": "2026-08-13",
-              "sentiment": "neutral",
-              "reason": "Raportim i thjeshtë i krizës",
-              "isQuote": false
-            },
-            {
-              "title": "Kosovo Opposition Press Kurti’s Vetevendosje to Inaugurate Parliament - prishtinainsight.com",
-              "albanianTitle": "Opozita e presionon Vetëvendosjen për të inauguruar Kuvendin",
-              "url": "https://prishtinainsight.com/kosovo-opposition-press-kurtis-vetevendosje-to-inaugurate-parliament/",
-              "date": "2026-08-13",
-              "sentiment": "neutral",
-              "reason": "Raportim i thjeshtë i ngjarjeve politike",
-              "isQuote": false
-            }
-          ]
-        },
-        {
           "name": "srpske.rs",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1268,17 +1248,17 @@
           ]
         },
         {
-          "name": "unicef",
+          "name": "www.iconnectblog.com",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
-              "title": "On International Youth Day, UNICEF Report Finds Growing Mental Health Challenges Among Children and Adolescents in Kosovo - unicef",
-              "albanianTitle": "Në ditën ndërkombëtare të Rinisë, raporti i UNICEF tregon rritjen e sfidave të shëndetit mendore në mesin e fëmijëve dhe adoleshentëve në Kosovë",
-              "url": "https://www.unicef.org/kosovoprogramme/press-releases/international-youth-day-unicef-report-finds-growing-mental-health-challenges-among",
-              "date": "2026-08-12",
+              "title": "The Narrowed Office: How Kosovo's Constitutional Court Has Diminished the Presidency and Made Dissolution a Political Tool - www.iconnectblog.com",
+              "albanianTitle": "Përgjysmimi i Këshillit Kushtetues: Si Gjykata Kushtetuese e Kosovës Ka Diminuat Presidencën dhe Krijuar Disolucionin si një Shpërblim Politik",
+              "url": "https://www.iconnectblog.com/the-narrowed-office-how-kosovos-constitutional-court-has-diminished-the-presidency-and-made-dissolution-a-political-tool/",
+              "date": "2026-08-11",
               "sentiment": "neutral",
-              "reason": "Raport i UNICEF, i pranuar në mënyrë faktike",
+              "reason": "Lajm i analizuar në mënyrë faktike",
               "isQuote": false
             }
           ]
@@ -1381,10 +1361,10 @@
         }
       ],
       "summary": {
-        "index": 53,
+        "index": 52,
         "positive": 8,
-        "neutral": 91,
-        "negative": 2,
+        "neutral": 89,
+        "negative": 4,
         "n": 53,
         "excluded": 0,
         "confident": true,
@@ -1437,7 +1417,7 @@
         {
           "name": "BBC",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 1,
           "articles": [
             {
               "title": "Watch: Moment opposition MP throws eggs at Kosovo's acting PM - BBC",
@@ -1446,15 +1426,6 @@
               "date": "Sat, 08 Au",
               "sentiment": "neutral",
               "reason": "Lajm i rëndë, i raportuar në mënyrë faktike",
-              "isQuote": false
-            },
-            {
-              "title": "Can Hibs recover from calamity in Kosovo? - BBC",
-              "albanianTitle": null,
-              "url": "https://www.bbc.co.uk/sport/football/articles/c0km5y4vrp7o",
-              "date": "Thu, 23 Ju",
-              "sentiment": "neutral",
-              "reason": "Lajm sportiv, i raportuar në mënyrë faktike",
               "isQuote": false
             }
           ]
@@ -1510,12 +1481,12 @@
               "isQuote": false
             },
             {
-              "title": "Kosovo Pays the Price as Serbia Stalls Cross-Border Electricity Transmissions - Balkan Insight",
-              "albanianTitle": "Kosova Paguon Dëmet pas se Serbia Blokon Transferimin e Energjisë nëpër Kufi",
-              "url": "https://balkaninsight.com/2026/08/12/kosovo-pays-the-price-as-serbia-stalls-cross-border-electricity-transmissions/bi/",
-              "date": "2026-08-12",
+              "title": "‘Absurd Blockade’: Fresh Parliamentary Deadlock Pushes Kosovo Back Into Crisis Mode - Balkan Insight",
+              "albanianTitle": "Blokada e absurdit: Krisa e Kosovës vazhdon për shkak të një krizë parlamentare të re",
+              "url": "https://balkaninsight.com/2026/08/13/absurd-blockade-fresh-parliamentary-deadlock-pushes-kosovo-back-into-crisis-mode/bi/",
+              "date": "2026-08-13",
               "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
+              "reason": "Fjalia absurd nuk është e zërit të mediumit por e titullit që përshkruan një situatë",
               "isQuote": false
             }
           ]
@@ -1612,7 +1583,7 @@
         {
           "name": "European Western Balkans",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 1,
           "articles": [
             {
               "title": "Kosovo Police Inspectorate probes alleged police abuse in Zubin Potok - European Western Balkans",
@@ -1621,31 +1592,6 @@
               "date": "2026-08-12",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false
-            },
-            {
-              "title": "Kosovo and France sign five agreements - European Western Balkans",
-              "albanianTitle": "Kosova dhe Francë nënshkruajnë pesë marrëveshje",
-              "url": "https://europeanwesternbalkans.com/2026/07/27/kosovo-and-france-sign-five-agreements/",
-              "date": "2026-07-27",
-              "sentiment": "neutral",
-              "reason": "Lajm i mirë, i raportuar në mënyrë faktike",
-              "isQuote": false
-            }
-          ]
-        },
-        {
-          "name": "Genocide Watch",
-          "sentiment": "negative",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Serbian Minister Backs ‘Ethnic Cleansing’ of Kosovo - Genocide Watch",
-              "albanianTitle": null,
-              "url": "https://www.genocidewatch.com/single-post/eu-condemns-serbian-minister-for-backing-ethnic-cleansing-of-kosovo",
-              "date": "Mon, 20 Ju",
-              "sentiment": "negative",
-              "reason": "Fjala e mediumit e kundër Kosovës",
               "isQuote": false
             }
           ]
@@ -1687,6 +1633,22 @@
               "date": "2026-08-12",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false
+            }
+          ]
+        },
+        {
+          "name": "Meduza",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Zelensky went to Belgrade for Serbian shells, Politico reports, and restated that Kyiv doesn’t recognize Kosovo’s independence. In Pristina, the ‘Free Ukraine’ banner came down the next day. - Meduza — Новости",
+              "albanianTitle": "Zelensky shkon në Beograd për shpërblime serbe, ndërsa Ukraina nuk njeh pavarësinë e Kosovës",
+              "url": "https://meduza.io/en/feature/2026/08/12/zelensky-went-to-belgrade-for-serbian-shells-politico-reports-and-restated-that-kyiv-doesn-t-recognize-kosovo-s-independence-in-pristina-the-free-ukraine-banner-came-down-the-next-day",
+              "date": "2026-08-12",
+              "sentiment": "neutral",
+              "reason": "Raporton qëndrimin e Kyivit",
               "isQuote": false
             }
           ]
@@ -1760,6 +1722,22 @@
               "date": "2026-08-13",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false
+            }
+          ]
+        },
+        {
+          "name": "The Business Standard",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Bangladesh, Kosovo eye G2G mechanism for worker recruitment - The Business Standard",
+              "albanianTitle": "Kosova dhe Bangladeshi për të krijuar një mekanizëm për të shpërngulur punëtorë",
+              "url": "https://www.tbsnews.net/foreign-policy/bangladesh-kosovo-eye-g2g-mechanism-worker-recruitment-1515196",
+              "date": "2026-08-14",
+              "sentiment": "neutral",
+              "reason": "Lajm ekonomik i raportuar në mënyrë faktike",
               "isQuote": false
             }
           ]
@@ -1925,17 +1903,33 @@
           ]
         },
         {
-          "name": "World Bank Group",
-          "sentiment": "positive",
+          "name": "Unicef",
+          "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
-              "title": "In Kosovo, Childcare Vouchers Help Kids Learn and Mothers Work - World Bank Group",
-              "albanianTitle": null,
-              "url": "https://www.worldbank.org/en/news/feature/2026/07/30/in-kosovo-childcare-vouchers-help-kids-learn-and-mothers-work",
-              "date": "Thu, 30 Ju",
-              "sentiment": "positive",
-              "reason": "Lajm i mirë, i raportuar në mënyrë pozitive",
+              "title": "On International Youth Day, UNICEF Report Finds Growing Mental Health Challenges Among Children and Adolescents in Kosovo - unicef",
+              "albanianTitle": "Në ditën ndërkombëtare të Rinisë, raporti i UNICEF tregon rritjen e sfidave të shëndetit mendore në mesin e fëmijëve dhe adoleshentëve në Kosovë",
+              "url": "https://www.unicef.org/kosovoprogramme/press-releases/international-youth-day-unicef-report-finds-growing-mental-health-challenges-among",
+              "date": "2026-08-12",
+              "sentiment": "neutral",
+              "reason": "Raport i UNICEF, i pranuar në mënyrë faktike",
+              "isQuote": false
+            }
+          ]
+        },
+        {
+          "name": "bbc.com",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Can Hibs recover from calamity in Kosovo? - bbc.com",
+              "albanianTitle": "A mund të rivendoset Hibs pas fatkeqësisë në Kosovë?",
+              "url": "https://www.bbc.com/sport/football/articles/c0km5y4vrp7o",
+              "date": "2026-07-23",
+              "sentiment": "neutral",
+              "reason": "Lajm i sportit, i raportuar në mënyrë faktike",
               "isQuote": false
             }
           ]
@@ -2023,6 +2017,54 @@
           ]
         },
         {
+          "name": "eurointegration.com.ua",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo echoes Ukraine: Why Zelenskyy's remarks in Serbia outraged Kosovans and Russia's role here - Європейська правда",
+              "albanianTitle": "Kosova dhe Ukraina: Pse komentet e Zelenskjit në Serbi kanë shkaktuar zemërim në Kosovë dhe roli i Rusisë në këtë çështje",
+              "url": "https://www.eurointegration.com.ua/eng/articles/2026/08/11/7243291/",
+              "date": "2026-08-11",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false
+            }
+          ]
+        },
+        {
+          "name": "genocidewatch.com",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Serbian Minister Backs ‘Ethnic Cleansing’ of Kosovo - genocidewatch.com",
+              "albanianTitle": null,
+              "url": "https://www.genocidewatch.com/single-post/eu-condemns-serbian-minister-for-backing-ethnic-cleansing-of-kosovo",
+              "date": "2026-07-20",
+              "sentiment": "neutral",
+              "reason": "Lajm i rëndë, i raportuar në mënyrë faktike",
+              "isQuote": false
+            }
+          ]
+        },
+        {
+          "name": "globalpost.com",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo Discovers Third Suspected Mass Grave from 1998-99 War - globalpost.com",
+              "albanianTitle": "Kosova gjeti varret e tretë të mosbesimit të vitit 1998-99",
+              "url": "https://globalpost.com/stories/kosovo-discovers-third-suspected-mass-grave-from-1998-99-war/",
+              "date": "2026-08-13",
+              "sentiment": "neutral",
+              "reason": "Lajm i rëndë, i raportuar në mënyrë faktike",
+              "isQuote": false
+            }
+          ]
+        },
+        {
           "name": "iasp.info",
           "sentiment": "positive",
           "articleCount": 1,
@@ -2034,22 +2076,6 @@
               "date": "2026-08-05",
               "sentiment": "positive",
               "reason": "Titulli i artikullit është mbështetës",
-              "isQuote": false
-            }
-          ]
-        },
-        {
-          "name": "meduza.io",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Zelensky went to Belgrade for Serbian shells, Politico reports, and restated that Kyiv doesn’t recognize Kosovo’s independence. In Pristina, the ‘Free Ukraine’ banner came down the next day. - Meduza — Новости",
-              "albanianTitle": "Zelensky shkon në Beograd për shpërblime serbe, ndërsa Ukraina nuk njeh pavarësinë e Kosovës",
-              "url": "https://meduza.io/en/feature/2026/08/12/zelensky-went-to-belgrade-for-serbian-shells-politico-reports-and-restated-that-kyiv-doesn-t-recognize-kosovo-s-independence-in-pristina-the-free-ukraine-banner-came-down-the-next-day",
-              "date": "2026-08-12",
-              "sentiment": "neutral",
-              "reason": "Raporton qëndrimin e Kyivit",
               "isQuote": false
             }
           ]
@@ -2103,33 +2129,33 @@
           ]
         },
         {
-          "name": "unicef",
-          "sentiment": "neutral",
+          "name": "worldbank.org",
+          "sentiment": "positive",
           "articleCount": 1,
           "articles": [
             {
-              "title": "On International Youth Day, UNICEF Report Finds Growing Mental Health Challenges Among Children and Adolescents in Kosovo - unicef",
-              "albanianTitle": "Në ditën ndërkombëtare të Rinisë, raporti i UNICEF tregon rritjen e sfidave të shëndetit mendore në mesin e fëmijëve dhe adoleshentëve në Kosovë",
-              "url": "https://www.unicef.org/kosovoprogramme/press-releases/international-youth-day-unicef-report-finds-growing-mental-health-challenges-among",
-              "date": "2026-08-12",
-              "sentiment": "neutral",
-              "reason": "Raport i UNICEF, i pranuar në mënyrë faktike",
+              "title": "In Kosovo, Childcare Vouchers Help Kids Learn and Mothers Work - worldbank.org",
+              "albanianTitle": "Voucherat për qëndrueshmëri në Kosovë ndihmojnë fëmijët të mësojnë dhe nënët të punojnë",
+              "url": "https://www.worldbank.org/en/news/feature/2026/07/30/in-kosovo-childcare-vouchers-help-kids-learn-and-mothers-work",
+              "date": "2026-07-30",
+              "sentiment": "positive",
+              "reason": "Titulli dhe përmbajtja janë pozitive dhe mbështetëse",
               "isQuote": false
             }
           ]
         },
         {
-          "name": "Європейська правда",
+          "name": "www.iconnectblog.com",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
-              "title": "Kosovo echoes Ukraine: Why Zelenskyy's remarks in Serbia outraged Kosovans and Russia's role here - Європейська правда",
-              "albanianTitle": "Kosova dhe Ukraina: Pse komentet e Zelenskjit në Serbi kanë shkaktuar zemërim në Kosovë dhe roli i Rusisë në këtë çështje",
-              "url": "https://www.eurointegration.com.ua/eng/articles/2026/08/11/7243291/",
+              "title": "The Narrowed Office: How Kosovo's Constitutional Court Has Diminished the Presidency and Made Dissolution a Political Tool - www.iconnectblog.com",
+              "albanianTitle": "Përgjysmimi i Këshillit Kushtetues: Si Gjykata Kushtetuese e Kosovës Ka Diminuat Presidencën dhe Krijuar Disolucionin si një Shpërblim Politik",
+              "url": "https://www.iconnectblog.com/the-narrowed-office-how-kosovos-constitutional-court-has-diminished-the-presidency-and-made-dissolution-a-political-tool/",
               "date": "2026-08-11",
               "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
+              "reason": "Lajm i analizuar në mënyrë faktike",
               "isQuote": false
             }
           ]
@@ -2170,9 +2196,9 @@
       "summary": {
         "index": 54,
         "positive": 9,
-        "neutral": 89,
-        "negative": 2,
-        "n": 56,
+        "neutral": 91,
+        "negative": 0,
+        "n": 57,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -2327,17 +2353,17 @@
           ]
         },
         {
-          "name": "IOM Storyteller",
-          "sentiment": "positive",
+          "name": "IQAir",
+          "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
-              "title": "Un avant-goût du Népal au cœur du Kosovo - IOM Storyteller",
+              "title": "Qualité de l’air en Kosovo - IQAir",
               "albanianTitle": null,
-              "url": "https://storyteller.iom.int/fr/stories/un-avant-gout-du-nepal-au-coeur-du-kosovo",
-              "date": "Tue, 23 Ju",
-              "sentiment": "positive",
-              "reason": "Përshkrim i ngrohtë dhe mikpritës",
+              "url": "https://www.iqair.com/fr/air-quality/kosovo",
+              "date": "Wed, 24 Ju",
+              "sentiment": "neutral",
+              "reason": "Raporton një temë pa koment",
               "isQuote": false
             }
           ]
@@ -2541,7 +2567,7 @@
         {
           "name": "RTL Info",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 1,
           "articles": [
             {
               "title": "« Honte à vous » : scène surréaliste au Kosovo, une députée lance des oeufs sur le Premier ministre par intérim - RTL Info",
@@ -2551,15 +2577,6 @@
               "sentiment": "neutral",
               "reason": "Fjalia është citim brenda «»",
               "isQuote": true
-            },
-            {
-              "title": "Kosovo : une députée lance des oeufs sur le Premier ministre - RTL Info",
-              "albanianTitle": null,
-              "url": "https://www.rtl.be/page-videos/kosovo-une-deputee-lance-des-oeufs-sur-le-premier-ministre/2026-08-09/video/796801",
-              "date": "Sun, 09 Au",
-              "sentiment": "neutral",
-              "reason": "Raporton një ngjarje pa koment",
-              "isQuote": false
             }
           ]
         },
@@ -2623,6 +2640,22 @@
               "date": "2026-08-08",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false
+            }
+          ]
+        },
+        {
+          "name": "storyteller.iom.int",
+          "sentiment": "positive",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Un avant-goût du Népal au cœur du Kosovo - storyteller.iom.int",
+              "albanianTitle": "Një përçmim i vërtetë në Kosovë: një deputetë hedë ujë në kryeministër",
+              "url": "https://storyteller.iom.int/fr/stories/un-avant-gout-du-nepal-au-coeur-du-kosovo",
+              "date": "2026-06-23",
+              "sentiment": "positive",
+              "reason": "Titulli është i ngrohtë dhe promovon vlera pozitive",
               "isQuote": false
             }
           ]
@@ -2703,22 +2736,6 @@
               "albanianTitle": "UE e këshillon Serbinë: ndalojë ndryshimet e fushës së Ibarit për të ndaluar krizën me Kosovën - Adnkronos",
               "url": "https://www.adnkronos.com/internazionale/esteri/ue-avverte-la-serbia-stop-alla-deviazione-del-fiume-ibar-per-evitare-crisi-con-il-kosovo_4lw8cuV5ASeNwczJjJZd9r",
               "date": "2026-08-11",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false
-            }
-          ]
-        },
-        {
-          "name": "Analisi Difesa",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "La crisi tra Kosovo e Ucraina – Gaiani a La Penna nel Fianco - Analisi Difesa",
-              "albanianTitle": "Krisa midis Kosovës dhe Ukrainës - Gaiani në anën e La Pennës në Fiankë - Analiza Mbrojtje",
-              "url": "https://www.analisidifesa.it/2026/08/la-crisi-tra-kosovo-e-ucraina-gaiani-a-la-penna-nel-fianco/",
-              "date": "2026-08-12",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike",
               "isQuote": false
@@ -2810,6 +2827,22 @@
               "date": "2026-08-14",
               "sentiment": "positive",
               "reason": "Toni i ngrohtë dhe miqësor",
+              "isQuote": false
+            }
+          ]
+        },
+        {
+          "name": "EspansioneTv",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Tumore dopo missione Nato in Kosovo, riconosciuta la causa di servizio Archivi - Espansione TV",
+              "albanianTitle": "Një ushtrim i armatosur në Kosovë: një ushtarë është i sëmurë me një lëkurë të këqijë, çështja e tij është pranuar",
+              "url": "https://www.espansionetv.it/tag/tumore-dopo-missione-nato-in-kosovo-riconosciuta-la-causa-di-servizio/",
+              "date": "2026-08-14",
+              "sentiment": "neutral",
+              "reason": "Lajm i rëndë, i raportuar në mënyrë faktike",
               "isQuote": false
             }
           ]
@@ -2935,22 +2968,6 @@
               "date": "2026-08-11",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike, pa koment",
-              "isQuote": false
-            }
-          ]
-        },
-        {
-          "name": "Il Mattino",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosovo, uova contro il premier Albin Kurti in Parlamento: seduta sospesa durante la crisi politica - Il Mattino",
-              "albanianTitle": "Kosovë, fërgesë kundër kryeministrit Albin Kurti në Parlament: sesioni i ndaluar gjatë krizës politike - Il Mattino",
-              "url": "https://www.ilmattino.it/video/primopiano/kosovo_uova_albin_kurti_parlamento_sospeso_crisi_politica_elezioni-9703948.html",
-              "date": "2026-08-12",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
               "isQuote": false
             }
           ]
@@ -3182,21 +3199,21 @@
           "articleCount": 2,
           "articles": [
             {
-              "title": "I Carabinieri italiani lasciano il ponte di Mitrovica in Kosovo dopo 27 anni - Serbian Monitor",
-              "albanianTitle": "Carabinieri italianë të largohen nga Ura e Mitrovicës në Kosovë pas 27 vjetësh - Serbian Monitor",
-              "url": "https://www.serbianmonitor.com/carabinieri-italiani-lasciano-il-ponte-di-mitrovica-in-kosovo-dopo-27-anni/",
-              "date": "2026-08-11",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false
-            },
-            {
               "title": "EULEX interviene sull’aggressione a Nenad Rašković da parte della Polizia del Kosovo - Serbian Monitor",
               "albanianTitle": "EULEX intervenon në një rast agresioni kundër Nenad Rašković nga policia e Kosovës",
               "url": "https://www.serbianmonitor.com/eulex-interviene-sullaggressione-a-nenad-raskovic-da-parte-della-polizia-del-kosovo/",
               "date": "2026-08-13",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrä faktike",
+              "isQuote": false
+            },
+            {
+              "title": "I Carabinieri italiani lasciano il ponte di Mitrovica in Kosovo dopo 27 anni - Serbian Monitor",
+              "albanianTitle": "Carabinieri italianë të largohen nga Ura e Mitrovicës në Kosovë pas 27 vjetësh - Serbian Monitor",
+              "url": "https://www.serbianmonitor.com/carabinieri-italiani-lasciano-il-ponte-di-mitrovica-in-kosovo-dopo-27-anni/",
+              "date": "2026-08-11",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
               "isQuote": false
             }
           ]
@@ -3352,6 +3369,22 @@
           ]
         },
         {
+          "name": "analisidifesa.it",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "La crisi tra Kosovo e Ucraina – Gaiani a La Penna nel Fianco - analisidifesa.it",
+              "albanianTitle": "Krisa midis Kosovës dhe Ukrainës - Gaiani në fjalët e tij",
+              "url": "https://www.analisidifesa.it/2026/08/la-crisi-tra-kosovo-e-ucraina-gaiani-a-la-penna-nel-fianco/",
+              "date": "2026-08-12",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false
+            }
+          ]
+        },
+        {
           "name": "esercito.difesa.it",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -3363,22 +3396,6 @@
               "date": "2026-07-08",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false
-            }
-          ]
-        },
-        {
-          "name": "espansionetv.it",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Tumore dopo missione Nato in Kosovo, riconosciuta la causa di servizio Archivi - Espansione TV",
-              "albanianTitle": "Një ushtrim i armatosur në Kosovë: një ushtarë është i sëmurë me një lëkurë të këqijë, çështja e tij është pranuar",
-              "url": "https://www.espansionetv.it/tag/tumore-dopo-missione-nato-in-kosovo-riconosciuta-la-causa-di-servizio/",
-              "date": "2026-08-14",
-              "sentiment": "neutral",
-              "reason": "Lajm i rëndë, i raportuar në mënyrë faktike",
               "isQuote": false
             }
           ]
@@ -3414,6 +3431,22 @@
               "isQuote": false
             }
           ]
+        },
+        {
+          "name": "ilmattino.it",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo, uova contro il premier Albin Kurti in Parlamento: seduta sospesa durante la crisi politica - Il Mattino",
+              "albanianTitle": "Kosovë, fërgesë kundër kryeministrit Albin Kurti në Parlament: sesioni i ndaluar gjatë krizës politike - Il Mattino",
+              "url": "https://www.ilmattino.it/video/primopiano/kosovo_uova_albin_kurti_parlamento_sospeso_crisi_politica_elezioni-9703948.html",
+              "date": "2026-08-12",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false
+            }
+          ]
         }
       ],
       "summary": {
@@ -3429,6 +3462,49 @@
     },
     "Serbi": {
       "outlets": [
+        {
+          "name": "B92",
+          "sentiment": "neutral",
+          "articleCount": 4,
+          "articles": [
+            {
+              "title": "Russia issues strong warning: \"Croatia, Albania and so-called Kosovo are creating a military quasi-bloc\" - B92",
+              "albanianTitle": null,
+              "url": "https://www.b92.net/english/region/258859/russian-diplomat-criticizes-military-alliance-between-pristina-tirana-and-zagreb/vest",
+              "date": "2026-08-14",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false
+            },
+            {
+              "title": "Stigao odgovor Kfora nakon što je Srbin brutalno prebijen: \"Sprovođenje zakona nije deo našeg mandata\" - B92",
+              "albanianTitle": "KFORi përgjigjet pasi një serb është goditur brutalisht: 'Zakonet e shtetit nuk janë pjesë e mandatit tonë'",
+              "url": "https://www.b92.net/info/kosovo/258472/stigao-odgovor-kfora-nakon-sto-je-srbin-brutalno-prebijen-sprovodjenje-zakona-nije-deo-naseg-mandata/vest",
+              "date": "2026-08-12",
+              "sentiment": "neutral",
+              "reason": "Fjalia është citim i Kforit",
+              "isQuote": true
+            },
+            {
+              "title": "Raskrinkan Pokret slobodnih građana; Ovo je dokaz da bi priznali tzv. Kosovo - B92",
+              "albanianTitle": "Lëvizja e Qytetarëve të Lirë është rritur në një skandal; Kjo është dëshmia që do të njohin Kosovën - B92",
+              "url": "https://www.b92.net/info/politika/259014/raskrinkan-pokret-slobodnih-gradjana-ovo-je-dokaz-da-bi-priznali-tzv-kosovo/vest",
+              "date": "2026-08-14",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false
+            },
+            {
+              "title": "New searches by the so-called Kosovo Police near Zubin Potok; Six people detained - B92",
+              "albanianTitle": "Njëri më njëri: Policia e Kosovës bën kërkime në afërsi të Zubin Potokut",
+              "url": "https://www.b92.net/english/politics/259097/new-searches-by-the-so-called-kosovo-police-near-zubin-potok-six-people-detained/vest",
+              "date": "2026-08-14",
+              "sentiment": "negative",
+              "reason": "Fjala so-called tregon qëndrim negativ ndaj Kosovës",
+              "isQuote": false
+            }
+          ]
+        },
         {
           "name": "Blic",
           "sentiment": "neutral",
@@ -3526,21 +3602,12 @@
           "articleCount": 6,
           "articles": [
             {
-              "title": "Maćedonci: Spremni da pomognemo Albaniji i Crnoj Gori u borbi protiv požara - Kosovo Online",
-              "albanianTitle": "Maqedonasit: Gati për të ndihmuar Shqipërinë dhe Malin e Zi në luftën kundër zjarreve",
-              "url": "https://www.kosovo-online.com/vesti/drustvo/macedonci-kosovo-spremno-da-pomogne-albaniji-i-crnoj-gori-u-borbi-protiv-pozara-14-8",
+              "title": "Musljiju prijavila policajca Policijskom inspektoratu zbog fizičkog napada u Skupštini - Kosovo Online",
+              "albanianTitle": "Musliu flet për një rast të dhunës në Kuvend",
+              "url": "https://www.kosovo-online.com/vesti/politika/musljiju-prijavila-policajca-policijskom-inspektoratu-zbog-fizickog-napada-u",
               "date": "2026-08-14",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false
-            },
-            {
-              "title": "Radojević: Povlačenje Kfora sa mosta i otvaranje za saobraćaj značiće Kurtijevu pobedu - Kosovo Online",
-              "albanianTitle": "Radojeviç: Përmbysja e KFOR-it nga mosti dhe hapja për trafik do të thotë fitoren e Kurtiut",
-              "url": "https://www.kosovo-online.com/vesti/politika/radojevic-povlacenje-kfora-sa-mosta-i-otvaranje-za-saobracaj-znacice-kurtijevu",
-              "date": "2026-08-14",
-              "sentiment": "unknown",
-              "reason": "",
               "isQuote": false
             },
             {
@@ -3559,6 +3626,15 @@
               "date": "2026-08-14",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false
+            },
+            {
+              "title": "Američka privredna komora: Staviti interese Kosova iznad političkih kalkulacija - Kosovo Online",
+              "albanianTitle": "Kamara e Biznesit Amerikan: Kosova duhet të vërejtë interesat e saj më shumë se politikën",
+              "url": "https://www.kosovo-online.com/vesti/politika/americka-privredna-komora-na-kosovu-pozvala-na-politicku-odgovornost-i-okoncanje",
+              "date": "2026-08-14",
+              "sentiment": "neutral",
+              "reason": "Raporton qëndrimin e Amerikes",
               "isQuote": false
             },
             {
@@ -3614,18 +3690,36 @@
           ]
         },
         {
-          "name": "Novosti",
+          "name": "Politika",
           "sentiment": "negative",
-          "articleCount": 1,
+          "articleCount": 3,
           "articles": [
             {
-              "title": "ВЛАДИМИР ГАЈИЋ РАСКРИНКАО ПОКРЕТ СЛОБОДНИХ ГРАЂАНА! Ово је доказ да би признали тзв. Косово - Novosti",
-              "albanianTitle": "Vladimi Gajiçi kaftë të lirët e qytetarëve! Ky është dëshmi që do të njohin të quajturin Kosovë",
-              "url": "https://www.novosti.rs/c/vesti/politika/1637809/vladimir-gajic-raskrinkao-pokret-slobodnih-gradjana-ovo-dokaz-priznali-tzv-kosovo",
-              "date": "2026-08-14",
+              "title": "Дрецун: КФОР је добијени мандат претворио у мандат за очување лажне државе Косово - ИН4С",
+              "albanianTitle": null,
+              "url": "https://www.in4s.net/drecun-kfor-je-dobijeni-mandat-pretvorio-u-mandat-za-ocuvanje-lazne-drzave-kosovo/",
+              "date": "2026-08-13",
               "sentiment": "negative",
               "reason": "Fjalët e vetë mediumit e kornizojnë Kosovën si të pavlefshme",
               "isQuote": false
+            },
+            {
+              "title": "Vučić: Crna Gora je priznala tzv. Kosovo i ušla u NATO, Srbija to nije i neće - Politika",
+              "albanianTitle": null,
+              "url": "https://www.politika.rs/sr/clanak/778433/vucic-crna-gora-je-priznala-tzv-kosovo-i-usla-u-nato-srbija-to-nije-i-nece",
+              "date": "2026-08-14",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false
+            },
+            {
+              "title": "Вучић: Црна Гора је признала тзв. Косово и ушла у НАТО, Србија то није и неће - Politika",
+              "albanianTitle": "Vuçiqi: Mali i Zi ka njohur Kosovën dhe ka hyrë në NATO, Serbia nuk ka dhe nuk do të bëjë këtë",
+              "url": "https://www.politika.rs/scc/clanak/778433/vucic-crna-gora-je-priznala-tzv-kosovo-i-usla-u-nato-srbija-to-nije-i-nece",
+              "date": "2026-08-14",
+              "sentiment": "neutral",
+              "reason": "Fjalia është citim i Vuçiqit",
+              "isQuote": true
             }
           ]
         },
@@ -3696,13 +3790,13 @@
               "isQuote": false
             },
             {
-              "title": "Kosovo rizikuje trajni višemilionski gubitak iz EU zbog institucionalne krize - Radio Slobodna Evropa",
-              "albanianTitle": "Kosova mund të humbasë shumë miliona euro nga Bashkimi Evropian për shkak të krizës institucionale",
-              "url": "https://www.slobodnaevropa.org/a/kosovo-eu-plan-rasta-rizik-milioni/33826632.html",
-              "date": "2026-08-11",
+              "title": "Predsednik ukrajinskog parlamentarnog odbora objašnjava zašto Ukrajina ne priznaje Kosovo: Krim, Srbija i municija - Radio Slobodna Evropa",
+              "albanianTitle": "Kryetari i komitetit të parlamentit të Ukrainës ka shpjeguar pse Ukraina nuk pranon Kosovën: Krimi, Serbia dhe municioni",
+              "url": "https://www.slobodnaevropa.org/a/kosovo-ukrajina-srbija-oleksandar-merezko/33825855.html",
+              "date": "2026-08-10",
               "sentiment": "neutral",
-              "reason": "Lajm i rëndë, i raportuar në mënyrë faktike",
-              "isQuote": false
+              "reason": "Raporton qëndrimin e Ukrainës, me fjalë të cituara",
+              "isQuote": true
             }
           ]
         },
@@ -3718,31 +3812,6 @@
               "date": "2026-08-14",
               "sentiment": "neutral",
               "reason": "Raporton deklaratën e Vuçiqit, nuk e përvetëson",
-              "isQuote": true
-            }
-          ]
-        },
-        {
-          "name": "b92.net",
-          "sentiment": "negative",
-          "articleCount": 2,
-          "articles": [
-            {
-              "title": "Raskrinkan Pokret slobodnih građana; Ovo je dokaz da bi priznali tzv. Kosovo - b92.net",
-              "albanianTitle": "Operacioni për të rritur ndërgjegjen e qytetarëve; Kjo është prova që do të pranonte Kosova si një shtet të njohur",
-              "url": "https://www.b92.net/info/politika/259014/raskrinkan-pokret-slobodnih-gradjana-ovo-je-dokaz-da-bi-priznali-tzv-kosovo/vest",
-              "date": "2026-08-14",
-              "sentiment": "negative",
-              "reason": "Fjalët e vetë mediumit e kornizojnë Kosovën si të pavlefshme",
-              "isQuote": false
-            },
-            {
-              "title": "Stigao odgovor Kfora nakon što je Srbin brutalno prebijen: \"Sprovođenje zakona nije deo našeg mandata\" - B92",
-              "albanianTitle": "KFORi përgjigjet pasi një serb është goditur brutalisht: 'Zakonet e shtetit nuk janë pjesë e mandatit tonë'",
-              "url": "https://www.b92.net/info/kosovo/258472/stigao-odgovor-kfora-nakon-sto-je-srbin-brutalno-prebijen-sprovodjenje-zakona-nije-deo-naseg-mandata/vest",
-              "date": "2026-08-12",
-              "sentiment": "neutral",
-              "reason": "Fjalia është citim i Kforit",
               "isQuote": true
             }
           ]
@@ -3780,56 +3849,6 @@
           ]
         },
         {
-          "name": "nistv.rs",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Vučić o pritiscima zbog Kosova: „Srbija neće priznati nezavisnost, bez obzira koliko pritisak bude veliki“ - nistv.rs",
-              "albanianTitle": "Vuçiçi për shpresat për Kosovën: 'Serbia nuk do të njohë pavarësinë, ashtu siç është, edhe pse do të ketë shpresa të mëdha' - nistv.rs",
-              "url": "https://nistv.rs/vucic-o-pritiscima-zbog-kosova-srbija-nece-priznati-nezavisnost-bez-obzira-koliko-pritisak-bude-veliki/",
-              "date": "2026-08-14",
-              "sentiment": "neutral",
-              "reason": "Fjalia është citim brenda „“, jo zëri i mediumit",
-              "isQuote": true
-            }
-          ]
-        },
-        {
-          "name": "politika.rs",
-          "sentiment": "negative",
-          "articleCount": 3,
-          "articles": [
-            {
-              "title": "Гајић: Могу само да закључим да ПСГ признаје лажну државу Косово - politika.rs",
-              "albanianTitle": "Gjajiç: Unë mund të përfundoj vetëm në këtë mënyrë se PS shpalli një shtet të rremë në Kosovë",
-              "url": "https://www.politika.rs/scc/clanak/778242/gajic-mogu-samo-da-zakljucim-da-psg-priznaje-laznu-drzavu-kosovo",
-              "date": "2026-08-13",
-              "sentiment": "negative",
-              "reason": "Fjalët e vetë mediumit e kornizojnë Kosovën si të pavlefshme",
-              "isQuote": false
-            },
-            {
-              "title": "Vučić: Crna Gora je priznala tzv. Kosovo i ušla u NATO, Srbija to nije i neće - Politika",
-              "albanianTitle": null,
-              "url": "https://www.politika.rs/sr/clanak/778433/vucic-crna-gora-je-priznala-tzv-kosovo-i-usla-u-nato-srbija-to-nije-i-nece",
-              "date": "2026-08-14",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false
-            },
-            {
-              "title": "Вучић: Црна Гора је признала тзв. Косово и ушла у НАТО, Србија то није и неће - Politika",
-              "albanianTitle": "Vuçiqi: Mali i Zi ka njohur Kosovën dhe ka hyrë në NATO, Serbia nuk ka dhe nuk do të bëjë këtë",
-              "url": "https://www.politika.rs/scc/clanak/778433/vucic-crna-gora-je-priznala-tzv-kosovo-i-usla-u-nato-srbija-to-nije-i-nece",
-              "date": "2026-08-14",
-              "sentiment": "neutral",
-              "reason": "Fjalia është citim i Vuçiqit",
-              "isQuote": true
-            }
-          ]
-        },
-        {
           "name": "tanjug.rs",
           "sentiment": "neutral",
           "articleCount": 4,
@@ -3842,15 +3861,6 @@
               "sentiment": "neutral",
               "reason": "Fjalia është citim i Milovan Drecun",
               "isQuote": true
-            },
-            {
-              "title": "Zoran Milivojević: Zapad pokušava terorom da natera Srbe da priznaju tzv. Kosovo - tanjug.rs",
-              "albanianTitle": "Zoran Milivojević: Perëndimi përpiqet të forcojë terorin për të nxitur serbët të njohin Kosovën",
-              "url": "https://www.tanjug.rs/srbija/politika/273534/zoran-milivojevic-zapad-pokusava-terorom-da-natera-srbe-da-priznaju-tzv-kosovo/vest",
-              "date": "2026-08-13",
-              "sentiment": "negative",
-              "reason": "Fjalët e vetë mediumit e kornizojnë Kosovën si të pavlefshme",
-              "isQuote": false
             },
             {
               "title": "Kancelarija za Kosovo i Metohiju: Sećanja na stradale u Goraždevcu ne blede - tanjug.rs",
@@ -3869,6 +3879,15 @@
               "sentiment": "neutral",
               "reason": "Raporton deklaratën e Jevtićit, nuk e përvetëson",
               "isQuote": true
+            },
+            {
+              "title": "Zoran Milivojević: Zapad pokušava terorom da natera Srbe da priznaju tzv. Kosovo - tanjug.rs",
+              "albanianTitle": "Zoran Milivojević: Perëndimi përpiqet të forcojë terorin për të nxitur serbët të njohin Kosovën",
+              "url": "https://www.tanjug.rs/srbija/politika/273534/zoran-milivojevic-zapad-pokusava-terorom-da-natera-srbe-da-priznaju-tzv-kosovo/vest",
+              "date": "2026-08-13",
+              "sentiment": "negative",
+              "reason": "Fjalët e vetë mediumit e kornizojnë Kosovën si të pavlefshme",
+              "isQuote": false
             }
           ]
         },
@@ -3922,12 +3941,12 @@
         }
       ],
       "summary": {
-        "index": 44,
+        "index": 45,
         "positive": 0,
-        "neutral": 88,
-        "negative": 12,
-        "n": 48,
-        "excluded": 11,
+        "neutral": 90,
+        "negative": 10,
+        "n": 49,
+        "excluded": 10,
         "confident": true,
         "stanceVersion": 2
       }
@@ -3935,17 +3954,17 @@
     "Austri": {
       "outlets": [
         {
-          "name": "20min.ch",
-          "sentiment": "neutral",
+          "name": "20 Minuten",
+          "sentiment": "unknown",
           "articleCount": 1,
           "articles": [
             {
-              "title": "Dieser Fluss versorgt Kosovo mit Wasser – nun droht Vucic mit Umleitung - 20min.ch",
-              "albanianTitle": "Fluvi i Kosovës është në rrezik për të shkuar në rrjetin e ndryshimit të rrjedhës së ujit",
+              "title": "Dieser Fluss versorgt Kosovo mit Wasser – nun droht Vucic mit Umleitung - 20 Minuten",
+              "albanianTitle": "Ibri furnizon Kosovën me ujë, por Vuçiçi ka kërcënuar të ndryshojë rruginën e tij",
               "url": "https://www.20min.ch/story/vucic-droht-kosovo-mit-umleitung-des-lebenswichtigen-ibar-flusses-103616666",
               "date": "2026-08-12",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
+              "sentiment": "unknown",
+              "reason": "",
               "isQuote": false
             }
           ]
@@ -3962,22 +3981,6 @@
               "date": "Wed, 29 Ju",
               "sentiment": "neutral",
               "reason": "Lajm i thjeshtë, pa koment",
-              "isQuote": false
-            }
-          ]
-        },
-        {
-          "name": "DIE ZEIT",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Massaker von Reçak: Kosovo beginnt Prozess gegen Serben wegen möglicher Kriegsverbrechen - DIE ZEIT",
-              "albanianTitle": null,
-              "url": "https://www.zeit.de/politik/ausland/2026-07/massaker-recak-kosovo-serbien-prozess-pristina",
-              "date": "Fri, 31 Ju",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
               "isQuote": false
             }
           ]
@@ -4058,22 +4061,6 @@
               "albanianTitle": "Dilema e Ukrainës për Kosovën: Deklaratat e Selenskit në Serbi janë të dhunësuar në Prishtinë - Euronews.com",
               "url": "https://de.euronews.com/my-europe/2026/08/11/kyjiw-kosovo-selenskyj-pristina",
               "date": "2026-08-11",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false
-            }
-          ]
-        },
-        {
-          "name": "FAZ",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Flagge weg: Ärger im Kosovo über Selenskyj in Belgrad - FAZ",
-              "albanianTitle": "Flamuri i Ukrainës është shkëputur: Në Kosovë, zemërim për Selensky në Beograd",
-              "url": "https://www.faz.net/aktuell/politik/ausland/flagge-weg-aerger-im-kosovo-ueber-selenskyj-in-belgrad-201122398.html",
-              "date": "2026-08-13",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike",
               "isQuote": false
@@ -4188,6 +4175,22 @@
           ]
         },
         {
+          "name": "MeinBezirk.at",
+          "sentiment": "positive",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Hilfe für den Kosovo: Mollner Ehepaar bringt Hoffnung - MeinBezirk.at",
+              "albanianTitle": "Mollner: çifti i tyre është një shpresë për Kosovën",
+              "url": "https://www.meinbezirk.at/kirchdorf/c-lokales/mollner-ehepaar-bringt-hoffnung_a8818189",
+              "date": "2026-07-28",
+              "sentiment": "positive",
+              "reason": "Titulli dhe përmbajtja e lajmit janë pozitive",
+              "isQuote": false
+            }
+          ]
+        },
+        {
           "name": "ORF",
           "sentiment": "neutral",
           "articleCount": 3,
@@ -4297,7 +4300,7 @@
         {
           "name": "ZDFheute",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Kosovo-Parlament: Regierungschef Kurti mit Eiern beworfen - ZDFheute",
@@ -4306,6 +4309,15 @@
               "date": "Sun, 09 Au",
               "sentiment": "neutral",
               "reason": "Lajm i rëndë, i raportuar në mënyrë faktike",
+              "isQuote": false
+            },
+            {
+              "title": "Kosovo: Ministerpräsident mit Eiern beworfen - ZDFheute",
+              "albanianTitle": "Kryeministri i Kosovës u godit me ëmbëlle - ZDFheute",
+              "url": "https://www.zdfheute.de/video/kosovo-minsterpraesident-mit-eiern-beworfen-video-100.html",
+              "date": "2026-08-09",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
               "isQuote": false
             }
           ]
@@ -4352,6 +4364,22 @@
           ]
         },
         {
+          "name": "faz.net",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Flagge weg: Ärger im Kosovo über Selenskyj in Belgrad - faz.net",
+              "albanianTitle": "Kosova në konflikt me Ukrainën për shprehjen e presidentit Selenskyj",
+              "url": "https://www.faz.net/aktuell/politik/ausland/flagge-weg-aerger-im-kosovo-ueber-selenskyj-in-belgrad-201122398.html",
+              "date": "2026-08-13",
+              "sentiment": "neutral",
+              "reason": "Lajm i ngjarjeve të raportuara në mënyrë faktike",
+              "isQuote": false
+            }
+          ]
+        },
+        {
           "name": "ff - Das Südtiroler Wochenmagazin",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -4379,22 +4407,6 @@
               "date": "2026-08-05",
               "sentiment": "unknown",
               "reason": "",
-              "isQuote": false
-            }
-          ]
-        },
-        {
-          "name": "meinbezirk.at",
-          "sentiment": "positive",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Hilfe für den Kosovo: Mollner Ehepaar bringt Hoffnung - MeinBezirk.at",
-              "albanianTitle": "Mollner: çifti i tyre është një shpresë për Kosovën",
-              "url": "https://www.meinbezirk.at/kirchdorf/c-lokales/mollner-ehepaar-bringt-hoffnung_a8818189",
-              "date": "2026-07-28",
-              "sentiment": "positive",
-              "reason": "Titulli dhe përmbajtja e lajmit janë pozitive",
               "isQuote": false
             }
           ]
@@ -4434,7 +4446,7 @@
         {
           "name": "oefb.at",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 1,
           "articles": [
             {
               "title": "Frauen-Nationalteam im Play-off gegen Kosovo - oefb.at",
@@ -4443,15 +4455,6 @@
               "date": "2026-06-18",
               "sentiment": "neutral",
               "reason": "Lajm i thjeshtë sportiv",
-              "isQuote": false
-            },
-            {
-              "title": "Ticketverkauf für die Heimspiele gegen Israel und Kosovo startet - oefb.at",
-              "albanianTitle": null,
-              "url": "https://www.oefb.at/oefb/News/Ticketverkauf-fuer-die-Heimspiele-gegen-Israel-und-Kosovo-startet/",
-              "date": "2026-06-02",
-              "sentiment": "neutral",
-              "reason": "Lajm sportiv, i raportuar në mënyrë faktike",
               "isQuote": false
             }
           ]
@@ -4487,6 +4490,22 @@
               "isQuote": false
             }
           ]
+        },
+        {
+          "name": "zeit.de",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Massaker von Reçak: Kosovo beginnt Prozess gegen Serben wegen möglicher Kriegsverbrechen - DIE ZEIT",
+              "albanianTitle": null,
+              "url": "https://www.zeit.de/politik/ausland/2026-07/massaker-recak-kosovo-serbien-prozess-pristina",
+              "date": "Fri, 31 Ju",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false
+            }
+          ]
         }
       ],
       "summary": {
@@ -4494,8 +4513,8 @@
         "positive": 3,
         "neutral": 97,
         "negative": 0,
-        "n": 36,
-        "excluded": 3,
+        "n": 35,
+        "excluded": 4,
         "confident": true,
         "stanceVersion": 2
       }
@@ -4605,17 +4624,33 @@
           ]
         },
         {
-          "name": "Deutschlandfunk",
+          "name": "DIE ZEIT",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
-              "title": "Besser Sicherheitslage - NATO-Schutztruppe KFOR will Präsenz an zwei Schlüsselpositionen im Kosovo zurückfahren - Deutschlandfunk",
-              "albanianTitle": "Situaioni i sigurisë do të ndryshojë për mirë: KFOR do të tërheqë njësinë e tij në dy pozita të rëndësishme në Kosovë - Deutschlandfunk",
-              "url": "https://www.deutschlandfunk.de/nato-schutztruppe-kfor-will-praesenz-an-zwei-schluesselpositionen-im-kosovo-zurueckfahren-100.html",
-              "date": "2026-08-11",
+              "title": "Politische Blockade: Kosovos Ministerpräsident im Parlament mit Eiern beworfen - DIE ZEIT",
+              "albanianTitle": "Kryeministri i Kosovës sulmit në Kuvend me qemë",
+              "url": "https://www.zeit.de/politik/ausland/2026-08/albin-kurti-angriff-parlament-kosovo-time-kadrijaj-eier",
+              "date": "2026-08-09",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false
+            }
+          ]
+        },
+        {
+          "name": "DW.com",
+          "sentiment": "negative",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Serbien: Ministerin hätte Kosovo gerne \"ethnisch gesäubert\" - dw.com",
+              "albanianTitle": null,
+              "url": "https://www.dw.com/de/serbiens-ministerin-snezana-paunovic-haette-kosovo-im-krieg-1999-gerne-ethnisch-gesaeubert/a-77983728",
+              "date": "Thu, 16 Ju",
+              "sentiment": "negative",
+              "reason": "Fjalët e vetë mediumit e kornizojnë Kosovën si objekt të paçmueshëm",
               "isQuote": false
             }
           ]
@@ -4803,6 +4838,31 @@
           ]
         },
         {
+          "name": "Spiegel",
+          "sentiment": "neutral",
+          "articleCount": 2,
+          "articles": [
+            {
+              "title": "Kosovo: Abgeordnete bewirft Regierungschef Kurti im Parlament mit Eiern - Spiegel",
+              "albanianTitle": "Kryeministri Kurti në Parlament: i qëlqëzoi me gurë",
+              "url": "https://www.spiegel.de/ausland/kosovo-regierungschef-albin-kurti-mit-eiern-beworfen-von-wuetender-abgeordneter-a-6d4f89ab-c9d9-4fb3-bb18-3ad17c594eb4",
+              "date": "Sun, 09 Au",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportuar pa gjuhë ngarkuar",
+              "isQuote": false
+            },
+            {
+              "title": "Kriegsverbrechen im Kosovo – Prozess gegen Serben beginnt - Spiegel",
+              "albanianTitle": null,
+              "url": "https://www.spiegel.de/ausland/kosovo-prozess-gegen-serben-wegen-kriegsverbrechen-a-2ea37369-3e6c-4242-801a-f5749c1f2daf",
+              "date": "Fri, 31 Ju",
+              "sentiment": "neutral",
+              "reason": "Lajm i rëndë i raportuar në mënyrë faktike",
+              "isQuote": false
+            }
+          ]
+        },
+        {
           "name": "Tages-Anzeiger",
           "sentiment": "unknown",
           "articleCount": 4,
@@ -4841,6 +4901,22 @@
               "date": "2026-06-08",
               "sentiment": "unknown",
               "reason": "",
+              "isQuote": false
+            }
+          ]
+        },
+        {
+          "name": "UEFA.com",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Belgien-Kosovo | UEFA U17-EM 2027 - UEFA.com",
+              "albanianTitle": "UEFA U17-EM 2027: Belgjika kundër Kosovës - UEFA.com",
+              "url": "https://de.uefa.com/under17/match/2047277--belgium-vs-kosovo/",
+              "date": "2026-07-22",
+              "sentiment": "neutral",
+              "reason": "Lajm i thjeshtë i një ngjarje sportive",
               "isQuote": false
             }
           ]
@@ -4903,33 +4979,17 @@
           ]
         },
         {
-          "name": "de.uefa.com",
+          "name": "deutschlandfunk.de",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
-              "title": "Belgien-Kosovo | UEFA U17-EM 2027 - de.uefa.com",
-              "albanianTitle": "Bëmat Belgjike - Kosova | UEFA U17-Euro 2027 - uefa.com",
-              "url": "https://de.uefa.com/under17/match/2047277--belgium-vs-kosovo/",
-              "date": "2026-07-22",
+              "title": "Besser Sicherheitslage - NATO-Schutztruppe KFOR will Präsenz an zwei Schlüsselpositionen im Kosovo zurückfahren - Deutschlandfunk",
+              "albanianTitle": "Situaioni i sigurisë do të ndryshojë për mirë: KFOR do të tërheqë njësinë e tij në dy pozita të rëndësishme në Kosovë - Deutschlandfunk",
+              "url": "https://www.deutschlandfunk.de/nato-schutztruppe-kfor-will-praesenz-an-zwei-schluesselpositionen-im-kosovo-zurueckfahren-100.html",
+              "date": "2026-08-11",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false
-            }
-          ]
-        },
-        {
-          "name": "dw.com",
-          "sentiment": "negative",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Serbien: Ministerin hätte Kosovo gerne \"ethnisch gesäubert\" - dw.com",
-              "albanianTitle": null,
-              "url": "https://www.dw.com/de/serbiens-ministerin-snezana-paunovic-haette-kosovo-im-krieg-1999-gerne-ethnisch-gesaeubert/a-77983728",
-              "date": "Thu, 16 Ju",
-              "sentiment": "negative",
-              "reason": "Fjalët e vetë mediumit e kornizojnë Kosovën si objekt të paçmueshëm",
               "isQuote": false
             }
           ]
@@ -4962,31 +5022,6 @@
               "date": "2026-08-10",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false
-            }
-          ]
-        },
-        {
-          "name": "spiegel.de",
-          "sentiment": "neutral",
-          "articleCount": 2,
-          "articles": [
-            {
-              "title": "Kosovo: Abgeordnete bewirft Regierungschef Kurti im Parlament mit Eiern - spiegel.de",
-              "albanianTitle": "Kryeministri i Kosovës, Kurti, është goditur me kërrakë në Parlament",
-              "url": "https://www.spiegel.de/ausland/kosovo-regierungschef-albin-kurti-mit-eiern-beworfen-von-wuetender-abgeordneter-a-6d4f89ab-c9d9-4fb3-bb18-3ad17c594eb4",
-              "date": "2026-08-09",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false
-            },
-            {
-              "title": "Kriegsverbrechen im Kosovo – Prozess gegen Serben beginnt - spiegel.de",
-              "albanianTitle": "Procesi për krime luftë në Kosovë fillon kundër serbëve",
-              "url": "https://www.spiegel.de/ausland/kosovo-prozess-gegen-serben-wegen-kriegsverbrechen-a-2ea37369-3e6c-4242-801a-f5749c1f2daf",
-              "date": "2026-07-31",
-              "sentiment": "neutral",
-              "reason": "Lajm i rëndë, i raportuar në mënyrë faktike",
               "isQuote": false
             }
           ]
@@ -5028,22 +5063,6 @@
               "date": "2026-07-22",
               "sentiment": "unknown",
               "reason": "",
-              "isQuote": false
-            }
-          ]
-        },
-        {
-          "name": "zeit.de",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Politische Blockade: Kosovos Ministerpräsident im Parlament mit Eiern beworfen - zeit.de",
-              "albanianTitle": "Bloke politike: Kryeministri i Kosovës u godit me ëmbëlle në parlament - zeit.de",
-              "url": "https://www.zeit.de/politik/ausland/2026-08/albin-kurti-angriff-parlament-kosovo-time-kadrijaj-eier",
-              "date": "2026-08-09",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
               "isQuote": false
             }
           ]
@@ -5247,15 +5266,15 @@
           ]
         },
         {
-          "name": "Eindhovens Dagblad",
+          "name": "Eurosport",
           "sentiment": "unknown",
           "articleCount": 1,
           "articles": [
             {
-              "title": "Voormalig reservespits van TOP Oss tekent voor drie seizoenen in Kosovo - Eindhovens Dagblad",
-              "albanianTitle": "Ishte një lojtar rezervë i TOP Oss, tani do të luajë në Kosovë për tre sezone",
-              "url": "https://www.ed.nl/regiosport-brabant/voormalig-reservespits-van-top-oss-tekent-voor-drie-seizoenen-in-kosovo~a6b3a82d/",
-              "date": "2026-07-09",
+              "title": "Estland - Kosovo Samenvatting: Voetbal Uitslagen en Hoogtepunten - Eurosport",
+              "albanianTitle": "Resumi i ndeshjes së futbollit: Estonia - Kosova",
+              "url": "https://www.eurosport.nl/voetbal/vriendschappelijk/2025/estland-kosovo_mtc1588085/live.shtml",
+              "date": "2026-08-08",
               "sentiment": "unknown",
               "reason": "",
               "isQuote": false
@@ -5440,47 +5459,6 @@
               "date": "2026-05-26",
               "sentiment": "unknown",
               "reason": "",
-              "isQuote": false
-            }
-          ]
-        },
-        {
-          "name": "NRC - Nieuws, achtergronden en onderzoeksjournalistiek",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Klap voor politieke stabiliteit Kosovo, het land stevent af op vervroegde verkiezingen na mislukken presidentsbenoeming - nrc.nl",
-              "albanianTitle": "Kosova në prag të zgjedhjeve të shpejta, pas dështimit të emërtimit të presidentit",
-              "url": "https://www.nrc.nl/nieuws/2026/04/29/klap-voor-politieke-stabiliteit-kosovo-het-land-stevent-af-op-vervroegde-verkiezingen-na-mislukken-presidentsbenoeming-a4926579",
-              "date": "2026-04-29",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false
-            }
-          ]
-        },
-        {
-          "name": "NU",
-          "sentiment": "neutral",
-          "articleCount": 2,
-          "articles": [
-            {
-              "title": "Kosovo arresteert vijf Serviërs voor oorlogsgeweld in 1999 - NU",
-              "albanianTitle": "Kosova arreston pesë serbë për krime të luftës në vitin 1999",
-              "url": "https://www.nu.nl/buitenland/6399368/kosovo-arresteert-vijf-serviers-voor-oorlogsgeweld-in-1999.html",
-              "date": "2026-06-14",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false
-            },
-            {
-              "title": "Kadioglu schiet Turkije naar finale play-offs WK, Kosovo verrast Slowakije - NU",
-              "albanianTitle": "Kadioglu udhëton Turqinë në finale të play-offeve të Kampionatit Botëror, ndërsa Kosova merr pjesë në një fitore të papritur kundër Sllovakisë",
-              "url": "https://www.nu.nl/wk-voetbal/6390592/kadioglu-schiet-turkije-naar-finale-play-offs-wk-kosovo-verrast-slowakije.html",
-              "date": "2026-03-26",
-              "sentiment": "neutral",
-              "reason": "Lajm i rëndë, i raportuar në mënyrë faktike",
               "isQuote": false
             }
           ]
@@ -5698,29 +5676,13 @@
           ]
         },
         {
-          "name": "eurosport.nl",
+          "name": "de Volkskrant",
           "sentiment": "unknown",
           "articleCount": 1,
           "articles": [
             {
-              "title": "Estland - Kosovo Samenvatting: Voetbal Uitslagen en Hoogtepunten - eurosport.nl",
-              "albanianTitle": "Estonia - Kosova: Resumi: Rezultatet e ndeshjeve dhe momentet më të mahnitshme - eurosport.nl",
-              "url": "https://www.eurosport.nl/voetbal/vriendschappelijk/2025/estland-kosovo_mtc1588085/live.shtml",
-              "date": "2026-08-08",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false
-            }
-          ]
-        },
-        {
-          "name": "volkskrant.nl",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Nieuwe verkiezingen Kosovo omdat parlement geen president kiest - volkskrant.nl",
-              "albanianTitle": "Elektimet e reja në Kosovë për shkak të mos arritjes së zgjedhjes së presidentit - volkskrant.nl",
+              "title": "Nieuwe verkiezingen Kosovo omdat parlement geen president kiest - de Volkskrant",
+              "albanianTitle": "Përsëri zgjedhje në Kosovë pasi parlamenti nuk zgjedh president",
               "url": "https://www.volkskrant.nl/buitenland/nieuwe-verkiezingen-kosovo-omdat-parlement-geen-president-kiest~bd3f44ec/",
               "date": "2026-04-29",
               "sentiment": "unknown",
@@ -5730,30 +5692,87 @@
           ]
         },
         {
-          "name": "xon | 1 vallei",
+          "name": "ed.nl",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Voormalig reservespits van TOP Oss tekent voor drie seizoenen in Kosovo - ed.nl",
+              "albanianTitle": "Kampioni i Olandës nënshkruajnë kontratë për tre sezone në Kosovë",
+              "url": "https://www.ed.nl/regiosport-brabant/voormalig-reservespits-van-top-oss-tekent-voor-drie-seizoenen-in-kosovo~a6b3a82d/",
+              "date": "2026-07-09",
+              "sentiment": "neutral",
+              "reason": "Lajm i thjeshtë i ngjarjeve sportive",
+              "isQuote": false
+            }
+          ]
+        },
+        {
+          "name": "nrc.nl",
           "sentiment": "unknown",
           "articleCount": 1,
           "articles": [
             {
-              "title": "Veenendaler aan basis grootste actie ooit om Kosovo zwerfdiervrij te maken - xon | 1 vallei",
-              "albanianTitle": "Kosova në rrugën e një vendi pa zvergje",
-              "url": "https://xon.nu/nieuws/veenendaler-aan-basis-grootste-actie-ooit-om-kosovo-zwerfdiervrij-te-maken/",
-              "date": "2026-06-03",
+              "title": "Klap voor politieke stabiliteit Kosovo, het land stevent af op vervroegde verkiezingen na mislukken presidentsbenoeming - nrc.nl",
+              "albanianTitle": "Kosova në prag të zgjedhjeve të shpejta, pas dështimit të emërtimit të presidentit",
+              "url": "https://www.nrc.nl/nieuws/2026/04/29/klap-voor-politieke-stabiliteit-kosovo-het-land-stevent-af-op-vervroegde-verkiezingen-na-mislukken-presidentsbenoeming-a4926579",
+              "date": "2026-04-29",
               "sentiment": "unknown",
               "reason": "",
+              "isQuote": false
+            }
+          ]
+        },
+        {
+          "name": "nu.nl",
+          "sentiment": "neutral",
+          "articleCount": 2,
+          "articles": [
+            {
+              "title": "Kosovo arresteert vijf Serviërs voor oorlogsgeweld in 1999 - nu.nl",
+              "albanianTitle": "Kosova arreston pesë serbë për krime luftarake në vitin 1999",
+              "url": "https://www.nu.nl/buitenland/6399368/kosovo-arresteert-vijf-serviers-voor-oorlogsgeweld-in-1999.html",
+              "date": "2026-06-14",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false
+            },
+            {
+              "title": "Kadioglu schiet Turkije naar finale play-offs WK, Kosovo verrast Slowakije - nu.nl",
+              "albanianTitle": "Kadioglu e çon Turqinë në finale të play-off-ve të Kampionatit Botëror, ndërsa Kosova e mban shpresën për një vend në Sllovakinë",
+              "url": "https://www.nu.nl/wk-voetbal/6390592/kadioglu-schiet-turkije-naar-finale-play-offs-wk-kosovo-verrast-slowakije.html",
+              "date": "2026-03-26",
+              "sentiment": "neutral",
+              "reason": "Lajm sportiv, i thjeshtë",
+              "isQuote": false
+            }
+          ]
+        },
+        {
+          "name": "xon.nu",
+          "sentiment": "positive",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Veenendaler aan basis grootste actie ooit om Kosovo zwerfdiervrij te maken - xon.nu",
+              "albanianTitle": "Aktivistët në Veenendaal për Kosovën: një çelës për të bërë Kosovën një vend të mirë për të gjithë kafshët",
+              "url": "https://xon.nu/nieuws/veenendaler-aan-basis-grootste-actie-ooit-om-kosovo-zwerfdiervrij-te-maken/",
+              "date": "2026-06-03",
+              "sentiment": "positive",
+              "reason": "Artikulli paraqet një veprimtari pozitive për Kosovën",
               "isQuote": false
             }
           ]
         }
       ],
       "summary": {
-        "index": 50,
-        "positive": 0,
-        "neutral": 100,
+        "index": 56,
+        "positive": 11,
+        "neutral": 89,
         "negative": 0,
-        "n": 7,
-        "excluded": 53,
-        "confident": false,
+        "n": 9,
+        "excluded": 51,
+        "confident": true,
         "stanceVersion": 2
       }
     },
@@ -5794,22 +5813,6 @@
               "albanianTitle": null,
               "url": "https://www.bfmtv.com/international/il-tentait-de-retarder-un-vote-crucial-au-kosovo-une-deputee-lance-des-oeufs-sur-le-premier-ministre-en-pleine-session-parlementaire_AD-202608080240.html",
               "date": "Sat, 08 Au",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false
-            }
-          ]
-        },
-        {
-          "name": "BeBasket",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Après une saison en ÉLITE 2, Laolu Oke poursuit sa carrière au Kosovo - BeBasket",
-              "albanianTitle": "Laolu Oke vazhdon karrierën e tij në Kosovë pas një sezoni në Elite 2",
-              "url": "https://www.bebasket.fr/apres-une-saison-en-elite-2-laolu-oke-poursuit-sa-carriere-au-kosovo",
-              "date": "2026-08-12",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike",
               "isQuote": false
@@ -6013,6 +6016,22 @@
           ]
         },
         {
+          "name": "Le Soir",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "L’Otan réduit sa présence militaire au Kosovo - Le Soir",
+              "albanianTitle": "NATO shpëton përforcimet e saj në Kosovë",
+              "url": "https://www.lesoir.be/752478/article/2026-06-12/lotan-reduit-sa-presence-militaire-au-kosovo",
+              "date": "2026-06-12",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false
+            }
+          ]
+        },
+        {
           "name": "L’actualité",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -6086,17 +6105,17 @@
           ]
         },
         {
-          "name": "lesoir.be",
-          "sentiment": "unknown",
+          "name": "bebasket.fr",
+          "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
-              "title": "L’Otan réduit sa présence militaire au Kosovo - lesoir.be",
-              "albanianTitle": "NATO reduktonte përhapjen e forcave të saj në Kosovë",
-              "url": "https://www.lesoir.be/752478/article/2026-06-12/lotan-reduit-sa-presence-militaire-au-kosovo",
-              "date": "2026-06-12",
-              "sentiment": "unknown",
-              "reason": "",
+              "title": "Après une saison en ÉLITE 2, Laolu Oke poursuit sa carrière au Kosovo - bebasket.fr",
+              "albanianTitle": "Laolu Oke vazhdon karrierën e tij në Kosovë pas një sezoni në Ligën e Dytë",
+              "url": "https://www.bebasket.fr/apres-une-saison-en-elite-2-laolu-oke-poursuit-sa-carriere-au-kosovo",
+              "date": "2026-08-12",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
               "isQuote": false
             }
           ]
@@ -6107,8 +6126,8 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 23,
-        "excluded": 1,
+        "n": 24,
+        "excluded": 0,
         "confident": true,
         "stanceVersion": 2
       }
@@ -6277,6 +6296,47 @@
               "albanianTitle": "Problematet në Kosovë: një deputete sulmoi kryeministrin me qeshë në mes të një sesioni në Parlament",
               "url": "https://www.elpais.com.uy/mundo/revuelo-en-kosovo-una-diputada-ataco-con-huevos-al-primer-ministro-en-medio-de-sesion-del-parlamento",
               "date": "2026-08-12",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false
+            }
+          ]
+        },
+        {
+          "name": "El Impulso",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo envió 200 mil dólares para ayudar a los guaireños #14Ago - El Impulso",
+              "albanianTitle": "Kosova dërgon 200 mijë dollar për të ndihmuar qytetin e Gjakovës",
+              "url": "https://www.elimpulso.com/2026/08/14/kosovo-envio-200-mil-dolares-para-ayudar-a-los-guairenos-14ago/",
+              "date": "2026-08-14",
+              "sentiment": "neutral",
+              "reason": "Lajm i ngjarjeve të raportuara në mënyrë faktike",
+              "isQuote": false
+            }
+          ]
+        },
+        {
+          "name": "El Mundo",
+          "sentiment": "unknown",
+          "articleCount": 2,
+          "articles": [
+            {
+              "title": "Localizan en Kosovo a una niña de seis años secuestrada en Mallorca y detienen a su padre - El Mundo",
+              "albanianTitle": null,
+              "url": "https://www.elmundo.es/baleares/2026/06/27/6a3f7f8821efa0405d8b456e.html",
+              "date": "2026-06-27",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false
+            },
+            {
+              "title": "La masacre de Raçak, a juicio tres décadas después: \"Tiene una importancia enorme para Kosovo\" - El Mundo",
+              "albanianTitle": "Masakra e Raçakut, një çështje e rëndësishme për Kosovën, që është në gjyq për herë të tretë",
+              "url": "https://www.elmundo.es/internacional/2026/08/08/6a7454c4fdddfff8338b4575.html",
+              "date": "2026-08-07",
               "sentiment": "unknown",
               "reason": "",
               "isQuote": false
@@ -6498,22 +6558,6 @@
           ]
         },
         {
-          "name": "RTVE.es",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Una Rojita intratable recibe a la Federación de Fútbol de Kosovo con ganas de seguir la fiesta goleadora - RTVE.es",
-              "albanianTitle": null,
-              "url": "https://www.rtve.es/deportes/20260331/rojita-intratable-recibe-federacion-futbol-kosovo-ganas-seguir-fiesta-goleadora/17003805.shtml",
-              "date": "2026-03-31",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false
-            }
-          ]
-        },
-        {
           "name": "Sofascore",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -6630,47 +6674,6 @@
           ]
         },
         {
-          "name": "elimpulso.com",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosovo envió 200 mil dólares para ayudar a los guaireños #14Ago - elimpulso.com",
-              "albanianTitle": "Kosova ka dërguar 200 milionë dollar për të ndihmuar banorët e La Guairas",
-              "url": "https://www.elimpulso.com/2026/08/14/kosovo-envio-200-mil-dolares-para-ayudar-a-los-guairenos-14ago/",
-              "date": "2026-08-14",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false
-            }
-          ]
-        },
-        {
-          "name": "elmundo.es",
-          "sentiment": "unknown",
-          "articleCount": 2,
-          "articles": [
-            {
-              "title": "Localizan en Kosovo a una niña de seis años secuestrada en Mallorca y detienen a su padre - El Mundo",
-              "albanianTitle": null,
-              "url": "https://www.elmundo.es/baleares/2026/06/27/6a3f7f8821efa0405d8b456e.html",
-              "date": "2026-06-27",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false
-            },
-            {
-              "title": "La masacre de Raçak, a juicio tres décadas después: \"Tiene una importancia enorme para Kosovo\" - El Mundo",
-              "albanianTitle": "Masakra e Raçakut, një çështje e rëndësishme për Kosovën, që është në gjyq për herë të tretë",
-              "url": "https://www.elmundo.es/internacional/2026/08/08/6a7454c4fdddfff8338b4575.html",
-              "date": "2026-08-07",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false
-            }
-          ]
-        },
-        {
           "name": "euractiv.com",
           "sentiment": "unknown",
           "articleCount": 1,
@@ -6733,6 +6736,22 @@
               "isQuote": false
             }
           ]
+        },
+        {
+          "name": "rtve.es",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Una Rojita intratable recibe a la Federación de Fútbol de Kosovo con ganas de seguir la fiesta goleadora - RTVE.es",
+              "albanianTitle": null,
+              "url": "https://www.rtve.es/deportes/20260331/rojita-intratable-recibe-federacion-futbol-kosovo-ganas-seguir-fiesta-goleadora/17003805.shtml",
+              "date": "2026-03-31",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false
+            }
+          ]
         }
       ],
       "summary": {
@@ -6740,8 +6759,8 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 3,
-        "excluded": 45,
+        "n": 4,
+        "excluded": 44,
         "confident": false,
         "stanceVersion": 2
       }
@@ -6754,18 +6773,18 @@
           "articleCount": 2,
           "articles": [
             {
-              "title": "Οργή στο Κόσοβο – Αφαίρεσαν την ουκρανική σημαία από την Πρίστινα μετά την επίσκεψη Zelensky στη Σερβία - Bankingnews",
-              "albanianTitle": "Zgjuhë në Kosovë - U hoq flamuri ukrainas në Prishtinë pas vizitës së Zelensky në Serbi - Bankingnews",
-              "url": "https://www.bankingnews.gr/diethni/articles/892942/orgi-sto-kosovo-afairesan-tin-oukraniki-simaia-apo-tin-pristina-meta-tin-episkepsi-zelensky-sti-servia",
+              "title": "Vucic: Η Σερβία δεν μπορεί να εμπλακεί σε πόλεμο με το NATO για το Κόσοβο - Bankingnews",
+              "albanianTitle": "Vuçiç: Serbia nuk mund të hyjë në luftë me NATO për Kosovën",
+              "url": "https://www.bankingnews.gr/diethni/articles/892961/vucic-i-servia-den-borei-na-emplakei-se-polemo-me-to-nato-gia-to-kosovo",
               "date": "2026-08-09",
               "sentiment": "unknown",
               "reason": "",
               "isQuote": false
             },
             {
-              "title": "Vucic: Η Σερβία δεν μπορεί να εμπλακεί σε πόλεμο με το NATO για το Κόσοβο - Bankingnews",
-              "albanianTitle": "Vuçiç: Serbia nuk mund të hyjë në luftë me NATO për Kosovën",
-              "url": "https://www.bankingnews.gr/diethni/articles/892961/vucic-i-servia-den-borei-na-emplakei-se-polemo-me-to-nato-gia-to-kosovo",
+              "title": "Οργή στο Κόσοβο – Αφαίρεσαν την ουκρανική σημαία από την Πρίστινα μετά την επίσκεψη Zelensky στη Σερβία - Bankingnews",
+              "albanianTitle": "Zgjuhë në Kosovë - U hoq flamuri ukrainas në Prishtinë pas vizitës së Zelensky në Serbi - Bankingnews",
+              "url": "https://www.bankingnews.gr/diethni/articles/892942/orgi-sto-kosovo-afairesan-tin-oukraniki-simaia-apo-tin-pristina-meta-tin-episkepsi-zelensky-sti-servia",
               "date": "2026-08-09",
               "sentiment": "unknown",
               "reason": "",
@@ -7213,22 +7232,6 @@
           ]
         },
         {
-          "name": "cna.org.cy",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Κόσοβο: Οι αρχές λένε ότι εντόπισαν νέο ομαδικό τάφο στην περιοχή του Ζούμπιν Πότοκ - ΚΥΠΕ",
-              "albanianTitle": "Kosova: Zgjedhësit thonë se kanë gjetur një varr masiv në zonën e Zubin Potokut - KYPE",
-              "url": "https://www.cna.org.cy/article/10696376/kosovo-oi-arches-lene-oti-entopisan-neo-omadiko-tafo-stin-periochi-toy-zoybin-potok",
-              "date": "2026-08-04",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false
-            }
-          ]
-        },
-        {
           "name": "cosmotetv.gr",
           "sentiment": "unknown",
           "articleCount": 3,
@@ -7345,31 +7348,6 @@
           ]
         },
         {
-          "name": "naftemporiki.gr",
-          "sentiment": "unknown",
-          "articleCount": 2,
-          "articles": [
-            {
-              "title": "Κόσοβο: Βουλευτής της αντιπολίτευσης πέταξε αυγά στον υπηρεσιακό πρωθυπουργό (Βίντεο) - η ναυτεμπορικη",
-              "albanianTitle": "Kosova: Deputeti i opozitës kërcënoi kryeministrin e përkohshëm me qeliza (Video) - e nautekombetare",
-              "url": "https://www.naftemporiki.gr/kosmos/2148281/kosovo-voyleytis-tis-antipoliteysis-petaxe-ayga-ston-ypiresiako-prothypoyrgo-vinteo/",
-              "date": "2026-08-08",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false
-            },
-            {
-              "title": "Κόσοβο: Ο Αντόνιο Κόστα ζήτησε από την Πρίστινα πολιτική σταθερότητα και αφοσίωση στο διάλογο με τη Σερβία - η ναυτεμπορικη",
-              "albanianTitle": "Kosova: Antonio Costa kërkoi stabilitet politik dhe besim në dialogun me Serbinë - naftotregtia",
-              "url": "https://www.naftemporiki.gr/kosmos/2119055/kosovo-o-antonio-kosta-zitise-apo-tin-pristina-politiki-statherotita-kai-afosiosi-sto-dialogo-me-ti-servia/",
-              "date": "2026-06-03",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false
-            }
-          ]
-        },
-        {
           "name": "Δήμος Λαρισαίων",
           "sentiment": "unknown",
           "articleCount": 1,
@@ -7394,6 +7372,22 @@
               "title": "Κόσοβο: Οι αρχές πιστεύουν ότι εντόπισαν νέο ομαδικό - Υπόνοιες για έγκλημα πολέμου στα τέλη της δεκαετίας του 1990 - Η Εφημερίδα των Συντακτών",
               "albanianTitle": "Kosova: Autoritetet besojnë se kanë gjetur një grup të ri - Hipoteza për një krime lufte në fund të viteve '90",
               "url": "https://www.efsyn.gr/kosmos/1442016/kosovo-oi-arhes-pisteyoyn-oti-entopisan-neo-omadiko-yponoies-gia-egklima-polemoy-sta-teli-tis-dekaetias-toy-1990/",
+              "date": "2026-08-04",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false
+            }
+          ]
+        },
+        {
+          "name": "ΚΥΠΕ",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Κόσοβο: Οι αρχές λένε ότι εντόπισαν νέο ομαδικό τάφο στην περιοχή του Ζούμπιν Πότοκ - ΚΥΠΕ",
+              "albanianTitle": "Kosova: Zgjedhësit thonë se kanë gjetur një varr masiv në zonën e Zubin Potokut - KYPE",
+              "url": "https://www.cna.org.cy/article/10696376/kosovo-oi-arches-lene-oti-entopisan-neo-omadiko-tafo-stin-periochi-toy-zoybin-potok",
               "date": "2026-08-04",
               "sentiment": "unknown",
               "reason": "",
@@ -7427,6 +7421,31 @@
               "albanianTitle": "Kosova: Elektoratet të shkojnë në vota për herë të tretë në 18 muaj - Tërësisht i shqetësuar për të dalë nga krizë - ΤΑ ΝΕΑ",
               "url": "https://www.tanea.gr/2026/06/06/world/kosovo-krisimes-vouleytikes-ekloges-tin-kyriaki-triti-apopeira-gia-eksodo-apo-tin-politiki-krisi/",
               "date": "2026-06-06",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false
+            }
+          ]
+        },
+        {
+          "name": "η ναυτεμπορικη",
+          "sentiment": "unknown",
+          "articleCount": 2,
+          "articles": [
+            {
+              "title": "Κόσοβο: Βουλευτής της αντιπολίτευσης πέταξε αυγά στον υπηρεσιακό πρωθυπουργό (Βίντεο) - η ναυτεμπορικη",
+              "albanianTitle": "Kosova: Deputeti i opozitës kërcënoi kryeministrin e përkohshëm me qeliza (Video) - e nautekombetare",
+              "url": "https://www.naftemporiki.gr/kosmos/2148281/kosovo-voyleytis-tis-antipoliteysis-petaxe-ayga-ston-ypiresiako-prothypoyrgo-vinteo/",
+              "date": "2026-08-08",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false
+            },
+            {
+              "title": "Κόσοβο: Ο Αντόνιο Κόστα ζήτησε από την Πρίστινα πολιτική σταθερότητα και αφοσίωση στο διάλογο με τη Σερβία - η ναυτεμπορικη",
+              "albanianTitle": "Kosova: Antonio Costa kërkoi stabilitet politik dhe besim në dialogun me Serbinë - naftotregtia",
+              "url": "https://www.naftemporiki.gr/kosmos/2119055/kosovo-o-antonio-kosta-zitise-apo-tin-pristina-politiki-statherotita-kai-afosiosi-sto-dialogo-me-ti-servia/",
+              "date": "2026-06-03",
               "sentiment": "unknown",
               "reason": "",
               "isQuote": false
@@ -7514,19 +7533,19 @@
               "isQuote": false
             },
             {
-              "title": "Se JDT:s presskonferens från Ullevi live - Aftonbladet",
-              "albanianTitle": "Kamerasi e ndjek konferencën e shtypit të JDT në Ullevi",
-              "url": "https://www.aftonbladet.se/sportbladet/fotboll/a/mPXwL1/tomassons-presskonferens-efter-fiaskot-mot-kosovo",
-              "date": "2025-10-13",
+              "title": "Premiärministerns parti bekräftad vinnare i Kosovo - Aftonbladet",
+              "albanianTitle": "Partia e kryeministrit është e sigurt fituese në zgjedhjet në Kosovë",
+              "url": "https://www.aftonbladet.se/nyheter/a/Ok30kw/premiarministerns-parti-bekraftad-vinnare-i-kosovo",
+              "date": "2026-01-31",
               "sentiment": "unknown",
               "reason": "",
               "isQuote": false
             },
             {
-              "title": "Premiärministerns parti bekräftad vinnare i Kosovo - Aftonbladet",
-              "albanianTitle": "Partia e kryeministrit është e sigurt fituese në zgjedhjet në Kosovë",
-              "url": "https://www.aftonbladet.se/nyheter/a/Ok30kw/premiarministerns-parti-bekraftad-vinnare-i-kosovo",
-              "date": "2026-01-31",
+              "title": "Dunderfiasko i Göteborg: ”Katastrof” - Aftonbladet",
+              "albanianTitle": "Gjigandët e Suedisë pësuan një humbje të madhe në Göteborg",
+              "url": "https://www.aftonbladet.se/sportbladet/fotboll/a/VzKMqp/sverige-forlorade-mot-kosovo-igen",
+              "date": "2025-10-13",
               "sentiment": "unknown",
               "reason": "",
               "isQuote": false
@@ -7559,9 +7578,25 @@
           ]
         },
         {
+          "name": "Bettingstugan.se",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Speltips: Kosovo - Turkiet 31/3 \"Kan Kosovo skriva historia mot… - Bettingstugan.se",
+              "albanianTitle": "Tipi i lojës: Kosovë-Turqia 31 mars, mund të shkruhet një histori",
+              "url": "https://bettingstugan.se/speltips/kosovo-turkiet",
+              "date": "2026-03-30",
+              "sentiment": "neutral",
+              "reason": "Fjalia është citim brenda “”, jo zëri i mediumit",
+              "isQuote": true
+            }
+          ]
+        },
+        {
           "name": "Dagens Nyheter",
           "sentiment": "unknown",
-          "articleCount": 3,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Umgicks med världsstjärnor – svensk döms för beställningsmord på hustrun - Dagens Nyheter",
@@ -7573,19 +7608,26 @@
               "isQuote": false
             },
             {
-              "title": "Guide inför VM-kvalet: Seger mot Kosovo ett absolut måste - Dagens Nyheter",
-              "albanianTitle": "Udha për të mësuar për kualifikimet e Kupës së Botës: Suedia duhet të fitojë ndeshjen kundër Kosovës",
-              "url": "https://www.dn.se/sport/guide-seger-mot-kosovo-ett-absolut-maste/",
+              "title": "Elanga inför returmatchen mot Kosovo: ”Väldigt revanschsugen” - Dagens Nyheter",
+              "albanianTitle": "Elanga para ndeshjes së kthimit kundër Kosovës: 'Jam shumë i zemëruar'",
+              "url": "https://www.dn.se/sport/elanga-infor-returmatchen-mot-kosovo-valdigt-revanschsugen/",
               "date": "2025-10-13",
               "sentiment": "unknown",
               "reason": "",
               "isQuote": false
-            },
+            }
+          ]
+        },
+        {
+          "name": "Ekuriren",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
             {
-              "title": "Landslaget utbuat efter ny förlust mot Kosovo: ”Ett fiasko” - Dagens Nyheter",
-              "albanianTitle": "Lëvizja e kombëtarëve të Suedisë është shpërndaq pas humbjes së tyre kundër Kosovës: 'E një shembull i mëdha' - Dagens Nyheter",
-              "url": "https://www.dn.se/sport/folj-fotbollsherrarnas-odesmatch-mot-kosovo-i-vm-kvalet/",
-              "date": "2025-10-13",
+              "title": "Albin, 24, tar tjänstledigt från jobbet – för att bli proffs - Ekuriren",
+              "albanianTitle": "Njëri prej tyre, Albin, 24-vjeçar, u largua nga puna për të bërë karrierë profesionale",
+              "url": "https://www.ekuriren.se/sport/eskilstuna/artikel/albin-ahlin-lamnar-hk-eskil-for-kosovo/jdoqk18l",
+              "date": "2026-02-17",
               "sentiment": "unknown",
               "reason": "",
               "isQuote": false
@@ -7595,7 +7637,7 @@
         {
           "name": "Expressen",
           "sentiment": "neutral",
-          "articleCount": 3,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Naim Murseli, 35, beställde mordet på sin fru - Expressen",
@@ -7607,18 +7649,9 @@
               "isQuote": false
             },
             {
-              "title": "AMANDA SVENSSON: I Kosovo händer det fruktansvärda - Expressen",
-              "albanianTitle": "Amanda Svensson: Në Kosovë ndodhin gjëra të mëdha të vështira",
-              "url": "https://www.expressen.se/kultur/bocker/i-kosovo-hander--det-fruktansvarda/",
-              "date": "2026-05-08",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false
-            },
-            {
-              "title": "Tunga beskedet: ”Jag ser den på tv” - Expressen",
-              "albanianTitle": "Njoftimi i rëndësishëm: 'Unë do të shoh atë në televizor'",
-              "url": "https://www.expressen.se/sport/fotboll/allsvenskan/aiks-bersant-celina-missar-sverige-kosovo/",
+              "title": "”Jag hoppas inte att det påverkar” - Expressen",
+              "albanianTitle": "'Më shpresoj se kjo nuk do të ndikojë'",
+              "url": "https://www.expressen.se/sport/fotboll/landslaget/landslaget-har-bortamatch-pa-hemmaplan-mot-kosovo/",
               "date": "2025-10-13",
               "sentiment": "unknown",
               "reason": "",
@@ -7636,54 +7669,6 @@
               "albanianTitle": "Statistikat e Kosovës në kualifikimet e UEFA për Kampionatin Botëror 2025/2026",
               "url": "https://www.fotmob.com/sv/leagues/10195/stats/season/24488/players/saves/team/430156/kosovoplayersplayersplayersteamsteamsteams",
               "date": "2026-08-13",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false
-            }
-          ]
-        },
-        {
-          "name": "FotbollDirekt",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Efter succén – Kosovo-spelarna tilldelas miljonbonus - FotbollDirekt",
-              "albanianTitle": "Pas fitores së tyre, futbollistët e Kosovës marrin një bonus milionësh",
-              "url": "https://fotbolldirekt.se/vm-fotboll/efter-succen-kosovo-spelarna-tilldelas-miljonbonus/",
-              "date": "2026-03-28",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false
-            }
-          ]
-        },
-        {
-          "name": "Fotbollskanalen",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Lundh och Grinndal snackar upp Kosovo-Sverige - Fotbollskanalen",
-              "albanianTitle": "Lundh dhe Grinndal flasin për Kosovën dhe Suedinë",
-              "url": "https://www.fotbollskanalen.se/video/d7961d56daf159ab928c/lundh-och-grinndal-snackar-upp-kosovo-sverige",
-              "date": "2026-04-03",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false
-            }
-          ]
-        },
-        {
-          "name": "Fri Köpenskap",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Från familjebutik i Kosovo till prisad på Öland: ”Ingen större skillnad” - Fri Köpenskap",
-              "albanianTitle": "Nga një treg diell në Kosovë në një treg në Öland: 'Asnjë ndryshim i madh'",
-              "url": "https://www.fri-kopenskap.se/article/view/1226387/fran_familjebutik_i_kosovo_till_prisad_pa_oland_ingen_storre_skillnad",
-              "date": "2026-05-06",
               "sentiment": "unknown",
               "reason": "",
               "isQuote": false
@@ -7709,26 +7694,8 @@
         {
           "name": "Göteborgs-Posten",
           "sentiment": "unknown",
-          "articleCount": 5,
+          "articleCount": 3,
           "articles": [
-            {
-              "title": "Experternas sågning: ”Vad är det vi håller på med?” - Göteborgs-Posten",
-              "albanianTitle": "Analistët e shohin: 'Çfarë po bëjmë?'",
-              "url": "https://www.gp.se/sport/fotboll/experternas-sagning-av-sveriges-insats-mot-kosovo.e041f234-083c-4a45-b37f-a19e4bd8cbc9",
-              "date": "2025-10-14",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false
-            },
-            {
-              "title": "VM-fiaskot fortsätter för Sverige - Göteborgs-Posten",
-              "albanianTitle": "Suedia pësoi një humbje të rëndë në Kupën e Botës",
-              "url": "https://www.gp.se/sport/fotboll/sverige-foll-mot-kosovo-nya-avgangskrav-mot-jon-dahl-tomasson.ae50e6a4-6293-4cac-8420-3bb90d290dc8",
-              "date": "2025-10-14",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false
-            },
             {
               "title": "Ny assisterande för Sverige – tränar även Kosovo - Göteborgs-Posten",
               "albanianTitle": "Një trajner i ri për Suedi, i cili trajnon edhe Kosovën",
@@ -7739,19 +7706,35 @@
               "isQuote": false
             },
             {
-              "title": "Sverige möter Kosovo i VM-kvalet – följ matchen här - Göteborgs-Posten",
-              "albanianTitle": "Suedia do të ndeshet me Kosovën në kualifikimet e Kupës së Botës",
-              "url": "https://www.gp.se/sport/fotboll/sverige-moter-kosovo-i-vm-kvalet-folj-matchen-har.8501d45b-5ccc-4068-9c14-dbeb6f37902f",
-              "date": "2025-10-13",
+              "title": "Domstol stoppar upplösning av parlament i Kosovo - Göteborgs-Posten",
+              "albanianTitle": "Gjykata ndaloi shpërbërjen e parlamentit në Kosovë",
+              "url": "https://www.gp.se/nyheter/varlden/domstol-stoppar-upplosning-av-parlament-i-kosovo.f686b389-ae97-5bfb-87a2-55073799796a",
+              "date": "2026-03-25",
               "sentiment": "unknown",
               "reason": "",
               "isQuote": false
             },
             {
-              "title": "Ledande gängkriminell från Göteborg häktad efter internationell insats - Göteborgs-Posten",
-              "albanianTitle": "Kriminelët kryesorë të një bande në Göteborg janë arrestuar pas një veprimtari ndërkombëtare - Göteborgs-Posten",
-              "url": "https://www.gp.se/krim/toppman-inom-organiserad-brottslighet-haktad-efter-insats-i-sverige-och-kosovo.7c520765-6264-44b2-90bb-a9e027309b8b",
-              "date": "2025-12-22",
+              "title": "Kosovo grep fem serber misstänkta för massaker - Göteborgs-Posten",
+              "albanianTitle": "Kosovarët arrestojnë dy serbë për shkak të masakrës në Gjilan",
+              "url": "https://www.gp.se/nyheter/varlden/kosovo-grep-fem-serber-misstankta-for-massaker.6ca44f11-802b-56a6-b2cf-f7e1f37d372d",
+              "date": "2026-06-14",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false
+            }
+          ]
+        },
+        {
+          "name": "Hufvudstadsbladet – HBL",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Damerna ska knäcka Kosovo i kvalet: ”Hårt spel” - Hufvudstadsbladet – HBL",
+              "albanianTitle": null,
+              "url": "https://www.hbl.fi/2026-03-04/damerna-ska-knacka-kosovo-i-kvalet-mycket-kraft-och-hart-spel/",
+              "date": "2026-03-04",
               "sentiment": "unknown",
               "reason": "",
               "isQuote": false
@@ -7777,7 +7760,7 @@
         {
           "name": "Omni – Alla nyheter. Alla perspektiv.",
           "sentiment": "unknown",
-          "articleCount": 4,
+          "articleCount": 6,
           "articles": [
             {
               "title": "Kosovo tar ner Ukrainas flagga efter Zelenskyjs ord - Omni – Alla nyheter. Alla perspektiv.",
@@ -7811,6 +7794,40 @@
               "albanianTitle": "Suedezë i dënueshëm - kërkoi vrasjen e gruas së tij në Kosovë - Omni",
               "url": "https://omni.se/svensk-doms-bestallde-mord-pa-sin-fru-i-kosovo/a/ExbWKG",
               "date": "2026-04-22",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false
+            },
+            {
+              "title": "Kosovo röstar igen efter månader av politiskt dödläge - Omni – Alla nyheter. Alla perspektiv.",
+              "albanianTitle": "Kosova do të votojë përsëri pas muajve të vështirë politike",
+              "url": "https://omni.se/kosovo-rostar-igen-efter-manader-av-politiskt-dodlage/a/Okpav1",
+              "date": "2025-12-28",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false
+            },
+            {
+              "title": "Stor seger för sittande premiärministern i Kosovo - Omni – Alla nyheter. Alla perspektiv.",
+              "albanianTitle": "Fitore e madhe për kryeministrin e Kosovës në zgjedhjet e para",
+              "url": "https://omni.se/stor-seger-for-sittande-premiarministern-i-kosovo/a/Wvbx4Q",
+              "date": "2025-12-29",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false
+            }
+          ]
+        },
+        {
+          "name": "Rekatochklart",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Speltips Kosovo - Turkiet 31/03 | Rekar, Betting Tips & Speltips - Rekatochklart",
+              "albanianTitle": "Tipa e lojës për ndeshjen Kosovë-Turqia më 31 mars",
+              "url": "https://www.rekatochklart.com/speltips/fotboll/kosovo-turkiet-67833/",
+              "date": "2026-03-30",
               "sentiment": "unknown",
               "reason": "",
               "isQuote": false
@@ -7866,26 +7883,10 @@
               "isQuote": false
             },
             {
-              "title": "Fotboll: Chatta med SVT Sport inför Sverige-Kosovo – Liverapportering: Herrlandslaget i fotboll 2026 - SVT Nyheter",
-              "albanianTitle": "Futboll: Flet me SVT Sport para ndeshjes Suedi-Kosovë – Raportim: Kombëtari i Suedisë në futboll 2026 - SVT Nyheter",
-              "url": "https://www.svt.se/sport/fotboll/sveriges-herrlandslag-i-fotboll?inlagg=fa0ad415f256eec14b20500c6cc4d0d4",
-              "date": "2025-10-13",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false
-            }
-          ]
-        },
-        {
-          "name": "SVT Play",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "SVT Nyheter Direkt – Pressträff inför VM-kvalmatchen mot Kosovo - SVT Play",
-              "albanianTitle": "Presësë e përgjithshme për ndeshjen kundër Kosovës në kualifikimet e Kupës së Botës",
-              "url": "https://www.svtplay.se/video/eakkZaP/svt-nyheter-direkt/presstraff-infor-vm-kvalmatchen-mot-kosovo",
-              "date": "2025-10-12",
+              "title": "Fotboll: Nya svenska jättefiaskot i VM-kvalet - SVT Nyheter",
+              "albanianTitle": "Futboll: Suedia pësoi një humbje të madhe në kualifikimet për Kampionatin Botëror",
+              "url": "https://www.svt.se/sport/fotboll/nya-svenska-jattefiaskot-i-vm-kvalet",
+              "date": "2025-10-14",
               "sentiment": "unknown",
               "reason": "",
               "isQuote": false
@@ -7918,25 +7919,9 @@
           ]
         },
         {
-          "name": "Speltips.se",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Speltips Slovakien - Kosovo 26/3 » Betting odds & tips - Speltips.se",
-              "albanianTitle": null,
-              "url": "https://speltips.se/speltips-26-3-infor-slovakien-kosovo-slovakien-tar-hem-det",
-              "date": "2026-03-26",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false
-            }
-          ]
-        },
-        {
           "name": "Suomi ulkomailla",
           "sentiment": "unknown",
-          "articleCount": 2,
+          "articleCount": 1,
           "articles": [
             {
               "title": "Aalto Works-serien togs upp på Unescos världsarvslista - Suomi ulkomailla",
@@ -7946,22 +7931,13 @@
               "sentiment": "unknown",
               "reason": "",
               "isQuote": false
-            },
-            {
-              "title": "Pressfrihetsdagen påminner om yttrandefrihetens betydelse för demokratin och säkerheten - Suomi ulkomailla",
-              "albanianTitle": "Dita e Lirisë së Presë përmirëson rëndësinë e lirisë së fjalës për demokracinë dhe sigurinë",
-              "url": "https://finlandabroad.fi/web/xkv/aktuellt/-/asset_publisher/T01HPEq0q7JC/content/lehdistonvapauspaiva-muistuttaa-sananvapauden-merkityksesta-demokratialle-ja-turvallisuudelle/35732",
-              "date": "2026-05-03",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false
             }
           ]
         },
         {
           "name": "Svensk fotboll",
           "sentiment": "unknown",
-          "articleCount": 3,
+          "articleCount": 5,
           "articles": [
             {
               "title": "Startelvan mot Kosovo i Göteborg - Svensk fotboll",
@@ -7982,10 +7958,28 @@
               "isQuote": false
             },
             {
+              "title": "Inför kvällens VM-kval mot Kosovo - Svensk fotboll",
+              "albanianTitle": "Para ndeshjes së vonë të kualifikuesve të botës kundër Kosovës",
+              "url": "https://www.svenskfotboll.se/nyheter/landslag/2025/10/herr-matchguide-kosovo-hemma-2025/",
+              "date": "2025-10-13",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false
+            },
+            {
               "title": "Sverige föll tungt mot Kosovo - Svensk fotboll",
               "albanianTitle": "Suedia humbet kundër Kosovës në një ndeshje të rëndësishme",
               "url": "https://www.svenskfotboll.se/nyheter/landslag/2025/10/vm-kval-swe-kos/",
               "date": "2025-10-13",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false
+            },
+            {
+              "title": "VM-kvaltruppen mot Schweiz och Kosovo - Svensk fotboll",
+              "albanianTitle": "Kombëtarja e futbollit do të ndeshë Suedinë dhe Kosovën në kualifikuesit e Mundialit",
+              "url": "https://www.svenskfotboll.se/nyheter/landslag/2025/10/vm-kvaltruppen-mot-schweiz-och-kosovo/",
+              "date": "2025-10-01",
               "sentiment": "unknown",
               "reason": "",
               "isQuote": false
@@ -8043,15 +8037,83 @@
           ]
         },
         {
-          "name": "TV4 Nyheterna",
+          "name": "SvenskaFans.com",
           "sentiment": "unknown",
           "articleCount": 1,
           "articles": [
             {
-              "title": "Svensk man gripen i Kosovo – varit internationellt efterlyst i fem år - TV4 Nyheterna",
-              "albanianTitle": "Një burrë suedez arrestohet në Kosovë pas pesë vjetësh të qëndrimit në listën e kërkuar",
-              "url": "https://www.tv4.se/artikel/4u1Z4TcSrzqj3mXzViuHeW/efterlyst-svensk-man-gripen-i-kosovo",
-              "date": "2025-12-02",
+              "title": "Kosovo-supportern: ”Jag vill tacka Sverige” - SvenskaFans.com",
+              "albanianTitle": "Një përkrahës i Kosovës në Suedi: 'Duhet të falënderoj Suedin'",
+              "url": "https://www.svenskafans.com/fotboll/kosovo-supportern-jag-vill-tacka-sverige-686303",
+              "date": "2025-10-16",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false
+            }
+          ]
+        },
+        {
+          "name": "Sveriges Radio",
+          "sentiment": "unknown",
+          "articleCount": 5,
+          "articles": [
+            {
+              "title": "Zelenskyjs uttalande om Kosovo väcker ilska - Sveriges Radio",
+              "albanianTitle": null,
+              "url": "https://www.sverigesradio.se/artikel/zelenskyjs-uttalande-om-kosovo-vacker-ilska",
+              "date": "2026-08-10",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false
+            },
+            {
+              "title": "Beställningsmordet i Kosovo – nu döms maken till mördade kvinnan - Sveriges Radio",
+              "albanianTitle": "Dënimi për mëkëmbësin e gruas që u vra në Kosovë",
+              "url": "https://www.sverigesradio.se/artikel/bestallningsmordet-i-kosovo-nu-doms-maken-till-mordade-kvinnan",
+              "date": "2026-04-21",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false
+            },
+            {
+              "title": "Reportern: Därför mördades Uddevallakvinnan i Kosovo - Sveriges Radio",
+              "albanianTitle": "Përse u vrae gruaja nga Uddevalla në Kosovë - Shtypi i Suedisë",
+              "url": "https://www.sverigesradio.se/artikel/reportern-darfor-mordades-uddevallakvinnan-i-kosovo",
+              "date": "2026-04-22",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false
+            },
+            {
+              "title": "Albin Kurti och Vetevendosje vinner valet i Kosovo - Sveriges Radio",
+              "albanianTitle": "Kryeministri Albin Kurti dhe Vetevendosja fitojnë zgjedhjet në Kosovë",
+              "url": "https://www.sverigesradio.se/artikel/sittande-premiarministern-i-kosovo-och-hans-parti-gar-mot-seger",
+              "date": "2025-12-29",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false
+            },
+            {
+              "title": "Mahmut Hasani: Från krigets Kosovo till ett nytt liv i Sverige - Sveriges Radio",
+              "albanianTitle": "Mahmut Hasani: Nga Kosova në luftën e viteve '90 në një jetë të re në Suedi",
+              "url": "https://www.sverigesradio.se/artikel/mahmut-hasani-fran-krigets-kosovo-till-ett-nytt-liv-i-sverige",
+              "date": "2026-03-25",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false
+            }
+          ]
+        },
+        {
+          "name": "Sydsvenskan",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Premiärministern vinnare i nyvalet i Kosovo - Sydsvenskan",
+              "albanianTitle": "Kryeministri fiton në zgjedhjet e reja në Kosovë",
+              "url": "https://www.sydsvenskan.se/varlden/premiarministern-vinnare-i-nyvalet-i-kosovo/",
+              "date": "2025-12-29",
               "sentiment": "unknown",
               "reason": "",
               "isQuote": false
@@ -8091,60 +8153,31 @@
           ]
         },
         {
-          "name": "sverigesradio.se",
+          "name": "fotbolldirekt.se",
           "sentiment": "unknown",
-          "articleCount": 6,
+          "articleCount": 1,
           "articles": [
             {
-              "title": "Zelenskyjs uttalande om Kosovo väcker ilska - sverigesradio.se",
-              "albanianTitle": "Deklarata e Zelenskut për Kosovën ka shkaktuar zemërim",
-              "url": "https://www.sverigesradio.se/artikel/zelenskyjs-uttalande-om-kosovo-vacker-ilska",
-              "date": "2026-08-10",
+              "title": "Efter succén – Kosovo-spelarna tilldelas miljonbonus - fotbolldirekt.se",
+              "albanianTitle": "Lojtarët e kombëtares kosovare marrin një miljon dollarë për fitoren e tyre",
+              "url": "https://fotbolldirekt.se/vm-fotboll/efter-succen-kosovo-spelarna-tilldelas-miljonbonus/",
+              "date": "2026-03-28",
               "sentiment": "unknown",
               "reason": "",
               "isQuote": false
-            },
+            }
+          ]
+        },
+        {
+          "name": "speltips.se",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
             {
-              "title": "Beställningsmordet i Kosovo – nu döms maken till mördade kvinnan - sverigesradio.se",
-              "albanianTitle": "Një vrasje me urdhër në Kosovë - tani është dënuar burri i vrasësit",
-              "url": "https://www.sverigesradio.se/artikel/bestallningsmordet-i-kosovo-nu-doms-maken-till-mordade-kvinnan",
-              "date": "2026-04-21",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false
-            },
-            {
-              "title": "Reportern: Därför mördades Uddevallakvinnan i Kosovo - sverigesradio.se",
-              "albanianTitle": "Reporteri: Përse ishte e mundur të vritej një grua nga Uddevalla në Kosovë",
-              "url": "https://www.sverigesradio.se/artikel/reportern-darfor-mordades-uddevallakvinnan-i-kosovo",
-              "date": "2026-04-22",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false
-            },
-            {
-              "title": "Mahmut Hasani: Från krigets Kosovo till ett nytt liv i Sverige - sverigesradio.se",
-              "albanianTitle": "Mahmut Hasani: Nga Kosova në luftë për të hyrë në një jetë të re në Suedi",
-              "url": "https://www.sverigesradio.se/artikel/mahmut-hasani-fran-krigets-kosovo-till-ett-nytt-liv-i-sverige",
-              "date": "2026-03-25",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false
-            },
-            {
-              "title": "Albin Kurti och Vetevendosje vinner valet i Kosovo - sverigesradio.se",
-              "albanianTitle": "Vetevendosja dhe Albin Kurti fitojnë zgjedhjet në Kosovë",
-              "url": "https://www.sverigesradio.se/artikel/sittande-premiarministern-i-kosovo-och-hans-parti-gar-mot-seger",
-              "date": "2025-12-29",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false
-            },
-            {
-              "title": "Svenskt kvalfiasko mot Kosovo: ”Gör ont att se på” - sverigesradio.se",
-              "albanianTitle": "Suedia humbet në kualifikimet e Kupës së Botës kundër Kosovës",
-              "url": "https://www.sverigesradio.se/artikel/svenskt-kvalfiasko-mot-kosovo-gor-ont-att-se-pa",
-              "date": "2025-09-08",
+              "title": "Speltips Kosovo - Turkiet 31/3 » Betting odds & tips - Speltips.se",
+              "albanianTitle": "Tipi i lojës Kosovë - Turqia 31 mars: Kurse dhe tipi i lojës",
+              "url": "https://speltips.se/speltips-31-3-infor-kosovo-turkiet-givna-favoriter",
+              "date": "2026-03-30",
               "sentiment": "unknown",
               "reason": "",
               "isQuote": false
@@ -8173,14 +8206,87 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 4,
-        "excluded": 56,
+        "n": 5,
+        "excluded": 55,
         "confident": false,
         "stanceVersion": 2
       }
     },
     "Poloni": {
       "outlets": [
+        {
+          "name": "Forsal.pl",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kolejny kraj odsuwa się od Ukrainy. W stolicy ściągają ukraińskie flagi po słowach Zełenskiego - Forsal.pl",
+              "albanianTitle": "Për herë të parë një vend i huaj largohet nga Ukraina pas fjalëve të Zelenskisë",
+              "url": "https://forsal.pl/swiat/ukraina/artykuly/11286110,prisztina-usuwa-flaga-wolna-ukraina-zelenski-kosowo-belgrad.html",
+              "date": "2026-08-09",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false
+            }
+          ]
+        },
+        {
+          "name": "Futbol24",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Poland (W) U19 vs Kosovo (W) U19 - Futbol24",
+              "albanianTitle": "Polonia (G) U19 kundër Kosovës (G) U19",
+              "url": "https://www.futbol24.com/pl/porownanie-druzyn/UEFA/Poland-W-U19/vs/UEFA/Kosovo-W-U19",
+              "date": "2026-08-12",
+              "sentiment": "neutral",
+              "reason": "Lajm i thjeshtë sportiv",
+              "isQuote": false
+            }
+          ]
+        },
+        {
+          "name": "Gazeta",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Jajka poleciały w kierunku premiera Kosowa. Obrady parlamentu przerwano - Gazeta",
+              "albanianTitle": "Në Prishtinë, parlamenti u ndërpre për shkak të një debati të ashpër",
+              "url": "https://wiadomosci.gazeta.pl/polityka/7,198012,32958061,jajka-w-parlamencie-premier-kosowa-zaatakowany-podczas-obrad.html",
+              "date": "2026-08-09",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false
+            }
+          ]
+        },
+        {
+          "name": "Interia Sport",
+          "sentiment": "unknown",
+          "articleCount": 2,
+          "articles": [
+            {
+              "title": "Austria (k) - kosowo (k) - Interia Sport",
+              "albanianTitle": "Austria - Kosova në sport - Interia Sport",
+              "url": "https://sport.interia.pl/pilka-nozna/mecz-austria-k-kosowo-k-kwal-do-ms-europa-k,spmi,4659683",
+              "date": "2026-08-03",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false
+            },
+            {
+              "title": "Kosowo (k) - austria (k) - Interia Sport",
+              "albanianTitle": "Kosova - Austria në sport - Interia Sport",
+              "url": "https://sport.interia.pl/pilka-nozna/mecz-kosowo-k-austria-k-kwal-do-ms-europa-k,spmi,4659676",
+              "date": "2026-07-29",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false
+            }
+          ]
+        },
         {
           "name": "Interia Wydarzenia",
           "sentiment": "unknown",
@@ -8214,15 +8320,97 @@
           ]
         },
         {
-          "name": "Rzeczpospolita",
+          "name": "PCH24.pl",
           "sentiment": "unknown",
           "articleCount": 1,
+          "articles": [
+            {
+              "title": "Wolna Ukraina tak, wolne Kosowo nie? Mieszkańcy Prisztiny wściekli na Zełenskiego - PCH24.pl",
+              "albanianTitle": "Ukraina është e lirë, por Kosova jo? Në Prishtinë, qytetarët janë të zemëruar me Zelenski",
+              "url": "https://pch24.pl/wiadomosci/wolna-ukraina-tak-wolne-kosowo-nie-mieszkancy-prisztiny-wsciekli-na-zelenskiego,729496",
+              "date": "2026-08-10",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false
+            }
+          ]
+        },
+        {
+          "name": "Plastech",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Plastika Kosovo wraca z linią myjącą Lindner - Plastech",
+              "albanianTitle": "Plastika Kosova e kthehet në linjën e Lindner - Plastech",
+              "url": "https://www.plastech.pl/wiadomosci/plastika-kosovo-wraca-z-linia-myjaca-lindner-22587",
+              "date": "2026-08-06",
+              "sentiment": "neutral",
+              "reason": "Lajm ekonomik i thjeshtë",
+              "isQuote": false
+            }
+          ]
+        },
+        {
+          "name": "PolsatNews.pl",
+          "sentiment": "neutral",
+          "articleCount": 2,
+          "articles": [
+            {
+              "title": "Dantejskie sceny w parlamencie Kosowa. Premier obrzucony jajkami, posłanka w szale. \"Wstydź się!\" - PolsatNews.pl",
+              "albanianTitle": "Një skenë e mrekullueshme në parlamentin e Kosovës: kryeministri u godit me qepë dhe një deputetë u shpërnda",
+              "url": "https://www.polsatnews.pl/wiadomosc/2026-08-09/awantura-na-sali-plenarnej-w-kosowie-poslanka-obrzucila-premiera-jajkami/",
+              "date": "2026-08-09",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false
+            },
+            {
+              "title": "Skandaliczne słowa serbskiej minister. \"Najbardziej bezczelne stwierdzenie\" - PolsatNews.pl",
+              "albanianTitle": "Fjalët të ashpër të ministrit serb. 'Të pamëshëmja e tyre' - PolsatNews.shqip",
+              "url": "https://www.polsatnews.pl/wiadomosc/2026-07-15/burza-po-slowach-serbskiej-minister-zareagowaly-ue-i-kosowo/",
+              "date": "2026-07-15",
+              "sentiment": "neutral",
+              "reason": "Fjalia është citim i ministris së Serbisë",
+              "isQuote": true
+            }
+          ]
+        },
+        {
+          "name": "Prawo.pl",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Sprostowanie do decyzji Komitetu Politycznego i Bezpieczeństwa (WPZiB) 2026/1781 z dnia 14 lipca 2026 r. w sprawie mianowania szefa misji Unii Europejskiej w zakresie praworządności w Kosowie (EULEX KOSOVO) (EULEX KOSOVO/2/2026) - Prawo.pl",
+              "albanianTitle": "Korrektim për vendimin e Komitetit Politik dhe Sigurimi (WPZiB) 2026/1781 nga data 14 korrik 2026 për emërimin e kryetarit të misionit të BE-së për drejtësi në Kosovë (EULEX KOSOVO) (EULEX KOSOVO/2/2026) - Prawo.pl",
+              "url": "https://www.prawo.pl/akty/dz-u-ue-l-2026-90677,72625315.html",
+              "date": "2026-08-06",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false
+            }
+          ]
+        },
+        {
+          "name": "Rzeczpospolita",
+          "sentiment": "unknown",
+          "articleCount": 2,
           "articles": [
             {
               "title": "Słowa Zełenskiego wywołały burzę. Kosowo natychmiast zdjęło flagę „Wolna Ukraina” - Rzeczpospolita",
               "albanianTitle": "Fjala e Presidentit të Ukrainës shkaktoi zemërim në Kosovë dhe u hoq flamuri 'Ukraina e Lirë'",
               "url": "https://www.rp.pl/polityka/art44964811-symbol-solidarnosci-z-ukraina-zniknal-ostra-reakcja-kosowa-na-slowa-zelenskiego",
               "date": "2026-08-09",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false
+            },
+            {
+              "title": "Wystąpienie Zełenskiego w Serbii oburzyło Kosowo - Rzeczpospolita",
+              "albanianTitle": "Fjalimet e Zelesnkogut në Serbi kanë shkaktuar zemërim në Kosovë",
+              "url": "https://www.rp.pl/polityka/art44970671-zelenski-dokonal-wyboru-niepodleglosc-kosowa-za-dostawy-amunicji-dla-ukrainskiej-artylerii",
+              "date": "2026-08-11",
               "sentiment": "unknown",
               "reason": "",
               "isQuote": false
@@ -8262,6 +8450,38 @@
           ]
         },
         {
+          "name": "TVP Info",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Awantura w parlamencie. Posłanka w furii, premier obrzucony jajami - TVP Info",
+              "albanianTitle": "Aksidenti në Parlamentin e Kosovës. Kryeministri u rënua me vezë dhe një deputet u shpërnda",
+              "url": "https://www.tvp.info/94766589/kosowo-premier-obrzucany-jajkami-w-parlamencie",
+              "date": "2026-08-09",
+              "sentiment": "neutral",
+              "reason": "Raportim i ngjarjes pa koment",
+              "isQuote": false
+            }
+          ]
+        },
+        {
+          "name": "Tygodnik Tucholski",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Po pożarze dom nie nadaje się do zamieszkania. Kosowo - Tygodnik Tucholski",
+              "albanianTitle": "Shtëpia që ka djegur nuk është e përshtatshme për banim.",
+              "url": "https://tygodnik.pl/pl/15_fotorelacje/475_wypadki/6116_po-pozarze-dom-nie-nadaje-sie-do-zamieszkania-kosowo.html",
+              "date": "2026-08-13",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false
+            }
+          ]
+        },
+        {
           "name": "WP Wiadomości",
           "sentiment": "unknown",
           "articleCount": 1,
@@ -8280,13 +8500,159 @@
         {
           "name": "Wiadomości Onet",
           "sentiment": "unknown",
-          "articleCount": 1,
+          "articleCount": 3,
           "articles": [
             {
               "title": "Bałkańska wpadka Zełenskiego wywołała efekt domina. W regionie zawrzało - Wiadomości Onet",
               "albanianTitle": "Zgjedhjet në Ukrainë kanë shkaktuar një efekt i dominozuar në rajonin ballkanik",
               "url": "https://wiadomosci.onet.pl/politico/poruszenie-na-balkanach-wolodymyr-zelenski-rozwscieczyl-kosowo/4zm2f7f",
               "date": "2026-08-12",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false
+            },
+            {
+              "title": "Burza po słowach Wołodymyra Zełenskiego o Kosowie. \"Budzą odrazę i wstyd\" - Wiadomości Onet",
+              "albanianTitle": "Burrakuara pas fjalimeve të Zelesnkogut për Kosovën. 'Këto fjalime e përbuzin dhe e turpërojnë' - thanë nëpër media",
+              "url": "https://wiadomosci.onet.pl/swiat/wolodymyr-zelenski-wywolal-burze-w-kosowie-krytykuja-go-politycy-z-ukrainy/05n1mm8",
+              "date": "2026-08-10",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false
+            },
+            {
+              "title": "Szybka decyzja po słowach Zełenskiego. Z budynku zniknęła flaga \"Wolna Ukraina\" - Wiadomości Onet",
+              "albanianTitle": "Reagimi i shpejtë pas fjalimeve të Zelesnkogut. Flamuri 'Ukraina e Lirë' u hoq nga një ndërtesë",
+              "url": "https://wiadomosci.onet.pl/swiat/zgrzyt-po-slowach-wolodymyra-zelenskiego-wladze-prisztiny-sciagaja-flage-ukrainy/rbmgx51",
+              "date": "2026-08-09",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false
+            }
+          ]
+        },
+        {
+          "name": "Wprost",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Ukraińska flaga zdjęta w Prisztinie po słowach Zełenskiego - Wprost",
+              "albanianTitle": "Flamuri ujor i Ukrainës u zbrit në Prishtinë pas fjalëve të Zelesnkogut - Wprost",
+              "url": "https://www.wprost.pl/swiat/12411033/ukrainska-flaga-zdjeta-w-prisztinie-po-slowach-zelenskiego.html",
+              "date": "2026-08-10",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false
+            }
+          ]
+        },
+        {
+          "name": "Wyniki na żywo",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Liga e Pare 2025/2026 terminarz spotkań - Piłka nożna/Kosowo - Wyniki na żywo",
+              "albanianTitle": "Programi i Ligës së Parë për sezonin 2025/2026",
+              "url": "https://www.flashscore.pl/pilka-nozna/kosowo/liga-e-pare-2025-2026/mecze/",
+              "date": "2026-08-09",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false
+            }
+          ]
+        },
+        {
+          "name": "Zero.pl",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Incydent w parlamencie Kosowa. Premier obrzucony jajkami - Zero.pl",
+              "albanianTitle": "Vendosja në Parlamentin e Kosovës. Kryeministri u rënua me vezë",
+              "url": "https://zero.pl/news/kosowo-premier-albin-kurti-obrzucony-jajkami-kryzys-polityczny",
+              "date": "2026-08-09",
+              "sentiment": "neutral",
+              "reason": "Raportim i ngjarjes pa koment",
+              "isQuote": false
+            }
+          ]
+        },
+        {
+          "name": "donald.pl",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Premier Kosowa został obrzucony jajkami za olewanie terminów - donald.pl",
+              "albanianTitle": "Kryeministri i Kosovës u godit me gurë për shprehjet e tij - donald.shqip",
+              "url": "https://www.donald.pl/artykuly/NUqsHsTM/premier-kosowa-zostal-obrzucony-jajkami-za-olewanie-terminow",
+              "date": "2026-08-09",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false
+            }
+          ]
+        },
+        {
+          "name": "dorzeczy.pl",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Zełenski nie uznaje niepodległości Kosowa. Skandal w Prisztinie - dorzeczy.pl",
+              "albanianTitle": "Zelenski nuk pranon pavarësinë e Kosovës dhe çdo gjë bëhet skandal në Prishtinë",
+              "url": "https://dorzeczy.pl/swiat/926890/zelenski-nie-uznaje-niepodleglosci-kosowa-skandal-w-prisztinie.html",
+              "date": "2026-08-10",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false
+            }
+          ]
+        },
+        {
+          "name": "facebook.com",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Ukraińska flaga została zdjęta z budynku w centrum stolicy Kosowa, Prisztiny. \"Gdy Kosowo nie jest szanowane, stolica - Prisztina - reaguje!\" - napisał burmistrz miasta Perparim Rama. To reakcja na słowa Wołodymyra Zełenskiego w kwestii uznania państwo - facebook.com",
+              "albanianTitle": "Flamuri urikanas u hoq nga një ndërtesë në qendër të Prishtinës. 'Nëse Kosova nuk është e respektuar, qyteti - Prishtina - reagojnë!' - tha kryeburgjuesi i qytetit, Perparim Rama.",
+              "url": "https://www.facebook.com/INTERIAWydarzenia/posts/ukrai%C5%84ska-flaga-zosta%C5%82a-zdj%C4%99ta-z-budynku-w-centrum-stolicy-kosowa-prisztiny-gdy-/1506234871542725/",
+              "date": "2026-08-10",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false
+            }
+          ]
+        },
+        {
+          "name": "gostyn24.pl",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Powitanie nowego wozu w OSP Kosowo - gostyn24.pl",
+              "albanianTitle": "Përshëndetja e një ambulancës në Kosovë",
+              "url": "https://gostyn24.pl/pl/fotorelacje/na-sygnale/powitanie-nowego-wozu-w-osp-kosowo/13554,13",
+              "date": "2026-08-12",
+              "sentiment": "neutral",
+              "reason": "Lajm i thjeshtë për ngjarje lokale",
+              "isQuote": false
+            }
+          ]
+        },
+        {
+          "name": "xyz.pl",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Szczęśliwy jak Kosowianin. Dlaczego obywatele Kosowa to najbardziej zadowolona nacja w naszym regionie? - xyz.pl",
+              "albanianTitle": "Kosovari i lumtur. Për çfarë arsye njerëzit e Kosovës janë kombi më i lumtur në rajon - xyz.shqip",
+              "url": "https://xyz.pl/nanoanalizy/szczesliwy-jak-kosowianin-dlaczego-obywatele-kosowa-to-najbardziej-zadowolona-nacja-w-naszym-regionie-4497",
+              "date": "2026-08-08",
               "sentiment": "unknown",
               "reason": "",
               "isQuote": false
@@ -8299,8 +8665,8 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 1,
-        "excluded": 6,
+        "n": 7,
+        "excluded": 23,
         "confident": false,
         "stanceVersion": 2
       }
@@ -8379,9 +8745,25 @@
           ]
         },
         {
+          "name": "B92",
+          "sentiment": "negative",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Svi komentari - New searches by the so-called Kosovo Police near Zubin Potok; Six people detained - B92",
+              "albanianTitle": "Njëri më njëri: Policia e Kosovës bën kërkime në afërsi të Zubin Potokut",
+              "url": "https://www.b92.net/svi-komentari/259097",
+              "date": "2026-08-14",
+              "sentiment": "negative",
+              "reason": "Fjalët e vetë mediumit e kornizojnë Kosovën si të pa njohur",
+              "isQuote": false
+            }
+          ]
+        },
+        {
           "name": "Balkan Insight",
           "sentiment": "neutral",
-          "articleCount": 5,
+          "articleCount": 4,
           "articles": [
             {
               "title": "Kosovo Detains Man Suspected of Spying for Serbian Intelligence - Balkan Insight",
@@ -8417,15 +8799,6 @@
               "date": "2026-08-13",
               "sentiment": "neutral",
               "reason": "Fjalia absurd nuk është e zërit të mediumit por e titullit që përshkruan një situatë",
-              "isQuote": false
-            },
-            {
-              "title": "Kosovo Pays the Price as Serbia Stalls Cross-Border Electricity Transmissions - Balkan Insight",
-              "albanianTitle": "Kosova Paguon Dëmet pas se Serbia Blokon Transferimin e Energjisë nëpër Kufi",
-              "url": "https://balkaninsight.com/2026/08/12/kosovo-pays-the-price-as-serbia-stalls-cross-border-electricity-transmissions/bi/",
-              "date": "2026-08-12",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
               "isQuote": false
             }
           ]
@@ -8577,7 +8950,7 @@
         {
           "name": "KosovaPress",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 1,
           "articles": [
             {
               "title": "100 new correctional officers graduate, Kurti: Kosovo needs them and expects a lot from them - KosovaPress",
@@ -8587,15 +8960,6 @@
               "sentiment": "neutral",
               "reason": "Raportim i thjeshtë i ngjarjes së gradimit",
               "isQuote": false
-            },
-            {
-              "title": "Democratic Party of Kosovo leader calls VV and LDK to elect the president, \"they have the numbers\" - KosovaPress",
-              "albanianTitle": "Kryetari i Partisë Demokratike i Kosovës thotë që VV dhe LDK të zgjidhin presidentin, 'atëhet numrat'",
-              "url": "https://kosovapress.com/eng/democratic-party-of-kosovo-leader-calls-vv-and-ldk-to-elect-the-president-they-have-the-numbers",
-              "date": "2026-08-14",
-              "sentiment": "neutral",
-              "reason": "Raporton thirrjen e liderit të PDK-së",
-              "isQuote": true
             }
           ]
         },
@@ -8664,6 +9028,40 @@
           ]
         },
         {
+          "name": "Prishtina Insight",
+          "sentiment": "neutral",
+          "articleCount": 3,
+          "articles": [
+            {
+              "title": "Kosovo Court Detains Man Over Alleged Spying for Serbian Intelligence - Prishtina Insight",
+              "albanianTitle": "Një burrë është arrestuar për shkak të shqetësimeve për veprimtari të spionazhit për shërbimet e inteligjencës serbe",
+              "url": "https://prishtinainsight.com/kosovo-court-detains-man-over-alleged-spying-for-serbian-intelligence/",
+              "date": "2026-08-14",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false
+            },
+            {
+              "title": "Kosovo’s LDK Drops Demand to Choose President in Bid to Resolve Crisis - prishtinainsight.com",
+              "albanianTitle": "LDK largon kërkesën për zgjedhjen e presidentit për të zgjidhur krizën",
+              "url": "https://prishtinainsight.com/kosovos-ldk-drops-demand-to-choose-president-in-bid-to-resolve-crisis/",
+              "date": "2026-08-13",
+              "sentiment": "neutral",
+              "reason": "Raportim i thjeshtë i krizës",
+              "isQuote": false
+            },
+            {
+              "title": "Kosovo Opposition Press Kurti’s Vetevendosje to Inaugurate Parliament - Prishtina Insight",
+              "albanianTitle": null,
+              "url": "https://prishtinainsight.com/kosovo-opposition-press-kurtis-vetevendosje-to-inaugurate-parliament/",
+              "date": "2026-08-13",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false
+            }
+          ]
+        },
+        {
           "name": "RTV Online",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -8707,6 +9105,22 @@
               "date": "2026-08-13",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false
+            }
+          ]
+        },
+        {
+          "name": "The Business Standard",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Bangladesh, Kosovo eye G2G mechanism for worker recruitment - The Business Standard",
+              "albanianTitle": "Kosova dhe Bangladeshi për të krijuar një mekanizëm për të shpërngulur punëtorë",
+              "url": "https://www.tbsnews.net/foreign-policy/bangladesh-kosovo-eye-g2g-mechanism-worker-recruitment-1515196",
+              "date": "2026-08-14",
+              "sentiment": "neutral",
+              "reason": "Lajm ekonomik i raportuar në mënyrë faktike",
               "isQuote": false
             }
           ]
@@ -8824,6 +9238,22 @@
           ]
         },
         {
+          "name": "Unicef",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "On International Youth Day, UNICEF Report Finds Growing Mental Health Challenges Among Children and Adolescents in Kosovo - unicef",
+              "albanianTitle": "Në ditën ndërkombëtare të Rinisë, raporti i UNICEF tregon rritjen e sfidave të shëndetit mendore në mesin e fëmijëve dhe adoleshentëve në Kosovë",
+              "url": "https://www.unicef.org/kosovoprogramme/press-releases/international-youth-day-unicef-report-finds-growing-mental-health-challenges-among",
+              "date": "2026-08-12",
+              "sentiment": "neutral",
+              "reason": "Raport i UNICEF, i pranuar në mënyrë faktike",
+              "isQuote": false
+            }
+          ]
+        },
+        {
           "name": "World Bank Group",
           "sentiment": "positive",
           "articleCount": 1,
@@ -8913,22 +9343,6 @@
           ]
         },
         {
-          "name": "en.banglanews24.com",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Bangladesh, Kosovo agree to deepen bilateral cooperation - en.banglanews24.com",
-              "albanianTitle": "Bangladeshi dhe Kosova kanë vendosur të theksojnë bashkëpunimin e tyre",
-              "url": "https://en.banglanews24.com/national/news/bd/194885.details",
-              "date": "2026-08-14",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false
-            }
-          ]
-        },
-        {
           "name": "globalpost.com",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -8961,40 +9375,6 @@
           ]
         },
         {
-          "name": "prishtinainsight.com",
-          "sentiment": "neutral",
-          "articleCount": 3,
-          "articles": [
-            {
-              "title": "Kosovo Court Detains Man Over Alleged Spying for Serbian Intelligence - prishtinainsight.com",
-              "albanianTitle": "Një burrë është arrestuar për shkak të shqetësimeve për veprimtari të spionazhit për shërbimet e inteligjencës serbe",
-              "url": "https://prishtinainsight.com/kosovo-court-detains-man-over-alleged-spying-for-serbian-intelligence/",
-              "date": "2026-08-14",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false
-            },
-            {
-              "title": "Kosovo’s LDK Drops Demand to Choose President in Bid to Resolve Crisis - prishtinainsight.com",
-              "albanianTitle": "LDK largon kërkesën për zgjedhjen e presidentit për të zgjidhur krizën",
-              "url": "https://prishtinainsight.com/kosovos-ldk-drops-demand-to-choose-president-in-bid-to-resolve-crisis/",
-              "date": "2026-08-13",
-              "sentiment": "neutral",
-              "reason": "Raportim i thjeshtë i krizës",
-              "isQuote": false
-            },
-            {
-              "title": "Kosovo Opposition Press Kurti’s Vetevendosje to Inaugurate Parliament - prishtinainsight.com",
-              "albanianTitle": "Opozita e presionon Vetëvendosjen për të inauguruar Kuvendin",
-              "url": "https://prishtinainsight.com/kosovo-opposition-press-kurtis-vetevendosje-to-inaugurate-parliament/",
-              "date": "2026-08-13",
-              "sentiment": "neutral",
-              "reason": "Raportim i thjeshtë i ngjarjeve politike",
-              "isQuote": false
-            }
-          ]
-        },
-        {
           "name": "srpske.rs",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -9011,17 +9391,17 @@
           ]
         },
         {
-          "name": "unicef",
+          "name": "www.iconnectblog.com",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
-              "title": "On International Youth Day, UNICEF Report Finds Growing Mental Health Challenges Among Children and Adolescents in Kosovo - unicef",
-              "albanianTitle": "Në ditën ndërkombëtare të Rinisë, raporti i UNICEF tregon rritjen e sfidave të shëndetit mendore në mesin e fëmijëve dhe adoleshentëve në Kosovë",
-              "url": "https://www.unicef.org/kosovoprogramme/press-releases/international-youth-day-unicef-report-finds-growing-mental-health-challenges-among",
-              "date": "2026-08-12",
+              "title": "The Narrowed Office: How Kosovo's Constitutional Court Has Diminished the Presidency and Made Dissolution a Political Tool - www.iconnectblog.com",
+              "albanianTitle": "Përgjysmimi i Këshillit Kushtetues: Si Gjykata Kushtetuese e Kosovës Ka Diminuat Presidencën dhe Krijuar Disolucionin si një Shpërblim Politik",
+              "url": "https://www.iconnectblog.com/the-narrowed-office-how-kosovos-constitutional-court-has-diminished-the-presidency-and-made-dissolution-a-political-tool/",
+              "date": "2026-08-11",
               "sentiment": "neutral",
-              "reason": "Raport i UNICEF, i pranuar në mënyrë faktike",
+              "reason": "Lajm i analizuar në mënyrë faktike",
               "isQuote": false
             }
           ]
@@ -9124,10 +9504,10 @@
         }
       ],
       "summary": {
-        "index": 53,
+        "index": 52,
         "positive": 8,
-        "neutral": 91,
-        "negative": 2,
+        "neutral": 89,
+        "negative": 4,
         "n": 53,
         "excluded": 0,
         "confident": true,
