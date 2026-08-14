@@ -16,7 +16,7 @@
 
 import { useState, useEffect, useMemo, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { TrendingUp, TrendingDown, Minus, ArrowLeft, ArrowUpRight, ExternalLink, Quote, MousePointerClick } from "lucide-react";
+import { TrendingUp, TrendingDown, Minus, ArrowLeft, ArrowUpRight, ExternalLink, Quote, MousePointerClick, ChevronDown } from "lucide-react";
 import { EASE, DUR } from "@/lib/tokens";
 import SectionLabel from "./section-label";
 import ToneMap from "./tone/tone-map";
@@ -66,8 +66,15 @@ export default function ToneDashboard({ summary }: { summary: ToneSummary }) {
     [summary.countries]
   );
   const pending = summary.countries.length - withData.length;
-  /** The homepage shows a shortlist; the full instrument lives on /toni. */
-  const shown = withData.slice(0, 6);
+  /**
+   * A shortlist by default, the rest one tap away — in place. Sending the
+   * reader to /toni to see country seven was throwing away the position they
+   * had just built up on the map.
+   */
+  const [expanded, setExpanded] = useState(false);
+  const SHORTLIST = 6;
+  const shown = expanded ? withData : withData.slice(0, SHORTLIST);
+  const hiddenCount = withData.length - Math.min(SHORTLIST, withData.length);
 
   const detail = useMemo(() => {
     if (!selected || !outletData) return null;
@@ -187,13 +194,19 @@ export default function ToneDashboard({ summary }: { summary: ToneSummary }) {
         {/* The three-swatch legend is gone: the map's own gradient already runs
             Kritik → Pozitiv one line above and says the same thing. */}
         <div style={{ display: "flex", flexDirection: "column", gap: "4px", marginTop: "18px" }}>
-          {shown.map((stat) => {
+          {shown.map((stat, i) => {
             const on = active === stat.country;
             const isOpen = selected === stat.country;
+            // Rows past the shortlist fade in when the list opens; the first
+            // six are already on screen and must not re-animate.
+            const revealed = i >= SHORTLIST;
             return (
-              <button
+              <motion.button
                 key={stat.country}
                 type="button"
+                initial={revealed ? { opacity: 0, transform: "translateY(-6px)" } : false}
+                animate={{ opacity: 1, transform: "translateY(0px)" }}
+                transition={{ duration: DUR.base, ease: EASE, delay: revealed ? (i - SHORTLIST) * 0.035 : 0 }}
                 onMouseEnter={() => setHovered(stat.country)}
                 onMouseLeave={() => setHovered(null)}
                 onFocus={() => setHovered(stat.country)}
@@ -229,7 +242,7 @@ export default function ToneDashboard({ summary }: { summary: ToneSummary }) {
                   <span style={{ fontSize: "12.5px", color: TONE_INK.muted, whiteSpace: "nowrap", width: "clamp(64px, 18vw, 92px)" }}>{toneLabel(stat.index)}</span>
                   <span aria-hidden style={{ width: "14px", height: "14px", borderRadius: "4px", background: toneFill(stat.index), flexShrink: 0 }} />
                 </span>
-              </button>
+              </motion.button>
             );
           })}
         </div>
@@ -257,17 +270,39 @@ export default function ToneDashboard({ summary }: { summary: ToneSummary }) {
           )}
         </AnimatePresence>
 
-        {/* One line where ten empty rows used to be, and the door to the full
-            sixteen-country view instead of cramming it onto a news homepage. */}
-        <div style={{ display: "flex", alignItems: "baseline", gap: "10px", flexWrap: "wrap", marginTop: "14px", paddingTop: "12px", borderTop: "1px solid #F0EDE6" }}>
+        {/* One line where ten empty rows used to be. The rest of the countries
+            open here rather than on another page — a reader who has just
+            oriented themselves on the map should not lose that to a navigation. */}
+        <div style={{ display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap", marginTop: "14px", paddingTop: "12px", borderTop: "1px solid #F0EDE6" }}>
           <span style={{ fontSize: "12.5px", color: TONE_INK.muted }}>
             {withData.length} vende me të dhëna sot
             {pending > 0 && `, ${pending} ende në pritje`}
-            {withData.length > shown.length && ` · po shfaqen ${shown.length}`}
           </span>
-          <a href="/toni" style={{ marginLeft: "auto", fontSize: "12.5px", fontWeight: 700, color: "#FF4422", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "4px" }}>
-            Të gjitha vendet <ArrowUpRight size={13} strokeWidth={2.2} />
-          </a>
+          {hiddenCount > 0 && (
+            <button
+              type="button"
+              onClick={() => setExpanded((v) => !v)}
+              aria-expanded={expanded}
+              style={{
+                marginLeft: "auto", padding: "7px 14px", borderRadius: "100px",
+                border: "1px solid rgba(255,68,34,0.35)", background: "#FFFFFF",
+                cursor: "pointer", font: "inherit", fontSize: "12.5px",
+                fontWeight: 700, color: "#FF4422",
+                display: "inline-flex", alignItems: "center", gap: "6px",
+                transition: "background-color 160ms var(--ease-out)",
+              }}
+            >
+              {expanded ? "Trego më pak" : `Të gjitha vendet (${withData.length})`}
+              <motion.span
+                aria-hidden
+                animate={{ transform: expanded ? "rotate(180deg)" : "rotate(0deg)" }}
+                transition={{ duration: DUR.base, ease: EASE }}
+                style={{ display: "inline-flex" }}
+              >
+                <ChevronDown size={14} strokeWidth={2.4} />
+              </motion.span>
+            </button>
+          )}
         </div>
 
         <p style={{ margin: "12px 0 0", fontSize: "12px", color: "#B4B0A6" }}>

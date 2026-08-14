@@ -82,7 +82,7 @@ export interface ToneHistoryRow {
  *  clickable on the map. */
 const FLAGS: Record<string, string> = {
   Gjermani: "🇩🇪", SHBA: "🇺🇸", Britani: "🇬🇧", Francë: "🇫🇷",
-  Itali: "🇮🇹", Serbi: "🇷🇸", Austri: "🇦🇹", Zvicër: "🇨🇭",
+  Itali: "🇮🇹", Austri: "🇦🇹", Zvicër: "🇨🇭",
   Holandë: "🇳🇱", Belgjikë: "🇧🇪", Spanjë: "🇪🇸", Greqi: "🇬🇷",
   Suedi: "🇸🇪", Poloni: "🇵🇱", Turqi: "🇹🇷", Kroaci: "🇭🇷",
 };

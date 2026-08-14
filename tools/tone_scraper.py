@@ -104,19 +104,18 @@ TRANSLATE_BATCH_SIZE = 10
 # and the volume is tiny either way.
 CLASSIFY_BATCH_SIZE = 6
 
-# Sixteen editions, not five. Five made "Toni i Mediave Botërore" a claim the
+# Fifteen editions, not five. Five made "Toni i Mediave Botërore" a claim the
 # data could not support, and left a map that was mostly empty sea.
 #
-# Serbia is the deliberate one. It is the single most consequential press for
-# how Kosovo is written about, and leaving it out was the largest blind spot
-# in the whole feature.
+# Serbia was tried and deliberately removed: its coverage is a party to the
+# subject rather than an outside observer of it, which is a different thing
+# from "how the world's press writes about Kosovo".
 FEEDS = {
     "Gjermani": "https://news.google.com/rss/search?q=Kosovo&hl=de&gl=DE&ceid=DE:de",
     "SHBA":     "https://news.google.com/rss/search?q=Kosovo&hl=en-US&gl=US&ceid=US:en",
     "Britani":  "https://news.google.com/rss/search?q=Kosovo&hl=en-GB&gl=GB&ceid=GB:en",
     "Francë":   "https://news.google.com/rss/search?q=Kosovo&hl=fr&gl=FR&ceid=FR:fr",
     "Itali":    "https://news.google.com/rss/search?q=Kosovo&hl=it&gl=IT&ceid=IT:it",
-    "Serbi":    "https://news.google.com/rss/search?q=Kosovo&hl=sr&gl=RS&ceid=RS:sr",
     "Austri":   "https://news.google.com/rss/search?q=Kosovo&hl=de&gl=AT&ceid=AT:de",
     "Zvicër":   "https://news.google.com/rss/search?q=Kosovo&hl=de&gl=CH&ceid=CH:de",
     "Holandë":  "https://news.google.com/rss/search?q=Kosovo&hl=nl&gl=NL&ceid=NL:nl",
@@ -131,7 +130,7 @@ FEEDS = {
 
 FLAGS = {
     "Gjermani": "🇩🇪", "SHBA": "🇺🇸", "Britani": "🇬🇧", "Francë": "🇫🇷",
-    "Itali": "🇮🇹", "Serbi": "🇷🇸", "Austri": "🇦🇹", "Zvicër": "🇨🇭",
+    "Itali": "🇮🇹", "Austri": "🇦🇹", "Zvicër": "🇨🇭",
     "Holandë": "🇳🇱", "Belgjikë": "🇧🇪", "Spanjë": "🇪🇸", "Greqi": "🇬🇷",
     "Suedi": "🇸🇪", "Poloni": "🇵🇱", "Turqi": "🇹🇷", "Kroaci": "🇭🇷",
 }

@@ -245,7 +245,10 @@ def rederive(articles: dict) -> None:
 
     print(f"\nrederived {ts.OUTLETS_PATH.name} + {ts.HISTORY_PATH.name}: overall {overall}")
     for country, s in summaries.items():
-        print(f"  {country:10} {s['index']:>4}  (n={s['n']}, +{s['positive']}% ={s['neutral']}% -{s['negative']}%)")
+        # index is None for a country with no scored articles yet — format it
+        # as a dash rather than crashing the report after the files are written.
+        idx = "—" if s["index"] is None else s["index"]
+        print(f"  {country:10} {idx:>4}  (n={s['n']}, +{s['positive']}% ={s['neutral']}% -{s['negative']}%)")
     else:
         print("\ndry run — nothing written. Re-run with --write to commit.")
     return 0
