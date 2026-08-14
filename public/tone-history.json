@@ -644,16 +644,16 @@
   },
   {
     "date": "2026-08-14",
-    "overallIndex": 51,
-    "totalArticles": 441,
-    "sourceCount": 425,
+    "overallIndex": 52,
+    "totalArticles": 429,
+    "sourceCount": 433,
     "countries": {
       "Gjermani": {
-        "index": 50,
-        "positive": 3,
-        "neutral": 95,
-        "negative": 3,
-        "n": 39,
+        "index": 51,
+        "positive": 5,
+        "neutral": 93,
+        "negative": 2,
+        "n": 41,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2
@@ -673,7 +673,7 @@
         "positive": 9,
         "neutral": 89,
         "negative": 2,
-        "n": 55,
+        "n": 56,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -684,7 +684,7 @@
         "neutral": 90,
         "negative": 0,
         "n": 30,
-        "excluded": 0,
+        "excluded": 1,
         "confident": true,
         "stanceVersion": 2
       },
@@ -693,7 +693,7 @@
         "positive": 7,
         "neutral": 88,
         "negative": 5,
-        "n": 59,
+        "n": 58,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -701,10 +701,10 @@
       "Serbi": {
         "index": 44,
         "positive": 2,
-        "neutral": 84,
-        "negative": 14,
-        "n": 51,
-        "excluded": 8,
+        "neutral": 83,
+        "negative": 15,
+        "n": 41,
+        "excluded": 18,
         "confident": true,
         "stanceVersion": 2
       },
@@ -713,7 +713,7 @@
         "positive": 3,
         "neutral": 97,
         "negative": 0,
-        "n": 31,
+        "n": 33,
         "excluded": 5,
         "confident": true,
         "stanceVersion": 2
@@ -724,7 +724,7 @@
         "neutral": 84,
         "negative": 4,
         "n": 25,
-        "excluded": 19,
+        "excluded": 20,
         "confident": true,
         "stanceVersion": 2
       },
@@ -733,9 +733,9 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 5,
-        "excluded": 55,
-        "confident": false,
+        "n": 8,
+        "excluded": 52,
+        "confident": true,
         "stanceVersion": 2
       },
       "Belgjikë": {
@@ -753,18 +753,18 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 11,
-        "excluded": 28,
-        "confident": true,
+        "n": 3,
+        "excluded": 45,
+        "confident": false,
         "stanceVersion": 2
       },
       "Greqi": {
-        "index": 50,
+        "index": null,
         "positive": 0,
-        "neutral": 100,
+        "neutral": 0,
         "negative": 0,
-        "n": 1,
-        "excluded": 53,
+        "n": 0,
+        "excluded": 54,
         "confident": false,
         "stanceVersion": 2
       },
@@ -773,18 +773,18 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 5,
-        "excluded": 40,
+        "n": 4,
+        "excluded": 56,
         "confident": false,
         "stanceVersion": 2
       },
       "Poloni": {
-        "index": null,
+        "index": 50,
         "positive": 0,
-        "neutral": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 0,
-        "excluded": 0,
+        "n": 1,
+        "excluded": 3,
         "confident": false,
         "stanceVersion": 2
       },
@@ -794,7 +794,7 @@
         "neutral": 0,
         "negative": 0,
         "n": 0,
-        "excluded": 0,
+        "excluded": 1,
         "confident": false,
         "stanceVersion": 2
       },
@@ -836,7 +836,7 @@
       },
       {
         "title": "Serbien: Ministerin hätte Kosovo gerne \"ethnisch gesäubert\" - dw.com",
-        "source": "DW.com",
+        "source": "dw.com",
         "country": "Gjermani",
         "flag": "🇩🇪",
         "url": "https://www.dw.com/de/serbiens-ministerin-snezana-paunovic-haette-kosovo-im-krieg-1999-gerne-ethnisch-gesaeubert/a-77983728",
