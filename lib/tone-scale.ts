@@ -111,3 +111,23 @@ export function flagToCode(flag: string): string {
   if (a < 65 || a > 90 || b < 65 || b > 90) return "";
   return String.fromCharCode(a, b);
 }
+
+/**
+ * What share of a country's own coverage the index actually rests on.
+ *
+ * Both producers have always written `excluded` — articles the classifier
+ * could not read — and no TS consumer ever looked at it, which is how Greqi
+ * came to publish an index of 50 built on 5 of its 79 articles with nothing
+ * on screen to say so.
+ */
+export function coverageOf(summary: { n: number; excluded?: number }): number {
+  const total = summary.n + (summary.excluded ?? 0);
+  return total > 0 ? summary.n / total : 0;
+}
+
+/** Albanian, and rounded the way a person would say it. */
+export function formatAge(hours: number | null): string {
+  if (hours == null) return "një kohe të panjohur";
+  if (hours < 48) return `${Math.round(hours)} orësh`;
+  return `${Math.round(hours / 24)} ditësh`;
+}

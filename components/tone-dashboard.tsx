@@ -16,7 +16,7 @@
 
 import { useState, useEffect, useMemo, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { TrendingUp, TrendingDown, Minus, ArrowLeft, ArrowUpRight, ExternalLink, Quote, MousePointerClick, ChevronDown } from "lucide-react";
+import { TrendingUp, TrendingDown, Minus, ArrowLeft, ArrowUpRight, ExternalLink, Quote, MousePointerClick, ChevronDown, AlertTriangle } from "lucide-react";
 import { EASE, DUR } from "@/lib/tokens";
 import SectionLabel from "./section-label";
 import ToneMap from "./tone/tone-map";
@@ -28,8 +28,10 @@ import {
   toneLabel,
   verdictSentence,
   NEUTRAL_IS_NORMAL,
+  coverageOf,
+  formatAge,
 } from "@/lib/tone-scale";
-import type { ToneOutletsData, ToneSummary, ToneArticle } from "@/lib/tone-data";
+import type { ToneOutletsData, ToneSummary, ToneArticle, ToneTopic } from "@/lib/tone-data";
 
 const META: Record<string, { label: string; color: string }> = {
   positive: { label: "Pozitiv", color: TONE_COLOR.positive },
@@ -37,11 +39,26 @@ const META: Record<string, { label: string; color: string }> = {
   negative: { label: "Kritik", color: TONE_COLOR.critical },
 };
 
-type FlatArticle = ToneArticle & { outlet: string };
+type FlatArticle = ToneArticle & { outlet: string; country?: string };
 
-export default function ToneDashboard({ summary }: { summary: ToneSummary }) {
+/** Below this, an index rests on so little of a country's own coverage that
+ *  the row has to say so. Matches MIN_CONFIDENT_COVERAGE in tone_scraper.py. */
+const THIN_COVERAGE = 0.4;
+
+export default function ToneDashboard({
+  summary,
+  topics = [],
+}: {
+  summary: ToneSummary;
+  /** What the world was writing about, clustered from the headlines. Empty
+   *  is a normal state — the row simply doesn't render. */
+  topics?: ToneTopic[];
+}) {
   /** Clicked, and it stays clicked. */
   const [selected, setSelected] = useState<string | null>(null);
+  /** A topic panel and a country panel are mutually exclusive: two open
+   *  drill-downs on a phone is a scroll, not a comparison. */
+  const [topic, setTopic] = useState<string | null>(null);
   /** Hover is a highlight only — it never opens or closes anything. */
   const [hovered, setHovered] = useState<string | null>(null);
   const [outletData, setOutletData] = useState<ToneOutletsData | null>(null);
@@ -137,9 +154,21 @@ export default function ToneDashboard({ summary }: { summary: ToneSummary }) {
     return { articles, stat };
   }, [selected, outletData, summary.countries]);
 
+  const openTopic = useMemo(
+    () => topics.find((t) => t.label === topic) ?? null,
+    [topics, topic]
+  );
+
   function choose(country: string | null) {
     setEverClicked(true);
+    setTopic(null);
     setSelected((prev) => (prev === country ? null : country));
+  }
+
+  function chooseTopic(label: string) {
+    setEverClicked(true);
+    setSelected(null);
+    setTopic((prev) => (prev === label ? null : label));
   }
 
   if (!summary.hasData) {
@@ -184,6 +213,28 @@ export default function ToneDashboard({ summary }: { summary: ToneSummary }) {
         transition={{ duration: DUR.reveal, ease: EASE }}
         style={{ background: "#FFFFFF", borderRadius: "18px", border: "1px solid #E8E3DB", padding: "clamp(18px, 3vw, 32px)", boxShadow: "0 2px 12px rgba(0,0,0,0.05)" }}
       >
+        {/* If the scraper stops, everything below is last week's reading. It
+            runs nine times a day, so a gap past a day and a half is a failed
+            pipeline, not a quiet news period — and silence here would have
+            the page presenting stale numbers as today's. */}
+        {summary.isStale && (
+          <p
+            role="status"
+            style={{
+              display: "flex", alignItems: "flex-start", gap: "9px",
+              margin: "0 0 16px", padding: "10px 13px", borderRadius: "10px",
+              background: "#FFF6E8", border: "1px solid #F0D9AE",
+              fontSize: "13px", lineHeight: 1.5, color: "#7A5310",
+            }}
+          >
+            <AlertTriangle size={15} strokeWidth={2.2} style={{ flexShrink: 0, marginTop: "2px" }} aria-hidden />
+            <span>
+              Të dhënat nuk janë përditësuar prej {formatAge(summary.ageHours)}. Numrat më poshtë
+              janë të mbledhjes së fundit të suksesshme{summary.lastUpdated ? ` (${summary.lastUpdated})` : ""}.
+            </span>
+          </p>
+        )}
+
         <h3 style={{ margin: "0 0 10px", fontSize: "clamp(20px, 2.9vw, 30px)", fontWeight: 800, lineHeight: 1.24, letterSpacing: "-0.02em", color: TONE_INK.strong, textWrap: "balance" }}>
           {verdictSentence(idx)}
         </h3>
@@ -256,7 +307,8 @@ export default function ToneDashboard({ summary }: { summary: ToneSummary }) {
                   >
                     <span style={{ display: "flex", alignItems: "center", gap: "7px", marginBottom: "5px", flexWrap: "wrap" }}>
                       <span style={{ fontSize: "10px", fontWeight: 800, letterSpacing: "0.06em", textTransform: "uppercase", color: META[kind].color }}>
-                        {kind === "negative" ? "Më kritiku sot" : "Më pozitivi sot"}
+                        {kind === "negative" ? "Më kritiku" : "Më pozitivi"}
+                        {!summary.isStale && " sot"}
                       </span>
                       <span style={{ fontSize: "11px", color: TONE_INK.faint }}>
                         {a.outlet} · {a.country}
@@ -284,6 +336,65 @@ export default function ToneDashboard({ summary }: { summary: ToneSummary }) {
                   </a>
                 )
             )}
+          </div>
+        )}
+
+        {/* WHAT the world wrote about, next to how it sounded. The index alone
+            answers half the question a reader has; until now the other half —
+            the subject — was nowhere on the page. Clustered from the Albanian
+            headlines we already store, so it costs no API call.
+
+            A chip row, not a section: the module is at 1.48 viewports on a
+            phone and the budget is 1.6. The articles are one tap away and
+            cost nothing until then. */}
+        {topics.length > 0 && (
+          <div style={{ marginTop: "20px", paddingTop: "16px", borderTop: "1px solid #F0EDE6" }}>
+            <p style={{ margin: "0 0 9px", fontSize: "12px", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: TONE_INK.faint }}>
+              Për çfarë po shkruajnë
+            </p>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "7px" }}>
+              {topics.map((t) => {
+                const on = topic === t.label;
+                return (
+                  <button
+                    key={t.label}
+                    type="button"
+                    onClick={() => chooseTopic(t.label)}
+                    aria-expanded={on}
+                    style={{
+                      display: "inline-flex", alignItems: "center", gap: "7px",
+                      padding: "7px 12px", borderRadius: "100px", cursor: "pointer",
+                      font: "inherit", fontSize: "12.5px", fontWeight: 700,
+                      color: TONE_INK.strong,
+                      background: on ? "#FAFAF8" : "#FFFFFF",
+                      border: "1px solid " + (on ? "rgba(17,17,17,0.22)" : "#E8E3DB"),
+                      transition: "background-color 160ms var(--ease-out), border-color 160ms var(--ease-out)",
+                    }}
+                  >
+                    {/* The topic's own tone, on the same scale as a country's.
+                        Grey here is the honest answer for most subjects. */}
+                    <span aria-hidden style={{ width: "8px", height: "8px", borderRadius: "50%", background: toneFill(t.index), flexShrink: 0 }} />
+                    {t.label}
+                    <span style={{ fontSize: "11.5px", fontWeight: 600, color: TONE_INK.faint, fontVariantNumeric: "tabular-nums" }}>{t.count}</span>
+                  </button>
+                );
+              })}
+            </div>
+
+            <AnimatePresence initial={false}>
+              {openTopic && (
+                <motion.div
+                  key={openTopic.label}
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "auto" }}
+                  exit={{ opacity: 0, height: 0, transition: { duration: DUR.base, ease: EASE } }}
+                  transition={{ height: { duration: DUR.slow, ease: EASE }, opacity: { duration: DUR.base, ease: EASE, delay: 0.05 } }}
+                  style={{ overflow: "hidden" }}
+                >
+                  <TopicDetail topic={openTopic} onClose={() => setTopic(null)} />
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         )}
 
@@ -329,8 +440,13 @@ export default function ToneDashboard({ summary }: { summary: ToneSummary }) {
                     grey stub with a hairline of red — Italy and Serbia were
                     visually identical at 49 and 49. Swatch and number carry it;
                     the full breakdown is on /toni. */}
+                {/* What the number rests on, stated where the number is. A
+                    country whose index was built from 5 of its 79 articles
+                    was rendering identically to one built from 175 of 175. */}
                 <span style={{ flex: 1, minWidth: 0, fontSize: "12.5px", color: TONE_INK.faint, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
-                  {stat.n} artikuj
+                  {coverageOf(stat) < THIN_COVERAGE && stat.excluded
+                    ? `${stat.n} nga ${stat.n + stat.excluded} artikuj`
+                    : `${stat.n} artikuj`}
                 </span>
 
                 <span style={{ display: "flex", alignItems: "center", gap: "9px", flexShrink: 0 }}>
@@ -371,7 +487,7 @@ export default function ToneDashboard({ summary }: { summary: ToneSummary }) {
             oriented themselves on the map should not lose that to a navigation. */}
         <div style={{ display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap", marginTop: "14px", paddingTop: "12px", borderTop: "1px solid #F0EDE6" }}>
           <span style={{ fontSize: "12.5px", color: TONE_INK.muted }}>
-            {withData.length} vende me të dhëna sot
+            {withData.length} vende me të dhëna{!summary.isStale && " sot"}
             {pending > 0 && `, ${pending} ende në pritje`}
           </span>
           {hiddenCount > 0 && (
@@ -463,74 +579,123 @@ function CountryDetail({
       ) : (
         <div style={{ display: "grid", gap: "10px" }}>
           {articles.slice(0, 12).map((a, i) => (
-            <motion.a
-              key={`${a.url}-${i}`}
-              href={a.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              initial={{ opacity: 0, transform: "translateY(10px)" }}
-              animate={{ opacity: 1, transform: "translateY(0px)" }}
-              transition={{ duration: DUR.base, ease: EASE, delay: 0.06 + Math.min(i, 10) * 0.035 }}
-              style={{
-                display: "block", padding: "14px 16px", background: "#FFFFFF",
-                border: "1px solid #E8E3DB", borderLeft: `3px solid ${META[a.sentiment]?.color ?? TONE_COLOR.neutral}`,
-                borderRadius: "10px", textDecoration: "none",
-              }}
-            >
-              <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "7px", flexWrap: "wrap" }}>
-                <span style={{ fontSize: "11.5px", fontWeight: 800, color: TONE_INK.strong }}>{a.outlet}</span>
-                {a.date && <span style={{ fontSize: "11px", color: TONE_INK.faint }}>· {a.date}</span>}
-                <span style={{ fontSize: "10.5px", fontWeight: 700, letterSpacing: "0.05em", textTransform: "uppercase", color: META[a.sentiment]?.color ?? TONE_INK.muted, marginLeft: "auto" }}>
-                  {META[a.sentiment]?.label ?? "—"}
-                </span>
-              </div>
-
-              {/* Albanian first — the original is right underneath for anyone
-                  who wants to check the rendering. */}
-              <p style={{ margin: "0 0 4px", fontSize: "15px", fontWeight: 700, lineHeight: 1.4, color: TONE_INK.strong }}>
-                {a.albanianTitle || a.title}
-              </p>
-              {a.albanianTitle && a.albanianTitle !== a.title && (
-                <p style={{ margin: "0 0 8px", fontSize: "12px", lineHeight: 1.45, color: TONE_INK.faint, fontStyle: "italic" }}>
-                  {a.title}
-                </p>
-              )}
-
-              {/* The words that decided it, in the outlet's own language. The
-                  classifier has always had to produce this span to justify a
-                  non-neutral call — showing it turns the label from something
-                  the reader has to trust into something they can check. */}
-              {a.evidence && a.sentiment !== "neutral" && (
-                <p
-                  style={{
-                    margin: "9px 0 0", padding: "7px 11px",
-                    borderLeft: `2px solid ${META[a.sentiment]?.color ?? TONE_COLOR.neutral}`,
-                    background: "#FAFAF8", borderRadius: "0 6px 6px 0",
-                    fontSize: "13px", lineHeight: 1.45, color: TONE_INK.strong,
-                    fontStyle: "italic",
-                  }}
-                >
-                  «{a.evidence}»
-                </p>
-              )}
-
-              {a.reason && (
-                <p style={{ margin: "8px 0 0", fontSize: "12.5px", lineHeight: 1.5, color: TONE_INK.muted, display: "flex", gap: "7px", alignItems: "flex-start" }}>
-                  {a.isQuote && <Quote size={13} strokeWidth={2} style={{ flexShrink: 0, marginTop: "2px", color: TONE_INK.faint }} aria-label="Citim" />}
-                  <span>
-                    {a.isQuote && a.speaker ? `Citim i ${a.speaker}. ` : ""}
-                    {a.reason}
-                  </span>
-                </p>
-              )}
-
-              <span style={{ display: "inline-flex", alignItems: "center", gap: "5px", marginTop: "10px", fontSize: "12px", fontWeight: 700, color: "#FF4422" }}>
-                Lexo te {a.outlet} <ExternalLink size={12} strokeWidth={2.2} />
-              </span>
-            </motion.a>
+            <ArticleCard key={`${a.url}-${i}`} a={a} i={i} />
           ))}
         </div>
       )}
     </div>
+  );
+}
+
+/* ── one topic, and what was written under it ───────────────────────────── */
+
+/**
+ * Deliberately the same panel as a country's, down to the card. A reader who
+ * has learned what a drill-down looks like once should not have to learn it
+ * again because the axis changed from place to subject.
+ */
+function TopicDetail({ topic, onClose }: { topic: ToneTopic; onClose: () => void }) {
+  const countries = [...new Set(topic.articles.map((a) => a.country))];
+
+  return (
+    <div style={{ marginTop: "14px", padding: "18px", background: "#FAFAF8", border: "1px solid #E8E3DB", borderRadius: "14px" }}>
+      <div style={{ display: "flex", alignItems: "center", gap: "12px", flexWrap: "wrap", marginBottom: "14px" }}>
+        <button
+          type="button"
+          onClick={onClose}
+          style={{ display: "inline-flex", alignItems: "center", gap: "5px", padding: "6px 10px", border: "1px solid rgba(17,17,17,0.12)", borderRadius: "100px", background: "#FFFFFF", cursor: "pointer", fontSize: "12.5px", fontWeight: 700, color: TONE_INK.muted, font: "inherit" }}
+        >
+          <ArrowLeft size={13} strokeWidth={2.2} /> Mbyll
+        </button>
+        <h4 style={{ margin: 0, fontSize: "18px", fontWeight: 800, color: TONE_INK.strong, letterSpacing: "-0.01em" }}>
+          {topic.label}
+        </h4>
+        <span style={{ fontSize: "13px", color: TONE_INK.muted }}>
+          {topic.count} artikuj në {countries.length} {countries.length === 1 ? "vend" : "vende"} · toni{" "}
+          <strong style={{ color: TONE_INK.strong }}>{toneLabel(topic.index).toLowerCase()}</strong>
+        </span>
+        <span aria-hidden style={{ width: "14px", height: "14px", borderRadius: "4px", background: toneFill(topic.index), marginLeft: "auto", flexShrink: 0 }} />
+      </div>
+
+      <div style={{ display: "grid", gap: "10px" }}>
+        {topic.articles.map((a, i) => (
+          <ArticleCard key={`${a.url}-${i}`} a={a} i={i} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ── the card both panels are built from ────────────────────────────────── */
+
+function ArticleCard({ a, i }: { a: FlatArticle; i: number }) {
+  return (
+    <motion.a
+      href={a.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      initial={{ opacity: 0, transform: "translateY(10px)" }}
+      animate={{ opacity: 1, transform: "translateY(0px)" }}
+      transition={{ duration: DUR.base, ease: EASE, delay: 0.06 + Math.min(i, 10) * 0.035 }}
+      style={{
+        display: "block", padding: "14px 16px", background: "#FFFFFF",
+        border: "1px solid #E8E3DB", borderLeft: `3px solid ${META[a.sentiment]?.color ?? TONE_COLOR.neutral}`,
+        borderRadius: "10px", textDecoration: "none",
+      }}
+    >
+      <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "7px", flexWrap: "wrap" }}>
+        <span style={{ fontSize: "11.5px", fontWeight: 800, color: TONE_INK.strong }}>{a.outlet}</span>
+        {/* Only in a topic panel, where the articles come from many countries
+            and the outlet alone doesn't place them. */}
+        {a.country && <span style={{ fontSize: "11px", color: TONE_INK.faint }}>· {a.country}</span>}
+        {a.date && <span style={{ fontSize: "11px", color: TONE_INK.faint }}>· {a.date}</span>}
+        <span style={{ fontSize: "10.5px", fontWeight: 700, letterSpacing: "0.05em", textTransform: "uppercase", color: META[a.sentiment]?.color ?? TONE_INK.muted, marginLeft: "auto" }}>
+          {META[a.sentiment]?.label ?? "—"}
+        </span>
+      </div>
+
+      {/* Albanian first — the original is right underneath for anyone
+          who wants to check the rendering. */}
+      <p style={{ margin: "0 0 4px", fontSize: "15px", fontWeight: 700, lineHeight: 1.4, color: TONE_INK.strong }}>
+        {a.albanianTitle || a.title}
+      </p>
+      {a.albanianTitle && a.albanianTitle !== a.title && (
+        <p style={{ margin: "0 0 8px", fontSize: "12px", lineHeight: 1.45, color: TONE_INK.faint, fontStyle: "italic" }}>
+          {a.title}
+        </p>
+      )}
+
+      {/* The words that decided it, in the outlet's own language. The
+          classifier has always had to produce this span to justify a
+          non-neutral call — showing it turns the label from something
+          the reader has to trust into something they can check. */}
+      {a.evidence && a.sentiment !== "neutral" && (
+        <p
+          style={{
+            margin: "9px 0 0", padding: "7px 11px",
+            borderLeft: `2px solid ${META[a.sentiment]?.color ?? TONE_COLOR.neutral}`,
+            background: "#FAFAF8", borderRadius: "0 6px 6px 0",
+            fontSize: "13px", lineHeight: 1.45, color: TONE_INK.strong,
+            fontStyle: "italic",
+          }}
+        >
+          «{a.evidence}»
+        </p>
+      )}
+
+      {a.reason && (
+        <p style={{ margin: "8px 0 0", fontSize: "12.5px", lineHeight: 1.5, color: TONE_INK.muted, display: "flex", gap: "7px", alignItems: "flex-start" }}>
+          {a.isQuote && <Quote size={13} strokeWidth={2} style={{ flexShrink: 0, marginTop: "2px", color: TONE_INK.faint }} aria-label="Citim" />}
+          <span>
+            {a.isQuote && a.speaker ? `Citim i ${a.speaker}. ` : ""}
+            {a.reason}
+          </span>
+        </p>
+      )}
+
+      <span style={{ display: "inline-flex", alignItems: "center", gap: "5px", marginTop: "10px", fontSize: "12px", fontWeight: 700, color: "#FF4422" }}>
+        Lexo te {a.outlet} <ExternalLink size={12} strokeWidth={2.2} />
+      </span>
+    </motion.a>
   );
 }

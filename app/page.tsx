@@ -27,7 +27,7 @@ import {
   getWeeklyExchangeSnapshot,
   getWeeklyFuelSnapshot,
 } from "@/lib/home-market-data";
-import { getToneHistory, getToneArticleCache, summarizeToneHistory, getForeignCoverage } from "@/lib/tone-data";
+import { getToneHistory, getToneArticleCache, summarizeToneHistory, getForeignCoverage, getTopics } from "@/lib/tone-data";
 
 export const revalidate = 3600;
 
@@ -52,6 +52,11 @@ export default async function HomePage() {
   // Bota Flet reads the cache (72h rolling pool, refreshed 9x/day), not
   // today's outlets snapshot — see getForeignCoverage()'s doc comment.
   const foreignCoverage = getForeignCoverage(toneCache, 6);
+  // What the world wrote about, not only how it sounded. Pure function over
+  // the cache that is already in memory — no extra read, no API call. Five
+  // chips is what fits one or two rows on a phone without pushing the module
+  // past its height budget.
+  const toneTopics = getTopics(toneCache, { limit: 5 });
   const botaFletPool = Object.values(toneCache?.articles ?? {}).filter(
     (a) => a.imageUrl && a.translated
   );
@@ -231,7 +236,7 @@ export default async function HomePage() {
           padding: "64px 24px 0",
         }}
       >
-        <ToneDashboard summary={toneSummary} />
+        <ToneDashboard summary={toneSummary} topics={toneTopics} />
         <DiasporaSeries />
       </div>
 

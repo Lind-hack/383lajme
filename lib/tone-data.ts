@@ -60,11 +60,11 @@ export interface CountrySummary {
   confident: boolean;
 }
 
-/** What share of a country's coverage the index actually rests on. */
-export function coverageOf(summary: { n: number; excluded?: number }): number {
-  const total = summary.n + (summary.excluded ?? 0);
-  return total > 0 ? summary.n / total : 0;
-}
+// coverageOf lives in lib/tone-scale.ts, not here: this module imports
+// fs/promises, so a "use client" component that took a value import from it
+// would fail the client build. Re-exported so server callers need only one
+// import.
+export { coverageOf } from "./tone-scale";
 
 export interface ToneOutletsData {
   lastUpdated: string;
@@ -280,6 +280,15 @@ export interface ToneArticleCacheEntry {
   date: string;
   firstSeen: string;
   lastSeen: string;
+  /** The v2 stance fields. The scraper has written these since the rewrite;
+   *  they were simply never declared here, so the cache looked poorer to TS
+   *  than it actually is and topic panels had no evidence to show. Optional
+   *  because entries cached before the rewrite carry none. */
+  stanceReason?: string;
+  isQuote?: boolean;
+  speaker?: string;
+  evidence?: string;
+  stanceVersion?: number;
 }
 
 export interface ToneArticleCache {
@@ -407,8 +416,15 @@ export interface ToneTopic {
   negative: number;
   /** Same 0–100 scale as a country's, so toneLabel/toneFill apply unchanged. */
   index: number | null;
-  articles: ForeignCoverageItem[];
+  /** Carries the evidence span and the classifier's reason, so a topic panel
+   *  can render the same card the country drill-down does. */
+  articles: Array<ToneArticle & { outlet: string; country: string; flag: string }>;
 }
+
+/** Critical first, then positive, then the neutral bulk — the two ends are
+ *  what a reader came to see. Same order the country drill-down uses. */
+const STANCE_RANK = (s: ToneSentimentRaw): number =>
+  ({ negative: 0, positive: 1, neutral: 2, unknown: 3 })[s] ?? 3;
 
 /**
  * Groups recent articles into the handful of things the world was actually
@@ -497,16 +513,23 @@ export function getTopics(
       // Identical arithmetic to country_index in tools/tone_scraper.py, so a
       // topic and a country mean the same thing by the same scale.
       index: scored ? Math.round(50 + (50 * (counts.positive - counts.negative)) / scored) : null,
-      articles: members
-        .filter((d) => d.entry.albanianTitle && d.entry.imageUrl)
-        .slice(0, 8)
+      // Sorted the way the country drill-down sorts: the two ends of the
+      // scale first, the neutral bulk after. No image requirement here — a
+      // topic panel is about what was said, and demanding a resolved og:image
+      // would drop the best-evidenced articles for the best-illustrated ones.
+      articles: [...members]
+        .sort((a, b) => STANCE_RANK(a.entry.sentiment) - STANCE_RANK(b.entry.sentiment))
+        .slice(0, 10)
         .map((d) => ({
-          title: d.entry.albanianTitle as string,
-          originalTitle: d.entry.title,
+          title: d.entry.title,
+          albanianTitle: d.entry.albanianTitle,
           url: d.entry.url,
-          imageUrl: d.entry.imageUrl as string,
           date: d.entry.date,
-          sentiment: (d.entry.sentiment ?? "neutral") as ForeignCoverageItem["sentiment"],
+          sentiment: d.entry.sentiment,
+          reason: d.entry.stanceReason,
+          isQuote: d.entry.isQuote,
+          speaker: d.entry.speaker,
+          evidence: d.entry.evidence,
           outlet: d.entry.outlet,
           country: d.entry.country,
           flag: FLAGS[d.entry.country] ?? "",
