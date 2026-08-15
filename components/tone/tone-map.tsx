@@ -23,6 +23,14 @@ export interface ToneMapCountry {
   /** Albanian display name, the key the rest of the data uses. */
   country: string;
   index: number | null;
+  /** The scraper's own is_confident(): enough articles AND enough of the
+   *  country's coverage. False hatches the shape rather than giving it a
+   *  confident band colour — the one use of texture the chart guidance
+   *  allows, because it encodes uncertainty rather than decorating.
+   *
+   *  Deliberately the flag and not a second coverage threshold here: the
+   *  rule lives in tools/tone_scraper.py, and two copies of it would drift. */
+  confident?: boolean;
 }
 
 interface Props {
@@ -41,6 +49,8 @@ const BORDER = "rgba(17,17,17,0.12)";
 export default function ToneMap({ countries, active, selected, onHover, onSelect }: Props) {
   const uid = useId().replace(/[^a-zA-Z0-9]/g, "");
   const byCode = new Map(countries.map((c) => [c.code, c]));
+  // The key is only earned when something on the map is actually hatched.
+  const hasThin = countries.some((c) => c.index != null && c.confident === false);
 
   return (
     // Full width. It was capped at 560px while it covered five countries and
@@ -56,6 +66,16 @@ export default function ToneMap({ countries, active, selected, onHover, onSelect
       >
         <title>Toni i medias sipas vendit</title>
 
+        {/* One hatch mask per tracked shape would be wasteful; instead a
+            single diagonal pattern is laid over the band colour, which stays
+            underneath so the country still reads at its measured tone. */}
+        <defs>
+          <pattern id={`thin-${uid}`} width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+            <rect width="6" height="6" fill="#FFFFFF" fillOpacity="0.55" />
+            <line x1="0" y1="0" x2="0" y2="6" stroke="#FFFFFF" strokeWidth="3" />
+          </pattern>
+        </defs>
+
         {/* Context first, so the tracked countries paint over it. */}
         <g fill={CONTEXT_FILL} stroke={BORDER} strokeWidth={0.6} vectorEffect="non-scaling-stroke">
           {MAP_SHAPES.filter((s) => !s.tracked).map((s, i) => (
@@ -67,12 +87,14 @@ export default function ToneMap({ countries, active, selected, onHover, onSelect
           const data = byCode.get(s.code);
           const on = data != null && active === data.country;
           const isOpen = data != null && selected === data.country;
+          const thin = data?.index != null && data.confident === false;
           const label = data
-            ? `${data.country}: ${data.index ?? "pa të dhëna"} — ${toneLabel(data.index)}`
+            ? `${data.country}: ${data.index ?? "pa të dhëna"} — ${toneLabel(data.index)}` +
+              (thin ? " (mbulim i pjesshëm)" : "")
             : s.code;
           return (
+            <g key={`hit-${uid}-${i}`}>
             <path
-              key={`hit-${uid}-${i}`}
               d={s.d}
               fill={toneFill(data?.index ?? null)}
               stroke={isOpen ? "#111111" : on ? "rgba(17,17,17,0.55)" : BORDER}
@@ -102,6 +124,20 @@ export default function ToneMap({ countries, active, selected, onHover, onSelect
                 opacity: active && !on && !isOpen ? 0.5 : 1,
               }}
             />
+            {/* Drawn over the fill and deaf to the pointer, so the hatch never
+                intercepts a click meant for the country under it. */}
+            {thin && (
+              <path
+                d={s.d}
+                fill={`url(#thin-${uid})`}
+                pointerEvents="none"
+                style={{
+                  transition: "opacity 160ms var(--ease-out)",
+                  opacity: active && !on && !isOpen ? 0.5 : 1,
+                }}
+              />
+            )}
+            </g>
           );
         })}
       </svg>
@@ -132,6 +168,20 @@ export default function ToneMap({ countries, active, selected, onHover, onSelect
           }}
         />
         <span style={{ fontWeight: 700 }}>Pozitiv</span>
+        {hasThin && (
+          <span style={{ display: "inline-flex", alignItems: "center", gap: "5px" }}>
+            <span
+              aria-hidden
+              style={{
+                width: "13px", height: "9px", borderRadius: "2px",
+                border: "1px solid rgba(17,17,17,0.15)",
+                background:
+                  "repeating-linear-gradient(45deg, rgba(17,17,17,0.28) 0 1.5px, transparent 1.5px 4px)",
+              }}
+            />
+            mbulim i pjesshëm
+          </span>
+        )}
         <span style={{ marginLeft: "auto", fontVariantNumeric: "tabular-nums" }}>
           shkalla {BAND.lo}–{BAND.hi}
         </span>
