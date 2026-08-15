@@ -1031,6 +1031,10 @@ def main():
         "overallIndex": overall_index,
         "totalArticles": total_articles,
         "sourceCount": source_count,
+        # Which definition of "tone" produced these numbers. Must match what
+        # tools/tone_reclassify.py writes, or a scheduled run silently
+        # downgrades a hand-derived file.
+        "stanceVersion": STANCE_SCHEMA_VERSION,
         "countries": countries_data,
     }
     OUTLETS_PATH.parent.mkdir(parents=True, exist_ok=True)
@@ -1101,6 +1105,13 @@ def main():
             "overallIndex": overall_index,
             "totalArticles": total_articles,
             "sourceCount": source_count,
+            # Without this the row reads as v1 to summarizeToneHistory, which
+            # would then happily subtract a stance-measured index from a
+            # valence-measured one and report a methodology change as a swing
+            # in world opinion. The guard in lib/tone-data.ts depends on this
+            # field being here, so a scheduled run that omitted it undid the
+            # guard a few hours after it shipped.
+            "stanceVersion": STANCE_SCHEMA_VERSION,
             "countries": country_summaries,
             "headlines": headlines,
         }

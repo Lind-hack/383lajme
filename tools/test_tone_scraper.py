@@ -220,3 +220,67 @@ def test_blocklist_matches_whole_words_only(outlet):
     """Substring matching blocked La Repubblica because 'blic' is inside
     'repubblica'. Outlet names are short enough that this must be exact."""
     assert ts.is_foreign_press(outlet, "https://example.com/x") is True
+
+
+# ── The two writers must agree ──────────────────────────────────────────
+#
+# tone_scraper.py writes these files on a schedule; tone_reclassify.py writes
+# them by hand. When they disagree the automated run silently undoes the
+# manual one, which is exactly how the history row lost `stanceVersion` and
+# quietly re-armed the methodology-break bug in lib/tone-data.ts.
+
+PUBLIC = Path(__file__).parent.parent / "public"
+
+
+def _load(name):
+    p = PUBLIC / name
+    if not p.exists():
+        pytest.skip(f"{name} not present")
+    return json.loads(p.read_text("utf-8"))
+
+
+def test_outlets_file_declares_its_stance_version():
+    data = _load("tone-outlets.json")
+    for field in ("lastUpdated", "overallIndex", "totalArticles", "sourceCount", "countries"):
+        assert field in data, f"tone-outlets.json missing {field}"
+    assert data.get("stanceVersion") == ts.STANCE_SCHEMA_VERSION
+
+
+def test_latest_history_row_declares_its_stance_version():
+    """lib/tone-data.ts suppresses the week-over-week delta across a change in
+    definition, and reads `?? 1` when the field is absent — so a row missing it
+    is not neutral, it actively re-enables the bug."""
+    rows = _load("tone-history.json")
+    assert rows, "history is empty"
+    latest = sorted(rows, key=lambda r: r.get("date", ""))[-1]
+    for field in ("date", "overallIndex", "totalArticles", "sourceCount", "countries", "headlines"):
+        assert field in latest, f"latest history row missing {field}"
+    assert latest.get("stanceVersion") == ts.STANCE_SCHEMA_VERSION
+
+
+def test_displayed_articles_carry_their_justification():
+    """A non-neutral label without the span that produced it is an assertion
+    the reader cannot check — and the UI renders that span."""
+    data = _load("tone-outlets.json")
+    non_neutral = [
+        a
+        for c in data["countries"].values()
+        for o in c["outlets"]
+        for a in o["articles"]
+        if a.get("sentiment") in ("positive", "negative")
+    ]
+    if not non_neutral:
+        pytest.skip("no non-neutral articles in the current snapshot")
+    missing = [a["title"][:50] for a in non_neutral if not a.get("evidence")]
+    assert not missing, f"{len(missing)} non-neutral articles have no evidence span: {missing[:3]}"
+
+
+def test_no_blocked_outlet_survives_in_published_data():
+    data = _load("tone-outlets.json")
+    offenders = [
+        o["name"]
+        for c in data["countries"].values()
+        for o in c["outlets"]
+        if not ts.is_foreign_press(o["name"], (o["articles"] or [{}])[0].get("url", ""))
+    ]
+    assert not offenders, f"blocked outlets still published: {sorted(set(offenders))[:5]}"
