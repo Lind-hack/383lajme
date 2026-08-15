@@ -67,13 +67,20 @@ export default async function ToniPage() {
   const pending = summary.countries.length - withData.length;
 
   // Everything the countries wrote, keyed for the per-country article lists.
-  const articlesFor = (country: string): ToneCardArticle[] => {
+  //
+  // Articles the classifier could not read are excluded from the index, so
+  // they are excluded from the list too — Suedi's panel was otherwise 100
+  // rows badged "—", the system presenting what it refused to score as
+  // though it were a result. Their count is stated under the list instead.
+  const articlesFor = (country: string) => {
     const data = outlets?.countries?.[country];
-    if (!data) return [];
-    const rank: Record<string, number> = { negative: 0, positive: 1, neutral: 2, unknown: 3 };
-    return data.outlets
-      .flatMap((o) => o.articles.map((a) => ({ ...a, outlet: o.name })))
+    if (!data) return { articles: [] as ToneCardArticle[], unresolved: 0 };
+    const all = data.outlets.flatMap((o) => o.articles.map((a) => ({ ...a, outlet: o.name })));
+    const rank: Record<string, number> = { negative: 0, positive: 1, neutral: 2 };
+    const articles = all
+      .filter((a) => a.sentiment !== "unknown")
       .sort((a, b) => (rank[a.sentiment] ?? 3) - (rank[b.sentiment] ?? 3));
+    return { articles, unresolved: all.length - articles.length };
   };
 
   return (
@@ -207,7 +214,7 @@ export default async function ToniPage() {
                 {withData.map((c) => {
                   const coverage = coverageOf(c);
                   const excluded = c.excluded ?? 0;
-                  const articles = articlesFor(c.country);
+                  const { articles, unresolved } = articlesFor(c.country);
                   return (
                     <details
                       key={c.country}
@@ -254,6 +261,12 @@ export default async function ToniPage() {
                             <ToneArticleCard key={`${a.url}-${i}`} a={a} />
                           ))}
                         </div>
+                      )}
+                      {unresolved > 0 && (
+                        <p style={{ margin: "12px 0 0", fontSize: "12px", color: TONE_INK.faint, lineHeight: 1.5 }}>
+                          Edhe {unresolved} artikuj u mblodhën për këtë vend, por modeli nuk arriti
+                          t&apos;i lexojë me siguri — nuk llogariten dhe nuk shfaqen.
+                        </p>
                       )}
                     </details>
                   );

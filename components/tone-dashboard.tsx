@@ -29,7 +29,7 @@ import {
   toneFill,
   toneLabel,
   verdictSentence,
-  NEUTRAL_IS_NORMAL,
+  NEUTRAL_IS_SHORT,
   coverageOf,
   formatAge,
 } from "@/lib/tone-scale";
@@ -139,15 +139,22 @@ export default function ToneDashboard({
     if (!selected || !outletData) return null;
     const country = outletData.countries[selected];
     if (!country) return null;
-    const articles: FlatArticle[] = country.outlets.flatMap((o) =>
+    const all: FlatArticle[] = country.outlets.flatMap((o) =>
       o.articles.map((a) => ({ ...a, outlet: o.name }))
     );
+    // Articles the classifier could not read are excluded from the index, so
+    // they are excluded from the panel too. Leaving them in filled Suedi's
+    // drill-down with 100 rows badged "—" — the system presenting the things
+    // it refused to score as though they were results. The count is stated
+    // instead, which is the honest version of the same information.
+    const articles = all.filter((a) => a.sentiment !== "unknown");
+    const unresolved = all.length - articles.length;
     // Critical first, then positive, then the neutral bulk: the two ends are
     // what a reader came to see.
-    const rank = { negative: 0, positive: 1, neutral: 2, unknown: 3 } as Record<string, number>;
+    const rank = { negative: 0, positive: 1, neutral: 2 } as Record<string, number>;
     articles.sort((a, b) => (rank[a.sentiment] ?? 3) - (rank[b.sentiment] ?? 3));
     const stat = summary.countries.find((c) => c.country === selected) ?? null;
-    return { articles, stat };
+    return { articles, stat, unresolved };
   }, [selected, outletData, summary.countries]);
 
   const openTopic = useMemo(
@@ -225,8 +232,8 @@ export default function ToneDashboard({
           >
             <AlertTriangle size={15} strokeWidth={2.2} style={{ flexShrink: 0, marginTop: "2px" }} aria-hidden />
             <span>
-              Të dhënat nuk janë përditësuar prej {formatAge(summary.ageHours)}. Numrat më poshtë
-              janë të mbledhjes së fundit të suksesshme{summary.lastUpdated ? ` (${summary.lastUpdated})` : ""}.
+              Nuk përditësohet prej {formatAge(summary.ageHours)} — numrat janë të mbledhjes së
+              fundit{summary.lastUpdated ? `, ${summary.lastUpdated}` : ""}.
             </span>
           </p>
         )}
@@ -234,13 +241,14 @@ export default function ToneDashboard({
         <h3 style={{ margin: "0 0 10px", fontSize: "clamp(20px, 2.9vw, 30px)", fontWeight: 800, lineHeight: 1.24, letterSpacing: "-0.02em", color: TONE_INK.strong, textWrap: "balance" }}>
           {verdictSentence(idx)}
         </h3>
-        <p style={{ margin: "0 0 6px", fontSize: "15.5px", color: TONE_INK.muted, lineHeight: 1.6 }}>
+        {/* One sentence, not two. "95% ishin raportim neutral" followed by a
+            separate "a neutral majority is normal" was the same thought split
+            across two paragraphs and two type sizes. */}
+        <p style={{ margin: "0 0 18px", fontSize: "15.5px", color: TONE_INK.muted, lineHeight: 1.6 }}>
           Nga <strong style={{ color: TONE_INK.strong }}>{summary.totalArticles}</strong> artikuj në{" "}
           <strong style={{ color: TONE_INK.strong }}>{withData.length}</strong> vende,{" "}
-          <strong style={{ color: TONE_INK.strong }}>{neutralShare}%</strong> ishin raportim neutral.
-        </p>
-        <p style={{ margin: "0 0 20px", fontSize: "13.5px", color: TONE_INK.faint, lineHeight: 1.55 }}>
-          {NEUTRAL_IS_NORMAL}
+          <strong style={{ color: TONE_INK.strong }}>{neutralShare}%</strong> ishin raportim neutral —
+          {" "}<span style={{ color: TONE_INK.faint }}>{NEUTRAL_IS_SHORT}</span>
         </p>
 
         <div style={{ display: "flex", alignItems: "center", gap: "14px", flexWrap: "wrap", paddingBottom: "18px", marginBottom: "20px", borderBottom: "1px solid #F0EDE6" }}>
@@ -355,11 +363,11 @@ export default function ToneDashboard({
             phone and the budget is 1.6. The articles are one tap away and
             cost nothing until then. */}
         {topics.length > 0 && (
-          <div style={{ marginTop: "20px", paddingTop: "16px", borderTop: "1px solid #F0EDE6" }}>
-            <p style={{ margin: "0 0 9px", fontSize: "12px", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: TONE_INK.faint }}>
+          <div style={{ marginTop: "18px", paddingTop: "14px", borderTop: "1px solid #F0EDE6" }}>
+            <p style={{ margin: "0 0 8px", fontSize: "12px", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: TONE_INK.faint }}>
               Për çfarë po shkruajnë
             </p>
-            <div style={{ display: "flex", flexWrap: "wrap", gap: "7px" }}>
+            <div className="toni-chips">
               {topics.map((t) => {
                 const on = topic === t.label;
                 return (
@@ -407,7 +415,10 @@ export default function ToneDashboard({
 
         {/* The three-swatch legend is gone: the map's own gradient already runs
             Kritik → Pozitiv one line above and says the same thing. */}
-        <div style={{ display: "flex", flexDirection: "column", gap: "4px", marginTop: "18px" }}>
+        <div
+          className={`toni-rows${expanded ? "" : " toni-rows--short"}`}
+          style={{ display: "flex", flexDirection: "column", gap: "4px", marginTop: "18px" }}
+        >
           {shown.map((stat, i) => {
             const on = active === stat.country;
             const isOpen = selected === stat.country;
@@ -483,6 +494,7 @@ export default function ToneDashboard({
                 country={selected}
                 stat={detail.stat}
                 articles={detail.articles}
+                unresolved={detail.unresolved}
                 onClose={() => setSelected(null)}
               />
             </motion.div>
@@ -539,11 +551,14 @@ function CountryDetail({
   country,
   stat,
   articles,
+  unresolved,
   onClose,
 }: {
   country: string;
   stat: ToneSummary["countries"][number] | null;
   articles: FlatArticle[];
+  /** Articles the classifier could not read. Named, not shown. */
+  unresolved: number;
   onClose: () => void;
 }) {
   const counts = articles.reduce<Record<string, number>>((acc, a) => {
@@ -589,6 +604,13 @@ function CountryDetail({
             <ArticleCard key={`${a.url}-${i}`} a={a} i={i} />
           ))}
         </div>
+      )}
+
+      {unresolved > 0 && (
+        <p style={{ margin: "12px 0 0", fontSize: "12px", color: TONE_INK.faint, lineHeight: 1.5 }}>
+          Edhe {unresolved} artikuj u mblodhën për këtë vend, por modeli nuk arriti t&apos;i
+          lexojë me siguri — nuk llogariten dhe nuk shfaqen.
+        </p>
       )}
     </div>
   );

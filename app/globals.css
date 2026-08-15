@@ -7120,3 +7120,45 @@ body[data-tour-veil] > *:not(.tutorial-root) {
   outline-offset: 3px;
   border-radius: 8px;
 }
+
+/* ── topic chips (homepage tone module) ──────────────────────────────────
+   Wraps on desktop. On a phone the five labels are long enough to take a row
+   each — 200px of the module's height budget for a control the reader may not
+   use — so below 640px it becomes a single scrolling rail, the same pattern
+   the category rails use. */
+.toni-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+@media (max-width: 640px) {
+  .toni-chips {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    /* Bleed to the card's edge so the last chip is visibly cut off, which is
+       what tells the reader the row scrolls. */
+    margin: 0 calc(-1 * clamp(18px, 3vw, 32px));
+    padding: 2px clamp(18px, 3vw, 32px);
+  }
+  .toni-chips::-webkit-scrollbar { display: none; }
+  .toni-chips > button {
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+  }
+}
+
+/* ── country shortlist (homepage tone module) ────────────────────────────
+   Six ranked rows cost 311px of a 390px-wide screen — a fifth of the whole
+   module for the tail of a list whose first entries answer the question. On a
+   phone the collapsed list stops at four; "Të gjitha vendet" is immediately
+   below and reveals every one. Done in CSS rather than by branching the
+   render, so there is no hydration mismatch and no viewport guess on
+   the server. */
+@media (max-width: 640px) {
+  /* !important is load-bearing: each row sets `display: flex` as an inline
+     style, which a stylesheet rule cannot otherwise beat. */
+  .toni-rows--short > :nth-child(n + 5) { display: none !important; }
+}

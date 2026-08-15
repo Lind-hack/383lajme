@@ -131,3 +131,12 @@ export function formatAge(hours: number | null): string {
   if (hours < 48) return `${Math.round(hours)} orësh`;
   return `${Math.round(hours / 24)} ditësh`;
 }
+
+/**
+ * The same point as NEUTRAL_IS_NORMAL, as a clause rather than a sentence.
+ * The homepage states the neutral share and then explains it in one breath;
+ * two separate paragraphs saying it twice cost 60px of a phone screen and
+ * read as a correction of the line above.
+ */
+export const NEUTRAL_IS_SHORT =
+  "normale, sepse gazetaria raporton, nuk mban anë.";
