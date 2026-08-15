@@ -34,12 +34,18 @@ jobs:
         run: python tools/tone_scraper.py
         env:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          # Translation, article blurbs and topic labels run on Gemini so they
+          # stop competing with stance classification for Groq's 100K daily
+          # tokens — a full bucket used to leave a whole run UNKNOWN, which
+          # means excluded from the index entirely. Without this secret the
+          # pipeline still produces an index, just without those extras.
+          GOOGLE_AI_API_KEY: ${{ secrets.GOOGLE_AI_API_KEY }}
 
       - name: Commit updated tone data
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
-          git add public/tone-outlets.json public/tone-history.json public/tone-article-cache.json
+          git add public/tone-outlets.json public/tone-history.json public/tone-article-cache.json public/tone-topics.json
           if git diff --cached --quiet; then
             echo "No tone data changes"
             exit 0
