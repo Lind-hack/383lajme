@@ -289,8 +289,23 @@ def test_no_blocked_outlet_survives_in_published_data():
 # ── Confidence must account for what was discarded ──────────────────────
 
 def test_confident_requires_enough_articles():
-    assert ts.is_confident(7, 0) is False
-    assert ts.is_confident(8, 0) is True
+    """Written against the constant, not a literal. The threshold moved from 8
+    to 5 when the freshness window arrived and a hardcoded 8 here would have
+    had to be edited by hand every time it is retuned."""
+    assert ts.is_confident(ts.MIN_CONFIDENT_N - 1, 0) is False
+    assert ts.is_confident(ts.MIN_CONFIDENT_N, 0) is True
+
+
+def test_confidence_threshold_suits_a_two_day_window():
+    """A guard on the recalibration, in both directions.
+
+    Too high and a two-day window marks nearly every country low-confidence,
+    which describes the threshold rather than the data. Too low — or removed,
+    which was asked for — and a country gets a confident colour off two
+    articles, where one critical piece swings it 25 points. That makes thin
+    data look authoritative, the opposite of what the flag is for."""
+    assert 4 <= ts.MIN_CONFIDENT_N <= 8
+    assert ts.is_confident(2, 0) is False, "two articles is never a reading"
 
 
 def test_confident_requires_enough_of_the_coverage():
@@ -298,7 +313,7 @@ def test_confident_requires_enough_of_the_coverage():
     bare n>=8 passed Sweden while ignoring the 111 it threw away. An index
     resting on a tenth of its own coverage is a rounding artifact."""
     assert ts.is_confident(9, 111) is False    # Suedi: 8% scored
-    assert ts.is_confident(5, 74) is False     # Greqi: 6%
+    assert ts.is_confident(5, 74) is False     # Greqi: 6%  (clears N, fails coverage)
     assert ts.is_confident(33, 11) is True     # Austri: 75%
     assert ts.is_confident(175, 0) is True     # SHBA: 100%
 
@@ -360,3 +375,80 @@ def test_drop_blocked_keeps_outlets_that_merely_contain_a_blocked_substring():
     already must not come back through the cache path."""
     articles = {"a": {"outlet": "La Repubblica", "url": "https://repubblica.it/x"}}
     assert set(ts.drop_blocked(articles)) == {"a"}
+
+
+# ── Freshness: only today's and yesterday's news counts ─────────────────
+
+def test_is_fresh_accepts_today_and_yesterday():
+    assert ts.is_fresh("2026-08-15", "2026-08-15") is True
+    assert ts.is_fresh("2026-08-14", "2026-08-15") is True
+
+
+def test_is_fresh_rejects_older_news():
+    """The rule this whole window exists for. The cache had grown to 1066
+    articles reaching back to 2025-09-08 because CACHE_RETENTION_DAYS prunes on
+    lastSeen, and Google News re-serves old stories forever — refreshing
+    lastSeen and keeping a March article in "today's" index."""
+    assert ts.is_fresh("2026-08-13", "2026-08-15") is False
+    assert ts.is_fresh("2025-09-08", "2026-08-15") is False
+
+
+def test_is_fresh_rejects_the_future():
+    """Feeds occasionally carry a future-dated item; tomorrow is not today."""
+    assert ts.is_fresh("2026-08-16", "2026-08-15") is False
+
+
+def test_is_fresh_fails_closed_on_unparseable_dates():
+    """~200 cached entries carry a truncated RFC-822 fragment from before the
+    date fix. Letting those through is how an article from March is counted as
+    today's news."""
+    for bad in ("Sun, 09 Au", "", None, "2026-8-1", "not a date"):
+        assert ts.is_fresh(bad, "2026-08-15") is False
+
+
+# ── Blurbs ──────────────────────────────────────────────────────────────
+
+def test_clean_blurb_strips_meta_openings():
+    """The prompt forbids these and the model writes them anyway, spending a
+    fifth of the word budget telling a reader looking at a list of articles
+    that this is an article."""
+    assert ts.clean_blurb("Ky artikull flet për krizën në Parlament.") == "Krizën në Parlament."
+    assert ts.clean_blurb("Artikulli analizon vizitën te Vuçiq.") == "Vizitën te Vuçiq."
+    assert ts.clean_blurb("Raporti tregon se NATO reduktoi praninë.") == "NATO reduktoi praninë."
+
+
+def test_clean_blurb_keeps_a_real_subject():
+    """The regression that made the stripper require a reporting verb or a
+    connector: "Raporti i Komisionit..." is a subject, not throat-clearing,
+    and an eager rule left "i Komisionit Evropian thotë..."."""
+    for keep in (
+        "Raporti i Komisionit Evropian thotë se Kosova ka përparuar.",
+        "Teksti i ligjit ndryshon rregullat e votimit.",
+        "Artikulli 5 i marrëveshjes rregullon tregtinë.",
+    ):
+        assert ts.clean_blurb(keep) == keep
+
+
+def test_clean_blurb_truncates_on_a_word_boundary():
+    long = "Kryeministri " + "fjalë " * 80
+    out = ts.clean_blurb(long)
+    assert len(out) <= ts.BLURB_MAX_CHARS + 1
+    assert out.endswith("…")
+    assert "fjal…" not in out, "must not cut mid-word"
+
+
+def test_clean_blurb_handles_empty_input():
+    for empty in ("", None, "   "):
+        assert ts.clean_blurb(empty) == ""
+
+
+def test_blurbs_degrade_to_empty_without_a_key(monkeypatch):
+    """The Gemini key is optional. No key must mean headline-only cards, not a
+    crashed run — the index is the product, the blurb is a garnish."""
+    monkeypatch.delenv("GOOGLE_AI_API_KEY", raising=False)
+    out = ts.write_blurbs([{"title": "X", "summary": ""}, {"title": "Y", "summary": ""}])
+    assert out == ["", ""]
+
+
+def test_write_blurbs_on_empty_input():
+    assert ts.write_blurbs([]) == []

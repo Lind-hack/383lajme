@@ -34,6 +34,7 @@ python tools/tone_scraper.py
 import json
 import os
 import re
+import time
 import socket
 import sys
 from collections import Counter
@@ -99,7 +100,19 @@ HISTORY_DAYS = 120
 
 # Below this many deduped articles, a country's index is noisy enough that
 # the UI should show it as low-confidence rather than a bare percentage.
-MIN_CONFIDENT_N = 8
+#
+# Recalibrated from 8 to 5 when MAX_ARTICLE_AGE_DAYS arrived. Eight was tuned
+# against a pool of hundreds spanning months; measured against a two-day
+# window it would have marked all but three of fifteen countries as
+# low-confidence — a threshold describing its own miscalibration rather than
+# the data.
+#
+# It is not removed, and should not be. At n=5 a single critical article
+# already swings a country ten points; below that the number is an accident of
+# which stories a feed happened to carry. Painting that as a confident colour
+# would make thin data *look* authoritative, which is worse than showing it as
+# thin — the hatching and the "N nga M artikuj" line exist to say so honestly.
+MIN_CONFIDENT_N = 5
 
 # ...but a count alone was not enough. Greece's index of 50 rested on 5 of its
 # 79 articles and Sweden's on 9 of 120, because the rest failed classification
@@ -121,6 +134,40 @@ def is_confident(scored: int, excluded: int) -> bool:
 # losing data, and keeps this file small (low hundreds of live entries at
 # any time, not tens of thousands).
 CACHE_RETENTION_DAYS = 7
+
+# How old an article may be, in days, and still count. 0 = today only,
+# 1 = today or yesterday.
+#
+# This is the rule that makes "Toni i Mediave sot" mean today. Without it the
+# index was built on whatever Google News felt like resurfacing: the cache had
+# grown to 1066 articles reaching back to 2025-09-08, and only 263 of the 657
+# that fed the index were from the last two days. Sixty percent of "today's"
+# reading was up to a year old.
+#
+# CACHE_RETENTION_DAYS could never catch this because it prunes on lastSeen —
+# when the scraper last saw an article in a feed — and Google keeps re-serving
+# old stories, refreshing lastSeen forever. Age has to be measured from the
+# publication date, which is what this does.
+MAX_ARTICLE_AGE_DAYS = 1
+
+
+def is_fresh(published: str, today: str | None = None) -> bool:
+    """True when `published` (YYYY-MM-DD) is within the freshness window.
+
+    An empty or unparseable date fails closed. Roughly 200 cached entries
+    carry a truncated RFC-822 fragment from before the date fix, and letting
+    those through unchecked is how an article from March keeps being counted
+    as today's news.
+    """
+    if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", published or ""):
+        return False
+    ref = today or datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    cutoff = (
+        datetime.strptime(ref, "%Y-%m-%d") - timedelta(days=MAX_ARTICLE_AGE_DAYS)
+    ).strftime("%Y-%m-%d")
+    # Upper bound too: a feed occasionally carries a future-dated item, and
+    # tomorrow's news is not today's either.
+    return cutoff <= published <= ref
 
 # A permanently imageless article (paywall, no og:image tag, scraper
 # blocked) shouldn't get re-fetched on every one of the 9 daily runs
@@ -567,6 +614,152 @@ def _parse_stance_item(raw: object) -> dict:
     }
 
 
+# ── Gemini: the "what is this about" layer ──────────────────────────────
+#
+# Deliberately a different provider from the classifier. Groq's llama-3.3-70b
+# carries stance AND translation against a 100K-token daily budget; blurbs for
+# every article plus a labelling pass would not fit beside them. Gemini's free
+# tier is barely touched by this repo, so the work lands where there is room.
+#
+# Thinking is switched off explicitly. gemini-2.5-flash reasons by default and
+# spent 899 thinking tokens against 254 of output on the first six-article
+# batch — four times the cost for a task that is a one-line paraphrase.
+GEMINI_MODEL = os.environ.get("GEMINI_MODEL", "gemini-2.5-flash")
+GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent"
+BLURB_BATCH_SIZE = 10
+BLURB_MAX_CHARS = 190
+
+# The model reaches for these openers even when told not to; they burn a fifth
+# of the word budget saying "this is an article" to someone already reading a
+# list of articles.
+# Only strips when the opening is genuinely meta — a noun for "the article"
+# followed by a reporting verb and/or a connector. The verb-and-connector part
+# is required, not optional: without it this ate the subject of legitimate
+# blurbs like "Raporti i Komisionit Evropian thotë...", leaving "i Komisionit
+# Evropian thotë...".
+_BLURB_THROAT_CLEARING = re.compile(
+    r"^\s*(?:ky\s+|kjo\s+)?"
+    r"(?:artikulli|artikull|shkrimi|teksti|raporti|lajmi|dokumentari)\b"
+    r"[\s,:-]*"
+    r"(?:"
+    r"(?:flet|tregon|raporton|analizon|eksploron|shpjegon|thot[ëe])\s*"
+    r"(?:p[ëe]r|se|q[ëe])?\s*"
+    r"|"
+    r"(?:p[ëe]r|se|q[ëe])\s+"
+    r")",
+    re.I,
+)
+
+
+def gemini_json(prompt: str, max_tokens: int = 2000, attempts: int = 2):
+    """One JSON call to Gemini. Returns the parsed object, or None.
+
+    None is a first-class answer here, not an error path: every caller has to
+    work without it, because this key is optional and the pipeline must not
+    stop producing an index just because a nice-to-have blurb is unavailable.
+    """
+    key = os.environ.get("GOOGLE_AI_API_KEY")
+    if not key:
+        return None
+    url = GEMINI_URL.format(model=GEMINI_MODEL)
+    payload = {
+        "contents": [{"parts": [{"text": prompt}]}],
+        "generationConfig": {
+            "responseMimeType": "application/json",
+            "temperature": 0.3,
+            "maxOutputTokens": max_tokens,
+            "thinkingConfig": {"thinkingBudget": 0},
+        },
+    }
+    for attempt in range(1, attempts + 1):
+        try:
+            r = requests.post(url, params={"key": key}, json=payload, timeout=90)
+            if r.status_code == 429:
+                # Rate limited. One backoff, then give up for this run — blurbs
+                # are additive and the next run is two hours away.
+                if attempt < attempts:
+                    time.sleep(20)
+                    continue
+                print("  Gemini rate-limited; skipping this batch", file=sys.stderr)
+                return None
+            r.raise_for_status()
+            parts = r.json()["candidates"][0]["content"]["parts"]
+            return json.loads("".join(p.get("text", "") for p in parts))
+        except Exception as e:
+            if attempt >= attempts:
+                print(f"  Gemini call failed: {type(e).__name__}: {e}", file=sys.stderr)
+                return None
+    return None
+
+
+def clean_blurb(text: str) -> str:
+    """Trim the model's throat-clearing and cap the length.
+
+    The prompt forbids "Ky artikull flet për..." and the model writes it
+    anyway often enough to matter — it spends a fifth of the word budget
+    telling someone reading a list of articles that this is an article.
+    """
+    text = " ".join(str(text or "").split())
+    text = _BLURB_THROAT_CLEARING.sub("", text)
+    if not text:
+        return ""
+    text = text[0].upper() + text[1:]
+    if len(text) > BLURB_MAX_CHARS:
+        # Cut on a word boundary, never mid-word, and drop dangling punctuation.
+        text = text[:BLURB_MAX_CHARS].rsplit(" ", 1)[0].rstrip(" ,;:") + "…"
+    return text
+
+
+BLURB_PROMPT = (
+    "Je redaktor lajmesh në Kosovë. Për çdo artikull, shkruaj një përshkrim "
+    "të shkurtër shqip (12-20 fjalë) që i thotë lexuesit PËR ÇFARË bëhet fjalë.\n\n"
+    "RREGULLA:\n"
+    "- Fillo direkt me faktin. KURRË mos shkruaj 'Artikulli', 'Ky artikull', "
+    "'Teksti', 'Raporti', 'Lajmi flet për'.\n"
+    "- Mos shto fakte, pasoja apo reagime që nuk janë në tekstin e dhënë. Nëse "
+    "titulli jep pak informacion, përshkruaj vetëm atë që dihet.\n"
+    "- Pa klikbejt, pa pikëpyetje, pa mbiemra emocionalë.\n"
+    "- Shqip standarde, jo përkthim fjalë-për-fjalë.\n\n"
+)
+
+
+def write_blurbs(items: list[dict]) -> list[str]:
+    """items: [{'title','summary'}] -> one short Albanian blurb each, in order.
+
+    Missing entries come back as "" so callers can zip() safely; the UI then
+    simply shows the headline alone.
+    """
+    if not items:
+        return []
+    out = [""] * len(items)
+    for start in range(0, len(items), BLURB_BATCH_SIZE):
+        chunk = items[start : start + BLURB_BATCH_SIZE]
+        lines = []
+        for i, a in enumerate(chunk):
+            line = f"{i + 1}. {a['title']}"
+            if a.get("summary"):
+                line += " — " + a["summary"][:300]
+            lines.append(line)
+        prompt = (
+            BLURB_PROMPT
+            + 'Kthe VETËM JSON: {"items":[{"i":1,"blurb":"..."}]} me saktësisht '
+            + f"{len(chunk)} objekte.\n\n"
+            + "\n".join(lines)
+        )
+        data = gemini_json(prompt, max_tokens=180 * len(chunk) + 200)
+        if not isinstance(data, dict):
+            continue
+        for rec in data.get("items", []) or []:
+            try:
+                idx = int(rec.get("i", 0)) - 1
+            except (TypeError, ValueError):
+                continue
+            if 0 <= idx < len(chunk):
+                out[start + idx] = clean_blurb(rec.get("blurb", ""))
+    return out
+
+
+
 def classify_stance_batch(client: "Groq | None", items: list[dict]) -> list[dict]:
     """items: [{'title':..., 'summary':...}, ...] -> one stance record each,
     in order. No API key, or an unparseable answer after one retry, yields
@@ -748,6 +941,7 @@ def fetch_candidates() -> dict[str, list[dict]]:
         seen_titles: set[str] = set()
         items: list[dict] = []
         dropped: list[str] = []
+        stale = 0
         for entry in feed.entries[:60]:
             url = entry.get("link", "")
             title = entry.get("title", "").strip()
@@ -762,6 +956,12 @@ def fetch_candidates() -> dict[str, list[dict]]:
             source = entry.get("source") or {}
             outlet = extract_outlet(url, country, source.get("title", ""))
             if not outlet or not title:
+                continue
+            # Freshness, before anything expensive. Filtering here means the
+            # classification budget (MAX_NEW_PER_RUN) is spent on today's news
+            # instead of on stories from last spring.
+            if not is_fresh(published):
+                stale += 1
                 continue
             # Google serves Kosovar outlets into the German and US feeds. Their
             # coverage is Kosovo talking about itself, which is not what an
@@ -779,6 +979,8 @@ def fetch_candidates() -> dict[str, list[dict]]:
                 "date": published, "outlet": outlet,
             })
         by_country[country] = items
+        if stale:
+            print(f"  {country}: skipped {stale} outside the {MAX_ARTICLE_AGE_DAYS + 1}-day window")
         if dropped:
             # Logged, not silent — the blocklist is a judgement call and this
             # is how it gets tuned.
@@ -869,6 +1071,16 @@ def main():
                 title = retried if retried and is_albanian_text(retried) else None
             translations[key] = title if is_albanian_text(title) else None
 
+    # ── Blurbs ──
+    # Runs on Gemini, not Groq: the 70b model already carries stance and
+    # translation against a 100K/day budget. Additive by design — every entry
+    # can come back "" and the cards simply show the headline alone.
+    blurbs: dict[str, str] = {}
+    if new_items:
+        texts = write_blurbs([c for _, c in new_items])
+        blurbs = {key: b for (key, _), b in zip(new_items, texts) if b}
+        print(f"  {len(blurbs)}/{len(new_items)} blurbs written")
+
     unknown_count = sum(1 for s in stances.values() if s["stance"] == UNKNOWN)
     if unknown_count:
         print(f"  {unknown_count}/{len(new_items)} new articles unresolved (excluded from index)")
@@ -928,6 +1140,10 @@ def main():
             "googleNewsUrl": item["url"],
             "imageUrl": prior.get("imageUrl"),
             "imageAttempts": prior.get("imageAttempts", 0),
+            # One line of Albanian saying what the article is about. Falls back
+            # to whatever a previous run managed, so a rate-limited batch does
+            # not blank a blurb that already exists.
+            "blurb": blurbs.get(key) or prior.get("blurb", ""),
             "outlet": item["outlet"],
             "country": item["country"],
             # Bounded, so an article the model genuinely cannot read stops
@@ -997,10 +1213,25 @@ def main():
         print(f"  {resolved}/{len(image_targets)} images resolved")
 
     # ── Prune stale entries ──
-    cutoff = (datetime.now(timezone.utc) - timedelta(days=CACHE_RETENTION_DAYS)).strftime("%Y-%m-%d")
+    #
+    # Two rules, and the second is the one that matters. lastSeen prunes what
+    # the feeds have stopped carrying. Publication date prunes what is simply
+    # too old to be today's news — and only that rule can catch an article
+    # from March that Google re-serves every single run, refreshing its
+    # lastSeen forever. Together they had let the cache grow to 1066 entries
+    # reaching back to 2025-09-08.
+    seen_cutoff = (datetime.now(timezone.utc) - timedelta(days=CACHE_RETENTION_DAYS)).strftime("%Y-%m-%d")
+    aged_out = old_news = 0
     for key in list(articles_cache.keys()):
-        if articles_cache[key].get("lastSeen", "") < cutoff:
+        entry = articles_cache[key]
+        if entry.get("lastSeen", "") < seen_cutoff:
             del articles_cache[key]
+            aged_out += 1
+        elif not is_fresh(entry.get("date", ""), today):
+            del articles_cache[key]
+            old_news += 1
+    if aged_out or old_news:
+        print(f"  pruned {aged_out} unseen + {old_news} outside the freshness window")
 
     CACHE_PATH.parent.mkdir(parents=True, exist_ok=True)
     CACHE_PATH.write_text(
@@ -1031,6 +1262,12 @@ def main():
                 # The Albanian rendering is the point of the drill-down for a
                 # Kosovo reader: the original headline is in German or Turkish.
                 "albanianTitle": entry.get("albanianTitle"),
+                # What the article is about, in one line. Cached from Gemini.
+                "blurb": entry.get("blurb", ""),
+                # The cache has resolved og:images all along and this file
+                # dropped the field, so the country drill-down had nothing to
+                # show but text — the reason those cards never stopped a scroll.
+                "imageUrl": entry.get("imageUrl"),
                 "url": entry["url"],
                 "date": entry["date"],
                 "sentiment": entry["sentiment"],

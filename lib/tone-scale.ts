@@ -166,3 +166,11 @@ export function formatArticleDate(raw: string | null | undefined): string | null
   const month = MONTHS_SQ[Number(m[2]) - 1];
   return month ? `${Number(m[3])} ${month}` : null;
 }
+
+/**
+ * Mirrors MIN_CONFIDENT_N in tools/tone_scraper.py, which is the only place
+ * the rule is actually enforced. Duplicated here solely so the methodology
+ * text on /toni cannot drift from it silently — it described "nën 8" for a
+ * while after the number changed.
+ */
+export const MIN_CONFIDENT_N = 5;

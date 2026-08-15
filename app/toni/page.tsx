@@ -32,6 +32,7 @@ import {
   verdictSentence,
   coverageOf,
   formatAge,
+  MIN_CONFIDENT_N,
   NEUTRAL_IS_NORMAL,
 } from "@/lib/tone-scale";
 
@@ -305,13 +306,14 @@ export default async function ToniPage() {
                 <li>Shumica e artikujve janë neutralë, dhe kjo është normale — gazetaria raporton, nuk mban anë. Prandaj indeksi qëndron afër 50 dhe lëviz ngadalë.</li>
                 <li>Harta e ngjyros vendet në shkallën {BAND.lo}–{BAND.hi}, jo 0–100. Pa këtë ngushtim të gjitha vendet do të dilnin me të njëjtën ngjyrë gri.</li>
                 <li>Klasifikimi bazohet te titulli dhe përmbledhja e RSS-së, jo gjithmonë artikulli i plotë.</li>
+                <li>Numërojmë vetëm artikuj të botuar sot ose dje. Një lajm i javës së kaluar nuk hyn në indeksin e sotëm, sado shpesh ta rikthejë Google News në feed.</li>
                 <li>Google News RSS nuk mbulon çdo botim (p.sh. artikuj pas paywall-i mund të mungojnë).</li>
                 <li>
                   Një vend shënohet me <strong>&quot;mbulim i pjesshëm&quot;</strong> — dhe vizatohet
-                  me vija të pjerrëta në hartë — kur ka nën 8 artikuj të klasifikuar, ose kur
-                  ata përbëjnë më pak se 40% të gjithçkaje që u mblodh për të. Pa këtë, një
-                  indeks i ndërtuar mbi 5 nga 75 artikuj dukej njësoj i sigurt sa një i
-                  ndërtuar mbi 77 nga 77.
+                  me vija të pjerrëta në hartë — kur ka nën {MIN_CONFIDENT_N} artikuj të
+                  klasifikuar, ose kur ata përbëjnë më pak se 40% të gjithçkaje që u mblodh
+                  për të. Pa këtë, një indeks i ndërtuar mbi 5 nga 75 artikuj dukej njësoj i
+                  sigurt sa një i ndërtuar mbi 77 nga 77.
                 </li>
                 <li>Më 2026-08-10 ndryshuam mënyrën e llogaritjes: më parë indeksi matte nëse lajmi ishte i mirë apo i keq. Ditët para kësaj date janë llogaritur me metodën e vjetër dhe nuk krahasohen drejtpërdrejt me ditët pas saj.</li>
               </ul>
