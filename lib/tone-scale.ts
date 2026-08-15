@@ -140,3 +140,29 @@ export function formatAge(hours: number | null): string {
  */
 export const NEUTRAL_IS_SHORT =
   "normale, sepse gazetaria raporton, nuk mban anë.";
+
+const MONTHS_SQ = [
+  "jan", "shk", "mar", "pri", "maj", "qer",
+  "korr", "gush", "sht", "tet", "nën", "dhj",
+];
+
+/**
+ * Renders an article's stored date, whatever vintage it is.
+ *
+ * The cache holds two shapes. Current entries are ISO — the scraper builds
+ * them from feedparser's parsed struct_time. Entries written before that fix
+ * hold a `[:10]` slice of the raw RFC-822 string, which cuts the month name
+ * in half: "Sun, 09 Au". About 200 of the 957 cached articles are still that
+ * shape and they render straight onto the cards.
+ *
+ * ISO becomes "9 gush". Anything else returns null and the caller omits the
+ * date rather than printing a fragment — a missing date costs a reader
+ * nothing, a broken one costs the page its credibility.
+ */
+export function formatArticleDate(raw: string | null | undefined): string | null {
+  if (!raw) return null;
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(raw.trim());
+  if (!m) return null;
+  const month = MONTHS_SQ[Number(m[2]) - 1];
+  return month ? `${Number(m[3])} ${month}` : null;
+}

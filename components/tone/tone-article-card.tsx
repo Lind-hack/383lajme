@@ -6,7 +6,7 @@
 // pages show the identical card instead of two that drift apart.
 
 import { ExternalLink, Quote } from "lucide-react";
-import { TONE_COLOR, TONE_INK } from "@/lib/tone-scale";
+import { TONE_COLOR, TONE_INK, formatArticleDate } from "@/lib/tone-scale";
 import type { ToneArticle } from "@/lib/tone-data";
 
 export const TONE_META: Record<string, { label: string; color: string }> = {
@@ -36,7 +36,12 @@ export default function ToneArticleCard({ a }: { a: ToneCardArticle }) {
         {/* Only where the articles come from many countries and the outlet
             alone doesn't place them — a topic list, not a country's own. */}
         {a.country && <span style={{ fontSize: "11px", color: TONE_INK.faint }}>· {a.country}</span>}
-        {a.date && <span style={{ fontSize: "11px", color: TONE_INK.faint }}>· {a.date}</span>}
+        {/* Legacy cache entries hold a truncated RFC-822 slice ("Sun, 09 Au");
+            formatArticleDate returns null for those rather than printing the
+            fragment. See its comment. */}
+        {formatArticleDate(a.date) && (
+          <span style={{ fontSize: "11px", color: TONE_INK.faint }}>· {formatArticleDate(a.date)}</span>
+        )}
         <span style={{ fontSize: "10.5px", fontWeight: 700, letterSpacing: "0.05em", textTransform: "uppercase", color: meta?.color ?? TONE_INK.muted, marginLeft: "auto" }}>
           {meta?.label ?? "—"}
         </span>

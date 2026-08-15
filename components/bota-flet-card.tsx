@@ -9,6 +9,7 @@
 
 import { useState, type CSSProperties } from "react";
 import type { ForeignCoverageItem } from "@/lib/tone-data";
+import { formatArticleDate } from "@/lib/tone-scale";
 
 const SENTIMENT_COLOR: Record<ForeignCoverageItem["sentiment"], string> = {
   positive: "#16A34A",
@@ -94,7 +95,7 @@ export function HeroCard({ item }: { item: ForeignCoverageItem }) {
         </h3>
 
         <span style={{ fontSize: "13px", fontWeight: 600, color: "rgba(255,255,255,0.62)" }}>
-          {item.date || item.country}
+          {formatArticleDate(item.date) || item.country}
         </span>
       </div>
     </a>
@@ -163,7 +164,7 @@ export function StripCard({ item }: { item: ForeignCoverageItem }) {
 
         <div className="bota-flet-strip-meta">
           <span className="bota-flet-strip-date" style={{ fontSize: "12px", fontWeight: 600, color: "#B4B0A6" }}>
-            {item.date || item.country}
+            {formatArticleDate(item.date) || item.country}
           </span>
           <span className="bota-flet-strip-cta" style={{ fontSize: "12px", fontWeight: 700 }}>
             Lexo →
