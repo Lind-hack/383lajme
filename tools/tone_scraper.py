@@ -86,6 +86,10 @@ CLASSIFY_MODEL = os.environ.get("GROQ_CLASSIFY_MODEL", "llama-3.3-70b-versatile"
 #
 # Classification runs first, so when the budget does run out it is the
 # translation that degrades, not the index.
+# Separate daily token bucket from llama-3.3-70b on Groq's free tier, which is
+# the entire point: it is what the classifier falls back to when the primary's
+# bucket is spent, rather than losing the run.
+CLASSIFY_FALLBACK_MODEL = os.environ.get("GROQ_CLASSIFY_FALLBACK", "openai/gpt-oss-120b")
 TRANSLATE_MODEL = os.environ.get("GROQ_TRANSLATE_MODEL", "llama-3.3-70b-versatile")
 TRANSLATE_FALLBACK_MODEL = os.environ.get("GROQ_TRANSLATE_FALLBACK", "llama-3.1-8b-instant")
 
@@ -625,9 +629,18 @@ def _parse_stance_item(raw: object) -> dict:
 # Thinking is switched off explicitly. gemini-2.5-flash reasons by default and
 # spent 899 thinking tokens against 254 of output on the first six-article
 # batch — four times the cost for a task that is a one-line paraphrase.
-GEMINI_MODEL = os.environ.get("GEMINI_MODEL", "gemini-2.5-flash")
+# flash-lite, not flash: this workload is short Albanian paraphrase, headline
+# translation and topic naming — none of it needs the larger model, and side
+# by side the lite one wrote better topic labels. It also carries its own
+# quota, so it is not competing with anything else using flash.
+GEMINI_MODEL = os.environ.get("GEMINI_MODEL", "gemini-3.1-flash-lite")
 GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent"
 BLURB_BATCH_SIZE = 10
+# Blurbs are written for newly-classified articles, so every entry cached
+# before the feature existed would have stayed blank until it aged out. This
+# many get backfilled per run, which heals the pool within a few runs without
+# turning one run into a bulk job.
+BLURB_BACKFILL_PER_RUN = 30
 BLURB_MAX_CHARS = 190
 
 # The model reaches for these openers even when told not to; they burn a fifth
@@ -676,10 +689,18 @@ def gemini_json(prompt: str, max_tokens: int = 2000, attempts: int = 2):
         try:
             r = requests.post(url, params={"key": key}, json=payload, timeout=90)
             if r.status_code == 429:
-                # Rate limited. One backoff, then give up for this run — blurbs
-                # are additive and the next run is two hours away.
+                # Rate limited. Google returns how long to wait; honour it
+                # rather than guessing, but cap the wait — a run that sleeps
+                # for a minute per batch is a run that times out in Actions.
                 if attempt < attempts:
-                    time.sleep(20)
+                    delay = 20
+                    try:
+                        m = re.search(r'"retryDelay":\s*"(\d+)s"', r.text)
+                        if m:
+                            delay = min(int(m.group(1)) + 1, 45)
+                    except Exception:
+                        pass
+                    time.sleep(delay)
                     continue
                 print("  Gemini rate-limited; skipping this batch", file=sys.stderr)
                 return None
@@ -784,10 +805,19 @@ def classify_stance_batch(client: "Groq | None", items: list[dict]) -> list[dict
         + numbered
     )
 
-    for attempt in (1, 2):
+    # Two models, not two attempts at one. llama-3.3-70b and gpt-oss-120b bill
+    # against SEPARATE daily token buckets on Groq's free tier, so when the
+    # primary is exhausted the fallback is genuinely available — retrying the
+    # same model twice, which is what this did, just produced the identical
+    # 429 twice and left the whole run UNKNOWN.
+    #
+    # That is not a small failure: UNKNOWN means excluded from the index, so a
+    # full bucket silently turned a day of collection into no data at all. A
+    # real run read "Used 98397, Requested 2870" and scored 0 of 12 articles.
+    for model in (CLASSIFY_MODEL, CLASSIFY_FALLBACK_MODEL):
         try:
             resp = client.chat.completions.create(
-                model=CLASSIFY_MODEL,
+                model=model,
                 messages=[{"role": "user", "content": prompt}],
                 max_tokens=1600,
                 # Deterministic on purpose. At 0.3 the same egg-throwing story
@@ -802,21 +832,71 @@ def classify_stance_batch(client: "Groq | None", items: list[dict]) -> list[dict
                 raise ValueError(f"expected {len(texts)} items, got {len(parsed) if isinstance(parsed, list) else parsed!r}")
             return [_parse_stance_item(p) for p in parsed]
         except Exception as e:
-            print(f"  stance attempt {attempt}/2 failed: {e}", file=sys.stderr)
+            # One line, not the provider's full 429 body — it repeats the
+            # billing URL on every batch and buries everything else in the log.
+            detail = str(e)
+            if "rate_limit_exceeded" in detail or "429" in detail:
+                detail = "rate limited (daily token bucket exhausted)"
+            print(f"  stance via {model} failed: {detail[:160]}", file=sys.stderr)
 
     print(f"  {len(texts)} articles left UNKNOWN (excluded from index)", file=sys.stderr)
     return unknown
 
 
+def gemini_translate(titles: list[str]) -> list[str | None]:
+    """Translate headlines to Albanian on Gemini. None per item on failure."""
+    if not titles:
+        return []
+    out: list[str | None] = [None] * len(titles)
+    prompt = (
+        "Përkthe këto tituj lajmesh në shqip standarde, ashtu si do t'i "
+        "shkruante një gazetar në Kosovë. Përkthe KUPTIMIN, jo fjalë-për-fjalë. "
+        "Ruaj emrat e përveçëm. Mos shto dhe mos hiq informacion.\n"
+        'Kthe VETËM JSON: {"items":[{"i":1,"sq":"..."}]} me saktësisht '
+        f"{len(titles)} objekte.\n\n"
+        + "\n".join(f"{i + 1}. {t}" for i, t in enumerate(titles))
+    )
+    data = gemini_json(prompt, max_tokens=140 * len(titles) + 250)
+    if not isinstance(data, dict):
+        return out
+    for rec in data.get("items", []) or []:
+        try:
+            idx = int(rec.get("i", 0)) - 1
+        except (TypeError, ValueError):
+            continue
+        if 0 <= idx < len(titles):
+            sq = " ".join(str(rec.get("sq", "") or "").split())
+            out[idx] = sq or None
+    return out
+
+
 def translate_batch(client: "Groq | None", items: list[dict]) -> list[str | None]:
     """Albanian headlines, entirely separate from stance. This failing now
-    costs a translation and nothing else."""
+    costs a translation and nothing else.
+
+    Gemini first, Groq only as a fallback. Both jobs used to run on Groq's
+    llama-3.3-70b against one 100K-token daily ceiling, and classification
+    runs first — so translation was reliably the call that got refused, and on
+    a heavy day it took classification down with it: a real run hit
+    "Used 98397, Requested 2870" and left every article of that run UNKNOWN,
+    which means excluded from the index entirely.
+
+    Splitting the two providers gives stance the whole Groq budget. Gemini
+    handles German, Italian, French, Turkish and English headlines at least as
+    well as the 70B did, on a free tier this repo barely touches.
+    """
     if not items:
         return []
+
+    titles = [a["title"] for a in items]
+    if os.environ.get("GOOGLE_AI_API_KEY"):
+        got = gemini_translate(titles)
+        if any(t for t in got):
+            return got
+
     if client is None:
         return [None for _ in items]
 
-    titles = [a["title"] for a in items]
     numbered = "\n".join(f"{i + 1}. {t}" for i, t in enumerate(titles))
     prompt = (
         "Translate each numbered headline into natural Albanian (shqip), the "
@@ -855,7 +935,15 @@ def translate_batch(client: "Groq | None", items: list[dict]) -> list[str | None
 def retry_translation(client: "Groq | None", title: str) -> str | None:
     """One individual escalated retry for a headline whose first-pass
     translation didn't look Albanian (rare, but small models slip back into
-    the source language sometimes)."""
+    the source language sometimes).
+
+    Gemini first, same as the batch path — a retry that lands on the exhausted
+    Groq budget is not a retry, it is a second failure.
+    """
+    if os.environ.get("GOOGLE_AI_API_KEY"):
+        got = gemini_translate([title])
+        if got and got[0] and is_albanian_text(got[0]):
+            return got[0]
     if client is None:
         return None
     prompt = (
@@ -1502,6 +1590,22 @@ def main():
             old_news += 1
     if aged_out or old_news:
         print(f"  pruned {aged_out} unseen + {old_news} outside the freshness window")
+
+    # ── Backfill blurbs ──
+    # Runs after the prune, deliberately: there is no point spending calls on
+    # an article that is about to be deleted for being too old. Everything
+    # cached before blurbs existed is blank until this fills it in.
+    missing = [e for e in articles_cache.values() if not e.get("blurb")][:BLURB_BACKFILL_PER_RUN]
+    if missing:
+        texts = write_blurbs([
+            {"title": e["title"], "summary": e.get("summary", "")} for e in missing
+        ])
+        filled = 0
+        for entry, text in zip(missing, texts):
+            if text:
+                entry["blurb"] = text
+                filled += 1
+        print(f"  backfilled {filled}/{len(missing)} missing blurbs")
 
     CACHE_PATH.parent.mkdir(parents=True, exist_ok=True)
     CACHE_PATH.write_text(
