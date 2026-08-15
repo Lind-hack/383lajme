@@ -62,6 +62,7 @@ ROOT = Path(__file__).parent.parent
 OUTLETS_PATH = ROOT / "public" / "tone-outlets.json"
 HISTORY_PATH = ROOT / "public" / "tone-history.json"
 CACHE_PATH = ROOT / "public" / "tone-article-cache.json"
+TOPICS_PATH = ROOT / "public" / "tone-topics.json"
 # Two jobs, two models, two budgets. Stance is the hard call — an 8B model gave
 # the same story opposite labels at two outlets on the same day — so it runs on
 # the strongest production model Groq offers. Translation is the easy job and
@@ -989,6 +990,275 @@ def fetch_candidates() -> dict[str, list[dict]]:
     return by_country
 
 
+# ── Topics: what the world is actually writing about ────────────────────
+#
+# This clustering used to live in lib/tone-data.ts and run at render time. It
+# moved here so the labels can be written by a model: a reader is not drawn in
+# by "Kryeministri · Parlament", which is two frequent tokens stapled together
+# and names no event. Groq/Gemini can turn the same cluster into "Kriza në
+# Parlament pas hedhjes së vezëve ndaj Kurtit", which is a headline.
+#
+# The TS implementation stays as a fallback for when public/tone-topics.json is
+# missing (a fresh checkout, a failed run), so the section degrades to
+# mechanical labels rather than disappearing.
+
+TOPIC_LIMIT = 8
+TOPIC_MIN_ARTICLES = 3
+TOPIC_STEM_LEN = 6
+
+# Albanian is heavily inflected and there is no stemmer here; folding tokens by
+# their first six characters groups parlamenti/parlamentin/parlamentare. Crude,
+# and adequate at this scale.
+TOPIC_STOPWORDS = {
+    # Function words long enough to survive the length filter.
+    "tyre", "atij", "asaj", "juaj", "këtu", "ketu", "atje", "shumë", "shume",
+    "edhe", "ose", "nëse", "nese", "sepse", "ndërsa", "ndersa", "ashtu",
+    "kështu", "keshtu", "gjithë", "gjithe", "tjetër", "tjeter", "tjera",
+    "tjerë", "tjere", "mund", "duhet", "bëri", "beri", "bërë", "bere",
+    "kishte", "ishin", "pasi", "brenda", "jashtë", "jashte", "rreth", "reja",
+    "vitin", "vjet", "ditë", "dite", "ditën", "diten", "nesër", "neser",
+    "numri", "pjesë", "pjese", "mënyrë", "menyre", "sipas", "thotë", "thote",
+    # Spelled-out numbers cluster on counts rather than subjects.
+    "dy", "tre", "katër", "kater", "pesë", "pese", "gjashtë", "gjashte",
+    "shtatë", "shtate", "tetë", "tete", "nëntë", "nente", "dhjetë", "dhjete",
+    "njëzet", "njezet", "qind", "mijë", "mije",
+    # News furniture.
+    "lajme", "lajmi", "artikull", "video", "foto", "news", "report", "reports",
+    "says", "said", "live", "update", "updates",
+    # Bare verbs. "Është" and "Janë" ranked into labels as if they were
+    # subjects; they are the most common words in any Albanian sentence.
+    "është", "eshte", "janë", "jane", "ishte", "kanë", "kane", "bëhet",
+    "behet", "bëhen", "behen", "merr", "marrin", "shkon", "vjen", "kishin",
+    "pati", "paten", "patën", "u bë", "bëhet",
+}
+
+# Matched by stem prefix rather than exact spelling. The kosov* family alone
+# has a dozen inflections — kosova, kosovës, kosovën, kosovar, kosovare — and
+# it appears in nearly every headline, so an exact-match list always leaks one
+# and that one becomes the label. A prefix rule cannot leak.
+# Only words that appear in nearly EVERY headline belong here — a stopword's
+# job is to remove tokens that cannot discriminate between topics. "Serbi" and
+# "shqip" were on this list briefly and should not have been: they turn up in a
+# minority of headlines and genuinely separate one subject from another.
+TOPIC_STOP_STEMS = ("kosov", "prisht")
+
+
+def topic_tokens(title: str) -> set[str]:
+    """Unicode-aware, and it has to be.
+
+    Splitting on \\W classed ë and ç as non-word characters and shredded
+    Albanian at every diacritic: "kundër" became "kund" + "r". Topic labels
+    came out as truncated stems.
+    """
+    return {w for w in re.split(r"[^\w]+", (title or "").lower(), flags=re.UNICODE) if len(w) > 3}
+
+
+def _stem(word: str) -> str:
+    return word[:TOPIC_STEM_LEN]
+
+
+def cluster_topics(articles: list[dict], limit: int = TOPIC_LIMIT,
+                   min_articles: int = TOPIC_MIN_ARTICLES) -> list[dict]:
+    """Greedy single-pass clustering. A newsroom summary, not a taxonomy.
+
+    Takes the most frequent surviving token, claims every article containing
+    it, removes them, repeats.
+    """
+    # Outlet names are not topics. "Arte" and "Tgcom" recur often enough to
+    # out-rank real subjects, so they join the stopwords — derived from the
+    # data rather than hand-listed, so new outlets are covered automatically.
+    outlet_stems = set()
+    for a in articles:
+        for w in topic_tokens(a.get("outlet", "")):
+            outlet_stems.add(_stem(w))
+
+    def usable(word: str) -> bool:
+        if word in TOPIC_STOPWORDS or _stem(word) in outlet_stems:
+            return False
+        return not word.startswith(TOPIC_STOP_STEMS)
+
+    docs = []
+    for a in articles:
+        # Albanian titles only. Falling back to the original produced labels
+        # like "Minister · Eggs" — a topic list in German and English on an
+        # Albanian homepage is worse than a shorter one.
+        title = a.get("albanianTitle")
+        if not title:
+            continue
+        words = [w for w in topic_tokens(title) if usable(w)]
+        if words:
+            docs.append({"article": a, "stems": {_stem(w) for w in words}, "words": words})
+
+    topics: list[dict] = []
+    claimed: set[int] = set()
+    for _ in range(limit * 3):
+        if len(topics) >= limit:
+            break
+        freq: dict[str, int] = {}
+        for i, d in enumerate(docs):
+            if i in claimed:
+                continue
+            for st in d["stems"]:
+                freq[st] = freq.get(st, 0) + 1
+        if not freq:
+            break
+        top, top_count = max(freq.items(), key=lambda kv: kv[1])
+        if top_count < min_articles:
+            break
+
+        members = [i for i, d in enumerate(docs) if i not in claimed and top in d["stems"]]
+        claimed.update(members)
+        mine = [docs[i]["article"] for i in members]
+
+        inner: dict[str, int] = {}
+        for i in members:
+            for w in docs[i]["words"]:
+                inner[w] = inner.get(w, 0) + 1
+        # One word per stem. Without this the label reads "Kryeministri ·
+        # Kryeministrin" — the same noun in two cases, which names nothing and
+        # wastes the only two slots the fallback label has.
+        ranked = sorted(inner.items(), key=lambda kv: -kv[1])
+        seed_words: list[str] = []
+        seen_stems: set[str] = set()
+        for w, _ in ranked:
+            if _stem(w) in seen_stems:
+                continue
+            seen_stems.add(_stem(w))
+            seed_words.append(w)
+            if len(seed_words) == 4:
+                break
+
+        counts = Counter(a.get("stance", a.get("sentiment")) for a in mine)
+        pos, neu, neg = counts.get("positive", 0), counts.get("neutral", 0), counts.get("negative", 0)
+        scored = pos + neu + neg
+        topics.append({
+            "key": top,
+            # The mechanical label, kept as the fallback if the model is
+            # unavailable — better a token pair than an empty chip.
+            "fallbackLabel": " · ".join(w.capitalize() for w in seed_words[:2]),
+            "seedWords": seed_words,
+            "count": len(mine),
+            "positive": pos,
+            "neutral": neu,
+            "negative": neg,
+            # Identical arithmetic to country_index, so a topic and a country
+            # mean the same thing on the same scale.
+            "index": country_index(pos, neu, neg) if scored else None,
+            "articles": mine,
+        })
+
+    topics.sort(key=lambda t: -t["count"])
+    return topics
+
+
+def label_topics(topics: list[dict]) -> None:
+    """Ask Gemini for a real headline-shaped label and a one-line summary.
+
+    One call for every topic in the run. Mutates in place; on any failure the
+    mechanical label stands, so the section never empties out.
+    """
+    for t in topics:
+        t.setdefault("label", t["fallbackLabel"])
+        t.setdefault("summary", "")
+    if not topics:
+        return
+
+    blocks = []
+    for i, t in enumerate(topics):
+        heads = [a.get("albanianTitle") or a["title"] for a in t["articles"][:6]]
+        blocks.append(
+            f"TEMA {i + 1} ({t['count']} artikuj):\n"
+            + "\n".join(f"  - {h}" for h in heads)
+        )
+
+    prompt = (
+        "Më poshtë janë grupe titujsh nga shtypi i huaj për Kosovën. Secili grup "
+        "flet për të njëjtën temë.\n\n"
+        "Për çdo grup jep:\n"
+        '- "label": një emër teme 3-6 fjalë, konkret dhe i kuptueshëm, si titull '
+        "seksioni. Përmend ngjarjen ose çështjen reale, jo fjalë të përgjithshme.\n"
+        '- "summary": një fjali shqip (15-25 fjalë) që shpjegon çfarë po ndodh '
+        "dhe pse ka rëndësi.\n\n"
+        "RREGULLA:\n"
+        "- Bazohu VETËM te titujt e dhënë. Mos shto ngjarje apo pasoja që nuk janë aty.\n"
+        "- Pa klikbejt, pa pikëpyetje, pa 'Ja çfarë'.\n"
+        "- Mos e nis etiketën me 'Tema' ose 'Grupi'.\n\n"
+        f'Kthe VETËM JSON: {{"topics":[{{"i":1,"label":"...","summary":"..."}}]}} '
+        f"me saktësisht {len(topics)} objekte.\n\n" + "\n\n".join(blocks)
+    )
+
+    data = gemini_json(prompt, max_tokens=260 * len(topics) + 300)
+    if not isinstance(data, dict):
+        print("  topic labelling unavailable; keeping mechanical labels")
+        return
+
+    for rec in data.get("topics", []) or []:
+        try:
+            idx = int(rec.get("i", 0)) - 1
+        except (TypeError, ValueError):
+            continue
+        if not (0 <= idx < len(topics)):
+            continue
+        label = " ".join(str(rec.get("label", "") or "").split())[:70]
+        summary = clean_blurb(rec.get("summary", ""))
+        if label:
+            topics[idx]["label"] = label
+        if summary:
+            topics[idx]["summary"] = summary
+
+
+def write_topics(articles_cache: dict, today: str) -> None:
+    """Cluster, label, and publish public/tone-topics.json."""
+    pool = [a for a in articles_cache.values() if a.get("albanianTitle")]
+    topics = cluster_topics(pool)
+    label_topics(topics)
+
+    out = []
+    for t in topics:
+        out.append({
+            "label": t["label"],
+            "fallbackLabel": t["fallbackLabel"],
+            "summary": t["summary"],
+            "count": t["count"],
+            "positive": t["positive"],
+            "neutral": t["neutral"],
+            "negative": t["negative"],
+            "index": t["index"],
+            "countries": sorted({a.get("country", "") for a in t["articles"] if a.get("country")}),
+            "articles": [
+                {
+                    "title": a["title"],
+                    "albanianTitle": a.get("albanianTitle"),
+                    "blurb": a.get("blurb", ""),
+                    "imageUrl": a.get("imageUrl"),
+                    "url": a["url"],
+                    "date": a.get("date", ""),
+                    "sentiment": a.get("stance", a.get("sentiment")),
+                    "reason": a.get("stanceReason", ""),
+                    "isQuote": bool(a.get("isQuote", False)),
+                    "speaker": a.get("speaker", ""),
+                    "evidence": a.get("evidence", ""),
+                    "outlet": a.get("outlet", ""),
+                    "country": a.get("country", ""),
+                }
+                # Critical first, then positive, then the neutral bulk: the two
+                # ends are what a reader came to see.
+                for a in sorted(
+                    t["articles"],
+                    key=lambda x: {"negative": 0, "positive": 1, "neutral": 2}.get(
+                        x.get("stance", x.get("sentiment")), 3
+                    ),
+                )[:10]
+            ],
+        })
+
+    TOPICS_PATH.write_text(
+        json.dumps({"lastUpdated": today, "topics": out}, ensure_ascii=False, indent=2),
+        encoding="utf-8",
+    )
+    print(f"Wrote {TOPICS_PATH} ({len(out)} topics)")
+
+
 def main():
     api_key = os.environ.get("GROQ_API_KEY")
     client = Groq(api_key=api_key) if api_key else None
@@ -1239,6 +1509,11 @@ def main():
         encoding="utf-8",
     )
     print(f"Wrote {CACHE_PATH} ({len(articles_cache)} cached articles)")
+
+    # Topics are derived from the cache, so they are written straight after it
+    # and before the per-country rollup — they answer "what is the world
+    # writing about", which is the half the index alone cannot tell a reader.
+    write_topics(articles_cache, today)
 
     # ── Build today's tone-outlets.json + tone-history.json from the cache.
     # Outlet attribution uses each country's OWN occurrence of the story
