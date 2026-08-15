@@ -1,7 +1,7 @@
 ---
 schemaVersion: 2
 generatedBy: impeccable/document
-scope: app/tregu (383 Tregu — prediction market)
+scope: "app/tregu + app/visit (surface-scoped systems)"
 register: product
 colors:
   base:
@@ -158,3 +158,66 @@ Two elevation systems coexist by design, and DESIGN.md treats that as intentiona
 - **Don't** apply the coin-earn spin, shine-sweep, or confetti-style flight to anything inside `.tregu-market` or `.tregu-detail-grid` — those animations belong to the wallet/balance layer (navbar chip, mobile account bar, portfolio), never to trading surfaces.
 - **Don't** give glass panels a hover-lift on touch devices; the `(hover: hover) and (pointer: fine)` gate exists because a fake hover state that never resolves reads as a stuck/broken button on mobile.
 - **Don't** introduce solid, opaque glass at rest. If a panel needs guaranteed-opaque content (a modal, a confirmation), that's a signal it should not be `.tregu-glass` at all — reach for the site's flat `.card` instead.
+
+# Visit — Folded Atlas
+
+The rules below apply only to `app/visit`, its homepage preview, and its visitor navigation entry. They extend 383 without changing the Tregu system above; Tregu glass and market semantics must not leak into Visit.
+
+## Overview
+
+**Creative North Star: “The Folded Atlas.”** Visit is a calm, mobile-first field guide for people arriving in Kosovo or Albania. Warm paper, faint map texture, fold lines, perforation, stamps, and slightly rotated artifacts make information feel collected and travel-ready. Expression always serves preparedness: the primary hierarchy is emergency help, personal route setup, and current official sources.
+
+**The Safety Before Scenery Rule.** No decorative device may delay, obscure, or compete with emergency access, route setup, source status, or the limits of 383 guidance.
+
+## Colors
+
+Visit uses a surface-scoped palette defined on its page shell: atlas ink (`#171614`), muted ink (`#69645D`), warm paper (`#F4EFE7`), paper white (`#FFFDF9`), rule line (`#D9D1C6`), soft rule (`#E9E2D9`), 383 orange (`#FF4422`), deep orange (`#CC2F15`), emergency red (`#A5221B`), and verified green (`#23624B`). The homepage preview uses the same ink and orange on a slightly deeper paper (`#EEE6DA`).
+
+**The Three-Signal Rule.** Orange identifies navigation and primary preparation actions; green means reviewed or privacy-safe; red is reserved for emergency calling and high-consequence warnings. Never use emergency red as a decorative accent or ordinary CTA color.
+
+## Typography
+
+Manrope leads, with Figtree and Arial as fallbacks. Display headings are dense and editorial: extra-bold, tightly tracked, balanced, and fluid (`48–88px` on the hero; `40–52px` on small screens). Body copy stays relaxed (`1.45–1.65` line-height), while provenance, section numbers, stamps, and artifact labels use compact uppercase text with wide tracking.
+
+**The Readable Provenance Rule.** Source names, review dates, status, language limitations, and safety notices are operational content—not microcopy. Keep them at readable contrast and at least `10–11px`; never fade them to decorate the card.
+
+## Layout
+
+The desktop shell uses a centered `1280px` maximum-width field with a split hero, a form-plus-sticky travel card, and a 12-column guide grid. At `980px`, the experience becomes a single flow and the travel card stops sticking. At `700px`, every critical task becomes one column, guide cards span full width, emergency contacts stack, and the persistent help control remains reachable above the viewport edge.
+
+Spacing is generous between decisions and compact within artifacts. Preserve the numbered sequence: introduction and six routes → travel-card setup → source-checked guide → safety boundary. Print mode isolates the personal travel card and removes site chrome, the guide, and urgent overlay controls.
+
+## Elevation & Depth
+
+Depth is physical and restrained: paper tint, atlas texture, thin rules, dashed perforation, fold lines, rotated stamps, and one soft shadow per raised artifact. Primary panels use low warm shadows; the sticky travel card and emergency sheet may use deeper shadows because they sit above the document plane. Hover lift is limited to fine pointers, typically `1–2px`.
+
+Do not introduce Tregu-style liquid glass. Translucency is allowed only as warm paper laid over the atlas texture, and the interface must remain legible if texture or blur fails to load.
+
+## Shapes
+
+Cards and sheets use gently rounded paper corners (`14–16px`); fields and source links use practical radii (`9–12px`); status chips, primary buttons, and utility actions use pills. Circular geometry is reserved for stamps, punches, icon controls, and the emergency number medallion. Dashed inner borders indicate a detachable or saveable travel artifact—not a generic card treatment.
+
+## Components
+
+**Personal travel card.** Treat it as a portable artifact: destination, arrival, plate country, interface language, checked dates, 112, and official shortcuts must survive scanning, printing, and offline save. The card is device-local; never imply that 383 stores or transmits the selections.
+
+**Source resource.** Every reviewed claim exposes three inseparable elements: explicit status (`Current`, `Needs recheck`, or unavailable in 383), “Last checked” date, and the named authority as a direct outbound link. Do not replace these with a generic “official source” badge or a search-results link. Mixed Kosovo–Albania routes retain both countries' source sets.
+
+**Emergency control and sheet.** The red “Need help now?” control persists on the page. The modal receives and traps focus, closes with Escape, restores focus, and makes background UI inert. Each callable number carries its own current status, checked date, authority name, and source link. Location sharing is opt-in, on-device, and must explain failure or denial without blocking the phone numbers.
+
+**Travel setup.** Destination, arrival method, plate country, and interface language are explicit inputs. The entire visible arrival option receives keyboard focus, selected state, and a minimum touch-friendly hit area. Insurance messages remain conservative: a plate country never proves coverage; direct the visitor to the relevant authority for an individual check.
+
+**Language behavior.** Eight interface languages may translate controls, headings, and route labels. Reviewed summaries and safety/source material remain honestly marked as English, and official sites open in the authority's language. Never change the document language to a selected interface language while English operational content remains on screen.
+
+**Motion.** Use short entrance staging and small purposeful lifts (`140–450ms`, ease-out). The only attention pulse belongs to emergency access and runs a finite number of times. `prefers-reduced-motion` collapses animation and transition durations without removing state feedback.
+
+## Do's and Don'ts
+
+- **Do** keep 112 accessible before personalization and repeat it on the personal card.
+- **Do** show provenance per resource and per emergency number, including country-specific sources on combined routes.
+- **Do** keep all essential controls usable by keyboard, preserve visible focus, and maintain a linear mobile reading order.
+- **Do** make stale or unavailable information obvious and keep useful alternatives visible when a source cannot be trusted.
+- **Don't** diagnose medical or legal conditions, promise rescue, infer insurance eligibility, or present 383 as an authority.
+- **Don't** hide source dates, authority names, safety limits, or language limits behind hover, tooltips, or low-contrast microtype.
+- **Don't** add accounts, remote location storage, or crowdsourced “live” claims to this surface without a new privacy and verification design.
+- **Don't** reuse emergency red, dashed perforation, stamps, folds, or atlas texture as generic site-wide decoration.

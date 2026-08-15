@@ -14,6 +14,7 @@ import ReagimiDites from "@/components/reagimi-dites";
 import ToneDashboard from "@/components/tone-dashboard";
 import BotaFlet from "@/components/bota-flet";
 import DiasporaSeries from "@/components/diaspora-series";
+import HomeVisitPreview from "@/components/visit/home-visit-preview";
 import ThrowbackSection from "@/components/throwback-section";
 import AlertsCta from "@/components/alerts-cta";
 import DailyPoll from "@/components/daily-poll";
@@ -237,6 +238,7 @@ export default async function HomePage() {
         }}
       >
         <ToneDashboard summary={toneSummary} topics={toneTopics} />
+        <HomeVisitPreview />
         <DiasporaSeries />
       </div>
 
