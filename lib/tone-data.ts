@@ -48,8 +48,22 @@ export interface CountrySummary {
   positive: number;
   neutral: number;
   negative: number;
+  /** Articles that were successfully classified — the index rests on these. */
   n: number;
+  /** Articles the classifier could not read, excluded from the index rather
+   *  than guessed at. Written by both producers and, until now, invisible to
+   *  every TS consumer — which is how Greqi came to publish an index of 50
+   *  built on 5 of its 79 articles with nothing on screen to say so. */
+  excluded?: number;
+  /** Enough articles AND enough of the country's own coverage. See
+   *  is_confident() in tools/tone_scraper.py — the two must agree. */
   confident: boolean;
+}
+
+/** What share of a country's coverage the index actually rests on. */
+export function coverageOf(summary: { n: number; excluded?: number }): number {
+  const total = summary.n + (summary.excluded ?? 0);
+  return total > 0 ? summary.n / total : 0;
 }
 
 export interface ToneOutletsData {
@@ -92,6 +106,11 @@ const FLAGS: Record<string, string> = {
   Suedi: "🇸🇪", Poloni: "🇵🇱", Turqi: "🇹🇷", Kroaci: "🇭🇷",
 };
 
+/** The workflow runs nine times a day, so a row older than this is a failed
+ *  pipeline, not a quiet news day. Generous enough to survive a single missed
+ *  window plus a timezone's worth of slack. */
+const STALE_AFTER_HOURS = 36;
+
 async function readJson<T>(file: string): Promise<T | null> {
   try {
     const raw = await readFile(path.join(process.cwd(), "public", file), "utf-8");
@@ -125,6 +144,12 @@ export interface ToneSummary {
   sourceCount: number;
   lastUpdated: string | null;
   daysTracked: number;
+  /** Hours since the newest history row. The workflow runs 9x a day, so a gap
+   *  beyond a day is unambiguously a failed pipeline rather than a quiet news
+   *  period — and until now both pages rendered week-old numbers under the
+   *  word "Sot". */
+  ageHours: number | null;
+  isStale: boolean;
 }
 
 /**
@@ -147,6 +172,8 @@ export function summarizeToneHistory(history: ToneHistoryRow[]): ToneSummary {
       sourceCount: 0,
       lastUpdated: null,
       daysTracked: 0,
+      ageHours: null,
+      isStale: false,
     };
   }
 
@@ -154,6 +181,14 @@ export function summarizeToneHistory(history: ToneHistoryRow[]): ToneSummary {
   const today = sorted[sorted.length - 1];
   const weekAgoIdx = Math.max(0, sorted.length - 8);
   const weekAgo = sorted[weekAgoIdx];
+
+  // Dates are YYYY-MM-DD in UTC, written by the scraper. Comparing against
+  // the start of the current UTC day keeps this from flickering stale for a
+  // few hours every evening purely because of the reader's timezone.
+  const rowTs = Date.parse(`${today?.date}T00:00:00Z`);
+  const ageHours = Number.isNaN(rowTs)
+    ? null
+    : Math.max(0, (Date.now() - rowTs) / 3_600_000);
 
   // A delta is only meaningful between two rows that measured the same thing.
   // On 2026-08-10 the index changed from "was the news about Kosovo good or
@@ -215,6 +250,8 @@ export function summarizeToneHistory(history: ToneHistoryRow[]): ToneSummary {
     sourceCount: today?.sourceCount ?? 0,
     lastUpdated: today?.date ?? null,
     daysTracked: sorted.length,
+    ageHours,
+    isStale: ageHours != null && ageHours > STALE_AFTER_HOURS,
   };
 }
 
@@ -281,8 +318,203 @@ export interface ForeignCoverageItem {
  * translated to Albanian) about the same event — "hedh gurë" (threw
  * stones) turning up as a signal needs a shorter minimum length and a
  * lower match threshold than the 5+/3 pairing works with. */
-function titleKeywords(title: string): Set<string> {
-  return new Set(title.toLowerCase().split(/\W+/).filter((w) => w.length > 3));
+export function titleKeywords(title: string): Set<string> {
+  // Unicode-aware, and it has to be. `\W` classes ë and ç as non-word
+  // characters, so the old split shredded Albanian at every diacritic:
+  // "kundër" became "kund" + "r", "pavarësinë" became "pavar" + "sin".
+  // Half of those fragments then failed the length filter and vanished, and
+  // the ones that survived produced topic labels like "Kund" and "Pavar".
+  return new Set(
+    title
+      .toLowerCase()
+      .split(/[^\p{L}\p{N}]+/u)
+      .filter((w) => w.length > 3)
+  );
+}
+
+/* ── Topics ───────────────────────────────────────────────────────────────
+ *
+ * The index says HOW the world writes about Kosovo. It structurally cannot
+ * say WHAT about — and that is the half a reader actually came for. This
+ * derives it from headlines already in the cache: no extra API call, no new
+ * data, and it changes daily.
+ *
+ * What this is not: a taxonomy. It is a greedy single-pass grouping, the
+ * newsroom equivalent of "what were the big stories this week". Labels come
+ * out of the headlines themselves, so they occasionally read oddly; that is
+ * why they are never presented as editorial categories.
+ */
+
+/** Words that carry no topic. Albanian function words, plus the Kosovo family
+ *  itself — it appears in nearly every headline and would otherwise be the
+ *  only cluster there is. */
+const TOPIC_STOPWORDS = new Set([
+  // Albanian function words at length > 3
+  "për", "per", "është", "eshte", "janë", "jane", "këtë", "kete", "kjo", "këto",
+  "keto", "kanë", "kane", "ishte", "sipas", "pas", "para", "gjatë", "gjate",
+  "kundër", "kunder", "mbi", "nga", "një", "nje", "dhe", "que", "with", "from",
+  "that", "this", "have", "will", "after", "over", "into", "more", "than",
+  "their", "they", "been", "were", "what", "when", "where", "which", "about",
+  // The subject itself
+  "kosovë", "kosove", "kosova", "kosovës", "kosoves", "kosovo", "kosovar",
+  "kosovare", "kosovaren", "kosovarë", "kosovars", "kosovon", "kosovu",
+  // Generic news furniture
+  "lajme", "lajmi", "artikull", "video", "foto", "sipas", "thotë", "thote",
+  "news", "report", "reports", "says", "said", "live", "update", "updates",
+  // Pronouns, determiners and adverbs long enough to survive the length
+  // filter. Without these the labels lead with "Tyre" (their) and "Reja"
+  // (new) — grammatically frequent, topically empty.
+  "tyre", "atij", "asaj", "ynë", "yne", "juaj", "këtu", "ketu", "atje",
+  "shumë", "shume", "edhe", "ose", "nëse", "nese", "sepse", "ndërsa",
+  "ndersa", "ashtu", "kështu", "keshtu", "gjithë", "gjithe", "tjetër",
+  "tjeter", "tjera", "tjerë", "tjere", "mund", "duhet", "bëri", "beri",
+  "bërë", "bere", "kishte", "ishin", "pasi", "brenda", "jashtë", "jashte",
+  "rreth", "reja", "rija", "vitin", "vjet", "ditë", "dite", "ditën",
+  "diten", "nesër", "neser", "numri", "pjesë", "pjese", "mënyrë", "menyre",
+  // Spelled-out numbers, which cluster on counts rather than subjects
+  "dy", "tre", "katër", "kater", "pesë", "pese", "gjashtë", "gjashte",
+  "shtatë", "shtate", "tetë", "tete", "nëntë", "nente", "dhjetë", "dhjete",
+  "njëzet", "njezet", "qind", "mijë", "mije",
+]);
+
+/** Albanian is heavily inflected and there is no stemmer in this project.
+ *  Folding on the first six characters groups "parlamenti", "parlamentin"
+ *  and "parlamentare" without pretending to be linguistics. */
+const STEM_LEN = 6;
+const stem = (word: string) => word.slice(0, STEM_LEN);
+
+/** Stopwords have to be matched on the STEM, not the word. Listing "kosovë",
+ *  "kosova", "kosovës"… still let "kosovar", "kosovska", "kosovos" through,
+ *  and one cluster then swallowed 47% of the corpus under the label "Kosov".
+ *  Anything starting with these is furniture, whatever its ending. */
+const STOP_STEMS = new Set([
+  "kosov", "kosova", "prisht", "pristi", "shqipt", "albani", "albane",
+  "serbis", "serbia", "balkan", "ballka",
+]);
+
+const isStopword = (word: string) =>
+  TOPIC_STOPWORDS.has(word) ||
+  STOP_STEMS.has(stem(word)) ||
+  [...STOP_STEMS].some((s) => word.startsWith(s)) ||
+  /^\d+$/.test(word);
+
+export interface ToneTopic {
+  /** Built from the headlines, never an editorial category. */
+  label: string;
+  count: number;
+  positive: number;
+  neutral: number;
+  negative: number;
+  /** Same 0–100 scale as a country's, so toneLabel/toneFill apply unchanged. */
+  index: number | null;
+  articles: ForeignCoverageItem[];
+}
+
+/**
+ * Groups recent articles into the handful of things the world was actually
+ * writing about. Pure, and cheap enough to run inside a server component that
+ * already revalidates hourly.
+ */
+export function getTopics(
+  cache: ToneArticleCache | null,
+  { limit = 6, windowHours = 168, minArticles = 4 } = {}
+): ToneTopic[] {
+  if (!cache?.articles) return [];
+  const cutoff = Date.now() - windowHours * 60 * 60 * 1000;
+
+  interface Doc {
+    entry: ToneArticleCacheEntry;
+    stems: Set<string>;
+  }
+  // Outlet names are not topics. "Arte" and "Tgcom" are mastheads that recur
+  // often enough to out-rank real subjects, so they join the stopwords —
+  // derived from the data rather than hand-listed, so new outlets are covered.
+  const outletStems = new Set<string>();
+  for (const entry of Object.values(cache.articles)) {
+    for (const w of titleKeywords(entry?.outlet ?? "")) outletStems.add(stem(w));
+  }
+
+  const docs: Doc[] = [];
+  for (const entry of Object.values(cache.articles)) {
+    // Albanian titles only. Falling back to the original produced labels like
+    // "Minister · Eggs" and "Parlament · Eiern" — a topic list in German and
+    // English on an Albanian homepage is worse than a shorter one.
+    if (!entry?.albanianTitle) continue;
+    const ts = Date.parse(entry.firstSeen || "");
+    if (Number.isNaN(ts) || ts < cutoff) continue;
+    const words = [...titleKeywords(entry.albanianTitle)].filter(
+      (w) => !isStopword(w) && !outletStems.has(stem(w))
+    );
+    const stems = new Set(words.map(stem));
+    if (stems.size) docs.push({ entry, stems });
+  }
+  if (!docs.length) return [];
+
+  const topics: ToneTopic[] = [];
+  const claimed = new Set<Doc>();
+
+  for (let round = 0; round < limit * 3 && topics.length < limit; round++) {
+    // Most frequent stem among everything still unclaimed.
+    const freq = new Map<string, number>();
+    for (const d of docs) {
+      if (claimed.has(d)) continue;
+      for (const s of d.stems) freq.set(s, (freq.get(s) ?? 0) + 1);
+    }
+    if (!freq.size) break;
+    const [top, topCount] = [...freq.entries()].sort((a, b) => b[1] - a[1])[0];
+    if (topCount < minArticles) break;
+
+    const members = docs.filter((d) => !claimed.has(d) && d.stems.has(top));
+    members.forEach((d) => claimed.add(d));
+
+    // Label from the two stems most common *within* the cluster, rendered
+    // back as a real word from a real headline rather than the stem itself.
+    const inner = new Map<string, number>();
+    for (const d of members) {
+      for (const w of titleKeywords(d.entry.albanianTitle as string)) {
+        if (isStopword(w) || outletStems.has(stem(w))) continue;
+        inner.set(w, (inner.get(w) ?? 0) + 1);
+      }
+    }
+    const label = [...inner.entries()]
+      .sort((a, b) => b[1] - a[1])
+      .filter(([w], i, arr) => i === 0 || stem(w) !== stem(arr[0][0]))
+      .slice(0, 2)
+      .map(([w]) => w.charAt(0).toUpperCase() + w.slice(1))
+      .join(" · ");
+
+    const counts = { positive: 0, neutral: 0, negative: 0 };
+    for (const d of members) {
+      const s = d.entry.sentiment;
+      if (s === "positive" || s === "neutral" || s === "negative") counts[s] += 1;
+    }
+    const scored = counts.positive + counts.neutral + counts.negative;
+
+    topics.push({
+      label: label || top,
+      count: members.length,
+      ...counts,
+      // Identical arithmetic to country_index in tools/tone_scraper.py, so a
+      // topic and a country mean the same thing by the same scale.
+      index: scored ? Math.round(50 + (50 * (counts.positive - counts.negative)) / scored) : null,
+      articles: members
+        .filter((d) => d.entry.albanianTitle && d.entry.imageUrl)
+        .slice(0, 8)
+        .map((d) => ({
+          title: d.entry.albanianTitle as string,
+          originalTitle: d.entry.title,
+          url: d.entry.url,
+          imageUrl: d.entry.imageUrl as string,
+          date: d.entry.date,
+          sentiment: (d.entry.sentiment ?? "neutral") as ForeignCoverageItem["sentiment"],
+          outlet: d.entry.outlet,
+          country: d.entry.country,
+          flag: FLAGS[d.entry.country] ?? "",
+        })),
+    });
+  }
+
+  return topics.sort((a, b) => b.count - a.count);
 }
 
 /**
