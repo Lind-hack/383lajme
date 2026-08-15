@@ -22,6 +22,7 @@ import {
   getToneArticleCache,
   summarizeToneHistory,
   getTopics,
+  getToneTopics,
 } from "@/lib/tone-data";
 import {
   TONE_COLOR,
@@ -45,14 +46,15 @@ export const metadata: Metadata = {
 };
 
 export default async function ToniPage() {
-  const [history, outlets, cache] = await Promise.all([
+  const [history, outlets, cache, pipelineTopics] = await Promise.all([
     getToneHistory(),
     getToneOutlets(),
     getToneArticleCache(),
+    getToneTopics(),
   ]);
   const summary = summarizeToneHistory(history);
   // The deep-dive page gets the long list, not the homepage's five chips.
-  const topics = getTopics(cache, { limit: 8 });
+  const topics = pipelineTopics ?? getTopics(cache, { limit: 8 });
 
   const delta = summary.weekDelta;
   const DeltaIcon = delta == null ? Minus : delta > 0 ? TrendingUp : delta < 0 ? TrendingDown : Minus;
@@ -76,7 +78,10 @@ export default async function ToniPage() {
   const articlesFor = (country: string) => {
     const data = outlets?.countries?.[country];
     if (!data) return { articles: [] as ToneCardArticle[], unresolved: 0 };
-    const all = data.outlets.flatMap((o) => o.articles.map((a) => ({ ...a, outlet: o.name })));
+    const flag = summary.countries.find((c) => c.country === country)?.flag ?? "";
+    const all = data.outlets.flatMap((o) =>
+      o.articles.map((a) => ({ ...a, outlet: o.name, country, flag }))
+    );
     const rank: Record<string, number> = { negative: 0, positive: 1, neutral: 2 };
     const articles = all
       .filter((a) => a.sentiment !== "unknown")
@@ -176,12 +181,13 @@ export default async function ToniPage() {
                 <div style={{ marginBottom: "48px" }}>
                   <SectionLabel label="Për Çfarë Po Shkruajnë" marginBottom={8} />
                   <p style={{ margin: "0 0 18px", maxWidth: "62ch", fontSize: "13.5px", color: TONE_INK.muted, lineHeight: 1.6 }}>
-                    Temat janë grupuar automatikisht nga vetë titujt — jo kategori redaksie. Emri
-                    i një teme është thjesht fjala më e shpeshtë brenda saj.
+                    Temat grupohen automatikisht nga vetë titujt e shtypit të huaj, dhe emri e
+                    përshkrimi i secilës shkruhen nga një model gjuhësor mbi ato tituj. Janë
+                    përmbledhje automatike, jo kategori redaksie.
                   </p>
                   <div style={{ display: "grid", gap: "26px" }}>
                     {topics.map((t) => {
-                      const countries = [...new Set(t.articles.map((a) => a.country))];
+                      const countries = t.countries ?? [...new Set(t.articles.map((a) => a.country))];
                       return (
                         <div key={t.label}>
                           <div style={{ display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap", marginBottom: "10px" }}>
@@ -194,7 +200,15 @@ export default async function ToniPage() {
                               <strong style={{ color: TONE_INK.strong }}>{toneLabel(t.index).toLowerCase()}</strong>
                             </span>
                           </div>
-                          <div style={{ display: "grid", gap: "10px", gridTemplateColumns: "repeat(auto-fill, minmax(min(100%, 320px), 1fr))" }}>
+                          {/* What is actually going on, in one sentence.
+                              Written from the cluster's own headlines, so it
+                              says something the label alone cannot. */}
+                          {t.summary && (
+                            <p style={{ margin: "0 0 12px", fontSize: "14px", lineHeight: 1.6, color: TONE_INK.muted, maxWidth: "72ch" }}>
+                              {t.summary}
+                            </p>
+                          )}
+                          <div style={{ display: "grid", gap: "10px", gridTemplateColumns: "repeat(auto-fill, minmax(min(100%, 340px), 1fr))" }}>
                             {t.articles.slice(0, 4).map((a, i) => (
                               <ToneArticleCard key={`${a.url}-${i}`} a={a} />
                             ))}
@@ -299,7 +313,8 @@ export default async function ToniPage() {
                 <li>Artikujt që modeli nuk arrin t&apos;i lexojë me siguri shënohen si të pazgjidhur dhe <strong>përjashtohen</strong> nga llogaritja — nuk hamendësohen.</li>
                 <li>Indeksi i një vendi = 50 + 50 × (pozitivë − kritikë) / totali. 50 do të thotë e balancuar; mbi 50 anon nga pozitivja, nën 50 nga kritika.</li>
                 <li>Indeksi i përgjithshëm është mesatarja e vendeve, peshuar sipas numrit të artikujve të secilit — një vend me shumë mbulim ndikon më shumë se një me pak.</li>
-                <li>Temat te &quot;Për çfarë po shkruajnë&quot; grupohen automatikisht nga fjalët e përsëritura në tituj. Janë përmbledhje, jo kategori redaksie.</li>
+                <li>Temat te &quot;Për çfarë po shkruajnë&quot; grupohen automatikisht nga fjalët e përsëritura në tituj; emri dhe përshkrimi i secilës shkruhen nga një model mbi ata tituj. Janë përmbledhje automatike, jo kategori redaksie.</li>
+                <li>Përshkrimi i shkurtër nën çdo artikull është gjithashtu i gjeneruar nga një model, nga titulli dhe përmbledhja e RSS-së. Teksti i plotë është te mediumi origjinal.</li>
               </ol>
               <p style={{ margin: "0 0 8px", fontWeight: 700, color: TONE_INK.strong }}>Kufizimet — thënë hapur:</p>
               <ul style={{ margin: 0, paddingLeft: "20px" }}>

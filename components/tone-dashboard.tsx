@@ -35,7 +35,7 @@ import {
 } from "@/lib/tone-scale";
 import type { ToneOutletsData, ToneSummary, ToneArticle, ToneTopic } from "@/lib/tone-data";
 
-type FlatArticle = ToneArticle & { outlet: string; country?: string };
+type FlatArticle = ToneArticle & { outlet: string; country?: string; flag?: string };
 
 /** Below this, an index rests on so little of a country's own coverage that
  *  the row has to say so. Matches MIN_CONFIDENT_COVERAGE in tone_scraper.py. */
@@ -139,8 +139,9 @@ export default function ToneDashboard({
     if (!selected || !outletData) return null;
     const country = outletData.countries[selected];
     if (!country) return null;
+    const flag = summary.countries.find((c) => c.country === selected)?.flag ?? "";
     const all: FlatArticle[] = country.outlets.flatMap((o) =>
-      o.articles.map((a) => ({ ...a, outlet: o.name }))
+      o.articles.map((a) => ({ ...a, outlet: o.name, flag }))
     );
     // Articles the classifier could not read are excluded from the index, so
     // they are excluded from the panel too. Leaving them in filled Suedi's
@@ -624,7 +625,7 @@ function CountryDetail({
  * again because the axis changed from place to subject.
  */
 function TopicDetail({ topic, onClose }: { topic: ToneTopic; onClose: () => void }) {
-  const countries = [...new Set(topic.articles.map((a) => a.country))];
+  const countries = topic.countries ?? [...new Set(topic.articles.map((a) => a.country))];
 
   return (
     <div style={{ marginTop: "14px", padding: "18px", background: "#FAFAF8", border: "1px solid #E8E3DB", borderRadius: "14px" }}>
@@ -645,6 +646,14 @@ function TopicDetail({ topic, onClose }: { topic: ToneTopic; onClose: () => void
         </span>
         <span aria-hidden style={{ width: "14px", height: "14px", borderRadius: "4px", background: toneFill(topic.index), marginLeft: "auto", flexShrink: 0 }} />
       </div>
+
+      {/* What is actually going on, in one sentence. Written from the
+          cluster's own headlines, so it says something the label cannot. */}
+      {topic.summary && (
+        <p style={{ margin: "0 0 14px", fontSize: "14px", lineHeight: 1.55, color: TONE_INK.muted, maxWidth: "70ch" }}>
+          {topic.summary}
+        </p>
+      )}
 
       <div style={{ display: "grid", gap: "10px" }}>
         {topic.articles.map((a, i) => (

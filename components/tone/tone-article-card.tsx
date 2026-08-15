@@ -1,12 +1,21 @@
-// One foreign article, with the words that decided its label.
-//
-// Deliberately not a client component and deliberately motion-free: /toni
-// renders it straight from the server, and the homepage module wraps it in a
-// motion.div for its stagger. Keeping the animation outside is what lets both
-// pages show the identical card instead of two that drift apart.
+"use client";
 
+// One foreign article: what it looks like, what it says, and the words that
+// decided its label.
+//
+// It was text-only until now, and read like a log line. The cache had been
+// resolving og:images all along and the published file simply dropped the
+// field; the blurb is new, written by Gemini in the pipeline. Together they
+// turn a row into something worth stopping on.
+//
+// A client component only because a remote og:image fails often enough that
+// the fallback has to be stateful — publishers move files, hotlink-protect,
+// and 404. Everything else here is static markup, and /toni still renders it
+// on the server first.
+
+import { useState } from "react";
 import { ExternalLink, Quote } from "lucide-react";
-import { TONE_COLOR, TONE_INK, formatArticleDate } from "@/lib/tone-scale";
+import { TONE_COLOR, formatArticleDate } from "@/lib/tone-scale";
 import type { ToneArticle } from "@/lib/tone-data";
 
 export const TONE_META: Record<string, { label: string; color: string }> = {
@@ -15,79 +24,99 @@ export const TONE_META: Record<string, { label: string; color: string }> = {
   negative: { label: "Kritik", color: TONE_COLOR.critical },
 };
 
-export type ToneCardArticle = ToneArticle & { outlet: string; country?: string };
+export type ToneCardArticle = ToneArticle & {
+  outlet: string;
+  country?: string;
+  blurb?: string;
+  imageUrl?: string | null;
+  flag?: string;
+};
 
 export default function ToneArticleCard({ a }: { a: ToneCardArticle }) {
+  const [imageFailed, setImageFailed] = useState(false);
   const meta = TONE_META[a.sentiment];
+  const accent = meta?.color ?? TONE_COLOR.neutral;
+  const date = formatArticleDate(a.date);
+  const showImage = Boolean(a.imageUrl) && !imageFailed;
 
   return (
     <a
+      className="tone-card"
       href={a.url}
       target="_blank"
       rel="noopener noreferrer"
-      style={{
-        display: "block", padding: "14px 16px", background: "#FFFFFF",
-        border: "1px solid #E8E3DB", borderLeft: `3px solid ${meta?.color ?? TONE_COLOR.neutral}`,
-        borderRadius: "10px", textDecoration: "none",
-      }}
+      // The accent drives the left rule, the evidence bar and the fallback
+      // tint, so it is set once as a custom property rather than threaded
+      // through three inline styles.
+      style={{ ["--tone-accent" as string]: accent, borderLeftColor: accent }}
     >
-      <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "7px", flexWrap: "wrap" }}>
-        <span style={{ fontSize: "11.5px", fontWeight: 800, color: TONE_INK.strong }}>{a.outlet}</span>
-        {/* Only where the articles come from many countries and the outlet
-            alone doesn't place them — a topic list, not a country's own. */}
-        {a.country && <span style={{ fontSize: "11px", color: TONE_INK.faint }}>· {a.country}</span>}
-        {/* Legacy cache entries hold a truncated RFC-822 slice ("Sun, 09 Au");
-            formatArticleDate returns null for those rather than printing the
-            fragment. See its comment. */}
-        {formatArticleDate(a.date) && (
-          <span style={{ fontSize: "11px", color: TONE_INK.faint }}>· {formatArticleDate(a.date)}</span>
+      {/* Fixed aspect box so a missing or slow image never shifts the row.
+          Only 39 of 87 cached articles have a resolved og:image, so the
+          fallback is a normal state, not an edge case — it carries the
+          country instead of pretending to be a photo. */}
+      <div className="tone-card__media" aria-hidden>
+        {showImage ? (
+          <img src={a.imageUrl as string} alt="" loading="lazy" onError={() => setImageFailed(true)} />
+        ) : (
+          <span
+            className="tone-card__flag"
+            style={{ background: `linear-gradient(140deg, ${accent}22, ${accent}0A)` }}
+          >
+            {a.flag || "🌍"}
+          </span>
         )}
-        <span style={{ fontSize: "10.5px", fontWeight: 700, letterSpacing: "0.05em", textTransform: "uppercase", color: meta?.color ?? TONE_INK.muted, marginLeft: "auto" }}>
-          {meta?.label ?? "—"}
-        </span>
       </div>
 
-      {/* Albanian first — the original is right underneath for anyone who
-          wants to check the rendering. */}
-      <p style={{ margin: "0 0 4px", fontSize: "15px", fontWeight: 700, lineHeight: 1.4, color: TONE_INK.strong }}>
-        {a.albanianTitle || a.title}
-      </p>
-      {a.albanianTitle && a.albanianTitle !== a.title && (
-        <p style={{ margin: "0 0 8px", fontSize: "12px", lineHeight: 1.45, color: TONE_INK.faint, fontStyle: "italic" }}>
-          {a.title}
-        </p>
-      )}
-
-      {/* The classifier has always had to produce this span to justify a
-          non-neutral call — showing it turns the label from something the
-          reader has to trust into something they can check. */}
-      {a.evidence && a.sentiment !== "neutral" && (
-        <p
-          style={{
-            margin: "9px 0 0", padding: "7px 11px",
-            borderLeft: `2px solid ${meta?.color ?? TONE_COLOR.neutral}`,
-            background: "#FAFAF8", borderRadius: "0 6px 6px 0",
-            fontSize: "13px", lineHeight: 1.45, color: TONE_INK.strong,
-            fontStyle: "italic",
-          }}
-        >
-          «{a.evidence}»
-        </p>
-      )}
-
-      {a.reason && (
-        <p style={{ margin: "8px 0 0", fontSize: "12.5px", lineHeight: 1.5, color: TONE_INK.muted, display: "flex", gap: "7px", alignItems: "flex-start" }}>
-          {a.isQuote && <Quote size={13} strokeWidth={2} style={{ flexShrink: 0, marginTop: "2px", color: TONE_INK.faint }} aria-label="Citim" />}
-          <span>
-            {a.isQuote && a.speaker ? `Citim i ${a.speaker}. ` : ""}
-            {a.reason}
+      <div className="tone-card__body">
+        {/* No country here on purpose. The stored `country` is the FEED an
+            article was found in, not the outlet's home — Google serves a
+            Bangladeshi paper into the US feed, and the card was captioning
+            "Bangladesh Post · SHBA". The masthead is the honest identity. */}
+        <div className="tone-card__meta">
+          <span className="tone-card__outlet">{a.outlet}</span>
+          {date && <span>{date}</span>}
+          <span className="tone-card__badge" style={{ color: accent }}>
+            {meta?.label ?? "—"}
           </span>
-        </p>
-      )}
+        </div>
 
-      <span style={{ display: "inline-flex", alignItems: "center", gap: "5px", marginTop: "10px", fontSize: "12px", fontWeight: 700, color: "#FF4422" }}>
-        Lexo te {a.outlet} <ExternalLink size={12} strokeWidth={2.2} />
-      </span>
+        {/* Albanian first. The original headline is German or Turkish and
+            sits underneath for anyone who wants to check the rendering. */}
+        <h5 className="tone-card__title">{a.albanianTitle || a.title}</h5>
+
+        {/* The hook: one line saying what the story is actually about. */}
+        {a.blurb && <p className="tone-card__blurb">{a.blurb}</p>}
+
+        {a.albanianTitle && a.albanianTitle !== a.title && (
+          <p className="tone-card__original">{a.title}</p>
+        )}
+
+        {/* The outlet's own words that decided a non-neutral call. The
+            classifier has always had to produce this span to justify one —
+            showing it turns the label from something the reader has to trust
+            into something they can check. */}
+        {a.evidence && a.sentiment !== "neutral" && (
+          <p className="tone-card__evidence">
+            «{a.evidence}»
+          </p>
+        )}
+
+        {a.reason && (
+          <p className="tone-card__reason">
+            {a.isQuote && (
+              <Quote size={13} strokeWidth={2} aria-label="Citim" style={{ flexShrink: 0, marginTop: "2px" }} />
+            )}
+            <span>
+              {a.isQuote && a.speaker ? `Citim i ${a.speaker}. ` : ""}
+              {a.reason}
+            </span>
+          </p>
+        )}
+
+        <span className="tone-card__cta">
+          Lexo te {a.outlet} <ExternalLink size={12} strokeWidth={2.2} />
+        </span>
+      </div>
     </a>
   );
 }

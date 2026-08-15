@@ -34,6 +34,14 @@ export interface ToneArticle {
   evidence?: string;
   /** Who was being quoted, when isQuote is true. */
   speaker?: string;
+  /** One line of Albanian saying what the article is about, written by Gemini
+   * in the pipeline. Optional: entries cached before the feature existed have
+   * none until the backfill reaches them. */
+  blurb?: string;
+  /** Resolved og:image from the publisher page. Null when scraping failed or
+   * the page has none — a bit under half of them, so the card's fallback is a
+   * normal state rather than an edge case. */
+  imageUrl?: string | null;
 }
 
 export interface ToneOutlet {
@@ -300,6 +308,26 @@ export async function getToneArticleCache(): Promise<ToneArticleCache | null> {
   return readJson<ToneArticleCache>("tone-article-cache.json");
 }
 
+interface ToneTopicsFile {
+  lastUpdated: string;
+  topics: Array<ToneTopic & { fallbackLabel?: string; summary?: string }>;
+}
+
+/**
+ * The pipeline's topics, with labels a model wrote from the headlines.
+ *
+ * Prefer this over getTopics(): "Kryeministri · Parlament" is two frequent
+ * tokens stapled together and names no event, where the pipeline produces
+ * "Incidenti në Parlamentin e Kosovës" plus a sentence explaining it. The TS
+ * clustering stays as the fallback for a fresh checkout or a failed run, so
+ * the section degrades to mechanical labels rather than vanishing.
+ */
+export async function getToneTopics(): Promise<ToneTopic[] | null> {
+  const file = await readJson<ToneTopicsFile>("tone-topics.json");
+  if (!file?.topics?.length) return null;
+  return file.topics;
+}
+
 export interface ForeignCoverageItem {
   /** Albanian translation — what's actually displayed. */
   title: string;
@@ -408,8 +436,12 @@ const isStopword = (word: string) =>
   /^\d+$/.test(word);
 
 export interface ToneTopic {
-  /** Built from the headlines, never an editorial category. */
+  /** Written by the model from the cluster's own headlines when the pipeline
+   *  produced it, otherwise the mechanical token pair. Never an editorial
+   *  category, and never presented as one. */
   label: string;
+  /** One sentence on what is happening and why it matters. Pipeline only. */
+  summary?: string;
   count: number;
   positive: number;
   neutral: number;
@@ -419,6 +451,8 @@ export interface ToneTopic {
   /** Carries the evidence span and the classifier's reason, so a topic panel
    *  can render the same card the country drill-down does. */
   articles: Array<ToneArticle & { outlet: string; country: string; flag: string }>;
+  /** Countries this topic was written about, for the panel's summary line. */
+  countries?: string[];
 }
 
 /** Critical first, then positive, then the neutral bulk — the two ends are

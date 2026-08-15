@@ -452,3 +452,43 @@ def test_blurbs_degrade_to_empty_without_a_key(monkeypatch):
 
 def test_write_blurbs_on_empty_input():
     assert ts.write_blurbs([]) == []
+
+
+# ── One publisher, one identity ─────────────────────────────────────────
+
+def test_outlet_identities_fold_domain_and_masthead():
+    """Google sends the same publisher under two spellings depending on the
+    feed, and they rendered as two outlets carrying the same story."""
+    pairs = [
+        ("The Church Times", "churchtimes.co.uk"),   # domain drops the article
+        ("Le Monde", "lemonde.fr"),                  # domain keeps it
+        ("Bangladesh Post", "bangladeshpost.net"),
+        ("ANSA", "ansa.it"),
+        ("La Repubblica", "repubblica.it"),
+    ]
+    for masthead, domain in pairs:
+        assert ts.outlet_identities(masthead) & ts.outlet_identities(domain),             f"{masthead} should fold with {domain}"
+
+
+def test_outlet_identities_keep_distinct_papers_apart():
+    assert not (ts.outlet_identities("The Guardian") & ts.outlet_identities("The Times"))
+    assert not (ts.outlet_identities("Der Spiegel") & ts.outlet_identities("Die Zeit"))
+
+
+def test_canonicalise_outlets_picks_the_masthead():
+    by_country = {
+        "SHBA": [{"outlet": "bangladeshpost.net"}, {"outlet": "Bangladesh Post"}],
+        "Britani": [{"outlet": "churchtimes.co.uk"}, {"outlet": "The Church Times"}],
+    }
+    ts.canonicalise_outlets(by_country)
+    assert {o["outlet"] for o in by_country["SHBA"]} == {"Bangladesh Post"}
+    assert {o["outlet"] for o in by_country["Britani"]} == {"The Church Times"}
+
+
+def test_pristina_based_english_outlets_are_not_foreign_press():
+    """English-language does not make an outlet foreign. Both of these were
+    surfacing in topic panels as if they were international coverage."""
+    assert ts.is_foreign_press("Prishtina Insight", "https://prishtinainsight.com/a") is False
+    assert ts.is_foreign_press("Kosovo 2.0", "https://kosovotwopointzero.com/b") is False
+    # And the guard that this did not become an over-broad rule.
+    assert ts.is_foreign_press("Der Spiegel", "https://spiegel.de/c") is True

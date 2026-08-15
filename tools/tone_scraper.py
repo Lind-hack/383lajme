@@ -318,6 +318,9 @@ BLOCKED_DOMAINS = {
     # and the Belgrade ones: reporting from inside the subject, not about it.
     # These two were the single largest sources in the cache by volume.
     "kossev.info", "kosovo-online.com", "kosovoonline.com",
+    # English-language but Pristina-based, so still the subject reporting on
+    # itself. Both surfaced in the topic panels reading as foreign coverage.
+    "prishtinainsight.com", "kosovotwopointzero.com", "kosovo-2-0.com",
     # Not press.
     "dvidshub.net", "bundeswehr.de", "nato.int", "kfor.nato.int",
     "dazn.com", "anwalt.de", "audimax.de",
@@ -330,7 +333,8 @@ BLOCKED_NAMES = {
     "balkanweb", "syri", "albanian daily news", "tirana times",
     "b92", "blic", "kurir", "informer", "politika", "danas", "telegraf",
     "novosti", "rts", "tanjug", "espreso", "srbija danas", "sputnik",
-    "kossev", "kosovo online", "uefa", "fifa", "iqair", "archdaily",
+    "kossev", "kosovo online", "prishtina insight", "kosovo 2.0",
+    "uefa", "fifa", "iqair", "archdaily",
     "world bank group", "world bank",
     "dvids", "bundeswehr", "nato", "kfor", "dazn", "anwalt.de", "audimax",
 }
@@ -374,6 +378,20 @@ def outlet_identity(name: str) -> str:
     key = (name or "").strip().lower()
     key = re.sub(r"\.(com|net|org|it|de|fr|es|se|nl|be|at|ch|pl|gr|tr|hr|co\.uk|uk)$", "", key)
     return re.sub(r"[^a-z0-9]+", "", key)
+
+
+def outlet_identities(name: str) -> set[str]:
+    """Every key a masthead could reasonably hash to.
+
+    Domains disagree with mastheads about the leading article, and they
+    disagree in both directions: churchtimes.co.uk drops the "The" that "The
+    Church Times" carries, while lemonde.fr keeps the "Le" — so stripping
+    articles unconditionally fixes the first pair and breaks the second.
+    Emitting both forms and matching on any overlap handles both.
+    """
+    base = outlet_identity(name)
+    stripped = outlet_identity(re.sub(r"^\s*(the|la|le|il|el|de|het)\s+", "", (name or "").strip(), flags=re.I))
+    return {k for k in (base, stripped) if k}
 
 
 def normalize_outlet(name: str, country: str) -> str | None:
@@ -1328,6 +1346,7 @@ def write_topics(articles_cache: dict, today: str) -> None:
                     "evidence": a.get("evidence", ""),
                     "outlet": a.get("outlet", ""),
                     "country": a.get("country", ""),
+                    "flag": FLAGS.get(a.get("country", ""), ""),
                 }
                 # Critical first, then positive, then the neutral bulk: the two
                 # ends are what a reader came to see.
@@ -1347,6 +1366,49 @@ def write_topics(articles_cache: dict, today: str) -> None:
     print(f"Wrote {TOPICS_PATH} ({len(out)} topics)")
 
 
+def canonicalise_outlets(by_country: dict[str, list[dict]]) -> None:
+    """Fold each publisher's two identities into one, across the whole run.
+
+    normalize_outlet() only folds against KNOWN_OUTLETS, so a publisher not on
+    that list keeps whichever identity Google happened to send per feed. The
+    result renders as two separate outlets carrying the same story: "Bangladesh
+    Post" beside "bangladeshpost.net", "The Church Times" beside
+    "churchtimes.co.uk". Both are counted, both are shown, and the country's
+    outlet count is inflated.
+
+    outlet_identity() already knows these are the same masthead. This picks the
+    human-readable spelling of each identity — a name with spaces, or failing
+    that the one without a TLD — and rewrites every candidate to it.
+    """
+    # Every variant key points at the best spelling seen for that masthead, so
+    # "churchtimes" and "thechurchtimes" both resolve to "The Church Times".
+    best: dict[str, str] = {}
+    for items in by_country.values():
+        for item in items:
+            name = item["outlet"]
+            keys = outlet_identities(name)
+            if not keys:
+                continue
+            incumbent = next((best[k] for k in keys if k in best), None)
+            winner = name if incumbent is None or _prettier(name, incumbent) else incumbent
+            for k in keys | (outlet_identities(incumbent) if incumbent else set()):
+                best[k] = winner
+    for items in by_country.values():
+        for item in items:
+            for k in outlet_identities(item["outlet"]):
+                if k in best:
+                    item["outlet"] = best[k]
+                    break
+
+
+def _prettier(candidate: str, incumbent: str) -> bool:
+    """A masthead beats a domain; failing that, the longer spelling wins."""
+    def score(n: str) -> tuple[int, int]:
+        looks_like_domain = bool(re.search(r"\.[a-z]{2,}$", n.lower()))
+        return (0 if looks_like_domain else 1, len(n))
+    return score(candidate) > score(incumbent)
+
+
 def main():
     api_key = os.environ.get("GROQ_API_KEY")
     client = Groq(api_key=api_key) if api_key else None
@@ -1362,6 +1424,7 @@ def main():
     articles_cache: dict[str, dict] = cache["articles"]
 
     by_country = fetch_candidates()
+    canonicalise_outlets(by_country)
 
     # country_occurrences[country] keeps the per-country (key, candidate)
     # pairs — candidate["outlet"] is this country's own outlet attribution

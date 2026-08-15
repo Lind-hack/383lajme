@@ -27,7 +27,7 @@ import {
   getWeeklyExchangeSnapshot,
   getWeeklyFuelSnapshot,
 } from "@/lib/home-market-data";
-import { getToneHistory, getToneArticleCache, summarizeToneHistory, getForeignCoverage, getTopics } from "@/lib/tone-data";
+import { getToneHistory, getToneArticleCache, summarizeToneHistory, getForeignCoverage, getTopics, getToneTopics } from "@/lib/tone-data";
 
 export const revalidate = 3600;
 
@@ -39,13 +39,14 @@ export default async function HomePage() {
   // tone-outlets.json (today's per-country snapshot, used only by
   // ToneDashboard's client-side hover drill-down via its own fetch()) isn't
   // read here — Bota Flet now sources from the article cache below instead.
-  const [articles, tickerArticles, exchangeSnapshot, fuelSnapshot, toneHistory, toneCache] = await Promise.all([
+  const [articles, tickerArticles, exchangeSnapshot, fuelSnapshot, toneHistory, toneCache, pipelineTopics] = await Promise.all([
     getArticles(60),
     getLatestArticles(10),
     getWeeklyExchangeSnapshot(),
     getWeeklyFuelSnapshot(),
     getToneHistory(),
     getToneArticleCache(),
+    getToneTopics(),
   ]);
 
   const toneSummary = summarizeToneHistory(toneHistory);
@@ -56,7 +57,10 @@ export default async function HomePage() {
   // the cache that is already in memory — no extra read, no API call. Five
   // chips is what fits one or two rows on a phone without pushing the module
   // past its height budget.
-  const toneTopics = getTopics(toneCache, { limit: 5 });
+  // The pipeline's labelled topics when they exist, the runtime clustering
+  // when they don't (fresh checkout, failed run). Five is what fits the
+  // module's height budget on a phone.
+  const toneTopics = (pipelineTopics ?? getTopics(toneCache, { limit: 5 })).slice(0, 5);
   const botaFletPool = Object.values(toneCache?.articles ?? {}).filter(
     (a) => a.imageUrl && a.translated
   );
