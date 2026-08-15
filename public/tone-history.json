@@ -856,25 +856,25 @@
   {
     "date": "2026-08-15",
     "overallIndex": 53,
-    "totalArticles": 419,
-    "sourceCount": 418,
+    "totalArticles": 403,
+    "sourceCount": 406,
     "stanceVersion": 2,
     "countries": {
       "Gjermani": {
-        "index": 48,
-        "positive": 0,
-        "neutral": 97,
+        "index": 52,
+        "positive": 6,
+        "neutral": 91,
         "negative": 3,
-        "n": 33,
+        "n": 32,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
       },
       "SHBA": {
-        "index": 53,
+        "index": 52,
         "positive": 6,
-        "neutral": 94,
-        "negative": 0,
+        "neutral": 91,
+        "negative": 2,
         "n": 47,
         "excluded": 0,
         "confident": true,
@@ -883,19 +883,19 @@
       "Britani": {
         "index": 53,
         "positive": 9,
-        "neutral": 89,
+        "neutral": 88,
         "negative": 2,
-        "n": 45,
+        "n": 43,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
       },
       "Francë": {
-        "index": 54,
-        "positive": 11,
-        "neutral": 86,
-        "negative": 3,
-        "n": 36,
+        "index": 55,
+        "positive": 10,
+        "neutral": 90,
+        "negative": 0,
+        "n": 29,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -912,21 +912,21 @@
       },
       "Austri": {
         "index": 53,
-        "positive": 5,
-        "neutral": 95,
+        "positive": 6,
+        "neutral": 94,
         "negative": 0,
-        "n": 38,
-        "excluded": 0,
+        "n": 36,
+        "excluded": 1,
         "confident": true,
         "stanceVersion": 2
       },
       "Zvicër": {
-        "index": 56,
-        "positive": 16,
-        "neutral": 80,
+        "index": 55,
+        "positive": 14,
+        "neutral": 82,
         "negative": 4,
-        "n": 25,
-        "excluded": 11,
+        "n": 28,
+        "excluded": 8,
         "confident": true,
         "stanceVersion": 2
       },
@@ -936,17 +936,17 @@
         "neutral": 100,
         "negative": 0,
         "n": 8,
-        "excluded": 38,
+        "excluded": 37,
         "confident": false,
         "stanceVersion": 2
       },
       "Belgjikë": {
-        "index": 53,
-        "positive": 7,
-        "neutral": 93,
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 29,
-        "excluded": 1,
+        "n": 23,
+        "excluded": 0,
         "confident": true,
         "stanceVersion": 2
       },
@@ -956,17 +956,17 @@
         "neutral": 100,
         "negative": 0,
         "n": 5,
-        "excluded": 21,
+        "excluded": 19,
         "confident": false,
         "stanceVersion": 2
       },
       "Greqi": {
-        "index": 50,
-        "positive": 0,
-        "neutral": 100,
+        "index": 57,
+        "positive": 14,
+        "neutral": 86,
         "negative": 0,
-        "n": 5,
-        "excluded": 53,
+        "n": 7,
+        "excluded": 50,
         "confident": false,
         "stanceVersion": 2
       },
@@ -986,25 +986,25 @@
         "neutral": 100,
         "negative": 0,
         "n": 11,
-        "excluded": 25,
+        "excluded": 26,
         "confident": false,
         "stanceVersion": 2
       },
       "Turqi": {
-        "index": 56,
-        "positive": 13,
-        "neutral": 87,
+        "index": 55,
+        "positive": 11,
+        "neutral": 89,
         "negative": 0,
-        "n": 31,
-        "excluded": 13,
+        "n": 28,
+        "excluded": 14,
         "confident": true,
         "stanceVersion": 2
       },
       "Kroaci": {
-        "index": 53,
+        "index": 52,
         "positive": 6,
-        "neutral": 94,
-        "negative": 0,
+        "neutral": 91,
+        "negative": 2,
         "n": 47,
         "excluded": 0,
         "confident": true,
@@ -1012,6 +1012,14 @@
       }
     },
     "headlines": [
+      {
+        "title": "Kosovo: Gesänge erzählen die Geschichte der Albaner - Stadt, Land, Kunst - 07/05/2026 - Die ganze Doku - Arte.tv",
+        "source": "Arte.tv",
+        "country": "Gjermani",
+        "flag": "🇩🇪",
+        "url": "https://www.arte.tv/de/videos/132970-000-A/kosovo-gesaenge-erzaehlen-die-geschichte-der-albaner/",
+        "sentiment": "positive"
+      },
       {
         "title": "Kosovo stood with Ukraine, Zelensky’s words in Belgrade were a painful betrayal - opinion - The Jerusalem Post",
         "source": "The Jerusalem Post",
@@ -1029,16 +1037,8 @@
         "sentiment": "positive"
       },
       {
-        "title": "La France et le Kosovo renforcent leur partenariat avec un financement de l'AFD de 60 millions d'euros en soutien aux Jeux méditerranéens 2030 - AFD - Agence Française de Développement",
-        "source": "AFD - Agence Française de Développement",
-        "country": "Francë",
-        "flag": "🇫🇷",
-        "url": "https://www.afd.fr/fr/commmuniques-de-presse/la-france-et-le-kosovo-renforcent-leur-partenariat-avec-un-financement-de",
-        "sentiment": "positive"
-      },
-      {
         "title": "Serbien: Ministerin hätte Kosovo gerne \"ethnisch gesäubert\" - dw.com",
-        "source": "dw.com",
+        "source": "DW.com",
         "country": "Gjermani",
         "flag": "🇩🇪",
         "url": "https://www.dw.com/de/serbiens-ministerin-snezana-paunovic-haette-kosovo-im-krieg-1999-gerne-ethnisch-gesaeubert/a-77983728",
@@ -1047,17 +1047,9 @@
       {
         "title": "Serbian Minister Backs ‘Ethnic Cleansing’ of Kosovo - Genocide Watch",
         "source": "Genocide Watch",
-        "country": "Britani",
-        "flag": "🇬🇧",
+        "country": "SHBA",
+        "flag": "🇺🇸",
         "url": "https://www.genocidewatch.com/single-post/eu-condemns-serbian-minister-for-backing-ethnic-cleansing-of-kosovo",
-        "sentiment": "negative"
-      },
-      {
-        "title": "Au Kosovo, le voile de la discorde - Libération",
-        "source": "Libération",
-        "country": "Francë",
-        "flag": "🇫🇷",
-        "url": "https://www.liberation.fr/international/europe/au-kosovo-le-voile-de-la-discorde-20260613_NXSAE3C56VCZZN4Z52RNXNGCUQ/",
         "sentiment": "negative"
       }
     ]
