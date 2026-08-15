@@ -304,7 +304,7 @@ export default function ToneDashboard({
         </div>
 
         <ToneMap
-          countries={summary.countries.map((c) => ({ code: flagToCode(c.flag), country: c.country, index: c.index, confident: c.confident }))}
+          countries={summary.countries.map((c) => ({ code: flagToCode(c.flag), country: c.country, index: c.index, confident: c.confident, n: c.n }))}
           active={active}
           selected={selected}
           onHover={setHovered}

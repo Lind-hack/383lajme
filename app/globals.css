@@ -7366,13 +7366,71 @@ body[data-tour-veil] > *:not(.tutorial-root) {
 /* ...and it must not sit under the sheet when a country is open. */
 .tone-map--full:has(.tone-sheet) .tone-map__legend { display: none; }
 
-/* With a sheet open the map has to centre in what is left, not behind it.
-   Padding moves the flex-centred SVG without moving the sheet: an absolutely
-   positioned child resolves `bottom` against the padding box, so the sheet
-   stays put. */
-.tone-map--full:has(.tone-sheet) .tone-map__stage { padding-bottom: 42vh; }
+/* The map no longer shrinks when a country is open. It used to take padding
+   to clear a corner-pinned sheet, which left the map small and the card
+   stranded in blank space. The sheet is anchored to the country now, so the
+   map keeps every pixel it has. Phones are the exception: there is no room
+   beside anything at 390px, so it stays a bottom sheet. */
+@media (max-width: 899px) {
+  .tone-map--full:has(.tone-sheet) .tone-map__stage { padding-bottom: 42vh; }
+}
+
+/* ── Fullscreen entrance ───────────────────────────────────────────────── */
+.tone-map--full {
+  animation: tone-full-in 240ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.tone-map--full .tone-map__svg {
+  /* The map grows into the space rather than appearing at final size, which
+     is what connects the overlay to the small map it came from. */
+  animation: tone-map-in 420ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.tone-map--full .tone-map__tools {
+  animation: tone-tools-in 300ms cubic-bezier(0.16, 1, 0.3, 1) 120ms both;
+}
+@keyframes tone-full-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes tone-map-in {
+  from { opacity: 0; transform: scale(0.92); }
+  to { opacity: 1; transform: scale(1); }
+}
+@keyframes tone-tools-in {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── The anchored sheet ────────────────────────────────────────────────── */
+.tone-sheet-anchor { display: contents; }
 @media (min-width: 900px) {
-  .tone-map--full:has(.tone-sheet) .tone-map__stage { padding-bottom: 12px; padding-right: 452px; }
+  .tone-map--full .tone-sheet-anchor {
+    display: block;
+    position: absolute;
+    z-index: 3;
+    width: 400px;
+  }
+  .tone-map--full .tone-sheet-anchor .tone-sheet {
+    position: static;
+    width: 100%;
+    max-width: none;
+    /* Grows out of the country it belongs to, so the connection between the
+       shape you tapped and the card that answered is visible rather than
+       inferred. */
+    animation: tone-sheet-grow 300ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  .tone-map--full .tone-sheet-anchor--right .tone-sheet { transform-origin: left center; }
+  .tone-map--full .tone-sheet-anchor--left .tone-sheet { transform-origin: right center; }
+}
+@keyframes tone-sheet-grow {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tone-map--full,
+  .tone-map--full .tone-map__svg,
+  .tone-map--full .tone-map__tools,
+  .tone-map--full .tone-sheet-anchor .tone-sheet { animation: none; }
 }
 .tone-map--full .tone-map__svg {
   max-height: 100%;

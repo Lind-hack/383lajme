@@ -1,12 +1,52 @@
 {
   "lastUpdated": "2026-08-15",
   "overallIndex": 51,
-  "totalArticles": 78,
-  "sourceCount": 64,
+  "totalArticles": 86,
+  "sourceCount": 70,
   "stanceVersion": 2,
   "countries": {
     "Gjermani": {
       "outlets": [
+        {
+          "name": "DiePresse.com",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo steckt erneut in einer politischen Krise - DiePresse.com",
+              "albanianTitle": "Kosova në një krizë politike tjetër - DiePresse.com",
+              "blurb": "Kosova po përballet sërish me një krizë politike sipas raportimeve të fundit nga gazeta austriake Die Presse.",
+              "imageUrl": "https://img.diepresse.com/public/incoming/9oq1kk-2026-08-08t124704z2044394285rc2auma8ufw1rtrmadp3kosovo-politicsjpg/alternates/WEBP_WIDE_1200/2026-08-08T124704Z_2044394285_RC2AUMA8UFW1_RTRMADP_3_KOSOVO-POLITICS.JPG",
+              "url": "https://www.diepresse.com/41173664/kosovo-steckt-erneut-in-einer-politischen-krise",
+              "date": "2026-08-14",
+              "sentiment": "neutral",
+              "reason": "Raportim i thjeshtë i një krize politike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "MeinBezirk.at",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Gewinnspiel: ⚽ Gewinne mit Magenta 10x2 Tickets für Österreich vs. Kosovo! - MeinBezirk.at",
+              "albanianTitle": "Lojë shpërblyese: Fito 10x2 bileta për ndeshjen Austri - Kosovë me Magenta!",
+              "blurb": "Magenta ofron dhjetë bileta dyshe për ndeshjen futbollistike ndërmjet përfaqësueses së Austrisë dhe asaj të Kosovës.",
+              "imageUrl": "https://media04.meinbezirk.at/article/2026/07/23/3/51836373_XXL.webp",
+              "url": "https://www.meinbezirk.at/c-sport/-gewinne-mit-magenta-10x2-tickets-fuer-oesterreich-vs-kosovo_a8809956",
+              "date": "2026-08-15",
+              "sentiment": "neutral",
+              "reason": "Advertisement contest mention, no evaluative language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
         {
           "name": "Pester Lloyd",
           "sentiment": "neutral",
@@ -53,7 +93,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 2,
+        "n": 4,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
@@ -115,6 +155,59 @@
               "date": "2026-08-14",
               "sentiment": "neutral",
               "reason": "Raportim i thjeshtë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Euromaidan Press",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosova is no precedent for Russia’s annexation of Crimea—Ukraine should say so - Euromaidan Press",
+              "albanianTitle": "Kosova nuk është precedent për aneksimin e Krimesë nga Rusia – Ukraina duhet ta thotë këtë",
+              "blurb": "Pavarësia e Kosovës nuk shërben si precedent për aneksimin rus të Krimesë, sipas analizës së publikuar nga Euromaidan Press.",
+              "imageUrl": null,
+              "url": "https://euromaidanpress.com/2026/08/14/kosova-no-precedent-russia-crimea-annexation/",
+              "date": "2026-08-14",
+              "sentiment": "neutral",
+              "reason": "Political claim presented without loaded language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "KosovaPress",
+          "sentiment": "neutral",
+          "articleCount": 2,
+          "articles": [
+            {
+              "title": "Kosovo Prosecution says Fehim Sali admitted he was recruited by Serbian Intelligece - KosovaPress",
+              "albanianTitle": "Prokuroria e Kosovës: Fehim Sali ka pranuar se është rekrutuar nga Inteligjenca Serbe",
+              "blurb": "Prokuroria e Kosovës njofton se Fehim Sali ka pranuar se është rekrutuar nga shërbimi inteligjent serb për aktivitete.",
+              "imageUrl": "https://kosovapress.com/eng/admin/wp-content/uploads/2026/08/96121786709864.jpg",
+              "url": "https://kosovapress.com/eng/kosovo-prosecution-says-fehim-sali-admitted-he-was-recruited-by-serbian-intelligece",
+              "date": "2026-08-14",
+              "sentiment": "neutral",
+              "reason": "Fact‑based report of prosecution statement",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Democratic Party of Kosovo accuses Kurti of abusing Assembly Session Chair Avni Dehari - KosovaPress",
+              "albanianTitle": "Partia Demokratike e Kosovës akuzon Kurtin për keqpërdorim të kryesuesit të seancës, Avni Dehari",
+              "blurb": "Partia Demokratike e Kosovës akuzon kryeministrin Kurti për keqpërdorim të kryesuesit të seancës së Kuvendit, Avni Dehari.",
+              "imageUrl": "https://kosovapress.com/eng/admin/wp-content/uploads/2026/08/96121786695663.jpg",
+              "url": "https://kosovapress.com/eng/democratic-party-of-kosovo-accuses-kurti-of-abusing-assembly-session-chair-dehari",
+              "date": "2026-08-14",
+              "sentiment": "neutral",
+              "reason": "Report of political accusation, no editorial tone",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -287,7 +380,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 11,
+        "n": 14,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -369,6 +462,59 @@
           ]
         },
         {
+          "name": "Euromaidan Press",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosova is no precedent for Russia’s annexation of Crimea—Ukraine should say so - Euromaidan Press",
+              "albanianTitle": "Kosova nuk është precedent për aneksimin e Krimesë nga Rusia – Ukraina duhet ta thotë këtë",
+              "blurb": "Pavarësia e Kosovës nuk shërben si precedent për aneksimin rus të Krimesë, sipas analizës së publikuar nga Euromaidan Press.",
+              "imageUrl": null,
+              "url": "https://euromaidanpress.com/2026/08/14/kosova-no-precedent-russia-crimea-annexation/",
+              "date": "2026-08-14",
+              "sentiment": "neutral",
+              "reason": "Political claim presented without loaded language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "KosovaPress",
+          "sentiment": "neutral",
+          "articleCount": 2,
+          "articles": [
+            {
+              "title": "Kosovo Prosecution says Fehim Sali admitted he was recruited by Serbian Intelligece - KosovaPress",
+              "albanianTitle": "Prokuroria e Kosovës: Fehim Sali ka pranuar se është rekrutuar nga Inteligjenca Serbe",
+              "blurb": "Prokuroria e Kosovës njofton se Fehim Sali ka pranuar se është rekrutuar nga shërbimi inteligjent serb për aktivitete.",
+              "imageUrl": "https://kosovapress.com/eng/admin/wp-content/uploads/2026/08/96121786709864.jpg",
+              "url": "https://kosovapress.com/eng/kosovo-prosecution-says-fehim-sali-admitted-he-was-recruited-by-serbian-intelligece",
+              "date": "2026-08-14",
+              "sentiment": "neutral",
+              "reason": "Fact‑based report of prosecution statement",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Democratic Party of Kosovo accuses Kurti of abusing Assembly Session Chair Avni Dehari - KosovaPress",
+              "albanianTitle": "Partia Demokratike e Kosovës akuzon Kurtin për keqpërdorim të kryesuesit të seancës, Avni Dehari",
+              "blurb": "Partia Demokratike e Kosovës akuzon kryeministrin Kurti për keqpërdorim të kryesuesit të seancës së Kuvendit, Avni Dehari.",
+              "imageUrl": "https://kosovapress.com/eng/admin/wp-content/uploads/2026/08/96121786695663.jpg",
+              "url": "https://kosovapress.com/eng/democratic-party-of-kosovo-accuses-kurti-of-abusing-assembly-session-chair-dehari",
+              "date": "2026-08-14",
+              "sentiment": "neutral",
+              "reason": "Report of political accusation, no editorial tone",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "Tamil Guardian",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -410,18 +556,18 @@
         },
         {
           "name": "Unicef",
-          "sentiment": "neutral",
+          "sentiment": "unknown",
           "articleCount": 1,
           "articles": [
             {
-              "title": "Beyond Digital as Usual, Artificial Intelligence for Accessible Learning - Unicef",
-              "albanianTitle": "Përtej digitalizimit të zakonshëm, inteligjenca artificiale për mësimin e aksesueshëm - Unicef",
+              "title": "Beyond Digital as Usual, Artificial Intelligence for Accessible Learning - unicef.org",
+              "albanianTitle": "Përtej digjitalizimit të zakonshëm: Inteligjenca Artificiale për mësim të qasshëm",
               "blurb": "UNICEF promovon përdorimin e inteligjencës artificiale për të mundësuar qasje më të lehtë në procesin e të mësuarit.",
               "imageUrl": null,
               "url": "https://www.unicef.org/kosovoprogramme/stories/beyond-digital-usual-artificial-intelligence-accessible-learning",
               "date": "2026-08-14",
-              "sentiment": "neutral",
-              "reason": "Nuk përmend një qëndrim ndaj Kosovës",
+              "sentiment": "unknown",
+              "reason": "Article not about Kosovo, stance cannot be inferred",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -534,8 +680,8 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 12,
-        "excluded": 0,
+        "n": 14,
+        "excluded": 1,
         "confident": true,
         "stanceVersion": 2
       }
@@ -750,6 +896,26 @@
           ]
         },
         {
+          "name": "MeinBezirk.at",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Gewinnspiel: ⚽ Gewinne mit Magenta 10x2 Tickets für Österreich vs. Kosovo! - MeinBezirk.at",
+              "albanianTitle": "Lojë shpërblyese: Fito 10x2 bileta për ndeshjen Austri - Kosovë me Magenta!",
+              "blurb": "Magenta ofron dhjetë bileta dyshe për ndeshjen futbollistike ndërmjet përfaqësueses së Austrisë dhe asaj të Kosovës.",
+              "imageUrl": "https://media04.meinbezirk.at/article/2026/07/23/3/51836373_XXL.webp",
+              "url": "https://www.meinbezirk.at/c-sport/-gewinne-mit-magenta-10x2-tickets-fuer-oesterreich-vs-kosovo_a8809956",
+              "date": "2026-08-15",
+              "sentiment": "neutral",
+              "reason": "Advertisement contest mention, no evaluative language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "Pester Lloyd",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -795,15 +961,35 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 4,
+        "n": 5,
         "excluded": 0,
-        "confident": false,
+        "confident": true,
         "stanceVersion": 2
       }
     },
     "Zvicër": {
       "outlets": [
         {
+          "name": "DiePresse.com",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo steckt erneut in einer politischen Krise - DiePresse.com",
+              "albanianTitle": "Kosova në një krizë politike tjetër - DiePresse.com",
+              "blurb": "Kosova po përballet sërish me një krizë politike sipas raportimeve të fundit nga gazeta austriake Die Presse.",
+              "imageUrl": "https://img.diepresse.com/public/incoming/9oq1kk-2026-08-08t124704z2044394285rc2auma8ufw1rtrmadp3kosovo-politicsjpg/alternates/WEBP_WIDE_1200/2026-08-08T124704Z_2044394285_RC2AUMA8UFW1_RTRMADP_3_KOSOVO-POLITICS.JPG",
+              "url": "https://www.diepresse.com/41173664/kosovo-steckt-erneut-in-einer-politischen-krise",
+              "date": "2026-08-14",
+              "sentiment": "neutral",
+              "reason": "Raportim i thjeshtë i një krize politike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "Pester Lloyd",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -849,7 +1035,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 2,
+        "n": 3,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
@@ -905,26 +1091,6 @@
     "Spanjë": {
       "outlets": [
         {
-          "name": "El Impulso",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosovo envió 200 mil dólares para ayudar a los guaireños #14Ago - El Impulso",
-              "albanianTitle": "Kosova dërgon 200 mijë dollar për të ndihmuar qytetin e Gjakovës",
-              "blurb": "Kosova ka ofruar 200 mijë dollarë ndihmë për të mbështetur banorët e prekur nga situata e rëndë në Guaire të Venezuelës.",
-              "imageUrl": "https://cdn.elimpulso.com/media/2026/08/Big-Band-Jazz-2026-08-14T122854.321.jpg",
-              "url": "https://www.elimpulso.com/2026/08/14/kosovo-envio-200-mil-dolares-para-ayudar-a-los-guairenos-14ago/",
-              "date": "2026-08-14",
-              "sentiment": "neutral",
-              "reason": "Lajm i ngjarjeve të raportuara në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
           "name": "El Nacional",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -938,26 +1104,6 @@
               "date": "2026-08-15",
               "sentiment": "neutral",
               "reason": "Lajm i thjeshtë, i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "Globovisión",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosovo destina 200 mil dólares en ayuda humanitaria para los damnificados de La Guaira - Globovisión",
-              "albanianTitle": "Kosova ndan 200 mijë dollarë ndihmë humanitare për të prekurit e La Guaira - Globovisión",
-              "blurb": "Kosova ka ndarë 200 mijë dollarë ndihmë humanitare për të prekurit nga fatkeqësitë në La Guaira.",
-              "imageUrl": "https://gbvm.knoios.com/mmedia/20679/viceministro-de-asuntos-exteriores-y-diaspora-kreshnik-ahmeti-66578.jpg",
-              "url": "https://www.globovision.com/politica/60290/kosovo-destina-200-mil-dolares-en-ayuda-humanitaria-para-los-damnificados-de-la-guaira",
-              "date": "2026-08-14",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -990,7 +1136,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 4,
+        "n": 2,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
@@ -1024,6 +1170,19 @@
           "articleCount": 2,
           "articles": [
             {
+              "title": "Ποδόσφαιρο: Κόσοβο - Σουηδία - cosmotetv.gr",
+              "albanianTitle": null,
+              "blurb": "Përfaqësuesja e Kosovës në futboll do të zhvillojë një ndeshje zyrtare kundër përfaqësueses së Suedisë në arenën ndërkombëtare.",
+              "imageUrl": "https://tr.static.cdns.cosmotetvott.gr/ote-prod/608/8/040053845712000800_1786095261158.jpg",
+              "url": "https://www.cosmotetv.gr/watch/DIS0022764860/football-kosovo-sweden",
+              "date": "2026-08-14",
+              "sentiment": "neutral",
+              "reason": "Lajm i mirë, i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
               "title": "Ποδόσφαιρο: Κόσοβο - Ελλάδα - cosmotetv.gr",
               "albanianTitle": "Futboll: Kosovë - Greqi - cosmotetv.gr",
               "blurb": "Ndeshja e futbollit ndërmjet Kosovës dhe Greqisë është transmetuar në platformën televizive Cosmo TV për shikuesit e interesuar.",
@@ -1035,16 +1194,23 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
-            },
+            }
+          ]
+        },
+        {
+          "name": "sport-fm.gr",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
             {
-              "title": "Ποδόσφαιρο: Κόσοβο - Σουηδία - cosmotetv.gr",
-              "albanianTitle": null,
-              "blurb": "Përfaqësuesja e Kosovës në futboll do të zhvillojë një ndeshje zyrtare kundër përfaqësueses së Suedisë në arenën ndërkombëtare.",
-              "imageUrl": "https://tr.static.cdns.cosmotetvott.gr/ote-prod/608/8/040053845712000800_1786095261158.jpg",
-              "url": "https://www.cosmotetv.gr/watch/DIS0022764860/football-kosovo-sweden",
+              "title": "Κύπρος-Κόσοβο - sport-fm.gr",
+              "albanianTitle": "Qipro - Kosovë",
+              "blurb": "Përfaqësuesja e futbollit të Qipros do të përballet me përfaqësuesen e Kosovës në një ndeshje të ardhshme futbollistike.",
+              "imageUrl": "https://www.sport-fm.gr/resrc/images/layout/article/no_img_04__v2.jpg",
+              "url": "https://www.sport-fm.gr/events/21971518?view=iframe",
               "date": "2026-08-14",
               "sentiment": "neutral",
-              "reason": "Lajm i mirë, i raportuar në mënyrë faktike",
+              "reason": "Simple match title, no evaluative language",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1057,7 +1223,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 2,
+        "n": 3,
         "excluded": 1,
         "confident": false,
         "stanceVersion": 2
@@ -1185,19 +1351,6 @@
               "speaker": ""
             },
             {
-              "title": "AAC ve EASA Arasındaki Anlaşmalar İmzalandı - Kosovahaber.com",
-              "albanianTitle": "Ushqimët e marrësisë midis AAC dhe EASA janë nënshkruar",
-              "blurb": "Autoriteti i Aviacionit Civil dhe Agjencia e Bashkimit Evropian për Siguri në Aviacion kanë nënshkruar marrëveshje bashkëpunimi.",
-              "imageUrl": null,
-              "url": "https://kosovahaber.com/haber/aac-ve-easa-arasindaki-anlasmalar-imzalandi-104948",
-              "date": "2026-08-15",
-              "sentiment": "neutral",
-              "reason": "Lajm i thjeshtë, pa koment",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
               "title": "RDK'den Meclis Önünde Sembolik Eylem - Kosovahaber.com",
               "albanianTitle": "Aksion simbolik i RDK-së para Kuvendit - Kosovahaber.com",
               "blurb": "RDK organizoi një aksion simbolik para Kuvendit, duke shprehur qëndrimin e tyre.",
@@ -1219,6 +1372,19 @@
               "date": "2026-08-14",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "AAC ve EASA Arasındaki Anlaşmalar İmzalandı - Kosovahaber.com",
+              "albanianTitle": "Ushqimët e marrësisë midis AAC dhe EASA janë nënshkruar",
+              "blurb": "Autoriteti i Aviacionit Civil dhe Agjencia e Bashkimit Evropian për Siguri në Aviacion kanë nënshkruar marrëveshje bashkëpunimi.",
+              "imageUrl": null,
+              "url": "https://kosovahaber.com/haber/aac-ve-easa-arasindaki-anlasmalar-imzalandi-104948",
+              "date": "2026-08-15",
+              "sentiment": "neutral",
+              "reason": "Lajm i thjeshtë, pa koment",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1261,21 +1427,8 @@
         {
           "name": "Sofascore",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 1,
           "articles": [
-            {
-              "title": "Algeria Mediterranean Team - Sofascore",
-              "albanianTitle": null,
-              "blurb": "Ekipi i Algjerisë është pjesë e garave në Lojërat Mesdhetare sipas të dhënave të publikuara në platformën sportive Sofascore.",
-              "imageUrl": null,
-              "url": "https://www.sofascore.com/it/football/match/kosovo-mediterranean-team-algeria-mediterranean-team/cLekseLek",
-              "date": "2026-08-14",
-              "sentiment": "neutral",
-              "reason": "Nuk ka asnjë komentim apo vlerësim",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "FC Kosova Neuchâtel - Sofascore",
               "albanianTitle": "FC Kosova Neuchâtel - Rezultatet Live në Sofascore",
@@ -1305,26 +1458,6 @@
               "date": "2026-08-14",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "Yeni Akit Gazetesi",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosova'ya İHA satışından rahatsız oldular: Türkiye'den TB2 SİHA almaktan vazgeçtiler - Yeni Akit Gazetesi",
-              "albanianTitle": "U shqetësuan nga shitja e dronëve Kosovës: Hoqën dorë nga blerja e SİHA TB2 nga Turqia - Yeni Akit Gazetesi",
-              "blurb": "Disa vende janë të pakënaqura me shitjen e dronëve turq TB2 SİHA Kosovës.",
-              "imageUrl": "https://cdn.yeniakit.com.tr/cdn-cgi/image/format=webp,quality=65/images/news/425/kosovaya-iha-satisindan-rahatsiz-oldular-turkiyeden-tb2-siha-almaktan-vazgectiler-2h1786655319-1c3656.png",
-              "url": "https://m.yeniakit.com.tr/foto-galeri/kosovaya-iha-satisindan-rahatsiz-oldular-turkiyeden-tb2-siha-almaktan-vazgectiler-170352/4",
-              "date": "2026-08-14",
-              "sentiment": "neutral",
-              "reason": "Titulli raporton reagimin ndaj shitjes së UAV-ve pa gjuhë kundërshtuese ndaj Kosovës",
               "isQuote": false,
               "evidence": "",
               "speaker": ""

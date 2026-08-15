@@ -13,7 +13,7 @@
 // an abstract plot and wrong for geography — it would shear every coastline.
 // This one keeps its aspect ratio, so text stays out of the SVG.
 
-import { useId, useState, useRef, useCallback, useEffect } from "react";
+import { useId, useState, useRef, useCallback, useEffect, useLayoutEffect } from "react";
 import { createPortal } from "react-dom";
 import { Maximize2, X, Plus, Minus, RotateCcw } from "lucide-react";
 import { MAP_SHAPES, MAP_VIEWBOX } from "@/lib/tone-map-paths";
@@ -35,6 +35,15 @@ export interface ToneMapCountry {
    *  Deliberately the flag and not a second coverage threshold here: the
    *  rule lives in tools/tone_scraper.py, and two copies of it would drift. */
   confident?: boolean;
+  /** Articles behind the index. Drives the fill's weight.
+   *
+   *  Tone alone cannot carry this map. Under the v2 definition only 2 of 92
+   *  cached articles hold any stance at all — the foreign press reports on
+   *  Kosovo, it does not editorialise about it — so every country renders the
+   *  same neutral grey and the map says nothing. Volume genuinely varies,
+   *  from one article to nineteen, and "who is even writing about us" is a
+   *  real question the map can now answer. */
+  n?: number;
 }
 
 interface Props {
@@ -176,6 +185,55 @@ export default function ToneMap({
     };
   }, [fullscreen]);
 
+  // Where the selected country actually is on screen, so the sheet can sit
+  // beside it instead of in a far corner. Measured off the rendered path,
+  // which already carries the pan/zoom transform — recomputing the projection
+  // by hand would be a second source of truth, free to drift from the first.
+  const stageRef = useRef<HTMLDivElement | null>(null);
+  const [anchor, setAnchor] = useState<{ x: number; y: number; w: number; h: number } | null>(null);
+
+  useLayoutEffect(() => {
+    if (!fullscreen || !selected || !stageRef.current) {
+      setAnchor(null);
+      return;
+    }
+    const measure = () => {
+      const stageEl = stageRef.current;
+      const path = stageEl?.querySelector<SVGPathElement>(
+        `path[data-country="${CSS.escape(selected)}"]`
+      );
+      if (!stageEl || !path) return setAnchor(null);
+      const pr = path.getBoundingClientRect();
+      const sr = stageEl.getBoundingClientRect();
+      setAnchor({ x: pr.left - sr.left, y: pr.top - sr.top, w: pr.width, h: pr.height });
+    };
+    measure();
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, [fullscreen, selected, view.x, view.y, view.k]);
+
+  /**
+   * Sheet position, in stage coordinates.
+   *
+   * Beside the country, on whichever side has room, vertically centred on it
+   * and clamped to the stage. Null in the inline map, which is too small to
+   * put a 400px card next to anything — there it stays a bottom sheet.
+   */
+  const placement = (() => {
+    if (!fullscreen || !anchor || !stageRef.current) return null;
+    const stageEl = stageRef.current.getBoundingClientRect();
+    const W = 400;
+    const H = Math.min(340, stageEl.height - 24);
+    const GAP = 18;
+    const rightRoom = stageEl.width - (anchor.x + anchor.w);
+    const side: "right" | "left" = rightRoom >= W + GAP ? "right" : "left";
+    let left = side === "right" ? anchor.x + anchor.w + GAP : anchor.x - W - GAP;
+    left = Math.max(12, Math.min(stageEl.width - W - 12, left));
+    let top = anchor.y + anchor.h / 2 - H / 2;
+    top = Math.max(12, Math.min(stageEl.height - H - 12, top));
+    return { left, top, side };
+  })();
+
   const sheetCountry = selected;
   const sheetStats = sheetCountry && statsFor ? statsFor(sheetCountry) : null;
   const sheetArticles = sheetCountry && articlesFor ? articlesFor(sheetCountry) : [];
@@ -183,6 +241,9 @@ export default function ToneMap({
 
   const uid = useId().replace(/[^a-zA-Z0-9]/g, "");
   const byCode = new Map(countries.map((c) => [c.code, c]));
+  // Weight is relative to the busiest country in the frame, not an absolute
+  // scale: on a quiet day the leader should still read as the leader.
+  const maxN = Math.max(1, ...countries.map((c) => c.n ?? 0));
   // The key is only earned when something on the map is actually hatched.
   const hasThin = countries.some((c) => c.index != null && c.confident === false);
 
@@ -214,6 +275,17 @@ export default function ToneMap({
           }}
         />
         <span style={{ fontWeight: 700 }}>Pozitiv</span>
+        <span style={{ display: "inline-flex", alignItems: "center", gap: "5px" }}>
+          <span
+            aria-hidden
+            style={{
+              width: "26px", height: "9px", borderRadius: "2px",
+              background: `linear-gradient(90deg, ${toneFill(50)}66, ${toneFill(50)})`,
+              border: "1px solid rgba(17,17,17,0.12)",
+            }}
+          />
+          sa shumë shkruajnë
+        </span>
         {hasThin && (
           <span style={{ display: "inline-flex", alignItems: "center", gap: "5px" }}>
             <span
@@ -235,7 +307,7 @@ export default function ToneMap({
   );
 
   const stage = (
-    <div className="tone-map__stage">
+    <div className="tone-map__stage" ref={stageRef}>
       <svg
         viewBox={`0 0 ${MAP_VIEWBOX.width} ${MAP_VIEWBOX.height}`}
         preserveAspectRatio="xMidYMid meet"
@@ -284,8 +356,12 @@ export default function ToneMap({
           return (
             <g key={`hit-${uid}-${i}`}>
             <path
+              data-country={data?.country || undefined}
               d={s.d}
               fill={toneFill(data?.index ?? null)}
+              // Never below 0.4: a country with one article still has to be
+              // visible and clickable, just visibly slighter.
+              fillOpacity={data?.index == null ? 1 : 0.4 + 0.6 * Math.sqrt((data.n ?? 0) / maxN)}
               stroke={isOpen ? "#111111" : on ? "rgba(17,17,17,0.55)" : BORDER}
               strokeWidth={isOpen ? 2.2 : on ? 1.6 : 0.8}
               vectorEffect="non-scaling-stroke"
@@ -354,6 +430,12 @@ export default function ToneMap({
           below the fold. Lives inside the stage so it anchors to the map in
           both the inline and the fullscreen layout. */}
       {sheetCountry && (
+        <div
+          className={
+            "tone-sheet-anchor" + (placement ? ` tone-sheet-anchor--${placement.side}` : "")
+          }
+          style={placement ? { left: placement.left, top: placement.top } : undefined}
+        >
         <ToneMapSheet
           country={sheetCountry}
           flag={sheetStats?.flag ?? ""}
@@ -364,6 +446,7 @@ export default function ToneMap({
           onClose={() => onSelect(sheetCountry)}
           onExpand={onExpand ? () => { setFullscreen(false); onExpand(sheetCountry); } : undefined}
         />
+        </div>
       )}
     </div>
   );

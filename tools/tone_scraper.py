@@ -198,23 +198,67 @@ CLASSIFY_BATCH_SIZE = 6
 # Serbia was tried and deliberately removed: its coverage is a party to the
 # subject rather than an outside observer of it, which is a different thing
 # from "how the world's press writes about Kosovo".
-FEEDS = {
-    "Gjermani": "https://news.google.com/rss/search?q=Kosovo&hl=de&gl=DE&ceid=DE:de",
-    "SHBA":     "https://news.google.com/rss/search?q=Kosovo&hl=en-US&gl=US&ceid=US:en",
-    "Britani":  "https://news.google.com/rss/search?q=Kosovo&hl=en-GB&gl=GB&ceid=GB:en",
-    "Francë":   "https://news.google.com/rss/search?q=Kosovo&hl=fr&gl=FR&ceid=FR:fr",
-    "Itali":    "https://news.google.com/rss/search?q=Kosovo&hl=it&gl=IT&ceid=IT:it",
-    "Austri":   "https://news.google.com/rss/search?q=Kosovo&hl=de&gl=AT&ceid=AT:de",
-    "Zvicër":   "https://news.google.com/rss/search?q=Kosovo&hl=de&gl=CH&ceid=CH:de",
-    "Holandë":  "https://news.google.com/rss/search?q=Kosovo&hl=nl&gl=NL&ceid=NL:nl",
-    "Belgjikë": "https://news.google.com/rss/search?q=Kosovo&hl=fr&gl=BE&ceid=BE:fr",
-    "Spanjë":   "https://news.google.com/rss/search?q=Kosovo&hl=es&gl=ES&ceid=ES:es",
-    "Greqi":    "https://news.google.com/rss/search?q=Kosovo&hl=el&gl=GR&ceid=GR:el",
-    "Suedi":    "https://news.google.com/rss/search?q=Kosovo&hl=sv&gl=SE&ceid=SE:sv",
-    "Poloni":   "https://news.google.com/rss/search?q=Kosovo&hl=pl&gl=PL&ceid=PL:pl",
-    "Turqi":    "https://news.google.com/rss/search?q=Kosovo&hl=tr&gl=TR&ceid=TR:tr",
-    "Kroaci":   "https://news.google.com/rss/search?q=Kosovo&hl=hr&gl=HR&ceid=HR:hr",
+# Google News locale per tracked country: (hl, gl). ceid is derived.
+FEED_LOCALES = {
+    "Gjermani": ("de", "DE"),
+    "SHBA":     ("en-US", "US"),
+    "Britani":  ("en-GB", "GB"),
+    "Francë":   ("fr", "FR"),
+    "Itali":    ("it", "IT"),
+    "Austri":   ("de", "AT"),
+    "Zvicër":   ("de", "CH"),
+    "Holandë":  ("nl", "NL"),
+    "Belgjikë": ("fr", "BE"),
+    "Spanjë":   ("es", "ES"),
+    "Greqi":    ("el", "GR"),
+    "Suedi":    ("sv", "SE"),
+    "Poloni":   ("pl", "PL"),
+    "Turqi":    ("tr", "TR"),
+    "Kroaci":   ("hr", "HR"),
 }
+
+# Several queries per country, not one.
+#
+# A single "Kosovo" query returns the day's wire copy, and wire copy is almost
+# entirely neutral by construction — which is why every country's index sat on
+# exactly 50 and the map read as dead. The extra queries reach the coverage
+# that actually carries a stance: the Serbia relationship, the government, EU
+# and NATO accession, and the diaspora. They also simply return more articles,
+# and a country resting on two of them cannot say anything.
+#
+# Keyed by language, not country, so Austria and Switzerland reuse Germany's
+# set. Overlap between queries is expected and handled: candidates are deduped
+# by normalised title within each country before anything is classified.
+FEED_QUERIES = {
+    "de": ["Kosovo", "Kosovo Serbien", "Kosovo Regierung", "Kosovo EU"],
+    "en-US": ["Kosovo", "Kosovo Serbia", "Kosovo government", "Kosovo NATO"],
+    "en-GB": ["Kosovo", "Kosovo Serbia", "Kosovo government", "Kosovo NATO"],
+    "fr": ["Kosovo", "Kosovo Serbie", "Kosovo gouvernement", "Kosovo UE"],
+    "it": ["Kosovo", "Kosovo Serbia", "Kosovo governo", "Kosovo UE"],
+    "nl": ["Kosovo", "Kosovo Servië", "Kosovo regering"],
+    "es": ["Kosovo", "Kosovo Serbia", "Kosovo gobierno"],
+    "el": ["Κόσοβο", "Κόσοβο Σερβία", "Kosovo"],
+    "sv": ["Kosovo", "Kosovo Serbien", "Kosovo regering"],
+    "pl": ["Kosowo", "Kosowo Serbia", "Kosovo"],
+    "tr": ["Kosova", "Kosova Sırbistan", "Kosova hükümeti"],
+    "hr": ["Kosovo", "Kosovo Srbija", "Kosovo vlada"],
+}
+
+
+def _feed_url(query: str, hl: str, gl: str) -> str:
+    from urllib.parse import quote
+    return (
+        f"https://news.google.com/rss/search?q={quote(query)}"
+        f"&hl={hl}&gl={gl}&ceid={gl}:{hl.split('-')[0]}"
+    )
+
+
+# country -> [feed url, ...]. Built once at import.
+FEEDS = {
+    country: [_feed_url(q, hl, gl) for q in FEED_QUERIES.get(hl, ["Kosovo"])]
+    for country, (hl, gl) in FEED_LOCALES.items()
+}
+
 
 FLAGS = {
     "Gjermani": "🇩🇪", "SHBA": "🇺🇸", "Britani": "🇬🇧", "Francë": "🇫🇷",
@@ -230,7 +274,12 @@ FLAGS = {
 # a slice at a time: each run classifies at most this many new articles and
 # leaves the rest for the next one, ninety minutes later. Steady state is far
 # below the cap; this only bites while a new country is warming up.
-MAX_NEW_PER_RUN = 48
+# Raised from 48 with the multi-query feeds, which surface far more
+# candidates per run. Groq now carries classification alone — translation and
+# blurbs moved to Gemini — so the budget is llama-3.3-70b's 100K/day plus
+# gpt-oss-120b's separate 200K. At roughly 480 tokens per article and nine
+# runs a day, 300K/9 leaves room for about 69; 64 keeps a margin.
+MAX_NEW_PER_RUN = 64
 
 # How many times an article may be re-sent to the classifier before we accept
 # that it is genuinely unreadable. Most UNKNOWNs are transient — a batch lost
@@ -1036,20 +1085,26 @@ def fetch_candidates() -> dict[str, list[dict]]:
     """Fetch + within-country dedupe only, no classification yet. Returns
     {country: [{title, summary, url, date, outlet}, ...]}."""
     by_country: dict[str, list[dict]] = {}
-    for country, feed_url in FEEDS.items():
-        print(f"  Fetching {country}...")
-        try:
-            feed = feedparser.parse(feed_url)
-        except Exception as e:
-            print(f"  {country} feed fetch failed: {e}", file=sys.stderr)
-            by_country[country] = []
-            continue
-
+    for country, feed_urls in FEEDS.items():
         seen_titles: set[str] = set()
         items: list[dict] = []
         dropped: list[str] = []
         stale = 0
-        for entry in feed.entries[:60]:
+
+        # Several queries per country now. They overlap heavily by design —
+        # seen_titles dedupes across all of them, so the extra queries add
+        # reach without adding duplicates to classify.
+        entries = []
+        failed = 0
+        for feed_url in feed_urls:
+            try:
+                entries.extend(feedparser.parse(feed_url).entries[:60])
+            except Exception as e:
+                failed += 1
+                print(f"  {country} feed fetch failed: {e}", file=sys.stderr)
+        print(f"  Fetching {country}... {len(feed_urls) - failed}/{len(feed_urls)} feeds, {len(entries)} entries")
+
+        for entry in entries:
             url = entry.get("link", "")
             title = entry.get("title", "").strip()
             summary = re.sub(r"<[^>]+>", "", entry.get("summary", "") or "").strip()
@@ -1086,6 +1141,7 @@ def fetch_candidates() -> dict[str, list[dict]]:
                 "date": published, "outlet": outlet,
             })
         by_country[country] = items
+        print(f"    -> {len(items)} usable")
         if stale:
             print(f"  {country}: skipped {stale} outside the {MAX_ARTICLE_AGE_DAYS + 1}-day window")
         if dropped:
