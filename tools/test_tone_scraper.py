@@ -166,3 +166,57 @@ def test_stance_golden_set():
     # event told plainly, must never be scored as the outlet being hostile.
     assert not violations, "forbidden labels:\n" + "\n".join(violations) + report
     assert accuracy >= 0.80, report
+
+
+# ── Evidence contract ───────────────────────────────────────────────────
+
+def test_neutral_never_carries_an_evidence_span():
+    """Evidence justifies a non-neutral call. A neutral article holding one is
+    data that contradicts its own label, and the UI should not have to guard
+    against it."""
+    out = ts._parse_stance_item(
+        {"stance": "neutral", "evidence": "Schäm dich", "confidence": "high"}
+    )
+    assert out["stance"] == "neutral"
+    assert out["evidence"] == ""
+
+
+def test_downgraded_call_drops_its_evidence_too():
+    out = ts._parse_stance_item(
+        {"stance": "negative", "evidence": "", "confidence": "high"}
+    )
+    assert out["stance"] == "neutral"
+    assert out["evidence"] == ""
+
+
+def test_unknown_carries_no_evidence():
+    out = ts._parse_stance_item(
+        {"stance": "negative", "evidence": "loaded words", "confidence": "low"}
+    )
+    assert out["stance"] == ts.UNKNOWN
+    assert out["evidence"] == ""
+
+
+@pytest.mark.parametrize("outlet,url", [
+    ("B92", "https://www.b92.net/eng/news/x"),
+    ("Blic", "https://www.blic.rs/vesti/x"),
+    ("Kurir", "https://www.kurir.rs/x"),
+    ("Tanjug", "https://www.tanjug.rs/x"),
+    ("N1", "https://n1info.com/vesti/x"),
+])
+def test_serbian_outlets_are_not_foreign_press(outlet, url):
+    """Removing the Serbian feed did not stop Belgrade outlets arriving through
+    other countries' editions — B92 was landing in the US feed and coming out
+    as the most critical piece of 'American' coverage."""
+    assert ts.is_foreign_press(outlet, url) is False
+
+
+@pytest.mark.parametrize("outlet", [
+    "La Repubblica",   # contains "blic"
+    "Politiken",       # contains "politika"-adjacent stems
+    "The Times",       # short-name collisions generally
+])
+def test_blocklist_matches_whole_words_only(outlet):
+    """Substring matching blocked La Repubblica because 'blic' is inside
+    'repubblica'. Outlet names are short enough that this must be exact."""
+    assert ts.is_foreign_press(outlet, "https://example.com/x") is True

@@ -645,25 +645,25 @@
   {
     "date": "2026-08-14",
     "overallIndex": 52,
-    "totalArticles": 671,
-    "sourceCount": 642,
+    "totalArticles": 627,
+    "sourceCount": 631,
     "countries": {
       "Gjermani": {
-        "index": 50,
+        "index": 51,
         "positive": 3,
-        "neutral": 95,
+        "neutral": 94,
         "negative": 2,
-        "n": 107,
+        "n": 87,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
       },
       "SHBA": {
-        "index": 52,
+        "index": 53,
         "positive": 7,
         "neutral": 92,
-        "negative": 2,
-        "n": 184,
+        "negative": 1,
+        "n": 175,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -673,17 +673,17 @@
         "positive": 3,
         "neutral": 97,
         "negative": 0,
-        "n": 63,
+        "n": 62,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
       },
       "Francë": {
         "index": 54,
-        "positive": 10,
-        "neutral": 89,
+        "positive": 9,
+        "neutral": 90,
         "negative": 1,
-        "n": 91,
+        "n": 77,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2

@@ -76,6 +76,52 @@ export default function ToneDashboard({ summary }: { summary: ToneSummary }) {
   const shown = expanded ? withData : withData.slice(0, SHORTLIST);
   const hiddenCount = withData.length - Math.min(SHORTLIST, withData.length);
 
+  /**
+   * The day's two sharpest pieces, across every country: the most critical and
+   * the most positive. An index tells a reader the temperature; this tells
+   * them what was actually written, which is the thing they came for. Both are
+   * one tap from the article itself.
+   */
+  const notable = useMemo(() => {
+    if (!outletData) return null;
+    const all: Array<FlatArticle & { country: string }> = [];
+    for (const [country, data] of Object.entries(outletData.countries)) {
+      for (const o of data.outlets) {
+        for (const a of o.articles) all.push({ ...a, outlet: o.name, country });
+      }
+    }
+    // How often each outlet appears at all. A masthead that shows up once in
+    // a thousand articles is usually not a newspaper — a Ukrainian shelter
+    // site turned up here as the most critical piece of "American" coverage.
+    // The blocklist catches the ones we know by name; this catches the long
+    // tail, and only for the two most prominent slots, so nothing is discarded
+    // from the index itself on a guess.
+    const outletFreq = new Map<string, number>();
+    for (const a of all) outletFreq.set(a.outlet, (outletFreq.get(a.outlet) ?? 0) + 1);
+    const recurring = (a: FlatArticle) => (outletFreq.get(a.outlet) ?? 0) > 1;
+
+    // Preference order, strongest first. An evidence span is what makes one of
+    // these worth leading with, and an Albanian rendering is what makes it
+    // readable — these two cards are the most prominent thing in the module,
+    // and leading a Kosovo homepage with an untranslated German headline is
+    // not a lead, it is homework.
+    const pick = (s: "negative" | "positive") => {
+      const of = (f: (a: FlatArticle) => boolean) => all.filter((a) => a.sentiment === s && f(a))[0];
+      return (
+        of((a) => Boolean(a.evidence && a.albanianTitle) && recurring(a)) ??
+        of((a) => Boolean(a.evidence && a.albanianTitle)) ??
+        of((a) => Boolean(a.albanianTitle) && recurring(a)) ??
+        of((a) => Boolean(a.albanianTitle)) ??
+        of((a) => Boolean(a.evidence)) ??
+        of(() => true) ??
+        null
+      );
+    };
+    const critical = pick("negative");
+    const positive = pick("positive");
+    return critical || positive ? { critical, positive } : null;
+  }, [outletData]);
+
   const detail = useMemo(() => {
     if (!selected || !outletData) return null;
     const country = outletData.countries[selected];
@@ -190,6 +236,56 @@ export default function ToneDashboard({ summary }: { summary: ToneSummary }) {
             </motion.p>
           )}
         </AnimatePresence>
+
+        {/* What was actually written today, not just how much of it there was. */}
+        {notable && (
+          <div style={{ display: "grid", gap: "10px", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 300px), 1fr))", marginTop: "20px" }}>
+            {([["negative", notable.critical], ["positive", notable.positive]] as const).map(
+              ([kind, a]) =>
+                a && (
+                  <a
+                    key={kind}
+                    href={a.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      display: "block", padding: "11px 13px", textDecoration: "none",
+                      background: "#FFFFFF", border: "1px solid #E8E3DB",
+                      borderTop: `3px solid ${META[kind].color}`, borderRadius: "10px",
+                    }}
+                  >
+                    <span style={{ display: "flex", alignItems: "center", gap: "7px", marginBottom: "5px", flexWrap: "wrap" }}>
+                      <span style={{ fontSize: "10px", fontWeight: 800, letterSpacing: "0.06em", textTransform: "uppercase", color: META[kind].color }}>
+                        {kind === "negative" ? "Më kritiku sot" : "Më pozitivi sot"}
+                      </span>
+                      <span style={{ fontSize: "11px", color: TONE_INK.faint }}>
+                        {a.outlet} · {a.country}
+                      </span>
+                    </span>
+                    {/* Clamped: these are an entry point, not the article. Two
+                        lines of headline and one of quotation is enough to
+                        decide whether to open it, and keeps the pair from
+                        costing a third of a phone screen. */}
+                    <p style={{
+                      margin: "0 0 5px", fontSize: "clamp(13px, 2.6vw, 14.5px)", fontWeight: 700,
+                      lineHeight: 1.35, color: TONE_INK.strong,
+                      display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden",
+                    }}>
+                      {a.albanianTitle || a.title}
+                    </p>
+                    {a.evidence && (
+                      <p style={{
+                        margin: 0, fontSize: "12px", fontStyle: "italic", color: TONE_INK.muted, lineHeight: 1.4,
+                        display: "-webkit-box", WebkitLineClamp: 1, WebkitBoxOrient: "vertical", overflow: "hidden",
+                      }}>
+                        «{a.evidence}»
+                      </p>
+                    )}
+                  </a>
+                )
+            )}
+          </div>
+        )}
 
         {/* The three-swatch legend is gone: the map's own gradient already runs
             Kritik → Pozitiv one line above and says the same thing. */}
@@ -400,10 +496,31 @@ function CountryDetail({
                 </p>
               )}
 
+              {/* The words that decided it, in the outlet's own language. The
+                  classifier has always had to produce this span to justify a
+                  non-neutral call — showing it turns the label from something
+                  the reader has to trust into something they can check. */}
+              {a.evidence && a.sentiment !== "neutral" && (
+                <p
+                  style={{
+                    margin: "9px 0 0", padding: "7px 11px",
+                    borderLeft: `2px solid ${META[a.sentiment]?.color ?? TONE_COLOR.neutral}`,
+                    background: "#FAFAF8", borderRadius: "0 6px 6px 0",
+                    fontSize: "13px", lineHeight: 1.45, color: TONE_INK.strong,
+                    fontStyle: "italic",
+                  }}
+                >
+                  «{a.evidence}»
+                </p>
+              )}
+
               {a.reason && (
                 <p style={{ margin: "8px 0 0", fontSize: "12.5px", lineHeight: 1.5, color: TONE_INK.muted, display: "flex", gap: "7px", alignItems: "flex-start" }}>
                   {a.isQuote && <Quote size={13} strokeWidth={2} style={{ flexShrink: 0, marginTop: "2px", color: TONE_INK.faint }} aria-label="Citim" />}
-                  <span>{a.reason}</span>
+                  <span>
+                    {a.isQuote && a.speaker ? `Citim i ${a.speaker}. ` : ""}
+                    {a.reason}
+                  </span>
                 </p>
               )}
 

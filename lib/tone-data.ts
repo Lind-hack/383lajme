@@ -29,6 +29,11 @@ export interface ToneArticle {
   /** True when the charged language belonged to a quoted speaker rather than
    * to the outlet — which is why the article is not counted against it. */
   isQuote?: boolean;
+  /** The outlet's own words that decided a non-neutral call, copied verbatim
+   * from the headline or snippet. Empty for neutral articles by design. */
+  evidence?: string;
+  /** Who was being quoted, when isQuote is true. */
+  speaker?: string;
 }
 
 export interface ToneOutlet {
@@ -301,6 +306,9 @@ export function getForeignCoverage(
   if (!cache?.articles) return [];
 
   const cutoff = Date.now() - windowHours * 60 * 60 * 1000;
+  /** Matches CACHE_RETENTION_DAYS in tools/tone_scraper.py — the point past
+   *  which the article is gone from the cache anyway. */
+  const opinionCutoff = Date.now() - 7 * 24 * 60 * 60 * 1000;
   // Window is based on firstSeen (when OUR pipeline discovered the story —
   // always a clean "YYYY-MM-DD" we generate ourselves), not entry.date (the
   // article's own original publish date from the RSS feed, which the
@@ -323,7 +331,16 @@ export function getForeignCoverage(
     // index math on the Python side.
     if (entry.sentiment === "unknown") continue;
     const ts = Date.parse(entry.firstSeen || "");
-    if (Number.isNaN(ts) || ts < cutoff) continue;
+    if (Number.isNaN(ts)) continue;
+    // Two windows, not one. Under the stance definition roughly nine articles
+    // in ten are neutral, so a flat 72h window leaves only a handful of
+    // non-neutral pieces eligible and the section fills up with "an outlet
+    // reported a thing" — which is the least interesting version of "the
+    // world is talking about Kosovo". An outlet actually taking a position is
+    // rare and stays worth showing for longer, so it gets the full cache
+    // retention; neutral filler still expires at 72h.
+    const isOpinionated = entry.sentiment === "negative" || entry.sentiment === "positive";
+    if (ts < (isOpinionated ? opinionCutoff : cutoff)) continue;
     candidates.push({ entry, ts });
   }
 

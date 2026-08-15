@@ -144,6 +144,18 @@ FLAGS = {
 # below the cap; this only bites while a new country is warming up.
 MAX_NEW_PER_RUN = 48
 
+# How many times an article may be re-sent to the classifier before we accept
+# that it is genuinely unreadable. Most UNKNOWNs are transient — a batch lost
+# to a rate limit — so a couple of retries recovers nearly all of them without
+# letting a permanently odd headline consume a slot on all nine daily runs.
+MAX_STANCE_ATTEMPTS = 4
+
+# Same idea for the Albanian rendering. A non-neutral article without one is
+# the case that actually costs us — those are the pieces the homepage leads
+# with — so they get retried, bounded, on the model with the larger budget.
+MAX_TRANSLATE_ATTEMPTS = 3
+TRANSLATE_RETRY_PER_RUN = 20
+
 KNOWN_OUTLETS: dict[str, dict[str, str]] = {
     "Gjermani": {
         "spiegel.de": "Der Spiegel",
@@ -205,6 +217,15 @@ BLOCKED_DOMAINS = {
     "zeri.info", "insajderi.com", "kosova-sot.info", "epokaere.com",
     "top-channel.tv", "panorama.com.al", "shqiptarja.com", "balkanweb.com",
     "syri.net", "albaniandailynews.com", "tiranatimes.com",
+    # Serbian press. Removing the Serbian *feed* was not enough on its own:
+    # Google serves Belgrade outlets into other countries' editions, and B92
+    # was landing in the US feed and coming out as the single most critical
+    # piece of "American" coverage. Serbian media is a party to the subject,
+    # not an outside observer of it — the same reason the feed went.
+    "b92.net", "blic.rs", "kurir.rs", "informer.rs", "politika.rs",
+    "danas.rs", "telegraf.rs", "novosti.rs", "rts.rs", "tanjug.rs",
+    "alo.rs", "espreso.rs", "vesti.rs", "nova.rs", "n1info.com",
+    "sputnikportal.rs", "srbijadanas.com", "objektiv.rs", "pink.rs",
     # Not press.
     "dvidshub.net", "bundeswehr.de", "nato.int", "kfor.nato.int",
     "dazn.com", "anwalt.de", "audimax.de",
@@ -214,6 +235,8 @@ BLOCKED_NAMES = {
     "klan kosova", "rtk", "indeksonline", "bota sot", "zëri", "zeri",
     "insajderi", "kosova sot", "top channel", "panorama", "shqiptarja",
     "balkanweb", "syri", "albanian daily news", "tirana times",
+    "b92", "blic", "kurir", "informer", "politika", "danas", "telegraf",
+    "novosti", "rts", "tanjug", "espreso", "srbija danas", "sputnik",
     "dvids", "bundeswehr", "nato", "kfor", "dazn", "anwalt.de", "audimax",
 }
 
@@ -221,7 +244,10 @@ BLOCKED_NAMES = {
 def is_foreign_press(outlet: str, url: str) -> bool:
     """False for outlets that must not count toward a foreign country's tone."""
     name = (outlet or "").strip().lower()
-    if any(blocked == name or blocked in name for blocked in BLOCKED_NAMES):
+    # Word boundaries, not substrings. Plain `in` blocked La Repubblica,
+    # because "blic" sits inside "repub-blic-a" — short outlet names collide
+    # with ordinary words often enough that this has to be exact.
+    if any(re.search(rf"\b{re.escape(blocked)}\b", name) for blocked in BLOCKED_NAMES):
         return False
     try:
         host = urlparse(url).netloc.lower()
@@ -463,6 +489,12 @@ def _parse_stance_item(raw: object) -> dict:
         stance = "neutral"
     if confidence == "low" and stance != "neutral":
         stance = UNKNOWN
+    # The contract says evidence is the span that justifies a NON-neutral call,
+    # and neutral takes "". Models do not always comply, and a neutral article
+    # carrying a leftover span is data that contradicts its own label — the UI
+    # would have to guard against it forever. Clear it at the boundary instead.
+    if stance != "positive" and stance != "negative":
+        evidence = ""
     return {
         "stance": stance,
         "isQuote": bool(raw.get("is_quote", False)),
@@ -682,6 +714,7 @@ def main():
     # first-seen-in-a-different-country) outlet name.
     country_occurrences: dict[str, list[tuple[str, dict]]] = {c: [] for c in FEEDS}
     new_items: list[tuple[str, dict]] = []
+    retry_items: list[tuple[str, dict]] = []
     image_retry_keys: list[str] = []
     seen_new_keys: set[str] = set()
 
@@ -695,17 +728,34 @@ def main():
                 if not entry.get("imageUrl") and entry.get("imageAttempts", 0) < MAX_IMAGE_ATTEMPTS:
                     if key not in image_retry_keys:
                         image_retry_keys.append(key)
+                # An article that failed classification used to be dead for
+                # good: only cache *misses* were ever sent to the model, so a
+                # batch lost to a rate limit stayed UNKNOWN forever. It had
+                # still cost a fetch, a translation and an image scrape, and
+                # UNKNOWN is excluded from the index and from Bota Flet — so
+                # the failure quietly threw all of that away. 39% of the cache
+                # was sitting in that state. They get another try each run.
+                elif entry.get("stance", entry.get("sentiment")) == UNKNOWN:
+                    if entry.get("stanceAttempts", 0) < MAX_STANCE_ATTEMPTS and key not in seen_new_keys:
+                        seen_new_keys.add(key)
+                        retry_items.append((key, {**item, "country": country}))
             elif key not in seen_new_keys:
                 seen_new_keys.add(key)
                 new_items.append((key, {**item, "country": country}))
 
-    print(f"  {len(new_items)} new articles, {len(image_retry_keys)} pending image retries")
+    print(f"  {len(new_items)} new, {len(retry_items)} unresolved retries, "
+          f"{len(image_retry_keys)} pending image retries")
 
-    # Take a slice and leave the rest for the next run rather than trying the
-    # whole backlog and rate-limiting most of it into UNKNOWN.
+    # New articles first — they are today's news — then as much of the
+    # unresolved backlog as the per-run budget still allows.
     if len(new_items) > MAX_NEW_PER_RUN:
         print(f"  capping at {MAX_NEW_PER_RUN} this run; {len(new_items) - MAX_NEW_PER_RUN} deferred")
         new_items = new_items[:MAX_NEW_PER_RUN]
+    budget = MAX_NEW_PER_RUN - len(new_items)
+    if budget > 0 and retry_items:
+        taken = retry_items[:budget]
+        print(f"  retrying {len(taken)} of {len(retry_items)} unresolved")
+        new_items = new_items + taken
 
     # ── Stance, then translation. Two passes, two models, two failure
     # domains: a translation that fails no longer takes a stance label with it.
@@ -728,9 +778,48 @@ def main():
     if unknown_count:
         print(f"  {unknown_count}/{len(new_items)} new articles unresolved (excluded from index)")
 
+    # ── Second translation pass: the articles that actually matter ──
+    #
+    # Translation ran once per article and, if it failed, never ran again. That
+    # is worst exactly where it hurts most: of eight critical articles, six had
+    # the deciding span identified and no Albanian headline, so the homepage
+    # was left leading with German. Under the stance definition roughly one
+    # article in twenty is non-neutral, so this is a handful of extra strings
+    # a run, on the model with the larger daily budget.
+    pending_translation = [
+        (k, e) for k, e in articles_cache.items()
+        if e.get("stance") in ("positive", "negative")
+        and not e.get("translated")
+        and e.get("translateAttempts", 0) < MAX_TRANSLATE_ATTEMPTS
+    ][:TRANSLATE_RETRY_PER_RUN]
+
+    if pending_translation:
+        print(f"  translating {len(pending_translation)} untranslated non-neutral articles")
+        for i in range(0, len(pending_translation), TRANSLATE_BATCH_SIZE):
+            chunk = pending_translation[i:i + TRANSLATE_BATCH_SIZE]
+            titles = translate_batch(client, [{"title": e["title"]} for _, e in chunk])
+            for (key, entry), title in zip(chunk, titles):
+                entry["translateAttempts"] = entry.get("translateAttempts", 0) + 1
+                # Retry when the batch gave us nothing at all, not only when it
+                # gave us something that wasn't Albanian. A whole batch failing
+                # to parse returns None for every item, and guarding on `title`
+                # meant precisely those articles never got the single-item
+                # escalation — which is why the two most-cited critical outlets
+                # stayed untranslated through two passes.
+                if not title or not is_albanian_text(title):
+                    title = retry_translation(client, entry["title"])
+                if title and is_albanian_text(title):
+                    entry["albanianTitle"] = title
+                    entry["translated"] = True
+
     for key, item in new_items:
         stance = stances.get(key) or _parse_stance_item(None)
         albanian_title = translations.get(key)
+        # A retry already has an entry, with an image that cost a page fetch
+        # and a firstSeen that the 72h display window is measured from. This
+        # write is a full replacement, so those have to be carried over or a
+        # retry would silently undo the work that made the article usable.
+        prior = articles_cache.get(key) or {}
         articles_cache[key] = {
             "key": key,
             "title": item["title"],
@@ -738,14 +827,17 @@ def main():
             # away here, which meant the cache could never be re-classified at
             # the same signal the live run had.
             "summary": (item.get("summary") or "")[:400],
-            "albanianTitle": albanian_title,
-            "translated": bool(albanian_title),
+            "albanianTitle": albanian_title or prior.get("albanianTitle"),
+            "translated": bool(albanian_title or prior.get("albanianTitle")),
             "url": item["url"],
             "googleNewsUrl": item["url"],
-            "imageUrl": None,
-            "imageAttempts": 0,
+            "imageUrl": prior.get("imageUrl"),
+            "imageAttempts": prior.get("imageAttempts", 0),
             "outlet": item["outlet"],
             "country": item["country"],
+            # Bounded, so an article the model genuinely cannot read stops
+            # costing a slot on every run forever.
+            "stanceAttempts": prior.get("stanceAttempts", 0) + 1,
             # `sentiment` stays as the name the frontend still reads; `stance`
             # is the same value under the name that says what it means. Drop
             # the alias once lib/tone-data.ts has migrated.
@@ -759,7 +851,7 @@ def main():
             "model": CLASSIFY_MODEL if client else "",
             "stanceVersion": STANCE_SCHEMA_VERSION,
             "date": item["date"] or today,
-            "firstSeen": today,
+            "firstSeen": prior.get("firstSeen") or today,
             "lastSeen": today,
         }
 
@@ -852,6 +944,11 @@ def main():
                 # instead of asking to be believed.
                 "reason": entry.get("stanceReason", ""),
                 "isQuote": bool(entry.get("isQuote", False)),
+                # The outlet's own words that decided a non-neutral call. The
+                # single most persuasive thing we hold: it turns the label
+                # from an assertion into something the reader can check.
+                "evidence": entry.get("evidence", ""),
+                "speaker": entry.get("speaker", ""),
             }
             by_outlet.setdefault(candidate["outlet"], []).append(article_out)
             flat.append({**article_out, "outlet": candidate["outlet"]})
