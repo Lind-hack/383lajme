@@ -855,17 +855,17 @@
   },
   {
     "date": "2026-08-15",
-    "overallIndex": 52,
-    "totalArticles": 427,
-    "sourceCount": 431,
+    "overallIndex": 53,
+    "totalArticles": 419,
+    "sourceCount": 418,
     "stanceVersion": 2,
     "countries": {
       "Gjermani": {
-        "index": 49,
+        "index": 48,
         "positive": 0,
         "neutral": 97,
         "negative": 3,
-        "n": 34,
+        "n": 33,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -875,7 +875,7 @@
         "positive": 6,
         "neutral": 94,
         "negative": 0,
-        "n": 50,
+        "n": 47,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -885,7 +885,7 @@
         "positive": 9,
         "neutral": 89,
         "negative": 2,
-        "n": 46,
+        "n": 45,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -895,7 +895,7 @@
         "positive": 11,
         "neutral": 86,
         "negative": 3,
-        "n": 37,
+        "n": 36,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -912,21 +912,21 @@
       },
       "Austri": {
         "index": 53,
-        "positive": 6,
-        "neutral": 94,
+        "positive": 5,
+        "neutral": 95,
         "negative": 0,
-        "n": 35,
-        "excluded": 1,
+        "n": 38,
+        "excluded": 0,
         "confident": true,
         "stanceVersion": 2
       },
       "Zvicër": {
-        "index": 52,
-        "positive": 4,
-        "neutral": 96,
-        "negative": 0,
-        "n": 26,
-        "excluded": 9,
+        "index": 56,
+        "positive": 16,
+        "neutral": 80,
+        "negative": 4,
+        "n": 25,
+        "excluded": 11,
         "confident": true,
         "stanceVersion": 2
       },
@@ -935,8 +935,8 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 9,
-        "excluded": 37,
+        "n": 8,
+        "excluded": 38,
         "confident": false,
         "stanceVersion": 2
       },
@@ -945,7 +945,7 @@
         "positive": 7,
         "neutral": 93,
         "negative": 0,
-        "n": 30,
+        "n": 29,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2
@@ -956,7 +956,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 5,
-        "excluded": 20,
+        "excluded": 21,
         "confident": false,
         "stanceVersion": 2
       },
@@ -965,8 +965,8 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 7,
-        "excluded": 51,
+        "n": 5,
+        "excluded": 53,
         "confident": false,
         "stanceVersion": 2
       },
@@ -985,18 +985,18 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 10,
-        "excluded": 26,
+        "n": 11,
+        "excluded": 25,
         "confident": false,
         "stanceVersion": 2
       },
       "Turqi": {
-        "index": 53,
-        "positive": 7,
-        "neutral": 93,
+        "index": 56,
+        "positive": 13,
+        "neutral": 87,
         "negative": 0,
-        "n": 29,
-        "excluded": 15,
+        "n": 31,
+        "excluded": 13,
         "confident": true,
         "stanceVersion": 2
       },
@@ -1005,7 +1005,7 @@
         "positive": 6,
         "neutral": 94,
         "negative": 0,
-        "n": 50,
+        "n": 47,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -1014,7 +1014,7 @@
     "headlines": [
       {
         "title": "Kosovo stood with Ukraine, Zelensky’s words in Belgrade were a painful betrayal - opinion - The Jerusalem Post",
-        "source": "jpost.com",
+        "source": "The Jerusalem Post",
         "country": "SHBA",
         "flag": "🇺🇸",
         "url": "https://www.jpost.com/opinion/article-905061",
