@@ -1,8 +1,13 @@
 """
-Scrapes Kosovo-related news from Google News RSS per country, classifies
-sentiment + translates headlines to Albanian via Groq (heuristic fallback,
-no translation, if no key), resolves a real image per article, and writes
-three files:
+Scrapes Kosovo-related news from Google News RSS per country, classifies each
+article's STANCE toward Kosovo and translates its headline to Albanian via
+Groq, resolves a real image per article, and writes three files.
+
+Note on "stance": this measures whether the OUTLET's own voice is hostile to
+Kosovo, not whether the news is good or bad. A grim event reported flatly is
+neutral, and a hostile quote belongs to whoever said it. Both calls run on
+llama-3.3-70b; without an API key nothing is guessed, articles are marked
+UNKNOWN and excluded from the index.
 
   public/tone-outlets.json       — today's full snapshot, grouped by outlet
                                     (per-country hover drill-down on the
@@ -64,7 +69,23 @@ CACHE_PATH = ROOT / "public" / "tone-article-cache.json"
 # ~300 fetched — single-digit calls, well inside llama-3.3-70b's free-tier
 # ceiling of 1K requests / 100K tokens per day.
 CLASSIFY_MODEL = os.environ.get("GROQ_CLASSIFY_MODEL", "llama-3.3-70b-versatile")
-TRANSLATE_MODEL = os.environ.get("GROQ_TRANSLATE_MODEL", "llama-3.1-8b-instant")
+
+# Translation moved to the 70B as well: the 8B was producing headlines that
+# were not quite Albanian ("duhet të condamonte"), and these are read by
+# people, on the homepage, as the lead.
+#
+# It fits, but not comfortably. Measured from the API's own usage counters:
+# 254 tokens per classified article, 67 per translated one. At the current
+# ~276 articles a day that is 70K + 19K = 89K against a 100K daily ceiling —
+# eleven percent of headroom, which a busy news day or the retry passes can
+# eat. So the 8B stays as a fallback rather than being removed: if the 70B
+# refuses, a slightly clumsy Albanian headline is a far better outcome than
+# no headline, which is what "translation failed" actually costs us.
+#
+# Classification runs first, so when the budget does run out it is the
+# translation that degrades, not the index.
+TRANSLATE_MODEL = os.environ.get("GROQ_TRANSLATE_MODEL", "llama-3.3-70b-versatile")
+TRANSLATE_FALLBACK_MODEL = os.environ.get("GROQ_TRANSLATE_FALLBACK", "llama-3.1-8b-instant")
 
 # What the label means, not what the code version is. v1 read "is this good or
 # bad news about Kosovo"; v2 reads "is this outlet's own voice hostile toward
@@ -571,22 +592,29 @@ def translate_batch(client: "Groq | None", items: list[dict]) -> list[str | None
         + " strings, in order, no markdown.\n\n"
         + numbered
     )
-    try:
-        resp = client.chat.completions.create(
-            model=TRANSLATE_MODEL,
-            messages=[{"role": "user", "content": prompt}],
-            max_tokens=1400,
-            temperature=0.3,
-        )
-        raw = resp.choices[0].message.content.strip()
-        raw = re.sub(r"^```(?:json)?\s*|\s*```$", "", raw, flags=re.MULTILINE).strip()
-        parsed = json.loads(raw)
-        if not isinstance(parsed, list) or len(parsed) != len(titles):
-            raise ValueError(f"expected {len(titles)} strings")
-        return [str(p).strip() or None for p in parsed]
-    except Exception as e:
-        print(f"  Groq translation error: {e}", file=sys.stderr)
-        return [None for _ in titles]
+    # Primary then fallback. The 70B writes better Albanian but shares its
+    # daily token ceiling with classification, and classification runs first —
+    # so on a heavy day this is the call that gets refused. Dropping to the 8B
+    # costs some fluency; dropping the translation costs the headline.
+    for model in (TRANSLATE_MODEL, TRANSLATE_FALLBACK_MODEL):
+        try:
+            resp = client.chat.completions.create(
+                model=model,
+                messages=[{"role": "user", "content": prompt}],
+                max_tokens=1400,
+                temperature=0.3,
+            )
+            raw = resp.choices[0].message.content.strip()
+            raw = re.sub(r"^```(?:json)?\s*|\s*```$", "", raw, flags=re.MULTILINE).strip()
+            parsed = json.loads(raw)
+            if not isinstance(parsed, list) or len(parsed) != len(titles):
+                raise ValueError(f"expected {len(titles)} strings")
+            return [str(p).strip() or None for p in parsed]
+        except Exception as e:
+            print(f"  translation via {model} failed: {e}", file=sys.stderr)
+            if model == TRANSLATE_FALLBACK_MODEL:
+                return [None for _ in titles]
+    return [None for _ in titles]
 
 
 def retry_translation(client: "Groq | None", title: str) -> str | None:
@@ -601,18 +629,20 @@ def retry_translation(client: "Groq | None", title: str) -> str | None:
         "phrasing. Reply with ONLY the translated headline, nothing else.\n\n"
         f"Headline: {title}"
     )
-    try:
-        resp = client.chat.completions.create(
-            model=TRANSLATE_MODEL,
-            messages=[{"role": "user", "content": prompt}],
-            max_tokens=100,
-            temperature=0.3,
-        )
-        text = resp.choices[0].message.content.strip().strip('"')
-        return text or None
-    except Exception as e:
-        print(f"  Groq translation retry error: {e}", file=sys.stderr)
-        return None
+    for model in (TRANSLATE_MODEL, TRANSLATE_FALLBACK_MODEL):
+        try:
+            resp = client.chat.completions.create(
+                model=model,
+                messages=[{"role": "user", "content": prompt}],
+                max_tokens=100,
+                temperature=0.3,
+            )
+            text = resp.choices[0].message.content.strip().strip('"')
+            if text:
+                return text
+        except Exception as e:
+            print(f"  translation retry via {model} failed: {e}", file=sys.stderr)
+    return None
 
 
 def country_index(positive: int, neutral: int, negative: int) -> int | None:
