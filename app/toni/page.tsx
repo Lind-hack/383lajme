@@ -246,7 +246,15 @@ export default async function ToniPage() {
                         {/* What the number rests on, next to the number. */}
                         <span style={{ flex: 1, minWidth: 0, fontSize: "12.5px", color: c.confident ? TONE_INK.faint : "#B8860B", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
                           {excluded > 0 ? `${c.n} nga ${c.n + excluded} artikuj` : `${c.n} artikuj`}
-                          {!c.confident && ` · mbulim ${Math.round(coverage * 100)}%`}
+                          {/* Name the actual reason. A country can fail the
+                              confidence test two different ways, and printing
+                              "mbulim 100%" in amber next to four articles
+                              reads as a contradiction: the coverage is fine,
+                              the count is what is thin. */}
+                          {!c.confident &&
+                            (c.n < MIN_CONFIDENT_N
+                              ? " · pak artikuj për një vlerësim"
+                              : ` · mbulim ${Math.round(coverage * 100)}%`)}
                         </span>
                         <span style={{ display: "flex", alignItems: "center", gap: "9px", flexShrink: 0 }}>
                           <span style={{ fontSize: "18px", fontWeight: 800, color: TONE_INK.strong, fontVariantNumeric: "tabular-nums" }}>
