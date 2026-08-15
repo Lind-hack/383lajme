@@ -13,9 +13,13 @@
 // an abstract plot and wrong for geography — it would shear every coastline.
 // This one keeps its aspect ratio, so text stays out of the SVG.
 
-import { useId } from "react";
+import { useId, useState, useRef, useCallback, useEffect } from "react";
+import { createPortal } from "react-dom";
+import { Maximize2, X, Plus, Minus, RotateCcw } from "lucide-react";
 import { MAP_SHAPES, MAP_VIEWBOX } from "@/lib/tone-map-paths";
 import { BAND, toneFill, toneLabel } from "@/lib/tone-scale";
+import ToneMapSheet from "./tone-map-sheet";
+import type { ToneCardArticle } from "./tone-article-card";
 
 export interface ToneMapCountry {
   /** ISO 3166-1 alpha-2, e.g. "DE". */
@@ -41,30 +45,215 @@ interface Props {
   selected: string | null;
   onHover: (country: string | null) => void;
   onSelect: (country: string) => void;
+  /** The two biggest stories for a country, for the tap-a-country sheet.
+   *  Optional: without it the map behaves exactly as before. */
+  articlesFor?: (country: string) => ToneCardArticle[];
+  /** Per-country stats for the sheet header. */
+  statsFor?: (country: string) => { flag: string; n: number; confident: boolean } | null;
+  /** "See everything" in the sheet, which opens the drill-down below. */
+  onExpand?: (country: string) => void;
 }
+
+/** Zoom bounds. 1 is the fitted view; beyond 6 the 110m geometry is visibly
+ *  faceted and there is nothing more to see. */
+const ZOOM_MIN = 1;
+const ZOOM_MAX = 6;
 
 const CONTEXT_FILL = "rgba(17,17,17,0.05)";
 const BORDER = "rgba(17,17,17,0.12)";
 
-export default function ToneMap({ countries, active, selected, onHover, onSelect }: Props) {
+/**
+ * Pan and zoom over the projected map.
+ *
+ * Deliberately transform-only: the viewBox stays fixed and a <g> carries a
+ * translate/scale, so the browser composites it instead of re-rasterising a
+ * few thousand path segments on every frame. Panning a viewBox is the obvious
+ * implementation and it drops frames on a phone.
+ */
+function useMapView(enabled: boolean) {
+  const [view, setView] = useState({ x: 0, y: 0, k: 1 });
+  const drag = useRef<{ x: number; y: number; vx: number; vy: number } | null>(null);
+  const pinch = useRef<{ dist: number; k: number } | null>(null);
+  const pointers = useRef(new Map<number, { x: number; y: number }>());
+
+  const clamp = useCallback((v: { x: number; y: number; k: number }) => {
+    const k = Math.min(ZOOM_MAX, Math.max(ZOOM_MIN, v.k));
+    // Never pan so far that the map leaves the frame: the visible half-extent
+    // grows with the zoom, so the bound has to as well.
+    const maxX = (MAP_VIEWBOX.width * (k - 1)) / 2;
+    const maxY = (MAP_VIEWBOX.height * (k - 1)) / 2;
+    return {
+      k,
+      x: Math.min(maxX, Math.max(-maxX, v.x)),
+      y: Math.min(maxY, Math.max(-maxY, v.y)),
+    };
+  }, []);
+
+  const reset = useCallback(() => setView({ x: 0, y: 0, k: 1 }), []);
+  const zoomBy = useCallback(
+    (factor: number) => setView((v) => clamp({ ...v, k: v.k * factor })),
+    [clamp]
+  );
+
+  // Leaving fullscreen returns to the fitted view, so reopening never starts
+  // in whatever corner the last session ended in.
+  useEffect(() => {
+    if (!enabled) reset();
+  }, [enabled, reset]);
+
+  const onPointerDown = useCallback((e: React.PointerEvent<SVGSVGElement>) => {
+    if (!enabled) return;
+    (e.target as Element).setPointerCapture?.(e.pointerId);
+    pointers.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    if (pointers.current.size === 1) {
+      drag.current = { x: e.clientX, y: e.clientY, vx: view.x, vy: view.y };
+    } else if (pointers.current.size === 2) {
+      const [a, b] = [...pointers.current.values()];
+      pinch.current = { dist: Math.hypot(a.x - b.x, a.y - b.y) || 1, k: view.k };
+      drag.current = null;
+    }
+  }, [enabled, view.x, view.y, view.k]);
+
+  const onPointerMove = useCallback((e: React.PointerEvent<SVGSVGElement>) => {
+    if (!enabled || !pointers.current.has(e.pointerId)) return;
+    pointers.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
+
+    if (pinch.current && pointers.current.size >= 2) {
+      const [a, b] = [...pointers.current.values()];
+      const dist = Math.hypot(a.x - b.x, a.y - b.y) || 1;
+      const next = pinch.current.k * (dist / pinch.current.dist);
+      setView((v) => clamp({ ...v, k: next }));
+      return;
+    }
+    if (drag.current) {
+      const rect = (e.currentTarget as SVGSVGElement).getBoundingClientRect();
+      // Pointer pixels to viewBox units, so a drag tracks the finger 1:1 at
+      // any container size.
+      const scale = MAP_VIEWBOX.width / (rect.width || 1);
+      setView((v) =>
+        clamp({
+          ...v,
+          x: drag.current!.vx + (e.clientX - drag.current!.x) * scale,
+          y: drag.current!.vy + (e.clientY - drag.current!.y) * scale,
+        })
+      );
+    }
+  }, [enabled, clamp]);
+
+  const endPointer = useCallback((e: React.PointerEvent<SVGSVGElement>) => {
+    pointers.current.delete(e.pointerId);
+    if (pointers.current.size < 2) pinch.current = null;
+    if (pointers.current.size === 0) drag.current = null;
+  }, []);
+
+  return { view, reset, zoomBy, onPointerDown, onPointerMove, endPointer };
+}
+
+
+export default function ToneMap({
+  countries, active, selected, onHover, onSelect, articlesFor, statsFor, onExpand,
+}: Props) {
+  const [fullscreen, setFullscreen] = useState(false);
+  // Portals need a DOM, so the overlay only exists after mount. Without this
+  // the server render and the first client render disagree.
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  const { view, reset, zoomBy, onPointerDown, onPointerMove, endPointer } = useMapView(fullscreen);
+
+  // Escape closes fullscreen, which is the one keyboard affordance a
+  // full-viewport overlay genuinely owes the user.
+  useEffect(() => {
+    if (!fullscreen) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setFullscreen(false); };
+    window.addEventListener("keydown", onKey);
+    // The overlay covers the page; letting the body scroll behind it means
+    // closing it drops the reader somewhere else entirely.
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      document.body.style.overflow = prev;
+    };
+  }, [fullscreen]);
+
+  const sheetCountry = selected;
+  const sheetStats = sheetCountry && statsFor ? statsFor(sheetCountry) : null;
+  const sheetArticles = sheetCountry && articlesFor ? articlesFor(sheetCountry) : [];
+  const sheetIndex = countries.find((c) => c.country === sheetCountry)?.index ?? null;
+
   const uid = useId().replace(/[^a-zA-Z0-9]/g, "");
   const byCode = new Map(countries.map((c) => [c.code, c]));
   // The key is only earned when something on the map is actually hatched.
   const hasThin = countries.some((c) => c.index != null && c.confident === false);
 
-  return (
-    // Full width. It was capped at 560px while it covered five countries and
-    // half an ocean; with sixteen countries and a Europe-weighted crop the
-    // map is the primary object in the module and gets the room.
-    <div style={{ position: "relative" }}>
+  // The band is stated, not hidden. Compressing 0-100 into 35-65 is what
+  // makes near-50 countries distinguishable at all, and a reader is entitled
+  // to know the scale was compressed.
+  const legend = (
+      <div
+        className="tone-map__legend"
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: "8px",
+          marginTop: "10px",
+          fontSize: "10.5px",
+          color: "#9CA3AF",
+          flexWrap: "wrap",
+        }}
+      >
+        <span style={{ fontWeight: 700 }}>Kritik</span>
+        <span
+          aria-hidden
+          style={{
+            flex: "1 1 90px",
+            minWidth: "90px",
+            height: "6px",
+            borderRadius: "100px",
+            background: `linear-gradient(90deg, ${toneFill(BAND.lo)}, ${toneFill(50)}, ${toneFill(BAND.hi)})`,
+          }}
+        />
+        <span style={{ fontWeight: 700 }}>Pozitiv</span>
+        {hasThin && (
+          <span style={{ display: "inline-flex", alignItems: "center", gap: "5px" }}>
+            <span
+              aria-hidden
+              style={{
+                width: "13px", height: "9px", borderRadius: "2px",
+                border: "1px solid rgba(17,17,17,0.15)",
+                background:
+                  "repeating-linear-gradient(45deg, rgba(17,17,17,0.28) 0 1.5px, transparent 1.5px 4px)",
+              }}
+            />
+            mbulim i pjesshëm
+          </span>
+        )}
+        <span style={{ marginLeft: "auto", fontVariantNumeric: "tabular-nums" }}>
+          shkalla {BAND.lo}–{BAND.hi}
+        </span>
+      </div>
+  );
+
+  const stage = (
+    <div className="tone-map__stage">
       <svg
         viewBox={`0 0 ${MAP_VIEWBOX.width} ${MAP_VIEWBOX.height}`}
         preserveAspectRatio="xMidYMid meet"
         role="img"
         aria-label="Harta e tonit të medias sipas vendit"
-        style={{ display: "block", width: "100%", height: "auto" }}
+        className="tone-map__svg"
+        onPointerDown={onPointerDown}
+        onPointerMove={onPointerMove}
+        onPointerUp={endPointer}
+        onPointerCancel={endPointer}
       >
         <title>Toni i medias sipas vendit</title>
+        {/* One transform for the whole scene. See useMapView: the viewBox is
+            fixed and this <g> moves, so panning composites instead of
+            re-rasterising every path. */}
+        <g
+          transform={`translate(${view.x} ${view.y}) scale(${view.k}) translate(${(MAP_VIEWBOX.width * (1 - view.k)) / (2 * view.k)} ${(MAP_VIEWBOX.height * (1 - view.k)) / (2 * view.k)})`}
+        >
 
         {/* One hatch mask per tracked shape would be wasteful; instead a
             single diagonal pattern is laid over the band colour, which stays
@@ -140,52 +329,69 @@ export default function ToneMap({ countries, active, selected, onHover, onSelect
             </g>
           );
         })}
+        </g>
       </svg>
 
-      {/* The band is stated, not hidden. Compressing 0-100 into 35-65 is what
-          makes five near-50 countries distinguishable at all, and a reader is
-          entitled to know the scale was compressed. */}
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: "8px",
-          marginTop: "10px",
-          fontSize: "10.5px",
-          color: "#9CA3AF",
-          flexWrap: "wrap",
-        }}
-      >
-        <span style={{ fontWeight: 700 }}>Kritik</span>
-        <span
-          aria-hidden
-          style={{
-            flex: "1 1 90px",
-            minWidth: "90px",
-            height: "6px",
-            borderRadius: "100px",
-            background: `linear-gradient(90deg, ${toneFill(BAND.lo)}, ${toneFill(50)}, ${toneFill(BAND.hi)})`,
-          }}
-        />
-        <span style={{ fontWeight: 700 }}>Pozitiv</span>
-        {hasThin && (
-          <span style={{ display: "inline-flex", alignItems: "center", gap: "5px" }}>
-            <span
-              aria-hidden
-              style={{
-                width: "13px", height: "9px", borderRadius: "2px",
-                border: "1px solid rgba(17,17,17,0.15)",
-                background:
-                  "repeating-linear-gradient(45deg, rgba(17,17,17,0.28) 0 1.5px, transparent 1.5px 4px)",
-              }}
-            />
-            mbulim i pjesshëm
-          </span>
+      {/* Toolbar. Zoom controls only exist in fullscreen — inline they would
+          be three buttons over a map that already fits. */}
+      <div className="tone-map__tools">
+        {fullscreen ? (
+          <>
+            <button type="button" onClick={() => zoomBy(1.4)} aria-label="Zmadho"><Plus size={15} strokeWidth={2.4} /></button>
+            <button type="button" onClick={() => zoomBy(1 / 1.4)} aria-label="Zvogëlo"><Minus size={15} strokeWidth={2.4} /></button>
+            <button type="button" onClick={reset} aria-label="Rikthe pamjen"><RotateCcw size={14} strokeWidth={2.4} /></button>
+            <button type="button" onClick={() => setFullscreen(false)} aria-label="Mbyll hartën"><X size={15} strokeWidth={2.4} /></button>
+          </>
+        ) : (
+          <button type="button" onClick={() => setFullscreen(true)} aria-label="Zgjero hartën" className="tone-map__expand">
+            <Maximize2 size={14} strokeWidth={2.4} /> Zgjero
+          </button>
         )}
-        <span style={{ marginLeft: "auto", fontVariantNumeric: "tabular-nums" }}>
-          shkalla {BAND.lo}–{BAND.hi}
-        </span>
       </div>
+
+      {/* What the country actually said, where the tap happened. Without this
+          a tap on a phone only recoloured a shape and the answer stayed far
+          below the fold. Lives inside the stage so it anchors to the map in
+          both the inline and the fullscreen layout. */}
+      {sheetCountry && (
+        <ToneMapSheet
+          country={sheetCountry}
+          flag={sheetStats?.flag ?? ""}
+          index={sheetIndex}
+          n={sheetStats?.n ?? 0}
+          confident={sheetStats?.confident ?? true}
+          articles={sheetArticles}
+          onClose={() => onSelect(sheetCountry)}
+          onExpand={onExpand ? () => { setFullscreen(false); onExpand(sheetCountry); } : undefined}
+        />
+      )}
+    </div>
+  );
+
+  return (
+    // Full width. It was capped at 560px while it covered five countries and
+    // half an ocean; with sixteen countries and a Europe-weighted crop the
+    // map is the primary object in the module and gets the room.
+    //
+    // The fullscreen overlay is portalled to <body> and it has to be. The
+    // module wraps this in a framer-motion div, and a transformed ancestor
+    // becomes the containing block for position:fixed — so "fullscreen" was
+    // rendering at the size of the card, with the site nav painted over it.
+    <div className="tone-map">
+      {fullscreen && mounted
+        ? createPortal(
+            <div className="tone-map tone-map--full">
+              {stage}
+              {legend}
+            </div>,
+            document.body
+          )
+        : stage}
+
+      {/* Inline only: in fullscreen the legend rides along inside the portal,
+          otherwise it would render behind the overlay. */}
+      {!fullscreen && legend}
     </div>
   );
 }
+

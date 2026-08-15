@@ -163,6 +163,37 @@ export default function ToneDashboard({
     [topics, topic]
   );
 
+  /**
+   * The two stories the map sheet shows for a country. Non-neutral first —
+   * a reader tapping a country wants the sharpest thing said about them, not
+   * the third routine dispatch.
+   */
+  const mapArticlesFor = (country: string): FlatArticle[] => {
+    const data = outletData?.countries?.[country];
+    if (!data) return [];
+    const flag = summary.countries.find((c) => c.country === country)?.flag ?? "";
+    const rank: Record<string, number> = { negative: 0, positive: 1, neutral: 2 };
+    return data.outlets
+      .flatMap((o) => o.articles.map((a) => ({ ...a, outlet: o.name, flag })))
+      .filter((a) => a.sentiment !== "unknown")
+      .sort((a, b) => (rank[a.sentiment] ?? 3) - (rank[b.sentiment] ?? 3));
+  };
+
+  const mapStatsFor = (country: string) => {
+    const stat = summary.countries.find((c) => c.country === country);
+    return stat ? { flag: stat.flag, n: stat.n, confident: stat.confident } : null;
+  };
+
+  /** The sheet's "everything from here" hands off to the inline drill-down. */
+  const scrollToDetail = (country: string) => {
+    setEverClicked(true);
+    setTopic(null);
+    setSelected(country);
+    requestAnimationFrame(() => {
+      detailRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  };
+
   function choose(country: string | null) {
     setEverClicked(true);
     setTopic(null);
@@ -278,6 +309,9 @@ export default function ToneDashboard({
           selected={selected}
           onHover={setHovered}
           onSelect={choose}
+          articlesFor={mapArticlesFor}
+          statsFor={mapStatsFor}
+          onExpand={scrollToDetail}
         />
 
         {/* The affordance. It says what to do, once, and gets out of the way
