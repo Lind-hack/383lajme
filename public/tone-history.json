@@ -854,24 +854,24 @@
   {
     "date": "2026-08-15",
     "overallIndex": 53,
-    "totalArticles": 449,
-    "sourceCount": 453,
+    "totalArticles": 438,
+    "sourceCount": 443,
     "stanceVersion": 2,
     "countries": {
       "Gjermani": {
-        "index": 51,
-        "positive": 5,
-        "neutral": 92,
+        "index": 49,
+        "positive": 0,
+        "neutral": 97,
         "negative": 3,
-        "n": 38,
+        "n": 34,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2
       },
       "SHBA": {
-        "index": 54,
-        "positive": 10,
-        "neutral": 88,
+        "index": 53,
+        "positive": 8,
+        "neutral": 90,
         "negative": 2,
         "n": 52,
         "excluded": 0,
@@ -889,10 +889,10 @@
         "stanceVersion": 2
       },
       "Francë": {
-        "index": 54,
+        "index": 55,
         "positive": 11,
-        "neutral": 87,
-        "negative": 3,
+        "neutral": 89,
+        "negative": 0,
         "n": 38,
         "excluded": 0,
         "confident": true,
@@ -909,22 +909,22 @@
         "stanceVersion": 2
       },
       "Austri": {
-        "index": 53,
-        "positive": 6,
-        "neutral": 94,
+        "index": 52,
+        "positive": 3,
+        "neutral": 97,
         "negative": 0,
-        "n": 34,
-        "excluded": 2,
+        "n": 31,
+        "excluded": 4,
         "confident": true,
         "stanceVersion": 2
       },
       "Zvicër": {
         "index": 50,
         "positive": 4,
-        "neutral": 92,
+        "neutral": 93,
         "negative": 4,
-        "n": 25,
-        "excluded": 12,
+        "n": 27,
+        "excluded": 11,
         "confident": true,
         "stanceVersion": 2
       },
@@ -933,9 +933,9 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 7,
-        "excluded": 53,
-        "confident": false,
+        "n": 12,
+        "excluded": 48,
+        "confident": true,
         "stanceVersion": 2
       },
       "Belgjikë": {
@@ -943,7 +943,7 @@
         "positive": 7,
         "neutral": 93,
         "negative": 0,
-        "n": 27,
+        "n": 28,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2
@@ -953,9 +953,9 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 10,
-        "excluded": 37,
-        "confident": true,
+        "n": 3,
+        "excluded": 42,
+        "confident": false,
         "stanceVersion": 2
       },
       "Greqi": {
@@ -973,8 +973,8 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 6,
-        "excluded": 54,
+        "n": 5,
+        "excluded": 55,
         "confident": false,
         "stanceVersion": 2
       },
@@ -983,25 +983,25 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 11,
-        "excluded": 28,
+        "n": 9,
+        "excluded": 31,
         "confident": true,
         "stanceVersion": 2
       },
       "Turqi": {
-        "index": 56,
-        "positive": 12,
-        "neutral": 88,
+        "index": 55,
+        "positive": 10,
+        "neutral": 90,
         "negative": 0,
-        "n": 32,
+        "n": 30,
         "excluded": 14,
         "confident": true,
         "stanceVersion": 2
       },
       "Kroaci": {
-        "index": 54,
-        "positive": 10,
-        "neutral": 88,
+        "index": 53,
+        "positive": 8,
+        "neutral": 90,
         "negative": 2,
         "n": 52,
         "excluded": 0,
@@ -1010,14 +1010,6 @@
       }
     },
     "headlines": [
-      {
-        "title": "Kosovo: Gesänge erzählen die Geschichte der Albaner - Stadt, Land, Kunst - 07/05/2026 - Die ganze Doku - Arte.tv",
-        "source": "Arte.tv",
-        "country": "Gjermani",
-        "flag": "🇩🇪",
-        "url": "https://www.arte.tv/de/videos/132970-000-A/kosovo-gesaenge-erzaehlen-die-geschichte-der-albaner/",
-        "sentiment": "positive"
-      },
       {
         "title": "Kosovo stood with Ukraine, Zelensky’s words in Belgrade were a painful betrayal - opinion - The Jerusalem Post",
         "source": "The Jerusalem Post",
@@ -1035,8 +1027,16 @@
         "sentiment": "positive"
       },
       {
+        "title": "La France et le Kosovo renforcent leur partenariat avec un financement de l'AFD de 60 millions d'euros en soutien aux Jeux méditerranéens 2030 - AFD - Agence Française de Développement",
+        "source": "AFD - Agence Française de Développement",
+        "country": "Francë",
+        "flag": "🇫🇷",
+        "url": "https://www.afd.fr/fr/commmuniques-de-presse/la-france-et-le-kosovo-renforcent-leur-partenariat-avec-un-financement-de",
+        "sentiment": "positive"
+      },
+      {
         "title": "Serbien: Ministerin hätte Kosovo gerne \"ethnisch gesäubert\" - dw.com",
-        "source": "dw.com",
+        "source": "DW.com",
         "country": "Gjermani",
         "flag": "🇩🇪",
         "url": "https://www.dw.com/de/serbiens-ministerin-snezana-paunovic-haette-kosovo-im-krieg-1999-gerne-ethnisch-gesaeubert/a-77983728",
@@ -1048,14 +1048,6 @@
         "country": "SHBA",
         "flag": "🇺🇸",
         "url": "https://www.genocidewatch.com/single-post/eu-condemns-serbian-minister-for-backing-ethnic-cleansing-of-kosovo",
-        "sentiment": "negative"
-      },
-      {
-        "title": "Au Kosovo, le voile de la discorde - Libération",
-        "source": "Libération",
-        "country": "Francë",
-        "flag": "🇫🇷",
-        "url": "https://www.liberation.fr/international/europe/au-kosovo-le-voile-de-la-discorde-20260613_NXSAE3C56VCZZN4Z52RNXNGCUQ/",
         "sentiment": "negative"
       }
     ]
