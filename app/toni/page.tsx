@@ -185,7 +185,7 @@ export default async function ToniPage() {
                     përshkrimi i secilës shkruhen nga një model gjuhësor mbi ato tituj. Janë
                     përmbledhje automatike, jo kategori redaksie.
                   </p>
-                  <div style={{ display: "grid", gap: "26px" }}>
+                  <div style={{ display: "grid", gridTemplateColumns: "minmax(0, 1fr)", gap: "26px" }}>
                     {topics.map((t) => {
                       const countries = t.countries ?? [...new Set(t.articles.map((a) => a.country))];
                       return (
@@ -208,7 +208,7 @@ export default async function ToniPage() {
                               {t.summary}
                             </p>
                           )}
-                          <div style={{ display: "grid", gap: "10px", gridTemplateColumns: "repeat(auto-fill, minmax(min(100%, 340px), 1fr))" }}>
+                          <div style={{ display: "grid", gap: "10px", gridTemplateColumns: "repeat(auto-fill, minmax(min(100%, 340px), 1fr))", minWidth: 0 }}>
                             {t.articles.slice(0, 4).map((a, i) => (
                               <ToneArticleCard key={`${a.url}-${i}`} a={a} />
                             ))}
@@ -225,7 +225,9 @@ export default async function ToniPage() {
                 label={summary.isStale ? "Sipas Vendit" : "Sipas Vendit, Sot"}
                 marginBottom={16}
               />
-              <div style={{ display: "grid", gap: "10px", marginBottom: "48px" }}>
+              {/* minmax(0, 1fr), not the implicit `auto`: an auto track floors
+                  at the widest child's min-content and overflows the page. */}
+              <div style={{ display: "grid", gridTemplateColumns: "minmax(0, 1fr)", gap: "10px", marginBottom: "48px" }}>
                 {withData.map((c) => {
                   const coverage = coverageOf(c);
                   const excluded = c.excluded ?? 0;

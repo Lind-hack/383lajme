@@ -7099,6 +7099,12 @@ body[data-tour-veil] > *:not(.tutorial-root) {
    client bundle on a page that is otherwise entirely server-rendered.
    Safari draws its own disclosure triangle from a -webkit pseudo-element that
    `list-style: none` alone does not remove, hence both rules. */
+/* Grid and flex items default to min-width:auto, i.e. min-content, so a wide
+   child pushes the track past its container instead of being clipped. The
+   country rows were rendering 424px inside a 342px column because of it. */
+.toni-country,
+.toni-country > summary { min-width: 0; }
+.toni-country > summary > * { min-width: 0; }
 .toni-country > summary::-webkit-details-marker { display: none; }
 .toni-country > summary::marker { content: ""; }
 .toni-country > summary::after {
@@ -7213,7 +7219,21 @@ body[data-tour-veil] > *:not(.tutorial-root) {
   font-size: 30px;
 }
 
-.tone-card__body { min-width: 0; }
+/* A grid/flex track's automatic minimum is min-content, so one unbreakable
+   token — "daily-sun.com", "Bangladesh Sangbad Sangstha" — widens the whole
+   card past its container. min-width:0 lets the track shrink; the wrap rule
+   then breaks the token instead of letting it stick out. Measured: the card
+   was rendering 395px wide inside a 390px viewport. */
+.tone-card,
+.tone-card__body,
+.tone-card__meta { min-width: 0; }
+.tone-card__outlet,
+.tone-card__title,
+.tone-card__blurb,
+.tone-card__original,
+.tone-card__evidence,
+.tone-card__cta { overflow-wrap: anywhere; }
+.tone-card__meta { max-width: 100%; }
 
 .tone-card__meta {
   display: flex;
@@ -7454,6 +7474,10 @@ body[data-tour-veil] > *:not(.tutorial-root) {
   font-size: 20px;
 }
 .tone-sheet__text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.tone-sheet__item { min-width: 0; }
+.tone-sheet__text strong,
+.tone-sheet__blurb,
+.tone-sheet__outlet { overflow-wrap: anywhere; }
 .tone-sheet__text strong {
   font-size: 13px; font-weight: 700; line-height: 1.35; color: #111111;
   display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
