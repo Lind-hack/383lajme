@@ -336,3 +336,27 @@ def test_outlet_identity_folds_domain_and_display_forms(a, b):
 def test_outlet_identity_keeps_different_outlets_apart():
     assert ts.outlet_identity("Le Monde") != ts.outlet_identity("Le Figaro")
     assert ts.outlet_identity("ANSA") != ts.outlet_identity("ANSAmed")
+
+
+def test_drop_blocked_purges_already_cached_articles():
+    """The blocklist has to apply to the cache, not only to new fetches.
+
+    is_foreign_press() runs at fetch time, so adding an outlet only stopped
+    new articles — the ones already cached stayed, and the site reads the
+    cache directly for its topic clustering and Bota Flet section.
+    """
+    articles = {
+        "a": {"outlet": "KoSSev", "url": "https://kossev.info/x"},
+        "b": {"outlet": "Kosovo Online", "url": "https://kosovo-online.com/y"},
+        "c": {"outlet": "Der Spiegel", "url": "https://spiegel.de/z"},
+        "d": {"outlet": "La Repubblica", "url": "https://repubblica.it/w"},
+    }
+    kept = ts.drop_blocked(articles)
+    assert set(kept) == {"c", "d"}
+
+
+def test_drop_blocked_keeps_outlets_that_merely_contain_a_blocked_substring():
+    """La Repubblica contains "blic". The regression that caught this once
+    already must not come back through the cache path."""
+    articles = {"a": {"outlet": "La Repubblica", "url": "https://repubblica.it/x"}}
+    assert set(ts.drop_blocked(articles)) == {"a"}

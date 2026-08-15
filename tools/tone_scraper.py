@@ -702,10 +702,34 @@ def load_cache() -> dict:
         try:
             data = json.loads(CACHE_PATH.read_text(encoding="utf-8"))
             if isinstance(data, dict) and isinstance(data.get("articles"), dict):
-                return data
+                return {**data, "articles": drop_blocked(data["articles"])}
         except Exception:
             pass
     return {"version": 1, "articles": {}}
+
+
+def drop_blocked(articles: dict) -> dict:
+    """Re-apply the blocklist to everything already cached.
+
+    is_foreign_press() runs at fetch time, so adding an outlet to the
+    blocklist only stopped NEW articles: the ones already cached stayed, and
+    the cache is read directly by the site's topic clustering and Bota Flet
+    section. KoSSev and Kosovo Online — Kosovo-based Serbian-language
+    outlets, the exact class this index exists to exclude — were the two
+    highest-volume outlets in it.
+
+    Published tone-outlets.json/tone-history.json rebuild from each run's own
+    candidates and so cleaned themselves, which is what hid this: the numbers
+    were right while the articles on the page were not.
+    """
+    kept = {
+        key: a for key, a in articles.items()
+        if is_foreign_press(a.get("outlet", ""), a.get("url", ""))
+    }
+    dropped = len(articles) - len(kept)
+    if dropped:
+        print(f"Dropped {dropped} cached articles from blocked outlets")
+    return kept
 
 
 def fetch_candidates() -> dict[str, list[dict]]:
