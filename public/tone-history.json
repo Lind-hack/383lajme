@@ -865,7 +865,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 3,
+        "n": 2,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
@@ -885,7 +885,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 10,
+        "n": 12,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -955,9 +955,9 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 5,
+        "n": 4,
         "excluded": 0,
-        "confident": true,
+        "confident": false,
         "stanceVersion": 2
       },
       "Greqi": {

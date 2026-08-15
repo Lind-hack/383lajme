@@ -8,26 +8,6 @@
     "Gjermani": {
       "outlets": [
         {
-          "name": "DiePresse.com",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosovo steckt erneut in einer politischen Krise - DiePresse.com",
-              "albanianTitle": "Kosova në një krizë politike tjetër - DiePresse.com",
-              "blurb": "Kosova po përballet sërish me një krizë politike sipas raportimeve të fundit nga gazeta austriake Die Presse.",
-              "imageUrl": "https://img.diepresse.com/public/incoming/9oq1kk-2026-08-08t124704z2044394285rc2auma8ufw1rtrmadp3kosovo-politicsjpg/alternates/WEBP_WIDE_1200/2026-08-08T124704Z_2044394285_RC2AUMA8UFW1_RTRMADP_3_KOSOVO-POLITICS.JPG",
-              "url": "https://www.diepresse.com/41173664/kosovo-steckt-erneut-in-einer-politischen-krise",
-              "date": "2026-08-14",
-              "sentiment": "neutral",
-              "reason": "Raportim i thjeshtë i një krize politike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
           "name": "Pester Lloyd",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -73,7 +53,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 3,
+        "n": 2,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
@@ -469,6 +449,26 @@
           ]
         },
         {
+          "name": "cna.al",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Firearms trafficking from Kosovo is cracked down on/ Two people in handcuffs - cna.al",
+              "albanianTitle": "Goditet trafikimi i armëve nga Kosova, prangosen dy persona",
+              "blurb": "Policia ka arrestuar dy persona nën dyshimin për përfshirje në trafikimin e armëve të zjarrit nga Kosova.",
+              "imageUrl": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300",
+              "url": "https://www.cna.al/english/kronika/goditet-trafiku-i-armeve-te-zjarrit-nga-kosova-dy-persona-ne-pranga-i471608",
+              "date": "2026-08-15",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim i thjeshtë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "globalpost.com",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -482,6 +482,26 @@
               "date": "2026-08-15",
               "sentiment": "neutral",
               "reason": "Lajm i thjeshtë, i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "srpske.rs",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Elvedin Pezic Detained in Vitomirica Near Pec - srpske.rs",
+              "albanianTitle": "Elvedin Pezic është arrestuar në Vitomiricë afër Pecit",
+              "blurb": "Elvedin Pezic është ndaluar nga autoritetet në fshatin Vitomiricë të komunës së Pejës, sipas njoftimeve të mediave serbe.",
+              "imageUrl": "https://srpske.rs/uploads/articles/kosovo-police-detain-preacher-elvedin-pezic-in-vitomirica-16x9.webp",
+              "url": "https://srpske.rs/en/news/svet/2026/08/14/kosovo-police-detain-preacher-elvedin-pezic-in-vitomirica",
+              "date": "2026-08-14",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -514,7 +534,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 10,
+        "n": 12,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -885,26 +905,6 @@
     "Spanjë": {
       "outlets": [
         {
-          "name": "ESPN Argentina",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosovo Calendario 2026 - ESPN Argentina",
-              "albanianTitle": "Kalendari i Kosovës 2026 - ESPN Argentina",
-              "blurb": "ESPN Argentina ka publikuar kalendarin e Kosovës për vitin 2026, duke detajuar ndeshjet dhe ngjarjet.",
-              "imageUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/21479.png",
-              "url": "https://www.espn.com.ar/futbol/equipo/calendario/_/id/21479/Kosovo",
-              "date": "2026-08-14",
-              "sentiment": "neutral",
-              "reason": "Lajm i thjeshtë, i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
           "name": "El Impulso",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -990,9 +990,9 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 5,
+        "n": 4,
         "excluded": 0,
-        "confident": true,
+        "confident": false,
         "stanceVersion": 2
       }
     },
@@ -1211,12 +1211,12 @@
               "speaker": ""
             },
             {
-              "title": "Sınır Kapılarında Yoğunluk: Merdare'de 3 Saate Varan Bekleme - Kosovahaber.com",
-              "albanianTitle": "Shumë ushtarë në kufi: Njerëzit janë të prurur në Merdare për 3 orë - Kosovahaber.com",
-              "blurb": "Pritjet në pikën kufitare në Merdare për të dalë nga Kosova po zgjasin deri në tri orë.",
+              "title": "Bosnalı Vaizin Kosova'dan Sınır Dışı Edilmesi Bekleniyor - Kosovahaber.com",
+              "albanianTitle": "Pritet largimi i imamit boshnjak nga Kosova",
+              "blurb": "Predikuesi nga Bosnja dhe Hercegovina pritet të dëbohet nga territori i Kosovës pas ndalimit nga autoritetet përkatëse.",
               "imageUrl": null,
-              "url": "https://kosovahaber.com/haber/sinir-kapilarinda-yogunluk-merdarede-3-saate-varan-bekleme-104925",
-              "date": "2026-08-15",
+              "url": "https://kosovahaber.com/haber/bosnali-vaizin-kosovadan-sinir-disi-edilmesi-bekleniyor-104911",
+              "date": "2026-08-14",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike",
               "isQuote": false,
@@ -1224,11 +1224,11 @@
               "speaker": ""
             },
             {
-              "title": "Bosnalı Vaizin Kosova'dan Sınır Dışı Edilmesi Bekleniyor - Kosovahaber.com",
-              "albanianTitle": "Pritet largimi i imamit boshnjak nga Kosova",
-              "blurb": "Predikuesi nga Bosnja dhe Hercegovina pritet të dëbohet nga territori i Kosovës pas ndalimit nga autoritetet përkatëse.",
+              "title": "İmam Elvedin PeziÇ Kosova’dan Sınır Dışı Edildi - Kosovahaber.com",
+              "albanianTitle": "Imam Elvedin Peziç u dëbua nga Kosova - Kosovahaber.com",
+              "blurb": "Imami Elvedin Peziç është dëbuar nga Kosova, sipas raportimeve të fundit.",
               "imageUrl": null,
-              "url": "https://kosovahaber.com/haber/bosnali-vaizin-kosovadan-sinir-disi-edilmesi-bekleniyor-104911",
+              "url": "https://kosovahaber.com/haber/imam-elvedin-pezic-kosovadan-sinir-disi-edildi-104915",
               "date": "2026-08-14",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike",

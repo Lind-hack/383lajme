@@ -4,7 +4,7 @@
     {
       "label": "Bashkëpunimi ekonomik mes Kosovës dhe Bangladeshit",
       "fallbackLabel": "Bashkëpunimin · Synojnë",
-      "summary": "Kosova dhe Bangladeshi po zhvillojnë diskutime për të zgjeruar bashkëpunimin në tregti, investime dhe shkëmbime ekonomike mes dy vendeve.",
+      "summary": "Kosova dhe Bangladeshi po zhvillojnë bisedime për të zgjeruar bashkëpunimin në tregti, investime dhe shkëmbime ekonomike mes dy vendeve.",
       "count": 7,
       "positive": 0,
       "neutral": 7,
@@ -133,7 +133,7 @@
     {
       "label": "Siguria dhe spiunazhi në Kosovë",
       "fallbackLabel": "Serbe · Sulmeve",
-      "summary": "Kisha Ortodokse Serbe kërkon mbrojtje pas sulmeve, ndërsa autoritetet kosovare kanë arrestuar persona të dyshuar për spiunazh në favor të Serbisë.",
+      "summary": "Kisha Ortodokse Serbe kërkon mbrojtje pas incidenteve, ndërsa autoritetet kosovare kanë arrestuar një person të dyshuar për spiunazh në favor të Serbisë.",
       "count": 6,
       "positive": 0,
       "neutral": 6,
@@ -243,7 +243,7 @@
       ]
     },
     {
-      "label": "Marrëveshja për rekrutimin e punëtorëve",
+      "label": "Marrëveshja për rekrutimin e punëtorëve G2G",
       "fallbackLabel": "Punëtorëve · Rekrutimin",
       "summary": "Kosova dhe Bangladeshi po krijojnë një mekanizëm ndërqeveritar për të lehtësuar tregtinë e lirë dhe rekrutimin e punëtorëve mes dy shteteve.",
       "count": 5,
@@ -338,9 +338,9 @@
       ]
     },
     {
-      "label": "Ndihma humanitare nga shteti i Kosovës",
+      "label": "Ndihma financiare humanitare nga Kosova",
       "fallbackLabel": "Ndihmuar · Dollarë",
-      "summary": "Kosova ka ndarë fonde financiare për të ndihmuar qytetarët e prekur nga fatkeqësitë natyrore në qytete të ndryshme dhe në La Guaira.",
+      "summary": "Kosova ka ndarë fonde financiare për të mbështetur banorët dhe viktimat e fatkeqësive natyrore në qytete të ndryshme, përfshirë La Guaira.",
       "count": 5,
       "positive": 0,
       "neutral": 3,
@@ -515,8 +515,8 @@
     },
     {
       "label": "Kriza politike dhe takimet partiake",
-      "fallbackLabel": "Politike · Haxhiu",
-      "summary": "Kosova po përballet me një krizë politike, ndërsa përpjekjet për një takim të përbashkët të partive politike po hasin në refuzime.",
+      "fallbackLabel": "Politike · Partive",
+      "summary": "Kosova përballet me një krizë politike, ndërsa refuzimi i PDK-së për t'iu bashkuar takimit të thirrur nga Haxhiu thekson përçarjet politike.",
       "count": 3,
       "positive": 0,
       "neutral": 3,
@@ -578,9 +578,9 @@
       ]
     },
     {
-      "label": "Promovimi i investimeve në zonat ekonomike",
-      "fallbackLabel": "Tregtare · Shqyrtojnë",
-      "summary": "Bangladeshi ka ftuar investitorët kosovarë që të shfrytëzojnë mundësitë e biznesit dhe investimeve në zonat e lira ekonomike të vendit.",
+      "label": "Mundësitë e investimeve në Bangladesh",
+      "fallbackLabel": "Shqyrtojnë · Investimi",
+      "summary": "Bangladeshi po fton investitorët kosovarë që të shfrytëzojnë mundësitë e favorshme në zonat e lira ekonomike për të forcuar lidhjet tregtare.",
       "count": 3,
       "positive": 0,
       "neutral": 3,
@@ -641,9 +641,9 @@
       ]
     },
     {
-      "label": "Arrestimi i imamit dhe spiunazhi serb",
-      "fallbackLabel": "Elvedin · Afër",
-      "summary": "Policia e Kosovës ka arrestuar imamin Elvedin Peziç, ndërsa tensionet në rajon shtohen pas arrestimit të një spiuni të dyshuar serb.",
+      "label": "Arrestimi i imamit Elvedin Peziç",
+      "fallbackLabel": "Elvedin · Pecit",
+      "summary": "Policia e Kosovës ka arrestuar imamin boshnjak Elvedin Peziç në rajonin e Pejës, duke shkaktuar reagime lidhur me tensionet në Ballkan.",
       "count": 3,
       "positive": 0,
       "neutral": 3,
