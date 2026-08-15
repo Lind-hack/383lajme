@@ -113,9 +113,19 @@ export default function ToneLineChart({ history }: { history: ToneHistoryRow[] }
   // as "was the news good or bad"; everything right of it as "was the outlet
   // hostile". Drawing one continuous line across that without saying so would
   // present a methodology change as a swing in world opinion.
+  //
+  // Found from the right, not the left: the LAST row still on the old
+  // definition. Scanning forward for the first v2 row put the marker at
+  // 08-09 while 08-12 and 08-13 behind it still claimed v1 — rows written
+  // before the scraper learned to stamp the field, which default to 1. This
+  // way a missing stamp mid-series can only pull the marker later, never
+  // draw a boundary that has rows of both definitions on one side of it.
   const breakIdx = useMemo(() => {
-    const i = rows.findIndex((r) => (r.stanceVersion ?? 1) >= 2);
-    return i > 0 ? i : null;
+    let last = -1;
+    for (let i = 0; i < rows.length; i++) {
+      if ((rows[i].stanceVersion ?? 1) < 2) last = i;
+    }
+    return last >= 0 && last < rows.length - 1 ? last + 1 : null;
   }, [rows]);
 
   function handleMove(e: React.MouseEvent<SVGSVGElement>) {
