@@ -16,10 +16,11 @@
 
 import { useState, useEffect, useMemo, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { TrendingUp, TrendingDown, Minus, ArrowLeft, ArrowUpRight, ExternalLink, Quote, MousePointerClick, ChevronDown, AlertTriangle } from "lucide-react";
+import { TrendingUp, TrendingDown, Minus, ArrowLeft, ArrowUpRight, MousePointerClick, ChevronDown, AlertTriangle } from "lucide-react";
 import { EASE, DUR } from "@/lib/tokens";
 import SectionLabel from "./section-label";
 import ToneMap from "./tone/tone-map";
+import ToneArticleCard, { TONE_META as META } from "./tone/tone-article-card";
 import {
   TONE_COLOR,
   TONE_INK,
@@ -32,12 +33,6 @@ import {
   formatAge,
 } from "@/lib/tone-scale";
 import type { ToneOutletsData, ToneSummary, ToneArticle, ToneTopic } from "@/lib/tone-data";
-
-const META: Record<string, { label: string; color: string }> = {
-  positive: { label: "Pozitiv", color: TONE_COLOR.positive },
-  neutral: { label: "Neutral", color: TONE_COLOR.neutral },
-  negative: { label: "Kritik", color: TONE_COLOR.critical },
-};
 
 type FlatArticle = ToneArticle & { outlet: string; country?: string };
 
@@ -628,74 +623,19 @@ function TopicDetail({ topic, onClose }: { topic: ToneTopic; onClose: () => void
 
 /* ── the card both panels are built from ────────────────────────────────── */
 
+/**
+ * The card itself lives in components/tone/tone-article-card.tsx, motion-free,
+ * so /toni can server-render the identical thing. All that is added here is
+ * the stagger.
+ */
 function ArticleCard({ a, i }: { a: FlatArticle; i: number }) {
   return (
-    <motion.a
-      href={a.url}
-      target="_blank"
-      rel="noopener noreferrer"
+    <motion.div
       initial={{ opacity: 0, transform: "translateY(10px)" }}
       animate={{ opacity: 1, transform: "translateY(0px)" }}
       transition={{ duration: DUR.base, ease: EASE, delay: 0.06 + Math.min(i, 10) * 0.035 }}
-      style={{
-        display: "block", padding: "14px 16px", background: "#FFFFFF",
-        border: "1px solid #E8E3DB", borderLeft: `3px solid ${META[a.sentiment]?.color ?? TONE_COLOR.neutral}`,
-        borderRadius: "10px", textDecoration: "none",
-      }}
     >
-      <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "7px", flexWrap: "wrap" }}>
-        <span style={{ fontSize: "11.5px", fontWeight: 800, color: TONE_INK.strong }}>{a.outlet}</span>
-        {/* Only in a topic panel, where the articles come from many countries
-            and the outlet alone doesn't place them. */}
-        {a.country && <span style={{ fontSize: "11px", color: TONE_INK.faint }}>· {a.country}</span>}
-        {a.date && <span style={{ fontSize: "11px", color: TONE_INK.faint }}>· {a.date}</span>}
-        <span style={{ fontSize: "10.5px", fontWeight: 700, letterSpacing: "0.05em", textTransform: "uppercase", color: META[a.sentiment]?.color ?? TONE_INK.muted, marginLeft: "auto" }}>
-          {META[a.sentiment]?.label ?? "—"}
-        </span>
-      </div>
-
-      {/* Albanian first — the original is right underneath for anyone
-          who wants to check the rendering. */}
-      <p style={{ margin: "0 0 4px", fontSize: "15px", fontWeight: 700, lineHeight: 1.4, color: TONE_INK.strong }}>
-        {a.albanianTitle || a.title}
-      </p>
-      {a.albanianTitle && a.albanianTitle !== a.title && (
-        <p style={{ margin: "0 0 8px", fontSize: "12px", lineHeight: 1.45, color: TONE_INK.faint, fontStyle: "italic" }}>
-          {a.title}
-        </p>
-      )}
-
-      {/* The words that decided it, in the outlet's own language. The
-          classifier has always had to produce this span to justify a
-          non-neutral call — showing it turns the label from something
-          the reader has to trust into something they can check. */}
-      {a.evidence && a.sentiment !== "neutral" && (
-        <p
-          style={{
-            margin: "9px 0 0", padding: "7px 11px",
-            borderLeft: `2px solid ${META[a.sentiment]?.color ?? TONE_COLOR.neutral}`,
-            background: "#FAFAF8", borderRadius: "0 6px 6px 0",
-            fontSize: "13px", lineHeight: 1.45, color: TONE_INK.strong,
-            fontStyle: "italic",
-          }}
-        >
-          «{a.evidence}»
-        </p>
-      )}
-
-      {a.reason && (
-        <p style={{ margin: "8px 0 0", fontSize: "12.5px", lineHeight: 1.5, color: TONE_INK.muted, display: "flex", gap: "7px", alignItems: "flex-start" }}>
-          {a.isQuote && <Quote size={13} strokeWidth={2} style={{ flexShrink: 0, marginTop: "2px", color: TONE_INK.faint }} aria-label="Citim" />}
-          <span>
-            {a.isQuote && a.speaker ? `Citim i ${a.speaker}. ` : ""}
-            {a.reason}
-          </span>
-        </p>
-      )}
-
-      <span style={{ display: "inline-flex", alignItems: "center", gap: "5px", marginTop: "10px", fontSize: "12px", fontWeight: 700, color: "#FF4422" }}>
-        Lexo te {a.outlet} <ExternalLink size={12} strokeWidth={2.2} />
-      </span>
-    </motion.a>
+      <ToneArticleCard a={a} />
+    </motion.div>
   );
 }

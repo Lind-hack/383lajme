@@ -7093,3 +7093,30 @@ body[data-tour-veil] > *:not(.tutorial-root) {
   text-transform: uppercase;
   white-space: nowrap;
 }
+
+/* ── /toni country rows ──────────────────────────────────────────────────
+   Native <details>, so the per-country article lists work with no JS and no
+   client bundle on a page that is otherwise entirely server-rendered.
+   Safari draws its own disclosure triangle from a -webkit pseudo-element that
+   `list-style: none` alone does not remove, hence both rules. */
+.toni-country > summary::-webkit-details-marker { display: none; }
+.toni-country > summary::marker { content: ""; }
+.toni-country > summary::after {
+  content: "";
+  flex-shrink: 0;
+  width: 8px;
+  height: 8px;
+  margin-left: 2px;
+  border-right: 2px solid #B4B0A6;
+  border-bottom: 2px solid #B4B0A6;
+  transform: rotate(45deg) translate(-2px, -2px);
+  transition: transform 160ms var(--ease-out);
+}
+.toni-country[open] > summary::after {
+  transform: rotate(-135deg) translate(-2px, -2px);
+}
+.toni-country > summary:focus-visible {
+  outline: 2px solid #FF4422;
+  outline-offset: 3px;
+  border-radius: 8px;
+}
