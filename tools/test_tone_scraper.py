@@ -284,3 +284,55 @@ def test_no_blocked_outlet_survives_in_published_data():
         if not ts.is_foreign_press(o["name"], (o["articles"] or [{}])[0].get("url", ""))
     ]
     assert not offenders, f"blocked outlets still published: {sorted(set(offenders))[:5]}"
+
+
+# ── Confidence must account for what was discarded ──────────────────────
+
+def test_confident_requires_enough_articles():
+    assert ts.is_confident(7, 0) is False
+    assert ts.is_confident(8, 0) is True
+
+
+def test_confident_requires_enough_of_the_coverage():
+    """Greece read 50 off 5 of its 79 articles and Sweden off 9 of 120, and a
+    bare n>=8 passed Sweden while ignoring the 111 it threw away. An index
+    resting on a tenth of its own coverage is a rounding artifact."""
+    assert ts.is_confident(9, 111) is False    # Suedi: 8% scored
+    assert ts.is_confident(5, 74) is False     # Greqi: 6%
+    assert ts.is_confident(33, 11) is True     # Austri: 75%
+    assert ts.is_confident(175, 0) is True     # SHBA: 100%
+
+
+def test_confident_is_not_fooled_by_a_small_clean_sample():
+    """8 of 8 is full coverage but still a small sample — the count rule holds."""
+    assert ts.is_confident(4, 0) is False
+
+
+@pytest.mark.parametrize("outlet,url", [
+    ("KoSSev", "https://kossev.info/x"),
+    ("Kosovo Online", "https://www.kosovo-online.com/x"),
+    ("UEFA.com", "https://www.uefa.com/x"),
+    ("IQAir", "https://www.iqair.com/x"),
+    ("ArchDaily", "https://www.archdaily.com/x"),
+])
+def test_non_press_and_inside_sources_are_blocked(outlet, url):
+    """KoSSev and Kosovo Online were the two largest sources in the cache —
+    both Kosovo-based and Serbian-language, i.e. inside the subject."""
+    assert ts.is_foreign_press(outlet, url) is False
+
+
+@pytest.mark.parametrize("a,b", [
+    ("ANSA", "ansa.it"),
+    ("Aftonbladet", "aftonbladet.se"),
+    ("Der Spiegel", "der spiegel"),
+    ("BBC", "bbc.co.uk"),
+])
+def test_outlet_identity_folds_domain_and_display_forms(a, b):
+    """Google hands us the same publisher under two names depending on the
+    feed, which split every count and every history in half."""
+    assert ts.outlet_identity(a) == ts.outlet_identity(b)
+
+
+def test_outlet_identity_keeps_different_outlets_apart():
+    assert ts.outlet_identity("Le Monde") != ts.outlet_identity("Le Figaro")
+    assert ts.outlet_identity("ANSA") != ts.outlet_identity("ANSAmed")

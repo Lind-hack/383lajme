@@ -193,7 +193,7 @@ def rederive(articles: dict) -> None:
             "negative": round(100 * neg / n) if n else 0,
             "n": n,
             "excluded": counts.get(ts.UNKNOWN, 0),
-            "confident": n >= ts.MIN_CONFIDENT_N,
+            "confident": ts.is_confident(n, counts.get(ts.UNKNOWN, 0)),
             "stanceVersion": ts.STANCE_SCHEMA_VERSION,
         }
         countries[country] = {"outlets": outlets, "summary": summary}

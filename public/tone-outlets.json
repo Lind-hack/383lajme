@@ -1,8 +1,8 @@
 {
   "lastUpdated": "2026-08-14",
   "overallIndex": 52,
-  "totalArticles": 627,
-  "sourceCount": 631,
+  "totalArticles": 571,
+  "sourceCount": 607,
   "countries": {
     "Gjermani": {
       "outlets": [
@@ -401,46 +401,6 @@
           ]
         },
         {
-          "name": "IQAir",
-          "sentiment": "neutral",
-          "articleCount": 3,
-          "articles": [
-            {
-              "title": "Luftqualitätsindex (AQI) für Gjakova und Luftverschmutzung in Kosovo | IQAir Deutschland - IQAir",
-              "albanianTitle": null,
-              "url": "https://www.iqair.com/de/air-quality/kosovo/gjakova",
-              "date": "Fri, 17 Ju",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "speaker": "",
-              "evidence": ""
-            },
-            {
-              "title": "Luftqualitätsindex (AQI) und Luftverschmutzung in Kosovo | IQAir Deutschland - IQAir",
-              "albanianTitle": null,
-              "url": "https://www.iqair.com/de/air-quality/kosovo",
-              "date": "Tue, 23 Ju",
-              "sentiment": "neutral",
-              "reason": "Informacion i thjeshtë mbi Luftqualitätsindex",
-              "isQuote": false,
-              "speaker": "",
-              "evidence": ""
-            },
-            {
-              "title": "Luftqualitätsindex (AQI) für Pristina und Luftverschmutzung in Kosovo | IQAir Deutschland - IQAir",
-              "albanianTitle": "Indeksi i gjysmës së ajrit në Prishtinë dhe çështja e gjysmës së ajrit në Kosovë",
-              "url": "https://www.iqair.com/de/air-quality/kosovo/pristina/pristina",
-              "date": "2026-06-23",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "speaker": "",
-              "evidence": ""
-            }
-          ]
-        },
-        {
           "name": "Kronen Zeitung",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -701,79 +661,6 @@
           ]
         },
         {
-          "name": "UEFA.com",
-          "sentiment": "neutral",
-          "articleCount": 6,
-          "articles": [
-            {
-              "title": "Kosovo-Lettland | Statistiken | UEFA U17-EM 2027 - UEFA.com",
-              "albanianTitle": null,
-              "url": "https://de.uefa.com/under17/match/2047330--kosovo-vs-latvia/statistics/",
-              "date": "Wed, 22 Ju",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "speaker": "",
-              "evidence": ""
-            },
-            {
-              "title": "Belgien-Kosovo | UEFA U17-EM 2027 - UEFA.com",
-              "albanianTitle": "UEFA U17-EM 2027: Belgjika kundër Kosovës - UEFA.com",
-              "url": "https://de.uefa.com/under17/match/2047277--belgium-vs-kosovo/",
-              "date": "2026-07-22",
-              "sentiment": "neutral",
-              "reason": "Lajm i thjeshtë i një ngjarje sportive",
-              "isQuote": false,
-              "speaker": "",
-              "evidence": ""
-            },
-            {
-              "title": "Kroatien-Kosovo | UEFA U17-EM 2027 - UEFA.com",
-              "albanianTitle": "UEFA U17-EM 2027: Kroatia kundër Kosovës - UEFA.com",
-              "url": "https://de.uefa.com/under17/match/2047304--croatia-vs-kosovo/",
-              "date": "2026-07-22",
-              "sentiment": "neutral",
-              "reason": "Lajm i thjeshtë i një ngjarje sportive",
-              "isQuote": false,
-              "speaker": "",
-              "evidence": ""
-            },
-            {
-              "title": "Kosovo-Andorra | European Qualifiers 2026 - UEFA.com",
-              "albanianTitle": "Kosova kundër Andorrës | Kualifikimet Evropiane 2026 - UEFA.com",
-              "url": "https://de.uefa.com/european-qualifiers/friendlies/match/2048317--kosovo-vs-andorra/",
-              "date": "2026-05-23",
-              "sentiment": "neutral",
-              "reason": "Lajm i thjeshtë sportiv",
-              "isQuote": false,
-              "speaker": "",
-              "evidence": ""
-            },
-            {
-              "title": "Belgien-Kosovo | Kaderlisten | UEFA U17-EM 2027 - UEFA.com",
-              "albanianTitle": "Kosova në UEFA U17: Lista e lojtarëve për Belgjikë",
-              "url": "https://de.uefa.com/under17/match/2047277--belgium-vs-kosovo/lineups/",
-              "date": "2026-07-23",
-              "sentiment": "neutral",
-              "reason": "Lajm i thjeshtë sportiv",
-              "isQuote": false,
-              "speaker": "",
-              "evidence": ""
-            },
-            {
-              "title": "Kroatien-Kosovo | Gruppen | UEFA U17-EM 2027 - UEFA.com",
-              "albanianTitle": "Kosova në UEFA U17: Grupi ku do të luajë",
-              "url": "https://de.uefa.com/under17/match/2047304--croatia-vs-kosovo/standings/",
-              "date": "2026-07-23",
-              "sentiment": "neutral",
-              "reason": "Lajm i thjeshtë sportiv",
-              "isQuote": false,
-              "speaker": "",
-              "evidence": ""
-            }
-          ]
-        },
-        {
           "name": "WDR",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -948,24 +835,6 @@
               "date": "Thu, 16 Ju",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "speaker": "",
-              "evidence": ""
-            }
-          ]
-        },
-        {
-          "name": "de.uefa.com",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosovo-Lettland | Statistiken | UEFA U17-EM 2027 - de.uefa.com",
-              "albanianTitle": "Statistikat e Kosovës dhe Letonias në UEFA U17-EM 2027",
-              "url": "https://de.uefa.com/under17/match/2047330--kosovo-vs-latvia/statistics/",
-              "date": "2026-07-22",
-              "sentiment": "neutral",
-              "reason": "Lajm i mirë, i raportuar në mënyrë faktike",
               "isQuote": false,
               "speaker": "",
               "evidence": ""
@@ -1337,10 +1206,10 @@
       ],
       "summary": {
         "index": 51,
-        "positive": 3,
+        "positive": 4,
         "neutral": 94,
-        "negative": 2,
-        "n": 87,
+        "negative": 3,
+        "n": 77,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -1938,24 +1807,6 @@
           ]
         },
         {
-          "name": "IQAir",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosovo Air Quality Index (AQI) and Air Pollution information - IQAir",
-              "albanianTitle": "Indikativi i kalitës së ajrit në Kosovë dhe informacione mbi poluimin e ajrit",
-              "url": "https://www.iqair.com/air-quality/kosovo",
-              "date": "2026-06-22",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "speaker": "",
-              "evidence": ""
-            }
-          ]
-        },
-        {
           "name": "IntelliNews",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -2085,79 +1936,6 @@
               "reason": "Raporton thirrjen e liderit të PDK-së",
               "isQuote": true,
               "speaker": "Democratic Party of Kosovo leader",
-              "evidence": ""
-            }
-          ]
-        },
-        {
-          "name": "Kosovo Online",
-          "sentiment": "neutral",
-          "articleCount": 6,
-          "articles": [
-            {
-              "title": "Raskovic: Three police officers beat me, tied me to a tree and demanded a rifle, but I do not have one - Kosovo Online",
-              "albanianTitle": "Raskovic: Më kanë rrahur tre policë, më kanë lidhur në një pemë dhe më kanë kërkuar një karabin, por nuk kam një",
-              "url": "https://www.kosovo-online.com/en/news/chronicle/raskovic-three-police-officers-beat-me-tied-me-tree-and-demanded-rifle-i-do-not-have",
-              "date": "2026-08-12",
-              "sentiment": "neutral",
-              "reason": "Raporton deklaratën e Raskovic",
-              "isQuote": true,
-              "speaker": "Raskovic",
-              "evidence": ""
-            },
-            {
-              "title": "European Commission: Media freedom is a fundamental element of democratic societies - Kosovo Online",
-              "albanianTitle": "Komisioni Evropian: Liria e medias është një element i thellë i shoqërive demokratike - Kosovo Online",
-              "url": "https://www.kosovo-online.com/en/news/politics/european-commission-media-freedom-fundamental-element-democratic-societies-11-8-2026",
-              "date": "2026-08-12",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "speaker": "",
-              "evidence": ""
-            },
-            {
-              "title": "Nearly 800 ethnically motivated attacks on Serbs in Kosovo in five and a half years, 78 this year alone - Kosovo Online",
-              "albanianTitle": "Rreth 800 sulme etnike kundër serbëve në Kosovë në pesë e gjysmë vjet, 78 vetëm këtë vit",
-              "url": "https://www.kosovo-online.com/en/news/politics/nearly-800-ethnically-motivated-attacks-serbs-kosovo-five-and-half-years-78-year",
-              "date": "2026-08-13",
-              "sentiment": "neutral",
-              "reason": "Lajm i rëndë, i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "speaker": "",
-              "evidence": ""
-            },
-            {
-              "title": "KFOR on Serb List's request: Law enforcement is not part of our mandate - Kosovo Online",
-              "albanianTitle": "KFOR: Siguria dhe renditja nuk janë pjesë e mandatit tonë",
-              "url": "https://www.kosovo-online.com/en/news/politics/kfor-serb-lists-request-law-enforcement-not-part-our-mandate-12-8-2026",
-              "date": "2026-08-13",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "speaker": "",
-              "evidence": ""
-            },
-            {
-              "title": "Elek: Raskovic suffered multiple injuries, remains in intensive care - Kosovo Online",
-              "albanianTitle": "Elek: Raskovic ka pësuar plagë të shumta dhe mbetet në terapinë intensive",
-              "url": "https://www.kosovo-online.com/en/news/politics/elek-raskovic-suffered-multiple-injuries-remains-intensive-care-12-8-2026",
-              "date": "2026-08-13",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "speaker": "",
-              "evidence": ""
-            },
-            {
-              "title": "Macut condemns brutal beating of Raskovic: Violence against Serbs in Kosovo must stop immediately - Kosovo Online",
-              "albanianTitle": "Macuti deklaron se shqetësohet për të rënditurën e Raskovic: Dëbimi i serbëve në Kosovë duhet të ndalojë menjëherë",
-              "url": "https://www.kosovo-online.com/en/news/politics/macut-condemns-brutal-beating-raskovic-violence-against-serbs-kosovo-must-stop",
-              "date": "2026-08-13",
-              "sentiment": "neutral",
-              "reason": "Raporton deklaratën e Macutit, nuk e përvetëson",
-              "isQuote": false,
-              "speaker": "Macut",
               "evidence": ""
             }
           ]
@@ -2937,24 +2715,6 @@
           ]
         },
         {
-          "name": "World Bank Group",
-          "sentiment": "positive",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "In Kosovo, Childcare Vouchers Help Kids Learn and Mothers Work - World Bank Group",
-              "albanianTitle": "Në Kosovë, kupona për kujdesin e fëmijëve ndihmon fëmijët të mësojnë dhe nënat të punojnë",
-              "url": "https://www.worldbank.org/en/news/feature/2026/07/30/in-kosovo-childcare-vouchers-help-kids-learn-and-mothers-work",
-              "date": "Thu, 30 Ju",
-              "sentiment": "positive",
-              "reason": "Lajm i mirë, i raportuar në mënyrë pozitive",
-              "isQuote": false,
-              "speaker": "",
-              "evidence": "Help Kids Learn and Mothers Work"
-            }
-          ]
-        },
-        {
           "name": "World Baseball Softball Confederation (WBSC)",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -3713,24 +3473,6 @@
           ]
         },
         {
-          "name": "worldbank.org",
-          "sentiment": "positive",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "In Kosovo, Childcare Vouchers Help Kids Learn and Mothers Work - worldbank.org",
-              "albanianTitle": "Në Kosovë, kupona për kujdesin e fëmijëve ndihmon fëmijët të mësojnë dhe nënat të punojnë - worldbank.org",
-              "url": "https://www.worldbank.org/en/news/feature/2026/07/30/in-kosovo-childcare-vouchers-help-kids-learn-and-mothers-work",
-              "date": "2026-07-30",
-              "sentiment": "positive",
-              "reason": "Titulli dhe përmbajtja janë pozitive dhe mbështetëse",
-              "isQuote": false,
-              "speaker": "",
-              "evidence": "Help Kids Learn and Mothers Work"
-            }
-          ]
-        },
-        {
           "name": "www.iconnectblog.com",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -3917,10 +3659,10 @@
       ],
       "summary": {
         "index": 53,
-        "positive": 7,
+        "positive": 6,
         "neutral": 92,
         "negative": 1,
-        "n": 175,
+        "n": 158,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -4209,24 +3951,6 @@
               "reason": "Lajm i raportuar në mënyrë faktike",
               "isQuote": false,
               "speaker": "",
-              "evidence": ""
-            }
-          ]
-        },
-        {
-          "name": "Kosovo Online",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Vucevic: Attack on Raskovic part of ongoing pressure on Serbs, KFOR must protect citizens - Kosovo Online",
-              "albanianTitle": "Vuçeviç thotë se sulmi i Raskovic është pjesë e presionit të vazhduar ndaj Serbëve dhe KFOR duhet të mbrojë qytetarët",
-              "url": "https://www.kosovo-online.com/en/news/politics/vucevic-attack-raskovic-part-ongoing-pressure-serbs-kfor-must-protect-citizens-13-8",
-              "date": "2026-08-13",
-              "sentiment": "neutral",
-              "reason": "Raporton deklaratën e Vucevic",
-              "isQuote": false,
-              "speaker": "Vucevic",
               "evidence": ""
             }
           ]
@@ -4737,57 +4461,6 @@
           ]
         },
         {
-          "name": "kosovo-online.com",
-          "sentiment": "neutral",
-          "articleCount": 4,
-          "articles": [
-            {
-              "title": "EULEX: Extremely serious allegations of abuse by the Kosovo Police - kosovo-online.com",
-              "albanianTitle": "EULEX: Ato që janë bërë janë shumë të rënda, për shkak të akuzave të abuzit të Policisë së Kosovës - kosovo-online.com",
-              "url": "https://www.kosovo-online.com/en/news/politics/eulex-extremely-serious-allegations-abuse-kosovo-police-12-8-2026",
-              "date": "2026-08-12",
-              "sentiment": "neutral",
-              "reason": "Lajm i rëndë, i raportuar në mënyrä faktike",
-              "isQuote": false,
-              "speaker": "",
-              "evidence": ""
-            },
-            {
-              "title": "Kostic: Renewed UN engagement on Cyprus could advance the issues of the CSM and Serbia's sovereignty - kosovo-online.com",
-              "albanianTitle": "Kostic: Rindërtimi i angazhimit të Kombeve të Bashkuara në Qipro mund të ndihmojë çështjen e CSM dhe suverenitetin e Serbisë - kosovo-online.com",
-              "url": "https://www.kosovo-online.com/en/news/politics/kostic-renewed-un-engagement-cyprus-could-advance-issues-csm-and-serbias-sovereignty",
-              "date": "2026-08-12",
-              "sentiment": "neutral",
-              "reason": "Raporton deklaratën e Kosticit, nuk e përvetëson",
-              "isQuote": true,
-              "speaker": "Kostic",
-              "evidence": ""
-            },
-            {
-              "title": "Simic: Raskovic not the only victim of brutality; seven others were beaten - kosovo-online.com",
-              "albanianTitle": "Simic: Raskovic nuk është i vetmi që është përndjekur; shtatë të tjerë janë të rënë në shtrat - kosovo-online.com",
-              "url": "https://www.kosovo-online.com/en/news/politics/kurti-again-invites-party-leaders-meeting-12-8-2026",
-              "date": "2026-08-12",
-              "sentiment": "neutral",
-              "reason": "Raporton deklaratën e Simicit, nuk e përvetëson",
-              "isQuote": true,
-              "speaker": "Simic",
-              "evidence": ""
-            },
-            {
-              "title": "Radojevic: Beating of Raskovic a consequence of international community's silence; opening bridge would mean further persecution of Serbs - kosovo-online.com",
-              "albanianTitle": "Radojevic: Dëbimi i Raskovic është një pasojë e heshtjes së komunitetit ndërkombëtar; hapja e urës do të thotë më shumë persekutim për serbët - kosovo-online.com",
-              "url": "https://www.kosovo-online.com/en/news/politics/radojevic-beating-raskovic-consequence-international-communitys-silence-opening",
-              "date": "2026-08-12",
-              "sentiment": "neutral",
-              "reason": "Raporton deklaratën e Radojevic, nuk e përvetëson",
-              "isQuote": true,
-              "speaker": "Radojevic",
-              "evidence": ""
-            }
-          ]
-        },
-        {
           "name": "nashaniva.com",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -4963,10 +4636,10 @@
       ],
       "summary": {
         "index": 52,
-        "positive": 3,
-        "neutral": 97,
+        "positive": 4,
+        "neutral": 96,
         "negative": 0,
-        "n": 62,
+        "n": 57,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -5372,24 +5045,6 @@
               "isQuote": false,
               "speaker": "",
               "evidence": "avant-goût du Népal au cœur du Kosovo"
-            }
-          ]
-        },
-        {
-          "name": "IQAir",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Qualité de l’air en Kosovo - IQAir",
-              "albanianTitle": null,
-              "url": "https://www.iqair.com/fr/air-quality/kosovo",
-              "date": "Wed, 24 Ju",
-              "sentiment": "neutral",
-              "reason": "Raporton një temë pa koment",
-              "isQuote": false,
-              "speaker": "",
-              "evidence": ""
             }
           ]
         },
@@ -5825,46 +5480,6 @@
           ]
         },
         {
-          "name": "UEFA.com",
-          "sentiment": "neutral",
-          "articleCount": 3,
-          "articles": [
-            {
-              "title": "Albanie-Kosovo | Effectifs | Moins de 17 ans féminines 2027 - UEFA.com",
-              "albanianTitle": null,
-              "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxOY3RBQ2ZZMGtjYjhxWDY1T2J2LVMzQXZrdXVzNGpFdllkR1FfMEROWXNEa2J3a0NScktubXNoeFBCOTlXWTBoWVFQOWgtc3V6dWZybjE4MU8wd2dnN242Q25kWWlMY01VanhzTjdnWlNPVXlRbGdYMmE2UFhma3NiaA?oc=5",
-              "date": "Fri, 31 Ju",
-              "sentiment": "neutral",
-              "reason": "Informacion sportiv i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "speaker": "",
-              "evidence": ""
-            },
-            {
-              "title": "Albanie-Kosovo | Stats | Moins de 17 ans féminines 2027 - UEFA.com",
-              "albanianTitle": null,
-              "url": "https://fr.uefa.com/womensunder17/match/2048486--albania-vs-kosovo/statistics/",
-              "date": "Fri, 31 Ju",
-              "sentiment": "neutral",
-              "reason": "Informacion sportiv i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "speaker": "",
-              "evidence": ""
-            },
-            {
-              "title": "Albanie-Kosovo | Moins de 17 ans féminines 2027 - UEFA.com",
-              "albanianTitle": null,
-              "url": "https://news.google.com/rss/articles/CBMiggFBVV95cUxPN05WRlZVaHVVYTJDaU10UjRSaUdSVHhmMGd1Y2ozTGdIWUlCQkpxYm1LRDVVeHdSMnctQVVfdTVjdVZ2TmV6SG90emdOVGgwRGJjNGFibWY0cUhxN3VsOFZ2RjZVUlpMZGh4OUlRSmg5MU1rS0RsSGQ4d3B4dXdiQXJn?oc=5",
-              "date": "Fri, 31 Ju",
-              "sentiment": "neutral",
-              "reason": "Lajm sportiv i raportuar ne menyre faktike",
-              "isQuote": false,
-              "speaker": "",
-              "evidence": ""
-            }
-          ]
-        },
-        {
           "name": "Vatican News",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -6202,10 +5817,10 @@
       ],
       "summary": {
         "index": 54,
-        "positive": 9,
-        "neutral": 90,
+        "positive": 10,
+        "neutral": 89,
         "negative": 1,
-        "n": 77,
+        "n": 73,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -6609,24 +6224,6 @@
           ]
         },
         {
-          "name": "IQAir",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Indice di qualità dell'aria (AQI) e informazioni sull'inquinamento atmosferico in Cossovo | IQAir Italia - IQAir",
-              "albanianTitle": null,
-              "url": "https://www.iqair.com/it/air-quality/kosovo",
-              "date": "Tue, 23 Ju",
-              "sentiment": "neutral",
-              "reason": "Faktik, pa gjuhë ngarkuar, raportim neutral i ngjarjes",
-              "isQuote": false,
-              "speaker": "",
-              "evidence": ""
-            }
-          ]
-        },
-        {
           "name": "Il Foglio",
           "sentiment": "neutral",
           "articleCount": 2,
@@ -6742,68 +6339,6 @@
               "reason": "Raportim i thjeshtë i situatës aktuale",
               "isQuote": false,
               "speaker": "",
-              "evidence": ""
-            }
-          ]
-        },
-        {
-          "name": "KoSSev",
-          "sentiment": "neutral",
-          "articleCount": 5,
-          "articles": [
-            {
-              "title": "RSE: Quanto costa al Kosovo il blocco del commercio di energia elettrica con la Serbia? - KoSSev",
-              "albanianTitle": null,
-              "url": "https://kossev.info/it/koliko-kosovo-kosta-blokada-trgovine-elektricnom-energijom-sa-srbijom/",
-              "date": "Sun, 09 Au",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "speaker": "",
-              "evidence": ""
-            },
-            {
-              "title": "Koha: \"Invece di normalizzare le relazioni tra Kosovo e Serbia, le tensioni aumenteranno\". - KoSSev",
-              "albanianTitle": null,
-              "url": "https://kossev.info/it/koha-umesto-normalizacije-odnosa-izmedju-kosova-i-srbije-tenzije-ce-rasti/",
-              "date": "Wed, 05 Au",
-              "sentiment": "neutral",
-              "reason": "Raporton deklaratën e citimit, nuk e përvetëson",
-              "isQuote": true,
-              "speaker": "",
-              "evidence": ""
-            },
-            {
-              "title": "Associazione dei Comuni del Kosovo contro il progetto di legge sulla proprietà pubblica: ci stanno portando via la proprietà comunale - KoSSev",
-              "albanianTitle": null,
-              "url": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxQZWlWQ2JucFRMYjVhRko3elljQU1RZ1Z6QjlFaDZpSF9HaldkYnpMQnYwRENrdjZ4NE5BMEh3SmhyY2llSkc1elFVLUVvVHl2UE82em42US04ekVpNzZQd0x6YWM4RFAtdlVMSnZwM01KUHNaVzFvSThndlp5RW9VV0xqTWN3VXdMVVpiRUFlSUFYekdaRGtjRlhwcUp1aHRDU0c4OGtZdVdDamFUUXA5aTNjTmxONzVRcy11VzJfR29xZmQ1Ylg4U0RBTklEejJ4NC14NG53?oc=5",
-              "date": "Wed, 05 Au",
-              "sentiment": "neutral",
-              "reason": "Faktik, pa gjuhë ngarkuar, raportim neutral i ngjarjes",
-              "isQuote": false,
-              "speaker": "",
-              "evidence": ""
-            },
-            {
-              "title": "Il Kosovo ha battuto la Serbia nel golf. - KoSSev",
-              "albanianTitle": "Kosova ka mundur Serbinë në golf - KoSSev",
-              "url": "https://kossev.info/it/kosovo-pobedilo-srbiju-u-golfu/",
-              "date": "2026-07-31",
-              "sentiment": "neutral",
-              "reason": "Lajm i mirë, i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "speaker": "",
-              "evidence": ""
-            },
-            {
-              "title": "Vučić ai nuovi ufficiali: \"Il Kosovo e Metohija fa parte della nostra patria, secondo la Costituzione e secondo la giustizia di Dio\" - KoSSev",
-              "albanianTitle": "Vučić u drejtorëve të ri: 'Kosova dhe Metohija është pjesë e atdheut tonë, sipas Kushtetutës dhe sipas drejtësisë së Zotit'",
-              "url": "https://kossev.info/it/vucic-novim-oficirima-kosovo-i-metohija-je-deo-srbije-po-ustavu-i-po-pravdi-boga/",
-              "date": "2026-07-25",
-              "sentiment": "neutral",
-              "reason": "Raporton deklaratën e Vuçiqit, nuk e përvetëson",
-              "isQuote": true,
-              "speaker": "Vučić",
               "evidence": ""
             }
           ]
@@ -7217,57 +6752,6 @@
               "isQuote": false,
               "speaker": "",
               "evidence": "nel caos"
-            }
-          ]
-        },
-        {
-          "name": "UEFA.com",
-          "sentiment": "neutral",
-          "articleCount": 4,
-          "articles": [
-            {
-              "title": "Cechia-Kosovo | Qualificazioni Europee 2026 - UEFA.com",
-              "albanianTitle": null,
-              "url": "https://it.uefa.com/european-qualifiers/friendlies/match/2048310--czechia-vs-kosovo/",
-              "date": "Sun, 31 Ma",
-              "sentiment": "neutral",
-              "reason": "Lajm i mirë, i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "speaker": "",
-              "evidence": ""
-            },
-            {
-              "title": "Belgio-Kosovo | Gironi | UEFA Under 17 2027 - UEFA.com",
-              "albanianTitle": null,
-              "url": "https://it.uefa.com/under17/match/2047277--belgium-vs-kosovo/standings/",
-              "date": "Wed, 22 Ju",
-              "sentiment": "neutral",
-              "reason": "Lajm i thjeshtë sportiv",
-              "isQuote": false,
-              "speaker": "",
-              "evidence": ""
-            },
-            {
-              "title": "Kosovo-Andorra | Qualificazioni Europee 2026 - UEFA.com",
-              "albanianTitle": null,
-              "url": "https://it.uefa.com/european-qualifiers/friendlies/match/2048317--kosovo-vs-andorra/",
-              "date": "Thu, 21 Ma",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "speaker": "",
-              "evidence": ""
-            },
-            {
-              "title": "Kosovo-Andorra | Info partita | Qualificazioni Europee 2026 - UEFA.com",
-              "albanianTitle": null,
-              "url": "https://it.uefa.com/european-qualifiers/friendlies/match/2048317--kosovo-vs-andorra/matchinfo/",
-              "date": "Sun, 07 Ju",
-              "sentiment": "neutral",
-              "reason": "Faktik, pa gjuhë ngarkuar, raportim neutral i ngjarjes",
-              "isQuote": false,
-              "speaker": "",
-              "evidence": ""
             }
           ]
         },
@@ -7735,24 +7219,6 @@
           ]
         },
         {
-          "name": "kossev.info",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Il Kosovo ha battuto la Serbia nel golf. - kossev.info",
-              "albanianTitle": "Kosova fitoi në një turne të golfut kundër Serbisë",
-              "url": "https://kossev.info/it/kosovo-pobedilo-srbiju-u-golfu/",
-              "date": "2026-07-31",
-              "sentiment": "neutral",
-              "reason": "Lajm i mirë, i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "speaker": "",
-              "evidence": ""
-            }
-          ]
-        },
-        {
           "name": "labiennale.org",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -7998,9 +7464,9 @@
       "summary": {
         "index": 51,
         "positive": 4,
-        "neutral": 94,
-        "negative": 2,
-        "n": 125,
+        "neutral": 93,
+        "negative": 3,
+        "n": 114,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -8264,24 +7730,6 @@
               "albanianTitle": "Çehët fituan ndaj Kosovës në një ndeshje të testit të kampionatit botëror",
               "url": "https://www.skysportaustria.at/tschechien-gewinnt-wm-test-gegen-fodas-kosovo/",
               "date": "2026-05-31",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "speaker": "",
-              "evidence": ""
-            }
-          ]
-        },
-        {
-          "name": "UEFA.com",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Nations League & Women's EURO - UEFA.com",
-              "albanianTitle": null,
-              "url": "https://de.uefa.com/uefanationsleague/match/2047927--kosovo-vs-austria/",
-              "date": "2026-02-13",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike",
               "isQuote": false,
@@ -8708,7 +8156,7 @@
         "positive": 9,
         "neutral": 91,
         "negative": 0,
-        "n": 33,
+        "n": 32,
         "excluded": 11,
         "confident": true,
         "stanceVersion": 2
@@ -8813,46 +8261,6 @@
               "albanianTitle": "Kryeministri i ushtrisë viziton ushtrinë shqiptare në Kosovë dhe në Bosnje dhe Hercegovinë",
               "url": "https://www.vtg.admin.ch/de/newnsb/RKONtMN41TVu",
               "date": "2026-07-02",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "speaker": "",
-              "evidence": ""
-            }
-          ]
-        },
-        {
-          "name": "IQAir",
-          "sentiment": "unknown",
-          "articleCount": 3,
-          "articles": [
-            {
-              "title": "Luftqualität in Kosovo - IQAir",
-              "albanianTitle": "Kualiteti i ajrit në Kosovë - IQAir",
-              "url": "https://www.iqair.com/ch/air-quality/kosovo",
-              "date": "2026-06-22",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "speaker": "",
-              "evidence": ""
-            },
-            {
-              "title": "Luftqualitätsindex (AQI) für Pristina und Luftverschmutzung in Kosovo | IQAir Schweiz - IQAir",
-              "albanianTitle": "Indeksi i kalitës së ajrit në Prishtinë dhe çështja e poluimit në Kosovë",
-              "url": "https://www.iqair.com/ch/air-quality/kosovo/pristina/pristina",
-              "date": "2026-06-23",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "speaker": "",
-              "evidence": ""
-            },
-            {
-              "title": "Luftqualitätsindex (AQI) und Luftverschmutzung in Kosovo | IQAir Schweiz - IQAir",
-              "albanianTitle": "Indeksi i kalitës së ajrit dhe poluimi në Kosovë | IQAir Shqipëri",
-              "url": "https://www.iqair.com/ch/air-quality/kosovo",
-              "date": "2026-06-22",
               "sentiment": "unknown",
               "reason": "",
               "isQuote": false,
@@ -9098,24 +8506,6 @@
           ]
         },
         {
-          "name": "de.uefa.com",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Belgien-Kosovo | UEFA U17-EM 2027 - de.uefa.com",
-              "albanianTitle": "Bëmat Belgjike - Kosova | UEFA U17-Euro 2027 - uefa.com",
-              "url": "https://de.uefa.com/under17/match/2047277--belgium-vs-kosovo/",
-              "date": "2026-07-22",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "speaker": "",
-              "evidence": ""
-            }
-          ]
-        },
-        {
           "name": "freiburger-nachrichten.ch",
           "sentiment": "unknown",
           "articleCount": 1,
@@ -9277,12 +8667,12 @@
       ],
       "summary": {
         "index": 55,
-        "positive": 9,
-        "neutral": 91,
+        "positive": 10,
+        "neutral": 90,
         "negative": 0,
-        "n": 11,
-        "excluded": 30,
-        "confident": true,
+        "n": 10,
+        "excluded": 27,
+        "confident": false,
         "stanceVersion": 2
       }
     },
@@ -9653,79 +9043,6 @@
               "albanianTitle": "Overtoom udhëheq ndeshjen e kualifikimit të Kampionatit Botëror Gibraltar - Kosovë - KNVB",
               "url": "https://www.knvb.nl/nieuws/scheidsrechters/aanstellingen/71873/overtoom-leidt-wk-kwalificatieduel-gibraltar-kosovo",
               "date": "2026-06-08",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "speaker": "",
-              "evidence": ""
-            }
-          ]
-        },
-        {
-          "name": "KoSSev",
-          "sentiment": "unknown",
-          "articleCount": 6,
-          "articles": [
-            {
-              "title": "Konjufca teleurgesteld in Zelenski: Kosovo hoort al vanaf dag één bij Oekraïne, we weigeren dit te accepteren via de territoriale integriteit van Servië - KoSSev",
-              "albanianTitle": "Konjufca është i zemëruar me Zelenskin: Kosova është pjesë e Ukrainës që prej dites së parë",
-              "url": "https://kossev.info/nl/konjufca-razocaran-zelenskim-kosovo-uz-ukrajinu-od-prvog-dana-odbacujemo-da-se-posmatra-kroz-teritorijalni-integritet-srbije/",
-              "date": "2026-08-09",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "speaker": "",
-              "evidence": ""
-            },
-            {
-              "title": "Idrizović stapt de agentenwereld in: focus op jonge voetballers uit Kosovo, de Balkan en de Duitse markt. - KoSSev",
-              "albanianTitle": "Idrizoviç shkon në botën e agjentëve: Fokus në futbollistët të rinj nga Kosova, Ballkani dhe tregu gjerman - KoSSev",
-              "url": "https://kossev.info/nl/idrizovic-ulazi-u-agentski-posao-fokus-na-mlade-fudbalere-sa-kosova-balkana-i-nemackog-trzista/",
-              "date": "2026-08-10",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "speaker": "",
-              "evidence": ""
-            },
-            {
-              "title": "Paljokaj: Kosovo moet Oekraïne onvoorwaardelijk blijven steunen. - KoSSev",
-              "albanianTitle": "Paljokaj: Kosova duhet të mbështetë Oekrajinë pa kushte - KoSSev",
-              "url": "https://kossev.info/nl/paljokaj-kosovo-treba-da-nastavi-da-bezrezervno-podrzava-ukrajinu/",
-              "date": "2026-08-11",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "speaker": "",
-              "evidence": ""
-            },
-            {
-              "title": "Albanese burger gearresteerd in Kosovo op basis van een rood arrestatiebevel van Interpol: Jarenlang gebruikte hij de identiteit van een overleden persoon en vier andere valse identiteiten - KoSSev",
-              "albanianTitle": "Një burrë nga Itali ka arrestuar në Kosovë sipas një urdhri të arrestimit të kuq të Interpolit, pasi ka përdorur identitetin e një personi të vdekur dhe katër identitete të rreme.",
-              "url": "https://kossev.info/nl/na-kosovu-uhapsen-drzavljanin-albanije-sa-interpolove-crvene-poternice-godinama-koristio-identitete-preminule-osobe-i-jos-cetiri-lazna-identiteta/",
-              "date": "2026-07-31",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "speaker": "",
-              "evidence": ""
-            },
-            {
-              "title": "Kosovo stevent af op een vergrijzende bevolking, waarschuwt Behrami voor de gevolgen voor de economie en de gezondheidszorg - KoSSev",
-              "albanianTitle": "Kosova është në pritje të një popullate që po merr moshë, varësisht nga avancimet për ekonomi dhe shëndetësi, thotë Behrami - KoSSev",
-              "url": "https://kossev.info/nl/kosovo-ide-ka-starenju-stanovnistva-behrami-upozorava-na-posledice-po-ekonomiju-i-zdravstveni-sistem/",
-              "date": "2026-08-09",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "speaker": "",
-              "evidence": ""
-            },
-            {
-              "title": "Koha: \"In plaats van de betrekkingen tussen Kosovo en Servië te normaliseren, zullen de spanningen toenemen\" - KoSSev",
-              "albanianTitle": "Koha: 'Nuk do të normalizojmë marrëdhëniet me Serbinë, por do të rritet tensioni' - KoSSev",
-              "url": "https://kossev.info/nl/koha-umesto-normalizacije-odnosa-izmedju-kosova-i-srbije-tenzije-ce-rasti/",
-              "date": "2026-08-05",
               "sentiment": "unknown",
               "reason": "",
               "isQuote": false,
@@ -10658,13 +9975,13 @@
         }
       ],
       "summary": {
-        "index": 53,
-        "positive": 6,
-        "neutral": 94,
+        "index": 54,
+        "positive": 8,
+        "neutral": 92,
         "negative": 0,
-        "n": 18,
-        "excluded": 87,
-        "confident": true,
+        "n": 12,
+        "excluded": 72,
+        "confident": false,
         "stanceVersion": 2
       }
     },
@@ -10904,79 +10221,6 @@
     },
     "Spanjë": {
       "outlets": [
-        {
-          "name": "ArchDaily",
-          "sentiment": "unknown",
-          "articleCount": 6,
-          "articles": [
-            {
-              "title": "Galería de El Pabellón de Kosovo en la Bienal de Venecia 2021 explora el papel de la urbanización en vincular al ser humano con la naturaleza - 2 - ArchDaily",
-              "albanianTitle": null,
-              "url": "https://www.archdaily.com/es/1129060/el-pabellon-de-kosovo-en-la-bienal-de-venecia-2021-explora-el-papel-de-la-urbanizacion-en-vincular-al-ser-humano-con-la-naturaleza/6098e7fbf91c813aa700002c-kosovo-pavilion-at-the-2021-venice-biennale-explores-the-role-of-urbanization-in-bonding-human-with-nature-image",
-              "date": "2026-08-11",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "speaker": "",
-              "evidence": ""
-            },
-            {
-              "title": "“the CITYisEVERYWHERE”: El Pabellón de Kosovo en la Bienal de Venecia 2018 - ArchDaily",
-              "albanianTitle": "Pabelloni i Kosovës në Bienalen e Venecias 2018: 'Qyteti është në çdo vend'",
-              "url": "https://www.archdaily.com/es/1115915/the-cityiseverywhere-el-pabellon-de-kosovo-en-la-bienal-de-venecia-2018/5b91429df197cc711d000e2a-the-cityiseverywhere-the-kosovo-pavilion-at-the-2018-venice-biennale-image",
-              "date": "2026-08-10",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "speaker": "",
-              "evidence": ""
-            },
-            {
-              "title": "\"Visibilidad (modernidad impuesta)\" - Pabellón de Kosovo en la Bienal de Venecia 2014 - ArchDaily",
-              "albanianTitle": "Pabelloni i Kosovës në Bienalen e Venecias 2014: 'Moderniteti i imponuar'",
-              "url": "https://www.archdaily.com/es/628167/visibilidad-modernidad-impuesta-pabellon-de-kosovo-en-la-bienal-de-venecia-2014/539ef2d7c07a803df40008e3",
-              "date": "2026-08-08",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "speaker": "",
-              "evidence": ""
-            },
-            {
-              "title": "Galería de Tabanlioglu Architects diseña el nuevo Estadio Nacional de Kosovo - 2 - ArchDaily",
-              "albanianTitle": "Arkitektët e Tabanlioglu projektojnë një stadium të ri për Kosovë",
-              "url": "https://www.archdaily.com/es/1071019/tabanlioglu-architects-disena-el-nuevo-estadio-nacional-de-kosovo/5d26277d284dd1b4460000e5-tabanlioglu-architects-designs-new-national-stadium-for-kosovo-image",
-              "date": "2026-08-10",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "speaker": "",
-              "evidence": ""
-            },
-            {
-              "title": "Galería de El Pabellón de Kosovo en la Bienal de Arquitectura de Venecia explora los paisajes agrícolas cambiantes a través de la tierra y el aroma - 1 - ArchDaily",
-              "albanianTitle": "Galeria e një pavillonit për Kosovë në Bienalen e Arkitekturës në Vjenë eksploronë peizazhet agrare që ndryshojnë përmes tokës dhe aromës",
-              "url": "https://www.archdaily.com/es/1141222/el-pabellon-de-kosovo-en-la-bienal-de-arquitectura-de-venecia-explora-los-paisajes-agricolas-cambiantes-a-traves-de-la-tierra-y-el-aroma/68a6459d65bfe17f4094a0b0-kosovo-pavilion-at-the-venice-architecture-biennale-explores-shifting-agricultural-landscapes-through-soil-and-scent-photo",
-              "date": "2026-08-07",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "speaker": "",
-              "evidence": ""
-            },
-            {
-              "title": "Galería de Kengo Kuma gana el concurso para la sala de conciertos en Kosovo - 8 - ArchDaily",
-              "albanianTitle": "Galeria e një koncerti në Kosovë nga Kengo Kuma fitoi një konkurë",
-              "url": "https://www.archdaily.com/es/1129634/kengo-kuma-gana-el-concurso-para-la-sala-de-conciertos-en-kosovo/6086c3a419e99a16f1ff4c00-kengo-kuma-wins-competition-for-concert-hall-in-kosovo-image",
-              "date": "2026-08-08",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "speaker": "",
-              "evidence": ""
-            }
-          ]
-        },
         {
           "name": "CNN en Español",
           "sentiment": "unknown",
@@ -11426,24 +10670,6 @@
           ]
         },
         {
-          "name": "IQAir",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Calidad del aire en Kosovo - IQAir",
-              "albanianTitle": "Kualiteti i ajrit në Kosovë",
-              "url": "https://www.iqair.com/es/air-quality/kosovo",
-              "date": "2026-06-23",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "speaker": "",
-              "evidence": ""
-            }
-          ]
-        },
-        {
           "name": "Infobae",
           "sentiment": "neutral",
           "articleCount": 4,
@@ -11594,79 +10820,6 @@
               "albanianTitle": "Deputete e Kosovës lëshoi qeshë në drejtorin e përkohshëm të vendit",
               "url": "https://www.swissinfo.ch/spa/una-diputada-de-kosovo-lanza-huevos-contra-el-primer-ministro-interino/91874235",
               "date": "2026-08-10",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "speaker": "",
-              "evidence": ""
-            }
-          ]
-        },
-        {
-          "name": "UEFA.com",
-          "sentiment": "unknown",
-          "articleCount": 6,
-          "articles": [
-            {
-              "title": "Kosovo-Letonia | Estadísticas | Europeo sub-17 de la UEFA 2027 - UEFA.com",
-              "albanianTitle": "Kosovë-Letonia | Statistikat | UEFA U-17 Evropian 2027",
-              "url": "https://es.uefa.com/under17/match/2047330--kosovo-vs-latvia/statistics/",
-              "date": "2026-08-02",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "speaker": "",
-              "evidence": ""
-            },
-            {
-              "title": "Kosovo-Andorra | Alineaciones | Clasificatorios Europeos 2026 - UEFA.com",
-              "albanianTitle": "Kosova-Andorra | Alineacionet | Kualifikimet e Evropës 2026 - UEFA.com",
-              "url": "https://es.uefa.com/european-qualifiers/friendlies/match/2048317--kosovo-vs-andorra/lineups/",
-              "date": "2026-05-22",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "speaker": "",
-              "evidence": ""
-            },
-            {
-              "title": "Kosovo-Turquía | Información del partido | Clasificatorios Europeos 2026 - UEFA.com",
-              "albanianTitle": null,
-              "url": "https://es.uefa.com/european-qualifiers/match/2047084--kosovo-vs-turkiye/matchinfo/",
-              "date": "2026-03-31",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "speaker": "",
-              "evidence": ""
-            },
-            {
-              "title": "Suecia - Kosovo 0-1 | Resúmenes en vídeo | Clasificatorios Europeos - UEFA.com",
-              "albanianTitle": null,
-              "url": "https://es.uefa.com/european-qualifiers/video/highlights/029e-1ef3b9463242-02345c3ecb12-1000--suecia-kosovo-0-1/",
-              "date": "2026-03-31",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "speaker": "",
-              "evidence": ""
-            },
-            {
-              "title": "Suiza - Kosovo 1-1 | Vídeos Historia | UEFA EURO - UEFA.com",
-              "albanianTitle": null,
-              "url": "https://es.uefa.com/uefaeuro/history/video/0287-197dbb13237e-84cb539f53dd-1000--suiza-kosovo-1-1/",
-              "date": "2026-07-31",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "speaker": "",
-              "evidence": ""
-            },
-            {
-              "title": "Bélgica-Kosovo | Europeo sub-17 de la UEFA 2027 - UEFA.com",
-              "albanianTitle": "Kampionati Evropian i Futbollit të U-17 në Belgjikë",
-              "url": "https://es.uefa.com/under17/match/2047277--belgium-vs-kosovo/",
-              "date": "2026-07-30",
               "sentiment": "unknown",
               "reason": "",
               "isQuote": false,
@@ -11980,9 +11133,9 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 11,
-        "excluded": 60,
-        "confident": true,
+        "n": 10,
+        "excluded": 45,
+        "confident": false,
         "stanceVersion": 2
       }
     },
@@ -12259,57 +11412,6 @@
               "albanianTitle": "Në Kosovë, zgjedhjet e përgjithshme janë një çështje e tretë për të mbaruar krizën politike",
               "url": "https://www.kathimerini.gr/world/564269878/voyleytikes-ekloges-sto-kosovo-triti-prospatheia-gia-na-xeperastei-i-polymini-politiki-krisi/",
               "date": "2026-06-06",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "speaker": "",
-              "evidence": ""
-            }
-          ]
-        },
-        {
-          "name": "KoSSev",
-          "sentiment": "unknown",
-          "articleCount": 4,
-          "articles": [
-            {
-              "title": "Το Κοσσυφοπέδιο οδεύει προς γήρανση του πληθυσμού, προειδοποιεί ο Μπεχράμι για τις συνέπειες για την οικονομία και το σύστημα υγείας - KoSSev",
-              "albanianTitle": "Kosova po shkon drejt një popullsi të vjetër, bejta Beqiri i vë në vështirësi ekonomike dhe shëndetësore",
-              "url": "https://kossev.info/el/kosovo-ide-ka-starenju-stanovnistva-behrami-upozorava-na-posledice-po-ekonomiju-i-zdravstveni-sistem/",
-              "date": "2026-08-09",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "speaker": "",
-              "evidence": ""
-            },
-            {
-              "title": "Από την Κροατία στο Κόσοβο, έπειτα από το Κόσοβο στη Δανία: Δύο εκδόσεις βάσει ενταλμάτων της INTERPOL σε δύο ημέρες - KoSSev",
-              "albanianTitle": "Nga Kroatia në Kosovë dhe pastaj nga Kosova në Danimarkë: Dy përkthime sipas urdhrave të INTERPOL-it në dy ditë - KoSSev",
-              "url": "https://kossev.info/el/iz-hrvatske-na-kosovo-pa-sa-kosova-u-dansku-dva-izrucenja-po-interpol-ovim-poternicama-za-dva-dana/",
-              "date": "2026-07-27",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "speaker": "",
-              "evidence": ""
-            },
-            {
-              "title": "Κούρτι για την 15η επέτειο του θανάτου του Ζούμπερι: Το Κόσοβο ασφαλέστερο από ποτέ, κανένας εγκληματίας δεν θα μείνει ατιμώρητος - KoSSev",
-              "albanianTitle": "Kurti për 15-vjetorin e vdekjes së Zhuberi: Kosova është më e sigurtë se kurrë, askush nuk do të mbetë pafajës - KoSSev",
-              "url": "https://kossev.info/el/kurti-na-15-godisnjicu-pogibije-zumberija-kosovo-bezbednije-nego-ikada-nijedan-kriminalac-nece-ostati-nekaznjen/",
-              "date": "2026-07-26",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "speaker": "",
-              "evidence": ""
-            },
-            {
-              "title": "Θύμισέ μου τι ήταν το Κόσοβο - KoSSev",
-              "albanianTitle": "Më kujtoni çfarë ishte Kosova - KoSSev",
-              "url": "https://kossev.info/el/jelena-jorgacevic-podseti-me-sta-to-bese-kosovo/",
-              "date": "2026-07-21",
               "sentiment": "unknown",
               "reason": "",
               "isQuote": false,
@@ -13143,7 +12245,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 5,
-        "excluded": 74,
+        "excluded": 70,
         "confident": false,
         "stanceVersion": 2
       }
@@ -14686,7 +13788,7 @@
         "negative": 0,
         "n": 9,
         "excluded": 111,
-        "confident": true,
+        "confident": false,
         "stanceVersion": 2
       }
     },
@@ -14774,35 +13876,6 @@
               "albanianTitle": "Në Prishtinë, parlamenti u ndërpre për shkak të një debati të ashpër",
               "url": "https://wiadomosci.gazeta.pl/polityka/7,198012,32958061,jajka-w-parlamencie-premier-kosowa-zaatakowany-podczas-obrad.html",
               "date": "2026-08-09",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "speaker": "",
-              "evidence": ""
-            }
-          ]
-        },
-        {
-          "name": "IQAir",
-          "sentiment": "unknown",
-          "articleCount": 2,
-          "articles": [
-            {
-              "title": "Wskaźnik jakości powietrza (AQI) w Kosowo i informacje o zanieczyszczeniu powietrza | IQAir Polska - IQAir",
-              "albanianTitle": null,
-              "url": "https://www.iqair.com/pl/air-quality/kosovo",
-              "date": "2026-06-23",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "speaker": "",
-              "evidence": ""
-            },
-            {
-              "title": "Wskaźnik jakości powietrza (AQI) w Pristina i zanieczyszczenie powietrza w Kosowo | IQAir Polska - IQAir",
-              "albanianTitle": null,
-              "url": "https://www.iqair.com/pl/air-quality/kosovo/pristina",
-              "date": "2026-06-23",
               "sentiment": "unknown",
               "reason": "",
               "isQuote": false,
@@ -15396,7 +14469,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 6,
-        "excluded": 37,
+        "excluded": 35,
         "confident": false,
         "stanceVersion": 2
       }

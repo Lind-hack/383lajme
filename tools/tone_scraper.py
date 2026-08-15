@@ -101,6 +101,21 @@ HISTORY_DAYS = 120
 # the UI should show it as low-confidence rather than a bare percentage.
 MIN_CONFIDENT_N = 8
 
+# ...but a count alone was not enough. Greece's index of 50 rested on 5 of its
+# 79 articles and Sweden's on 9 of 120, because the rest failed classification
+# and were excluded — and a bare `n >= 8` passed Sweden while ignoring the 111
+# it threw away. A country whose index rests on a tenth of its own coverage is
+# not a reading, it is a rounding artifact, and the UI has to be able to say so.
+MIN_CONFIDENT_COVERAGE = 0.4
+
+
+def is_confident(scored: int, excluded: int) -> bool:
+    """Enough articles, AND enough of the ones we actually saw."""
+    total = scored + excluded
+    if scored < MIN_CONFIDENT_N:
+        return False
+    return total == 0 or (scored / total) >= MIN_CONFIDENT_COVERAGE
+
 # Cache retention deliberately wider than Bota Flet's 72h display window
 # (lib/tone-data.ts) — survives a workflow outage over a weekend without
 # losing data, and keeps this file small (low hundreds of live entries at
@@ -247,9 +262,14 @@ BLOCKED_DOMAINS = {
     "danas.rs", "telegraf.rs", "novosti.rs", "rts.rs", "tanjug.rs",
     "alo.rs", "espreso.rs", "vesti.rs", "nova.rs", "n1info.com",
     "sputnikportal.rs", "srbijadanas.com", "objektiv.rs", "pink.rs",
+    # Kosovo-based, Serbian-language. Same class as the Kosovar outlets above
+    # and the Belgrade ones: reporting from inside the subject, not about it.
+    # These two were the single largest sources in the cache by volume.
+    "kossev.info", "kosovo-online.com", "kosovoonline.com",
     # Not press.
     "dvidshub.net", "bundeswehr.de", "nato.int", "kfor.nato.int",
     "dazn.com", "anwalt.de", "audimax.de",
+    "uefa.com", "fifa.com", "iqair.com", "archdaily.com", "worldbank.org",
 }
 BLOCKED_NAMES = {
     "koha.net", "koha ditore", "telegrafi", "kallxo", "gazeta express",
@@ -258,6 +278,8 @@ BLOCKED_NAMES = {
     "balkanweb", "syri", "albanian daily news", "tirana times",
     "b92", "blic", "kurir", "informer", "politika", "danas", "telegraf",
     "novosti", "rts", "tanjug", "espreso", "srbija danas", "sputnik",
+    "kossev", "kosovo online", "uefa", "fifa", "iqair", "archdaily",
+    "world bank group", "world bank",
     "dvids", "bundeswehr", "nato", "kfor", "dazn", "anwalt.de", "audimax",
 }
 
@@ -290,6 +312,18 @@ ALBANIAN_MARKERS = {
 }
 
 
+def outlet_identity(name: str) -> str:
+    """Collapse a masthead to a comparison key.
+
+    Google gives the same publisher two identities depending on the feed —
+    "ANSA" and "ansa.it", "Aftonbladet" and "aftonbladet.se" — which made one
+    outlet look like two in every count, and split its article history in half.
+    """
+    key = (name or "").strip().lower()
+    key = re.sub(r"\.(com|net|org|it|de|fr|es|se|nl|be|at|ch|pl|gr|tr|hr|co\.uk|uk)$", "", key)
+    return re.sub(r"[^a-z0-9]+", "", key)
+
+
 def normalize_outlet(name: str, country: str) -> str | None:
     if not name:
         return None
@@ -297,6 +331,13 @@ def normalize_outlet(name: str, country: str) -> str | None:
     clean_lower = clean.lower()
     for known_name in KNOWN_OUTLETS.get(country, {}).values():
         if clean_lower == known_name.lower():
+            return known_name
+    # Prefer the prettier of the two identities: "ANSA" over "ansa.it". A name
+    # carrying a TLD is the machine form, so if we have seen the human one it
+    # wins — this keeps the display name stable across feeds.
+    ident = outlet_identity(clean)
+    for known_name in KNOWN_OUTLETS.get(country, {}).values():
+        if outlet_identity(known_name) == ident:
             return known_name
     return clean
 
@@ -1011,7 +1052,7 @@ def main():
             "negative": round(100 * negative / n) if n else 0,
             "n": n,
             "excluded": excluded,
-            "confident": n >= MIN_CONFIDENT_N,
+            "confident": is_confident(n, excluded),
             "stanceVersion": STANCE_SCHEMA_VERSION,
         }
         countries_data[country] = {"outlets": outlets_list, "summary": summary}
