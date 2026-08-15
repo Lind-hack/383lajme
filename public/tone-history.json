@@ -854,8 +854,8 @@
   {
     "date": "2026-08-15",
     "overallIndex": 53,
-    "totalArticles": 436,
-    "sourceCount": 447,
+    "totalArticles": 449,
+    "sourceCount": 453,
     "stanceVersion": 2,
     "countries": {
       "Gjermani": {
@@ -863,17 +863,17 @@
         "positive": 5,
         "neutral": 92,
         "negative": 3,
-        "n": 37,
+        "n": 38,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2
       },
       "SHBA": {
-        "index": 53,
-        "positive": 8,
-        "neutral": 90,
+        "index": 54,
+        "positive": 10,
+        "neutral": 88,
         "negative": 2,
-        "n": 50,
+        "n": 52,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -889,11 +889,11 @@
         "stanceVersion": 2
       },
       "Francë": {
-        "index": 55,
-        "positive": 10,
-        "neutral": 90,
-        "negative": 0,
-        "n": 39,
+        "index": 54,
+        "positive": 11,
+        "neutral": 87,
+        "negative": 3,
+        "n": 38,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -909,22 +909,22 @@
         "stanceVersion": 2
       },
       "Austri": {
-        "index": 52,
-        "positive": 3,
-        "neutral": 97,
+        "index": 53,
+        "positive": 6,
+        "neutral": 94,
         "negative": 0,
-        "n": 33,
-        "excluded": 3,
+        "n": 34,
+        "excluded": 2,
         "confident": true,
         "stanceVersion": 2
       },
       "Zvicër": {
         "index": 50,
         "positive": 4,
-        "neutral": 93,
+        "neutral": 92,
         "negative": 4,
-        "n": 27,
-        "excluded": 11,
+        "n": 25,
+        "excluded": 12,
         "confident": true,
         "stanceVersion": 2
       },
@@ -933,9 +933,9 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 9,
-        "excluded": 51,
-        "confident": true,
+        "n": 7,
+        "excluded": 53,
+        "confident": false,
         "stanceVersion": 2
       },
       "Belgjikë": {
@@ -943,7 +943,7 @@
         "positive": 7,
         "neutral": 93,
         "negative": 0,
-        "n": 28,
+        "n": 27,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2
@@ -953,9 +953,9 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 4,
-        "excluded": 43,
-        "confident": false,
+        "n": 10,
+        "excluded": 37,
+        "confident": true,
         "stanceVersion": 2
       },
       "Greqi": {
@@ -963,7 +963,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 4,
+        "n": 5,
         "excluded": 51,
         "confident": false,
         "stanceVersion": 2
@@ -983,27 +983,27 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 9,
-        "excluded": 29,
+        "n": 11,
+        "excluded": 28,
         "confident": true,
         "stanceVersion": 2
       },
       "Turqi": {
-        "index": 55,
-        "positive": 11,
-        "neutral": 89,
+        "index": 56,
+        "positive": 12,
+        "neutral": 88,
         "negative": 0,
-        "n": 28,
-        "excluded": 18,
+        "n": 32,
+        "excluded": 14,
         "confident": true,
         "stanceVersion": 2
       },
       "Kroaci": {
-        "index": 53,
-        "positive": 8,
-        "neutral": 90,
+        "index": 54,
+        "positive": 10,
+        "neutral": 88,
         "negative": 2,
-        "n": 50,
+        "n": 52,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -1012,7 +1012,7 @@
     "headlines": [
       {
         "title": "Kosovo: Gesänge erzählen die Geschichte der Albaner - Stadt, Land, Kunst - 07/05/2026 - Die ganze Doku - Arte.tv",
-        "source": "arte.tv",
+        "source": "Arte.tv",
         "country": "Gjermani",
         "flag": "🇩🇪",
         "url": "https://www.arte.tv/de/videos/132970-000-A/kosovo-gesaenge-erzaehlen-die-geschichte-der-albaner/",
@@ -1036,7 +1036,7 @@
       },
       {
         "title": "Serbien: Ministerin hätte Kosovo gerne \"ethnisch gesäubert\" - dw.com",
-        "source": "DW.com",
+        "source": "dw.com",
         "country": "Gjermani",
         "flag": "🇩🇪",
         "url": "https://www.dw.com/de/serbiens-ministerin-snezana-paunovic-haette-kosovo-im-krieg-1999-gerne-ethnisch-gesaeubert/a-77983728",
@@ -1048,6 +1048,14 @@
         "country": "SHBA",
         "flag": "🇺🇸",
         "url": "https://www.genocidewatch.com/single-post/eu-condemns-serbian-minister-for-backing-ethnic-cleansing-of-kosovo",
+        "sentiment": "negative"
+      },
+      {
+        "title": "Au Kosovo, le voile de la discorde - Libération",
+        "source": "Libération",
+        "country": "Francë",
+        "flag": "🇫🇷",
+        "url": "https://www.liberation.fr/international/europe/au-kosovo-le-voile-de-la-discorde-20260613_NXSAE3C56VCZZN4Z52RNXNGCUQ/",
         "sentiment": "negative"
       }
     ]
