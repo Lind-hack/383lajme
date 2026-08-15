@@ -62,9 +62,9 @@ export interface CountrySummary {
 
 // coverageOf lives in lib/tone-scale.ts, not here: this module imports
 // fs/promises, so a "use client" component that took a value import from it
-// would fail the client build. Re-exported so server callers need only one
-// import.
-export { coverageOf } from "./tone-scale";
+// would fail the client build. Import it from tone-scale — deliberately not
+// re-exported through here, because an extensionless re-export makes this
+// file unloadable by `node --test`, which resolves specifiers itself.
 
 export interface ToneOutletsData {
   lastUpdated: string;

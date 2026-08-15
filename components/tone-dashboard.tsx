@@ -21,6 +21,7 @@ import { EASE, DUR } from "@/lib/tokens";
 import SectionLabel from "./section-label";
 import ToneMap from "./tone/tone-map";
 import ToneArticleCard, { TONE_META as META } from "./tone/tone-article-card";
+import Sparkline from "./tone/sparkline";
 import {
   TONE_COLOR,
   TONE_INK,
@@ -245,6 +246,17 @@ export default function ToneDashboard({
         <div style={{ display: "flex", alignItems: "center", gap: "14px", flexWrap: "wrap", paddingBottom: "18px", marginBottom: "20px", borderBottom: "1px solid #F0EDE6" }}>
           <span style={{ fontSize: "12px", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: TONE_INK.faint }}>Indeksi</span>
           <span style={{ fontSize: "34px", fontWeight: 800, color: TONE_INK.strong, lineHeight: 1, fontVariantNumeric: "tabular-nums" }}>{idx ?? "—"}</span>
+          {/* The shape behind the number. The homepage carries no chart, so
+              without this the index is a value with no sense of whether it
+              has been sitting there or just arrived. */}
+          {summary.sparkline.length > 1 && (
+            <Sparkline
+              points={summary.sparkline.map((p) => p.index)}
+              width={92}
+              height={26}
+              ariaLabel={`Ecuria e indeksit gjatë ${summary.sparkline.length} ditëve të fundit`}
+            />
+          )}
           <span style={{ display: "inline-flex", alignItems: "center", gap: "4px", fontSize: "13.5px", fontWeight: 700, color: deltaColor, marginLeft: "auto" }}>
             <DeltaIcon size={15} strokeWidth={2.5} />
             {delta == null ? "e re" : `${delta > 0 ? "+" : ""}${delta} këtë javë`}
