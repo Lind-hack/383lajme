@@ -1,8 +1,8 @@
 {
-  "lastUpdated": "2026-08-15",
-  "overallIndex": 51,
-  "totalArticles": 86,
-  "sourceCount": 70,
+  "lastUpdated": "2026-08-16",
+  "overallIndex": 52,
+  "totalArticles": 115,
+  "sourceCount": 90,
   "stanceVersion": 2,
   "countries": {
     "Gjermani": {
@@ -21,6 +21,26 @@
               "date": "2026-08-14",
               "sentiment": "neutral",
               "reason": "Raportim i thjeshtë i një krize politike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "FAZ",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Flagge weg: Ärger im Kosovo über Selenskyj in Belgrad - FAZ",
+              "albanianTitle": "U hoq flamuri: Pakënaqësi në Kosovë pas vizitës së Zelenskyt në Beograd",
+              "blurb": "Largimi i flamurit të Ukrainës në Prishtinë pas vizitës së presidentit Zelensky në Beograd ka shkaktuar reagime të shumta.",
+              "imageUrl": "https://media0.faz.net/image/w1200h627/a1155d4617d5/w813h424x15y16o/202608/43601.0.2429709449/eine-ukrainische-flagge-wird.webp",
+              "url": "https://www.faz.net/aktuell/politik/ausland/flagge-weg-aerger-im-kosovo-ueber-selenskyj-in-belgrad-201122398.html",
+              "date": "2026-08-13",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -93,9 +113,9 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 4,
+        "n": 5,
         "excluded": 0,
-        "confident": false,
+        "confident": true,
         "stanceVersion": 2
       }
     },
@@ -104,8 +124,21 @@
         {
           "name": "Balkan Insight",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
+            {
+              "title": "‘Absurd Blockade’: Fresh Parliamentary Deadlock Pushes Kosovo Back Into Crisis Mode - Balkan Insight",
+              "albanianTitle": "‘Bllokadë absurde’: Ngërçi i ri parlamentar e kthen Kosovën në krizë politike",
+              "blurb": "Bllokada e re në Kuvendin e Kosovës ka shkaktuar një situatë të vështirë politike dhe ngecje në punë.",
+              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/08/Kosovo-parliament-2-BIRN-scaled-e1786533928891.jpg",
+              "url": "https://balkaninsight.com/2026/08/13/absurd-blockade-fresh-parliamentary-deadlock-pushes-kosovo-back-into-crisis-mode/bi/",
+              "date": "2026-08-13",
+              "sentiment": "neutral",
+              "reason": "Fjala absurd është pjesë e titullit por nuk tregon qëndrimin e mediumit",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
             {
               "title": "Kosovo’s LDK Drops Demand to Choose President in Bid to Resolve Crisis - Balkan Insight",
               "albanianTitle": "LDK e Kosovës heq kërkesën për zgjedhjen e Presidentit për të zgjidhur krizën",
@@ -184,7 +217,7 @@
         {
           "name": "KosovaPress",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 3,
           "articles": [
             {
               "title": "Kosovo Prosecution says Fehim Sali admitted he was recruited by Serbian Intelligece - KosovaPress",
@@ -198,6 +231,19 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "PDK members stand outside Government, saying Kurti should return to the Assembly: “He is a deputy, not Prime Minister” - KosovaPress",
+              "albanianTitle": "Anëtarët e PDK-së protestojnë para Qeverisë: Kurti duhet të kthehet në Kuvend, ai është deputet, jo kryeministër",
+              "blurb": "Anëtarët e PDK-së kërkojnë kthimin e kryeministrit Kurti në Kuvend, duke theksuar përgjegjësitë e tij si deputet i vendit.",
+              "imageUrl": "https://kosovapress.com/eng/admin/wp-content/uploads/2026/08/96121786605158.jpg",
+              "url": "https://kosovapress.com/eng/pdk-members-stand-outside-government-saying-kurti-should-return-to-the-assembly-he-is-a-deputy-not-prime-minister",
+              "date": "2026-08-13",
+              "sentiment": "neutral",
+              "reason": "Outlet reports statement from party members without editorialising",
+              "isQuote": true,
+              "evidence": "",
+              "speaker": "PDK members"
             },
             {
               "title": "Democratic Party of Kosovo accuses Kurti of abusing Assembly Session Chair Avni Dehari - KosovaPress",
@@ -255,7 +301,27 @@
           ]
         },
         {
-          "name": "Unicef",
+          "name": "The Kyiv Independent",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Albania's PM calls for continued Ukraine support despite Kosovo stance - The Kyiv Independent",
+              "albanianTitle": "Kryeministri i Shqipërisë bën thirrje për mbështetje të vazhdueshme ndaj Ukrainës, pavarësisht qëndrimit të saj për Kosovën",
+              "blurb": "Kryeministri i Shqipërisë kërkon vazhdimin e mbështetjes për Ukrainën, pavarësisht qëndrimit të kësaj të fundit ndaj pavarësisë së Kosovës.",
+              "imageUrl": "https://assets.kyivindependent.com/content/images/2024/02/174cb142ba68ea04f71ed9529473c5e2_1709114474_extra_large.jpeg",
+              "url": "https://kyivindependent.com/albanias-pm-calls-for-continued-ukraine-support-despite-kosovo-stance/",
+              "date": "2026-08-13",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "UNICEF",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
@@ -380,7 +446,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 14,
+        "n": 17,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -391,7 +457,7 @@
         {
           "name": "Balkan Insight",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 3,
           "articles": [
             {
               "title": "Kosovo Detains Man Suspected of Spying for Serbian Intelligence - Balkan Insight",
@@ -418,23 +484,16 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "Daily Observer",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
+            },
             {
-              "title": "Bangladesh invites Kosovan investors to explore SEZ opportunities - Daily Observer",
-              "albanianTitle": "Bangladeshi fton investitorët kosovarë të shfrytëzojnë mundësitë në zonat e lira ekonomike",
-              "blurb": "Bangladeshi u ka bërë thirrje investitorëve nga Kosova që të shqyrtojnë mundësitë për investime në zonat ekonomike speciale.",
-              "imageUrl": null,
-              "url": "https://observerbd.com/news/588240",
-              "date": "2026-08-15",
+              "title": "‘Absurd Blockade’: Fresh Parliamentary Deadlock Pushes Kosovo Back Into Crisis Mode - Balkan Insight",
+              "albanianTitle": "‘Bllokadë absurde’: Ngërçi i ri parlamentar e kthen Kosovën në krizë politike",
+              "blurb": "Bllokada e re në Kuvendin e Kosovës ka shkaktuar një situatë të vështirë politike dhe ngecje në punë.",
+              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/08/Kosovo-parliament-2-BIRN-scaled-e1786533928891.jpg",
+              "url": "https://balkaninsight.com/2026/08/13/absurd-blockade-fresh-parliamentary-deadlock-pushes-kosovo-back-into-crisis-mode/bi/",
+              "date": "2026-08-13",
               "sentiment": "neutral",
-              "reason": "Raportim neutral i ftesës",
+              "reason": "Fjala absurd është pjesë e titullit por nuk tregon qëndrimin e mediumit",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -484,7 +543,7 @@
         {
           "name": "KosovaPress",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 3,
           "articles": [
             {
               "title": "Kosovo Prosecution says Fehim Sali admitted he was recruited by Serbian Intelligece - KosovaPress",
@@ -498,6 +557,19 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "PDK members stand outside Government, saying Kurti should return to the Assembly: “He is a deputy, not Prime Minister” - KosovaPress",
+              "albanianTitle": "Anëtarët e PDK-së protestojnë para Qeverisë: Kurti duhet të kthehet në Kuvend, ai është deputet, jo kryeministër",
+              "blurb": "Anëtarët e PDK-së kërkojnë kthimin e kryeministrit Kurti në Kuvend, duke theksuar përgjegjësitë e tij si deputet i vendit.",
+              "imageUrl": "https://kosovapress.com/eng/admin/wp-content/uploads/2026/08/96121786605158.jpg",
+              "url": "https://kosovapress.com/eng/pdk-members-stand-outside-government-saying-kurti-should-return-to-the-assembly-he-is-a-deputy-not-prime-minister",
+              "date": "2026-08-13",
+              "sentiment": "neutral",
+              "reason": "Outlet reports statement from party members without editorialising",
+              "isQuote": true,
+              "evidence": "",
+              "speaker": "PDK members"
             },
             {
               "title": "Democratic Party of Kosovo accuses Kurti of abusing Assembly Session Chair Avni Dehari - KosovaPress",
@@ -555,19 +627,39 @@
           ]
         },
         {
-          "name": "Unicef",
-          "sentiment": "unknown",
+          "name": "The Kyiv Independent",
+          "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
-              "title": "Beyond Digital as Usual, Artificial Intelligence for Accessible Learning - unicef.org",
-              "albanianTitle": "Përtej digjitalizimit të zakonshëm: Inteligjenca Artificiale për mësim të qasshëm",
+              "title": "Albania's PM calls for continued Ukraine support despite Kosovo stance - kyivindependent.com",
+              "albanianTitle": "Kryeministri i Shqipërisë bën thirrje për mbështetje të vazhdueshme për Ukrainën, pavarësisht qëndrimit për Kosovën",
+              "blurb": "Kryeministri i Shqipërisë kërkon mbështetje të vazhdueshme për Ukrainën, pavarësisht qëndrimit të mbajtur rreth çështjes së Kosovës.",
+              "imageUrl": "https://assets.kyivindependent.com/content/images/2024/02/174cb142ba68ea04f71ed9529473c5e2_1709114474_extra_large.jpeg",
+              "url": "https://kyivindependent.com/albanias-pm-calls-for-continued-ukraine-support-despite-kosovo-stance/",
+              "date": "2026-08-13",
+              "sentiment": "neutral",
+              "reason": "Faktikë, pa gjuhë ngarkuar ndaj Kosovës",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "UNICEF",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Beyond Digital as Usual, Artificial Intelligence for Accessible Learning - Unicef",
+              "albanianTitle": "Përtej digitalizimit të zakonshëm, inteligjenca artificiale për mësimin e aksesueshëm - Unicef",
               "blurb": "UNICEF promovon përdorimin e inteligjencës artificiale për të mundësuar qasje më të lehtë në procesin e të mësuarit.",
               "imageUrl": null,
               "url": "https://www.unicef.org/kosovoprogramme/stories/beyond-digital-usual-artificial-intelligence-accessible-learning",
               "date": "2026-08-14",
-              "sentiment": "unknown",
-              "reason": "Article not about Kosovo, stance cannot be inferred",
+              "sentiment": "neutral",
+              "reason": "Nuk përmend një qëndrim ndaj Kosovës",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -588,26 +680,6 @@
               "date": "2026-08-15",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "cna.al",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Firearms trafficking from Kosovo is cracked down on/ Two people in handcuffs - cna.al",
-              "albanianTitle": "Goditet trafikimi i armëve nga Kosova, prangosen dy persona",
-              "blurb": "Policia ka arrestuar dy persona nën dyshimin për përfshirje në trafikimin e armëve të zjarrit nga Kosova.",
-              "imageUrl": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300",
-              "url": "https://www.cna.al/english/kronika/goditet-trafiku-i-armeve-te-zjarrit-nga-kosova-dy-persona-ne-pranga-i471608",
-              "date": "2026-08-15",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportim i thjeshtë",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -680,20 +752,41 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 14,
-        "excluded": 1,
+        "n": 16,
+        "excluded": 0,
         "confident": true,
         "stanceVersion": 2
       }
     },
     "Francë": {
-      "outlets": [],
+      "outlets": [
+        {
+          "name": "Reporteri",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Një tjetër shtetas i Kosovës arrestohet nga Serbia - Reporteri",
+              "albanianTitle": "Një tjetër shtetas i Kosovës arrestohet nga autoritetet serbe",
+              "blurb": "Autoritetet serbe kanë arrestuar edhe një shtetas tjetër të Kosovës, sipas raportimeve të fundit nga mediat lokale.",
+              "imageUrl": "https://reporteri.net/wp-content/uploads/2023/09/LAJMI-I-FUNDIT-REPORTERI-2021-1.jpg",
+              "url": "https://reporteri.net/fr/nouvelles/Un-autre-citoyen-du-Kosovo-arr%C3%AAt%C3%A9-par-la-Serbie/",
+              "date": "2026-08-13",
+              "sentiment": "neutral",
+              "reason": "Straightforward report of arrest, no loaded language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        }
+      ],
       "summary": {
-        "index": null,
+        "index": 50,
         "positive": 0,
-        "neutral": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 0,
+        "n": 1,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
@@ -704,8 +797,21 @@
         {
           "name": "ANSA",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
+            {
+              "title": "Tumore dopo missione Nato in Kosovo, riconosciuta la causa di servizio - ANSA",
+              "albanianTitle": "Tumori pas misionit të NATO-s në Kosovë njihet si sëmundje profesionale",
+              "blurb": "Gjykata italiane ka njohur si sëmundje profesionale tumorin e një ushtaraku pas shërbimit në misionin e Kosovës.",
+              "imageUrl": "https://www.ansa.it/webimages/img_1280x720/2025/2/3/dc60f3af149b8ae5aa40d9c25d8e644e.jpg",
+              "url": "https://www.ansa.it/sito/notizie/cronaca/2026/08/13/tumore-dopo-missione-nato-in-kosovo-riconosciuta-la-causa-di-servizio_e7d79609-25df-4ab7-944f-bb98ee484452.html",
+              "date": "2026-08-13",
+              "sentiment": "neutral",
+              "reason": "Raportim faktik i çështjes shëndetësore",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
             {
               "title": "Frontex, ingressi irregolari nell'Ue in calo del 37% nei primi 7 mesi - ANSA",
               "albanianTitle": "Ingresit irregullarë në Bashkimin Evropian janë rënë me 37% në 7 muajt e parë",
@@ -762,26 +868,6 @@
           ]
         },
         {
-          "name": "Messaggero Veneto",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Tumore dopo la missione in Kosovo: militare vince la causa - Messaggero Veneto",
-              "albanianTitle": "Një ushtrim i armatosur në Kosovë: një ushtarë është i sëmurë me një lëkurë të këqijë",
-              "blurb": "Gjykata italiane ka vendosur në favor të një ushtaraku i cili pësoi tumor pas shërbimit në misionin e NATO-s në Kosovë.",
-              "imageUrl": "https://images.messaggeroveneto.it/view/acePublic/alias/contentid/1t3w4pd83xw6bh93two/0/kosovo-jpg.webp?f=16%3A9&w=840",
-              "url": "https://www.messaggeroveneto.it/cronaca/tumore-missione-kosovo-militare-vince-causa-tak05j9x",
-              "date": "2026-08-14",
-              "sentiment": "neutral",
-              "reason": "Lajm i rëndë, i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
           "name": "SILP CGIL",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -795,6 +881,26 @@
               "date": "2026-08-14",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Serbian Monitor",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "EULEX interviene sull’aggressione a Nenad Rašković da parte della Polizia del Kosovo - Serbian Monitor",
+              "albanianTitle": "EULEX-i reagon pas sulmit të Policisë së Kosovës ndaj Nenad Rashkoviqit",
+              "blurb": "Misioni i EULEX-it ka ndërhyrë pas pretendimeve për agresion ndaj Nenad Rashkoviqit nga ana e Policisë së Kosovës.",
+              "imageUrl": "https://www.serbianmonitor.com/wp-content/uploads/2026/08/kosovo-police.jpg",
+              "url": "https://www.serbianmonitor.com/eulex-interviene-sullaggressione-a-nenad-raskovic-da-parte-della-polizia-del-kosovo/",
+              "date": "2026-08-13",
+              "sentiment": "neutral",
+              "reason": "Raportim faktik i incidentit me policinë e Kosovës",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -840,14 +946,34 @@
               "speaker": ""
             }
           ]
+        },
+        {
+          "name": "messaggeroveneto.it",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Tumore dopo la missione in Kosovo: militare vince la causa - messaggeroveneto.it",
+              "albanianTitle": "Ushtaraku fiton gjyqin pas sëmundjes me tumor si pasojë e shërbimit në Kosovë",
+              "blurb": "Një ushtarak italian ka fituar gjyqin pasi u diagnostikua me tumor pas shërbimit në misionin e NATO-s.",
+              "imageUrl": "https://images.messaggeroveneto.it/view/acePublic/alias/contentid/1t3w4pd83xw6bh93two/0/kosovo-jpg.webp?f=16%3A9&w=840",
+              "url": "https://www.messaggeroveneto.it/cronaca/tumore-missione-kosovo-militare-vince-causa-tak05j9x",
+              "date": "2026-08-14",
+              "sentiment": "neutral",
+              "reason": "Raportim faktik i çështjes ligjore",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
         }
       ],
       "summary": {
-        "index": 57,
-        "positive": 14,
-        "neutral": 86,
+        "index": 56,
+        "positive": 11,
+        "neutral": 89,
         "negative": 0,
-        "n": 7,
+        "n": 9,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -869,6 +995,26 @@
               "date": "2026-08-14",
               "sentiment": "neutral",
               "reason": "Raportim i thjeshtë i një krize politike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "FAZ",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Flagge weg: Ärger im Kosovo über Selenskyj in Belgrad - FAZ",
+              "albanianTitle": "U hoq flamuri: Pakënaqësi në Kosovë pas vizitës së Zelenskyt në Beograd",
+              "blurb": "Largimi i flamurit të Ukrainës në Prishtinë pas vizitës së presidentit Zelensky në Beograd ka shkaktuar reagime të shumta.",
+              "imageUrl": "https://media0.faz.net/image/w1200h627/a1155d4617d5/w813h424x15y16o/202608/43601.0.2429709449/eine-ukrainische-flagge-wird.webp",
+              "url": "https://www.faz.net/aktuell/politik/ausland/flagge-weg-aerger-im-kosovo-ueber-selenskyj-in-belgrad-201122398.html",
+              "date": "2026-08-13",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -961,7 +1107,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 5,
+        "n": 6,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -983,6 +1129,26 @@
               "date": "2026-08-14",
               "sentiment": "neutral",
               "reason": "Raportim i thjeshtë i një krize politike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "FAZ",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Flagge weg: Ärger im Kosovo über Selenskyj in Belgrad - FAZ",
+              "albanianTitle": "U hoq flamuri: Pakënaqësi në Kosovë pas vizitës së Zelenskyt në Beograd",
+              "blurb": "Largimi i flamurit të Ukrainës në Prishtinë pas vizitës së presidentit Zelensky në Beograd ka shkaktuar reagime të shumta.",
+              "imageUrl": "https://media0.faz.net/image/w1200h627/a1155d4617d5/w813h424x15y16o/202608/43601.0.2429709449/eine-ukrainische-flagge-wird.webp",
+              "url": "https://www.faz.net/aktuell/politik/ausland/flagge-weg-aerger-im-kosovo-ueber-selenskyj-in-belgrad-201122398.html",
+              "date": "2026-08-13",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1035,7 +1201,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 3,
+        "n": 4,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
@@ -1076,13 +1242,34 @@
       }
     },
     "Belgjikë": {
-      "outlets": [],
+      "outlets": [
+        {
+          "name": "Reporteri",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Një tjetër shtetas i Kosovës arrestohet nga Serbia - Reporteri",
+              "albanianTitle": "Një tjetër shtetas i Kosovës arrestohet nga autoritetet serbe",
+              "blurb": "Autoritetet serbe kanë arrestuar edhe një shtetas tjetër të Kosovës, sipas raportimeve të fundit nga mediat lokale.",
+              "imageUrl": "https://reporteri.net/wp-content/uploads/2023/09/LAJMI-I-FUNDIT-REPORTERI-2021-1.jpg",
+              "url": "https://reporteri.net/fr/nouvelles/Un-autre-citoyen-du-Kosovo-arr%C3%AAt%C3%A9-par-la-Serbie/",
+              "date": "2026-08-13",
+              "sentiment": "neutral",
+              "reason": "Straightforward report of arrest, no loaded language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        }
+      ],
       "summary": {
-        "index": null,
+        "index": 50,
         "positive": 0,
-        "neutral": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 0,
+        "n": 1,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
@@ -1104,6 +1291,39 @@
               "date": "2026-08-15",
               "sentiment": "neutral",
               "reason": "Lajm i thjeshtë, i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Reporteri",
+          "sentiment": "neutral",
+          "articleCount": 2,
+          "articles": [
+            {
+              "title": "Qeveria e Kosovës pranoi 24 dhurata gjatë vitit 2020, Kuvendi vetëm 1 - Reporteri",
+              "albanianTitle": "Qeveria e Kosovës pranoi 24 dhurata gjatë vitit 2020, Kuvendi vetëm 1",
+              "blurb": "Qeveria e Kosovës ka pranuar 24 dhurata gjatë vitit 2020, ndërsa Kuvendi i Kosovës ka pranuar vetëm një dhuratë.",
+              "imageUrl": "https://reporteri.net/wp-content/uploads/2021/03/qeveria-kosovo.jpg",
+              "url": "https://reporteri.net/es/noticias/El-gobierno-de-Kosovo-recibi%C3%B3-24-regalos-durante-2020--la-asamblea-solo-1./",
+              "date": "2026-08-13",
+              "sentiment": "neutral",
+              "reason": "Informim rreth dhuratave të pranuara nga qeveria",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Vazhdon shtrenjtimi i naftës në Kosovë - Reporteri",
+              "albanianTitle": "Vazhdon rritja e çmimit të naftës në Kosovë",
+              "blurb": "Çmimi i derivateve të naftës në tregun e Kosovës ka shënuar rritje të re gjatë periudhës së fundit.",
+              "imageUrl": "https://reporteri.net/wp-content/uploads/2026/08/nafta-karburant-.jpg",
+              "url": "https://reporteri.net/es/noticias/El-precio-del-petr%C3%B3leo-sigue-subiendo-en-Kosovo./",
+              "date": "2026-08-14",
+              "sentiment": "neutral",
+              "reason": "Raportim faktik i rritjes së çmimeve të naftës në Kosovë",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1136,7 +1356,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 2,
+        "n": 4,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
@@ -1232,6 +1452,26 @@
     "Suedi": {
       "outlets": [
         {
+          "name": "FotMob",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Räddningar per 90 - Kosovo statistik för VM-kval UEFA 2025/2026 - FotMob",
+              "albanianTitle": "Pritjet për 90 minuta: statistikat e Kosovës për kualifikimet e Kupës së Botës UEFA 2025/2026",
+              "blurb": "Statistikat e portierëve të Kosovës për pritjet për 90 minuta në kuadër të kualifikimeve për Kupën e Botës 2026.",
+              "imageUrl": "https://images.fotmob.com/image_resources/logo/teamlogo/430156.png",
+              "url": "https://www.fotmob.com/sv/leagues/10195/stats/season/24488/players/saves/team/430156/kosovoplayersplayersplayersteamsteamsteams",
+              "date": "2026-08-13",
+              "sentiment": "neutral",
+              "reason": "Statistical report, no evaluative language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "Sofascore",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1257,7 +1497,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 1,
+        "n": 2,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
@@ -1304,6 +1544,26 @@
               "speaker": ""
             }
           ]
+        },
+        {
+          "name": "Tygodnik Tucholski",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Po pożarze dom nie nadaje się do zamieszkania. Kosowo - Tygodnik Tucholski",
+              "albanianTitle": "Shtëpia bëhet e pabanueshme pas zjarrit në Kosovë",
+              "blurb": "Një shtëpi në Kosovë është bërë e pabanueshme pas një zjarri që ka shkaktuar dëme të mëdha materiale.",
+              "imageUrl": "https://tygodnik.pl/pl/fotorelacje/2026/0813/s.1200x630/373082_b.jpg",
+              "url": "https://tygodnik.pl/pl/15_fotorelacje/475_wypadki/6116_po-pozarze-dom-nie-nadaje-sie-do-zamieszkania-kosowo.html",
+              "date": "2026-08-13",
+              "sentiment": "neutral",
+              "reason": "Report on fire damage, no evaluative language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
         }
       ],
       "summary": {
@@ -1311,7 +1571,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 2,
+        "n": 3,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
@@ -1319,6 +1579,166 @@
     },
     "Turqi": {
       "outlets": [
+        {
+          "name": "24 Saat Gazetesi Ankara",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "23. Uluslararası Bodrum Bale Festivali'nde Kosova Ulusal Balesi rüzgârı - 24 Saat Gazetesi Ankara",
+              "albanianTitle": "Baleti Kombëtar i Kosovës shkëlqen në Festivalin e 23-të Ndërkombëtar të Baletit në Bodrum - 24 Saat Gazetesi Ankara",
+              "blurb": "Baleti Kombëtar i Kosovës ka marrë pjesë në edicionin e 23-të të Festivalit Ndërkombëtar të Baletit në Bodrum.",
+              "imageUrl": "https://24saatgazetesicom.teimg.com/crop/1280x720/24saatgazetesi-com/uploads/2026/08/videoframe-27496.png",
+              "url": "https://www.24saatgazetesi.com/23-uluslararasi-bodrum-bale-festivalinde-kosova-ulusal-balesi-ruzgari",
+              "date": "2026-08-13",
+              "sentiment": "neutral",
+              "reason": "Raportim faktik i pjesëmarrjes së baletit kombëtar të Kosovës në festival",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Analiz Gazetesi",
+          "sentiment": "positive",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "KOSOVA ULUSAL BALESİ BODRUM'DA BÜYÜK İLGİ GÖRDÜ - Analiz Gazetesi",
+              "albanianTitle": "Baleti Kombëtar i Kosovës pritet me interesim të madh në Bodrum - Analiz Gazetesi",
+              "blurb": "Shfaqja e Baletit Kombëtar të Kosovës në qytetin e Bodrumit është pritur me vëmendje të shtuar nga shikuesit.",
+              "imageUrl": "https://analizgazetesi.com.tr/modules/blog/dataimages/IMG_86CBE1-356326-4E8117-223D3F-3AEB63-CEB75C.jpg",
+              "url": "https://analizgazetesi.com.tr/haber/kosova-ulusal-balesi-bodrumda-buyuk-ilgi-gordu-6293/",
+              "date": "2026-08-13",
+              "sentiment": "positive",
+              "reason": "Media përdor gjuhë pozitive për të lavdëruar baletin kombëtar të Kosovës",
+              "isQuote": false,
+              "evidence": "BÜYÜK İLGİ GÖRDÜ",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Bodrum Gündem",
+          "sentiment": "positive",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosova Ulusal Balesi Bodrum’da Büyük İlgi Gördü - Bodrum Gündem",
+              "albanianTitle": "Baleti Kombëtar i Kosovës pritet me interesim të madh në Bodrum",
+              "blurb": "Shfaqja e Baletit Kombëtar të Kosovës në Bodrum është pritur me interesim të lartë nga audienca vendase atje.",
+              "imageUrl": "https://www.bodrumgundem.com/wp-content/uploads/2026/08/Kosova-Ulusal-Balesi-Bodrumda-Buyuk-Ilgi-Gordu-1786612282-1728434829-1786612282-1497692803.png",
+              "url": "https://www.bodrumgundem.com/2026/08/13/kosova-ulusal-balesi-bodrumda-buyuk-ilgi-gordu/",
+              "date": "2026-08-13",
+              "sentiment": "positive",
+              "reason": "Pozitif çerçeveleme, övgü içeren ifade",
+              "isQuote": false,
+              "evidence": "Büyük İlgi Gördü",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Bodrum Kent TV",
+          "sentiment": "positive",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosova Ulusal Balesi Bodrum'da Büyük İlgi Gördü - Bodrum Kent TV",
+              "albanianTitle": "Baleti Kombëtar i Kosovës zgjon interesim të madh në Bodrum - Bodrum Kent TV",
+              "blurb": "Baleti Kombëtar i Kosovës ka performuar në Bodrum, ku shfaqja e tyre ka zgjuar interesim të madh te publiku.",
+              "imageUrl": "https://static.daktilo.com/sites/1600/uploads/2026/08/13/correr-o-fado-1788389413.webp",
+              "url": "https://kenttv.net/video/28511800/kosova-ulusal-balesi-bodrumda-buyuk-ilgi-gordu",
+              "date": "2026-08-13",
+              "sentiment": "positive",
+              "reason": "Pozitif çerçeveleme, övgü içeren ifade",
+              "isQuote": false,
+              "evidence": "Büyük İlgi Gördü",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Bodrum Olay Gazetesi",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "BODRUM BALE FESTİVALİ’NDE KOSOVA RÜZGÂRI ESTİ - Bodrum Olay Gazetesi",
+              "albanianTitle": "Frymë kosovare në Festivalin e Baletit në Bodrum - Bodrum Olay Gazetesi",
+              "blurb": "Trupi i Baletit Kombëtar të Kosovës është prezantuar në Festivalin e Baletit në Bodrum me një shfaqje artistike.",
+              "imageUrl": "https://bodrumolay.com/wp-content/uploads/2026/08/Ekran-Resmi-2026-08-13-18.16.26-e1786634526918.png",
+              "url": "https://bodrumolay.com/bodrum-bale-festivalinde-kosova-ruzgari-esti/",
+              "date": "2026-08-13",
+              "sentiment": "neutral",
+              "reason": "Metaforik ifade, ancak tutum içermiyor",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Cumhuriyet",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosova Ulusal Balesi, Bodrum'da sanatseverlerle buluştu - Cumhuriyet",
+              "albanianTitle": "Baleti Kombëtar i Kosovës u prezantua para artdashësve në Bodrum",
+              "blurb": "Trupi i Baletit Kombëtar të Kosovës ka mbajtur një shfaqje artistike për artdashësit në qytetin bregdetar të Bodrumit.",
+              "imageUrl": "https://media.cumhuriyet.com.tr/Archive/eec439ff-e34f-471f-be03-edc91a2610b9.jpg",
+              "url": "https://www.cumhuriyet.com.tr/kultur-sanat/kosova-ulusal-balesi-bodrum-da-sanatseverlerle-bulustu-2528899",
+              "date": "2026-08-13",
+              "sentiment": "neutral",
+              "reason": "Faktik rapor, ton nötr",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "DHA | Demirören Haber Ajansı",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosova Ulusal Balesi'ne yoğun ilgi - DHA | Demirören Haber Ajansı",
+              "albanianTitle": "Interesim i madh për Baletin Kombëtar të Kosovës",
+              "blurb": "Baleti Kombëtar i Kosovës ka zgjuar interesim të madh nga publiku gjatë shfaqjeve të realizuara së fundmi në Turqi.",
+              "imageUrl": "https://image.dha.com.tr/i/dha/75/0x0/6a7d88668b747c49e72dfd50.jpg",
+              "url": "https://www.dha.com.tr/yerel-haberler/mugla/bodrum/kosova-ulusal-balesine-yogun-ilgi-2926403",
+              "date": "2026-08-13",
+              "sentiment": "neutral",
+              "reason": "Report of public interest, no praising language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Hürriyet",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "NATO'dan Kosova kararı: Arnavutlar ile Sırpların bölgelerini ayıran köprüde geri çekilme başladı - Hürriyet",
+              "albanianTitle": "Vendimi i NATO-s për Kosovën: Ka nisur tërheqja nga ura që ndan zonat e shqiptarëve dhe serbëve",
+              "blurb": "Forcat e NATO-s kanë filluar tërheqjen nga ura që ndan zonat e banuara nga shqiptarët dhe serbët në Kosovë.",
+              "imageUrl": "https://image.hurimg.com/i/hurriyet/90/0x0/6a7db26a9e48630003e3d590.jpg",
+              "url": "https://www.hurriyet.com.tr/dunya/natodan-kosova-karari-arnavutlar-ile-sirplarin-bolgelerini-ayiran-koprude-geri-cekilme-basladi-43272012",
+              "date": "2026-08-13",
+              "sentiment": "neutral",
+              "reason": "Factual description of NATO decision, no hostile wording",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
         {
           "name": "Kosovahaber.com",
           "sentiment": "neutral",
@@ -1351,6 +1771,19 @@
               "speaker": ""
             },
             {
+              "title": "Bosnalı Vaizin Kosova'dan Sınır Dışı Edilmesi Bekleniyor - Kosovahaber.com",
+              "albanianTitle": "Pritet largimi i imamit boshnjak nga Kosova",
+              "blurb": "Predikuesi nga Bosnja dhe Hercegovina pritet të dëbohet nga territori i Kosovës pas ndalimit nga autoritetet përkatëse.",
+              "imageUrl": null,
+              "url": "https://kosovahaber.com/haber/bosnali-vaizin-kosovadan-sinir-disi-edilmesi-bekleniyor-104911",
+              "date": "2026-08-14",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
               "title": "RDK'den Meclis Önünde Sembolik Eylem - Kosovahaber.com",
               "albanianTitle": "Aksion simbolik i RDK-së para Kuvendit - Kosovahaber.com",
               "blurb": "RDK organizoi një aksion simbolik para Kuvendit, duke shprehur qëndrimin e tyre.",
@@ -1364,11 +1797,11 @@
               "speaker": ""
             },
             {
-              "title": "Bosnalı Vaizin Kosova'dan Sınır Dışı Edilmesi Bekleniyor - Kosovahaber.com",
-              "albanianTitle": "Pritet largimi i imamit boshnjak nga Kosova",
-              "blurb": "Predikuesi nga Bosnja dhe Hercegovina pritet të dëbohet nga territori i Kosovës pas ndalimit nga autoritetet përkatëse.",
+              "title": "İmam Elvedin PeziÇ Kosova’dan Sınır Dışı Edildi - Kosovahaber.com",
+              "albanianTitle": "Imam Elvedin Peziç u dëbua nga Kosova - Kosovahaber.com",
+              "blurb": "Imami Elvedin Peziç është dëbuar nga Kosova, sipas raportimeve të fundit.",
               "imageUrl": null,
-              "url": "https://kosovahaber.com/haber/bosnali-vaizin-kosovadan-sinir-disi-edilmesi-bekleniyor-104911",
+              "url": "https://kosovahaber.com/haber/imam-elvedin-pezic-kosovadan-sinir-disi-edildi-104915",
               "date": "2026-08-14",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike",
@@ -1385,19 +1818,6 @@
               "date": "2026-08-15",
               "sentiment": "neutral",
               "reason": "Lajm i thjeshtë, pa koment",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "İmam Elvedin PeziÇ Kosova’dan Sınır Dışı Edildi - Kosovahaber.com",
-              "albanianTitle": "Imam Elvedin Peziç u dëbua nga Kosova - Kosovahaber.com",
-              "blurb": "Imami Elvedin Peziç është dëbuar nga Kosova, sipas raportimeve të fundit.",
-              "imageUrl": null,
-              "url": "https://kosovahaber.com/haber/imam-elvedin-pezic-kosovadan-sinir-disi-edildi-104915",
-              "date": "2026-08-14",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1418,6 +1838,26 @@
               "date": "2026-08-15",
               "sentiment": "neutral",
               "reason": "Titulli është thjesht informativ pa gjuhë ngacmuese",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Reporteri",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Një tjetër shtetas i Kosovës arrestohet nga Serbia - Reporteri",
+              "albanianTitle": "Një tjetër shtetas i Kosovës arrestohet nga autoritetet serbe",
+              "blurb": "Autoritetet serbe kanë arrestuar edhe një shtetas tjetër të Kosovës, sipas raportimeve të fundit nga mediat lokale.",
+              "imageUrl": "https://reporteri.net/wp-content/uploads/2023/09/LAJMI-I-FUNDIT-REPORTERI-2021-1.jpg",
+              "url": "https://reporteri.net/fr/nouvelles/Un-autre-citoyen-du-Kosovo-arr%C3%AAt%C3%A9-par-la-Serbie/",
+              "date": "2026-08-13",
+              "sentiment": "neutral",
+              "reason": "Straightforward report of arrest, no loaded language",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1465,6 +1905,26 @@
           ]
         },
         {
+          "name": "Türkiye İş Dünyası Haberleri",
+          "sentiment": "positive",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosova’ya 106 milyon euroluk dev yatırım - Türkiye İş Dünyası Haberleri",
+              "albanianTitle": "Investim gjigant prej 106 milionë eurosh në Kosovë - Türkiye İş Dünyası Haberleri",
+              "blurb": "Një investim në vlerë prej 106 milionë eurosh është planifikuar të realizohet në tregun e Republikës së Kosovës.",
+              "imageUrl": "https://turkiyedeisdunyasi.com/wp-content/uploads/2026/08/WhatsApp-Image-2026-08-13-at-11.27.33-1.jpeg",
+              "url": "https://turkiyedeisdunyasi.com/kosovaya-106-milyon-euroluk-dev-yatirim-123406/",
+              "date": "2026-08-13",
+              "sentiment": "positive",
+              "reason": "Olumlu ve destekleyici dil",
+              "isQuote": false,
+              "evidence": "dev yatırım",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "bodrumhaber.com",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1486,11 +1946,11 @@
         }
       ],
       "summary": {
-        "index": 50,
-        "positive": 0,
-        "neutral": 100,
+        "index": 57,
+        "positive": 13,
+        "neutral": 87,
         "negative": 0,
-        "n": 19,
+        "n": 30,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -1501,8 +1961,21 @@
         {
           "name": "Balkan Insight",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
+            {
+              "title": "‘Absurd Blockade’: Fresh Parliamentary Deadlock Pushes Kosovo Back Into Crisis Mode - Balkan Insight",
+              "albanianTitle": "‘Bllokadë absurde’: Ngërçi i ri parlamentar e kthen Kosovën në krizë politike",
+              "blurb": "Bllokada e re në Kuvendin e Kosovës ka shkaktuar një situatë të vështirë politike dhe ngecje në punë.",
+              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/08/Kosovo-parliament-2-BIRN-scaled-e1786533928891.jpg",
+              "url": "https://balkaninsight.com/2026/08/13/absurd-blockade-fresh-parliamentary-deadlock-pushes-kosovo-back-into-crisis-mode/bi/",
+              "date": "2026-08-13",
+              "sentiment": "neutral",
+              "reason": "Fjala absurd është pjesë e titullit por nuk tregon qëndrimin e mediumit",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
             {
               "title": "Kosovo’s LDK Drops Demand to Choose President in Bid to Resolve Crisis - Balkan Insight",
               "albanianTitle": "LDK e Kosovës heq kërkesën për zgjedhjen e Presidentit për të zgjidhur krizën",
@@ -1599,7 +2072,27 @@
           ]
         },
         {
-          "name": "Unicef",
+          "name": "The Kyiv Independent",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Albania's PM calls for continued Ukraine support despite Kosovo stance - The Kyiv Independent",
+              "albanianTitle": "Kryeministri i Shqipërisë bën thirrje për mbështetje të vazhdueshme ndaj Ukrainës, pavarësisht qëndrimit të saj për Kosovën",
+              "blurb": "Kryeministri i Shqipërisë kërkon vazhdimin e mbështetjes për Ukrainën, pavarësisht qëndrimit të kësaj të fundit ndaj pavarësisë së Kosovës.",
+              "imageUrl": "https://assets.kyivindependent.com/content/images/2024/02/174cb142ba68ea04f71ed9529473c5e2_1709114474_extra_large.jpeg",
+              "url": "https://kyivindependent.com/albanias-pm-calls-for-continued-ukraine-support-despite-kosovo-stance/",
+              "date": "2026-08-13",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "UNICEF",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
@@ -1724,7 +2217,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 11,
+        "n": 13,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2

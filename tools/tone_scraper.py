@@ -141,7 +141,13 @@ def is_confident(scored: int, excluded: int) -> bool:
 CACHE_RETENTION_DAYS = 7
 
 # How old an article may be, in days, and still count. 0 = today only,
-# 1 = today or yesterday.
+# 3 = today plus the previous three days, a four-day window.
+#
+# Widened from 1 after measuring what a two-day window actually yields: seven
+# of thirteen countries fell under the confidence threshold on one to four
+# articles, and the index had nothing to read. Four days is still recent
+# enough that "sot" is defensible — the alternative was a map built on
+# single-article countries.
 #
 # This is the rule that makes "Toni i Mediave sot" mean today. Without it the
 # index was built on whatever Google News felt like resurfacing: the cache had
@@ -153,7 +159,7 @@ CACHE_RETENTION_DAYS = 7
 # when the scraper last saw an article in a feed — and Google keeps re-serving
 # old stories, refreshing lastSeen forever. Age has to be measured from the
 # publication date, which is what this does.
-MAX_ARTICLE_AGE_DAYS = 1
+MAX_ARTICLE_AGE_DAYS = 3
 
 
 def is_fresh(published: str, today: str | None = None) -> bool:
@@ -226,22 +232,40 @@ FEED_LOCALES = {
 # and NATO accession, and the diaspora. They also simply return more articles,
 # and a country resting on two of them cannot say anything.
 #
+# The opinion-shaped queries — commentary, analysis, editorial, column — are
+# the ones that can actually move the index. Measured on the news queries
+# alone, 2 of 92 articles carried any stance: wire copy reports, it does not
+# take a side. Op-eds take a side by definition, so this is where a non-neutral
+# reading comes from if one exists.
+#
 # Keyed by language, not country, so Austria and Switzerland reuse Germany's
 # set. Overlap between queries is expected and handled: candidates are deduped
 # by normalised title within each country before anything is classified.
 FEED_QUERIES = {
-    "de": ["Kosovo", "Kosovo Serbien", "Kosovo Regierung", "Kosovo EU"],
-    "en-US": ["Kosovo", "Kosovo Serbia", "Kosovo government", "Kosovo NATO"],
-    "en-GB": ["Kosovo", "Kosovo Serbia", "Kosovo government", "Kosovo NATO"],
-    "fr": ["Kosovo", "Kosovo Serbie", "Kosovo gouvernement", "Kosovo UE"],
-    "it": ["Kosovo", "Kosovo Serbia", "Kosovo governo", "Kosovo UE"],
-    "nl": ["Kosovo", "Kosovo Servië", "Kosovo regering"],
-    "es": ["Kosovo", "Kosovo Serbia", "Kosovo gobierno"],
-    "el": ["Κόσοβο", "Κόσοβο Σερβία", "Kosovo"],
-    "sv": ["Kosovo", "Kosovo Serbien", "Kosovo regering"],
-    "pl": ["Kosowo", "Kosowo Serbia", "Kosovo"],
-    "tr": ["Kosova", "Kosova Sırbistan", "Kosova hükümeti"],
-    "hr": ["Kosovo", "Kosovo Srbija", "Kosovo vlada"],
+    "de": ["Kosovo", "Kosovo Serbien", "Kosovo Regierung", "Kosovo EU",
+           "Kosovo Kommentar", "Kosovo Analyse", "Kosovo Meinung"],
+    "en-US": ["Kosovo", "Kosovo Serbia", "Kosovo government", "Kosovo NATO",
+              "Kosovo opinion", "Kosovo analysis", "Kosovo editorial"],
+    "en-GB": ["Kosovo", "Kosovo Serbia", "Kosovo government", "Kosovo NATO",
+              "Kosovo opinion", "Kosovo analysis", "Kosovo editorial"],
+    "fr": ["Kosovo", "Kosovo Serbie", "Kosovo gouvernement", "Kosovo UE",
+           "Kosovo analyse", "Kosovo opinion", "Kosovo éditorial"],
+    "it": ["Kosovo", "Kosovo Serbia", "Kosovo governo", "Kosovo UE",
+           "Kosovo analisi", "Kosovo opinione", "Kosovo editoriale"],
+    "nl": ["Kosovo", "Kosovo Servië", "Kosovo regering",
+           "Kosovo analyse", "Kosovo opinie", "Kosovo commentaar"],
+    "es": ["Kosovo", "Kosovo Serbia", "Kosovo gobierno",
+           "Kosovo análisis", "Kosovo opinión", "Kosovo editorial"],
+    "el": ["Κόσοβο", "Κόσοβο Σερβία", "Kosovo",
+           "Κόσοβο ανάλυση", "Κόσοβο άποψη"],
+    "sv": ["Kosovo", "Kosovo Serbien", "Kosovo regering",
+           "Kosovo analys", "Kosovo debatt", "Kosovo ledare"],
+    "pl": ["Kosowo", "Kosowo Serbia", "Kosovo",
+           "Kosowo analiza", "Kosowo opinia", "Kosowo komentarz"],
+    "tr": ["Kosova", "Kosova Sırbistan", "Kosova hükümeti",
+           "Kosova analiz", "Kosova yorum", "Kosova köşe yazısı"],
+    "hr": ["Kosovo", "Kosovo Srbija", "Kosovo vlada",
+           "Kosovo analiza", "Kosovo komentar"],
 }
 
 
@@ -1081,6 +1105,24 @@ def drop_blocked(articles: dict) -> dict:
     return kept
 
 
+# Conservative: Google News rate-limits, and the images pool already uses
+# eight. This is I/O-bound waiting, not work.
+FEED_WORKERS = 6
+
+
+def _parse_feed(url: str):
+    """One feed. Returns its entries, or None if the fetch failed.
+
+    None rather than an empty list on purpose — the caller counts failures,
+    and a feed that legitimately returned nothing is not a failure.
+    """
+    try:
+        return feedparser.parse(url).entries[:60]
+    except Exception as e:
+        print(f"  feed fetch failed ({url[:70]}): {e}", file=sys.stderr)
+        return None
+
+
 def fetch_candidates() -> dict[str, list[dict]]:
     """Fetch + within-country dedupe only, no classification yet. Returns
     {country: [{title, summary, url, date, outlet}, ...]}."""
@@ -1094,14 +1136,18 @@ def fetch_candidates() -> dict[str, list[dict]]:
         # Several queries per country now. They overlap heavily by design —
         # seen_titles dedupes across all of them, so the extra queries add
         # reach without adding duplicates to classify.
+        #
+        # Fetched in parallel because there are 96 of these. Sequentially, at
+        # roughly a second and a half each, the fetch alone would approach the
+        # workflow's 20-minute timeout before a single article was classified.
         entries = []
         failed = 0
-        for feed_url in feed_urls:
-            try:
-                entries.extend(feedparser.parse(feed_url).entries[:60])
-            except Exception as e:
-                failed += 1
-                print(f"  {country} feed fetch failed: {e}", file=sys.stderr)
+        with ThreadPoolExecutor(max_workers=FEED_WORKERS) as pool:
+            for feed_url, got in zip(feed_urls, pool.map(_parse_feed, feed_urls)):
+                if got is None:
+                    failed += 1
+                else:
+                    entries.extend(got)
         print(f"  Fetching {country}... {len(feed_urls) - failed}/{len(feed_urls)} feeds, {len(entries)} entries")
 
         for entry in entries:

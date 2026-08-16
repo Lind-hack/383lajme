@@ -856,11 +856,41 @@
   {
     "date": "2026-08-15",
     "overallIndex": 51,
-    "totalArticles": 86,
-    "sourceCount": 70,
+    "totalArticles": 177,
+    "sourceCount": 143,
     "stanceVersion": 2,
     "countries": {
       "Gjermani": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 9,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 2
+      },
+      "SHBA": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 29,
+        "excluded": 1,
+        "confident": true,
+        "stanceVersion": 2
+      },
+      "Britani": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 28,
+        "excluded": 1,
+        "confident": true,
+        "stanceVersion": 2
+      },
+      "Francë": {
         "index": 50,
         "positive": 0,
         "neutral": 100,
@@ -870,42 +900,12 @@
         "confident": false,
         "stanceVersion": 2
       },
-      "SHBA": {
-        "index": 50,
-        "positive": 0,
-        "neutral": 100,
-        "negative": 0,
-        "n": 14,
-        "excluded": 0,
-        "confident": true,
-        "stanceVersion": 2
-      },
-      "Britani": {
-        "index": 50,
-        "positive": 0,
-        "neutral": 100,
-        "negative": 0,
-        "n": 14,
-        "excluded": 1,
-        "confident": true,
-        "stanceVersion": 2
-      },
-      "Francë": {
-        "index": null,
-        "positive": 0,
-        "neutral": 0,
-        "negative": 0,
-        "n": 0,
-        "excluded": 0,
-        "confident": false,
-        "stanceVersion": 2
-      },
       "Itali": {
-        "index": 57,
-        "positive": 14,
-        "neutral": 86,
+        "index": 54,
+        "positive": 8,
+        "neutral": 92,
         "negative": 0,
-        "n": 7,
+        "n": 12,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -915,7 +915,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 5,
+        "n": 8,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -925,7 +925,192 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
+        "n": 7,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 2
+      },
+      "Holandë": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 2,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 2
+      },
+      "Belgjikë": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
         "n": 3,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 2
+      },
+      "Spanjë": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 4,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 2
+      },
+      "Greqi": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 7,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 2
+      },
+      "Suedi": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 3,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 2
+      },
+      "Poloni": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 5,
+        "excluded": 1,
+        "confident": true,
+        "stanceVersion": 2
+      },
+      "Turqi": {
+        "index": 56,
+        "positive": 11,
+        "neutral": 89,
+        "negative": 0,
+        "n": 35,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 2
+      },
+      "Kroaci": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 21,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 2
+      }
+    },
+    "headlines": [
+      {
+        "title": "Vaccarizzo Albanese apre un ponte con il Kosovo: patto d’amicizia con Rahovec - EcoDelloJonio.it",
+        "source": "EcoDelloJonio.it",
+        "country": "Itali",
+        "flag": "🇮🇹",
+        "url": "https://ecodellojonio.it/articoli/attualita/2026/08/vaccarizzo-albanese-apre-un-ponte-con-il-kosovo-patto-d-amicizia-con-rahovec",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Kosova Ulusal Balesi Bodrum’da Büyük İlgi Gördü - Bodrum Gündem",
+        "source": "Bodrum Gündem",
+        "country": "Turqi",
+        "flag": "🇹🇷",
+        "url": "https://www.bodrumgundem.com/2026/08/13/kosova-ulusal-balesi-bodrumda-buyuk-ilgi-gordu/",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Kosova Ulusal Balesi Bodrum'da Büyük İlgi Gördü - Bodrum Kent TV",
+        "source": "Bodrum Kent TV",
+        "country": "Turqi",
+        "flag": "🇹🇷",
+        "url": "https://kenttv.net/video/28511800/kosova-ulusal-balesi-bodrumda-buyuk-ilgi-gordu",
+        "sentiment": "positive"
+      }
+    ]
+  },
+  {
+    "date": "2026-08-16",
+    "overallIndex": 52,
+    "totalArticles": 115,
+    "sourceCount": 90,
+    "stanceVersion": 2,
+    "countries": {
+      "Gjermani": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 5,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 2
+      },
+      "SHBA": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 17,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 2
+      },
+      "Britani": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 16,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 2
+      },
+      "Francë": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 1,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 2
+      },
+      "Itali": {
+        "index": 56,
+        "positive": 11,
+        "neutral": 89,
+        "negative": 0,
+        "n": 9,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 2
+      },
+      "Austri": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 6,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 2
+      },
+      "Zvicër": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 4,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
@@ -941,11 +1126,11 @@
         "stanceVersion": 2
       },
       "Belgjikë": {
-        "index": null,
+        "index": 50,
         "positive": 0,
-        "neutral": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 0,
+        "n": 1,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
@@ -955,7 +1140,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 2,
+        "n": 4,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
@@ -975,7 +1160,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 1,
+        "n": 2,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
@@ -985,17 +1170,17 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 2,
+        "n": 3,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
       },
       "Turqi": {
-        "index": 50,
-        "positive": 0,
-        "neutral": 100,
+        "index": 57,
+        "positive": 13,
+        "neutral": 87,
         "negative": 0,
-        "n": 19,
+        "n": 30,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -1005,7 +1190,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 11,
+        "n": 13,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -1018,6 +1203,22 @@
         "country": "Itali",
         "flag": "🇮🇹",
         "url": "https://ecodellojonio.it/articoli/attualita/2026/08/vaccarizzo-albanese-apre-un-ponte-con-il-kosovo-patto-d-amicizia-con-rahovec",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Kosova Ulusal Balesi Bodrum’da Büyük İlgi Gördü - Bodrum Gündem",
+        "source": "Bodrum Gündem",
+        "country": "Turqi",
+        "flag": "🇹🇷",
+        "url": "https://www.bodrumgundem.com/2026/08/13/kosova-ulusal-balesi-bodrumda-buyuk-ilgi-gordu/",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Kosova Ulusal Balesi Bodrum'da Büyük İlgi Gördü - Bodrum Kent TV",
+        "source": "Bodrum Kent TV",
+        "country": "Turqi",
+        "flag": "🇹🇷",
+        "url": "https://kenttv.net/video/28511800/kosova-ulusal-balesi-bodrumda-buyuk-ilgi-gordu",
         "sentiment": "positive"
       }
     ]

@@ -484,7 +484,10 @@ export default function ToneDashboard({
                   font: "inherit",
                 }}
               >
-                <span style={{ width: "clamp(92px, 22vw, 124px)", display: "flex", alignItems: "center", gap: "9px", flexShrink: 0 }}>
+                {/* 82px, not 92: at 390px the row is 304px wide and the two
+                    fixed columns left the article count 47px against the 50 it
+                    needs, so "17 artikuj" ellipsised to "17 arti...". */}
+                <span style={{ width: "clamp(82px, 22vw, 124px)", display: "flex", alignItems: "center", gap: "9px", flexShrink: 0 }}>
                   <span style={{ fontSize: "11px", fontWeight: 700, letterSpacing: "0.07em", color: TONE_INK.faint }}>{flagToCode(stat.flag)}</span>
                   <span style={{ fontSize: "clamp(13px, 2.4vw, 15.5px)", fontWeight: 700, color: TONE_INK.strong, whiteSpace: "nowrap" }}>{stat.country}</span>
                 </span>
@@ -504,7 +507,7 @@ export default function ToneDashboard({
 
                 <span style={{ display: "flex", alignItems: "center", gap: "9px", flexShrink: 0 }}>
                   <span style={{ fontSize: "17px", fontWeight: 800, color: TONE_INK.strong, fontVariantNumeric: "tabular-nums" }}>{stat.index ?? "—"}</span>
-                  <span style={{ fontSize: "12.5px", color: TONE_INK.muted, whiteSpace: "nowrap", width: "clamp(64px, 18vw, 92px)" }}>{toneLabel(stat.index)}</span>
+                  <span style={{ fontSize: "12.5px", color: TONE_INK.muted, whiteSpace: "nowrap", width: "clamp(56px, 18vw, 92px)" }}>{toneLabel(stat.index)}</span>
                   <span aria-hidden style={{ width: "14px", height: "14px", borderRadius: "4px", background: toneFill(stat.index), flexShrink: 0 }} />
                 </span>
               </motion.button>

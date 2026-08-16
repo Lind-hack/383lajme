@@ -379,9 +379,17 @@ def test_drop_blocked_keeps_outlets_that_merely_contain_a_blocked_substring():
 
 # ── Freshness: only today's and yesterday's news counts ─────────────────
 
-def test_is_fresh_accepts_today_and_yesterday():
-    assert ts.is_fresh("2026-08-15", "2026-08-15") is True
-    assert ts.is_fresh("2026-08-14", "2026-08-15") is True
+def _days_before(ref: str, n: int) -> str:
+    from datetime import datetime, timedelta
+    return (datetime.strptime(ref, "%Y-%m-%d") - timedelta(days=n)).strftime("%Y-%m-%d")
+
+
+def test_is_fresh_accepts_everything_inside_the_window():
+    """Written against the constant, not against a hardcoded pair of dates.
+    The window moved from 2 days to 4 and these had to be edited by hand."""
+    ref = "2026-08-15"
+    for n in range(ts.MAX_ARTICLE_AGE_DAYS + 1):
+        assert ts.is_fresh(_days_before(ref, n), ref) is True, f"{n} days back should pass"
 
 
 def test_is_fresh_rejects_older_news():
@@ -389,8 +397,15 @@ def test_is_fresh_rejects_older_news():
     articles reaching back to 2025-09-08 because CACHE_RETENTION_DAYS prunes on
     lastSeen, and Google News re-serves old stories forever — refreshing
     lastSeen and keeping a March article in "today's" index."""
-    assert ts.is_fresh("2026-08-13", "2026-08-15") is False
-    assert ts.is_fresh("2025-09-08", "2026-08-15") is False
+    ref = "2026-08-15"
+    assert ts.is_fresh(_days_before(ref, ts.MAX_ARTICLE_AGE_DAYS + 1), ref) is False
+    assert ts.is_fresh("2025-09-08", ref) is False
+
+
+def test_window_stays_within_a_defensible_range():
+    """A guard in both directions. Too narrow and small countries carry one
+    article, which is not a reading. Too wide and "sot" stops meaning today."""
+    assert 1 <= ts.MAX_ARTICLE_AGE_DAYS <= 6
 
 
 def test_is_fresh_rejects_the_future():
