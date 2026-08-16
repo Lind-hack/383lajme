@@ -1041,8 +1041,8 @@
   {
     "date": "2026-08-16",
     "overallIndex": 51,
-    "totalArticles": 136,
-    "sourceCount": 99,
+    "totalArticles": 138,
+    "sourceCount": 101,
     "stanceVersion": 2,
     "countries": {
       "Gjermani": {
@@ -1050,7 +1050,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 6,
+        "n": 5,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -1060,7 +1060,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 20,
+        "n": 21,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -1070,7 +1070,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 20,
+        "n": 19,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -1120,7 +1120,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 1,
+        "n": 2,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
@@ -1170,7 +1170,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 6,
+        "n": 7,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -1181,7 +1181,7 @@
         "neutral": 83,
         "negative": 7,
         "n": 30,
-        "excluded": 0,
+        "excluded": 1,
         "confident": true,
         "stanceVersion": 2
       },
@@ -1190,7 +1190,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 16,
+        "n": 17,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -1207,7 +1207,7 @@
       },
       {
         "title": "Zelenskiy'nin Tutumuna Karşı Çıkan Ukrayna Milletvekili: “Ukrayna Kosova'yı Tanımalı” - Kosovahaber.com",
-        "source": "Kosovahaber.com",
+        "source": "kosovahaber.com",
         "country": "Turqi",
         "flag": "🇹🇷",
         "url": "https://kosovahaber.com/haber/zelenskiynin-tutumuna-karsi-cikan-ukrayna-milletvekili-ukrayna-kosovayi-tanimali-104962",
@@ -1223,7 +1223,7 @@
       },
       {
         "title": "AAK: Cumhurbaşkanı, Vetëvendosje’nin Tek Başına Kontrolüne Bırakılamaz - Kosovahaber.com",
-        "source": "Kosovahaber.com",
+        "source": "kosovahaber.com",
         "country": "Turqi",
         "flag": "🇹🇷",
         "url": "https://kosovahaber.com/haber/aak-cumhurbaskani-vetevendosjenin-tek-basina-kontrolune-birakilamaz-104955",
@@ -1231,7 +1231,7 @@
       },
       {
         "title": "PDK ve AAK’nin İstişare Toplantısını Reddetmeleri Yanlış ve Düşüncesiz Bir Adım - Kosovahaber.com",
-        "source": "Kosovahaber.com",
+        "source": "kosovahaber.com",
         "country": "Turqi",
         "flag": "🇹🇷",
         "url": "https://kosovahaber.com/haber/pdk-ve-aaknin-istisare-toplantisini-reddetmeleri-yanlis-ve-dusuncesiz-bir-adim-104952",
