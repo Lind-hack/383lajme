@@ -15,6 +15,7 @@ function toDate(value?: string): Date | undefined {
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticPages: MetadataRoute.Sitemap = [
     { url: BASE, changeFrequency: "hourly", priority: 1 },
+    { url: `${BASE}/visit`, changeFrequency: "weekly", priority: 0.9 },
     { url: `${BASE}/tregu`, changeFrequency: "daily", priority: 0.7 },
     { url: `${BASE}/privatesia`, changeFrequency: "yearly", priority: 0.2 },
   ];

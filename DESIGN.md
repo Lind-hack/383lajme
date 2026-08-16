@@ -1,7 +1,7 @@
 ---
 schemaVersion: 2
 generatedBy: impeccable/document
-scope: app/tregu (383 Tregu — prediction market)
+scope: "app/tregu + app/visit (surface-scoped systems)"
 register: product
 colors:
   base:
@@ -158,3 +158,89 @@ Two elevation systems coexist by design, and DESIGN.md treats that as intentiona
 - **Don't** apply the coin-earn spin, shine-sweep, or confetti-style flight to anything inside `.tregu-market` or `.tregu-detail-grid` — those animations belong to the wallet/balance layer (navbar chip, mobile account bar, portfolio), never to trading surfaces.
 - **Don't** give glass panels a hover-lift on touch devices; the `(hover: hover) and (pointer: fine)` gate exists because a fake hover state that never resolves reads as a stuck/broken button on mobile.
 - **Don't** introduce solid, opaque glass at rest. If a panel needs guaranteed-opaque content (a modal, a confirmation), that's a signal it should not be `.tregu-glass` at all — reach for the site's flat `.card` instead.
+
+# Visit — Kosovo in Your Pocket
+
+The rules below apply only to `app/visit`, its homepage preview, and its visitor navigation entry. They extend 383 without changing the Tregu system above; Tregu glass and market semantics must not leak into Visit. The approved visual reference is `C:\Users\PC1\.codex\attachments\02f19901-29a6-4944-bd3c-f65c32765d79\image-1.png`.
+
+## Overview
+
+**Creative North Star: “Kosovo in Your Pocket.”** Visit is a calm Kosovo route desk with two offline products: a border utility and a photo-led city guide. The entire page stays in one warm cream, ink, and 383-orange world. The first viewport pairs direct travel copy with a full rectangular folded road-map sheet; the lower city field continues the same paper material instead of switching into a separate color world.
+
+The page is Operate-first and Read-second. A visitor can call 112 before granting permission, compare four current crossing waits, request nearby help, submit a fresh-location report, and download the utility as standalone HTML. Each of seven cities contains five photo-led places with category, visit-time hint, short practical detail, and direct Google Maps directions; selected cities form a session package that can be downloaded individually or together.
+
+**The Safety Before Scenery Rule.** No map, photograph, fold, or download treatment may delay, obscure, or compete with emergency access, current wait state, location consent, or the limits of 383 guidance.
+
+## Colors
+
+Visit uses the exact surface-scoped palette recorded in the normative tokens above: soft canvas, warm paper, near-white cards, warm ink, muted copy, quiet rules, and 383 orange. The city field deepens only slightly to `cityField`; it does not introduce cobalt, yellow, or pastel postcard framing. Documentary photography supplies natural color inside otherwise neutral cards.
+
+**The Four-Signal Rule.** Orange identifies selected modes, reporting, directions, and primary downloads; green means a short wait or permissioned nearby-help action; amber means a moderate wait; wait red means a long wait. The darker emergency red is reserved for callable help.
+
+Wait meters are numeric and color-redundant: green below 15 minutes, amber from 15 through 29, and red from 30 minutes. Each is one continuous rounded fill over a neutral track and animates from zero to its scale. Unknown values render an empty track and explicit “Pa të dhëna,” never a reassuring green zero.
+
+## Typography
+
+Manrope leads with Arial as the local fallback. Display headings are extra-bold, tightly tracked, balanced, and fluid: the hero, section, and city-name values are recorded exactly in the v2 tokens above. On phones the hero clamps to `45–64px`; readable leads settle at `16px`. Body and explanation copy stays relaxed at `1.45–1.62` line-height.
+
+Operational labels, card brands, place categories, visit-time hints, and compact metadata use dense `9–12px` type, usually `750–900` weight. Place categories use uppercase with `0.07em` tracking; border-card branding uses `0.12em`. Wait values use tabular numerals so ranges scan vertically.
+
+**The Visible-Task Rule.** The visible surface prioritizes the travel task and deliberately omits authority badges, source strips, provenance labels, and review dates. Internal source identity and review metadata remain an authoritative data/backend concern; do not leak them back into the interface as decorative trust chrome.
+
+## Layout
+
+The hero is deliberately oversized: a `min-height: 790px` two-column field with a narrower copy desk and a larger rectangular map stage. The wait preview overlaps the bottom of the map. Main sections use a centered `1280px` content field. The border tool is a `300px` sticky control rail beside the flexible utility card; the city builder is a `260px` sticky picker beside the guide. The five-place gallery uses a 12-column composition: the first two places span seven and five columns, then three equal four-column cards. Saved-city covers form a three-column stack.
+
+At `1080px`, columns tighten, service/emergency grids become two columns, place cards become two-up, and saved covers become two-up. At `820px`, the hero, border tool, city builder, and saved covers become single-column; sticky controls become static; the map keeps a dedicated `610px` stage; places remain two-up. At `560px`, the map stage drops to `490px`, border-pin text hides, nearby services and place cards stack, emergency numbers remain two-up, utility corners tighten, and long download qualifiers disappear. The floating 112 control stays reachable at every width. Print mode removes site chrome, hero, controls, city section, and floating help, leaving the border utility card without elevation.
+
+Spacing is generous between decisions (`76–124px` section padding) and compact inside artifacts. Preserve the story order: rectangular folded-map hero and two modes → current border desk → photo-led city guide → session downloads. There is no yellow trust close.
+
+## Elevation & Depth
+
+Depth is physical and restrained. The hero repeats `public/visit/atlas-texture.webp` at low opacity, while the map itself is a full warm rectangular CSS sheet with clipped folded corners, fold highlights, road/river linework, an authored Kosovo outline, live labels, and a warm shadow (`0 28px 35px rgba(62,43,23,.2)`). It is not a cutout Kosovo raster focal.
+
+The overlapping wait preview uses `0 22px 46px rgba(39,29,19,.15)`. The utility uses `0 20px 54px rgba(50,37,24,.1)`, the city guide uses `0 24px 60px rgba(55,40,24,.1)`, and saved covers use `0 15px 36px rgba(56,42,26,.08)`. City photography is clipped inside white cards; it never becomes a full-bleed page background.
+
+Do not introduce Tregu-style liquid glass, black utility framing, cold SaaS panels, or colored postcard worlds. Translucency is limited to near-white paper over the atlas texture, and the interface remains legible if texture fails to load.
+
+## Shapes
+
+Controls use practical `8–13px` radii; the wait preview and saved-city covers use `16px`; the utility and city guide use `20px`; place cards use `15px`. Primary downloads, saved-card actions, mode emphasis, and the floating emergency control use rounded or pill geometry. Map marks remain circular.
+
+The utility is a quiet cream document with a near-white header, orange vehicle icon, hairline divisions, a softly raised selected row, nearby-service band, and red emergency buttons. It has no black header, perforated/scalloped edge, or passport stamp. City cards are photo-led editorial containers, not colorful postcards.
+
+## Components
+
+**Folded Kosovo field.** Build the dominant map as the implemented full rectangular warm paper sheet with fold seams and an authored Kosovo drawing inside it. Layer semantic city labels and four border anchors above the drawing and retain “Hartë e stilizuar - jo për navigim.” The compact city-header variant uses the authored vector silhouette at low opacity.
+
+**Border desk.** Crossing and direction controls drive both the highlighted row and offline export. Current official ranges refresh every `600` seconds; the visible UI shows the range and update time but intentionally omits source/provenance strips. If parsing or fetching fails, show unavailable data; do not preserve a stale “live” value as fact.
+
+**Wait meter.** Render the entry or exit range with an explicit textual value plus one continuous green/amber/red fill. The fill animates over `720ms` with the visit ease-out curve. Beneath it, show the update time and either the accepted community median plus report count or “Pa raport të verifikuar.” Community data never replaces the primary range.
+
+**Validated community report.** Request a fresh location only after the visitor chooses to report (`maximumAge: 0`). Require reported accuracy within `1km` and physical proximity within `1km` of the selected crossing. Rate-limit the hashed device/network identifier to one report per ten minutes, compare against the current official midpoint, quarantine large outliers, and aggregate accepted reports from the latest 30 minutes. Store distance and accuracy buckets, not exact coordinates. After an accepted submission, refresh the border payload so the new community median can appear immediately.
+
+**Permissioned nearby services.** The “Gjej ndihmën më të afërt” action requests browser location; there is no automatic prompt. Query police, hospital, fire station, and fuel within `10km`, show distance, and tell visitors to verify opening hours. When the map index degrades, expose clearly labeled map-search fallbacks. State that 383 does not retain the visitor's location, and never block 112 or the emergency numbers on permission denial.
+
+**Offline utility card.** Keep current waits, community context, nearby-service state, and 112/192/193/194 within one scannable cream artifact. Download produces standalone HTML with continuous meters, emergency contacts, current direction, optional nearby services, and a dynamic-data warning. It opens offline and requires no account.
+
+**Photo-led city guide.** Keep the city field warm and neutral. For each of seven implemented Kosovo cities, render exactly five places with a local WebP image, meaningful alt text, category, visit-time hint, short description, and direct Google Maps directions. The first two cards are larger on desktop; the remaining three complete the editorial grid. Do not show source names, authority badges, provenance strips, or review dates in the visible guide.
+
+**City package and offline download.** Adding a city creates a session-only saved cover using its lead photograph. Support removal, individual HTML export, and batch export. Embed place images as data URLs when possible so the downloaded guide retains photography offline; preserve details and Maps direction links.
+
+**Emergency access.** Repeat 112 in the hero, as a persistent deep-red floating control, inside the utility card, and in the offline export. Police, fire, and ambulance numbers remain directly callable. No emergency number may require an account, location permission, or payment.
+
+**Motion.** Controls use `160–200ms` state transitions and fine-pointer lifts of `2–3px`. Continuous wait fills use a single `720ms` entrance. Mode selection may smoothly scroll to the relevant tool. `prefers-reduced-motion` collapses animation and transition duration to `.01ms`, restores instant scrolling, and preserves all selected, loading, and error feedback.
+
+## Do's and Don'ts
+
+- **Do** keep 112 accessible before permission or selection and repeat it in the utility card and offline file.
+- **Do** refresh official border ranges every ten minutes, show the update time, and fail to an explicit unavailable state when data cannot be trusted.
+- **Do** keep accepted community medians and report counts visually secondary to the primary range, then refresh them after an accepted submission.
+- **Do** request location only for the visitor-initiated nearby-service or reporting action; require a fresh `1km`-accurate fix within `1km` for reports; explain denial/degradation; avoid exact-coordinate storage.
+- **Do** preserve visible focus, minimum `42–52px` operational hit areas, a linear mobile reading order, and reduced-motion behavior.
+- **Do** give every city exactly five photographic place cards with useful details, time hints, alt text, and Maps directions; keep saved cities session-only unless a new persistence design is approved.
+- **Don't** restore the removed documents, money, investment, health, property, or six-route portal architecture. V2 has two modes only: border utility and city guide.
+- **Don't** represent community reports, map listings, opening hours, or downloaded snapshots as guaranteed live truth.
+- **Don't** restore visible source/provenance strips, badges, review dates, or authority chrome; sourcing stays internal to data and backend review.
+- **Don't** sell location, put safety or emergency numbers behind payment, or let commercial placement affect wait estimates, report validation, or safety access.
+- **Don't** restore the cobalt/yellow city section, black utility header, segmented meters, stamp, scalloped edge, yellow trust close, or cutout-raster map focal.

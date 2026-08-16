@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { X, ChevronDown, MessageCircle, Bell, BookOpen, CheckSquare, Target, Trophy } from "lucide-react";
 
@@ -26,8 +26,21 @@ export default function SignupPrompt() {
   const [closing, setClosing] = useState(false);
   const [benefitsOpen, setBenefitsOpen] = useState(false);
   const router = useRouter();
+  const pathname = usePathname();
+  const excludedRoute = pathname === "/visit" || pathname?.startsWith("/visit/");
 
   useEffect(() => {
+    if (!excludedRoute) return;
+    setVisible(false);
+    setMounted(false);
+    setClosing(false);
+  }, [excludedRoute]);
+
+  useEffect(() => {
+    // The visitor guide is intentionally account-free and contains urgent
+    // actions, so a delayed marketing overlay must never obscure it.
+    if (excludedRoute) return;
+
     const dismissed = localStorage.getItem(DISMISS_KEY);
     if (dismissed && Date.now() - Number(dismissed) < DISMISS_TTL) return;
 
@@ -68,7 +81,7 @@ export default function SignupPrompt() {
       if (timer) clearTimeout(timer);
       listener.subscription.unsubscribe();
     };
-  }, []);
+  }, [excludedRoute]);
 
   function dismiss() {
     localStorage.setItem(DISMISS_KEY, Date.now().toString());
@@ -91,7 +104,7 @@ export default function SignupPrompt() {
     return () => cancelAnimationFrame(raf);
   }, [visible]);
 
-  if (!visible && !closing) return null;
+  if (excludedRoute || (!visible && !closing)) return null;
 
   const shown = mounted && !closing;
   const transitionMs = closing ? EXIT_MS : ENTER_MS;

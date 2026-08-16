@@ -3,7 +3,14 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { ChevronDown, ExternalLink, MapPin, X } from "lucide-react";
+import {
+  ArrowUpRight,
+  ChevronDown,
+  ExternalLink,
+  MapPin,
+  Plane,
+  X,
+} from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { createClient } from "@/lib/supabase/client";
 import type { User } from "@supabase/supabase-js";
@@ -40,8 +47,17 @@ export default function NavSidePanel({ open, onClose }: Props) {
   const [user, setUser] = useState<User | null>(null);
   const [catsOpen, setCatsOpen] = useState(true);
   const supabaseRef = useRef<ReturnType<typeof createClient> | null>(null);
+  const panelRef = useRef<HTMLElement>(null);
+  const overlayRef = useRef<HTMLDivElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const previousFocusRef = useRef<HTMLElement | null>(null);
+  const onCloseRef = useRef(onClose);
   const router = useRouter();
   const pathname = usePathname();
+
+  useEffect(() => {
+    onCloseRef.current = onClose;
+  }, [onClose]);
 
   // Supabase auth (same pattern as user-menu.tsx)
   useEffect(() => {
@@ -66,20 +82,88 @@ export default function NavSidePanel({ open, onClose }: Props) {
     return () => subscription.unsubscribe();
   }, []);
 
-  // Esc to close + body scroll lock while open
+  // Modal keyboard handling, focus containment, scroll lock and background isolation.
   useEffect(() => {
     if (!open) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
+    const panel = panelRef.current;
+    if (!panel) return;
+
+    previousFocusRef.current = document.activeElement instanceof HTMLElement
+      ? document.activeElement
+      : null;
+
+    const isolatedElements: Array<{
+      element: HTMLElement;
+      wasInert: boolean;
+      ariaHidden: string | null;
+    }> = [];
+    let branch: HTMLElement | null = panel;
+
+    while (branch?.parentElement) {
+      const parentElement: HTMLElement = branch.parentElement;
+      Array.from(parentElement.children).forEach((candidate) => {
+        if (
+          !(candidate instanceof HTMLElement) ||
+          candidate === branch ||
+          candidate === overlayRef.current
+        ) return;
+        isolatedElements.push({
+          element: candidate,
+          wasInert: candidate.inert,
+          ariaHidden: candidate.getAttribute("aria-hidden"),
+        });
+        candidate.inert = true;
+        candidate.setAttribute("aria-hidden", "true");
+      });
+      branch = parentElement;
+      if (parentElement === document.body) break;
+    }
+
+    const focusTimer = window.setTimeout(() => closeButtonRef.current?.focus(), 20);
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        onCloseRef.current();
+        return;
+      }
+      if (event.key !== "Tab") return;
+
+      const focusable = Array.from(
+        panel.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])',
+        ),
+      ).filter((element) => !element.inert && element.getClientRects().length > 0);
+      if (focusable.length === 0) {
+        event.preventDefault();
+        panel.focus();
+        return;
+      }
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
     };
     document.addEventListener("keydown", onKey);
     const prevOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     return () => {
+      window.clearTimeout(focusTimer);
       document.removeEventListener("keydown", onKey);
       document.body.style.overflow = prevOverflow;
+      isolatedElements.forEach(({ element, wasInert, ariaHidden }) => {
+        element.inert = wasInert;
+        if (ariaHidden === null) element.removeAttribute("aria-hidden");
+        else element.setAttribute("aria-hidden", ariaHidden);
+      });
+      const previousFocus = previousFocusRef.current;
+      window.setTimeout(() => previousFocus?.focus(), 0);
     };
-  }, [open, onClose]);
+  }, [open]);
 
   async function handleSignOut() {
     onClose();
@@ -92,18 +176,22 @@ export default function NavSidePanel({ open, onClose }: Props) {
     <>
       {/* Dim overlay */}
       <div
+        ref={overlayRef}
         className={`side-panel-overlay${open ? " open" : ""}`}
         onClick={onClose}
-        aria-hidden={!open}
+        aria-hidden="true"
       />
 
       {/* Drawer */}
       <aside
+        ref={panelRef}
         className={`side-panel${open ? " open" : ""}`}
         role="dialog"
-        aria-modal="true"
+        aria-modal={open || undefined}
         aria-label="Menu"
         aria-hidden={!open}
+        inert={!open}
+        tabIndex={-1}
       >
         <div
           style={{
@@ -134,6 +222,7 @@ export default function NavSidePanel({ open, onClose }: Props) {
               Menu
             </span>
             <button
+              ref={closeButtonRef}
               onClick={onClose}
               aria-label="Mbyll menunë"
               style={{
@@ -230,6 +319,122 @@ export default function NavSidePanel({ open, onClose }: Props) {
               </motion.nav>
             )}
           </AnimatePresence>
+
+          {/* Diaspora visitor guide: a distinct utility destination between
+              editorial categories and the Tregu product. */}
+          <div
+            style={{
+              marginTop: "22px",
+              paddingTop: "20px",
+              borderTop: "1px solid #E8E3DB",
+            }}
+          >
+            <span
+              style={{
+                display: "block",
+                marginBottom: "10px",
+                fontSize: "10px",
+                fontWeight: 800,
+                letterSpacing: "0.2em",
+                textTransform: "uppercase",
+                color: "#C4BDB1",
+                fontFamily: "var(--font-manrope), sans-serif",
+              }}
+            >
+              Për vizitorët
+            </span>
+            <motion.div
+              whileHover={{ y: -2 }}
+              whileTap={{ scale: 0.985 }}
+              transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <Link
+                href="/visit"
+                onClick={onClose}
+                aria-current={pathname?.startsWith("/visit") ? "page" : undefined}
+                style={{
+                  position: "relative",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "12px",
+                  minHeight: "76px",
+                  padding: "14px",
+                  overflow: "hidden",
+                  border: pathname?.startsWith("/visit")
+                    ? "1px solid #FF4422"
+                    : "1px solid #D8CEC2",
+                  borderRadius: "14px",
+                  backgroundColor: "#EEE6DA",
+                  backgroundImage: "url('/visit/atlas-texture.webp')",
+                  backgroundSize: "330px auto",
+                  backgroundPosition: "center",
+                  boxShadow: "0 10px 28px rgba(46, 35, 24, 0.1)",
+                  color: "#171614",
+                  textDecoration: "none",
+                }}
+              >
+                <span
+                  aria-hidden
+                  style={{
+                    position: "absolute",
+                    width: "1px",
+                    height: "110px",
+                    right: "58px",
+                    top: "-17px",
+                    background: "rgba(23, 22, 20, 0.12)",
+                    transform: "rotate(3deg)",
+                  }}
+                />
+                <span
+                  aria-hidden
+                  style={{
+                    display: "grid",
+                    placeItems: "center",
+                    width: "42px",
+                    height: "42px",
+                    flexShrink: 0,
+                    border: "1px solid rgba(23, 22, 20, 0.2)",
+                    borderRadius: "11px",
+                    background: "rgba(255, 253, 249, 0.72)",
+                    color: "#FF4422",
+                    transform: "rotate(-4deg)",
+                  }}
+                >
+                  <Plane size={20} strokeWidth={2.2} />
+                </span>
+                <span style={{ minWidth: 0, flex: 1 }}>
+                  <span
+                    style={{
+                      display: "block",
+                      fontSize: "14px",
+                      fontWeight: 800,
+                      lineHeight: 1.25,
+                    }}
+                  >
+                    Diaspora & vizitorë
+                  </span>
+                  <span
+                    style={{
+                      display: "block",
+                      marginTop: "4px",
+                      color: "#665F57",
+                      fontSize: "10px",
+                      fontWeight: 650,
+                      lineHeight: 1.35,
+                    }}
+                  >
+                    Kosovë + Shqipëri: udhëtimi dhe ndihma
+                  </span>
+                </span>
+                <ArrowUpRight
+                  aria-hidden
+                  size={18}
+                  strokeWidth={2.2}
+                  style={{ flexShrink: 0 }}
+                />
+              </Link>
+            </motion.div>
+          </div>
 
           {/* Tregu — standalone feature group, kept apart from the news
               categories above. Same label treatment as "Kategoritë". */}
