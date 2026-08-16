@@ -1041,7 +1041,7 @@
   {
     "date": "2026-08-16",
     "overallIndex": 51,
-    "totalArticles": 130,
+    "totalArticles": 139,
     "sourceCount": 102,
     "stanceVersion": 2,
     "countries": {
@@ -1050,9 +1050,9 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 3,
+        "n": 5,
         "excluded": 0,
-        "confident": false,
+        "confident": true,
         "stanceVersion": 2
       },
       "SHBA": {
@@ -1060,7 +1060,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 25,
+        "n": 27,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -1070,8 +1070,8 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 20,
-        "excluded": 0,
+        "n": 19,
+        "excluded": 1,
         "confident": true,
         "stanceVersion": 2
       },
@@ -1091,7 +1091,7 @@
         "neutral": 88,
         "negative": 0,
         "n": 8,
-        "excluded": 1,
+        "excluded": 0,
         "confident": true,
         "stanceVersion": 2
       },
@@ -1110,9 +1110,9 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 3,
+        "n": 5,
         "excluded": 0,
-        "confident": false,
+        "confident": true,
         "stanceVersion": 2
       },
       "Holandë": {
@@ -1140,9 +1140,9 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 7,
+        "n": 4,
         "excluded": 0,
-        "confident": true,
+        "confident": false,
         "stanceVersion": 2
       },
       "Greqi": {
@@ -1170,17 +1170,17 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 4,
-        "excluded": 0,
+        "n": 3,
+        "excluded": 1,
         "confident": false,
         "stanceVersion": 2
       },
       "Turqi": {
         "index": 52,
-        "positive": 4,
-        "neutral": 96,
-        "negative": 0,
-        "n": 25,
+        "positive": 10,
+        "neutral": 83,
+        "negative": 7,
+        "n": 30,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -1190,7 +1190,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 18,
+        "n": 21,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -1206,12 +1206,36 @@
         "sentiment": "positive"
       },
       {
+        "title": "Kosova Ulusal Balesi'ne yoğun ilgi - dha.com.tr",
+        "source": "dha.com.tr",
+        "country": "Turqi",
+        "flag": "🇹🇷",
+        "url": "https://www.dha.com.tr/yerel-haberler/mugla/bodrum/kosova-ulusal-balesine-yogun-ilgi-2926403",
+        "sentiment": "positive"
+      },
+      {
         "title": "KOSOVA ULUSAL BALESİ BODRUM'DA BÜYÜK İLGİ GÖRDÜ - Analiz Gazetesi",
         "source": "Analiz Gazetesi",
         "country": "Turqi",
         "flag": "🇹🇷",
         "url": "https://analizgazetesi.com.tr/haber/kosova-ulusal-balesi-bodrumda-buyuk-ilgi-gordu-6293/",
         "sentiment": "positive"
+      },
+      {
+        "title": "PDK ve AAK’nin İstişare Toplantısını Reddetmeleri Yanlış ve Düşüncesiz Bir Adım - Kosovahaber.com",
+        "source": "Kosovahaber.com",
+        "country": "Turqi",
+        "flag": "🇹🇷",
+        "url": "https://kosovahaber.com/haber/pdk-ve-aaknin-istisare-toplantisini-reddetmeleri-yanlis-ve-dusuncesiz-bir-adim-104952",
+        "sentiment": "negative"
+      },
+      {
+        "title": "AAK: Cumhurbaşkanı, Vetëvendosje’nin Tek Başına Kontrolüne Bırakılamaz - Kosovahaber.com",
+        "source": "Kosovahaber.com",
+        "country": "Turqi",
+        "flag": "🇹🇷",
+        "url": "https://kosovahaber.com/haber/aak-cumhurbaskani-vetevendosjenin-tek-basina-kontrolune-birakilamaz-104955",
+        "sentiment": "negative"
       }
     ]
   }
