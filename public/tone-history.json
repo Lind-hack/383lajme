@@ -1040,9 +1040,9 @@
   },
   {
     "date": "2026-08-16",
-    "overallIndex": 52,
-    "totalArticles": 115,
-    "sourceCount": 90,
+    "overallIndex": 51,
+    "totalArticles": 130,
+    "sourceCount": 102,
     "stanceVersion": 2,
     "countries": {
       "Gjermani": {
@@ -1050,9 +1050,9 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 5,
+        "n": 3,
         "excluded": 0,
-        "confident": true,
+        "confident": false,
         "stanceVersion": 2
       },
       "SHBA": {
@@ -1060,7 +1060,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 17,
+        "n": 25,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -1070,7 +1070,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 16,
+        "n": 20,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -1087,11 +1087,11 @@
       },
       "Itali": {
         "index": 56,
-        "positive": 11,
-        "neutral": 89,
+        "positive": 12,
+        "neutral": 88,
         "negative": 0,
-        "n": 9,
-        "excluded": 0,
+        "n": 8,
+        "excluded": 1,
         "confident": true,
         "stanceVersion": 2
       },
@@ -1100,7 +1100,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 6,
+        "n": 7,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -1110,7 +1110,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 4,
+        "n": 3,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
@@ -1140,9 +1140,9 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 4,
+        "n": 7,
         "excluded": 0,
-        "confident": false,
+        "confident": true,
         "stanceVersion": 2
       },
       "Greqi": {
@@ -1150,8 +1150,8 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 3,
-        "excluded": 1,
+        "n": 4,
+        "excluded": 0,
         "confident": false,
         "stanceVersion": 2
       },
@@ -1160,7 +1160,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 2,
+        "n": 3,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
@@ -1170,17 +1170,17 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 3,
+        "n": 4,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
       },
       "Turqi": {
-        "index": 57,
-        "positive": 13,
-        "neutral": 87,
+        "index": 52,
+        "positive": 4,
+        "neutral": 96,
         "negative": 0,
-        "n": 30,
+        "n": 25,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -1190,7 +1190,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 13,
+        "n": 18,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -1206,221 +1206,12 @@
         "sentiment": "positive"
       },
       {
-        "title": "Kosova Ulusal Balesi Bodrum’da Büyük İlgi Gördü - Bodrum Gündem",
-        "source": "Bodrum Gündem",
+        "title": "KOSOVA ULUSAL BALESİ BODRUM'DA BÜYÜK İLGİ GÖRDÜ - Analiz Gazetesi",
+        "source": "Analiz Gazetesi",
         "country": "Turqi",
         "flag": "🇹🇷",
-        "url": "https://www.bodrumgundem.com/2026/08/13/kosova-ulusal-balesi-bodrumda-buyuk-ilgi-gordu/",
+        "url": "https://analizgazetesi.com.tr/haber/kosova-ulusal-balesi-bodrumda-buyuk-ilgi-gordu-6293/",
         "sentiment": "positive"
-      },
-      {
-        "title": "Kosova Ulusal Balesi Bodrum'da Büyük İlgi Gördü - Bodrum Kent TV",
-        "source": "Bodrum Kent TV",
-        "country": "Turqi",
-        "flag": "🇹🇷",
-        "url": "https://kenttv.net/video/28511800/kosova-ulusal-balesi-bodrumda-buyuk-ilgi-gordu",
-        "sentiment": "positive"
-      }
-    ]
-  },
-  {
-    "date": "2026-08-16",
-    "overallIndex": 53,
-    "totalArticles": 426,
-    "sourceCount": 408,
-    "stanceVersion": 2,
-    "countries": {
-      "Gjermani": {
-        "index": 52,
-        "positive": 6,
-        "neutral": 91,
-        "negative": 3,
-        "n": 33,
-        "excluded": 0,
-        "confident": true,
-        "stanceVersion": 2
-      },
-      "SHBA": {
-        "index": 53,
-        "positive": 8,
-        "neutral": 90,
-        "negative": 2,
-        "n": 49,
-        "excluded": 0,
-        "confident": true,
-        "stanceVersion": 2
-      },
-      "Britani": {
-        "index": 54,
-        "positive": 9,
-        "neutral": 91,
-        "negative": 0,
-        "n": 47,
-        "excluded": 0,
-        "confident": true,
-        "stanceVersion": 2
-      },
-      "Francë": {
-        "index": 55,
-        "positive": 11,
-        "neutral": 89,
-        "negative": 0,
-        "n": 28,
-        "excluded": 0,
-        "confident": true,
-        "stanceVersion": 2
-      },
-      "Itali": {
-        "index": 53,
-        "positive": 6,
-        "neutral": 94,
-        "negative": 0,
-        "n": 54,
-        "excluded": 0,
-        "confident": true,
-        "stanceVersion": 2
-      },
-      "Austri": {
-        "index": 53,
-        "positive": 5,
-        "neutral": 95,
-        "negative": 0,
-        "n": 37,
-        "excluded": 1,
-        "confident": true,
-        "stanceVersion": 2
-      },
-      "Zvicër": {
-        "index": 54,
-        "positive": 12,
-        "neutral": 84,
-        "negative": 4,
-        "n": 25,
-        "excluded": 9,
-        "confident": true,
-        "stanceVersion": 2
-      },
-      "Holandë": {
-        "index": 56,
-        "positive": 11,
-        "neutral": 89,
-        "negative": 0,
-        "n": 18,
-        "excluded": 26,
-        "confident": true,
-        "stanceVersion": 2
-      },
-      "Belgjikë": {
-        "index": 50,
-        "positive": 0,
-        "neutral": 100,
-        "negative": 0,
-        "n": 18,
-        "excluded": 2,
-        "confident": true,
-        "stanceVersion": 2
-      },
-      "Spanjë": {
-        "index": 50,
-        "positive": 0,
-        "neutral": 100,
-        "negative": 0,
-        "n": 13,
-        "excluded": 18,
-        "confident": true,
-        "stanceVersion": 2
-      },
-      "Greqi": {
-        "index": 50,
-        "positive": 0,
-        "neutral": 100,
-        "negative": 0,
-        "n": 8,
-        "excluded": 50,
-        "confident": false,
-        "stanceVersion": 2
-      },
-      "Suedi": {
-        "index": 50,
-        "positive": 0,
-        "neutral": 100,
-        "negative": 0,
-        "n": 7,
-        "excluded": 53,
-        "confident": false,
-        "stanceVersion": 2
-      },
-      "Poloni": {
-        "index": 50,
-        "positive": 0,
-        "neutral": 100,
-        "negative": 0,
-        "n": 12,
-        "excluded": 27,
-        "confident": false,
-        "stanceVersion": 2
-      },
-      "Turqi": {
-        "index": 54,
-        "positive": 7,
-        "neutral": 93,
-        "negative": 0,
-        "n": 28,
-        "excluded": 17,
-        "confident": true,
-        "stanceVersion": 2
-      },
-      "Kroaci": {
-        "index": 53,
-        "positive": 8,
-        "neutral": 90,
-        "negative": 2,
-        "n": 49,
-        "excluded": 0,
-        "confident": true,
-        "stanceVersion": 2
-      }
-    },
-    "headlines": [
-      {
-        "title": "Kosovo: Gesänge erzählen die Geschichte der Albaner - Stadt, Land, Kunst - 07/05/2026 - Die ganze Doku - Arte.tv",
-        "source": "Arte.tv",
-        "country": "Gjermani",
-        "flag": "🇩🇪",
-        "url": "https://www.arte.tv/de/videos/132970-000-A/kosovo-gesaenge-erzaehlen-die-geschichte-der-albaner/",
-        "sentiment": "positive"
-      },
-      {
-        "title": "Kosovo stood with Ukraine, Zelensky’s words in Belgrade were a painful betrayal - opinion - The Jerusalem Post",
-        "source": "The Jerusalem Post",
-        "country": "SHBA",
-        "flag": "🇺🇸",
-        "url": "https://www.jpost.com/opinion/article-905061",
-        "sentiment": "positive"
-      },
-      {
-        "title": "From Grassroots to Policy – The Case for Kosovo - International Association for Suicide Prevention - IASP",
-        "source": "International Association for Suicide Prevention - IASP",
-        "country": "Britani",
-        "flag": "🇬🇧",
-        "url": "https://www.iasp.info/2026/08/05/from-grassroots-to-policy-the-case-for-kosovo/",
-        "sentiment": "positive"
-      },
-      {
-        "title": "Serbien: Ministerin hätte Kosovo gerne \"ethnisch gesäubert\" - dw.com",
-        "source": "dw.com",
-        "country": "Gjermani",
-        "flag": "🇩🇪",
-        "url": "https://www.dw.com/de/serbiens-ministerin-snezana-paunovic-haette-kosovo-im-krieg-1999-gerne-ethnisch-gesaeubert/a-77983728",
-        "sentiment": "negative"
-      },
-      {
-        "title": "Serbian Minister Backs ‘Ethnic Cleansing’ of Kosovo - Genocide Watch",
-        "source": "Genocide Watch",
-        "country": "SHBA",
-        "flag": "🇺🇸",
-        "url": "https://www.genocidewatch.com/single-post/eu-condemns-serbian-minister-for-backing-ethnic-cleansing-of-kosovo",
-        "sentiment": "negative"
       }
     ]
   }
