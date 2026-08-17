@@ -29,6 +29,7 @@ import {
   getWeeklyFuelSnapshot,
 } from "@/lib/home-market-data";
 import { getToneHistory, getToneArticleCache, summarizeToneHistory, getForeignCoverage, getTopics, getToneTopics } from "@/lib/tone-data";
+import { dateKeyInKosovo, resolveView } from "@/lib/reagimi-data";
 
 export const revalidate = 3600;
 
@@ -71,11 +72,13 @@ export default async function HomePage() {
   const hero = articles.find((a) => a.featured) ?? articles[0];
   const heroId = hero?.id;
 
-  // Reagimi i Ditës — highest-scored non-hero article (≥ 8), fallback to second article
-  const reagimiArticle =
-    articles.find((a) => a.id !== heroId && (a.engagementScore ?? 0) >= 8) ??
-    articles.find((a) => a.id !== heroId) ??
-    hero;
+  // Reagimi i Ditës — the auto fallback is restricted to articles published TODAY.
+  // The previous rule ("highest-scored non-hero article") had no date constraint, so
+  // a quiet news week left a days-old article under a heading that promises daily.
+  // A curated row wins when one exists; it loads client-side, where the clock is
+  // authoritative (this page is statically revalidated hourly).
+  const reagimiDateKey = dateKeyInKosovo();
+  const reagimiFallback = resolveView(null, articles, reagimiDateKey, heroId);
 
   // Tier 2: KRYESORE lead + secondary — claimed before NJOFTIME so the
   // front-page hierarchy always renders even when the article pool is small
@@ -179,7 +182,7 @@ export default async function HomePage() {
         }}
       >
         {/* Daily video reaction */}
-        <ReagimiDites article={reagimiArticle} />
+        <ReagimiDites fallbackView={reagimiFallback} serverDateKey={reagimiDateKey} />
 
         {/* Daily poll */}
         <DailyPoll />

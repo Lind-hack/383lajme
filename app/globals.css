@@ -7558,3 +7558,1168 @@ body[data-tour-veil] > *:not(.tutorial-root) {
   .tone-sheet { left: 6px; right: 6px; bottom: 6px; padding: 10px; }
   .tone-map--full .tone-sheet { right: 6px; left: 6px; width: auto; }
 }
+   REAGIMI I DITËS — daily reaction module
+   Component: components/reagimi-dites.tsx · Logic: lib/reagimi-data.ts
+
+   Interactive state lives here rather than in inline styles on purpose. The
+   previous implementation faked hover with framer-motion `whileHover`, which
+   cannot be gated behind a pointer media query, so touch devices kept a hover
+   state stuck on after tap. Everything below is gated.
+
+   Motion budget is deliberately low: a returning reader sees this module every
+   day, which is the "reduce motion" frequency band. The one generous moment is
+   the results reveal, because that is the payoff for taking part.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.reagimi {
+  margin-bottom: var(--space-section);
+}
+
+/* Entrance. CSS rather than framer-motion on purpose: this is predetermined,
+   non-interruptible motion, so it belongs off the main thread where it stays
+   smooth while the rest of the homepage is still hydrating. */
+.reagimi--enter {
+  animation: reagimi-enter 400ms var(--ease-out) both;
+}
+
+@keyframes reagimi-enter {
+  from { opacity: 0; transform: translate3d(0, 12px, 0); }
+  /* `none`, not identity — see the note on reagimi-dialog-in. */
+  to   { opacity: 1; transform: none; }
+}
+
+.reagimi-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(255, 68, 34, 0.22);
+  background: linear-gradient(135deg, #1a1a1a 0%, #0f0f0f 100%);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+/* ── Header: label, date, streak ───────────────────────────────────────── */
+
+.reagimi-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 18px 24px 0;
+}
+
+.reagimi-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--color-orange);
+  box-shadow: 0 0 8px rgba(255, 68, 34, 0.8);
+  flex-shrink: 0;
+  /* Deliberately not pulsing. An infinite loop on a module seen every single
+     day is exactly the animation that turns irritating by week two. */
+}
+
+.reagimi-kicker {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-orange);
+}
+
+/* The date is the proof the module is actually daily. It is not decoration. */
+.reagimi-date {
+  font-size: 11px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.42);
+  letter-spacing: 0.02em;
+}
+
+.reagimi-streak {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  background: rgba(255, 68, 34, 0.12);
+  border: 1px solid rgba(255, 68, 34, 0.25);
+  color: #ff7a5c;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* ── Body: asymmetric media + content ──────────────────────────────────── */
+
+.reagimi-body {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 24px;
+  padding: 18px 24px 20px;
+  align-items: center;
+}
+
+.reagimi-media {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #000;
+  /* Reserving the ratio up front is what stops the thumbnail arriving late and
+     shifting the card, which the previous version did on every load. */
+}
+
+.reagimi-thumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.reagimi-media-fallback {
+  position: absolute;
+  inset: 0;
+}
+
+/* Skeleton while the clip is being resolved. */
+.reagimi-skeleton {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    100deg,
+    rgba(255, 255, 255, 0.04) 30%,
+    rgba(255, 255, 255, 0.09) 50%,
+    rgba(255, 255, 255, 0.04) 70%
+  );
+  background-size: 220% 100%;
+  animation: reagimi-shimmer 1.4s linear infinite;
+}
+
+@keyframes reagimi-shimmer {
+  from { background-position: 180% 0; }
+  to   { background-position: -80% 0; }
+}
+
+.reagimi-play {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: rgba(0, 0, 0, 0.34);
+  cursor: pointer;
+  padding: 0;
+  transition:
+    background-color var(--duration-base) var(--ease-out),
+    opacity var(--duration-base) var(--ease-out);
+}
+
+.reagimi-play-ring {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--color-orange);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 24px rgba(255, 68, 34, 0.45);
+  transition: transform var(--duration-base) var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .reagimi-play:hover {
+    background: rgba(0, 0, 0, 0.2);
+  }
+  .reagimi-play:hover .reagimi-play-ring {
+    transform: scale(1.06);
+  }
+}
+
+.reagimi-play:active .reagimi-play-ring {
+  transform: scale(0.97);
+}
+
+.reagimi-play:focus-visible {
+  outline: 2px solid var(--color-orange);
+  outline-offset: -3px;
+}
+
+/* Clip duration. Replaces the shipped readingTime badge, which printed a
+   reading time on top of a video. */
+.reagimi-duration {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  padding: 3px 8px;
+  border-radius: var(--radius-pill);
+  background: rgba(0, 0, 0, 0.72);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  font-variant-numeric: tabular-nums;
+  pointer-events: none;
+}
+
+.reagimi-content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+
+.reagimi-context {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+/* The lead. Serif only when it is a real quote: a pull-quote in a news product
+   is the one canonical editorial use of the project's existing serif token, and
+   it separates "a person said this" from an auto-picked headline at a glance.
+   The two never appear together, so no family mixing occurs on screen. */
+.reagimi-lead {
+  margin: 0;
+  color: #fff;
+  font-size: clamp(19px, 2.3vw, 28px);
+  font-weight: 700;
+  line-height: 1.28;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+  /* Keeps the measure sane on wide screens; without it the quote runs past 80
+     characters per line at 1600px+. */
+  max-width: 62ch;
+}
+
+.reagimi-lead--quote {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.reagimi-attribution {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+  font-size: 13px;
+}
+
+.reagimi-speaker {
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.reagimi-role {
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.42);
+}
+
+.reagimi-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  align-self: flex-start;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-orange);
+  text-decoration: none;
+  border-radius: 6px;
+  transition: gap var(--duration-base) var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .reagimi-link:hover { gap: 10px; }
+}
+
+.reagimi-link:focus-visible {
+  outline: 2px solid var(--color-orange);
+  outline-offset: 3px;
+}
+
+/* ── Reaction bar ──────────────────────────────────────────────────────── */
+
+.reagimi-react {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 16px 24px 18px;
+}
+
+.reagimi-react-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.reagimi-react-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.8);
+  letter-spacing: 0.01em;
+}
+
+.reagimi-react-count {
+  font-size: 11px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.4);
+  font-variant-numeric: tabular-nums;
+}
+
+.reagimi-options {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+}
+
+.reagimi-option {
+  display: flex;
+  /* Inline on desktop. Stacked, these become 230px-wide slabs holding 60px of
+     content, which reads as empty scaffolding rather than a control. */
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 48px;
+  padding: 10px 8px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(255, 255, 255, 0.72);
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: center;
+  line-height: 1.15;
+  transition:
+    background-color var(--duration-fast) var(--ease-out),
+    border-color var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out),
+    transform var(--duration-fast) var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .reagimi-option:hover {
+    background: rgba(255, 68, 34, 0.14);
+    border-color: rgba(255, 68, 34, 0.5);
+    color: #fff;
+  }
+}
+
+/* Instant physical feedback on press. */
+.reagimi-option:active {
+  transform: scale(0.97);
+}
+
+.reagimi-option:focus-visible {
+  outline: 2px solid var(--color-orange);
+  outline-offset: 2px;
+}
+
+.reagimi-option:disabled {
+  cursor: default;
+  opacity: 0.6;
+}
+
+/* ── Results ───────────────────────────────────────────────────────────── */
+
+.reagimi-results {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  /* Full-width bars stretch to ~1400px on desktop, where a 33% fill and an 8%
+     fill are hard to tell apart. Constraining the block is what makes the
+     distribution readable at a glance. */
+  max-width: 620px;
+}
+
+.reagimi-result {
+  display: grid;
+  grid-template-columns: 18px minmax(74px, auto) 1fr 42px;
+  align-items: center;
+  gap: 10px;
+}
+
+.reagimi-result-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.6);
+  white-space: nowrap;
+}
+
+.reagimi-result--mine .reagimi-result-label {
+  color: #fff;
+  font-weight: 700;
+}
+
+.reagimi-track {
+  display: block;
+  height: 8px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.09);
+  overflow: hidden;
+}
+
+.reagimi-fill {
+  /* Must be block. A transform has no effect on a non-replaced inline element,
+     so as a bare span the bar reported its scaleX in computed styles while
+     rendering completely unfilled. */
+  display: block;
+  height: 100%;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.38);
+  transform-origin: left;
+  transform: scaleX(var(--pct, 0));
+  /* The payoff moment, and the only place the motion budget is spent
+     generously. Staggered per row from the component. */
+  transition: transform 520ms var(--ease-out);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+.reagimi-result--mine .reagimi-fill {
+  background: var(--color-orange);
+}
+
+.reagimi-pct {
+  font-size: 12px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.55);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.reagimi-result--mine .reagimi-pct {
+  color: var(--color-orange);
+}
+
+.reagimi-result-icon {
+  color: rgba(255, 255, 255, 0.4);
+  display: flex;
+}
+
+.reagimi-result--mine .reagimi-result-icon {
+  color: var(--color-orange);
+}
+
+/* ── Continuity rail: yesterday ────────────────────────────────────────── */
+
+.reagimi-rail {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 24px 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(0, 0, 0, 0.24);
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 12px;
+  text-decoration: none;
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .reagimi-rail:hover { color: rgba(255, 255, 255, 0.8); }
+}
+
+.reagimi-rail:focus-visible {
+  outline: 2px solid var(--color-orange);
+  outline-offset: -2px;
+}
+
+.reagimi-rail-day {
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.7);
+  flex-shrink: 0;
+}
+
+.reagimi-rail-quote {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+}
+
+.reagimi-rail-verdict {
+  margin-left: auto;
+  flex-shrink: 0;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.66);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Waiting state ─────────────────────────────────────────────────────── */
+/* Shown when nothing is curated and nothing was published today. Honest and
+   composed, rather than the old behaviour of quietly showing a five-day-old
+   article under a heading that promises daily. */
+
+.reagimi-waiting {
+  padding: 30px 24px 32px;
+  text-align: center;
+}
+
+.reagimi-waiting-title {
+  margin: 0 0 6px;
+  font-size: 17px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.reagimi-waiting-sub {
+  margin: 0;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+/* ── Video dialog ──────────────────────────────────────────────────────── */
+
+.reagimi-dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(0, 0, 0, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.reagimi-dialog {
+  position: relative;
+  width: min(92vw, 1120px);
+  aspect-ratio: 16 / 9;
+}
+
+.reagimi-dialog iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: 12px;
+}
+
+.reagimi-dialog-close {
+  position: absolute;
+  top: -42px;
+  right: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border: none;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color var(--duration-fast) var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .reagimi-dialog-close:hover { background: rgba(255, 255, 255, 0.2); }
+}
+
+.reagimi-dialog-close:focus-visible {
+  outline: 2px solid var(--color-orange);
+  outline-offset: 2px;
+}
+
+/* ── Responsive ────────────────────────────────────────────────────────── */
+
+@media (max-width: 760px) {
+  .reagimi-body {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 14px 16px 18px;
+  }
+  .reagimi-head    { padding: 16px 16px 0; }
+  .reagimi-react   { padding: 14px 16px 16px; }
+  .reagimi-rail    { padding: 11px 16px 12px; gap: 8px; }
+  .reagimi-waiting { padding: 26px 16px 28px; }
+
+  .reagimi-options { gap: 5px; }
+  /* Stacked on mobile: five labels cannot sit beside their icons at this width. */
+  .reagimi-option {
+    flex-direction: column;
+    min-height: 62px;
+    font-size: 9.5px;
+    padding: 9px 2px;
+    gap: 5px;
+    border-radius: 10px;
+  }
+
+  /* Percentages stay legible by dropping the icon column, not by shrinking. */
+  .reagimi-result {
+    grid-template-columns: minmax(70px, auto) 1fr 40px;
+  }
+  .reagimi-result-icon { display: none; }
+
+  .reagimi-rail-verdict { display: none; }
+
+  .reagimi-dialog-close { top: -38px; }
+}
+
+/* Below ~360px, five across leaves each button 40px wide, under the 44px
+   minimum touch target. Wrapping to two rows keeps them tappable and keeps the
+   labels legible, which matters more here than holding a single row. */
+@media (max-width: 360px) {
+  .reagimi-options {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px;
+  }
+  .reagimi-option {
+    flex: 1 1 28%;
+    min-width: 84px;
+    font-size: 10px;
+  }
+}
+
+/* ── Reduced motion ────────────────────────────────────────────────────── */
+/* Gentler, not zero: the bars still fill and colour still communicates, but
+   nothing moves or shimmers. */
+
+@media (prefers-reduced-motion: reduce) {
+  /* Keep the fade (it aids comprehension), drop the movement. */
+  .reagimi--enter {
+    animation: reagimi-enter-reduced 200ms var(--ease-out) both;
+  }
+  @keyframes reagimi-enter-reduced {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+  .reagimi-skeleton {
+    animation: none;
+    background: rgba(255, 255, 255, 0.06);
+  }
+  .reagimi-fill {
+    transition: none;
+    transition-delay: 0ms;
+  }
+  .reagimi-play-ring,
+  .reagimi-option,
+  .reagimi-link {
+    transition: none;
+  }
+  .reagimi-play:hover .reagimi-play-ring,
+  .reagimi-option:active,
+  .reagimi-play:active .reagimi-play-ring {
+    transform: none;
+  }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   REAGIMI — watch-first pass
+   The first version made the quote the hero and left the only call to action
+   pointing at the article. That reads well but gives nobody a reason to press
+   play: the text answered the question the clip was there to answer. These rules
+   invert the emphasis toward the video.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Video now leads on desktop. Previously a fixed 300px column left ~40% of the
+   card as dead black space while the text out-measured the clip. */
+.reagimi-body {
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: 28px;
+  align-items: center;
+}
+
+/* Muted hover preview sits above the still, below the play affordance. */
+.reagimi-preview {
+  position: absolute;
+  /* Scaled past the frame so YouTube's own chrome sits outside the visible
+     area; the still underneath covers anything that peeks through. */
+  top: 50%;
+  left: 50%;
+  width: 178%;
+  height: 178%;
+  transform: translate(-50%, -50%);
+  border: none;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.reagimi-media:hover .reagimi-thumb {
+  opacity: 0;
+}
+
+.reagimi-thumb {
+  transition: opacity var(--duration-base) var(--ease-out);
+}
+
+/* Play affordance and duration stay above the preview. */
+.reagimi-play,
+.reagimi-duration {
+  z-index: 2;
+}
+
+/* The overlay lightens on hover so the moving frame reads through it. */
+@media (hover: hover) and (pointer: fine) {
+  .reagimi-media:hover .reagimi-play {
+    background: rgba(0, 0, 0, 0.12);
+  }
+}
+
+/* ── Actions: watch is primary, read is secondary ──────────────────────────── */
+
+.reagimi-actions {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
+.reagimi-watch {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 11px 18px;
+  border: none;
+  border-radius: var(--radius-pill);
+  background: var(--color-orange);
+  color: #fff;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition:
+    background-color var(--duration-fast) var(--ease-out),
+    transform var(--duration-fast) var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .reagimi-watch:hover { background: #ff5c3d; }
+}
+
+.reagimi-watch:active { transform: scale(0.97); }
+
+.reagimi-watch:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+/* Duration reads as a small promise ("this is short"), not a warning. */
+.reagimi-watch-dur {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  opacity: 0.75;
+  padding-left: 9px;
+  margin-left: 2px;
+  border-left: 1px solid rgba(255, 255, 255, 0.35);
+}
+
+/* Read demoted to a quiet secondary. */
+.reagimi-link {
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .reagimi-link:hover { color: rgba(255, 255, 255, 0.85); gap: 9px; }
+}
+
+/* ── Post-watch cue ────────────────────────────────────────────────────────── */
+/* One quiet sweep after the clip closes, connecting watching to reacting.
+   Runs once, not a loop: this module is seen every day. */
+
+.reagimi-react--cue {
+  animation: reagimi-cue 1600ms var(--ease-out) 1;
+}
+
+@keyframes reagimi-cue {
+  0%   { background: rgba(255, 68, 34, 0); }
+  22%  { background: rgba(255, 68, 34, 0.09); }
+  100% { background: rgba(255, 68, 34, 0); }
+}
+
+/* ── Responsive ────────────────────────────────────────────────────────────── */
+
+@media (max-width: 900px) {
+  .reagimi-body { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (max-width: 760px) {
+  .reagimi-actions { gap: 14px; }
+  .reagimi-watch {
+    flex: 1 1 auto;
+    justify-content: center;
+    padding: 12px 16px;
+  }
+  /* No hover on touch, so the still must never be hidden. */
+  .reagimi-media:hover .reagimi-thumb { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reagimi-react--cue { animation: none; }
+  .reagimi-thumb { transition: none; }
+  .reagimi-watch { transition: none; }
+  .reagimi-watch:active { transform: none; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   REAGIMI — theater mode
+   Clicking the clip opens a focused view: near-black ground, a large video, and
+   nothing else but the five reactions. Casting a vote unfolds the tally and
+   yesterday's result beneath it, so the sequence reads watch -> decide -> compare.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.reagimi-dialog-backdrop {
+  /* Near-black so nothing behind competes with the clip. */
+  background: rgba(0, 0, 0, 0.93);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  padding: 0;
+  overflow-y: auto;
+  align-items: flex-start;
+  justify-content: center;
+  animation: reagimi-backdrop-in 220ms var(--ease-out) both;
+}
+
+@keyframes reagimi-backdrop-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.reagimi-dialog {
+  position: relative;
+  width: min(94vw, 1180px);
+  /* Height is content-driven now that the panel sits under the video. */
+  aspect-ratio: auto;
+  margin: auto;
+  padding: 60px 0 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  animation: reagimi-dialog-in 260ms var(--ease-out) both;
+}
+
+@keyframes reagimi-dialog-in {
+  from { opacity: 0; transform: translate3d(0, 10px, 0) scale(0.985); }
+  /* Must land on `none`, not an identity transform: any non-none transform makes
+     this element the containing block for `position: fixed` descendants, which is
+     what trapped the close button inside the dialog. */
+  to   { opacity: 1; transform: none; }
+}
+
+/* The clip itself, materially bigger than before. */
+.reagimi-dialog-stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  /* Caps the clip on short viewports so the reactions stay above the fold. When
+     this clamps, the player letterboxes itself against the black stage, so the
+     seam is invisible. */
+  max-height: 62vh;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #000;
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.7);
+}
+
+.reagimi-dialog-stage iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+
+.reagimi-dialog-close {
+  top: 18px;
+  right: 0;
+}
+
+/* ── Panel under the clip ──────────────────────────────────────────────────── */
+
+.reagimi-dialog-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.reagimi-dialog-prompt {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.92);
+  letter-spacing: 0.01em;
+}
+
+.reagimi-dialog-count {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.42);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Reactions read larger here than on the card: this is the moment of decision. */
+.reagimi-dialog-panel .reagimi-option {
+  min-height: 62px;
+  font-size: 12px;
+  gap: 9px;
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.14);
+}
+
+/* ── The pull-down ─────────────────────────────────────────────────────────── */
+/* 0fr -> 1fr is the only CSS-only way to transition to an unmeasured height, so
+   the reveal stays smooth whatever the content turns out to be. */
+
+.reagimi-reveal {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition:
+    grid-template-rows 460ms var(--ease-out),
+    opacity 300ms var(--ease-out);
+}
+
+.reagimi-reveal--open {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+
+.reagimi-reveal-inner {
+  overflow: hidden;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.reagimi-dialog-rail {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 12px;
+  min-width: 0;
+}
+
+/* ── Mobile ────────────────────────────────────────────────────────────────── */
+
+@media (max-width: 760px) {
+  .reagimi-dialog {
+    width: 100%;
+    padding: 52px 14px 28px;
+    gap: 16px;
+    /* Top-aligned, not centred. `margin: auto` floats a short dialog in the middle
+       of a tall phone, which strands the close button in open space. Anchoring to
+       the top also means an absolutely-positioned close button lands at the screen
+       edge, without depending on which ancestor happens to be a containing block
+       (the dialog's fill-mode animation keeps an identity transform, so it is one). */
+    margin: 0 auto;
+  }
+  .reagimi-dialog-stage { border-radius: 12px; }
+  .reagimi-dialog-close {
+    top: 12px;
+    right: 14px;
+    background: rgba(255, 255, 255, 0.14);
+    padding: 8px 12px;
+  }
+  .reagimi-dialog-prompt { font-size: 14px; }
+
+  .reagimi-dialog-panel .reagimi-option {
+    min-height: 58px;
+    font-size: 9.5px;
+    gap: 5px;
+  }
+  .reagimi-dialog-rail { padding: 10px 12px; }
+  .reagimi-dialog-rail .reagimi-rail-verdict { display: none; }
+}
+
+/* Landscape phones: keep the clip inside the viewport instead of pushing the
+   reactions off the bottom. */
+@media (max-height: 560px) and (orientation: landscape) {
+  .reagimi-dialog { padding-top: 46px; }
+  .reagimi-dialog-stage {
+    aspect-ratio: auto;
+    height: 62vh;
+  }
+}
+
+@media (max-width: 360px) {
+  .reagimi-dialog-panel .reagimi-option {
+    flex: 1 1 28%;
+    min-width: 84px;
+    font-size: 10px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reagimi-dialog-backdrop,
+  .reagimi-dialog { animation: none; }
+  .reagimi-reveal {
+    transition: opacity 200ms var(--ease-out);
+  }
+}
+
+
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   REAGIMI — density pass
+   Measured before: desktop card 528 unvoted / 610 voted, media 340, results 130.
+   The module sits among many on the homepage and was claiming most of a laptop
+   viewport. Nothing here changes the structure or the hierarchy, only the
+   intervals: the video stays dominant, watching stays primary.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* A 16:9 clip in a ~610px column is 340px tall, so height has to be capped
+   rather than argued down by narrowing the column. The thumbnail and preview
+   already cover-fit, so this crops toward a cinematic band instead of
+   letterboxing, and news framing keeps its subject centred. */
+.reagimi-media {
+  /* An explicit height, NOT `max-height`. With `aspect-ratio` still in force a cap
+     shrinks the WIDTH to preserve the ratio, which left 147px of dead space between
+     a 459px clip and its 606px column. Releasing the ratio lets the box fill the
+     column and the cover-fit thumbnail crop to a cinematic band instead. */
+  aspect-ratio: auto;
+  height: 258px;
+}
+
+.reagimi-body {
+  padding: 14px 24px 16px;
+  gap: 24px;
+}
+
+.reagimi-content {
+  gap: 10px;
+}
+
+.reagimi-head {
+  padding: 15px 24px 0;
+}
+
+/* Slightly smaller lead. This raises the video's relative weight rather than
+   lowering it, so the watch-first hierarchy survives the trim. */
+.reagimi-lead {
+  font-size: clamp(18px, 1.95vw, 24px);
+  line-height: 1.24;
+}
+
+.reagimi-actions {
+  margin-top: 2px;
+  gap: 16px;
+}
+
+.reagimi-watch {
+  padding: 10px 16px;
+  font-size: 13.5px;
+}
+
+/* ── Reaction bar ──────────────────────────────────────────────────────────── */
+
+.reagimi-react {
+  padding: 12px 24px 14px;
+}
+
+.reagimi-react-head {
+  margin-bottom: 10px;
+}
+
+.reagimi-option {
+  min-height: 44px;
+  padding: 8px 8px;
+}
+
+/* ── Results ───────────────────────────────────────────────────────────────── */
+/* The 10px gap was wider than the 18px row it separated, which is what made the
+   block read loose and tall. Tightening the interval below the row height turns
+   five readings into one group instead of five stacked items. */
+
+.reagimi-results {
+  gap: 5px;
+}
+
+.reagimi-result {
+  grid-template-columns: 16px minmax(66px, auto) 1fr 34px;
+  gap: 8px;
+}
+
+.reagimi-track {
+  height: 6px;
+  border-radius: 3px;
+}
+
+.reagimi-fill {
+  border-radius: 3px;
+}
+
+.reagimi-result-label,
+.reagimi-pct {
+  font-size: 11px;
+}
+
+/* ── Continuity rail ───────────────────────────────────────────────────────── */
+
+.reagimi-rail {
+  padding: 10px 24px 11px;
+}
+
+/* ── Theater panel inherits the tighter results ────────────────────────────── */
+
+.reagimi-dialog {
+  padding: 52px 0 36px;
+  gap: 16px;
+}
+
+.reagimi-dialog-panel {
+  gap: 11px;
+}
+
+.reagimi-dialog-panel .reagimi-option {
+  min-height: 54px;
+}
+
+.reagimi-reveal-inner {
+  gap: 11px;
+}
+
+/* ── Mobile ────────────────────────────────────────────────────────────────── */
+
+@media (max-width: 760px) {
+  /* Full-width 16:9 is already short here, so the ratio comes back and the height
+     cap goes away; cropping would cost framing for no vertical gain. */
+  .reagimi-media {
+    aspect-ratio: 16 / 9;
+    height: auto;
+  }
+
+  .reagimi-head { padding: 13px 16px 0; }
+  .reagimi-body { padding: 12px 16px 14px; gap: 14px; }
+  .reagimi-content { gap: 9px; }
+  .reagimi-react { padding: 11px 16px 13px; }
+  .reagimi-rail { padding: 9px 16px 10px; }
+
+  .reagimi-lead { font-size: clamp(17px, 4.6vw, 20px); }
+  .reagimi-actions { gap: 12px; }
+  .reagimi-watch { padding: 11px 14px; }
+
+  .reagimi-option { min-height: 54px; }
+  .reagimi-dialog-panel .reagimi-option { min-height: 50px; }
+
+  /* Three columns, because the icon is display:none here. A hidden grid item is
+     removed from flow, so leaving the four-column desktop track list shifts every
+     cell one column left and drops the label into the 16px icon slot, where it
+     overflows on top of the bar. */
+  .reagimi-result {
+    grid-template-columns: minmax(62px, auto) 1fr 34px;
+    gap: 8px;
+  }
+}
+
+
+

@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Navbar from "@/components/navbar";
+import TimeAgo from "@/components/time-ago";
 import MarketMiniCard from "@/components/tregu/market-mini-card";
 import MarketEventCard from "@/components/tregu/market-event-card";
 import { groupMarkets } from "@/lib/tregu-groups";
@@ -489,7 +490,7 @@ export default function TreguHub() {
                     {fmtNum(a.coins)} 383C
                   </span>
                   <span className="tregu-ticker-q">{a.question}</span>
-                  <span className="tregu-ticker-time">{timeAgo(a.createdAt)}</span>
+                  <TimeAgo iso={a.createdAt} format={timeAgo} className="tregu-ticker-time" />
                 </Link>
               ))}
             </div>
