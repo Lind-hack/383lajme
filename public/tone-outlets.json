@@ -1,12 +1,52 @@
 {
   "lastUpdated": "2026-08-17",
   "overallIndex": 50,
-  "totalArticles": 95,
-  "sourceCount": 71,
+  "totalArticles": 106,
+  "sourceCount": 80,
   "stanceVersion": 2,
   "countries": {
     "Gjermani": {
       "outlets": [
+        {
+          "name": "DiePresse.com",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo steckt erneut in einer politischen Krise - DiePresse.com",
+              "albanianTitle": "Kosova në një krizë politike tjetër - DiePresse.com",
+              "blurb": "Kosova po përballet sërish me një krizë politike sipas raportimeve të fundit nga gazeta austriake Die Presse.",
+              "imageUrl": "https://img.diepresse.com/public/incoming/9oq1kk-2026-08-08t124704z2044394285rc2auma8ufw1rtrmadp3kosovo-politicsjpg/alternates/WEBP_WIDE_1200/2026-08-08T124704Z_2044394285_RC2AUMA8UFW1_RTRMADP_3_KOSOVO-POLITICS.JPG",
+              "url": "https://www.diepresse.com/41173664/kosovo-steckt-erneut-in-einer-politischen-krise",
+              "date": "2026-08-14",
+              "sentiment": "neutral",
+              "reason": "Raportim i thjeshtë i një krize politike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Germany Trade & Invest (GTAI)",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Freihandelsabkommen zwischen Kosovo und EFTA tritt in Kraft - Germany Trade & Invest (GTAI)",
+              "albanianTitle": "Hyn në fuqi marrëveshja e tregtisë së lirë mes Kosovës dhe EFTA-s - Germany Trade & Invest (GTAI)",
+              "blurb": "Marrëveshja e tregtisë së lirë ndërmjet Kosovës dhe vendeve të EFTA-s ka hyrë zyrtarisht në fuqi për palët.",
+              "imageUrl": "https://www.gtai.de/resource/image/568400/fitImage/2000/1048/1294240791f492cbbd34364b283e4cda/DC24176B4610A64AF1AD6B40DE7328A7/gtai-logo-farbverlaeufe-schutzzone.jpg",
+              "url": "https://www.gtai.de/de/trade/kosovo/zoll/freihandelsabkommen-kosovo-efta-2021426",
+              "date": "2026-08-17",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim pa ngarkim",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
         {
           "name": "Pester Lloyd",
           "sentiment": "neutral",
@@ -73,9 +113,9 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 3,
+        "n": 5,
         "excluded": 0,
-        "confident": false,
+        "confident": true,
         "stanceVersion": 2
       }
     },
@@ -108,6 +148,26 @@
               "date": "2026-08-14",
               "sentiment": "neutral",
               "reason": "Lajm i thjeshtë, i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Bangladesh Sangbad Sangstha (BSS)",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Bangladesh, Kosovo eye FTA to boost bilateral trade - Bangladesh Sangbad Sangstha (BSS)",
+              "albanianTitle": "Bengalia dhe Kosova shikonin për një marrëveshje tregtare për të rritur tregtinë e tyre",
+              "blurb": "Kosova dhe Bangladeshi po shqyrtojnë mundësinë e nënshkrimit të një marrëveshjeje për tregti të lirë mes dy vendeve.",
+              "imageUrl": "https://www.bssnews.net/assets/news_photos/2026/08/14/image-414526-1786694779.jpg",
+              "url": "https://www.bssnews.net/news-flash/414526",
+              "date": "2026-08-14",
+              "sentiment": "neutral",
+              "reason": "Raportim i thjeshtë i marrëveshjes tregtare",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -197,8 +257,21 @@
         {
           "name": "KosovaPress",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
+            {
+              "title": "Kosovo Prosecution says Fehim Sali admitted he was recruited by Serbian Intelligece - KosovaPress",
+              "albanianTitle": "Prokuroria e Kosovës: Fehim Sali ka pranuar se është rekrutuar nga Inteligjenca Serbe",
+              "blurb": "Prokuroria e Kosovës njofton se Fehim Sali ka pranuar se është rekrutuar nga shërbimi inteligjent serb për aktivitete.",
+              "imageUrl": "https://kosovapress.com/eng/admin/wp-content/uploads/2026/08/96121786709864.jpg",
+              "url": "https://kosovapress.com/eng/kosovo-prosecution-says-fehim-sali-admitted-he-was-recruited-by-serbian-intelligece",
+              "date": "2026-08-14",
+              "sentiment": "neutral",
+              "reason": "Fact‑based report of prosecution statement",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
             {
               "title": "Democratic Party of Kosovo accuses Kurti of abusing Assembly Session Chair Avni Dehari - KosovaPress",
               "albanianTitle": "Partia Demokratike e Kosovës akuzon Kurtin për keqpërdorim të kryesuesit të seancës, Avni Dehari",
@@ -235,7 +308,27 @@
           ]
         },
         {
-          "name": "UNICEF",
+          "name": "The Architectural Review",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "An editorial practice in times of crisis - The Architectural Review",
+              "albanianTitle": "Një praktikë editoriale në kohë krize - The Architectural Review",
+              "blurb": "Praktika editoriale në kohë krize analizohet përmes qasjeve të ndryshme profesionale në fushën e arkitekturës dhe botimeve.",
+              "imageUrl": "https://cdn.ca.emap.com/wp-content/uploads/sites/12/2026/08/260710_An-editorial-practice-in-times-of-crisis_Page_16_playback-1024x576.webp",
+              "url": "https://www.architectural-review.com/films/an-editorial-practice-in-times-of-crisis",
+              "date": "2026-08-17",
+              "sentiment": "unknown",
+              "reason": "Nuk ka informacione mbi qëndrimin ndaj Kosovës në tekstin e dhënë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Unicef",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
@@ -295,6 +388,39 @@
           ]
         },
         {
+          "name": "srpske.rs",
+          "sentiment": "neutral",
+          "articleCount": 2,
+          "articles": [
+            {
+              "title": "Kosovo Police Search Strmac, Question Six - srpske.rs",
+              "albanianTitle": "Policia e Kosovës bastis Stërmcin, shoqëron gjashtë persona për intervistim",
+              "blurb": "Policia e Kosovës ka kryer bastisje në Strmac dhe ka marrë në pyetje gjashtë persona gjatë këtij operacioni.",
+              "imageUrl": "https://srpske.rs/uploads/articles/kosovo-police-search-strmac-question-six-16x9.webp",
+              "url": "https://srpske.rs/en/news/politika/2026/08/15/kosovo-police-search-strmac-question-six",
+              "date": "2026-08-15",
+              "sentiment": "neutral",
+              "reason": "Raportim i thjeshtë i veprimeve të policisë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Kosovo Parliament Deadlock Persists, PDK Wants Session Now - srpske.rs",
+              "albanianTitle": "Vazhdon ngërçi në Kuvendin e Kosovës, PDK kërkon seancë urgjente",
+              "blurb": "Partia Demokratike e Kosovës kërkon mbajtjen e menjëhershme të seancës parlamentare për shkak të bllokadës në Kuvend.",
+              "imageUrl": "https://srpske.rs/uploads/articles/kosovo-parliament-standoff-pdk-demands-tuesday-session-16x9.webp",
+              "url": "https://srpske.rs/en/news/politika/2026/08/16/kosovo-parliament-standoff-pdk-demands-tuesday-session",
+              "date": "2026-08-16",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "ԱՐՑԱԽ ԼՐԱՏՎԱԿԱՆ",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -320,8 +446,8 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 12,
-        "excluded": 0,
+        "n": 16,
+        "excluded": 1,
         "confident": true,
         "stanceVersion": 2
       }
@@ -402,26 +528,6 @@
           ]
         },
         {
-          "name": "IMDb",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "‘Shame and Money’ Director on Sundance-Winning Drama About a Kosovo Family in Free Fall: ‘It’s a Look Into the Past and a Warning to the Future’ - IMDb",
-              "albanianTitle": "Regjisori i filmit ‘Shame and Money’ për dramën fituese në Sundance për një familje kosovare në rënie të lirë: ‘Është një vështrim në të kaluarën dhe një paralajmërim për të ardhmen’",
-              "blurb": "Regjisori i filmit fitues në Sundance flet për dramën mbi një familje kosovare në rënie të lirë.",
-              "imageUrl": null,
-              "url": "https://www.imdb.com/de/news/ni65974085/?ref_=nwc_art_perm",
-              "date": "2026-08-16",
-              "sentiment": "neutral",
-              "reason": "Raporton deklaratën e drejtorit të filmit",
-              "isQuote": true,
-              "evidence": "",
-              "speaker": "Shame and Money Director"
-            }
-          ]
-        },
-        {
           "name": "KosovaPress",
           "sentiment": "neutral",
           "articleCount": 2,
@@ -475,7 +581,27 @@
           ]
         },
         {
-          "name": "UNICEF",
+          "name": "The Architectural Review",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "An editorial practice in times of crisis - The Architectural Review",
+              "albanianTitle": "Një praktikë editoriale në kohë krize - The Architectural Review",
+              "blurb": "Praktika editoriale në kohë krize analizohet përmes qasjeve të ndryshme profesionale në fushën e arkitekturës dhe botimeve.",
+              "imageUrl": "https://cdn.ca.emap.com/wp-content/uploads/sites/12/2026/08/260710_An-editorial-practice-in-times-of-crisis_Page_16_playback-1024x576.webp",
+              "url": "https://www.architectural-review.com/films/an-editorial-practice-in-times-of-crisis",
+              "date": "2026-08-17",
+              "sentiment": "unknown",
+              "reason": "Nuk ka informacione mbi qëndrimin ndaj Kosovës në tekstin e dhënë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Unicef",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
@@ -500,14 +626,14 @@
           "articleCount": 1,
           "articles": [
             {
-              "title": "'Shame and Money' Director on Sundance-Winning Social Drama - Variety",
+              "title": "'Shame and Money' Director on Sundance-Winning Social Drama - variety.com",
               "albanianTitle": "Regjisori i filmit 'Shame and Money' flet për dramën sociale fituese në Sundance",
-              "blurb": "Regjisori i filmit Shame and Money flet për dramën sociale që fitoi çmim në festivalin Sundance.",
+              "blurb": "Regjisori i filmit Shame and Money flet për dramën sociale që u shpërblye në festivalin Sundance.",
               "imageUrl": "https://variety.com/wp-content/uploads/2026/01/Shame-and-Money.jpg?w=1000&h=563&crop=1",
               "url": "https://variety.com/2026/film/global/shame-and-money-sundance-social-drama-kosovo-1236834517/",
               "date": "2026-08-16",
               "sentiment": "neutral",
-              "reason": "Lajm i thjeshtë, pa koment",
+              "reason": "Lajm i raportuar në mënyrë faktike",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -531,39 +657,6 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "kosovo-online.com",
-          "sentiment": "neutral",
-          "articleCount": 2,
-          "articles": [
-            {
-              "title": "Popovic: Difficult situation, Serbs cannot build a future in Kosovo in an atmosphere of fear - kosovo-online.com",
-              "albanianTitle": "Popoviq: Situatë e vështirë, serbët nuk mund të ndërtojnë të ardhme në Kosovë në një atmosferë frike",
-              "blurb": "Milan Popovic deklaron se serbët në Kosovë po përballen me vështirësi dhe një atmosferë të rënduar frike.",
-              "imageUrl": null,
-              "url": "https://www.kosovo-online.com/en/news/politics/popovic-difficult-situation-serbs-cannot-build-future-kosovo-atmosphere-fear-14-8",
-              "date": "2026-08-14",
-              "sentiment": "neutral",
-              "reason": "Raporton deklaratën e Popovic",
-              "isQuote": true,
-              "evidence": "",
-              "speaker": "Popovic"
-            },
-            {
-              "title": "Dedaj: Situation chaotic, Kurti is Kosovo's Kim Jong Un - kosovo-online.com",
-              "albanianTitle": "Dedaj: Situata është kaotike, Kurti është Kim Jong Un i Kosovës",
-              "blurb": "Dedaj vlerëson se situata në Kosovë është kaotike dhe e krahason qeverisjen e Kurtit me Kim Jong Un.",
-              "imageUrl": null,
-              "url": "https://www.kosovo-online.com/en/news/politics/dedaj-situation-chaotic-kurti-kosovos-kim-jong-un-15-8-2026",
-              "date": "2026-08-15",
-              "sentiment": "neutral",
-              "reason": "Raporton deklaratën e Dedaj",
-              "isQuote": true,
-              "evidence": "",
-              "speaker": "Dedaj"
             }
           ]
         },
@@ -593,8 +686,8 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 14,
-        "excluded": 0,
+        "n": 11,
+        "excluded": 1,
         "confident": true,
         "stanceVersion": 2
       }
@@ -769,6 +862,26 @@
           ]
         },
         {
+          "name": "Germany Trade & Invest (GTAI)",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Freihandelsabkommen zwischen Kosovo und EFTA tritt in Kraft - Germany Trade & Invest (GTAI)",
+              "albanianTitle": "Hyn në fuqi marrëveshja e tregtisë së lirë mes Kosovës dhe EFTA-s - Germany Trade & Invest (GTAI)",
+              "blurb": "Marrëveshja e tregtisë së lirë ndërmjet Kosovës dhe vendeve të EFTA-s ka hyrë zyrtarisht në fuqi për palët.",
+              "imageUrl": "https://www.gtai.de/resource/image/568400/fitImage/2000/1048/1294240791f492cbbd34364b283e4cda/DC24176B4610A64AF1AD6B40DE7328A7/gtai-logo-farbverlaeufe-schutzzone.jpg",
+              "url": "https://www.gtai.de/de/trade/kosovo/zoll/freihandelsabkommen-kosovo-efta-2021426",
+              "date": "2026-08-17",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim pa ngarkim",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "Ligaportal",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -834,15 +947,15 @@
           "articleCount": 1,
           "articles": [
             {
-              "title": "Sorensen: Nuk ka afat për përmbylljen e dialogut Kosovë-Serbi - reporteri.net",
+              "title": "Sorensen: Nuk ka afat për përmbylljen e dialogut Kosovë-Serbi - Reporteri",
               "albanianTitle": "Sorensen: Nuk ka afat kohor për përmbylljen e dialogut Kosovë-Serbi",
-              "blurb": "Sorensen deklaron se nuk ekziston një afat kohor i përcaktuar për përmbylljen e dialogut ndërmjet Kosovës dhe Serbisë.",
-              "imageUrl": null,
+              "blurb": "Emisari Sorensen deklaroi se nuk ekziston një afat kohor i caktuar për përfundimin e dialogut ndërmjet Kosovës dhe Serbisë.",
+              "imageUrl": "https://reporteri.net/wp-content/uploads/2025/08/sorensen.png",
               "url": "https://reporteri.net/de/Botschaft/Sorensen%3A-Es-gibt-keine-Frist-f%C3%BCr-den-Abschluss-des-Kosovo-Serbien-Dialogs/",
               "date": "2026-08-14",
               "sentiment": "neutral",
-              "reason": "Raporton qëndrimin e Sorensen",
-              "isQuote": true,
+              "reason": "Raporton deklaratën e Sorensen",
+              "isQuote": false,
               "evidence": "",
               "speaker": "Sorensen"
             }
@@ -874,7 +987,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 6,
+        "n": 7,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -883,19 +996,19 @@
     "Zvicër": {
       "outlets": [
         {
-          "name": "Sofascore",
+          "name": "Germany Trade & Invest (GTAI)",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
-              "title": "Kosovo Mediterranean Team - sofascore.com",
-              "albanianTitle": "Klubi i Kosovës në Mesdhe në sofascore.com",
-              "blurb": "Ekipi i Kosovës për lojërat mesdhetare është renditur në platformën sportive Sofascore për përcjelljen e rezultateve të ndeshjeve.",
-              "imageUrl": null,
-              "url": "https://www.sofascore.com/de/football/match/kosovo-mediterranean-team-italy-mediterranean-team/dLekseLek",
-              "date": "2026-08-14",
+              "title": "Freihandelsabkommen zwischen Kosovo und EFTA tritt in Kraft - Germany Trade & Invest (GTAI)",
+              "albanianTitle": "Hyn në fuqi marrëveshja e tregtisë së lirë mes Kosovës dhe EFTA-s - Germany Trade & Invest (GTAI)",
+              "blurb": "Marrëveshja e tregtisë së lirë ndërmjet Kosovës dhe vendeve të EFTA-s ka hyrë zyrtarisht në fuqi për palët.",
+              "imageUrl": "https://www.gtai.de/resource/image/568400/fitImage/2000/1048/1294240791f492cbbd34364b283e4cda/DC24176B4610A64AF1AD6B40DE7328A7/gtai-logo-farbverlaeufe-schutzzone.jpg",
+              "url": "https://www.gtai.de/de/trade/kosovo/zoll/freihandelsabkommen-kosovo-efta-2021426",
+              "date": "2026-08-17",
               "sentiment": "neutral",
-              "reason": "Lajm i thjeshtë i një skuadre sportive",
+              "reason": "Faktikë raportim pa ngarkim",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -903,22 +1016,22 @@
           ]
         },
         {
-          "name": "gazetaexpress.com",
+          "name": "Sofascore",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
-              "title": "Sorensen: Der Kosovo-Serbien-Dialog ist nicht gescheitert und hat jüngst konkrete Ergebnisse für die Vermissten erzielt. - gazetaexpress.com",
-              "albanianTitle": "Sorensen: Dialogu Kosovë-Serbi nuk ka dështuar dhe së fundmi ka sjellë rezultate konkrete për personat e pagjetur",
-              "blurb": "Sorensen mohon dështimin e dialogut Kosovë-Serbi duke përmendur arritjet e fundit lidhur me çështjen e personave të pagjetur.",
-              "imageUrl": "https://www.gazetaexpress.com/wp-content/uploads/2026/08/so.webp",
-              "url": "https://www.gazetaexpress.com/de/Sorensen--der-Kosovo-Serbien-Dialog-ist-nicht-gescheitert--denn-er-hat-in-j%C3%BCngster-Zeit-konkrete-Ergebnisse-f%C3%BCr-die-Vermissten-hervorgebracht./",
+              "title": "Kosovo Mediterranean Team - Sofascore",
+              "albanianTitle": "Kombëtarja e Kosovës në Mediterranean - Sofascore",
+              "blurb": "Ekipi i Kosovës për Lojërat Mesdhetare është listuar në platformën sportive Sofascore për ndjekjen e rezultateve dhe performancave të tyre.",
+              "imageUrl": null,
+              "url": "https://www.sofascore.com/de/football/match/kosovo-mediterranean-team-italy-mediterranean-team/dLekseLek",
               "date": "2026-08-14",
               "sentiment": "neutral",
-              "reason": "Raporton qëndrimin e Sorensen",
-              "isQuote": true,
+              "reason": "Lajm i thjeshtë sportiv",
+              "isQuote": false,
               "evidence": "",
-              "speaker": "Sorensen"
+              "speaker": ""
             }
           ]
         }
@@ -1044,6 +1157,26 @@
           ]
         },
         {
+          "name": "El Nacional",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo destinó 200 mil dólares a la Cruz Roja para atender a los damnificados de La Guaira tras los terremotos - El Nacional",
+              "albanianTitle": "Kosova ndau 200 mijë dollarë për Kryqin e Kuq për të ndihmuar viktimat e tërmeteve në La Guaira - El Nacional",
+              "blurb": "Kosova ka dhuruar 200 mijë dollarë për Kryqin e Kuq për të ndihmuar viktimat e tërmeteve në La Guaira.",
+              "imageUrl": "https://elnacional-uploads.nyc3.digitaloceanspaces.com/wp-content/uploads/2026/08/15122155/863c6e41580713a89fce9c659b126dd120b003d2.jpg",
+              "url": "https://www.elnacional.com/2026/08/kosovo-destino-200-mil-dolares-a-la-cruz-roja-para-atender-a-los-damnificados-de-la-guaira-tras-los-terremotos/",
+              "date": "2026-08-15",
+              "sentiment": "neutral",
+              "reason": "Lajm i thjeshtë, i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "Everardo Herrera",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1066,7 +1199,7 @@
         {
           "name": "Sofascore",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Algeria Mediterranean Team - Sofascore",
@@ -1080,23 +1213,16 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "elnacional.com",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
+            },
             {
-              "title": "Kosovo destinó 200 mil dólares a la Cruz Roja para atender a los damnificados de La Guaira tras los terremotos - El Nacional",
-              "albanianTitle": "Kosova ndau 200 mijë dollarë për Kryqin e Kuq për të ndihmuar viktimat e tërmeteve në La Guaira - El Nacional",
-              "blurb": "Kosova ka dhuruar 200 mijë dollarë për Kryqin e Kuq për të ndihmuar viktimat e tërmeteve në La Guaira.",
-              "imageUrl": "https://elnacional-uploads.nyc3.digitaloceanspaces.com/wp-content/uploads/2026/08/15122155/863c6e41580713a89fce9c659b126dd120b003d2.jpg",
-              "url": "https://www.elnacional.com/2026/08/kosovo-destino-200-mil-dolares-a-la-cruz-roja-para-atender-a-los-damnificados-de-la-guaira-tras-los-terremotos/",
-              "date": "2026-08-15",
+              "title": "Kosovo Mediterranean Team - Sofascore",
+              "albanianTitle": "Kombëtarja e Kosovës në Mediterranean - Sofascore",
+              "blurb": "Ekipi i Kosovës për Lojërat Mesdhetare është listuar në platformën sportive Sofascore për ndjekjen e rezultateve dhe performancave të tyre.",
+              "imageUrl": null,
+              "url": "https://www.sofascore.com/de/football/match/kosovo-mediterranean-team-italy-mediterranean-team/dLekseLek",
+              "date": "2026-08-14",
               "sentiment": "neutral",
-              "reason": "Lajm i thjeshtë, i raportuar në mënyrë faktike",
+              "reason": "Lajm i thjeshtë sportiv",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1109,7 +1235,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 5,
+        "n": 6,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -1117,26 +1243,6 @@
     },
     "Greqi": {
       "outlets": [
-        {
-          "name": "In.gr",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Η κατρακύλα της οικονομίας συνοψίζεται στην ιστορία ενός αγρότη από το Κόσοβο - In.gr",
-              "albanianTitle": "Rënia e ekonomisë, e përmbledhur në rrëfimin e një fermeri nga Kosova",
-              "blurb": "Gjendja e rënduar ekonomike në Kosovë pasqyrohet përmes përvojës së një fermeri vendas në një raport të publikuar.",
-              "imageUrl": "https://www.in.gr/wp-content/uploads/2026/08/shame.webp",
-              "url": "https://www.in.gr/2026/08/16/life/culture-live/i-katrakyla-tis-oikonomias-synopsizetai-stin-istoria-enos-agroti-apo-to-kosovo/",
-              "date": "2026-08-16",
-              "sentiment": "neutral",
-              "reason": "Lajm i rëndë, i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
         {
           "name": "Sofascore",
           "sentiment": "neutral",
@@ -1191,6 +1297,26 @@
           ]
         },
         {
+          "name": "in.gr",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Η κατρακύλα της οικονομίας συνοψίζεται στην ιστορία ενός αγρότη από το Κόσοβο - In.gr",
+              "albanianTitle": "Rënia e ekonomisë, e përmbledhur në rrëfimin e një fermeri nga Kosova",
+              "blurb": "Gjendja e rënduar ekonomike në Kosovë pasqyrohet përmes përvojës së një fermeri vendas në një raport të publikuar.",
+              "imageUrl": "https://www.in.gr/wp-content/uploads/2026/08/shame.webp",
+              "url": "https://www.in.gr/2026/08/16/life/culture-live/i-katrakyla-tis-oikonomias-synopsizetai-stin-istoria-enos-agroti-apo-to-kosovo/",
+              "date": "2026-08-16",
+              "sentiment": "neutral",
+              "reason": "Lajm i rëndë, i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "sport-fm.gr",
           "sentiment": "neutral",
           "articleCount": 2,
@@ -1238,39 +1364,19 @@
     "Suedi": {
       "outlets": [
         {
-          "name": "SMHI",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Väderprognos 10 dygn Pristina, Kosovo - SMHI",
-              "albanianTitle": "Parashikimi i motit për 10 ditët e ardhshme në Prishtinë, Kosovë",
-              "blurb": "Instituti Meteorologjik Suedez ka publikuar parashikimin e motit për dhjetë ditët e ardhshme në qytetin e Prishtinës.",
-              "imageUrl": null,
-              "url": "https://www.smhi.se/vader/prognoser-och-varningar/vaderprognos/q/Pristina/786714",
-              "date": "2026-08-14",
-              "sentiment": "neutral",
-              "reason": "Parashikim i thjeshtë i motit, pa ndonjë ton ndaj Kosovës",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
           "name": "Sofascore",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
-              "title": "Kosovo Mediterranean Team - sofascore.com",
-              "albanianTitle": "Klubi i Kosovës në Mesdhe në sofascore.com",
-              "blurb": "Ekipi i Kosovës për lojërat mesdhetare është renditur në platformën sportive Sofascore për përcjelljen e rezultateve të ndeshjeve.",
+              "title": "Kosovo Mediterranean Team - Sofascore",
+              "albanianTitle": "Kombëtarja e Kosovës në Mediterranean - Sofascore",
+              "blurb": "Ekipi i Kosovës për Lojërat Mesdhetare është listuar në platformën sportive Sofascore për ndjekjen e rezultateve dhe performancave të tyre.",
               "imageUrl": null,
               "url": "https://www.sofascore.com/de/football/match/kosovo-mediterranean-team-italy-mediterranean-team/dLekseLek",
               "date": "2026-08-14",
               "sentiment": "neutral",
-              "reason": "Lajm i thjeshtë i një skuadre sportive",
+              "reason": "Lajm i thjeshtë sportiv",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1283,7 +1389,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 2,
+        "n": 1,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
@@ -1314,7 +1420,7 @@
         {
           "name": "Meczyki.pl",
           "sentiment": "neutral",
-          "articleCount": 4,
+          "articleCount": 3,
           "articles": [
             {
               "title": "Kosowo U19 (K) - Słowacja U19 (K) - statystyki meczu 03.12.2026 - Meczyki.pl",
@@ -1348,19 +1454,6 @@
               "blurb": "Përfaqësuesja e Polonisë U19 për femra përballet me Kosovën U19 në ndeshjen e planifikuar për 27 nëntor 2026.",
               "imageUrl": "https://pliki.meczyki.pl/live-score/soccer/match/6177686/original.png",
               "url": "https://www.meczyki.pl/typy-bukmacherskie/poland-u19-kosovo-u19/6177686",
-              "date": "2026-08-15",
-              "sentiment": "neutral",
-              "reason": "Lajm i thjeshtë i një ndeshjeje",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Polska U19 (K) - Kosowo U19 (K) - H2H, forma, bezpośrednie pojedynki - Meczyki.pl",
-              "albanianTitle": "Polonia U19 (F) - Kosova U19 (F): statistikat kokë më kokë, forma dhe përballjet direkte",
-              "blurb": "Analiza e formës dhe ndeshjeve të drejtpërdrejta mes përfaqësueseve të Polonisë dhe Kosovës për grupmoshën U19 të femrave.",
-              "imageUrl": "https://pliki.meczyki.pl/live-score/soccer/match/6177686/original.png",
-              "url": "https://www.meczyki.pl/wyniki-na-zywo/poland-u19-kosovo-u19/6177686/h2h",
               "date": "2026-08-15",
               "sentiment": "neutral",
               "reason": "Lajm i thjeshtë i një ndeshjeje",
@@ -1409,6 +1502,26 @@
               "speaker": ""
             }
           ]
+        },
+        {
+          "name": "gostyn24.pl",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Powitanie nowego wozu w OSP Kosowo - gostyn24.pl",
+              "albanianTitle": "Mirëpritja e automjetit të ri në OSP Kosowo - gostyn24.pl",
+              "blurb": "Njësia e zjarrfikësve vullnetarë në Kosovë ka pranuar një automjet të ri për nevojat e intervenimeve në terren.",
+              "imageUrl": "https://gostyn24.pl/fotorelacje/2025/1021/458798_b.jpg",
+              "url": "https://gostyn24.pl/pl/fotorelacje/na-sygnale/powitanie-nowego-wozu-w-osp-kosowo/13554,6",
+              "date": "2026-08-15",
+              "sentiment": "neutral",
+              "reason": "Raportim faktik i marrjes së një mjeti të ri në OSP Kosovo",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
         }
       ],
       "summary": {
@@ -1426,18 +1539,18 @@
       "outlets": [
         {
           "name": "Analiz Gazetesi",
-          "sentiment": "unknown",
+          "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
               "title": "İLK TÜRBİNLER DEVREYE ALINDI - Analiz Gazetesi",
-              "albanianTitle": "Vihen në punë turbinat e para",
-              "blurb": "Turbinat e para janë vënë në funksionim dhe janë lëshuar zyrtarisht në rrjetin e prodhimit të energjisë.",
+              "albanianTitle": "Vihen në punë turbinat e para - Analiz Gazetesi",
+              "blurb": "Turbinat e para janë vënë në funksionim pas përfundimit të fazave të nevojshme teknike për prodhimin e energjisë.",
               "imageUrl": "https://analizgazetesi.com.tr/modules/blog/dataimages/IMG_F1ED6C-DE2FA2-522D96-12D537-261E09-139527.jpg",
               "url": "https://analizgazetesi.com.tr/haber/ilk-turbinler-devreye-alindi-9410/",
               "date": "2026-08-14",
-              "sentiment": "unknown",
-              "reason": "item does not mention Kosovo",
+              "sentiment": "neutral",
+              "reason": "Faktik raportim i instalimit të turbinave",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1451,13 +1564,13 @@
           "articles": [
             {
               "title": "Rıdvan Dilmen hangi kanalda çıkıyor, hangi platformda, nerede, saat kaçta yorum yapıyor? %100 Futbol hangi kanalda yayınlanıyor? - Haberler",
-              "albanianTitle": "Në cilin kanal, platformë dhe orë jep komente Rıdvan Dilmen? Në cilin kanal transmetohet %100 Futbol?",
-              "blurb": "Informacione mbi platformat, kanalet televizive dhe oraret e transmetimit për emisionin sportiv me analistin Ridvan Dilmen.",
+              "albanianTitle": "Në cilin kanal, platformë dhe orë shfaqet Rıdvan Dilmen? Ku transmetohet emisioni %100 Futbol? - Haberler",
+              "blurb": "Informacione mbi kanalin televiziv dhe platformën ku transmetohet emisioni sportiv 100 për qind Futboll me Rıdvan Dilmen.",
               "imageUrl": "https://foto.haberler.com/haber/2025/08/04/ridvan-dilmen-hangi-kanalda-cikiyor-hangi-18915220_7427_amp.jpg",
               "url": "https://www.haberler.com/haberler/ridvan-dilmen-hangi-kanalda-cikiyor-hangi-18915220-haberi/",
               "date": "2026-08-14",
               "sentiment": "unknown",
-              "reason": "item does not mention Kosovo",
+              "reason": "Nuk ka përmbajtje për Kosovën",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1483,14 +1596,14 @@
               "speaker": ""
             },
             {
-              "title": "Son 24 Saatte Kosova'da İki Ölümcül Trafik Kazası - Kosovahaber.com",
-              "albanianTitle": "Dy aksidente fatale në trafik brenda 24 orëve në Kosovë",
-              "blurb": "Dy aksidente trafiku me pasoja fatale kanë ndodhur në territorin e Kosovës gjatë periudhës së fundit 24-orëshe.",
+              "title": "Kosova Futbolunun İkonik İsmi Erdoğan Celina Vefat Etti - Kosovahaber.com",
+              "albanianTitle": "Ndërron jetë ikona e futbollit kosovar, Erdoğan Celina - Kosovahaber.com",
+              "blurb": "Figura ikonike e futbollit kosovar, Erdoğan Celina, ka ndërruar jetë duke lënë pas një karrierë të gjatë sportive.",
               "imageUrl": null,
-              "url": "https://kosovahaber.com/haber/son-24-saatte-kosovada-iki-olumcul-trafik-kazasi-104961",
-              "date": "2026-08-16",
+              "url": "https://kosovahaber.com/haber/kosova-futbolunun-ikonik-ismi-erdogan-celina-vefat-etti-104969",
+              "date": "2026-08-17",
               "sentiment": "neutral",
-              "reason": "Lajm i rëndë, i raportuar në mënyrë faktike",
+              "reason": "Lajm për vdekjen e një figure sportive, i paraqitur në mënyrë faktike",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1509,16 +1622,29 @@
               "speaker": ""
             },
             {
-              "title": "KEK'te Ağır İş Kazası: Bir Çalışan Ağır Yaralandı - Kosovahaber.com",
-              "albanianTitle": "Aksident i rëndë në punë në KEK: Një punëtor lëndohet rëndë",
-              "blurb": "Një punëtor ka pësuar lëndime të rënda trupore gjatë një aksidenti në punë brenda objekteve të KEK-ut.",
+              "title": "Son 24 Saatte Kosova'da İki Ölümcül Trafik Kazası - Kosovahaber.com",
+              "albanianTitle": "Dy aksidente fatale në trafik brenda 24 orëve në Kosovë",
+              "blurb": "Dy aksidente trafiku me pasoja fatale kanë ndodhur në territorin e Kosovës gjatë periudhës së fundit 24-orëshe.",
               "imageUrl": null,
-              "url": "https://kosovahaber.com/haber/kekte-agir-is-kazasi-bir-calisan-agir-yaralandi-104968",
-              "date": "2026-08-17",
+              "url": "https://kosovahaber.com/haber/son-24-saatte-kosovada-iki-olumcul-trafik-kazasi-104961",
+              "date": "2026-08-16",
               "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
+              "reason": "Lajm i rëndë, i raportuar në mënyrë faktike",
               "isQuote": false,
               "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "İbre Köprüsü’nün Açılması, Kuzeyin Bölünmesi Fikrini Tarihe Gömecek - Kosovahaber.com",
+              "albanianTitle": "Hapja e Urës së Ibrit do ta varrosë përgjithmonë idenë e ndarjes së veriut - Kosovahaber.com",
+              "blurb": "Hapja e urës mbi lumin Ibër vlerësohet si veprim që do të parandalojë idetë për ndarjen e veriut.",
+              "imageUrl": null,
+              "url": "https://kosovahaber.com/haber/ibre-koprusunun-acilmasi-kuzeyin-bolunmesi-fikrini-tarihe-gomecek-104978",
+              "date": "2026-08-17",
+              "sentiment": "positive",
+              "reason": "Gjuha e medias e përdor frazën pozitive që e vlerëson hapjen e urës si hap drejt bashkiminë",
+              "isQuote": false,
+              "evidence": "Kuzeyin Bölünmesi Fikrini Tarihe Gömecek",
               "speaker": ""
             },
             {
@@ -1533,18 +1659,25 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
-            },
+            }
+          ]
+        },
+        {
+          "name": "Posta",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
             {
-              "title": "AAK: Cumhurbaşkanı, Vetëvendosje’nin Tek Başına Kontrolüne Bırakılamaz - Kosovahaber.com",
-              "albanianTitle": "AAK: Presidentja nuk mund të lihet nën kontrollin e plotë të Vetëvendosjes",
-              "blurb": "Aleanca për Ardhmërinë e Kosovës vlerëson se pozita e presidentit nuk duhet të jetë nën kontrollin e Lëvizjes Vetëvendosje.",
-              "imageUrl": null,
-              "url": "https://kosovahaber.com/haber/aak-cumhurbaskani-vetevendosjenin-tek-basina-kontrolune-birakilamaz-104955",
-              "date": "2026-08-16",
-              "sentiment": "negative",
-              "reason": "Critical language towards Vetëvendosje shows a hostile framing of Kosovo politics",
+              "title": "Kosova’da rüzgar hamlesi - Posta",
+              "albanianTitle": "Lëvizja e erës në Kosovë - Posta",
+              "blurb": "Kosova po ndërmerr hapa drejt energjisë së erës, duke shënuar një lëvizje të re në këtë fushë.",
+              "imageUrl": "https://image.posta.com.tr/i/posta/75/0x0/6a7f5316eb7be7eb78371847.jpg",
+              "url": "https://www.posta.com.tr/ekonomi/kosovada-ruzgar-hamlesi-3027104",
+              "date": "2026-08-15",
+              "sentiment": "neutral",
+              "reason": "Titulli është thjesht informativ pa gjuhë ngacmuese",
               "isQuote": false,
-              "evidence": "Tek Başına Kontrolüne Bırakılamaz",
+              "evidence": "",
               "speaker": ""
             }
           ]
@@ -1628,15 +1761,35 @@
               "speaker": ""
             }
           ]
+        },
+        {
+          "name": "gazeteilksayfa.com",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosova'daki yüzyıllık gelin geleneği “Nazarın Renkleri” ile beyaz perdede - gazeteilksayfa.com",
+              "albanianTitle": "Tradita shekullore e nuseve në Kosovë shfaqet në ekranin e madh përmes filmit “Ngjyrat e syrit të keq” - gazeteilksayfa.com",
+              "blurb": "Tradita shekullore e nuseve në Kosovë prezantohet në ekranin e madh përmes filmit të titulluar Ngjyrat e Nazarit.",
+              "imageUrl": "https://cdn.gazeteilksayfa.com/news/356621.jpg",
+              "url": "https://www.gazeteilksayfa.com/kosovadaki-yuzyillik-gelin-gelenegi-nazarin-renkleri-ile-beyaz-perdede-309076h.htm",
+              "date": "2026-08-16",
+              "sentiment": "neutral",
+              "reason": "Raportim kulturor neutral",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
         }
       ],
       "summary": {
-        "index": 48,
-        "positive": 5,
-        "neutral": 86,
-        "negative": 10,
-        "n": 21,
-        "excluded": 2,
+        "index": 50,
+        "positive": 8,
+        "neutral": 84,
+        "negative": 8,
+        "n": 25,
+        "excluded": 1,
         "confident": true,
         "stanceVersion": 2
       }
@@ -1670,6 +1823,26 @@
               "date": "2026-08-14",
               "sentiment": "neutral",
               "reason": "Lajm i thjeshtë, i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Bangladesh Sangbad Sangstha (BSS)",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Bangladesh, Kosovo eye FTA to boost bilateral trade - Bangladesh Sangbad Sangstha (BSS)",
+              "albanianTitle": "Bengalia dhe Kosova shikonin për një marrëveshje tregtare për të rritur tregtinë e tyre",
+              "blurb": "Kosova dhe Bangladeshi po shqyrtojnë mundësinë e nënshkrimit të një marrëveshjeje për tregti të lirë mes dy vendeve.",
+              "imageUrl": "https://www.bssnews.net/assets/news_photos/2026/08/14/image-414526-1786694779.jpg",
+              "url": "https://www.bssnews.net/news-flash/414526",
+              "date": "2026-08-14",
+              "sentiment": "neutral",
+              "reason": "Raportim i thjeshtë i marrëveshjes tregtare",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1757,7 +1930,7 @@
           ]
         },
         {
-          "name": "UNICEF",
+          "name": "Unicef",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
@@ -1815,6 +1988,39 @@
               "speaker": ""
             }
           ]
+        },
+        {
+          "name": "srpske.rs",
+          "sentiment": "neutral",
+          "articleCount": 2,
+          "articles": [
+            {
+              "title": "Kosovo Police Search Strmac, Question Six - srpske.rs",
+              "albanianTitle": "Policia e Kosovës bastis Stërmcin, shoqëron gjashtë persona për intervistim",
+              "blurb": "Policia e Kosovës ka kryer bastisje në Strmac dhe ka marrë në pyetje gjashtë persona gjatë këtij operacioni.",
+              "imageUrl": "https://srpske.rs/uploads/articles/kosovo-police-search-strmac-question-six-16x9.webp",
+              "url": "https://srpske.rs/en/news/politika/2026/08/15/kosovo-police-search-strmac-question-six",
+              "date": "2026-08-15",
+              "sentiment": "neutral",
+              "reason": "Raportim i thjeshtë i veprimeve të policisë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Kosovo Parliament Deadlock Persists, PDK Wants Session Now - srpske.rs",
+              "albanianTitle": "Vazhdon ngërçi në Kuvendin e Kosovës, PDK kërkon seancë urgjente",
+              "blurb": "Partia Demokratike e Kosovës kërkon mbajtjen e menjëhershme të seancës parlamentare për shkak të bllokadës në Kuvend.",
+              "imageUrl": "https://srpske.rs/uploads/articles/kosovo-parliament-standoff-pdk-demands-tuesday-session-16x9.webp",
+              "url": "https://srpske.rs/en/news/politika/2026/08/16/kosovo-parliament-standoff-pdk-demands-tuesday-session",
+              "date": "2026-08-16",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
         }
       ],
       "summary": {
@@ -1822,7 +2028,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 9,
+        "n": 12,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2

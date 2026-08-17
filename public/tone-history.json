@@ -1242,8 +1242,8 @@
   {
     "date": "2026-08-17",
     "overallIndex": 50,
-    "totalArticles": 95,
-    "sourceCount": 71,
+    "totalArticles": 106,
+    "sourceCount": 80,
     "stanceVersion": 2,
     "countries": {
       "Gjermani": {
@@ -1251,9 +1251,9 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 3,
+        "n": 5,
         "excluded": 0,
-        "confident": false,
+        "confident": true,
         "stanceVersion": 2
       },
       "SHBA": {
@@ -1261,8 +1261,8 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 12,
-        "excluded": 0,
+        "n": 16,
+        "excluded": 1,
         "confident": true,
         "stanceVersion": 2
       },
@@ -1271,8 +1271,8 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 14,
-        "excluded": 0,
+        "n": 11,
+        "excluded": 1,
         "confident": true,
         "stanceVersion": 2
       },
@@ -1301,7 +1301,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 6,
+        "n": 7,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -1341,7 +1341,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 5,
+        "n": 6,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -1361,7 +1361,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 2,
+        "n": 1,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
@@ -1377,12 +1377,12 @@
         "stanceVersion": 2
       },
       "Turqi": {
-        "index": 48,
-        "positive": 5,
-        "neutral": 86,
-        "negative": 10,
-        "n": 21,
-        "excluded": 2,
+        "index": 50,
+        "positive": 8,
+        "neutral": 84,
+        "negative": 8,
+        "n": 25,
+        "excluded": 1,
         "confident": true,
         "stanceVersion": 2
       },
@@ -1391,7 +1391,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 9,
+        "n": 12,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -1412,6 +1412,14 @@
         "country": "Turqi",
         "flag": "🇹🇷",
         "url": "https://kosovahaber.com/haber/zelenskiynin-tutumuna-karsi-cikan-ukrayna-milletvekili-ukrayna-kosovayi-tanimali-104962",
+        "sentiment": "positive"
+      },
+      {
+        "title": "İbre Köprüsü’nün Açılması, Kuzeyin Bölünmesi Fikrini Tarihe Gömecek - Kosovahaber.com",
+        "source": "Kosovahaber.com",
+        "country": "Turqi",
+        "flag": "🇹🇷",
+        "url": "https://kosovahaber.com/haber/ibre-koprusunun-acilmasi-kuzeyin-bolunmesi-fikrini-tarihe-gomecek-104978",
         "sentiment": "positive"
       },
       {
