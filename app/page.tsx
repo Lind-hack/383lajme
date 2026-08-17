@@ -12,7 +12,9 @@ import GradientCta from "@/components/gradient-cta";
 import Footer from "@/components/footer";
 import ReagimiDites from "@/components/reagimi-dites";
 import ToneDashboard from "@/components/tone-dashboard";
+import BotaFlet from "@/components/bota-flet";
 import DiasporaSeries from "@/components/diaspora-series";
+import HomeVisitPreview from "@/components/visit/home-visit-preview";
 import ThrowbackSection from "@/components/throwback-section";
 import AlertsCta from "@/components/alerts-cta";
 import DailyPoll from "@/components/daily-poll";
@@ -26,6 +28,8 @@ import {
   getWeeklyExchangeSnapshot,
   getWeeklyFuelSnapshot,
 } from "@/lib/home-market-data";
+import { getToneOutlets, getToneHistory, summarizeToneHistory, getForeignCoverage } from "@/lib/tone-data";
+import { dateKeyInKosovo, resolveView } from "@/lib/reagimi-data";
 
 export const revalidate = 3600;
 
@@ -33,32 +37,30 @@ function titleKws(text: string) {
   return new Set(text.toLowerCase().split(/\W+/).filter((w) => w.length > 4));
 }
 
-/** Convert an emoji flag (regional indicator pair) to a two-letter country code. */
-function flagToCode(flag: string): string {
-  const letters = Array.from(flag)
-    .map((c) => c.codePointAt(0) ?? 0)
-    .filter((cp) => cp >= 0x1f1e6 && cp <= 0x1f1ff)
-    .map((cp) => String.fromCharCode(cp - 0x1f1e6 + 65));
-  return letters.length === 2 ? letters.join("") : "";
-}
-
 export default async function HomePage() {
-  const [articles, tickerArticles, exchangeSnapshot, fuelSnapshot] = await Promise.all([
+  const [articles, tickerArticles, exchangeSnapshot, fuelSnapshot, toneOutlets, toneHistory] = await Promise.all([
     getArticles(60),
     getLatestArticles(10),
     getWeeklyExchangeSnapshot(),
     getWeeklyFuelSnapshot(),
+    getToneOutlets(),
+    getToneHistory(),
   ]);
+
+  const toneSummary = summarizeToneHistory(toneHistory);
+  const foreignCoverage = getForeignCoverage(toneOutlets, 5);
 
   // Tier 1: hero — featured (score ≥ 9 or breaking), fallback to highest scored
   const hero = articles.find((a) => a.featured) ?? articles[0];
   const heroId = hero?.id;
 
-  // Reagimi i Ditës — highest-scored non-hero article (≥ 8), fallback to second article
-  const reagimiArticle =
-    articles.find((a) => a.id !== heroId && (a.engagementScore ?? 0) >= 8) ??
-    articles.find((a) => a.id !== heroId) ??
-    hero;
+  // Reagimi i Ditës — the auto fallback is restricted to articles published TODAY.
+  // The previous rule ("highest-scored non-hero article") had no date constraint, so
+  // a quiet news week left a days-old article under a heading that promises daily.
+  // A curated row wins when one exists; it loads client-side, where the clock is
+  // authoritative (this page is statically revalidated hourly).
+  const reagimiDateKey = dateKeyInKosovo();
+  const reagimiFallback = resolveView(null, articles, reagimiDateKey, heroId);
 
   // Tier 2: KRYESORE lead + secondary — claimed before NJOFTIME so the
   // front-page hierarchy always renders even when the article pool is small
@@ -162,7 +164,7 @@ export default async function HomePage() {
         }}
       >
         {/* Daily video reaction */}
-        <ReagimiDites article={reagimiArticle} />
+        <ReagimiDites fallbackView={reagimiFallback} serverDateKey={reagimiDateKey} />
 
         {/* Daily poll */}
         <DailyPoll />
@@ -207,70 +209,12 @@ export default async function HomePage() {
         )}
       </main>
 
-      {/* Charcoal world news section */}
-      <section
-        style={{
-          background: "#1A1A1A",
-          padding: "64px 24px",
-          position: "relative",
-          zIndex: 1,
-        }}
-      >
-        <div style={{ maxWidth: "1280px", margin: "0 auto" }}>
-          <SectionLabel label="BOTA FLET" accent="#F59E0B" dark marginBottom={36} />
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
-              gap: "20px",
-            }}
-          >
-            {articles.slice(2, 5).map((article) => {
-              const catColor = "#F59E0B";
-              return (
-                <a
-                  key={article.id}
-                  href={`/article/${article.slug}`}
-                  style={{ textDecoration: "none", display: "block", height: "100%" }}
-                >
-                  <div
-                    className="world-card"
-                    style={{
-                      background: "rgba(255,255,255,0.05)",
-                      border: "1px solid rgba(255,255,255,0.08)",
-                      borderRadius: "var(--radius-md)",
-                      overflow: "hidden",
-                      display: "flex",
-                      flexDirection: "column",
-                      height: "100%",
-                    }}
-                  >
-                    <div style={{ height: "3px", background: catColor, flexShrink: 0 }} />
-                    <div style={{ padding: "24px", flex: 1, display: "flex", flexDirection: "column" }}>
-                      <div style={{ display: "flex", alignItems: "center", gap: "6px", marginBottom: "12px" }}>
-                        {flagToCode(article.sourceFlag) && (
-                          <span style={{ fontSize: "10px", fontWeight: 700, letterSpacing: "0.08em", color: "rgba(255,255,255,0.4)" }}>
-                            {flagToCode(article.sourceFlag)}
-                          </span>
-                        )}
-                        <span style={{ fontSize: "11px", fontWeight: 600, color: "rgba(255,255,255,0.5)", letterSpacing: "0.08em" }}>
-                          {article.source}
-                        </span>
-                      </div>
-                      <h3 style={{ fontSize: "16px", fontWeight: 700, color: "#FFFFFF", margin: "0 0 10px", lineHeight: 1.35, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
-                        {article.title}
-                      </h3>
-                      <p style={{ fontSize: "13px", color: "rgba(255,255,255,0.45)", margin: 0, lineHeight: 1.6, display: "-webkit-box", WebkitLineClamp: 3, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
-                        {article.excerpt}
-                      </p>
-                    </div>
-                  </div>
-                </a>
-              );
-            })}
-          </div>
-        </div>
-      </section>
+      {/* Bota Flet — foreign-media coverage of Kosovo, from the tone-scraper pipeline */}
+      <BotaFlet
+        items={foreignCoverage}
+        totalArticles={toneOutlets?.totalArticles ?? 0}
+        countryCount={toneOutlets ? Object.keys(toneOutlets.countries).length : 0}
+      />
 
       {/* Tone dashboard + Diaspora series */}
       <div
@@ -282,7 +226,8 @@ export default async function HomePage() {
           padding: "64px 24px 0",
         }}
       >
-        <ToneDashboard />
+        <ToneDashboard summary={toneSummary} />
+        <HomeVisitPreview />
         <DiasporaSeries />
       </div>
 
