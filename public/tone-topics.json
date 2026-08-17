@@ -4,7 +4,7 @@
     {
       "label": "Siguria dhe spiunazhi në Kosovë",
       "fallbackLabel": "Serbe · Inteligjencës",
-      "summary": "Arrestimet për spiunazh në favor të Serbisë dhe kërkesat për mbrojtjen e objekteve fetare ortodokse rrisin tensionet e sigurisë në Kosovë.",
+      "summary": "Arrestimet për spiunazh në favor të Serbisë dhe shqetësimet për sigurinë e objekteve fetare ortodokse po ndikojnë në stabilitetin e sigurisë në vend.",
       "count": 8,
       "positive": 0,
       "neutral": 8,
@@ -292,8 +292,8 @@
     },
     {
       "label": "Misioni EULEX dhe sporti kosovar",
-      "fallbackLabel": "2026 · Eulex",
-      "summary": "Përgatitjet për misionin e EULEX-it në vitin 2026 dhe ndeshjet e kombëtares së futbollit për femra U19 shënojnë zhvillimet kryesore aktuale.",
+      "fallbackLabel": "2026 · Thirrje",
+      "summary": "Përveç thirrjeve për kontribute në misionin e EULEX-it, vëmendja është përqendruar te ndeshjet ndërkombëtare të futbollit për femra të grupmoshës U19.",
       "count": 8,
       "positive": 0,
       "neutral": 8,
@@ -436,9 +436,9 @@
       ]
     },
     {
-      "label": "Marrëveshjet për fuqinë punëtore ndërkombëtare",
-      "fallbackLabel": "Punëtorëve · Mekanizmin",
-      "summary": "Kosova dhe Bangladeshi po planifikojnë një mekanizëm shtetëror për rekrutimin e punëtorëve, ndërsa një aksident në KEK thekson sfidat e sigurisë në punë.",
+      "label": "Marrëveshjet për punësim dhe tregti",
+      "fallbackLabel": "Punëtorëve · Synojnë",
+      "summary": "Kosova dhe Bangladeshi po planifikojnë mekanizma ndërqeveritarë për rekrutimin e punëtorëve, ndërsa raportohen edhe incidente të rënda në vendet e punës në Kosovë.",
       "count": 6,
       "positive": 0,
       "neutral": 6,
@@ -548,9 +548,9 @@
       ]
     },
     {
-      "label": "Kriza politike për zgjedhjen presidentit",
-      "fallbackLabel": "Zgjedhjen · Krizën",
-      "summary": "Partitë politike në Kosovë po kërkojnë konsensus për zgjedhjen e presidentit, me LDK-në që shpreh gatishmëri për të tejkaluar bllokimin institucional.",
+      "label": "Zgjedhja e Presidentit të Kosovës",
+      "fallbackLabel": "Zgjedhjen · Presidentit",
+      "summary": "Partitë politike në Kosovë po përpiqen të gjejnë një konsensus për zgjedhjen e presidentit për të tejkaluar krizën politike dhe kërkesat ndërkombëtare.",
       "count": 6,
       "positive": 0,
       "neutral": 5,
@@ -661,8 +661,8 @@
     },
     {
       "label": "Zhvillimet në futbollin kosovar",
-      "fallbackLabel": "Futbollit · Vushtrrisë",
-      "summary": "Lajmet përfshijnë ndeshjet ndërkombëtare, aktivitetet e klubeve në diasporë dhe ndarjen nga jeta të figurave të shquara të futbollit në Kosovë.",
+      "fallbackLabel": "Futbollit · Fusha",
+      "summary": "Lajmet përfshijnë ndeshje ndërkombëtare, ndryshime në klube dhe ndarjen nga jeta të figurave të shquara që kanë kontribuar në futbollin e Kosovës.",
       "count": 6,
       "positive": 0,
       "neutral": 5,
@@ -776,7 +776,7 @@
     {
       "label": "Pjesëmarrja në Lojërat Mesdhetare",
       "fallbackLabel": "Ekipi · Mesdhe",
-      "summary": "Platformat sportive po ndjekin rezultatet dhe përbërjet e ekipeve kombëtare që përfaqësojnë Kosovën dhe vendet e tjera në Lojërat Mesdhetare.",
+      "summary": "Platformat sportive po pasqyrojnë rezultatet dhe përbërjet e ekipeve pjesëmarrëse në Lojërat Mesdhetare, duke përfshirë ekipin përfaqësues të Kosovës.",
       "count": 5,
       "positive": 0,
       "neutral": 3,
@@ -874,7 +874,7 @@
     {
       "label": "Arrestimet për spiunazh dhe sulme",
       "fallbackLabel": "Dyshuar · Elvedin",
-      "summary": "Policia e Kosovës ka arrestuar persona të dyshuar për spiunazh serb dhe sulme ndaj KFOR-it, duke ndikuar në stabilitetin e rajonit.",
+      "summary": "Policia e Kosovës ka kryer arrestime të personave të dyshuar për spiunazh serb dhe sulme ndaj forcave të KFOR-it gjatë vitit 2023.",
       "count": 5,
       "positive": 0,
       "neutral": 5,
