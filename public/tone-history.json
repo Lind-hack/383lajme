@@ -1238,5 +1238,198 @@
         "sentiment": "negative"
       }
     ]
+  },
+  {
+    "date": "2026-08-17",
+    "overallIndex": 50,
+    "totalArticles": 102,
+    "sourceCount": 76,
+    "stanceVersion": 2,
+    "countries": {
+      "Gjermani": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 3,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 2
+      },
+      "SHBA": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 18,
+        "excluded": 1,
+        "confident": true,
+        "stanceVersion": 2
+      },
+      "Britani": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 14,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 2
+      },
+      "Francë": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 2
+      },
+      "Itali": {
+        "index": 60,
+        "positive": 20,
+        "neutral": 80,
+        "negative": 0,
+        "n": 5,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 2
+      },
+      "Austri": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 6,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 2
+      },
+      "Zvicër": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 1,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 2
+      },
+      "Holandë": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 2,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 2
+      },
+      "Belgjikë": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 2
+      },
+      "Spanjë": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 3,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 2
+      },
+      "Greqi": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 6,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 2
+      },
+      "Suedi": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 2,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 2
+      },
+      "Poloni": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 7,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 2
+      },
+      "Turqi": {
+        "index": 48,
+        "positive": 5,
+        "neutral": 86,
+        "negative": 10,
+        "n": 21,
+        "excluded": 2,
+        "confident": true,
+        "stanceVersion": 2
+      },
+      "Kroaci": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 14,
+        "excluded": 1,
+        "confident": true,
+        "stanceVersion": 2
+      }
+    },
+    "headlines": [
+      {
+        "title": "Vaccarizzo Albanese apre un ponte con il Kosovo: patto d’amicizia con Rahovec - EcoDelloJonio.it",
+        "source": "EcoDelloJonio.it",
+        "country": "Itali",
+        "flag": "🇮🇹",
+        "url": "https://ecodellojonio.it/articoli/attualita/2026/08/vaccarizzo-albanese-apre-un-ponte-con-il-kosovo-patto-d-amicizia-con-rahovec",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Zelenskiy'nin Tutumuna Karşı Çıkan Ukrayna Milletvekili: “Ukrayna Kosova'yı Tanımalı” - Kosovahaber.com",
+        "source": "Kosovahaber.com",
+        "country": "Turqi",
+        "flag": "🇹🇷",
+        "url": "https://kosovahaber.com/haber/zelenskiynin-tutumuna-karsi-cikan-ukrayna-milletvekili-ukrayna-kosovayi-tanimali-104962",
+        "sentiment": "positive"
+      },
+      {
+        "title": "AAK: Cumhurbaşkanı, Vetëvendosje’nin Tek Başına Kontrolüne Bırakılamaz - Kosovahaber.com",
+        "source": "Kosovahaber.com",
+        "country": "Turqi",
+        "flag": "🇹🇷",
+        "url": "https://kosovahaber.com/haber/aak-cumhurbaskani-vetevendosjenin-tek-basina-kontrolune-birakilamaz-104955",
+        "sentiment": "negative"
+      },
+      {
+        "title": "PDK ve AAK’nin İstişare Toplantısını Reddetmeleri Yanlış ve Düşüncesiz Bir Adım - Kosovahaber.com",
+        "source": "Kosovahaber.com",
+        "country": "Turqi",
+        "flag": "🇹🇷",
+        "url": "https://kosovahaber.com/haber/pdk-ve-aaknin-istisare-toplantisini-reddetmeleri-yanlis-ve-dusuncesiz-bir-adim-104952",
+        "sentiment": "negative"
+      }
+    ]
   }
 ]
