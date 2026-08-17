@@ -1,8 +1,8 @@
 {
   "lastUpdated": "2026-08-17",
-  "overallIndex": 52,
-  "totalArticles": 136,
-  "sourceCount": 95,
+  "overallIndex": 54,
+  "totalArticles": 130,
+  "sourceCount": 92,
   "stanceVersion": 2,
   "countries": {
     "Gjermani": {
@@ -167,27 +167,27 @@
           "articleCount": 2,
           "articles": [
             {
-              "title": "Kosovo’s LDK Drops Demand to Choose President in Bid to Resolve Crisis - balkaninsight.com",
-              "albanianTitle": "LDK heq dorë nga kërkesa për zgjedhjen e presidentit në përpjekje për të tejkaluar krizën",
-              "blurb": "Lidhja Demokratike e Kosovës ka hequr dorë nga kërkesa për zgjedhjen e presidentit për të tejkaluar krizën politike.",
-              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/08/Lumir-Abdixhiku-LDK-BIRN-e1786697503103.jpg",
-              "url": "https://balkaninsight.com/2026/08/14/kosovos-ldk-drops-demand-to-choose-president-in-bid-to-resolve-crisis/bi/",
-              "date": "2026-08-14",
-              "sentiment": "neutral",
-              "reason": "Lajm politik, i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Kosovo Detains Man Suspected of Spying for Serbian Intelligence - balkaninsight.com",
-              "albanianTitle": "Kosova ndalon një person të dyshuar për spiunazh në favor të inteligjencës serbe",
-              "blurb": "Autoritetet në Kosovë kanë ndaluar një person nën dyshimin për spiunazh në shërbim të inteligjencës së Serbisë.",
+              "title": "Kosovo Detains Man Suspected of Spying for Serbian Intelligence - Balkan Insight",
+              "albanianTitle": "Një burrë është arrestuar për shkak të shqetësimeve se është i lidhur me shërbimet e inteligjencës serbe",
+              "blurb": "Autoritetet në Kosovë kanë ndaluar një person nën dyshimin se ka kryer veprimtari spiunazhi për inteligjencën serbe.",
               "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/08/Fehim-Sali-BIRN.jpg",
               "url": "https://balkaninsight.com/2026/08/14/kosovo-detains-man-suspected-of-spying-for-serbian-intelligence/bi/",
               "date": "2026-08-14",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Kosovo’s LDK Drops Demand to Choose President in Bid to Resolve Crisis - Balkan Insight",
+              "albanianTitle": "LDK e Kosovës heq kërkesën për zgjedhjen e Presidentit për të zgjidhur krizën",
+              "blurb": "Lidhja Demokratike e Kosovës ka hequr dorë nga kërkesa për zgjedhjen e presidentit në përpjekje për të zgjidhur krizën politike.",
+              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/08/Lumir-Abdixhiku-LDK-BIRN-e1786697503103.jpg",
+              "url": "https://balkaninsight.com/2026/08/14/kosovos-ldk-drops-demand-to-choose-president-in-bid-to-resolve-crisis/bi/",
+              "date": "2026-08-14",
+              "sentiment": "neutral",
+              "reason": "Lajm i thjeshtë, i raportuar në mënyrë faktike",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -295,29 +295,9 @@
           ]
         },
         {
-          "name": "IMDb",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "‘Shame and Money’ Director on Sundance-Winning Drama About a Kosovo Family in Free Fall: ‘It’s a Look Into the Past and a Warning to the Future’ - IMDb",
-              "albanianTitle": "Regjisori i filmit ‘Shame and Money’ për dramën fituese në Sundance për një familje kosovare në rënie të lirë: ‘Është një vështrim në të kaluarën dhe një paralajmërim për të ardhmen’",
-              "blurb": "Regjisori i filmit fitues në Sundance flet për dramën mbi një familje kosovare në rënie të lirë.",
-              "imageUrl": null,
-              "url": "https://www.imdb.com/de/news/ni65974085/?ref_=nwc_art_perm",
-              "date": "2026-08-16",
-              "sentiment": "neutral",
-              "reason": "Raporton deklaratën e drejtorit të filmit",
-              "isQuote": true,
-              "evidence": "",
-              "speaker": "Shame and Money Director"
-            }
-          ]
-        },
-        {
           "name": "KosovaPress",
           "sentiment": "neutral",
-          "articleCount": 3,
+          "articleCount": 4,
           "articles": [
             {
               "title": "Kosovo aims to transform its economy and boost exports, Kurti says - KosovaPress",
@@ -328,6 +308,19 @@
               "date": "2026-08-17",
               "sentiment": "neutral",
               "reason": "Faktikë raportim pa gjuhë të ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Kosovo Prosecution says Fehim Sali admitted he was recruited by Serbian Intelligece - KosovaPress",
+              "albanianTitle": "Prokuroria e Kosovës: Fehim Sali ka pranuar se është rekrutuar nga Inteligjenca Serbe",
+              "blurb": "Prokuroria e Kosovës njofton se Fehim Sali ka pranuar se është rekrutuar nga shërbimi inteligjent serb për aktivitete.",
+              "imageUrl": "https://kosovapress.com/eng/admin/wp-content/uploads/2026/08/96121786709864.jpg",
+              "url": "https://kosovapress.com/eng/kosovo-prosecution-says-fehim-sali-admitted-he-was-recruited-by-serbian-intelligece",
+              "date": "2026-08-14",
+              "sentiment": "neutral",
+              "reason": "Fact‑based report of prosecution statement",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -406,17 +399,17 @@
           "articleCount": 1,
           "articles": [
             {
-              "title": "'Shame and Money' Director on Sundance-Winning Social Drama - Variety",
-              "albanianTitle": "Regjisori i filmit 'Shame and Money' flet për dramën sociale fituese në Sundance",
-              "blurb": "Regjisori i filmit Shame and Money flet për dramën sociale që fitoi çmim në festivalin Sundance.",
-              "imageUrl": "https://variety.com/wp-content/uploads/2026/01/Shame-and-Money.jpg?w=1000&h=563&crop=1",
-              "url": "https://variety.com/2026/film/global/shame-and-money-sundance-social-drama-kosovo-1236834517/",
+              "title": "‘Shame and Money’ Director on Sundance-Winning Drama About a Kosovo Family in Free Fall: ‘It’s a Look Into the Past and a Warning to the Future’ - IMDb",
+              "albanianTitle": "Regjisori i filmit ‘Shame and Money’ për dramën fituese në Sundance për një familje kosovare në rënie të lirë: ‘Është një vështrim në të kaluarën dhe një paralajmërim për të ardhmen’",
+              "blurb": "Regjisori i filmit fitues në Sundance flet për dramën mbi një familje kosovare në rënie të lirë.",
+              "imageUrl": null,
+              "url": "https://www.imdb.com/de/news/ni65974085/?ref_=nwc_art_perm",
               "date": "2026-08-16",
               "sentiment": "neutral",
-              "reason": "Lajm i thjeshtë, pa koment",
-              "isQuote": false,
+              "reason": "Raporton deklaratën e drejtorit të filmit",
+              "isQuote": true,
               "evidence": "",
-              "speaker": ""
+              "speaker": "Shame and Money Director"
             }
           ]
         },
@@ -434,6 +427,26 @@
               "date": "2026-08-15",
               "sentiment": "neutral",
               "reason": "Lajm i thjeshtë, i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "prishtinainsight.com",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo Court Detains Man Over Alleged Spying for Serbian Intelligence - prishtinainsight.com",
+              "albanianTitle": "Gjykata në Kosovë cakton paraburgim për personin e dyshuar për spiunazh për inteligjencën serbe",
+              "blurb": "Gjykata në Kosovë ka caktuar masën e paraburgimit për një person të dyshuar për spiunazh për shërbimin inteligjent serb.",
+              "imageUrl": "https://prishtinainsight.com/wp-content/uploads/2026/08/viber_image_2026-08-14_16-07-42-648-e1786716814641.jpg",
+              "url": "https://prishtinainsight.com/kosovo-court-detains-man-over-alleged-spying-for-serbian-intelligence/",
+              "date": "2026-08-14",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim neutral",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -509,10 +522,10 @@
       ],
       "summary": {
         "index": 53,
-        "positive": 6,
-        "neutral": 94,
+        "positive": 5,
+        "neutral": 95,
         "negative": 0,
-        "n": 18,
+        "n": 19,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2
@@ -549,6 +562,26 @@
               "reason": "Lajm i thjeshtë, i raportuar në mënyrë faktike",
               "isQuote": false,
               "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Cineuropa",
+          "sentiment": "positive",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "As the Spring Arrives, Water Recalls the Nomads triumphs at DokuFest Prizren - Cineuropa",
+              "albanianTitle": "Filmi 'As the Spring Arrives, Water Recalls the Nomads' triumfon në DokuFest të Prizrenit - Cineuropa",
+              "blurb": "Filmi As the Spring Arrives, Water Recalls the Nomads shpallet fitues në festivalin DokuFest në Prizren.",
+              "imageUrl": null,
+              "url": "https://cineuropa.org/en/newsdetail/494515",
+              "date": "2026-08-17",
+              "sentiment": "positive",
+              "reason": "Positive language praising Kosovo cultural work",
+              "isQuote": false,
+              "evidence": "triumphs at DokuFest",
               "speaker": ""
             }
           ]
@@ -594,30 +627,23 @@
           ]
         },
         {
-          "name": "IMDb",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "‘Shame and Money’ Director on Sundance-Winning Drama About a Kosovo Family in Free Fall: ‘It’s a Look Into the Past and a Warning to the Future’ - IMDb",
-              "albanianTitle": "Regjisori i filmit ‘Shame and Money’ për dramën fituese në Sundance për një familje kosovare në rënie të lirë: ‘Është një vështrim në të kaluarën dhe një paralajmërim për të ardhmen’",
-              "blurb": "Regjisori i filmit fitues në Sundance flet për dramën mbi një familje kosovare në rënie të lirë.",
-              "imageUrl": null,
-              "url": "https://www.imdb.com/de/news/ni65974085/?ref_=nwc_art_perm",
-              "date": "2026-08-16",
-              "sentiment": "neutral",
-              "reason": "Raporton deklaratën e drejtorit të filmit",
-              "isQuote": true,
-              "evidence": "",
-              "speaker": "Shame and Money Director"
-            }
-          ]
-        },
-        {
           "name": "KosovaPress",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 3,
           "articles": [
+            {
+              "title": "Kosovo Prosecution says Fehim Sali admitted he was recruited by Serbian Intelligece - KosovaPress",
+              "albanianTitle": "Prokuroria e Kosovës: Fehim Sali ka pranuar se është rekrutuar nga Inteligjenca Serbe",
+              "blurb": "Prokuroria e Kosovës njofton se Fehim Sali ka pranuar se është rekrutuar nga shërbimi inteligjent serb për aktivitete.",
+              "imageUrl": "https://kosovapress.com/eng/admin/wp-content/uploads/2026/08/96121786709864.jpg",
+              "url": "https://kosovapress.com/eng/kosovo-prosecution-says-fehim-sali-admitted-he-was-recruited-by-serbian-intelligece",
+              "date": "2026-08-14",
+              "sentiment": "neutral",
+              "reason": "Fact‑based report of prosecution statement",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
             {
               "title": "Democratic Party of Kosovo deputies gather again outside Government, call Kurti an “usurper” - KosovaPress",
               "albanianTitle": "Deputetët e PDK-së protestojnë sërish para Qeverisë, e quajnë Kurtin “uzurpator”",
@@ -692,17 +718,17 @@
           "articleCount": 1,
           "articles": [
             {
-              "title": "'Shame and Money' Director on Sundance-Winning Social Drama - Variety",
-              "albanianTitle": "Regjisori i filmit 'Shame and Money' flet për dramën sociale fituese në Sundance",
-              "blurb": "Regjisori i filmit Shame and Money flet për dramën sociale që fitoi çmim në festivalin Sundance.",
-              "imageUrl": "https://variety.com/wp-content/uploads/2026/01/Shame-and-Money.jpg?w=1000&h=563&crop=1",
-              "url": "https://variety.com/2026/film/global/shame-and-money-sundance-social-drama-kosovo-1236834517/",
+              "title": "‘Shame and Money’ Director on Sundance-Winning Drama About a Kosovo Family in Free Fall: ‘It’s a Look Into the Past and a Warning to the Future’ - IMDb",
+              "albanianTitle": "Regjisori i filmit ‘Shame and Money’ për dramën fituese në Sundance për një familje kosovare në rënie të lirë: ‘Është një vështrim në të kaluarën dhe një paralajmërim për të ardhmen’",
+              "blurb": "Regjisori i filmit fitues në Sundance flet për dramën mbi një familje kosovare në rënie të lirë.",
+              "imageUrl": null,
+              "url": "https://www.imdb.com/de/news/ni65974085/?ref_=nwc_art_perm",
               "date": "2026-08-16",
               "sentiment": "neutral",
-              "reason": "Lajm i thjeshtë, pa koment",
-              "isQuote": false,
+              "reason": "Raporton deklaratën e drejtorit të filmit",
+              "isQuote": true,
               "evidence": "",
-              "speaker": ""
+              "speaker": "Shame and Money Director"
             }
           ]
         },
@@ -743,91 +769,6 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "kosovo-online.com",
-          "sentiment": "neutral",
-          "articleCount": 6,
-          "articles": [
-            {
-              "title": "Starovic: Attacker who shot Stefan still at large – that is all you need to know about the rule of law in Kosovo - kosovo-online.com",
-              "albanianTitle": "Staroviq: Sulmuesi që qëlloi Stefanin ende në arrati – kjo mjafton për të kuptuar sundimin e ligjit në Kosovë",
-              "blurb": "Nemanja Staroviç deklaroi se autori i plagosjes së Stefanit mbetet ende në liri, duke kritikuar sundimin e ligjit.",
-              "imageUrl": null,
-              "url": "https://www.kosovo-online.com/en/news/politics/starovic-attacker-who-shot-stefan-still-large-all-you-need-know-about-rule-law-kosovo",
-              "date": "2026-08-17",
-              "sentiment": "neutral",
-              "reason": "Quote attributed to Starovic, not outlet's own voice",
-              "isQuote": true,
-              "evidence": "",
-              "speaker": "Starovic"
-            },
-            {
-              "title": "Serbia in a changing world: Multipolarity, the UN Charter, and the issue of Kosovo and Metohija - kosovo-online.com",
-              "albanianTitle": "Serbia në një botë në ndryshim: Shumëpolariteti, Karta e OKB-së dhe çështja e Kosovës dhe Metohisë",
-              "blurb": "Analizohet pozicioni i Serbisë në botën multipolare, Kartën e OKB-së dhe çështjen e Kosovës dhe Metohisë në këtë kontekst.",
-              "imageUrl": null,
-              "url": "https://www.kosovo-online.com/en/news/kontext/serbia-changing-world-multipolarity-un-charter-and-issue-kosovo-and-metohija-16-8-2026",
-              "date": "2026-08-16",
-              "sentiment": "neutral",
-              "reason": "Headline reports topic without evaluative language",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Draft Law on Public Property – a Sword of Damocles over Kosovo municipalities, especially Serbian-majority ones - kosovo-online.com",
-              "albanianTitle": "Projektligji për Pronën Publike – një shpatë e Damokleut mbi komunat e Kosovës, veçanërisht ato me shumicë serbe",
-              "blurb": "Projektligji për Pronën Publike vlerësohet si rrezik për komunat në Kosovë, veçanërisht për ato me shumicë serbe.",
-              "imageUrl": null,
-              "url": "https://www.kosovo-online.com/en/news/analysis/draft-law-public-property-sword-damocles-over-kosovo-municipalities-especially",
-              "date": "2026-08-16",
-              "sentiment": "negative",
-              "reason": "Outlet uses hostile metaphor describing impact on Kosovo",
-              "isQuote": false,
-              "evidence": "a Sword of Damocles over Kosovo municipalities",
-              "speaker": ""
-            },
-            {
-              "title": "Starovic: Kurti has been waging a campaign of \"fire and fury\" against Serbs in Kosovo for five years - kosovo-online.com",
-              "albanianTitle": "Staroviq: Kurti ka pesë vjet që po zhvillon një fushatë \"zjarri dhe furi\" kundër serbëve në Kosovë",
-              "blurb": "Nemanja Staroviç akuzoi kryeministrin Kurti për zhvillimin e një fushate pesëvjeçare kundër serbëve në Kosovë.",
-              "imageUrl": null,
-              "url": "https://www.kosovo-online.com/en/news/politics/starovic-kurti-has-been-waging-campaign-fire-and-fury-against-serbs-kosovo-five-years",
-              "date": "2026-08-16",
-              "sentiment": "neutral",
-              "reason": "Quote attributed to Starovic, not outlet's own voice",
-              "isQuote": true,
-              "evidence": "",
-              "speaker": "Starovic"
-            },
-            {
-              "title": "Muhaxhiri: It is unrealistic to ask the EU to accelerate European integration before resolving the issues between Kosovo and Serbia - kosovo-online.com",
-              "albanianTitle": "Muhaxhiri: Është joreale të kërkohet nga BE-ja përshpejtimi i integrimit evropian pa zgjidhur çështjet mes Kosovës dhe Serbisë",
-              "blurb": "Arton Muhaxhiri vlerëson se përshpejtimi i integrimit evropian është i pamundur pa zgjidhjen e mosmarrëveshjeve mes Kosovës dhe Serbisë.",
-              "imageUrl": null,
-              "url": "https://www.kosovo-online.com/en/news/politics/muhaxhiri-it-unrealistic-ask-eu-accelerate-european-integration-resolving-issues",
-              "date": "2026-08-14",
-              "sentiment": "neutral",
-              "reason": "Quote attributed to Muhajhiri, not outlet's own voice",
-              "isQuote": true,
-              "evidence": "",
-              "speaker": "Muhajhiri"
-            },
-            {
-              "title": "Djordjevic: Central government wants complete control over the property of all municipalities in Kosovo - kosovo-online.com",
-              "albanianTitle": "Gjorgjeviq: Qeveria qendrore synon kontroll të plotë mbi pronën e të gjitha komunave në Kosovë",
-              "blurb": "Djordjeviç pretendon se qeveria qendrore synon të marrë kontrollin e plotë mbi pronat e të gjitha komunave në Kosovë.",
-              "imageUrl": null,
-              "url": "https://www.kosovo-online.com/en/news/politics/djordjevic-central-government-wants-complete-control-over-property-all-municipalities",
-              "date": "2026-08-16",
-              "sentiment": "neutral",
-              "reason": "Quote attributed to Djordjevic, not outlet's own voice",
-              "isQuote": true,
-              "evidence": "",
-              "speaker": "Djordjevic"
             }
           ]
         },
@@ -878,26 +819,6 @@
           ]
         },
         {
-          "name": "ІА Король Данило",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Zelensky's visit to Serbia caused tension around the issue of Kosovo - ІА Король Данило",
-              "albanianTitle": "Vizita e Zelenskyt në Serbi shkaktoi tensione lidhur me çështjen e Kosovës",
-              "blurb": "Vizita e presidentit ukrainas Zelensky në Serbi ka shkaktuar tensione lidhur me çështjen e statusit të Kosovës.",
-              "imageUrl": "https://www.koroldanylo.com.ua/storage/image/authors/96oofiK2nZ9sP0doYFXdqrlltRJbhrjhFCR6on7B.jpg",
-              "url": "https://www.koroldanylo.com.ua/en/news/vizit_zelenskogo_do_serbiyi_spriciniv_napruzennia_navkolo_pitannia_kosova_34940",
-              "date": "2026-08-17",
-              "sentiment": "neutral",
-              "reason": "Factual report of tension after Zelensky's visit",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
           "name": "ԱՐՑԱԽ ԼՐԱՏՎԱԿԱՆ",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -919,24 +840,45 @@
         }
       ],
       "summary": {
-        "index": 46,
-        "positive": 0,
-        "neutral": 93,
-        "negative": 7,
-        "n": 27,
+        "index": 53,
+        "positive": 6,
+        "neutral": 94,
+        "negative": 0,
+        "n": 16,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2
       }
     },
     "Francë": {
-      "outlets": [],
+      "outlets": [
+        {
+          "name": "Cineuropa",
+          "sentiment": "positive",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "As the Spring Arrives, Water Recalls the Nomads triomphe au Festival DokuFest de Prizren - Cineuropa",
+              "albanianTitle": "Filmi 'As the Spring Arrives, Water Recalls the Nomads' triumfon në festivalin DokuFest në Prizren",
+              "blurb": "Filmi As the Spring Arrives, Water Recalls the Nomads ka fituar çmimin kryesor në festivalin DokuFest të mbajtur në Prizren.",
+              "imageUrl": null,
+              "url": "https://cineuropa.org/fr/newsdetail/494515",
+              "date": "2026-08-17",
+              "sentiment": "positive",
+              "reason": "Titulli përdor fjalë pozitive për festivalin në Kosovë",
+              "isQuote": false,
+              "evidence": "triomphe",
+              "speaker": ""
+            }
+          ]
+        }
+      ],
       "summary": {
-        "index": null,
-        "positive": 0,
+        "index": 100,
+        "positive": 100,
         "neutral": 0,
         "negative": 0,
-        "n": 0,
+        "n": 1,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
@@ -1313,6 +1255,26 @@
           ]
         },
         {
+          "name": "Germany Trade & Invest (GTAI)",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Freihandelsabkommen zwischen Kosovo und EFTA tritt in Kraft - Germany Trade & Invest (GTAI)",
+              "albanianTitle": "Hyn në fuqi marrëveshja e tregtisë së lirë mes Kosovës dhe EFTA-s - Germany Trade & Invest (GTAI)",
+              "blurb": "Marrëveshja e tregtisë së lirë ndërmjet Kosovës dhe vendeve të EFTA-s ka hyrë zyrtarisht në fuqi për palët.",
+              "imageUrl": "https://www.gtai.de/resource/image/568400/fitImage/2000/1048/1294240791f492cbbd34364b283e4cda/DC24176B4610A64AF1AD6B40DE7328A7/gtai-logo-farbverlaeufe-schutzzone.jpg",
+              "url": "https://www.gtai.de/de/trade/kosovo/zoll/freihandelsabkommen-kosovo-efta-2021426",
+              "date": "2026-08-17",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim pa ngarkim",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "PAZ - Peiner Allgemeine Zeitung",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1338,14 +1300,14 @@
           "articleCount": 1,
           "articles": [
             {
-              "title": "Kosovo verhaftet mutmaßlichen serbischen Spion – Spannungen im Westbalkan - pesterlloyd.net",
-              "albanianTitle": "Kosova arreston një të dyshuar për spiunazh serb – rriten tensionet në Ballkanin Perëndimor",
-              "blurb": "Autoritetet e Kosovës kanë arrestuar një person të dyshuar për spiunazh në favor të shtetit serb gjatë kësaj periudhe.",
+              "title": "Kosovo verhaftet mutmaßlichen serbischen Spion – Spannungen im Westbalkan - Pester Lloyd",
+              "albanianTitle": "Kosova arreston spiunin e dyshuar serb – Tensione në Ballkanin Perëndimor - Pester Lloyd",
+              "blurb": "Kosova ka arrestuar një spiun të dyshuar serb, duke rritur tensionet në Ballkanin Perëndimor.",
               "imageUrl": "https://www.pesterlloyd.net/wp-content/uploads/2026/08/kurznachrichten-cover-2026-08-15-646.webp",
               "url": "https://www.pesterlloyd.net/kosovo-verhaftet-mutmasslichen-serbischen-spion-spannungen-im-westbalkan/",
               "date": "2026-08-15",
               "sentiment": "neutral",
-              "reason": "Faktikë raportuar pa ngarkim",
+              "reason": "Lajm i thjeshtë, i raportuar në mënyrë faktike",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1373,19 +1335,19 @@
           ]
         },
         {
-          "name": "gtai.de",
+          "name": "gazetaexpress.com",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
-              "title": "Freihandelsabkommen zwischen Kosovo und EFTA tritt in Kraft - gtai.de",
-              "albanianTitle": "Hyn në fuqi marrëveshja e tregtisë së lirë ndërmjet Kosovës dhe EFTA-s",
-              "blurb": "Marrëveshja e tregtisë së lirë ndërmjet Kosovës dhe shteteve të EFTA-s ka hyrë zyrtarisht në fuqi për palët.",
-              "imageUrl": "https://www.gtai.de/resource/image/568400/fitImage/2000/1048/1294240791f492cbbd34364b283e4cda/DC24176B4610A64AF1AD6B40DE7328A7/gtai-logo-farbverlaeufe-schutzzone.jpg",
-              "url": "https://www.gtai.de/de/trade/kosovo/zoll/freihandelsabkommen-kosovo-efta-2021426",
-              "date": "2026-08-17",
+              "title": "Sorensen: Der Kosovo-Serbien-Dialog ist nicht gescheitert und hat jüngst konkrete Ergebnisse für die Vermissten erzielt. - gazetaexpress.com",
+              "albanianTitle": "Sorensen: Dialogu Kosovë-Serbi nuk ka dështuar dhe së fundmi ka arritur rezultate konkrete për të pagjeturit",
+              "blurb": "Sorensen deklaroi se dialogu Kosovë-Serbi nuk ka dështuar dhe ka sjellë rezultate konkrete lidhur me çështjen e personave të pagjetur.",
+              "imageUrl": "https://www.gazetaexpress.com/wp-content/uploads/2026/08/so.webp",
+              "url": "https://www.gazetaexpress.com/de/Sorensen--der-Kosovo-Serbien-Dialog-ist-nicht-gescheitert--denn-er-hat-in-j%C3%BCngster-Zeit-konkrete-Ergebnisse-f%C3%BCr-die-Vermissten-hervorgebracht./",
+              "date": "2026-08-14",
               "sentiment": "neutral",
-              "reason": "Straightforward announcement of a trade agreement, no evaluative language",
+              "reason": "Raportim i deklaratës pa ngarkim",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1398,7 +1360,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 5,
+        "n": 6,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -1459,13 +1421,34 @@
       }
     },
     "Belgjikë": {
-      "outlets": [],
+      "outlets": [
+        {
+          "name": "Cineuropa",
+          "sentiment": "positive",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "As the Spring Arrives, Water Recalls the Nomads triomphe au Festival DokuFest de Prizren - Cineuropa",
+              "albanianTitle": "Filmi 'As the Spring Arrives, Water Recalls the Nomads' triumfon në festivalin DokuFest në Prizren",
+              "blurb": "Filmi As the Spring Arrives, Water Recalls the Nomads ka fituar çmimin kryesor në festivalin DokuFest të mbajtur në Prizren.",
+              "imageUrl": null,
+              "url": "https://cineuropa.org/fr/newsdetail/494515",
+              "date": "2026-08-17",
+              "sentiment": "positive",
+              "reason": "Titulli përdor fjalë pozitive për festivalin në Kosovë",
+              "isQuote": false,
+              "evidence": "triomphe",
+              "speaker": ""
+            }
+          ]
+        }
+      ],
       "summary": {
-        "index": null,
-        "positive": 0,
+        "index": 100,
+        "positive": 100,
         "neutral": 0,
         "negative": 0,
-        "n": 0,
+        "n": 1,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
@@ -1473,66 +1456,6 @@
     },
     "Spanjë": {
       "outlets": [
-        {
-          "name": "ESPN Argentina",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosovo Calendario 2026 - ESPN Argentina",
-              "albanianTitle": "Kalendari i Kosovës 2026 - ESPN Argentina",
-              "blurb": "ESPN Argentina ka publikuar kalendarin e Kosovës për vitin 2026, duke detajuar ndeshjet dhe ngjarjet.",
-              "imageUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/21479.png",
-              "url": "https://www.espn.com.ar/futbol/equipo/calendario/_/id/21479/Kosovo",
-              "date": "2026-08-14",
-              "sentiment": "neutral",
-              "reason": "Lajm i thjeshtë, i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "ESPN Colombia",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosovo Calendario 2026 - ESPN Colombia",
-              "albanianTitle": "Kalendari i Kosovës 2026",
-              "blurb": "Publikohet kalendari i ndeshjeve të përfaqësueses së Kosovës në futboll për vitin 2026 sipas të dhënave të ESPN.",
-              "imageUrl": null,
-              "url": "https://www.espn.com.co/futbol/equipo/calendario/_/id/21479/Kosovo",
-              "date": "2026-08-17",
-              "sentiment": "neutral",
-              "reason": "Simple calendar listing, no editorial stance",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "El Impulso",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosovo envió 200 mil dólares para ayudar a los guaireños #14Ago - El Impulso",
-              "albanianTitle": "Kosova dërgon 200 mijë dollar për të ndihmuar qytetin e Gjakovës",
-              "blurb": "Kosova ka ofruar 200 mijë dollarë ndihmë për të mbështetur banorët e prekur nga situata e rëndë në Guaire të Venezuelës.",
-              "imageUrl": "https://cdn.elimpulso.com/media/2026/08/Big-Band-Jazz-2026-08-14T122854.321.jpg",
-              "url": "https://www.elimpulso.com/2026/08/14/kosovo-envio-200-mil-dolares-para-ayudar-a-los-guairenos-14ago/",
-              "date": "2026-08-14",
-              "sentiment": "neutral",
-              "reason": "Lajm i ngjarjeve të raportuara në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
         {
           "name": "El Nacional",
           "sentiment": "neutral",
@@ -1574,52 +1497,32 @@
           ]
         },
         {
-          "name": "Globovisión",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosovo destina 200 mil dólares en ayuda humanitaria para los damnificados de La Guaira - Globovisión",
-              "albanianTitle": "Kosova ndan 200 mijë dollarë ndihmë humanitare për të prekurit e La Guaira - Globovisión",
-              "blurb": "Kosova ka ndarë 200 mijë dollarë ndihmë humanitare për të prekurit nga fatkeqësitë në La Guaira.",
-              "imageUrl": "https://gbvm.knoios.com/mmedia/20679/viceministro-de-asuntos-exteriores-y-diaspora-kreshnik-ahmeti-66578.jpg",
-              "url": "https://www.globovision.com/politica/60290/kosovo-destina-200-mil-dolares-en-ayuda-humanitaria-para-los-damnificados-de-la-guaira",
-              "date": "2026-08-14",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
           "name": "Sofascore",
           "sentiment": "neutral",
           "articleCount": 2,
           "articles": [
             {
-              "title": "Algeria Mediterranean Team - Sofascore",
-              "albanianTitle": null,
-              "blurb": "Ekipi i Algjerisë është pjesë e garave në Lojërat Mesdhetare sipas të dhënave të publikuara në platformën sportive Sofascore.",
+              "title": "Algeria Mediterranean Team - sofascore.com",
+              "albanianTitle": "Ekipi i Algjerisë në Mesdhetare - sofascore.com",
+              "blurb": "Ekipi i Algjerisë për Lojërat Mesdhetare është renditur në platformën sportive Sofascore për ndjekjen e rezultateve të ndeshjeve.",
               "imageUrl": null,
               "url": "https://www.sofascore.com/it/football/match/kosovo-mediterranean-team-algeria-mediterranean-team/cLekseLek",
               "date": "2026-08-14",
               "sentiment": "neutral",
-              "reason": "Nuk ka asnjë komentim apo vlerësim",
+              "reason": "Lajm i thjeshtë i një ekipe",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
             },
             {
-              "title": "Kosovo Mediterranean Team - Sofascore",
-              "albanianTitle": "Kombëtarja e Kosovës në Mediterranean - Sofascore",
-              "blurb": "Ekipi i Kosovës për Lojërat Mesdhetare është listuar në platformën sportive Sofascore për ndjekjen e rezultateve dhe performancave të tyre.",
+              "title": "Kosovo Mediterranean Team - sofascore.com",
+              "albanianTitle": "Klubi i Kosovës në Mesdhe në sofascore.com",
+              "blurb": "Ekipi i Kosovës për lojërat mesdhetare është renditur në platformën sportive Sofascore për përcjelljen e rezultateve të ndeshjeve.",
               "imageUrl": null,
               "url": "https://www.sofascore.com/de/football/match/kosovo-mediterranean-team-italy-mediterranean-team/dLekseLek",
               "date": "2026-08-14",
               "sentiment": "neutral",
-              "reason": "Lajm i thjeshtë sportiv",
+              "reason": "Lajm i thjeshtë i një skuadre sportive",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1632,9 +1535,9 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 8,
+        "n": 4,
         "excluded": 0,
-        "confident": true,
+        "confident": false,
         "stanceVersion": 2
       }
     },
@@ -1855,7 +1758,7 @@
           ]
         },
         {
-          "name": "bydgoszcz.tvp.pl",
+          "name": "TVP Bydgoszcz",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
@@ -1974,6 +1877,19 @@
           "articleCount": 6,
           "articles": [
             {
+              "title": "Kosova Gümrüğü’nün Geliri 7 Ayda 1,15 Milyar Euroyu Aştı - Kosovahaber.com",
+              "albanianTitle": "Dogana e Kosovës mbledh mbi 1,15 miliardë euro të hyra për 7 muaj",
+              "blurb": "Të hyrat e Doganës së Kosovës gjatë shtatë muajve të parë të këtij viti kanë tejkaluar shumën prej 1.15 miliard euro.",
+              "imageUrl": null,
+              "url": "https://kosovahaber.com/haber/kosova-gumrugunun-geliri-7-ayda-115-milyar-euroyu-asti-105007",
+              "date": "2026-08-17",
+              "sentiment": "neutral",
+              "reason": "Faktikë ekonomik",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
               "title": "Yeni Euro Banknotlarının Tasarımını Kosova Vatandaşları da Oylayabilecek - Kosovahaber.com",
               "albanianTitle": "Edhe qytetarët e Kosovës do të mund të votojnë për dizajnin e kartëmonedhave të reja të euros",
               "blurb": "Qytetarët e Kosovës do të kenë mundësinë të votojnë për dizajnin e ri të kartëmonedhave të valutës euro.",
@@ -1987,16 +1903,16 @@
               "speaker": ""
             },
             {
-              "title": "Kosova Futbolunun İkonik İsmi Erdoğan Celina Vefat Etti - Kosovahaber.com",
-              "albanianTitle": "Ndërron jetë ikona e futbollit kosovar, Erdoğan Celina - Kosovahaber.com",
-              "blurb": "Figura ikonike e futbollit kosovar, Erdoğan Celina, ka ndërruar jetë duke lënë pas një karrierë të gjatë sportive.",
+              "title": "Kurti, Kosova’nın Ögürlüğü İçin Hayatını Kaybedenleri Andı - Kosovahaber.com",
+              "albanianTitle": "Kurti përkujton të rënët për lirinë e Kosovës",
+              "blurb": "Kryeministri Albin Kurti ka përkujtuar personat që humbën jetën gjatë luftës për lirinë e Kosovës në një ceremoni zyrtare.",
               "imageUrl": null,
-              "url": "https://kosovahaber.com/haber/kosova-futbolunun-ikonik-ismi-erdogan-celina-vefat-etti-104969",
+              "url": "https://kosovahaber.com/haber/kurti-kosovanin-ogurlugu-icin-hayatini-kaybedenleri-andi-105004",
               "date": "2026-08-17",
-              "sentiment": "neutral",
-              "reason": "Lajm për vdekjen e një figure sportive, i paraqitur në mënyrë faktike",
+              "sentiment": "positive",
+              "reason": "Titulli nderon luftëtarët e Kosovës, duke treguar mbështetje",
               "isQuote": false,
-              "evidence": "",
+              "evidence": "Hayatını Kaybedenleri Andı",
               "speaker": ""
             },
             {
@@ -2013,40 +1929,27 @@
               "speaker": ""
             },
             {
-              "title": "İbre Köprüsünün Açılması Entegrasyon ve Güvenlik için Tarihi Bir Adım - Kosovahaber.com",
-              "albanianTitle": "Hapja e Urës së Ibrit, hap historik për integrim dhe siguri",
-              "blurb": "Hapja e urës mbi lumin Ibër vlerësohet si një hap i rëndësishëm për integrimin dhe sigurinë në atë pjesë.",
+              "title": "Kosova Futbolunun İkonik İsmi Erdoğan Celina Vefat Etti - Kosovahaber.com",
+              "albanianTitle": "Ndërron jetë ikona e futbollit kosovar, Erdoğan Celina - Kosovahaber.com",
+              "blurb": "Figura ikonike e futbollit kosovar, Erdoğan Celina, ka ndërruar jetë duke lënë pas një karrierë të gjatë sportive.",
               "imageUrl": null,
-              "url": "https://kosovahaber.com/haber/ibre-koprusunun-acilmasi-entegrasyon-ve-guvenlik-icin-tarihi-bir-adim-104987",
-              "date": "2026-08-17",
-              "sentiment": "positive",
-              "reason": "Positive language praising development",
-              "isQuote": false,
-              "evidence": "Tarihi Bir Adım",
-              "speaker": ""
-            },
-            {
-              "title": "Dheu i Bardhë’da 100 Bin Euro’dan Fazla Beyan Edilmemiş Paraya El Konuldu - Kosovahaber.com",
-              "albanianTitle": "Mbi 100 mijë euro të padeklaruara konfiskohen te Dheu i Bardhë",
-              "blurb": "Autoritetet doganore në pikën kufitare Dheu i Bardhë kanë konfiskuar mbi 100 mijë euro të padeklaruara nga një udhëtar.",
-              "imageUrl": null,
-              "url": "https://kosovahaber.com/haber/dheu-i-bardheda-100-bin-eurodan-fazla-beyan-edilmemis-paraya-el-konuldu-104981",
+              "url": "https://kosovahaber.com/haber/kosova-futbolunun-ikonik-ismi-erdogan-celina-vefat-etti-104969",
               "date": "2026-08-17",
               "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
+              "reason": "Lajm për vdekjen e një figure sportive, i paraqitur në mënyrë faktike",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
             },
             {
-              "title": "Yüzlerce Kanser Hastası İlaçlarını Kendi İmkanıyla Almak Zorunda - Kosovahaber.com",
-              "albanianTitle": "Qindra pacientë me kancer detyrohen t'i blejnë vetë barnat - Kosovahaber.com",
-              "blurb": "Qindra pacientë me kancer në Kosovë detyrohen t'i blejnë vetë ilaçet e nevojshme për trajtimin e sëmundjes së tyre.",
+              "title": "Son Bir Haftada 25 Yeni Kızamık Vakası - Kosovahaber.com",
+              "albanianTitle": "25 raste të reja me fruth brenda një jave",
+              "blurb": "Institucionet shëndetësore kanë raportuar për regjistrimin e 25 rasteve të reja me fruth gjatë javës së fundit në vend.",
               "imageUrl": null,
-              "url": "https://kosovahaber.com/haber/yuzlerce-kanser-hastasi-ilaclarini-kendi-imkaniyla-almak-zorunda-104992",
+              "url": "https://kosovahaber.com/haber/son-bir-haftada-25-yeni-kizamik-vakasi-105005",
               "date": "2026-08-17",
               "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
+              "reason": "Raportim i rasteve të sëmundjes, pa ngarkim",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -2188,11 +2091,11 @@
         }
       ],
       "summary": {
-        "index": 55,
-        "positive": 14,
+        "index": 56,
+        "positive": 15,
         "neutral": 82,
-        "negative": 4,
-        "n": 28,
+        "negative": 3,
+        "n": 33,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2
@@ -2203,17 +2106,30 @@
         {
           "name": "Balkan Insight",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
-              "title": "Kosovo’s LDK Drops Demand to Choose President in Bid to Resolve Crisis - balkaninsight.com",
-              "albanianTitle": "LDK heq dorë nga kërkesa për zgjedhjen e presidentit në përpjekje për të tejkaluar krizën",
-              "blurb": "Lidhja Demokratike e Kosovës ka hequr dorë nga kërkesa për zgjedhjen e presidentit për të tejkaluar krizën politike.",
+              "title": "Kosovo Detains Man Suspected of Spying for Serbian Intelligence - Balkan Insight",
+              "albanianTitle": "Një burrë është arrestuar për shkak të shqetësimeve se është i lidhur me shërbimet e inteligjencës serbe",
+              "blurb": "Autoritetet në Kosovë kanë ndaluar një person nën dyshimin se ka kryer veprimtari spiunazhi për inteligjencën serbe.",
+              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/08/Fehim-Sali-BIRN.jpg",
+              "url": "https://balkaninsight.com/2026/08/14/kosovo-detains-man-suspected-of-spying-for-serbian-intelligence/bi/",
+              "date": "2026-08-14",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Kosovo’s LDK Drops Demand to Choose President in Bid to Resolve Crisis - Balkan Insight",
+              "albanianTitle": "LDK e Kosovës heq kërkesën për zgjedhjen e Presidentit për të zgjidhur krizën",
+              "blurb": "Lidhja Demokratike e Kosovës ka hequr dorë nga kërkesa për zgjedhjen e presidentit në përpjekje për të zgjidhur krizën politike.",
               "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/08/Lumir-Abdixhiku-LDK-BIRN-e1786697503103.jpg",
               "url": "https://balkaninsight.com/2026/08/14/kosovos-ldk-drops-demand-to-choose-president-in-bid-to-resolve-crisis/bi/",
               "date": "2026-08-14",
               "sentiment": "neutral",
-              "reason": "Lajm politik, i raportuar në mënyrë faktike",
+              "reason": "Lajm i thjeshtë, i raportuar në mënyrë faktike",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -2301,29 +2217,9 @@
           ]
         },
         {
-          "name": "IMDb",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "‘Shame and Money’ Director on Sundance-Winning Drama About a Kosovo Family in Free Fall: ‘It’s a Look Into the Past and a Warning to the Future’ - IMDb",
-              "albanianTitle": "Regjisori i filmit ‘Shame and Money’ për dramën fituese në Sundance për një familje kosovare në rënie të lirë: ‘Është një vështrim në të kaluarën dhe një paralajmërim për të ardhmen’",
-              "blurb": "Regjisori i filmit fitues në Sundance flet për dramën mbi një familje kosovare në rënie të lirë.",
-              "imageUrl": null,
-              "url": "https://www.imdb.com/de/news/ni65974085/?ref_=nwc_art_perm",
-              "date": "2026-08-16",
-              "sentiment": "neutral",
-              "reason": "Raporton deklaratën e drejtorit të filmit",
-              "isQuote": true,
-              "evidence": "",
-              "speaker": "Shame and Money Director"
-            }
-          ]
-        },
-        {
           "name": "KosovaPress",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 1,
           "articles": [
             {
               "title": "Kosovo aims to transform its economy and boost exports, Kurti says - KosovaPress",
@@ -2337,19 +2233,6 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
-            },
-            {
-              "title": "Democratic Party of Kosovo deputies gather again outside Government, call Kurti an “usurper” - KosovaPress",
-              "albanianTitle": "Deputetët e PDK-së protestojnë sërish para Qeverisë, e quajnë Kurtin “uzurpator”",
-              "blurb": "Deputetët e Partisë Demokratike të Kosovës u mblodhën para ndërtesës së Qeverisë duke e quajtur kryeministrin Kurti uzurpator të pushtetit.",
-              "imageUrl": null,
-              "url": "https://kosovapress.com/eng/democratic-party-of-kosovo-deputies-gather-again-outside-government-call-kurti-an-usurper",
-              "date": "2026-08-17",
-              "sentiment": "neutral",
-              "reason": "Fjalët e ngarkuara janë citim i kundërshtarëve, jo i mediave",
-              "isQuote": true,
-              "evidence": "",
-              "speaker": "Democratic Party of Kosovo deputies"
             }
           ]
         },
@@ -2379,14 +2262,34 @@
           "articleCount": 1,
           "articles": [
             {
-              "title": "'Shame and Money' Director on Sundance-Winning Social Drama - Variety",
-              "albanianTitle": "Regjisori i filmit 'Shame and Money' flet për dramën sociale fituese në Sundance",
-              "blurb": "Regjisori i filmit Shame and Money flet për dramën sociale që fitoi çmim në festivalin Sundance.",
-              "imageUrl": "https://variety.com/wp-content/uploads/2026/01/Shame-and-Money.jpg?w=1000&h=563&crop=1",
-              "url": "https://variety.com/2026/film/global/shame-and-money-sundance-social-drama-kosovo-1236834517/",
+              "title": "‘Shame and Money’ Director on Sundance-Winning Drama About a Kosovo Family in Free Fall: ‘It’s a Look Into the Past and a Warning to the Future’ - IMDb",
+              "albanianTitle": "Regjisori i filmit ‘Shame and Money’ për dramën fituese në Sundance për një familje kosovare në rënie të lirë: ‘Është një vështrim në të kaluarën dhe një paralajmërim për të ardhmen’",
+              "blurb": "Regjisori i filmit fitues në Sundance flet për dramën mbi një familje kosovare në rënie të lirë.",
+              "imageUrl": null,
+              "url": "https://www.imdb.com/de/news/ni65974085/?ref_=nwc_art_perm",
               "date": "2026-08-16",
               "sentiment": "neutral",
-              "reason": "Lajm i thjeshtë, pa koment",
+              "reason": "Raporton deklaratën e drejtorit të filmit",
+              "isQuote": true,
+              "evidence": "",
+              "speaker": "Shame and Money Director"
+            }
+          ]
+        },
+        {
+          "name": "prishtinainsight.com",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo Court Detains Man Over Alleged Spying for Serbian Intelligence - prishtinainsight.com",
+              "albanianTitle": "Gjykata në Kosovë cakton paraburgim për personin e dyshuar për spiunazh për inteligjencën serbe",
+              "blurb": "Gjykata në Kosovë ka caktuar masën e paraburgimit për një person të dyshuar për spiunazh për shërbimin inteligjent serb.",
+              "imageUrl": "https://prishtinainsight.com/wp-content/uploads/2026/08/viber_image_2026-08-14_16-07-42-648-e1786716814641.jpg",
+              "url": "https://prishtinainsight.com/kosovo-court-detains-man-over-alleged-spying-for-serbian-intelligence/",
+              "date": "2026-08-14",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim neutral",
               "isQuote": false,
               "evidence": "",
               "speaker": ""

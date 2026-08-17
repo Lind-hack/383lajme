@@ -1241,9 +1241,9 @@
   },
   {
     "date": "2026-08-17",
-    "overallIndex": 52,
-    "totalArticles": 136,
-    "sourceCount": 95,
+    "overallIndex": 54,
+    "totalArticles": 130,
+    "sourceCount": 92,
     "stanceVersion": 2,
     "countries": {
       "Gjermani": {
@@ -1258,30 +1258,30 @@
       },
       "SHBA": {
         "index": 53,
-        "positive": 6,
-        "neutral": 94,
+        "positive": 5,
+        "neutral": 95,
         "negative": 0,
-        "n": 18,
+        "n": 19,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2
       },
       "Britani": {
-        "index": 46,
-        "positive": 0,
-        "neutral": 93,
-        "negative": 7,
-        "n": 27,
+        "index": 53,
+        "positive": 6,
+        "neutral": 94,
+        "negative": 0,
+        "n": 16,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2
       },
       "Francë": {
-        "index": null,
-        "positive": 0,
+        "index": 100,
+        "positive": 100,
         "neutral": 0,
         "negative": 0,
-        "n": 0,
+        "n": 1,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
@@ -1311,7 +1311,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 5,
+        "n": 6,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -1327,11 +1327,11 @@
         "stanceVersion": 2
       },
       "Belgjikë": {
-        "index": null,
-        "positive": 0,
+        "index": 100,
+        "positive": 100,
         "neutral": 0,
         "negative": 0,
-        "n": 0,
+        "n": 1,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
@@ -1341,9 +1341,9 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 8,
+        "n": 4,
         "excluded": 0,
-        "confident": true,
+        "confident": false,
         "stanceVersion": 2
       },
       "Greqi": {
@@ -1377,11 +1377,11 @@
         "stanceVersion": 2
       },
       "Turqi": {
-        "index": 55,
-        "positive": 14,
+        "index": 56,
+        "positive": 15,
         "neutral": 82,
-        "negative": 4,
-        "n": 28,
+        "negative": 3,
+        "n": 33,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2
@@ -1407,6 +1407,14 @@
         "sentiment": "positive"
       },
       {
+        "title": "As the Spring Arrives, Water Recalls the Nomads triomphe au Festival DokuFest de Prizren - Cineuropa",
+        "source": "Cineuropa",
+        "country": "Francë",
+        "flag": "🇫🇷",
+        "url": "https://cineuropa.org/fr/newsdetail/494515",
+        "sentiment": "positive"
+      },
+      {
         "title": "As the Spring Arrives, Water Recalls the Nomads trionfa al DokuFest di Prizren - Cineuropa",
         "source": "Cineuropa",
         "country": "Itali",
@@ -1415,35 +1423,11 @@
         "sentiment": "positive"
       },
       {
-        "title": "Zelenskiy'nin Tutumuna Karşı Çıkan Ukrayna Milletvekili: “Ukrayna Kosova'yı Tanımalı” - Kosovahaber.com",
-        "source": "Kosovahaber.com",
-        "country": "Turqi",
-        "flag": "🇹🇷",
-        "url": "https://kosovahaber.com/haber/zelenskiynin-tutumuna-karsi-cikan-ukrayna-milletvekili-ukrayna-kosovayi-tanimali-104962",
-        "sentiment": "positive"
-      },
-      {
-        "title": "Draft Law on Public Property – a Sword of Damocles over Kosovo municipalities, especially Serbian-majority ones - kosovo-online.com",
-        "source": "kosovo-online.com",
-        "country": "Britani",
-        "flag": "🇬🇧",
-        "url": "https://www.kosovo-online.com/en/news/analysis/draft-law-public-property-sword-damocles-over-kosovo-municipalities-especially",
-        "sentiment": "negative"
-      },
-      {
         "title": "AAK: Cumhurbaşkanı, Vetëvendosje’nin Tek Başına Kontrolüne Bırakılamaz - Kosovahaber.com",
         "source": "Kosovahaber.com",
         "country": "Turqi",
         "flag": "🇹🇷",
         "url": "https://kosovahaber.com/haber/aak-cumhurbaskani-vetevendosjenin-tek-basina-kontrolune-birakilamaz-104955",
-        "sentiment": "negative"
-      },
-      {
-        "title": "Dedaj: Situation chaotic, Kurti is Kosovo's Kim Jong Un - kosovo-online.com",
-        "source": "kosovo-online.com",
-        "country": "Britani",
-        "flag": "🇬🇧",
-        "url": "https://www.kosovo-online.com/en/news/politics/dedaj-situation-chaotic-kurti-kosovos-kim-jong-un-15-8-2026",
         "sentiment": "negative"
       }
     ]
