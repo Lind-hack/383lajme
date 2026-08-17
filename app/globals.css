@@ -8723,3 +8723,155 @@ body[data-tour-veil] > *:not(.tutorial-root) {
 
 
 
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   REAGIMI — desktop height pass
+   Measured: card 479 voted, of which 147px was empty space beside the video
+   while the reaction bar added another 158px underneath it. Stacking wasted the
+   right column and then paid for the rows twice.
+
+   The reactions now sit BESIDE the clip in that dead space. `display: contents`
+   on the body wrapper lets media, content and react all join one card-level
+   grid without touching the DOM, so the mobile stack is untouched.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@media (min-width: 900px) {
+  .reagimi-card {
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+    /* All auto. A `1fr` row here fights the media's stretch and inflates the
+       row to 204px for 81px of content. */
+    grid-template-rows: auto auto auto auto;
+    grid-template-areas:
+      "head    head"
+      "media   content"
+      "media   react"
+      "rail    rail";
+    column-gap: 24px;
+    padding: 0 24px 16px;
+  }
+
+  /* Dissolves the wrapper so its children join the card grid directly. */
+  .reagimi-body {
+    display: contents;
+  }
+
+  .reagimi-head {
+    grid-area: head;
+    padding: 14px 0 12px;
+  }
+
+  /* The clip now takes its height from the column beside it, so the card is as
+     tall as its content rather than the sum of two stacked blocks. */
+  .reagimi-media {
+    grid-area: media;
+    aspect-ratio: auto;
+    /* `height: 100%` against an auto row is circular; stretch across the two
+       spanned rows is what sizes it. */
+    height: auto;
+    min-height: 225px;
+    align-self: stretch;
+  }
+
+  .reagimi-content {
+    grid-area: content;
+    padding: 0;
+    gap: 9px;
+    justify-content: center;
+  }
+
+  .reagimi-react {
+    grid-area: react;
+    padding: 14px 0 0;
+    margin-top: 12px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    align-self: end;
+  }
+
+  .reagimi-rail {
+    grid-area: rail;
+    margin: 14px -24px -16px;
+    padding: 10px 24px 11px;
+  }
+
+  .reagimi-waiting {
+    grid-column: 1 / -1;
+  }
+
+  /* Tighter right column: it now sets the card height, so every interval here
+     is paid for twice over. */
+  .reagimi-lead {
+    font-size: clamp(17px, 1.7vw, 21px);
+    line-height: 1.26;
+  }
+
+  .reagimi-react-head {
+    margin-bottom: 8px;
+  }
+
+  .reagimi-results {
+    gap: 4px;
+    max-width: none;
+  }
+
+  .reagimi-result {
+    grid-template-columns: 15px minmax(60px, auto) 1fr 32px;
+    gap: 7px;
+  }
+
+  .reagimi-result-label,
+  .reagimi-pct {
+    font-size: 10.5px;
+  }
+
+  .reagimi-track {
+    height: 5px;
+    border-radius: 2.5px;
+  }
+
+  .reagimi-fill {
+    border-radius: 2.5px;
+  }
+
+  .reagimi-option {
+    min-height: 40px;
+    font-size: 10.5px;
+    gap: 6px;
+    padding: 7px 6px;
+  }
+
+  .reagimi-watch {
+    padding: 9px 15px;
+    font-size: 13px;
+  }
+}
+
+
+
+@media (min-width: 900px) {
+  /* MARKER-thumb-oof
+     Takes the thumbnail out of flow. With the media's height coming from the
+     grid rows, `height: 100%` on an in-flow <img> resolves to auto, so the image
+     rendered at its intrinsic 16:9 and pushed the two spanned rows open from the
+     inside (593 x 720/1280 = 334px). Absolute positioning lets the rows size to
+     the text and reactions instead, and cover-fit still fills whatever results. */
+  .reagimi-thumb {
+    position: absolute;
+    inset: 0;
+  }
+}
+
+@media (min-width: 900px) {
+  /* Final density trim. The right column sets the card height now, so every
+     interval in it is paid for by the clip beside it as well. */
+  .reagimi-head { padding: 12px 0 8px; }
+  .reagimi-content { gap: 8px; }
+  .reagimi-lead { font-size: clamp(16px, 1.55vw, 19px); }
+  .reagimi-react { padding: 11px 0 0; margin-top: 10px; }
+  .reagimi-react-head { margin-bottom: 7px; }
+  .reagimi-results { gap: 3px; }
+  .reagimi-result-label, .reagimi-pct { font-size: 10px; }
+  .reagimi-result { gap: 6px; }
+  .reagimi-media { min-height: 200px; }
+  .reagimi-card { padding-bottom: 13px; }
+}
