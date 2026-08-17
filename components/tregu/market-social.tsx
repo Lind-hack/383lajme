@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import type { MarketTrade, Side } from "@/lib/tregu-client";
+import TimeAgo from "@/components/time-ago";
 
 // Below-the-fold social layer for the market detail page — the Polymarket
 // pattern: Komentet | Mbajtësit | Pozicionet | Aktiviteti. Holder data comes
@@ -198,7 +199,7 @@ export default function MarketSocial({
                     <div style={{ minWidth: 0, flex: 1 }}>
                       <div style={{ display: "flex", alignItems: "baseline", gap: 8, flexWrap: "wrap" }}>
                         <span style={{ fontWeight: 800, fontSize: 13 }}>{c.name}</span>
-                        <span style={{ fontSize: 11, color: "#6B6B6B" }}>{timeAgo(c.createdAt)}</span>
+                        <TimeAgo iso={c.createdAt} format={timeAgo} style={{ fontSize: 11, color: "#6B6B6B" }} />
                       </div>
                       <p style={{ margin: "3px 0 0", fontSize: 13.5, lineHeight: 1.55, overflowWrap: "break-word" }}>{c.body}</p>
                     </div>
@@ -308,7 +309,7 @@ export default function MarketSocial({
                         </span>
                       </span>
                     </div>
-                    <span style={{ color: "#6B6B6B", fontSize: 11, whiteSpace: "nowrap" }}>{timeAgo(t.created_at)}</span>
+                    <TimeAgo iso={t.created_at} format={timeAgo} style={{ color: "#6B6B6B", fontSize: 11, whiteSpace: "nowrap" }} />
                   </div>
                 ))}
               </div>

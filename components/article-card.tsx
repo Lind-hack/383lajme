@@ -3,7 +3,8 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { type Article, timeAgo, calcReadingTime } from "@/lib/mock-data";
+import { type Article, calcReadingTime } from "@/lib/mock-data";
+import TimeAgo from "./time-ago";
 import { getCategoryColor, getCategoryBg } from "@/lib/category-colors";
 import { EASE, DUR, STAGGER, RADIUS, SHADOW } from "@/lib/tokens";
 import SourceBadge from "./source-badge";
@@ -213,7 +214,7 @@ export default function ArticleCard({ article, variant = "grid", index = 0 }: Ar
                 whiteSpace: "nowrap",
                 transition: `color ${DUR.base}s ease`,
               }}>
-                {hovered ? "Lexo →" : timeAgo(article.publishedAt)}
+                {hovered ? "Lexo →" : <TimeAgo iso={article.publishedAt} />}
               </span>
             </div>
           </div>
@@ -313,7 +314,7 @@ export default function ArticleCard({ article, variant = "grid", index = 0 }: Ar
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
               <SourceBadge source={article.source} flag={article.sourceFlag} size="sm" bias={article.sourceBias} />
               <span style={{ fontSize: "11px", color: "#6B6B6B", fontWeight: 500 }}>
-                {timeAgo(article.publishedAt)} · {readMins} min
+                <TimeAgo iso={article.publishedAt} /> · {readMins} min
               </span>
             </div>
           </div>
@@ -403,7 +404,7 @@ export default function ArticleCard({ article, variant = "grid", index = 0 }: Ar
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
               <SourceBadge source={article.source} flag={article.sourceFlag} size="sm" bias={article.sourceBias} />
               <span style={{ fontSize: "11px", color: "#6B6B6B", fontWeight: 500 }}>
-                {timeAgo(article.publishedAt)} · {readMins} min
+                <TimeAgo iso={article.publishedAt} /> · {readMins} min
               </span>
             </div>
           </div>
@@ -568,7 +569,7 @@ export default function ArticleCard({ article, variant = "grid", index = 0 }: Ar
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
             <SourceBadge source={article.source} flag={article.sourceFlag} size="sm" bias={article.sourceBias} />
             <span style={{ fontSize: "11px", color: "#AAAAAA", fontWeight: 500 }}>
-              {timeAgo(article.publishedAt)}
+              <TimeAgo iso={article.publishedAt} />
             </span>
           </div>
         </div>

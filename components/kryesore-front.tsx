@@ -3,7 +3,8 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { type Article, timeAgo, calcReadingTime } from "@/lib/mock-data";
+import { type Article, calcReadingTime } from "@/lib/mock-data";
+import TimeAgo from "./time-ago";
 import { getCategoryColor } from "@/lib/category-colors";
 import { EASE, DUR, STAGGER, RADIUS, SHADOW } from "@/lib/tokens";
 import SourceBadge from "./source-badge";
@@ -234,7 +235,7 @@ function LeadCard({ article }: { article: Article }) {
             <SourceBadge source={article.source} flag={article.sourceFlag} size="sm" bias={article.sourceBias} />
             <ToneChip tone={article.tone} />
             <span style={{ fontSize: "11px", color: "#AAAAAA", fontWeight: 500, marginLeft: "auto" }}>
-              {timeAgo(article.publishedAt)}
+              <TimeAgo iso={article.publishedAt} />
             </span>
           </div>
         </div>
@@ -312,7 +313,7 @@ function SecondaryCard({ article, index }: { article: Article; index: number }) 
             {article.title}
           </h4>
           <span style={{ fontSize: "12px", color: "#777777", fontWeight: 500, marginTop: "auto" }}>
-            {article.source} · {timeAgo(article.publishedAt)}
+            {article.source} · <TimeAgo iso={article.publishedAt} />
           </span>
         </div>
       </motion.div>
@@ -399,7 +400,7 @@ function MostReadRail({ articles }: { articles: Article[] }) {
                 {article.title}
               </span>
               <span style={{ fontSize: "12px", color: "#777777", fontWeight: 500 }}>
-                {article.category} · {timeAgo(article.publishedAt)}
+                {article.category} · <TimeAgo iso={article.publishedAt} />
               </span>
             </span>
           </Link>

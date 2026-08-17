@@ -2,7 +2,8 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { type Article, timeAgo } from "@/lib/mock-data";
+import { type Article } from "@/lib/mock-data";
+import TimeAgo from "./time-ago";
 import { getCategoryColor } from "@/lib/category-colors";
 import { EASE, DUR, STAGGER } from "@/lib/tokens";
 
@@ -163,7 +164,7 @@ export default function ColorSpotlight({ articles, category, label }: ColorSpotl
                       marginTop: "auto",
                     }}
                   >
-                    {article.source} · {timeAgo(article.publishedAt)} më parë
+                    {article.source} · <TimeAgo iso={article.publishedAt} /> më parë
                   </div>
                 </motion.div>
               </Link>

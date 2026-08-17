@@ -13,8 +13,18 @@ __pycache__/
 .env
 .env.local
 .env*.local
+# Holds live API keys and passwords; must never be committed.
+.env.automation
 .firecrawl/
 
 # OS
 .DS_Store
 Thumbs.db
+
+# UI-iteration screenshots dropped in the repo root. Leading slash = top level
+# only, so app/icon.png, app/apple-icon.png and public/ assets stay tracked.
+/*.png
+/*.jpg
+/*.jpeg
+/*.gif
+/*.webp

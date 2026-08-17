@@ -3,7 +3,8 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
-import { type Article, timeAgo, calcReadingTime } from '@/lib/mock-data'
+import { type Article, calcReadingTime } from '@/lib/mock-data'
+import TimeAgo from './time-ago'
 import { getCategoryColor } from '@/lib/category-colors'
 import { FONT } from '@/lib/tokens'
 import { useCanHover } from '@/hooks/use-can-hover'
@@ -280,7 +281,7 @@ export default function ImageAccordion({ slides }: Props) {
                     {slide.article.source}
                   </span>
                   <span aria-hidden style={{ opacity: 0.5 }}>·</span>
-                  <span>{timeAgo(slide.article.publishedAt)}</span>
+                  <TimeAgo iso={slide.article.publishedAt} />
                   <span aria-hidden style={{ opacity: 0.5 }}>·</span>
                   <span>{readMins} min</span>
                 </div>

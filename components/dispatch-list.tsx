@@ -2,7 +2,8 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { type Article, timeAgo } from "@/lib/mock-data";
+import { type Article } from "@/lib/mock-data";
+import TimeAgo from "./time-ago";
 import { getCategoryColor } from "@/lib/category-colors";
 import { EASE, DUR, STAGGER } from "@/lib/tokens";
 import SectionLabel from "./section-label";
@@ -130,7 +131,7 @@ function ListItem({ article, index, catColor }: ListItemProps) {
           >
             <SourceBadge source={article.source} flag={article.sourceFlag} size="sm" bias={article.sourceBias} />
             <span style={{ fontSize: "11px", color: "#6B6B6B", fontWeight: 500 }}>
-              {timeAgo(article.publishedAt)}
+              <TimeAgo iso={article.publishedAt} />
             </span>
           </div>
         </motion.div>

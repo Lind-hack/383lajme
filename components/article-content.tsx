@@ -1,7 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { timeAgo, type Article } from "@/lib/mock-data";
+import { type Article } from "@/lib/mock-data";
+import TimeAgo from "./time-ago";
 import SourceBadge from "@/components/source-badge";
 import ArticleCard from "@/components/article-card";
 import ArticleSidebar from "@/components/article-sidebar";
@@ -127,7 +128,7 @@ export default function ArticleContent({ article, related, catColor, catBg, cate
             >
               <SourceBadge source={article.source} flag={article.sourceFlag} />
               <span style={{ fontSize: "13px", color: "#6B6B6B", fontWeight: 500 }}>
-                {timeAgo(article.publishedAt)} më parë
+                <TimeAgo iso={article.publishedAt} /> më parë
               </span>
               <span style={{ fontSize: "13px", color: "#6B6B6B", fontWeight: 500 }}>
                 {dynamicReadTime} min lexim
