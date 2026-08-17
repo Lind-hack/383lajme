@@ -235,36 +235,36 @@ export default async function HomePage() {
 
         {/* Daily poll */}
         <DailyPoll />
-
-        {/* 383 Tregu — trending prediction markets */}
-        <TrendingStrip />
       </main>
 
       {/* Bota Flet — foreign-media coverage of Kosovo, from the tone-scraper
-          pipeline. Full-bleed, so it closes the container above and the latest-news
-          archive reopens its own below. */}
+          pipeline. Full-bleed, so it closes the container above; Tregu and the
+          latest-news archive share the container that reopens below it. */}
       <BotaFlet
         items={foreignCoverage}
         totalArticles={botaFletPool.length}
         countryCount={botaFletCountries}
       />
 
-      {/* Lajmet e fundit — the archive tail, now after Bota Flet */}
-      {listArticles.length > 0 && (
-        <div
-          style={{
-            position: "relative",
-            zIndex: 1,
-            maxWidth: "1280px",
-            margin: "0 auto",
-            padding: "64px 24px 0",
-          }}
-        >
+      <div
+        style={{
+          position: "relative",
+          zIndex: 1,
+          maxWidth: "1280px",
+          margin: "0 auto",
+          padding: "64px 24px 0",
+        }}
+      >
+        {/* 383 Tregu — trending prediction markets */}
+        <TrendingStrip />
+
+        {/* Lajmet e fundit — the archive tail closes the page's news run */}
+        {listArticles.length > 0 && (
           <div style={{ marginBottom: "0", paddingBottom: "var(--space-section)" }}>
             <DispatchList articles={listArticles} />
           </div>
-        </div>
-      )}
+        )}
+      </div>
 
       {/* Tone dashboard + Diaspora series */}
       <div
