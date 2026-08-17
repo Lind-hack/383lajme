@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { Inbox } from "lucide-react";
 import { getArticles } from "@/lib/db";
-import { SLUG_TO_CATEGORY } from "@/lib/category-map";
+import { RESOLVABLE_SLUGS } from "@/lib/category-map";
 import { getCategoryColor, getCategoryGradient, CATEGORY_LIGHT_BG } from "@/lib/category-colors";
 import { resolveCategoryFigures } from "@/lib/category-figures";
 import TextureBg from "@/components/aurora-bg";
@@ -15,7 +15,9 @@ import Footer from "@/components/footer";
 export const revalidate = 3600;
 
 export function generateStaticParams() {
-  return Object.keys(SLUG_TO_CATEGORY).map((slug) => ({ category: slug }));
+  // Retired slugs are prerendered too, so an old link or an indexed search
+  // result lands on the section that absorbed it instead of a 404.
+  return Object.keys(RESOLVABLE_SLUGS).map((slug) => ({ category: slug }));
 }
 
 export async function generateMetadata({
@@ -24,7 +26,7 @@ export async function generateMetadata({
   params: Promise<{ category: string }>;
 }) {
   const { category } = await params;
-  const categoryName = SLUG_TO_CATEGORY[category];
+  const categoryName = RESOLVABLE_SLUGS[category];
   return categoryName ? { title: categoryName } : {};
 }
 
@@ -34,7 +36,7 @@ export default async function CategoryPage({
   params: Promise<{ category: string }>;
 }) {
   const { category } = await params;
-  const categoryName = SLUG_TO_CATEGORY[category];
+  const categoryName = RESOLVABLE_SLUGS[category];
   if (!categoryName) notFound();
 
   const articles = await getArticles(50, categoryName);

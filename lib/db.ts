@@ -4,9 +4,18 @@ import fs from "fs";
 import { createClient as createSupabaseClient } from "@supabase/supabase-js";
 import { MOCK_ARTICLES, type Article } from "./mock-data";
 import { fixMojibake } from "./encoding";
+import { categoryQueryValues, normalizeCategory } from "./category-map";
 
 const DB_PATH = path.join(process.cwd(), "data", "articles.db");
 
+/**
+ * Every article, from every source — Supabase, SQLite, the committed JSON
+ * batches and the mock set — is mapped through here, which makes it the one
+ * place that can guarantee a reader never sees a category that is not one of
+ * the six live sections. Rows written before the sections were consolidated
+ * still carry "Siguri" or "Shoqëri"; they now render under the section that
+ * absorbed them instead of leaking a label with no page behind it.
+ */
 function sanitizeArticle(a: Article): Article {
   return {
     ...a,
@@ -15,6 +24,7 @@ function sanitizeArticle(a: Article): Article {
     body: fixMojibake(a.body),
     source: fixMojibake(a.source),
     sourceFlag: fixMojibake(a.sourceFlag),
+    category: normalizeCategory(fixMojibake(a.category)),
   };
 }
 
@@ -53,7 +63,10 @@ function mapAutoRow(a: Record<string, unknown>): Article {
     sourceFlag:    String(a.source_flag ?? "🌍"),
     sourceBias:    (a.source_bias as Article["sourceBias"]) ?? "neutral",
     tone:          (a.tone as Article["tone"]) ?? "neutral",
-    category:      String(a.category ?? "Shoqëri"),
+    // Left raw on purpose: sanitizeArticle folds it onto a live section, and an
+    // absent category resolves to the default there rather than to a label that
+    // was never editorial in the first place.
+    category:      String(a.category ?? ""),
     publishedAt:   String(a.published_at ?? ""),
     createdAt:     a.created_at ? String(a.created_at) : undefined,
     readingTime:   Number(a.reading_time ?? 3),
@@ -106,6 +119,9 @@ function supabaseNewsClient() {
 }
 
 export async function getArticles(limit = 50, category?: string): Promise<Article[]> {
+  // A section owns its retired aliases, so filtering on the label alone would
+  // hide every row the pipeline filed under the old name.
+  const wanted = category ? normalizeCategory(category) : undefined;
   const supabase = supabaseNewsClient();
   if (supabase) {
     try {
@@ -116,7 +132,7 @@ export async function getArticles(limit = 50, category?: string): Promise<Articl
         .order("engagement_score", { ascending: false })
         .order("published_at", { ascending: false })
         .limit(limit);
-      if (category) query = query.eq("category", category);
+      if (wanted) query = query.in("category", categoryQueryValues(wanted));
       const { data, error } = await query;
       if (error) throw new Error(error.message);
       if (data?.length) return data.map((article) => mapAutoRow(article as Record<string, unknown>));
@@ -160,7 +176,8 @@ export async function getArticles(limit = 50, category?: string): Promise<Articl
     return effectiveScore(b) - effectiveScore(a);
   });
 
-  const filtered = category ? sorted.filter((a) => a.category === category) : sorted;
+  // Already normalized by sanitizeArticle, so a plain comparison is enough here.
+  const filtered = wanted ? sorted.filter((a) => a.category === wanted) : sorted;
   return filtered.slice(0, limit);
 }
 

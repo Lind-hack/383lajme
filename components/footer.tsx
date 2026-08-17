@@ -2,15 +2,12 @@
 
 import Link from "next/link";
 import { ArrowRight, Facebook, Heart, Instagram, MapPin } from "lucide-react";
+import { NAV_CATEGORIES } from "@/lib/category-map";
 
-const FOOTER_CATEGORIES = [
-  { label: "Politikë", href: "/kategori/politike" },
-  { label: "Ekonomi", href: "/kategori/ekonomi" },
-  { label: "Botë", href: "/kategori/bote" },
-  { label: "Siguri", href: "/kategori/siguri" },
-  { label: "Teknologji", href: "/kategori/teknologji" },
-  { label: "Showbiz", href: "/kategori/showbiz" },
-];
+const FOOTER_CATEGORIES = NAV_CATEGORIES.map(({ label, slug }) => ({
+  label,
+  href: `/kategori/${slug}`,
+}));
 
 const COMPANY_LINKS = [
   { label: "Rreth nesh", href: "/rreth-nesh" },

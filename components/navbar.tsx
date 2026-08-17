@@ -10,16 +10,15 @@ import UserMenu from "./user-menu";
 import NavBalance from "./nav-balance";
 import NavSidePanel from "./nav-side-panel";
 import CoinToast from "./tregu/coin-toast";
+import { NAV_CATEGORIES } from "@/lib/category-map";
 
-export const NAV_LINKS = [
-  { label: "Politikë", href: "/kategori/politike" },
-  { label: "Ekonomi", href: "/kategori/ekonomi" },
-  { label: "Botë", href: "/kategori/bote" },
-  { label: "Siguri", href: "/kategori/siguri" },
-  { label: "Teknologji", href: "/kategori/teknologji" },
-  { label: "Showbiz", href: "/kategori/showbiz" },
-  { label: "Sport", href: "/kategori/sport" },
-];
+/** Derived from lib/category-map, so the navbar, the side panel (which imports
+ *  this), the footer and the pill row cannot drift apart. Order and membership
+ *  are changed in one place. */
+export const NAV_LINKS = NAV_CATEGORIES.map(({ label, slug }) => ({
+  label,
+  href: `/kategori/${slug}`,
+}));
 
 export function KosovoTag() {
   return (

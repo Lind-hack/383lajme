@@ -1,12 +1,109 @@
-export const SLUG_TO_CATEGORY: Record<string, string> = {
-  "politike":   "Politikë",
-  "ekonomi":    "Ekonomi",
-  "bote":       "Botë",
-  "siguri":     "Siguri",
-  "sport":      "Sport",
-  "teknologji": "Teknologji",
-  "kulture":    "Kulturë",
-  "shoqeri":    "Shoqëri",
-  "showbiz":    "Showbiz",
-  "diaspora":   "Diasporë",
+/**
+ * The single source of truth for what a category is on 383.
+ *
+ * Six categories are shown to readers, in this order. Everything the pipeline
+ * has ever written lands on one of them: "Siguri" and "Shoqëri" were being
+ * surfaced as if they were sections of their own, and "Shoqëri" in particular
+ * was never editorial at all, it is what lib/db.ts assigns when an incoming
+ * article carries no category.
+ *
+ * Navigation, the footer, the pill row and the category pages all derive from
+ * here, so the order and the membership are changed in one place.
+ */
+
+export type NavCategory =
+  | "Politikë"
+  | "Sport"
+  | "Teknologji"
+  | "Ekonomi"
+  | "Botë"
+  | "Showbiz";
+
+export const NAV_CATEGORIES: ReadonlyArray<{ label: NavCategory; slug: string }> = [
+  { label: "Politikë", slug: "politike" },
+  { label: "Sport", slug: "sport" },
+  { label: "Teknologji", slug: "teknologji" },
+  { label: "Ekonomi", slug: "ekonomi" },
+  { label: "Botë", slug: "bote" },
+  { label: "Showbiz", slug: "showbiz" },
+];
+
+export const DEFAULT_CATEGORY: NavCategory = "Politikë";
+
+/** `/kategori/<slug>` for the six live sections. */
+export const SLUG_TO_CATEGORY: Record<string, NavCategory> = Object.fromEntries(
+  NAV_CATEGORIES.map(({ slug, label }) => [slug, label])
+) as Record<string, NavCategory>;
+
+export const CATEGORY_TO_SLUG: Record<NavCategory, string> = Object.fromEntries(
+  NAV_CATEGORIES.map(({ slug, label }) => [label, slug])
+) as Record<NavCategory, string>;
+
+/**
+ * Everything the data has carried that is not one of the six, folded onto the
+ * closest one. Siguri and Shoqëri follow the grouping lib/tregu.ts already uses
+ * (`politike: ["Politikë", "Siguri", "Shoqëri"]`), so this is not a new opinion.
+ * Keys are compared case-insensitively and without diacritics.
+ */
+const CATEGORY_ALIASES: Record<NavCategory, string[]> = {
+  // Spelled exactly as the store writes them, because these strings are also
+  // what a category query has to match on. Folding happens on lookup.
+  "Politikë": ["Siguri", "Shoqëri", "Kosovo", "Kosovë", "Vendi", "Lajme"],
+  Showbiz: ["Kulturë", "Argëtim", "Jeta"],
+  "Botë": ["Diasporë", "Diaspora", "Rajoni"],
+  Ekonomi: ["Biznes", "Bizneset"],
+  Teknologji: ["Tech", "Teknologjia"],
+  Sport: ["Sporti"],
 };
+
+/** Lowercase, strip diacritics, so "Botë"/"bote"/"BOTE" all key the same.
+ *  The combining-mark range is written as escapes, not literal marks, so it
+ *  survives copy, paste and re-encoding intact. */
+function foldKey(value: string): string {
+  return value
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "")
+    .toLowerCase()
+    .trim();
+}
+
+const CANONICAL_BY_KEY: Record<string, NavCategory> = {
+  ...Object.fromEntries(NAV_CATEGORIES.map(({ label }) => [foldKey(label), label])),
+  ...Object.fromEntries(NAV_CATEGORIES.map(({ slug, label }) => [slug, label])),
+  ...Object.fromEntries(
+    (Object.entries(CATEGORY_ALIASES) as [NavCategory, string[]][]).flatMap(
+      ([canonical, aliases]) => aliases.map((alias) => [foldKey(alias), canonical])
+    )
+  ),
+};
+
+/**
+ * Every category that reaches a reader passes through here, so a stray value in
+ * the data can never render as a section that does not exist.
+ */
+export function normalizeCategory(raw: string | null | undefined): NavCategory {
+  if (!raw) return DEFAULT_CATEGORY;
+  return CANONICAL_BY_KEY[foldKey(raw)] ?? DEFAULT_CATEGORY;
+}
+
+/**
+ * Category page slugs that still resolve. The six live ones plus the retired
+ * sections, which keep working so existing links and search results do not 404;
+ * they simply land on the section that absorbed them.
+ */
+export const RESOLVABLE_SLUGS: Record<string, NavCategory> = {
+  ...SLUG_TO_CATEGORY,
+  siguri: "Politikë",
+  shoqeri: "Politikë",
+  kulture: "Showbiz",
+  diaspora: "Botë",
+};
+
+/**
+ * Raw values to match when querying for a canonical category. The store still
+ * holds "Siguri" and "Shoqëri" rows, so filtering on the label alone would hide
+ * them from the section that now owns them.
+ */
+export function categoryQueryValues(category: NavCategory): string[] {
+  return [...new Set([category, ...(CATEGORY_ALIASES[category] ?? [])])];
+}

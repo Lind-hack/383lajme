@@ -4,18 +4,11 @@ import { useRef, useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { CATEGORY_COLORS, DEFAULT_COLOR } from "@/lib/category-colors";
+import { NAV_CATEGORIES } from "@/lib/category-map";
 
-const CATEGORIES = [
+const CATEGORIES: { label: string; href: string; color?: string }[] = [
   { label: "Të gjitha", href: "/", color: "#111111" },
-  { label: "Politikë", href: "/kategori/politike" },
-  { label: "Ekonomi", href: "/kategori/ekonomi" },
-  { label: "Botë", href: "/kategori/bote" },
-  { label: "Siguri", href: "/kategori/siguri" },
-  { label: "Sport", href: "/kategori/sport" },
-  { label: "Teknologji", href: "/kategori/teknologji" },
-  { label: "Kulturë", href: "/kategori/kulture" },
-  { label: "Shoqëri", href: "/kategori/shoqeri" },
-  { label: "Showbiz", href: "/kategori/showbiz" },
+  ...NAV_CATEGORIES.map(({ label, slug }) => ({ label, href: `/kategori/${slug}` })),
 ];
 
 export default function CategoryPillRow() {
