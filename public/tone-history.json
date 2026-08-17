@@ -1241,9 +1241,9 @@
   },
   {
     "date": "2026-08-17",
-    "overallIndex": 50,
-    "totalArticles": 106,
-    "sourceCount": 80,
+    "overallIndex": 51,
+    "totalArticles": 113,
+    "sourceCount": 85,
     "stanceVersion": 2,
     "countries": {
       "Gjermani": {
@@ -1251,7 +1251,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 5,
+        "n": 6,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -1271,17 +1271,17 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 11,
+        "n": 10,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2
       },
       "Francë": {
-        "index": null,
+        "index": 50,
         "positive": 0,
-        "neutral": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 0,
+        "n": 1,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
@@ -1311,7 +1311,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 2,
+        "n": 4,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
@@ -1327,11 +1327,11 @@
         "stanceVersion": 2
       },
       "Belgjikë": {
-        "index": null,
+        "index": 50,
         "positive": 0,
-        "neutral": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 0,
+        "n": 1,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
@@ -1371,17 +1371,17 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 7,
+        "n": 6,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
       },
       "Turqi": {
-        "index": 50,
-        "positive": 8,
-        "neutral": 84,
-        "negative": 8,
-        "n": 25,
+        "index": 53,
+        "positive": 10,
+        "neutral": 86,
+        "negative": 3,
+        "n": 29,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2
@@ -1415,11 +1415,11 @@
         "sentiment": "positive"
       },
       {
-        "title": "İbre Köprüsü’nün Açılması, Kuzeyin Bölünmesi Fikrini Tarihe Gömecek - Kosovahaber.com",
+        "title": "İbre Köprüsünün Açılması Entegrasyon ve Güvenlik için Tarihi Bir Adım - Kosovahaber.com",
         "source": "Kosovahaber.com",
         "country": "Turqi",
         "flag": "🇹🇷",
-        "url": "https://kosovahaber.com/haber/ibre-koprusunun-acilmasi-kuzeyin-bolunmesi-fikrini-tarihe-gomecek-104978",
+        "url": "https://kosovahaber.com/haber/ibre-koprusunun-acilmasi-entegrasyon-ve-guvenlik-icin-tarihi-bir-adim-104987",
         "sentiment": "positive"
       },
       {
@@ -1428,14 +1428,6 @@
         "country": "Turqi",
         "flag": "🇹🇷",
         "url": "https://kosovahaber.com/haber/aak-cumhurbaskani-vetevendosjenin-tek-basina-kontrolune-birakilamaz-104955",
-        "sentiment": "negative"
-      },
-      {
-        "title": "PDK ve AAK’nin İstişare Toplantısını Reddetmeleri Yanlış ve Düşüncesiz Bir Adım - Kosovahaber.com",
-        "source": "Kosovahaber.com",
-        "country": "Turqi",
-        "flag": "🇹🇷",
-        "url": "https://kosovahaber.com/haber/pdk-ve-aaknin-istisare-toplantisini-reddetmeleri-yanlis-ve-dusuncesiz-bir-adim-104952",
         "sentiment": "negative"
       }
     ]

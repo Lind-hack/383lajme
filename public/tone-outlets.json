@@ -1,8 +1,8 @@
 {
   "lastUpdated": "2026-08-17",
-  "overallIndex": 50,
-  "totalArticles": 106,
-  "sourceCount": 80,
+  "overallIndex": 51,
+  "totalArticles": 113,
+  "sourceCount": 85,
   "stanceVersion": 2,
   "countries": {
     "Gjermani": {
@@ -106,6 +106,26 @@
               "speaker": ""
             }
           ]
+        },
+        {
+          "name": "meinbezirk.at",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Gewinnspiel: ⚽ Gewinne mit Magenta 10x2 Tickets für Österreich vs. Kosovo! - MeinBezirk.at",
+              "albanianTitle": "Lojë shpërblyese: Fito 10x2 bileta për ndeshjen Austri - Kosovë me Magenta!",
+              "blurb": "Magenta ofron dhjetë bileta dyshe për ndeshjen futbollistike ndërmjet përfaqësueses së Austrisë dhe asaj të Kosovës.",
+              "imageUrl": "https://media04.meinbezirk.at/article/2026/07/23/3/51836373_XXL.webp",
+              "url": "https://www.meinbezirk.at/c-sport/-gewinne-mit-magenta-10x2-tickets-fuer-oesterreich-vs-kosovo_a8809956",
+              "date": "2026-08-15",
+              "sentiment": "neutral",
+              "reason": "Advertisement contest mention, no evaluative language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
         }
       ],
       "summary": {
@@ -113,7 +133,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 5,
+        "n": 6,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -257,20 +277,33 @@
         {
           "name": "KosovaPress",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 3,
           "articles": [
             {
-              "title": "Kosovo Prosecution says Fehim Sali admitted he was recruited by Serbian Intelligece - KosovaPress",
-              "albanianTitle": "Prokuroria e Kosovës: Fehim Sali ka pranuar se është rekrutuar nga Inteligjenca Serbe",
-              "blurb": "Prokuroria e Kosovës njofton se Fehim Sali ka pranuar se është rekrutuar nga shërbimi inteligjent serb për aktivitete.",
-              "imageUrl": "https://kosovapress.com/eng/admin/wp-content/uploads/2026/08/96121786709864.jpg",
-              "url": "https://kosovapress.com/eng/kosovo-prosecution-says-fehim-sali-admitted-he-was-recruited-by-serbian-intelligece",
-              "date": "2026-08-14",
+              "title": "Kosovo aims to transform its economy and boost exports, Kurti says - KosovaPress",
+              "albanianTitle": "Kurti: Kosova synon transformimin e ekonomisë dhe rritjen e eksporteve",
+              "blurb": "Kryeministri Albin Kurti deklaroi se Kosova synon transformimin e ekonomisë dhe rritjen e vëllimit të eksporteve drejt tregjeve ndërkombëtare.",
+              "imageUrl": null,
+              "url": "https://kosovapress.com/eng/kosovo-aims-to-transform-its-economy-and-boost-exports-kurti-says",
+              "date": "2026-08-17",
               "sentiment": "neutral",
-              "reason": "Fact‑based report of prosecution statement",
+              "reason": "Faktikë raportim pa gjuhë të ngarkuar",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Democratic Party of Kosovo deputies gather again outside Government, call Kurti an “usurper” - KosovaPress",
+              "albanianTitle": "Deputetët e PDK-së protestojnë sërish para Qeverisë, e quajnë Kurtin “uzurpator”",
+              "blurb": "Deputetët e Partisë Demokratike të Kosovës u mblodhën para ndërtesës së Qeverisë duke e quajtur kryeministrin Kurti uzurpator të pushtetit.",
+              "imageUrl": null,
+              "url": "https://kosovapress.com/eng/democratic-party-of-kosovo-deputies-gather-again-outside-government-call-kurti-an-usurper",
+              "date": "2026-08-17",
+              "sentiment": "neutral",
+              "reason": "Fjalët e ngarkuara janë citim i kundërshtarëve, jo i mediave",
+              "isQuote": true,
+              "evidence": "",
+              "speaker": "Democratic Party of Kosovo deputies"
             },
             {
               "title": "Democratic Party of Kosovo accuses Kurti of abusing Assembly Session Chair Avni Dehari - KosovaPress",
@@ -288,26 +321,6 @@
           ]
         },
         {
-          "name": "Tamil Guardian",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Zelenskyy reaffirms Ukraine's refusal to recognise Kosovo during Serbia visit - Tamil Guardian",
-              "albanianTitle": "Zelenskyy rikonfirmon se Ukraina nuk e njeh Kosovën gjatë vizitës në Serbi",
-              "blurb": "Presidenti ukrainas Volodymyr Zelenskyy ka konfirmuar se Ukraina nuk do ta njohë pavarësinë e Kosovës gjatë vizitës në Serbi.",
-              "imageUrl": null,
-              "url": "https://www.tamilguardian.com/index.php/content/zelenskyy-reaffirms-ukraines-refusal-recognise-kosovo-during-serbia-visit",
-              "date": "2026-08-14",
-              "sentiment": "neutral",
-              "reason": "Faktikisht raporton deklaratën e Zelensky-s pa gjuhë ngarkuese",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
           "name": "The Architectural Review",
           "sentiment": "unknown",
           "articleCount": 1,
@@ -315,12 +328,12 @@
             {
               "title": "An editorial practice in times of crisis - The Architectural Review",
               "albanianTitle": "Një praktikë editoriale në kohë krize - The Architectural Review",
-              "blurb": "Praktika editoriale në kohë krize analizohet përmes qasjeve të ndryshme profesionale në fushën e arkitekturës dhe botimeve.",
+              "blurb": "Praktikat editoriale në kohë krizash kërkojnë qasje të veçantë dhe përshtatje të standardeve profesionale përballë sfidave të ndryshme aktuale.",
               "imageUrl": "https://cdn.ca.emap.com/wp-content/uploads/sites/12/2026/08/260710_An-editorial-practice-in-times-of-crisis_Page_16_playback-1024x576.webp",
               "url": "https://www.architectural-review.com/films/an-editorial-practice-in-times-of-crisis",
               "date": "2026-08-17",
               "sentiment": "unknown",
-              "reason": "Nuk ka informacione mbi qëndrimin ndaj Kosovës në tekstin e dhënë",
+              "reason": "No mention of Kosovo or any evaluative language toward Kosovo in the provided text",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -388,9 +401,29 @@
           ]
         },
         {
+          "name": "koroldanylo.com.ua",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Zelensky's visit to Serbia caused tension around the issue of Kosovo - koroldanylo.com.ua",
+              "albanianTitle": "Vizita e Zelenskyt në Serbi shkakton tensione lidhur me çështjen e Kosovës",
+              "blurb": "Vizita e presidentit ukrainas Volodymyr Zelensky në Serbi ka shkaktuar tensione lidhur me çështjen politike të shtetit të Kosovës.",
+              "imageUrl": "https://www.koroldanylo.com.ua/storage/image/authors/96oofiK2nZ9sP0doYFXdqrlltRJbhrjhFCR6on7B.jpg",
+              "url": "https://www.koroldanylo.com.ua/en/news/vizit_zelenskogo_do_serbiyi_spriciniv_napruzennia_navkolo_pitannia_kosova_34940",
+              "date": "2026-08-17",
+              "sentiment": "neutral",
+              "reason": "Raportim faktik i tensionit rreth çështjes së Kosovës",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "srpske.rs",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 1,
           "articles": [
             {
               "title": "Kosovo Police Search Strmac, Question Six - srpske.rs",
@@ -401,19 +434,6 @@
               "date": "2026-08-15",
               "sentiment": "neutral",
               "reason": "Raportim i thjeshtë i veprimeve të policisë",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Kosovo Parliament Deadlock Persists, PDK Wants Session Now - srpske.rs",
-              "albanianTitle": "Vazhdon ngërçi në Kuvendin e Kosovës, PDK kërkon seancë urgjente",
-              "blurb": "Partia Demokratike e Kosovës kërkon mbajtjen e menjëhershme të seancës parlamentare për shkak të bllokadës në Kuvend.",
-              "imageUrl": "https://srpske.rs/uploads/articles/kosovo-parliament-standoff-pdk-demands-tuesday-session-16x9.webp",
-              "url": "https://srpske.rs/en/news/politika/2026/08/16/kosovo-parliament-standoff-pdk-demands-tuesday-session",
-              "date": "2026-08-16",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -533,17 +553,17 @@
           "articleCount": 2,
           "articles": [
             {
-              "title": "Kosovo Prosecution says Fehim Sali admitted he was recruited by Serbian Intelligece - KosovaPress",
-              "albanianTitle": "Prokuroria e Kosovës: Fehim Sali ka pranuar se është rekrutuar nga Inteligjenca Serbe",
-              "blurb": "Prokuroria e Kosovës njofton se Fehim Sali ka pranuar se është rekrutuar nga shërbimi inteligjent serb për aktivitete.",
-              "imageUrl": "https://kosovapress.com/eng/admin/wp-content/uploads/2026/08/96121786709864.jpg",
-              "url": "https://kosovapress.com/eng/kosovo-prosecution-says-fehim-sali-admitted-he-was-recruited-by-serbian-intelligece",
-              "date": "2026-08-14",
+              "title": "Democratic Party of Kosovo deputies gather again outside Government, call Kurti an “usurper” - KosovaPress",
+              "albanianTitle": "Deputetët e PDK-së protestojnë sërish para Qeverisë, e quajnë Kurtin “uzurpator”",
+              "blurb": "Deputetët e Partisë Demokratike të Kosovës u mblodhën para ndërtesës së Qeverisë duke e quajtur kryeministrin Kurti uzurpator të pushtetit.",
+              "imageUrl": null,
+              "url": "https://kosovapress.com/eng/democratic-party-of-kosovo-deputies-gather-again-outside-government-call-kurti-an-usurper",
+              "date": "2026-08-17",
               "sentiment": "neutral",
-              "reason": "Fact‑based report of prosecution statement",
-              "isQuote": false,
+              "reason": "Fjalët e ngarkuara janë citim i kundërshtarëve, jo i mediave",
+              "isQuote": true,
               "evidence": "",
-              "speaker": ""
+              "speaker": "Democratic Party of Kosovo deputies"
             },
             {
               "title": "Democratic Party of Kosovo accuses Kurti of abusing Assembly Session Chair Avni Dehari - KosovaPress",
@@ -561,26 +581,6 @@
           ]
         },
         {
-          "name": "Tamil Guardian",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Zelenskyy reaffirms Ukraine's refusal to recognise Kosovo during Serbia visit - Tamil Guardian",
-              "albanianTitle": "Zelenskyy rikonfirmon se Ukraina nuk e njeh Kosovën gjatë vizitës në Serbi",
-              "blurb": "Presidenti ukrainas Volodymyr Zelenskyy ka konfirmuar se Ukraina nuk do ta njohë pavarësinë e Kosovës gjatë vizitës në Serbi.",
-              "imageUrl": null,
-              "url": "https://www.tamilguardian.com/index.php/content/zelenskyy-reaffirms-ukraines-refusal-recognise-kosovo-during-serbia-visit",
-              "date": "2026-08-14",
-              "sentiment": "neutral",
-              "reason": "Faktikisht raporton deklaratën e Zelensky-s pa gjuhë ngarkuese",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
           "name": "The Architectural Review",
           "sentiment": "unknown",
           "articleCount": 1,
@@ -588,12 +588,12 @@
             {
               "title": "An editorial practice in times of crisis - The Architectural Review",
               "albanianTitle": "Një praktikë editoriale në kohë krize - The Architectural Review",
-              "blurb": "Praktika editoriale në kohë krize analizohet përmes qasjeve të ndryshme profesionale në fushën e arkitekturës dhe botimeve.",
+              "blurb": "Praktikat editoriale në kohë krizash kërkojnë qasje të veçantë dhe përshtatje të standardeve profesionale përballë sfidave të ndryshme aktuale.",
               "imageUrl": "https://cdn.ca.emap.com/wp-content/uploads/sites/12/2026/08/260710_An-editorial-practice-in-times-of-crisis_Page_16_playback-1024x576.webp",
               "url": "https://www.architectural-review.com/films/an-editorial-practice-in-times-of-crisis",
               "date": "2026-08-17",
               "sentiment": "unknown",
-              "reason": "Nuk ka informacione mbi qëndrimin ndaj Kosovës në tekstin e dhënë",
+              "reason": "No mention of Kosovo or any evaluative language toward Kosovo in the provided text",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -626,14 +626,14 @@
           "articleCount": 1,
           "articles": [
             {
-              "title": "'Shame and Money' Director on Sundance-Winning Social Drama - variety.com",
+              "title": "'Shame and Money' Director on Sundance-Winning Social Drama - Variety",
               "albanianTitle": "Regjisori i filmit 'Shame and Money' flet për dramën sociale fituese në Sundance",
-              "blurb": "Regjisori i filmit Shame and Money flet për dramën sociale që u shpërblye në festivalin Sundance.",
+              "blurb": "Regjisori i filmit Shame and Money flet për dramën sociale që fitoi çmim në festivalin Sundance.",
               "imageUrl": "https://variety.com/wp-content/uploads/2026/01/Shame-and-Money.jpg?w=1000&h=563&crop=1",
               "url": "https://variety.com/2026/film/global/shame-and-money-sundance-social-drama-kosovo-1236834517/",
               "date": "2026-08-16",
               "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
+              "reason": "Lajm i thjeshtë, pa koment",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -686,20 +686,41 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 11,
+        "n": 10,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2
       }
     },
     "Francë": {
-      "outlets": [],
+      "outlets": [
+        {
+          "name": "Adiac Congo",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Football: le week-end des Diables rouges et des Congolais de la diaspora en Europe (Kosovo, Pologne, Russie, Turquie et Ukraine) - adiac-congo.com",
+              "albanianTitle": "Futboll: Fundjava e “Djajve të Kuq” dhe e lojtarëve kongolezë në diasporën evropiane (Kosovë, Poloni, Rusi, Turqi dhe Ukrainë)",
+              "blurb": "Futbollistët e diasporës kongoleze kanë zhvilluar ndeshje në kampionate të ndryshme evropiane, përfshirë edhe ligën e futbollit në Kosovë.",
+              "imageUrl": null,
+              "url": "https://www.adiac-congo.com/content/football-le-week-end-des-diables-rouges-et-des-congolais-de-la-diaspora-en-europe-kosovo-18",
+              "date": "2026-08-17",
+              "sentiment": "neutral",
+              "reason": "Titull sportiv neutral, pa gjuhë vlerësuese",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        }
+      ],
       "summary": {
-        "index": null,
+        "index": 50,
         "positive": 0,
-        "neutral": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 0,
+        "n": 1,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
@@ -902,39 +923,19 @@
           ]
         },
         {
-          "name": "MeinBezirk.at",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Gewinnspiel: ⚽ Gewinne mit Magenta 10x2 Tickets für Österreich vs. Kosovo! - MeinBezirk.at",
-              "albanianTitle": "Lojë shpërblyese: Fito 10x2 bileta për ndeshjen Austri - Kosovë me Magenta!",
-              "blurb": "Magenta ofron dhjetë bileta dyshe për ndeshjen futbollistike ndërmjet përfaqësueses së Austrisë dhe asaj të Kosovës.",
-              "imageUrl": "https://media04.meinbezirk.at/article/2026/07/23/3/51836373_XXL.webp",
-              "url": "https://www.meinbezirk.at/c-sport/-gewinne-mit-magenta-10x2-tickets-fuer-oesterreich-vs-kosovo_a8809956",
-              "date": "2026-08-15",
-              "sentiment": "neutral",
-              "reason": "Advertisement contest mention, no evaluative language",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
           "name": "Pester Lloyd",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
-              "title": "Kosovo verhaftet mutmaßlichen serbischen Spion – Spannungen im Westbalkan - Pester Lloyd",
-              "albanianTitle": "Kosova arreston spiunin e dyshuar serb – Tensione në Ballkanin Perëndimor - Pester Lloyd",
-              "blurb": "Kosova ka arrestuar një spiun të dyshuar serb, duke rritur tensionet në Ballkanin Perëndimor.",
+              "title": "Kosovo verhaftet mutmaßlichen serbischen Spion – Spannungen im Westbalkan - pesterlloyd.net",
+              "albanianTitle": "Kosova arreston një të dyshuar për spiunazh serb – rriten tensionet në Ballkanin Perëndimor",
+              "blurb": "Autoritetet e Kosovës kanë arrestuar një person të dyshuar për spiunazh në favor të shtetit serb gjatë kësaj periudhe.",
               "imageUrl": "https://www.pesterlloyd.net/wp-content/uploads/2026/08/kurznachrichten-cover-2026-08-15-646.webp",
               "url": "https://www.pesterlloyd.net/kosovo-verhaftet-mutmasslichen-serbischen-spion-spannungen-im-westbalkan/",
               "date": "2026-08-15",
               "sentiment": "neutral",
-              "reason": "Lajm i thjeshtë, i raportuar në mënyrë faktike",
+              "reason": "Faktikë raportuar pa ngarkim",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -980,6 +981,26 @@
               "speaker": ""
             }
           ]
+        },
+        {
+          "name": "meinbezirk.at",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Gewinnspiel: ⚽ Gewinne mit Magenta 10x2 Tickets für Österreich vs. Kosovo! - MeinBezirk.at",
+              "albanianTitle": "Lojë shpërblyese: Fito 10x2 bileta për ndeshjen Austri - Kosovë me Magenta!",
+              "blurb": "Magenta ofron dhjetë bileta dyshe për ndeshjen futbollistike ndërmjet përfaqësueses së Austrisë dhe asaj të Kosovës.",
+              "imageUrl": "https://media04.meinbezirk.at/article/2026/07/23/3/51836373_XXL.webp",
+              "url": "https://www.meinbezirk.at/c-sport/-gewinne-mit-magenta-10x2-tickets-fuer-oesterreich-vs-kosovo_a8809956",
+              "date": "2026-08-15",
+              "sentiment": "neutral",
+              "reason": "Advertisement contest mention, no evaluative language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
         }
       ],
       "summary": {
@@ -996,6 +1017,26 @@
     "Zvicër": {
       "outlets": [
         {
+          "name": "DiePresse.com",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo steckt erneut in einer politischen Krise - DiePresse.com",
+              "albanianTitle": "Kosova në një krizë politike tjetër - DiePresse.com",
+              "blurb": "Kosova po përballet sërish me një krizë politike sipas raportimeve të fundit nga gazeta austriake Die Presse.",
+              "imageUrl": "https://img.diepresse.com/public/incoming/9oq1kk-2026-08-08t124704z2044394285rc2auma8ufw1rtrmadp3kosovo-politicsjpg/alternates/WEBP_WIDE_1200/2026-08-08T124704Z_2044394285_RC2AUMA8UFW1_RTRMADP_3_KOSOVO-POLITICS.JPG",
+              "url": "https://www.diepresse.com/41173664/kosovo-steckt-erneut-in-einer-politischen-krise",
+              "date": "2026-08-14",
+              "sentiment": "neutral",
+              "reason": "Raportim i thjeshtë i një krize politike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "Germany Trade & Invest (GTAI)",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1009,6 +1050,26 @@
               "date": "2026-08-17",
               "sentiment": "neutral",
               "reason": "Faktikë raportim pa ngarkim",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Pester Lloyd",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo verhaftet mutmaßlichen serbischen Spion – Spannungen im Westbalkan - Pester Lloyd",
+              "albanianTitle": "Kosova arreston spiunin e dyshuar serb – Tensione në Ballkanin Perëndimor - Pester Lloyd",
+              "blurb": "Kosova ka arrestuar një spiun të dyshuar serb, duke rritur tensionet në Ballkanin Perëndimor.",
+              "imageUrl": "https://www.pesterlloyd.net/wp-content/uploads/2026/08/kurznachrichten-cover-2026-08-15-646.webp",
+              "url": "https://www.pesterlloyd.net/kosovo-verhaftet-mutmasslichen-serbischen-spion-spannungen-im-westbalkan/",
+              "date": "2026-08-15",
+              "sentiment": "neutral",
+              "reason": "Lajm i thjeshtë, i raportuar në mënyrë faktike",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1041,7 +1102,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 2,
+        "n": 4,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
@@ -1102,13 +1163,34 @@
       }
     },
     "Belgjikë": {
-      "outlets": [],
+      "outlets": [
+        {
+          "name": "Adiac Congo",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Football: le week-end des Diables rouges et des Congolais de la diaspora en Europe (Kosovo, Pologne, Russie, Turquie et Ukraine) - adiac-congo.com",
+              "albanianTitle": "Futboll: Fundjava e “Djajve të Kuq” dhe e lojtarëve kongolezë në diasporën evropiane (Kosovë, Poloni, Rusi, Turqi dhe Ukrainë)",
+              "blurb": "Futbollistët e diasporës kongoleze kanë zhvilluar ndeshje në kampionate të ndryshme evropiane, përfshirë edhe ligën e futbollit në Kosovë.",
+              "imageUrl": null,
+              "url": "https://www.adiac-congo.com/content/football-le-week-end-des-diables-rouges-et-des-congolais-de-la-diaspora-en-europe-kosovo-18",
+              "date": "2026-08-17",
+              "sentiment": "neutral",
+              "reason": "Titull sportiv neutral, pa gjuhë vlerësuese",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        }
+      ],
       "summary": {
-        "index": null,
+        "index": 50,
         "positive": 0,
-        "neutral": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 0,
+        "n": 1,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
@@ -1116,26 +1198,6 @@
     },
     "Spanjë": {
       "outlets": [
-        {
-          "name": "ESPN Argentina",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosovo Calendario 2026 - ESPN Argentina",
-              "albanianTitle": "Kalendari i Kosovës 2026 - ESPN Argentina",
-              "blurb": "ESPN Argentina ka publikuar kalendarin e Kosovës për vitin 2026, duke detajuar ndeshjet dhe ngjarjet.",
-              "imageUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/21479.png",
-              "url": "https://www.espn.com.ar/futbol/equipo/calendario/_/id/21479/Kosovo",
-              "date": "2026-08-14",
-              "sentiment": "neutral",
-              "reason": "Lajm i thjeshtë, i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
         {
           "name": "El Impulso",
           "sentiment": "neutral",
@@ -1223,6 +1285,26 @@
               "date": "2026-08-14",
               "sentiment": "neutral",
               "reason": "Lajm i thjeshtë sportiv",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "espn.com.ar",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo Calendario 2026 - espn.com.ar",
+              "albanianTitle": "Kalendari i ndeshjeve të Kosovës për vitin 2026",
+              "blurb": "Është publikuar kalendari i ndeshjeve të përfaqësueses së Kosovës në futboll për vitin 2026, sipas të dhënave zyrtare të publikuara.",
+              "imageUrl": null,
+              "url": "https://www.espn.com.ar/futbol/equipo/calendario/_/id/21479/Kosovo",
+              "date": "2026-08-14",
+              "sentiment": "neutral",
+              "reason": "Informacion i thjeshtë kalendarik, pa ngarkim",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1420,7 +1502,7 @@
         {
           "name": "Meczyki.pl",
           "sentiment": "neutral",
-          "articleCount": 3,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Kosowo U19 (K) - Słowacja U19 (K) - statystyki meczu 03.12.2026 - Meczyki.pl",
@@ -1431,19 +1513,6 @@
               "date": "2026-08-15",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Kosowo U19 (K) - Słowacja U19 (K): typy, kursy, absencje, zapowiedź - 03.12.2026 - Meczyki.pl",
-              "albanianTitle": "Kosova U19 (F) - Sllovakia U19 (F): parashikimet, koeficientët, mungesat dhe paralajmërimi për ndeshjen e 03.12.2026",
-              "blurb": "Përfaqësuesja e Kosovës U19 për femra luan ndeshjen kundër Sllovakisë më 3 dhjetor të vitit 2026.",
-              "imageUrl": "https://pliki.meczyki.pl/live-score/soccer/match/6177625/original.png",
-              "url": "https://www.meczyki.pl/typy-bukmacherskie/kosovo-u19-slovakia-u19/6177625",
-              "date": "2026-08-15",
-              "sentiment": "neutral",
-              "reason": "Lajm i thjeshtë i një ndeshjeje",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1529,7 +1598,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 7,
+        "n": 6,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -1538,19 +1607,19 @@
     "Turqi": {
       "outlets": [
         {
-          "name": "Analiz Gazetesi",
+          "name": "GZT",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
-              "title": "İLK TÜRBİNLER DEVREYE ALINDI - Analiz Gazetesi",
-              "albanianTitle": "Vihen në punë turbinat e para - Analiz Gazetesi",
-              "blurb": "Turbinat e para janë vënë në funksionim pas përfundimit të fazave të nevojshme teknike për prodhimin e energjisë.",
-              "imageUrl": "https://analizgazetesi.com.tr/modules/blog/dataimages/IMG_F1ED6C-DE2FA2-522D96-12D537-261E09-139527.jpg",
-              "url": "https://analizgazetesi.com.tr/haber/ilk-turbinler-devreye-alindi-9410/",
-              "date": "2026-08-14",
+              "title": "Zorlu araziyle 7 saatlik mücadele: Kosova’daki orman yangını söndürüldü - GZT",
+              "albanianTitle": "Lufta 7-orëshe në terren të vështirë: Shuhet zjarri në pyjet e Kosovës",
+              "blurb": "Pas shtatë orësh përpjekje në terren të vështirë, është shuar zjarri që kishte përfshirë një zonë pyjore në Kosovë.",
+              "imageUrl": null,
+              "url": "https://www.gzt.com/dunya/zorlu-araziyle-7-saatlik-mucadele-kosovadaki-orman-yangini-sonduruldu-4252044",
+              "date": "2026-08-17",
               "sentiment": "neutral",
-              "reason": "Faktik raportim i instalimit të turbinave",
+              "reason": "Lajm i raportuar në mënyrë faktike",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1609,6 +1678,45 @@
               "speaker": ""
             },
             {
+              "title": "İbre Köprüsünün Açılması Entegrasyon ve Güvenlik için Tarihi Bir Adım - Kosovahaber.com",
+              "albanianTitle": "Hapja e Urës së Ibrit, hap historik për integrim dhe siguri",
+              "blurb": "Hapja e urës mbi lumin Ibër vlerësohet si një hap i rëndësishëm për integrimin dhe sigurinë në atë pjesë.",
+              "imageUrl": null,
+              "url": "https://kosovahaber.com/haber/ibre-koprusunun-acilmasi-entegrasyon-ve-guvenlik-icin-tarihi-bir-adim-104987",
+              "date": "2026-08-17",
+              "sentiment": "positive",
+              "reason": "Positive language praising development",
+              "isQuote": false,
+              "evidence": "Tarihi Bir Adım",
+              "speaker": ""
+            },
+            {
+              "title": "Dheu i Bardhë’da 100 Bin Euro’dan Fazla Beyan Edilmemiş Paraya El Konuldu - Kosovahaber.com",
+              "albanianTitle": "Mbi 100 mijë euro të padeklaruara konfiskohen te Dheu i Bardhë",
+              "blurb": "Autoritetet doganore në pikën kufitare Dheu i Bardhë kanë konfiskuar mbi 100 mijë euro të padeklaruara nga një udhëtar.",
+              "imageUrl": null,
+              "url": "https://kosovahaber.com/haber/dheu-i-bardheda-100-bin-eurodan-fazla-beyan-edilmemis-paraya-el-konuldu-104981",
+              "date": "2026-08-17",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Yüzlerce Kanser Hastası İlaçlarını Kendi İmkanıyla Almak Zorunda - Kosovahaber.com",
+              "albanianTitle": "Qindra pacientë me kancer detyrohen t'i blejnë vetë barnat - Kosovahaber.com",
+              "blurb": "Qindra pacientë me kancer në Kosovë detyrohen t'i blejnë vetë ilaçet e nevojshme për trajtimin e sëmundjes së tyre.",
+              "imageUrl": null,
+              "url": "https://kosovahaber.com/haber/yuzlerce-kanser-hastasi-ilaclarini-kendi-imkaniyla-almak-zorunda-104992",
+              "date": "2026-08-17",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
               "title": "“Yangında Yaralanan Vatandaşlarımızın Durumunu Yakından Takip Ediyoruz” - Kosovahaber.com",
               "albanianTitle": "Po e përcjellim nga afër gjendjen e qytetarëve tanë të lënduar nga zjarri",
               "blurb": "Institucionet përkatëse po përcjellin nga afër gjendjen shëndetësore të qytetarëve që pësuan lëndime gjatë një incidenti me zjarr.",
@@ -1620,62 +1728,23 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
-            },
-            {
-              "title": "Son 24 Saatte Kosova'da İki Ölümcül Trafik Kazası - Kosovahaber.com",
-              "albanianTitle": "Dy aksidente fatale në trafik brenda 24 orëve në Kosovë",
-              "blurb": "Dy aksidente trafiku me pasoja fatale kanë ndodhur në territorin e Kosovës gjatë periudhës së fundit 24-orëshe.",
-              "imageUrl": null,
-              "url": "https://kosovahaber.com/haber/son-24-saatte-kosovada-iki-olumcul-trafik-kazasi-104961",
-              "date": "2026-08-16",
-              "sentiment": "neutral",
-              "reason": "Lajm i rëndë, i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "İbre Köprüsü’nün Açılması, Kuzeyin Bölünmesi Fikrini Tarihe Gömecek - Kosovahaber.com",
-              "albanianTitle": "Hapja e Urës së Ibrit do ta varrosë përgjithmonë idenë e ndarjes së veriut - Kosovahaber.com",
-              "blurb": "Hapja e urës mbi lumin Ibër vlerësohet si veprim që do të parandalojë idetë për ndarjen e veriut.",
-              "imageUrl": null,
-              "url": "https://kosovahaber.com/haber/ibre-koprusunun-acilmasi-kuzeyin-bolunmesi-fikrini-tarihe-gomecek-104978",
-              "date": "2026-08-17",
-              "sentiment": "positive",
-              "reason": "Gjuha e medias e përdor frazën pozitive që e vlerëson hapjen e urës si hap drejt bashkiminë",
-              "isQuote": false,
-              "evidence": "Kuzeyin Bölünmesi Fikrini Tarihe Gömecek",
-              "speaker": ""
-            },
-            {
-              "title": "2023'te KFOR'a Yönelik Saldırıyla Bağlantılı Bir Şüpheli Daha Gözaltına Alındı - Kosovahaber.com",
-              "albanianTitle": "Arrestohet edhe një i dyshuar për sulmin ndaj KFOR-it gjatë vitit 2023",
-              "blurb": "Autoritetet kanë arrestuar një person tjetër të dyshuar për përfshirje në sulmin e vitit 2023 ndaj forcave të KFOR-it.",
-              "imageUrl": null,
-              "url": "https://kosovahaber.com/haber/2023te-kfora-yonelik-saldiriyla-baglantili-bir-supheli-daha-gozaltina-alindi-104963",
-              "date": "2026-08-16",
-              "sentiment": "neutral",
-              "reason": "Lajm i rëndë, i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
             }
           ]
         },
         {
-          "name": "Posta",
+          "name": "Milliyet",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
-              "title": "Kosova’da rüzgar hamlesi - Posta",
-              "albanianTitle": "Lëvizja e erës në Kosovë - Posta",
-              "blurb": "Kosova po ndërmerr hapa drejt energjisë së erës, duke shënuar një lëvizje të re në këtë fushë.",
-              "imageUrl": "https://image.posta.com.tr/i/posta/75/0x0/6a7f5316eb7be7eb78371847.jpg",
-              "url": "https://www.posta.com.tr/ekonomi/kosovada-ruzgar-hamlesi-3027104",
-              "date": "2026-08-15",
+              "title": "Alevler Kosova'yı sardı! Yangınla 7 saat mücadele - Milliyet",
+              "albanianTitle": "Flakët përfshijnë Kosovën! Beteja me zjarrin zgjati 7 orë",
+              "blurb": "Ekipet e zjarrfikësve kanë luftuar për shtatë orë me radhë për të vënë nën kontroll një zjarr në Kosovë.",
+              "imageUrl": "https://image.milimaj.com/i/milliyet/75/0x0/6a82f1b9bb03c16404fcd201.jpg",
+              "url": "https://www.milliyet.com.tr/dunya/son-dakika-alevler-kosovayi-sardi-yanginla-7-saat-mucadele-7642961",
+              "date": "2026-08-17",
               "sentiment": "neutral",
-              "reason": "Titulli është thjesht informativ pa gjuhë ngacmuese",
+              "reason": "Raportim i thjeshtë i një zjarri, pa gjuhë kundërshtuese ndaj Kosovës",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1699,6 +1768,26 @@
               "isQuote": true,
               "evidence": "",
               "speaker": "Haxhiu"
+            }
+          ]
+        },
+        {
+          "name": "Saray Medya",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Prizren'deki orman yangını 7 saatte söndürüldü - Saray Medya",
+              "albanianTitle": "Zjarri në pyjet e Prizrenit shuhet pas 7 orësh",
+              "blurb": "Një zjarr që kishte përfshirë hapësirat pyjore në rajonin e Prizrenit është shuar plotësisht pas shtatë orësh intervenim.",
+              "imageUrl": "https://img.saraymedya.com/manset/2026/08/prizren-deki-orman-yangini-7-saatte-sonduruldu-1786964682.webp",
+              "url": "https://www.saraymedya.com/haber/prizren-deki-orman-yangini-7-saatte-sonduruldu_293731/",
+              "date": "2026-08-17",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ]
         },
@@ -1763,19 +1852,19 @@
           ]
         },
         {
-          "name": "gazeteilksayfa.com",
+          "name": "posta.com.tr",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
-              "title": "Kosova'daki yüzyıllık gelin geleneği “Nazarın Renkleri” ile beyaz perdede - gazeteilksayfa.com",
-              "albanianTitle": "Tradita shekullore e nuseve në Kosovë shfaqet në ekranin e madh përmes filmit “Ngjyrat e syrit të keq” - gazeteilksayfa.com",
-              "blurb": "Tradita shekullore e nuseve në Kosovë prezantohet në ekranin e madh përmes filmit të titulluar Ngjyrat e Nazarit.",
-              "imageUrl": "https://cdn.gazeteilksayfa.com/news/356621.jpg",
-              "url": "https://www.gazeteilksayfa.com/kosovadaki-yuzyillik-gelin-gelenegi-nazarin-renkleri-ile-beyaz-perdede-309076h.htm",
-              "date": "2026-08-16",
+              "title": "Kosova’da rüzgar hamlesi - posta.com.tr",
+              "albanianTitle": "Në Kosovë fryma e erës",
+              "blurb": "Kosova ka ndërmarrë hapa konkretë për zhvillimin e projekteve të reja në fushën e energjisë së erës.",
+              "imageUrl": "https://image.posta.com.tr/i/posta/75/0x0/6a7f5316eb7be7eb78371847.jpg",
+              "url": "https://www.posta.com.tr/ekonomi/kosovada-ruzgar-hamlesi-3027104",
+              "date": "2026-08-15",
               "sentiment": "neutral",
-              "reason": "Raportim kulturor neutral",
+              "reason": "Lajm i thjeshtë",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1784,11 +1873,11 @@
         }
       ],
       "summary": {
-        "index": 50,
-        "positive": 8,
-        "neutral": 84,
-        "negative": 8,
-        "n": 25,
+        "index": 53,
+        "positive": 10,
+        "neutral": 86,
+        "negative": 3,
+        "n": 29,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2
@@ -1910,22 +1999,35 @@
           ]
         },
         {
-          "name": "Tamil Guardian",
+          "name": "KosovaPress",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
-              "title": "Zelenskyy reaffirms Ukraine's refusal to recognise Kosovo during Serbia visit - Tamil Guardian",
-              "albanianTitle": "Zelenskyy rikonfirmon se Ukraina nuk e njeh Kosovën gjatë vizitës në Serbi",
-              "blurb": "Presidenti ukrainas Volodymyr Zelenskyy ka konfirmuar se Ukraina nuk do ta njohë pavarësinë e Kosovës gjatë vizitës në Serbi.",
+              "title": "Kosovo aims to transform its economy and boost exports, Kurti says - KosovaPress",
+              "albanianTitle": "Kurti: Kosova synon transformimin e ekonomisë dhe rritjen e eksporteve",
+              "blurb": "Kryeministri Albin Kurti deklaroi se Kosova synon transformimin e ekonomisë dhe rritjen e vëllimit të eksporteve drejt tregjeve ndërkombëtare.",
               "imageUrl": null,
-              "url": "https://www.tamilguardian.com/index.php/content/zelenskyy-reaffirms-ukraines-refusal-recognise-kosovo-during-serbia-visit",
-              "date": "2026-08-14",
+              "url": "https://kosovapress.com/eng/kosovo-aims-to-transform-its-economy-and-boost-exports-kurti-says",
+              "date": "2026-08-17",
               "sentiment": "neutral",
-              "reason": "Faktikisht raporton deklaratën e Zelensky-s pa gjuhë ngarkuese",
+              "reason": "Faktikë raportim pa gjuhë të ngarkuar",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Democratic Party of Kosovo deputies gather again outside Government, call Kurti an “usurper” - KosovaPress",
+              "albanianTitle": "Deputetët e PDK-së protestojnë sërish para Qeverisë, e quajnë Kurtin “uzurpator”",
+              "blurb": "Deputetët e Partisë Demokratike të Kosovës u mblodhën para ndërtesës së Qeverisë duke e quajtur kryeministrin Kurti uzurpator të pushtetit.",
+              "imageUrl": null,
+              "url": "https://kosovapress.com/eng/democratic-party-of-kosovo-deputies-gather-again-outside-government-call-kurti-an-usurper",
+              "date": "2026-08-17",
+              "sentiment": "neutral",
+              "reason": "Fjalët e ngarkuara janë citim i kundërshtarëve, jo i mediave",
+              "isQuote": true,
+              "evidence": "",
+              "speaker": "Democratic Party of Kosovo deputies"
             }
           ]
         },
@@ -1970,19 +2072,19 @@
           ]
         },
         {
-          "name": "globalpost.com",
+          "name": "koroldanylo.com.ua",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
-              "title": "Kosovo Discovers Third Suspected Mass Grave from 1998-99 War - globalpost.com",
-              "albanianTitle": "Kosova zbulon varrin e tretë të dyshuar masiv nga lufta e viteve 1998-99 - globalpost.com",
-              "blurb": "Kosova ka zbuluar varrin e tretë të dyshuar masiv nga lufta e viteve 1998-99.",
-              "imageUrl": "https://globalpost.com/wp-content/uploads/2026/01/Kosovo-Prizren.jpg",
-              "url": "https://globalpost.com/stories/kosovo-discovers-third-suspected-mass-grave-from-1998-99-war/",
-              "date": "2026-08-15",
+              "title": "Zelensky's visit to Serbia caused tension around the issue of Kosovo - koroldanylo.com.ua",
+              "albanianTitle": "Vizita e Zelenskyt në Serbi shkakton tensione lidhur me çështjen e Kosovës",
+              "blurb": "Vizita e presidentit ukrainas Volodymyr Zelensky në Serbi ka shkaktuar tensione lidhur me çështjen politike të shtetit të Kosovës.",
+              "imageUrl": "https://www.koroldanylo.com.ua/storage/image/authors/96oofiK2nZ9sP0doYFXdqrlltRJbhrjhFCR6on7B.jpg",
+              "url": "https://www.koroldanylo.com.ua/en/news/vizit_zelenskogo_do_serbiyi_spriciniv_napruzennia_navkolo_pitannia_kosova_34940",
+              "date": "2026-08-17",
               "sentiment": "neutral",
-              "reason": "Lajm i thjeshtë, i raportuar në mënyrë faktike",
+              "reason": "Raportim faktik i tensionit rreth çështjes së Kosovës",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1992,7 +2094,7 @@
         {
           "name": "srpske.rs",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 1,
           "articles": [
             {
               "title": "Kosovo Police Search Strmac, Question Six - srpske.rs",
@@ -2003,19 +2105,6 @@
               "date": "2026-08-15",
               "sentiment": "neutral",
               "reason": "Raportim i thjeshtë i veprimeve të policisë",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Kosovo Parliament Deadlock Persists, PDK Wants Session Now - srpske.rs",
-              "albanianTitle": "Vazhdon ngërçi në Kuvendin e Kosovës, PDK kërkon seancë urgjente",
-              "blurb": "Partia Demokratike e Kosovës kërkon mbajtjen e menjëhershme të seancës parlamentare për shkak të bllokadës në Kuvend.",
-              "imageUrl": "https://srpske.rs/uploads/articles/kosovo-parliament-standoff-pdk-demands-tuesday-session-16x9.webp",
-              "url": "https://srpske.rs/en/news/politika/2026/08/16/kosovo-parliament-standoff-pdk-demands-tuesday-session",
-              "date": "2026-08-16",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
