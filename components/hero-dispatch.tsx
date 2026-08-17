@@ -4,7 +4,8 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { EASE } from "@/lib/tokens";
-import { type Article, timeAgo, calcReadingTime } from "@/lib/mock-data";
+import { type Article, calcReadingTime } from "@/lib/mock-data";
+import TimeAgo from "./time-ago";
 import { getCategoryColor, getCategoryBg } from "@/lib/category-colors";
 import SourceBadge from "./source-badge";
 
@@ -118,7 +119,7 @@ export default function HeroDispatch({ article }: HeroDispatchProps) {
             backdropFilter: "blur(4px)",
           }}
         >
-          {timeAgo(article.publishedAt)} më parë
+          <TimeAgo iso={article.publishedAt} /> më parë
         </span>
       </div>
 

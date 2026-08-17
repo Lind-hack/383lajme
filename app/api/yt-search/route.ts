@@ -44,7 +44,21 @@ function extractChannel(chunk: string): string {
   return "";
 }
 
-async function searchYouTube(query: string): Promise<string | null> {
+/** "4:12" / "1:02:30" from the result chunk, when YouTube exposes it.
+ *  Absent for live streams and some shorts, hence the null. */
+function extractDuration(chunk: string): string | null {
+  const m =
+    chunk.match(/"lengthText":\{"accessibility":.*?"simpleText":"([\d:]{4,8})"/) ??
+    chunk.match(/"lengthText":\{"simpleText":"([\d:]{4,8})"/);
+  return m ? m[1] : null;
+}
+
+interface YtHit {
+  id: string;
+  duration: string | null;
+}
+
+async function searchYouTube(query: string): Promise<YtHit | null> {
   const r = await fetch(
     `https://www.youtube.com/results?search_query=${encodeURIComponent(query)}`,
     { headers: { "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36" } }
@@ -59,7 +73,9 @@ async function searchYouTube(query: string): Promise<string | null> {
     const vidMatch = chunk.match(/"videoId":"([A-Za-z0-9_-]{11})"/);
     if (!vidMatch) continue;
     const channel = extractChannel(chunk);
-    if (!isNewsChannel(channel)) return vidMatch[1];
+    if (!isNewsChannel(channel)) {
+      return { id: vidMatch[1], duration: extractDuration(chunk) };
+    }
   }
   return null;
 }
@@ -69,22 +85,26 @@ export async function GET(req: NextRequest) {
   if (!q) return NextResponse.json({ embedUrl: null });
   try {
     // Primary search: full title
-    let videoId = await searchYouTube(q);
+    let hit = await searchYouTube(q);
 
     // Fallback: extract ASCII proper nouns (English names survive in Albanian titles)
     // e.g. "Gjyqi e hedh poshtë … Elon Muskit kundër OpenAI" → "Elon OpenAI Musk"
-    if (!videoId) {
+    if (!hit) {
       const asciiTerms = q
         .split(/\s+/)
         .map(w => w.replace(/['''"":,.!?;()[\]{}/\\<>@#$%^&*+=~`|]/g, "")) // strip punctuation only
         .filter(w => w.length >= 3 && /^[a-zA-Z0-9]+$/.test(w)); // keep natively-ASCII words
       if (asciiTerms.length > 0) {
-        videoId = await searchYouTube(asciiTerms.join(" "));
+        hit = await searchYouTube(asciiTerms.join(" "));
       }
     }
 
-    return NextResponse.json({ embedUrl: videoId ? `https://www.youtube.com/embed/${videoId}` : null });
+    // `duration` is additive; existing callers that read only `embedUrl` are unaffected.
+    return NextResponse.json({
+      embedUrl: hit ? `https://www.youtube.com/embed/${hit.id}` : null,
+      duration: hit?.duration ?? null,
+    });
   } catch {
-    return NextResponse.json({ embedUrl: null });
+    return NextResponse.json({ embedUrl: null, duration: null });
   }
 }

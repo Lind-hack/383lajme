@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState, use as usePromise, type CSSProperties } from "react";
 import Link from "next/link";
 import Navbar from "@/components/navbar";
+import TimeAgo from "@/components/time-ago";
 import MarketChart from "@/components/tregu/market-chart";
 import GroupChart, { OutcomeMiniChart } from "@/components/tregu/group-chart";
 import { type MiniMarket } from "@/components/tregu/market-mini-card";
@@ -1592,7 +1593,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
               <div className="tregu-panel" style={{ padding: 28 }}>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
                   <h3 style={{ fontSize: 15, fontWeight: 800, margin: 0 }}>Sinjali AI</h3>
-                  <span style={{ fontSize: 11, color: "#6B6B6B" }}>{timeAgo(latestAiSnap.created_at)}</span>
+                  <TimeAgo iso={latestAiSnap.created_at} format={timeAgo} style={{ fontSize: 11, color: "#6B6B6B" }} />
                 </div>
                 {(() => {
                   const ai = latestAiSnap.ai_prob as number;
