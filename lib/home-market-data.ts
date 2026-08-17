@@ -1,4 +1,6 @@
-const WEEK_IN_SECONDS = 60 * 60 * 24 * 7;
+// Both feeds publish on their own schedule; a daily window keeps the cards in
+// step with them. The weekly window was holding fuel prices ~3 weeks stale.
+const DAY_IN_SECONDS = 60 * 60 * 24;
 
 const BANK_OF_ALBANIA_URL =
   "https://www.bankofalbania.org/Markets/Official_exchange_rate/";
@@ -14,7 +16,7 @@ export type ExchangeSnapshot = {
 };
 
 export type FuelBrandSnapshot = {
-  brand: "Shell Kosova" | "IP Petrol" | "HIB Petrol";
+  brand: "Shell Kosova" | "IP Petrol" | "Petrol Company";
   station: string | null;
   diesel: number | null;
   petrol: number | null;
@@ -71,12 +73,15 @@ const FALLBACK_FUEL: FuelSnapshot = {
       updatedAt: "2026-07-29T08:55:31.295Z",
     },
     {
-      brand: "HIB Petrol",
-      station: null,
-      diesel: null,
-      petrol: null,
+      // Replaces HIB Petrol, which had published no price since 2026-05-14 and so
+      // rendered as a permanently empty row. Petrol Company posts daily; it does
+      // not list gas at its freshest station, hence that one null.
+      brand: "Petrol Company",
+      station: "Petrol Company Klinë",
+      diesel: 1.76,
+      petrol: 1.5,
       gas: null,
-      updatedAt: null,
+      updatedAt: "2026-08-17T06:12:00.000Z",
     },
   ],
   sourceUrl: "https://naftasot.com/",
@@ -95,10 +100,10 @@ function bankDateToIso(date: string, time: string) {
   return `${year}-${month}-${day}T${time}+02:00`;
 }
 
-export async function getWeeklyExchangeSnapshot(): Promise<ExchangeSnapshot> {
+export async function getDailyExchangeSnapshot(): Promise<ExchangeSnapshot> {
   try {
     const response = await fetch(BANK_OF_ALBANIA_URL, {
-      next: { revalidate: WEEK_IN_SECONDS },
+      next: { revalidate: DAY_IN_SECONDS },
       headers: { "User-Agent": "383ks.com market utility/1.0" },
     });
 
@@ -124,7 +129,7 @@ export async function getWeeklyExchangeSnapshot(): Promise<ExchangeSnapshot> {
       fallback: false,
     };
   } catch (error) {
-    console.warn("Weekly EUR/ALL fetch failed; using last verified value.", error);
+    console.warn("Daily EUR/ALL fetch failed; using last verified value.", error);
     return FALLBACK_EXCHANGE;
   }
 }
@@ -177,10 +182,10 @@ function stationToSnapshot(
   };
 }
 
-export async function getWeeklyFuelSnapshot(): Promise<FuelSnapshot> {
+export async function getDailyFuelSnapshot(): Promise<FuelSnapshot> {
   try {
     const response = await fetch(NAFTA_SOT_BOOTSTRAP_URL, {
-      next: { revalidate: WEEK_IN_SECONDS },
+      next: { revalidate: DAY_IN_SECONDS },
       headers: { "User-Agent": "383ks.com fuel utility/1.0" },
     });
 
@@ -191,14 +196,14 @@ export async function getWeeklyFuelSnapshot(): Promise<FuelSnapshot> {
     if (stations.length === 0) throw new Error("NaftaSot returned no stations");
 
     return {
-      brands: (["Shell Kosova", "IP Petrol", "HIB Petrol"] as const).map((brand) =>
+      brands: (["Shell Kosova", "IP Petrol", "Petrol Company"] as const).map((brand) =>
         stationToSnapshot(stations, brand)
       ),
       sourceUrl: "https://naftasot.com/",
       fallback: false,
     };
   } catch (error) {
-    console.warn("Weekly Kosovo fuel fetch failed; using last verified values.", error);
+    console.warn("Daily Kosovo fuel fetch failed; using last verified values.", error);
     return FALLBACK_FUEL;
   }
 }

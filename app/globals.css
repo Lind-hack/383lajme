@@ -8953,3 +8953,67 @@ body[data-tour-veil] > *:not(.tutorial-root) {
   .reagimi-link { transition: none; }
   .reagimi-link:active { transform: none; }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   KËMBIMI I DITËS — rate count-up and swap
+   Component: components/home-market-cards.tsx
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Tabular figures keep the digits on a fixed grid, so a number counting from
+   0.00 to 92.85 does not shuffle sideways on every frame. */
+.home-exchange-figure {
+  font-variant-numeric: tabular-nums;
+}
+
+/* The swap arrows keep turning the same direction on each press instead of
+   snapping back, so repeated swaps read as one continuous mechanism. Rotation is
+   set inline from the swap count; only the easing lives here. */
+.home-exchange-swap-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+.home-exchange-swap:active .home-exchange-swap-icon {
+  /* Press feedback has to be immediate; the rotation is the slower response. */
+  transition:
+    transform 420ms cubic-bezier(0.22, 1, 0.36, 1),
+    scale 120ms ease-out;
+  scale: 0.92;
+}
+
+/* Both fields flip when the direction changes. Short and small: this fires on a
+   deliberate press, so it should confirm the change, not perform it. */
+.home-exchange-flip {
+  animation: home-exchange-flip 260ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes home-exchange-flip {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 6px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* The lower field is the result, so it lands just after the field that caused it. */
+.home-exchange-fields > .home-exchange-flip:last-of-type {
+  animation-delay: 45ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-exchange-swap-icon { transition: none; }
+  .home-exchange-swap:active .home-exchange-swap-icon { scale: 1; }
+  .home-exchange-flip {
+    animation: home-exchange-flip-reduced 160ms ease-out both;
+  }
+  @keyframes home-exchange-flip-reduced {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+}

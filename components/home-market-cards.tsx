@@ -37,6 +37,46 @@ function formatSourceDate(value: string | null) {
   return `${date.getUTCDate()} ${months[date.getUTCMonth()]} ${date.getUTCFullYear()}`;
 }
 
+/**
+ * Count-up for the headline rate, run from an inline script rather than a React
+ * effect.
+ *
+ * This homepage hydrates around five seconds after navigation start: it is a
+ * heavy route with many client components. A React-driven counter can therefore
+ * only begin once the final number has already been sitting on screen, readable,
+ * for seconds, and yanking it back to zero at that point reads as a fault rather
+ * than an animation.
+ *
+ * This script executes during HTML parse instead, so the count starts with the
+ * first paint. By the time React hydrates the text already equals the
+ * server-rendered value, so hydration is a no-op and there is no mismatch.
+ *
+ * It runs once per browsing session, and not at all under prefers-reduced-motion.
+ */
+const RATE_COUNT_UP_SCRIPT = `(function(){
+  try {
+    var el = document.currentScript && document.currentScript.previousElementSibling;
+    if (!el || !el.dataset || !el.dataset.rate) return;
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    try { if (sessionStorage.getItem('383_rate_counted') === '1') return;
+          sessionStorage.setItem('383_rate_counted','1'); } catch (e) { return; }
+    var target = parseFloat(el.dataset.rate);
+    if (!isFinite(target)) return;
+    var suffix = el.dataset.suffix || '';
+    var start = null, dur = 750;
+    function frame(now){
+      if (start === null) start = now;
+      var t = Math.min(1, (now - start) / dur);
+      var eased = 1 - Math.pow(1 - t, 3);
+      el.textContent = (target * eased).toFixed(2) + suffix;
+      if (t < 1) requestAnimationFrame(frame);
+      else el.textContent = target.toFixed(2) + suffix;
+    }
+    el.textContent = (0).toFixed(2) + suffix;
+    requestAnimationFrame(frame);
+  } catch (e) { /* the server-rendered value stays put */ }
+})();`;
+
 function formatConvertedAmount(value: number) {
   const [whole, decimals] = value.toFixed(2).split(".");
   return `${whole.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}.${decimals}`;
@@ -85,6 +125,9 @@ export function CurrencyExchangeCard({
 }) {
   const [amount, setAmount] = useState("1000");
   const [from, setFrom] = useState<CurrencyCode>("ALL");
+  /** Counts up, so each swap keeps turning the arrows the same way rather than
+   *  snapping back. Also keys the field flip. */
+  const [swaps, setSwaps] = useState(0);
   const numericAmount = Number(amount.replace(",", "."));
   const converted = useMemo(() => {
     if (!Number.isFinite(numericAmount)) return 0;
@@ -96,7 +139,7 @@ export function CurrencyExchangeCard({
 
   return (
     <MarketCardFrame
-      eyebrow="KËMBIMI I JAVËS"
+      eyebrow="KËMBIMI I DITËS"
       title="Lek ↔ Euro"
       icon={<Banknote size={20} strokeWidth={1.9} />}
       className="home-market-card-currency"
@@ -115,7 +158,18 @@ export function CurrencyExchangeCard({
     >
       <div className="home-exchange-rate">
         <span>1 EUR</span>
-        <strong>{snapshot.allPerEur.toFixed(2)} ALL</strong>
+        {/* Tabular figures so the digits do not jitter horizontally while counting.
+            The rendered text is the final value, so no-JS readers and React
+            hydration both see the real number; data-rate is what the inline
+            counter immediately below reads. */}
+        <strong
+          className="home-exchange-figure"
+          data-rate={snapshot.allPerEur.toFixed(2)}
+          data-suffix=" ALL"
+        >
+          {snapshot.allPerEur.toFixed(2)} ALL
+        </strong>
+        <script dangerouslySetInnerHTML={{ __html: RATE_COUNT_UP_SCRIPT }} />
         {snapshot.change !== null && (
           <em data-negative={snapshot.change < 0}>
             {snapshot.change > 0 ? "+" : ""}
@@ -125,7 +179,10 @@ export function CurrencyExchangeCard({
       </div>
 
       <div className="home-exchange-fields">
-        <label>
+        {/* key={swaps} restarts the flip on every swap. A CSS animation cannot be
+            replayed by toggling a class in the same commit; remounting is the
+            reliable way to retrigger it. */}
+        <label key={`give-${swaps}`} className="home-exchange-flip">
           <span>Ti jep</span>
           <span className="home-exchange-input">
             <input
@@ -141,13 +198,22 @@ export function CurrencyExchangeCard({
         <button
           type="button"
           className="home-exchange-swap"
-          onClick={() => setFrom(to)}
+          onClick={() => {
+            setFrom(to);
+            setSwaps((n) => n + 1);
+          }}
           aria-label={`Këmbe drejtimin në ${to} me ${from}`}
         >
-          <ArrowDownUp size={17} />
+          <span
+            className="home-exchange-swap-icon"
+            style={{ transform: `rotate(${swaps * 180}deg)` }}
+            aria-hidden="true"
+          >
+            <ArrowDownUp size={17} />
+          </span>
         </button>
 
-        <label>
+        <label key={`get-${swaps}`} className="home-exchange-flip">
           <span>Ti merr</span>
           <span className="home-exchange-output">
             <strong>{formatConvertedAmount(converted)}</strong>
@@ -174,6 +240,14 @@ function FuelValue({ value }: { value: number | null }) {
   );
 }
 
+/** The brand column is one narrow line that ellipsises, so each supplier gets a
+ *  name that fits it. "Petrol Company" was rendering as "Petrol Com…". */
+const FUEL_BRAND_LABEL: Record<FuelBrandSnapshot["brand"], string> = {
+  "Shell Kosova": "Shell",
+  "IP Petrol": "IP Petrol",
+  "Petrol Company": "Petrol Co.",
+};
+
 function FuelBrandRow({ item }: { item: FuelBrandSnapshot }) {
   const unavailable =
     item.diesel === null && item.petrol === null && item.gas === null;
@@ -181,7 +255,8 @@ function FuelBrandRow({ item }: { item: FuelBrandSnapshot }) {
   return (
     <div className="home-fuel-row" data-unavailable={unavailable || undefined}>
       <div className="home-fuel-brand">
-        <strong>{item.brand.replace(" Kosova", "")}</strong>
+        {/* title carries the full supplier name for anyone who needs it. */}
+        <strong title={item.brand}>{FUEL_BRAND_LABEL[item.brand] ?? item.brand}</strong>
         <small>
           {unavailable ? "pa çmim publik" : formatSourceDate(item.updatedAt)}
         </small>
@@ -204,7 +279,7 @@ export function FuelPricesCard({ snapshot }: { snapshot: FuelSnapshot }) {
         <>
           <span>
             <RefreshCw size={12} />
-            Rifreskim javor
+            Rifreskim ditor
           </span>
           <a href={snapshot.sourceUrl} target="_blank" rel="noreferrer">
             NaftaSot

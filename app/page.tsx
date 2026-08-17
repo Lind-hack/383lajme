@@ -25,8 +25,8 @@ import {
   FuelPricesCard,
 } from "@/components/home-market-cards";
 import {
-  getWeeklyExchangeSnapshot,
-  getWeeklyFuelSnapshot,
+  getDailyExchangeSnapshot,
+  getDailyFuelSnapshot,
 } from "@/lib/home-market-data";
 import { getToneHistory, getToneArticleCache, summarizeToneHistory, getForeignCoverage, getTopics, getToneTopics } from "@/lib/tone-data";
 import { dateKeyInKosovo, resolveView } from "@/lib/reagimi-data";
@@ -44,8 +44,8 @@ export default async function HomePage() {
   const [articles, tickerArticles, exchangeSnapshot, fuelSnapshot, toneHistory, toneCache, pipelineTopics] = await Promise.all([
     getArticles(60),
     getLatestArticles(10),
-    getWeeklyExchangeSnapshot(),
-    getWeeklyFuelSnapshot(),
+    getDailyExchangeSnapshot(),
+    getDailyFuelSnapshot(),
     getToneHistory(),
     getToneArticleCache(),
     getToneTopics(),
