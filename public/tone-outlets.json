@@ -1,8 +1,8 @@
 {
   "lastUpdated": "2026-08-17",
   "overallIndex": 50,
-  "totalArticles": 102,
-  "sourceCount": 76,
+  "totalArticles": 95,
+  "sourceCount": 71,
   "stanceVersion": 2,
   "countries": {
     "Gjermani": {
@@ -115,26 +115,6 @@
           ]
         },
         {
-          "name": "Bangladesh Sangbad Sangstha (BSS)",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Bangladesh, Kosovo eye FTA to boost bilateral trade - Bangladesh Sangbad Sangstha (BSS)",
-              "albanianTitle": "Bengalia dhe Kosova shikonin për një marrëveshje tregtare për të rritur tregtinë e tyre",
-              "blurb": "Kosova dhe Bangladeshi po shqyrtojnë mundësinë e nënshkrimit të një marrëveshjeje për tregti të lirë mes dy vendeve.",
-              "imageUrl": "https://www.bssnews.net/assets/news_photos/2026/08/14/image-414526-1786694779.jpg",
-              "url": "https://www.bssnews.net/news-flash/414526",
-              "date": "2026-08-14",
-              "sentiment": "neutral",
-              "reason": "Raportim i thjeshtë i marrëveshjes tregtare",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
           "name": "Eurasia Review",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -148,345 +128,6 @@
               "date": "2026-08-14",
               "sentiment": "neutral",
               "reason": "Raportim i thjeshtë",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "Euromaidan Press",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosova is no precedent for Russia’s annexation of Crimea—Ukraine should say so - Euromaidan Press",
-              "albanianTitle": "Kosova nuk është precedent për aneksimin e Krimesë nga Rusia – Ukraina duhet ta thotë këtë",
-              "blurb": "Pavarësia e Kosovës nuk shërben si precedent për aneksimin rus të Krimesë, sipas analizës së publikuar nga Euromaidan Press.",
-              "imageUrl": null,
-              "url": "https://euromaidanpress.com/2026/08/14/kosova-no-precedent-russia-crimea-annexation/",
-              "date": "2026-08-14",
-              "sentiment": "neutral",
-              "reason": "Political claim presented without loaded language",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "Fibre2Fashion",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Bangladesh, Kosovo discuss initiating process for planned FTA - Fibre2Fashion",
-              "albanianTitle": "Kosova dhe Bangladeshi diskutojnë nisjen e procedurave për një marrëveshje të tregtisë së lirë",
-              "blurb": "Kosova dhe Bangladeshi kanë diskutuar nisjen e procedurave për një marrëveshje të tregtisë së lirë mes dy vendeve.",
-              "imageUrl": null,
-              "url": "https://www.fibre2fashion.com/news/textile-news/bangladesh-kosovo-discuss-initiating-process-for-planned-fta-312687-newsdetails.htm",
-              "date": "2026-08-16",
-              "sentiment": "neutral",
-              "reason": "Lajm ekonomik, i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "IMDb",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "‘Shame and Money’ Director on Sundance-Winning Drama About a Kosovo Family in Free Fall: ‘It’s a Look Into the Past and a Warning to the Future’ - IMDb",
-              "albanianTitle": "Regjisori i filmit ‘Shame and Money’ për dramën fituese në Sundance për një familje kosovare në rënie të lirë: ‘Është një vështrim në të kaluarën dhe një paralajmërim për të ardhmen’",
-              "blurb": "Regjisori i filmit fitues në Sundance flet për dramën mbi një familje kosovare në rënie të lirë.",
-              "imageUrl": null,
-              "url": "https://www.imdb.com/de/news/ni65974085/?ref_=nwc_art_perm",
-              "date": "2026-08-16",
-              "sentiment": "neutral",
-              "reason": "Raporton deklaratën e drejtorit të filmit",
-              "isQuote": true,
-              "evidence": "",
-              "speaker": "Shame and Money Director"
-            }
-          ]
-        },
-        {
-          "name": "KosovaPress",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Democratic Party of Kosovo accuses Kurti of abusing Assembly Session Chair Avni Dehari - KosovaPress",
-              "albanianTitle": "Partia Demokratike e Kosovës akuzon Kurtin për keqpërdorim të kryesuesit të seancës, Avni Dehari",
-              "blurb": "Partia Demokratike e Kosovës akuzon kryeministrin Kurti për keqpërdorim të kryesuesit të seancës së Kuvendit, Avni Dehari.",
-              "imageUrl": "https://kosovapress.com/eng/admin/wp-content/uploads/2026/08/96121786695663.jpg",
-              "url": "https://kosovapress.com/eng/democratic-party-of-kosovo-accuses-kurti-of-abusing-assembly-session-chair-dehari",
-              "date": "2026-08-14",
-              "sentiment": "neutral",
-              "reason": "Report of political accusation, no editorial tone",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "Tamil Guardian",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Zelenskyy reaffirms Ukraine's refusal to recognise Kosovo during Serbia visit - Tamil Guardian",
-              "albanianTitle": "Zelenskyy rikonfirmon se Ukraina nuk e njeh Kosovën gjatë vizitës në Serbi",
-              "blurb": "Presidenti ukrainas Volodymyr Zelenskyy ka konfirmuar se Ukraina nuk do ta njohë pavarësinë e Kosovës gjatë vizitës në Serbi.",
-              "imageUrl": null,
-              "url": "https://www.tamilguardian.com/index.php/content/zelenskyy-reaffirms-ukraines-refusal-recognise-kosovo-during-serbia-visit",
-              "date": "2026-08-14",
-              "sentiment": "neutral",
-              "reason": "Faktikisht raporton deklaratën e Zelensky-s pa gjuhë ngarkuese",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "UNICEF",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Beyond Digital as Usual, Artificial Intelligence for Accessible Learning - unicef.org",
-              "albanianTitle": "Përtej digjitalizimit të zakonshëm: Inteligjenca Artificiale për mësim të qasshëm",
-              "blurb": "UNICEF promovon përdorimin e inteligjencës artificiale për të mundësuar qasje më të lehtë në procesin e të mësuarit.",
-              "imageUrl": null,
-              "url": "https://www.unicef.org/kosovoprogramme/stories/beyond-digital-usual-artificial-intelligence-accessible-learning",
-              "date": "2026-08-14",
-              "sentiment": "unknown",
-              "reason": "Article not about Kosovo, stance cannot be inferred",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "Variety",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "'Shame and Money' Director on Sundance-Winning Social Drama - Variety",
-              "albanianTitle": "Regjisori i filmit 'Shame and Money' flet për dramën sociale fituese në Sundance",
-              "blurb": "Regjisori i filmit Shame and Money flet për dramën sociale që fitoi çmim në festivalin Sundance.",
-              "imageUrl": "https://variety.com/wp-content/uploads/2026/01/Shame-and-Money.jpg?w=1000&h=563&crop=1",
-              "url": "https://variety.com/2026/film/global/shame-and-money-sundance-social-drama-kosovo-1236834517/",
-              "date": "2026-08-16",
-              "sentiment": "neutral",
-              "reason": "Lajm i thjeshtë, pa koment",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "globalpost.com",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosovo Discovers Third Suspected Mass Grave from 1998-99 War - globalpost.com",
-              "albanianTitle": "Kosova zbulon varrin e tretë të dyshuar masiv nga lufta e viteve 1998-99 - globalpost.com",
-              "blurb": "Kosova ka zbuluar varrin e tretë të dyshuar masiv nga lufta e viteve 1998-99.",
-              "imageUrl": "https://globalpost.com/wp-content/uploads/2026/01/Kosovo-Prizren.jpg",
-              "url": "https://globalpost.com/stories/kosovo-discovers-third-suspected-mass-grave-from-1998-99-war/",
-              "date": "2026-08-15",
-              "sentiment": "neutral",
-              "reason": "Lajm i thjeshtë, i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "kosovo-online.com",
-          "sentiment": "neutral",
-          "articleCount": 4,
-          "articles": [
-            {
-              "title": "A shot at innocence and the sanctity of life - kosovo-online.com",
-              "albanianTitle": "Një mundësi për pafajësinë dhe shenjtërinë e jetës",
-              "blurb": "Përmbajtja trajton çështjen e pafajësisë dhe shenjtërinë e jetës në një kontekst të caktuar në Kosovë.",
-              "imageUrl": null,
-              "url": "https://www.kosovo-online.com/en/news/kontext/shot-innocence-and-sanctity-life-15-8-2026",
-              "date": "2026-08-15",
-              "sentiment": "neutral",
-              "reason": "Lajm i mirë i shqyrur në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Popovic: Difficult situation, Serbs cannot build a future in Kosovo in an atmosphere of fear - kosovo-online.com",
-              "albanianTitle": "Popoviq: Situatë e vështirë, serbët nuk mund të ndërtojnë të ardhme në Kosovë në një atmosferë frike",
-              "blurb": "Popoviq vlerëson se serbët në Kosovë nuk mund të ndërtojnë të ardhmen në një atmosferë të mbushur me frikë.",
-              "imageUrl": null,
-              "url": "https://www.kosovo-online.com/en/news/politics/popovic-difficult-situation-serbs-cannot-build-future-kosovo-atmosphere-fear-14-8",
-              "date": "2026-08-14",
-              "sentiment": "neutral",
-              "reason": "Raporton qëndrimin e Popovic",
-              "isQuote": true,
-              "evidence": "",
-              "speaker": "Popovic"
-            },
-            {
-              "title": "Muhaxhiri: It is unrealistic to ask the EU to accelerate European integration before resolving the issues between Kosovo and Serbia - kosovo-online.com",
-              "albanianTitle": "Muhaxhiri: Është joreale të kërkohet nga BE-ja përshpejtimi i integrimit evropian pa zgjidhur çështjet mes Kosovës dhe Serbisë",
-              "blurb": "Muhaxhiri vlerëson se integrimi evropian nuk mund të përshpejtohet pa zgjidhjen e çështjeve mes Kosovës dhe Serbisë.",
-              "imageUrl": null,
-              "url": "https://www.kosovo-online.com/en/news/politics/muhaxhiri-it-unrealistic-ask-eu-accelerate-european-integration-resolving-issues",
-              "date": "2026-08-14",
-              "sentiment": "neutral",
-              "reason": "Raporton qëndrimin e Muhaxhirit",
-              "isQuote": true,
-              "evidence": "",
-              "speaker": "Muhaxhiri"
-            },
-            {
-              "title": "Dedaj: Situation chaotic, Kurti is Kosovo's Kim Jong Un - kosovo-online.com",
-              "albanianTitle": "Dedaj: Situata është kaotike, Kurti është Kim Jong Un i Kosovës",
-              "blurb": "Dedaj e përshkruan situatën politike si kaotike dhe e krahason kryeministrin Kurti me liderin Kim Jong Un.",
-              "imageUrl": null,
-              "url": "https://www.kosovo-online.com/en/news/politics/dedaj-situation-chaotic-kurti-kosovos-kim-jong-un-15-8-2026",
-              "date": "2026-08-15",
-              "sentiment": "neutral",
-              "reason": "Fjalia është citim i Drejtorit Dedaj",
-              "isQuote": true,
-              "evidence": "",
-              "speaker": "Dedaj"
-            }
-          ]
-        },
-        {
-          "name": "srpske.rs",
-          "sentiment": "neutral",
-          "articleCount": 2,
-          "articles": [
-            {
-              "title": "Kosovo Parliament Deadlock Persists, PDK Wants Session Now - srpske.rs",
-              "albanianTitle": "Vazhdon ngërçi në Kuvendin e Kosovës, PDK kërkon seancë urgjente",
-              "blurb": "Partia Demokratike e Kosovës kërkon mbajtjen e menjëhershme të seancës parlamentare për shkak të bllokadës në Kuvend.",
-              "imageUrl": "https://srpske.rs/uploads/articles/kosovo-parliament-standoff-pdk-demands-tuesday-session-16x9.webp",
-              "url": "https://srpske.rs/en/news/politika/2026/08/16/kosovo-parliament-standoff-pdk-demands-tuesday-session",
-              "date": "2026-08-16",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Kosovo Police Search Strmac, Question Six - srpske.rs",
-              "albanianTitle": "Policia e Kosovës bastis Stërmcin, shoqëron gjashtë persona për intervistim",
-              "blurb": "Policia e Kosovës ka kryer bastisje në Strmac dhe ka marrë në pyetje gjashtë persona gjatë këtij operacioni.",
-              "imageUrl": "https://srpske.rs/uploads/articles/kosovo-police-search-strmac-question-six-16x9.webp",
-              "url": "https://srpske.rs/en/news/politika/2026/08/15/kosovo-police-search-strmac-question-six",
-              "date": "2026-08-15",
-              "sentiment": "neutral",
-              "reason": "Raportim i thjeshtë i veprimeve të policisë",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "ԱՐՑԱԽ ԼՐԱՏՎԱԿԱՆ",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "NATO reduces security presence at key Kosovo Serb sites - ԱՐՑԱԽ ԼՐԱՏՎԱԿԱՆ",
-              "albanianTitle": "NATO-ja redukton praninë e sigurisë në pikat kyçe serbe në Kosovë - ԱՐՑԱԽ ԼՐԱՏՎԱԿԱՆ",
-              "blurb": "NATO ka reduktuar praninë e sigurisë në vendet kyçe serbe të Kosovës.",
-              "imageUrl": "https://mamul.am/images/photos/260812/nato-n-sksel-e-krtchatel-ir-ne-n367818-1.jpg",
-              "url": "https://artsakh.news/en/news/367818",
-              "date": "2026-08-15",
-              "sentiment": "neutral",
-              "reason": "Lajm i thjeshtë, i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        }
-      ],
-      "summary": {
-        "index": 50,
-        "positive": 0,
-        "neutral": 100,
-        "negative": 0,
-        "n": 18,
-        "excluded": 1,
-        "confident": true,
-        "stanceVersion": 2
-      }
-    },
-    "Britani": {
-      "outlets": [
-        {
-          "name": "Balkan Insight",
-          "sentiment": "neutral",
-          "articleCount": 2,
-          "articles": [
-            {
-              "title": "Kosovo Detains Man Suspected of Spying for Serbian Intelligence - Balkan Insight",
-              "albanianTitle": "Një burrë është arrestuar për shkak të shqetësimeve se është i lidhur me shërbimet e inteligjencës serbe",
-              "blurb": "Autoritetet në Kosovë kanë ndaluar një person nën dyshimin se ka kryer veprimtari spiunazhi për inteligjencën serbe.",
-              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/08/Fehim-Sali-BIRN.jpg",
-              "url": "https://balkaninsight.com/2026/08/14/kosovo-detains-man-suspected-of-spying-for-serbian-intelligence/bi/",
-              "date": "2026-08-14",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Kosovo’s LDK Drops Demand to Choose President in Bid to Resolve Crisis - Balkan Insight",
-              "albanianTitle": "LDK e Kosovës heq kërkesën për zgjedhjen e Presidentit për të zgjidhur krizën",
-              "blurb": "Lidhja Demokratike e Kosovës ka hequr dorë nga kërkesa për zgjedhjen e presidentit në përpjekje për të zgjidhur krizën politike.",
-              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/08/Lumir-Abdixhiku-LDK-BIRN-e1786697503103.jpg",
-              "url": "https://balkaninsight.com/2026/08/14/kosovos-ldk-drops-demand-to-choose-president-in-bid-to-resolve-crisis/bi/",
-              "date": "2026-08-14",
-              "sentiment": "neutral",
-              "reason": "Lajm i thjeshtë, i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "Dhaka Tribune",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Bangladesh, Kosovo eye G2G mechanism for worker recruitment - Dhaka Tribune",
-              "albanianTitle": "Bangladeshi dhe Kosova synojnë mekanizmin G2G për rekrutimin e punëtorëve",
-              "blurb": "Autoritetet e Bangladeshit dhe Kosovës po shqyrtojnë krijimin e një mekanizmi shtetëror për rekrutimin e punëtorëve nga ky vend.",
-              "imageUrl": null,
-              "url": "https://www.dhakatribune.com/bangladesh/foreign-affairs/417434/bangladesh-kosovo-eye-g2g-mechanism-for-worker",
-              "date": "2026-08-14",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -654,35 +295,275 @@
           ]
         },
         {
-          "name": "srpske.rs",
+          "name": "ԱՐՑԱԽ ԼՐԱՏՎԱԿԱՆ",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "NATO reduces security presence at key Kosovo Serb sites - ԱՐՑԱԽ ԼՐԱՏՎԱԿԱՆ",
+              "albanianTitle": "NATO-ja redukton praninë e sigurisë në pikat kyçe serbe në Kosovë - ԱՐՑԱԽ ԼՐԱՏՎԱԿԱՆ",
+              "blurb": "NATO ka reduktuar praninë e sigurisë në vendet kyçe serbe të Kosovës.",
+              "imageUrl": "https://mamul.am/images/photos/260812/nato-n-sksel-e-krtchatel-ir-ne-n367818-1.jpg",
+              "url": "https://artsakh.news/en/news/367818",
+              "date": "2026-08-15",
+              "sentiment": "neutral",
+              "reason": "Lajm i thjeshtë, i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        }
+      ],
+      "summary": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 12,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 2
+      }
+    },
+    "Britani": {
+      "outlets": [
+        {
+          "name": "Balkan Insight",
           "sentiment": "neutral",
           "articleCount": 2,
           "articles": [
             {
-              "title": "Kosovo Police Search Strmac, Question Six - srpske.rs",
-              "albanianTitle": "Policia e Kosovës bastis Stërmcin, shoqëron gjashtë persona për intervistim",
-              "blurb": "Policia e Kosovës ka kryer bastisje në Strmac dhe ka marrë në pyetje gjashtë persona gjatë këtij operacioni.",
-              "imageUrl": "https://srpske.rs/uploads/articles/kosovo-police-search-strmac-question-six-16x9.webp",
-              "url": "https://srpske.rs/en/news/politika/2026/08/15/kosovo-police-search-strmac-question-six",
-              "date": "2026-08-15",
-              "sentiment": "neutral",
-              "reason": "Raportim i thjeshtë i veprimeve të policisë",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Kosovo Parliament Deadlock Persists, PDK Wants Session Now - srpske.rs",
-              "albanianTitle": "Vazhdon ngërçi në Kuvendin e Kosovës, PDK kërkon seancë urgjente",
-              "blurb": "Partia Demokratike e Kosovës kërkon mbajtjen e menjëhershme të seancës parlamentare për shkak të bllokadës në Kuvend.",
-              "imageUrl": "https://srpske.rs/uploads/articles/kosovo-parliament-standoff-pdk-demands-tuesday-session-16x9.webp",
-              "url": "https://srpske.rs/en/news/politika/2026/08/16/kosovo-parliament-standoff-pdk-demands-tuesday-session",
-              "date": "2026-08-16",
+              "title": "Kosovo Detains Man Suspected of Spying for Serbian Intelligence - Balkan Insight",
+              "albanianTitle": "Një burrë është arrestuar për shkak të shqetësimeve se është i lidhur me shërbimet e inteligjencës serbe",
+              "blurb": "Autoritetet në Kosovë kanë ndaluar një person nën dyshimin se ka kryer veprimtari spiunazhi për inteligjencën serbe.",
+              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/08/Fehim-Sali-BIRN.jpg",
+              "url": "https://balkaninsight.com/2026/08/14/kosovo-detains-man-suspected-of-spying-for-serbian-intelligence/bi/",
+              "date": "2026-08-14",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Kosovo’s LDK Drops Demand to Choose President in Bid to Resolve Crisis - Balkan Insight",
+              "albanianTitle": "LDK e Kosovës heq kërkesën për zgjedhjen e Presidentit për të zgjidhur krizën",
+              "blurb": "Lidhja Demokratike e Kosovës ka hequr dorë nga kërkesa për zgjedhjen e presidentit në përpjekje për të zgjidhur krizën politike.",
+              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/08/Lumir-Abdixhiku-LDK-BIRN-e1786697503103.jpg",
+              "url": "https://balkaninsight.com/2026/08/14/kosovos-ldk-drops-demand-to-choose-president-in-bid-to-resolve-crisis/bi/",
+              "date": "2026-08-14",
+              "sentiment": "neutral",
+              "reason": "Lajm i thjeshtë, i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Eurasia Review",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo Detains Man Suspected Of Spying For Serbian Intelligence - Eurasia Review",
+              "albanianTitle": "Kosova arreston një burrë të dyshuar për spiunazh në favor të inteligjencës serbe",
+              "blurb": "Autoritetet e Kosovës kanë ndaluar një person nën dyshimin për spiunazh në favor të shërbimit inteligjent serb.",
+              "imageUrl": null,
+              "url": "https://www.eurasiareview.com/15082026-kosovo-detains-man-suspected-of-spying-for-serbian-intelligence/",
+              "date": "2026-08-14",
+              "sentiment": "neutral",
+              "reason": "Raportim i thjeshtë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Euromaidan Press",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosova is no precedent for Russia’s annexation of Crimea—Ukraine should say so - Euromaidan Press",
+              "albanianTitle": "Kosova nuk është precedent për aneksimin e Krimesë nga Rusia – Ukraina duhet ta thotë këtë",
+              "blurb": "Pavarësia e Kosovës nuk shërben si precedent për aneksimin rus të Krimesë, sipas analizës së publikuar nga Euromaidan Press.",
+              "imageUrl": null,
+              "url": "https://euromaidanpress.com/2026/08/14/kosova-no-precedent-russia-crimea-annexation/",
+              "date": "2026-08-14",
+              "sentiment": "neutral",
+              "reason": "Political claim presented without loaded language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "IMDb",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "‘Shame and Money’ Director on Sundance-Winning Drama About a Kosovo Family in Free Fall: ‘It’s a Look Into the Past and a Warning to the Future’ - IMDb",
+              "albanianTitle": "Regjisori i filmit ‘Shame and Money’ për dramën fituese në Sundance për një familje kosovare në rënie të lirë: ‘Është një vështrim në të kaluarën dhe një paralajmërim për të ardhmen’",
+              "blurb": "Regjisori i filmit fitues në Sundance flet për dramën mbi një familje kosovare në rënie të lirë.",
+              "imageUrl": null,
+              "url": "https://www.imdb.com/de/news/ni65974085/?ref_=nwc_art_perm",
+              "date": "2026-08-16",
+              "sentiment": "neutral",
+              "reason": "Raporton deklaratën e drejtorit të filmit",
+              "isQuote": true,
+              "evidence": "",
+              "speaker": "Shame and Money Director"
+            }
+          ]
+        },
+        {
+          "name": "KosovaPress",
+          "sentiment": "neutral",
+          "articleCount": 2,
+          "articles": [
+            {
+              "title": "Kosovo Prosecution says Fehim Sali admitted he was recruited by Serbian Intelligece - KosovaPress",
+              "albanianTitle": "Prokuroria e Kosovës: Fehim Sali ka pranuar se është rekrutuar nga Inteligjenca Serbe",
+              "blurb": "Prokuroria e Kosovës njofton se Fehim Sali ka pranuar se është rekrutuar nga shërbimi inteligjent serb për aktivitete.",
+              "imageUrl": "https://kosovapress.com/eng/admin/wp-content/uploads/2026/08/96121786709864.jpg",
+              "url": "https://kosovapress.com/eng/kosovo-prosecution-says-fehim-sali-admitted-he-was-recruited-by-serbian-intelligece",
+              "date": "2026-08-14",
+              "sentiment": "neutral",
+              "reason": "Fact‑based report of prosecution statement",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Democratic Party of Kosovo accuses Kurti of abusing Assembly Session Chair Avni Dehari - KosovaPress",
+              "albanianTitle": "Partia Demokratike e Kosovës akuzon Kurtin për keqpërdorim të kryesuesit të seancës, Avni Dehari",
+              "blurb": "Partia Demokratike e Kosovës akuzon kryeministrin Kurti për keqpërdorim të kryesuesit të seancës së Kuvendit, Avni Dehari.",
+              "imageUrl": "https://kosovapress.com/eng/admin/wp-content/uploads/2026/08/96121786695663.jpg",
+              "url": "https://kosovapress.com/eng/democratic-party-of-kosovo-accuses-kurti-of-abusing-assembly-session-chair-dehari",
+              "date": "2026-08-14",
+              "sentiment": "neutral",
+              "reason": "Report of political accusation, no editorial tone",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Tamil Guardian",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Zelenskyy reaffirms Ukraine's refusal to recognise Kosovo during Serbia visit - Tamil Guardian",
+              "albanianTitle": "Zelenskyy rikonfirmon se Ukraina nuk e njeh Kosovën gjatë vizitës në Serbi",
+              "blurb": "Presidenti ukrainas Volodymyr Zelenskyy ka konfirmuar se Ukraina nuk do ta njohë pavarësinë e Kosovës gjatë vizitës në Serbi.",
+              "imageUrl": null,
+              "url": "https://www.tamilguardian.com/index.php/content/zelenskyy-reaffirms-ukraines-refusal-recognise-kosovo-during-serbia-visit",
+              "date": "2026-08-14",
+              "sentiment": "neutral",
+              "reason": "Faktikisht raporton deklaratën e Zelensky-s pa gjuhë ngarkuese",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "UNICEF",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Beyond Digital as Usual, Artificial Intelligence for Accessible Learning - Unicef",
+              "albanianTitle": "Përtej digitalizimit të zakonshëm, inteligjenca artificiale për mësimin e aksesueshëm - Unicef",
+              "blurb": "UNICEF promovon përdorimin e inteligjencës artificiale për të mundësuar qasje më të lehtë në procesin e të mësuarit.",
+              "imageUrl": null,
+              "url": "https://www.unicef.org/kosovoprogramme/stories/beyond-digital-usual-artificial-intelligence-accessible-learning",
+              "date": "2026-08-14",
+              "sentiment": "neutral",
+              "reason": "Nuk përmend një qëndrim ndaj Kosovës",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Variety",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "'Shame and Money' Director on Sundance-Winning Social Drama - Variety",
+              "albanianTitle": "Regjisori i filmit 'Shame and Money' flet për dramën sociale fituese në Sundance",
+              "blurb": "Regjisori i filmit Shame and Money flet për dramën sociale që fitoi çmim në festivalin Sundance.",
+              "imageUrl": "https://variety.com/wp-content/uploads/2026/01/Shame-and-Money.jpg?w=1000&h=563&crop=1",
+              "url": "https://variety.com/2026/film/global/shame-and-money-sundance-social-drama-kosovo-1236834517/",
+              "date": "2026-08-16",
+              "sentiment": "neutral",
+              "reason": "Lajm i thjeshtë, pa koment",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "globalpost.com",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo Discovers Third Suspected Mass Grave from 1998-99 War - globalpost.com",
+              "albanianTitle": "Kosova zbulon varrin e tretë të dyshuar masiv nga lufta e viteve 1998-99 - globalpost.com",
+              "blurb": "Kosova ka zbuluar varrin e tretë të dyshuar masiv nga lufta e viteve 1998-99.",
+              "imageUrl": "https://globalpost.com/wp-content/uploads/2026/01/Kosovo-Prizren.jpg",
+              "url": "https://globalpost.com/stories/kosovo-discovers-third-suspected-mass-grave-from-1998-99-war/",
+              "date": "2026-08-15",
+              "sentiment": "neutral",
+              "reason": "Lajm i thjeshtë, i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "kosovo-online.com",
+          "sentiment": "neutral",
+          "articleCount": 2,
+          "articles": [
+            {
+              "title": "Popovic: Difficult situation, Serbs cannot build a future in Kosovo in an atmosphere of fear - kosovo-online.com",
+              "albanianTitle": "Popoviq: Situatë e vështirë, serbët nuk mund të ndërtojnë të ardhme në Kosovë në një atmosferë frike",
+              "blurb": "Milan Popovic deklaron se serbët në Kosovë po përballen me vështirësi dhe një atmosferë të rënduar frike.",
+              "imageUrl": null,
+              "url": "https://www.kosovo-online.com/en/news/politics/popovic-difficult-situation-serbs-cannot-build-future-kosovo-atmosphere-fear-14-8",
+              "date": "2026-08-14",
+              "sentiment": "neutral",
+              "reason": "Raporton deklaratën e Popovic",
+              "isQuote": true,
+              "evidence": "",
+              "speaker": "Popovic"
+            },
+            {
+              "title": "Dedaj: Situation chaotic, Kurti is Kosovo's Kim Jong Un - kosovo-online.com",
+              "albanianTitle": "Dedaj: Situata është kaotike, Kurti është Kim Jong Un i Kosovës",
+              "blurb": "Dedaj vlerëson se situata në Kosovë është kaotike dhe e krahason qeverisjen e Kurtit me Kim Jong Un.",
+              "imageUrl": null,
+              "url": "https://www.kosovo-online.com/en/news/politics/dedaj-situation-chaotic-kurti-kosovos-kim-jong-un-15-8-2026",
+              "date": "2026-08-15",
+              "sentiment": "neutral",
+              "reason": "Raporton deklaratën e Dedaj",
+              "isQuote": true,
+              "evidence": "",
+              "speaker": "Dedaj"
             }
           ]
         },
@@ -754,19 +635,39 @@
           ]
         },
         {
-          "name": "Il Piccolo",
+          "name": "Messaggero Veneto",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
-              "title": "Tumore dopo la missione in Kosovo: militare vince la causa - Il Piccolo",
-              "albanianTitle": "Ushtaraku fiton gjyqin pas sëmundjes me tumor pas misionit në Kosovë",
-              "blurb": "Një ushtarak italian ka fituar gjyqin pas diagnostikimit me tumor, si pasojë e shërbimit të tij në misionin në Kosovë.",
-              "imageUrl": "https://images.ilpiccolo.it/view/acePublic/alias/contentid/1t3w4pd83xw6bh93two/0/kosovo-jpg.webp?f=16%3A9&w=840",
-              "url": "https://www.ilpiccolo.it/cronaca/tumore-missione-kosovo-militare-vince-causa-tak05j9x",
+              "title": "Tumore dopo la missione in Kosovo: militare vince la causa - Messaggero Veneto",
+              "albanianTitle": "Një ushtrim i armatosur në Kosovë: një ushtarë është i sëmurë me një lëkurë të këqijë",
+              "blurb": "Gjykata italiane ka vendosur në favor të një ushtaraku i cili pësoi tumor pas shërbimit në misionin e NATO-s në Kosovë.",
+              "imageUrl": "https://images.messaggeroveneto.it/view/acePublic/alias/contentid/1t3w4pd83xw6bh93two/0/kosovo-jpg.webp?f=16%3A9&w=840",
+              "url": "https://www.messaggeroveneto.it/cronaca/tumore-missione-kosovo-militare-vince-causa-tak05j9x",
               "date": "2026-08-14",
               "sentiment": "neutral",
-              "reason": "Faktikë raportuar pa ngarkim",
+              "reason": "Lajm i rëndë, i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Osservatorio Balcani Caucaso Transeuropa",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Serbia, il movimento studentesco è davvero nazionalista? - Osservatorio Balcani Caucaso Transeuropa",
+              "albanianTitle": "Serbia, a është lëvizja studentore vërtet nacionaliste?",
+              "blurb": "Analizë mbi orientimin politik të lëvizjes studentore në Serbi dhe pyetja nëse ajo është vërtet nacionaliste.",
+              "imageUrl": "https://www.balcanicaucaso.org/wp-content/uploads/sites/8/2026/08/shutterstock_2594648931.jpg",
+              "url": "https://www.balcanicaucaso.org/cp_article/serbia-il-movimento-studentesco-e-davvero-nazionalista/",
+              "date": "2026-08-17",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -799,14 +700,14 @@
           "articleCount": 1,
           "articles": [
             {
-              "title": "Algeria Mediterranean Team - sofascore.com",
-              "albanianTitle": "Ekipi i Algjerisë në Mesdhetare - sofascore.com",
-              "blurb": "Ekipi i Algjerisë për Lojërat Mesdhetare është renditur në platformën sportive Sofascore për ndjekjen e rezultateve të ndeshjeve.",
+              "title": "Algeria Mediterranean Team - Sofascore",
+              "albanianTitle": null,
+              "blurb": "Ekipi i Algjerisë është pjesë e garave në Lojërat Mesdhetare sipas të dhënave të publikuara në platformën sportive Sofascore.",
               "imageUrl": null,
               "url": "https://www.sofascore.com/it/football/match/kosovo-mediterranean-team-algeria-mediterranean-team/cLekseLek",
               "date": "2026-08-14",
               "sentiment": "neutral",
-              "reason": "Lajm i thjeshtë i një ekipe",
+              "reason": "Nuk ka asnjë komentim apo vlerësim",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -835,11 +736,11 @@
         }
       ],
       "summary": {
-        "index": 60,
-        "positive": 20,
-        "neutral": 80,
+        "index": 58,
+        "positive": 17,
+        "neutral": 83,
         "negative": 0,
-        "n": 5,
+        "n": 6,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -847,6 +748,26 @@
     },
     "Austri": {
       "outlets": [
+        {
+          "name": "DiePresse.com",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo steckt erneut in einer politischen Krise - DiePresse.com",
+              "albanianTitle": "Kosova në një krizë politike tjetër - DiePresse.com",
+              "blurb": "Kosova po përballet sërish me një krizë politike sipas raportimeve të fundit nga gazeta austriake Die Presse.",
+              "imageUrl": "https://img.diepresse.com/public/incoming/9oq1kk-2026-08-08t124704z2044394285rc2auma8ufw1rtrmadp3kosovo-politicsjpg/alternates/WEBP_WIDE_1200/2026-08-08T124704Z_2044394285_RC2AUMA8UFW1_RTRMADP_3_KOSOVO-POLITICS.JPG",
+              "url": "https://www.diepresse.com/41173664/kosovo-steckt-erneut-in-einer-politischen-krise",
+              "date": "2026-08-14",
+              "sentiment": "neutral",
+              "reason": "Raportim i thjeshtë i një krize politike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
         {
           "name": "Ligaportal",
           "sentiment": "neutral",
@@ -913,15 +834,15 @@
           "articleCount": 1,
           "articles": [
             {
-              "title": "Sorensen: Nuk ka afat për përmbylljen e dialogut Kosovë-Serbi - Reporteri",
+              "title": "Sorensen: Nuk ka afat për përmbylljen e dialogut Kosovë-Serbi - reporteri.net",
               "albanianTitle": "Sorensen: Nuk ka afat kohor për përmbylljen e dialogut Kosovë-Serbi",
-              "blurb": "Emisari Sorensen deklaroi se nuk ekziston një afat kohor i caktuar për përfundimin e dialogut ndërmjet Kosovës dhe Serbisë.",
-              "imageUrl": "https://reporteri.net/wp-content/uploads/2025/08/sorensen.png",
+              "blurb": "Sorensen deklaron se nuk ekziston një afat kohor i përcaktuar për përmbylljen e dialogut ndërmjet Kosovës dhe Serbisë.",
+              "imageUrl": null,
               "url": "https://reporteri.net/de/Botschaft/Sorensen%3A-Es-gibt-keine-Frist-f%C3%BCr-den-Abschluss-des-Kosovo-Serbien-Dialogs/",
               "date": "2026-08-14",
               "sentiment": "neutral",
-              "reason": "Raporton deklaratën e Sorensen",
-              "isQuote": false,
+              "reason": "Raporton qëndrimin e Sorensen",
+              "isQuote": true,
               "evidence": "",
               "speaker": "Sorensen"
             }
@@ -941,26 +862,6 @@
               "date": "2026-08-14",
               "sentiment": "neutral",
               "reason": "Lajm i thjeshtë sportiv",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "diepresse.com",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosovo steckt erneut in einer politischen Krise - DiePresse.com",
-              "albanianTitle": "Kosova në një krizë politike tjetër - DiePresse.com",
-              "blurb": "Kosova po përballet sërish me një krizë politike sipas raportimeve të fundit nga gazeta austriake Die Presse.",
-              "imageUrl": "https://img.diepresse.com/public/incoming/9oq1kk-2026-08-08t124704z2044394285rc2auma8ufw1rtrmadp3kosovo-politicsjpg/alternates/WEBP_WIDE_1200/2026-08-08T124704Z_2044394285_RC2AUMA8UFW1_RTRMADP_3_KOSOVO-POLITICS.JPG",
-              "url": "https://www.diepresse.com/41173664/kosovo-steckt-erneut-in-einer-politischen-krise",
-              "date": "2026-08-14",
-              "sentiment": "neutral",
-              "reason": "Raportim i thjeshtë i një krize politike",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -987,17 +888,37 @@
           "articleCount": 1,
           "articles": [
             {
-              "title": "Kosovo Mediterranean Team - Sofascore",
-              "albanianTitle": "Kombëtarja e Kosovës në Mediterranean - Sofascore",
-              "blurb": "Ekipi i Kosovës për Lojërat Mesdhetare është listuar në platformën sportive Sofascore për ndjekjen e rezultateve dhe performancave të tyre.",
+              "title": "Kosovo Mediterranean Team - sofascore.com",
+              "albanianTitle": "Klubi i Kosovës në Mesdhe në sofascore.com",
+              "blurb": "Ekipi i Kosovës për lojërat mesdhetare është renditur në platformën sportive Sofascore për përcjelljen e rezultateve të ndeshjeve.",
               "imageUrl": null,
               "url": "https://www.sofascore.com/de/football/match/kosovo-mediterranean-team-italy-mediterranean-team/dLekseLek",
               "date": "2026-08-14",
               "sentiment": "neutral",
-              "reason": "Lajm i thjeshtë sportiv",
+              "reason": "Lajm i thjeshtë i një skuadre sportive",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "gazetaexpress.com",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Sorensen: Der Kosovo-Serbien-Dialog ist nicht gescheitert und hat jüngst konkrete Ergebnisse für die Vermissten erzielt. - gazetaexpress.com",
+              "albanianTitle": "Sorensen: Dialogu Kosovë-Serbi nuk ka dështuar dhe së fundmi ka sjellë rezultate konkrete për personat e pagjetur",
+              "blurb": "Sorensen mohon dështimin e dialogut Kosovë-Serbi duke përmendur arritjet e fundit lidhur me çështjen e personave të pagjetur.",
+              "imageUrl": "https://www.gazetaexpress.com/wp-content/uploads/2026/08/so.webp",
+              "url": "https://www.gazetaexpress.com/de/Sorensen--der-Kosovo-Serbien-Dialog-ist-nicht-gescheitert--denn-er-hat-in-j%C3%BCngster-Zeit-konkrete-Ergebnisse-f%C3%BCr-die-Vermissten-hervorgebracht./",
+              "date": "2026-08-14",
+              "sentiment": "neutral",
+              "reason": "Raporton qëndrimin e Sorensen",
+              "isQuote": true,
+              "evidence": "",
+              "speaker": "Sorensen"
             }
           ]
         }
@@ -1007,7 +928,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 1,
+        "n": 2,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
@@ -1083,6 +1004,46 @@
     "Spanjë": {
       "outlets": [
         {
+          "name": "ESPN Argentina",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo Calendario 2026 - ESPN Argentina",
+              "albanianTitle": "Kalendari i Kosovës 2026 - ESPN Argentina",
+              "blurb": "ESPN Argentina ka publikuar kalendarin e Kosovës për vitin 2026, duke detajuar ndeshjet dhe ngjarjet.",
+              "imageUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/21479.png",
+              "url": "https://www.espn.com.ar/futbol/equipo/calendario/_/id/21479/Kosovo",
+              "date": "2026-08-14",
+              "sentiment": "neutral",
+              "reason": "Lajm i thjeshtë, i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "El Impulso",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo envió 200 mil dólares para ayudar a los guaireños #14Ago - El Impulso",
+              "albanianTitle": "Kosova dërgon 200 mijë dollar për të ndihmuar qytetin e Gjakovës",
+              "blurb": "Kosova ka ofruar 200 mijë dollarë ndihmë për të mbështetur banorët e prekur nga situata e rëndë në Guaire të Venezuelës.",
+              "imageUrl": "https://cdn.elimpulso.com/media/2026/08/Big-Band-Jazz-2026-08-14T122854.321.jpg",
+              "url": "https://www.elimpulso.com/2026/08/14/kosovo-envio-200-mil-dolares-para-ayudar-a-los-guairenos-14ago/",
+              "date": "2026-08-14",
+              "sentiment": "neutral",
+              "reason": "Lajm i ngjarjeve të raportuara në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "Everardo Herrera",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1148,9 +1109,9 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 3,
+        "n": 5,
         "excluded": 0,
-        "confident": false,
+        "confident": true,
         "stanceVersion": 2
       }
     },
@@ -1302,14 +1263,14 @@
           "articleCount": 1,
           "articles": [
             {
-              "title": "Kosovo Mediterranean Team - Sofascore",
-              "albanianTitle": "Kombëtarja e Kosovës në Mediterranean - Sofascore",
-              "blurb": "Ekipi i Kosovës për Lojërat Mesdhetare është listuar në platformën sportive Sofascore për ndjekjen e rezultateve dhe performancave të tyre.",
+              "title": "Kosovo Mediterranean Team - sofascore.com",
+              "albanianTitle": "Klubi i Kosovës në Mesdhe në sofascore.com",
+              "blurb": "Ekipi i Kosovës për lojërat mesdhetare është renditur në platformën sportive Sofascore për përcjelljen e rezultateve të ndeshjeve.",
               "imageUrl": null,
               "url": "https://www.sofascore.com/de/football/match/kosovo-mediterranean-team-italy-mediterranean-team/dLekseLek",
               "date": "2026-08-14",
               "sentiment": "neutral",
-              "reason": "Lajm i thjeshtë sportiv",
+              "reason": "Lajm i thjeshtë i një skuadre sportive",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1470,13 +1431,13 @@
           "articles": [
             {
               "title": "İLK TÜRBİNLER DEVREYE ALINDI - Analiz Gazetesi",
-              "albanianTitle": "U lëshuan në punë turbinat e para - Analiz Gazetesi",
-              "blurb": "Janë vënë në funksion turbinat e para të energjisë, duke shënuar një hap të ri në projektin përkatës energjetik.",
+              "albanianTitle": "Vihen në punë turbinat e para",
+              "blurb": "Turbinat e para janë vënë në funksionim dhe janë lëshuar zyrtarisht në rrjetin e prodhimit të energjisë.",
               "imageUrl": "https://analizgazetesi.com.tr/modules/blog/dataimages/IMG_F1ED6C-DE2FA2-522D96-12D537-261E09-139527.jpg",
               "url": "https://analizgazetesi.com.tr/haber/ilk-turbinler-devreye-alindi-9410/",
               "date": "2026-08-14",
               "sentiment": "unknown",
-              "reason": "Mungon konteksti",
+              "reason": "item does not mention Kosovo",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1490,13 +1451,13 @@
           "articles": [
             {
               "title": "Rıdvan Dilmen hangi kanalda çıkıyor, hangi platformda, nerede, saat kaçta yorum yapıyor? %100 Futbol hangi kanalda yayınlanıyor? - Haberler",
-              "albanianTitle": "Në cilin kanal, platformë dhe orë jep komente Rıdvan Dilmen? Ku transmetohet emisioni %100 Futbol? - Haberler",
-              "blurb": "Rıdvan Dilmen vazhdon angazhimin e tij si komentator sportiv në emisionin %100 Futbol, i cili transmetohet në platformat televizive.",
+              "albanianTitle": "Në cilin kanal, platformë dhe orë jep komente Rıdvan Dilmen? Në cilin kanal transmetohet %100 Futbol?",
+              "blurb": "Informacione mbi platformat, kanalet televizive dhe oraret e transmetimit për emisionin sportiv me analistin Ridvan Dilmen.",
               "imageUrl": "https://foto.haberler.com/haber/2025/08/04/ridvan-dilmen-hangi-kanalda-cikiyor-hangi-18915220_7427_amp.jpg",
               "url": "https://www.haberler.com/haberler/ridvan-dilmen-hangi-kanalda-cikiyor-hangi-18915220-haberi/",
               "date": "2026-08-14",
               "sentiment": "unknown",
-              "reason": "teksti nuk përmend Kosovën",
+              "reason": "item does not mention Kosovo",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1522,6 +1483,19 @@
               "speaker": ""
             },
             {
+              "title": "Son 24 Saatte Kosova'da İki Ölümcül Trafik Kazası - Kosovahaber.com",
+              "albanianTitle": "Dy aksidente fatale në trafik brenda 24 orëve në Kosovë",
+              "blurb": "Dy aksidente trafiku me pasoja fatale kanë ndodhur në territorin e Kosovës gjatë periudhës së fundit 24-orëshe.",
+              "imageUrl": null,
+              "url": "https://kosovahaber.com/haber/son-24-saatte-kosovada-iki-olumcul-trafik-kazasi-104961",
+              "date": "2026-08-16",
+              "sentiment": "neutral",
+              "reason": "Lajm i rëndë, i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
               "title": "“Yangında Yaralanan Vatandaşlarımızın Durumunu Yakından Takip Ediyoruz” - Kosovahaber.com",
               "albanianTitle": "Po e përcjellim nga afër gjendjen e qytetarëve tanë të lënduar nga zjarri",
               "blurb": "Institucionet përkatëse po përcjellin nga afër gjendjen shëndetësore të qytetarëve që pësuan lëndime gjatë një incidenti me zjarr.",
@@ -1535,14 +1509,14 @@
               "speaker": ""
             },
             {
-              "title": "Son 24 Saatte Kosova'da İki Ölümcül Trafik Kazası - Kosovahaber.com",
-              "albanianTitle": "Dy aksidente fatale në trafik brenda 24 orëve në Kosovë",
-              "blurb": "Dy aksidente trafiku me pasoja fatale kanë ndodhur në territorin e Kosovës gjatë periudhës së fundit 24-orëshe.",
+              "title": "KEK'te Ağır İş Kazası: Bir Çalışan Ağır Yaralandı - Kosovahaber.com",
+              "albanianTitle": "Aksident i rëndë në punë në KEK: Një punëtor lëndohet rëndë",
+              "blurb": "Një punëtor ka pësuar lëndime të rënda trupore gjatë një aksidenti në punë brenda objekteve të KEK-ut.",
               "imageUrl": null,
-              "url": "https://kosovahaber.com/haber/son-24-saatte-kosovada-iki-olumcul-trafik-kazasi-104961",
-              "date": "2026-08-16",
+              "url": "https://kosovahaber.com/haber/kekte-agir-is-kazasi-bir-calisan-agir-yaralandi-104968",
+              "date": "2026-08-17",
               "sentiment": "neutral",
-              "reason": "Lajm i rëndë, i raportuar në mënyrë faktike",
+              "reason": "Lajm i raportuar në mënyrë faktike",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1571,19 +1545,6 @@
               "reason": "Critical language towards Vetëvendosje shows a hostile framing of Kosovo politics",
               "isQuote": false,
               "evidence": "Tek Başına Kontrolüne Bırakılamaz",
-              "speaker": ""
-            },
-            {
-              "title": "PDK: Meclis’in Engellenmesi Artık Yalnızca Siyasi Kriz Değil, Anayasal Düzen Meselesidir - Kosovahaber.com",
-              "albanianTitle": "PDK: Bllokimi i Kuvendit nuk është më vetëm krizë politike, por çështje e rendit kushtetues",
-              "blurb": "Partia Demokratike e Kosovës vlerëson se bllokimi i punës së Kuvendit përbën shkelje të rendit kushtetues të vendit.",
-              "imageUrl": null,
-              "url": "https://kosovahaber.com/haber/pdk-meclisin-engellenmesi-artik-yalnizca-siyasi-kriz-degil-anayasal-duzen-meselesidir-104956",
-              "date": "2026-08-16",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
               "speaker": ""
             }
           ]
@@ -1667,26 +1628,6 @@
               "speaker": ""
             }
           ]
-        },
-        {
-          "name": "bodrumhaber.com",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosova Ulusal Balesi Bodrum’da Sahne Aldı - bodrumhaber.com",
-              "albanianTitle": "Baleti Kombëtar i Kosovës u shfaq në Bodrum",
-              "blurb": "Baleti Kombëtar i Kosovës ka realizuar një shfaqje artistike për publikun në qytetin e Bodrumit në Turqi.",
-              "imageUrl": "https://bodrumhaber.com/wp-content/uploads/2026/08/eec439ff-e34f-471f-be03-edc91a2610b9.webp",
-              "url": "https://bodrumhaber.com/kosova-ulusal-balesi-bodrumda-sahne-aldi/",
-              "date": "2026-08-14",
-              "sentiment": "neutral",
-              "reason": "Lajm i thjeshtë, pa koment",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
         }
       ],
       "summary": {
@@ -1729,26 +1670,6 @@
               "date": "2026-08-14",
               "sentiment": "neutral",
               "reason": "Lajm i thjeshtë, i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "Bangladesh Sangbad Sangstha (BSS)",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Bangladesh, Kosovo eye FTA to boost bilateral trade - Bangladesh Sangbad Sangstha (BSS)",
-              "albanianTitle": "Bengalia dhe Kosova shikonin për një marrëveshje tregtare për të rritur tregtinë e tyre",
-              "blurb": "Kosova dhe Bangladeshi po shqyrtojnë mundësinë e nënshkrimit të një marrëveshjeje për tregti të lirë mes dy vendeve.",
-              "imageUrl": "https://www.bssnews.net/assets/news_photos/2026/08/14/image-414526-1786694779.jpg",
-              "url": "https://www.bssnews.net/news-flash/414526",
-              "date": "2026-08-14",
-              "sentiment": "neutral",
-              "reason": "Raportim i thjeshtë i marrëveshjes tregtare",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1837,18 +1758,18 @@
         },
         {
           "name": "UNICEF",
-          "sentiment": "unknown",
+          "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
-              "title": "Beyond Digital as Usual, Artificial Intelligence for Accessible Learning - unicef.org",
-              "albanianTitle": "Përtej digjitalizimit të zakonshëm: Inteligjenca Artificiale për mësim të qasshëm",
+              "title": "Beyond Digital as Usual, Artificial Intelligence for Accessible Learning - Unicef",
+              "albanianTitle": "Përtej digitalizimit të zakonshëm, inteligjenca artificiale për mësimin e aksesueshëm - Unicef",
               "blurb": "UNICEF promovon përdorimin e inteligjencës artificiale për të mundësuar qasje më të lehtë në procesin e të mësuarit.",
               "imageUrl": null,
               "url": "https://www.unicef.org/kosovoprogramme/stories/beyond-digital-usual-artificial-intelligence-accessible-learning",
               "date": "2026-08-14",
-              "sentiment": "unknown",
-              "reason": "Article not about Kosovo, stance cannot be inferred",
+              "sentiment": "neutral",
+              "reason": "Nuk përmend një qëndrim ndaj Kosovës",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1894,92 +1815,6 @@
               "speaker": ""
             }
           ]
-        },
-        {
-          "name": "kosovo-online.com",
-          "sentiment": "neutral",
-          "articleCount": 2,
-          "articles": [
-            {
-              "title": "A shot at innocence and the sanctity of life - kosovo-online.com",
-              "albanianTitle": "Një mundësi për pafajësinë dhe shenjtërinë e jetës",
-              "blurb": "Përmbajtja trajton çështjen e pafajësisë dhe shenjtërinë e jetës në një kontekst të caktuar në Kosovë.",
-              "imageUrl": null,
-              "url": "https://www.kosovo-online.com/en/news/kontext/shot-innocence-and-sanctity-life-15-8-2026",
-              "date": "2026-08-15",
-              "sentiment": "neutral",
-              "reason": "Lajm i mirë i shqyrur në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Popovic: Difficult situation, Serbs cannot build a future in Kosovo in an atmosphere of fear - kosovo-online.com",
-              "albanianTitle": "Popoviq: Situatë e vështirë, serbët nuk mund të ndërtojnë të ardhme në Kosovë në një atmosferë frike",
-              "blurb": "Popoviq vlerëson se serbët në Kosovë nuk mund të ndërtojnë të ardhmen në një atmosferë të mbushur me frikë.",
-              "imageUrl": null,
-              "url": "https://www.kosovo-online.com/en/news/politics/popovic-difficult-situation-serbs-cannot-build-future-kosovo-atmosphere-fear-14-8",
-              "date": "2026-08-14",
-              "sentiment": "neutral",
-              "reason": "Raporton qëndrimin e Popovic",
-              "isQuote": true,
-              "evidence": "",
-              "speaker": "Popovic"
-            }
-          ]
-        },
-        {
-          "name": "srpske.rs",
-          "sentiment": "neutral",
-          "articleCount": 2,
-          "articles": [
-            {
-              "title": "Kosovo Parliament Deadlock Persists, PDK Wants Session Now - srpske.rs",
-              "albanianTitle": "Vazhdon ngërçi në Kuvendin e Kosovës, PDK kërkon seancë urgjente",
-              "blurb": "Partia Demokratike e Kosovës kërkon mbajtjen e menjëhershme të seancës parlamentare për shkak të bllokadës në Kuvend.",
-              "imageUrl": "https://srpske.rs/uploads/articles/kosovo-parliament-standoff-pdk-demands-tuesday-session-16x9.webp",
-              "url": "https://srpske.rs/en/news/politika/2026/08/16/kosovo-parliament-standoff-pdk-demands-tuesday-session",
-              "date": "2026-08-16",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Kosovo Police Search Strmac, Question Six - srpske.rs",
-              "albanianTitle": "Policia e Kosovës bastis Stërmcin, shoqëron gjashtë persona për intervistim",
-              "blurb": "Policia e Kosovës ka kryer bastisje në Strmac dhe ka marrë në pyetje gjashtë persona gjatë këtij operacioni.",
-              "imageUrl": "https://srpske.rs/uploads/articles/kosovo-police-search-strmac-question-six-16x9.webp",
-              "url": "https://srpske.rs/en/news/politika/2026/08/15/kosovo-police-search-strmac-question-six",
-              "date": "2026-08-15",
-              "sentiment": "neutral",
-              "reason": "Raportim i thjeshtë i veprimeve të policisë",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "ԱՐՑԱԽ ԼՐԱՏՎԱԿԱՆ",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "NATO reduces security presence at key Kosovo Serb sites - ԱՐՑԱԽ ԼՐԱՏՎԱԿԱՆ",
-              "albanianTitle": "NATO-ja redukton praninë e sigurisë në pikat kyçe serbe në Kosovë - ԱՐՑԱԽ ԼՐԱՏՎԱԿԱՆ",
-              "blurb": "NATO ka reduktuar praninë e sigurisë në vendet kyçe serbe të Kosovës.",
-              "imageUrl": "https://mamul.am/images/photos/260812/nato-n-sksel-e-krtchatel-ir-ne-n367818-1.jpg",
-              "url": "https://artsakh.news/en/news/367818",
-              "date": "2026-08-15",
-              "sentiment": "neutral",
-              "reason": "Lajm i thjeshtë, i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
         }
       ],
       "summary": {
@@ -1987,8 +1822,8 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 14,
-        "excluded": 1,
+        "n": 9,
+        "excluded": 0,
         "confident": true,
         "stanceVersion": 2
       }

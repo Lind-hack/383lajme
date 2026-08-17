@@ -1242,8 +1242,8 @@
   {
     "date": "2026-08-17",
     "overallIndex": 50,
-    "totalArticles": 102,
-    "sourceCount": 76,
+    "totalArticles": 95,
+    "sourceCount": 71,
     "stanceVersion": 2,
     "countries": {
       "Gjermani": {
@@ -1261,8 +1261,8 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 18,
-        "excluded": 1,
+        "n": 12,
+        "excluded": 0,
         "confident": true,
         "stanceVersion": 2
       },
@@ -1287,11 +1287,11 @@
         "stanceVersion": 2
       },
       "Itali": {
-        "index": 60,
-        "positive": 20,
-        "neutral": 80,
+        "index": 58,
+        "positive": 17,
+        "neutral": 83,
         "negative": 0,
-        "n": 5,
+        "n": 6,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -1311,7 +1311,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 1,
+        "n": 2,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
@@ -1341,9 +1341,9 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 3,
+        "n": 5,
         "excluded": 0,
-        "confident": false,
+        "confident": true,
         "stanceVersion": 2
       },
       "Greqi": {
@@ -1391,8 +1391,8 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 14,
-        "excluded": 1,
+        "n": 9,
+        "excluded": 0,
         "confident": true,
         "stanceVersion": 2
       }
