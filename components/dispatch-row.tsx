@@ -28,7 +28,10 @@ const LIQUID_GLASS: React.CSSProperties = {
   alignItems: "center",
   justifyContent: "center",
   padding: 0,
-  transform: "translateY(-50%)",
+  // NOTE: no `transform` here. framer-motion's whileHover/whileTap rewrite the
+  // whole transform property, so a translateY(-50%) declared in CSS is erased the
+  // moment the button is hovered or tapped and the arrow drops by half its height.
+  // The centring is handed to motion as `y` instead, which composes with scale.
 };
 
 const SPRING = { type: "spring" as const, stiffness: 300, damping: 18, mass: 0.7 };
@@ -54,7 +57,7 @@ export default function DispatchRow({ articles }: DispatchRowProps) {
           <motion.button
             key="scroll-left"
             onClick={() => scrollBy(-1)}
-            style={{ ...LIQUID_GLASS, left: "-20px" }}
+            style={{ ...LIQUID_GLASS, left: "-20px", y: "-50%" }}
             initial={{ opacity: 0, scale: 0.95, x: -10 }}
             animate={{ opacity: 1, scale: 1, x: 0 }}
             exit={{ opacity: 0, scale: 0.95, x: -10 }}
@@ -70,7 +73,7 @@ export default function DispatchRow({ articles }: DispatchRowProps) {
 
       <motion.button
         onClick={() => scrollBy(1)}
-        style={{ ...LIQUID_GLASS, right: "-20px" }}
+        style={{ ...LIQUID_GLASS, right: "-20px", y: "-50%" }}
         whileHover={{ scale: 1.08 }}
         whileTap={{ scale: 0.95 }}
         transition={SPRING}

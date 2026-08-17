@@ -90,7 +90,11 @@ export default async function HomePage() {
     [kryesoreLead, ...kryesoreSecondary].filter(Boolean).map((a) => a.id)
   );
 
-  // Tier 3: NJOFTIME — score ≥ 7.0, not hero/kryesore-top, up to 10, deduped by keyword overlap
+  // NJOFTIME carries at least 12 headlines. It is a horizontally dragged rail, so
+  // the extra cards cost scroll distance inside the rail rather than page height.
+  const NJOFTIME_TARGET = 12;
+
+  // Tier 3: NJOFTIME — score ≥ 7.0, not hero/kryesore-top, deduped by keyword overlap
   const njoftimePool = nonHero.filter(
     (a) => !kryesoreTopIds.has(a.id) && (a.engagementScore ?? 0) >= 7.0
   );
@@ -101,9 +105,22 @@ export default async function HomePage() {
     if (njoftimeKws.some((rk) => [...kws].filter((w) => rk.has(w)).length >= 3)) continue;
     njoftimeArticles.push(a);
     njoftimeKws.push(kws);
-    // 8, not 10 — the rail and the "5 tema" block sit in the same scroll and
-    // ten more headlines in between is more news than anyone reads.
-    if (njoftimeArticles.length >= 8) break;
+    if (njoftimeArticles.length >= NJOFTIME_TARGET) break;
+  }
+
+  // Top up if the score-gated pool could not reach the target. Keyword dedupe
+  // still applies, so this widens the score floor rather than repeating a story.
+  if (njoftimeArticles.length < NJOFTIME_TARGET) {
+    const already = new Set(njoftimeArticles.map((a) => a.id));
+    for (const a of nonHero) {
+      if (already.has(a.id) || kryesoreTopIds.has(a.id)) continue;
+      const kws = titleKws(a.title);
+      if (njoftimeKws.some((rk) => [...kws].filter((w) => rk.has(w)).length >= 3)) continue;
+      njoftimeArticles.push(a);
+      njoftimeKws.push(kws);
+      already.add(a.id);
+      if (njoftimeArticles.length >= NJOFTIME_TARGET) break;
+    }
   }
 
   // Më të lexuarat — engagement ranking across everything outside the kryesore
@@ -184,13 +201,9 @@ export default async function HomePage() {
         {/* Daily video reaction */}
         <ReagimiDites fallbackView={reagimiFallback} serverDateKey={reagimiDateKey} />
 
-        {/* Daily poll */}
-        <DailyPoll />
-
-        {/* 383 Tregu — trending prediction markets */}
-        <TrendingStrip />
-
-        {/* Fast news and topic leaders now bridge Tregu with the latest-news archive. */}
+        {/* News before diversions: NJOFTIME and the topic leaders now sit directly
+            under the daily reaction, and the poll and prediction markets follow
+            them rather than interrupting the news run. */}
         <SectionLabel
           label="NJOFTIME"
           marginBottom={12}
@@ -215,24 +228,43 @@ export default async function HomePage() {
           <span />
         </div>
 
+        {/* 5 tema, 5 lajme — topic leaders close the news run, before the poll */}
         <div style={{ marginBottom: "var(--space-section)" }}>
           <ImageAccordion slides={accordionSlides} />
         </div>
 
-        {/* Dispatch list — hidden when every article is already placed above */}
-        {listArticles.length > 0 && (
-          <div style={{ marginBottom: "0", paddingBottom: "var(--space-section)" }}>
-            <DispatchList articles={listArticles} />
-          </div>
-        )}
+        {/* Daily poll */}
+        <DailyPoll />
+
+        {/* 383 Tregu — trending prediction markets */}
+        <TrendingStrip />
       </main>
 
-      {/* Bota Flet — foreign-media coverage of Kosovo, from the tone-scraper pipeline */}
+      {/* Bota Flet — foreign-media coverage of Kosovo, from the tone-scraper
+          pipeline. Full-bleed, so it closes the container above and the latest-news
+          archive reopens its own below. */}
       <BotaFlet
         items={foreignCoverage}
         totalArticles={botaFletPool.length}
         countryCount={botaFletCountries}
       />
+
+      {/* Lajmet e fundit — the archive tail, now after Bota Flet */}
+      {listArticles.length > 0 && (
+        <div
+          style={{
+            position: "relative",
+            zIndex: 1,
+            maxWidth: "1280px",
+            margin: "0 auto",
+            padding: "64px 24px 0",
+          }}
+        >
+          <div style={{ marginBottom: "0", paddingBottom: "var(--space-section)" }}>
+            <DispatchList articles={listArticles} />
+          </div>
+        </div>
+      )}
 
       {/* Tone dashboard + Diaspora series */}
       <div
