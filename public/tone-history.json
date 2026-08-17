@@ -1241,9 +1241,9 @@
   },
   {
     "date": "2026-08-17",
-    "overallIndex": 53,
-    "totalArticles": 116,
-    "sourceCount": 89,
+    "overallIndex": 52,
+    "totalArticles": 136,
+    "sourceCount": 95,
     "stanceVersion": 2,
     "countries": {
       "Gjermani": {
@@ -1261,37 +1261,37 @@
         "positive": 6,
         "neutral": 94,
         "negative": 0,
-        "n": 17,
-        "excluded": 2,
+        "n": 18,
+        "excluded": 1,
         "confident": true,
         "stanceVersion": 2
       },
       "Britani": {
-        "index": 50,
+        "index": 46,
         "positive": 0,
-        "neutral": 100,
-        "negative": 0,
-        "n": 13,
+        "neutral": 93,
+        "negative": 7,
+        "n": 27,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2
       },
       "Francë": {
-        "index": 50,
+        "index": null,
         "positive": 0,
-        "neutral": 100,
+        "neutral": 0,
         "negative": 0,
-        "n": 1,
+        "n": 0,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
       },
       "Itali": {
-        "index": 64,
-        "positive": 29,
-        "neutral": 71,
+        "index": 62,
+        "positive": 25,
+        "neutral": 75,
         "negative": 0,
-        "n": 7,
+        "n": 8,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -1327,11 +1327,11 @@
         "stanceVersion": 2
       },
       "Belgjikë": {
-        "index": 50,
+        "index": null,
         "positive": 0,
-        "neutral": 100,
+        "neutral": 0,
         "negative": 0,
-        "n": 1,
+        "n": 0,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
@@ -1341,7 +1341,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 5,
+        "n": 8,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -1377,22 +1377,22 @@
         "stanceVersion": 2
       },
       "Turqi": {
-        "index": 54,
-        "positive": 11,
-        "neutral": 85,
+        "index": 55,
+        "positive": 14,
+        "neutral": 82,
         "negative": 4,
-        "n": 27,
+        "n": 28,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2
       },
       "Kroaci": {
-        "index": 55,
-        "positive": 9,
-        "neutral": 91,
+        "index": 54,
+        "positive": 8,
+        "neutral": 92,
         "negative": 0,
-        "n": 11,
-        "excluded": 1,
+        "n": 13,
+        "excluded": 0,
         "confident": true,
         "stanceVersion": 2
       }
@@ -1423,11 +1423,27 @@
         "sentiment": "positive"
       },
       {
+        "title": "Draft Law on Public Property – a Sword of Damocles over Kosovo municipalities, especially Serbian-majority ones - kosovo-online.com",
+        "source": "kosovo-online.com",
+        "country": "Britani",
+        "flag": "🇬🇧",
+        "url": "https://www.kosovo-online.com/en/news/analysis/draft-law-public-property-sword-damocles-over-kosovo-municipalities-especially",
+        "sentiment": "negative"
+      },
+      {
         "title": "AAK: Cumhurbaşkanı, Vetëvendosje’nin Tek Başına Kontrolüne Bırakılamaz - Kosovahaber.com",
         "source": "Kosovahaber.com",
         "country": "Turqi",
         "flag": "🇹🇷",
         "url": "https://kosovahaber.com/haber/aak-cumhurbaskani-vetevendosjenin-tek-basina-kontrolune-birakilamaz-104955",
+        "sentiment": "negative"
+      },
+      {
+        "title": "Dedaj: Situation chaotic, Kurti is Kosovo's Kim Jong Un - kosovo-online.com",
+        "source": "kosovo-online.com",
+        "country": "Britani",
+        "flag": "🇬🇧",
+        "url": "https://www.kosovo-online.com/en/news/politics/dedaj-situation-chaotic-kurti-kosovos-kim-jong-un-15-8-2026",
         "sentiment": "negative"
       }
     ]
