@@ -1402,8 +1402,8 @@
   {
     "date": "2026-08-18",
     "overallIndex": 51,
-    "totalArticles": 122,
-    "sourceCount": 82,
+    "totalArticles": 105,
+    "sourceCount": 83,
     "stanceVersion": 2,
     "countries": {
       "Gjermani": {
@@ -1411,38 +1411,38 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 3,
+        "n": 4,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
       },
       "SHBA": {
         "index": 50,
-        "positive": 5,
-        "neutral": 91,
-        "negative": 5,
-        "n": 22,
-        "excluded": 1,
+        "positive": 6,
+        "neutral": 88,
+        "negative": 6,
+        "n": 16,
+        "excluded": 2,
         "confident": true,
         "stanceVersion": 2
       },
       "Britani": {
-        "index": 52,
-        "positive": 10,
-        "neutral": 86,
-        "negative": 5,
-        "n": 21,
+        "index": 53,
+        "positive": 12,
+        "neutral": 81,
+        "negative": 6,
+        "n": 16,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2
       },
       "Francë": {
-        "index": 67,
-        "positive": 33,
-        "neutral": 67,
+        "index": 75,
+        "positive": 50,
+        "neutral": 50,
         "negative": 0,
-        "n": 3,
-        "excluded": 2,
+        "n": 2,
+        "excluded": 1,
         "confident": false,
         "stanceVersion": 2
       },
@@ -1492,7 +1492,7 @@
         "neutral": 67,
         "negative": 0,
         "n": 3,
-        "excluded": 2,
+        "excluded": 1,
         "confident": false,
         "stanceVersion": 2
       },
@@ -1501,9 +1501,9 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 3,
+        "n": 5,
         "excluded": 1,
-        "confident": false,
+        "confident": true,
         "stanceVersion": 2
       },
       "Greqi": {
@@ -1511,8 +1511,8 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 9,
-        "excluded": 0,
+        "n": 8,
+        "excluded": 1,
         "confident": true,
         "stanceVersion": 2
       },
@@ -1537,22 +1537,22 @@
         "stanceVersion": 2
       },
       "Turqi": {
-        "index": 48,
-        "positive": 8,
-        "neutral": 80,
-        "negative": 12,
-        "n": 25,
-        "excluded": 0,
+        "index": 46,
+        "positive": 4,
+        "neutral": 83,
+        "negative": 13,
+        "n": 23,
+        "excluded": 3,
         "confident": true,
         "stanceVersion": 2
       },
       "Kroaci": {
-        "index": 47,
+        "index": 46,
         "positive": 0,
-        "neutral": 94,
-        "negative": 6,
-        "n": 17,
-        "excluded": 0,
+        "neutral": 92,
+        "negative": 8,
+        "n": 12,
+        "excluded": 1,
         "confident": true,
         "stanceVersion": 2
       }
@@ -1560,7 +1560,7 @@
     "headlines": [
       {
         "title": "Ukrainian MP opposes Zelensky’s position: Ukraine should recognize Kosovo - KosovaPress",
-        "source": "kosovapress.com",
+        "source": "KosovaPress",
         "country": "SHBA",
         "flag": "🇺🇸",
         "url": "https://kosovapress.com/eng/ukrainian-mp-opposes-zelenskys-position-ukraine-should-recognize-kosovo",
