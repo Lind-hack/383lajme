@@ -7,6 +7,8 @@ import { dateKeyInKosovo } from "@/lib/reagimi-data";
 import {
   DRAFT_SYSTEM_PROMPT,
   REPEAT_WINDOW,
+  isLocalArticle,
+  selectDraftArticles,
   buildDraftPrompt,
   draftDateKey,
   groundSlug,
@@ -27,16 +29,21 @@ export const maxDuration = 60;
  */
 
 function authorized(request: NextRequest) {
-  const secret = automationSecret();
-  if (!secret) {
+  // Either secret opens this. automationSecret() prefers
+  // TREGU_AUTOMATION_SECRET, but the GitHub Actions runner holds CRON_SECRET,
+  // and nothing guarantees the two values are the same — accepting only the
+  // preferred one turns a mismatch into an unexplained 401 on a nightly job.
+  const secrets = [automationSecret(), process.env.CRON_SECRET ?? ""].filter(Boolean);
+  if (secrets.length === 0) {
     return {
       error: NextResponse.json(
-        { error: "TREGU_AUTOMATION_SECRET (or CRON_SECRET) is required." },
+        { error: "TREGU_AUTOMATION_SECRET or CRON_SECRET is required." },
         { status: 500 }
       ),
     };
   }
-  if (!isAutomationAuthorized(request.headers.get("authorization") ?? "", secret)) {
+  const header = request.headers.get("authorization") ?? "";
+  if (!secrets.some((secret) => isAutomationAuthorized(header, secret))) {
     return { error: NextResponse.json({ error: "Unauthorized" }, { status: 401 }) };
   }
   return {};
@@ -63,18 +70,23 @@ export async function GET(request: NextRequest) {
   if (auth.error) return auth.error;
 
   const todayKey = dateKeyInKosovo();
-  const articles = await getArticles(30);
+  // Wider than the 20 the prompt shows: the regional source runs a day or
+  // two behind the wires, so a 30-article window can contain none of it.
+  const articles = await getArticles(80);
   const supabase = createAdminClient();
 
   return NextResponse.json({
     todayKey,
     draftFor: draftDateKey(todayKey),
-    articles: articles.slice(0, 20).map(({ slug, category, title, publishedAt }) => ({
-      slug,
-      category,
-      title,
-      publishedAt,
-    })),
+    articles: selectDraftArticles(articles, { limit: 20, localSlots: 12 }).map(
+      ({ slug, category, title, publishedAt }) => ({
+        slug,
+        category,
+        title,
+        publishedAt,
+        local: isLocalArticle({ slug, category, title }),
+      })
+    ),
     recentQuestions: supabase ? await recentQuestions(supabase, todayKey) : [],
   });
 }
@@ -108,7 +120,7 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const articles = await getArticles(30);
+  const articles = await getArticles(80);
   if (articles.length === 0) {
     return NextResponse.json(
       { ok: false, error: "Asnjë artikull për të ndërtuar pyetjen." },
