@@ -1,148 +1,1137 @@
 {
-  "lastUpdated": "2026-08-17",
-  "overallIndex": null,
-  "totalArticles": 0,
-  "sourceCount": 0,
+  "lastUpdated": "2026-08-18",
+  "overallIndex": 54,
+  "totalArticles": 86,
+  "sourceCount": 59,
   "stanceVersion": 2,
   "countries": {
     "Gjermani": {
-      "outlets": [],
+      "outlets": [
+        {
+          "name": "Germany Trade & Invest (GTAI)",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Freihandelsabkommen zwischen Kosovo und EFTA tritt in Kraft - Germany Trade & Invest (GTAI)",
+              "albanianTitle": "Hyn në fuqi marrëveshja e tregtisë së lirë mes Kosovës dhe EFTA-s - Germany Trade & Invest (GTAI)",
+              "blurb": "Marrëveshja e tregtisë së lirë ndërmjet Kosovës dhe vendeve të EFTA-s ka hyrë zyrtarisht në fuqi për palët.",
+              "imageUrl": "https://www.gtai.de/resource/image/568400/fitImage/2000/1048/1294240791f492cbbd34364b283e4cda/DC24176B4610A64AF1AD6B40DE7328A7/gtai-logo-farbverlaeufe-schutzzone.jpg",
+              "url": "https://www.gtai.de/de/trade/kosovo/zoll/freihandelsabkommen-kosovo-efta-2021426",
+              "date": "2026-08-17",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim pa ngarkim",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "MeinBezirk.at",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Gewinnspiel: ⚽ Gewinne mit Magenta 10x2 Tickets für Österreich vs. Kosovo! - MeinBezirk.at",
+              "albanianTitle": "Lojë shpërblyese: Fito 10x2 bileta për ndeshjen Austri - Kosovë me Magenta!",
+              "blurb": "Magenta ofron dhjetë bileta dyshe për ndeshjen futbollistike ndërmjet përfaqësueses së Austrisë dhe asaj të Kosovës.",
+              "imageUrl": "https://media04.meinbezirk.at/article/2026/07/23/3/51836373_XXL.webp",
+              "url": "https://www.meinbezirk.at/c-sport/-gewinne-mit-magenta-10x2-tickets-fuer-oesterreich-vs-kosovo_a8809956",
+              "date": "2026-08-15",
+              "sentiment": "neutral",
+              "reason": "Advertisement contest mention, no evaluative language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "PAZ - Peiner Allgemeine Zeitung",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Turbulentes Remis in Barbecke, starke Kosovo-Rückkehrer bei Takva, Aufsteiger am Tabellenende - PAZ - Peiner Allgemeine Zeitung",
+              "albanianTitle": "Barazimi dramatik në Barbecke, rikthimi i fuqishëm i lojtarëve nga Kosova te Takva, skuadra e re në fund të tabelës - PAZ - Peiner Allgemeine Zeitung",
+              "blurb": "Barbecke barazon në futboll, ndërsa lojtarët e kthyer nga Kosova shfaqin formë të mirë te skuadra Takva.",
+              "imageUrl": null,
+              "url": "https://www.paz-online.de/sport/regional/turbulentes-remis-in-barbecke-starke-kosovo-rueckkehrer-bei-takva-aufsteiger-am-tabellenende-ANQN54B5PFHL5K45IXDUNYDKUY.html",
+              "date": "2026-08-17",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike pa ngjyrë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Pester Lloyd",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo verhaftet mutmaßlichen serbischen Spion – Spannungen im Westbalkan - Pester Lloyd",
+              "albanianTitle": "Kosova arreston spiunin e dyshuar serb – Tensione në Ballkanin Perëndimor - Pester Lloyd",
+              "blurb": "Kosova ka arrestuar një spiun të dyshuar serb, duke rritur tensionet në Ballkanin Perëndimor.",
+              "imageUrl": "https://www.pesterlloyd.net/wp-content/uploads/2026/08/kurznachrichten-cover-2026-08-15-646.webp",
+              "url": "https://www.pesterlloyd.net/kosovo-verhaftet-mutmasslichen-serbischen-spion-spannungen-im-westbalkan/",
+              "date": "2026-08-15",
+              "sentiment": "neutral",
+              "reason": "Lajm i thjeshtë, i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        }
+      ],
       "summary": {
-        "index": null,
+        "index": 50,
         "positive": 0,
-        "neutral": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 0,
+        "n": 4,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
       }
     },
     "SHBA": {
-      "outlets": [],
+      "outlets": [
+        {
+          "name": "Cineuropa",
+          "sentiment": "positive",
+          "articleCount": 2,
+          "articles": [
+            {
+              "title": "As the Spring Arrives, Water Recalls the Nomads triumphs at DokuFest Prizren - Cineuropa",
+              "albanianTitle": "Filmi 'As the Spring Arrives, Water Recalls the Nomads' triumfon në DokuFest të Prizrenit - Cineuropa",
+              "blurb": "Filmi As the Spring Arrives, Water Recalls the Nomads shpallet fitues në festivalin DokuFest në Prizren.",
+              "imageUrl": null,
+              "url": "https://cineuropa.org/en/newsdetail/494515",
+              "date": "2026-08-17",
+              "sentiment": "positive",
+              "reason": "Positive language praising Kosovo cultural work",
+              "isQuote": false,
+              "evidence": "triumphs at DokuFest",
+              "speaker": ""
+            },
+            {
+              "title": "CEE Animation opens call for the CODA – Co-Development Animation Awards - Cineuropa",
+              "albanianTitle": "CEE Animation hap thirrjen për çmimet CODA për bashkë-zhvillim të animacionit",
+              "blurb": "CEE Animation ka hapur thirrjen për aplikim për çmimet vjetore të bashkëzhvillimit të filmave të animuar CODA.",
+              "imageUrl": null,
+              "url": "https://cineuropa.org/en/newsdetail/494528",
+              "date": "2026-08-17",
+              "sentiment": "neutral",
+              "reason": "Straightforward factual report",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "KosovaPress",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Democratic Party of Kosovo deputies gather again outside Government, call Kurti an “usurper” - KosovaPress",
+              "albanianTitle": "Deputetët e PDK-së protestojnë sërish para Qeverisë, e quajnë Kurtin “uzurpator”",
+              "blurb": "Deputetët e Partisë Demokratike të Kosovës u mblodhën para ndërtesës së Qeverisë duke e quajtur kryeministrin Kurti uzurpator të pushtetit.",
+              "imageUrl": null,
+              "url": "https://kosovapress.com/eng/democratic-party-of-kosovo-deputies-gather-again-outside-government-call-kurti-an-usurper",
+              "date": "2026-08-17",
+              "sentiment": "neutral",
+              "reason": "Fjalët e ngarkuara janë citim i kundërshtarëve, jo i mediave",
+              "isQuote": true,
+              "evidence": "",
+              "speaker": "Democratic Party of Kosovo deputies"
+            }
+          ]
+        },
+        {
+          "name": "The Architectural Review",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "An editorial practice in times of crisis - The Architectural Review",
+              "albanianTitle": "Një praktikë editoriale në kohë krize",
+              "blurb": "Analizohen praktikat editoriale dhe sfidat e punës në media gjatë periudhave të krizave të ndryshme shoqërore e politike.",
+              "imageUrl": "https://cdn.ca.emap.com/wp-content/uploads/sites/12/2026/08/260710_An-editorial-practice-in-times-of-crisis_Page_16_playback-1024x576.webp",
+              "url": "https://www.architectural-review.com/films/an-editorial-practice-in-times-of-crisis",
+              "date": "2026-08-17",
+              "sentiment": "unknown",
+              "reason": "No content about Kosovo to assess outlet's attitude",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "The Business Standard",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Bangladesh, Kosovo reaffirm strong opposition to all forms of transnational crimes - The Financial Express",
+              "albanianTitle": "Bangladeshi dhe Kosova ribehin kundërshtimin e fortë ndaj të gjitha formave të krimeve transnacionale",
+              "blurb": "Kosova dhe Bangladeshi kanë rikonfirmuar qëndrimin e tyre kundër të gjitha formave të krimeve transnacionale.",
+              "imageUrl": "https://thefe-bd.sgp1.cdn.digitaloceanspaces.com/posts/167477/1786792070-unb-newswire.jpg",
+              "url": "https://thefinancialexpress.com.bd/national/bangladesh-kosovo-reaffirm-strong-opposition-to-all-forms-of-transnational-crimes",
+              "date": "2026-08-15",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Variety",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "‘Shame and Money’ Director on Sundance-Winning Drama About a Kosovo Family in Free Fall: ‘It’s a Look Into the Past and a Warning to the Future’ - IMDb",
+              "albanianTitle": "Regjisori i filmit ‘Shame and Money’ për dramën fituese në Sundance për një familje kosovare në rënie të lirë: ‘Është një vështrim në të kaluarën dhe një paralajmërim për të ardhmen’",
+              "blurb": "Regjisori i filmit fitues në Sundance flet për dramën mbi një familje kosovare në rënie të lirë.",
+              "imageUrl": null,
+              "url": "https://www.imdb.com/de/news/ni65974085/?ref_=nwc_art_perm",
+              "date": "2026-08-16",
+              "sentiment": "neutral",
+              "reason": "Raporton deklaratën e drejtorit të filmit",
+              "isQuote": true,
+              "evidence": "",
+              "speaker": "Shame and Money Director"
+            }
+          ]
+        },
+        {
+          "name": "fibre2fashion.com",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Bangladesh, Kosovo discuss initiating process for planned FTA - fibre2fashion.com",
+              "albanianTitle": "Kosova dhe Bangladeshi diskutojnë nisjen e procedurave për një marrëveshje të tregtisë së lirë",
+              "blurb": "Kosova dhe Bangladeshi kanë diskutuar mundësinë e nisjes së procedurave për një marrëveshje të tregtisë së lirë mes vendeve.",
+              "imageUrl": null,
+              "url": "https://www.fibre2fashion.com/news/textile-news/bangladesh-kosovo-discuss-initiating-process-for-planned-fta-312687-newsdetails.htm",
+              "date": "2026-08-16",
+              "sentiment": "neutral",
+              "reason": "Faktikë raporti i thjeshtë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "globalpost.com",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo Discovers Third Suspected Mass Grave from 1998-99 War - globalpost.com",
+              "albanianTitle": "Kosova zbulon varrin e tretë të dyshuar masiv nga lufta e viteve 1998-99 - globalpost.com",
+              "blurb": "Kosova ka zbuluar varrin e tretë të dyshuar masiv nga lufta e viteve 1998-99.",
+              "imageUrl": "https://globalpost.com/wp-content/uploads/2026/01/Kosovo-Prizren.jpg",
+              "url": "https://globalpost.com/stories/kosovo-discovers-third-suspected-mass-grave-from-1998-99-war/",
+              "date": "2026-08-15",
+              "sentiment": "neutral",
+              "reason": "Lajm i thjeshtë, i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "srpske.rs",
+          "sentiment": "neutral",
+          "articleCount": 3,
+          "articles": [
+            {
+              "title": "Kosovo Assembly Remains Deadlocked, PDK and AAK Refuse Talks - srpske.rs",
+              "albanianTitle": "Kuvendi i Kosovës mbetet në bllokadë, PDK dhe AAK refuzojnë dialogun - srpske.rs",
+              "blurb": "Kuvendi i Kosovës mbetet i bllokuar pasi partitë opozitare PDK dhe AAK refuzojnë pjesëmarrjen në bisedime.",
+              "imageUrl": "https://srpske.rs/uploads/articles/kosovo-assembly-remains-deadlocked-pdk-aak-refuse-talks-16x9.webp",
+              "url": "https://srpske.rs/en/news/politika/2026/08/17/kosovo-assembly-remains-deadlocked-pdk-aak-refuse-talks",
+              "date": "2026-08-17",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike pa ngjyrë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Kosovo Parliament Deadlock Persists, PDK Wants Session Now - srpske.rs",
+              "albanianTitle": "Vazhdon ngërçi në Kuvendin e Kosovës, PDK kërkon seancë urgjente",
+              "blurb": "Partia Demokratike e Kosovës kërkon mbajtjen e menjëhershme të seancës parlamentare për shkak të bllokadës në Kuvend.",
+              "imageUrl": "https://srpske.rs/uploads/articles/kosovo-parliament-standoff-pdk-demands-tuesday-session-16x9.webp",
+              "url": "https://srpske.rs/en/news/politika/2026/08/16/kosovo-parliament-standoff-pdk-demands-tuesday-session",
+              "date": "2026-08-16",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Kosovo Police Search Strmac, Question Six - srpske.rs",
+              "albanianTitle": "Policia e Kosovës bastis Stërmcin, shoqëron gjashtë persona për intervistim",
+              "blurb": "Policia e Kosovës ka kryer bastisje në Strmac dhe ka marrë në pyetje gjashtë persona gjatë këtij operacioni.",
+              "imageUrl": "https://srpske.rs/uploads/articles/kosovo-police-search-strmac-question-six-16x9.webp",
+              "url": "https://srpske.rs/en/news/politika/2026/08/15/kosovo-police-search-strmac-question-six",
+              "date": "2026-08-15",
+              "sentiment": "neutral",
+              "reason": "Raportim i thjeshtë i veprimeve të policisë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Нова српска политичка мисао",
+          "sentiment": "negative",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Časlav Ocić: Kosovo as a res extra commercium and the alchemy of colonization - Нова српска политичка мисао",
+              "albanianTitle": "Časlav Ocić: Kosova si 'res extra commercium' dhe alkimia e kolonizimit",
+              "blurb": "Časlav Ocić publikon analizë mbi statusin juridik të Kosovës dhe proceset e kolonizimit në kontekstin e së drejtës ndërkombëtare.",
+              "imageUrl": null,
+              "url": "https://www.nspm.rs/nspm-in-english/kosovo-as-a-res-extra-commercium-and-the-alchemy-of-colonization.html",
+              "date": "2026-08-17",
+              "sentiment": "negative",
+              "reason": "Outlet uses hostile terminology to describe Kosovo",
+              "isQuote": false,
+              "evidence": "res extra commercium",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "ԱՐՑԱԽ ԼՐԱՏՎԱԿԱՆ",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "NATO reduces security presence at key Kosovo Serb sites - ԱՐՑԱԽ ԼՐԱՏՎԱԿԱՆ",
+              "albanianTitle": "NATO-ja redukton praninë e sigurisë në pikat kyçe serbe në Kosovë - ԱՐՑԱԽ ԼՐԱՏՎԱԿԱՆ",
+              "blurb": "NATO ka reduktuar praninë e sigurisë në vendet kyçe serbe të Kosovës.",
+              "imageUrl": "https://mamul.am/images/photos/260812/nato-n-sksel-e-krtchatel-ir-ne-n367818-1.jpg",
+              "url": "https://artsakh.news/en/news/367818",
+              "date": "2026-08-15",
+              "sentiment": "neutral",
+              "reason": "Lajm i thjeshtë, i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        }
+      ],
       "summary": {
-        "index": null,
-        "positive": 0,
-        "neutral": 0,
-        "negative": 0,
-        "n": 0,
-        "excluded": 0,
-        "confident": false,
+        "index": 50,
+        "positive": 8,
+        "neutral": 83,
+        "negative": 8,
+        "n": 12,
+        "excluded": 1,
+        "confident": true,
         "stanceVersion": 2
       }
     },
     "Britani": {
-      "outlets": [],
+      "outlets": [
+        {
+          "name": "Cineuropa",
+          "sentiment": "positive",
+          "articleCount": 2,
+          "articles": [
+            {
+              "title": "As the Spring Arrives, Water Recalls the Nomads triumphs at DokuFest Prizren - Cineuropa",
+              "albanianTitle": "Filmi 'As the Spring Arrives, Water Recalls the Nomads' triumfon në DokuFest të Prizrenit - Cineuropa",
+              "blurb": "Filmi As the Spring Arrives, Water Recalls the Nomads shpallet fitues në festivalin DokuFest në Prizren.",
+              "imageUrl": null,
+              "url": "https://cineuropa.org/en/newsdetail/494515",
+              "date": "2026-08-17",
+              "sentiment": "positive",
+              "reason": "Positive language praising Kosovo cultural work",
+              "isQuote": false,
+              "evidence": "triumphs at DokuFest",
+              "speaker": ""
+            },
+            {
+              "title": "CEE Animation opens call for the CODA – Co-Development Animation Awards - Cineuropa",
+              "albanianTitle": "CEE Animation hap thirrjen për çmimet CODA për bashkë-zhvillim të animacionit",
+              "blurb": "CEE Animation ka hapur thirrjen për aplikim për çmimet vjetore të bashkëzhvillimit të filmave të animuar CODA.",
+              "imageUrl": null,
+              "url": "https://cineuropa.org/en/newsdetail/494528",
+              "date": "2026-08-17",
+              "sentiment": "neutral",
+              "reason": "Straightforward factual report",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "KosovaPress",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Democratic Party of Kosovo deputies gather again outside Government, call Kurti an “usurper” - KosovaPress",
+              "albanianTitle": "Deputetët e PDK-së protestojnë sërish para Qeverisë, e quajnë Kurtin “uzurpator”",
+              "blurb": "Deputetët e Partisë Demokratike të Kosovës u mblodhën para ndërtesës së Qeverisë duke e quajtur kryeministrin Kurti uzurpator të pushtetit.",
+              "imageUrl": null,
+              "url": "https://kosovapress.com/eng/democratic-party-of-kosovo-deputies-gather-again-outside-government-call-kurti-an-usurper",
+              "date": "2026-08-17",
+              "sentiment": "neutral",
+              "reason": "Fjalët e ngarkuara janë citim i kundërshtarëve, jo i mediave",
+              "isQuote": true,
+              "evidence": "",
+              "speaker": "Democratic Party of Kosovo deputies"
+            }
+          ]
+        },
+        {
+          "name": "The Architectural Review",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "An editorial practice in times of crisis - The Architectural Review",
+              "albanianTitle": "Një praktikë editoriale në kohë krize",
+              "blurb": "Analizohen praktikat editoriale dhe sfidat e punës në media gjatë periudhave të krizave të ndryshme shoqërore e politike.",
+              "imageUrl": "https://cdn.ca.emap.com/wp-content/uploads/sites/12/2026/08/260710_An-editorial-practice-in-times-of-crisis_Page_16_playback-1024x576.webp",
+              "url": "https://www.architectural-review.com/films/an-editorial-practice-in-times-of-crisis",
+              "date": "2026-08-17",
+              "sentiment": "unknown",
+              "reason": "No content about Kosovo to assess outlet's attitude",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "The Business Standard",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Bangladesh, Kosovo reaffirm strong opposition to all forms of transnational crimes - The Financial Express",
+              "albanianTitle": "Bangladeshi dhe Kosova ribehin kundërshtimin e fortë ndaj të gjitha formave të krimeve transnacionale",
+              "blurb": "Kosova dhe Bangladeshi kanë rikonfirmuar qëndrimin e tyre kundër të gjitha formave të krimeve transnacionale.",
+              "imageUrl": "https://thefe-bd.sgp1.cdn.digitaloceanspaces.com/posts/167477/1786792070-unb-newswire.jpg",
+              "url": "https://thefinancialexpress.com.bd/national/bangladesh-kosovo-reaffirm-strong-opposition-to-all-forms-of-transnational-crimes",
+              "date": "2026-08-15",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Variety",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "‘Shame and Money’ Director on Sundance-Winning Drama About a Kosovo Family in Free Fall: ‘It’s a Look Into the Past and a Warning to the Future’ - IMDb",
+              "albanianTitle": "Regjisori i filmit ‘Shame and Money’ për dramën fituese në Sundance për një familje kosovare në rënie të lirë: ‘Është një vështrim në të kaluarën dhe një paralajmërim për të ardhmen’",
+              "blurb": "Regjisori i filmit fitues në Sundance flet për dramën mbi një familje kosovare në rënie të lirë.",
+              "imageUrl": null,
+              "url": "https://www.imdb.com/de/news/ni65974085/?ref_=nwc_art_perm",
+              "date": "2026-08-16",
+              "sentiment": "neutral",
+              "reason": "Raporton deklaratën e drejtorit të filmit",
+              "isQuote": true,
+              "evidence": "",
+              "speaker": "Shame and Money Director"
+            }
+          ]
+        },
+        {
+          "name": "globalpost.com",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo Discovers Third Suspected Mass Grave from 1998-99 War - globalpost.com",
+              "albanianTitle": "Kosova zbulon varrin e tretë të dyshuar masiv nga lufta e viteve 1998-99 - globalpost.com",
+              "blurb": "Kosova ka zbuluar varrin e tretë të dyshuar masiv nga lufta e viteve 1998-99.",
+              "imageUrl": "https://globalpost.com/wp-content/uploads/2026/01/Kosovo-Prizren.jpg",
+              "url": "https://globalpost.com/stories/kosovo-discovers-third-suspected-mass-grave-from-1998-99-war/",
+              "date": "2026-08-15",
+              "sentiment": "neutral",
+              "reason": "Lajm i thjeshtë, i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "srpske.rs",
+          "sentiment": "neutral",
+          "articleCount": 3,
+          "articles": [
+            {
+              "title": "Kosovo Assembly Remains Deadlocked, PDK and AAK Refuse Talks - srpske.rs",
+              "albanianTitle": "Kuvendi i Kosovës mbetet në bllokadë, PDK dhe AAK refuzojnë dialogun - srpske.rs",
+              "blurb": "Kuvendi i Kosovës mbetet i bllokuar pasi partitë opozitare PDK dhe AAK refuzojnë pjesëmarrjen në bisedime.",
+              "imageUrl": "https://srpske.rs/uploads/articles/kosovo-assembly-remains-deadlocked-pdk-aak-refuse-talks-16x9.webp",
+              "url": "https://srpske.rs/en/news/politika/2026/08/17/kosovo-assembly-remains-deadlocked-pdk-aak-refuse-talks",
+              "date": "2026-08-17",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike pa ngjyrë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "163,400 Euros in Undeclared Cash Found in Two Buses - srpske.rs",
+              "albanianTitle": "163,400 euro të padeklaruara gjenden në dy autobusë - srpske.rs",
+              "blurb": "Autoritetet kanë sekuestruar 163,400 euro para të padeklaruara të gjetura brenda dy autobusëve gjatë kontrollit kufitar.",
+              "imageUrl": "https://srpske.rs/uploads/articles/163400-euros-undeclared-cash-two-border-crossings-16x9.webp",
+              "url": "https://srpske.rs/en/news/politika/2026/08/17/163400-euros-undeclared-cash-two-border-crossings",
+              "date": "2026-08-17",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike pa ngjyrë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Kosovo Police Search Strmac, Question Six - srpske.rs",
+              "albanianTitle": "Policia e Kosovës bastis Stërmcin, shoqëron gjashtë persona për intervistim",
+              "blurb": "Policia e Kosovës ka kryer bastisje në Strmac dhe ka marrë në pyetje gjashtë persona gjatë këtij operacioni.",
+              "imageUrl": "https://srpske.rs/uploads/articles/kosovo-police-search-strmac-question-six-16x9.webp",
+              "url": "https://srpske.rs/en/news/politika/2026/08/15/kosovo-police-search-strmac-question-six",
+              "date": "2026-08-15",
+              "sentiment": "neutral",
+              "reason": "Raportim i thjeshtë i veprimeve të policisë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Нова српска политичка мисао",
+          "sentiment": "negative",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Časlav Ocić: Kosovo as a res extra commercium and the alchemy of colonization - Нова српска политичка мисао",
+              "albanianTitle": "Časlav Ocić: Kosova si 'res extra commercium' dhe alkimia e kolonizimit",
+              "blurb": "Časlav Ocić publikon analizë mbi statusin juridik të Kosovës dhe proceset e kolonizimit në kontekstin e së drejtës ndërkombëtare.",
+              "imageUrl": null,
+              "url": "https://www.nspm.rs/nspm-in-english/kosovo-as-a-res-extra-commercium-and-the-alchemy-of-colonization.html",
+              "date": "2026-08-17",
+              "sentiment": "negative",
+              "reason": "Outlet uses hostile terminology to describe Kosovo",
+              "isQuote": false,
+              "evidence": "res extra commercium",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "ԱՐՑԱԽ ԼՐԱՏՎԱԿԱՆ",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "NATO reduces security presence at key Kosovo Serb sites - ԱՐՑԱԽ ԼՐԱՏՎԱԿԱՆ",
+              "albanianTitle": "NATO-ja redukton praninë e sigurisë në pikat kyçe serbe në Kosovë - ԱՐՑԱԽ ԼՐԱՏՎԱԿԱՆ",
+              "blurb": "NATO ka reduktuar praninë e sigurisë në vendet kyçe serbe të Kosovës.",
+              "imageUrl": "https://mamul.am/images/photos/260812/nato-n-sksel-e-krtchatel-ir-ne-n367818-1.jpg",
+              "url": "https://artsakh.news/en/news/367818",
+              "date": "2026-08-15",
+              "sentiment": "neutral",
+              "reason": "Lajm i thjeshtë, i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        }
+      ],
       "summary": {
-        "index": null,
-        "positive": 0,
-        "neutral": 0,
-        "negative": 0,
-        "n": 0,
-        "excluded": 0,
-        "confident": false,
+        "index": 50,
+        "positive": 9,
+        "neutral": 82,
+        "negative": 9,
+        "n": 11,
+        "excluded": 1,
+        "confident": true,
         "stanceVersion": 2
       }
     },
     "Francë": {
-      "outlets": [],
+      "outlets": [
+        {
+          "name": "Adiac Congo",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Football: le week-end des Diables rouges et des Congolais de la diaspora en Europe (Kosovo, Pologne, Russie, Turquie et Ukraine) - adiac-congo.com",
+              "albanianTitle": "Futboll: Fundjava e “Djajve të Kuq” dhe e lojtarëve kongolezë në diasporën evropiane (Kosovë, Poloni, Rusi, Turqi dhe Ukrainë)",
+              "blurb": "Futbollistët e diasporës kongoleze kanë zhvilluar ndeshje në kampionate të ndryshme evropiane, përfshirë edhe ligën e futbollit në Kosovë.",
+              "imageUrl": null,
+              "url": "https://www.adiac-congo.com/content/football-le-week-end-des-diables-rouges-et-des-congolais-de-la-diaspora-en-europe-kosovo-18",
+              "date": "2026-08-17",
+              "sentiment": "neutral",
+              "reason": "Titull sportiv neutral, pa gjuhë vlerësuese",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Cineuropa",
+          "sentiment": "positive",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "As the Spring Arrives, Water Recalls the Nomads triomphe au Festival DokuFest de Prizren - Cineuropa",
+              "albanianTitle": "Filmi 'As the Spring Arrives, Water Recalls the Nomads' triumfon në festivalin DokuFest në Prizren",
+              "blurb": "Filmi As the Spring Arrives, Water Recalls the Nomads ka fituar çmimin kryesor në festivalin DokuFest të mbajtur në Prizren.",
+              "imageUrl": null,
+              "url": "https://cineuropa.org/fr/newsdetail/494515",
+              "date": "2026-08-17",
+              "sentiment": "positive",
+              "reason": "Titulli përdor fjalë pozitive për festivalin në Kosovë",
+              "isQuote": false,
+              "evidence": "triomphe",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Le Courrier des Balkans",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Diplomatie : pourquoi tant d'États ne reconnaissent-ils toujours pas toutes les républiques post-yougoslaves - Le Courrier des Balkans",
+              "albanianTitle": "Diplomacia: Pse shumë shtete ende nuk i njohin të gjitha republikat post-jugosllave",
+              "blurb": "Analizë mbi arsyet diplomatike pse shumë shtete ende nuk i njohin të gjitha republikat e dala nga ish-Jugosllavia.",
+              "imageUrl": "https://www.courrierdesbalkans.fr/wp-content/uploads/2026/08/Thimphu-12-vom_Buddha_Dordenma-2015-gje-scaled.jpg",
+              "url": "https://www.courrierdesbalkans.fr/diplomatie-pourquoi-tant-detats-ne-reconnaissent-ils-toujours-pas-toutes-les-republiques-post-yougoslaves-98240/",
+              "date": "2026-08-18",
+              "sentiment": "neutral",
+              "reason": "Questioning diplomatic recognition without loaded language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        }
+      ],
       "summary": {
-        "index": null,
-        "positive": 0,
-        "neutral": 0,
+        "index": 67,
+        "positive": 33,
+        "neutral": 67,
         "negative": 0,
-        "n": 0,
+        "n": 3,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
       }
     },
     "Itali": {
-      "outlets": [],
+      "outlets": [
+        {
+          "name": "Cineuropa",
+          "sentiment": "positive",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "As the Spring Arrives, Water Recalls the Nomads trionfa al DokuFest di Prizren - Cineuropa",
+              "albanianTitle": "Filmi 'As the Spring Arrives, Water Recalls the Nomads' triumfon në DokuFest të Prizrenit - Cineuropa",
+              "blurb": "Dokumentari As the Spring Arrives, Water Recalls the Nomads fiton çmimin kryesor në edicionin e DokuFestit në Prizren.",
+              "imageUrl": null,
+              "url": "https://cineuropa.org/it/newsdetail/494515",
+              "date": "2026-08-17",
+              "sentiment": "positive",
+              "reason": "Positive language praising Kosovo cultural work",
+              "isQuote": false,
+              "evidence": "trionfa al DokuFest",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Il NordEst Quotidiano",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Esposizione a sostanze nocive durante missione Nato in Kosovo: riconosciuta la causa di servizio - Il NordEst Quotidiano",
+              "albanianTitle": "Ekspozimi ndaj substancave të dëmshme gjatë misionit të NATO-s në Kosovë: njihet si sëmundje profesionale",
+              "blurb": "Një ushtar italian është njohur me shkakun e shërbimit pas ekspozimit ndaj substancave të dëmshme gjatë misionit në Kosovë.",
+              "imageUrl": "https://www.ilnordestquotidiano.it/wp-content/uploads/2026/08/cannone-mortaio-sparo-proiettile-1024x887.jpg",
+              "url": "https://www.ilnordestquotidiano.it/2026/08/17/esposizione-a-sostanze-nocive-durante-missione-nato-in-kosovo-riconosciuta-la-causa-di-servizio/",
+              "date": "2026-08-17",
+              "sentiment": "neutral",
+              "reason": "Factual report of health issue without loaded language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Osservatorio Balcani Caucaso Transeuropa",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Serbia, il movimento studentesco è davvero nazionalista? - Osservatorio Balcani Caucaso Transeuropa",
+              "albanianTitle": "Serbia, a është lëvizja studentore vërtet nacionaliste?",
+              "blurb": "Analizë mbi orientimin politik të lëvizjes studentore në Serbi dhe pyetja nëse ajo është vërtet nacionaliste.",
+              "imageUrl": "https://www.balcanicaucaso.org/wp-content/uploads/sites/8/2026/08/shutterstock_2594648931.jpg",
+              "url": "https://www.balcanicaucaso.org/cp_article/serbia-il-movimento-studentesco-e-davvero-nazionalista/",
+              "date": "2026-08-17",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "San Marino Rtv",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "San Marino – Kosovo (Qualificazioni EURO U21) - San Marino Rtv",
+              "albanianTitle": "San Marino – Kosovë (Kualifikimet për EURO U21)",
+              "blurb": "Përfaqësuesja e Kosovës në futboll për grupmoshën U21 përballet me San Marinon në kuadër të kualifikimeve për Kampionatin Evropian.",
+              "imageUrl": null,
+              "url": "https://www.sanmarinortv.sm/eventi/sport/san-marino-kosovo-qualificazioni-euro-u21-e5119",
+              "date": "2026-08-17",
+              "sentiment": "neutral",
+              "reason": "Simple match listing, no evaluative language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        }
+      ],
       "summary": {
-        "index": null,
-        "positive": 0,
-        "neutral": 0,
+        "index": 62,
+        "positive": 25,
+        "neutral": 75,
         "negative": 0,
-        "n": 0,
+        "n": 4,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
       }
     },
     "Austri": {
-      "outlets": [],
+      "outlets": [
+        {
+          "name": "Ligaportal",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "SK Sturm Graz vor Verpflichtung von Nationalspieler des Kosovo? - Ligaportal",
+              "albanianTitle": "Sturm Graz pranë transferimit të reprezentuesit të Kosovës?",
+              "blurb": "Klubi austriak Sturm Graz është në negociata për transferimin e një futbollisti që përfaqëson kombëtaren e Kosovës.",
+              "imageUrl": null,
+              "url": "https://www.ligaportal.at/bundesliga/allgemein/22139-sk-sturm-graz-vor-verpflichtung-von-nationalspieler-des-kosovo/amp",
+              "date": "2026-08-15",
+              "sentiment": "neutral",
+              "reason": "Raportim neutral i pyetjes",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "MeinBezirk.at",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Gewinnspiel: ⚽ Gewinne mit Magenta 10x2 Tickets für Österreich vs. Kosovo! - MeinBezirk.at",
+              "albanianTitle": "Lojë shpërblyese: Fito 10x2 bileta për ndeshjen Austri - Kosovë me Magenta!",
+              "blurb": "Magenta ofron dhjetë bileta dyshe për ndeshjen futbollistike ndërmjet përfaqësueses së Austrisë dhe asaj të Kosovës.",
+              "imageUrl": "https://media04.meinbezirk.at/article/2026/07/23/3/51836373_XXL.webp",
+              "url": "https://www.meinbezirk.at/c-sport/-gewinne-mit-magenta-10x2-tickets-fuer-oesterreich-vs-kosovo_a8809956",
+              "date": "2026-08-15",
+              "sentiment": "neutral",
+              "reason": "Advertisement contest mention, no evaluative language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Pester Lloyd",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo verhaftet mutmaßlichen serbischen Spion – Spannungen im Westbalkan - Pester Lloyd",
+              "albanianTitle": "Kosova arreston spiunin e dyshuar serb – Tensione në Ballkanin Perëndimor - Pester Lloyd",
+              "blurb": "Kosova ka arrestuar një spiun të dyshuar serb, duke rritur tensionet në Ballkanin Perëndimor.",
+              "imageUrl": "https://www.pesterlloyd.net/wp-content/uploads/2026/08/kurznachrichten-cover-2026-08-15-646.webp",
+              "url": "https://www.pesterlloyd.net/kosovo-verhaftet-mutmasslichen-serbischen-spion-spannungen-im-westbalkan/",
+              "date": "2026-08-15",
+              "sentiment": "neutral",
+              "reason": "Lajm i thjeshtë, i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "gtai.de",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Freihandelsabkommen zwischen Kosovo und EFTA tritt in Kraft - gtai.de",
+              "albanianTitle": "Hyn në fuqi marrëveshja e tregtisë së lirë ndërmjet Kosovës dhe EFTA-s",
+              "blurb": "Marrëveshja e tregtisë së lirë ndërmjet Kosovës dhe shteteve të EFTA-s ka hyrë zyrtarisht në fuqi për palët.",
+              "imageUrl": "https://www.gtai.de/resource/image/568400/fitImage/2000/1048/1294240791f492cbbd34364b283e4cda/DC24176B4610A64AF1AD6B40DE7328A7/gtai-logo-farbverlaeufe-schutzzone.jpg",
+              "url": "https://www.gtai.de/de/trade/kosovo/zoll/freihandelsabkommen-kosovo-efta-2021426",
+              "date": "2026-08-17",
+              "sentiment": "neutral",
+              "reason": "Straightforward announcement of a trade agreement, no evaluative language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        }
+      ],
       "summary": {
-        "index": null,
+        "index": 50,
         "positive": 0,
-        "neutral": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 0,
+        "n": 4,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
       }
     },
     "Zvicër": {
-      "outlets": [],
+      "outlets": [
+        {
+          "name": "Germany Trade & Invest (GTAI)",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Freihandelsabkommen zwischen Kosovo und EFTA tritt in Kraft - Germany Trade & Invest (GTAI)",
+              "albanianTitle": "Hyn në fuqi marrëveshja e tregtisë së lirë mes Kosovës dhe EFTA-s - Germany Trade & Invest (GTAI)",
+              "blurb": "Marrëveshja e tregtisë së lirë ndërmjet Kosovës dhe vendeve të EFTA-s ka hyrë zyrtarisht në fuqi për palët.",
+              "imageUrl": "https://www.gtai.de/resource/image/568400/fitImage/2000/1048/1294240791f492cbbd34364b283e4cda/DC24176B4610A64AF1AD6B40DE7328A7/gtai-logo-farbverlaeufe-schutzzone.jpg",
+              "url": "https://www.gtai.de/de/trade/kosovo/zoll/freihandelsabkommen-kosovo-efta-2021426",
+              "date": "2026-08-17",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim pa ngarkim",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Pester Lloyd",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo verhaftet mutmaßlichen serbischen Spion – Spannungen im Westbalkan - Pester Lloyd",
+              "albanianTitle": "Kosova arreston spiunin e dyshuar serb – Tensione në Ballkanin Perëndimor - Pester Lloyd",
+              "blurb": "Kosova ka arrestuar një spiun të dyshuar serb, duke rritur tensionet në Ballkanin Perëndimor.",
+              "imageUrl": "https://www.pesterlloyd.net/wp-content/uploads/2026/08/kurznachrichten-cover-2026-08-15-646.webp",
+              "url": "https://www.pesterlloyd.net/kosovo-verhaftet-mutmasslichen-serbischen-spion-spannungen-im-westbalkan/",
+              "date": "2026-08-15",
+              "sentiment": "neutral",
+              "reason": "Lajm i thjeshtë, i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "paz-online.de",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Turbulentes Remis in Barbecke, starke Kosovo-Rückkehrer bei Takva, Aufsteiger am Tabellenende - PAZ - Peiner Allgemeine Zeitung",
+              "albanianTitle": "Barazimi dramatik në Barbecke, rikthimi i fuqishëm i lojtarëve nga Kosova te Takva, skuadra e re në fund të tabelës - PAZ - Peiner Allgemeine Zeitung",
+              "blurb": "Barbecke barazon në futboll, ndërsa lojtarët e kthyer nga Kosova shfaqin formë të mirë te skuadra Takva.",
+              "imageUrl": null,
+              "url": "https://www.paz-online.de/sport/regional/turbulentes-remis-in-barbecke-starke-kosovo-rueckkehrer-bei-takva-aufsteiger-am-tabellenende-ANQN54B5PFHL5K45IXDUNYDKUY.html",
+              "date": "2026-08-17",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike pa ngjyrë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        }
+      ],
       "summary": {
-        "index": null,
+        "index": 50,
         "positive": 0,
-        "neutral": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 0,
+        "n": 3,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
       }
     },
     "Holandë": {
-      "outlets": [],
+      "outlets": [
+        {
+          "name": "parool.nl",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Servië dreigt Kosovo van het water af te sluiten, ook al is dat vrijwel onmogelijk - Trouw",
+              "albanianTitle": "Serbia kërcënon se do t'ia ndërpresë ujin Kosovës, ndonëse një gjë e tillë është pothuajse e pamundur",
+              "blurb": "Serbia ka kërcënuar me ndërprerjen e furnizimit me ujë për Kosovën, pavarësisht vështirësive teknike për realizimin e këtij veprimi.",
+              "imageUrl": null,
+              "url": "https://www.trouw.nl/buitenland/servie-dreigt-kosovo-van-het-water-af-te-sluiten-ook-al-is-dat-vrijwel-onmogelijk~b7bbd9a1/",
+              "date": "2026-08-16",
+              "sentiment": "neutral",
+              "reason": "Raportim i kërcënimit, pa gjuhë përçmues apo mbështetëse",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        }
+      ],
       "summary": {
-        "index": null,
+        "index": 50,
         "positive": 0,
-        "neutral": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 0,
+        "n": 1,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
       }
     },
     "Belgjikë": {
-      "outlets": [],
+      "outlets": [
+        {
+          "name": "Adiac Congo",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Football: le week-end des Diables rouges et des Congolais de la diaspora en Europe (Kosovo, Pologne, Russie, Turquie et Ukraine) - adiac-congo.com",
+              "albanianTitle": "Futboll: Fundjava e “Djajve të Kuq” dhe e lojtarëve kongolezë në diasporën evropiane (Kosovë, Poloni, Rusi, Turqi dhe Ukrainë)",
+              "blurb": "Futbollistët e diasporës kongoleze kanë zhvilluar ndeshje në kampionate të ndryshme evropiane, përfshirë edhe ligën e futbollit në Kosovë.",
+              "imageUrl": null,
+              "url": "https://www.adiac-congo.com/content/football-le-week-end-des-diables-rouges-et-des-congolais-de-la-diaspora-en-europe-kosovo-18",
+              "date": "2026-08-17",
+              "sentiment": "neutral",
+              "reason": "Titull sportiv neutral, pa gjuhë vlerësuese",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Cineuropa",
+          "sentiment": "positive",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "As the Spring Arrives, Water Recalls the Nomads triomphe au Festival DokuFest de Prizren - Cineuropa",
+              "albanianTitle": "Filmi 'As the Spring Arrives, Water Recalls the Nomads' triumfon në festivalin DokuFest në Prizren",
+              "blurb": "Filmi As the Spring Arrives, Water Recalls the Nomads ka fituar çmimin kryesor në festivalin DokuFest të mbajtur në Prizren.",
+              "imageUrl": null,
+              "url": "https://cineuropa.org/fr/newsdetail/494515",
+              "date": "2026-08-17",
+              "sentiment": "positive",
+              "reason": "Titulli përdor fjalë pozitive për festivalin në Kosovë",
+              "isQuote": false,
+              "evidence": "triomphe",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Le Courrier des Balkans",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Diplomatie : pourquoi tant d'États ne reconnaissent-ils toujours pas toutes les républiques post-yougoslaves - Le Courrier des Balkans",
+              "albanianTitle": "Diplomacia: Pse shumë shtete ende nuk i njohin të gjitha republikat post-jugosllave",
+              "blurb": "Analizë mbi arsyet diplomatike pse shumë shtete ende nuk i njohin të gjitha republikat e dala nga ish-Jugosllavia.",
+              "imageUrl": "https://www.courrierdesbalkans.fr/wp-content/uploads/2026/08/Thimphu-12-vom_Buddha_Dordenma-2015-gje-scaled.jpg",
+              "url": "https://www.courrierdesbalkans.fr/diplomatie-pourquoi-tant-detats-ne-reconnaissent-ils-toujours-pas-toutes-les-republiques-post-yougoslaves-98240/",
+              "date": "2026-08-18",
+              "sentiment": "neutral",
+              "reason": "Questioning diplomatic recognition without loaded language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        }
+      ],
       "summary": {
-        "index": null,
-        "positive": 0,
-        "neutral": 0,
+        "index": 67,
+        "positive": 33,
+        "neutral": 67,
         "negative": 0,
-        "n": 0,
+        "n": 3,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
       }
     },
     "Spanjë": {
-      "outlets": [],
+      "outlets": [
+        {
+          "name": "El Nacional",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo destinó 200 mil dólares a la Cruz Roja para atender a los damnificados de La Guaira tras los terremotos - El Nacional",
+              "albanianTitle": "Kosova ndau 200 mijë dollarë për Kryqin e Kuq për të ndihmuar viktimat e tërmeteve në La Guaira - El Nacional",
+              "blurb": "Kosova ka dhuruar 200 mijë dollarë për Kryqin e Kuq për të ndihmuar viktimat e tërmeteve në La Guaira.",
+              "imageUrl": "https://elnacional-uploads.nyc3.digitaloceanspaces.com/wp-content/uploads/2026/08/15122155/863c6e41580713a89fce9c659b126dd120b003d2.jpg",
+              "url": "https://www.elnacional.com/2026/08/kosovo-destino-200-mil-dolares-a-la-cruz-roja-para-atender-a-los-damnificados-de-la-guaira-tras-los-terremotos/",
+              "date": "2026-08-15",
+              "sentiment": "neutral",
+              "reason": "Lajm i thjeshtë, i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        }
+      ],
       "summary": {
-        "index": null,
+        "index": 50,
         "positive": 0,
-        "neutral": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 0,
+        "n": 1,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
       }
     },
     "Greqi": {
-      "outlets": [],
+      "outlets": [
+        {
+          "name": "Energymag.gr",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Βόρεια Μακεδονία: Από τον ελληνικό λιγνίτη στο Κόσοβο – Συμφωνία για 3 εκατ. τόνους σε τρία χρόνια - Energymag.gr",
+              "albanianTitle": "Maqedonia e Veriut: Nga linjiti grek te Kosova – Marrëveshje për 3 milionë tonë për tri vjet",
+              "blurb": "Maqedonia e Veriut ka arritur marrëveshje për blerjen e tre milionë tonëve linjit nga Kosova gjatë tre viteve të ardhshme.",
+              "imageUrl": "https://www.energymag.gr/sites/default/files/styles/og_image/public/2026-08/North-Macedonia.png?itok=wgRY7J_9",
+              "url": "https://www.energymag.gr/balkan-desk/125060_boreia-makedonia-apo-ton-elliniko-ligniti-sto-kosobo-symfonia-gia-3-ekat-tonoys",
+              "date": "2026-08-18",
+              "sentiment": "neutral",
+              "reason": "Factual description of an agreement, no pejorative terms",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "In.gr",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Η κατρακύλα της οικονομίας συνοψίζεται στην ιστορία ενός αγρότη από το Κόσοβο - In.gr",
+              "albanianTitle": "Rënia e ekonomisë, e përmbledhur në rrëfimin e një fermeri nga Kosova",
+              "blurb": "Gjendja e rënduar ekonomike në Kosovë pasqyrohet përmes përvojës së një fermeri vendas në një raport të publikuar.",
+              "imageUrl": "https://www.in.gr/wp-content/uploads/2026/08/shame.webp",
+              "url": "https://www.in.gr/2026/08/16/life/culture-live/i-katrakyla-tis-oikonomias-synopsizetai-stin-istoria-enos-agroti-apo-to-kosovo/",
+              "date": "2026-08-16",
+              "sentiment": "neutral",
+              "reason": "Lajm i rëndë, i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "sport-fm.gr",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Κόσοβο-Μολδαβία - sport-fm.gr",
+              "albanianTitle": "Kosovë - Moldavi",
+              "blurb": "Përfaqësuesja e futbollit të Kosovës zhvillon ndeshje zyrtare kundër përfaqësueses së Moldavisë në kuadër të aktiviteteve sportive ndërkombëtare.",
+              "imageUrl": "https://resources.sport-fm.gr/supersportFM/images/news/20/11/18/133215.jpg?w=880&f=bicubic",
+              "url": "https://www.sport-fm.gr/article/4140736",
+              "date": "2026-08-16",
+              "sentiment": "neutral",
+              "reason": "Lajm i thjeshtë, pa koment",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        }
+      ],
       "summary": {
-        "index": null,
+        "index": 50,
         "positive": 0,
-        "neutral": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 0,
+        "n": 3,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
@@ -162,41 +1151,428 @@
       }
     },
     "Poloni": {
-      "outlets": [],
+      "outlets": [
+        {
+          "name": "Meczyki.pl",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Polska U19 (K) - Kosowo U19 (K) - statystyki meczu 27.11.2026 - Meczyki.pl",
+              "albanianTitle": "Polonia U19 (F) - Kosova U19 (F) - statistikat e ndeshjes së datës 27.11.2026",
+              "blurb": "Përfaqësuesja e femrave U19 e Polonisë dhe ajo e Kosovës do të zhvillojnë ndeshjen e futbollit më 27 nëntor.",
+              "imageUrl": "https://pliki.meczyki.pl/live-score/soccer/match/6177686/original.png",
+              "url": "https://www.meczyki.pl/wyniki-na-zywo/poland-u19-kosovo-u19/6177686/statystyki",
+              "date": "2026-08-15",
+              "sentiment": "neutral",
+              "reason": "Statistika e ndeshjes, pa ndonjë gjuhë vlerësuese për Kosovën",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "gostyn24.pl",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Powitanie nowego wozu w OSP Kosowo - gostyn24.pl",
+              "albanianTitle": "Mirëpritja e automjetit të ri në OSP Kosowo - gostyn24.pl",
+              "blurb": "Njësia e zjarrfikësve vullnetarë në Kosovë ka pranuar një automjet të ri për nevojat e intervenimeve në terren.",
+              "imageUrl": "https://gostyn24.pl/fotorelacje/2025/1021/458798_b.jpg",
+              "url": "https://gostyn24.pl/pl/fotorelacje/na-sygnale/powitanie-nowego-wozu-w-osp-kosowo/13554,6",
+              "date": "2026-08-15",
+              "sentiment": "neutral",
+              "reason": "Raportim faktik i marrjes së një mjeti të ri në OSP Kosovo",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        }
+      ],
       "summary": {
-        "index": null,
+        "index": 50,
         "positive": 0,
-        "neutral": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 0,
+        "n": 2,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
       }
     },
     "Turqi": {
-      "outlets": [],
+      "outlets": [
+        {
+          "name": "GZT",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Zorlu araziyle 7 saatlik mücadele: Kosova’daki orman yangını söndürüldü - GZT",
+              "albanianTitle": "Lufta 7-orëshe në terren të vështirë: Shuhet zjarri në pyjet e Kosovës",
+              "blurb": "Pas shtatë orësh përpjekje në terren të vështirë, është shuar zjarri që kishte përfshirë një zonë pyjore në Kosovë.",
+              "imageUrl": null,
+              "url": "https://www.gzt.com/dunya/zorlu-araziyle-7-saatlik-mucadele-kosovadaki-orman-yangini-sonduruldu-4252044",
+              "date": "2026-08-17",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Haber Ege",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Çalık Renewables’tan Kosova’da 73 MW’lık Rüzgâr Enerjisi Hamlesi - Haber Ege",
+              "albanianTitle": "Çalık Renewables investon në energji të erës me kapacitet 73 MW në Kosovë - Haber Ege",
+              "blurb": "Kompania Çalık Renewables ka nisur një projekt për ndërtimin e një parku të erës me kapacitet 73 megavat.",
+              "imageUrl": null,
+              "url": "https://www.haberege.com.tr/calik-renewablesin-zatriq-ruzgr-enerji-santrali-projesinde-ilk-turbinler-devreye-alindi-1786955827-3434787",
+              "date": "2026-08-17",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim i thjeshtë për projekt energjie në Kosovë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Posta",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosova’da rüzgar hamlesi - Posta",
+              "albanianTitle": "Lëvizja e erës në Kosovë - Posta",
+              "blurb": "Kosova po ndërmerr hapa drejt energjisë së erës, duke shënuar një lëvizje të re në këtë fushë.",
+              "imageUrl": "https://image.posta.com.tr/i/posta/75/0x0/6a7f5316eb7be7eb78371847.jpg",
+              "url": "https://www.posta.com.tr/ekonomi/kosovada-ruzgar-hamlesi-3027104",
+              "date": "2026-08-15",
+              "sentiment": "neutral",
+              "reason": "Titulli është thjesht informativ pa gjuhë ngacmuese",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Reporteri",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Haxhiu: Qeveria Kurti po nxitë debat për raportet Kosovë-Shqipëri për t’i mbuluar skandalet dhe dështimet e veta - Reporteri",
+              "albanianTitle": "Haxhiu: Qeveria Kurti po nxit debat për raportet Kosovë-Shqipëri për t'i mbuluar skandalet dhe dështimet e veta",
+              "blurb": "Ministrja Haxhiu akuzon Qeverinë Kurti se po krijon debate për raportet Kosovë-Shqipëri për të mbuluar dështimet e brendshme qeveritare.",
+              "imageUrl": null,
+              "url": "https://reporteri.net/tr/haberler/Haxhiu%3A-Kurti-h%C3%BCk%C3%BCmeti--kendi-skandallar%C4%B1n%C4%B1-ve-ba%C5%9Far%C4%B1s%C4%B1zl%C4%B1klar%C4%B1n%C4%B1-%C3%B6rtbas-etmek-i%C3%A7in-Kosova-Arnavutluk-ili%C5%9Fkilerini-tart%C4%B1%C5%9Fmaya-a%C3%A7%C4%B1yor./",
+              "date": "2026-08-16",
+              "sentiment": "neutral",
+              "reason": "Kritika e folës, jo e mediave",
+              "isQuote": true,
+              "evidence": "",
+              "speaker": "Haxhiu"
+            }
+          ]
+        },
+        {
+          "name": "Son Dakika",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Prizren'de Orman Yangını Kontrol Altına Alındı - Son Dakika",
+              "albanianTitle": "Vihet nën kontroll zjarri në pyjet e Prizrenit - Son Dakika",
+              "blurb": "Ekipet e zjarrfikësve kanë arritur të vënë nën kontroll zjarrin që kishte përfshirë një zonë pyjore në Prizren.",
+              "imageUrl": "https://foto.sondakika.com/haber/2026/08/17/kosova-da-orman-yangini-alarmi-yangin-7-saat-3-20152066_amp.jpg",
+              "url": "https://www.sondakika.com/3-sayfa/haber-prizren-de-orman-yangini-kontrol-altina-alindi-20152095/",
+              "date": "2026-08-17",
+              "sentiment": "neutral",
+              "reason": "Raportim i thjeshtë i zjarrit në pyll në Prizren, pa ngarkim",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "kosovahaber.com",
+          "sentiment": "neutral",
+          "articleCount": 6,
+          "articles": [
+            {
+              "title": "Kosova Gümrüğü’nün Geliri 7 Ayda 1,15 Milyar Euroyu Aştı - Kosovahaber.com",
+              "albanianTitle": "Dogana e Kosovës mbledh mbi 1,15 miliardë euro të hyra për 7 muaj",
+              "blurb": "Të hyrat e Doganës së Kosovës gjatë shtatë muajve të parë të këtij viti kanë tejkaluar shumën prej 1.15 miliard euro.",
+              "imageUrl": null,
+              "url": "https://kosovahaber.com/haber/kosova-gumrugunun-geliri-7-ayda-115-milyar-euroyu-asti-105007",
+              "date": "2026-08-17",
+              "sentiment": "neutral",
+              "reason": "Faktikë ekonomik",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Tarihçiler, Armend Mehaj’ı Kosova Cumhurbaşkanlığı’na Önerdi - kosovahaber.com",
+              "albanianTitle": "Historianët propozojnë Armend Mehajn për President të Kosovës",
+              "blurb": "Një grup historianësh kanë propozuar Armend Mehajn si kandidat për postin e Presidentit të Republikës së Kosovës.",
+              "imageUrl": null,
+              "url": "https://kosovahaber.com/haber/tarihciler-armend-mehaji-kosova-cumhurbaskanligina-onerdi-105006",
+              "date": "2026-08-17",
+              "sentiment": "neutral",
+              "reason": "Report of a proposal, no evaluative language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Zelenskiy'nin Tutumuna Karşı Çıkan Ukrayna Milletvekili: “Ukrayna Kosova'yı Tanımalı” - Kosovahaber.com",
+              "albanianTitle": "Deputeti ukrainas që kundërshton qëndrimin e Zelenskyt: Ukraina duhet ta njohë Kosovën",
+              "blurb": "Një deputet ukrainas ka kërkuar zyrtarisht që shteti i tij ta njohë pavarësinë e Kosovës, duke kundërshtuar qëndrimin e presidentit Zelenskiy.",
+              "imageUrl": null,
+              "url": "https://kosovahaber.com/haber/zelenskiynin-tutumuna-karsi-cikan-ukrayna-milletvekili-ukrayna-kosovayi-tanimali-104962",
+              "date": "2026-08-16",
+              "sentiment": "positive",
+              "reason": "Ton i mbështetjes për Kosovën",
+              "isQuote": false,
+              "evidence": "Ukrayna Kosova'yı Tanımalı",
+              "speaker": ""
+            },
+            {
+              "title": "Yeni Euro Banknotlarının Tasarımını Kosova Vatandaşları da Oylayabilecek - Kosovahaber.com",
+              "albanianTitle": "Edhe qytetarët e Kosovës do të mund të votojnë për dizajnin e kartëmonedhave të reja të euros",
+              "blurb": "Qytetarët e Kosovës do të kenë mundësinë të votojnë për dizajnin e ri të kartëmonedhave të valutës euro.",
+              "imageUrl": null,
+              "url": "https://kosovahaber.com/haber/yeni-euro-banknotlarinin-tasarimini-kosova-vatandaslari-da-oylayabilecek-104993",
+              "date": "2026-08-17",
+              "sentiment": "neutral",
+              "reason": "Fact‑based headline about citizen participation, no praising or condemning tone",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Kurti, Kosova’nın Ögürlüğü İçin Hayatını Kaybedenleri Andı - Kosovahaber.com",
+              "albanianTitle": "Kurti përkujton të rënët për lirinë e Kosovës",
+              "blurb": "Kryeministri Albin Kurti ka përkujtuar personat që humbën jetën gjatë luftës për lirinë e Kosovës në një ceremoni zyrtare.",
+              "imageUrl": null,
+              "url": "https://kosovahaber.com/haber/kurti-kosovanin-ogurlugu-icin-hayatini-kaybedenleri-andi-105004",
+              "date": "2026-08-17",
+              "sentiment": "positive",
+              "reason": "Titulli nderon luftëtarët e Kosovës, duke treguar mbështetje",
+              "isQuote": false,
+              "evidence": "Hayatını Kaybedenleri Andı",
+              "speaker": ""
+            },
+            {
+              "title": "Son Bir Haftada 25 Yeni Kızamık Vakası - Kosovahaber.com",
+              "albanianTitle": "25 raste të reja me fruth brenda një jave",
+              "blurb": "Institucionet shëndetësore kanë raportuar për regjistrimin e 25 rasteve të reja me fruth gjatë javës së fundit në vend.",
+              "imageUrl": null,
+              "url": "https://kosovahaber.com/haber/son-bir-haftada-25-yeni-kizamik-vakasi-105005",
+              "date": "2026-08-17",
+              "sentiment": "neutral",
+              "reason": "Raportim i rasteve të sëmundjes, pa ngarkim",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        }
+      ],
       "summary": {
-        "index": null,
-        "positive": 0,
-        "neutral": 0,
-        "negative": 0,
-        "n": 0,
+        "index": 58,
+        "positive": 19,
+        "neutral": 77,
+        "negative": 4,
+        "n": 26,
         "excluded": 0,
-        "confident": false,
+        "confident": true,
         "stanceVersion": 2
       }
     },
     "Kroaci": {
-      "outlets": [],
+      "outlets": [
+        {
+          "name": "Cineuropa",
+          "sentiment": "positive",
+          "articleCount": 2,
+          "articles": [
+            {
+              "title": "As the Spring Arrives, Water Recalls the Nomads triumphs at DokuFest Prizren - Cineuropa",
+              "albanianTitle": "Filmi 'As the Spring Arrives, Water Recalls the Nomads' triumfon në DokuFest të Prizrenit - Cineuropa",
+              "blurb": "Filmi As the Spring Arrives, Water Recalls the Nomads shpallet fitues në festivalin DokuFest në Prizren.",
+              "imageUrl": null,
+              "url": "https://cineuropa.org/en/newsdetail/494515",
+              "date": "2026-08-17",
+              "sentiment": "positive",
+              "reason": "Positive language praising Kosovo cultural work",
+              "isQuote": false,
+              "evidence": "triumphs at DokuFest",
+              "speaker": ""
+            },
+            {
+              "title": "CEE Animation opens call for the CODA – Co-Development Animation Awards - Cineuropa",
+              "albanianTitle": "CEE Animation hap thirrjen për çmimet CODA për bashkë-zhvillim të animacionit",
+              "blurb": "CEE Animation ka hapur thirrjen për aplikim për çmimet vjetore të bashkëzhvillimit të filmave të animuar CODA.",
+              "imageUrl": null,
+              "url": "https://cineuropa.org/en/newsdetail/494528",
+              "date": "2026-08-17",
+              "sentiment": "neutral",
+              "reason": "Straightforward factual report",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "The Business Standard",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Bangladesh, Kosovo reaffirm strong opposition to all forms of transnational crimes - The Financial Express",
+              "albanianTitle": "Bangladeshi dhe Kosova ribehin kundërshtimin e fortë ndaj të gjitha formave të krimeve transnacionale",
+              "blurb": "Kosova dhe Bangladeshi kanë rikonfirmuar qëndrimin e tyre kundër të gjitha formave të krimeve transnacionale.",
+              "imageUrl": "https://thefe-bd.sgp1.cdn.digitaloceanspaces.com/posts/167477/1786792070-unb-newswire.jpg",
+              "url": "https://thefinancialexpress.com.bd/national/bangladesh-kosovo-reaffirm-strong-opposition-to-all-forms-of-transnational-crimes",
+              "date": "2026-08-15",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Variety",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "‘Shame and Money’ Director on Sundance-Winning Drama About a Kosovo Family in Free Fall: ‘It’s a Look Into the Past and a Warning to the Future’ - IMDb",
+              "albanianTitle": "Regjisori i filmit ‘Shame and Money’ për dramën fituese në Sundance për një familje kosovare në rënie të lirë: ‘Është një vështrim në të kaluarën dhe një paralajmërim për të ardhmen’",
+              "blurb": "Regjisori i filmit fitues në Sundance flet për dramën mbi një familje kosovare në rënie të lirë.",
+              "imageUrl": null,
+              "url": "https://www.imdb.com/de/news/ni65974085/?ref_=nwc_art_perm",
+              "date": "2026-08-16",
+              "sentiment": "neutral",
+              "reason": "Raporton deklaratën e drejtorit të filmit",
+              "isQuote": true,
+              "evidence": "",
+              "speaker": "Shame and Money Director"
+            }
+          ]
+        },
+        {
+          "name": "fibre2fashion.com",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Bangladesh, Kosovo discuss initiating process for planned FTA - fibre2fashion.com",
+              "albanianTitle": "Kosova dhe Bangladeshi diskutojnë nisjen e procedurave për një marrëveshje të tregtisë së lirë",
+              "blurb": "Kosova dhe Bangladeshi kanë diskutuar mundësinë e nisjes së procedurave për një marrëveshje të tregtisë së lirë mes vendeve.",
+              "imageUrl": null,
+              "url": "https://www.fibre2fashion.com/news/textile-news/bangladesh-kosovo-discuss-initiating-process-for-planned-fta-312687-newsdetails.htm",
+              "date": "2026-08-16",
+              "sentiment": "neutral",
+              "reason": "Faktikë raporti i thjeshtë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "srpske.rs",
+          "sentiment": "neutral",
+          "articleCount": 3,
+          "articles": [
+            {
+              "title": "Kosovo Assembly Remains Deadlocked, PDK and AAK Refuse Talks - srpske.rs",
+              "albanianTitle": "Kuvendi i Kosovës mbetet në bllokadë, PDK dhe AAK refuzojnë dialogun - srpske.rs",
+              "blurb": "Kuvendi i Kosovës mbetet i bllokuar pasi partitë opozitare PDK dhe AAK refuzojnë pjesëmarrjen në bisedime.",
+              "imageUrl": "https://srpske.rs/uploads/articles/kosovo-assembly-remains-deadlocked-pdk-aak-refuse-talks-16x9.webp",
+              "url": "https://srpske.rs/en/news/politika/2026/08/17/kosovo-assembly-remains-deadlocked-pdk-aak-refuse-talks",
+              "date": "2026-08-17",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike pa ngjyrë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Kosovo Parliament Deadlock Persists, PDK Wants Session Now - srpske.rs",
+              "albanianTitle": "Vazhdon ngërçi në Kuvendin e Kosovës, PDK kërkon seancë urgjente",
+              "blurb": "Partia Demokratike e Kosovës kërkon mbajtjen e menjëhershme të seancës parlamentare për shkak të bllokadës në Kuvend.",
+              "imageUrl": "https://srpske.rs/uploads/articles/kosovo-parliament-standoff-pdk-demands-tuesday-session-16x9.webp",
+              "url": "https://srpske.rs/en/news/politika/2026/08/16/kosovo-parliament-standoff-pdk-demands-tuesday-session",
+              "date": "2026-08-16",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Kosovo Police Search Strmac, Question Six - srpske.rs",
+              "albanianTitle": "Policia e Kosovës bastis Stërmcin, shoqëron gjashtë persona për intervistim",
+              "blurb": "Policia e Kosovës ka kryer bastisje në Strmac dhe ka marrë në pyetje gjashtë persona gjatë këtij operacioni.",
+              "imageUrl": "https://srpske.rs/uploads/articles/kosovo-police-search-strmac-question-six-16x9.webp",
+              "url": "https://srpske.rs/en/news/politika/2026/08/15/kosovo-police-search-strmac-question-six",
+              "date": "2026-08-15",
+              "sentiment": "neutral",
+              "reason": "Raportim i thjeshtë i veprimeve të policisë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Нова српска политичка мисао",
+          "sentiment": "negative",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Časlav Ocić: Kosovo as a res extra commercium and the alchemy of colonization - Нова српска политичка мисао",
+              "albanianTitle": "Časlav Ocić: Kosova si 'res extra commercium' dhe alkimia e kolonizimit",
+              "blurb": "Časlav Ocić publikon analizë mbi statusin juridik të Kosovës dhe proceset e kolonizimit në kontekstin e së drejtës ndërkombëtare.",
+              "imageUrl": null,
+              "url": "https://www.nspm.rs/nspm-in-english/kosovo-as-a-res-extra-commercium-and-the-alchemy-of-colonization.html",
+              "date": "2026-08-17",
+              "sentiment": "negative",
+              "reason": "Outlet uses hostile terminology to describe Kosovo",
+              "isQuote": false,
+              "evidence": "res extra commercium",
+              "speaker": ""
+            }
+          ]
+        }
+      ],
       "summary": {
-        "index": null,
-        "positive": 0,
-        "neutral": 0,
-        "negative": 0,
-        "n": 0,
+        "index": 50,
+        "positive": 11,
+        "neutral": 78,
+        "negative": 11,
+        "n": 9,
         "excluded": 0,
-        "confident": false,
+        "confident": true,
         "stanceVersion": 2
       }
     }

@@ -1398,5 +1398,206 @@
       }
     },
     "headlines": []
+  },
+  {
+    "date": "2026-08-18",
+    "overallIndex": 54,
+    "totalArticles": 86,
+    "sourceCount": 59,
+    "stanceVersion": 2,
+    "countries": {
+      "Gjermani": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 4,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 2
+      },
+      "SHBA": {
+        "index": 50,
+        "positive": 8,
+        "neutral": 83,
+        "negative": 8,
+        "n": 12,
+        "excluded": 1,
+        "confident": true,
+        "stanceVersion": 2
+      },
+      "Britani": {
+        "index": 50,
+        "positive": 9,
+        "neutral": 82,
+        "negative": 9,
+        "n": 11,
+        "excluded": 1,
+        "confident": true,
+        "stanceVersion": 2
+      },
+      "Francë": {
+        "index": 67,
+        "positive": 33,
+        "neutral": 67,
+        "negative": 0,
+        "n": 3,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 2
+      },
+      "Itali": {
+        "index": 62,
+        "positive": 25,
+        "neutral": 75,
+        "negative": 0,
+        "n": 4,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 2
+      },
+      "Austri": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 4,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 2
+      },
+      "Zvicër": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 3,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 2
+      },
+      "Holandë": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 1,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 2
+      },
+      "Belgjikë": {
+        "index": 67,
+        "positive": 33,
+        "neutral": 67,
+        "negative": 0,
+        "n": 3,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 2
+      },
+      "Spanjë": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 1,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 2
+      },
+      "Greqi": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 3,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 2
+      },
+      "Suedi": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 2
+      },
+      "Poloni": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 2,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 2
+      },
+      "Turqi": {
+        "index": 58,
+        "positive": 19,
+        "neutral": 77,
+        "negative": 4,
+        "n": 26,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 2
+      },
+      "Kroaci": {
+        "index": 50,
+        "positive": 11,
+        "neutral": 78,
+        "negative": 11,
+        "n": 9,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 2
+      }
+    },
+    "headlines": [
+      {
+        "title": "As the Spring Arrives, Water Recalls the Nomads triumphs at DokuFest Prizren - Cineuropa",
+        "source": "Cineuropa",
+        "country": "SHBA",
+        "flag": "🇺🇸",
+        "url": "https://cineuropa.org/en/newsdetail/494515",
+        "sentiment": "positive"
+      },
+      {
+        "title": "As the Spring Arrives, Water Recalls the Nomads triomphe au Festival DokuFest de Prizren - Cineuropa",
+        "source": "Cineuropa",
+        "country": "Francë",
+        "flag": "🇫🇷",
+        "url": "https://cineuropa.org/fr/newsdetail/494515",
+        "sentiment": "positive"
+      },
+      {
+        "title": "As the Spring Arrives, Water Recalls the Nomads trionfa al DokuFest di Prizren - Cineuropa",
+        "source": "Cineuropa",
+        "country": "Itali",
+        "flag": "🇮🇹",
+        "url": "https://cineuropa.org/it/newsdetail/494515",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Časlav Ocić: Kosovo as a res extra commercium and the alchemy of colonization - Нова српска политичка мисао",
+        "source": "Нова српска политичка мисао",
+        "country": "SHBA",
+        "flag": "🇺🇸",
+        "url": "https://www.nspm.rs/nspm-in-english/kosovo-as-a-res-extra-commercium-and-the-alchemy-of-colonization.html",
+        "sentiment": "negative"
+      },
+      {
+        "title": "AAK: Cumhurbaşkanı, Vetëvendosje’nin Tek Başına Kontrolüne Bırakılamaz - Kosovahaber.com",
+        "source": "kosovahaber.com",
+        "country": "Turqi",
+        "flag": "🇹🇷",
+        "url": "https://kosovahaber.com/haber/aak-cumhurbaskani-vetevendosjenin-tek-basina-kontrolune-birakilamaz-104955",
+        "sentiment": "negative"
+      }
+    ]
   }
 ]
