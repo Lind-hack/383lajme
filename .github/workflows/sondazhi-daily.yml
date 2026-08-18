@@ -29,24 +29,29 @@ jobs:
     steps:
       # Read-only context, printed first so a failure below has something to be
       # diagnosed against: how many articles were available, how many were
-      # local, and which provider env names the function can actually see.
-      # Names only — no secret value is ever returned by that endpoint.
+      # local, and which provider env NAMES the function can actually see.
+      # No secret value is returned by that endpoint. A diagnostic must never
+      # fail the job it exists to explain, hence continue-on-error.
       - name: Context
         continue-on-error: true
         env:
           CRON_SECRET: ${{ secrets.CRON_SECRET }}
         run: |
-          curl -sS --max-time 60             -H "Authorization: Bearer $CRON_SECRET"             "https://www.383ks.com/api/automation/sondazhi/draft"           | python -c 'import json,sys
-d=json.load(sys.stdin)
-print("todayKey     :", d.get("todayKey"))
-print("drafting for :", d.get("draftFor"))
-arts=d.get("articles") or []
-print("articles     :", len(arts), "of which local:", sum(1 for a in arts if a.get("local")))
-for a in arts[:5]:
-    print("   ", "[LOKALE]" if a.get("local") else "[BOTE]  ", (a.get("title") or "")[:70])
-print("provider env :")
-for e in d.get("providerEnv") or ["(none reported)"]:
-    print("   ", e)'
+          curl -sS --max-time 60 -o context.json \
+            -H "Authorization: Bearer $CRON_SECRET" \
+            "https://www.383ks.com/api/automation/sondazhi/draft"
+          node -e '
+            const d = require("./context.json");
+            console.log("todayKey     :", d.todayKey);
+            console.log("drafting for :", d.draftFor);
+            const arts = d.articles || [];
+            console.log("articles     :", arts.length, "| local:", arts.filter(a => a.local).length);
+            for (const a of arts.slice(0, 5)) {
+              console.log("   ", a.local ? "[LOKALE]" : "[BOTE]  ", String(a.title || "").slice(0, 70));
+            }
+            console.log("provider env :");
+            for (const e of d.providerEnv || ["(none reported)"]) console.log("   ", e);
+          '
 
       - name: Draft tomorrow's poll question
         env:
@@ -58,8 +63,8 @@ for e in d.get("providerEnv") or ["(none reported)"]:
           fi
 
           # Not -f: a 422 is the validator refusing a weak question, which is
-          # the system working. The body is what says which it was, so it is
-          # captured either way and the status is judged below.
+          # the system working. The body says which it was, so it is captured
+          # either way and the status is judged below.
           status=$(curl -sS --max-time 120 -o response.json -w '%{http_code}' \
             -X POST \
             -H "Authorization: Bearer $CRON_SECRET" \
@@ -72,7 +77,7 @@ for e in d.get("providerEnv") or ["(none reported)"]:
           case "$status" in
             200)
               # A skipped run is also a success: it means the day already has
-              # an approved question and the job correctly refused to clobber it.
+              # an approved question and the job refused to clobber it.
               echo "Draft written, or skipped because the day is already approved."
               ;;
             422)
