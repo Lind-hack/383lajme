@@ -88,6 +88,14 @@ export async function GET(request: NextRequest) {
       })
     ),
     recentQuestions: supabase ? await recentQuestions(supabase, todayKey) : [],
+    // Which provider variables the function can actually see. NAMES ONLY — no
+    // value is ever returned. Vercel listed GOOGLE_AI_API_KEY as present for
+    // Production while the runtime reported it unset, and a stray character in
+    // a re-typed name looks identical in the dashboard. This is the only way to
+    // tell those apart from outside, and it is behind the same secret gate.
+    providerEnv: Object.keys(process.env)
+      .filter((k) => /GOOGLE|GROQ|GEMINI/i.test(k))
+      .map((k) => `${JSON.stringify(k)}: ${process.env[k] ? "set" : "empty"}`),
   });
 }
 
