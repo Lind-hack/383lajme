@@ -99,7 +99,13 @@ export async function llmJSON<T>(
 
   for (const envName of ["GOOGLE_AI_API_KEY", "GOOGLE_AI_API_KEY_2"] as const) {
     const key = process.env[envName];
-    if (!key) continue;
+    // Recorded rather than skipped in silence. A nightly run failed with only
+    // "groq: ..." in the message and no mention of Gemini at all, which made an
+    // absent key indistinguishable from a key that was never consulted.
+    if (!key) {
+      failures.push(`${envName}: not set`);
+      continue;
+    }
     try {
       return parseJSON<T>(await geminiChat(key, system, user, opts));
     } catch (err) {
