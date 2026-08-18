@@ -1,6 +1,7 @@
 /* Server-only LLM helper with provider failover.
  *
- * Order: Groq (llama-3.3-70b) → Gemini key #1 → Gemini key #2, and each
+ * Default order: Groq → Gemini key #1 → Gemini key #2. Callers may pass
+ * `prefer: "gemini"` to lead with Gemini instead; each
  * Gemini key tries every model in GEMINI_MODELS before giving up.
  * Every tregu AI call goes through llmJSON so a Groq rate-limit or outage
  * never silences the news→odds refresh pipeline — it degrades to the free
@@ -79,38 +80,61 @@ async function geminiChat(
   throw new Error(`Gemini API error — ${failures.join(" | ")}`);
 }
 
-/** JSON completion with automatic provider failover. Throws only when every provider fails. */
+/**
+ * JSON completion with automatic provider failover. Throws only when every
+ * provider fails.
+ *
+ * `prefer` chooses which provider leads. Groq remains the default for existing
+ * callers, but the poll generator asks for Gemini: on this account Groq has no
+ * usable model left — both llama builds return 404 and gpt-oss-120b answers
+ * with an empty content field — while both Gemini keys are verified working.
+ * Whichever leads, the other still backs it up.
+ */
 export async function llmJSON<T>(
   system: string,
   user: string,
-  opts: { maxTokens?: number } = {}
+  opts: { maxTokens?: number; temperature?: number; prefer?: "groq" | "gemini" } = {}
 ): Promise<T> {
   const failures: string[] = [];
 
-  if (process.env.GROQ_API_KEY) {
+  const tryGroq = async (): Promise<T | null> => {
+    if (!process.env.GROQ_API_KEY) {
+      failures.push("groq: GROQ_API_KEY not set");
+      return null;
+    }
     try {
       return parseJSON<T>(await groqChat(system, user, { json: true, maxTokens: opts.maxTokens }));
     } catch (err) {
       failures.push(`groq: ${err instanceof Error ? err.message : String(err)}`);
+      return null;
     }
-  } else {
-    failures.push("groq: GROQ_API_KEY not set");
-  }
+  };
 
-  for (const envName of ["GOOGLE_AI_API_KEY", "GOOGLE_AI_API_KEY_2"] as const) {
-    const key = process.env[envName];
-    // Recorded rather than skipped in silence. A nightly run failed with only
-    // "groq: ..." in the message and no mention of Gemini at all, which made an
-    // absent key indistinguishable from a key that was never consulted.
-    if (!key) {
-      failures.push(`${envName}: not set`);
-      continue;
+  const tryGemini = async (): Promise<T | null> => {
+    for (const envName of ["GOOGLE_AI_API_KEY", "GOOGLE_AI_API_KEY_2"] as const) {
+      const key = process.env[envName];
+      // Recorded rather than skipped in silence. A nightly run failed with only
+      // "groq: ..." in the message and no mention of Gemini at all, which made
+      // an absent key indistinguishable from one that was never consulted.
+      if (!key) {
+        failures.push(`${envName}: not set`);
+        continue;
+      }
+      try {
+        return parseJSON<T>(await geminiChat(key, system, user, opts));
+      } catch (err) {
+        failures.push(`${envName}: ${err instanceof Error ? err.message : String(err)}`);
+      }
     }
-    try {
-      return parseJSON<T>(await geminiChat(key, system, user, opts));
-    } catch (err) {
-      failures.push(`${envName}: ${err instanceof Error ? err.message : String(err)}`);
-    }
+    return null;
+  };
+
+  const order = opts.prefer === "gemini" ? [tryGemini, tryGroq] : [tryGroq, tryGemini];
+  for (const attempt of order) {
+    const result = await attempt();
+    // null means "this provider could not answer", which is distinct from a
+    // provider legitimately returning null as its JSON payload.
+    if (result !== null) return result;
   }
 
   throw new Error(`All LLM providers failed — ${failures.join(" | ")}`);

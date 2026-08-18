@@ -134,6 +134,13 @@ export async function POST(request: NextRequest) {
   try {
     raw = await llmJSON(DRAFT_SYSTEM_PROMPT, buildDraftPrompt(articles, recent), {
       maxTokens: 600,
+      // Gemini leads here. Groq has no usable model left on this account —
+      // both llama builds 404 and gpt-oss-120b returns an empty content field —
+      // while both Gemini keys are verified working. Groq still backs it up.
+      prefer: "gemini",
+      // Warmer than the 0.4 default: a poll question that reads like every
+      // other poll question is the thing this feature exists to avoid.
+      temperature: 0.85,
     });
   } catch (error) {
     return NextResponse.json(
