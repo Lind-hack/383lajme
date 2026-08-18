@@ -46,6 +46,27 @@ function newsClient() {
   });
 }
 
+
+type PollRow = Record<string, unknown> & { poll_date?: string };
+
+/** One query, reported as a result rather than a throw so the caller can retry
+ *  with a narrower column list against a table that predates this migration. */
+async function selectPolls(
+  supabase: ReturnType<typeof newsClient> & object,
+  columns: string,
+  todayKey: string,
+  prevKey: string
+): Promise<{ ok: true; data: PollRow[] } | { ok: false; error: string }> {
+  const { data, error } = await supabase
+    .from("daily_polls")
+    .select(columns)
+    .in("poll_date", [todayKey, prevKey]);
+  if (error) return { ok: false, error: error.message };
+  // .select() with a runtime column string widens to a union that includes
+  // GenericStringError, so this needs the two-step cast.
+  return { ok: true, data: (data ?? []) as unknown as PollRow[] };
+}
+
 /**
  * Today's poll plus yesterday's outcome, in one round trip for the rows and one
  * for yesterday's tally.
@@ -74,15 +95,26 @@ export async function getSondazhiData(
   if (!supabase) return base;
 
   try {
-    const { data: rows, error } = await supabase
-      .from("daily_polls")
-      .select("poll_date, question, options, context_line, source_article_slug, status")
-      .in("poll_date", [todayKey, prevKey]);
+    // The columns this feature added exist only after migration 0042. Until it
+    // is applied, asking for them fails the whole query — which would silently
+    // replace a curated question with one from the static bank. So a failure
+    // retries with the columns the table has always had: the card degrades to
+    // "no context line" rather than to the wrong question.
+    let rows = await selectPolls(
+      supabase,
+      "poll_date, question, options, context_line, source_article_slug, status",
+      todayKey,
+      prevKey
+    );
+    if (!rows.ok) {
+      console.warn("[sondazhi] extended columns unavailable; falling back", rows.error);
+      rows = await selectPolls(supabase, "poll_date, question, options", todayKey, prevKey);
+    }
+    if (!rows.ok) throw new Error(rows.error);
+    const { data: pollRows } = rows;
 
-    if (error) throw new Error(error.message);
-
-    const todayRow = rows?.find((r) => r.poll_date === todayKey) ?? null;
-    const prevRow = rows?.find((r) => r.poll_date === prevKey) ?? null;
+    const todayRow = pollRows?.find((r) => r.poll_date === todayKey) ?? null;
+    const prevRow = pollRows?.find((r) => r.poll_date === prevKey) ?? null;
 
     const todayPoll = pollFromRow(todayRow);
     // A draft is a question waiting for review, not a published one. It must
@@ -97,16 +129,23 @@ export async function getSondazhiData(
 
     const prevPoll = pollFromRow(prevRow);
     if (prevPoll && prevPoll.status !== "draft") {
-      const { data: prevCounts } = await supabase.rpc("sondazhi_day", {
+      const { data: prevCounts, error: rpcError } = await supabase.rpc("sondazhi_day", {
         p_date: prevKey,
         p_voter: null,
       });
-      const tally = tallyFromCounts(
-        (prevCounts as { counts?: Record<string, unknown> } | null)?.counts,
-        prevPoll.options.length
-      );
-      const cb = yesterdayCallback(prevPoll, tally.counts);
-      if (cb) base.callback = { ...cb, question: prevPoll.question };
+      // Pre-migration the function is absent. Skip the callback rather than
+      // throw: losing yesterday's strip is a missing flourish, but throwing
+      // here would also discard today's curated question on the way out.
+      if (rpcError) {
+        console.warn("[sondazhi] yesterday's tally unavailable", rpcError.message);
+      } else {
+        const tally = tallyFromCounts(
+          (prevCounts as { counts?: Record<string, unknown> } | null)?.counts,
+          prevPoll.options.length
+        );
+        const cb = yesterdayCallback(prevPoll, tally.counts);
+        if (cb) base.callback = { ...cb, question: prevPoll.question };
+      }
     }
   } catch (error) {
     // The static bank still carries the day. Logged rather than swallowed —
