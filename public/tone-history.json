@@ -1402,8 +1402,8 @@
   {
     "date": "2026-08-18",
     "overallIndex": 51,
-    "totalArticles": 90,
-    "sourceCount": 66,
+    "totalArticles": 105,
+    "sourceCount": 74,
     "stanceVersion": 2,
     "countries": {
       "Gjermani": {
@@ -1418,20 +1418,20 @@
       },
       "SHBA": {
         "index": 50,
-        "positive": 8,
-        "neutral": 85,
-        "negative": 8,
-        "n": 13,
+        "positive": 6,
+        "neutral": 88,
+        "negative": 6,
+        "n": 16,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2
       },
       "Britani": {
-        "index": 46,
-        "positive": 8,
-        "neutral": 75,
-        "negative": 17,
-        "n": 12,
+        "index": 50,
+        "positive": 7,
+        "neutral": 87,
+        "negative": 7,
+        "n": 15,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2
@@ -1447,13 +1447,13 @@
         "stanceVersion": 2
       },
       "Itali": {
-        "index": 62,
-        "positive": 25,
-        "neutral": 75,
+        "index": 60,
+        "positive": 20,
+        "neutral": 80,
         "negative": 0,
-        "n": 4,
+        "n": 5,
         "excluded": 0,
-        "confident": false,
+        "confident": true,
         "stanceVersion": 2
       },
       "Austri": {
@@ -1501,7 +1501,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 3,
+        "n": 4,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
@@ -1511,9 +1511,9 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 4,
+        "n": 6,
         "excluded": 0,
-        "confident": false,
+        "confident": true,
         "stanceVersion": 2
       },
       "Suedi": {
@@ -1537,21 +1537,21 @@
         "stanceVersion": 2
       },
       "Turqi": {
-        "index": 50,
-        "positive": 8,
-        "neutral": 84,
-        "negative": 8,
-        "n": 25,
+        "index": 48,
+        "positive": 7,
+        "neutral": 81,
+        "negative": 11,
+        "n": 27,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
       },
       "Kroaci": {
         "index": 50,
-        "positive": 9,
-        "neutral": 82,
-        "negative": 9,
-        "n": 11,
+        "positive": 7,
+        "neutral": 86,
+        "negative": 7,
+        "n": 14,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -1583,7 +1583,7 @@
         "sentiment": "positive"
       },
       {
-        "title": "Has Kurti crossed a \"red line\" in the relations with the EU? - europeanwesternbalkans.com",
+        "title": "Has Kurti crossed a \"red line\" in the relations with the EU? - European Western Balkans",
         "source": "European Western Balkans",
         "country": "SHBA",
         "flag": "🇺🇸",
@@ -1591,11 +1591,11 @@
         "sentiment": "negative"
       },
       {
-        "title": "Ginny: Kosovo is infiltrated by enemy secret services, how many more spies can be at the top of power? - Periskopi",
-        "source": "Periskopi",
-        "country": "Britani",
-        "flag": "🇬🇧",
-        "url": "https://periskopi.com/en/2026/8/ginny-kosovo-infiltrated-enemy-secret-services-spies-power",
+        "title": "Kosova’da Anayasal Düzen Artık İşlemiyor - Kosovahaber.com",
+        "source": "Kosovahaber.com",
+        "country": "Turqi",
+        "flag": "🇹🇷",
+        "url": "https://kosovahaber.com/haber/kosovada-anayasal-duzen-artik-islemiyor-105013",
         "sentiment": "negative"
       },
       {

@@ -1,8 +1,8 @@
 {
   "lastUpdated": "2026-08-18",
   "overallIndex": 51,
-  "totalArticles": 90,
-  "sourceCount": 66,
+  "totalArticles": 105,
+  "sourceCount": 74,
   "stanceVersion": 2,
   "countries": {
     "Gjermani": {
@@ -28,26 +28,6 @@
           ]
         },
         {
-          "name": "PAZ - Peiner Allgemeine Zeitung",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Turbulentes Remis in Barbecke, starke Kosovo-Rückkehrer bei Takva, Aufsteiger am Tabellenende - PAZ - Peiner Allgemeine Zeitung",
-              "albanianTitle": "Barazimi dramatik në Barbecke, rikthimi i fuqishëm i lojtarëve nga Kosova te Takva, skuadra e re në fund të tabelës - PAZ - Peiner Allgemeine Zeitung",
-              "blurb": "Barbecke barazon në futboll, ndërsa lojtarët e kthyer nga Kosova shfaqin formë të mirë te skuadra Takva.",
-              "imageUrl": null,
-              "url": "https://www.paz-online.de/sport/regional/turbulentes-remis-in-barbecke-starke-kosovo-rueckkehrer-bei-takva-aufsteiger-am-tabellenende-ANQN54B5PFHL5K45IXDUNYDKUY.html",
-              "date": "2026-08-17",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike pa ngjyrë",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
           "name": "Pester Lloyd",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -61,6 +41,26 @@
               "date": "2026-08-15",
               "sentiment": "neutral",
               "reason": "Lajm i thjeshtë, i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "paz-online.de",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Turbulentes Remis in Barbecke, starke Kosovo-Rückkehrer bei Takva, Aufsteiger am Tabellenende - PAZ - Peiner Allgemeine Zeitung",
+              "albanianTitle": "Barazimi dramatik në Barbecke, rikthimi i fuqishëm i lojtarëve nga Kosova te Takva, skuadra e re në fund të tabelës - PAZ - Peiner Allgemeine Zeitung",
+              "blurb": "Barbecke barazon në futboll, ndërsa lojtarët e kthyer nga Kosova shfaqin formë të mirë te skuadra Takva.",
+              "imageUrl": null,
+              "url": "https://www.paz-online.de/sport/regional/turbulentes-remis-in-barbecke-starke-kosovo-rueckkehrer-bei-takva-aufsteiger-am-tabellenende-ANQN54B5PFHL5K45IXDUNYDKUY.html",
+              "date": "2026-08-17",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike pa ngjyrë",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -82,10 +82,43 @@
     "SHBA": {
       "outlets": [
         {
-          "name": "Cineuropa",
-          "sentiment": "positive",
-          "articleCount": 2,
+          "name": "Balkan Insight",
+          "sentiment": "neutral",
+          "articleCount": 1,
           "articles": [
+            {
+              "title": "Kosovo Opposition Snubs Acting President’s Meeting Amid Parliamentary Crisis - Balkan Insight",
+              "albanianTitle": "Opozita kosovare bojkoton takimin me ushtruesen e detyrës së presidentit në mes të krizës parlamentare - Balkan Insight",
+              "blurb": "Partitë opozitare në Kosovë refuzuan pjesëmarrjen në takimin e thirrur nga ushtruesja e detyrës së presidentit për krizën parlamentare.",
+              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/08/Kosovo-meeting-Albulena-Haxhiu-BIRN-scaled-e1787054218728.jpg",
+              "url": "https://balkaninsight.com/2026/08/18/kosovo-opposition-snubs-acting-presidents-meeting-amid-parliamentary-crisis/bi/",
+              "date": "2026-08-18",
+              "sentiment": "neutral",
+              "reason": "Faktikë e thjeshtë, pa gjuhë ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Cineuropa",
+          "sentiment": "neutral",
+          "articleCount": 3,
+          "articles": [
+            {
+              "title": "Igor Aleksov shooting The Secret of the Bare Hill - Cineuropa",
+              "albanianTitle": "Igor Aleksov po xhiron filmin \"Sekreti i Kodrës së Zhveshur\" - Cineuropa",
+              "blurb": "Regjisori Igor Aleksov ka nisur xhirimet për filmin e ri me titull Sekretet e Kodrës së Zhveshur në rajon.",
+              "imageUrl": null,
+              "url": "https://cineuropa.org/en/newsdetail/494534",
+              "date": "2026-08-18",
+              "sentiment": "neutral",
+              "reason": "Titull informativ pa ngarkim",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
             {
               "title": "As the Spring Arrives, Water Recalls the Nomads triumphs at DokuFest Prizren - Cineuropa",
               "albanianTitle": "Filmi 'As the Spring Arrives, Water Recalls the Nomads' triumfon në DokuFest të Prizrenit - Cineuropa",
@@ -120,9 +153,9 @@
           "articleCount": 1,
           "articles": [
             {
-              "title": "Has Kurti crossed a \"red line\" in the relations with the EU? - europeanwesternbalkans.com",
+              "title": "Has Kurti crossed a \"red line\" in the relations with the EU? - European Western Balkans",
               "albanianTitle": "A ka kaluar Kurti një \"vijë të kuqe\" në raportet me BE-në?",
-              "blurb": "Analizohet nëse veprimet e kryeministrit Albin Kurti kanë tejkaluar vijat e kuqe në raportet me Bashkimin Evropian.",
+              "blurb": "Ekspertët shqyrtojnë nëse politikat e qeverisë Kurti kanë cenuar marrëdhëniet diplomatike me shtetet e Bashkimit Evropian.",
               "imageUrl": "https://europeanwesternbalkans.com/wp-content/uploads/2026/08/kurti-marta.jpg",
               "url": "https://europeanwesternbalkans.com/2026/08/18/has-kurti-crossed-a-red-line-in-the-relations-with-the-eu/",
               "date": "2026-08-18",
@@ -235,6 +268,26 @@
           ]
         },
         {
+          "name": "UNICEF",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Learning Across Borders: Kosovo Hosts Sub-Regional Exchange on Early Childhood Intervention - UNICEF",
+              "albanianTitle": "Mësimi përtej kufijve: Kosova pret shkëmbimin nën-rajonal për ndërhyrjen e hershme në fëmijëri - UNICEF",
+              "blurb": "Kosova po organizon një shkëmbim nën-rajonal për të diskutuar praktikat e ndërhyrjes së hershme në zhvillimin e fëmijëve.",
+              "imageUrl": null,
+              "url": "https://www.unicef.org/kosovoprogramme/stories/learning-across-borders-kosovo-hosts-sub-regional-exchange-early-childhood-intervention",
+              "date": "2026-08-17",
+              "sentiment": "neutral",
+              "reason": "Raportim faktik i ngjarjes",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "Variety",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -271,6 +324,319 @@
               "isQuote": true,
               "evidence": "",
               "speaker": "Haxhiu"
+            }
+          ]
+        },
+        {
+          "name": "globalpost.com",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo Discovers Third Suspected Mass Grave from 1998-99 War - globalpost.com",
+              "albanianTitle": "Kosova zbulon varrin e tretë të dyshuar masiv nga lufta e viteve 1998-99 - globalpost.com",
+              "blurb": "Kosova ka zbuluar varrin e tretë të dyshuar masiv nga lufta e viteve 1998-99.",
+              "imageUrl": "https://globalpost.com/wp-content/uploads/2026/01/Kosovo-Prizren.jpg",
+              "url": "https://globalpost.com/stories/kosovo-discovers-third-suspected-mass-grave-from-1998-99-war/",
+              "date": "2026-08-15",
+              "sentiment": "neutral",
+              "reason": "Lajm i thjeshtë, i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "srpske.rs",
+          "sentiment": "neutral",
+          "articleCount": 2,
+          "articles": [
+            {
+              "title": "Brussels Confirms Conditions Met for Ibar Bridge Opening - srpske.rs",
+              "albanianTitle": "Brukseli konfirmon se janë plotësuar kushtet për hapjen e urës së Ibrit",
+              "blurb": "Brukseli ka konfirmuar se janë përmbushur kushtet e nevojshme për hapjen e urës kryesore mbi lumin Ibër.",
+              "imageUrl": "https://srpske.rs/uploads/articles/eu-confirms-conditions-met-ibar-bridge-opening-16x9.webp",
+              "url": "https://srpske.rs/en/news/politika/2026/08/18/eu-confirms-conditions-met-ibar-bridge-opening",
+              "date": "2026-08-18",
+              "sentiment": "neutral",
+              "reason": "purely factual report about bridge opening",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Kosovo Assembly Remains Deadlocked, PDK and AAK Refuse Talks - srpske.rs",
+              "albanianTitle": "Kuvendi i Kosovës mbetet në bllokadë, PDK dhe AAK refuzojnë dialogun - srpske.rs",
+              "blurb": "Kuvendi i Kosovës mbetet i bllokuar pasi partitë opozitare PDK dhe AAK refuzojnë pjesëmarrjen në bisedime.",
+              "imageUrl": "https://srpske.rs/uploads/articles/kosovo-assembly-remains-deadlocked-pdk-aak-refuse-talks-16x9.webp",
+              "url": "https://srpske.rs/en/news/politika/2026/08/17/kosovo-assembly-remains-deadlocked-pdk-aak-refuse-talks",
+              "date": "2026-08-17",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike pa ngjyrë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "ԱՐՑԱԽ ԼՐԱՏՎԱԿԱՆ",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "NATO reduces security presence at key Kosovo Serb sites - ԱՐՑԱԽ ԼՐԱՏՎԱԿԱՆ",
+              "albanianTitle": "NATO-ja redukton praninë e sigurisë në pikat kyçe serbe në Kosovë - ԱՐՑԱԽ ԼՐԱՏՎԱԿԱՆ",
+              "blurb": "NATO ka reduktuar praninë e sigurisë në vendet kyçe serbe të Kosovës.",
+              "imageUrl": "https://mamul.am/images/photos/260812/nato-n-sksel-e-krtchatel-ir-ne-n367818-1.jpg",
+              "url": "https://artsakh.news/en/news/367818",
+              "date": "2026-08-15",
+              "sentiment": "neutral",
+              "reason": "Lajm i thjeshtë, i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        }
+      ],
+      "summary": {
+        "index": 50,
+        "positive": 6,
+        "neutral": 88,
+        "negative": 6,
+        "n": 16,
+        "excluded": 1,
+        "confident": true,
+        "stanceVersion": 2
+      }
+    },
+    "Britani": {
+      "outlets": [
+        {
+          "name": "Balkan Insight",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo Opposition Snubs Acting President’s Meeting Amid Parliamentary Crisis - Balkan Insight",
+              "albanianTitle": "Opozita kosovare bojkoton takimin me ushtruesen e detyrës së presidentit në mes të krizës parlamentare - Balkan Insight",
+              "blurb": "Partitë opozitare në Kosovë refuzuan pjesëmarrjen në takimin e thirrur nga ushtruesja e detyrës së presidentit për krizën parlamentare.",
+              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/08/Kosovo-meeting-Albulena-Haxhiu-BIRN-scaled-e1787054218728.jpg",
+              "url": "https://balkaninsight.com/2026/08/18/kosovo-opposition-snubs-acting-presidents-meeting-amid-parliamentary-crisis/bi/",
+              "date": "2026-08-18",
+              "sentiment": "neutral",
+              "reason": "Faktikë e thjeshtë, pa gjuhë ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Cineuropa",
+          "sentiment": "neutral",
+          "articleCount": 3,
+          "articles": [
+            {
+              "title": "Igor Aleksov shooting The Secret of the Bare Hill - cineuropa.org",
+              "albanianTitle": null,
+              "blurb": "Prodhimi i filmit Sekretet e Kodrës së Zhveshur nën drejtimin e regjisorit Igor Aleksov ka filluar xhirimet zyrtare.",
+              "imageUrl": null,
+              "url": "https://cineuropa.org/en/newsdetail/494534",
+              "date": "2026-08-18",
+              "sentiment": "neutral",
+              "reason": "Titull informativ pa ngarkim",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "As the Spring Arrives, Water Recalls the Nomads triumphs at DokuFest Prizren - Cineuropa",
+              "albanianTitle": "Filmi 'As the Spring Arrives, Water Recalls the Nomads' triumfon në DokuFest të Prizrenit - Cineuropa",
+              "blurb": "Filmi As the Spring Arrives, Water Recalls the Nomads shpallet fitues në festivalin DokuFest në Prizren.",
+              "imageUrl": null,
+              "url": "https://cineuropa.org/en/newsdetail/494515",
+              "date": "2026-08-17",
+              "sentiment": "positive",
+              "reason": "Positive language praising Kosovo cultural work",
+              "isQuote": false,
+              "evidence": "triumphs at DokuFest",
+              "speaker": ""
+            },
+            {
+              "title": "CEE Animation opens call for the CODA – Co-Development Animation Awards - cineuropa.org",
+              "albanianTitle": "CEE Animation hap thirrjen për aplikim për çmimet CODA – Co-Development Animation Awards",
+              "blurb": "CEE Animation ka hapur thirrjen për aplikim për çmimet CODA që mbështesin bashkë-zhvillimin e projekteve të animacionit.",
+              "imageUrl": null,
+              "url": "https://cineuropa.org/en/newsdetail/494528",
+              "date": "2026-08-17",
+              "sentiment": "neutral",
+              "reason": "No explicit outlet bias toward Kosovo evident in headline",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "European Western Balkans",
+          "sentiment": "negative",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Has Kurti crossed a \"red line\" in the relations with the EU? - European Western Balkans",
+              "albanianTitle": "A ka kaluar Kurti një \"vijë të kuqe\" në raportet me BE-në?",
+              "blurb": "Ekspertët shqyrtojnë nëse politikat e qeverisë Kurti kanë cenuar marrëdhëniet diplomatike me shtetet e Bashkimit Evropian.",
+              "imageUrl": "https://europeanwesternbalkans.com/wp-content/uploads/2026/08/kurti-marta.jpg",
+              "url": "https://europeanwesternbalkans.com/2026/08/18/has-kurti-crossed-a-red-line-in-the-relations-with-the-eu/",
+              "date": "2026-08-18",
+              "sentiment": "negative",
+              "reason": "critical framing of Kosovo's leader by the outlet",
+              "isQuote": false,
+              "evidence": "crossed a red line",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "JNS.org",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Is Somaliland America’s next Kosovo? - JNS.org",
+              "albanianTitle": "A po bëhet Somalilandi Kosova e radhës për Amerikën?",
+              "blurb": "Analizohet mundësia e njohjes së Somalilandit nga Shtetet e Bashkuara të Amerikës, duke e krahasuar atë me rastin e Kosovës.",
+              "imageUrl": "https://static.jns.org/dims4/default/88a5884/2147483647/strip/true/crop/6601x3713+0+688/resize/1440x810!/format/webp/quality/90/?url=https%3A%2F%2Fk2-prod-jns-prod.s3.us-east-1.amazonaws.com%2Fbrightspot%2Fef%2Fda%2Fefca21cf4a09be1ee413f8259207%2Fgettyimages-2276340274.jpg",
+              "url": "https://www.jns.org/opinion/nassir-hussein-kahin/is-somaliland-americas-next-kosovo",
+              "date": "2026-08-18",
+              "sentiment": "neutral",
+              "reason": "Question headline without hostile language, merely drawing a comparison",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "KosovaPress",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Democratic Party of Kosovo deputies gather again outside Government, call Kurti an “usurper” - KosovaPress",
+              "albanianTitle": "Deputetët e PDK-së protestojnë sërish para Qeverisë, e quajnë Kurtin “uzurpator”",
+              "blurb": "Deputetët e Partisë Demokratike të Kosovës u mblodhën para ndërtesës së Qeverisë duke e quajtur kryeministrin Kurti uzurpator të pushtetit.",
+              "imageUrl": null,
+              "url": "https://kosovapress.com/eng/democratic-party-of-kosovo-deputies-gather-again-outside-government-call-kurti-an-usurper",
+              "date": "2026-08-17",
+              "sentiment": "neutral",
+              "reason": "Fjalët e ngarkuara janë citim i kundërshtarëve, jo i mediave",
+              "isQuote": true,
+              "evidence": "",
+              "speaker": "Democratic Party of Kosovo deputies"
+            }
+          ]
+        },
+        {
+          "name": "The Architectural Review",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "An editorial practice in times of crisis - The Architectural Review",
+              "albanianTitle": "Një praktikë editoriale në kohë krize",
+              "blurb": "Analizohen praktikat editoriale dhe sfidat e punës në media gjatë periudhave të krizave të ndryshme shoqërore e politike.",
+              "imageUrl": "https://cdn.ca.emap.com/wp-content/uploads/sites/12/2026/08/260710_An-editorial-practice-in-times-of-crisis_Page_16_playback-1024x576.webp",
+              "url": "https://www.architectural-review.com/films/an-editorial-practice-in-times-of-crisis",
+              "date": "2026-08-17",
+              "sentiment": "unknown",
+              "reason": "No content about Kosovo to assess outlet's attitude",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "The Business Standard",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Bangladesh, Kosovo reaffirm strong opposition to all forms of transnational crimes - The Financial Express",
+              "albanianTitle": "Bangladeshi dhe Kosova ribehin kundërshtimin e fortë ndaj të gjitha formave të krimeve transnacionale",
+              "blurb": "Kosova dhe Bangladeshi kanë rikonfirmuar qëndrimin e tyre kundër të gjitha formave të krimeve transnacionale.",
+              "imageUrl": "https://thefe-bd.sgp1.cdn.digitaloceanspaces.com/posts/167477/1786792070-unb-newswire.jpg",
+              "url": "https://thefinancialexpress.com.bd/national/bangladesh-kosovo-reaffirm-strong-opposition-to-all-forms-of-transnational-crimes",
+              "date": "2026-08-15",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "UNICEF",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Learning Across Borders: Kosovo Hosts Sub-Regional Exchange on Early Childhood Intervention - UNICEF",
+              "albanianTitle": "Mësimi përtej kufijve: Kosova pret shkëmbimin nën-rajonal për ndërhyrjen e hershme në fëmijëri - UNICEF",
+              "blurb": "Kosova po organizon një shkëmbim nën-rajonal për të diskutuar praktikat e ndërhyrjes së hershme në zhvillimin e fëmijëve.",
+              "imageUrl": null,
+              "url": "https://www.unicef.org/kosovoprogramme/stories/learning-across-borders-kosovo-hosts-sub-regional-exchange-early-childhood-intervention",
+              "date": "2026-08-17",
+              "sentiment": "neutral",
+              "reason": "Raportim faktik i ngjarjes",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Variety",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "‘Shame and Money’ Director on Sundance-Winning Drama About a Kosovo Family in Free Fall: ‘It’s a Look Into the Past and a Warning to the Future’ - IMDb",
+              "albanianTitle": "Regjisori i filmit ‘Shame and Money’ për dramën fituese në Sundance për një familje kosovare në rënie të lirë: ‘Është një vështrim në të kaluarën dhe një paralajmërim për të ardhmen’",
+              "blurb": "Regjisori i filmit fitues në Sundance flet për dramën mbi një familje kosovare në rënie të lirë.",
+              "imageUrl": null,
+              "url": "https://www.imdb.com/de/news/ni65974085/?ref_=nwc_art_perm",
+              "date": "2026-08-16",
+              "sentiment": "neutral",
+              "reason": "Raporton deklaratën e drejtorit të filmit",
+              "isQuote": true,
+              "evidence": "",
+              "speaker": "Shame and Money Director"
+            }
+          ]
+        },
+        {
+          "name": "cna.al",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "European Commission on opening the bridge over the Ibar River: We expect consultations and coordination - cna.al",
+              "albanianTitle": "Komisioni Evropian për hapjen e urës mbi lumin Ibër: Presim konsultime dhe koordinim - cna.al",
+              "blurb": "Komisioni Evropian kërkon konsultime dhe koordinim për çështjen e hapjes së urës mbi lumin Ibër në qytetin e Mitrovicës.",
+              "imageUrl": null,
+              "url": "https://www.cna.al/english/kosova-bota/komisioni-evropian-per-hapjen-e-ures-mbi-iber-presim-konsultime-dhe--i471811",
+              "date": "2026-08-18",
+              "sentiment": "neutral",
+              "reason": "Raportim neutral i deklaratës",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ]
         },
@@ -350,270 +716,10 @@
       ],
       "summary": {
         "index": 50,
-        "positive": 8,
-        "neutral": 85,
-        "negative": 8,
-        "n": 13,
-        "excluded": 1,
-        "confident": true,
-        "stanceVersion": 2
-      }
-    },
-    "Britani": {
-      "outlets": [
-        {
-          "name": "Cineuropa",
-          "sentiment": "neutral",
-          "articleCount": 2,
-          "articles": [
-            {
-              "title": "CEE Animation opens call for the CODA – Co-Development Animation Awards - cineuropa.org",
-              "albanianTitle": "CEE Animation hap thirrjen për aplikim për çmimet CODA – Co-Development Animation Awards",
-              "blurb": "CEE Animation ka hapur thirrjen për aplikim për çmimet CODA që mbështesin bashkë-zhvillimin e projekteve të animacionit.",
-              "imageUrl": null,
-              "url": "https://cineuropa.org/en/newsdetail/494528",
-              "date": "2026-08-17",
-              "sentiment": "neutral",
-              "reason": "No explicit outlet bias toward Kosovo evident in headline",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "As the Spring Arrives, Water Recalls the Nomads triumphs at DokuFest Prizren - Cineuropa",
-              "albanianTitle": "Filmi 'As the Spring Arrives, Water Recalls the Nomads' triumfon në DokuFest të Prizrenit - Cineuropa",
-              "blurb": "Filmi As the Spring Arrives, Water Recalls the Nomads shpallet fitues në festivalin DokuFest në Prizren.",
-              "imageUrl": null,
-              "url": "https://cineuropa.org/en/newsdetail/494515",
-              "date": "2026-08-17",
-              "sentiment": "positive",
-              "reason": "Positive language praising Kosovo cultural work",
-              "isQuote": false,
-              "evidence": "triumphs at DokuFest",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "European Western Balkans",
-          "sentiment": "negative",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Has Kurti crossed a \"red line\" in the relations with the EU? - European Western Balkans",
-              "albanianTitle": "A ka kaluar Kurti një \"vijë të kuqe\" në raportet me BE-në?",
-              "blurb": "Ekspertët shqyrtojnë nëse politikat e qeverisë Kurti kanë cenuar marrëdhëniet diplomatike me shtetet e Bashkimit Evropian.",
-              "imageUrl": "https://europeanwesternbalkans.com/wp-content/uploads/2026/08/kurti-marta.jpg",
-              "url": "https://europeanwesternbalkans.com/2026/08/18/has-kurti-crossed-a-red-line-in-the-relations-with-the-eu/",
-              "date": "2026-08-18",
-              "sentiment": "negative",
-              "reason": "critical framing of Kosovo's leader by the outlet",
-              "isQuote": false,
-              "evidence": "crossed a red line",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "JNS.org",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Is Somaliland America’s next Kosovo? - JNS.org",
-              "albanianTitle": "A po bëhet Somalilandi Kosova e radhës për Amerikën?",
-              "blurb": "Analizohet mundësia e njohjes së Somalilandit nga Shtetet e Bashkuara të Amerikës, duke e krahasuar atë me rastin e Kosovës.",
-              "imageUrl": "https://static.jns.org/dims4/default/88a5884/2147483647/strip/true/crop/6601x3713+0+688/resize/1440x810!/format/webp/quality/90/?url=https%3A%2F%2Fk2-prod-jns-prod.s3.us-east-1.amazonaws.com%2Fbrightspot%2Fef%2Fda%2Fefca21cf4a09be1ee413f8259207%2Fgettyimages-2276340274.jpg",
-              "url": "https://www.jns.org/opinion/nassir-hussein-kahin/is-somaliland-americas-next-kosovo",
-              "date": "2026-08-18",
-              "sentiment": "neutral",
-              "reason": "Question headline without hostile language, merely drawing a comparison",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "KosovaPress",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Democratic Party of Kosovo deputies gather again outside Government, call Kurti an “usurper” - KosovaPress",
-              "albanianTitle": "Deputetët e PDK-së protestojnë sërish para Qeverisë, e quajnë Kurtin “uzurpator”",
-              "blurb": "Deputetët e Partisë Demokratike të Kosovës u mblodhën para ndërtesës së Qeverisë duke e quajtur kryeministrin Kurti uzurpator të pushtetit.",
-              "imageUrl": null,
-              "url": "https://kosovapress.com/eng/democratic-party-of-kosovo-deputies-gather-again-outside-government-call-kurti-an-usurper",
-              "date": "2026-08-17",
-              "sentiment": "neutral",
-              "reason": "Fjalët e ngarkuara janë citim i kundërshtarëve, jo i mediave",
-              "isQuote": true,
-              "evidence": "",
-              "speaker": "Democratic Party of Kosovo deputies"
-            }
-          ]
-        },
-        {
-          "name": "Periskopi",
-          "sentiment": "negative",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Ginny: Kosovo is infiltrated by enemy secret services, how many more spies can be at the top of power? - Periskopi",
-              "albanianTitle": "Ginny: Kosova është e infiltruar nga shërbimet sekrete armike, sa spiunë të tjerë mund të jenë në majat e pushtetit?",
-              "blurb": "Ginny pretendon se shërbimet e huaja sekrete kanë infiltruar institucionet e larta të shtetit të Kosovës aktualisht.",
-              "imageUrl": null,
-              "url": "https://periskopi.com/en/2026/8/ginny-kosovo-infiltrated-enemy-secret-services-spies-power",
-              "date": "2026-08-17",
-              "sentiment": "negative",
-              "reason": "hostile language portraying Kosovo as compromised",
-              "isQuote": false,
-              "evidence": "infiltrated by enemy secret services",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "The Architectural Review",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "An editorial practice in times of crisis - The Architectural Review",
-              "albanianTitle": "Një praktikë editoriale në kohë krize",
-              "blurb": "Analizohen praktikat editoriale dhe sfidat e punës në media gjatë periudhave të krizave të ndryshme shoqërore e politike.",
-              "imageUrl": "https://cdn.ca.emap.com/wp-content/uploads/sites/12/2026/08/260710_An-editorial-practice-in-times-of-crisis_Page_16_playback-1024x576.webp",
-              "url": "https://www.architectural-review.com/films/an-editorial-practice-in-times-of-crisis",
-              "date": "2026-08-17",
-              "sentiment": "unknown",
-              "reason": "No content about Kosovo to assess outlet's attitude",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "The Business Standard",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Bangladesh, Kosovo reaffirm strong opposition to all forms of transnational crimes - The Financial Express",
-              "albanianTitle": "Bangladeshi dhe Kosova ribehin kundërshtimin e fortë ndaj të gjitha formave të krimeve transnacionale",
-              "blurb": "Kosova dhe Bangladeshi kanë rikonfirmuar qëndrimin e tyre kundër të gjitha formave të krimeve transnacionale.",
-              "imageUrl": "https://thefe-bd.sgp1.cdn.digitaloceanspaces.com/posts/167477/1786792070-unb-newswire.jpg",
-              "url": "https://thefinancialexpress.com.bd/national/bangladesh-kosovo-reaffirm-strong-opposition-to-all-forms-of-transnational-crimes",
-              "date": "2026-08-15",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "Variety",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "‘Shame and Money’ Director on Sundance-Winning Drama About a Kosovo Family in Free Fall: ‘It’s a Look Into the Past and a Warning to the Future’ - IMDb",
-              "albanianTitle": "Regjisori i filmit ‘Shame and Money’ për dramën fituese në Sundance për një familje kosovare në rënie të lirë: ‘Është një vështrim në të kaluarën dhe një paralajmërim për të ardhmen’",
-              "blurb": "Regjisori i filmit fitues në Sundance flet për dramën mbi një familje kosovare në rënie të lirë.",
-              "imageUrl": null,
-              "url": "https://www.imdb.com/de/news/ni65974085/?ref_=nwc_art_perm",
-              "date": "2026-08-16",
-              "sentiment": "neutral",
-              "reason": "Raporton deklaratën e drejtorit të filmit",
-              "isQuote": true,
-              "evidence": "",
-              "speaker": "Shame and Money Director"
-            }
-          ]
-        },
-        {
-          "name": "globalpost.com",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosovo Discovers Third Suspected Mass Grave from 1998-99 War - globalpost.com",
-              "albanianTitle": "Kosova zbulon varrin e tretë të dyshuar masiv nga lufta e viteve 1998-99 - globalpost.com",
-              "blurb": "Kosova ka zbuluar varrin e tretë të dyshuar masiv nga lufta e viteve 1998-99.",
-              "imageUrl": "https://globalpost.com/wp-content/uploads/2026/01/Kosovo-Prizren.jpg",
-              "url": "https://globalpost.com/stories/kosovo-discovers-third-suspected-mass-grave-from-1998-99-war/",
-              "date": "2026-08-15",
-              "sentiment": "neutral",
-              "reason": "Lajm i thjeshtë, i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "srpske.rs",
-          "sentiment": "neutral",
-          "articleCount": 2,
-          "articles": [
-            {
-              "title": "Kosovo Assembly Remains Deadlocked, PDK and AAK Refuse Talks - srpske.rs",
-              "albanianTitle": "Kuvendi i Kosovës mbetet në bllokadë, PDK dhe AAK refuzojnë dialogun - srpske.rs",
-              "blurb": "Kuvendi i Kosovës mbetet i bllokuar pasi partitë opozitare PDK dhe AAK refuzojnë pjesëmarrjen në bisedime.",
-              "imageUrl": "https://srpske.rs/uploads/articles/kosovo-assembly-remains-deadlocked-pdk-aak-refuse-talks-16x9.webp",
-              "url": "https://srpske.rs/en/news/politika/2026/08/17/kosovo-assembly-remains-deadlocked-pdk-aak-refuse-talks",
-              "date": "2026-08-17",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike pa ngjyrë",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Brussels Confirms Conditions Met for Ibar Bridge Opening - srpske.rs",
-              "albanianTitle": "Brukseli konfirmon se janë plotësuar kushtet për hapjen e urës së Ibrit",
-              "blurb": "Brukseli ka konfirmuar se janë përmbushur kushtet e nevojshme për hapjen e urës kryesore mbi lumin Ibër.",
-              "imageUrl": "https://srpske.rs/uploads/articles/eu-confirms-conditions-met-ibar-bridge-opening-16x9.webp",
-              "url": "https://srpske.rs/en/news/politika/2026/08/18/eu-confirms-conditions-met-ibar-bridge-opening",
-              "date": "2026-08-18",
-              "sentiment": "neutral",
-              "reason": "purely factual report about bridge opening",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "ԱՐՑԱԽ ԼՐԱՏՎԱԿԱՆ",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "NATO reduces security presence at key Kosovo Serb sites - ԱՐՑԱԽ ԼՐԱՏՎԱԿԱՆ",
-              "albanianTitle": "NATO-ja redukton praninë e sigurisë në pikat kyçe serbe në Kosovë - ԱՐՑԱԽ ԼՐԱՏՎԱԿԱՆ",
-              "blurb": "NATO ka reduktuar praninë e sigurisë në vendet kyçe serbe të Kosovës.",
-              "imageUrl": "https://mamul.am/images/photos/260812/nato-n-sksel-e-krtchatel-ir-ne-n367818-1.jpg",
-              "url": "https://artsakh.news/en/news/367818",
-              "date": "2026-08-15",
-              "sentiment": "neutral",
-              "reason": "Lajm i thjeshtë, i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        }
-      ],
-      "summary": {
-        "index": 46,
-        "positive": 8,
-        "neutral": 75,
-        "negative": 17,
-        "n": 12,
+        "positive": 7,
+        "neutral": 87,
+        "negative": 7,
+        "n": 15,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2
@@ -697,9 +803,22 @@
       "outlets": [
         {
           "name": "Cineuropa",
-          "sentiment": "positive",
-          "articleCount": 1,
+          "sentiment": "neutral",
+          "articleCount": 2,
           "articles": [
+            {
+              "title": "Igor Aleksov sta girando The Secret of the Bare Hill - Cineuropa",
+              "albanianTitle": null,
+              "blurb": "Regjisori Igor Aleksov ka filluar punën në terren për xhirimet e filmit të tij të ri Sekretet e Kodrës së Zhveshur.",
+              "imageUrl": null,
+              "url": "https://cineuropa.org/it/newsdetail/494534",
+              "date": "2026-08-18",
+              "sentiment": "neutral",
+              "reason": "Titull informativ pa ngarkim",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
             {
               "title": "As the Spring Arrives, Water Recalls the Nomads trionfa al DokuFest di Prizren - Cineuropa",
               "albanianTitle": "Filmi 'As the Spring Arrives, Water Recalls the Nomads' triumfon në DokuFest të Prizrenit - Cineuropa",
@@ -777,13 +896,13 @@
         }
       ],
       "summary": {
-        "index": 62,
-        "positive": 25,
-        "neutral": 75,
+        "index": 60,
+        "positive": 20,
+        "neutral": 80,
         "negative": 0,
-        "n": 4,
+        "n": 5,
         "excluded": 0,
-        "confident": false,
+        "confident": true,
         "stanceVersion": 2
       }
     },
@@ -855,14 +974,14 @@
           "articleCount": 1,
           "articles": [
             {
-              "title": "Kosovo verhaftet mutmaßlichen serbischen Spion – Spannungen im Westbalkan - Pester Lloyd",
-              "albanianTitle": "Kosova arreston spiunin e dyshuar serb – Tensione në Ballkanin Perëndimor - Pester Lloyd",
-              "blurb": "Kosova ka arrestuar një spiun të dyshuar serb, duke rritur tensionet në Ballkanin Perëndimor.",
+              "title": "Kosovo verhaftet mutmaßlichen serbischen Spion – Spannungen im Westbalkan - pesterlloyd.net",
+              "albanianTitle": "Kosova arreston një të dyshuar për spiunazh serb – rriten tensionet në Ballkanin Perëndimor",
+              "blurb": "Autoritetet e Kosovës kanë arrestuar një person të dyshuar për spiunazh në favor të shtetit serb gjatë kësaj periudhe.",
               "imageUrl": "https://www.pesterlloyd.net/wp-content/uploads/2026/08/kurznachrichten-cover-2026-08-15-646.webp",
               "url": "https://www.pesterlloyd.net/kosovo-verhaftet-mutmasslichen-serbischen-spion-spannungen-im-westbalkan/",
               "date": "2026-08-15",
               "sentiment": "neutral",
-              "reason": "Lajm i thjeshtë, i raportuar në mënyrë faktike",
+              "reason": "Faktikë raportuar pa ngarkim",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1046,6 +1165,26 @@
     "Spanjë": {
       "outlets": [
         {
+          "name": "El Nacional",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo destinó 200 mil dólares a la Cruz Roja para atender a los damnificados de La Guaira tras los terremotos - El Nacional",
+              "albanianTitle": "Kosova ndau 200 mijë dollarë për Kryqin e Kuq për të ndihmuar viktimat e tërmeteve në La Guaira - El Nacional",
+              "blurb": "Kosova ka dhuruar 200 mijë dollarë për Kryqin e Kuq për të ndihmuar viktimat e tërmeteve në La Guaira.",
+              "imageUrl": "https://elnacional-uploads.nyc3.digitaloceanspaces.com/wp-content/uploads/2026/08/15122155/863c6e41580713a89fce9c659b126dd120b003d2.jpg",
+              "url": "https://www.elnacional.com/2026/08/kosovo-destino-200-mil-dolares-a-la-cruz-roja-para-atender-a-los-damnificados-de-la-guaira-tras-los-terremotos/",
+              "date": "2026-08-15",
+              "sentiment": "neutral",
+              "reason": "Lajm i thjeshtë, i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "Everardo Herrera",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1066,39 +1205,32 @@
           ]
         },
         {
-          "name": "elnacional.com",
+          "name": "Infobae",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
-              "title": "Kosovo destinó 200 mil dólares a la Cruz Roja para atender a los damnificados de La Guaira tras los terremotos - El Nacional",
-              "albanianTitle": "Kosova ndau 200 mijë dollarë për Kryqin e Kuq për të ndihmuar viktimat e tërmeteve në La Guaira - El Nacional",
-              "blurb": "Kosova ka dhuruar 200 mijë dollarë për Kryqin e Kuq për të ndihmuar viktimat e tërmeteve në La Guaira.",
-              "imageUrl": "https://elnacional-uploads.nyc3.digitaloceanspaces.com/wp-content/uploads/2026/08/15122155/863c6e41580713a89fce9c659b126dd120b003d2.jpg",
-              "url": "https://www.elnacional.com/2026/08/kosovo-destino-200-mil-dolares-a-la-cruz-roja-para-atender-a-los-damnificados-de-la-guaira-tras-los-terremotos/",
-              "date": "2026-08-15",
+              "title": "La UE pide más garantías a Kosovo antes de abrir el puente que divide Mitrovica - Infobae",
+              "albanianTitle": "BE kërkon më shumë garanci nga Kosova para hapjes së urës që ndan Mitrovicën - Infobae",
+              "blurb": "Bashkimi Evropian kërkon garanci shtesë nga institucionet e Kosovës përpara se të hapet ura që ndan qytetin e Mitrovicës.",
+              "imageUrl": "https://www.infobae.com/assets/images/logos/fallback-promo-image-1200x630.png",
+              "url": "https://www.infobae.com/america/agencias/2026/08/18/la-ue-pide-mas-garantias-a-kosovo-antes-de-abrir-el-puente-que-divide-mitrovica/",
+              "date": "2026-08-18",
               "sentiment": "neutral",
-              "reason": "Lajm i thjeshtë, i raportuar në mënyrë faktike",
+              "reason": "Faktik, pa gjuhë të ngarkuar",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "espn.com.co",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
+            },
             {
-              "title": "Kosovo Calendario 2026 - espn.com.co",
-              "albanianTitle": "Kalendari i Kosovës 2026",
-              "blurb": "Publikohet kalendari i ndeshjeve të përfaqësueses së Kosovës në futboll për vitin 2026 në platformën ESPN.",
-              "imageUrl": null,
-              "url": "https://www.espn.com.co/futbol/equipo/calendario/_/id/21479/Kosovo",
-              "date": "2026-08-17",
+              "title": "La oposición kosovar protesta contra el bloqueo del Parlamento - Infobae",
+              "albanianTitle": "Opozita kosovare proteston kundër bllokimit të Parlamentit - Infobae",
+              "blurb": "Partitë opozitare në Kosovë kanë organizuar protesta si shenjë kundërshtimi ndaj bllokimit të punës në Kuvendin e vendit.",
+              "imageUrl": "https://www.infobae.com/assets/images/logos/fallback-promo-image-1200x630.png",
+              "url": "https://www.infobae.com/america/agencias/2026/08/18/la-oposicion-kosovar-protesta-contra-el-bloqueo-del-parlamento/",
+              "date": "2026-08-18",
               "sentiment": "neutral",
-              "reason": "Faktikë raportim pa gjuhë të ngarkuar",
+              "reason": "Faktik, pa gjuhë të ngarkuar",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1111,7 +1243,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 3,
+        "n": 4,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
@@ -1180,6 +1312,26 @@
           ]
         },
         {
+          "name": "skaipatras.gr",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Mε έξι αθλητές η Ελλάδα στο Ευρωπαϊκό Πρωτάθλημα Παίδων & Κ15 στο Κόσοβο - skaipatras.gr",
+              "albanianTitle": "Greqia me gjashtë atletë në Kampionatin Evropian për kadetë dhe U15 në Kosovë - skaipatras.gr",
+              "blurb": "Greqia do të përfaqësohet nga gjashtë atletë në Kampionatin Evropian për kadetë dhe grupmoshën U15 që mbahet në Kosovë.",
+              "imageUrl": "https://www.skaipatras.gr/wp-content/uploads/2026/08/ΧΡΗΣΤΟΥ.jpg",
+              "url": "https://www.skaipatras.gr/2026/08/18/me-exi-athlites-i-ellada-sto-eyropaiko-protathlima-paidon-amp-k15-sto-kosovo/",
+              "date": "2026-08-18",
+              "sentiment": "neutral",
+              "reason": "Faktik, pa gjuhë të ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "sport-fm.gr",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1198,6 +1350,26 @@
               "speaker": ""
             }
           ]
+        },
+        {
+          "name": "Αθηναϊκό - Μακεδονικό πρακτορείο ειδήσεων",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Βόλεϊ-Μεσογειακοί Αγώνες 2026: Αναχωρούν για το Τάραντο οι εθνικές ανδρών και γυναικών - Αθηναϊκό - Μακεδονικό πρακτορείο ειδήσεων",
+              "albanianTitle": "Volejboll-Lojërat Mesdhetare 2026: Kombëtaret e meshkujve dhe femrave nisen për në Taranto - Agjencia e Lajmeve Athinase-Maqedonase",
+              "blurb": "Ekipet kombëtare të volejbollit të Greqisë janë nisur drejt Tarantos për të marrë pjesë në Lojërat Mesdhetare të vitit 2026.",
+              "imageUrl": "https://amna.gr/photos/202608/w18-150258mennt2026mediaday.jpg",
+              "url": "https://www.amna.gr/sport/article/1016230/Bolei-Mesogeiakoi-Agones-2026-Anachoroun-gia-to-Taranto-oi-ethnikes-andron-kai-gunaikon-",
+              "date": "2026-08-18",
+              "sentiment": "neutral",
+              "reason": "Faktik, pa gjuhë të ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
         }
       ],
       "summary": {
@@ -1205,9 +1377,9 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 4,
+        "n": 6,
         "excluded": 0,
-        "confident": false,
+        "confident": true,
         "stanceVersion": 2
       }
     },
@@ -1227,26 +1399,6 @@
     "Poloni": {
       "outlets": [
         {
-          "name": "Meczyki.pl",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Polska U19 (K) - Kosowo U19 (K) - statystyki meczu 27.11.2026 - Meczyki.pl",
-              "albanianTitle": "Polonia U19 (F) - Kosova U19 (F) - statistikat e ndeshjes së datës 27.11.2026",
-              "blurb": "Përfaqësuesja e femrave U19 e Polonisë dhe ajo e Kosovës do të zhvillojnë ndeshjen e futbollit më 27 nëntor.",
-              "imageUrl": "https://pliki.meczyki.pl/live-score/soccer/match/6177686/original.png",
-              "url": "https://www.meczyki.pl/wyniki-na-zywo/poland-u19-kosovo-u19/6177686/statystyki",
-              "date": "2026-08-15",
-              "sentiment": "neutral",
-              "reason": "Statistika e ndeshjes, pa ndonjë gjuhë vlerësuese për Kosovën",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
           "name": "gostyn24.pl",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1260,6 +1412,26 @@
               "date": "2026-08-15",
               "sentiment": "neutral",
               "reason": "Raportim faktik i marrjes së një mjeti të ri në OSP Kosovo",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "meczyki.pl",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Polska U19 (K) - Kosowo U19 (K) - statystyki meczu 27.11.2026 - Meczyki.pl",
+              "albanianTitle": "Polonia U19 (F) - Kosova U19 (F) - statistikat e ndeshjes së datës 27.11.2026",
+              "blurb": "Përfaqësuesja e femrave U19 e Polonisë dhe ajo e Kosovës do të zhvillojnë ndeshjen e futbollit më 27 nëntor.",
+              "imageUrl": "https://pliki.meczyki.pl/live-score/soccer/match/6177686/original.png",
+              "url": "https://www.meczyki.pl/wyniki-na-zywo/poland-u19-kosovo-u19/6177686/statystyki",
+              "date": "2026-08-15",
+              "sentiment": "neutral",
+              "reason": "Statistika e ndeshjes, pa ndonjë gjuhë vlerësuese për Kosovën",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1280,6 +1452,26 @@
     },
     "Turqi": {
       "outlets": [
+        {
+          "name": "GZT",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Zorlu araziyle 7 saatlik mücadele: Kosova’daki orman yangını söndürüldü - GZT",
+              "albanianTitle": "Lufta 7-orëshe në terren të vështirë: Shuhet zjarri në pyjet e Kosovës",
+              "blurb": "Pas shtatë orësh përpjekje në terren të vështirë, është shuar zjarri që kishte përfshirë një zonë pyjore në Kosovë.",
+              "imageUrl": null,
+              "url": "https://www.gzt.com/dunya/zorlu-araziyle-7-saatlik-mucadele-kosovadaki-orman-yangini-sonduruldu-4252044",
+              "date": "2026-08-17",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
         {
           "name": "Haber Ege",
           "sentiment": "neutral",
@@ -1306,6 +1498,19 @@
           "articleCount": 6,
           "articles": [
             {
+              "title": "Kosova’da Anayasal Düzen Artık İşlemiyor - Kosovahaber.com",
+              "albanianTitle": "Rendi kushtetues në Kosovë nuk funksionon më - Kosovahaber.com",
+              "blurb": "Rendi kushtetues në Kosovë nuk është më funksional sipas vlerësimeve të fundit të publikuara në media.",
+              "imageUrl": null,
+              "url": "https://kosovahaber.com/haber/kosovada-anayasal-duzen-artik-islemiyor-105013",
+              "date": "2026-08-18",
+              "sentiment": "negative",
+              "reason": "Fjalë kritike ndaj rendit konstitucional të Kosovës",
+              "isQuote": false,
+              "evidence": "Anayasal Düzen Artık İşlemiyor",
+              "speaker": ""
+            },
+            {
               "title": "Kosova Otoriterliğe Doğru Sürüklenme Riskiyle Karşı Karşıya - Kosovahaber.com",
               "albanianTitle": "Kosova përballet me rrezikun e rrëshqitjes drejt autoritarizmit",
               "blurb": "Kosova përballet me rrezikun e mundshëm të rrëshqitjes drejt një sistemi qeverisës me karakteristika autoritare sipas vlerësimeve.",
@@ -1319,14 +1524,14 @@
               "speaker": ""
             },
             {
-              "title": "KFOR ve Kosova Polisi’ne Saldırı Suçundan Markoviç Hakim Karşısına Çıktı - Kosovahaber.com",
-              "albanianTitle": "Markovic del para gjykatës për sulmin ndaj KFOR-it dhe Policisë së Kosovës",
-              "blurb": "Markoviç ka dalë para gjykatës nën akuzën për sulm ndaj pjesëtarëve të KFOR-it dhe Policisë së Kosovës.",
+              "title": "AB: İbre Köprüsü’nün Açılması İçin İstişare ve Koordinasyon Bekliyoruz - Kosovahaber.com",
+              "albanianTitle": "BE: Presim konsultime dhe koordinim për hapjen e Urës së Ibrit - Kosovahaber.com",
+              "blurb": "Bashkimi Evropian kërkon konsultime dhe koordinim për çështjen e hapjes së urës mbi lumin Ibër në Mitrovicë.",
               "imageUrl": null,
-              "url": "https://kosovahaber.com/haber/kfor-ve-kosova-polisine-saldiri-sucundan-markovic-hakim-karsisina-cikti-105022",
+              "url": "https://kosovahaber.com/haber/ab-ibre-koprusunun-acilmasi-icin-istisare-ve-koordinasyon-bekliyoruz-105038",
               "date": "2026-08-18",
               "sentiment": "neutral",
-              "reason": "Faktikë raportim pa gjuhë të ngarkuar",
+              "reason": "Faktik, pa gjuhë të ngarkuar",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1345,6 +1550,19 @@
               "speaker": ""
             },
             {
+              "title": "KFOR ve Kosova Polisi’ne Saldırı Suçundan Markoviç Hakim Karşısına Çıktı - Kosovahaber.com",
+              "albanianTitle": "Markovic del para gjykatës për sulmin ndaj KFOR-it dhe Policisë së Kosovës",
+              "blurb": "Markoviç ka dalë para gjykatës nën akuzën për sulm ndaj pjesëtarëve të KFOR-it dhe Policisë së Kosovës.",
+              "imageUrl": null,
+              "url": "https://kosovahaber.com/haber/kfor-ve-kosova-polisine-saldiri-sucundan-markovic-hakim-karsisina-cikti-105022",
+              "date": "2026-08-18",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim pa gjuhë të ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
               "title": "Kosova Gümrüğü’nün Geliri 7 Ayda 1,15 Milyar Euroyu Aştı - Kosovahaber.com",
               "albanianTitle": "Dogana e Kosovës mbledh mbi 1,15 miliardë euro të hyra për 7 muaj",
               "blurb": "Të hyrat e Doganës së Kosovës gjatë shtatë muajve të parë të këtij viti kanë tejkaluar shumën prej 1.15 miliard euro.",
@@ -1353,32 +1571,6 @@
               "date": "2026-08-17",
               "sentiment": "neutral",
               "reason": "Faktikë ekonomik",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Anayasa Her Parti ve Liderden Üstündür - Kosovahaber.com",
-              "albanianTitle": "Kushtetuta është mbi çdo parti dhe lider",
-              "blurb": "Kushtetuta e Kosovës vlerësohet si akti më i lartë juridik që qëndron mbi çdo parti apo lider politik.",
-              "imageUrl": null,
-              "url": "https://kosovahaber.com/haber/anayasa-her-parti-ve-liderden-ustundur-105030",
-              "date": "2026-08-18",
-              "sentiment": "neutral",
-              "reason": "Faktikisht raporton një deklaratë për kushtetutën pa ngarkim vlerësues",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Tarihçiler, Armend Mehaj’ı Kosova Cumhurbaşkanlığı’na Önerdi - kosovahaber.com",
-              "albanianTitle": "Historianët propozojnë Armend Mehajn për President të Kosovës",
-              "blurb": "Një grup historianësh kanë propozuar Armend Mehajn si kandidat për postin e Presidentit të Republikës së Kosovës.",
-              "imageUrl": null,
-              "url": "https://kosovahaber.com/haber/tarihciler-armend-mehaji-kosova-cumhurbaskanligina-onerdi-105006",
-              "date": "2026-08-17",
-              "sentiment": "neutral",
-              "reason": "Report of a proposal, no evaluative language",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1424,34 +1616,14 @@
               "speaker": "Haxhiu"
             }
           ]
-        },
-        {
-          "name": "gzt.com",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Zorlu araziyle 7 saatlik mücadele: Kosova’daki orman yangını söndürüldü - gzt.com",
-              "albanianTitle": "7 orë përballje me terrenin e vështirë: Shuhet zjarri në pyjet e Kosovës",
-              "blurb": "Zjarri në një zonë pyjore në Kosovë është shuar pas shtatë orësh përpjekje në terren të vështirë.",
-              "imageUrl": null,
-              "url": "https://www.gzt.com/dunya/zorlu-araziyle-7-saatlik-mucadele-kosovadaki-orman-yangini-sonduruldu-4252044",
-              "date": "2026-08-17",
-              "sentiment": "neutral",
-              "reason": "Lajm i thjeshtë për shuarjen e zjarrit, pa ton vlerësues",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
         }
       ],
       "summary": {
-        "index": 50,
-        "positive": 8,
-        "neutral": 84,
-        "negative": 8,
-        "n": 25,
+        "index": 48,
+        "positive": 7,
+        "neutral": 81,
+        "negative": 11,
+        "n": 27,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -1460,10 +1632,43 @@
     "Kroaci": {
       "outlets": [
         {
-          "name": "Cineuropa",
-          "sentiment": "positive",
-          "articleCount": 2,
+          "name": "Balkan Insight",
+          "sentiment": "neutral",
+          "articleCount": 1,
           "articles": [
+            {
+              "title": "Kosovo Opposition Snubs Acting President’s Meeting Amid Parliamentary Crisis - Balkan Insight",
+              "albanianTitle": "Opozita kosovare bojkoton takimin me ushtruesen e detyrës së presidentit në mes të krizës parlamentare - Balkan Insight",
+              "blurb": "Partitë opozitare në Kosovë refuzuan pjesëmarrjen në takimin e thirrur nga ushtruesja e detyrës së presidentit për krizën parlamentare.",
+              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/08/Kosovo-meeting-Albulena-Haxhiu-BIRN-scaled-e1787054218728.jpg",
+              "url": "https://balkaninsight.com/2026/08/18/kosovo-opposition-snubs-acting-presidents-meeting-amid-parliamentary-crisis/bi/",
+              "date": "2026-08-18",
+              "sentiment": "neutral",
+              "reason": "Faktikë e thjeshtë, pa gjuhë ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Cineuropa",
+          "sentiment": "neutral",
+          "articleCount": 3,
+          "articles": [
+            {
+              "title": "Igor Aleksov shooting The Secret of the Bare Hill - Cineuropa",
+              "albanianTitle": "Igor Aleksov po xhiron filmin \"Sekreti i Kodrës së Zhveshur\" - Cineuropa",
+              "blurb": "Regjisori Igor Aleksov ka nisur xhirimet për filmin e ri me titull Sekretet e Kodrës së Zhveshur në rajon.",
+              "imageUrl": null,
+              "url": "https://cineuropa.org/en/newsdetail/494534",
+              "date": "2026-08-18",
+              "sentiment": "neutral",
+              "reason": "Titull informativ pa ngarkim",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
             {
               "title": "As the Spring Arrives, Water Recalls the Nomads triumphs at DokuFest Prizren - Cineuropa",
               "albanianTitle": "Filmi 'As the Spring Arrives, Water Recalls the Nomads' triumfon në DokuFest të Prizrenit - Cineuropa",
@@ -1498,9 +1703,9 @@
           "articleCount": 1,
           "articles": [
             {
-              "title": "Has Kurti crossed a \"red line\" in the relations with the EU? - europeanwesternbalkans.com",
+              "title": "Has Kurti crossed a \"red line\" in the relations with the EU? - European Western Balkans",
               "albanianTitle": "A ka kaluar Kurti një \"vijë të kuqe\" në raportet me BE-në?",
-              "blurb": "Analizohet nëse veprimet e kryeministrit Albin Kurti kanë tejkaluar vijat e kuqe në raportet me Bashkimin Evropian.",
+              "blurb": "Ekspertët shqyrtojnë nëse politikat e qeverisë Kurti kanë cenuar marrëdhëniet diplomatike me shtetet e Bashkimit Evropian.",
               "imageUrl": "https://europeanwesternbalkans.com/wp-content/uploads/2026/08/kurti-marta.jpg",
               "url": "https://europeanwesternbalkans.com/2026/08/18/has-kurti-crossed-a-red-line-in-the-relations-with-the-eu/",
               "date": "2026-08-18",
@@ -1573,6 +1778,26 @@
           ]
         },
         {
+          "name": "UNICEF",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Learning Across Borders: Kosovo Hosts Sub-Regional Exchange on Early Childhood Intervention - UNICEF",
+              "albanianTitle": "Mësimi përtej kufijve: Kosova pret shkëmbimin nën-rajonal për ndërhyrjen e hershme në fëmijëri - UNICEF",
+              "blurb": "Kosova po organizon një shkëmbim nën-rajonal për të diskutuar praktikat e ndërhyrjes së hershme në zhvillimin e fëmijëve.",
+              "imageUrl": null,
+              "url": "https://www.unicef.org/kosovoprogramme/stories/learning-across-borders-kosovo-hosts-sub-regional-exchange-early-childhood-intervention",
+              "date": "2026-08-17",
+              "sentiment": "neutral",
+              "reason": "Raportim faktik i ngjarjes",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "Variety",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1638,19 +1863,6 @@
           "articleCount": 2,
           "articles": [
             {
-              "title": "Kosovo Assembly Remains Deadlocked, PDK and AAK Refuse Talks - srpske.rs",
-              "albanianTitle": "Kuvendi i Kosovës mbetet në bllokadë, PDK dhe AAK refuzojnë dialogun - srpske.rs",
-              "blurb": "Kuvendi i Kosovës mbetet i bllokuar pasi partitë opozitare PDK dhe AAK refuzojnë pjesëmarrjen në bisedime.",
-              "imageUrl": "https://srpske.rs/uploads/articles/kosovo-assembly-remains-deadlocked-pdk-aak-refuse-talks-16x9.webp",
-              "url": "https://srpske.rs/en/news/politika/2026/08/17/kosovo-assembly-remains-deadlocked-pdk-aak-refuse-talks",
-              "date": "2026-08-17",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike pa ngjyrë",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
               "title": "Brussels Confirms Conditions Met for Ibar Bridge Opening - srpske.rs",
               "albanianTitle": "Brukseli konfirmon se janë plotësuar kushtet për hapjen e urës së Ibrit",
               "blurb": "Brukseli ka konfirmuar se janë përmbushur kushtet e nevojshme për hapjen e urës kryesore mbi lumin Ibër.",
@@ -1662,16 +1874,29 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Kosovo Assembly Remains Deadlocked, PDK and AAK Refuse Talks - srpske.rs",
+              "albanianTitle": "Kuvendi i Kosovës mbetet në bllokadë, PDK dhe AAK refuzojnë dialogun - srpske.rs",
+              "blurb": "Kuvendi i Kosovës mbetet i bllokuar pasi partitë opozitare PDK dhe AAK refuzojnë pjesëmarrjen në bisedime.",
+              "imageUrl": "https://srpske.rs/uploads/articles/kosovo-assembly-remains-deadlocked-pdk-aak-refuse-talks-16x9.webp",
+              "url": "https://srpske.rs/en/news/politika/2026/08/17/kosovo-assembly-remains-deadlocked-pdk-aak-refuse-talks",
+              "date": "2026-08-17",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike pa ngjyrë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ]
         }
       ],
       "summary": {
         "index": 50,
-        "positive": 9,
-        "neutral": 82,
-        "negative": 9,
-        "n": 11,
+        "positive": 7,
+        "neutral": 86,
+        "negative": 7,
+        "n": 14,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
