@@ -27,6 +27,27 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
+      # Read-only context, printed first so a failure below has something to be
+      # diagnosed against: how many articles were available, how many were
+      # local, and which provider env names the function can actually see.
+      # Names only — no secret value is ever returned by that endpoint.
+      - name: Context
+        continue-on-error: true
+        env:
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+        run: |
+          curl -sS --max-time 60             -H "Authorization: Bearer $CRON_SECRET"             "https://www.383ks.com/api/automation/sondazhi/draft"           | python -c 'import json,sys
+d=json.load(sys.stdin)
+print("todayKey     :", d.get("todayKey"))
+print("drafting for :", d.get("draftFor"))
+arts=d.get("articles") or []
+print("articles     :", len(arts), "of which local:", sum(1 for a in arts if a.get("local")))
+for a in arts[:5]:
+    print("   ", "[LOKALE]" if a.get("local") else "[BOTE]  ", (a.get("title") or "")[:70])
+print("provider env :")
+for e in d.get("providerEnv") or ["(none reported)"]:
+    print("   ", e)'
+
       - name: Draft tomorrow's poll question
         env:
           CRON_SECRET: ${{ secrets.CRON_SECRET }}
