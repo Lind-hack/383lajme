@@ -36,10 +36,20 @@ export const POLL_QUESTIONS: Poll[] = [
   { question: "Si mendoni se do të jetë Kosova pas 20 viteve?", options: ["Shumë më mirë", "Njësoj si sot", "Më keq"] },
 ];
 
+/**
+ * The fallback question for a day, rotating through the bank.
+ *
+ * Both anchors are UTC noon. `new Date(y, m - 1, d)` builds a local-time
+ * instant, so across a DST boundary the two anchors sit an hour apart and the
+ * difference floors to one day short — meaning any machine in a DST zone,
+ * Kosovo included, served *yesterday's* question for two thirds of the year.
+ * Production runs UTC and happened to be correct, which is exactly why this
+ * went unnoticed. Noon keeps the subtraction clear of both transitions.
+ */
 export function getDefaultPoll(pollDate: string): Poll {
   const [year, month, day] = pollDate.split("-").map(Number);
-  const date = new Date(year, month - 1, day);
-  const startOfYear = new Date(year, 0, 0);
-  const dayOfYear = Math.floor((date.getTime() - startOfYear.getTime()) / (1000 * 60 * 60 * 24));
+  const date = Date.UTC(year, month - 1, day, 12);
+  const startOfYear = Date.UTC(year, 0, 0, 12);
+  const dayOfYear = Math.round((date - startOfYear) / (1000 * 60 * 60 * 24));
   return POLL_QUESTIONS[dayOfYear % POLL_QUESTIONS.length];
 }
