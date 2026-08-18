@@ -1,7 +1,7 @@
 {
   "lastUpdated": "2026-08-18",
-  "overallIndex": 54,
-  "totalArticles": 86,
+  "overallIndex": 56,
+  "totalArticles": 79,
   "sourceCount": 59,
   "stanceVersion": 2,
   "countries": {
@@ -73,14 +73,14 @@
           "articleCount": 1,
           "articles": [
             {
-              "title": "Kosovo verhaftet mutmaßlichen serbischen Spion – Spannungen im Westbalkan - Pester Lloyd",
-              "albanianTitle": "Kosova arreston spiunin e dyshuar serb – Tensione në Ballkanin Perëndimor - Pester Lloyd",
-              "blurb": "Kosova ka arrestuar një spiun të dyshuar serb, duke rritur tensionet në Ballkanin Perëndimor.",
+              "title": "Kosovo verhaftet mutmaßlichen serbischen Spion – Spannungen im Westbalkan - pesterlloyd.net",
+              "albanianTitle": "Kosova arreston një të dyshuar për spiunazh serb – rriten tensionet në Ballkanin Perëndimor",
+              "blurb": "Autoritetet e Kosovës kanë arrestuar një person të dyshuar për spiunazh në favor të shtetit serb gjatë kësaj periudhe.",
               "imageUrl": "https://www.pesterlloyd.net/wp-content/uploads/2026/08/kurznachrichten-cover-2026-08-15-646.webp",
               "url": "https://www.pesterlloyd.net/kosovo-verhaftet-mutmasslichen-serbischen-spion-spannungen-im-westbalkan/",
               "date": "2026-08-15",
               "sentiment": "neutral",
-              "reason": "Lajm i thjeshtë, i raportuar në mënyrë faktike",
+              "reason": "Faktikë raportuar pa ngarkim",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -135,6 +135,46 @@
           ]
         },
         {
+          "name": "Fibre2Fashion",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Bangladesh, Kosovo discuss initiating process for planned FTA - Fibre2Fashion",
+              "albanianTitle": "Kosova dhe Bangladeshi diskutojnë nisjen e procedurave për një marrëveshje të tregtisë së lirë",
+              "blurb": "Kosova dhe Bangladeshi kanë diskutuar nisjen e procedurave për një marrëveshje të tregtisë së lirë mes dy vendeve.",
+              "imageUrl": null,
+              "url": "https://www.fibre2fashion.com/news/textile-news/bangladesh-kosovo-discuss-initiating-process-for-planned-fta-312687-newsdetails.htm",
+              "date": "2026-08-16",
+              "sentiment": "neutral",
+              "reason": "Lajm ekonomik, i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "JNS.org",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Is Somaliland America’s next Kosovo? - JNS.org",
+              "albanianTitle": "A po bëhet Somalilandi Kosova e radhës për Amerikën?",
+              "blurb": "Analizohet mundësia e njohjes së Somalilandit nga Shtetet e Bashkuara të Amerikës, duke e krahasuar atë me rastin e Kosovës.",
+              "imageUrl": "https://static.jns.org/dims4/default/88a5884/2147483647/strip/true/crop/6601x3713+0+688/resize/1440x810!/format/webp/quality/90/?url=https%3A%2F%2Fk2-prod-jns-prod.s3.us-east-1.amazonaws.com%2Fbrightspot%2Fef%2Fda%2Fefca21cf4a09be1ee413f8259207%2Fgettyimages-2276340274.jpg",
+              "url": "https://www.jns.org/opinion/nassir-hussein-kahin/is-somaliland-americas-next-kosovo",
+              "date": "2026-08-18",
+              "sentiment": "neutral",
+              "reason": "Question headline without hostile language, merely drawing a comparison",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "KosovaPress",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -215,26 +255,6 @@
           ]
         },
         {
-          "name": "fibre2fashion.com",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Bangladesh, Kosovo discuss initiating process for planned FTA - fibre2fashion.com",
-              "albanianTitle": "Kosova dhe Bangladeshi diskutojnë nisjen e procedurave për një marrëveshje të tregtisë së lirë",
-              "blurb": "Kosova dhe Bangladeshi kanë diskutuar mundësinë e nisjes së procedurave për një marrëveshje të tregtisë së lirë mes vendeve.",
-              "imageUrl": null,
-              "url": "https://www.fibre2fashion.com/news/textile-news/bangladesh-kosovo-discuss-initiating-process-for-planned-fta-312687-newsdetails.htm",
-              "date": "2026-08-16",
-              "sentiment": "neutral",
-              "reason": "Faktikë raporti i thjeshtë",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
           "name": "globalpost.com",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -257,7 +277,7 @@
         {
           "name": "srpske.rs",
           "sentiment": "neutral",
-          "articleCount": 3,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Kosovo Assembly Remains Deadlocked, PDK and AAK Refuse Talks - srpske.rs",
@@ -284,39 +304,6 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
-            },
-            {
-              "title": "Kosovo Police Search Strmac, Question Six - srpske.rs",
-              "albanianTitle": "Policia e Kosovës bastis Stërmcin, shoqëron gjashtë persona për intervistim",
-              "blurb": "Policia e Kosovës ka kryer bastisje në Strmac dhe ka marrë në pyetje gjashtë persona gjatë këtij operacioni.",
-              "imageUrl": "https://srpske.rs/uploads/articles/kosovo-police-search-strmac-question-six-16x9.webp",
-              "url": "https://srpske.rs/en/news/politika/2026/08/15/kosovo-police-search-strmac-question-six",
-              "date": "2026-08-15",
-              "sentiment": "neutral",
-              "reason": "Raportim i thjeshtë i veprimeve të policisë",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "Нова српска политичка мисао",
-          "sentiment": "negative",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Časlav Ocić: Kosovo as a res extra commercium and the alchemy of colonization - Нова српска политичка мисао",
-              "albanianTitle": "Časlav Ocić: Kosova si 'res extra commercium' dhe alkimia e kolonizimit",
-              "blurb": "Časlav Ocić publikon analizë mbi statusin juridik të Kosovës dhe proceset e kolonizimit në kontekstin e së drejtës ndërkombëtare.",
-              "imageUrl": null,
-              "url": "https://www.nspm.rs/nspm-in-english/kosovo-as-a-res-extra-commercium-and-the-alchemy-of-colonization.html",
-              "date": "2026-08-17",
-              "sentiment": "negative",
-              "reason": "Outlet uses hostile terminology to describe Kosovo",
-              "isQuote": false,
-              "evidence": "res extra commercium",
-              "speaker": ""
             }
           ]
         },
@@ -342,11 +329,11 @@
         }
       ],
       "summary": {
-        "index": 50,
-        "positive": 8,
-        "neutral": 83,
-        "negative": 8,
-        "n": 12,
+        "index": 55,
+        "positive": 9,
+        "neutral": 91,
+        "negative": 0,
+        "n": 11,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2
@@ -388,6 +375,26 @@
           ]
         },
         {
+          "name": "JNS.org",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Is Somaliland America’s next Kosovo? - JNS.org",
+              "albanianTitle": "A po bëhet Somalilandi Kosova e radhës për Amerikën?",
+              "blurb": "Analizohet mundësia e njohjes së Somalilandit nga Shtetet e Bashkuara të Amerikës, duke e krahasuar atë me rastin e Kosovës.",
+              "imageUrl": "https://static.jns.org/dims4/default/88a5884/2147483647/strip/true/crop/6601x3713+0+688/resize/1440x810!/format/webp/quality/90/?url=https%3A%2F%2Fk2-prod-jns-prod.s3.us-east-1.amazonaws.com%2Fbrightspot%2Fef%2Fda%2Fefca21cf4a09be1ee413f8259207%2Fgettyimages-2276340274.jpg",
+              "url": "https://www.jns.org/opinion/nassir-hussein-kahin/is-somaliland-americas-next-kosovo",
+              "date": "2026-08-18",
+              "sentiment": "neutral",
+              "reason": "Question headline without hostile language, merely drawing a comparison",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "KosovaPress",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -490,7 +497,7 @@
         {
           "name": "srpske.rs",
           "sentiment": "neutral",
-          "articleCount": 3,
+          "articleCount": 1,
           "articles": [
             {
               "title": "Kosovo Assembly Remains Deadlocked, PDK and AAK Refuse Talks - srpske.rs",
@@ -503,52 +510,6 @@
               "reason": "Lajm i raportuar në mënyrë faktike pa ngjyrë",
               "isQuote": false,
               "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "163,400 Euros in Undeclared Cash Found in Two Buses - srpske.rs",
-              "albanianTitle": "163,400 euro të padeklaruara gjenden në dy autobusë - srpske.rs",
-              "blurb": "Autoritetet kanë sekuestruar 163,400 euro para të padeklaruara të gjetura brenda dy autobusëve gjatë kontrollit kufitar.",
-              "imageUrl": "https://srpske.rs/uploads/articles/163400-euros-undeclared-cash-two-border-crossings-16x9.webp",
-              "url": "https://srpske.rs/en/news/politika/2026/08/17/163400-euros-undeclared-cash-two-border-crossings",
-              "date": "2026-08-17",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike pa ngjyrë",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Kosovo Police Search Strmac, Question Six - srpske.rs",
-              "albanianTitle": "Policia e Kosovës bastis Stërmcin, shoqëron gjashtë persona për intervistim",
-              "blurb": "Policia e Kosovës ka kryer bastisje në Strmac dhe ka marrë në pyetje gjashtë persona gjatë këtij operacioni.",
-              "imageUrl": "https://srpske.rs/uploads/articles/kosovo-police-search-strmac-question-six-16x9.webp",
-              "url": "https://srpske.rs/en/news/politika/2026/08/15/kosovo-police-search-strmac-question-six",
-              "date": "2026-08-15",
-              "sentiment": "neutral",
-              "reason": "Raportim i thjeshtë i veprimeve të policisë",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "Нова српска политичка мисао",
-          "sentiment": "negative",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Časlav Ocić: Kosovo as a res extra commercium and the alchemy of colonization - Нова српска политичка мисао",
-              "albanianTitle": "Časlav Ocić: Kosova si 'res extra commercium' dhe alkimia e kolonizimit",
-              "blurb": "Časlav Ocić publikon analizë mbi statusin juridik të Kosovës dhe proceset e kolonizimit në kontekstin e së drejtës ndërkombëtare.",
-              "imageUrl": null,
-              "url": "https://www.nspm.rs/nspm-in-english/kosovo-as-a-res-extra-commercium-and-the-alchemy-of-colonization.html",
-              "date": "2026-08-17",
-              "sentiment": "negative",
-              "reason": "Outlet uses hostile terminology to describe Kosovo",
-              "isQuote": false,
-              "evidence": "res extra commercium",
               "speaker": ""
             }
           ]
@@ -575,11 +536,11 @@
         }
       ],
       "summary": {
-        "index": 50,
-        "positive": 9,
-        "neutral": 82,
-        "negative": 9,
-        "n": 11,
+        "index": 56,
+        "positive": 11,
+        "neutral": 89,
+        "negative": 0,
+        "n": 9,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2
@@ -730,7 +691,7 @@
               "title": "San Marino – Kosovo (Qualificazioni EURO U21) - San Marino Rtv",
               "albanianTitle": "San Marino – Kosovë (Kualifikimet për EURO U21)",
               "blurb": "Përfaqësuesja e Kosovës në futboll për grupmoshën U21 përballet me San Marinon në kuadër të kualifikimeve për Kampionatin Evropian.",
-              "imageUrl": null,
+              "imageUrl": "https://www.sanmarinortv.sm/uploads/img/event/6a83126993e69088970134.jpg?t=1787039883",
               "url": "https://www.sanmarinortv.sm/eventi/sport/san-marino-kosovo-qualificazioni-euro-u21-e5119",
               "date": "2026-08-17",
               "sentiment": "neutral",
@@ -755,6 +716,26 @@
     },
     "Austri": {
       "outlets": [
+        {
+          "name": "Germany Trade & Invest (GTAI)",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Freihandelsabkommen zwischen Kosovo und EFTA tritt in Kraft - Germany Trade & Invest (GTAI)",
+              "albanianTitle": "Hyn në fuqi marrëveshja e tregtisë së lirë mes Kosovës dhe EFTA-s - Germany Trade & Invest (GTAI)",
+              "blurb": "Marrëveshja e tregtisë së lirë ndërmjet Kosovës dhe vendeve të EFTA-s ka hyrë zyrtarisht në fuqi për palët.",
+              "imageUrl": "https://www.gtai.de/resource/image/568400/fitImage/2000/1048/1294240791f492cbbd34364b283e4cda/DC24176B4610A64AF1AD6B40DE7328A7/gtai-logo-farbverlaeufe-schutzzone.jpg",
+              "url": "https://www.gtai.de/de/trade/kosovo/zoll/freihandelsabkommen-kosovo-efta-2021426",
+              "date": "2026-08-17",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim pa ngarkim",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
         {
           "name": "Ligaportal",
           "sentiment": "neutral",
@@ -814,26 +795,6 @@
               "speaker": ""
             }
           ]
-        },
-        {
-          "name": "gtai.de",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Freihandelsabkommen zwischen Kosovo und EFTA tritt in Kraft - gtai.de",
-              "albanianTitle": "Hyn në fuqi marrëveshja e tregtisë së lirë ndërmjet Kosovës dhe EFTA-s",
-              "blurb": "Marrëveshja e tregtisë së lirë ndërmjet Kosovës dhe shteteve të EFTA-s ka hyrë zyrtarisht në fuqi për palët.",
-              "imageUrl": "https://www.gtai.de/resource/image/568400/fitImage/2000/1048/1294240791f492cbbd34364b283e4cda/DC24176B4610A64AF1AD6B40DE7328A7/gtai-logo-farbverlaeufe-schutzzone.jpg",
-              "url": "https://www.gtai.de/de/trade/kosovo/zoll/freihandelsabkommen-kosovo-efta-2021426",
-              "date": "2026-08-17",
-              "sentiment": "neutral",
-              "reason": "Straightforward announcement of a trade agreement, no evaluative language",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
         }
       ],
       "summary": {
@@ -870,6 +831,26 @@
           ]
         },
         {
+          "name": "PAZ - Peiner Allgemeine Zeitung",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Turbulentes Remis in Barbecke, starke Kosovo-Rückkehrer bei Takva, Aufsteiger am Tabellenende - PAZ - Peiner Allgemeine Zeitung",
+              "albanianTitle": "Barazimi dramatik në Barbecke, rikthimi i fuqishëm i lojtarëve nga Kosova te Takva, skuadra e re në fund të tabelës - PAZ - Peiner Allgemeine Zeitung",
+              "blurb": "Barbecke barazon në futboll, ndërsa lojtarët e kthyer nga Kosova shfaqin formë të mirë te skuadra Takva.",
+              "imageUrl": null,
+              "url": "https://www.paz-online.de/sport/regional/turbulentes-remis-in-barbecke-starke-kosovo-rueckkehrer-bei-takva-aufsteiger-am-tabellenende-ANQN54B5PFHL5K45IXDUNYDKUY.html",
+              "date": "2026-08-17",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike pa ngjyrë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "Pester Lloyd",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -883,26 +864,6 @@
               "date": "2026-08-15",
               "sentiment": "neutral",
               "reason": "Lajm i thjeshtë, i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "paz-online.de",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Turbulentes Remis in Barbecke, starke Kosovo-Rückkehrer bei Takva, Aufsteiger am Tabellenende - PAZ - Peiner Allgemeine Zeitung",
-              "albanianTitle": "Barazimi dramatik në Barbecke, rikthimi i fuqishëm i lojtarëve nga Kosova te Takva, skuadra e re në fund të tabelës - PAZ - Peiner Allgemeine Zeitung",
-              "blurb": "Barbecke barazon në futboll, ndërsa lojtarët e kthyer nga Kosova shfaqin formë të mirë te skuadra Takva.",
-              "imageUrl": null,
-              "url": "https://www.paz-online.de/sport/regional/turbulentes-remis-in-barbecke-starke-kosovo-rueckkehrer-bei-takva-aufsteiger-am-tabellenende-ANQN54B5PFHL5K45IXDUNYDKUY.html",
-              "date": "2026-08-17",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike pa ngjyrë",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1106,6 +1067,26 @@
           ]
         },
         {
+          "name": "cosmotetv.gr",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Ποδόσφαιρο: Κόσοβο - Σουηδία - cosmotetv.gr",
+              "albanianTitle": "Futboll: Kosovë - Suedi",
+              "blurb": "Përfaqësuesja e Kosovës në futboll zhvillon ndeshje zyrtare kundër kombëtares së Suedisë, sipas njoftimit nga platforma televizive Cosmotetv.",
+              "imageUrl": "https://tr.static.cdns.cosmotetvott.gr/ote-prod/22/844/040053862312000800_1786364558026.jpg",
+              "url": "https://www.cosmotetv.gr/watch/DIS0022767279/football-kosovo-sweden",
+              "date": "2026-08-15",
+              "sentiment": "neutral",
+              "reason": "Simple sports match listing, no evaluative language toward Kosovo",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "sport-fm.gr",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1131,7 +1112,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 3,
+        "n": 4,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
@@ -1227,19 +1208,84 @@
           ]
         },
         {
-          "name": "Haber Ege",
+          "name": "Kosovahaber.com",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 6,
           "articles": [
             {
-              "title": "Çalık Renewables’tan Kosova’da 73 MW’lık Rüzgâr Enerjisi Hamlesi - Haber Ege",
-              "albanianTitle": "Çalık Renewables investon në energji të erës me kapacitet 73 MW në Kosovë - Haber Ege",
-              "blurb": "Kompania Çalık Renewables ka nisur një projekt për ndërtimin e një parku të erës me kapacitet 73 megavat.",
+              "title": "Kosova Gümrüğü’nün Geliri 7 Ayda 1,15 Milyar Euroyu Aştı - Kosovahaber.com",
+              "albanianTitle": "Dogana e Kosovës mbledh mbi 1,15 miliardë euro të hyra për 7 muaj",
+              "blurb": "Të hyrat e Doganës së Kosovës gjatë shtatë muajve të parë të këtij viti kanë tejkaluar shumën prej 1.15 miliard euro.",
               "imageUrl": null,
-              "url": "https://www.haberege.com.tr/calik-renewablesin-zatriq-ruzgr-enerji-santrali-projesinde-ilk-turbinler-devreye-alindi-1786955827-3434787",
+              "url": "https://kosovahaber.com/haber/kosova-gumrugunun-geliri-7-ayda-115-milyar-euroyu-asti-105007",
               "date": "2026-08-17",
               "sentiment": "neutral",
-              "reason": "Faktikë raportim i thjeshtë për projekt energjie në Kosovë",
+              "reason": "Faktikë ekonomik",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Zelenskiy'nin Tutumuna Karşı Çıkan Ukrayna Milletvekili: “Ukrayna Kosova'yı Tanımalı” - Kosovahaber.com",
+              "albanianTitle": "Deputeti ukrainas që kundërshton qëndrimin e Zelenskyt: Ukraina duhet ta njohë Kosovën",
+              "blurb": "Një deputet ukrainas ka kërkuar zyrtarisht që shteti i tij ta njohë pavarësinë e Kosovës, duke kundërshtuar qëndrimin e presidentit Zelenskiy.",
+              "imageUrl": null,
+              "url": "https://kosovahaber.com/haber/zelenskiynin-tutumuna-karsi-cikan-ukrayna-milletvekili-ukrayna-kosovayi-tanimali-104962",
+              "date": "2026-08-16",
+              "sentiment": "positive",
+              "reason": "Ton i mbështetjes për Kosovën",
+              "isQuote": false,
+              "evidence": "Ukrayna Kosova'yı Tanımalı",
+              "speaker": ""
+            },
+            {
+              "title": "Tarihçiler, Armend Mehaj’ı Kosova Cumhurbaşkanlığı’na Önerdi - kosovahaber.com",
+              "albanianTitle": "Historianët propozojnë Armend Mehajn për President të Kosovës",
+              "blurb": "Një grup historianësh kanë propozuar Armend Mehajn si kandidat për postin e Presidentit të Republikës së Kosovës.",
+              "imageUrl": null,
+              "url": "https://kosovahaber.com/haber/tarihciler-armend-mehaji-kosova-cumhurbaskanligina-onerdi-105006",
+              "date": "2026-08-17",
+              "sentiment": "neutral",
+              "reason": "Report of a proposal, no evaluative language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Yeni Euro Banknotlarının Tasarımını Kosova Vatandaşları da Oylayabilecek - Kosovahaber.com",
+              "albanianTitle": "Edhe qytetarët e Kosovës do të mund të votojnë për dizajnin e kartëmonedhave të reja të euros",
+              "blurb": "Qytetarët e Kosovës do të kenë mundësinë të votojnë për dizajnin e ri të kartëmonedhave të valutës euro.",
+              "imageUrl": null,
+              "url": "https://kosovahaber.com/haber/yeni-euro-banknotlarinin-tasarimini-kosova-vatandaslari-da-oylayabilecek-104993",
+              "date": "2026-08-17",
+              "sentiment": "neutral",
+              "reason": "Fact‑based headline about citizen participation, no praising or condemning tone",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Kurti, Kosova’nın Ögürlüğü İçin Hayatını Kaybedenleri Andı - Kosovahaber.com",
+              "albanianTitle": "Kurti përkujton të rënët për lirinë e Kosovës",
+              "blurb": "Kryeministri Albin Kurti ka përkujtuar personat që humbën jetën gjatë luftës për lirinë e Kosovës në një ceremoni zyrtare.",
+              "imageUrl": null,
+              "url": "https://kosovahaber.com/haber/kurti-kosovanin-ogurlugu-icin-hayatini-kaybedenleri-andi-105004",
+              "date": "2026-08-17",
+              "sentiment": "positive",
+              "reason": "Titulli nderon luftëtarët e Kosovës, duke treguar mbështetje",
+              "isQuote": false,
+              "evidence": "Hayatını Kaybedenleri Andı",
+              "speaker": ""
+            },
+            {
+              "title": "Sınır Kapılarında Araç Kuyrukları Oluştu - Kosovahaber.com",
+              "albanianTitle": "Kolona të gjata automjetesh në pikat kufitare",
+              "blurb": "Kolona të gjata automjetesh janë krijuar në pikat kufitare si pasojë e fluksit të madh të udhëtarëve gjatë kësaj periudhe.",
+              "imageUrl": null,
+              "url": "https://kosovahaber.com/haber/sinir-kapilarinda-arac-kuyruklari-olustu-105003",
+              "date": "2026-08-17",
+              "sentiment": "neutral",
+              "reason": "Faktikë pa gjuhë të ngarkuar, thjesht raportim i ngarkesës në kufi",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1287,104 +1333,19 @@
           ]
         },
         {
-          "name": "Son Dakika",
+          "name": "haberege.com.tr",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
-              "title": "Prizren'de Orman Yangını Kontrol Altına Alındı - Son Dakika",
-              "albanianTitle": "Vihet nën kontroll zjarri në pyjet e Prizrenit - Son Dakika",
-              "blurb": "Ekipet e zjarrfikësve kanë arritur të vënë nën kontroll zjarrin që kishte përfshirë një zonë pyjore në Prizren.",
-              "imageUrl": "https://foto.sondakika.com/haber/2026/08/17/kosova-da-orman-yangini-alarmi-yangin-7-saat-3-20152066_amp.jpg",
-              "url": "https://www.sondakika.com/3-sayfa/haber-prizren-de-orman-yangini-kontrol-altina-alindi-20152095/",
+              "title": "Çalık Renewables’tan Kosova’da 73 MW’lık Rüzgâr Enerjisi Hamlesi - haberege.com.tr",
+              "albanianTitle": "Çalık Renewables investon në një park të erës me kapacitet 73 MW në Kosovë",
+              "blurb": "Kompania Çalık Renewables ka nisur një projekt për ndërtimin e një parku të erës me kapacitet 73 megavat në Kosovë.",
+              "imageUrl": null,
+              "url": "https://www.haberege.com.tr/calik-renewablesin-zatriq-ruzgr-enerji-santrali-projesinde-ilk-turbinler-devreye-alindi-1786955827-3434787",
               "date": "2026-08-17",
               "sentiment": "neutral",
-              "reason": "Raportim i thjeshtë i zjarrit në pyll në Prizren, pa ngarkim",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "kosovahaber.com",
-          "sentiment": "neutral",
-          "articleCount": 6,
-          "articles": [
-            {
-              "title": "Kosova Gümrüğü’nün Geliri 7 Ayda 1,15 Milyar Euroyu Aştı - Kosovahaber.com",
-              "albanianTitle": "Dogana e Kosovës mbledh mbi 1,15 miliardë euro të hyra për 7 muaj",
-              "blurb": "Të hyrat e Doganës së Kosovës gjatë shtatë muajve të parë të këtij viti kanë tejkaluar shumën prej 1.15 miliard euro.",
-              "imageUrl": null,
-              "url": "https://kosovahaber.com/haber/kosova-gumrugunun-geliri-7-ayda-115-milyar-euroyu-asti-105007",
-              "date": "2026-08-17",
-              "sentiment": "neutral",
-              "reason": "Faktikë ekonomik",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Tarihçiler, Armend Mehaj’ı Kosova Cumhurbaşkanlığı’na Önerdi - kosovahaber.com",
-              "albanianTitle": "Historianët propozojnë Armend Mehajn për President të Kosovës",
-              "blurb": "Një grup historianësh kanë propozuar Armend Mehajn si kandidat për postin e Presidentit të Republikës së Kosovës.",
-              "imageUrl": null,
-              "url": "https://kosovahaber.com/haber/tarihciler-armend-mehaji-kosova-cumhurbaskanligina-onerdi-105006",
-              "date": "2026-08-17",
-              "sentiment": "neutral",
-              "reason": "Report of a proposal, no evaluative language",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Zelenskiy'nin Tutumuna Karşı Çıkan Ukrayna Milletvekili: “Ukrayna Kosova'yı Tanımalı” - Kosovahaber.com",
-              "albanianTitle": "Deputeti ukrainas që kundërshton qëndrimin e Zelenskyt: Ukraina duhet ta njohë Kosovën",
-              "blurb": "Një deputet ukrainas ka kërkuar zyrtarisht që shteti i tij ta njohë pavarësinë e Kosovës, duke kundërshtuar qëndrimin e presidentit Zelenskiy.",
-              "imageUrl": null,
-              "url": "https://kosovahaber.com/haber/zelenskiynin-tutumuna-karsi-cikan-ukrayna-milletvekili-ukrayna-kosovayi-tanimali-104962",
-              "date": "2026-08-16",
-              "sentiment": "positive",
-              "reason": "Ton i mbështetjes për Kosovën",
-              "isQuote": false,
-              "evidence": "Ukrayna Kosova'yı Tanımalı",
-              "speaker": ""
-            },
-            {
-              "title": "Yeni Euro Banknotlarının Tasarımını Kosova Vatandaşları da Oylayabilecek - Kosovahaber.com",
-              "albanianTitle": "Edhe qytetarët e Kosovës do të mund të votojnë për dizajnin e kartëmonedhave të reja të euros",
-              "blurb": "Qytetarët e Kosovës do të kenë mundësinë të votojnë për dizajnin e ri të kartëmonedhave të valutës euro.",
-              "imageUrl": null,
-              "url": "https://kosovahaber.com/haber/yeni-euro-banknotlarinin-tasarimini-kosova-vatandaslari-da-oylayabilecek-104993",
-              "date": "2026-08-17",
-              "sentiment": "neutral",
-              "reason": "Fact‑based headline about citizen participation, no praising or condemning tone",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Kurti, Kosova’nın Ögürlüğü İçin Hayatını Kaybedenleri Andı - Kosovahaber.com",
-              "albanianTitle": "Kurti përkujton të rënët për lirinë e Kosovës",
-              "blurb": "Kryeministri Albin Kurti ka përkujtuar personat që humbën jetën gjatë luftës për lirinë e Kosovës në një ceremoni zyrtare.",
-              "imageUrl": null,
-              "url": "https://kosovahaber.com/haber/kurti-kosovanin-ogurlugu-icin-hayatini-kaybedenleri-andi-105004",
-              "date": "2026-08-17",
-              "sentiment": "positive",
-              "reason": "Titulli nderon luftëtarët e Kosovës, duke treguar mbështetje",
-              "isQuote": false,
-              "evidence": "Hayatını Kaybedenleri Andı",
-              "speaker": ""
-            },
-            {
-              "title": "Son Bir Haftada 25 Yeni Kızamık Vakası - Kosovahaber.com",
-              "albanianTitle": "25 raste të reja me fruth brenda një jave",
-              "blurb": "Institucionet shëndetësore kanë raportuar për regjistrimin e 25 rasteve të reja me fruth gjatë javës së fundit në vend.",
-              "imageUrl": null,
-              "url": "https://kosovahaber.com/haber/son-bir-haftada-25-yeni-kizamik-vakasi-105005",
-              "date": "2026-08-17",
-              "sentiment": "neutral",
-              "reason": "Raportim i rasteve të sëmundjes, pa ngarkim",
+              "reason": "Factual report of an energy project, no loaded adjectives",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1393,11 +1354,11 @@
         }
       ],
       "summary": {
-        "index": 58,
-        "positive": 19,
+        "index": 57,
+        "positive": 18,
         "neutral": 77,
-        "negative": 4,
-        "n": 26,
+        "negative": 5,
+        "n": 22,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -1432,6 +1393,46 @@
               "date": "2026-08-17",
               "sentiment": "neutral",
               "reason": "Straightforward factual report",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Fibre2Fashion",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Bangladesh, Kosovo discuss initiating process for planned FTA - Fibre2Fashion",
+              "albanianTitle": "Kosova dhe Bangladeshi diskutojnë nisjen e procedurave për një marrëveshje të tregtisë së lirë",
+              "blurb": "Kosova dhe Bangladeshi kanë diskutuar nisjen e procedurave për një marrëveshje të tregtisë së lirë mes dy vendeve.",
+              "imageUrl": null,
+              "url": "https://www.fibre2fashion.com/news/textile-news/bangladesh-kosovo-discuss-initiating-process-for-planned-fta-312687-newsdetails.htm",
+              "date": "2026-08-16",
+              "sentiment": "neutral",
+              "reason": "Lajm ekonomik, i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "JNS.org",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Is Somaliland America’s next Kosovo? - JNS.org",
+              "albanianTitle": "A po bëhet Somalilandi Kosova e radhës për Amerikën?",
+              "blurb": "Analizohet mundësia e njohjes së Somalilandit nga Shtetet e Bashkuara të Amerikës, duke e krahasuar atë me rastin e Kosovës.",
+              "imageUrl": "https://static.jns.org/dims4/default/88a5884/2147483647/strip/true/crop/6601x3713+0+688/resize/1440x810!/format/webp/quality/90/?url=https%3A%2F%2Fk2-prod-jns-prod.s3.us-east-1.amazonaws.com%2Fbrightspot%2Fef%2Fda%2Fefca21cf4a09be1ee413f8259207%2Fgettyimages-2276340274.jpg",
+              "url": "https://www.jns.org/opinion/nassir-hussein-kahin/is-somaliland-americas-next-kosovo",
+              "date": "2026-08-18",
+              "sentiment": "neutral",
+              "reason": "Question headline without hostile language, merely drawing a comparison",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1479,29 +1480,9 @@
           ]
         },
         {
-          "name": "fibre2fashion.com",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Bangladesh, Kosovo discuss initiating process for planned FTA - fibre2fashion.com",
-              "albanianTitle": "Kosova dhe Bangladeshi diskutojnë nisjen e procedurave për një marrëveshje të tregtisë së lirë",
-              "blurb": "Kosova dhe Bangladeshi kanë diskutuar mundësinë e nisjes së procedurave për një marrëveshje të tregtisë së lirë mes vendeve.",
-              "imageUrl": null,
-              "url": "https://www.fibre2fashion.com/news/textile-news/bangladesh-kosovo-discuss-initiating-process-for-planned-fta-312687-newsdetails.htm",
-              "date": "2026-08-16",
-              "sentiment": "neutral",
-              "reason": "Faktikë raporti i thjeshtë",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
           "name": "srpske.rs",
           "sentiment": "neutral",
-          "articleCount": 3,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Kosovo Assembly Remains Deadlocked, PDK and AAK Refuse Talks - srpske.rs",
@@ -1528,49 +1509,16 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
-            },
-            {
-              "title": "Kosovo Police Search Strmac, Question Six - srpske.rs",
-              "albanianTitle": "Policia e Kosovës bastis Stërmcin, shoqëron gjashtë persona për intervistim",
-              "blurb": "Policia e Kosovës ka kryer bastisje në Strmac dhe ka marrë në pyetje gjashtë persona gjatë këtij operacioni.",
-              "imageUrl": "https://srpske.rs/uploads/articles/kosovo-police-search-strmac-question-six-16x9.webp",
-              "url": "https://srpske.rs/en/news/politika/2026/08/15/kosovo-police-search-strmac-question-six",
-              "date": "2026-08-15",
-              "sentiment": "neutral",
-              "reason": "Raportim i thjeshtë i veprimeve të policisë",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "Нова српска политичка мисао",
-          "sentiment": "negative",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Časlav Ocić: Kosovo as a res extra commercium and the alchemy of colonization - Нова српска политичка мисао",
-              "albanianTitle": "Časlav Ocić: Kosova si 'res extra commercium' dhe alkimia e kolonizimit",
-              "blurb": "Časlav Ocić publikon analizë mbi statusin juridik të Kosovës dhe proceset e kolonizimit në kontekstin e së drejtës ndërkombëtare.",
-              "imageUrl": null,
-              "url": "https://www.nspm.rs/nspm-in-english/kosovo-as-a-res-extra-commercium-and-the-alchemy-of-colonization.html",
-              "date": "2026-08-17",
-              "sentiment": "negative",
-              "reason": "Outlet uses hostile terminology to describe Kosovo",
-              "isQuote": false,
-              "evidence": "res extra commercium",
-              "speaker": ""
             }
           ]
         }
       ],
       "summary": {
-        "index": 50,
-        "positive": 11,
-        "neutral": 78,
-        "negative": 11,
-        "n": 9,
+        "index": 56,
+        "positive": 12,
+        "neutral": 88,
+        "negative": 0,
+        "n": 8,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2

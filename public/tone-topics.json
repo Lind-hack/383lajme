@@ -3,7 +3,7 @@
   "topics": [
     {
       "label": "Marrëveshjet tregtare dhe energjetike ndërkombëtare",
-      "fallbackLabel": "Tregtisë · Lirë",
+      "fallbackLabel": "Lirë · Tregtisë",
       "summary": "Kosova po zgjeron bashkëpunimin ekonomik përmes marrëveshjeve të tregtisë së lirë me EFTA-n dhe Bangladeshin, si dhe eksportit të thëngjillit drejt Maqedonisë së Veriut.",
       "count": 6,
       "positive": 0,
@@ -117,9 +117,9 @@
       ]
     },
     {
-      "label": "Shuarja e zjarreve në Prizren",
+      "label": "Shuarja e zjarreve në pyjet e Prizrenit",
       "fallbackLabel": "Zjarri · Pyjet",
-      "summary": "Ekipet e shpëtimit kanë vënë nën kontroll dhe shuar zjarrin në pyjet e Prizrenit pas një beteje të vështirë shtatëorëshe në terren të thyer.",
+      "summary": "Pas një beteje shtatëorëshe në terren të vështirë, autoritetet kanë arritur të vënë nën kontroll dhe të shuajnë zjarrin që përfshiu pyjet e Prizrenit.",
       "count": 6,
       "positive": 0,
       "neutral": 6,
@@ -229,8 +229,8 @@
     },
     {
       "label": "Bllokada politike në Kuvendin e Kosovës",
-      "fallbackLabel": "Kuvendit · Para",
-      "summary": "Partitë opozitare po kërkojnë zhbllokimin e punës në Kuvendin e Kosovës, duke e cilësuar situatën aktuale si një krizë të rëndë të rendit kushtetues.",
+      "fallbackLabel": "Kuvendit · Aksion",
+      "summary": "Kuvendi i Kosovës po përballet me një ngërç të rëndë politik, ku partitë opozitare kërkojnë seanca urgjente dhe akuzojnë qeverinë për shkelje kushtetuese.",
       "count": 5,
       "positive": 0,
       "neutral": 5,
@@ -324,9 +324,9 @@
       ]
     },
     {
-      "label": "Ndeshjet e përfaqësueseve të futbollit",
+      "label": "Ndeshjet ndërkombëtare të ekipeve kombëtare",
       "fallbackLabel": "2026 · Ndeshjen",
-      "summary": "Përfaqësueset e Kosovës në futboll, përfshirë grupmoshat U19 për femra, po zhvillojnë ndeshje kualifikuese dhe përgatitore, duke tërhequr vëmendjen e tifozëve dhe analistëve sportivë.",
+      "summary": "Ekipet kombëtare të futbollit të Kosovës po zhvillojnë ndeshje kualifikuese dhe miqësore, duke tërhequr vëmendjen e tifozëve dhe analistëve sportivë për rezultatet e tyre.",
       "count": 5,
       "positive": 0,
       "neutral": 5,
@@ -420,9 +420,88 @@
       ]
     },
     {
+      "label": "Investime në energjinë e erës",
+      "fallbackLabel": "Erës · Renewables",
+      "summary": "Kompania Çalık Renewables po investon në ndërtimin e një parku të ri të erës në Kosovë, me një kapacitet prodhues prej 73 megavatësh.",
+      "count": 4,
+      "positive": 0,
+      "neutral": 4,
+      "negative": 0,
+      "index": 50,
+      "countries": [
+        "Turqi"
+      ],
+      "articles": [
+        {
+          "title": "Kosova’da rüzgar hamlesi - posta.com.tr",
+          "albanianTitle": "Në Kosovë fryma e erës",
+          "blurb": "Kosova ka ndërmarrë hapa konkretë për zhvillimin e projekteve të reja në fushën e energjisë së erës.",
+          "imageUrl": "https://image.posta.com.tr/i/posta/75/0x0/6a7f5316eb7be7eb78371847.jpg",
+          "url": "https://www.posta.com.tr/ekonomi/kosovada-ruzgar-hamlesi-3027104",
+          "date": "2026-08-15",
+          "sentiment": "neutral",
+          "reason": "Lajm i thjeshtë",
+          "isQuote": false,
+          "speaker": "",
+          "evidence": "",
+          "outlet": "posta.com.tr",
+          "country": "Turqi",
+          "flag": "🇹🇷"
+        },
+        {
+          "title": "Kosova’da rüzgar hamlesi - Posta",
+          "albanianTitle": "Lëvizja e erës në Kosovë - Posta",
+          "blurb": "Kosova po ndërmerr hapa drejt energjisë së erës, duke shënuar një lëvizje të re në këtë fushë.",
+          "imageUrl": "https://image.posta.com.tr/i/posta/75/0x0/6a7f5316eb7be7eb78371847.jpg",
+          "url": "https://www.posta.com.tr/ekonomi/kosovada-ruzgar-hamlesi-3027104",
+          "date": "2026-08-15",
+          "sentiment": "neutral",
+          "reason": "Titulli është thjesht informativ pa gjuhë ngacmuese",
+          "isQuote": false,
+          "speaker": "",
+          "evidence": "",
+          "outlet": "Posta",
+          "country": "Turqi",
+          "flag": "🇹🇷"
+        },
+        {
+          "title": "Çalık Renewables’tan Kosova’da 73 MW’lık Rüzgâr Enerjisi Hamlesi - Haber Ege",
+          "albanianTitle": "Çalık Renewables investon në energji të erës me kapacitet 73 MW në Kosovë - Haber Ege",
+          "blurb": "Kompania Çalık Renewables ka nisur një projekt për ndërtimin e një parku të erës me kapacitet 73 megavat.",
+          "imageUrl": null,
+          "url": "https://www.haberege.com.tr/calik-renewablesin-zatriq-ruzgr-enerji-santrali-projesinde-ilk-turbinler-devreye-alindi-1786955827-3434787",
+          "date": "2026-08-17",
+          "sentiment": "neutral",
+          "reason": "Faktikë raportim i thjeshtë për projekt energjie në Kosovë",
+          "isQuote": false,
+          "speaker": "",
+          "evidence": "",
+          "outlet": "Haber Ege",
+          "country": "Turqi",
+          "flag": "🇹🇷"
+        },
+        {
+          "title": "Çalık Renewables’tan Kosova’da 73 MW’lık Rüzgâr Enerjisi Hamlesi - haberege.com.tr",
+          "albanianTitle": "Çalık Renewables investon në një park të erës me kapacitet 73 MW në Kosovë",
+          "blurb": "Kompania Çalık Renewables ka nisur një projekt për ndërtimin e një parku të erës me kapacitet 73 megavat në Kosovë.",
+          "imageUrl": null,
+          "url": "https://www.haberege.com.tr/calik-renewablesin-zatriq-ruzgr-enerji-santrali-projesinde-ilk-turbinler-devreye-alindi-1786955827-3434787",
+          "date": "2026-08-17",
+          "sentiment": "neutral",
+          "reason": "Factual report of an energy project, no loaded adjectives",
+          "isQuote": false,
+          "speaker": "",
+          "evidence": "",
+          "outlet": "haberege.com.tr",
+          "country": "Turqi",
+          "flag": "🇹🇷"
+        }
+      ]
+    },
+    {
       "label": "Procesi i zgjedhjes së presidentit",
-      "fallbackLabel": "President · Partitë",
-      "summary": "Partitë politike dhe ndërkombëtarët po diskutojnë për nevojën e një konsensusi gjithëpërfshirës për zgjedhjen e presidentit të ri të Republikës së Kosovës.",
+      "fallbackLabel": "President · Konsensus",
+      "summary": "Partitë politike në Kosovë po diskutojnë për mënyrën e zgjedhjes së presidentit, ndërsa ndërkombëtarët bëjnë thirrje për një konsensus të gjerë mes palëve.",
       "count": 4,
       "positive": 0,
       "neutral": 3,
@@ -499,9 +578,9 @@
       ]
     },
     {
-      "label": "Tensionet diplomatike dhe spiunazhi",
-      "fallbackLabel": "Tensione · Serb",
-      "summary": "Arrestimi i një të dyshuari për spiunazh serb dhe vizita e Zelenskyt në Serbi kanë rritur tensionet politike në rajonin e Ballkanit Perëndimor.",
+      "label": "Tensionet politike dhe spiunazhi serb",
+      "fallbackLabel": "Tensione · Perëndimor",
+      "summary": "Arrestimi i një të dyshuari për spiunazh serb dhe vizita e presidentit Zelensky në Serbi kanë rritur tensionet politike në rajonin e Ballkanit Perëndimor.",
       "count": 4,
       "positive": 0,
       "neutral": 4,
@@ -581,9 +660,9 @@
       ]
     },
     {
-      "label": "Promovimi i filmit kosovar ndërkombëtarisht",
-      "fallbackLabel": "Filmit · Dramën",
-      "summary": "Regjisorët kosovarë po prezantojnë drama sociale dhe tradita kulturore në festivale prestigjioze ndërkombëtare si Sundance, duke pasqyruar realitetin dhe historinë e vendit.",
+      "label": "Promovimi i kinematografisë kosovare",
+      "fallbackLabel": "Filmit · Money",
+      "summary": "Filmat kosovarë po fitojnë vëmendje ndërkombëtare në festivale si Sundance, duke trajtuar tema sociale dhe tradita të rëndësishme përmes rrëfimeve të fuqishme kinematografike.",
       "count": 4,
       "positive": 0,
       "neutral": 4,
@@ -658,87 +737,6 @@
           "outlet": "gazeteilksayfa.com",
           "country": "Turqi",
           "flag": "🇹🇷"
-        }
-      ]
-    },
-    {
-      "label": "Aktivitetet e Doganës dhe sporti",
-      "fallbackLabel": "Euro · Padeklaruara",
-      "summary": "Dogana e Kosovës po raporton rritje të të hyrave buxhetore dhe konfiskim të mjeteve të padeklaruara, ndërkohë që vazhdojnë garat ndërkombëtare të futbollit.",
-      "count": 4,
-      "positive": 0,
-      "neutral": 4,
-      "negative": 0,
-      "index": 50,
-      "countries": [
-        "Itali",
-        "SHBA",
-        "Turqi"
-      ],
-      "articles": [
-        {
-          "title": "Dheu i Bardhë’da 100 Bin Euro’dan Fazla Beyan Edilmemiş Paraya El Konuldu - Kosovahaber.com",
-          "albanianTitle": "Mbi 100 mijë euro të padeklaruara konfiskohen te Dheu i Bardhë",
-          "blurb": "Autoritetet doganore në pikën kufitare Dheu i Bardhë kanë konfiskuar mbi 100 mijë euro të padeklaruara nga një udhëtar.",
-          "imageUrl": null,
-          "url": "https://kosovahaber.com/haber/dheu-i-bardheda-100-bin-eurodan-fazla-beyan-edilmemis-paraya-el-konuldu-104981",
-          "date": "2026-08-17",
-          "sentiment": "neutral",
-          "reason": "Lajm i raportuar në mënyrë faktike",
-          "isQuote": false,
-          "speaker": "",
-          "evidence": "",
-          "outlet": "Kosovahaber.com",
-          "country": "Turqi",
-          "flag": "🇹🇷"
-        },
-        {
-          "title": "163,400 Euros in Undeclared Cash Found in Two Buses - srpske.rs",
-          "albanianTitle": "163,400 euro të padeklaruara gjenden në dy autobusë - srpske.rs",
-          "blurb": "Autoritetet kanë sekuestruar 163,400 euro para të padeklaruara të gjetura brenda dy autobusëve gjatë kontrollit kufitar.",
-          "imageUrl": "https://srpske.rs/uploads/articles/163400-euros-undeclared-cash-two-border-crossings-16x9.webp",
-          "url": "https://srpske.rs/en/news/politika/2026/08/17/163400-euros-undeclared-cash-two-border-crossings",
-          "date": "2026-08-17",
-          "sentiment": "neutral",
-          "reason": "Lajm i raportuar në mënyrë faktike pa ngjyrë",
-          "isQuote": false,
-          "speaker": "",
-          "evidence": "",
-          "outlet": "srpske.rs",
-          "country": "SHBA",
-          "flag": "🇺🇸"
-        },
-        {
-          "title": "Kosova Gümrüğü’nün Geliri 7 Ayda 1,15 Milyar Euroyu Aştı - Kosovahaber.com",
-          "albanianTitle": "Dogana e Kosovës mbledh mbi 1,15 miliardë euro të hyra për 7 muaj",
-          "blurb": "Të hyrat e Doganës së Kosovës gjatë shtatë muajve të parë të këtij viti kanë tejkaluar shumën prej 1.15 miliard euro.",
-          "imageUrl": null,
-          "url": "https://kosovahaber.com/haber/kosova-gumrugunun-geliri-7-ayda-115-milyar-euroyu-asti-105007",
-          "date": "2026-08-17",
-          "sentiment": "neutral",
-          "reason": "Faktikë ekonomik",
-          "isQuote": false,
-          "speaker": "",
-          "evidence": "",
-          "outlet": "Kosovahaber.com",
-          "country": "Turqi",
-          "flag": "🇹🇷"
-        },
-        {
-          "title": "San Marino – Kosovo (Qualificazioni EURO U21) - San Marino Rtv",
-          "albanianTitle": "San Marino – Kosovë (Kualifikimet për EURO U21)",
-          "blurb": "Përfaqësuesja e Kosovës në futboll për grupmoshën U21 përballet me San Marinon në kuadër të kualifikimeve për Kampionatin Evropian.",
-          "imageUrl": null,
-          "url": "https://www.sanmarinortv.sm/eventi/sport/san-marino-kosovo-qualificazioni-euro-u21-e5119",
-          "date": "2026-08-17",
-          "sentiment": "neutral",
-          "reason": "Simple match listing, no evaluative language",
-          "isQuote": false,
-          "speaker": "",
-          "evidence": "",
-          "outlet": "San Marino Rtv",
-          "country": "Itali",
-          "flag": "🇮🇹"
         }
       ]
     }
