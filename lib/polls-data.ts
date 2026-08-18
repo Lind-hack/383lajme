@@ -3,37 +3,146 @@ export interface Poll {
   options: string[];
 }
 
+/**
+ * The fallback bank, used on any day without a curated or generated question.
+ *
+ * Every entry has to pass one test: you cannot guess the result before voting.
+ * The bank this replaced failed that badly — "A jeni krenar/e që jeni
+ * shqiptar/e?", "A besoni se emigrimi i rinisë po dëmton Kosovën?" — questions
+ * whose answers are already known, which is precisely what trains a reader to
+ * click without reading.
+ *
+ * Three rules hold throughout:
+ *
+ *   1. No neutral option. "Nuk e di", "Varet", "As mirë as keq" is always the
+ *      safe pick, it costs nothing, and it wins. Every option here is a side.
+ *   2. Prefer a real cost — money, time, comfort, a principle given up. A
+ *      question you can answer for free is one you answer without thinking.
+ *   3. Policy questions are worded neutrally, and none is framed against any
+ *      group. The split has to come from genuine disagreement, not from how
+ *      the question is asked.
+ */
 export const POLL_QUESTIONS: Poll[] = [
-  { question: "A duhet Kosova të bashkohet me Shqipërinë?", options: ["Po", "Jo"] },
-  { question: "A mendoni se Kosova do të anëtarësohet në BE brenda 10 viteve?", options: ["Po", "Jo"] },
-  { question: "A besoni se emigrimi i rinisë po dëmton Kosovën?", options: ["Po", "Jo"] },
-  { question: "A duhet të lejohet vota e diasporës në zgjedhjet e Kosovës?", options: ["Po", "Jo"] },
-  { question: "A e besoni median shqiptare?", options: ["Po", "Jo"] },
-  { question: "A keni frikë nga krimi i organizuar në Kosovë?", options: ["Po", "Jo"] },
-  { question: "A duhet Kosova të ketë ushtri të plotë?", options: ["Po", "Jo"] },
-  { question: "A mendoni se gjuha shqipe po degradohet?", options: ["Po", "Jo"] },
-  { question: "A duhet të ndalohet pirja e duhanit në lokale publike?", options: ["Po", "Jo"] },
-  { question: "A keni menduar ndonjëherë të emigroni?", options: ["Po", "Jo", "Tashmë jam jashtë"] },
-  { question: "A ju duket çmimi i naftës në Kosovë i drejtë?", options: ["Po, i arsyeshëm", "Jo, shumë i lartë"] },
-  { question: "A besoni se Kosova do të arrijë marrëveshje me Serbinë ndonjëherë?", options: ["Po", "Jo"] },
-  { question: "A mendoni se sistemi arsimor në Kosovë është cilësor?", options: ["Po", "Jo"] },
-  { question: "A duhet të legalizohet kanabisi në Kosovë?", options: ["Po", "Jo"] },
-  { question: "A mendoni se politika shqiptare është e ndikuar nga jashtë?", options: ["Po shumë", "Disi", "Jo aspak"] },
-  { question: "A jeni krenar/e që jeni shqiptar/e?", options: ["Po, shumë", "Po, disi", "Jo"] },
-  { question: "A mendoni se Kosova duhet të anëtarësohet plotësisht në NATO?", options: ["Po", "Jo"] },
-  { question: "A besoni te drejtësia dhe gjykatat në Kosovë?", options: ["Po", "Jo"] },
-  { question: "A mendoni se çmimet e shtëpive në Prishtinë janë të larta?", options: ["Po, jashtë mase", "Jo, janë normale"] },
-  { question: "A duhet Kosova të lejojë vizat ruse?", options: ["Po", "Jo"] },
-  { question: "Cili është problemi kryesor i Kosovës?", options: ["Papunësia", "Korrupsioni", "Emigrimi", "Siguria"] },
-  { question: "Si e vlerësoni drejtimin e vendit sot?", options: ["Mirë", "Keq", "As mirë as keq"] },
-  { question: "Ku preferoni të jetoni?", options: ["Kosovë", "Shqipëri", "Europë Perëndimore", "SHBA/Kanada"] },
-  { question: "Cili sektor duhet të ketë më shumë investime?", options: ["Arsimi", "Shëndetësia", "Infrastruktura", "Teknologjia"] },
-  { question: "Si e vlerësoni ekonominë e Kosovës?", options: ["Në rritje", "Stagnuese", "Në rënie"] },
-  { question: "Çfarë ju mungon më shumë nëse jeni jashtë Kosovës?", options: ["Familja", "Ushqimi", "Mikpritja", "Natyra"] },
-  { question: "A mendoni se turizmi mund të bëhet industri kryesore e Kosovës?", options: ["Po, absolutisht", "Ndoshta", "Jo"] },
-  { question: "Cila fushë ka të ardhme më të mirë në Kosovë?", options: ["Teknologjia", "Biznesi", "Arti/Kultura", "Sportet"] },
-  { question: "A mendoni se rinia kosovare ka mundësi të mjaftueshme?", options: ["Po", "Jo", "Nuk jam i/e sigurt"] },
-  { question: "Si mendoni se do të jetë Kosova pas 20 viteve?", options: ["Shumë më mirë", "Njësoj si sot", "Më keq"] },
+  {
+    question: "A do ta linit Kosovën përgjithmonë për 2000€ në muaj jashtë vendit?",
+    options: ["Po, pa hezitim", "Jo, do të rrija"],
+  },
+  {
+    question: "A duhet Kosova të bashkohet me Shqipërinë?",
+    options: ["Po", "Jo"],
+  },
+  {
+    question: "A do të paguanit 20% më shumë për rrymë nga burime më të pastra?",
+    options: ["Po", "Jo"],
+  },
+  {
+    question: "A duhet të lejohet vota e diasporës në zgjedhjet e Kosovës?",
+    options: ["Po", "Jo"],
+  },
+  {
+    question: "A duhet të kenë përparësi të rinjtë në punësimin publik?",
+    options: ["Po", "Jo, vetëm merita"],
+  },
+  {
+    question: "Rrogë 800€ në Kosovë apo 2000€ në Gjermani?",
+    options: ["800€ këtu", "2000€ jashtë"],
+  },
+  {
+    question: "A duhet të rrëzohen ndërtimet pa leje, edhe kur janë shtëpi banimi?",
+    options: ["Po, ligji është ligj", "Jo, mbeten pa strehë"],
+  },
+  {
+    question: "A duhet shërbimi ushtarak të jetë i detyrueshëm në Kosovë?",
+    options: ["Po", "Jo"],
+  },
+  {
+    question: "A duhet ndaluar duhani në të gjitha lokalet, pa asnjë përjashtim?",
+    options: ["Po", "Jo"],
+  },
+  {
+    question: "A duhet legalizuar kanabisi për përdorim mjekësor?",
+    options: ["Po", "Jo"],
+  },
+  {
+    question: "A do ta pranonit një rrogë më të ulët për të punuar në Kosovë?",
+    options: ["Po", "Jo"],
+  },
+  {
+    question: "A duhet Kosova të bëjë lëshime për një marrëveshje me Serbinë?",
+    options: ["Po, nëse mbyllet çështja", "Jo, asnjë lëshim"],
+  },
+  {
+    question: "A duhet taksuar më shumë banesat që rrinë bosh gjithë vitin?",
+    options: ["Po", "Jo"],
+  },
+  {
+    question: "A i besoni më shumë mjekut privat se atij publik?",
+    options: ["Privatit", "Publikut"],
+  },
+  {
+    question: "A duhet të ketë mësim fetar në shkollat publike?",
+    options: ["Po", "Jo"],
+  },
+  {
+    question: "A duhet të ndalohen reklamat e basteve sportive?",
+    options: ["Po", "Jo"],
+  },
+  {
+    question: "A do të ndërronit rrogën e sigurt për biznesin tuaj?",
+    options: ["Po", "Jo"],
+  },
+  {
+    question: "A duhet të paguhet parkimi në qendër të Prishtinës?",
+    options: ["Po", "Jo"],
+  },
+  {
+    question: "A janë grevat e mësuesve të arsyetuara?",
+    options: ["Po", "Jo"],
+  },
+  {
+    question: "A do të votonit për një parti të re pa asnjë përvojë qeverisëse?",
+    options: ["Po", "Jo"],
+  },
+  {
+    question: "A duhet investuar në termocentral të ri me qymyr?",
+    options: ["Po, na duhet rryma", "Jo, vetëm të rinovueshme"],
+  },
+  {
+    question: "A duhet të ulet mosha e votimit në 16 vjeç?",
+    options: ["Po", "Jo"],
+  },
+  {
+    question: "A do të donit që fëmija juaj të bëhej politikan?",
+    options: ["Po", "Jo"],
+  },
+  {
+    question: "A duhet Kosova të pranojë refugjatë nga vende në luftë?",
+    options: ["Po", "Jo"],
+  },
+  {
+    question: "A është influencer një profesion i vërtetë?",
+    options: ["Po", "Jo"],
+  },
+  {
+    question: "A duhet të hapen dyqanet e mëdha edhe të dielën?",
+    options: ["Po", "Jo"],
+  },
+  {
+    question: "A duhet të ketë kuota gjinore të detyrueshme në politikë?",
+    options: ["Po", "Jo"],
+  },
+  {
+    question: "A ju ka penguar korrupsioni ndonjëherë personalisht?",
+    options: ["Po", "Jo"],
+  },
+  {
+    question: "A duhet ndaluar qarkullimi i veturave mbi 20 vjeç në qytete?",
+    options: ["Po, për ajrin", "Jo, s'kanë alternativë"],
+  },
+  {
+    question: "A do të ktheheshit në Kosovë pas 10 vjetësh jashtë?",
+    options: ["Po", "Jo"],
+  },
 ];
 
 /**
