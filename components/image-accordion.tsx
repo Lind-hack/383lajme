@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import { type Article, calcReadingTime } from '@/lib/mock-data'
 import TimeAgo from './time-ago'
+import TopicCarousel from './topic-carousel'
 import { getCategoryColor } from '@/lib/category-colors'
 import { FONT, RADIUS, SHADOW } from '@/lib/tokens'
 
@@ -96,15 +97,7 @@ export default function ImageAccordion({ slides }: Props) {
         </p>
       </header>
 
-      <div
-        className="feature-grid-track"
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(5, 1fr)',
-          gap: '12px',
-          width: '100%',
-        }}
-      >
+      <TopicCarousel>
         {slides.map((slide, i) => {
           const catColor = getCategoryColor(slide.category)
           const bgImage = slide.article.imageUrl
@@ -303,7 +296,7 @@ export default function ImageAccordion({ slides }: Props) {
             </Link>
           )
         })}
-      </div>
+      </TopicCarousel>
 
       <style>{`
         .feature-grid-card {
@@ -331,32 +324,33 @@ export default function ImageAccordion({ slides }: Props) {
           outline-offset: 3px;
         }
 
+        /* Below the five-up breakpoint one card owns the full width (see
+           TopicCarousel), so it can afford to be taller and the headline can
+           grow instead of being clamped into a narrow column. Three- and
+           two-column stages used to sit here; at ~230px they put a six-line
+           headline over the photo and the card became unreadable. */
         @media (max-width: 1100px) {
-          .feature-grid-track {
-            grid-template-columns: repeat(3, 1fr);
-          }
-        }
-        @media (max-width: 760px) {
-          .feature-grid-track {
-            grid-template-columns: repeat(2, 1fr);
-            gap: 14px;
-          }
           .feature-grid-card {
-            height: 320px !important;
-          }
-        }
-        /* One column rather than a carousel: five swipes to read five stories
-           was the same "hidden until you interact" problem in another shape. */
-        @media (max-width: 520px) {
-          .feature-grid-track {
-            grid-template-columns: 1fr;
-          }
-          .feature-grid-card {
-            height: 300px !important;
+            height: clamp(400px, 74vw, 470px) !important;
           }
           .feature-grid-title {
+            font-size: 25px !important;
+            line-height: 1.16 !important;
+            -webkit-line-clamp: 4 !important;
+          }
+          .feature-grid-content {
+            padding: 24px !important;
+          }
+          /* Clear of the arrows, which sit vertically centred at the edges. */
+          .feature-grid-content,
+          .feature-grid-topic {
+            padding-left: 22px;
+            padding-right: 22px;
+          }
+        }
+        @media (max-width: 520px) {
+          .feature-grid-title {
             font-size: 22px !important;
-            -webkit-line-clamp: 3 !important;
           }
         }
 
