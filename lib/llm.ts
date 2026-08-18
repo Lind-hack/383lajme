@@ -5,8 +5,9 @@
  * Gemini key tries every model in GEMINI_MODELS before giving up.
  * Every tregu AI call goes through llmJSON so a Groq rate-limit or outage
  * never silences the news→odds refresh pipeline — it degrades to the free
- * Gemini keys instead of failing. Env: GROQ_API_KEY, GOOGLE_AI_API_KEY,
- * GOOGLE_AI_API_KEY_2 (both Gemini keys optional).
+ * Gemini keys instead of failing. Env: GROQ_API_KEY, plus GOOGLE_API_KEY and
+ * GOOGLE_API_KEY_2 (the GOOGLE_AI_API_KEY spelling is accepted too; both
+ * Gemini keys optional).
  */
 
 import { groqChat, parseJSON } from "./groq";
@@ -111,13 +112,28 @@ export async function llmJSON<T>(
   };
 
   const tryGemini = async (): Promise<T | null> => {
-    for (const envName of ["GOOGLE_AI_API_KEY", "GOOGLE_AI_API_KEY_2"] as const) {
+    // Both spellings. This repo carries two conventions for the same secret:
+    // lib/tregu-ai-provider.mjs reads GOOGLE_API_KEY / _2, this file was written
+    // against GOOGLE_AI_API_KEY / _2, and production is configured with the
+    // former. The runtime reported only "GOOGLE_API_KEY" and "GOOGLE_API_KEY_2"
+    // as present while the Vercel dashboard listed the AI_ spelling, so the
+    // fallback path had been reading names that were never set.
+    for (const envName of [
+      "GOOGLE_API_KEY",
+      "GOOGLE_AI_API_KEY",
+      "GOOGLE_API_KEY_2",
+      "GOOGLE_AI_API_KEY_2",
+    ] as const) {
       const key = process.env[envName];
       // Recorded rather than skipped in silence. A nightly run failed with only
       // "groq: ..." in the message and no mention of Gemini at all, which made
       // an absent key indistinguishable from one that was never consulted.
       if (!key) {
-        failures.push(`${envName}: not set`);
+        // Only worth reporting once per pair; the other spelling being absent
+        // is the normal case, not a fault.
+        if (envName === "GOOGLE_API_KEY" || envName === "GOOGLE_API_KEY_2") {
+          failures.push(`${envName}(/AI_ variant): not set`);
+        }
         continue;
       }
       try {
