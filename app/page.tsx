@@ -30,6 +30,7 @@ import {
 } from "@/lib/home-market-data";
 import { getToneHistory, getToneArticleCache, summarizeToneHistory, getForeignCoverage, getTopics, getToneTopics } from "@/lib/tone-data";
 import { dateKeyInKosovo, resolveView } from "@/lib/reagimi-data";
+import { getSondazhiData } from "@/lib/sondazhi-server";
 
 export const revalidate = 3600;
 
@@ -79,6 +80,14 @@ export default async function HomePage() {
   // authoritative (this page is statically revalidated hourly).
   const reagimiDateKey = dateKeyInKosovo();
   const reagimiFallback = resolveView(null, articles, reagimiDateKey, heroId);
+
+  // The poll's question and yesterday's outcome are both settled at request
+  // time, so they are rendered on the server rather than fetched after
+  // hydration — the card used to show an empty loading box for the several
+  // seconds this page takes to hydrate. Only the live tally is left to the
+  // client. Shares reagimiDateKey so the two adjacent cards cannot disagree
+  // about what day it is.
+  const sondazhi = await getSondazhiData(reagimiDateKey);
 
   // Tier 2: KRYESORE lead + secondary — claimed before NJOFTIME so the
   // front-page hierarchy always renders even when the article pool is small
@@ -234,7 +243,7 @@ export default async function HomePage() {
         </div>
 
         {/* Daily poll */}
-        <DailyPoll />
+        <DailyPoll data={sondazhi} />
       </main>
 
       {/* Bota Flet — foreign-media coverage of Kosovo, from the tone-scraper

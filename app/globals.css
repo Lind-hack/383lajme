@@ -9017,3 +9017,274 @@ body[data-tour-veil] > *:not(.tutorial-root) {
     to   { opacity: 1; }
   }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+       SONDAZHI I DITËS — the daily poll as a position, not a survey
+
+   The card leads with what the room decided yesterday, because that is the
+   payoff for having voted then and the only split that can frame today's
+   question without biasing it. Today's own numbers stay hidden until the
+   reader has committed to an answer.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.sondazhi-card {
+  background: #FFFFFF;
+  border: 1.5px solid #E8E3DB;
+  border-radius: var(--radius-md);
+  padding: 22px 26px;
+  box-shadow: var(--shadow-1);
+}
+
+/* ── Section meta: streak + live count, right-aligned in the SectionLabel ── */
+.sondazhi-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 11px;
+  font-weight: 500;
+  color: #6B6B6B;
+  white-space: nowrap;
+}
+
+.sondazhi-streak {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  border-radius: var(--radius-pill);
+  background: rgba(255, 68, 34, 0.09);
+  color: #FF4422;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+/* ── Yesterday's outcome ──────────────────────────────────────────────────
+   Deliberately quiet. It is the reason to read on, not the headline: an
+   over-styled callback would compete with the question underneath it. */
+.sondazhi-callback {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 9px 12px;
+  margin-bottom: 16px;
+  border-left: 3px solid #E8E3DB;
+  border-radius: 0 8px 8px 0;
+  background: #F9F6F1;
+}
+
+.sondazhi-callback-kicker {
+  flex-shrink: 0;
+  font-size: 9.5px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  color: #9A9186;
+}
+
+.sondazhi-callback-text {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: #44413D;
+}
+
+.sondazhi-callback-text strong {
+  font-weight: 800;
+  color: #111111;
+  font-variant-numeric: tabular-nums;
+}
+
+.sondazhi-callback-text em {
+  font-style: normal;
+  font-weight: 700;
+  color: #111111;
+}
+
+.sondazhi-callback-q { color: #8A8177; }
+
+.sondazhi-callback-link {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #FF4422;
+  text-decoration: none;
+  transition: opacity var(--duration-fast) var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .sondazhi-callback-link:hover { opacity: 0.7; }
+}
+
+/* ── Today's question ────────────────────────────────────────────────────── */
+.sondazhi-context {
+  margin: 0 0 8px;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 14px;
+  line-height: 1.55;
+  color: #6B6B6B;
+}
+
+.sondazhi-question {
+  margin: 0 0 18px;
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+  color: #111111;
+}
+
+.sondazhi-options {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.poll-option:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .poll-option:disabled:hover {
+    background: #F9F6F1;
+    color: #111111;
+    border-color: #E8E3DB;
+  }
+}
+
+.sondazhi-stake {
+  margin: 14px 0 0;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: #6B6B6B;
+}
+
+/* ── Results ──────────────────────────────────────────────────────────────
+   Two text cells on one line, the track spanning both underneath, so the
+   percentage stays optically tied to its own bar at every width. */
+.sondazhi-results {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+}
+
+.sondazhi-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: baseline;
+  column-gap: 12px;
+  row-gap: 6px;
+}
+
+.sondazhi-row-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  font-size: 14px;
+  font-weight: 500;
+  color: #111111;
+}
+
+.sondazhi-row[data-mine] .sondazhi-row-label {
+  font-weight: 700;
+  color: #FF4422;
+}
+
+.sondazhi-row-value {
+  font-size: 13px;
+  font-weight: 700;
+  color: #44413D;
+  font-variant-numeric: tabular-nums;
+}
+
+.sondazhi-row-count {
+  margin-left: 5px;
+  font-weight: 400;
+  color: #A9A096;
+}
+
+.sondazhi-track {
+  grid-column: 1 / -1;
+  display: block;
+  height: 8px;
+  border-radius: 4px;
+  background: #F0ECE6;
+  overflow: hidden;
+}
+
+/* display:block matters: a transform does not apply to a non-replaced inline
+   element, and getComputedStyle still reports the matrix, so an inline fill
+   fails silently while looking correct in devtools. */
+.sondazhi-fill {
+  display: block;
+  height: 100%;
+  border-radius: 4px;
+  background: #D4CBC0;
+  transform: scaleX(var(--pct, 0));
+  transform-origin: left center;
+  transition: transform var(--duration-slow) var(--ease-out);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+.sondazhi-row[data-mine] .sondazhi-fill { background: #FF4422; }
+
+/* ── Verdict ─────────────────────────────────────────────────────────────
+   The standing line is the point of the whole card: it reports something
+   about the reader, not about the poll. */
+.sondazhi-verdict {
+  margin-top: 3px;
+  padding-top: 12px;
+  border-top: 1px solid #F0ECE6;
+}
+
+.sondazhi-standing {
+  margin: 0 0 3px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #111111;
+}
+
+.sondazhi-status {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 500;
+  color: #8A8177;
+}
+
+.sondazhi-error {
+  margin: 0;
+  padding: 14px 0;
+  font-size: 13px;
+  color: #6B6B6B;
+}
+
+/* ── Mobile ─────────────────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .sondazhi-card { padding: 18px 18px; }
+  .sondazhi-question { font-size: 17px; margin-bottom: 16px; }
+  .sondazhi-context { font-size: 13px; }
+
+  /* The question is what has to survive a narrow column, so the callback
+     drops its trailing echo rather than wrapping to three lines. */
+  .sondazhi-callback { flex-wrap: wrap; row-gap: 4px; }
+  .sondazhi-callback-q { display: none; }
+
+  .sondazhi-meta { gap: 8px; }
+}
+
+/* ── Reduced motion ──────────────────────────────────────────────────────
+   Gentler, not zero: the bars still fill and the colour still communicates,
+   they simply arrive together instead of cascading. */
+@media (prefers-reduced-motion: reduce) {
+  .sondazhi-fill {
+    transition-duration: 1ms;
+    transition-delay: 0ms;
+  }
+}

@@ -1,252 +1,273 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { createClient } from "@supabase/supabase-js";
-import { Check } from "lucide-react";
-import { getDefaultPoll } from "@/lib/polls-data";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { createClient, type SupabaseClient } from "@supabase/supabase-js";
+import { ArrowRight, Check, Zap } from "lucide-react";
+import Link from "next/link";
 import SectionLabel from "./section-label";
-import type { SupabaseClient } from "@supabase/supabase-js";
+import {
+  dateKeyInKosovo,
+  pollPercentages,
+  resultStatusLabel,
+  stakeLabel,
+  standingLabel,
+  tallyFromCounts,
+  voteCountLabel,
+} from "@/lib/sondazhi-data.mjs";
+import { activeStreak, advanceStreak, parseStreak } from "@/lib/reagimi-data";
+import type { SondazhiServerData } from "@/lib/sondazhi-server";
 
-export default function DailyPoll() {
-  const [pollDate, setPollDate] = useState("");
-  const [question, setQuestion] = useState("");
-  const [options, setOptions] = useState<string[]>([]);
-  const [counts, setCounts] = useState<number[]>([]);
+/** Shared with ReagimiDites and the pre-rewrite poll: one anonymous identity. */
+const VOTER_KEY = "383_voter_id";
+const STREAK_KEY = "383_sondazhi_streak";
+
+type LoadState = "loading" | "ready" | "error";
+
+export default function DailyPoll({ data }: { data: SondazhiServerData }) {
+  // The server key is the first paint's guess. ISR means this HTML can be up to
+  // an hour old, so the client re-derives the real Kosovo date on mount.
+  const [todayKey, setTodayKey] = useState(data.todayKey);
+  const [counts, setCounts] = useState<number[]>(() => new Array(data.options.length).fill(0));
   const [myVote, setMyVote] = useState<number | null>(null);
-  const [loading, setLoading] = useState(true);
-  const voterIdRef = useRef("");
+  const [state, setState] = useState<LoadState>("loading");
+  const [pending, setPending] = useState(false);
+  const [streak, setStreak] = useState(0);
+  const [barsArmed, setBarsArmed] = useState(false);
+
+  const voterRef = useRef("");
   const supabaseRef = useRef<SupabaseClient | null>(null);
 
-  useEffect(() => {
-    const date = new Date().toISOString().slice(0, 10);
-    setPollDate(date);
+  const total = counts.reduce((a, b) => a + b, 0);
+  const percentages = useMemo(() => pollPercentages(counts), [counts]);
 
-    let vid = localStorage.getItem("383_voter_id");
-    if (!vid) {
-      vid = crypto.randomUUID();
-      localStorage.setItem("383_voter_id", vid);
+  useEffect(() => {
+    setTodayKey(dateKeyInKosovo());
+
+    try {
+      let vid = localStorage.getItem(VOTER_KEY);
+      if (!vid) {
+        vid = crypto.randomUUID();
+        localStorage.setItem(VOTER_KEY, vid);
+      }
+      voterRef.current = vid;
+    } catch {
+      // Storage blocked. An in-memory id still lets this session vote once.
+      voterRef.current = crypto.randomUUID();
     }
-    voterIdRef.current = vid;
+
+    try {
+      setStreak(activeStreak(parseStreak(localStorage.getItem(STREAK_KEY)), dateKeyInKosovo()));
+    } catch {
+      /* Storage blocked. The streak is a flourish, not the feature. */
+    }
 
     const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
     const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
     if (!url || !key) {
-      const def = getDefaultPoll(date);
-      setQuestion(def.question);
-      setOptions(def.options);
-      setCounts(new Array(def.options.length).fill(0));
-      setLoading(false);
+      // Read-only card: the question still renders, voting is simply unavailable.
+      setState("ready");
       return;
     }
 
     const supabase = createClient(url, key);
     supabaseRef.current = supabase;
 
-    async function loadPoll() {
-      const { data: adminPoll } = await supabase
-        .from("daily_polls")
-        .select("question, options")
-        .eq("poll_date", date)
-        .single();
+    let cancelled = false;
+    (async () => {
+      const { data: day, error } = await supabase.rpc("sondazhi_day", {
+        p_date: data.pollDate,
+        p_voter: voterRef.current,
+      });
+      if (cancelled) return;
 
-      let q: string;
-      let opts: string[];
-
-      if (adminPoll) {
-        q = adminPoll.question;
-        opts = adminPoll.options as string[];
-      } else {
-        const def = getDefaultPoll(date);
-        q = def.question;
-        opts = def.options;
+      if (error) {
+        // This is the failure that used to render as a confident "0 vota".
+        console.error("[sondazhi] tally unavailable", error);
+        setState("error");
+        return;
       }
 
-      setQuestion(q);
-      setOptions(opts);
+      const payload = day as { counts?: Record<string, unknown>; my_vote?: number | null } | null;
+      setCounts(tallyFromCounts(payload?.counts, data.options.length).counts);
+      setMyVote(typeof payload?.my_vote === "number" ? payload.my_vote : null);
+      setState("ready");
+    })();
 
-      const { data: votes } = await supabase
-        .from("poll_votes")
-        .select("option_index, voter_id")
-        .eq("poll_date", date);
+    return () => {
+      cancelled = true;
+    };
+  }, [data.pollDate, data.options.length]);
 
-      const c = new Array(opts.length).fill(0);
-      let voted: number | null = null;
+  // Bars hold at zero for one committed frame so the CSS transition has
+  // something to animate from. Without this the results mount at their final
+  // width and the reveal, the actual payoff for voting, never plays.
+  useEffect(() => {
+    if (myVote === null) {
+      setBarsArmed(false);
+      return;
+    }
+    let second = 0;
+    const first = requestAnimationFrame(() => {
+      second = requestAnimationFrame(() => setBarsArmed(true));
+    });
+    return () => {
+      cancelAnimationFrame(first);
+      cancelAnimationFrame(second);
+    };
+  }, [myVote]);
 
-      if (votes) {
-        for (const v of votes) {
-          if (v.option_index >= 0 && v.option_index < opts.length) {
-            c[v.option_index]++;
-          }
-          if (v.voter_id === vid) voted = v.option_index;
+  const castVote = useCallback(
+    async (idx: number) => {
+      if (myVote !== null || pending) return;
+      const supabase = supabaseRef.current;
+      if (!supabase) return;
+
+      setPending(true);
+      setMyVote(idx);
+      setCounts((c) => c.map((v, i) => (i === idx ? v + 1 : v)));
+
+      try {
+        const next = advanceStreak(parseStreak(localStorage.getItem(STREAK_KEY)), todayKey);
+        localStorage.setItem(STREAK_KEY, JSON.stringify(next));
+        setStreak(next.count);
+      } catch {
+        /* Storage blocked. The vote itself still counts. */
+      }
+
+      const { error } = await supabase.from("poll_votes").insert({
+        poll_date: data.pollDate,
+        option_index: idx,
+        voter_id: voterRef.current,
+      });
+
+      if (error) {
+        // 23505 = the one-vote-per-day unique index. This browser already voted,
+        // so the vote state is right and only the local count is double-counted.
+        if (error.code === "23505") {
+          setCounts((c) => c.map((v, i) => (i === idx ? Math.max(0, v - 1) : v)));
+        } else {
+          setMyVote(null);
+          setCounts((c) => c.map((v, i) => (i === idx ? Math.max(0, v - 1) : v)));
         }
       }
+      setPending(false);
+    },
+    [myVote, pending, todayKey, data.pollDate]
+  );
 
-      setCounts(c);
-      setMyVote(voted);
-      setLoading(false);
-    }
-
-    loadPoll();
-  }, []);
-
-  async function castVote(idx: number) {
-    if (myVote !== null) return;
-    const supabase = supabaseRef.current;
-    if (!supabase) return;
-
-    const prev = myVote;
-    setMyVote(idx);
-    setCounts((c) => c.map((v, i) => (i === idx ? v + 1 : v)));
-
-    const { error } = await supabase.from("poll_votes").insert({
-      poll_date: pollDate,
-      option_index: idx,
-      voter_id: voterIdRef.current,
-    });
-
-    if (error) {
-      setMyVote(prev);
-      setCounts((c) => c.map((v, i) => (i === idx ? v - 1 : v)));
-    }
-  }
-
-  const total = counts.reduce((a, b) => a + b, 0);
+  const voted = myVote !== null;
+  // Reading the tally and casting a vote are independent operations, so a
+  // failed read must not take the vote down with it. Without this split, the
+  // one day the tally query breaks is also the day nobody can answer.
+  const tallyKnown = state === "ready";
+  const canVote = state !== "loading" && supabaseRef.current !== null;
+  const standing = standingLabel(myVote, counts);
 
   return (
-    <div style={{ marginBottom: "var(--space-section)" }}>
+    <div className="sondazhi" style={{ marginBottom: "var(--space-section)" }}>
       <SectionLabel
         label="SONDAZHI I DITËS"
         marginBottom={20}
         right={
-          !loading ? (
-            <span style={{ fontSize: "11px", color: "#6B6B6B", fontWeight: 500 }}>
-              {total} {total === 1 ? "votë" : "vota"}
-            </span>
-          ) : undefined
+          <span className="sondazhi-meta">
+            {streak >= 2 && (
+              <span className="sondazhi-streak" title={`Ke votuar ${streak} ditë radhazi`}>
+                <Zap size={11} strokeWidth={2.5} aria-hidden="true" />
+                {streak} ditë radhazi
+              </span>
+            )}
+            {tallyKnown && <span>{voteCountLabel(total)}</span>}
+          </span>
         }
       />
 
-      <div
-        style={{
-          background: "#fff",
-          borderRadius: "16px",
-          border: "1.5px solid #E8E3DB",
-          padding: "28px 32px",
-        }}
-      >
-        {loading ? (
-          <div style={{ height: "100px", display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <div style={{ color: "#bbb", fontSize: "14px" }}>Duke ngarkuar...</div>
+      <div className="sondazhi-card">
+        {/* Yesterday's outcome. The payoff for having voted then, and the frame
+            for today's question — today's own split stays hidden until you vote,
+            because showing it first would drag the vote toward it. */}
+        {data.callback && (
+          <div className="sondazhi-callback">
+            <span className="sondazhi-callback-kicker">DJE</span>
+            <p className="sondazhi-callback-text">
+              <strong>{data.callback.pct}%</strong> zgjodhën{" "}
+              <em>{data.callback.option}</em>
+              <span className="sondazhi-callback-q"> · {data.callback.question}</span>
+            </p>
+            {data.callback.slug && (
+              <Link href={`/article/${data.callback.slug}`} className="sondazhi-callback-link">
+                Lexo <ArrowRight size={12} strokeWidth={2.5} aria-hidden="true" />
+              </Link>
+            )}
+          </div>
+        )}
+
+        {data.contextLine && <p className="sondazhi-context">{data.contextLine}</p>}
+
+        <h3 className="sondazhi-question">{data.question}</h3>
+
+        {voted && !tallyKnown ? (
+          <p className="sondazhi-error" role="status">
+            Vota jote u regjistrua. Rezultatet nuk u ngarkuan dot tani — provo të
+            rifreskosh faqen.
+          </p>
+        ) : voted ? (
+          <div className="sondazhi-results" aria-live="polite">
+            {data.options.map((opt, i) => (
+              <div
+                key={i}
+                className="sondazhi-row"
+                data-mine={myVote === i ? "true" : undefined}
+                style={
+                  {
+                    "--pct": barsArmed ? percentages[i] / 100 : 0,
+                    "--reveal-delay": `${i * 40}ms`,
+                  } as React.CSSProperties
+                }
+              >
+                <span className="sondazhi-row-label">
+                  {myVote === i && <Check size={12} strokeWidth={3} aria-hidden="true" />}
+                  {opt}
+                </span>
+                <span className="sondazhi-row-value">
+                  {percentages[i]}%<span className="sondazhi-row-count">({counts[i]})</span>
+                </span>
+                <span className="sondazhi-track">
+                  <span className="sondazhi-fill" />
+                </span>
+              </div>
+            ))}
+
+            <div className="sondazhi-verdict">
+              {standing && <p className="sondazhi-standing">{standing}</p>}
+              <p className="sondazhi-status">
+                {resultStatusLabel(total, data.pollDate, todayKey)}
+              </p>
+            </div>
           </div>
         ) : (
           <>
-            <p
-              style={{
-                margin: "0 0 20px",
-                fontSize: "17px",
-                fontWeight: 700,
-                color: "#111",
-                lineHeight: 1.4,
-                fontFamily: "var(--font-manrope), sans-serif",
-              }}
-            >
-              {question}
+            <div className="sondazhi-options">
+              {data.options.map((opt, i) => (
+                <button
+                  key={i}
+                  type="button"
+                  className="poll-option"
+                  onClick={() => castVote(i)}
+                  disabled={!canVote || pending}
+                >
+                  {opt}
+                </button>
+              ))}
+            </div>
+            <p className="sondazhi-stake">
+              {!canVote
+                ? "Votimi nuk është i disponueshëm tani."
+                : tallyKnown
+                  ? stakeLabel(total)
+                  : "Vota jote e ndryshon rezultatin."}
             </p>
-
-            {myVote === null ? (
-              <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-                {options.map((opt, i) => (
-                  <VoteButton key={i} label={opt} onClick={() => castVote(i)} />
-                ))}
-              </div>
-            ) : (
-              <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
-                {options.map((opt, i) => (
-                  <ResultBar
-                    key={i}
-                    label={opt}
-                    pct={total > 0 ? Math.round((counts[i] / total) * 100) : 0}
-                    count={counts[i]}
-                    isMyVote={myVote === i}
-                  />
-                ))}
-              </div>
-            )}
           </>
         )}
-      </div>
-    </div>
-  );
-}
-
-function VoteButton({ label, onClick }: { label: string; onClick: () => void }) {
-  return (
-    <button onClick={onClick} className="poll-option">
-      {label}
-    </button>
-  );
-}
-
-function ResultBar({
-  label,
-  pct,
-  count,
-  isMyVote,
-}: {
-  label: string;
-  pct: number;
-  count: number;
-  isMyVote: boolean;
-}) {
-  return (
-    <div>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          marginBottom: "7px",
-        }}
-      >
-        <span
-          style={{
-            fontSize: "14px",
-            fontWeight: isMyVote ? 700 : 500,
-            color: isMyVote ? "#FF4422" : "#111",
-            fontFamily: "var(--font-manrope), sans-serif",
-            display: "flex",
-            alignItems: "center",
-            gap: "6px",
-          }}
-        >
-          {isMyVote && <Check size={12} strokeWidth={3} />}
-          {label}
-        </span>
-        <span style={{ fontSize: "13px", color: "#6B6B6B", fontWeight: 600, fontFamily: "var(--font-manrope), sans-serif" }}>
-          {pct}%
-          <span style={{ color: "#bbb", fontWeight: 400, marginLeft: "5px" }}>({count})</span>
-        </span>
-      </div>
-      <div
-        style={{
-          height: "8px",
-          borderRadius: "4px",
-          background: "#F0ECE6",
-          overflow: "hidden",
-        }}
-      >
-        <div
-          style={{
-            height: "100%",
-            width: "100%",
-            borderRadius: "4px",
-            background: isMyVote ? "#FF4422" : "#D4CBC0",
-            transformOrigin: "left",
-            transform: `scaleX(${pct / 100})`,
-            transition: "transform 0.5s cubic-bezier(0.22, 1, 0.36, 1)",
-          }}
-        />
       </div>
     </div>
   );

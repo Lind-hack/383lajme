@@ -159,15 +159,24 @@ export function CurrencyExchangeCard({
       <div className="home-exchange-rate">
         <span>1 EUR</span>
         {/* Tabular figures so the digits do not jitter horizontally while counting.
-            The rendered text is the final value, so no-JS readers and React
-            hydration both see the real number; data-rate is what the inline
-            counter immediately below reads. */}
+            The rendered text is the final value, so a no-JS reader still sees the
+            real number; data-rate is what the inline counter below reads.
+
+            suppressHydrationWarning because that counter is the point: it runs
+            during parse and rewrites this text to 0.00 before React hydrates, so
+            the DOM legitimately disagrees with the server HTML. Without it React
+            treats the difference as corruption and regenerates the whole subtree,
+            which threw a hydration error on every homepage load. */}
         <strong
           className="home-exchange-figure"
           data-rate={snapshot.allPerEur.toFixed(2)}
           data-suffix=" ALL"
+          suppressHydrationWarning
         >
-          {snapshot.allPerEur.toFixed(2)} ALL
+          {/* One interpolation, not `{value} ALL` — that emits two text nodes,
+              and the counter collapses them into one. suppressHydrationWarning
+              forgives differing text, never a differing child count. */}
+          {`${snapshot.allPerEur.toFixed(2)} ALL`}
         </strong>
         <script dangerouslySetInnerHTML={{ __html: RATE_COUNT_UP_SCRIPT }} />
         {snapshot.change !== null && (
