@@ -2,26 +2,50 @@
 
 const GROQ_URL = "https://api.groq.com/openai/v1/chat/completions";
 /*
- * Groq's catalogue, not a guess: GET /openai/v1/models on this key returns
- * qwen3.6, gpt-oss, compound and allam — and no Llama at all. The pinned
- * llama-3.3-70b-versatile was not revoked from the account, it was retired by
- * Groq, which is why this path worked for months and then returned 404 on every
- * call. qwen3.6 is excluded deliberately: it rejects json_object mode and emits
- * <think> blocks in plain mode.
+ * Groq's catalogue, read from GET /openai/v1/models on this key rather than
+ * assumed: qwen3.6, gpt-oss, compound and allam — no Llama at all. The pinned
+ * llama-3.3-70b-versatile was not revoked from the account, Groq retired it,
+ * which is why this path ran for months and then 404'd on every call.
+ *
+ * qwen3.6 leads by choice: it is the stronger reasoner of what is on offer.
+ * Each model needs different handling, and getting it wrong looks identical
+ * from the outside — an empty completion or "Failed to validate JSON" — so the
+ * per-model settings are recorded here with what they were measured against.
  */
-const MODELS = ["openai/gpt-oss-120b", "openai/gpt-oss-20b", "groq/compound-mini"];
+type GroqModel = {
+  id: string;
+  /** Extra request fields this model needs. Sending them to a model that does
+   *  not accept them is a 400, so they are never applied globally. */
+  params?: Record<string, string>;
+  /** Hard ceiling. qwen3.6 answers 413 "Request too large" above ~4k. */
+  maxTokens?: number;
+};
 
-/** gpt-oss models reason before answering, and that reasoning is billed against
- *  max_tokens. Left at default, a 5.5KB prompt spent the budget thinking and
- *  constrained decoding then failed with "Failed to validate JSON" — measured:
- *  563 characters of reasoning at default, 64 at low. Only the OpenAI-authored
- *  models accept the parameter. */
-function reasoningEffortFor(model: string): "low" | undefined {
-  return model.startsWith("openai/") ? "low" : undefined;
-}
+const MODELS: GroqModel[] = [
+  {
+    // reasoning_format is mandatory in JSON mode ("must be set to `hidden` or
+    // `parsed` when json mode is enabled"), and this model's effort vocabulary
+    // is none/default — `low` is a 400. Reasoning is billed against max_tokens
+    // even when hidden, and at default effort it consumed the budget and left
+    // the JSON unfinished, so the ladder below starts thinking and drops it
+    // only when the model cannot finish.
+    id: "qwen/qwen3.6-27b",
+    params: { reasoning_format: "hidden", reasoning_effort: "none" },
+    maxTokens: 4000,
+  },
+  {
+    // Different vocabulary again: gpt-oss takes `low`, and without it a 5.5KB
+    // prompt spent the whole budget reasoning — 563 characters of it, against
+    // 64 at low.
+    id: "openai/gpt-oss-120b",
+    params: { reasoning_effort: "low" },
+  },
+  { id: "openai/gpt-oss-20b", params: { reasoning_effort: "low" } },
+  { id: "groq/compound-mini" },
+];
 
-/** Reasoning needs headroom even when it is dialled down, so a caller asking
- *  for a small completion still gets a budget the model can finish inside. */
+/** Reasoning needs headroom even dialled down, so a caller asking for a small
+ *  completion still gets a budget the model can finish inside. */
 const MIN_TOKENS = 1500;
 
 export async function groqChat(
@@ -39,11 +63,15 @@ export async function groqChat(
   const failures: string[] = [];
 
   for (const model of MODELS) {
-    // Strict json_object mode first, then plain. parseJSON below already
-    // tolerates prose and code fences, so a model that refuses the mode is
-    // retried without it rather than written off as unavailable.
+    const budget = Math.min(
+      Math.max(opts.maxTokens ?? 2000, MIN_TOKENS),
+      model.maxTokens ?? Number.MAX_SAFE_INTEGER
+    );
+
+    // Strict json_object mode first, then plain: parseJSON already tolerates
+    // prose and code fences, so a model that refuses the mode is retried
+    // without it rather than written off as unavailable.
     for (const jsonMode of [true, false]) {
-      const effort = reasoningEffortFor(model);
       const res = await fetch(GROQ_URL, {
         method: "POST",
         headers: {
@@ -51,25 +79,26 @@ export async function groqChat(
           Authorization: `Bearer ${key}`,
         },
         body: JSON.stringify({
-          model,
+          model: model.id,
           messages: [
             { role: "system", content: system },
             { role: "user", content: user },
           ],
           temperature: 0.4,
-          max_tokens: Math.max(opts.maxTokens ?? 2000, MIN_TOKENS),
+          max_tokens: budget,
           ...(opts.json && jsonMode ? { response_format: { type: "json_object" } } : {}),
-          ...(effort ? { reasoning_effort: effort } : {}),
+          ...(model.params ?? {}),
         }),
       });
 
       if (!res.ok) {
         const body = await res.text();
         failures.push(
-          `${model}${jsonMode ? "" : " (plain)"} ${res.status}: ${body.slice(0, 140)}`
+          `${model.id}${jsonMode ? "" : " (plain)"} ${res.status}: ${body.slice(0, 140)}`
         );
         // Only a rejected request is worth retrying without the mode. A 404 is
-        // a retired model and a 429 is a quota — both mean move on.
+        // a retired model, 429 a quota and 413 an oversized request — none of
+        // them get better by asking the same model again.
         if (res.status === 400 && jsonMode) continue;
         break;
       }
@@ -81,7 +110,7 @@ export async function groqChat(
         // whole budget reasoning and emitted nothing.
         const reasoning = data?.choices?.[0]?.message?.reasoning?.length ?? 0;
         failures.push(
-          `${model}${jsonMode ? "" : " (plain)"}: empty content (${reasoning}ch reasoning)`
+          `${model.id}${jsonMode ? "" : " (plain)"}: empty content (${reasoning}ch reasoning)`
         );
         continue;
       }
