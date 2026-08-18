@@ -1402,8 +1402,8 @@
   {
     "date": "2026-08-18",
     "overallIndex": 51,
-    "totalArticles": 143,
-    "sourceCount": 84,
+    "totalArticles": 122,
+    "sourceCount": 82,
     "stanceVersion": 2,
     "countries": {
       "Gjermani": {
@@ -1418,10 +1418,10 @@
       },
       "SHBA": {
         "index": 50,
-        "positive": 6,
-        "neutral": 89,
-        "negative": 6,
-        "n": 35,
+        "positive": 5,
+        "neutral": 91,
+        "negative": 5,
+        "n": 22,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2
@@ -1437,11 +1437,11 @@
         "stanceVersion": 2
       },
       "Francë": {
-        "index": 75,
-        "positive": 50,
-        "neutral": 50,
+        "index": 67,
+        "positive": 33,
+        "neutral": 67,
         "negative": 0,
-        "n": 2,
+        "n": 3,
         "excluded": 2,
         "confident": false,
         "stanceVersion": 2
@@ -1501,7 +1501,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 4,
+        "n": 3,
         "excluded": 1,
         "confident": false,
         "stanceVersion": 2
@@ -1511,7 +1511,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 8,
+        "n": 9,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -1537,9 +1537,9 @@
         "stanceVersion": 2
       },
       "Turqi": {
-        "index": 50,
-        "positive": 12,
-        "neutral": 76,
+        "index": 48,
+        "positive": 8,
+        "neutral": 80,
         "negative": 12,
         "n": 25,
         "excluded": 0,
@@ -1547,11 +1547,11 @@
         "stanceVersion": 2
       },
       "Kroaci": {
-        "index": 50,
-        "positive": 4,
-        "neutral": 92,
-        "negative": 4,
-        "n": 26,
+        "index": 47,
+        "positive": 0,
+        "neutral": 94,
+        "negative": 6,
+        "n": 17,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -1559,19 +1559,19 @@
     },
     "headlines": [
       {
-        "title": "As the Spring Arrives, Water Recalls the Nomads triumphs at DokuFest Prizren - Cineuropa",
-        "source": "Cineuropa",
+        "title": "Ukrainian MP opposes Zelensky’s position: Ukraine should recognize Kosovo - KosovaPress",
+        "source": "kosovapress.com",
         "country": "SHBA",
         "flag": "🇺🇸",
-        "url": "https://cineuropa.org/en/newsdetail/494515",
+        "url": "https://kosovapress.com/eng/ukrainian-mp-opposes-zelenskys-position-ukraine-should-recognize-kosovo",
         "sentiment": "positive"
       },
       {
-        "title": "Ukrainian MP opposes Zelensky’s position: Ukraine should recognize Kosovo - KosovaPress",
-        "source": "KosovaPress",
+        "title": "As the Spring Arrives, Water Recalls the Nomads triumphs at DokuFest Prizren - Cineuropa",
+        "source": "Cineuropa",
         "country": "Britani",
         "flag": "🇬🇧",
-        "url": "https://kosovapress.com/eng/ukrainian-mp-opposes-zelenskys-position-ukraine-should-recognize-kosovo",
+        "url": "https://cineuropa.org/en/newsdetail/494515",
         "sentiment": "positive"
       },
       {
@@ -1599,11 +1599,11 @@
         "sentiment": "negative"
       },
       {
-        "title": "Dedaj: Situation chaotic, Kurti is Kosovo's Kim Jong Un - kosovo-online.com",
-        "source": "kosovo-online.com",
-        "country": "SHBA",
-        "flag": "🇺🇸",
-        "url": "https://www.kosovo-online.com/en/news/politics/dedaj-situation-chaotic-kurti-kosovos-kim-jong-un-15-8-2026",
+        "title": "Kosova’da Anayasal Düzen Artık İşlemiyor - Kosovahaber.com",
+        "source": "Kosovahaber.com",
+        "country": "Turqi",
+        "flag": "🇹🇷",
+        "url": "https://kosovahaber.com/haber/kosovada-anayasal-duzen-artik-islemiyor-105013",
         "sentiment": "negative"
       }
     ]
