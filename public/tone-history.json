@@ -1401,9 +1401,9 @@
   },
   {
     "date": "2026-08-18",
-    "overallIndex": 50,
-    "totalArticles": 123,
-    "sourceCount": 80,
+    "overallIndex": 51,
+    "totalArticles": 143,
+    "sourceCount": 84,
     "stanceVersion": 2,
     "countries": {
       "Gjermani": {
@@ -1417,22 +1417,22 @@
         "stanceVersion": 2
       },
       "SHBA": {
-        "index": 46,
-        "positive": 4,
-        "neutral": 86,
-        "negative": 11,
-        "n": 28,
-        "excluded": 7,
+        "index": 50,
+        "positive": 6,
+        "neutral": 89,
+        "negative": 6,
+        "n": 35,
+        "excluded": 1,
         "confident": true,
         "stanceVersion": 2
       },
       "Britani": {
-        "index": 53,
-        "positive": 12,
-        "neutral": 82,
-        "negative": 6,
-        "n": 17,
-        "excluded": 3,
+        "index": 52,
+        "positive": 10,
+        "neutral": 86,
+        "negative": 5,
+        "n": 21,
+        "excluded": 1,
         "confident": true,
         "stanceVersion": 2
       },
@@ -1442,18 +1442,18 @@
         "neutral": 50,
         "negative": 0,
         "n": 2,
-        "excluded": 1,
+        "excluded": 2,
         "confident": false,
         "stanceVersion": 2
       },
       "Itali": {
-        "index": 62,
-        "positive": 25,
-        "neutral": 75,
+        "index": 58,
+        "positive": 17,
+        "neutral": 83,
         "negative": 0,
-        "n": 4,
-        "excluded": 1,
-        "confident": false,
+        "n": 6,
+        "excluded": 0,
+        "confident": true,
         "stanceVersion": 2
       },
       "Austri": {
@@ -1492,7 +1492,7 @@
         "neutral": 67,
         "negative": 0,
         "n": 3,
-        "excluded": 1,
+        "excluded": 2,
         "confident": false,
         "stanceVersion": 2
       },
@@ -1502,7 +1502,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 4,
-        "excluded": 0,
+        "excluded": 1,
         "confident": false,
         "stanceVersion": 2
       },
@@ -1511,17 +1511,17 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 7,
+        "n": 8,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
       },
       "Suedi": {
-        "index": null,
+        "index": 50,
         "positive": 0,
-        "neutral": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 0,
+        "n": 1,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
@@ -1531,28 +1531,28 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 3,
+        "n": 2,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
       },
       "Turqi": {
-        "index": 48,
-        "positive": 8,
-        "neutral": 81,
+        "index": 50,
+        "positive": 12,
+        "neutral": 76,
         "negative": 12,
-        "n": 26,
+        "n": 25,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
       },
       "Kroaci": {
-        "index": 47,
-        "positive": 5,
-        "neutral": 84,
-        "negative": 11,
-        "n": 19,
-        "excluded": 6,
+        "index": 50,
+        "positive": 4,
+        "neutral": 92,
+        "negative": 4,
+        "n": 26,
+        "excluded": 0,
         "confident": true,
         "stanceVersion": 2
       }
@@ -1583,7 +1583,7 @@
         "sentiment": "positive"
       },
       {
-        "title": "Has Kurti crossed a \"red line\" in the relations with the EU? - europeanwesternbalkans.com",
+        "title": "Has Kurti crossed a \"red line\" in the relations with the EU? - European Western Balkans",
         "source": "European Western Balkans",
         "country": "SHBA",
         "flag": "🇺🇸",
@@ -1591,19 +1591,19 @@
         "sentiment": "negative"
       },
       {
-        "title": "Has Kurti crossed a \"red line\" in the relations with the EU? - European Western Balkans",
-        "source": "European Western Balkans",
-        "country": "Britani",
-        "flag": "🇬🇧",
-        "url": "https://europeanwesternbalkans.com/2026/08/18/has-kurti-crossed-a-red-line-in-the-relations-with-the-eu/",
-        "sentiment": "negative"
-      },
-      {
-        "title": "Kosova’da Anayasal Düzen Artık İşlemiyor - Kosovahaber.com",
+        "title": "Kosova Otoriterliğe Doğru Sürüklenme Riskiyle Karşı Karşıya - Kosovahaber.com",
         "source": "Kosovahaber.com",
         "country": "Turqi",
         "flag": "🇹🇷",
-        "url": "https://kosovahaber.com/haber/kosovada-anayasal-duzen-artik-islemiyor-105013",
+        "url": "https://kosovahaber.com/haber/kosova-otoriterlige-dogru-suruklenme-riskiyle-karsi-karsiya-105028",
+        "sentiment": "negative"
+      },
+      {
+        "title": "Dedaj: Situation chaotic, Kurti is Kosovo's Kim Jong Un - kosovo-online.com",
+        "source": "kosovo-online.com",
+        "country": "SHBA",
+        "flag": "🇺🇸",
+        "url": "https://www.kosovo-online.com/en/news/politics/dedaj-situation-chaotic-kurti-kosovos-kim-jong-un-15-8-2026",
         "sentiment": "negative"
       }
     ]

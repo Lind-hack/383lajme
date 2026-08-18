@@ -1,54 +1,14 @@
 {
   "lastUpdated": "2026-08-18",
-  "overallIndex": 50,
-  "totalArticles": 123,
-  "sourceCount": 80,
+  "overallIndex": 51,
+  "totalArticles": 143,
+  "sourceCount": 84,
   "stanceVersion": 2,
   "countries": {
     "Gjermani": {
       "outlets": [
         {
-          "name": "Germany Trade & Invest (GTAI)",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Freihandelsabkommen zwischen Kosovo und EFTA tritt in Kraft - Germany Trade & Invest (GTAI)",
-              "albanianTitle": "Hyn në fuqi marrëveshja e tregtisë së lirë mes Kosovës dhe EFTA-s - Germany Trade & Invest (GTAI)",
-              "blurb": "Marrëveshja e tregtisë së lirë ndërmjet Kosovës dhe vendeve të EFTA-s ka hyrë zyrtarisht në fuqi për palët.",
-              "imageUrl": "https://www.gtai.de/resource/image/568400/fitImage/2000/1048/1294240791f492cbbd34364b283e4cda/DC24176B4610A64AF1AD6B40DE7328A7/gtai-logo-farbverlaeufe-schutzzone.jpg",
-              "url": "https://www.gtai.de/de/trade/kosovo/zoll/freihandelsabkommen-kosovo-efta-2021426",
-              "date": "2026-08-17",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportim pa ngarkim",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "Pester Lloyd",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosovo verhaftet mutmaßlichen serbischen Spion – Spannungen im Westbalkan - pesterlloyd.net",
-              "albanianTitle": "Kosova arreston një të dyshuar për spiunazh serb – rriten tensionet në Ballkanin Perëndimor",
-              "blurb": "Autoritetet e Kosovës kanë arrestuar një person të dyshuar për spiunazh në favor të shtetit serb gjatë kësaj periudhe.",
-              "imageUrl": "https://www.pesterlloyd.net/wp-content/uploads/2026/08/kurznachrichten-cover-2026-08-15-646.webp",
-              "url": "https://www.pesterlloyd.net/kosovo-verhaftet-mutmasslichen-serbischen-spion-spannungen-im-westbalkan/",
-              "date": "2026-08-15",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportuar pa ngarkim",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "paz-online.de",
+          "name": "PAZ - Peiner Allgemeine Zeitung",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
@@ -61,6 +21,46 @@
               "date": "2026-08-17",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike pa ngjyrë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Pester Lloyd",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo verhaftet mutmaßlichen serbischen Spion – Spannungen im Westbalkan - Pester Lloyd",
+              "albanianTitle": "Kosova arreston spiunin e dyshuar serb – Tensione në Ballkanin Perëndimor - Pester Lloyd",
+              "blurb": "Kosova ka arrestuar një spiun të dyshuar serb, duke rritur tensionet në Ballkanin Perëndimor.",
+              "imageUrl": "https://www.pesterlloyd.net/wp-content/uploads/2026/08/kurznachrichten-cover-2026-08-15-646.webp",
+              "url": "https://www.pesterlloyd.net/kosovo-verhaftet-mutmasslichen-serbischen-spion-spannungen-im-westbalkan/",
+              "date": "2026-08-15",
+              "sentiment": "neutral",
+              "reason": "Lajm i thjeshtë, i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "gtai.de",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Freihandelsabkommen zwischen Kosovo und EFTA tritt in Kraft - gtai.de",
+              "albanianTitle": "Hyn në fuqi marrëveshja e tregtisë së lirë ndërmjet Kosovës dhe EFTA-s",
+              "blurb": "Marrëveshja e tregtisë së lirë ndërmjet Kosovës dhe shteteve të EFTA-s ka hyrë zyrtarisht në fuqi për palët.",
+              "imageUrl": "https://www.gtai.de/resource/image/568400/fitImage/2000/1048/1294240791f492cbbd34364b283e4cda/DC24176B4610A64AF1AD6B40DE7328A7/gtai-logo-farbverlaeufe-schutzzone.jpg",
+              "url": "https://www.gtai.de/de/trade/kosovo/zoll/freihandelsabkommen-kosovo-efta-2021426",
+              "date": "2026-08-17",
+              "sentiment": "neutral",
+              "reason": "Straightforward announcement of a trade agreement, no evaluative language",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -83,18 +83,18 @@
       "outlets": [
         {
           "name": "Balkan Green Energy News",
-          "sentiment": "unknown",
+          "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
               "title": "North Macedonia to import coal for power plants from Kosovo* - Balkan Green Energy News",
-              "albanianTitle": "Maqedonia e Veriut do të importojë qymyr nga Kosova për termocentralet",
-              "blurb": "Maqedonia e Veriut ka planifikuar importimin e thëngjillit nga Kosova për nevojat e termocentraleve të saj energjetike.",
+              "albanianTitle": "Maqedonia e Veriut do të importojë qymyr nga Kosova për termocentralet - Balkan Green Energy News",
+              "blurb": "Maqedonia e Veriut ka planifikuar importimin e thëngjillit nga Kosova për nevojat e termocentraleve të saj për prodhimin e energjisë.",
               "imageUrl": "https://balkangreenenergynews.com/wp-content/uploads/2026/08/north-macedonia-kosovo-kek-esm-coal-concesion-contract-hasani-uzuncev.jpg",
               "url": "https://balkangreenenergynews.com/north-macedonia-to-import-coal-for-power-plants-from-kosovo/",
               "date": "2026-08-18",
-              "sentiment": "unknown",
-              "reason": "",
+              "sentiment": "neutral",
+              "reason": "Faktikë e thjeshtë, pa gjuhë ngarkuar ndaj Kosovës",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -123,22 +123,9 @@
         },
         {
           "name": "Cineuropa",
-          "sentiment": "positive",
+          "sentiment": "neutral",
           "articleCount": 2,
           "articles": [
-            {
-              "title": "As the Spring Arrives, Water Recalls the Nomads triumphs at DokuFest Prizren - Cineuropa",
-              "albanianTitle": "Filmi 'As the Spring Arrives, Water Recalls the Nomads' triumfon në DokuFest të Prizrenit - Cineuropa",
-              "blurb": "Filmi As the Spring Arrives, Water Recalls the Nomads shpallet fitues në festivalin DokuFest në Prizren.",
-              "imageUrl": null,
-              "url": "https://cineuropa.org/en/newsdetail/494515",
-              "date": "2026-08-17",
-              "sentiment": "positive",
-              "reason": "Positive language praising Kosovo cultural work",
-              "isQuote": false,
-              "evidence": "triumphs at DokuFest",
-              "speaker": ""
-            },
             {
               "title": "Igor Aleksov shooting The Secret of the Bare Hill - Cineuropa",
               "albanianTitle": "Igor Aleksov po xhiron filmin \"Sekreti i Kodrës së Zhveshur\" - Cineuropa",
@@ -151,6 +138,19 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "As the Spring Arrives, Water Recalls the Nomads triumphs at DokuFest Prizren - Cineuropa",
+              "albanianTitle": "Filmi 'As the Spring Arrives, Water Recalls the Nomads' triumfon në DokuFest të Prizrenit - Cineuropa",
+              "blurb": "Filmi As the Spring Arrives, Water Recalls the Nomads shpallet fitues në festivalin DokuFest në Prizren.",
+              "imageUrl": null,
+              "url": "https://cineuropa.org/en/newsdetail/494515",
+              "date": "2026-08-17",
+              "sentiment": "positive",
+              "reason": "Positive language praising Kosovo cultural work",
+              "isQuote": false,
+              "evidence": "triumphs at DokuFest",
+              "speaker": ""
             }
           ]
         },
@@ -160,9 +160,9 @@
           "articleCount": 1,
           "articles": [
             {
-              "title": "Has Kurti crossed a \"red line\" in the relations with the EU? - europeanwesternbalkans.com",
+              "title": "Has Kurti crossed a \"red line\" in the relations with the EU? - European Western Balkans",
               "albanianTitle": "A ka kaluar Kurti një \"vijë të kuqe\" në raportet me BE-në?",
-              "blurb": "Analizohet nëse veprimet e kryeministrit Albin Kurti kanë tejkaluar vijat e kuqe në raportet me Bashkimin Evropian.",
+              "blurb": "Ekspertët shqyrtojnë nëse politikat e qeverisë Kurti kanë cenuar marrëdhëniet diplomatike me shtetet e Bashkimit Evropian.",
               "imageUrl": "https://europeanwesternbalkans.com/wp-content/uploads/2026/08/kurti-marta.jpg",
               "url": "https://europeanwesternbalkans.com/2026/08/18/has-kurti-crossed-a-red-line-in-the-relations-with-the-eu/",
               "date": "2026-08-18",
@@ -170,26 +170,6 @@
               "reason": "critical framing of Kosovo's leader by the outlet",
               "isQuote": false,
               "evidence": "crossed a red line",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "Fibre2Fashion",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Bangladesh, Kosovo discuss initiating process for planned FTA - Fibre2Fashion",
-              "albanianTitle": "Kosova dhe Bangladeshi diskutojnë nisjen e procedurave për një marrëveshje të tregtisë së lirë",
-              "blurb": "Kosova dhe Bangladeshi kanë diskutuar nisjen e procedurave për një marrëveshje të tregtisë së lirë mes dy vendeve.",
-              "imageUrl": null,
-              "url": "https://www.fibre2fashion.com/news/textile-news/bangladesh-kosovo-discuss-initiating-process-for-planned-fta-312687-newsdetails.htm",
-              "date": "2026-08-16",
-              "sentiment": "neutral",
-              "reason": "Lajm ekonomik, i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
               "speaker": ""
             }
           ]
@@ -217,45 +197,19 @@
         {
           "name": "KosovaPress",
           "sentiment": "neutral",
-          "articleCount": 5,
+          "articleCount": 3,
           "articles": [
             {
-              "title": "Kosovo’s acting President Haxhiu calls for talks on specific names for a consensus presidential candidate - KosovaPress",
-              "albanianTitle": "Ushtruesja e detyrës së Presidentit të Kosovës, Haxhiu, bën thirrje për bisedime rreth emrave për një kandidat konsensual për president",
-              "blurb": "Ushtruesja e detyrës së presidentit, Vjosa Osmani, kërkon diskutime për emra konkretë për një kandidat konsensual për president.",
+              "title": "Ukrainian MP opposes Zelensky’s position: Ukraine should recognize Kosovo - KosovaPress",
+              "albanianTitle": "Deputetja ukrainase kundërshton qëndrimin e Zelenskyt: Ukraina duhet ta njohë Kosovën",
+              "blurb": "Deputeti ukrainas kundërshton qëndrimin e Zelenskyt duke kërkuar që Ukraina ta njohë pavarësinë e shtetit të Kosovës.",
               "imageUrl": null,
-              "url": "https://kosovapress.com/eng/kosovos-acting-president-haxhiu-calls-for-talks-on-specific-names-for-a-consensus-presidential-candidate",
-              "date": "2026-08-18",
-              "sentiment": "neutral",
-              "reason": "Headline reports statement without editorialising",
+              "url": "https://kosovapress.com/eng/ukrainian-mp-opposes-zelenskys-position-ukraine-should-recognize-kosovo",
+              "date": "2026-08-16",
+              "sentiment": "positive",
+              "reason": "Outlet advocates recognition of Kosovo’s statehood",
               "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Gërvalla calls on former opposition to join talks on Kosovo president - KosovaPress",
-              "albanianTitle": "Gërvalla u bën thirrje partive opozitare t'i bashkohen bisedimeve për presidentin e Kosovës - KosovaPress",
-              "blurb": "Ministrja Gërvalla u bën thirrje partive opozitare që t'i bashkohen bisedimeve për zgjedhjen e presidentit të Kosovës.",
-              "imageUrl": null,
-              "url": "https://kosovapress.com/eng/gervalla-calls-on-former-opposition-come-to-the-meeting-to-find-a-solution-for-kosovo-president",
-              "date": "2026-08-18",
-              "sentiment": "neutral",
-              "reason": "Headline reports statement without editorialising",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "“Procurement remains on paper”: Over 700 activities in Kosovo not initiated by the end of June - KosovaPress",
-              "albanianTitle": "“Prokurimi mbetet në letër”: Mbi 700 aktivitete në Kosovë nuk janë iniciuar deri në fund të qershorit - KosovaPress",
-              "blurb": "Mbi 700 aktivitete të prokurimit në Kosovë nuk janë iniciuar deri në fund të muajit qershor të këtij viti.",
-              "imageUrl": null,
-              "url": "https://kosovapress.com/eng/procurement-remains-on-paper-over-700-activities-in-kosovo-not-initiated-by-the-end-of-june",
-              "date": "2026-08-18",
-              "sentiment": "neutral",
-              "reason": "Quoted phrase attributed to source, not outlet's own voice",
-              "isQuote": true,
-              "evidence": "",
+              "evidence": "Ukraine should recognize Kosovo",
               "speaker": ""
             },
             {
@@ -387,19 +341,39 @@
           ]
         },
         {
-          "name": "artsakh.news",
+          "name": "cna.al",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
-              "title": "NATO reduces security presence at key Kosovo Serb sites - artsakh.news",
-              "albanianTitle": "NATO zvogëlon praninë e sigurisë në lokacionet kyçe të serbëve në Kosovë",
-              "blurb": "NATO ka zvogëluar praninë e forcave të saj të sigurisë në disa lokacione kyçe ku jetojnë serbët në Kosovë.",
-              "imageUrl": "https://mamul.am/images/photos/260812/nato-n-sksel-e-krtchatel-ir-ne-n367818-1.jpg",
-              "url": "https://artsakh.news/en/news/367818",
-              "date": "2026-08-17",
+              "title": "What happens if Kosovo remains without a president after October 4? - cna.al",
+              "albanianTitle": "Çfarë ndodh nëse Kosova mbetet pa president pas 4 tetorit?",
+              "blurb": "Analizohen pasojat institucionale nëse Kosova mbetet pa president pas datës katër tetor, sipas procedurave kushtetuese dhe ligjore aktuale.",
+              "imageUrl": null,
+              "url": "https://www.cna.al/english/kosova-bota/fare-ndodh-nese-kosova-mbetet-pa-president-pas-4-tetorit-i471834",
+              "date": "2026-08-18",
               "sentiment": "neutral",
-              "reason": "Faktikë raportim pa gjuhë të ngarkuar",
+              "reason": "Faktikë raportim neutral",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "fibre2fashion.com",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Bangladesh, Kosovo discuss initiating process for planned FTA - fibre2fashion.com",
+              "albanianTitle": "Kosova dhe Bangladeshi diskutojnë nisjen e procedurave për një marrëveshje të tregtisë së lirë",
+              "blurb": "Kosova dhe Bangladeshi kanë diskutuar mundësinë e nisjes së procedurave për një marrëveshje të tregtisë së lirë mes vendeve.",
+              "imageUrl": null,
+              "url": "https://www.fibre2fashion.com/news/textile-news/bangladesh-kosovo-discuss-initiating-process-for-planned-fta-312687-newsdetails.htm",
+              "date": "2026-08-16",
+              "sentiment": "neutral",
+              "reason": "Faktikë raporti i thjeshtë",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -434,77 +408,77 @@
             {
               "title": "EU to Kosovo Online: Decisions regarding the Ibar bridge should take into account the interests and concerns of all communities - kosovo-online.com",
               "albanianTitle": "BE për Kosovo Online: Vendimet për urën e Ibrit duhet të marrin parasysh interesat dhe shqetësimet e të gjitha komuniteteve",
-              "blurb": "Bashkimi Evropian kërkon që vendimet për urën e Ibrit të marrin parasysh shqetësimet e të gjitha komuniteteve.",
+              "blurb": "Bashkimi Evropian kërkon që vendimet për urën e Ibrit të marrin parasysh interesat e të gjitha komuniteteve në Kosovë.",
               "imageUrl": null,
               "url": "https://www.kosovo-online.com/en/news/politics/eu-kosovo-online-decisions-regarding-ibar-bridge-should-take-account-interests-and",
               "date": "2026-08-18",
-              "sentiment": "unknown",
-              "reason": "",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim neutral",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Djuric with Ferguson: International presence important for peace, stability, and security in Kosovo and Metohija - kosovo-online.com",
+              "albanianTitle": "Gjuriq me Fergusonin: Prania ndërkombëtare është e rëndësishme për paqen, stabilitetin dhe sigurinë në Kosovë",
+              "blurb": "Ambasadori Gjuriq dhe diplomati Ferguson vlerësojnë se prania ndërkombëtare është e domosdoshme për paqen dhe sigurinë në Kosovë.",
+              "imageUrl": null,
+              "url": "https://www.kosovo-online.com/en/news/politics/djuric-ferguson-international-presence-important-peace-stability-and-security-kosovo",
+              "date": "2026-08-18",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim neutral",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
             },
             {
               "title": "Garic: A huge danger for Serbs in Kosovo and Metohija is hidden behind the Public Property Law - kosovo-online.com",
-              "albanianTitle": "Gariq: Ligji për Pronën Publike fsheh rrezik të madh për serbët në Kosovë",
-              "blurb": "Igor Gariq pretendon se Ligji për Pronën Publike paraqet rrezik për popullatën serbe në Kosovë dhe Metohi.",
+              "albanianTitle": "Gariq: Ligji për Pronën Publike fsheh një rrezik të madh për serbët në Kosovë",
+              "blurb": "Analisti Garic pretendon se Ligji për Pronën Publike përbën rrezik për komunitetin serb në Kosovë dhe Metohi.",
               "imageUrl": null,
               "url": "https://www.kosovo-online.com/en/news/politics/garic-huge-danger-serbs-kosovo-and-metohija-hidden-behind-public-property-law-17-8",
               "date": "2026-08-18",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
+              "sentiment": "neutral",
+              "reason": "Raporton deklaratën e Garicit, gjuhë e ngarkuar i atribuoi folësit",
+              "isQuote": true,
               "evidence": "",
-              "speaker": ""
+              "speaker": "Garic"
             },
             {
               "title": "Analysts: Government decisions illegal, one cannot be both a minister and an MP - kosovo-online.com",
-              "albanianTitle": "Analistët: Vendimet e Qeverisë të paligjshme, nuk mund të jesh njëkohësisht ministër dhe deputet",
-              "blurb": "Analistët vlerësojnë se mbajtja e dyfishtë e pozitave si ministër dhe deputet është në kundërshtim me ligjin.",
+              "albanianTitle": "Analistët: Vendimet e Qeverisë janë të paligjshme, nuk mund të jesh njëkohësisht ministër dhe deputet",
+              "blurb": "Analistët vlerësojnë se vendimet e qeverisë janë të paligjshme pasi një person nuk mund të ushtrojë detyrën e ministrit dhe deputetit.",
               "imageUrl": null,
               "url": "https://www.kosovo-online.com/en/news/politics/analysts-government-decisions-illegal-one-cannot-be-both-minister-and-mp-17-8-2026",
               "date": "2026-08-18",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
+              "sentiment": "neutral",
+              "reason": "Raporton mendimin e analistëve, pa ngarkim nga media",
+              "isQuote": true,
               "evidence": "",
-              "speaker": ""
+              "speaker": "Analysts"
             },
             {
-              "title": "Vucic: I will write to Rutte about opening the bridge over the Ibar, I hope he will accept my request for it not to be opened - kosovo-online.com",
-              "albanianTitle": "Vuçiq: Do t'i shkruaj Ruttes për hapjen e urës së Ibrit, shpresoj ta pranojë kërkesën time që ajo të mos hapet",
-              "blurb": "Aleksandër Vuçiq paralajmëron letër drejtuar Ruttes për të kërkuar mos hapjen e urës mbi lumin Ibër në Mitrovicë.",
+              "title": "Ibar Bridge poised to open: KFOR withdrawing, questions over security of Serbs remain - kosovo-online.com",
+              "albanianTitle": "Ura e Ibrit drejt hapjes: KFOR-i po tërhiqet, mbeten pikëpyetje për sigurinë e serbëve",
+              "blurb": "Ura e Ibrit pritet të hapet pas tërheqjes së KFOR-it, ndërsa vazhdojnë shqetësimet për sigurinë e banorëve serbë në atë zonë.",
               "imageUrl": null,
-              "url": "https://www.kosovo-online.com/en/news/politics/vucic-i-will-write-rutte-about-opening-bridge-over-ibar-i-hope-he-will-accept-my",
+              "url": "https://www.kosovo-online.com/en/news/analysis/ibar-bridge-poised-open-kfor-withdrawing-questions-over-security-serbs-remain-18-8",
               "date": "2026-08-18",
               "sentiment": "neutral",
-              "reason": "Headline reports statement without editorialising",
+              "reason": "Faktikë raportim neutral",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
             },
             {
               "title": "Petkovic tells Sorensen: EU assessment of Ibar Bridge does not reflect reality on the ground - kosovo-online.com",
-              "albanianTitle": "Petkoviq i thotë Sorensenit: Vlerësimi i BE-së për urën e Ibrit nuk pasqyron realitetin në terren",
-              "blurb": "Petar Petkoviq i ka thënë Sorensenit se vlerësimi i Bashkimit Evropian për urën e Ibrit nuk përputhet me realitetin.",
+              "albanianTitle": "Petkoviq i thotë Sorensenit: Vlerësimi i BE-së për urën e Ibrit nuk përputhet me realitetin në terren",
+              "blurb": "Petkoviq i thotë Sorensenit se vlerësimi i Bashkimit Evropian për urën e Ibrit nuk përputhet me realitetin në terren.",
               "imageUrl": null,
               "url": "https://www.kosovo-online.com/en/news/politics/petkovic-tells-sorensen-eu-assessment-ibar-bridge-does-not-reflect-reality-ground-18",
               "date": "2026-08-18",
               "sentiment": "neutral",
-              "reason": "Headline reports statement without editorialising",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Garic: EU, EULEX and KFOR shirking responsibility over opening of Ibar Bridge - kosovo-online.com",
-              "albanianTitle": "Gariq: BE-ja, EULEX-i dhe KFOR-i po shmangin përgjegjësinë për hapjen e urës së Ibrit",
-              "blurb": "Igor Gariq akuzon Bashkimin Evropian, EULEX-in dhe KFOR-in për shmangie të përgjegjësisë lidhur me hapjen e urës së Ibrit.",
-              "imageUrl": null,
-              "url": "https://www.kosovo-online.com/en/news/politics/garic-eu-eulex-and-kfor-shirking-responsibility-over-opening-ibar-bridge-18-8-2026",
-              "date": "2026-08-18",
-              "sentiment": "neutral",
-              "reason": "Headline reports statement without editorialising",
+              "reason": "Factual report of statement without loaded language",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -518,26 +492,26 @@
           "articles": [
             {
               "title": "Alliance Reports Kosovo Government Over 18 Commissions - srpske.rs",
-              "albanianTitle": "Aleanca denoncon Qeverinë e Kosovës për 18 komisione",
-              "blurb": "Aleanca për Ardhmërinë e Kosovës ka raportuar qeverinë për formimin e tetëmbëdhjetë komisioneve të ndryshme shtetërore.",
+              "albanianTitle": "Aleanca denoncon Qeverinë e Kosovës për 18 komisione - srpske.rs",
+              "blurb": "Aleanca për Ardhmërinë e Kosovës ka raportuar qeverinë lidhur me funksionimin e tetëmbëdhjetë komisioneve të ndryshme shtetërore në vend.",
               "imageUrl": "https://srpske.rs/uploads/articles/alliance-reports-kosovo-government-over-18-commissions-16x9.webp",
               "url": "https://srpske.rs/en/news/politika/2026/08/18/alliance-reports-kosovo-government-over-18-commissions",
               "date": "2026-08-18",
-              "sentiment": "unknown",
-              "reason": "",
+              "sentiment": "neutral",
+              "reason": "Plain news headline about government commissions, no evaluative language",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
             },
             {
               "title": "Dragas Teacher Detained a Month Over Espionage Suspicion - srpske.rs",
-              "albanianTitle": "Mësuesi nga Dragashi mbahet një muaj në paraburgim nën dyshimin për spiunazh",
+              "albanianTitle": "Mësuesi nga Dragashi mbahet një muaj në paraburgim nën dyshimin për spiunazh - srpske.rs",
               "blurb": "Një mësimdhënës nga Dragashi është ndaluar për një muaj nën dyshimet për kryerjen e veprës penale të spiunazhit.",
               "imageUrl": "https://srpske.rs/uploads/articles/dragas-teacher-detained-month-over-espionage-suspicion-16x9.webp",
               "url": "https://srpske.rs/en/news/politika/2026/08/18/dragas-teacher-detained-month-over-espionage-suspicion",
               "date": "2026-08-18",
-              "sentiment": "unknown",
-              "reason": "",
+              "sentiment": "neutral",
+              "reason": "Raportim faktik pa gjuhë ngarkuar ndaj Kosovës",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -569,15 +543,35 @@
               "speaker": ""
             }
           ]
+        },
+        {
+          "name": "ԱՐՑԱԽ ԼՐԱՏՎԱԿԱՆ",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "NATO reduces security presence at key Kosovo Serb sites - ԱՐՑԱԽ ԼՐԱՏՎԱԿԱՆ",
+              "albanianTitle": "NATO-ja redukton praninë e sigurisë në pikat kyçe serbe në Kosovë - ԱՐՑԱԽ ԼՐԱՏՎԱԿԱՆ",
+              "blurb": "NATO ka reduktuar praninë e sigurisë në vendet kyçe serbe të Kosovës.",
+              "imageUrl": "https://mamul.am/images/photos/260812/nato-n-sksel-e-krtchatel-ir-ne-n367818-1.jpg",
+              "url": "https://artsakh.news/en/news/367818",
+              "date": "2026-08-15",
+              "sentiment": "neutral",
+              "reason": "Lajm i thjeshtë, i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
         }
       ],
       "summary": {
-        "index": 46,
-        "positive": 4,
-        "neutral": 86,
-        "negative": 11,
-        "n": 28,
-        "excluded": 7,
+        "index": 50,
+        "positive": 6,
+        "neutral": 89,
+        "negative": 6,
+        "n": 35,
+        "excluded": 1,
         "confident": true,
         "stanceVersion": 2
       }
@@ -586,18 +580,18 @@
       "outlets": [
         {
           "name": "Balkan Green Energy News",
-          "sentiment": "unknown",
+          "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
               "title": "North Macedonia to import coal for power plants from Kosovo* - Balkan Green Energy News",
-              "albanianTitle": "Maqedonia e Veriut do të importojë qymyr nga Kosova për termocentralet",
-              "blurb": "Maqedonia e Veriut ka planifikuar importimin e thëngjillit nga Kosova për nevojat e termocentraleve të saj energjetike.",
+              "albanianTitle": "Maqedonia e Veriut do të importojë qymyr nga Kosova për termocentralet - Balkan Green Energy News",
+              "blurb": "Maqedonia e Veriut ka planifikuar importimin e thëngjillit nga Kosova për nevojat e termocentraleve të saj për prodhimin e energjisë.",
               "imageUrl": "https://balkangreenenergynews.com/wp-content/uploads/2026/08/north-macedonia-kosovo-kek-esm-coal-concesion-contract-hasani-uzuncev.jpg",
               "url": "https://balkangreenenergynews.com/north-macedonia-to-import-coal-for-power-plants-from-kosovo/",
               "date": "2026-08-18",
-              "sentiment": "unknown",
-              "reason": "",
+              "sentiment": "neutral",
+              "reason": "Faktikë e thjeshtë, pa gjuhë ngarkuar ndaj Kosovës",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -630,6 +624,19 @@
           "articleCount": 3,
           "articles": [
             {
+              "title": "Igor Aleksov shooting The Secret of the Bare Hill - cineuropa.org",
+              "albanianTitle": null,
+              "blurb": "Prodhimi i filmit Sekretet e Kodrës së Zhveshur nën drejtimin e regjisorit Igor Aleksov ka filluar xhirimet zyrtare.",
+              "imageUrl": null,
+              "url": "https://cineuropa.org/en/newsdetail/494534",
+              "date": "2026-08-18",
+              "sentiment": "neutral",
+              "reason": "Titull informativ pa ngarkim",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
               "title": "As the Spring Arrives, Water Recalls the Nomads triumphs at DokuFest Prizren - Cineuropa",
               "albanianTitle": "Filmi 'As the Spring Arrives, Water Recalls the Nomads' triumfon në DokuFest të Prizrenit - Cineuropa",
               "blurb": "Filmi As the Spring Arrives, Water Recalls the Nomads shpallet fitues në festivalin DokuFest në Prizren.",
@@ -643,27 +650,14 @@
               "speaker": ""
             },
             {
-              "title": "CEE Animation opens call for the CODA – Co-Development Animation Awards - Cineuropa",
-              "albanianTitle": "CEE Animation hap thirrjen për çmimet CODA për bashkë-zhvillim të animacionit",
-              "blurb": "CEE Animation ka hapur thirrjen për aplikim për çmimet vjetore të bashkëzhvillimit të filmave të animuar CODA.",
+              "title": "CEE Animation opens call for the CODA – Co-Development Animation Awards - cineuropa.org",
+              "albanianTitle": "CEE Animation hap thirrjen për aplikim për çmimet CODA – Co-Development Animation Awards",
+              "blurb": "CEE Animation ka hapur thirrjen për aplikim për çmimet CODA që mbështesin bashkë-zhvillimin e projekteve të animacionit.",
               "imageUrl": null,
               "url": "https://cineuropa.org/en/newsdetail/494528",
               "date": "2026-08-17",
               "sentiment": "neutral",
-              "reason": "Straightforward factual report",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Igor Aleksov shooting The Secret of the Bare Hill - Cineuropa",
-              "albanianTitle": "Igor Aleksov po xhiron filmin \"Sekreti i Kodrës së Zhveshur\" - Cineuropa",
-              "blurb": "Regjisori Igor Aleksov ka nisur xhirimet për filmin e ri me titull Sekretet e Kodrës së Zhveshur në rajon.",
-              "imageUrl": null,
-              "url": "https://cineuropa.org/en/newsdetail/494534",
-              "date": "2026-08-18",
-              "sentiment": "neutral",
-              "reason": "Titull informativ pa ngarkim",
+              "reason": "No explicit outlet bias toward Kosovo evident in headline",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -782,14 +776,14 @@
           "articleCount": 1,
           "articles": [
             {
-              "title": "An editorial practice in times of crisis - architectural-review.com",
+              "title": "An editorial practice in times of crisis - The Architectural Review",
               "albanianTitle": "Një praktikë editoriale në kohë krize",
-              "blurb": "Praktikat redaktuese në kohë krizash analizohen përmes një vështrimi mbi zhvillimet dhe sfidat në fushën e arkitekturës.",
+              "blurb": "Analizohen praktikat editoriale dhe sfidat e punës në media gjatë periudhave të krizave të ndryshme shoqërore e politike.",
               "imageUrl": "https://cdn.ca.emap.com/wp-content/uploads/sites/12/2026/08/260710_An-editorial-practice-in-times-of-crisis_Page_16_playback-1024x576.webp",
               "url": "https://www.architectural-review.com/films/an-editorial-practice-in-times-of-crisis",
               "date": "2026-08-17",
               "sentiment": "unknown",
-              "reason": "No reference to Kosovo in headline or snippet",
+              "reason": "No content about Kosovo to assess outlet's attitude",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -857,6 +851,26 @@
           ]
         },
         {
+          "name": "cna.al",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "What happens if Kosovo remains without a president after October 4? - cna.al",
+              "albanianTitle": "Çfarë ndodh nëse Kosova mbetet pa president pas 4 tetorit?",
+              "blurb": "Analizohen pasojat institucionale nëse Kosova mbetet pa president pas datës katër tetor, sipas procedurave kushtetuese dhe ligjore aktuale.",
+              "imageUrl": null,
+              "url": "https://www.cna.al/english/kosova-bota/fare-ndodh-nese-kosova-mbetet-pa-president-pas-4-tetorit-i471834",
+              "date": "2026-08-18",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim neutral",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "globalpost.com",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -879,17 +893,17 @@
         {
           "name": "srpske.rs",
           "sentiment": "neutral",
-          "articleCount": 3,
+          "articleCount": 4,
           "articles": [
             {
               "title": "Alliance Reports Kosovo Government Over 18 Commissions - srpske.rs",
-              "albanianTitle": "Aleanca denoncon Qeverinë e Kosovës për 18 komisione",
-              "blurb": "Aleanca për Ardhmërinë e Kosovës ka raportuar qeverinë për formimin e tetëmbëdhjetë komisioneve të ndryshme shtetërore.",
+              "albanianTitle": "Aleanca denoncon Qeverinë e Kosovës për 18 komisione - srpske.rs",
+              "blurb": "Aleanca për Ardhmërinë e Kosovës ka raportuar qeverinë lidhur me funksionimin e tetëmbëdhjetë komisioneve të ndryshme shtetërore në vend.",
               "imageUrl": "https://srpske.rs/uploads/articles/alliance-reports-kosovo-government-over-18-commissions-16x9.webp",
               "url": "https://srpske.rs/en/news/politika/2026/08/18/alliance-reports-kosovo-government-over-18-commissions",
               "date": "2026-08-18",
-              "sentiment": "unknown",
-              "reason": "",
+              "sentiment": "neutral",
+              "reason": "Plain news headline about government commissions, no evaluative language",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -919,6 +933,19 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Kosovo Opposition Blocks Government Entrance for Fourth Day - srpske.rs",
+              "albanianTitle": "Opozita në Kosovë bllokon hyrjen e Qeverisë për të katërtën ditë me radhë",
+              "blurb": "Opozita në Kosovë vazhdon të bllokojë hyrjen e ndërtesës së qeverisë për të katërtën ditë radhazi.",
+              "imageUrl": "https://srpske.rs/uploads/articles/kosovo-opposition-blocks-government-entrance-fourth-day-16x9.webp",
+              "url": "https://srpske.rs/en/news/politika/2026/08/18/kosovo-opposition-blocks-government-entrance-fourth-day",
+              "date": "2026-08-18",
+              "sentiment": "neutral",
+              "reason": "Titulli faktik pa gjuhë ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ]
         },
@@ -944,12 +971,12 @@
         }
       ],
       "summary": {
-        "index": 53,
-        "positive": 12,
-        "neutral": 82,
-        "negative": 6,
-        "n": 17,
-        "excluded": 3,
+        "index": 52,
+        "positive": 10,
+        "neutral": 86,
+        "negative": 5,
+        "n": 21,
+        "excluded": 1,
         "confident": true,
         "stanceVersion": 2
       }
@@ -959,8 +986,21 @@
         {
           "name": "Cineuropa",
           "sentiment": "positive",
-          "articleCount": 2,
+          "articleCount": 3,
           "articles": [
+            {
+              "title": "Igor Aleksov tourne The Secret of the Bare Hill - Cineuropa",
+              "albanianTitle": null,
+              "blurb": "Regjisori Igor Aleksov ka nisur xhirimet e filmit të ri me titull Sekretet e Kodrës së Zhveshur.",
+              "imageUrl": null,
+              "url": "https://cineuropa.org/fr/newsdetail/494534",
+              "date": "2026-08-18",
+              "sentiment": "unknown",
+              "reason": "Nuk ka përmendje të Kosovës në titull",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
             {
               "title": "CEE Animation ouvre les inscriptions pour les CODA – Co-Development Animation Awards - Cineuropa",
               "albanianTitle": "CEE Animation hap aplikimet për çmimet e bashkëzhvillimit të animacionit CODA",
@@ -1016,7 +1056,7 @@
         "neutral": 50,
         "negative": 0,
         "n": 2,
-        "excluded": 1,
+        "excluded": 2,
         "confident": false,
         "stanceVersion": 2
       }
@@ -1057,19 +1097,19 @@
           ]
         },
         {
-          "name": "Il NordEst Quotidiano",
+          "name": "Osservatorio Balcani Caucaso Transeuropa",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
-              "title": "Esposizione a sostanze nocive durante missione Nato in Kosovo: riconosciuta la causa di servizio - Il NordEst Quotidiano",
-              "albanianTitle": "Ekspozimi ndaj substancave të dëmshme gjatë misionit të NATO-s në Kosovë: njihet si sëmundje profesionale",
-              "blurb": "Një ushtar italian është njohur me shkakun e shërbimit pas ekspozimit ndaj substancave të dëmshme gjatë misionit në Kosovë.",
-              "imageUrl": "https://www.ilnordestquotidiano.it/wp-content/uploads/2026/08/cannone-mortaio-sparo-proiettile-1024x887.jpg",
-              "url": "https://www.ilnordestquotidiano.it/2026/08/17/esposizione-a-sostanze-nocive-durante-missione-nato-in-kosovo-riconosciuta-la-causa-di-servizio/",
+              "title": "Serbia, il movimento studentesco è davvero nazionalista? - Osservatorio Balcani Caucaso Transeuropa",
+              "albanianTitle": "Serbia, a është lëvizja studentore vërtet nacionaliste?",
+              "blurb": "Analizë mbi orientimin politik të lëvizjes studentore në Serbi dhe pyetja nëse ajo është vërtet nacionaliste.",
+              "imageUrl": "https://www.balcanicaucaso.org/wp-content/uploads/sites/8/2026/08/shutterstock_2594648931.jpg",
+              "url": "https://www.balcanicaucaso.org/cp_article/serbia-il-movimento-studentesco-e-davvero-nazionalista/",
               "date": "2026-08-17",
               "sentiment": "neutral",
-              "reason": "Factual report of health issue without loaded language",
+              "reason": "Lajm i raportuar në mënyrë faktike",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1097,19 +1137,39 @@
           ]
         },
         {
-          "name": "balcanicaucaso.org",
-          "sentiment": "unknown",
+          "name": "federpesistica.it",
+          "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
-              "title": "Serbia, il movimento studentesco è davvero nazionalista? - balcanicaucaso.org",
-              "albanianTitle": "Serbia, a është vërtet nacionalist lëvizja studentore?",
-              "blurb": "Analizohet orientimi politik i lëvizjes studentore në Serbi dhe pyetja nëse ky grupim është vërtet i karakterit nacionalist.",
-              "imageUrl": "https://www.balcanicaucaso.org/wp-content/uploads/sites/8/2026/08/shutterstock_2594648931.jpg",
-              "url": "https://www.balcanicaucaso.org/cp_article/serbia-il-movimento-studentesco-e-davvero-nazionalista/",
+              "title": "Europei Youth e U15, Team Italia arrivato in Kosovo: diciassette azzurri in pedana dal 20 agosto - federpesistica.it",
+              "albanianTitle": "Kampionati Evropian për të rinj dhe U15, ekipi i Italisë arrin në Kosovë: shtatëmbëdhjetë garues në platformë nga 20 gushti",
+              "blurb": "Ekipi i Italisë me shtatëmbëdhjetë sportistë ka mbërritur në Kosovë për Kampionatin Evropian për të rinj dhe U15.",
+              "imageUrl": "https://www.federpesistica.it/wp-content/uploads/2026/08/A739918-scaled.jpg",
+              "url": "https://www.federpesistica.it/europei-youth-e-u15-team-italia-arrivato-in-kosovo-diciassette-azzurri-in-pedana-dal-20-agosto/",
+              "date": "2026-08-18",
+              "sentiment": "neutral",
+              "reason": "Titull faktik, pa gjuhë ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "ilnordestquotidiano.it",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Esposizione a sostanze nocive durante missione Nato in Kosovo: riconosciuta la causa di servizio - Il NordEst Quotidiano",
+              "albanianTitle": "Ekspozimi ndaj substancave të dëmshme gjatë misionit të NATO-s në Kosovë: njihet si sëmundje profesionale",
+              "blurb": "Një ushtar italian është njohur me shkakun e shërbimit pas ekspozimit ndaj substancave të dëmshme gjatë misionit në Kosovë.",
+              "imageUrl": "https://www.ilnordestquotidiano.it/wp-content/uploads/2026/08/cannone-mortaio-sparo-proiettile-1024x887.jpg",
+              "url": "https://www.ilnordestquotidiano.it/2026/08/17/esposizione-a-sostanze-nocive-durante-missione-nato-in-kosovo-riconosciuta-la-causa-di-servizio/",
               "date": "2026-08-17",
-              "sentiment": "unknown",
-              "reason": "No reference to Kosovo in headline or snippet",
+              "sentiment": "neutral",
+              "reason": "Factual report of health issue without loaded language",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1118,13 +1178,13 @@
         }
       ],
       "summary": {
-        "index": 62,
-        "positive": 25,
-        "neutral": 75,
+        "index": 58,
+        "positive": 17,
+        "neutral": 83,
         "negative": 0,
-        "n": 4,
-        "excluded": 1,
-        "confident": false,
+        "n": 6,
+        "excluded": 0,
+        "confident": true,
         "stanceVersion": 2
       }
     },
@@ -1315,7 +1375,7 @@
         {
           "name": "Cineuropa",
           "sentiment": "positive",
-          "articleCount": 2,
+          "articleCount": 3,
           "articles": [
             {
               "title": "CEE Animation ouvre les inscriptions pour les CODA – Co-Development Animation Awards - Cineuropa",
@@ -1326,6 +1386,19 @@
               "date": "2026-08-18",
               "sentiment": "unknown",
               "reason": "No reference to Kosovo in headline or snippet",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Igor Aleksov tourne The Secret of the Bare Hill - Cineuropa",
+              "albanianTitle": null,
+              "blurb": "Regjisori Igor Aleksov ka nisur xhirimet e filmit të ri me titull Sekretet e Kodrës së Zhveshur.",
+              "imageUrl": null,
+              "url": "https://cineuropa.org/fr/newsdetail/494534",
+              "date": "2026-08-18",
+              "sentiment": "unknown",
+              "reason": "Nuk ka përmendje të Kosovës në titull",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1392,13 +1465,33 @@
         "neutral": 67,
         "negative": 0,
         "n": 3,
-        "excluded": 1,
+        "excluded": 2,
         "confident": false,
         "stanceVersion": 2
       }
     },
     "Spanjë": {
       "outlets": [
+        {
+          "name": "Cineuropa",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Igor Aleksov rueda The Secret of the Bare Hill - Cineuropa",
+              "albanianTitle": "Igor Aleksov përfundon xhirimet e filmit \"The Secret of the Bare Hill\" - Cineuropa",
+              "blurb": "Regjisori Igor Aleksov po xhiron filmin e tij më të ri të titulluar Sekretet e Kodrës së Zhveshur.",
+              "imageUrl": null,
+              "url": "https://cineuropa.org/es/newsdetail/494534",
+              "date": "2026-08-18",
+              "sentiment": "unknown",
+              "reason": "Insufficient information to infer outlet stance toward Kosovo",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
         {
           "name": "Diario Área Campo de Gibraltar",
           "sentiment": "neutral",
@@ -1479,33 +1572,13 @@
         "neutral": 100,
         "negative": 0,
         "n": 4,
-        "excluded": 0,
+        "excluded": 1,
         "confident": false,
         "stanceVersion": 2
       }
     },
     "Greqi": {
       "outlets": [
-        {
-          "name": "EPIRUS TV NEWS",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Άρση Βαρών :Mε έξι αθλητές η Ελλάδα στο Ευρωπαϊκό Πρωτάθλημα Παίδων & Κ15 στο Κόσοβο - EPIRUS TV NEWS",
-              "albanianTitle": "Peshëngritje: Greqia me gjashtë sportistë në Kampionatin Evropian për kadetë dhe U15 në Kosovë",
-              "blurb": "Greqia do të përfaqësohet me gjashtë sportistë në Kampionatin Evropian të peshëngritjes për grupmoshat U15 dhe kadetë në Kosovë.",
-              "imageUrl": null,
-              "url": "https://www.epirus-tv-news.gr/2026/08/m-15.html",
-              "date": "2026-08-18",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportuar pa gjuhë ngarkuar",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
         {
           "name": "Energymag.gr",
           "sentiment": "neutral",
@@ -1587,6 +1660,26 @@
           ]
         },
         {
+          "name": "epirus-tv-news.gr",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Άρση Βαρών :Mε έξι αθλητές η Ελλάδα στο Ευρωπαϊκό Πρωτάθλημα Παίδων & Κ15 στο Κόσοβο - EPIRUS TV NEWS",
+              "albanianTitle": "Peshëngritje: Greqia me gjashtë sportistë në Kampionatin Evropian për kadetë dhe U15 në Kosovë",
+              "blurb": "Greqia do të përfaqësohet me gjashtë sportistë në Kampionatin Evropian të peshëngritjes për grupmoshat U15 dhe kadetë në Kosovë.",
+              "imageUrl": null,
+              "url": "https://www.epirus-tv-news.gr/2026/08/m-15.html",
+              "date": "2026-08-18",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportuar pa gjuhë ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "sport-fm.gr",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1607,10 +1700,23 @@
           ]
         },
         {
-          "name": "Μακεδονικό Πρακτορείο Ειδήσεων",
+          "name": "Αθηναϊκό - Μακεδονικό πρακτορείο ειδήσεων",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
+            {
+              "title": "Mε έξι αθλητές η Ελλάδα στο Ευρωπαϊκό Πρωτάθλημα Παίδων και Κ15 στο Κόσοβο - Αθηναϊκό - Μακεδονικό πρακτορείο ειδήσεων",
+              "albanianTitle": "Greqia me gjashtë garues në Kampionatin Evropian për të rinj dhe U15 në Kosovë",
+              "blurb": "Greqia do të përfaqësohet me gjashtë sportistë në Kampionatin Evropian për të rinj dhe U15 që mbahet në Kosovë.",
+              "imageUrl": "https://amna.gr/photos/202608/w18-154939.jpg",
+              "url": "https://www.amna.gr/sport/article/1016243/Me-exi-athlites-i-Ellada-sto-Europaiko-Protathlima-Paidon-kai-K15-sto-Kosobo",
+              "date": "2026-08-18",
+              "sentiment": "neutral",
+              "reason": "Fact‑based report of Greek sports participation, no loaded language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
             {
               "title": "Βόλεϊ-Μεσογειακοί Αγώνες 2026: Αναχωρούν για το Τάραντο οι εθνικές ανδρών και γυναικών - Αθηναϊκό - Μακεδονικό πρακτορείο ειδήσεων",
               "albanianTitle": "Volejboll-Lojërat Mesdhetare 2026: Kombëtaret e meshkujve dhe femrave nisen për në Taranto - Agjencia e Lajmeve Athinase-Maqedonase",
@@ -1632,20 +1738,41 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 7,
+        "n": 8,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
       }
     },
     "Suedi": {
-      "outlets": [],
+      "outlets": [
+        {
+          "name": "SMHI",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Väderprognos 10 dygn Pristina, Kosovo - SMHI",
+              "albanianTitle": "Parashikimi i motit për 10 ditët e ardhshme në Prishtinë, Kosovë - SMHI",
+              "blurb": "Instituti Meteorologjik Suedez SMHI ka publikuar parashikimin e motit për dhjetë ditët e ardhshme në qytetin e Prishtinës.",
+              "imageUrl": null,
+              "url": "https://www.smhi.se/vader/prognoser-och-varningar/vaderprognos/q/Pristina/786714",
+              "date": "2026-08-16",
+              "sentiment": "neutral",
+              "reason": "Straightforward weather forecast, no evaluative language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        }
+      ],
       "summary": {
-        "index": null,
+        "index": 50,
         "positive": 0,
-        "neutral": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 0,
+        "n": 1,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
@@ -1656,7 +1783,7 @@
         {
           "name": "Meczyki.pl",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 1,
           "articles": [
             {
               "title": "Kosowo U19 (K) - Słowacja U19 (K) - statystyki meczu 03.12.2026 - Meczyki.pl",
@@ -1667,19 +1794,6 @@
               "date": "2026-08-15",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Polska U19 (K) - Kosowo U19 (K) - statystyki meczu 27.11.2026 - Meczyki.pl",
-              "albanianTitle": "Polonia U19 (F) - Kosova U19 (F) - statistikat e ndeshjes së datës 27.11.2026",
-              "blurb": "Përfaqësuesja e femrave U19 e Polonisë dhe ajo e Kosovës do të zhvillojnë ndeshjen e futbollit më 27 nëntor.",
-              "imageUrl": "https://pliki.meczyki.pl/live-score/soccer/match/6177686/original.png",
-              "url": "https://www.meczyki.pl/wyniki-na-zywo/poland-u19-kosovo-u19/6177686/statystyki",
-              "date": "2026-08-15",
-              "sentiment": "neutral",
-              "reason": "Statistika e ndeshjes, pa ndonjë gjuhë vlerësuese për Kosovën",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1712,7 +1826,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 3,
+        "n": 2,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
@@ -1720,26 +1834,6 @@
     },
     "Turqi": {
       "outlets": [
-        {
-          "name": "GZT",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Zorlu araziyle 7 saatlik mücadele: Kosova’daki orman yangını söndürüldü - GZT",
-              "albanianTitle": "Lufta 7-orëshe në terren të vështirë: Shuhet zjarri në pyjet e Kosovës",
-              "blurb": "Pas shtatë orësh përpjekje në terren të vështirë, është shuar zjarri që kishte përfshirë një zonë pyjore në Kosovë.",
-              "imageUrl": null,
-              "url": "https://www.gzt.com/dunya/zorlu-araziyle-7-saatlik-mucadele-kosovadaki-orman-yangini-sonduruldu-4252044",
-              "date": "2026-08-17",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
         {
           "name": "Haber Ege",
           "sentiment": "neutral",
@@ -1766,6 +1860,32 @@
           "articleCount": 6,
           "articles": [
             {
+              "title": "Kosova Otoriterliğe Doğru Sürüklenme Riskiyle Karşı Karşıya - Kosovahaber.com",
+              "albanianTitle": "Kosova përballet me rrezikun e rrëshqitjes drejt autoritarizmit",
+              "blurb": "Kosova përballet me rrezikun e mundshëm të rrëshqitjes drejt një sistemi qeverisës me karakteristika autoritare sipas vlerësimeve.",
+              "imageUrl": null,
+              "url": "https://kosovahaber.com/haber/kosova-otoriterlige-dogru-suruklenme-riskiyle-karsi-karsiya-105028",
+              "date": "2026-08-18",
+              "sentiment": "negative",
+              "reason": "outlet depicts Kosovo as sliding toward authoritarianism",
+              "isQuote": false,
+              "evidence": "otoriterliğe doğru sürüklenme riskiyle karşı karşıya",
+              "speaker": ""
+            },
+            {
+              "title": "Kosova İş Dünyasından Siyasi Kriz Uyarısı: “Kurumsal Tıkanıklık Ekonomiye Zarar Veriyor” - Kosovahaber.com",
+              "albanianTitle": "Bizneset në Kosovë paralajmërojnë për krizën politike: “Bllokada institucionale po dëmton ekonominë” - Kosovahaber.com",
+              "blurb": "Përfaqësuesit e biznesit në Kosovë paralajmërojnë se kriza politike dhe bllokada institucionale po shkaktojnë dëme të konsiderueshme në ekonomi.",
+              "imageUrl": null,
+              "url": "https://kosovahaber.com/haber/kosova-is-dunyasindan-siyasi-kriz-uyarisi-kurumsal-tikaniklik-ekonomiye-zarar-veriyor-105029",
+              "date": "2026-08-18",
+              "sentiment": "neutral",
+              "reason": "Report of business warning about political crisis, no hostile or praising tone",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
               "title": "Kosova’da Anayasal Düzen Artık İşlemiyor - Kosovahaber.com",
               "albanianTitle": "Rendi kushtetues në Kosovë nuk funksionon më - Kosovahaber.com",
               "blurb": "Rendi kushtetues në Kosovë nuk është më funksional sipas vlerësimeve të fundit të publikuara në media.",
@@ -1779,16 +1899,16 @@
               "speaker": ""
             },
             {
-              "title": "Kosova Otoriterliğe Doğru Sürüklenme Riskiyle Karşı Karşıya - Kosovahaber.com",
-              "albanianTitle": "Kosova përballet me rrezikun e rrëshqitjes drejt autoritarizmit",
-              "blurb": "Kosova përballet me rrezikun e mundshëm të rrëshqitjes drejt një sistemi qeverisës me karakteristika autoritare sipas vlerësimeve.",
+              "title": "Gërvalla: Kosova'nın Bir Başka Kurumsal Çıkmaza İhtiyacı Yok - Kosovahaber.com",
+              "albanianTitle": "Gërvalla: Kosova nuk ka nevojë për një tjetër bllokadë institucionale",
+              "blurb": "Ministrja Donika Gërvalla deklaron se Kosova nuk ka nevojë për krijimin e një bllokade të re institucionale.",
               "imageUrl": null,
-              "url": "https://kosovahaber.com/haber/kosova-otoriterlige-dogru-suruklenme-riskiyle-karsi-karsiya-105028",
+              "url": "https://kosovahaber.com/haber/gervalla-kosovanin-bir-baska-kurumsal-cikmaza-ihtiyaci-yok-105032",
               "date": "2026-08-18",
-              "sentiment": "negative",
-              "reason": "outlet depicts Kosovo as sliding toward authoritarianism",
+              "sentiment": "positive",
+              "reason": "Outlet uses praising language suggesting Kosovo does not need another institutional crisis",
               "isQuote": false,
-              "evidence": "otoriterliğe doğru sürüklenme riskiyle karşı karşıya",
+              "evidence": "Bir Başka Kurumsal Çıkmaza İhtiyacı Yok",
               "speaker": ""
             },
             {
@@ -1813,32 +1933,6 @@
               "date": "2026-08-18",
               "sentiment": "neutral",
               "reason": "Faktik, pa gjuhë të ngarkuar",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Gërvalla: Kosova'nın Bir Başka Kurumsal Çıkmaza İhtiyacı Yok - Kosovahaber.com",
-              "albanianTitle": "Gërvalla: Kosova nuk ka nevojë për një tjetër bllokadë institucionale",
-              "blurb": "Ministrja Donika Gërvalla deklaron se Kosova nuk ka nevojë për krijimin e një bllokade të re institucionale.",
-              "imageUrl": null,
-              "url": "https://kosovahaber.com/haber/gervalla-kosovanin-bir-baska-kurumsal-cikmaza-ihtiyaci-yok-105032",
-              "date": "2026-08-18",
-              "sentiment": "positive",
-              "reason": "Outlet uses praising language suggesting Kosovo does not need another institutional crisis",
-              "isQuote": false,
-              "evidence": "Bir Başka Kurumsal Çıkmaza İhtiyacı Yok",
-              "speaker": ""
-            },
-            {
-              "title": "Kosova Gümrüğü’nün Geliri 7 Ayda 1,15 Milyar Euroyu Aştı - Kosovahaber.com",
-              "albanianTitle": "Dogana e Kosovës mbledh mbi 1,15 miliardë euro të hyra për 7 muaj",
-              "blurb": "Të hyrat e Doganës së Kosovës gjatë shtatë muajve të parë të këtij viti kanë tejkaluar shumën prej 1.15 miliard euro.",
-              "imageUrl": null,
-              "url": "https://kosovahaber.com/haber/kosova-gumrugunun-geliri-7-ayda-115-milyar-euroyu-asti-105007",
-              "date": "2026-08-17",
-              "sentiment": "neutral",
-              "reason": "Faktikë ekonomik",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1887,11 +1981,11 @@
         }
       ],
       "summary": {
-        "index": 48,
-        "positive": 8,
-        "neutral": 81,
+        "index": 50,
+        "positive": 12,
+        "neutral": 76,
         "negative": 12,
-        "n": 26,
+        "n": 25,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -1901,18 +1995,18 @@
       "outlets": [
         {
           "name": "Balkan Green Energy News",
-          "sentiment": "unknown",
+          "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
               "title": "North Macedonia to import coal for power plants from Kosovo* - Balkan Green Energy News",
-              "albanianTitle": "Maqedonia e Veriut do të importojë qymyr nga Kosova për termocentralet",
-              "blurb": "Maqedonia e Veriut ka planifikuar importimin e thëngjillit nga Kosova për nevojat e termocentraleve të saj energjetike.",
+              "albanianTitle": "Maqedonia e Veriut do të importojë qymyr nga Kosova për termocentralet - Balkan Green Energy News",
+              "blurb": "Maqedonia e Veriut ka planifikuar importimin e thëngjillit nga Kosova për nevojat e termocentraleve të saj për prodhimin e energjisë.",
               "imageUrl": "https://balkangreenenergynews.com/wp-content/uploads/2026/08/north-macedonia-kosovo-kek-esm-coal-concesion-contract-hasani-uzuncev.jpg",
               "url": "https://balkangreenenergynews.com/north-macedonia-to-import-coal-for-power-plants-from-kosovo/",
               "date": "2026-08-18",
-              "sentiment": "unknown",
-              "reason": "",
+              "sentiment": "neutral",
+              "reason": "Faktikë e thjeshtë, pa gjuhë ngarkuar ndaj Kosovës",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1941,9 +2035,22 @@
         },
         {
           "name": "Cineuropa",
-          "sentiment": "positive",
-          "articleCount": 1,
+          "sentiment": "neutral",
+          "articleCount": 2,
           "articles": [
+            {
+              "title": "Igor Aleksov shooting The Secret of the Bare Hill - Cineuropa",
+              "albanianTitle": "Igor Aleksov po xhiron filmin \"Sekreti i Kodrës së Zhveshur\" - Cineuropa",
+              "blurb": "Regjisori Igor Aleksov ka nisur xhirimet për filmin e ri me titull Sekretet e Kodrës së Zhveshur në rajon.",
+              "imageUrl": null,
+              "url": "https://cineuropa.org/en/newsdetail/494534",
+              "date": "2026-08-18",
+              "sentiment": "neutral",
+              "reason": "Titull informativ pa ngarkim",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
             {
               "title": "As the Spring Arrives, Water Recalls the Nomads triumphs at DokuFest Prizren - Cineuropa",
               "albanianTitle": "Filmi 'As the Spring Arrives, Water Recalls the Nomads' triumfon në DokuFest të Prizrenit - Cineuropa",
@@ -1965,9 +2072,9 @@
           "articleCount": 1,
           "articles": [
             {
-              "title": "Has Kurti crossed a \"red line\" in the relations with the EU? - europeanwesternbalkans.com",
+              "title": "Has Kurti crossed a \"red line\" in the relations with the EU? - European Western Balkans",
               "albanianTitle": "A ka kaluar Kurti një \"vijë të kuqe\" në raportet me BE-në?",
-              "blurb": "Analizohet nëse veprimet e kryeministrit Albin Kurti kanë tejkaluar vijat e kuqe në raportet me Bashkimin Evropian.",
+              "blurb": "Ekspertët shqyrtojnë nëse politikat e qeverisë Kurti kanë cenuar marrëdhëniet diplomatike me shtetet e Bashkimit Evropian.",
               "imageUrl": "https://europeanwesternbalkans.com/wp-content/uploads/2026/08/kurti-marta.jpg",
               "url": "https://europeanwesternbalkans.com/2026/08/18/has-kurti-crossed-a-red-line-in-the-relations-with-the-eu/",
               "date": "2026-08-18",
@@ -1975,26 +2082,6 @@
               "reason": "critical framing of Kosovo's leader by the outlet",
               "isQuote": false,
               "evidence": "crossed a red line",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "Fibre2Fashion",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Bangladesh, Kosovo discuss initiating process for planned FTA - Fibre2Fashion",
-              "albanianTitle": "Kosova dhe Bangladeshi diskutojnë nisjen e procedurave për një marrëveshje të tregtisë së lirë",
-              "blurb": "Kosova dhe Bangladeshi kanë diskutuar nisjen e procedurave për një marrëveshje të tregtisë së lirë mes dy vendeve.",
-              "imageUrl": null,
-              "url": "https://www.fibre2fashion.com/news/textile-news/bangladesh-kosovo-discuss-initiating-process-for-planned-fta-312687-newsdetails.htm",
-              "date": "2026-08-16",
-              "sentiment": "neutral",
-              "reason": "Lajm ekonomik, i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
               "speaker": ""
             }
           ]
@@ -2014,52 +2101,6 @@
               "sentiment": "neutral",
               "reason": "Question headline without hostile language, merely drawing a comparison",
               "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "KosovaPress",
-          "sentiment": "neutral",
-          "articleCount": 3,
-          "articles": [
-            {
-              "title": "Kosovo’s acting President Haxhiu calls for talks on specific names for a consensus presidential candidate - KosovaPress",
-              "albanianTitle": "Ushtruesja e detyrës së Presidentit të Kosovës, Haxhiu, bën thirrje për bisedime rreth emrave për një kandidat konsensual për president",
-              "blurb": "Ushtruesja e detyrës së presidentit, Vjosa Osmani, kërkon diskutime për emra konkretë për një kandidat konsensual për president.",
-              "imageUrl": null,
-              "url": "https://kosovapress.com/eng/kosovos-acting-president-haxhiu-calls-for-talks-on-specific-names-for-a-consensus-presidential-candidate",
-              "date": "2026-08-18",
-              "sentiment": "neutral",
-              "reason": "Headline reports statement without editorialising",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Gërvalla calls on former opposition to join talks on Kosovo president - KosovaPress",
-              "albanianTitle": "Gërvalla u bën thirrje partive opozitare t'i bashkohen bisedimeve për presidentin e Kosovës - KosovaPress",
-              "blurb": "Ministrja Gërvalla u bën thirrje partive opozitare që t'i bashkohen bisedimeve për zgjedhjen e presidentit të Kosovës.",
-              "imageUrl": null,
-              "url": "https://kosovapress.com/eng/gervalla-calls-on-former-opposition-come-to-the-meeting-to-find-a-solution-for-kosovo-president",
-              "date": "2026-08-18",
-              "sentiment": "neutral",
-              "reason": "Headline reports statement without editorialising",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "“Procurement remains on paper”: Over 700 activities in Kosovo not initiated by the end of June - KosovaPress",
-              "albanianTitle": "“Prokurimi mbetet në letër”: Mbi 700 aktivitete në Kosovë nuk janë iniciuar deri në fund të qershorit - KosovaPress",
-              "blurb": "Mbi 700 aktivitete të prokurimit në Kosovë nuk janë iniciuar deri në fund të muajit qershor të këtij viti.",
-              "imageUrl": null,
-              "url": "https://kosovapress.com/eng/procurement-remains-on-paper-over-700-activities-in-kosovo-not-initiated-by-the-end-of-june",
-              "date": "2026-08-18",
-              "sentiment": "neutral",
-              "reason": "Quoted phrase attributed to source, not outlet's own voice",
-              "isQuote": true,
               "evidence": "",
               "speaker": ""
             }
@@ -2146,6 +2187,46 @@
           ]
         },
         {
+          "name": "cna.al",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "What happens if Kosovo remains without a president after October 4? - cna.al",
+              "albanianTitle": "Çfarë ndodh nëse Kosova mbetet pa president pas 4 tetorit?",
+              "blurb": "Analizohen pasojat institucionale nëse Kosova mbetet pa president pas datës katër tetor, sipas procedurave kushtetuese dhe ligjore aktuale.",
+              "imageUrl": null,
+              "url": "https://www.cna.al/english/kosova-bota/fare-ndodh-nese-kosova-mbetet-pa-president-pas-4-tetorit-i471834",
+              "date": "2026-08-18",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim neutral",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "fibre2fashion.com",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Bangladesh, Kosovo discuss initiating process for planned FTA - fibre2fashion.com",
+              "albanianTitle": "Kosova dhe Bangladeshi diskutojnë nisjen e procedurave për një marrëveshje të tregtisë së lirë",
+              "blurb": "Kosova dhe Bangladeshi kanë diskutuar mundësinë e nisjes së procedurave për një marrëveshje të tregtisë së lirë mes vendeve.",
+              "imageUrl": null,
+              "url": "https://www.fibre2fashion.com/news/textile-news/bangladesh-kosovo-discuss-initiating-process-for-planned-fta-312687-newsdetails.htm",
+              "date": "2026-08-16",
+              "sentiment": "neutral",
+              "reason": "Faktikë raporti i thjeshtë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "globalpost.com",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -2173,77 +2254,77 @@
             {
               "title": "EU to Kosovo Online: Decisions regarding the Ibar bridge should take into account the interests and concerns of all communities - kosovo-online.com",
               "albanianTitle": "BE për Kosovo Online: Vendimet për urën e Ibrit duhet të marrin parasysh interesat dhe shqetësimet e të gjitha komuniteteve",
-              "blurb": "Bashkimi Evropian kërkon që vendimet për urën e Ibrit të marrin parasysh shqetësimet e të gjitha komuniteteve.",
+              "blurb": "Bashkimi Evropian kërkon që vendimet për urën e Ibrit të marrin parasysh interesat e të gjitha komuniteteve në Kosovë.",
               "imageUrl": null,
               "url": "https://www.kosovo-online.com/en/news/politics/eu-kosovo-online-decisions-regarding-ibar-bridge-should-take-account-interests-and",
               "date": "2026-08-18",
-              "sentiment": "unknown",
-              "reason": "",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim neutral",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Djuric with Ferguson: International presence important for peace, stability, and security in Kosovo and Metohija - kosovo-online.com",
+              "albanianTitle": "Gjuriq me Fergusonin: Prania ndërkombëtare është e rëndësishme për paqen, stabilitetin dhe sigurinë në Kosovë",
+              "blurb": "Ambasadori Gjuriq dhe diplomati Ferguson vlerësojnë se prania ndërkombëtare është e domosdoshme për paqen dhe sigurinë në Kosovë.",
+              "imageUrl": null,
+              "url": "https://www.kosovo-online.com/en/news/politics/djuric-ferguson-international-presence-important-peace-stability-and-security-kosovo",
+              "date": "2026-08-18",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim neutral",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
             },
             {
               "title": "Garic: A huge danger for Serbs in Kosovo and Metohija is hidden behind the Public Property Law - kosovo-online.com",
-              "albanianTitle": "Gariq: Ligji për Pronën Publike fsheh rrezik të madh për serbët në Kosovë",
-              "blurb": "Igor Gariq pretendon se Ligji për Pronën Publike paraqet rrezik për popullatën serbe në Kosovë dhe Metohi.",
+              "albanianTitle": "Gariq: Ligji për Pronën Publike fsheh një rrezik të madh për serbët në Kosovë",
+              "blurb": "Analisti Garic pretendon se Ligji për Pronën Publike përbën rrezik për komunitetin serb në Kosovë dhe Metohi.",
               "imageUrl": null,
               "url": "https://www.kosovo-online.com/en/news/politics/garic-huge-danger-serbs-kosovo-and-metohija-hidden-behind-public-property-law-17-8",
               "date": "2026-08-18",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
+              "sentiment": "neutral",
+              "reason": "Raporton deklaratën e Garicit, gjuhë e ngarkuar i atribuoi folësit",
+              "isQuote": true,
               "evidence": "",
-              "speaker": ""
+              "speaker": "Garic"
             },
             {
               "title": "Analysts: Government decisions illegal, one cannot be both a minister and an MP - kosovo-online.com",
-              "albanianTitle": "Analistët: Vendimet e Qeverisë të paligjshme, nuk mund të jesh njëkohësisht ministër dhe deputet",
-              "blurb": "Analistët vlerësojnë se mbajtja e dyfishtë e pozitave si ministër dhe deputet është në kundërshtim me ligjin.",
+              "albanianTitle": "Analistët: Vendimet e Qeverisë janë të paligjshme, nuk mund të jesh njëkohësisht ministër dhe deputet",
+              "blurb": "Analistët vlerësojnë se vendimet e qeverisë janë të paligjshme pasi një person nuk mund të ushtrojë detyrën e ministrit dhe deputetit.",
               "imageUrl": null,
               "url": "https://www.kosovo-online.com/en/news/politics/analysts-government-decisions-illegal-one-cannot-be-both-minister-and-mp-17-8-2026",
               "date": "2026-08-18",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
+              "sentiment": "neutral",
+              "reason": "Raporton mendimin e analistëve, pa ngarkim nga media",
+              "isQuote": true,
               "evidence": "",
-              "speaker": ""
+              "speaker": "Analysts"
             },
             {
-              "title": "Vucic: I will write to Rutte about opening the bridge over the Ibar, I hope he will accept my request for it not to be opened - kosovo-online.com",
-              "albanianTitle": "Vuçiq: Do t'i shkruaj Ruttes për hapjen e urës së Ibrit, shpresoj ta pranojë kërkesën time që ajo të mos hapet",
-              "blurb": "Aleksandër Vuçiq paralajmëron letër drejtuar Ruttes për të kërkuar mos hapjen e urës mbi lumin Ibër në Mitrovicë.",
+              "title": "Ibar Bridge poised to open: KFOR withdrawing, questions over security of Serbs remain - kosovo-online.com",
+              "albanianTitle": "Ura e Ibrit drejt hapjes: KFOR-i po tërhiqet, mbeten pikëpyetje për sigurinë e serbëve",
+              "blurb": "Ura e Ibrit pritet të hapet pas tërheqjes së KFOR-it, ndërsa vazhdojnë shqetësimet për sigurinë e banorëve serbë në atë zonë.",
               "imageUrl": null,
-              "url": "https://www.kosovo-online.com/en/news/politics/vucic-i-will-write-rutte-about-opening-bridge-over-ibar-i-hope-he-will-accept-my",
+              "url": "https://www.kosovo-online.com/en/news/analysis/ibar-bridge-poised-open-kfor-withdrawing-questions-over-security-serbs-remain-18-8",
               "date": "2026-08-18",
               "sentiment": "neutral",
-              "reason": "Headline reports statement without editorialising",
+              "reason": "Faktikë raportim neutral",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
             },
             {
               "title": "Petkovic tells Sorensen: EU assessment of Ibar Bridge does not reflect reality on the ground - kosovo-online.com",
-              "albanianTitle": "Petkoviq i thotë Sorensenit: Vlerësimi i BE-së për urën e Ibrit nuk pasqyron realitetin në terren",
-              "blurb": "Petar Petkoviq i ka thënë Sorensenit se vlerësimi i Bashkimit Evropian për urën e Ibrit nuk përputhet me realitetin.",
+              "albanianTitle": "Petkoviq i thotë Sorensenit: Vlerësimi i BE-së për urën e Ibrit nuk përputhet me realitetin në terren",
+              "blurb": "Petkoviq i thotë Sorensenit se vlerësimi i Bashkimit Evropian për urën e Ibrit nuk përputhet me realitetin në terren.",
               "imageUrl": null,
               "url": "https://www.kosovo-online.com/en/news/politics/petkovic-tells-sorensen-eu-assessment-ibar-bridge-does-not-reflect-reality-ground-18",
               "date": "2026-08-18",
               "sentiment": "neutral",
-              "reason": "Headline reports statement without editorialising",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Garic: EU, EULEX and KFOR shirking responsibility over opening of Ibar Bridge - kosovo-online.com",
-              "albanianTitle": "Gariq: BE-ja, EULEX-i dhe KFOR-i po shmangin përgjegjësinë për hapjen e urës së Ibrit",
-              "blurb": "Igor Gariq akuzon Bashkimin Evropian, EULEX-in dhe KFOR-in për shmangie të përgjegjësisë lidhur me hapjen e urës së Ibrit.",
-              "imageUrl": null,
-              "url": "https://www.kosovo-online.com/en/news/politics/garic-eu-eulex-and-kfor-shirking-responsibility-over-opening-ibar-bridge-18-8-2026",
-              "date": "2026-08-18",
-              "sentiment": "neutral",
-              "reason": "Headline reports statement without editorialising",
+              "reason": "Factual report of statement without loaded language",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -2257,26 +2338,26 @@
           "articles": [
             {
               "title": "Alliance Reports Kosovo Government Over 18 Commissions - srpske.rs",
-              "albanianTitle": "Aleanca denoncon Qeverinë e Kosovës për 18 komisione",
-              "blurb": "Aleanca për Ardhmërinë e Kosovës ka raportuar qeverinë për formimin e tetëmbëdhjetë komisioneve të ndryshme shtetërore.",
+              "albanianTitle": "Aleanca denoncon Qeverinë e Kosovës për 18 komisione - srpske.rs",
+              "blurb": "Aleanca për Ardhmërinë e Kosovës ka raportuar qeverinë lidhur me funksionimin e tetëmbëdhjetë komisioneve të ndryshme shtetërore në vend.",
               "imageUrl": "https://srpske.rs/uploads/articles/alliance-reports-kosovo-government-over-18-commissions-16x9.webp",
               "url": "https://srpske.rs/en/news/politika/2026/08/18/alliance-reports-kosovo-government-over-18-commissions",
               "date": "2026-08-18",
-              "sentiment": "unknown",
-              "reason": "",
+              "sentiment": "neutral",
+              "reason": "Plain news headline about government commissions, no evaluative language",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
             },
             {
               "title": "Dragas Teacher Detained a Month Over Espionage Suspicion - srpske.rs",
-              "albanianTitle": "Mësuesi nga Dragashi mbahet një muaj në paraburgim nën dyshimin për spiunazh",
+              "albanianTitle": "Mësuesi nga Dragashi mbahet një muaj në paraburgim nën dyshimin për spiunazh - srpske.rs",
               "blurb": "Një mësimdhënës nga Dragashi është ndaluar për një muaj nën dyshimet për kryerjen e veprës penale të spiunazhit.",
               "imageUrl": "https://srpske.rs/uploads/articles/dragas-teacher-detained-month-over-espionage-suspicion-16x9.webp",
               "url": "https://srpske.rs/en/news/politika/2026/08/18/dragas-teacher-detained-month-over-espionage-suspicion",
               "date": "2026-08-18",
-              "sentiment": "unknown",
-              "reason": "",
+              "sentiment": "neutral",
+              "reason": "Raportim faktik pa gjuhë ngarkuar ndaj Kosovës",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -2311,12 +2392,12 @@
         }
       ],
       "summary": {
-        "index": 47,
-        "positive": 5,
-        "neutral": 84,
-        "negative": 11,
-        "n": 19,
-        "excluded": 6,
+        "index": 50,
+        "positive": 4,
+        "neutral": 92,
+        "negative": 4,
+        "n": 26,
+        "excluded": 0,
         "confident": true,
         "stanceVersion": 2
       }
