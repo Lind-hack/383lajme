@@ -1401,9 +1401,9 @@
   },
   {
     "date": "2026-08-18",
-    "overallIndex": 56,
-    "totalArticles": 79,
-    "sourceCount": 59,
+    "overallIndex": 54,
+    "totalArticles": 95,
+    "sourceCount": 64,
     "stanceVersion": 2,
     "countries": {
       "Gjermani": {
@@ -1411,27 +1411,27 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 4,
+        "n": 3,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
       },
       "SHBA": {
-        "index": 55,
-        "positive": 9,
-        "neutral": 91,
-        "negative": 0,
-        "n": 11,
+        "index": 50,
+        "positive": 6,
+        "neutral": 89,
+        "negative": 6,
+        "n": 18,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2
       },
       "Britani": {
-        "index": 56,
-        "positive": 11,
-        "neutral": 89,
+        "index": 55,
+        "positive": 9,
+        "neutral": 91,
         "negative": 0,
-        "n": 9,
+        "n": 11,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2
@@ -1471,7 +1471,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 3,
+        "n": 2,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
@@ -1501,7 +1501,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 1,
+        "n": 3,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
@@ -1537,21 +1537,21 @@
         "stanceVersion": 2
       },
       "Turqi": {
-        "index": 57,
-        "positive": 18,
-        "neutral": 77,
-        "negative": 5,
-        "n": 22,
+        "index": 56,
+        "positive": 17,
+        "neutral": 79,
+        "negative": 4,
+        "n": 24,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
       },
       "Kroaci": {
-        "index": 56,
-        "positive": 12,
-        "neutral": 88,
-        "negative": 0,
-        "n": 8,
+        "index": 50,
+        "positive": 8,
+        "neutral": 85,
+        "negative": 8,
+        "n": 13,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -1581,6 +1581,14 @@
         "flag": "🇮🇹",
         "url": "https://cineuropa.org/it/newsdetail/494515",
         "sentiment": "positive"
+      },
+      {
+        "title": "Časlav Ocić: Kosovo as a res extra commercium and the alchemy of colonization - Нова српска политичка мисао",
+        "source": "Нова српска политичка мисао",
+        "country": "SHBA",
+        "flag": "🇺🇸",
+        "url": "https://www.nspm.rs/nspm-in-english/kosovo-as-a-res-extra-commercium-and-the-alchemy-of-colonization.html",
+        "sentiment": "negative"
       },
       {
         "title": "AAK: Cumhurbaşkanı, Vetëvendosje’nin Tek Başına Kontrolüne Bırakılamaz - Kosovahaber.com",
