@@ -28,6 +28,7 @@ import {
   getDailyExchangeSnapshot,
   getDailyFuelSnapshot,
 } from "@/lib/home-market-data";
+import { CATEGORY_COLORS } from "@/lib/category-colors";
 import { getToneHistory, getToneArticleCache, summarizeToneHistory, getForeignCoverage, getTopics, getToneTopics } from "@/lib/tone-data";
 import { dateKeyInKosovo, resolveView } from "@/lib/reagimi-data";
 import { getSondazhiData } from "@/lib/sondazhi-server";
@@ -156,15 +157,39 @@ export default async function HomePage() {
     { category: "Teknologji",label: "Teknologji"},
     { category: "Sport",     label: "Sport"     },
   ];
+  // The old fallback took an article from any category but kept the category we
+  // had *asked* for as the card's label and colour, so a quiet Teknologji day
+  // put a purple TEKNOLOGJI badge on a Sport story. A card now always names the
+  // category its article actually has; when a topic has nothing, the slot is
+  // filled from a topic not already on the row rather than mislabelled.
   const usedAccordionIds = new Set<string>();
-  const accordionSlides: AccordionSlide[] = accordionCats.map(({ category, label }) => {
+  const usedAccordionCats = new Set<string>();
+  const accordionSlides: AccordionSlide[] = [];
+
+  for (const { category } of accordionCats) {
+    const exact = articles.find(
+      (a) => a.category === category && !usedAccordionIds.has(a.id)
+    );
     const article =
-      articles.find((a) => a.category === category && !usedAccordionIds.has(a.id)) ??
-      articles.find((a) => !usedAccordionIds.has(a.id)) ??
-      articles[0];
+      exact ??
+      articles.find(
+        (a) =>
+          !usedAccordionIds.has(a.id) &&
+          !usedAccordionCats.has(a.category) &&
+          // Some stored rows carry a mangled category ("Bot?"), which would
+          // otherwise surface verbatim as a card label.
+          a.category in CATEGORY_COLORS
+      );
+    if (!article) continue;
+
     usedAccordionIds.add(article.id);
-    return { article, category, label };
-  });
+    usedAccordionCats.add(article.category);
+    accordionSlides.push({
+      article,
+      category: article.category,
+      label: article.category,
+    });
+  }
 
   return (
     <>

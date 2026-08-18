@@ -1,16 +1,13 @@
-'use client'
-
-import { useState } from 'react'
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import { type Article, calcReadingTime } from '@/lib/mock-data'
 import TimeAgo from './time-ago'
 import { getCategoryColor } from '@/lib/category-colors'
-import { FONT } from '@/lib/tokens'
-import { useCanHover } from '@/hooks/use-can-hover'
+import { FONT, RADIUS, SHADOW } from '@/lib/tokens'
 
 export interface AccordionSlide {
   article: Article
+  /** The article's real category — never the slot we hoped to fill. */
   category: string
   label: string
 }
@@ -19,14 +16,26 @@ interface Props {
   slides: AccordionSlide[]
 }
 
+/**
+ * "5 tema, 5 lajme" — one story per topic.
+ *
+ * This was a hover accordion: one card expanded to flex 2.25 while the other
+ * four compressed to ~165px, which left ~130px of text for a 17px serif
+ * headline — two or three words a line. Four of the five headlines were only
+ * ever readable by hovering them one at a time, on a module whose entire
+ * promise is five stories at a glance. Mobile already rendered all five at
+ * equal width; the desktop expand was the deviation, so it is gone.
+ *
+ * Equal widths mean no active card, so no client state, no hover gating, and
+ * no !important block fighting the inline styles. Hover is decoration now —
+ * image drift and a shadow lift, both composited — so this renders on the
+ * server.
+ */
 export default function ImageAccordion({ slides }: Props) {
-  const canHover = useCanHover()
-  const [active, setActive] = useState(0)
-
   return (
     <section
-      className="feature-accordion"
-      aria-labelledby="feature-accordion-title"
+      className="feature-grid"
+      aria-labelledby="feature-grid-title"
       style={{
         position: 'relative',
         zIndex: 1,
@@ -35,7 +44,7 @@ export default function ImageAccordion({ slides }: Props) {
       }}
     >
       <header
-        className="feature-accordion-heading"
+        className="feature-grid-heading"
         style={{
           display: 'flex',
           flexDirection: 'column',
@@ -60,7 +69,7 @@ export default function ImageAccordion({ slides }: Props) {
           Sot në 383
         </span>
         <h2
-          id="feature-accordion-title"
+          id="feature-grid-title"
           style={{
             margin: 0,
             color: '#111111',
@@ -88,23 +97,15 @@ export default function ImageAccordion({ slides }: Props) {
       </header>
 
       <div
-        className="feature-accordion-track"
+        className="feature-grid-track"
         style={{
-          width: '100%',
-          height: 'clamp(400px, 41vw, 470px)',
-          display: 'flex',
+          display: 'grid',
+          gridTemplateColumns: 'repeat(5, 1fr)',
           gap: '12px',
-          padding: 0,
-          minWidth: 0,
-          position: 'relative',
-          zIndex: 1,
-          alignItems: 'stretch',
-          overflow: 'hidden',
+          width: '100%',
         }}
-        onMouseLeave={() => canHover && setActive(0)}
       >
         {slides.map((slide, i) => {
-          const isActive = active === i
           const catColor = getCategoryColor(slide.category)
           const bgImage = slide.article.imageUrl
             ? `url("${slide.article.imageUrl}")`
@@ -113,32 +114,28 @@ export default function ImageAccordion({ slides }: Props) {
 
           return (
             <Link
-              className="feature-accordion-card"
+              className="feature-grid-card"
               key={slide.article.id ?? i}
               href={`/article/${slide.article.slug}`}
               aria-label={`${slide.label}: ${slide.article.title}`}
-              onMouseEnter={() => canHover && setActive(i)}
-              onFocus={() => setActive(i)}
               style={{
-                flex: isActive ? 2.25 : 1,
-                transition: 'flex 0.55s cubic-bezier(0.22, 1, 0.36, 1)',
                 position: 'relative',
                 overflow: 'hidden',
-                cursor: 'pointer',
                 display: 'block',
+                height: 'clamp(360px, 34vw, 430px)',
                 background: bgImage ? '#1a1a1a' : '#F0EDE8',
-                borderRadius: '16px',
+                borderRadius: `${RADIUS.md}px`,
                 minWidth: 0,
-                outline: 'none',
-                boxShadow: isActive
-                  ? '0 18px 44px rgba(17,17,17,0.20)'
-                  : '0 2px 12px rgba(17,17,17,0.08)',
+                boxShadow: SHADOW.card,
                 textDecoration: 'none',
+                // No inline `outline: none` here on purpose: an inline style
+                // beats the stylesheet regardless of specificity, so it would
+                // silently defeat the :focus-visible ring defined below.
               }}
             >
-              {/* Media sits on its own layer so the open card can drift in. */}
+              {/* Media on its own layer so the hover drift stays composited. */}
               <div
-                className="feature-accordion-media"
+                className="feature-grid-media"
                 aria-hidden
                 style={{
                   position: 'absolute',
@@ -146,49 +143,43 @@ export default function ImageAccordion({ slides }: Props) {
                   backgroundImage: bgImage,
                   backgroundSize: 'cover',
                   backgroundPosition: 'center',
-                  transform: isActive ? 'scale(1.06)' : 'scale(1)',
-                  transition: 'transform 1.1s cubic-bezier(0.22, 1, 0.36, 1)',
                 }}
               />
 
-              {/* Dark overlay — heavier at the foot so headlines stay legible. */}
+              {/* Heavier at the foot so the headline stays legible over photos. */}
               <div
-                className="feature-accordion-overlay"
+                className="feature-grid-overlay"
                 aria-hidden
                 style={{
                   position: 'absolute',
                   inset: 0,
-                  background: isActive
-                    ? 'linear-gradient(to top, rgba(0,0,0,0.94) 0%, rgba(0,0,0,0.62) 32%, rgba(0,0,0,0.16) 70%, rgba(0,0,0,0.04) 100%)'
-                    : 'linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.48) 42%, rgba(0,0,0,0.14) 78%, rgba(0,0,0,0.08) 100%)',
-                  transition: 'background 0.45s ease',
+                  background:
+                    'linear-gradient(to top, rgba(0,0,0,0.94) 0%, rgba(0,0,0,0.62) 38%, rgba(0,0,0,0.16) 74%, rgba(0,0,0,0.05) 100%)',
                 }}
               />
 
-              {/* Rank — turns five cards into a countable list worth finishing. */}
+              {/* Position in the set, not a ranking — the five are peers. */}
               <span
-                className="feature-accordion-rank"
+                className="feature-grid-rank"
                 aria-hidden
                 style={{
                   position: 'absolute',
                   top: '12px',
                   right: '16px',
                   zIndex: 2,
-                  color: 'rgba(255,255,255,0.28)',
+                  color: 'rgba(255,255,255,0.26)',
                   fontFamily: FONT.serif,
-                  fontSize: isActive ? '54px' : '34px',
+                  fontSize: '34px',
                   fontWeight: 700,
                   lineHeight: 1,
                   letterSpacing: '-0.04em',
-                  transition: 'font-size 0.45s cubic-bezier(0.22, 1, 0.36, 1), color 0.45s ease',
                 }}
               >
                 {String(i + 1).padStart(2, '0')}
               </span>
 
-              {/* Category color top bar */}
               <div
-                className="feature-accordion-topbar"
+                className="feature-grid-topbar"
                 aria-hidden
                 style={{
                   position: 'absolute',
@@ -197,15 +188,15 @@ export default function ImageAccordion({ slides }: Props) {
                   right: 0,
                   height: '3px',
                   background: catColor,
-                  opacity: 1,
                   zIndex: 3,
-                  borderRadius: '16px 16px 0 0',
+                  borderRadius: `${RADIUS.md}px ${RADIUS.md}px 0 0`,
                 }}
               />
 
-              {/* Topic stays horizontal and readable in every card state. */}
+              {/* The topic is what distinguishes these five from any other row
+                  of cards on the homepage, so it reads before the headline. */}
               <span
-                className="feature-accordion-topic"
+                className="feature-grid-topic"
                 style={{
                   position: 'absolute',
                   top: '18px',
@@ -225,49 +216,49 @@ export default function ImageAccordion({ slides }: Props) {
                 {slide.label}
               </span>
 
-              {/* Every card names its story; the active card adds a stronger CTA. */}
               <div
-                className="feature-accordion-content"
+                className="feature-grid-content"
                 style={{
                   position: 'absolute',
                   bottom: 0,
                   left: 0,
                   right: 0,
-                  padding: isActive ? 'clamp(20px, 2vw, 28px)' : '18px',
+                  padding: '20px',
                   zIndex: 2,
                 }}
               >
                 <h3
-                  className="feature-accordion-title"
+                  className="feature-grid-title"
                   style={{
                     fontFamily: FONT.serif,
-                    fontSize: isActive ? 'clamp(24px, 2.1vw, 32px)' : '17px',
+                    fontSize: '19px',
                     fontWeight: 700,
-                    lineHeight: isActive ? 1.14 : 1.26,
-                    letterSpacing: isActive ? '-0.02em' : '-0.01em',
+                    lineHeight: 1.22,
+                    letterSpacing: '-0.01em',
                     color: '#FFFFFF',
-                    margin: `0 0 ${isActive ? '14px' : '10px'}`,
-                    maxWidth: '480px',
+                    margin: '0 0 10px',
                     textWrap: 'balance',
                     textShadow: '0 2px 14px rgba(0,0,0,0.6)',
                     display: '-webkit-box',
-                    WebkitLineClamp: isActive ? 3 : 4,
+                    // Six lines clears the longest headlines these feeds
+                    // produce at this column width; four still truncated most
+                    // of them, which was the whole complaint about the old
+                    // collapsed cards.
+                    WebkitLineClamp: 6,
                     WebkitBoxOrient: 'vertical',
                     overflow: 'hidden',
-                    transition: 'font-size 0.5s cubic-bezier(0.22, 1, 0.36, 1)',
                   }}
                 >
                   {slide.article.title}
                 </h3>
 
-                {/* Byline gives the closed cards a reason to be read too. */}
                 <div
-                  className="feature-accordion-meta"
+                  className="feature-grid-meta"
                   style={{
                     display: 'flex',
                     alignItems: 'center',
                     gap: '7px',
-                    marginBottom: isActive ? '14px' : '0',
+                    marginBottom: '14px',
                     color: 'rgba(255,255,255,0.72)',
                     fontSize: '11px',
                     fontWeight: 600,
@@ -286,10 +277,12 @@ export default function ImageAccordion({ slides }: Props) {
                   <span>{readMins} min</span>
                 </div>
 
+                {/* On every card, because every card is a link. Showing this on
+                    the hovered one alone implied the other four were inert. */}
                 <span
-                  className="feature-accordion-cta"
+                  className="feature-grid-cta"
                   style={{
-                    display: isActive ? 'inline-flex' : 'none',
+                    display: 'inline-flex',
                     alignItems: 'center',
                     gap: '6px',
                     fontSize: '11px',
@@ -299,7 +292,7 @@ export default function ImageAccordion({ slides }: Props) {
                     color: '#ffffff',
                     background: catColor,
                     padding: '8px 15px',
-                    borderRadius: '100px',
+                    borderRadius: `${RADIUS.pill}px`,
                     boxShadow: `0 4px 18px ${catColor}55`,
                   }}
                 >
@@ -313,71 +306,70 @@ export default function ImageAccordion({ slides }: Props) {
       </div>
 
       <style>{`
-        @media (max-width: 900px) {
-          .feature-accordion {
-            overflow: visible !important;
+        .feature-grid-card {
+          transition: box-shadow 300ms cubic-bezier(0.22, 1, 0.36, 1),
+                      transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .feature-grid-media {
+          transform: scale(1);
+          transition: transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
+          will-change: transform;
+        }
+        @media (hover: hover) and (pointer: fine) {
+          .feature-grid-card:hover {
+            box-shadow: ${SHADOW.hover};
+            transform: translateY(-3px);
           }
-          .feature-accordion-track {
-            height: 348px !important;
-            gap: 16px !important;
-            overflow-x: auto !important;
-            overflow-y: hidden !important;
-            padding: 0 0 12px !important;
-            scroll-snap-type: x mandatory;
-            scrollbar-width: none;
+          .feature-grid-card:hover .feature-grid-media {
+            transform: scale(1.05);
           }
-          .feature-accordion-track::-webkit-scrollbar {
-            display: none;
+        }
+        /* The old card set outline:none with nothing in its place, so keyboard
+           users had no focus indicator at all (WCAG 2.4.7). */
+        .feature-grid-card:focus-visible {
+          outline: 3px solid #FF4422;
+          outline-offset: 3px;
+        }
+
+        @media (max-width: 1100px) {
+          .feature-grid-track {
+            grid-template-columns: repeat(3, 1fr);
           }
-          .feature-accordion-card {
-            flex: 0 0 min(82vw, 390px) !important;
-            height: 336px !important;
-            scroll-snap-align: start;
+        }
+        @media (max-width: 760px) {
+          .feature-grid-track {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px;
           }
-          .feature-accordion-media {
-            transform: none !important;
+          .feature-grid-card {
+            height: 320px !important;
           }
-          .feature-accordion-overlay {
-            background: linear-gradient(to top, rgba(0,0,0,0.94) 0%, rgba(0,0,0,0.58) 38%, rgba(0,0,0,0.14) 76%, rgba(0,0,0,0.06) 100%) !important;
+        }
+        /* One column rather than a carousel: five swipes to read five stories
+           was the same "hidden until you interact" problem in another shape. */
+        @media (max-width: 520px) {
+          .feature-grid-track {
+            grid-template-columns: 1fr;
           }
-          .feature-accordion-rank {
-            font-size: 40px !important;
+          .feature-grid-card {
+            height: 300px !important;
           }
-          .feature-accordion-meta {
-            margin-bottom: 14px !important;
-          }
-          .feature-accordion-topbar {
-            opacity: 1 !important;
-          }
-          .feature-accordion-topic {
-            top: 16px !important;
-            left: 16px !important;
-          }
-          .feature-accordion-content {
-            padding: 20px !important;
-          }
-          .feature-accordion-title {
+          .feature-grid-title {
             font-size: 22px !important;
-            line-height: 1.18 !important;
-            margin-bottom: 10px !important;
             -webkit-line-clamp: 3 !important;
           }
-          .feature-accordion-cta {
-            display: inline-flex !important;
-          }
         }
+
         @media (prefers-reduced-motion: reduce) {
-          .feature-accordion-card,
-          .feature-accordion-media,
-          .feature-accordion-title,
-          .feature-accordion-rank,
-          .feature-accordion-overlay {
-            transition-duration: 0.01ms !important;
+          .feature-grid-card,
+          .feature-grid-media {
+            transition: none !important;
           }
-        }
-        @media (max-width: 520px) {
-          .feature-accordion-card {
-            flex-basis: 86vw !important;
+          .feature-grid-card:hover {
+            transform: none !important;
+          }
+          .feature-grid-card:hover .feature-grid-media {
+            transform: scale(1) !important;
           }
         }
       `}</style>
