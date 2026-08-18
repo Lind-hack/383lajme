@@ -20,7 +20,7 @@ import { groqChat, parseJSON } from "./groq";
  * So: the alias first, a concrete recent version behind it. One retirement or
  * one demand spike no longer takes the whole fallback path down.
  */
-const GEMINI_MODELS = ["gemini-flash-latest", "gemini-2.5-flash"] as const;
+const GEMINI_MODELS = ["gemini-flash-latest", "gemini-3.6-flash", "gemini-2.5-flash"] as const;
 
 async function geminiChat(
   key: string,
@@ -29,39 +29,50 @@ async function geminiChat(
   opts: { maxTokens?: number; temperature?: number } = {}
 ): Promise<string> {
   const failures: string[] = [];
+  const prompt = `${system}\n\n${user}`;
 
   for (const model of GEMINI_MODELS) {
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`;
-    try {
-      const res = await fetch(url, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          contents: [{ role: "user", parts: [{ text: `${system}\n\n${user}` }] }],
-          generationConfig: {
-            temperature: opts.temperature ?? 0.4,
-            maxOutputTokens: opts.maxTokens ?? 2000,
-            responseMimeType: "application/json",
-            // Current Flash models reason before answering, and that reasoning
-            // is billed against maxOutputTokens. At the budgets used here it
-            // consumed the entire allowance: the call returned 200 with an
-            // empty candidate and no usage metadata, which surfaced downstream
-            // as a JSON parse error rather than as a model failure. None of
-            // these calls are extraction tasks that benefit from thinking.
-            thinkingConfig: { thinkingBudget: 0 },
-          },
-        }),
-      });
-      if (!res.ok) {
-        const body = await res.text();
-        throw new Error(`${res.status}: ${body.slice(0, 200)}`);
+    // Two attempts per model. Current Flash models reason before answering and
+    // bill it against maxOutputTokens, which at these budgets consumed the whole
+    // allowance and returned an empty candidate — so thinking is disabled first.
+    // But gemini-3.6-flash rejects thinkingConfig outright with a 400, so a
+    // model that refuses the field is retried without it rather than skipped.
+    for (const disableThinking of [true, false]) {
+      try {
+        const res = await fetch(
+          `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`,
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              contents: [{ role: "user", parts: [{ text: prompt }] }],
+              generationConfig: {
+                temperature: opts.temperature ?? 0.4,
+                maxOutputTokens: opts.maxTokens ?? 2000,
+                responseMimeType: "application/json",
+                ...(disableThinking ? { thinkingConfig: { thinkingBudget: 0 } } : {}),
+              },
+            }),
+          }
+        );
+
+        if (!res.ok) {
+          const body = await res.text();
+          const err = new Error(`${res.status}: ${body.slice(0, 160)}`);
+          // Only a rejected-argument error is worth retrying without the field.
+          // A 429 or 503 means try the next model, not the same one again.
+          if (res.status === 400 && disableThinking) throw Object.assign(err, { retryPlain: true });
+          throw err;
+        }
+
+        const data = await res.json();
+        const content = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+        if (!content) throw new Error("empty response");
+        return content;
+      } catch (err) {
+        failures.push(`${model}${disableThinking ? "" : " (plain)"} ${err instanceof Error ? err.message : String(err)}`);
+        if (!(err as { retryPlain?: boolean })?.retryPlain) break;
       }
-      const data = await res.json();
-      const content = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-      if (!content) throw new Error("empty response");
-      return content;
-    } catch (err) {
-      failures.push(`${model} ${err instanceof Error ? err.message : String(err)}`);
     }
   }
 
