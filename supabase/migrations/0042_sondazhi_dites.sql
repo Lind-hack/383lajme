@@ -101,7 +101,7 @@ begin
   ) then
     alter table public.poll_votes
       add constraint poll_votes_option_range_check
-      check (option_index between 0 and 9);
+      check ((option_index)::int between 0 and 9);
   end if;
 end $$;
 
@@ -150,7 +150,13 @@ drop policy if exists poll_votes_public_read on public.poll_votes;
 -- this particular voter has already voted. SECURITY DEFINER so it can read
 -- poll_votes without granting the caller a blanket select over it.
 -- ─────────────────────────────────────────────────────────────────────────────
-create or replace function public.sondazhi_day(p_date date, p_voter text default null)
+-- p_date is text, not date, and every comparison casts the column to text.
+-- The live poll_date column is text (a `date` parameter failed here with
+-- "operator does not exist: text = date"), and this file has to keep working
+-- whichever of the two it is, since the tables predate any migration. Both
+-- sides normalise to 'YYYY-MM-DD', which is what the client sends anyway.
+drop function if exists public.sondazhi_day(date, text);
+create or replace function public.sondazhi_day(p_date text, p_voter text default null)
 returns jsonb
 language sql
 stable
@@ -164,7 +170,7 @@ as $$
           from (
             select option_index, count(*)::int as votes
               from public.poll_votes
-             where poll_date = p_date
+             where poll_date::text = p_date
              group by option_index
           ) tallies
       ),
@@ -173,7 +179,7 @@ as $$
     'my_vote', (
       select option_index
         from public.poll_votes
-       where poll_date = p_date
+       where poll_date::text = p_date
          and p_voter is not null
          and voter_id = p_voter
        limit 1
@@ -181,11 +187,11 @@ as $$
   );
 $$;
 
-comment on function public.sondazhi_day(date, text) is
+comment on function public.sondazhi_day(text, text) is
   'Tally for one poll day plus this voter''s own choice. Replaces a direct select on poll_votes, which used to ship every visitor''s uuid to every browser.';
 
-revoke all on function public.sondazhi_day(date, text) from public;
-grant execute on function public.sondazhi_day(date, text) to anon, authenticated;
+revoke all on function public.sondazhi_day(text, text) from public;
+grant execute on function public.sondazhi_day(text, text) to anon, authenticated;
 
 -- ─────────────────────────────────────────────────────────────────────────────
 -- updated_at maintenance
@@ -203,3 +209,23 @@ drop trigger if exists daily_polls_touch_updated_at on public.daily_polls;
 create trigger daily_polls_touch_updated_at
   before update on public.daily_polls
   for each row execute function public.sondazhi_touch_updated_at();
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- Diagnostics
+--
+-- These tables were created outside version control, so their real column types
+-- are not knowable from the repo — the first attempt at this migration assumed
+-- poll_date was a date and failed against a text column. This final select
+-- prints what actually exists, so the answer is on the screen rather than
+-- inferred from an error message.
+-- ─────────────────────────────────────────────────────────────────────────────
+select
+  table_name,
+  column_name,
+  data_type,
+  is_nullable,
+  column_default
+from information_schema.columns
+where table_schema = 'public'
+  and table_name in ('daily_polls', 'poll_votes')
+order by table_name, ordinal_position;

@@ -2,11 +2,14 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
-import { ArrowRight, Check, Zap } from "lucide-react";
+import { ArrowRight, Check, Clock, Zap } from "lucide-react";
 import Link from "next/link";
 import SectionLabel from "./section-label";
 import {
+  countdownLabel,
   dateKeyInKosovo,
+  isFinalDay,
+  msUntilKosovoMidnight,
   pollPercentages,
   resultStatusLabel,
   stakeLabel,
@@ -21,6 +24,9 @@ import type { SondazhiServerData } from "@/lib/sondazhi-server";
 const VOTER_KEY = "383_voter_id";
 const STREAK_KEY = "383_sondazhi_streak";
 
+/** Warm greys for the options the reader did not pick, darkest first. */
+const REST_COLORS = ["#C4B9AC", "#D6CDC2", "#E2DBD2", "#EDE8E1"];
+
 type LoadState = "loading" | "ready" | "error";
 
 export default function DailyPoll({ data }: { data: SondazhiServerData }) {
@@ -33,9 +39,13 @@ export default function DailyPoll({ data }: { data: SondazhiServerData }) {
   const [pending, setPending] = useState(false);
   const [streak, setStreak] = useState(0);
   const [barsArmed, setBarsArmed] = useState(false);
+  const [seen, setSeen] = useState(false);
+  const [countdown, setCountdown] = useState<string | null>(null);
+  const [shownPct, setShownPct] = useState<number[] | null>(null);
 
   const voterRef = useRef("");
   const supabaseRef = useRef<SupabaseClient | null>(null);
+  const rootRef = useRef<HTMLDivElement>(null);
 
   const total = counts.reduce((a, b) => a + b, 0);
   const percentages = useMemo(() => pollPercentages(counts), [counts]);
@@ -98,6 +108,39 @@ export default function DailyPoll({ data }: { data: SondazhiServerData }) {
     };
   }, [data.pollDate, data.options.length]);
 
+  // The countdown is client-only: rendering a clock on the server guarantees a
+  // hydration mismatch, and an hourly-revalidated page would serve a stale one.
+  useEffect(() => {
+    if (isFinalDay(data.pollDate, dateKeyInKosovo())) return;
+    const tick = () => setCountdown(countdownLabel(msUntilKosovoMidnight()));
+    tick();
+    const id = window.setInterval(tick, 30_000);
+    return () => window.clearInterval(id);
+  }, [data.pollDate]);
+
+  // Entrance is tied to actually being looked at rather than to mount, because
+  // this card sits well below the fold — animating it on load means the motion
+  // has finished before anyone scrolls to it.
+  useEffect(() => {
+    const el = rootRef.current;
+    if (!el) return;
+    if (typeof IntersectionObserver === "undefined") {
+      setSeen(true);
+      return;
+    }
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          setSeen(true);
+          io.disconnect();
+        }
+      },
+      { threshold: 0.25 }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
   // Bars hold at zero for one committed frame so the CSS transition has
   // something to animate from. Without this the results mount at their final
   // width and the reveal, the actual payoff for voting, never plays.
@@ -115,6 +158,36 @@ export default function DailyPoll({ data }: { data: SondazhiServerData }) {
       cancelAnimationFrame(second);
     };
   }, [myVote]);
+
+  // Percentages count up alongside the bars they label. A number that simply
+  // appears at its final value reads as a page that was always going to say
+  // that; one that climbs reads as a result being counted.
+  useEffect(() => {
+    if (!barsArmed) {
+      setShownPct(null);
+      return;
+    }
+    const reduce =
+      typeof window !== "undefined" &&
+      window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+    if (reduce) {
+      setShownPct(percentages);
+      return;
+    }
+
+    const DURATION = 750;
+    const start = performance.now();
+    let raf = 0;
+    const step = (now: number) => {
+      const t = Math.min(1, (now - start) / DURATION);
+      // Same cubic ease-out as the bars, so digits and widths stay in step.
+      const eased = 1 - Math.pow(1 - t, 3);
+      setShownPct(percentages.map((p) => Math.round(p * eased)));
+      if (t < 1) raf = requestAnimationFrame(step);
+    };
+    raf = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(raf);
+  }, [barsArmed, percentages]);
 
   const castVote = useCallback(
     async (idx: number) => {
@@ -162,12 +235,21 @@ export default function DailyPoll({ data }: { data: SondazhiServerData }) {
   const tallyKnown = state === "ready";
   const canVote = state !== "loading" && supabaseRef.current !== null;
   const standing = standingLabel(myVote, counts);
+  const displayPct = shownPct ?? percentages.map(() => 0);
+
+  const segmentColor = (i: number) =>
+    i === myVote ? "#FF4422" : REST_COLORS[i % REST_COLORS.length];
 
   return (
-    <div className="sondazhi" style={{ marginBottom: "var(--space-section)" }}>
+    <div
+      ref={rootRef}
+      className="sondazhi"
+      data-seen={seen ? "true" : undefined}
+      style={{ marginBottom: "var(--space-section)" }}
+    >
       <SectionLabel
         label="SONDAZHI I DITËS"
-        marginBottom={20}
+        marginBottom={16}
         right={
           <span className="sondazhi-meta">
             {streak >= 2 && (
@@ -176,7 +258,7 @@ export default function DailyPoll({ data }: { data: SondazhiServerData }) {
                 {streak} ditë radhazi
               </span>
             )}
-            {tallyKnown && <span>{voteCountLabel(total)}</span>}
+            {tallyKnown && <span className="sondazhi-count">{voteCountLabel(total)}</span>}
           </span>
         }
       />
@@ -188,9 +270,13 @@ export default function DailyPoll({ data }: { data: SondazhiServerData }) {
         {data.callback && (
           <div className="sondazhi-callback">
             <span className="sondazhi-callback-kicker">DJE</span>
+            <span
+              className="sondazhi-callback-bar"
+              aria-hidden="true"
+              style={{ "--won": `${data.callback.pct}%` } as React.CSSProperties}
+            />
             <p className="sondazhi-callback-text">
-              <strong>{data.callback.pct}%</strong> zgjodhën{" "}
-              <em>{data.callback.option}</em>
+              <strong>{data.callback.pct}%</strong> zgjodhën <em>{data.callback.option}</em>
               <span className="sondazhi-callback-q"> · {data.callback.question}</span>
             </p>
             {data.callback.slug && (
@@ -212,36 +298,54 @@ export default function DailyPoll({ data }: { data: SondazhiServerData }) {
           </p>
         ) : voted ? (
           <div className="sondazhi-results" aria-live="polite">
-            {data.options.map((opt, i) => (
-              <div
-                key={i}
-                className="sondazhi-row"
-                data-mine={myVote === i ? "true" : undefined}
-                style={
-                  {
-                    "--pct": barsArmed ? percentages[i] / 100 : 0,
-                    "--reveal-delay": `${i * 40}ms`,
-                  } as React.CSSProperties
-                }
-              >
-                <span className="sondazhi-row-label">
-                  {myVote === i && <Check size={12} strokeWidth={3} aria-hidden="true" />}
-                  {opt}
-                </span>
-                <span className="sondazhi-row-value">
-                  {percentages[i]}%<span className="sondazhi-row-count">({counts[i]})</span>
-                </span>
-                <span className="sondazhi-track">
-                  <span className="sondazhi-fill" />
-                </span>
-              </div>
-            ))}
+            {/* One bar for the whole room rather than one per option: the
+                question is how the room split, and separate tracks make that
+                something the reader has to assemble for themselves. */}
+            <div className="sondazhi-room" role="presentation">
+              {data.options.map((opt, i) => (
+                <span
+                  key={i}
+                  className="sondazhi-seg"
+                  data-mine={myVote === i ? "true" : undefined}
+                  title={`${opt} — ${percentages[i]}%`}
+                  style={
+                    {
+                      "--pct": barsArmed ? `${percentages[i]}%` : "0%",
+                      "--seg": segmentColor(i),
+                      "--reveal-delay": `${i * 70}ms`,
+                    } as React.CSSProperties
+                  }
+                />
+              ))}
+            </div>
+
+            <ul className="sondazhi-legend">
+              {data.options.map((opt, i) => (
+                <li
+                  key={i}
+                  className="sondazhi-leg"
+                  data-mine={myVote === i ? "true" : undefined}
+                  style={{ "--reveal-delay": `${i * 70 + 120}ms` } as React.CSSProperties}
+                >
+                  <span
+                    className="sondazhi-dot"
+                    style={{ background: segmentColor(i) }}
+                    aria-hidden="true"
+                  />
+                  <span className="sondazhi-leg-label">
+                    {myVote === i && <Check size={11} strokeWidth={3} aria-hidden="true" />}
+                    {opt}
+                  </span>
+                  <span className="sondazhi-leg-value">
+                    {displayPct[i]}%<span className="sondazhi-leg-count">({counts[i]})</span>
+                  </span>
+                </li>
+              ))}
+            </ul>
 
             <div className="sondazhi-verdict">
               {standing && <p className="sondazhi-standing">{standing}</p>}
-              <p className="sondazhi-status">
-                {resultStatusLabel(total, data.pollDate, todayKey)}
-              </p>
+              <p className="sondazhi-status">{resultStatusLabel(total, data.pollDate, todayKey)}</p>
             </div>
           </div>
         ) : (
@@ -251,21 +355,37 @@ export default function DailyPoll({ data }: { data: SondazhiServerData }) {
                 <button
                   key={i}
                   type="button"
-                  className="poll-option"
+                  className="sondazhi-option"
                   onClick={() => castVote(i)}
                   disabled={!canVote || pending}
+                  style={{ "--reveal-delay": `${i * 60}ms` } as React.CSSProperties}
                 >
-                  {opt}
+                  <span className="sondazhi-option-label">{opt}</span>
+                  <ArrowRight
+                    className="sondazhi-option-arrow"
+                    size={16}
+                    strokeWidth={2.5}
+                    aria-hidden="true"
+                  />
                 </button>
               ))}
             </div>
-            <p className="sondazhi-stake">
-              {!canVote
-                ? "Votimi nuk është i disponueshëm tani."
-                : tallyKnown
-                  ? stakeLabel(total)
-                  : "Vota jote e ndryshon rezultatin."}
-            </p>
+
+            <div className="sondazhi-foot">
+              <p className="sondazhi-stake">
+                {!canVote
+                  ? "Votimi nuk është i disponueshëm tani."
+                  : tallyKnown
+                    ? stakeLabel(total)
+                    : "Vota jote e ndryshon rezultatin."}
+              </p>
+              {countdown && (
+                <span className="sondazhi-clock">
+                  <Clock size={11} strokeWidth={2.5} aria-hidden="true" />
+                  {countdown}
+                </span>
+              )}
+            </div>
           </>
         )}
       </div>

@@ -934,35 +934,6 @@ header[data-overlay] .hamburger-bar { background: #FFFFFF !important; }
 /* ── Floating blobs share a class for the reduced-motion hook ── */
 .float-blob { will-change: transform; }
 
-/* ── Daily poll option (CSS hover, replaces useState hover) ── */
-.poll-option {
-  width: 100%;
-  padding: 12px 20px;
-  border-radius: var(--radius-pill);
-  border: 1.5px solid #E8E3DB;
-  background: #F9F6F1;
-  color: #111111;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  text-align: left;
-  font-family: var(--font-manrope), sans-serif;
-  letter-spacing: 0.01em;
-  transition:
-    background-color var(--duration-fast) var(--ease-out),
-    color var(--duration-fast) var(--ease-out),
-    border-color var(--duration-fast) var(--ease-out);
-}
-@media (hover: hover) and (pointer: fine) {
-  .poll-option:hover {
-    background: #FF4422;
-    color: #FFFFFF;
-    border-color: #FF4422;
-  }
-}
-.poll-option:active {
-  transform: scale(0.99);
-}
 
 /* ── Navbar height var ── */
 :root {
@@ -8568,8 +8539,6 @@ body[data-tour-veil] > *:not(.tutorial-root) {
 }
 
 
-
-
 /* ═══════════════════════════════════════════════════════════════════════════
    REAGIMI — density pass
    Measured before: desktop card 528 unvoted / 610 voted, media 340, results 130.
@@ -8723,8 +8692,6 @@ body[data-tour-veil] > *:not(.tutorial-root) {
 }
 
 
-
-
 /* ═══════════════════════════════════════════════════════════════════════════
    REAGIMI — desktop height pass
    Measured: card 479 voted, of which 147px was empty space beside the video
@@ -8846,8 +8813,6 @@ body[data-tour-veil] > *:not(.tutorial-root) {
     font-size: 13px;
   }
 }
-
-
 
 @media (min-width: 900px) {
   /* MARKER-thumb-oof
@@ -9025,17 +8990,37 @@ body[data-tour-veil] > *:not(.tutorial-root) {
    payoff for having voted then and the only split that can frame today's
    question without biasing it. Today's own numbers stay hidden until the
    reader has committed to an answer.
+
+   Visually it has to earn a stop on a page that already carries a video
+   module and a market ticker. It does that with one loud element rather than
+   five quiet ones: the question is the largest type in the section, and the
+   result is a single bar showing the whole room split, not one track per
+   option. Everything else stays deliberately subordinate.
    ═══════════════════════════════════════════════════════════════════════════ */
 
 .sondazhi-card {
+  position: relative;
   background: #FFFFFF;
   border: 1.5px solid #E8E3DB;
   border-radius: var(--radius-md);
-  padding: 22px 26px;
+  padding: 24px 26px 22px;
   box-shadow: var(--shadow-1);
+  overflow: hidden;
 }
 
-/* ── Section meta: streak + live count, right-aligned in the SectionLabel ── */
+/* A warm bloom anchored to the top-left corner. Enough to separate this card
+   from the other white blocks on the page without introducing a colour the
+   brand does not already own. */
+.sondazhi-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto auto 0;
+  width: 260px;
+  height: 3px;
+  background: linear-gradient(90deg, #FF4422, rgba(255, 68, 34, 0));
+}
+
+/* ── Section meta: streak + live count ──────────────────────────────────── */
 .sondazhi-meta {
   display: inline-flex;
   align-items: center;
@@ -9045,6 +9030,8 @@ body[data-tour-veil] > *:not(.tutorial-root) {
   color: #6B6B6B;
   white-space: nowrap;
 }
+
+.sondazhi-count { font-variant-numeric: tabular-nums; }
 
 .sondazhi-streak {
   display: inline-flex;
@@ -9060,16 +9047,16 @@ body[data-tour-veil] > *:not(.tutorial-root) {
 }
 
 /* ── Yesterday's outcome ──────────────────────────────────────────────────
-   Deliberately quiet. It is the reason to read on, not the headline: an
-   over-styled callback would compete with the question underneath it. */
+   Quiet on purpose. It is the reason to read on, not the headline; an
+   over-styled callback would compete with the question underneath it. The
+   sliver of bar makes it glanceable without adding a line of height. */
 .sondazhi-callback {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   gap: 10px;
-  padding: 9px 12px;
-  margin-bottom: 16px;
-  border-left: 3px solid #E8E3DB;
-  border-radius: 0 8px 8px 0;
+  padding: 8px 12px;
+  margin-bottom: 14px;
+  border-radius: 8px;
   background: #F9F6F1;
 }
 
@@ -9081,6 +9068,21 @@ body[data-tour-veil] > *:not(.tutorial-root) {
   color: #9A9186;
 }
 
+.sondazhi-callback-bar {
+  flex-shrink: 0;
+  display: block;
+  width: 34px;
+  height: 4px;
+  border-radius: 2px;
+  background: linear-gradient(
+    to right,
+    #C4B9AC 0,
+    #C4B9AC var(--won, 50%),
+    #E2DBD2 var(--won, 50%),
+    #E2DBD2 100%
+  );
+}
+
 .sondazhi-callback-text {
   flex: 1;
   min-width: 0;
@@ -9088,6 +9090,9 @@ body[data-tour-veil] > *:not(.tutorial-root) {
   font-size: 12.5px;
   line-height: 1.5;
   color: #44413D;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .sondazhi-callback-text strong {
@@ -9096,12 +9101,7 @@ body[data-tour-veil] > *:not(.tutorial-root) {
   font-variant-numeric: tabular-nums;
 }
 
-.sondazhi-callback-text em {
-  font-style: normal;
-  font-weight: 700;
-  color: #111111;
-}
-
+.sondazhi-callback-text em { font-style: normal; font-weight: 700; color: #111111; }
 .sondazhi-callback-q { color: #8A8177; }
 
 .sondazhi-callback-link {
@@ -9117,10 +9117,13 @@ body[data-tour-veil] > *:not(.tutorial-root) {
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .sondazhi-callback-link:hover { opacity: 0.7; }
+  .sondazhi-callback-link:hover { opacity: 0.65; }
 }
 
-/* ── Today's question ────────────────────────────────────────────────────── */
+/* ── The question ────────────────────────────────────────────────────────
+   The largest type in the section. Pre-vote there is nothing else worth
+   looking at, and a poll whose question reads at the same weight as its
+   surrounding chrome is a poll that gets scrolled past. */
 .sondazhi-context {
   margin: 0 0 8px;
   font-family: var(--font-serif);
@@ -9132,159 +9135,273 @@ body[data-tour-veil] > *:not(.tutorial-root) {
 
 .sondazhi-question {
   margin: 0 0 18px;
-  font-size: 19px;
-  font-weight: 700;
-  line-height: 1.35;
-  letter-spacing: -0.01em;
+  font-size: clamp(20px, 1.9vw, 26px);
+  font-weight: 800;
+  line-height: 1.24;
+  letter-spacing: -0.022em;
   color: #111111;
+  text-wrap: balance;
 }
 
+/* ── Options ──────────────────────────────────────────────────────────────
+   The hover fill sweeps from the left rather than switching colour outright.
+   Direction is information: it reads as the option filling up, which is what
+   choosing it is about to do to the bar below. */
 .sondazhi-options {
-  display: flex;
-  flex-direction: column;
-  gap: 9px;
+  /* Side by side, because a two-word answer stretched across a 1200px pill
+     reads as an empty card. auto-fit collapses to a single column the moment
+     the options stop fitting, so long labels and phones both keep full width. */
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 8px;
 }
 
-.poll-option:disabled {
-  opacity: 0.55;
-  cursor: default;
+.sondazhi-option {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  padding: 14px 18px;
+  border: 1.5px solid #E8E3DB;
+  border-radius: 12px;
+  background: #FDFBF8;
+  color: #111111;
+  font-family: var(--font-manrope), sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.005em;
+  text-align: left;
+  cursor: pointer;
+  overflow: hidden;
+  transition:
+    border-color var(--duration-base) var(--ease-out),
+    color var(--duration-base) var(--ease-out),
+    transform var(--duration-fast) var(--ease-out);
+}
+
+.sondazhi-option::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: #FF4422;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform var(--duration-base) var(--ease-out);
+}
+
+.sondazhi-option-label { position: relative; }
+
+.sondazhi-option-arrow {
+  flex-shrink: 0;
+  opacity: 0;
+  transform: translateX(-6px);
+  transition:
+    opacity var(--duration-base) var(--ease-out),
+    transform var(--duration-base) var(--ease-out);
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .poll-option:disabled:hover {
-    background: #F9F6F1;
-    color: #111111;
-    border-color: #E8E3DB;
+  .sondazhi-option:hover:not(:disabled) { border-color: #FF4422; color: #FFFFFF; }
+  .sondazhi-option:hover:not(:disabled)::before { transform: scaleX(1); }
+  .sondazhi-option:hover:not(:disabled) .sondazhi-option-arrow {
+    opacity: 1;
+    transform: translateX(0);
   }
 }
 
+.sondazhi-option:focus-visible {
+  outline: 2px solid #FF4422;
+  outline-offset: 2px;
+}
+
+.sondazhi-option:active:not(:disabled) { transform: scale(0.988); }
+
+.sondazhi-option:disabled { opacity: 0.5; cursor: default; }
+
+/* ── Foot: the stake, and how long is left ──────────────────────────────── */
+.sondazhi-foot {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 13px;
+}
+
 .sondazhi-stake {
-  margin: 14px 0 0;
+  margin: 0;
   font-size: 12.5px;
   font-weight: 500;
   color: #6B6B6B;
 }
 
-/* ── Results ──────────────────────────────────────────────────────────────
-   Two text cells on one line, the track spanning both underneath, so the
-   percentage stays optically tied to its own bar at every width. */
-.sondazhi-results {
-  display: flex;
-  flex-direction: column;
-  gap: 13px;
-}
-
-.sondazhi-row {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  align-items: baseline;
-  column-gap: 12px;
-  row-gap: 6px;
-}
-
-.sondazhi-row-label {
+.sondazhi-clock {
+  flex-shrink: 0;
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  min-width: 0;
-  font-size: 14px;
-  font-weight: 500;
-  color: #111111;
-}
-
-.sondazhi-row[data-mine] .sondazhi-row-label {
+  gap: 4px;
+  font-size: 11px;
   font-weight: 700;
-  color: #FF4422;
-}
-
-.sondazhi-row-value {
-  font-size: 13px;
-  font-weight: 700;
-  color: #44413D;
+  color: #9A9186;
   font-variant-numeric: tabular-nums;
+  white-space: nowrap;
 }
 
-.sondazhi-row-count {
-  margin-left: 5px;
-  font-weight: 400;
-  color: #A9A096;
-}
+/* ── Results ──────────────────────────────────────────────────────────────
+   One bar for the whole room. Segments grow from the left in sequence, so the
+   split assembles itself in front of the reader instead of being presented
+   pre-formed. */
+.sondazhi-results { display: block; }
 
-.sondazhi-track {
-  grid-column: 1 / -1;
-  display: block;
-  height: 8px;
-  border-radius: 4px;
-  background: #F0ECE6;
+.sondazhi-room {
+  display: flex;
+  width: 100%;
+  height: 30px;
+  border-radius: 8px;
   overflow: hidden;
+  background: #F3EFE9;
+  margin-bottom: 14px;
 }
 
-/* display:block matters: a transform does not apply to a non-replaced inline
-   element, and getComputedStyle still reports the matrix, so an inline fill
-   fails silently while looking correct in devtools. */
-.sondazhi-fill {
+/* Width rather than transform: the segments sit side by side in a flex row,
+   so scaling one would slide the others instead of sharing the track. */
+.sondazhi-seg {
   display: block;
+  flex: 0 0 auto;
+  width: var(--pct, 0%);
   height: 100%;
-  border-radius: 4px;
-  background: #D4CBC0;
-  transform: scaleX(var(--pct, 0));
-  transform-origin: left center;
-  transition: transform var(--duration-slow) var(--ease-out);
+  background: var(--seg, #D4CBC0);
+  transition: width 620ms var(--ease-out);
   transition-delay: var(--reveal-delay, 0ms);
 }
 
-.sondazhi-row[data-mine] .sondazhi-fill { background: #FF4422; }
+.sondazhi-seg[data-mine] {
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.35);
+}
+
+.sondazhi-legend {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.sondazhi-leg {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 8px;
+  font-size: 13.5px;
+  color: #44413D;
+  animation: sondazhi-leg-in var(--duration-slow) var(--ease-out) both;
+  animation-delay: var(--reveal-delay, 0ms);
+}
+
+@keyframes sondazhi-leg-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.sondazhi-dot {
+  display: block;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+}
+
+.sondazhi-leg-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-width: 0;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sondazhi-leg[data-mine] .sondazhi-leg-label { font-weight: 800; color: #FF4422; }
+
+.sondazhi-leg-value {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: #111111;
+}
+
+.sondazhi-leg-count { margin-left: 5px; font-weight: 400; color: #A9A096; }
 
 /* ── Verdict ─────────────────────────────────────────────────────────────
-   The standing line is the point of the whole card: it reports something
-   about the reader, not about the poll. */
+   Arrives last, once the bar has settled. It is the punchline: it reports
+   something about the reader rather than about the poll. */
 .sondazhi-verdict {
-  margin-top: 3px;
+  margin-top: 14px;
   padding-top: 12px;
   border-top: 1px solid #F0ECE6;
+  animation: sondazhi-leg-in var(--duration-slow) var(--ease-out) both;
+  animation-delay: 460ms;
 }
 
 .sondazhi-standing {
   margin: 0 0 3px;
-  font-size: 14px;
-  font-weight: 700;
+  font-size: 14.5px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
   color: #111111;
 }
 
-.sondazhi-status {
-  margin: 0;
-  font-size: 12px;
-  font-weight: 500;
-  color: #8A8177;
+.sondazhi-status { margin: 0; font-size: 12px; font-weight: 500; color: #8A8177; }
+
+.sondazhi-error { margin: 0; padding: 14px 0; font-size: 13px; color: #6B6B6B; }
+
+/* ── Entrance ─────────────────────────────────────────────────────────────
+   Fired by an IntersectionObserver rather than on mount: the card sits well
+   below the fold, so a mount-time animation finishes before anyone has
+   scrolled far enough to see it happen. */
+.sondazhi .sondazhi-card {
+  opacity: 0;
+  transform: translateY(10px);
+  transition:
+    opacity 420ms var(--ease-out),
+    transform 420ms var(--ease-out);
 }
 
-.sondazhi-error {
-  margin: 0;
-  padding: 14px 0;
-  font-size: 13px;
-  color: #6B6B6B;
+.sondazhi[data-seen] .sondazhi-card { opacity: 1; transform: none; }
+
+.sondazhi[data-seen] .sondazhi-option {
+  animation: sondazhi-leg-in 380ms var(--ease-out) both;
+  animation-delay: calc(var(--reveal-delay, 0ms) + 120ms);
 }
 
 /* ── Mobile ─────────────────────────────────────────────────────────────── */
 @media (max-width: 640px) {
-  .sondazhi-card { padding: 18px 18px; }
-  .sondazhi-question { font-size: 17px; margin-bottom: 16px; }
+  .sondazhi-card { padding: 18px 16px 16px; }
+  .sondazhi-question { font-size: 18px; margin-bottom: 15px; }
   .sondazhi-context { font-size: 13px; }
+  .sondazhi-option { padding: 13px 15px; font-size: 14.5px; }
+  .sondazhi-room { height: 26px; }
 
   /* The question is what has to survive a narrow column, so the callback
      drops its trailing echo rather than wrapping to three lines. */
-  .sondazhi-callback { flex-wrap: wrap; row-gap: 4px; }
   .sondazhi-callback-q { display: none; }
+  .sondazhi-callback { gap: 8px; padding: 7px 10px; }
 
-  .sondazhi-meta { gap: 8px; }
+  /* Stacking keeps the countdown from squeezing the stake line to two words. */
+  .sondazhi-foot { flex-direction: column; align-items: flex-start; gap: 6px; }
 }
 
 /* ── Reduced motion ──────────────────────────────────────────────────────
-   Gentler, not zero: the bars still fill and the colour still communicates,
-   they simply arrive together instead of cascading. */
+   Gentler, not zero: the bar still fills and the colour still communicates,
+   it simply arrives at once instead of cascading. The entrance resolves
+   immediately so nothing can be left invisible. */
 @media (prefers-reduced-motion: reduce) {
-  .sondazhi-fill {
-    transition-duration: 1ms;
-    transition-delay: 0ms;
-  }
+  .sondazhi .sondazhi-card { opacity: 1; transform: none; transition: none; }
+  .sondazhi[data-seen] .sondazhi-option,
+  .sondazhi-leg,
+  .sondazhi-verdict { animation: none; }
+  .sondazhi-seg { transition-duration: 1ms; transition-delay: 0ms; }
 }
