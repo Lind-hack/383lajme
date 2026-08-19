@@ -1610,9 +1610,9 @@
   },
   {
     "date": "2026-08-19",
-    "overallIndex": 49,
-    "totalArticles": 116,
-    "sourceCount": 80,
+    "overallIndex": 50,
+    "totalArticles": 155,
+    "sourceCount": 89,
     "stanceVersion": 2,
     "countries": {
       "Gjermani": {
@@ -1627,31 +1627,31 @@
       },
       "SHBA": {
         "index": 50,
-        "positive": 9,
-        "neutral": 82,
-        "negative": 9,
-        "n": 22,
+        "positive": 8,
+        "neutral": 84,
+        "negative": 8,
+        "n": 25,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
       },
       "Britani": {
-        "index": 47,
-        "positive": 6,
-        "neutral": 83,
-        "negative": 11,
-        "n": 18,
-        "excluded": 1,
+        "index": 52,
+        "positive": 12,
+        "neutral": 80,
+        "negative": 8,
+        "n": 25,
+        "excluded": 0,
         "confident": true,
         "stanceVersion": 2
       },
       "Francë": {
-        "index": 50,
-        "positive": 0,
-        "neutral": 100,
+        "index": 67,
+        "positive": 33,
+        "neutral": 67,
         "negative": 0,
-        "n": 2,
-        "excluded": 1,
+        "n": 3,
+        "excluded": 0,
         "confident": false,
         "stanceVersion": 2
       },
@@ -1677,12 +1677,12 @@
       },
       "Zvicër": {
         "index": 50,
-        "positive": 0,
-        "neutral": 100,
-        "negative": 0,
-        "n": 1,
+        "positive": 5,
+        "neutral": 90,
+        "negative": 5,
+        "n": 20,
         "excluded": 0,
-        "confident": false,
+        "confident": true,
         "stanceVersion": 2
       },
       "Holandë": {
@@ -1696,11 +1696,11 @@
         "stanceVersion": 2
       },
       "Belgjikë": {
-        "index": 50,
-        "positive": 0,
-        "neutral": 100,
+        "index": 67,
+        "positive": 33,
+        "neutral": 67,
         "negative": 0,
-        "n": 2,
+        "n": 3,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
@@ -1720,7 +1720,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 6,
+        "n": 8,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -1748,19 +1748,19 @@
       "Turqi": {
         "index": 47,
         "positive": 0,
-        "neutral": 93,
-        "negative": 7,
-        "n": 30,
+        "neutral": 94,
+        "negative": 6,
+        "n": 33,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
       },
       "Kroaci": {
-        "index": 46,
-        "positive": 7,
-        "neutral": 79,
-        "negative": 14,
-        "n": 14,
+        "index": 47,
+        "positive": 6,
+        "neutral": 82,
+        "negative": 12,
+        "n": 17,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2
@@ -1776,19 +1776,19 @@
         "sentiment": "positive"
       },
       {
-        "title": "Ukrainian MP opposes Zelensky’s position: Ukraine should recognize Kosovo - KosovaPress",
-        "source": "KosovaPress",
+        "title": "As the Spring Arrives, Water Recalls the Nomads triumphs at DokuFest Prizren - Cineuropa",
+        "source": "Cineuropa",
         "country": "Britani",
         "flag": "🇬🇧",
-        "url": "https://kosovapress.com/eng/ukrainian-mp-opposes-zelenskys-position-ukraine-should-recognize-kosovo",
+        "url": "https://cineuropa.org/en/newsdetail/494515",
         "sentiment": "positive"
       },
       {
-        "title": "Kosovo. Pristina, la grande sopresa del nuoto. - Nuoto.com",
-        "source": "Nuoto.com",
-        "country": "Itali",
-        "flag": "🇮🇹",
-        "url": "https://www.nuoto.com/articolo/calendari-e-meeting/kosovo-pristina-la-grande-sopresa-del-nuoto/",
+        "title": "As the Spring Arrives, Water Recalls the Nomads triomphe au Festival DokuFest de Prizren - Cineuropa",
+        "source": "Cineuropa",
+        "country": "Francë",
+        "flag": "🇫🇷",
+        "url": "https://cineuropa.org/fr/newsdetail/494515",
         "sentiment": "positive"
       },
       {
@@ -1808,11 +1808,11 @@
         "sentiment": "negative"
       },
       {
-        "title": "Kosova Otoriterliğe Doğru Sürüklenme Riskiyle Karşı Karşıya - Kosovahaber.com",
-        "source": "Kosovahaber.com",
-        "country": "Turqi",
-        "flag": "🇹🇷",
-        "url": "https://kosovahaber.com/haber/kosova-otoriterlige-dogru-suruklenme-riskiyle-karsi-karsiya-105028",
+        "title": "Politische Falle “Paralysizes” Kosovo: Investitionen und Großprojekte am Risiko - Periskopi",
+        "source": "Periskopi",
+        "country": "Zvicër",
+        "flag": "🇨🇭",
+        "url": "https://periskopi.com/de/2026/8/politische-falle-paralysizes-kosovo-investitionen-grossprojekte-risiko",
         "sentiment": "negative"
       }
     ]
