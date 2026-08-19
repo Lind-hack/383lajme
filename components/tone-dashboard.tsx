@@ -61,6 +61,36 @@ export default function ToneDashboard({
   const [everClicked, setEverClicked] = useState(false);
   const detailRef = useRef<HTMLDivElement>(null);
 
+  /**
+   * Arriving from search with a destination already chosen.
+   *
+   * Read from window.location rather than useSearchParams so this page does not
+   * need a Suspense boundary it otherwise has no use for. Runs once: after that
+   * the reader owns the selection, and re-applying the parameter would fight
+   * every click they make.
+   */
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const country = params.get("vendi");
+    const wantedTopic = params.get("tema");
+    if (!country && !wantedTopic) return;
+
+    setEverClicked(true);
+    if (wantedTopic) {
+      setSelected(null);
+      setTopic(wantedTopic);
+    } else if (country) {
+      setTopic(null);
+      setSelected(country);
+    }
+    // Two frames: the panel has to exist before it can be scrolled to.
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        detailRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    });
+  }, []);
+
   useEffect(() => {
     fetch("/tone-outlets.json").then((r) => r.json()).then(setOutletData).catch(() => {});
   }, []);

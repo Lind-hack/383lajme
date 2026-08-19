@@ -3,13 +3,14 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { MapPin } from "lucide-react";
+import { MapPin, Search } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { EASE, DUR } from "@/lib/tokens";
 import UserMenu from "./user-menu";
 import NavBalance from "./nav-balance";
 import NavSidePanel from "./nav-side-panel";
 import CoinToast from "./tregu/coin-toast";
+import SearchOverlay from "./search-overlay";
 import { NAV_CATEGORIES } from "@/lib/category-map";
 
 /** Derived from lib/category-map, so the navbar, the side panel (which imports
@@ -45,7 +46,19 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
   const pathname = usePathname();
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        setSearchOpen(true);
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 80);
@@ -153,8 +166,21 @@ export default function Navbar() {
               transition={{ duration: DUR.slow, ease: EASE }}
               style={{ flex: 1, minWidth: 0, display: "flex", alignItems: "center" }}
             >
-              {/* Spacer pushes the hamburger to the right */}
+              {/* Spacer pushes the controls to the right */}
               <div style={{ flex: 1, minWidth: 0 }} />
+              {/* Search survives the collapse. It is the one thing that can
+                  stand in for the categories that just disappeared, so burying
+                  it inside the hamburger would cost the most at exactly the
+                  moment the nav has the least. */}
+              <button
+                type="button"
+                className="nav-search-btn"
+                onClick={() => setSearchOpen(true)}
+                aria-label="Kërko"
+                style={{ marginRight: "8px" }}
+              >
+                <Search size={19} strokeWidth={2.5} aria-hidden="true" />
+              </button>
               <button
                 className="nav-menu-btn"
                 onClick={() => setMenuOpen(true)}
@@ -218,6 +244,16 @@ export default function Navbar() {
                 })}
               </div>
 
+              <button
+                type="button"
+                className="nav-search-btn"
+                onClick={() => setSearchOpen(true)}
+                aria-label="Kërko"
+                title="Kërko  ⌘K"
+              >
+                <Search size={19} strokeWidth={2.5} aria-hidden="true" />
+              </button>
+
               {/* Tregu — prediction markets, pinned so it never scrolls out of the category row */}
               <Link
                 href="/tregu"
@@ -250,6 +286,7 @@ export default function Navbar() {
       </div>
 
       <NavSidePanel open={menuOpen} onClose={() => setMenuOpen(false)} />
+      <SearchOverlay open={searchOpen} onClose={() => setSearchOpen(false)} />
       <CoinToast />
     </header>
   );

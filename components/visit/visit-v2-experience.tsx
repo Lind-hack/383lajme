@@ -166,6 +166,15 @@ export default function VisitV2Experience() {
   const [reportMessage, setReportMessage] = useState("");
   const [reporting, setReporting] = useState(false);
   const [selectedCity, setSelectedCity] = useState<CityId>("prizren");
+
+  /** Arriving from search with a city already chosen. Validated against the
+   *  real list so a hand-edited URL cannot select a city that does not exist. */
+  useEffect(() => {
+    const wanted = new URLSearchParams(window.location.search).get("qyteti");
+    if (wanted && KOSOVO_CITIES.some((city) => city.id === wanted)) {
+      setSelectedCity(wanted as CityId);
+    }
+  }, []);
   const [savedCities, setSavedCities] = useState<CityId[]>(["prizren"]);
   const [exportingCities, setExportingCities] = useState(false);
 
