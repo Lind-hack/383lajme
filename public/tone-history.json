@@ -1607,5 +1607,214 @@
         "sentiment": "negative"
       }
     ]
+  },
+  {
+    "date": "2026-08-19",
+    "overallIndex": 50,
+    "totalArticles": 115,
+    "sourceCount": 73,
+    "stanceVersion": 2,
+    "countries": {
+      "Gjermani": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 1,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 2
+      },
+      "SHBA": {
+        "index": 48,
+        "positive": 6,
+        "neutral": 84,
+        "negative": 10,
+        "n": 31,
+        "excluded": 1,
+        "confident": true,
+        "stanceVersion": 2
+      },
+      "Britani": {
+        "index": 53,
+        "positive": 11,
+        "neutral": 83,
+        "negative": 6,
+        "n": 18,
+        "excluded": 1,
+        "confident": true,
+        "stanceVersion": 2
+      },
+      "Francë": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 2,
+        "excluded": 1,
+        "confident": false,
+        "stanceVersion": 2
+      },
+      "Itali": {
+        "index": 64,
+        "positive": 29,
+        "neutral": 71,
+        "negative": 0,
+        "n": 7,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 2
+      },
+      "Austri": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 1,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 2
+      },
+      "Zvicër": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 2
+      },
+      "Holandë": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 1,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 2
+      },
+      "Belgjikë": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 2,
+        "excluded": 1,
+        "confident": false,
+        "stanceVersion": 2
+      },
+      "Spanjë": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 3,
+        "excluded": 1,
+        "confident": false,
+        "stanceVersion": 2
+      },
+      "Greqi": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 6,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 2
+      },
+      "Suedi": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 1,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 2
+      },
+      "Poloni": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 2
+      },
+      "Turqi": {
+        "index": 48,
+        "positive": 5,
+        "neutral": 85,
+        "negative": 10,
+        "n": 20,
+        "excluded": 2,
+        "confident": true,
+        "stanceVersion": 2
+      },
+      "Kroaci": {
+        "index": 48,
+        "positive": 5,
+        "neutral": 86,
+        "negative": 9,
+        "n": 22,
+        "excluded": 1,
+        "confident": true,
+        "stanceVersion": 2
+      }
+    },
+    "headlines": [
+      {
+        "title": "Kosovo's Independence: A New European Nation is Born - Monocle",
+        "source": "Monocle",
+        "country": "SHBA",
+        "flag": "🇺🇸",
+        "url": "https://monocle.com/affairs/kosovo-independence-serbia-balkans/",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Ukrainian MP opposes Zelensky’s position: Ukraine should recognize Kosovo - KosovaPress",
+        "source": "KosovaPress",
+        "country": "Britani",
+        "flag": "🇬🇧",
+        "url": "https://kosovapress.com/eng/ukrainian-mp-opposes-zelenskys-position-ukraine-should-recognize-kosovo",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Kosovo. Pristina, la grande sopresa del nuoto. - Nuoto.com",
+        "source": "Nuoto.com",
+        "country": "Itali",
+        "flag": "🇮🇹",
+        "url": "https://www.nuoto.com/articolo/calendari-e-meeting/kosovo-pristina-la-grande-sopresa-del-nuoto/",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Has Kurti crossed a \"red line\" in the relations with the EU? - europeanwesternbalkans.com",
+        "source": "European Western Balkans",
+        "country": "SHBA",
+        "flag": "🇺🇸",
+        "url": "https://europeanwesternbalkans.com/2026/08/18/has-kurti-crossed-a-red-line-in-the-relations-with-the-eu/",
+        "sentiment": "negative"
+      },
+      {
+        "title": "Has Kurti crossed a \"red line\" in the relations with the EU? - European Western Balkans",
+        "source": "European Western Balkans",
+        "country": "Britani",
+        "flag": "🇬🇧",
+        "url": "https://europeanwesternbalkans.com/2026/08/18/has-kurti-crossed-a-red-line-in-the-relations-with-the-eu/",
+        "sentiment": "negative"
+      },
+      {
+        "title": "Kosova Otoriterliğe Doğru Sürüklenme Riskiyle Karşı Karşıya - Kosovahaber.com",
+        "source": "Kosovahaber.com",
+        "country": "Turqi",
+        "flag": "🇹🇷",
+        "url": "https://kosovahaber.com/haber/kosova-otoriterlige-dogru-suruklenme-riskiyle-karsi-karsiya-105028",
+        "sentiment": "negative"
+      }
+    ]
   }
 ]
