@@ -4,6 +4,9 @@ beautifulsoup4>=4.12.0
 python-slugify>=8.0.1
 python-dotenv>=1.0.0
 googlenewsdecoder==0.1.7
-youtubesearchpython>=1.6.6
+# youtubesearchpython — removed from PyPI entirely (404), so pinning it
+# fails every install. scripts/kosovo_pipeline.py already guards the
+# import with try/except and search_youtube_clip() returns None without
+# it, so the only loss is an optional clip lookup in that one pipeline.
 yt-dlp>=2024.1.0
 Pillow>=10.0.0
