@@ -1610,9 +1610,9 @@
   },
   {
     "date": "2026-08-19",
-    "overallIndex": 50,
-    "totalArticles": 155,
-    "sourceCount": 89,
+    "overallIndex": 51,
+    "totalArticles": 153,
+    "sourceCount": 91,
     "stanceVersion": 2,
     "countries": {
       "Gjermani": {
@@ -1620,7 +1620,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 2,
+        "n": 3,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
@@ -1628,19 +1628,19 @@
       "SHBA": {
         "index": 50,
         "positive": 8,
-        "neutral": 84,
+        "neutral": 85,
         "negative": 8,
-        "n": 25,
+        "n": 26,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
       },
       "Britani": {
-        "index": 52,
-        "positive": 12,
-        "neutral": 80,
-        "negative": 8,
-        "n": 25,
+        "index": 50,
+        "positive": 7,
+        "neutral": 86,
+        "negative": 7,
+        "n": 28,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -1670,19 +1670,19 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 2,
+        "n": 3,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
       },
       "Zvicër": {
         "index": 50,
-        "positive": 5,
-        "neutral": 90,
-        "negative": 5,
-        "n": 20,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 1,
         "excluded": 0,
-        "confident": true,
+        "confident": false,
         "stanceVersion": 2
       },
       "Holandë": {
@@ -1710,9 +1710,9 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 6,
+        "n": 4,
         "excluded": 0,
-        "confident": true,
+        "confident": false,
         "stanceVersion": 2
       },
       "Greqi": {
@@ -1720,7 +1720,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 8,
+        "n": 9,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -1730,7 +1730,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 2,
+        "n": 1,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
@@ -1746,21 +1746,21 @@
         "stanceVersion": 2
       },
       "Turqi": {
-        "index": 47,
-        "positive": 0,
-        "neutral": 94,
-        "negative": 6,
-        "n": 33,
+        "index": 50,
+        "positive": 5,
+        "neutral": 91,
+        "negative": 5,
+        "n": 43,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
       },
       "Kroaci": {
-        "index": 47,
-        "positive": 6,
-        "neutral": 82,
-        "negative": 12,
-        "n": 17,
+        "index": 50,
+        "positive": 10,
+        "neutral": 80,
+        "negative": 10,
+        "n": 20,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2
@@ -1808,11 +1808,11 @@
         "sentiment": "negative"
       },
       {
-        "title": "Politische Falle “Paralysizes” Kosovo: Investitionen und Großprojekte am Risiko - Periskopi",
-        "source": "Periskopi",
-        "country": "Zvicër",
-        "flag": "🇨🇭",
-        "url": "https://periskopi.com/de/2026/8/politische-falle-paralysizes-kosovo-investitionen-grossprojekte-risiko",
+        "title": "Kosova Otoriterliğe Doğru Sürüklenme Riskiyle Karşı Karşıya - Kosovahaber.com",
+        "source": "Kosovahaber.com",
+        "country": "Turqi",
+        "flag": "🇹🇷",
+        "url": "https://kosovahaber.com/haber/kosova-otoriterlige-dogru-suruklenme-riskiyle-karsi-karsiya-105028",
         "sentiment": "negative"
       }
     ]
