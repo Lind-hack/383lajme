@@ -1,6 +1,11 @@
 // Both feeds publish on their own schedule; a daily window keeps the cards in
 // step with them. The weekly window was holding fuel prices ~3 weeks stale.
+import { createClient as createSupabaseClient } from "@supabase/supabase-js";
+
 const DAY_IN_SECONDS = 60 * 60 * 24;
+
+/** A pushed snapshot older than this is treated as stale rather than current. */
+const FUEL_MAX_AGE_MS = 3 * DAY_IN_SECONDS * 1000;
 
 const BANK_OF_ALBANIA_URL =
   "https://www.bankofalbania.org/Markets/Official_exchange_rate/";
@@ -263,7 +268,46 @@ function stationToSnapshot(
   };
 }
 
+/**
+ * The most recent snapshot pushed by a machine Cloudflare allows.
+ *
+ * This is the primary source, not a cache: nothing in the deployment can read
+ * NaftaSot directly. The direct fetch below is kept anyway, because it costs
+ * one request and would start working the day the block lifts.
+ */
+async function pushedFuelSnapshot(): Promise<FuelSnapshot | null> {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  if (!url || !key) return null;
+
+  try {
+    const supabase = createSupabaseClient(url, key, {
+      auth: { autoRefreshToken: false, persistSession: false },
+    });
+    const { data, error } = await supabase
+      .from("fuel_prices")
+      .select("snapshot, fetched_at")
+      .order("fetched_at", { ascending: false })
+      .limit(1)
+      .maybeSingle();
+
+    if (error || !data?.snapshot) return null;
+
+    // An old push is worse than useless: it would keep the card looking live
+    // while the sender has quietly stopped running.
+    const age = Date.now() - Date.parse(data.fetched_at ?? "");
+    if (!Number.isFinite(age) || age > FUEL_MAX_AGE_MS) return null;
+
+    return data.snapshot as FuelSnapshot;
+  } catch {
+    return null;
+  }
+}
+
 export async function getDailyFuelSnapshot(): Promise<FuelSnapshot> {
+  const pushed = await pushedFuelSnapshot();
+  if (pushed?.brands?.length) return pushed;
+
   const result = await fetchNaftaSotStations();
 
   if (!result.ok) {
