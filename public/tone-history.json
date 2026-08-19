@@ -1610,9 +1610,9 @@
   },
   {
     "date": "2026-08-19",
-    "overallIndex": 47,
-    "totalArticles": 139,
-    "sourceCount": 82,
+    "overallIndex": 49,
+    "totalArticles": 116,
+    "sourceCount": 80,
     "stanceVersion": 2,
     "countries": {
       "Gjermani": {
@@ -1626,22 +1626,22 @@
         "stanceVersion": 2
       },
       "SHBA": {
-        "index": 48,
-        "positive": 4,
-        "neutral": 87,
+        "index": 50,
+        "positive": 9,
+        "neutral": 82,
         "negative": 9,
-        "n": 23,
+        "n": 22,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
       },
       "Britani": {
-        "index": 43,
-        "positive": 3,
-        "neutral": 82,
-        "negative": 16,
-        "n": 38,
-        "excluded": 0,
+        "index": 47,
+        "positive": 6,
+        "neutral": 83,
+        "negative": 11,
+        "n": 18,
+        "excluded": 1,
         "confident": true,
         "stanceVersion": 2
       },
@@ -1651,7 +1651,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 2,
-        "excluded": 0,
+        "excluded": 1,
         "confident": false,
         "stanceVersion": 2
       },
@@ -1670,7 +1670,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 3,
+        "n": 2,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
@@ -1710,7 +1710,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 5,
+        "n": 6,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -1720,7 +1720,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 5,
+        "n": 6,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -1756,11 +1756,11 @@
         "stanceVersion": 2
       },
       "Kroaci": {
-        "index": 44,
-        "positive": 0,
-        "neutral": 88,
-        "negative": 12,
-        "n": 17,
+        "index": 46,
+        "positive": 7,
+        "neutral": 79,
+        "negative": 14,
+        "n": 14,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2
@@ -1768,10 +1768,18 @@
     },
     "headlines": [
       {
-        "title": "Ukrainian MP opposes Zelensky’s position: Ukraine should recognize Kosovo - KosovaPress",
-        "source": "KosovaPress",
+        "title": "Kosovo's Independence: A New European Nation is Born - Monocle",
+        "source": "Monocle",
         "country": "SHBA",
         "flag": "🇺🇸",
+        "url": "https://monocle.com/affairs/kosovo-independence-serbia-balkans/",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Ukrainian MP opposes Zelensky’s position: Ukraine should recognize Kosovo - KosovaPress",
+        "source": "KosovaPress",
+        "country": "Britani",
+        "flag": "🇬🇧",
         "url": "https://kosovapress.com/eng/ukrainian-mp-opposes-zelenskys-position-ukraine-should-recognize-kosovo",
         "sentiment": "positive"
       },

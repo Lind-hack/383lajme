@@ -1,8 +1,8 @@
 {
   "lastUpdated": "2026-08-19",
-  "overallIndex": 47,
-  "totalArticles": 139,
-  "sourceCount": 82,
+  "overallIndex": 49,
+  "totalArticles": 116,
+  "sourceCount": 80,
   "stanceVersion": 2,
   "countries": {
     "Gjermani": {
@@ -28,7 +28,7 @@
           ]
         },
         {
-          "name": "PAZ - Peiner Allgemeine Zeitung",
+          "name": "paz-online.de",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
@@ -220,14 +220,14 @@
           "articleCount": 1,
           "articles": [
             {
-              "title": "Bóthar: The final journey to Kosovo - irishexaminer.com",
+              "title": "Bóthar: The final journey to Kosovo - Irish Examiner",
               "albanianTitle": "Bóthar: Udhëtimi i fundit drejt Kosovës",
-              "blurb": "Organizata Bóthar po realizon udhëtimin e saj të fundit drejt Kosovës për të dërguar ndihma për komunitetet në nevojë.",
+              "blurb": "Organizata Bóthar ka përfunduar misionin e saj humanitar në Kosovë përmes dërgimit të ndihmave për popullatën lokale në nevojë.",
               "imageUrl": "https://www.irishexaminer.com/cms_media/module_img/10396/5198383_4_org_October_202025_20Shipment.jpeg",
               "url": "https://www.irishexaminer.com/farming/arid-41898007.html",
               "date": "2026-08-19",
               "sentiment": "neutral",
-              "reason": "Straightforward headline about a journey to Kosovo, no loaded language",
+              "reason": "Faktikë raportim i thjeshtë, pa gjuhë ngarkuar",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -286,16 +286,36 @@
               "speaker": "Democratic Party of Kosovo deputies"
             },
             {
-              "title": "Kosovo mayors announce protest in front of government building - KosovaPress",
-              "albanianTitle": "Kryetarët e komunave në Kosovë paralajmërojnë protestë para ndërtesës së qeverisë - KosovaPress",
-              "blurb": "Kryetarët e komunave të Kosovës kanë paralajmëruar mbajtjen e një proteste para ndërtesës së Qeverisë për të shprehur pakënaqësitë e tyre.",
+              "title": "Kosovo mayors announce protest in front of government building - kosovapress.com",
+              "albanianTitle": "Kryetarët e komunave në Kosovë paralajmërojnë protestë para ndërtesës së Qeverisë",
+              "blurb": "Kryetarët e komunave të Kosovës kanë paralajmëruar mbajtjen e një proteste para ndërtesës së Qeverisë së Kosovës.",
               "imageUrl": null,
               "url": "https://kosovapress.com/eng/kosovo-mayors-announce-protest-in-front-of-government-building",
               "date": "2026-08-18",
               "sentiment": "neutral",
-              "reason": "Lajm i thjeshtë për protestë të kryetarëve të komunave në Kosovë",
+              "reason": "Faktikë raportim pa gjuhë ngarkuese",
               "isQuote": false,
               "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Monocle",
+          "sentiment": "positive",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo's Independence: A New European Nation is Born - Monocle",
+              "albanianTitle": "Pavarësia e Kosovës: Një shtet i ri evropian ka lindur",
+              "blurb": "Pavarësia e Kosovës shënon lindjen e një shteti të ri në kontinentin evropian sipas vlerësimit të revistës Monocle.",
+              "imageUrl": "https://monocle.com/wp-content/uploads/legacy/article/79815919-515ae60472cc2.jpg?fit=4256%2C2832",
+              "url": "https://monocle.com/affairs/kosovo-independence-serbia-balkans/",
+              "date": "2026-08-18",
+              "sentiment": "positive",
+              "reason": "Outlet uses celebratory phrasing that praises Kosovo's independence",
+              "isQuote": false,
+              "evidence": "New European Nation is Born",
               "speaker": ""
             }
           ]
@@ -334,26 +354,6 @@
               "date": "2026-08-19",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "Telecompaper",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosovo sees mobile and fixed telephony growth in June - Telecompaper",
-              "albanianTitle": "Kosova shënon rritje në telefoninë mobile dhe fikse gjatë muajit qershor - Telecompaper",
-              "blurb": "Tregu i telekomunikacionit në Kosovë ka shënuar rritje të numrit të përdoruesve të telefonisë fikse dhe asaj mobile gjatë qershorit.",
-              "imageUrl": "https://ik.imagekit.io/tp/20240606-flag-kosovo.png",
-              "url": "https://www.telecompaper.com/news/kosovo-sees-mobile-and-fixed-telephony-growth-in-june--1580134",
-              "date": "2026-08-17",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportim rreth rritjes së telekomunikacioneve në Kosovë",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -403,7 +403,7 @@
         {
           "name": "srpske.rs",
           "sentiment": "neutral",
-          "articleCount": 4,
+          "articleCount": 3,
           "articles": [
             {
               "title": "Vucic to Send Letter to Rutte: Don't Open Ibar Bridge - srpske.rs",
@@ -427,19 +427,6 @@
               "date": "2026-08-18",
               "sentiment": "neutral",
               "reason": "Plain news headline about government commissions, no evaluative language",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Kosovo Assembly Remains Deadlocked, PDK and AAK Refuse Talks - srpske.rs",
-              "albanianTitle": "Kuvendi i Kosovës mbetet në bllokadë, PDK dhe AAK refuzojnë dialogun - srpske.rs",
-              "blurb": "Kuvendi i Kosovës mbetet i bllokuar pasi partitë opozitare PDK dhe AAK refuzojnë pjesëmarrjen në bisedime.",
-              "imageUrl": "https://srpske.rs/uploads/articles/kosovo-assembly-remains-deadlocked-pdk-aak-refuse-talks-16x9.webp",
-              "url": "https://srpske.rs/en/news/politika/2026/08/17/kosovo-assembly-remains-deadlocked-pdk-aak-refuse-talks",
-              "date": "2026-08-17",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike pa ngjyrë",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -481,11 +468,11 @@
         }
       ],
       "summary": {
-        "index": 48,
-        "positive": 4,
-        "neutral": 87,
+        "index": 50,
+        "positive": 9,
+        "neutral": 82,
         "negative": 9,
-        "n": 23,
+        "n": 22,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -548,18 +535,18 @@
         },
         {
           "name": "CNN",
-          "sentiment": "neutral",
+          "sentiment": "unknown",
           "articleCount": 1,
           "articles": [
             {
-              "title": "The epic hiking trail that explores one of Europe’s last great wildernesses - CNN",
+              "title": "The epic hiking trail that explores one of Europe’s last great wildernesses - cnn.com",
               "albanianTitle": "Shtegu epik i ecjes që përshkon një nga zonat e fundit të egra të Evropës",
-              "blurb": "Një shteg i gjatë për ecje eksploron një nga zonat e fundit të egra dhe të paprekura në Evropë.",
+              "blurb": "Shtegu epik i ecjes ofron mundësinë për të eksploruar një nga zonat më të egra dhe të paprekura evropiane.",
               "imageUrl": "https://media.cnn.com/api/v1/images/stellar/prod/gettyimages-2226212944.jpg?c=16x9&q=w_800,c_fill",
               "url": "https://www.cnn.com/travel/peaks-of-the-balkans-trail-albania-montenegro-kosovo",
               "date": "2026-08-19",
-              "sentiment": "neutral",
-              "reason": "Fact‑based headline about a trail, no evaluative language toward Kosovo",
+              "sentiment": "unknown",
+              "reason": "No reference to Kosovo in the item",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -569,21 +556,8 @@
         {
           "name": "Cineuropa",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 1,
           "articles": [
-            {
-              "title": "CEE Animation opens call for the CODA – Co-Development Animation Awards - Cineuropa",
-              "albanianTitle": "CEE Animation hap thirrjen për çmimet CODA për bashkë-zhvillim të animacionit",
-              "blurb": "CEE Animation ka hapur thirrjen për aplikim për çmimet vjetore të bashkëzhvillimit të filmave të animuar CODA.",
-              "imageUrl": null,
-              "url": "https://cineuropa.org/en/newsdetail/494528",
-              "date": "2026-08-17",
-              "sentiment": "neutral",
-              "reason": "Straightforward factual report",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "Igor Aleksov shooting The Secret of the Bare Hill - Cineuropa",
               "albanianTitle": "Igor Aleksov po xhiron filmin \"Sekreti i Kodrës së Zhveshur\" - Cineuropa",
@@ -660,29 +634,9 @@
           ]
         },
         {
-          "name": "JNS.org",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Is Somaliland America’s next Kosovo? - JNS.org",
-              "albanianTitle": "A po bëhet Somalilandi Kosova e radhës për Amerikën?",
-              "blurb": "Analizohet mundësia e njohjes së Somalilandit nga Shtetet e Bashkuara të Amerikës, duke e krahasuar atë me rastin e Kosovës.",
-              "imageUrl": "https://static.jns.org/dims4/default/88a5884/2147483647/strip/true/crop/6601x3713+0+688/resize/1440x810!/format/webp/quality/90/?url=https%3A%2F%2Fk2-prod-jns-prod.s3.us-east-1.amazonaws.com%2Fbrightspot%2Fef%2Fda%2Fefca21cf4a09be1ee413f8259207%2Fgettyimages-2276340274.jpg",
-              "url": "https://www.jns.org/opinion/nassir-hussein-kahin/is-somaliland-americas-next-kosovo",
-              "date": "2026-08-18",
-              "sentiment": "neutral",
-              "reason": "Question headline without hostile language, merely drawing a comparison",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
           "name": "KosovaPress",
-          "sentiment": "neutral",
-          "articleCount": 3,
+          "sentiment": "positive",
+          "articleCount": 2,
           "articles": [
             {
               "title": "Ukrainian MP opposes Zelensky’s position: Ukraine should recognize Kosovo - KosovaPress",
@@ -709,19 +663,6 @@
               "isQuote": true,
               "evidence": "",
               "speaker": "Democratic Party of Kosovo deputies"
-            },
-            {
-              "title": "Kosovo mayors announce protest in front of government building - KosovaPress",
-              "albanianTitle": "Kryetarët e komunave në Kosovë paralajmërojnë protestë para ndërtesës së qeverisë - KosovaPress",
-              "blurb": "Kryetarët e komunave të Kosovës kanë paralajmëruar mbajtjen e një proteste para ndërtesës së Qeverisë për të shprehur pakënaqësitë e tyre.",
-              "imageUrl": null,
-              "url": "https://kosovapress.com/eng/kosovo-mayors-announce-protest-in-front-of-government-building",
-              "date": "2026-08-18",
-              "sentiment": "neutral",
-              "reason": "Lajm i thjeshtë për protestë të kryetarëve të komunave në Kosovë",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
             }
           ]
         },
@@ -826,94 +767,9 @@
           ]
         },
         {
-          "name": "kosovo-online.com",
-          "sentiment": "neutral",
-          "articleCount": 6,
-          "articles": [
-            {
-              "title": "EU to Kosovo Online: Decisions regarding the Ibar bridge should take into account the interests and concerns of all communities - kosovo-online.com",
-              "albanianTitle": "BE për Kosovo Online: Vendimet për urën e Ibrit duhet të marrin parasysh interesat dhe shqetësimet e të gjitha komuniteteve",
-              "blurb": "Bashkimi Evropian kërkon që vendimet për urën e Ibrit të marrin parasysh interesat dhe shqetësimet e të gjitha komuniteteve.",
-              "imageUrl": null,
-              "url": "https://www.kosovo-online.com/en/news/politics/eu-kosovo-online-decisions-regarding-ibar-bridge-should-take-account-interests-and",
-              "date": "2026-08-18",
-              "sentiment": "neutral",
-              "reason": "Report of EU advice, presented without evaluative language",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Ibar Bridge poised to open: KFOR withdrawing, questions over security of Serbs remain - kosovo-online.com",
-              "albanianTitle": "Ura e Ibrit drejt hapjes: KFOR-i po tërhiqet, mbeten dyshime për sigurinë e serbëve",
-              "blurb": "Ura e Ibrit pritet të hapet pas tërheqjes së KFOR-it, ndërsa vazhdojnë pyetjet për sigurinë e banorëve serbë atje.",
-              "imageUrl": null,
-              "url": "https://www.kosovo-online.com/en/news/analysis/ibar-bridge-poised-open-kfor-withdrawing-questions-over-security-serbs-remain-18-8",
-              "date": "2026-08-18",
-              "sentiment": "neutral",
-              "reason": "Plain reporting of bridge opening and security concerns",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "KPI recommends suspension of two Kosovo Police officers over mistreatment of Nenad Raskovic - kosovo-online.com",
-              "albanianTitle": "IPK rekomandon suspendimin e dy zyrtarëve policorë për keqtrajtimin e Nenad Raskoviqit",
-              "blurb": "Inspektorati Policor i Kosovës rekomandon suspendimin e dy zyrtarëve policorë për shkak të keqtrajtimit të qytetarit Nenad Raskoviq.",
-              "imageUrl": null,
-              "url": "https://www.kosovo-online.com/en/news/chronicle/kpi-recommends-suspension-two-kosovo-police-officers-over-mistreatment-nenad",
-              "date": "2026-08-18",
-              "sentiment": "neutral",
-              "reason": "Report of police disciplinary recommendation, no stance toward Kosovo itself",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Petkovic tells Sorensen: EU assessment of Ibar Bridge does not reflect reality on the ground - kosovo-online.com",
-              "albanianTitle": "Petkoviq i thotë Sorensenit: Vlerësimi i BE-së për urën e Ibrit nuk pasqyron realitetin në terren",
-              "blurb": "Petar Petkoviq i shpreh Sorensenit qëndrimin se vlerësimi i BE-së për urën e Ibrit nuk përputhet me realitetin.",
-              "imageUrl": null,
-              "url": "https://www.kosovo-online.com/en/news/politics/petkovic-tells-sorensen-eu-assessment-ibar-bridge-does-not-reflect-reality-ground-18",
-              "date": "2026-08-18",
-              "sentiment": "neutral",
-              "reason": "Report of statement without loaded language",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Djuric with Ferguson: International presence important for peace, stability, and security in Kosovo and Metohija - kosovo-online.com",
-              "albanianTitle": "Gjuriq me Fergusonin: Prania ndërkombëtare është e rëndësishme për paqen, stabilitetin dhe sigurinë në Kosovë e Metohi",
-              "blurb": "Marko Gjuriq dhe ambasadori Ferguson diskutuan rëndësinë e pranisë ndërkombëtare për stabilitetin dhe sigurinë në Kosovë.",
-              "imageUrl": null,
-              "url": "https://www.kosovo-online.com/en/news/politics/djuric-ferguson-international-presence-important-peace-stability-and-security-kosovo",
-              "date": "2026-08-18",
-              "sentiment": "neutral",
-              "reason": "Report of statement without loaded language",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Legality of decisions by Kosovo's caretaker government in question – courts to have final say - kosovo-online.com",
-              "albanianTitle": "Ligjshmëria e vendimeve të qeverisë në detyrë në pikëpyetje – gjykatat do ta kenë fjalën e fundit",
-              "blurb": "Ligjshmëria e vendimeve të qeverisë në detyrë të Kosovës po vihet në pikëpyetje, ndërsa vendimin përfundimtar do ta marrin gjykatat.",
-              "imageUrl": null,
-              "url": "https://www.kosovo-online.com/en/news/analysis/legality-decisions-kosovos-caretaker-government-question-courts-have-final-say-17-8",
-              "date": "2026-08-17",
-              "sentiment": "neutral",
-              "reason": "Report of statement without loaded language",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
           "name": "srpske.rs",
           "sentiment": "neutral",
-          "articleCount": 4,
+          "articleCount": 3,
           "articles": [
             {
               "title": "Vucic to Send Letter to Rutte: Don't Open Ibar Bridge - srpske.rs",
@@ -937,19 +793,6 @@
               "date": "2026-08-18",
               "sentiment": "neutral",
               "reason": "Plain news headline about government commissions, no evaluative language",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Kosovo Assembly Remains Deadlocked, PDK and AAK Refuse Talks - srpske.rs",
-              "albanianTitle": "Kuvendi i Kosovës mbetet në bllokadë, PDK dhe AAK refuzojnë dialogun - srpske.rs",
-              "blurb": "Kuvendi i Kosovës mbetet i bllokuar pasi partitë opozitare PDK dhe AAK refuzojnë pjesëmarrjen në bisedime.",
-              "imageUrl": "https://srpske.rs/uploads/articles/kosovo-assembly-remains-deadlocked-pdk-aak-refuse-talks-16x9.webp",
-              "url": "https://srpske.rs/en/news/politika/2026/08/17/kosovo-assembly-remains-deadlocked-pdk-aak-refuse-talks",
-              "date": "2026-08-17",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike pa ngjyrë",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -991,12 +834,12 @@
         }
       ],
       "summary": {
-        "index": 43,
-        "positive": 3,
-        "neutral": 82,
-        "negative": 16,
-        "n": 38,
-        "excluded": 0,
+        "index": 47,
+        "positive": 6,
+        "neutral": 83,
+        "negative": 11,
+        "n": 18,
+        "excluded": 1,
         "confident": true,
         "stanceVersion": 2
       }
@@ -1006,7 +849,7 @@
         {
           "name": "Cineuropa",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Igor Aleksov tourne The Secret of the Bare Hill - Cineuropa",
@@ -1017,6 +860,19 @@
               "date": "2026-08-18",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike pa ngjyrë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Igor Aleksov tourne The Secret of the Bare Hill - cineuropa.org",
+              "albanianTitle": null,
+              "blurb": "Regjisori Igor Aleksov ka nisur xhirimet e filmit të ri me titull Sekreti i Kodrës së Zhveshur në Maqedoni.",
+              "imageUrl": null,
+              "url": "https://cineuropa.org/fr/newsdetail/494534",
+              "date": "2026-08-18",
+              "sentiment": "unknown",
+              "reason": "",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1050,7 +906,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 2,
-        "excluded": 0,
+        "excluded": 1,
         "confident": false,
         "stanceVersion": 2
       }
@@ -1216,26 +1072,6 @@
               "speaker": ""
             }
           ]
-        },
-        {
-          "name": "PAZ - Peiner Allgemeine Zeitung",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Turbulentes Remis in Barbecke, starke Kosovo-Rückkehrer bei Takva, Aufsteiger am Tabellenende - PAZ - Peiner Allgemeine Zeitung",
-              "albanianTitle": "Barazimi dramatik në Barbecke, rikthimi i fuqishëm i lojtarëve nga Kosova te Takva, skuadra e re në fund të tabelës - PAZ - Peiner Allgemeine Zeitung",
-              "blurb": "Barbecke barazon në futboll, ndërsa lojtarët e kthyer nga Kosova shfaqin formë të mirë te skuadra Takva.",
-              "imageUrl": null,
-              "url": "https://www.paz-online.de/sport/regional/turbulentes-remis-in-barbecke-starke-kosovo-rueckkehrer-bei-takva-aufsteiger-am-tabellenende-ANQN54B5PFHL5K45IXDUNYDKUY.html",
-              "date": "2026-08-17",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike pa ngjyrë",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
         }
       ],
       "summary": {
@@ -1243,7 +1079,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 3,
+        "n": 2,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
@@ -1257,9 +1093,9 @@
           "articleCount": 1,
           "articles": [
             {
-              "title": "Aufregung im Kosovo wegen weissem Mercedes aus der Schweiz - blick.ch",
-              "albanianTitle": "Reagime në Kosovë pas shfaqjes së një Mercedes-i të bardhë me targa të Zvicrës",
-              "blurb": "Një veturë e tipit Mercedes me targa të Zvicrës ka shkaktuar reagime të shumta në opinionin publik në Kosovë.",
+              "title": "Aufregung im Kosovo wegen weissem Mercedes aus der Schweiz - Blick",
+              "albanianTitle": "Buja në Kosovë për shkak të një Mercedes-i të bardhë nga Zvicra",
+              "blurb": "Një veturë e tipit Mercedes me targa të Zvicrës ka shkaktuar reagime të shumta në opinionin publik kosovar.",
               "imageUrl": "https://img.blick.ch/incoming/22192991-v1-dsfsadfasdfasdf.png?imwidth=2000&ratio=16_9&x=0&y=0&width=1918&height=1080",
               "url": "https://www.blick.ch/schweiz/zentralschweiz/luzern/verwandte-erklaert-den-ausreisser-aufregung-im-kosovo-wegen-weissem-mercedes-aus-der-schweiz-id22192215.html",
               "date": "2026-08-19",
@@ -1414,6 +1250,46 @@
           ]
         },
         {
+          "name": "Diario Área Campo de Gibraltar",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Facinas homenajea este viernes al legionario Javier del Castillo 25 años después de su muerte en Kosovo - Diario Área Campo de Gibraltar",
+              "albanianTitle": "Facinas nderon këtë të premte legjionarin Javier del Castillo, 25 vjet pas vdekjes së tij në Kosovë",
+              "blurb": "Komuna e Facinasit mban ceremoni përkujtimore për legjionarin Javier del Castillo, 25 vjet pas vdekjes së tij në Kosovë.",
+              "imageUrl": "https://www.diarioarea.com/wp-content/uploads/2026/08/homenaje-Javier-del-Castillo.jpeg",
+              "url": "https://www.diarioarea.com/tarifa/facinas-homenajea-este-viernes-al-legionario-javier-del-castillo-25-anos-despues-de-su-muerte-en-kosovo/",
+              "date": "2026-08-18",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportuar pa gjuhë ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "ESPN Colombia",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo Calendario 2026 - ESPN Colombia",
+              "albanianTitle": "Kalendari i Kosovës 2026",
+              "blurb": "Publikohet kalendari i ndeshjeve të përfaqësueses së Kosovës në futboll për vitin 2026 sipas të dhënave të ESPN.",
+              "imageUrl": null,
+              "url": "https://www.espn.com.co/futbol/equipo/calendario/_/id/21479/Kosovo",
+              "date": "2026-08-17",
+              "sentiment": "neutral",
+              "reason": "Simple calendar listing, no editorial stance",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "Everardo Herrera",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1465,26 +1341,6 @@
               "speaker": ""
             }
           ]
-        },
-        {
-          "name": "diarioarea.com",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Facinas homenajea este viernes al legionario Javier del Castillo 25 años después de su muerte en Kosovo - Diario Área Campo de Gibraltar",
-              "albanianTitle": "Facinas nderon këtë të premte legjionarin Javier del Castillo, 25 vjet pas vdekjes së tij në Kosovë",
-              "blurb": "Komuna e Facinasit mban ceremoni përkujtimore për legjionarin Javier del Castillo, 25 vjet pas vdekjes së tij në Kosovë.",
-              "imageUrl": "https://www.diarioarea.com/wp-content/uploads/2026/08/homenaje-Javier-del-Castillo.jpeg",
-              "url": "https://www.diarioarea.com/tarifa/facinas-homenajea-este-viernes-al-legionario-javier-del-castillo-25-anos-despues-de-su-muerte-en-kosovo/",
-              "date": "2026-08-18",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportuar pa gjuhë ngarkuar",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
         }
       ],
       "summary": {
@@ -1492,7 +1348,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 5,
+        "n": 6,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -1599,6 +1455,26 @@
               "speaker": ""
             }
           ]
+        },
+        {
+          "name": "thetoc.gr",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Μύκονος: Καταγγελία 18χρονης Ιταλίδας για βιασμό - Συνελήφθη ένας 23χρονος από το Κόσοβο - thetoc.gr",
+              "albanianTitle": "Mikonos: 18-vjeçarja italiane denoncon përdhunimin, arrestohet një 23-vjeçar nga Kosova",
+              "blurb": "Një 23-vjeçar nga Kosova është arrestuar në Mykonos pas akuzave për përdhunim nga një 18-vjeçare me shtetësi italiane.",
+              "imageUrl": "https://www.thetoc.gr/Content/ImagesDatabase/fbc/1200x630/crop/both/6d/6d863db528b64b4faa03e5bbe6a2e85a.jpg",
+              "url": "https://www.thetoc.gr/koinwnia/article/mukonos-kataggelia-18xronis-italidas-gia-biasmo---sunelifthi-enas-23xronos-apo-to-kosobo/",
+              "date": "2026-08-19",
+              "sentiment": "neutral",
+              "reason": "Fact‑based report of a Kosovar suspect, no loaded language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
         }
       ],
       "summary": {
@@ -1606,7 +1482,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 5,
+        "n": 6,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -1614,6 +1490,26 @@
     },
     "Suedi": {
       "outlets": [
+        {
+          "name": "SMHI",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Väderprognos 10 dygn Pristina, Kosovo - SMHI",
+              "albanianTitle": "Parashikimi i motit për 10 ditët e ardhshme në Prishtinë, Kosovë - SMHI",
+              "blurb": "Instituti Meteorologjik Suedez SMHI ka publikuar parashikimin e motit për dhjetë ditët e ardhshme në qytetin e Prishtinës.",
+              "imageUrl": null,
+              "url": "https://www.smhi.se/vader/prognoser-och-varningar/vaderprognos/q/Pristina/786714",
+              "date": "2026-08-16",
+              "sentiment": "neutral",
+              "reason": "Straightforward weather forecast, no evaluative language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
         {
           "name": "Sofascore",
           "sentiment": "neutral",
@@ -1628,26 +1524,6 @@
               "date": "2026-08-19",
               "sentiment": "neutral",
               "reason": "Titulli thjesht përshkruan një ekip, pa ndonjë ton ndaj Kosovës",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "smhi.se",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Väderprognos 10 dygn Pristina, Kosovo - smhi.se",
-              "albanianTitle": "Parashikimi i motit për 10 ditët e ardhshme në Prishtinë, Kosovë",
-              "blurb": "Parashikimi i motit për dhjetë ditët e ardhshme në qytetin e Prishtinës sipas të dhënave të shërbimit meteorologjik suedez.",
-              "imageUrl": null,
-              "url": "https://www.smhi.se/vader/prognoser-och-varningar/vaderprognos/q/Pristina/786714",
-              "date": "2026-08-16",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1723,26 +1599,6 @@
           ]
         },
         {
-          "name": "Haberler",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosova'da Boşnak gelin yüzü boyama geleneği belgesel oldu - Haberler",
-              "albanianTitle": "Tradita e nuses boshnjake me fytyrë të pikturuar në Kosovë bëhet dokumentar",
-              "blurb": "Tradita e pikturimit të fytyrës së nuseve boshnjake në Kosovë është pasqyruar në një dokumentar të ri.",
-              "imageUrl": "https://foto.haberler.com/haber/2026/08/16/nazarin-renkleri-balkanlar-daki-kadim-gelin-y-20149344_amp.jpg",
-              "url": "https://www.haberler.com/guncel/nazarin-renkleri-balkanlar-daki-kadim-gelin-yuzu-20149344-haberi/",
-              "date": "2026-08-16",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike pa ngjyrë",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
           "name": "Kosovahaber.com",
           "sentiment": "neutral",
           "articleCount": 6,
@@ -1761,19 +1617,6 @@
               "speaker": ""
             },
             {
-              "title": "Hava Kosova’da Bugün Güneşli, Sıcaklıklar 30 Dereceye Kadar - Kosovahaber.com",
-              "albanianTitle": "Moti në Kosovë sot me diell, temperaturat deri në 30 gradë",
-              "blurb": "Kosova sot do të ketë mot me diell, ndërsa temperaturat maksimale do të arrijnë deri në tridhjetë gradë.",
-              "imageUrl": null,
-              "url": "https://kosovahaber.com/haber/hava-kosovada-bugun-gunesli-sicakliklar-30-dereceye-kadar-105056",
-              "date": "2026-08-19",
-              "sentiment": "neutral",
-              "reason": "Lajm i thjeshtë, faktik",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
               "title": "“Ülkeyi Sürekli Seçime Sürüklüyorsunuz, Kurti Ne İstiyor?” - Kosovahaber.com",
               "albanianTitle": "“Po e çoni vendin në zgjedhje të vazhdueshme, çfarë po kërkon Kurti?” - Kosovahaber.com",
               "blurb": "Kritika ndaj kryeministrit Albin Kurti lidhur me qasjen e tij ndaj proceseve zgjedhore në vendin tonë.",
@@ -1783,6 +1626,19 @@
               "sentiment": "neutral",
               "reason": "Fjalët e kritikuara janë brenda thonjëzave, prandaj i përkasin folësit, jo median",
               "isQuote": true,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Hava Kosova’da Bugün Güneşli, Sıcaklıklar 30 Dereceye Kadar - Kosovahaber.com",
+              "albanianTitle": "Moti në Kosovë sot me diell, temperaturat deri në 30 gradë",
+              "blurb": "Kosova sot do të ketë mot me diell, ndërsa temperaturat maksimale do të arrijnë deri në tridhjetë gradë.",
+              "imageUrl": null,
+              "url": "https://kosovahaber.com/haber/hava-kosovada-bugun-gunesli-sicakliklar-30-dereceye-kadar-105056",
+              "date": "2026-08-19",
+              "sentiment": "neutral",
+              "reason": "Lajm i thjeshtë, faktik",
+              "isQuote": false,
               "evidence": "",
               "speaker": ""
             },
@@ -1800,6 +1656,19 @@
               "speaker": ""
             },
             {
+              "title": "AAK’dan Hükümete Bütçe Suçlaması - Kosovahaber.com",
+              "albanianTitle": "AAK akuzon Qeverinë për buxhetin",
+              "blurb": "Aleanca për Ardhmërinë e Kosovës ka adresuar akuza ndaj qeverisë lidhur me menaxhimin e buxhetit të shtetit.",
+              "imageUrl": null,
+              "url": "https://kosovahaber.com/haber/aakdan-hukumete-butce-suclamasi-105065",
+              "date": "2026-08-19",
+              "sentiment": "neutral",
+              "reason": "Lajm i thjeshtë, faktik",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
               "title": "Yıllık Enflasyon Yüzde 6,5'e Yükseldi - Kosovahaber.com",
               "albanianTitle": "Inflacioni vjetor rritet në 6,5 për qind",
               "blurb": "Shkalla e inflacionit vjetor në Kosovë ka shënuar rritje duke arritur në nivelin prej gjashtë pikë pesë për qind.",
@@ -1808,19 +1677,6 @@
               "date": "2026-08-19",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Ülkedeki Son Siyasi Gelişmeler ve Devam Eden Kurumsal Kriz Ele Alındı - Kosovahaber.com",
-              "albanianTitle": "U diskutuan zhvillimet e fundit politike dhe kriza institucionale në vend",
-              "blurb": "Zhvillimet e fundit politike dhe kriza institucionale në vend janë trajtuar në takimet e zhvilluara së fundmi.",
-              "imageUrl": null,
-              "url": "https://kosovahaber.com/haber/ulkedeki-son-siyasi-gelismeler-ve-devam-eden-kurumsal-kriz-ele-alindi-105059",
-              "date": "2026-08-19",
-              "sentiment": "neutral",
-              "reason": "Lajm i thjeshtë, faktik",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1861,6 +1717,26 @@
               "date": "2026-08-18",
               "sentiment": "neutral",
               "reason": "Listing of football club, no evaluative language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "haberler.com",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosova'da Boşnak gelin yüzü boyama geleneği belgesel oldu - haberler.com",
+              "albanianTitle": "Tradita e nusërisë boshnjake me fytyrë të pikturuar bëhet dokumentar",
+              "blurb": "Tradita e pikturimit të fytyrës së nuseve boshnjake në Kosovë është dokumentuar përmes një filmi të ri.",
+              "imageUrl": "https://foto.haberler.com/haber/2026/08/16/nazarin-renkleri-balkanlar-daki-kadim-gelin-y-20149344_amp.jpg",
+              "url": "https://www.haberler.com/guncel/nazarin-renkleri-balkanlar-daki-kadim-gelin-yuzu-20149344-haberi/",
+              "date": "2026-08-16",
+              "sentiment": "neutral",
+              "reason": "Raporton thjesht se tradita e pikturimit të fytyrës së nuses boshnjake u bë dokumentar, pa gjuhë vjellëse apo mbështetëse",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1955,26 +1831,6 @@
           ]
         },
         {
-          "name": "Cineuropa",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Igor Aleksov shooting The Secret of the Bare Hill - Cineuropa",
-              "albanianTitle": "Igor Aleksov po xhiron filmin \"Sekreti i Kodrës së Zhveshur\" - Cineuropa",
-              "blurb": "Regjisori Igor Aleksov ka nisur xhirimet për filmin e ri me titull Sekretet e Kodrës së Zhveshur në rajon.",
-              "imageUrl": null,
-              "url": "https://cineuropa.org/en/newsdetail/494534",
-              "date": "2026-08-18",
-              "sentiment": "neutral",
-              "reason": "Titull informativ pa ngarkim",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
           "name": "Devdiscourse",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -2040,14 +1896,14 @@
           "articleCount": 1,
           "articles": [
             {
-              "title": "Bóthar: The final journey to Kosovo - irishexaminer.com",
+              "title": "Bóthar: The final journey to Kosovo - Irish Examiner",
               "albanianTitle": "Bóthar: Udhëtimi i fundit drejt Kosovës",
-              "blurb": "Organizata Bóthar po realizon udhëtimin e saj të fundit drejt Kosovës për të dërguar ndihma për komunitetet në nevojë.",
+              "blurb": "Organizata Bóthar ka përfunduar misionin e saj humanitar në Kosovë përmes dërgimit të ndihmave për popullatën lokale në nevojë.",
               "imageUrl": "https://www.irishexaminer.com/cms_media/module_img/10396/5198383_4_org_October_202025_20Shipment.jpeg",
               "url": "https://www.irishexaminer.com/farming/arid-41898007.html",
               "date": "2026-08-19",
               "sentiment": "neutral",
-              "reason": "Straightforward headline about a journey to Kosovo, no loaded language",
+              "reason": "Faktikë raportim i thjeshtë, pa gjuhë ngarkuar",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -2075,6 +1931,26 @@
           ]
         },
         {
+          "name": "Monocle",
+          "sentiment": "positive",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo's Independence: A New European Nation is Born - Monocle",
+              "albanianTitle": "Pavarësia e Kosovës: Një shtet i ri evropian ka lindur",
+              "blurb": "Pavarësia e Kosovës shënon lindjen e një shteti të ri në kontinentin evropian sipas vlerësimit të revistës Monocle.",
+              "imageUrl": "https://monocle.com/wp-content/uploads/legacy/article/79815919-515ae60472cc2.jpg?fit=4256%2C2832",
+              "url": "https://monocle.com/affairs/kosovo-independence-serbia-balkans/",
+              "date": "2026-08-18",
+              "sentiment": "positive",
+              "reason": "Outlet uses celebratory phrasing that praises Kosovo's independence",
+              "isQuote": false,
+              "evidence": "New European Nation is Born",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "Osservatorio Balcani Caucaso Transeuropa",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -2088,26 +1964,6 @@
               "date": "2026-08-19",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "Telecompaper",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosovo sees mobile and fixed telephony growth in June - Telecompaper",
-              "albanianTitle": "Kosova shënon rritje në telefoninë mobile dhe fikse gjatë muajit qershor - Telecompaper",
-              "blurb": "Tregu i telekomunikacionit në Kosovë ka shënuar rritje të numrit të përdoruesve të telefonisë fikse dhe asaj mobile gjatë qershorit.",
-              "imageUrl": "https://ik.imagekit.io/tp/20240606-flag-kosovo.png",
-              "url": "https://www.telecompaper.com/news/kosovo-sees-mobile-and-fixed-telephony-growth-in-june--1580134",
-              "date": "2026-08-17",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportim rreth rritjes së telekomunikacioneve në Kosovë",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -2176,8 +2032,8 @@
         },
         {
           "name": "srpske.rs",
-          "sentiment": "neutral",
-          "articleCount": 3,
+          "sentiment": "negative",
+          "articleCount": 1,
           "articles": [
             {
               "title": "Vucic to Send Letter to Rutte: Don't Open Ibar Bridge - srpske.rs",
@@ -2191,42 +2047,16 @@
               "isQuote": false,
               "evidence": "Don't Open Ibar Bridge",
               "speaker": ""
-            },
-            {
-              "title": "Alliance Reports Kosovo Government Over 18 Commissions - srpske.rs",
-              "albanianTitle": "Aleanca denoncon Qeverinë e Kosovës për 18 komisione - srpske.rs",
-              "blurb": "Aleanca për Ardhmërinë e Kosovës ka raportuar qeverinë lidhur me funksionimin e tetëmbëdhjetë komisioneve të ndryshme shtetërore në vend.",
-              "imageUrl": "https://srpske.rs/uploads/articles/alliance-reports-kosovo-government-over-18-commissions-16x9.webp",
-              "url": "https://srpske.rs/en/news/politika/2026/08/18/alliance-reports-kosovo-government-over-18-commissions",
-              "date": "2026-08-18",
-              "sentiment": "neutral",
-              "reason": "Plain news headline about government commissions, no evaluative language",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Kosovo Assembly Remains Deadlocked, PDK and AAK Refuse Talks - srpske.rs",
-              "albanianTitle": "Kuvendi i Kosovës mbetet në bllokadë, PDK dhe AAK refuzojnë dialogun - srpske.rs",
-              "blurb": "Kuvendi i Kosovës mbetet i bllokuar pasi partitë opozitare PDK dhe AAK refuzojnë pjesëmarrjen në bisedime.",
-              "imageUrl": "https://srpske.rs/uploads/articles/kosovo-assembly-remains-deadlocked-pdk-aak-refuse-talks-16x9.webp",
-              "url": "https://srpske.rs/en/news/politika/2026/08/17/kosovo-assembly-remains-deadlocked-pdk-aak-refuse-talks",
-              "date": "2026-08-17",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike pa ngjyrë",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
             }
           ]
         }
       ],
       "summary": {
-        "index": 44,
-        "positive": 0,
-        "neutral": 88,
-        "negative": 12,
-        "n": 17,
+        "index": 46,
+        "positive": 7,
+        "neutral": 79,
+        "negative": 14,
+        "n": 14,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2
