@@ -1,8 +1,8 @@
 {
   "lastUpdated": "2026-08-19",
-  "overallIndex": 51,
-  "totalArticles": 117,
-  "sourceCount": 78,
+  "overallIndex": 50,
+  "totalArticles": 147,
+  "sourceCount": 85,
   "stanceVersion": 2,
   "countries": {
     "Gjermani": {
@@ -208,6 +208,26 @@
           ]
         },
         {
+          "name": "Irish Examiner",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Bóthar: The final journey to Kosovo - Irish Examiner",
+              "albanianTitle": "Bóthar: Udhëtimi i fundit drejt Kosovës",
+              "blurb": "Organizata Bóthar ka përfunduar misionin e saj humanitar në Kosovë përmes dërgimit të ndihmave për popullatën lokale në nevojë.",
+              "imageUrl": "https://www.irishexaminer.com/cms_media/module_img/10396/5198383_4_org_October_202025_20Shipment.jpeg",
+              "url": "https://www.irishexaminer.com/farming/arid-41898007.html",
+              "date": "2026-08-19",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim i thjeshtë, pa gjuhë ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "JNS.org",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -414,6 +434,150 @@
           ]
         },
         {
+          "name": "kosovo-online.com",
+          "sentiment": "neutral",
+          "articleCount": 6,
+          "articles": [
+            {
+              "title": "KPI recommends suspension of two Kosovo Police officers over mistreatment of Nenad Raskovic - kosovo-online.com",
+              "albanianTitle": "IPK rekomandon suspendimin e dy policëve për keqtrajtimin e Nenad Raskovic",
+              "blurb": "Inspektorati Policor i Kosovës kërkon suspendimin e dy policëve për shkak të keqtrajtimit të shtetasit Nenad Raskovic gjatë detyrës.",
+              "imageUrl": null,
+              "url": "https://www.kosovo-online.com/en/news/chronicle/kpi-recommends-suspension-two-kosovo-police-officers-over-mistreatment-nenad",
+              "date": "2026-08-18",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim i thjeshtë, pa gjuhë ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Simic: Suspension of police officers is the first step, accountability before the courts is necessary - kosovo-online.com",
+              "albanianTitle": "Simic: Suspendimi i policëve është hapi i parë, kërkohet përgjegjësi para gjykatave",
+              "blurb": "Simic deklaron se suspendimi i policëve është hapi i parë drejt kërkimit të përgjegjësisë ligjore para organeve të drejtësisë.",
+              "imageUrl": null,
+              "url": "https://www.kosovo-online.com/en/news/politics/simic-suspension-police-officers-first-step-accountability-courts-necessary-18-8-2026",
+              "date": "2026-08-18",
+              "sentiment": "neutral",
+              "reason": "Faktikë të thjeshta, pa gjuhë ngarkuar nga media",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Legality of decisions by Kosovo's caretaker government in question – courts to have final say - kosovo-online.com",
+              "albanianTitle": "Vihet në pikëpyetje ligjshmëria e vendimeve të qeverisë në detyrë – fjalën e fundit do ta thotë gjykata",
+              "blurb": "Gjykatat do të vlerësojnë ligjshmërinë e vendimeve të marra nga qeveria në detyrë e Kosovës pas dyshimeve të ngritura.",
+              "imageUrl": null,
+              "url": "https://www.kosovo-online.com/en/news/analysis/legality-decisions-kosovos-caretaker-government-question-courts-have-final-say-17-8",
+              "date": "2026-08-17",
+              "sentiment": "neutral",
+              "reason": "Raportim faktik i çështjes ligjore",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Garic: A huge danger for Serbs in Kosovo and Metohija is hidden behind the Public Property Law - kosovo-online.com",
+              "albanianTitle": "Garic: Ligji për Pronën Publike fsheh një rrezik të madh për serbët në Kosovë e Metohi",
+              "blurb": "Garic pretendon se Ligji për Pronën Publike përbën rrezik për komunitetin serb në Kosovë dhe Metohi sipas vlerësimeve të tij.",
+              "imageUrl": null,
+              "url": "https://www.kosovo-online.com/en/news/politics/garic-huge-danger-serbs-kosovo-and-metohija-hidden-behind-public-property-law-17-8",
+              "date": "2026-08-18",
+              "sentiment": "neutral",
+              "reason": "Përcjellje e deklaratës së Garicit pa gjuhë e mediave",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Djuric with Ferguson: International presence important for peace, stability, and security in Kosovo and Metohija - kosovo-online.com",
+              "albanianTitle": "Djuric me Ferguson: Prania ndërkombëtare është e rëndësishme për paqen, stabilitetin dhe sigurinë në Kosovë e Metohi",
+              "blurb": "Djuric dhe Ferguson diskutuan rëndësinë e pranisë ndërkombëtare për ruajtjen e paqes, stabilitetit dhe sigurisë në Kosovë dhe Metohi.",
+              "imageUrl": null,
+              "url": "https://www.kosovo-online.com/en/news/politics/djuric-ferguson-international-presence-important-peace-stability-and-security-kosovo",
+              "date": "2026-08-18",
+              "sentiment": "neutral",
+              "reason": "Përcjellje e deklaratës së Djuricit pa gjuhë e mediave",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Starovic: Kurti has been waging a campaign of \"fire and fury\" against Serbs in Kosovo for five years - kosovo-online.com",
+              "albanianTitle": "Staroviq: Kurti tash e pesë vjet po zhvillon fushatë të 'zjarrtë' kundër serbëve në Kosovë",
+              "blurb": "Sekretari shtetëror serb Starovic akuzon kryeministrin Kurti për fushatë pesëvjeçare kundër popullatës serbe në territorin e Kosovës.",
+              "imageUrl": null,
+              "url": "https://www.kosovo-online.com/en/news/politics/starovic-kurti-has-been-waging-campaign-fire-and-fury-against-serbs-kosovo-five-years",
+              "date": "2026-08-16",
+              "sentiment": "neutral",
+              "reason": "Fjalët e ngarkuara janë në thonjëza dhe i përkasin folësit",
+              "isQuote": true,
+              "evidence": "",
+              "speaker": "Starovic"
+            }
+          ]
+        },
+        {
+          "name": "prishtinainsight.com",
+          "sentiment": "neutral",
+          "articleCount": 4,
+          "articles": [
+            {
+              "title": "Kosovo Police Officers Suspected of Beating Serb Should Be Suspended, Inspectorate Says - prishtinainsight.com",
+              "albanianTitle": "Inspektorati kërkon suspendimin e zyrtarëve policorë të dyshuar për rrahjen e një serbi",
+              "blurb": "Inspektorati Policor ka rekomanduar suspendimin e zyrtarëve policorë të dyshuar për rrahjen e një qytetari serb në Kosovë.",
+              "imageUrl": "https://prishtinainsight.com/wp-content/uploads/2026/08/IPK-foto-inspektorati-Policor-i-Kosoves-Facebook-1024x683.jpg",
+              "url": "https://prishtinainsight.com/kosovo-police-officers-suspected-of-beating-serb-should-be-suspended-inspectorate-says/",
+              "date": "2026-08-19",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim i thjeshtë, pa gjuhë ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Kosovo Opposition Snubs Acting President’s Meeting Amid Parliamentary Crisis - prishtinainsight.com",
+              "albanianTitle": "Opozita bojkoton takimin me ushtruesen e detyrës së presidentit në mes të krizës parlamentare",
+              "blurb": "Partitë opozitare në Kosovë kanë refuzuar pjesëmarrjen në takimin e thirrur nga ushtruesja e detyrës së presidentit gjatë krizës parlamentare.",
+              "imageUrl": "https://prishtinainsight.com/wp-content/uploads/2026/08/viber_image_2026-08-18_09-07-00-845-e1787062190339.jpg",
+              "url": "https://prishtinainsight.com/kosovo-opposition-snubs-acting-presidents-meeting-amid-parliamentary-crisis/",
+              "date": "2026-08-18",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim i thjeshtë, pa gjuhë ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Kosovo Activists Protest Media Outlet Reporting on Suicide Cases - prishtinainsight.com",
+              "albanianTitle": "Aktivistët në Kosovë protestojnë kundër raportimit të një medie për rastet e vetëvrasjeve",
+              "blurb": "Aktivistët në Kosovë kanë protestuar kundër një mediumi për mënyrën e raportimit të rasteve të vetëvrasjeve në vend.",
+              "imageUrl": "https://prishtinainsight.com/wp-content/uploads/2026/08/Screenshot-2026-08-18-131506.jpg",
+              "url": "https://prishtinainsight.com/kosovo-activists-protest-media-outlet-reporting-on-suicide-cases/",
+              "date": "2026-08-18",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim i thjeshtë, pa gjuhë ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Kosovo Court Detains Suspect Over 2023 Attack on KFOR and Kosovo Police - prishtinainsight.com",
+              "albanianTitle": "Gjykata cakton paraburgim për të dyshuarin për sulmin e vitit 2023 ndaj KFOR-it dhe Policisë së Kosovës",
+              "blurb": "Gjykata në Kosovë ka caktuar masën e paraburgimit për një person të dyshuar për sulmet e vitit 2023 ndaj KFOR-it.",
+              "imageUrl": "https://prishtinainsight.com/wp-content/uploads/2026/08/viber_image_2026-08-18_16-30-01-453-e1787064319612.jpg",
+              "url": "https://prishtinainsight.com/kosovo-court-detains-suspect-over-2023-attack-on-kfor-and-kosovo-police/",
+              "date": "2026-08-18",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim i thjeshtë, pa gjuhë ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "srpske.rs",
           "sentiment": "neutral",
           "articleCount": 3,
@@ -481,11 +645,11 @@
         }
       ],
       "summary": {
-        "index": 52,
-        "positive": 9,
-        "neutral": 87,
-        "negative": 4,
-        "n": 23,
+        "index": 51,
+        "positive": 5,
+        "neutral": 92,
+        "negative": 3,
+        "n": 39,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -615,6 +779,26 @@
               "reason": "critical framing of Kosovo's leader by the outlet",
               "isQuote": false,
               "evidence": "crossed a red line",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Irish Examiner",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Bóthar: The final journey to Kosovo - Irish Examiner",
+              "albanianTitle": "Bóthar: Udhëtimi i fundit drejt Kosovës",
+              "blurb": "Organizata Bóthar ka përfunduar misionin e saj humanitar në Kosovë përmes dërgimit të ndihmave për popullatën lokale në nevojë.",
+              "imageUrl": "https://www.irishexaminer.com/cms_media/module_img/10396/5198383_4_org_October_202025_20Shipment.jpeg",
+              "url": "https://www.irishexaminer.com/farming/arid-41898007.html",
+              "date": "2026-08-19",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim i thjeshtë, pa gjuhë ngarkuar",
+              "isQuote": false,
+              "evidence": "",
               "speaker": ""
             }
           ]
@@ -874,10 +1058,10 @@
       ],
       "summary": {
         "index": 52,
-        "positive": 10,
+        "positive": 9,
         "neutral": 86,
         "negative": 5,
-        "n": 21,
+        "n": 22,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -980,26 +1164,6 @@
           ]
         },
         {
-          "name": "Il NordEst Quotidiano",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Esposizione a sostanze nocive durante missione Nato in Kosovo: riconosciuta la causa di servizio - Il NordEst Quotidiano",
-              "albanianTitle": "Ekspozimi ndaj substancave të dëmshme gjatë misionit të NATO-s në Kosovë: njihet si sëmundje profesionale",
-              "blurb": "Një ushtar italian është njohur me shkakun e shërbimit pas ekspozimit ndaj substancave të dëmshme gjatë misionit në Kosovë.",
-              "imageUrl": "https://www.ilnordestquotidiano.it/wp-content/uploads/2026/08/cannone-mortaio-sparo-proiettile-1024x887.jpg",
-              "url": "https://www.ilnordestquotidiano.it/2026/08/17/esposizione-a-sostanze-nocive-durante-missione-nato-in-kosovo-riconosciuta-la-causa-di-servizio/",
-              "date": "2026-08-17",
-              "sentiment": "neutral",
-              "reason": "Factual report of health issue without loaded language",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
           "name": "Il Resto del Carlino",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1074,11 +1238,11 @@
         }
       ],
       "summary": {
-        "index": 57,
-        "positive": 14,
-        "neutral": 86,
+        "index": 58,
+        "positive": 17,
+        "neutral": 83,
         "negative": 0,
-        "n": 7,
+        "n": 6,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -1092,9 +1256,9 @@
           "articleCount": 2,
           "articles": [
             {
-              "title": "Aufregung im Kosovo wegen weissem Mercedes aus der Schweiz - Blick",
-              "albanianTitle": "Buja në Kosovë për shkak të një Mercedes-i të bardhë nga Zvicra",
-              "blurb": "Një veturë e tipit Mercedes me targa të Zvicrës ka shkaktuar reagime të shumta në opinionin publik kosovar.",
+              "title": "Aufregung im Kosovo wegen weissem Mercedes aus der Schweiz - blick.ch",
+              "albanianTitle": "Reagime në Kosovë pas shfaqjes së një Mercedes-i të bardhë me targa të Zvicrës",
+              "blurb": "Një veturë e tipit Mercedes me targa të Zvicrës ka shkaktuar reagime të shumta në opinionin publik në Kosovë.",
               "imageUrl": "https://img.blick.ch/incoming/22192991-v1-dsfsadfasdfasdf.png?imwidth=2000&ratio=16_9&x=0&y=0&width=1918&height=1080",
               "url": "https://www.blick.ch/schweiz/zentralschweiz/luzern/verwandte-erklaert-den-ausreisser-aufregung-im-kosovo-wegen-weissem-mercedes-aus-der-schweiz-id22192215.html",
               "date": "2026-08-19",
@@ -1105,14 +1269,14 @@
               "speaker": ""
             },
             {
-              "title": "Diese Szene sorgt für Diskussionen - Blick",
-              "albanianTitle": "Kjo skenë nxit debate të shumta",
-              "blurb": "Një skenë e caktuar ka nxitur diskutime të shumta në opinionin publik pas publikimit të pamjeve të saj.",
+              "title": "Diese Szene sorgt für Diskussionen - blick.ch",
+              "albanianTitle": "Kjo skenë po nxit debate të shumta",
+              "blurb": "Një skenë e caktuar e filmuar ka nxitur diskutime të shumta në publik pas publikimit të pamjeve në rrjetet sociale.",
               "imageUrl": "https://img.blick.ch/incoming/22192169-v1-leer-00-00-00-17-standbild003.jpg?imwidth=2000&ratio=16_9&x=449&y=483&width=1014&height=570",
               "url": "https://www.blick.ch/ausland/auto-faehrt-ueber-trottoir-diese-szene-sorgt-fuer-diskussionen-id22192168.html",
               "date": "2026-08-19",
               "sentiment": "neutral",
-              "reason": "Faktikë raportim pa ngarkesë",
+              "reason": "Lajm i raportuar në mënyrë faktike",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1168,7 +1332,27 @@
     "Holandë": {
       "outlets": [
         {
-          "name": "Het Parool",
+          "name": "De Brug",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Veteraan en Kampenaar Ronald Klappe overspoeld met dankbetuigingen na aankondiging gezinsreis naar Kosovo - De Brug",
+              "albanianTitle": "Veterani nga Kampeni, Ronald Klappe, i mbytur me falënderime pas njoftimit për udhëtimin familjar në Kosovë",
+              "blurb": "Veterani holandez Ronald Klappe ka marrë falënderime të shumta pas njoftimit për udhëtimin e familjes së tij drejt Kosovës.",
+              "imageUrl": null,
+              "url": "https://www.brugnieuws.nl/nieuws/algemeen/370671/veteraan-en-kampenaar-ronald-klappe-overspoeld-met-dankbetuigingen-na-aankondiging-gezinsreis-naar-kosovo",
+              "date": "2026-08-19",
+              "sentiment": "neutral",
+              "reason": "Raportim neutral, pa gjuhë ngacmuese apo mbështetëse",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "parool.nl",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
@@ -1193,7 +1377,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 1,
+        "n": 2,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
@@ -1203,18 +1387,18 @@
       "outlets": [
         {
           "name": "Cineuropa",
-          "sentiment": "neutral",
+          "sentiment": "unknown",
           "articleCount": 1,
           "articles": [
             {
-              "title": "Igor Aleksov tourne The Secret of the Bare Hill - Cineuropa",
+              "title": "Igor Aleksov tourne The Secret of the Bare Hill - cineuropa.org",
               "albanianTitle": null,
-              "blurb": "Regjisori Igor Aleksov po vazhdon xhirimet për projektin e tij kinematografik të titulluar The Secret of the Bare Hill.",
+              "blurb": "Regjisori Igor Aleksov ka nisur xhirimet e filmit të ri me titull Sekreti i Kodrës së Zhveshur në Maqedoni.",
               "imageUrl": null,
               "url": "https://cineuropa.org/fr/newsdetail/494534",
               "date": "2026-08-18",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike pa ngjyrë",
+              "sentiment": "unknown",
+              "reason": "",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1247,8 +1431,8 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 2,
-        "excluded": 0,
+        "n": 1,
+        "excluded": 1,
         "confident": false,
         "stanceVersion": 2
       }
@@ -1363,26 +1547,6 @@
     "Greqi": {
       "outlets": [
         {
-          "name": "EPIRUS TV NEWS",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Άρση Βαρών :Mε έξι αθλητές η Ελλάδα στο Ευρωπαϊκό Πρωτάθλημα Παίδων & Κ15 στο Κόσοβο - EPIRUS TV NEWS",
-              "albanianTitle": "Peshëngritje: Greqia me gjashtë sportistë në Kampionatin Evropian për kadetë dhe U15 në Kosovë",
-              "blurb": "Greqia do të përfaqësohet me gjashtë sportistë në Kampionatin Evropian të peshëngritjes për grupmoshat U15 dhe kadetë në Kosovë.",
-              "imageUrl": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEirWvE4heG9V03NUmkWAcZhK3CXOtM07d7crp6Izh_4zd3yCTwA5s73UZN_tKxCrIzqGrIBRGJaKBdvXMei-F8bKEUNF63AGMGbIk5z34oqzPVCc3eRGUeGH4M3YDbfX1tyOV9f6PNKnOger_sTHWDE2GHXIir26Ix1btfh2Jv_2fyUSX8Wt5EejOhVd8Ry/w1200-h630-p-k-no-nu/%CE%A7%CE%A1%CE%97%CE%A3%CE%A4%CE%9F%CE%A5.jpg",
-              "url": "https://www.epirus-tv-news.gr/2026/08/m-15.html",
-              "date": "2026-08-18",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportuar pa gjuhë ngarkuar",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
           "name": "Energymag.gr",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1423,26 +1587,6 @@
           ]
         },
         {
-          "name": "In.gr",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Η κατρακύλα της οικονομίας συνοψίζεται στην ιστορία ενός αγρότη από το Κόσοβο - In.gr",
-              "albanianTitle": "Rënia e ekonomisë, e përmbledhur në rrëfimin e një fermeri nga Kosova",
-              "blurb": "Gjendja e rënduar ekonomike në Kosovë pasqyrohet përmes përvojës së një fermeri vendas në një raport të publikuar.",
-              "imageUrl": "https://www.in.gr/wp-content/uploads/2026/08/shame.webp",
-              "url": "https://www.in.gr/2026/08/16/life/culture-live/i-katrakyla-tis-oikonomias-synopsizetai-stin-istoria-enos-agroti-apo-to-kosovo/",
-              "date": "2026-08-16",
-              "sentiment": "neutral",
-              "reason": "Lajm i rëndë, i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
           "name": "Sport24",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1456,6 +1600,26 @@
               "date": "2026-08-19",
               "sentiment": "neutral",
               "reason": "Faktikë raportim pa ngarkesë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "in.gr",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Η κατρακύλα της οικονομίας συνοψίζεται στην ιστορία ενός αγρότη από το Κόσοβο - In.gr",
+              "albanianTitle": "Rënia e ekonomisë, e përmbledhur në rrëfimin e një fermeri nga Kosova",
+              "blurb": "Gjendja e rënduar ekonomike në Kosovë pasqyrohet përmes përvojës së një fermeri vendas në një raport të publikuar.",
+              "imageUrl": "https://www.in.gr/wp-content/uploads/2026/08/shame.webp",
+              "url": "https://www.in.gr/2026/08/16/life/culture-live/i-katrakyla-tis-oikonomias-synopsizetai-stin-istoria-enos-agroti-apo-to-kosovo/",
+              "date": "2026-08-16",
+              "sentiment": "neutral",
+              "reason": "Lajm i rëndë, i raportuar në mënyrë faktike",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1488,7 +1652,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 6,
+        "n": 5,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -1515,6 +1679,26 @@
               "speaker": ""
             }
           ]
+        },
+        {
+          "name": "Sofascore",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Albania Mediterranean Team - Sofascore",
+              "albanianTitle": "Ekipi i Shqipërisë në Mesdhetare - Sofascore",
+              "blurb": "Ekipi i Shqipërisë për Lojërat Mesdhetare është renditur në platformën sportive Sofascore për përcjelljen e rezultateve dhe statistikave.",
+              "imageUrl": null,
+              "url": "https://www.sofascore.com/sv/football/match/kosovo-mediterranean-team-albania-mediterranean-team/bLekseLek",
+              "date": "2026-08-19",
+              "sentiment": "neutral",
+              "reason": "Titulli thjesht përshkruan një ekip, pa ndonjë ton ndaj Kosovës",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
         }
       ],
       "summary": {
@@ -1522,7 +1706,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 1,
+        "n": 2,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
@@ -1531,19 +1715,19 @@
     "Poloni": {
       "outlets": [
         {
-          "name": "Wyniki na żywo",
+          "name": "gostyn24.pl",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
-              "title": "Feronikeli tabela - Piłka nożna, Kosowo - Wyniki na żywo",
-              "albanianTitle": "Tabela e Feronikelit – Futboll, Kosovë – Rezultatet live",
-              "blurb": "Tabela e klasifikimit dhe rezultatet e ndeshjeve të fundit për klubin futbollistik Feronikeli në kampionatin e Kosovës.",
-              "imageUrl": "https://www.flashscore.pl/res/_fs/image/og/flashscore.png",
-              "url": "https://www.flashscore.pl/druzyna/feronikeli/EPUTSTxJ/tabela/6emEW8h2/tabela/",
-              "date": "2026-08-16",
+              "title": "Powitanie nowego wozu w OSP Kosowo - gostyn24.pl",
+              "albanianTitle": "Pritje madhështore për zjarrfikësit vullnetarë në Kosovë - gostyn24.pl",
+              "blurb": "Njësia e zjarrfikësve vullnetarë në Kosovë ka pranuar një automjet të ri për shërbimet e saj emergjente.",
+              "imageUrl": "https://gostyn24.pl/fotorelacje/2025/1021/458831_b.jpg",
+              "url": "https://gostyn24.pl/pl/fotorelacje/na-sygnale/powitanie-nowego-wozu-w-osp-kosowo/13554,23",
+              "date": "2026-08-18",
               "sentiment": "neutral",
-              "reason": "Faktikë raportim pa ngarkesë",
+              "reason": "Lajm i thjeshtë për një ngjarje lokale në OSP Kosowo",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1636,6 +1820,32 @@
               "speaker": ""
             },
             {
+              "title": "“Ülkeyi Sürekli Seçime Sürüklüyorsunuz, Kurti Ne İstiyor?” - Kosovahaber.com",
+              "albanianTitle": "“Po e çoni vendin në zgjedhje të vazhdueshme, çfarë po kërkon Kurti?” - Kosovahaber.com",
+              "blurb": "Kritika ndaj kryeministrit Albin Kurti lidhur me qasjen e tij ndaj proceseve zgjedhore në vendin tonë.",
+              "imageUrl": null,
+              "url": "https://kosovahaber.com/haber/ulkeyi-surekli-secime-surukluyorsunuz-kurti-ne-istiyor-105070",
+              "date": "2026-08-19",
+              "sentiment": "neutral",
+              "reason": "Fjalët e kritikuara janë brenda thonjëzave, prandaj i përkasin folësit, jo median",
+              "isQuote": true,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Radojeviç: “KFOR, İbre Köprüsü Kararını Kosova Polisi'nin Raporuna Dayanarak Aldı” - Kosovahaber.com",
+              "albanianTitle": "Radojeviq: KFOR-i mori vendimin për urën e Ibrit bazuar në raportin e Policisë së Kosovës - Kosovahaber.com",
+              "blurb": "KFOR-i ka marrë vendimin për urën e Ibrit duke u bazuar në raportin e Policisë së Kosovës.",
+              "imageUrl": null,
+              "url": "https://kosovahaber.com/haber/radojevic-kfor-ibre-koprusu-kararini-kosova-polisinin-raporuna-dayanarak-aldi-105071",
+              "date": "2026-08-19",
+              "sentiment": "neutral",
+              "reason": "Citat i Radojeviç-it, media thjesht raporton",
+              "isQuote": true,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
               "title": "Ülkedeki Son Siyasi Gelişmeler ve Devam Eden Kurumsal Kriz Ele Alındı - Kosovahaber.com",
               "albanianTitle": "U diskutuan zhvillimet e fundit politike dhe kriza institucionale në vend",
               "blurb": "Zhvillimet e fundit politike dhe kriza institucionale në vend janë trajtuar në takimet e zhvilluara së fundmi.",
@@ -1654,32 +1864,6 @@
               "blurb": "Aleanca për Ardhmërinë e Kosovës ka adresuar akuza ndaj qeverisë lidhur me menaxhimin e buxhetit të shtetit.",
               "imageUrl": null,
               "url": "https://kosovahaber.com/haber/aakdan-hukumete-butce-suclamasi-105065",
-              "date": "2026-08-19",
-              "sentiment": "neutral",
-              "reason": "Lajm i thjeshtë, faktik",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Konjufca, Alman Yetkili ile Kosova’nın Avrupa Perspektifini Görüştü - Kosovahaber.com",
-              "albanianTitle": "Konjufca diskuton me zyrtarin gjerman për perspektivën evropiane të Kosovës - Kosovahaber.com",
-              "blurb": "Kryetari i Kuvendit, Glauk Konjufca, ka diskutuar me një zyrtar gjerman mbi perspektivën evropiane të Kosovës dhe proceset integruese.",
-              "imageUrl": null,
-              "url": "https://kosovahaber.com/haber/konjufca-alman-yetkil-ile-kosovanin-avrupa-perspektifini-gorustu-105051",
-              "date": "2026-08-18",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Kurti’ye Yumurta Atılması Spontane ve Sembolik Bir Eylemdi - Kosovahaber.com",
-              "albanianTitle": "Hedhja e vezëve ndaj Kurtit ishte një veprim spontan dhe simbolik",
-              "blurb": "Hedhja e vezëve ndaj kryeministrit Kurti është vlerësuar si një veprim spontan dhe me karakter simbolik.",
-              "imageUrl": null,
-              "url": "https://kosovahaber.com/haber/kurtiye-yumurta-atilmasi-spontane-ve-sembolik-bir-eylemdi-105066",
               "date": "2026-08-19",
               "sentiment": "neutral",
               "reason": "Lajm i thjeshtë, faktik",
@@ -1731,11 +1915,11 @@
         }
       ],
       "summary": {
-        "index": 48,
-        "positive": 4,
-        "neutral": 89,
+        "index": 47,
+        "positive": 0,
+        "neutral": 93,
         "negative": 7,
-        "n": 27,
+        "n": 30,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -1872,6 +2056,26 @@
               "reason": "critical framing of Kosovo's leader by the outlet",
               "isQuote": false,
               "evidence": "crossed a red line",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Irish Examiner",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Bóthar: The final journey to Kosovo - Irish Examiner",
+              "albanianTitle": "Bóthar: Udhëtimi i fundit drejt Kosovës",
+              "blurb": "Organizata Bóthar ka përfunduar misionin e saj humanitar në Kosovë përmes dërgimit të ndihmave për popullatën lokale në nevojë.",
+              "imageUrl": "https://www.irishexaminer.com/cms_media/module_img/10396/5198383_4_org_October_202025_20Shipment.jpeg",
+              "url": "https://www.irishexaminer.com/farming/arid-41898007.html",
+              "date": "2026-08-19",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim i thjeshtë, pa gjuhë ngarkuar",
+              "isQuote": false,
+              "evidence": "",
               "speaker": ""
             }
           ]
@@ -2016,13 +2220,157 @@
             },
             {
               "title": "Analysis/ Why is Trump threatening to bomb Oman for the second time? - cna.al",
-              "albanianTitle": "Analizë/ Pse Trump po kërcënon për herë të dytë me bombardimin e Omanit? - cna.al",
-              "blurb": "Donald Trump ka kërcënuar sërish me sulme ajrore ndaj Omanit, duke shkaktuar paqartësi rreth motiveve të këtij paralajmërimi të dytë.",
+              "albanianTitle": "Analizë: Pse Trump po kërcënon për herë të dytë me bombardimin e Omanit? - cna.al",
+              "blurb": "Analizë mbi kërcënimet e Donald Trumpit për bombardimin e Omanit për herë të dytë gjatë mandatit të tij.",
               "imageUrl": null,
               "url": "https://www.cna.al/english/kosova-bota/analiza-pse-trump-kercenon-te-bombardoje-omanin-per-here-te-dyte-i471849",
               "date": "2026-08-18",
               "sentiment": "unknown",
-              "reason": "Artikulli nuk ka lidhje me Kosovën, ndaj qëndrimi i medias nuk mund të përcaktohet",
+              "reason": "Nuk ka asnjë përmendje të Kosovës në artikull, prandaj nuk mund të përcaktohet qëndrimi",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "kosovo-online.com",
+          "sentiment": "neutral",
+          "articleCount": 6,
+          "articles": [
+            {
+              "title": "KPI recommends suspension of two Kosovo Police officers over mistreatment of Nenad Raskovic - kosovo-online.com",
+              "albanianTitle": "IPK rekomandon suspendimin e dy policëve për keqtrajtimin e Nenad Raskovic",
+              "blurb": "Inspektorati Policor i Kosovës kërkon suspendimin e dy policëve për shkak të keqtrajtimit të shtetasit Nenad Raskovic gjatë detyrës.",
+              "imageUrl": null,
+              "url": "https://www.kosovo-online.com/en/news/chronicle/kpi-recommends-suspension-two-kosovo-police-officers-over-mistreatment-nenad",
+              "date": "2026-08-18",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim i thjeshtë, pa gjuhë ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Simic: Suspension of police officers is the first step, accountability before the courts is necessary - kosovo-online.com",
+              "albanianTitle": "Simic: Suspendimi i policëve është hapi i parë, kërkohet përgjegjësi para gjykatave",
+              "blurb": "Simic deklaron se suspendimi i policëve është hapi i parë drejt kërkimit të përgjegjësisë ligjore para organeve të drejtësisë.",
+              "imageUrl": null,
+              "url": "https://www.kosovo-online.com/en/news/politics/simic-suspension-police-officers-first-step-accountability-courts-necessary-18-8-2026",
+              "date": "2026-08-18",
+              "sentiment": "neutral",
+              "reason": "Faktikë të thjeshta, pa gjuhë ngarkuar nga media",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Legality of decisions by Kosovo's caretaker government in question – courts to have final say - kosovo-online.com",
+              "albanianTitle": "Vihet në pikëpyetje ligjshmëria e vendimeve të qeverisë në detyrë – fjalën e fundit do ta thotë gjykata",
+              "blurb": "Gjykatat do të vlerësojnë ligjshmërinë e vendimeve të marra nga qeveria në detyrë e Kosovës pas dyshimeve të ngritura.",
+              "imageUrl": null,
+              "url": "https://www.kosovo-online.com/en/news/analysis/legality-decisions-kosovos-caretaker-government-question-courts-have-final-say-17-8",
+              "date": "2026-08-17",
+              "sentiment": "neutral",
+              "reason": "Raportim faktik i çështjes ligjore",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Garic: A huge danger for Serbs in Kosovo and Metohija is hidden behind the Public Property Law - kosovo-online.com",
+              "albanianTitle": "Garic: Ligji për Pronën Publike fsheh një rrezik të madh për serbët në Kosovë e Metohi",
+              "blurb": "Garic pretendon se Ligji për Pronën Publike përbën rrezik për komunitetin serb në Kosovë dhe Metohi sipas vlerësimeve të tij.",
+              "imageUrl": null,
+              "url": "https://www.kosovo-online.com/en/news/politics/garic-huge-danger-serbs-kosovo-and-metohija-hidden-behind-public-property-law-17-8",
+              "date": "2026-08-18",
+              "sentiment": "neutral",
+              "reason": "Përcjellje e deklaratës së Garicit pa gjuhë e mediave",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Analysts: Government decisions illegal, one cannot be both a minister and an MP - kosovo-online.com",
+              "albanianTitle": "Analistët: Vendimet e Qeverisë janë të paligjshme, nuk mund të jesh njëkohësisht ministër dhe deputet",
+              "blurb": "Analistët vlerësojnë se vendimet e qeverisë janë të paligjshme pasi një person nuk mund të mbajë postin e ministrit dhe deputetit.",
+              "imageUrl": null,
+              "url": "https://www.kosovo-online.com/en/news/politics/analysts-government-decisions-illegal-one-cannot-be-both-minister-and-mp-17-8-2026",
+              "date": "2026-08-18",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Draft Law on Public Property – a Sword of Damocles over Kosovo municipalities, especially Serbian-majority ones - kosovo-online.com",
+              "albanianTitle": "Projektligji për Pronën Publike – shpatë e Demokleut mbi komunat e Kosovës, veçanërisht ato me shumicë serbe",
+              "blurb": "Projektligji për pronën publike po shihet si rrezik për autonominë e komunave në Kosovë, veçanërisht për ato me shumicë serbe.",
+              "imageUrl": null,
+              "url": "https://www.kosovo-online.com/en/news/analysis/draft-law-public-property-sword-damocles-over-kosovo-municipalities-especially",
+              "date": "2026-08-16",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "prishtinainsight.com",
+          "sentiment": "neutral",
+          "articleCount": 4,
+          "articles": [
+            {
+              "title": "Kosovo Police Officers Suspected of Beating Serb Should Be Suspended, Inspectorate Says - prishtinainsight.com",
+              "albanianTitle": "Inspektorati kërkon suspendimin e zyrtarëve policorë të dyshuar për rrahjen e një serbi",
+              "blurb": "Inspektorati Policor ka rekomanduar suspendimin e zyrtarëve policorë të dyshuar për rrahjen e një qytetari serb në Kosovë.",
+              "imageUrl": "https://prishtinainsight.com/wp-content/uploads/2026/08/IPK-foto-inspektorati-Policor-i-Kosoves-Facebook-1024x683.jpg",
+              "url": "https://prishtinainsight.com/kosovo-police-officers-suspected-of-beating-serb-should-be-suspended-inspectorate-says/",
+              "date": "2026-08-19",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim i thjeshtë, pa gjuhë ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Kosovo Opposition Snubs Acting President’s Meeting Amid Parliamentary Crisis - prishtinainsight.com",
+              "albanianTitle": "Opozita bojkoton takimin me ushtruesen e detyrës së presidentit në mes të krizës parlamentare",
+              "blurb": "Partitë opozitare në Kosovë kanë refuzuar pjesëmarrjen në takimin e thirrur nga ushtruesja e detyrës së presidentit gjatë krizës parlamentare.",
+              "imageUrl": "https://prishtinainsight.com/wp-content/uploads/2026/08/viber_image_2026-08-18_09-07-00-845-e1787062190339.jpg",
+              "url": "https://prishtinainsight.com/kosovo-opposition-snubs-acting-presidents-meeting-amid-parliamentary-crisis/",
+              "date": "2026-08-18",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim i thjeshtë, pa gjuhë ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Kosovo Activists Protest Media Outlet Reporting on Suicide Cases - prishtinainsight.com",
+              "albanianTitle": "Aktivistët në Kosovë protestojnë kundër raportimit të një medie për rastet e vetëvrasjeve",
+              "blurb": "Aktivistët në Kosovë kanë protestuar kundër një mediumi për mënyrën e raportimit të rasteve të vetëvrasjeve në vend.",
+              "imageUrl": "https://prishtinainsight.com/wp-content/uploads/2026/08/Screenshot-2026-08-18-131506.jpg",
+              "url": "https://prishtinainsight.com/kosovo-activists-protest-media-outlet-reporting-on-suicide-cases/",
+              "date": "2026-08-18",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim i thjeshtë, pa gjuhë ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Kosovo Court Detains Suspect Over 2023 Attack on KFOR and Kosovo Police - prishtinainsight.com",
+              "albanianTitle": "Gjykata cakton paraburgim për të dyshuarin për sulmin e vitit 2023 ndaj KFOR-it dhe Policisë së Kosovës",
+              "blurb": "Gjykata në Kosovë ka caktuar masën e paraburgimit për një person të dyshuar për sulmet e vitit 2023 ndaj KFOR-it.",
+              "imageUrl": "https://prishtinainsight.com/wp-content/uploads/2026/08/viber_image_2026-08-18_16-30-01-453-e1787064319612.jpg",
+              "url": "https://prishtinainsight.com/kosovo-court-detains-suspect-over-2023-attack-on-kfor-and-kosovo-police/",
+              "date": "2026-08-18",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim i thjeshtë, pa gjuhë ngarkuar",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -2065,10 +2413,10 @@
       ],
       "summary": {
         "index": 50,
-        "positive": 6,
-        "neutral": 88,
-        "negative": 6,
-        "n": 16,
+        "positive": 4,
+        "neutral": 93,
+        "negative": 4,
+        "n": 27,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2
