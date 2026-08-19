@@ -50,7 +50,7 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  const { entries, articles, people } = await getSearchData();
+  const { entries, articles, people, subjects, countryFacts } = await getSearchData();
 
   /**
    * Who or what the query names, if anything.
@@ -60,7 +60,9 @@ export async function GET(request: NextRequest) {
    * "kryeministri i Shqipërisë" are three ways of asking the same question,
    * and only one of them appears in the text.
    */
-  const entity = resolveEntity(raw, people);
+  // Every kind of subject, not only people: a country, a topic or a city is
+  // just as much a thing the reader named.
+  const entity = resolveEntity(raw, [...subjects, ...people]);
   let entityArticles: { title: string; href: string; meta?: string }[] = [];
 
   if (entity) {
@@ -85,7 +87,10 @@ export async function GET(request: NextRequest) {
       ...g,
       items: g.items.filter(
         (i: { href: string; kind: string; title: string }) =>
-          !shown.has(i.href) && !(entity && i.kind === "person" && i.title === entity.name),
+          // Not the articles the block above already listed, and not the
+          // subject itself — linking "Gjermani" under a card headed Gjermani
+          // is the same answer twice.
+          !shown.has(i.href) && !(entity && i.title === entity.name),
       ),
     }))
     .filter((g) => g.items.length > 0);
@@ -107,6 +112,10 @@ export async function GET(request: NextRequest) {
             kind: entity.kind,
             role: entity.role ?? null,
             href: `/kerko?entitet=${encodeURIComponent(entity.name)}`,
+            // Only a country carries these: where its tone index stands, which
+            // way it moved, and what it has actually been publishing about
+            // Kosovo. Null for every other kind of subject.
+            facts: entity.kind === "vend" ? (countryFacts[entity.name] ?? null) : null,
             articles: entityArticles,
             // Whether more exist than were returned, so the overlay can offer
             // the page rather than implying this is all of it.

@@ -3,19 +3,63 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { useRouter } from "next/navigation";
-import { ArrowUpRight, MessageCircle, Search, Sparkles } from "lucide-react";
+import {
+  ArrowUpRight,
+  MessageCircle,
+  Minus,
+  Search,
+  Sparkles,
+  TrendingDown,
+  TrendingUp,
+} from "lucide-react";
 
 type Item = { title: string; href: string; meta?: string; kind: string };
 type Group = { kind: string; label: string; items: Item[] };
+
+type CountryFacts = {
+  index: number | null;
+  delta: number | null;
+  articles: number;
+  foreign: { title: string; url: string; outlet: string; sentiment: string }[];
+};
 
 type Entity = {
   name: string;
   kind: string;
   role: string | null;
   href: string;
+  facts?: CountryFacts | null;
   articles: Item[];
   total: number;
 };
+
+/**
+ * The tone index, and which way it moved.
+ *
+ * Rendered as a number with a direction rather than a chart: at this size the
+ * only questions are "where does it stand" and "is it getting better", and a
+ * sparkline answers neither at a glance.
+ */
+function ToneReading({ name, facts }: { name: string; facts: CountryFacts }) {
+  if (facts.index === null) return null;
+  const dir = facts.delta === null || facts.delta === 0 ? "flat" : facts.delta > 0 ? "up" : "down";
+  const Icon = dir === "up" ? TrendingUp : dir === "down" ? TrendingDown : Minus;
+  return (
+    <div className="kerko-tone" data-dir={dir}>
+      <span className="kerko-tone-caption">Toni i medias · {name}</span>
+      <span className="kerko-tone-value">{facts.index}</span>
+      <span className="kerko-tone-delta">
+        <Icon size={13} strokeWidth={2.75} aria-hidden="true" />
+        {facts.delta === null
+          ? "pa krahasim"
+          : facts.delta === 0
+            ? "pa ndryshim"
+            : `${facts.delta > 0 ? "+" : ""}${facts.delta}`}
+      </span>
+      <span className="kerko-tone-n">{facts.articles} artikuj</span>
+    </div>
+  );
+}
 
 type Payload = {
   query: string;
@@ -310,6 +354,35 @@ export default function SearchOverlay({
                       Shiko të {entity.total} artikujt për {entity.name}
                       <ArrowUpRight size={13} strokeWidth={2.5} aria-hidden="true" />
                     </button>
+                  )}
+
+                  {/* A country answers a second question: how its own press
+                      writes about Kosovo. The index says where that stands,
+                      the pieces underneath are the evidence for it. */}
+                  {entity.facts && (
+                    <>
+                      <ToneReading name={entity.name} facts={entity.facts} />
+                      {entity.facts.foreign.length > 0 && (
+                        <>
+                        <p className="kerko-foreign-caption">
+                          Çfarë shkruan {entity.name} për Kosovën
+                        </p>
+                        <ul className="kerko-foreign">
+                          {entity.facts.foreign.map((a) => (
+                            <li key={a.url}>
+                              <a href={a.url} target="_blank" rel="noopener noreferrer">
+                                <span className="kerko-title">{a.title}</span>
+                                <span className="kerko-meta">
+                                  {a.outlet}
+                                  <em data-sentiment={a.sentiment} />
+                                </span>
+                              </a>
+                            </li>
+                          ))}
+                        </ul>
+                        </>
+                      )}
+                    </>
                   )}
                 </section>
               )}

@@ -2,7 +2,8 @@ import { createClient as createSupabaseClient } from "@supabase/supabase-js";
 import { getToneOutlets, getToneTopics } from "./tone-data";
 import { KOSOVO_CITIES } from "./visit-v2-data";
 import { NAV_CATEGORIES } from "./category-map";
-import { extractPeople } from "./entities.mjs";
+import { extractPeople, deriveEntity } from "./entities.mjs";
+import { getToneHistory } from "./tone-data";
 
 /**
  * Kërko — the one index behind the whole site.
@@ -53,7 +54,9 @@ const WEIGHT: Record<SearchKind, number> = {
   vend: 1.4,
   vizito: 1.3,
   media: 1.15,
-  treg: 1.1,
+  // Below an article on purpose: a market that shares a word with the query
+  // is a weaker answer than a piece of reporting about it.
+  treg: 0.85,
   artikull: 1,
 };
 
@@ -79,8 +82,23 @@ export interface ArticleRecord {
   meta: string;
 }
 
+/** What a country result carries beyond its name. */
+export interface CountryFacts {
+  index: number | null;
+  /** Change against the most recent comparable history row, or null when there
+   *  is none. Rows of different stanceVersion are not comparable. */
+  delta: number | null;
+  articles: number;
+  /** A few of that country's own pieces about Kosovo. */
+  foreign: { title: string; url: string; outlet: string; sentiment: string }[];
+}
+
 export interface SearchData {
   entries: SearchEntry[];
+  /** Countries, topics and cities as searchable subjects, alongside people. */
+  subjects: ReturnType<typeof deriveEntity>[];
+  /** Keyed by country name, for the composite country result. */
+  countryFacts: Record<string, CountryFacts>;
   /** Kept raw so entity matching can scan them by surface form. */
   articles: ArticleRecord[];
   /** People the corpus is about, derived rather than curated. */
@@ -147,23 +165,69 @@ function visitEntries(): SearchEntry[] {
   return out;
 }
 
-async function toneEntries(): Promise<SearchEntry[]> {
-  const out: SearchEntry[] = [];
+/**
+ * Countries, outlets and topics — and, for a country, the facts its result
+ * card shows: where the tone index stands, which way it moved, and a few of
+ * that country's own pieces about Kosovo.
+ */
+async function toneEntries(): Promise<{
+  entries: SearchEntry[];
+  subjects: ReturnType<typeof deriveEntity>[];
+  countryFacts: Record<string, CountryFacts>;
+}> {
+  const entries: SearchEntry[] = [];
+  const subjects: ReturnType<typeof deriveEntity>[] = [];
+  const countryFacts: Record<string, CountryFacts> = {};
 
-  const outlets = await getToneOutlets().catch(() => null);
+  const [outlets, history] = await Promise.all([
+    getToneOutlets().catch(() => null),
+    getToneHistory().catch(() => [] as Awaited<ReturnType<typeof getToneHistory>>),
+  ]);
+
   if (outlets?.countries) {
     for (const [country, data] of Object.entries(outlets.countries)) {
-      const n = data?.summary?.n ?? 0;
-      out.push({
+      const summary = data?.summary;
+      const n = summary?.n ?? 0;
+      const index = summary?.index ?? null;
+
+      entries.push({
         kind: "vend",
         title: country,
         href: `/toni?vendi=${encodeURIComponent(country)}`,
         meta: n ? `${n} artikuj të analizuar` : "Toni i mediave",
         weight: WEIGHT.vend,
       });
+
+      subjects.push(
+        deriveEntity({
+          name: country,
+          kind: "vend",
+          role: index === null ? "Toni i mediave" : `Indeksi i tonit ${index}`,
+          href: `/kerko?entitet=${encodeURIComponent(country)}`,
+        }),
+      );
+
+      countryFacts[country] = {
+        index,
+        delta: countryDelta(history, country, index),
+        articles: n,
+        // The whole point of /toni is what the world writes about Kosovo, so
+        // this country's outlets are already exactly that corpus.
+        foreign: (data?.outlets ?? [])
+          .flatMap((outlet) =>
+            (outlet?.articles ?? []).map((a) => ({
+              title: a.albanianTitle || a.title,
+              url: a.url,
+              outlet: outlet.name,
+              sentiment: a.sentiment,
+            })),
+          )
+          .slice(0, 3),
+      };
+
       for (const outlet of data?.outlets ?? []) {
         if (!outlet?.name) continue;
-        out.push({
+        entries.push({
           kind: "media",
           title: outlet.name,
           href: `/toni?vendi=${encodeURIComponent(country)}`,
@@ -177,17 +241,55 @@ async function toneEntries(): Promise<SearchEntry[]> {
   const topics = await getToneTopics().catch(() => null);
   for (const topic of topics ?? []) {
     if (!topic?.label) continue;
-    out.push({
+    const meta = `${topic.count} artikuj${topic.countries?.length ? ` · ${topic.countries.length} vende` : ""}`;
+    entries.push({
       kind: "tema",
       title: topic.label,
       body: topic.summary ?? "",
       href: `/toni?tema=${encodeURIComponent(topic.label)}`,
-      meta: `${topic.count} artikuj${topic.countries?.length ? ` · ${topic.countries.length} vende` : ""}`,
+      meta,
       weight: WEIGHT.tema,
     });
+    subjects.push(
+      deriveEntity({
+        name: topic.label,
+        kind: "teme",
+        role: meta,
+        href: `/kerko?entitet=${encodeURIComponent(topic.label)}`,
+      }),
+    );
   }
 
-  return out;
+  return { entries, subjects, countryFacts };
+}
+
+/**
+ * How far a country's tone has moved since the last comparable reading.
+ *
+ * "Comparable" is doing real work. tone-data states that rows of different
+ * stanceVersion measure different things and must not be subtracted from one
+ * another — version 1 asked whether the news was good or bad, version 2 asks
+ * whether the outlet's own voice is hostile. Differencing across that boundary
+ * would invent a swing that never happened, so a country with no earlier row
+ * of the same version simply has no arrow.
+ */
+function countryDelta(
+  history: { countries?: Record<string, { index: number | null }>; stanceVersion?: number }[],
+  country: string,
+  current: number | null,
+): number | null {
+  if (current === null || !history?.length) return null;
+
+  const latest = history[history.length - 1];
+  const version = latest?.stanceVersion ?? 1;
+
+  for (let i = history.length - 2; i >= 0; i--) {
+    const row = history[i];
+    if ((row?.stanceVersion ?? 1) !== version) break;
+    const previous = row?.countries?.[country]?.index;
+    if (typeof previous === "number") return Math.round(current - previous);
+  }
+  return null;
 }
 
 async function supabaseEntries(): Promise<{ entries: SearchEntry[]; articles: ArticleRecord[] }> {
@@ -249,7 +351,7 @@ export async function getSearchData(): Promise<SearchData> {
   const [tone, remote] = await Promise.all([
     toneEntries().catch((error) => {
       console.error("[kerko] tone sources unavailable", error);
-      return [] as SearchEntry[];
+      return { entries: [] as SearchEntry[], subjects: [], countryFacts: {} };
     }),
     supabaseEntries().catch((error) => {
       console.error("[kerko] supabase sources unavailable", error);
@@ -264,7 +366,7 @@ export async function getSearchData(): Promise<SearchData> {
   const entries = [
     ...categoryEntries(),
     ...visitEntries(),
-    ...tone,
+    ...tone.entries,
     ...remote.entries,
     ...people.map((p) => ({
       kind: "person" as const,
@@ -275,7 +377,30 @@ export async function getSearchData(): Promise<SearchData> {
     })),
   ];
 
-  const data = { entries, articles: remote.articles, people };
+  // Cities are subjects too: "Prizren" should list what has been written
+  // about Prizren, not only open the visit page.
+  const citySubjects = KOSOVO_CITIES.map((city) =>
+    deriveEntity({
+      name: city.name,
+      kind: "qytet",
+      role: city.region,
+      href: `/kerko?entitet=${encodeURIComponent(city.name)}`,
+    }),
+  );
+
+  const subjects = [
+    ...tone.subjects,
+    ...citySubjects,
+    ...people.map((p) => deriveEntity({ name: p.name, kind: "person", role: `${p.mentions} përmendje` })),
+  ];
+
+  const data = {
+    entries,
+    subjects,
+    countryFacts: tone.countryFacts,
+    articles: remote.articles,
+    people,
+  };
   cache = { at: now, data };
   return data;
 }

@@ -9968,3 +9968,201 @@ header[data-overlay="true"] .nav-search-btn { color: rgba(255, 255, 255, 0.9); }
   .kerko-page-list a,
   .kerko-seeall { transition: none; }
 }
+
+/* ── The tone reading on a country result ──────────────────────────────────
+   A number and a direction, not a chart. At this size the reader is asking
+   two things — where does it stand, is it improving — and a sparkline in a
+   dropdown answers neither at a glance. */
+
+.kerko-tone {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin: 6px 18px 2px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: #F9F6F1;
+}
+
+.kerko-tone-caption {
+  flex: 1;
+  min-width: 0;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #A9A096;
+}
+
+.kerko-tone-value {
+  font-size: 22px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: #111111;
+  font-variant-numeric: tabular-nums;
+}
+
+.kerko-tone-delta {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 12px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  color: #8A8177;
+}
+
+/* The two ends of the scale are the only ones worth colouring. A neutral
+   reading is the normal state on this site and is deliberately not dressed up
+   as good news. */
+.kerko-tone[data-dir="up"]   .kerko-tone-delta { color: #00A651; }
+.kerko-tone[data-dir="down"] .kerko-tone-delta { color: #E41E20; }
+
+.kerko-tone-n {
+  font-size: 11px;
+  font-weight: 600;
+  color: #A9A096;
+  font-variant-numeric: tabular-nums;
+}
+
+.kerko-foreign-caption {
+  margin: 10px 18px 2px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #A9A096;
+}
+
+/* ── What that country published about Kosovo ──────────────────────────────
+   External links, so they are anchors rather than buttons and say so. */
+.kerko-foreign {
+  list-style: none;
+  margin: 2px 0 6px;
+  padding: 0;
+}
+
+.kerko-foreign a {
+  display: block;
+  padding: 7px 18px;
+  text-decoration: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .kerko-foreign a:hover { background: #F9F6F1; }
+  .kerko-foreign a:hover .kerko-title { color: #FF4422; }
+}
+
+.kerko-foreign .kerko-title {
+  font-weight: 600;
+  font-size: 13.5px;
+  white-space: normal;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.kerko-foreign .kerko-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* A dot, not a word: the stance is a footnote to the headline, and three
+   coloured labels in a row would read as a scoreboard. */
+.kerko-foreign .kerko-meta em {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #C4B9AC;
+  flex-shrink: 0;
+}
+
+.kerko-foreign .kerko-meta em[data-sentiment="positive"] { background: #00A651; }
+.kerko-foreign .kerko-meta em[data-sentiment="negative"] { background: #E41E20; }
+
+/* ── The same reading on the results page, at page scale ───────────────────── */
+.kerko-page-tone {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin: 0 0 var(--space-6);
+  padding: 16px 20px;
+  border: 1.5px solid #E8E3DB;
+  border-radius: var(--radius-md);
+  background: #FFFFFF;
+}
+
+.kerko-page-tone-value {
+  font-size: 34px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: #111111;
+  font-variant-numeric: tabular-nums;
+}
+
+.kerko-page-tone-body { flex: 1; min-width: 160px; }
+
+.kerko-page-tone-label {
+  margin: 0 0 2px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #A9A096;
+}
+
+.kerko-page-tone-verdict {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #44413D;
+}
+
+.kerko-page-tone-delta {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 11px;
+  border-radius: var(--radius-pill);
+  background: #F9F6F1;
+  font-size: 12.5px;
+  font-weight: 800;
+  color: #8A8177;
+  font-variant-numeric: tabular-nums;
+}
+
+.kerko-page-tone[data-dir="up"]   .kerko-page-tone-delta { color: #00A651; background: rgba(0, 166, 81, 0.09); }
+.kerko-page-tone[data-dir="down"] .kerko-page-tone-delta { color: #E41E20; background: rgba(228, 30, 32, 0.08); }
+
+.kerko-page-foreign a { display: block; padding: 12px 0; text-decoration: none; }
+.kerko-page-foreign li + li { border-top: 1px solid #F0ECE6; }
+
+.kerko-page-foreign .kerko-page-item-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.kerko-page-foreign .kerko-page-item-meta em {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #C4B9AC;
+  flex-shrink: 0;
+}
+
+.kerko-page-foreign .kerko-page-item-meta em[data-sentiment="positive"] { background: #00A651; }
+.kerko-page-foreign .kerko-page-item-meta em[data-sentiment="negative"] { background: #E41E20; }
+
+@media (max-width: 640px) {
+  .kerko-tone { margin-left: 15px; margin-right: 15px; }
+  .kerko-foreign a { padding-left: 15px; padding-right: 15px; }
+  .kerko-page-tone { padding: 14px 16px; gap: 12px; }
+  .kerko-page-tone-value { font-size: 28px; }
+}
