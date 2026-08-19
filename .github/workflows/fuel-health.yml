@@ -1,0 +1,50 @@
+# Is the fuel card serving live prices, or the hardcoded fallback?
+#
+# The card rendered 29 July prices under a "Rifreskim ditor" label for weeks
+# while the same request answered 200 from a laptop, so the failure is specific
+# to the render path and invisible from outside. This asks production directly.
+#
+# Manual by default. The daily schedule is a smoke test: if the card silently
+# reverts to the fallback again, a red run says so on the day it happens
+# instead of a reader noticing weeks later.
+name: Fuel card health
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "40 6 * * *"
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Ask production what it is serving
+        env:
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+        run: |
+          if [ -z "$CRON_SECRET" ]; then
+            echo "CRON_SECRET repo secret is not set." >&2
+            exit 1
+          fi
+
+          curl -sS --max-time 60 -o probe.json \
+            -H "Authorization: Bearer $CRON_SECRET" \
+            "https://www.383ks.com/api/automation/fuel"
+
+          node -e '
+            const d = require("./probe.json");
+            console.log("upstream :", JSON.stringify(d.upstream));
+            console.log("serving  :", d.serving);
+            if (d.fallbackReason) console.log("reason   :", d.fallbackReason);
+            console.log("latency  :", d.ms + "ms");
+            for (const b of d.brands ?? []) {
+              console.log(`  ${String(b.brand).padEnd(16)} ${b.diesel} / ${b.petrol} / ${b.gas ?? "—"}   ${b.oldest} → ${b.newest}`);
+            }
+            // A card quietly serving weeks-old numbers is the thing being watched
+            // for, so it fails the run rather than passing quietly.
+            if (d.serving !== "live") {
+              console.log("::error::Fuel card is serving the hardcoded fallback");
+              process.exit(1);
+            }
+          '
