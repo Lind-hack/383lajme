@@ -19,6 +19,18 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
+      # Vercel's render path gets a Cloudflare challenge from this API. Whether
+      # a CI runner does too decides the fix: if the runner is allowed through,
+      # the prices can be fetched here and committed for the page to read.
+      - name: Can this runner reach NaftaSot directly?
+        continue-on-error: true
+        run: |
+          code=$(curl -sS -o direct.json -w '%{http_code}' --max-time 45             -H 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36'             -H 'Accept: application/json'             'https://api.naftasot.com/api/public/bootstrap?sort_by=cheapest' || true)
+          echo "api.naftasot.com -> HTTP $code"
+          head -c 160 direct.json; echo
+          code2=$(curl -sS -o site.html -w '%{http_code}' --max-time 45             -H 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36'             'https://naftasot.com/' || true)
+          echo "naftasot.com -> HTTP $code2"
+
       - name: Ask production what it is serving
         env:
           CRON_SECRET: ${{ secrets.CRON_SECRET }}
