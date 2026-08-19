@@ -1610,9 +1610,9 @@
   },
   {
     "date": "2026-08-19",
-    "overallIndex": 50,
-    "totalArticles": 147,
-    "sourceCount": 85,
+    "overallIndex": 47,
+    "totalArticles": 139,
+    "sourceCount": 82,
     "stanceVersion": 2,
     "countries": {
       "Gjermani": {
@@ -1626,21 +1626,21 @@
         "stanceVersion": 2
       },
       "SHBA": {
-        "index": 51,
-        "positive": 5,
-        "neutral": 92,
-        "negative": 3,
-        "n": 39,
+        "index": 48,
+        "positive": 4,
+        "neutral": 87,
+        "negative": 9,
+        "n": 23,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
       },
       "Britani": {
-        "index": 52,
-        "positive": 9,
-        "neutral": 86,
-        "negative": 5,
-        "n": 22,
+        "index": 43,
+        "positive": 3,
+        "neutral": 82,
+        "negative": 16,
+        "n": 38,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -1670,7 +1670,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 2,
+        "n": 3,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
@@ -1700,8 +1700,8 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 1,
-        "excluded": 1,
+        "n": 2,
+        "excluded": 0,
         "confident": false,
         "stanceVersion": 2
       },
@@ -1756,11 +1756,11 @@
         "stanceVersion": 2
       },
       "Kroaci": {
-        "index": 50,
-        "positive": 4,
-        "neutral": 93,
-        "negative": 4,
-        "n": 27,
+        "index": 44,
+        "positive": 0,
+        "neutral": 88,
+        "negative": 12,
+        "n": 17,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2
@@ -1768,18 +1768,10 @@
     },
     "headlines": [
       {
-        "title": "Kosovo's Independence: A New European Nation is Born - Monocle",
-        "source": "Monocle",
-        "country": "SHBA",
-        "flag": "🇺🇸",
-        "url": "https://monocle.com/affairs/kosovo-independence-serbia-balkans/",
-        "sentiment": "positive"
-      },
-      {
         "title": "Ukrainian MP opposes Zelensky’s position: Ukraine should recognize Kosovo - KosovaPress",
         "source": "KosovaPress",
-        "country": "Britani",
-        "flag": "🇬🇧",
+        "country": "SHBA",
+        "flag": "🇺🇸",
         "url": "https://kosovapress.com/eng/ukrainian-mp-opposes-zelenskys-position-ukraine-should-recognize-kosovo",
         "sentiment": "positive"
       },
@@ -1800,19 +1792,19 @@
         "sentiment": "negative"
       },
       {
+        "title": "Vucic to Send Letter to Rutte: Don't Open Ibar Bridge - srpske.rs",
+        "source": "srpske.rs",
+        "country": "Britani",
+        "flag": "🇬🇧",
+        "url": "https://srpske.rs/en/news/politika/2026/08/19/vucic-letter-rutte-ibar-bridge",
+        "sentiment": "negative"
+      },
+      {
         "title": "Kosova Otoriterliğe Doğru Sürüklenme Riskiyle Karşı Karşıya - Kosovahaber.com",
         "source": "Kosovahaber.com",
         "country": "Turqi",
         "flag": "🇹🇷",
         "url": "https://kosovahaber.com/haber/kosova-otoriterlige-dogru-suruklenme-riskiyle-karsi-karsiya-105028",
-        "sentiment": "negative"
-      },
-      {
-        "title": "Kosova’da Anayasal Düzen Artık İşlemiyor - Kosovahaber.com",
-        "source": "Kosovahaber.com",
-        "country": "Turqi",
-        "flag": "🇹🇷",
-        "url": "https://kosovahaber.com/haber/kosovada-anayasal-duzen-artik-islemiyor-105013",
         "sentiment": "negative"
       }
     ]
