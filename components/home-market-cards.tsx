@@ -309,7 +309,9 @@ export function FuelPricesCard({ snapshot }: { snapshot: FuelSnapshot }) {
         ))}
       </div>
       <p className="home-market-note">
-        Çmimi i stacionit më të fundit me të dhëna të plota. Mund të ndryshojë
+        {/* No longer one station: each fuel takes the newest price that brand
+            has published, because their timestamps diverge by days. */}
+        Çmimi më i fundit i publikuar për secilin derivat. Mund të ndryshojë
         sipas lokacionit.
       </p>
     </MarketCardFrame>
