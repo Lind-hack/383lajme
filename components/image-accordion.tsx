@@ -338,14 +338,16 @@ export default function ImageAccordion({ slides }: Props) {
             line-height: 1.16 !important;
             -webkit-line-clamp: 4 !important;
           }
+          /* The arrows are vertically centred and reach 28px into the card, which
+             is the same band the headline occupies. Text is inset past that with
+             margin to spare, so a wide first letter can never touch the button.
+             !important because the element carries an inline padding, and an
+             inline style wins over a stylesheet rule at any specificity. */
           .feature-grid-content {
-            padding: 24px !important;
+            padding: 24px 36px !important;
           }
-          /* Clear of the arrows, which sit vertically centred at the edges. */
-          .feature-grid-content,
           .feature-grid-topic {
-            padding-left: 22px;
-            padding-right: 22px;
+            left: 36px !important;
           }
         }
         @media (max-width: 520px) {

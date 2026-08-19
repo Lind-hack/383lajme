@@ -134,11 +134,11 @@ export default function TopicCarousel({ children }: { children: React.ReactNode 
 
           .topic-carousel-nav {
             position: absolute;
-            /* Not 50%: the headline block is anchored to the foot of the card
-               and grows upward, so a centred arrow lands on top of the text on
-               a phone-width card. 35% keeps the arrows over the photo at every
-               size the rail is used at. */
-            top: 35%;
+            /* Centred, and straddling the card edge rather than sitting inside
+               it. Overlapping the headline was what forced these off-centre
+               before; moving them outboard fixes the cause instead, so they can
+               sit where a carousel arrow is expected to be. */
+            top: 50%;
             transform: translateY(-50%);
             z-index: 10;
             display: flex;
@@ -157,8 +157,11 @@ export default function TopicCarousel({ children }: { children: React.ReactNode 
             cursor: pointer;
             transition: transform 150ms cubic-bezier(0.22, 1, 0.36, 1);
           }
-          .topic-carousel-prev { left: 10px; }
-          .topic-carousel-next { right: 10px; }
+          /* Straddling the card edge: ~40% of the button hangs outside. The page
+             gutter either side of the card is what absorbs it, so this stays
+             smaller than that gutter to avoid running off a narrow screen. */
+          .topic-carousel-prev { left: -18px; }
+          .topic-carousel-next { right: -18px; }
           .topic-carousel-nav:active { transform: translateY(-50%) scale(0.94); }
           .topic-carousel-nav:focus-visible {
             outline: 3px solid #FF4422;
