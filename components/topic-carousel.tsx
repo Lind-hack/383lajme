@@ -144,25 +144,39 @@ export default function TopicCarousel({ children }: { children: React.ReactNode 
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 46px;
-            height: 46px;
+            /* Same control as the nav menu button: 44px, 12px radius, solid
+               white on a hairline border, ink icon, orange only on interaction.
+               globals.css calls that language "solid, calm; accents on
+               interaction only" — the translucent glass this used to borrow
+               from DispatchRow belongs to a different vocabulary and read as
+               foreign here. The shadow is the one departure: this button
+               straddles a photo rather than sitting on cream, so it needs a
+               little lift to stay legible against the image. */
+            width: 44px;
+            height: 44px;
             padding: 0;
-            border-radius: 50%;
-            border: 0.5px solid rgba(255,255,255,0.55);
-            background: linear-gradient(145deg, rgba(255,255,255,0.30) 0%, rgba(255,255,255,0.07) 100%);
-            backdrop-filter: blur(40px) saturate(200%) brightness(1.08);
-            -webkit-backdrop-filter: blur(40px) saturate(200%) brightness(1.08);
-            box-shadow: 0 8px 28px rgba(0,0,0,0.18), inset 0 2px 0 rgba(255,255,255,0.9);
+            border-radius: 12px;
+            border: 1.5px solid #E8E3DB;
+            background: #FFFFFF;
+            box-shadow: 0 4px 16px rgba(17,17,17,0.16);
             color: #111111;
             cursor: pointer;
-            transition: transform 150ms cubic-bezier(0.22, 1, 0.36, 1);
+            transition: border-color 200ms cubic-bezier(0.22, 1, 0.36, 1),
+                        color 200ms cubic-bezier(0.22, 1, 0.36, 1),
+                        transform 150ms cubic-bezier(0.22, 1, 0.36, 1);
+          }
+          .topic-carousel-nav:hover {
+            border-color: #FF4422;
+            color: #FF4422;
+          }
+          .topic-carousel-nav:active {
+            transform: translateY(-50%) scale(0.95);
           }
           /* Straddling the card edge: ~40% of the button hangs outside. The page
              gutter either side of the card is what absorbs it, so this stays
              smaller than that gutter to avoid running off a narrow screen. */
           .topic-carousel-prev { left: -18px; }
           .topic-carousel-next { right: -18px; }
-          .topic-carousel-nav:active { transform: translateY(-50%) scale(0.94); }
           .topic-carousel-nav:focus-visible {
             outline: 3px solid #FF4422;
             outline-offset: 3px;
