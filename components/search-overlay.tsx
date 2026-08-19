@@ -8,8 +8,18 @@ import { ArrowUpRight, MessageCircle, Search, Sparkles } from "lucide-react";
 type Item = { title: string; href: string; meta?: string; kind: string };
 type Group = { kind: string; label: string; items: Item[] };
 
+type Entity = {
+  name: string;
+  kind: string;
+  role: string | null;
+  href: string;
+  articles: Item[];
+  total: number;
+};
+
 type Payload = {
   query: string;
+  entity?: Entity | null;
   groups: Group[];
   suggestions: Item[];
   isQuestion: boolean;
@@ -22,6 +32,7 @@ const DEBOUNCE_MS = 180;
 
 const EMPTY: Payload = {
   query: "",
+  entity: null,
   groups: [],
   suggestions: [],
   isQuestion: false,
@@ -50,8 +61,8 @@ export default function SearchOverlay({
   // Flat list of everything selectable, so the arrow keys can walk across
   // group boundaries without the caller knowing the grouping.
   const flat = useMemo(
-    () => data.groups.flatMap((g) => g.items),
-    [data.groups],
+    () => [...(data.entity?.articles ?? []), ...data.groups.flatMap((g) => g.items)],
+    [data.entity, data.groups],
   );
 
   useEffect(() => {
@@ -159,6 +170,7 @@ export default function SearchOverlay({
   if (!mounted || !open) return null;
 
   const showing = query.trim().length >= 2;
+  const entity = data.entity;
   const nothing = showing && !loading && flat.length === 0;
   let index = -1;
 
@@ -261,6 +273,47 @@ export default function SearchOverlay({
             </div>
           ) : (
             <>
+              {/* The subject the reader named. Separated from the matches
+                  below because it is a different claim: these are pieces about
+                  this person, not pieces containing this string. */}
+              {entity && entity.articles.length > 0 && (
+                <section className="kerko-group kerko-entity">
+                  <h3 className="kerko-group-label">
+                    ARTIKUJ PËR {entity.name.toUpperCase()}
+                    {entity.role && <em>{entity.role}</em>}
+                  </h3>
+                  <ul>
+                    {entity.articles.map((item) => {
+                      index += 1;
+                      const isActive = index === active;
+                      return (
+                        <li key={`entity-${item.href}`}>
+                          <button
+                            type="button"
+                            data-active={isActive ? "true" : undefined}
+                            onMouseEnter={() => setActive(index)}
+                            onClick={() => go(item.href)}
+                          >
+                            <span className="kerko-title">{item.title}</span>
+                            {item.meta && <span className="kerko-meta">{item.meta}</span>}
+                          </button>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                  {entity.total > entity.articles.length && (
+                    <button
+                      type="button"
+                      className="kerko-seeall"
+                      onClick={() => go(entity.href)}
+                    >
+                      Shiko të {entity.total} artikujt për {entity.name}
+                      <ArrowUpRight size={13} strokeWidth={2.5} aria-hidden="true" />
+                    </button>
+                  )}
+                </section>
+              )}
+
               {data.groups.map((group) => (
                 <section key={group.kind} className="kerko-group">
                   <h3 className="kerko-group-label">{group.label}</h3>

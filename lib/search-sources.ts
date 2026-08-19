@@ -2,6 +2,7 @@ import { createClient as createSupabaseClient } from "@supabase/supabase-js";
 import { getToneOutlets, getToneTopics } from "./tone-data";
 import { KOSOVO_CITIES } from "./visit-v2-data";
 import { NAV_CATEGORIES } from "./category-map";
+import { extractPeople } from "./entities.mjs";
 
 /**
  * Kërko — the one index behind the whole site.
@@ -17,6 +18,7 @@ import { NAV_CATEGORIES } from "./category-map";
  */
 
 export type SearchKind =
+  | "person"
   | "artikull"
   | "tema"
   | "vend"
@@ -44,6 +46,8 @@ export interface SearchEntry {
  * these the bulk of the index would bury every navigational result.
  */
 const WEIGHT: Record<SearchKind, number> = {
+  // A person the reader named outranks everything: they told you the subject.
+  person: 1.8,
   kategori: 1.6,
   tema: 1.5,
   vend: 1.4,
@@ -68,7 +72,22 @@ const ARTICLE_LIMIT = 2000;
 /** Rebuilt at most this often. Search runs per keystroke; the sources do not. */
 const TTL_MS = 5 * 60 * 1000;
 
-let cache: { at: number; entries: SearchEntry[] } | null = null;
+export interface ArticleRecord {
+  slug: string;
+  title: string;
+  body: string;
+  meta: string;
+}
+
+export interface SearchData {
+  entries: SearchEntry[];
+  /** Kept raw so entity matching can scan them by surface form. */
+  articles: ArticleRecord[];
+  /** People the corpus is about, derived rather than curated. */
+  people: { name: string; aliases: string[]; mentions: number }[];
+}
+
+let cache: { at: number; data: SearchData } | null = null;
 
 function newsClient() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -171,10 +190,11 @@ async function toneEntries(): Promise<SearchEntry[]> {
   return out;
 }
 
-async function supabaseEntries(): Promise<SearchEntry[]> {
+async function supabaseEntries(): Promise<{ entries: SearchEntry[]; articles: ArticleRecord[] }> {
   const supabase = newsClient();
-  if (!supabase) return [];
+  if (!supabase) return { entries: [], articles: [] };
   const out: SearchEntry[] = [];
+  const records: ArticleRecord[] = [];
 
   const [articles, markets] = await Promise.all([
     supabase
@@ -187,14 +207,16 @@ async function supabaseEntries(): Promise<SearchEntry[]> {
 
   for (const a of articles.data ?? []) {
     if (!a?.slug || !a?.title) continue;
+    const meta = [a.category, a.source, shortDate(a.published_at)].filter(Boolean).join(" · ");
     out.push({
       kind: "artikull",
       title: a.title,
       body: a.excerpt ?? "",
       href: `/article/${a.slug}`,
-      meta: [a.category, a.source, shortDate(a.published_at)].filter(Boolean).join(" · "),
+      meta,
       weight: WEIGHT.artikull,
     });
+    records.push({ slug: a.slug, title: a.title, body: a.excerpt ?? "", meta });
   }
 
   for (const m of markets.data ?? []) {
@@ -210,7 +232,7 @@ async function supabaseEntries(): Promise<SearchEntry[]> {
     });
   }
 
-  return out;
+  return { entries: out, articles: records };
 }
 
 /**
@@ -220,9 +242,9 @@ async function supabaseEntries(): Promise<SearchEntry[]> {
  * written yet, or Supabase being unreachable, must cost that section of the
  * results rather than the entire search.
  */
-export async function getSearchIndex(): Promise<SearchEntry[]> {
+export async function getSearchData(): Promise<SearchData> {
   const now = Date.now();
-  if (cache && now - cache.at < TTL_MS) return cache.entries;
+  if (cache && now - cache.at < TTL_MS) return cache.data;
 
   const [tone, remote] = await Promise.all([
     toneEntries().catch((error) => {
@@ -231,11 +253,34 @@ export async function getSearchIndex(): Promise<SearchEntry[]> {
     }),
     supabaseEntries().catch((error) => {
       console.error("[kerko] supabase sources unavailable", error);
-      return [] as SearchEntry[];
+      return { entries: [] as SearchEntry[], articles: [] as ArticleRecord[] };
     }),
   ]);
 
-  const entries = [...categoryEntries(), ...visitEntries(), ...tone, ...remote];
-  cache = { at: now, entries };
-  return entries;
+  // Derived from the corpus rather than curated, so a name the news started
+  // using yesterday is searchable today without anyone adding it to a list.
+  const people = extractPeople(remote.articles, { minMentions: 2 });
+
+  const entries = [
+    ...categoryEntries(),
+    ...visitEntries(),
+    ...tone,
+    ...remote.entries,
+    ...people.map((p) => ({
+      kind: "person" as const,
+      title: p.name,
+      href: `/kerko?entitet=${encodeURIComponent(p.name)}`,
+      meta: `${p.mentions} përmendje`,
+      weight: WEIGHT.person,
+    })),
+  ];
+
+  const data = { entries, articles: remote.articles, people };
+  cache = { at: now, data };
+  return data;
+}
+
+/** Just the ranked entries, for callers that do not need the raw corpus. */
+export async function getSearchIndex(): Promise<SearchEntry[]> {
+  return (await getSearchData()).entries;
 }

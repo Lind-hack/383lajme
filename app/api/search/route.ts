@@ -1,6 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { getSearchIndex } from "@/lib/search-sources";
+import { getSearchData } from "@/lib/search-sources";
 import { search, nearest, looksLikeQuestion } from "@/lib/search-match.mjs";
+import { resolveEntity, surfaceForms, mentions } from "@/lib/entities.mjs";
 import { createAdminClient } from "@/lib/supabase/admin";
 
 export const dynamic = "force-dynamic";
@@ -19,13 +20,10 @@ export const runtime = "nodejs";
 const MIN_QUERY = 2;
 const MAX_QUERY = 120;
 
-/**
- * Record a query that found nothing.
- *
- * The point is editorial, not analytics: a list of what readers asked for and
- * did not get is the clearest brief for what to publish next. Fire-and-forget —
- * a logging failure must never change what the reader sees.
- */
+/** The overlay shows a handful; the results page asks for everything. */
+const OVERLAY_ARTICLES = 4;
+const PAGE_ARTICLES = 60;
+
 async function logMiss(query: string, suggestions: number) {
   const supabase = createAdminClient();
   if (!supabase) return;
@@ -40,7 +38,10 @@ async function logMiss(query: string, suggestions: number) {
 }
 
 export async function GET(request: NextRequest) {
-  const raw = (request.nextUrl.searchParams.get("q") ?? "").trim().slice(0, MAX_QUERY);
+  const params = request.nextUrl.searchParams;
+  const raw = (params.get("q") ?? params.get("entitet") ?? "").trim().slice(0, MAX_QUERY);
+  // The results page asks for the full set; the overlay wants a preview.
+  const full = params.get("full") === "1";
 
   if (raw.length < MIN_QUERY) {
     return NextResponse.json(
@@ -49,22 +50,69 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  const index = await getSearchIndex();
-  const groups = search(index, raw, { perGroup: 4, total: 18 });
-  const found = groups.reduce((n, g) => n + g.items.length, 0);
+  const { entries, articles, people } = await getSearchData();
 
-  // A miss never dead-ends: it offers the nearest destinations, and the
-  // Pyet 383 route is surfaced by the client whether or not there are results.
-  const suggestions = found === 0 ? nearest(index, raw, 5) : [];
-  if (found === 0) {
-    // Deliberately not awaited: the reader should not wait on a write that only
-    // matters to the newsroom.
-    void logMiss(raw, suggestions.length);
+  /**
+   * Who or what the query names, if anything.
+   *
+   * This is the difference between finding an article by the word it happens
+   * to contain and finding it by the person it is about: "Edi", "Rama" and
+   * "kryeministri i Shqipërisë" are three ways of asking the same question,
+   * and only one of them appears in the text.
+   */
+  const entity = resolveEntity(raw, people);
+  let entityArticles: { title: string; href: string; meta?: string }[] = [];
+
+  if (entity) {
+    const forms = surfaceForms(entity);
+    entityArticles = articles
+      .filter((a) => mentions(a, forms))
+      .slice(0, full ? PAGE_ARTICLES : OVERLAY_ARTICLES)
+      .map((a) => ({ title: a.title, href: `/article/${a.slug}`, meta: a.meta }));
   }
+
+  const rawGroups = search(entries, raw, {
+    perGroup: full ? 40 : 4,
+    total: full ? 200 : 18,
+  });
+
+  // The entity block already answered "about this person". Repeating those
+  // articles underneath, and repeating the person as a link to the page the
+  // reader is already looking at, is the same answer three times.
+  const shown = new Set(entityArticles.map((a) => a.href));
+  const groups = rawGroups
+    .map((g) => ({
+      ...g,
+      items: g.items.filter(
+        (i: { href: string; kind: string; title: string }) =>
+          !shown.has(i.href) && !(entity && i.kind === "person" && i.title === entity.name),
+      ),
+    }))
+    .filter((g) => g.items.length > 0);
+
+  const found = groups.reduce((n, g) => n + g.items.length, 0) + entityArticles.length;
+
+  const suggestions = found === 0 ? nearest(entries, raw, 5) : [];
+  if (found === 0) void logMiss(raw, suggestions.length);
 
   return NextResponse.json(
     {
       query: raw,
+      // The subject the reader named, with the pieces about them. Sent
+      // separately from `groups` because it is a different claim: these are
+      // articles about this person, not articles containing this string.
+      entity: entity
+        ? {
+            name: entity.name,
+            kind: entity.kind,
+            role: entity.role ?? null,
+            href: `/kerko?entitet=${encodeURIComponent(entity.name)}`,
+            articles: entityArticles,
+            // Whether more exist than were returned, so the overlay can offer
+            // the page rather than implying this is all of it.
+            total: articles.filter((a) => mentions(a, surfaceForms(entity))).length,
+          }
+        : null,
       groups,
       suggestions,
       isQuestion: looksLikeQuestion(raw),
