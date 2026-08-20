@@ -1816,5 +1816,214 @@
         "sentiment": "negative"
       }
     ]
+  },
+  {
+    "date": "2026-08-20",
+    "overallIndex": 50,
+    "totalArticles": 132,
+    "sourceCount": 91,
+    "stanceVersion": 2,
+    "countries": {
+      "Gjermani": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 3,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 2
+      },
+      "SHBA": {
+        "index": 48,
+        "positive": 5,
+        "neutral": 86,
+        "negative": 9,
+        "n": 22,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 2
+      },
+      "Britani": {
+        "index": 50,
+        "positive": 9,
+        "neutral": 83,
+        "negative": 9,
+        "n": 23,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 2
+      },
+      "Francë": {
+        "index": 60,
+        "positive": 20,
+        "neutral": 80,
+        "negative": 0,
+        "n": 5,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 2
+      },
+      "Itali": {
+        "index": 58,
+        "positive": 17,
+        "neutral": 83,
+        "negative": 0,
+        "n": 6,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 2
+      },
+      "Austri": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 3,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 2
+      },
+      "Zvicër": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 1,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 2
+      },
+      "Holandë": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 3,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 2
+      },
+      "Belgjikë": {
+        "index": 62,
+        "positive": 25,
+        "neutral": 75,
+        "negative": 0,
+        "n": 4,
+        "excluded": 1,
+        "confident": false,
+        "stanceVersion": 2
+      },
+      "Spanjë": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 4,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 2
+      },
+      "Greqi": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 11,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 2
+      },
+      "Suedi": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 1,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 2
+      },
+      "Poloni": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 1,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 2
+      },
+      "Turqi": {
+        "index": 47,
+        "positive": 0,
+        "neutral": 94,
+        "negative": 6,
+        "n": 32,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 2
+      },
+      "Kroaci": {
+        "index": 50,
+        "positive": 8,
+        "neutral": 85,
+        "negative": 8,
+        "n": 13,
+        "excluded": 1,
+        "confident": true,
+        "stanceVersion": 2
+      }
+    },
+    "headlines": [
+      {
+        "title": "Kosovo's Independence: A New European Nation is Born - Monocle",
+        "source": "Monocle",
+        "country": "SHBA",
+        "flag": "🇺🇸",
+        "url": "https://monocle.com/affairs/kosovo-independence-serbia-balkans/",
+        "sentiment": "positive"
+      },
+      {
+        "title": "As the Spring Arrives, Water Recalls the Nomads triumphs at DokuFest Prizren - Cineuropa",
+        "source": "Cineuropa",
+        "country": "Britani",
+        "flag": "🇬🇧",
+        "url": "https://cineuropa.org/en/newsdetail/494515",
+        "sentiment": "positive"
+      },
+      {
+        "title": "As the Spring Arrives, Water Recalls the Nomads triomphe au Festival DokuFest de Prizren - Cineuropa",
+        "source": "Cineuropa",
+        "country": "Francë",
+        "flag": "🇫🇷",
+        "url": "https://cineuropa.org/fr/newsdetail/494515",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Has Kurti crossed a \"red line\" in the relations with the EU? - European Western Balkans",
+        "source": "European Western Balkans",
+        "country": "SHBA",
+        "flag": "🇺🇸",
+        "url": "https://europeanwesternbalkans.com/2026/08/18/has-kurti-crossed-a-red-line-in-the-relations-with-the-eu/",
+        "sentiment": "negative"
+      },
+      {
+        "title": "Vucic to Send Letter to Rutte: Don't Open Ibar Bridge - srpske.rs",
+        "source": "srpske.rs",
+        "country": "Britani",
+        "flag": "🇬🇧",
+        "url": "https://srpske.rs/en/news/politika/2026/08/19/vucic-letter-rutte-ibar-bridge",
+        "sentiment": "negative"
+      },
+      {
+        "title": "Kosova Otoriterliğe Doğru Sürüklenme Riskiyle Karşı Karşıya - Kosovahaber.com",
+        "source": "kosovahaber.com",
+        "country": "Turqi",
+        "flag": "🇹🇷",
+        "url": "https://kosovahaber.com/haber/kosova-otoriterlige-dogru-suruklenme-riskiyle-karsi-karsiya-105028",
+        "sentiment": "negative"
+      }
+    ]
   }
 ]
