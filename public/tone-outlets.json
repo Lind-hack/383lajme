@@ -1,8 +1,8 @@
 {
   "lastUpdated": "2026-08-20",
-  "overallIndex": 52,
-  "totalArticles": 177,
-  "sourceCount": 113,
+  "overallIndex": 53,
+  "totalArticles": 197,
+  "sourceCount": 118,
   "stanceVersion": 2,
   "countries": {
     "Gjermani": {
@@ -363,30 +363,82 @@
         {
           "name": "KosovaPress",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 6,
           "articles": [
             {
-              "title": "Democratic Party of Kosovo deputies gather again outside Government, call Kurti an “usurper” - KosovaPress",
-              "albanianTitle": "Deputetët e PDK-së protestojnë sërish para Qeverisë, e quajnë Kurtin “uzurpator”",
-              "blurb": "Deputetët e Partisë Demokratike të Kosovës u mblodhën para ndërtesës së Qeverisë duke e quajtur kryeministrin Kurti uzurpator të pushtetit.",
+              "title": "Krasniqi: We dreamed of this day, Kosovo is being represented with dignity in Taranto - KosovaPress",
+              "albanianTitle": "Krasniqi: E ëndërruam këtë ditë, Kosova po përfaqësohet me dinjitet në Taranto - KosovaPress",
+              "blurb": "Krasniqi vlerëson përfaqësimin dinjitoz të Kosovës në Lojërat Mesdhetare që po mbahen në qytetin italian të Tarantos.",
               "imageUrl": null,
-              "url": "https://kosovapress.com/eng/democratic-party-of-kosovo-deputies-gather-again-outside-government-call-kurti-an-usurper",
-              "date": "2026-08-17",
-              "sentiment": "neutral",
-              "reason": "Fjalët e ngarkuara janë citim i kundërshtarëve, jo i mediave",
-              "isQuote": true,
-              "evidence": "",
-              "speaker": "Democratic Party of Kosovo deputies"
+              "url": "https://kosovapress.com/eng/krasniqi-we-dreamed-of-this-day-kosovo-is-being-represented-with-dignity-in-taranto",
+              "date": "2026-08-20",
+              "sentiment": "positive",
+              "reason": "Outlet uses admiring language describing Kosovo's representation",
+              "isQuote": false,
+              "evidence": "with dignity",
+              "speaker": ""
             },
             {
-              "title": "Kosovo mayors announce protest in front of government building - KosovaPress",
-              "albanianTitle": "Kryetarët e komunave në Kosovë paralajmërojnë protestë para ndërtesës së qeverisë - KosovaPress",
-              "blurb": "Kryetarët e komunave të Kosovës kanë paralajmëruar mbajtjen e një proteste para ndërtesës së Qeverisë për të shprehur pakënaqësitë e tyre.",
+              "title": "61 percent of women journalists in Kosovo have faced online abuse - KosovaPress",
+              "albanianTitle": "61 për qind e gazetareve në Kosovë janë përballur me abuzime online - KosovaPress",
+              "blurb": "Gjashtëdhjetë e një përqind e grave gazetare në Kosovë kanë përjetuar forma të ndryshme të abuzimit në internet.",
               "imageUrl": null,
-              "url": "https://kosovapress.com/eng/kosovo-mayors-announce-protest-in-front-of-government-building",
-              "date": "2026-08-18",
+              "url": "https://kosovapress.com/eng/61-percent-of-women-journalists-in-kosovo-have-faced-online-abuse",
+              "date": "2026-08-20",
               "sentiment": "neutral",
-              "reason": "Lajm i thjeshtë për protestë të kryetarëve të komunave në Kosovë",
+              "reason": "Faktikë raportim neutral pa gjuhë ngarkuese",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Democratic Party of Kosovo says it will not meet with Kurti again, let him elect the president without our votes - KosovaPress",
+              "albanianTitle": "Partia Demokratike e Kosovës: S’do të takohemi më me Kurtin, le ta zgjedhë presidentin pa votat tona - KosovaPress",
+              "blurb": "Partia Demokratike e Kosovës refuzon takimet me Kurtin dhe deklaron se nuk do të votojë për presidentin e ri.",
+              "imageUrl": null,
+              "url": "https://kosovapress.com/eng/democratic-party-of-kosovo-says-it-will-not-meet-with-kurti-again-let-him-elect-the-president-without-our-votes",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Raportim i deklaratës pa gjuhë ngarkuese",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Gashani speaks exclusively to KosovaPress: We will receive the baton in Taranto and showcase progress toward Prishtina 2030 before the Assembly - KosovaPress",
+              "albanianTitle": "Gashani ekskluzivisht për KosovaPress: Do ta marrim stafetën në Taranto dhe do të shfaqim progresin drejt Prishtina 2030 para Asamblesë - KosovaPress",
+              "blurb": "Gashani njofton se Kosova do të pranojë stafetën në Taranto dhe do të prezantojë progresin për Prishtina 2030.",
+              "imageUrl": null,
+              "url": "https://kosovapress.com/eng/gashani-speaks-exclusively-to-kosovapress-we-will-receive-the-baton-in-taranto-and-showcase-progress-toward-prishtina-2030-before-the-assembly",
+              "date": "2026-08-20",
+              "sentiment": "positive",
+              "reason": "Outlet uses encouraging language about Kosovo's development",
+              "isQuote": false,
+              "evidence": "showcase progress toward Prishtina 2030",
+              "speaker": ""
+            },
+            {
+              "title": "Kosovo Energy Corporation employee dies after coming into contact with electrical current - KosovaPress",
+              "albanianTitle": "Vdes punëtori i Korporatës Energjetike të Kosovës pasi bie në kontakt me rrymën elektrike - KosovaPress",
+              "blurb": "Një punëtor i Korporatës Energjetike të Kosovës ka humbur jetën pasi është goditur nga rryma elektrike gjatë punës.",
+              "imageUrl": null,
+              "url": "https://kosovapress.com/eng/kosovo-energy-corporation-employee-dies-after-contacting-electrical-current",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Faktikë vdekja e punonjësit, pa gjuhë ngarkuese",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Kosovo Acting President Haxhiu in Italy for opening of Taranto 2026 Mediterranean Games - KosovaPress",
+              "albanianTitle": "Ushtruesja e detyrës së presidentit, Haxhiu, në Itali për hapjen e Lojërave Mesdhetare Taranto 2026 - KosovaPress",
+              "blurb": "Ushtruesja e detyrës së presidentit, Haxhiu, po merr pjesë në ceremoninë e hapjes së Lojërave Mesdhetare në Itali.",
+              "imageUrl": null,
+              "url": "https://kosovapress.com/eng/kosovo-acting-president-haxhiu-in-italy-for-opening-of-taranto-2026-mediterranean-games",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Faktikë vizitë e presidentit, pa gjuhë ngarkuese",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -480,13 +532,13 @@
           "articles": [
             {
               "title": "US to provide $206 million for Gaza peacekeeping force, letters show - The Times of Israel",
-              "albanianTitle": "Sipas dokumenteve, SHBA-ja do të ndajë 206 milionë dollarë për forcat paqeruajtëse në Gaza - The Times of Israel",
-              "blurb": "Shtetet e Bashkuara të Amerikës do të ndajnë 206 milionë dollarë për forcat paqeruajtëse në Rripin e Gazës.",
+              "albanianTitle": "SHBA do të ndajë 206 milionë dollarë për forcën paqeruajtëse në Gaza, sipas dokumenteve",
+              "blurb": "Shtetet e Bashkuara të Amerikës planifikojnë të ndajnë 206 milionë dollarë për mbështetjen e forcave paqeruajtëse në Rripin e Gazës.",
               "imageUrl": null,
               "url": "https://www.timesofisrael.com/us-to-provide-206-million-for-gaza-peacekeeping-force-letters-show/",
               "date": "2026-08-20",
               "sentiment": "unknown",
-              "reason": "Article does not mention Kosovo",
+              "reason": "Nuk përmendet Kosova në titull",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -584,16 +636,16 @@
               "speaker": ""
             },
             {
-              "title": "Kosovo Assembly Remains Deadlocked, PDK and AAK Refuse Talks - srpske.rs",
-              "albanianTitle": "Kuvendi i Kosovës mbetet në bllokadë, PDK dhe AAK refuzojnë dialogun - srpske.rs",
-              "blurb": "Kuvendi i Kosovës mbetet i bllokuar pasi partitë opozitare PDK dhe AAK refuzojnë pjesëmarrjen në bisedime.",
-              "imageUrl": "https://srpske.rs/uploads/articles/kosovo-assembly-remains-deadlocked-pdk-aak-refuse-talks-16x9.webp",
-              "url": "https://srpske.rs/en/news/politika/2026/08/17/kosovo-assembly-remains-deadlocked-pdk-aak-refuse-talks",
-              "date": "2026-08-17",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike pa ngjyrë",
+              "title": "Vucic to Send Letter to Rutte: Don't Open Ibar Bridge - srpske.rs",
+              "albanianTitle": "Vuçiq i shkruan letër Ruttes: Mos e hapni urën e Ibrit",
+              "blurb": "Presidenti serb Aleksandar Vuçiq paralajmëron dërgimin e një letre drejtuar Mark Ruttes kundër hapjes së urës së Ibrit.",
+              "imageUrl": "https://srpske.rs/uploads/articles/vucic-letter-rutte-ibar-bridge-16x9.webp",
+              "url": "https://srpske.rs/en/news/politika/2026/08/19/vucic-letter-rutte-ibar-bridge",
+              "date": "2026-08-19",
+              "sentiment": "negative",
+              "reason": "Outlet issues a directive opposing the opening of the bridge, a line against Kosovo's interests",
               "isQuote": false,
-              "evidence": "",
+              "evidence": "Don't Open Ibar Bridge",
               "speaker": ""
             }
           ]
@@ -620,11 +672,11 @@
         }
       ],
       "summary": {
-        "index": 52,
-        "positive": 10,
-        "neutral": 84,
-        "negative": 6,
-        "n": 31,
+        "index": 54,
+        "positive": 13,
+        "neutral": 82,
+        "negative": 5,
+        "n": 39,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2
@@ -779,6 +831,26 @@
           ]
         },
         {
+          "name": "CNN",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "The epic hiking trail that explores one of Europe’s last great wildernesses - CNN",
+              "albanianTitle": "Shtegu epik i ecjes që përshkon një nga zonat e fundit të egra të Evropës",
+              "blurb": "Një shteg i gjatë për ecje eksploron një nga zonat e fundit të egra dhe të paprekura në Evropë.",
+              "imageUrl": "https://media.cnn.com/api/v1/images/stellar/prod/gettyimages-2226212944.jpg?c=16x9&q=w_800,c_fill",
+              "url": "https://www.cnn.com/travel/peaks-of-the-balkans-trail-albania-montenegro-kosovo",
+              "date": "2026-08-19",
+              "sentiment": "neutral",
+              "reason": "Fact‑based headline about a trail, no evaluative language toward Kosovo",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "CTV News",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -881,8 +953,47 @@
         {
           "name": "KosovaPress",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 6,
           "articles": [
+            {
+              "title": "Krasniqi: We dreamed of this day, Kosovo is being represented with dignity in Taranto - KosovaPress",
+              "albanianTitle": "Krasniqi: E ëndërruam këtë ditë, Kosova po përfaqësohet me dinjitet në Taranto - KosovaPress",
+              "blurb": "Krasniqi vlerëson përfaqësimin dinjitoz të Kosovës në Lojërat Mesdhetare që po mbahen në qytetin italian të Tarantos.",
+              "imageUrl": null,
+              "url": "https://kosovapress.com/eng/krasniqi-we-dreamed-of-this-day-kosovo-is-being-represented-with-dignity-in-taranto",
+              "date": "2026-08-20",
+              "sentiment": "positive",
+              "reason": "Outlet uses admiring language describing Kosovo's representation",
+              "isQuote": false,
+              "evidence": "with dignity",
+              "speaker": ""
+            },
+            {
+              "title": "Kadrijaj says protests will be even larger if Kurti \"continues in this manner\" - KosovaPress",
+              "albanianTitle": "Kadrijaj: Protestat do të jenë edhe më të mëdha nëse Kurti vazhdon në këtë mënyrë - KosovaPress",
+              "blurb": "Kadrijaj paralajmëron se protestat do të shtohen nëse kryeministri Kurti vazhdon me qasjen e tij aktuale politike.",
+              "imageUrl": null,
+              "url": "https://kosovapress.com/eng/kadrijaj-says-protests-will-be-even-larger-if-kurti-continues-in-this-manner",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Headline reports a statement; no hostile language from the outlet",
+              "isQuote": true,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Events of August 20 - KosovaPress",
+              "albanianTitle": null,
+              "blurb": "Përmbledhje e ngjarjeve kryesore që kanë shënuar ditën e njëzetë të muajit gusht në Kosovë dhe rajon.",
+              "imageUrl": null,
+              "url": "https://kosovapress.com/eng/events-of-august-20-3",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Faktikë e thjeshtë, pa gjuhë ngarkuese",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
             {
               "title": "Democratic Party of Kosovo deputies gather again outside Government, call Kurti an “usurper” - KosovaPress",
               "albanianTitle": "Deputetët e PDK-së protestojnë sërish para Qeverisë, e quajnë Kurtin “uzurpator”",
@@ -895,6 +1006,19 @@
               "isQuote": true,
               "evidence": "",
               "speaker": "Democratic Party of Kosovo deputies"
+            },
+            {
+              "title": "Musliu: We will not stop until Kosovo institutions are constituted - KosovaPress",
+              "albanianTitle": "Musliu: Nuk do të ndalemi derisa të konstituohen institucionet e Kosovës - KosovaPress",
+              "blurb": "Musliu deklaron se angazhimi i tyre do të vazhdojë deri në konstituimin e plotë të institucioneve të Kosovës.",
+              "imageUrl": null,
+              "url": "https://kosovapress.com/eng/musliu-we-will-not-stop-until-kosovo-institutions-are-constituted",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Raporton deklaratën e Musliuut pa ngjyrë vete",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             },
             {
               "title": "Kosovo mayors announce protest in front of government building - KosovaPress",
@@ -1118,11 +1242,11 @@
         }
       ],
       "summary": {
-        "index": 52,
-        "positive": 11,
+        "index": 53,
+        "positive": 12,
         "neutral": 82,
-        "negative": 7,
-        "n": 28,
+        "negative": 6,
+        "n": 33,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -1264,13 +1388,13 @@
           "articles": [
             {
               "title": "Giochi del Mediterraneo, la spedizione azzurra arriva a Taranto per sfilare alla cerimonia di apertura - FIGC",
-              "albanianTitle": "Lojërat Mesdhetare, delegacioni italian arrin në Taranto për ceremoninë e hapjes - FIGC",
-              "blurb": "Ekipi italian ka mbërritur në qytetin e Tarantos për të marrë pjesë në ceremoninë e hapjes së Lojërave Mesdhetare.",
+              "albanianTitle": "Lojërat Mesdhetare: Delegacioni italian arrin në Taranto për ceremoninë e hapjes",
+              "blurb": "Delegacioni italian ka mbërritur në qytetin e Tarantos për të marrë pjesë në ceremoninë e hapjes së Lojërave Mesdhetare.",
               "imageUrl": "https://images.figc.it/view/acePublic/alias/contentid/1t8nkhprvz401xr6pua/0/foto-jpg.jpg?f=187%3A100",
               "url": "https://www.figc.it/it/nazionali/news/giochi-del-mediterraneo-la-spedizione-azzurra-arriva-a-taranto-per-sfilare-alla-cerimonia-di-apertura-hpfgneix",
               "date": "2026-08-20",
               "sentiment": "unknown",
-              "reason": "Article does not mention Kosovo",
+              "reason": "Nuk përmendet Kosova në titull",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1369,14 +1493,54 @@
               "speaker": ""
             }
           ]
+        },
+        {
+          "name": "Virgilio",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Sono iniziati i Giochi del Mediterraneo di Taranto 2026 Volley maschile, alle 12 Kosovo - Grecia al palaPentassuglia di Brindisi - Virgilio",
+              "albanianTitle": "Kanë nisur Lojërat Mesdhetare në Taranto, në volejboll për meshkuj në orën 12:00 përballen Kosova dhe Greqia në palaPentassuglia të Brindisit - Virgilio",
+              "blurb": "Kombëtarja e Kosovës në volejboll përballet me Greqinë në kuadër të Lojërave Mesdhetare që po zhvillohen në Itali.",
+              "imageUrl": "https://img.plug.it/img_newsreg_mid/9/5/6/57064659.jpg",
+              "url": "https://www.virgilio.it/italia/taranto/notizielocali/sono_iniziati_i_giochi_del_mediterraneo_di_taranto_2026_volley_maschile_alle_12_kosovo_grecia_al_palapentassuglia_di_brindisi-77268477.html",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Raportim sportiv i thjeshtë, pa gjuhë ngarkuese",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "geomagazine.it",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Taranto 2026: al via i Giochi del Mediterraneo con una la bella idea per la sostenibilità - geomagazine.it",
+              "albanianTitle": "Taranto 2026: Nisin Lojërat Mesdhetare me një nismë të veçantë për qëndrueshmërinë",
+              "blurb": "Lojërat Mesdhetare Taranto 2026 nisin me fokus të veçantë në zbatimin e praktikave të qëndrueshme mjedisore gjatë organizimit.",
+              "imageUrl": "https://www.geomagazine.it/wp-content/uploads/2026/08/image-7.png",
+              "url": "https://www.geomagazine.it/2026/08/20/taranto-2026-al-via-i-giochi-del-mediterraneo-con-una-la-bella-idea-per-la-sostenibilita/",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Përshkrim neutral i ngjarjes sportive",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
         }
       ],
       "summary": {
-        "index": 57,
-        "positive": 14,
-        "neutral": 86,
+        "index": 56,
+        "positive": 11,
+        "neutral": 89,
         "negative": 0,
-        "n": 7,
+        "n": 9,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2
@@ -1466,12 +1630,12 @@
             {
               "title": "News Archive - zentralplus",
               "albanianTitle": null,
-              "blurb": "Arkiva e lajmeve në portalin informativ Zentralplus përmban përmbledhje të ngjarjeve të ndryshme të publikuara gjatë periudhave të kaluara kohore.",
+              "blurb": "Arkiva e lajmeve në portalin zentralplus përmban përmbledhje të ngjarjeve të ndryshme të publikuara më parë në këtë medium.",
               "imageUrl": null,
               "url": "https://www.zentralplus.ch/news/luzerner-loest-mit-trottoir-fahrt-shitstorm-aus-2893231/",
               "date": "2026-08-20",
               "sentiment": "unknown",
-              "reason": "No information about Kosovo or outlet attitude",
+              "reason": "Nuk përmendet Kosova në titull",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1966,6 +2130,26 @@
           ]
         },
         {
+          "name": "Sofascore",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Türkiye 3x3 - Kosovo 3x3 ζωντανά αποτελέσματα, συγκριτικά, πρόγραμμα, προβλέψεις και στατιστικά - Sofascore",
+              "albanianTitle": "Turqia 3x3 - Kosova 3x3: Rezultatet live, statistikat, orari dhe parashikimet - Sofascore",
+              "blurb": "Platforma Sofascore ofron rezultatet, statistikat dhe orarin e ndeshjes së basketbollit 3x3 ndërmjet Turqisë dhe përfaqësueses së Kosovës.",
+              "imageUrl": null,
+              "url": "https://www.sofascore.com/el/basketball/match/kosovo-3x3-turkiye-3x3/BaajsQaaj",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Informacion sportiv i thjeshtë, pa ngjyrë vete",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "Sport24",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -2144,7 +2328,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 17,
+        "n": 18,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -2200,6 +2384,26 @@
     "Poloni": {
       "outlets": [
         {
+          "name": "Sofascore",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Türkiye 3x3 przeciwko Kosovo 3x3 – wyniki na żywo, bilans spotkań, terminarz, przewidywania i statystyki - Sofascore",
+              "albanianTitle": "Turqia 3x3 kundër Kosovës 3x3: Rezultatet live, përballjet direkte, orari, parashikimet dhe statistikat - Sofascore",
+              "blurb": "Të dhënat statistikore dhe orari i përballjes në basketboll 3x3 ndërmjet Turqisë dhe Kosovës janë publikuar në faqen Sofascore.",
+              "imageUrl": null,
+              "url": "https://www.sofascore.com/pl/basketball/match/kosovo-3x3-turkiye-3x3/BaajsQaaj",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Faktike, pa gjuhë të ngarkuar ndaj Kosovës",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "gostyn24.pl",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -2225,7 +2429,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 1,
+        "n": 2,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
@@ -2364,14 +2568,34 @@
               "speaker": ""
             },
             {
-              "title": "Bugün Motorinin Fiyatı 1.78 Euro - Kosovahaber.com",
-              "albanianTitle": "Çmimi i naftës sot është 1.78 euro - Kosovahaber.com",
-              "blurb": "Çmimi i naftës në tregun e Kosovës për ditën e sotme është vendosur në vlerën prej një euro e shtatëdhjetë e tetë cent.",
+              "title": "Sınır Kapısında Keskin Nişancı Tüfeği Dürbünü Ele Geçirildi - Kosovahaber.com",
+              "albanianTitle": "Konfiskohet dylbi për pushkë snajper në pikën kufitare - Kosovahaber.com",
+              "blurb": "Autoritetet kufitare kanë sekuestruar një dylbi për pushkë snajper gjatë kontrollit të kryer në një pikë kufitare të Kosovës.",
               "imageUrl": null,
-              "url": "https://kosovahaber.com/haber/bugun-motorinin-fiyati-178-euro-105092",
+              "url": "https://kosovahaber.com/haber/sinir-kapisinda-keskin-nisanci-tufegi-durbunu-ele-gecirildi-105098",
               "date": "2026-08-20",
               "sentiment": "neutral",
-              "reason": "Price report, no stance on Kosovo",
+              "reason": "Fact-based report of seizure at border without loaded language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Malatya Güncel",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Vucic, NATO'dan Kosova'daki Sırplara yönelik şiddeti durdurmasını talep etti - Malatya Güncel",
+              "albanianTitle": "Vučić i kërkon NATO-s ndalimin e dhunës ndaj serbëve në Kosovë",
+              "blurb": "Aleksandar Vuçiq ka kërkuar nga NATO-ja ndërhyrje për të ndaluar dhunën ndaj serbëve në territorin e Kosovës.",
+              "imageUrl": "https://www.malatyaguncel.com/d/news/556428_ilkha_01.jpg",
+              "url": "https://www.malatyaguncel.com/vucic-nato-dan-kosova-daki-sirplara-yonelik-sidde-3107982h.htm",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Faktik raportim pa ngarkim",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -2546,26 +2770,6 @@
           ]
         },
         {
-          "name": "ANSA",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Vucic writes to Rutte: 'NATO, stop terror in Kosovo, do not reopen the bridge' - ANSA",
-              "albanianTitle": "Vuçiq i shkruan Ruttes: NATO, ndaloni terrorin në Kosovë, mos e hapni urën - ANSA",
-              "blurb": "Presidenti serb Vuçiq i ka kërkuar NATO-s ndalimin e veprimeve në Kosovë dhe kundërshtoi rihapjen e urës mbi Ibër.",
-              "imageUrl": "https://www.ansa.it/webimages/img_1280x720/2026/8/8/61c8122ecfa3454105e817ee96176bf9.jpg",
-              "url": "https://www.ansa.it/nuova_europa/en/news/sections/news/2026/08/20/vucic-writes-to-rutte-nato-stop-terror-in-kosovo-do-not-reopen-the_9034279d-c06f-4e44-ab54-096dd4332014.html",
-              "date": "2026-08-20",
-              "sentiment": "neutral",
-              "reason": "Citat i Vucic-it, media raporton pa ngjyrë",
-              "isQuote": true,
-              "evidence": "",
-              "speaker": "Vucic"
-            }
-          ]
-        },
-        {
           "name": "Al Jazeera",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -2732,26 +2936,6 @@
           ]
         },
         {
-          "name": "EUalive",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "The price of normalisation: Belgrade’s losing battle over the Mitrovica bridge - EUalive",
-              "albanianTitle": "Çmimi i normalizimit: Beteja e humbur e Beogradit për urën e Mitrovicës",
-              "blurb": "Beogradi po përballet me humbjen e ndikimit lidhur me çështjen e hapjes së urës së Mitrovicës për qarkullim.",
-              "imageUrl": "https://eualive.net/wp-content/uploads/2026/08/MSU_Mitrovica_Manbox_-_Ibar_Bridge_summer_2019.jpg",
-              "url": "https://eualive.net/the-price-of-normalisation-belgrades-losing-battle-over-the-mitrovica-bridge/",
-              "date": "2026-08-19",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportim pa ngarkesë",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
           "name": "European Western Balkans",
           "sentiment": "negative",
           "articleCount": 1,
@@ -2812,6 +2996,91 @@
           ]
         },
         {
+          "name": "KosovaPress",
+          "sentiment": "neutral",
+          "articleCount": 6,
+          "articles": [
+            {
+              "title": "Krasniqi: We dreamed of this day, Kosovo is being represented with dignity in Taranto - KosovaPress",
+              "albanianTitle": "Krasniqi: E ëndërruam këtë ditë, Kosova po përfaqësohet me dinjitet në Taranto - KosovaPress",
+              "blurb": "Krasniqi vlerëson përfaqësimin dinjitoz të Kosovës në Lojërat Mesdhetare që po mbahen në qytetin italian të Tarantos.",
+              "imageUrl": null,
+              "url": "https://kosovapress.com/eng/krasniqi-we-dreamed-of-this-day-kosovo-is-being-represented-with-dignity-in-taranto",
+              "date": "2026-08-20",
+              "sentiment": "positive",
+              "reason": "Outlet uses admiring language describing Kosovo's representation",
+              "isQuote": false,
+              "evidence": "with dignity",
+              "speaker": ""
+            },
+            {
+              "title": "61 percent of women journalists in Kosovo have faced online abuse - KosovaPress",
+              "albanianTitle": "61 për qind e gazetareve në Kosovë janë përballur me abuzime online - KosovaPress",
+              "blurb": "Gjashtëdhjetë e një përqind e grave gazetare në Kosovë kanë përjetuar forma të ndryshme të abuzimit në internet.",
+              "imageUrl": null,
+              "url": "https://kosovapress.com/eng/61-percent-of-women-journalists-in-kosovo-have-faced-online-abuse",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim neutral pa gjuhë ngarkuese",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Democratic Party of Kosovo says it will not meet with Kurti again, let him elect the president without our votes - KosovaPress",
+              "albanianTitle": "Partia Demokratike e Kosovës: S’do të takohemi më me Kurtin, le ta zgjedhë presidentin pa votat tona - KosovaPress",
+              "blurb": "Partia Demokratike e Kosovës refuzon takimet me Kurtin dhe deklaron se nuk do të votojë për presidentin e ri.",
+              "imageUrl": null,
+              "url": "https://kosovapress.com/eng/democratic-party-of-kosovo-says-it-will-not-meet-with-kurti-again-let-him-elect-the-president-without-our-votes",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Raportim i deklaratës pa gjuhë ngarkuese",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Gashani speaks exclusively to KosovaPress: We will receive the baton in Taranto and showcase progress toward Prishtina 2030 before the Assembly - KosovaPress",
+              "albanianTitle": "Gashani ekskluzivisht për KosovaPress: Do ta marrim stafetën në Taranto dhe do të shfaqim progresin drejt Prishtina 2030 para Asamblesë - KosovaPress",
+              "blurb": "Gashani njofton se Kosova do të pranojë stafetën në Taranto dhe do të prezantojë progresin për Prishtina 2030.",
+              "imageUrl": null,
+              "url": "https://kosovapress.com/eng/gashani-speaks-exclusively-to-kosovapress-we-will-receive-the-baton-in-taranto-and-showcase-progress-toward-prishtina-2030-before-the-assembly",
+              "date": "2026-08-20",
+              "sentiment": "positive",
+              "reason": "Outlet uses encouraging language about Kosovo's development",
+              "isQuote": false,
+              "evidence": "showcase progress toward Prishtina 2030",
+              "speaker": ""
+            },
+            {
+              "title": "Kosovo Energy Corporation employee dies after coming into contact with electrical current - KosovaPress",
+              "albanianTitle": "Vdes punëtori i Korporatës Energjetike të Kosovës pasi bie në kontakt me rrymën elektrike - KosovaPress",
+              "blurb": "Një punëtor i Korporatës Energjetike të Kosovës ka humbur jetën pasi është goditur nga rryma elektrike gjatë punës.",
+              "imageUrl": null,
+              "url": "https://kosovapress.com/eng/kosovo-energy-corporation-employee-dies-after-contacting-electrical-current",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Faktikë vdekja e punonjësit, pa gjuhë ngarkuese",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Kosovo Acting President Haxhiu in Italy for opening of Taranto 2026 Mediterranean Games - KosovaPress",
+              "albanianTitle": "Ushtruesja e detyrës së presidentit, Haxhiu, në Itali për hapjen e Lojërave Mesdhetare Taranto 2026 - KosovaPress",
+              "blurb": "Ushtruesja e detyrës së presidentit, Haxhiu, po merr pjesë në ceremoninë e hapjes së Lojërave Mesdhetare në Itali.",
+              "imageUrl": null,
+              "url": "https://kosovapress.com/eng/kosovo-acting-president-haxhiu-in-italy-for-opening-of-taranto-2026-mediterranean-games",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Faktikë vizitë e presidentit, pa gjuhë ngarkuese",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "Monocle",
           "sentiment": "positive",
           "articleCount": 1,
@@ -2858,13 +3127,13 @@
           "articles": [
             {
               "title": "US to provide $206 million for Gaza peacekeeping force, letters show - The Times of Israel",
-              "albanianTitle": "Sipas dokumenteve, SHBA-ja do të ndajë 206 milionë dollarë për forcat paqeruajtëse në Gaza - The Times of Israel",
-              "blurb": "Shtetet e Bashkuara të Amerikës do të ndajnë 206 milionë dollarë për forcat paqeruajtëse në Rripin e Gazës.",
+              "albanianTitle": "SHBA do të ndajë 206 milionë dollarë për forcën paqeruajtëse në Gaza, sipas dokumenteve",
+              "blurb": "Shtetet e Bashkuara të Amerikës planifikojnë të ndajnë 206 milionë dollarë për mbështetjen e forcave paqeruajtëse në Rripin e Gazës.",
               "imageUrl": null,
               "url": "https://www.timesofisrael.com/us-to-provide-206-million-for-gaza-peacekeeping-force-letters-show/",
               "date": "2026-08-20",
               "sentiment": "unknown",
-              "reason": "Article does not mention Kosovo",
+              "reason": "Nuk përmendet Kosova në titull",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -2894,7 +3163,7 @@
         {
           "name": "srpske.rs",
           "sentiment": "neutral",
-          "articleCount": 6,
+          "articleCount": 5,
           "articles": [
             {
               "title": "Haljiti: Kosovo President Deal Possible Within Days - srpske.rs",
@@ -2960,19 +3229,6 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
-            },
-            {
-              "title": "Kosovo Assembly Remains Deadlocked, PDK and AAK Refuse Talks - srpske.rs",
-              "albanianTitle": "Kuvendi i Kosovës mbetet në bllokadë, PDK dhe AAK refuzojnë dialogun - srpske.rs",
-              "blurb": "Kuvendi i Kosovës mbetet i bllokuar pasi partitë opozitare PDK dhe AAK refuzojnë pjesëmarrjen në bisedime.",
-              "imageUrl": "https://srpske.rs/uploads/articles/kosovo-assembly-remains-deadlocked-pdk-aak-refuse-talks-16x9.webp",
-              "url": "https://srpske.rs/en/news/politika/2026/08/17/kosovo-assembly-remains-deadlocked-pdk-aak-refuse-talks",
-              "date": "2026-08-17",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike pa ngjyrë",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
             }
           ]
         },
@@ -2998,11 +3254,11 @@
         }
       ],
       "summary": {
-        "index": 54,
-        "positive": 12,
-        "neutral": 84,
+        "index": 57,
+        "positive": 18,
+        "neutral": 79,
         "negative": 4,
-        "n": 25,
+        "n": 28,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2
