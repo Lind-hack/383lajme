@@ -1819,9 +1819,9 @@
   },
   {
     "date": "2026-08-20",
-    "overallIndex": 51,
-    "totalArticles": 144,
-    "sourceCount": 100,
+    "overallIndex": 52,
+    "totalArticles": 166,
+    "sourceCount": 113,
     "stanceVersion": 2,
     "countries": {
       "Gjermani": {
@@ -1835,21 +1835,21 @@
         "stanceVersion": 2
       },
       "SHBA": {
-        "index": 50,
-        "positive": 9,
-        "neutral": 83,
-        "negative": 9,
-        "n": 23,
+        "index": 52,
+        "positive": 11,
+        "neutral": 81,
+        "negative": 7,
+        "n": 27,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2
       },
       "Britani": {
-        "index": 50,
-        "positive": 10,
+        "index": 52,
+        "positive": 12,
         "neutral": 81,
-        "negative": 10,
-        "n": 21,
+        "negative": 8,
+        "n": 26,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2
@@ -1919,7 +1919,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 8,
+        "n": 7,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -1929,7 +1929,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 14,
+        "n": 18,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -1955,22 +1955,22 @@
         "stanceVersion": 2
       },
       "Turqi": {
-        "index": 47,
+        "index": 48,
         "positive": 0,
         "neutral": 95,
         "negative": 5,
-        "n": 37,
+        "n": 41,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
       },
       "Kroaci": {
-        "index": 54,
-        "positive": 14,
-        "neutral": 79,
-        "negative": 7,
-        "n": 14,
-        "excluded": 2,
+        "index": 55,
+        "positive": 15,
+        "neutral": 80,
+        "negative": 5,
+        "n": 20,
+        "excluded": 1,
         "confident": true,
         "stanceVersion": 2
       }
