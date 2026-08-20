@@ -1,8 +1,8 @@
 {
   "lastUpdated": "2026-08-20",
-  "overallIndex": 50,
-  "totalArticles": 131,
-  "sourceCount": 94,
+  "overallIndex": 51,
+  "totalArticles": 135,
+  "sourceCount": 98,
   "stanceVersion": 2,
   "countries": {
     "Gjermani": {
@@ -75,6 +75,26 @@
     "SHBA": {
       "outlets": [
         {
+          "name": "A News",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "US to deport CIA informant who infiltrated al-Qaeda - A News",
+              "albanianTitle": "SHBA-ja do të dëbojë informatorin e CIA-s që ishte infiltruar në al-Qaeda",
+              "blurb": "Shtetet e Bashkuara planifikojnë dëbimin e një ish-informatori të CIA-s, i cili më parë kishte infiltruar në organizatën terroriste al-Qaeda.",
+              "imageUrl": "https://ia.tmgrup.com.tr/150e72/806/378/0/0/1200/562?u=https://i.tmgrup.com.tr/anews/v1/2026/08/20/us-to-deport-cia-informant-who-infiltrated-al-qaeda-1787208934152.jpeg",
+              "url": "https://www.anews.com.tr/world/2026/08/20/us-to-deport-cia-informant-who-infiltrated-al-qaeda",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim i thjeshtë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "Al Jazeera",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -95,30 +115,23 @@
           ]
         },
         {
-          "name": "Balkan Green Energy News",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "North Macedonia to import coal for power plants from Kosovo* - balkangreenenergynews.com",
-              "albanianTitle": "Maqedonia e Veriut do të importojë qymyr nga Kosova për termocentralet e saj - balkangreenenergynews.com",
-              "blurb": "Maqedonia e Veriut do të importojë thëngjill nga Kosova për të furnizuar termocentralet e saj me lëndë djegëse.",
-              "imageUrl": "https://balkangreenenergynews.com/wp-content/uploads/2026/08/north-macedonia-kosovo-kek-esm-coal-concesion-contract-hasani-uzuncev.jpg",
-              "url": "https://balkangreenenergynews.com/north-macedonia-to-import-coal-for-power-plants-from-kosovo/",
-              "date": "2026-08-18",
-              "sentiment": "neutral",
-              "reason": "Raportim faktik për tregtinë e qymyrit, pa gjuhë ngarkuar",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
           "name": "Balkan Insight",
           "sentiment": "neutral",
           "articleCount": 2,
           "articles": [
+            {
+              "title": "Kosovo Opposition Snubs Acting President’s Meeting Amid Parliamentary Crisis - Balkan Insight",
+              "albanianTitle": "Opozita kosovare bojkoton takimin me ushtruesen e detyrës së presidentit në mes të krizës parlamentare - Balkan Insight",
+              "blurb": "Partitë opozitare në Kosovë refuzuan pjesëmarrjen në takimin e thirrur nga ushtruesja e detyrës së presidentit për krizën parlamentare.",
+              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/08/Kosovo-meeting-Albulena-Haxhiu-BIRN-scaled-e1787054218728.jpg",
+              "url": "https://balkaninsight.com/2026/08/18/kosovo-opposition-snubs-acting-presidents-meeting-amid-parliamentary-crisis/bi/",
+              "date": "2026-08-18",
+              "sentiment": "neutral",
+              "reason": "Faktikë e thjeshtë, pa gjuhë ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
             {
               "title": "Suspend Officers Suspected of Beating Serb, Kosovo Police Inspectorate Says - Balkan Insight",
               "albanianTitle": "Inspektorati Policor i Kosovës kërkon suspendimin e zyrtarëve të dyshuar për rrahjen e një serbi",
@@ -131,16 +144,23 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
-            },
+            }
+          ]
+        },
+        {
+          "name": "CBS News",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
             {
-              "title": "Kosovo Opposition Snubs Acting President’s Meeting Amid Parliamentary Crisis - Balkan Insight",
-              "albanianTitle": "Opozita kosovare bojkoton takimin me ushtruesen e detyrës së presidentit në mes të krizës parlamentare - Balkan Insight",
-              "blurb": "Partitë opozitare në Kosovë refuzuan pjesëmarrjen në takimin e thirrur nga ushtruesja e detyrës së presidentit për krizën parlamentare.",
-              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/08/Kosovo-meeting-Albulena-Haxhiu-BIRN-scaled-e1787054218728.jpg",
-              "url": "https://balkaninsight.com/2026/08/18/kosovo-opposition-snubs-acting-presidents-meeting-amid-parliamentary-crisis/bi/",
-              "date": "2026-08-18",
+              "title": "He spied for the U.S. in the war on terror. Now ICE wants to deport him. - CBS News",
+              "albanianTitle": "Ai spiunoi për SHBA-në në luftën kundër terrorizmit, tani ICE kërkon dëbimin e tij",
+              "blurb": "Autoritetet amerikane të emigracionit po kërkojnë dëbimin e një ish-informatori që spiunoi për Shtetet e Bashkuara gjatë luftës kundër terrorit.",
+              "imageUrl": "https://assets3.cbsnewsstatic.com/hub/i/r/2026/08/19/7aee433e-ddaf-4c88-bc73-3fb6c4a79b1f/thumbnail/1200x630g2/768f648093b53b90fb1e43d03d1e1e0c/blerim-skoro-1.jpg",
+              "url": "https://www.cbsnews.com/news/ice-detainee-spy-terrorism-blerim-skoro/",
+              "date": "2026-08-19",
               "sentiment": "neutral",
-              "reason": "Faktikë e thjeshtë, pa gjuhë ngarkuar",
+              "reason": "Faktikë raportim i thjeshtë",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -161,26 +181,6 @@
               "date": "2026-08-19",
               "sentiment": "neutral",
               "reason": "Fact‑based headline about a trail, no evaluative language toward Kosovo",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "Cineuropa",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Igor Aleksov shooting The Secret of the Bare Hill - Cineuropa",
-              "albanianTitle": "Igor Aleksov po xhiron filmin \"Sekreti i Kodrës së Zhveshur\" - Cineuropa",
-              "blurb": "Regjisori Igor Aleksov ka nisur xhirimet për filmin e ri me titull Sekretet e Kodrës së Zhveshur në rajon.",
-              "imageUrl": null,
-              "url": "https://cineuropa.org/en/newsdetail/494534",
-              "date": "2026-08-18",
-              "sentiment": "neutral",
-              "reason": "Titull informativ pa ngarkim",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -286,14 +286,453 @@
               "speaker": "Democratic Party of Kosovo deputies"
             },
             {
-              "title": "Kosovo mayors announce protest in front of government building - kosovapress.com",
-              "albanianTitle": "Kryetarët e komunave në Kosovë paralajmërojnë protestë para ndërtesës së Qeverisë",
-              "blurb": "Kryetarët e komunave të Kosovës kanë paralajmëruar mbajtjen e një proteste para ndërtesës së Qeverisë së Kosovës.",
+              "title": "Kosovo mayors announce protest in front of government building - KosovaPress",
+              "albanianTitle": "Kryetarët e komunave në Kosovë paralajmërojnë protestë para ndërtesës së qeverisë - KosovaPress",
+              "blurb": "Kryetarët e komunave të Kosovës kanë paralajmëruar mbajtjen e një proteste para ndërtesës së Qeverisë për të shprehur pakënaqësitë e tyre.",
               "imageUrl": null,
               "url": "https://kosovapress.com/eng/kosovo-mayors-announce-protest-in-front-of-government-building",
               "date": "2026-08-18",
               "sentiment": "neutral",
-              "reason": "Faktikë raportim pa gjuhë ngarkuese",
+              "reason": "Lajm i thjeshtë për protestë të kryetarëve të komunave në Kosovë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Monocle",
+          "sentiment": "positive",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo's Independence: A New European Nation is Born - Monocle",
+              "albanianTitle": "Pavarësia e Kosovës: Një shtet i ri evropian ka lindur",
+              "blurb": "Pavarësia e Kosovës shënon lindjen e një shteti të ri në kontinentin evropian sipas vlerësimit të revistës Monocle.",
+              "imageUrl": "https://monocle.com/wp-content/uploads/legacy/article/79815919-515ae60472cc2.jpg?fit=4256%2C2832",
+              "url": "https://monocle.com/affairs/kosovo-independence-serbia-balkans/",
+              "date": "2026-08-18",
+              "sentiment": "positive",
+              "reason": "Outlet uses celebratory phrasing that praises Kosovo's independence",
+              "isQuote": false,
+              "evidence": "New European Nation is Born",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "NIN.rs",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "NIN survey: What would changing the course of the Ibar mean for Kosovo and Metohija? - NIN.rs",
+              "albanianTitle": "Anketa e NIN: Çfarë do të nënkuptonte ndryshimi i rrjedhës së Ibrit për Kosovën?",
+              "blurb": "Anketa e revistës NIN shqyrton pasojat e mundshme të ndryshimit të rrjedhës së lumit Ibër për Kosovën dhe Metohinë.",
+              "imageUrl": "https://www.nin.rs/data/images/2026-08-18/124396_profimedia-0746515640_orig.jpg",
+              "url": "https://www.nin.rs/english/news/121067/nin-survey-what-would-changing-the-course-of-the-ibar-mean-for-kosovo-and-metohija",
+              "date": "2026-08-19",
+              "sentiment": "neutral",
+              "reason": "Fact-based reporting without loaded language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "News On AIR",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo Parliament Approves Kurti’s Cabinet with 66-49 Vote - News On AIR",
+              "albanianTitle": "Parlamenti i Kosovës voton kabinetin e Kurtit me 66 vota pro dhe 49 kundër - News On AIR",
+              "blurb": "Kuvendi i Kosovës ka votuar me 66 vota për dhe 49 kundër miratimin e kabinetit qeveritar të udhëhequr nga Albin Kurti.",
+              "imageUrl": null,
+              "url": "https://newsonair.gov.in/kosovo-parliament-approves-kurtis-cabinet-with-66-49-vote/",
+              "date": "2026-08-18",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Osservatorio Balcani Caucaso Transeuropa",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Political crisis in Kosovo: no light at the end of the tunnel - Osservatorio Balcani Caucaso Transeuropa",
+              "albanianTitle": "Krizë politike në Kosovë: nuk shihet dritë në fund të tunelit",
+              "blurb": "Kosova po përballet me një krizë të vazhdueshme politike, pa ndonjë zgjidhje të dukshme në horizont për momentin.",
+              "imageUrl": "https://www.balcanicaucaso.org/wp-content/uploads/sites/8/2026/08/shutterstock_242203063.jpg",
+              "url": "https://www.balcanicaucaso.org/en/cp_article/political-crisis-in-kosovo-no-light-at-the-end-of-the-tunnel/",
+              "date": "2026-08-19",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "RNZ",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Remains of over 20 people found in Kosovo mass graves search - RNZ",
+              "albanianTitle": "Gjenden mbetjet e mbi 20 personave gjatë kërkimeve në varrezat masive në Kosovë - RNZ",
+              "blurb": "Gjatë kërkimeve në terren janë zbuluar mbetjet mortore të më shumë se 20 personave në varreza masive në Kosovë.",
+              "imageUrl": "https://media.rnztools.nz/rnz/image/upload/s--IGO4qbmE--/t_tohu-badge-facebook/f_auto/q_auto/4JJLKIU_AFP__20260801__C3R36LF__v1__HighRes__KosovoSerbiaInvestigationWarMissing_jpg",
+              "url": "https://www.rnz.co.nz/news/world/1066719/remains-of-over-20-people-found-in-kosovo-mass-graves-search",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "The Times of Israel",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "US to provide $206 million for Gaza peacekeeping force, letters show - The Times of Israel",
+              "albanianTitle": "SHBA do të ndajë 206 milionë dollarë për forcat paqeruajtëse në Gaza, bëhet e ditur nga disa dokumente - The Times of Israel",
+              "blurb": "Shtetet e Bashkuara të Amerikës planifikojnë të ndajnë dyqind e gjashtë milionë dollarë për forcat paqeruajtëse në Rripin e Gazës.",
+              "imageUrl": null,
+              "url": "https://www.timesofisrael.com/us-to-provide-206-million-for-gaza-peacekeeping-force-letters-show/",
+              "date": "2026-08-20",
+              "sentiment": "unknown",
+              "reason": "Artikulli nuk përmend Kosovën, prandaj nuk mund të përcaktohet qëndrimi",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "World Baseball Softball Confederation (WBSC)",
+          "sentiment": "positive",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Mediterranean Games: Kosovo’s Lekë Juniku carries tradition and fighting spirit from Taranto towards 2030 - World Baseball Softball Confederation (WBSC)",
+              "albanianTitle": "Lojërat Mesdhetare: Lekë Juniku i Kosovës bart traditën dhe frymën luftarake nga Taranto drejt vitit 2030",
+              "blurb": "Sportisti Lekë Juniku përfaqëson Kosovën në Lojërat Mesdhetare, duke bartur traditën dhe frymën garuese drejt edicionit të vitit 2030.",
+              "imageUrl": null,
+              "url": "https://www.wbsc.org/en/news/mediterranean-games-kosovos-leke-juniku-carries-tradition-and-fighting-spirit-from-taranto-towards-2030",
+              "date": "2026-08-18",
+              "sentiment": "positive",
+              "reason": "Gjuhë e ngrohtë dhe admiruese për Kosovën",
+              "isQuote": false,
+              "evidence": "carries tradition and fighting spirit",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "srpske.rs",
+          "sentiment": "neutral",
+          "articleCount": 4,
+          "articles": [
+            {
+              "title": "Kurti, Abdixhiku Agree on Profile for Kosovo President - srpske.rs",
+              "albanianTitle": "Kurti dhe Abdixhiku pajtohen për profilin e presidentit të Kosovës",
+              "blurb": "Albin Kurti dhe Lumir Abdixhiku kanë arritur pajtim për profilin e kandidatit për president të Republikës së Kosovës.",
+              "imageUrl": "https://srpske.rs/uploads/articles/kurti-abdixhiku-agree-kosovo-president-profile-16x9.webp",
+              "url": "https://srpske.rs/en/news/politika/2026/08/19/kurti-abdixhiku-agree-kosovo-president-profile",
+              "date": "2026-08-19",
+              "sentiment": "neutral",
+              "reason": "Fact-based reporting without loaded language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Vucic to Send Letter to Rutte: Don't Open Ibar Bridge - srpske.rs",
+              "albanianTitle": "Vuçiq i shkruan letër Ruttes: Mos e hapni urën e Ibrit",
+              "blurb": "Presidenti serb Aleksandar Vuçiq paralajmëron dërgimin e një letre drejtuar Mark Ruttes kundër hapjes së urës së Ibrit.",
+              "imageUrl": "https://srpske.rs/uploads/articles/vucic-letter-rutte-ibar-bridge-16x9.webp",
+              "url": "https://srpske.rs/en/news/politika/2026/08/19/vucic-letter-rutte-ibar-bridge",
+              "date": "2026-08-19",
+              "sentiment": "negative",
+              "reason": "Outlet issues a directive opposing the opening of the bridge, a line against Kosovo's interests",
+              "isQuote": false,
+              "evidence": "Don't Open Ibar Bridge",
+              "speaker": ""
+            },
+            {
+              "title": "Alliance Reports Kosovo Government Over 18 Commissions - srpske.rs",
+              "albanianTitle": "Aleanca denoncon Qeverinë e Kosovës për 18 komisione - srpske.rs",
+              "blurb": "Aleanca për Ardhmërinë e Kosovës ka raportuar qeverinë lidhur me funksionimin e tetëmbëdhjetë komisioneve të ndryshme shtetërore në vend.",
+              "imageUrl": "https://srpske.rs/uploads/articles/alliance-reports-kosovo-government-over-18-commissions-16x9.webp",
+              "url": "https://srpske.rs/en/news/politika/2026/08/18/alliance-reports-kosovo-government-over-18-commissions",
+              "date": "2026-08-18",
+              "sentiment": "neutral",
+              "reason": "Plain news headline about government commissions, no evaluative language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Kosovo Opposition Blocks Government Entrance for Fourth Day - srpske.rs",
+              "albanianTitle": "Opozita në Kosovë bllokon hyrjen e Qeverisë për të katërtën ditë me radhë",
+              "blurb": "Opozita në Kosovë vazhdon të bllokojë hyrjen e ndërtesës së qeverisë për të katërtën ditë radhazi.",
+              "imageUrl": "https://srpske.rs/uploads/articles/kosovo-opposition-blocks-government-entrance-fourth-day-16x9.webp",
+              "url": "https://srpske.rs/en/news/politika/2026/08/18/kosovo-opposition-blocks-government-entrance-fourth-day",
+              "date": "2026-08-18",
+              "sentiment": "neutral",
+              "reason": "Titulli faktik pa gjuhë ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "ԱՐՑԱԽ ԼՐԱՏՎԱԿԱՆ",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "NATO reduces security presence at key Kosovo Serb sites - ԱՐՑԱԽ ԼՐԱՏՎԱԿԱՆ",
+              "albanianTitle": "NATO zvogëlon praninë e sigurisë në pikat kyçe serbe në Kosovë",
+              "blurb": "Aleanca Veriatlantike ka zvogëluar numrin e trupave të saj që sigurojnë lokacionet kryesore të banuara nga serbët në Kosovë.",
+              "imageUrl": "https://mamul.am/images/photos/260812/nato-n-sksel-e-krtchatel-ir-ne-n367818-1.jpg",
+              "url": "https://artsakh.news/en/news/367818",
+              "date": "2026-08-17",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        }
+      ],
+      "summary": {
+        "index": 50,
+        "positive": 9,
+        "neutral": 83,
+        "negative": 9,
+        "n": 23,
+        "excluded": 1,
+        "confident": true,
+        "stanceVersion": 2
+      }
+    },
+    "Britani": {
+      "outlets": [
+        {
+          "name": "A News",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "US to deport CIA informant who infiltrated al-Qaeda - A News",
+              "albanianTitle": "SHBA-ja do të dëbojë informatorin e CIA-s që ishte infiltruar në al-Qaeda",
+              "blurb": "Shtetet e Bashkuara planifikojnë dëbimin e një ish-informatori të CIA-s, i cili më parë kishte infiltruar në organizatën terroriste al-Qaeda.",
+              "imageUrl": "https://ia.tmgrup.com.tr/150e72/806/378/0/0/1200/562?u=https://i.tmgrup.com.tr/anews/v1/2026/08/20/us-to-deport-cia-informant-who-infiltrated-al-qaeda-1787208934152.jpeg",
+              "url": "https://www.anews.com.tr/world/2026/08/20/us-to-deport-cia-informant-who-infiltrated-al-qaeda",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim i thjeshtë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Al Jazeera",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo finds remains of 23 people in mass graves search - Al Jazeera",
+              "albanianTitle": "Gjenden mbetjet mortore të 23 personave gjatë kërkimeve në varrezat masive në Kosovë - Al Jazeera",
+              "blurb": "Autoritetet në Kosovë kanë gjetur mbetjet mortore të njëzet e tre personave gjatë kërkimeve në varreza masive.",
+              "imageUrl": "https://www.aljazeera.com/wp-content/uploads/2026/08/AFP__20260801__C3R36KQ__v1__HighRes__KosovoSerbiaInvestigationWarMissing-1787179531.jpg?resize=1920%2C1440",
+              "url": "https://www.aljazeera.com/news/2026/8/19/kosovo-finds-remains-of-at-least-23-people-in-suspected-mass-graves",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim pa gjuhë të ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Balkan Green Energy News",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "North Macedonia to import coal for power plants from Kosovo* - Balkan Green Energy News",
+              "albanianTitle": "Maqedonia e Veriut do të importojë qymyr nga Kosova për termocentralet - Balkan Green Energy News",
+              "blurb": "Maqedonia e Veriut ka planifikuar importimin e thëngjillit nga Kosova për nevojat e termocentraleve të saj për prodhimin e energjisë.",
+              "imageUrl": "https://balkangreenenergynews.com/wp-content/uploads/2026/08/north-macedonia-kosovo-kek-esm-coal-concesion-contract-hasani-uzuncev.jpg",
+              "url": "https://balkangreenenergynews.com/north-macedonia-to-import-coal-for-power-plants-from-kosovo/",
+              "date": "2026-08-18",
+              "sentiment": "neutral",
+              "reason": "Faktikë e thjeshtë, pa gjuhë ngarkuar ndaj Kosovës",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Balkan Insight",
+          "sentiment": "neutral",
+          "articleCount": 2,
+          "articles": [
+            {
+              "title": "Suspend Officers Suspected of Beating Serb, Kosovo Police Inspectorate Says - Balkan Insight",
+              "albanianTitle": "Inspektorati Policor i Kosovës kërkon suspendimin e zyrtarëve të dyshuar për rrahjen e një serbi",
+              "blurb": "Inspektorati Policor i Kosovës ka suspenduar zyrtarët policorë të dyshuar për rrahjen e një qytetari serb.",
+              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/08/Kosovo-Police-Inspectorate-BIRN-1280x720.png",
+              "url": "https://balkaninsight.com/2026/08/19/suspend-officers-suspected-of-beating-serb-kosovo-police-inspectorate-says/bi/",
+              "date": "2026-08-19",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim pa ngarkesë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Kosovo Opposition Snubs Acting President’s Meeting Amid Parliamentary Crisis - Balkan Insight",
+              "albanianTitle": "Opozita kosovare bojkoton takimin me ushtruesen e detyrës së presidentit në mes të krizës parlamentare - Balkan Insight",
+              "blurb": "Partitë opozitare në Kosovë refuzuan pjesëmarrjen në takimin e thirrur nga ushtruesja e detyrës së presidentit për krizën parlamentare.",
+              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/08/Kosovo-meeting-Albulena-Haxhiu-BIRN-scaled-e1787054218728.jpg",
+              "url": "https://balkaninsight.com/2026/08/18/kosovo-opposition-snubs-acting-presidents-meeting-amid-parliamentary-crisis/bi/",
+              "date": "2026-08-18",
+              "sentiment": "neutral",
+              "reason": "Faktikë e thjeshtë, pa gjuhë ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Cineuropa",
+          "sentiment": "positive",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "As the Spring Arrives, Water Recalls the Nomads triumphs at DokuFest Prizren - Cineuropa",
+              "albanianTitle": "Filmi 'As the Spring Arrives, Water Recalls the Nomads' triumfon në DokuFest të Prizrenit - Cineuropa",
+              "blurb": "Filmi As the Spring Arrives, Water Recalls the Nomads shpallet fitues në festivalin DokuFest në Prizren.",
+              "imageUrl": null,
+              "url": "https://cineuropa.org/en/newsdetail/494515",
+              "date": "2026-08-17",
+              "sentiment": "positive",
+              "reason": "Positive language praising Kosovo cultural work",
+              "isQuote": false,
+              "evidence": "triumphs at DokuFest",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "EUalive",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "The price of normalisation: Belgrade’s losing battle over the Mitrovica bridge - EUalive",
+              "albanianTitle": "Çmimi i normalizimit: Beteja e humbur e Beogradit për urën e Mitrovicës",
+              "blurb": "Beogradi po përballet me humbjen e ndikimit lidhur me çështjen e hapjes së urës së Mitrovicës për qarkullim.",
+              "imageUrl": "https://eualive.net/wp-content/uploads/2026/08/MSU_Mitrovica_Manbox_-_Ibar_Bridge_summer_2019.jpg",
+              "url": "https://eualive.net/the-price-of-normalisation-belgrades-losing-battle-over-the-mitrovica-bridge/",
+              "date": "2026-08-19",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim pa ngarkesë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "European Western Balkans",
+          "sentiment": "negative",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Has Kurti crossed a \"red line\" in the relations with the EU? - European Western Balkans",
+              "albanianTitle": "A ka kaluar Kurti një \"vijë të kuqe\" në raportet me BE-në?",
+              "blurb": "Ekspertët shqyrtojnë nëse politikat e qeverisë Kurti kanë cenuar marrëdhëniet diplomatike me shtetet e Bashkimit Evropian.",
+              "imageUrl": "https://europeanwesternbalkans.com/wp-content/uploads/2026/08/kurti-marta.jpg",
+              "url": "https://europeanwesternbalkans.com/2026/08/18/has-kurti-crossed-a-red-line-in-the-relations-with-the-eu/",
+              "date": "2026-08-18",
+              "sentiment": "negative",
+              "reason": "critical framing of Kosovo's leader by the outlet",
+              "isQuote": false,
+              "evidence": "crossed a red line",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Global Voices",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "The discursive function of gendered online hate speech in Kosovo - Global Voices",
+              "albanianTitle": "Funksioni diskursiv i gjuhës së urrejtjes me bazë gjinore në internet në Kosovë - Global Voices",
+              "blurb": "Hulumtimi analizon funksionin diskursiv të gjuhës së urrejtjes me bazë gjinore në hapësirën online në territorin e Kosovës.",
+              "imageUrl": "https://globalvoices.org/wp-content/uploads/2026/08/Untitled-design-25-800x450.webp",
+              "url": "https://globalvoices.org/2026/08/20/the-discursive-function-of-gendered-online-hate-speech-in-kosovo/",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "KosovaPress",
+          "sentiment": "neutral",
+          "articleCount": 2,
+          "articles": [
+            {
+              "title": "Democratic Party of Kosovo deputies gather again outside Government, call Kurti an “usurper” - KosovaPress",
+              "albanianTitle": "Deputetët e PDK-së protestojnë sërish para Qeverisë, e quajnë Kurtin “uzurpator”",
+              "blurb": "Deputetët e Partisë Demokratike të Kosovës u mblodhën para ndërtesës së Qeverisë duke e quajtur kryeministrin Kurti uzurpator të pushtetit.",
+              "imageUrl": null,
+              "url": "https://kosovapress.com/eng/democratic-party-of-kosovo-deputies-gather-again-outside-government-call-kurti-an-usurper",
+              "date": "2026-08-17",
+              "sentiment": "neutral",
+              "reason": "Fjalët e ngarkuara janë citim i kundërshtarëve, jo i mediave",
+              "isQuote": true,
+              "evidence": "",
+              "speaker": "Democratic Party of Kosovo deputies"
+            },
+            {
+              "title": "Kosovo mayors announce protest in front of government building - KosovaPress",
+              "albanianTitle": "Kryetarët e komunave në Kosovë paralajmërojnë protestë para ndërtesës së qeverisë - KosovaPress",
+              "blurb": "Kryetarët e komunave të Kosovës kanë paralajmëruar mbajtjen e një proteste para ndërtesës së Qeverisë për të shprehur pakënaqësitë e tyre.",
+              "imageUrl": null,
+              "url": "https://kosovapress.com/eng/kosovo-mayors-announce-protest-in-front-of-government-building",
+              "date": "2026-08-18",
+              "sentiment": "neutral",
+              "reason": "Lajm i thjeshtë për protestë të kryetarëve të komunave në Kosovë",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -478,473 +917,14 @@
               "speaker": ""
             }
           ]
-        },
-        {
-          "name": "ԱՐՑԱԽ ԼՐԱՏՎԱԿԱՆ",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "NATO reduces security presence at key Kosovo Serb sites - ԱՐՑԱԽ ԼՐԱՏՎԱԿԱՆ",
-              "albanianTitle": "NATO zvogëlon praninë e sigurisë në pikat kyçe serbe në Kosovë",
-              "blurb": "Aleanca Veriatlantike ka zvogëluar numrin e trupave të saj që sigurojnë lokacionet kryesore të banuara nga serbët në Kosovë.",
-              "imageUrl": "https://mamul.am/images/photos/260812/nato-n-sksel-e-krtchatel-ir-ne-n367818-1.jpg",
-              "url": "https://artsakh.news/en/news/367818",
-              "date": "2026-08-17",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        }
-      ],
-      "summary": {
-        "index": 48,
-        "positive": 5,
-        "neutral": 86,
-        "negative": 9,
-        "n": 22,
-        "excluded": 1,
-        "confident": true,
-        "stanceVersion": 2
-      }
-    },
-    "Britani": {
-      "outlets": [
-        {
-          "name": "Al Jazeera",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosovo finds remains of 23 people in mass graves search - Al Jazeera",
-              "albanianTitle": "Gjenden mbetjet mortore të 23 personave gjatë kërkimeve në varrezat masive në Kosovë - Al Jazeera",
-              "blurb": "Autoritetet në Kosovë kanë gjetur mbetjet mortore të njëzet e tre personave gjatë kërkimeve në varreza masive.",
-              "imageUrl": "https://www.aljazeera.com/wp-content/uploads/2026/08/AFP__20260801__C3R36KQ__v1__HighRes__KosovoSerbiaInvestigationWarMissing-1787179531.jpg?resize=1920%2C1440",
-              "url": "https://www.aljazeera.com/news/2026/8/19/kosovo-finds-remains-of-at-least-23-people-in-suspected-mass-graves",
-              "date": "2026-08-20",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportim pa gjuhë të ngarkuar",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "Balkan Green Energy News",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "North Macedonia to import coal for power plants from Kosovo* - Balkan Green Energy News",
-              "albanianTitle": "Maqedonia e Veriut do të importojë qymyr nga Kosova për termocentralet - Balkan Green Energy News",
-              "blurb": "Maqedonia e Veriut ka planifikuar importimin e thëngjillit nga Kosova për nevojat e termocentraleve të saj për prodhimin e energjisë.",
-              "imageUrl": "https://balkangreenenergynews.com/wp-content/uploads/2026/08/north-macedonia-kosovo-kek-esm-coal-concesion-contract-hasani-uzuncev.jpg",
-              "url": "https://balkangreenenergynews.com/north-macedonia-to-import-coal-for-power-plants-from-kosovo/",
-              "date": "2026-08-18",
-              "sentiment": "neutral",
-              "reason": "Faktikë e thjeshtë, pa gjuhë ngarkuar ndaj Kosovës",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "Balkan Insight",
-          "sentiment": "neutral",
-          "articleCount": 2,
-          "articles": [
-            {
-              "title": "Suspend Officers Suspected of Beating Serb, Kosovo Police Inspectorate Says - Balkan Insight",
-              "albanianTitle": "Inspektorati Policor i Kosovës kërkon suspendimin e zyrtarëve të dyshuar për rrahjen e një serbi",
-              "blurb": "Inspektorati Policor i Kosovës ka suspenduar zyrtarët policorë të dyshuar për rrahjen e një qytetari serb.",
-              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/08/Kosovo-Police-Inspectorate-BIRN-1280x720.png",
-              "url": "https://balkaninsight.com/2026/08/19/suspend-officers-suspected-of-beating-serb-kosovo-police-inspectorate-says/bi/",
-              "date": "2026-08-19",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportim pa ngarkesë",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Kosovo Opposition Snubs Acting President’s Meeting Amid Parliamentary Crisis - Balkan Insight",
-              "albanianTitle": "Opozita kosovare bojkoton takimin me ushtruesen e detyrës së presidentit në mes të krizës parlamentare - Balkan Insight",
-              "blurb": "Partitë opozitare në Kosovë refuzuan pjesëmarrjen në takimin e thirrur nga ushtruesja e detyrës së presidentit për krizën parlamentare.",
-              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/08/Kosovo-meeting-Albulena-Haxhiu-BIRN-scaled-e1787054218728.jpg",
-              "url": "https://balkaninsight.com/2026/08/18/kosovo-opposition-snubs-acting-presidents-meeting-amid-parliamentary-crisis/bi/",
-              "date": "2026-08-18",
-              "sentiment": "neutral",
-              "reason": "Faktikë e thjeshtë, pa gjuhë ngarkuar",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "CNN",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "The epic hiking trail that explores one of Europe’s last great wildernesses - CNN",
-              "albanianTitle": "Shtegu epik i ecjes që përshkon një nga zonat e fundit të egra të Evropës",
-              "blurb": "Një shteg i gjatë për ecje eksploron një nga zonat e fundit të egra dhe të paprekura në Evropë.",
-              "imageUrl": "https://media.cnn.com/api/v1/images/stellar/prod/gettyimages-2226212944.jpg?c=16x9&q=w_800,c_fill",
-              "url": "https://www.cnn.com/travel/peaks-of-the-balkans-trail-albania-montenegro-kosovo",
-              "date": "2026-08-19",
-              "sentiment": "neutral",
-              "reason": "Fact‑based headline about a trail, no evaluative language toward Kosovo",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "Cineuropa",
-          "sentiment": "positive",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "As the Spring Arrives, Water Recalls the Nomads triumphs at DokuFest Prizren - Cineuropa",
-              "albanianTitle": "Filmi 'As the Spring Arrives, Water Recalls the Nomads' triumfon në DokuFest të Prizrenit - Cineuropa",
-              "blurb": "Filmi As the Spring Arrives, Water Recalls the Nomads shpallet fitues në festivalin DokuFest në Prizren.",
-              "imageUrl": null,
-              "url": "https://cineuropa.org/en/newsdetail/494515",
-              "date": "2026-08-17",
-              "sentiment": "positive",
-              "reason": "Positive language praising Kosovo cultural work",
-              "isQuote": false,
-              "evidence": "triumphs at DokuFest",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "EUalive",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "The price of normalisation: Belgrade’s losing battle over the Mitrovica bridge - EUalive",
-              "albanianTitle": "Çmimi i normalizimit: Beteja e humbur e Beogradit për urën e Mitrovicës",
-              "blurb": "Beogradi po përballet me humbjen e ndikimit lidhur me çështjen e hapjes së urës së Mitrovicës për qarkullim.",
-              "imageUrl": "https://eualive.net/wp-content/uploads/2026/08/MSU_Mitrovica_Manbox_-_Ibar_Bridge_summer_2019.jpg",
-              "url": "https://eualive.net/the-price-of-normalisation-belgrades-losing-battle-over-the-mitrovica-bridge/",
-              "date": "2026-08-19",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportim pa ngarkesë",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "European Western Balkans",
-          "sentiment": "negative",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Has Kurti crossed a \"red line\" in the relations with the EU? - European Western Balkans",
-              "albanianTitle": "A ka kaluar Kurti një \"vijë të kuqe\" në raportet me BE-në?",
-              "blurb": "Ekspertët shqyrtojnë nëse politikat e qeverisë Kurti kanë cenuar marrëdhëniet diplomatike me shtetet e Bashkimit Evropian.",
-              "imageUrl": "https://europeanwesternbalkans.com/wp-content/uploads/2026/08/kurti-marta.jpg",
-              "url": "https://europeanwesternbalkans.com/2026/08/18/has-kurti-crossed-a-red-line-in-the-relations-with-the-eu/",
-              "date": "2026-08-18",
-              "sentiment": "negative",
-              "reason": "critical framing of Kosovo's leader by the outlet",
-              "isQuote": false,
-              "evidence": "crossed a red line",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "Global Voices",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "The discursive function of gendered online hate speech in Kosovo - Global Voices",
-              "albanianTitle": "Funksioni diskursiv i gjuhës së urrejtjes me bazë gjinore në internet në Kosovë - Global Voices",
-              "blurb": "Hulumtimi analizon funksionin diskursiv të gjuhës së urrejtjes me bazë gjinore në hapësirën online në territorin e Kosovës.",
-              "imageUrl": "https://globalvoices.org/wp-content/uploads/2026/08/Untitled-design-25-800x450.webp",
-              "url": "https://globalvoices.org/2026/08/20/the-discursive-function-of-gendered-online-hate-speech-in-kosovo/",
-              "date": "2026-08-20",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "Irish Examiner",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Bóthar: The final journey to Kosovo - Irish Examiner",
-              "albanianTitle": "Bóthar: Udhëtimi i fundit drejt Kosovës",
-              "blurb": "Organizata Bóthar ka përfunduar misionin e saj humanitar në Kosovë përmes dërgimit të ndihmave për popullatën lokale në nevojë.",
-              "imageUrl": "https://www.irishexaminer.com/cms_media/module_img/10396/5198383_4_org_October_202025_20Shipment.jpeg",
-              "url": "https://www.irishexaminer.com/farming/arid-41898007.html",
-              "date": "2026-08-19",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportim i thjeshtë, pa gjuhë ngarkuar",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "KosovaPress",
-          "sentiment": "neutral",
-          "articleCount": 2,
-          "articles": [
-            {
-              "title": "Democratic Party of Kosovo deputies gather again outside Government, call Kurti an “usurper” - KosovaPress",
-              "albanianTitle": "Deputetët e PDK-së protestojnë sërish para Qeverisë, e quajnë Kurtin “uzurpator”",
-              "blurb": "Deputetët e Partisë Demokratike të Kosovës u mblodhën para ndërtesës së Qeverisë duke e quajtur kryeministrin Kurti uzurpator të pushtetit.",
-              "imageUrl": null,
-              "url": "https://kosovapress.com/eng/democratic-party-of-kosovo-deputies-gather-again-outside-government-call-kurti-an-usurper",
-              "date": "2026-08-17",
-              "sentiment": "neutral",
-              "reason": "Fjalët e ngarkuara janë citim i kundërshtarëve, jo i mediave",
-              "isQuote": true,
-              "evidence": "",
-              "speaker": "Democratic Party of Kosovo deputies"
-            },
-            {
-              "title": "Kosovo mayors announce protest in front of government building - KosovaPress",
-              "albanianTitle": "Kryetarët e komunave në Kosovë paralajmërojnë protestë para ndërtesës së qeverisë - KosovaPress",
-              "blurb": "Kryetarët e komunave të Kosovës kanë paralajmëruar mbajtjen e një proteste para ndërtesës së Qeverisë për të shprehur pakënaqësitë e tyre.",
-              "imageUrl": null,
-              "url": "https://kosovapress.com/eng/kosovo-mayors-announce-protest-in-front-of-government-building",
-              "date": "2026-08-18",
-              "sentiment": "neutral",
-              "reason": "Lajm i thjeshtë për protestë të kryetarëve të komunave në Kosovë",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "Monocle",
-          "sentiment": "positive",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosovo's Independence: A New European Nation is Born - Monocle",
-              "albanianTitle": "Pavarësia e Kosovës: Një shtet i ri evropian ka lindur",
-              "blurb": "Pavarësia e Kosovës shënon lindjen e një shteti të ri në kontinentin evropian sipas vlerësimit të revistës Monocle.",
-              "imageUrl": "https://monocle.com/wp-content/uploads/legacy/article/79815919-515ae60472cc2.jpg?fit=4256%2C2832",
-              "url": "https://monocle.com/affairs/kosovo-independence-serbia-balkans/",
-              "date": "2026-08-18",
-              "sentiment": "positive",
-              "reason": "Outlet uses celebratory phrasing that praises Kosovo's independence",
-              "isQuote": false,
-              "evidence": "New European Nation is Born",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "NIN.rs",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "NIN survey: What would changing the course of the Ibar mean for Kosovo and Metohija? - NIN.rs",
-              "albanianTitle": "Anketa e NIN: Çfarë do të nënkuptonte ndryshimi i rrjedhës së Ibrit për Kosovën?",
-              "blurb": "Anketa e revistës NIN shqyrton pasojat e mundshme të ndryshimit të rrjedhës së lumit Ibër për Kosovën dhe Metohinë.",
-              "imageUrl": "https://www.nin.rs/data/images/2026-08-18/124396_profimedia-0746515640_orig.jpg",
-              "url": "https://www.nin.rs/english/news/121067/nin-survey-what-would-changing-the-course-of-the-ibar-mean-for-kosovo-and-metohija",
-              "date": "2026-08-19",
-              "sentiment": "neutral",
-              "reason": "Fact-based reporting without loaded language",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "News On AIR",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosovo Parliament Approves Kurti’s Cabinet with 66-49 Vote - News On AIR",
-              "albanianTitle": "Parlamenti i Kosovës voton kabinetin e Kurtit me 66 vota pro dhe 49 kundër - News On AIR",
-              "blurb": "Kuvendi i Kosovës ka votuar me 66 vota për dhe 49 kundër miratimin e kabinetit qeveritar të udhëhequr nga Albin Kurti.",
-              "imageUrl": null,
-              "url": "https://newsonair.gov.in/kosovo-parliament-approves-kurtis-cabinet-with-66-49-vote/",
-              "date": "2026-08-18",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "Osservatorio Balcani Caucaso Transeuropa",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Political crisis in Kosovo: no light at the end of the tunnel - Osservatorio Balcani Caucaso Transeuropa",
-              "albanianTitle": "Krizë politike në Kosovë: nuk shihet dritë në fund të tunelit",
-              "blurb": "Kosova po përballet me një krizë të vazhdueshme politike, pa ndonjë zgjidhje të dukshme në horizont për momentin.",
-              "imageUrl": "https://www.balcanicaucaso.org/wp-content/uploads/sites/8/2026/08/shutterstock_242203063.jpg",
-              "url": "https://www.balcanicaucaso.org/en/cp_article/political-crisis-in-kosovo-no-light-at-the-end-of-the-tunnel/",
-              "date": "2026-08-19",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "The Times of Israel",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "US to provide $206 million for Gaza peacekeeping force, letters show - The Times of Israel",
-              "albanianTitle": "SHBA do të ndajë 206 milionë dollarë për forcat paqeruajtëse në Gaza, bëhet e ditur nga disa dokumente - The Times of Israel",
-              "blurb": "Shtetet e Bashkuara të Amerikës planifikojnë të ndajnë dyqind e gjashtë milionë dollarë për forcat paqeruajtëse në Rripin e Gazës.",
-              "imageUrl": null,
-              "url": "https://www.timesofisrael.com/us-to-provide-206-million-for-gaza-peacekeeping-force-letters-show/",
-              "date": "2026-08-20",
-              "sentiment": "unknown",
-              "reason": "Artikulli nuk përmend Kosovën, prandaj nuk mund të përcaktohet qëndrimi",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "rnz.co.nz",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Remains of over 20 people found in Kosovo mass graves search - rnz.co.nz",
-              "albanianTitle": "Gjenden mbetjet mortore të mbi 20 personave gjatë kërkimeve në varrezat masive në Kosovë - rnz.co.nz",
-              "blurb": "Gjatë kërkimeve në varreza masive në territorin e Kosovës janë gjetur mbetjet mortore të mbi njëzet personave.",
-              "imageUrl": "https://media.rnztools.nz/rnz/image/upload/s--IGO4qbmE--/t_tohu-badge-facebook/f_auto/q_auto/4JJLKIU_AFP__20260801__C3R36LF__v1__HighRes__KosovoSerbiaInvestigationWarMissing_jpg",
-              "url": "https://www.rnz.co.nz/news/world/1066719/remains-of-over-20-people-found-in-kosovo-mass-graves-search",
-              "date": "2026-08-20",
-              "sentiment": "neutral",
-              "reason": "Lajm i thjeshtë faktik për gjetjen e masave, pa gjuhë ngarkuar",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "srpske.rs",
-          "sentiment": "neutral",
-          "articleCount": 4,
-          "articles": [
-            {
-              "title": "Kurti, Abdixhiku Agree on Profile for Kosovo President - srpske.rs",
-              "albanianTitle": "Kurti dhe Abdixhiku pajtohen për profilin e presidentit të Kosovës",
-              "blurb": "Albin Kurti dhe Lumir Abdixhiku kanë arritur pajtim për profilin e kandidatit për president të Republikës së Kosovës.",
-              "imageUrl": "https://srpske.rs/uploads/articles/kurti-abdixhiku-agree-kosovo-president-profile-16x9.webp",
-              "url": "https://srpske.rs/en/news/politika/2026/08/19/kurti-abdixhiku-agree-kosovo-president-profile",
-              "date": "2026-08-19",
-              "sentiment": "neutral",
-              "reason": "Fact-based reporting without loaded language",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Vucic to Send Letter to Rutte: Don't Open Ibar Bridge - srpske.rs",
-              "albanianTitle": "Vuçiq i shkruan letër Ruttes: Mos e hapni urën e Ibrit",
-              "blurb": "Presidenti serb Aleksandar Vuçiq paralajmëron dërgimin e një letre drejtuar Mark Ruttes kundër hapjes së urës së Ibrit.",
-              "imageUrl": "https://srpske.rs/uploads/articles/vucic-letter-rutte-ibar-bridge-16x9.webp",
-              "url": "https://srpske.rs/en/news/politika/2026/08/19/vucic-letter-rutte-ibar-bridge",
-              "date": "2026-08-19",
-              "sentiment": "negative",
-              "reason": "Outlet issues a directive opposing the opening of the bridge, a line against Kosovo's interests",
-              "isQuote": false,
-              "evidence": "Don't Open Ibar Bridge",
-              "speaker": ""
-            },
-            {
-              "title": "Alliance Reports Kosovo Government Over 18 Commissions - srpske.rs",
-              "albanianTitle": "Aleanca denoncon Qeverinë e Kosovës për 18 komisione - srpske.rs",
-              "blurb": "Aleanca për Ardhmërinë e Kosovës ka raportuar qeverinë lidhur me funksionimin e tetëmbëdhjetë komisioneve të ndryshme shtetërore në vend.",
-              "imageUrl": "https://srpske.rs/uploads/articles/alliance-reports-kosovo-government-over-18-commissions-16x9.webp",
-              "url": "https://srpske.rs/en/news/politika/2026/08/18/alliance-reports-kosovo-government-over-18-commissions",
-              "date": "2026-08-18",
-              "sentiment": "neutral",
-              "reason": "Plain news headline about government commissions, no evaluative language",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Kosovo Opposition Blocks Government Entrance for Fourth Day - srpske.rs",
-              "albanianTitle": "Opozita në Kosovë bllokon hyrjen e Qeverisë për të katërtën ditë me radhë",
-              "blurb": "Opozita në Kosovë vazhdon të bllokojë hyrjen e ndërtesës së qeverisë për të katërtën ditë radhazi.",
-              "imageUrl": "https://srpske.rs/uploads/articles/kosovo-opposition-blocks-government-entrance-fourth-day-16x9.webp",
-              "url": "https://srpske.rs/en/news/politika/2026/08/18/kosovo-opposition-blocks-government-entrance-fourth-day",
-              "date": "2026-08-18",
-              "sentiment": "neutral",
-              "reason": "Titulli faktik pa gjuhë ngarkuar",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "ԱՐՑԱԽ ԼՐԱՏՎԱԿԱՆ",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "NATO reduces security presence at key Kosovo Serb sites - ԱՐՑԱԽ ԼՐԱՏՎԱԿԱՆ",
-              "albanianTitle": "NATO zvogëlon praninë e sigurisë në pikat kyçe serbe në Kosovë",
-              "blurb": "Aleanca Veriatlantike ka zvogëluar numrin e trupave të saj që sigurojnë lokacionet kryesore të banuara nga serbët në Kosovë.",
-              "imageUrl": "https://mamul.am/images/photos/260812/nato-n-sksel-e-krtchatel-ir-ne-n367818-1.jpg",
-              "url": "https://artsakh.news/en/news/367818",
-              "date": "2026-08-17",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
         }
       ],
       "summary": {
         "index": 50,
-        "positive": 9,
-        "neutral": 82,
-        "negative": 9,
-        "n": 22,
+        "positive": 10,
+        "neutral": 80,
+        "negative": 10,
+        "n": 20,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2
@@ -1169,7 +1149,7 @@
         {
           "name": "Blick",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 1,
           "articles": [
             {
               "title": "Aufregung im Kosovo wegen weissem Mercedes aus der Schweiz - Blick",
@@ -1180,19 +1160,6 @@
               "date": "2026-08-19",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Diese Szene sorgt für Diskussionen - Blick",
-              "albanianTitle": "Kjo skenë nxit debate të shumta",
-              "blurb": "Një skenë e caktuar ka nxitur diskutime të shumta në opinionin publik pas publikimit të pamjeve të saj.",
-              "imageUrl": "https://img.blick.ch/incoming/22192169-v1-leer-00-00-00-17-standbild003.jpg?imwidth=2000&ratio=16_9&x=449&y=483&width=1014&height=570",
-              "url": "https://www.blick.ch/ausland/auto-faehrt-ueber-trottoir-diese-szene-sorgt-fuer-diskussionen-id22192168.html",
-              "date": "2026-08-19",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportim pa ngarkesë",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1225,7 +1192,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 3,
+        "n": 2,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
@@ -1366,6 +1333,26 @@
               "speaker": ""
             }
           ]
+        },
+        {
+          "name": "Nieuwsblad",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Zeker 23 lichamen teruggevonden in massagraven in Kosovo - Nieuwsblad",
+              "albanianTitle": "Gjenden të paktën 23 trupa në varrezat masive në Kosovë - Nieuwsblad",
+              "blurb": "Të paktën 23 trupa të pajetë janë gjetur në varreza masive të zbuluara së fundmi në territorin e Kosovës.",
+              "imageUrl": null,
+              "url": "https://www.nieuwsblad.be/buitenland/zeker-23-lichamen-teruggevonden-in-massagraven-in-kosovo/160257011.html",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Faktikë raporti, pa gjuhë ngarkuese ndaj Kosovës",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
         }
       ],
       "summary": {
@@ -1373,9 +1360,9 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 4,
+        "n": 5,
         "excluded": 0,
-        "confident": false,
+        "confident": true,
         "stanceVersion": 2
       }
     },
@@ -1469,6 +1456,26 @@
     "Spanjë": {
       "outlets": [
         {
+          "name": "CNN en Español",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Picos de los Balcanes: la épica ruta de senderismo que explora una de las últimas grandes zonas silvestres de Europa - CNN en Español",
+              "albanianTitle": "Majat e Ballkanit: Shtegu epik i ecjes që eksploron një nga zonat e fundit të egra të Evropës",
+              "blurb": "Shtegu i ecjes Picos de los Balcanes përshkruhet si një rrugë që eksploron zonat e egra evropiane.",
+              "imageUrl": "https://media.cnn.com/api/v1/images/stellar/prod/gettyimages-2226212944-20260819174746270.jpg?c=16x9&q=w_800,c_fill",
+              "url": "https://cnnespanol.cnn.com/2026/08/19/viajes/picos-balcanes-senderismo-montenegro-albania-kosovo-trax",
+              "date": "2026-08-19",
+              "sentiment": "neutral",
+              "reason": "Faktik, pa gjuhë ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "Cineuropa",
           "sentiment": "neutral",
           "articleCount": 2,
@@ -1524,8 +1531,21 @@
         {
           "name": "Infobae",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 3,
           "articles": [
+            {
+              "title": "Kosovo localiza una fosa común con al menos 23 desaparecidos de la guerra de 1998 y 1999 - Infobae",
+              "albanianTitle": "Kosova lokalizon një varrezë masive me të paktën 23 të zhdukur nga lufta e viteve 1998-1999",
+              "blurb": "Në Kosovë është lokalizuar një varrezë masive që përmban mbetjet mortore të të paktën 23 personave të zhdukur gjatë luftës.",
+              "imageUrl": "https://www.infobae.com/assets/images/logos/fallback-promo-image-1200x630.png",
+              "url": "https://www.infobae.com/america/agencias/2026/08/20/kosovo-localiza-una-fosa-comun-con-al-menos-23-desaparecidos-de-la-guerra-de-1998-y-1999/",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim i thjeshtë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
             {
               "title": "La UE pide más garantías a Kosovo antes de abrir el puente que divide Mitrovica - Infobae",
               "albanianTitle": "BE kërkon më shumë garanci nga Kosova para hapjes së urës që ndan Mitrovicën - Infobae",
@@ -1580,7 +1600,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 6,
+        "n": 8,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -1684,7 +1704,7 @@
         {
           "name": "NewsIT",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 1,
           "articles": [
             {
               "title": "Τέλος στις εξαγωγές ελληνικού λιγνίτη στη Βόρεια Μακεδονία – Προχώρησε σε συμφωνία με το Κόσοβο - NewsIT",
@@ -1695,19 +1715,6 @@
               "date": "2026-08-20",
               "sentiment": "neutral",
               "reason": "Faktikë raporti, pa gjuhë ngarkuese ndaj Kosovës",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Τέλος στις εξαγωγές ελληνικού λιγνίτη στη Β. Μακεδονία – Προχώρησε σε συμφωνία με το Κόσοβο - NewsIT",
-              "albanianTitle": "Fund eksporteve të linjitit grek në Maqedoninë e Veriut – Greqia arrin marrëveshje me Kosovën",
-              "blurb": "Greqia ndalon eksportin e linjitit drejt Maqedonisë së Veriut dhe arrin një marrëveshje të re me shtetin e Kosovës.",
-              "imageUrl": "https://www.newsit.gr/wp-content/uploads/2026/08/istock-2245522587-1-1200x630.jpg",
-              "url": "https://www.newsit.gr/oikonomia/finance/telos-stis-eksagoges-ellinikou-ligniti-sti-v-makedonia-proxorise-se-symfonia-me-to-kosovo/4754038/",
-              "date": "2026-08-20",
-              "sentiment": "neutral",
-              "reason": "Faktikë, pa ngjyrë",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1775,6 +1782,26 @@
           ]
         },
         {
+          "name": "Μακεδονικό Πρακτορείο Ειδήσεων",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Βόλεϊ-Μεσογειακοί Αγώνες 2026: Αναχωρούν για το Τάραντο οι εθνικές ανδρών και γυναικών - Αθηναϊκό - Μακεδονικό πρακτορείο ειδήσεων",
+              "albanianTitle": "Volejboll-Lojërat Mesdhetare 2026: Kombëtaret e meshkujve dhe femrave nisen për në Taranto - Agjencia e Lajmeve Athinase-Maqedonase",
+              "blurb": "Ekipet kombëtare të volejbollit të Greqisë janë nisur drejt Tarantos për të marrë pjesë në Lojërat Mesdhetare të vitit 2026.",
+              "imageUrl": "https://amna.gr/photos/202608/w18-150258mennt2026mediaday.jpg",
+              "url": "https://www.amna.gr/sport/article/1016230/Bolei-Mesogeiakoi-Agones-2026-Anachoroun-gia-to-Taranto-oi-ethnikes-andron-kai-gunaikon-",
+              "date": "2026-08-18",
+              "sentiment": "neutral",
+              "reason": "Faktik, pa gjuhë të ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "Παραπολιτικά",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1809,32 +1836,32 @@
     "Suedi": {
       "outlets": [
         {
-          "name": "sofascore.com",
+          "name": "Sofascore",
           "sentiment": "neutral",
           "articleCount": 2,
           "articles": [
             {
-              "title": "Serbia mot Kosovo resultat och tippade resultat - sofascore.com",
+              "title": "Serbia mot Kosovo resultat och tippade resultat - Sofascore",
               "albanianTitle": "Serbia kundër Kosovës: Rezultati dhe parashikimet",
-              "blurb": "Platforma Sofascore publikon rezultatet dhe parashikimet për ndeshjen e futbollit ndërmjet Serbisë dhe përfaqësueses së Kosovës.",
+              "blurb": "Platforma Sofascore ofron rezultatet dhe parashikimet për ndeshjen e futbollit ndërmjet përfaqësueseve të Serbisë dhe të Kosovës.",
               "imageUrl": null,
               "url": "https://www.sofascore.com/sv/basketball/match/kosovo-3x3-serbia-3x3/GmxesQaaj",
               "date": "2026-08-19",
               "sentiment": "neutral",
-              "reason": "Faktikë sportivë, pa ngarkim gjuhësor",
+              "reason": "Faktikë raportim i thjeshtë",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
             },
             {
-              "title": "Albania Mediterranean Team - sofascore.com",
-              "albanianTitle": "Ekipi mesdhetar i Shqipërisë",
-              "blurb": "Ekipi i Shqipërisë për Lojërat Mesdhetare është renditur dhe prezantuar në platformën sportive të njohur ndërkombëtarisht Sofascore.",
+              "title": "Albania Mediterranean Team - Sofascore",
+              "albanianTitle": "Ekipi i Shqipërisë në Mesdhetare - Sofascore",
+              "blurb": "Ekipi i Shqipërisë për Lojërat Mesdhetare është renditur në platformën sportive Sofascore për përcjelljen e rezultateve dhe statistikave.",
               "imageUrl": null,
               "url": "https://www.sofascore.com/sv/football/match/kosovo-mediterranean-team-albania-mediterranean-team/bLekseLek",
               "date": "2026-08-19",
               "sentiment": "neutral",
-              "reason": "Faktikë sportivë, pa ngarkim gjuhësor",
+              "reason": "Titulli thjesht përshkruan një ekip, pa ndonjë ton ndaj Kosovës",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1955,6 +1982,45 @@
           "articleCount": 6,
           "articles": [
             {
+              "title": "ABD’den Kosova’ya Kurumların Oluşturulması Çağrısı - Kosovahaber.com",
+              "albanianTitle": "SHBA-ja i bën thirrje Kosovës për formimin e institucioneve",
+              "blurb": "Shtetet e Bashkuara të Amerikës kanë kërkuar nga institucionet e Kosovës që të përshpejtojnë procesin e themelimit të organeve shtetërore.",
+              "imageUrl": null,
+              "url": "https://kosovahaber.com/haber/abdden-kosovaya-kurumlarin-olusturulmasi-cagrisi-105097",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim i thjeshtë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Fransa'nın Priştine Yeni Büyükelçisi Jean-François Huchet olacak - Kosovahaber.com",
+              "albanianTitle": "Jean-François Huchet do të jetë ambasadori i ri i Francës në Prishtinë",
+              "blurb": "Jean-François Huchet është emëruar si ambasadori i ri i Francës në Prishtinë, duke zëvendësuar përfaqësuesin e mëparshëm në këtë detyrë.",
+              "imageUrl": null,
+              "url": "https://kosovahaber.com/haber/fransanin-pristine-yeni-buyukelcisi-jean-francois-huchet-olacak-105094",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "PDK: Oluşum Oturumu Yapılıncaya Kadar Eylemimizi Durdurmayacağız - Kosovahaber.com",
+              "albanianTitle": "PDK: Nuk do ta ndalim aksionin tonë derisa të mbahet seanca konstituive",
+              "blurb": "Partia Demokratike e Kosovës deklaron se do të vazhdojë protestat derisa të mbahet seanca për konstituimin e institucioneve të reja.",
+              "imageUrl": null,
+              "url": "https://kosovahaber.com/haber/pdk-olusum-oturumu-yapilincaya-kadar-eylemimizi-durdurmayacagiz-105096",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
               "title": "İran Vatandaşı Kosova’dan İltica Talebinde Bulundu - Kosovahaber.com",
               "albanianTitle": "Shtetasi iranian kërkon azil në Kosovë - Kosovahaber.com",
               "blurb": "Një shtetas iranian ka dorëzuar kërkesë zyrtare për azil në institucionet e Republikës së Kosovës.",
@@ -1963,19 +2029,6 @@
               "date": "2026-08-19",
               "sentiment": "neutral",
               "reason": "Lajm faktik pa gjuhë ngarkuar ndaj Kosovës",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Kosova’da 4 Ekim Alarmı: Cumhurbaşkanı Seçilmezse Ne Olacak? - Kosovahaber.com",
-              "albanianTitle": "Alarmi i 4 tetorit në Kosovë: Çfarë ndodh nëse nuk zgjidhet presidenti?",
-              "blurb": "Procedurat dhe pasojat politike nëse nuk arrihet zgjedhja e presidentit të vendit deri në datën katër tetor.",
-              "imageUrl": null,
-              "url": "https://kosovahaber.com/haber/kosovada-4-ekim-alarmi-cumhurbaskani-secilmezse-ne-olacak-105063",
-              "date": "2026-08-19",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportim pa ngarkesë",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -2002,32 +2055,6 @@
               "date": "2026-08-19",
               "sentiment": "neutral",
               "reason": "Lajm faktik për kohëzgjatjen e pritjes në Merdare",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Radojeviç: “KFOR, İbre Köprüsü Kararını Kosova Polisi'nin Raporuna Dayanarak Aldı” - Kosovahaber.com",
-              "albanianTitle": "Radojeviq: KFOR-i mori vendimin për urën e Ibrit bazuar në raportin e Policisë së Kosovës - Kosovahaber.com",
-              "blurb": "KFOR-i ka marrë vendimin për urën e Ibrit duke u bazuar në raportin e Policisë së Kosovës.",
-              "imageUrl": null,
-              "url": "https://kosovahaber.com/haber/radojevic-kfor-ibre-koprusu-kararini-kosova-polisinin-raporuna-dayanarak-aldi-105071",
-              "date": "2026-08-19",
-              "sentiment": "neutral",
-              "reason": "Citat i Radojeviç-it, media thjesht raporton",
-              "isQuote": true,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Zubin Potok'ta En Az 23 Kişiye Ait Kemik Kalıntıları Bulundu - Kosovahaber.com",
-              "albanianTitle": "Në Zubin Potok gjenden mbetjet mortore të të paktën 23 personave",
-              "blurb": "Në territorin e Zubin Potokut janë gjetur mbetjet mortore të të paktën njëzet e tre personave të zhdukur gjatë luftës.",
-              "imageUrl": null,
-              "url": "https://kosovahaber.com/haber/zubin-potokta-en-az-23-kisiye-ait-kemik-kalintilari-bulundu-105088",
-              "date": "2026-08-19",
-              "sentiment": "neutral",
-              "reason": "Raportim neutral i gjetjes së mbetjeve kockore",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -2138,9 +2165,9 @@
       "summary": {
         "index": 47,
         "positive": 0,
-        "neutral": 93,
-        "negative": 7,
-        "n": 30,
+        "neutral": 94,
+        "negative": 6,
+        "n": 31,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -2148,6 +2175,26 @@
     },
     "Kroaci": {
       "outlets": [
+        {
+          "name": "A News",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "US to deport CIA informant who infiltrated al-Qaeda - A News",
+              "albanianTitle": "SHBA-ja do të dëbojë informatorin e CIA-s që ishte infiltruar në al-Qaeda",
+              "blurb": "Shtetet e Bashkuara planifikojnë dëbimin e një ish-informatori të CIA-s, i cili më parë kishte infiltruar në organizatën terroriste al-Qaeda.",
+              "imageUrl": "https://ia.tmgrup.com.tr/150e72/806/378/0/0/1200/562?u=https://i.tmgrup.com.tr/anews/v1/2026/08/20/us-to-deport-cia-informant-who-infiltrated-al-qaeda-1787208934152.jpeg",
+              "url": "https://www.anews.com.tr/world/2026/08/20/us-to-deport-cia-informant-who-infiltrated-al-qaeda",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim i thjeshtë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
         {
           "name": "Al Jazeera",
           "sentiment": "neutral",
@@ -2169,30 +2216,23 @@
           ]
         },
         {
-          "name": "Balkan Green Energy News",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "North Macedonia to import coal for power plants from Kosovo* - balkangreenenergynews.com",
-              "albanianTitle": "Maqedonia e Veriut do të importojë qymyr nga Kosova për termocentralet e saj - balkangreenenergynews.com",
-              "blurb": "Maqedonia e Veriut do të importojë thëngjill nga Kosova për të furnizuar termocentralet e saj me lëndë djegëse.",
-              "imageUrl": "https://balkangreenenergynews.com/wp-content/uploads/2026/08/north-macedonia-kosovo-kek-esm-coal-concesion-contract-hasani-uzuncev.jpg",
-              "url": "https://balkangreenenergynews.com/north-macedonia-to-import-coal-for-power-plants-from-kosovo/",
-              "date": "2026-08-18",
-              "sentiment": "neutral",
-              "reason": "Raportim faktik për tregtinë e qymyrit, pa gjuhë ngarkuar",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
           "name": "Balkan Insight",
           "sentiment": "neutral",
           "articleCount": 2,
           "articles": [
+            {
+              "title": "Kosovo Opposition Snubs Acting President’s Meeting Amid Parliamentary Crisis - Balkan Insight",
+              "albanianTitle": "Opozita kosovare bojkoton takimin me ushtruesen e detyrës së presidentit në mes të krizës parlamentare - Balkan Insight",
+              "blurb": "Partitë opozitare në Kosovë refuzuan pjesëmarrjen në takimin e thirrur nga ushtruesja e detyrës së presidentit për krizën parlamentare.",
+              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/08/Kosovo-meeting-Albulena-Haxhiu-BIRN-scaled-e1787054218728.jpg",
+              "url": "https://balkaninsight.com/2026/08/18/kosovo-opposition-snubs-acting-presidents-meeting-amid-parliamentary-crisis/bi/",
+              "date": "2026-08-18",
+              "sentiment": "neutral",
+              "reason": "Faktikë e thjeshtë, pa gjuhë ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
             {
               "title": "Suspend Officers Suspected of Beating Serb, Kosovo Police Inspectorate Says - Balkan Insight",
               "albanianTitle": "Inspektorati Policor i Kosovës kërkon suspendimin e zyrtarëve të dyshuar për rrahjen e një serbi",
@@ -2205,16 +2245,23 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
-            },
+            }
+          ]
+        },
+        {
+          "name": "CBS News",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
             {
-              "title": "Kosovo Opposition Snubs Acting President’s Meeting Amid Parliamentary Crisis - Balkan Insight",
-              "albanianTitle": "Opozita kosovare bojkoton takimin me ushtruesen e detyrës së presidentit në mes të krizës parlamentare - Balkan Insight",
-              "blurb": "Partitë opozitare në Kosovë refuzuan pjesëmarrjen në takimin e thirrur nga ushtruesja e detyrës së presidentit për krizën parlamentare.",
-              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/08/Kosovo-meeting-Albulena-Haxhiu-BIRN-scaled-e1787054218728.jpg",
-              "url": "https://balkaninsight.com/2026/08/18/kosovo-opposition-snubs-acting-presidents-meeting-amid-parliamentary-crisis/bi/",
-              "date": "2026-08-18",
+              "title": "He spied for the U.S. in the war on terror. Now ICE wants to deport him. - CBS News",
+              "albanianTitle": "Ai spiunoi për SHBA-në në luftën kundër terrorizmit, tani ICE kërkon dëbimin e tij",
+              "blurb": "Autoritetet amerikane të emigracionit po kërkojnë dëbimin e një ish-informatori që spiunoi për Shtetet e Bashkuara gjatë luftës kundër terrorit.",
+              "imageUrl": "https://assets3.cbsnewsstatic.com/hub/i/r/2026/08/19/7aee433e-ddaf-4c88-bc73-3fb6c4a79b1f/thumbnail/1200x630g2/768f648093b53b90fb1e43d03d1e1e0c/blerim-skoro-1.jpg",
+              "url": "https://www.cbsnews.com/news/ice-detainee-spy-terrorism-blerim-skoro/",
+              "date": "2026-08-19",
               "sentiment": "neutral",
-              "reason": "Faktikë e thjeshtë, pa gjuhë ngarkuar",
+              "reason": "Faktikë raportim i thjeshtë",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -2382,6 +2429,26 @@
           ]
         },
         {
+          "name": "World Baseball Softball Confederation (WBSC)",
+          "sentiment": "positive",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Mediterranean Games: Kosovo’s Lekë Juniku carries tradition and fighting spirit from Taranto towards 2030 - World Baseball Softball Confederation (WBSC)",
+              "albanianTitle": "Lojërat Mesdhetare: Lekë Juniku i Kosovës bart traditën dhe frymën luftarake nga Taranto drejt vitit 2030",
+              "blurb": "Sportisti Lekë Juniku përfaqëson Kosovën në Lojërat Mesdhetare, duke bartur traditën dhe frymën garuese drejt edicionit të vitit 2030.",
+              "imageUrl": null,
+              "url": "https://www.wbsc.org/en/news/mediterranean-games-kosovos-leke-juniku-carries-tradition-and-fighting-spirit-from-taranto-towards-2030",
+              "date": "2026-08-18",
+              "sentiment": "positive",
+              "reason": "Gjuhë e ngrohtë dhe admiruese për Kosovën",
+              "isQuote": false,
+              "evidence": "carries tradition and fighting spirit",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "cna.al",
           "sentiment": "unknown",
           "articleCount": 1,
@@ -2423,11 +2490,11 @@
         }
       ],
       "summary": {
-        "index": 50,
-        "positive": 8,
-        "neutral": 83,
-        "negative": 8,
-        "n": 12,
+        "index": 54,
+        "positive": 14,
+        "neutral": 79,
+        "negative": 7,
+        "n": 14,
         "excluded": 2,
         "confident": true,
         "stanceVersion": 2
