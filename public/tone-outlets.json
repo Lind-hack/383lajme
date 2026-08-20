@@ -1,7 +1,7 @@
 {
   "lastUpdated": "2026-08-20",
   "overallIndex": 52,
-  "totalArticles": 166,
+  "totalArticles": 177,
   "sourceCount": 113,
   "stanceVersion": 2,
   "countries": {
@@ -95,6 +95,26 @@
           ]
         },
         {
+          "name": "ANSA",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Vucic writes to Rutte: 'NATO, stop terror in Kosovo, do not reopen the bridge' - ANSA",
+              "albanianTitle": "Vuçiq i shkruan Ruttes: NATO, ndaloni terrorin në Kosovë, mos e hapni urën - ANSA",
+              "blurb": "Presidenti serb Vuçiq i ka kërkuar NATO-s ndalimin e veprimeve në Kosovë dhe kundërshtoi rihapjen e urës mbi Ibër.",
+              "imageUrl": "https://www.ansa.it/webimages/img_1280x720/2026/8/8/61c8122ecfa3454105e817ee96176bf9.jpg",
+              "url": "https://www.ansa.it/nuova_europa/en/news/sections/news/2026/08/20/vucic-writes-to-rutte-nato-stop-terror-in-kosovo-do-not-reopen-the_9034279d-c06f-4e44-ab54-096dd4332014.html",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Citat i Vucic-it, media raporton pa ngjyrë",
+              "isQuote": true,
+              "evidence": "",
+              "speaker": "Vucic"
+            }
+          ]
+        },
+        {
           "name": "Al Jazeera",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -137,8 +157,21 @@
         {
           "name": "Balkan Insight",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 3,
           "articles": [
+            {
+              "title": "Remains of 23 Wartime Victims Unearthed from Mass Graves in Kosovo - Balkan Insight",
+              "albanianTitle": "Gjenden mbetjet mortore të 23 viktimave të luftës në varreza masive në Kosovë - Balkan Insight",
+              "blurb": "Janë zhvarrosur mbetjet mortore të njëzet e tre viktimave të luftës në varreza masive të gjetura në Kosovë.",
+              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/08/Kalluder-mass-grave-Kosovo-1-BIRN-e1787239870514.jpg",
+              "url": "https://balkaninsight.com/2026/08/20/remains-of-23-wartime-victims-unearthed-from-mass-graves-in-kosovo/btj/",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportuar pa gjuhë të ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
             {
               "title": "Kosovo Opposition Snubs Acting President’s Meeting Amid Parliamentary Crisis - Balkan Insight",
               "albanianTitle": "Opozita kosovare bojkoton takimin me ushtruesen e detyrës së presidentit në mes të krizës parlamentare - Balkan Insight",
@@ -447,13 +480,13 @@
           "articles": [
             {
               "title": "US to provide $206 million for Gaza peacekeeping force, letters show - The Times of Israel",
-              "albanianTitle": "SHBA-ja do të ndajë 206 milionë dollarë për forcat paqeruajtëse në Gaza, sipas dokumenteve - The Times of Israel",
-              "blurb": "Shtetet e Bashkuara të Amerikës kanë planifikuar ndarjen e 206 milionë dollarëve për forcat paqeruajtëse në Gaza.",
+              "albanianTitle": "Sipas dokumenteve, SHBA-ja do të ndajë 206 milionë dollarë për forcat paqeruajtëse në Gaza - The Times of Israel",
+              "blurb": "Shtetet e Bashkuara të Amerikës do të ndajnë 206 milionë dollarë për forcat paqeruajtëse në Rripin e Gazës.",
               "imageUrl": null,
               "url": "https://www.timesofisrael.com/us-to-provide-206-million-for-gaza-peacekeeping-force-letters-show/",
               "date": "2026-08-20",
               "sentiment": "unknown",
-              "reason": "No mention of Kosovo in the item",
+              "reason": "Article does not mention Kosovo",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -483,8 +516,47 @@
         {
           "name": "srpske.rs",
           "sentiment": "neutral",
-          "articleCount": 5,
+          "articleCount": 6,
           "articles": [
+            {
+              "title": "Haljiti: Kosovo President Deal Possible Within Days - srpske.rs",
+              "albanianTitle": "Haliti: Marrëveshja për presidentin e Kosovës mund të arrihet brenda pak ditësh - srpske.rs",
+              "blurb": "Xhavit Haliti deklaroi se marrëveshja për zgjedhjen e presidentit të ri të Kosovës mund të arrihet brenda pak ditësh.",
+              "imageUrl": "https://srpske.rs/uploads/articles/kosovo-president-deal-possible-within-days-16x9.webp",
+              "url": "https://srpske.rs/en/news/politika/2026/08/20/kosovo-president-deal-possible-within-days",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Citat i Haljiti-t, media raporton pa ngjyrë",
+              "isQuote": true,
+              "evidence": "",
+              "speaker": "Haljiti"
+            },
+            {
+              "title": "Kodraljiju: Seven Espionage Cases in Kosovo - srpske.rs",
+              "albanianTitle": "Kodraliu: Shtatë raste të spiunazhit në Kosovë - srpske.rs",
+              "blurb": "Kodraljiju njoftoi se në Kosovë janë identifikuar gjithsej shtatë raste të ndryshme të cilat ndërlidhen me veprimtari të spiunazhit.",
+              "imageUrl": "https://srpske.rs/uploads/articles/pristina-prosecutor-seven-espionage-cases-four-convictions-16x9.webp",
+              "url": "https://srpske.rs/en/news/politika/2026/08/20/pristina-prosecutor-seven-espionage-cases-four-convictions",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Citat i Kodraljiju-t, media raporton pa ngjyrë",
+              "isQuote": true,
+              "evidence": "",
+              "speaker": "Kodraljiju"
+            },
+            {
+              "title": "Bocan-Harchenko: Russia Prevents Ethnic Cleansing of Serbs - srpske.rs",
+              "albanianTitle": "Bocan-Harchenko: Rusia parandalon spastrimin etnik të serbëve - srpske.rs",
+              "blurb": "Ambasadori rus Bocan-Harchenko pretendon se Rusia po ndërmerr veprime për të parandaluar spastrimin etnik të serbëve në Kosovë.",
+              "imageUrl": "https://srpske.rs/uploads/articles/bocan-harchenko-russia-prevents-ethnic-cleansing-serbs-16x9.webp",
+              "url": "https://srpske.rs/en/news/politika/2026/08/20/bocan-harchenko-russia-prevents-ethnic-cleansing-serbs",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Citat i Bocan-Harchenko-s, media raporton pa ngjyrë",
+              "isQuote": true,
+              "evidence": "",
+              "speaker": "Bocan-Harchenko"
+            },
             {
               "title": "Kurti, Abdixhiku Agree on Profile for Kosovo President - srpske.rs",
               "albanianTitle": "Kurti dhe Abdixhiku pajtohen për profilin e presidentit të Kosovës",
@@ -523,32 +595,6 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
-            },
-            {
-              "title": "Vucic to Send Letter to Rutte: Don't Open Ibar Bridge - srpske.rs",
-              "albanianTitle": "Vuçiq i shkruan letër Ruttes: Mos e hapni urën e Ibrit",
-              "blurb": "Presidenti serb Aleksandar Vuçiq paralajmëron dërgimin e një letre drejtuar Mark Ruttes kundër hapjes së urës së Ibrit.",
-              "imageUrl": "https://srpske.rs/uploads/articles/vucic-letter-rutte-ibar-bridge-16x9.webp",
-              "url": "https://srpske.rs/en/news/politika/2026/08/19/vucic-letter-rutte-ibar-bridge",
-              "date": "2026-08-19",
-              "sentiment": "negative",
-              "reason": "Outlet issues a directive opposing the opening of the bridge, a line against Kosovo's interests",
-              "isQuote": false,
-              "evidence": "Don't Open Ibar Bridge",
-              "speaker": ""
-            },
-            {
-              "title": "Kosovo Opposition Blocks Government Entrance for Fourth Day - srpske.rs",
-              "albanianTitle": "Opozita në Kosovë bllokon hyrjen e Qeverisë për të katërtën ditë me radhë",
-              "blurb": "Opozita në Kosovë vazhdon të bllokojë hyrjen e ndërtesës së qeverisë për të katërtën ditë radhazi.",
-              "imageUrl": "https://srpske.rs/uploads/articles/kosovo-opposition-blocks-government-entrance-fourth-day-16x9.webp",
-              "url": "https://srpske.rs/en/news/politika/2026/08/18/kosovo-opposition-blocks-government-entrance-fourth-day",
-              "date": "2026-08-18",
-              "sentiment": "neutral",
-              "reason": "Titulli faktik pa gjuhë ngarkuar",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
             }
           ]
         },
@@ -571,34 +617,14 @@
               "speaker": ""
             }
           ]
-        },
-        {
-          "name": "ԱՐՑԱԽ ԼՐԱՏՎԱԿԱՆ",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "NATO reduces security presence at key Kosovo Serb sites - ԱՐՑԱԽ ԼՐԱՏՎԱԿԱՆ",
-              "albanianTitle": "NATO zvogëlon praninë e sigurisë në pikat kyçe serbe në Kosovë",
-              "blurb": "Aleanca Veriatlantike ka zvogëluar numrin e trupave të saj që sigurojnë lokacionet kryesore të banuara nga serbët në Kosovë.",
-              "imageUrl": "https://mamul.am/images/photos/260812/nato-n-sksel-e-krtchatel-ir-ne-n367818-1.jpg",
-              "url": "https://artsakh.news/en/news/367818",
-              "date": "2026-08-17",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
         }
       ],
       "summary": {
         "index": 52,
-        "positive": 11,
-        "neutral": 81,
-        "negative": 7,
-        "n": 27,
+        "positive": 10,
+        "neutral": 84,
+        "negative": 6,
+        "n": 31,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2
@@ -627,6 +653,26 @@
           ]
         },
         {
+          "name": "ANSA",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Vucic writes to Rutte: 'NATO, stop terror in Kosovo, do not reopen the bridge' - ANSA",
+              "albanianTitle": "Vuçiq i shkruan Ruttes: NATO, ndaloni terrorin në Kosovë, mos e hapni urën - ANSA",
+              "blurb": "Presidenti serb Vuçiq i ka kërkuar NATO-s ndalimin e veprimeve në Kosovë dhe kundërshtoi rihapjen e urës mbi Ibër.",
+              "imageUrl": "https://www.ansa.it/webimages/img_1280x720/2026/8/8/61c8122ecfa3454105e817ee96176bf9.jpg",
+              "url": "https://www.ansa.it/nuova_europa/en/news/sections/news/2026/08/20/vucic-writes-to-rutte-nato-stop-terror-in-kosovo-do-not-reopen-the_9034279d-c06f-4e44-ab54-096dd4332014.html",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Citat i Vucic-it, media raporton pa ngjyrë",
+              "isQuote": true,
+              "evidence": "",
+              "speaker": "Vucic"
+            }
+          ]
+        },
+        {
           "name": "Al Jazeera",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -640,6 +686,26 @@
               "date": "2026-08-20",
               "sentiment": "neutral",
               "reason": "Faktikë raportim pa gjuhë të ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "BGNES",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo police seize weapons, ammunition and uniforms in northern Kosovo - BGNES",
+              "albanianTitle": "Policia e Kosovës konfiskon armë, municion dhe uniforma në veri të Kosovës - BGNES",
+              "blurb": "Policia e Kosovës ka konfiskuar sasi të armëve, municionit dhe uniformave gjatë një operacioni të zhvilluar në veri të vendit.",
+              "imageUrl": "https://www.bgnes.com/static/images/news/2026/08/20/21537/19720.webp",
+              "url": "http://www.bgnes.com/politics/kosovo-police-seize-weapons-ammunition-and-uniforms-in-northern-kosovo",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Raportim faktik i veprimit të policisë në veri të Kosovës",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -669,8 +735,21 @@
         {
           "name": "Balkan Insight",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 3,
           "articles": [
+            {
+              "title": "Remains of 23 Wartime Victims Unearthed from Mass Graves in Kosovo - Balkan Insight",
+              "albanianTitle": "Gjenden mbetjet mortore të 23 viktimave të luftës në varreza masive në Kosovë - Balkan Insight",
+              "blurb": "Janë zhvarrosur mbetjet mortore të njëzet e tre viktimave të luftës në varreza masive të gjetura në Kosovë.",
+              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/08/Kalluder-mass-grave-Kosovo-1-BIRN-e1787239870514.jpg",
+              "url": "https://balkaninsight.com/2026/08/20/remains-of-23-wartime-victims-unearthed-from-mass-graves-in-kosovo/btj/",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportuar pa gjuhë të ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
             {
               "title": "Suspend Officers Suspected of Beating Serb, Kosovo Police Inspectorate Says - Balkan Insight",
               "albanianTitle": "Inspektorati Policor i Kosovës kërkon suspendimin e zyrtarëve të dyshuar për rrahjen e një serbi",
@@ -693,26 +772,6 @@
               "date": "2026-08-18",
               "sentiment": "neutral",
               "reason": "Faktikë e thjeshtë, pa gjuhë ngarkuar",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "CNN",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "The epic hiking trail that explores one of Europe’s last great wildernesses - CNN",
-              "albanianTitle": "Shtegu epik i ecjes që përshkon një nga zonat e fundit të egra të Evropës",
-              "blurb": "Një shteg i gjatë për ecje eksploron një nga zonat e fundit të egra dhe të paprekura në Evropë.",
-              "imageUrl": "https://media.cnn.com/api/v1/images/stellar/prod/gettyimages-2226212944.jpg?c=16x9&q=w_800,c_fill",
-              "url": "https://www.cnn.com/travel/peaks-of-the-balkans-trail-albania-montenegro-kosovo",
-              "date": "2026-08-19",
-              "sentiment": "neutral",
-              "reason": "Fact‑based headline about a trail, no evaluative language toward Kosovo",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -813,46 +872,6 @@
               "date": "2026-08-20",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "Irish Examiner",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Bóthar: The final journey to Kosovo - Irish Examiner",
-              "albanianTitle": "Bóthar: Udhëtimi i fundit drejt Kosovës",
-              "blurb": "Organizata Bóthar ka përfunduar misionin e saj humanitar në Kosovë përmes dërgimit të ndihmave për popullatën lokale në nevojë.",
-              "imageUrl": "https://www.irishexaminer.com/cms_media/module_img/10396/5198383_4_org_October_202025_20Shipment.jpeg",
-              "url": "https://www.irishexaminer.com/farming/arid-41898007.html",
-              "date": "2026-08-19",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportim i thjeshtë, pa gjuhë ngarkuar",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "JNS.org",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Is Somaliland America’s next Kosovo? - JNS.org",
-              "albanianTitle": "A po bëhet Somalilandi Kosova e radhës për Amerikën?",
-              "blurb": "Analizohet mundësia e njohjes së Somalilandit nga Shtetet e Bashkuara të Amerikës, duke e krahasuar atë me rastin e Kosovës.",
-              "imageUrl": "https://static.jns.org/dims4/default/88a5884/2147483647/strip/true/crop/6601x3713+0+688/resize/1440x810!/format/webp/quality/90/?url=https%3A%2F%2Fk2-prod-jns-prod.s3.us-east-1.amazonaws.com%2Fbrightspot%2Fef%2Fda%2Fefca21cf4a09be1ee413f8259207%2Fgettyimages-2276340274.jpg",
-              "url": "https://www.jns.org/opinion/nassir-hussein-kahin/is-somaliland-americas-next-kosovo",
-              "date": "2026-08-18",
-              "sentiment": "neutral",
-              "reason": "Question headline without hostile language, merely drawing a comparison",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -973,26 +992,6 @@
           ]
         },
         {
-          "name": "The Times of Israel",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "US to provide $206 million for Gaza peacekeeping force, letters show - The Times of Israel",
-              "albanianTitle": "SHBA-ja do të ndajë 206 milionë dollarë për forcat paqeruajtëse në Gaza, sipas dokumenteve - The Times of Israel",
-              "blurb": "Shtetet e Bashkuara të Amerikës kanë planifikuar ndarjen e 206 milionë dollarëve për forcat paqeruajtëse në Gaza.",
-              "imageUrl": null,
-              "url": "https://www.timesofisrael.com/us-to-provide-206-million-for-gaza-peacekeeping-force-letters-show/",
-              "date": "2026-08-20",
-              "sentiment": "unknown",
-              "reason": "No mention of Kosovo in the item",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
           "name": "World Baseball Softball Confederation (WBSC)",
           "sentiment": "positive",
           "articleCount": 1,
@@ -1015,8 +1014,47 @@
         {
           "name": "srpske.rs",
           "sentiment": "neutral",
-          "articleCount": 5,
+          "articleCount": 6,
           "articles": [
+            {
+              "title": "Haljiti: Kosovo President Deal Possible Within Days - srpske.rs",
+              "albanianTitle": "Haliti: Marrëveshja për presidentin e Kosovës mund të arrihet brenda pak ditësh - srpske.rs",
+              "blurb": "Xhavit Haliti deklaroi se marrëveshja për zgjedhjen e presidentit të ri të Kosovës mund të arrihet brenda pak ditësh.",
+              "imageUrl": "https://srpske.rs/uploads/articles/kosovo-president-deal-possible-within-days-16x9.webp",
+              "url": "https://srpske.rs/en/news/politika/2026/08/20/kosovo-president-deal-possible-within-days",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Citat i Haljiti-t, media raporton pa ngjyrë",
+              "isQuote": true,
+              "evidence": "",
+              "speaker": "Haljiti"
+            },
+            {
+              "title": "Kodraljiju: Seven Espionage Cases in Kosovo - srpske.rs",
+              "albanianTitle": "Kodraliu: Shtatë raste të spiunazhit në Kosovë - srpske.rs",
+              "blurb": "Kodraljiju njoftoi se në Kosovë janë identifikuar gjithsej shtatë raste të ndryshme të cilat ndërlidhen me veprimtari të spiunazhit.",
+              "imageUrl": "https://srpske.rs/uploads/articles/pristina-prosecutor-seven-espionage-cases-four-convictions-16x9.webp",
+              "url": "https://srpske.rs/en/news/politika/2026/08/20/pristina-prosecutor-seven-espionage-cases-four-convictions",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Citat i Kodraljiju-t, media raporton pa ngjyrë",
+              "isQuote": true,
+              "evidence": "",
+              "speaker": "Kodraljiju"
+            },
+            {
+              "title": "Bocan-Harchenko: Russia Prevents Ethnic Cleansing of Serbs - srpske.rs",
+              "albanianTitle": "Bocan-Harchenko: Rusia parandalon spastrimin etnik të serbëve - srpske.rs",
+              "blurb": "Ambasadori rus Bocan-Harchenko pretendon se Rusia po ndërmerr veprime për të parandaluar spastrimin etnik të serbëve në Kosovë.",
+              "imageUrl": "https://srpske.rs/uploads/articles/bocan-harchenko-russia-prevents-ethnic-cleansing-serbs-16x9.webp",
+              "url": "https://srpske.rs/en/news/politika/2026/08/20/bocan-harchenko-russia-prevents-ethnic-cleansing-serbs",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Citat i Bocan-Harchenko-s, media raporton pa ngjyrë",
+              "isQuote": true,
+              "evidence": "",
+              "speaker": "Bocan-Harchenko"
+            },
             {
               "title": "Kurti, Abdixhiku Agree on Profile for Kosovo President - srpske.rs",
               "albanianTitle": "Kurti dhe Abdixhiku pajtohen për profilin e presidentit të Kosovës",
@@ -1026,32 +1064,6 @@
               "date": "2026-08-19",
               "sentiment": "neutral",
               "reason": "Fact-based reporting without loaded language",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Alliance Reports Kosovo Government Over 18 Commissions - srpske.rs",
-              "albanianTitle": "Aleanca denoncon Qeverinë e Kosovës për 18 komisione - srpske.rs",
-              "blurb": "Aleanca për Ardhmërinë e Kosovës ka raportuar qeverinë lidhur me funksionimin e tetëmbëdhjetë komisioneve të ndryshme shtetërore në vend.",
-              "imageUrl": "https://srpske.rs/uploads/articles/alliance-reports-kosovo-government-over-18-commissions-16x9.webp",
-              "url": "https://srpske.rs/en/news/politika/2026/08/18/alliance-reports-kosovo-government-over-18-commissions",
-              "date": "2026-08-18",
-              "sentiment": "neutral",
-              "reason": "Plain news headline about government commissions, no evaluative language",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Kosovo Assembly Remains Deadlocked, PDK and AAK Refuse Talks - srpske.rs",
-              "albanianTitle": "Kuvendi i Kosovës mbetet në bllokadë, PDK dhe AAK refuzojnë dialogun - srpske.rs",
-              "blurb": "Kuvendi i Kosovës mbetet i bllokuar pasi partitë opozitare PDK dhe AAK refuzojnë pjesëmarrjen në bisedime.",
-              "imageUrl": "https://srpske.rs/uploads/articles/kosovo-assembly-remains-deadlocked-pdk-aak-refuse-talks-16x9.webp",
-              "url": "https://srpske.rs/en/news/politika/2026/08/17/kosovo-assembly-remains-deadlocked-pdk-aak-refuse-talks",
-              "date": "2026-08-17",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike pa ngjyrë",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1070,14 +1082,14 @@
               "speaker": ""
             },
             {
-              "title": "Kosovo Opposition Blocks Government Entrance for Fourth Day - srpske.rs",
-              "albanianTitle": "Opozita në Kosovë bllokon hyrjen e Qeverisë për të katërtën ditë me radhë",
-              "blurb": "Opozita në Kosovë vazhdon të bllokojë hyrjen e ndërtesës së qeverisë për të katërtën ditë radhazi.",
-              "imageUrl": "https://srpske.rs/uploads/articles/kosovo-opposition-blocks-government-entrance-fourth-day-16x9.webp",
-              "url": "https://srpske.rs/en/news/politika/2026/08/18/kosovo-opposition-blocks-government-entrance-fourth-day",
+              "title": "Alliance Reports Kosovo Government Over 18 Commissions - srpske.rs",
+              "albanianTitle": "Aleanca denoncon Qeverinë e Kosovës për 18 komisione - srpske.rs",
+              "blurb": "Aleanca për Ardhmërinë e Kosovës ka raportuar qeverinë lidhur me funksionimin e tetëmbëdhjetë komisioneve të ndryshme shtetërore në vend.",
+              "imageUrl": "https://srpske.rs/uploads/articles/alliance-reports-kosovo-government-over-18-commissions-16x9.webp",
+              "url": "https://srpske.rs/en/news/politika/2026/08/18/alliance-reports-kosovo-government-over-18-commissions",
               "date": "2026-08-18",
               "sentiment": "neutral",
-              "reason": "Titulli faktik pa gjuhë ngarkuar",
+              "reason": "Plain news headline about government commissions, no evaluative language",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1107,11 +1119,11 @@
       ],
       "summary": {
         "index": 52,
-        "positive": 12,
-        "neutral": 81,
-        "negative": 8,
-        "n": 26,
-        "excluded": 1,
+        "positive": 11,
+        "neutral": 82,
+        "negative": 7,
+        "n": 28,
+        "excluded": 0,
         "confident": true,
         "stanceVersion": 2
       }
@@ -1206,6 +1218,26 @@
     "Itali": {
       "outlets": [
         {
+          "name": "ANSA",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Vucic scrive a Rutte, 'Nato fermi terrore in Kosovo, non riaprire ponte' - ANSA",
+              "albanianTitle": "Vuçiq i shkruan Ruttes: NATO, ndaloni terrorin në Kosovë, mos e hapni urën - ANSA",
+              "blurb": "Aleksandër Vuçiq i është drejtuar Ruttes me kërkesën që NATO të ndalojë situatën në Kosovë dhe të mos hapet ura.",
+              "imageUrl": "https://www.ansa.it/webimages/img_1280x720/2026/8/8/61c8122ecfa3454105e817ee96176bf9.jpg",
+              "url": "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/08/20/vucic-scrive-a-rutte-nato-fermi-terrore-in-kosovo-non-riaprire-ponte_68050249-06ef-4b0a-b56b-6ff64929514e.html",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Report of Vucic's statement, not outlet's own hostility",
+              "isQuote": true,
+              "evidence": "",
+              "speaker": "Vucic"
+            }
+          ]
+        },
+        {
           "name": "Cineuropa",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1233,12 +1265,12 @@
             {
               "title": "Giochi del Mediterraneo, la spedizione azzurra arriva a Taranto per sfilare alla cerimonia di apertura - FIGC",
               "albanianTitle": "Lojërat Mesdhetare, delegacioni italian arrin në Taranto për ceremoninë e hapjes - FIGC",
-              "blurb": "Delegacioni italian ka mbërritur në Taranto për të marrë pjesë në ceremoninë e hapjes së Lojërave Mesdhetare.",
+              "blurb": "Ekipi italian ka mbërritur në qytetin e Tarantos për të marrë pjesë në ceremoninë e hapjes së Lojërave Mesdhetare.",
               "imageUrl": "https://images.figc.it/view/acePublic/alias/contentid/1t8nkhprvz401xr6pua/0/foto-jpg.jpg?f=187%3A100",
               "url": "https://www.figc.it/it/nazionali/news/giochi-del-mediterraneo-la-spedizione-azzurra-arriva-a-taranto-per-sfilare-alla-cerimonia-di-apertura-hpfgneix",
               "date": "2026-08-20",
               "sentiment": "unknown",
-              "reason": "No mention of Kosovo in the item",
+              "reason": "Article does not mention Kosovo",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1340,11 +1372,11 @@
         }
       ],
       "summary": {
-        "index": 58,
-        "positive": 17,
-        "neutral": 83,
+        "index": 57,
+        "positive": 14,
+        "neutral": 86,
         "negative": 0,
-        "n": 6,
+        "n": 7,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2
@@ -1434,12 +1466,12 @@
             {
               "title": "News Archive - zentralplus",
               "albanianTitle": null,
-              "blurb": "Arkiva e lajmeve përmban informacione dhe raportime të publikuara më parë në portalin informativ zentralplus.",
+              "blurb": "Arkiva e lajmeve në portalin informativ Zentralplus përmban përmbledhje të ngjarjeve të ndryshme të publikuara gjatë periudhave të kaluara kohore.",
               "imageUrl": null,
               "url": "https://www.zentralplus.ch/news/luzerner-loest-mit-trottoir-fahrt-shitstorm-aus-2893231/",
               "date": "2026-08-20",
               "sentiment": "unknown",
-              "reason": "No mention of Kosovo in the item",
+              "reason": "No information about Kosovo or outlet attitude",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1608,6 +1640,26 @@
           ]
         },
         {
+          "name": "Reporteri",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "PDK-ja për të pestën ditë bllokon hyrjen e Qeverisë, i bashkohen edhe prodhuesit vendor - Reporteri",
+              "albanianTitle": "PDK-ja për të pestën ditë bllokon hyrjen e Qeverisë, i bashkohen edhe prodhuesit vendorë - Reporteri",
+              "blurb": "Partia Demokratike e Kosovës vazhdon bllokimin e hyrjes së ndërtesës së Qeverisë, ndërsa kësaj proteste i janë bashkuar prodhuesit vendorë.",
+              "imageUrl": null,
+              "url": "https://reporteri.net/fr/nouvelles/PDK-bloque-l%27entr%C3%A9e-du-gouvernement-pour-le-cinqui%C3%A8me-jour--les-producteurs-locaux-se-joignent-%C3%A0-la-lutte./",
+              "date": "2026-08-19",
+              "sentiment": "neutral",
+              "reason": "Faktikë politike, neutral reporting",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "Sud Ouest",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1629,13 +1681,13 @@
         }
       ],
       "summary": {
-        "index": 62,
-        "positive": 25,
-        "neutral": 75,
+        "index": 60,
+        "positive": 20,
+        "neutral": 80,
         "negative": 0,
-        "n": 4,
+        "n": 5,
         "excluded": 0,
-        "confident": false,
+        "confident": true,
         "stanceVersion": 2
       }
     },
@@ -1846,19 +1898,6 @@
           "articleCount": 2,
           "articles": [
             {
-              "title": "Μεσογειακοί Αγώνες 2026: Με το δεξί η Εθνική ανδρών, 3-0 το Κόσοβο - Gazzetta.gr",
-              "albanianTitle": "Lojërat Mesdhetare 2026: Start i mbarë për kombëtaren greke, mposht Kosovën 3-0",
-              "blurb": "Kombëtarja e Greqisë ka mposhtur Kosovën me rezultat 3-0 në ndeshjen e parë të Lojërave Mesdhetare 2026.",
-              "imageUrl": "https://www.gazzetta.gr/sites/default/files/styles/og_image/public/2026-08/men-website.jpg?itok=FcxZ82Sb",
-              "url": "https://www.gazzetta.gr/volleyball/2562585/mesogeiakoi-agones-2026-me-dexi-i-ethniki-andron-3-0-kosobo",
-              "date": "2026-08-20",
-              "sentiment": "neutral",
-              "reason": "Fact‑based sports result, no hostile wording",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
               "title": "Μεσογειακοί Αγώνες 2026: Κόντρα στο Κόσοβο πρεμιέρα για την Εθνική Ανδρών - Gazzetta.gr",
               "albanianTitle": "Lojërat Mesdhetare 2026: Kombëtarja e meshkujve e nis me ndeshjen kundër Kosovës",
               "blurb": "Kombëtarja e meshkujve në volejboll e nis rrugëtimin në Lojërat Mesdhetare 2026 me ndeshjen kundër përfaqësueses së Kosovës.",
@@ -1867,6 +1906,19 @@
               "date": "2026-08-19",
               "sentiment": "neutral",
               "reason": "Faktik, pa gjuhë ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Μεσογειακοί Αγώνες 2026: Με το δεξί η Εθνική ανδρών, 3-0 το Κόσοβο - Gazzetta.gr",
+              "albanianTitle": "Lojërat Mesdhetare 2026: Start i mbarë për kombëtaren greke, mposht Kosovën 3-0",
+              "blurb": "Kombëtarja e Greqisë ka mposhtur Kosovën me rezultat 3-0 në ndeshjen e parë të Lojërave Mesdhetare 2026.",
+              "imageUrl": "https://www.gazzetta.gr/sites/default/files/styles/og_image/public/2026-08/men-website.jpg?itok=FcxZ82Sb",
+              "url": "https://www.gazzetta.gr/volleyball/2562585/mesogeiakoi-agones-2026-me-dexi-i-ethniki-andron-3-0-kosobo",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Fact‑based sports result, no hostile wording",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1996,7 +2048,7 @@
         {
           "name": "Ελληνική Ομοσπονδία Πετοσφαίρισης",
           "sentiment": "neutral",
-          "articleCount": 3,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Μεσογειακοί αγώνες 2026: Πρώτο σερβίς για την εθνική γυναικών απέναντι στο Κόσοβο (20/8, 21.00) - Ελληνική Ομοσπονδία Πετοσφαίρισης",
@@ -2007,19 +2059,6 @@
               "date": "2026-08-19",
               "sentiment": "neutral",
               "reason": "Faktik, pa gjuhë ngarkuar",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Μεσογειακοί αγώνες 2026: Πρεμιέρα για την εθνική ανδρών κόντρα στο Κόσοβο (20/8, 13.00) - Ελληνική Ομοσπονδία Πετοσφαίρισης",
-              "albanianTitle": "Lojërat Mesdhetare 2026: Kombëtarja e meshkujve e nis ndaj Kosovës (20/8, 13:00)",
-              "blurb": "Kombëtarja e Kosovës në volejboll do të përballet me Greqinë në ndeshjen hapëse të Lojërave Mesdhetare për vitin 2026.",
-              "imageUrl": "https://volleyball.gr/wp-content/uploads/2026/08/men-nt2026-media-day.jpg",
-              "url": "https://volleyball.gr/mesogeiakoi-agones-2026-premiera-gia-tin-ethniki-andron-kontra-sto-kosovo-20-8-13-00/",
-              "date": "2026-08-19",
-              "sentiment": "neutral",
-              "reason": "Njoftim sportiv i ndeshjes kundër Kosovës",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -2105,7 +2144,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 18,
+        "n": 17,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -2325,34 +2364,14 @@
               "speaker": ""
             },
             {
-              "title": "Sınır Kapısında Keskin Nişancı Tüfeği Dürbünü Ele Geçirildi - Kosovahaber.com",
-              "albanianTitle": "Konfiskohet dylbi për pushkë snajper në pikën kufitare - Kosovahaber.com",
-              "blurb": "Autoritetet kufitare kanë sekuestruar një dylbi për pushkë snajper gjatë kontrollit të kryer në një pikë kufitare të Kosovës.",
+              "title": "Bugün Motorinin Fiyatı 1.78 Euro - Kosovahaber.com",
+              "albanianTitle": "Çmimi i naftës sot është 1.78 euro - Kosovahaber.com",
+              "blurb": "Çmimi i naftës në tregun e Kosovës për ditën e sotme është vendosur në vlerën prej një euro e shtatëdhjetë e tetë cent.",
               "imageUrl": null,
-              "url": "https://kosovahaber.com/haber/sinir-kapisinda-keskin-nisanci-tufegi-durbunu-ele-gecirildi-105098",
+              "url": "https://kosovahaber.com/haber/bugun-motorinin-fiyati-178-euro-105092",
               "date": "2026-08-20",
               "sentiment": "neutral",
-              "reason": "Fact-based report of seizure at border without loaded language",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "Malatya Güncel",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Vucic, NATO'dan Kosova'daki Sırplara yönelik şiddeti durdurmasını talep etti - Malatya Güncel",
-              "albanianTitle": "Vučić i kërkon NATO-s ndalimin e dhunës ndaj serbëve në Kosovë",
-              "blurb": "Aleksandar Vuçiq ka kërkuar nga NATO-ja ndërhyrje për të ndaluar dhunën ndaj serbëve në territorin e Kosovës.",
-              "imageUrl": "https://www.malatyaguncel.com/d/news/556428_ilkha_01.jpg",
-              "url": "https://www.malatyaguncel.com/vucic-nato-dan-kosova-daki-sirplara-yonelik-sidde-3107982h.htm",
-              "date": "2026-08-20",
-              "sentiment": "neutral",
-              "reason": "Faktik raportim pa ngarkim",
+              "reason": "Price report, no stance on Kosovo",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -2422,8 +2441,21 @@
         {
           "name": "Transfermarkt",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
+            {
+              "title": "KF Kosova Bernhausen - Transfermarkt",
+              "albanianTitle": null,
+              "blurb": "Të dhënat zyrtare mbi klubin e futbollit Kosova Bernhausen janë publikuar në platformën sportive ndërkombëtare Transfermarkt për interes të publikut.",
+              "imageUrl": null,
+              "url": "https://www.transfermarkt.com.tr/kf-kosova-bernhausen/startseite/verein/101402/saison_id/2023",
+              "date": "2026-08-19",
+              "sentiment": "neutral",
+              "reason": "Simple club listing, no evaluative language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
             {
               "title": "FC Kosova Zürich - Transfermarkt",
               "albanianTitle": null,
@@ -2485,7 +2517,7 @@
         "positive": 0,
         "neutral": 95,
         "negative": 5,
-        "n": 41,
+        "n": 40,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -2510,6 +2542,26 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "ANSA",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Vucic writes to Rutte: 'NATO, stop terror in Kosovo, do not reopen the bridge' - ANSA",
+              "albanianTitle": "Vuçiq i shkruan Ruttes: NATO, ndaloni terrorin në Kosovë, mos e hapni urën - ANSA",
+              "blurb": "Presidenti serb Vuçiq i ka kërkuar NATO-s ndalimin e veprimeve në Kosovë dhe kundërshtoi rihapjen e urës mbi Ibër.",
+              "imageUrl": "https://www.ansa.it/webimages/img_1280x720/2026/8/8/61c8122ecfa3454105e817ee96176bf9.jpg",
+              "url": "https://www.ansa.it/nuova_europa/en/news/sections/news/2026/08/20/vucic-writes-to-rutte-nato-stop-terror-in-kosovo-do-not-reopen-the_9034279d-c06f-4e44-ab54-096dd4332014.html",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Citat i Vucic-it, media raporton pa ngjyrë",
+              "isQuote": true,
+              "evidence": "",
+              "speaker": "Vucic"
             }
           ]
         },
@@ -2556,8 +2608,21 @@
         {
           "name": "Balkan Insight",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 3,
           "articles": [
+            {
+              "title": "Remains of 23 Wartime Victims Unearthed from Mass Graves in Kosovo - Balkan Insight",
+              "albanianTitle": "Gjenden mbetjet mortore të 23 viktimave të luftës në varreza masive në Kosovë - Balkan Insight",
+              "blurb": "Janë zhvarrosur mbetjet mortore të njëzet e tre viktimave të luftës në varreza masive të gjetura në Kosovë.",
+              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/08/Kalluder-mass-grave-Kosovo-1-BIRN-e1787239870514.jpg",
+              "url": "https://balkaninsight.com/2026/08/20/remains-of-23-wartime-victims-unearthed-from-mass-graves-in-kosovo/btj/",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportuar pa gjuhë të ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
             {
               "title": "Kosovo Opposition Snubs Acting President’s Meeting Amid Parliamentary Crisis - Balkan Insight",
               "albanianTitle": "Opozita kosovare bojkoton takimin me ushtruesen e detyrës së presidentit në mes të krizës parlamentare - Balkan Insight",
@@ -2793,13 +2858,13 @@
           "articles": [
             {
               "title": "US to provide $206 million for Gaza peacekeeping force, letters show - The Times of Israel",
-              "albanianTitle": "SHBA-ja do të ndajë 206 milionë dollarë për forcat paqeruajtëse në Gaza, sipas dokumenteve - The Times of Israel",
-              "blurb": "Shtetet e Bashkuara të Amerikës kanë planifikuar ndarjen e 206 milionë dollarëve për forcat paqeruajtëse në Gaza.",
+              "albanianTitle": "Sipas dokumenteve, SHBA-ja do të ndajë 206 milionë dollarë për forcat paqeruajtëse në Gaza - The Times of Israel",
+              "blurb": "Shtetet e Bashkuara të Amerikës do të ndajnë 206 milionë dollarë për forcat paqeruajtëse në Rripin e Gazës.",
               "imageUrl": null,
               "url": "https://www.timesofisrael.com/us-to-provide-206-million-for-gaza-peacekeeping-force-letters-show/",
               "date": "2026-08-20",
               "sentiment": "unknown",
-              "reason": "No mention of Kosovo in the item",
+              "reason": "Article does not mention Kosovo",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -2829,8 +2894,47 @@
         {
           "name": "srpske.rs",
           "sentiment": "neutral",
-          "articleCount": 3,
+          "articleCount": 6,
           "articles": [
+            {
+              "title": "Haljiti: Kosovo President Deal Possible Within Days - srpske.rs",
+              "albanianTitle": "Haliti: Marrëveshja për presidentin e Kosovës mund të arrihet brenda pak ditësh - srpske.rs",
+              "blurb": "Xhavit Haliti deklaroi se marrëveshja për zgjedhjen e presidentit të ri të Kosovës mund të arrihet brenda pak ditësh.",
+              "imageUrl": "https://srpske.rs/uploads/articles/kosovo-president-deal-possible-within-days-16x9.webp",
+              "url": "https://srpske.rs/en/news/politika/2026/08/20/kosovo-president-deal-possible-within-days",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Citat i Haljiti-t, media raporton pa ngjyrë",
+              "isQuote": true,
+              "evidence": "",
+              "speaker": "Haljiti"
+            },
+            {
+              "title": "Kodraljiju: Seven Espionage Cases in Kosovo - srpske.rs",
+              "albanianTitle": "Kodraliu: Shtatë raste të spiunazhit në Kosovë - srpske.rs",
+              "blurb": "Kodraljiju njoftoi se në Kosovë janë identifikuar gjithsej shtatë raste të ndryshme të cilat ndërlidhen me veprimtari të spiunazhit.",
+              "imageUrl": "https://srpske.rs/uploads/articles/pristina-prosecutor-seven-espionage-cases-four-convictions-16x9.webp",
+              "url": "https://srpske.rs/en/news/politika/2026/08/20/pristina-prosecutor-seven-espionage-cases-four-convictions",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Citat i Kodraljiju-t, media raporton pa ngjyrë",
+              "isQuote": true,
+              "evidence": "",
+              "speaker": "Kodraljiju"
+            },
+            {
+              "title": "Bocan-Harchenko: Russia Prevents Ethnic Cleansing of Serbs - srpske.rs",
+              "albanianTitle": "Bocan-Harchenko: Rusia parandalon spastrimin etnik të serbëve - srpske.rs",
+              "blurb": "Ambasadori rus Bocan-Harchenko pretendon se Rusia po ndërmerr veprime për të parandaluar spastrimin etnik të serbëve në Kosovë.",
+              "imageUrl": "https://srpske.rs/uploads/articles/bocan-harchenko-russia-prevents-ethnic-cleansing-serbs-16x9.webp",
+              "url": "https://srpske.rs/en/news/politika/2026/08/20/bocan-harchenko-russia-prevents-ethnic-cleansing-serbs",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Citat i Bocan-Harchenko-s, media raporton pa ngjyrë",
+              "isQuote": true,
+              "evidence": "",
+              "speaker": "Bocan-Harchenko"
+            },
             {
               "title": "Kurti, Abdixhiku Agree on Profile for Kosovo President - srpske.rs",
               "albanianTitle": "Kurti dhe Abdixhiku pajtohen për profilin e presidentit të Kosovës",
@@ -2894,11 +2998,11 @@
         }
       ],
       "summary": {
-        "index": 55,
-        "positive": 15,
-        "neutral": 80,
-        "negative": 5,
-        "n": 20,
+        "index": 54,
+        "positive": 12,
+        "neutral": 84,
+        "negative": 4,
+        "n": 25,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2

@@ -1820,7 +1820,7 @@
   {
     "date": "2026-08-20",
     "overallIndex": 52,
-    "totalArticles": 166,
+    "totalArticles": 177,
     "sourceCount": 113,
     "stanceVersion": 2,
     "countries": {
@@ -1836,21 +1836,21 @@
       },
       "SHBA": {
         "index": 52,
-        "positive": 11,
-        "neutral": 81,
-        "negative": 7,
-        "n": 27,
+        "positive": 10,
+        "neutral": 84,
+        "negative": 6,
+        "n": 31,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2
       },
       "Britani": {
         "index": 52,
-        "positive": 12,
-        "neutral": 81,
-        "negative": 8,
-        "n": 26,
-        "excluded": 1,
+        "positive": 11,
+        "neutral": 82,
+        "negative": 7,
+        "n": 28,
+        "excluded": 0,
         "confident": true,
         "stanceVersion": 2
       },
@@ -1865,11 +1865,11 @@
         "stanceVersion": 2
       },
       "Itali": {
-        "index": 58,
-        "positive": 17,
-        "neutral": 83,
+        "index": 57,
+        "positive": 14,
+        "neutral": 86,
         "negative": 0,
-        "n": 6,
+        "n": 7,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2
@@ -1905,13 +1905,13 @@
         "stanceVersion": 2
       },
       "Belgjikë": {
-        "index": 62,
-        "positive": 25,
-        "neutral": 75,
+        "index": 60,
+        "positive": 20,
+        "neutral": 80,
         "negative": 0,
-        "n": 4,
+        "n": 5,
         "excluded": 0,
-        "confident": false,
+        "confident": true,
         "stanceVersion": 2
       },
       "Spanjë": {
@@ -1929,7 +1929,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 18,
+        "n": 17,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -1959,17 +1959,17 @@
         "positive": 0,
         "neutral": 95,
         "negative": 5,
-        "n": 41,
+        "n": 40,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
       },
       "Kroaci": {
-        "index": 55,
-        "positive": 15,
-        "neutral": 80,
-        "negative": 5,
-        "n": 20,
+        "index": 54,
+        "positive": 12,
+        "neutral": 84,
+        "negative": 4,
+        "n": 25,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2
@@ -1977,19 +1977,19 @@
     },
     "headlines": [
       {
-        "title": "Kosovo's Independence: A New European Nation is Born - Monocle",
-        "source": "Monocle",
+        "title": "Mediterranean Games: Kosovo’s Lekë Juniku carries tradition and fighting spirit from Taranto towards 2030 - World Baseball Softball Confederation (WBSC)",
+        "source": "World Baseball Softball Confederation (WBSC)",
         "country": "SHBA",
         "flag": "🇺🇸",
-        "url": "https://monocle.com/affairs/kosovo-independence-serbia-balkans/",
+        "url": "https://www.wbsc.org/en/news/mediterranean-games-kosovos-leke-juniku-carries-tradition-and-fighting-spirit-from-taranto-towards-2030",
         "sentiment": "positive"
       },
       {
-        "title": "As the Spring Arrives, Water Recalls the Nomads triumphs at DokuFest Prizren - Cineuropa",
-        "source": "Cineuropa",
+        "title": "Kosovo's Independence: A New European Nation is Born - Monocle",
+        "source": "Monocle",
         "country": "Britani",
         "flag": "🇬🇧",
-        "url": "https://cineuropa.org/en/newsdetail/494515",
+        "url": "https://monocle.com/affairs/kosovo-independence-serbia-balkans/",
         "sentiment": "positive"
       },
       {
