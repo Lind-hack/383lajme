@@ -1820,8 +1820,8 @@
   {
     "date": "2026-08-20",
     "overallIndex": 51,
-    "totalArticles": 201,
-    "sourceCount": 125,
+    "totalArticles": 188,
+    "sourceCount": 121,
     "stanceVersion": 2,
     "countries": {
       "Gjermani": {
@@ -1835,22 +1835,22 @@
         "stanceVersion": 2
       },
       "SHBA": {
-        "index": 53,
-        "positive": 10,
+        "index": 52,
+        "positive": 9,
         "neutral": 85,
-        "negative": 5,
-        "n": 39,
+        "negative": 6,
+        "n": 33,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2
       },
       "Britani": {
-        "index": 51,
-        "positive": 8,
-        "neutral": 86,
-        "negative": 5,
-        "n": 37,
-        "excluded": 1,
+        "index": 52,
+        "positive": 10,
+        "neutral": 83,
+        "negative": 7,
+        "n": 30,
+        "excluded": 0,
         "confident": true,
         "stanceVersion": 2
       },
@@ -1929,7 +1929,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 18,
+        "n": 22,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -1959,7 +1959,7 @@
         "positive": 0,
         "neutral": 95,
         "negative": 5,
-        "n": 40,
+        "n": 43,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -1967,9 +1967,9 @@
       "Kroaci": {
         "index": 55,
         "positive": 14,
-        "neutral": 82,
-        "negative": 4,
-        "n": 28,
+        "neutral": 81,
+        "negative": 5,
+        "n": 21,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2
