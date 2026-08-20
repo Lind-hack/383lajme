@@ -1820,8 +1820,8 @@
   {
     "date": "2026-08-20",
     "overallIndex": 51,
-    "totalArticles": 135,
-    "sourceCount": 98,
+    "totalArticles": 144,
+    "sourceCount": 100,
     "stanceVersion": 2,
     "countries": {
       "Gjermani": {
@@ -1847,9 +1847,9 @@
       "Britani": {
         "index": 50,
         "positive": 10,
-        "neutral": 80,
+        "neutral": 81,
         "negative": 10,
-        "n": 20,
+        "n": 21,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2
@@ -1870,7 +1870,7 @@
         "neutral": 83,
         "negative": 0,
         "n": 6,
-        "excluded": 0,
+        "excluded": 1,
         "confident": true,
         "stanceVersion": 2
       },
@@ -1899,9 +1899,9 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 5,
+        "n": 4,
         "excluded": 0,
-        "confident": true,
+        "confident": false,
         "stanceVersion": 2
       },
       "Belgjikë": {
@@ -1929,7 +1929,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 11,
+        "n": 14,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -1957,9 +1957,9 @@
       "Turqi": {
         "index": 47,
         "positive": 0,
-        "neutral": 94,
-        "negative": 6,
-        "n": 31,
+        "neutral": 95,
+        "negative": 5,
+        "n": 37,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2

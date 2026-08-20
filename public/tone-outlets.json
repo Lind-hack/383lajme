@@ -1,8 +1,8 @@
 {
   "lastUpdated": "2026-08-20",
   "overallIndex": 51,
-  "totalArticles": 135,
-  "sourceCount": 98,
+  "totalArticles": 144,
+  "sourceCount": 100,
   "stanceVersion": 2,
   "countries": {
     "Gjermani": {
@@ -917,14 +917,34 @@
               "speaker": ""
             }
           ]
+        },
+        {
+          "name": "ԱՐՑԱԽ ԼՐԱՏՎԱԿԱՆ",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "NATO reduces security presence at key Kosovo Serb sites - ԱՐՑԱԽ ԼՐԱՏՎԱԿԱՆ",
+              "albanianTitle": "NATO zvogëlon praninë e sigurisë në pikat kyçe serbe në Kosovë",
+              "blurb": "Aleanca Veriatlantike ka zvogëluar numrin e trupave të saj që sigurojnë lokacionet kryesore të banuara nga serbët në Kosovë.",
+              "imageUrl": "https://mamul.am/images/photos/260812/nato-n-sksel-e-krtchatel-ir-ne-n367818-1.jpg",
+              "url": "https://artsakh.news/en/news/367818",
+              "date": "2026-08-17",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
         }
       ],
       "summary": {
         "index": 50,
         "positive": 10,
-        "neutral": 80,
+        "neutral": 81,
         "negative": 10,
-        "n": 20,
+        "n": 21,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2
@@ -986,7 +1006,7 @@
           ]
         },
         {
-          "name": "Le Figaro",
+          "name": "Sud Ouest",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
@@ -1033,6 +1053,26 @@
               "date": "2026-08-18",
               "sentiment": "neutral",
               "reason": "Titull informativ pa ngarkim",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "FIGC",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Giochi del Mediterraneo, la spedizione azzurra arriva a Taranto per sfilare alla cerimonia di apertura - FIGC",
+              "albanianTitle": "Lojërat Mesdhetare, ekipi italian arrin në Taranto për ceremoninë e hapjes - FIGC",
+              "blurb": "Ekipi italian i sportistëve ka mbërritur në Taranto për të marrë pjesë në ceremoninë e hapjes së Lojërave Mesdhetare.",
+              "imageUrl": "https://images.figc.it/view/acePublic/alias/contentid/1t8nkhprvz401xr6pua/0/foto-jpg.jpg?f=187%3A100",
+              "url": "https://www.figc.it/it/nazionali/news/giochi-del-mediterraneo-la-spedizione-azzurra-arriva-a-taranto-per-sfilare-alla-cerimonia-di-apertura-hpfgneix",
+              "date": "2026-08-20",
+              "sentiment": "unknown",
+              "reason": "No reference to Kosovo in the item",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1139,7 +1179,7 @@
         "neutral": 83,
         "negative": 0,
         "n": 6,
-        "excluded": 0,
+        "excluded": 1,
         "confident": true,
         "stanceVersion": 2
       }
@@ -1333,26 +1373,6 @@
               "speaker": ""
             }
           ]
-        },
-        {
-          "name": "Nieuwsblad",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Zeker 23 lichamen teruggevonden in massagraven in Kosovo - Nieuwsblad",
-              "albanianTitle": "Gjenden të paktën 23 trupa në varrezat masive në Kosovë - Nieuwsblad",
-              "blurb": "Të paktën 23 trupa të pajetë janë gjetur në varreza masive të zbuluara së fundmi në territorin e Kosovës.",
-              "imageUrl": null,
-              "url": "https://www.nieuwsblad.be/buitenland/zeker-23-lichamen-teruggevonden-in-massagraven-in-kosovo/160257011.html",
-              "date": "2026-08-20",
-              "sentiment": "neutral",
-              "reason": "Faktikë raporti, pa gjuhë ngarkuese ndaj Kosovës",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
         }
       ],
       "summary": {
@@ -1360,9 +1380,9 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 5,
+        "n": 4,
         "excluded": 0,
-        "confident": true,
+        "confident": false,
         "stanceVersion": 2
       }
     },
@@ -1422,7 +1442,7 @@
           ]
         },
         {
-          "name": "Le Figaro",
+          "name": "Sud Ouest",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
@@ -1631,8 +1651,21 @@
         {
           "name": "Ertsports.gr",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 3,
           "articles": [
+            {
+              "title": "Η Εθνική Ομάδα βόλεϊ διέλυσε το Κόσοβο στην πρεμιέρα των Μεσογειακών Αγώνων - Ertsports.gr",
+              "albanianTitle": "Kombëtarja e volejbollit e mposhti thellë Kosovën në ndeshjen hapëse të Lojërave Mesdhetare - Ertsports.gr",
+              "blurb": "Përfaqësuesja e volejbollit e Kosovës është mposhtur nga kombëtarja greke në ndeshjen e parë të Lojërave Mesdhetare.",
+              "imageUrl": "https://www.ertsports.gr/wp-content/uploads/2026/08/Ethniki-Omada-Volley-1-e1787223413512.png",
+              "url": "https://www.ertsports.gr/bolei/i-ethniki-omada-volei-dielyse-to-kosovo-stin-premiera-ton-mesogeiakon-agonon/",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Fact-based report of a sports result without loaded language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
             {
               "title": "Πρώτο σερβίς για την “μεσογειακή” Εθνική Ομάδα βόλεϊ γυναικών, απέναντι στο Κόσοβο - Ertsports.gr",
               "albanianTitle": "Shërbimi i parë për kombëtaren e volejbollit të femrave të “Mesdhetarëve”, përballë Kosovës",
@@ -1704,7 +1737,7 @@
         {
           "name": "NewsIT",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Τέλος στις εξαγωγές ελληνικού λιγνίτη στη Βόρεια Μακεδονία – Προχώρησε σε συμφωνία με το Κόσοβο - NewsIT",
@@ -1718,11 +1751,24 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Τέλος στις εξαγωγές ελληνικού λιγνίτη στη Β. Μακεδονία – Προχώρησε σε συμφωνία με το Κόσοβο - NewsIT",
+              "albanianTitle": "Fund eksporteve të linjitit grek në Maqedoninë e Veriut – Greqia arrin marrëveshje me Kosovën",
+              "blurb": "Greqia ndalon eksportin e linjitit drejt Maqedonisë së Veriut dhe arrin një marrëveshje të re me shtetin e Kosovës.",
+              "imageUrl": "https://www.newsit.gr/wp-content/uploads/2026/08/istock-2245522587-1-1200x630.jpg",
+              "url": "https://www.newsit.gr/oikonomia/finance/telos-stis-eksagoges-ellinikou-ligniti-sti-v-makedonia-proxorise-se-symfonia-me-to-kosovo/4754038/",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Faktikë, pa ngjyrë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ]
         },
         {
-          "name": "Sport24",
+          "name": "SPORT24",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
@@ -1782,7 +1828,7 @@
           ]
         },
         {
-          "name": "Μακεδονικό Πρακτορείο Ειδήσεων",
+          "name": "Αθηναϊκό - Μακεδονικό πρακτορείο ειδήσεων",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
@@ -1795,6 +1841,26 @@
               "date": "2026-08-18",
               "sentiment": "neutral",
               "reason": "Faktik, pa gjuhë të ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Ελληνική Ομοσπονδία Πετοσφαίρισης",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Μεσογειακοί αγώνες 2026: Πρώτο σερβίς για την εθνική γυναικών απέναντι στο Κόσοβο (20/8, 21.00) - Ελληνική Ομοσπονδία Πετοσφαίρισης",
+              "albanianTitle": "Lojërat Mesdhetare 2026: Shërbimi i parë për kombëtaren e femrave kundër Kosovës (20/8, 21:00)",
+              "blurb": "Kombëtarja e femrave në volejboll përballet me Kosovën më 20 gusht në kuadër të Lojërave Mesdhetare 2026.",
+              "imageUrl": "https://volleyball.gr/wp-content/uploads/2026/08/mediterrean-nt-wn2026.jpg",
+              "url": "https://volleyball.gr/mesogeiakoi-agones-2026-proto-servis-gia-tin-ethniki-gynaikon-apenanti-sto-kosovo-20-8-21-00/",
+              "date": "2026-08-19",
+              "sentiment": "neutral",
+              "reason": "Faktik, pa gjuhë ngarkuar",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1827,7 +1893,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 11,
+        "n": 14,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -1995,66 +2061,66 @@
               "speaker": ""
             },
             {
-              "title": "Fransa'nın Priştine Yeni Büyükelçisi Jean-François Huchet olacak - Kosovahaber.com",
-              "albanianTitle": "Jean-François Huchet do të jetë ambasadori i ri i Francës në Prishtinë",
-              "blurb": "Jean-François Huchet është emëruar si ambasadori i ri i Francës në Prishtinë, duke zëvendësuar përfaqësuesin e mëparshëm në këtë detyrë.",
+              "title": "Kosova Polisi, Kuzeyde Çok Sayıda Mühimmat Ele Geçirdi - Kosovahaber.com",
+              "albanianTitle": "Policia e Kosovës konfiskon sasi të madhe të municionit në veri - Kosovahaber.com",
+              "blurb": "Policia e Kosovës ka konfiskuar sasi të konsiderueshme të municionit gjatë një operacioni të zhvilluar në pjesën veriore të vendit.",
               "imageUrl": null,
-              "url": "https://kosovahaber.com/haber/fransanin-pristine-yeni-buyukelcisi-jean-francois-huchet-olacak-105094",
+              "url": "https://kosovahaber.com/haber/kosova-polisi-kuzeyde-cok-sayida-muhimmat-ele-gecirdi-105103",
               "date": "2026-08-20",
               "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
+              "reason": "Fact-based report of police seizure without loaded language",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
             },
             {
-              "title": "PDK: Oluşum Oturumu Yapılıncaya Kadar Eylemimizi Durdurmayacağız - Kosovahaber.com",
-              "albanianTitle": "PDK: Nuk do ta ndalim aksionin tonë derisa të mbahet seanca konstituive",
-              "blurb": "Partia Demokratike e Kosovës deklaron se do të vazhdojë protestat derisa të mbahet seanca për konstituimin e institucioneve të reja.",
+              "title": "Vučić’in Açıklamaları Kosovalı Sırplara Baskı - Kosovahaber.com",
+              "albanianTitle": "Deklaratat e Vuçiqit, presion mbi serbët e Kosovës - Kosovahaber.com",
+              "blurb": "Deklaratat e presidentit serb Aleksandar Vuçiq po ndikojnë në rritjen e presionit ndaj qytetarëve serbë që jetojnë në Kosovë.",
               "imageUrl": null,
-              "url": "https://kosovahaber.com/haber/pdk-olusum-oturumu-yapilincaya-kadar-eylemimizi-durdurmayacagiz-105096",
+              "url": "https://kosovahaber.com/haber/vucicin-aciklamalari-kosovali-sirplara-baski-105106",
               "date": "2026-08-20",
               "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
+              "reason": "Fact-based report of political statements without loaded language",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
             },
             {
-              "title": "İran Vatandaşı Kosova’dan İltica Talebinde Bulundu - Kosovahaber.com",
-              "albanianTitle": "Shtetasi iranian kërkon azil në Kosovë - Kosovahaber.com",
-              "blurb": "Një shtetas iranian ka dorëzuar kërkesë zyrtare për azil në institucionet e Republikës së Kosovës.",
+              "title": "Sınır Kapısında Keskin Nişancı Tüfeği Dürbünü Ele Geçirildi - Kosovahaber.com",
+              "albanianTitle": "Konfiskohet dylbi për pushkë snajper në pikën kufitare - Kosovahaber.com",
+              "blurb": "Autoritetet kufitare kanë sekuestruar një dylbi për pushkë snajper gjatë kontrollit të kryer në një pikë kufitare të Kosovës.",
               "imageUrl": null,
-              "url": "https://kosovahaber.com/haber/iran-vatandasi-kosovadan-iltica-basvurusun-da-bulundu-105077",
-              "date": "2026-08-19",
+              "url": "https://kosovahaber.com/haber/sinir-kapisinda-keskin-nisanci-tufegi-durbunu-ele-gecirildi-105098",
+              "date": "2026-08-20",
               "sentiment": "neutral",
-              "reason": "Lajm faktik pa gjuhë ngarkuar ndaj Kosovës",
+              "reason": "Fact-based report of seizure at border without loaded language",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
             },
             {
-              "title": "Başbakan Kurti, EULEX'in Yeni Başkanı Lopes ile Görüştü - kosovahaber.com",
-              "albanianTitle": "Kryeministri Kurti takoi shefin e ri të EULEX-it, Lopes - kosovahaber.com",
-              "blurb": "Kryeministri Albin Kurti ka zhvilluar një takim zyrtar me shefin e ri të misionit EULEX, Giovanni Pietro Barbano.",
+              "title": "VV: LDK ile Cumhurbaşkanı Konusunda Görüşmeler Sürüyor - Kosovahaber.com",
+              "albanianTitle": "VV: Vazhdojnë bisedimet me LDK-në për çështjen e presidentit - Kosovahaber.com",
+              "blurb": "Lëvizja Vetëvendosje dhe Lidhja Demokratike e Kosovës po vazhdojnë diskutimet për çështjen e zgjedhjes së presidentit të ri të shtetit.",
               "imageUrl": null,
-              "url": "https://kosovahaber.com/haber/basbakani-kurti-eulexin-yeni-baskani-lopes-ile-gorustu-105086",
-              "date": "2026-08-19",
+              "url": "https://kosovahaber.com/haber/vv-ldk-ile-cumhurbaskani-konusunda-gorusmeler-suruyor-105100",
+              "date": "2026-08-20",
               "sentiment": "neutral",
-              "reason": "Faktikisht raporton takimin e Kryeministrit Kurti me kryetarin e ri të EULEX-it",
+              "reason": "Fact-based report of political negotiations without loaded language",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
             },
             {
-              "title": "Merdare'de Çıkış İçin Bekleme Süresi 60 Dakikaya Ulaştı - Kosovahaber.com",
-              "albanianTitle": "Pritje deri në 60 minuta për të dalë nga Kosova në pikën kufitare në Merdar",
-              "blurb": "Qytetarët që po dalin nga Kosova përmes pikës kufitare në Merdare po presin deri në gjashtëdhjetë minuta për të kaluar kufirin.",
+              "title": "Haxhiu, Taranto 2026’nın Açılışına Katılacak - Kosovahaber.com",
+              "albanianTitle": "Haxhiu do të marrë pjesë në hapjen e Taranto 2026 - Kosovahaber.com",
+              "blurb": "Ministrja e Drejtësisë, Albulena Haxhiu, do të marrë pjesë në ceremoninë zyrtare të hapjes së Lojërave Mesdhetare në Taranto.",
               "imageUrl": null,
-              "url": "https://kosovahaber.com/haber/merdarede-cikis-icin-bekleme-suresi-60-dakikaya-ulasti-105091",
-              "date": "2026-08-19",
+              "url": "https://kosovahaber.com/haber/haxhiu-taranto-2026nin-acilisina-katilacak-105102",
+              "date": "2026-08-20",
               "sentiment": "neutral",
-              "reason": "Lajm faktik për kohëzgjatjen e pritjes në Merdare",
+              "reason": "Faktikë raportim pa gjuhë ngarkuar",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -2165,9 +2231,9 @@
       "summary": {
         "index": 47,
         "positive": 0,
-        "neutral": 94,
-        "negative": 6,
-        "n": 31,
+        "neutral": 95,
+        "negative": 5,
+        "n": 37,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
