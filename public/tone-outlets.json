@@ -1,8 +1,8 @@
 {
   "lastUpdated": "2026-08-20",
-  "overallIndex": 53,
-  "totalArticles": 197,
-  "sourceCount": 118,
+  "overallIndex": 51,
+  "totalArticles": 201,
+  "sourceCount": 125,
   "stanceVersion": 2,
   "countries": {
     "Gjermani": {
@@ -261,26 +261,6 @@
           ]
         },
         {
-          "name": "Cineuropa",
-          "sentiment": "positive",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "As the Spring Arrives, Water Recalls the Nomads triumphs at DokuFest Prizren - Cineuropa",
-              "albanianTitle": "Filmi 'As the Spring Arrives, Water Recalls the Nomads' triumfon në DokuFest të Prizrenit - Cineuropa",
-              "blurb": "Filmi As the Spring Arrives, Water Recalls the Nomads shpallet fitues në festivalin DokuFest në Prizren.",
-              "imageUrl": null,
-              "url": "https://cineuropa.org/en/newsdetail/494515",
-              "date": "2026-08-17",
-              "sentiment": "positive",
-              "reason": "Positive language praising Kosovo cultural work",
-              "isQuote": false,
-              "evidence": "triumphs at DokuFest",
-              "speaker": ""
-            }
-          ]
-        },
-        {
           "name": "EUalive",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -405,19 +385,6 @@
               "speaker": ""
             },
             {
-              "title": "Gashani speaks exclusively to KosovaPress: We will receive the baton in Taranto and showcase progress toward Prishtina 2030 before the Assembly - KosovaPress",
-              "albanianTitle": "Gashani ekskluzivisht për KosovaPress: Do ta marrim stafetën në Taranto dhe do të shfaqim progresin drejt Prishtina 2030 para Asamblesë - KosovaPress",
-              "blurb": "Gashani njofton se Kosova do të pranojë stafetën në Taranto dhe do të prezantojë progresin për Prishtina 2030.",
-              "imageUrl": null,
-              "url": "https://kosovapress.com/eng/gashani-speaks-exclusively-to-kosovapress-we-will-receive-the-baton-in-taranto-and-showcase-progress-toward-prishtina-2030-before-the-assembly",
-              "date": "2026-08-20",
-              "sentiment": "positive",
-              "reason": "Outlet uses encouraging language about Kosovo's development",
-              "isQuote": false,
-              "evidence": "showcase progress toward Prishtina 2030",
-              "speaker": ""
-            },
-            {
               "title": "Kosovo Energy Corporation employee dies after coming into contact with electrical current - KosovaPress",
               "albanianTitle": "Vdes punëtori i Korporatës Energjetike të Kosovës pasi bie në kontakt me rrymën elektrike - KosovaPress",
               "blurb": "Një punëtor i Korporatës Energjetike të Kosovës ka humbur jetën pasi është goditur nga rryma elektrike gjatë punës.",
@@ -428,6 +395,19 @@
               "reason": "Faktikë vdekja e punonjësit, pa gjuhë ngarkuese",
               "isQuote": false,
               "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Gashani speaks exclusively to KosovaPress: We will receive the baton in Taranto and showcase progress toward Prishtina 2030 before the Assembly - KosovaPress",
+              "albanianTitle": "Gashani ekskluzivisht për KosovaPress: Do ta marrim stafetën në Taranto dhe do të shfaqim progresin drejt Prishtina 2030 para Asamblesë - KosovaPress",
+              "blurb": "Gashani njofton se Kosova do të pranojë stafetën në Taranto dhe do të prezantojë progresin për Prishtina 2030.",
+              "imageUrl": null,
+              "url": "https://kosovapress.com/eng/gashani-speaks-exclusively-to-kosovapress-we-will-receive-the-baton-in-taranto-and-showcase-progress-toward-prishtina-2030-before-the-assembly",
+              "date": "2026-08-20",
+              "sentiment": "positive",
+              "reason": "Outlet uses encouraging language about Kosovo's development",
+              "isQuote": false,
+              "evidence": "showcase progress toward Prishtina 2030",
               "speaker": ""
             },
             {
@@ -539,6 +519,26 @@
               "date": "2026-08-20",
               "sentiment": "unknown",
               "reason": "Nuk përmendet Kosova në titull",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Unicef",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "UNICEF Kosovo and Rotary District 2485 Albania-Kosovo Sign Memorandum of Understanding to Strengthen Cooperation in Support of Children - Unicef",
+              "albanianTitle": "UNICEF-i dhe Rotary District 2485 nënshkruajnë memorandum për forcimin e bashkëpunimit në përkrahje të fëmijëve - Unicef",
+              "blurb": "UNICEF Kosova dhe Rotary District 2485 nënshkruan memorandum bashkëpunimi për mbështetjen e të drejtave dhe mirëqenies së fëmijëve.",
+              "imageUrl": null,
+              "url": "https://www.unicef.org/kosovoprogramme/press-releases/unicef-kosovo-and-rotary-district-2485-albania-kosovo-sign-memorandum-understanding",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Faktik raportim i bashkëpunimit, pa gjuhë ngarkuar",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -672,9 +672,9 @@
         }
       ],
       "summary": {
-        "index": 54,
-        "positive": 13,
-        "neutral": 82,
+        "index": 53,
+        "positive": 10,
+        "neutral": 85,
         "negative": 5,
         "n": 39,
         "excluded": 1,
@@ -871,26 +871,6 @@
           ]
         },
         {
-          "name": "Cineuropa",
-          "sentiment": "positive",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "As the Spring Arrives, Water Recalls the Nomads triumphs at DokuFest Prizren - Cineuropa",
-              "albanianTitle": "Filmi 'As the Spring Arrives, Water Recalls the Nomads' triumfon në DokuFest të Prizrenit - Cineuropa",
-              "blurb": "Filmi As the Spring Arrives, Water Recalls the Nomads shpallet fitues në festivalin DokuFest në Prizren.",
-              "imageUrl": null,
-              "url": "https://cineuropa.org/en/newsdetail/494515",
-              "date": "2026-08-17",
-              "sentiment": "positive",
-              "reason": "Positive language praising Kosovo cultural work",
-              "isQuote": false,
-              "evidence": "triumphs at DokuFest",
-              "speaker": ""
-            }
-          ]
-        },
-        {
           "name": "EUalive",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -951,6 +931,46 @@
           ]
         },
         {
+          "name": "Irish Examiner",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Bóthar: The final journey to Kosovo - Irish Examiner",
+              "albanianTitle": "Bóthar: Udhëtimi i fundit drejt Kosovës",
+              "blurb": "Organizata Bóthar ka përfunduar misionin e saj humanitar në Kosovë përmes dërgimit të ndihmave për popullatën lokale në nevojë.",
+              "imageUrl": "https://www.irishexaminer.com/cms_media/module_img/10396/5198383_4_org_October_202025_20Shipment.jpeg",
+              "url": "https://www.irishexaminer.com/farming/arid-41898007.html",
+              "date": "2026-08-19",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim i thjeshtë, pa gjuhë ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "JNS.org",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Is Somaliland America’s next Kosovo? - JNS.org",
+              "albanianTitle": "A po bëhet Somalilandi Kosova e radhës për Amerikën?",
+              "blurb": "Analizohet mundësia e njohjes së Somalilandit nga Shtetet e Bashkuara të Amerikës, duke e krahasuar atë me rastin e Kosovës.",
+              "imageUrl": "https://static.jns.org/dims4/default/88a5884/2147483647/strip/true/crop/6601x3713+0+688/resize/1440x810!/format/webp/quality/90/?url=https%3A%2F%2Fk2-prod-jns-prod.s3.us-east-1.amazonaws.com%2Fbrightspot%2Fef%2Fda%2Fefca21cf4a09be1ee413f8259207%2Fgettyimages-2276340274.jpg",
+              "url": "https://www.jns.org/opinion/nassir-hussein-kahin/is-somaliland-americas-next-kosovo",
+              "date": "2026-08-18",
+              "sentiment": "neutral",
+              "reason": "Question headline without hostile language, merely drawing a comparison",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "KosovaPress",
           "sentiment": "neutral",
           "articleCount": 6,
@@ -966,6 +986,19 @@
               "reason": "Outlet uses admiring language describing Kosovo's representation",
               "isQuote": false,
               "evidence": "with dignity",
+              "speaker": ""
+            },
+            {
+              "title": "61 percent of women journalists in Kosovo have faced online abuse - KosovaPress",
+              "albanianTitle": "61 për qind e gazetareve në Kosovë janë përballur me abuzime online - KosovaPress",
+              "blurb": "Gjashtëdhjetë e një përqind e grave gazetare në Kosovë kanë përjetuar forma të ndryshme të abuzimit në internet.",
+              "imageUrl": null,
+              "url": "https://kosovapress.com/eng/61-percent-of-women-journalists-in-kosovo-have-faced-online-abuse",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim neutral pa gjuhë ngarkuese",
+              "isQuote": false,
+              "evidence": "",
               "speaker": ""
             },
             {
@@ -1016,19 +1049,6 @@
               "date": "2026-08-20",
               "sentiment": "neutral",
               "reason": "Raporton deklaratën e Musliuut pa ngjyrë vete",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Kosovo mayors announce protest in front of government building - KosovaPress",
-              "albanianTitle": "Kryetarët e komunave në Kosovë paralajmërojnë protestë para ndërtesës së qeverisë - KosovaPress",
-              "blurb": "Kryetarët e komunave të Kosovës kanë paralajmëruar mbajtjen e një proteste para ndërtesës së Qeverisë për të shprehur pakënaqësitë e tyre.",
-              "imageUrl": null,
-              "url": "https://kosovapress.com/eng/kosovo-mayors-announce-protest-in-front-of-government-building",
-              "date": "2026-08-18",
-              "sentiment": "neutral",
-              "reason": "Lajm i thjeshtë për protestë të kryetarëve të komunave në Kosovë",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1116,6 +1136,46 @@
           ]
         },
         {
+          "name": "The Times of Israel",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "US to provide $206 million for Gaza peacekeeping force, letters show - The Times of Israel",
+              "albanianTitle": "SHBA do të ndajë 206 milionë dollarë për forcën paqeruajtëse në Gaza, sipas dokumenteve",
+              "blurb": "Shtetet e Bashkuara të Amerikës planifikojnë të ndajnë 206 milionë dollarë për mbështetjen e forcave paqeruajtëse në Rripin e Gazës.",
+              "imageUrl": null,
+              "url": "https://www.timesofisrael.com/us-to-provide-206-million-for-gaza-peacekeeping-force-letters-show/",
+              "date": "2026-08-20",
+              "sentiment": "unknown",
+              "reason": "Nuk përmendet Kosova në titull",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Unicef",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "UNICEF Kosovo and Rotary District 2485 Albania-Kosovo Sign Memorandum of Understanding to Strengthen Cooperation in Support of Children - Unicef",
+              "albanianTitle": "UNICEF-i dhe Rotary District 2485 nënshkruajnë memorandum për forcimin e bashkëpunimit në përkrahje të fëmijëve - Unicef",
+              "blurb": "UNICEF Kosova dhe Rotary District 2485 nënshkruan memorandum bashkëpunimi për mbështetjen e të drejtave dhe mirëqenies së fëmijëve.",
+              "imageUrl": null,
+              "url": "https://www.unicef.org/kosovoprogramme/press-releases/unicef-kosovo-and-rotary-district-2485-albania-kosovo-sign-memorandum-understanding",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Faktik raportim i bashkëpunimit, pa gjuhë ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "World Baseball Softball Confederation (WBSC)",
           "sentiment": "positive",
           "articleCount": 1,
@@ -1193,19 +1253,6 @@
               "speaker": ""
             },
             {
-              "title": "Vucic to Send Letter to Rutte: Don't Open Ibar Bridge - srpske.rs",
-              "albanianTitle": "Vuçiq i shkruan letër Ruttes: Mos e hapni urën e Ibrit",
-              "blurb": "Presidenti serb Aleksandar Vuçiq paralajmëron dërgimin e një letre drejtuar Mark Ruttes kundër hapjes së urës së Ibrit.",
-              "imageUrl": "https://srpske.rs/uploads/articles/vucic-letter-rutte-ibar-bridge-16x9.webp",
-              "url": "https://srpske.rs/en/news/politika/2026/08/19/vucic-letter-rutte-ibar-bridge",
-              "date": "2026-08-19",
-              "sentiment": "negative",
-              "reason": "Outlet issues a directive opposing the opening of the bridge, a line against Kosovo's interests",
-              "isQuote": false,
-              "evidence": "Don't Open Ibar Bridge",
-              "speaker": ""
-            },
-            {
               "title": "Alliance Reports Kosovo Government Over 18 Commissions - srpske.rs",
               "albanianTitle": "Aleanca denoncon Qeverinë e Kosovës për 18 komisione - srpske.rs",
               "blurb": "Aleanca për Ardhmërinë e Kosovës ka raportuar qeverinë lidhur me funksionimin e tetëmbëdhjetë komisioneve të ndryshme shtetërore në vend.",
@@ -1214,6 +1261,19 @@
               "date": "2026-08-18",
               "sentiment": "neutral",
               "reason": "Plain news headline about government commissions, no evaluative language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Kosovo Assembly Remains Deadlocked, PDK and AAK Refuse Talks - srpske.rs",
+              "albanianTitle": "Kuvendi i Kosovës mbetet në bllokadë, PDK dhe AAK refuzojnë dialogun - srpske.rs",
+              "blurb": "Kuvendi i Kosovës mbetet i bllokuar pasi partitë opozitare PDK dhe AAK refuzojnë pjesëmarrjen në bisedime.",
+              "imageUrl": "https://srpske.rs/uploads/articles/kosovo-assembly-remains-deadlocked-pdk-aak-refuse-talks-16x9.webp",
+              "url": "https://srpske.rs/en/news/politika/2026/08/17/kosovo-assembly-remains-deadlocked-pdk-aak-refuse-talks",
+              "date": "2026-08-17",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike pa ngjyrë",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1242,12 +1302,12 @@
         }
       ],
       "summary": {
-        "index": 53,
-        "positive": 12,
-        "neutral": 82,
-        "negative": 6,
-        "n": 33,
-        "excluded": 0,
+        "index": 51,
+        "positive": 8,
+        "neutral": 86,
+        "negative": 5,
+        "n": 37,
+        "excluded": 1,
         "confident": true,
         "stanceVersion": 2
       }
@@ -1256,22 +1316,9 @@
       "outlets": [
         {
           "name": "Cineuropa",
-          "sentiment": "positive",
-          "articleCount": 2,
+          "sentiment": "neutral",
+          "articleCount": 1,
           "articles": [
-            {
-              "title": "As the Spring Arrives, Water Recalls the Nomads triomphe au Festival DokuFest de Prizren - Cineuropa",
-              "albanianTitle": "Filmi 'As the Spring Arrives, Water Recalls the Nomads' triumfon në festivalin DokuFest në Prizren",
-              "blurb": "Filmi As the Spring Arrives, Water Recalls the Nomads ka fituar çmimin kryesor në festivalin DokuFest të mbajtur në Prizren.",
-              "imageUrl": null,
-              "url": "https://cineuropa.org/fr/newsdetail/494515",
-              "date": "2026-08-17",
-              "sentiment": "positive",
-              "reason": "Titulli përdor fjalë pozitive për festivalin në Kosovë",
-              "isQuote": false,
-              "evidence": "triomphe",
-              "speaker": ""
-            },
             {
               "title": "Igor Aleksov tourne The Secret of the Bare Hill - Cineuropa",
               "albanianTitle": null,
@@ -1308,7 +1355,7 @@
           ]
         },
         {
-          "name": "Sud Ouest",
+          "name": "Le Figaro",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
@@ -1329,11 +1376,11 @@
         }
       ],
       "summary": {
-        "index": 62,
-        "positive": 25,
-        "neutral": 75,
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 4,
+        "n": 3,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
@@ -1752,22 +1799,9 @@
       "outlets": [
         {
           "name": "Cineuropa",
-          "sentiment": "positive",
-          "articleCount": 2,
+          "sentiment": "neutral",
+          "articleCount": 1,
           "articles": [
-            {
-              "title": "As the Spring Arrives, Water Recalls the Nomads triomphe au Festival DokuFest de Prizren - Cineuropa",
-              "albanianTitle": "Filmi 'As the Spring Arrives, Water Recalls the Nomads' triumfon në festivalin DokuFest në Prizren",
-              "blurb": "Filmi As the Spring Arrives, Water Recalls the Nomads ka fituar çmimin kryesor në festivalin DokuFest të mbajtur në Prizren.",
-              "imageUrl": null,
-              "url": "https://cineuropa.org/fr/newsdetail/494515",
-              "date": "2026-08-17",
-              "sentiment": "positive",
-              "reason": "Titulli përdor fjalë pozitive për festivalin në Kosovë",
-              "isQuote": false,
-              "evidence": "triomphe",
-              "speaker": ""
-            },
             {
               "title": "Igor Aleksov tourne The Secret of the Bare Hill - Cineuropa",
               "albanianTitle": null,
@@ -1804,6 +1838,26 @@
           ]
         },
         {
+          "name": "Le Figaro",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo : les restes squelettiques d’«au moins 23 personnes» exhumés de trois fosses communes - Le Figaro",
+              "albanianTitle": "Kosovë: Zhvarrosen mbetjet skeletore të «të paktën 23 personave» nga tri varreza masive - Le Figaro",
+              "blurb": "Mbetjet skeletore të të paktën 23 personave janë zhvarrosur nga tri lokacione të ndryshme në territorin e Kosovës.",
+              "imageUrl": "https://i.f1g.fr/media/cms/1200x630_crop/2026/08/19/b28bb2d2173529a9d71bd00efaff069270f92bddc7bc9eea83254dfe13db3823.jpg",
+              "url": "https://www.lefigaro.fr/flash-actu/kosovo-les-restes-squelettiques-d-au-moins-23-personnes-exhumes-de-trois-fosses-communes-20260819",
+              "date": "2026-08-19",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "Reporteri",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1822,41 +1876,41 @@
               "speaker": ""
             }
           ]
-        },
-        {
-          "name": "Sud Ouest",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosovo : les restes squelettiques d’«au moins 23 personnes» exhumés de trois fosses communes - Le Figaro",
-              "albanianTitle": "Kosovë: Zhvarrosen mbetjet skeletore të «të paktën 23 personave» nga tri varreza masive - Le Figaro",
-              "blurb": "Mbetjet skeletore të të paktën 23 personave janë zhvarrosur nga tri lokacione të ndryshme në territorin e Kosovës.",
-              "imageUrl": "https://i.f1g.fr/media/cms/1200x630_crop/2026/08/19/b28bb2d2173529a9d71bd00efaff069270f92bddc7bc9eea83254dfe13db3823.jpg",
-              "url": "https://www.lefigaro.fr/flash-actu/kosovo-les-restes-squelettiques-d-au-moins-23-personnes-exhumes-de-trois-fosses-communes-20260819",
-              "date": "2026-08-19",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
         }
       ],
       "summary": {
-        "index": 60,
-        "positive": 20,
-        "neutral": 80,
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 5,
+        "n": 4,
         "excluded": 0,
-        "confident": true,
+        "confident": false,
         "stanceVersion": 2
       }
     },
     "Spanjë": {
       "outlets": [
+        {
+          "name": "CNN en Español",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Picos de los Balcanes: la épica ruta de senderismo que explora una de las últimas grandes zonas silvestres de Europa - CNN en Español",
+              "albanianTitle": "Majat e Ballkanit: Shtegu epik i ecjes që eksploron një nga zonat e fundit të egra të Evropës",
+              "blurb": "Shtegu i ecjes Picos de los Balcanes përshkruhet si një rrugë që eksploron zonat e egra evropiane.",
+              "imageUrl": "https://media.cnn.com/api/v1/images/stellar/prod/gettyimages-2226212944-20260819174746270.jpg?c=16x9&q=w_800,c_fill",
+              "url": "https://cnnespanol.cnn.com/2026/08/19/viajes/picos-balcanes-senderismo-montenegro-albania-kosovo-trax",
+              "date": "2026-08-19",
+              "sentiment": "neutral",
+              "reason": "Faktik, pa gjuhë ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
         {
           "name": "Cineuropa",
           "sentiment": "neutral",
@@ -1975,6 +2029,26 @@
               "speaker": ""
             }
           ]
+        },
+        {
+          "name": "Pia Global",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Serbia apela a la OTAN y paraliza la defensa de la soberanía sobre Kosovo - Pia Global",
+              "albanianTitle": "Serbia i drejtohet NATO-s dhe paralizon mbrojtjen e sovranitetit të Kosovës - Pia Global",
+              "blurb": "Serbia i është drejtuar NATO-s në lidhje me çështjen e sovranitetit të Kosovës, duke ndikuar në zhvillimet politike rajonale.",
+              "imageUrl": null,
+              "url": "https://noticiaspia.com/serbia-apela-a-la-otan-y-paraliza-la-defensa-de-la-soberania-sobre-kosovo/",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Raportim neutral i veprimit serb ndaj Kosovës",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
         }
       ],
       "summary": {
@@ -1982,7 +2056,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 7,
+        "n": 9,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -2230,6 +2304,26 @@
           ]
         },
         {
+          "name": "Αθηναϊκό - Μακεδονικό πρακτορείο ειδήσεων",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Βόλεϊ-Μεσογειακοί Αγώνες 2026: Αναχωρούν για το Τάραντο οι εθνικές ανδρών και γυναικών - Αθηναϊκό - Μακεδονικό πρακτορείο ειδήσεων",
+              "albanianTitle": "Volejboll-Lojërat Mesdhetare 2026: Kombëtaret e meshkujve dhe femrave nisen për në Taranto - Agjencia e Lajmeve Athinase-Maqedonase",
+              "blurb": "Ekipet kombëtare të volejbollit të Greqisë janë nisur drejt Tarantos për të marrë pjesë në Lojërat Mesdhetare të vitit 2026.",
+              "imageUrl": "https://amna.gr/photos/202608/w18-150258mennt2026mediaday.jpg",
+              "url": "https://www.amna.gr/sport/article/1016230/Bolei-Mesogeiakoi-Agones-2026-Anachoroun-gia-to-Taranto-oi-ethnikes-andron-kai-gunaikon-",
+              "date": "2026-08-18",
+              "sentiment": "neutral",
+              "reason": "Faktik, pa gjuhë të ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "Ελληνική Ομοσπονδία Πετοσφαίρισης",
           "sentiment": "neutral",
           "articleCount": 2,
@@ -2256,26 +2350,6 @@
               "date": "2026-08-20",
               "sentiment": "neutral",
               "reason": "Fact‑based sports result, no hostile wording",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "Μακεδονικό Πρακτορείο Ειδήσεων",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Βόλεϊ-Μεσογειακοί Αγώνες 2026: Αναχωρούν για το Τάραντο οι εθνικές ανδρών και γυναικών - Αθηναϊκό - Μακεδονικό πρακτορείο ειδήσεων",
-              "albanianTitle": "Volejboll-Lojërat Mesdhetare 2026: Kombëtaret e meshkujve dhe femrave nisen për në Taranto - Agjencia e Lajmeve Athinase-Maqedonase",
-              "blurb": "Ekipet kombëtare të volejbollit të Greqisë janë nisur drejt Tarantos për të marrë pjesë në Lojërat Mesdhetare të vitit 2026.",
-              "imageUrl": "https://amna.gr/photos/202608/w18-150258mennt2026mediaday.jpg",
-              "url": "https://www.amna.gr/sport/article/1016230/Bolei-Mesogeiakoi-Agones-2026-Anachoroun-gia-to-Taranto-oi-ethnikes-andron-kai-gunaikon-",
-              "date": "2026-08-18",
-              "sentiment": "neutral",
-              "reason": "Faktik, pa gjuhë të ngarkuar",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -2337,6 +2411,26 @@
     "Suedi": {
       "outlets": [
         {
+          "name": "Marcus Oscarsson",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "UPPGIFTER: Nytt krig i Europa kan vara nära – ”kommer attackera” - Marcus Oscarsson",
+              "albanianTitle": "RAPORTIME: Një luftë e re në Evropë mund të jetë afër – “do të sulmojnë” - Marcus Oscarsson",
+              "blurb": "Raportimet e fundit sugjerojnë mundësinë e një konflikti të ri në Evropë, duke ngritur shqetësime për sigurinë në kontinent.",
+              "imageUrl": "https://cdn.marcusoscarsson.se/2023/11/europa-varning-foto-Christian-Lue.jpg",
+              "url": "https://marcusoscarsson.se/uppgifter-nytt-krig-i-europa-nara-kommer-attackera/",
+              "date": "2026-08-19",
+              "sentiment": "unknown",
+              "reason": "Nuk përmendet Kosova, prandaj qëndrimi i panjohur",
+              "isQuote": true,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "Sofascore",
           "sentiment": "neutral",
           "articleCount": 2,
@@ -2376,7 +2470,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 2,
-        "excluded": 0,
+        "excluded": 1,
         "confident": false,
         "stanceVersion": 2
       }
@@ -2478,6 +2572,26 @@
           ]
         },
         {
+          "name": "Haberler",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosova'da savaş suçu soruşturmasında 23 kişiye ait kemik kalıntısı bulundu - Haberler",
+              "albanianTitle": "Gjenden mbetjet mortore të 23 personave gjatë hetimeve për krime lufte në Kosovë - Haberler",
+              "blurb": "Mbetje mortore të 23 personave janë gjetur në Kosovë, në kuadër të hetimeve për krimet e kryera gjatë luftës.",
+              "imageUrl": "https://foto.haberler.com/haber/2026/08/19/kosova-da-savas-suclari-sorusturmasi-23-kisiy-20159336_amp.jpg",
+              "url": "https://www.haberler.com/3-sayfa/kosova-da-savas-suclari-sorusturmasi-23-kisiye-ait-20159336-haberi/",
+              "date": "2026-08-19",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "Hürriyet",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -2502,6 +2616,19 @@
           "sentiment": "neutral",
           "articleCount": 6,
           "articles": [
+            {
+              "title": "Thaçi’den Kosova’da İktidar ve Muhalefete Geniş Siyasi Uzlaşma Çağrısı - Kosovahaber.com",
+              "albanianTitle": "Thaçi u bën thirrje pozitës dhe opozitës në Kosovë për konsensus të gjerë politik - Kosovahaber.com",
+              "blurb": "Hashim Thaçi ka bërë thirrje për arritjen e një konsensusi të gjerë politik mes pozitës dhe opozitës në Kosovë.",
+              "imageUrl": null,
+              "url": "https://kosovahaber.com/haber/thaciden-kosovada-iktidar-ve-muhalefete-genis-siyasi-uzlasma-cagrisi-105117",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Raportim neutral i thirrjes politike, pa gjuhë ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
             {
               "title": "ABD’den Kosova’ya Kurumların Oluşturulması Çağrısı - Kosovahaber.com",
               "albanianTitle": "SHBA-ja i bën thirrje Kosovës për formimin e institucioneve",
@@ -2529,6 +2656,19 @@
               "speaker": ""
             },
             {
+              "title": "Kosova, “Prishtina 2030” Akdeniz Oyunları İçin Uygulama Aşamasına Geçiyor - Kosovahaber.com",
+              "albanianTitle": "Kosova nis fazën e zbatimit për Lojërat Mesdhetare “Prishtina 2030” - Kosovahaber.com",
+              "blurb": "Kosova ka filluar fazën e zbatimit të projekteve për organizimin e Lojërave Mesdhetare Prishtina 2030.",
+              "imageUrl": null,
+              "url": "https://kosovahaber.com/haber/kosova-prishtina-2030-akdeniz-oyunlari-icin-uygulama-asamasina-geciyor-105108",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Faktik raportim pa ngarkim",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
               "title": "Vučić’in Açıklamaları Kosovalı Sırplara Baskı - Kosovahaber.com",
               "albanianTitle": "Deklaratat e Vuçiqit, presion mbi serbët e Kosovës - Kosovahaber.com",
               "blurb": "Deklaratat e presidentit serb Aleksandar Vuçiq po ndikojnë në rritjen e presionit ndaj qytetarëve serbë që jetojnë në Kosovë.",
@@ -2550,32 +2690,6 @@
               "date": "2026-08-20",
               "sentiment": "neutral",
               "reason": "Faktik raportim pa ngarkim",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Kosova, “Prishtina 2030” Akdeniz Oyunları İçin Uygulama Aşamasına Geçiyor - Kosovahaber.com",
-              "albanianTitle": "Kosova nis fazën e zbatimit për Lojërat Mesdhetare “Prishtina 2030” - Kosovahaber.com",
-              "blurb": "Kosova ka filluar fazën e zbatimit të projekteve për organizimin e Lojërave Mesdhetare Prishtina 2030.",
-              "imageUrl": null,
-              "url": "https://kosovahaber.com/haber/kosova-prishtina-2030-akdeniz-oyunlari-icin-uygulama-asamasina-geciyor-105108",
-              "date": "2026-08-20",
-              "sentiment": "neutral",
-              "reason": "Faktik raportim pa ngarkim",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Sınır Kapısında Keskin Nişancı Tüfeği Dürbünü Ele Geçirildi - Kosovahaber.com",
-              "albanianTitle": "Konfiskohet dylbi për pushkë snajper në pikën kufitare - Kosovahaber.com",
-              "blurb": "Autoritetet kufitare kanë sekuestruar një dylbi për pushkë snajper gjatë kontrollit të kryer në një pikë kufitare të Kosovës.",
-              "imageUrl": null,
-              "url": "https://kosovahaber.com/haber/sinir-kapisinda-keskin-nisanci-tufegi-durbunu-ele-gecirildi-105098",
-              "date": "2026-08-20",
-              "sentiment": "neutral",
-              "reason": "Fact-based report of seizure at border without loaded language",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -2716,19 +2830,19 @@
           ]
         },
         {
-          "name": "İhlas Haber Ajansı",
+          "name": "anayasa.gov.tr",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
-              "title": "Kosova’da savaş suçları soruşturması: 23 kişiye ait kemik kalıntıları bulundu İhlas Haber Ajansı - İhlas Haber Ajansı",
-              "albanianTitle": "Hetimet për krime lufte në Kosovë: Gjehen mbetjet mortore të 23 personave",
-              "blurb": "Në kuadër të hetimeve për krimet e luftës, në Kosovë janë gjetur mbetjet mortore të njëzet e tre personave të zhdukur.",
+              "title": "Anayasa Mahkemesi Heyetinin Kosova Ziyareti (1) - anayasa.gov.tr",
+              "albanianTitle": "Vizita e delegacionit të Gjykatës Kushtetuese në Kosovë (1) - anayasa.gov.tr",
+              "blurb": "Delegacioni i Gjykatës Kushtetuese ka zhvilluar një vizitë zyrtare në Kosovë për të diskutuar çështje të ndryshme institucionale.",
               "imageUrl": null,
-              "url": "https://www.iha.com.tr/haber-kosovada-savas-suclari-sorusturmasi-23-kisiye-ait-kemik-kalintilari-bulundu-1197147",
-              "date": "2026-08-19",
+              "url": "https://www.anayasa.gov.tr/tr/haberler/faaliyetler/anayasa-mahkemesi-heyetinin-kosova-ziyareti-1",
+              "date": "2026-08-20",
               "sentiment": "neutral",
-              "reason": "Raportim faktik i hetimit të krimeve të luftës",
+              "reason": "Raportim faktik i vizitës, pa gjuhë ngarkuar",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -2916,26 +3030,6 @@
           ]
         },
         {
-          "name": "Cineuropa",
-          "sentiment": "positive",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "As the Spring Arrives, Water Recalls the Nomads triumphs at DokuFest Prizren - Cineuropa",
-              "albanianTitle": "Filmi 'As the Spring Arrives, Water Recalls the Nomads' triumfon në DokuFest të Prizrenit - Cineuropa",
-              "blurb": "Filmi As the Spring Arrives, Water Recalls the Nomads shpallet fitues në festivalin DokuFest në Prizren.",
-              "imageUrl": null,
-              "url": "https://cineuropa.org/en/newsdetail/494515",
-              "date": "2026-08-17",
-              "sentiment": "positive",
-              "reason": "Positive language praising Kosovo cultural work",
-              "isQuote": false,
-              "evidence": "triumphs at DokuFest",
-              "speaker": ""
-            }
-          ]
-        },
-        {
           "name": "European Western Balkans",
           "sentiment": "negative",
           "articleCount": 1,
@@ -3040,19 +3134,6 @@
               "speaker": ""
             },
             {
-              "title": "Gashani speaks exclusively to KosovaPress: We will receive the baton in Taranto and showcase progress toward Prishtina 2030 before the Assembly - KosovaPress",
-              "albanianTitle": "Gashani ekskluzivisht për KosovaPress: Do ta marrim stafetën në Taranto dhe do të shfaqim progresin drejt Prishtina 2030 para Asamblesë - KosovaPress",
-              "blurb": "Gashani njofton se Kosova do të pranojë stafetën në Taranto dhe do të prezantojë progresin për Prishtina 2030.",
-              "imageUrl": null,
-              "url": "https://kosovapress.com/eng/gashani-speaks-exclusively-to-kosovapress-we-will-receive-the-baton-in-taranto-and-showcase-progress-toward-prishtina-2030-before-the-assembly",
-              "date": "2026-08-20",
-              "sentiment": "positive",
-              "reason": "Outlet uses encouraging language about Kosovo's development",
-              "isQuote": false,
-              "evidence": "showcase progress toward Prishtina 2030",
-              "speaker": ""
-            },
-            {
               "title": "Kosovo Energy Corporation employee dies after coming into contact with electrical current - KosovaPress",
               "albanianTitle": "Vdes punëtori i Korporatës Energjetike të Kosovës pasi bie në kontakt me rrymën elektrike - KosovaPress",
               "blurb": "Një punëtor i Korporatës Energjetike të Kosovës ka humbur jetën pasi është goditur nga rryma elektrike gjatë punës.",
@@ -3063,6 +3144,19 @@
               "reason": "Faktikë vdekja e punonjësit, pa gjuhë ngarkuese",
               "isQuote": false,
               "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Gashani speaks exclusively to KosovaPress: We will receive the baton in Taranto and showcase progress toward Prishtina 2030 before the Assembly - KosovaPress",
+              "albanianTitle": "Gashani ekskluzivisht për KosovaPress: Do ta marrim stafetën në Taranto dhe do të shfaqim progresin drejt Prishtina 2030 para Asamblesë - KosovaPress",
+              "blurb": "Gashani njofton se Kosova do të pranojë stafetën në Taranto dhe do të prezantojë progresin për Prishtina 2030.",
+              "imageUrl": null,
+              "url": "https://kosovapress.com/eng/gashani-speaks-exclusively-to-kosovapress-we-will-receive-the-baton-in-taranto-and-showcase-progress-toward-prishtina-2030-before-the-assembly",
+              "date": "2026-08-20",
+              "sentiment": "positive",
+              "reason": "Outlet uses encouraging language about Kosovo's development",
+              "isQuote": false,
+              "evidence": "showcase progress toward Prishtina 2030",
               "speaker": ""
             },
             {
@@ -3134,6 +3228,26 @@
               "date": "2026-08-20",
               "sentiment": "unknown",
               "reason": "Nuk përmendet Kosova në titull",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Unicef",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "UNICEF Kosovo and Rotary District 2485 Albania-Kosovo Sign Memorandum of Understanding to Strengthen Cooperation in Support of Children - Unicef",
+              "albanianTitle": "UNICEF-i dhe Rotary District 2485 nënshkruajnë memorandum për forcimin e bashkëpunimit në përkrahje të fëmijëve - Unicef",
+              "blurb": "UNICEF Kosova dhe Rotary District 2485 nënshkruan memorandum bashkëpunimi për mbështetjen e të drejtave dhe mirëqenies së fëmijëve.",
+              "imageUrl": null,
+              "url": "https://www.unicef.org/kosovoprogramme/press-releases/unicef-kosovo-and-rotary-district-2485-albania-kosovo-sign-memorandum-understanding",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Faktik raportim i bashkëpunimit, pa gjuhë ngarkuar",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -3254,9 +3368,9 @@
         }
       ],
       "summary": {
-        "index": 57,
-        "positive": 18,
-        "neutral": 79,
+        "index": 55,
+        "positive": 14,
+        "neutral": 82,
         "negative": 4,
         "n": 28,
         "excluded": 1,

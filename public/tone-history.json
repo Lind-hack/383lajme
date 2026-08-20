@@ -1819,9 +1819,9 @@
   },
   {
     "date": "2026-08-20",
-    "overallIndex": 53,
-    "totalArticles": 197,
-    "sourceCount": 118,
+    "overallIndex": 51,
+    "totalArticles": 201,
+    "sourceCount": 125,
     "stanceVersion": 2,
     "countries": {
       "Gjermani": {
@@ -1835,9 +1835,9 @@
         "stanceVersion": 2
       },
       "SHBA": {
-        "index": 54,
-        "positive": 13,
-        "neutral": 82,
+        "index": 53,
+        "positive": 10,
+        "neutral": 85,
         "negative": 5,
         "n": 39,
         "excluded": 1,
@@ -1845,21 +1845,21 @@
         "stanceVersion": 2
       },
       "Britani": {
-        "index": 53,
-        "positive": 12,
-        "neutral": 82,
-        "negative": 6,
-        "n": 33,
-        "excluded": 0,
+        "index": 51,
+        "positive": 8,
+        "neutral": 86,
+        "negative": 5,
+        "n": 37,
+        "excluded": 1,
         "confident": true,
         "stanceVersion": 2
       },
       "Francë": {
-        "index": 62,
-        "positive": 25,
-        "neutral": 75,
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 4,
+        "n": 3,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
@@ -1905,13 +1905,13 @@
         "stanceVersion": 2
       },
       "Belgjikë": {
-        "index": 60,
-        "positive": 20,
-        "neutral": 80,
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 5,
+        "n": 4,
         "excluded": 0,
-        "confident": true,
+        "confident": false,
         "stanceVersion": 2
       },
       "Spanjë": {
@@ -1919,7 +1919,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 7,
+        "n": 9,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -1940,7 +1940,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 2,
-        "excluded": 0,
+        "excluded": 1,
         "confident": false,
         "stanceVersion": 2
       },
@@ -1965,9 +1965,9 @@
         "stanceVersion": 2
       },
       "Kroaci": {
-        "index": 57,
-        "positive": 18,
-        "neutral": 79,
+        "index": 55,
+        "positive": 14,
+        "neutral": 82,
         "negative": 4,
         "n": 28,
         "excluded": 1,
@@ -1993,11 +1993,11 @@
         "sentiment": "positive"
       },
       {
-        "title": "As the Spring Arrives, Water Recalls the Nomads triomphe au Festival DokuFest de Prizren - Cineuropa",
-        "source": "Cineuropa",
-        "country": "Francë",
-        "flag": "🇫🇷",
-        "url": "https://cineuropa.org/fr/newsdetail/494515",
+        "title": "Kosovo. Pristina, la grande sopresa del nuoto. - Nuoto.com",
+        "source": "Nuoto.com",
+        "country": "Itali",
+        "flag": "🇮🇹",
+        "url": "https://www.nuoto.com/articolo/calendari-e-meeting/kosovo-pristina-la-grande-sopresa-del-nuoto/",
         "sentiment": "positive"
       },
       {
