@@ -1820,8 +1820,8 @@
   {
     "date": "2026-08-20",
     "overallIndex": 50,
-    "totalArticles": 132,
-    "sourceCount": 91,
+    "totalArticles": 131,
+    "sourceCount": 94,
     "stanceVersion": 2,
     "countries": {
       "Gjermani": {
@@ -1840,28 +1840,28 @@
         "neutral": 86,
         "negative": 9,
         "n": 22,
-        "excluded": 0,
+        "excluded": 1,
         "confident": true,
         "stanceVersion": 2
       },
       "Britani": {
         "index": 50,
         "positive": 9,
-        "neutral": 83,
+        "neutral": 82,
         "negative": 9,
-        "n": 23,
-        "excluded": 0,
+        "n": 22,
+        "excluded": 1,
         "confident": true,
         "stanceVersion": 2
       },
       "Francë": {
-        "index": 60,
-        "positive": 20,
-        "neutral": 80,
+        "index": 62,
+        "positive": 25,
+        "neutral": 75,
         "negative": 0,
-        "n": 5,
+        "n": 4,
         "excluded": 0,
-        "confident": true,
+        "confident": false,
         "stanceVersion": 2
       },
       "Itali": {
@@ -1890,7 +1890,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 1,
-        "excluded": 0,
+        "excluded": 1,
         "confident": false,
         "stanceVersion": 2
       },
@@ -1899,7 +1899,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 3,
+        "n": 4,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
@@ -1910,7 +1910,7 @@
         "neutral": 75,
         "negative": 0,
         "n": 4,
-        "excluded": 1,
+        "excluded": 0,
         "confident": false,
         "stanceVersion": 2
       },
@@ -1919,9 +1919,9 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 4,
+        "n": 6,
         "excluded": 0,
-        "confident": false,
+        "confident": true,
         "stanceVersion": 2
       },
       "Greqi": {
@@ -1939,7 +1939,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 1,
+        "n": 2,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
@@ -1957,9 +1957,9 @@
       "Turqi": {
         "index": 47,
         "positive": 0,
-        "neutral": 94,
-        "negative": 6,
-        "n": 32,
+        "neutral": 93,
+        "negative": 7,
+        "n": 30,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -1967,10 +1967,10 @@
       "Kroaci": {
         "index": 50,
         "positive": 8,
-        "neutral": 85,
+        "neutral": 83,
         "negative": 8,
-        "n": 13,
-        "excluded": 1,
+        "n": 12,
+        "excluded": 2,
         "confident": true,
         "stanceVersion": 2
       }
@@ -2017,11 +2017,11 @@
         "sentiment": "negative"
       },
       {
-        "title": "Kosova Otoriterliğe Doğru Sürüklenme Riskiyle Karşı Karşıya - Kosovahaber.com",
-        "source": "kosovahaber.com",
+        "title": "Kosova’da Anayasal Düzen Artık İşlemiyor - Kosovahaber.com",
+        "source": "Kosovahaber.com",
         "country": "Turqi",
         "flag": "🇹🇷",
-        "url": "https://kosovahaber.com/haber/kosova-otoriterlige-dogru-suruklenme-riskiyle-karsi-karsiya-105028",
+        "url": "https://kosovahaber.com/haber/kosovada-anayasal-duzen-artik-islemiyor-105013",
         "sentiment": "negative"
       }
     ]

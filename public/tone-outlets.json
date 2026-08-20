@@ -1,8 +1,8 @@
 {
   "lastUpdated": "2026-08-20",
   "overallIndex": 50,
-  "totalArticles": 132,
-  "sourceCount": 91,
+  "totalArticles": 131,
+  "sourceCount": 94,
   "stanceVersion": 2,
   "countries": {
     "Gjermani": {
@@ -80,14 +80,14 @@
           "articleCount": 1,
           "articles": [
             {
-              "title": "Kosovo finds remains of at least 23 people in suspected mass graves - Al Jazeera",
-              "albanianTitle": "Gjenden mbetjet mortore të të paktën 23 personave në varreza të dyshuara masive në Kosovë - Al Jazeera",
-              "blurb": "Autoritetet në Kosovë kanë gjetur mbetjet mortore të të paktën 23 personave në disa varreza masive të dyshuara.",
+              "title": "Kosovo finds remains of 23 people in mass graves search - Al Jazeera",
+              "albanianTitle": "Gjenden mbetjet mortore të 23 personave gjatë kërkimeve në varrezat masive në Kosovë - Al Jazeera",
+              "blurb": "Autoritetet në Kosovë kanë gjetur mbetjet mortore të njëzet e tre personave gjatë kërkimeve në varreza masive.",
               "imageUrl": "https://www.aljazeera.com/wp-content/uploads/2026/08/AFP__20260801__C3R36KQ__v1__HighRes__KosovoSerbiaInvestigationWarMissing-1787179531.jpg?resize=1920%2C1440",
               "url": "https://www.aljazeera.com/news/2026/8/19/kosovo-finds-remains-of-at-least-23-people-in-suspected-mass-graves",
-              "date": "2026-08-19",
+              "date": "2026-08-20",
               "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
+              "reason": "Faktikë raportim pa gjuhë të ngarkuar",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -100,14 +100,14 @@
           "articleCount": 1,
           "articles": [
             {
-              "title": "North Macedonia to import coal for power plants from Kosovo* - Balkan Green Energy News",
-              "albanianTitle": "Maqedonia e Veriut do të importojë qymyr nga Kosova për termocentralet - Balkan Green Energy News",
-              "blurb": "Maqedonia e Veriut ka planifikuar importimin e thëngjillit nga Kosova për nevojat e termocentraleve të saj për prodhimin e energjisë.",
+              "title": "North Macedonia to import coal for power plants from Kosovo* - balkangreenenergynews.com",
+              "albanianTitle": "Maqedonia e Veriut do të importojë qymyr nga Kosova për termocentralet e saj - balkangreenenergynews.com",
+              "blurb": "Maqedonia e Veriut do të importojë thëngjill nga Kosova për të furnizuar termocentralet e saj me lëndë djegëse.",
               "imageUrl": "https://balkangreenenergynews.com/wp-content/uploads/2026/08/north-macedonia-kosovo-kek-esm-coal-concesion-contract-hasani-uzuncev.jpg",
               "url": "https://balkangreenenergynews.com/north-macedonia-to-import-coal-for-power-plants-from-kosovo/",
               "date": "2026-08-18",
               "sentiment": "neutral",
-              "reason": "Faktikë e thjeshtë, pa gjuhë ngarkuar ndaj Kosovës",
+              "reason": "Raportim faktik për tregtinë e qymyrit, pa gjuhë ngarkuar",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -236,7 +236,7 @@
               "title": "The discursive function of gendered online hate speech in Kosovo - Global Voices",
               "albanianTitle": "Funksioni diskursiv i gjuhës së urrejtjes me bazë gjinore në internet në Kosovë - Global Voices",
               "blurb": "Hulumtimi analizon funksionin diskursiv të gjuhës së urrejtjes me bazë gjinore në hapësirën online në territorin e Kosovës.",
-              "imageUrl": null,
+              "imageUrl": "https://globalvoices.org/wp-content/uploads/2026/08/Untitled-design-25-800x450.webp",
               "url": "https://globalvoices.org/2026/08/20/the-discursive-function-of-gendered-online-hate-speech-in-kosovo/",
               "date": "2026-08-20",
               "sentiment": "neutral",
@@ -286,14 +286,14 @@
               "speaker": "Democratic Party of Kosovo deputies"
             },
             {
-              "title": "Kosovo mayors announce protest in front of government building - KosovaPress",
-              "albanianTitle": "Kryetarët e komunave në Kosovë paralajmërojnë protestë para ndërtesës së qeverisë - KosovaPress",
-              "blurb": "Kryetarët e komunave të Kosovës kanë paralajmëruar mbajtjen e një proteste para ndërtesës së Qeverisë për të shprehur pakënaqësitë e tyre.",
+              "title": "Kosovo mayors announce protest in front of government building - kosovapress.com",
+              "albanianTitle": "Kryetarët e komunave në Kosovë paralajmërojnë protestë para ndërtesës së Qeverisë",
+              "blurb": "Kryetarët e komunave të Kosovës kanë paralajmëruar mbajtjen e një proteste para ndërtesës së Qeverisë së Kosovës.",
               "imageUrl": null,
               "url": "https://kosovapress.com/eng/kosovo-mayors-announce-protest-in-front-of-government-building",
               "date": "2026-08-18",
               "sentiment": "neutral",
-              "reason": "Lajm i thjeshtë për protestë të kryetarëve të komunave në Kosovë",
+              "reason": "Faktikë raportim pa gjuhë ngarkuese",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -401,6 +401,26 @@
           ]
         },
         {
+          "name": "The Times of Israel",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "US to provide $206 million for Gaza peacekeeping force, letters show - The Times of Israel",
+              "albanianTitle": "SHBA do të ndajë 206 milionë dollarë për forcat paqeruajtëse në Gaza, bëhet e ditur nga disa dokumente - The Times of Israel",
+              "blurb": "Shtetet e Bashkuara të Amerikës planifikojnë të ndajnë dyqind e gjashtë milionë dollarë për forcat paqeruajtëse në Rripin e Gazës.",
+              "imageUrl": null,
+              "url": "https://www.timesofisrael.com/us-to-provide-206-million-for-gaza-peacekeeping-force-letters-show/",
+              "date": "2026-08-20",
+              "sentiment": "unknown",
+              "reason": "Artikulli nuk përmend Kosovën, prandaj nuk mund të përcaktohet qëndrimi",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "srpske.rs",
           "sentiment": "neutral",
           "articleCount": 4,
@@ -486,7 +506,7 @@
         "neutral": 86,
         "negative": 9,
         "n": 22,
-        "excluded": 0,
+        "excluded": 1,
         "confident": true,
         "stanceVersion": 2
       }
@@ -499,14 +519,14 @@
           "articleCount": 1,
           "articles": [
             {
-              "title": "Kosovo finds remains of at least 23 people in suspected mass graves - aljazeera.com",
-              "albanianTitle": "Gjenden mbetjet mortore të të paktën 23 personave në varreza të dyshuara masive në Kosovë - aljazeera.com",
-              "blurb": "Janë gjetur mbetjet mortore të të paktën 23 personave në lokacione të dyshuara si varreza masive në Kosovë.",
+              "title": "Kosovo finds remains of 23 people in mass graves search - Al Jazeera",
+              "albanianTitle": "Gjenden mbetjet mortore të 23 personave gjatë kërkimeve në varrezat masive në Kosovë - Al Jazeera",
+              "blurb": "Autoritetet në Kosovë kanë gjetur mbetjet mortore të njëzet e tre personave gjatë kërkimeve në varreza masive.",
               "imageUrl": "https://www.aljazeera.com/wp-content/uploads/2026/08/AFP__20260801__C3R36KQ__v1__HighRes__KosovoSerbiaInvestigationWarMissing-1787179531.jpg?resize=1920%2C1440",
               "url": "https://www.aljazeera.com/news/2026/8/19/kosovo-finds-remains-of-at-least-23-people-in-suspected-mass-graves",
-              "date": "2026-08-19",
+              "date": "2026-08-20",
               "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
+              "reason": "Faktikë raportim pa gjuhë të ngarkuar",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -655,7 +675,7 @@
               "title": "The discursive function of gendered online hate speech in Kosovo - Global Voices",
               "albanianTitle": "Funksioni diskursiv i gjuhës së urrejtjes me bazë gjinore në internet në Kosovë - Global Voices",
               "blurb": "Hulumtimi analizon funksionin diskursiv të gjuhës së urrejtjes me bazë gjinore në hapësirën online në territorin e Kosovës.",
-              "imageUrl": null,
+              "imageUrl": "https://globalvoices.org/wp-content/uploads/2026/08/Untitled-design-25-800x450.webp",
               "url": "https://globalvoices.org/2026/08/20/the-discursive-function-of-gendered-online-hate-speech-in-kosovo/",
               "date": "2026-08-20",
               "sentiment": "neutral",
@@ -680,26 +700,6 @@
               "date": "2026-08-19",
               "sentiment": "neutral",
               "reason": "Faktikë raportim i thjeshtë, pa gjuhë ngarkuar",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "JNS.org",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Is Somaliland America’s next Kosovo? - JNS.org",
-              "albanianTitle": "A po bëhet Somalilandi Kosova e radhës për Amerikën?",
-              "blurb": "Analizohet mundësia e njohjes së Somalilandit nga Shtetet e Bashkuara të Amerikës, duke e krahasuar atë me rastin e Kosovës.",
-              "imageUrl": "https://static.jns.org/dims4/default/88a5884/2147483647/strip/true/crop/6601x3713+0+688/resize/1440x810!/format/webp/quality/90/?url=https%3A%2F%2Fk2-prod-jns-prod.s3.us-east-1.amazonaws.com%2Fbrightspot%2Fef%2Fda%2Fefca21cf4a09be1ee413f8259207%2Fgettyimages-2276340274.jpg",
-              "url": "https://www.jns.org/opinion/nassir-hussein-kahin/is-somaliland-americas-next-kosovo",
-              "date": "2026-08-18",
-              "sentiment": "neutral",
-              "reason": "Question headline without hostile language, merely drawing a comparison",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -820,19 +820,19 @@
           ]
         },
         {
-          "name": "RNZ",
-          "sentiment": "neutral",
+          "name": "The Times of Israel",
+          "sentiment": "unknown",
           "articleCount": 1,
           "articles": [
             {
-              "title": "Remains of over 20 people found in Kosovo mass graves search - RNZ",
-              "albanianTitle": "Gjenden mbetjet e mbi 20 personave gjatë kërkimeve në varrezat masive në Kosovë - RNZ",
-              "blurb": "Gjatë kërkimeve në terren janë zbuluar mbetjet mortore të më shumë se 20 personave në varreza masive në Kosovë.",
-              "imageUrl": "https://media.rnztools.nz/rnz/image/upload/s--IGO4qbmE--/t_tohu-badge-facebook/f_auto/q_auto/4JJLKIU_AFP__20260801__C3R36LF__v1__HighRes__KosovoSerbiaInvestigationWarMissing_jpg",
-              "url": "https://www.rnz.co.nz/news/world/1066719/remains-of-over-20-people-found-in-kosovo-mass-graves-search",
+              "title": "US to provide $206 million for Gaza peacekeeping force, letters show - The Times of Israel",
+              "albanianTitle": "SHBA do të ndajë 206 milionë dollarë për forcat paqeruajtëse në Gaza, bëhet e ditur nga disa dokumente - The Times of Israel",
+              "blurb": "Shtetet e Bashkuara të Amerikës planifikojnë të ndajnë dyqind e gjashtë milionë dollarë për forcat paqeruajtëse në Rripin e Gazës.",
+              "imageUrl": null,
+              "url": "https://www.timesofisrael.com/us-to-provide-206-million-for-gaza-peacekeeping-force-letters-show/",
               "date": "2026-08-20",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
+              "sentiment": "unknown",
+              "reason": "Artikulli nuk përmend Kosovën, prandaj nuk mund të përcaktohet qëndrimi",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -840,19 +840,19 @@
           ]
         },
         {
-          "name": "Telecompaper",
+          "name": "rnz.co.nz",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
-              "title": "Kosovo sees mobile and fixed telephony growth in June - Telecompaper",
-              "albanianTitle": "Kosova shënon rritje në telefoninë mobile dhe fikse gjatë muajit qershor - Telecompaper",
-              "blurb": "Tregu i telekomunikacionit në Kosovë ka shënuar rritje të numrit të përdoruesve të telefonisë fikse dhe asaj mobile gjatë qershorit.",
-              "imageUrl": "https://ik.imagekit.io/tp/20240606-flag-kosovo.png",
-              "url": "https://www.telecompaper.com/news/kosovo-sees-mobile-and-fixed-telephony-growth-in-june--1580134",
-              "date": "2026-08-17",
+              "title": "Remains of over 20 people found in Kosovo mass graves search - rnz.co.nz",
+              "albanianTitle": "Gjenden mbetjet mortore të mbi 20 personave gjatë kërkimeve në varrezat masive në Kosovë - rnz.co.nz",
+              "blurb": "Gjatë kërkimeve në varreza masive në territorin e Kosovës janë gjetur mbetjet mortore të mbi njëzet personave.",
+              "imageUrl": "https://media.rnztools.nz/rnz/image/upload/s--IGO4qbmE--/t_tohu-badge-facebook/f_auto/q_auto/4JJLKIU_AFP__20260801__C3R36LF__v1__HighRes__KosovoSerbiaInvestigationWarMissing_jpg",
+              "url": "https://www.rnz.co.nz/news/world/1066719/remains-of-over-20-people-found-in-kosovo-mass-graves-search",
+              "date": "2026-08-20",
               "sentiment": "neutral",
-              "reason": "Faktikë raportim rreth rritjes së telekomunikacioneve në Kosovë",
+              "reason": "Lajm i thjeshtë faktik për gjetjen e masave, pa gjuhë ngarkuar",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -917,15 +917,35 @@
               "speaker": ""
             }
           ]
+        },
+        {
+          "name": "ԱՐՑԱԽ ԼՐԱՏՎԱԿԱՆ",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "NATO reduces security presence at key Kosovo Serb sites - ԱՐՑԱԽ ԼՐԱՏՎԱԿԱՆ",
+              "albanianTitle": "NATO zvogëlon praninë e sigurisë në pikat kyçe serbe në Kosovë",
+              "blurb": "Aleanca Veriatlantike ka zvogëluar numrin e trupave të saj që sigurojnë lokacionet kryesore të banuara nga serbët në Kosovë.",
+              "imageUrl": "https://mamul.am/images/photos/260812/nato-n-sksel-e-krtchatel-ir-ne-n367818-1.jpg",
+              "url": "https://artsakh.news/en/news/367818",
+              "date": "2026-08-17",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
         }
       ],
       "summary": {
         "index": 50,
         "positive": 9,
-        "neutral": 83,
+        "neutral": 82,
         "negative": 9,
-        "n": 23,
-        "excluded": 0,
+        "n": 22,
+        "excluded": 1,
         "confident": true,
         "stanceVersion": 2
       }
@@ -968,7 +988,7 @@
         {
           "name": "Le Courrier des Balkans",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 1,
           "articles": [
             {
               "title": "Détourner l’Ibar, nouvelle arme de Vučić contre le Kosovo - Le Courrier des Balkans",
@@ -979,19 +999,6 @@
               "date": "2026-08-20",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Diplomatie : pourquoi tant d'États ne reconnaissent-ils toujours pas toutes les républiques post-yougoslaves - Le Courrier des Balkans",
-              "albanianTitle": "Diplomacia: Pse shumë shtete ende nuk i njohin të gjitha republikat post-jugosllave",
-              "blurb": "Analizë mbi arsyet diplomatike pse shumë shtete ende nuk i njohin të gjitha republikat e dala nga ish-Jugosllavia.",
-              "imageUrl": "https://www.courrierdesbalkans.fr/wp-content/uploads/2026/08/Thimphu-12-vom_Buddha_Dordenma-2015-gje-scaled.jpg",
-              "url": "https://www.courrierdesbalkans.fr/diplomatie-pourquoi-tant-detats-ne-reconnaissent-ils-toujours-pas-toutes-les-republiques-post-yougoslaves-98240/",
-              "date": "2026-08-18",
-              "sentiment": "neutral",
-              "reason": "Questioning diplomatic recognition without loaded language",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1020,13 +1027,13 @@
         }
       ],
       "summary": {
-        "index": 60,
-        "positive": 20,
-        "neutral": 80,
+        "index": 62,
+        "positive": 25,
+        "neutral": 75,
         "negative": 0,
-        "n": 5,
+        "n": 4,
         "excluded": 0,
-        "confident": true,
+        "confident": false,
         "stanceVersion": 2
       }
     },
@@ -1093,6 +1100,26 @@
           ]
         },
         {
+          "name": "Nuoto.com",
+          "sentiment": "positive",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo. Pristina, la grande sopresa del nuoto. - Nuoto.com",
+              "albanianTitle": "Kosovë: Prishtina, surpriza e madhe e notit",
+              "blurb": "Prishtina po shënon zhvillime të rëndësishme dhe rezultate befasuese në sportin e notit, sipas raportimeve të specializuara.",
+              "imageUrl": "https://distribution-point.webstorage-4sigma.it/nuoto_com-1291/media/immagine/2026/resized/Screenshot_2026_08_18_alle_20_30_49-1280x724.webp",
+              "url": "https://www.nuoto.com/articolo/calendari-e-meeting/kosovo-pristina-la-grande-sopresa-del-nuoto/",
+              "date": "2026-08-19",
+              "sentiment": "positive",
+              "reason": "Outlet praises Kosovo's swimming achievement",
+              "isQuote": false,
+              "evidence": "la grande sopresa del nuoto",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "Osservatorio Balcani Caucaso Transeuropa",
           "sentiment": "neutral",
           "articleCount": 2,
@@ -1121,26 +1148,6 @@
               "reason": "Lajm i raportuar në mënyrë faktike",
               "isQuote": false,
               "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "nuoto.com",
-          "sentiment": "positive",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosovo. Pristina, la grande sopresa del nuoto. - Nuoto.com",
-              "albanianTitle": "Kosovë: Prishtina, surpriza e madhe e notit",
-              "blurb": "Prishtina po shënon zhvillime të rëndësishme dhe rezultate befasuese në sportin e notit, sipas raportimeve të specializuara.",
-              "imageUrl": "https://distribution-point.webstorage-4sigma.it/nuoto_com-1291/media/immagine/2026/resized/Screenshot_2026_08_18_alle_20_30_49-1280x724.webp",
-              "url": "https://www.nuoto.com/articolo/calendari-e-meeting/kosovo-pristina-la-grande-sopresa-del-nuoto/",
-              "date": "2026-08-19",
-              "sentiment": "positive",
-              "reason": "Outlet praises Kosovo's swimming achievement",
-              "isQuote": false,
-              "evidence": "la grande sopresa del nuoto",
               "speaker": ""
             }
           ]
@@ -1245,6 +1252,26 @@
               "speaker": ""
             }
           ]
+        },
+        {
+          "name": "zentralplus",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "News Archive - zentralplus",
+              "albanianTitle": null,
+              "blurb": "Arkiva e lajmeve përmban informacione dhe ngjarje të ndryshme të publikuara më parë në platformën digjitale të portalit Zentralplus.",
+              "imageUrl": null,
+              "url": "https://www.zentralplus.ch/news/luzerner-loest-mit-trottoir-fahrt-shitstorm-aus-2893231/",
+              "date": "2026-08-20",
+              "sentiment": "unknown",
+              "reason": "Artikulli është arkiv i përgjithshëm, pa përmbajtje për Kosovën",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
         }
       ],
       "summary": {
@@ -1253,7 +1280,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 1,
-        "excluded": 0,
+        "excluded": 1,
         "confident": false,
         "stanceVersion": 2
       }
@@ -1281,19 +1308,19 @@
           ]
         },
         {
-          "name": "Nieuwsblad",
+          "name": "De Telegraaf",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
-              "title": "Zeker 23 lichamen teruggevonden in massagraven in Kosovo - Nieuwsblad",
-              "albanianTitle": "Gjenden të paktën 23 trupa në varrezat masive në Kosovë - Nieuwsblad",
-              "blurb": "Të paktën 23 trupa të pajetë janë gjetur në varreza masive të zbuluara së fundmi në territorin e Kosovës.",
+              "title": "Massagraf met resten van ruim twintig mensen gevonden in Kosovo - De Telegraaf",
+              "albanianTitle": "Gjenden mbetjet mortore të mbi 20 personave në një varrezë masive në Kosovë - De Telegraaf",
+              "blurb": "Në Kosovë janë zbuluar mbetjet mortore të më shumë se njëzet personave në një varrezë masive të identifikuar së fundmi.",
               "imageUrl": null,
-              "url": "https://www.nieuwsblad.be/buitenland/zeker-23-lichamen-teruggevonden-in-massagraven-in-kosovo/160257011.html",
+              "url": "https://www.telegraaf.nl/buitenland/massagraf-met-resten-van-ruim-twintig-mensen-gevonden-in-kosovo/160256362.html",
               "date": "2026-08-20",
               "sentiment": "neutral",
-              "reason": "Faktikë raporti, pa gjuhë ngarkuese ndaj Kosovës",
+              "reason": "Raportim faktik për masat, pa gjuhë ngarkuar",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1301,19 +1328,39 @@
           ]
         },
         {
-          "name": "telegraaf.nl",
+          "name": "HBVL",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
-              "title": "Massagraf met resten van ruim twintig mensen gevonden in Kosovo - telegraaf.nl",
-              "albanianTitle": "Gjenden varreza masive me mbetjet e mbi njëzet personave në Kosovë - telegraaf.nl",
-              "blurb": "Në Kosovë janë zbuluar mbetjet mortore të mbi njëzet personave në një varrezë masive gjatë gërmimeve të fundit.",
+              "title": "Zeker 23 lichamen teruggevonden in massagraven in Kosovo - HBVL",
+              "albanianTitle": "Gjenden të paktën 23 trupa në varrezat masive në Kosovë - HBVL",
+              "blurb": "Mbetjet mortore të të paktën njëzet e tre personave janë gjetur gjatë gërmimeve në varreza masive në Kosovë.",
               "imageUrl": null,
-              "url": "https://www.telegraaf.nl/buitenland/massagraf-met-resten-van-ruim-twintig-mensen-gevonden-in-kosovo/160256362.html",
+              "url": "https://www.hbvl.be/buitenland/zeker-23-lichamen-teruggevonden-in-massagraven-in-kosovo/160257343.html",
               "date": "2026-08-20",
               "sentiment": "neutral",
-              "reason": "Faktikë raporti, pa gjuhë ngarkuese ndaj Kosovës",
+              "reason": "Faktikë, pa ngjyrë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Het Parool",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Servië dreigt Kosovo van het water af te sluiten, ook al is dat vrijwel onmogelijk - Het Parool",
+              "albanianTitle": "Serbia kërcënon se do t'ia ndërpresë ujin Kosovës, ndonëse kjo është pothuajse e pamundur - Het Parool",
+              "blurb": "Serbia ka kërcënuar me ndërprerjen e furnizimit me ujë për Kosovën, ndonëse një veprim i tillë konsiderohet praktikisht i pamundur.",
+              "imageUrl": null,
+              "url": "https://www.parool.nl/wereld/servie-dreigt-kosovo-van-het-water-af-te-sluiten-ook-al-is-dat-vrijwel-onmogelijk~b7bbd9a1/",
+              "date": "2026-08-18",
+              "sentiment": "neutral",
+              "reason": "Faktikë, pa ngjyrë",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1326,7 +1373,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 3,
+        "n": 4,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
@@ -1353,14 +1400,14 @@
               "speaker": ""
             },
             {
-              "title": "Igor Aleksov tourne The Secret of the Bare Hill - cineuropa.org",
+              "title": "Igor Aleksov tourne The Secret of the Bare Hill - Cineuropa",
               "albanianTitle": null,
-              "blurb": "Regjisori Igor Aleksov ka nisur xhirimet për filmin e ri me titull Sekreti i Kodrës së Zhveshur.",
+              "blurb": "Regjisori Igor Aleksov po vazhdon xhirimet për projektin e tij kinematografik të titulluar The Secret of the Bare Hill.",
               "imageUrl": null,
               "url": "https://cineuropa.org/fr/newsdetail/494534",
               "date": "2026-08-18",
-              "sentiment": "unknown",
-              "reason": "Teksti nuk përmend Kosovën, prandaj nuk mund të përcaktohet qëndrimi",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike pa ngjyrë",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1370,7 +1417,7 @@
         {
           "name": "Le Courrier des Balkans",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 1,
           "articles": [
             {
               "title": "Détourner l’Ibar, nouvelle arme de Vučić contre le Kosovo - Le Courrier des Balkans",
@@ -1381,19 +1428,6 @@
               "date": "2026-08-20",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Diplomatie : pourquoi tant d'États ne reconnaissent-ils toujours pas toutes les républiques post-yougoslaves - Le Courrier des Balkans",
-              "albanianTitle": "Diplomacia: Pse shumë shtete ende nuk i njohin të gjitha republikat post-jugosllave",
-              "blurb": "Analizë mbi arsyet diplomatike pse shumë shtete ende nuk i njohin të gjitha republikat e dala nga ish-Jugosllavia.",
-              "imageUrl": "https://www.courrierdesbalkans.fr/wp-content/uploads/2026/08/Thimphu-12-vom_Buddha_Dordenma-2015-gje-scaled.jpg",
-              "url": "https://www.courrierdesbalkans.fr/diplomatie-pourquoi-tant-detats-ne-reconnaissent-ils-toujours-pas-toutes-les-republiques-post-yougoslaves-98240/",
-              "date": "2026-08-18",
-              "sentiment": "neutral",
-              "reason": "Questioning diplomatic recognition without loaded language",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1427,7 +1461,7 @@
         "neutral": 75,
         "negative": 0,
         "n": 4,
-        "excluded": 1,
+        "excluded": 0,
         "confident": false,
         "stanceVersion": 2
       }
@@ -1437,8 +1471,21 @@
         {
           "name": "Cineuropa",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
+            {
+              "title": "As the Spring Arrives, Water Recalls the Nomads triunfa en DokuFest Prizren - Cineuropa",
+              "albanianTitle": "Filmi \"As the Spring Arrives, Water Recalls the Nomads\" triumfon në DokuFest në Prizren - Cineuropa",
+              "blurb": "Filmi As the Spring Arrives, Water Recalls the Nomads ka fituar çmimin kryesor në festivalin DokuFest në Prizren.",
+              "imageUrl": null,
+              "url": "https://cineuropa.org/es/newsdetail/494515",
+              "date": "2026-08-17",
+              "sentiment": "neutral",
+              "reason": "Faktikë, pa ngjyrë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
             {
               "title": "Igor Aleksov rueda The Secret of the Bare Hill - Cineuropa",
               "albanianTitle": "Igor Aleksov përfundon xhirimet e filmit \"The Secret of the Bare Hill\" - Cineuropa",
@@ -1506,6 +1553,26 @@
               "speaker": ""
             }
           ]
+        },
+        {
+          "name": "Kinótico",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Primeros movimientos en los Premios Oscar: Turquía, Chequia, Kosovo o República Dominicana eligen a sus representantes - Kinótico",
+              "albanianTitle": "Lëvizjet e para për çmimet Oscar: Turqia, Çekia, Kosova dhe Republika Dominikane zgjedhin përfaqësuesit e tyre - Kinótico",
+              "blurb": "Turqia, Çekia, Kosova dhe Republika Dominikane kanë përzgjedhur përfaqësuesit e tyre për garën në çmimet prestigjioze Oscar.",
+              "imageUrl": "https://cdn.sanity.io/images/gfy7vknl/production/080118956fab6d5c768a76b6ecf4ffd064c2d232-1224x720.webp?rect=0,16,1224,689&w=1280&h=720&dpr=3",
+              "url": "https://kinotico.es/actualidad/2026-08-20/primeros-movimientos-premios-oscar-2027-turquia-chequia-kosovo-austria-o-republica-dominicana-eligen-sus-representantes",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Faktikë, pa ngjyrë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
         }
       ],
       "summary": {
@@ -1513,34 +1580,14 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 4,
+        "n": 6,
         "excluded": 0,
-        "confident": false,
+        "confident": true,
         "stanceVersion": 2
       }
     },
     "Greqi": {
       "outlets": [
-        {
-          "name": "EPIRUS TV NEWS",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Άρση Βαρών :Mε έξι αθλητές η Ελλάδα στο Ευρωπαϊκό Πρωτάθλημα Παίδων & Κ15 στο Κόσοβο - EPIRUS TV NEWS",
-              "albanianTitle": "Peshëngritje: Greqia me gjashtë sportistë në Kampionatin Evropian për kadetë dhe U15 në Kosovë",
-              "blurb": "Greqia do të përfaqësohet me gjashtë sportistë në Kampionatin Evropian të peshëngritjes për grupmoshat U15 dhe kadetë në Kosovë.",
-              "imageUrl": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEirWvE4heG9V03NUmkWAcZhK3CXOtM07d7crp6Izh_4zd3yCTwA5s73UZN_tKxCrIzqGrIBRGJaKBdvXMei-F8bKEUNF63AGMGbIk5z34oqzPVCc3eRGUeGH4M3YDbfX1tyOV9f6PNKnOger_sTHWDE2GHXIir26Ix1btfh2Jv_2fyUSX8Wt5EejOhVd8Ry/w1200-h630-p-k-no-nu/%CE%A7%CE%A1%CE%97%CE%A3%CE%A4%CE%9F%CE%A5.jpg",
-              "url": "https://www.epirus-tv-news.gr/2026/08/m-15.html",
-              "date": "2026-08-18",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportuar pa gjuhë ngarkuar",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
         {
           "name": "Energymag.gr",
           "sentiment": "neutral",
@@ -1564,8 +1611,21 @@
         {
           "name": "Ertsports.gr",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
+            {
+              "title": "Πρώτο σερβίς για την “μεσογειακή” Εθνική Ομάδα βόλεϊ γυναικών, απέναντι στο Κόσοβο - Ertsports.gr",
+              "albanianTitle": "Shërbimi i parë për kombëtaren e volejbollit të femrave të “Mesdhetarëve”, përballë Kosovës",
+              "blurb": "Kombëtarja e volejbollit të femrave të Greqisë luan ndeshjen e parë kundër përfaqësueses së Kosovës në volejboll.",
+              "imageUrl": "https://www.ertsports.gr/wp-content/uploads/2026/08/mediterrean-nt-wn2026-e1787206199564.jpg",
+              "url": "https://www.ertsports.gr/alla-spor/mesogeiakoi-agones/proto-servis-gia-tin-mesogeiaki-ethniki-omada-volei-gynaikon-apenanti-sto-kosovo/",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Faktikë, pa ngjyrë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
             {
               "title": "Άρση Βαρών: Mε έξι αθλητές η Ελλάδα στο Ευρωπαϊκό Πρωτάθλημα Παίδων και Κ15 στο Κόσοβο - Ertsports.gr",
               "albanianTitle": "Peshëngritje: Greqia merr pjesë me gjashtë sportistë në Kampionatin Evropian për kadetë dhe U15 në Kosovë",
@@ -1624,7 +1684,7 @@
         {
           "name": "NewsIT",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Τέλος στις εξαγωγές ελληνικού λιγνίτη στη Βόρεια Μακεδονία – Προχώρησε σε συμφωνία με το Κόσοβο - NewsIT",
@@ -1635,6 +1695,19 @@
               "date": "2026-08-20",
               "sentiment": "neutral",
               "reason": "Faktikë raporti, pa gjuhë ngarkuese ndaj Kosovës",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Τέλος στις εξαγωγές ελληνικού λιγνίτη στη Β. Μακεδονία – Προχώρησε σε συμφωνία με το Κόσοβο - NewsIT",
+              "albanianTitle": "Fund eksporteve të linjitit grek në Maqedoninë e Veriut – Greqia arrin marrëveshje me Kosovën",
+              "blurb": "Greqia ndalon eksportin e linjitit drejt Maqedonisë së Veriut dhe arrin një marrëveshje të re me shtetin e Kosovës.",
+              "imageUrl": "https://www.newsit.gr/wp-content/uploads/2026/08/istock-2245522587-1-1200x630.jpg",
+              "url": "https://www.newsit.gr/oikonomia/finance/telos-stis-eksagoges-ellinikou-ligniti-sti-v-makedonia-proxorise-se-symfonia-me-to-kosovo/4754038/",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Faktikë, pa ngjyrë",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1702,26 +1775,6 @@
           ]
         },
         {
-          "name": "Ελληνική Ομοσπονδία Πετοσφαίρισης",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Μεσογειακοί αγώνες 2026: Πρώτο σερβίς για την εθνική γυναικών απέναντι στο Κόσοβο (20/8, 21.00) - Ελληνική Ομοσπονδία Πετοσφαίρισης",
-              "albanianTitle": "Lojërat Mesdhetare 2026: Shërbimi i parë për kombëtaren e femrave kundër Kosovës (20/8, 21:00)",
-              "blurb": "Kombëtarja e femrave në volejboll përballet me Kosovën më 20 gusht në kuadër të Lojërave Mesdhetare 2026.",
-              "imageUrl": "https://volleyball.gr/wp-content/uploads/2026/08/mediterrean-nt-wn2026.jpg",
-              "url": "https://volleyball.gr/mesogeiakoi-agones-2026-proto-servis-gia-tin-ethniki-gynaikon-apenanti-sto-kosovo-20-8-21-00/",
-              "date": "2026-08-19",
-              "sentiment": "neutral",
-              "reason": "Faktik, pa gjuhë ngarkuar",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
           "name": "Παραπολιτικά",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1756,19 +1809,32 @@
     "Suedi": {
       "outlets": [
         {
-          "name": "Sofascore",
+          "name": "sofascore.com",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
-              "title": "Albania Mediterranean Team - Sofascore",
-              "albanianTitle": "Ekipi i Shqipërisë në Mesdhetare - Sofascore",
-              "blurb": "Ekipi i Shqipërisë për Lojërat Mesdhetare është renditur në platformën sportive Sofascore për përcjelljen e rezultateve dhe statistikave.",
+              "title": "Serbia mot Kosovo resultat och tippade resultat - sofascore.com",
+              "albanianTitle": "Serbia kundër Kosovës: Rezultati dhe parashikimet",
+              "blurb": "Platforma Sofascore publikon rezultatet dhe parashikimet për ndeshjen e futbollit ndërmjet Serbisë dhe përfaqësueses së Kosovës.",
+              "imageUrl": null,
+              "url": "https://www.sofascore.com/sv/basketball/match/kosovo-3x3-serbia-3x3/GmxesQaaj",
+              "date": "2026-08-19",
+              "sentiment": "neutral",
+              "reason": "Faktikë sportivë, pa ngarkim gjuhësor",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Albania Mediterranean Team - sofascore.com",
+              "albanianTitle": "Ekipi mesdhetar i Shqipërisë",
+              "blurb": "Ekipi i Shqipërisë për Lojërat Mesdhetare është renditur dhe prezantuar në platformën sportive të njohur ndërkombëtarisht Sofascore.",
               "imageUrl": null,
               "url": "https://www.sofascore.com/sv/football/match/kosovo-mediterranean-team-albania-mediterranean-team/bLekseLek",
               "date": "2026-08-19",
               "sentiment": "neutral",
-              "reason": "Titulli thjesht përshkruan një ekip, pa ndonjë ton ndaj Kosovës",
+              "reason": "Faktikë sportivë, pa ngarkim gjuhësor",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1781,7 +1847,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 1,
+        "n": 2,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
@@ -1884,47 +1950,7 @@
           ]
         },
         {
-          "name": "Odatv",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Sırp lider KFOR komutanını hedef aldı: 'Bunu o Türk yapıyor' - Odatv",
-              "albanianTitle": "Lideri serb sulmon komandantin e KFOR-it: 'Këtë po e bën ai turku' - Odatv",
-              "blurb": "Lideri serb ka kritikuar komandantin e KFOR-it duke përmendur rolin e tij në zhvillimet e fundit në rajon.",
-              "imageUrl": "https://img.odatv.com/rcman/Cw1280h720q95gc/storage/files/images/2026/08/20/sirp-lider-vucic-kfor-komutani-ozkan-ulutasi-hedef-aldi-bunu-o-turk-yapiyor-g2dh.jpg",
-              "url": "https://www.odatv.com/guncel/sirp-lider-vucic-kfor-komutani-ozkan-ulutasi-hedef-aldi-bunu-o-turk-yapiyor-120159394",
-              "date": "2026-08-20",
-              "sentiment": "neutral",
-              "reason": "Faktikë raporti, pa gjuhë ngarkuese ndaj Kosovës",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "Transfermarkt",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "FC Kosova Zürich - Transfermarkt",
-              "albanianTitle": null,
-              "blurb": "FC Kosova Zürich është klubi futbollistik i prezantuar në platformën sportive Transfermarkt me të dhënat përkatëse.",
-              "imageUrl": null,
-              "url": "https://www.transfermarkt.com.tr/fc-kosova-zurich/kader/verein/23396/saison_id/2024/plus/0/galerie/0",
-              "date": "2026-08-18",
-              "sentiment": "neutral",
-              "reason": "Listing of football club, no evaluative language",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "kosovahaber.com",
+          "name": "Kosovahaber.com",
           "sentiment": "neutral",
           "articleCount": 6,
           "articles": [
@@ -1955,19 +1981,6 @@
               "speaker": ""
             },
             {
-              "title": "Merdare'de Çıkış İçin Bekleme Süresi 60 Dakikaya Ulaştı - Kosovahaber.com",
-              "albanianTitle": "Pritje deri në 60 minuta për të dalë nga Kosova në pikën kufitare në Merdar",
-              "blurb": "Qytetarët që po dalin nga Kosova përmes pikës kufitare në Merdare po presin deri në gjashtëdhjetë minuta për të kaluar kufirin.",
-              "imageUrl": null,
-              "url": "https://kosovahaber.com/haber/merdarede-cikis-icin-bekleme-suresi-60-dakikaya-ulasti-105091",
-              "date": "2026-08-19",
-              "sentiment": "neutral",
-              "reason": "Lajm faktik për kohëzgjatjen e pritjes në Merdare",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
               "title": "Başbakan Kurti, EULEX'in Yeni Başkanı Lopes ile Görüştü - kosovahaber.com",
               "albanianTitle": "Kryeministri Kurti takoi shefin e ri të EULEX-it, Lopes - kosovahaber.com",
               "blurb": "Kryeministri Albin Kurti ka zhvilluar një takim zyrtar me shefin e ri të misionit EULEX, Giovanni Pietro Barbano.",
@@ -1976,6 +1989,19 @@
               "date": "2026-08-19",
               "sentiment": "neutral",
               "reason": "Faktikisht raporton takimin e Kryeministrit Kurti me kryetarin e ri të EULEX-it",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Merdare'de Çıkış İçin Bekleme Süresi 60 Dakikaya Ulaştı - Kosovahaber.com",
+              "albanianTitle": "Pritje deri në 60 minuta për të dalë nga Kosova në pikën kufitare në Merdar",
+              "blurb": "Qytetarët që po dalin nga Kosova përmes pikës kufitare në Merdare po presin deri në gjashtëdhjetë minuta për të kaluar kufirin.",
+              "imageUrl": null,
+              "url": "https://kosovahaber.com/haber/merdarede-cikis-icin-bekleme-suresi-60-dakikaya-ulasti-105091",
+              "date": "2026-08-19",
+              "sentiment": "neutral",
+              "reason": "Lajm faktik për kohëzgjatjen e pritjes në Merdare",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1994,34 +2020,94 @@
               "speaker": ""
             },
             {
-              "title": "“Ülkeyi Sürekli Seçime Sürüklüyorsunuz, Kurti Ne İstiyor?” - Kosovahaber.com",
-              "albanianTitle": "“Po e çoni vendin në zgjedhje të vazhdueshme, çfarë po kërkon Kurti?” - Kosovahaber.com",
-              "blurb": "Kritika ndaj kryeministrit Albin Kurti lidhur me qasjen e tij ndaj proceseve zgjedhore në vendin tonë.",
+              "title": "Zubin Potok'ta En Az 23 Kişiye Ait Kemik Kalıntıları Bulundu - Kosovahaber.com",
+              "albanianTitle": "Në Zubin Potok gjenden mbetjet mortore të të paktën 23 personave",
+              "blurb": "Në territorin e Zubin Potokut janë gjetur mbetjet mortore të të paktën njëzet e tre personave të zhdukur gjatë luftës.",
               "imageUrl": null,
-              "url": "https://kosovahaber.com/haber/ulkeyi-surekli-secime-surukluyorsunuz-kurti-ne-istiyor-105070",
+              "url": "https://kosovahaber.com/haber/zubin-potokta-en-az-23-kisiye-ait-kemik-kalintilari-bulundu-105088",
               "date": "2026-08-19",
               "sentiment": "neutral",
-              "reason": "Fjalët e kritikuara janë brenda thonjëzave, prandaj i përkasin folësit, jo median",
-              "isQuote": true,
+              "reason": "Raportim neutral i gjetjes së mbetjeve kockore",
+              "isQuote": false,
               "evidence": "",
               "speaker": ""
             }
           ]
         },
         {
-          "name": "saraymedya.com",
+          "name": "Odatv",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
-              "title": "Kosova'da savaş suçları soruşturmasında 23 kişiye ait kemikler bulundu - saraymedya.com",
-              "albanianTitle": "Gjenden eshtrat e 23 personave në kuadër të hetimeve për krime lufte në Kosovë - saraymedya.com",
-              "blurb": "Gjatë hetimeve për krimet e luftës në Kosovë janë gjetur mbetjet mortore të njëzet e tre personave.",
+              "title": "Sırp lider KFOR komutanını hedef aldı: 'Bunu o Türk yapıyor' - Odatv",
+              "albanianTitle": "Lideri serb sulmon komandantin e KFOR-it: 'Këtë po e bën ai turku' - Odatv",
+              "blurb": "Lideri serb ka kritikuar komandantin e KFOR-it duke përmendur rolin e tij në zhvillimet e fundit në rajon.",
+              "imageUrl": "https://img.odatv.com/rcman/Cw1280h720q95gc/storage/files/images/2026/08/20/sirp-lider-vucic-kfor-komutani-ozkan-ulutasi-hedef-aldi-bunu-o-turk-yapiyor-g2dh.jpg",
+              "url": "https://www.odatv.com/guncel/sirp-lider-vucic-kfor-komutani-ozkan-ulutasi-hedef-aldi-bunu-o-turk-yapiyor-120159394",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Faktikë raporti, pa gjuhë ngarkuese ndaj Kosovës",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Saray Medya",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosova'da savaş suçları soruşturmasında 23 kişiye ait kemikler bulundu - Saray Medya",
+              "albanianTitle": "Gjenden eshtrat e 23 personave në kuadër të hetimeve për krime lufte në Kosovë",
+              "blurb": "Eshtrat e 23 personave janë gjetur gjatë hetimeve për krime lufte që po zhvillohen në territorin e Kosovës.",
               "imageUrl": "https://img.saraymedya.com/manset/2026/08/kosova-da-savas-suclari-sorusturmasinda-23-kisiye-ait-kemikler-bulundu-1787169649.webp",
               "url": "https://www.saraymedya.com/haber/kosova-da-savas-suclari-sorusturmasinda-23-kisiye-ait-kemikler-bulundu_294559/",
               "date": "2026-08-19",
               "sentiment": "neutral",
-              "reason": "Faktikë raporti, pa gjuhë ngarkuese ndaj Kosovës",
+              "reason": "Faktik, pa gjuhë ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Tokat Haber",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Tokat’tan Kosova’ya Madalya Yolculuğu: İbrahim Özeren Milli Formayla Yarışacak - Tokat Haber",
+              "albanianTitle": "Nga Tokati drejt Kosovës për medalje: İbrahim Özeren do të garojë me fanellën kombëtare",
+              "blurb": "Sportisti nga Tokati, Ibrahim Özeren, do të përfaqësojë Kosovën në gara ndërkombëtare duke mbajtur fanellën e kombëtares.",
+              "imageUrl": null,
+              "url": "https://www.tokathaber.com.tr/tokattan-kosovaya-madalya-yolculugu-ibrahim-ozeren-milli-formayla-yarisacak",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Faktikë sportivë, pa ngarkim gjuhësor",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Transfermarkt",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "FC Kosova Zürich - Transfermarkt",
+              "albanianTitle": null,
+              "blurb": "FC Kosova Zürich është klubi futbollistik i prezantuar në platformën sportive Transfermarkt me të dhënat përkatëse.",
+              "imageUrl": null,
+              "url": "https://www.transfermarkt.com.tr/fc-kosova-zurich/kader/verein/23396/saison_id/2024/plus/0/galerie/0",
+              "date": "2026-08-18",
+              "sentiment": "neutral",
+              "reason": "Listing of football club, no evaluative language",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -2052,9 +2138,9 @@
       "summary": {
         "index": 47,
         "positive": 0,
-        "neutral": 94,
-        "negative": 6,
-        "n": 32,
+        "neutral": 93,
+        "negative": 7,
+        "n": 30,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -2068,14 +2154,14 @@
           "articleCount": 1,
           "articles": [
             {
-              "title": "Kosovo finds remains of at least 23 people in suspected mass graves - Al Jazeera",
-              "albanianTitle": "Gjenden mbetjet mortore të të paktën 23 personave në varreza të dyshuara masive në Kosovë - Al Jazeera",
-              "blurb": "Autoritetet në Kosovë kanë gjetur mbetjet mortore të të paktën 23 personave në disa varreza masive të dyshuara.",
+              "title": "Kosovo finds remains of 23 people in mass graves search - Al Jazeera",
+              "albanianTitle": "Gjenden mbetjet mortore të 23 personave gjatë kërkimeve në varrezat masive në Kosovë - Al Jazeera",
+              "blurb": "Autoritetet në Kosovë kanë gjetur mbetjet mortore të njëzet e tre personave gjatë kërkimeve në varreza masive.",
               "imageUrl": "https://www.aljazeera.com/wp-content/uploads/2026/08/AFP__20260801__C3R36KQ__v1__HighRes__KosovoSerbiaInvestigationWarMissing-1787179531.jpg?resize=1920%2C1440",
               "url": "https://www.aljazeera.com/news/2026/8/19/kosovo-finds-remains-of-at-least-23-people-in-suspected-mass-graves",
-              "date": "2026-08-19",
+              "date": "2026-08-20",
               "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
+              "reason": "Faktikë raportim pa gjuhë të ngarkuar",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -2088,14 +2174,14 @@
           "articleCount": 1,
           "articles": [
             {
-              "title": "North Macedonia to import coal for power plants from Kosovo* - Balkan Green Energy News",
-              "albanianTitle": "Maqedonia e Veriut do të importojë qymyr nga Kosova për termocentralet - Balkan Green Energy News",
-              "blurb": "Maqedonia e Veriut ka planifikuar importimin e thëngjillit nga Kosova për nevojat e termocentraleve të saj për prodhimin e energjisë.",
+              "title": "North Macedonia to import coal for power plants from Kosovo* - balkangreenenergynews.com",
+              "albanianTitle": "Maqedonia e Veriut do të importojë qymyr nga Kosova për termocentralet e saj - balkangreenenergynews.com",
+              "blurb": "Maqedonia e Veriut do të importojë thëngjill nga Kosova për të furnizuar termocentralet e saj me lëndë djegëse.",
               "imageUrl": "https://balkangreenenergynews.com/wp-content/uploads/2026/08/north-macedonia-kosovo-kek-esm-coal-concesion-contract-hasani-uzuncev.jpg",
               "url": "https://balkangreenenergynews.com/north-macedonia-to-import-coal-for-power-plants-from-kosovo/",
               "date": "2026-08-18",
               "sentiment": "neutral",
-              "reason": "Faktikë e thjeshtë, pa gjuhë ngarkuar ndaj Kosovës",
+              "reason": "Raportim faktik për tregtinë e qymyrit, pa gjuhë ngarkuar",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -2156,26 +2242,6 @@
           ]
         },
         {
-          "name": "EUalive",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "The price of normalisation: Belgrade’s losing battle over the Mitrovica bridge - EUalive",
-              "albanianTitle": "Çmimi i normalizimit: Beteja e humbur e Beogradit për urën e Mitrovicës",
-              "blurb": "Beogradi po përballet me humbjen e ndikimit lidhur me çështjen e hapjes së urës së Mitrovicës për qarkullim.",
-              "imageUrl": "https://eualive.net/wp-content/uploads/2026/08/MSU_Mitrovica_Manbox_-_Ibar_Bridge_summer_2019.jpg",
-              "url": "https://eualive.net/the-price-of-normalisation-belgrades-losing-battle-over-the-mitrovica-bridge/",
-              "date": "2026-08-19",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportim pa ngarkesë",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
           "name": "European Western Balkans",
           "sentiment": "negative",
           "articleCount": 1,
@@ -2204,7 +2270,7 @@
               "title": "The discursive function of gendered online hate speech in Kosovo - Global Voices",
               "albanianTitle": "Funksioni diskursiv i gjuhës së urrejtjes me bazë gjinore në internet në Kosovë - Global Voices",
               "blurb": "Hulumtimi analizon funksionin diskursiv të gjuhës së urrejtjes me bazë gjinore në hapësirën online në territorin e Kosovës.",
-              "imageUrl": null,
+              "imageUrl": "https://globalvoices.org/wp-content/uploads/2026/08/Untitled-design-25-800x450.webp",
               "url": "https://globalvoices.org/2026/08/20/the-discursive-function-of-gendered-online-hate-speech-in-kosovo/",
               "date": "2026-08-20",
               "sentiment": "neutral",
@@ -2296,6 +2362,26 @@
           ]
         },
         {
+          "name": "The Times of Israel",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "US to provide $206 million for Gaza peacekeeping force, letters show - The Times of Israel",
+              "albanianTitle": "SHBA do të ndajë 206 milionë dollarë për forcat paqeruajtëse në Gaza, bëhet e ditur nga disa dokumente - The Times of Israel",
+              "blurb": "Shtetet e Bashkuara të Amerikës planifikojnë të ndajnë dyqind e gjashtë milionë dollarë për forcat paqeruajtëse në Rripin e Gazës.",
+              "imageUrl": null,
+              "url": "https://www.timesofisrael.com/us-to-provide-206-million-for-gaza-peacekeeping-force-letters-show/",
+              "date": "2026-08-20",
+              "sentiment": "unknown",
+              "reason": "Artikulli nuk përmend Kosovën, prandaj nuk mund të përcaktohet qëndrimi",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "cna.al",
           "sentiment": "unknown",
           "articleCount": 1,
@@ -2339,10 +2425,10 @@
       "summary": {
         "index": 50,
         "positive": 8,
-        "neutral": 85,
+        "neutral": 83,
         "negative": 8,
-        "n": 13,
-        "excluded": 1,
+        "n": 12,
+        "excluded": 2,
         "confident": true,
         "stanceVersion": 2
       }
