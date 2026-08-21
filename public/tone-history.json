@@ -2028,9 +2028,9 @@
   },
   {
     "date": "2026-08-21",
-    "overallIndex": 50,
-    "totalArticles": 195,
-    "sourceCount": 124,
+    "overallIndex": 51,
+    "totalArticles": 209,
+    "sourceCount": 138,
     "stanceVersion": 2,
     "countries": {
       "Gjermani": {
@@ -2044,21 +2044,21 @@
         "stanceVersion": 2
       },
       "SHBA": {
-        "index": 50,
-        "positive": 6,
-        "neutral": 88,
-        "negative": 6,
-        "n": 32,
+        "index": 51,
+        "positive": 8,
+        "neutral": 86,
+        "negative": 5,
+        "n": 37,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2
       },
       "Britani": {
-        "index": 48,
-        "positive": 3,
-        "neutral": 90,
-        "negative": 7,
-        "n": 29,
+        "index": 50,
+        "positive": 6,
+        "neutral": 88,
+        "negative": 6,
+        "n": 33,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -2074,11 +2074,11 @@
         "stanceVersion": 2
       },
       "Itali": {
-        "index": 50,
-        "positive": 0,
-        "neutral": 100,
+        "index": 54,
+        "positive": 8,
+        "neutral": 92,
         "negative": 0,
-        "n": 10,
+        "n": 13,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2
@@ -2128,7 +2128,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 7,
+        "n": 6,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -2138,7 +2138,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 24,
+        "n": 26,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -2164,19 +2164,19 @@
         "stanceVersion": 2
       },
       "Turqi": {
-        "index": 50,
-        "positive": 4,
-        "neutral": 92,
+        "index": 51,
+        "positive": 6,
+        "neutral": 91,
         "negative": 4,
-        "n": 52,
+        "n": 53,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
       },
       "Kroaci": {
-        "index": 52,
-        "positive": 10,
-        "neutral": 85,
+        "index": 55,
+        "positive": 15,
+        "neutral": 80,
         "negative": 5,
         "n": 20,
         "excluded": 1,
@@ -2186,27 +2186,27 @@
     },
     "headlines": [
       {
-        "title": "Kosovo's Independence: A New European Nation is Born - Monocle",
-        "source": "Monocle",
+        "title": "ICT for Kosovo’s Growth Building the Knowledge Economy - EEAS",
+        "source": "EEAS",
         "country": "SHBA",
         "flag": "🇺🇸",
+        "url": "https://www.eeas.europa.eu/delegations/kosovo/ict-kosovos-growth-building-knowledge-economy_en",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Kosovo's Independence: A New European Nation is Born - Monocle",
+        "source": "Monocle",
+        "country": "Britani",
+        "flag": "🇬🇧",
         "url": "https://monocle.com/affairs/kosovo-independence-serbia-balkans/",
         "sentiment": "positive"
       },
       {
-        "title": "İzmir ile Kosova arasında çok yönlü iş birliği dönemi - Cumhuriyet",
-        "source": "Cumhuriyet",
-        "country": "Turqi",
-        "flag": "🇹🇷",
-        "url": "https://www.cumhuriyet.com.tr/cumhuriyet-in-egesi/izmir-ile-kosova-arasinda-cok-yonlu-is-birligi-donemi-2530991",
-        "sentiment": "positive"
-      },
-      {
-        "title": "Mediterranean Games: Kosovo’s Lekë Juniku carries tradition and fighting spirit from Taranto towards 2030 - World Baseball Softball Confederation (WBSC)",
-        "source": "World Baseball Softball Confederation (WBSC)",
-        "country": "Kroaci",
-        "flag": "🇭🇷",
-        "url": "https://www.wbsc.org/en/news/mediterranean-games-kosovos-leke-juniku-carries-tradition-and-fighting-spirit-from-taranto-towards-2030",
+        "title": "Kosovo. Pristina, la grande sopresa del nuoto. - Nuoto.com",
+        "source": "Nuoto.com",
+        "country": "Itali",
+        "flag": "🇮🇹",
+        "url": "https://www.nuoto.com/articolo/calendari-e-meeting/kosovo-pristina-la-grande-sopresa-del-nuoto/",
         "sentiment": "positive"
       },
       {

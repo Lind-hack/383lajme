@@ -1,8 +1,8 @@
 {
   "lastUpdated": "2026-08-21",
-  "overallIndex": 50,
-  "totalArticles": 195,
-  "sourceCount": 124,
+  "overallIndex": 51,
+  "totalArticles": 209,
+  "sourceCount": 138,
   "stanceVersion": 2,
   "countries": {
     "Gjermani": {
@@ -135,10 +135,43 @@
           ]
         },
         {
+          "name": "BGNES",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "NATO to Vučić: Any Reopening of Mitrovica Bridge Must Take All Communities in Kosovo into Account - BGNES",
+              "albanianTitle": "NATO për Vuçiqin: Çdo rihapje e urës së Mitrovicës duhet të marrë parasysh të gjitha komunitetet në Kosovë - BGNES",
+              "blurb": "NATO kërkon që çdo vendim për hapjen e urës së Mitrovicës të marrë parasysh interesat e të gjitha komuniteteve.",
+              "imageUrl": "https://www.bgnes.com/static/images/news/2026/08/21/21566/19749.webp",
+              "url": "http://www.bgnes.com/politics/nato-to-vu-i-any-reopening-of-mitrovica-bridge-must-take-all-communities-in-kosovo-into-account",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Neutral reporting of NATO’s statement",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "Balkan Insight",
           "sentiment": "neutral",
-          "articleCount": 3,
+          "articleCount": 4,
           "articles": [
+            {
+              "title": "Thaci Expects Acquittal as Hague Court’s War Crimes Verdict Nears - Balkan Insight",
+              "albanianTitle": "Thaçi pret pafajësinë teksa po afrohet vendimi i Gjykatës së Hagës për krime lufte - Balkan Insight",
+              "blurb": "Hashim Thaçi pret shpalljen e pafajësisë në procesin gjyqësor që po zhvillohet ndaj tij në Gjykatën e Hagës.",
+              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2025/09/11396473.jpg",
+              "url": "https://balkaninsight.com/2026/08/21/thaci-expects-acquittal-as-hague-courts-war-crimes-verdict-nears/btj/",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Factual report of Thaci’s expectation",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
             {
               "title": "Remains of 23 Wartime Victims Unearthed from Mass Graves in Kosovo - Balkan Insight",
               "albanianTitle": "Gjenden mbetjet mortore të 23 viktimave të luftës në varreza masive në Kosovë - Balkan Insight",
@@ -216,6 +249,46 @@
               "reason": "Fact‑based headline about a trail, no evaluative language toward Kosovo",
               "isQuote": false,
               "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "CTV News",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Remains of over 20 people found in Kosovo mass graves search - CTV News",
+              "albanianTitle": "Gjenden mbetjet mortore të mbi 20 personave në varrezat masive në Kosovë",
+              "blurb": "Gjatë kërkimeve në varrezat masive në Kosovë janë gjetur mbetjet mortore të më shumë se njëzet personave.",
+              "imageUrl": "https://www.ctvnews.ca/resizer/v2/4I6BGNXDTVDEHIMYAW5LQLP7TY.jpg?smart=true&auth=df5e5349aa1d4929d8295114aa9e0e41adc5ab6e57e0a205093fcc4a92cd1158&width=1200&height=630",
+              "url": "https://www.ctvnews.ca/world/article/remains-of-over-20-people-found-in-kosovo-mass-graves-search/",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Fact‑based report, no loaded language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "EEAS",
+          "sentiment": "positive",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "ICT for Kosovo’s Growth Building the Knowledge Economy - EEAS",
+              "albanianTitle": "TIK-u për zhvillimin e Kosovës: Ndërtimi i ekonomisë së bazuar në dije - EEAS",
+              "blurb": "Zhvillimi i sektorit të teknologjisë së informacionit në Kosovë synon ndërtimin e një ekonomie të bazuar në njohuri.",
+              "imageUrl": "https://www.eeas.europa.eu/sites/default/files/2026/image_medium_resolution/news_letter2_20260820_135421_6ebbb1.png",
+              "url": "https://www.eeas.europa.eu/delegations/kosovo/ict-kosovos-growth-building-knowledge-economy_en",
+              "date": "2026-08-21",
+              "sentiment": "positive",
+              "reason": "Headline praises Kosovo’s development program",
+              "isQuote": false,
+              "evidence": "Growth Building the Knowledge Economy",
               "speaker": ""
             }
           ]
@@ -307,6 +380,26 @@
               "date": "2026-08-20",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Harici",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Serbia’s Vucic criticises KFOR commander over Ibar Bridge withdrawal - Harici",
+              "albanianTitle": "Vuçiq i Serbisë kritikon komandantin e KFOR-it për tërheqjen nga ura e Ibrit - Harici",
+              "blurb": "Presidenti serb Aleksandar Vuçiq ka kritikuar komandantin e KFOR-it lidhur me tërheqjen e forcave nga ura e Ibrit.",
+              "imageUrl": null,
+              "url": "https://harici.com.tr/en/serbias-vucic-criticises-kfor-commander-over-ibar-bridge-withdrawal/",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Straightforward report of Vucic’s criticism",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -513,7 +606,7 @@
           ]
         },
         {
-          "name": "Unicef",
+          "name": "UNICEF",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
@@ -571,19 +664,6 @@
               "speaker": "Haljiti"
             },
             {
-              "title": "Kodraljiju: Seven Espionage Cases in Kosovo - srpske.rs",
-              "albanianTitle": "Kodraliu: Shtatë raste të spiunazhit në Kosovë - srpske.rs",
-              "blurb": "Kodraljiju njoftoi se në Kosovë janë identifikuar gjithsej shtatë raste të ndryshme të cilat ndërlidhen me veprimtari të spiunazhit.",
-              "imageUrl": "https://srpske.rs/uploads/articles/pristina-prosecutor-seven-espionage-cases-four-convictions-16x9.webp",
-              "url": "https://srpske.rs/en/news/politika/2026/08/20/pristina-prosecutor-seven-espionage-cases-four-convictions",
-              "date": "2026-08-20",
-              "sentiment": "neutral",
-              "reason": "Citat i Kodraljiju-t, media raporton pa ngjyrë",
-              "isQuote": true,
-              "evidence": "",
-              "speaker": "Kodraljiju"
-            },
-            {
               "title": "Bocan-Harchenko: Russia Prevents Ethnic Cleansing of Serbs - srpske.rs",
               "albanianTitle": "Bocan-Harchenko: Rusia parandalon spastrimin etnik të serbëve - srpske.rs",
               "blurb": "Ambasadori rus Bocan-Harchenko pretendon se Rusia po ndërmerr veprime për të parandaluar spastrimin etnik të serbëve në Kosovë.",
@@ -595,6 +675,19 @@
               "isQuote": true,
               "evidence": "",
               "speaker": "Bocan-Harchenko"
+            },
+            {
+              "title": "Kodraljiju: Seven Espionage Cases in Kosovo - srpske.rs",
+              "albanianTitle": "Kodraliu: Shtatë raste të spiunazhit në Kosovë - srpske.rs",
+              "blurb": "Kodraljiju njoftoi se në Kosovë janë identifikuar gjithsej shtatë raste të ndryshme të cilat ndërlidhen me veprimtari të spiunazhit.",
+              "imageUrl": "https://srpske.rs/uploads/articles/pristina-prosecutor-seven-espionage-cases-four-convictions-16x9.webp",
+              "url": "https://srpske.rs/en/news/politika/2026/08/20/pristina-prosecutor-seven-espionage-cases-four-convictions",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Citat i Kodraljiju-t, media raporton pa ngjyrë",
+              "isQuote": true,
+              "evidence": "",
+              "speaker": "Kodraljiju"
             },
             {
               "title": "Vucic to Send Letter to Rutte: Don't Open Ibar Bridge - srpske.rs",
@@ -659,11 +752,11 @@
         }
       ],
       "summary": {
-        "index": 50,
-        "positive": 6,
-        "neutral": 88,
-        "negative": 6,
-        "n": 32,
+        "index": 51,
+        "positive": 8,
+        "neutral": 86,
+        "negative": 5,
+        "n": 37,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2
@@ -712,6 +805,26 @@
           ]
         },
         {
+          "name": "BGNES",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "NATO to Vučić: Any Reopening of Mitrovica Bridge Must Take All Communities in Kosovo into Account - BGNES",
+              "albanianTitle": "NATO për Vuçiqin: Çdo rihapje e urës së Mitrovicës duhet të marrë parasysh të gjitha komunitetet në Kosovë - BGNES",
+              "blurb": "NATO kërkon që çdo vendim për hapjen e urës së Mitrovicës të marrë parasysh interesat e të gjitha komuniteteve.",
+              "imageUrl": "https://www.bgnes.com/static/images/news/2026/08/21/21566/19749.webp",
+              "url": "http://www.bgnes.com/politics/nato-to-vu-i-any-reopening-of-mitrovica-bridge-must-take-all-communities-in-kosovo-into-account",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Neutral reporting of NATO’s statement",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "Balkan Green Energy News",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -734,8 +847,21 @@
         {
           "name": "Balkan Insight",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 3,
           "articles": [
+            {
+              "title": "Thaci Expects Acquittal as Hague Court’s War Crimes Verdict Nears - Balkan Insight",
+              "albanianTitle": "Thaçi pret pafajësinë teksa po afrohet vendimi i Gjykatës së Hagës për krime lufte - Balkan Insight",
+              "blurb": "Hashim Thaçi pret shpalljen e pafajësisë në procesin gjyqësor që po zhvillohet ndaj tij në Gjykatën e Hagës.",
+              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2025/09/11396473.jpg",
+              "url": "https://balkaninsight.com/2026/08/21/thaci-expects-acquittal-as-hague-courts-war-crimes-verdict-nears/btj/",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Factual report of Thaci’s expectation",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
             {
               "title": "Remains of 23 Wartime Victims Unearthed from Mass Graves in Kosovo - Balkan Insight",
               "albanianTitle": "Gjenden mbetjet mortore të 23 viktimave të luftës në varreza masive në Kosovë - Balkan Insight",
@@ -780,6 +906,26 @@
               "reason": "Fact‑based headline about a trail, no evaluative language toward Kosovo",
               "isQuote": false,
               "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "EEAS",
+          "sentiment": "positive",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "ICT for Kosovo’s Growth Building the Knowledge Economy - EEAS",
+              "albanianTitle": "TIK-u për zhvillimin e Kosovës: Ndërtimi i ekonomisë së bazuar në dije - EEAS",
+              "blurb": "Zhvillimi i sektorit të teknologjisë së informacionit në Kosovë synon ndërtimin e një ekonomie të bazuar në njohuri.",
+              "imageUrl": "https://www.eeas.europa.eu/sites/default/files/2026/image_medium_resolution/news_letter2_20260820_135421_6ebbb1.png",
+              "url": "https://www.eeas.europa.eu/delegations/kosovo/ict-kosovos-growth-building-knowledge-economy_en",
+              "date": "2026-08-21",
+              "sentiment": "positive",
+              "reason": "Headline praises Kosovo’s development program",
+              "isQuote": false,
+              "evidence": "Growth Building the Knowledge Economy",
               "speaker": ""
             }
           ]
@@ -871,6 +1017,26 @@
               "date": "2026-08-20",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Harici",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Serbia’s Vucic criticises KFOR commander over Ibar Bridge withdrawal - Harici",
+              "albanianTitle": "Vuçiq i Serbisë kritikon komandantin e KFOR-it për tërheqjen nga ura e Ibrit - Harici",
+              "blurb": "Presidenti serb Aleksandar Vuçiq ka kritikuar komandantin e KFOR-it lidhur me tërheqjen e forcave nga ura e Ibrit.",
+              "imageUrl": null,
+              "url": "https://harici.com.tr/en/serbias-vucic-criticises-kfor-commander-over-ibar-bridge-withdrawal/",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Straightforward report of Vucic’s criticism",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1037,7 +1203,7 @@
           ]
         },
         {
-          "name": "Unicef",
+          "name": "UNICEF",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
@@ -1163,11 +1329,11 @@
         }
       ],
       "summary": {
-        "index": 48,
-        "positive": 3,
-        "neutral": 90,
-        "negative": 7,
-        "n": 29,
+        "index": 50,
+        "positive": 6,
+        "neutral": 88,
+        "negative": 6,
+        "n": 33,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -1410,6 +1576,26 @@
           ]
         },
         {
+          "name": "Nuoto.com",
+          "sentiment": "positive",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo. Pristina, la grande sopresa del nuoto. - Nuoto.com",
+              "albanianTitle": "Kosovë: Prishtina, surpriza e madhe e notit",
+              "blurb": "Prishtina po shënon zhvillime të rëndësishme dhe rezultate befasuese në sportin e notit, sipas raportimeve të specializuara.",
+              "imageUrl": "https://distribution-point.webstorage-4sigma.it/nuoto_com-1291/media/immagine/2026/resized/Screenshot_2026_08_18_alle_20_30_49-1280x724.webp",
+              "url": "https://www.nuoto.com/articolo/calendari-e-meeting/kosovo-pristina-la-grande-sopresa-del-nuoto/",
+              "date": "2026-08-19",
+              "sentiment": "positive",
+              "reason": "Outlet praises Kosovo's swimming achievement",
+              "isQuote": false,
+              "evidence": "la grande sopresa del nuoto",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "Osservatorio Balcani Caucaso Transeuropa",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1423,6 +1609,46 @@
               "date": "2026-08-19",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Quindici Molfetta",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Medaglia di bronzo in Kosovo per Francesca Mininni di Molfetta - Quindici Molfetta",
+              "albanianTitle": "Francesca Mininni nga Molfetta fiton medaljen e bronztë në Kosovë - Quindici Molfetta",
+              "blurb": "Sportistja nga Molfetta, Francesca Mininni, ka fituar medaljen e bronztë gjatë një aktiviteti sportiv të mbajtur në Kosovë.",
+              "imageUrl": "https://www.quindici-molfetta.it/Img/News/Francesca%20Mininni%20medaglia%20bronzo.jpg",
+              "url": "https://www.quindici-molfetta.it/medaglia-di-bronzo-in-kosovo-per-francesca-mininni-di-molfetta_62181.aspx",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Simple news of a bronze medal event",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Report Difesa",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo: il ponte conteso, sicurezza, sovranità e narrazioni lungo il fiume Ibar - Report Difesa",
+              "albanianTitle": "Kosova: Ura e kontestuar, siguria, sovraniteti dhe narrativat përgjatë lumit Ibër - Report Difesa",
+              "blurb": "Çështja e urës mbi lumin Ibër ndërlidhet me sigurinë, sovranitetin dhe narrativat politike në veri të territorit të Kosovës.",
+              "imageUrl": "https://www.reportdifesa.it/wp-content/uploads/2023/12/BRSH_Kosovo_Security_Force_KSF.jpg",
+              "url": "https://www.reportdifesa.it/kosovo-il-ponte-conteso-sicurezza-sovranita-e-narrazioni-lungo-il-fiume-ibar/",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Descriptive headline about contested bridge",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1471,11 +1697,11 @@
         }
       ],
       "summary": {
-        "index": 50,
-        "positive": 0,
-        "neutral": 100,
+        "index": 54,
+        "positive": 8,
+        "neutral": 92,
         "negative": 0,
-        "n": 10,
+        "n": 13,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2
@@ -1822,7 +2048,7 @@
         {
           "name": "Infobae",
           "sentiment": "neutral",
-          "articleCount": 3,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Kosovo localiza una fosa común con al menos 23 desaparecidos de la guerra de 1998 y 1999 - Infobae",
@@ -1843,19 +2069,6 @@
               "blurb": "Bashkimi Evropian kërkon garanci shtesë nga institucionet e Kosovës përpara se të hapet ura që ndan qytetin e Mitrovicës.",
               "imageUrl": "https://www.infobae.com/assets/images/logos/fallback-promo-image-1200x630.png",
               "url": "https://www.infobae.com/america/agencias/2026/08/18/la-ue-pide-mas-garantias-a-kosovo-antes-de-abrir-el-puente-que-divide-mitrovica/",
-              "date": "2026-08-18",
-              "sentiment": "neutral",
-              "reason": "Faktik, pa gjuhë të ngarkuar",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "La oposición kosovar protesta contra el bloqueo del Parlamento - Infobae",
-              "albanianTitle": "Opozita kosovare proteston kundër bllokimit të Parlamentit - Infobae",
-              "blurb": "Partitë opozitare në Kosovë kanë organizuar protesta si shenjë kundërshtimi ndaj bllokimit të punës në Kuvendin e vendit.",
-              "imageUrl": "https://www.infobae.com/assets/images/logos/fallback-promo-image-1200x630.png",
-              "url": "https://www.infobae.com/america/agencias/2026/08/18/la-oposicion-kosovar-protesta-contra-el-bloqueo-del-parlamento/",
               "date": "2026-08-18",
               "sentiment": "neutral",
               "reason": "Faktik, pa gjuhë të ngarkuar",
@@ -1911,7 +2124,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 7,
+        "n": 6,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -2066,6 +2279,26 @@
           ]
         },
         {
+          "name": "Skai.gr",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Ένταση στο Κόσοβο για το άνοιγμα μιας γέφυρας - Skai.gr",
+              "albanianTitle": "Tensione në Kosovë për hapjen e një ure - Skai.gr",
+              "blurb": "Hapja e urës mbi lumin Ibër në Mitrovicë ka shkaktuar rritje të tensioneve në pjesën veriore të Kosovës.",
+              "imageUrl": "https://cdn.skai.gr/sites/default/files/styles/article_16_9/public/feedelio/mitsovica-bridge.jpg?itok=QJp9iyTJ",
+              "url": "https://www.skai.gr/news/world/entasi-sto-kosovo-gia-to-anoigma-mias-gefyras",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Faktikisht raporton tensionin në Kosovë pa gjuhë ngarkuese",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "Sofascore",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -2152,6 +2385,26 @@
           ]
         },
         {
+          "name": "ertnews.gr",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Κόσοβο: Eντάσεις μεταξύ Σέρβων και Αλβανών προκαλεί το άνοιγμα γέφυρας - ertnews.gr",
+              "albanianTitle": "Kosova: Hapja e urës po shkakton tensione mes serbëve dhe shqiptarëve - ertnews.gr",
+              "blurb": "Planet për hapjen e urës së Mitrovicës kanë nxitur tensione ndërmjet komunitetit serb dhe atij shqiptar në rajon.",
+              "imageUrl": "https://www.ertnews.gr/wp-content/uploads/2026/08/ap090427013637-768x515-1.jpg",
+              "url": "https://www.ertnews.gr/eidiseis/diethni/kosovo-entaseis-metaksy-servon-kai-alvanon-prokalei-to-anoigma-gefyras/",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Raportim neutral i tensioneve mes komuniteteve",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "facebook.com",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -2190,19 +2443,6 @@
               "speaker": ""
             },
             {
-              "title": "Αγριεμένη στην πρεμιέρα της η Εθνική ανδρών, σάρωσε το Κόσοβο - sport-fm.gr",
-              "albanianTitle": "Kombëtarja greke shkëlqen në ndeshjen e parë, mposht bindshëm Kosovën",
-              "blurb": "Ekipi kombëtar i Greqisë ka arritur fitore bindëse ndaj Kosovës në ndeshjen e parë të Lojërave Mesdhetare.",
-              "imageUrl": "https://resources.sport-fm.gr/supersportFM/images/news/26/08/20/greece_143642.jpg?w=880&f=bicubic",
-              "url": "https://www.sport-fm.gr/article/amp/mesogeiakoi-agwnes-agriemeni-stin-premiera-tis-i-ethniki-andrwn-sarwse-to-kosobo-amp/5142502",
-              "date": "2026-08-20",
-              "sentiment": "neutral",
-              "reason": "Fact‑based sports result, no hostile wording",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
               "title": "Αλβανία-Κόσοβο - sport-fm.gr",
               "albanianTitle": "Shqipëri – Kosovë - sport-fm.gr",
               "blurb": "Ndeshja sportive ndërmjet Shqipërisë dhe Kosovës është në qendër të vëmendjes së mediave sportive greke pas zhvillimeve të fundit.",
@@ -2211,6 +2451,19 @@
               "date": "2026-08-20",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Αγριεμένη στην πρεμιέρα της η Εθνική ανδρών, σάρωσε το Κόσοβο - sport-fm.gr",
+              "albanianTitle": "Kombëtarja greke shkëlqen në ndeshjen e parë, mposht bindshëm Kosovën",
+              "blurb": "Ekipi kombëtar i Greqisë ka arritur fitore bindëse ndaj Kosovës në ndeshjen e parë të Lojërave Mesdhetare.",
+              "imageUrl": "https://resources.sport-fm.gr/supersportFM/images/news/26/08/20/greece_143642.jpg?w=880&f=bicubic",
+              "url": "https://www.sport-fm.gr/article/amp/mesogeiakoi-agwnes-agriemeni-stin-premiera-tis-i-ethniki-andrwn-sarwse-to-kosobo-amp/5142502",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Fact‑based sports result, no hostile wording",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -2342,7 +2595,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 24,
+        "n": 26,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -2570,6 +2823,45 @@
           "articleCount": 6,
           "articles": [
             {
+              "title": "Thaçi: Tüm Suçlamalardan Beraat Etmeyi Bekliyorum - Kosovahaber.com",
+              "albanianTitle": "Thaçi: Pres të shpallem i pafajshëm nga të gjitha akuzat - Kosovahaber.com",
+              "blurb": "Hashim Thaçi deklaron se pret të shpallet i pafajshëm për të gjitha akuzat që rëndojnë ndaj tij në Hagë.",
+              "imageUrl": null,
+              "url": "https://kosovahaber.com/haber/thaci-tum-suclamalardan-beraat-etmeyi-bekliyorum-105123",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Thirrja e Thaçit raportohet pa gjuhë vlerësuese",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Kosova'nın İlk Başbakanı Bajram Rexhepi’nin Vefatının Üzerinden 9 Yıl Geçti - Kosovahaber.com",
+              "albanianTitle": "9 vjet nga vdekja e kryeministrit të parë të Kosovës, Bajram Rexhepi - Kosovahaber.com",
+              "blurb": "Janë bërë nëntë vjet nga vdekja e kryeministrit të parë të Kosovës, Bajram Rexhepi, i cili ndërroi jetë në vitin 2017.",
+              "imageUrl": null,
+              "url": "https://kosovahaber.com/haber/bajram-rexhepinin-vefatinin-uzerinden-9-yil-gecti-105130",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Lajm faktik për përvjetorin e vdekjes së kryeministrit të parë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "NATO: İbre Köprüsü’nün Açılması Tüm Yerel Toplulukların İhtiyaçlarını Gözetmeli - Kosovahaber.com",
+              "albanianTitle": "NATO: Hapja e urës së Ibrit duhet të marrë parasysh nevojat e të gjitha komuniteteve lokale - Kosovahaber.com",
+              "blurb": "NATO kërkon që hapja e urës mbi lumin Ibër të marrë parasysh nevojat e të gjitha komuniteteve lokale që jetojnë aty.",
+              "imageUrl": null,
+              "url": "https://kosovahaber.com/haber/nato-ibre-koprusunun-acilmasi-tum-yerel-topluluklarin-ihtiyaclarini-gozetmeli-105133",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Deklarata e NATO-s raportohet në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
               "title": "Thaçi’den Kosova’da İktidar ve Muhalefete Geniş Siyasi Uzlaşma Çağrısı - Kosovahaber.com",
               "albanianTitle": "Thaçi u bën thirrje pozitës dhe opozitës në Kosovë për konsensus të gjerë politik - Kosovahaber.com",
               "blurb": "Hashim Thaçi ka bërë thirrje për arritjen e një konsensusi të gjerë politik mes pozitës dhe opozitës në Kosovë.",
@@ -2583,6 +2875,19 @@
               "speaker": ""
             },
             {
+              "title": "Hoxhaj’dan Kurti’ye: Başbakan Gibi Davranma - Kosovahaber.com",
+              "albanianTitle": "Hoxhaj i përgjigjet Kurtit: Mos u sill si kryeministër - Kosovahaber.com",
+              "blurb": "Deputeti Enver Hoxhaj i ka bërë thirrje kryeministrit Albin Kurti që të ndryshojë qasjen dhe të sillet si kryeministër i vendit.",
+              "imageUrl": null,
+              "url": "https://kosovahaber.com/haber/hoxhajdan-kurtiye-basbakan-gibi-davranma-105126",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Headline reports criticism of a politician, not hostility toward Kosovo",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
               "title": "Silah Deposu, Üç Toplu Mezarın Yakınlarında Bulundu - Kosovahaber.com",
               "albanianTitle": "Depo armësh gjendet afër tri varrezave masive – Kosovahaber.com",
               "blurb": "Një depo armësh është zbuluar në afërsi të lokacionit ku ndodhen tri varreza masive në territorin e Kosovës.",
@@ -2591,58 +2896,6 @@
               "date": "2026-08-20",
               "sentiment": "neutral",
               "reason": "Raportim faktik pa gjuhë ngarkuar",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "ABD’den Kosova’ya Kurumların Oluşturulması Çağrısı - Kosovahaber.com",
-              "albanianTitle": "SHBA-ja i bën thirrje Kosovës për formimin e institucioneve",
-              "blurb": "Shtetet e Bashkuara të Amerikës kanë kërkuar nga institucionet e Kosovës që të përshpejtojnë procesin e themelimit të organeve shtetërore.",
-              "imageUrl": null,
-              "url": "https://kosovahaber.com/haber/abdden-kosovaya-kurumlarin-olusturulmasi-cagrisi-105097",
-              "date": "2026-08-20",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportim i thjeshtë",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Bugün Hava Güneşli, Sıcaklıklr 34 Dereceye Kadar - Kosovahaber.com",
-              "albanianTitle": "Sot mot me diell, temperaturat deri në 34 gradë",
-              "blurb": "Meteorologët parashikojnë mot me diell në Kosovë për ditën e sotme, ku temperaturat do të arrijnë deri në 34 gradë.",
-              "imageUrl": null,
-              "url": "https://kosovahaber.com/haber/bugun-hava-gunesli-sicakliklr-34-dereceye-kadar-105119",
-              "date": "2026-08-21",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Kosova Polisi, Kuzeyde Çok Sayıda Mühimmat Ele Geçirdi - Kosovahaber.com",
-              "albanianTitle": "Policia e Kosovës konfiskon sasi të madhe të municionit në veri - Kosovahaber.com",
-              "blurb": "Policia e Kosovës ka konfiskuar sasi të konsiderueshme të municionit gjatë një operacioni të zhvilluar në pjesën veriore të vendit.",
-              "imageUrl": null,
-              "url": "https://kosovahaber.com/haber/kosova-polisi-kuzeyde-cok-sayida-muhimmat-ele-gecirdi-105103",
-              "date": "2026-08-20",
-              "sentiment": "neutral",
-              "reason": "Fact-based report of police seizure without loaded language",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Kosova, “Prishtina 2030” Akdeniz Oyunları İçin Uygulama Aşamasına Geçiyor - Kosovahaber.com",
-              "albanianTitle": "Kosova nis fazën e zbatimit për Lojërat Mesdhetare “Prishtina 2030” - Kosovahaber.com",
-              "blurb": "Kosova ka filluar fazën e zbatimit të projekteve për organizimin e Lojërave Mesdhetare Prishtina 2030.",
-              "imageUrl": null,
-              "url": "https://kosovahaber.com/haber/kosova-prishtina-2030-akdeniz-oyunlari-icin-uygulama-asamasina-geciyor-105108",
-              "date": "2026-08-20",
-              "sentiment": "neutral",
-              "reason": "Faktik raportim pa ngarkim",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -2738,6 +2991,26 @@
               "reason": "Faktik, pa gjuhë ngarkuar",
               "isQuote": false,
               "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Ses Gazete",
+          "sentiment": "positive",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Cemil Tugay’dan Kosova’da yoğun diplomasi: İzmir ile Kosova arasında yeni dönem - Ses Gazete",
+              "albanianTitle": "Diplomaci intensive e Cemil Tugay në Kosovë: Një epokë e re mes Izmirit dhe Kosovës - Ses Gazete",
+              "blurb": "Kryetari i Bashkisë së Izmirit, Cemil Tugay, zhvilloi takime diplomatike për të forcuar bashkëpunimin ndërmjet Izmirit dhe Kosovës.",
+              "imageUrl": "https://sesgazetenet.teimg.com/crop/1280x720/sesgazete-net/uploads/2026/08/cemil-tugaydan-kosovada-yogun-diplomasi-izmir-ile-kosova-arasinda-yeni-donem-1.png",
+              "url": "https://sesgazete.net/cemil-tugaydan-kosovada-yogun-diplomasi-izmir-ile-kosova-arasinda-yeni-donem",
+              "date": "2026-08-21",
+              "sentiment": "positive",
+              "reason": "Titulli i mediave e paraqet Kosovën në një dritë pozitive si një epokë e re diplomatike",
+              "isQuote": false,
+              "evidence": "yeni dönem",
               "speaker": ""
             }
           ]
@@ -2890,11 +3163,11 @@
         }
       ],
       "summary": {
-        "index": 50,
-        "positive": 4,
-        "neutral": 92,
+        "index": 51,
+        "positive": 6,
+        "neutral": 91,
         "negative": 4,
-        "n": 52,
+        "n": 53,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -2945,8 +3218,21 @@
         {
           "name": "Balkan Insight",
           "sentiment": "neutral",
-          "articleCount": 3,
+          "articleCount": 4,
           "articles": [
+            {
+              "title": "Thaci Expects Acquittal as Hague Court’s War Crimes Verdict Nears - Balkan Insight",
+              "albanianTitle": "Thaçi pret pafajësinë teksa po afrohet vendimi i Gjykatës së Hagës për krime lufte - Balkan Insight",
+              "blurb": "Hashim Thaçi pret shpalljen e pafajësisë në procesin gjyqësor që po zhvillohet ndaj tij në Gjykatën e Hagës.",
+              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2025/09/11396473.jpg",
+              "url": "https://balkaninsight.com/2026/08/21/thaci-expects-acquittal-as-hague-courts-war-crimes-verdict-nears/btj/",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Factual report of Thaci’s expectation",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
             {
               "title": "Remains of 23 Wartime Victims Unearthed from Mass Graves in Kosovo - Balkan Insight",
               "albanianTitle": "Gjenden mbetjet mortore të 23 viktimave të luftës në varreza masive në Kosovë - Balkan Insight",
@@ -3029,9 +3315,49 @@
           ]
         },
         {
+          "name": "CTV News",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Remains of over 20 people found in Kosovo mass graves search - CTV News",
+              "albanianTitle": "Gjenden mbetjet mortore të mbi 20 personave në varrezat masive në Kosovë",
+              "blurb": "Gjatë kërkimeve në varrezat masive në Kosovë janë gjetur mbetjet mortore të më shumë se njëzet personave.",
+              "imageUrl": "https://www.ctvnews.ca/resizer/v2/4I6BGNXDTVDEHIMYAW5LQLP7TY.jpg?smart=true&auth=df5e5349aa1d4929d8295114aa9e0e41adc5ab6e57e0a205093fcc4a92cd1158&width=1200&height=630",
+              "url": "https://www.ctvnews.ca/world/article/remains-of-over-20-people-found-in-kosovo-mass-graves-search/",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Fact‑based report, no loaded language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "EEAS",
+          "sentiment": "positive",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "ICT for Kosovo’s Growth Building the Knowledge Economy - EEAS",
+              "albanianTitle": "TIK-u për zhvillimin e Kosovës: Ndërtimi i ekonomisë së bazuar në dije - EEAS",
+              "blurb": "Zhvillimi i sektorit të teknologjisë së informacionit në Kosovë synon ndërtimin e një ekonomie të bazuar në njohuri.",
+              "imageUrl": "https://www.eeas.europa.eu/sites/default/files/2026/image_medium_resolution/news_letter2_20260820_135421_6ebbb1.png",
+              "url": "https://www.eeas.europa.eu/delegations/kosovo/ict-kosovos-growth-building-knowledge-economy_en",
+              "date": "2026-08-21",
+              "sentiment": "positive",
+              "reason": "Headline praises Kosovo’s development program",
+              "isQuote": false,
+              "evidence": "Growth Building the Knowledge Economy",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "Euronews Albania",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 1,
           "articles": [
             {
               "title": "Weapons arsenal sized in Northern Kosovo - Euronews Albania",
@@ -3039,19 +3365,6 @@
               "blurb": "Forcat e rendit kanë sekuestruar një sasi të konsiderueshme armatimi në pjesën veriore të territorit të Republikës së Kosovës.",
               "imageUrl": null,
               "url": "https://euronews.al/en/weapons-arsenal-sized-in-northern-kosovo/",
-              "date": "2026-08-20",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportim neutral",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Kosovo Police display seized weapons, Sveçla: Serbia wants the North to remain a crime zone - Euronews Albania",
-              "albanianTitle": "Policia e Kosovës shfaq armët e konfiskuara, Sveçla: Serbia dëshiron që veriu të mbetet zonë e krimit",
-              "blurb": "Policia e Kosovës ka ekspozuar armët e konfiskuara, ndërsa ministri Sveçla akuzoi Serbinë për mbajtjen e veriut si zonë krimi.",
-              "imageUrl": null,
-              "url": "https://euronews.al/en/kosovo-police-display-seized-weapons-svecla-serbia-wants-the-north-to-remain-a-crime-zone/",
               "date": "2026-08-20",
               "sentiment": "neutral",
               "reason": "Faktikë raportim neutral",
@@ -3202,7 +3515,7 @@
           ]
         },
         {
-          "name": "Unicef",
+          "name": "UNICEF",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
@@ -3244,7 +3557,7 @@
         {
           "name": "srpske.rs",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 1,
           "articles": [
             {
               "title": "Haljiti: Kosovo President Deal Possible Within Days - srpske.rs",
@@ -3258,47 +3571,14 @@
               "isQuote": true,
               "evidence": "",
               "speaker": "Haljiti"
-            },
-            {
-              "title": "Kodraljiju: Seven Espionage Cases in Kosovo - srpske.rs",
-              "albanianTitle": "Kodraliu: Shtatë raste të spiunazhit në Kosovë - srpske.rs",
-              "blurb": "Kodraljiju njoftoi se në Kosovë janë identifikuar gjithsej shtatë raste të ndryshme të cilat ndërlidhen me veprimtari të spiunazhit.",
-              "imageUrl": "https://srpske.rs/uploads/articles/pristina-prosecutor-seven-espionage-cases-four-convictions-16x9.webp",
-              "url": "https://srpske.rs/en/news/politika/2026/08/20/pristina-prosecutor-seven-espionage-cases-four-convictions",
-              "date": "2026-08-20",
-              "sentiment": "neutral",
-              "reason": "Citat i Kodraljiju-t, media raporton pa ngjyrë",
-              "isQuote": true,
-              "evidence": "",
-              "speaker": "Kodraljiju"
-            }
-          ]
-        },
-        {
-          "name": "İlke Haber Ajansı",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Vučić urges NATO chief to protect Serbs in Kosovo - İlke Haber Ajansı",
-              "albanianTitle": "Vučić i kërkon shefit të NATO-s mbrojtjen e serbëve në Kosovë",
-              "blurb": "Presidenti serb Aleksandar Vuçiq i ka kërkuar shefit të NATO-s mbrojtjen e serbëve në territorin e Kosovës.",
-              "imageUrl": null,
-              "url": "https://ilkha.com/english/world/vu%C4%8Di%C4%87-urges-nato-chief-to-protect-serbs-in-kosovo-556435",
-              "date": "2026-08-20",
-              "sentiment": "neutral",
-              "reason": "Fact‑based report, no loaded language",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
             }
           ]
         }
       ],
       "summary": {
-        "index": 52,
-        "positive": 10,
-        "neutral": 85,
+        "index": 55,
+        "positive": 15,
+        "neutral": 80,
         "negative": 5,
         "n": 20,
         "excluded": 1,
