@@ -1,7 +1,7 @@
 {
   "lastUpdated": "2026-08-21",
-  "overallIndex": 52,
-  "totalArticles": 229,
+  "overallIndex": 51,
+  "totalArticles": 231,
   "sourceCount": 151,
   "stanceVersion": 2,
   "countries": {
@@ -41,6 +41,26 @@
           ]
         },
         {
+          "name": "Land.NRW",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Staatssekretär Wiermer besucht das nordrhein-westfälische Partnerland Nordmazedonien sowie Kosovo und Kroatien - Land.NRW",
+              "albanianTitle": "Sekretari shtetëror Wiermer viziton Maqedoninë e Veriut, Kosovën dhe Kroacinë",
+              "blurb": "Sekretari shtetëror Wiermer po zhvillon vizita zyrtare në Maqedoninë e Veriut, Kosovë dhe Kroaci për forcimin e bashkëpunimit.",
+              "imageUrl": null,
+              "url": "https://www.land.nrw/pressemitteilung/staatssekretaer-wiermer-besucht-das-nordrhein-westfaelische-partnerland",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Faktikisht raporton vizitën e një sekretari shtetëror, pa gjuhë ngarkuese",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "Tagesschau",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -66,7 +86,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 3,
+        "n": 4,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
@@ -592,7 +612,7 @@
           ]
         },
         {
-          "name": "UNICEF",
+          "name": "Unicef",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
@@ -650,6 +670,19 @@
               "speaker": ""
             },
             {
+              "title": "Taci Expects Acquittal Ahead of September 16 Hague Verdict - srpske.rs",
+              "albanianTitle": "Thaçi pret shpalljen i pafajshëm para vendimit të Hagës më 16 shtator",
+              "blurb": "Hashim Thaçi pret shpalljen e pafajësisë në vendimin që pritet të jepet nga Gjykata e Hagës më 16 shtator.",
+              "imageUrl": "https://srpske.rs/uploads/articles/taci-expects-acquittal-ahead-of-september-16-hague-verdict-16x9.webp",
+              "url": "https://srpske.rs/en/news/politika/2026/08/21/taci-expects-acquittal-ahead-of-september-16-hague-verdict",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Titulli thjesht njofton pritshmërin e Taci-s për akuzimin, pa gjuhë negative ose pozitive",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
               "title": "Ragus: KFOR Pullout From Ibar Bridge Risks Destabilization - srpske.rs",
               "albanianTitle": "Ragus: Tërheqja e KFOR-it nga ura e Ibrit rrezikon destabilizimin",
               "blurb": "Analisti Ragus vlerëson se tërheqja e forcave të KFOR-it nga ura e Ibrit mund të shkaktojë destabilizim të situatës.",
@@ -700,19 +733,6 @@
               "isQuote": true,
               "evidence": "",
               "speaker": "Kodraljiju"
-            },
-            {
-              "title": "Vucic to Send Letter to Rutte: Don't Open Ibar Bridge - srpske.rs",
-              "albanianTitle": "Vuçiq i shkruan letër Ruttes: Mos e hapni urën e Ibrit",
-              "blurb": "Presidenti serb Aleksandar Vuçiq paralajmëron dërgimin e një letre drejtuar Mark Ruttes kundër hapjes së urës së Ibrit.",
-              "imageUrl": "https://srpske.rs/uploads/articles/vucic-letter-rutte-ibar-bridge-16x9.webp",
-              "url": "https://srpske.rs/en/news/politika/2026/08/19/vucic-letter-rutte-ibar-bridge",
-              "date": "2026-08-19",
-              "sentiment": "negative",
-              "reason": "Outlet issues a directive opposing the opening of the bridge, a line against Kosovo's interests",
-              "isQuote": false,
-              "evidence": "Don't Open Ibar Bridge",
-              "speaker": ""
             }
           ]
         },
@@ -739,10 +759,10 @@
       ],
       "summary": {
         "index": 51,
-        "positive": 8,
+        "positive": 7,
         "neutral": 88,
         "negative": 5,
-        "n": 40,
+        "n": 41,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2
@@ -1182,26 +1202,6 @@
           ]
         },
         {
-          "name": "UNICEF",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "UNICEF Kosovo and Rotary District 2485 Albania-Kosovo Sign Memorandum of Understanding to Strengthen Cooperation in Support of Children - Unicef",
-              "albanianTitle": "UNICEF-i dhe Rotary District 2485 nënshkruajnë memorandum për forcimin e bashkëpunimit në përkrahje të fëmijëve - Unicef",
-              "blurb": "UNICEF Kosova dhe Rotary District 2485 nënshkruan memorandum bashkëpunimi për mbështetjen e të drejtave dhe mirëqenies së fëmijëve.",
-              "imageUrl": null,
-              "url": "https://www.unicef.org/kosovoprogramme/press-releases/unicef-kosovo-and-rotary-district-2485-albania-kosovo-sign-memorandum-understanding",
-              "date": "2026-08-20",
-              "sentiment": "neutral",
-              "reason": "Faktik raportim i bashkëpunimit, pa gjuhë ngarkuar",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
           "name": "srpske.rs",
           "sentiment": "neutral",
           "articleCount": 6,
@@ -1220,14 +1220,14 @@
               "speaker": ""
             },
             {
-              "title": "Ragus: KFOR Pullout From Ibar Bridge Risks Destabilization - srpske.rs",
-              "albanianTitle": "Ragus: Tërheqja e KFOR-it nga ura e Ibrit rrezikon destabilizimin",
-              "blurb": "Analisti Ragus vlerëson se tërheqja e forcave të KFOR-it nga ura e Ibrit mund të shkaktojë destabilizim të situatës.",
-              "imageUrl": "https://srpske.rs/uploads/articles/ragus-warns-kfor-withdrawal-ibar-bridge-destabilization-16x9.webp",
-              "url": "https://srpske.rs/en/news/politika/2026/08/21/ragus-warns-kfor-withdrawal-ibar-bridge-destabilization",
+              "title": "Taci Expects Acquittal Ahead of September 16 Hague Verdict - srpske.rs",
+              "albanianTitle": "Thaçi pret shpalljen i pafajshëm para vendimit të Hagës më 16 shtator",
+              "blurb": "Hashim Thaçi pret shpalljen e pafajësisë në vendimin që pritet të jepet nga Gjykata e Hagës më 16 shtator.",
+              "imageUrl": "https://srpske.rs/uploads/articles/taci-expects-acquittal-ahead-of-september-16-hague-verdict-16x9.webp",
+              "url": "https://srpske.rs/en/news/politika/2026/08/21/taci-expects-acquittal-ahead-of-september-16-hague-verdict",
               "date": "2026-08-21",
               "sentiment": "neutral",
-              "reason": "Faktikë raportim neutral",
+              "reason": "Titulli thjesht njofton pritshmërin e Taci-s për akuzimin, pa gjuhë negative ose pozitive",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1241,6 +1241,19 @@
               "date": "2026-08-19",
               "sentiment": "neutral",
               "reason": "Fact-based reporting without loaded language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Ragus: KFOR Pullout From Ibar Bridge Risks Destabilization - srpske.rs",
+              "albanianTitle": "Ragus: Tërheqja e KFOR-it nga ura e Ibrit rrezikon destabilizimin",
+              "blurb": "Analisti Ragus vlerëson se tërheqja e forcave të KFOR-it nga ura e Ibrit mund të shkaktojë destabilizim të situatës.",
+              "imageUrl": "https://srpske.rs/uploads/articles/ragus-warns-kfor-withdrawal-ibar-bridge-destabilization-16x9.webp",
+              "url": "https://srpske.rs/en/news/politika/2026/08/21/ragus-warns-kfor-withdrawal-ibar-bridge-destabilization",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim neutral",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1270,19 +1283,6 @@
               "isQuote": true,
               "evidence": "",
               "speaker": "Kodraljiju"
-            },
-            {
-              "title": "Vucic to Send Letter to Rutte: Don't Open Ibar Bridge - srpske.rs",
-              "albanianTitle": "Vuçiq i shkruan letër Ruttes: Mos e hapni urën e Ibrit",
-              "blurb": "Presidenti serb Aleksandar Vuçiq paralajmëron dërgimin e një letre drejtuar Mark Ruttes kundër hapjes së urës së Ibrit.",
-              "imageUrl": "https://srpske.rs/uploads/articles/vucic-letter-rutte-ibar-bridge-16x9.webp",
-              "url": "https://srpske.rs/en/news/politika/2026/08/19/vucic-letter-rutte-ibar-bridge",
-              "date": "2026-08-19",
-              "sentiment": "negative",
-              "reason": "Outlet issues a directive opposing the opening of the bridge, a line against Kosovo's interests",
-              "isQuote": false,
-              "evidence": "Don't Open Ibar Bridge",
-              "speaker": ""
             }
           ]
         },
@@ -1399,36 +1399,16 @@
               "speaker": ""
             }
           ]
-        },
-        {
-          "name": "ladepeche.fr",
-          "sentiment": "positive",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Un Graulhétois artisan du dialogue dans les Balkans - ladepeche.fr",
-              "albanianTitle": "Një artizan i dialogut në Ballkan nga Graulhet",
-              "blurb": "Një qytetar nga Graulhet i Francës po angazhohet në nxitjen e dialogut dhe bashkëpunimit në rajonin e Ballkanit.",
-              "imageUrl": "https://images.ladepeche.fr/api/v1/images/view/6a87c5cc0ae0b6a27c007903/hd/image.jpg?v=1",
-              "url": "https://www.ladepeche.fr/2026/08/21/un-graulhetois-artisan-du-dialogue-dans-les-balkans-13516906.php",
-              "date": "2026-08-21",
-              "sentiment": "positive",
-              "reason": "Headline praises dialogue work in the Balkans, showing supportive tone toward Kosovo",
-              "isQuote": false,
-              "evidence": "artisan du dialogue",
-              "speaker": ""
-            }
-          ]
         }
       ],
       "summary": {
-        "index": 60,
-        "positive": 20,
-        "neutral": 80,
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 5,
+        "n": 4,
         "excluded": 0,
-        "confident": true,
+        "confident": false,
         "stanceVersion": 2
       }
     },
@@ -1554,13 +1534,13 @@
           "articles": [
             {
               "title": "XX Giochi del Mediterraneo: domani sera a Taranto la Cerimonia di apertura - Gazzetta Regionale",
-              "albanianTitle": "Lojërat Mesdhetare XX: Nesër mbrëma në Taranto mbahet ceremonia e hapjes - Gazzetta Regionale",
-              "blurb": "Ceremonia e hapjes së Lojërave të njëzetë Mesdhetare do të mbahet nesër në mbrëmje në qytetin e Tarantos.",
+              "albanianTitle": "Lojërat e 20-ta Mesdhetare: Nesër mbrëma mbahet ceremonia e hapjes në Taranto",
+              "blurb": "Ceremonia e hapjes së Lojërave të 20-ta Mesdhetare do të mbahet nesër në mbrëmje në qytetin e Tarantos.",
               "imageUrl": "https://www.gazzettaregionale.it/resizer/600/315/true/2026_08_20/itataranto2026-jpg-jpg-1787231217820.jpg--xx_giochi_del_mediterraneo__domani_sera_a_taranto_la_cerimonia_di_apertura.jpg?1787231217838",
               "url": "https://www.gazzettaregionale.it/primavera/2026/08/20/news/xx-giochi-del-mediterraneo-domani-sera-a-taranto-la-cerimonia-di-apertura-184341/",
               "date": "2026-08-20",
               "sentiment": "unknown",
-              "reason": "Nuk ka përmendje të Kosovës, prandaj nuk mund të përcaktohet qëndrimi",
+              "reason": "No reference to Kosovo in the headline or snippet, so outlet's stance cannot be inferred",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1784,7 +1764,7 @@
         {
           "name": "Blick",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Aufregung im Kosovo wegen weissem Mercedes aus der Schweiz - Blick",
@@ -1795,6 +1775,39 @@
               "date": "2026-08-19",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Diese Szene sorgt für Diskussionen - Blick",
+              "albanianTitle": "Kjo skenë nxit debate të shumta",
+              "blurb": "Një skenë e caktuar ka nxitur diskutime të shumta në opinionin publik pas publikimit të pamjeve të saj.",
+              "imageUrl": "https://img.blick.ch/incoming/22192169-v1-leer-00-00-00-17-standbild003.jpg?imwidth=2000&ratio=16_9&x=449&y=483&width=1014&height=570",
+              "url": "https://www.blick.ch/ausland/auto-faehrt-ueber-trottoir-diese-szene-sorgt-fuer-diskussionen-id22192168.html",
+              "date": "2026-08-19",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim pa ngarkesë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Land.NRW",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Staatssekretär Wiermer besucht das nordrhein-westfälische Partnerland Nordmazedonien sowie Kosovo und Kroatien - Land.NRW",
+              "albanianTitle": "Sekretari shtetëror Wiermer viziton Maqedoninë e Veriut, Kosovën dhe Kroacinë",
+              "blurb": "Sekretari shtetëror Wiermer po zhvillon vizita zyrtare në Maqedoninë e Veriut, Kosovë dhe Kroaci për forcimin e bashkëpunimit.",
+              "imageUrl": null,
+              "url": "https://www.land.nrw/pressemitteilung/staatssekretaer-wiermer-besucht-das-nordrhein-westfaelische-partnerland",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Faktikisht raporton vizitën e një sekretari shtetëror, pa gjuhë ngarkuese",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1847,9 +1860,9 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 3,
+        "n": 5,
         "excluded": 0,
-        "confident": false,
+        "confident": true,
         "stanceVersion": 2
       }
     },
@@ -1869,6 +1882,26 @@
               "date": "2026-08-19",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Land.NRW",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Staatssekretär Wiermer besucht das nordrhein-westfälische Partnerland Nordmazedonien sowie Kosovo und Kroatien - Land.NRW",
+              "albanianTitle": "Sekretari shtetëror Wiermer viziton Maqedoninë e Veriut, Kosovën dhe Kroacinë",
+              "blurb": "Sekretari shtetëror Wiermer po zhvillon vizita zyrtare në Maqedoninë e Veriut, Kosovë dhe Kroaci për forcimin e bashkëpunimit.",
+              "imageUrl": null,
+              "url": "https://www.land.nrw/pressemitteilung/staatssekretaer-wiermer-besucht-das-nordrhein-westfaelische-partnerland",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Faktikisht raporton vizitën e një sekretari shtetëror, pa gjuhë ngarkuese",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1921,7 +1954,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 2,
+        "n": 3,
         "excluded": 1,
         "confident": false,
         "stanceVersion": 2
@@ -2122,34 +2155,14 @@
               "speaker": ""
             }
           ]
-        },
-        {
-          "name": "ladepeche.fr",
-          "sentiment": "positive",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Un Graulhétois artisan du dialogue dans les Balkans - ladepeche.fr",
-              "albanianTitle": "Një artizan i dialogut në Ballkan nga Graulhet",
-              "blurb": "Një qytetar nga Graulhet i Francës po angazhohet në nxitjen e dialogut dhe bashkëpunimit në rajonin e Ballkanit.",
-              "imageUrl": "https://images.ladepeche.fr/api/v1/images/view/6a87c5cc0ae0b6a27c007903/hd/image.jpg?v=1",
-              "url": "https://www.ladepeche.fr/2026/08/21/un-graulhetois-artisan-du-dialogue-dans-les-balkans-13516906.php",
-              "date": "2026-08-21",
-              "sentiment": "positive",
-              "reason": "Headline praises dialogue work in the Balkans, showing supportive tone toward Kosovo",
-              "isQuote": false,
-              "evidence": "artisan du dialogue",
-              "speaker": ""
-            }
-          ]
         }
       ],
       "summary": {
-        "index": 58,
-        "positive": 17,
-        "neutral": 83,
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 6,
+        "n": 5,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -2191,26 +2204,6 @@
               "date": "2026-08-18",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike pa ngjyrë",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "Diario Área Campo de Gibraltar",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Facinas homenajea este viernes al legionario Javier del Castillo 25 años después de su muerte en Kosovo - Diario Área Campo de Gibraltar",
-              "albanianTitle": "Facinas nderon këtë të premte legjionarin Javier del Castillo, 25 vjet pas vdekjes së tij në Kosovë",
-              "blurb": "Komuna e Facinasit mban ceremoni përkujtimore për legjionarin Javier del Castillo, 25 vjet pas vdekjes së tij në Kosovë.",
-              "imageUrl": "https://www.diarioarea.com/wp-content/uploads/2026/08/homenaje-Javier-del-Castillo.jpeg",
-              "url": "https://www.diarioarea.com/tarifa/facinas-homenajea-este-viernes-al-legionario-javier-del-castillo-25-anos-despues-de-su-muerte-en-kosovo/",
-              "date": "2026-08-18",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportuar pa gjuhë ngarkuar",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -2312,11 +2305,11 @@
         }
       ],
       "summary": {
-        "index": 56,
-        "positive": 12,
-        "neutral": 88,
+        "index": 57,
+        "positive": 14,
+        "neutral": 86,
         "negative": 0,
-        "n": 8,
+        "n": 7,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -2619,7 +2612,7 @@
         {
           "name": "sport-fm.gr",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 3,
           "articles": [
             {
               "title": "Εύκολη πρεμιέρα για την Εθνική βόλεϊ γυναικών - sport-fm.gr",
@@ -2646,23 +2639,16 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "Αθηναϊκό - Μακεδονικό πρακτορείο ειδήσεων",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
+            },
             {
-              "title": "Βόλεϊ-Μεσογειακοί Αγώνες 2026: Αναχωρούν για το Τάραντο οι εθνικές ανδρών και γυναικών - Αθηναϊκό - Μακεδονικό πρακτορείο ειδήσεων",
-              "albanianTitle": "Volejboll-Lojërat Mesdhetare 2026: Kombëtaret e meshkujve dhe femrave nisen për në Taranto - Agjencia e Lajmeve Athinase-Maqedonase",
-              "blurb": "Ekipet kombëtare të volejbollit të Greqisë janë nisur drejt Tarantos për të marrë pjesë në Lojërat Mesdhetare të vitit 2026.",
-              "imageUrl": "https://amna.gr/photos/202608/w18-150258mennt2026mediaday.jpg",
-              "url": "https://www.amna.gr/sport/article/1016230/Bolei-Mesogeiakoi-Agones-2026-Anachoroun-gia-to-Taranto-oi-ethnikes-andron-kai-gunaikon-",
-              "date": "2026-08-18",
+              "title": "Αλβανία-Κόσοβο - sport-fm.gr",
+              "albanianTitle": "Shqipëri – Kosovë - sport-fm.gr",
+              "blurb": "Ndeshja sportive ndërmjet Shqipërisë dhe Kosovës është në qendër të vëmendjes së mediave sportive greke pas zhvillimeve të fundit.",
+              "imageUrl": "https://resources.sport-fm.gr/supersportFM/images/news/20/11/11/125750.jpg?w=880&f=bicubic",
+              "url": "https://www.sport-fm.gr/article/4139418",
+              "date": "2026-08-20",
               "sentiment": "neutral",
-              "reason": "Faktik, pa gjuhë të ngarkuar",
+              "reason": "Lajm i raportuar në mënyrë faktike",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -2716,6 +2702,26 @@
           ]
         },
         {
+          "name": "Μακεδονικό Πρακτορείο Ειδήσεων",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Βόλεϊ-Μεσογειακοί Αγώνες 2026: Αναχωρούν για το Τάραντο οι εθνικές ανδρών και γυναικών - Αθηναϊκό - Μακεδονικό πρακτορείο ειδήσεων",
+              "albanianTitle": "Volejboll-Lojërat Mesdhetare 2026: Kombëtaret e meshkujve dhe femrave nisen për në Taranto - Agjencia e Lajmeve Athinase-Maqedonase",
+              "blurb": "Ekipet kombëtare të volejbollit të Greqisë janë nisur drejt Tarantos për të marrë pjesë në Lojërat Mesdhetare të vitit 2026.",
+              "imageUrl": "https://amna.gr/photos/202608/w18-150258mennt2026mediaday.jpg",
+              "url": "https://www.amna.gr/sport/article/1016230/Bolei-Mesogeiakoi-Agones-2026-Anachoroun-gia-to-Taranto-oi-ethnikes-andron-kai-gunaikon-",
+              "date": "2026-08-18",
+              "sentiment": "neutral",
+              "reason": "Faktik, pa gjuhë të ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "Παραπολιτικά",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -2738,8 +2744,21 @@
         {
           "name": "ΤΑ ΝΕΑ",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
+            {
+              "title": "Μεσογειακοί αγώνες: Ιδανική πρεμιέρα με νικήτρια την εθνική βόλεϊ γυναικών απέναντι στο Κόσοβο - ΤΑ ΝΕΑ",
+              "albanianTitle": "Lojërat Mesdhetare: Start ideal për kombëtaren greke të volejbollit pas fitores ndaj Kosovës – TA NEA",
+              "blurb": "Përfaqësuesja e volejbollit të Greqisë ka shënuar fitore ndaj Kosovës në ndeshjen e parë të Lojërave Mesdhetare.",
+              "imageUrl": "https://www.tanea.gr/wp-content/uploads/2026/08/mesogeiakoi-agones-ellada-ogimage.jpg",
+              "url": "https://www.tanea.gr/2026/08/21/sports/othersports/mesogeiakoi-agones-idaniki-premiera-me-nikitria-tin-ethniki-volei-gynaikon-apenanti-sto-kosovo/",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
             {
               "title": "Ελλάδα – Κόσοβο 3-0: Σάρωσε η Εθνική ανδρών στην πρεμιέρα των Μεσογειακών Αγώνων - ΤΑ ΝΕΑ",
               "albanianTitle": "Greqi – Kosovë 3-0: Kombëtarja greke dominon në hapje të Lojërave Mesdhetare",
@@ -2781,7 +2800,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 25,
+        "n": 27,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -3004,6 +3023,26 @@
           ]
         },
         {
+          "name": "Haber Ekspres",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Cemil Tugay’dan Kosova’da çok yönlü iş birliği hamlesi - Haber Ekspres",
+              "albanianTitle": "Cemil Tugay nis iniciativën për bashkëpunim shumëdimensional në Kosovë",
+              "blurb": "Kryetari i Bashkisë së Izmirit, Cemil Tugay, po ndërmerr hapa për zhvillimin e bashkëpunimit shumëplanësh me institucionet në Kosovë.",
+              "imageUrl": null,
+              "url": "https://www.haberekspres.com.tr/cemil-tugaydan-kosovada-cok-yonlu-is-birligi-hamlesi",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Raporton një iniciativë bashkëpunimi në Kosovë, pa gjuhë e ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "Haberler",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -3017,26 +3056,6 @@
               "date": "2026-08-19",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "Harici",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Vučić’ten Türk KFOR komutanına köprü tepkisi - Harici",
-              "albanianTitle": "Vuçiq reagon ndaj komandantit turk të KFOR-it për çështjen e urës",
-              "blurb": "Presidenti serb Aleksandar Vuçiq ka shprehur pakënaqësi ndaj komandantit turk të KFOR-it lidhur me çështjen e urës së Mitrovicës.",
-              "imageUrl": "https://harici.com.tr/wp-content/uploads/2026/08/thumbs_b_c_52c794f0b2eeac40fb67fa31a424768c.jpg-1000x600.webp",
-              "url": "https://harici.com.tr/vucicten-turk-kfor-komutanina-kopru-tepkisi/",
-              "date": "2026-08-20",
-              "sentiment": "neutral",
-              "reason": "Neutral reporting of Vučić's reaction, no loaded language from the outlet",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -3069,6 +3088,19 @@
           "articleCount": 6,
           "articles": [
             {
+              "title": "IKD: Kosova, 34 Milyon Euroluk AB Fonunu Kaybetme Riskiyle Karşı Karşıya - Kosovahaber.com",
+              "albanianTitle": "IKD: Kosova rrezikon t'i humbë 34 milionë euro nga fondet e BE-së",
+              "blurb": "Instituti i Kosovës për Drejtësi paralajmëron se Kosova rrezikon të humbasë 34 milionë euro nga fondet e Bashkimit Evropian.",
+              "imageUrl": null,
+              "url": "https://kosovahaber.com/haber/ikd-kosova-34-milyon-euroluk-ab-fonunu-kaybetme-riskiyle-karsi-karsiya-105142",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Raporton rrezikun financiar për Kosovën, në mënyrë faktike pa ngjyrë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
               "title": "“Kuzey Tugayı”ndan Kosova'ya tehdit: “Bizi Bekleyin, Geliyoruz!” - Kosovahaber.com",
               "albanianTitle": "Kërcënimi i “Brigadës së Veriut” ndaj Kosovës: “Na prisni, po vijmë!”",
               "blurb": "Organizata e quajtur Brigada e Veriut ka lëshuar një kërcënim publik drejtuar institucioneve dhe qytetarëve të Republikës së Kosovës.",
@@ -3080,19 +3112,6 @@
               "isQuote": true,
               "evidence": "",
               "speaker": "Kuzey Tugayı"
-            },
-            {
-              "title": "Thaçi: Tüm Suçlamalardan Beraat Etmeyi Bekliyorum - Kosovahaber.com",
-              "albanianTitle": "Thaçi: Pres të shpallem i pafajshëm nga të gjitha akuzat - Kosovahaber.com",
-              "blurb": "Hashim Thaçi deklaron se pret të shpallet i pafajshëm për të gjitha akuzat që rëndojnë ndaj tij në Hagë.",
-              "imageUrl": null,
-              "url": "https://kosovahaber.com/haber/thaci-tum-suclamalardan-beraat-etmeyi-bekliyorum-105123",
-              "date": "2026-08-21",
-              "sentiment": "neutral",
-              "reason": "Thirrja e Thaçit raportohet pa gjuhë vlerësuese",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
             },
             {
               "title": "Vuçiç: İbre Köprüsü Diyalog Sürecinin Parçasıydı, Şimdi Kaldırmak İstiyorlar - Kosovahaber.com",
@@ -3108,6 +3127,32 @@
               "speaker": ""
             },
             {
+              "title": "Thaçi: Tüm Suçlamalardan Beraat Etmeyi Bekliyorum - Kosovahaber.com",
+              "albanianTitle": "Thaçi: Pres të shpallem i pafajshëm nga të gjitha akuzat - Kosovahaber.com",
+              "blurb": "Hashim Thaçi deklaron se pret të shpallet i pafajshëm për të gjitha akuzat që rëndojnë ndaj tij në Hagë.",
+              "imageUrl": null,
+              "url": "https://kosovahaber.com/haber/thaci-tum-suclamalardan-beraat-etmeyi-bekliyorum-105123",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Thirrja e Thaçit raportohet pa gjuhë vlerësuese",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Trakya Üniversitesi Rektöründen Başkan Damka’ya Ziyaret - Kosovahaber.com",
+              "albanianTitle": "Rektori i Universitetit të Trakisë viziton kryetarin Damka",
+              "blurb": "Rektori i Universitetit të Trakyas ka zhvilluar një vizitë zyrtare te ministri Fikrim Damka në Kosovë për bashkëpunim akademik.",
+              "imageUrl": null,
+              "url": "https://kosovahaber.com/haber/trakya-universitesi-rektorunden-baskan-damkaya-ziyaret-105145",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Thjesht njofton vizitën e një rektori në Kosovë, pa gjuhë pozitive apo negative",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
               "title": "Kosova'nın İlk Başbakanı Bajram Rexhepi’nin Vefatının Üzerinden 9 Yıl Geçti - Kosovahaber.com",
               "albanianTitle": "9 vjet nga vdekja e kryeministrit të parë të Kosovës, Bajram Rexhepi - Kosovahaber.com",
               "blurb": "Janë bërë nëntë vjet nga vdekja e kryeministrit të parë të Kosovës, Bajram Rexhepi, i cili ndërroi jetë në vitin 2017.",
@@ -3116,32 +3161,6 @@
               "date": "2026-08-21",
               "sentiment": "neutral",
               "reason": "Lajm faktik për përvjetorin e vdekjes së kryeministrit të parë",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "NATO: İbre Köprüsü’nün Açılması Tüm Yerel Toplulukların İhtiyaçlarını Gözetmeli - Kosovahaber.com",
-              "albanianTitle": "NATO: Hapja e urës së Ibrit duhet të marrë parasysh nevojat e të gjitha komuniteteve lokale - Kosovahaber.com",
-              "blurb": "NATO kërkon që hapja e urës mbi lumin Ibër të marrë parasysh nevojat e të gjitha komuniteteve lokale që jetojnë aty.",
-              "imageUrl": null,
-              "url": "https://kosovahaber.com/haber/nato-ibre-koprusunun-acilmasi-tum-yerel-topluluklarin-ihtiyaclarini-gozetmeli-105133",
-              "date": "2026-08-21",
-              "sentiment": "neutral",
-              "reason": "Deklarata e NATO-s raportohet në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Bakan Sveçla, İzmir Büyükşehir Belediye Başkanı Tugay’ı Kabul Etti - Kosovahaber.com",
-              "albanianTitle": "Ministri Sveçla priti në takim kryetarin e Bashkisë së Izmirit, Tugay",
-              "blurb": "Ministri i Punëve të Brendshme, Xhelal Sveçla, ka pritur në takim kryetarin e Bashkisë së Izmirit, Cemil Tugay.",
-              "imageUrl": null,
-              "url": "https://kosovahaber.com/haber/bakan-svecla-izmir-buyuksehir-belediye-baskani-tugayi-kabul-etti-105144",
-              "date": "2026-08-21",
-              "sentiment": "neutral",
-              "reason": "Raportim neutral i takimit ndërmjet ministrit dhe kryetarit të Bashkisë",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -3211,21 +3230,8 @@
         {
           "name": "Odatv",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 1,
           "articles": [
-            {
-              "title": "Vucic, Türk komutanı hedef aldı... Odatv araştırdı: İbar Nehri'nden çıkan Osmanlı korkusu - Odatv",
-              "albanianTitle": "Vuçiq vë në shënjestër komandantin turk... Odatv hulumton: Frika nga osmanët që buron nga lumi Ibër",
-              "blurb": "Presidenti serb Vuçiq ka kritikuar komandantin turk të KFOR-it në lidhje me zhvillimet aktuale rreth lumit Ibër në Kosovë.",
-              "imageUrl": "https://img.odatv.com/rcman/Cw1280h720q95gc/storage/files/images/2026/08/21/vucic-turk-komutani-hedef-aldi-odatv-arastirdi-ibar-nehrinden-cikan-neo-osmanli-kabusu-fwjn.jpg",
-              "url": "https://www.odatv.com/guncel/vucic-turk-komutani-hedef-aldi-odatv-arastirdi-ibar-nehrinden-cikan-neo-osmanli-kabusu-120159511",
-              "date": "2026-08-21",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "Sırp lider KFOR komutanını hedef aldı: 'Bunu o Türk yapıyor' - Odatv",
               "albanianTitle": "Lideri serb sulmon komandantin e KFOR-it: 'Këtë po e bën ai turku' - Odatv",
@@ -3421,6 +3427,26 @@
           ]
         },
         {
+          "name": "isindetayi.com",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Zaharova: Kosova ve Metohiya'da Sırp nüfusa yönelik sistematik terör yoğunlaşıyor - isindetayi.com",
+              "albanianTitle": "Zaharova: Po shtohet terrori sistematik ndaj popullatës serbe në Kosovë e Metohi",
+              "blurb": "Zëdhënësja e Ministrisë së Jashtme ruse, Maria Zaharova, pretendon për intensifikim të terrorit ndaj popullatës serbe në Kosovë.",
+              "imageUrl": "https://isindetayicom.teimg.com/crop/1280x720/isindetayi-com/uploads/2026/08/zaharova-kosova-ve-metohiyada-sirp-nufusa-yonelik-sistematik-teror-yogunlasiyor.jpg",
+              "url": "https://www.isindetayi.com/zaharova-kosova-ve-metohiyada-sirp-nufusa-yonelik-sistematik-teror-yogunlasiyor",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Fjalët kritike i përkasin Zaharova-s, jo median, prandaj qëndrimi neutral",
+              "isQuote": true,
+              "evidence": "",
+              "speaker": "Zaharova"
+            }
+          ]
+        },
+        {
           "name": "nhaberizmir.com",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -3483,10 +3509,10 @@
       ],
       "summary": {
         "index": 51,
-        "positive": 5,
+        "positive": 6,
         "neutral": 91,
         "negative": 4,
-        "n": 57,
+        "n": 54,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -3827,7 +3853,7 @@
           ]
         },
         {
-          "name": "UNICEF",
+          "name": "Unicef",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
@@ -3869,7 +3895,7 @@
         {
           "name": "srpske.rs",
           "sentiment": "neutral",
-          "articleCount": 3,
+          "articleCount": 4,
           "articles": [
             {
               "title": "NATO Gives First Response to Vucic's Letter on Ibar Bridge - srpske.rs",
@@ -3880,6 +3906,19 @@
               "date": "2026-08-21",
               "sentiment": "neutral",
               "reason": "Faktikë raportim neutral",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Taci Expects Acquittal Ahead of September 16 Hague Verdict - srpske.rs",
+              "albanianTitle": "Thaçi pret shpalljen i pafajshëm para vendimit të Hagës më 16 shtator",
+              "blurb": "Hashim Thaçi pret shpalljen e pafajësisë në vendimin që pritet të jepet nga Gjykata e Hagës më 16 shtator.",
+              "imageUrl": "https://srpske.rs/uploads/articles/taci-expects-acquittal-ahead-of-september-16-hague-verdict-16x9.webp",
+              "url": "https://srpske.rs/en/news/politika/2026/08/21/taci-expects-acquittal-ahead-of-september-16-hague-verdict",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Titulli thjesht njofton pritshmërin e Taci-s për akuzimin, pa gjuhë negative ose pozitive",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -3914,11 +3953,11 @@
         }
       ],
       "summary": {
-        "index": 55,
-        "positive": 14,
-        "neutral": 82,
-        "negative": 5,
-        "n": 22,
+        "index": 54,
+        "positive": 13,
+        "neutral": 83,
+        "negative": 4,
+        "n": 23,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2
