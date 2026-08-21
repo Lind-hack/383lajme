@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import AskPanel, { type Chip } from "@/components/ask-panel";
 import { useRouter } from "next/navigation";
 import {
   ArrowUpRight,
@@ -93,6 +94,10 @@ export default function SearchOverlay({
   const [query, setQuery] = useState("");
   const [mode, setMode] = useState<"kerko" | "pyet">("kerko");
   const [data, setData] = useState<Payload>(EMPTY);
+  // Bumped when the reader presses Enter in Pyet mode. The panel below asks on
+  // the bump rather than on the query itself, so typing does not fire requests.
+  const [askNonce, setAskNonce] = useState(0);
+  const [starters, setStarters] = useState<Chip[]>([]);
   const [loading, setLoading] = useState(false);
   const [active, setActive] = useState(0);
 
@@ -133,6 +138,7 @@ export default function SearchOverlay({
       setData(EMPTY);
       setActive(0);
       setMode("kerko");
+      setAskNonce(0);
     }
   }, [open]);
 
@@ -140,6 +146,9 @@ export default function SearchOverlay({
   // land after a fast later one and overwrite newer results with older.
   useEffect(() => {
     if (!open) return;
+    // Pyet answers on Enter, not per keystroke. Searching underneath it would
+    // spend a request per character on results nothing is going to render.
+    if (mode === "pyet") return;
     const q = query.trim();
     if (q.length < 2) {
       setData(EMPTY);
@@ -172,7 +181,26 @@ export default function SearchOverlay({
       controller.abort();
       window.clearTimeout(timer);
     };
-  }, [query, open]);
+  }, [query, open, mode]);
+
+  // Openers, so the first thing in Pyet mode is not an empty box. Fetched once
+  // per opening and only when the reader actually switches to it.
+  useEffect(() => {
+    if (!open || mode !== "pyet" || starters.length > 0) return;
+    let alive = true;
+    void (async () => {
+      try {
+        const res = await fetch("/api/pyet");
+        const payload = await res.json();
+        if (alive && Array.isArray(payload?.starters)) setStarters(payload.starters);
+      } catch {
+        // Openers are a convenience; the input works without them.
+      }
+    })();
+    return () => {
+      alive = false;
+    };
+  }, [open, mode, starters.length]);
 
   const go = useCallback(
     (href: string) => {
@@ -189,6 +217,13 @@ export default function SearchOverlay({
         onClose();
         return;
       }
+      if (mode === "pyet") {
+        if (event.key === "Enter") {
+          event.preventDefault();
+          setAskNonce((n) => n + 1);
+        }
+        return;
+      }
       if (!flat.length) return;
       if (event.key === "ArrowDown") {
         event.preventDefault();
@@ -202,7 +237,7 @@ export default function SearchOverlay({
         if (target) go(target.href);
       }
     },
-    [flat, active, go, onClose],
+    [flat, active, go, onClose, mode],
   );
 
   // Keep the highlighted row in view when the arrows walk past the fold.
@@ -267,20 +302,18 @@ export default function SearchOverlay({
             onClick={() => setMode("pyet")}
           >
             Pyet 383
-            <span className="kerko-soon">së shpejti</span>
           </button>
         </div>
 
         <div className="kerko-body" ref={listRef}>
           {mode === "pyet" ? (
-            <div className="kerko-note">
-              <Sparkles size={16} strokeWidth={2} aria-hidden="true" />
-              <p>
-                <strong>Pyet 383 nuk është gati ende.</strong> Do të përgjigjet me një
-                përmbledhje nga arkivi, me burimet e lidhura. Deri atëherë, kërkimi gjen
-                artikujt, temat dhe faqet.
-              </p>
-            </div>
+            <AskPanel
+              variant="overlay"
+              hideInput
+              question={query}
+              askNonce={askNonce}
+              chips={starters}
+            />
           ) : !showing ? (
             <p className="kerko-hint">
               Shkruaj të paktën dy shkronja. Kërkimi mbulon artikujt, temat, vendet te

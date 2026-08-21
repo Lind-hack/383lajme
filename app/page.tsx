@@ -293,7 +293,10 @@ export default async function HomePage() {
 
         {/* Lajmet e fundit — the archive tail closes the page's news run */}
         {listArticles.length > 0 && (
-          <div style={{ marginBottom: "0", paddingBottom: "var(--space-section)" }}>
+          <div
+            id="lajmet-e-fundit"
+            style={{ marginBottom: "0", paddingBottom: "var(--space-section)" }}
+          >
             <DispatchList articles={listArticles} />
           </div>
         )}

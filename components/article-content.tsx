@@ -6,6 +6,7 @@ import TimeAgo from "./time-ago";
 import SourceBadge from "@/components/source-badge";
 import ArticleCard from "@/components/article-card";
 import ArticleSidebar from "@/components/article-sidebar";
+import ArticleAsk from "@/components/article-ask";
 import CategoryAccordion from "@/components/category-accordion";
 import type { AccordionSlide } from "@/components/image-accordion";
 import { EASE, DUR } from "@/lib/tokens";
@@ -179,6 +180,8 @@ export default function ArticleContent({ article, related, catColor, catBg, cate
                 </p>
               ))}
             </div>
+            {/* The reader has just finished; this is where the questions are. */}
+            <ArticleAsk article={article} />
           </motion.div>
         </article>
 

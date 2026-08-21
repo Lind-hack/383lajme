@@ -934,7 +934,6 @@ header[data-overlay] .hamburger-bar { background: #FFFFFF !important; }
 /* ── Floating blobs share a class for the reduced-motion hook ── */
 .float-blob { will-change: transform; }
 
-
 /* ── Navbar height var ── */
 :root {
   --nav-h: 72px;
@@ -4350,7 +4349,6 @@ header[data-overlay] .nav-coin-chip {
   font-size: 13px;
 }
 .tregu-activity-row:last-child { border-bottom: none; }
-
 
 /* ── Match stats: FotMob-style mirrored bars growing out from the center ── */
 .tregu-mstats-head {
@@ -8199,7 +8197,6 @@ body[data-tour-veil] > *:not(.tutorial-root) {
   }
 }
 
-
 /* ═══════════════════════════════════════════════════════════════════════════
    REAGIMI — watch-first pass
    The first version made the quote the hero and left the only call to action
@@ -8553,7 +8550,6 @@ body[data-tour-veil] > *:not(.tutorial-root) {
   }
 }
 
-
 /* ═══════════════════════════════════════════════════════════════════════════
    REAGIMI — density pass
    Measured before: desktop card 528 unvoted / 610 voted, media 340, results 130.
@@ -8705,7 +8701,6 @@ body[data-tour-veil] > *:not(.tutorial-root) {
     gap: 8px;
   }
 }
-
 
 /* ═══════════════════════════════════════════════════════════════════════════
    REAGIMI — desktop height pass
@@ -9612,16 +9607,6 @@ header[data-overlay="true"] .nav-search-btn { color: rgba(255, 255, 255, 0.9); }
   .kerko-mode:hover { color: #111111; }
 }
 
-.kerko-soon {
-  padding: 2px 6px;
-  border-radius: var(--radius-pill);
-  background: #F0ECE6;
-  color: #9A9186;
-  font-size: 9.5px;
-  font-weight: 800;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-}
 
 /* ── Results ─────────────────────────────────────────────────────────────── */
 .kerko-body {
@@ -10181,3 +10166,303 @@ header[data-overlay="true"] .nav-search-btn { color: rgba(255, 255, 255, 0.9); }
   .kerko-page-tone { padding: 14px 16px; gap: 12px; }
   .kerko-page-tone-value { font-size: 28px; }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   PYET 383
+   The grounded assistant, on the article page and inside the search overlay.
+   One class set for both; [data-variant] carries the differences, which are
+   only chrome — the answer, the sources and the refusal render identically
+   because they are the same claim in both places.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.pyet-block {
+  margin: 44px 0 8px;
+  padding: 26px 26px 22px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(180deg, #FFFFFF 0%, var(--color-cream) 100%);
+}
+.pyet-heading {
+  margin: 0;
+  color: var(--color-ink);
+  font-size: 19px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+.pyet-sub {
+  margin: 6px 0 0;
+  max-width: 54ch;
+  color: #5C554E;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.pyet { margin-top: 16px; }
+.pyet[data-variant="overlay"] { margin-top: 0; padding: 14px 18px 18px; }
+
+/* Input */
+.pyet-form {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 0 10px 0 13px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background: #FFFFFF;
+  transition: border-color var(--duration-base) var(--ease-out),
+    box-shadow var(--duration-base) var(--ease-out);
+}
+.pyet-form:focus-within {
+  border-color: rgba(255, 68, 34, 0.5);
+  box-shadow: 0 0 0 3px rgba(255, 68, 34, 0.1);
+}
+.pyet-form > svg { flex-shrink: 0; color: var(--color-orange); }
+.pyet-form input {
+  flex: 1;
+  min-width: 0;
+  padding: 12px 0;
+  border: 0;
+  background: none;
+  color: var(--color-ink);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  outline: none;
+}
+.pyet-form input::placeholder { color: #A9A096; font-weight: 500; }
+.pyet-form input:disabled { color: #8A8078; }
+
+.pyet-send {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--color-ink);
+  color: #FFFFFF;
+  cursor: pointer;
+  transition: background-color var(--duration-fast) var(--ease-out),
+    transform var(--duration-fast) var(--ease-out);
+}
+.pyet-send:disabled {
+  background: #DDD6CC;
+  color: #FFFFFF;
+  cursor: not-allowed;
+}
+
+/* Baked-in questions */
+.pyet-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin: 13px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.pyet-chips button {
+  padding: 7px 13px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background: #FFFFFF;
+  color: #3B3630;
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  cursor: pointer;
+  transition: border-color var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out),
+    background-color var(--duration-fast) var(--ease-out);
+}
+
+.pyet-hint {
+  margin: 12px 2px 0;
+  color: #6E655C;
+  font-size: 12.5px;
+  font-weight: 500;
+  line-height: 1.55;
+}
+
+/* Thinking */
+.pyet-out:empty { display: none; }
+.pyet-thinking {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 18px 2px 4px;
+  color: #6E655C;
+  font-size: 13px;
+  font-weight: 600;
+}
+.pyet-thinking p { margin: 0; }
+.pyet-dots { display: inline-flex; gap: 4px; }
+.pyet-dots i {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--color-orange);
+  animation: pyet-pulse 1.1s var(--ease-out) infinite;
+}
+.pyet-dots i:nth-child(2) { animation-delay: 0.16s; }
+.pyet-dots i:nth-child(3) { animation-delay: 0.32s; }
+@keyframes pyet-pulse {
+  0%, 100% { opacity: 0.22; transform: translateY(0); }
+  40%      { opacity: 1;    transform: translateY(-3px); }
+}
+
+/* The answer */
+.pyet-answer,
+.pyet-refusal {
+  padding-top: 18px;
+  animation: pyet-rise var(--duration-slow) var(--ease-out) both;
+}
+@keyframes pyet-rise {
+  from { opacity: 0; transform: translateY(6px); filter: blur(3px); }
+  to   { opacity: 1; transform: none;            filter: blur(0); }
+}
+
+.pyet-asked {
+  margin: 0 0 9px;
+  color: #8A8078;
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.pyet-text {
+  margin: 0;
+  max-width: 68ch;
+  color: var(--color-ink);
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.68;
+}
+
+.pyet-sources { margin-top: 18px; }
+.pyet-sources h4 {
+  margin: 0 0 7px;
+  color: #A0968C;
+  font-size: 9.5px;
+  font-weight: 850;
+  letter-spacing: 0.13em;
+}
+.pyet-sources ul { margin: 0; padding: 0; list-style: none; }
+.pyet-sources li + li { border-top: 1px solid var(--color-border); }
+.pyet-sources a {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 9px 0;
+  color: var(--color-ink);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.4;
+  text-decoration: none;
+  transition: color var(--duration-fast) var(--ease-out);
+}
+.pyet-sources a span { flex: 1; min-width: 0; }
+.pyet-sources a em {
+  flex-shrink: 0;
+  color: #A0968C;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 600;
+}
+.pyet-sources a svg {
+  flex-shrink: 0;
+  color: #C4B9AE;
+  transition: transform var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out);
+}
+
+/* The refusal */
+.pyet-refusal-head {
+  margin: 0;
+  color: var(--color-ink);
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+.pyet-refusal-detail {
+  margin: 7px 0 0;
+  max-width: 60ch;
+  color: #5C554E;
+  font-size: 13.5px;
+  font-weight: 500;
+  line-height: 1.6;
+}
+.pyet-refusal-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 14px;
+  padding: 9px 15px;
+  border-radius: var(--radius-pill);
+  background: var(--color-ink);
+  color: #FFFFFF;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+  transition: background-color var(--duration-fast) var(--ease-out);
+}
+.pyet-refusal-cta svg { transition: transform var(--duration-fast) var(--ease-out); }
+
+.pyet-again {
+  margin-top: 16px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #8A8078;
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-color: #D9D0C5;
+  text-underline-offset: 3px;
+  cursor: pointer;
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+/* Hover only where a pointer can actually hover: a stuck hover state on touch
+   reads as a broken control. */
+@media (hover: hover) and (pointer: fine) {
+  .pyet-send:not(:disabled):hover { background: var(--color-orange); }
+  .pyet-chips button:hover {
+    border-color: rgba(17, 17, 17, 0.22);
+    background: #FFFFFF;
+    color: var(--color-ink);
+  }
+  .pyet-sources a:hover { color: var(--color-orange); }
+  .pyet-sources a:hover svg { transform: translateX(2px); color: var(--color-orange); }
+  .pyet-refusal-cta:hover { background: var(--color-orange); }
+  .pyet-refusal-cta:hover svg { transform: translateX(2px); }
+  .pyet-again:hover { color: var(--color-ink); }
+}
+
+@media (max-width: 640px) {
+  .pyet-block { margin-top: 34px; padding: 20px 18px 18px; border-radius: var(--radius-md); }
+  .pyet-heading { font-size: 17px; }
+  .pyet-text { font-size: 14.5px; }
+  .pyet-chips button { font-size: 12px; padding: 6px 11px; }
+  /* A headline wraps to three lines at this width, and the section-and-date
+     line held beside it leaves the title squeezed into half the column. Below
+     the title it reads as what it is: a caption. */
+  .pyet-sources a { flex-wrap: wrap; align-items: flex-start; gap: 3px 9px; }
+  .pyet-sources a span { flex: 1 1 100%; }
+  .pyet-sources a em { flex: 1 1 100%; order: 3; }
+  /* The chevron is decoration on a row that is entirely a link, and once the
+     title takes the full width it wraps onto a line of its own. */
+  .pyet-sources a svg { display: none; }
+}
+
+/* Reduced motion keeps the reveal and drops the travel: the answer still
+   arrives as a distinct moment, it just does not move to get there. */
+@media (prefers-reduced-motion: reduce) {
+  .pyet-answer,
+  .pyet-refusal { animation: pyet-fade var(--duration-base) ease both; }
+  .pyet-dots i { animation: none; opacity: 0.7; }
+}
+@keyframes pyet-fade { from { opacity: 0; } to { opacity: 1; } }
