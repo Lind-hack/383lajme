@@ -1,4 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
+import { revalidatePath } from "next/cache";
 import { automationSecret, isAutomationAuthorized } from "@/lib/tregu-automation.mjs";
 import { fetchNaftaSotStations, getDailyFuelSnapshot } from "@/lib/home-market-data";
 import { createAdminClient } from "@/lib/supabase/admin";
@@ -65,7 +66,13 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
-  return NextResponse.json({ ok: true, brands: brands.length });
+  // Without this the card keeps rendering the previous prices for up to an
+  // hour: the homepage is statically generated and revalidates on its own
+  // schedule, which has nothing to do with when a push arrives. A daily job
+  // whose result appears an hour later is not a daily refresh.
+  revalidatePath("/");
+
+  return NextResponse.json({ ok: true, brands: brands.length, revalidated: "/" });
 }
 
 export async function GET(request: NextRequest) {
