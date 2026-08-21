@@ -2029,8 +2029,8 @@
   {
     "date": "2026-08-21",
     "overallIndex": 52,
-    "totalArticles": 215,
-    "sourceCount": 143,
+    "totalArticles": 235,
+    "sourceCount": 151,
     "stanceVersion": 2,
     "countries": {
       "Gjermani": {
@@ -2044,11 +2044,11 @@
         "stanceVersion": 2
       },
       "SHBA": {
-        "index": 51,
-        "positive": 8,
-        "neutral": 86,
-        "negative": 6,
-        "n": 36,
+        "index": 52,
+        "positive": 10,
+        "neutral": 85,
+        "negative": 5,
+        "n": 41,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2
@@ -2056,29 +2056,29 @@
       "Britani": {
         "index": 50,
         "positive": 6,
-        "neutral": 88,
+        "neutral": 89,
         "negative": 6,
-        "n": 33,
+        "n": 36,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
       },
       "Francë": {
-        "index": 62,
-        "positive": 25,
-        "neutral": 75,
+        "index": 60,
+        "positive": 20,
+        "neutral": 80,
         "negative": 0,
-        "n": 4,
+        "n": 5,
         "excluded": 0,
-        "confident": false,
+        "confident": true,
         "stanceVersion": 2
       },
       "Itali": {
         "index": 54,
-        "positive": 8,
-        "neutral": 92,
+        "positive": 7,
+        "neutral": 93,
         "negative": 0,
-        "n": 13,
+        "n": 14,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2
@@ -2088,7 +2088,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 2,
+        "n": 4,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
@@ -2098,7 +2098,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 1,
+        "n": 2,
         "excluded": 1,
         "confident": false,
         "stanceVersion": 2
@@ -2114,21 +2114,21 @@
         "stanceVersion": 2
       },
       "Belgjikë": {
-        "index": 60,
-        "positive": 20,
-        "neutral": 80,
+        "index": 58,
+        "positive": 17,
+        "neutral": 83,
         "negative": 0,
-        "n": 5,
+        "n": 6,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
       },
       "Spanjë": {
-        "index": 50,
-        "positive": 0,
-        "neutral": 100,
+        "index": 56,
+        "positive": 11,
+        "neutral": 89,
         "negative": 0,
-        "n": 7,
+        "n": 9,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -2138,7 +2138,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 25,
+        "n": 27,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -2149,7 +2149,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 2,
-        "excluded": 1,
+        "excluded": 0,
         "confident": false,
         "stanceVersion": 2
       },
@@ -2166,19 +2166,19 @@
       "Turqi": {
         "index": 52,
         "positive": 7,
-        "neutral": 90,
-        "negative": 3,
-        "n": 59,
+        "neutral": 89,
+        "negative": 4,
+        "n": 57,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
       },
       "Kroaci": {
-        "index": 55,
-        "positive": 16,
-        "neutral": 79,
-        "negative": 5,
-        "n": 19,
+        "index": 57,
+        "positive": 17,
+        "neutral": 78,
+        "negative": 4,
+        "n": 23,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2

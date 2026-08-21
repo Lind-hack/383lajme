@@ -1,8 +1,8 @@
 {
   "lastUpdated": "2026-08-21",
   "overallIndex": 52,
-  "totalArticles": 215,
-  "sourceCount": 143,
+  "totalArticles": 235,
+  "sourceCount": 151,
   "stanceVersion": 2,
   "countries": {
     "Gjermani": {
@@ -41,19 +41,19 @@
           ]
         },
         {
-          "name": "Reporteri",
+          "name": "Tagesschau",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
-              "title": "Qeveria nuk e di se nga kanë hyrë vaksinat nga Serbia në Kosovë, Hoti paralajmëron masa - Reporteri",
-              "albanianTitle": "Qeveria nuk e di se si hynë vaksinat nga Serbia në Kosovë, Hoti paralajmëron masa",
-              "blurb": "Qeveria nuk ka informacion për hyrjen e vaksinave nga Serbia në Kosovë dhe kryeministri Hoti paralajmëron masa.",
-              "imageUrl": null,
-              "url": "https://reporteri.net/de/Botschaft/Die-Regierung-wei%C3%9F-nicht--wie-viele-Impfstoffe-aus-Serbien-in-den-Kosovo-gelangt-sind--warnt-vor-Ma%C3%9Fnahmen/",
-              "date": "2026-08-19",
+              "title": "Kosovo: Wahlsieger Kurti blockiert das Parlament - tagesschau.de",
+              "albanianTitle": "Kosovë: Fituesi i zgjedhjeve Kurti bllokon punën e Kuvendit",
+              "blurb": "Fituesi i zgjedhjeve në Kosovë, Albin Kurti, po bllokon punimet e Kuvendit sipas raportimeve të mediave gjermane.",
+              "imageUrl": "https://images.tagesschau.de/image/197a5977-3f5f-4c21-8c08-fad6ecb4b493/AAABnSQwl8A/AAABnSSvrFg/16x9-big/default-audioplayer-100.jpg?width=1280",
+              "url": "https://www.tagesschau.de/multimedia/audio/audio-3431438.html",
+              "date": "2026-08-21",
               "sentiment": "neutral",
-              "reason": "Fact-based reporting without loaded language",
+              "reason": "Faktikë raportim neutral",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -207,26 +207,6 @@
               "date": "2026-08-19",
               "sentiment": "neutral",
               "reason": "Faktikë raportim pa ngarkesë",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "CBS News",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "He spied for the U.S. in the war on terror. Now ICE wants to deport him. - CBS News",
-              "albanianTitle": "Ai spiunoi për SHBA-në në luftën kundër terrorizmit, tani ICE kërkon dëbimin e tij",
-              "blurb": "Autoritetet amerikane të emigracionit po kërkojnë dëbimin e një ish-informatori që spiunoi për Shtetet e Bashkuara gjatë luftës kundër terrorit.",
-              "imageUrl": "https://assets3.cbsnewsstatic.com/hub/i/r/2026/08/19/7aee433e-ddaf-4c88-bc73-3fb6c4a79b1f/thumbnail/1200x630g2/768f648093b53b90fb1e43d03d1e1e0c/blerim-skoro-1.jpg",
-              "url": "https://www.cbsnews.com/news/ice-detainee-spy-terrorism-blerim-skoro/",
-              "date": "2026-08-19",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportim i thjeshtë",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -436,8 +416,60 @@
         {
           "name": "KosovaPress",
           "sentiment": "neutral",
-          "articleCount": 4,
+          "articleCount": 6,
           "articles": [
+            {
+              "title": "From Taranto, Kosovo’s Haxhiu calls for unity to overcome political deadlock, just as in sport - KosovaPress",
+              "albanianTitle": "Nga Taranto, Haxhiu i Kosovës bën thirrje për unitet për tejkalimin e ngërçit politik, njësoj si në sport",
+              "blurb": "Ministrja Haxhiu bën thirrje për unitet politik në Kosovë duke përdorur shembullin e bashkëpunimit në sport.",
+              "imageUrl": null,
+              "url": "https://kosovapress.com/eng/from-taranto-kosovos-haxhiu-calls-for-unity-to-overcome-political-deadlock-just-as-in-sport",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim neutral",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Alliance joins Democratic Party of Kosovo’s action, accuses VV of repeated constitutional violations - KosovaPress",
+              "albanianTitle": "Aleanca i bashkohet aksionit të PDK-së, akuzon VV-në për shkelje të vazhdueshme kushtetuese",
+              "blurb": "Aleanca për Ardhmërinë e Kosovës i bashkohet PDK-së në akuzat ndaj Lëvizjes Vetëvendosje për shkelje të Kushtetutës.",
+              "imageUrl": null,
+              "url": "https://kosovapress.com/eng/alliance-joins-democratic-party-of-kosovos-action-accuses-vv-of-repeated-constitutional-violations",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim neutral",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Haxhiu supports Kosovo at Taranto 2026 - KosovaPress",
+              "albanianTitle": "Haxhiu mbështet Kosovën në Taranto 2026",
+              "blurb": "Ministrja Haxhiu shpreh mbështetjen e saj për pjesëmarrjen e Kosovës në edicionin e vitit 2026 në Taranto.",
+              "imageUrl": null,
+              "url": "https://kosovapress.com/eng/haxhiu-supports-kosovo-at-taranto-2026",
+              "date": "2026-08-21",
+              "sentiment": "positive",
+              "reason": "Positive framing by outlet",
+              "isQuote": false,
+              "evidence": "supports Kosovo",
+              "speaker": ""
+            },
+            {
+              "title": "Gucati criticizes Kurti Government: None of the veterans’ demands have been fulfilled - KosovaPress",
+              "albanianTitle": "Gucati kritikon Qeverinë Kurti: Asnjë nga kërkesat e veteranëve nuk është përmbushur",
+              "blurb": "Hysni Gucati kritikon qeverinë Kurti për mospërmbushjen e asnjërës nga kërkesat e organizatave të veteranëve të luftës.",
+              "imageUrl": null,
+              "url": "https://kosovapress.com/eng/gucati-criticizes-kurti-government-none-of-the-veterans-demands-have-been-fulfilled",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Faktikisht raporton kritikën ndaj qeverisë, pa gjuhë ngarkuese",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
             {
               "title": "Kadrijaj says protests will be even larger if Kurti \"continues in this manner\" - KosovaPress",
               "albanianTitle": "Kadrijaj: Protestat do të jenë edhe më të mëdha nëse Kurti vazhdon në këtë mënyrë - KosovaPress",
@@ -460,32 +492,6 @@
               "date": "2026-08-18",
               "sentiment": "neutral",
               "reason": "Lajm i thjeshtë për protestë të kryetarëve të komunave në Kosovë",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Events of August 20 - KosovaPress",
-              "albanianTitle": null,
-              "blurb": "Përmbledhje e ngjarjeve kryesore që kanë shënuar ditën e njëzetë të muajit gusht në Kosovë dhe rajon.",
-              "imageUrl": null,
-              "url": "https://kosovapress.com/eng/events-of-august-20-3",
-              "date": "2026-08-20",
-              "sentiment": "neutral",
-              "reason": "Faktikë e thjeshtë, pa gjuhë ngarkuese",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Musliu: We will not stop until Kosovo institutions are constituted - KosovaPress",
-              "albanianTitle": "Musliu: Nuk do të ndalemi derisa të konstituohen institucionet e Kosovës - KosovaPress",
-              "blurb": "Musliu deklaron se angazhimi i tyre do të vazhdojë deri në konstituimin e plotë të institucioneve të Kosovës.",
-              "imageUrl": null,
-              "url": "https://kosovapress.com/eng/musliu-we-will-not-stop-until-kosovo-institutions-are-constituted",
-              "date": "2026-08-20",
-              "sentiment": "neutral",
-              "reason": "Raporton deklaratën e Musliuut pa ngjyrë vete",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -638,6 +644,32 @@
           "articleCount": 6,
           "articles": [
             {
+              "title": "NATO Gives First Response to Vucic's Letter on Ibar Bridge - srpske.rs",
+              "albanianTitle": "NATO jep përgjigjen e parë ndaj letrës së Vuçiqit për urën e Ibrit",
+              "blurb": "NATO ka kthyer përgjigjen e parë zyrtare ndaj letrës së dërguar nga presidenti serb Vucic për urën e Ibrit.",
+              "imageUrl": "https://srpske.rs/uploads/articles/nato-first-response-vucic-letter-ibar-bridge-16x9.webp",
+              "url": "https://srpske.rs/en/news/politika/2026/08/21/nato-first-response-vucic-letter-ibar-bridge",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim neutral",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Ragus: KFOR Pullout From Ibar Bridge Risks Destabilization - srpske.rs",
+              "albanianTitle": "Ragus: Tërheqja e KFOR-it nga ura e Ibrit rrezikon destabilizimin",
+              "blurb": "Analisti Ragus vlerëson se tërheqja e forcave të KFOR-it nga ura e Ibrit mund të shkaktojë destabilizim të situatës.",
+              "imageUrl": "https://srpske.rs/uploads/articles/ragus-warns-kfor-withdrawal-ibar-bridge-destabilization-16x9.webp",
+              "url": "https://srpske.rs/en/news/politika/2026/08/21/ragus-warns-kfor-withdrawal-ibar-bridge-destabilization",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim neutral",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
               "title": "Haljiti: Kosovo President Deal Possible Within Days - srpske.rs",
               "albanianTitle": "Haliti: Marrëveshja për presidentin e Kosovës mund të arrihet brenda pak ditësh - srpske.rs",
               "blurb": "Xhavit Haliti deklaroi se marrëveshja për zgjedhjen e presidentit të ri të Kosovës mund të arrihet brenda pak ditësh.",
@@ -688,32 +720,6 @@
               "isQuote": false,
               "evidence": "Don't Open Ibar Bridge",
               "speaker": ""
-            },
-            {
-              "title": "Alliance Reports Kosovo Government Over 18 Commissions - srpske.rs",
-              "albanianTitle": "Aleanca denoncon Qeverinë e Kosovës për 18 komisione - srpske.rs",
-              "blurb": "Aleanca për Ardhmërinë e Kosovës ka raportuar qeverinë lidhur me funksionimin e tetëmbëdhjetë komisioneve të ndryshme shtetërore në vend.",
-              "imageUrl": "https://srpske.rs/uploads/articles/alliance-reports-kosovo-government-over-18-commissions-16x9.webp",
-              "url": "https://srpske.rs/en/news/politika/2026/08/18/alliance-reports-kosovo-government-over-18-commissions",
-              "date": "2026-08-18",
-              "sentiment": "neutral",
-              "reason": "Plain news headline about government commissions, no evaluative language",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Kosovo Opposition Blocks Government Entrance for Fourth Day - srpske.rs",
-              "albanianTitle": "Opozita në Kosovë bllokon hyrjen e Qeverisë për të katërtën ditë me radhë",
-              "blurb": "Opozita në Kosovë vazhdon të bllokojë hyrjen e ndërtesës së qeverisë për të katërtën ditë radhazi.",
-              "imageUrl": "https://srpske.rs/uploads/articles/kosovo-opposition-blocks-government-entrance-fourth-day-16x9.webp",
-              "url": "https://srpske.rs/en/news/politika/2026/08/18/kosovo-opposition-blocks-government-entrance-fourth-day",
-              "date": "2026-08-18",
-              "sentiment": "neutral",
-              "reason": "Titulli faktik pa gjuhë ngarkuar",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
             }
           ]
         },
@@ -739,11 +745,11 @@
         }
       ],
       "summary": {
-        "index": 51,
-        "positive": 8,
-        "neutral": 86,
-        "negative": 6,
-        "n": 36,
+        "index": 52,
+        "positive": 10,
+        "neutral": 85,
+        "negative": 5,
+        "n": 41,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2
@@ -940,7 +946,7 @@
         {
           "name": "Euronews Albania",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 1,
           "articles": [
             {
               "title": "Kosovo Police display seized weapons, Sveçla: Serbia wants the North to remain a crime zone - Euronews Albania",
@@ -948,19 +954,6 @@
               "blurb": "Policia e Kosovës ka ekspozuar armët e konfiskuara, ndërsa ministri Sveçla akuzoi Serbinë për mbajtjen e veriut si zonë krimi.",
               "imageUrl": null,
               "url": "https://euronews.al/en/kosovo-police-display-seized-weapons-svecla-serbia-wants-the-north-to-remain-a-crime-zone/",
-              "date": "2026-08-20",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportim neutral",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Weapons arsenal sized in Northern Kosovo - Euronews Albania",
-              "albanianTitle": "Konfiskohet arsenal armësh në veri të Kosovës",
-              "blurb": "Forcat e rendit kanë sekuestruar një sasi të konsiderueshme armatimi në pjesën veriore të territorit të Republikës së Kosovës.",
-              "imageUrl": null,
-              "url": "https://euronews.al/en/weapons-arsenal-sized-in-northern-kosovo/",
               "date": "2026-08-20",
               "sentiment": "neutral",
               "reason": "Faktikë raportim neutral",
@@ -1053,8 +1046,34 @@
         {
           "name": "KosovaPress",
           "sentiment": "neutral",
-          "articleCount": 4,
+          "articleCount": 6,
           "articles": [
+            {
+              "title": "From Taranto, Kosovo’s Haxhiu calls for unity to overcome political deadlock, just as in sport - KosovaPress",
+              "albanianTitle": "Nga Taranto, Haxhiu i Kosovës bën thirrje për unitet për tejkalimin e ngërçit politik, njësoj si në sport",
+              "blurb": "Ministrja Haxhiu bën thirrje për unitet politik në Kosovë duke përdorur shembullin e bashkëpunimit në sport.",
+              "imageUrl": null,
+              "url": "https://kosovapress.com/eng/from-taranto-kosovos-haxhiu-calls-for-unity-to-overcome-political-deadlock-just-as-in-sport",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim neutral",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Gucati criticizes Kurti Government: None of the veterans’ demands have been fulfilled - KosovaPress",
+              "albanianTitle": "Gucati kritikon Qeverinë Kurti: Asnjë nga kërkesat e veteranëve nuk është përmbushur",
+              "blurb": "Hysni Gucati kritikon qeverinë Kurti për mospërmbushjen e asnjërës nga kërkesat e organizatave të veteranëve të luftës.",
+              "imageUrl": null,
+              "url": "https://kosovapress.com/eng/gucati-criticizes-kurti-government-none-of-the-veterans-demands-have-been-fulfilled",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Faktikisht raporton kritikën ndaj qeverisë, pa gjuhë ngarkuese",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
             {
               "title": "Kadrijaj says protests will be even larger if Kurti \"continues in this manner\" - KosovaPress",
               "albanianTitle": "Kadrijaj: Protestat do të jenë edhe më të mëdha nëse Kurti vazhdon në këtë mënyrë - KosovaPress",
@@ -1215,6 +1234,32 @@
           "articleCount": 6,
           "articles": [
             {
+              "title": "NATO Gives First Response to Vucic's Letter on Ibar Bridge - srpske.rs",
+              "albanianTitle": "NATO jep përgjigjen e parë ndaj letrës së Vuçiqit për urën e Ibrit",
+              "blurb": "NATO ka kthyer përgjigjen e parë zyrtare ndaj letrës së dërguar nga presidenti serb Vucic për urën e Ibrit.",
+              "imageUrl": "https://srpske.rs/uploads/articles/nato-first-response-vucic-letter-ibar-bridge-16x9.webp",
+              "url": "https://srpske.rs/en/news/politika/2026/08/21/nato-first-response-vucic-letter-ibar-bridge",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim neutral",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Ragus: KFOR Pullout From Ibar Bridge Risks Destabilization - srpske.rs",
+              "albanianTitle": "Ragus: Tërheqja e KFOR-it nga ura e Ibrit rrezikon destabilizimin",
+              "blurb": "Analisti Ragus vlerëson se tërheqja e forcave të KFOR-it nga ura e Ibrit mund të shkaktojë destabilizim të situatës.",
+              "imageUrl": "https://srpske.rs/uploads/articles/ragus-warns-kfor-withdrawal-ibar-bridge-destabilization-16x9.webp",
+              "url": "https://srpske.rs/en/news/politika/2026/08/21/ragus-warns-kfor-withdrawal-ibar-bridge-destabilization",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim neutral",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
               "title": "Kurti, Abdixhiku Agree on Profile for Kosovo President - srpske.rs",
               "albanianTitle": "Kurti dhe Abdixhiku pajtohen për profilin e presidentit të Kosovës",
               "blurb": "Albin Kurti dhe Lumir Abdixhiku kanë arritur pajtim për profilin e kandidatit për president të Republikës së Kosovës.",
@@ -1265,32 +1310,6 @@
               "isQuote": false,
               "evidence": "Don't Open Ibar Bridge",
               "speaker": ""
-            },
-            {
-              "title": "Alliance Reports Kosovo Government Over 18 Commissions - srpske.rs",
-              "albanianTitle": "Aleanca denoncon Qeverinë e Kosovës për 18 komisione - srpske.rs",
-              "blurb": "Aleanca për Ardhmërinë e Kosovës ka raportuar qeverinë lidhur me funksionimin e tetëmbëdhjetë komisioneve të ndryshme shtetërore në vend.",
-              "imageUrl": "https://srpske.rs/uploads/articles/alliance-reports-kosovo-government-over-18-commissions-16x9.webp",
-              "url": "https://srpske.rs/en/news/politika/2026/08/18/alliance-reports-kosovo-government-over-18-commissions",
-              "date": "2026-08-18",
-              "sentiment": "neutral",
-              "reason": "Plain news headline about government commissions, no evaluative language",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Kosovo Opposition Blocks Government Entrance for Fourth Day - srpske.rs",
-              "albanianTitle": "Opozita në Kosovë bllokon hyrjen e Qeverisë për të katërtën ditë me radhë",
-              "blurb": "Opozita në Kosovë vazhdon të bllokojë hyrjen e ndërtesës së qeverisë për të katërtën ditë radhazi.",
-              "imageUrl": "https://srpske.rs/uploads/articles/kosovo-opposition-blocks-government-entrance-fourth-day-16x9.webp",
-              "url": "https://srpske.rs/en/news/politika/2026/08/18/kosovo-opposition-blocks-government-entrance-fourth-day",
-              "date": "2026-08-18",
-              "sentiment": "neutral",
-              "reason": "Titulli faktik pa gjuhë ngarkuar",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
             }
           ]
         },
@@ -1318,9 +1337,9 @@
       "summary": {
         "index": 50,
         "positive": 6,
-        "neutral": 88,
+        "neutral": 89,
         "negative": 6,
-        "n": 33,
+        "n": 36,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -1389,6 +1408,26 @@
           ]
         },
         {
+          "name": "horizons.dz",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Volley-ball dames: l’Algérie battue par le Kosovo dès son entrée aux Jeux Méditerranéens - horizons.dz",
+              "albanianTitle": "Volejboll për femra: Algjeria mposhtet nga Kosova në ndeshjen e parë në Lojërat Mesdhetare",
+              "blurb": "Përfaqësuesja e Kosovës në volejboll për femra ka mposhtur Algjerinë në ndeshjen e parë të Lojërave Mesdhetare.",
+              "imageUrl": null,
+              "url": "https://www.horizons.dz/2026/08/volley-ball-dames-lalgerie-battue-par-le-kosovo-des-son-entree-aux-jeux-mediterraneens/",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Raportim neutral i rezultatit sportiv",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "ladepeche.fr",
           "sentiment": "positive",
           "articleCount": 1,
@@ -1410,13 +1449,13 @@
         }
       ],
       "summary": {
-        "index": 62,
-        "positive": 25,
-        "neutral": 75,
+        "index": 60,
+        "positive": 20,
+        "neutral": 80,
         "negative": 0,
-        "n": 4,
+        "n": 5,
         "excluded": 0,
-        "confident": false,
+        "confident": true,
         "stanceVersion": 2
       }
     },
@@ -1425,8 +1464,21 @@
         {
           "name": "ANSA",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
+            {
+              "title": "Kosovo completa esumazione 23 corpi da fossa comune scoperta in luglio - ANSA",
+              "albanianTitle": "Kosova përfundon zhvarrosjen e 23 trupave nga varreza masive e zbuluar në korrik",
+              "blurb": "Autoritetet në Kosovë kanë përfunduar zhvarrosjen e njëzet e tri trupave nga varreza masive e zbuluar gjatë korrikut.",
+              "imageUrl": "https://www.ansa.it/webimages/img_1280x720/2026/8/21/b1bd09394d952f38b9e0707f8e75f325.jpg",
+              "url": "https://www.ansa.it/nuova_europa/it/notizie/rubriche/politica/2026/08/21/kosovo-completa-esumazione-23-corpi-da-fossa-comune-scoperta-in-luglio_2a9d9978-3f19-4b2a-8a42-64b84fe4d081.html",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Raportim faktik i ekshumimit të masave të përbashkëta",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
             {
               "title": "Vucic scrive a Rutte, 'Nato fermi terrore in Kosovo, non riaprire ponte' - ANSA",
               "albanianTitle": "Vuçiq i shkruan Ruttes: NATO, ndaloni terrorin në Kosovë, mos e hapni urën - ANSA",
@@ -1705,10 +1757,10 @@
       ],
       "summary": {
         "index": 54,
-        "positive": 8,
-        "neutral": 92,
+        "positive": 7,
+        "neutral": 93,
         "negative": 0,
-        "n": 13,
+        "n": 14,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2
@@ -1719,7 +1771,7 @@
         {
           "name": "Blick",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Aufregung im Kosovo wegen weissem Mercedes aus der Schweiz - Blick",
@@ -1730,6 +1782,19 @@
               "date": "2026-08-19",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Diese Szene sorgt für Diskussionen - Blick",
+              "albanianTitle": "Kjo skenë nxit debate të shumta",
+              "blurb": "Një skenë e caktuar ka nxitur diskutime të shumta në opinionin publik pas publikimit të pamjeve të saj.",
+              "imageUrl": "https://img.blick.ch/incoming/22192169-v1-leer-00-00-00-17-standbild003.jpg?imwidth=2000&ratio=16_9&x=449&y=483&width=1014&height=570",
+              "url": "https://www.blick.ch/ausland/auto-faehrt-ueber-trottoir-diese-szene-sorgt-fuer-diskussionen-id22192168.html",
+              "date": "2026-08-19",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim pa ngarkesë",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1755,6 +1820,26 @@
               "speaker": ""
             }
           ]
+        },
+        {
+          "name": "Tagesschau",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo: Wahlsieger Kurti blockiert das Parlament - tagesschau.de",
+              "albanianTitle": "Kosovë: Fituesi i zgjedhjeve Kurti bllokon punën e Kuvendit",
+              "blurb": "Fituesi i zgjedhjeve në Kosovë, Albin Kurti, po bllokon punimet e Kuvendit sipas raportimeve të mediave gjermane.",
+              "imageUrl": "https://images.tagesschau.de/image/197a5977-3f5f-4c21-8c08-fad6ecb4b493/AAABnSQwl8A/AAABnSSvrFg/16x9-big/default-audioplayer-100.jpg?width=1280",
+              "url": "https://www.tagesschau.de/multimedia/audio/audio-3431438.html",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim neutral",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
         }
       ],
       "summary": {
@@ -1762,7 +1847,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 2,
+        "n": 4,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
@@ -1784,6 +1869,26 @@
               "date": "2026-08-19",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Tagesschau",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo: Wahlsieger Kurti blockiert das Parlament - tagesschau.de",
+              "albanianTitle": "Kosovë: Fituesi i zgjedhjeve Kurti bllokon punën e Kuvendit",
+              "blurb": "Fituesi i zgjedhjeve në Kosovë, Albin Kurti, po bllokon punimet e Kuvendit sipas raportimeve të mediave gjermane.",
+              "imageUrl": "https://images.tagesschau.de/image/197a5977-3f5f-4c21-8c08-fad6ecb4b493/AAABnSQwl8A/AAABnSSvrFg/16x9-big/default-audioplayer-100.jpg?width=1280",
+              "url": "https://www.tagesschau.de/multimedia/audio/audio-3431438.html",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim neutral",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1816,7 +1921,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 1,
+        "n": 2,
         "excluded": 1,
         "confident": false,
         "stanceVersion": 2
@@ -1999,6 +2104,26 @@
           ]
         },
         {
+          "name": "horizons.dz",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Volley-ball dames: l’Algérie battue par le Kosovo dès son entrée aux Jeux Méditerranéens - horizons.dz",
+              "albanianTitle": "Volejboll për femra: Algjeria mposhtet nga Kosova në ndeshjen e parë në Lojërat Mesdhetare",
+              "blurb": "Përfaqësuesja e Kosovës në volejboll për femra ka mposhtur Algjerinë në ndeshjen e parë të Lojërave Mesdhetare.",
+              "imageUrl": null,
+              "url": "https://www.horizons.dz/2026/08/volley-ball-dames-lalgerie-battue-par-le-kosovo-des-son-entree-aux-jeux-mediterraneens/",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Raportim neutral i rezultatit sportiv",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "ladepeche.fr",
           "sentiment": "positive",
           "articleCount": 1,
@@ -2020,11 +2145,11 @@
         }
       ],
       "summary": {
-        "index": 60,
-        "positive": 20,
-        "neutral": 80,
+        "index": 58,
+        "positive": 17,
+        "neutral": 83,
         "negative": 0,
-        "n": 5,
+        "n": 6,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -2032,6 +2157,26 @@
     },
     "Spanjë": {
       "outlets": [
+        {
+          "name": "CNN en Español",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Picos de los Balcanes: la épica ruta de senderismo que explora una de las últimas grandes zonas silvestres de Europa - CNN en Español",
+              "albanianTitle": "Majat e Ballkanit: Shtegu epik i ecjes që eksploron një nga zonat e fundit të egra të Evropës",
+              "blurb": "Shtegu i ecjes Picos de los Balcanes përshkruhet si një rrugë që eksploron zonat e egra evropiane.",
+              "imageUrl": "https://media.cnn.com/api/v1/images/stellar/prod/gettyimages-2226212944-20260819174746270.jpg?c=16x9&q=w_800,c_fill",
+              "url": "https://cnnespanol.cnn.com/2026/08/19/viajes/picos-balcanes-senderismo-montenegro-albania-kosovo-trax",
+              "date": "2026-08-19",
+              "sentiment": "neutral",
+              "reason": "Faktik, pa gjuhë ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
         {
           "name": "Cineuropa",
           "sentiment": "neutral",
@@ -2157,14 +2302,34 @@
               "speaker": ""
             }
           ]
+        },
+        {
+          "name": "World Baseball Softball Confederation (WBSC)",
+          "sentiment": "positive",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Juegos Mediterráneos: Lekë Juniku de Kosovo lleva la tradición y el espíritu de lucha de Taranto hacia 2030 - World Baseball Softball Confederation (WBSC)",
+              "albanianTitle": "Lojërat Mesdhetare: Lekë Juniku nga Kosova sjell traditën dhe frymën luftarake të Tarantos drejt vitit 2030",
+              "blurb": "Sportisti Lekë Juniku përfaqëson traditën dhe frymën garuese të Kosovës në kuadër të Lojërave Mesdhetare në Taranto.",
+              "imageUrl": null,
+              "url": "https://www.wbsc.org/es/news/mediterranean-games-kosovos-leke-juniku-carries-tradition-and-fighting-spirit-from-taranto-towards-2030",
+              "date": "2026-08-19",
+              "sentiment": "positive",
+              "reason": "Gjuha e outlet-it është lavdërueshe për sportistin kosovar",
+              "isQuote": false,
+              "evidence": "lleva la tradición y el espíritu de lucha",
+              "speaker": ""
+            }
+          ]
         }
       ],
       "summary": {
-        "index": 50,
-        "positive": 0,
-        "neutral": 100,
+        "index": 56,
+        "positive": 11,
+        "neutral": 89,
         "negative": 0,
-        "n": 7,
+        "n": 9,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -2172,6 +2337,46 @@
     },
     "Greqi": {
       "outlets": [
+        {
+          "name": "Bankingnews",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Κόλαφος η Zakharova: «Συστηματική τρομοκρατία κατά των Σέρβων στο Κόσοβο, με ανοχή ΝΑΤΟ, ΕΕ και ΟΗΕ» - Bankingnews",
+              "albanianTitle": "Zakharova e ashpër: Terror sistematik ndaj serbëve në Kosovë, me tolerimin e NATO-s, BE-së dhe OKB-së",
+              "blurb": "Zëdhënësja e Ministrisë së Jashtme ruse, Maria Zakharova, ka akuzuar institucionet ndërkombëtare për tolerim të situatës ndaj serbëve në Kosovë.",
+              "imageUrl": "https://www.bankingnews.gr/media/k2/items/cache/93b514aaf48a1a8bdf3b8aba45787aed_XL.jpg",
+              "url": "https://www.bankingnews.gr/diethni/articles/894916/kolafos-i-zakharova-systimatiki-tromokratia-kata-ton-servon-sto-kosovo-me-anoxi-nato-ee-kai-oie",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Përmban citim, gjuhë e arsyetuar nga folësi, jo nga media",
+              "isQuote": true,
+              "evidence": "",
+              "speaker": "Zakharova"
+            }
+          ]
+        },
+        {
+          "name": "Capital.gr",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Ένταση στο Κόσοβο για το άνοιγμα μιας γέφυρας - Capital.gr",
+              "albanianTitle": "Tensione në Kosovë për shkak të hapjes së një ure",
+              "blurb": "Planet për hapjen e urës mbi lumin Ibër në Mitrovicë kanë shkaktuar tensione të reja në veri të Kosovës.",
+              "imageUrl": "https://www.capital.gr/Content/ImagesDatabase/fb/1000x523/crop/both/d7/d7c1133196a94a25bbe1342a03e52481.jpg",
+              "url": "https://www.capital.gr/diethni/4011690/entasi-sto-kosobo-gia-to-anoigma-mias-gefuras/?amp=true",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Fact‑based headline reporting tension over a bridge opening",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
         {
           "name": "Energymag.gr",
           "sentiment": "neutral",
@@ -2198,19 +2403,6 @@
           "articleCount": 3,
           "articles": [
             {
-              "title": "Η Εθνική Ομάδα βόλεϊ διέλυσε το Κόσοβο στην πρεμιέρα των Μεσογειακών Αγώνων - Ertsports.gr",
-              "albanianTitle": "Kombëtarja e volejbollit e mposhti thellë Kosovën në ndeshjen hapëse të Lojërave Mesdhetare - Ertsports.gr",
-              "blurb": "Përfaqësuesja e volejbollit e Kosovës është mposhtur nga kombëtarja greke në ndeshjen e parë të Lojërave Mesdhetare.",
-              "imageUrl": "https://www.ertsports.gr/wp-content/uploads/2026/08/Ethniki-Omada-Volley-1-e1787223413512.png",
-              "url": "https://www.ertsports.gr/bolei/i-ethniki-omada-volei-dielyse-to-kosovo-stin-premiera-ton-mesogeiakon-agonon/",
-              "date": "2026-08-20",
-              "sentiment": "neutral",
-              "reason": "Fact-based report of a sports result without loaded language",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
               "title": "Πρώτο σερβίς για την “μεσογειακή” Εθνική Ομάδα βόλεϊ γυναικών, απέναντι στο Κόσοβο - Ertsports.gr",
               "albanianTitle": "Shërbimi i parë për kombëtaren e volejbollit të femrave të “Mesdhetarëve”, përballë Kosovës",
               "blurb": "Kombëtarja e volejbollit të femrave të Greqisë luan ndeshjen e parë kundër përfaqësueses së Kosovës në volejboll.",
@@ -2224,6 +2416,19 @@
               "speaker": ""
             },
             {
+              "title": "Η Εθνική Ομάδα βόλεϊ διέλυσε το Κόσοβο στην πρεμιέρα των Μεσογειακών Αγώνων - Ertsports.gr",
+              "albanianTitle": "Kombëtarja e volejbollit e mposhti thellë Kosovën në ndeshjen hapëse të Lojërave Mesdhetare - Ertsports.gr",
+              "blurb": "Përfaqësuesja e volejbollit e Kosovës është mposhtur nga kombëtarja greke në ndeshjen e parë të Lojërave Mesdhetare.",
+              "imageUrl": "https://www.ertsports.gr/wp-content/uploads/2026/08/Ethniki-Omada-Volley-1-e1787223413512.png",
+              "url": "https://www.ertsports.gr/bolei/i-ethniki-omada-volei-dielyse-to-kosovo-stin-premiera-ton-mesogeiakon-agonon/",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Fact-based report of a sports result without loaded language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
               "title": "Άρση Βαρών: Mε έξι αθλητές η Ελλάδα στο Ευρωπαϊκό Πρωτάθλημα Παίδων και Κ15 στο Κόσοβο - Ertsports.gr",
               "albanianTitle": "Peshëngritje: Greqia merr pjesë me gjashtë sportistë në Kampionatin Evropian për kadetë dhe U15 në Kosovë",
               "blurb": "Greqia do të përfaqësohet me gjashtë peshëngritës në Kampionatin Evropian për kadetë dhe grupmoshën U15 në Kosovë.",
@@ -2232,26 +2437,6 @@
               "date": "2026-08-18",
               "sentiment": "neutral",
               "reason": "Raportim i thjeshtë i ngjarjes sportive në Kosovë",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "Fosonline",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Μεσογειακοί Αγώνες: Με το δεξί η Εθνική γυναικών, 3-0 το Κόσοβο - Fosonline",
-              "albanianTitle": "Lojërat Mesdhetare: Kombëtarja e femrave e nis me fitore, 3-0 ndaj Kosovës",
-              "blurb": "Kombëtarja e Greqisë në volejboll për femra ka mposhtur Kosovën me rezultat 3-0 në kuadër të Lojërave Mesdhetare.",
-              "imageUrl": "https://www.fosonline.gr/media/news/2026/08/20/388864/main/hellas-volley.jpg",
-              "url": "https://www.fosonline.gr/volleyball/a-gynaikon/article/388864/mesogeiakoi-agones-me-to-dexi-i-ethniki-gynaikon-3-0-to-kosovo",
-              "date": "2026-08-20",
-              "sentiment": "neutral",
-              "reason": "Factually reports sports result without loaded language",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -2332,6 +2517,26 @@
               "date": "2026-08-20",
               "sentiment": "neutral",
               "reason": "Faktikë raporti, pa gjuhë ngarkuese ndaj Kosovës",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Skai.gr",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Ένταση στο Κόσοβο για το άνοιγμα μιας γέφυρας - Skai.gr",
+              "albanianTitle": "Tensione në Kosovë për hapjen e një ure - Skai.gr",
+              "blurb": "Hapja e urës mbi lumin Ibër në Mitrovicë ka shkaktuar rritje të tensioneve në pjesën veriore të Kosovës.",
+              "imageUrl": "https://cdn.skai.gr/sites/default/files/styles/article_16_9/public/feedelio/mitsovica-bridge.jpg?itok=QJp9iyTJ",
+              "url": "https://www.skai.gr/news/world/entasi-sto-kosovo-gia-to-anoigma-mias-gefyras",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Faktikisht raporton tensionin në Kosovë pa gjuhë ngarkuese",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -2425,26 +2630,6 @@
           ]
         },
         {
-          "name": "ertnews.gr",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Κόσοβο: Eντάσεις μεταξύ Σέρβων και Αλβανών προκαλεί το άνοιγμα γέφυρας - ertnews.gr",
-              "albanianTitle": "Kosova: Hapja e urës po shkakton tensione mes serbëve dhe shqiptarëve - ertnews.gr",
-              "blurb": "Planet për hapjen e urës së Mitrovicës kanë nxitur tensione ndërmjet komunitetit serb dhe atij shqiptar në rajon.",
-              "imageUrl": "https://www.ertnews.gr/wp-content/uploads/2026/08/ap090427013637-768x515-1.jpg",
-              "url": "https://www.ertnews.gr/eidiseis/diethni/kosovo-entaseis-metaksy-servon-kai-alvanon-prokalei-to-anoigma-gefyras/",
-              "date": "2026-08-21",
-              "sentiment": "neutral",
-              "reason": "Raportim neutral i tensioneve mes komuniteteve",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
           "name": "facebook.com",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -2513,7 +2698,7 @@
         {
           "name": "Ελληνική Ομοσπονδία Πετοσφαίρισης",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 3,
           "articles": [
             {
               "title": "Μεσογειακοί αγώνες 2026: Πρώτο σερβίς για την εθνική γυναικών απέναντι στο Κόσοβο (20/8, 21.00) - Ελληνική Ομοσπονδία Πετοσφαίρισης",
@@ -2524,6 +2709,19 @@
               "date": "2026-08-19",
               "sentiment": "neutral",
               "reason": "Faktik, pa gjuhë ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Μεσογειακοί Αγώνες 2026: Με το δεξί η Εθνική γυναικών, 3-0 το Κόσοβο - Ελληνική Ομοσπονδία Πετοσφαίρισης",
+              "albanianTitle": "Lojërat Mesdhetare 2026: Greqia e nis me fitore ndaj Kosovës, 3-0 – Federata Greke e Volejbollit",
+              "blurb": "Kombëtarja e Greqisë në volejboll për femra ka mposhtur Kosovën me rezultat 3-0 në Lojërat Mesdhetare 2026.",
+              "imageUrl": "https://volleyball.gr/wp-content/uploads/2026/08/wn-nt-2026-team-kouvelos.jpg",
+              "url": "https://volleyball.gr/mesogeiakoi-agones-2026-me-to-dexi-i-ethniki-gynaikon-3-0-to-kosovo/",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -2586,7 +2784,7 @@
         {
           "name": "ΤΑ ΝΕΑ",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 1,
           "articles": [
             {
               "title": "Ελλάδα – Κόσοβο 3-0: Σάρωσε η Εθνική ανδρών στην πρεμιέρα των Μεσογειακών Αγώνων - ΤΑ ΝΕΑ",
@@ -2600,16 +2798,23 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
-            },
+            }
+          ]
+        },
+        {
+          "name": "η ναυτεμπορικη",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
             {
-              "title": "Μεσογειακοί αγώνες: Ιδανική πρεμιέρα με νικήτρια την εθνική βόλεϊ γυναικών απέναντι στο Κόσοβο - ΤΑ ΝΕΑ",
-              "albanianTitle": "Lojërat Mesdhetare: Start ideal për kombëtaren greke të volejbollit pas fitores ndaj Kosovës – TA NEA",
-              "blurb": "Përfaqësuesja e volejbollit të Greqisë ka shënuar fitore ndaj Kosovës në ndeshjen e parë të Lojërave Mesdhetare.",
-              "imageUrl": "https://www.tanea.gr/wp-content/uploads/2026/08/mesogeiakoi-agones-ellada-ogimage.jpg",
-              "url": "https://www.tanea.gr/2026/08/21/sports/othersports/mesogeiakoi-agones-idaniki-premiera-me-nikitria-tin-ethniki-volei-gynaikon-apenanti-sto-kosovo/",
-              "date": "2026-08-20",
+              "title": "Κόσοβο: Εστία έντασης η απόφαση για το άνοιγμα της γέφυρας στη διαιρεμένη Μιτροβίτσα - Επιστολή Βούτσιτς στον Ρούτε - η ναυτεμπορικη",
+              "albanianTitle": "Kosovë: Vendimi për hapjen e urës në Mitrovicën e ndarë nxit tensione – Vuçiq i shkruan Ruttes",
+              "blurb": "Vendimi për hapjen e urës në Mitrovicë ka rritur tensionet, ndërsa presidenti serb Vuçiq i ka shkruar sekretarit Rutte.",
+              "imageUrl": "https://www.naftemporiki.gr/wp-content/uploads/2026/08/kfor-kosobo.jpg",
+              "url": "https://www.naftemporiki.gr/kosmos/2151998/kosovo-estia-entasis-i-apofasi-gia-to-anoigma-tis-gefyras-sti-diairemeni-mitrovitsa-epistoli-voytsits-ston-royte/",
+              "date": "2026-08-21",
               "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
+              "reason": "Raportim neutral i tensionit rreth hapjes së urës në Mitrovicë",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -2622,7 +2827,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 25,
+        "n": 27,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -2630,26 +2835,6 @@
     },
     "Suedi": {
       "outlets": [
-        {
-          "name": "Marcus Oscarsson",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "UPPGIFTER: Nytt krig i Europa kan vara nära – ”kommer attackera” - Marcus Oscarsson",
-              "albanianTitle": "RAPORTIME: Një luftë e re në Evropë mund të jetë afër – “do të sulmojnë”",
-              "blurb": "Raportimet e fundit sugjerojnë mundësinë e një lufte të re në Evropë dhe paralajmërojnë për sulme të mundshme.",
-              "imageUrl": "https://cdn.marcusoscarsson.se/2023/11/europa-varning-foto-Christian-Lue.jpg",
-              "url": "https://marcusoscarsson.se/uppgifter-nytt-krig-i-europa-nara-kommer-attackera/",
-              "date": "2026-08-19",
-              "sentiment": "unknown",
-              "reason": "Teksti nuk përmend Kosovën, prandaj nuk mund të përcaktohet qëndrimi",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
         {
           "name": "Sofascore",
           "sentiment": "neutral",
@@ -2690,7 +2875,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 2,
-        "excluded": 1,
+        "excluded": 0,
         "confident": false,
         "stanceVersion": 2
       }
@@ -2825,23 +3010,30 @@
           ]
         },
         {
-          "name": "Haberler",
+          "name": "Haber 7",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 1,
           "articles": [
             {
-              "title": "Kosova’da toplu mezarların yakınında çok sayıda silah ve mühimmat bulundu - Haberler",
-              "albanianTitle": "Sasi e madhe armësh dhe municionesh gjenden pranë varrezave masive në Kosovë",
-              "blurb": "Sasi të mëdha armësh dhe municionesh janë zbuluar nga autoritetet në afërsi të varrezave masive në territorin e Kosovës.",
-              "imageUrl": "https://foto.haberler.com/haber/2026/08/21/kosova-da-toplu-mezarlarin-yakininda-cok-sayi-20164351_amp.jpg",
-              "url": "https://www.haberler.com/3-sayfa/kosova-da-toplu-mezarlarin-yakininda-cok-sayida-20164351-haberi/",
+              "title": "Toplu mezarlar açıldı, çok sayıda mühimmat çıktı - Haber 7",
+              "albanianTitle": "U hapën varrezat masive, u gjetën sasi të mëdha municioni",
+              "blurb": "Gjatë gërmimeve në varreza masive janë gjetur sasi të konsiderueshme të municioneve të ndryshme të pashpërthyera në lokacionin përkatës.",
+              "imageUrl": "https://i12.haber7.net//haber/haber7/og_image/2026/34/iCZ48_1787313467_302.jpg",
+              "url": "https://www.haber7.com/dunya/haber/3653150-toplu-mezarlar-acildi-cok-sayida-muhimmat-cikti",
               "date": "2026-08-21",
               "sentiment": "neutral",
-              "reason": "Reports finding of weapons near mass graves in a factual manner",
+              "reason": "Straightforward report of mass graves and ammunition, no editorial judgement",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
-            },
+            }
+          ]
+        },
+        {
+          "name": "Haberler",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
             {
               "title": "Kosova'da savaş suçu soruşturmasında 23 kişiye ait kemik kalıntısı bulundu - Haberler",
               "albanianTitle": "Gjenden mbetjet mortore të 23 personave gjatë hetimeve për krime lufte në Kosovë - Haberler",
@@ -2851,6 +3043,26 @@
               "date": "2026-08-19",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Harici",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Vučić’ten Türk KFOR komutanına köprü tepkisi - Harici",
+              "albanianTitle": "Vuçiq reagon ndaj komandantit turk të KFOR-it për çështjen e urës",
+              "blurb": "Presidenti serb Aleksandar Vuçiq ka shprehur pakënaqësi ndaj komandantit turk të KFOR-it lidhur me çështjen e urës së Mitrovicës.",
+              "imageUrl": "https://harici.com.tr/wp-content/uploads/2026/08/thumbs_b_c_52c794f0b2eeac40fb67fa31a424768c.jpg-1000x600.webp",
+              "url": "https://harici.com.tr/vucicten-turk-kfor-komutanina-kopru-tepkisi/",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Neutral reporting of Vučić's reaction, no loaded language from the outlet",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -2909,19 +3121,6 @@
               "speaker": ""
             },
             {
-              "title": "Kosova'nın İlk Başbakanı Bajram Rexhepi’nin Vefatının Üzerinden 9 Yıl Geçti - Kosovahaber.com",
-              "albanianTitle": "9 vjet nga vdekja e kryeministrit të parë të Kosovës, Bajram Rexhepi - Kosovahaber.com",
-              "blurb": "Janë bërë nëntë vjet nga vdekja e kryeministrit të parë të Kosovës, Bajram Rexhepi, i cili ndërroi jetë në vitin 2017.",
-              "imageUrl": null,
-              "url": "https://kosovahaber.com/haber/bajram-rexhepinin-vefatinin-uzerinden-9-yil-gecti-105130",
-              "date": "2026-08-21",
-              "sentiment": "neutral",
-              "reason": "Lajm faktik për përvjetorin e vdekjes së kryeministrit të parë",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
               "title": "Vuçiç: İbre Köprüsü Diyalog Sürecinin Parçasıydı, Şimdi Kaldırmak İstiyorlar - Kosovahaber.com",
               "albanianTitle": "Vuçiç: Ura e Ibrit ishte pjesë e procesit të dialogut, tani duan ta heqin",
               "blurb": "Presidenti serb, Aleksandar Vuçiç, deklaroi se ura mbi lumin Ibër ishte pjesë e procesit të dialogut dhe kundërshtoi hapjen e saj.",
@@ -2930,6 +3129,19 @@
               "date": "2026-08-21",
               "sentiment": "neutral",
               "reason": "Raportim neutral i deklaratës së Vuçiçit",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Kosova'nın İlk Başbakanı Bajram Rexhepi’nin Vefatının Üzerinden 9 Yıl Geçti - Kosovahaber.com",
+              "albanianTitle": "9 vjet nga vdekja e kryeministrit të parë të Kosovës, Bajram Rexhepi - Kosovahaber.com",
+              "blurb": "Janë bërë nëntë vjet nga vdekja e kryeministrit të parë të Kosovës, Bajram Rexhepi, i cili ndërroi jetë në vitin 2017.",
+              "imageUrl": null,
+              "url": "https://kosovahaber.com/haber/bajram-rexhepinin-vefatinin-uzerinden-9-yil-gecti-105130",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Lajm faktik për përvjetorin e vdekjes së kryeministrit të parë",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -2948,14 +3160,14 @@
               "speaker": ""
             },
             {
-              "title": "Thaçi’den Kosova’da İktidar ve Muhalefete Geniş Siyasi Uzlaşma Çağrısı - Kosovahaber.com",
-              "albanianTitle": "Thaçi u bën thirrje pozitës dhe opozitës në Kosovë për konsensus të gjerë politik - Kosovahaber.com",
-              "blurb": "Hashim Thaçi ka bërë thirrje për arritjen e një konsensusi të gjerë politik mes pozitës dhe opozitës në Kosovë.",
+              "title": "Bakan Sveçla, İzmir Büyükşehir Belediye Başkanı Tugay’ı Kabul Etti - Kosovahaber.com",
+              "albanianTitle": "Ministri Sveçla priti në takim kryetarin e Bashkisë së Izmirit, Tugay",
+              "blurb": "Ministri i Punëve të Brendshme, Xhelal Sveçla, ka pritur në takim kryetarin e Bashkisë së Izmirit, Cemil Tugay.",
               "imageUrl": null,
-              "url": "https://kosovahaber.com/haber/thaciden-kosovada-iktidar-ve-muhalefete-genis-siyasi-uzlasma-cagrisi-105117",
-              "date": "2026-08-20",
+              "url": "https://kosovahaber.com/haber/bakan-svecla-izmir-buyuksehir-belediye-baskani-tugayi-kabul-etti-105144",
+              "date": "2026-08-21",
               "sentiment": "neutral",
-              "reason": "Raportim neutral i thirrjes politike, pa gjuhë ngarkuar",
+              "reason": "Raportim neutral i takimit ndërmjet ministrit dhe kryetarit të Bashkisë",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -3098,7 +3310,7 @@
         {
           "name": "Son Dakika",
           "sentiment": "neutral",
-          "articleCount": 3,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Kosova'da Halter Şampiyonası Başladı - Son Dakika",
@@ -3122,19 +3334,6 @@
               "date": "2026-08-19",
               "sentiment": "neutral",
               "reason": "Faktik raportim i hetimeve të luftës në Kosovë",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Kosova'da Toplu Mezarlar ve Silahlar Bulundu - Son Dakika",
-              "albanianTitle": "Zbulohen varreza masive dhe armatim në Kosovë",
-              "blurb": "Autoritetet në Kosovë kanë raportuar zbulimin e varrezave masive dhe sasi të ndryshme të armatimit në zona të caktuara.",
-              "imageUrl": "https://foto.sondakika.com/haber/2026/08/21/kosova-da-toplu-mezarlarin-yakininda-cok-sayi-5-20164351_amp.jpg",
-              "url": "https://www.sondakika.com/3-sayfa/haber-kosova-da-toplu-mezarlar-ve-silahlar-bulundu-20164376/",
-              "date": "2026-08-21",
-              "sentiment": "neutral",
-              "reason": "Raportim neutral i gjetjeve të varreve masive dhe armëve",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -3164,21 +3363,8 @@
         {
           "name": "Transfermarkt",
           "sentiment": "neutral",
-          "articleCount": 3,
+          "articleCount": 2,
           "articles": [
-            {
-              "title": "İsveç - Kosova, 12 Oca 2020 - Hazırlık Maçları - Maç raporu - Transfermarkt",
-              "albanianTitle": "Suedi – Kosovë, 12 janar 2020 – Ndeshje miqësore – Raporti i ndeshjes – Transfermarkt",
-              "blurb": "Ndeshja miqësore ndërmjet Suedisë dhe Kosovës e zhvilluar më 12 janar 2020 është dokumentuar në raportin zyrtar të Transfermarkt.",
-              "imageUrl": null,
-              "url": "https://www.transfermarkt.com.tr/begegnung/index/spielbericht/3304907",
-              "date": "2026-08-20",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "KF Kosova Bernhausen - Transfermarkt",
               "albanianTitle": null,
@@ -3311,9 +3497,9 @@
       "summary": {
         "index": 52,
         "positive": 7,
-        "neutral": 90,
-        "negative": 3,
-        "n": 59,
+        "neutral": 89,
+        "negative": 4,
+        "n": 57,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -3414,26 +3600,6 @@
               "date": "2026-08-19",
               "sentiment": "neutral",
               "reason": "Faktikë raportim pa ngarkesë",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "CBS News",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "He spied for the U.S. in the war on terror. Now ICE wants to deport him. - CBS News",
-              "albanianTitle": "Ai spiunoi për SHBA-në në luftën kundër terrorizmit, tani ICE kërkon dëbimin e tij",
-              "blurb": "Autoritetet amerikane të emigracionit po kërkojnë dëbimin e një ish-informatori që spiunoi për Shtetet e Bashkuara gjatë luftës kundër terrorit.",
-              "imageUrl": "https://assets3.cbsnewsstatic.com/hub/i/r/2026/08/19/7aee433e-ddaf-4c88-bc73-3fb6c4a79b1f/thumbnail/1200x630g2/768f648093b53b90fb1e43d03d1e1e0c/blerim-skoro-1.jpg",
-              "url": "https://www.cbsnews.com/news/ice-detainee-spy-terrorism-blerim-skoro/",
-              "date": "2026-08-19",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportim i thjeshtë",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -3581,6 +3747,52 @@
           ]
         },
         {
+          "name": "KosovaPress",
+          "sentiment": "neutral",
+          "articleCount": 3,
+          "articles": [
+            {
+              "title": "From Taranto, Kosovo’s Haxhiu calls for unity to overcome political deadlock, just as in sport - KosovaPress",
+              "albanianTitle": "Nga Taranto, Haxhiu i Kosovës bën thirrje për unitet për tejkalimin e ngërçit politik, njësoj si në sport",
+              "blurb": "Ministrja Haxhiu bën thirrje për unitet politik në Kosovë duke përdorur shembullin e bashkëpunimit në sport.",
+              "imageUrl": null,
+              "url": "https://kosovapress.com/eng/from-taranto-kosovos-haxhiu-calls-for-unity-to-overcome-political-deadlock-just-as-in-sport",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim neutral",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Alliance joins Democratic Party of Kosovo’s action, accuses VV of repeated constitutional violations - KosovaPress",
+              "albanianTitle": "Aleanca i bashkohet aksionit të PDK-së, akuzon VV-në për shkelje të vazhdueshme kushtetuese",
+              "blurb": "Aleanca për Ardhmërinë e Kosovës i bashkohet PDK-së në akuzat ndaj Lëvizjes Vetëvendosje për shkelje të Kushtetutës.",
+              "imageUrl": null,
+              "url": "https://kosovapress.com/eng/alliance-joins-democratic-party-of-kosovos-action-accuses-vv-of-repeated-constitutional-violations",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim neutral",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Haxhiu supports Kosovo at Taranto 2026 - KosovaPress",
+              "albanianTitle": "Haxhiu mbështet Kosovën në Taranto 2026",
+              "blurb": "Ministrja Haxhiu shpreh mbështetjen e saj për pjesëmarrjen e Kosovës në edicionin e vitit 2026 në Taranto.",
+              "imageUrl": null,
+              "url": "https://kosovapress.com/eng/haxhiu-supports-kosovo-at-taranto-2026",
+              "date": "2026-08-21",
+              "sentiment": "positive",
+              "reason": "Positive framing by outlet",
+              "isQuote": false,
+              "evidence": "supports Kosovo",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "Monocle",
           "sentiment": "positive",
           "articleCount": 1,
@@ -3683,8 +3895,34 @@
         {
           "name": "srpske.rs",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 3,
           "articles": [
+            {
+              "title": "NATO Gives First Response to Vucic's Letter on Ibar Bridge - srpske.rs",
+              "albanianTitle": "NATO jep përgjigjen e parë ndaj letrës së Vuçiqit për urën e Ibrit",
+              "blurb": "NATO ka kthyer përgjigjen e parë zyrtare ndaj letrës së dërguar nga presidenti serb Vucic për urën e Ibrit.",
+              "imageUrl": "https://srpske.rs/uploads/articles/nato-first-response-vucic-letter-ibar-bridge-16x9.webp",
+              "url": "https://srpske.rs/en/news/politika/2026/08/21/nato-first-response-vucic-letter-ibar-bridge",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim neutral",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Ragus: KFOR Pullout From Ibar Bridge Risks Destabilization - srpske.rs",
+              "albanianTitle": "Ragus: Tërheqja e KFOR-it nga ura e Ibrit rrezikon destabilizimin",
+              "blurb": "Analisti Ragus vlerëson se tërheqja e forcave të KFOR-it nga ura e Ibrit mund të shkaktojë destabilizim të situatës.",
+              "imageUrl": "https://srpske.rs/uploads/articles/ragus-warns-kfor-withdrawal-ibar-bridge-destabilization-16x9.webp",
+              "url": "https://srpske.rs/en/news/politika/2026/08/21/ragus-warns-kfor-withdrawal-ibar-bridge-destabilization",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim neutral",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
             {
               "title": "Haljiti: Kosovo President Deal Possible Within Days - srpske.rs",
               "albanianTitle": "Haliti: Marrëveshja për presidentin e Kosovës mund të arrihet brenda pak ditësh - srpske.rs",
@@ -3702,11 +3940,11 @@
         }
       ],
       "summary": {
-        "index": 55,
-        "positive": 16,
-        "neutral": 79,
-        "negative": 5,
-        "n": 19,
+        "index": 57,
+        "positive": 17,
+        "neutral": 78,
+        "negative": 4,
+        "n": 23,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2
