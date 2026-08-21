@@ -1,7 +1,7 @@
 {
   "lastUpdated": "2026-08-21",
   "overallIndex": 52,
-  "totalArticles": 235,
+  "totalArticles": 229,
   "sourceCount": 151,
   "stanceVersion": 2,
   "countries": {
@@ -137,8 +137,21 @@
         {
           "name": "BGNES",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
+            {
+              "title": "Serbia weaponises the Ibar in its escalating pressure on Kosovo - BGNES",
+              "albanianTitle": "Serbia përdor Ibrin si mjet presioni në përshkallëzimin e situatës ndaj Kosovës - BGNES",
+              "blurb": "Serbia po përdor lumin Ibër si mjet presioni politik ndaj Kosovës sipas raportimeve të agjencisë BGNES.",
+              "imageUrl": "https://www.bgnes.com/static/images/news/2026/08/21/21582/19765.webp",
+              "url": "http://www.bgnes.com/no-filter/serbia-weaponises-the-ibar-in-its-escalating-pressure-on-kosovo",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Faktikisht raporton presionin serb ndaj Kosovës pa gjuhë polemike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
             {
               "title": "NATO to Vučić: Any Reopening of Mitrovica Bridge Must Take All Communities in Kosovo into Account - BGNES",
               "albanianTitle": "NATO për Vuçiqin: Çdo rihapje e urës së Mitrovicës duhet të marrë parasysh të gjitha komunitetet në Kosovë - BGNES",
@@ -173,19 +186,6 @@
               "speaker": ""
             },
             {
-              "title": "Remains of 23 Wartime Victims Unearthed from Mass Graves in Kosovo - Balkan Insight",
-              "albanianTitle": "Gjenden mbetjet mortore të 23 viktimave të luftës në varreza masive në Kosovë - Balkan Insight",
-              "blurb": "Janë zhvarrosur mbetjet mortore të njëzet e tre viktimave të luftës në varreza masive të gjetura në Kosovë.",
-              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/08/Kalluder-mass-grave-Kosovo-1-BIRN-e1787239870514.jpg",
-              "url": "https://balkaninsight.com/2026/08/20/remains-of-23-wartime-victims-unearthed-from-mass-graves-in-kosovo/btj/",
-              "date": "2026-08-20",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportuar pa gjuhë të ngarkuar",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
               "title": "Kosovo Opposition Snubs Acting President’s Meeting Amid Parliamentary Crisis - Balkan Insight",
               "albanianTitle": "Opozita kosovare bojkoton takimin me ushtruesen e detyrës së presidentit në mes të krizës parlamentare - Balkan Insight",
               "blurb": "Partitë opozitare në Kosovë refuzuan pjesëmarrjen në takimin e thirrur nga ushtruesja e detyrës së presidentit për krizën parlamentare.",
@@ -210,6 +210,19 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Remains of 23 Wartime Victims Unearthed from Mass Graves in Kosovo - Balkan Insight",
+              "albanianTitle": "Gjenden mbetjet mortore të 23 viktimave të luftës në varreza masive në Kosovë - Balkan Insight",
+              "blurb": "Janë zhvarrosur mbetjet mortore të njëzet e tre viktimave të luftës në varreza masive të gjetura në Kosovë.",
+              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/08/Kalluder-mass-grave-Kosovo-1-BIRN-e1787239870514.jpg",
+              "url": "https://balkaninsight.com/2026/08/20/remains-of-23-wartime-victims-unearthed-from-mass-graves-in-kosovo/btj/",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportuar pa gjuhë të ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ]
         },
@@ -227,26 +240,6 @@
               "date": "2026-08-19",
               "sentiment": "neutral",
               "reason": "Fact‑based headline about a trail, no evaluative language toward Kosovo",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "CTV News",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Remains of over 20 people found in Kosovo mass graves search - CTV News",
-              "albanianTitle": "Gjenden mbetjet mortore të mbi 20 personave në varrezat masive në Kosovë",
-              "blurb": "Gjatë kërkimeve në varrezat masive në Kosovë janë gjetur mbetjet mortore të më shumë se njëzet personave.",
-              "imageUrl": "https://www.ctvnews.ca/resizer/v2/4I6BGNXDTVDEHIMYAW5LQLP7TY.jpg?smart=true&auth=df5e5349aa1d4929d8295114aa9e0e41adc5ab6e57e0a205093fcc4a92cd1158&width=1200&height=630",
-              "url": "https://www.ctvnews.ca/world/article/remains-of-over-20-people-found-in-kosovo-mass-graves-search/",
-              "date": "2026-08-20",
-              "sentiment": "neutral",
-              "reason": "Fact‑based report, no loaded language",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -445,19 +438,6 @@
               "speaker": ""
             },
             {
-              "title": "Haxhiu supports Kosovo at Taranto 2026 - KosovaPress",
-              "albanianTitle": "Haxhiu mbështet Kosovën në Taranto 2026",
-              "blurb": "Ministrja Haxhiu shpreh mbështetjen e saj për pjesëmarrjen e Kosovës në edicionin e vitit 2026 në Taranto.",
-              "imageUrl": null,
-              "url": "https://kosovapress.com/eng/haxhiu-supports-kosovo-at-taranto-2026",
-              "date": "2026-08-21",
-              "sentiment": "positive",
-              "reason": "Positive framing by outlet",
-              "isQuote": false,
-              "evidence": "supports Kosovo",
-              "speaker": ""
-            },
-            {
               "title": "Gucati criticizes Kurti Government: None of the veterans’ demands have been fulfilled - KosovaPress",
               "albanianTitle": "Gucati kritikon Qeverinë Kurti: Asnjë nga kërkesat e veteranëve nuk është përmbushur",
               "blurb": "Hysni Gucati kritikon qeverinë Kurti për mospërmbushjen e asnjërës nga kërkesat e organizatave të veteranëve të luftës.",
@@ -492,6 +472,19 @@
               "date": "2026-08-18",
               "sentiment": "neutral",
               "reason": "Lajm i thjeshtë për protestë të kryetarëve të komunave në Kosovë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Events of August 20 - KosovaPress",
+              "albanianTitle": null,
+              "blurb": "Përmbledhje e ngjarjeve kryesore që kanë shënuar ditën e njëzetë të muajit gusht në Kosovë dhe rajon.",
+              "imageUrl": null,
+              "url": "https://kosovapress.com/eng/events-of-august-20-3",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Faktikë e thjeshtë, pa gjuhë ngarkuese",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -745,11 +738,11 @@
         }
       ],
       "summary": {
-        "index": 52,
-        "positive": 10,
-        "neutral": 85,
+        "index": 51,
+        "positive": 8,
+        "neutral": 88,
         "negative": 5,
-        "n": 41,
+        "n": 40,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2
@@ -800,8 +793,21 @@
         {
           "name": "BGNES",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
+            {
+              "title": "Serbia weaponises the Ibar in its escalating pressure on Kosovo - BGNES",
+              "albanianTitle": "Serbia përdor Ibrin si mjet presioni në përshkallëzimin e situatës ndaj Kosovës - BGNES",
+              "blurb": "Serbia po përdor lumin Ibër si mjet presioni politik ndaj Kosovës sipas raportimeve të agjencisë BGNES.",
+              "imageUrl": "https://www.bgnes.com/static/images/news/2026/08/21/21582/19765.webp",
+              "url": "http://www.bgnes.com/no-filter/serbia-weaponises-the-ibar-in-its-escalating-pressure-on-kosovo",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Faktikisht raporton presionin serb ndaj Kosovës pa gjuhë polemike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
             {
               "title": "NATO to Vučić: Any Reopening of Mitrovica Bridge Must Take All Communities in Kosovo into Account - BGNES",
               "albanianTitle": "NATO për Vuçiqin: Çdo rihapje e urës së Mitrovicës duhet të marrë parasysh të gjitha komunitetet në Kosovë - BGNES",
@@ -1024,43 +1030,10 @@
           ]
         },
         {
-          "name": "Inshorts",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosovo-born man who says he infiltrated Al Qaeda arrested by ICE | Tap to know more | Inshorts - Inshorts",
-              "albanianTitle": "Arrestohet nga ICE burri me prejardhje nga Kosova që pretendonte se ishte infiltruar në Al-Kaeda",
-              "blurb": "Autoritetet e emigracionit në Shtetet e Bashkuara kanë arrestuar një shtetas nga Kosova i cili pretendonte se ishte infiltruar në Al-Kaeda.",
-              "imageUrl": "https://media.inshorts.com/inshorts/images/v1/variants/jpg/m/2026/08_aug/21_fri/img_1787283904692_829.jpg",
-              "url": "https://inshorts.com/en/news/kosovo-born-man-who-says-he-infiltrated-al-qaeda-arrested-by-ice-1787283930086",
-              "date": "2026-08-21",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportim neutral",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
           "name": "KosovaPress",
           "sentiment": "neutral",
-          "articleCount": 6,
+          "articleCount": 5,
           "articles": [
-            {
-              "title": "From Taranto, Kosovo’s Haxhiu calls for unity to overcome political deadlock, just as in sport - KosovaPress",
-              "albanianTitle": "Nga Taranto, Haxhiu i Kosovës bën thirrje për unitet për tejkalimin e ngërçit politik, njësoj si në sport",
-              "blurb": "Ministrja Haxhiu bën thirrje për unitet politik në Kosovë duke përdorur shembullin e bashkëpunimit në sport.",
-              "imageUrl": null,
-              "url": "https://kosovapress.com/eng/from-taranto-kosovos-haxhiu-calls-for-unity-to-overcome-political-deadlock-just-as-in-sport",
-              "date": "2026-08-21",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportim neutral",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "Gucati criticizes Kurti Government: None of the veterans’ demands have been fulfilled - KosovaPress",
               "albanianTitle": "Gucati kritikon Qeverinë Kurti: Asnjë nga kërkesat e veteranëve nuk është përmbushur",
@@ -1339,7 +1312,7 @@
         "positive": 6,
         "neutral": 89,
         "negative": 6,
-        "n": 36,
+        "n": 35,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -1575,6 +1548,26 @@
           ]
         },
         {
+          "name": "Gazzetta Regionale",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "XX Giochi del Mediterraneo: domani sera a Taranto la Cerimonia di apertura - Gazzetta Regionale",
+              "albanianTitle": "Lojërat Mesdhetare XX: Nesër mbrëma në Taranto mbahet ceremonia e hapjes - Gazzetta Regionale",
+              "blurb": "Ceremonia e hapjes së Lojërave të njëzetë Mesdhetare do të mbahet nesër në mbrëmje në qytetin e Tarantos.",
+              "imageUrl": "https://www.gazzettaregionale.it/resizer/600/315/true/2026_08_20/itataranto2026-jpg-jpg-1787231217820.jpg--xx_giochi_del_mediterraneo__domani_sera_a_taranto_la_cerimonia_di_apertura.jpg?1787231217838",
+              "url": "https://www.gazzettaregionale.it/primavera/2026/08/20/news/xx-giochi-del-mediterraneo-domani-sera-a-taranto-la-cerimonia-di-apertura-184341/",
+              "date": "2026-08-20",
+              "sentiment": "unknown",
+              "reason": "Nuk ka përmendje të Kosovës, prandaj nuk mund të përcaktohet qëndrimi",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "Il Resto del Carlino",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1695,6 +1688,26 @@
           ]
         },
         {
+          "name": "Quotidiano Nazionale",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Il metodo Putin (anche in Kosovo). Quando la difesa del più debole diventa arma di guerra ibrida - Quotidiano Nazionale",
+              "albanianTitle": "Metoda e Putinit (edhe në Kosovë): Kur mbrojtja e të dobëtit shndërrohet në armë të luftës hibride - Quotidiano Nazionale",
+              "blurb": "Analiza e Quotidiano Nazionale krahason qasjen e Serbisë në Kosovë me metodat e luftës hibride të Vladimir Putinit.",
+              "imageUrl": "https://www.quotidiano.net/image-service/view/acePublic/alias/contentid/Njc5OWFmZDgtODAyNi00/0/vladimir-putin-in-visita-alla-cattedrale-ortodossa-a-mosca-ansa.jpg?f=16:9&w=1200&h=675",
+              "url": "https://www.quotidiano.net/esteri/il-metodo-putin-anche-in-kosovo-quando-la-difesa-del-piu-debole-diventa-arma-di-guerra-ibrida-89804c37",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Përcjell një shembull pa gjuhë përçmuese ndaj Kosovës",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "Report Difesa",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1756,12 +1769,12 @@
         }
       ],
       "summary": {
-        "index": 54,
+        "index": 53,
         "positive": 7,
         "neutral": 93,
         "negative": 0,
-        "n": 14,
-        "excluded": 1,
+        "n": 15,
+        "excluded": 2,
         "confident": true,
         "stanceVersion": 2
       }
@@ -1771,7 +1784,7 @@
         {
           "name": "Blick",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 1,
           "articles": [
             {
               "title": "Aufregung im Kosovo wegen weissem Mercedes aus der Schweiz - Blick",
@@ -1782,19 +1795,6 @@
               "date": "2026-08-19",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Diese Szene sorgt für Diskussionen - Blick",
-              "albanianTitle": "Kjo skenë nxit debate të shumta",
-              "blurb": "Një skenë e caktuar ka nxitur diskutime të shumta në opinionin publik pas publikimit të pamjeve të saj.",
-              "imageUrl": "https://img.blick.ch/incoming/22192169-v1-leer-00-00-00-17-standbild003.jpg?imwidth=2000&ratio=16_9&x=449&y=483&width=1014&height=570",
-              "url": "https://www.blick.ch/ausland/auto-faehrt-ueber-trottoir-diese-szene-sorgt-fuer-diskussionen-id22192168.html",
-              "date": "2026-08-19",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportim pa ngarkesë",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1847,7 +1847,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 4,
+        "n": 3,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
@@ -2220,7 +2220,7 @@
         {
           "name": "Infobae",
           "sentiment": "neutral",
-          "articleCount": 3,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Kosovo localiza una fosa común con al menos 23 desaparecidos de la guerra de 1998 y 1999 - Infobae",
@@ -2241,19 +2241,6 @@
               "blurb": "Bashkimi Evropian kërkon garanci shtesë nga institucionet e Kosovës përpara se të hapet ura që ndan qytetin e Mitrovicës.",
               "imageUrl": "https://www.infobae.com/assets/images/logos/fallback-promo-image-1200x630.png",
               "url": "https://www.infobae.com/america/agencias/2026/08/18/la-ue-pide-mas-garantias-a-kosovo-antes-de-abrir-el-puente-que-divide-mitrovica/",
-              "date": "2026-08-18",
-              "sentiment": "neutral",
-              "reason": "Faktik, pa gjuhë të ngarkuar",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "La oposición kosovar protesta contra el bloqueo del Parlamento - Infobae",
-              "albanianTitle": "Opozita kosovare proteston kundër bllokimit të Parlamentit - Infobae",
-              "blurb": "Partitë opozitare në Kosovë kanë organizuar protesta si shenjë kundërshtimi ndaj bllokimit të punës në Kuvendin e vendit.",
-              "imageUrl": "https://www.infobae.com/assets/images/logos/fallback-promo-image-1200x630.png",
-              "url": "https://www.infobae.com/america/agencias/2026/08/18/la-oposicion-kosovar-protesta-contra-el-bloqueo-del-parlamento/",
               "date": "2026-08-18",
               "sentiment": "neutral",
               "reason": "Faktik, pa gjuhë të ngarkuar",
@@ -2326,10 +2313,10 @@
       ],
       "summary": {
         "index": 56,
-        "positive": 11,
-        "neutral": 89,
+        "positive": 12,
+        "neutral": 88,
         "negative": 0,
-        "n": 9,
+        "n": 8,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -2524,26 +2511,6 @@
           ]
         },
         {
-          "name": "Skai.gr",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Ένταση στο Κόσοβο για το άνοιγμα μιας γέφυρας - Skai.gr",
-              "albanianTitle": "Tensione në Kosovë për hapjen e një ure - Skai.gr",
-              "blurb": "Hapja e urës mbi lumin Ibër në Mitrovicë ka shkaktuar rritje të tensioneve në pjesën veriore të Kosovës.",
-              "imageUrl": "https://cdn.skai.gr/sites/default/files/styles/article_16_9/public/feedelio/mitsovica-bridge.jpg?itok=QJp9iyTJ",
-              "url": "https://www.skai.gr/news/world/entasi-sto-kosovo-gia-to-anoigma-mias-gefyras",
-              "date": "2026-08-21",
-              "sentiment": "neutral",
-              "reason": "Faktikisht raporton tensionin në Kosovë pa gjuhë ngarkuese",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
           "name": "Sofascore",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -2652,7 +2619,7 @@
         {
           "name": "sport-fm.gr",
           "sentiment": "neutral",
-          "articleCount": 3,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Εύκολη πρεμιέρα για την Εθνική βόλεϊ γυναικών - sport-fm.gr",
@@ -2660,19 +2627,6 @@
               "blurb": "Ekipi kombëtar i volejbollit të femrave të Greqisë ka zhvilluar ndeshjen e parë në Lojërat Mesdhetare kundër Kosovës.",
               "imageUrl": "https://resources.sport-fm.gr/supersportFM/images/news/26/08/20/greece-kosovo_230526.jpg?w=880&f=bicubic",
               "url": "https://www.sport-fm.gr/article/amp/ellada-kosobo-3-0-set-amp/5142590",
-              "date": "2026-08-20",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Αλβανία-Κόσοβο - sport-fm.gr",
-              "albanianTitle": "Shqipëri – Kosovë - sport-fm.gr",
-              "blurb": "Ndeshja sportive ndërmjet Shqipërisë dhe Kosovës është në qendër të vëmendjes së mediave sportive greke pas zhvillimeve të fundit.",
-              "imageUrl": "https://resources.sport-fm.gr/supersportFM/images/news/20/11/11/125750.jpg?w=880&f=bicubic",
-              "url": "https://www.sport-fm.gr/article/4139418",
               "date": "2026-08-20",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike",
@@ -2689,6 +2643,26 @@
               "date": "2026-08-20",
               "sentiment": "neutral",
               "reason": "Fact‑based sports result, no hostile wording",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Αθηναϊκό - Μακεδονικό πρακτορείο ειδήσεων",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Βόλεϊ-Μεσογειακοί Αγώνες 2026: Αναχωρούν για το Τάραντο οι εθνικές ανδρών και γυναικών - Αθηναϊκό - Μακεδονικό πρακτορείο ειδήσεων",
+              "albanianTitle": "Volejboll-Lojërat Mesdhetare 2026: Kombëtaret e meshkujve dhe femrave nisen për në Taranto - Agjencia e Lajmeve Athinase-Maqedonase",
+              "blurb": "Ekipet kombëtare të volejbollit të Greqisë janë nisur drejt Tarantos për të marrë pjesë në Lojërat Mesdhetare të vitit 2026.",
+              "imageUrl": "https://amna.gr/photos/202608/w18-150258mennt2026mediaday.jpg",
+              "url": "https://www.amna.gr/sport/article/1016230/Bolei-Mesogeiakoi-Agones-2026-Anachoroun-gia-to-Taranto-oi-ethnikes-andron-kai-gunaikon-",
+              "date": "2026-08-18",
+              "sentiment": "neutral",
+              "reason": "Faktik, pa gjuhë të ngarkuar",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -2735,26 +2709,6 @@
               "date": "2026-08-20",
               "sentiment": "neutral",
               "reason": "Fact‑based sports result, no hostile wording",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "Μακεδονικό Πρακτορείο Ειδήσεων",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Βόλεϊ-Μεσογειακοί Αγώνες 2026: Αναχωρούν για το Τάραντο οι εθνικές ανδρών και γυναικών - Αθηναϊκό - Μακεδονικό πρακτορείο ειδήσεων",
-              "albanianTitle": "Volejboll-Lojërat Mesdhetare 2026: Kombëtaret e meshkujve dhe femrave nisen për në Taranto - Agjencia e Lajmeve Athinase-Maqedonase",
-              "blurb": "Ekipet kombëtare të volejbollit të Greqisë janë nisur drejt Tarantos për të marrë pjesë në Lojërat Mesdhetare të vitit 2026.",
-              "imageUrl": "https://amna.gr/photos/202608/w18-150258mennt2026mediaday.jpg",
-              "url": "https://www.amna.gr/sport/article/1016230/Bolei-Mesogeiakoi-Agones-2026-Anachoroun-gia-to-Taranto-oi-ethnikes-andron-kai-gunaikon-",
-              "date": "2026-08-18",
-              "sentiment": "neutral",
-              "reason": "Faktik, pa gjuhë të ngarkuar",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -2827,7 +2781,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 27,
+        "n": 25,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -2835,6 +2789,26 @@
     },
     "Suedi": {
       "outlets": [
+        {
+          "name": "Marcus Oscarsson",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "UPPGIFTER: Nytt krig i Europa kan vara nära – ”kommer attackera” - Marcus Oscarsson",
+              "albanianTitle": "RAPORTIME: Një luftë e re në Evropë mund të jetë afër – “do të sulmojnë”",
+              "blurb": "Raportimet e fundit sugjerojnë mundësinë e një lufte të re në Evropë dhe paralajmërojnë për sulme të mundshme.",
+              "imageUrl": "https://cdn.marcusoscarsson.se/2023/11/europa-varning-foto-Christian-Lue.jpg",
+              "url": "https://marcusoscarsson.se/uppgifter-nytt-krig-i-europa-nara-kommer-attackera/",
+              "date": "2026-08-19",
+              "sentiment": "unknown",
+              "reason": "Teksti nuk përmend Kosovën, prandaj nuk mund të përcaktohet qëndrimi",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
         {
           "name": "Sofascore",
           "sentiment": "neutral",
@@ -2875,7 +2849,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 2,
-        "excluded": 0,
+        "excluded": 1,
         "confident": false,
         "stanceVersion": 2
       }
@@ -3270,8 +3244,21 @@
         {
           "name": "Saray Medya",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
+            {
+              "title": "Kosova'da toplu mezarlar yanında silah bulundu - Saray Medya",
+              "albanianTitle": "Gjenden armë pranë varrezave masive në Kosovë - Saray Medya",
+              "blurb": "Sasi armatimi janë gjetur në afërsi të varrezave masive në territorin e Kosovës sipas raportimit të Saray Medya.",
+              "imageUrl": "https://img.saraymedya.com/manset/2026/08/kosova-da-toplu-mezarlar-yaninda-silah-bulundu-1787325012.webp",
+              "url": "https://www.saraymedya.com/haber/kosova-da-toplu-mezarlar-yaninda-silah-bulundu_295143/",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Raporton faktikisht gjetjen e armëve pranë varreve masive në Kosovë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
             {
               "title": "Kosova'da savaş suçları soruşturmasında 23 kişiye ait kemikler bulundu - Saray Medya",
               "albanianTitle": "Gjenden eshtrat e 23 personave në kuadër të hetimeve për krime lufte në Kosovë",
@@ -3310,7 +3297,7 @@
         {
           "name": "Son Dakika",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 1,
           "articles": [
             {
               "title": "Kosova'da Halter Şampiyonası Başladı - Son Dakika",
@@ -3321,19 +3308,6 @@
               "date": "2026-08-20",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Kosovo'da Savaş Suçları Soruşturması: 23 Kalıntı Bulundu - Son Dakika",
-              "albanianTitle": "Hetimet për krime lufte në Kosovë: Genden mbetjet mortore të 23 personave",
-              "blurb": "Hetimet për krimet e luftës në Kosovë kanë rezultuar me gjetjen e mbetjeve mortore të njëzet e tre personave.",
-              "imageUrl": "https://foto.sondakika.com/haber/2026/08/19/kosova-da-savas-suclari-sorusturmasi-23-kisiy-20159336_amp.jpg",
-              "url": "https://www.sondakika.com/3-sayfa/haber-kosovo-da-savas-suclari-sorusturmasi-23-kalinti-bu-20159357/",
-              "date": "2026-08-19",
-              "sentiment": "neutral",
-              "reason": "Faktik raportim i hetimeve të luftës në Kosovë",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -3363,8 +3337,21 @@
         {
           "name": "Transfermarkt",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 3,
           "articles": [
+            {
+              "title": "İsveç - Kosova, 12 Oca 2020 - Hazırlık Maçları - Maç raporu - Transfermarkt",
+              "albanianTitle": "Suedi – Kosovë, 12 janar 2020 – Ndeshje miqësore – Raporti i ndeshjes – Transfermarkt",
+              "blurb": "Ndeshja miqësore ndërmjet Suedisë dhe Kosovës e zhvilluar më 12 janar 2020 është dokumentuar në raportin zyrtar të Transfermarkt.",
+              "imageUrl": null,
+              "url": "https://www.transfermarkt.com.tr/begegnung/index/spielbericht/3304907",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
             {
               "title": "KF Kosova Bernhausen - Transfermarkt",
               "albanianTitle": null,
@@ -3495,9 +3482,9 @@
         }
       ],
       "summary": {
-        "index": 52,
-        "positive": 7,
-        "neutral": 89,
+        "index": 51,
+        "positive": 5,
+        "neutral": 91,
         "negative": 4,
         "n": 57,
         "excluded": 0,
@@ -3548,6 +3535,26 @@
           ]
         },
         {
+          "name": "BGNES",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Serbia weaponises the Ibar in its escalating pressure on Kosovo - BGNES",
+              "albanianTitle": "Serbia përdor Ibrin si mjet presioni në përshkallëzimin e situatës ndaj Kosovës - BGNES",
+              "blurb": "Serbia po përdor lumin Ibër si mjet presioni politik ndaj Kosovës sipas raportimeve të agjencisë BGNES.",
+              "imageUrl": "https://www.bgnes.com/static/images/news/2026/08/21/21582/19765.webp",
+              "url": "http://www.bgnes.com/no-filter/serbia-weaponises-the-ibar-in-its-escalating-pressure-on-kosovo",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Faktikisht raporton presionin serb ndaj Kosovës pa gjuhë polemike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "Balkan Insight",
           "sentiment": "neutral",
           "articleCount": 4,
@@ -3561,19 +3568,6 @@
               "date": "2026-08-21",
               "sentiment": "neutral",
               "reason": "Factual report of Thaci’s expectation",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Remains of 23 Wartime Victims Unearthed from Mass Graves in Kosovo - Balkan Insight",
-              "albanianTitle": "Gjenden mbetjet mortore të 23 viktimave të luftës në varreza masive në Kosovë - Balkan Insight",
-              "blurb": "Janë zhvarrosur mbetjet mortore të njëzet e tre viktimave të luftës në varreza masive të gjetura në Kosovë.",
-              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/08/Kalluder-mass-grave-Kosovo-1-BIRN-e1787239870514.jpg",
-              "url": "https://balkaninsight.com/2026/08/20/remains-of-23-wartime-victims-unearthed-from-mass-graves-in-kosovo/btj/",
-              "date": "2026-08-20",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportuar pa gjuhë të ngarkuar",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -3603,6 +3597,19 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Remains of 23 Wartime Victims Unearthed from Mass Graves in Kosovo - Balkan Insight",
+              "albanianTitle": "Gjenden mbetjet mortore të 23 viktimave të luftës në varreza masive në Kosovë - Balkan Insight",
+              "blurb": "Janë zhvarrosur mbetjet mortore të njëzet e tre viktimave të luftës në varreza masive të gjetura në Kosovë.",
+              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/08/Kalluder-mass-grave-Kosovo-1-BIRN-e1787239870514.jpg",
+              "url": "https://balkaninsight.com/2026/08/20/remains-of-23-wartime-victims-unearthed-from-mass-graves-in-kosovo/btj/",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportuar pa gjuhë të ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ]
         },
@@ -3620,26 +3627,6 @@
               "date": "2026-08-19",
               "sentiment": "neutral",
               "reason": "Fact‑based headline about a trail, no evaluative language toward Kosovo",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "CTV News",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Remains of over 20 people found in Kosovo mass graves search - CTV News",
-              "albanianTitle": "Gjenden mbetjet mortore të mbi 20 personave në varrezat masive në Kosovë",
-              "blurb": "Gjatë kërkimeve në varrezat masive në Kosovë janë gjetur mbetjet mortore të më shumë se njëzet personave.",
-              "imageUrl": "https://www.ctvnews.ca/resizer/v2/4I6BGNXDTVDEHIMYAW5LQLP7TY.jpg?smart=true&auth=df5e5349aa1d4929d8295114aa9e0e41adc5ab6e57e0a205093fcc4a92cd1158&width=1200&height=630",
-              "url": "https://www.ctvnews.ca/world/article/remains-of-over-20-people-found-in-kosovo-mass-graves-search/",
-              "date": "2026-08-20",
-              "sentiment": "neutral",
-              "reason": "Fact‑based report, no loaded language",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -3749,7 +3736,7 @@
         {
           "name": "KosovaPress",
           "sentiment": "neutral",
-          "articleCount": 3,
+          "articleCount": 2,
           "articles": [
             {
               "title": "From Taranto, Kosovo’s Haxhiu calls for unity to overcome political deadlock, just as in sport - KosovaPress",
@@ -3775,19 +3762,6 @@
               "reason": "Faktikë raportim neutral",
               "isQuote": false,
               "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Haxhiu supports Kosovo at Taranto 2026 - KosovaPress",
-              "albanianTitle": "Haxhiu mbështet Kosovën në Taranto 2026",
-              "blurb": "Ministrja Haxhiu shpreh mbështetjen e saj për pjesëmarrjen e Kosovës në edicionin e vitit 2026 në Taranto.",
-              "imageUrl": null,
-              "url": "https://kosovapress.com/eng/haxhiu-supports-kosovo-at-taranto-2026",
-              "date": "2026-08-21",
-              "sentiment": "positive",
-              "reason": "Positive framing by outlet",
-              "isQuote": false,
-              "evidence": "supports Kosovo",
               "speaker": ""
             }
           ]
@@ -3940,11 +3914,11 @@
         }
       ],
       "summary": {
-        "index": 57,
-        "positive": 17,
-        "neutral": 78,
-        "negative": 4,
-        "n": 23,
+        "index": 55,
+        "positive": 14,
+        "neutral": 82,
+        "negative": 5,
+        "n": 22,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2
