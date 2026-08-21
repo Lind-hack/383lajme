@@ -1,0 +1,51 @@
+# Reads NaftaSot and pushes the prices to 383, once a day.
+#
+# A plain fetch from here gets Cloudflare's "Just a moment..." interstitial —
+# measured 403 from both this runner and Vercel's render path, while the same
+# request answers 200 from a residential connection. That page is a JavaScript
+# challenge rather than a hard block, so it is issued to a real browser and
+# solved by one: Playwright drives Chromium, Cloudflare hands over its cookie,
+# and the JSON arrives.
+#
+# If Cloudflare ever escalates to a block that a browser cannot clear, this job
+# fails loudly and scripts/push-fuel-prices.mjs still works by hand from any
+# residential connection.
+#
+# 05:40 UTC — before the morning traffic, after NaftaSot's overnight updates.
+name: Fuel prices — daily push
+
+on:
+  schedule:
+    - cron: "40 5 * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+
+jobs:
+  push:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install dependencies
+        run: npm ci --no-audit --no-fund || npm install --no-audit --no-fund
+
+      # The browser binary has to match the playwright-core already in the
+      # lockfile, so the version is read from it rather than pinned twice.
+      - name: Install Chromium
+        run: |
+          VERSION=$(node -p "require('playwright-core/package.json').version")
+          echo "playwright-core $VERSION"
+          npx --yes "playwright@$VERSION" install --with-deps chromium
+
+      - name: Read NaftaSot through a real browser and push
+        env:
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+        run: node scripts/fetch-fuel-via-browser.mjs
