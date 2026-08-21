@@ -5752,6 +5752,21 @@ header[data-overlay] .nav-coin-chip {
 }
 .home-fuel-unavailable { color: #ab9c92; }
 
+/* A price whose own date lags the row's carries that date under itself. The
+   row is dated by its newest price, so without this a gas price that has not
+   moved in a week would silently claim to be that morning's. */
+.home-fuel-row > span[data-lagging] { color: #8a7a71; }
+.home-fuel-row > span small.home-fuel-since {
+  display: block;
+  margin: 1px 0 0;
+  color: #ab9c92;
+  font-size: 7px;
+  font-weight: 650;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+
 @media (hover: hover) and (pointer: fine) {
   .home-market-card-currency:hover {
     border-color: rgba(206, 83, 31, 0.28);

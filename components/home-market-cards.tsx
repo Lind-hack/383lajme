@@ -13,6 +13,7 @@ import type {
   FuelBrandSnapshot,
   FuelSnapshot,
 } from "@/lib/home-market-data";
+import { dateKeyInKosovo } from "@/lib/reagimi-data";
 
 type CurrencyCode = "ALL" | "EUR";
 
@@ -238,15 +239,49 @@ export function CurrencyExchangeCard({
   );
 }
 
-function FuelValue({ value }: { value: number | null }) {
-  return value === null ? (
-    <span className="home-fuel-unavailable">—</span>
-  ) : (
-    <span>
+/**
+ * One price, plus its own date when that date is not the row's.
+ *
+ * NaftaSot publishes each fuel separately and the three drift days apart, so a
+ * row dated by its newest price would otherwise imply all three moved that
+ * morning. When one lags, it says so on the price itself rather than dragging
+ * the whole row backwards.
+ */
+function FuelValue({
+  value,
+  at,
+  rowAt,
+}: {
+  value: number | null;
+  at?: string | null;
+  rowAt?: string | null;
+}) {
+  if (value === null) return <span className="home-fuel-unavailable">—</span>;
+
+  const lagging = isEarlierDay(at, rowAt);
+
+  return (
+    <span data-lagging={lagging || undefined}>
       €{value.toFixed(2)}
       <small>/L</small>
+      {lagging ? (
+        <small className="home-fuel-since" title={`Ky çmim s'ka lëvizur që nga ${formatSourceDate(at ?? null)}`}>
+          {formatSourceDate(at ?? null)}
+        </small>
+      ) : null}
     </span>
   );
+}
+
+/** Compares Kosovo calendar days, not raw timestamps: NaftaSot stamps some
+ *  prices in +02:00 and others in UTC, so slicing the ISO string disagrees
+ *  with itself either side of midnight. */
+function isEarlierDay(at?: string | null, rowAt?: string | null) {
+  if (!at || !rowAt) return false;
+  const a = Date.parse(at);
+  const b = Date.parse(rowAt);
+  if (!Number.isFinite(a) || !Number.isFinite(b)) return false;
+  return dateKeyInKosovo(new Date(a)) < dateKeyInKosovo(new Date(b));
 }
 
 /** The brand column is one narrow line that ellipsises, so each supplier gets a
@@ -261,18 +296,22 @@ function FuelBrandRow({ item }: { item: FuelBrandSnapshot }) {
   const unavailable =
     item.diesel === null && item.petrol === null && item.gas === null;
 
+  // The newest of the row's prices — when it actually last refreshed. Falls
+  // back to updatedAt for snapshots pushed before freshestAt existed.
+  const rowDate = item.freshestAt ?? item.updatedAt;
+
   return (
     <div className="home-fuel-row" data-unavailable={unavailable || undefined}>
       <div className="home-fuel-brand">
         {/* title carries the full supplier name for anyone who needs it. */}
         <strong title={item.brand}>{FUEL_BRAND_LABEL[item.brand] ?? item.brand}</strong>
         <small>
-          {unavailable ? "pa çmim publik" : formatSourceDate(item.updatedAt)}
+          {unavailable ? "pa çmim publik" : formatSourceDate(rowDate)}
         </small>
       </div>
-      <FuelValue value={item.diesel} />
-      <FuelValue value={item.petrol} />
-      <FuelValue value={item.gas} />
+      <FuelValue value={item.diesel} at={item.dates?.diesel} rowAt={rowDate} />
+      <FuelValue value={item.petrol} at={item.dates?.petrol} rowAt={rowDate} />
+      <FuelValue value={item.gas} at={item.dates?.gas} rowAt={rowDate} />
     </div>
   );
 }

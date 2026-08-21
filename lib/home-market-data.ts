@@ -26,10 +26,15 @@ export type FuelBrandSnapshot = {
   diesel: number | null;
   petrol: number | null;
   gas: number | null;
-  /** Oldest of the three prices — the age of the row as a whole. */
+  /** Oldest of the three prices. Kept because it is what snapshots pushed
+      before 2026-08-22 carry, and because the health probe reports the spread. */
   updatedAt: string | null;
-  /** Newest of the three, so the card can show a range when they diverge. */
+  /** Newest of the three — when this row actually last refreshed. This is what
+      the card dates the row by. */
   freshestAt?: string | null;
+  /** Each price's own date. The three diverge by days, so no single date
+      describes the whole row; this is what lets the card mark the laggard. */
+  dates?: { diesel: string | null; petrol: string | null; gas: string | null };
 };
 
 export type FuelSnapshot = {
@@ -249,9 +254,12 @@ function stationToSnapshot(
   const petrol = freshestFuel(matches, "benzinë");
   const gas = freshestFuel(matches, "gaz");
 
-  // The row's date is the oldest of the prices shown, because that is the age
-  // of the row as a whole. Claiming the newest would date the whole line by
-  // its freshest number.
+  // The row is dated by its NEWEST price, because the label reads as "when
+  // this last refreshed" and the row did refresh then. Dating it by the oldest
+  // — which this did until 2026-08-22 — made Shell and IP Petrol read as six
+  // days stale while their diesel and petrol were that morning's, purely
+  // because their gas price had not moved since 16 August. The laggard is not
+  // hidden by this: `dates` below lets the card mark the individual price.
   const stamps = [diesel.updatedAt, petrol.updatedAt, gas.updatedAt]
     .filter((value): value is string => Boolean(value))
     .sort();
@@ -265,6 +273,7 @@ function stationToSnapshot(
     gas: gas.price,
     updatedAt: stamps[0] ?? null,
     freshestAt: stamps[stamps.length - 1] ?? null,
+    dates: { diesel: diesel.updatedAt, petrol: petrol.updatedAt, gas: gas.updatedAt },
   };
 }
 

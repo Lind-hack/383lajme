@@ -79,9 +79,12 @@ function buildSnapshot(stations) {
       diesel: diesel.price,
       petrol: petrol.price,
       gas: gas.price,
-      // Oldest, because that is the age of the row as a whole.
+      // The row is dated by its NEWEST price: the label reads as "when this
+      // last refreshed", and dating it by the oldest made rows whose gas had
+      // not moved in a week read as stale while their diesel was that day's.
       updatedAt: stamps[0] ?? null,
       freshestAt: stamps[stamps.length - 1] ?? null,
+      dates: { diesel: diesel.updatedAt, petrol: petrol.updatedAt, gas: gas.updatedAt },
     };
   });
 
