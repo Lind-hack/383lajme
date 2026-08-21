@@ -2029,8 +2029,8 @@
   {
     "date": "2026-08-21",
     "overallIndex": 51,
-    "totalArticles": 231,
-    "sourceCount": 151,
+    "totalArticles": 232,
+    "sourceCount": 154,
     "stanceVersion": 2,
     "countries": {
       "Gjermani": {
@@ -2038,9 +2038,9 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 4,
+        "n": 5,
         "excluded": 0,
-        "confident": false,
+        "confident": true,
         "stanceVersion": 2
       },
       "SHBA": {
@@ -2088,9 +2088,9 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 5,
+        "n": 4,
         "excluded": 0,
-        "confident": true,
+        "confident": false,
         "stanceVersion": 2
       },
       "Zvicër": {
@@ -2098,7 +2098,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 3,
+        "n": 4,
         "excluded": 1,
         "confident": false,
         "stanceVersion": 2

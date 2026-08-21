@@ -1,8 +1,8 @@
 {
   "lastUpdated": "2026-08-21",
   "overallIndex": 51,
-  "totalArticles": 231,
-  "sourceCount": 151,
+  "totalArticles": 232,
+  "sourceCount": 154,
   "stanceVersion": 2,
   "countries": {
     "Gjermani": {
@@ -61,6 +61,26 @@
           ]
         },
         {
+          "name": "Reporteri",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Qeveria nuk e di se nga kanë hyrë vaksinat nga Serbia në Kosovë, Hoti paralajmëron masa - Reporteri",
+              "albanianTitle": "Qeveria nuk e di se si hynë vaksinat nga Serbia në Kosovë, Hoti paralajmëron masa",
+              "blurb": "Qeveria nuk ka informacion për hyrjen e vaksinave nga Serbia në Kosovë dhe kryeministri Hoti paralajmëron masa.",
+              "imageUrl": null,
+              "url": "https://reporteri.net/de/Botschaft/Die-Regierung-wei%C3%9F-nicht--wie-viele-Impfstoffe-aus-Serbien-in-den-Kosovo-gelangt-sind--warnt-vor-Ma%C3%9Fnahmen/",
+              "date": "2026-08-19",
+              "sentiment": "neutral",
+              "reason": "Fact-based reporting without loaded language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "Tagesschau",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -86,9 +106,9 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 4,
+        "n": 5,
         "excluded": 0,
-        "confident": false,
+        "confident": true,
         "stanceVersion": 2
       }
     },
@@ -387,26 +407,6 @@
           ]
         },
         {
-          "name": "Inshorts",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosovo-born man who says he infiltrated Al Qaeda arrested by ICE | Tap to know more | Inshorts - Inshorts",
-              "albanianTitle": "Arrestohet nga ICE burri me prejardhje nga Kosova që pretendonte se ishte infiltruar në Al-Kaeda",
-              "blurb": "Autoritetet e emigracionit në Shtetet e Bashkuara kanë arrestuar një shtetas nga Kosova i cili pretendonte se ishte infiltruar në Al-Kaeda.",
-              "imageUrl": "https://media.inshorts.com/inshorts/images/v1/variants/jpg/m/2026/08_aug/21_fri/img_1787283904692_829.jpg",
-              "url": "https://inshorts.com/en/news/kosovo-born-man-who-says-he-infiltrated-al-qaeda-arrested-by-ice-1787283930086",
-              "date": "2026-08-21",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportim neutral",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
           "name": "JNS.org",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -585,6 +585,26 @@
               "date": "2026-08-19",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "TRT World",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Will justice ever be served for Kosovo war victims? - TRT World",
+              "albanianTitle": "A do të vihet ndonjëherë drejtësia në vend për viktimat e luftës në Kosovë? - TRT World",
+              "blurb": "Viktima të luftës në Kosovë kërkojnë drejtësi për krimet e kryera gjatë konfliktit të armatosur në vend.",
+              "imageUrl": null,
+              "url": "https://www.trtworld.com/video/tv/shows/683ef3c9cff794df564280c5/play/79c92cb03c09",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Faktikisht pyetje pa ngarkim gjuhësor",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1202,6 +1222,26 @@
           ]
         },
         {
+          "name": "TRT World",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Will justice ever be served for Kosovo war victims? - TRT World",
+              "albanianTitle": "A do të vihet ndonjëherë drejtësia në vend për viktimat e luftës në Kosovë? - TRT World",
+              "blurb": "Viktima të luftës në Kosovë kërkojnë drejtësi për krimet e kryera gjatë konfliktit të armatosur në vend.",
+              "imageUrl": null,
+              "url": "https://www.trtworld.com/video/tv/shows/683ef3c9cff794df564280c5/play/79c92cb03c09",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Faktikisht pyetje pa ngarkim gjuhësor",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "srpske.rs",
           "sentiment": "neutral",
           "articleCount": 6,
@@ -1246,19 +1286,6 @@
               "speaker": ""
             },
             {
-              "title": "Ragus: KFOR Pullout From Ibar Bridge Risks Destabilization - srpske.rs",
-              "albanianTitle": "Ragus: Tërheqja e KFOR-it nga ura e Ibrit rrezikon destabilizimin",
-              "blurb": "Analisti Ragus vlerëson se tërheqja e forcave të KFOR-it nga ura e Ibrit mund të shkaktojë destabilizim të situatës.",
-              "imageUrl": "https://srpske.rs/uploads/articles/ragus-warns-kfor-withdrawal-ibar-bridge-destabilization-16x9.webp",
-              "url": "https://srpske.rs/en/news/politika/2026/08/21/ragus-warns-kfor-withdrawal-ibar-bridge-destabilization",
-              "date": "2026-08-21",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportim neutral",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
               "title": "Bocan-Harchenko: Russia Prevents Ethnic Cleansing of Serbs - srpske.rs",
               "albanianTitle": "Bocan-Harchenko: Rusia parandalon spastrimin etnik të serbëve - srpske.rs",
               "blurb": "Ambasadori rus Bocan-Harchenko pretendon se Rusia po ndërmerr veprime për të parandaluar spastrimin etnik të serbëve në Kosovë.",
@@ -1283,6 +1310,19 @@
               "isQuote": true,
               "evidence": "",
               "speaker": "Kodraljiju"
+            },
+            {
+              "title": "Vucic to Send Letter to Rutte: Don't Open Ibar Bridge - srpske.rs",
+              "albanianTitle": "Vuçiq i shkruan letër Ruttes: Mos e hapni urën e Ibrit",
+              "blurb": "Presidenti serb Aleksandar Vuçiq paralajmëron dërgimin e një letre drejtuar Mark Ruttes kundër hapjes së urës së Ibrit.",
+              "imageUrl": "https://srpske.rs/uploads/articles/vucic-letter-rutte-ibar-bridge-16x9.webp",
+              "url": "https://srpske.rs/en/news/politika/2026/08/19/vucic-letter-rutte-ibar-bridge",
+              "date": "2026-08-19",
+              "sentiment": "negative",
+              "reason": "Outlet issues a directive opposing the opening of the bridge, a line against Kosovo's interests",
+              "isQuote": false,
+              "evidence": "Don't Open Ibar Bridge",
+              "speaker": ""
             }
           ]
         },
@@ -1534,13 +1574,13 @@
           "articles": [
             {
               "title": "XX Giochi del Mediterraneo: domani sera a Taranto la Cerimonia di apertura - Gazzetta Regionale",
-              "albanianTitle": "Lojërat e 20-ta Mesdhetare: Nesër mbrëma mbahet ceremonia e hapjes në Taranto",
+              "albanianTitle": "Lojërat e 20-ta Mesdhetare: Nesër mbrëma në Taranto mbahet ceremonia e hapjes - Gazzetta Regionale",
               "blurb": "Ceremonia e hapjes së Lojërave të 20-ta Mesdhetare do të mbahet nesër në mbrëmje në qytetin e Tarantos.",
               "imageUrl": "https://www.gazzettaregionale.it/resizer/600/315/true/2026_08_20/itataranto2026-jpg-jpg-1787231217820.jpg--xx_giochi_del_mediterraneo__domani_sera_a_taranto_la_cerimonia_di_apertura.jpg?1787231217838",
               "url": "https://www.gazzettaregionale.it/primavera/2026/08/20/news/xx-giochi-del-mediterraneo-domani-sera-a-taranto-la-cerimonia-di-apertura-184341/",
               "date": "2026-08-20",
               "sentiment": "unknown",
-              "reason": "No reference to Kosovo in the headline or snippet, so outlet's stance cannot be inferred",
+              "reason": "Titulli nuk përmend Kosovën, prandaj nuk mund të përcaktohet qëndrimi i median",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1764,7 +1804,7 @@
         {
           "name": "Blick",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 1,
           "articles": [
             {
               "title": "Aufregung im Kosovo wegen weissem Mercedes aus der Schweiz - Blick",
@@ -1775,19 +1815,6 @@
               "date": "2026-08-19",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Diese Szene sorgt für Diskussionen - Blick",
-              "albanianTitle": "Kjo skenë nxit debate të shumta",
-              "blurb": "Një skenë e caktuar ka nxitur diskutime të shumta në opinionin publik pas publikimit të pamjeve të saj.",
-              "imageUrl": "https://img.blick.ch/incoming/22192169-v1-leer-00-00-00-17-standbild003.jpg?imwidth=2000&ratio=16_9&x=449&y=483&width=1014&height=570",
-              "url": "https://www.blick.ch/ausland/auto-faehrt-ueber-trottoir-diese-szene-sorgt-fuer-diskussionen-id22192168.html",
-              "date": "2026-08-19",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportim pa ngarkesë",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1860,9 +1887,9 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 5,
+        "n": 4,
         "excluded": 0,
-        "confident": true,
+        "confident": false,
         "stanceVersion": 2
       }
     },
@@ -1871,7 +1898,7 @@
         {
           "name": "Blick",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Aufregung im Kosovo wegen weissem Mercedes aus der Schweiz - Blick",
@@ -1882,6 +1909,19 @@
               "date": "2026-08-19",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Diese Szene sorgt für Diskussionen - Blick",
+              "albanianTitle": "Kjo skenë nxit debate të shumta",
+              "blurb": "Një skenë e caktuar ka nxitur diskutime të shumta në opinionin publik pas publikimit të pamjeve të saj.",
+              "imageUrl": "https://img.blick.ch/incoming/22192169-v1-leer-00-00-00-17-standbild003.jpg?imwidth=2000&ratio=16_9&x=449&y=483&width=1014&height=570",
+              "url": "https://www.blick.ch/ausland/auto-faehrt-ueber-trottoir-diese-szene-sorgt-fuer-diskussionen-id22192168.html",
+              "date": "2026-08-19",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim pa ngarkesë",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1954,7 +1994,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 3,
+        "n": 4,
         "excluded": 1,
         "confident": false,
         "stanceVersion": 2
@@ -2628,19 +2668,6 @@
               "speaker": ""
             },
             {
-              "title": "Αγριεμένη στην πρεμιέρα της η Εθνική ανδρών, σάρωσε το Κόσοβο - sport-fm.gr",
-              "albanianTitle": "Kombëtarja greke shkëlqen në ndeshjen e parë, mposht bindshëm Kosovën",
-              "blurb": "Ekipi kombëtar i Greqisë ka arritur fitore bindëse ndaj Kosovës në ndeshjen e parë të Lojërave Mesdhetare.",
-              "imageUrl": "https://resources.sport-fm.gr/supersportFM/images/news/26/08/20/greece_143642.jpg?w=880&f=bicubic",
-              "url": "https://www.sport-fm.gr/article/amp/mesogeiakoi-agwnes-agriemeni-stin-premiera-tis-i-ethniki-andrwn-sarwse-to-kosobo-amp/5142502",
-              "date": "2026-08-20",
-              "sentiment": "neutral",
-              "reason": "Fact‑based sports result, no hostile wording",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
               "title": "Αλβανία-Κόσοβο - sport-fm.gr",
               "albanianTitle": "Shqipëri – Kosovë - sport-fm.gr",
               "blurb": "Ndeshja sportive ndërmjet Shqipërisë dhe Kosovës është në qendër të vëmendjes së mediave sportive greke pas zhvillimeve të fundit.",
@@ -2649,6 +2676,19 @@
               "date": "2026-08-20",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Αγριεμένη στην πρεμιέρα της η Εθνική ανδρών, σάρωσε το Κόσοβο - sport-fm.gr",
+              "albanianTitle": "Kombëtarja greke shkëlqen në ndeshjen e parë, mposht bindshëm Kosovën",
+              "blurb": "Ekipi kombëtar i Greqisë ka arritur fitore bindëse ndaj Kosovës në ndeshjen e parë të Lojërave Mesdhetare.",
+              "imageUrl": "https://resources.sport-fm.gr/supersportFM/images/news/26/08/20/greece_143642.jpg?w=880&f=bicubic",
+              "url": "https://www.sport-fm.gr/article/amp/mesogeiakoi-agwnes-agriemeni-stin-premiera-tis-i-ethniki-andrwn-sarwse-to-kosobo-amp/5142502",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Fact‑based sports result, no hostile wording",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -2931,22 +2971,9 @@
       "outlets": [
         {
           "name": "Cumhuriyet",
-          "sentiment": "neutral",
-          "articleCount": 2,
+          "sentiment": "positive",
+          "articleCount": 1,
           "articles": [
-            {
-              "title": "Kosova’da savaş suçları soruşturması: 23 kişiye ait kemik kalıntıları bulundu - Cumhuriyet",
-              "albanianTitle": "Hetimet për krime lufte në Kosovë: Gjehen mbetjet mortore të 23 personave - Cumhuriyet",
-              "blurb": "Gjatë hetimeve për krimet e luftës në Kosovë janë gjetur mbetjet mortore të njëzet e tre personave.",
-              "imageUrl": "https://media.cumhuriyet.com.tr/Archive/53153f83-5282-4b11-996f-48dfeb767ed9.jpg",
-              "url": "https://www.cumhuriyet.com.tr/dunya/kosova-da-savas-suclari-sorusturmasi-23-kisiye-ait-kemik-kalintilari-bulundu-2530603",
-              "date": "2026-08-19",
-              "sentiment": "neutral",
-              "reason": "Raportim i hetimit pa gjuhë ngarkuar ndaj Kosovës",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "İzmir ile Kosova arasında çok yönlü iş birliği dönemi - Cumhuriyet",
               "albanianTitle": "Fillon epoka e bashkëpunimit shumëdimensional mes Izmirit dhe Kosovës",
@@ -3088,6 +3115,19 @@
           "articleCount": 6,
           "articles": [
             {
+              "title": "KFOR’un Varlığının Optimize Edilmesi Güvenlikteki İyileşmeyi Yansıtıyor - Kosovahaber.com",
+              "albanianTitle": "Optimizimi i pranisë së KFOR-it pasqyron përmirësimin e sigurisë - Kosovahaber.com",
+              "blurb": "Optimizimi i pranisë së forcave të KFOR-it në Kosovë reflekton përmirësimin e situatës së përgjithshme të sigurisë.",
+              "imageUrl": null,
+              "url": "https://kosovahaber.com/haber/kforun-varliginin-optimize-edilmesi-guvenlikteki-iyilesmeyi-yansitiyor-105152",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Raportim neutral i përmirësimit të sigurisë në Kosovë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
               "title": "IKD: Kosova, 34 Milyon Euroluk AB Fonunu Kaybetme Riskiyle Karşı Karşıya - Kosovahaber.com",
               "albanianTitle": "IKD: Kosova rrezikon t'i humbë 34 milionë euro nga fondet e BE-së",
               "blurb": "Instituti i Kosovës për Drejtësi paralajmëron se Kosova rrezikon të humbasë 34 milionë euro nga fondet e Bashkimit Evropian.",
@@ -3114,6 +3154,32 @@
               "speaker": "Kuzey Tugayı"
             },
             {
+              "title": "Zubin Potok’ta Toplu Mezar Kazı Çalışmaları Tamamlandı - Kosovahaber.com",
+              "albanianTitle": "Përfundojnë gërmimet në varrezën masive në Zubin Potok - Kosovahaber.com",
+              "blurb": "Kanë përfunduar gërmimet në lokacionin e dyshuar për varrezë masive në komunën e Zubin Potokut në Kosovë.",
+              "imageUrl": null,
+              "url": "https://kosovahaber.com/haber/zubin-potokta-toplu-mezar-kazi-calismalari-tamamlandi-105153",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Raportim neutral i përfundimit të gërmimeve në Zubin Potok",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Priştine’de 12 Eylül’de “Özgürlük Yürüyüşü” Düzenlenecek - Kosovahaber.com",
+              "albanianTitle": "Më 12 shtator në Prishtinë do të mbahet “Marshi për Liri” - Kosovahaber.com",
+              "blurb": "Marshimi për liri do të organizohet në Prishtinë më datën 12 shtator për të shënuar këtë ngjarje publike.",
+              "imageUrl": null,
+              "url": "https://kosovahaber.com/haber/pristinede-12-eylulde-ozgurluk-yuruyusu-duzenlenecek-105156",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Raportim neutral i organizimit të manifestimit për liri në Prishtinë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
               "title": "Vuçiç: İbre Köprüsü Diyalog Sürecinin Parçasıydı, Şimdi Kaldırmak İstiyorlar - Kosovahaber.com",
               "albanianTitle": "Vuçiç: Ura e Ibrit ishte pjesë e procesit të dialogut, tani duan ta heqin",
               "blurb": "Presidenti serb, Aleksandar Vuçiç, deklaroi se ura mbi lumin Ibër ishte pjesë e procesit të dialogut dhe kundërshtoi hapjen e saj.",
@@ -3122,45 +3188,6 @@
               "date": "2026-08-21",
               "sentiment": "neutral",
               "reason": "Raportim neutral i deklaratës së Vuçiçit",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Thaçi: Tüm Suçlamalardan Beraat Etmeyi Bekliyorum - Kosovahaber.com",
-              "albanianTitle": "Thaçi: Pres të shpallem i pafajshëm nga të gjitha akuzat - Kosovahaber.com",
-              "blurb": "Hashim Thaçi deklaron se pret të shpallet i pafajshëm për të gjitha akuzat që rëndojnë ndaj tij në Hagë.",
-              "imageUrl": null,
-              "url": "https://kosovahaber.com/haber/thaci-tum-suclamalardan-beraat-etmeyi-bekliyorum-105123",
-              "date": "2026-08-21",
-              "sentiment": "neutral",
-              "reason": "Thirrja e Thaçit raportohet pa gjuhë vlerësuese",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Trakya Üniversitesi Rektöründen Başkan Damka’ya Ziyaret - Kosovahaber.com",
-              "albanianTitle": "Rektori i Universitetit të Trakisë viziton kryetarin Damka",
-              "blurb": "Rektori i Universitetit të Trakyas ka zhvilluar një vizitë zyrtare te ministri Fikrim Damka në Kosovë për bashkëpunim akademik.",
-              "imageUrl": null,
-              "url": "https://kosovahaber.com/haber/trakya-universitesi-rektorunden-baskan-damkaya-ziyaret-105145",
-              "date": "2026-08-21",
-              "sentiment": "neutral",
-              "reason": "Thjesht njofton vizitën e një rektori në Kosovë, pa gjuhë pozitive apo negative",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Kosova'nın İlk Başbakanı Bajram Rexhepi’nin Vefatının Üzerinden 9 Yıl Geçti - Kosovahaber.com",
-              "albanianTitle": "9 vjet nga vdekja e kryeministrit të parë të Kosovës, Bajram Rexhepi - Kosovahaber.com",
-              "blurb": "Janë bërë nëntë vjet nga vdekja e kryeministrit të parë të Kosovës, Bajram Rexhepi, i cili ndërroi jetë në vitin 2017.",
-              "imageUrl": null,
-              "url": "https://kosovahaber.com/haber/bajram-rexhepinin-vefatinin-uzerinden-9-yil-gecti-105130",
-              "date": "2026-08-21",
-              "sentiment": "neutral",
-              "reason": "Lajm faktik për përvjetorin e vdekjes së kryeministrit të parë",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -3241,6 +3268,26 @@
               "date": "2026-08-20",
               "sentiment": "neutral",
               "reason": "Faktikë raporti, pa gjuhë ngarkuese ndaj Kosovës",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Orta Doğu Haber",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosova’da 30 yıllık acı: Toplu mezarlarda kayıplar aranıyor - Orta Doğu Haber",
+              "albanianTitle": "30 vjet dhimbje në Kosovë: Po kërkohen të zhdukurit në varreza masive - Orta Doğu Haber",
+              "blurb": "Procesi i kërkimit të personave të zhdukur gjatë luftës në Kosovë vazhdon pas tri dekadash në varreza masive.",
+              "imageUrl": "https://www.ortadoguhaber.com/wp-content/uploads/2026/08/kosovada-30-yillik-aci-toplu-mezarlarda-kayiplar-araniyor.webp",
+              "url": "https://www.ortadoguhaber.com/kosovada-30-yillik-aci-toplu-mezarlarda-kayiplar-araniyor/",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Raportim neutral i dhimbjes historike në Kosovë",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -3720,26 +3767,6 @@
           ]
         },
         {
-          "name": "Inshorts",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosovo-born man who says he infiltrated Al Qaeda arrested by ICE | Tap to know more | Inshorts - Inshorts",
-              "albanianTitle": "Arrestohet nga ICE burri me prejardhje nga Kosova që pretendonte se ishte infiltruar në Al-Kaeda",
-              "blurb": "Autoritetet e emigracionit në Shtetet e Bashkuara kanë arrestuar një shtetas nga Kosova i cili pretendonte se ishte infiltruar në Al-Kaeda.",
-              "imageUrl": "https://media.inshorts.com/inshorts/images/v1/variants/jpg/m/2026/08_aug/21_fri/img_1787283904692_829.jpg",
-              "url": "https://inshorts.com/en/news/kosovo-born-man-who-says-he-infiltrated-al-qaeda-arrested-by-ice-1787283930086",
-              "date": "2026-08-21",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportim neutral",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
           "name": "JNS.org",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -3826,6 +3853,26 @@
               "date": "2026-08-19",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "TRT World",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Will justice ever be served for Kosovo war victims? - TRT World",
+              "albanianTitle": "A do të vihet ndonjëherë drejtësia në vend për viktimat e luftës në Kosovë? - TRT World",
+              "blurb": "Viktima të luftës në Kosovë kërkojnë drejtësi për krimet e kryera gjatë konfliktit të armatosur në vend.",
+              "imageUrl": null,
+              "url": "https://www.trtworld.com/video/tv/shows/683ef3c9cff794df564280c5/play/79c92cb03c09",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Faktikisht pyetje pa ngarkim gjuhësor",
               "isQuote": false,
               "evidence": "",
               "speaker": ""

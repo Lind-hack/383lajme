@@ -2,9 +2,9 @@
   "lastUpdated": "2026-08-21",
   "topics": [
     {
-      "label": "Pjesëmarrja në Lojërat Mesdhetare",
+      "label": "Kombëtaret në Lojërat Mesdhetare",
       "fallbackLabel": "Mesdhetare · Lojërat",
-      "summary": "Kombëtaret e volejbollit të Shqipërisë dhe Kosovës përgatiten për ndeshjet e tyre në Lojërat Mesdhetare 2026 që zhvillohen në Taranto.",
+      "summary": "Ekipet e volejbollit të Kosovës dhe Shqipërisë do të përballen në Lojërat Mesdhetare 2026, duke shënuar një moment të rëndësishëm për sportin rajonal.",
       "count": 27,
       "positive": 2,
       "neutral": 23,
@@ -185,10 +185,10 @@
     {
       "label": "Zbulimi i varrezave masive",
       "fallbackLabel": "Masive · Gjenden",
-      "summary": "Në Kosovë janë gjetur mbetjet mortore të të paktën 23 personave në varreza të dyshuara masive, duke hapur hetime për krime lufte.",
-      "count": 21,
+      "summary": "Gjatë gërmimeve në Kosovë janë gjetur mbetjet mortore të të paktën 23 personave, duke rihapur çështjen e hetimeve për viktimat e luftës.",
+      "count": 23,
       "positive": 0,
-      "neutral": 21,
+      "neutral": 23,
       "negative": 0,
       "index": 50,
       "countries": [
@@ -366,7 +366,7 @@
     {
       "label": "Debati për hapjen e urës",
       "fallbackLabel": "Ibrit · Urës",
-      "summary": "Ekziston një përplasje politike dhe diplomatike lidhur me hapjen e urës së Ibrit, ku kërkohet koordinim ndërkombëtar dhe siguri për lëvizjen.",
+      "summary": "Ekziston një përplasje politike dhe diplomatike lidhur me hapjen e urës së Ibrit, ku kërkohet koordinim ndërkombëtar për të garantuar sigurinë e zonës.",
       "count": 15,
       "positive": 0,
       "neutral": 14,
@@ -542,8 +542,8 @@
     },
     {
       "label": "Kriza për zgjedhjen e presidentit",
-      "fallbackLabel": "Presidentit · Tetorit",
-      "summary": "Opozita bojkoton bisedimet për një kandidat konsensual për president, duke shtuar pasigurinë për funksionimin e institucioneve pas datës katër tetor.",
+      "fallbackLabel": "Presidentit · Ndodh",
+      "summary": "Institucionet e Kosovës përballen me një pasiguri politike për shkak të mungesës së konsensusit për kandidatin e ri për postin e presidentit.",
       "count": 13,
       "positive": 0,
       "neutral": 13,
@@ -718,9 +718,9 @@
       ]
     },
     {
-      "label": "Kampionati Evropian i sporteve",
+      "label": "Kampionati Evropian i peshëngritjes",
       "fallbackLabel": "Evropian · Kampionatin",
-      "summary": "Kosova pret Kampionatin Evropian për kadetë dhe U15, ku marrin pjesë ekipe nga Greqia dhe Italia në disiplina të ndryshme sportive.",
+      "summary": "Kosova po pret Kampionatin Evropian për kadetë dhe U15, ku marrin pjesë ekipe nga vende të ndryshme si Greqia dhe Italia.",
       "count": 12,
       "positive": 1,
       "neutral": 10,
@@ -898,8 +898,8 @@
     },
     {
       "label": "Protestat kundër qeverisë kosovare",
-      "fallbackLabel": "Qeverisë · Ndërtesës",
-      "summary": "Kryetarët e komunave dhe opozita po organizojnë protesta dhe bllokada kundër qeverisë për shkak të pakënaqësive lidhur me buxhetin dhe vendimet politike.",
+      "fallbackLabel": "Qeverisë · Para",
+      "summary": "Opozita dhe kryetarët e komunave po organizojnë protesta dhe bllokada ndaj qeverisë, duke kundërshtuar politikat buxhetore dhe vendimet e ekzekutivit.",
       "count": 12,
       "positive": 0,
       "neutral": 12,
@@ -1078,7 +1078,7 @@
     {
       "label": "Incidentet dhe tensionet politike",
       "fallbackLabel": "Ndaj · Kfor",
-      "summary": "Raportohen incidente të ndryshme, përfshirë sulme ndaj forcave të sigurisë, kërcënime nga grupe ilegale dhe çështje gjyqësore që ndikojnë në stabilitetin e vendit.",
+      "summary": "Raportohen incidente të ndryshme, nga sulmet ndaj forcave të sigurisë deri te tensionet politike dhe çështjet ligjore që përfshijnë aktorë të ndryshëm.",
       "count": 10,
       "positive": 0,
       "neutral": 10,
@@ -1255,7 +1255,7 @@
     {
       "label": "Hetimet për krimet e luftës",
       "fallbackLabel": "Personave · Mortore",
-      "summary": "Gjetja e eshtrave të 23 personave në Zubin Potok ka çuar në arrestimin e të dyshuarve në kuadër të hetimeve për krimet e luftës.",
+      "summary": "Zbulimi i eshtrave në Zubin Potok ka çuar në arrestimin e të dyshuarve, duke intensifikuar procesin e zbardhjes së krimeve të luftës.",
       "count": 10,
       "positive": 0,
       "neutral": 10,
