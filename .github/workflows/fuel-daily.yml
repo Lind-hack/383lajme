@@ -30,12 +30,18 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
-      - uses: actions/setup-node@v4
+      # v5 runs on Node 24. v4 declares a Node 20 runtime, which GitHub has
+      # deprecated and already force-upgrades, warning on every run.
+      - uses: actions/setup-node@v5
         with:
-          node-version: "20"
+          node-version: "24"
 
+      # --ignore-scripts because this job drives a browser and nothing else.
+      # Without it npm compiles better-sqlite3 and sharp on every run — two
+      # native builds, neither of which this script imports, each of them a way
+      # for the daily price push to fail at something unrelated to prices.
       - name: Install dependencies
-        run: npm ci --no-audit --no-fund || npm install --no-audit --no-fund
+        run: npm ci --ignore-scripts --no-audit --no-fund || npm install --ignore-scripts --no-audit --no-fund
 
       # The browser binary has to match the playwright-core already in the
       # lockfile, so the version is read from it rather than pinned twice.
