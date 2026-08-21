@@ -1,8 +1,8 @@
 {
   "lastUpdated": "2026-08-21",
   "overallIndex": 50,
-  "totalArticles": 181,
-  "sourceCount": 120,
+  "totalArticles": 195,
+  "sourceCount": 124,
   "stanceVersion": 2,
   "countries": {
     "Gjermani": {
@@ -241,6 +241,39 @@
           ]
         },
         {
+          "name": "Euronews Albania",
+          "sentiment": "neutral",
+          "articleCount": 2,
+          "articles": [
+            {
+              "title": "Weapons arsenal sized in Northern Kosovo - Euronews Albania",
+              "albanianTitle": "Konfiskohet arsenal armësh në veri të Kosovës",
+              "blurb": "Forcat e rendit kanë sekuestruar një sasi të konsiderueshme armatimi në pjesën veriore të territorit të Republikës së Kosovës.",
+              "imageUrl": null,
+              "url": "https://euronews.al/en/weapons-arsenal-sized-in-northern-kosovo/",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim neutral",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Kosovo Police display seized weapons, Sveçla: Serbia wants the North to remain a crime zone - Euronews Albania",
+              "albanianTitle": "Policia e Kosovës shfaq armët e konfiskuara, Sveçla: Serbia dëshiron që veriu të mbetet zonë e krimit",
+              "blurb": "Policia e Kosovës ka ekspozuar armët e konfiskuara, ndërsa ministri Sveçla akuzoi Serbinë për mbajtjen e veriut si zonë krimi.",
+              "imageUrl": null,
+              "url": "https://euronews.al/en/kosovo-police-display-seized-weapons-svecla-serbia-wants-the-north-to-remain-a-crime-zone/",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim neutral",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "European Western Balkans",
           "sentiment": "negative",
           "articleCount": 1,
@@ -281,6 +314,26 @@
           ]
         },
         {
+          "name": "Inshorts",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo-born man who says he infiltrated Al Qaeda arrested by ICE | Tap to know more | Inshorts - Inshorts",
+              "albanianTitle": "Arrestohet nga ICE burri me prejardhje nga Kosova që pretendonte se ishte infiltruar në Al-Kaeda",
+              "blurb": "Autoritetet e emigracionit në Shtetet e Bashkuara kanë arrestuar një shtetas nga Kosova i cili pretendonte se ishte infiltruar në Al-Kaeda.",
+              "imageUrl": "https://media.inshorts.com/inshorts/images/v1/variants/jpg/m/2026/08_aug/21_fri/img_1787283904692_829.jpg",
+              "url": "https://inshorts.com/en/news/kosovo-born-man-who-says-he-infiltrated-al-qaeda-arrested-by-ice-1787283930086",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim neutral",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "JNS.org",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -303,21 +356,8 @@
         {
           "name": "KosovaPress",
           "sentiment": "neutral",
-          "articleCount": 5,
+          "articleCount": 4,
           "articles": [
-            {
-              "title": "Krasniqi: We dreamed of this day, Kosovo is being represented with dignity in Taranto - KosovaPress",
-              "albanianTitle": "Krasniqi: E ëndërruam këtë ditë, Kosova po përfaqësohet me dinjitet në Taranto - KosovaPress",
-              "blurb": "Krasniqi vlerëson përfaqësimin dinjitoz të Kosovës në Lojërat Mesdhetare që po mbahen në qytetin italian të Tarantos.",
-              "imageUrl": null,
-              "url": "https://kosovapress.com/eng/krasniqi-we-dreamed-of-this-day-kosovo-is-being-represented-with-dignity-in-taranto",
-              "date": "2026-08-20",
-              "sentiment": "positive",
-              "reason": "Outlet uses admiring language describing Kosovo's representation",
-              "isQuote": false,
-              "evidence": "with dignity",
-              "speaker": ""
-            },
             {
               "title": "Kadrijaj says protests will be even larger if Kurti \"continues in this manner\" - KosovaPress",
               "albanianTitle": "Kadrijaj: Protestat do të jenë edhe më të mëdha nëse Kurti vazhdon në këtë mënyrë - KosovaPress",
@@ -544,19 +584,6 @@
               "speaker": "Kodraljiju"
             },
             {
-              "title": "Kurti, Abdixhiku Agree on Profile for Kosovo President - srpske.rs",
-              "albanianTitle": "Kurti dhe Abdixhiku pajtohen për profilin e presidentit të Kosovës",
-              "blurb": "Albin Kurti dhe Lumir Abdixhiku kanë arritur pajtim për profilin e kandidatit për president të Republikës së Kosovës.",
-              "imageUrl": "https://srpske.rs/uploads/articles/kurti-abdixhiku-agree-kosovo-president-profile-16x9.webp",
-              "url": "https://srpske.rs/en/news/politika/2026/08/19/kurti-abdixhiku-agree-kosovo-president-profile",
-              "date": "2026-08-19",
-              "sentiment": "neutral",
-              "reason": "Fact-based reporting without loaded language",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
               "title": "Bocan-Harchenko: Russia Prevents Ethnic Cleansing of Serbs - srpske.rs",
               "albanianTitle": "Bocan-Harchenko: Rusia parandalon spastrimin etnik të serbëve - srpske.rs",
               "blurb": "Ambasadori rus Bocan-Harchenko pretendon se Rusia po ndërmerr veprime për të parandaluar spastrimin etnik të serbëve në Kosovë.",
@@ -594,6 +621,19 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Kosovo Opposition Blocks Government Entrance for Fourth Day - srpske.rs",
+              "albanianTitle": "Opozita në Kosovë bllokon hyrjen e Qeverisë për të katërtën ditë me radhë",
+              "blurb": "Opozita në Kosovë vazhdon të bllokojë hyrjen e ndërtesës së qeverisë për të katërtën ditë radhazi.",
+              "imageUrl": "https://srpske.rs/uploads/articles/kosovo-opposition-blocks-government-entrance-fourth-day-16x9.webp",
+              "url": "https://srpske.rs/en/news/politika/2026/08/18/kosovo-opposition-blocks-government-entrance-fourth-day",
+              "date": "2026-08-18",
+              "sentiment": "neutral",
+              "reason": "Titulli faktik pa gjuhë ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ]
         },
@@ -619,11 +659,11 @@
         }
       ],
       "summary": {
-        "index": 52,
-        "positive": 10,
-        "neutral": 84,
+        "index": 50,
+        "positive": 6,
+        "neutral": 88,
         "negative": 6,
-        "n": 31,
+        "n": 32,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2
@@ -765,6 +805,39 @@
           ]
         },
         {
+          "name": "Euronews Albania",
+          "sentiment": "neutral",
+          "articleCount": 2,
+          "articles": [
+            {
+              "title": "Kosovo Police display seized weapons, Sveçla: Serbia wants the North to remain a crime zone - Euronews Albania",
+              "albanianTitle": "Policia e Kosovës shfaq armët e konfiskuara, Sveçla: Serbia dëshiron që veriu të mbetet zonë e krimit",
+              "blurb": "Policia e Kosovës ka ekspozuar armët e konfiskuara, ndërsa ministri Sveçla akuzoi Serbinë për mbajtjen e veriut si zonë krimi.",
+              "imageUrl": null,
+              "url": "https://euronews.al/en/kosovo-police-display-seized-weapons-svecla-serbia-wants-the-north-to-remain-a-crime-zone/",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim neutral",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Weapons arsenal sized in Northern Kosovo - Euronews Albania",
+              "albanianTitle": "Konfiskohet arsenal armësh në veri të Kosovës",
+              "blurb": "Forcat e rendit kanë sekuestruar një sasi të konsiderueshme armatimi në pjesën veriore të territorit të Republikës së Kosovës.",
+              "imageUrl": null,
+              "url": "https://euronews.al/en/weapons-arsenal-sized-in-northern-kosovo/",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim neutral",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "European Western Balkans",
           "sentiment": "negative",
           "articleCount": 1,
@@ -805,19 +878,19 @@
           ]
         },
         {
-          "name": "JNS.org",
+          "name": "Inshorts",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
-              "title": "Is Somaliland America’s next Kosovo? - JNS.org",
-              "albanianTitle": "A po bëhet Somalilandi Kosova e radhës për Amerikën?",
-              "blurb": "Analizohet mundësia e njohjes së Somalilandit nga Shtetet e Bashkuara të Amerikës, duke e krahasuar atë me rastin e Kosovës.",
-              "imageUrl": "https://static.jns.org/dims4/default/88a5884/2147483647/strip/true/crop/6601x3713+0+688/resize/1440x810!/format/webp/quality/90/?url=https%3A%2F%2Fk2-prod-jns-prod.s3.us-east-1.amazonaws.com%2Fbrightspot%2Fef%2Fda%2Fefca21cf4a09be1ee413f8259207%2Fgettyimages-2276340274.jpg",
-              "url": "https://www.jns.org/opinion/nassir-hussein-kahin/is-somaliland-americas-next-kosovo",
-              "date": "2026-08-18",
+              "title": "Kosovo-born man who says he infiltrated Al Qaeda arrested by ICE | Tap to know more | Inshorts - Inshorts",
+              "albanianTitle": "Arrestohet nga ICE burri me prejardhje nga Kosova që pretendonte se ishte infiltruar në Al-Kaeda",
+              "blurb": "Autoritetet e emigracionit në Shtetet e Bashkuara kanë arrestuar një shtetas nga Kosova i cili pretendonte se ishte infiltruar në Al-Kaeda.",
+              "imageUrl": "https://media.inshorts.com/inshorts/images/v1/variants/jpg/m/2026/08_aug/21_fri/img_1787283904692_829.jpg",
+              "url": "https://inshorts.com/en/news/kosovo-born-man-who-says-he-infiltrated-al-qaeda-arrested-by-ice-1787283930086",
+              "date": "2026-08-21",
               "sentiment": "neutral",
-              "reason": "Question headline without hostile language, merely drawing a comparison",
+              "reason": "Faktikë raportim neutral",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -984,26 +1057,6 @@
           ]
         },
         {
-          "name": "World Baseball Softball Confederation (WBSC)",
-          "sentiment": "positive",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Mediterranean Games: Kosovo’s Lekë Juniku carries tradition and fighting spirit from Taranto towards 2030 - World Baseball Softball Confederation (WBSC)",
-              "albanianTitle": "Lojërat Mesdhetare: Lekë Juniku i Kosovës bart traditën dhe frymën luftarake nga Taranto drejt vitit 2030",
-              "blurb": "Sportisti Lekë Juniku përfaqëson Kosovën në Lojërat Mesdhetare, duke bartur traditën dhe frymën garuese drejt edicionit të vitit 2030.",
-              "imageUrl": null,
-              "url": "https://www.wbsc.org/en/news/mediterranean-games-kosovos-leke-juniku-carries-tradition-and-fighting-spirit-from-taranto-towards-2030",
-              "date": "2026-08-18",
-              "sentiment": "positive",
-              "reason": "Gjuhë e ngrohtë dhe admiruese për Kosovën",
-              "isQuote": false,
-              "evidence": "carries tradition and fighting spirit",
-              "speaker": ""
-            }
-          ]
-        },
-        {
           "name": "srpske.rs",
           "sentiment": "neutral",
           "articleCount": 6,
@@ -1022,17 +1075,17 @@
               "speaker": ""
             },
             {
-              "title": "Haljiti: Kosovo President Deal Possible Within Days - srpske.rs",
-              "albanianTitle": "Haliti: Marrëveshja për presidentin e Kosovës mund të arrihet brenda pak ditësh - srpske.rs",
-              "blurb": "Xhavit Haliti deklaroi se marrëveshja për zgjedhjen e presidentit të ri të Kosovës mund të arrihet brenda pak ditësh.",
-              "imageUrl": "https://srpske.rs/uploads/articles/kosovo-president-deal-possible-within-days-16x9.webp",
-              "url": "https://srpske.rs/en/news/politika/2026/08/20/kosovo-president-deal-possible-within-days",
+              "title": "Bocan-Harchenko: Russia Prevents Ethnic Cleansing of Serbs - srpske.rs",
+              "albanianTitle": "Bocan-Harchenko: Rusia parandalon spastrimin etnik të serbëve - srpske.rs",
+              "blurb": "Ambasadori rus Bocan-Harchenko pretendon se Rusia po ndërmerr veprime për të parandaluar spastrimin etnik të serbëve në Kosovë.",
+              "imageUrl": "https://srpske.rs/uploads/articles/bocan-harchenko-russia-prevents-ethnic-cleansing-serbs-16x9.webp",
+              "url": "https://srpske.rs/en/news/politika/2026/08/20/bocan-harchenko-russia-prevents-ethnic-cleansing-serbs",
               "date": "2026-08-20",
               "sentiment": "neutral",
-              "reason": "Citat i Haljiti-t, media raporton pa ngjyrë",
+              "reason": "Citat i Bocan-Harchenko-s, media raporton pa ngjyrë",
               "isQuote": true,
               "evidence": "",
-              "speaker": "Haljiti"
+              "speaker": "Bocan-Harchenko"
             },
             {
               "title": "Kodraljiju: Seven Espionage Cases in Kosovo - srpske.rs",
@@ -1046,19 +1099,6 @@
               "isQuote": true,
               "evidence": "",
               "speaker": "Kodraljiju"
-            },
-            {
-              "title": "Bocan-Harchenko: Russia Prevents Ethnic Cleansing of Serbs - srpske.rs",
-              "albanianTitle": "Bocan-Harchenko: Rusia parandalon spastrimin etnik të serbëve - srpske.rs",
-              "blurb": "Ambasadori rus Bocan-Harchenko pretendon se Rusia po ndërmerr veprime për të parandaluar spastrimin etnik të serbëve në Kosovë.",
-              "imageUrl": "https://srpske.rs/uploads/articles/bocan-harchenko-russia-prevents-ethnic-cleansing-serbs-16x9.webp",
-              "url": "https://srpske.rs/en/news/politika/2026/08/20/bocan-harchenko-russia-prevents-ethnic-cleansing-serbs",
-              "date": "2026-08-20",
-              "sentiment": "neutral",
-              "reason": "Citat i Bocan-Harchenko-s, media raporton pa ngjyrë",
-              "isQuote": true,
-              "evidence": "",
-              "speaker": "Bocan-Harchenko"
             },
             {
               "title": "Vucic to Send Letter to Rutte: Don't Open Ibar Bridge - srpske.rs",
@@ -1082,6 +1122,19 @@
               "date": "2026-08-18",
               "sentiment": "neutral",
               "reason": "Plain news headline about government commissions, no evaluative language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Kosovo Opposition Blocks Government Entrance for Fourth Day - srpske.rs",
+              "albanianTitle": "Opozita në Kosovë bllokon hyrjen e Qeverisë për të katërtën ditë me radhë",
+              "blurb": "Opozita në Kosovë vazhdon të bllokojë hyrjen e ndërtesës së qeverisë për të katërtën ditë radhazi.",
+              "imageUrl": "https://srpske.rs/uploads/articles/kosovo-opposition-blocks-government-entrance-fourth-day-16x9.webp",
+              "url": "https://srpske.rs/en/news/politika/2026/08/18/kosovo-opposition-blocks-government-entrance-fourth-day",
+              "date": "2026-08-18",
+              "sentiment": "neutral",
+              "reason": "Titulli faktik pa gjuhë ngarkuar",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1110,11 +1163,11 @@
         }
       ],
       "summary": {
-        "index": 50,
-        "positive": 7,
-        "neutral": 86,
+        "index": 48,
+        "positive": 3,
+        "neutral": 90,
         "negative": 7,
-        "n": 28,
+        "n": 29,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -1277,6 +1330,26 @@
           ]
         },
         {
+          "name": "FSP Polizia di Stato",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "EULEX Kosovo 2026: selezione per Deputy Head of Mission - FSP Polizia di Stato",
+              "albanianTitle": "EULEX Kosovë 2026: Shpallet konkursi për pozitën e zëvendësshefit të misionit",
+              "blurb": "Misioni i Bashkimit Evropian për Sundimin e Ligjit në Kosovë, EULEX, ka hapur procesin e përzgjedhjes për pozitën e zëvendësshefit.",
+              "imageUrl": "https://www.fsp-polizia.it/wp-content/uploads/2026/08/elux.jpg",
+              "url": "https://www.fsp-polizia.it/eulex-kosovo-2026-deputy-head-of-mission-polizia/",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim neutral",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "Il Resto del Carlino",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1332,26 +1405,6 @@
               "reason": "Lajm i raportuar në mënyrë faktike",
               "isQuote": false,
               "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "Nuoto.com",
-          "sentiment": "positive",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosovo. Pristina, la grande sopresa del nuoto. - Nuoto.com",
-              "albanianTitle": "Kosovë: Prishtina, surpriza e madhe e notit",
-              "blurb": "Prishtina po shënon zhvillime të rëndësishme dhe rezultate befasuese në sportin e notit, sipas raportimeve të specializuara.",
-              "imageUrl": "https://distribution-point.webstorage-4sigma.it/nuoto_com-1291/media/immagine/2026/resized/Screenshot_2026_08_18_alle_20_30_49-1280x724.webp",
-              "url": "https://www.nuoto.com/articolo/calendari-e-meeting/kosovo-pristina-la-grande-sopresa-del-nuoto/",
-              "date": "2026-08-19",
-              "sentiment": "positive",
-              "reason": "Outlet praises Kosovo's swimming achievement",
-              "isQuote": false,
-              "evidence": "la grande sopresa del nuoto",
               "speaker": ""
             }
           ]
@@ -1418,9 +1471,9 @@
         }
       ],
       "summary": {
-        "index": 55,
-        "positive": 10,
-        "neutral": 90,
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
         "negative": 0,
         "n": 10,
         "excluded": 1,
@@ -1867,6 +1920,26 @@
     "Greqi": {
       "outlets": [
         {
+          "name": "Energymag.gr",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Βόρεια Μακεδονία: Από τον ελληνικό λιγνίτη στο Κόσοβο – Συμφωνία για 3 εκατ. τόνους σε τρία χρόνια - Energymag.gr",
+              "albanianTitle": "Maqedonia e Veriut: Nga linjiti grek te Kosova – Marrëveshje për 3 milionë tonë për tri vjet",
+              "blurb": "Maqedonia e Veriut ka arritur marrëveshje për blerjen e tre milionë tonëve linjit nga Kosova gjatë tre viteve të ardhshme.",
+              "imageUrl": "https://www.energymag.gr/sites/default/files/styles/og_image/public/2026-08/North-Macedonia.png?itok=wgRY7J_9",
+              "url": "https://www.energymag.gr/balkan-desk/125060_boreia-makedonia-apo-ton-elliniko-ligniti-sto-kosobo-symfonia-gia-3-ekat-tonoys",
+              "date": "2026-08-18",
+              "sentiment": "neutral",
+              "reason": "Factual description of an agreement, no pejorative terms",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "Ertsports.gr",
           "sentiment": "neutral",
           "articleCount": 3,
@@ -1946,6 +2019,26 @@
               "date": "2026-08-20",
               "sentiment": "neutral",
               "reason": "Faktikë raporti, pa gjuhë ngarkuese ndaj Kosovës",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "In.gr",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Μεσογειακοί Αγώνες: Με το δεξί ξεκίνησε η Εθνική βόλεϊ γυναικών, 3-0 το Κόσοβο - In.gr",
+              "albanianTitle": "Lojërat Mesdhetare: Kombëtarja e volejbollit të femrave e nis me fitore, mposht Kosovën 3-0",
+              "blurb": "Kombëtarja e volejbollit të femrave të Greqisë ka shënuar fitore 3-0 ndaj përfaqësueses së Kosovës në kuadër të Lojërave Mesdhetare.",
+              "imageUrl": "https://www.in.gr/wp-content/uploads/2026/08/BVOLEI.png",
+              "url": "https://www.in.gr/2026/08/21/sports/othersports/mesogeiakoi-agones-me-to-deksi-ksekinise-i-ethniki-volei-gynaikon-3-0-to-kosovo/",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim neutral",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -2079,26 +2172,6 @@
           ]
         },
         {
-          "name": "prlogos.gr",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Βόρεια Μακεδονία: Από τον ελληνικό λιγνίτη στο Κόσοβο – Συμφωνία για 3 εκατ. τόνους σε τρία χρόνια - Energymag.gr",
-              "albanianTitle": "Maqedonia e Veriut: Nga linjiti grek te Kosova – Marrëveshje për 3 milionë tonë për tri vjet",
-              "blurb": "Maqedonia e Veriut ka arritur marrëveshje për blerjen e tre milionë tonëve linjit nga Kosova gjatë tre viteve të ardhshme.",
-              "imageUrl": "https://www.energymag.gr/sites/default/files/styles/og_image/public/2026-08/North-Macedonia.png?itok=wgRY7J_9",
-              "url": "https://www.energymag.gr/balkan-desk/125060_boreia-makedonia-apo-ton-elliniko-ligniti-sto-kosobo-symfonia-gia-3-ekat-tonoys",
-              "date": "2026-08-18",
-              "sentiment": "neutral",
-              "reason": "Factual description of an agreement, no pejorative terms",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
           "name": "sport-fm.gr",
           "sentiment": "neutral",
           "articleCount": 3,
@@ -2145,26 +2218,6 @@
           ]
         },
         {
-          "name": "Αθηναϊκό - Μακεδονικό πρακτορείο ειδήσεων",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Βόλεϊ-Μεσογειακοί Αγώνες 2026: Αναχωρούν για το Τάραντο οι εθνικές ανδρών και γυναικών - Αθηναϊκό - Μακεδονικό πρακτορείο ειδήσεων",
-              "albanianTitle": "Volejboll-Lojërat Mesdhetare 2026: Kombëtaret e meshkujve dhe femrave nisen për në Taranto - Agjencia e Lajmeve Athinase-Maqedonase",
-              "blurb": "Ekipet kombëtare të volejbollit të Greqisë janë nisur drejt Tarantos për të marrë pjesë në Lojërat Mesdhetare të vitit 2026.",
-              "imageUrl": "https://amna.gr/photos/202608/w18-150258mennt2026mediaday.jpg",
-              "url": "https://www.amna.gr/sport/article/1016230/Bolei-Mesogeiakoi-Agones-2026-Anachoroun-gia-to-Taranto-oi-ethnikes-andron-kai-gunaikon-",
-              "date": "2026-08-18",
-              "sentiment": "neutral",
-              "reason": "Faktik, pa gjuhë të ngarkuar",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
           "name": "Ελληνική Ομοσπονδία Πετοσφαίρισης",
           "sentiment": "neutral",
           "articleCount": 3,
@@ -2204,6 +2257,26 @@
               "date": "2026-08-20",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Μακεδονικό Πρακτορείο Ειδήσεων",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Βόλεϊ-Μεσογειακοί Αγώνες 2026: Αναχωρούν για το Τάραντο οι εθνικές ανδρών και γυναικών - Αθηναϊκό - Μακεδονικό πρακτορείο ειδήσεων",
+              "albanianTitle": "Volejboll-Lojërat Mesdhetare 2026: Kombëtaret e meshkujve dhe femrave nisen për në Taranto - Agjencia e Lajmeve Athinase-Maqedonase",
+              "blurb": "Ekipet kombëtare të volejbollit të Greqisë janë nisur drejt Tarantos për të marrë pjesë në Lojërat Mesdhetare të vitit 2026.",
+              "imageUrl": "https://amna.gr/photos/202608/w18-150258mennt2026mediaday.jpg",
+              "url": "https://www.amna.gr/sport/article/1016230/Bolei-Mesogeiakoi-Agones-2026-Anachoroun-gia-to-Taranto-oi-ethnikes-andron-kai-gunaikon-",
+              "date": "2026-08-18",
+              "sentiment": "neutral",
+              "reason": "Faktik, pa gjuhë të ngarkuar",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -2269,7 +2342,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 23,
+        "n": 24,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -2277,26 +2350,6 @@
     },
     "Suedi": {
       "outlets": [
-        {
-          "name": "Marcus Oscarsson",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "UPPGIFTER: Nytt krig i Europa kan vara nära – ”kommer attackera” - Marcus Oscarsson",
-              "albanianTitle": "RAPORTE: Një luftë e re në Evropë mund të jetë afër – “do të sulmojnë” - Marcus Oscarsson",
-              "blurb": "Raportimet e fundit nga media suedeze paralajmërojnë mundësinë e një konflikti të ri në Evropë dhe rrezikun e sulmeve.",
-              "imageUrl": "https://cdn.marcusoscarsson.se/2023/11/europa-varning-foto-Christian-Lue.jpg",
-              "url": "https://marcusoscarsson.se/uppgifter-nytt-krig-i-europa-nara-kommer-attackera/",
-              "date": "2026-08-19",
-              "sentiment": "unknown",
-              "reason": "No reference to Kosovo in the item, cannot infer outlet's stance",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
         {
           "name": "Sofascore",
           "sentiment": "neutral",
@@ -2337,7 +2390,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 2,
-        "excluded": 1,
+        "excluded": 0,
         "confident": false,
         "stanceVersion": 2
       }
@@ -2400,9 +2453,22 @@
       "outlets": [
         {
           "name": "Cumhuriyet",
-          "sentiment": "neutral",
-          "articleCount": 1,
+          "sentiment": "positive",
+          "articleCount": 2,
           "articles": [
+            {
+              "title": "İzmir ile Kosova arasında çok yönlü iş birliği dönemi - Cumhuriyet",
+              "albanianTitle": "Fillon epoka e bashkëpunimit shumëdimensional mes Izmirit dhe Kosovës",
+              "blurb": "Qyteti i Izmirit dhe Kosova kanë nisur një periudhë të re bashkëpunimi në fusha të ndryshme me interes të përbashkët.",
+              "imageUrl": "https://media.cumhuriyet.com.tr/Archive/e43c1b0a-aa84-49ba-91d2-8ec74ad48cda.png",
+              "url": "https://www.cumhuriyet.com.tr/cumhuriyet-in-egesi/izmir-ile-kosova-arasinda-cok-yonlu-is-birligi-donemi-2530991",
+              "date": "2026-08-21",
+              "sentiment": "positive",
+              "reason": "Ton pozitiv për bashkëpunimin me Kosovën",
+              "isQuote": false,
+              "evidence": "çok yönlü iş birliği",
+              "speaker": ""
+            },
             {
               "title": "Kosova’da savaş suçları soruşturması: 23 kişiye ait kemik kalıntıları bulundu - Cumhuriyet",
               "albanianTitle": "Hetimet për krime lufte në Kosovë: Gjehen mbetjet mortore të 23 personave - Cumhuriyet",
@@ -2517,6 +2583,19 @@
               "speaker": ""
             },
             {
+              "title": "Silah Deposu, Üç Toplu Mezarın Yakınlarında Bulundu - Kosovahaber.com",
+              "albanianTitle": "Depo armësh gjendet afër tri varrezave masive – Kosovahaber.com",
+              "blurb": "Një depo armësh është zbuluar në afërsi të lokacionit ku ndodhen tri varreza masive në territorin e Kosovës.",
+              "imageUrl": null,
+              "url": "https://kosovahaber.com/haber/silah-deposu-uc-toplu-mezarin-yakinlarinda-bulundu-105114",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Raportim faktik pa gjuhë ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
               "title": "ABD’den Kosova’ya Kurumların Oluşturulması Çağrısı - Kosovahaber.com",
               "albanianTitle": "SHBA-ja i bën thirrje Kosovës për formimin e institucioneve",
               "blurb": "Shtetet e Bashkuara të Amerikës kanë kërkuar nga institucionet e Kosovës që të përshpejtojnë procesin e themelimit të organeve shtetërore.",
@@ -2530,14 +2609,14 @@
               "speaker": ""
             },
             {
-              "title": "Silah Deposu, Üç Toplu Mezarın Yakınlarında Bulundu - Kosovahaber.com",
-              "albanianTitle": "Depo armësh gjendet afër tri varrezave masive – Kosovahaber.com",
-              "blurb": "Një depo armësh është zbuluar në afërsi të lokacionit ku ndodhen tri varreza masive në territorin e Kosovës.",
+              "title": "Bugün Hava Güneşli, Sıcaklıklr 34 Dereceye Kadar - Kosovahaber.com",
+              "albanianTitle": "Sot mot me diell, temperaturat deri në 34 gradë",
+              "blurb": "Meteorologët parashikojnë mot me diell në Kosovë për ditën e sotme, ku temperaturat do të arrijnë deri në 34 gradë.",
               "imageUrl": null,
-              "url": "https://kosovahaber.com/haber/silah-deposu-uc-toplu-mezarin-yakinlarinda-bulundu-105114",
-              "date": "2026-08-20",
+              "url": "https://kosovahaber.com/haber/bugun-hava-gunesli-sicakliklr-34-dereceye-kadar-105119",
+              "date": "2026-08-21",
               "sentiment": "neutral",
-              "reason": "Raportim faktik pa gjuhë ngarkuar",
+              "reason": "Lajm i raportuar në mënyrë faktike",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -2564,19 +2643,6 @@
               "date": "2026-08-20",
               "sentiment": "neutral",
               "reason": "Faktik raportim pa ngarkim",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Vučić’in Açıklamaları Kosovalı Sırplara Baskı - Kosovahaber.com",
-              "albanianTitle": "Deklaratat e Vuçiqit, presion mbi serbët e Kosovës - Kosovahaber.com",
-              "blurb": "Deklaratat e presidentit serb Aleksandar Vuçiq po ndikojnë në rritjen e presionit ndaj qytetarëve serbë që jetojnë në Kosovë.",
-              "imageUrl": null,
-              "url": "https://kosovahaber.com/haber/vucicin-aciklamalari-kosovali-sirplara-baski-105106",
-              "date": "2026-08-20",
-              "sentiment": "neutral",
-              "reason": "Fact-based report of political statements without loaded language",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -2625,20 +2691,20 @@
         },
         {
           "name": "Odatv",
-          "sentiment": "negative",
+          "sentiment": "neutral",
           "articleCount": 2,
           "articles": [
             {
-              "title": "Vucic, Türk komutanı hedef aldı... Odatv araştırdı: İbar Nehri'nden çıkan Neo-Osmanlı kabusu - Odatv",
-              "albanianTitle": "Vuçiq vë në shënjestër komandantin turk... Odatv hulumton: Makthi neo-osman që buron nga lumi Ibër - Odatv",
-              "blurb": "Presidenti serb Aleksandar Vuçiq ka kritikuar komandantin turk në një raportim lidhur me zhvillimet rreth lumit Ibër.",
+              "title": "Vucic, Türk komutanı hedef aldı... Odatv araştırdı: İbar Nehri'nden çıkan Osmanlı korkusu - Odatv",
+              "albanianTitle": "Vuçiq vë në shënjestër komandantin turk... Odatv hulumton: Frika nga osmanët që buron nga lumi Ibër",
+              "blurb": "Presidenti serb Vuçiq ka kritikuar komandantin turk të KFOR-it në lidhje me zhvillimet aktuale rreth lumit Ibër në Kosovë.",
               "imageUrl": "https://img.odatv.com/rcman/Cw1280h720q95gc/storage/files/images/2026/08/21/vucic-turk-komutani-hedef-aldi-odatv-arastirdi-ibar-nehrinden-cikan-neo-osmanli-kabusu-fwjn.jpg",
               "url": "https://www.odatv.com/guncel/vucic-turk-komutani-hedef-aldi-odatv-arastirdi-ibar-nehrinden-cikan-neo-osmanli-kabusu-120159511",
               "date": "2026-08-21",
-              "sentiment": "negative",
-              "reason": "Loaded adjective used by the outlet to describe a phenomenon linked to Kosovo, implying hostility",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
               "isQuote": false,
-              "evidence": "Neo-Osmanlı kabusu",
+              "evidence": "",
               "speaker": ""
             },
             {
@@ -2801,14 +2867,34 @@
               "speaker": ""
             }
           ]
+        },
+        {
+          "name": "nhaberizmir.com",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Başkan Tugay Kosova'da: İzmir ile İş Birliği Dönemi Başlıyor - nhaberizmir.com",
+              "albanianTitle": "Kryetari Tugay në Kosovë: Po nis periudha e bashkëpunimit me Izmirin",
+              "blurb": "Kryetari i bashkisë së Izmirit, Tugay, po qëndron për vizitë në Kosovë për të zyrtarizuar bashkëpunimin ndërmjet dy palëve.",
+              "imageUrl": "https://nhaberizmircom.teimg.com/crop/1280x720/nhaberizmir-com/uploads/2026/08/cemil-tugay-kosova-ziyareti.jpg",
+              "url": "https://www.nhaberizmir.com/baskan-tugay-kosovada-izmir-ile-is-birligi-donemi-basliyor",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
         }
       ],
       "summary": {
-        "index": 46,
-        "positive": 0,
-        "neutral": 93,
-        "negative": 7,
-        "n": 42,
+        "index": 50,
+        "positive": 4,
+        "neutral": 92,
+        "negative": 4,
+        "n": 52,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -2943,6 +3029,39 @@
           ]
         },
         {
+          "name": "Euronews Albania",
+          "sentiment": "neutral",
+          "articleCount": 2,
+          "articles": [
+            {
+              "title": "Weapons arsenal sized in Northern Kosovo - Euronews Albania",
+              "albanianTitle": "Konfiskohet arsenal armësh në veri të Kosovës",
+              "blurb": "Forcat e rendit kanë sekuestruar një sasi të konsiderueshme armatimi në pjesën veriore të territorit të Republikës së Kosovës.",
+              "imageUrl": null,
+              "url": "https://euronews.al/en/weapons-arsenal-sized-in-northern-kosovo/",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim neutral",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Kosovo Police display seized weapons, Sveçla: Serbia wants the North to remain a crime zone - Euronews Albania",
+              "albanianTitle": "Policia e Kosovës shfaq armët e konfiskuara, Sveçla: Serbia dëshiron që veriu të mbetet zonë e krimit",
+              "blurb": "Policia e Kosovës ka ekspozuar armët e konfiskuara, ndërsa ministri Sveçla akuzoi Serbinë për mbajtjen e veriut si zonë krimi.",
+              "imageUrl": null,
+              "url": "https://euronews.al/en/kosovo-police-display-seized-weapons-svecla-serbia-wants-the-north-to-remain-a-crime-zone/",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim neutral",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "European Western Balkans",
           "sentiment": "negative",
           "articleCount": 1,
@@ -2983,6 +3102,26 @@
           ]
         },
         {
+          "name": "Inshorts",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo-born man who says he infiltrated Al Qaeda arrested by ICE | Tap to know more | Inshorts - Inshorts",
+              "albanianTitle": "Arrestohet nga ICE burri me prejardhje nga Kosova që pretendonte se ishte infiltruar në Al-Kaeda",
+              "blurb": "Autoritetet e emigracionit në Shtetet e Bashkuara kanë arrestuar një shtetas nga Kosova i cili pretendonte se ishte infiltruar në Al-Kaeda.",
+              "imageUrl": "https://media.inshorts.com/inshorts/images/v1/variants/jpg/m/2026/08_aug/21_fri/img_1787283904692_829.jpg",
+              "url": "https://inshorts.com/en/news/kosovo-born-man-who-says-he-infiltrated-al-qaeda-arrested-by-ice-1787283930086",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim neutral",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "JNS.org",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -2998,26 +3137,6 @@
               "reason": "Question headline without hostile language, merely drawing a comparison",
               "isQuote": false,
               "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "KosovaPress",
-          "sentiment": "positive",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Krasniqi: We dreamed of this day, Kosovo is being represented with dignity in Taranto - KosovaPress",
-              "albanianTitle": "Krasniqi: E ëndërruam këtë ditë, Kosova po përfaqësohet me dinjitet në Taranto - KosovaPress",
-              "blurb": "Krasniqi vlerëson përfaqësimin dinjitoz të Kosovës në Lojërat Mesdhetare që po mbahen në qytetin italian të Tarantos.",
-              "imageUrl": null,
-              "url": "https://kosovapress.com/eng/krasniqi-we-dreamed-of-this-day-kosovo-is-being-represented-with-dignity-in-taranto",
-              "date": "2026-08-20",
-              "sentiment": "positive",
-              "reason": "Outlet uses admiring language describing Kosovo's representation",
-              "isQuote": false,
-              "evidence": "with dignity",
               "speaker": ""
             }
           ]
@@ -3125,7 +3244,7 @@
         {
           "name": "srpske.rs",
           "sentiment": "neutral",
-          "articleCount": 3,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Haljiti: Kosovo President Deal Possible Within Days - srpske.rs",
@@ -3152,19 +3271,6 @@
               "isQuote": true,
               "evidence": "",
               "speaker": "Kodraljiju"
-            },
-            {
-              "title": "Kurti, Abdixhiku Agree on Profile for Kosovo President - srpske.rs",
-              "albanianTitle": "Kurti dhe Abdixhiku pajtohen për profilin e presidentit të Kosovës",
-              "blurb": "Albin Kurti dhe Lumir Abdixhiku kanë arritur pajtim për profilin e kandidatit për president të Republikës së Kosovës.",
-              "imageUrl": "https://srpske.rs/uploads/articles/kurti-abdixhiku-agree-kosovo-president-profile-16x9.webp",
-              "url": "https://srpske.rs/en/news/politika/2026/08/19/kurti-abdixhiku-agree-kosovo-president-profile",
-              "date": "2026-08-19",
-              "sentiment": "neutral",
-              "reason": "Fact-based reporting without loaded language",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
             }
           ]
         },
@@ -3190,11 +3296,11 @@
         }
       ],
       "summary": {
-        "index": 55,
-        "positive": 16,
-        "neutral": 79,
+        "index": 52,
+        "positive": 10,
+        "neutral": 85,
         "negative": 5,
-        "n": 19,
+        "n": 20,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2

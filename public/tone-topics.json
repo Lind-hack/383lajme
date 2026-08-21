@@ -2,12 +2,12 @@
   "lastUpdated": "2026-08-21",
   "topics": [
     {
-      "label": "Kombëtaret e volejbollit në Mesdhetare",
+      "label": "Pjesëmarrja në Lojërat Mesdhetare 2026",
       "fallbackLabel": "Mesdhetare · Lojërat",
-      "summary": "Kombëtaret e volejbollit të meshkujve dhe femrave të Shqipërisë nisen drejt Tarantos për të zhvilluar ndeshjet e tyre të para kundër Kosovës.",
-      "count": 22,
+      "summary": "Kombëtaret e volejbollit të Kosovës dhe Shqipërisë përgatiten për përballjet e tyre të para në kuadër të Lojërave Mesdhetare 2026 në Taranto.",
+      "count": 23,
       "positive": 1,
-      "neutral": 20,
+      "neutral": 21,
       "negative": 0,
       "index": 52,
       "countries": [
@@ -181,9 +181,9 @@
       ]
     },
     {
-      "label": "Zbulimi i mbetjeve mortore në Zubin Potok",
+      "label": "Zbulimi i varrezave masive në Zubin Potok",
       "fallbackLabel": "Personave · Mbetjet",
-      "summary": "Gjatë gërmimeve në Zubin Potok janë gjetur mbetjet mortore të 23 personave, duke çuar në arrestimin e tre të dyshuarve për krime lufte.",
+      "summary": "Autoritetet kanë gjetur mbetjet mortore të 23 personave në Zubin Potok, duke çuar në arrestimin e tre të dyshuarve për krime lufte.",
       "count": 18,
       "positive": 0,
       "neutral": 18,
@@ -360,9 +360,9 @@
       ]
     },
     {
-      "label": "Kriza për zgjedhjen e presidentit",
+      "label": "Kriza për zgjedhjen e Presidentit",
       "fallbackLabel": "Presidentit · Tetorit",
-      "summary": "Opozita bojkoton bisedimet për kandidatin konsensual për president, duke shtuar pasigurinë politike në prag të afatit ligjor të katër tetorit në Kosovë.",
+      "summary": "Partitë opozitare bojkotojnë takimet për zgjedhjen e presidentit, duke rritur pasigurinë politike për funksionimin e institucioneve pas afatit të katër tetorit.",
       "count": 14,
       "positive": 0,
       "neutral": 14,
@@ -537,9 +537,9 @@
       ]
     },
     {
-      "label": "Kampionati Evropian i sporteve në Kosovë",
+      "label": "Kampionati Evropian i peshëngritjes në Kosovë",
       "fallbackLabel": "Evropian · Kampionatin",
-      "summary": "Kosova pret Kampionatin Evropian për kadetë dhe U15, ku marrin pjesë atletë nga Greqia, Italia dhe vende të tjera evropiane në disiplina të ndryshme.",
+      "summary": "Kosova pret Kampionatin Evropian për kadetë dhe U15, ku marrin pjesë sportistë nga disa vende evropiane, përfshirë Greqinë dhe Italinë.",
       "count": 12,
       "positive": 1,
       "neutral": 10,
@@ -716,9 +716,9 @@
       ]
     },
     {
-      "label": "Tensionet politike dhe protestat sociale",
+      "label": "Protestat dhe tensionet politike në Kosovë",
       "fallbackLabel": "Kundër · Parashikimet",
-      "summary": "Kosova përballet me protesta kundër ndërtimit të kishave dhe kundërshtime për hapjen e urës së Ibrit, ndërsa qeveria përballet me kritika të vazhdueshme opozitare.",
+      "summary": "Opozita dhe grupe të ndryshme po protestojnë kundër vendimeve qeveritare, përfshirë çështjen e urës së Ibrit dhe zhvillimet e tjera politike në vend.",
       "count": 10,
       "positive": 0,
       "neutral": 10,
@@ -896,12 +896,12 @@
       ]
     },
     {
-      "label": "Pakënaqësitë e opozitës ndaj qeverisë",
+      "label": "Pakënaqësitë e opozitës ndaj Qeverisë",
       "fallbackLabel": "Qeverisë · Ndërtesës",
-      "summary": "Opozita dhe kryetarët e komunave në Kosovë organizojnë protesta dhe bllokada kundër qeverisë, duke e akuzuar atë për keqmenaxhim të buxhetit dhe komisioneve.",
-      "count": 9,
+      "summary": "Kryetarët e komunave dhe partitë opozitare po organizojnë protesta dhe bllokada për të kundërshtuar politikat buxhetore dhe administrative të qeverisë aktuale.",
+      "count": 10,
       "positive": 0,
-      "neutral": 9,
+      "neutral": 10,
       "negative": 0,
       "index": 50,
       "countries": [
@@ -1055,13 +1055,29 @@
           "outlet": "Reporteri",
           "country": "Belgjikë",
           "flag": "🇧🇪"
+        },
+        {
+          "title": "PDK’nin Hükümet Önündeki Eylemi 7. Gününde - Kosovahaber.com",
+          "albanianTitle": "Protesta e PDK-së para Qeverisë hyn në ditën e shtatë - Kosovahaber.com",
+          "blurb": "Partia Demokratike e Kosovës vazhdon për të shtatin ditë protestën e organizuar para ndërtesës së Qeverisë së Kosovës.",
+          "imageUrl": null,
+          "url": "https://kosovahaber.com/haber/pdknin-hukumet-onundeki-eylemi-7-gununde-105118",
+          "date": "2026-08-21",
+          "sentiment": "neutral",
+          "reason": "Lajm i raportuar në mënyrë faktike",
+          "isQuote": false,
+          "speaker": "",
+          "evidence": "",
+          "outlet": "Kosovahaber.com",
+          "country": "Turqi",
+          "flag": "🇹🇷"
         }
       ]
     },
     {
-      "label": "Raportet e Kurtit me ndërkombëtarët",
+      "label": "Raportet e Kurtit me Bashkimin Evropian",
       "fallbackLabel": "Kurti · Raportet",
-      "summary": "Kryeministri Kurti zhvillon takime me përfaqësues të EULEX-it dhe liderë opozitarë, ndërsa diskutohet për krizën institucionale dhe marrëdhëniet e tensionuara me Bashkimin Evropian.",
+      "summary": "Kryeministri Kurti po zhvillon takime me përfaqësues ndërkombëtarë dhe liderë opozitarë në mes të shqetësimeve për marrëdhëniet e tensionuara me Bashkimin Evropian.",
       "count": 8,
       "positive": 0,
       "neutral": 6,
@@ -1204,9 +1220,9 @@
       ]
     },
     {
-      "label": "Turizmi malor në shtigjet ballkanike",
-      "fallbackLabel": "Fundit · Zonat",
-      "summary": "Shtegu i ecjes Majat e Ballkanit vlerësohet si një destinacion epik që eksploron zonat e egra dhe natyrore të rajonit të Kosovës.",
+      "label": "Promovimi i shtigjeve të ecjes në Kosovë",
+      "fallbackLabel": "Fundit · Shtegu",
+      "summary": "Shtegu i ecjes Majat e Ballkanit po vlerësohet ndërkombëtarisht si një destinacion epik që eksploron zonat e egra dhe natyrore të Kosovës.",
       "count": 7,
       "positive": 0,
       "neutral": 7,
