@@ -2025,5 +2025,214 @@
         "sentiment": "negative"
       }
     ]
+  },
+  {
+    "date": "2026-08-21",
+    "overallIndex": 50,
+    "totalArticles": 181,
+    "sourceCount": 120,
+    "stanceVersion": 2,
+    "countries": {
+      "Gjermani": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 3,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 2
+      },
+      "SHBA": {
+        "index": 52,
+        "positive": 10,
+        "neutral": 84,
+        "negative": 6,
+        "n": 31,
+        "excluded": 1,
+        "confident": true,
+        "stanceVersion": 2
+      },
+      "Britani": {
+        "index": 50,
+        "positive": 7,
+        "neutral": 86,
+        "negative": 7,
+        "n": 28,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 2
+      },
+      "Francë": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 3,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 2
+      },
+      "Itali": {
+        "index": 55,
+        "positive": 10,
+        "neutral": 90,
+        "negative": 0,
+        "n": 10,
+        "excluded": 1,
+        "confident": true,
+        "stanceVersion": 2
+      },
+      "Austri": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 2,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 2
+      },
+      "Zvicër": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 1,
+        "excluded": 1,
+        "confident": false,
+        "stanceVersion": 2
+      },
+      "Holandë": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 4,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 2
+      },
+      "Belgjikë": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 4,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 2
+      },
+      "Spanjë": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 7,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 2
+      },
+      "Greqi": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 23,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 2
+      },
+      "Suedi": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 2,
+        "excluded": 1,
+        "confident": false,
+        "stanceVersion": 2
+      },
+      "Poloni": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 2,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 2
+      },
+      "Turqi": {
+        "index": 46,
+        "positive": 0,
+        "neutral": 93,
+        "negative": 7,
+        "n": 42,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 2
+      },
+      "Kroaci": {
+        "index": 55,
+        "positive": 16,
+        "neutral": 79,
+        "negative": 5,
+        "n": 19,
+        "excluded": 1,
+        "confident": true,
+        "stanceVersion": 2
+      }
+    },
+    "headlines": [
+      {
+        "title": "Kosovo's Independence: A New European Nation is Born - Monocle",
+        "source": "Monocle",
+        "country": "SHBA",
+        "flag": "🇺🇸",
+        "url": "https://monocle.com/affairs/kosovo-independence-serbia-balkans/",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Mediterranean Games: Kosovo’s Lekë Juniku carries tradition and fighting spirit from Taranto towards 2030 - World Baseball Softball Confederation (WBSC)",
+        "source": "World Baseball Softball Confederation (WBSC)",
+        "country": "Britani",
+        "flag": "🇬🇧",
+        "url": "https://www.wbsc.org/en/news/mediterranean-games-kosovos-leke-juniku-carries-tradition-and-fighting-spirit-from-taranto-towards-2030",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Kosovo. Pristina, la grande sopresa del nuoto. - Nuoto.com",
+        "source": "Nuoto.com",
+        "country": "Itali",
+        "flag": "🇮🇹",
+        "url": "https://www.nuoto.com/articolo/calendari-e-meeting/kosovo-pristina-la-grande-sopresa-del-nuoto/",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Has Kurti crossed a \"red line\" in the relations with the EU? - European Western Balkans",
+        "source": "European Western Balkans",
+        "country": "SHBA",
+        "flag": "🇺🇸",
+        "url": "https://europeanwesternbalkans.com/2026/08/18/has-kurti-crossed-a-red-line-in-the-relations-with-the-eu/",
+        "sentiment": "negative"
+      },
+      {
+        "title": "Vucic to Send Letter to Rutte: Don't Open Ibar Bridge - srpske.rs",
+        "source": "srpske.rs",
+        "country": "Britani",
+        "flag": "🇬🇧",
+        "url": "https://srpske.rs/en/news/politika/2026/08/19/vucic-letter-rutte-ibar-bridge",
+        "sentiment": "negative"
+      },
+      {
+        "title": "Vucic, Türk komutanı hedef aldı... Odatv araştırdı: İbar Nehri'nden çıkan Neo-Osmanlı kabusu - Odatv",
+        "source": "Odatv",
+        "country": "Turqi",
+        "flag": "🇹🇷",
+        "url": "https://www.odatv.com/guncel/vucic-turk-komutani-hedef-aldi-odatv-arastirdi-ibar-nehrinden-cikan-neo-osmanli-kabusu-120159511",
+        "sentiment": "negative"
+      }
+    ]
   }
 ]
