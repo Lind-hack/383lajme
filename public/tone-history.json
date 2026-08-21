@@ -2029,8 +2029,8 @@
   {
     "date": "2026-08-21",
     "overallIndex": 51,
-    "totalArticles": 232,
-    "sourceCount": 154,
+    "totalArticles": 235,
+    "sourceCount": 152,
     "stanceVersion": 2,
     "countries": {
       "Gjermani": {
@@ -2038,9 +2038,9 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 5,
+        "n": 4,
         "excluded": 0,
-        "confident": true,
+        "confident": false,
         "stanceVersion": 2
       },
       "SHBA": {
@@ -2058,7 +2058,7 @@
         "positive": 6,
         "neutral": 89,
         "negative": 6,
-        "n": 35,
+        "n": 36,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -2088,7 +2088,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 4,
+        "n": 3,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
@@ -2118,7 +2118,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 5,
+        "n": 6,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -2138,7 +2138,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 27,
+        "n": 29,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -2164,11 +2164,11 @@
         "stanceVersion": 2
       },
       "Turqi": {
-        "index": 51,
-        "positive": 6,
-        "neutral": 91,
+        "index": 50,
+        "positive": 4,
+        "neutral": 93,
         "negative": 4,
-        "n": 54,
+        "n": 55,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2

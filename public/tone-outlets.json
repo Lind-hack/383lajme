@@ -1,8 +1,8 @@
 {
   "lastUpdated": "2026-08-21",
   "overallIndex": 51,
-  "totalArticles": 232,
-  "sourceCount": 154,
+  "totalArticles": 235,
+  "sourceCount": 152,
   "stanceVersion": 2,
   "countries": {
     "Gjermani": {
@@ -34,26 +34,6 @@
               "date": "2026-08-19",
               "sentiment": "neutral",
               "reason": "Faktikë raportim pa ngarkesë",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "Land.NRW",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Staatssekretär Wiermer besucht das nordrhein-westfälische Partnerland Nordmazedonien sowie Kosovo und Kroatien - Land.NRW",
-              "albanianTitle": "Sekretari shtetëror Wiermer viziton Maqedoninë e Veriut, Kosovën dhe Kroacinë",
-              "blurb": "Sekretari shtetëror Wiermer po zhvillon vizita zyrtare në Maqedoninë e Veriut, Kosovë dhe Kroaci për forcimin e bashkëpunimit.",
-              "imageUrl": null,
-              "url": "https://www.land.nrw/pressemitteilung/staatssekretaer-wiermer-besucht-das-nordrhein-westfaelische-partnerland",
-              "date": "2026-08-21",
-              "sentiment": "neutral",
-              "reason": "Faktikisht raporton vizitën e një sekretari shtetëror, pa gjuhë ngarkuese",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -106,9 +86,9 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 5,
+        "n": 4,
         "excluded": 0,
-        "confident": true,
+        "confident": false,
         "stanceVersion": 2
       }
     },
@@ -177,21 +157,8 @@
         {
           "name": "BGNES",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 1,
           "articles": [
-            {
-              "title": "Serbia weaponises the Ibar in its escalating pressure on Kosovo - BGNES",
-              "albanianTitle": "Serbia përdor Ibrin si mjet presioni në përshkallëzimin e situatës ndaj Kosovës - BGNES",
-              "blurb": "Serbia po përdor lumin Ibër si mjet presioni politik ndaj Kosovës sipas raportimeve të agjencisë BGNES.",
-              "imageUrl": "https://www.bgnes.com/static/images/news/2026/08/21/21582/19765.webp",
-              "url": "http://www.bgnes.com/no-filter/serbia-weaponises-the-ibar-in-its-escalating-pressure-on-kosovo",
-              "date": "2026-08-21",
-              "sentiment": "neutral",
-              "reason": "Faktikisht raporton presionin serb ndaj Kosovës pa gjuhë polemike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "NATO to Vučić: Any Reopening of Mitrovica Bridge Must Take All Communities in Kosovo into Account - BGNES",
               "albanianTitle": "NATO për Vuçiqin: Çdo rihapje e urës së Mitrovicës duhet të marrë parasysh të gjitha komunitetet në Kosovë - BGNES",
@@ -445,19 +412,6 @@
               "speaker": ""
             },
             {
-              "title": "Alliance joins Democratic Party of Kosovo’s action, accuses VV of repeated constitutional violations - KosovaPress",
-              "albanianTitle": "Aleanca i bashkohet aksionit të PDK-së, akuzon VV-në për shkelje të vazhdueshme kushtetuese",
-              "blurb": "Aleanca për Ardhmërinë e Kosovës i bashkohet PDK-së në akuzat ndaj Lëvizjes Vetëvendosje për shkelje të Kushtetutës.",
-              "imageUrl": null,
-              "url": "https://kosovapress.com/eng/alliance-joins-democratic-party-of-kosovos-action-accuses-vv-of-repeated-constitutional-violations",
-              "date": "2026-08-21",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportim neutral",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
               "title": "Gucati criticizes Kurti Government: None of the veterans’ demands have been fulfilled - KosovaPress",
               "albanianTitle": "Gucati kritikon Qeverinë Kurti: Asnjë nga kërkesat e veteranëve nuk është përmbushur",
               "blurb": "Hysni Gucati kritikon qeverinë Kurti për mospërmbushjen e asnjërës nga kërkesat e organizatave të veteranëve të luftës.",
@@ -505,6 +459,19 @@
               "date": "2026-08-20",
               "sentiment": "neutral",
               "reason": "Faktikë e thjeshtë, pa gjuhë ngarkuese",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Musliu: We will not stop until Kosovo institutions are constituted - KosovaPress",
+              "albanianTitle": "Musliu: Nuk do të ndalemi derisa të konstituohen institucionet e Kosovës - KosovaPress",
+              "blurb": "Musliu deklaron se angazhimi i tyre do të vazhdojë deri në konstituimin e plotë të institucioneve të Kosovës.",
+              "imageUrl": null,
+              "url": "https://kosovapress.com/eng/musliu-we-will-not-stop-until-kosovo-institutions-are-constituted",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Raporton deklaratën e Musliuut pa ngjyrë vete",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -594,8 +561,21 @@
         {
           "name": "TRT World",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
+            {
+              "title": "Kosovo still searching for loved ones three decades after the war - TRT World",
+              "albanianTitle": "Kosova ende në kërkim të më të dashurve të tyre tri dekada pas luftës - TRT World",
+              "blurb": "Familjarët në Kosovë vazhdojnë kërkimet për të pagjeturit e luftës edhe tri dekada pas përfundimit të konfliktit të armatosur.",
+              "imageUrl": null,
+              "url": "https://www.trtworld.com/video/tv/shows/683ef3c9cff794df564280c5/play/4f7f32df896b",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
             {
               "title": "Will justice ever be served for Kosovo war victims? - TRT World",
               "albanianTitle": "A do të vihet ndonjëherë drejtësia në vend për viktimat e luftës në Kosovë? - TRT World",
@@ -625,6 +605,26 @@
               "date": "2026-08-20",
               "sentiment": "unknown",
               "reason": "Nuk përmendet Kosova në titull",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "The University of Northern Colorado",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Putting Humans in Context: Faculty Member Brings Biological Anthropology to Kosovo - The University of Northern Colorado",
+              "albanianTitle": "Vendosja e njerëzve në kontekst: Pedagogu sjell antropologjinë biologjike në Kosovë - Universiteti i Kolorados Veriore",
+              "blurb": "Një pedagog nga Universiteti i Kolorados Veriore po sjell studimet e antropologjisë biologjike në Kosovë për studentët.",
+              "imageUrl": "https://www.unco.edu/app/uploads/kosovo-2-1024x575.jpg",
+              "url": "https://www.unco.edu/news/articles/putting-humans-in-context-faculty-member-brings-biological-anthropology-to-kosovo/",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -833,21 +833,8 @@
         {
           "name": "BGNES",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 1,
           "articles": [
-            {
-              "title": "Serbia weaponises the Ibar in its escalating pressure on Kosovo - BGNES",
-              "albanianTitle": "Serbia përdor Ibrin si mjet presioni në përshkallëzimin e situatës ndaj Kosovës - BGNES",
-              "blurb": "Serbia po përdor lumin Ibër si mjet presioni politik ndaj Kosovës sipas raportimeve të agjencisë BGNES.",
-              "imageUrl": "https://www.bgnes.com/static/images/news/2026/08/21/21582/19765.webp",
-              "url": "http://www.bgnes.com/no-filter/serbia-weaponises-the-ibar-in-its-escalating-pressure-on-kosovo",
-              "date": "2026-08-21",
-              "sentiment": "neutral",
-              "reason": "Faktikisht raporton presionin serb ndaj Kosovës pa gjuhë polemike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "NATO to Vučić: Any Reopening of Mitrovica Bridge Must Take All Communities in Kosovo into Account - BGNES",
               "albanianTitle": "NATO për Vuçiqin: Çdo rihapje e urës së Mitrovicës duhet të marrë parasysh të gjitha komunitetet në Kosovë - BGNES",
@@ -1224,8 +1211,21 @@
         {
           "name": "TRT World",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
+            {
+              "title": "Kosovo still searching for loved ones three decades after the war - TRT World",
+              "albanianTitle": "Kosova ende në kërkim të më të dashurve të tyre tri dekada pas luftës - TRT World",
+              "blurb": "Familjarët në Kosovë vazhdojnë kërkimet për të pagjeturit e luftës edhe tri dekada pas përfundimit të konfliktit të armatosur.",
+              "imageUrl": null,
+              "url": "https://www.trtworld.com/video/tv/shows/683ef3c9cff794df564280c5/play/4f7f32df896b",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
             {
               "title": "Will justice ever be served for Kosovo war victims? - TRT World",
               "albanianTitle": "A do të vihet ndonjëherë drejtësia në vend për viktimat e luftës në Kosovë? - TRT World",
@@ -1235,6 +1235,26 @@
               "date": "2026-08-21",
               "sentiment": "neutral",
               "reason": "Faktikisht pyetje pa ngarkim gjuhësor",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "The University of Northern Colorado",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Putting Humans in Context: Faculty Member Brings Biological Anthropology to Kosovo - The University of Northern Colorado",
+              "albanianTitle": "Vendosja e njerëzve në kontekst: Pedagogu sjell antropologjinë biologjike në Kosovë - Universiteti i Kolorados Veriore",
+              "blurb": "Një pedagog nga Universiteti i Kolorados Veriore po sjell studimet e antropologjisë biologjike në Kosovë për studentët.",
+              "imageUrl": "https://www.unco.edu/app/uploads/kosovo-2-1024x575.jpg",
+              "url": "https://www.unco.edu/news/articles/putting-humans-in-context-faculty-member-brings-biological-anthropology-to-kosovo/",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1352,7 +1372,7 @@
         "positive": 6,
         "neutral": 89,
         "negative": 6,
-        "n": 35,
+        "n": 36,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -1574,13 +1594,13 @@
           "articles": [
             {
               "title": "XX Giochi del Mediterraneo: domani sera a Taranto la Cerimonia di apertura - Gazzetta Regionale",
-              "albanianTitle": "Lojërat e 20-ta Mesdhetare: Nesër mbrëma në Taranto mbahet ceremonia e hapjes - Gazzetta Regionale",
-              "blurb": "Ceremonia e hapjes së Lojërave të 20-ta Mesdhetare do të mbahet nesër në mbrëmje në qytetin e Tarantos.",
+              "albanianTitle": "Lojërat Mesdhetare XX: Nesër mbrëma në Taranto mbahet ceremonia e hapjes - Gazzetta Regionale",
+              "blurb": "Ceremonia e hapjes së Lojërave të njëzetë Mesdhetare do të mbahet nesër në mbrëmje në qytetin italian të Tarantos.",
               "imageUrl": "https://www.gazzettaregionale.it/resizer/600/315/true/2026_08_20/itataranto2026-jpg-jpg-1787231217820.jpg--xx_giochi_del_mediterraneo__domani_sera_a_taranto_la_cerimonia_di_apertura.jpg?1787231217838",
               "url": "https://www.gazzettaregionale.it/primavera/2026/08/20/news/xx-giochi-del-mediterraneo-domani-sera-a-taranto-la-cerimonia-di-apertura-184341/",
               "date": "2026-08-20",
               "sentiment": "unknown",
-              "reason": "Titulli nuk përmend Kosovën, prandaj nuk mund të përcaktohet qëndrimi i median",
+              "reason": "no mention of Kosovo in the item",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1842,26 +1862,6 @@
           ]
         },
         {
-          "name": "Reporteri",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Qeveria nuk e di se nga kanë hyrë vaksinat nga Serbia në Kosovë, Hoti paralajmëron masa - Reporteri",
-              "albanianTitle": "Qeveria nuk e di se si hynë vaksinat nga Serbia në Kosovë, Hoti paralajmëron masa",
-              "blurb": "Qeveria nuk ka informacion për hyrjen e vaksinave nga Serbia në Kosovë dhe kryeministri Hoti paralajmëron masa.",
-              "imageUrl": null,
-              "url": "https://reporteri.net/de/Botschaft/Die-Regierung-wei%C3%9F-nicht--wie-viele-Impfstoffe-aus-Serbien-in-den-Kosovo-gelangt-sind--warnt-vor-Ma%C3%9Fnahmen/",
-              "date": "2026-08-19",
-              "sentiment": "neutral",
-              "reason": "Fact-based reporting without loaded language",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
           "name": "Tagesschau",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1887,7 +1887,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 4,
+        "n": 3,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
@@ -2157,19 +2157,32 @@
           ]
         },
         {
-          "name": "Reporteri",
+          "name": "Periskopi",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
-              "title": "PDK-ja për të pestën ditë bllokon hyrjen e Qeverisë, i bashkohen edhe prodhuesit vendor - Reporteri",
-              "albanianTitle": "PDK-ja për të pestën ditë bllokon hyrjen e Qeverisë, i bashkohen edhe prodhuesit vendorë - Reporteri",
-              "blurb": "Partia Demokratike e Kosovës vazhdon bllokimin e hyrjes së ndërtesës së Qeverisë, ndërsa kësaj proteste i janë bashkuar prodhuesit vendorë.",
+              "title": "Alerte à l'hôtel de ville : le gouvernement vise à devenir des propriétaires fonciers, des montagnes et des objets municipaux - Periskopi",
+              "albanianTitle": "Alarm në komunë: Qeveria synon t'i bëhet pronare e tokave, maleve dhe objekteve komunale - Periskopi",
+              "blurb": "Qeveria e Kosovës synon të marrë në pronësi toka, male dhe objekte të ndryshme që aktualisht janë nën administrim komunal.",
               "imageUrl": null,
-              "url": "https://reporteri.net/fr/nouvelles/PDK-bloque-l%27entr%C3%A9e-du-gouvernement-pour-le-cinqui%C3%A8me-jour--les-producteurs-locaux-se-joignent-%C3%A0-la-lutte./",
-              "date": "2026-08-19",
+              "url": "https://periskopi.com/fr/2026/8/alerte-lhotel-ville-gouvernement-vise-devenir-proprietaires-fonciers-montagnes-objets-municipaux",
+              "date": "2026-08-18",
               "sentiment": "neutral",
-              "reason": "Faktikë politike, neutral reporting",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "AKK: les municipalités protestent le 1er septembre devant le gouvernement - Periskopi",
+              "albanianTitle": "AKK: Komunat do të protestojnë më 1 shtator para Qeverisë - Periskopi",
+              "blurb": "Asociacioni i Komunave të Kosovës ka paralajmëruar protestë të kryetarëve të komunave për datën një shtator para ndërtesës së qeverisë.",
+              "imageUrl": null,
+              "url": "https://periskopi.com/fr/2026/8/akk-municipalites-protestent-1er-septembre-gouvernement",
+              "date": "2026-08-18",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -2202,7 +2215,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 5,
+        "n": 6,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -2420,7 +2433,7 @@
         {
           "name": "Ertsports.gr",
           "sentiment": "neutral",
-          "articleCount": 3,
+          "articleCount": 4,
           "articles": [
             {
               "title": "Πρώτο σερβίς για την “μεσογειακή” Εθνική Ομάδα βόλεϊ γυναικών, απέναντι στο Κόσοβο - Ertsports.gr",
@@ -2457,6 +2470,19 @@
               "date": "2026-08-18",
               "sentiment": "neutral",
               "reason": "Raportim i thjeshtë i ngjarjes sportive në Kosovë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Θετική πρεμιέρα για την Εθνική Γυναικών στους Μεσογειακούς Αγώνες - Ertsports.gr",
+              "albanianTitle": "Start pozitiv për kombëtaren greke të femrave në Lojërat Mesdhetare – Ertsports.gr",
+              "blurb": "Kombëtarja e femrave të Greqisë ka regjistruar paraqitje në Lojërat Mesdhetare në përballjen e zhvilluar kundër Kosovës.",
+              "imageUrl": "https://www.ertsports.gr/wp-content/uploads/2026/08/ethniki-ginaikon-1.jpg",
+              "url": "https://www.ertsports.gr/bolei/thetiki-premiera-gia-tin-ethniki-gynaikon-stous-mesogeiakous-agones/",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -2504,26 +2530,6 @@
           ]
         },
         {
-          "name": "In.gr",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Μεσογειακοί Αγώνες: Με το δεξί ξεκίνησε η Εθνική βόλεϊ γυναικών, 3-0 το Κόσοβο - In.gr",
-              "albanianTitle": "Lojërat Mesdhetare: Kombëtarja e volejbollit të femrave e nis me fitore, mposht Kosovën 3-0",
-              "blurb": "Kombëtarja e volejbollit të femrave të Greqisë ka shënuar fitore 3-0 ndaj përfaqësueses së Kosovës në kuadër të Lojërave Mesdhetare.",
-              "imageUrl": "https://www.in.gr/wp-content/uploads/2026/08/BVOLEI.png",
-              "url": "https://www.in.gr/2026/08/21/sports/othersports/mesogeiakoi-agones-me-to-deksi-ksekinise-i-ethniki-volei-gynaikon-3-0-to-kosovo/",
-              "date": "2026-08-21",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportim neutral",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
           "name": "NewsIT",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -2537,6 +2543,26 @@
               "date": "2026-08-20",
               "sentiment": "neutral",
               "reason": "Faktikë raporti, pa gjuhë ngarkuese ndaj Kosovës",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Sigmalive",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Νέα ένταση στο Κόσοβο: Στο επίκεντρο η γέφυρα του Ιμπάρ - Sigmalive",
+              "albanianTitle": "Tensione të reja në Kosovë: Në qendër të vëmendjes ura e Ibrit - Sigmalive",
+              "blurb": "Ura mbi lumin Ibër është bërë sërish pikë e tensionit në veri të Kosovës, duke nxitur reagime të ndryshme politike.",
+              "imageUrl": "https://cdn.sigmalive.com/thumbnails/1358249/conversions/ibar_river_bridge_mitrovica_serbia_kosovo_tensions-seo.jpg",
+              "url": "https://www.sigmalive.com/news/international/1326368/nea-entasi-sto-kosovo-sto-epikentro-i-ghefira-toy-impar",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -2623,6 +2649,26 @@
               "date": "2026-08-19",
               "sentiment": "neutral",
               "reason": "Fact‑based report of a Kosovar suspect, no loaded language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "ertnews.gr",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Κόσοβο: Eντάσεις μεταξύ Σέρβων και Αλβανών προκαλεί το άνοιγμα γέφυρας - ertnews.gr",
+              "albanianTitle": "Kosova: Hapja e urës po shkakton tensione mes serbëve dhe shqiptarëve - ertnews.gr",
+              "blurb": "Planet për hapjen e urës së Mitrovicës kanë nxitur tensione ndërmjet komunitetit serb dhe atij shqiptar në rajon.",
+              "imageUrl": "https://www.ertnews.gr/wp-content/uploads/2026/08/ap090427013637-768x515-1.jpg",
+              "url": "https://www.ertnews.gr/eidiseis/diethni/kosovo-entaseis-metaksy-servon-kai-alvanon-prokalei-to-anoigma-gefyras/",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Raportim neutral i tensioneve mes komuniteteve",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -2840,7 +2886,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 27,
+        "n": 29,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -3115,19 +3161,6 @@
           "articleCount": 6,
           "articles": [
             {
-              "title": "KFOR’un Varlığının Optimize Edilmesi Güvenlikteki İyileşmeyi Yansıtıyor - Kosovahaber.com",
-              "albanianTitle": "Optimizimi i pranisë së KFOR-it pasqyron përmirësimin e sigurisë - Kosovahaber.com",
-              "blurb": "Optimizimi i pranisë së forcave të KFOR-it në Kosovë reflekton përmirësimin e situatës së përgjithshme të sigurisë.",
-              "imageUrl": null,
-              "url": "https://kosovahaber.com/haber/kforun-varliginin-optimize-edilmesi-guvenlikteki-iyilesmeyi-yansitiyor-105152",
-              "date": "2026-08-21",
-              "sentiment": "neutral",
-              "reason": "Raportim neutral i përmirësimit të sigurisë në Kosovë",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
               "title": "IKD: Kosova, 34 Milyon Euroluk AB Fonunu Kaybetme Riskiyle Karşı Karşıya - Kosovahaber.com",
               "albanianTitle": "IKD: Kosova rrezikon t'i humbë 34 milionë euro nga fondet e BE-së",
               "blurb": "Instituti i Kosovës për Drejtësi paralajmëron se Kosova rrezikon të humbasë 34 milionë euro nga fondet e Bashkimit Evropian.",
@@ -3136,6 +3169,19 @@
               "date": "2026-08-21",
               "sentiment": "neutral",
               "reason": "Raporton rrezikun financiar për Kosovën, në mënyrë faktike pa ngjyrë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "KFOR’un Varlığının Optimize Edilmesi Güvenlikteki İyileşmeyi Yansıtıyor - Kosovahaber.com",
+              "albanianTitle": "Optimizimi i pranisë së KFOR-it pasqyron përmirësimin e sigurisë - Kosovahaber.com",
+              "blurb": "Optimizimi i pranisë së forcave të KFOR-it në Kosovë reflekton përmirësimin e situatës së përgjithshme të sigurisë.",
+              "imageUrl": null,
+              "url": "https://kosovahaber.com/haber/kforun-varliginin-optimize-edilmesi-guvenlikteki-iyilesmeyi-yansitiyor-105152",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Raportim neutral i përmirësimit të sigurisë në Kosovë",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -3228,26 +3274,6 @@
               "date": "2026-08-20",
               "sentiment": "neutral",
               "reason": "Faktikë raporti pa gjuhë ngarkuar",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "Mersin Haber",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosova Zubin Potok'ta Toplu Mezarların Yakınında Çok Sayıda Silah Tespit Edildi - Mersin Haber",
-              "albanianTitle": "Sasi e konsiderueshme armësh zbulohen pranë varrezave masive në Zubin Potok të Kosovës",
-              "blurb": "Policia ka gjetur sasi të konsiderueshme të armatimit në afërsi të lokacioneve me varreza masive në Zubin Potok.",
-              "imageUrl": "https://www.mersinhaber.com/cropp/1200x675/Depo/haber/747538/org/747538.webp",
-              "url": "https://www.mersinhaber.com/haber-kosova-zubin-potokta-toplu-mezarlarin-yakininda-cok-sayida-silah-tespit-edildi/747538",
-              "date": "2026-08-21",
-              "sentiment": "neutral",
-              "reason": "Factually reports weapons detection near mass graves in Kosovo",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -3348,19 +3374,19 @@
           ]
         },
         {
-          "name": "Son Dakika",
+          "name": "SonDakika",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
-              "title": "Kosova'da Halter Şampiyonası Başladı - Son Dakika",
-              "albanianTitle": "Fillon Kampionati i Peshëngritjes në Kosovë – Lajmi i fundit",
-              "blurb": "Kampionati i peshëngritjes ka filluar zyrtarisht në Kosovë, ku po marrin pjesë garues nga vende të ndryshme.",
+              "title": "Kosova'da Halter Şampiyonası Başladı - SonDakika",
+              "albanianTitle": "Fillon Kampionati i Peshëngritjes në Kosovë - SonDakika",
+              "blurb": "Kampionati i Kosovës në peshëngritje ka filluar zyrtarisht me pjesëmarrjen e garuesve të ndryshëm në këtë disiplinë sportive.",
               "imageUrl": "https://foto.sondakika.com/haber/2026/08/20/u-15-ve-yildizlar-avrupa-halter-sampiyonasi-n-2-20162746_amp.jpg",
               "url": "https://www.sondakika.com/haber/haber-kosova-da-halter-sampiyonasi-basladi-20162761/",
               "date": "2026-08-20",
               "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
+              "reason": "factual report about weightlifting championship in Kosovo",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -3390,8 +3416,21 @@
         {
           "name": "Transfermarkt",
           "sentiment": "neutral",
-          "articleCount": 3,
+          "articleCount": 4,
           "articles": [
+            {
+              "title": "Andorra - Kosova, 12 Eki 2023 - Avrupa Şampiyonası Elemeleri - Maç raporu - Transfermarkt",
+              "albanianTitle": "Andorra - Kosovë, 12 tetor 2023 - Kualifikimet për Kampionatin Evropian - Raporti i ndeshjes - Transfermarkt",
+              "blurb": "Kombëtarja e Kosovës në futboll zhvilloi ndeshjen kualifikuese për Kampionatin Evropian kundër përfaqësueses së Andorrës më dymbëdhjetë tetor.",
+              "imageUrl": null,
+              "url": "https://www.transfermarkt.com.tr/andorra_kosovo/vorbericht/spielbericht/3941633",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
             {
               "title": "İsveç - Kosova, 12 Oca 2020 - Hazırlık Maçları - Maç raporu - Transfermarkt",
               "albanianTitle": "Suedi – Kosovë, 12 janar 2020 – Ndeshje miqësore – Raporti i ndeshjes – Transfermarkt",
@@ -3512,54 +3551,14 @@
               "speaker": ""
             }
           ]
-        },
-        {
-          "name": "İstiklal Gazetesi",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Milli halterciler, Kosova'da 6 altın madalya kazandı - İstiklal Gazetesi",
-              "albanianTitle": "Peshëngritësit kombëtarë fitojnë 6 medalje ari në Kosovë",
-              "blurb": "Peshëngritësit kombëtarë kanë fituar gjithsej gjashtë medalje të arta gjatë garave të zhvilluara së fundmi në territorin e Kosovës.",
-              "imageUrl": "https://cdn.istiklal.com.tr/news/671299.jpg",
-              "url": "https://www.istiklal.com.tr/spor/milli-halterciler-kosovada-6-altin-madalya-kazandi-1102653h",
-              "date": "2026-08-20",
-              "sentiment": "neutral",
-              "reason": "Reports sporting achievement in Kosovo without evaluative language",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "İzmir Büyükşehir Belediyesi",
-          "sentiment": "positive",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Haberler | Başkan Tugay Kosova’da: İzmir ile Kosova arasında çok yönlü iş birliği dönemi - İzmir Büyükşehir Belediyesi",
-              "albanianTitle": "Kryetari Tugay në Kosovë: Fillon epoka e bashkëpunimit shumëdimensional mes Izmirit dhe Kosovës",
-              "blurb": "Kryetari i Bashkisë së Izmirit, Tugay, po qëndron në Kosovë për të diskutuar rreth bashkëpunimit shumëplanësh mes dy palëve.",
-              "imageUrl": "https://www.izmir.bel.tr/YuklenenDosyalar/Haberler/Kucuk/21082026_85315_0.jpeg",
-              "url": "https://www.izmir.bel.tr/tr/Haberler/baskan-tugay-kosova-da-izmir-ile-kosova-arasinda-cok-yonlu-is-birligi-donemi/59212/156",
-              "date": "2026-08-21",
-              "sentiment": "positive",
-              "reason": "Headline highlights multifaceted cooperation between Izmir and Kosovo",
-              "isQuote": false,
-              "evidence": "çok yönlü iş birliği",
-              "speaker": ""
-            }
-          ]
         }
       ],
       "summary": {
-        "index": 51,
-        "positive": 6,
-        "neutral": 91,
+        "index": 50,
+        "positive": 4,
+        "neutral": 93,
         "negative": 4,
-        "n": 54,
+        "n": 55,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -3601,26 +3600,6 @@
               "date": "2026-08-20",
               "sentiment": "neutral",
               "reason": "Faktikë raportim pa gjuhë të ngarkuar",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "BGNES",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Serbia weaponises the Ibar in its escalating pressure on Kosovo - BGNES",
-              "albanianTitle": "Serbia përdor Ibrin si mjet presioni në përshkallëzimin e situatës ndaj Kosovës - BGNES",
-              "blurb": "Serbia po përdor lumin Ibër si mjet presioni politik ndaj Kosovës sipas raportimeve të agjencisë BGNES.",
-              "imageUrl": "https://www.bgnes.com/static/images/news/2026/08/21/21582/19765.webp",
-              "url": "http://www.bgnes.com/no-filter/serbia-weaponises-the-ibar-in-its-escalating-pressure-on-kosovo",
-              "date": "2026-08-21",
-              "sentiment": "neutral",
-              "reason": "Faktikisht raporton presionin serb ndaj Kosovës pa gjuhë polemike",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -3789,7 +3768,7 @@
         {
           "name": "KosovaPress",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 1,
           "articles": [
             {
               "title": "From Taranto, Kosovo’s Haxhiu calls for unity to overcome political deadlock, just as in sport - KosovaPress",
@@ -3797,19 +3776,6 @@
               "blurb": "Ministrja Haxhiu bën thirrje për unitet politik në Kosovë duke përdorur shembullin e bashkëpunimit në sport.",
               "imageUrl": null,
               "url": "https://kosovapress.com/eng/from-taranto-kosovos-haxhiu-calls-for-unity-to-overcome-political-deadlock-just-as-in-sport",
-              "date": "2026-08-21",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportim neutral",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Alliance joins Democratic Party of Kosovo’s action, accuses VV of repeated constitutional violations - KosovaPress",
-              "albanianTitle": "Aleanca i bashkohet aksionit të PDK-së, akuzon VV-në për shkelje të vazhdueshme kushtetuese",
-              "blurb": "Aleanca për Ardhmërinë e Kosovës i bashkohet PDK-së në akuzat ndaj Lëvizjes Vetëvendosje për shkelje të Kushtetutës.",
-              "imageUrl": null,
-              "url": "https://kosovapress.com/eng/alliance-joins-democratic-party-of-kosovos-action-accuses-vv-of-repeated-constitutional-violations",
               "date": "2026-08-21",
               "sentiment": "neutral",
               "reason": "Faktikë raportim neutral",
@@ -3862,8 +3828,21 @@
         {
           "name": "TRT World",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
+            {
+              "title": "Kosovo still searching for loved ones three decades after the war - TRT World",
+              "albanianTitle": "Kosova ende në kërkim të më të dashurve të tyre tri dekada pas luftës - TRT World",
+              "blurb": "Familjarët në Kosovë vazhdojnë kërkimet për të pagjeturit e luftës edhe tri dekada pas përfundimit të konfliktit të armatosur.",
+              "imageUrl": null,
+              "url": "https://www.trtworld.com/video/tv/shows/683ef3c9cff794df564280c5/play/4f7f32df896b",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
             {
               "title": "Will justice ever be served for Kosovo war victims? - TRT World",
               "albanianTitle": "A do të vihet ndonjëherë drejtësia në vend për viktimat e luftës në Kosovë? - TRT World",
@@ -3893,6 +3872,26 @@
               "date": "2026-08-20",
               "sentiment": "unknown",
               "reason": "Nuk përmendet Kosova në titull",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "The University of Northern Colorado",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Putting Humans in Context: Faculty Member Brings Biological Anthropology to Kosovo - The University of Northern Colorado",
+              "albanianTitle": "Vendosja e njerëzve në kontekst: Pedagogu sjell antropologjinë biologjike në Kosovë - Universiteti i Kolorados Veriore",
+              "blurb": "Një pedagog nga Universiteti i Kolorados Veriore po sjell studimet e antropologjisë biologjike në Kosovë për studentët.",
+              "imageUrl": "https://www.unco.edu/app/uploads/kosovo-2-1024x575.jpg",
+              "url": "https://www.unco.edu/news/articles/putting-humans-in-context-faculty-member-brings-biological-anthropology-to-kosovo/",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
