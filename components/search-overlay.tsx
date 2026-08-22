@@ -9,7 +9,6 @@ import {
   MessageCircle,
   Minus,
   Search,
-  Sparkles,
   TrendingDown,
   TrendingUp,
 } from "lucide-react";
@@ -94,9 +93,6 @@ export default function SearchOverlay({
   const [query, setQuery] = useState("");
   const [mode, setMode] = useState<"kerko" | "pyet">("kerko");
   const [data, setData] = useState<Payload>(EMPTY);
-  // Bumped when the reader presses Enter in Pyet mode. The panel below asks on
-  // the bump rather than on the query itself, so typing does not fire requests.
-  const [askNonce, setAskNonce] = useState(0);
   const [starters, setStarters] = useState<Chip[]>([]);
   const [loading, setLoading] = useState(false);
   const [active, setActive] = useState(0);
@@ -138,7 +134,6 @@ export default function SearchOverlay({
       setData(EMPTY);
       setActive(0);
       setMode("kerko");
-      setAskNonce(0);
     }
   }, [open]);
 
@@ -217,13 +212,8 @@ export default function SearchOverlay({
         onClose();
         return;
       }
-      if (mode === "pyet") {
-        if (event.key === "Enter") {
-          event.preventDefault();
-          setAskNonce((n) => n + 1);
-        }
-        return;
-      }
+      // Pyet's composer handles its own Enter; only Escape is shared.
+      if (mode === "pyet") return;
       if (!flat.length) return;
       if (event.key === "ArrowDown") {
         event.preventDefault();
@@ -264,23 +254,34 @@ export default function SearchOverlay({
       }}
     >
       <div className="kerko-panel" onKeyDown={onKeyDown}>
-        <div className="kerko-field">
-          <Search size={18} strokeWidth={2.5} aria-hidden="true" />
-          <input
-            ref={inputRef}
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder={
-              mode === "pyet" ? "Bëj një pyetje për Kosovën…" : "Kërko lajme, tema, vende…"
-            }
-            aria-label="Kërko"
-            autoComplete="off"
-            spellCheck={false}
-          />
-          <button type="button" className="kerko-esc" onClick={onClose}>
-            esc
-          </button>
-        </div>
+        {/* Search owns this field. Pyet has a composer of its own further
+            down: one box that searches and a second that asks, stacked, read
+            as two ways to do the same thing — and the reader could not tell
+            which one the question was going into. */}
+        {mode === "kerko" ? (
+          <div className="kerko-field">
+            <Search size={18} strokeWidth={2.5} aria-hidden="true" />
+            <input
+              ref={inputRef}
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Kërko lajme, tema, vende…"
+              aria-label="Kërko"
+              autoComplete="off"
+              spellCheck={false}
+            />
+            <button type="button" className="kerko-esc" onClick={onClose}>
+              esc
+            </button>
+          </div>
+        ) : (
+          <div className="kerko-field kerko-field-ask">
+            <span className="kerko-ask-title">Pyet 383</span>
+            <button type="button" className="kerko-esc" onClick={onClose}>
+              esc
+            </button>
+          </div>
+        )}
 
         <div className="kerko-modes" role="tablist" aria-label="Mënyra e kërkimit">
           <button
@@ -307,13 +308,7 @@ export default function SearchOverlay({
 
         <div className="kerko-body" ref={listRef}>
           {mode === "pyet" ? (
-            <AskPanel
-              variant="overlay"
-              hideInput
-              question={query}
-              askNonce={askNonce}
-              chips={starters}
-            />
+            <AskPanel variant="overlay" autoFocus chips={starters} />
           ) : !showing ? (
             <p className="kerko-hint">
               Shkruaj të paktën dy shkronja. Kërkimi mbulon artikujt, temat, vendet te

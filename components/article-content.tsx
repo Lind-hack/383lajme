@@ -7,6 +7,7 @@ import SourceBadge from "@/components/source-badge";
 import ArticleCard from "@/components/article-card";
 import ArticleSidebar from "@/components/article-sidebar";
 import ArticleAsk from "@/components/article-ask";
+import { toParagraphs, readingMinutes } from "@/lib/article-body.mjs";
 import CategoryAccordion from "@/components/category-accordion";
 import type { AccordionSlide } from "@/components/image-accordion";
 import { EASE, DUR } from "@/lib/tokens";
@@ -20,7 +21,8 @@ interface Props {
 }
 
 export default function ArticleContent({ article, related, catColor, catBg, categorySlides }: Props) {
-  const dynamicReadTime = Math.max(1, Math.ceil(article.body.split(/\s+/).length / 200));
+  // Counted from the prose, not from the markup the body is stored in.
+  const dynamicReadTime = readingMinutes(article.body);
 
   return (
     <main
@@ -174,7 +176,10 @@ export default function ArticleContent({ article, related, catColor, catBg, cate
             </p>
 
             <div style={{ fontSize: "17px", lineHeight: 1.85, color: "#333333" }}>
-              {article.body.split("\n\n").map((paragraph, i) => (
+              {/* Bodies arrive as HTML from the pipeline and as plain text from
+                  older pieces; splitting on blank lines and rendering the
+                  result printed the tags to the reader on every article. */
+              toParagraphs(article.body).map((paragraph: string, i: number) => (
                 <p key={i} style={{ margin: "0 0 28px" }}>
                   {paragraph}
                 </p>

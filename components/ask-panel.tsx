@@ -9,11 +9,17 @@ export type Chip = { label: string; question: string };
 type Source = { title: string; href: string; meta: string | null };
 type Refusal = { headline: string; detail: string; ctaLabel: string; ctaHref: string };
 
-type Answer =
-  | { state: "idle" }
-  | { state: "thinking"; question: string }
-  | { state: "answered"; question: string; answer: string; sources: Source[] }
-  | { state: "refused"; question: string; refusal: Refusal };
+type Turn = {
+  id: number;
+  question: string;
+  state: "thinking" | "answered" | "refused";
+  answer?: string;
+  sources?: Source[];
+  refusal?: Refusal;
+};
+
+/** How many earlier exchanges travel with the next question. */
+const MEMORY_TURNS = 3;
 
 /**
  * The reader-facing half of Pyet 383.
@@ -24,65 +30,76 @@ type Answer =
  * never reaches this component, so there is no state here for "answered but
  * unattributed" and no way to accidentally introduce one.
  *
- * The overlay already owns an input, so it drives this one externally via
- * `question` + `askNonce`. The article page has no input of its own and gets
- * the one below.
+ * It is a thread, not a single question box. Readers ask "pse ndodhi kjo" and
+ * then "po kush e tha këtë" — the second question means nothing on its own, so
+ * the last few exchanges travel with it and the previous answers stay on
+ * screen to be read against the new one.
  */
 export default function AskPanel({
   slug = null,
   chips = [],
   variant = "article",
-  question: externalQuestion,
-  askNonce = 0,
-  hideInput = false,
+  autoFocus = false,
+  seedQuestion = null,
+  seedNonce = 0,
 }: {
   slug?: string | null;
   chips?: Chip[];
   variant?: "article" | "overlay";
-  question?: string;
-  askNonce?: number;
-  hideInput?: boolean;
+  autoFocus?: boolean;
+  /** A question handed in from outside (a suggestion bubble, a deep link). */
+  seedQuestion?: string | null;
+  seedNonce?: number;
 }) {
   const [typed, setTyped] = useState("");
-  const [answer, setAnswer] = useState<Answer>({ state: "idle" });
-  const answerRef = useRef<HTMLDivElement>(null);
-  // Only the most recent question may write to state: a reader who clicks a
-  // second chip while the first is in flight should not have the first answer
-  // land on top of the second.
-  const latest = useRef(0);
+  const [turns, setTurns] = useState<Turn[]>([]);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const tailRef = useRef<HTMLDivElement>(null);
+  const ticket = useRef(0);
+  // Read inside `ask` without making it a dependency, so a question in flight
+  // never captures a stale thread.
+  const turnsRef = useRef<Turn[]>([]);
+  turnsRef.current = turns;
 
   const ask = useCallback(
     async (raw: string) => {
-      const q = raw.trim();
-      if (q.length < 6) return;
+      const question = raw.trim();
+      if (question.length < 6) return;
 
-      const ticket = ++latest.current;
-      setAnswer({ state: "thinking", question: q });
+      const id = ++ticket.current;
+      setTyped("");
+      setTurns((prev) => [...prev, { id, question, state: "thinking" }]);
+
+      // Only exchanges that produced an answer are worth remembering; a refusal
+      // adds nothing the model can build on.
+      const history = turnsRef.current
+        .filter((t) => t.state === "answered" && t.answer)
+        .slice(-MEMORY_TURNS)
+        .map((t) => ({ question: t.question, answer: t.answer }));
+
+      const settle = (patch: Partial<Turn>) =>
+        setTurns((prev) => prev.map((t) => (t.id === id ? { ...t, ...patch } : t)));
 
       try {
         const res = await fetch("/api/pyet", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ question: q, slug }),
+          body: JSON.stringify({ question, slug, history }),
         });
         const data = await res.json();
-        if (ticket !== latest.current) return;
 
         if (data?.grounded) {
-          setAnswer({
+          settle({
             state: "answered",
-            question: q,
             answer: String(data.answer ?? ""),
             sources: Array.isArray(data.sources) ? data.sources : [],
           });
         } else {
-          setAnswer({ state: "refused", question: q, refusal: data.refusal });
+          settle({ state: "refused", refusal: data.refusal });
         }
       } catch {
-        if (ticket !== latest.current) return;
-        setAnswer({
+        settle({
           state: "refused",
-          question: q,
           refusal: {
             headline: "Nuk munda të përgjigjem tani.",
             detail: "Kontrollo lidhjen dhe provo sërish.",
@@ -95,52 +112,124 @@ export default function AskPanel({
     [slug],
   );
 
-  // The overlay's own field drives this panel; the nonce is what says "the
-  // reader pressed Enter", as distinct from "the reader is still typing".
+  // A question handed in from outside — the suggestion bubble on an article.
   useEffect(() => {
-    if (askNonce > 0 && externalQuestion) void ask(externalQuestion);
-    // Deliberately keyed on the nonce alone: re-running on every keystroke of
-    // externalQuestion would fire a request per character.
+    if (seedNonce > 0 && seedQuestion) void ask(seedQuestion);
+    // Keyed on the nonce alone: re-running on the text would re-ask on every
+    // render that happens to carry the same suggestion.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [askNonce]);
+  }, [seedNonce]);
 
-  const busy = answer.state === "thinking";
+  useEffect(() => {
+    if (autoFocus) {
+      const id = requestAnimationFrame(() => inputRef.current?.focus());
+      return () => cancelAnimationFrame(id);
+    }
+  }, [autoFocus]);
+
+  // Keep the newest exchange in view as the thread grows.
+  useEffect(() => {
+    if (turns.length > 0) tailRef.current?.scrollIntoView({ block: "nearest" });
+  }, [turns]);
+
+  const busy = turns.some((t) => t.state === "thinking");
+  const started = turns.length > 0;
 
   return (
     <div className="pyet" data-variant={variant}>
-      {!hideInput && (
-        <form
-          className="pyet-form"
-          onSubmit={(e) => {
-            e.preventDefault();
-            void ask(typed);
-          }}
-        >
-          <Sparkles size={15} strokeWidth={2.2} aria-hidden="true" />
-          <input
-            value={typed}
-            onChange={(e) => setTyped(e.target.value)}
-            placeholder="Pyet për këtë lajm…"
-            aria-label="Pyet 383 për këtë artikull"
-            maxLength={280}
-            autoComplete="off"
-            disabled={busy}
-          />
-          <button
-            type="submit"
-            className="pyet-send"
-            disabled={busy || typed.trim().length < 6}
-            aria-label="Dërgo pyetjen"
-          >
-            <ArrowUp size={15} strokeWidth={2.8} aria-hidden="true" />
-          </button>
-        </form>
+      {started && (
+        <div className="pyet-thread">
+          {turns.map((turn) => (
+            <article className="pyet-turn" key={turn.id}>
+              <p className="pyet-asked">{turn.question}</p>
+
+              {turn.state === "thinking" && (
+                <div className="pyet-thinking">
+                  <span className="pyet-dots" aria-hidden="true">
+                    <i />
+                    <i />
+                    <i />
+                  </span>
+                  <p>Po lexoj arkivin…</p>
+                </div>
+              )}
+
+              {turn.state === "answered" && (
+                <div className="pyet-answer" aria-live="polite">
+                  <p className="pyet-text">{turn.answer}</p>
+                  {turn.sources && turn.sources.length > 0 && (
+                    <div className="pyet-sources">
+                      <h4>BAZUAR NË</h4>
+                      <ul>
+                        {turn.sources.map((s) => (
+                          <li key={s.href}>
+                            <Link href={s.href}>
+                              <span>{s.title}</span>
+                              {s.meta && <em>{s.meta}</em>}
+                              <ArrowRight size={13} strokeWidth={2.5} aria-hidden="true" />
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {turn.state === "refused" && (
+                <div className="pyet-refusal" aria-live="polite">
+                  <p className="pyet-refusal-head">{turn.refusal?.headline}</p>
+                  <p className="pyet-refusal-detail">{turn.refusal?.detail}</p>
+                  <Link className="pyet-refusal-cta" href={turn.refusal?.ctaHref ?? "/"}>
+                    {turn.refusal?.ctaLabel ?? "Shiko LAJMET E FUNDIT"}
+                    <ArrowRight size={14} strokeWidth={2.6} aria-hidden="true" />
+                  </Link>
+                </div>
+              )}
+            </article>
+          ))}
+          <div ref={tailRef} />
+        </div>
       )}
 
-      {chips.length > 0 && answer.state === "idle" && (
+      <form
+        className="pyet-form"
+        onSubmit={(e) => {
+          e.preventDefault();
+          void ask(typed);
+        }}
+      >
+        <Sparkles size={15} strokeWidth={2.2} aria-hidden="true" />
+        <input
+          ref={inputRef}
+          value={typed}
+          onChange={(e) => setTyped(e.target.value)}
+          placeholder={
+            started
+              ? "Pyet diçka tjetër…"
+              : variant === "overlay"
+                ? "Bëj një pyetje për lajmet…"
+                : "Pyet për këtë lajm…"
+          }
+          aria-label="Bëj një pyetje"
+          maxLength={280}
+          autoComplete="off"
+          disabled={busy}
+        />
+        <button
+          type="submit"
+          className="pyet-send"
+          disabled={busy || typed.trim().length < 6}
+          aria-label="Dërgo pyetjen"
+        >
+          <ArrowUp size={15} strokeWidth={2.8} aria-hidden="true" />
+        </button>
+      </form>
+
+      {chips.length > 0 && !started && (
         <ul className="pyet-chips">
-          {chips.map((chip) => (
-            <li key={chip.question}>
+          {chips.map((chip, i) => (
+            <li key={chip.question} style={{ "--i": i } as React.CSSProperties}>
               <button type="button" onClick={() => void ask(chip.question)}>
                 {chip.label}
               </button>
@@ -149,71 +238,16 @@ export default function AskPanel({
         </ul>
       )}
 
-      {variant === "overlay" && answer.state === "idle" && (
+      {!started && (
         <p className="pyet-hint">
-          Shkruaj pyetjen dhe shtyp Enter. Përgjigjet vijnë vetëm nga artikujt e botuar te
-          383 — nëse arkivi nuk e ka, do ta them.
+          Përgjigjet vijnë vetëm nga artikujt e botuar te 383 — nëse arkivi nuk e ka, do
+          ta them.
         </p>
       )}
 
-      <div className="pyet-out" ref={answerRef} aria-live="polite">
-        {answer.state === "thinking" && (
-          <div className="pyet-thinking">
-            <span className="pyet-dots" aria-hidden="true">
-              <i />
-              <i />
-              <i />
-            </span>
-            <p>Po lexoj arkivin…</p>
-          </div>
-        )}
-
-        {answer.state === "answered" && (
-          <div className="pyet-answer">
-            <p className="pyet-asked">{answer.question}</p>
-            <p className="pyet-text">{answer.answer}</p>
-            {answer.sources.length > 0 && (
-              <div className="pyet-sources">
-                <h4>BAZUAR NË</h4>
-                <ul>
-                  {answer.sources.map((s) => (
-                    <li key={s.href}>
-                      <Link href={s.href}>
-                        <span>{s.title}</span>
-                        {s.meta && <em>{s.meta}</em>}
-                        <ArrowRight size={13} strokeWidth={2.5} aria-hidden="true" />
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-          </div>
-        )}
-
-        {answer.state === "refused" && (
-          <div className="pyet-refusal">
-            <p className="pyet-asked">{answer.question}</p>
-            <p className="pyet-refusal-head">{answer.refusal?.headline}</p>
-            <p className="pyet-refusal-detail">{answer.refusal?.detail}</p>
-            <Link className="pyet-refusal-cta" href={answer.refusal?.ctaHref ?? "/"}>
-              {answer.refusal?.ctaLabel ?? "Shiko LAJMET E FUNDIT"}
-              <ArrowRight size={14} strokeWidth={2.6} aria-hidden="true" />
-            </Link>
-          </div>
-        )}
-      </div>
-
-      {answer.state !== "idle" && !busy && (
-        <button
-          type="button"
-          className="pyet-again"
-          onClick={() => {
-            setAnswer({ state: "idle" });
-            setTyped("");
-          }}
-        >
-          Bëj një pyetje tjetër
+      {started && !busy && (
+        <button type="button" className="pyet-again" onClick={() => setTurns([])}>
+          Fillo bisedë të re
         </button>
       )}
     </div>

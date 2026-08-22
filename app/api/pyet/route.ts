@@ -1,7 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { getSearchData } from "@/lib/search-sources";
 import { resolveEntity, surfaceForms, mentions } from "@/lib/entities.mjs";
-import { retrieve, validQuestion, MAX_SOURCES } from "@/lib/pyet-retrieval.mjs";
+import { retrieve, validQuestion, MAX_SOURCES, MAX_QUESTION } from "@/lib/pyet-retrieval.mjs";
 import {
   buildPrompt,
   validateAnswer,
@@ -127,13 +127,38 @@ export async function POST(request: NextRequest) {
   const question: string = check.question;
   const slug = typeof body?.slug === "string" ? body.slug.slice(0, 200) : null;
 
+  /**
+   * Earlier exchanges, so a follow-up is read as one.
+   *
+   * Bounded on both axes and re-validated here rather than trusted: this is a
+   * public endpoint, and the history field is the one place a caller could try
+   * to write the model's side of the conversation. Trimming each entry caps
+   * how much a caller can put in front of the article text.
+   */
+  const history = (Array.isArray(body?.history) ? body.history : [])
+    .slice(-3)
+    .map((t: unknown) => {
+      const turn = t as { question?: unknown; answer?: unknown };
+      return {
+        question: String(turn?.question ?? "").slice(0, MAX_QUESTION),
+        answer: String(turn?.answer ?? "").slice(0, 700),
+      };
+    })
+    .filter((t: { question: string; answer: string }) => t.question && t.answer);
+
   const { articles, subjects, people } = await getSearchData();
 
   // Who or what the question names, so "Kush është Edi Rama?" retrieves the
   // pieces about him rather than the ones containing the string.
   const entity = resolveEntity(question, [...subjects, ...people]);
 
-  const { sources } = retrieve(articles, question, {
+  // A follow-up ("po pse?") carries no subject of its own, so the previous
+  // question is what says where to look. Without this the thread's second
+  // question retrieves nothing and is refused under a perfectly good answer.
+  const lastQuestion = history.length ? history[history.length - 1].question : "";
+  const retrievalText = history.length ? `${lastQuestion} ${question}` : question;
+
+  const { sources } = retrieve(articles, retrievalText, {
     entityForms: entity ? surfaceForms(entity) : null,
     mentionsFn: mentions,
     pinnedSlug: slug,
@@ -155,7 +180,7 @@ export async function POST(request: NextRequest) {
   // ── Gate 2 ────────────────────────────────────────────────────────────────
   let raw: unknown;
   try {
-    raw = await llmJSON<unknown>(SYSTEM_PROMPT, buildPrompt(question, full), {
+    raw = await llmJSON<unknown>(SYSTEM_PROMPT, buildPrompt(question, full, { history }), {
       maxTokens: 900,
       // Zero. This is summarising supplied text, so there is nothing for
       // sampling to improve — and at 0.2 the same question against the same
