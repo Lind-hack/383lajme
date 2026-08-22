@@ -46,13 +46,16 @@ export default async function ArticlePage({
     { category: "Sport",      label: "Sport"      },
   ];
   const usedAccordionIds = new Set<string>();
-  const categorySlides: AccordionSlide[] = accordionCats.map(({ category, label }) => {
+  // Every branch here ended at allArticles[0], which is undefined once the
+  // archive is empty — and the next line read .id off it.
+  const categorySlides: AccordionSlide[] = accordionCats.flatMap(({ category, label }) => {
     const a =
       allArticles.find((x) => x.category === category && !usedAccordionIds.has(x.id)) ??
       allArticles.find((x) => !usedAccordionIds.has(x.id)) ??
       allArticles[0];
+    if (!a) return [];
     usedAccordionIds.add(a.id);
-    return { article: a, category, label };
+    return [{ article: a, category, label }];
   });
 
   return (

@@ -3,6 +3,38 @@ import path from "path";
 import fs from "fs";
 import { createClient as createSupabaseClient } from "@supabase/supabase-js";
 import { MOCK_ARTICLES, type Article } from "./mock-data";
+
+/**
+ * Sample copy is for an empty development database, never for readers.
+ *
+ * MOCK_ARTICLES are ten invented stories — an IMF growth figure for Kosovo, a
+ * round of Kosovo–Serbia talks in Brussels, a national-team qualification —
+ * written to look exactly like real reporting, because that is what makes them
+ * useful locally. As the last link in the production fallback chain they were
+ * published under the 383 masthead as current news on 2026-08-22: the Supabase
+ * table read back empty, and the committed batches in data/auto-articles are
+ * from 13 July and so are all older than MAX_AUTO_AGE_MS.
+ *
+ * An empty news site is a bad day. A news site confidently publishing invented
+ * politics and economics is a different kind of problem, and not one a reader
+ * can detect. Outside development the archive is therefore allowed to be
+ * empty, and the surfaces render their empty state.
+ *
+ * ALLOW_MOCK_ARTICLES=1 restores the old behaviour for a preview deployment
+ * that deliberately wants sample content.
+ */
+const ALLOW_MOCK_ARTICLES =
+  process.env.NODE_ENV !== "production" || process.env.ALLOW_MOCK_ARTICLES === "1";
+
+function mockArticles(): Article[] {
+  return ALLOW_MOCK_ARTICLES ? MOCK_ARTICLES.map(sanitizeArticle) : [];
+}
+
+function mockArticle(slug: string): Article | null {
+  if (!ALLOW_MOCK_ARTICLES) return null;
+  const mock = MOCK_ARTICLES.find((a) => a.slug === slug);
+  return mock ? sanitizeArticle(mock) : null;
+}
 import { fixMojibake } from "./encoding";
 import { categoryQueryValues, normalizeCategory } from "./category-map";
 
@@ -158,7 +190,7 @@ export async function getArticles(limit = 50, category?: string): Promise<Articl
   }
 
   if (sqliteArticles.length === 0 && autoArticles.length === 0) {
-    return MOCK_ARTICLES.map(sanitizeArticle);
+    return mockArticles();
   }
 
   const seen = new Set<string>();
@@ -226,7 +258,7 @@ export async function getLatestArticles(limit = 10): Promise<Article[]> {
   const candidates =
     autoArticles.length || sqliteArticles.length
       ? [...autoArticles, ...sqliteArticles]
-      : MOCK_ARTICLES.map(sanitizeArticle);
+      : mockArticles();
   const seen = new Set<string>();
 
   return candidates
@@ -263,10 +295,7 @@ export async function getArticleBySlug(slug: string): Promise<Article | null> {
   if (autoArticle) return autoArticle;
 
   const db = getDb();
-  if (!db) {
-    const mock = MOCK_ARTICLES.find((a) => a.slug === slug);
-    return mock ? sanitizeArticle(mock) : null;
-  }
+  if (!db) return mockArticle(slug);
   const row = db
     .prepare(
       `SELECT ${SELECT_COLUMNS} FROM articles WHERE slug = ? AND processed = 1`
@@ -274,6 +303,5 @@ export async function getArticleBySlug(slug: string): Promise<Article | null> {
     .get(slug) as DbRow | undefined;
   db.close();
   if (row) return mapRow(row);
-  const mock = MOCK_ARTICLES.find((a) => a.slug === slug);
-  return mock ? sanitizeArticle(mock) : null;
+  return mockArticle(slug);
 }
