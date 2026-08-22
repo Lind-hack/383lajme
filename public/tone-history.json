@@ -2238,8 +2238,8 @@
   {
     "date": "2026-08-22",
     "overallIndex": 52,
-    "totalArticles": 218,
-    "sourceCount": 154,
+    "totalArticles": 228,
+    "sourceCount": 164,
     "stanceVersion": 2,
     "countries": {
       "Gjermani": {
@@ -2268,26 +2268,26 @@
         "neutral": 93,
         "negative": 4,
         "n": 28,
-        "excluded": 0,
+        "excluded": 1,
         "confident": true,
         "stanceVersion": 2
       },
       "Francë": {
-        "index": 56,
-        "positive": 11,
-        "neutral": 89,
+        "index": 55,
+        "positive": 9,
+        "neutral": 91,
         "negative": 0,
-        "n": 9,
-        "excluded": 0,
+        "n": 11,
+        "excluded": 1,
         "confident": true,
         "stanceVersion": 2
       },
       "Itali": {
-        "index": 50,
-        "positive": 0,
-        "neutral": 100,
+        "index": 52,
+        "positive": 5,
+        "neutral": 95,
         "negative": 0,
-        "n": 16,
+        "n": 20,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2
@@ -2307,9 +2307,9 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 4,
+        "n": 5,
         "excluded": 1,
-        "confident": false,
+        "confident": true,
         "stanceVersion": 2
       },
       "Holandë": {
@@ -2323,12 +2323,12 @@
         "stanceVersion": 2
       },
       "Belgjikë": {
-        "index": 55,
-        "positive": 9,
-        "neutral": 91,
+        "index": 54,
+        "positive": 8,
+        "neutral": 92,
         "negative": 0,
-        "n": 11,
-        "excluded": 0,
+        "n": 13,
+        "excluded": 1,
         "confident": true,
         "stanceVersion": 2
       },
@@ -2387,7 +2387,7 @@
         "positive": 12,
         "neutral": 88,
         "negative": 0,
-        "n": 16,
+        "n": 17,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2
@@ -2411,11 +2411,11 @@
         "sentiment": "positive"
       },
       {
-        "title": "Juegos Mediterráneos: Lekë Juniku de Kosovo lleva la tradición y el espíritu de lucha de Taranto hacia 2030 - World Baseball Softball Confederation (WBSC)",
-        "source": "World Baseball Softball Confederation (WBSC)",
-        "country": "Spanjë",
-        "flag": "🇪🇸",
-        "url": "https://www.wbsc.org/es/news/mediterranean-games-kosovos-leke-juniku-carries-tradition-and-fighting-spirit-from-taranto-towards-2030",
+        "title": "Kosovo. Pristina, la grande sorpresa del nuoto. - Nuoto.com",
+        "source": "Nuoto.com",
+        "country": "Itali",
+        "flag": "🇮🇹",
+        "url": "https://www.nuoto.com/articolo/calendari-e-meeting/kosovo-pristina-la-grande-sorpresa-del-nuoto/",
         "sentiment": "positive"
       },
       {
