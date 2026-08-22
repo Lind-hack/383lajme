@@ -1,10 +1,13 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useState } from "react";
+import { motion, useReducedMotion } from "framer-motion";
 import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 import { type Article } from "@/lib/mock-data";
 import TimeAgo from "./time-ago";
-import { getCategoryColor } from "@/lib/category-colors";
+import { getCategoryColor, getCategoryGradient } from "@/lib/category-colors";
+import { CATEGORY_TO_SLUG, type NavCategory } from "@/lib/category-map";
 import { EASE, DUR, STAGGER } from "@/lib/tokens";
 
 interface ColorSpotlightProps {
@@ -13,8 +16,41 @@ interface ColorSpotlightProps {
   label: string;
 }
 
+/**
+ * The place sections, as a stop rather than a strip.
+ *
+ * This was three equal text-only cards on a wide blue band: no picture, no
+ * hierarchy, and — because the grid was auto-fill with a 280px minimum — three
+ * small boxes huddled at the left of a 1280px row with the rest of the colour
+ * empty. Nothing in it asked to be read, so the eye treated the band as a
+ * divider and carried on scrolling.
+ *
+ * It is now a front page in miniature: one story large enough to actually look
+ * at, with its own photograph, and a rail of three beside it. Hierarchy is what
+ * stops a scroll — a row of equals gives the eye nowhere to land, while a
+ * dominant image gives it somewhere to start and a rail gives it somewhere to
+ * go next.
+ *
+ * The band is shared by Kosovë (blue) and Shqipëri (red) and takes its colour
+ * from the category, so both sections read as the same kind of thing.
+ */
 export default function ColorSpotlight({ articles, category, label }: ColorSpotlightProps) {
   const color = getCategoryColor(category);
+  const [, deep] = getCategoryGradient(category);
+  const reduce = useReducedMotion();
+  const slug = CATEGORY_TO_SLUG[category as NavCategory];
+
+  const [lead, ...rest] = articles;
+  if (!lead) return null;
+  // Four, so the rail reaches roughly the depth of the lead. At three the
+  // right-hand column stopped halfway down and left a large empty field of
+  // colour beside the story, which reads as an unfinished layout.
+  const rail = rest.slice(0, 4);
+
+  const rise = () =>
+    reduce
+      ? { initial: { opacity: 0 }, whileInView: { opacity: 1 } }
+      : { initial: { opacity: 0, y: 22 }, whileInView: { opacity: 1, y: 0 } };
 
   return (
     <motion.section
@@ -23,14 +59,28 @@ export default function ColorSpotlight({ articles, category, label }: ColorSpotl
       viewport={{ once: true, margin: "-100px" }}
       transition={{ duration: DUR.reveal, ease: EASE }}
       style={{
+        // The section's colour reaches the card tags as a variable, so the
+        // stylesheet does not need a copy of the palette.
+        ["--spot-color" as string]: color,
         background: color,
-        padding: "64px 24px",
+        padding: "clamp(40px, 5vw, 68px) 24px",
         position: "relative",
         overflow: "hidden",
         marginBottom: "var(--space-section)",
       }}
     >
-      {/* Big faint label watermark */}
+      {/* The watermark, and a deep vignette so white cards keep their edge
+          against the flat colour instead of floating on it. */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          inset: 0,
+          background: `radial-gradient(120% 90% at 85% 110%, ${deep} 0%, transparent 62%)`,
+          opacity: 0.55,
+          pointerEvents: "none",
+        }}
+      />
       <div
         aria-hidden="true"
         style={{
@@ -52,126 +102,132 @@ export default function ColorSpotlight({ articles, category, label }: ColorSpotl
       </div>
 
       <div style={{ maxWidth: "1280px", margin: "0 auto", position: "relative" }}>
-        {/* Section header */}
         <motion.div
-          initial={{ opacity: 0, x: -20 }}
+          initial={reduce ? { opacity: 0 } : { opacity: 0, x: -20 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: DUR.base, ease: EASE }}
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "16px",
-            marginBottom: "36px",
-          }}
+          className="spot-head"
         >
-          <div style={{ width: "4px", height: "28px", background: "rgba(255,255,255,0.6)", borderRadius: "2px" }} />
-          <span
-            style={{
-              fontSize: "13px",
-              fontWeight: 800,
-              letterSpacing: "0.2em",
-              textTransform: "uppercase",
-              color: "rgba(255,255,255,0.85)",
-            }}
-          >
-            {label}
-          </span>
-          <div style={{ flex: 1, height: "1px", background: "rgba(255,255,255,0.2)" }} />
+          <div className="spot-rule" />
+          <span className="spot-label">{label}</span>
+          <div className="spot-line" />
+          {slug && (
+            <Link href={`/kategori/${slug}`} className="spot-all">
+              Të gjitha
+              <ArrowRight size={14} strokeWidth={2.6} aria-hidden="true" />
+            </Link>
+          )}
         </motion.div>
 
-        {/* Cards */}
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
-            gap: "20px",
-          }}
-        >
-          {articles.slice(0, 3).map((article, i) => (
-            <motion.div
-              key={article.id}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: Math.min(i, 6) * STAGGER, duration: DUR.slow, ease: EASE }}
-              style={{ height: "100%" }}
-            >
-              <Link href={`/article/${article.slug}`} style={{ textDecoration: "none", display: "block", height: "100%" }}>
+        <div className="spot-grid" data-solo={rail.length === 0 || undefined}>
+          {/* Lead */}
+          <motion.div
+            {...rise()}
+            viewport={{ once: true }}
+            transition={{ duration: DUR.slow, ease: EASE }}
+          >
+            <Link href={`/article/${lead.slug}`} className="spot-lead">
+              <Cover article={lead} color={color} deep={deep} reduce={!!reduce} />
+              <div className="spot-lead-body">
+                <span className="spot-tag">
+                  <i />
+                  {lead.category}
+                </span>
+                <h3>{lead.title}</h3>
+                {lead.excerpt && <p className="spot-lead-excerpt">{lead.excerpt}</p>}
+                <span className="spot-meta">
+                  {lead.source} · <TimeAgo iso={lead.publishedAt} /> më parë
+                </span>
+              </div>
+            </Link>
+          </motion.div>
+
+          {/* Rail */}
+          {rail.length > 0 && (
+            <div className="spot-rail">
+              {rail.map((article, i) => (
                 <motion.div
-                  whileHover={{ y: -4, boxShadow: "0 16px 40px rgba(0,0,0,0.25)" }}
-                  transition={{ duration: DUR.base, ease: EASE }}
-                  style={{
-                    background: "#FFFFFF",
-                    borderRadius: "16px",
-                    padding: "24px",
-                    cursor: "pointer",
-                    boxShadow: "0 4px 20px rgba(0,0,0,0.15)",
-                    height: "100%",
-                    display: "flex",
-                    flexDirection: "column",
+                  key={article.id}
+                  {...rise()}
+                  viewport={{ once: true }}
+                  transition={{
+                    delay: (i + 1) * STAGGER * 2,
+                    duration: DUR.slow,
+                    ease: EASE,
                   }}
                 >
-                  <div
-                    style={{
-                      display: "inline-flex",
-                      alignItems: "center",
-                      gap: "6px",
-                      marginBottom: "12px",
-                    }}
-                  >
-                    <span
-                      style={{
-                        width: "7px",
-                        height: "7px",
-                        borderRadius: "50%",
-                        background: color,
-                      }}
-                    />
-                    <span
-                      style={{
-                        fontSize: "10px",
-                        fontWeight: 700,
-                        letterSpacing: "0.12em",
-                        textTransform: "uppercase",
-                        color: color,
-                      }}
-                    >
-                      {article.category}
+                  <Link href={`/article/${article.slug}`} className="spot-item">
+                    <Thumb article={article} color={color} deep={deep} />
+                    <span className="spot-item-body">
+                      <span className="spot-item-title">{article.title}</span>
+                      <span className="spot-meta">
+                        {article.source} · <TimeAgo iso={article.publishedAt} /> më parë
+                      </span>
                     </span>
-                  </div>
-                  <h3
-                    style={{
-                      fontSize: "16px",
-                      fontWeight: 800,
-                      lineHeight: 1.3,
-                      color: "#111111",
-                      margin: "0 0 10px",
-                      letterSpacing: "-0.01em",
-                      display: "-webkit-box",
-                      WebkitLineClamp: 3,
-                      WebkitBoxOrient: "vertical",
-                      overflow: "hidden",
-                    }}
-                  >
-                    {article.title}
-                  </h3>
-                  <div
-                    style={{
-                      fontSize: "12px",
-                      color: "#6B6B6B",
-                      fontWeight: 500,
-                      marginTop: "auto",
-                    }}
-                  >
-                    {article.source} · <TimeAgo iso={article.publishedAt} /> më parë
-                  </div>
+                  </Link>
                 </motion.div>
-              </Link>
-            </motion.div>
-          ))}
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </motion.section>
+  );
+}
+
+/** The lead photograph, or a coloured panel that holds the same shape. */
+function Cover({
+  article,
+  color,
+  deep,
+  reduce,
+}: {
+  article: Article;
+  color: string;
+  deep: string;
+  reduce: boolean;
+}) {
+  const [failed, setFailed] = useState(false);
+  const ok = article.imageUrl && !failed;
+
+  return (
+    <span className="spot-cover" aria-hidden={ok ? undefined : true}>
+      {ok ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={article.imageUrl}
+          alt=""
+          loading="lazy"
+          onError={() => setFailed(true)}
+          style={reduce ? { transition: "none" } : undefined}
+        />
+      ) : (
+        <span
+          className="spot-cover-blank"
+          style={{ background: `linear-gradient(135deg, ${color}, ${deep})` }}
+        />
+      )}
+    </span>
+  );
+}
+
+/** A rail thumbnail. Falls back to the same coloured panel, at rail size. */
+function Thumb({ article, color, deep }: { article: Article; color: string; deep: string }) {
+  const [failed, setFailed] = useState(false);
+  const ok = article.imageUrl && !failed;
+
+  return (
+    <span className="spot-thumb">
+      {ok ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src={article.imageUrl} alt="" loading="lazy" onError={() => setFailed(true)} />
+      ) : (
+        <span
+          className="spot-cover-blank"
+          style={{ background: `linear-gradient(135deg, ${color}, ${deep})` }}
+        />
+      )}
+    </span>
   );
 }

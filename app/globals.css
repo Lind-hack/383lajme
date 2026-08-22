@@ -10763,3 +10763,259 @@ header[data-overlay="true"] .nav-search-btn { color: rgba(255, 255, 255, 0.9); }
   box-shadow: inset 0 0 0 1px rgba(17, 17, 17, 0.1);
   border: 1px dashed rgba(17, 17, 17, 0.2);
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   COLOR SPOTLIGHT — the Kosovë and Shqipëri bands
+   A front page in miniature: one story with a photograph large enough to look
+   at, and a rail of three beside it. Hierarchy is what stops a scroll; a row
+   of equal cards gives the eye nowhere to land.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.spot-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: clamp(20px, 2.6vw, 32px);
+}
+.spot-rule {
+  width: 4px;
+  height: 26px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.65);
+}
+.spot-label {
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 13px;
+  font-weight: 850;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+.spot-line {
+  flex: 1;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.22);
+}
+.spot-all {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  padding: 7px 13px;
+  border: 1px solid rgba(255, 255, 255, 0.34);
+  border-radius: 100px;
+  color: #FFFFFF;
+  font-size: 11.5px;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  text-decoration: none;
+  transition:
+    background-color var(--duration-base) var(--ease-out),
+    border-color var(--duration-base) var(--ease-out);
+}
+.spot-all svg { transition: transform var(--duration-fast) var(--ease-out); }
+
+/* The lead takes the space a photograph needs; the rail takes what three
+   headlines need, and no more. */
+.spot-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
+  gap: 20px;
+  /* Stretch, so the rail divides the lead's height between its cards instead
+     of stopping halfway down and leaving a field of flat colour beside it. */
+  align-items: stretch;
+}
+.spot-grid[data-solo] { grid-template-columns: minmax(0, 1fr); }
+
+/* ── Lead ───────────────────────────────────────────────────────────────── */
+.spot-lead {
+  display: block;
+  overflow: hidden;
+  border-radius: 18px;
+  background: #FFFFFF;
+  box-shadow: 0 6px 26px rgba(0, 0, 0, 0.18);
+  text-decoration: none;
+  transition:
+    transform var(--duration-base) var(--ease-out),
+    box-shadow var(--duration-base) var(--ease-out);
+}
+.spot-cover {
+  display: block;
+  position: relative;
+  /* Capped as well as proportioned: at 1440 an uncapped 16/9 lead ran to about
+     1120px while the rail beside it ended at 600, and the gap read as a
+     mistake rather than as hierarchy. */
+  aspect-ratio: 16 / 10;
+  max-height: 380px;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.12);
+}
+.spot-cover img,
+.spot-cover-blank {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* The one authored moment: the photograph settles as the card arrives, and
+     eases in again under a pointer. */
+  transition: transform 620ms var(--ease-out);
+}
+.spot-lead-body { display: block; padding: 20px 22px 22px; }
+.spot-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 10px;
+  color: var(--spot-color, #0047FF);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.spot-tag i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+}
+.spot-lead h3 {
+  margin: 0;
+  color: #111111;
+  font-size: clamp(19px, 2.1vw, 27px);
+  font-weight: 850;
+  line-height: 1.22;
+  letter-spacing: -0.025em;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.spot-lead-excerpt {
+  margin: 10px 0 0;
+  max-width: 62ch;
+  color: #55504A;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.55;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.spot-meta {
+  display: block;
+  margin-top: 12px;
+  color: #7C736B;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* ── Rail ───────────────────────────────────────────────────────────────── */
+.spot-rail {
+  display: grid;
+  grid-auto-rows: 1fr;
+  gap: 12px;
+}
+.spot-item {
+  display: grid;
+  /* The motion wrapper is the grid item, so the card has to be told to fill
+     it; without this the rows stretched and the cards sat compact inside them,
+     spread apart by their own leftover space. */
+  height: 100%;
+  /* Proportional rather than fixed, so the picture grows with the card. */
+  grid-template-columns: 38% minmax(0, 1fr);
+  gap: 13px;
+  align-items: stretch;
+  overflow: hidden;
+  border-radius: 14px;
+  background: #FFFFFF;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.14);
+  text-decoration: none;
+  transition:
+    transform var(--duration-base) var(--ease-out),
+    box-shadow var(--duration-base) var(--ease-out);
+}
+.spot-thumb {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  min-height: 84px;
+  background: rgba(0, 0, 0, 0.1);
+}
+.spot-thumb img,
+.spot-thumb .spot-cover-blank {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 500ms var(--ease-out);
+}
+.spot-item-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 12px 14px 12px 0;
+  min-width: 0;
+}
+.spot-item-title {
+  color: #111111;
+  font-size: 13.5px;
+  font-weight: 800;
+  line-height: 1.32;
+  letter-spacing: -0.012em;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.spot-item .spot-meta { margin-top: 7px; font-size: 11px; }
+
+@media (hover: hover) and (pointer: fine) {
+  .spot-all:hover {
+    background: rgba(255, 255, 255, 0.14);
+    border-color: rgba(255, 255, 255, 0.62);
+  }
+  .spot-all:hover svg { transform: translateX(2px); }
+  .spot-lead:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 20px 46px rgba(0, 0, 0, 0.28);
+  }
+  .spot-lead:hover .spot-cover img { transform: scale(1.045); }
+  .spot-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 32px rgba(0, 0, 0, 0.22);
+  }
+  .spot-item:hover .spot-thumb img { transform: scale(1.06); }
+}
+
+@media (max-width: 900px) {
+  .spot-grid { grid-template-columns: minmax(0, 1fr); }
+  /* Stacked, the rail has no lead height to divide, so the cards go back to
+     being as tall as their contents. */
+  .spot-rail { grid-auto-rows: auto; }
+  .spot-item { grid-template-columns: 116px minmax(0, 1fr); min-height: 92px; }
+  .spot-lead h3 { font-size: 20px; }
+  .spot-lead-excerpt { display: none; }
+}
+
+@media (max-width: 560px) {
+  .spot-head { gap: 10px; }
+  .spot-label { font-size: 11.5px; letter-spacing: 0.16em; }
+  .spot-all { padding: 6px 11px; font-size: 11px; }
+  .spot-lead-body { padding: 16px 16px 18px; }
+  .spot-item { grid-template-columns: 96px minmax(0, 1fr); }
+  .spot-item-title { font-size: 13px; }
+}
+
+/* A photograph that grows under the pointer is a nice touch and a bad idea for
+   anyone who asked the system to stop moving things. */
+@media (prefers-reduced-motion: reduce) {
+  .spot-cover img,
+  .spot-thumb img,
+  .spot-lead,
+  .spot-item,
+  .spot-all svg { transition: none; }
+  .spot-lead:hover,
+  .spot-item:hover { transform: none; }
+  .spot-lead:hover .spot-cover img,
+  .spot-item:hover .spot-thumb img { transform: none; }
+}
