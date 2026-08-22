@@ -1,8 +1,8 @@
 {
   "lastUpdated": "2026-08-22",
-  "overallIndex": 51,
-  "totalArticles": 188,
-  "sourceCount": 134,
+  "overallIndex": 52,
+  "totalArticles": 200,
+  "sourceCount": 144,
   "stanceVersion": 2,
   "countries": {
     "Gjermani": {
@@ -400,6 +400,26 @@
           ]
         },
         {
+          "name": "News On AIR",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo Parliament Approves Kurti’s Cabinet with 66-49 Vote - News On AIR",
+              "albanianTitle": "Kuvendi i Kosovës miraton Qeverinë Kurti me 66 vota pro dhe 49 kundër",
+              "blurb": "Kuvendi i Kosovës ka votuar me 66 vota pro dhe 49 kundër për miratimin e kabinetit qeveritar të Albin Kurtit.",
+              "imageUrl": null,
+              "url": "https://newsonair.gov.in/kosovo-parliament-approves-kurtis-cabinet-with-66-49-vote/",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "factual report of parliamentary vote",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "Osservatorio Balcani Caucaso Transeuropa",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -480,7 +500,7 @@
           ]
         },
         {
-          "name": "Unicef",
+          "name": "UNICEF",
           "sentiment": "neutral",
           "articleCount": 2,
           "articles": [
@@ -508,6 +528,26 @@
               "reason": "Faktik raportim i bashkëpunimit, pa gjuhë ngarkuar",
               "isQuote": false,
               "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "World Baseball Softball Confederation (WBSC)",
+          "sentiment": "positive",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Mediterranean Games: Kosovo’s Lekë Juniku carries tradition and fighting spirit from Taranto towards 2030 - World Baseball Softball Confederation (WBSC)",
+              "albanianTitle": "Lojërat Mesdhetare: Lekë Juniku i Kosovës bart traditën dhe frymën luftarake nga Taranto drejt vitit 2030",
+              "blurb": "Sportisti Lekë Juniku përfaqëson Kosovën në Lojërat Mesdhetare duke bartur traditën dhe frymën garuese drejt vitit 2030.",
+              "imageUrl": null,
+              "url": "https://www.wbsc.org/en/news/mediterranean-games-kosovos-leke-juniku-carries-tradition-and-fighting-spirit-from-taranto-towards-2030",
+              "date": "2026-08-20",
+              "sentiment": "positive",
+              "reason": "positive description of Kosovo by the outlet",
+              "isQuote": false,
+              "evidence": "carries tradition and fighting spirit",
               "speaker": ""
             }
           ]
@@ -580,11 +620,11 @@
         }
       ],
       "summary": {
-        "index": 50,
-        "positive": 4,
-        "neutral": 93,
-        "negative": 4,
-        "n": 27,
+        "index": 52,
+        "positive": 7,
+        "neutral": 90,
+        "negative": 3,
+        "n": 29,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2
@@ -712,6 +752,26 @@
               "date": "2026-08-19",
               "sentiment": "neutral",
               "reason": "Fact‑based headline about a trail, no evaluative language toward Kosovo",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Demócrata",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Serbia urges NATO to stop the withdrawal of KFOR from the Ibar bridge in Mitrovica - Demócrata",
+              "albanianTitle": "Serbia i kërkon NATO-s ta ndalojë tërheqjen e KFOR-it nga ura e Ibrit në Mitrovicë",
+              "blurb": "Serbia i ka kërkuar NATO-s që të ndalojë tërheqjen e trupave të KFOR-it nga ura e Ibrit në Mitrovicë.",
+              "imageUrl": null,
+              "url": "https://www.democrata.es/en/international/serbia-urges-nato-to-stop-the-withdrawal-of-kfor-from-the-ibar-bridge-in-mitrovica/",
+              "date": "2026-08-22",
+              "sentiment": "neutral",
+              "reason": "straightforward reporting of Serbia's request",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -898,6 +958,26 @@
           ]
         },
         {
+          "name": "News On AIR",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo Parliament Approves Kurti’s Cabinet with 66-49 Vote - News On AIR",
+              "albanianTitle": "Kuvendi i Kosovës miraton Qeverinë Kurti me 66 vota pro dhe 49 kundër",
+              "blurb": "Kuvendi i Kosovës ka votuar me 66 vota pro dhe 49 kundër për miratimin e kabinetit qeveritar të Albin Kurtit.",
+              "imageUrl": null,
+              "url": "https://newsonair.gov.in/kosovo-parliament-approves-kurtis-cabinet-with-66-49-vote/",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "factual report of parliamentary vote",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "Osservatorio Balcani Caucaso Transeuropa",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -923,14 +1003,14 @@
           "articleCount": 1,
           "articles": [
             {
-              "title": "Kosovo still searching for loved ones three decades after the war - TRT World",
-              "albanianTitle": "Kosova ende në kërkim të më të dashurve të tyre tri dekada pas luftës - TRT World",
-              "blurb": "Familjarët në Kosovë vazhdojnë kërkimet për të pagjeturit e luftës edhe tri dekada pas përfundimit të konfliktit të armatosur.",
+              "title": "Will justice ever be served for Kosovo war victims? - TRT World",
+              "albanianTitle": "A do të vihet ndonjëherë drejtësia në vend për viktimat e luftës në Kosovë? - TRT World",
+              "blurb": "Viktima të luftës në Kosovë kërkojnë drejtësi për krimet e kryera gjatë konfliktit të armatosur në vend.",
               "imageUrl": null,
-              "url": "https://www.trtworld.com/video/tv/shows/683ef3c9cff794df564280c5/play/4f7f32df896b",
+              "url": "https://www.trtworld.com/video/tv/shows/683ef3c9cff794df564280c5/play/79c92cb03c09",
               "date": "2026-08-21",
               "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
+              "reason": "Faktikisht pyetje pa ngarkim gjuhësor",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -958,7 +1038,7 @@
           ]
         },
         {
-          "name": "Unicef",
+          "name": "UNICEF",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
@@ -980,21 +1060,8 @@
         {
           "name": "srpske.rs",
           "sentiment": "neutral",
-          "articleCount": 4,
+          "articleCount": 3,
           "articles": [
-            {
-              "title": "Kurti, Abdixhiku Agree on Profile for Kosovo President - srpske.rs",
-              "albanianTitle": "Kurti dhe Abdixhiku pajtohen për profilin e presidentit të Kosovës",
-              "blurb": "Albin Kurti dhe Lumir Abdixhiku kanë arritur pajtim për profilin e kandidatit për president të Republikës së Kosovës.",
-              "imageUrl": "https://srpske.rs/uploads/articles/kurti-abdixhiku-agree-kosovo-president-profile-16x9.webp",
-              "url": "https://srpske.rs/en/news/politika/2026/08/19/kurti-abdixhiku-agree-kosovo-president-profile",
-              "date": "2026-08-19",
-              "sentiment": "neutral",
-              "reason": "Fact-based reporting without loaded language",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "Bocan-Harchenko: Russia Prevents Ethnic Cleansing of Serbs - srpske.rs",
               "albanianTitle": "Bocan-Harchenko: Rusia parandalon spastrimin etnik të serbëve - srpske.rs",
@@ -1060,9 +1127,9 @@
       "summary": {
         "index": 50,
         "positive": 4,
-        "neutral": 92,
+        "neutral": 93,
         "negative": 4,
-        "n": 26,
+        "n": 27,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -1206,7 +1273,7 @@
               "title": "Da Casapesenna ai Balcani: la parabola di Salvatore Zagaria, tra grandi ospiti e diplomazia del gusto - CasertaNews",
               "albanianTitle": "Nga Casapesenna në Ballkan: Rrugëtimi i Salvatore Zagarias, mes mysafirëve të shquar dhe diplomacisë së shijes – CasertaNews",
               "blurb": "Salvatore Zagaria zhvillon aktivitete diplomatike dhe gastronomike që lidhin rajonin e Casapesennas me vendet e Ballkanit.",
-              "imageUrl": null,
+              "imageUrl": "https://www.casertanews.it/~media/horizontal-hi/69008903643965/ambasciatore-marco-alberti-_-salvatore-zagaria-chef.jpeg",
               "url": "https://www.casertanews.it/social/chef-salvatore-zagaria-grandi-ospiti-diplomazia-gusto.html",
               "date": "2026-08-21",
               "sentiment": "neutral",
@@ -1418,26 +1485,6 @@
           ]
         },
         {
-          "name": "Report Difesa",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosovo: il ponte conteso, sicurezza, sovranità e narrazioni lungo il fiume Ibar - Report Difesa",
-              "albanianTitle": "Kosova: Ura e kontestuar, siguria, sovraniteti dhe narrativat përgjatë lumit Ibër - Report Difesa",
-              "blurb": "Çështja e urës mbi lumin Ibër ndërlidhet me sigurinë, sovranitetin dhe narrativat politike në veri të territorit të Kosovës.",
-              "imageUrl": "https://www.reportdifesa.it/wp-content/uploads/2023/12/BRSH_Kosovo_Security_Force_KSF.jpg",
-              "url": "https://www.reportdifesa.it/kosovo-il-ponte-conteso-sicurezza-sovranita-e-narrazioni-lungo-il-fiume-ibar/",
-              "date": "2026-08-21",
-              "sentiment": "neutral",
-              "reason": "Descriptive headline about contested bridge",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
           "name": "Virgilio",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1471,6 +1518,26 @@
               "date": "2026-08-20",
               "sentiment": "neutral",
               "reason": "Përshkrim neutral i ngjarjes sportive",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "il Nord Est",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Fosse comuni in Kosovo, ritrovati i resti di 23 persone scomparse nel 1999 - il Nord Est",
+              "albanianTitle": "Gjenden varreza masive në Kosovë, zbulohen mbetjet mortore të 23 personave të zhdukur në vitin 1999",
+              "blurb": "Në varreza masive në Kosovë janë gjetur mbetjet mortore të 23 personave që ishin zhdukur gjatë luftës së vitit 1999.",
+              "imageUrl": "https://images.ilnordest.it/view/acePublic/alias/contentid/1t9ohh2kgzbj4g5ybfg/0/copia-di-image_148477644.webp?f=16%3A9&w=840",
+              "url": "https://www.ilnordest.it/oltre-confine/fosse-comuni-kosovo-zubin-potok-23-corpi-e7xbi9hv",
+              "date": "2026-08-22",
+              "sentiment": "neutral",
+              "reason": "reporting of grim discovery without loaded language",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1887,6 +1954,26 @@
           ]
         },
         {
+          "name": "Europa Press",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Serbia pide a la misión de la OTAN en Kosovo que reconsidere su retirada del puente Ibar de Mitrovica - Europa Press",
+              "albanianTitle": "Serbia i kërkon misionit të NATO-s në Kosovë të rishqyrtojë tërheqjen nga ura e Ibrit në Mitrovicë",
+              "blurb": "Serbia kërkon nga misioni i NATO-s në Kosovë që të rishqyrtojë vendimin për tërheqjen nga ura e Ibrit në Mitrovicë.",
+              "imageUrl": "https://img.europapress.es/fotoweb/fotonoticia_20260822092257_1200.jpg",
+              "url": "https://www.europapress.es/internacional/noticia-serbia-pide-mision-otan-kosovo-reconsidere-retirada-puente-ibar-mitrovica-20260822092257.html",
+              "date": "2026-08-22",
+              "sentiment": "neutral",
+              "reason": "reporting of Serbia's request to NATO without editorial tone",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "Infobae",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -2028,11 +2115,11 @@
         }
       ],
       "summary": {
-        "index": 57,
-        "positive": 14,
-        "neutral": 86,
+        "index": 56,
+        "positive": 12,
+        "neutral": 88,
         "negative": 0,
-        "n": 7,
+        "n": 8,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2
@@ -2160,6 +2247,26 @@
               "date": "2026-08-20",
               "sentiment": "neutral",
               "reason": "Faktikë raporti, pa gjuhë ngarkuese ndaj Kosovës",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "In.gr",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Μεσογειακοί Αγώνες: Με το δεξί ξεκίνησε η Εθνική βόλεϊ γυναικών, 3-0 το Κόσοβο - In.gr",
+              "albanianTitle": "Lojërat Mesdhetare: Kombëtarja e volejbollit të femrave e nis me fitore, mposht Kosovën 3-0",
+              "blurb": "Kombëtarja e volejbollit të femrave të Greqisë ka shënuar fitore 3-0 ndaj përfaqësueses së Kosovës në kuadër të Lojërave Mesdhetare.",
+              "imageUrl": "https://www.in.gr/wp-content/uploads/2026/08/BVOLEI.png",
+              "url": "https://www.in.gr/2026/08/21/sports/othersports/mesogeiakoi-agones-me-to-deksi-ksekinise-i-ethniki-volei-gynaikon-3-0-to-kosovo/",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim neutral",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -2355,21 +2462,8 @@
         {
           "name": "sport-fm.gr",
           "sentiment": "neutral",
-          "articleCount": 4,
+          "articleCount": 3,
           "articles": [
-            {
-              "title": "Λευκορωσία-Κόσοβο - sport-fm.gr",
-              "albanianTitle": "Bjellorusi – Kosovë – sport-fm.gr",
-              "blurb": "Ndeshja sportive ndërmjet përfaqësueses së Bjellorusisë dhe asaj të Kosovës në arenën ndërkombëtare të futbollit.",
-              "imageUrl": "https://resources.sport-fm.gr/supersportFM/images/news/23/06/19/belarus-kosovo_111407.jpg?w=880&f=bicubic",
-              "url": "https://www.sport-fm.gr/article/4891906",
-              "date": "2026-08-21",
-              "sentiment": "neutral",
-              "reason": "Titulli thjesht përmend dy vende, pa gjuhë pozitive apo negative",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "Εύκολη πρεμιέρα για την Εθνική βόλεϊ γυναικών - sport-fm.gr",
               "albanianTitle": "Fitore e lehtë në start për kombëtaren greke të volejbollit – sport-fm.gr",
@@ -2653,6 +2747,26 @@
           ]
         },
         {
+          "name": "Ege'de Sonsöz",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Başkan Tugay Kosova’da: İzmir için yeni iş birlikleri masada! - Ege'de Sonsöz",
+              "albanianTitle": "Kryetari Tugay në Kosovë: Në tavolinë bashkëpunimet e reja për Izmirin",
+              "blurb": "Kryetari i Izmirit, Cemil Tugay, po qëndron në Kosovë për të diskutuar projekte të reja të bashkëpunimit mes dy palëve.",
+              "imageUrl": "https://egedesonsozcom.teimg.com/crop/1280x720/egedesonsoz-com/uploads/2026/08/22082026-920-2.jpeg",
+              "url": "https://www.egedesonsoz.com/baskan-tugay-kosovada-izmir-icin-yeni-is-birlikleri-masada",
+              "date": "2026-08-22",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike pa gjuhë ngarkuese",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "GZT",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -2823,14 +2937,14 @@
               "speaker": ""
             },
             {
-              "title": "Trakya Üniversitesi Rektöründen Başkan Damka’ya Ziyaret - Kosovahaber.com",
-              "albanianTitle": "Rektori i Universitetit të Trakisë viziton kryetarin Damka",
-              "blurb": "Rektori i Universitetit të Trakyas ka zhvilluar një vizitë zyrtare te ministri Fikrim Damka në Kosovë për bashkëpunim akademik.",
+              "title": "ABD’den Kosova’ya Kurumların Oluşturulması Çağrısı - Kosovahaber.com",
+              "albanianTitle": "SHBA-ja i bën thirrje Kosovës për formimin e institucioneve",
+              "blurb": "Shtetet e Bashkuara të Amerikës kanë kërkuar nga institucionet e Kosovës që të përshpejtojnë procesin e themelimit të organeve shtetërore.",
               "imageUrl": null,
-              "url": "https://kosovahaber.com/haber/trakya-universitesi-rektorunden-baskan-damkaya-ziyaret-105145",
-              "date": "2026-08-21",
+              "url": "https://kosovahaber.com/haber/abdden-kosovaya-kurumlarin-olusturulmasi-cagrisi-105097",
+              "date": "2026-08-20",
               "sentiment": "neutral",
-              "reason": "Thjesht njofton vizitën e një rektori në Kosovë, pa gjuhë pozitive apo negative",
+              "reason": "Faktikë raportim i thjeshtë",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -2871,6 +2985,26 @@
               "date": "2026-08-20",
               "sentiment": "neutral",
               "reason": "Faktikë raporti pa gjuhë ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Mersin Haber",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosova Zubin Potok'ta Toplu Mezarların Yakınında Çok Sayıda Silah Tespit Edildi - Mersin Haber",
+              "albanianTitle": "Sasi e konsiderueshme armësh zbulohen pranë varrezave masive në Zubin Potok të Kosovës",
+              "blurb": "Policia ka gjetur sasi të konsiderueshme të armatimit në afërsi të lokacioneve me varreza masive në Zubin Potok.",
+              "imageUrl": "https://www.mersinhaber.com/cropp/1200x675/Depo/haber/747538/org/747538.webp",
+              "url": "https://www.mersinhaber.com/haber-kosova-zubin-potokta-toplu-mezarlarin-yakininda-cok-sayida-silah-tespit-edildi/747538",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Factually reports weapons detection near mass graves in Kosovo",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -2952,9 +3086,22 @@
         },
         {
           "name": "Ses Gazete",
-          "sentiment": "positive",
-          "articleCount": 1,
+          "sentiment": "neutral",
+          "articleCount": 2,
           "articles": [
+            {
+              "title": "İzmir ile Kosova arasında yeni iş birliği adımı: Tugay’dan “İzmir Günleri” mesajı - Ses Gazete",
+              "albanianTitle": "Hap i ri bashkëpunimi mes Izmirit dhe Kosovës: Mesazhi i Tugay për “Ditët e Izmirit”",
+              "blurb": "Bashkëpunimi ndërmjet Izmirit dhe Kosovës po forcohet përmes iniciativave të reja, përfshirë organizimin e mundshëm të ditëve të Izmirit.",
+              "imageUrl": "https://sesgazetenet.teimg.com/crop/1280x720/sesgazete-net/uploads/2026/08/izmir-ile-kosova-arasinda-yeni-is-birligi-adimi-tugaydan-izmir-gunleri-mesaji-1.png",
+              "url": "https://sesgazete.net/izmir-ile-kosova-arasinda-yeni-is-birligi-adimi-tugaydan-izmir-gunleri-mesaji",
+              "date": "2026-08-22",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike pa gjuhë ngarkuese",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
             {
               "title": "Cemil Tugay’dan Kosova’da yoğun diplomasi: İzmir ile Kosova arasında yeni dönem - Ses Gazete",
               "albanianTitle": "Diplomaci intensive e Cemil Tugay në Kosovë: Një epokë e re mes Izmirit dhe Kosovës - Ses Gazete",
@@ -2973,8 +3120,21 @@
         {
           "name": "Son Dakika",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
+            {
+              "title": "Kosova'da Toplu Mezarlar ve Silahlar Bulundu - Son Dakika",
+              "albanianTitle": "Zbulohen varreza masive dhe armatim në Kosovë",
+              "blurb": "Autoritetet në Kosovë kanë raportuar zbulimin e varrezave masive dhe sasi të ndryshme të armatimit në zona të caktuara.",
+              "imageUrl": "https://foto.sondakika.com/haber/2026/08/21/kosova-da-toplu-mezarlarin-yakininda-cok-sayi-5-20164351_amp.jpg",
+              "url": "https://www.sondakika.com/3-sayfa/haber-kosova-da-toplu-mezarlar-ve-silahlar-bulundu-20164376/",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Raportim neutral i gjetjeve të varreve masive dhe armëve",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
             {
               "title": "Kosova'da Halter Şampiyonası Başladı - Son Dakika",
               "albanianTitle": "Fillon Kampionati i Peshëngritjes në Kosovë – Lajmi i fundit",
@@ -3013,21 +3173,8 @@
         {
           "name": "Transfermarkt",
           "sentiment": "neutral",
-          "articleCount": 3,
+          "articleCount": 2,
           "articles": [
-            {
-              "title": "Andorra - Kosova, 12 Eki 2023 - Avrupa Şampiyonası Elemeleri - Maç raporu - Transfermarkt",
-              "albanianTitle": "Andorra - Kosovë, 12 tetor 2023 - Kualifikimet për Kampionatin Evropian - Raporti i ndeshjes - Transfermarkt",
-              "blurb": "Kombëtarja e Kosovës në futboll zhvilloi ndeshjen kualifikuese për Kampionatin Evropian kundër përfaqësueses së Andorrës më dymbëdhjetë tetor.",
-              "imageUrl": null,
-              "url": "https://www.transfermarkt.com.tr/andorra_kosovo/vorbericht/spielbericht/3941633",
-              "date": "2026-08-21",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "İsveç - Kosova, 12 Oca 2020 - Hazırlık Maçları - Maç raporu - Transfermarkt",
               "albanianTitle": "Suedi – Kosovë, 12 janar 2020 – Ndeshje miqësore – Raporti i ndeshjes – Transfermarkt",
@@ -3122,27 +3269,47 @@
           "articleCount": 1,
           "articles": [
             {
-              "title": "Başkan Tugay Kosova'da: İzmir ile İş Birliği Dönemi Başlıyor - nhaberizmir.com",
-              "albanianTitle": "Kryetari Tugay në Kosovë: Po nis periudha e bashkëpunimit me Izmirin",
-              "blurb": "Kryetari i bashkisë së Izmirit, Tugay, po qëndron për vizitë në Kosovë për të zyrtarizuar bashkëpunimin ndërmjet dy palëve.",
-              "imageUrl": "https://nhaberizmircom.teimg.com/crop/1280x720/nhaberizmir-com/uploads/2026/08/cemil-tugay-kosova-ziyareti.jpg",
-              "url": "https://www.nhaberizmir.com/baskan-tugay-kosovada-izmir-ile-is-birligi-donemi-basliyor",
-              "date": "2026-08-21",
+              "title": "Başkan Cemil Tugay Kosova’da Yeni İş Birlikleri Kuruyor - nhaberizmir.com",
+              "albanianTitle": "Kryetari Cemil Tugay po krijon bashkëpunime të reja në Kosovë",
+              "blurb": "Kryetari i Bashkisë së Izmirit, Cemil Tugay, po zhvillon takime në Kosovë për të vendosur bashkëpunime të reja ndërmjet dy vendeve.",
+              "imageUrl": "https://nhaberizmircom.teimg.com/crop/1280x720/nhaberizmir-com/uploads/2026/08/cemil-tugay-kosova-ziyareti-1.jpg",
+              "url": "https://www.nhaberizmir.com/baskan-cemil-tugay-kosovada-yeni-is-birlikleri-kuruyor",
+              "date": "2026-08-22",
               "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
+              "reason": "Lajm i raportuar në mënyrë faktike pa gjuhë ngarkuese",
               "isQuote": false,
               "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "İzmir Büyükşehir Belediyesi",
+          "sentiment": "positive",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Haberler | Başkan Tugay, Kosova'da yeni iş birliklerinin kapısını araladı - İzmir Büyükşehir Belediyesi",
+              "albanianTitle": "Kryetari Tugay hap rrugën për bashkëpunime të reja në Kosovë",
+              "blurb": "Kryetari i Bashkisë së Izmirit, Tugay, ka zhvilluar vizitë në Kosovë për të diskutuar mundësitë e bashkëpunimeve të reja ndërinstitucionale.",
+              "imageUrl": "https://www.izmir.bel.tr/YuklenenDosyalar/Haberler/Kucuk/22082026_9143_0.jpeg",
+              "url": "https://www.izmir.bel.tr/tr/Haberler/baskan-tugay-kosovada-yeni-is-birliklerinin-kapisini-araladi/59218/156",
+              "date": "2026-08-22",
+              "sentiment": "positive",
+              "reason": "outlet uses upbeat language about cooperation with Kosovo",
+              "isQuote": false,
+              "evidence": "yeni iş birliklerinin kapısını araladı",
               "speaker": ""
             }
           ]
         }
       ],
       "summary": {
-        "index": 52,
-        "positive": 4,
-        "neutral": 96,
+        "index": 53,
+        "positive": 6,
+        "neutral": 94,
         "negative": 0,
-        "n": 47,
+        "n": 54,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -3377,7 +3544,7 @@
           ]
         },
         {
-          "name": "Unicef",
+          "name": "UNICEF",
           "sentiment": "neutral",
           "articleCount": 2,
           "articles": [
@@ -3410,6 +3577,26 @@
           ]
         },
         {
+          "name": "World Baseball Softball Confederation (WBSC)",
+          "sentiment": "positive",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Mediterranean Games: Kosovo’s Lekë Juniku carries tradition and fighting spirit from Taranto towards 2030 - World Baseball Softball Confederation (WBSC)",
+              "albanianTitle": "Lojërat Mesdhetare: Lekë Juniku i Kosovës bart traditën dhe frymën luftarake nga Taranto drejt vitit 2030",
+              "blurb": "Sportisti Lekë Juniku përfaqëson Kosovën në Lojërat Mesdhetare duke bartur traditën dhe frymën garuese drejt vitit 2030.",
+              "imageUrl": null,
+              "url": "https://www.wbsc.org/en/news/mediterranean-games-kosovos-leke-juniku-carries-tradition-and-fighting-spirit-from-taranto-towards-2030",
+              "date": "2026-08-20",
+              "sentiment": "positive",
+              "reason": "positive description of Kosovo by the outlet",
+              "isQuote": false,
+              "evidence": "carries tradition and fighting spirit",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "srpske.rs",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -3431,11 +3618,11 @@
         }
       ],
       "summary": {
-        "index": 54,
-        "positive": 7,
-        "neutral": 93,
+        "index": 57,
+        "positive": 13,
+        "neutral": 87,
         "negative": 0,
-        "n": 14,
+        "n": 15,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2
