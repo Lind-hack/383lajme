@@ -71,6 +71,14 @@ REQUIRED_FIELDS = {
 }
 
 VALID_CATEGORIES = {
+    # Kosovë replaced Politikë as a section: the reader's question is "what is
+    # happening here", and domestic politics, security and society were three
+    # names for one answer. Shqipëri is new — Albania used to arrive under Botë.
+    "Kosovë",
+    "Shqipëri",
+    # The retired labels stay accepted so historical batches still validate and
+    # a re-run of an old day is not rejected for using the vocabulary of its
+    # time. lib/category-map.ts folds them onto Kosovë on the way to a reader.
     "Politikë",
     "Ekonomi",
     "Botë",

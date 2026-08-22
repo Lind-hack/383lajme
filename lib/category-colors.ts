@@ -1,4 +1,11 @@
 export const CATEGORY_COLORS: Record<string, string> = {
+  // Kosovë inherits the blue that was Politikë's — the section was renamed, not
+  // restyled, and readers know that spotlight by its colour.
+  'Kosovë':     '#0047FF',
+  // Shqipëri takes the flag's red. It is the same hue the retired Siguri used,
+  // which is free now that Siguri folds into Kosovë.
+  'Shqipëri':   '#E41E20',
+  // Kept: the store still holds rows filed under the old labels.
   'Politikë':   '#0047FF',
   'Ekonomi':    '#00A651',
   'Botë':       '#F59E0B',
@@ -15,6 +22,8 @@ export const CATEGORY_COLORS: Record<string, string> = {
 }
 
 export const CATEGORY_GRADIENTS: Record<string, [string, string]> = {
+  'Kosovë':     ['#0047FF', '#002299'],
+  'Shqipëri':   ['#E41E20', '#7A0000'],
   'Politikë':   ['#0047FF', '#002299'],
   'Ekonomi':    ['#00A651', '#005C2D'],
   'Botë':       ['#F59E0B', '#B45309'],

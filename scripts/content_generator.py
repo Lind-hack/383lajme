@@ -16,7 +16,7 @@ Produce a JSON object with EXACTLY these 6 keys:
 - title: compelling Albanian headline (max 15 words)
 - excerpt: 2-3 sentence Albanian lead paragraph
 - body: full Albanian article, 4-5 paragraphs, ~250-350 words, journalistic style
-- category: EXACTLY one of [Politikë, Ekonomi, Siguri, Sport, Teknologji, Kulturë, Shoqëri, Diasporë]
+- category: EXACTLY one of [Kosovë, Shqipëri, Ekonomi, Sport, Teknologji, Botë, Showbiz]
 - tone: EXACTLY one of [positive, neutral, negative]
 - source_bias: EXACTLY one of [neutral, pro-kosovo, critical]
 

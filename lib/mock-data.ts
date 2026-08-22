@@ -201,6 +201,27 @@ export const MOCK_ARTICLES: Article[] = [
     featured: false,
     imageUrl: "https://picsum.photos/seed/arsimi-unicef-kosove/800/500",
   },
+  {
+    id: "11",
+    slug: "shqiperi-akse-rrugore-kosove",
+    dispatch: "11",
+    title: "Shqipëria miraton paketën për akset rrugore që lidhin vendin me Kosovën",
+    excerpt:
+      "Kuvendi ka miratuar rikonstruktimin e akseve kryesore drejt kufirit, me punime që nisin brenda vitit.",
+    body: `Kuvendi i Shqiperise ka miratuar paketen e re per infrastrukturen rrugore qe lidh veriun e vendit me kufirin e Kosoves. Projekti parashikon rikonstruktimin e akseve kryesore dhe shkurtimin e kohes se udhetimit mes Tiranes dhe Prishtines. Ministria e Infrastruktures thote se punimet nisin brenda vitit dhe financohen pjeserisht nga institucionet financiare nderkombetare. Opozita ka kerkuar transparence te plote per tenderat dhe monitorim te pavarur te ecurise se punimeve ne te gjitha fazat. Bizneset e transportit e kane pritur pozitivisht vendimin duke theksuar ndikimin e drejtperdrejte ne kostot e mallrave. Ekspertet e ekonomise vleresojne se permiresimi i lidhjeve rrugore rrit shkembimet tregtare mes dy vendeve ne afat te mesem. Banoret e zonave pergjate aksit kerkojne qe puna te mos nderprese qarkullimin gjate sezonit veror kur fluksi eshte me i larti.`,
+    source: "Reuters",
+    sourceFlag: "🇬🇧",
+    sourceBias: "neutral",
+    tone: "positive",
+    // The Shqipëri section needs at least one fixture or it cannot be built
+    // or reviewed locally: nothing in production is filed under it until the
+    // pipeline starts using the new vocabulary.
+    category: "Shqipëri",
+    publishedAt: "2025-05-19T09:30:00Z",
+    readingTime: 3,
+    featured: false,
+    imageUrl: "https://picsum.photos/seed/shqiperi-akse/800/500",
+  },
 ];
 
 export const BREAKING_ITEMS = [

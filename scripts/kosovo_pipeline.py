@@ -919,7 +919,9 @@ breakdown field meanings (each 1-10):
 The final "score" = relevance*0.35 + urgency*0.20 + interest*0.30 + credibility*0.15, rounded to 1 decimal.
 The "reason" must mention: source name, what makes this score high/low, and one key fact from the article.
 
-Categories: Politikë, Ekonomi, Botë, Siguri, Sport, Teknologji, Kulturë, Shoqëri, Showbiz
+Categories: Kosovë, Shqipëri, Ekonomi, Botë, Sport, Teknologji, Showbiz
+Use Kosovë for anything happening inside Kosovo that is not primarily a sport, business, tech or entertainment story.
+Use Shqipëri for news from Albania. Use Botë only for the rest of the world.
 Score guide:
 - 9-10: BREAKING — major model releases (GPT-5, Gemini 4, Claude 4), AI company lawsuits/scandals (Musk vs Altman), Kosovo security incidents, Serbian official statements on Kosovo
 - 8-9: Big Kosovo political developments, controversial public claims about Kosovo leaders that are sourced and framed carefully, AI product launches (new Gemini version, OpenAI Codex mobile), Mira Murati news (ALWAYS score 8+ — she is Albanian, Kosovo readers care deeply about her AI work and her company Thinking Machines), major World Cup/NBA/F1/UFC events

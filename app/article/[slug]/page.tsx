@@ -119,7 +119,8 @@ export default async function ArticlePage({
 
   // Category cards (no image) — one top article per category, deduped
   const accordionCats = [
-    { category: "Politikë",   label: "Politikë"   },
+    { category: "Kosovë",     label: "Kosovë"     },
+    { category: "Shqipëri",   label: "Shqipëri"   },
     { category: "Showbiz",    label: "Showbiz"    },
     { category: "Botë",       label: "Botë"       },
     { category: "Teknologji", label: "Teknologji" },

@@ -146,11 +146,16 @@ export default async function HomePage() {
   for (const id of kryesoreTopIds) usedIds.add(id);
   const listArticles = nonHero.filter((a) => !usedIds.has(a.id)).slice(0, 20);
 
-  const politikeArticles = articles.filter((a) => a.category === "Politikë");
+  // Compared against the canonical label: sanitizeArticle has already folded
+  // "Politikë", "Siguri" and "Shoqëri" onto Kosovë by the time an article gets
+  // here, so filtering on the stored string would miss most of the section.
+  const kosovaArticles = articles.filter((a) => a.category === "Kosovë");
+  const shqiperiArticles = articles.filter((a) => a.category === "Shqipëri");
 
   // Image accordion — top article per category, fallback to best unused
   const accordionCats = [
-    { category: "Politikë",  label: "Politikë"  },
+    { category: "Kosovë",    label: "Kosovë"    },
+    { category: "Shqipëri",  label: "Shqipëri"  },
     { category: "Showbiz",   label: "Showbiz"   },
     { category: "Botë",      label: "Botë"      },
     { category: "Teknologji",label: "Teknologji"},
@@ -316,13 +321,16 @@ export default async function HomePage() {
         <HomeVisitPreview />
       </div>
 
-      {/* Blue Politikë spotlight */}
-      {politikeArticles.length > 0 && (
-        <ColorSpotlight
-          articles={politikeArticles}
-          category="Politikë"
-          label="POLITIKË"
-        />
+      {/* The blue spotlight, on the section that replaced Politikë. */}
+      {kosovaArticles.length > 0 && (
+        <ColorSpotlight articles={kosovaArticles} category="Kosovë" label="KOSOVË" />
+      )}
+
+      {/* Shqipëri gets the same treatment in red, directly under it, so the two
+          place sections read as a pair rather than as one feature and one
+          afterthought. */}
+      {shqiperiArticles.length > 0 && (
+        <ColorSpotlight articles={shqiperiArticles} category="Shqipëri" label="SHQIPËRI" />
       )}
 
       {/* Throwback + Alerts CTA */}

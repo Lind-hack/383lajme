@@ -12,7 +12,8 @@
  */
 
 export type NavCategory =
-  | "Politikë"
+  | "Kosovë"
+  | "Shqipëri"
   | "Sport"
   | "Teknologji"
   | "Ekonomi"
@@ -20,7 +21,8 @@ export type NavCategory =
   | "Showbiz";
 
 export const NAV_CATEGORIES: ReadonlyArray<{ label: NavCategory; slug: string }> = [
-  { label: "Politikë", slug: "politike" },
+  { label: "Kosovë", slug: "kosove" },
+  { label: "Shqipëri", slug: "shqiperi" },
   { label: "Sport", slug: "sport" },
   { label: "Teknologji", slug: "teknologji" },
   { label: "Ekonomi", slug: "ekonomi" },
@@ -28,7 +30,14 @@ export const NAV_CATEGORIES: ReadonlyArray<{ label: NavCategory; slug: string }>
   { label: "Showbiz", slug: "showbiz" },
 ];
 
-export const DEFAULT_CATEGORY: NavCategory = "Politikë";
+/**
+ * Where an article with no usable category of its own lands.
+ *
+ * Kosovë, because 383 is a Kosovo newsroom: an uncategorised story is far more
+ * likely to be domestic than to be about anywhere else. This is also what the
+ * retired "Politikë" default resolved to in practice.
+ */
+export const DEFAULT_CATEGORY: NavCategory = "Kosovë";
 
 /** `/kategori/<slug>` for the six live sections. */
 export const SLUG_TO_CATEGORY: Record<string, NavCategory> = Object.fromEntries(
@@ -48,7 +57,16 @@ export const CATEGORY_TO_SLUG: Record<NavCategory, string> = Object.fromEntries(
 const CATEGORY_ALIASES: Record<NavCategory, string[]> = {
   // Spelled exactly as the store writes them, because these strings are also
   // what a category query has to match on. Folding happens on lookup.
-  "Politikë": ["Siguri", "Shoqëri", "Kosovo", "Kosovë", "Vendi", "Lajme"],
+  //
+  // Kosovë replaced Politikë as a section: the reader's question is "what is
+  // happening here", not "which desk filed it", and domestic politics, security
+  // and society were three names for the same answer. Every one of those rows
+  // is still in the store, so they are all listed here — a query for Kosovë has
+  // to match them or the section would launch empty next to a full archive.
+  "Kosovë": ["Politikë", "Siguri", "Shoqëri", "Kosovo", "Vendi", "Lajme"],
+  // Albania used to arrive under Botë or Rajoni. Nothing files "Shqipëri" yet;
+  // the pipeline's vocabulary gains it alongside this change.
+  "Shqipëri": ["Albania", "Shqipëria", "Tiranë", "Tirana"],
   Showbiz: ["Kulturë", "Argëtim", "Jeta"],
   "Botë": ["Diasporë", "Diaspora", "Rajoni"],
   Ekonomi: ["Biznes", "Bizneset"],
@@ -93,8 +111,12 @@ export function normalizeCategory(raw: string | null | undefined): NavCategory {
  */
 export const RESOLVABLE_SLUGS: Record<string, NavCategory> = {
   ...SLUG_TO_CATEGORY,
-  siguri: "Politikë",
-  shoqeri: "Politikë",
+  // /kategori/politike is the section's old address. It has been linked from
+  // search results, the sitemap and anything a reader ever bookmarked, so it
+  // keeps resolving — to the section that absorbed it.
+  politike: "Kosovë",
+  siguri: "Kosovë",
+  shoqeri: "Kosovë",
   kulture: "Showbiz",
   diaspora: "Botë",
 };
