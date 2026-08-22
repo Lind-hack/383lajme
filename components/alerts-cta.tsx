@@ -6,6 +6,9 @@ import { EASE, DUR } from "@/lib/tokens";
 
 export default function AlertsCta() {
   const isMobile = useIsMobile();
+  // Real destination once the Telegram channel exists; until then the button
+  // keeps its placeholder instead of pretending.
+  const telegramUrl = process.env.NEXT_PUBLIC_TELEGRAM_CHANNEL_URL;
   return (
     <section style={{ marginBottom: "var(--space-section)" }}>
       <motion.div
@@ -126,7 +129,9 @@ export default function AlertsCta() {
               </motion.a>
 
               <motion.a
-                href="#"
+                href={telegramUrl || "#"}
+                target={telegramUrl ? "_blank" : undefined}
+                rel={telegramUrl ? "noopener noreferrer" : undefined}
                 whileHover={{ scale: 1.04, y: -2 }}
                 whileTap={{ scale: 0.97 }}
                 transition={{ duration: DUR.base, ease: EASE }}
