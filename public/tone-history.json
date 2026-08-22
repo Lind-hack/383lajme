@@ -2238,8 +2238,8 @@
   {
     "date": "2026-08-22",
     "overallIndex": 52,
-    "totalArticles": 200,
-    "sourceCount": 144,
+    "totalArticles": 204,
+    "sourceCount": 147,
     "stanceVersion": 2,
     "countries": {
       "Gjermani": {
@@ -2257,7 +2257,7 @@
         "positive": 7,
         "neutral": 90,
         "negative": 3,
-        "n": 29,
+        "n": 30,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2
@@ -2267,7 +2267,7 @@
         "positive": 4,
         "neutral": 93,
         "negative": 4,
-        "n": 27,
+        "n": 28,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -2283,11 +2283,11 @@
         "stanceVersion": 2
       },
       "Itali": {
-        "index": 54,
+        "index": 53,
         "positive": 7,
         "neutral": 93,
         "negative": 0,
-        "n": 14,
+        "n": 15,
         "excluded": 2,
         "confident": true,
         "stanceVersion": 2
@@ -2303,13 +2303,13 @@
         "stanceVersion": 2
       },
       "Zvicër": {
-        "index": 50,
-        "positive": 0,
-        "neutral": 100,
+        "index": 58,
+        "positive": 17,
+        "neutral": 83,
         "negative": 0,
-        "n": 4,
+        "n": 6,
         "excluded": 1,
-        "confident": false,
+        "confident": true,
         "stanceVersion": 2
       },
       "Holandë": {
@@ -2334,11 +2334,11 @@
       },
       "Spanjë": {
         "index": 56,
-        "positive": 12,
-        "neutral": 88,
+        "positive": 11,
+        "neutral": 89,
         "negative": 0,
-        "n": 8,
-        "excluded": 1,
+        "n": 9,
+        "excluded": 0,
         "confident": true,
         "stanceVersion": 2
       },
@@ -2347,8 +2347,8 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 27,
-        "excluded": 0,
+        "n": 26,
+        "excluded": 2,
         "confident": true,
         "stanceVersion": 2
       },
@@ -2377,17 +2377,17 @@
         "positive": 6,
         "neutral": 94,
         "negative": 0,
-        "n": 54,
+        "n": 52,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
       },
       "Kroaci": {
-        "index": 57,
-        "positive": 13,
-        "neutral": 87,
+        "index": 56,
+        "positive": 12,
+        "neutral": 88,
         "negative": 0,
-        "n": 15,
+        "n": 16,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2
@@ -2411,11 +2411,11 @@
         "sentiment": "positive"
       },
       {
-        "title": "Juegos Mediterráneos: Lekë Juniku de Kosovo lleva la tradición y el espíritu de lucha de Taranto hacia 2030 - World Baseball Softball Confederation (WBSC)",
-        "source": "World Baseball Softball Confederation (WBSC)",
-        "country": "Spanjë",
-        "flag": "🇪🇸",
-        "url": "https://www.wbsc.org/es/news/mediterranean-games-kosovos-leke-juniku-carries-tradition-and-fighting-spirit-from-taranto-towards-2030",
+        "title": "KFOR: Damit Ibër Bridge die Institutionen der EU und des Kosovo befragt, unterstützen wir diplomatische Bemühungen - Periskopi",
+        "source": "Periskopi",
+        "country": "Zvicër",
+        "flag": "🇨🇭",
+        "url": "https://periskopi.com/de/2026/8/kfor-iber-bridge-institutionen-eu-kosovo-befragt-unterstutzen-diplomatische-bemuhungen",
         "sentiment": "positive"
       },
       {

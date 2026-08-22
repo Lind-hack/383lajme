@@ -2,12 +2,12 @@
   "lastUpdated": "2026-08-22",
   "topics": [
     {
-      "label": "Pjesëmarrja në Lojërat Mesdhetare",
+      "label": "Kosova në Lojërat Mesdhetare 2026",
       "fallbackLabel": "Mesdhetare · Lojërat",
-      "summary": "Kombëtaret e volejbollit të Shqipërisë do të përballen me Kosovën në kuadër të Lojërave Mesdhetare 2026, duke shënuar një moment të rëndësishëm sportiv.",
-      "count": 26,
+      "summary": "Kombëtaret e volejbollit të Shqipërisë dhe Kosovës do të përballen në Lojërat Mesdhetare 2026, duke shënuar një moment të rëndësishëm për sportin rajonal.",
+      "count": 27,
       "positive": 2,
-      "neutral": 22,
+      "neutral": 23,
       "negative": 0,
       "index": 54,
       "countries": [
@@ -183,9 +183,9 @@
       ]
     },
     {
-      "label": "Zbulimi i varrezave masive",
+      "label": "Zbulimi i varrezave masive në Kosovë",
       "fallbackLabel": "Masive · Gjenden",
-      "summary": "Autoritetet kanë zbuluar mbetjet mortore të të paktën 23 personave në varreza të dyshuara masive në Kosovë, duke hapur hetime për identifikimin e tyre.",
+      "summary": "Autoritetet kanë zhvarrosur mbetjet mortore të të paktën 23 personave nga tri varreza masive, duke hapur hetime të reja mbi fatin e të zhdukurve.",
       "count": 24,
       "positive": 0,
       "neutral": 24,
@@ -366,19 +366,21 @@
     {
       "label": "Debati për urën e Ibrit",
       "fallbackLabel": "Ibrit · Kfor",
-      "summary": "Plani për hapjen e urës së Ibrit në Mitrovicë ka shkaktuar tensione politike dhe kundërshtime të ashpra nga ana e Serbisë dhe presidentit Vuçiq.",
-      "count": 14,
-      "positive": 0,
-      "neutral": 13,
+      "summary": "Hapja e urës së Ibrit në Mitrovicë ka shkaktuar tensione politike, me Serbinë që kundërshton vendimin dhe kërkon ndërhyrjen e forcave ndërkombëtare të sigurisë.",
+      "count": 17,
+      "positive": 1,
+      "neutral": 15,
       "negative": 1,
-      "index": 46,
+      "index": 50,
       "countries": [
         "Britani",
         "Francë",
         "Greqi",
+        "Itali",
         "SHBA",
         "Spanjë",
-        "Turqi"
+        "Turqi",
+        "Zvicër"
       ],
       "articles": [
         {
@@ -396,6 +398,22 @@
           "outlet": "srpske.rs",
           "country": "SHBA",
           "flag": "🇺🇸"
+        },
+        {
+          "title": "KFOR: Damit Ibër Bridge die Institutionen der EU und des Kosovo befragt, unterstützen wir diplomatische Bemühungen - Periskopi",
+          "albanianTitle": "KFOR: Për urën e Ibrit të pyeten institucionet e BE-së dhe të Kosovës, ne mbështesim përpjekjet diplomatike - Periskopi",
+          "blurb": "KFOR-i deklaron se mbështet përpjekjet diplomatike për çështjen e urës së Ibrit në koordinim me institucionet e Kosovës dhe BE-së.",
+          "imageUrl": null,
+          "url": "https://periskopi.com/de/2026/8/kfor-iber-bridge-institutionen-eu-kosovo-befragt-unterstutzen-diplomatische-bemuhungen",
+          "date": "2026-08-19",
+          "sentiment": "positive",
+          "reason": "Outlet expresses support for diplomatic efforts involving Kosovo",
+          "isQuote": false,
+          "speaker": "",
+          "evidence": "unterstützen wir diplomatische Bemühungen",
+          "outlet": "Periskopi",
+          "country": "Zvicër",
+          "flag": "🇨🇭"
         },
         {
           "title": "Radojeviç: “KFOR, İbre Köprüsü Kararını Kosova Polisi'nin Raporuna Dayanarak Aldı” - Kosovahaber.com",
@@ -524,29 +542,13 @@
           "outlet": "Kosovahaber.com",
           "country": "Turqi",
           "flag": "🇹🇷"
-        },
-        {
-          "title": "NATO Gives First Response to Vucic's Letter on Ibar Bridge - srpske.rs",
-          "albanianTitle": "NATO jep përgjigjen e parë ndaj letrës së Vuçiqit për urën e Ibrit",
-          "blurb": "NATO ka kthyer përgjigjen e parë zyrtare ndaj letrës së dërguar nga presidenti serb Vucic për urën e Ibrit.",
-          "imageUrl": "https://srpske.rs/uploads/articles/nato-first-response-vucic-letter-ibar-bridge-16x9.webp",
-          "url": "https://srpske.rs/en/news/politika/2026/08/21/nato-first-response-vucic-letter-ibar-bridge",
-          "date": "2026-08-21",
-          "sentiment": "neutral",
-          "reason": "Faktikë raportim neutral",
-          "isQuote": false,
-          "speaker": "",
-          "evidence": "",
-          "outlet": "srpske.rs",
-          "country": "SHBA",
-          "flag": "🇺🇸"
         }
       ]
     },
     {
       "label": "Hetimet për krime lufte",
-      "fallbackLabel": "Personave · Mbetjet",
-      "summary": "Gjetja e mbetjeve mortore në Zubin Potok ka çuar në arrestimin e tre të dyshuarve, si pjesë e hetimeve të vazhdueshme për krimet e luftës.",
+      "fallbackLabel": "Personave · Mortore",
+      "summary": "Gjetja e eshtrave të 23 personave në Zubin Potok është pjesë e hetimeve intensive për krime lufte, duke çuar edhe në arrestimin e të dyshuarve.",
       "count": 10,
       "positive": 0,
       "neutral": 10,
@@ -719,9 +721,9 @@
       ]
     },
     {
-      "label": "Bashkëpunimi me Bashkinë e Izmirit",
+      "label": "Bashkëpunimi mes Izmirit dhe Kosovës",
       "fallbackLabel": "Tugay · Izmirit",
-      "summary": "Kryetari i Bashkisë së Izmirit, Cemil Tugay, po zhvillon vizita në Kosovë për të nisur një epokë të re bashkëpunimi shumëdimensional mes dy palëve.",
+      "summary": "Kryetari i Bashkisë së Izmirit, Cemil Tugay, po zhvillon një vizitë në Kosovë për të nisur një epokë të re bashkëpunimi shumëdimensional mes dy palëve.",
       "count": 10,
       "positive": 3,
       "neutral": 7,
@@ -894,9 +896,9 @@
       ]
     },
     {
-      "label": "Zhvillime politike dhe incidente",
+      "label": "Zhvillime politike dhe incidente sigurie",
       "fallbackLabel": "Ndaj · Nato",
-      "summary": "Raportimet përfshijnë incidente të ndryshme, nga tensionet ndëretnike dhe akuzat diplomatike deri te arrestimet për vepra penale të qytetarëve kosovarë jashtë vendit.",
+      "summary": "Raportimet përfshijnë incidente të ndryshme, nga sulmet seksuale në Greqi deri te tensionet politike dhe akuzat për dhunë ndaj komunitetit serb në Kosovë.",
       "count": 9,
       "positive": 0,
       "neutral": 9,
@@ -1056,8 +1058,8 @@
     },
     {
       "label": "Turizmi malor në Kosovë",
-      "fallbackLabel": "Fundit · Epik",
-      "summary": "Shtigjet e ecjes në Kosovë po vlerësohen nga mediat ndërkombëtare si destinacione epike që eksplorojnë disa nga zonat më të egra dhe të bukura të Evropës.",
+      "fallbackLabel": "Fundit · Shtegu",
+      "summary": "Shtigjet e ecjes në Kosovë po promovohen si destinacione epike që eksplorojnë disa nga zonat më të egra dhe më të bukura të Evropës.",
       "count": 8,
       "positive": 0,
       "neutral": 8,
@@ -1200,9 +1202,9 @@
       ]
     },
     {
-      "label": "Protestat e opozitës ndaj Qeverisë",
+      "label": "Protestat opozitare kundër Qeverisë",
       "fallbackLabel": "Qeverisë · Hyrjen",
-      "summary": "Partitë opozitare PDK dhe AAK po zhvillojnë protesta dhe bllokada para ndërtesës së Qeverisë, duke kundërshtuar politikat buxhetore dhe vendimet e ekzekutivit aktual.",
+      "summary": "Partitë opozitare dhe prodhuesit vendorë po protestojnë para ndërtesës së Qeverisë, duke kundërshtuar politikat buxhetore dhe vendimet e ekzekutivit për çështje të ndryshme.",
       "count": 8,
       "positive": 0,
       "neutral": 8,
