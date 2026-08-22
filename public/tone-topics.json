@@ -2,14 +2,14 @@
   "lastUpdated": "2026-08-22",
   "topics": [
     {
-      "label": "Pjesëmarrja në Lojërat Mesdhetare",
+      "label": "Pjesëmarrja e Kosovës në Lojërat Mesdhetare",
       "fallbackLabel": "Mesdhetare · Lojërat",
-      "summary": "Kombëtaret e volejbollit të Shqipërisë do të përballen me Kosovën në kuadër të Lojërave Mesdhetare të vitit 2026.",
-      "count": 27,
+      "summary": "Ekipet kombëtare të Shqipërisë në volejboll për meshkuj dhe femra do të përballen me Kosovën në Lojërat Mesdhetare të vitit 2026.",
+      "count": 31,
       "positive": 2,
-      "neutral": 23,
+      "neutral": 27,
       "negative": 0,
-      "index": 54,
+      "index": 53,
       "countries": [
         "Francë",
         "Greqi",
@@ -183,12 +183,12 @@
       ]
     },
     {
-      "label": "Zbulimi i varrezave masive",
+      "label": "Zbulimi i varrezave masive në Kosovë",
       "fallbackLabel": "Masive · Gjenden",
-      "summary": "Gjatë kërkimeve në Kosovë janë gjetur mbetjet mortore të të paktën 23 personave në tri varreza të dyshuara si masive.",
-      "count": 24,
+      "summary": "Në Kosovë janë zhvarrosur mbetjet mortore të të paktën 23 personave nga tri varreza të dyshuara masive, duke hapur hetime të reja.",
+      "count": 25,
       "positive": 0,
-      "neutral": 24,
+      "neutral": 25,
       "negative": 0,
       "index": 50,
       "countries": [
@@ -364,9 +364,9 @@
       ]
     },
     {
-      "label": "Debati për urën e Ibrit",
+      "label": "Debati për hapjen e urës së Ibrit",
       "fallbackLabel": "Ibrit · Kfor",
-      "summary": "Presidenti serb Vuçiq kundërshton hapjen e urës së Ibrit në Mitrovicë, duke kërkuar ndërhyrjen e faktorit ndërkombëtar për ndalimin e saj.",
+      "summary": "Presidenti serb Vuçiq kundërshton planin për hapjen e urës së Ibrit në Mitrovicë, duke kërkuar ndërhyrjen e faktorit ndërkombëtar për ndalimin e saj.",
       "count": 17,
       "positive": 1,
       "neutral": 15,
@@ -546,9 +546,9 @@
       ]
     },
     {
-      "label": "Bashkëpunimi ndërkombëtar me Izmirin",
+      "label": "Bashkëpunimi institucional mes Izmirit dhe Kosovës",
       "fallbackLabel": "Tugay · Kryetari",
-      "summary": "Kryetari i Bashkisë së Izmirit, Cemil Tugay, ka nisur një iniciativë për bashkëpunim shumëdimensional me institucionet në Kosovë.",
+      "summary": "Kryetari i Bashkisë së Izmirit, Cemil Tugay, ka nisur një iniciativë për bashkëpunim shumëdimensional me institucionet dhe autoritetet në Kosovë.",
       "count": 11,
       "positive": 3,
       "neutral": 8,
@@ -722,9 +722,9 @@
       ]
     },
     {
-      "label": "Incidentet dhe tensionet politike",
-      "fallbackLabel": "Ndaj · Serbëve",
-      "summary": "Raportohen ngjarje të ndryshme, nga sulme seksuale dhe protesta deri te akuzat diplomatike për trajtimin e serbëve në Kosovë.",
+      "label": "Incidentet dhe tensionet politike në Kosovë",
+      "fallbackLabel": "Ndaj · Nato",
+      "summary": "Ngjarje të ndryshme, përfshirë incidente kriminale dhe akuza politike ndërkombëtare, po ndikojnë në klimën e sigurisë dhe stabilitetin politik në Kosovë.",
       "count": 10,
       "positive": 0,
       "neutral": 10,
@@ -900,9 +900,9 @@
       ]
     },
     {
-      "label": "Hetimet për krime lufte",
-      "fallbackLabel": "Personave · Mortore",
-      "summary": "Autoritetet kanë gjetur mbetjet mortore të 23 personave në Zubin Potok, duke çuar në arrestimin e tre personave të dyshuar.",
+      "label": "Hetimet për krime lufte në Zubin Potok",
+      "fallbackLabel": "Personave · Mbetjet",
+      "summary": "Autoritetet kanë gjetur mbetjet mortore të 23 personave në Zubin Potok dhe kanë arrestuar tre të dyshuar në kuadër të hetimeve për krime lufte.",
       "count": 10,
       "positive": 0,
       "neutral": 10,
@@ -1075,9 +1075,9 @@
       ]
     },
     {
-      "label": "Aktivitetet politike të Kurtit",
+      "label": "Zhvillimet politike dhe takimet e Kurtit",
       "fallbackLabel": "Kurti · Lopes",
-      "summary": "Kryeministri Kurti po zhvillon takime me liderë opozitarë dhe përfaqësues ndërkombëtarë për të diskutuar zhvillimet politike dhe zgjedhjet në vend.",
+      "summary": "Kryeministri Kurti po zhvillon takime me liderë opozitarë dhe përfaqësues ndërkombëtarë për të diskutuar çështje të rëndësishme politike dhe zgjedhjet në vend.",
       "count": 9,
       "positive": 0,
       "neutral": 9,
@@ -1236,9 +1236,9 @@
       ]
     },
     {
-      "label": "Turizmi malor në Kosovë",
-      "fallbackLabel": "Fundit · Evropës",
-      "summary": "Shtegu i ecjes Majat e Ballkanit po vlerësohet si një destinacion epik që eksploron zonat e egra natyrore të Kosovës.",
+      "label": "Promovimi i shtigjeve turistike në Kosovë",
+      "fallbackLabel": "Fundit · Zonat",
+      "summary": "Shtigjet e ecjes në Kosovë po vlerësohen ndërkombëtarisht si destinacione epike që eksplorojnë zonat e fundit të egra dhe natyrore të Evropës.",
       "count": 8,
       "positive": 0,
       "neutral": 8,

@@ -1,8 +1,8 @@
 {
   "lastUpdated": "2026-08-22",
   "overallIndex": 52,
-  "totalArticles": 210,
-  "sourceCount": 149,
+  "totalArticles": 218,
+  "sourceCount": 154,
   "stanceVersion": 2,
   "countries": {
     "Gjermani": {
@@ -128,26 +128,6 @@
               "date": "2026-08-20",
               "sentiment": "neutral",
               "reason": "Faktikë raportim pa gjuhë të ngarkuar",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "BGNES",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "NATO to Vučić: Any Reopening of Mitrovica Bridge Must Take All Communities in Kosovo into Account - BGNES",
-              "albanianTitle": "NATO për Vuçiqin: Çdo rihapje e urës së Mitrovicës duhet të marrë parasysh të gjitha komunitetet në Kosovë - BGNES",
-              "blurb": "NATO kërkon që çdo vendim për hapjen e urës së Mitrovicës të marrë parasysh interesat e të gjitha komuniteteve.",
-              "imageUrl": "https://www.bgnes.com/static/images/news/2026/08/21/21566/19749.webp",
-              "url": "http://www.bgnes.com/politics/nato-to-vu-i-any-reopening-of-mitrovica-bridge-must-take-all-communities-in-kosovo-into-account",
-              "date": "2026-08-21",
-              "sentiment": "neutral",
-              "reason": "Neutral reporting of NATO’s statement",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -630,6 +610,26 @@
               "speaker": ""
             }
           ]
+        },
+        {
+          "name": "الإذاعة الجزائرية |",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "2026 Mediterranean Games: Algeria Defeats Kosovo Two Goals to One - الإذاعة الجزائرية |",
+              "albanianTitle": "Lojërat Mesdhetare 2026: Algjeria mposht Kosovën me rezultat 2-1",
+              "blurb": "Kombëtarja e Algjerisë ka mposhtur Kosovën me rezultat 2 me 1 në kuadër të Lojërave Mesdhetare 2026.",
+              "imageUrl": "http://news.radioalgerie.dz/sites/default/data/2026-08/altqat_38.jpg",
+              "url": "https://news.radioalgerie.dz/en/node/92739",
+              "date": "2026-08-22",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
         }
       ],
       "summary": {
@@ -679,26 +679,6 @@
               "date": "2026-08-20",
               "sentiment": "neutral",
               "reason": "Faktikë raportim pa gjuhë të ngarkuar",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "BGNES",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "NATO to Vučić: Any Reopening of Mitrovica Bridge Must Take All Communities in Kosovo into Account - BGNES",
-              "albanianTitle": "NATO për Vuçiqin: Çdo rihapje e urës së Mitrovicës duhet të marrë parasysh të gjitha komunitetet në Kosovë - BGNES",
-              "blurb": "NATO kërkon që çdo vendim për hapjen e urës së Mitrovicës të marrë parasysh interesat e të gjitha komuniteteve.",
-              "imageUrl": "https://www.bgnes.com/static/images/news/2026/08/21/21566/19749.webp",
-              "url": "http://www.bgnes.com/politics/nato-to-vu-i-any-reopening-of-mitrovica-bridge-must-take-all-communities-in-kosovo-into-account",
-              "date": "2026-08-21",
-              "sentiment": "neutral",
-              "reason": "Neutral reporting of NATO’s statement",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -907,7 +887,7 @@
         {
           "name": "KosovaPress",
           "sentiment": "neutral",
-          "articleCount": 4,
+          "articleCount": 5,
           "articles": [
             {
               "title": "Gucati criticizes Kurti Government: None of the veterans’ demands have been fulfilled - KosovaPress",
@@ -957,6 +937,19 @@
               "date": "2026-08-20",
               "sentiment": "neutral",
               "reason": "Raporton deklaratën e Musliuut pa ngjyrë vete",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "61 percent of women journalists in Kosovo have faced online abuse - KosovaPress",
+              "albanianTitle": "61 për qind e gazetareve në Kosovë janë përballur me abuzime online - KosovaPress",
+              "blurb": "Gjashtëdhjetë e një përqind e grave gazetare në Kosovë kanë përjetuar forma të ndryshme të abuzimit në internet.",
+              "imageUrl": null,
+              "url": "https://kosovapress.com/eng/61-percent-of-women-journalists-in-kosovo-have-faced-online-abuse",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim neutral pa gjuhë ngarkuese",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1164,6 +1157,46 @@
     "Francë": {
       "outlets": [
         {
+          "name": "Competition.dz",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Jeux méditerranéens Tarente - 2026: les Verts renversent le Kosovo au bout du temps additionnel - Competition.dz",
+              "albanianTitle": "Lojërat Mesdhetare 2026 në Taranto: Algjeria përmbys rezultatin ndaj Kosovës në kohën shtesë",
+              "blurb": "Përfaqësuesja e Algjerisë ka përmbysur rezultatin ndaj Kosovës në minutat shtesë gjatë Lojërave Mesdhetare në Tarent të Italisë.",
+              "imageUrl": "https://www.competition.dz/images/2026/JM2026.jpg#joomlaImage://local-images/2026/JM2026.jpg?width=1207&height=940",
+              "url": "https://www.competition.dz/chrono/jeux-mediterraneens-tarente-2026-les-verts-renversent-le-kosovo-au-bout-du-temps-additionnel.html",
+              "date": "2026-08-22",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "El Moudjahid",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Jeux méditerranéens 2026 – Tournoi de football : l’Algérie domine le Kosovo - El Moudjahid",
+              "albanianTitle": "Lojërat Mesdhetare 2026 – Turneu i futbollit: Algjeria triumfon ndaj Kosovës",
+              "blurb": "Algjeria ka shënuar fitore ndaj Kosovës në turneun e futbollit që po zhvillohet në Lojërat Mesdhetare 2026.",
+              "imageUrl": null,
+              "url": "https://www.elmoudjahid.dz/fr/sports/jeux-mediterraneens-2026-tournoi-de-football-l-algerie-domine-le-kosovo-257338",
+              "date": "2026-08-22",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "Le Courrier des Balkans",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1244,6 +1277,26 @@
           ]
         },
         {
+          "name": "aps.dz",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "L'Algérie domine le Kosovo 2-1 - aps.dz",
+              "albanianTitle": "Algjeria e mposht Kosovën me rezultat 2-1",
+              "blurb": "Algjeria ka shënuar fitore me rezultat 2 me 1 ndaj Kosovës në ndeshjen e zhvilluar në Lojërat Mesdhetare.",
+              "imageUrl": "https://www.aps.dz/fr/assets/article/591e9a6817e7755efbc3623e3462d576.webp",
+              "url": "https://www.aps.dz/fr/sports/sport-collectif/mt4c34cj-l-algerie-domine-le-kosovo-2-1",
+              "date": "2026-08-22",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "footafrique.com",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1285,11 +1338,11 @@
         }
       ],
       "summary": {
-        "index": 58,
-        "positive": 17,
-        "neutral": 83,
+        "index": 56,
+        "positive": 11,
+        "neutral": 89,
         "negative": 0,
-        "n": 6,
+        "n": 9,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -1303,19 +1356,6 @@
           "articleCount": 2,
           "articles": [
             {
-              "title": "Kosovo completa esumazione 23 corpi da fossa comune scoperta in luglio - ANSA",
-              "albanianTitle": "Kosova përfundon zhvarrosjen e 23 trupave nga varreza masive e zbuluar në korrik",
-              "blurb": "Autoritetet në Kosovë kanë përfunduar zhvarrosjen e njëzet e tri trupave nga varreza masive e zbuluar gjatë korrikut.",
-              "imageUrl": "https://www.ansa.it/webimages/img_1280x720/2026/8/21/b1bd09394d952f38b9e0707f8e75f325.jpg",
-              "url": "https://www.ansa.it/nuova_europa/it/notizie/rubriche/politica/2026/08/21/kosovo-completa-esumazione-23-corpi-da-fossa-comune-scoperta-in-luglio_2a9d9978-3f19-4b2a-8a42-64b84fe4d081.html",
-              "date": "2026-08-21",
-              "sentiment": "neutral",
-              "reason": "Raportim faktik i ekshumimit të masave të përbashkëta",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
               "title": "Vucic scrive a Rutte, 'Nato fermi terrore in Kosovo, non riaprire ponte' - ANSA",
               "albanianTitle": "Vuçiq i shkruan Ruttes: NATO, ndaloni terrorin në Kosovë, mos e hapni urën - ANSA",
               "blurb": "Aleksandër Vuçiq i është drejtuar Ruttes me kërkesën që NATO të ndalojë situatën në Kosovë dhe të mos hapet ura.",
@@ -1327,6 +1367,39 @@
               "isQuote": true,
               "evidence": "",
               "speaker": "Vucic"
+            },
+            {
+              "title": "Kosovo completa esumazione 23 corpi da fossa comune scoperta in luglio - ANSA",
+              "albanianTitle": "Kosova përfundon zhvarrosjen e 23 trupave nga varreza masive e zbuluar në korrik",
+              "blurb": "Autoritetet në Kosovë kanë përfunduar zhvarrosjen e njëzet e tri trupave nga varreza masive e zbuluar gjatë korrikut.",
+              "imageUrl": "https://www.ansa.it/webimages/img_1280x720/2026/8/21/b1bd09394d952f38b9e0707f8e75f325.jpg",
+              "url": "https://www.ansa.it/nuova_europa/it/notizie/rubriche/politica/2026/08/21/kosovo-completa-esumazione-23-corpi-da-fossa-comune-scoperta-in-luglio_2a9d9978-3f19-4b2a-8a42-64b84fe4d081.html",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Raportim faktik i ekshumimit të masave të përbashkëta",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Calciopress",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Una Rappresentativa Nazionale Femminile partecipa al Torneo Femminile di calcio dei ‘Giochi del Mediterraneo’ 2026 in programma a Taranto - Calciopress",
+              "albanianTitle": "Përfaqësuesja e femrave merr pjesë në turneun e futbollit të Lojërave Mesdhetare 2026 në Taranto",
+              "blurb": "Përfaqësuesja e futbollit të femrave po merr pjesë në turneun e Lojërave Mesdhetare 2026 që mbahet në Tarent.",
+              "imageUrl": null,
+              "url": "https://www.calciopress.net/una-rappresentativa-nazionale-femminile-partecipa-al-torneo-femminile-di-calcio-dei-giochi-del-mediterraneo-2026-in-programma-a-taranto/",
+              "date": "2026-08-22",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ]
         },
@@ -1431,26 +1504,6 @@
           ]
         },
         {
-          "name": "Il Resto del Carlino",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Il dottor Tibaldi torna in Kosovo - Il Resto del Carlino",
-              "albanianTitle": "Doktor Tibaldi kthehet në Kosovë",
-              "blurb": "Doktori Tibaldi është rikthyer për një vizitë pune në Kosovë, sipas raportimeve të mediave italiane.",
-              "imageUrl": "https://www.ilrestodelcarlino.it/image-service/view/acePublic/alias/contentid/ZmE5OWU1MWEtZTI1Ny00/0/il-dottor-tibaldi-torna-in-kosovo.jpg?f=16:9&w=1200&h=675",
-              "url": "https://www.ilrestodelcarlino.it/pesaro/cronaca/il-dottor-tibaldi-torna-in-7183ba7f",
-              "date": "2026-08-19",
-              "sentiment": "neutral",
-              "reason": "Simple factual report of a visit",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
           "name": "La Nazione",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1486,26 +1539,6 @@
               "reason": "Lajm i raportuar në mënyrë faktike",
               "isQuote": false,
               "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "Nuoto.com",
-          "sentiment": "positive",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosovo. Pristina, la grande sopresa del nuoto. - Nuoto.com",
-              "albanianTitle": "Kosovë: Prishtina, surpriza e madhe e notit",
-              "blurb": "Prishtina po shënon zhvillime të rëndësishme dhe rezultate befasuese në sportin e notit, sipas raportimeve të specializuara.",
-              "imageUrl": "https://distribution-point.webstorage-4sigma.it/nuoto_com-1291/media/immagine/2026/resized/Screenshot_2026_08_18_alle_20_30_49-1280x724.webp",
-              "url": "https://www.nuoto.com/articolo/calendari-e-meeting/kosovo-pristina-la-grande-sopresa-del-nuoto/",
-              "date": "2026-08-19",
-              "sentiment": "positive",
-              "reason": "Outlet praises Kosovo's swimming achievement",
-              "isQuote": false,
-              "evidence": "la grande sopresa del nuoto",
               "speaker": ""
             }
           ]
@@ -1591,6 +1624,26 @@
           ]
         },
         {
+          "name": "Virgilio",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Sono iniziati i Giochi del Mediterraneo di Taranto 2026 Volley maschile, alle 12 Kosovo - Grecia al palaPentassuglia di Brindisi - Virgilio",
+              "albanianTitle": "Kanë nisur Lojërat Mesdhetare në Taranto, në volejboll për meshkuj në orën 12:00 përballen Kosova dhe Greqia në palaPentassuglia të Brindisit - Virgilio",
+              "blurb": "Kombëtarja e Kosovës në volejboll përballet me Greqinë në kuadër të Lojërave Mesdhetare që po zhvillohen në Itali.",
+              "imageUrl": "https://img.plug.it/img_newsreg_mid/9/5/6/57064659.jpg",
+              "url": "https://www.virgilio.it/italia/taranto/notizielocali/sono_iniziati_i_giochi_del_mediterraneo_di_taranto_2026_volley_maschile_alle_12_kosovo_grecia_al_palapentassuglia_di_brindisi-77268477.html",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Raportim sportiv i thjeshtë, pa gjuhë ngarkuese",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "geomagazine.it",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1632,9 +1685,9 @@
         }
       ],
       "summary": {
-        "index": 53,
-        "positive": 6,
-        "neutral": 94,
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
         "negative": 0,
         "n": 16,
         "excluded": 1,
@@ -1920,6 +1973,46 @@
     "Belgjikë": {
       "outlets": [
         {
+          "name": "Competition.dz",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Jeux méditerranéens Tarente - 2026: les Verts renversent le Kosovo au bout du temps additionnel - Competition.dz",
+              "albanianTitle": "Lojërat Mesdhetare 2026 në Taranto: Algjeria përmbys rezultatin ndaj Kosovës në kohën shtesë",
+              "blurb": "Përfaqësuesja e Algjerisë ka përmbysur rezultatin ndaj Kosovës në minutat shtesë gjatë Lojërave Mesdhetare në Tarent të Italisë.",
+              "imageUrl": "https://www.competition.dz/images/2026/JM2026.jpg#joomlaImage://local-images/2026/JM2026.jpg?width=1207&height=940",
+              "url": "https://www.competition.dz/chrono/jeux-mediterraneens-tarente-2026-les-verts-renversent-le-kosovo-au-bout-du-temps-additionnel.html",
+              "date": "2026-08-22",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "El Moudjahid",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Jeux méditerranéens 2026 – Tournoi de football : l’Algérie domine le Kosovo - El Moudjahid",
+              "albanianTitle": "Lojërat Mesdhetare 2026 – Turneu i futbollit: Algjeria triumfon ndaj Kosovës",
+              "blurb": "Algjeria ka shënuar fitore ndaj Kosovës në turneun e futbollit që po zhvillohet në Lojërat Mesdhetare 2026.",
+              "imageUrl": null,
+              "url": "https://www.elmoudjahid.dz/fr/sports/jeux-mediterraneens-2026-tournoi-de-football-l-algerie-domine-le-kosovo-257338",
+              "date": "2026-08-22",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "Le Courrier des Balkans",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -2039,6 +2132,26 @@
           ]
         },
         {
+          "name": "aps.dz",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "L'Algérie domine le Kosovo 2-1 - aps.dz",
+              "albanianTitle": "Algjeria e mposht Kosovën me rezultat 2-1",
+              "blurb": "Algjeria ka shënuar fitore me rezultat 2 me 1 ndaj Kosovës në ndeshjen e zhvilluar në Lojërat Mesdhetare.",
+              "imageUrl": "https://www.aps.dz/fr/assets/article/591e9a6817e7755efbc3623e3462d576.webp",
+              "url": "https://www.aps.dz/fr/sports/sport-collectif/mt4c34cj-l-algerie-domine-le-kosovo-2-1",
+              "date": "2026-08-22",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "horizons.dz",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -2060,11 +2173,11 @@
         }
       ],
       "summary": {
-        "index": 56,
-        "positive": 12,
-        "neutral": 88,
+        "index": 55,
+        "positive": 9,
+        "neutral": 91,
         "negative": 0,
-        "n": 8,
+        "n": 11,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -2072,6 +2185,26 @@
     },
     "Spanjë": {
       "outlets": [
+        {
+          "name": "CNN en Español",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Picos de los Balcanes: la épica ruta de senderismo que explora una de las últimas grandes zonas silvestres de Europa - CNN en Español",
+              "albanianTitle": "Majat e Ballkanit: Shtegu epik i ecjes që eksploron një nga zonat e fundit të egra të Evropës",
+              "blurb": "Shtegu i ecjes Picos de los Balcanes përshkruhet si një rrugë që eksploron zonat e egra evropiane.",
+              "imageUrl": "https://media.cnn.com/api/v1/images/stellar/prod/gettyimages-2226212944-20260819174746270.jpg?c=16x9&q=w_800,c_fill",
+              "url": "https://cnnespanol.cnn.com/2026/08/19/viajes/picos-balcanes-senderismo-montenegro-albania-kosovo-trax",
+              "date": "2026-08-19",
+              "sentiment": "neutral",
+              "reason": "Faktik, pa gjuhë ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
         {
           "name": "El Comercio Perú",
           "sentiment": "neutral",
@@ -2254,11 +2387,11 @@
         }
       ],
       "summary": {
-        "index": 56,
-        "positive": 11,
-        "neutral": 89,
+        "index": 55,
+        "positive": 10,
+        "neutral": 90,
         "negative": 0,
-        "n": 9,
+        "n": 10,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -2433,6 +2566,26 @@
           ]
         },
         {
+          "name": "Skai.gr",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Ένταση στο Κόσοβο για το άνοιγμα μιας γέφυρας - Skai.gr",
+              "albanianTitle": "Tensione në Kosovë për hapjen e një ure - Skai.gr",
+              "blurb": "Hapja e urës mbi lumin Ibër në Mitrovicë ka shkaktuar rritje të tensioneve në pjesën veriore të Kosovës.",
+              "imageUrl": "https://cdn.skai.gr/sites/default/files/styles/article_16_9/public/feedelio/mitsovica-bridge.jpg?itok=QJp9iyTJ",
+              "url": "https://www.skai.gr/news/world/entasi-sto-kosovo-gia-to-anoigma-mias-gefyras",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Faktikisht raporton tensionin në Kosovë pa gjuhë ngarkuese",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "Sofascore",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -2519,26 +2672,6 @@
           ]
         },
         {
-          "name": "ertnews.gr",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Κόσοβο: Eντάσεις μεταξύ Σέρβων και Αλβανών προκαλεί το άνοιγμα γέφυρας - ertnews.gr",
-              "albanianTitle": "Kosova: Hapja e urës po shkakton tensione mes serbëve dhe shqiptarëve - ertnews.gr",
-              "blurb": "Planet për hapjen e urës së Mitrovicës kanë nxitur tensione ndërmjet komunitetit serb dhe atij shqiptar në rajon.",
-              "imageUrl": "https://www.ertnews.gr/wp-content/uploads/2026/08/ap090427013637-768x515-1.jpg",
-              "url": "https://www.ertnews.gr/eidiseis/diethni/kosovo-entaseis-metaksy-servon-kai-alvanon-prokalei-to-anoigma-gefyras/",
-              "date": "2026-08-21",
-              "sentiment": "neutral",
-              "reason": "Raportim neutral i tensioneve mes komuniteteve",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
           "name": "facebook.com",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -2561,8 +2694,21 @@
         {
           "name": "sport-fm.gr",
           "sentiment": "neutral",
-          "articleCount": 3,
+          "articleCount": 4,
           "articles": [
+            {
+              "title": "Λευκορωσία-Κόσοβο - sport-fm.gr",
+              "albanianTitle": "Bjellorusi – Kosovë – sport-fm.gr",
+              "blurb": "Ndeshja sportive ndërmjet përfaqësueses së Bjellorusisë dhe asaj të Kosovës në arenën ndërkombëtare të futbollit.",
+              "imageUrl": "https://resources.sport-fm.gr/supersportFM/images/news/23/06/19/belarus-kosovo_111407.jpg?w=880&f=bicubic",
+              "url": "https://www.sport-fm.gr/article/4891906",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Titulli thjesht përmend dy vende, pa gjuhë pozitive apo negative",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
             {
               "title": "Εύκολη πρεμιέρα για την Εθνική βόλεϊ γυναικών - sport-fm.gr",
               "albanianTitle": "Fitore e lehtë në start për kombëtaren greke të volejbollit – sport-fm.gr",
@@ -2729,7 +2875,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 26,
+        "n": 27,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -2823,26 +2969,6 @@
               "speaker": ""
             }
           ]
-        },
-        {
-          "name": "Wyniki na żywo",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosowo 3x3 W wyniki - Koszykówka, Europa - Wyniki na żywo",
-              "albanianTitle": "Rezultatet e Kosovës në 3x3 - Basketboll, Evropë - Rezultatet live",
-              "blurb": "Rezultatet e ndeshjeve të basketbollit 3x3 për femra të përfaqësueses së Kosovës janë publikuar në platformën e rezultateve live.",
-              "imageUrl": "https://www.flashscore.pl/res/_fs/image/og/flashscore.png",
-              "url": "https://www.flashscore.pl/druzyna/kosovo/h005gVOP/wyniki/",
-              "date": "2026-08-22",
-              "sentiment": "neutral",
-              "reason": "Neutral live scores",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
         }
       ],
       "summary": {
@@ -2850,7 +2976,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 2,
+        "n": 1,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
@@ -2965,26 +3091,6 @@
           ]
         },
         {
-          "name": "Haber 7",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Toplu mezarlar açıldı, çok sayıda mühimmat çıktı - Haber 7",
-              "albanianTitle": "U hapën varrezat masive, u gjetën sasi të mëdha municioni",
-              "blurb": "Gjatë gërmimeve në varreza masive janë gjetur sasi të konsiderueshme të municioneve të ndryshme të pashpërthyera në lokacionin përkatës.",
-              "imageUrl": "https://i12.haber7.net//haber/haber7/og_image/2026/34/iCZ48_1787313467_302.jpg",
-              "url": "https://www.haber7.com/dunya/haber/3653150-toplu-mezarlar-acildi-cok-sayida-muhimmat-cikti",
-              "date": "2026-08-21",
-              "sentiment": "neutral",
-              "reason": "Straightforward report of mass graves and ammunition, no editorial judgement",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
           "name": "Haber Ekspres",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -3082,11 +3188,11 @@
               "speaker": ""
             },
             {
-              "title": "Kuzeyde Durum Sakin ve İstikrarlı, Ancak Hassasiyet Sürüyor - Kosovahaber.com",
-              "albanianTitle": "Situata në veri është e qetë dhe stabile, por mbetet e ndjeshme - Kosovahaber.com",
-              "blurb": "Situata në veri të Kosovës paraqitet e qetë dhe stabile, ndonëse ndjeshmëria mbetet ende në nivel të lartë.",
+              "title": "Kuzeyde Ele Geçirilen Silahlarla Suçların Önüne Geçildi - Kosovahaber.com",
+              "albanianTitle": "Parandalohen krimet pas konfiskimit të armëve në veri - Kosovahaber.com",
+              "blurb": "Sekuestrimi i armëve në veri të vendit ka ndikuar në parandalimin e aktiviteteve të ndryshme kriminale në zonë.",
               "imageUrl": null,
-              "url": "https://kosovahaber.com/haber/kuzeyde-durum-sakin-ve-istikrarli-ancak-hassasiyet-suruyor-105165",
+              "url": "https://kosovahaber.com/haber/kuzeyde-ele-gecirilen-silahlarla-suclarin-onune-gecildi-105175",
               "date": "2026-08-22",
               "sentiment": "neutral",
               "reason": "Faktikë raportim neutral",
@@ -3095,11 +3201,11 @@
               "speaker": ""
             },
             {
-              "title": "Kuzeyde Ele Geçirilen Silahlarla Suçların Önüne Geçildi - Kosovahaber.com",
-              "albanianTitle": "Parandalohen krimet pas konfiskimit të armëve në veri - Kosovahaber.com",
-              "blurb": "Sekuestrimi i armëve në veri të vendit ka ndikuar në parandalimin e aktiviteteve të ndryshme kriminale në zonë.",
+              "title": "Kuzeyde Durum Sakin ve İstikrarlı, Ancak Hassasiyet Sürüyor - Kosovahaber.com",
+              "albanianTitle": "Situata në veri është e qetë dhe stabile, por mbetet e ndjeshme - Kosovahaber.com",
+              "blurb": "Situata në veri të Kosovës paraqitet e qetë dhe stabile, ndonëse ndjeshmëria mbetet ende në nivel të lartë.",
               "imageUrl": null,
-              "url": "https://kosovahaber.com/haber/kuzeyde-ele-gecirilen-silahlarla-suclarin-onune-gecildi-105175",
+              "url": "https://kosovahaber.com/haber/kuzeyde-durum-sakin-ve-istikrarli-ancak-hassasiyet-suruyor-105165",
               "date": "2026-08-22",
               "sentiment": "neutral",
               "reason": "Faktikë raportim neutral",
@@ -3123,26 +3229,6 @@
               "date": "2026-08-20",
               "sentiment": "neutral",
               "reason": "Faktik raportim pa ngarkim",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "Mersin Haber",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosova Zubin Potok'ta Toplu Mezarların Yakınında Çok Sayıda Silah Tespit Edildi - Mersin Haber",
-              "albanianTitle": "Sasi e konsiderueshme armësh zbulohen pranë varrezave masive në Zubin Potok të Kosovës",
-              "blurb": "Policia ka gjetur sasi të konsiderueshme të armatimit në afërsi të lokacioneve me varreza masive në Zubin Potok.",
-              "imageUrl": "https://www.mersinhaber.com/cropp/1200x675/Depo/haber/747538/org/747538.webp",
-              "url": "https://www.mersinhaber.com/haber-kosova-zubin-potokta-toplu-mezarlarin-yakininda-cok-sayida-silah-tespit-edildi/747538",
-              "date": "2026-08-21",
-              "sentiment": "neutral",
-              "reason": "Factually reports weapons detection near mass graves in Kosovo",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -3291,8 +3377,21 @@
         {
           "name": "Son Dakika",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
+            {
+              "title": "Kosova'da Toplu Mezarlar ve Silahlar Bulundu - Son Dakika",
+              "albanianTitle": "Zbulohen varreza masive dhe armatim në Kosovë",
+              "blurb": "Autoritetet në Kosovë kanë raportuar zbulimin e varrezave masive dhe sasi të ndryshme të armatimit në zona të caktuara.",
+              "imageUrl": "https://foto.sondakika.com/haber/2026/08/21/kosova-da-toplu-mezarlarin-yakininda-cok-sayi-5-20164351_amp.jpg",
+              "url": "https://www.sondakika.com/3-sayfa/haber-kosova-da-toplu-mezarlar-ve-silahlar-bulundu-20164376/",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Raportim neutral i gjetjeve të varreve masive dhe armëve",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
             {
               "title": "Kosova'da Halter Şampiyonası Başladı - Son Dakika",
               "albanianTitle": "Fillon Kampionati i Peshëngritjes në Kosovë – Lajmi i fundit",
@@ -3437,7 +3536,7 @@
         {
           "name": "nhaberizmir.com",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Başkan Cemil Tugay Kosova’da Yeni İş Birlikleri Kuruyor - nhaberizmir.com",
@@ -3448,6 +3547,19 @@
               "date": "2026-08-22",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike pa gjuhë ngarkuese",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Başkan Tugay Kosova'da: İzmir ile İş Birliği Dönemi Başlıyor - nhaberizmir.com",
+              "albanianTitle": "Kryetari Tugay në Kosovë: Po nis periudha e bashkëpunimit me Izmirin",
+              "blurb": "Kryetari i bashkisë së Izmirit, Tugay, po qëndron për vizitë në Kosovë për të zyrtarizuar bashkëpunimin ndërmjet dy palëve.",
+              "imageUrl": "https://nhaberizmircom.teimg.com/crop/1280x720/nhaberizmir-com/uploads/2026/08/cemil-tugay-kosova-ziyareti.jpg",
+              "url": "https://www.nhaberizmir.com/baskan-tugay-kosovada-izmir-ile-is-birligi-donemi-basliyor",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -3468,6 +3580,26 @@
               "date": "2026-08-22",
               "sentiment": "neutral",
               "reason": "Titulli përshkruan bashkëpunim të ri me Kosovën pa gjuhë ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "İstiklal Gazetesi",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosova’da kritik keşif: Toplu mezarların yanı başında cephanelik çıktı! - İstiklal Gazetesi",
+              "albanianTitle": "Zbulim kritik në Kosovë: Gjehet një depo armësh pranë varrezave masive",
+              "blurb": "Një sasi e armatimit është gjetur në afërsi të një varreze masive në territorin e Republikës së Kosovës.",
+              "imageUrl": "https://cdn.istiklal.com.tr/news/671485.jpg",
+              "url": "https://www.istiklal.com.tr/dunya/kosovada-kritik-kesif-toplu-mezarlarin-yani-basinda-cephanelik-cikti-1102801h",
+              "date": "2026-08-22",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -3806,14 +3938,34 @@
               "speaker": "Haljiti"
             }
           ]
+        },
+        {
+          "name": "الإذاعة الجزائرية |",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "2026 Mediterranean Games: Algeria Defeats Kosovo Two Goals to One - الإذاعة الجزائرية |",
+              "albanianTitle": "Lojërat Mesdhetare 2026: Algjeria mposht Kosovën me rezultat 2-1",
+              "blurb": "Kombëtarja e Algjerisë ka mposhtur Kosovën me rezultat 2 me 1 në kuadër të Lojërave Mesdhetare 2026.",
+              "imageUrl": "http://news.radioalgerie.dz/sites/default/data/2026-08/altqat_38.jpg",
+              "url": "https://news.radioalgerie.dz/en/node/92739",
+              "date": "2026-08-22",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
         }
       ],
       "summary": {
-        "index": 57,
-        "positive": 13,
-        "neutral": 87,
+        "index": 56,
+        "positive": 12,
+        "neutral": 88,
         "negative": 0,
-        "n": 15,
+        "n": 16,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2
