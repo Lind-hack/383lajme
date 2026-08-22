@@ -1,8 +1,8 @@
 {
   "lastUpdated": "2026-08-22",
   "overallIndex": 52,
-  "totalArticles": 237,
-  "sourceCount": 168,
+  "totalArticles": 248,
+  "sourceCount": 166,
   "stanceVersion": 2,
   "countries": {
     "Gjermani": {
@@ -10,8 +10,21 @@
         {
           "name": "Blick",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 3,
           "articles": [
+            {
+              "title": "Kosovo-Schweizer Hajdari und Avdullahu siegen mit Hoffenheim klar - Blick",
+              "albanianTitle": "Futbollistët shqiptarë nga Kosova, Hajdari dhe Avdullahu, shënojnë fitore bindëse me Hoffenheimin",
+              "blurb": "Futbollistët kosovaro-zviceranë, Hajdari dhe Avdullahu, kanë shënuar fitore të thellë me skuadrën e tyre, Hoffenheim.",
+              "imageUrl": "https://img.blick.ch/incoming/22202961-v1-imago-sp-0822-17150001-1081646945.jpg?imwidth=2000&ratio=16_9&x=1138&y=145&width=2749&height=1548",
+              "url": "https://www.blick.ch/sport/fussball/international/dfb-pokal/leverkusen-locker-weiter-augsburg-mueht-sich-in-die-zweite-pokal-runde-id22202590.html",
+              "date": "2026-08-22",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
             {
               "title": "Aufregung im Kosovo wegen weissem Mercedes aus der Schweiz - Blick",
               "albanianTitle": "Buja në Kosovë për shkak të një Mercedes-i të bardhë nga Zvicra",
@@ -41,6 +54,91 @@
           ]
         },
         {
+          "name": "Periskopi",
+          "sentiment": "neutral",
+          "articleCount": 6,
+          "articles": [
+            {
+              "title": "Hamza: Ab heute beginnt die Tally bis zum 16. September, Kosovo nicht vergessen - Periskopi",
+              "albanianTitle": "Hamza: Nga sot fillon numërimi mbrapsht deri më 16 shtator, mos e harroni Kosovën",
+              "blurb": "Bedri Hamza ka deklaruar se nga sot fillon numërimi mbrapsht deri më 16 shtator për çështjet e Kosovës.",
+              "imageUrl": null,
+              "url": "https://periskopi.com/de/2026/8/hamza-beginnt-tally-16-september-kosovo-vergessen",
+              "date": "2026-08-22",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "International gesucht, Kosovo Bürger verhaftet in Durres - Periskopi",
+              "albanianTitle": "I kërkuar ndërkombëtarisht, arrestohet në Durrës shtetasi nga Kosova",
+              "blurb": "Një shtetas i Kosovës, i kërkuar me urdhër ndërkombëtar, është arrestuar nga autoritetet policore në qytetin e Durrësit.",
+              "imageUrl": null,
+              "url": "https://periskopi.com/de/2026/8/international-gesucht-kosovo-burger-verhaftet-durres",
+              "date": "2026-08-22",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Hamza: “Zeit des Wartens” wird auch in anderen Kosovo-Städte platziert werden - Periskopi",
+              "albanianTitle": "Hamza: “Koha e pritjes” do të vendoset edhe në qytete të tjera të Kosovës",
+              "blurb": "Bedri Hamza ka njoftuar se instalacioni i quajtur Koha e Pritjes do të vendoset edhe në qytete të tjera.",
+              "imageUrl": null,
+              "url": "https://periskopi.com/de/2026/8/hamza-wartens-kosovo-stadte-platziert",
+              "date": "2026-08-22",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "16. September Urteil, Gucati: Am 16. September Bürger des Kosovo vor Gericht - Periskopi",
+              "albanianTitle": "Gucati për vendimin e 16 shtatorit: Më 16 shtator qytetarët e Kosovës para gjyqit",
+              "blurb": "Nasim Haradinaj ka deklaruar se më 16 shtator do të shpallet aktgjykimi për qytetarët e Kosovës në gjykatë.",
+              "imageUrl": null,
+              "url": "https://periskopi.com/de/2026/8/16-september-urteil-gucati-16-september-burger-kosovo-gericht",
+              "date": "2026-08-22",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Interpol gesucht für Kinderraub, Verdächtige ausgeliefert vom Kosovo nach Spanien - Periskopi",
+              "albanianTitle": "I kërkuar nga Interpoli për rrëmbim fëmijësh, i dyshuari ekstradohet nga Kosova në Spanjë",
+              "blurb": "Autoritetet e Kosovës kanë ekstraduar drejt Spanjës një person të kërkuar nga Interpoli për rrëmbim të fëmijëve.",
+              "imageUrl": null,
+              "url": "https://periskopi.com/de/2026/8/interpol-gesucht-kinderraub-verdachtige-ausgeliefert-kosovo-spanien",
+              "date": "2026-08-20",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Internationale Flüchtlinge aus dem Kosovo nach Albanien - Periskopi",
+              "albanianTitle": "Refugjatë ndërkombëtarë kalojnë nga Kosova për në Shqipëri",
+              "blurb": "Një grup refugjatësh ndërkombëtarë janë transferuar nga territori i Kosovës për në shtetin e Shqipërisë.",
+              "imageUrl": null,
+              "url": "https://periskopi.com/de/2026/8/internationale-fluchtlinge-kosovo-albanien",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportuar pa gjuhë ngarkuese",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "Tagesschau",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -59,16 +157,36 @@
               "speaker": ""
             }
           ]
+        },
+        {
+          "name": "zentralplus",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "News Archive - zentralplus",
+              "albanianTitle": null,
+              "blurb": "Arkiva e lajmeve në portalin zentralplus përmban përmbledhje të ngjarjeve të ndryshme të publikuara më parë në këtë medium.",
+              "imageUrl": null,
+              "url": "https://www.zentralplus.ch/news/luzerner-loest-mit-trottoir-fahrt-shitstorm-aus-2893231/",
+              "date": "2026-08-20",
+              "sentiment": "unknown",
+              "reason": "Nuk përmendet Kosova në titull",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
         }
       ],
       "summary": {
-        "index": 50,
-        "positive": 0,
-        "neutral": 100,
+        "index": 53,
+        "positive": 6,
+        "neutral": 94,
         "negative": 0,
-        "n": 3,
-        "excluded": 0,
-        "confident": false,
+        "n": 16,
+        "excluded": 7,
+        "confident": true,
         "stanceVersion": 2
       }
     },
@@ -174,6 +292,26 @@
               "date": "2026-08-20",
               "sentiment": "neutral",
               "reason": "Faktikë raportuar pa gjuhë të ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "CBS News",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "He spied for the U.S. in the war on terror. Now ICE wants to deport him. - CBS News",
+              "albanianTitle": "Ai spiunoi për SHBA-në në luftën kundër terrorizmit, tani ICE kërkon dëbimin e tij",
+              "blurb": "Autoritetet amerikane të emigracionit po kërkojnë dëbimin e një ish-informatori që spiunoi për Shtetet e Bashkuara gjatë luftës kundër terrorit.",
+              "imageUrl": "https://assets3.cbsnewsstatic.com/hub/i/r/2026/08/19/7aee433e-ddaf-4c88-bc73-3fb6c4a79b1f/thumbnail/1200x630g2/768f648093b53b90fb1e43d03d1e1e0c/blerim-skoro-1.jpg",
+              "url": "https://www.cbsnews.com/news/ice-detainee-spy-terrorism-blerim-skoro/",
+              "date": "2026-08-19",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim i thjeshtë",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -287,26 +425,6 @@
               "date": "2026-08-20",
               "sentiment": "neutral",
               "reason": "Faktikë raportim neutral",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "Global Voices",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "The discursive function of gendered online hate speech in Kosovo - Global Voices",
-              "albanianTitle": "Funksioni diskursiv i gjuhës së urrejtjes me bazë gjinore në internet në Kosovë - Global Voices",
-              "blurb": "Hulumtimi analizon funksionin diskursiv të gjuhës së urrejtjes me bazë gjinore në hapësirën online në territorin e Kosovës.",
-              "imageUrl": "https://globalvoices.org/wp-content/uploads/2026/08/Untitled-design-25-800x450.webp",
-              "url": "https://globalvoices.org/2026/08/20/the-discursive-function-of-gendered-online-hate-speech-in-kosovo/",
-              "date": "2026-08-20",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -458,14 +576,14 @@
           "articleCount": 1,
           "articles": [
             {
-              "title": "Kosovo still searching for loved ones three decades after the war - TRT World",
-              "albanianTitle": "Kosova ende në kërkim të më të dashurve të tyre tri dekada pas luftës - TRT World",
-              "blurb": "Familjarët në Kosovë vazhdojnë kërkimet për të pagjeturit e luftës edhe tri dekada pas përfundimit të konfliktit të armatosur.",
+              "title": "Will justice ever be served for Kosovo war victims? - TRT World",
+              "albanianTitle": "A do të vihet ndonjëherë drejtësia në vend për viktimat e luftës në Kosovë? - TRT World",
+              "blurb": "Viktima të luftës në Kosovë kërkojnë drejtësi për krimet e kryera gjatë konfliktit të armatosur në vend.",
               "imageUrl": null,
-              "url": "https://www.trtworld.com/video/tv/shows/683ef3c9cff794df564280c5/play/4f7f32df896b",
+              "url": "https://www.trtworld.com/video/tv/shows/683ef3c9cff794df564280c5/play/79c92cb03c09",
               "date": "2026-08-21",
               "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
+              "reason": "Faktikisht pyetje pa ngarkim gjuhësor",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -513,7 +631,7 @@
           ]
         },
         {
-          "name": "Unicef",
+          "name": "UNICEF",
           "sentiment": "neutral",
           "articleCount": 2,
           "articles": [
@@ -568,7 +686,7 @@
         {
           "name": "srpske.rs",
           "sentiment": "neutral",
-          "articleCount": 3,
+          "articleCount": 4,
           "articles": [
             {
               "title": "Countdown to Thaci Verdict Begins Across Kosovo - srpske.rs",
@@ -608,6 +726,19 @@
               "isQuote": false,
               "evidence": "Don't Open Ibar Bridge",
               "speaker": ""
+            },
+            {
+              "title": "Haljiti: Kosovo President Deal Possible Within Days - srpske.rs",
+              "albanianTitle": "Haliti: Marrëveshja për presidentin e Kosovës mund të arrihet brenda pak ditësh - srpske.rs",
+              "blurb": "Xhavit Haliti deklaroi se marrëveshja për zgjedhjen e presidentit të ri të Kosovës mund të arrihet brenda pak ditësh.",
+              "imageUrl": "https://srpske.rs/uploads/articles/kosovo-president-deal-possible-within-days-16x9.webp",
+              "url": "https://srpske.rs/en/news/politika/2026/08/20/kosovo-president-deal-possible-within-days",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Citat i Haljiti-t, media raporton pa ngjyrë",
+              "isQuote": true,
+              "evidence": "",
+              "speaker": "Haljiti"
             }
           ]
         },
@@ -634,10 +765,10 @@
       ],
       "summary": {
         "index": 52,
-        "positive": 7,
+        "positive": 6,
         "neutral": 90,
         "negative": 3,
-        "n": 30,
+        "n": 31,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2
@@ -845,26 +976,6 @@
           ]
         },
         {
-          "name": "Global Voices",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "The discursive function of gendered online hate speech in Kosovo - Global Voices",
-              "albanianTitle": "Funksioni diskursiv i gjuhës së urrejtjes me bazë gjinore në internet në Kosovë - Global Voices",
-              "blurb": "Hulumtimi analizon funksionin diskursiv të gjuhës së urrejtjes me bazë gjinore në hapësirën online në territorin e Kosovës.",
-              "imageUrl": "https://globalvoices.org/wp-content/uploads/2026/08/Untitled-design-25-800x450.webp",
-              "url": "https://globalvoices.org/2026/08/20/the-discursive-function-of-gendered-online-hate-speech-in-kosovo/",
-              "date": "2026-08-20",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
           "name": "Harici",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1009,14 +1120,14 @@
           "articleCount": 1,
           "articles": [
             {
-              "title": "Kosovo still searching for loved ones three decades after the war - TRT World",
-              "albanianTitle": "Kosova ende në kërkim të më të dashurve të tyre tri dekada pas luftës - TRT World",
-              "blurb": "Familjarët në Kosovë vazhdojnë kërkimet për të pagjeturit e luftës edhe tri dekada pas përfundimit të konfliktit të armatosur.",
+              "title": "Will justice ever be served for Kosovo war victims? - TRT World",
+              "albanianTitle": "A do të vihet ndonjëherë drejtësia në vend për viktimat e luftës në Kosovë? - TRT World",
+              "blurb": "Viktima të luftës në Kosovë kërkojnë drejtësi për krimet e kryera gjatë konfliktit të armatosur në vend.",
               "imageUrl": null,
-              "url": "https://www.trtworld.com/video/tv/shows/683ef3c9cff794df564280c5/play/4f7f32df896b",
+              "url": "https://www.trtworld.com/video/tv/shows/683ef3c9cff794df564280c5/play/79c92cb03c09",
               "date": "2026-08-21",
               "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
+              "reason": "Faktikisht pyetje pa ngarkim gjuhësor",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1044,7 +1155,7 @@
           ]
         },
         {
-          "name": "Unicef",
+          "name": "UNICEF",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
@@ -1136,6 +1247,26 @@
               "date": "2026-08-20",
               "sentiment": "neutral",
               "reason": "Fact‑based report, no loaded language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "الإذاعة الجزائرية |",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "2026 Mediterranean Games: Algeria Defeats Kosovo Two Goals to One - الإذاعة الجزائرية |",
+              "albanianTitle": "Lojërat Mesdhetare 2026: Algjeria mposht Kosovën me rezultat 2-1",
+              "blurb": "Kombëtarja e Algjerisë ka mposhtur Kosovën me rezultat 2 me 1 në kuadër të Lojërave Mesdhetare 2026.",
+              "imageUrl": "http://news.radioalgerie.dz/sites/default/data/2026-08/altqat_38.jpg",
+              "url": "https://news.radioalgerie.dz/en/node/92739",
+              "date": "2026-08-22",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1422,19 +1553,6 @@
           "articleCount": 2,
           "articles": [
             {
-              "title": "Kosovo completa esumazione 23 corpi da fossa comune scoperta in luglio - ANSA",
-              "albanianTitle": "Kosova përfundon zhvarrosjen e 23 trupave nga varreza masive e zbuluar në korrik",
-              "blurb": "Autoritetet në Kosovë kanë përfunduar zhvarrosjen e njëzet e tri trupave nga varreza masive e zbuluar gjatë korrikut.",
-              "imageUrl": "https://www.ansa.it/webimages/img_1280x720/2026/8/21/b1bd09394d952f38b9e0707f8e75f325.jpg",
-              "url": "https://www.ansa.it/nuova_europa/it/notizie/rubriche/politica/2026/08/21/kosovo-completa-esumazione-23-corpi-da-fossa-comune-scoperta-in-luglio_2a9d9978-3f19-4b2a-8a42-64b84fe4d081.html",
-              "date": "2026-08-21",
-              "sentiment": "neutral",
-              "reason": "Raportim faktik i ekshumimit të masave të përbashkëta",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
               "title": "Vucic scrive a Rutte, 'Nato fermi terrore in Kosovo, non riaprire ponte' - ANSA",
               "albanianTitle": "Vuçiq i shkruan Ruttes: NATO, ndaloni terrorin në Kosovë, mos e hapni urën - ANSA",
               "blurb": "Aleksandër Vuçiq i është drejtuar Ruttes me kërkesën që NATO të ndalojë situatën në Kosovë dhe të mos hapet ura.",
@@ -1446,23 +1564,16 @@
               "isQuote": true,
               "evidence": "",
               "speaker": "Vucic"
-            }
-          ]
-        },
-        {
-          "name": "Calciopress",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
+            },
             {
-              "title": "Una Rappresentativa Nazionale Femminile partecipa al Torneo Femminile di calcio dei ‘Giochi del Mediterraneo’ 2026 in programma a Taranto - Calciopress",
-              "albanianTitle": "Përfaqësuesja e femrave merr pjesë në turneun e futbollit të Lojërave Mesdhetare 2026 në Taranto",
-              "blurb": "Përfaqësuesja e futbollit të femrave po merr pjesë në turneun e Lojërave Mesdhetare 2026 që mbahet në Tarent.",
-              "imageUrl": null,
-              "url": "https://www.calciopress.net/una-rappresentativa-nazionale-femminile-partecipa-al-torneo-femminile-di-calcio-dei-giochi-del-mediterraneo-2026-in-programma-a-taranto/",
-              "date": "2026-08-22",
+              "title": "Kosovo completa esumazione 23 corpi da fossa comune scoperta in luglio - ANSA",
+              "albanianTitle": "Kosova përfundon zhvarrosjen e 23 trupave nga varreza masive e zbuluar në korrik",
+              "blurb": "Autoritetet në Kosovë kanë përfunduar zhvarrosjen e njëzet e tri trupave nga varreza masive e zbuluar gjatë korrikut.",
+              "imageUrl": "https://www.ansa.it/webimages/img_1280x720/2026/8/21/b1bd09394d952f38b9e0707f8e75f325.jpg",
+              "url": "https://www.ansa.it/nuova_europa/it/notizie/rubriche/politica/2026/08/21/kosovo-completa-esumazione-23-corpi-da-fossa-comune-scoperta-in-luglio_2a9d9978-3f19-4b2a-8a42-64b84fe4d081.html",
+              "date": "2026-08-21",
               "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
+              "reason": "Raportim faktik i ekshumimit të masave të përbashkëta",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1590,43 +1701,10 @@
           ]
         },
         {
-          "name": "Il Resto del Carlino",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Il dottor Tibaldi torna in Kosovo - Il Resto del Carlino",
-              "albanianTitle": "Doktor Tibaldi kthehet në Kosovë",
-              "blurb": "Doktori Tibaldi është rikthyer për një vizitë pune në Kosovë, sipas raportimeve të mediave italiane.",
-              "imageUrl": "https://www.ilrestodelcarlino.it/image-service/view/acePublic/alias/contentid/ZmE5OWU1MWEtZTI1Ny00/0/il-dottor-tibaldi-torna-in-kosovo.jpg?f=16:9&w=1200&h=675",
-              "url": "https://www.ilrestodelcarlino.it/pesaro/cronaca/il-dottor-tibaldi-torna-in-7183ba7f",
-              "date": "2026-08-19",
-              "sentiment": "neutral",
-              "reason": "Simple factual report of a visit",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
           "name": "Il Sole 24 ORE",
           "sentiment": "neutral",
           "articleCount": 2,
           "articles": [
-            {
-              "title": "Abodi and Gonxhja: meeting between Kosovo and Albania ahead of the 2030 Mediterranean Games - Il Sole 24 ORE",
-              "albanianTitle": "Abodi dhe Gonxhja: takim mes Kosovës dhe Shqipërisë në prag të Lojërave Mesdhetare 2030 – Il Sole 24 ORE",
-              "blurb": "Ministrat Abodi dhe Gonxhja janë takuar për të diskutuar përgatitjet e përbashkëta mes Kosovës dhe Shqipërisë për Lojërat Mesdhetare 2030.",
-              "imageUrl": "https://i2.res.24o.it/images2010/S24/Documenti/2026/08/23/Immagini/Ritagli/Abodi-U34107557421qDR-1440x752@IlSole24Ore-Web.jpeg?r=1170x507",
-              "url": "https://en.ilsole24ore.com/art/abodi-e-gonxhja-incontro-vista-giochi-mediterraneo-2030-kosovo-e-albania-AJxnnEs",
-              "date": "2026-08-22",
-              "sentiment": "neutral",
-              "reason": "Straightforward headline about a meeting",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "Abodi e Gonxhja, incontro in vista dei Giochi del Mediterraneo del 2030 tra Kosovo e Albania - Il Sole 24 ORE",
               "albanianTitle": "Abodi dhe Gonxhja, takim mes Kosovës dhe Shqipërisë në kuadër të Lojërave Mesdhetare 2030 – Il Sole 24 ORE",
@@ -1639,23 +1717,16 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "La Nazione",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
+            },
             {
-              "title": "In Kosovo un’esperienza da ricordare - La Nazione",
-              "albanianTitle": "Një përvojë e paharrueshme në Kosovë - La Nazione",
-              "blurb": "Vizita në Kosovë është vlerësuar si një përvojë e paharrueshme nga mediat italiane në raportimet e tyre të fundit.",
-              "imageUrl": "https://www.lanazione.it/image-service/view/acePublic/alias/contentid/OTA2ZTkzMmYtOTUzYi00/0/in-kosovo-unesperienza-da-ricordare.jpg?f=16:9&w=1200&h=675",
-              "url": "https://www.lanazione.it/umbria/cronaca/in-kosovo-unesperienza-da-ricordare-2491dda9",
-              "date": "2026-08-21",
+              "title": "Abodi and Gonxhja: meeting between Kosovo and Albania ahead of the 2030 Mediterranean Games - Il Sole 24 ORE",
+              "albanianTitle": "Abodi dhe Gonxhja: takim mes Kosovës dhe Shqipërisë në prag të Lojërave Mesdhetare 2030 – Il Sole 24 ORE",
+              "blurb": "Ministrat Abodi dhe Gonxhja janë takuar për të diskutuar përgatitjet e përbashkëta mes Kosovës dhe Shqipërisë për Lojërat Mesdhetare 2030.",
+              "imageUrl": "https://i2.res.24o.it/images2010/S24/Documenti/2026/08/23/Immagini/Ritagli/Abodi-U34107557421qDR-1440x752@IlSole24Ore-Web.jpeg?r=1170x507",
+              "url": "https://en.ilsole24ore.com/art/abodi-e-gonxhja-incontro-vista-giochi-mediterraneo-2030-kosovo-e-albania-AJxnnEs",
+              "date": "2026-08-22",
               "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
+              "reason": "Straightforward headline about a meeting",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1678,26 +1749,6 @@
               "reason": "Lajm i raportuar në mënyrë faktike",
               "isQuote": false,
               "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "Nuoto.com",
-          "sentiment": "positive",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosovo. Pristina, la grande sorpresa del nuoto. - Nuoto.com",
-              "albanianTitle": "Kosovë: Prishtina, surpriza e madhe e notit – Nuoto.com",
-              "blurb": "Prishtina po vlerësohet si një befasi pozitive në disiplinën e notit gjatë garave të zhvilluara në arenën ndërkombëtare.",
-              "imageUrl": "https://distribution-point.webstorage-4sigma.it/nuoto_com-1291/media/immagine/2026/resized/Screenshot_2026_08_18_alle_20_30_49-1280x724.webp",
-              "url": "https://www.nuoto.com/articolo/calendari-e-meeting/kosovo-pristina-la-grande-sorpresa-del-nuoto/",
-              "date": "2026-08-19",
-              "sentiment": "positive",
-              "reason": "Outlet praises Kosovo as a surprising success in swimming",
-              "isQuote": false,
-              "evidence": "la grande sorpresa",
               "speaker": ""
             }
           ]
@@ -1756,6 +1807,46 @@
               "date": "2026-08-21",
               "sentiment": "neutral",
               "reason": "Përcjell një shembull pa gjuhë përçmuese ndaj Kosovës",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Report Difesa",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo: il ponte conteso, sicurezza, sovranità e narrazioni lungo il fiume Ibar - Report Difesa",
+              "albanianTitle": "Kosova: Ura e kontestuar, siguria, sovraniteti dhe narrativat përgjatë lumit Ibër - Report Difesa",
+              "blurb": "Çështja e urës mbi lumin Ibër ndërlidhet me sigurinë, sovranitetin dhe narrativat politike në veri të territorit të Kosovës.",
+              "imageUrl": "https://www.reportdifesa.it/wp-content/uploads/2023/12/BRSH_Kosovo_Security_Force_KSF.jpg",
+              "url": "https://www.reportdifesa.it/kosovo-il-ponte-conteso-sicurezza-sovranita-e-narrazioni-lungo-il-fiume-ibar/",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Descriptive headline about contested bridge",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Virgilio",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Sono iniziati i Giochi del Mediterraneo di Taranto 2026 Volley maschile, alle 12 Kosovo - Grecia al palaPentassuglia di Brindisi - Virgilio",
+              "albanianTitle": "Kanë nisur Lojërat Mesdhetare në Taranto, në volejboll për meshkuj në orën 12:00 përballen Kosova dhe Greqia në palaPentassuglia të Brindisit - Virgilio",
+              "blurb": "Kombëtarja e Kosovës në volejboll përballet me Greqinë në kuadër të Lojërave Mesdhetare që po zhvillohen në Itali.",
+              "imageUrl": "https://img.plug.it/img_newsreg_mid/9/5/6/57064659.jpg",
+              "url": "https://www.virgilio.it/italia/taranto/notizielocali/sono_iniziati_i_giochi_del_mediterraneo_di_taranto_2026_volley_maschile_alle_12_kosovo_grecia_al_palapentassuglia_di_brindisi-77268477.html",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Raportim sportiv i thjeshtë, pa gjuhë ngarkuese",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1844,11 +1935,11 @@
         }
       ],
       "summary": {
-        "index": 52,
-        "positive": 5,
-        "neutral": 95,
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 21,
+        "n": 19,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2
@@ -1859,7 +1950,7 @@
         {
           "name": "Blick",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Aufregung im Kosovo wegen weissem Mercedes aus der Schweiz - Blick",
@@ -1870,6 +1961,19 @@
               "date": "2026-08-19",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Kosovo-Schweizer Hajdari und Avdullahu siegen mit Hoffenheim klar - Blick",
+              "albanianTitle": "Futbollistët shqiptarë nga Kosova, Hajdari dhe Avdullahu, shënojnë fitore bindëse me Hoffenheimin",
+              "blurb": "Futbollistët kosovaro-zviceranë, Hajdari dhe Avdullahu, kanë shënuar fitore të thellë me skuadrën e tyre, Hoffenheim.",
+              "imageUrl": "https://img.blick.ch/incoming/22202961-v1-imago-sp-0822-17150001-1081646945.jpg?imwidth=2000&ratio=16_9&x=1138&y=145&width=2749&height=1548",
+              "url": "https://www.blick.ch/sport/fussball/international/dfb-pokal/leverkusen-locker-weiter-augsburg-mueht-sich-in-die-zweite-pokal-runde-id22202590.html",
+              "date": "2026-08-22",
+              "sentiment": "unknown",
+              "reason": "",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1943,7 +2047,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 4,
-        "excluded": 0,
+        "excluded": 1,
         "confident": false,
         "stanceVersion": 2
       }
@@ -1953,7 +2057,7 @@
         {
           "name": "Blick",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 3,
           "articles": [
             {
               "title": "Aufregung im Kosovo wegen weissem Mercedes aus der Schweiz - Blick",
@@ -1964,6 +2068,19 @@
               "date": "2026-08-19",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Kosovo-Schweizer Hajdari und Avdullahu siegen mit Hoffenheim klar - Blick",
+              "albanianTitle": "Futbollistët shqiptarë nga Kosova, Hajdari dhe Avdullahu, shënojnë fitore bindëse me Hoffenheimin",
+              "blurb": "Futbollistët kosovaro-zviceranë, Hajdari dhe Avdullahu, kanë shënuar fitore të thellë me skuadrën e tyre, Hoffenheim.",
+              "imageUrl": "https://img.blick.ch/incoming/22202961-v1-imago-sp-0822-17150001-1081646945.jpg?imwidth=2000&ratio=16_9&x=1138&y=145&width=2749&height=1548",
+              "url": "https://www.blick.ch/sport/fussball/international/dfb-pokal/leverkusen-locker-weiter-augsburg-mueht-sich-in-die-zweite-pokal-runde-id22202590.html",
+              "date": "2026-08-22",
+              "sentiment": "unknown",
+              "reason": "",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -2050,7 +2167,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 4,
-        "excluded": 1,
+        "excluded": 2,
         "confident": false,
         "stanceVersion": 2
       }
@@ -2151,26 +2268,6 @@
     },
     "Belgjikë": {
       "outlets": [
-        {
-          "name": "Competition.dz",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Jeux méditerranéens Tarente - 2026: les Verts renversent le Kosovo au bout du temps additionnel - Competition.dz",
-              "albanianTitle": "Lojërat Mesdhetare 2026 në Taranto: Algjeria përmbys rezultatin ndaj Kosovës në kohën shtesë",
-              "blurb": "Përfaqësuesja e Algjerisë ka përmbysur rezultatin ndaj Kosovës në minutat shtesë gjatë Lojërave Mesdhetare në Tarent të Italisë.",
-              "imageUrl": "https://www.competition.dz/images/2026/JM2026.jpg#joomlaImage://local-images/2026/JM2026.jpg?width=1207&height=940",
-              "url": "https://www.competition.dz/chrono/jeux-mediterraneens-tarente-2026-les-verts-renversent-le-kosovo-au-bout-du-temps-additionnel.html",
-              "date": "2026-08-22",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
         {
           "name": "DZfoot",
           "sentiment": "neutral",
@@ -2285,6 +2382,26 @@
           ]
         },
         {
+          "name": "Ode (Purepeople)",
+          "sentiment": "positive",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Dua Lipa aide la jeunesse du Kosovo, d'où est originaire sa famille - Ode (Purepeople)",
+              "albanianTitle": "Dua Lipa ndihmon rininë e Kosovës, vendit prej nga e ka origjinën familja e saj",
+              "blurb": "Këngëtarja me prejardhje nga Kosova, Dua Lipa, po angazhohet në mbështetjen e të rinjve në vendin e saj.",
+              "imageUrl": "https://static1.purepeople.com/uploads/15/7b/3f/a5/2d304535ecbcea07-1200x630-2.jpg",
+              "url": "https://www.purepeople.com/diapo/nous-avons-tout-perdu-comment-dua-lipa-sinvestit-avec-son-frere-pour-leur-pays-dorigine_a552969/1",
+              "date": "2026-08-22",
+              "sentiment": "positive",
+              "reason": "Outlet expresses supportive tone toward Kosovo",
+              "isQuote": false,
+              "evidence": "aide la jeunesse du Kosovo",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "Reporteri",
           "sentiment": "neutral",
           "articleCount": 4,
@@ -2344,26 +2461,6 @@
           ]
         },
         {
-          "name": "Yahoo Actualités",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "\"Nous avons tout perdu\" : Comment Dua Lipa s'investit avec son frère pour leur pays d'origine - Yahoo Actualités",
-              "albanianTitle": "“Humbëm gjithçka”: Si po angazhohet Dua Lipa me vëllain e saj për vendin e tyre të origjinës – Yahoo Actualités",
-              "blurb": "Këngëtarja Dua Lipa dhe vëllai i saj po angazhohen në projekte të ndryshme për të ndihmuar vendin e tyre të origjinës.",
-              "imageUrl": "https://s.yimg.com/lo/mysterio/api/043f43d9a2164659a46cadf805577cabec78986d006a68c35660389f22d34ad5/lightyear_networkapi/resizefill_w1200%3Bquality_80%3Bformat_jpg/https%3A%2F%2Fmedia.zenfs.com%2Ffr%2Fpurepeople_fr_articles_981%2Feceb19f2f63d6ea2db06ff9c2fcc133b.jpg",
-              "url": "https://fr.news.yahoo.com/sport/avons-perdu-dua-lipa-sinvestit-063100245.html",
-              "date": "2026-08-21",
-              "sentiment": "neutral",
-              "reason": "Quote presented, outlet reports without editorializing",
-              "isQuote": true,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
           "name": "aps.dz",
           "sentiment": "neutral",
           "articleCount": 2,
@@ -2395,34 +2492,14 @@
               "speaker": ""
             }
           ]
-        },
-        {
-          "name": "horizons.dz",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Volley-ball dames: l’Algérie battue par le Kosovo dès son entrée aux Jeux Méditerranéens - horizons.dz",
-              "albanianTitle": "Volejboll për femra: Algjeria mposhtet nga Kosova në ndeshjen e parë në Lojërat Mesdhetare",
-              "blurb": "Përfaqësuesja e Kosovës në volejboll për femra ka mposhtur Algjerinë në ndeshjen e parë të Lojërave Mesdhetare.",
-              "imageUrl": null,
-              "url": "https://www.horizons.dz/2026/08/volley-ball-dames-lalgerie-battue-par-le-kosovo-des-son-entree-aux-jeux-mediterraneens/",
-              "date": "2026-08-21",
-              "sentiment": "neutral",
-              "reason": "Raportim neutral i rezultatit sportiv",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
         }
       ],
       "summary": {
-        "index": 50,
-        "positive": 0,
-        "neutral": 100,
+        "index": 54,
+        "positive": 8,
+        "neutral": 92,
         "negative": 0,
-        "n": 15,
+        "n": 13,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -2493,8 +2570,21 @@
         {
           "name": "Infobae",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
+            {
+              "title": "La ruta de los Picos de los Balcanes suma visitantes y se consolida como gran travesía de montaña en Europa - Infobae",
+              "albanianTitle": "Shtegu i Majave të Ballkanit shton numrin e vizitorëve dhe konsolidohet si një ndër shtigjet më të mëdha malore në Evropë - Infobae",
+              "blurb": "Shtegu i Majave të Ballkanit po shënon rritje të numrit të vizitorëve dhe po konsolidohet si destinacion malor.",
+              "imageUrl": "https://www.infobae.com/resizer/v2/RNWDGNJHUBDVDHGW7XV4ZJSHTQ.png?auth=758ac1360a5985d6460599dce6370ff91b5050a888a89af9e2e297397096da74&smart=true&width=1200&height=630&quality=85",
+              "url": "https://www.infobae.com/america/mundo/2026/08/22/la-ruta-de-los-picos-de-los-balcanes-suma-visitantes-y-se-consolida-como-gran-travesia-de-montana-en-europa/",
+              "date": "2026-08-22",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
             {
               "title": "Kosovo localiza una fosa común con al menos 23 desaparecidos de la guerra de 1998 y 1999 - Infobae",
               "albanianTitle": "Kosova lokalizon një varrezë masive me të paktën 23 të zhdukur nga lufta e viteve 1998-1999",
@@ -2504,6 +2594,26 @@
               "date": "2026-08-20",
               "sentiment": "neutral",
               "reason": "Faktikë raportim i thjeshtë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "International Padel Federation",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "De Túnez a Kosovo, la fiesta del Pádel mediterráneo en Taranto: “Estar aquí es algo especial” - International Padel Federation",
+              "albanianTitle": "Nga Tunizia në Kosovë, festa e Padelit mesdhetar në Taranto: “Të jesh këtu është diçka e veçantë” - Federata Ndërkombëtare e Padelit",
+              "blurb": "Pjesëmarrja e Kosovës në turneun e padelit në Taranto po vlerësohet si një përvojë e veçantë për sportistët.",
+              "imageUrl": "https://www.padelfip.com/wp-content/uploads/2026/08/Tunisia-scaled.jpeg",
+              "url": "https://www.padelfip.com/es/2026/08/de-tunez-a-kosovo-la-fiesta-del-padel-mediterraneo-en-taranto-estar-aqui-es-algo-especial/",
+              "date": "2026-08-22",
+              "sentiment": "unknown",
+              "reason": "",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -2611,6 +2721,26 @@
           ]
         },
         {
+          "name": "Real Federación Española de Voleibol",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "La Selección Masculina suma ante Kosovo su segunda victoria en los Juegos Mediterráneos - Real Federación Española de Voleibol",
+              "albanianTitle": "Përfaqësuesja e meshkujve shënon fitoren e dytë ndaj Kosovës në Lojërat Mesdhetare - Federata Spanjolle e Volejbollit",
+              "blurb": "Përfaqësuesja e Spanjës në volejboll ka shënuar fitoren e dytë kundër Kosovës në Lojërat Mesdhetare.",
+              "imageUrl": "https://esvoley.es/images/home/cap-home.jpg",
+              "url": "https://esvoley.es/comunicacion/noticias/la-seleccion-masculina-suma-ante-kosovo-su-segunda-victoria-en-los-juegos-mediterraneos/",
+              "date": "2026-08-22",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "Reporteri",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -2651,19 +2781,19 @@
           ]
         },
         {
-          "name": "Zona Cero",
-          "sentiment": "neutral",
+          "name": "laradiodelmercosur.com.ar",
+          "sentiment": "unknown",
           "articleCount": 1,
           "articles": [
             {
-              "title": "Colombia recibe cartas credenciales de embajadores de India, El Salvador, Israel y Kosovo - Zona Cero",
-              "albanianTitle": "Kolumbia pranon letrat kredenciale të ambasadorëve nga India, El Salvadori, Izraeli dhe Kosova",
-              "blurb": "Kolumbia pranon letrat kredenciale nga ambasadorët e Indisë, El Salvadorit, Izraelit dhe të Kosovës në një ceremoni zyrtare.",
-              "imageUrl": "http://zonacero.com/sites/default/files/styles/1280_x_530_noticia_interna/public/2026-08/El%20Canciller%20con%20los%20embajadores%20de%20India%2C%20El%20Salvador%2C%20Israel%20y%20Kosovo.jpg?h=38f64a54&itok=wpX6FY62",
-              "url": "http://zonacero.com/generales/colombia-recibe-cartas-credenciales-de-embajadores-de-india-el-salvador-israel-y-kosovo",
+              "title": "Noticias Mundo - laradiodelmercosur.com.ar",
+              "albanianTitle": "Lajme nga bota - laradiodelmercosur.com.ar",
+              "blurb": "Platforma mediatike laradiodelmercosur.com.ar sjell përditësime të ndryshme rreth zhvillimeve dhe lajmeve që ndodhin nëpër botë.",
+              "imageUrl": null,
+              "url": "https://laradiodelmercosur.com.ar/mundiales/17842/Colombia-recibe-cartas-credenciales-de-embajadores-de-Israel-El-Salvador-India-y-Kosovo",
               "date": "2026-08-22",
-              "sentiment": "neutral",
-              "reason": "Faktik, pa ngjyrë",
+              "sentiment": "unknown",
+              "reason": "Nuk ka informacion në fragment për të vlerësuar qëndrimin ndaj Kosovës",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -2677,7 +2807,7 @@
         "neutral": 92,
         "negative": 0,
         "n": 12,
-        "excluded": 0,
+        "excluded": 3,
         "confident": true,
         "stanceVersion": 2
       }
@@ -2773,8 +2903,21 @@
         {
           "name": "Gazzetta.gr",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
+            {
+              "title": "Μεσογειακοί Αγώνες 2026: Με το δεξί η Εθνική ανδρών, 3-0 το Κόσοβο - Gazzetta.gr",
+              "albanianTitle": "Lojërat Mesdhetare 2026: Start i mbarë për kombëtaren greke, mposht Kosovën 3-0",
+              "blurb": "Kombëtarja e Greqisë ka mposhtur Kosovën me rezultat 3-0 në ndeshjen e parë të Lojërave Mesdhetare 2026.",
+              "imageUrl": "https://www.gazzetta.gr/sites/default/files/styles/og_image/public/2026-08/men-website.jpg?itok=FcxZ82Sb",
+              "url": "https://www.gazzetta.gr/volleyball/2562585/mesogeiakoi-agones-2026-me-dexi-i-ethniki-andron-3-0-kosobo",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Fact‑based sports result, no hostile wording",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
             {
               "title": "Μεσογειακοί Αγώνες 2026: Κόντρα στο Κόσοβο πρεμιέρα για την Εθνική Ανδρών - Gazzetta.gr",
               "albanianTitle": "Lojërat Mesdhetare 2026: Kombëtarja e meshkujve e nis me ndeshjen kundër Kosovës",
@@ -2957,6 +3100,26 @@
           ]
         },
         {
+          "name": "cosmotetv.gr",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Ποδόσφαιρο: Κύπρος - Κόσοβο - cosmotetv.gr",
+              "albanianTitle": "Futboll: Qipro - Kosovë - cosmotetv.gr",
+              "blurb": "Përfaqësuesja e futbollit të Kosovës përballet me Qipron në një ndeshje të transmetuar në platformën Cosmotetv.",
+              "imageUrl": "https://tr.static.cdns.cosmotetvott.gr/ote-prod/989/756/040053956312000800_1786961502328.jpg",
+              "url": "https://www.cosmotetv.gr/watch/DIS0022796220/football-cyprus-kosovo",
+              "date": "2026-08-22",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "facebook.com",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -2979,17 +3142,17 @@
         {
           "name": "sport-fm.gr",
           "sentiment": "neutral",
-          "articleCount": 4,
+          "articleCount": 5,
           "articles": [
             {
-              "title": "Λευκορωσία-Κόσοβο - sport-fm.gr",
-              "albanianTitle": "Bjellorusi – Kosovë – sport-fm.gr",
-              "blurb": "Ndeshja sportive ndërmjet përfaqësueses së Bjellorusisë dhe asaj të Kosovës në arenën ndërkombëtare të futbollit.",
-              "imageUrl": "https://resources.sport-fm.gr/supersportFM/images/news/23/06/19/belarus-kosovo_111407.jpg?w=880&f=bicubic",
-              "url": "https://www.sport-fm.gr/article/4891906",
-              "date": "2026-08-21",
-              "sentiment": "neutral",
-              "reason": "Titulli thjesht përmend dy vende, pa gjuhë pozitive apo negative",
+              "title": "Ανατροπή και πρεμιέρα με νίκη στους Μεσογειακούς για την Εθνική χάντμπολ γυναικών - sport-fm.gr",
+              "albanianTitle": "Përmbysje dhe fitore në ndeshjen hapëse të Lojërave Mesdhetare për kombëtaren e hendbollit të femrave - sport-fm.gr",
+              "blurb": "Kombëtarja e hendbollit të femrave ka shënuar fitore në ndeshjen e parë të Lojërave Mesdhetare pas përmbysjes së rezultatit.",
+              "imageUrl": "https://resources.sport-fm.gr/supersportFM/images/news/26/08/22/handbll-women_212211.jpg?w=880&f=bicubic",
+              "url": "https://www.sport-fm.gr/article/amp/ellada-kosobo-31-25-amp/5142968",
+              "date": "2026-08-22",
+              "sentiment": "unknown",
+              "reason": "",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -3003,6 +3166,19 @@
               "date": "2026-08-20",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Λευκορωσία-Κόσοβο - sport-fm.gr",
+              "albanianTitle": "Bjellorusi – Kosovë – sport-fm.gr",
+              "blurb": "Ndeshja sportive ndërmjet përfaqësueses së Bjellorusisë dhe asaj të Kosovës në arenën ndërkombëtare të futbollit.",
+              "imageUrl": "https://resources.sport-fm.gr/supersportFM/images/news/23/06/19/belarus-kosovo_111407.jpg?w=880&f=bicubic",
+              "url": "https://www.sport-fm.gr/article/4891906",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Titulli thjesht përmend dy vende, pa gjuhë pozitive apo negative",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -3038,8 +3214,21 @@
         {
           "name": "Ελληνική Ομοσπονδία Πετοσφαίρισης",
           "sentiment": "neutral",
-          "articleCount": 3,
+          "articleCount": 4,
           "articles": [
+            {
+              "title": "Μεσογειακοί αγώνες 2026: Πρώτο σερβίς για την εθνική γυναικών απέναντι στο Κόσοβο (20/8, 21.00) - Ελληνική Ομοσπονδία Πετοσφαίρισης",
+              "albanianTitle": "Lojërat Mesdhetare 2026: Shërbimi i parë për kombëtaren e femrave kundër Kosovës (20/8, 21:00)",
+              "blurb": "Kombëtarja e femrave në volejboll përballet me Kosovën më 20 gusht në kuadër të Lojërave Mesdhetare 2026.",
+              "imageUrl": "https://volleyball.gr/wp-content/uploads/2026/08/mediterrean-nt-wn2026.jpg",
+              "url": "https://volleyball.gr/mesogeiakoi-agones-2026-proto-servis-gia-tin-ethniki-gynaikon-apenanti-sto-kosovo-20-8-21-00/",
+              "date": "2026-08-19",
+              "sentiment": "neutral",
+              "reason": "Faktik, pa gjuhë ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
             {
               "title": "Μεσογειακοί Αγώνες 2026: Με το δεξί η Εθνική γυναικών, 3-0 το Κόσοβο - Ελληνική Ομοσπονδία Πετοσφαίρισης",
               "albanianTitle": "Lojërat Mesdhetare 2026: Greqia e nis me fitore ndaj Kosovës, 3-0 – Federata Greke e Volejbollit",
@@ -3054,14 +3243,14 @@
               "speaker": ""
             },
             {
-              "title": "Μεσογειακοί αγώνες 2026: Πρώτο σερβίς για την εθνική γυναικών απέναντι στο Κόσοβο (20/8, 21.00) - Ελληνική Ομοσπονδία Πετοσφαίρισης",
-              "albanianTitle": "Lojërat Mesdhetare 2026: Shërbimi i parë për kombëtaren e femrave kundër Kosovës (20/8, 21:00)",
-              "blurb": "Kombëtarja e femrave në volejboll përballet me Kosovën më 20 gusht në kuadër të Lojërave Mesdhetare 2026.",
-              "imageUrl": "https://volleyball.gr/wp-content/uploads/2026/08/mediterrean-nt-wn2026.jpg",
-              "url": "https://volleyball.gr/mesogeiakoi-agones-2026-proto-servis-gia-tin-ethniki-gynaikon-apenanti-sto-kosovo-20-8-21-00/",
+              "title": "Μεσογειακοί αγώνες 2026: Πρεμιέρα για την εθνική ανδρών κόντρα στο Κόσοβο (20/8, 13.00) - Ελληνική Ομοσπονδία Πετοσφαίρισης",
+              "albanianTitle": "Lojërat Mesdhetare 2026: Kombëtarja e meshkujve e nis ndaj Kosovës (20/8, 13:00)",
+              "blurb": "Kombëtarja e Kosovës në volejboll do të përballet me Greqinë në ndeshjen hapëse të Lojërave Mesdhetare për vitin 2026.",
+              "imageUrl": "https://volleyball.gr/wp-content/uploads/2026/08/men-nt2026-media-day.jpg",
+              "url": "https://volleyball.gr/mesogeiakoi-agones-2026-premiera-gia-tin-ethniki-andron-kontra-sto-kosovo-20-8-13-00/",
               "date": "2026-08-19",
               "sentiment": "neutral",
-              "reason": "Faktik, pa gjuhë ngarkuar",
+              "reason": "Njoftim sportiv i ndeshjes kundër Kosovës",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -3160,8 +3349,8 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 27,
-        "excluded": 0,
+        "n": 29,
+        "excluded": 2,
         "confident": true,
         "stanceVersion": 2
       }
@@ -3258,8 +3447,21 @@
         {
           "name": "Wyniki na żywo",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
+            {
+              "title": "Kosowo 3x3 W wyniki - Koszykówka, Europa - Wyniki na żywo",
+              "albanianTitle": "Rezultatet e Kosovës në 3x3 - Basketboll, Evropë - Rezultatet live",
+              "blurb": "Rezultatet e ndeshjeve të basketbollit 3x3 për femra të përfaqësueses së Kosovës janë publikuar në platformën e rezultateve live.",
+              "imageUrl": "https://www.flashscore.pl/res/_fs/image/og/flashscore.png",
+              "url": "https://www.flashscore.pl/druzyna/kosovo/h005gVOP/wyniki/",
+              "date": "2026-08-22",
+              "sentiment": "neutral",
+              "reason": "Neutral live scores",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
             {
               "title": "Kosowo 3x3 W Terminarz - Koszykówka, Europa - Wyniki na żywo",
               "albanianTitle": "Kosova 3x3: Orari i ndeshjeve – Basketboll, Evropë – Rezultatet live",
@@ -3281,7 +3483,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 2,
+        "n": 3,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
@@ -3323,26 +3525,6 @@
           ]
         },
         {
-          "name": "Ege'de Sonsöz",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "İzmir’den Kosova’ya iş birliği hamlesi - Ege'de Sonsöz",
-              "albanianTitle": "Nismë për bashkëpunim nga Izmiri drejt Kosovës - Ege'de Sonsöz",
-              "blurb": "Qyteti i Izmirit në Turqi ka ndërmarrë hapa për të forcuar bashkëpunimin ekonomik dhe institucional me shtetin e Kosovës.",
-              "imageUrl": "https://egedesonsozcom.teimg.com/crop/1280x720/egedesonsoz-com/uploads/2026/08/21082026-bf0734d5-32ed-4508-976c-3c2107a3789c.jpg",
-              "url": "https://www.egedesonsoz.com/izmirden-kosovaya-is-birligi-hamlesi",
-              "date": "2026-08-21",
-              "sentiment": "neutral",
-              "reason": "Factual report of cooperation without loaded language",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
           "name": "GZT",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -3376,26 +3558,6 @@
               "date": "2026-08-20",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "Haber 7",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Toplu mezarlar açıldı, çok sayıda mühimmat çıktı - Haber 7",
-              "albanianTitle": "U hapën varrezat masive, u gjetën sasi të mëdha municioni",
-              "blurb": "Gjatë gërmimeve në varreza masive janë gjetur sasi të konsiderueshme të municioneve të ndryshme të pashpërthyera në lokacionin përkatës.",
-              "imageUrl": "https://i12.haber7.net//haber/haber7/og_image/2026/34/iCZ48_1787313467_302.jpg",
-              "url": "https://www.haber7.com/dunya/haber/3653150-toplu-mezarlar-acildi-cok-sayida-muhimmat-cikti",
-              "date": "2026-08-21",
-              "sentiment": "neutral",
-              "reason": "Straightforward report of mass graves and ammunition, no editorial judgement",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -3494,14 +3656,14 @@
               "speaker": ""
             },
             {
-              "title": "ABD’den Kosova ve Arnavutluk’a Gazze Misyonu İçin Zırhlı Araç Desteği - Kosovahaber.com",
-              "albanianTitle": "SHBA-ja mbështet Kosovën dhe Shqipërinë me automjete të blinduara për misionin në Gaza",
-              "blurb": "Shtetet e Bashkuara të Amerikës kanë dhuruar automjete të blinduara për Kosovën dhe Shqipërinë për misionin në Gaza.",
+              "title": "Albulena Haxhiu, Taranto’da Kosovalı Sporcuları Ziyaret Etti - Kosovahaber.com",
+              "albanianTitle": "Albulena Haxhiu vizitoi sportistët kosovarë në Taranto - Kosovahaber.com",
+              "blurb": "Ministrja Albulena Haxhiu ka vizituar sportistët kosovarë të cilët po marrin pjesë në garat që po mbahen në Taranto.",
               "imageUrl": null,
-              "url": "https://kosovahaber.com/haber/abdden-kosova-ve-arnavutluka-gazze-misyonu-icin-zirhli-arac-destegi-105168",
+              "url": "https://kosovahaber.com/haber/albulena-haxhiu-tarantoda-kosovali-sporculari-ziyaret-etti-105186",
               "date": "2026-08-22",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportim pa gjuhë ngarkuar",
+              "sentiment": "unknown",
+              "reason": "",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -3520,11 +3682,11 @@
               "speaker": ""
             },
             {
-              "title": "AB: Kurumların Oluşturulmasındaki Gecikme Fırsatları Riske Atıyor - Kosovahaber.com",
-              "albanianTitle": "BE: Vonesa në formimin e institucioneve po rrezikon mundësitë për zhvillim",
-              "blurb": "Bashkimi Evropian vlerëson se vonesat në krijimin e institucioneve të reja po rrezikojnë mundësitë për zhvillimin e vendit.",
+              "title": "ABD’den Kosova ve Arnavutluk’a Gazze Misyonu İçin Zırhlı Araç Desteği - Kosovahaber.com",
+              "albanianTitle": "SHBA-ja mbështet Kosovën dhe Shqipërinë me automjete të blinduara për misionin në Gaza",
+              "blurb": "Shtetet e Bashkuara të Amerikës kanë dhuruar automjete të blinduara për Kosovën dhe Shqipërinë për misionin në Gaza.",
               "imageUrl": null,
-              "url": "https://kosovahaber.com/haber/ab-kurumlarin-olusturulmasindaki-gecikme-firsatlari-riske-atiyor-105171",
+              "url": "https://kosovahaber.com/haber/abdden-kosova-ve-arnavutluka-gazze-misyonu-icin-zirhli-arac-destegi-105168",
               "date": "2026-08-22",
               "sentiment": "neutral",
               "reason": "Faktikë raportim pa gjuhë ngarkuar",
@@ -3893,26 +4055,6 @@
           ]
         },
         {
-          "name": "İstiklal Gazetesi",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosova’da kritik keşif: Toplu mezarların yanı başında cephanelik çıktı! - İstiklal Gazetesi",
-              "albanianTitle": "Zbulim kritik në Kosovë: Gjehet një depo armësh pranë varrezave masive",
-              "blurb": "Një sasi e armatimit është gjetur në afërsi të një varreze masive në territorin e Republikës së Kosovës.",
-              "imageUrl": "https://cdn.istiklal.com.tr/news/671485.jpg",
-              "url": "https://www.istiklal.com.tr/dunya/kosovada-kritik-kesif-toplu-mezarlarin-yani-basinda-cephanelik-cikti-1102801h",
-              "date": "2026-08-22",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
           "name": "İzmir Büyükşehir Belediyesi",
           "sentiment": "positive",
           "articleCount": 1,
@@ -3935,11 +4077,11 @@
       ],
       "summary": {
         "index": 53,
-        "positive": 5,
-        "neutral": 95,
+        "positive": 6,
+        "neutral": 94,
         "negative": 0,
-        "n": 56,
-        "excluded": 0,
+        "n": 54,
+        "excluded": 2,
         "confident": true,
         "stanceVersion": 2
       }
@@ -4033,6 +4175,26 @@
           ]
         },
         {
+          "name": "CBS News",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "He spied for the U.S. in the war on terror. Now ICE wants to deport him. - CBS News",
+              "albanianTitle": "Ai spiunoi për SHBA-në në luftën kundër terrorizmit, tani ICE kërkon dëbimin e tij",
+              "blurb": "Autoritetet amerikane të emigracionit po kërkojnë dëbimin e një ish-informatori që spiunoi për Shtetet e Bashkuara gjatë luftës kundër terrorit.",
+              "imageUrl": "https://assets3.cbsnewsstatic.com/hub/i/r/2026/08/19/7aee433e-ddaf-4c88-bc73-3fb6c4a79b1f/thumbnail/1200x630g2/768f648093b53b90fb1e43d03d1e1e0c/blerim-skoro-1.jpg",
+              "url": "https://www.cbsnews.com/news/ice-detainee-spy-terrorism-blerim-skoro/",
+              "date": "2026-08-19",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim i thjeshtë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "CNN",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -4068,26 +4230,6 @@
               "reason": "Headline praises Kosovo’s development program",
               "isQuote": false,
               "evidence": "Growth Building the Knowledge Economy",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "Global Voices",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "The discursive function of gendered online hate speech in Kosovo - Global Voices",
-              "albanianTitle": "Funksioni diskursiv i gjuhës së urrejtjes me bazë gjinore në internet në Kosovë - Global Voices",
-              "blurb": "Hulumtimi analizon funksionin diskursiv të gjuhës së urrejtjes me bazë gjinore në hapësirën online në territorin e Kosovës.",
-              "imageUrl": "https://globalvoices.org/wp-content/uploads/2026/08/Untitled-design-25-800x450.webp",
-              "url": "https://globalvoices.org/2026/08/20/the-discursive-function-of-gendered-online-hate-speech-in-kosovo/",
-              "date": "2026-08-20",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
               "speaker": ""
             }
           ]
@@ -4138,14 +4280,14 @@
           "articleCount": 1,
           "articles": [
             {
-              "title": "Kosovo still searching for loved ones three decades after the war - TRT World",
-              "albanianTitle": "Kosova ende në kërkim të më të dashurve të tyre tri dekada pas luftës - TRT World",
-              "blurb": "Familjarët në Kosovë vazhdojnë kërkimet për të pagjeturit e luftës edhe tri dekada pas përfundimit të konfliktit të armatosur.",
+              "title": "Will justice ever be served for Kosovo war victims? - TRT World",
+              "albanianTitle": "A do të vihet ndonjëherë drejtësia në vend për viktimat e luftës në Kosovë? - TRT World",
+              "blurb": "Viktima të luftës në Kosovë kërkojnë drejtësi për krimet e kryera gjatë konfliktit të armatosur në vend.",
               "imageUrl": null,
-              "url": "https://www.trtworld.com/video/tv/shows/683ef3c9cff794df564280c5/play/4f7f32df896b",
+              "url": "https://www.trtworld.com/video/tv/shows/683ef3c9cff794df564280c5/play/79c92cb03c09",
               "date": "2026-08-21",
               "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
+              "reason": "Faktikisht pyetje pa ngarkim gjuhësor",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -4193,7 +4335,7 @@
           ]
         },
         {
-          "name": "Unicef",
+          "name": "UNICEF",
           "sentiment": "neutral",
           "articleCount": 2,
           "articles": [

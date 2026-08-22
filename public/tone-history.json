@@ -2238,26 +2238,26 @@
   {
     "date": "2026-08-22",
     "overallIndex": 52,
-    "totalArticles": 237,
-    "sourceCount": 168,
+    "totalArticles": 248,
+    "sourceCount": 166,
     "stanceVersion": 2,
     "countries": {
       "Gjermani": {
-        "index": 50,
-        "positive": 0,
-        "neutral": 100,
+        "index": 53,
+        "positive": 6,
+        "neutral": 94,
         "negative": 0,
-        "n": 3,
-        "excluded": 0,
-        "confident": false,
+        "n": 16,
+        "excluded": 7,
+        "confident": true,
         "stanceVersion": 2
       },
       "SHBA": {
         "index": 52,
-        "positive": 7,
+        "positive": 6,
         "neutral": 90,
         "negative": 3,
-        "n": 30,
+        "n": 31,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2
@@ -2283,11 +2283,11 @@
         "stanceVersion": 2
       },
       "Itali": {
-        "index": 52,
-        "positive": 5,
-        "neutral": 95,
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 21,
+        "n": 19,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2
@@ -2298,7 +2298,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 4,
-        "excluded": 0,
+        "excluded": 1,
         "confident": false,
         "stanceVersion": 2
       },
@@ -2308,7 +2308,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 4,
-        "excluded": 1,
+        "excluded": 2,
         "confident": false,
         "stanceVersion": 2
       },
@@ -2323,11 +2323,11 @@
         "stanceVersion": 2
       },
       "Belgjikë": {
-        "index": 50,
-        "positive": 0,
-        "neutral": 100,
+        "index": 54,
+        "positive": 8,
+        "neutral": 92,
         "negative": 0,
-        "n": 15,
+        "n": 13,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -2338,7 +2338,7 @@
         "neutral": 92,
         "negative": 0,
         "n": 12,
-        "excluded": 0,
+        "excluded": 3,
         "confident": true,
         "stanceVersion": 2
       },
@@ -2347,8 +2347,8 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 27,
-        "excluded": 0,
+        "n": 29,
+        "excluded": 2,
         "confident": true,
         "stanceVersion": 2
       },
@@ -2367,18 +2367,18 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 2,
+        "n": 3,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
       },
       "Turqi": {
         "index": 53,
-        "positive": 5,
-        "neutral": 95,
+        "positive": 6,
+        "neutral": 94,
         "negative": 0,
-        "n": 56,
-        "excluded": 0,
+        "n": 54,
+        "excluded": 2,
         "confident": true,
         "stanceVersion": 2
       },
@@ -2395,6 +2395,14 @@
     },
     "headlines": [
       {
+        "title": "KFOR: Damit Ibër Bridge die Institutionen der EU und des Kosovo befragt, unterstützen wir diplomatische Bemühungen - Periskopi",
+        "source": "Periskopi",
+        "country": "Gjermani",
+        "flag": "🇩🇪",
+        "url": "https://periskopi.com/de/2026/8/kfor-iber-bridge-institutionen-eu-kosovo-befragt-unterstutzen-diplomatische-bemuhungen",
+        "sentiment": "positive"
+      },
+      {
         "title": "ICT for Kosovo’s Growth Building the Knowledge Economy - EEAS",
         "source": "EEAS",
         "country": "SHBA",
@@ -2408,14 +2416,6 @@
         "country": "Francë",
         "flag": "🇫🇷",
         "url": "https://www.purepeople.com/diapo/nous-avons-tout-perdu-comment-dua-lipa-sinvestit-avec-son-frere-pour-leur-pays-dorigine_a552969/1",
-        "sentiment": "positive"
-      },
-      {
-        "title": "Kosovo. Pristina, la grande sorpresa del nuoto. - Nuoto.com",
-        "source": "Nuoto.com",
-        "country": "Itali",
-        "flag": "🇮🇹",
-        "url": "https://www.nuoto.com/articolo/calendari-e-meeting/kosovo-pristina-la-grande-sorpresa-del-nuoto/",
         "sentiment": "positive"
       },
       {
