@@ -11,14 +11,13 @@ function levelClass(minutes: number) {
   if (minutes >= 15) return styles.waitAmber;
   return styles.waitGreen;
 }
-
 export default async function HomeVisitPreview() {
   const waits = await fetchOfficialBorderWaits().catch(() => []);
 
   return (
     <section className={styles.homeV2} id="diaspora-visit-preview" aria-labelledby="home-visit-title">
       <div className={styles.homeV2Copy}>
-        <h2 id="home-visit-title">Kosova në xhep, para kufirit.</h2>
+        <h2 id="home-visit-title"><span>Kosova</span> në xhep, para kufirit.</h2>
         <p>Kontrollo pritjet zyrtare, gjej ndihmën pranë teje dhe krijo karta qytetesh që ruhen offline. Pa llogari.</p>
         <div className={styles.homeV2Actions}>
           <Link href="/visit#border-card"><CircleGauge aria-hidden="true" size={20} /><span><b>Karta e kufirit</b><small>Pritjet, ndihma dhe karburanti</small></span><ArrowRight aria-hidden="true" size={16} /></Link>
