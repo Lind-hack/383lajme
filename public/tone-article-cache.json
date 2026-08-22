@@ -1,1572 +1,6 @@
 {
   "version": 1,
   "articles": {
-    "diplomatie pourquoi tant d états ne reconnaissent ils toujours pas toutes les ré": {
-      "key": "diplomatie pourquoi tant d états ne reconnaissent ils toujours pas toutes les ré",
-      "title": "Diplomatie : pourquoi tant d'États ne reconnaissent-ils toujours pas toutes les républiques post-yougoslaves - Le Courrier des Balkans",
-      "summary": "Diplomatie : pourquoi tant d'États ne reconnaissent-ils toujours pas toutes les républiques post-yougoslaves&nbsp;&nbsp;Le Courrier des Balkans",
-      "albanianTitle": "Diplomacia: Pse shumë shtete ende nuk i njohin të gjitha republikat post-jugosllave",
-      "translated": true,
-      "url": "https://www.courrierdesbalkans.fr/diplomatie-pourquoi-tant-detats-ne-reconnaissent-ils-toujours-pas-toutes-les-republiques-post-yougoslaves-98240/",
-      "googleNewsUrl": "https://news.google.com/rss/articles/CBMi3wFBVV95cUxQb25fRHpIbzhnVVpsUVpJSzR2eXhSVE5WX1IzNE5hWmpBbEY3bDdvVVh0MWc0ZGpDSWxkMVo4MVlFcjI0aU4tZDV0d1hJaDlJcHVtWnhXaDFXZ0l4UXRQRXp5dUNoY0l2UnpXNkd6UmU2emhvMWJWU3I5MDE4ZzBObHBiSUo3OFl2aHZYYWdEbnUyTUR0UUhfN3hPOWVqOTBtMlNWZjVrejhFaFgtYjdKWWxsSUJFLTVqaDJSUTBxQ2M5NXA0bmdqdGcySlpyWmF3blJQNkxVbDkzVUNMa2tz?oc=5",
-      "imageUrl": "https://www.courrierdesbalkans.fr/wp-content/uploads/2026/08/Thimphu-12-vom_Buddha_Dordenma-2015-gje-scaled.jpg",
-      "imageAttempts": 1,
-      "blurb": "Analizë mbi arsyet diplomatike pse shumë shtete ende nuk i njohin të gjitha republikat e dala nga ish-Jugosllavia.",
-      "outlet": "Le Courrier des Balkans",
-      "country": "Francë",
-      "stanceAttempts": 1,
-      "sentiment": "neutral",
-      "stance": "neutral",
-      "stanceReason": "Questioning diplomatic recognition without loaded language",
-      "isQuote": false,
-      "speaker": "",
-      "evidence": "",
-      "confidence": "high",
-      "model": "llama-3.3-70b-versatile",
-      "stanceVersion": 2,
-      "date": "2026-08-18",
-      "firstSeen": "2026-08-18",
-      "lastSeen": "2026-08-20"
-    },
-    "βόρεια μακεδονία από τον ελληνικό λιγνίτη στο κόσοβο συμφωνία για 3 εκατ τόνους ": {
-      "key": "βόρεια μακεδονία από τον ελληνικό λιγνίτη στο κόσοβο συμφωνία για 3 εκατ τόνους ",
-      "title": "Βόρεια Μακεδονία: Από τον ελληνικό λιγνίτη στο Κόσοβο – Συμφωνία για 3 εκατ. τόνους σε τρία χρόνια - Energymag.gr",
-      "summary": "Βόρεια Μακεδονία: Από τον ελληνικό λιγνίτη στο Κόσοβο – Συμφωνία για 3 εκατ. τόνους σε τρία χρόνια&nbsp;&nbsp;Energymag.gr",
-      "albanianTitle": "Maqedonia e Veriut: Nga linjiti grek te Kosova – Marrëveshje për 3 milionë tonë për tri vjet",
-      "translated": true,
-      "url": "https://www.energymag.gr/balkan-desk/125060_boreia-makedonia-apo-ton-elliniko-ligniti-sto-kosobo-symfonia-gia-3-ekat-tonoys",
-      "googleNewsUrl": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxQNWlEMW9WejEzRmkzZUswN2l5T2h6enppa01iLWhsOFVwSW84X1pZTXJLYzZhbEpieDZrdlJERW01MVBMOEpXRUNUSWRUZ01HS2o1bTRZZFRWWnRVN1ZvTlp5M1p0ZXNYMm5GaE55M1Y5SGN2WUcxWGhXRFR4aTRqd1dIZWt0aXpDVUNlQjlvZmc5RFc2WV9rd3gyTjdNNUg2V3Y5UXN1RHd1OHZHVkpXbGhjTWY0eEdRR1I2RXJndVTSAcYBQVVfeXFMT1FWVjg1LW1PUVhiejZRUmJFQVV2Z2wtUWF0blJIalJHdnpYYmhpb3J1VHZDeGxRRFZnVGo0WjRodkx6bWpyR2hOc0RwWUxmT0ROZi1HOHdLSWhoVlZWQ3JfNHByYW9SQUdnN3N4VFk4MkJidDd1MnlqcjVPSVctbzA1SlVWa2R4OHhmSlBCaUs5MTZyYjktWHdGM2VudnU0ZWhSSElxN093UFo4c1d3V1ZEdGJZYmc3ME9rdW44M2Z2cDF3el9R?oc=5",
-      "imageUrl": "https://www.energymag.gr/sites/default/files/styles/og_image/public/2026-08/North-Macedonia.png?itok=wgRY7J_9",
-      "imageAttempts": 1,
-      "blurb": "Maqedonia e Veriut ka arritur marrëveshje për blerjen e tre milionë tonëve linjit nga Kosova gjatë tre viteve të ardhshme.",
-      "outlet": "Energymag.gr",
-      "country": "Greqi",
-      "stanceAttempts": 1,
-      "sentiment": "neutral",
-      "stance": "neutral",
-      "stanceReason": "Factual description of an agreement, no pejorative terms",
-      "isQuote": false,
-      "speaker": "",
-      "evidence": "",
-      "confidence": "high",
-      "model": "llama-3.3-70b-versatile",
-      "stanceVersion": 2,
-      "date": "2026-08-18",
-      "firstSeen": "2026-08-18",
-      "lastSeen": "2026-08-21"
-    },
-    "is somaliland america s next kosovo jns org": {
-      "key": "is somaliland america s next kosovo jns org",
-      "title": "Is Somaliland America’s next Kosovo? - JNS.org",
-      "summary": "Is Somaliland America’s next Kosovo?&nbsp;&nbsp;JNS.org",
-      "albanianTitle": "A po bëhet Somalilandi Kosova e radhës për Amerikën?",
-      "translated": true,
-      "url": "https://www.jns.org/opinion/nassir-hussein-kahin/is-somaliland-americas-next-kosovo",
-      "googleNewsUrl": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxQemxTLTJTOFo1eUFWRVlSd1RHd0FSVzh2eUZoYXNGNHJlaUQydEZpb2lOZ0pIOGRtdVpZN3h2NWtDZEo4LTJXc0l2YWQyLTJBY21HVlp2U01LQkxsOGlzZFM1UWg0S3RUVlV3ZUlOcEpIYWh3Ujh3UjZCTUl3TFBxRkI3dnV2OE5TeDZR?oc=5",
-      "imageUrl": "https://static.jns.org/dims4/default/88a5884/2147483647/strip/true/crop/6601x3713+0+688/resize/1440x810!/format/webp/quality/90/?url=https%3A%2F%2Fk2-prod-jns-prod.s3.us-east-1.amazonaws.com%2Fbrightspot%2Fef%2Fda%2Fefca21cf4a09be1ee413f8259207%2Fgettyimages-2276340274.jpg",
-      "imageAttempts": 1,
-      "blurb": "Analizohet mundësia e njohjes së Somalilandit nga Shtetet e Bashkuara të Amerikës, duke e krahasuar atë me rastin e Kosovës.",
-      "outlet": "JNS.org",
-      "country": "SHBA",
-      "stanceAttempts": 1,
-      "sentiment": "neutral",
-      "stance": "neutral",
-      "stanceReason": "Question headline without hostile language, merely drawing a comparison",
-      "isQuote": false,
-      "speaker": "",
-      "evidence": "",
-      "confidence": "high",
-      "model": "llama-3.3-70b-versatile",
-      "stanceVersion": 2,
-      "date": "2026-08-18",
-      "firstSeen": "2026-08-18",
-      "lastSeen": "2026-08-21"
-    },
-    "kfor ve kosova polisi ne saldırı suçundan markoviç hakim karşısına çıktı kosovah": {
-      "key": "kfor ve kosova polisi ne saldırı suçundan markoviç hakim karşısına çıktı kosovah",
-      "title": "KFOR ve Kosova Polisi’ne Saldırı Suçundan Markoviç Hakim Karşısına Çıktı - Kosovahaber.com",
-      "summary": "KFOR ve Kosova Polisi’ne Saldırı Suçundan Markoviç Hakim Karşısına Çıktı&nbsp;&nbsp;Kosovahaber.com",
-      "albanianTitle": "Markovic del para gjykatës për sulmin ndaj KFOR-it dhe Policisë së Kosovës",
-      "translated": true,
-      "url": "https://kosovahaber.com/haber/kfor-ve-kosova-polisine-saldiri-sucundan-markovic-hakim-karsisina-cikti-105022",
-      "googleNewsUrl": "https://news.google.com/rss/articles/CBMirAFBVV95cUxQVG1LN3d0Qlpuek9rcFZYeHJRb2UxZ2pkSXItdldlWXJkelpWQS1OLWlRWHBDMXpqRjdnMkhpUEctaFJqeGZkbWNER1hLOFY3YkJRaFRYa1lySEp6RXpZVmFYRUd1SmFjOEFYdjVXVXREbVgzZy1FekNXMW1tMnBGQks5Y0RRLWZpUy1VMnZMcEJUcWJpaTJZNzUwMjNDOVFaM0lHenRkRFBvS2Z4?oc=5",
-      "imageUrl": null,
-      "imageAttempts": 3,
-      "blurb": "Markoviç ka dalë para gjykatës nën akuzën për sulm ndaj pjesëtarëve të KFOR-it dhe Policisë së Kosovës.",
-      "outlet": "Kosovahaber.com",
-      "country": "Turqi",
-      "stanceAttempts": 1,
-      "sentiment": "neutral",
-      "stance": "neutral",
-      "stanceReason": "Faktikë raportim pa gjuhë të ngarkuar",
-      "isQuote": false,
-      "speaker": "",
-      "evidence": "",
-      "confidence": "high",
-      "model": "llama-3.3-70b-versatile",
-      "stanceVersion": 2,
-      "date": "2026-08-18",
-      "firstSeen": "2026-08-18",
-      "lastSeen": "2026-08-20"
-    },
-    "kgg ye katılacak 550 yeni asker temel eğitime başladı kosovahaber com": {
-      "key": "kgg ye katılacak 550 yeni asker temel eğitime başladı kosovahaber com",
-      "title": "KGG’ye Katılacak 550 Yeni Asker Temel Eğitime Başladı - Kosovahaber.com",
-      "summary": "KGG’ye Katılacak 550 Yeni Asker Temel Eğitime Başladı&nbsp;&nbsp;Kosovahaber.com",
-      "albanianTitle": "550 ushtarët e rinj të FSK-së nisin trajnimin bazë - Kosovahaber.com",
-      "translated": true,
-      "url": "https://kosovahaber.com/haber/kggye-katilacak-550-yeni-asker-temel-egitime-basladi-105017",
-      "googleNewsUrl": "https://news.google.com/rss/articles/CBMikwFBVV95cUxNbGVHblg4QWtueEd3Uk02WEZKdlU1aHhBUFJQSHVYR2phNGk0Z2tzbm1iSy1tOWR2cHFoMFZOMHNEYUFkcFU4RDd6VklaNzd2Yy0ycjB6VXFZd0h0QTN5M0wzblN6MFBNSnluNk51b29EdVRMMEZfekZhRS1VWmEtb2VBNXNUTG10SHI1amhyZE9Jc0k?oc=5",
-      "imageUrl": null,
-      "imageAttempts": 3,
-      "blurb": "Pesëqind e pesëdhjetë ushtarë të rinj të Forcës së Sigurisë së Kosovës kanë filluar trajnimin e tyre bazë ushtarak.",
-      "outlet": "Kosovahaber.com",
-      "country": "Turqi",
-      "stanceAttempts": 1,
-      "sentiment": "neutral",
-      "stance": "neutral",
-      "stanceReason": "Faktikë raportim pa gjuhë të ngarkuar",
-      "isQuote": false,
-      "speaker": "",
-      "evidence": "",
-      "confidence": "high",
-      "model": "llama-3.3-70b-versatile",
-      "stanceVersion": 2,
-      "date": "2026-08-18",
-      "firstSeen": "2026-08-18",
-      "lastSeen": "2026-08-19"
-    },
-    "çitaku dan kurti ye meclis e gel ve anayasal düzenin yeniden tesis edilmesinin ö": {
-      "key": "çitaku dan kurti ye meclis e gel ve anayasal düzenin yeniden tesis edilmesinin ö",
-      "title": "Çitaku'dan Kurti'ye: “Meclis'e Gel ve Anayasal Düzenin Yeniden Tesis Edilmesinin Önünü Aç” - Kosovahaber.com",
-      "summary": "Çitaku'dan Kurti'ye: “Meclis'e Gel ve Anayasal Düzenin Yeniden Tesis Edilmesinin Önünü Aç”&nbsp;&nbsp;Kosovahaber.com",
-      "albanianTitle": "Çitaku Kurtit: “Eja në Kuvend dhe hap rrugën për rivendosjen e rendit kushtetues” - Kosovahaber.com",
-      "translated": true,
-      "url": "https://kosovahaber.com/haber/citakudan-kurtiye-meclise-gel-ve-anayasal-duzenin-yeniden-tesis-edilmesinin-onunu-ac-105018",
-      "googleNewsUrl": "https://news.google.com/rss/articles/CBMivgFBVV95cUxOQUVfRlRuTlFPZVNsM1pnd0ZNQTl4S2FlZkNNVTZEbXQ2cE02TVZiX3Z4UEZIeU1wUFY5cG4wUWNuQVpyQm1EM1AtVFhOUGIyY2c0cjRRc1IyaDg3R2JjMm5rTmxGQUxWc3FlSHJyMFFsbUl2TUpiejVVWElYVENKRFoyb1U3UkxSS1FCWVVzQ3FGcHkybThVNEZIb2lkX09NUXRXMy1PcFZydHlISkdqcTZBNG1rd1VfZ1ozRGZB?oc=5",
-      "imageUrl": null,
-      "imageAttempts": 3,
-      "blurb": "Nënkryetarja e PDK-së, Vlora Çitaku, i ka bërë thirrje kryeministrit Kurti që të paraqitet në Kuvend për rendin kushtetues.",
-      "outlet": "Kosovahaber.com",
-      "country": "Turqi",
-      "stanceAttempts": 1,
-      "sentiment": "neutral",
-      "stance": "neutral",
-      "stanceReason": "Citim i raportuar, pa gjuhë të ngarkuar nga media",
-      "isQuote": true,
-      "speaker": "Çitaku",
-      "evidence": "",
-      "confidence": "high",
-      "model": "llama-3.3-70b-versatile",
-      "stanceVersion": 2,
-      "date": "2026-08-18",
-      "firstSeen": "2026-08-18",
-      "lastSeen": "2026-08-18"
-    },
-    "vıçıtırın da klise i nşaatına karşı protesto kosovahaber com": {
-      "key": "vıçıtırın da klise i nşaatına karşı protesto kosovahaber com",
-      "title": "Vıçıtırın’da Klise İnşaatına Karşı Protesto - Kosovahaber.com",
-      "summary": "Vıçıtırın’da Klise İnşaatına Karşı Protesto&nbsp;&nbsp;Kosovahaber.com",
-      "albanianTitle": "Protestë në Vushtrri kundër ndërtimit të kishës - Kosovahaber.com",
-      "translated": true,
-      "url": "https://kosovahaber.com/haber/vicitirinda-klise-insaatina-karsi-protesto-105014",
-      "googleNewsUrl": "https://news.google.com/rss/articles/CBMihgFBVV95cUxOMEw4aGZEN1lja0k0VUdpM3FJYWpUMGNIQXdpTjdsdDNGN0NNd2djcTZuclpVQjdINi1TNW93Rm9EWDVOVFctZlJhMGlCV0FnYTdYOHdnbXhCakpaYWpNNmdSY05PU1dFdE8wUkEzZklEYi1RQWVRWExheThRSllVMjdaS0J4QQ?oc=5",
-      "imageUrl": null,
-      "imageAttempts": 3,
-      "blurb": "Banorët e Vushtrrisë kanë organizuar një protestë për të kundërshtuar ndërtimin e një kishe në këtë qytet të Kosovës.",
-      "outlet": "Kosovahaber.com",
-      "country": "Turqi",
-      "stanceAttempts": 1,
-      "sentiment": "neutral",
-      "stance": "neutral",
-      "stanceReason": "Lajm i raportuar në mënyrë faktike, pa ngjyrë",
-      "isQuote": false,
-      "speaker": "",
-      "evidence": "",
-      "confidence": "high",
-      "model": "llama-3.3-70b-versatile",
-      "stanceVersion": 2,
-      "date": "2026-08-18",
-      "firstSeen": "2026-08-18",
-      "lastSeen": "2026-08-18"
-    },
-    "a3 ünitesi teknik arıza nedeniyle devre dışı kosovahaber com": {
-      "key": "a3 ünitesi teknik arıza nedeniyle devre dışı kosovahaber com",
-      "title": "A3 Ünitesi, Teknik Arıza Nedeniyle Devre Dışı - Kosovahaber.com",
-      "summary": "A3 Ünitesi, Teknik Arıza Nedeniyle Devre Dışı&nbsp;&nbsp;Kosovahaber.com",
-      "albanianTitle": "Blloku A3 del jashtë funksionit për shkak të një defekti teknik - Kosovahaber.com",
-      "translated": true,
-      "url": "https://kosovahaber.com/haber/a3-unitesi-teknik-ariza-nedeniyle-devre-disi-105016",
-      "googleNewsUrl": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxQd29ER09QMU9qNFFveFdhbnBrT0drQmhjMC11MEhBcW9KaHhzMUpoM2lBTGlmblZaZk0wMU10OGZnbWVvNkJYUFdpcGJ3LWhJb1owU1E3SmIzSU1NQkZBcXlTcWpad2tueFVKd0Y1WDY5MktLRDFQY085RmhrWElEWWZSS1NvcFpO?oc=5",
-      "imageUrl": null,
-      "imageAttempts": 3,
-      "blurb": "Njësia A3 e termocentralit është shkyçur nga rrjeti elektrik për shkak të një defekti teknik të papritur në sistem.",
-      "outlet": "Kosovahaber.com",
-      "country": "Turqi",
-      "stanceAttempts": 1,
-      "sentiment": "neutral",
-      "stance": "neutral",
-      "stanceReason": "Lajm i raportuar në mënyrë faktike, pa ngjyrë",
-      "isQuote": false,
-      "speaker": "",
-      "evidence": "",
-      "confidence": "high",
-      "model": "llama-3.3-70b-versatile",
-      "stanceVersion": 2,
-      "date": "2026-08-18",
-      "firstSeen": "2026-08-18",
-      "lastSeen": "2026-08-18"
-    },
-    "has kurti crossed a red line in the relations with the eu europeanwesternbalkans": {
-      "key": "has kurti crossed a red line in the relations with the eu europeanwesternbalkans",
-      "title": "Has Kurti crossed a \"red line\" in the relations with the EU? - europeanwesternbalkans.com",
-      "summary": "Has Kurti crossed a \"red line\" in the relations with the EU?&nbsp;&nbsp;europeanwesternbalkans.com",
-      "albanianTitle": "A ka kaluar Kurti një \"vijë të kuqe\" në raportet me BE-në?",
-      "translated": true,
-      "url": "https://europeanwesternbalkans.com/2026/08/18/has-kurti-crossed-a-red-line-in-the-relations-with-the-eu/",
-      "googleNewsUrl": "https://news.google.com/rss/articles/CBMipwFBVV95cUxOdE0yR3FveDNrSVViZ0hlMTd6S3dMU19McVJzMF8ybDJ3M1hWVjhaUG9LcEZENWdzQWJ6QW5Za0FUYk80TUpENUtvWXliS0hSM1p2LVBWX0N4RWNCc3JScloyQ3B1SkFqeUs5NU5VM0dReHlFLVpoZ2hCSG56LVRsU2YzZlRHYnBDc3NEZ1BHaTN0T3dlRGpXeXFUOVpGemxyalUxMHVUcw?oc=5",
-      "imageUrl": "https://europeanwesternbalkans.com/wp-content/uploads/2026/08/kurti-marta.jpg",
-      "imageAttempts": 1,
-      "blurb": "Analizohet nëse veprimet e kryeministrit Albin Kurti kanë tejkaluar vijat e kuqe në raportet me Bashkimin Evropian.",
-      "outlet": "European Western Balkans",
-      "country": "SHBA",
-      "stanceAttempts": 1,
-      "sentiment": "negative",
-      "stance": "negative",
-      "stanceReason": "critical framing of Kosovo's leader by the outlet",
-      "isQuote": false,
-      "speaker": "",
-      "evidence": "crossed a red line",
-      "confidence": "high",
-      "model": "llama-3.3-70b-versatile",
-      "stanceVersion": 2,
-      "date": "2026-08-18",
-      "firstSeen": "2026-08-18",
-      "lastSeen": "2026-08-19"
-    },
-    "brussels confirms conditions met for ibar bridge opening srpske rs": {
-      "key": "brussels confirms conditions met for ibar bridge opening srpske rs",
-      "title": "Brussels Confirms Conditions Met for Ibar Bridge Opening - srpske.rs",
-      "summary": "Brussels Confirms Conditions Met for Ibar Bridge Opening&nbsp;&nbsp;srpske.rs",
-      "albanianTitle": "Brukseli konfirmon se janë plotësuar kushtet për hapjen e urës së Ibrit",
-      "translated": true,
-      "url": "https://srpske.rs/en/news/politika/2026/08/18/eu-confirms-conditions-met-ibar-bridge-opening",
-      "googleNewsUrl": "https://news.google.com/rss/articles/CBMilwFBVV95cUxPN3BqOGtGek1nQ3BpcElPTXl6R25oQnM2blk2LXdJWXY1Wmo1enBWNzk5RjNISkFFT0VJMGhNWXlzdjJpY2xNeGwtM0tWZGtEMVlHQ0xyWjV0WWtQb0psam5TNnVuWEktcHJfNW9Fa2F4bXI0TEtrbktGX1J2MDNIWUJ5QWw2NnRVQTJaZlJRbFYzMzJuMVhN?oc=5",
-      "imageUrl": "https://srpske.rs/uploads/articles/eu-confirms-conditions-met-ibar-bridge-opening-16x9.webp",
-      "imageAttempts": 1,
-      "blurb": "Brukseli ka konfirmuar se janë përmbushur kushtet e nevojshme për hapjen e urës kryesore mbi lumin Ibër.",
-      "outlet": "srpske.rs",
-      "country": "SHBA",
-      "stanceAttempts": 1,
-      "sentiment": "neutral",
-      "stance": "neutral",
-      "stanceReason": "purely factual report about bridge opening",
-      "isQuote": false,
-      "speaker": "",
-      "evidence": "",
-      "confidence": "high",
-      "model": "llama-3.3-70b-versatile",
-      "stanceVersion": 2,
-      "date": "2026-08-18",
-      "firstSeen": "2026-08-18",
-      "lastSeen": "2026-08-18"
-    },
-    "let s avoid early elections haxhiu announces meeting between lvv and ldk cna al": {
-      "key": "let s avoid early elections haxhiu announces meeting between lvv and ldk cna al",
-      "title": "\"Let's avoid early elections\"/ Haxhiu announces meeting between LVV and LDK - cna.al",
-      "summary": "\"Let's avoid early elections\"/ Haxhiu announces meeting between LVV and LDK&nbsp;&nbsp;cna.al",
-      "albanianTitle": "\"T'i shmangim zgjedhjet e parakohshme\"/ Haxhiu paralajmëron takim mes LVV-së dhe LDK-së",
-      "translated": true,
-      "url": "https://www.cna.al/english/kosova-bota/te-shmangim-zgjedhjet-e-parakohshme-haxhiu-paralajmeron-takim-mes-lv-i471800",
-      "googleNewsUrl": "https://news.google.com/rss/articles/CBMitgFBVV95cUxQNVk1RG5YanB1NWFUWnJSYXZrckNwbHhNSldvN2hEY1J5WkR4OURaUEhmdHZ0SWNlaUZzNEhERzVxT3NCclZ2dDctVVN4Tm9KVEUxY1d2YVlPYzhPTlphdmJJSy1yVUM3OGxaSjdlNzVCb0VQWWNKWC1MdDNkeHdWeTA1ZUE2bmRlWjhkT1RreFRuTGcwQmZfOHJTTkN5NDhTaDMzQnVKVm5aZzZWU0NRaTJOMkkydw?oc=5",
-      "imageUrl": null,
-      "imageAttempts": 2,
-      "blurb": "Ministrja Albulena Haxhiu ka paralajmëruar një takim mes Lëvizjes Vetëvendosje dhe Lidhjes Demokratike të Kosovës për zgjedhjet.",
-      "outlet": "cna.al",
-      "country": "SHBA",
-      "stanceAttempts": 1,
-      "sentiment": "neutral",
-      "stance": "neutral",
-      "stanceReason": "headline contains quoted statement, no outlet bias",
-      "isQuote": true,
-      "speaker": "Haxhiu",
-      "evidence": "",
-      "confidence": "high",
-      "model": "llama-3.3-70b-versatile",
-      "stanceVersion": 2,
-      "date": "2026-08-18",
-      "firstSeen": "2026-08-18",
-      "lastSeen": "2026-08-18"
-    },
-    "has kurti crossed a red line in the relations with the eu european western balka": {
-      "key": "has kurti crossed a red line in the relations with the eu european western balka",
-      "title": "Has Kurti crossed a \"red line\" in the relations with the EU? - European Western Balkans",
-      "summary": "Has Kurti crossed a \"red line\" in the relations with the EU?&nbsp;&nbsp;European Western Balkans",
-      "albanianTitle": "A ka kaluar Kurti një \"vijë të kuqe\" në raportet me BE-në?",
-      "translated": true,
-      "url": "https://europeanwesternbalkans.com/2026/08/18/has-kurti-crossed-a-red-line-in-the-relations-with-the-eu/",
-      "googleNewsUrl": "https://news.google.com/rss/articles/CBMipwFBVV95cUxOdE0yR3FveDNrSVViZ0hlMTd6S3dMU19McVJzMF8ybDJ3M1hWVjhaUG9LcEZENWdzQWJ6QW5Za0FUYk80TUpENUtvWXliS0hSM1p2LVBWX0N4RWNCc3JScloyQ3B1SkFqeUs5NU5VM0dReHlFLVpoZ2hCSG56LVRsU2YzZlRHYnBDc3NEZ1BHaTN0T3dlRGpXeXFUOVpGemxyalUxMHVUcw?oc=5",
-      "imageUrl": "https://europeanwesternbalkans.com/wp-content/uploads/2026/08/kurti-marta.jpg",
-      "imageAttempts": 1,
-      "blurb": "Ekspertët shqyrtojnë nëse politikat e qeverisë Kurti kanë cenuar marrëdhëniet diplomatike me shtetet e Bashkimit Evropian.",
-      "outlet": "European Western Balkans",
-      "country": "Britani",
-      "stanceAttempts": 1,
-      "sentiment": "negative",
-      "stance": "negative",
-      "stanceReason": "critical framing of Kosovo's leader by the outlet",
-      "isQuote": false,
-      "speaker": "",
-      "evidence": "crossed a red line",
-      "confidence": "high",
-      "model": "llama-3.3-70b-versatile",
-      "stanceVersion": 2,
-      "date": "2026-08-18",
-      "firstSeen": "2026-08-18",
-      "lastSeen": "2026-08-21"
-    },
-    "kosova otoriterliğe doğru sürüklenme riskiyle karşı karşıya kosovahaber com": {
-      "key": "kosova otoriterliğe doğru sürüklenme riskiyle karşı karşıya kosovahaber com",
-      "title": "Kosova Otoriterliğe Doğru Sürüklenme Riskiyle Karşı Karşıya - Kosovahaber.com",
-      "summary": "Kosova Otoriterliğe Doğru Sürüklenme Riskiyle Karşı Karşıya&nbsp;&nbsp;Kosovahaber.com",
-      "albanianTitle": "Kosova përballet me rrezikun e rrëshqitjes drejt autoritarizmit",
-      "translated": true,
-      "url": "https://kosovahaber.com/haber/kosova-otoriterlige-dogru-suruklenme-riskiyle-karsi-karsiya-105028",
-      "googleNewsUrl": "https://news.google.com/rss/articles/CBMinAFBVV95cUxOWThnaUNfc0J0V2tEYUhKUUNlcFVBcVFfd2c2SmFBVWJYVWxybWlocGQzc0dmajdGX1ZlMmNjd0FXTnpOV21UY1RrQVRSX3N5bTFSdHc3TlJSRVNwRkpHb2RLR1hxR1NDdXBMN3RLZUpJY2Ita0FZWDdKVVFFVFFGUXR4TVRVSHNMZC1rd2hZNWU3TFRXQUM2ZjRvcWM?oc=5",
-      "imageUrl": null,
-      "imageAttempts": 3,
-      "blurb": "Kosova përballet me rrezikun e mundshëm të rrëshqitjes drejt një sistemi qeverisës me karakteristika autoritare sipas vlerësimeve.",
-      "outlet": "Kosovahaber.com",
-      "country": "Turqi",
-      "stanceAttempts": 1,
-      "sentiment": "negative",
-      "stance": "negative",
-      "stanceReason": "outlet depicts Kosovo as sliding toward authoritarianism",
-      "isQuote": false,
-      "speaker": "",
-      "evidence": "otoriterliğe doğru sürüklenme riskiyle karşı karşıya",
-      "confidence": "high",
-      "model": "llama-3.3-70b-versatile",
-      "stanceVersion": 2,
-      "date": "2026-08-18",
-      "firstSeen": "2026-08-18",
-      "lastSeen": "2026-08-21"
-    },
-    "gërvalla kosova nın bir başka kurumsal çıkmaza i htiyacı yok kosovahaber com": {
-      "key": "gërvalla kosova nın bir başka kurumsal çıkmaza i htiyacı yok kosovahaber com",
-      "title": "Gërvalla: Kosova'nın Bir Başka Kurumsal Çıkmaza İhtiyacı Yok - Kosovahaber.com",
-      "summary": "Gërvalla: Kosova'nın Bir Başka Kurumsal Çıkmaza İhtiyacı Yok&nbsp;&nbsp;Kosovahaber.com",
-      "albanianTitle": "Gërvalla: Kosova nuk ka nevojë për një tjetër bllokadë institucionale",
-      "translated": true,
-      "url": "https://kosovahaber.com/haber/gervalla-kosovanin-bir-baska-kurumsal-cikmaza-ihtiyaci-yok-105032",
-      "googleNewsUrl": "https://news.google.com/rss/articles/CBMimwFBVV95cUxPaGJaVzZnNXdSMEZnbG5oQ2p4bWZyM0pjbkphNWVtX25JWmZuR2s2R0ZnQXdST1pEV3hXU1dTcUdsR3BZS3lTa3lBWEJtRUpqQk1HMmNnYmFPWTk1eWJoVU1RQVhBb25OTmFTNXdaU2tnZnkzc2phMDBqdi1tSXktaEJVLXRrVmlUT3gwZ25qQnBQd1QwelUyOG1zRQ?oc=5",
-      "imageUrl": null,
-      "imageAttempts": 3,
-      "blurb": "Ministrja Donika Gërvalla deklaron se Kosova nuk ka nevojë për krijimin e një bllokade të re institucionale.",
-      "outlet": "Kosovahaber.com",
-      "country": "Turqi",
-      "stanceAttempts": 1,
-      "sentiment": "positive",
-      "stance": "positive",
-      "stanceReason": "Outlet uses praising language suggesting Kosovo does not need another institutional crisis",
-      "isQuote": false,
-      "speaker": "",
-      "evidence": "Bir Başka Kurumsal Çıkmaza İhtiyacı Yok",
-      "confidence": "high",
-      "model": "llama-3.3-70b-versatile",
-      "stanceVersion": 2,
-      "date": "2026-08-18",
-      "firstSeen": "2026-08-18",
-      "lastSeen": "2026-08-21"
-    },
-    "anayasa her parti ve liderden üstündür kosovahaber com": {
-      "key": "anayasa her parti ve liderden üstündür kosovahaber com",
-      "title": "Anayasa Her Parti ve Liderden Üstündür - Kosovahaber.com",
-      "summary": "Anayasa Her Parti ve Liderden Üstündür&nbsp;&nbsp;Kosovahaber.com",
-      "albanianTitle": "Kushtetuta është mbi çdo parti dhe lider",
-      "translated": true,
-      "url": "https://kosovahaber.com/haber/anayasa-her-parti-ve-liderden-ustundur-105030",
-      "googleNewsUrl": "https://news.google.com/rss/articles/CBMigAFBVV95cUxQdDZuWkt1ZUhRSWNzeHBhV1BFckllcEUzRERfQTFwWHN5QlpKVjhWQnpQcVhYYXdWOHpSQjhPdnAyZ3luRDdBMEJtV0tqVGxLUUpEMVpFOXRZWUdvMHNQSWwzT01yeVlPYXpuMzlFLXFCTXdtbGVZdFN0SFJ6RVRjVA?oc=5",
-      "imageUrl": null,
-      "imageAttempts": 3,
-      "blurb": "Kushtetuta e Kosovës vlerësohet si akti më i lartë juridik që qëndron mbi çdo parti apo lider politik.",
-      "outlet": "Kosovahaber.com",
-      "country": "Turqi",
-      "stanceAttempts": 1,
-      "sentiment": "neutral",
-      "stance": "neutral",
-      "stanceReason": "Faktikisht raporton një deklaratë për kushtetutën pa ngarkim vlerësues",
-      "isQuote": false,
-      "speaker": "",
-      "evidence": "",
-      "confidence": "high",
-      "model": "llama-3.3-70b-versatile",
-      "stanceVersion": 2,
-      "date": "2026-08-18",
-      "firstSeen": "2026-08-18",
-      "lastSeen": "2026-08-18"
-    },
-    "kek kuzey makedonya ya 73 2 milyon euro ya kadar kömür i hraç edecek kosovahaber": {
-      "key": "kek kuzey makedonya ya 73 2 milyon euro ya kadar kömür i hraç edecek kosovahaber",
-      "title": "KEK, Kuzey Makedonya'ya 73,2 milyon Euro’ya Kadar Kömür İhraç Edecek - Kosovahaber.com",
-      "summary": "KEK, Kuzey Makedonya'ya 73,2 milyon Euro’ya Kadar Kömür İhraç Edecek&nbsp;&nbsp;Kosovahaber.com",
-      "albanianTitle": "KEK-u do të eksportojë qymyr në Maqedoninë e Veriut në vlerë deri në 73,2 milionë euro",
-      "translated": true,
-      "url": "https://kosovahaber.com/haber/kek-kuzey-makedonyaya-732-milyon-euroya-kadar-komur-ihrac-edecek-105033",
-      "googleNewsUrl": "https://news.google.com/rss/articles/CBMiowFBVV95cUxNMXFVU2NWUGV1bGYwaldRWlVDSnZSSjJ6Y1I3U0RHM09ZRF9XQS04SU0yalVaYndSXy1pcXp6RHBoU25tWTI4OGFaU1ZrUkVlWGZrb0JYUzRjNFlLdXk3MGptaG5SWnFLQmtXaW9JOGx3MFk2aGhvNG15enNpTTFlWTMtaVJpblBYSk5KQTVvOXRiNU5ZMFQtMVM4NTJqWFBSNmpF?oc=5",
-      "imageUrl": null,
-      "imageAttempts": 3,
-      "blurb": "Korporata Energjetike e Kosovës do të eksportojë thëngjill në Maqedoninë e Veriut në vlerë prej 73.2 milionë eurosh.",
-      "outlet": "Kosovahaber.com",
-      "country": "Turqi",
-      "stanceAttempts": 1,
-      "sentiment": "neutral",
-      "stance": "neutral",
-      "stanceReason": "Raportim faktik i eksportit të qymyrit, pa gjuhë ngarkuese",
-      "isQuote": false,
-      "speaker": "",
-      "evidence": "",
-      "confidence": "high",
-      "model": "llama-3.3-70b-versatile",
-      "stanceVersion": 2,
-      "date": "2026-08-18",
-      "firstSeen": "2026-08-18",
-      "lastSeen": "2026-08-18"
-    },
-    "kosovo opposition snubs acting president s meeting amid parliamentary crisis bal": {
-      "key": "kosovo opposition snubs acting president s meeting amid parliamentary crisis bal",
-      "title": "Kosovo Opposition Snubs Acting President’s Meeting Amid Parliamentary Crisis - Balkan Insight",
-      "summary": "Kosovo Opposition Snubs Acting President’s Meeting Amid Parliamentary Crisis&nbsp;&nbsp;Balkan Insight",
-      "albanianTitle": "Opozita kosovare bojkoton takimin me ushtruesen e detyrës së presidentit në mes të krizës parlamentare - Balkan Insight",
-      "translated": true,
-      "url": "https://balkaninsight.com/2026/08/18/kosovo-opposition-snubs-acting-presidents-meeting-amid-parliamentary-crisis/bi/",
-      "googleNewsUrl": "https://news.google.com/rss/articles/CBMitwFBVV95cUxOcjhtR3hUMW45R0VVTmdlc0loMFp0aV9PTklqVTY4cUNQazF1Mk1lYWNDaUc3MDNlVDFDSXY4WHlLM285dVkza002SV9nVGVWYkM5WEZYZUwzUU1ldkhtcHVhQ29paDFfb09ueGtyeE5FeHN1U0RKTlpyRjNINVJPdXFkdnBjT2ZnZVhEdG1rWC1pYkpjV2ozWkZDdU55Ry0wc2xZYVNoYXJGUm03SjQyYnpfY3IyYlE?oc=5",
-      "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/08/Kosovo-meeting-Albulena-Haxhiu-BIRN-scaled-e1787054218728.jpg",
-      "imageAttempts": 1,
-      "blurb": "Partitë opozitare në Kosovë refuzuan pjesëmarrjen në takimin e thirrur nga ushtruesja e detyrës së presidentit për krizën parlamentare.",
-      "outlet": "Balkan Insight",
-      "country": "SHBA",
-      "stanceAttempts": 1,
-      "sentiment": "neutral",
-      "stance": "neutral",
-      "stanceReason": "Faktikë e thjeshtë, pa gjuhë ngarkuar",
-      "isQuote": false,
-      "speaker": "",
-      "evidence": "",
-      "confidence": "high",
-      "model": "llama-3.3-70b-versatile",
-      "stanceVersion": 2,
-      "date": "2026-08-18",
-      "firstSeen": "2026-08-18",
-      "lastSeen": "2026-08-21"
-    },
-    "igor aleksov shooting the secret of the bare hill cineuropa": {
-      "key": "igor aleksov shooting the secret of the bare hill cineuropa",
-      "title": "Igor Aleksov shooting The Secret of the Bare Hill - Cineuropa",
-      "summary": "Igor Aleksov shooting The Secret of the Bare Hill&nbsp;&nbsp;Cineuropa",
-      "albanianTitle": "Igor Aleksov po xhiron filmin \"Sekreti i Kodrës së Zhveshur\" - Cineuropa",
-      "translated": true,
-      "url": "https://cineuropa.org/en/newsdetail/494534",
-      "googleNewsUrl": "https://news.google.com/rss/articles/CBMiVEFVX3lxTFBMdTVzT2JYT1pDUDA4REhOeTVDb1B6OHc4ZGlycTEtSEh1NTk2Ml9malQ2TUtaMV81WFJtU0dXTUJwVnY4UjRTWTZibEdPSjV6OEZwbA?oc=5",
-      "imageUrl": null,
-      "imageAttempts": 3,
-      "blurb": "Regjisori Igor Aleksov ka nisur xhirimet për filmin e ri me titull Sekretet e Kodrës së Zhveshur në rajon.",
-      "outlet": "Cineuropa",
-      "country": "SHBA",
-      "stanceAttempts": 1,
-      "sentiment": "neutral",
-      "stance": "neutral",
-      "stanceReason": "Titull informativ pa ngarkim",
-      "isQuote": false,
-      "speaker": "",
-      "evidence": "",
-      "confidence": "high",
-      "model": "llama-3.3-70b-versatile",
-      "stanceVersion": 2,
-      "date": "2026-08-18",
-      "firstSeen": "2026-08-18",
-      "lastSeen": "2026-08-20"
-    },
-    "igor aleksov shooting the secret of the bare hill cineuropa org": {
-      "key": "igor aleksov shooting the secret of the bare hill cineuropa org",
-      "title": "Igor Aleksov shooting The Secret of the Bare Hill - cineuropa.org",
-      "summary": "Igor Aleksov shooting The Secret of the Bare Hill&nbsp;&nbsp;cineuropa.org",
-      "albanianTitle": null,
-      "translated": false,
-      "url": "https://cineuropa.org/en/newsdetail/494534",
-      "googleNewsUrl": "https://news.google.com/rss/articles/CBMiVEFVX3lxTFBMdTVzT2JYT1pDUDA4REhOeTVDb1B6OHc4ZGlycTEtSEh1NTk2Ml9malQ2TUtaMV81WFJtU0dXTUJwVnY4UjRTWTZibEdPSjV6OEZwbA?oc=5",
-      "imageUrl": null,
-      "imageAttempts": 3,
-      "blurb": "Prodhimi i filmit Sekretet e Kodrës së Zhveshur nën drejtimin e regjisorit Igor Aleksov ka filluar xhirimet zyrtare.",
-      "outlet": "Cineuropa",
-      "country": "Britani",
-      "stanceAttempts": 1,
-      "sentiment": "neutral",
-      "stance": "neutral",
-      "stanceReason": "Titull informativ pa ngarkim",
-      "isQuote": false,
-      "speaker": "",
-      "evidence": "",
-      "confidence": "high",
-      "model": "llama-3.3-70b-versatile",
-      "stanceVersion": 2,
-      "date": "2026-08-18",
-      "firstSeen": "2026-08-18",
-      "lastSeen": "2026-08-18"
-    },
-    "european commission on opening the bridge over the ibar river we expect consulta": {
-      "key": "european commission on opening the bridge over the ibar river we expect consulta",
-      "title": "European Commission on opening the bridge over the Ibar River: We expect consultations and coordination - cna.al",
-      "summary": "European Commission on opening the bridge over the Ibar River: We expect consultations and coordination&nbsp;&nbsp;cna.al",
-      "albanianTitle": "Komisioni Evropian për hapjen e urës mbi lumin Ibër: Presim konsultime dhe koordinim - cna.al",
-      "translated": true,
-      "url": "https://www.cna.al/english/kosova-bota/komisioni-evropian-per-hapjen-e-ures-mbi-iber-presim-konsultime-dhe--i471811",
-      "googleNewsUrl": "https://news.google.com/rss/articles/CBMitgFBVV95cUxPZEZvXzM5SG5rQ1dnVEdKeEU4VFF5TVA2b0s5THp2R25ZQzV2cjNNcFI0dEhpR3ZFNVd2ZXFDREdiRzlReHBZNjJtZ1dFUExNWGI0UDBWS3pzTklPTjUxNlZiQVZianNNb0V6RXVEQmtKWkw5V0loX05CU3QxS2QxcHlPSWZpTWRjME9nVU9NVFJrbkUydDFLUUt3TS1qaEJYb3ZUZVBCaDRseldobzRLZGE5UmZwZw?oc=5",
-      "imageUrl": null,
-      "imageAttempts": 1,
-      "blurb": "Komisioni Evropian kërkon konsultime dhe koordinim për çështjen e hapjes së urës mbi lumin Ibër në qytetin e Mitrovicës.",
-      "outlet": "cna.al",
-      "country": "Britani",
-      "stanceAttempts": 1,
-      "sentiment": "neutral",
-      "stance": "neutral",
-      "stanceReason": "Raportim neutral i deklaratës",
-      "isQuote": false,
-      "speaker": "",
-      "evidence": "",
-      "confidence": "high",
-      "model": "llama-3.3-70b-versatile",
-      "stanceVersion": 2,
-      "date": "2026-08-18",
-      "firstSeen": "2026-08-18",
-      "lastSeen": "2026-08-18"
-    },
-    "igor aleksov sta girando the secret of the bare hill cineuropa": {
-      "key": "igor aleksov sta girando the secret of the bare hill cineuropa",
-      "title": "Igor Aleksov sta girando The Secret of the Bare Hill - Cineuropa",
-      "summary": "Igor Aleksov sta girando The Secret of the Bare Hill&nbsp;&nbsp;Cineuropa",
-      "albanianTitle": null,
-      "translated": false,
-      "url": "https://cineuropa.org/it/newsdetail/494534",
-      "googleNewsUrl": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE41b2g2ZU04SWF2MXdjTkdIbDVHZ1E2RzlmSHo2VVc0NFBfSEZ3QndpMVdXaFl6WGtkb25aZEg4LVUxVmxYMUVydzA3WjQ0X3RvRHpQSQ?oc=5",
-      "imageUrl": null,
-      "imageAttempts": 3,
-      "blurb": "Regjisori Igor Aleksov ka filluar punën në terren për xhirimet e filmit të tij të ri Sekretet e Kodrës së Zhveshur.",
-      "outlet": "Cineuropa",
-      "country": "Itali",
-      "stanceAttempts": 1,
-      "sentiment": "neutral",
-      "stance": "neutral",
-      "stanceReason": "Titull informativ pa ngarkim",
-      "isQuote": false,
-      "speaker": "",
-      "evidence": "",
-      "confidence": "high",
-      "model": "llama-3.3-70b-versatile",
-      "stanceVersion": 2,
-      "date": "2026-08-18",
-      "firstSeen": "2026-08-18",
-      "lastSeen": "2026-08-21"
-    },
-    "la ue pide más garantías a kosovo antes de abrir el puente que divide mitrovica ": {
-      "key": "la ue pide más garantías a kosovo antes de abrir el puente que divide mitrovica ",
-      "title": "La UE pide más garantías a Kosovo antes de abrir el puente que divide Mitrovica - Infobae",
-      "summary": "La UE pide más garantías a Kosovo antes de abrir el puente que divide Mitrovica&nbsp;&nbsp;Infobae",
-      "albanianTitle": "BE kërkon më shumë garanci nga Kosova para hapjes së urës që ndan Mitrovicën - Infobae",
-      "translated": true,
-      "url": "https://www.infobae.com/america/agencias/2026/08/18/la-ue-pide-mas-garantias-a-kosovo-antes-de-abrir-el-puente-que-divide-mitrovica/",
-      "googleNewsUrl": "https://news.google.com/rss/articles/CBMizAFBVV95cUxQZGg0aTNqWkpNWEdTS0IydFBsWUFhcXdwVnNYYVZzb25yUGVoVlhSekNDRFhRRDEwU0RvTU5HQnF1ZGZJbEx5cm5tXzNHU2lUUlRlMVhQLTRMN25felg2RmZXaGRYTkNwMURRLWlWM01Gc25QX3pZWGFxaHBfNmQ5MDgtdkpkMDMtMVhDbGROQmQ2WHhUaFdsRmFORHo1d1EtSEhHWVAtMXlhTFZXTzRDZWdubmk5dVNISTdMSHRTUV84U2Nfemw0TnNKQ3DSAecBQVVfeXFMTmE1b3RXM1NicThobDBYV0puNkZ0VmRCN0xnV3l1SGpEVE1HUW0wLUlQZjhha1dJN3VvRkQ2Sm1rTmNZTWFOS0lzV1ZFOE9UVktDT240N2dzb3lVcERZaFh0VHlLYVpBVjh2Ry1YQTlpLU1RQ2JDRk4xUGc3dXZoZ1F6U2hpTk40LXBnS21tbTB0UUUySHBmenVDYTRheHp6SnFOTWIwYkl1bllHMGZUZTJNVzZzQkdRRFA5d3g1TEZUOHY2TVZpM1RuZGlxOGpkYXB2MDZmcS1yTE4xSmZ0aEhFb0RZNmNJ?oc=5",
-      "imageUrl": "https://www.infobae.com/assets/images/logos/fallback-promo-image-1200x630.png",
-      "imageAttempts": 1,
-      "blurb": "Bashkimi Evropian kërkon garanci shtesë nga institucionet e Kosovës përpara se të hapet ura që ndan qytetin e Mitrovicës.",
-      "outlet": "Infobae",
-      "country": "Spanjë",
-      "stanceAttempts": 1,
-      "sentiment": "neutral",
-      "stance": "neutral",
-      "stanceReason": "Faktik, pa gjuhë të ngarkuar",
-      "isQuote": false,
-      "speaker": "",
-      "evidence": "",
-      "confidence": "high",
-      "model": "llama-3.3-70b-versatile",
-      "stanceVersion": 2,
-      "date": "2026-08-18",
-      "firstSeen": "2026-08-18",
-      "lastSeen": "2026-08-21"
-    },
-    "la oposición kosovar protesta contra el bloqueo del parlamento infobae": {
-      "key": "la oposición kosovar protesta contra el bloqueo del parlamento infobae",
-      "title": "La oposición kosovar protesta contra el bloqueo del Parlamento - Infobae",
-      "summary": "La oposición kosovar protesta contra el bloqueo del Parlamento&nbsp;&nbsp;Infobae",
-      "albanianTitle": "Opozita kosovare proteston kundër bllokimit të Parlamentit - Infobae",
-      "translated": true,
-      "url": "https://www.infobae.com/america/agencias/2026/08/18/la-oposicion-kosovar-protesta-contra-el-bloqueo-del-parlamento/",
-      "googleNewsUrl": "https://news.google.com/rss/articles/CBMitgFBVV95cUxNcVNXSUNTR3FjbGFISVNfTExJUVktNHozWjZiSEU0ZTRyMEZ0Y3pHek5CMUxkMVUxX3NtRy0weE5SeF9YUEMzQ1RRTXFTbWRDUDBRVU1VR05tQ0F2dkxDV3d2TDVlR3FvV2RzalBNbEhtRTRpMVdHSFR5QWwtZW45OVdGeTU5NzNTVV9OWjdCOUdWVzl2YkVUNk9GeEF4N3hVdGotck9ZU2diNnc3UlRuY2FYYWwzQdIB0AFBVV95cUxOQS0wM083ZXhQaGgxd1V4MEZQc1paQmZaUVJpR1ctSkg4OTRFa0pFcU84US0yOURUcmtORVo1UGwwNEhGQlVNNDhacGxGOWlvVU5SS1ota2ltVjUwQ1FXUGRuUUV6V1FQTjVUUC1sdkZnbWxsWU9JTkVoWGs3REx2X3U0dnFCTTRBZnlIQmlSc0Q1RFNQMF9Dd05fSTJ1NnFEWGpZeFpGbjloOHYwNkdnZldNUDlPc2FaRi1OZ0JUeVdUSzRoTWxGaUkyOHZ4Ym9h?oc=5",
-      "imageUrl": "https://www.infobae.com/assets/images/logos/fallback-promo-image-1200x630.png",
-      "imageAttempts": 1,
-      "blurb": "Partitë opozitare në Kosovë kanë organizuar protesta si shenjë kundërshtimi ndaj bllokimit të punës në Kuvendin e vendit.",
-      "outlet": "Infobae",
-      "country": "Spanjë",
-      "stanceAttempts": 1,
-      "sentiment": "neutral",
-      "stance": "neutral",
-      "stanceReason": "Faktik, pa gjuhë të ngarkuar",
-      "isQuote": false,
-      "speaker": "",
-      "evidence": "",
-      "confidence": "high",
-      "model": "llama-3.3-70b-versatile",
-      "stanceVersion": 2,
-      "date": "2026-08-18",
-      "firstSeen": "2026-08-18",
-      "lastSeen": "2026-08-21"
-    },
-    "βόλεϊ μεσογειακοί αγώνες 2026 αναχωρούν για το τάραντο οι εθνικές ανδρών και γυν": {
-      "key": "βόλεϊ μεσογειακοί αγώνες 2026 αναχωρούν για το τάραντο οι εθνικές ανδρών και γυν",
-      "title": "Βόλεϊ-Μεσογειακοί Αγώνες 2026: Αναχωρούν για το Τάραντο οι εθνικές ανδρών και γυναικών - Αθηναϊκό - Μακεδονικό πρακτορείο ειδήσεων",
-      "summary": "Βόλεϊ-Μεσογειακοί Αγώνες 2026: Αναχωρούν για το Τάραντο οι εθνικές ανδρών και γυναικών&nbsp;&nbsp;Αθηναϊκό - Μακεδονικό πρακτορείο ειδήσεων",
-      "albanianTitle": "Volejboll-Lojërat Mesdhetare 2026: Kombëtaret e meshkujve dhe femrave nisen për në Taranto - Agjencia e Lajmeve Athinase-Maqedonase",
-      "translated": true,
-      "url": "https://www.amna.gr/sport/article/1016230/Bolei-Mesogeiakoi-Agones-2026-Anachoroun-gia-to-Taranto-oi-ethnikes-andron-kai-gunaikon-",
-      "googleNewsUrl": "https://news.google.com/rss/articles/CBMiygFBVV95cUxNSDdvdWlWMUNYLUdtY3p2ZXEyeFZxeHRkMDdYdzVUUkhHQjN3el9fUHlJV3Z2dzNCdWRSZi04TjlNclo3X2FzdlVYeGdSOTVrU1hacTduUnZ0NUprZlhTMjRCMVhBeURvRDFZU1hWM3EyMEdITzVudndPREkxaGg2UndQLXI5RHhRUXpyMTVvbEFSZlFwaERfd0x6LUFHVE1uQU9hTUp1ZVlvdDQ1Q0lZVHhISUswRzBPRzg1QjVHNkc3ODQ4dUpCSFpB?oc=5",
-      "imageUrl": "https://amna.gr/photos/202608/w18-150258mennt2026mediaday.jpg",
-      "imageAttempts": 1,
-      "blurb": "Ekipet kombëtare të volejbollit të Greqisë janë nisur drejt Tarantos për të marrë pjesë në Lojërat Mesdhetare të vitit 2026.",
-      "outlet": "Αθηναϊκό - Μακεδονικό πρακτορείο ειδήσεων",
-      "country": "Greqi",
-      "stanceAttempts": 1,
-      "sentiment": "neutral",
-      "stance": "neutral",
-      "stanceReason": "Faktik, pa gjuhë të ngarkuar",
-      "isQuote": false,
-      "speaker": "",
-      "evidence": "",
-      "confidence": "high",
-      "model": "llama-3.3-70b-versatile",
-      "stanceVersion": 2,
-      "date": "2026-08-18",
-      "firstSeen": "2026-08-18",
-      "lastSeen": "2026-08-21"
-    },
-    "mε έξι αθλητές η ελλάδα στο ευρωπαϊκό πρωτάθλημα παίδων κ15 στο κόσοβο skaipatra": {
-      "key": "mε έξι αθλητές η ελλάδα στο ευρωπαϊκό πρωτάθλημα παίδων κ15 στο κόσοβο skaipatra",
-      "title": "Mε έξι αθλητές η Ελλάδα στο Ευρωπαϊκό Πρωτάθλημα Παίδων & Κ15 στο Κόσοβο - skaipatras.gr",
-      "summary": "Mε έξι αθλητές η Ελλάδα στο Ευρωπαϊκό Πρωτάθλημα Παίδων & Κ15 στο Κόσοβο&nbsp;&nbsp;skaipatras.gr",
-      "albanianTitle": "Greqia me gjashtë atletë në Kampionatin Evropian për kadetë dhe U15 në Kosovë - skaipatras.gr",
-      "translated": true,
-      "url": "https://www.skaipatras.gr/2026/08/18/me-exi-athlites-i-ellada-sto-eyropaiko-protathlima-paidon-amp-k15-sto-kosovo/",
-      "googleNewsUrl": "https://news.google.com/rss/articles/CBMitAFBVV95cUxPdk9jLUNHVFl1amYtLXIxeGNlTXBzbmVubUp3bHNLTlFiZW8yRGgzaDhPVW5MMnRiREJNaFRuMGJjY3FENlZxUm1XT1A4RmEwbk1GUVdyN3BKVFNlcnpYeDFkcklTdkR3eHRmSS1RODg1bUc1enhWMjhVX1A1aEJyZUt3dVBKdVFFMkFuT0dmaTZDQVA3aWJVRERaV3VudHN0cmRMSlVGdF9IU3FGN29CY2Uta0E?oc=5",
-      "imageUrl": "https://www.skaipatras.gr/wp-content/uploads/2026/08/ΧΡΗΣΤΟΥ.jpg",
-      "imageAttempts": 1,
-      "blurb": "Greqia do të përfaqësohet nga gjashtë atletë në Kampionatin Evropian për kadetë dhe grupmoshën U15 që mbahet në Kosovë.",
-      "outlet": "skaipatras.gr",
-      "country": "Greqi",
-      "stanceAttempts": 1,
-      "sentiment": "neutral",
-      "stance": "neutral",
-      "stanceReason": "Faktik, pa gjuhë të ngarkuar",
-      "isQuote": false,
-      "speaker": "",
-      "evidence": "",
-      "confidence": "high",
-      "model": "llama-3.3-70b-versatile",
-      "stanceVersion": 2,
-      "date": "2026-08-18",
-      "firstSeen": "2026-08-18",
-      "lastSeen": "2026-08-18"
-    },
-    "kosova da anayasal düzen artık i şlemiyor kosovahaber com": {
-      "key": "kosova da anayasal düzen artık i şlemiyor kosovahaber com",
-      "title": "Kosova’da Anayasal Düzen Artık İşlemiyor - Kosovahaber.com",
-      "summary": "Kosova’da Anayasal Düzen Artık İşlemiyor&nbsp;&nbsp;Kosovahaber.com",
-      "albanianTitle": "Rendi kushtetues në Kosovë nuk funksionon më - Kosovahaber.com",
-      "translated": true,
-      "url": "https://kosovahaber.com/haber/kosovada-anayasal-duzen-artik-islemiyor-105013",
-      "googleNewsUrl": "https://news.google.com/rss/articles/CBMiggFBVV95cUxQOEIzZW5XVlJPbHgwWVlRbHpVMUpicldLZmtZRHNpVTdPajZ0QWRLZUpnVlhmeF9NYmd4X0pXMFlsNjhEbU5qd2RNajlXa3lJeVRWaGVpR1p0bGIxcENtMGw5TGpqaDJDMDBhMERvVDJlY0haSk9UbjlpamFzU2k1RDF3?oc=5",
-      "imageUrl": null,
-      "imageAttempts": 3,
-      "blurb": "Rendi kushtetues në Kosovë nuk është më funksional sipas vlerësimeve të fundit të publikuara në media.",
-      "outlet": "Kosovahaber.com",
-      "country": "Turqi",
-      "stanceAttempts": 1,
-      "sentiment": "negative",
-      "stance": "negative",
-      "stanceReason": "Fjalë kritike ndaj rendit konstitucional të Kosovës",
-      "isQuote": false,
-      "speaker": "",
-      "evidence": "Anayasal Düzen Artık İşlemiyor",
-      "confidence": "medium",
-      "model": "llama-3.3-70b-versatile",
-      "stanceVersion": 2,
-      "date": "2026-08-18",
-      "firstSeen": "2026-08-18",
-      "lastSeen": "2026-08-21"
-    },
-    "ab i bre köprüsü nün açılması i çin i stişare ve koordinasyon bekliyoruz kosovah": {
-      "key": "ab i bre köprüsü nün açılması i çin i stişare ve koordinasyon bekliyoruz kosovah",
-      "title": "AB: İbre Köprüsü’nün Açılması İçin İstişare ve Koordinasyon Bekliyoruz - Kosovahaber.com",
-      "summary": "AB: İbre Köprüsü’nün Açılması İçin İstişare ve Koordinasyon Bekliyoruz&nbsp;&nbsp;Kosovahaber.com",
-      "albanianTitle": "BE: Presim konsultime dhe koordinim për hapjen e Urës së Ibrit - Kosovahaber.com",
-      "translated": true,
-      "url": "https://kosovahaber.com/haber/ab-ibre-koprusunun-acilmasi-icin-istisare-ve-koordinasyon-bekliyoruz-105038",
-      "googleNewsUrl": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxQNWpVdk9YNmhZUWpnXzFvQnp5Qk04TGYtRHRzak1ubmJSbWlSeG9hSFp3a1FMQjY2Ulh1eUhhdmFtNUNzRWZqNk9HY2laMkhDU0lfcGNxd1pSdHZpZk5LTXNTdUhlUWo1dEhSMmNIUWZWdFlmNFFwSXVscUU2dWNmZVNmWFEwdnNlZXBaYllRN1lwX0o1ZjBSTXdMV2lqOWl6eEtDM1RsbC0?oc=5",
-      "imageUrl": null,
-      "imageAttempts": 3,
-      "blurb": "Bashkimi Evropian kërkon konsultime dhe koordinim për çështjen e hapjes së urës mbi lumin Ibër në Mitrovicë.",
-      "outlet": "Kosovahaber.com",
-      "country": "Turqi",
-      "stanceAttempts": 1,
-      "sentiment": "neutral",
-      "stance": "neutral",
-      "stanceReason": "Faktik, pa gjuhë të ngarkuar",
-      "isQuote": false,
-      "speaker": "",
-      "evidence": "",
-      "confidence": "high",
-      "model": "llama-3.3-70b-versatile",
-      "stanceVersion": 2,
-      "date": "2026-08-18",
-      "firstSeen": "2026-08-18",
-      "lastSeen": "2026-08-18"
-    },
-    "pdk lı blerta deliu dan haxhiu nun toplantı fotografına sert tepki kosovahaber c": {
-      "key": "pdk lı blerta deliu dan haxhiu nun toplantı fotografına sert tepki kosovahaber c",
-      "title": "PDK’lı Blerta Deliu’dan Haxhiu’nun Toplantı Fotografına Sert Tepki - Kosovahaber.com",
-      "summary": "PDK’lı Blerta Deliu’dan Haxhiu’nun Toplantı Fotografına Sert Tepki&nbsp;&nbsp;Kosovahaber.com",
-      "albanianTitle": "Blerta Deliu e PDK-së reagon ashpër ndaj fotografisë së takimit të Haxhiut - Kosovahaber.com",
-      "translated": true,
-      "url": "https://kosovahaber.com/haber/pdkli-blerta-deliudan-haxhiunun-toplanti-fotografina-sert-tepki-105037",
-      "googleNewsUrl": "https://news.google.com/rss/articles/CBMiogFBVV95cUxOZXMwdnZTQU1XNDdhblo5dVhRYkU2anVrMW9vdnJlVVNfZjlCTEtCM0VQd3VPM0VGVDFJYnlrekx4TUVlU1N6NDFoLTRZSUU1anQwb0RseU15MVhUdy01c29Fb2Mzbm4wSXl3Sk9keXEtdHlRSDRHa0poajdsZDNtYmR2eVNfamg5Q0RJYzJCTUpoYkVBRGo4Ym1pSjVtSEt2R1E?oc=5",
-      "imageUrl": null,
-      "imageAttempts": 3,
-      "blurb": "Deputetja e PDK-së, Blerta Deliu, ka reaguar ndaj një fotografie të ministres Haxhiu të publikuar nga një takim.",
-      "outlet": "Kosovahaber.com",
-      "country": "Turqi",
-      "stanceAttempts": 1,
-      "sentiment": "neutral",
-      "stance": "neutral",
-      "stanceReason": "Fact-based report of a political reaction without loaded language",
-      "isQuote": false,
-      "speaker": "",
-      "evidence": "",
-      "confidence": "high",
-      "model": "llama-3.3-70b-versatile",
-      "stanceVersion": 2,
-      "date": "2026-08-18",
-      "firstSeen": "2026-08-18",
-      "lastSeen": "2026-08-19"
-    },
-    "alliance reports kosovo government over 18 commissions srpske rs": {
-      "key": "alliance reports kosovo government over 18 commissions srpske rs",
-      "title": "Alliance Reports Kosovo Government Over 18 Commissions - srpske.rs",
-      "summary": "Alliance Reports Kosovo Government Over 18 Commissions&nbsp;&nbsp;srpske.rs",
-      "albanianTitle": "Aleanca denoncon Qeverinë e Kosovës për 18 komisione - srpske.rs",
-      "translated": true,
-      "url": "https://srpske.rs/en/news/politika/2026/08/18/alliance-reports-kosovo-government-over-18-commissions",
-      "googleNewsUrl": "https://news.google.com/rss/articles/CBMiogFBVV95cUxObGtnMng2S1I0SExjcUsyMWJyRFlYamNWVzBHQ1kxUU9tYTFBT2R4WERSR3JDeTJSRW5hSEVja3VDOEdMcTU5ZjQzTkFOSzdQbUtFTER5bXRJcVA2c1B2NkhyWXhudk1KaEdkOGNzV1NDakRwNXF5empnSlY0clphMTFjSXdUMTNnLVZMUk5pZ0QxM252QTdncHM4OFcybzZNZVE?oc=5",
-      "imageUrl": "https://srpske.rs/uploads/articles/alliance-reports-kosovo-government-over-18-commissions-16x9.webp",
-      "imageAttempts": 2,
-      "blurb": "Aleanca për Ardhmërinë e Kosovës ka raportuar qeverinë lidhur me funksionimin e tetëmbëdhjetë komisioneve të ndryshme shtetërore në vend.",
-      "outlet": "srpske.rs",
-      "country": "SHBA",
-      "stanceAttempts": 2,
-      "sentiment": "neutral",
-      "stance": "neutral",
-      "stanceReason": "Plain news headline about government commissions, no evaluative language",
-      "isQuote": false,
-      "speaker": "",
-      "evidence": "",
-      "confidence": "high",
-      "model": "llama-3.3-70b-versatile",
-      "stanceVersion": 2,
-      "date": "2026-08-18",
-      "firstSeen": "2026-08-18",
-      "lastSeen": "2026-08-21"
-    },
-    "north macedonia to import coal for power plants from kosovo balkan green energy ": {
-      "key": "north macedonia to import coal for power plants from kosovo balkan green energy ",
-      "title": "North Macedonia to import coal for power plants from Kosovo* - Balkan Green Energy News",
-      "summary": "North Macedonia to import coal for power plants from Kosovo*&nbsp;&nbsp;Balkan Green Energy News",
-      "albanianTitle": "Maqedonia e Veriut do të importojë qymyr nga Kosova për termocentralet - Balkan Green Energy News",
-      "translated": true,
-      "url": "https://balkangreenenergynews.com/north-macedonia-to-import-coal-for-power-plants-from-kosovo/",
-      "googleNewsUrl": "https://news.google.com/rss/articles/CBMimgFBVV95cUxPRHpkR1NsRFJQZk4tSU9QQnVlMUxQRWhPRXZxbm9hYjJXTG9NVmgzY2JXcHAxQ1VmTktjTUczcEZkZWlPaWU1UXNSYjdPSEZLMkhpZGNCYzNpMkYyUUIxTXRyQ0wtaF9lemZtVzNDZVQzazA1TkVRdllxblRETXdVOFdQTWFrTzVxU2M5NkVzSnAxZUs1cF8tMmZ3?oc=5",
-      "imageUrl": "https://balkangreenenergynews.com/wp-content/uploads/2026/08/north-macedonia-kosovo-kek-esm-coal-concesion-contract-hasani-uzuncev.jpg",
-      "imageAttempts": 2,
-      "blurb": "Maqedonia e Veriut ka planifikuar importimin e thëngjillit nga Kosova për nevojat e termocentraleve të saj për prodhimin e energjisë.",
-      "outlet": "Balkan Green Energy News",
-      "country": "SHBA",
-      "stanceAttempts": 2,
-      "sentiment": "neutral",
-      "stance": "neutral",
-      "stanceReason": "Faktikë e thjeshtë, pa gjuhë ngarkuar ndaj Kosovës",
-      "isQuote": false,
-      "speaker": "",
-      "evidence": "",
-      "confidence": "high",
-      "model": "llama-3.3-70b-versatile",
-      "stanceVersion": 2,
-      "date": "2026-08-18",
-      "firstSeen": "2026-08-18",
-      "lastSeen": "2026-08-21"
-    },
-    "dragas teacher detained a month over espionage suspicion srpske rs": {
-      "key": "dragas teacher detained a month over espionage suspicion srpske rs",
-      "title": "Dragas Teacher Detained a Month Over Espionage Suspicion - srpske.rs",
-      "summary": "Dragas Teacher Detained a Month Over Espionage Suspicion&nbsp;&nbsp;srpske.rs",
-      "albanianTitle": "Mësuesi nga Dragashi mbahet një muaj në paraburgim nën dyshimin për spiunazh - srpske.rs",
-      "translated": true,
-      "url": "https://srpske.rs/en/news/politika/2026/08/18/dragas-teacher-detained-month-over-espionage-suspicion",
-      "googleNewsUrl": "https://news.google.com/rss/articles/CBMiogFBVV95cUxNMi1QcUsxczBOZnhwb2t4Y3R6NGg3ZU9ZNjExUzNROTg0R3dJT3lMSmR0NDE4aV9LU2o0d2Nud3hHLXJSYm9lT3ZHME5aRTNTejQzck1VNG9TRG1uX0ZUX1JGaVBYUi1vQlh5bFIyMWRWQ3FnbkZScFJaQXU1emhGWTM3NFlFUERpTzBEaUc0Vzl4UW5zUU16TTdwNU54S0E0ZkE?oc=5",
-      "imageUrl": "https://srpske.rs/uploads/articles/dragas-teacher-detained-month-over-espionage-suspicion-16x9.webp",
-      "imageAttempts": 2,
-      "blurb": "Një mësimdhënës nga Dragashi është ndaluar për një muaj nën dyshimet për kryerjen e veprës penale të spiunazhit.",
-      "outlet": "srpske.rs",
-      "country": "SHBA",
-      "stanceAttempts": 2,
-      "sentiment": "neutral",
-      "stance": "neutral",
-      "stanceReason": "Raportim faktik pa gjuhë ngarkuar ndaj Kosovës",
-      "isQuote": false,
-      "speaker": "",
-      "evidence": "",
-      "confidence": "high",
-      "model": "llama-3.3-70b-versatile",
-      "stanceVersion": 2,
-      "date": "2026-08-18",
-      "firstSeen": "2026-08-18",
-      "lastSeen": "2026-08-18"
-    },
-    "kosovo s acting president haxhiu calls for talks on specific names for a consens": {
-      "key": "kosovo s acting president haxhiu calls for talks on specific names for a consens",
-      "title": "Kosovo’s acting President Haxhiu calls for talks on specific names for a consensus presidential candidate - KosovaPress",
-      "summary": "Kosovo’s acting President Haxhiu calls for talks on specific names for a consensus presidential candidate&nbsp;&nbsp;KosovaPress",
-      "albanianTitle": "Ushtruesja e detyrës së Presidentit të Kosovës, Haxhiu, bën thirrje për bisedime rreth emrave për një kandidat konsensual për president",
-      "translated": true,
-      "url": "https://kosovapress.com/eng/kosovos-acting-president-haxhiu-calls-for-talks-on-specific-names-for-a-consensus-presidential-candidate",
-      "googleNewsUrl": "https://news.google.com/rss/articles/CBMizAFBVV95cUxNdHlrYngwaUlXNmItNi1jVDAxMGhiaTNmdi1YcGZSTXlxQS1Xd2o3MGhiRGR4R2NFdXJaRzY4bk14cU9ieWk0SThFcW90QjFYZDdWOWl4SUd3ODR0RXZWSWFnMElRZ2I3NWlNWVp0Qk5pU0Fjb0VES2JpV2FNSEo0T1lhdXk3Smwyb3g5THZQazdFUE5aTFU2VEo3TXFndVVRZ19ueHpKVEpWZmt4OVhoUTkyeGtQV2NaQkVKdy1lTm9FSDN6ZGh0V05GZ28?oc=5",
-      "imageUrl": null,
-      "imageAttempts": 2,
-      "blurb": "Ushtruesja e detyrës së presidentit, Vjosa Osmani, kërkon diskutime për emra konkretë për një kandidat konsensual për president.",
-      "outlet": "KosovaPress",
-      "country": "SHBA",
-      "stanceAttempts": 1,
-      "sentiment": "neutral",
-      "stance": "neutral",
-      "stanceReason": "Headline reports statement without editorialising",
-      "isQuote": false,
-      "speaker": "",
-      "evidence": "",
-      "confidence": "high",
-      "model": "llama-3.3-70b-versatile",
-      "stanceVersion": 2,
-      "date": "2026-08-18",
-      "firstSeen": "2026-08-18",
-      "lastSeen": "2026-08-18"
-    },
-    "gërvalla calls on former opposition to join talks on kosovo president kosovapres": {
-      "key": "gërvalla calls on former opposition to join talks on kosovo president kosovapres",
-      "title": "Gërvalla calls on former opposition to join talks on Kosovo president - KosovaPress",
-      "summary": "Gërvalla calls on former opposition to join talks on Kosovo president&nbsp;&nbsp;KosovaPress",
-      "albanianTitle": "Gërvalla u bën thirrje partive opozitare t'i bashkohen bisedimeve për presidentin e Kosovës - KosovaPress",
-      "translated": true,
-      "url": "https://kosovapress.com/eng/gervalla-calls-on-former-opposition-come-to-the-meeting-to-find-a-solution-for-kosovo-president",
-      "googleNewsUrl": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxOdzFvRlZobE01N05tMkVKbW1KZU44RUV6bWpfVnE0Z2pjbHF1bl9maF9fcG00VkMzLU9EdnpvaHdMNGlhV292M0hyUzlnV3Vfb3ZLcVcwNm05eHJBeG1PcUxSYnZLZk9rRnNacjhxb1FKQWtKQklzMTRBbGdWaHR1TDRtbElzNmgtQWtlNHVaWUlSal9OeEJsUXViYmxac3RZc1hvdS1UdWxUSjhSTC1pc29UWmRFVkN2LU5PcEpraDk?oc=5",
-      "imageUrl": null,
-      "imageAttempts": 1,
-      "blurb": "Ministrja Gërvalla u bën thirrje partive opozitare që t'i bashkohen bisedimeve për zgjedhjen e presidentit të Kosovës.",
-      "outlet": "KosovaPress",
-      "country": "SHBA",
-      "stanceAttempts": 1,
-      "sentiment": "neutral",
-      "stance": "neutral",
-      "stanceReason": "Headline reports statement without editorialising",
-      "isQuote": false,
-      "speaker": "",
-      "evidence": "",
-      "confidence": "high",
-      "model": "llama-3.3-70b-versatile",
-      "stanceVersion": 2,
-      "date": "2026-08-18",
-      "firstSeen": "2026-08-18",
-      "lastSeen": "2026-08-18"
-    },
-    "procurement remains on paper over 700 activities in kosovo not initiated by the ": {
-      "key": "procurement remains on paper over 700 activities in kosovo not initiated by the ",
-      "title": "“Procurement remains on paper”: Over 700 activities in Kosovo not initiated by the end of June - KosovaPress",
-      "summary": "“Procurement remains on paper”: Over 700 activities in Kosovo not initiated by the end of June&nbsp;&nbsp;KosovaPress",
-      "albanianTitle": "“Prokurimi mbetet në letër”: Mbi 700 aktivitete në Kosovë nuk janë iniciuar deri në fund të qershorit - KosovaPress",
-      "translated": true,
-      "url": "https://kosovapress.com/eng/procurement-remains-on-paper-over-700-activities-in-kosovo-not-initiated-by-the-end-of-june",
-      "googleNewsUrl": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxOTUZqTnBCZEV6TVNfMGdZcWl5a2ZTLXJSR1FkTG9MeWZScEhZb1ZMdXI5LURNN2J4cFBJenV2N2xadGhUNkpVcFJFVEMtOHNvMm5rZy1tVG4wNGFlZlg4djBQT25GZUhnVGNqSU1uYUpLR1NNeEdPMXQxSW1LbThjTE83OTladldUOEpuUUlBaTNLZy1kUjhGUk5xZ3RJWHk2QkZZUUpKRHNhN2ZkNFVCUVJJTHJfemxHc1pR?oc=5",
-      "imageUrl": null,
-      "imageAttempts": 2,
-      "blurb": "Mbi 700 aktivitete të prokurimit në Kosovë nuk janë iniciuar deri në fund të muajit qershor të këtij viti.",
-      "outlet": "KosovaPress",
-      "country": "SHBA",
-      "stanceAttempts": 1,
-      "sentiment": "neutral",
-      "stance": "neutral",
-      "stanceReason": "Quoted phrase attributed to source, not outlet's own voice",
-      "isQuote": true,
-      "speaker": "",
-      "evidence": "",
-      "confidence": "high",
-      "model": "llama-3.3-70b-versatile",
-      "stanceVersion": 2,
-      "date": "2026-08-18",
-      "firstSeen": "2026-08-18",
-      "lastSeen": "2026-08-18"
-    },
-    "kosovo mayors announce protest in front of government building kosovapress": {
-      "key": "kosovo mayors announce protest in front of government building kosovapress",
-      "title": "Kosovo mayors announce protest in front of government building - KosovaPress",
-      "summary": "Kosovo mayors announce protest in front of government building&nbsp;&nbsp;KosovaPress",
-      "albanianTitle": "Kryetarët e komunave në Kosovë paralajmërojnë protestë para ndërtesës së qeverisë - KosovaPress",
-      "translated": true,
-      "url": "https://kosovapress.com/eng/kosovo-mayors-announce-protest-in-front-of-government-building",
-      "googleNewsUrl": "https://news.google.com/rss/articles/CBMilAFBVV95cUxNTVFpRDB1a3RXcDR5ZjZRUkhCejYtZnJ5ZzJ5VS1KV3JvOEc5V0RGNTRoSmp4V1BoV0ltMVRVV1d2aEJHZ280d25XTDBOTnJEU0dMZUxKTFR1R2NlUVBPUndWck9oNkxnR2pWVmNUa3hEVTJGZTlkODNncWZVVnFMZGppWTIyelQzTkk5eGxFVXFHa2M4?oc=5",
-      "imageUrl": null,
-      "imageAttempts": 3,
-      "blurb": "Kryetarët e komunave të Kosovës kanë paralajmëruar mbajtjen e një proteste para ndërtesës së Qeverisë për të shprehur pakënaqësitë e tyre.",
-      "outlet": "KosovaPress",
-      "country": "SHBA",
-      "stanceAttempts": 1,
-      "sentiment": "neutral",
-      "stance": "neutral",
-      "stanceReason": "Lajm i thjeshtë për protestë të kryetarëve të komunave në Kosovë",
-      "isQuote": false,
-      "speaker": "",
-      "evidence": "",
-      "confidence": "high",
-      "model": "llama-3.3-70b-versatile",
-      "stanceVersion": 2,
-      "date": "2026-08-18",
-      "firstSeen": "2026-08-18",
-      "lastSeen": "2026-08-21"
-    },
-    "cee animation ouvre les inscriptions pour les coda co development animation awar": {
-      "key": "cee animation ouvre les inscriptions pour les coda co development animation awar",
-      "title": "CEE Animation ouvre les inscriptions pour les CODA – Co-Development Animation Awards - Cineuropa",
-      "summary": "CEE Animation ouvre les inscriptions pour les CODA – Co-Development Animation Awards&nbsp;&nbsp;Cineuropa",
-      "albanianTitle": "CEE Animation hap aplikimet për çmimet e bashkëzhvillimit të animacionit CODA",
-      "translated": true,
-      "url": "https://cineuropa.org/fr/newsdetail/494528",
-      "googleNewsUrl": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE9wSkE1UDN6NUZyLUFSUkptYlJ5ZUZ6NFdqQmN4elRnYzVkTFdJZ0ZUeGxyNTF4VlBWNjVpRnJSWmhLb09oaXJ0a2d2Z0kwNmJTbjRlNw?oc=5",
-      "imageUrl": null,
-      "imageAttempts": 3,
-      "blurb": "Organizata CEE Animation ka hapur procesin e aplikimit për çmimet e bashkëzhvillimit të animacionit të njohura si CODA.",
-      "outlet": "Cineuropa",
-      "country": "Francë",
-      "stanceAttempts": 1,
-      "sentiment": "unknown",
-      "stance": "unknown",
-      "stanceReason": "No reference to Kosovo in headline or snippet",
-      "isQuote": false,
-      "speaker": "",
-      "evidence": "",
-      "confidence": "high",
-      "model": "llama-3.3-70b-versatile",
-      "stanceVersion": 2,
-      "date": "2026-08-18",
-      "firstSeen": "2026-08-18",
-      "lastSeen": "2026-08-18"
-    },
-    "facinas homenajea este viernes al legionario javier del castillo 25 años después": {
-      "key": "facinas homenajea este viernes al legionario javier del castillo 25 años después",
-      "title": "Facinas homenajea este viernes al legionario Javier del Castillo 25 años después de su muerte en Kosovo - Diario Área Campo de Gibraltar",
-      "summary": "Facinas homenajea este viernes al legionario Javier del Castillo 25 años después de su muerte en Kosovo&nbsp;&nbsp;Diario Área Campo de Gibraltar",
-      "albanianTitle": "Facinas nderon këtë të premte legjionarin Javier del Castillo, 25 vjet pas vdekjes së tij në Kosovë",
-      "translated": true,
-      "url": "https://www.diarioarea.com/tarifa/facinas-homenajea-este-viernes-al-legionario-javier-del-castillo-25-anos-despues-de-su-muerte-en-kosovo/",
-      "googleNewsUrl": "https://news.google.com/rss/articles/CBMi1AFBVV95cUxPSVF1aUxPd1Z6N1dfcFJpV0hvSnVCdnlNR0hLYzJIa1NtNnl5TEpMTHYtMFNXU1k4ZTZlNmIzcnhqSUI4MjNGaUNTaU1lWEQ0a3VpOU5iOVZpWUU5cEctQ2ZsYTFqU2pGblJWVDJkWVZPYmtybXRHSGxWOE10YzB3MFdFWHY3Tk0ybVNpaDRob3NzbTBrWWN0UnZPckM1RXktYjk0Q2R2Z2NiMm9qT2N5V09JWDZOdHctT1Q3N3hJczZyUzdCMW84Z0NYUjVvWFNCa1JiOA?oc=5",
-      "imageUrl": "https://www.diarioarea.com/wp-content/uploads/2026/08/homenaje-Javier-del-Castillo.jpeg",
-      "imageAttempts": 1,
-      "blurb": "Komuna e Facinasit mban ceremoni përkujtimore për legjionarin Javier del Castillo, 25 vjet pas vdekjes së tij në Kosovë.",
-      "outlet": "Diario Área Campo de Gibraltar",
-      "country": "Spanjë",
-      "stanceAttempts": 1,
-      "sentiment": "neutral",
-      "stance": "neutral",
-      "stanceReason": "Faktikë raportuar pa gjuhë ngarkuar",
-      "isQuote": false,
-      "speaker": "",
-      "evidence": "",
-      "confidence": "high",
-      "model": "llama-3.3-70b-versatile",
-      "stanceVersion": 2,
-      "date": "2026-08-18",
-      "firstSeen": "2026-08-18",
-      "lastSeen": "2026-08-21"
-    },
-    "άρση βαρών mε έξι αθλητές η ελλάδα στο ευρωπαϊκό πρωτάθλημα παίδων κ15 στο κόσοβ": {
-      "key": "άρση βαρών mε έξι αθλητές η ελλάδα στο ευρωπαϊκό πρωτάθλημα παίδων κ15 στο κόσοβ",
-      "title": "Άρση Βαρών :Mε έξι αθλητές η Ελλάδα στο Ευρωπαϊκό Πρωτάθλημα Παίδων & Κ15 στο Κόσοβο - EPIRUS TV NEWS",
-      "summary": "Άρση Βαρών :Mε έξι αθλητές η Ελλάδα στο Ευρωπαϊκό Πρωτάθλημα Παίδων & Κ15 στο Κόσοβο&nbsp;&nbsp;EPIRUS TV NEWS",
-      "albanianTitle": "Peshëngritje: Greqia me gjashtë sportistë në Kampionatin Evropian për kadetë dhe U15 në Kosovë",
-      "translated": true,
-      "url": "https://www.epirus-tv-news.gr/2026/08/m-15.html",
-      "googleNewsUrl": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE9CTml5MXJCa25TY09hZ0FPc2xiVXkzSnZ4RlZQNEdhOEp0QjM0OFJhQjltQW80WUlHNGlfbjNrS29vZEVuWGdqRU9xNS1rYXRiNXF0U3JMTVhyWlE?oc=5",
-      "imageUrl": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEirWvE4heG9V03NUmkWAcZhK3CXOtM07d7crp6Izh_4zd3yCTwA5s73UZN_tKxCrIzqGrIBRGJaKBdvXMei-F8bKEUNF63AGMGbIk5z34oqzPVCc3eRGUeGH4M3YDbfX1tyOV9f6PNKnOger_sTHWDE2GHXIir26Ix1btfh2Jv_2fyUSX8Wt5EejOhVd8Ry/w1200-h630-p-k-no-nu/%CE%A7%CE%A1%CE%97%CE%A3%CE%A4%CE%9F%CE%A5.jpg",
-      "imageAttempts": 3,
-      "blurb": "Greqia do të përfaqësohet me gjashtë sportistë në Kampionatin Evropian të peshëngritjes për grupmoshat U15 dhe kadetë në Kosovë.",
-      "outlet": "EPIRUS TV NEWS",
-      "country": "Greqi",
-      "stanceAttempts": 1,
-      "sentiment": "neutral",
-      "stance": "neutral",
-      "stanceReason": "Faktikë raportuar pa gjuhë ngarkuar",
-      "isQuote": false,
-      "speaker": "",
-      "evidence": "",
-      "confidence": "high",
-      "model": "llama-3.3-70b-versatile",
-      "stanceVersion": 2,
-      "date": "2026-08-18",
-      "firstSeen": "2026-08-18",
-      "lastSeen": "2026-08-20"
-    },
-    "mε έξι αθλητές η ελλάδα στο ευρωπαϊκό πρωτάθλημα παίδων κ15 στο κόσοβο skai patr": {
-      "key": "mε έξι αθλητές η ελλάδα στο ευρωπαϊκό πρωτάθλημα παίδων κ15 στο κόσοβο skai patr",
-      "title": "Mε έξι αθλητές η Ελλάδα στο Ευρωπαϊκό Πρωτάθλημα Παίδων & Κ15 στο Κόσοβο - Skai Patras",
-      "summary": "Mε έξι αθλητές η Ελλάδα στο Ευρωπαϊκό Πρωτάθλημα Παίδων & Κ15 στο Κόσοβο&nbsp;&nbsp;Skai Patras",
-      "albanianTitle": "Greqia me gjashtë sportistë në Kampionatin Evropian për kadetë dhe U15 në Kosovë",
-      "translated": true,
-      "url": "https://www.skaipatras.gr/2026/08/18/me-exi-athlites-i-ellada-sto-eyropaiko-protathlima-paidon-amp-k15-sto-kosovo/",
-      "googleNewsUrl": "https://news.google.com/rss/articles/CBMitAFBVV95cUxPdk9jLUNHVFl1amYtLXIxeGNlTXBzbmVubUp3bHNLTlFiZW8yRGgzaDhPVW5MMnRiREJNaFRuMGJjY3FENlZxUm1XT1A4RmEwbk1GUVdyN3BKVFNlcnpYeDFkcklTdkR3eHRmSS1RODg1bUc1enhWMjhVX1A1aEJyZUt3dVBKdVFFMkFuT0dmaTZDQVA3aWJVRERaV3VudHN0cmRMSlVGdF9IU3FGN29CY2Uta0E?oc=5",
-      "imageUrl": "https://www.skaipatras.gr/wp-content/uploads/2026/08/ΧΡΗΣΤΟΥ.jpg",
-      "imageAttempts": 1,
-      "blurb": "Ekipi grek i peshëngritjes merr pjesë me gjashtë garues në Kampionatin Evropian për të rinj që mbahet në Kosovë.",
-      "outlet": "Skai Patras",
-      "country": "Greqi",
-      "stanceAttempts": 1,
-      "sentiment": "neutral",
-      "stance": "neutral",
-      "stanceReason": "Faktikë raportuar pa gjuhë ngarkuar",
-      "isQuote": false,
-      "speaker": "",
-      "evidence": "",
-      "confidence": "high",
-      "model": "llama-3.3-70b-versatile",
-      "stanceVersion": 2,
-      "date": "2026-08-18",
-      "firstSeen": "2026-08-18",
-      "lastSeen": "2026-08-19"
-    },
-    "what happens if kosovo remains without a president after october 4 cna al": {
-      "key": "what happens if kosovo remains without a president after october 4 cna al",
-      "title": "What happens if Kosovo remains without a president after October 4? - cna.al",
-      "summary": "What happens if Kosovo remains without a president after October 4?&nbsp;&nbsp;cna.al",
-      "albanianTitle": "Çfarë ndodh nëse Kosova mbetet pa president pas 4 tetorit?",
-      "translated": true,
-      "url": "https://www.cna.al/english/kosova-bota/fare-ndodh-nese-kosova-mbetet-pa-president-pas-4-tetorit-i471834",
-      "googleNewsUrl": "https://news.google.com/rss/articles/CBMipgFBVV95cUxOUHYzR3J1NWNTanNqZ3JwLW40Q3JvSngyNGJSY0VyenlQSl9udDVBZWhYQVFZS1dhdGhJOExwYnFjdk4xM1AxdVlsRnJNdWVlcS1CQ3ZEWGw2M2N6YmYyUlJONGwzVjJGR1JGOTBEOERHcE82dWdPQkx2WjhfSjlUaF9waXJVZEdRZkFIbS1Jc0tnRC10OGE2VjBJYWdlekNucmp3ZWxn?oc=5",
-      "imageUrl": null,
-      "imageAttempts": 3,
-      "blurb": "Analizohen pasojat institucionale nëse Kosova mbetet pa president pas datës katër tetor, sipas procedurave kushtetuese dhe ligjore aktuale.",
-      "outlet": "cna.al",
-      "country": "SHBA",
-      "stanceAttempts": 1,
-      "sentiment": "neutral",
-      "stance": "neutral",
-      "stanceReason": "Faktikë raportim neutral",
-      "isQuote": false,
-      "speaker": "",
-      "evidence": "",
-      "confidence": "high",
-      "model": "llama-3.3-70b-versatile",
-      "stanceVersion": 2,
-      "date": "2026-08-18",
-      "firstSeen": "2026-08-18",
-      "lastSeen": "2026-08-19"
-    },
-    "kosovo opposition blocks government entrance for fourth day srpske rs": {
-      "key": "kosovo opposition blocks government entrance for fourth day srpske rs",
-      "title": "Kosovo Opposition Blocks Government Entrance for Fourth Day - srpske.rs",
-      "summary": "Kosovo Opposition Blocks Government Entrance for Fourth Day&nbsp;&nbsp;srpske.rs",
-      "albanianTitle": "Opozita në Kosovë bllokon hyrjen e Qeverisë për të katërtën ditë me radhë",
-      "translated": true,
-      "url": "https://srpske.rs/en/news/politika/2026/08/18/kosovo-opposition-blocks-government-entrance-fourth-day",
-      "googleNewsUrl": "https://news.google.com/rss/articles/CBMiowFBVV95cUxPZTJwS3NYTVc0QUNsUVM4NVZ2MXFVWXh3YmZIckxCUWlsS1pDRHZYbFV3VVVLbEgwZmNXQllORDNkbVJaeWhzRDhoVUFuQmdBTWJCbWF3bDVzNDVNZm9xWWV5dy15RnBHLUxTalVpYkFWOUJyazhpaXhPWlVVUVNqYlBOLTl5bWJlTUsxVFRybEtsUTlTTmUxT0lvbThVQW1XWnhJ?oc=5",
-      "imageUrl": "https://srpske.rs/uploads/articles/kosovo-opposition-blocks-government-entrance-fourth-day-16x9.webp",
-      "imageAttempts": 1,
-      "blurb": "Opozita në Kosovë vazhdon të bllokojë hyrjen e ndërtesës së qeverisë për të katërtën ditë radhazi.",
-      "outlet": "srpske.rs",
-      "country": "Britani",
-      "stanceAttempts": 1,
-      "sentiment": "neutral",
-      "stance": "neutral",
-      "stanceReason": "Titulli faktik pa gjuhë ngarkuar",
-      "isQuote": false,
-      "speaker": "",
-      "evidence": "",
-      "confidence": "high",
-      "model": "llama-3.3-70b-versatile",
-      "stanceVersion": 2,
-      "date": "2026-08-18",
-      "firstSeen": "2026-08-18",
-      "lastSeen": "2026-08-21"
-    },
-    "igor aleksov tourne the secret of the bare hill cineuropa": {
-      "key": "igor aleksov tourne the secret of the bare hill cineuropa",
-      "title": "Igor Aleksov tourne The Secret of the Bare Hill - Cineuropa",
-      "summary": "Igor Aleksov tourne The Secret of the Bare Hill&nbsp;&nbsp;Cineuropa",
-      "albanianTitle": null,
-      "translated": false,
-      "url": "https://cineuropa.org/fr/newsdetail/494534",
-      "googleNewsUrl": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE9qODA2QWxBeHVoclFLdHFkMGZIZ2xpbzJaVFA5ZGpEV3g0cDRWM2pfa1FQN2dRajVUWmF6djNZdzRCQW45MTNtc0lLcjljbDZneWcxbg?oc=5",
-      "imageUrl": null,
-      "imageAttempts": 5,
-      "blurb": "Regjisori Igor Aleksov po vazhdon xhirimet për projektin e tij kinematografik të titulluar The Secret of the Bare Hill.",
-      "outlet": "Cineuropa",
-      "country": "Francë",
-      "stanceAttempts": 3,
-      "sentiment": "neutral",
-      "stance": "neutral",
-      "stanceReason": "Lajm i raportuar në mënyrë faktike pa ngjyrë",
-      "isQuote": false,
-      "speaker": "",
-      "evidence": "",
-      "confidence": "high",
-      "model": "llama-3.3-70b-versatile",
-      "stanceVersion": 2,
-      "date": "2026-08-18",
-      "firstSeen": "2026-08-18",
-      "lastSeen": "2026-08-21"
-    },
-    "europei youth e u15 team italia arrivato in kosovo diciassette azzurri in pedana": {
-      "key": "europei youth e u15 team italia arrivato in kosovo diciassette azzurri in pedana",
-      "title": "Europei Youth e U15, Team Italia arrivato in Kosovo: diciassette azzurri in pedana dal 20 agosto - federpesistica.it",
-      "summary": "Europei Youth e U15, Team Italia arrivato in Kosovo: diciassette azzurri in pedana dal 20 agosto&nbsp;&nbsp;federpesistica.it",
-      "albanianTitle": "Kampionati Evropian për të rinj dhe U15, ekipi i Italisë arrin në Kosovë: shtatëmbëdhjetë garues në platformë nga 20 gushti",
-      "translated": true,
-      "url": "https://www.federpesistica.it/europei-youth-e-u15-team-italia-arrivato-in-kosovo-diciassette-azzurri-in-pedana-dal-20-agosto/",
-      "googleNewsUrl": "https://news.google.com/rss/articles/CBMiwwFBVV95cUxPYVVkT2FKeEFZYTJ3SkY5ekZLdmdkQkd2Y2l6aHcxQ3pXSy1GZmpOeEl6XzN1NXVEWGJmdnZOVTVENEFHVk02MF9xNjRrUThkU0JINkFFY2Q1elk2S1hJMXEwdGdqYVZkc2dRRkNzanF6TVNDclhQMkM3ZmZ5eVcxUVB4dWpydDNPb1FqbTRVRGtIaXlxb3JSWUM1b1NDOERSMW5rRlRWdmxaNXgwVVZkZ2FrRTFsVXFCRFI5VnJVMVB2V0E?oc=5",
-      "imageUrl": "https://www.federpesistica.it/wp-content/uploads/2026/08/A739918-scaled.jpg",
-      "imageAttempts": 1,
-      "blurb": "Ekipi i Italisë me shtatëmbëdhjetë sportistë ka mbërritur në Kosovë për Kampionatin Evropian për të rinj dhe U15.",
-      "outlet": "federpesistica.it",
-      "country": "Itali",
-      "stanceAttempts": 1,
-      "sentiment": "neutral",
-      "stance": "neutral",
-      "stanceReason": "Titull faktik, pa gjuhë ngarkuar",
-      "isQuote": false,
-      "speaker": "",
-      "evidence": "",
-      "confidence": "high",
-      "model": "llama-3.3-70b-versatile",
-      "stanceVersion": 2,
-      "date": "2026-08-18",
-      "firstSeen": "2026-08-18",
-      "lastSeen": "2026-08-21"
-    },
-    "igor aleksov rueda the secret of the bare hill cineuropa": {
-      "key": "igor aleksov rueda the secret of the bare hill cineuropa",
-      "title": "Igor Aleksov rueda The Secret of the Bare Hill - Cineuropa",
-      "summary": "Igor Aleksov rueda The Secret of the Bare Hill&nbsp;&nbsp;Cineuropa",
-      "albanianTitle": "Igor Aleksov përfundon xhirimet e filmit \"The Secret of the Bare Hill\" - Cineuropa",
-      "translated": true,
-      "url": "https://cineuropa.org/es/newsdetail/494534",
-      "googleNewsUrl": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE5CUGx5blhDcFZBX2JpWm5iNUdPSE9TalQ3THpnRUYya2wxZU9nVU1mTWcyNS10VVk5NDBkRWVTTXpDSEVKUG5oODkweHdoRGFBcVFVUw?oc=5",
-      "imageUrl": null,
-      "imageAttempts": 5,
-      "blurb": "Projekti filmik The Secret of the Bare Hill është duke u realizuar nën drejtimin e regjisorit Igor Aleksov.",
-      "outlet": "Cineuropa",
-      "country": "Spanjë",
-      "stanceAttempts": 3,
-      "sentiment": "neutral",
-      "stance": "neutral",
-      "stanceReason": "Lajm i raportuar në mënyrë faktike pa ngjyrë",
-      "isQuote": false,
-      "speaker": "",
-      "evidence": "",
-      "confidence": "high",
-      "model": "llama-3.3-70b-versatile",
-      "stanceVersion": 2,
-      "date": "2026-08-18",
-      "firstSeen": "2026-08-18",
-      "lastSeen": "2026-08-21"
-    },
-    "mε έξι αθλητές η ελλάδα στο ευρωπαϊκό πρωτάθλημα παίδων και κ15 στο κόσοβο αθηνα": {
-      "key": "mε έξι αθλητές η ελλάδα στο ευρωπαϊκό πρωτάθλημα παίδων και κ15 στο κόσοβο αθηνα",
-      "title": "Mε έξι αθλητές η Ελλάδα στο Ευρωπαϊκό Πρωτάθλημα Παίδων και Κ15 στο Κόσοβο - Αθηναϊκό - Μακεδονικό πρακτορείο ειδήσεων",
-      "summary": "Mε έξι αθλητές η Ελλάδα στο Ευρωπαϊκό Πρωτάθλημα Παίδων και Κ15 στο Κόσοβο&nbsp;&nbsp;Αθηναϊκό - Μακεδονικό πρακτορείο ειδήσεων",
-      "albanianTitle": "Greqia me gjashtë garues në Kampionatin Evropian për të rinj dhe U15 në Kosovë",
-      "translated": true,
-      "url": "https://www.amna.gr/sport/article/1016243/Me-exi-athlites-i-Ellada-sto-Europaiko-Protathlima-Paidon-kai-K15-sto-Kosobo",
-      "googleNewsUrl": "https://news.google.com/rss/articles/CBMiugFBVV95cUxOaldTaVA5QXowaVd3aE15NXRYWjlTU2F4ZmQtTXN4UWFHR0Rra1lMM2lYaTRXN1l1bHVaTmtnTUZKMzJiNjl2MmlNMm1oSHdIUnBWWmMxT0NLZFJMdkpIQ0xabkJQR2dLU0RVTmVLSm13ejQ1elVPTmFha0JjMU94bHdQeUpLYVBkTkh1ZmtUak1QMmVDWVFTLVQtZnBJOFc3UTRoYWFCRDRjMHBQaDZKcTVlNFN4LVRNQlE?oc=5",
-      "imageUrl": "https://amna.gr/photos/202608/w18-154939.jpg",
-      "imageAttempts": 1,
-      "blurb": "Greqia do të përfaqësohet me gjashtë sportistë në Kampionatin Evropian për të rinj dhe U15 që mbahet në Kosovë.",
-      "outlet": "Αθηναϊκό - Μακεδονικό πρακτορείο ειδήσεων",
-      "country": "Greqi",
-      "stanceAttempts": 1,
-      "sentiment": "neutral",
-      "stance": "neutral",
-      "stanceReason": "Fact‑based report of Greek sports participation, no loaded language",
-      "isQuote": false,
-      "speaker": "",
-      "evidence": "",
-      "confidence": "high",
-      "model": "llama-3.3-70b-versatile",
-      "stanceVersion": 2,
-      "date": "2026-08-18",
-      "firstSeen": "2026-08-18",
-      "lastSeen": "2026-08-18"
-    },
-    "kosova i ş dünyasından siyasi kriz uyarısı kurumsal tıkanıklık ekonomiye zarar v": {
-      "key": "kosova i ş dünyasından siyasi kriz uyarısı kurumsal tıkanıklık ekonomiye zarar v",
-      "title": "Kosova İş Dünyasından Siyasi Kriz Uyarısı: “Kurumsal Tıkanıklık Ekonomiye Zarar Veriyor” - Kosovahaber.com",
-      "summary": "Kosova İş Dünyasından Siyasi Kriz Uyarısı: “Kurumsal Tıkanıklık Ekonomiye Zarar Veriyor”&nbsp;&nbsp;Kosovahaber.com",
-      "albanianTitle": "Bizneset në Kosovë paralajmërojnë për krizën politike: “Bllokada institucionale po dëmton ekonominë” - Kosovahaber.com",
-      "translated": true,
-      "url": "https://kosovahaber.com/haber/kosova-is-dunyasindan-siyasi-kriz-uyarisi-kurumsal-tikaniklik-ekonomiye-zarar-veriyor-105029",
-      "googleNewsUrl": "https://news.google.com/rss/articles/CBMivwFBVV95cUxNcHJON2xHVGVCWEpLeHU1R0puc1hHMTlhUmMyU09ORXl1ZXpUYkJ1Zk9jQndYRTFXU1NPZzRoYl81N0J5aUpxQmFIT0lnUUl3aWN3eFBTeTRTMmxJOFV1aUdyckFiZ1dYdURQRE5hM202WVJBdmdIUnRQNTBKNlJsTE9MUG4zUm0ybEVtY1AxT0YyZHRZTmpjbDlMSG5PLUJrN0txWS1CQzZjOW04Q3gtdm4yRWk3cmJGQ3V6Yko1OA?oc=5",
-      "imageUrl": null,
-      "imageAttempts": 3,
-      "blurb": "Përfaqësuesit e biznesit në Kosovë paralajmërojnë se kriza politike dhe bllokada institucionale po shkaktojnë dëme të konsiderueshme në ekonomi.",
-      "outlet": "Kosovahaber.com",
-      "country": "Turqi",
-      "stanceAttempts": 1,
-      "sentiment": "neutral",
-      "stance": "neutral",
-      "stanceReason": "Report of business warning about political crisis, no hostile or praising tone",
-      "isQuote": false,
-      "speaker": "",
-      "evidence": "",
-      "confidence": "high",
-      "model": "llama-3.3-70b-versatile",
-      "stanceVersion": 2,
-      "date": "2026-08-18",
-      "firstSeen": "2026-08-18",
-      "lastSeen": "2026-08-21"
-    },
-    "petkoviç ten ab ye i bre köprüsü tepkisi açılması güvenli değil kosovahaber com": {
-      "key": "petkoviç ten ab ye i bre köprüsü tepkisi açılması güvenli değil kosovahaber com",
-      "title": "Petkoviç’ten AB’ye İbre Köprüsü Tepkisi: Açılması Güvenli Değil - Kosovahaber.com",
-      "summary": "Petkoviç’ten AB’ye İbre Köprüsü Tepkisi: Açılması Güvenli Değil&nbsp;&nbsp;Kosovahaber.com",
-      "albanianTitle": "Petkoviq kundërshton BE-në për urën e Ibrit: Hapja e saj nuk është e sigurt - Kosovahaber.com",
-      "translated": true,
-      "url": "https://kosovahaber.com/haber/petkovicten-abye-ibre-koprusu-tepkisi-acilmasi-guvenli-degil-105043",
-      "googleNewsUrl": "https://news.google.com/rss/articles/CBMingFBVV95cUxPUE1qaEpwVExnREZqZGFRbV94VkswN3BzUU14QlB2S1VMa0hvUVBQaC13NEJVVE5fbW5KOE5OWVlDYTNxTXFibHN0elpLd1pibnhaY2h2NTRWTEt6OE9OcnBYQ2I3bXREbWlRNERTOUVmV2tfMXd1LWpMUU5pU0NScTlKNVlsV240ZTdMQURCSGFjUmZEWE1JT3M2VkQ1Zw?oc=5",
-      "imageUrl": null,
-      "imageAttempts": 3,
-      "blurb": "Petar Petkoviç ka reaguar ndaj Bashkimit Evropian duke deklaruar se hapja e urës mbi lumin Ibër nuk është e sigurt.",
-      "outlet": "Kosovahaber.com",
-      "country": "Turqi",
-      "stanceAttempts": 1,
-      "sentiment": "neutral",
-      "stance": "neutral",
-      "stanceReason": "Report of a political statement, presented without editorial judgement",
-      "isQuote": false,
-      "speaker": "",
-      "evidence": "",
-      "confidence": "high",
-      "model": "llama-3.3-70b-versatile",
-      "stanceVersion": 2,
-      "date": "2026-08-18",
-      "firstSeen": "2026-08-18",
-      "lastSeen": "2026-08-21"
-    },
-    "kosovo mayors announce protest in front of government building kosovapress com": {
-      "key": "kosovo mayors announce protest in front of government building kosovapress com",
-      "title": "Kosovo mayors announce protest in front of government building - kosovapress.com",
-      "summary": "Kosovo mayors announce protest in front of government building&nbsp;&nbsp;kosovapress.com",
-      "albanianTitle": "Kryetarët e komunave në Kosovë paralajmërojnë protestë para ndërtesës së Qeverisë",
-      "translated": true,
-      "url": "https://kosovapress.com/eng/kosovo-mayors-announce-protest-in-front-of-government-building",
-      "googleNewsUrl": "https://news.google.com/rss/articles/CBMilAFBVV95cUxNTVFpRDB1a3RXcDR5ZjZRUkhCejYtZnJ5ZzJ5VS1KV3JvOEc5V0RGNTRoSmp4V1BoV0ltMVRVV1d2aEJHZ280d25XTDBOTnJEU0dMZUxKTFR1R2NlUVBPUndWck9oNkxnR2pWVmNUa3hEVTJGZTlkODNncWZVVnFMZGppWTIyelQzTkk5eGxFVXFHa2M4?oc=5",
-      "imageUrl": null,
-      "imageAttempts": 3,
-      "blurb": "Kryetarët e komunave të Kosovës kanë paralajmëruar mbajtjen e një proteste para ndërtesës së Qeverisë së Kosovës.",
-      "outlet": "kosovapress.com",
-      "country": "SHBA",
-      "stanceAttempts": 1,
-      "sentiment": "neutral",
-      "stance": "neutral",
-      "stanceReason": "Faktikë raportim pa gjuhë ngarkuese",
-      "isQuote": false,
-      "speaker": "",
-      "evidence": "",
-      "confidence": "high",
-      "model": "llama-3.3-70b-versatile",
-      "stanceVersion": 2,
-      "date": "2026-08-18",
-      "firstSeen": "2026-08-18",
-      "lastSeen": "2026-08-20"
-    },
-    "άρση βαρών mε έξι αθλητές η ελλάδα στο ευρωπαϊκό πρωτάθλημα παίδων και κ15 στο κ": {
-      "key": "άρση βαρών mε έξι αθλητές η ελλάδα στο ευρωπαϊκό πρωτάθλημα παίδων και κ15 στο κ",
-      "title": "Άρση Βαρών: Mε έξι αθλητές η Ελλάδα στο Ευρωπαϊκό Πρωτάθλημα Παίδων και Κ15 στο Κόσοβο - Ertsports.gr",
-      "summary": "Άρση Βαρών: Mε έξι αθλητές η Ελλάδα στο Ευρωπαϊκό Πρωτάθλημα Παίδων και Κ15 στο Κόσοβο&nbsp;&nbsp;Ertsports.gr",
-      "albanianTitle": "Peshëngritje: Greqia merr pjesë me gjashtë sportistë në Kampionatin Evropian për kadetë dhe U15 në Kosovë",
-      "translated": true,
-      "url": "https://www.ertsports.gr/alla-spor/arsi-varon-me-eksi-athlites-i-ellada-sto-eyropaiko-protathlima-paidon-kai-k15-sto-kosovo/",
-      "googleNewsUrl": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxOWjJQWWg5UmJuRFBySG5UbHRkMlFXbWlMUFhJYkoyTlFFVmw3WjBoLXdmZ0VSczl0clM4QXMzaWVyRnFoOWJ5VmFTak56ak5pZjhOa1NRT29RNXFyaFZoUTFwMkZGUHJoUkx2MmJnMlNqVl91QnByRG5nbXF0SjlXNlRaN19mZlhlclVFbWo1VVpBSW9fV1dsZ1Qxa2M0ZDBWMHdYQ0ZxNFIwakNtSEhhUVNxdXRIY2pLLWROY0ZZZDJ3Z9IBxwFBVV95cUxQSmZjSXpYdjNncXpjOGl4Z2huTTUyZkJTUEFEb2ZGZkNsU2R1Ui1CbWdZd1BZeUdEMWtmRjN6bklRanFNTm9rNEk1M3l6clIzTVRudzByelkwNGp4c2pxT0tIeDBwY0ZCQ0hGM2JUZ1VYMzZweGt3X1hzWjBObHlGODZCQzFobG15WWNLemhBYWdkeFVZQkF0cmtiQlJ3S1J1c1l1R1FTZnJjQWFoeTdubnE1QW1iZ0pHY2xkcERSWElxLWI2TlBj?oc=5",
-      "imageUrl": "https://www.ertsports.gr/wp-content/uploads/2026/08/ΧΡΗΣΤΟΥ.jpg",
-      "imageAttempts": 1,
-      "blurb": "Greqia do të përfaqësohet me gjashtë peshëngritës në Kampionatin Evropian për kadetë dhe grupmoshën U15 në Kosovë.",
-      "outlet": "Ertsports.gr",
-      "country": "Greqi",
-      "stanceAttempts": 1,
-      "sentiment": "neutral",
-      "stance": "neutral",
-      "stanceReason": "Raportim i thjeshtë i ngjarjes sportive në Kosovë",
-      "isQuote": false,
-      "speaker": "",
-      "evidence": "",
-      "confidence": "high",
-      "model": "llama-3.3-70b-versatile",
-      "stanceVersion": 2,
-      "date": "2026-08-18",
-      "firstSeen": "2026-08-18",
-      "lastSeen": "2026-08-21"
-    },
-    "ak i bre köprüsü nün açılması i çin i stişare ve koordinasyon bekliyoruz kosovah": {
-      "key": "ak i bre köprüsü nün açılması i çin i stişare ve koordinasyon bekliyoruz kosovah",
-      "title": "AK: İbre Köprüsü’nün Açılması İçin İstişare ve Koordinasyon Bekliyoruz - Kosovahaber.com",
-      "summary": "AK: İbre Köprüsü’nün Açılması İçin İstişare ve Koordinasyon Bekliyoruz&nbsp;&nbsp;Kosovahaber.com",
-      "albanianTitle": "AK: Presim konsultime dhe koordinim për hapjen e Urës së Ibrit",
-      "translated": true,
-      "url": "https://kosovahaber.com/haber/ab-ibre-koprusunun-acilmasi-icin-istisare-ve-koordinasyon-bekliyoruz-105038",
-      "googleNewsUrl": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxQNWpVdk9YNmhZUWpnXzFvQnp5Qk04TGYtRHRzak1ubmJSbWlSeG9hSFp3a1FMQjY2Ulh1eUhhdmFtNUNzRWZqNk9HY2laMkhDU0lfcGNxd1pSdHZpZk5LTXNTdUhlUWo1dEhSMmNIUWZWdFlmNFFwSXVscUU2dWNmZVNmWFEwdnNlZXBaYllRN1lwX0o1ZjBSTXdMV2lqOWl6eEtDM1RsbC0?oc=5",
-      "imageUrl": null,
-      "imageAttempts": 3,
-      "blurb": "Komisioni Evropian kërkon konsultime dhe koordinim për çështjen e hapjes së urës mbi lumin Ibër në Mitrovicë.",
-      "outlet": "Kosovahaber.com",
-      "country": "Turqi",
-      "stanceAttempts": 1,
-      "sentiment": "neutral",
-      "stance": "neutral",
-      "stanceReason": "Deklaratë politike e raportuar pa ngjyrë",
-      "isQuote": false,
-      "speaker": "",
-      "evidence": "",
-      "confidence": "high",
-      "model": "llama-3.3-70b-versatile",
-      "stanceVersion": 2,
-      "date": "2026-08-18",
-      "firstSeen": "2026-08-18",
-      "lastSeen": "2026-08-21"
-    },
-    "kurti abdixhiku ile görüşme yapıcı bir havada gerçekleşti kosovahaber com": {
-      "key": "kurti abdixhiku ile görüşme yapıcı bir havada gerçekleşti kosovahaber com",
-      "title": "Kurti: Abdixhiku ile Görüşme Yapıcı Bir Havada Gerçekleşti - Kosovahaber.com",
-      "summary": "Kurti: Abdixhiku ile Görüşme Yapıcı Bir Havada Gerçekleşti&nbsp;&nbsp;Kosovahaber.com",
-      "albanianTitle": "Kurti: Takimi me Abdixhikun u zhvillua në një atmosferë konstruktive",
-      "translated": true,
-      "url": "https://kosovahaber.com/haber/abdixhiku-ile-gorusme-yapici-bir-havada-gerceklesti-105039",
-      "googleNewsUrl": "https://news.google.com/rss/articles/CBMikgFBVV95cUxQbFg4SUxiMmZ6M0pOSVk2LXJwVjczZnQ4Q1liZW0xMWw2TlRHUUpkWF9yVVBwMnpPNjM3bndNVHA2LU9iWGpUUWROZzFJbUJBWHVvTGtwbzRkRWZ5YnhLYU13NUFVeUFrVUVkZkZDYnlwSHcza09kLXNTa2syQWlfS3RZemYtX3JqbU1zVjJCTzhTUQ?oc=5",
-      "imageUrl": null,
-      "imageAttempts": 2,
-      "blurb": "Kryeministri Albin Kurti ka vlerësuar si konstruktive takimin e zhvilluar me kryetarin e Lidhjes Demokratike të Kosovës, Lumir Abdixhiku.",
-      "outlet": "Kosovahaber.com",
-      "country": "Turqi",
-      "stanceAttempts": 1,
-      "sentiment": "neutral",
-      "stance": "neutral",
-      "stanceReason": "Deklaratë e Kurti-të raportuar në mënyrë faktike",
-      "isQuote": false,
-      "speaker": "",
-      "evidence": "",
-      "confidence": "high",
-      "model": "llama-3.3-70b-versatile",
-      "stanceVersion": 2,
-      "date": "2026-08-18",
-      "firstSeen": "2026-08-18",
-      "lastSeen": "2026-08-18"
-    },
-    "kosovo parliament approves kurti s cabinet with 66 49 vote news on air": {
-      "key": "kosovo parliament approves kurti s cabinet with 66 49 vote news on air",
-      "title": "Kosovo Parliament Approves Kurti’s Cabinet with 66-49 Vote - News On AIR",
-      "summary": "Kosovo Parliament Approves Kurti’s Cabinet with 66-49 Vote&nbsp;&nbsp;News On AIR",
-      "albanianTitle": "Parlamenti i Kosovës voton kabinetin e Kurtit me 66 vota pro dhe 49 kundër - News On AIR",
-      "translated": true,
-      "url": "https://newsonair.gov.in/kosovo-parliament-approves-kurtis-cabinet-with-66-49-vote/",
-      "googleNewsUrl": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxPcXh0T1lYVmVMcEg3em02WEtyRFRGNllxYlVXeDY0X24zZkVYbjZoOFE1UEFjay1JWmF4TkZyQmVGZ3RrVk5YNGJHVmQ5YldZV29RZTU1Y2N6dlczZjNXZENpM0dPLUtJdDhxUzVtbzZJdHZ6X0Z4d19NZzR2aFBUbUxQcTRON29LNHlj?oc=5",
-      "imageUrl": null,
-      "imageAttempts": 4,
-      "blurb": "Kuvendi i Kosovës ka votuar me 66 vota për dhe 49 kundër miratimin e kabinetit qeveritar të udhëhequr nga Albin Kurti.",
-      "outlet": "News On AIR",
-      "country": "SHBA",
-      "stanceAttempts": 2,
-      "sentiment": "neutral",
-      "stance": "neutral",
-      "stanceReason": "Lajm i raportuar në mënyrë faktike",
-      "isQuote": false,
-      "speaker": "",
-      "evidence": "",
-      "confidence": "high",
-      "model": "llama-3.3-70b-versatile",
-      "stanceVersion": 2,
-      "date": "2026-08-18",
-      "firstSeen": "2026-08-18",
-      "lastSeen": "2026-08-21"
-    },
-    "igor aleksov tourne the secret of the bare hill cineuropa org": {
-      "key": "igor aleksov tourne the secret of the bare hill cineuropa org",
-      "title": "Igor Aleksov tourne The Secret of the Bare Hill - cineuropa.org",
-      "summary": "Igor Aleksov tourne The Secret of the Bare Hill&nbsp;&nbsp;cineuropa.org",
-      "albanianTitle": null,
-      "translated": false,
-      "url": "https://cineuropa.org/fr/newsdetail/494534",
-      "googleNewsUrl": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE9qODA2QWxBeHVoclFLdHFkMGZIZ2xpbzJaVFA5ZGpEV3g0cDRWM2pfa1FQN2dRajVUWmF6djNZdzRCQW45MTNtc0lLcjljbDZneWcxbg?oc=5",
-      "imageUrl": null,
-      "imageAttempts": 4,
-      "blurb": "Regjisori Igor Aleksov ka nisur xhirimet për filmin e ri me titull Sekreti i Kodrës së Zhveshur.",
-      "outlet": "Cineuropa",
-      "country": "Belgjikë",
-      "stanceAttempts": 2,
-      "sentiment": "unknown",
-      "stance": "unknown",
-      "stanceReason": "Teksti nuk përmend Kosovën, prandaj nuk mund të përcaktohet qëndrimi",
-      "isQuote": false,
-      "speaker": "",
-      "evidence": "",
-      "confidence": "high",
-      "model": "llama-3.3-70b-versatile",
-      "stanceVersion": 2,
-      "date": "2026-08-18",
-      "firstSeen": "2026-08-18",
-      "lastSeen": "2026-08-20"
-    },
-    "mε έξι αθλητές η ελλάδα στο ευρωπαϊκό πρωτάθλημα παίδων και κ15 στο κόσοβο amna ": {
-      "key": "mε έξι αθλητές η ελλάδα στο ευρωπαϊκό πρωτάθλημα παίδων και κ15 στο κόσοβο amna ",
-      "title": "Mε έξι αθλητές η Ελλάδα στο Ευρωπαϊκό Πρωτάθλημα Παίδων και Κ15 στο Κόσοβο - amna.gr",
-      "summary": "Mε έξι αθλητές η Ελλάδα στο Ευρωπαϊκό Πρωτάθλημα Παίδων και Κ15 στο Κόσοβο&nbsp;&nbsp;amna.gr",
-      "albanianTitle": "Greqia merr pjesë me gjashtë sportistë në Kampionatin Evropian për kadetë dhe U15 në Kosovë",
-      "translated": true,
-      "url": "https://www.amna.gr/sport/article/1016243/Me-exi-athlites-i-Ellada-sto-Europaiko-Protathlima-Paidon-kai-K15-sto-Kosobo",
-      "googleNewsUrl": "https://news.google.com/rss/articles/CBMiugFBVV95cUxOaldTaVA5QXowaVd3aE15NXRYWjlTU2F4ZmQtTXN4UWFHR0Rra1lMM2lYaTRXN1l1bHVaTmtnTUZKMzJiNjl2MmlNMm1oSHdIUnBWWmMxT0NLZFJMdkpIQ0xabkJQR2dLU0RVTmVLSm13ejQ1elVPTmFha0JjMU94bHdQeUpLYVBkTkh1ZmtUak1QMmVDWVFTLVQtZnBJOFc3UTRoYWFCRDRjMHBQaDZKcTVlNFN4LVRNQlE?oc=5",
-      "imageUrl": "https://amna.gr/photos/202608/w18-154939.jpg",
-      "imageAttempts": 1,
-      "blurb": "Greqia do të përfaqësohet me gjashtë sportistë në Kampionatin Evropian për kadetë dhe grupmoshën U15 që mbahet në Kosovë.",
-      "outlet": "amna.gr",
-      "country": "Greqi",
-      "stanceAttempts": 1,
-      "sentiment": "unknown",
-      "stance": "unknown",
-      "stanceReason": "",
-      "isQuote": false,
-      "speaker": "",
-      "evidence": "",
-      "confidence": "low",
-      "model": "llama-3.3-70b-versatile",
-      "stanceVersion": 2,
-      "date": "2026-08-18",
-      "firstSeen": "2026-08-18",
-      "lastSeen": "2026-08-18"
-    },
-    "konjufca alman yetkili ile kosova nın avrupa perspektifini görüştü kosovahaber c": {
-      "key": "konjufca alman yetkili ile kosova nın avrupa perspektifini görüştü kosovahaber c",
-      "title": "Konjufca, Alman Yetkili ile Kosova’nın Avrupa Perspektifini Görüştü - Kosovahaber.com",
-      "summary": "Konjufca, Alman Yetkili ile Kosova’nın Avrupa Perspektifini Görüştü&nbsp;&nbsp;Kosovahaber.com",
-      "albanianTitle": "Konjufca diskuton me zyrtarin gjerman për perspektivën evropiane të Kosovës - Kosovahaber.com",
-      "translated": true,
-      "url": "https://kosovahaber.com/haber/konjufca-alman-yetkil-ile-kosovanin-avrupa-perspektifini-gorustu-105051",
-      "googleNewsUrl": "https://news.google.com/rss/articles/CBMiowFBVV95cUxON3Z3NHNRQ1BOci1aRXR5U0lrUV9KTGNTb0RlQVhVcE56a2p2MjQ3UktpSkxqdS1wak9ZdzUxdVBWWS14TU1BMGE1cWp3czR3bG9HQVJsYWE3Y1dBX3Vkek1GNGt4eGJHNE9JTEh6dTdHZ3RPZC1SUEdCTzhqbWZiX2E2aWI4LS1xd0RSWWJOcGpidmtJd0c4SVQ5N2dqSm5wRXRr?oc=5",
-      "imageUrl": null,
-      "imageAttempts": 4,
-      "blurb": "Kryetari i Kuvendit, Glauk Konjufca, ka diskutuar me një zyrtar gjerman mbi perspektivën evropiane të Kosovës dhe proceset integruese.",
-      "outlet": "Kosovahaber.com",
-      "country": "Turqi",
-      "stanceAttempts": 2,
-      "sentiment": "neutral",
-      "stance": "neutral",
-      "stanceReason": "Lajm i raportuar në mënyrë faktike",
-      "isQuote": false,
-      "speaker": "",
-      "evidence": "",
-      "confidence": "high",
-      "model": "llama-3.3-70b-versatile",
-      "stanceVersion": 2,
-      "date": "2026-08-18",
-      "firstSeen": "2026-08-18",
-      "lastSeen": "2026-08-20"
-    },
-    "pdk demokratik düzenin korunması ortak sorumluluktur kosovahaber com": {
-      "key": "pdk demokratik düzenin korunması ortak sorumluluktur kosovahaber com",
-      "title": "PDK: Demokratik Düzenin Korunması Ortak Sorumluluktur - Kosovahaber.com",
-      "summary": "PDK: Demokratik Düzenin Korunması Ortak Sorumluluktur&nbsp;&nbsp;Kosovahaber.com",
-      "albanianTitle": "PDK: Mbrojtja e rendit demokratik është përgjegjësi e përbashkët - Kosovahaber.com",
-      "translated": true,
-      "url": "https://kosovahaber.com/haber/pdk-demokratik-duzenin-korunmasi-ortak-sorumluluktur-105050",
-      "googleNewsUrl": "https://news.google.com/rss/articles/CBMikwFBVV95cUxPbFdiNWN4WEM4Rnpsd2xIQVc3VjNwaGdabDc5dVltVW5FUG1WX0tiM2U4YnE3bEVXT3paSnNmSk1mdEVFS01yakRBdk5maklLZEdCbm5vR0ZZOERtXzRQV3lYMlphWk9BeHRPcm03VUx2a1o0OElDODJGOU1VNlc5UUNvN1JjY1pWTU1PZXgxWlplbnM?oc=5",
-      "imageUrl": null,
-      "imageAttempts": 4,
-      "blurb": "Partia Demokratike e Kosovës ka deklaruar se mbrojtja e rendit demokratik në vend mbetet përgjegjësi e përbashkët e të gjithë aktorëve.",
-      "outlet": "Kosovahaber.com",
-      "country": "Turqi",
-      "stanceAttempts": 2,
-      "sentiment": "neutral",
-      "stance": "neutral",
-      "stanceReason": "Lajm i raportuar në mënyrë faktike",
-      "isQuote": false,
-      "speaker": "",
-      "evidence": "",
-      "confidence": "high",
-      "model": "llama-3.3-70b-versatile",
-      "stanceVersion": 2,
-      "date": "2026-08-18",
-      "firstSeen": "2026-08-18",
-      "lastSeen": "2026-08-19"
-    },
-    "analysis why is trump threatening to bomb oman for the second time cna al": {
-      "key": "analysis why is trump threatening to bomb oman for the second time cna al",
-      "title": "Analysis/ Why is Trump threatening to bomb Oman for the second time? - cna.al",
-      "summary": "Analysis/ Why is Trump threatening to bomb Oman for the second time?&nbsp;&nbsp;cna.al",
-      "albanianTitle": "Analizë/ Pse Trump po kërcënon për herë të dytë me bombardimin e Omanit? - cna.al",
-      "translated": true,
-      "url": "https://www.cna.al/english/kosova-bota/analiza-pse-trump-kercenon-te-bombardoje-omanin-per-here-te-dyte-i471849",
-      "googleNewsUrl": "https://news.google.com/rss/articles/CBMisAFBVV95cUxPd2dPSDRQZV84NjNnZGRmbkZpQzZPczJ4OU1wbFRBellOWnB5ZVJNR2ZyQUdGQzNHY21fNVNFOUlNZm9YcEk2alNXdDNmX25uSlhYQlVqNi1NbXo1dXpiLWh2WE1RSU1GWTU1U2F5XzZMTE1JTnBRYkNZbzA4NWFzbi1wSTZ6NFhpUThyQXNHeC01VjBwdGItWXNLQUQzTXpnTDBRMW9QR2l6aWNaR0JybQ?oc=5",
-      "imageUrl": null,
-      "imageAttempts": 6,
-      "blurb": "Analiza shqyrton arsyet dhe rrethanat pas kërcënimeve të Donald Trumpit për sulme ushtarake ndaj Omanit për herë të dytë.",
-      "outlet": "cna.al",
-      "country": "Kroaci",
-      "stanceAttempts": 4,
-      "sentiment": "unknown",
-      "stance": "unknown",
-      "stanceReason": "Nuk ka informacion për qëndrimin ndaj Kosovës në këtë artikull",
-      "isQuote": false,
-      "speaker": "",
-      "evidence": "",
-      "confidence": "medium",
-      "model": "llama-3.3-70b-versatile",
-      "stanceVersion": 2,
-      "date": "2026-08-18",
-      "firstSeen": "2026-08-18",
-      "lastSeen": "2026-08-20"
-    },
-    "kosovo s independence a new european nation is born monocle": {
-      "key": "kosovo s independence a new european nation is born monocle",
-      "title": "Kosovo's Independence: A New European Nation is Born - Monocle",
-      "summary": "Kosovo's Independence: A New European Nation is Born&nbsp;&nbsp;Monocle",
-      "albanianTitle": "Pavarësia e Kosovës: Një shtet i ri evropian ka lindur",
-      "translated": true,
-      "url": "https://monocle.com/affairs/kosovo-independence-serbia-balkans/",
-      "googleNewsUrl": "https://news.google.com/rss/articles/CBMicEFVX3lxTFBnaDl1RVFpSW14d2lXX0dIU3NHdEZHVUJPTGthUmVzRmNQVGV0eVBmbGs5WmFfT1BXY01VTkNkOUNVazBna1YyQ0NwVERSSHpxdEl6VmE2ZkNpbHdkd053Y3dmOFNrWjlrSmVqZTQ1WEY?oc=5",
-      "imageUrl": "https://monocle.com/wp-content/uploads/legacy/article/79815919-515ae60472cc2.jpg?fit=4256%2C2832",
-      "imageAttempts": 1,
-      "blurb": "Pavarësia e Kosovës shënon lindjen e një shteti të ri në kontinentin evropian sipas vlerësimit të revistës Monocle.",
-      "outlet": "Monocle",
-      "country": "SHBA",
-      "stanceAttempts": 1,
-      "sentiment": "positive",
-      "stance": "positive",
-      "stanceReason": "Outlet uses celebratory phrasing that praises Kosovo's independence",
-      "isQuote": false,
-      "speaker": "",
-      "evidence": "New European Nation is Born",
-      "confidence": "high",
-      "model": "llama-3.3-70b-versatile",
-      "stanceVersion": 2,
-      "date": "2026-08-18",
-      "firstSeen": "2026-08-19",
-      "lastSeen": "2026-08-21"
-    },
     "kosovo eyes next growth phase as world bank calls for better skills finance and ": {
       "key": "kosovo eyes next growth phase as world bank calls for better skills finance and ",
       "title": "Kosovo Eyes Next Growth Phase as World Bank Calls for Better Skills, Finance and Clean Energy Reform - Devdiscourse",
@@ -1619,7 +53,7 @@
       "stanceVersion": 2,
       "date": "2026-08-19",
       "firstSeen": "2026-08-19",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "kosovo pristina la grande sopresa del nuoto nuoto com": {
       "key": "kosovo pristina la grande sopresa del nuoto nuoto com",
@@ -1646,88 +80,7 @@
       "stanceVersion": 2,
       "date": "2026-08-19",
       "firstSeen": "2026-08-19",
-      "lastSeen": "2026-08-21"
-    },
-    "fc kosova zürich transfermarkt": {
-      "key": "fc kosova zürich transfermarkt",
-      "title": "FC Kosova Zürich - Transfermarkt",
-      "summary": "FC Kosova Zürich&nbsp;&nbsp;Transfermarkt",
-      "albanianTitle": null,
-      "translated": false,
-      "url": "https://www.transfermarkt.com.tr/fc-kosova-zurich/kader/verein/23396/saison_id/2024/plus/0/galerie/0",
-      "googleNewsUrl": "https://news.google.com/rss/articles/CBMiogFBVV95cUxOekJFeDktV01vc0ExQ2htbWRERHg4elNxTkJSNXFWdjF4TjVTeFR4V1hPZ1ZKRGFkNmxyMEZ6UC1VY0MtS2ZRS3dqYTQ5bkZuWDluTzRmUndtSVpVVGRrVFB6M1YtanVaTXpTaW94dHZvd2lSTG9ieGRkM3I2cmwyekh5TThhY1RlV1paRGFkM2IzR0hKc3FEakNOVVl3SGV2Vnc?oc=5",
-      "imageUrl": null,
-      "imageAttempts": 3,
-      "blurb": "FC Kosova Zürich është klubi futbollistik i prezantuar në platformën sportive Transfermarkt me të dhënat përkatëse.",
-      "outlet": "Transfermarkt",
-      "country": "Turqi",
-      "stanceAttempts": 1,
-      "sentiment": "neutral",
-      "stance": "neutral",
-      "stanceReason": "Listing of football club, no evaluative language",
-      "isQuote": false,
-      "speaker": "",
-      "evidence": "",
-      "confidence": "high",
-      "model": "llama-3.3-70b-versatile",
-      "stanceVersion": 2,
-      "date": "2026-08-18",
-      "firstSeen": "2026-08-19",
-      "lastSeen": "2026-08-21"
-    },
-    "cumhurbaşkanı i çin çözüm üretme i radesi var kosovahaber com": {
-      "key": "cumhurbaşkanı i çin çözüm üretme i radesi var kosovahaber com",
-      "title": "Cumhurbaşkanı İçin Çözüm Üretme İradesi Var - Kosovahaber.com",
-      "summary": "Cumhurbaşkanı İçin Çözüm Üretme İradesi Var&nbsp;&nbsp;Kosovahaber.com",
-      "albanianTitle": "Ekziston vullneti për të gjetur zgjidhje për Presidentin",
-      "translated": true,
-      "url": "https://kosovahaber.com/haber/cumhurbaskani-icin-cozum-uretme-iradesi-var-105041",
-      "googleNewsUrl": "https://news.google.com/rss/articles/CBMihwFBVV95cUxONF9sbk54TnZTVFotUUd3dmtJVjFHMThSOU1qemhMaHh5dUQ4SkhYM3FNLXF5MWRWTkh0WTVDQmdyNUpNbk5TVExFaFVWNGp6Yng5VTBCZkRqcVQzSjlTMGtHbEV4Mjh1UFhTU3dtUjA2Z1N3SGVIZ1p0SUxIbWJyOGRLZWE4TFk?oc=5",
-      "imageUrl": null,
-      "imageAttempts": 3,
-      "blurb": "Ekziston vullnet për gjetjen e një zgjidhjeje lidhur me çështjen e presidentit, sipas raportimeve të fundit.",
-      "outlet": "Kosovahaber.com",
-      "country": "Turqi",
-      "stanceAttempts": 1,
-      "sentiment": "neutral",
-      "stance": "neutral",
-      "stanceReason": "Headline about solution for president, no stance toward Kosovo",
-      "isQuote": false,
-      "speaker": "",
-      "evidence": "",
-      "confidence": "high",
-      "model": "llama-3.3-70b-versatile",
-      "stanceVersion": 2,
-      "date": "2026-08-18",
-      "firstSeen": "2026-08-19",
-      "lastSeen": "2026-08-19"
-    },
-    "haxhiu eulex in yeni başkanı lopes ile görüştü kosovahaber com": {
-      "key": "haxhiu eulex in yeni başkanı lopes ile görüştü kosovahaber com",
-      "title": "Haxhiu, EULEX’in Yeni Başkanı Lopes ile Görüştü - Kosovahaber.com",
-      "summary": "Haxhiu, EULEX’in Yeni Başkanı Lopes ile Görüştü&nbsp;&nbsp;Kosovahaber.com",
-      "albanianTitle": "Haxhiu u takua me shefin e ri të EULEX-it, Lopes",
-      "translated": true,
-      "url": "https://kosovahaber.com/haber/haxhiu-eulexin-yeni-baskani-lopes-ile-gorustu-105045",
-      "googleNewsUrl": "https://news.google.com/rss/articles/CBMiigFBVV95cUxQYThfY2ZsWElQc3pGaHAzak94WnpvZFlGRzA4UklsbHZvVldad0JoYlFCVnExdEl0cVVhbFJJb0pOSWlsZUhEV0M1dU5WMkJuVHdqTE41eGFvQkc2dHZmZmtLVWJ2ZG52MnFmRzhteFRZV184bWFSUmFNT1p3VkxWMnZZNVYwZkFjVEE?oc=5",
-      "imageUrl": null,
-      "imageAttempts": 3,
-      "blurb": "Ministrja Haxhiu ka zhvilluar një takim zyrtar me shefin e ri të misionit EULEX, Giovanni Pietro Barbano.",
-      "outlet": "Kosovahaber.com",
-      "country": "Turqi",
-      "stanceAttempts": 1,
-      "sentiment": "neutral",
-      "stance": "neutral",
-      "stanceReason": "Faktikisht raporton takimin e Haxhiut me kryetarin e ri të EULEX-it, pa gjuhë ngarkuese",
-      "isQuote": false,
-      "speaker": "",
-      "evidence": "",
-      "confidence": "high",
-      "model": "llama-3.3-70b-versatile",
-      "stanceVersion": 2,
-      "date": "2026-08-18",
-      "firstSeen": "2026-08-19",
-      "lastSeen": "2026-08-19"
+      "lastSeen": "2026-08-22"
     },
     "aufregung im kosovo wegen weissem mercedes aus der schweiz blick": {
       "key": "aufregung im kosovo wegen weissem mercedes aus der schweiz blick",
@@ -1754,7 +107,7 @@
       "stanceVersion": 2,
       "date": "2026-08-19",
       "firstSeen": "2026-08-19",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "political crisis in kosovo no light at the end of the tunnel osservatorio balcan": {
       "key": "political crisis in kosovo no light at the end of the tunnel osservatorio balcan",
@@ -1781,7 +134,7 @@
       "stanceVersion": 2,
       "date": "2026-08-19",
       "firstSeen": "2026-08-19",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "crisi politica in kosovo non c è luce alla fine del tunnel osservatorio balcani ": {
       "key": "crisi politica in kosovo non c è luce alla fine del tunnel osservatorio balcani ",
@@ -1808,34 +161,7 @@
       "stanceVersion": 2,
       "date": "2026-08-19",
       "firstSeen": "2026-08-19",
-      "lastSeen": "2026-08-21"
-    },
-    "igor aleksov sta girando the secret of the bare hill cineuropa org": {
-      "key": "igor aleksov sta girando the secret of the bare hill cineuropa org",
-      "title": "Igor Aleksov sta girando The Secret of the Bare Hill - cineuropa.org",
-      "summary": "Igor Aleksov sta girando The Secret of the Bare Hill&nbsp;&nbsp;cineuropa.org",
-      "albanianTitle": null,
-      "translated": false,
-      "url": "https://cineuropa.org/it/newsdetail/494534",
-      "googleNewsUrl": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE41b2g2ZU04SWF2MXdjTkdIbDVHZ1E2RzlmSHo2VVc0NFBfSEZ3QndpMVdXaFl6WGtkb25aZEg4LVUxVmxYMUVydzA3WjQ0X3RvRHpQSQ?oc=5",
-      "imageUrl": null,
-      "imageAttempts": 2,
-      "blurb": "Regjisori Igor Aleksov ka nisur xhirimet e filmit të ri me titull The Secret of the Bare Hill.",
-      "outlet": "Cineuropa",
-      "country": "Itali",
-      "stanceAttempts": 1,
-      "sentiment": "neutral",
-      "stance": "neutral",
-      "stanceReason": "Lajm i raportuar në mënyrë faktike pa ngjyrë",
-      "isQuote": false,
-      "speaker": "",
-      "evidence": "",
-      "confidence": "high",
-      "model": "llama-3.3-70b-versatile",
-      "stanceVersion": 2,
-      "date": "2026-08-18",
-      "firstSeen": "2026-08-19",
-      "lastSeen": "2026-08-19"
+      "lastSeen": "2026-08-22"
     },
     "pdk protestosuna bazı yerli üreticiler de dahil oldu kosovahaber com": {
       "key": "pdk protestosuna bazı yerli üreticiler de dahil oldu kosovahaber com",
@@ -1862,7 +188,7 @@
       "stanceVersion": 2,
       "date": "2026-08-19",
       "firstSeen": "2026-08-19",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "suspend officers suspected of beating serb kosovo police inspectorate says balka": {
       "key": "suspend officers suspected of beating serb kosovo police inspectorate says balka",
@@ -1889,7 +215,7 @@
       "stanceVersion": 2,
       "date": "2026-08-19",
       "firstSeen": "2026-08-19",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "the price of normalisation belgrade s losing battle over the mitrovica bridge eu": {
       "key": "the price of normalisation belgrade s losing battle over the mitrovica bridge eu",
@@ -1916,7 +242,7 @@
       "stanceVersion": 2,
       "date": "2026-08-19",
       "firstSeen": "2026-08-19",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "diese szene sorgt für diskussionen blick": {
       "key": "diese szene sorgt für diskussionen blick",
@@ -1943,7 +269,7 @@
       "stanceVersion": 2,
       "date": "2026-08-19",
       "firstSeen": "2026-08-19",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "mε έξι αθλητές η ελλάδα στο ευρωπαϊκό πρωτάθλημα aρσης βαρών παίδων στο κόσοβο s": {
       "key": "mε έξι αθλητές η ελλάδα στο ευρωπαϊκό πρωτάθλημα aρσης βαρών παίδων στο κόσοβο s",
@@ -1970,7 +296,7 @@
       "stanceVersion": 2,
       "date": "2026-08-19",
       "firstSeen": "2026-08-19",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "kosova da 4 ekim alarmı cumhurbaşkanı seçilmezse ne olacak kosovahaber com": {
       "key": "kosova da 4 ekim alarmı cumhurbaşkanı seçilmezse ne olacak kosovahaber com",
@@ -1997,7 +323,7 @@
       "stanceVersion": 2,
       "date": "2026-08-19",
       "firstSeen": "2026-08-19",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "hava kosova da bugün güneşli sıcaklıklar 30 dereceye kadar kosovahaber com": {
       "key": "hava kosova da bugün güneşli sıcaklıklar 30 dereceye kadar kosovahaber com",
@@ -2024,7 +350,7 @@
       "stanceVersion": 2,
       "date": "2026-08-19",
       "firstSeen": "2026-08-19",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "ülkedeki son siyasi gelişmeler ve devam eden kurumsal kriz ele alındı kosovahabe": {
       "key": "ülkedeki son siyasi gelişmeler ve devam eden kurumsal kriz ele alındı kosovahabe",
@@ -2267,7 +593,7 @@
       "stanceVersion": 2,
       "date": "2026-08-19",
       "firstSeen": "2026-08-19",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "albania mediterranean team sofascore": {
       "key": "albania mediterranean team sofascore",
@@ -2294,34 +620,7 @@
       "stanceVersion": 2,
       "date": "2026-08-19",
       "firstSeen": "2026-08-19",
-      "lastSeen": "2026-08-21"
-    },
-    "powitanie nowego wozu w osp kosowo gostyn24 pl": {
-      "key": "powitanie nowego wozu w osp kosowo gostyn24 pl",
-      "title": "Powitanie nowego wozu w OSP Kosowo - gostyn24.pl",
-      "summary": "Powitanie nowego wozu w OSP Kosowo&nbsp;&nbsp;gostyn24.pl",
-      "albanianTitle": "Pritje madhështore për zjarrfikësit vullnetarë në Kosovë - gostyn24.pl",
-      "translated": true,
-      "url": "https://gostyn24.pl/pl/fotorelacje/na-sygnale/powitanie-nowego-wozu-w-osp-kosowo/13554,23",
-      "googleNewsUrl": "https://news.google.com/rss/articles/CBMikwFBVV95cUxOZXlJWWxSaE4ydC1SVl9zNUZOVldQNFVKVHRXa3hLU1cxQ055RUMwd3RWZTFqSDViRmYtSEpvd1ZUN00zME5LaDU3R1pNV3dsNm0xRjVWeE9kUm9WZUJtSWlERGhUdkFaOUtOQUoyaDR0ZzcwQTRzWVhuRklMNjdlSllXUGVqNUFGN0VnVy1sSW1yYVU?oc=5",
-      "imageUrl": "https://gostyn24.pl/fotorelacje/2025/1021/458831_b.jpg",
-      "imageAttempts": 1,
-      "blurb": "Njësia e zjarrfikësve vullnetarë në Kosovë ka pranuar një automjet të ri për shërbimet e saj emergjente.",
-      "outlet": "gostyn24.pl",
-      "country": "Poloni",
-      "stanceAttempts": 1,
-      "sentiment": "neutral",
-      "stance": "neutral",
-      "stanceReason": "Lajm i thjeshtë për një ngjarje lokale në OSP Kosowo",
-      "isQuote": false,
-      "speaker": "",
-      "evidence": "",
-      "confidence": "high",
-      "model": "llama-3.3-70b-versatile",
-      "stanceVersion": 2,
-      "date": "2026-08-18",
-      "firstSeen": "2026-08-19",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "ülkeyi sürekli seçime sürüklüyorsunuz kurti ne i stiyor kosovahaber com": {
       "key": "ülkeyi sürekli seçime sürüklüyorsunuz kurti ne i stiyor kosovahaber com",
@@ -2483,7 +782,7 @@
       "stanceVersion": 2,
       "date": "2026-08-19",
       "firstSeen": "2026-08-19",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "bóthar the final journey to kosovo irishexaminer com": {
       "key": "bóthar the final journey to kosovo irishexaminer com",
@@ -2537,7 +836,7 @@
       "stanceVersion": 2,
       "date": "2026-08-19",
       "firstSeen": "2026-08-19",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "yıllık enflasyon yüzde 6 5 e yükseldi kosovahaber com": {
       "key": "yıllık enflasyon yüzde 6 5 e yükseldi kosovahaber com",
@@ -2672,7 +971,7 @@
       "stanceVersion": 2,
       "date": "2026-08-19",
       "firstSeen": "2026-08-19",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "qeveria nuk e di se nga kanë hyrë vaksinat nga serbia në kosovë hoti paralajmëro": {
       "key": "qeveria nuk e di se nga kanë hyrë vaksinat nga serbia në kosovë hoti paralajmëro",
@@ -2726,7 +1025,7 @@
       "stanceVersion": 2,
       "date": "2026-08-19",
       "firstSeen": "2026-08-19",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "srpska lista says police suspension not enough srpske rs": {
       "key": "srpska lista says police suspension not enough srpske rs",
@@ -2780,223 +1079,7 @@
       "stanceVersion": 2,
       "date": "2026-08-19",
       "firstSeen": "2026-08-19",
-      "lastSeen": "2026-08-21"
-    },
-    "kosovo parliament approves kurti s cabinet with 66 49 vote newsonair gov in": {
-      "key": "kosovo parliament approves kurti s cabinet with 66 49 vote newsonair gov in",
-      "title": "Kosovo Parliament Approves Kurti’s Cabinet with 66-49 Vote - newsonair.gov.in",
-      "summary": "Kosovo Parliament Approves Kurti’s Cabinet with 66-49 Vote&nbsp;&nbsp;newsonair.gov.in",
-      "albanianTitle": "Parlamenti i Kosovës voton me 66 vota pro kabinetin qeveritar të Kurtit",
-      "translated": true,
-      "url": "https://newsonair.gov.in/kosovo-parliament-approves-kurtis-cabinet-with-66-49-vote/",
-      "googleNewsUrl": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxPcXh0T1lYVmVMcEg3em02WEtyRFRGNllxYlVXeDY0X24zZkVYbjZoOFE1UEFjay1JWmF4TkZyQmVGZ3RrVk5YNGJHVmQ5YldZV29RZTU1Y2N6dlczZjNXZENpM0dPLUtJdDhxUzVtbzZJdHZ6X0Z4d19NZzR2aFBUbUxQcTRON29LNHlj?oc=5",
-      "imageUrl": null,
-      "imageAttempts": 1,
-      "blurb": "Kuvendi i Kosovës ka votuar kabinetin qeveritar të udhëhequr nga Albin Kurti me 66 vota për dhe 49 kundër.",
-      "outlet": "newsonair.gov.in",
-      "country": "Britani",
-      "stanceAttempts": 1,
-      "sentiment": "neutral",
-      "stance": "neutral",
-      "stanceReason": "Fact-based reporting without loaded language",
-      "isQuote": false,
-      "speaker": "",
-      "evidence": "",
-      "confidence": "high",
-      "model": "llama-3.3-70b-versatile",
-      "stanceVersion": 2,
-      "date": "2026-08-18",
-      "firstSeen": "2026-08-19",
-      "lastSeen": "2026-08-19"
-    },
-    "was ist wenn kosovo nach dem 4 oktober ohne präsident bleibt periskopi": {
-      "key": "was ist wenn kosovo nach dem 4 oktober ohne präsident bleibt periskopi",
-      "title": "Was ist, wenn Kosovo nach dem 4. Oktober ohne Präsident bleibt? - Periskopi",
-      "summary": "Was ist, wenn Kosovo nach dem 4. Oktober ohne Präsident bleibt?&nbsp;&nbsp;Periskopi",
-      "albanianTitle": "Çfarë ndodh nëse Kosova mbetet pa president pas 4 tetorit?",
-      "translated": true,
-      "url": "https://periskopi.com/de/2026/8/kosovo-4-oktober-prasident-bleibt",
-      "googleNewsUrl": "https://news.google.com/rss/articles/CBMic0FVX3lxTE9NN2ZrV2ZweW9sQ2VsVG0xN09ZelM1QzNSQnlTT1RfbkpXYTZkN3VQSUxDOENtR3h0bkVWel9xbXlfWm5zT3AxWmZVSlJpTHBHQXhhc0l5bE9jcnVPNDlkbDJkOFpXSHlKaUx5X3A2dElTNFE?oc=5",
-      "imageUrl": null,
-      "imageAttempts": 1,
-      "blurb": "Analizohen pasojat institucionale nëse Kosova mbetet pa president pas datës katër tetor si pasojë e zhvillimeve politike.",
-      "outlet": "Periskopi",
-      "country": "Zvicër",
-      "stanceAttempts": 1,
-      "sentiment": "neutral",
-      "stance": "neutral",
-      "stanceReason": "Faktische pyetje, pa ngarkim vlerësues",
-      "isQuote": false,
-      "speaker": "",
-      "evidence": "",
-      "confidence": "high",
-      "model": "llama-3.3-70b-versatile",
-      "stanceVersion": 2,
-      "date": "2026-08-18",
-      "firstSeen": "2026-08-19",
-      "lastSeen": "2026-08-19"
-    },
-    "es ist nicht so dass sie kosovo sehr lieben sadiku godet lvv periskopi": {
-      "key": "es ist nicht so dass sie kosovo sehr lieben sadiku godet lvv periskopi",
-      "title": "“Es ist nicht so, dass sie Kosovo sehr lieben” ) Sadiku “godet” LVV - Periskopi",
-      "summary": "“Es ist nicht so, dass sie Kosovo sehr lieben” ) Sadiku “godet” LVV&nbsp;&nbsp;Periskopi",
-      "albanianTitle": "“Nuk është se e duan shumë Kosovën”, Sadiku “godet” LVV-në",
-      "translated": true,
-      "url": "https://periskopi.com/de/2026/8/kosovo-lieben-sadiku-godet-lvv",
-      "googleNewsUrl": "https://news.google.com/rss/articles/CBMib0FVX3lxTE56YkM4eHZPTHdzMDNiZk54VkQ1eTZidTBWLXROVjlRV3hBb0FOdWdVZkJGQ1puQkJJcXhQclNiZUNTTlFjNFFCbjdUOXRJMmZ1aXFlRW1aWlhBeGYtQmRXMlRjcS1OMEJlVkJkSndYWQ?oc=5",
-      "imageUrl": null,
-      "imageAttempts": 1,
-      "blurb": "Sadiku ka kritikuar Lëvizjen Vetëvendosje duke vënë në dyshim përkushtimin e kësaj partie ndaj interesave të shtetit të Kosovës.",
-      "outlet": "Periskopi",
-      "country": "Zvicër",
-      "stanceAttempts": 1,
-      "sentiment": "neutral",
-      "stance": "neutral",
-      "stanceReason": "Citat i një personi, jo zëri i mediumit",
-      "isQuote": true,
-      "speaker": "Sadiku",
-      "evidence": "",
-      "confidence": "high",
-      "model": "llama-3.3-70b-versatile",
-      "stanceVersion": 2,
-      "date": "2026-08-18",
-      "firstSeen": "2026-08-19",
-      "lastSeen": "2026-08-19"
-    },
-    "maximale derivatpreise für heute im kosovo festgelegt periskopi": {
-      "key": "maximale derivatpreise für heute im kosovo festgelegt periskopi",
-      "title": "Maximale Derivatpreise für heute im Kosovo festgelegt - Periskopi",
-      "summary": "Maximale Derivatpreise für heute im Kosovo festgelegt&nbsp;&nbsp;Periskopi",
-      "albanianTitle": "Caktohen çmimet maksimale të derivateve për sot në Kosovë - Periskopi",
-      "translated": true,
-      "url": "https://periskopi.com/de/2026/8/maximale-derivatpreise-kosovo-festgelegt",
-      "googleNewsUrl": "https://news.google.com/rss/articles/CBMifEFVX3lxTE1HQW1Gdkprdmo2SlJldVRkZkxsT0xRLU1QMFI2bVJlRGlINFA1T3FPdHZjZ1dPQUxheW1VdTZ2RVd2Q0lTaDZGcE92X19XSUVrOFhwaU16SjNnZ2dRV1dwdnN4VTZySEJ3ZjhfY3ppbFB1NzIxZllyeG1CZy0?oc=5",
-      "imageUrl": null,
-      "imageAttempts": 1,
-      "blurb": "Ministria e Industrisë, Ndërmarrësisë dhe Tregtisë ka publikuar çmimet maksimale të lejuara për shitjen e derivateve të naftës sot.",
-      "outlet": "Periskopi",
-      "country": "Zvicër",
-      "stanceAttempts": 1,
-      "sentiment": "neutral",
-      "stance": "neutral",
-      "stanceReason": "Lajm faktik pa ngarkim",
-      "isQuote": false,
-      "speaker": "",
-      "evidence": "",
-      "confidence": "high",
-      "model": "llama-3.3-70b-versatile",
-      "stanceVersion": 2,
-      "date": "2026-08-18",
-      "firstSeen": "2026-08-19",
-      "lastSeen": "2026-08-19"
-    },
-    "un lobt aktivitäten der kosovo botschaft in washington zum 250 jahrestag der una": {
-      "key": "un lobt aktivitäten der kosovo botschaft in washington zum 250 jahrestag der una",
-      "title": "UN lobt Aktivitäten der Kosovo-Botschaft in Washington zum 250. Jahrestag der Unabhängigkeit der USA - Periskopi",
-      "summary": "UN lobt Aktivitäten der Kosovo-Botschaft in Washington zum 250. Jahrestag der Unabhängigkeit der USA&nbsp;&nbsp;Periskopi",
-      "albanianTitle": "OKB vlerëson aktivitetet e Ambasadës së Kosovës në Washington për 250-vjetorin e pavarësisë së SHBA-së - Periskopi",
-      "translated": true,
-      "url": "https://periskopi.com/de/2026/8/un-lobt-aktivitaten-kosovo-botschaft-washington-250-jahrestag-unabhangigkeit-usa",
-      "googleNewsUrl": "https://news.google.com/rss/articles/CBMisgFBVV95cUxNVFZfdV9kOVdqM1FiX2RyUzRYc1NEVVMtYWlIdkREVDdFZkRHN2J4bzhCZXhocTdGV0RGUUNnNXRFSmptNTdQM19vWVhtbzVjWFhLWFdha0F4R0RZVWFjUXgzdFc0RmRkTW5vOURkSTY4VjY1V1hPNVYyTmQ1MzJjdEVHazBWWUp1U3N0NmlkTU9INmpDZ1R4SHY3dzVHR2ZFRnVHQlJwR1ZjMGZZZV8xUHJB?oc=5",
-      "imageUrl": null,
-      "imageAttempts": 1,
-      "blurb": "Organizata e Kombeve të Bashkuara ka vlerësuar aktivitetet e ambasadës së Kosovës në Uashington për përvjetorin e pavarësisë së SHBA-së.",
-      "outlet": "Periskopi",
-      "country": "Zvicër",
-      "stanceAttempts": 1,
-      "sentiment": "neutral",
-      "stance": "neutral",
-      "stanceReason": "Raporton se UN e lavdëron Kosovën, pa shprehje të medias",
-      "isQuote": false,
-      "speaker": "",
-      "evidence": "",
-      "confidence": "high",
-      "model": "llama-3.3-70b-versatile",
-      "stanceVersion": 2,
-      "date": "2026-08-18",
-      "firstSeen": "2026-08-19",
-      "lastSeen": "2026-08-19"
-    },
-    "kommunisten könnten das eigentum an schulen ländern medizinischen zentren und öf": {
-      "key": "kommunisten könnten das eigentum an schulen ländern medizinischen zentren und öf",
-      "title": "Kommunisten könnten das Eigentum an Schulen, Ländern, medizinischen Zentren und öffentlichen Gebäuden verlieren - Periskopi",
-      "summary": "Kommunisten könnten das Eigentum an Schulen, Ländern, medizinischen Zentren und öffentlichen Gebäuden verlieren&nbsp;&nbsp;Periskopi",
-      "albanianTitle": "Komunistët mund të humbin pronësinë mbi shkolla, toka, qendra mjekësore dhe objekte publike - Periskopi",
-      "translated": true,
-      "url": "https://periskopi.com/de/2026/8/kommunisten-eigentum-schulen-landern-medizinischen-zentren-offentlichen-gebauden-verlieren",
-      "googleNewsUrl": "https://news.google.com/rss/articles/CBMivwFBVV95cUxQQnFvWVlubmdKYnl0bWQ3Ml91VWViNGZHTjFRb0NIWkZJM1JtclpEdm1TeTZWZEFBMWVPVkFzd0JYLTZvcl9Nd09NYTdvOXY5YnljOHNiVU4zTTczQU54UEMwOUlzQTdyZWdMcmI2dlg3ZFpTRzJMYlg5YTZUZEJacFBqSnhoR0hsSXFaZW84TUtxdDg2Rkg5WHBtc2FyT2REOUVlN0p2OGhQMTFJZDNPcmNmOHo1VGh3UXYwdC1Jcw?oc=5",
-      "imageUrl": null,
-      "imageAttempts": 1,
-      "blurb": "Institucionet publike, shkollat dhe qendrat mjekësore rrezikojnë të humbin pronësinë e objekteve të tyre për shkak të çështjeve komuniste.",
-      "outlet": "Periskopi",
-      "country": "Zvicër",
-      "stanceAttempts": 1,
-      "sentiment": "neutral",
-      "stance": "neutral",
-      "stanceReason": "Faktikë të raportuara pa ngarkim",
-      "isQuote": false,
-      "speaker": "",
-      "evidence": "",
-      "confidence": "high",
-      "model": "llama-3.3-70b-versatile",
-      "stanceVersion": 2,
-      "date": "2026-08-18",
-      "firstSeen": "2026-08-19",
-      "lastSeen": "2026-08-19"
-    },
-    "treffen kurt obadiah wir haben uns grundsätzlich darauf geeinigt den nächsten pr": {
-      "key": "treffen kurt obadiah wir haben uns grundsätzlich darauf geeinigt den nächsten pr",
-      "title": "Treffen Kurt, Obadiah: Wir haben uns grundsätzlich darauf geeinigt, den nächsten Präsidenten zu profilieren - Periskopi",
-      "summary": "Treffen Kurt, Obadiah: Wir haben uns grundsätzlich darauf geeinigt, den nächsten Präsidenten zu profilieren&nbsp;&nbsp;Periskopi",
-      "albanianTitle": "Takimi Kurti-Abdixhiku: Jemi pajtuar në parim për profilizimin e presidentit të ardhshëm - Periskopi",
-      "translated": true,
-      "url": "https://periskopi.com/de/2026/8/treffen-kurt-obadiah-grundsatzlich-geeinigt-nachsten-prasidenten-profilieren",
-      "googleNewsUrl": "https://news.google.com/rss/articles/CBMirAFBVV95cUxQcHNVTm5yUDJlaURseURFSThSLWNNTUptYmZlV1pUOUJ6R2taMF8wb2RtUEN5YXBXZkpiLXgtb3kwV25wUlR6ZHczQTFRbHBieHlFYjNWXzJkT1FyZUJvWW9QbVRPTDZ5ekdfVnpyUFFpNGhMNC10OHFOOHNFSU8xUXYzU2lTRzdXTnVPbVZNODFaMURBeTNZanpzOVhtSWd4S0NMbUEyd2pZVHZ2?oc=5",
-      "imageUrl": null,
-      "imageAttempts": 1,
-      "blurb": "Kryeministri Kurti dhe Obadiah janë pajtuar parimisht për procesin e profilizimit të presidentit të ardhshëm të vendit.",
-      "outlet": "Periskopi",
-      "country": "Zvicër",
-      "stanceAttempts": 1,
-      "sentiment": "neutral",
-      "stance": "neutral",
-      "stanceReason": "Faktikë të raportuara pa gjuhë ngarkuar ndaj Kosovës",
-      "isQuote": false,
-      "speaker": "",
-      "evidence": "",
-      "confidence": "high",
-      "model": "llama-3.3-70b-versatile",
-      "stanceVersion": 2,
-      "date": "2026-08-18",
-      "firstSeen": "2026-08-19",
-      "lastSeen": "2026-08-19"
-    },
-    "la oposición kosovar protesta contra el bloqueo del parlamento infobae com": {
-      "key": "la oposición kosovar protesta contra el bloqueo del parlamento infobae com",
-      "title": "La oposición kosovar protesta contra el bloqueo del Parlamento - infobae.com",
-      "summary": "La oposición kosovar protesta contra el bloqueo del Parlamento&nbsp;&nbsp;infobae.com",
-      "albanianTitle": "Opozita kosovare proteston kundër bllokimit të Kuvendit - infobae.com",
-      "translated": true,
-      "url": "https://www.infobae.com/america/agencias/2026/08/18/la-oposicion-kosovar-protesta-contra-el-bloqueo-del-parlamento/",
-      "googleNewsUrl": "https://news.google.com/rss/articles/CBMitgFBVV95cUxNcVNXSUNTR3FjbGFISVNfTExJUVktNHozWjZiSEU0ZTRyMEZ0Y3pHek5CMUxkMVUxX3NtRy0weE5SeF9YUEMzQ1RRTXFTbWRDUDBRVU1VR05tQ0F2dkxDV3d2TDVlR3FvV2RzalBNbEhtRTRpMVdHSFR5QWwtZW45OVdGeTU5NzNTVV9OWjdCOUdWVzl2YkVUNk9GeEF4N3hVdGotck9ZU2diNnc3UlRuY2FYYWwzQdIB0AFBVV95cUxOQS0wM083ZXhQaGgxd1V4MEZQc1paQmZaUVJpR1ctSkg4OTRFa0pFcU84US0yOURUcmtORVo1UGwwNEhGQlVNNDhacGxGOWlvVU5SS1ota2ltVjUwQ1FXUGRuUUV6V1FQTjVUUC1sdkZnbWxsWU9JTkVoWGs3REx2X3U0dnFCTTRBZnlIQmlSc0Q1RFNQMF9Dd05fSTJ1NnFEWGpZeFpGbjloOHYwNkdnZldNUDlPc2FaRi1OZ0JUeVdUSzRoTWxGaUkyOHZ4Ym9h?oc=5",
-      "imageUrl": "https://www.infobae.com/assets/images/logos/fallback-promo-image-1200x630.png",
-      "imageAttempts": 1,
-      "blurb": "Opozita në Kosovë ka organizuar protesta për të kundërshtuar bllokimin e punimeve në Kuvendin e Kosovës.",
-      "outlet": "infobae.com",
-      "country": "Spanjë",
-      "stanceAttempts": 1,
-      "sentiment": "neutral",
-      "stance": "neutral",
-      "stanceReason": "Raportim i protestës pa gjuhë ngarkuar ndaj Kosovës",
-      "isQuote": false,
-      "speaker": "",
-      "evidence": "",
-      "confidence": "high",
-      "model": "llama-3.3-70b-versatile",
-      "stanceVersion": 2,
-      "date": "2026-08-18",
-      "firstSeen": "2026-08-19",
-      "lastSeen": "2026-08-19"
+      "lastSeen": "2026-08-22"
     },
     "συνελήφθη 23χρονος από το κόσοβο μετά από καταγγελία 18χρονης ιταλίδας για βιασμ": {
       "key": "συνελήφθη 23χρονος από το κόσοβο μετά από καταγγελία 18χρονης ιταλίδας για βιασμ",
@@ -3023,7 +1106,7 @@
       "stanceVersion": 2,
       "date": "2026-08-19",
       "firstSeen": "2026-08-19",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "μύκονος καταγγελία 18χρονης ιταλίδας για βιασμό της σε beach bar συνελήφθη 23χρο": {
       "key": "μύκονος καταγγελία 18χρονης ιταλίδας για βιασμό της σε beach bar συνελήφθη 23χρο",
@@ -3050,7 +1133,7 @@
       "stanceVersion": 2,
       "date": "2026-08-19",
       "firstSeen": "2026-08-19",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "kosova da savaş suçları soruşturması 23 kişiye ait kemik kalıntıları bulundu cum": {
       "key": "kosova da savaş suçları soruşturması 23 kişiye ait kemik kalıntıları bulundu cum",
@@ -3105,33 +1188,6 @@
       "date": "2026-08-19",
       "firstSeen": "2026-08-19",
       "lastSeen": "2026-08-21"
-    },
-    "çalık renewables dan kosova ya 106 milyon euroluk yatırım i nşaat dünyası": {
-      "key": "çalık renewables dan kosova ya 106 milyon euroluk yatırım i nşaat dünyası",
-      "title": "Çalık Renewables’dan Kosova’ya 106 milyon euroluk yatırım - İnşaat Dünyası",
-      "summary": "Çalık Renewables’dan Kosova’ya 106 milyon euroluk yatırım&nbsp;&nbsp;İnşaat Dünyası",
-      "albanianTitle": "Investim prej 106 milionë eurosh nga Çalık Renewables në Kosovë - İnşaat Dünyası",
-      "translated": true,
-      "url": "https://www.insaatdunyasi.com.tr/surdurulebilirlik/calik-renewablesdan-kosovaya-106-milyon-euroluk-yatirim/",
-      "googleNewsUrl": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxQWVJTbTNxMzRkTmRDQUhfczNBdXM4ZzdzNUtDb3FLcHN4MFFLcnV6YWQ4NklYaUlDX2RMdGJpMGw4ZjhZTGJxM1dIcFdiekJYU0Z6YlF5WExsdzl5VjRIMzJiTFFUVlBZdE1RNElsLXEzcTB0bW9WSTlXaFh1bVk0eDhvalBxTVJRdmY0LTN5SElMNEkydU16VDA4cXByeWRVRzlkZmx4SDJBYUU?oc=5",
-      "imageUrl": "https://www.insaatdunyasi.com.tr/wp-content/uploads/2026/08/Calik-Renewables-Genel-Muduru-Emre-Erdogan.webp",
-      "imageAttempts": 2,
-      "blurb": "Kompania Çalık Renewables do të investojë 106 milionë euro në sektorin e energjisë së ripërtëritshme në Kosovë.",
-      "outlet": "İnşaat Dünyası",
-      "country": "Turqi",
-      "stanceAttempts": 1,
-      "sentiment": "neutral",
-      "stance": "neutral",
-      "stanceReason": "Faktikë raportim i investimit dhe zbulimit të mbetjeve pa gjuhë ngarkuese",
-      "isQuote": false,
-      "speaker": "",
-      "evidence": "",
-      "confidence": "high",
-      "model": "llama-3.3-70b-versatile",
-      "stanceVersion": 2,
-      "date": "2026-08-18",
-      "firstSeen": "2026-08-19",
-      "lastSeen": "2026-08-19"
     },
     "kosova da zubin potok kazısında en az 23 kişiye ait kalıntı bulundu üç şüpheli t": {
       "key": "kosova da zubin potok kazısında en az 23 kişiye ait kalıntı bulundu üç şüpheli t",
@@ -3266,7 +1322,7 @@
       "stanceVersion": 2,
       "date": "2026-08-19",
       "firstSeen": "2026-08-19",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "başbakanı kurti eulex in yeni başkanı lopes ile görüştü kosovahaber com": {
       "key": "başbakanı kurti eulex in yeni başkanı lopes ile görüştü kosovahaber com",
@@ -3482,7 +1538,7 @@
       "stanceVersion": 2,
       "date": "2026-08-19",
       "firstSeen": "2026-08-19",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "kosova da savaş suçları soruşturmasında 23 kişiye ait kemikler bulundu saray med": {
       "key": "kosova da savaş suçları soruşturmasında 23 kişiye ait kemikler bulundu saray med",
@@ -3509,7 +1565,7 @@
       "stanceVersion": 2,
       "date": "2026-08-19",
       "firstSeen": "2026-08-19",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "kosovo finds remains of at least 23 people in suspected mass graves al jazeera": {
       "key": "kosovo finds remains of at least 23 people in suspected mass graves al jazeera",
@@ -3563,7 +1619,7 @@
       "stanceVersion": 2,
       "date": "2026-08-20",
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "remains of over 20 people found in kosovo mass graves search rnz": {
       "key": "remains of over 20 people found in kosovo mass graves search rnz",
@@ -3644,7 +1700,7 @@
       "stanceVersion": 2,
       "date": "2026-08-20",
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "kosovo les restes squelettiques d au moins 23 personnes exhumés de trois fosses ": {
       "key": "kosovo les restes squelettiques d au moins 23 personnes exhumés de trois fosses ",
@@ -3671,7 +1727,7 @@
       "stanceVersion": 2,
       "date": "2026-08-19",
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "massagraf met resten van ruim twintig mensen gevonden in kosovo telegraaf nl": {
       "key": "massagraf met resten van ruim twintig mensen gevonden in kosovo telegraaf nl",
@@ -3725,7 +1781,7 @@
       "stanceVersion": 2,
       "date": "2026-08-20",
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "τέλος στις εξαγωγές ελληνικού λιγνίτη στη βόρεια μακεδονία προχώρησε σε συμφωνία": {
       "key": "τέλος στις εξαγωγές ελληνικού λιγνίτη στη βόρεια μακεδονία προχώρησε σε συμφωνία",
@@ -3752,7 +1808,7 @@
       "stanceVersion": 2,
       "date": "2026-08-20",
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "μύκονος σύλληψη 23χρονου από το κόσοβο για σεξουαλική επίθεση σε 18χρονη σε γνωσ": {
       "key": "μύκονος σύλληψη 23χρονου από το κόσοβο για σεξουαλική επίθεση σε 18χρονη σε γνωσ",
@@ -3779,7 +1835,7 @@
       "stanceVersion": 2,
       "date": "2026-08-20",
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "kosova da savaş suçları soruşturmasında 23 kişiye ait kemikler bulundu saraymedy": {
       "key": "kosova da savaş suçları soruşturmasında 23 kişiye ait kemikler bulundu saraymedy",
@@ -3833,7 +1889,7 @@
       "stanceVersion": 2,
       "date": "2026-08-20",
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "başbakan kurti eulex in yeni başkanı lopes ile görüştü kosovahaber com": {
       "key": "başbakan kurti eulex in yeni başkanı lopes ile görüştü kosovahaber com",
@@ -3914,7 +1970,7 @@
       "stanceVersion": 2,
       "date": "2026-08-20",
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "us to provide 206 million for gaza peacekeeping force letters show the times of ": {
       "key": "us to provide 206 million for gaza peacekeeping force letters show the times of ",
@@ -3941,34 +1997,7 @@
       "stanceVersion": 2,
       "date": "2026-08-20",
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-21"
-    },
-    "north macedonia to import coal for power plants from kosovo balkangreenenergynew": {
-      "key": "north macedonia to import coal for power plants from kosovo balkangreenenergynew",
-      "title": "North Macedonia to import coal for power plants from Kosovo* - balkangreenenergynews.com",
-      "summary": "North Macedonia to import coal for power plants from Kosovo*&nbsp;&nbsp;balkangreenenergynews.com",
-      "albanianTitle": "Maqedonia e Veriut do të importojë qymyr nga Kosova për termocentralet e saj - balkangreenenergynews.com",
-      "translated": true,
-      "url": "https://balkangreenenergynews.com/north-macedonia-to-import-coal-for-power-plants-from-kosovo/",
-      "googleNewsUrl": "https://news.google.com/rss/articles/CBMimgFBVV95cUxPRHpkR1NsRFJQZk4tSU9QQnVlMUxQRWhPRXZxbm9hYjJXTG9NVmgzY2JXcHAxQ1VmTktjTUczcEZkZWlPaWU1UXNSYjdPSEZLMkhpZGNCYzNpMkYyUUIxTXRyQ0wtaF9lemZtVzNDZVQzazA1TkVRdllxblRETXdVOFdQTWFrTzVxU2M5NkVzSnAxZUs1cF8tMmZ3?oc=5",
-      "imageUrl": "https://balkangreenenergynews.com/wp-content/uploads/2026/08/north-macedonia-kosovo-kek-esm-coal-concesion-contract-hasani-uzuncev.jpg",
-      "imageAttempts": 1,
-      "blurb": "Maqedonia e Veriut do të importojë thëngjill nga Kosova për të furnizuar termocentralet e saj me lëndë djegëse.",
-      "outlet": "Balkan Green Energy News",
-      "country": "SHBA",
-      "stanceAttempts": 1,
-      "sentiment": "neutral",
-      "stance": "neutral",
-      "stanceReason": "Raportim faktik për tregtinë e qymyrit, pa gjuhë ngarkuar",
-      "isQuote": false,
-      "speaker": "",
-      "evidence": "",
-      "confidence": "high",
-      "model": "llama-3.3-70b-versatile",
-      "stanceVersion": 2,
-      "date": "2026-08-18",
-      "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-20"
+      "lastSeen": "2026-08-22"
     },
     "remains of over 20 people found in kosovo mass graves search rnz co nz": {
       "key": "remains of over 20 people found in kosovo mass graves search rnz co nz",
@@ -4022,7 +2051,7 @@
       "stanceVersion": 2,
       "date": "2026-08-20",
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "massagraf met resten van ruim twintig mensen gevonden in kosovo de telegraaf": {
       "key": "massagraf met resten van ruim twintig mensen gevonden in kosovo de telegraaf",
@@ -4049,34 +2078,7 @@
       "stanceVersion": 2,
       "date": "2026-08-20",
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-21"
-    },
-    "servië dreigt kosovo van het water af te sluiten ook al is dat vrijwel onmogelij": {
-      "key": "servië dreigt kosovo van het water af te sluiten ook al is dat vrijwel onmogelij",
-      "title": "Servië dreigt Kosovo van het water af te sluiten, ook al is dat vrijwel onmogelijk - Het Parool",
-      "summary": "Servië dreigt Kosovo van het water af te sluiten, ook al is dat vrijwel onmogelijk&nbsp;&nbsp;Het Parool",
-      "albanianTitle": "Serbia kërcënon se do t'ia ndërpresë ujin Kosovës, ndonëse kjo është pothuajse e pamundur - Het Parool",
-      "translated": true,
-      "url": "https://www.parool.nl/wereld/servie-dreigt-kosovo-van-het-water-af-te-sluiten-ook-al-is-dat-vrijwel-onmogelijk~b7bbd9a1/",
-      "googleNewsUrl": "https://news.google.com/rss/articles/CBMivAFBVV95cUxPa0pQRU1RMkxpcVY5R2tic0VYc0d2M0RmVWU1eVFveEF0eEpadXNfRzFrQm1MbndmMWRMWDJXQnNvYlM4UElIRTdUalFPU1J5T2g0YWIycE1MVkRxaVdxM2J2YTZiT0VZakRMTUwwUVVQZ0VrN2k3ekxQWXBodXhmcW5zWUEyR0VYOFM5a1J1aG1MMG5ON0o1LURPSms2dTBhMHZyS3dCU0RKaWIxNGJfT1loR0RQTGgyeEp3QQ?oc=5",
-      "imageUrl": null,
-      "imageAttempts": 3,
-      "blurb": "Serbia ka kërcënuar me ndërprerjen e furnizimit me ujë për Kosovën, ndonëse një veprim i tillë konsiderohet praktikisht i pamundur.",
-      "outlet": "Het Parool",
-      "country": "Holandë",
-      "stanceAttempts": 1,
-      "sentiment": "neutral",
-      "stance": "neutral",
-      "stanceReason": "Faktikë, pa ngjyrë",
-      "isQuote": false,
-      "speaker": "",
-      "evidence": "",
-      "confidence": "high",
-      "model": "llama-3.3-70b-versatile",
-      "stanceVersion": 2,
-      "date": "2026-08-18",
-      "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "zeker 23 lichamen teruggevonden in massagraven in kosovo hbvl": {
       "key": "zeker 23 lichamen teruggevonden in massagraven in kosovo hbvl",
@@ -4130,7 +2132,7 @@
       "stanceVersion": 2,
       "date": "2026-08-20",
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "πρώτο σερβίς για την μεσογειακή εθνική ομάδα βόλεϊ γυναικών απέναντι στο κόσοβο ": {
       "key": "πρώτο σερβίς για την μεσογειακή εθνική ομάδα βόλεϊ γυναικών απέναντι στο κόσοβο ",
@@ -4157,7 +2159,7 @@
       "stanceVersion": 2,
       "date": "2026-08-20",
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "τέλος στις εξαγωγές ελληνικού λιγνίτη στη β μακεδονία προχώρησε σε συμφωνία με τ": {
       "key": "τέλος στις εξαγωγές ελληνικού λιγνίτη στη β μακεδονία προχώρησε σε συμφωνία με τ",
@@ -4265,7 +2267,7 @@
       "stanceVersion": 2,
       "date": "2026-08-20",
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "he spied for the u s in the war on terror now ice wants to deport him cbs news": {
       "key": "he spied for the u s in the war on terror now ice wants to deport him cbs news",
@@ -4319,34 +2321,7 @@
       "stanceVersion": 2,
       "date": "2026-08-20",
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-21"
-    },
-    "mediterranean games kosovo s lekë juniku carries tradition and fighting spirit f": {
-      "key": "mediterranean games kosovo s lekë juniku carries tradition and fighting spirit f",
-      "title": "Mediterranean Games: Kosovo’s Lekë Juniku carries tradition and fighting spirit from Taranto towards 2030 - World Baseball Softball Confederation (WBSC)",
-      "summary": "Mediterranean Games: Kosovo’s Lekë Juniku carries tradition and fighting spirit from Taranto towards 2030&nbsp;&nbsp;World Baseball Softball Confederation (WBSC)",
-      "albanianTitle": "Lojërat Mesdhetare: Lekë Juniku i Kosovës bart traditën dhe frymën luftarake nga Taranto drejt vitit 2030",
-      "translated": true,
-      "url": "https://www.wbsc.org/en/news/mediterranean-games-kosovos-leke-juniku-carries-tradition-and-fighting-spirit-from-taranto-towards-2030",
-      "googleNewsUrl": "https://news.google.com/rss/articles/CBMizAFBVV95cUxQbGNucHNUelJPM1hKNHByODgxaGxiZTdqaWszVGZWMUhWb0xydjlQQjNZSzhaNW1DMDM1a1NGZV9SclM0ekE5TFozY1VnZHNVaDhsNV8wcjQyTHB4c3A3MGl1OFZITlJXVndDVy1ReHMtNUUwcXVKZm1aR1AtX25pdUZKNi1IQ0Y0dXBMNWNVajloOVpNaEZsd05lOGRnelVmS3dVdmZRREduQUduYlc2dXVVdzRqRUN5SW5VQ010eDRIUXJxSFhNYUZQRHA?oc=5",
-      "imageUrl": null,
-      "imageAttempts": 3,
-      "blurb": "Sportisti Lekë Juniku përfaqëson Kosovën në Lojërat Mesdhetare, duke bartur traditën dhe frymën garuese drejt edicionit të vitit 2030.",
-      "outlet": "World Baseball Softball Confederation (WBSC)",
-      "country": "SHBA",
-      "stanceAttempts": 1,
-      "sentiment": "positive",
-      "stance": "positive",
-      "stanceReason": "Gjuhë e ngrohtë dhe admiruese për Kosovën",
-      "isQuote": false,
-      "speaker": "",
-      "evidence": "carries tradition and fighting spirit",
-      "confidence": "high",
-      "model": "llama-3.3-70b-versatile",
-      "stanceVersion": 2,
-      "date": "2026-08-18",
-      "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "kosovo localiza una fosa común con al menos 23 desaparecidos de la guerra de 199": {
       "key": "kosovo localiza una fosa común con al menos 23 desaparecidos de la guerra de 199",
@@ -4373,7 +2348,7 @@
       "stanceVersion": 2,
       "date": "2026-08-20",
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "serbia mot kosovo resultat och tippade resultat sofascore": {
       "key": "serbia mot kosovo resultat och tippade resultat sofascore",
@@ -4400,7 +2375,7 @@
       "stanceVersion": 2,
       "date": "2026-08-19",
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "abd den kosova ya kurumların oluşturulması çağrısı kosovahaber com": {
       "key": "abd den kosova ya kurumların oluşturulması çağrısı kosovahaber com",
@@ -4427,7 +2402,7 @@
       "stanceVersion": 2,
       "date": "2026-08-20",
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "fransa nın priştine yeni büyükelçisi jean françois huchet olacak kosovahaber com": {
       "key": "fransa nın priştine yeni büyükelçisi jean françois huchet olacak kosovahaber com",
@@ -4481,7 +2456,7 @@
       "stanceVersion": 2,
       "date": "2026-08-20",
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "hoxhaj dan kurti ye ofisten çık kosovahaber com": {
       "key": "hoxhaj dan kurti ye ofisten çık kosovahaber com",
@@ -4508,7 +2483,7 @@
       "stanceVersion": 2,
       "date": "2026-08-20",
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "giochi del mediterraneo la spedizione azzurra arriva a taranto per sfilare alla ": {
       "key": "giochi del mediterraneo la spedizione azzurra arriva a taranto per sfilare alla ",
@@ -4535,7 +2510,7 @@
       "stanceVersion": 2,
       "date": "2026-08-20",
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "η εθνική ομάδα βόλεϊ διέλυσε το κόσοβο στην πρεμιέρα των μεσογειακών αγώνων erts": {
       "key": "η εθνική ομάδα βόλεϊ διέλυσε το κόσοβο στην πρεμιέρα των μεσογειακών αγώνων erts",
@@ -4562,7 +2537,7 @@
       "stanceVersion": 2,
       "date": "2026-08-20",
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "kosova polisi kuzeyde çok sayıda mühimmat ele geçirdi kosovahaber com": {
       "key": "kosova polisi kuzeyde çok sayıda mühimmat ele geçirdi kosovahaber com",
@@ -4589,7 +2564,7 @@
       "stanceVersion": 2,
       "date": "2026-08-20",
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "vučić in açıklamaları kosovalı sırplara baskı kosovahaber com": {
       "key": "vučić in açıklamaları kosovalı sırplara baskı kosovahaber com",
@@ -4616,7 +2591,7 @@
       "stanceVersion": 2,
       "date": "2026-08-20",
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "sınır kapısında keskin nişancı tüfeği dürbünü ele geçirildi kosovahaber com": {
       "key": "sınır kapısında keskin nişancı tüfeği dürbünü ele geçirildi kosovahaber com",
@@ -4751,7 +2726,7 @@
       "stanceVersion": 2,
       "date": "2026-08-20",
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "vučić urges nato chief to protect serbs in kosovo i lke haber ajansı": {
       "key": "vučić urges nato chief to protect serbs in kosovo i lke haber ajansı",
@@ -4778,7 +2753,7 @@
       "stanceVersion": 2,
       "date": "2026-08-20",
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "remains of over 20 people found in kosovo mass graves search ctv news": {
       "key": "remains of over 20 people found in kosovo mass graves search ctv news",
@@ -4859,7 +2834,7 @@
       "stanceVersion": 2,
       "date": "2026-08-20",
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "αγριεμένη στην πρεμιέρα της η εθνική ανδρών σάρωσε το κόσοβο sport fm gr": {
       "key": "αγριεμένη στην πρεμιέρα της η εθνική ανδρών σάρωσε το κόσοβο sport fm gr",
@@ -4886,7 +2861,7 @@
       "stanceVersion": 2,
       "date": "2026-08-20",
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "μεσογειακοί αγώνες 2026 ιδανική πρεμιέρα για την εθνική ανδρών 3 0 το κόσοβο ελλ": {
       "key": "μεσογειακοί αγώνες 2026 ιδανική πρεμιέρα για την εθνική ανδρών 3 0 το κόσοβο ελλ",
@@ -4913,7 +2888,7 @@
       "stanceVersion": 2,
       "date": "2026-08-20",
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "vucic nato dan kosova daki sırplara yönelik şiddeti durdurmasını talep etti mala": {
       "key": "vucic nato dan kosova daki sırplara yönelik şiddeti durdurmasını talep etti mala",
@@ -4940,7 +2915,7 @@
       "stanceVersion": 2,
       "date": "2026-08-20",
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "sırbistan cumhurbaşkanı vucic kosova daki bölünmüş mitroviça kentinde bulunan i ": {
       "key": "sırbistan cumhurbaşkanı vucic kosova daki bölünmüş mitroviça kentinde bulunan i ",
@@ -4967,7 +2942,7 @@
       "stanceVersion": 2,
       "date": "2026-08-20",
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "24 uluslararası sanatla uyanmak festivali prizren de başladı hürriyet": {
       "key": "24 uluslararası sanatla uyanmak festivali prizren de başladı hürriyet",
@@ -5048,7 +3023,7 @@
       "stanceVersion": 2,
       "date": "2026-08-20",
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "kek çalışanı i ş kazasında hayatını kaybetti kosovahaber com": {
       "key": "kek çalışanı i ş kazasında hayatını kaybetti kosovahaber com",
@@ -5102,7 +3077,7 @@
       "stanceVersion": 2,
       "date": "2026-08-20",
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "haljiti kosovo president deal possible within days srpske rs": {
       "key": "haljiti kosovo president deal possible within days srpske rs",
@@ -5129,7 +3104,7 @@
       "stanceVersion": 2,
       "date": "2026-08-20",
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "kodraljiju seven espionage cases in kosovo srpske rs": {
       "key": "kodraljiju seven espionage cases in kosovo srpske rs",
@@ -5183,7 +3158,7 @@
       "stanceVersion": 2,
       "date": "2026-08-20",
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "vucic writes to rutte nato stop terror in kosovo do not reopen the bridge ansa": {
       "key": "vucic writes to rutte nato stop terror in kosovo do not reopen the bridge ansa",
@@ -5210,7 +3185,7 @@
       "stanceVersion": 2,
       "date": "2026-08-20",
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "kosovo police seize weapons ammunition and uniforms in northern kosovo bgnes": {
       "key": "kosovo police seize weapons ammunition and uniforms in northern kosovo bgnes",
@@ -5264,7 +3239,7 @@
       "stanceVersion": 2,
       "date": "2026-08-20",
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "pdk ja për të pestën ditë bllokon hyrjen e qeverisë i bashkohen edhe prodhuesit ": {
       "key": "pdk ja për të pestën ditë bllokon hyrjen e qeverisë i bashkohen edhe prodhuesit ",
@@ -5291,7 +3266,7 @@
       "stanceVersion": 2,
       "date": "2026-08-19",
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "kf kosova bernhausen transfermarkt": {
       "key": "kf kosova bernhausen transfermarkt",
@@ -5318,7 +3293,7 @@
       "stanceVersion": 2,
       "date": "2026-08-19",
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "bugün motorinin fiyatı 1 78 euro kosovahaber com": {
       "key": "bugün motorinin fiyatı 1 78 euro kosovahaber com",
@@ -5534,7 +3509,7 @@
       "stanceVersion": 2,
       "date": "2026-08-20",
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "events of august 20 kosovapress": {
       "key": "events of august 20 kosovapress",
@@ -5561,7 +3536,7 @@
       "stanceVersion": 2,
       "date": "2026-08-20",
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "musliu we will not stop until kosovo institutions are constituted kosovapress": {
       "key": "musliu we will not stop until kosovo institutions are constituted kosovapress",
@@ -5588,7 +3563,7 @@
       "stanceVersion": 2,
       "date": "2026-08-20",
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "sono iniziati i giochi del mediterraneo di taranto 2026 volley maschile alle 12 ": {
       "key": "sono iniziati i giochi del mediterraneo di taranto 2026 volley maschile alle 12 ",
@@ -5615,7 +3590,7 @@
       "stanceVersion": 2,
       "date": "2026-08-20",
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "taranto 2026 al via i giochi del mediterraneo con una la bella idea per la soste": {
       "key": "taranto 2026 al via i giochi del mediterraneo con una la bella idea per la soste",
@@ -5642,7 +3617,7 @@
       "stanceVersion": 2,
       "date": "2026-08-20",
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "türkiye 3x3 kosovo 3x3 ζωντανά αποτελέσματα συγκριτικά πρόγραμμα προβλέψεις και ": {
       "key": "türkiye 3x3 kosovo 3x3 ζωντανά αποτελέσματα συγκριτικά πρόγραμμα προβλέψεις και ",
@@ -5669,7 +3644,7 @@
       "stanceVersion": 2,
       "date": "2026-08-20",
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "türkiye 3x3 przeciwko kosovo 3x3 wyniki na żywo bilans spotkań terminarz przewid": {
       "key": "türkiye 3x3 przeciwko kosovo 3x3 wyniki na żywo bilans spotkań terminarz przewid",
@@ -5696,7 +3671,7 @@
       "stanceVersion": 2,
       "date": "2026-08-20",
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "unicef kosovo and rotary district 2485 albania kosovo sign memorandum of underst": {
       "key": "unicef kosovo and rotary district 2485 albania kosovo sign memorandum of underst",
@@ -5723,7 +3698,7 @@
       "stanceVersion": 2,
       "date": "2026-08-20",
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "serbia apela a la otan y paraliza la defensa de la soberanía sobre kosovo pia gl": {
       "key": "serbia apela a la otan y paraliza la defensa de la soberanía sobre kosovo pia gl",
@@ -5750,7 +3725,7 @@
       "stanceVersion": 2,
       "date": "2026-08-20",
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "uppgifter nytt krig i europa kan vara nära kommer attackera marcus oscarsson": {
       "key": "uppgifter nytt krig i europa kan vara nära kommer attackera marcus oscarsson",
@@ -5777,7 +3752,7 @@
       "stanceVersion": 2,
       "date": "2026-08-19",
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "anayasa mahkemesi heyetinin kosova ziyareti 1 anayasa gov tr": {
       "key": "anayasa mahkemesi heyetinin kosova ziyareti 1 anayasa gov tr",
@@ -5804,7 +3779,7 @@
       "stanceVersion": 2,
       "date": "2026-08-20",
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "thaçi den kosova da i ktidar ve muhalefete geniş siyasi uzlaşma çağrısı kosovaha": {
       "key": "thaçi den kosova da i ktidar ve muhalefete geniş siyasi uzlaşma çağrısı kosovaha",
@@ -5831,7 +3806,7 @@
       "stanceVersion": 2,
       "date": "2026-08-20",
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "haradinaj dan lahey deki dava öncesi sert açıklama kosovahaber com": {
       "key": "haradinaj dan lahey deki dava öncesi sert açıklama kosovahaber com",
@@ -5885,7 +3860,7 @@
       "stanceVersion": 2,
       "date": "2026-08-19",
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "μεσογειακοί αγώνες 2026 με το δεξί η εθνική γυναικών 3 0 το κόσοβο ελληνική ομοσ": {
       "key": "μεσογειακοί αγώνες 2026 με το δεξί η εθνική γυναικών 3 0 το κόσοβο ελληνική ομοσ",
@@ -5912,7 +3887,7 @@
       "stanceVersion": 2,
       "date": "2026-08-20",
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "μεσογειακοί αγώνες ιδανική πρεμιέρα με νικήτρια την εθνική βόλεϊ γυναικών απέναν": {
       "key": "μεσογειακοί αγώνες ιδανική πρεμιέρα με νικήτρια την εθνική βόλεϊ γυναικών απέναν",
@@ -5939,7 +3914,7 @@
       "stanceVersion": 2,
       "date": "2026-08-20",
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "εύκολη πρεμιέρα για την εθνική βόλεϊ γυναικών sport fm gr": {
       "key": "εύκολη πρεμιέρα για την εθνική βόλεϊ γυναικών sport fm gr",
@@ -5966,7 +3941,7 @@
       "stanceVersion": 2,
       "date": "2026-08-20",
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "θετική πρεμιέρα για την εθνική γυναικών στους μεσογειακούς αγώνες ertsports gr": {
       "key": "θετική πρεμιέρα για την εθνική γυναικών στους μεσογειακούς αγώνες ertsports gr",
@@ -5993,7 +3968,7 @@
       "stanceVersion": 2,
       "date": "2026-08-20",
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "kosova da halter şampiyonası başladı son dakika": {
       "key": "kosova da halter şampiyonası başladı son dakika",
@@ -6020,7 +3995,7 @@
       "stanceVersion": 2,
       "date": "2026-08-20",
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "milli halterciler kosova da 6 altın madalya kazandı haber 1": {
       "key": "milli halterciler kosova da 6 altın madalya kazandı haber 1",
@@ -6047,7 +4022,7 @@
       "stanceVersion": 2,
       "date": "2026-08-20",
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "milli halterciler kosova da 6 altın madalya kazandı manşet haber": {
       "key": "milli halterciler kosova da 6 altın madalya kazandı manşet haber",
@@ -6074,7 +4049,7 @@
       "stanceVersion": 2,
       "date": "2026-08-20",
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "silah deposu üç toplu mezarın yakınlarında bulundu kosovahaber com": {
       "key": "silah deposu üç toplu mezarın yakınlarında bulundu kosovahaber com",
@@ -6101,7 +4076,7 @@
       "stanceVersion": 2,
       "date": "2026-08-20",
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "in kosovo un esperienza da ricordare la nazione": {
       "key": "in kosovo un esperienza da ricordare la nazione",
@@ -6128,7 +4103,7 @@
       "stanceVersion": 2,
       "date": "2026-08-21",
       "firstSeen": "2026-08-21",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "francesca mininni è bronzo agli europei youyh di pesistica in kosovo molfettaliv": {
       "key": "francesca mininni è bronzo agli europei youyh di pesistica in kosovo molfettaliv",
@@ -6155,7 +4130,7 @@
       "stanceVersion": 2,
       "date": "2026-08-21",
       "firstSeen": "2026-08-21",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "κόσοβο ελλάδα 0 3 νικηφόρα πρεμιέρα για την εθνική βόλεϊ γυναικών στους μεσογεια": {
       "key": "κόσοβο ελλάδα 0 3 νικηφόρα πρεμιέρα για την εθνική βόλεϊ γυναικών στους μεσογεια",
@@ -6182,7 +4157,7 @@
       "stanceVersion": 2,
       "date": "2026-08-20",
       "firstSeen": "2026-08-21",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "αλβανία κόσοβο sport fm gr": {
       "key": "αλβανία κόσοβο sport fm gr",
@@ -6209,7 +4184,7 @@
       "stanceVersion": 2,
       "date": "2026-08-20",
       "firstSeen": "2026-08-21",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "ελλάδα κόσοβο 3 0 με το δεξί η εθνική βόλεϊ ανδρών στους μεσογειακούς αγώνες spo": {
       "key": "ελλάδα κόσοβο 3 0 με το δεξί η εθνική βόλεϊ ανδρών στους μεσογειακούς αγώνες spo",
@@ -6236,7 +4211,7 @@
       "stanceVersion": 2,
       "date": "2026-08-20",
       "firstSeen": "2026-08-21",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "i sveç kosova 12 oca 2020 hazırlık maçları maç raporu transfermarkt": {
       "key": "i sveç kosova 12 oca 2020 hazırlık maçları maç raporu transfermarkt",
@@ -6263,7 +4238,7 @@
       "stanceVersion": 2,
       "date": "2026-08-20",
       "firstSeen": "2026-08-21",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "vucic türk komutanı hedef aldı odatv araştırdı i bar nehri nden çıkan neo osmanl": {
       "key": "vucic türk komutanı hedef aldı odatv araştırdı i bar nehri nden çıkan neo osmanl",
@@ -6371,7 +4346,7 @@
       "stanceVersion": 2,
       "date": "2026-08-20",
       "firstSeen": "2026-08-21",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "eulex kosovo 2026 selezione per deputy head of mission fsp polizia di stato": {
       "key": "eulex kosovo 2026 selezione per deputy head of mission fsp polizia di stato",
@@ -6398,7 +4373,7 @@
       "stanceVersion": 2,
       "date": "2026-08-21",
       "firstSeen": "2026-08-21",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "μεσογειακοί αγώνες με το δεξί ξεκίνησε η εθνική βόλεϊ γυναικών 3 0 το κόσοβο in ": {
       "key": "μεσογειακοί αγώνες με το δεξί ξεκίνησε η εθνική βόλεϊ γυναικών 3 0 το κόσοβο in ",
@@ -6452,7 +4427,7 @@
       "stanceVersion": 2,
       "date": "2026-08-21",
       "firstSeen": "2026-08-21",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "başkan tugay kosova da i zmir ile i ş birliği dönemi başlıyor nhaberizmir com": {
       "key": "başkan tugay kosova da i zmir ile i ş birliği dönemi başlıyor nhaberizmir com",
@@ -6479,7 +4454,7 @@
       "stanceVersion": 2,
       "date": "2026-08-21",
       "firstSeen": "2026-08-21",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "vucic türk komutanı hedef aldı odatv araştırdı i bar nehri nden çıkan osmanlı ko": {
       "key": "vucic türk komutanı hedef aldı odatv araştırdı i bar nehri nden çıkan osmanlı ko",
@@ -6587,7 +4562,7 @@
       "stanceVersion": 2,
       "date": "2026-08-21",
       "firstSeen": "2026-08-21",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "ict for kosovo s growth building the knowledge economy eeas": {
       "key": "ict for kosovo s growth building the knowledge economy eeas",
@@ -6614,7 +4589,7 @@
       "stanceVersion": 2,
       "date": "2026-08-21",
       "firstSeen": "2026-08-21",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "thaci expects acquittal as hague court s war crimes verdict nears balkan insight": {
       "key": "thaci expects acquittal as hague court s war crimes verdict nears balkan insight",
@@ -6641,7 +4616,7 @@
       "stanceVersion": 2,
       "date": "2026-08-21",
       "firstSeen": "2026-08-21",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "serbia s vucic criticises kfor commander over ibar bridge withdrawal harici": {
       "key": "serbia s vucic criticises kfor commander over ibar bridge withdrawal harici",
@@ -6668,7 +4643,7 @@
       "stanceVersion": 2,
       "date": "2026-08-20",
       "firstSeen": "2026-08-21",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "nato to vučić any reopening of mitrovica bridge must take all communities in kos": {
       "key": "nato to vučić any reopening of mitrovica bridge must take all communities in kos",
@@ -6695,7 +4670,7 @@
       "stanceVersion": 2,
       "date": "2026-08-21",
       "firstSeen": "2026-08-21",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "medaglia di bronzo in kosovo per francesca mininni di molfetta quindici molfetta": {
       "key": "medaglia di bronzo in kosovo per francesca mininni di molfetta quindici molfetta",
@@ -6722,7 +4697,7 @@
       "stanceVersion": 2,
       "date": "2026-08-21",
       "firstSeen": "2026-08-21",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "kosovo il ponte conteso sicurezza sovranità e narrazioni lungo il fiume ibar rep": {
       "key": "kosovo il ponte conteso sicurezza sovranità e narrazioni lungo il fiume ibar rep",
@@ -6749,7 +4724,7 @@
       "stanceVersion": 2,
       "date": "2026-08-21",
       "firstSeen": "2026-08-21",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "ένταση στο κόσοβο για το άνοιγμα μιας γέφυρας skai gr": {
       "key": "ένταση στο κόσοβο για το άνοιγμα μιας γέφυρας skai gr",
@@ -6776,7 +4751,7 @@
       "stanceVersion": 2,
       "date": "2026-08-21",
       "firstSeen": "2026-08-21",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "κόσοβο eντάσεις μεταξύ σέρβων και αλβανών προκαλεί το άνοιγμα γέφυρας ertnews gr": {
       "key": "κόσοβο eντάσεις μεταξύ σέρβων και αλβανών προκαλεί το άνοιγμα γέφυρας ertnews gr",
@@ -6803,7 +4778,7 @@
       "stanceVersion": 2,
       "date": "2026-08-21",
       "firstSeen": "2026-08-21",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "cemil tugay dan kosova da yoğun diplomasi i zmir ile kosova arasında yeni dönem ": {
       "key": "cemil tugay dan kosova da yoğun diplomasi i zmir ile kosova arasında yeni dönem ",
@@ -6830,7 +4805,7 @@
       "stanceVersion": 2,
       "date": "2026-08-21",
       "firstSeen": "2026-08-21",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "thaçi tüm suçlamalardan beraat etmeyi bekliyorum kosovahaber com": {
       "key": "thaçi tüm suçlamalardan beraat etmeyi bekliyorum kosovahaber com",
@@ -6857,7 +4832,7 @@
       "stanceVersion": 2,
       "date": "2026-08-21",
       "firstSeen": "2026-08-21",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "kosova nın i lk başbakanı bajram rexhepi nin vefatının üzerinden 9 yıl geçti kos": {
       "key": "kosova nın i lk başbakanı bajram rexhepi nin vefatının üzerinden 9 yıl geçti kos",
@@ -6884,7 +4859,7 @@
       "stanceVersion": 2,
       "date": "2026-08-21",
       "firstSeen": "2026-08-21",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "nato i bre köprüsü nün açılması tüm yerel toplulukların i htiyaçlarını gözetmeli": {
       "key": "nato i bre köprüsü nün açılması tüm yerel toplulukların i htiyaçlarını gözetmeli",
@@ -6911,7 +4886,7 @@
       "stanceVersion": 2,
       "date": "2026-08-21",
       "firstSeen": "2026-08-21",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "hoxhaj dan kurti ye başbakan gibi davranma kosovahaber com": {
       "key": "hoxhaj dan kurti ye başbakan gibi davranma kosovahaber com",
@@ -7235,7 +5210,7 @@
       "stanceVersion": 2,
       "date": "2026-08-21",
       "firstSeen": "2026-08-21",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "vuçiç i bre köprüsü diyalog sürecinin parçasıydı şimdi kaldırmak i stiyorlar kos": {
       "key": "vuçiç i bre köprüsü diyalog sürecinin parçasıydı şimdi kaldırmak i stiyorlar kos",
@@ -7262,7 +5237,7 @@
       "stanceVersion": 2,
       "date": "2026-08-21",
       "firstSeen": "2026-08-21",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "bakan sveçla i zmir büyükşehir belediye başkanı tugay ı kabul etti kosovahaber c": {
       "key": "bakan sveçla i zmir büyükşehir belediye başkanı tugay ı kabul etti kosovahaber c",
@@ -7289,7 +5264,7 @@
       "stanceVersion": 2,
       "date": "2026-08-21",
       "firstSeen": "2026-08-21",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "analistler i bre köprüsü artık araç trafiğine açılmalı kosovahaber com": {
       "key": "analistler i bre köprüsü artık araç trafiğine açılmalı kosovahaber com",
@@ -7343,7 +5318,7 @@
       "stanceVersion": 2,
       "date": "2026-08-21",
       "firstSeen": "2026-08-21",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "belediyelerin sorunlarının çoğu hükümet kararlarından kaynaklanıyor kosovahaber ": {
       "key": "belediyelerin sorunlarının çoğu hükümet kararlarından kaynaklanıyor kosovahaber ",
@@ -7397,7 +5372,7 @@
       "stanceVersion": 2,
       "date": "2026-08-21",
       "firstSeen": "2026-08-21",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "from taranto kosovo s haxhiu calls for unity to overcome political deadlock just": {
       "key": "from taranto kosovo s haxhiu calls for unity to overcome political deadlock just",
@@ -7559,7 +5534,7 @@
       "stanceVersion": 2,
       "date": "2026-08-21",
       "firstSeen": "2026-08-21",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "volley ball dames l algérie battue par le kosovo dès son entrée aux jeux méditer": {
       "key": "volley ball dames l algérie battue par le kosovo dès son entrée aux jeux méditer",
@@ -7586,7 +5561,7 @@
       "stanceVersion": 2,
       "date": "2026-08-21",
       "firstSeen": "2026-08-21",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "kosovo completa esumazione 23 corpi da fossa comune scoperta in luglio ansa": {
       "key": "kosovo completa esumazione 23 corpi da fossa comune scoperta in luglio ansa",
@@ -7613,7 +5588,7 @@
       "stanceVersion": 2,
       "date": "2026-08-21",
       "firstSeen": "2026-08-21",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "juegos mediterráneos lekë juniku de kosovo lleva la tradición y el espíritu de l": {
       "key": "juegos mediterráneos lekë juniku de kosovo lleva la tradición y el espíritu de l",
@@ -7640,7 +5615,7 @@
       "stanceVersion": 2,
       "date": "2026-08-19",
       "firstSeen": "2026-08-21",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "κόσοβο εστία έντασης η απόφαση για το άνοιγμα της γέφυρας στη διαιρεμένη μιτροβί": {
       "key": "κόσοβο εστία έντασης η απόφαση για το άνοιγμα της γέφυρας στη διαιρεμένη μιτροβί",
@@ -7667,7 +5642,7 @@
       "stanceVersion": 2,
       "date": "2026-08-21",
       "firstSeen": "2026-08-21",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "κόλαφος η zakharova συστηματική τρομοκρατία κατά των σέρβων στο κόσοβο με ανοχή ": {
       "key": "κόλαφος η zakharova συστηματική τρομοκρατία κατά των σέρβων στο κόσοβο με ανοχή ",
@@ -7694,7 +5669,7 @@
       "stanceVersion": 2,
       "date": "2026-08-21",
       "firstSeen": "2026-08-21",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "ένταση στο κόσοβο για το άνοιγμα μιας γέφυρας capital gr": {
       "key": "ένταση στο κόσοβο για το άνοιγμα μιας γέφυρας capital gr",
@@ -7721,7 +5696,7 @@
       "stanceVersion": 2,
       "date": "2026-08-21",
       "firstSeen": "2026-08-21",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "toplu mezarlar açıldı çok sayıda mühimmat çıktı haber 7": {
       "key": "toplu mezarlar açıldı çok sayıda mühimmat çıktı haber 7",
@@ -7748,7 +5723,7 @@
       "stanceVersion": 2,
       "date": "2026-08-21",
       "firstSeen": "2026-08-21",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "vučić ten türk kfor komutanına köprü tepkisi harici": {
       "key": "vučić ten türk kfor komutanına köprü tepkisi harici",
@@ -7829,7 +5804,7 @@
       "stanceVersion": 2,
       "date": "2026-08-21",
       "firstSeen": "2026-08-21",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "xx giochi del mediterraneo domani sera a taranto la cerimonia di apertura gazzet": {
       "key": "xx giochi del mediterraneo domani sera a taranto la cerimonia di apertura gazzet",
@@ -7856,7 +5831,7 @@
       "stanceVersion": 2,
       "date": "2026-08-20",
       "firstSeen": "2026-08-21",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "kosova da toplu mezarlar yanında silah bulundu saray medya": {
       "key": "kosova da toplu mezarlar yanında silah bulundu saray medya",
@@ -7883,7 +5858,7 @@
       "stanceVersion": 2,
       "date": "2026-08-21",
       "firstSeen": "2026-08-21",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "staatssekretär wiermer besucht das nordrhein westfälische partnerland nordmazedo": {
       "key": "staatssekretär wiermer besucht das nordrhein westfälische partnerland nordmazedo",
@@ -7910,7 +5885,7 @@
       "stanceVersion": 2,
       "date": "2026-08-21",
       "firstSeen": "2026-08-21",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "taci expects acquittal ahead of september 16 hague verdict srpske rs": {
       "key": "taci expects acquittal ahead of september 16 hague verdict srpske rs",
@@ -7964,7 +5939,7 @@
       "stanceVersion": 2,
       "date": "2026-08-21",
       "firstSeen": "2026-08-21",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "zaharova kosova ve metohiya da sırp nüfusa yönelik sistematik terör yoğunlaşıyor": {
       "key": "zaharova kosova ve metohiya da sırp nüfusa yönelik sistematik terör yoğunlaşıyor",
@@ -7991,7 +5966,7 @@
       "stanceVersion": 2,
       "date": "2026-08-21",
       "firstSeen": "2026-08-21",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "cemil tugay dan kosova da çok yönlü iş birliği hamlesi haber ekspres": {
       "key": "cemil tugay dan kosova da çok yönlü iş birliği hamlesi haber ekspres",
@@ -8018,7 +5993,7 @@
       "stanceVersion": 2,
       "date": "2026-08-21",
       "firstSeen": "2026-08-21",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "trakya üniversitesi rektöründen başkan damka ya ziyaret kosovahaber com": {
       "key": "trakya üniversitesi rektöründen başkan damka ya ziyaret kosovahaber com",
@@ -8045,7 +6020,7 @@
       "stanceVersion": 2,
       "date": "2026-08-21",
       "firstSeen": "2026-08-21",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "will justice ever be served for kosovo war victims trt world": {
       "key": "will justice ever be served for kosovo war victims trt world",
@@ -8083,7 +6058,7 @@
       "url": "https://kosovahaber.com/haber/kforun-varliginin-optimize-edilmesi-guvenlikteki-iyilesmeyi-yansitiyor-105152",
       "googleNewsUrl": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxNcE14Z09OazF5bzI1cTh3QU1mUjBwUlQ4UVpWbFBFWjFHWkJYMzFnU1d5b1R0VGdqNjk3ZXFPMFIwWTVnRjRGQUxuajNfbkltdzBqLWVndkQ3UUpFemFpNG1DRkxLUmhyQzhmMldrX2VSaHBDTzhOdkxzWkVmNXVlTGZOTERvaXRDc3hxWmxWYXlVWWpUSjhVX1c1VlB2RFdiNkt2dGt4SG9BdlU?oc=5",
       "imageUrl": null,
-      "imageAttempts": 2,
+      "imageAttempts": 3,
       "blurb": "Optimizimi i pranisë së forcave të KFOR-it në Kosovë reflekton përmirësimin e situatës së përgjithshme të sigurisë.",
       "outlet": "Kosovahaber.com",
       "country": "Turqi",
@@ -8099,7 +6074,7 @@
       "stanceVersion": 2,
       "date": "2026-08-21",
       "firstSeen": "2026-08-21",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "kosova da 30 yıllık acı toplu mezarlarda kayıplar aranıyor orta doğu haber": {
       "key": "kosova da 30 yıllık acı toplu mezarlarda kayıplar aranıyor orta doğu haber",
@@ -8126,7 +6101,7 @@
       "stanceVersion": 2,
       "date": "2026-08-21",
       "firstSeen": "2026-08-21",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "zubin potok ta toplu mezar kazı çalışmaları tamamlandı kosovahaber com": {
       "key": "zubin potok ta toplu mezar kazı çalışmaları tamamlandı kosovahaber com",
@@ -8137,7 +6112,7 @@
       "url": "https://kosovahaber.com/haber/zubin-potokta-toplu-mezar-kazi-calismalari-tamamlandi-105153",
       "googleNewsUrl": "https://news.google.com/rss/articles/CBMilAFBVV95cUxQRVUyVTZVVG13OE5SQnBkemRDZ2dfSkRiX21hWDFUY3BsQkVIVnpiTXNsRVZtOFp6V3NJS244RVhHdjBadTNpRnJhUThKaUh5VjdGai1YbEkwMXJOVUtBYjJuTWdST05mNVBuQndoQ0g1VW5BTkttS01sMlY3NWhZenB3ZmFSVDRLd1BkR2dmU0VVbDkt?oc=5",
       "imageUrl": null,
-      "imageAttempts": 2,
+      "imageAttempts": 3,
       "blurb": "Kanë përfunduar gërmimet në lokacionin e dyshuar për varrezë masive në komunën e Zubin Potokut në Kosovë.",
       "outlet": "Kosovahaber.com",
       "country": "Turqi",
@@ -8153,7 +6128,7 @@
       "stanceVersion": 2,
       "date": "2026-08-21",
       "firstSeen": "2026-08-21",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "priştine de 12 eylül de özgürlük yürüyüşü düzenlenecek kosovahaber com": {
       "key": "priştine de 12 eylül de özgürlük yürüyüşü düzenlenecek kosovahaber com",
@@ -8164,7 +6139,7 @@
       "url": "https://kosovahaber.com/haber/pristinede-12-eylulde-ozgurluk-yuruyusu-duzenlenecek-105156",
       "googleNewsUrl": "https://news.google.com/rss/articles/CBMikwFBVV95cUxNa1c0d2txbXNaam9vbWdtWWRhck5lMHRvZXZDdXduVFNoRFlfQ2RmbGVrSV93MXpMZjlFZFJjVGptLUd4S0R6cXllaDNVYWJ0VTJmdk1RYi1EWDVqNWhTNXRwbXF3dnV3a0hURTcxdUQ2VEF0WE53eW1mbXNnUkJCOWIxdGJSZU5qZVo2SkQ4OUJ3UkE?oc=5",
       "imageUrl": null,
-      "imageAttempts": 2,
+      "imageAttempts": 3,
       "blurb": "Marshimi për liri do të organizohet në Prishtinë më datën 12 shtator për të shënuar këtë ngjarje publike.",
       "outlet": "Kosovahaber.com",
       "country": "Turqi",
@@ -8180,7 +6155,7 @@
       "stanceVersion": 2,
       "date": "2026-08-21",
       "firstSeen": "2026-08-21",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "putting humans in context faculty member brings biological anthropology to kosov": {
       "key": "putting humans in context faculty member brings biological anthropology to kosov",
@@ -8207,7 +6182,7 @@
       "stanceVersion": 2,
       "date": "2026-08-21",
       "firstSeen": "2026-08-21",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "kosovo still searching for loved ones three decades after the war trt world": {
       "key": "kosovo still searching for loved ones three decades after the war trt world",
@@ -8218,7 +6193,7 @@
       "url": "https://www.trtworld.com/video/tv/shows/683ef3c9cff794df564280c5/play/4f7f32df896b",
       "googleNewsUrl": "https://news.google.com/rss/articles/CBMiigFBVV95cUxNOWlGcWhoQnhVNG9fVjVkSTQ2LWJ3d2NpMmFNXzYzZElQWm1BQm5nWWVQTjRYNFZaakN2U0hOamJtWE9sSW1ES2lzVFF1Z0JOYWE3MnExbXlVbF9hdzBrSm96bGR6SVhjMVkzMnlRQ01jVDA0UW81Nl9nc1VIYzB2WHJfaldXWWltNmc?oc=5",
       "imageUrl": null,
-      "imageAttempts": 1,
+      "imageAttempts": 2,
       "blurb": "Familjarët në Kosovë vazhdojnë kërkimet për të pagjeturit e luftës edhe tri dekada pas përfundimit të konfliktit të armatosur.",
       "outlet": "TRT World",
       "country": "SHBA",
@@ -8234,61 +6209,7 @@
       "stanceVersion": 2,
       "date": "2026-08-21",
       "firstSeen": "2026-08-21",
-      "lastSeen": "2026-08-21"
-    },
-    "alerte à l hôtel de ville le gouvernement vise à devenir des propriétaires fonci": {
-      "key": "alerte à l hôtel de ville le gouvernement vise à devenir des propriétaires fonci",
-      "title": "Alerte à l'hôtel de ville : le gouvernement vise à devenir des propriétaires fonciers, des montagnes et des objets municipaux - Periskopi",
-      "summary": "Alerte à l'hôtel de ville : le gouvernement vise à devenir des propriétaires fonciers, des montagnes et des objets municipaux&nbsp;&nbsp;Periskopi",
-      "albanianTitle": "Alarm në komunë: Qeveria synon t'i bëhet pronare e tokave, maleve dhe objekteve komunale - Periskopi",
-      "translated": true,
-      "url": "https://periskopi.com/fr/2026/8/alerte-lhotel-ville-gouvernement-vise-devenir-proprietaires-fonciers-montagnes-objets-municipaux",
-      "googleNewsUrl": "https://news.google.com/rss/articles/CBMixwFBVV95cUxPeF92XzgxekRaMzcwX3JNc2xsWGczb0Zod2xSYkZtOE44MFRJZ2pEOEs2TS1aZ3FHOURmZHYtQ1FvejNQX3dWVlhXTTlOLTVHbEsyTkYzMDk2THE0M2trMEFWbzVWNm9lUzFxTGFTc0loU1F3X3FadHdfV1N3SlFRWjB2NUl2ckplbndPd29SMWNFSWo3MTJjUWZhNUhCYWp5bmVPX3o5NzVwS0dFX1FhQUxybWNBdFFrelRzZFpzVGg0Z3d4enpv?oc=5",
-      "imageUrl": null,
-      "imageAttempts": 1,
-      "blurb": "Qeveria e Kosovës synon të marrë në pronësi toka, male dhe objekte të ndryshme që aktualisht janë nën administrim komunal.",
-      "outlet": "Periskopi",
-      "country": "Belgjikë",
-      "stanceAttempts": 1,
-      "sentiment": "neutral",
-      "stance": "neutral",
-      "stanceReason": "Lajm i raportuar në mënyrë faktike",
-      "isQuote": false,
-      "speaker": "",
-      "evidence": "",
-      "confidence": "high",
-      "model": "llama-3.3-70b-versatile",
-      "stanceVersion": 2,
-      "date": "2026-08-18",
-      "firstSeen": "2026-08-21",
-      "lastSeen": "2026-08-21"
-    },
-    "akk les municipalités protestent le 1er septembre devant le gouvernement perisko": {
-      "key": "akk les municipalités protestent le 1er septembre devant le gouvernement perisko",
-      "title": "AKK: les municipalités protestent le 1er septembre devant le gouvernement - Periskopi",
-      "summary": "AKK: les municipalités protestent le 1er septembre devant le gouvernement&nbsp;&nbsp;Periskopi",
-      "albanianTitle": "AKK: Komunat do të protestojnë më 1 shtator para Qeverisë - Periskopi",
-      "translated": true,
-      "url": "https://periskopi.com/fr/2026/8/akk-municipalites-protestent-1er-septembre-gouvernement",
-      "googleNewsUrl": "https://news.google.com/rss/articles/CBMikAFBVV95cUxOWWxaaWF0VU5hTXgyQkgxQTI0blh6Q2tDcTE1dG45NDI1dENjc2g3bzRnMlJqZHMtLUtWWXRkcHNIZ3pVU3B6S3hFZURsTjRoZXg4NDJuSE9ER2pRdHlsVElvN1pzeXppanptMnNPRkxiTWlhWjh2OGl6TVBEcFhsYXlMSVZsX1BSOGpaR0ZfdWc?oc=5",
-      "imageUrl": null,
-      "imageAttempts": 1,
-      "blurb": "Asociacioni i Komunave të Kosovës ka paralajmëruar protestë të kryetarëve të komunave për datën një shtator para ndërtesës së qeverisë.",
-      "outlet": "Periskopi",
-      "country": "Belgjikë",
-      "stanceAttempts": 1,
-      "sentiment": "neutral",
-      "stance": "neutral",
-      "stanceReason": "Lajm i raportuar në mënyrë faktike",
-      "isQuote": false,
-      "speaker": "",
-      "evidence": "",
-      "confidence": "high",
-      "model": "llama-3.3-70b-versatile",
-      "stanceVersion": 2,
-      "date": "2026-08-18",
-      "firstSeen": "2026-08-21",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "νέα ένταση στο κόσοβο στο επίκεντρο η γέφυρα του ιμπάρ sigmalive": {
       "key": "νέα ένταση στο κόσοβο στο επίκεντρο η γέφυρα του ιμπάρ sigmalive",
@@ -8315,7 +6236,7 @@
       "stanceVersion": 2,
       "date": "2026-08-21",
       "firstSeen": "2026-08-21",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "andorra kosova 12 eki 2023 avrupa şampiyonası elemeleri maç raporu transfermarkt": {
       "key": "andorra kosova 12 eki 2023 avrupa şampiyonası elemeleri maç raporu transfermarkt",
@@ -8326,7 +6247,7 @@
       "url": "https://www.transfermarkt.com.tr/andorra_kosovo/vorbericht/spielbericht/3941633",
       "googleNewsUrl": "https://news.google.com/rss/articles/CBMihgFBVV95cUxNR05vc2NCazM4TlRKWFRzNWJ4OGlsRHBNazBseHpGcURYdElHdEpfSjRMYTJRRV9WZS03T0l0RVlFa2xQVlUtMlZzNEU5Tl8wVm9sN3VWOTJDQ3lLeDlIbXdLOVM4Tm1xM3FpWm1qQV91X0J0UDg0UHh2Z3lMbHRkMDFUX1I3dw?oc=5",
       "imageUrl": null,
-      "imageAttempts": 1,
+      "imageAttempts": 2,
       "blurb": "Kombëtarja e Kosovës në futboll zhvilloi ndeshjen kualifikuese për Kampionatin Evropian kundër përfaqësueses së Andorrës më dymbëdhjetë tetor.",
       "outlet": "Transfermarkt",
       "country": "Turqi",
@@ -8342,7 +6263,7 @@
       "stanceVersion": 2,
       "date": "2026-08-21",
       "firstSeen": "2026-08-21",
-      "lastSeen": "2026-08-21"
+      "lastSeen": "2026-08-22"
     },
     "kosova da halter şampiyonası başladı sondakika": {
       "key": "kosova da halter şampiyonası başladı sondakika",
@@ -8370,6 +6291,249 @@
       "date": "2026-08-20",
       "firstSeen": "2026-08-21",
       "lastSeen": "2026-08-21"
+    },
+    "early childhood education in kosovo unicef": {
+      "key": "early childhood education in kosovo unicef",
+      "title": "Early Childhood Education in Kosovo - Unicef",
+      "summary": "Early Childhood Education in Kosovo&nbsp;&nbsp;Unicef",
+      "albanianTitle": "Arsimi i hershëm në Kosovë – UNICEF",
+      "translated": true,
+      "url": "https://www.unicef.org/kosovoprogramme/documents/early-childhood-education-kosovo",
+      "googleNewsUrl": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxNS3RqVXI0aU55Wk95c3BuWV96TFNpcnZuYnVIdmx3cmI2ZV9OWWFmUlBHS2M5ck5hNV9VdWdmQndMNVltYTZVdl81VUxqbnVFZk5JWFNPOTE5dm1jX3cxSjhqQVFvckd4TW9FUXhfRVMwUVN2bmV5dzB0anIzQjAyMGxES1NZWkZC?oc=5",
+      "imageUrl": null,
+      "imageAttempts": 1,
+      "blurb": "UNICEF publikon të dhëna dhe vlerësime mbi gjendjen e edukimit të hershëm të fëmijëve në Kosovë.",
+      "outlet": "Unicef",
+      "country": "SHBA",
+      "stanceAttempts": 1,
+      "sentiment": "neutral",
+      "stance": "neutral",
+      "stanceReason": "Lajm i raportuar në mënyrë faktike pa gjuhë ngarkuese",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2,
+      "date": "2026-08-21",
+      "firstSeen": "2026-08-22",
+      "lastSeen": "2026-08-22"
+    },
+    "be ja e shqetësuar për ngërçin në kosovë vonesat rrezikojnë përfitimet nga plani": {
+      "key": "be ja e shqetësuar për ngërçin në kosovë vonesat rrezikojnë përfitimet nga plani",
+      "title": "BE-ja e shqetësuar për ngërçin në Kosovë: Vonesat rrezikojnë përfitimet nga Plani i Rritjes - Reporteri",
+      "summary": "BE-ja e shqetësuar për ngërçin në Kosovë: Vonesat rrezikojnë përfitimet nga Plani i Rritjes&nbsp;&nbsp;Reporteri",
+      "albanianTitle": "BE-ja e shqetësuar për ngërçin në Kosovë: Vonesat rrezikojnë përfitimet nga Plani i Rritjes – Reporteri",
+      "translated": true,
+      "url": "https://reporteri.net/fr/nouvelles/L%27UE-s%27inqui%C3%A8te-de-l%27impasse-au-Kosovo%C2%A0%3B-les-retards-risquent-de-compromettre-les-b%C3%A9n%C3%A9fices-du-plan-de-croissance./",
+      "googleNewsUrl": "https://news.google.com/rss/articles/CBMiigJBVV95cUxOb2FHbGRYMVRpUDF2RTQ0OTdzYkVQVVd3ZkpxWm43ZjdKeGdSZ1lLYjBfaEh1V2ZBX1N1OVVmOGtVUDZGT0ppSWdnam1nMHFYclItQjlZSkRhRjAyU3V6WkkwMVBEd1diLVhMOU1pV3lkMS1QeFNXSE5WdGdNU2N6bjVzRmJMTUJ3QVhGRFA2aVY5aFdjRUlZQTAzR0J0OGw3TF9WeEhyR3VQNWdsMXFsTExwQmxLbUFEY0RYdVY3VXdiNVZSQVgwRWdLZTBMM0FzQ1NfTFJ2MHVnRkxuMl9mYkQzbGE3V0tMQ1Z4R3FZbGx6S3JQUElSbmpsSlVpbWEtWDhOazl6N3M2QQ?oc=5",
+      "imageUrl": null,
+      "imageAttempts": 1,
+      "blurb": "Bashkimi Evropian shpreh shqetësimin se vonesat politike në Kosovë mund të rrezikojnë përfitimet nga Plani i Rritjes.",
+      "outlet": "Reporteri",
+      "country": "Francë",
+      "stanceAttempts": 1,
+      "sentiment": "neutral",
+      "stance": "neutral",
+      "stanceReason": "Titulli thjesht raporton shqetësimin e BE-së, pa gjuhë përçmuese",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2,
+      "date": "2026-08-21",
+      "firstSeen": "2026-08-22",
+      "lastSeen": "2026-08-22"
+    },
+    "da casapesenna ai balcani la parabola di salvatore zagaria tra grandi ospiti e d": {
+      "key": "da casapesenna ai balcani la parabola di salvatore zagaria tra grandi ospiti e d",
+      "title": "Da Casapesenna ai Balcani: la parabola di Salvatore Zagaria, tra grandi ospiti e diplomazia del gusto - CasertaNews",
+      "summary": "Da Casapesenna ai Balcani: la parabola di Salvatore Zagaria, tra grandi ospiti e diplomazia del gusto&nbsp;&nbsp;CasertaNews",
+      "albanianTitle": "Nga Casapesenna në Ballkan: Rrugëtimi i Salvatore Zagarias, mes mysafirëve të shquar dhe diplomacisë së shijes – CasertaNews",
+      "translated": true,
+      "url": "https://www.casertanews.it/social/chef-salvatore-zagaria-grandi-ospiti-diplomazia-gusto.html",
+      "googleNewsUrl": "https://news.google.com/rss/articles/CBMilwFBVV95cUxNbktnSGJma2lJZEE0ZDA2NS1uekhhcE9Gdi1GM2c1X1Q1TktmaUczdEdwa0xrdzE3U0VUTExGRU1uek13YjU5NXRhVTM3N24yWHQ2WklhX3hGTjItQ1hzY0pMQmpUNGp2M0cyLTRIdVpnZVc4eUNNc0hmeXExaGVIekd4eE9QdC1FaGZodEdIYktvV1Jub25B?oc=5",
+      "imageUrl": null,
+      "imageAttempts": 1,
+      "blurb": "Salvatore Zagaria zhvillon aktivitete diplomatike dhe gastronomike që lidhin rajonin e Casapesennas me vendet e Ballkanit.",
+      "outlet": "CasertaNews",
+      "country": "Itali",
+      "stanceAttempts": 1,
+      "sentiment": "neutral",
+      "stance": "neutral",
+      "stanceReason": "Titulli përshkruan një histori kulturore pa ngarkim negativ apo pozitiv",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2,
+      "date": "2026-08-21",
+      "firstSeen": "2026-08-22",
+      "lastSeen": "2026-08-22"
+    },
+    "liria ka emër i fton kurtin hamzën abdixhikun e gjinin në marsh jo për fushatë p": {
+      "key": "liria ka emër i fton kurtin hamzën abdixhikun e gjinin në marsh jo për fushatë p",
+      "title": "“Liria ka Emër” i fton Kurtin, Hamzën, Abdixhikun e Gjinin në marsh: Jo për fushatë, për Kosovën - Reporteri",
+      "summary": "“Liria ka Emër” i fton Kurtin, Hamzën, Abdixhikun e Gjinin në marsh: Jo për fushatë, për Kosovën&nbsp;&nbsp;Reporteri",
+      "albanianTitle": "“Liria ka Emër” i fton Kurtin, Hamzën, Abdixhikun e Gjinin në marsh: S’është për fushatë, është për Kosovën – Reporteri",
+      "translated": true,
+      "url": "https://reporteri.net/fr/nouvelles/Freedom-has-a-name-invite-Kurti--Hamzen--Abdixik-et-le-g%C3%A9nie-%C3%A0-la-marche--et-non-%C3%A0-la-campagne-pour-le-Kosovo./",
+      "googleNewsUrl": "https://news.google.com/rss/articles/CBMi8wFBVV95cUxPTHQ0R1M1c04wWEt3Z0xJWDZSM3VlbzhZbjBUYzZscDFPcW44SjBaLVhsempMWXM0TTEyNTNjU0x6c010QmNKaU8xejlPVjBiWndnT0E5ODNfSFdoNVZnRGhaRWpEOVZZQXVvZV9kRHAxVjdVRTNaMTNqVGwzMzAzeGhicUZDZ29ndFR3eWFUc3l1WVZydVdYSTFfRUZZTlk4aFFuWDJYc244QUpCbWFqMXEyamhwRFZtaWxWQVE0Y0F3SGtKNW9zbUphcEFrLVdBWVpFY3Q0eVJ6eHY4TFNReWdrU21QZXM5Y2Y5TEE5bHlWYXM?oc=5",
+      "imageUrl": null,
+      "imageAttempts": 1,
+      "blurb": "Organizata Liria ka Emër fton liderët politikë të Kosovës për të marrë pjesë në një marshim publik.",
+      "outlet": "Reporteri",
+      "country": "Belgjikë",
+      "stanceAttempts": 1,
+      "sentiment": "neutral",
+      "stance": "neutral",
+      "stanceReason": "Titulli thjesht informon për një marsh për Kosovën, pa gjuhë eufemike apo përçmuese",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2,
+      "date": "2026-08-21",
+      "firstSeen": "2026-08-22",
+      "lastSeen": "2026-08-22"
+    },
+    "colombia recibe a nuevos embajadores de india el salvador israel y kosovo minist": {
+      "key": "colombia recibe a nuevos embajadores de india el salvador israel y kosovo minist",
+      "title": "Colombia recibe a nuevos embajadores de India, El Salvador, Israel y Kosovo - Ministerio de Relaciones Exteriores de Colombia",
+      "summary": "Colombia recibe a nuevos embajadores de India, El Salvador, Israel y Kosovo&nbsp;&nbsp;Ministerio de Relaciones Exteriores de Colombia",
+      "albanianTitle": "Kolumbia pret ambasadorët e rinj të Indisë, El Salvadorit, Izraelit dhe Kosovës – Ministria e Punëve të Jashtme e Kolumbisë",
+      "translated": true,
+      "url": "https://www.cancilleria.gov.co/sala-de-prensa/noticias/colombia-recibe-nuevos-embajadores-de-india-el-salvador-israel-y-kosovo",
+      "googleNewsUrl": "https://news.google.com/rss/articles/CBMixAFBVV95cUxQcDktSnZoRFZjTHB4VloxTVpLaHVLZERCRDhDa3ZZd2ROVmZTbG1MREFUUUNLek96cHFFenAtWEFiUmozTU1xcjAzd2VCQkdialRlQl84Uk9UalhsSUJTS09FaGZNMEJsZno3d3VLeEFMYjdSTU1IZXZvYUljTzJPdEw5bFV5UnFDWGstbVlCV3FXQThHU3Q3VTBTMVItN3dybHBDRVdJMzJqQTROQUo2VElnVXlLMGFKVElsazZmYkkwU1Jk?oc=5",
+      "imageUrl": null,
+      "imageAttempts": 1,
+      "blurb": "Ministria e Jashtme e Kolumbisë ka pritur ambasadorët e rinj të Indisë, El Salvadorit, Izraelit dhe Kosovës.",
+      "outlet": "Ministerio de Relaciones Exteriores de Colombia",
+      "country": "Spanjë",
+      "stanceAttempts": 1,
+      "sentiment": "neutral",
+      "stance": "neutral",
+      "stanceReason": "Njoftim zyrtar i ambasadorëve, përfshirë Kosovën, pa gjuhë vlerësuese",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2,
+      "date": "2026-08-21",
+      "firstSeen": "2026-08-22",
+      "lastSeen": "2026-08-22"
+    },
+    "canciller bula recibe a nuevos embajadores de israel el salvador india y kosovo ": {
+      "key": "canciller bula recibe a nuevos embajadores de israel el salvador india y kosovo ",
+      "title": "Canciller Bula recibe a nuevos embajadores de Israel, El Salvador, India y Kosovo - El Espectador",
+      "summary": "Canciller Bula recibe a nuevos embajadores de Israel, El Salvador, India y Kosovo&nbsp;&nbsp;El Espectador",
+      "albanianTitle": "Ministri Bula pret ambasadorët e rinj të Izraelit, El Salvadorit, Indisë dhe Kosovës – El Espectador",
+      "translated": true,
+      "url": "https://www.elespectador.com/politica/canciller-bula-recibe-a-nuevos-embajadores-de-israel-el-salvador-india-y-kosovo-noticias-hoyp/",
+      "googleNewsUrl": "https://news.google.com/rss/articles/CBMizAFBVV95cUxPbmFZREpnNnF4cW9zeG9pb3dDMTZrZ0lKc0xZSURtRHE0UWpkdjltbDBBR0JCT3gtN2plOV9LemxRcGRKbWNJcEhpU3UyUldkVkM2ZTFsWjZ0VnV1d0RNXzRrdDlVQ2VXbzRKRVV6NDRWZ1hTYXFGdkpfSXFBMC00dEQ4Ri1wVF9yaThNMW83WDJ6V0dSNFhJNmRKeExnR0ZFUUVOTUlxWkRPTU1mdGRaUkdoTUp0anFvYUF0bUdzUloxWk9Dbk5zRkV2cVXSAeABQVVfeXFMTWlVMlFBTUQ0WEVpTzBkZFRJVkx3UFgzSTJ4THpKM0ZQekNENGJSS2s5RnJ3czh5Y25sV1AtTmRtZDFNSXNiQ182T05sSlNyOXVMSTVOVm1fcDVOMXdvb0lpbGF4NmE1QUo0d2QwalBwRk5MRVpSVi1pdC1YeGFoLU9TOGFIUG1kQ3dsSjd5TnUwQkZnbmhQMGRCY0NEWE40SEtPVlBPcjQ3ckVCMWFSTUZSb04zTFJGUG9YMHE1Y0N2NHlHYVhnN0xSRUtCT3ZzcWdJb1VGMENLR1hjR3FpS2w?oc=5",
+      "imageUrl": "https://www.elespectador.com/resizer/v2/COHPDAHRXZAI5MKT5364MLMUYM.jpg?auth=cf1b800ce94cfe0c39cca0d725788abe066c1a6352a7e79e2bae5abfcf8507aa&width=657&smart=true&quality=60",
+      "imageAttempts": 1,
+      "blurb": "Kancelari kolumbian Bula ka pritur zyrtarisht ambasadorët e rinj të Izraelit, El Salvadorit, Indisë dhe Kosovës.",
+      "outlet": "El Espectador",
+      "country": "Spanjë",
+      "stanceAttempts": 1,
+      "sentiment": "neutral",
+      "stance": "neutral",
+      "stanceReason": "Raportim i thjeshtë i pranimit të ambasadorëve, përfshirë Kosovën, pa ngarkim",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2,
+      "date": "2026-08-21",
+      "firstSeen": "2026-08-22",
+      "lastSeen": "2026-08-22"
+    },
+    "colombia recibe a nuevos embajadores de el salvador israel india y kosovo prensa": {
+      "key": "colombia recibe a nuevos embajadores de el salvador israel india y kosovo prensa",
+      "title": "Colombia recibe a nuevos embajadores de El Salvador, Israel, India y Kosovo - Prensa Libre",
+      "summary": "Colombia recibe a nuevos embajadores de El Salvador, Israel, India y Kosovo&nbsp;&nbsp;Prensa Libre",
+      "albanianTitle": "Kolumbia pret ambasadorët e rinj të El Salvadorit, Izraelit, Indisë dhe Kosovës – Prensa Libre",
+      "translated": true,
+      "url": "https://www.prensalibre.com/ahora/internacional/colombia-recibe-a-nuevos-embajadores-de-el-salvador-israel-india-y-kosovo/",
+      "googleNewsUrl": "https://news.google.com/rss/articles/CBMivwFBVV95cUxQTm1Hai1HemR6ajcxZTVnRG8zenBTRUZac0lYNGZYSFRTS0ZFMy1nWU5BYm5RTGpuU0hXbTI2RVJTcVE0SnFjdktDSDVwMm9JR3VLc1ZWaEhlekJLcF84S2pwNnhzMlBSR0pIRGgzTkhiekhHbDhJYmwyeGdJU01uREh3eGU3S243NENkdWpXUWR3d3dROG5wcnc1N3NYMjdKM19aQVRCM0c1OUU2Nm9OeVVsYklCaTlVenlWRmFuNA?oc=5",
+      "imageUrl": "https://www.prensalibre.com/wp-content/themes/ux_prensalibre/client/build/images/ahora/ahora.jpeg",
+      "imageAttempts": 1,
+      "blurb": "Kolumbia ka pranuar kredencialet e ambasadorëve të rinj nga El Salvadori, Izraeli, India dhe Kosova.",
+      "outlet": "Prensa Libre",
+      "country": "Spanjë",
+      "stanceAttempts": 1,
+      "sentiment": "neutral",
+      "stance": "neutral",
+      "stanceReason": "Faktikisht raporton pranimin e ambasadorëve, pa gjuhë ngarkuese",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2,
+      "date": "2026-08-22",
+      "firstSeen": "2026-08-22",
+      "lastSeen": "2026-08-22"
+    },
+    "noticias mundo laradiodelmercosur com ar": {
+      "key": "noticias mundo laradiodelmercosur com ar",
+      "title": "Noticias Mundo - laradiodelmercosur.com.ar",
+      "summary": "Noticias Mundo&nbsp;&nbsp;laradiodelmercosur.com.ar",
+      "albanianTitle": "Lajme nga bota – laradiodelmercosur.com.ar",
+      "translated": true,
+      "url": "https://laradiodelmercosur.com.ar/mundiales/17842/Colombia-recibe-cartas-credenciales-de-embajadores-de-Israel-El-Salvador-India-y-Kosovo",
+      "googleNewsUrl": "https://news.google.com/rss/articles/CBMi0wFBVV95cUxPYW1VMzZUMVVJQnVFbWNaaWhtN1pDcUYzWEpYZEl6YzRmY0dpc2lnOW12QXprbFQzWFVveTY1RW9kRG1lQWh2NUhiT3ZHTWRyWjhfbzdwbGpmOTNKb3hmNFlndHFGRldtYzZ1TVRrQTJ1OENxdHRjUWZCRWlXVVBEQnN2SzZqMmxTLVVnTVFSclBpNldZUlJoZmcxWFU5Q2Y1V3FlbFB3OGdONjYyQTRvRGJiNTE0eWp4RERvX2pQOEtZWVFZOU5wcmNKRksxYzFkaVFz?oc=5",
+      "imageUrl": null,
+      "imageAttempts": 1,
+      "blurb": "Përmbledhje e lajmeve të fundit nga bota të publikuara në platformën mediatike La Radio del Mercosur.",
+      "outlet": "laradiodelmercosur.com.ar",
+      "country": "Spanjë",
+      "stanceAttempts": 1,
+      "sentiment": "unknown",
+      "stance": "unknown",
+      "stanceReason": "Nuk ka informacion rreth Kosovës në titull",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "low",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2,
+      "date": "2026-08-22",
+      "firstSeen": "2026-08-22",
+      "lastSeen": "2026-08-22"
+    },
+    "λευκορωσία κόσοβο sport fm gr": {
+      "key": "λευκορωσία κόσοβο sport fm gr",
+      "title": "Λευκορωσία-Κόσοβο - sport-fm.gr",
+      "summary": "Λευκορωσία-Κόσοβο&nbsp;&nbsp;sport-fm.gr",
+      "albanianTitle": "Bjellorusi – Kosovë – sport-fm.gr",
+      "translated": true,
+      "url": "https://www.sport-fm.gr/article/4891906",
+      "googleNewsUrl": "https://news.google.com/rss/articles/CBMiUEFVX3lxTFA4NGJwalM5bjhPQ0gtbUtqMzdybEFqdVZaYjU1MFpJQ1JDOWczMzhKSnd1alhkMjQtOUg3Nk1ibFJvS0lwNHVYaTNkNF9iV2dJ0gF6QVVfeXFMTnJkcTJhMzZXM29fQ3c3MkxFQzVXYWY4M3dsWkoyYzR0SF9PMGtUX0QtaU11RDdMT2xTNUo0YnltUkVnckliZXVmc0E5b1JWQ0x5Slh0bHN1U0k4RkxzT0R2cWpFa3dlYWxMS1ptWDFFWmdaMkk3ZjVHLUE?oc=5",
+      "imageUrl": "https://resources.sport-fm.gr/supersportFM/images/news/23/06/19/belarus-kosovo_111407.jpg?w=880&f=bicubic",
+      "imageAttempts": 1,
+      "blurb": "Ndeshja sportive ndërmjet përfaqësueses së Bjellorusisë dhe asaj të Kosovës në arenën ndërkombëtare të futbollit.",
+      "outlet": "sport-fm.gr",
+      "country": "Greqi",
+      "stanceAttempts": 1,
+      "sentiment": "neutral",
+      "stance": "neutral",
+      "stanceReason": "Titulli thjesht përmend dy vende, pa gjuhë pozitive apo negative",
+      "isQuote": false,
+      "speaker": "",
+      "evidence": "",
+      "confidence": "high",
+      "model": "llama-3.3-70b-versatile",
+      "stanceVersion": 2,
+      "date": "2026-08-21",
+      "firstSeen": "2026-08-22",
+      "lastSeen": "2026-08-22"
     }
   }
 }
