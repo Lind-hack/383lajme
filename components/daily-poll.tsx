@@ -18,6 +18,7 @@ import {
   voteCountLabel,
 } from "@/lib/sondazhi-data.mjs";
 import { activeStreak, advanceStreak, parseStreak } from "@/lib/reagimi-data";
+import { track } from "@/lib/analytics";
 import type { SondazhiServerData } from "@/lib/sondazhi-server";
 
 /** Shared with ReagimiDites and the pre-rewrite poll: one anonymous identity. */
@@ -222,6 +223,8 @@ export default function DailyPoll({ data }: { data: SondazhiServerData }) {
           setMyVote(null);
           setCounts((c) => c.map((v, i) => (i === idx ? Math.max(0, v - 1) : v)));
         }
+      } else {
+        track("poll_vote", { option_index: idx, poll_date: data.pollDate });
       }
       setPending(false);
     },

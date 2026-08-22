@@ -3,6 +3,7 @@ import { Manrope, Figtree } from "next/font/google";
 import "./globals.css";
 import SignupPrompt from "@/components/signup-prompt";
 import MotionProvider from "@/components/motion-provider";
+import Ga from "@/components/analytics/ga";
 
 const manrope = Manrope({
   subsets: ["latin"],
@@ -77,6 +78,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <MotionProvider>
           {children}
           <SignupPrompt />
+          <Ga />
         </MotionProvider>
       </body>
     </html>

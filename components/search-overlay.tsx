@@ -12,6 +12,7 @@ import {
   TrendingDown,
   TrendingUp,
 } from "lucide-react";
+import { track } from "@/lib/analytics";
 
 type Item = { title: string; href: string; meta?: string; kind: string };
 type Group = { kind: string; label: string; items: Item[] };
@@ -199,10 +200,11 @@ export default function SearchOverlay({
 
   const go = useCallback(
     (href: string) => {
+      track("search_result_click", { query: query.trim() });
       onClose();
       router.push(href);
     },
-    [onClose, router],
+    [onClose, router, query],
   );
 
   const onKeyDown = useCallback(

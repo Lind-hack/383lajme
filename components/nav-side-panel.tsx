@@ -20,7 +20,6 @@ import {
   InfoCardContent,
   InfoCardTitle,
   InfoCardDescription,
-  InfoCardMedia,
   InfoCardFooter,
   InfoCardDismiss,
   InfoCardAction,
@@ -519,18 +518,6 @@ export default function NavSidePanel({ open, onClose }: Props) {
                   <InfoCardDescription className="text-[#9C9C9C]">
                     Shfletoni kategoritë, ruani lajme dhe personalizoni.
                   </InfoCardDescription>
-                  <InfoCardMedia
-                    media={[
-                      {
-                        // TODO: swap for a real 383 walkthrough clip
-                        type: "video",
-                        src: "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_1MB.mp4",
-                        autoPlay: true,
-                        loop: true,
-                        muted: true,
-                      },
-                    ]}
-                  />
                   <InfoCardFooter className="text-[#9C9C9C]">
                     <InfoCardDismiss className="text-[#9C9C9C]">
                       Mbylle

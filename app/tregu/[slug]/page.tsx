@@ -23,6 +23,7 @@ import {
   type MarketTrade,
 } from "@/lib/tregu-client";
 import { fmtNum } from "@/lib/format";
+import { track } from "@/lib/analytics";
 import { DEMO_SLUG, demoDetail, demoEventMinis, demoMatchSeries, demoMatchStats, isDemoEnabled } from "@/lib/tregu-demo";
 import MatchStats from "@/components/tregu/match-stats";
 import { groupForSlug, parseEvent, type GroupOutcome, type MarketGroup } from "@/lib/tregu-groups";
@@ -390,6 +391,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
         });
         const data = await res.json();
         if (res.ok) {
+          track("tregu_trade", { side: "buy", kind: "sport_outcome", marketId: market.id, coins: amount });
           setTradeMsg({
             ok: true,
             text: `Basti u vendos te ${selectedOutcome.label} për ${amount} 383C.`,
@@ -419,6 +421,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
         });
         const data = await res.json();
         if (res.ok) {
+          track("tregu_trade", { side: "sell", kind: "sport_outcome", marketId: market.id, shares });
           setTradeMsg({
             ok: true,
             text: `Shite ${shares.toFixed(2)} aksione të ${selectedOutcome.label} për ${Number(data.coinsReceived ?? 0).toFixed(1)} 383C.`,
@@ -452,6 +455,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
       });
       const data = await res.json();
       if (res.ok) {
+        track("tregu_trade", { side: "buy", kind: "f1_race_winner", marketId: market.id, coins: amount });
         setTradeMsg({
           ok: true,
           text: `Basti u vendos te ${selectedDriver?.label ?? f1OutcomeKey} për ${amount} 383C.`,
@@ -472,6 +476,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
       });
       const data = await res.json();
       if (res.ok) {
+        track("tregu_trade", { side: "buy", kind: "binary", marketId: market.id, coins: amount });
         setTradeMsg({ ok: true, text: `✓ Bleve ${data.sharesBought?.toFixed(2)} aksione ${side} për ${amount} 383C` });
         load();
         refreshBalance();
@@ -486,6 +491,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
       });
       const data = await res.json();
       if (res.ok) {
+        track("tregu_trade", { side: "sell", kind: "binary", marketId: market.id, shares: sellShares });
         setTradeMsg({ ok: true, text: `✓ Shite ${sellShares.toFixed(2)} aksione ${side} për ${Number(data.coinsReceived ?? 0).toFixed(1)} 383C` });
         setSellShares(0);
         load();

@@ -34,6 +34,7 @@ import {
   type CityId,
   type KosovoCity,
 } from "@/lib/visit-v2-data";
+import { track } from "@/lib/analytics";
 import styles from "./visit-v2.module.css";
 
 type WaitRange = { min: number; max: number };
@@ -236,7 +237,10 @@ export default function VisitV2Experience() {
       });
       const payload = await response.json() as { message?: string; error?: string };
       setReportMessage(payload.message ?? payload.error ?? "Raporti nuk u ruajt.");
-      if (response.ok) await loadBorders();
+      if (response.ok) {
+        track("visit_report_submitted", { crossingId: selectedCrossing, direction });
+        await loadBorders();
+      }
     } catch (error) {
       setReportMessage(String(error instanceof Error ? error.message : error));
     } finally {
@@ -248,6 +252,7 @@ export default function VisitV2Experience() {
   const savedCityCards = savedCities.flatMap((id) => KOSOVO_CITIES.find((city) => city.id === id) ?? []);
 
   const exportUtility = () => {
+    track("visit_card_download", { variant: "border" });
     const waits = BORDER_CROSSINGS.map((crossing) => {
       const current = borderPayload?.official.find((item) => item.crossingId === crossing.id);
       const range = direction === "entry" ? current?.entry : current?.exit;
@@ -267,6 +272,7 @@ export default function VisitV2Experience() {
         return `<section style="page-break-after:always"><h1>${escapeHtml(city.name)}</h1><p class="meta">${escapeHtml(city.tagline)} - ${escapeHtml(city.region)}</p>${places.join("")}</section>`;
       }));
       downloadHtml(cities.length > 1 ? "383-kartat-e-qyteteve.html" : `383-${cities[0].id}.html`, cities.length > 1 ? "Kartat e qyteteve - 383" : `${cities[0].name} - 383`, sections.join(""), "travel");
+      track("visit_card_download", { variant: "city", cities: cities.map((city) => city.id).join(",") });
     } finally {
       setExportingCities(false);
     }

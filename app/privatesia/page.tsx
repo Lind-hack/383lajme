@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     "Si i mbledh, përdor dhe ruan 383 të dhënat e tua personale. Llogaria, Tregu, tërheqjet, cookies dhe të drejtat e tua.",
 };
 
-const UPDATED = "14 korrik 2026";
+const UPDATED = "22 gusht 2026";
 const CONTACT = "info@383media.com";
 
 const SECTIONS = [
@@ -182,6 +182,11 @@ export default function PrivatesiaPage() {
                 Dërgimi i emaileve — konfirmimi i llogarisë dhe rikuperimi i fjalëkalimit. Merr vetëm
                 adresën e emailit.
               </Row>
+              <Row label="Google Analytics">
+                Vetëm nëse pranon cookies për statistika. Mban shenjat anonime të leximit — faqet,
+                kohën dhe vendin e përafërt — për llogaritë tona të përbashkëta. Adresa IP
+                anonimizohet dhe ne nuk shohim asnjë identitet.
+              </Row>
               <Row label="Google dhe Meta">
                 Vetëm nëse zgjedh të hysh me llogarinë tënde Google ose Facebook. Në atë rast ata e
                 dinë që ke hyrë në 383.
@@ -198,8 +203,14 @@ export default function PrivatesiaPage() {
               do të duhej të hyje sërish në çdo faqe.
             </p>
             <p>
-              Nuk kemi cookies reklamimi, nuk kemi piksel ndjekës dhe nuk përdorim Google Analytics.
-              Prandaj nuk të dalim përpara me banderolë pëlqimi.
+              Për statistika përdorim Google Analytics — por <strong className="font-bold text-ink">vetëm
+              nëse e pranon</strong> te banderola e cookies. Kur pranon, regjistrohen shenja anonime:
+              cilat faqe lexohen, sa zgjasin dhe vendi i përafërt. Adresa jote IP anonimizohet para se
+              të ruhet. Nuk kemi cookies reklamimi dhe nuk të ndjekim nëpër faqe të tjera.
+            </p>
+            <p>
+              Zgjedhja jote ruhet vetëm në shfletuesin tënd. Nëse e ndryshon mendjen, fshi të dhënat e
+              faqes nga shfletuesi — banderola do të të pyesë sërish herën tjetër.
             </p>
           </Section>
 

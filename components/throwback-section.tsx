@@ -1,28 +1,59 @@
-"use client";
-
-import { motion } from "framer-motion";
+import Link from "next/link";
 import { History } from "lucide-react";
-import { getDailyThrowback } from "@/lib/mock-data";
-import { EASE, DUR } from "@/lib/tokens";
+import { getArticles } from "@/lib/db";
 
-function flagToCode(flag: string): string {
-  const cps = [...flag].map((c) => c.codePointAt(0) ?? 0);
-  if (cps.length !== 2) return "";
-  const a = cps[0] - 0x1f1e6 + 65;
-  const b = cps[1] - 0x1f1e6 + 65;
-  if (a < 65 || a > 90 || b < 65 || b > 90) return "";
-  return String.fromCharCode(a, b);
+/**
+ * "Nga arkivi" — the genuinely oldest pieces in the pool, sorted by real
+ * publish date. This module used to present invented "5 years ago today"
+ * content from static mocks, which a news brand cannot ship. It now shows
+ * only verified 383 articles, prefers one per category, and renders nothing
+ * while the archive is still too young to fill it honestly.
+ */
+
+const MONTHS_SQ = [
+  "janar", "shkurt", "mars", "prill", "maj", "qershor",
+  "korrik", "gusht", "shtator", "tetor", "nëntor", "dhjetor",
+];
+
+/** Thirty days before an article counts as archive rather than news. */
+const MIN_AGE_MS = 30 * 24 * 60 * 60 * 1000;
+
+function formatArchiveDate(iso: string): string {
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return "";
+  return `${d.getUTCDate()} ${MONTHS_SQ[d.getUTCMonth()]} ${d.getUTCFullYear()}`;
 }
 
-export default function ThrowbackSection() {
-  const THROWBACK_ARTICLE = getDailyThrowback();
+export default async function ThrowbackSection() {
+  const all = await getArticles(100);
+  const cutoff = Date.now() - MIN_AGE_MS;
+
+  const eligible = all
+    .filter((a) => {
+      const ts = Date.parse(a.publishedAt);
+      return Number.isFinite(ts) && ts <= cutoff;
+    })
+    .sort((a, b) => a.publishedAt.localeCompare(b.publishedAt));
+
+  // One per category first, so three slots cover three parts of the site.
+  const picked: typeof eligible = [];
+  const seenCategories = new Set<string>();
+  for (const a of eligible) {
+    if (seenCategories.has(a.category)) continue;
+    seenCategories.add(a.category);
+    picked.push(a);
+  }
+  // A young archive beats a repetitive one, but never an invented one.
+  for (const a of eligible) {
+    if (picked.length >= 3) break;
+    if (!picked.includes(a)) picked.push(a);
+  }
+
+  if (picked.length < 2) return null;
+
   return (
     <section style={{ marginBottom: "var(--space-section)" }}>
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-40px" }}
-        transition={{ duration: DUR.reveal, ease: EASE }}
+      <div
         style={{
           background: "rgba(245,158,11,0.06)",
           border: "1px solid rgba(245,158,11,0.25)",
@@ -51,7 +82,7 @@ export default function ThrowbackSection() {
               color: "#B45309",
             }}
           >
-            Çfarë Tha Bota Para 5 Vjetësh
+            Nga arkivi
           </span>
           <span
             style={{
@@ -67,11 +98,10 @@ export default function ThrowbackSection() {
               padding: "4px 10px",
             }}
           >
-            Arkiv
+            Më të vjetrat
           </span>
         </div>
 
-        {/* Two-column layout */}
         <div
           style={{
             display: "grid",
@@ -80,118 +110,82 @@ export default function ThrowbackSection() {
             alignItems: "start",
           }}
         >
-          {/* Left — old article */}
-          <div
-            style={{
-              background: "rgba(180,83,9,0.06)",
-              border: "1px solid rgba(180,83,9,0.15)",
-              borderRadius: "16px",
-              padding: "20px",
-              opacity: 0.75,
-            }}
-          >
-            <div
+          {picked.map((article) => (
+            <Link
+              key={article.slug}
+              href={`/article/${article.slug}`}
               style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "6px",
-                marginBottom: "12px",
+                background: "rgba(180,83,9,0.06)",
+                border: "1px solid rgba(180,83,9,0.15)",
+                borderRadius: "16px",
+                padding: "20px",
+                display: "block",
+                textDecoration: "none",
               }}
             >
-              <span style={{ fontSize: "10px", fontWeight: 700, letterSpacing: "0.08em", color: "#9CA3AF" }}>
-                {flagToCode(THROWBACK_ARTICLE.oldSourceFlag)}
-              </span>
-              <span
+              <div
                 style={{
-                  fontSize: "11px",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "8px",
+                  marginBottom: "12px",
+                }}
+              >
+                <span
+                  style={{
+                    fontSize: "10px",
+                    fontWeight: 800,
+                    letterSpacing: "0.08em",
+                    textTransform: "uppercase" as const,
+                    color: "#B45309",
+                    background: "rgba(180,83,9,0.12)",
+                    borderRadius: "100px",
+                    padding: "3px 8px",
+                  }}
+                >
+                  {article.category}
+                </span>
+                <span
+                  style={{
+                    fontSize: "11px",
+                    fontWeight: 600,
+                    color: "#92400E",
+                    opacity: 0.75,
+                  }}
+                >
+                  {formatArchiveDate(article.publishedAt)}
+                </span>
+              </div>
+              <p
+                style={{
+                  fontSize: "14px",
                   fontWeight: 700,
+                  lineHeight: 1.35,
+                  color: "#78350F",
+                  margin: "0 0 8px",
+                }}
+              >
+                {article.title}
+              </p>
+              <p
+                style={{
+                  fontSize: "13px",
+                  lineHeight: 1.55,
                   color: "#92400E",
-                  letterSpacing: "0.06em",
+                  margin: 0,
+                  opacity: 0.85,
+                  display: "-webkit-box",
+                  WebkitLineClamp: 3,
+                  WebkitBoxOrient: "vertical" as const,
+                  overflow: "hidden",
                 }}
               >
-                {THROWBACK_ARTICLE.oldSource}
-              </span>
-              <span
-                style={{
-                  fontSize: "11px",
-                  fontWeight: 600,
-                  color: "#92400E",
-                  opacity: 0.6,
-                }}
-              >
-                · {THROWBACK_ARTICLE.year}
-              </span>
-            </div>
-            <p
-              style={{
-                fontSize: "14px",
-                fontWeight: 700,
-                lineHeight: 1.35,
-                color: "#78350F",
-                margin: "0 0 10px",
-              }}
-            >
-              {THROWBACK_ARTICLE.oldTitle}
-            </p>
-            <p
-              style={{
-                fontSize: "13px",
-                lineHeight: 1.6,
-                color: "#92400E",
-                margin: 0,
-                fontStyle: "italic",
-              }}
-            >
-              &ldquo;{THROWBACK_ARTICLE.oldExcerpt}&rdquo;
-            </p>
-          </div>
-
-          {/* Right — today's context */}
-          <div style={{ padding: "20px" }}>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "8px",
-                marginBottom: "14px",
-              }}
-            >
-              <span
-                style={{
-                  width: "6px",
-                  height: "6px",
-                  borderRadius: "50%",
-                  background: "#16A34A",
-                  display: "inline-block",
-                  flexShrink: 0,
-                }}
-              />
-              <span
-                style={{
-                  fontSize: "10px",
-                  fontWeight: 800,
-                  letterSpacing: "0.12em",
-                  textTransform: "uppercase" as const,
-                  color: "#16A34A",
-                }}
-              >
-                Sot
-              </span>
-            </div>
-            <p
-              style={{
-                fontSize: "15px",
-                lineHeight: 1.65,
-                color: "#2D2D2D",
-                margin: 0,
-                fontWeight: 500,
-              }}
-            >
-              {THROWBACK_ARTICLE.todayNote}
-            </p>
-          </div>
+                {article.excerpt}
+              </p>
+            </Link>
+          ))}
         </div>
-      </motion.div>
+      </div>
     </section>
   );
 }

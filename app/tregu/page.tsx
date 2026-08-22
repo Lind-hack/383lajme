@@ -6,6 +6,7 @@ import TimeAgo from "@/components/time-ago";
 import MarketMiniCard from "@/components/tregu/market-mini-card";
 import MarketEventCard from "@/components/tregu/market-event-card";
 import { groupMarkets } from "@/lib/tregu-groups";
+import { track } from "@/lib/analytics";
 import FeaturedCarousel from "@/components/tregu/featured-carousel";
 import F1ArchiveFeature from "@/components/tregu/f1-archive-feature";
 import FloorRail from "@/components/tregu/floor-rail";
@@ -334,6 +335,7 @@ export default function TreguHub() {
     const res = await fetch("/api/tregu/daily-bonus", { method: "POST" });
     const data = await res.json();
     if (res.ok) {
+      track("tregu_bonus_claim", { bonus: Number(data.bonus) });
       setBonusMsg(`+${data.bonus} 383C`);
       setBalance((b) => (b === null ? null : b + Number(data.bonus)));
       // Earn flip on the chip coin — same state as the approved coin mock.

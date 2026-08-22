@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
 import { getArticleBySlug, getArticles } from "@/lib/db";
 import TextureBg from "@/components/aurora-bg";
 import Navbar from "@/components/navbar";
@@ -8,6 +9,56 @@ import type { AccordionSlide } from "@/components/image-accordion";
 import { getCategoryColor, getCategoryBg } from "@/lib/category-colors";
 
 export const revalidate = 7200;
+
+const SITE = "https://www.383ks.com";
+
+/** Branded card for articles without an image, rendered by /api/og. */
+function fallbackOgUrl(title: string, category?: string): string {
+  const params = new URLSearchParams({ title });
+  if (category) params.set("category", category);
+  return `${SITE}/api/og?${params.toString()}`;
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const article = await getArticleBySlug(slug);
+  if (!article) return {};
+
+  const url = `${SITE}/article/${slug}`;
+  const title = article.title;
+  const description =
+    article.excerpt || article.body.replace(/\s+/g, " ").trim().slice(0, 160);
+  const image = article.imageUrl
+    ? article.imageUrl.startsWith("http")
+      ? article.imageUrl
+      : `${SITE}${article.imageUrl}`
+    : fallbackOgUrl(title, article.category);
+
+  return {
+    title,
+    description,
+    alternates: { canonical: url },
+    openGraph: {
+      type: "article",
+      url,
+      siteName: "383",
+      title,
+      description,
+      ...(article.publishedAt ? { publishedTime: article.publishedAt } : {}),
+      images: [{ url: image, width: 1200, height: 630, alt: title }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [image],
+    },
+  };
+}
 
 function titleKws(text: string) {
   return new Set(text.toLowerCase().split(/\W+/).filter((w) => w.length > 4));
@@ -25,6 +76,35 @@ export default async function ArticlePage({
   const catColor = getCategoryColor(article.category);
   const catBg = getCategoryBg(article.category, 0.08);
   const allArticles = await getArticles(50);
+
+  const canonicalUrl = `${SITE}/article/${slug}`;
+  const ogImage = article.imageUrl
+    ? article.imageUrl.startsWith("http")
+      ? article.imageUrl
+      : `${SITE}${article.imageUrl}`
+    : fallbackOgUrl(article.title, article.category);
+
+  // Google News / Discover eligibility: per-article structured data. The
+  // sitewide Organization graph in layout.tsx covers identity; this covers the
+  // story itself.
+  const newsArticleJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "NewsArticle",
+    headline: article.title.slice(0, 110),
+    description:
+      article.excerpt || article.body.replace(/\s+/g, " ").trim().slice(0, 160),
+    image: [ogImage],
+    ...(article.publishedAt
+      ? { datePublished: article.publishedAt, dateModified: article.publishedAt }
+      : {}),
+    author: [{ "@type": "Organization", name: "383", url: SITE }],
+    publisher: {
+      "@type": "NewsMediaOrganization",
+      name: "383",
+      logo: { "@type": "ImageObject", url: `${SITE}/logo-512.png` },
+    },
+    mainEntityOfPage: { "@type": "WebPage", "@id": canonicalUrl },
+  };
 
   const related: typeof allArticles = [];
   const relatedKws: Set<string>[] = [];
@@ -60,6 +140,10 @@ export default async function ArticlePage({
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(newsArticleJsonLd) }}
+      />
       <TextureBg />
       <Navbar />
       <ArticleContent

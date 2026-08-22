@@ -12,7 +12,6 @@ const FOOTER_CATEGORIES = NAV_CATEGORIES.map(({ label, slug }) => ({
 const COMPANY_LINKS = [
   { label: "Rreth nesh", href: "/rreth-nesh" },
   { label: "Kontakti", href: "/kontakt" },
-  { label: "Karriera", href: "/karriera" },
   { label: "Privatësia", href: "/privatesia" },
   { label: "Kushtet", href: "/kushtet" },
 ];

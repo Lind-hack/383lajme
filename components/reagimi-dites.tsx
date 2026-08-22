@@ -38,6 +38,7 @@ import {
   thumbnailCandidates,
   youtubeId,
 } from "@/lib/reagimi-data";
+import { track } from "@/lib/analytics";
 
 /** lucide components keyed by the icon name held in REACTIONS. */
 const ICONS = { Flame, HelpCircle, Laugh, ThumbsUp, Sparkles } as const;
@@ -374,6 +375,8 @@ export default function ReagimiDites({ fallbackView, serverDateKey }: ReagimiDit
           setMyReaction(null);
           setCounts((c) => ({ ...c, [key]: Math.max(0, c[key] - 1) }));
         }
+      } else {
+        track("reagimi_reaction", { reaction: key });
       }
       setPending(false);
     },
@@ -524,7 +527,10 @@ export default function ReagimiDites({ fallbackView, serverDateKey }: ReagimiDit
               <button
                 type="button"
                 className="reagimi-play"
-                onClick={() => setDialogOpen(true)}
+                  onClick={() => {
+                    track("reagimi_video_watch");
+                    setDialogOpen(true);
+                  }}
                 aria-label={`Luaj videon: ${view.lead}`}
               >
                 <span className="reagimi-play-ring" aria-hidden="true">
@@ -561,7 +567,10 @@ export default function ReagimiDites({ fallbackView, serverDateKey }: ReagimiDit
                 <button
                   type="button"
                   className="reagimi-watch"
-                  onClick={() => setDialogOpen(true)}
+                onClick={() => {
+                  track("reagimi_video_watch");
+                  setDialogOpen(true);
+                }}
                 >
                   <Play size={15} strokeWidth={0} fill="currentColor" aria-hidden="true" />
                   Shiko videon
