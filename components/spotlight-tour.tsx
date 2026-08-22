@@ -73,6 +73,21 @@ interface Tip {
 }
 
 const STORAGE_PREFIX = "383:tour:";
+/**
+ * One onboarding per visitor, for the whole site.
+ *
+ * Each tour used to remember only itself, and there are three of them —
+ * "tregu-home" on the homepage strip, "tregu-floor" on /tregu and
+ * "tregu-trade" on a market. A reader who dismissed the first met the second
+ * on the next page and the third after that, so being taught the product cost
+ * three interruptions instead of one. Worse, the homepage tour arms on scroll,
+ * so it could take the screen mid-read on the way down the front page.
+ *
+ * This flag is shared: once any tour has auto-opened, none of them opens by
+ * itself again. The "Si funksionon?" button still replays whichever tour the
+ * reader asked for — deliberate replay is not onboarding.
+ */
+const ONBOARDED_KEY = "383:tour:onboarded";
 const OPEN_EVENT = "383-tour-open";
 const TIP_WIDTH = 340;
 const TIP_GAP = 18;
@@ -137,6 +152,15 @@ const easeOutQuint = (t: number) => 1 - Math.pow(1 - t, 5);
 function seen(key: string): boolean {
   try {
     return window.localStorage.getItem(key) === "1";
+  } catch {
+    return false;
+  }
+}
+
+/** Has this visitor already been shown a tour, on any surface? */
+function onboarded(): boolean {
+  try {
+    return window.localStorage.getItem(ONBOARDED_KEY) === "1";
   } catch {
     return false;
   }
@@ -299,6 +323,7 @@ export default function SpotlightTour({
     setPhase("land");
     placed.current = false;
     remember(storageKey);
+    remember(ONBOARDED_KEY);
   }, [storageKey]);
 
   // Manual replay.
@@ -317,7 +342,7 @@ export default function SpotlightTour({
   // stopped scrolling. Taking the camera mid-flick is what made the old tour
   // feel like a fight before a single pixel had moved.
   useEffect(() => {
-    if (seen(storageKey)) return;
+    if (seen(storageKey) || onboarded()) return;
 
     let io: IntersectionObserver | null = null;
     let mo: MutationObserver | null = null;
@@ -339,6 +364,11 @@ export default function SpotlightTour({
       }
       done = true;
       window.removeEventListener("scroll", onScroll);
+      // Marked at the moment it opens, not when it is completed. A reader who
+      // scrolls past without answering has still had their one interruption,
+      // and showing it again on the next page is the behaviour being fixed.
+      remember(ONBOARDED_KEY);
+      remember(storageKey);
       start();
     };
 
