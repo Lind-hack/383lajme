@@ -1,8 +1,8 @@
 {
   "lastUpdated": "2026-08-22",
   "overallIndex": 52,
-  "totalArticles": 228,
-  "sourceCount": 164,
+  "totalArticles": 234,
+  "sourceCount": 165,
   "stanceVersion": 2,
   "countries": {
     "Gjermani": {
@@ -493,7 +493,7 @@
           ]
         },
         {
-          "name": "UNICEF",
+          "name": "Unicef",
           "sentiment": "neutral",
           "articleCount": 2,
           "articles": [
@@ -564,19 +564,6 @@
               "speaker": ""
             },
             {
-              "title": "Haljiti: Kosovo President Deal Possible Within Days - srpske.rs",
-              "albanianTitle": "Haliti: Marrëveshja për presidentin e Kosovës mund të arrihet brenda pak ditësh - srpske.rs",
-              "blurb": "Xhavit Haliti deklaroi se marrëveshja për zgjedhjen e presidentit të ri të Kosovës mund të arrihet brenda pak ditësh.",
-              "imageUrl": "https://srpske.rs/uploads/articles/kosovo-president-deal-possible-within-days-16x9.webp",
-              "url": "https://srpske.rs/en/news/politika/2026/08/20/kosovo-president-deal-possible-within-days",
-              "date": "2026-08-20",
-              "sentiment": "neutral",
-              "reason": "Citat i Haljiti-t, media raporton pa ngjyrë",
-              "isQuote": true,
-              "evidence": "",
-              "speaker": "Haljiti"
-            },
-            {
               "title": "Bocan-Harchenko: Russia Prevents Ethnic Cleansing of Serbs - srpske.rs",
               "albanianTitle": "Bocan-Harchenko: Rusia parandalon spastrimin etnik të serbëve - srpske.rs",
               "blurb": "Ambasadori rus Bocan-Harchenko pretendon se Rusia po ndërmerr veprime për të parandaluar spastrimin etnik të serbëve në Kosovë.",
@@ -601,6 +588,19 @@
               "isQuote": false,
               "evidence": "Don't Open Ibar Bridge",
               "speaker": ""
+            },
+            {
+              "title": "Haljiti: Kosovo President Deal Possible Within Days - srpske.rs",
+              "albanianTitle": "Haliti: Marrëveshja për presidentin e Kosovës mund të arrihet brenda pak ditësh - srpske.rs",
+              "blurb": "Xhavit Haliti deklaroi se marrëveshja për zgjedhjen e presidentit të ri të Kosovës mund të arrihet brenda pak ditësh.",
+              "imageUrl": "https://srpske.rs/uploads/articles/kosovo-president-deal-possible-within-days-16x9.webp",
+              "url": "https://srpske.rs/en/news/politika/2026/08/20/kosovo-president-deal-possible-within-days",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Citat i Haljiti-t, media raporton pa ngjyrë",
+              "isQuote": true,
+              "evidence": "",
+              "speaker": "Haljiti"
             }
           ]
         },
@@ -684,6 +684,19 @@
           "articleCount": 3,
           "articles": [
             {
+              "title": "Thaci Expects Acquittal as Hague Court’s War Crimes Verdict Nears - Balkan Insight",
+              "albanianTitle": "Thaçi pret pafajësinë teksa po afrohet vendimi i Gjykatës së Hagës për krime lufte - Balkan Insight",
+              "blurb": "Hashim Thaçi pret shpalljen e pafajësisë në procesin gjyqësor që po zhvillohet ndaj tij në Gjykatën e Hagës.",
+              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2025/09/11396473.jpg",
+              "url": "https://balkaninsight.com/2026/08/21/thaci-expects-acquittal-as-hague-courts-war-crimes-verdict-nears/btj/",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Factual report of Thaci’s expectation",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
               "title": "Suspend Officers Suspected of Beating Serb, Kosovo Police Inspectorate Says - Balkan Insight",
               "albanianTitle": "Inspektorati Policor i Kosovës kërkon suspendimin e zyrtarëve të dyshuar për rrahjen e një serbi",
               "blurb": "Inspektorati Policor i Kosovës ka suspenduar zyrtarët policorë të dyshuar për rrahjen e një qytetari serb.",
@@ -705,19 +718,6 @@
               "date": "2026-08-20",
               "sentiment": "neutral",
               "reason": "Faktikë raportuar pa gjuhë të ngarkuar",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Thaci Expects Acquittal as Hague Court’s War Crimes Verdict Nears - Balkan Insight",
-              "albanianTitle": "Thaçi pret pafajësinë teksa po afrohet vendimi i Gjykatës së Hagës për krime lufte - Balkan Insight",
-              "blurb": "Hashim Thaçi pret shpalljen e pafajësisë në procesin gjyqësor që po zhvillohet ndaj tij në Gjykatën e Hagës.",
-              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2025/09/11396473.jpg",
-              "url": "https://balkaninsight.com/2026/08/21/thaci-expects-acquittal-as-hague-courts-war-crimes-verdict-nears/btj/",
-              "date": "2026-08-21",
-              "sentiment": "neutral",
-              "reason": "Factual report of Thaci’s expectation",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1017,26 +1017,6 @@
           ]
         },
         {
-          "name": "The Times of Israel",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "US to provide $206 million for Gaza peacekeeping force, letters show - The Times of Israel",
-              "albanianTitle": "SHBA do të ndajë 206 milionë dollarë për forcën paqeruajtëse në Gaza, sipas dokumenteve",
-              "blurb": "Shtetet e Bashkuara të Amerikës planifikojnë të ndajnë 206 milionë dollarë për mbështetjen e forcave paqeruajtëse në Rripin e Gazës.",
-              "imageUrl": null,
-              "url": "https://www.timesofisrael.com/us-to-provide-206-million-for-gaza-peacekeeping-force-letters-show/",
-              "date": "2026-08-20",
-              "sentiment": "unknown",
-              "reason": "Nuk përmendet Kosova në titull",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
           "name": "The University of Northern Colorado",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1057,7 +1037,7 @@
           ]
         },
         {
-          "name": "UNICEF",
+          "name": "Unicef",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
@@ -1162,7 +1142,7 @@
         "neutral": 93,
         "negative": 4,
         "n": 28,
-        "excluded": 1,
+        "excluded": 0,
         "confident": true,
         "stanceVersion": 2
       }
@@ -1191,18 +1171,18 @@
         },
         {
           "name": "DZfoot",
-          "sentiment": "unknown",
+          "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
               "title": "Jeux méditerranéens 2026 : L'Algérie bat une équipe européenne pour débuter ! (Vidéo) - DZfoot",
-              "albanianTitle": "Lojërat Mesdhetare 2026: Algjeria mposht një ekip evropian në ndeshjen hapëse! (Video) – DZfoot",
-              "blurb": "Ekipi i Algjerisë ka shënuar fitore ndaj përfaqësueses së Kosovës në ndeshjen hapëse të Lojërave Mesdhetare të vitit 2026.",
+              "albanianTitle": "Lojërat Mesdhetare 2026: Algjeria e nis me fitore ndaj një ekipi evropian! (Video)",
+              "blurb": "Algjeria ka nisur garën në Lojërat Mesdhetare të vitit 2026 me fitore ndaj përfaqësueses së hendbollit të Kosovës.",
               "imageUrl": "https://www.dzfoot.com/wp-content/uploads/2026/08/333333.jpeg",
               "url": "https://www.dzfoot.com/equipes-nationales/jeux-mediterraneens-2026-lalgerie-bat-une-equipe-europeenne-pour-debuter-video-297923.html",
               "date": "2026-08-22",
-              "sentiment": "unknown",
-              "reason": "Article does not mention Kosovo, stance cannot be determined",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1232,8 +1212,21 @@
         {
           "name": "El Watan",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
+            {
+              "title": "Jeux Méditerranéens 2026 : Les handballeuses algériennes renversent le Kosovo et lancent idéalement leur tournoi - El Watan",
+              "albanianTitle": "Lojërat Mesdhetare 2026: Hendbollistet algjeriane përmbysin Kosovën dhe nisin mbarë turneun",
+              "blurb": "Hendbollistet e Algjerisë kanë mposhtur Kosovën në kuadër të turneut të Lojërave Mesdhetare që do të mbahen në vitin 2026.",
+              "imageUrl": null,
+              "url": "https://elwatan.dz/jeux-mediterraneens-2026-les-handballeuses-algeriennes-renversent-le-kosovo-et-lancent-idealement-leur-tournoi/",
+              "date": "2026-08-22",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
             {
               "title": "Jeux Méditerranéens 2026 : entrée réussie des Espoirs algériens face au Kosovo - El Watan",
               "albanianTitle": "Lojërat Mesdhetare 2026: Start i suksesshëm për shpresat algjeriane ndaj Kosovës – El Watan",
@@ -1352,8 +1345,21 @@
         {
           "name": "aps.dz",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
+            {
+              "title": "Victoire de l'Algérie devant le Kosovo (35-20) - aps.dz",
+              "albanianTitle": "Algjeria mposht Kosovën (35-20)",
+              "blurb": "Kombëtarja e Algjerisë në hendboll ka shënuar fitore ndaj Kosovës me rezultatin 35-20 në një ndeshje ndërkombëtare.",
+              "imageUrl": "https://www.aps.dz/fr/assets/article/578e79b91de41de9bc92914f1fc2bf17.webp",
+              "url": "https://www.aps.dz/fr/sports/sport-collectif/mt4j15wh-victoire-de-l-algerie-devant-le-kosovo-35-20",
+              "date": "2026-08-22",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
             {
               "title": "L'Algérie domine le Kosovo 2-1 - aps.dz",
               "albanianTitle": "Algjeria e mposht Kosovën me rezultat 2-1",
@@ -1411,12 +1417,12 @@
         }
       ],
       "summary": {
-        "index": 55,
-        "positive": 9,
-        "neutral": 91,
+        "index": 54,
+        "positive": 7,
+        "neutral": 93,
         "negative": 0,
-        "n": 11,
-        "excluded": 1,
+        "n": 14,
+        "excluded": 0,
         "confident": true,
         "stanceVersion": 2
       }
@@ -1622,19 +1628,6 @@
           "articleCount": 2,
           "articles": [
             {
-              "title": "Abodi and Gonxhja: meeting between Kosovo and Albania ahead of the 2030 Mediterranean Games - Il Sole 24 ORE",
-              "albanianTitle": "Abodi dhe Gonxhja: takim mes Kosovës dhe Shqipërisë në prag të Lojërave Mesdhetare 2030 – Il Sole 24 ORE",
-              "blurb": "Ministrat Abodi dhe Gonxhja janë takuar për të diskutuar përgatitjet e përbashkëta mes Kosovës dhe Shqipërisë për Lojërat Mesdhetare 2030.",
-              "imageUrl": "https://i2.res.24o.it/images2010/S24/Documenti/2026/08/23/Immagini/Ritagli/Abodi-U34107557421qDR-1440x752@IlSole24Ore-Web.jpeg?r=1170x507",
-              "url": "https://en.ilsole24ore.com/art/abodi-e-gonxhja-incontro-vista-giochi-mediterraneo-2030-kosovo-e-albania-AJxnnEs",
-              "date": "2026-08-22",
-              "sentiment": "neutral",
-              "reason": "Straightforward headline about a meeting",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
               "title": "Abodi e Gonxhja, incontro in vista dei Giochi del Mediterraneo del 2030 tra Kosovo e Albania - Il Sole 24 ORE",
               "albanianTitle": "Abodi dhe Gonxhja, takim mes Kosovës dhe Shqipërisë në kuadër të Lojërave Mesdhetare 2030 – Il Sole 24 ORE",
               "blurb": "Zyrtarët Abodi dhe Gonxhja kanë zhvilluar një takim për koordinimin e aktiviteteve mes Kosovës dhe Shqipërisë për Lojërat Mesdhetare 2030.",
@@ -1643,6 +1636,19 @@
               "date": "2026-08-22",
               "sentiment": "neutral",
               "reason": "Neutral headline about a meeting",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Abodi and Gonxhja: meeting between Kosovo and Albania ahead of the 2030 Mediterranean Games - Il Sole 24 ORE",
+              "albanianTitle": "Abodi dhe Gonxhja: takim mes Kosovës dhe Shqipërisë në prag të Lojërave Mesdhetare 2030 – Il Sole 24 ORE",
+              "blurb": "Ministrat Abodi dhe Gonxhja janë takuar për të diskutuar përgatitjet e përbashkëta mes Kosovës dhe Shqipërisë për Lojërat Mesdhetare 2030.",
+              "imageUrl": "https://i2.res.24o.it/images2010/S24/Documenti/2026/08/23/Immagini/Ritagli/Abodi-U34107557421qDR-1440x752@IlSole24Ore-Web.jpeg?r=1170x507",
+              "url": "https://en.ilsole24ore.com/art/abodi-e-gonxhja-incontro-vista-giochi-mediterraneo-2030-kosovo-e-albania-AJxnnEs",
+              "date": "2026-08-22",
+              "sentiment": "neutral",
+              "reason": "Straightforward headline about a meeting",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1770,19 +1776,19 @@
           ]
         },
         {
-          "name": "Virgilio",
+          "name": "agenziagiornalisticaopinione.it",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
-              "title": "Sono iniziati i Giochi del Mediterraneo di Taranto 2026 Volley maschile, alle 12 Kosovo - Grecia al palaPentassuglia di Brindisi - Virgilio",
-              "albanianTitle": "Kanë nisur Lojërat Mesdhetare në Taranto, në volejboll për meshkuj në orën 12:00 përballen Kosova dhe Greqia në palaPentassuglia të Brindisit - Virgilio",
-              "blurb": "Kombëtarja e Kosovës në volejboll përballet me Greqinë në kuadër të Lojërave Mesdhetare që po zhvillohen në Itali.",
-              "imageUrl": "https://img.plug.it/img_newsreg_mid/9/5/6/57064659.jpg",
-              "url": "https://www.virgilio.it/italia/taranto/notizielocali/sono_iniziati_i_giochi_del_mediterraneo_di_taranto_2026_volley_maschile_alle_12_kosovo_grecia_al_palapentassuglia_di_brindisi-77268477.html",
-              "date": "2026-08-20",
+              "title": "IL SOLE 24 ORE * SPORT: «ABODI E GONXHJA, INCONTRO IN VISTA DEI GIOCHI DEL MEDITERRANEO DEL 2030 TRA KOSOVO E ALBANIA - agenziagiornalisticaopinione.it",
+              "albanianTitle": "Il Sole 24 Ore: Abodi dhe Gonxhja, takim në prag të Lojërave Mesdhetare 2030 mes Kosovës dhe Shqipërisë",
+              "blurb": "Ministrat Abodi dhe Gonxhja janë takuar për të diskutuar përgatitjet për Lojërat Mesdhetare të vitit 2030 mes Kosovës dhe Shqipërisë.",
+              "imageUrl": "https://www.agenziagiornalisticaopinione.it/wp-content/uploads/2026/08/Y99Z05e47ff1ff4f4f1a94f99228194a62e6file.jpeg",
+              "url": "https://www.agenziagiornalisticaopinione.it/opinionmix/sole24/il-sole-24-ore-sport-abodi-e-gonxhja-incontro-in-vista-dei-giochi-del-mediterraneo-del-2030-tra-kosovo-e-albania/",
+              "date": "2026-08-22",
               "sentiment": "neutral",
-              "reason": "Raportim sportiv i thjeshtë, pa gjuhë ngarkuese",
+              "reason": "Lajm i raportuar në mënyrë faktike",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1991,26 +1997,6 @@
           ]
         },
         {
-          "name": "Periskopi",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Grün: West will Thaci im Großen, wird wieder führen Kosovo -- politische Krise von Kurti - Periskopi",
-              "albanianTitle": "Grün: Perëndimi e do Thaçin në krye, ai do ta udhëheqë sërish Kosovën – kriza politike e Kurtit",
-              "blurb": "Perëndimi synon rikthimin e Thaçit në krye të Kosovës për shkak të krizës politike të shkaktuar nga Kurti.",
-              "imageUrl": null,
-              "url": "https://periskopi.com/de/2026/8/grun-west-thaci-fuhren-kosovo-politische-krise-kurti",
-              "date": "2026-08-19",
-              "sentiment": "neutral",
-              "reason": "Report of a political crisis without loaded language",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
           "name": "Tagesschau",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -2056,9 +2042,9 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 5,
+        "n": 4,
         "excluded": 1,
-        "confident": true,
+        "confident": false,
         "stanceVersion": 2
       }
     },
@@ -2123,6 +2109,26 @@
               "speaker": ""
             }
           ]
+        },
+        {
+          "name": "Sofascore",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Algeria Mediterranean Team tegen Kosovo Mediterranean Team live uitslagen, H2H en opstellingen - Sofascore",
+              "albanianTitle": "Rezultatet live, përballjet direkte dhe formacionet: Algjeria kundër Kosovës në Lojërat Mesdhetare",
+              "blurb": "Platforma Sofascore ofron të dhëna, rezultate direkte dhe formacionet për ndeshjen e hendbollit mes ekipeve të Algjerisë dhe Kosovës.",
+              "imageUrl": null,
+              "url": "https://www.sofascore.com/nl/football/match/kosovo-mediterranean-team-algeria-mediterranean-team/cLekseLek",
+              "date": "2026-08-22",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
         }
       ],
       "summary": {
@@ -2130,7 +2136,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 3,
+        "n": 4,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
@@ -2160,18 +2166,18 @@
         },
         {
           "name": "DZfoot",
-          "sentiment": "unknown",
+          "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
               "title": "Jeux méditerranéens 2026 : L'Algérie bat une équipe européenne pour débuter ! (Vidéo) - DZfoot",
-              "albanianTitle": "Lojërat Mesdhetare 2026: Algjeria mposht një ekip evropian në ndeshjen hapëse! (Video) – DZfoot",
-              "blurb": "Ekipi i Algjerisë ka shënuar fitore ndaj përfaqësueses së Kosovës në ndeshjen hapëse të Lojërave Mesdhetare të vitit 2026.",
+              "albanianTitle": "Lojërat Mesdhetare 2026: Algjeria e nis me fitore ndaj një ekipi evropian! (Video)",
+              "blurb": "Algjeria ka nisur garën në Lojërat Mesdhetare të vitit 2026 me fitore ndaj përfaqësueses së hendbollit të Kosovës.",
               "imageUrl": "https://www.dzfoot.com/wp-content/uploads/2026/08/333333.jpeg",
               "url": "https://www.dzfoot.com/equipes-nationales/jeux-mediterraneens-2026-lalgerie-bat-une-equipe-europeenne-pour-debuter-video-297923.html",
               "date": "2026-08-22",
-              "sentiment": "unknown",
-              "reason": "Article does not mention Kosovo, stance cannot be determined",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -2201,7 +2207,7 @@
         {
           "name": "El Watan",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Jeux Méditerranéens 2026 : entrée réussie des Espoirs algériens face au Kosovo - El Watan",
@@ -2212,6 +2218,19 @@
               "date": "2026-08-22",
               "sentiment": "neutral",
               "reason": "Neutral description of sporting event, no negative framing",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Jeux Méditerranéens 2026 : Les handballeuses algériennes renversent le Kosovo et lancent idéalement leur tournoi - El Watan",
+              "albanianTitle": "Lojërat Mesdhetare 2026: Hendbollistet algjeriane përmbysin Kosovën dhe nisin mbarë turneun",
+              "blurb": "Hendbollistet e Algjerisë kanë mposhtur Kosovën në kuadër të turneut të Lojërave Mesdhetare që do të mbahen në vitin 2026.",
+              "imageUrl": null,
+              "url": "https://elwatan.dz/jeux-mediterraneens-2026-les-handballeuses-algeriennes-renversent-le-kosovo-et-lancent-idealement-leur-tournoi/",
+              "date": "2026-08-22",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -2360,7 +2379,7 @@
         {
           "name": "aps.dz",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "L'Algérie domine le Kosovo 2-1 - aps.dz",
@@ -2374,23 +2393,16 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "horizons.dz",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
+            },
             {
-              "title": "Volley-ball dames: l’Algérie battue par le Kosovo dès son entrée aux Jeux Méditerranéens - horizons.dz",
-              "albanianTitle": "Volejboll për femra: Algjeria mposhtet nga Kosova në ndeshjen e parë në Lojërat Mesdhetare",
-              "blurb": "Përfaqësuesja e Kosovës në volejboll për femra ka mposhtur Algjerinë në ndeshjen e parë të Lojërave Mesdhetare.",
-              "imageUrl": null,
-              "url": "https://www.horizons.dz/2026/08/volley-ball-dames-lalgerie-battue-par-le-kosovo-des-son-entree-aux-jeux-mediterraneens/",
-              "date": "2026-08-21",
+              "title": "Victoire de l'Algérie devant le Kosovo (35-20) - aps.dz",
+              "albanianTitle": "Algjeria mposht Kosovën (35-20)",
+              "blurb": "Kombëtarja e Algjerisë në hendboll ka shënuar fitore ndaj Kosovës me rezultatin 35-20 në një ndeshje ndërkombëtare.",
+              "imageUrl": "https://www.aps.dz/fr/assets/article/578e79b91de41de9bc92914f1fc2bf17.webp",
+              "url": "https://www.aps.dz/fr/sports/sport-collectif/mt4j15wh-victoire-de-l-algerie-devant-le-kosovo-35-20",
+              "date": "2026-08-22",
               "sentiment": "neutral",
-              "reason": "Raportim neutral i rezultatit sportiv",
+              "reason": "Lajm i raportuar në mënyrë faktike",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -2399,12 +2411,12 @@
         }
       ],
       "summary": {
-        "index": 54,
-        "positive": 8,
-        "neutral": 92,
+        "index": 53,
+        "positive": 7,
+        "neutral": 93,
         "negative": 0,
-        "n": 13,
-        "excluded": 1,
+        "n": 15,
+        "excluded": 0,
         "confident": true,
         "stanceVersion": 2
       }
@@ -2610,6 +2622,26 @@
               "speaker": ""
             }
           ]
+        },
+        {
+          "name": "laradiodelmercosur.com.ar",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Noticias Mundo - laradiodelmercosur.com.ar",
+              "albanianTitle": "Lajme nga bota – laradiodelmercosur.com.ar",
+              "blurb": "Përmbledhje e lajmeve të fundit nga bota të publikuara në platformën mediatike La Radio del Mercosur.",
+              "imageUrl": null,
+              "url": "https://laradiodelmercosur.com.ar/mundiales/17842/Colombia-recibe-cartas-credenciales-de-embajadores-de-Israel-El-Salvador-India-y-Kosovo",
+              "date": "2026-08-22",
+              "sentiment": "unknown",
+              "reason": "Nuk ka informacion rreth Kosovës në titull",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
         }
       ],
       "summary": {
@@ -2618,7 +2650,7 @@
         "neutral": 90,
         "negative": 0,
         "n": 10,
-        "excluded": 0,
+        "excluded": 1,
         "confident": true,
         "stanceVersion": 2
       }
@@ -3195,6 +3227,26 @@
               "speaker": ""
             }
           ]
+        },
+        {
+          "name": "Wyniki na żywo",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosowo 3x3 W wyniki - Koszykówka, Europa - Wyniki na żywo",
+              "albanianTitle": "Rezultatet e Kosovës në 3x3 - Basketboll, Evropë - Rezultatet live",
+              "blurb": "Rezultatet e ndeshjeve të basketbollit 3x3 për femra të përfaqësueses së Kosovës janë publikuar në platformën e rezultateve live.",
+              "imageUrl": "https://www.flashscore.pl/res/_fs/image/og/flashscore.png",
+              "url": "https://www.flashscore.pl/druzyna/kosovo/h005gVOP/wyniki/",
+              "date": "2026-08-22",
+              "sentiment": "neutral",
+              "reason": "Neutral live scores",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
         }
       ],
       "summary": {
@@ -3202,7 +3254,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 1,
+        "n": 2,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
@@ -3246,7 +3298,7 @@
         {
           "name": "Ege'de Sonsöz",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 1,
           "articles": [
             {
               "title": "İzmir’den Kosova’ya iş birliği hamlesi - Ege'de Sonsöz",
@@ -3257,19 +3309,6 @@
               "date": "2026-08-21",
               "sentiment": "neutral",
               "reason": "Factual report of cooperation without loaded language",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Başkan Tugay Kosova’da: İzmir için yeni iş birlikleri masada! - Ege'de Sonsöz",
-              "albanianTitle": "Kryetari Tugay në Kosovë: Në tavolinë bashkëpunimet e reja për Izmirin",
-              "blurb": "Kryetari i Izmirit, Cemil Tugay, po qëndron në Kosovë për të diskutuar projekte të reja të bashkëpunimit mes dy palëve.",
-              "imageUrl": "https://egedesonsozcom.teimg.com/crop/1280x720/egedesonsoz-com/uploads/2026/08/22082026-920-2.jpeg",
-              "url": "https://www.egedesonsoz.com/baskan-tugay-kosovada-izmir-icin-yeni-is-birlikleri-masada",
-              "date": "2026-08-22",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike pa gjuhë ngarkuese",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -3434,6 +3473,19 @@
               "speaker": ""
             },
             {
+              "title": "Haradinaj: Thaçi'nin Görev Süresi İade Edilmeli - Kosovahaber.com",
+              "albanianTitle": "Haradinaj: Thaçit duhet t'i kthehet mandati",
+              "blurb": "Ramush Haradinaj ka kërkuar që t'i kthehet mandati ish-presidentit Hashim Thaçi në lidhje me funksionimin e institucioneve të vendit.",
+              "imageUrl": null,
+              "url": "https://kosovahaber.com/haber/haradinaj-thacinin-gorev-suresi-iade-edilmeli-105181",
+              "date": "2026-08-22",
+              "sentiment": "neutral",
+              "reason": "Titulli thjesht transmeton deklaratën e Haradinajt pa gjuhë ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
               "title": "AB: Kurumların Oluşturulmasındaki Gecikme Fırsatları Riske Atıyor - Kosovahaber.com",
               "albanianTitle": "BE: Vonesa në formimin e institucioneve po rrezikon mundësitë për zhvillim",
               "blurb": "Bashkimi Evropian vlerëson se vonesat në krijimin e institucioneve të reja po rrezikojnë mundësitë për zhvillimin e vendit.",
@@ -3445,16 +3497,23 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
-            },
+            }
+          ]
+        },
+        {
+          "name": "Malatya Güncel",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
             {
-              "title": "PDK ve İttifak, Kömürün Kuzey Makedonya'ya Satılmasına Karşı - Kosovahaber.com",
-              "albanianTitle": "PDK dhe Aleanca kundërshtojnë shitjen e thëngjillit në Maqedoninë e Veriut - Kosovahaber.com",
-              "blurb": "PDK dhe Aleanca për Ardhmërinë e Kosovës kundërshtojnë shitjen e thëngjillit për shtetin e Maqedonisë së Veriut.",
-              "imageUrl": null,
-              "url": "https://kosovahaber.com/haber/pdk-ve-ittifak-komurun-kuzey-makedonyaya-satilmasina-karsi-105167",
-              "date": "2026-08-22",
+              "title": "Vucic, NATO'dan Kosova'daki Sırplara yönelik şiddeti durdurmasını talep etti - Malatya Güncel",
+              "albanianTitle": "Vučić i kërkon NATO-s ndalimin e dhunës ndaj serbëve në Kosovë",
+              "blurb": "Aleksandar Vuçiq ka kërkuar nga NATO-ja ndërhyrje për të ndaluar dhunën ndaj serbëve në territorin e Kosovës.",
+              "imageUrl": "https://www.malatyaguncel.com/d/news/556428_ilkha_01.jpg",
+              "url": "https://www.malatyaguncel.com/vucic-nato-dan-kosova-daki-sirplara-yonelik-sidde-3107982h.htm",
+              "date": "2026-08-20",
               "sentiment": "neutral",
-              "reason": "Report of political position, no hostile or praising tone",
+              "reason": "Faktik raportim pa ngarkim",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -3590,7 +3649,7 @@
         {
           "name": "Son Dakika",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Kosova'da Halter Şampiyonası Başladı - Son Dakika",
@@ -3601,6 +3660,19 @@
               "date": "2026-08-20",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Kosovo'da Savaş Suçları Soruşturması: 23 Kalıntı Bulundu - Son Dakika",
+              "albanianTitle": "Hetimet për krime lufte në Kosovë: Genden mbetjet mortore të 23 personave",
+              "blurb": "Hetimet për krimet e luftës në Kosovë kanë rezultuar me gjetjen e mbetjeve mortore të njëzet e tre personave.",
+              "imageUrl": "https://foto.sondakika.com/haber/2026/08/19/kosova-da-savas-suclari-sorusturmasi-23-kisiy-20159336_amp.jpg",
+              "url": "https://www.sondakika.com/3-sayfa/haber-kosovo-da-savas-suclari-sorusturmasi-23-kalinti-bu-20159357/",
+              "date": "2026-08-19",
+              "sentiment": "neutral",
+              "reason": "Faktik raportim i hetimeve të luftës në Kosovë",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -3829,10 +3901,10 @@
       ],
       "summary": {
         "index": 53,
-        "positive": 6,
-        "neutral": 94,
+        "positive": 5,
+        "neutral": 95,
         "negative": 0,
-        "n": 54,
+        "n": 55,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -4087,7 +4159,7 @@
           ]
         },
         {
-          "name": "UNICEF",
+          "name": "Unicef",
           "sentiment": "neutral",
           "articleCount": 2,
           "articles": [
@@ -4142,7 +4214,7 @@
         {
           "name": "srpske.rs",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 1,
           "articles": [
             {
               "title": "Countdown to Thaci Verdict Begins Across Kosovo - srpske.rs",
@@ -4156,19 +4228,6 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
-            },
-            {
-              "title": "Haljiti: Kosovo President Deal Possible Within Days - srpske.rs",
-              "albanianTitle": "Haliti: Marrëveshja për presidentin e Kosovës mund të arrihet brenda pak ditësh - srpske.rs",
-              "blurb": "Xhavit Haliti deklaroi se marrëveshja për zgjedhjen e presidentit të ri të Kosovës mund të arrihet brenda pak ditësh.",
-              "imageUrl": "https://srpske.rs/uploads/articles/kosovo-president-deal-possible-within-days-16x9.webp",
-              "url": "https://srpske.rs/en/news/politika/2026/08/20/kosovo-president-deal-possible-within-days",
-              "date": "2026-08-20",
-              "sentiment": "neutral",
-              "reason": "Citat i Haljiti-t, media raporton pa ngjyrë",
-              "isQuote": true,
-              "evidence": "",
-              "speaker": "Haljiti"
             }
           ]
         }
@@ -4178,7 +4237,7 @@
         "positive": 12,
         "neutral": 88,
         "negative": 0,
-        "n": 17,
+        "n": 16,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2

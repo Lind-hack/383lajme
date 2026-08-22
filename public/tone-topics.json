@@ -4,15 +4,16 @@
     {
       "label": "Pjesëmarrja në Lojërat Mesdhetare",
       "fallbackLabel": "Mesdhetare · Lojërat",
-      "summary": "Ekipet kombëtare të volejbollit të Shqipërisë dhe Kosovës do të përballen në kuadër të Lojërave Mesdhetare 2026 në disiplina të ndryshme.",
-      "count": 38,
+      "summary": "Ekipet kombëtare të Shqipërisë në volejboll për meshkuj dhe femra do të përballen me Kosovën në kuadër të Lojërave Mesdhetare 2026.",
+      "count": 41,
       "positive": 2,
-      "neutral": 33,
+      "neutral": 37,
       "negative": 0,
       "index": 53,
       "countries": [
         "Francë",
         "Greqi",
+        "Holandë",
         "Itali",
         "SHBA",
         "Spanjë",
@@ -185,7 +186,7 @@
     {
       "label": "Zbulimi i varrezave masive",
       "fallbackLabel": "Masive · Gjenden",
-      "summary": "Gjatë kërkimeve në Kosovë janë gjetur mbetjet mortore të të paktën 23 personave në varreza të dyshuara masive nga periudha e luftës.",
+      "summary": "Gjatë gërmimeve në Kosovë janë gjetur mbetjet mortore të të paktën 23 personave në varreza të dyshuara masive, duke hapur hetime të reja.",
       "count": 25,
       "positive": 0,
       "neutral": 25,
@@ -366,7 +367,7 @@
     {
       "label": "Debati për urën e Ibrit",
       "fallbackLabel": "Ibrit · Kfor",
-      "summary": "Plani për hapjen e urës së Ibrit në Mitrovicë ka shkaktuar kundërshtime të ashpra nga Serbia, duke përfshirë ndërhyrje diplomatike dhe politike.",
+      "summary": "Plani për hapjen e urës së Ibrit në Mitrovicë ka shkaktuar kundërshtime të ashpra nga Serbia dhe diskutime mbi rolin e KFOR-it.",
       "count": 17,
       "positive": 1,
       "neutral": 15,
@@ -548,7 +549,7 @@
     {
       "label": "Incidentet dhe tensionet politike",
       "fallbackLabel": "Ndaj · Serbëve",
-      "summary": "Raportohen incidente të ndryshme, përfshirë sulme seksuale, kërcënime nga grupe radikale dhe akuza për dhunë sistematike ndaj komunitetit serb në Kosovë.",
+      "summary": "Raportimet përfshijnë incidente të ndryshme, duke filluar nga sulmet seksuale, protestat politike, deri te akuzat për dhunë ndaj komunitetit serb në Kosovë.",
       "count": 11,
       "positive": 0,
       "neutral": 11,
@@ -724,9 +725,9 @@
       ]
     },
     {
-      "label": "Bashkëpunimi ndërkombëtar dhe lokal",
+      "label": "Bashkëpunimi institucional me Izmirin",
       "fallbackLabel": "Tugay · Kryetari",
-      "summary": "Kryetari i Bashkisë së Izmirit dhe organizata si UNICEF po nisin iniciativa për bashkëpunim shumëdimensional dhe mbështetje për fëmijët në Kosovë.",
+      "summary": "Kryetari i Bashkisë së Izmirit, Cemil Tugay, ka nisur një iniciativë për bashkëpunim shumëdimensional mes qytetit të Izmirit dhe institucioneve të Kosovës.",
       "count": 11,
       "positive": 3,
       "neutral": 8,
@@ -901,8 +902,8 @@
     },
     {
       "label": "Hetimet për krime lufte",
-      "fallbackLabel": "Personave · Mortore",
-      "summary": "Autoritetet kanë gjetur mbetje mortore në Zubin Potok dhe kanë arrestuar tre persona në kuadër të hetimeve për krimet e luftës.",
+      "fallbackLabel": "Personave · Mbetjet",
+      "summary": "Zbulimi i eshtrave të 23 personave në Zubin Potok po trajtohet si pjesë e hetimeve zyrtare për krime lufte, duke çuar edhe në arrestime.",
       "count": 10,
       "positive": 0,
       "neutral": 10,
@@ -1075,9 +1076,9 @@
       ]
     },
     {
-      "label": "Zhvillimet politike dhe qeverisëse",
+      "label": "Zhvillimet politike dhe takimet",
       "fallbackLabel": "Kurti · Eulex",
-      "summary": "Kryeministri Kurti po zhvillon takime me liderë opozitarë dhe përfaqësues ndërkombëtarë për të diskutuar profilin e presidentit dhe krizat institucionale në vend.",
+      "summary": "Kryeministri Kurti po zhvillon takime me përfaqësues ndërkombëtarë dhe liderë lokalë për të diskutuar mbi krizat institucionale dhe të ardhmen politike të vendit.",
       "count": 9,
       "positive": 0,
       "neutral": 9,
@@ -1236,9 +1237,9 @@
       ]
     },
     {
-      "label": "Turizmi dhe shtigjet malore",
-      "fallbackLabel": "Fundit · Egra",
-      "summary": "Shtegu i ecjes Majat e Ballkanit po promovohet si një destinacion epik që eksploron zonat e egra dhe natyrore të Kosovës.",
+      "label": "Turizmi në zonat malore",
+      "fallbackLabel": "Fundit · Evropës",
+      "summary": "Shtegu i ecjes Majat e Ballkanit po promovohet si një destinacion epik për eksplorimin e zonave të egra natyrore në territorin e Kosovës.",
       "count": 8,
       "positive": 0,
       "neutral": 8,

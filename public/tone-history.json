@@ -2238,8 +2238,8 @@
   {
     "date": "2026-08-22",
     "overallIndex": 52,
-    "totalArticles": 228,
-    "sourceCount": 164,
+    "totalArticles": 234,
+    "sourceCount": 165,
     "stanceVersion": 2,
     "countries": {
       "Gjermani": {
@@ -2268,17 +2268,17 @@
         "neutral": 93,
         "negative": 4,
         "n": 28,
-        "excluded": 1,
+        "excluded": 0,
         "confident": true,
         "stanceVersion": 2
       },
       "Francë": {
-        "index": 55,
-        "positive": 9,
-        "neutral": 91,
+        "index": 54,
+        "positive": 7,
+        "neutral": 93,
         "negative": 0,
-        "n": 11,
-        "excluded": 1,
+        "n": 14,
+        "excluded": 0,
         "confident": true,
         "stanceVersion": 2
       },
@@ -2307,9 +2307,9 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 5,
+        "n": 4,
         "excluded": 1,
-        "confident": true,
+        "confident": false,
         "stanceVersion": 2
       },
       "Holandë": {
@@ -2317,18 +2317,18 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 3,
+        "n": 4,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
       },
       "Belgjikë": {
-        "index": 54,
-        "positive": 8,
-        "neutral": 92,
+        "index": 53,
+        "positive": 7,
+        "neutral": 93,
         "negative": 0,
-        "n": 13,
-        "excluded": 1,
+        "n": 15,
+        "excluded": 0,
         "confident": true,
         "stanceVersion": 2
       },
@@ -2338,7 +2338,7 @@
         "neutral": 90,
         "negative": 0,
         "n": 10,
-        "excluded": 0,
+        "excluded": 1,
         "confident": true,
         "stanceVersion": 2
       },
@@ -2367,17 +2367,17 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 1,
+        "n": 2,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
       },
       "Turqi": {
         "index": 53,
-        "positive": 6,
-        "neutral": 94,
+        "positive": 5,
+        "neutral": 95,
         "negative": 0,
-        "n": 54,
+        "n": 55,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -2387,7 +2387,7 @@
         "positive": 12,
         "neutral": 88,
         "negative": 0,
-        "n": 17,
+        "n": 16,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2
