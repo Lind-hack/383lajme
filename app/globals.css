@@ -10774,18 +10774,18 @@ header[data-overlay="true"] .nav-search-btn { color: rgba(255, 255, 255, 0.9); }
 .spot-head {
   display: flex;
   align-items: center;
-  gap: 14px;
-  margin-bottom: clamp(20px, 2.6vw, 32px);
+  gap: 12px;
+  margin-bottom: clamp(14px, 1.8vw, 22px);
 }
 .spot-rule {
-  width: 4px;
-  height: 26px;
+  width: 3px;
+  height: 20px;
   border-radius: 2px;
   background: rgba(255, 255, 255, 0.65);
 }
 .spot-label {
   color: rgba(255, 255, 255, 0.92);
-  font-size: 13px;
+  font-size: 11.5px;
   font-weight: 850;
   letter-spacing: 0.2em;
   text-transform: uppercase;
@@ -10830,7 +10830,7 @@ header[data-overlay="true"] .nav-search-btn { color: rgba(255, 255, 255, 0.9); }
 .spot-lead {
   display: block;
   overflow: hidden;
-  border-radius: 18px;
+  border-radius: 14px;
   background: #FFFFFF;
   box-shadow: 0 6px 26px rgba(0, 0, 0, 0.18);
   text-decoration: none;
@@ -10841,11 +10841,18 @@ header[data-overlay="true"] .nav-search-btn { color: rgba(255, 255, 255, 0.9); }
 .spot-cover {
   display: block;
   position: relative;
-  /* Capped as well as proportioned: at 1440 an uncapped 16/9 lead ran to about
-     1120px while the rail beside it ended at 600, and the gap read as a
-     mistake rather than as hierarchy. */
-  aspect-ratio: 16 / 10;
-  max-height: 380px;
+  /* Capped as well as proportioned. Uncapped at 1440 the lead ran past 1100px;
+     at a 380px cap the band still took most of a viewport on its own, which is
+     more room than one section earns on a front page. 16/9 and 240px keeps the
+     photograph clearly the largest thing here without the band becoming a
+     destination of its own. */
+  aspect-ratio: 16 / 9;
+  max-height: 260px;
+  /* Explicit, because an aspect-ratio box under a max-height shrinks its WIDTH
+     too in order to keep the ratio — the photograph stopped short of the card's
+     right edge and left a white gap beside it. Pinning the width lets the cap
+     crop the picture instead of resizing the frame. */
+  width: 100%;
   overflow: hidden;
   background: rgba(0, 0, 0, 0.12);
 }
@@ -10859,43 +10866,45 @@ header[data-overlay="true"] .nav-search-btn { color: rgba(255, 255, 255, 0.9); }
      eases in again under a pointer. */
   transition: transform 620ms var(--ease-out);
 }
-.spot-lead-body { display: block; padding: 20px 22px 22px; }
+.spot-lead-body { display: block; padding: 14px 16px 16px; }
 .spot-tag {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  margin-bottom: 10px;
+  margin-bottom: 7px;
   color: var(--spot-color, #0047FF);
-  font-size: 10px;
+  font-size: 9.5px;
   font-weight: 800;
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }
 .spot-tag i {
-  width: 7px;
-  height: 7px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
   background: currentColor;
 }
 .spot-lead h3 {
   margin: 0;
   color: #111111;
-  font-size: clamp(19px, 2.1vw, 27px);
+  font-size: clamp(16px, 1.45vw, 20px);
   font-weight: 850;
-  line-height: 1.22;
-  letter-spacing: -0.025em;
+  line-height: 1.25;
+  letter-spacing: -0.022em;
   display: -webkit-box;
-  -webkit-line-clamp: 3;
+  /* Two, not three. A third line is rare, and at this size it was the line
+     that pushed the card past the height the band can carry. */
+  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
 .spot-lead-excerpt {
-  margin: 10px 0 0;
+  margin: 7px 0 0;
   max-width: 62ch;
   color: #55504A;
-  font-size: 14px;
+  font-size: 12.5px;
   font-weight: 500;
-  line-height: 1.55;
+  line-height: 1.5;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -10903,9 +10912,9 @@ header[data-overlay="true"] .nav-search-btn { color: rgba(255, 255, 255, 0.9); }
 }
 .spot-meta {
   display: block;
-  margin-top: 12px;
+  margin-top: 9px;
   color: #7C736B;
-  font-size: 12px;
+  font-size: 11.5px;
   font-weight: 600;
 }
 
@@ -10913,7 +10922,7 @@ header[data-overlay="true"] .nav-search-btn { color: rgba(255, 255, 255, 0.9); }
 .spot-rail {
   display: grid;
   grid-auto-rows: 1fr;
-  gap: 12px;
+  gap: 10px;
 }
 .spot-item {
   display: grid;
@@ -10922,11 +10931,11 @@ header[data-overlay="true"] .nav-search-btn { color: rgba(255, 255, 255, 0.9); }
      spread apart by their own leftover space. */
   height: 100%;
   /* Proportional rather than fixed, so the picture grows with the card. */
-  grid-template-columns: 38% minmax(0, 1fr);
-  gap: 13px;
+  grid-template-columns: 34% minmax(0, 1fr);
+  gap: 12px;
   align-items: stretch;
   overflow: hidden;
-  border-radius: 14px;
+  border-radius: 12px;
   background: #FFFFFF;
   box-shadow: 0 4px 18px rgba(0, 0, 0, 0.14);
   text-decoration: none;
@@ -10938,7 +10947,7 @@ header[data-overlay="true"] .nav-search-btn { color: rgba(255, 255, 255, 0.9); }
   display: block;
   position: relative;
   overflow: hidden;
-  min-height: 84px;
+  min-height: 62px;
   background: rgba(0, 0, 0, 0.1);
 }
 .spot-thumb img,
@@ -10953,12 +10962,12 @@ header[data-overlay="true"] .nav-search-btn { color: rgba(255, 255, 255, 0.9); }
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 12px 14px 12px 0;
+  padding: 10px 12px 10px 0;
   min-width: 0;
 }
 .spot-item-title {
   color: #111111;
-  font-size: 13.5px;
+  font-size: 12.5px;
   font-weight: 800;
   line-height: 1.32;
   letter-spacing: -0.012em;
@@ -10967,7 +10976,7 @@ header[data-overlay="true"] .nav-search-btn { color: rgba(255, 255, 255, 0.9); }
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
-.spot-item .spot-meta { margin-top: 7px; font-size: 11px; }
+.spot-item .spot-meta { margin-top: 5px; font-size: 10.5px; }
 
 @media (hover: hover) and (pointer: fine) {
   .spot-all:hover {
@@ -10993,13 +11002,16 @@ header[data-overlay="true"] .nav-search-btn { color: rgba(255, 255, 255, 0.9); }
      being as tall as their contents. */
   .spot-rail { grid-auto-rows: auto; }
   .spot-item { grid-template-columns: 116px minmax(0, 1fr); min-height: 92px; }
-  .spot-lead h3 { font-size: 20px; }
+  /* Stepped down from the desktop clamp, which now tops out at 20px — at the
+     old value this override no longer changed anything. */
+  .spot-lead h3 { font-size: 18px; }
   .spot-lead-excerpt { display: none; }
 }
 
 @media (max-width: 560px) {
   .spot-head { gap: 10px; }
-  .spot-label { font-size: 11.5px; letter-spacing: 0.16em; }
+  /* Size now matches the base rule; only the tracking still tightens here. */
+  .spot-label { letter-spacing: 0.16em; }
   .spot-all { padding: 6px 11px; font-size: 11px; }
   .spot-lead-body { padding: 16px 16px 18px; }
   .spot-item { grid-template-columns: 96px minmax(0, 1fr); }

@@ -63,7 +63,7 @@ export default function ColorSpotlight({ articles, category, label }: ColorSpotl
         // stylesheet does not need a copy of the palette.
         ["--spot-color" as string]: color,
         background: color,
-        padding: "clamp(40px, 5vw, 68px) 24px",
+        padding: "clamp(26px, 3vw, 42px) 24px",
         position: "relative",
         overflow: "hidden",
         marginBottom: "var(--space-section)",
