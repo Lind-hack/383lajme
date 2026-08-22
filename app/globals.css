@@ -10662,3 +10662,104 @@ header[data-overlay="true"] .nav-search-btn { color: rgba(255, 255, 255, 0.9); }
   from { opacity: 0; transform: scale(0.7); }
   to   { opacity: 1; transform: none; }
 }
+
+/* ── Sport discovery cards — the animated orange orbit ─────────────────
+   A conic gradient registered as an @property angle so it can rotate.
+   The ring itself is a masked border: content-box minus padding-box leaves
+   a 1.5px track that the gradient sweeps around. Browsers without
+   @property keep a quiet static ring instead of animating. */
+@property --sport-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.tregu-sport-card {
+  position: relative;
+  border-radius: 24px;
+  background: #ffffff;
+  /* Static fallback ring for engines without @property support. */
+  box-shadow: inset 0 0 0 1px rgba(255, 68, 34, 0.28);
+}
+
+.tregu-sport-card::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: conic-gradient(
+    from var(--sport-angle),
+    rgba(255, 68, 34, 0) 0deg,
+    rgba(255, 68, 34, 0.95) 40deg,
+    rgba(255, 145, 60, 0.65) 75deg,
+    rgba(255, 68, 34, 0) 120deg
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .tregu-sport-card::before { animation: sport-orbit 5s linear infinite; }
+}
+@keyframes sport-orbit { to { --sport-angle: 360deg; } }
+
+/* League row inside a card. */
+.tregu-sport-league {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+  padding: 11px 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(17, 17, 17, 0.08);
+  background: #f9f6f1;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--tg-text, #111111);
+  cursor: pointer;
+  text-align: left;
+  transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1),
+    background-color 200ms ease, border-color 200ms ease;
+}
+.tregu-sport-league:hover { background: #fff3ef; border-color: rgba(255, 68, 34, 0.35); }
+.tregu-sport-league:active { transform: scale(0.98); }
+.tregu-sport-league-count {
+  font-variant-numeric: tabular-nums;
+  font-size: 12px;
+  font-weight: 800;
+  color: #ff4422;
+  white-space: nowrap;
+}
+.tregu-sport-league[disabled] {
+  cursor: default;
+  opacity: 0.55;
+}
+.tregu-sport-league[disabled]:hover { background: #f9f6f1; border-color: rgba(17, 17, 17, 0.08); }
+.tregu-sport-league[disabled]:active { transform: none; }
+
+/* Soon chip — tournaments waiting on their editorial window. */
+.tregu-sport-soon {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 100px;
+  border: 1px dashed rgba(17, 17, 17, 0.18);
+  background: transparent;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #6b6b6b;
+  white-space: nowrap;
+}
+
+/* Locked basketball card. */
+.tregu-sport-card[data-state="locked"] {
+  background: #faf7f2;
+  box-shadow: inset 0 0 0 1px rgba(17, 17, 17, 0.1);
+  border: 1px dashed rgba(17, 17, 17, 0.2);
+}

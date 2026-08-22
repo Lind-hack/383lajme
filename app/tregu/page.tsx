@@ -7,6 +7,8 @@ import MarketMiniCard from "@/components/tregu/market-mini-card";
 import MarketEventCard from "@/components/tregu/market-event-card";
 import { groupMarkets } from "@/lib/tregu-groups";
 import { track } from "@/lib/analytics";
+import SportSections from "@/components/tregu/sport-sections";
+import { isF1Market, marketsForFootballLeague, sportLabel } from "@/lib/tregu-sport-sections.mjs";
 import FeaturedCarousel from "@/components/tregu/featured-carousel";
 import F1ArchiveFeature from "@/components/tregu/f1-archive-feature";
 import FloorRail from "@/components/tregu/floor-rail";
@@ -80,6 +82,7 @@ interface MarketRow {
   status: string;
   market_classification?: string;
   market_type?: string;
+  live_event?: { league?: string; sport?: string } | null;
   closes_at: string;
   q_yes: number;
   q_no: number;
@@ -141,6 +144,7 @@ export default function TreguHub() {
   const [markets, setMarkets] = useState<MarketRow[]>([]);
   const [activity, setActivity] = useState<ActivityItem[]>([]);
   const [category, setCategory] = useState("all");
+  const [league, setLeague] = useState<string | null>(null);
   const [sort, setSort] = useState<SortKey>("vellim");
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState(false);
@@ -302,21 +306,37 @@ export default function TreguHub() {
 
   // Sorting is the affordance that makes the trader think: chase volume,
   // beat the clock, or hunt the most contested (closest-to-50) markets.
+  // A sports-league selection (from the discovery cards) narrows the floor
+  // before sorting — the cards are the intent, the grid is the answer.
   const sorted = useMemo(() => {
     const featuredSlugs = new Set(featured.map((m) => m.slug));
-    const arr = markets.filter(
+    let arr = markets.filter(
       (market) =>
         !isF1Archive(market) &&
         !featuredSlugs.has(market.slug) &&
         !groupedSlugs.has(market.slug)
     );
+    if (league === "f1") {
+      arr = arr.filter((m) => isF1Market(m));
+    } else if (league) {
+      arr = marketsForFootballLeague(arr, league);
+    }
     if (sort === "vellim") arr.sort((a, b) => vol(b) - vol(a));
     else if (sort === "afat")
       arr.sort((a, b) => new Date(a.closes_at).getTime() - new Date(b.closes_at).getTime());
     else if (sort === "nxehta")
       arr.sort((a, b) => Math.abs(0.5 - a.market_prob) - Math.abs(0.5 - b.market_prob));
     return arr;
-  }, [markets, featured, groupedSlugs, sort]);
+  }, [markets, featured, groupedSlugs, sort, league]);
+
+  const selectSport = (key: string) => {
+    setCategory("all");
+    setLeague((current) => (current === key ? null : key));
+    track("tregu_sport_select", { league: key });
+    document.getElementById("tregjet")?.scrollIntoView({
+      behavior: window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+    });
+  };
 
   const toMini = (m: MarketRow): MiniMarket => ({
     slug: m.slug,
@@ -520,6 +540,34 @@ export default function TreguHub() {
           </div>
         )}
 
+        {/* Sports discovery — the four big football leagues with live books,
+            the F1 calendar, and basketball locked until its pricing
+            algorithm exists. A selection filters the floor grid below. */}
+        {!loading && !loadError && (
+          <SportSections
+            markets={markets}
+            isOpen={(m) => m.status === "open" || isF1Archive(m as MarketRow)}
+            activeLeague={league}
+            onSelect={selectSport}
+          />
+        )}
+
+        {/* Active league filter chip — visible state for the grid below. */}
+        {league && !loading && !loadError && (
+          <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
+            <span style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "7px 8px 7px 14px", borderRadius: 100, background: "#fff3ef", border: "1px solid rgba(255,68,34,0.4)", fontSize: 12.5, fontWeight: 800, color: "#111" }}>
+              {sportLabel(league)}
+              <button
+                onClick={() => setLeague(null)}
+                aria-label={`Hiq filtrin ${sportLabel(league)}`}
+                style={{ width: 20, height: 20, borderRadius: 100, border: "none", background: "rgba(17,17,17,0.08)", color: "#111", fontWeight: 800, fontSize: 12, lineHeight: 1, cursor: "pointer", display: "inline-flex", alignItems: "center", justifyContent: "center", transition: "transform 150ms var(--ease-out)" }}
+              >
+                ×
+              </button>
+            </span>
+          </div>
+        )}
+
         {/* Controls — count + segmented sort (traders sort). */}
         <div className="tregu-controls">
           <span className="tregu-count">
@@ -574,9 +622,20 @@ export default function TreguHub() {
           </div>
         ) : sorted.length === 0 && eventGroups.length === 0 && f1Archives.length === 0 ? (
           <div className="tregu-glass" style={{ padding: "40px 28px", textAlign: "center" }}>
-            <p style={{ fontWeight: 800, fontSize: 16, margin: 0 }}>Asnjë treg aktiv këtu ende</p>
+            <p style={{ fontWeight: 800, fontSize: 16, margin: 0 }}>
+              {league ? `Nuk ka tregje të hapura në ${sportLabel(league)} për momentin` : "Asnjë treg aktiv këtu ende"}
+            </p>
             <p style={{ color: "#6B6B6B", fontSize: 14, margin: "6px 0 0" }}>
-              Provo një kategori tjetër. Tregjet e reja lindin nga lajmet e ditës.
+              {league ? (
+                <>
+                  Tregjet e kësaj lige shfaqen sapo hap një javë lojësh.{" "}
+                  <button onClick={() => setLeague(null)} style={{ background: "none", border: "none", padding: 0, color: "#FF4422", fontWeight: 800, fontSize: 14, cursor: "pointer", textDecoration: "underline", textUnderlineOffset: 3 }}>
+                    Hiq filtrin
+                  </button>
+                </>
+              ) : (
+                "Provo një kategori tjetër. Tregjet e reja lindin nga lajmet e ditës."
+              )}
             </p>
           </div>
         ) : (
