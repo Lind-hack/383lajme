@@ -1,8 +1,8 @@
 {
   "lastUpdated": "2026-08-22",
   "overallIndex": 52,
-  "totalArticles": 234,
-  "sourceCount": 165,
+  "totalArticles": 237,
+  "sourceCount": 168,
   "stanceVersion": 2,
   "countries": {
     "Gjermani": {
@@ -194,6 +194,26 @@
               "date": "2026-08-19",
               "sentiment": "neutral",
               "reason": "Fact‑based headline about a trail, no evaluative language toward Kosovo",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Demócrata",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Serbia urges NATO to stop the withdrawal of KFOR from the Ibar bridge in Mitrovica - Demócrata",
+              "albanianTitle": "Serbia i kërkon NATO-s ta ndalojë tërheqjen e KFOR-it nga ura e Ibrit në Mitrovicë",
+              "blurb": "Serbia i ka kërkuar NATO-s që të ndalojë tërheqjen e trupave të KFOR-it nga ura e Ibrit në Mitrovicë.",
+              "imageUrl": null,
+              "url": "https://www.democrata.es/en/international/serbia-urges-nato-to-stop-the-withdrawal-of-kfor-from-the-ibar-bridge-in-mitrovica/",
+              "date": "2026-08-22",
+              "sentiment": "neutral",
+              "reason": "straightforward reporting of Serbia's request",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -548,7 +568,7 @@
         {
           "name": "srpske.rs",
           "sentiment": "neutral",
-          "articleCount": 4,
+          "articleCount": 3,
           "articles": [
             {
               "title": "Countdown to Thaci Verdict Begins Across Kosovo - srpske.rs",
@@ -588,19 +608,6 @@
               "isQuote": false,
               "evidence": "Don't Open Ibar Bridge",
               "speaker": ""
-            },
-            {
-              "title": "Haljiti: Kosovo President Deal Possible Within Days - srpske.rs",
-              "albanianTitle": "Haliti: Marrëveshja për presidentin e Kosovës mund të arrihet brenda pak ditësh - srpske.rs",
-              "blurb": "Xhavit Haliti deklaroi se marrëveshja për zgjedhjen e presidentit të ri të Kosovës mund të arrihet brenda pak ditësh.",
-              "imageUrl": "https://srpske.rs/uploads/articles/kosovo-president-deal-possible-within-days-16x9.webp",
-              "url": "https://srpske.rs/en/news/politika/2026/08/20/kosovo-president-deal-possible-within-days",
-              "date": "2026-08-20",
-              "sentiment": "neutral",
-              "reason": "Citat i Haljiti-t, media raporton pa ngjyrë",
-              "isQuote": true,
-              "evidence": "",
-              "speaker": "Haljiti"
             }
           ]
         },
@@ -1394,34 +1401,14 @@
               "speaker": ""
             }
           ]
-        },
-        {
-          "name": "horizons.dz",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Volley-ball dames: l’Algérie battue par le Kosovo dès son entrée aux Jeux Méditerranéens - horizons.dz",
-              "albanianTitle": "Volejboll për femra: Algjeria mposhtet nga Kosova në ndeshjen e parë në Lojërat Mesdhetare",
-              "blurb": "Përfaqësuesja e Kosovës në volejboll për femra ka mposhtur Algjerinë në ndeshjen e parë të Lojërave Mesdhetare.",
-              "imageUrl": null,
-              "url": "https://www.horizons.dz/2026/08/volley-ball-dames-lalgerie-battue-par-le-kosovo-des-son-entree-aux-jeux-mediterraneens/",
-              "date": "2026-08-21",
-              "sentiment": "neutral",
-              "reason": "Raportim neutral i rezultatit sportiv",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
         }
       ],
       "summary": {
         "index": 54,
-        "positive": 7,
-        "neutral": 93,
+        "positive": 8,
+        "neutral": 92,
         "negative": 0,
-        "n": 14,
+        "n": 13,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -1628,19 +1615,6 @@
           "articleCount": 2,
           "articles": [
             {
-              "title": "Abodi e Gonxhja, incontro in vista dei Giochi del Mediterraneo del 2030 tra Kosovo e Albania - Il Sole 24 ORE",
-              "albanianTitle": "Abodi dhe Gonxhja, takim mes Kosovës dhe Shqipërisë në kuadër të Lojërave Mesdhetare 2030 – Il Sole 24 ORE",
-              "blurb": "Zyrtarët Abodi dhe Gonxhja kanë zhvilluar një takim për koordinimin e aktiviteteve mes Kosovës dhe Shqipërisë për Lojërat Mesdhetare 2030.",
-              "imageUrl": "https://i2.res.24o.it/images2010/S24/Documenti/2026/08/23/Immagini/Ritagli/Abodi-U34107557421qDR-1440x752@IlSole24Ore-Web.jpeg?r=1170x507",
-              "url": "https://www.ilsole24ore.com/art/abodi-e-gonxhja-incontro-vista-giochi-mediterraneo-2030-kosovo-e-albania-AJxnnEs",
-              "date": "2026-08-22",
-              "sentiment": "neutral",
-              "reason": "Neutral headline about a meeting",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
               "title": "Abodi and Gonxhja: meeting between Kosovo and Albania ahead of the 2030 Mediterranean Games - Il Sole 24 ORE",
               "albanianTitle": "Abodi dhe Gonxhja: takim mes Kosovës dhe Shqipërisë në prag të Lojërave Mesdhetare 2030 – Il Sole 24 ORE",
               "blurb": "Ministrat Abodi dhe Gonxhja janë takuar për të diskutuar përgatitjet e përbashkëta mes Kosovës dhe Shqipërisë për Lojërat Mesdhetare 2030.",
@@ -1649,6 +1623,19 @@
               "date": "2026-08-22",
               "sentiment": "neutral",
               "reason": "Straightforward headline about a meeting",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Abodi e Gonxhja, incontro in vista dei Giochi del Mediterraneo del 2030 tra Kosovo e Albania - Il Sole 24 ORE",
+              "albanianTitle": "Abodi dhe Gonxhja, takim mes Kosovës dhe Shqipërisë në kuadër të Lojërave Mesdhetare 2030 – Il Sole 24 ORE",
+              "blurb": "Zyrtarët Abodi dhe Gonxhja kanë zhvilluar një takim për koordinimin e aktiviteteve mes Kosovës dhe Shqipërisë për Lojërat Mesdhetare 2030.",
+              "imageUrl": "https://i2.res.24o.it/images2010/S24/Documenti/2026/08/23/Immagini/Ritagli/Abodi-U34107557421qDR-1440x752@IlSole24Ore-Web.jpeg?r=1170x507",
+              "url": "https://www.ilsole24ore.com/art/abodi-e-gonxhja-incontro-vista-giochi-mediterraneo-2030-kosovo-e-albania-AJxnnEs",
+              "date": "2026-08-22",
+              "sentiment": "neutral",
+              "reason": "Neutral headline about a meeting",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1834,6 +1821,26 @@
               "speaker": ""
             }
           ]
+        },
+        {
+          "name": "studio100.it",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "La SS Taranto protagonista allo Iacovone: presentazione della squadra durante Italia-Kosovo - studio100.it",
+              "albanianTitle": "SS Taranto shkëlqen në stadiumin Iacovone: prezantimi i ekipit gjatë ndeshjes Itali-Kosovë",
+              "blurb": "Ekipi i futbollit SS Taranto prezantohet para publikut gjatë ndeshjes ndërmjet Italisë dhe Kosovës në stadiumin Iacovone.",
+              "imageUrl": "https://www.studio100.it/wp-content/uploads/2025/09/stadio-iacovone-.jpg",
+              "url": "https://www.studio100.it/2026/08/22/la-ss-taranto-protagonista-allo-iacovone-presentazione-della-squadra-durante-italia-kosovo/",
+              "date": "2026-08-22",
+              "sentiment": "neutral",
+              "reason": "Faktik, pa ngjyrë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
         }
       ],
       "summary": {
@@ -1841,7 +1848,7 @@
         "positive": 5,
         "neutral": 95,
         "negative": 0,
-        "n": 20,
+        "n": 21,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2
@@ -2278,26 +2285,6 @@
           ]
         },
         {
-          "name": "Ode (Purepeople)",
-          "sentiment": "positive",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Dua Lipa aide la jeunesse du Kosovo, d'où est originaire sa famille - Ode (Purepeople)",
-              "albanianTitle": "Dua Lipa ndihmon rininë e Kosovës, vendit prej nga e ka origjinën familja e saj",
-              "blurb": "Këngëtarja me prejardhje nga Kosova, Dua Lipa, po angazhohet në mbështetjen e të rinjve në vendin e saj.",
-              "imageUrl": "https://static1.purepeople.com/uploads/15/7b/3f/a5/2d304535ecbcea07-1200x630-2.jpg",
-              "url": "https://www.purepeople.com/diapo/nous-avons-tout-perdu-comment-dua-lipa-sinvestit-avec-son-frere-pour-leur-pays-dorigine_a552969/1",
-              "date": "2026-08-22",
-              "sentiment": "positive",
-              "reason": "Outlet expresses supportive tone toward Kosovo",
-              "isQuote": false,
-              "evidence": "aide la jeunesse du Kosovo",
-              "speaker": ""
-            }
-          ]
-        },
-        {
           "name": "Reporteri",
           "sentiment": "neutral",
           "articleCount": 4,
@@ -2408,12 +2395,32 @@
               "speaker": ""
             }
           ]
+        },
+        {
+          "name": "horizons.dz",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Volley-ball dames: l’Algérie battue par le Kosovo dès son entrée aux Jeux Méditerranéens - horizons.dz",
+              "albanianTitle": "Volejboll për femra: Algjeria mposhtet nga Kosova në ndeshjen e parë në Lojërat Mesdhetare",
+              "blurb": "Përfaqësuesja e Kosovës në volejboll për femra ka mposhtur Algjerinë në ndeshjen e parë të Lojërave Mesdhetare.",
+              "imageUrl": null,
+              "url": "https://www.horizons.dz/2026/08/volley-ball-dames-lalgerie-battue-par-le-kosovo-des-son-entree-aux-jeux-mediterraneens/",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Raportim neutral i rezultatit sportiv",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
         }
       ],
       "summary": {
-        "index": 53,
-        "positive": 7,
-        "neutral": 93,
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
         "negative": 0,
         "n": 15,
         "excluded": 0,
@@ -2423,26 +2430,6 @@
     },
     "Spanjë": {
       "outlets": [
-        {
-          "name": "CNN en Español",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Picos de los Balcanes: la épica ruta de senderismo que explora una de las últimas grandes zonas silvestres de Europa - CNN en Español",
-              "albanianTitle": "Majat e Ballkanit: Shtegu epik i ecjes që eksploron një nga zonat e fundit të egra të Evropës",
-              "blurb": "Shtegu i ecjes Picos de los Balcanes përshkruhet si një rrugë që eksploron zonat e egra evropiane.",
-              "imageUrl": "https://media.cnn.com/api/v1/images/stellar/prod/gettyimages-2226212944-20260819174746270.jpg?c=16x9&q=w_800,c_fill",
-              "url": "https://cnnespanol.cnn.com/2026/08/19/viajes/picos-balcanes-senderismo-montenegro-albania-kosovo-trax",
-              "date": "2026-08-19",
-              "sentiment": "neutral",
-              "reason": "Faktik, pa gjuhë ngarkuar",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
         {
           "name": "El Comercio Perú",
           "sentiment": "neutral",
@@ -2564,6 +2551,26 @@
           ]
         },
         {
+          "name": "Notimérica",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo.- Serbia pide a la misión de la OTAN en Kosovo que reconsidere su retirada del puente Ibar de Mitrovica - Notimérica",
+              "albanianTitle": "Serbia i kërkon misionit të NATO-s në Kosovë që të rishqyrtojë tërheqjen nga ura e Ibrit në Mitrovicë",
+              "blurb": "Serbia kërkon nga misioni i NATO-s në Kosovë që të rishqyrtojë vendimin për tërheqjen nga ura e Ibrit.",
+              "imageUrl": "https://img.europapress.es/fotoweb/fotonoticia_20260822092320_1200.jpg",
+              "url": "https://www.notimerica.com/politica/noticia-kosovo-serbia-pide-mision-otan-kosovo-reconsidere-retirada-puente-ibar-mitrovica-20260822092320.html",
+              "date": "2026-08-22",
+              "sentiment": "neutral",
+              "reason": "Faktik, pa ngjyrë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "Pia Global",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -2604,6 +2611,26 @@
           ]
         },
         {
+          "name": "Reporteri",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Ky është çmimi i naftës për sot në Kosovë - Reporteri",
+              "albanianTitle": "Ky është çmimi i naftës për sot në Kosovë",
+              "blurb": "Publikohen çmimet zyrtare të naftës për tregun e Kosovës të vlefshme për ditën e sotme në pikat e shitjes.",
+              "imageUrl": null,
+              "url": "https://reporteri.net/es/noticias/Este-es-el-precio-del-petr%C3%B3leo-de-hoy-en-Kosovo-8/",
+              "date": "2026-08-22",
+              "sentiment": "neutral",
+              "reason": "Faktik, pa ngjyrë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "World Baseball Softball Confederation (WBSC)",
           "sentiment": "positive",
           "articleCount": 1,
@@ -2624,19 +2651,19 @@
           ]
         },
         {
-          "name": "laradiodelmercosur.com.ar",
-          "sentiment": "unknown",
+          "name": "Zona Cero",
+          "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
-              "title": "Noticias Mundo - laradiodelmercosur.com.ar",
-              "albanianTitle": "Lajme nga bota – laradiodelmercosur.com.ar",
-              "blurb": "Përmbledhje e lajmeve të fundit nga bota të publikuara në platformën mediatike La Radio del Mercosur.",
-              "imageUrl": null,
-              "url": "https://laradiodelmercosur.com.ar/mundiales/17842/Colombia-recibe-cartas-credenciales-de-embajadores-de-Israel-El-Salvador-India-y-Kosovo",
+              "title": "Colombia recibe cartas credenciales de embajadores de India, El Salvador, Israel y Kosovo - Zona Cero",
+              "albanianTitle": "Kolumbia pranon letrat kredenciale të ambasadorëve nga India, El Salvadori, Izraeli dhe Kosova",
+              "blurb": "Kolumbia pranon letrat kredenciale nga ambasadorët e Indisë, El Salvadorit, Izraelit dhe të Kosovës në një ceremoni zyrtare.",
+              "imageUrl": "http://zonacero.com/sites/default/files/styles/1280_x_530_noticia_interna/public/2026-08/El%20Canciller%20con%20los%20embajadores%20de%20India%2C%20El%20Salvador%2C%20Israel%20y%20Kosovo.jpg?h=38f64a54&itok=wpX6FY62",
+              "url": "http://zonacero.com/generales/colombia-recibe-cartas-credenciales-de-embajadores-de-india-el-salvador-israel-y-kosovo",
               "date": "2026-08-22",
-              "sentiment": "unknown",
-              "reason": "Nuk ka informacion rreth Kosovës në titull",
+              "sentiment": "neutral",
+              "reason": "Faktik, pa ngjyrë",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -2645,12 +2672,12 @@
         }
       ],
       "summary": {
-        "index": 55,
-        "positive": 10,
-        "neutral": 90,
+        "index": 54,
+        "positive": 8,
+        "neutral": 92,
         "negative": 0,
-        "n": 10,
-        "excluded": 1,
+        "n": 12,
+        "excluded": 0,
         "confident": true,
         "stanceVersion": 2
       }
@@ -3234,14 +3261,14 @@
           "articleCount": 1,
           "articles": [
             {
-              "title": "Kosowo 3x3 W wyniki - Koszykówka, Europa - Wyniki na żywo",
-              "albanianTitle": "Rezultatet e Kosovës në 3x3 - Basketboll, Evropë - Rezultatet live",
-              "blurb": "Rezultatet e ndeshjeve të basketbollit 3x3 për femra të përfaqësueses së Kosovës janë publikuar në platformën e rezultateve live.",
+              "title": "Kosowo 3x3 W Terminarz - Koszykówka, Europa - Wyniki na żywo",
+              "albanianTitle": "Kosova 3x3: Orari i ndeshjeve – Basketboll, Evropë – Rezultatet live",
+              "blurb": "Publikohet orari i ndeshjeve për ekipin e basketbollit 3x3 të femrave të Kosovës në kuadër të garave evropiane.",
               "imageUrl": "https://www.flashscore.pl/res/_fs/image/og/flashscore.png",
-              "url": "https://www.flashscore.pl/druzyna/kosovo/h005gVOP/wyniki/",
+              "url": "https://www.flashscore.pl/druzyna/kosovo/h005gVOP/mecze/",
               "date": "2026-08-22",
               "sentiment": "neutral",
-              "reason": "Neutral live scores",
+              "reason": "Faktik, pa ngjyrë",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -3376,6 +3403,26 @@
           ]
         },
         {
+          "name": "Haber Ege",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Cemil Tugay’dan Kosova’da iş birliği ve İzmir Günleri mesajı - Haber Ege",
+              "albanianTitle": "Cemil Tugay jep mesazh për bashkëpunim dhe Ditët e Izmirit në Kosovë",
+              "blurb": "Kryetari i Izmirit, Cemil Tugay, dërgon mesazh për bashkëpunim dhe organizimin e Ditëve të Izmirit në Kosovë.",
+              "imageUrl": null,
+              "url": "https://www.haberege.com.tr/izmir-ile-kosova-arasindaki-iletisim-gucleniyor-1787405224-3640509",
+              "date": "2026-08-22",
+              "sentiment": "neutral",
+              "reason": "Faktik, pa ngjyrë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "Haber Ekspres",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -3473,19 +3520,6 @@
               "speaker": ""
             },
             {
-              "title": "Haradinaj: Thaçi'nin Görev Süresi İade Edilmeli - Kosovahaber.com",
-              "albanianTitle": "Haradinaj: Thaçit duhet t'i kthehet mandati",
-              "blurb": "Ramush Haradinaj ka kërkuar që t'i kthehet mandati ish-presidentit Hashim Thaçi në lidhje me funksionimin e institucioneve të vendit.",
-              "imageUrl": null,
-              "url": "https://kosovahaber.com/haber/haradinaj-thacinin-gorev-suresi-iade-edilmeli-105181",
-              "date": "2026-08-22",
-              "sentiment": "neutral",
-              "reason": "Titulli thjesht transmeton deklaratën e Haradinajt pa gjuhë ngarkuar",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
               "title": "AB: Kurumların Oluşturulmasındaki Gecikme Fırsatları Riske Atıyor - Kosovahaber.com",
               "albanianTitle": "BE: Vonesa në formimin e institucioneve po rrezikon mundësitë për zhvillim",
               "blurb": "Bashkimi Evropian vlerëson se vonesat në krijimin e institucioneve të reja po rrezikojnë mundësitë për zhvillimin e vendit.",
@@ -3497,23 +3531,16 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "Malatya Güncel",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
+            },
             {
-              "title": "Vucic, NATO'dan Kosova'daki Sırplara yönelik şiddeti durdurmasını talep etti - Malatya Güncel",
-              "albanianTitle": "Vučić i kërkon NATO-s ndalimin e dhunës ndaj serbëve në Kosovë",
-              "blurb": "Aleksandar Vuçiq ka kërkuar nga NATO-ja ndërhyrje për të ndaluar dhunën ndaj serbëve në territorin e Kosovës.",
-              "imageUrl": "https://www.malatyaguncel.com/d/news/556428_ilkha_01.jpg",
-              "url": "https://www.malatyaguncel.com/vucic-nato-dan-kosova-daki-sirplara-yonelik-sidde-3107982h.htm",
-              "date": "2026-08-20",
+              "title": "PDK ve İttifak, Kömürün Kuzey Makedonya'ya Satılmasına Karşı - Kosovahaber.com",
+              "albanianTitle": "PDK dhe Aleanca kundërshtojnë shitjen e thëngjillit në Maqedoninë e Veriut - Kosovahaber.com",
+              "blurb": "PDK dhe Aleanca për Ardhmërinë e Kosovës kundërshtojnë shitjen e thëngjillit për shtetin e Maqedonisë së Veriut.",
+              "imageUrl": null,
+              "url": "https://kosovahaber.com/haber/pdk-ve-ittifak-komurun-kuzey-makedonyaya-satilmasina-karsi-105167",
+              "date": "2026-08-22",
               "sentiment": "neutral",
-              "reason": "Faktik raportim pa ngarkim",
+              "reason": "Report of political position, no hostile or praising tone",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -3649,7 +3676,7 @@
         {
           "name": "Son Dakika",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 1,
           "articles": [
             {
               "title": "Kosova'da Halter Şampiyonası Başladı - Son Dakika",
@@ -3660,19 +3687,6 @@
               "date": "2026-08-20",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Kosovo'da Savaş Suçları Soruşturması: 23 Kalıntı Bulundu - Son Dakika",
-              "albanianTitle": "Hetimet për krime lufte në Kosovë: Genden mbetjet mortore të 23 personave",
-              "blurb": "Hetimet për krimet e luftës në Kosovë kanë rezultuar me gjetjen e mbetjeve mortore të njëzet e tre personave.",
-              "imageUrl": "https://foto.sondakika.com/haber/2026/08/19/kosova-da-savas-suclari-sorusturmasi-23-kisiy-20159336_amp.jpg",
-              "url": "https://www.sondakika.com/3-sayfa/haber-kosovo-da-savas-suclari-sorusturmasi-23-kalinti-bu-20159357/",
-              "date": "2026-08-19",
-              "sentiment": "neutral",
-              "reason": "Faktik raportim i hetimeve të luftës në Kosovë",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -3705,12 +3719,12 @@
           "articleCount": 3,
           "articles": [
             {
-              "title": "Andorra - Kosova, 12 Eki 2023 - Avrupa Şampiyonası Elemeleri - Maç raporu - Transfermarkt",
-              "albanianTitle": "Andorra - Kosovë, 12 tetor 2023 - Kualifikimet për Kampionatin Evropian - Raporti i ndeshjes - Transfermarkt",
-              "blurb": "Kombëtarja e Kosovës në futboll zhvilloi ndeshjen kualifikuese për Kampionatin Evropian kundër përfaqësueses së Andorrës më dymbëdhjetë tetor.",
+              "title": "İsveç - Kosova, 12 Oca 2020 - Hazırlık Maçları - Maç raporu - Transfermarkt",
+              "albanianTitle": "Suedi – Kosovë, 12 janar 2020 – Ndeshje miqësore – Raporti i ndeshjes – Transfermarkt",
+              "blurb": "Ndeshja miqësore ndërmjet Suedisë dhe Kosovës e zhvilluar më 12 janar 2020 është dokumentuar në raportin zyrtar të Transfermarkt.",
               "imageUrl": null,
-              "url": "https://www.transfermarkt.com.tr/andorra_kosovo/vorbericht/spielbericht/3941633",
-              "date": "2026-08-21",
+              "url": "https://www.transfermarkt.com.tr/begegnung/index/spielbericht/3304907",
+              "date": "2026-08-20",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike",
               "isQuote": false,
@@ -3718,12 +3732,12 @@
               "speaker": ""
             },
             {
-              "title": "İsveç - Kosova, 12 Oca 2020 - Hazırlık Maçları - Maç raporu - Transfermarkt",
-              "albanianTitle": "Suedi – Kosovë, 12 janar 2020 – Ndeshje miqësore – Raporti i ndeshjes – Transfermarkt",
-              "blurb": "Ndeshja miqësore ndërmjet Suedisë dhe Kosovës e zhvilluar më 12 janar 2020 është dokumentuar në raportin zyrtar të Transfermarkt.",
+              "title": "Andorra - Kosova, 12 Eki 2023 - Avrupa Şampiyonası Elemeleri - Maç raporu - Transfermarkt",
+              "albanianTitle": "Andorra - Kosovë, 12 tetor 2023 - Kualifikimet për Kampionatin Evropian - Raporti i ndeshjes - Transfermarkt",
+              "blurb": "Kombëtarja e Kosovës në futboll zhvilloi ndeshjen kualifikuese për Kampionatin Evropian kundër përfaqësueses së Andorrës më dymbëdhjetë tetor.",
               "imageUrl": null,
-              "url": "https://www.transfermarkt.com.tr/begegnung/index/spielbericht/3304907",
-              "date": "2026-08-20",
+              "url": "https://www.transfermarkt.com.tr/andorra_kosovo/vorbericht/spielbericht/3941633",
+              "date": "2026-08-21",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike",
               "isQuote": false,
@@ -3802,6 +3816,26 @@
               "isQuote": true,
               "evidence": "",
               "speaker": "Zaharova"
+            }
+          ]
+        },
+        {
+          "name": "malatyaguncel.com",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Vucic, NATO'dan Kosova'daki Sırplara yönelik şiddeti durdurmasını talep etti - Malatya Güncel",
+              "albanianTitle": "Vučić i kërkon NATO-s ndalimin e dhunës ndaj serbëve në Kosovë",
+              "blurb": "Aleksandar Vuçiq ka kërkuar nga NATO-ja ndërhyrje për të ndaluar dhunën ndaj serbëve në territorin e Kosovës.",
+              "imageUrl": "https://www.malatyaguncel.com/d/news/556428_ilkha_01.jpg",
+              "url": "https://www.malatyaguncel.com/vucic-nato-dan-kosova-daki-sirplara-yonelik-sidde-3107982h.htm",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Faktik raportim pa ngarkim",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ]
         },
@@ -3904,7 +3938,7 @@
         "positive": 5,
         "neutral": 95,
         "negative": 0,
-        "n": 55,
+        "n": 56,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2

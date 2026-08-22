@@ -2238,8 +2238,8 @@
   {
     "date": "2026-08-22",
     "overallIndex": 52,
-    "totalArticles": 234,
-    "sourceCount": 165,
+    "totalArticles": 237,
+    "sourceCount": 168,
     "stanceVersion": 2,
     "countries": {
       "Gjermani": {
@@ -2274,10 +2274,10 @@
       },
       "Francë": {
         "index": 54,
-        "positive": 7,
-        "neutral": 93,
+        "positive": 8,
+        "neutral": 92,
         "negative": 0,
-        "n": 14,
+        "n": 13,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -2287,7 +2287,7 @@
         "positive": 5,
         "neutral": 95,
         "negative": 0,
-        "n": 20,
+        "n": 21,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2
@@ -2323,9 +2323,9 @@
         "stanceVersion": 2
       },
       "Belgjikë": {
-        "index": 53,
-        "positive": 7,
-        "neutral": 93,
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
         "negative": 0,
         "n": 15,
         "excluded": 0,
@@ -2333,12 +2333,12 @@
         "stanceVersion": 2
       },
       "Spanjë": {
-        "index": 55,
-        "positive": 10,
-        "neutral": 90,
+        "index": 54,
+        "positive": 8,
+        "neutral": 92,
         "negative": 0,
-        "n": 10,
-        "excluded": 1,
+        "n": 12,
+        "excluded": 0,
         "confident": true,
         "stanceVersion": 2
       },
@@ -2377,7 +2377,7 @@
         "positive": 5,
         "neutral": 95,
         "negative": 0,
-        "n": 55,
+        "n": 56,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
