@@ -2238,8 +2238,8 @@
   {
     "date": "2026-08-22",
     "overallIndex": 52,
-    "totalArticles": 204,
-    "sourceCount": 147,
+    "totalArticles": 210,
+    "sourceCount": 149,
     "stanceVersion": 2,
     "countries": {
       "Gjermani": {
@@ -2273,6 +2273,26 @@
         "stanceVersion": 2
       },
       "Francë": {
+        "index": 58,
+        "positive": 17,
+        "neutral": 83,
+        "negative": 0,
+        "n": 6,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 2
+      },
+      "Itali": {
+        "index": 53,
+        "positive": 6,
+        "neutral": 94,
+        "negative": 0,
+        "n": 16,
+        "excluded": 1,
+        "confident": true,
+        "stanceVersion": 2
+      },
+      "Austri": {
         "index": 50,
         "positive": 0,
         "neutral": 100,
@@ -2282,34 +2302,14 @@
         "confident": false,
         "stanceVersion": 2
       },
-      "Itali": {
-        "index": 53,
-        "positive": 7,
-        "neutral": 93,
-        "negative": 0,
-        "n": 15,
-        "excluded": 2,
-        "confident": true,
-        "stanceVersion": 2
-      },
-      "Austri": {
+      "Zvicër": {
         "index": 50,
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 3,
-        "excluded": 0,
-        "confident": false,
-        "stanceVersion": 2
-      },
-      "Zvicër": {
-        "index": 58,
-        "positive": 17,
-        "neutral": 83,
-        "negative": 0,
-        "n": 6,
+        "n": 4,
         "excluded": 1,
-        "confident": true,
+        "confident": false,
         "stanceVersion": 2
       },
       "Holandë": {
@@ -2323,11 +2323,11 @@
         "stanceVersion": 2
       },
       "Belgjikë": {
-        "index": 50,
-        "positive": 0,
-        "neutral": 100,
+        "index": 56,
+        "positive": 12,
+        "neutral": 88,
         "negative": 0,
-        "n": 6,
+        "n": 8,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -2348,7 +2348,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 26,
-        "excluded": 2,
+        "excluded": 0,
         "confident": true,
         "stanceVersion": 2
       },
@@ -2367,7 +2367,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 1,
+        "n": 2,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
@@ -2377,17 +2377,17 @@
         "positive": 6,
         "neutral": 94,
         "negative": 0,
-        "n": 52,
+        "n": 54,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
       },
       "Kroaci": {
-        "index": 56,
-        "positive": 12,
-        "neutral": 88,
+        "index": 57,
+        "positive": 13,
+        "neutral": 87,
         "negative": 0,
-        "n": 16,
+        "n": 15,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2
@@ -2403,19 +2403,19 @@
         "sentiment": "positive"
       },
       {
+        "title": "Dua Lipa aide la jeunesse du Kosovo, d'où est originaire sa famille - Ode (Purepeople)",
+        "source": "Ode (Purepeople)",
+        "country": "Francë",
+        "flag": "🇫🇷",
+        "url": "https://www.purepeople.com/diapo/nous-avons-tout-perdu-comment-dua-lipa-sinvestit-avec-son-frere-pour-leur-pays-dorigine_a552969/1",
+        "sentiment": "positive"
+      },
+      {
         "title": "Kosovo. Pristina, la grande sopresa del nuoto. - Nuoto.com",
         "source": "Nuoto.com",
         "country": "Itali",
         "flag": "🇮🇹",
         "url": "https://www.nuoto.com/articolo/calendari-e-meeting/kosovo-pristina-la-grande-sopresa-del-nuoto/",
-        "sentiment": "positive"
-      },
-      {
-        "title": "KFOR: Damit Ibër Bridge die Institutionen der EU und des Kosovo befragt, unterstützen wir diplomatische Bemühungen - Periskopi",
-        "source": "Periskopi",
-        "country": "Zvicër",
-        "flag": "🇨🇭",
-        "url": "https://periskopi.com/de/2026/8/kfor-iber-bridge-institutionen-eu-kosovo-befragt-unterstutzen-diplomatische-bemuhungen",
         "sentiment": "positive"
       },
       {

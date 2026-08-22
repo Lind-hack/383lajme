@@ -1,8 +1,8 @@
 {
   "lastUpdated": "2026-08-22",
   "overallIndex": 52,
-  "totalArticles": 204,
-  "sourceCount": 147,
+  "totalArticles": 210,
+  "sourceCount": 149,
   "stanceVersion": 2,
   "countries": {
     "Gjermani": {
@@ -513,7 +513,7 @@
           ]
         },
         {
-          "name": "UNICEF",
+          "name": "Unicef",
           "sentiment": "neutral",
           "articleCount": 2,
           "articles": [
@@ -1029,14 +1029,14 @@
           "articleCount": 1,
           "articles": [
             {
-              "title": "Will justice ever be served for Kosovo war victims? - TRT World",
-              "albanianTitle": "A do të vihet ndonjëherë drejtësia në vend për viktimat e luftës në Kosovë? - TRT World",
-              "blurb": "Viktima të luftës në Kosovë kërkojnë drejtësi për krimet e kryera gjatë konfliktit të armatosur në vend.",
+              "title": "Kosovo still searching for loved ones three decades after the war - TRT World",
+              "albanianTitle": "Kosova ende në kërkim të më të dashurve të tyre tri dekada pas luftës - TRT World",
+              "blurb": "Familjarët në Kosovë vazhdojnë kërkimet për të pagjeturit e luftës edhe tri dekada pas përfundimit të konfliktit të armatosur.",
               "imageUrl": null,
-              "url": "https://www.trtworld.com/video/tv/shows/683ef3c9cff794df564280c5/play/79c92cb03c09",
+              "url": "https://www.trtworld.com/video/tv/shows/683ef3c9cff794df564280c5/play/4f7f32df896b",
               "date": "2026-08-21",
               "sentiment": "neutral",
-              "reason": "Faktikisht pyetje pa ngarkim gjuhësor",
+              "reason": "Lajm i raportuar në mënyrë faktike",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1064,7 +1064,7 @@
           ]
         },
         {
-          "name": "UNICEF",
+          "name": "Unicef",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
@@ -1204,6 +1204,26 @@
           ]
         },
         {
+          "name": "Ode (Purepeople)",
+          "sentiment": "positive",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Dua Lipa aide la jeunesse du Kosovo, d'où est originaire sa famille - Ode (Purepeople)",
+              "albanianTitle": "Dua Lipa ndihmon rininë e Kosovës, vendit prej nga e ka origjinën familja e saj",
+              "blurb": "Këngëtarja me prejardhje nga Kosova, Dua Lipa, po angazhohet në mbështetjen e të rinjve në vendin e saj.",
+              "imageUrl": "https://static1.purepeople.com/uploads/15/7b/3f/a5/2d304535ecbcea07-1200x630-2.jpg",
+              "url": "https://www.purepeople.com/diapo/nous-avons-tout-perdu-comment-dua-lipa-sinvestit-avec-son-frere-pour-leur-pays-dorigine_a552969/1",
+              "date": "2026-08-22",
+              "sentiment": "positive",
+              "reason": "Outlet expresses supportive tone toward Kosovo",
+              "isQuote": false,
+              "evidence": "aide la jeunesse du Kosovo",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "Reporteri",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1217,6 +1237,26 @@
               "date": "2026-08-21",
               "sentiment": "neutral",
               "reason": "Titulli thjesht raporton shqetësimin e BE-së, pa gjuhë përçmuese",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "footafrique.com",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Précieuse victoire de l’Algérie face au Kosovo (2 – 1) - footafrique.com",
+              "albanianTitle": "Fitore e vështirë e Algjerisë ndaj Kosovës (2-1)",
+              "blurb": "Kombëtarja e Algjerisë ka shënuar fitore me rezultat 2 me 1 ndaj përfaqësueses së Kosovës në futboll.",
+              "imageUrl": null,
+              "url": "https://www.footafrique.com/precieuse-victoire-de-lalgerie-face-au-kosovo-2-1/",
+              "date": "2026-08-22",
+              "sentiment": "neutral",
+              "reason": "Neutral reporting of sports result",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1245,13 +1285,13 @@
         }
       ],
       "summary": {
-        "index": 50,
-        "positive": 0,
-        "neutral": 100,
+        "index": 58,
+        "positive": 17,
+        "neutral": 83,
         "negative": 0,
-        "n": 4,
+        "n": 6,
         "excluded": 0,
-        "confident": false,
+        "confident": true,
         "stanceVersion": 2
       }
     },
@@ -1371,19 +1411,19 @@
           ]
         },
         {
-          "name": "Gazzetta Regionale",
-          "sentiment": "unknown",
+          "name": "Fijlkam",
+          "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
-              "title": "XX Giochi del Mediterraneo: domani sera a Taranto la Cerimonia di apertura - Gazzetta Regionale",
-              "albanianTitle": "Lojërat Mesdhetare XX: Nesër mbrëma në Taranto mbahet ceremonia e hapjes - Gazzetta Regionale",
-              "blurb": "Ceremonia e hapjes së Lojërave të njëzetë Mesdhetare do të mbahet nesër në mbrëmje në qytetin italian të Tarantos.",
-              "imageUrl": "https://www.gazzettaregionale.it/resizer/600/315/true/2026_08_20/itataranto2026-jpg-jpg-1787231217820.jpg--xx_giochi_del_mediterraneo__domani_sera_a_taranto_la_cerimonia_di_apertura.jpg?1787231217838",
-              "url": "https://www.gazzettaregionale.it/primavera/2026/08/20/news/xx-giochi-del-mediterraneo-domani-sera-a-taranto-la-cerimonia-di-apertura-184341/",
-              "date": "2026-08-20",
-              "sentiment": "unknown",
-              "reason": "no mention of Kosovo in the item",
+              "title": "XXI Stage Internazionale di Judo FIJLKAM: Bella Italia sold out, presenti atleti da Kosovo, Slovenia, Gran Bretagna e Scozia - Fijlkam",
+              "albanianTitle": "Kampingu Ndërkombëtar i Xhudos FIJLKAM: 'Bella Italia' e mbushur plot, marrin pjesë sportistë nga Kosova, Sllovenia, Britania e Madhe dhe Skocia",
+              "blurb": "Sportistë nga Kosova po marrin pjesë në kampin ndërkombëtar të xhudos që po mbahet në Itali me pjesëmarrje të gjerë.",
+              "imageUrl": null,
+              "url": "https://www.fijlkam.it/judo/news-judo/11642-xxi-stage-internazionale-di-judo-fijlkam-bella-italia-sold-out,-presenti-atleti-da-kosovo,-slovenia,-gran-bretagna-e-scozia.html",
+              "date": "2026-08-22",
+              "sentiment": "neutral",
+              "reason": "Neutral factual mention of Kosovo athletes",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1531,19 +1571,19 @@
           ]
         },
         {
-          "name": "Virgilio",
+          "name": "Report Difesa",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
-              "title": "Sono iniziati i Giochi del Mediterraneo di Taranto 2026 Volley maschile, alle 12 Kosovo - Grecia al palaPentassuglia di Brindisi - Virgilio",
-              "albanianTitle": "Kanë nisur Lojërat Mesdhetare në Taranto, në volejboll për meshkuj në orën 12:00 përballen Kosova dhe Greqia në palaPentassuglia të Brindisit - Virgilio",
-              "blurb": "Kombëtarja e Kosovës në volejboll përballet me Greqinë në kuadër të Lojërave Mesdhetare që po zhvillohen në Itali.",
-              "imageUrl": "https://img.plug.it/img_newsreg_mid/9/5/6/57064659.jpg",
-              "url": "https://www.virgilio.it/italia/taranto/notizielocali/sono_iniziati_i_giochi_del_mediterraneo_di_taranto_2026_volley_maschile_alle_12_kosovo_grecia_al_palapentassuglia_di_brindisi-77268477.html",
-              "date": "2026-08-20",
+              "title": "Kosovo: il ponte conteso, sicurezza, sovranità e narrazioni lungo il fiume Ibar - Report Difesa",
+              "albanianTitle": "Kosova: Ura e kontestuar, siguria, sovraniteti dhe narrativat përgjatë lumit Ibër - Report Difesa",
+              "blurb": "Çështja e urës mbi lumin Ibër ndërlidhet me sigurinë, sovranitetin dhe narrativat politike në veri të territorit të Kosovës.",
+              "imageUrl": "https://www.reportdifesa.it/wp-content/uploads/2023/12/BRSH_Kosovo_Security_Force_KSF.jpg",
+              "url": "https://www.reportdifesa.it/kosovo-il-ponte-conteso-sicurezza-sovranita-e-narrazioni-lungo-il-fiume-ibar/",
+              "date": "2026-08-21",
               "sentiment": "neutral",
-              "reason": "Raportim sportiv i thjeshtë, pa gjuhë ngarkuese",
+              "reason": "Descriptive headline about contested bridge",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1593,11 +1633,11 @@
       ],
       "summary": {
         "index": 53,
-        "positive": 7,
-        "neutral": 93,
+        "positive": 6,
+        "neutral": 94,
         "negative": 0,
-        "n": 15,
-        "excluded": 2,
+        "n": 16,
+        "excluded": 1,
         "confident": true,
         "stanceVersion": 2
       }
@@ -1663,6 +1703,26 @@
               "speaker": ""
             }
           ]
+        },
+        {
+          "name": "Transfermarkt",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo - Kader im Detail 2023 (Galerie) | Seite 40 - Transfermarkt",
+              "albanianTitle": "Kosova - Kaderi në detaje 2023 (Galeria) | Faqja 40 - Transfermarkt",
+              "blurb": "Platforma Transfermarkt ka publikuar detajet dhe përbërjen e detajuar të lojtarëve të përfaqësueses së Kosovës për vitin 2023.",
+              "imageUrl": null,
+              "url": "https://www.transfermarkt.at/kosovo/kader/verein/53982/saison_id/2023/galerie/1/page/40",
+              "date": "2026-08-22",
+              "sentiment": "neutral",
+              "reason": "Neutral factual listing",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
         }
       ],
       "summary": {
@@ -1670,7 +1730,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 3,
+        "n": 4,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
@@ -1732,39 +1792,6 @@
           ]
         },
         {
-          "name": "Periskopi",
-          "sentiment": "neutral",
-          "articleCount": 2,
-          "articles": [
-            {
-              "title": "Der Verlust von zehn Millionen Euro aus der EU, Hamiti: Kosovo zahlt teuer für Albin Kurti Macht - Periskopi",
-              "albanianTitle": "Humbja e dhjetë milionë eurove nga BE-ja, Hamiti: Kosova po paguan shtrenjtë për pushtetin e Albin Kurtit - Periskopi",
-              "blurb": "Muhamet Hamiti thotë se humbja e dhjetë milionë eurove nga fondet e Bashkimit Evropian është kosto e qeverisjes Kurti.",
-              "imageUrl": null,
-              "url": "https://periskopi.com/de/2026/8/verlust-millionen-euro-eu-hamiti-kosovo-zahlt-teuer-albin-kurti",
-              "date": "2026-08-21",
-              "sentiment": "neutral",
-              "reason": "Reporting Hamiti's statement about Kosovo paying a price, no outlet endorsement",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "KFOR: Damit Ibër Bridge die Institutionen der EU und des Kosovo befragt, unterstützen wir diplomatische Bemühungen - Periskopi",
-              "albanianTitle": "KFOR: Për urën e Ibrit të pyeten institucionet e BE-së dhe të Kosovës, ne mbështesim përpjekjet diplomatike - Periskopi",
-              "blurb": "KFOR-i deklaron se mbështet përpjekjet diplomatike për çështjen e urës së Ibrit në koordinim me institucionet e Kosovës dhe BE-së.",
-              "imageUrl": null,
-              "url": "https://periskopi.com/de/2026/8/kfor-iber-bridge-institutionen-eu-kosovo-befragt-unterstutzen-diplomatische-bemuhungen",
-              "date": "2026-08-19",
-              "sentiment": "positive",
-              "reason": "Outlet expresses support for diplomatic efforts involving Kosovo",
-              "isQuote": false,
-              "evidence": "unterstützen wir diplomatische Bemühungen",
-              "speaker": ""
-            }
-          ]
-        },
-        {
           "name": "Tagesschau",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1806,13 +1833,13 @@
         }
       ],
       "summary": {
-        "index": 58,
-        "positive": 17,
-        "neutral": 83,
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 6,
+        "n": 4,
         "excluded": 1,
-        "confident": true,
+        "confident": false,
         "stanceVersion": 2
       }
     },
@@ -1933,9 +1960,29 @@
           ]
         },
         {
+          "name": "Ode (Purepeople)",
+          "sentiment": "positive",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Dua Lipa aide la jeunesse du Kosovo, d'où est originaire sa famille - Ode (Purepeople)",
+              "albanianTitle": "Dua Lipa ndihmon rininë e Kosovës, vendit prej nga e ka origjinën familja e saj",
+              "blurb": "Këngëtarja me prejardhje nga Kosova, Dua Lipa, po angazhohet në mbështetjen e të rinjve në vendin e saj.",
+              "imageUrl": "https://static1.purepeople.com/uploads/15/7b/3f/a5/2d304535ecbcea07-1200x630-2.jpg",
+              "url": "https://www.purepeople.com/diapo/nous-avons-tout-perdu-comment-dua-lipa-sinvestit-avec-son-frere-pour-leur-pays-dorigine_a552969/1",
+              "date": "2026-08-22",
+              "sentiment": "positive",
+              "reason": "Outlet expresses supportive tone toward Kosovo",
+              "isQuote": false,
+              "evidence": "aide la jeunesse du Kosovo",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "Reporteri",
           "sentiment": "neutral",
-          "articleCount": 3,
+          "articleCount": 4,
           "articles": [
             {
               "title": "PDK-ja për të pestën ditë bllokon hyrjen e Qeverisë, i bashkohen edhe prodhuesit vendor - Reporteri",
@@ -1946,6 +1993,19 @@
               "date": "2026-08-19",
               "sentiment": "neutral",
               "reason": "Faktikë politike, neutral reporting",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Grenell fajëson Kurtin e BE-në për dështim të arritjes së marrëveshjeve Kosovë-Serbi - Reporteri",
+              "albanianTitle": "Grenell fajëson Kurtin dhe BE-në për dështimin e arritjes së marrëveshjeve Kosovë-Serbi",
+              "blurb": "Richard Grenell ka kritikuar kryeministrin Kurti dhe Bashkimin Evropian për mungesën e marrëveshjeve në dialogun mes Kosovës dhe Serbisë.",
+              "imageUrl": null,
+              "url": "https://reporteri.net/fr/nouvelles/Grenell-accuse-Kurti-de-l%27UE-d%27%C3%AAtre-responsable-de-l%27%C3%A9chec-de-la-conclusion-d%27un-accord-entre-le-Kosovo-et-la-Serbie/",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Neutral report of criticism by Grenell",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -2000,11 +2060,11 @@
         }
       ],
       "summary": {
-        "index": 50,
-        "positive": 0,
-        "neutral": 100,
+        "index": 56,
+        "positive": 12,
+        "neutral": 88,
         "negative": 0,
-        "n": 6,
+        "n": 8,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -2252,19 +2312,6 @@
           "articleCount": 3,
           "articles": [
             {
-              "title": "Πρώτο σερβίς για την “μεσογειακή” Εθνική Ομάδα βόλεϊ γυναικών, απέναντι στο Κόσοβο - Ertsports.gr",
-              "albanianTitle": "Shërbimi i parë për kombëtaren e volejbollit të femrave të “Mesdhetarëve”, përballë Kosovës",
-              "blurb": "Kombëtarja e volejbollit të femrave të Greqisë luan ndeshjen e parë kundër përfaqësueses së Kosovës në volejboll.",
-              "imageUrl": "https://www.ertsports.gr/wp-content/uploads/2026/08/mediterrean-nt-wn2026-e1787206199564.jpg",
-              "url": "https://www.ertsports.gr/alla-spor/mesogeiakoi-agones/proto-servis-gia-tin-mesogeiaki-ethniki-omada-volei-gynaikon-apenanti-sto-kosovo/",
-              "date": "2026-08-20",
-              "sentiment": "neutral",
-              "reason": "Faktikë, pa ngjyrë",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
               "title": "Η Εθνική Ομάδα βόλεϊ διέλυσε το Κόσοβο στην πρεμιέρα των Μεσογειακών Αγώνων - Ertsports.gr",
               "albanianTitle": "Kombëtarja e volejbollit e mposhti thellë Kosovën në ndeshjen hapëse të Lojërave Mesdhetare - Ertsports.gr",
               "blurb": "Përfaqësuesja e volejbollit e Kosovës është mposhtur nga kombëtarja greke në ndeshjen e parë të Lojërave Mesdhetare.",
@@ -2273,6 +2320,19 @@
               "date": "2026-08-20",
               "sentiment": "neutral",
               "reason": "Fact-based report of a sports result without loaded language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Πρώτο σερβίς για την “μεσογειακή” Εθνική Ομάδα βόλεϊ γυναικών, απέναντι στο Κόσοβο - Ertsports.gr",
+              "albanianTitle": "Shërbimi i parë për kombëtaren e volejbollit të femrave të “Mesdhetarëve”, përballë Kosovës",
+              "blurb": "Kombëtarja e volejbollit të femrave të Greqisë luan ndeshjen e parë kundër përfaqësueses së Kosovës në volejboll.",
+              "imageUrl": "https://www.ertsports.gr/wp-content/uploads/2026/08/mediterrean-nt-wn2026-e1787206199564.jpg",
+              "url": "https://www.ertsports.gr/alla-spor/mesogeiakoi-agones/proto-servis-gia-tin-mesogeiaki-ethniki-omada-volei-gynaikon-apenanti-sto-kosovo/",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Faktikë, pa ngjyrë",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -2353,7 +2413,47 @@
           ]
         },
         {
-          "name": "SPORT24",
+          "name": "Sigmalive",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Νέα ένταση στο Κόσοβο: Στο επίκεντρο η γέφυρα του Ιμπάρ - Sigmalive",
+              "albanianTitle": "Tensione të reja në Kosovë: Në qendër të vëmendjes ura e Ibrit - Sigmalive",
+              "blurb": "Ura mbi lumin Ibër është bërë sërish pikë e tensionit në veri të Kosovës, duke nxitur reagime të ndryshme politike.",
+              "imageUrl": "https://cdn.sigmalive.com/thumbnails/1358249/conversions/ibar_river_bridge_mitrovica_serbia_kosovo_tensions-seo.jpg",
+              "url": "https://www.sigmalive.com/news/international/1326368/nea-entasi-sto-kosovo-sto-epikentro-i-ghefira-toy-impar",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Sofascore",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Türkiye 3x3 - Kosovo 3x3 ζωντανά αποτελέσματα, συγκριτικά, πρόγραμμα, προβλέψεις και στατιστικά - Sofascore",
+              "albanianTitle": "Turqia 3x3 - Kosova 3x3: Rezultatet live, statistikat, orari dhe parashikimet - Sofascore",
+              "blurb": "Platforma Sofascore ofron rezultatet, statistikat dhe orarin e ndeshjes së basketbollit 3x3 ndërmjet Turqisë dhe përfaqësueses së Kosovës.",
+              "imageUrl": null,
+              "url": "https://www.sofascore.com/el/basketball/match/kosovo-3x3-turkiye-3x3/BaajsQaaj",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Informacion sportiv i thjeshtë, pa ngjyrë vete",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Sport24",
           "sentiment": "neutral",
           "articleCount": 3,
           "articles": [
@@ -2399,66 +2499,6 @@
           ]
         },
         {
-          "name": "Sigmalive",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Νέα ένταση στο Κόσοβο: Στο επίκεντρο η γέφυρα του Ιμπάρ - Sigmalive",
-              "albanianTitle": "Tensione të reja në Kosovë: Në qendër të vëmendjes ura e Ibrit - Sigmalive",
-              "blurb": "Ura mbi lumin Ibër është bërë sërish pikë e tensionit në veri të Kosovës, duke nxitur reagime të ndryshme politike.",
-              "imageUrl": "https://cdn.sigmalive.com/thumbnails/1358249/conversions/ibar_river_bridge_mitrovica_serbia_kosovo_tensions-seo.jpg",
-              "url": "https://www.sigmalive.com/news/international/1326368/nea-entasi-sto-kosovo-sto-epikentro-i-ghefira-toy-impar",
-              "date": "2026-08-21",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "Skai.gr",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Ένταση στο Κόσοβο για το άνοιγμα μιας γέφυρας - Skai.gr",
-              "albanianTitle": "Tensione në Kosovë për hapjen e një ure - Skai.gr",
-              "blurb": "Hapja e urës mbi lumin Ibër në Mitrovicë ka shkaktuar rritje të tensioneve në pjesën veriore të Kosovës.",
-              "imageUrl": "https://cdn.skai.gr/sites/default/files/styles/article_16_9/public/feedelio/mitsovica-bridge.jpg?itok=QJp9iyTJ",
-              "url": "https://www.skai.gr/news/world/entasi-sto-kosovo-gia-to-anoigma-mias-gefyras",
-              "date": "2026-08-21",
-              "sentiment": "neutral",
-              "reason": "Faktikisht raporton tensionin në Kosovë pa gjuhë ngarkuese",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "THE BEST",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Μεσογειακοί Αγώνες 2026: Ιδανική πρεμιέρα η Εθνική βόλεϊ, 3-0 το Κόσοβο - THE BEST",
-              "albanianTitle": "Lojërat Mesdhetare 2026: Debutimi ideal i kombëtares së volejbollit, 3-0 ndaj Kosovës - THE BEST",
-              "blurb": "Kombëtarja e volejbollit e Greqisë ka mposhtur Kosovën me rezultat 3-0 në kuadër të Lojërave Mesdhetare të vitit 2026.",
-              "imageUrl": "https://newmedia.thebest.gr/i/share/ehcwueoros6a872f3832e4e.jpg",
-              "url": "https://www.thebest.gr/article/842352-mesogeiakoi-agones-2026-idaniki-premiera-i-ethniki-bolei-3-0-to-kosobo",
-              "date": "2026-08-20",
-              "sentiment": "neutral",
-              "reason": "Neutral reporting of a sports result, no loaded language",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
           "name": "The TOC",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -2472,26 +2512,6 @@
               "date": "2026-08-19",
               "sentiment": "neutral",
               "reason": "Fact‑based report of a Kosovar suspect, no loaded language",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "dete.gr",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Όσκαρ 2027: Ποιες ταινίες διεκδικούν με αξιώσεις μια θέση στις υποψηφιότητες - dete.gr",
-              "albanianTitle": "Oscars 2027: Cilat filma janë pretendentë për një vend në nominime - dete.gr",
-              "blurb": "Filmat që pritet të jenë pretendentë për nominime në ceremoninë e ndarjes së çmimeve Oscar për vitin 2027.",
-              "imageUrl": "https://dete.gr/wp-content/uploads/2026/08/ap26074092606010-scaled-1-1024x683.jpg",
-              "url": "https://dete.gr/oskar-2027-poies-tainies-diekdikoun-me-axioseis-mia-thesi-stis-ypopsifiotites/",
-              "date": "2026-08-22",
-              "sentiment": "unknown",
-              "reason": "No reference to Kosovo in the headline",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -2587,8 +2607,21 @@
         {
           "name": "Ελληνική Ομοσπονδία Πετοσφαίρισης",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 3,
           "articles": [
+            {
+              "title": "Μεσογειακοί αγώνες 2026: Πρώτο σερβίς για την εθνική γυναικών απέναντι στο Κόσοβο (20/8, 21.00) - Ελληνική Ομοσπονδία Πετοσφαίρισης",
+              "albanianTitle": "Lojërat Mesdhetare 2026: Shërbimi i parë për kombëtaren e femrave kundër Kosovës (20/8, 21:00)",
+              "blurb": "Kombëtarja e femrave në volejboll përballet me Kosovën më 20 gusht në kuadër të Lojërave Mesdhetare 2026.",
+              "imageUrl": "https://volleyball.gr/wp-content/uploads/2026/08/mediterrean-nt-wn2026.jpg",
+              "url": "https://volleyball.gr/mesogeiakoi-agones-2026-proto-servis-gia-tin-ethniki-gynaikon-apenanti-sto-kosovo-20-8-21-00/",
+              "date": "2026-08-19",
+              "sentiment": "neutral",
+              "reason": "Faktik, pa gjuhë ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
             {
               "title": "Μεσογειακοί Αγώνες 2026: Με το δεξί η Εθνική γυναικών, 3-0 το Κόσοβο - Ελληνική Ομοσπονδία Πετοσφαίρισης",
               "albanianTitle": "Lojërat Mesdhetare 2026: Greqia e nis me fitore ndaj Kosovës, 3-0 – Federata Greke e Volejbollit",
@@ -2611,26 +2644,6 @@
               "date": "2026-08-20",
               "sentiment": "neutral",
               "reason": "Fact‑based sports result, no hostile wording",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ]
-        },
-        {
-          "name": "Η Άποψη",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Conference League: Ο «καθρέφτης» των play off - Η Άποψη",
-              "albanianTitle": "Conference League: Pasqyra e fazës së play-off-it – Analizë",
-              "blurb": "Analizohen ndeshjet e fazës së play-off-it në kuadër të garës evropiane të futbollit, Conference League për sezonin aktual.",
-              "imageUrl": "https://www.iapopsi.gr/wp-content/uploads/2026/08/conference-1.jpg",
-              "url": "https://www.iapopsi.gr/conference-league-o-kathreftis-ton-play-off/",
-              "date": "2026-08-21",
-              "sentiment": "unknown",
-              "reason": "No reference to Kosovo in the headline",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -2717,7 +2730,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 26,
-        "excluded": 2,
+        "excluded": 0,
         "confident": true,
         "stanceVersion": 2
       }
@@ -2810,6 +2823,26 @@
               "speaker": ""
             }
           ]
+        },
+        {
+          "name": "Wyniki na żywo",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosowo 3x3 W wyniki - Koszykówka, Europa - Wyniki na żywo",
+              "albanianTitle": "Rezultatet e Kosovës në 3x3 - Basketboll, Evropë - Rezultatet live",
+              "blurb": "Rezultatet e ndeshjeve të basketbollit 3x3 për femra të përfaqësueses së Kosovës janë publikuar në platformën e rezultateve live.",
+              "imageUrl": "https://www.flashscore.pl/res/_fs/image/og/flashscore.png",
+              "url": "https://www.flashscore.pl/druzyna/kosovo/h005gVOP/wyniki/",
+              "date": "2026-08-22",
+              "sentiment": "neutral",
+              "reason": "Neutral live scores",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
         }
       ],
       "summary": {
@@ -2817,7 +2850,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 1,
+        "n": 2,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
@@ -2828,7 +2861,7 @@
         {
           "name": "Cumhuriyet",
           "sentiment": "positive",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "İzmir ile Kosova arasında çok yönlü iş birliği dönemi - Cumhuriyet",
@@ -2841,6 +2874,19 @@
               "reason": "Ton pozitiv për bashkëpunimin me Kosovën",
               "isQuote": false,
               "evidence": "çok yönlü iş birliği",
+              "speaker": ""
+            },
+            {
+              "title": "Kosova’da savaş suçları soruşturması: 23 kişiye ait kemik kalıntıları bulundu - Cumhuriyet",
+              "albanianTitle": "Hetimet për krime lufte në Kosovë: Gjehen mbetjet mortore të 23 personave - Cumhuriyet",
+              "blurb": "Gjatë hetimeve për krimet e luftës në Kosovë janë gjetur mbetjet mortore të njëzet e tre personave.",
+              "imageUrl": "https://media.cumhuriyet.com.tr/Archive/53153f83-5282-4b11-996f-48dfeb767ed9.jpg",
+              "url": "https://www.cumhuriyet.com.tr/dunya/kosova-da-savas-suclari-sorusturmasi-23-kisiye-ait-kemik-kalintilari-bulundu-2530603",
+              "date": "2026-08-19",
+              "sentiment": "neutral",
+              "reason": "Raportim i hetimit pa gjuhë ngarkuar ndaj Kosovës",
+              "isQuote": false,
+              "evidence": "",
               "speaker": ""
             }
           ]
@@ -2984,6 +3030,19 @@
           "articleCount": 6,
           "articles": [
             {
+              "title": "Kosova 8 Ağustos'tan Bu Yana Normal Durumda Değil - Kosovahaber.com",
+              "albanianTitle": "Kosova nuk është në gjendje normale që nga 8 gushti",
+              "blurb": "Situata në Kosovë vlerësohet si jo normale që nga data 8 gusht sipas raportimeve të fundit nga mediat.",
+              "imageUrl": null,
+              "url": "https://kosovahaber.com/haber/kosova-8-agustostan-bu-yana-normal-durumda-degil-105182",
+              "date": "2026-08-22",
+              "sentiment": "neutral",
+              "reason": "Titulli raporton situatën e Kosovës në mënyrë faktike pa gjuhë ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
               "title": "Geri Sayım Ekranları Kosova’nın Diğer Şehirlerine de Kurulacak - Kosovahaber.com",
               "albanianTitle": "Ekranet e numërimit mbrapsht do të vendosen edhe në qytetet e tjera të Kosovës - Kosovahaber.com",
               "blurb": "Ekranet me numërim mbrapsht do të vendosen edhe në qytete të tjera të Kosovës për shënimin e ngjarjeve të caktuara.",
@@ -3047,36 +3106,23 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
-            },
-            {
-              "title": "KFOR’un Varlığının Optimize Edilmesi Güvenlikteki İyileşmeyi Yansıtıyor - Kosovahaber.com",
-              "albanianTitle": "Optimizimi i pranisë së KFOR-it pasqyron përmirësimin e sigurisë - Kosovahaber.com",
-              "blurb": "Optimizimi i pranisë së forcave të KFOR-it në Kosovë reflekton përmirësimin e situatës së përgjithshme të sigurisë.",
-              "imageUrl": null,
-              "url": "https://kosovahaber.com/haber/kforun-varliginin-optimize-edilmesi-guvenlikteki-iyilesmeyi-yansitiyor-105152",
-              "date": "2026-08-21",
-              "sentiment": "neutral",
-              "reason": "Raportim neutral i përmirësimit të sigurisë në Kosovë",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
             }
           ]
         },
         {
-          "name": "Manşet Haber",
+          "name": "Malatya Güncel",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
-              "title": "Milli halterciler Kosova'da 6 altın madalya kazandı - Manşet Haber",
-              "albanianTitle": "Peshëngritësit kombëtarë rrëmbejnë 6 medalje të arta në Kosovë – Manset Haber",
-              "blurb": "Gjashtë medalje të arta janë fituar nga peshëngritësit kombëtarë në kampionatin që po mbahet në Kosovë.",
-              "imageUrl": "https://mansethaber.com/uploads/news/2026/08/6a8761ed88e31_1787257325.jpg",
-              "url": "https://mansethaber.com/spor/turk-halterciler-avrupadan-6-altin-madalya-ile-dondu",
+              "title": "Vucic, NATO'dan Kosova'daki Sırplara yönelik şiddeti durdurmasını talep etti - Malatya Güncel",
+              "albanianTitle": "Vučić i kërkon NATO-s ndalimin e dhunës ndaj serbëve në Kosovë",
+              "blurb": "Aleksandar Vuçiq ka kërkuar nga NATO-ja ndërhyrje për të ndaluar dhunën ndaj serbëve në territorin e Kosovës.",
+              "imageUrl": "https://www.malatyaguncel.com/d/news/556428_ilkha_01.jpg",
+              "url": "https://www.malatyaguncel.com/vucic-nato-dan-kosova-daki-sirplara-yonelik-sidde-3107982h.htm",
               "date": "2026-08-20",
               "sentiment": "neutral",
-              "reason": "Faktikë raporti pa gjuhë ngarkuar",
+              "reason": "Faktik raportim pa ngarkim",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -3106,8 +3152,21 @@
         {
           "name": "Odatv",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
+            {
+              "title": "Vucic, Türk komutanı hedef aldı... Odatv araştırdı: İbar Nehri'nden çıkan Osmanlı korkusu - Odatv",
+              "albanianTitle": "Vuçiq vë në shënjestër komandantin turk... Odatv hulumton: Frika nga osmanët që buron nga lumi Ibër",
+              "blurb": "Presidenti serb Vuçiq ka kritikuar komandantin turk të KFOR-it në lidhje me zhvillimet aktuale rreth lumit Ibër në Kosovë.",
+              "imageUrl": "https://img.odatv.com/rcman/Cw1280h720q95gc/storage/files/images/2026/08/21/vucic-turk-komutani-hedef-aldi-odatv-arastirdi-ibar-nehrinden-cikan-neo-osmanli-kabusu-fwjn.jpg",
+              "url": "https://www.odatv.com/guncel/vucic-turk-komutani-hedef-aldi-odatv-arastirdi-ibar-nehrinden-cikan-neo-osmanli-kabusu-120159511",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
             {
               "title": "Sırp lider KFOR komutanını hedef aldı: 'Bunu o Türk yapıyor' - Odatv",
               "albanianTitle": "Lideri serb sulmon komandantin e KFOR-it: 'Këtë po e bën ai turku' - Odatv",
@@ -3137,6 +3196,26 @@
               "date": "2026-08-21",
               "sentiment": "neutral",
               "reason": "Raportim neutral i dhimbjes historike në Kosovë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
+          "name": "Reporteri",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Thaçi me porosi nga Haga për krizën politike në Kosovë: Pozita dhe opozita duhet të ulen në një tryezë - Reporteri",
+              "albanianTitle": "Thaçi me porosi nga Haga për krizën politike në Kosovë: Pozita dhe opozita duhet të ulen në një tryezë",
+              "blurb": "Hashim Thaçi ka bërë thirrje nga Haga që pozita dhe opozita në Kosovë të zhvillojnë dialog për krizën politike.",
+              "imageUrl": null,
+              "url": "https://reporteri.net/tr/haberler/Thaci--Lahey%27den-Kosova%27daki-siyasi-krizle-ilgili-bir-mesaj-iletti%3A-h%C3%BCk%C3%BCmet-ve-muhalefet-ayn%C4%B1-masaya-oturmal%C4%B1./",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Titulli raporton kërkesën për dialog politik në Kosovë pa gjuhë ngarkuar",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -3252,8 +3331,21 @@
         {
           "name": "Transfermarkt",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 3,
           "articles": [
+            {
+              "title": "Andorra - Kosova, 12 Eki 2023 - Avrupa Şampiyonası Elemeleri - Maç raporu - Transfermarkt",
+              "albanianTitle": "Andorra - Kosovë, 12 tetor 2023 - Kualifikimet për Kampionatin Evropian - Raporti i ndeshjes - Transfermarkt",
+              "blurb": "Kombëtarja e Kosovës në futboll zhvilloi ndeshjen kualifikuese për Kampionatin Evropian kundër përfaqësueses së Andorrës më dymbëdhjetë tetor.",
+              "imageUrl": null,
+              "url": "https://www.transfermarkt.com.tr/andorra_kosovo/vorbericht/spielbericht/3941633",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
             {
               "title": "İsveç - Kosova, 12 Oca 2020 - Hazırlık Maçları - Maç raporu - Transfermarkt",
               "albanianTitle": "Suedi – Kosovë, 12 janar 2020 – Ndeshje miqësore – Raporti i ndeshjes – Transfermarkt",
@@ -3363,6 +3455,26 @@
           ]
         },
         {
+          "name": "İlkses Gazetesi",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "İzmir ile Kosova arasında yeni iş birlikleri için temaslar yoğunlaşıyor - İlkses Gazetesi",
+              "albanianTitle": "Intensifikohen kontaktet për bashkëpunime të reja mes Izmirit dhe Kosovës",
+              "blurb": "Përfaqësuesit e Izmirit dhe Kosovës kanë intensifikuar kontaktet për të krijuar mundësi të reja bashkëpunimi në fusha të ndryshme.",
+              "imageUrl": "https://ilkses.com.tr/image/2026/08/22/izmir-ile-kosova-arasinda-yeni-is-birlikleri-icin-temaslar-yogunlasiyor_large.webp",
+              "url": "https://ilkses.com.tr/izmir/izmir-ile-kosova-arasinda-yeni-is-birlikleri-icin-temaslar-yogunlasiyor-457800",
+              "date": "2026-08-22",
+              "sentiment": "neutral",
+              "reason": "Titulli përshkruan bashkëpunim të ri me Kosovën pa gjuhë ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ]
+        },
+        {
           "name": "İzmir Büyükşehir Belediyesi",
           "sentiment": "positive",
           "articleCount": 1,
@@ -3388,7 +3500,7 @@
         "positive": 6,
         "neutral": 94,
         "negative": 0,
-        "n": 52,
+        "n": 54,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 2
@@ -3523,26 +3635,6 @@
           ]
         },
         {
-          "name": "Euronews Albania",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "“Kosovo is Serbia”, Partizan Belgrade fans provoke during match in Spain - Euronews Albania",
-              "albanianTitle": "“Kosova është Serbi”, tifozët e Partizanit të Beogradit provokojnë gjatë ndeshjes në Spanjë - Euronews Albania",
-              "blurb": "Tifozët e Partizanit të Beogradit shfaqën parulla provokuese për Kosovën gjatë një ndeshjeje futbolli të zhvilluar në Spanjë.",
-              "imageUrl": null,
-              "url": "https://euronews.al/en/kosovo-is-serbia-partizan-belgrade-fans-provoke-during-match-in-spain/",
-              "date": "2026-08-22",
-              "sentiment": "neutral",
-              "reason": "Reporting a chant quoted from fans, no editorial judgement",
-              "isQuote": true,
-              "evidence": "",
-              "speaker": "Partizan Belgrade fans"
-            }
-          ]
-        },
-        {
           "name": "Global Voices",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -3643,7 +3735,7 @@
           ]
         },
         {
-          "name": "UNICEF",
+          "name": "Unicef",
           "sentiment": "neutral",
           "articleCount": 2,
           "articles": [
@@ -3717,11 +3809,11 @@
         }
       ],
       "summary": {
-        "index": 56,
-        "positive": 12,
-        "neutral": 88,
+        "index": 57,
+        "positive": 13,
+        "neutral": 87,
         "negative": 0,
-        "n": 16,
+        "n": 15,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2
