@@ -1,0 +1,77 @@
+# Does 383 still have any news?
+#
+# On 2026-08-22 the news_articles table read back empty and nobody was told.
+# The site did not error: it walked its fallback chain — Supabase, then the
+# committed batches in data/auto-articles, then SQLite — and landed on
+# MOCK_ARTICLES, ten invented stories that are written to look exactly like
+# real reporting. They were served under the masthead as the day's news until
+# a reader noticed.
+#
+# The fallbacks are now honest (an empty archive renders empty rather than
+# fabricated), which turns a silent wrong answer into a visible one. This turns
+# it into a loud one.
+#
+# Hourly, because a news site with no news is worth knowing about within the
+# hour, and this costs one HTTP request.
+name: News archive health
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "20 * * * *"
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Count published articles
+        env:
+          SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+        run: |
+          set -euo pipefail
+          if [ -z "${SUPABASE_URL:-}" ] || [ -z "${SUPABASE_ANON_KEY:-}" ]; then
+            echo "::error::Supabase secrets are not set on this repository."
+            exit 1
+          fi
+
+          # news_articles carries a public SELECT policy, so the anon key sees
+          # the true count rather than an RLS-filtered view of it.
+          range=$(curl -sS --max-time 45 -D - -o /dev/null \
+            -H "apikey: $SUPABASE_ANON_KEY" \
+            -H "Authorization: Bearer $SUPABASE_ANON_KEY" \
+            -H "Prefer: count=exact" \
+            -H "Range: 0-0" \
+            "$SUPABASE_URL/rest/v1/news_articles?select=id" \
+            | tr -d '\r' | awk -F': ' 'tolower($1)=="content-range"{print $2}')
+
+          echo "content-range: ${range:-<none>}"
+          total="${range##*/}"
+
+          if [ -z "$total" ] || ! [ "$total" -eq "$total" ] 2>/dev/null; then
+            echo "::error::Could not read an article count from Supabase (range: ${range:-none})."
+            exit 1
+          fi
+
+          echo "published articles: $total"
+
+          if [ "$total" -eq 0 ]; then
+            echo "::error::383 has zero published articles. The homepage is empty; readers see no news."
+            exit 1
+          fi
+          # Not fatal, but a collapsing archive is the shape the outage had.
+          if [ "$total" -lt 10 ]; then
+            echo "::warning::Only $total articles remain — well below a normal day."
+          fi
+
+      - name: Confirm the homepage is not serving sample copy
+        run: |
+          set -euo pipefail
+          html=$(curl -sS --max-time 45 https://www.383ks.com/)
+          # A slug from lib/mock-data.ts. It must never reach production.
+          if printf '%s' "$html" | grep -q "kosova-be-raport-2025"; then
+            echo "::error::The homepage is serving MOCK_ARTICLES as real news."
+            exit 1
+          fi
+          echo "No sample copy on the homepage."
