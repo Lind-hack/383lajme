@@ -1,0 +1,20 @@
+You are the sole editorial writer for the 383 Lajme production batch. Work only in /opt/data/workspaces/383lajme and write exactly one new JSON batch at data/auto-articles/2026-07-22T19.json. Do not edit application code, config, scripts, or any existing batch.
+
+Read these inputs first:
+- docs/383-cloud-news-automation.md
+- data/automation/cloud-news-discovery.json
+- /opt/data/home/Documents/Last30Days/kosovo-albania-balkans-europe-world-politics-economy-technology-sport-culture-raw.md
+- supabase/migrations/0003_news_articles_direct_publish.sql
+
+Research and editorial requirements:
+1. Build 13 original Albanian-language articles only from current, direct reputable publisher or official URLs. Social material and the last30days output are discovery leads only, not publication proof.
+2. Independently cross-check every candidate by opening the direct publisher or official URL. Do not use Google News intermediary URLs, social URLs, rumors, or unverified claims as article URLs. Reject any item whose direct source cannot be opened and verified.
+3. Use at least 8 distinct source families when viable and no Kosovo competitor as a primary source. Favor Kosovo, Albania, Balkans, Europe, world politics, economy, technology, sport and culture that are relevant to Albanian readers. Do not create filler or duplicate stories. Avoid URLs already used in data/auto-articles/2026-07-22T18.json.
+4. Every item must include every field required by the direct Supabase migration and the support validator: id, slug, url, dispatch, title, excerpt, body, source, source_flag, source_bias, tone, category, published_at, reading_time, featured, engagement_score, score_reason, score_breakdown, score_formula, image_url, image_width, image_height, created_at. Match the established JSON-array format.
+5. Titles and excerpts must be reader-facing Albanian and must not unnecessarily name publishers, platforms, or accounts. Place attribution in source metadata and only in body where editorially necessary.
+6. Each non-social article must have at least 500 Albanian words and at least five HTML paragraphs. Never invent facts. Preserve uncertainty where needed. Use direct sources in metadata. Social-driven items, if any, need full social metadata, but prefer verified non-social reporting.
+7. Every image must be real, publicly accessible, relevant to its individual article, unique within the batch, decodable, and at least 1200x675. Fetch/decode each image and record its actual dimensions. Replace any invalid or duplicate image rather than relaxing standards. Image URLs may be direct publisher images or relevant public images, but must pass those tests.
+8. Use the scoring formula and valid categories from the existing support rules. Generate original, natural Albanian newsroom prose, not templated boilerplate.
+9. Do not run git, GitHub, Vercel, deployment actions, legacy publish/finalize actions, scripts/pipeline.py, or any external text-generation API. Do not publish. Your job ends after writing the complete JSON batch.
+
+Before finishing, internally inspect the JSON for valid syntax, 13 articles, unique IDs/slugs/canonical URLs/images, and all required fields. Return a concise summary of the path and chosen direct source families.

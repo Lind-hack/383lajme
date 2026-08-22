@@ -1,0 +1,287 @@
+{
+  "clusters": [
+    {
+      "engagement_total": 49991.91755700001,
+      "sources": [
+        "polymarket"
+      ],
+      "summary": "up 1.7% this month",
+      "title": "Bank of England decision in July?"
+    },
+    {
+      "engagement_total": 1799,
+      "sources": [
+        "hackernews"
+      ],
+      "summary": "Ask HN: What Are You Working On? (July 2026)",
+      "title": "Ask HN: What Are You Working On? (July 2026)"
+    },
+    {
+      "engagement_total": 566,
+      "sources": [
+        "hackernews"
+      ],
+      "summary": "Ask HN: Who wants to be hired? (July 2026)",
+      "title": "Ask HN: Who wants to be hired? (July 2026)"
+    },
+    {
+      "engagement_total": 273,
+      "sources": [
+        "hackernews"
+      ],
+      "summary": "Pebble Mega Update \u2013 July 2026",
+      "title": "Pebble Mega Update \u2013 July 2026"
+    },
+    {
+      "engagement_total": 5714.663215999999,
+      "sources": [
+        "polymarket"
+      ],
+      "summary": "up 5.0% this week",
+      "title": "Argentina Monthly Inflation - July"
+    },
+    {
+      "engagement_total": 66,
+      "sources": [
+        "hackernews"
+      ],
+      "summary": "Claude Code May\u2013July 2026 weekly limits promotion",
+      "title": "Claude Code May\u2013July 2026 weekly limits promotion"
+    },
+    {
+      "engagement_total": 22,
+      "sources": [
+        "hackernews"
+      ],
+      "summary": "Security incident disclosure \u2013 July 2026",
+      "title": "Security incident disclosure \u2013 July 2026"
+    },
+    {
+      "engagement_total": 16,
+      "sources": [
+        "hackernews"
+      ],
+      "summary": "Tell HN: Fable 5 promotion extended through July 12, 2026 at 11:59:59 PM PT",
+      "title": "Tell HN: Fable 5 promotion extended through July 12, 2026 at 11:59:59 PM PT"
+    },
+    {
+      "engagement_total": 4,
+      "sources": [
+        "hackernews"
+      ],
+      "summary": "Microsoft Teams will be blocked in China from July 28th 2026",
+      "title": "Microsoft Teams will be blocked in China from July 28th 2026"
+    },
+    {
+      "engagement_total": 4,
+      "sources": [
+        "hackernews"
+      ],
+      "summary": "My Agentic Coding Setup, July 2026",
+      "title": "My Agentic Coding Setup, July 2026"
+    }
+  ],
+  "freshness_verdicts": [],
+  "generated_at": "2026-07-25T03:34:49.842670Z",
+  "query": "England Argentina 15 July 2026 football pre-match team news form starting lineups",
+  "results": [
+    {
+      "candidate_id": "https://polymarket.com/event/bank-of-england-decision-in-july",
+      "cluster": 0,
+      "engagement": {
+        "liquidity": 22493.2659,
+        "volume": 49991.91755700001
+      },
+      "published_at": "2026-07-25",
+      "relevance_score": 0.3975,
+      "source": "polymarket",
+      "summary": "up 1.7% this month",
+      "title": "Bank of England decision in July?",
+      "url": "https://polymarket.com/event/bank-of-england-decision-in-july"
+    },
+    {
+      "candidate_id": "https://news.ycombinator.com/item?id=48884984",
+      "cluster": 1,
+      "engagement": {
+        "comments": 1152,
+        "points": 292
+      },
+      "published_at": "2026-07-12",
+      "relevance_score": 0.0,
+      "source": "hackernews",
+      "summary": "Ask HN: What Are You Working On? (July 2026)",
+      "title": "Ask HN: What Are You Working On? (July 2026)",
+      "url": "https://news.ycombinator.com/item?id=48884984"
+    },
+    {
+      "candidate_id": "https://news.ycombinator.com/item?id=48747976",
+      "cluster": 1,
+      "engagement": {
+        "comments": 437,
+        "points": 247
+      },
+      "published_at": "2026-07-01",
+      "relevance_score": 0.0,
+      "source": "hackernews",
+      "summary": "Ask HN: Who is hiring? (July 2026)",
+      "title": "Ask HN: Who is hiring? (July 2026)",
+      "url": "https://news.ycombinator.com/item?id=48747976"
+    },
+    {
+      "candidate_id": "https://news.ycombinator.com/item?id=48747975",
+      "cluster": 2,
+      "engagement": {
+        "comments": 566,
+        "points": 151
+      },
+      "published_at": "2026-07-01",
+      "relevance_score": 0.0,
+      "source": "hackernews",
+      "summary": "Ask HN: Who wants to be hired? (July 2026)",
+      "title": "Ask HN: Who wants to be hired? (July 2026)",
+      "url": "https://news.ycombinator.com/item?id=48747975"
+    },
+    {
+      "candidate_id": "https://repebble.com/blog/pebble-mega-update-july-2026",
+      "cluster": 3,
+      "engagement": {
+        "comments": 199,
+        "points": 273
+      },
+      "published_at": "2026-07-17",
+      "relevance_score": 0.0,
+      "source": "hackernews",
+      "summary": "Pebble Mega Update \u2013 July 2026",
+      "title": "Pebble Mega Update \u2013 July 2026",
+      "url": "https://repebble.com/blog/pebble-mega-update-july-2026"
+    },
+    {
+      "candidate_id": "https://news.ycombinator.com/item?id=48760048",
+      "cluster": 1,
+      "engagement": {
+        "comments": 149,
+        "points": 190
+      },
+      "published_at": "2026-07-02",
+      "relevance_score": 0.0,
+      "source": "hackernews",
+      "summary": "Ask HN: Who is quitting? (July 2026)",
+      "title": "Ask HN: Who is quitting? (July 2026)",
+      "url": "https://news.ycombinator.com/item?id=48760048"
+    },
+    {
+      "candidate_id": "https://polymarket.com/event/argentina-monthly-inflation-july-20260714204403042",
+      "cluster": 4,
+      "engagement": {
+        "liquidity": 4746.29268,
+        "volume": 5714.663215999999
+      },
+      "published_at": "2026-07-25",
+      "relevance_score": 0.0,
+      "source": "polymarket",
+      "summary": "up 5.0% this week",
+      "title": "Argentina Monthly Inflation - July",
+      "url": "https://polymarket.com/event/argentina-monthly-inflation-july-20260714204403042"
+    },
+    {
+      "candidate_id": "https://support.claude.com/en/articles/15910845-claude-code-may-july-2026-weekly-limits-promotion",
+      "cluster": 5,
+      "engagement": {
+        "comments": 66,
+        "points": 45
+      },
+      "published_at": "2026-07-12",
+      "relevance_score": 0.0,
+      "source": "hackernews",
+      "summary": "Claude Code May\u2013July 2026 weekly limits promotion",
+      "title": "Claude Code May\u2013July 2026 weekly limits promotion",
+      "url": "https://support.claude.com/en/articles/15910845-claude-code-may-july-2026-weekly-limits-promotion"
+    },
+    {
+      "candidate_id": "https://huggingface.co/blog/security-incident-july-2026",
+      "cluster": 6,
+      "engagement": {
+        "comments": 11,
+        "points": 22
+      },
+      "published_at": "2026-07-18",
+      "relevance_score": 0.0,
+      "source": "hackernews",
+      "summary": "Security incident disclosure \u2013 July 2026",
+      "title": "Security incident disclosure \u2013 July 2026",
+      "url": "https://huggingface.co/blog/security-incident-july-2026"
+    },
+    {
+      "candidate_id": "https://news.ycombinator.com/item?id=48749020",
+      "cluster": 1,
+      "engagement": {
+        "comments": 20,
+        "points": 7
+      },
+      "published_at": "2026-07-01",
+      "relevance_score": 0.0,
+      "source": "hackernews",
+      "summary": "Ask HN: Freelancer? Seeking freelancer? (July 2026)",
+      "title": "Ask HN: Freelancer? Seeking freelancer? (July 2026)",
+      "url": "https://news.ycombinator.com/item?id=48749020"
+    },
+    {
+      "candidate_id": "https://news.ycombinator.com/item?id=48821307",
+      "cluster": 7,
+      "engagement": {
+        "comments": 6,
+        "points": 16
+      },
+      "published_at": "2026-07-07",
+      "relevance_score": 0.0,
+      "source": "hackernews",
+      "summary": "Tell HN: Fable 5 promotion extended through July 12, 2026 at 11:59:59 PM PT",
+      "title": "Tell HN: Fable 5 promotion extended through July 12, 2026 at 11:59:59 PM PT",
+      "url": "https://news.ycombinator.com/item?id=48821307"
+    },
+    {
+      "candidate_id": "https://support.microsoft.com/en-us/teams/free/settings/teams-free-availability-china",
+      "cluster": 8,
+      "engagement": {
+        "comments": 2,
+        "points": 4
+      },
+      "published_at": "2026-07-23",
+      "relevance_score": 0.0,
+      "source": "hackernews",
+      "summary": "Microsoft Teams will be blocked in China from July 28th 2026",
+      "title": "Microsoft Teams will be blocked in China from July 28th 2026",
+      "url": "https://support.microsoft.com/en-us/teams/free/settings/teams-free-availability-china"
+    },
+    {
+      "candidate_id": "https://domenic.me/agentic-coding-setup",
+      "cluster": 9,
+      "engagement": {
+        "comments": 0,
+        "points": 4
+      },
+      "published_at": "2026-07-23",
+      "relevance_score": 0.0,
+      "source": "hackernews",
+      "summary": "My Agentic Coding Setup, July 2026",
+      "title": "My Agentic Coding Setup, July 2026",
+      "url": "https://domenic.me/agentic-coding-setup/"
+    }
+  ],
+  "schema_version": "1.2",
+  "source_status": {
+    "github": "error",
+    "grounding": "unreachable",
+    "hackernews": "ok",
+    "instagram": "auth-failed",
+    "linkedin": "auth-failed",
+    "pinterest": "auth-failed",
+    "polymarket": "ok",
+    "reddit": "auth-failed",
+    "threads": "auth-failed",
+    "tiktok": "auth-failed",
+    "x": "auth-failed",
+    "youtube": "auth-failed"
+  },
+  "window_days": 30
+}

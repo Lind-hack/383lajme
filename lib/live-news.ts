@@ -29,6 +29,8 @@ const CATEGORY_FEED: Record<MarketCategory, string | null> = {
   "te-tjera": null,
 };
 
+const LOCAL_BREAKING_FEED = "https://euronews.al/feed/";
+
 // Albanian + English stopwords stripped before building the per-question query.
 const STOPWORDS = new Set([
   "a", "do", "te", "të", "ne", "në", "e", "i", "u", "me", "dhe", "se", "që", "qe",
@@ -110,8 +112,9 @@ export async function liveHeadlinesFor(
   question: string,
   category: MarketCategory,
 ): Promise<LiveHeadline[]> {
-  // Category feeds are forbidden: a Tregu market researches only its own question.
-  const urls = [questionFeedUrl(question)].filter((u): u is string => Boolean(u));
+  const urls = [questionFeedUrl(question), CATEGORY_FEED[category], ...(category === "politike" || category === "ekonomi" || category === "te-tjera" ? [LOCAL_BREAKING_FEED] : [])].filter(
+    (u): u is string => Boolean(u),
+  );
   if (urls.length === 0) return [];
 
   const batches = await Promise.all(urls.map(fetchFeed));

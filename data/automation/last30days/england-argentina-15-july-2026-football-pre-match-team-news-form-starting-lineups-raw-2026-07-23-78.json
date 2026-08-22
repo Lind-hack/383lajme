@@ -1,0 +1,383 @@
+{
+  "clusters": [
+    {
+      "engagement_total": 36670.814125000004,
+      "sources": [
+        "polymarket"
+      ],
+      "summary": "up 4.5% this month",
+      "title": "Bank of England decision in July?"
+    },
+    {
+      "engagement_total": 5072.116447,
+      "sources": [
+        "polymarket"
+      ],
+      "summary": "down 15.5% this week",
+      "title": "Bank of England rate hike in 2026?"
+    },
+    {
+      "engagement_total": 265,
+      "sources": [
+        "reddit"
+      ],
+      "summary": "Kingdom of Ingerland vs Rep\u00fablica Federal Argentina Mercedes-Benz Stadium, Atlanta, Georgia- Wed 15.07.2026 (15:00 local, 19:00 GMT, when this post is 2:45 hours old) England Stats Argentina 2.17 Average Goals 2.83 1 Average Goals Conceded 1 +1.2 Average Goal Differential +1.8 1.82 Average Expected Goals 2.13 0.81 Average Expected Goals Conceded 0.65 +1.0 Average Expected Goal Differential +1.5 57",
+      "title": "[Pre Match Thread] England vs. Argentina - 2026 FIFA World Cup: Semifinals"
+    },
+    {
+      "engagement_total": 444,
+      "sources": [
+        "reddit"
+      ],
+      "summary": "This post contains content not supported on old Reddit. Click here to view the full post &#32; submitted by &#32; /u/scoreboard-app &#32; to &#32; r/CasualUK [link] &#32; [comments]",
+      "title": "Match Thread: England vs Argentina Live Score | World Cup 2026 | Jul 15, 2026"
+    },
+    {
+      "engagement_total": 2190,
+      "sources": [
+        "reddit"
+      ],
+      "summary": "&#32; submitted by &#32; /u/OptimusCloyster &#32; to &#32; r/soccer [link] &#32; [comments]",
+      "title": "Argentina will face England in the Semi-finals on July 15 in Atlanta."
+    },
+    {
+      "engagement_total": 344,
+      "sources": [
+        "reddit"
+      ],
+      "summary": "&#32; submitted by &#32; /u/Logical_Welder3467 &#32; to &#32; r/soccer [link] &#32; [comments]",
+      "title": "Scaloni plays down Argentina and England history: \u2018A football game and that is all\u2019 | World Cup 2026"
+    },
+    {
+      "engagement_total": 1769,
+      "sources": [
+        "hackernews"
+      ],
+      "summary": "Ask HN: What Are You Working On? (July 2026)",
+      "title": "Ask HN: What Are You Working On? (July 2026)"
+    },
+    {
+      "engagement_total": 567,
+      "sources": [
+        "hackernews"
+      ],
+      "summary": "Ask HN: Who wants to be hired? (July 2026)",
+      "title": "Ask HN: Who wants to be hired? (July 2026)"
+    },
+    {
+      "engagement_total": 273,
+      "sources": [
+        "hackernews"
+      ],
+      "summary": "Pebble Mega Update \u2013 July 2026",
+      "title": "Pebble Mega Update \u2013 July 2026"
+    },
+    {
+      "engagement_total": 6812.423153999999,
+      "sources": [
+        "polymarket"
+      ],
+      "summary": "up 15.0% this week",
+      "title": "Argentina Monthly Inflation - July"
+    },
+    {
+      "engagement_total": 66,
+      "sources": [
+        "hackernews"
+      ],
+      "summary": "Claude Code May\u2013July 2026 weekly limits promotion",
+      "title": "Claude Code May\u2013July 2026 weekly limits promotion"
+    },
+    {
+      "engagement_total": 22,
+      "sources": [
+        "hackernews"
+      ],
+      "summary": "Security incident disclosure \u2013 July 2026",
+      "title": "Security incident disclosure \u2013 July 2026"
+    },
+    {
+      "engagement_total": 16,
+      "sources": [
+        "hackernews"
+      ],
+      "summary": "Tell HN: Fable 5 promotion extended through July 12, 2026 at 11:59:59 PM PT",
+      "title": "Tell HN: Fable 5 promotion extended through July 12, 2026 at 11:59:59 PM PT"
+    },
+    {
+      "engagement_total": 340,
+      "sources": [
+        "reddit"
+      ],
+      "summary": "&#32; submitted by &#32; /u/RedDevil_Forever &#32; to &#32; r/reddevils [link] &#32; [comments]",
+      "title": "Manchester United Team vs Wrexham, Pre-Season Friendly, 18 July 2026 | Starting XI: Heaton; Yoro, Maguire, Heaven, Shaw; Andrey Santos, J. Fletcher; Mbeumo, Mount, Dorgu; Zirkzee"
+    },
+    {
+      "engagement_total": 3,
+      "sources": [
+        "hackernews"
+      ],
+      "summary": "Electromagnetic Field: July 16th \u2013 19th 2026",
+      "title": "Electromagnetic Field: July 16th \u2013 19th 2026"
+    }
+  ],
+  "freshness_verdicts": [],
+  "generated_at": "2026-07-23T02:49:04.930481Z",
+  "query": "England Argentina 15 July 2026 football pre-match team news form starting lineups",
+  "results": [
+    {
+      "candidate_id": "https://polymarket.com/event/bank-of-england-decision-in-july",
+      "cluster": 0,
+      "engagement": {
+        "liquidity": 34955.22656,
+        "volume": 36670.814125000004
+      },
+      "published_at": "2026-07-23",
+      "relevance_score": 0.3975,
+      "source": "polymarket",
+      "summary": "up 4.5% this month",
+      "title": "Bank of England decision in July?",
+      "url": "https://polymarket.com/event/bank-of-england-decision-in-july"
+    },
+    {
+      "candidate_id": "https://polymarket.com/event/bank-of-england-rate-hike-in-2026",
+      "cluster": 1,
+      "engagement": {
+        "liquidity": 1357.7325,
+        "volume": 5072.116447
+      },
+      "published_at": "2026-07-23",
+      "relevance_score": 0.3906,
+      "source": "polymarket",
+      "summary": "down 15.5% this week",
+      "title": "Bank of England rate hike in 2026?",
+      "url": "https://polymarket.com/event/bank-of-england-rate-hike-in-2026"
+    },
+    {
+      "candidate_id": "https://reddit.com/r/soccer/comments/1uxagso/pre_match_thread_england_vs_argentina_2026_fifa",
+      "cluster": 2,
+      "engagement": {
+        "num_comments": 1680,
+        "score": 265
+      },
+      "published_at": "2026-07-15",
+      "relevance_score": 0.3726,
+      "source": "reddit",
+      "summary": "Kingdom of Ingerland vs Rep\u00fablica Federal Argentina Mercedes-Benz Stadium, Atlanta, Georgia- Wed 15.07.2026 (15:00 local, 19:00 GMT, when this post is 2:45 hours old) England Stats Argentina 2.17 Average Goals 2.83 1 Average Goals Conceded 1 +1.2 Average Goal Differential +1.8 1.82 Average Expected Goals 2.13 0.81 Average Expected Goals Conceded 0.65 +1.0 Average Expected Goal Differential +1.5 57",
+      "title": "[Pre Match Thread] England vs. Argentina - 2026 FIFA World Cup: Semifinals",
+      "url": "https://www.reddit.com/r/soccer/comments/1uxagso/pre_match_thread_england_vs_argentina_2026_fifa/"
+    },
+    {
+      "candidate_id": "https://reddit.com/r/casualuk/comments/1ux57f9/match_thread_england_vs_argentina_live_score",
+      "cluster": 3,
+      "engagement": {
+        "num_comments": 2992,
+        "score": 444
+      },
+      "published_at": "2026-07-15",
+      "relevance_score": 0.3557,
+      "source": "reddit",
+      "summary": "This post contains content not supported on old Reddit. Click here to view the full post &#32; submitted by &#32; /u/scoreboard-app &#32; to &#32; r/CasualUK [link] &#32; [comments]",
+      "title": "Match Thread: England vs Argentina Live Score | World Cup 2026 | Jul 15, 2026",
+      "url": "https://www.reddit.com/r/CasualUK/comments/1ux57f9/match_thread_england_vs_argentina_live_score/"
+    },
+    {
+      "candidate_id": "https://reddit.com/r/soccer/comments/1uu4e5f/argentina_will_face_england_in_the_semifinals_on",
+      "cluster": 4,
+      "engagement": {
+        "num_comments": 623,
+        "score": 2190
+      },
+      "published_at": "2026-07-12",
+      "relevance_score": 0.3294,
+      "source": "reddit",
+      "summary": "&#32; submitted by &#32; /u/OptimusCloyster &#32; to &#32; r/soccer [link] &#32; [comments]",
+      "title": "Argentina will face England in the Semi-finals on July 15 in Atlanta.",
+      "url": "https://www.reddit.com/r/soccer/comments/1uu4e5f/argentina_will_face_england_in_the_semifinals_on/"
+    },
+    {
+      "candidate_id": "https://reddit.com/r/soccer/comments/1uu95yd/scaloni_plays_down_argentina_and_england_history",
+      "cluster": 5,
+      "engagement": {
+        "num_comments": 146,
+        "score": 344
+      },
+      "published_at": "2026-07-12",
+      "relevance_score": 0.3251,
+      "source": "reddit",
+      "summary": "&#32; submitted by &#32; /u/Logical_Welder3467 &#32; to &#32; r/soccer [link] &#32; [comments]",
+      "title": "Scaloni plays down Argentina and England history: \u2018A football game and that is all\u2019 | World Cup 2026",
+      "url": "https://www.reddit.com/r/soccer/comments/1uu95yd/scaloni_plays_down_argentina_and_england_history/"
+    },
+    {
+      "candidate_id": "https://news.ycombinator.com/item?id=48884984",
+      "cluster": 6,
+      "engagement": {
+        "comments": 1141,
+        "points": 292
+      },
+      "published_at": "2026-07-12",
+      "relevance_score": 0.0,
+      "source": "hackernews",
+      "summary": "Ask HN: What Are You Working On? (July 2026)",
+      "title": "Ask HN: What Are You Working On? (July 2026)",
+      "url": "https://news.ycombinator.com/item?id=48884984"
+    },
+    {
+      "candidate_id": "https://news.ycombinator.com/item?id=48747976",
+      "cluster": 6,
+      "engagement": {
+        "comments": 438,
+        "points": 247
+      },
+      "published_at": "2026-07-01",
+      "relevance_score": 0.0,
+      "source": "hackernews",
+      "summary": "Ask HN: Who is hiring? (July 2026)",
+      "title": "Ask HN: Who is hiring? (July 2026)",
+      "url": "https://news.ycombinator.com/item?id=48747976"
+    },
+    {
+      "candidate_id": "https://news.ycombinator.com/item?id=48747975",
+      "cluster": 7,
+      "engagement": {
+        "comments": 567,
+        "points": 151
+      },
+      "published_at": "2026-07-01",
+      "relevance_score": 0.0,
+      "source": "hackernews",
+      "summary": "Ask HN: Who wants to be hired? (July 2026)",
+      "title": "Ask HN: Who wants to be hired? (July 2026)",
+      "url": "https://news.ycombinator.com/item?id=48747975"
+    },
+    {
+      "candidate_id": "https://repebble.com/blog/pebble-mega-update-july-2026",
+      "cluster": 8,
+      "engagement": {
+        "comments": 198,
+        "points": 273
+      },
+      "published_at": "2026-07-17",
+      "relevance_score": 0.0,
+      "source": "hackernews",
+      "summary": "Pebble Mega Update \u2013 July 2026",
+      "title": "Pebble Mega Update \u2013 July 2026",
+      "url": "https://repebble.com/blog/pebble-mega-update-july-2026"
+    },
+    {
+      "candidate_id": "https://news.ycombinator.com/item?id=48760048",
+      "cluster": 6,
+      "engagement": {
+        "comments": 149,
+        "points": 190
+      },
+      "published_at": "2026-07-02",
+      "relevance_score": 0.0,
+      "source": "hackernews",
+      "summary": "Ask HN: Who is quitting? (July 2026)",
+      "title": "Ask HN: Who is quitting? (July 2026)",
+      "url": "https://news.ycombinator.com/item?id=48760048"
+    },
+    {
+      "candidate_id": "https://polymarket.com/event/argentina-monthly-inflation-july-20260714204403042",
+      "cluster": 9,
+      "engagement": {
+        "liquidity": 5003.10384,
+        "volume": 6812.423153999999
+      },
+      "published_at": "2026-07-23",
+      "relevance_score": 0.0,
+      "source": "polymarket",
+      "summary": "up 15.0% this week",
+      "title": "Argentina Monthly Inflation - July",
+      "url": "https://polymarket.com/event/argentina-monthly-inflation-july-20260714204403042"
+    },
+    {
+      "candidate_id": "https://support.claude.com/en/articles/15910845-claude-code-may-july-2026-weekly-limits-promotion",
+      "cluster": 10,
+      "engagement": {
+        "comments": 66,
+        "points": 45
+      },
+      "published_at": "2026-07-12",
+      "relevance_score": 0.0,
+      "source": "hackernews",
+      "summary": "Claude Code May\u2013July 2026 weekly limits promotion",
+      "title": "Claude Code May\u2013July 2026 weekly limits promotion",
+      "url": "https://support.claude.com/en/articles/15910845-claude-code-may-july-2026-weekly-limits-promotion"
+    },
+    {
+      "candidate_id": "https://huggingface.co/blog/security-incident-july-2026",
+      "cluster": 11,
+      "engagement": {
+        "comments": 11,
+        "points": 22
+      },
+      "published_at": "2026-07-18",
+      "relevance_score": 0.0,
+      "source": "hackernews",
+      "summary": "Security incident disclosure \u2013 July 2026",
+      "title": "Security incident disclosure \u2013 July 2026",
+      "url": "https://huggingface.co/blog/security-incident-july-2026"
+    },
+    {
+      "candidate_id": "https://news.ycombinator.com/item?id=48821307",
+      "cluster": 12,
+      "engagement": {
+        "comments": 6,
+        "points": 16
+      },
+      "published_at": "2026-07-07",
+      "relevance_score": 0.0,
+      "source": "hackernews",
+      "summary": "Tell HN: Fable 5 promotion extended through July 12, 2026 at 11:59:59 PM PT",
+      "title": "Tell HN: Fable 5 promotion extended through July 12, 2026 at 11:59:59 PM PT",
+      "url": "https://news.ycombinator.com/item?id=48821307"
+    },
+    {
+      "candidate_id": "https://reddit.com/r/reddevils/comments/1uzwqzn/manchester_united_team_vs_wrexham_preseason",
+      "cluster": 13,
+      "engagement": {
+        "num_comments": 113,
+        "score": 340
+      },
+      "published_at": "2026-07-18",
+      "relevance_score": 0.0,
+      "source": "reddit",
+      "summary": "&#32; submitted by &#32; /u/RedDevil_Forever &#32; to &#32; r/reddevils [link] &#32; [comments]",
+      "title": "Manchester United Team vs Wrexham, Pre-Season Friendly, 18 July 2026 | Starting XI: Heaton; Yoro, Maguire, Heaven, Shaw; Andrey Santos, J. Fletcher; Mbeumo, Mount, Dorgu; Zirkzee",
+      "url": "https://www.reddit.com/r/reddevils/comments/1uzwqzn/manchester_united_team_vs_wrexham_preseason/"
+    },
+    {
+      "candidate_id": "https://emfcamp.org/about",
+      "cluster": 14,
+      "engagement": {
+        "comments": 0,
+        "points": 3
+      },
+      "published_at": "2026-07-12",
+      "relevance_score": 0.0,
+      "source": "hackernews",
+      "summary": "Electromagnetic Field: July 16th \u2013 19th 2026",
+      "title": "Electromagnetic Field: July 16th \u2013 19th 2026",
+      "url": "https://www.emfcamp.org/about"
+    }
+  ],
+  "schema_version": "1.2",
+  "source_status": {
+    "github": "error",
+    "grounding": "unreachable",
+    "hackernews": "ok",
+    "instagram": "auth-failed",
+    "linkedin": "auth-failed",
+    "pinterest": "auth-failed",
+    "polymarket": "ok",
+    "reddit": "partial",
+    "threads": "auth-failed",
+    "tiktok": "auth-failed",
+    "x": "auth-failed",
+    "youtube": "auth-failed"
+  },
+  "window_days": 30
+}

@@ -1,5 +1,5 @@
 import * as nodemailer from "nodemailer";
-import { buildArgentinaSpainLiveEmail, buildF1LiveEmail, buildTreguRepriceEmail } from "./tregu-live-email-content.mjs";
+import { buildArgentinaSpainLiveEmail, buildF1LiveEmail, buildOfficialMarketUpdateEmail, buildTreguRepriceEmail } from "./tregu-live-email-content.mjs";
 
 type NewsUpdate = {
   kind: "news_update";
@@ -11,6 +11,9 @@ type NewsUpdate = {
     before_probability: number;
     after_probability: number;
     absolute_percentage_point_change: number;
+    reason?: "deadline_decay" | "deadline_settlement";
+    before_state?: { status: string; outcome: string | null };
+    after_state?: { status: string; outcome: string | null };
     timestamp: string;
     verified_sources: Array<{ label: string; title: string; slug: string; url?: string }>;
   }>;
@@ -33,7 +36,13 @@ type F1LiveUpdate = {
   changes: Array<{ question: string; driver_code: string; position: number; gap: string; pits: number; before_probability: number; after_probability: number; source_url: string }>;
 };
 
-type TreguLiveEmail = NewsUpdate | PairedBinaryLiveUpdate | F1LiveUpdate;
+type OfficialMarketUpdate = {
+  kind: "official_market_update";
+  runKey: string;
+  changes: Array<{ question: string; slug: string; kind: string; before: Record<string, unknown>; after: Record<string, unknown>; timestamp: string; source_url?: string }>;
+};
+
+type TreguLiveEmail = NewsUpdate | PairedBinaryLiveUpdate | F1LiveUpdate | OfficialMarketUpdate;
 
 function configuredRecipient() {
   const recipient = (process.env.TREGU_LIVE_RECIPIENT ?? process.env.RECIPIENT_EMAIL ?? "").trim();
@@ -56,6 +65,8 @@ export async function sendTreguLiveNotification(notification: TreguLiveEmail) {
     ? buildArgentinaSpainLiveEmail({ runKey: notification.runKey, changes: notification.changes })
     : notification.kind === "f1_live_update"
       ? buildF1LiveEmail({ runKey: notification.runKey, changes: notification.changes })
-      : buildTreguRepriceEmail({ runKey: notification.runKey, changes: notification.changes });
+      : notification.kind === "official_market_update"
+        ? buildOfficialMarketUpdateEmail({ runKey: notification.runKey, changes: notification.changes })
+        : buildTreguRepriceEmail({ runKey: notification.runKey, changes: notification.changes });
   await transport.sendMail({ from: user, to: recipient, ...message });
 }

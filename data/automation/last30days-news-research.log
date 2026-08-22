@@ -1,0 +1,2815 @@
+/last30days · researching: Kosovo Albania Balkans Europe world politics economy technology sport culture - current discussions relevant to Albanian readers
+⏳ [95mProcessing[0m Organizing findings...
+[Planner] Plan: intent=breaking_news, freshness=breaking, cluster_mode=story, subqueries=4, source=external
+[Planner]   sq1 label=Kosove-dhe-Shqiperi search="Kosovo Albania politics economy public services energy transport July 2026" sources=[reddit,tiktok,instagram,x,youtube,hackernews,polymarket,grounding]
+[Planner]   sq2 label=Ballkan-dhe-Europe search="Balkans Europe politics security economy July 2026 Kosovo Serbia EU" sources=[reddit,tiktok,instagram,x,youtube,hackernews,polymarket,grounding]
+[Planner]   sq3 label=Bote-ekonomi-dhe-teknologji search="world politics economy technology July 2026 major developments" sources=[reddit,tiktok,instagram,x,youtube,hackernews,polymarket,grounding]
+[Planner]   sq4 label=Sport-dhe-kulture search="football sport culture entertainment July 2026 Albania Kosovo Balkans Europe world" sources=[reddit,tiktok,instagram,x,youtube,hackernews,polymarket,grounding]
+[TikTok] Searching TikTok for 'kosovo albania balkans europe world politics economy technology sport culture - current discussions relevant to albanian readers' (depth=deep, count=40)
+[Instagram] Searching Instagram for 'kosovo albania balkans europe world politics economy technology sport culture - current discussions relevant to albanian readers' (depth=deep, count=40)
+[YouTube] Searching YouTube via ScrapeCreators for 'kosovo albania balkans europe world politics economy technology sport culture - current relevant to albanian readers' (depth=deep)
+[HN] Searching for 'kosovo albania politics economy public services energy transport july 2026' (raw: 'Kosovo Albania politics economy public services energy transport July 2026', since 2026-07-20, count=60)
+[PM] Searching for 'Kosovo Albania politics economy public services energy transport July 2026' with queries: ['Kosovo Albania politics economy public services energy transport July 2026', 'Kosovo', 'Albania', 'politics', 'economy', 'public'] (pages=4)
+[TikTok] Searching TikTok for 'kosovo albania balkans europe world politics economy technology sport culture - current discussions relevant to albanian readers' (depth=deep, count=40)
+[Instagram] Searching Instagram for 'kosovo albania balkans europe world politics economy technology sport culture - current discussions relevant to albanian readers' (depth=deep, count=40)
+[YouTube] Searching YouTube via ScrapeCreators for 'kosovo albania balkans europe world politics economy technology sport culture - current relevant to albanian readers' (depth=deep)
+[HN] Searching for 'balkans europe politics security economy july 2026 kosovo serbia eu' (raw: 'Balkans Europe politics security economy July 2026 Kosovo Serbia EU', since 2026-07-20, count=60)
+[PM] Searching for 'Balkans Europe politics security economy July 2026 Kosovo Serbia EU' with queries: ['Balkans Europe politics security economy July 2026 Kosovo Serbia EU', 'Balkans', 'Europe', 'politics', 'security', 'economy'] (pages=4)
+[TikTok] Searching TikTok for 'kosovo albania balkans europe world politics economy technology sport culture - current discussions relevant to albanian readers' (depth=deep, count=40)
+[Instagram] Searching Instagram for 'kosovo albania balkans europe world politics economy technology sport culture - current discussions relevant to albanian readers' (depth=deep, count=40)
+[YouTube] Searching YouTube via ScrapeCreators for 'kosovo albania balkans europe world politics economy technology sport culture - current relevant to albanian readers' (depth=deep)
+[HN] Found 0 stories
+[HN] Searching for 'world politics economy technology july 2026 major developments' (raw: 'world politics economy technology July 2026 major developments', since 2026-07-20, count=60)
+[HN] Found 0 stories
+[PM] Searching for 'world politics economy technology July 2026 major developments' with queries: ['world politics economy technology July 2026 major developments', 'world', 'politics', 'economy', 'technology', 'July'] (pages=4)
+[Instagram] ScrapeCreators error: HTTP 402: Payment Required
+[Instagram] Searching Instagram for 'kosovo albania balkans europe world politics economy technology sport culture - current discussions relevant to albanian readers reaction edit' (depth=deep, count=40)
+[YouTube] SC YouTube search error: HTTP 402: Payment Required
+[YouTube] SC YouTube search returned 0 results
+[TikTok] ScrapeCreators error: HTTP 402: Payment Required
+[TikTok] Searching TikTok for 'kosovo albania balkans europe world politics economy technology sport culture - current discussions relevant to albanian readers edit reaction trend' (depth=deep, count=40)
+[TikTok] ScrapeCreators error: HTTP 402: Payment Required
+[TikTok] Searching TikTok for 'kosovo albania balkans europe world politics economy technology sport culture - current discussions relevant to albanian readers edit reaction trend' (depth=deep, count=40)
+[Instagram] ScrapeCreators error: HTTP 402: Payment Required
+[Instagram] Searching Instagram for 'kosovo albania balkans europe world politics economy technology sport culture - current discussions relevant to albanian readers reaction edit' (depth=deep, count=40)
+[YouTube] SC YouTube search error: HTTP 402: Payment Required
+[YouTube] SC YouTube search returned 0 results
+[TikTok] ScrapeCreators error: HTTP 402: Payment Required
+[TikTok] Searching TikTok for 'kosovo albania balkans europe world politics economy technology sport culture - current discussions relevant to albanian readers edit reaction trend' (depth=deep, count=40)
+[TikTok] Searching TikTok for 'kosovo albania balkans europe world politics economy technology sport culture - current discussions relevant to albanian readers' (depth=deep, count=40)
+[Instagram] ScrapeCreators error: HTTP 402: Payment Required
+[Instagram] Searching Instagram for 'kosovo albania balkans europe world politics economy technology sport culture - current discussions relevant to albanian readers reaction edit' (depth=deep, count=40)
+[YouTube] SC YouTube search error: HTTP 402: Payment Required
+[YouTube] SC YouTube search returned 0 results
+[Instagram] Searching Instagram for 'kosovo albania balkans europe world politics economy technology sport culture - current discussions relevant to albanian readers' (depth=deep, count=40)
+[PM] Domain expansion queries: ['Geopolitics', 'Economic Policy']
+[Instagram] ScrapeCreators error: HTTP 402: Payment Required
+[Instagram] Searching Instagram for 'kosovo albania balkans europe world politics economy technology sport culture - current discussions relevant to albanian readers reel' (depth=deep, count=40)
+[HN] Filtered 34/120 low-engagement stories
+[HN] Found 60 stories
+[HN] Prefix filter removed 39/60 false-positive hits for 'world politics economy technology July 2026 major developments'
+[YouTube] Searching YouTube via ScrapeCreators for 'kosovo albania balkans europe world politics economy technology sport culture - current relevant to albanian readers' (depth=deep)
+[PM] Domain expansion queries: ['Geopolitics', 'Trump']
+[Instagram] ScrapeCreators error: HTTP 402: Payment Required
+[Instagram] Searching Instagram for 'kosovo albania balkans europe world politics economy technology sport culture - current discussions relevant to albanian readers reel' (depth=deep, count=40)
+[TikTok] ScrapeCreators error: HTTP 402: Payment Required
+[TikTok] Searching TikTok for 'kosovo albania balkans europe world politics economy technology sport culture - current discussions relevant to albanian readers fyp' (depth=deep, count=40)
+[TikTok] ScrapeCreators error: HTTP 402: Payment Required
+[TikTok] Searching TikTok for 'kosovo albania balkans europe world politics economy technology sport culture - current discussions relevant to albanian readers fyp' (depth=deep, count=40)
+[PM] Found 67 unique events across 8 queries
+[PM] Filtered 65 noise events (topic: 'Kosovo Albania Balkans Europe world politics economy technology sport culture - current discussions relevant to Albanian readers')
+[PM] All 2 Polymarket results below relevance threshold (0.04 < 0.15), dropping all
+[HN] Searching for 'football sport culture entertainment july 2026 albania kosovo balkans europe world' (raw: 'football sport culture entertainment July 2026 Albania Kosovo Balkans Europe world', since 2026-07-20, count=60)
+[TikTok] ScrapeCreators error: HTTP 402: Payment Required
+[TikTok] Searching TikTok for 'kosovo albania balkans europe world politics economy technology sport culture - current discussions relevant to albanian readers fyp' (depth=deep, count=40)
+[PM] Found 68 unique events across 8 queries
+[PM] Filtered 68 noise events (topic: 'Kosovo Albania Balkans Europe world politics economy technology sport culture - current discussions relevant to Albanian readers')
+[TikTok] ScrapeCreators error: HTTP 402: Payment Required
+[TikTok] Searching TikTok for 'kosovo albania balkans europe world politics economy technology sport culture - current discussions relevant to albanian readers edit reaction trend' (depth=deep, count=40)
+[PM] Searching for 'football sport culture entertainment July 2026 Albania Kosovo Balkans Europe world' with queries: ['football sport culture entertainment July 2026 Albania Kosovo Balkans Europe world', 'football', 'sport', 'culture', 'entertainment', 'July'] (pages=4)
+[Instagram] ScrapeCreators error: HTTP 402: Payment Required
+[Instagram] Searching Instagram for 'kosovo albania balkans europe world politics economy technology sport culture - current discussions relevant to albanian readers reel' (depth=deep, count=40)
+[PM] Domain expansion queries: ['Geopolitics', 'Finance']
+[Instagram] ScrapeCreators error: HTTP 402: Payment Required
+[Instagram] Searching Instagram for 'kosovo albania balkans europe world politics economy technology sport culture - current discussions relevant to albanian readers reaction edit' (depth=deep, count=40)
+[PM] Found 79 unique events across 8 queries
+[PM] Filtered 78 noise events (topic: 'Kosovo Albania Balkans Europe world politics economy technology sport culture - current discussions relevant to Albanian readers')
+[HN] Filtered 3/3 low-engagement stories
+[HN] Found 0 stories
+[Instagram] ScrapeCreators error: HTTP 402: Payment Required
+[YouTube] SC YouTube search error: HTTP 402: Payment Required
+[YouTube] SC YouTube search returned 0 results
+[TikTok] ScrapeCreators error: HTTP 402: Payment Required
+[Instagram] ScrapeCreators error: HTTP 402: Payment Required
+[TikTok] ScrapeCreators error: HTTP 402: Payment Required
+[TikTok] ScrapeCreators error: HTTP 402: Payment Required
+[TikTok] ScrapeCreators error: HTTP 402: Payment Required
+[TikTok] Searching TikTok for 'kosovo albania balkans europe world politics economy technology sport culture - current discussions relevant to albanian readers fyp' (depth=deep, count=40)
+[Instagram] ScrapeCreators error: HTTP 402: Payment Required
+[Instagram] ScrapeCreators error: HTTP 402: Payment Required
+[Instagram] Searching Instagram for 'kosovo albania balkans europe world politics economy technology sport culture - current discussions relevant to albanian readers reel' (depth=deep, count=40)
+[PM] Domain expansion queries: ['NFL', 'Games']
+[PM] Found 89 unique events across 8 queries
+[PM] Filtered 81 noise events (topic: 'Kosovo Albania Balkans Europe world politics economy technology sport culture - current discussions relevant to Albanian readers')
+[TikTok] ScrapeCreators error: HTTP 402: Payment Required
+[Instagram] ScrapeCreators error: HTTP 402: Payment Required
+[RedditKeyless] Tier 1 (RSS) 0 posts; score-only; 0 scored cards
+[Reddit] Expanded 'Kosovo Albania Balkans Europe world politics economy technology sport culture - current discussions relevant to Albanian readers' into 1 queries: ['kosovo albania balkans europe world politics economy technology sport culture - current discussions relevant albanian readers']
+[Reddit] Global search 1/3: 'kosovo albania balkans europe world politics economy technology sport culture - current discussions relevant albanian readers' (sort=relevance)
+[RedditKeyless] Tier 1 (RSS) 0 posts; score-only; 0 scored cards
+[Reddit] Expanded 'Kosovo Albania Balkans Europe world politics economy technology sport culture - current discussions relevant to Albanian readers' into 1 queries: ['kosovo albania balkans europe world politics economy technology sport culture - current discussions relevant albanian readers']
+[Reddit] Global search 1/3: 'kosovo albania balkans europe world politics economy technology sport culture - current discussions relevant albanian readers' (sort=relevance)
+[Reddit] ScrapeCreators backup also failed (HTTPError: HTTP 402: Payment Required)
+[RedditKeyless] Tier 1 (RSS) 0 posts; score-only; 0 scored cards
+[Reddit] Expanded 'Kosovo Albania Balkans Europe world politics economy technology sport culture - current discussions relevant to Albanian readers' into 1 queries: ['kosovo albania balkans europe world politics economy technology sport culture - current discussions relevant albanian readers']
+[Reddit] Global search 1/3: 'kosovo albania balkans europe world politics economy technology sport culture - current discussions relevant albanian readers' (sort=relevance)
+[Reddit] ScrapeCreators backup also failed (HTTPError: HTTP 402: Payment Required)
+[RedditKeyless] Tier 1 (RSS) 22 posts; score-only; 0 scored cards
+[Reddit] ScrapeCreators backup also failed (HTTPError: HTTP 402: Payment Required)
+[RedditKeyless] arctic-shift backfilled 22 post scores
+[PM] Searching for 'kosovo albania balkans' with queries: ['kosovo albania balkans', 'kosovo', 'albania', 'balkans'] (pages=4)
+[PM] Domain expansion queries: ['Soccer', 'Geopolitics']
+[PM] Found 17 unique events across 6 queries
+[PM] Filtered 15 noise events (topic: 'Kosovo Albania Balkans Europe world politics economy technology sport culture - current discussions relevant to Albanian readers')
+[Rerank] LLM reranking failed, using local fallback: HTTPError: HTTP 400: Bad Request
+[FunJudge] LLM scoring failed: HTTPError: HTTP 400: Bad Request
+[last30days] Freshness verification found no re-checkable claims in this report; the verdict list is empty.
+✓ Research complete (6.1s) - Reddit: 2 threads, X: 0 posts, YouTube: 0 videos, TikTok: 0 videos, Instagram: 0 reels, HN: 20 stories, Polymarket: 0 markets, Web: 0 results
+
+Research quality: 3/5 core sources.
+Missing: X/Twitter (errored this run), YouTube.
+Bonus source silent: Instagram.
+
+Free fixes:
+  - X/Twitter errored - log into x.com in your browser, then re-run.
+  - YouTube: video transcripts with key moments - often the deepest explanations on any topic. Install yt-dlp: brew install yt-dlp (free)
+  - Instagram returned 0 reels despite SC being configured. SC's v2 reels endpoint wraps Google Search and 500's frequently on multi-token queries. The skill now retries with hashtag-form automatically; if zero items still appear, the topic may have no reel coverage on Instagram. Try a single-word topic like the most distinctive noun in your query.
+  - Your SC key also powers Threads, Pinterest and YouTube comments. Add them to INCLUDE_SOURCES in your .env to enable.
+
+last30days has no affiliation with any API provider.
+[last30days] Saved output to /opt/data/home/Documents/Last30Days/383-lajme-2026-07-22-research.json
+[last30days] Saved output to /opt/data/home/Documents/Last30Days/kosovo-albania-balkans-europe-world-politics-economy-technology-sport-culture-current-discussions-relevant-to-albanian-readers-raw.json
+{
+  "artifacts": {
+    "corpus_in_export": false,
+    "grounding": [
+      {
+        "keyless_backend": "ddg",
+        "label": "keyless",
+        "reason": "keyless-search-unavailable",
+        "resultCount": 0,
+        "webSearchQueries": [
+          "Balkans Europe politics security economy July 2026 Kosovo Serbia EU"
+        ]
+      },
+      {
+        "keyless_backend": "ddg",
+        "label": "keyless",
+        "reason": "keyless-search-unavailable",
+        "resultCount": 0,
+        "webSearchQueries": [
+          "Kosovo Albania politics economy public services energy transport July 2026"
+        ]
+      },
+      {
+        "keyless_backend": "ddg",
+        "label": "keyless",
+        "reason": "keyless-search-unavailable",
+        "resultCount": 0,
+        "webSearchQueries": [
+          "world politics economy technology July 2026 major developments"
+        ]
+      },
+      {
+        "keyless_backend": "ddg",
+        "label": "keyless",
+        "reason": "keyless-search-unavailable",
+        "resultCount": 0,
+        "webSearchQueries": [
+          "football sport culture entertainment July 2026 Albania Kosovo Balkans Europe world"
+        ]
+      }
+    ],
+    "hiring_signals_mode": false,
+    "plan_source": "external",
+    "pre_research_flags_present": true,
+    "resolved": {
+      "context": "",
+      "entity": "Kosovo Albania Balkans Europe world politics economy technology sport culture - current discussions relevant to Albanian readers",
+      "github_repos": [],
+      "github_user": "",
+      "subreddits": [],
+      "trustpilot_domain": "",
+      "x_handle": ""
+    }
+  },
+  "clusters": [
+    {
+      "candidate_ids": [
+        "https://reddit.com/r/getnoted/comments/1v2742w/the_argies_are_fucking_spanners_bruv"
+      ],
+      "cluster_id": "cluster-1",
+      "representative_ids": [
+        "https://reddit.com/r/getnoted/comments/1v2742w/the_argies_are_fucking_spanners_bruv"
+      ],
+      "score": 0.0,
+      "sources": [
+        "reddit"
+      ],
+      "title": "the argies are fucking spanners bruv \ud83e\udd23",
+      "uncertainty": "single-source"
+    },
+    {
+      "candidate_ids": [
+        "https://thecastlemap.com"
+      ],
+      "cluster_id": "cluster-2",
+      "representative_ids": [
+        "https://thecastlemap.com"
+      ],
+      "score": 0.0,
+      "sources": [
+        "hackernews"
+      ],
+      "title": "Map of the world's great castles and fortresses",
+      "uncertainty": "single-source"
+    },
+    {
+      "candidate_ids": [
+        "https://github.com/kalcode/spaceprojectsim"
+      ],
+      "cluster_id": "cluster-3",
+      "representative_ids": [
+        "https://github.com/kalcode/spaceprojectsim"
+      ],
+      "score": 0.0,
+      "sources": [
+        "hackernews"
+      ],
+      "title": "Show HN: A self-running space economy SIM in Rust and Bevy",
+      "uncertainty": "single-source"
+    },
+    {
+      "candidate_ids": [
+        "https://news.ycombinator.com/item?id=48976781"
+      ],
+      "cluster_id": "cluster-4",
+      "representative_ids": [
+        "https://news.ycombinator.com/item?id=48976781"
+      ],
+      "score": 0.0,
+      "sources": [
+        "hackernews"
+      ],
+      "title": "GitHub's 2FA is to become mandatory on September 2, 2026",
+      "uncertainty": "single-source"
+    },
+    {
+      "candidate_ids": [
+        "https://theatlantic.com/culture/2026/07/world-cup-spain-argentina/688000"
+      ],
+      "cluster_id": "cluster-5",
+      "representative_ids": [
+        "https://theatlantic.com/culture/2026/07/world-cup-spain-argentina/688000"
+      ],
+      "score": 0.0,
+      "sources": [
+        "hackernews"
+      ],
+      "title": "The World Cup Could Not Be Americanized",
+      "uncertainty": "single-source"
+    },
+    {
+      "candidate_ids": [
+        "https://nycroam.com"
+      ],
+      "cluster_id": "cluster-6",
+      "representative_ids": [
+        "https://nycroam.com"
+      ],
+      "score": 0.0,
+      "sources": [
+        "hackernews"
+      ],
+      "title": "NYC Roam: 3D world with real transit and building data",
+      "uncertainty": "single-source"
+    },
+    {
+      "candidate_ids": [
+        "https://time.com/article/2026/07/18/the-world-should-learn-from-australia-s-social-media-law"
+      ],
+      "cluster_id": "cluster-7",
+      "representative_ids": [
+        "https://time.com/article/2026/07/18/the-world-should-learn-from-australia-s-social-media-law"
+      ],
+      "score": 0.0,
+      "sources": [
+        "hackernews"
+      ],
+      "title": "What the World Should Learn from Australia's Social Media Law",
+      "uncertainty": "single-source"
+    },
+    {
+      "candidate_ids": [
+        "https://abc.net.au/news/2026-07-20/identical-quadruplets-birth-brisbane/106935748"
+      ],
+      "cluster_id": "cluster-8",
+      "representative_ids": [
+        "https://abc.net.au/news/2026-07-20/identical-quadruplets-birth-brisbane/106935748"
+      ],
+      "score": 0.0,
+      "sources": [
+        "hackernews"
+      ],
+      "title": "Identical quadruplets in 'one of the rarest births in the world'",
+      "uncertainty": "single-source"
+    },
+    {
+      "candidate_ids": [
+        "https://bbc.com/news/articles/cly8eqyj8e2o"
+      ],
+      "cluster_id": "cluster-9",
+      "representative_ids": [
+        "https://bbc.com/news/articles/cly8eqyj8e2o"
+      ],
+      "score": 0.0,
+      "sources": [
+        "hackernews"
+      ],
+      "title": "Meet the crypto billionaires building a world where money buys you a vote",
+      "uncertainty": "single-source"
+    },
+    {
+      "candidate_ids": [
+        "https://economist.com/business/2026/07/19/chinas-mysterious-new-billionaires-are-conquering-the-world"
+      ],
+      "cluster_id": "cluster-10",
+      "representative_ids": [
+        "https://economist.com/business/2026/07/19/chinas-mysterious-new-billionaires-are-conquering-the-world"
+      ],
+      "score": 0.0,
+      "sources": [
+        "hackernews"
+      ],
+      "title": "China's mysterious new billionaires are conquering the world",
+      "uncertainty": "single-source"
+    },
+    {
+      "candidate_ids": [
+        "https://thehum.info"
+      ],
+      "cluster_id": "cluster-11",
+      "representative_ids": [
+        "https://thehum.info"
+      ],
+      "score": 0.0,
+      "sources": [
+        "hackernews"
+      ],
+      "title": "The World Hum Map and Database Project",
+      "uncertainty": "single-source"
+    },
+    {
+      "candidate_ids": [
+        "https://youtube.com/watch?v=bka0bkb6zo0"
+      ],
+      "cluster_id": "cluster-12",
+      "representative_ids": [
+        "https://youtube.com/watch?v=bka0bkb6zo0"
+      ],
+      "score": 0.0,
+      "sources": [
+        "hackernews"
+      ],
+      "title": "China saved the world last month [video]",
+      "uncertainty": "single-source"
+    },
+    {
+      "candidate_ids": [
+        "https://technologyreview.com/2026/07/20/1140675/chinas-ai-models-have-trumps-ai-world-at-war-with-itself"
+      ],
+      "cluster_id": "cluster-13",
+      "representative_ids": [
+        "https://technologyreview.com/2026/07/20/1140675/chinas-ai-models-have-trumps-ai-world-at-war-with-itself"
+      ],
+      "score": 0.0,
+      "sources": [
+        "hackernews"
+      ],
+      "title": "China's AI models have Trump's AI world at war with itself",
+      "uncertainty": "single-source"
+    },
+    {
+      "candidate_ids": [
+        "https://designdevelopmenttoday.com/news/news/22970950/work-officially-begins-on-2-world-trade-center"
+      ],
+      "cluster_id": "cluster-14",
+      "representative_ids": [
+        "https://designdevelopmenttoday.com/news/news/22970950/work-officially-begins-on-2-world-trade-center"
+      ],
+      "score": 0.0,
+      "sources": [
+        "hackernews"
+      ],
+      "title": "Work Officially Begins on 2 World Trade Center",
+      "uncertainty": "single-source"
+    },
+    {
+      "candidate_ids": [
+        "https://sciencedaily.com/releases/2026/07/260719040002.htm"
+      ],
+      "cluster_id": "cluster-15",
+      "representative_ids": [
+        "https://sciencedaily.com/releases/2026/07/260719040002.htm"
+      ],
+      "score": 0.0,
+      "sources": [
+        "hackernews"
+      ],
+      "title": "The mysterious hum heard around the world may have an explanation",
+      "uncertainty": "single-source"
+    },
+    {
+      "candidate_ids": [
+        "https://economist.com/by-invitation/2026/07/08/prepare-for-a-world-of-ad-hoc-coalitions"
+      ],
+      "cluster_id": "cluster-16",
+      "representative_ids": [
+        "https://economist.com/by-invitation/2026/07/08/prepare-for-a-world-of-ad-hoc-coalitions"
+      ],
+      "score": 0.0,
+      "sources": [
+        "hackernews"
+      ],
+      "title": "Prepare for a world of ad hoc coalitions",
+      "uncertainty": "single-source"
+    },
+    {
+      "candidate_ids": [
+        "https://bbc.co.uk/news/science-environment-67198206"
+      ],
+      "cluster_id": "cluster-17",
+      "representative_ids": [
+        "https://bbc.co.uk/news/science-environment-67198206"
+      ],
+      "score": 0.0,
+      "sources": [
+        "hackernews"
+      ],
+      "title": "World shift to clean energy is unstoppable, IEA report says",
+      "uncertainty": "single-source"
+    },
+    {
+      "candidate_ids": [
+        "https://reddit.com/r/amioverreacting/comments/1v2kkfo/aio_guy_claiming_to_be_my_fianc\u00e9es_boyfriend"
+      ],
+      "cluster_id": "cluster-18",
+      "representative_ids": [
+        "https://reddit.com/r/amioverreacting/comments/1v2kkfo/aio_guy_claiming_to_be_my_fianc\u00e9es_boyfriend"
+      ],
+      "score": 0.0,
+      "sources": [
+        "reddit"
+      ],
+      "title": "AIO: Guy claiming to be my fianc\u00e9e's boyfriend texted me last night",
+      "uncertainty": "single-source"
+    },
+    {
+      "candidate_ids": [
+        "https://pluralistic.net/2026/07/22/table-flipper"
+      ],
+      "cluster_id": "cluster-19",
+      "representative_ids": [
+        "https://pluralistic.net/2026/07/22/table-flipper"
+      ],
+      "score": 0.0,
+      "sources": [
+        "hackernews"
+      ],
+      "title": "Forget sovereign AI \u2013 the world needs business apps and datacenters",
+      "uncertainty": "single-source"
+    },
+    {
+      "candidate_ids": [
+        "https://twitter.com/drfeifei/status/2079597384510898377"
+      ],
+      "cluster_id": "cluster-20",
+      "representative_ids": [
+        "https://twitter.com/drfeifei/status/2079597384510898377"
+      ],
+      "score": 0.0,
+      "sources": [
+        "hackernews"
+      ],
+      "title": "World Labs acquires SceniX",
+      "uncertainty": "single-source"
+    },
+    {
+      "candidate_ids": [
+        "https://mymodernmet.com/eukaryotic-cell-digizyme"
+      ],
+      "cluster_id": "cluster-21",
+      "representative_ids": [
+        "https://mymodernmet.com/eukaryotic-cell-digizyme"
+      ],
+      "score": 0.0,
+      "sources": [
+        "hackernews"
+      ],
+      "title": "Scientists Visualize the Complex, Dynamic World Inside a Human Cell",
+      "uncertainty": "single-source"
+    },
+    {
+      "candidate_ids": [
+        "https://ai-world-bakeoff.pages.dev"
+      ],
+      "cluster_id": "cluster-22",
+      "representative_ids": [
+        "https://ai-world-bakeoff.pages.dev"
+      ],
+      "score": 0.0,
+      "sources": [
+        "hackernews"
+      ],
+      "title": "Show HN: AI World Bakeoff \u2013 9 models \u00d7 3 Three.js worlds",
+      "uncertainty": "single-source"
+    }
+  ],
+  "errors_by_source": {
+    "grounding": "Keyless web search unavailable",
+    "instagram": "HTTPError: HTTP 402: Payment Required",
+    "tiktok": "HTTPError: HTTP 402: Payment Required",
+    "x": "HTTP 400: Bad Request",
+    "youtube": "HTTP 402: Payment Required"
+  },
+  "freshness_verdicts": [],
+  "generated_at": "2026-07-22T20:34:37.621055+00:00",
+  "items_by_source": {
+    "grounding": [],
+    "hackernews": [
+      {
+        "author": "kalcode",
+        "body": "Show HN: A self-running space economy SIM in Rust and Bevy",
+        "container": "Hacker News",
+        "date_confidence": "high",
+        "engagement": {
+          "comments": 30,
+          "points": 106
+        },
+        "engagement_score": 70,
+        "freshness": 50,
+        "item_id": "48996187",
+        "local_rank_score": 0.2405,
+        "local_relevance": 0.07,
+        "metadata": {
+          "comment_insights": [],
+          "hn_url": "https://news.ycombinator.com/item?id=48996187",
+          "top_comments": []
+        },
+        "published_at": "2026-07-21",
+        "relevance_hint": 0.7,
+        "snippet": "Show HN: A self-running space economy SIM in Rust and Bevy",
+        "source": "hackernews",
+        "source_quality": 0.8,
+        "title": "Show HN: A self-running space economy SIM in Rust and Bevy",
+        "url": "https://github.com/Kalcode/spaceprojectsim",
+        "why_relevant": "HN story about Show HN: A self-running space economy SIM in Rust and Bevy"
+      },
+      {
+        "author": "dotcoma",
+        "body": "What the World Should Learn from Australia's Social Media Law",
+        "container": "Hacker News",
+        "date_confidence": "high",
+        "engagement": {
+          "comments": 2,
+          "points": 4
+        },
+        "engagement_score": 12,
+        "freshness": 90,
+        "item_id": "49000553",
+        "local_rank_score": 0.23700000000000002,
+        "local_relevance": 0.0,
+        "metadata": {
+          "comment_insights": [],
+          "hn_url": "https://news.ycombinator.com/item?id=49000553",
+          "top_comments": []
+        },
+        "published_at": "2026-07-22",
+        "relevance_hint": 0.66,
+        "snippet": "What the World Should Learn from Australia's Social Media Law",
+        "source": "hackernews",
+        "source_quality": 0.8,
+        "title": "What the World Should Learn from Australia's Social Media Law",
+        "url": "https://time.com/article/2026/07/18/the-world-should-learn-from-australia-s-social-media-law/",
+        "why_relevant": "HN story about What the World Should Learn from Australia's Social Media La"
+      },
+      {
+        "author": "simonebrunozzi",
+        "body": "China's AI models have Trump's AI world at war with itself",
+        "container": "Hacker News",
+        "date_confidence": "high",
+        "engagement": {
+          "comments": 0,
+          "points": 4
+        },
+        "engagement_score": 2,
+        "freshness": 90,
+        "item_id": "49004943",
+        "local_rank_score": 0.227,
+        "local_relevance": 0.0,
+        "metadata": {
+          "comment_insights": [],
+          "hn_url": "https://news.ycombinator.com/item?id=49004943",
+          "top_comments": []
+        },
+        "published_at": "2026-07-22",
+        "relevance_hint": 0.53,
+        "snippet": "China's AI models have Trump's AI world at war with itself",
+        "source": "hackernews",
+        "source_quality": 0.8,
+        "title": "China's AI models have Trump's AI world at war with itself",
+        "url": "https://www.technologyreview.com/2026/07/20/1140675/chinas-ai-models-have-trumps-ai-world-at-war-with-itself/",
+        "why_relevant": "HN story about China's AI models have Trump's AI world at war with itself"
+      },
+      {
+        "author": "marklit",
+        "body": "Map of the world's great castles and fortresses",
+        "container": "Hacker News",
+        "date_confidence": "high",
+        "engagement": {
+          "comments": 189,
+          "points": 306
+        },
+        "engagement_score": 100,
+        "freshness": 50,
+        "item_id": "48994178",
+        "local_rank_score": 0.225,
+        "local_relevance": 0.0,
+        "metadata": {
+          "comment_insights": [],
+          "hn_url": "https://news.ycombinator.com/item?id=48994178",
+          "top_comments": []
+        },
+        "published_at": "2026-07-21",
+        "relevance_hint": 0.75,
+        "snippet": "Map of the world's great castles and fortresses",
+        "source": "hackernews",
+        "source_quality": 0.8,
+        "title": "Map of the world's great castles and fortresses",
+        "url": "https://thecastlemap.com/",
+        "why_relevant": "HN story about Map of the world's great castles and fortresses"
+      },
+      {
+        "author": "joebuckwilliams",
+        "body": "Forget sovereign AI \u2013 the world needs business apps and datacenters",
+        "container": "Hacker News",
+        "date_confidence": "high",
+        "engagement": {
+          "comments": 0,
+          "points": 3
+        },
+        "engagement_score": 0,
+        "freshness": 90,
+        "item_id": "49008735",
+        "local_rank_score": 0.225,
+        "local_relevance": 0.0,
+        "metadata": {
+          "comment_insights": [],
+          "hn_url": "https://news.ycombinator.com/item?id=49008735",
+          "top_comments": []
+        },
+        "published_at": "2026-07-22",
+        "relevance_hint": 0.46,
+        "snippet": "Forget sovereign AI \u2013 the world needs business apps and datacenters",
+        "source": "hackernews",
+        "source_quality": 0.8,
+        "title": "Forget sovereign AI \u2013 the world needs business apps and datacenters",
+        "url": "https://pluralistic.net/2026/07/22/table-flipper/#graveyard-of-indispensable-nations",
+        "why_relevant": "HN story about Forget sovereign AI \u2013 the world needs business apps and data"
+      },
+      {
+        "author": "geox",
+        "body": "Work Officially Begins on 2 World Trade Center",
+        "container": "Hacker News",
+        "date_confidence": "high",
+        "engagement": {
+          "comments": 0,
+          "points": 4
+        },
+        "engagement_score": 2,
+        "freshness": 50,
+        "item_id": "48995709",
+        "local_rank_score": 0.127,
+        "local_relevance": 0.0,
+        "metadata": {
+          "comment_insights": [],
+          "hn_url": "https://news.ycombinator.com/item?id=48995709",
+          "top_comments": []
+        },
+        "published_at": "2026-07-21",
+        "relevance_hint": 0.52,
+        "snippet": "Work Officially Begins on 2 World Trade Center",
+        "source": "hackernews",
+        "source_quality": 0.8,
+        "title": "Work Officially Begins on 2 World Trade Center",
+        "url": "https://www.designdevelopmenttoday.com/news/news/22970950/work-officially-begins-on-2-world-trade-center",
+        "why_relevant": "HN story about Work Officially Begins on 2 World Trade Center"
+      },
+      {
+        "author": "amichail",
+        "body": "The mysterious hum heard around the world may have an explanation",
+        "container": "Hacker News",
+        "date_confidence": "high",
+        "engagement": {
+          "comments": 0,
+          "points": 4
+        },
+        "engagement_score": 2,
+        "freshness": 50,
+        "item_id": "48991031",
+        "local_rank_score": 0.127,
+        "local_relevance": 0.0,
+        "metadata": {
+          "comment_insights": [],
+          "hn_url": "https://news.ycombinator.com/item?id=48991031",
+          "top_comments": []
+        },
+        "published_at": "2026-07-21",
+        "relevance_hint": 0.51,
+        "snippet": "The mysterious hum heard around the world may have an explanation",
+        "source": "hackernews",
+        "source_quality": 0.8,
+        "title": "The mysterious hum heard around the world may have an explanation",
+        "url": "https://www.sciencedaily.com/releases/2026/07/260719040002.htm",
+        "why_relevant": "HN story about The mysterious hum heard around the world may have an explan"
+      },
+      {
+        "author": "dmarcos",
+        "body": "World Labs acquires SceniX",
+        "container": "Hacker News",
+        "date_confidence": "high",
+        "engagement": {
+          "comments": 0,
+          "points": 3
+        },
+        "engagement_score": 0,
+        "freshness": 50,
+        "item_id": "48995330",
+        "local_rank_score": 0.125,
+        "local_relevance": 0.0,
+        "metadata": {
+          "comment_insights": [],
+          "hn_url": "https://news.ycombinator.com/item?id=48995330",
+          "top_comments": []
+        },
+        "published_at": "2026-07-21",
+        "relevance_hint": 0.46,
+        "snippet": "World Labs acquires SceniX",
+        "source": "hackernews",
+        "source_quality": 0.8,
+        "title": "World Labs acquires SceniX",
+        "url": "https://twitter.com/drfeifei/status/2079597384510898377",
+        "why_relevant": "HN story about World Labs acquires SceniX"
+      },
+      {
+        "author": "o4c",
+        "body": "Scientists Visualize the Complex, Dynamic World Inside a Human Cell",
+        "container": "Hacker News",
+        "date_confidence": "high",
+        "engagement": {
+          "comments": 0,
+          "points": 3
+        },
+        "engagement_score": 0,
+        "freshness": 50,
+        "item_id": "48987705",
+        "local_rank_score": 0.125,
+        "local_relevance": 0.0,
+        "metadata": {
+          "comment_insights": [],
+          "hn_url": "https://news.ycombinator.com/item?id=48987705",
+          "top_comments": []
+        },
+        "published_at": "2026-07-21",
+        "relevance_hint": 0.44,
+        "snippet": "Scientists Visualize the Complex, Dynamic World Inside a Human Cell",
+        "source": "hackernews",
+        "source_quality": 0.8,
+        "title": "Scientists Visualize the Complex, Dynamic World Inside a Human Cell",
+        "url": "https://mymodernmet.com/eukaryotic-cell-digizyme/",
+        "why_relevant": "HN story about Scientists Visualize the Complex, Dynamic World Inside a Hum"
+      },
+      {
+        "author": "itvision",
+        "body": "GitHub's 2FA is to become mandatory on September 2, 2026",
+        "container": "Hacker News",
+        "date_confidence": "high",
+        "engagement": {
+          "comments": 8,
+          "points": 12
+        },
+        "engagement_score": 34,
+        "freshness": 10,
+        "item_id": "48976781",
+        "local_rank_score": 0.059000000000000004,
+        "local_relevance": 0.0,
+        "metadata": {
+          "comment_insights": [],
+          "hn_url": "https://news.ycombinator.com/item?id=48976781",
+          "top_comments": []
+        },
+        "published_at": "2026-07-20",
+        "relevance_hint": 0.64,
+        "snippet": "GitHub's 2FA is to become mandatory on September 2, 2026",
+        "source": "hackernews",
+        "source_quality": 0.8,
+        "title": "GitHub's 2FA is to become mandatory on September 2, 2026",
+        "url": "https://news.ycombinator.com/item?id=48976781",
+        "why_relevant": "HN story about GitHub's 2FA is to become mandatory on September 2, 2026"
+      },
+      {
+        "author": "paulpauper",
+        "body": "The World Cup Could Not Be Americanized",
+        "container": "Hacker News",
+        "date_confidence": "high",
+        "engagement": {
+          "comments": 7,
+          "points": 9
+        },
+        "engagement_score": 30,
+        "freshness": 10,
+        "item_id": "48981718",
+        "local_rank_score": 0.055,
+        "local_relevance": 0.0,
+        "metadata": {
+          "comment_insights": [],
+          "hn_url": "https://news.ycombinator.com/item?id=48981718",
+          "top_comments": []
+        },
+        "published_at": "2026-07-20",
+        "relevance_hint": 0.7,
+        "snippet": "The World Cup Could Not Be Americanized",
+        "source": "hackernews",
+        "source_quality": 0.8,
+        "title": "The World Cup Could Not Be Americanized",
+        "url": "https://www.theatlantic.com/culture/2026/07/world-cup-spain-argentina/688000/",
+        "why_relevant": "HN story about The World Cup Could Not Be Americanized"
+      },
+      {
+        "author": "heresalexandria",
+        "body": "NYC Roam: 3D world with real transit and building data",
+        "container": "Hacker News",
+        "date_confidence": "high",
+        "engagement": {
+          "comments": 2,
+          "points": 5
+        },
+        "engagement_score": 15,
+        "freshness": 10,
+        "item_id": "48978276",
+        "local_rank_score": 0.04,
+        "local_relevance": 0.0,
+        "metadata": {
+          "comment_insights": [],
+          "hn_url": "https://news.ycombinator.com/item?id=48978276",
+          "top_comments": []
+        },
+        "published_at": "2026-07-20",
+        "relevance_hint": 0.57,
+        "snippet": "NYC Roam: 3D world with real transit and building data",
+        "source": "hackernews",
+        "source_quality": 0.8,
+        "title": "NYC Roam: 3D world with real transit and building data",
+        "url": "https://www.nycroam.com/",
+        "why_relevant": "HN story about NYC Roam: 3D world with real transit and building data"
+      },
+      {
+        "author": "asdefghyk",
+        "body": "Identical quadruplets in 'one of the rarest births in the world'",
+        "container": "Hacker News",
+        "date_confidence": "high",
+        "engagement": {
+          "comments": 2,
+          "points": 4
+        },
+        "engagement_score": 12,
+        "freshness": 10,
+        "item_id": "48975050",
+        "local_rank_score": 0.037000000000000005,
+        "local_relevance": 0.0,
+        "metadata": {
+          "comment_insights": [],
+          "hn_url": "https://news.ycombinator.com/item?id=48975050",
+          "top_comments": []
+        },
+        "published_at": "2026-07-20",
+        "relevance_hint": 0.55,
+        "snippet": "Identical quadruplets in 'one of the rarest births in the world'",
+        "source": "hackernews",
+        "source_quality": 0.8,
+        "title": "Identical quadruplets in 'one of the rarest births in the world'",
+        "url": "https://www.abc.net.au/news/2026-07-20/identical-quadruplets-birth-brisbane/106935748",
+        "why_relevant": "HN story about Identical quadruplets in 'one of the rarest births in the wo"
+      },
+      {
+        "author": "1vuio0pswjnm7",
+        "body": "Meet the crypto billionaires building a world where money buys you a vote",
+        "container": "Hacker News",
+        "date_confidence": "high",
+        "engagement": {
+          "comments": 0,
+          "points": 7
+        },
+        "engagement_score": 8,
+        "freshness": 10,
+        "item_id": "48984129",
+        "local_rank_score": 0.033,
+        "local_relevance": 0.0,
+        "metadata": {
+          "comment_insights": [],
+          "hn_url": "https://news.ycombinator.com/item?id=48984129",
+          "top_comments": []
+        },
+        "published_at": "2026-07-20",
+        "relevance_hint": 0.62,
+        "snippet": "Meet the crypto billionaires building a world where money buys you a vote",
+        "source": "hackernews",
+        "source_quality": 0.8,
+        "title": "Meet the crypto billionaires building a world where money buys you a vote",
+        "url": "https://www.bbc.com/news/articles/cly8eqyj8e2o",
+        "why_relevant": "HN story about Meet the crypto billionaires building a world where money bu"
+      },
+      {
+        "author": "andsoitis",
+        "body": "China's mysterious new billionaires are conquering the world",
+        "container": "Hacker News",
+        "date_confidence": "high",
+        "engagement": {
+          "comments": 0,
+          "points": 7
+        },
+        "engagement_score": 8,
+        "freshness": 10,
+        "item_id": "48974935",
+        "local_rank_score": 0.033,
+        "local_relevance": 0.0,
+        "metadata": {
+          "comment_insights": [],
+          "hn_url": "https://news.ycombinator.com/item?id=48974935",
+          "top_comments": []
+        },
+        "published_at": "2026-07-20",
+        "relevance_hint": 0.61,
+        "snippet": "China's mysterious new billionaires are conquering the world",
+        "source": "hackernews",
+        "source_quality": 0.8,
+        "title": "China's mysterious new billionaires are conquering the world",
+        "url": "https://www.economist.com/business/2026/07/19/chinas-mysterious-new-billionaires-are-conquering-the-world",
+        "why_relevant": "HN story about China's mysterious new billionaires are conquering the world"
+      },
+      {
+        "author": "bookofjoe",
+        "body": "The World Hum Map and Database Project",
+        "container": "Hacker News",
+        "date_confidence": "high",
+        "engagement": {
+          "comments": 0,
+          "points": 6
+        },
+        "engagement_score": 6,
+        "freshness": 10,
+        "item_id": "48984639",
+        "local_rank_score": 0.031,
+        "local_relevance": 0.0,
+        "metadata": {
+          "comment_insights": [],
+          "hn_url": "https://news.ycombinator.com/item?id=48984639",
+          "top_comments": []
+        },
+        "published_at": "2026-07-20",
+        "relevance_hint": 0.59,
+        "snippet": "The World Hum Map and Database Project",
+        "source": "hackernews",
+        "source_quality": 0.8,
+        "title": "The World Hum Map and Database Project",
+        "url": "https://www.thehum.info/",
+        "why_relevant": "HN story about The World Hum Map and Database Project"
+      },
+      {
+        "author": "kklisura",
+        "body": "China saved the world last month [video]",
+        "container": "Hacker News",
+        "date_confidence": "high",
+        "engagement": {
+          "comments": 1,
+          "points": 3
+        },
+        "engagement_score": 6,
+        "freshness": 10,
+        "item_id": "48980189",
+        "local_rank_score": 0.031,
+        "local_relevance": 0.0,
+        "metadata": {
+          "comment_insights": [],
+          "hn_url": "https://news.ycombinator.com/item?id=48980189",
+          "top_comments": []
+        },
+        "published_at": "2026-07-20",
+        "relevance_hint": 0.48,
+        "snippet": "China saved the world last month [video]",
+        "source": "hackernews",
+        "source_quality": 0.8,
+        "title": "China saved the world last month [video]",
+        "url": "https://www.youtube.com/watch?v=BkA0bkb6ZO0",
+        "why_relevant": "HN story about China saved the world last month [video]"
+      },
+      {
+        "author": "andsoitis",
+        "body": "Prepare for a world of ad hoc coalitions",
+        "container": "Hacker News",
+        "date_confidence": "high",
+        "engagement": {
+          "comments": 0,
+          "points": 4
+        },
+        "engagement_score": 2,
+        "freshness": 10,
+        "item_id": "48982475",
+        "local_rank_score": 0.027000000000000003,
+        "local_relevance": 0.0,
+        "metadata": {
+          "comment_insights": [],
+          "hn_url": "https://news.ycombinator.com/item?id=48982475",
+          "top_comments": []
+        },
+        "published_at": "2026-07-20",
+        "relevance_hint": 0.66,
+        "snippet": "Prepare for a world of ad hoc coalitions",
+        "source": "hackernews",
+        "source_quality": 0.8,
+        "title": "Prepare for a world of ad hoc coalitions",
+        "url": "https://economist.com/by-invitation/2026/07/08/prepare-for-a-world-of-ad-hoc-coalitions",
+        "why_relevant": "HN story about Prepare for a world of ad hoc coalitions"
+      },
+      {
+        "author": "crowdhailer",
+        "body": "World shift to clean energy is unstoppable, IEA report says",
+        "container": "Hacker News",
+        "date_confidence": "high",
+        "engagement": {
+          "comments": 0,
+          "points": 4
+        },
+        "engagement_score": 2,
+        "freshness": 10,
+        "item_id": "48977670",
+        "local_rank_score": 0.027000000000000003,
+        "local_relevance": 0.0,
+        "metadata": {
+          "comment_insights": [],
+          "hn_url": "https://news.ycombinator.com/item?id=48977670",
+          "top_comments": []
+        },
+        "published_at": "2026-07-20",
+        "relevance_hint": 0.5,
+        "snippet": "World shift to clean energy is unstoppable, IEA report says",
+        "source": "hackernews",
+        "source_quality": 0.8,
+        "title": "World shift to clean energy is unstoppable, IEA report says",
+        "url": "https://www.bbc.co.uk/news/science-environment-67198206",
+        "why_relevant": "HN story about World shift to clean energy is unstoppable, IEA report says"
+      },
+      {
+        "author": "valhallarecords",
+        "body": "Show HN: AI World Bakeoff \u2013 9 models \u00d7 3 Three.js worlds",
+        "container": "Hacker News",
+        "date_confidence": "high",
+        "engagement": {
+          "comments": 0,
+          "points": 3
+        },
+        "engagement_score": 0,
+        "freshness": 10,
+        "item_id": "48983978",
+        "local_rank_score": 0.025,
+        "local_relevance": 0.0,
+        "metadata": {
+          "comment_insights": [],
+          "hn_url": "https://news.ycombinator.com/item?id=48983978",
+          "top_comments": []
+        },
+        "published_at": "2026-07-20",
+        "relevance_hint": 0.43,
+        "snippet": "Show HN: AI World Bakeoff \u2013 9 models \u00d7 3 Three.js worlds",
+        "source": "hackernews",
+        "source_quality": 0.8,
+        "title": "Show HN: AI World Bakeoff \u2013 9 models \u00d7 3 Three.js worlds",
+        "url": "https://ai-world-bakeoff.pages.dev/",
+        "why_relevant": "HN story about Show HN: AI World Bakeoff \u2013 9 models \u00d7 3 Three.js worlds"
+      }
+    ],
+    "instagram": [],
+    "polymarket": [],
+    "reddit": [
+      {
+        "body": "the argies are fucking spanners bruv \ud83e\udd23\nhttps://x.com/kiiliiimm/status/2078442335566807261?s=46 &#32; submitted by &#32; /u/palmsneedstopractise &#32; to &#32; r/GetNoted [link] &#32; [comments]",
+        "container": "GetNoted",
+        "date_confidence": "high",
+        "engagement": {
+          "num_comments": 920,
+          "score": 6537
+        },
+        "engagement_score": 100,
+        "freshness": 50,
+        "item_id": "R1",
+        "local_rank_score": 0.225,
+        "local_relevance": 0.0,
+        "metadata": {
+          "comment_insights": [],
+          "top_comments": []
+        },
+        "published_at": "2026-07-21",
+        "relevance_hint": 0.0,
+        "snippet": "https://x.com/kiiliiimm/status/2078442335566807261?s=46 &#32; submitted by &#32; /u/palmsneedstopractise &#32; to &#32; r/GetNoted [link] &#32; [comments]",
+        "source": "reddit",
+        "source_quality": 0.6,
+        "title": "the argies are fucking spanners bruv \ud83e\udd23",
+        "url": "https://www.reddit.com/r/GetNoted/comments/1v2742w/the_argies_are_fucking_spanners_bruv/",
+        "why_relevant": "Reddit RSS"
+      },
+      {
+        "body": "AIO: Guy claiming to be my fianc\u00e9e's boyfriend texted me last night\nHi, I need to know if I&#39;m right to be losing it rn. My fianc\u00e9e and I are due to get married in less than 2 months. We met each other at a mutual&#39;s wedding. The wedding was gender segregated so she and her mom had met my mom, who then introduced us later. We then went out for like a couple of months, like I&#39;d pick her up from her place (she lives with her parents) and we&#39;d have dinner and a movie, or go painting, or go to the lake etc. We&#39;re both Muslim immigrant families so i",
+        "container": "AmIOverreacting",
+        "date_confidence": "high",
+        "engagement": {
+          "num_comments": 1,
+          "score": 1
+        },
+        "engagement_score": 0,
+        "freshness": 50,
+        "item_id": "R2",
+        "local_rank_score": 0.125,
+        "local_relevance": 0.0,
+        "metadata": {
+          "comment_insights": [],
+          "top_comments": []
+        },
+        "published_at": "2026-07-21",
+        "relevance_hint": 0.0,
+        "snippet": "Hi, I need to know if I&#39;m right to be losing it rn. My fianc\u00e9e and I are due to get married in less than 2 months. We met each other at a mutual&#39;s wedding. The wedding was gender segregated so she and her mom had met my mom, who then introduced us later. We then went out for like a couple of months, like I&#39;d pick her up from her place (she lives with her parents) and we&#39;d have dinn",
+        "source": "reddit",
+        "source_quality": 0.6,
+        "title": "AIO: Guy claiming to be my fianc\u00e9e's boyfriend texted me last night",
+        "url": "https://www.reddit.com/r/AmIOverreacting/comments/1v2kkfo/aio_guy_claiming_to_be_my_fianc\u00e9es_boyfriend/",
+        "why_relevant": "Reddit RSS"
+      }
+    ],
+    "tiktok": [],
+    "youtube": []
+  },
+  "library_context": [],
+  "provider_runtime": {
+    "planner_model": "grok-4-1-fast",
+    "reasoning_provider": "xai",
+    "rerank_model": "grok-4-1-fast",
+    "x_search_backend": "xai"
+  },
+  "query_plan": {
+    "cluster_mode": "story",
+    "freshness_mode": "breaking",
+    "intent": "breaking_news",
+    "notes": [
+      "Use social and prediction-market results only as discovery leads.",
+      "Exclude GitHub completely.",
+      "Verify every candidate with an original current publisher or official source before publication."
+    ],
+    "raw_topic": "Kosovo Albania Balkans Europe world politics economy technology sport culture - current discussions relevant to Albanian readers",
+    "source_weights": {
+      "grounding": 0.14864864864864866,
+      "hackernews": 0.12162162162162161,
+      "instagram": 0.10810810810810811,
+      "polymarket": 0.09459459459459459,
+      "reddit": 0.13513513513513511,
+      "tiktok": 0.10810810810810811,
+      "x": 0.16216216216216214,
+      "youtube": 0.12162162162162161
+    },
+    "subqueries": [
+      {
+        "label": "Kosove-dhe-Shqiperi",
+        "ranking_query": "Current, independently verifiable Kosovo or Albania developments with public impact for Albanian readers",
+        "search_query": "Kosovo Albania politics economy public services energy transport July 2026",
+        "sources": [
+          "reddit",
+          "tiktok",
+          "instagram",
+          "x",
+          "youtube",
+          "hackernews",
+          "polymarket",
+          "grounding"
+        ],
+        "weight": 0.3111111111111111
+      },
+      {
+        "label": "Ballkan-dhe-Europe",
+        "ranking_query": "Breaking Balkan and European political, security or economic developments relevant to Kosovo and Albanian readers",
+        "search_query": "Balkans Europe politics security economy July 2026 Kosovo Serbia EU",
+        "sources": [
+          "reddit",
+          "tiktok",
+          "instagram",
+          "x",
+          "youtube",
+          "hackernews",
+          "polymarket",
+          "grounding"
+        ],
+        "weight": 0.26666666666666666
+      },
+      {
+        "label": "Bote-ekonomi-dhe-teknologji",
+        "ranking_query": "Major verified international politics, economy and technology stories with clear Albanian-reader relevance",
+        "search_query": "world politics economy technology July 2026 major developments",
+        "sources": [
+          "reddit",
+          "tiktok",
+          "instagram",
+          "x",
+          "youtube",
+          "hackernews",
+          "polymarket",
+          "grounding"
+        ],
+        "weight": 0.2222222222222222
+      },
+      {
+        "label": "Sport-dhe-kulture",
+        "ranking_query": "Confirmed sport and culture developments with demonstrable relevance to Albanian readers; exclude rumors",
+        "search_query": "football sport culture entertainment July 2026 Albania Kosovo Balkans Europe world",
+        "sources": [
+          "reddit",
+          "tiktok",
+          "instagram",
+          "x",
+          "youtube",
+          "hackernews",
+          "polymarket",
+          "grounding"
+        ],
+        "weight": 0.2
+      }
+    ]
+  },
+  "range_from": "2026-07-20",
+  "range_to": "2026-07-22",
+  "ranked_candidates": [
+    {
+      "candidate_id": "https://reddit.com/r/getnoted/comments/1v2742w/the_argies_are_fucking_spanners_bruv",
+      "cluster_id": "cluster-1",
+      "engagement": 100,
+      "explanation": "fallback-local-score (entity-miss demotion)",
+      "final_score": 0.0,
+      "freshness": 50,
+      "fun_explanation": "heuristic-fallback",
+      "fun_score": 1.05,
+      "item_id": "R1",
+      "local_relevance": 0.0,
+      "metadata": {
+        "provenance": [
+          {
+            "item_id": "R1",
+            "native_rank": 1,
+            "source": "reddit",
+            "subquery_label": "Kosove-dhe-Shqiperi"
+          }
+        ]
+      },
+      "native_ranks": {
+        "Kosove-dhe-Shqiperi:reddit": 1
+      },
+      "rerank_score": 0.0,
+      "rrf_score": 0.0006892138039679023,
+      "snippet": "https://x.com/kiiliiimm/status/2078442335566807261?s=46 &#32; submitted by &#32; /u/palmsneedstopractise &#32; to &#32; r/GetNoted [link] &#32; [comments]",
+      "source": "reddit",
+      "source_items": [
+        {
+          "body": "the argies are fucking spanners bruv \ud83e\udd23\nhttps://x.com/kiiliiimm/status/2078442335566807261?s=46 &#32; submitted by &#32; /u/palmsneedstopractise &#32; to &#32; r/GetNoted [link] &#32; [comments]",
+          "container": "GetNoted",
+          "date_confidence": "high",
+          "engagement": {
+            "num_comments": 920,
+            "score": 6537
+          },
+          "engagement_score": 100,
+          "freshness": 50,
+          "item_id": "R1",
+          "local_rank_score": 0.225,
+          "local_relevance": 0.0,
+          "metadata": {
+            "comment_insights": [],
+            "top_comments": []
+          },
+          "published_at": "2026-07-21",
+          "relevance_hint": 0.0,
+          "snippet": "https://x.com/kiiliiimm/status/2078442335566807261?s=46 &#32; submitted by &#32; /u/palmsneedstopractise &#32; to &#32; r/GetNoted [link] &#32; [comments]",
+          "source": "reddit",
+          "source_quality": 0.6,
+          "title": "the argies are fucking spanners bruv \ud83e\udd23",
+          "url": "https://www.reddit.com/r/GetNoted/comments/1v2742w/the_argies_are_fucking_spanners_bruv/",
+          "why_relevant": "Reddit RSS"
+        }
+      ],
+      "source_quality": 0.6,
+      "sources": [
+        "reddit"
+      ],
+      "subquery_labels": [
+        "Kosove-dhe-Shqiperi"
+      ],
+      "title": "the argies are fucking spanners bruv \ud83e\udd23",
+      "url": "https://www.reddit.com/r/GetNoted/comments/1v2742w/the_argies_are_fucking_spanners_bruv/"
+    },
+    {
+      "candidate_id": "https://thecastlemap.com",
+      "cluster_id": "cluster-2",
+      "engagement": 100,
+      "explanation": "fallback-local-score (entity-miss demotion)",
+      "final_score": 0.0,
+      "freshness": 50,
+      "fun_explanation": "heuristic-fallback",
+      "fun_score": 15.75,
+      "item_id": "48994178",
+      "local_relevance": 0.0,
+      "metadata": {
+        "provenance": [
+          {
+            "item_id": "48994178",
+            "native_rank": 4,
+            "source": "hackernews",
+            "subquery_label": "Bote-ekonomi-dhe-teknologji"
+          }
+        ]
+      },
+      "native_ranks": {
+        "Bote-ekonomi-dhe-teknologji:hackernews": 4
+      },
+      "rerank_score": 0.0,
+      "rrf_score": 0.00042229729729729727,
+      "snippet": "Map of the world's great castles and fortresses",
+      "source": "hackernews",
+      "source_items": [
+        {
+          "author": "marklit",
+          "body": "Map of the world's great castles and fortresses",
+          "container": "Hacker News",
+          "date_confidence": "high",
+          "engagement": {
+            "comments": 189,
+            "points": 306
+          },
+          "engagement_score": 100,
+          "freshness": 50,
+          "item_id": "48994178",
+          "local_rank_score": 0.225,
+          "local_relevance": 0.0,
+          "metadata": {
+            "comment_insights": [],
+            "hn_url": "https://news.ycombinator.com/item?id=48994178",
+            "top_comments": []
+          },
+          "published_at": "2026-07-21",
+          "relevance_hint": 0.75,
+          "snippet": "Map of the world's great castles and fortresses",
+          "source": "hackernews",
+          "source_quality": 0.8,
+          "title": "Map of the world's great castles and fortresses",
+          "url": "https://thecastlemap.com/",
+          "why_relevant": "HN story about Map of the world's great castles and fortresses"
+        }
+      ],
+      "source_quality": 0.8,
+      "sources": [
+        "hackernews"
+      ],
+      "subquery_labels": [
+        "Bote-ekonomi-dhe-teknologji"
+      ],
+      "title": "Map of the world's great castles and fortresses",
+      "url": "https://thecastlemap.com/"
+    },
+    {
+      "candidate_id": "https://github.com/kalcode/spaceprojectsim",
+      "cluster_id": "cluster-3",
+      "engagement": 70,
+      "explanation": "fallback-local-score (entity-miss demotion)",
+      "final_score": 0.0,
+      "freshness": 50,
+      "fun_explanation": "heuristic-fallback",
+      "fun_score": 12.45,
+      "item_id": "48996187",
+      "local_relevance": 0.07,
+      "metadata": {
+        "provenance": [
+          {
+            "item_id": "48996187",
+            "native_rank": 1,
+            "source": "hackernews",
+            "subquery_label": "Bote-ekonomi-dhe-teknologji"
+          }
+        ]
+      },
+      "native_ranks": {
+        "Bote-ekonomi-dhe-teknologji:hackernews": 1
+      },
+      "rerank_score": 0.0,
+      "rrf_score": 0.00044306601683650863,
+      "snippet": "Show HN: A self-running space economy SIM in Rust and Bevy",
+      "source": "hackernews",
+      "source_items": [
+        {
+          "author": "kalcode",
+          "body": "Show HN: A self-running space economy SIM in Rust and Bevy",
+          "container": "Hacker News",
+          "date_confidence": "high",
+          "engagement": {
+            "comments": 30,
+            "points": 106
+          },
+          "engagement_score": 70,
+          "freshness": 50,
+          "item_id": "48996187",
+          "local_rank_score": 0.2405,
+          "local_relevance": 0.07,
+          "metadata": {
+            "comment_insights": [],
+            "hn_url": "https://news.ycombinator.com/item?id=48996187",
+            "top_comments": []
+          },
+          "published_at": "2026-07-21",
+          "relevance_hint": 0.7,
+          "snippet": "Show HN: A self-running space economy SIM in Rust and Bevy",
+          "source": "hackernews",
+          "source_quality": 0.8,
+          "title": "Show HN: A self-running space economy SIM in Rust and Bevy",
+          "url": "https://github.com/Kalcode/spaceprojectsim",
+          "why_relevant": "HN story about Show HN: A self-running space economy SIM in Rust and Bevy"
+        }
+      ],
+      "source_quality": 0.8,
+      "sources": [
+        "hackernews"
+      ],
+      "subquery_labels": [
+        "Bote-ekonomi-dhe-teknologji"
+      ],
+      "title": "Show HN: A self-running space economy SIM in Rust and Bevy",
+      "url": "https://github.com/Kalcode/spaceprojectsim"
+    },
+    {
+      "candidate_id": "https://news.ycombinator.com/item?id=48976781",
+      "cluster_id": "cluster-4",
+      "engagement": 34,
+      "explanation": "fallback-local-score (entity-miss demotion)",
+      "final_score": 0.0,
+      "freshness": 10,
+      "fun_explanation": "heuristic-fallback",
+      "fun_score": 13.05,
+      "item_id": "48976781",
+      "local_relevance": 0.0,
+      "metadata": {
+        "provenance": [
+          {
+            "item_id": "48976781",
+            "native_rank": 10,
+            "source": "hackernews",
+            "subquery_label": "Bote-ekonomi-dhe-teknologji"
+          }
+        ]
+      },
+      "native_ranks": {
+        "Bote-ekonomi-dhe-teknologji:hackernews": 10
+      },
+      "rerank_score": 0.0,
+      "rrf_score": 0.0003861003861003861,
+      "snippet": "GitHub's 2FA is to become mandatory on September 2, 2026",
+      "source": "hackernews",
+      "source_items": [
+        {
+          "author": "itvision",
+          "body": "GitHub's 2FA is to become mandatory on September 2, 2026",
+          "container": "Hacker News",
+          "date_confidence": "high",
+          "engagement": {
+            "comments": 8,
+            "points": 12
+          },
+          "engagement_score": 34,
+          "freshness": 10,
+          "item_id": "48976781",
+          "local_rank_score": 0.059000000000000004,
+          "local_relevance": 0.0,
+          "metadata": {
+            "comment_insights": [],
+            "hn_url": "https://news.ycombinator.com/item?id=48976781",
+            "top_comments": []
+          },
+          "published_at": "2026-07-20",
+          "relevance_hint": 0.64,
+          "snippet": "GitHub's 2FA is to become mandatory on September 2, 2026",
+          "source": "hackernews",
+          "source_quality": 0.8,
+          "title": "GitHub's 2FA is to become mandatory on September 2, 2026",
+          "url": "https://news.ycombinator.com/item?id=48976781",
+          "why_relevant": "HN story about GitHub's 2FA is to become mandatory on September 2, 2026"
+        }
+      ],
+      "source_quality": 0.8,
+      "sources": [
+        "hackernews"
+      ],
+      "subquery_labels": [
+        "Bote-ekonomi-dhe-teknologji"
+      ],
+      "title": "GitHub's 2FA is to become mandatory on September 2, 2026",
+      "url": "https://news.ycombinator.com/item?id=48976781"
+    },
+    {
+      "candidate_id": "https://theatlantic.com/culture/2026/07/world-cup-spain-argentina/688000",
+      "cluster_id": "cluster-5",
+      "engagement": 30,
+      "explanation": "fallback-local-score (entity-miss demotion)",
+      "final_score": 0.0,
+      "freshness": 10,
+      "fun_explanation": "heuristic-fallback",
+      "fun_score": 18.15,
+      "item_id": "48981718",
+      "local_relevance": 0.0,
+      "metadata": {
+        "provenance": [
+          {
+            "item_id": "48981718",
+            "native_rank": 11,
+            "source": "hackernews",
+            "subquery_label": "Bote-ekonomi-dhe-teknologji"
+          }
+        ]
+      },
+      "native_ranks": {
+        "Bote-ekonomi-dhe-teknologji:hackernews": 11
+      },
+      "rerank_score": 0.0,
+      "rrf_score": 0.0003806623524933384,
+      "snippet": "The World Cup Could Not Be Americanized",
+      "source": "hackernews",
+      "source_items": [
+        {
+          "author": "paulpauper",
+          "body": "The World Cup Could Not Be Americanized",
+          "container": "Hacker News",
+          "date_confidence": "high",
+          "engagement": {
+            "comments": 7,
+            "points": 9
+          },
+          "engagement_score": 30,
+          "freshness": 10,
+          "item_id": "48981718",
+          "local_rank_score": 0.055,
+          "local_relevance": 0.0,
+          "metadata": {
+            "comment_insights": [],
+            "hn_url": "https://news.ycombinator.com/item?id=48981718",
+            "top_comments": []
+          },
+          "published_at": "2026-07-20",
+          "relevance_hint": 0.7,
+          "snippet": "The World Cup Could Not Be Americanized",
+          "source": "hackernews",
+          "source_quality": 0.8,
+          "title": "The World Cup Could Not Be Americanized",
+          "url": "https://www.theatlantic.com/culture/2026/07/world-cup-spain-argentina/688000/",
+          "why_relevant": "HN story about The World Cup Could Not Be Americanized"
+        }
+      ],
+      "source_quality": 0.8,
+      "sources": [
+        "hackernews"
+      ],
+      "subquery_labels": [
+        "Bote-ekonomi-dhe-teknologji"
+      ],
+      "title": "The World Cup Could Not Be Americanized",
+      "url": "https://www.theatlantic.com/culture/2026/07/world-cup-spain-argentina/688000/"
+    },
+    {
+      "candidate_id": "https://nycroam.com",
+      "cluster_id": "cluster-6",
+      "engagement": 15,
+      "explanation": "fallback-local-score (entity-miss demotion)",
+      "final_score": 0.0,
+      "freshness": 10,
+      "fun_explanation": "heuristic-fallback",
+      "fun_score": 13.65,
+      "item_id": "48978276",
+      "local_relevance": 0.0,
+      "metadata": {
+        "provenance": [
+          {
+            "item_id": "48978276",
+            "native_rank": 12,
+            "source": "hackernews",
+            "subquery_label": "Bote-ekonomi-dhe-teknologji"
+          }
+        ]
+      },
+      "native_ranks": {
+        "Bote-ekonomi-dhe-teknologji:hackernews": 12
+      },
+      "rerank_score": 0.0,
+      "rrf_score": 0.00037537537537537537,
+      "snippet": "NYC Roam: 3D world with real transit and building data",
+      "source": "hackernews",
+      "source_items": [
+        {
+          "author": "heresalexandria",
+          "body": "NYC Roam: 3D world with real transit and building data",
+          "container": "Hacker News",
+          "date_confidence": "high",
+          "engagement": {
+            "comments": 2,
+            "points": 5
+          },
+          "engagement_score": 15,
+          "freshness": 10,
+          "item_id": "48978276",
+          "local_rank_score": 0.04,
+          "local_relevance": 0.0,
+          "metadata": {
+            "comment_insights": [],
+            "hn_url": "https://news.ycombinator.com/item?id=48978276",
+            "top_comments": []
+          },
+          "published_at": "2026-07-20",
+          "relevance_hint": 0.57,
+          "snippet": "NYC Roam: 3D world with real transit and building data",
+          "source": "hackernews",
+          "source_quality": 0.8,
+          "title": "NYC Roam: 3D world with real transit and building data",
+          "url": "https://www.nycroam.com/",
+          "why_relevant": "HN story about NYC Roam: 3D world with real transit and building data"
+        }
+      ],
+      "source_quality": 0.8,
+      "sources": [
+        "hackernews"
+      ],
+      "subquery_labels": [
+        "Bote-ekonomi-dhe-teknologji"
+      ],
+      "title": "NYC Roam: 3D world with real transit and building data",
+      "url": "https://www.nycroam.com/"
+    },
+    {
+      "candidate_id": "https://time.com/article/2026/07/18/the-world-should-learn-from-australia-s-social-media-law",
+      "cluster_id": "cluster-7",
+      "engagement": 12,
+      "explanation": "fallback-local-score (entity-miss demotion)",
+      "final_score": 0.0,
+      "freshness": 90,
+      "fun_explanation": "heuristic-fallback",
+      "fun_score": 11.55,
+      "item_id": "49000553",
+      "local_relevance": 0.0,
+      "metadata": {
+        "provenance": [
+          {
+            "item_id": "49000553",
+            "native_rank": 2,
+            "source": "hackernews",
+            "subquery_label": "Bote-ekonomi-dhe-teknologji"
+          }
+        ]
+      },
+      "native_ranks": {
+        "Bote-ekonomi-dhe-teknologji:hackernews": 2
+      },
+      "rerank_score": 1.0,
+      "rrf_score": 0.0004359197907585004,
+      "snippet": "What the World Should Learn from Australia's Social Media Law",
+      "source": "hackernews",
+      "source_items": [
+        {
+          "author": "dotcoma",
+          "body": "What the World Should Learn from Australia's Social Media Law",
+          "container": "Hacker News",
+          "date_confidence": "high",
+          "engagement": {
+            "comments": 2,
+            "points": 4
+          },
+          "engagement_score": 12,
+          "freshness": 90,
+          "item_id": "49000553",
+          "local_rank_score": 0.23700000000000002,
+          "local_relevance": 0.0,
+          "metadata": {
+            "comment_insights": [],
+            "hn_url": "https://news.ycombinator.com/item?id=49000553",
+            "top_comments": []
+          },
+          "published_at": "2026-07-22",
+          "relevance_hint": 0.66,
+          "snippet": "What the World Should Learn from Australia's Social Media Law",
+          "source": "hackernews",
+          "source_quality": 0.8,
+          "title": "What the World Should Learn from Australia's Social Media Law",
+          "url": "https://time.com/article/2026/07/18/the-world-should-learn-from-australia-s-social-media-law/",
+          "why_relevant": "HN story about What the World Should Learn from Australia's Social Media La"
+        }
+      ],
+      "source_quality": 0.8,
+      "sources": [
+        "hackernews"
+      ],
+      "subquery_labels": [
+        "Bote-ekonomi-dhe-teknologji"
+      ],
+      "title": "What the World Should Learn from Australia's Social Media Law",
+      "url": "https://time.com/article/2026/07/18/the-world-should-learn-from-australia-s-social-media-law/"
+    },
+    {
+      "candidate_id": "https://abc.net.au/news/2026-07-20/identical-quadruplets-birth-brisbane/106935748",
+      "cluster_id": "cluster-8",
+      "engagement": 12,
+      "explanation": "fallback-local-score (entity-miss demotion)",
+      "final_score": 0.0,
+      "freshness": 10,
+      "fun_explanation": "heuristic-fallback",
+      "fun_score": 10.649999999999999,
+      "item_id": "48975050",
+      "local_relevance": 0.0,
+      "metadata": {
+        "provenance": [
+          {
+            "item_id": "48975050",
+            "native_rank": 13,
+            "source": "hackernews",
+            "subquery_label": "Bote-ekonomi-dhe-teknologji"
+          }
+        ]
+      },
+      "native_ranks": {
+        "Bote-ekonomi-dhe-teknologji:hackernews": 13
+      },
+      "rerank_score": 0.0,
+      "rrf_score": 0.0003702332469455757,
+      "snippet": "Identical quadruplets in 'one of the rarest births in the world'",
+      "source": "hackernews",
+      "source_items": [
+        {
+          "author": "asdefghyk",
+          "body": "Identical quadruplets in 'one of the rarest births in the world'",
+          "container": "Hacker News",
+          "date_confidence": "high",
+          "engagement": {
+            "comments": 2,
+            "points": 4
+          },
+          "engagement_score": 12,
+          "freshness": 10,
+          "item_id": "48975050",
+          "local_rank_score": 0.037000000000000005,
+          "local_relevance": 0.0,
+          "metadata": {
+            "comment_insights": [],
+            "hn_url": "https://news.ycombinator.com/item?id=48975050",
+            "top_comments": []
+          },
+          "published_at": "2026-07-20",
+          "relevance_hint": 0.55,
+          "snippet": "Identical quadruplets in 'one of the rarest births in the world'",
+          "source": "hackernews",
+          "source_quality": 0.8,
+          "title": "Identical quadruplets in 'one of the rarest births in the world'",
+          "url": "https://www.abc.net.au/news/2026-07-20/identical-quadruplets-birth-brisbane/106935748",
+          "why_relevant": "HN story about Identical quadruplets in 'one of the rarest births in the wo"
+        }
+      ],
+      "source_quality": 0.8,
+      "sources": [
+        "hackernews"
+      ],
+      "subquery_labels": [
+        "Bote-ekonomi-dhe-teknologji"
+      ],
+      "title": "Identical quadruplets in 'one of the rarest births in the world'",
+      "url": "https://www.abc.net.au/news/2026-07-20/identical-quadruplets-birth-brisbane/106935748"
+    },
+    {
+      "candidate_id": "https://bbc.com/news/articles/cly8eqyj8e2o",
+      "cluster_id": "cluster-9",
+      "engagement": 8,
+      "explanation": "fallback-local-score (entity-miss demotion)",
+      "final_score": 0.0,
+      "freshness": 10,
+      "fun_explanation": "heuristic-fallback",
+      "fun_score": 7.95,
+      "item_id": "48984129",
+      "local_relevance": 0.0,
+      "metadata": {
+        "provenance": [
+          {
+            "item_id": "48984129",
+            "native_rank": 14,
+            "source": "hackernews",
+            "subquery_label": "Bote-ekonomi-dhe-teknologji"
+          }
+        ]
+      },
+      "native_ranks": {
+        "Bote-ekonomi-dhe-teknologji:hackernews": 14
+      },
+      "rerank_score": 0.0,
+      "rrf_score": 0.00036523009495982464,
+      "snippet": "Meet the crypto billionaires building a world where money buys you a vote",
+      "source": "hackernews",
+      "source_items": [
+        {
+          "author": "1vuio0pswjnm7",
+          "body": "Meet the crypto billionaires building a world where money buys you a vote",
+          "container": "Hacker News",
+          "date_confidence": "high",
+          "engagement": {
+            "comments": 0,
+            "points": 7
+          },
+          "engagement_score": 8,
+          "freshness": 10,
+          "item_id": "48984129",
+          "local_rank_score": 0.033,
+          "local_relevance": 0.0,
+          "metadata": {
+            "comment_insights": [],
+            "hn_url": "https://news.ycombinator.com/item?id=48984129",
+            "top_comments": []
+          },
+          "published_at": "2026-07-20",
+          "relevance_hint": 0.62,
+          "snippet": "Meet the crypto billionaires building a world where money buys you a vote",
+          "source": "hackernews",
+          "source_quality": 0.8,
+          "title": "Meet the crypto billionaires building a world where money buys you a vote",
+          "url": "https://www.bbc.com/news/articles/cly8eqyj8e2o",
+          "why_relevant": "HN story about Meet the crypto billionaires building a world where money bu"
+        }
+      ],
+      "source_quality": 0.8,
+      "sources": [
+        "hackernews"
+      ],
+      "subquery_labels": [
+        "Bote-ekonomi-dhe-teknologji"
+      ],
+      "title": "Meet the crypto billionaires building a world where money buys you a vote",
+      "url": "https://www.bbc.com/news/articles/cly8eqyj8e2o"
+    },
+    {
+      "candidate_id": "https://economist.com/business/2026/07/19/chinas-mysterious-new-billionaires-are-conquering-the-world",
+      "cluster_id": "cluster-10",
+      "engagement": 8,
+      "explanation": "fallback-local-score (entity-miss demotion)",
+      "final_score": 0.0,
+      "freshness": 10,
+      "fun_explanation": "heuristic-fallback",
+      "fun_score": 11.850000000000001,
+      "item_id": "48974935",
+      "local_relevance": 0.0,
+      "metadata": {
+        "provenance": [
+          {
+            "item_id": "48974935",
+            "native_rank": 15,
+            "source": "hackernews",
+            "subquery_label": "Bote-ekonomi-dhe-teknologji"
+          }
+        ]
+      },
+      "native_ranks": {
+        "Bote-ekonomi-dhe-teknologji:hackernews": 15
+      },
+      "rerank_score": 0.0,
+      "rrf_score": 0.0003603603603603603,
+      "snippet": "China's mysterious new billionaires are conquering the world",
+      "source": "hackernews",
+      "source_items": [
+        {
+          "author": "andsoitis",
+          "body": "China's mysterious new billionaires are conquering the world",
+          "container": "Hacker News",
+          "date_confidence": "high",
+          "engagement": {
+            "comments": 0,
+            "points": 7
+          },
+          "engagement_score": 8,
+          "freshness": 10,
+          "item_id": "48974935",
+          "local_rank_score": 0.033,
+          "local_relevance": 0.0,
+          "metadata": {
+            "comment_insights": [],
+            "hn_url": "https://news.ycombinator.com/item?id=48974935",
+            "top_comments": []
+          },
+          "published_at": "2026-07-20",
+          "relevance_hint": 0.61,
+          "snippet": "China's mysterious new billionaires are conquering the world",
+          "source": "hackernews",
+          "source_quality": 0.8,
+          "title": "China's mysterious new billionaires are conquering the world",
+          "url": "https://www.economist.com/business/2026/07/19/chinas-mysterious-new-billionaires-are-conquering-the-world",
+          "why_relevant": "HN story about China's mysterious new billionaires are conquering the world"
+        }
+      ],
+      "source_quality": 0.8,
+      "sources": [
+        "hackernews"
+      ],
+      "subquery_labels": [
+        "Bote-ekonomi-dhe-teknologji"
+      ],
+      "title": "China's mysterious new billionaires are conquering the world",
+      "url": "https://www.economist.com/business/2026/07/19/chinas-mysterious-new-billionaires-are-conquering-the-world"
+    },
+    {
+      "candidate_id": "https://thehum.info",
+      "cluster_id": "cluster-11",
+      "engagement": 6,
+      "explanation": "fallback-local-score (entity-miss demotion)",
+      "final_score": 0.0,
+      "freshness": 10,
+      "fun_explanation": "heuristic-fallback",
+      "fun_score": 18.45,
+      "item_id": "48984639",
+      "local_relevance": 0.0,
+      "metadata": {
+        "provenance": [
+          {
+            "item_id": "48984639",
+            "native_rank": 16,
+            "source": "hackernews",
+            "subquery_label": "Bote-ekonomi-dhe-teknologji"
+          }
+        ]
+      },
+      "native_ranks": {
+        "Bote-ekonomi-dhe-teknologji:hackernews": 16
+      },
+      "rerank_score": 0.0,
+      "rrf_score": 0.0003556187766714082,
+      "snippet": "The World Hum Map and Database Project",
+      "source": "hackernews",
+      "source_items": [
+        {
+          "author": "bookofjoe",
+          "body": "The World Hum Map and Database Project",
+          "container": "Hacker News",
+          "date_confidence": "high",
+          "engagement": {
+            "comments": 0,
+            "points": 6
+          },
+          "engagement_score": 6,
+          "freshness": 10,
+          "item_id": "48984639",
+          "local_rank_score": 0.031,
+          "local_relevance": 0.0,
+          "metadata": {
+            "comment_insights": [],
+            "hn_url": "https://news.ycombinator.com/item?id=48984639",
+            "top_comments": []
+          },
+          "published_at": "2026-07-20",
+          "relevance_hint": 0.59,
+          "snippet": "The World Hum Map and Database Project",
+          "source": "hackernews",
+          "source_quality": 0.8,
+          "title": "The World Hum Map and Database Project",
+          "url": "https://www.thehum.info/",
+          "why_relevant": "HN story about The World Hum Map and Database Project"
+        }
+      ],
+      "source_quality": 0.8,
+      "sources": [
+        "hackernews"
+      ],
+      "subquery_labels": [
+        "Bote-ekonomi-dhe-teknologji"
+      ],
+      "title": "The World Hum Map and Database Project",
+      "url": "https://www.thehum.info/"
+    },
+    {
+      "candidate_id": "https://youtube.com/watch?v=bka0bkb6zo0",
+      "cluster_id": "cluster-12",
+      "engagement": 6,
+      "explanation": "fallback-local-score (entity-miss demotion)",
+      "final_score": 0.0,
+      "freshness": 10,
+      "fun_explanation": "heuristic-fallback",
+      "fun_score": 17.849999999999998,
+      "item_id": "48980189",
+      "local_relevance": 0.0,
+      "metadata": {
+        "provenance": [
+          {
+            "item_id": "48980189",
+            "native_rank": 17,
+            "source": "hackernews",
+            "subquery_label": "Bote-ekonomi-dhe-teknologji"
+          }
+        ]
+      },
+      "native_ranks": {
+        "Bote-ekonomi-dhe-teknologji:hackernews": 17
+      },
+      "rerank_score": 0.0,
+      "rrf_score": 0.000351000351000351,
+      "snippet": "China saved the world last month [video]",
+      "source": "hackernews",
+      "source_items": [
+        {
+          "author": "kklisura",
+          "body": "China saved the world last month [video]",
+          "container": "Hacker News",
+          "date_confidence": "high",
+          "engagement": {
+            "comments": 1,
+            "points": 3
+          },
+          "engagement_score": 6,
+          "freshness": 10,
+          "item_id": "48980189",
+          "local_rank_score": 0.031,
+          "local_relevance": 0.0,
+          "metadata": {
+            "comment_insights": [],
+            "hn_url": "https://news.ycombinator.com/item?id=48980189",
+            "top_comments": []
+          },
+          "published_at": "2026-07-20",
+          "relevance_hint": 0.48,
+          "snippet": "China saved the world last month [video]",
+          "source": "hackernews",
+          "source_quality": 0.8,
+          "title": "China saved the world last month [video]",
+          "url": "https://www.youtube.com/watch?v=BkA0bkb6ZO0",
+          "why_relevant": "HN story about China saved the world last month [video]"
+        }
+      ],
+      "source_quality": 0.8,
+      "sources": [
+        "hackernews"
+      ],
+      "subquery_labels": [
+        "Bote-ekonomi-dhe-teknologji"
+      ],
+      "title": "China saved the world last month [video]",
+      "url": "https://www.youtube.com/watch?v=BkA0bkb6ZO0"
+    },
+    {
+      "candidate_id": "https://technologyreview.com/2026/07/20/1140675/chinas-ai-models-have-trumps-ai-world-at-war-with-itself",
+      "cluster_id": "cluster-13",
+      "engagement": 2,
+      "explanation": "fallback-local-score (entity-miss demotion)",
+      "final_score": 0.0,
+      "freshness": 90,
+      "fun_explanation": "heuristic-fallback",
+      "fun_score": 12.45,
+      "item_id": "49004943",
+      "local_relevance": 0.0,
+      "metadata": {
+        "provenance": [
+          {
+            "item_id": "49004943",
+            "native_rank": 3,
+            "source": "hackernews",
+            "subquery_label": "Bote-ekonomi-dhe-teknologji"
+          }
+        ]
+      },
+      "native_ranks": {
+        "Bote-ekonomi-dhe-teknologji:hackernews": 3
+      },
+      "rerank_score": 1.0,
+      "rrf_score": 0.00042900042900042895,
+      "snippet": "China's AI models have Trump's AI world at war with itself",
+      "source": "hackernews",
+      "source_items": [
+        {
+          "author": "simonebrunozzi",
+          "body": "China's AI models have Trump's AI world at war with itself",
+          "container": "Hacker News",
+          "date_confidence": "high",
+          "engagement": {
+            "comments": 0,
+            "points": 4
+          },
+          "engagement_score": 2,
+          "freshness": 90,
+          "item_id": "49004943",
+          "local_rank_score": 0.227,
+          "local_relevance": 0.0,
+          "metadata": {
+            "comment_insights": [],
+            "hn_url": "https://news.ycombinator.com/item?id=49004943",
+            "top_comments": []
+          },
+          "published_at": "2026-07-22",
+          "relevance_hint": 0.53,
+          "snippet": "China's AI models have Trump's AI world at war with itself",
+          "source": "hackernews",
+          "source_quality": 0.8,
+          "title": "China's AI models have Trump's AI world at war with itself",
+          "url": "https://www.technologyreview.com/2026/07/20/1140675/chinas-ai-models-have-trumps-ai-world-at-war-with-itself/",
+          "why_relevant": "HN story about China's AI models have Trump's AI world at war with itself"
+        }
+      ],
+      "source_quality": 0.8,
+      "sources": [
+        "hackernews"
+      ],
+      "subquery_labels": [
+        "Bote-ekonomi-dhe-teknologji"
+      ],
+      "title": "China's AI models have Trump's AI world at war with itself",
+      "url": "https://www.technologyreview.com/2026/07/20/1140675/chinas-ai-models-have-trumps-ai-world-at-war-with-itself/"
+    },
+    {
+      "candidate_id": "https://designdevelopmenttoday.com/news/news/22970950/work-officially-begins-on-2-world-trade-center",
+      "cluster_id": "cluster-14",
+      "engagement": 2,
+      "explanation": "fallback-local-score (entity-miss demotion)",
+      "final_score": 0.0,
+      "freshness": 50,
+      "fun_explanation": "heuristic-fallback",
+      "fun_score": 16.05,
+      "item_id": "48995709",
+      "local_relevance": 0.0,
+      "metadata": {
+        "provenance": [
+          {
+            "item_id": "48995709",
+            "native_rank": 6,
+            "source": "hackernews",
+            "subquery_label": "Bote-ekonomi-dhe-teknologji"
+          }
+        ]
+      },
+      "native_ranks": {
+        "Bote-ekonomi-dhe-teknologji:hackernews": 6
+      },
+      "rerank_score": 0.0,
+      "rrf_score": 0.00040950040950040947,
+      "snippet": "Work Officially Begins on 2 World Trade Center",
+      "source": "hackernews",
+      "source_items": [
+        {
+          "author": "geox",
+          "body": "Work Officially Begins on 2 World Trade Center",
+          "container": "Hacker News",
+          "date_confidence": "high",
+          "engagement": {
+            "comments": 0,
+            "points": 4
+          },
+          "engagement_score": 2,
+          "freshness": 50,
+          "item_id": "48995709",
+          "local_rank_score": 0.127,
+          "local_relevance": 0.0,
+          "metadata": {
+            "comment_insights": [],
+            "hn_url": "https://news.ycombinator.com/item?id=48995709",
+            "top_comments": []
+          },
+          "published_at": "2026-07-21",
+          "relevance_hint": 0.52,
+          "snippet": "Work Officially Begins on 2 World Trade Center",
+          "source": "hackernews",
+          "source_quality": 0.8,
+          "title": "Work Officially Begins on 2 World Trade Center",
+          "url": "https://www.designdevelopmenttoday.com/news/news/22970950/work-officially-begins-on-2-world-trade-center",
+          "why_relevant": "HN story about Work Officially Begins on 2 World Trade Center"
+        }
+      ],
+      "source_quality": 0.8,
+      "sources": [
+        "hackernews"
+      ],
+      "subquery_labels": [
+        "Bote-ekonomi-dhe-teknologji"
+      ],
+      "title": "Work Officially Begins on 2 World Trade Center",
+      "url": "https://www.designdevelopmenttoday.com/news/news/22970950/work-officially-begins-on-2-world-trade-center"
+    },
+    {
+      "candidate_id": "https://sciencedaily.com/releases/2026/07/260719040002.htm",
+      "cluster_id": "cluster-15",
+      "engagement": 2,
+      "explanation": "fallback-local-score (entity-miss demotion)",
+      "final_score": 0.0,
+      "freshness": 50,
+      "fun_explanation": "heuristic-fallback",
+      "fun_score": 10.35,
+      "item_id": "48991031",
+      "local_relevance": 0.0,
+      "metadata": {
+        "provenance": [
+          {
+            "item_id": "48991031",
+            "native_rank": 7,
+            "source": "hackernews",
+            "subquery_label": "Bote-ekonomi-dhe-teknologji"
+          }
+        ]
+      },
+      "native_ranks": {
+        "Bote-ekonomi-dhe-teknologji:hackernews": 7
+      },
+      "rerank_score": 0.0,
+      "rrf_score": 0.0004033884630899556,
+      "snippet": "The mysterious hum heard around the world may have an explanation",
+      "source": "hackernews",
+      "source_items": [
+        {
+          "author": "amichail",
+          "body": "The mysterious hum heard around the world may have an explanation",
+          "container": "Hacker News",
+          "date_confidence": "high",
+          "engagement": {
+            "comments": 0,
+            "points": 4
+          },
+          "engagement_score": 2,
+          "freshness": 50,
+          "item_id": "48991031",
+          "local_rank_score": 0.127,
+          "local_relevance": 0.0,
+          "metadata": {
+            "comment_insights": [],
+            "hn_url": "https://news.ycombinator.com/item?id=48991031",
+            "top_comments": []
+          },
+          "published_at": "2026-07-21",
+          "relevance_hint": 0.51,
+          "snippet": "The mysterious hum heard around the world may have an explanation",
+          "source": "hackernews",
+          "source_quality": 0.8,
+          "title": "The mysterious hum heard around the world may have an explanation",
+          "url": "https://www.sciencedaily.com/releases/2026/07/260719040002.htm",
+          "why_relevant": "HN story about The mysterious hum heard around the world may have an explan"
+        }
+      ],
+      "source_quality": 0.8,
+      "sources": [
+        "hackernews"
+      ],
+      "subquery_labels": [
+        "Bote-ekonomi-dhe-teknologji"
+      ],
+      "title": "The mysterious hum heard around the world may have an explanation",
+      "url": "https://www.sciencedaily.com/releases/2026/07/260719040002.htm"
+    },
+    {
+      "candidate_id": "https://economist.com/by-invitation/2026/07/08/prepare-for-a-world-of-ad-hoc-coalitions",
+      "cluster_id": "cluster-16",
+      "engagement": 2,
+      "explanation": "fallback-local-score (entity-miss demotion)",
+      "final_score": 0.0,
+      "freshness": 10,
+      "fun_explanation": "heuristic-fallback",
+      "fun_score": 17.849999999999998,
+      "item_id": "48982475",
+      "local_relevance": 0.0,
+      "metadata": {
+        "provenance": [
+          {
+            "item_id": "48982475",
+            "native_rank": 18,
+            "source": "hackernews",
+            "subquery_label": "Bote-ekonomi-dhe-teknologji"
+          }
+        ]
+      },
+      "native_ranks": {
+        "Bote-ekonomi-dhe-teknologji:hackernews": 18
+      },
+      "rerank_score": 0.0,
+      "rrf_score": 0.0003465003465003465,
+      "snippet": "Prepare for a world of ad hoc coalitions",
+      "source": "hackernews",
+      "source_items": [
+        {
+          "author": "andsoitis",
+          "body": "Prepare for a world of ad hoc coalitions",
+          "container": "Hacker News",
+          "date_confidence": "high",
+          "engagement": {
+            "comments": 0,
+            "points": 4
+          },
+          "engagement_score": 2,
+          "freshness": 10,
+          "item_id": "48982475",
+          "local_rank_score": 0.027000000000000003,
+          "local_relevance": 0.0,
+          "metadata": {
+            "comment_insights": [],
+            "hn_url": "https://news.ycombinator.com/item?id=48982475",
+            "top_comments": []
+          },
+          "published_at": "2026-07-20",
+          "relevance_hint": 0.66,
+          "snippet": "Prepare for a world of ad hoc coalitions",
+          "source": "hackernews",
+          "source_quality": 0.8,
+          "title": "Prepare for a world of ad hoc coalitions",
+          "url": "https://economist.com/by-invitation/2026/07/08/prepare-for-a-world-of-ad-hoc-coalitions",
+          "why_relevant": "HN story about Prepare for a world of ad hoc coalitions"
+        }
+      ],
+      "source_quality": 0.8,
+      "sources": [
+        "hackernews"
+      ],
+      "subquery_labels": [
+        "Bote-ekonomi-dhe-teknologji"
+      ],
+      "title": "Prepare for a world of ad hoc coalitions",
+      "url": "https://economist.com/by-invitation/2026/07/08/prepare-for-a-world-of-ad-hoc-coalitions"
+    },
+    {
+      "candidate_id": "https://bbc.co.uk/news/science-environment-67198206",
+      "cluster_id": "cluster-17",
+      "engagement": 2,
+      "explanation": "fallback-local-score (entity-miss demotion)",
+      "final_score": 0.0,
+      "freshness": 10,
+      "fun_explanation": "heuristic-fallback",
+      "fun_score": 12.15,
+      "item_id": "48977670",
+      "local_relevance": 0.0,
+      "metadata": {
+        "provenance": [
+          {
+            "item_id": "48977670",
+            "native_rank": 19,
+            "source": "hackernews",
+            "subquery_label": "Bote-ekonomi-dhe-teknologji"
+          }
+        ]
+      },
+      "native_ranks": {
+        "Bote-ekonomi-dhe-teknologji:hackernews": 19
+      },
+      "rerank_score": 0.0,
+      "rrf_score": 0.00034211426616489907,
+      "snippet": "World shift to clean energy is unstoppable, IEA report says",
+      "source": "hackernews",
+      "source_items": [
+        {
+          "author": "crowdhailer",
+          "body": "World shift to clean energy is unstoppable, IEA report says",
+          "container": "Hacker News",
+          "date_confidence": "high",
+          "engagement": {
+            "comments": 0,
+            "points": 4
+          },
+          "engagement_score": 2,
+          "freshness": 10,
+          "item_id": "48977670",
+          "local_rank_score": 0.027000000000000003,
+          "local_relevance": 0.0,
+          "metadata": {
+            "comment_insights": [],
+            "hn_url": "https://news.ycombinator.com/item?id=48977670",
+            "top_comments": []
+          },
+          "published_at": "2026-07-20",
+          "relevance_hint": 0.5,
+          "snippet": "World shift to clean energy is unstoppable, IEA report says",
+          "source": "hackernews",
+          "source_quality": 0.8,
+          "title": "World shift to clean energy is unstoppable, IEA report says",
+          "url": "https://www.bbc.co.uk/news/science-environment-67198206",
+          "why_relevant": "HN story about World shift to clean energy is unstoppable, IEA report says"
+        }
+      ],
+      "source_quality": 0.8,
+      "sources": [
+        "hackernews"
+      ],
+      "subquery_labels": [
+        "Bote-ekonomi-dhe-teknologji"
+      ],
+      "title": "World shift to clean energy is unstoppable, IEA report says",
+      "url": "https://www.bbc.co.uk/news/science-environment-67198206"
+    },
+    {
+      "candidate_id": "https://reddit.com/r/amioverreacting/comments/1v2kkfo/aio_guy_claiming_to_be_my_fianc\u00e9es_boyfriend",
+      "cluster_id": "cluster-18",
+      "engagement": 0,
+      "explanation": "fallback-local-score (entity-miss demotion)",
+      "final_score": 0.0,
+      "freshness": 50,
+      "fun_explanation": "heuristic-fallback",
+      "fun_score": 0.0,
+      "item_id": "R2",
+      "local_relevance": 0.0,
+      "metadata": {
+        "provenance": [
+          {
+            "item_id": "R2",
+            "native_rank": 2,
+            "source": "reddit",
+            "subquery_label": "Kosove-dhe-Shqiperi"
+          }
+        ]
+      },
+      "native_ranks": {
+        "Kosove-dhe-Shqiperi:reddit": 2
+      },
+      "rerank_score": 0.0,
+      "rrf_score": 0.0006780974522910007,
+      "snippet": "Hi, I need to know if I&#39;m right to be losing it rn. My fianc\u00e9e and I are due to get married in less than 2 months. We met each other at a mutual&#39;s wedding. The wedding was gender segregated so she and her mom had met my mom, who then introduced us later. We then went out for like a couple of months, like I&#39;d pick her up from her place (she lives with her parents) and we&#39;d have dinn",
+      "source": "reddit",
+      "source_items": [
+        {
+          "body": "AIO: Guy claiming to be my fianc\u00e9e's boyfriend texted me last night\nHi, I need to know if I&#39;m right to be losing it rn. My fianc\u00e9e and I are due to get married in less than 2 months. We met each other at a mutual&#39;s wedding. The wedding was gender segregated so she and her mom had met my mom, who then introduced us later. We then went out for like a couple of months, like I&#39;d pick her up from her place (she lives with her parents) and we&#39;d have dinner and a movie, or go painting, or go to the lake etc. We&#39;re both Muslim immigrant families so i",
+          "container": "AmIOverreacting",
+          "date_confidence": "high",
+          "engagement": {
+            "num_comments": 1,
+            "score": 1
+          },
+          "engagement_score": 0,
+          "freshness": 50,
+          "item_id": "R2",
+          "local_rank_score": 0.125,
+          "local_relevance": 0.0,
+          "metadata": {
+            "comment_insights": [],
+            "top_comments": []
+          },
+          "published_at": "2026-07-21",
+          "relevance_hint": 0.0,
+          "snippet": "Hi, I need to know if I&#39;m right to be losing it rn. My fianc\u00e9e and I are due to get married in less than 2 months. We met each other at a mutual&#39;s wedding. The wedding was gender segregated so she and her mom had met my mom, who then introduced us later. We then went out for like a couple of months, like I&#39;d pick her up from her place (she lives with her parents) and we&#39;d have dinn",
+          "source": "reddit",
+          "source_quality": 0.6,
+          "title": "AIO: Guy claiming to be my fianc\u00e9e's boyfriend texted me last night",
+          "url": "https://www.reddit.com/r/AmIOverreacting/comments/1v2kkfo/aio_guy_claiming_to_be_my_fianc\u00e9es_boyfriend/",
+          "why_relevant": "Reddit RSS"
+        }
+      ],
+      "source_quality": 0.6,
+      "sources": [
+        "reddit"
+      ],
+      "subquery_labels": [
+        "Kosove-dhe-Shqiperi"
+      ],
+      "title": "AIO: Guy claiming to be my fianc\u00e9e's boyfriend texted me last night",
+      "url": "https://www.reddit.com/r/AmIOverreacting/comments/1v2kkfo/aio_guy_claiming_to_be_my_fianc\u00e9es_boyfriend/"
+    },
+    {
+      "candidate_id": "https://pluralistic.net/2026/07/22/table-flipper",
+      "cluster_id": "cluster-19",
+      "engagement": 0,
+      "explanation": "fallback-local-score (entity-miss demotion)",
+      "final_score": 0.0,
+      "freshness": 90,
+      "fun_explanation": "heuristic-fallback",
+      "fun_score": 9.75,
+      "item_id": "49008735",
+      "local_relevance": 0.0,
+      "metadata": {
+        "provenance": [
+          {
+            "item_id": "49008735",
+            "native_rank": 5,
+            "source": "hackernews",
+            "subquery_label": "Bote-ekonomi-dhe-teknologji"
+          }
+        ]
+      },
+      "native_ranks": {
+        "Bote-ekonomi-dhe-teknologji:hackernews": 5
+      },
+      "rerank_score": 1.0,
+      "rrf_score": 0.00041580041580041577,
+      "snippet": "Forget sovereign AI \u2013 the world needs business apps and datacenters",
+      "source": "hackernews",
+      "source_items": [
+        {
+          "author": "joebuckwilliams",
+          "body": "Forget sovereign AI \u2013 the world needs business apps and datacenters",
+          "container": "Hacker News",
+          "date_confidence": "high",
+          "engagement": {
+            "comments": 0,
+            "points": 3
+          },
+          "engagement_score": 0,
+          "freshness": 90,
+          "item_id": "49008735",
+          "local_rank_score": 0.225,
+          "local_relevance": 0.0,
+          "metadata": {
+            "comment_insights": [],
+            "hn_url": "https://news.ycombinator.com/item?id=49008735",
+            "top_comments": []
+          },
+          "published_at": "2026-07-22",
+          "relevance_hint": 0.46,
+          "snippet": "Forget sovereign AI \u2013 the world needs business apps and datacenters",
+          "source": "hackernews",
+          "source_quality": 0.8,
+          "title": "Forget sovereign AI \u2013 the world needs business apps and datacenters",
+          "url": "https://pluralistic.net/2026/07/22/table-flipper/#graveyard-of-indispensable-nations",
+          "why_relevant": "HN story about Forget sovereign AI \u2013 the world needs business apps and data"
+        }
+      ],
+      "source_quality": 0.8,
+      "sources": [
+        "hackernews"
+      ],
+      "subquery_labels": [
+        "Bote-ekonomi-dhe-teknologji"
+      ],
+      "title": "Forget sovereign AI \u2013 the world needs business apps and datacenters",
+      "url": "https://pluralistic.net/2026/07/22/table-flipper/#graveyard-of-indispensable-nations"
+    },
+    {
+      "candidate_id": "https://twitter.com/drfeifei/status/2079597384510898377",
+      "cluster_id": "cluster-20",
+      "engagement": 0,
+      "explanation": "fallback-local-score (entity-miss demotion)",
+      "final_score": 0.0,
+      "freshness": 50,
+      "fun_explanation": "heuristic-fallback",
+      "fun_score": 22.05,
+      "item_id": "48995330",
+      "local_relevance": 0.0,
+      "metadata": {
+        "provenance": [
+          {
+            "item_id": "48995330",
+            "native_rank": 8,
+            "source": "hackernews",
+            "subquery_label": "Bote-ekonomi-dhe-teknologji"
+          }
+        ]
+      },
+      "native_ranks": {
+        "Bote-ekonomi-dhe-teknologji:hackernews": 8
+      },
+      "rerank_score": 0.0,
+      "rrf_score": 0.00039745627980922096,
+      "snippet": "World Labs acquires SceniX",
+      "source": "hackernews",
+      "source_items": [
+        {
+          "author": "dmarcos",
+          "body": "World Labs acquires SceniX",
+          "container": "Hacker News",
+          "date_confidence": "high",
+          "engagement": {
+            "comments": 0,
+            "points": 3
+          },
+          "engagement_score": 0,
+          "freshness": 50,
+          "item_id": "48995330",
+          "local_rank_score": 0.125,
+          "local_relevance": 0.0,
+          "metadata": {
+            "comment_insights": [],
+            "hn_url": "https://news.ycombinator.com/item?id=48995330",
+            "top_comments": []
+          },
+          "published_at": "2026-07-21",
+          "relevance_hint": 0.46,
+          "snippet": "World Labs acquires SceniX",
+          "source": "hackernews",
+          "source_quality": 0.8,
+          "title": "World Labs acquires SceniX",
+          "url": "https://twitter.com/drfeifei/status/2079597384510898377",
+          "why_relevant": "HN story about World Labs acquires SceniX"
+        }
+      ],
+      "source_quality": 0.8,
+      "sources": [
+        "hackernews"
+      ],
+      "subquery_labels": [
+        "Bote-ekonomi-dhe-teknologji"
+      ],
+      "title": "World Labs acquires SceniX",
+      "url": "https://twitter.com/drfeifei/status/2079597384510898377"
+    },
+    {
+      "candidate_id": "https://mymodernmet.com/eukaryotic-cell-digizyme",
+      "cluster_id": "cluster-21",
+      "engagement": 0,
+      "explanation": "fallback-local-score (entity-miss demotion)",
+      "final_score": 0.0,
+      "freshness": 50,
+      "fun_explanation": "heuristic-fallback",
+      "fun_score": 9.75,
+      "item_id": "48987705",
+      "local_relevance": 0.0,
+      "metadata": {
+        "provenance": [
+          {
+            "item_id": "48987705",
+            "native_rank": 9,
+            "source": "hackernews",
+            "subquery_label": "Bote-ekonomi-dhe-teknologji"
+          }
+        ]
+      },
+      "native_ranks": {
+        "Bote-ekonomi-dhe-teknologji:hackernews": 9
+      },
+      "rerank_score": 0.0,
+      "rrf_score": 0.0003916960438699569,
+      "snippet": "Scientists Visualize the Complex, Dynamic World Inside a Human Cell",
+      "source": "hackernews",
+      "source_items": [
+        {
+          "author": "o4c",
+          "body": "Scientists Visualize the Complex, Dynamic World Inside a Human Cell",
+          "container": "Hacker News",
+          "date_confidence": "high",
+          "engagement": {
+            "comments": 0,
+            "points": 3
+          },
+          "engagement_score": 0,
+          "freshness": 50,
+          "item_id": "48987705",
+          "local_rank_score": 0.125,
+          "local_relevance": 0.0,
+          "metadata": {
+            "comment_insights": [],
+            "hn_url": "https://news.ycombinator.com/item?id=48987705",
+            "top_comments": []
+          },
+          "published_at": "2026-07-21",
+          "relevance_hint": 0.44,
+          "snippet": "Scientists Visualize the Complex, Dynamic World Inside a Human Cell",
+          "source": "hackernews",
+          "source_quality": 0.8,
+          "title": "Scientists Visualize the Complex, Dynamic World Inside a Human Cell",
+          "url": "https://mymodernmet.com/eukaryotic-cell-digizyme/",
+          "why_relevant": "HN story about Scientists Visualize the Complex, Dynamic World Inside a Hum"
+        }
+      ],
+      "source_quality": 0.8,
+      "sources": [
+        "hackernews"
+      ],
+      "subquery_labels": [
+        "Bote-ekonomi-dhe-teknologji"
+      ],
+      "title": "Scientists Visualize the Complex, Dynamic World Inside a Human Cell",
+      "url": "https://mymodernmet.com/eukaryotic-cell-digizyme/"
+    },
+    {
+      "candidate_id": "https://ai-world-bakeoff.pages.dev",
+      "cluster_id": "cluster-22",
+      "engagement": 0,
+      "explanation": "fallback-local-score (entity-miss demotion)",
+      "final_score": 0.0,
+      "freshness": 10,
+      "fun_explanation": "heuristic-fallback",
+      "fun_score": 13.05,
+      "item_id": "48983978",
+      "local_relevance": 0.0,
+      "metadata": {
+        "provenance": [
+          {
+            "item_id": "48983978",
+            "native_rank": 20,
+            "source": "hackernews",
+            "subquery_label": "Bote-ekonomi-dhe-teknologji"
+          }
+        ]
+      },
+      "native_ranks": {
+        "Bote-ekonomi-dhe-teknologji:hackernews": 20
+      },
+      "rerank_score": 0.0,
+      "rrf_score": 0.0003378378378378378,
+      "snippet": "Show HN: AI World Bakeoff \u2013 9 models \u00d7 3 Three.js worlds",
+      "source": "hackernews",
+      "source_items": [
+        {
+          "author": "valhallarecords",
+          "body": "Show HN: AI World Bakeoff \u2013 9 models \u00d7 3 Three.js worlds",
+          "container": "Hacker News",
+          "date_confidence": "high",
+          "engagement": {
+            "comments": 0,
+            "points": 3
+          },
+          "engagement_score": 0,
+          "freshness": 10,
+          "item_id": "48983978",
+          "local_rank_score": 0.025,
+          "local_relevance": 0.0,
+          "metadata": {
+            "comment_insights": [],
+            "hn_url": "https://news.ycombinator.com/item?id=48983978",
+            "top_comments": []
+          },
+          "published_at": "2026-07-20",
+          "relevance_hint": 0.43,
+          "snippet": "Show HN: AI World Bakeoff \u2013 9 models \u00d7 3 Three.js worlds",
+          "source": "hackernews",
+          "source_quality": 0.8,
+          "title": "Show HN: AI World Bakeoff \u2013 9 models \u00d7 3 Three.js worlds",
+          "url": "https://ai-world-bakeoff.pages.dev/",
+          "why_relevant": "HN story about Show HN: AI World Bakeoff \u2013 9 models \u00d7 3 Three.js worlds"
+        }
+      ],
+      "source_quality": 0.8,
+      "sources": [
+        "hackernews"
+      ],
+      "subquery_labels": [
+        "Bote-ekonomi-dhe-teknologji"
+      ],
+      "title": "Show HN: AI World Bakeoff \u2013 9 models \u00d7 3 Three.js worlds",
+      "url": "https://ai-world-bakeoff.pages.dev/"
+    }
+  ],
+  "source_status": {
+    "grounding": {
+      "at": "2026-07-22T20:34:33.460054Z",
+      "attempted": true,
+      "detail": "Keyless web search unavailable",
+      "fix_hint": "doctor",
+      "items_returned": 0,
+      "source": "grounding",
+      "state": "unreachable"
+    },
+    "hackernews": {
+      "at": "2026-07-22T20:34:33.331974Z",
+      "attempted": true,
+      "items_returned": 20,
+      "source": "hackernews",
+      "state": "ok"
+    },
+    "instagram": {
+      "at": "2026-07-22T20:34:34.200418Z",
+      "attempted": true,
+      "detail": "HTTPError: HTTP 402: Payment Required",
+      "fix_hint": "doctor",
+      "items_returned": 0,
+      "source": "instagram",
+      "state": "auth-failed"
+    },
+    "polymarket": {
+      "at": "2026-07-22T20:34:34.070670Z",
+      "attempted": true,
+      "items_returned": 0,
+      "source": "polymarket",
+      "state": "no-results"
+    },
+    "reddit": {
+      "at": "2026-07-22T20:34:36.561325Z",
+      "attempted": true,
+      "detail": "HTTP 403: Blocked",
+      "fix_hint": "doctor",
+      "items_returned": 2,
+      "source": "reddit",
+      "state": "partial"
+    },
+    "tiktok": {
+      "at": "2026-07-22T20:34:34.130385Z",
+      "attempted": true,
+      "detail": "HTTPError: HTTP 402: Payment Required",
+      "fix_hint": "doctor",
+      "items_returned": 0,
+      "source": "tiktok",
+      "state": "auth-failed"
+    },
+    "x": {
+      "at": "2026-07-22T20:34:32.102397Z",
+      "attempted": true,
+      "detail": "HTTP 400: Bad Request",
+      "fix_hint": "doctor",
+      "items_returned": 0,
+      "source": "x",
+      "state": "error"
+    },
+    "youtube": {
+      "at": "2026-07-22T20:34:33.402136Z",
+      "attempted": true,
+      "detail": "HTTP 402: Payment Required",
+      "fix_hint": "doctor",
+      "items_returned": 0,
+      "source": "youtube",
+      "state": "auth-failed"
+    }
+  },
+  "topic": "Kosovo Albania Balkans Europe world politics economy technology sport culture - current discussions relevant to Albanian readers",
+  "warnings": [
+    "Some sources failed: grounding, instagram, tiktok, x, youtube",
+    "Some sources returned partial results (degraded): reddit"
+  ]
+}

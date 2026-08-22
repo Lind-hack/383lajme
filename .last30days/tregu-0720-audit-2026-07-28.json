@@ -1,0 +1,234 @@
+{
+  "generated_at": "2026-07-28T05:23:33.898Z",
+  "window_utc": "20260728-20260804",
+  "coverage": [
+    {
+      "competition": "Premier League",
+      "primary": "ESPN",
+      "url": "https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/scoreboard?dates=20260728-20260804&limit=500",
+      "http_status": 200,
+      "event_count": 0,
+      "events": []
+    },
+    {
+      "competition": "La Liga",
+      "primary": "ESPN",
+      "url": "https://site.api.espn.com/apis/site/v2/sports/soccer/esp.1/scoreboard?dates=20260728-20260804&limit=500",
+      "http_status": 200,
+      "event_count": 0,
+      "events": []
+    },
+    {
+      "competition": "Serie A",
+      "primary": "ESPN",
+      "url": "https://site.api.espn.com/apis/site/v2/sports/soccer/ita.1/scoreboard?dates=20260728-20260804&limit=500",
+      "http_status": 200,
+      "event_count": 0,
+      "events": []
+    },
+    {
+      "competition": "Bundesliga",
+      "primary": "ESPN",
+      "url": "https://site.api.espn.com/apis/site/v2/sports/soccer/ger.1/scoreboard?dates=20260728-20260804&limit=500",
+      "http_status": 200,
+      "event_count": 0,
+      "events": []
+    },
+    {
+      "competition": "UEFA Champions League",
+      "primary": "ESPN",
+      "url": "https://site.api.espn.com/apis/site/v2/sports/soccer/uefa.champions/scoreboard?dates=20260728-20260804&limit=500",
+      "http_status": 200,
+      "event_count": 0,
+      "events": []
+    },
+    {
+      "competition": "UEFA Europa League",
+      "primary": "ESPN",
+      "url": "https://site.api.espn.com/apis/site/v2/sports/soccer/uefa.europa/scoreboard?dates=20260728-20260804&limit=500",
+      "http_status": 200,
+      "event_count": 0,
+      "events": []
+    },
+    {
+      "competition": "UEFA Conference League",
+      "primary": "ESPN",
+      "url": "https://site.api.espn.com/apis/site/v2/sports/soccer/uefa.europa.conf/scoreboard?dates=20260728-20260804&limit=500",
+      "http_status": 200,
+      "event_count": 0,
+      "events": []
+    },
+    {
+      "competition": "UEFA Nations League",
+      "primary": "ESPN",
+      "url": "https://site.api.espn.com/apis/site/v2/sports/soccer/uefa.nations/scoreboard?dates=20260728-20260804&limit=500",
+      "http_status": 200,
+      "event_count": 0,
+      "events": []
+    },
+    {
+      "competition": "NBA",
+      "primary": "ESPN",
+      "url": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard?dates=20260728-20260804&limit=500",
+      "http_status": 200,
+      "event_count": 0,
+      "events": []
+    },
+    {
+      "competition": "Formula 1",
+      "primary": "ESPN",
+      "url": "https://site.api.espn.com/apis/site/v2/sports/racing/f1/scoreboard?dates=20260728-20260804&limit=500",
+      "http_status": 200,
+      "event_count": 0,
+      "events": []
+    },
+    {
+      "competition": "Kosovo Superliga basketball",
+      "corroboration": "Flashscore",
+      "url": "https://www.flashscore.com/basketball/kosovo/superliga/",
+      "http_status": 200,
+      "matching_fixture_identified": false,
+      "availability": "page_available_no_verified_fixture"
+    },
+    {
+      "competition": "Formula 1",
+      "corroboration": "Flashscore",
+      "url": "https://www.flashscore.com/motorsport/formula-1/",
+      "http_status": 404,
+      "matching_fixture_identified": false,
+      "availability": "unavailable"
+    }
+  ],
+  "drafts": [
+    {
+      "id": "28883c78-31b9-411e-9e5e-d9acaac9ee1e",
+      "slug": "cmimi-i-madh-i-malajzise-figuron-ne-kalendarin-zyrtar-te-f1--20260728-1",
+      "question": "Çmimi i Madh i Malajzisë figuron në kalendarin zyrtar të F1 deri më 29 korrik?",
+      "category": "sport",
+      "status": "draft",
+      "closes_at": "2026-07-29T05:23:00.14+00:00",
+      "live_event": null,
+      "market_classification": "general_news",
+      "resolution_criteria": "Zgjidhet sipas kalendarit zyrtar të Formula 1 deri më 29 korrik 2026.",
+      "source_article_slugs": [
+        "nyt-f1-malajzi"
+      ],
+      "pre_match_analysis": {},
+      "created_at": "2026-07-28T05:23:01.716559+00:00"
+    },
+    {
+      "id": "2f66f37e-aa02-4798-910d-97b878340296",
+      "slug": "vinicius-junior-i-bashkohet-arsenalit-deri-me-31-korrik-20260728-2",
+      "question": "Vinícius Júnior i bashkohet Arsenalit deri më 31 korrik?",
+      "category": "sport",
+      "status": "draft",
+      "closes_at": "2026-07-30T05:23:00.14+00:00",
+      "live_event": null,
+      "market_classification": "general_news",
+      "resolution_criteria": "Zgjidhet sipas njoftimeve zyrtare të Arsenalit ose Real Madridit deri më 31 korrik 2026.",
+      "source_article_slugs": [
+        "nyt-arsenal-vinicius-interes"
+      ],
+      "pre_match_analysis": {},
+      "created_at": "2026-07-28T05:23:01.716559+00:00"
+    },
+    {
+      "id": "8d09f61f-36d6-4c61-a83e-72dd6534a09f",
+      "slug": "kfor-njofton-kthim-trupash-ne-kosove-deri-me-30-korrik-20260728-3",
+      "question": "KFOR njofton kthim trupash në Kosovë deri më 30 korrik?",
+      "category": "politike",
+      "status": "draft",
+      "closes_at": "2026-07-29T17:23:00.14+00:00",
+      "live_event": null,
+      "market_classification": "general_news",
+      "resolution_criteria": "Zgjidhet sipas njoftimit zyrtar të KFOR-it deri më 30 korrik 2026.",
+      "source_article_slugs": [
+        "radio-kim-kfor"
+      ],
+      "pre_match_analysis": {},
+      "created_at": "2026-07-28T05:23:01.716559+00:00"
+    },
+    {
+      "id": "0a86f3a8-a493-4355-974a-ca07a48e535f",
+      "slug": "evakuimet-prane-madridit-kalojne-75-mije-deri-me-29-korrik-20260728-4",
+      "question": "Evakuimet pranë Madridit kalojnë 75 mijë deri më 29 korrik?",
+      "category": "bote",
+      "status": "draft",
+      "closes_at": "2026-07-29T05:23:00.14+00:00",
+      "live_event": null,
+      "market_classification": "general_news",
+      "resolution_criteria": "Zgjidhet sipas njoftimit të autoriteteve të Mbrojtjes Civile ose delegacionit qeveritar për Madridin deri më 29 korrik 2026.",
+      "source_article_slugs": [
+        "france24-zjarret-spanje-evakuime",
+        "bbc-zjarret-france-spanje"
+      ],
+      "pre_match_analysis": {},
+      "created_at": "2026-07-28T05:23:01.716559+00:00"
+    }
+  ],
+  "finalized_at": "2026-07-28T05:24:29.207Z",
+  "superseded_drafts": [
+    {
+      "slug": "cmimi-i-madh-i-malajzise-figuron-ne-kalendarin-zyrtar-te-f1--20260728-1",
+      "reason": "generic F1 calendar card; not a verified near-term main-race event with required F1 model evidence"
+    },
+    {
+      "slug": "vinicius-junior-i-bashkohet-arsenalit-deri-me-31-korrik-20260728-2",
+      "reason": "generic transfer-news card; not an eligible scheduled fixture"
+    }
+  ],
+  "final_drafts": [
+    {
+      "id": "8d09f61f-36d6-4c61-a83e-72dd6534a09f",
+      "slug": "kfor-njofton-kthim-trupash-ne-kosove-deri-me-30-korrik-20260728-3",
+      "question": "KFOR njofton kthim trupash në Kosovë deri më 30 korrik?",
+      "status": "draft",
+      "category": "politike",
+      "closes_at": "2026-07-29T17:23:00.14+00:00",
+      "live_event": null,
+      "market_classification": "general_news",
+      "resolution_criteria": "Zgjidhet sipas njoftimit zyrtar të KFOR-it deri më 30 korrik 2026.",
+      "source_article_slugs": [
+        "radio-kim-kfor"
+      ],
+      "created_at": "2026-07-28T05:23:01.716559+00:00"
+    },
+    {
+      "id": "0a86f3a8-a493-4355-974a-ca07a48e535f",
+      "slug": "evakuimet-prane-madridit-kalojne-75-mije-deri-me-29-korrik-20260728-4",
+      "question": "Evakuimet pranë Madridit kalojnë 75 mijë deri më 29 korrik?",
+      "status": "draft",
+      "category": "bote",
+      "closes_at": "2026-07-29T05:23:00.14+00:00",
+      "live_event": null,
+      "market_classification": "general_news",
+      "resolution_criteria": "Zgjidhet sipas njoftimit të autoriteteve të Mbrojtjes Civile ose delegacionit qeveritar për Madridin deri më 29 korrik 2026.",
+      "source_article_slugs": [
+        "france24-zjarret-spanje-evakuime",
+        "bbc-zjarret-france-spanje"
+      ],
+      "created_at": "2026-07-28T05:23:01.716559+00:00"
+    }
+  ],
+  "final_evidence_articles": [
+    {
+      "slug": "bbc-zjarret-france-spanje",
+      "title": "Evakuimet nga zjarret në Francë dhe Spanjë kalojnë 340 mijë",
+      "url": "https://www.bbc.co.uk/news/articles/clyj8k4nn5jo?at_medium=RSS&at_campaign=rss"
+    },
+    {
+      "slug": "france24-zjarret-spanje-evakuime",
+      "title": "Zjarret pranë Madridit sjellin evakuime të reja",
+      "url": "https://www.france24.com/en/wildfires-in-spain-record-temparatures-accelerate-spread-of-blazes"
+    },
+    {
+      "slug": "radio-kim-kfor",
+      "title": "Komandanti: trupat e KFOR-it mund të kthehen nëse duhet",
+      "url": "https://radiokim.net/vesti/drugi-pisu/265706-ulutas-nakon-optimizacije-ako-bude-potrebno-trupe-kfora-ce-se-vratiti-na-kosovo/"
+    }
+  ],
+  "email": {
+    "initial": "sent via Gmail fallback after Resend 403",
+    "corrected": "sent via Gmail fallback after removal of superseded sport cards"
+  }
+}

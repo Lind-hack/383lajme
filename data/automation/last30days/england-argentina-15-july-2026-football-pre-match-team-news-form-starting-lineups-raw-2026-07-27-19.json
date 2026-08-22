@@ -1,0 +1,251 @@
+{
+  "clusters": [
+    {
+      "engagement_total": 39965.508592,
+      "sources": [
+        "polymarket"
+      ],
+      "summary": "up 3.3% this month",
+      "title": "Bank of England decision in July?"
+    },
+    {
+      "engagement_total": 1779,
+      "sources": [
+        "hackernews"
+      ],
+      "summary": "Ask HN: What Are You Working On? (July 2026)",
+      "title": "Ask HN: What Are You Working On? (July 2026)"
+    },
+    {
+      "engagement_total": 13351.14554,
+      "sources": [
+        "polymarket"
+      ],
+      "summary": "up 4.0% this week",
+      "title": "Argentina Monthly Inflation - July"
+    },
+    {
+      "engagement_total": 566,
+      "sources": [
+        "hackernews"
+      ],
+      "summary": "Ask HN: Who wants to be hired? (July 2026)",
+      "title": "Ask HN: Who wants to be hired? (July 2026)"
+    },
+    {
+      "engagement_total": 273,
+      "sources": [
+        "hackernews"
+      ],
+      "summary": "Pebble Mega Update \u2013 July 2026",
+      "title": "Pebble Mega Update \u2013 July 2026"
+    },
+    {
+      "engagement_total": 66,
+      "sources": [
+        "hackernews"
+      ],
+      "summary": "Claude Code May\u2013July 2026 weekly limits promotion",
+      "title": "Claude Code May\u2013July 2026 weekly limits promotion"
+    },
+    {
+      "engagement_total": 22,
+      "sources": [
+        "hackernews"
+      ],
+      "summary": "Security incident disclosure \u2013 July 2026",
+      "title": "Security incident disclosure \u2013 July 2026"
+    },
+    {
+      "engagement_total": 16,
+      "sources": [
+        "hackernews"
+      ],
+      "summary": "Tell HN: Fable 5 promotion extended through July 12, 2026 at 11:59:59 PM PT",
+      "title": "Tell HN: Fable 5 promotion extended through July 12, 2026 at 11:59:59 PM PT"
+    },
+    {
+      "engagement_total": 4,
+      "sources": [
+        "hackernews"
+      ],
+      "summary": "Best Open-Weight LLMs by Memory Required (July 2026)",
+      "title": "Best Open-Weight LLMs by Memory Required (July 2026)"
+    }
+  ],
+  "freshness_verdicts": [],
+  "generated_at": "2026-07-27T01:10:35.500684Z",
+  "query": "England Argentina 15 July 2026 football pre-match team news form starting lineups",
+  "results": [
+    {
+      "candidate_id": "https://polymarket.com/event/bank-of-england-decision-in-july",
+      "cluster": 0,
+      "engagement": {
+        "liquidity": 32186.21451,
+        "volume": 39965.508592
+      },
+      "published_at": "2026-07-27",
+      "relevance_score": 0.3975,
+      "source": "polymarket",
+      "summary": "up 3.3% this month",
+      "title": "Bank of England decision in July?",
+      "url": "https://polymarket.com/event/bank-of-england-decision-in-july"
+    },
+    {
+      "candidate_id": "https://news.ycombinator.com/item?id=48884984",
+      "cluster": 1,
+      "engagement": {
+        "comments": 1152,
+        "points": 292
+      },
+      "published_at": "2026-07-12",
+      "relevance_score": 0.0,
+      "source": "hackernews",
+      "summary": "Ask HN: What Are You Working On? (July 2026)",
+      "title": "Ask HN: What Are You Working On? (July 2026)",
+      "url": "https://news.ycombinator.com/item?id=48884984"
+    },
+    {
+      "candidate_id": "https://news.ycombinator.com/item?id=48747976",
+      "cluster": 1,
+      "engagement": {
+        "comments": 437,
+        "points": 247
+      },
+      "published_at": "2026-07-01",
+      "relevance_score": 0.0,
+      "source": "hackernews",
+      "summary": "Ask HN: Who is hiring? (July 2026)",
+      "title": "Ask HN: Who is hiring? (July 2026)",
+      "url": "https://news.ycombinator.com/item?id=48747976"
+    },
+    {
+      "candidate_id": "https://polymarket.com/event/argentina-monthly-inflation-july-20260714204403042",
+      "cluster": 2,
+      "engagement": {
+        "liquidity": 13351.14554,
+        "volume": 9278.333797
+      },
+      "published_at": "2026-07-27",
+      "relevance_score": 0.0,
+      "source": "polymarket",
+      "summary": "up 4.0% this week",
+      "title": "Argentina Monthly Inflation - July",
+      "url": "https://polymarket.com/event/argentina-monthly-inflation-july-20260714204403042"
+    },
+    {
+      "candidate_id": "https://news.ycombinator.com/item?id=48747975",
+      "cluster": 3,
+      "engagement": {
+        "comments": 566,
+        "points": 151
+      },
+      "published_at": "2026-07-01",
+      "relevance_score": 0.0,
+      "source": "hackernews",
+      "summary": "Ask HN: Who wants to be hired? (July 2026)",
+      "title": "Ask HN: Who wants to be hired? (July 2026)",
+      "url": "https://news.ycombinator.com/item?id=48747975"
+    },
+    {
+      "candidate_id": "https://repebble.com/blog/pebble-mega-update-july-2026",
+      "cluster": 4,
+      "engagement": {
+        "comments": 199,
+        "points": 273
+      },
+      "published_at": "2026-07-17",
+      "relevance_score": 0.0,
+      "source": "hackernews",
+      "summary": "Pebble Mega Update \u2013 July 2026",
+      "title": "Pebble Mega Update \u2013 July 2026",
+      "url": "https://repebble.com/blog/pebble-mega-update-july-2026"
+    },
+    {
+      "candidate_id": "https://news.ycombinator.com/item?id=48760048",
+      "cluster": 1,
+      "engagement": {
+        "comments": 149,
+        "points": 190
+      },
+      "published_at": "2026-07-02",
+      "relevance_score": 0.0,
+      "source": "hackernews",
+      "summary": "Ask HN: Who is quitting? (July 2026)",
+      "title": "Ask HN: Who is quitting? (July 2026)",
+      "url": "https://news.ycombinator.com/item?id=48760048"
+    },
+    {
+      "candidate_id": "https://support.claude.com/en/articles/15910845-claude-code-may-july-2026-weekly-limits-promotion",
+      "cluster": 5,
+      "engagement": {
+        "comments": 66,
+        "points": 46
+      },
+      "published_at": "2026-07-12",
+      "relevance_score": 0.0,
+      "source": "hackernews",
+      "summary": "Claude Code May\u2013July 2026 weekly limits promotion",
+      "title": "Claude Code May\u2013July 2026 weekly limits promotion",
+      "url": "https://support.claude.com/en/articles/15910845-claude-code-may-july-2026-weekly-limits-promotion"
+    },
+    {
+      "candidate_id": "https://huggingface.co/blog/security-incident-july-2026",
+      "cluster": 6,
+      "engagement": {
+        "comments": 11,
+        "points": 22
+      },
+      "published_at": "2026-07-18",
+      "relevance_score": 0.0,
+      "source": "hackernews",
+      "summary": "Security incident disclosure \u2013 July 2026",
+      "title": "Security incident disclosure \u2013 July 2026",
+      "url": "https://huggingface.co/blog/security-incident-july-2026"
+    },
+    {
+      "candidate_id": "https://news.ycombinator.com/item?id=48821307",
+      "cluster": 7,
+      "engagement": {
+        "comments": 6,
+        "points": 16
+      },
+      "published_at": "2026-07-07",
+      "relevance_score": 0.0,
+      "source": "hackernews",
+      "summary": "Tell HN: Fable 5 promotion extended through July 12, 2026 at 11:59:59 PM PT",
+      "title": "Tell HN: Fable 5 promotion extended through July 12, 2026 at 11:59:59 PM PT",
+      "url": "https://news.ycombinator.com/item?id=48821307"
+    },
+    {
+      "candidate_id": "https://claude.ai/public/artifacts/4b74e194-a4b2-414f-a313-8d4b98a92b0b",
+      "cluster": 8,
+      "engagement": {
+        "comments": 3,
+        "points": 4
+      },
+      "published_at": "2026-07-25",
+      "relevance_score": 0.0,
+      "source": "hackernews",
+      "summary": "Best Open-Weight LLMs by Memory Required (July 2026)",
+      "title": "Best Open-Weight LLMs by Memory Required (July 2026)",
+      "url": "https://claude.ai/public/artifacts/4b74e194-a4b2-414f-a313-8d4b98a92b0b"
+    }
+  ],
+  "schema_version": "1.2",
+  "source_status": {
+    "github": "error",
+    "grounding": "unreachable",
+    "hackernews": "ok",
+    "instagram": "auth-failed",
+    "linkedin": "auth-failed",
+    "pinterest": "auth-failed",
+    "polymarket": "ok",
+    "reddit": "auth-failed",
+    "threads": "auth-failed",
+    "tiktok": "auth-failed",
+    "x": "auth-failed",
+    "youtube": "auth-failed"
+  },
+  "window_days": 30
+}

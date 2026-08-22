@@ -1,0 +1,50 @@
+{
+  "intent": "breaking_news",
+  "freshness_mode": "breaking",
+  "cluster_mode": "story",
+  "source_weights": {
+    "reddit": 1.0,
+    "x": 1.2,
+    "youtube": 0.9,
+    "tiktok": 0.8,
+    "instagram": 0.8,
+    "hackernews": 0.9,
+    "polymarket": 0.7,
+    "grounding": 1.1
+  },
+  "subqueries": [
+    {
+      "label": "Kosove-dhe-Shqiperi",
+      "search_query": "Kosovo Albania politics economy public services energy transport July 2026",
+      "ranking_query": "Current, independently verifiable Kosovo or Albania developments with public impact for Albanian readers",
+      "sources": ["reddit", "x", "youtube", "tiktok", "instagram", "hackernews", "polymarket", "grounding"],
+      "weight": 1.4
+    },
+    {
+      "label": "Ballkan-dhe-Europe",
+      "search_query": "Balkans Europe politics security economy July 2026 Kosovo Serbia EU",
+      "ranking_query": "Breaking Balkan and European political, security or economic developments relevant to Kosovo and Albanian readers",
+      "sources": ["reddit", "x", "youtube", "tiktok", "instagram", "hackernews", "polymarket", "grounding"],
+      "weight": 1.2
+    },
+    {
+      "label": "Bote-ekonomi-dhe-teknologji",
+      "search_query": "world politics economy technology July 2026 major developments",
+      "ranking_query": "Major verified international politics, economy and technology stories with clear Albanian-reader relevance",
+      "sources": ["reddit", "x", "youtube", "tiktok", "instagram", "hackernews", "polymarket", "grounding"],
+      "weight": 1.0
+    },
+    {
+      "label": "Sport-dhe-kulture",
+      "search_query": "football sport culture entertainment July 2026 Albania Kosovo Balkans Europe world",
+      "ranking_query": "Confirmed sport and culture developments with demonstrable relevance to Albanian readers; exclude rumors",
+      "sources": ["reddit", "x", "youtube", "tiktok", "instagram", "hackernews", "polymarket", "grounding"],
+      "weight": 0.9
+    }
+  ],
+  "notes": [
+    "Use social and prediction-market results only as discovery leads.",
+    "Exclude GitHub completely.",
+    "Verify every candidate with an original current publisher or official source before publication."
+  ]
+}

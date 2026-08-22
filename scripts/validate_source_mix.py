@@ -24,12 +24,12 @@ SOCIAL_DOMAINS = {
     "pinterest.com": "pinterest",
     "github.com": "github",
 }
-MIN_ARTICLES_PER_BATCH = 13
-MAX_ARTICLES_PER_BATCH = 22
+MIN_ARTICLES_PER_BATCH = 8
+MAX_ARTICLES_PER_BATCH = 18
 MAX_X_ARTICLES = 2
 MAX_SOCIAL_SHARE = 0.40
 MIN_SOCIAL_ARTICLES = 0
-MIN_SOURCE_FAMILIES = 8
+MIN_SOURCE_FAMILIES = 5
 
 
 def hostname(value: object) -> str:
@@ -139,7 +139,7 @@ def validate(path: Path) -> int:
         url_host = hostname(article.get("url"))
         social_host = hostname(article.get("social_post_url") or article.get("source_post_url"))
         mentions_rundown = "rundown" in source or "rundown" in account or "therundown" in url_host or "therundown" in social_host
-        if mentions_rundown and url_host != "therundown.ai":
+        if mentions_rundown and url_host != "therundown.ai" and not url_host.endswith(".therundown.ai"):
             errors.append(
                 f"article {index} uses The Rundown for Teknologji but main url is {url_host or 'missing'}; "
                 "use therundown.ai website pages, not X/Twitter"

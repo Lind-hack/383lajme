@@ -1,0 +1,17 @@
+{
+  "estimated_cost_usd": 0.0,
+  "cost_status": "included",
+  "cost_source": "none",
+  "input_tokens": 83425,
+  "output_tokens": 19829,
+  "cache_read_tokens": 1097216,
+  "cache_write_tokens": 0,
+  "reasoning_tokens": 5005,
+  "total_tokens": 1200470,
+  "api_calls": 22,
+  "model": "gpt-5.6-terra",
+  "provider": "openai-codex",
+  "session_id": "20260724_200949_0e19af",
+  "completed": true,
+  "failed": false
+}

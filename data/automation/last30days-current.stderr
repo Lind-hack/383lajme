@@ -1,0 +1,122 @@
+/last30days · researching: Kosovo Albania Balkans Europe world politics economy technology sport culture
+⏳ [95mProcessing[0m Organizing findings...
+[Planner] Plan: intent=breaking_news, freshness=strict_recent, cluster_mode=story, subqueries=3, source=external
+[Planner]   sq1 label=kosovo search="Kosovo Prishtina Serbia Balkans" sources=[reddit,tiktok,instagram,x,youtube,hackernews,polymarket,github,grounding,linkedin,threads,pinterest]
+[Planner]   sq2 label=regional search="Kosovo Albania Balkans politics economy" sources=[reddit,tiktok,instagram,x,youtube,hackernews,polymarket,github,grounding,linkedin,threads,pinterest]
+[Planner]   sq3 label=global search="Europe world technology sport culture" sources=[reddit,tiktok,instagram,x,youtube,hackernews,polymarket,github,grounding,linkedin,threads,pinterest]
+[TikTok] Searching TikTok for 'kosovo albania balkans europe world politics economy technology sport culture' (depth=default, count=20)
+[Instagram] Searching Instagram for 'kosovo albania balkans europe world politics economy technology sport culture' (depth=default, count=20)
+[YouTube] Searching YouTube via ScrapeCreators for 'kosovo albania balkans europe world politics economy technology sport culture' (depth=default)
+[HN] Searching for 'kosovo prishtina serbia balkans' (raw: 'Kosovo Prishtina Serbia Balkans', since 2026-06-23, count=30)
+[PM] Searching for 'Kosovo Prishtina Serbia Balkans' with queries: ['Kosovo Prishtina Serbia Balkans', 'Kosovo', 'Prishtina', 'Serbia', 'Balkans'] (pages=3)
+[GitHub] No GitHub token; using the unauthenticated REST tier (low rate limit)
+[GitHub] Searching for 'kosovo prishtina serbia balkans' (raw: 'Kosovo Prishtina Serbia Balkans', since 2026-06-23, count=10)
+[LinkedIn] Searching for 'Kosovo Prishtina Serbia Balkans' (date_posted=last-month)
+[Threads] Searching for 'kosovo prishtina' (depth=default, limit=20)
+[Pinterest] Searching Pinterest for 'kosovo prishtina serbia balkans' (depth=default, count=20)
+[TikTok] Searching TikTok for 'kosovo albania balkans europe world politics economy technology sport culture' (depth=default, count=20)
+[Instagram] Searching Instagram for 'kosovo albania balkans europe world politics economy technology sport culture' (depth=default, count=20)
+[RedditKeyless] Tier 1 (RSS) 0 posts; score-only; 0 scored cards
+[Reddit] Expanded 'Kosovo Albania Balkans Europe world politics economy technology sport culture' into 1 queries: ['kosovo albania balkans europe world politics economy technology sport culture']
+[Reddit] Global search 1/2: 'kosovo albania balkans europe world politics economy technology sport culture' (sort=relevance)
+[HN] Found 0 stories
+[YouTube] Searching YouTube via ScrapeCreators for 'kosovo albania balkans europe world politics economy technology sport culture' (depth=default)
+[PM] Domain expansion queries: ['Global Elections', 'World']
+[GitHub] Found 0 issues/PRs
+[HN] Searching for 'kosovo albania balkans politics economy' (raw: 'Kosovo Albania Balkans politics economy', since 2026-06-23, count=30)
+[ScrapeCreators X] Twitter discovery unavailable: HTTPError: HTTP 402: Payment Required
+[X] backend 'scrapecreators' failed (ScrapeCreators Twitter discovery unavailable: HTTPError: HTTP 402: Payment Required); trying next
+[PM] Searching for 'Kosovo Albania Balkans politics economy' with queries: ['Kosovo Albania Balkans politics economy', 'Kosovo', 'Albania', 'Balkans', 'politics', 'economy'] (pages=3)
+[LinkedIn] Search failed (HTTP 402): HTTP 402: Payment Required
+[GitHub] No GitHub token; using the unauthenticated REST tier (low rate limit)
+[GitHub] Searching for 'kosovo albania balkans politics economy' (raw: 'Kosovo Albania Balkans politics economy', since 2026-06-23, count=10)
+[Threads] ScrapeCreators error: HTTP 402: Payment Required
+[Pinterest] ScrapeCreators error: HTTP 402: Payment Required
+[Threads] Searching for 'kosovo albania' (depth=default, limit=20)
+[TikTok] ScrapeCreators error: HTTP 402: Payment Required
+[TikTok] Searching TikTok for 'kosovo albania balkans europe world politics economy technology sport culture edit reaction trend' (depth=default, count=20)
+[ScrapeCreators X] Twitter discovery unavailable: HTTPError: HTTP 402: Payment Required
+[X] backend 'scrapecreators' failed (ScrapeCreators Twitter discovery unavailable: HTTPError: HTTP 402: Payment Required); trying next
+[Pinterest] Searching Pinterest for 'kosovo albania balkans politics economy' (depth=default, count=20)
+[Instagram] ScrapeCreators error: HTTP 402: Payment Required
+[Instagram] Searching Instagram for 'kosovo albania balkans europe world politics economy technology sport culture reaction edit' (depth=default, count=20)
+[TikTok] ScrapeCreators error: HTTP 402: Payment Required
+[TikTok] Searching TikTok for 'kosovo albania balkans europe world politics economy technology sport culture edit reaction trend' (depth=default, count=20)
+[Instagram] ScrapeCreators error: HTTP 402: Payment Required
+[Instagram] Searching Instagram for 'kosovo albania balkans europe world politics economy technology sport culture reaction edit' (depth=default, count=20)
+[YouTube] SC YouTube search error: HTTP 402: Payment Required
+[YouTube] SC YouTube search returned 0 results
+[PM] Found 20 unique events across 7 queries
+[PM] Filtered 20 noise events (topic: 'Kosovo Albania Balkans Europe world politics economy technology sport culture')
+[TikTok] Searching TikTok for 'kosovo albania balkans europe world politics economy technology sport culture' (depth=default, count=20)
+[Reddit] ScrapeCreators backup also failed (HTTPError: HTTP 402: Payment Required)
+[Instagram] Searching Instagram for 'kosovo albania balkans europe world politics economy technology sport culture' (depth=default, count=20)
+[HN] Found 0 stories
+[YouTube] Searching YouTube via ScrapeCreators for 'kosovo albania balkans europe world politics economy technology sport culture' (depth=default)
+[YouTube] SC YouTube search error: HTTP 402: Payment Required
+[YouTube] SC YouTube search returned 0 results
+[HN] Searching for 'europe world technology sport culture' (raw: 'Europe world technology sport culture', since 2026-06-23, count=30)
+[PM] Domain expansion queries: ['Geopolitics', 'Jerome Powell']
+[GitHub] Found 0 issues/PRs
+[PM] Searching for 'Europe world technology sport culture' with queries: ['Europe world technology sport culture', 'Europe', 'world', 'technology', 'sport', 'culture'] (pages=3)
+[Threads] ScrapeCreators error: HTTP 402: Payment Required
+[TikTok] ScrapeCreators error: HTTP 402: Payment Required
+[GitHub] No GitHub token; using the unauthenticated REST tier (low rate limit)
+[GitHub] Searching for 'europe world technology sport culture' (raw: 'Europe world technology sport culture', since 2026-06-23, count=10)
+[Instagram] ScrapeCreators error: HTTP 402: Payment Required
+[Threads] Searching for 'europe world' (depth=default, limit=20)
+[TikTok] ScrapeCreators error: HTTP 402: Payment Required
+[Pinterest] Searching Pinterest for 'europe world technology sport culture' (depth=default, count=20)
+[Pinterest] ScrapeCreators error: HTTP 402: Payment Required
+[Instagram] ScrapeCreators error: HTTP 402: Payment Required
+[TikTok] ScrapeCreators error: HTTP 402: Payment Required
+[TikTok] Searching TikTok for 'kosovo albania balkans europe world politics economy technology sport culture edit reaction trend' (depth=default, count=20)
+[PM] Found 39 unique events across 8 queries
+[PM] Filtered 38 noise events (topic: 'Kosovo Albania Balkans Europe world politics economy technology sport culture')
+[HN] Filtered 9/60 low-engagement stories
+[HN] Found 30 stories
+[HN] Prefix filter removed 17/30 false-positive hits for 'Europe world technology sport culture'
+[Instagram] ScrapeCreators error: HTTP 402: Payment Required
+[Instagram] Searching Instagram for 'kosovo albania balkans europe world politics economy technology sport culture reaction edit' (depth=default, count=20)
+[YouTube] SC YouTube search error: HTTP 402: Payment Required
+[YouTube] SC YouTube search returned 0 results
+[PM] Domain expansion queries: ['Geopolitics', 'Soccer']
+[PM] Found 70 unique events across 8 queries
+[PM] Filtered 66 noise events (topic: 'Kosovo Albania Balkans Europe world politics economy technology sport culture')
+[Pinterest] ScrapeCreators error: HTTP 402: Payment Required
+[Threads] ScrapeCreators error: HTTP 402: Payment Required
+[TikTok] ScrapeCreators error: HTTP 402: Payment Required
+[GitHub] Found 7 issues/PRs
+[GitHub] No GitHub token available for comment enrichment
+[Instagram] ScrapeCreators error: HTTP 402: Payment Required
+[RedditKeyless] Tier 1 (RSS) 0 posts; score-only; 0 scored cards
+[Reddit] Expanded 'Kosovo Albania Balkans Europe world politics economy technology sport culture' into 1 queries: ['kosovo albania balkans europe world politics economy technology sport culture']
+[Reddit] Global search 1/2: 'kosovo albania balkans europe world politics economy technology sport culture' (sort=relevance)
+[Reddit] ScrapeCreators backup also failed (HTTPError: HTTP 402: Payment Required)
+[RedditKeyless] Tier 1 (RSS) 0 posts; score-only; 0 scored cards
+[Reddit] Expanded 'Kosovo Albania Balkans Europe world politics economy technology sport culture' into 1 queries: ['kosovo albania balkans europe world politics economy technology sport culture']
+[Reddit] Global search 1/2: 'kosovo albania balkans europe world politics economy technology sport culture' (sort=relevance)
+[Reddit] ScrapeCreators backup also failed (HTTPError: HTTP 402: Payment Required)
+[HN] Searching for 'kosovo albania balkans' (raw: 'kosovo albania balkans', since 2026-06-23, count=30)
+[PM] Searching for 'kosovo albania balkans' with queries: ['kosovo albania balkans', 'kosovo', 'albania', 'balkans'] (pages=3)
+[GitHub] No GitHub token; using the unauthenticated REST tier (low rate limit)
+[GitHub] Searching for 'kosovo albania balkans' (raw: 'kosovo albania balkans', since 2026-06-23, count=10)
+[HN] Found 0 stories
+[GitHub] Found 0 issues/PRs
+[PM] Domain expansion queries: ['Soccer', 'Geopolitics']
+[PM] Found 16 unique events across 6 queries
+[PM] Filtered 15 noise events (topic: 'Kosovo Albania Balkans Europe world politics economy technology sport culture')
+✓ Research complete (63.9s) - Reddit: 0 threads, X: 0 posts, YouTube: 0 videos, TikTok: 0 videos, Instagram: 0 reels, HN: 1 story, Polymarket: 0 markets, Web: 0 results, Github: 1 result, Linkedin: 0 results, Threads: 0 results, Pinterest: 0 results
+
+Research quality: 3/5 core sources.
+Missing: X/Twitter, YouTube.
+Bonus source silent: Instagram.
+
+Free fixes:
+  - X/Twitter: real-time posts with likes and reposts - the fastest signal for breaking topics. Three options: log into x.com in your browser and re-run (cookies detected automatically), or add XAI_API_KEY to your .env (get key at api.x.ai), or add XQUIK_API_KEY to your .env (get key at xquik.com).
+  - YouTube: video transcripts with key moments - often the deepest explanations on any topic. Install yt-dlp: brew install yt-dlp (free)
+  - Instagram returned 0 reels despite SC being configured. SC's v2 reels endpoint wraps Google Search and 500's frequently on multi-token queries. The skill now retries with hashtag-form automatically; if zero items still appear, the topic may have no reel coverage on Instagram. Try a single-word topic like the most distinctive noun in your query.
+  - Your SC key also powers Threads, Pinterest and YouTube comments. Add them to INCLUDE_SOURCES in your .env to enable.
+
+last30days has no affiliation with any API provider.
+[last30days] Saved output to /opt/data/workspaces/383lajme/data/automation/last30days/kosovo-albania-balkans-europe-world-politics-economy-technology-sport-culture-raw-383lajme-current.md
