@@ -3,6 +3,7 @@ export type VisitCommunityRow = {
   direction: string;
   wait_minutes: number;
   status: "accepted" | "quarantined";
+  confidence: "low" | "medium" | "high" | "rejected_outlier";
   device_hash: string;
   created_at: string;
 };

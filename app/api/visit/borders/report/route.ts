@@ -1,9 +1,10 @@
-import { createHmac, randomBytes } from "node:crypto";
 import { NextResponse, type NextRequest } from "next/server";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { createClient } from "@/lib/supabase/server";
 import { fetchOfficialBorderWaits, haversineKm } from "@/lib/visit-border-server";
 import { BORDER_CROSSINGS, type BorderCrossingId, type BorderDirection } from "@/lib/visit-v2-data";
 import { addMemoryReport, hasRecentMemoryReport } from "@/lib/visit-community-store";
+import { classifyCommunityReport, hashReportIdentity, resolveReporterMode } from "@/lib/visit-reporting";
 
 export const runtime = "nodejs";
 
@@ -15,14 +16,8 @@ type ReportBody = {
   longitude?: number;
   accuracy?: number;
   deviceId?: string;
+  anonymous?: boolean;
 };
-
-const processSecret = randomBytes(32).toString("hex");
-
-function hashIdentifier(value: string) {
-  const secret = process.env.VISIT_REPORT_SALT ?? process.env.CRON_SECRET ?? processSecret;
-  return createHmac("sha256", secret).update(value).digest("hex");
-}
 
 export async function POST(request: NextRequest) {
   const admin = createAdminClient();
@@ -51,8 +46,18 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: `Duhet të jesh brenda 1 km nga ${crossing.name} për të raportuar.`, distanceKm: Math.round(distanceKm * 10) / 10 }, { status: 422 });
   }
 
+  let userId: string | undefined;
+  if (body.anonymous === false && process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    userId = user?.id;
+  }
+  const reporterMode = resolveReporterMode(body.anonymous, userId);
+  if (!reporterMode) {
+    return NextResponse.json({ error: "Hyr në llogari ose zgjidh raportimin anonim." }, { status: 401 });
+  }
   const forwarded = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
-  const deviceHash = hashIdentifier(`${body.deviceId ?? "missing"}:${forwarded}`);
+  const deviceHash = hashReportIdentity({ mode: reporterMode, userId, deviceId: body.deviceId, forwarded });
 
   const recentSince = new Date(Date.now() - 10 * 60 * 1000).toISOString();
   let count = 0;
@@ -77,10 +82,7 @@ export async function POST(request: NextRequest) {
     // A geofenced report can still be retained at low confidence when the official source is down.
   }
 
-  const difference = officialMinutes === null ? null : Math.abs(waitMinutes - officialMinutes);
-  const tolerance = officialMinutes === null ? null : Math.max(15, Math.round(officialMinutes * 1.5));
-  const status = difference !== null && tolerance !== null && difference > tolerance ? "quarantined" : "accepted";
-  const confidence = status === "quarantined" ? "rejected_outlier" : officialMinutes === null ? "low" : difference! <= 8 ? "high" : "medium";
+  const { status, confidence } = classifyCommunityReport(waitMinutes, officialMinutes);
 
   const report = {
     crossing_id: crossing.id,
@@ -104,6 +106,7 @@ export async function POST(request: NextRequest) {
       direction: report.direction!,
       wait_minutes: report.wait_minutes,
       status,
+      confidence,
       device_hash: deviceHash,
       created_at: new Date().toISOString(),
     });
@@ -112,6 +115,7 @@ export async function POST(request: NextRequest) {
   return NextResponse.json({
     accepted: status === "accepted",
     confidence,
+    reporterMode,
     message: status === "accepted"
       ? "Raporti u verifikua dhe u shtua te pritja e komunitetit."
       : "Raporti u mor, por nuk u publikua sepse ndryshonte shumë nga pritja aktuale.",
