@@ -344,19 +344,6 @@
         "https://www.fijlkam.it/judo/news-judo/11642-xxi-stage-internazionale-di-judo-fijlkam-bella-italia-sold-out,-presenti-atleti-da-kosovo,-slovenia,-gran-bretagna-e-scozia.html"
       ]
     },
-    "FIGH: Federazione Italiana Giuoco Handball": {
-      "country": "Itali",
-      "total": 1,
-      "positive": 0,
-      "neutral": 1,
-      "negative": 0,
-      "unknown": 0,
-      "firstSeen": "2026-08-22",
-      "lastSeen": "2026-08-22",
-      "urls": [
-        "https://www.federhandball.it/giochi-del-mediterraneo-litalia-maschile-contro-il-kosovo-allesordio-%C2%B7-pugliese-emozione-indescrivibile-essere-qui/"
-      ]
-    },
     "Il Sole 24 ORE": {
       "country": "Itali",
       "total": 2,
@@ -530,19 +517,6 @@
         "https://www.europapress.es/internacional/noticia-serbia-pide-mision-otan-kosovo-reconsidere-retirada-puente-ibar-mitrovica-20260822092257.html"
       ]
     },
-    "Real Federación Española de Voleibol": {
-      "country": "Spanjë",
-      "total": 1,
-      "positive": 0,
-      "neutral": 1,
-      "negative": 0,
-      "unknown": 0,
-      "firstSeen": "2026-08-22",
-      "lastSeen": "2026-08-22",
-      "urls": [
-        "https://esvoley.es/comunicacion/noticias/la-seleccion-masculina-suma-ante-kosovo-su-segunda-victoria-en-los-juegos-mediterraneos/"
-      ]
-    },
     "Sport24": {
       "country": "Greqi",
       "total": 3,
@@ -582,22 +556,6 @@
       "lastSeen": "2026-08-19",
       "urls": [
         "https://www.parapolitika.gr/ellada/article/1778830/mukonos-kataggelia-18hronis-italidas-gia-viasmo-tis-se-beach-bar-sunelifthi-23hronos-apo-to-kosovo/"
-      ]
-    },
-    "Ελληνική Ομοσπονδία Πετοσφαίρισης": {
-      "country": "Greqi",
-      "total": 4,
-      "positive": 0,
-      "neutral": 4,
-      "negative": 0,
-      "unknown": 0,
-      "firstSeen": "2026-08-19",
-      "lastSeen": "2026-08-20",
-      "urls": [
-        "https://volleyball.gr/mesogeiakoi-agones-2026-premiera-gia-tin-ethniki-andron-kontra-sto-kosovo-20-8-13-00/",
-        "https://volleyball.gr/mesogeiakoi-agones-2026-proto-servis-gia-tin-ethniki-gynaikon-apenanti-sto-kosovo-20-8-21-00/",
-        "https://volleyball.gr/mesogeiakoi-agones-2026-idaniki-premiera-gia-tin-ethniki-andron-3-0-to-kosovo/",
-        "https://volleyball.gr/mesogeiakoi-agones-2026-me-to-dexi-i-ethniki-gynaikon-3-0-to-kosovo/"
       ]
     },
     "Gazzetta.gr": {

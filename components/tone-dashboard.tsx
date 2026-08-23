@@ -44,8 +44,12 @@ const THIN_COVERAGE = 0.4;
 export default function ToneDashboard({
   summary,
   topics = [],
+  variant = "home",
 }: {
   summary: ToneSummary;
+  /** "home" links out to the full analysis; "page" IS the full analysis, so it
+   *  drops the link rather than pointing a reader at where they already are. */
+  variant?: "home" | "page";
   /** What the world was writing about, clustered from the headlines. Empty
    *  is a normal state — the row simply doesn't render. */
   topics?: ToneTopic[];
@@ -265,9 +269,11 @@ export default function ToneDashboard({
         label="Toni i Mediave Botërore ndaj Kosovës"
         marginBottom={20}
         right={
-          <a href="/toni" style={{ fontSize: "13px", fontWeight: 700, color: TONE_INK.muted, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "4px", whiteSpace: "nowrap" }}>
-            Analiza e plotë <ArrowUpRight size={14} strokeWidth={2} />
-          </a>
+          variant === "home" ? (
+            <a href="/toni" style={{ fontSize: "13px", fontWeight: 700, color: TONE_INK.muted, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "4px", whiteSpace: "nowrap" }}>
+              Analiza e plotë <ArrowUpRight size={14} strokeWidth={2} />
+            </a>
+          ) : null
         }
       />
 
@@ -300,38 +306,48 @@ export default function ToneDashboard({
           </p>
         )}
 
-        <h3 style={{ margin: "0 0 10px", fontSize: "clamp(20px, 2.9vw, 30px)", fontWeight: 800, lineHeight: 1.24, letterSpacing: "-0.02em", color: TONE_INK.strong, textWrap: "balance" }}>
-          {verdictSentence(idx)}
-        </h3>
-        {/* One sentence, not two. "95% ishin raportim neutral" followed by a
-            separate "a neutral majority is normal" was the same thought split
-            across two paragraphs and two type sizes. */}
-        <p style={{ margin: "0 0 18px", fontSize: "15.5px", color: TONE_INK.muted, lineHeight: 1.6 }}>
-          Nga <strong style={{ color: TONE_INK.strong }}>{summary.totalArticles}</strong> artikuj në{" "}
-          <strong style={{ color: TONE_INK.strong }}>{withData.length}</strong> vende,{" "}
-          <strong style={{ color: TONE_INK.strong }}>{neutralShare}%</strong> ishin raportim neutral —
-          {" "}<span style={{ color: TONE_INK.faint }}>{NEUTRAL_IS_SHORT}</span>
-        </p>
+        {/* On /toni the page masthead already carries this sentence, the
+            index and the delta; rendering them here printed the same headline
+            twice on one screen. The sparkline goes with them — the full
+            analysis leads with the reading, not with a small chart of it. The
+            map and the drill-down below are what this component contributes
+            to that page. */}
+        {variant === "home" && (
+          <>
+          <h3 style={{ margin: "0 0 10px", fontSize: "clamp(20px, 2.9vw, 30px)", fontWeight: 800, lineHeight: 1.24, letterSpacing: "-0.02em", color: TONE_INK.strong, textWrap: "balance" }}>
+            {verdictSentence(idx)}
+          </h3>
+          {/* One sentence, not two. "95% ishin raportim neutral" followed by a
+              separate "a neutral majority is normal" was the same thought split
+              across two paragraphs and two type sizes. */}
+          <p style={{ margin: "0 0 18px", fontSize: "15.5px", color: TONE_INK.muted, lineHeight: 1.6 }}>
+            Nga <strong style={{ color: TONE_INK.strong }}>{summary.totalArticles}</strong> artikuj në{" "}
+            <strong style={{ color: TONE_INK.strong }}>{withData.length}</strong> vende,{" "}
+            <strong style={{ color: TONE_INK.strong }}>{neutralShare}%</strong> ishin raportim neutral —
+            {" "}<span style={{ color: TONE_INK.faint }}>{NEUTRAL_IS_SHORT}</span>
+          </p>
 
-        <div style={{ display: "flex", alignItems: "center", gap: "14px", flexWrap: "wrap", paddingBottom: "18px", marginBottom: "20px", borderBottom: "1px solid #F0EDE6" }}>
-          <span style={{ fontSize: "12px", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: TONE_INK.faint }}>Indeksi</span>
-          <span style={{ fontSize: "34px", fontWeight: 800, color: TONE_INK.strong, lineHeight: 1, fontVariantNumeric: "tabular-nums" }}>{idx ?? "—"}</span>
-          {/* The shape behind the number. The homepage carries no chart, so
-              without this the index is a value with no sense of whether it
-              has been sitting there or just arrived. */}
-          {summary.sparkline.length > 1 && (
-            <Sparkline
-              points={summary.sparkline.map((p) => p.index)}
-              width={92}
-              height={26}
-              ariaLabel={`Ecuria e indeksit gjatë ${summary.sparkline.length} ditëve të fundit`}
-            />
-          )}
-          <span style={{ display: "inline-flex", alignItems: "center", gap: "4px", fontSize: "13.5px", fontWeight: 700, color: deltaColor, marginLeft: "auto" }}>
-            <DeltaIcon size={15} strokeWidth={2.5} />
-            {delta == null ? "e re" : `${delta > 0 ? "+" : ""}${delta} këtë javë`}
-          </span>
-        </div>
+          <div style={{ display: "flex", alignItems: "center", gap: "14px", flexWrap: "wrap", paddingBottom: "18px", marginBottom: "20px", borderBottom: "1px solid #F0EDE6" }}>
+            <span style={{ fontSize: "12px", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: TONE_INK.faint }}>Indeksi</span>
+            <span style={{ fontSize: "34px", fontWeight: 800, color: TONE_INK.strong, lineHeight: 1, fontVariantNumeric: "tabular-nums" }}>{idx ?? "—"}</span>
+            {/* The shape behind the number. The homepage carries no chart, so
+                without this the index is a value with no sense of whether it
+                has been sitting there or just arrived. */}
+            {summary.sparkline.length > 1 && (
+              <Sparkline
+                points={summary.sparkline.map((p) => p.index)}
+                width={92}
+                height={26}
+                ariaLabel={`Ecuria e indeksit gjatë ${summary.sparkline.length} ditëve të fundit`}
+              />
+            )}
+            <span style={{ display: "inline-flex", alignItems: "center", gap: "4px", fontSize: "13.5px", fontWeight: 700, color: deltaColor, marginLeft: "auto" }}>
+              <DeltaIcon size={15} strokeWidth={2.5} />
+              {delta == null ? "e re" : `${delta > 0 ? "+" : ""}${delta} këtë javë`}
+            </span>
+          </div>
+          </>
+        )}
 
         <ToneMap
           countries={summary.countries.map((c) => ({ code: flagToCode(c.flag), country: c.country, index: c.index, confident: c.confident, n: c.n }))}

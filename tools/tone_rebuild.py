@@ -93,6 +93,21 @@ def main() -> int:
     history = json.loads(HISTORY_PATH.read_text(encoding="utf-8"))
     ledger = load_ledger()
 
+    # The ledger accumulates and is never rebuilt, which means it keeps whatever
+    # the rules allowed on the day an entry was written. The Hellenic Volleyball
+    # Federation was still sitting in it as a masthead, added before federations
+    # were excluded. Anything that would not be admitted today is dropped now,
+    # or "who watches Kosovo" answers with a governing body announcing fixtures.
+    stale = [
+        name for name, rec in ledger["outlets"].items()
+        if not is_editorial(name, (rec.get("urls") or [""])[0])
+    ]
+    for name in stale:
+        del ledger["outlets"][name]
+    if stale:
+        print(f"ledger          : dropped {len(stale)} source(s) that no longer qualify "
+              f"({', '.join(stale[:3])})")
+
     dropped = Counter()
     by_country: dict[str, list[dict]] = defaultdict(list)
 

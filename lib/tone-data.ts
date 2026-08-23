@@ -166,6 +166,36 @@ export async function getToneOutlets(): Promise<ToneOutletsData | null> {
   return readJson<ToneOutletsData>("tone-outlets.json");
 }
 
+/** One masthead's whole record, across every run we have kept. */
+export interface ToneLedgerOutlet {
+  country: string;
+  total: number;
+  positive: number;
+  neutral: number;
+  negative: number;
+  unknown: number;
+  firstSeen: string;
+  lastSeen: string;
+  urls?: string[];
+}
+
+export interface ToneOutletLedger {
+  version: number;
+  outlets: Record<string, ToneLedgerOutlet>;
+}
+
+/**
+ * The per-masthead ledger, which the article cache cannot answer.
+ *
+ * tone-article-cache.json keeps seven days; this accumulates. It is the
+ * difference between "Die Presse wrote about Kosovo today" and "Die Presse has
+ * covered Kosovo fourteen times, and leans critical" — and it is the reason
+ * /toni can say something the homepage module cannot.
+ */
+export async function getToneOutletLedger(): Promise<ToneOutletLedger | null> {
+  return readJson<ToneOutletLedger>("tone-outlet-history.json");
+}
+
 export async function getToneHistory(): Promise<ToneHistoryRow[]> {
   const data = await readJson<ToneHistoryRow[]>("tone-history.json");
   return Array.isArray(data) ? data : [];
