@@ -11557,3 +11557,155 @@ header[data-overlay="true"] .nav-search-btn { color: rgba(255, 255, 255, 0.9); }
   .toni-move { transition: none; }
   .toni-move:hover { transform: none; }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   JOIN BUTTONS — WhatsApp / Telegram
+   The old pair were solid pills labelled with two app names the reader already
+   has. A noun names a destination; it does not say what pressing it does. These
+   lead with the verb, answer the objection underneath, and end in an arrow.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.cta-joins {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 232px), 1fr));
+  gap: 12px;
+}
+
+.cta-join {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  overflow: hidden;
+  padding: 14px 18px;
+  border-radius: 16px;
+  color: #FFFFFF;
+  text-decoration: none;
+  isolation: isolate;
+  transition:
+    box-shadow var(--duration-base) var(--ease-out),
+    filter var(--duration-base) var(--ease-out);
+}
+.cta-join[data-net="whatsapp"] {
+  background: linear-gradient(135deg, #25D366 0%, #17A44C 100%);
+  box-shadow: 0 6px 22px rgba(37, 211, 102, 0.32);
+}
+.cta-join[data-net="telegram"] {
+  background: linear-gradient(135deg, #2AABEE 0%, #1E86BD 100%);
+  box-shadow: 0 6px 22px rgba(42, 171, 238, 0.32);
+}
+
+/* One pass of light across the button as it arrives. A single authored moment
+   — it does not loop, because a control that shines forever reads as an advert
+   rather than as something to press. */
+.cta-join::after {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 -60%;
+  width: 45%;
+  z-index: 2;
+  background: linear-gradient(
+    100deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.34) 50%,
+    transparent 100%
+  );
+  transform: skewX(-18deg);
+  animation: cta-sheen 1.15s var(--ease-out) 620ms 1 both;
+  pointer-events: none;
+}
+@keyframes cta-sheen {
+  from { left: -60%; }
+  to   { left: 130%; }
+}
+
+.cta-join-icon {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.18);
+  color: #FFFFFF;
+  transition: transform var(--duration-base) var(--ease-out);
+}
+
+.cta-join-text { display: block; min-width: 0; flex: 1; }
+.cta-join-text strong {
+  display: block;
+  font-size: 14.5px;
+  font-weight: 800;
+  letter-spacing: -0.015em;
+  line-height: 1.2;
+}
+.cta-join-text em {
+  display: block;
+  margin-top: 3px;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 11.5px;
+  font-style: normal;
+  font-weight: 650;
+  letter-spacing: 0.01em;
+}
+
+.cta-join-arrow {
+  flex-shrink: 0;
+  opacity: 0.9;
+  transition: transform var(--duration-base) var(--ease-out);
+}
+
+/* A channel that does not exist yet is drawn as not existing. It was a
+   full-strength glowing pill pointing at "#", which is the one thing worse
+   than no button: a reader presses it, nothing happens, and they do not press
+   the next one either. */
+.cta-join[data-soon] {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px dashed rgba(255, 255, 255, 0.24);
+  box-shadow: none;
+  cursor: default;
+}
+.cta-join[data-soon] .cta-join-icon {
+  background: rgba(255, 255, 255, 0.09);
+  color: rgba(255, 255, 255, 0.62);
+}
+.cta-join[data-soon] .cta-join-text strong { color: rgba(255, 255, 255, 0.82); }
+.cta-join[data-soon] .cta-join-text em { color: rgba(255, 255, 255, 0.45); }
+.cta-join[data-soon]::after { animation: none; }
+
+.cta-join-trust {
+  margin: 14px 0 0;
+  color: rgba(255, 255, 255, 0.42);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .cta-join[data-net="whatsapp"]:hover {
+    box-shadow: 0 14px 34px rgba(37, 211, 102, 0.42);
+    filter: brightness(1.06);
+  }
+  .cta-join[data-net="telegram"]:hover {
+    box-shadow: 0 14px 34px rgba(42, 171, 238, 0.42);
+    filter: brightness(1.06);
+  }
+  .cta-join:not([data-soon]):hover .cta-join-arrow { transform: translateX(4px); }
+  .cta-join:not([data-soon]):hover .cta-join-icon { transform: scale(1.06); }
+  .cta-join[data-soon]:hover { filter: none; box-shadow: none; }
+}
+
+@media (max-width: 480px) {
+  .cta-join { padding: 13px 15px; gap: 11px; }
+  .cta-join-icon { width: 34px; height: 34px; }
+  .cta-join-text strong { font-size: 14px; }
+}
+
+/* The sheen is the one thing here that moves on its own, so it is the one
+   thing that goes. */
+@media (prefers-reduced-motion: reduce) {
+  .cta-join::after { animation: none; }
+  .cta-join,
+  .cta-join-arrow,
+  .cta-join-icon { transition: none; }
+}
