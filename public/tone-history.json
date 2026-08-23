@@ -2431,7 +2431,7 @@
   {
     "date": "2026-08-23",
     "overallIndex": 53,
-    "totalArticles": 86,
+    "totalArticles": 88,
     "sourceCount": 72,
     "stanceVersion": 3,
     "countries": {
@@ -2546,9 +2546,9 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 4,
-        "excluded": 1,
-        "confident": false,
+        "n": 5,
+        "excluded": 0,
+        "confident": true,
         "stanceVersion": 3
       },
       "Greqi": {
@@ -2556,8 +2556,8 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 23,
-        "excluded": 4,
+        "n": 24,
+        "excluded": 3,
         "confident": true,
         "stanceVersion": 3
       },

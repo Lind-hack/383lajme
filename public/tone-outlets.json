@@ -1,10 +1,10 @@
 {
   "lastUpdated": "2026-08-23",
   "overallIndex": 53,
-  "totalArticles": 86,
+  "totalArticles": 88,
   "sourceCount": 72,
   "stanceVersion": 3,
-  "unattributed": 166,
+  "unattributed": 171,
   "nonEditorial": 21,
   "wrongKosovo": 0,
   "countries": {
@@ -961,19 +961,19 @@
         },
         {
           "name": "El Periódico de España",
-          "sentiment": "unknown",
+          "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
               "title": "Vivir bajo las bombas en el país europeo que España aún no reconoce: \"Nadie hizo nada para evitar la guerra\" - El Periódico de España",
               "albanianTitle": "Të jetosh nën bomba në shtetin evropian që Spanja ende nuk e njeh: \"Askush nuk bëri asgjë për ta parandaluar luftën\" - El Periódico de España",
-              "blurb": "Dëshmitë e qytetarëve për jetën nën bombardime në një shtet evropian që nuk njihet nga shteti i Spanjës.",
+              "blurb": "Dëshmitë për jetën nën bombardime në Kosovë, shtet të cilin Spanja ende nuk e ka njohur zyrtarisht si shtet.",
               "imageUrl": "https://estaticos-cdn.prensaiberica.es/clip/716a0a39-1499-4981-a1b3-aed756f2e602_16-9-discover-aspect-ratio_default_0_x1140y512.jpg",
               "url": "https://www.epe.es/es/actualidad/20260823/vivir-bombas-pais-europeo-espana-no-reconoce-elvira-dones-pequena-guerra-perfecta-kosovo-133480145",
               "date": "2026-08-23",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
+              "sentiment": "neutral",
+              "reason": "Quote is attributed; outlet’s own headline is factual description without contempt",
+              "isQuote": true,
               "evidence": "",
               "speaker": ""
             }
@@ -1037,9 +1037,9 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 4,
-        "excluded": 1,
-        "confident": false,
+        "n": 5,
+        "excluded": 0,
+        "confident": true,
         "stanceVersion": 3
       }
     },
@@ -1278,19 +1278,19 @@
         },
         {
           "name": "Newsbeast",
-          "sentiment": "unknown",
+          "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
               "title": "Νέα ένταση μεταξύ Σερβίας-Κοσόβου βάζει η γέφυρα της Μιτροβίτσας – «Μην την ανοίξετε» - Newsbeast",
               "albanianTitle": "Ura e Mitrovicës nxit tensione të reja mes Serbisë dhe Kosovës – \"Mos e hapni\" - Newsbeast",
-              "blurb": "Ura e Mitrovicës shkakton tensione të reja mes Serbisë dhe Kosovës, me thirrje për të mos e hapur atë.",
+              "blurb": "Çështja e hapjes së urës së Mitrovicës ka shkaktuar tensione të reja në marrëdhëniet ndërmjet Serbisë dhe Kosovës.",
               "imageUrl": "https://www.newsbeast.gr/image/s1200x762/fill/file/files/1/2026/08/AP22363383437236.jpg",
               "url": "https://www.newsbeast.gr/world/arthro/13306034/nea-entasi-metaxy-servias-kosovou-vazei-i-gefyra-tis-mitrovitsas-min-tin-anoixete",
               "date": "2026-08-21",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
+              "sentiment": "neutral",
+              "reason": "Citat i përdorur, jo zëri i mediumit",
+              "isQuote": true,
               "evidence": "",
               "speaker": ""
             }
@@ -1492,13 +1492,13 @@
             },
             {
               "title": "Ανατροπή και πρεμιέρα με νίκη στους Μεσογειακούς για την Εθνική χάντμπολ γυναικών - sport-fm.gr",
-              "albanianTitle": "Përmbysje dhe start me fitore për Kombëtaren e hendbollit të femrave në Lojërat Mesdhetare",
-              "blurb": "Kombëtarja e hendbollit të femrave ka shënuar fitore në ndeshjen e parë të Lojërave Mesdhetare pas një përmbysjeje të rezultatit.",
+              "albanianTitle": "Përmbysje dhe fitore në debutim për Kombëtaren e hendbollit të femrave në Lojërat Mesdhetare",
+              "blurb": "Kombëtarja e Greqisë në hendboll për femra ka shënuar fitore në ndeshjen e parë të Lojërave Mesdhetare.",
               "imageUrl": "https://resources.sport-fm.gr/supersportFM/images/news/26/08/22/handbll-women_212211.jpg?w=880&f=bicubic",
               "url": "https://www.sport-fm.gr/article/amp/ellada-kosobo-31-25-amp/5142968",
               "date": "2026-08-22",
               "sentiment": "unknown",
-              "reason": "Teksti nuk përmend Kosovën, ndaj nuk mund të përcaktohet qëndrimi",
+              "reason": "Nuk përmendet Kosova në tekst",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1600,8 +1600,8 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 23,
-        "excluded": 4,
+        "n": 24,
+        "excluded": 3,
         "confident": true,
         "stanceVersion": 3
       }
