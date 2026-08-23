@@ -4,12 +4,12 @@
     {
       "label": "Humbja e Kosovës në volejboll",
       "fallbackLabel": "Mesdhetare · Lojërat",
-      "summary": "Kombëtarja e volejbollit e Kosovës u mposht 3-0 nga Greqia në ndeshjen hapëse të Lojërave Mesdhetare, duke shënuar një fillim të vështirë për ekipin.",
-      "count": 39,
-      "positive": 1,
-      "neutral": 34,
+      "summary": "Kombëtarja e volejbollit e Kosovës u mposht 3-0 nga Greqia në ndeshjen hapëse të Lojërave Mesdhetare, duke shënuar një start të vështirë për ekipin.",
+      "count": 40,
+      "positive": 2,
+      "neutral": 35,
       "negative": 0,
-      "index": 51,
+      "index": 53,
       "countries": [
         "Francë",
         "Greqi",
@@ -35,6 +35,22 @@
           "outlet": "World Baseball Softball Confederation (WBSC)",
           "country": "SHBA",
           "flag": "🇺🇸"
+        },
+        {
+          "title": "Ανατροπή και πρεμιέρα με νίκη στους Μεσογειακούς για την Εθνική χάντμπολ γυναικών - sport-fm.gr",
+          "albanianTitle": "Përmbysje dhe fitore në ndeshjen e parë të Lojërave Mesdhetare për kombëtaren e hendbollit të femrave",
+          "blurb": "Kombëtarja e hendbollit të femrave ka shënuar fitore në ndeshjen e parë të Lojërave Mesdhetare pas përmbysjes së rezultatit.",
+          "imageUrl": "https://resources.sport-fm.gr/supersportFM/images/news/26/08/22/handbll-women_212211.jpg?w=880&f=bicubic",
+          "url": "https://www.sport-fm.gr/article/amp/ellada-kosobo-31-25-amp/5142968",
+          "date": "2026-08-22",
+          "sentiment": "positive",
+          "reason": "Ton i ngrohtë dhe lavdërues për ekipin e Kosovës",
+          "isQuote": false,
+          "speaker": "",
+          "evidence": "ανατροπή και πρεμιέρα με νίκη",
+          "outlet": "sport-fm.gr",
+          "country": "Greqi",
+          "flag": "🇬🇷"
         },
         {
           "title": "Πρώτο σερβίς για την “μεσογειακή” Εθνική Ομάδα βόλεϊ γυναικών, απέναντι στο Κόσοβο - Ertsports.gr",
@@ -163,29 +179,13 @@
           "outlet": "Virgilio",
           "country": "Itali",
           "flag": "🇮🇹"
-        },
-        {
-          "title": "Taranto 2026: al via i Giochi del Mediterraneo con una la bella idea per la sostenibilità - geomagazine.it",
-          "albanianTitle": "Taranto 2026: Nisin Lojërat Mesdhetare me një nismë të veçantë për qëndrueshmërinë",
-          "blurb": "Lojërat Mesdhetare Taranto 2026 nisin me fokus të veçantë në zbatimin e praktikave të qëndrueshme mjedisore gjatë organizimit.",
-          "imageUrl": "https://www.geomagazine.it/wp-content/uploads/2026/08/image-7.png",
-          "url": "https://www.geomagazine.it/2026/08/20/taranto-2026-al-via-i-giochi-del-mediterraneo-con-una-la-bella-idea-per-la-sostenibilita/",
-          "date": "2026-08-20",
-          "sentiment": "neutral",
-          "reason": "Përshkrim neutral i ngjarjes sportive",
-          "isQuote": false,
-          "speaker": "",
-          "evidence": "",
-          "outlet": "geomagazine.it",
-          "country": "Itali",
-          "flag": "🇮🇹"
         }
       ]
     },
     {
       "label": "Zbulimi i varrezave masive",
       "fallbackLabel": "Masive · Gjenden",
-      "summary": "Gjatë kërkimeve në Kosovë janë gjetur mbetjet mortore të mbi 20 personave në varreza masive, duke rikthyer vëmendjen te pasojat e luftës së kaluar.",
+      "summary": "Gjatë kërkimeve në Kosovë janë gjetur mbetjet mortore të më shumë se njëzet personave, duke rihapur çështje të rëndësishme për të kaluarën dhe viktimat e luftës.",
       "count": 23,
       "positive": 0,
       "neutral": 23,
@@ -364,9 +364,9 @@
       ]
     },
     {
-      "label": "Kërkesat e Serbisë ndaj NATO-s",
+      "label": "Kërkesat e Vuçiçit ndaj NATO-s",
       "fallbackLabel": "Nato · Kërkon",
-      "summary": "Presidenti serb Vuçiq i ka kërkuar NATO-s ndërhyrje për mbrojtjen e serbëve në Kosovë dhe kundërshtimin e rihapjes së urës kryesore mbi lumin Ibër.",
+      "summary": "Presidenti serb Vuçiç i ka kërkuar NATO-s ndërhyrje për mbrojtjen e serbëve në Kosovë dhe kundërshtimin e rihapjes së urës së Mitrovicës për qarkullim.",
       "count": 15,
       "positive": 0,
       "neutral": 14,
@@ -545,9 +545,9 @@
       ]
     },
     {
-      "label": "Bashkëpunimi ndërkombëtar dhe zhvillimor",
+      "label": "Bashkëpunimi ndërkombëtar me Kosovën",
       "fallbackLabel": "Tugay · Izmirit",
-      "summary": "Institucione të ndryshme, përfshirë UNICEF-in dhe bashkinë e Izmirit, kanë nisur iniciativa për bashkëpunim shumëdimensional në mbështetje të fëmijëve dhe zhvillimit të Kosovës.",
+      "summary": "Institucione ndërkombëtare dhe qyteti i Izmirit kanë nisur iniciativa për bashkëpunim shumëdimensional me Kosovën, duke synuar mbështetjen e fëmijëve dhe zhvillimin e projekteve të…",
       "count": 13,
       "positive": 3,
       "neutral": 10,
@@ -723,7 +723,7 @@
     {
       "label": "Zhvillimet politike dhe gjyqësore",
       "fallbackLabel": "Para · Qeverisë",
-      "summary": "Kosova po përballet me procese të rëndësishme gjyqësore në Hagë dhe protesta politike, ndërkohë që po përgatitet për përfaqësim në ngjarje ndërkombëtare sportive.",
+      "summary": "Figura të larta politike të Kosovës përballen me procese gjyqësore në Hagë, ndërsa në vend vijojnë protestat dhe përgatitjet për përfaqësim në ngjarje ndërkombëtare.",
       "count": 9,
       "positive": 1,
       "neutral": 7,
@@ -886,7 +886,7 @@
     {
       "label": "Debati për urën e Ibrit",
       "fallbackLabel": "Ibrit · Kfor",
-      "summary": "Plani për hapjen e urës së Ibrit në Mitrovicë për qarkullim ka shkaktuar tensione politike dhe kundërshtime të ashpra nga ana e Serbisë.",
+      "summary": "Plani për hapjen e urës së Ibrit në Mitrovicë ka shkaktuar tensione politike, me Serbinë që kundërshton vendimin dhe analistët që paralajmërojnë për rrezikun e destabilizimit.",
       "count": 8,
       "positive": 0,
       "neutral": 8,
@@ -1030,9 +1030,9 @@
       ]
     },
     {
-      "label": "Incidentet dhe tensionet rajonale",
+      "label": "Incidentet dhe tensionet politike",
       "fallbackLabel": "Ndaj · Kfor",
-      "summary": "Ngjarje të ndryshme, duke përfshirë një arrestim për sulm seksual dhe retorikë politike agresive, po ndikojnë në klimën e sigurisë dhe marrëdhëniet në rajon.",
+      "summary": "Ngjarje të ndryshme, përfshirë një rast penal në Greqi dhe retorikën politike të ashpër nga Serbia, po ndikojnë në klimën e sigurisë dhe marrëdhëniet në rajon.",
       "count": 8,
       "positive": 0,
       "neutral": 8,
@@ -1176,9 +1176,9 @@
       ]
     },
     {
-      "label": "Menaxhimi i fondeve financiare",
+      "label": "Menaxhimi i fondeve dhe investimeve",
       "fallbackLabel": "Milionë · Euro",
-      "summary": "Kosova po përballet me sfida në shfrytëzimin e fondeve të BE-së dhe zbatimin e projekteve sociale, duke rrezikuar humbjen e miliona eurove për shkak të vonesave.",
+      "summary": "Kosova po përballet me sfida në shfrytëzimin e fondeve të Bashkimit Evropian, duke rrezikuar humbjen e miliona eurove për shkak të vonesave në zbatimin e projekteve.",
       "count": 7,
       "positive": 0,
       "neutral": 6,

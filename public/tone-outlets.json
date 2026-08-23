@@ -1,10 +1,10 @@
 {
   "lastUpdated": "2026-08-23",
   "overallIndex": 53,
-  "totalArticles": 88,
-  "sourceCount": 72,
+  "totalArticles": 92,
+  "sourceCount": 75,
   "stanceVersion": 3,
-  "unattributed": 171,
+  "unattributed": 172,
   "nonEditorial": 21,
   "wrongKosovo": 0,
   "countries": {
@@ -206,6 +206,30 @@
     },
     "Itali": {
       "outlets": [
+        {
+          "name": "AGI",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Dal Kosovo a Brescia, Albiona Gashi ai Giochi del Mediterraneo grazie al padel - AGI",
+              "albanianTitle": "Nga Kosova në Breshia, Albiona Gashi në Lojërat Mesdhetare falë padelit",
+              "blurb": "Albiona Gashi nga Kosova do të marrë pjesë në Lojërat Mesdhetare në disiplinën e sportit të padelit.",
+              "imageUrl": null,
+              "url": "https://www.agi.it/sport/news/2026-08-23/giochi-padel-albiona-gashi-38666481/",
+              "date": "2026-08-23",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportuar pa ngarkim",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-23",
+          "lastSeen": "2026-08-23"
+        },
         {
           "name": "ANSA",
           "sentiment": "neutral",
@@ -678,6 +702,30 @@
           "lastSeen": "2026-08-22"
         },
         {
+          "name": "ilbiellese.it",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Noemi Intermite 7ª all’Europeo U15 in Kosovo - ilbiellese.it",
+              "albanianTitle": "Noemi Intermite zë vendin e 7-të në Kampionatin Evropian U15 në Kosovë",
+              "blurb": "Sportistja Noemi Intermite është renditur në vendin e shtatë në Kampionatin Evropian për grupmoshën U15 në Kosovë.",
+              "imageUrl": "https://storage.ilbiellese.it/media/photologue/2026/8/23/photos/cache/noemi-intermite-7a-alleuropeo-u15-in-kosovo_13f4ce26-9f11-11f1-b230-7d15c0b9b86b_1920_1080_v3_large_16_9.jpg",
+              "url": "https://www.ilbiellese.it/stories/sport/altri-sport/noemi-intermite-7a-alleuropeo-u15-in-kosovo-o_145073_80/",
+              "date": "2026-08-23",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportuar pa ngarkim",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-23",
+          "lastSeen": "2026-08-23"
+        },
+        {
           "name": "studio100.it",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -707,7 +755,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 20,
+        "n": 22,
         "excluded": 2,
         "confident": true,
         "stanceVersion": 3
@@ -1434,6 +1482,30 @@
           "lastSeen": "2026-08-21"
         },
         {
+          "name": "prlogos.gr",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Ο λιγνίτης που δεν θα ταξιδεύει στα Σκόπια φέρνει άλλο ένα κύμα ανέργων στην περιοχή - prlogos.gr",
+              "albanianTitle": "Ndalimi i eksportit të linjitit për në Shkup sjell një valë të re papunësie në rajon",
+              "blurb": "Ndalimi i eksportit të linjitit drejt Shkupit pritet të shkaktojë rritje të shkallës së papunësisë në rajonin përkatës.",
+              "imageUrl": null,
+              "url": "https://www.prlogos.gr/%CE%BF-%CE%BB%CE%B9%CE%B3%CE%BD%CE%AF%CF%84%CE%B7%CF%82-%CF%80%CE%BF%CF%85-%CE%B4%CE%B5%CE%BD-%CE%B8%CE%B1-%CF%84%CE%B1%CE%BE%CE%B9%CE%B4%CE%B5%CF%8D%CE%B5%CE%B9-%CF%83%CF%84%CE%B1-%CF%83%CE%BA/",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Raportim i çështjes ekonomike pa gjuhë ngarkuese",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-23",
+          "lastSeen": "2026-08-21"
+        },
+        {
           "name": "sport-fm.gr",
           "sentiment": "neutral",
           "articleCount": 5,
@@ -1492,15 +1564,15 @@
             },
             {
               "title": "Ανατροπή και πρεμιέρα με νίκη στους Μεσογειακούς για την Εθνική χάντμπολ γυναικών - sport-fm.gr",
-              "albanianTitle": "Përmbysje dhe fitore në debutim për Kombëtaren e hendbollit të femrave në Lojërat Mesdhetare",
-              "blurb": "Kombëtarja e Greqisë në hendboll për femra ka shënuar fitore në ndeshjen e parë të Lojërave Mesdhetare.",
+              "albanianTitle": "Përmbysje dhe fitore në ndeshjen e parë të Lojërave Mesdhetare për kombëtaren e hendbollit të femrave",
+              "blurb": "Kombëtarja e hendbollit të femrave ka shënuar fitore në ndeshjen e parë të Lojërave Mesdhetare pas përmbysjes së rezultatit.",
               "imageUrl": "https://resources.sport-fm.gr/supersportFM/images/news/26/08/22/handbll-women_212211.jpg?w=880&f=bicubic",
               "url": "https://www.sport-fm.gr/article/amp/ellada-kosobo-31-25-amp/5142968",
               "date": "2026-08-22",
-              "sentiment": "unknown",
-              "reason": "Nuk përmendet Kosova në tekst",
+              "sentiment": "positive",
+              "reason": "Ton i ngrohtë dhe lavdërues për ekipin e Kosovës",
               "isQuote": false,
-              "evidence": "",
+              "evidence": "ανατροπή και πρεμιέρα με νίκη",
               "speaker": ""
             }
           ],
@@ -1596,12 +1668,12 @@
         }
       ],
       "summary": {
-        "index": 50,
-        "positive": 0,
-        "neutral": 100,
+        "index": 52,
+        "positive": 4,
+        "neutral": 96,
         "negative": 0,
-        "n": 24,
-        "excluded": 3,
+        "n": 26,
+        "excluded": 2,
         "confident": true,
         "stanceVersion": 3
       }

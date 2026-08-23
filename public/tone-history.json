@@ -2431,8 +2431,8 @@
   {
     "date": "2026-08-23",
     "overallIndex": 53,
-    "totalArticles": 88,
-    "sourceCount": 72,
+    "totalArticles": 92,
+    "sourceCount": 75,
     "stanceVersion": 3,
     "countries": {
       "Gjermani": {
@@ -2488,7 +2488,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 20,
+        "n": 22,
         "excluded": 2,
         "confident": true,
         "stanceVersion": 3
@@ -2552,12 +2552,12 @@
         "stanceVersion": 3
       },
       "Greqi": {
-        "index": 50,
-        "positive": 0,
-        "neutral": 100,
+        "index": 52,
+        "positive": 4,
+        "neutral": 96,
         "negative": 0,
-        "n": 24,
-        "excluded": 3,
+        "n": 26,
+        "excluded": 2,
         "confident": true,
         "stanceVersion": 3
       },
@@ -2620,11 +2620,11 @@
         "sentiment": "positive"
       },
       {
-        "title": "Haberler | Başkan Tugay, Kosova'da yeni iş birliklerinin kapısını araladı - İzmir Büyükşehir Belediyesi",
-        "source": "İzmir Büyükşehir Belediyesi",
-        "country": "Turqi",
-        "flag": "🇹🇷",
-        "url": "https://www.izmir.bel.tr/tr/Haberler/baskan-tugay-kosovada-yeni-is-birliklerinin-kapisini-araladi/59218/156",
+        "title": "Ανατροπή και πρεμιέρα με νίκη στους Μεσογειακούς για την Εθνική χάντμπολ γυναικών - sport-fm.gr",
+        "source": "sport-fm.gr",
+        "country": "Greqi",
+        "flag": "🇬🇷",
+        "url": "https://www.sport-fm.gr/article/amp/ellada-kosobo-31-25-amp/5142968",
         "sentiment": "positive"
       }
     ]

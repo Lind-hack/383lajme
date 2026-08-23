@@ -1203,6 +1203,45 @@
       "urls": [
         "https://www.yeniasir.com.tr/izmir/2026/08/23/izmir-ile-kosova-icin-is-birligi-kapisi-aralandi"
       ]
+    },
+    "AGI": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-23",
+      "lastSeen": "2026-08-23",
+      "urls": [
+        "https://www.agi.it/sport/news/2026-08-23/giochi-padel-albiona-gashi-38666481/"
+      ]
+    },
+    "ilbiellese.it": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-23",
+      "lastSeen": "2026-08-23",
+      "urls": [
+        "https://www.ilbiellese.it/stories/sport/altri-sport/noemi-intermite-7a-alleuropeo-u15-in-kosovo-o_145073_80/"
+      ]
+    },
+    "prlogos.gr": {
+      "country": "Greqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-23",
+      "lastSeen": "2026-08-21",
+      "urls": [
+        "https://www.prlogos.gr/%CE%BF-%CE%BB%CE%B9%CE%B3%CE%BD%CE%AF%CF%84%CE%B7%CF%82-%CF%80%CE%BF%CF%85-%CE%B4%CE%B5%CE%BD-%CE%B8%CE%B1-%CF%84%CE%B1%CE%BE%CE%B9%CE%B4%CE%B5%CF%8D%CE%B5%CE%B9-%CF%83%CF%84%CE%B1-%CF%83%CE%BA/"
+      ]
     }
   }
 }
