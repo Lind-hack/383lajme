@@ -4,7 +4,7 @@
     {
       "label": "Humbja e Kosovës në volejboll",
       "fallbackLabel": "Mesdhetare · Lojërat",
-      "summary": "Kombëtarja e volejbollit e Kosovës pësoi humbje 3-0 ndaj Greqisë në ndeshjen hapëse të Lojërave Mesdhetare, duke shënuar një fillim të vështirë në këtë kompeticion.",
+      "summary": "Kombëtarja e volejbollit të femrave të Kosovës u mposht 3-0 nga Greqia në ndeshjen hapëse të Lojërave Mesdhetare në Taranto.",
       "count": 38,
       "positive": 1,
       "neutral": 33,
@@ -185,7 +185,7 @@
     {
       "label": "Zbulimi i varrezave masive",
       "fallbackLabel": "Masive · Gjenden",
-      "summary": "Gjatë kërkimeve në Kosovë janë gjetur mbetjet mortore të mbi 20 personave në varreza masive, duke rikthyer vëmendjen te pasojat e rënda të së kaluarës.",
+      "summary": "Gjatë kërkimeve në Kosovë janë gjetur mbetjet mortore të mbi 20 personave, duke rikthyer vëmendjen te pasojat e rënda të luftës.",
       "count": 21,
       "positive": 0,
       "neutral": 21,
@@ -365,7 +365,7 @@
     {
       "label": "Debati për urën e Ibrit",
       "fallbackLabel": "Ibrit · Nato",
-      "summary": "Hapja e urës së Ibrit në Mitrovicë ka shkaktuar tensione politike, me Serbinë që kundërshton vendimin ndërsa NATO kërkon një qasje që respekton komunitetet lokale.",
+      "summary": "Plani për hapjen e urës së Ibrit në Mitrovicë ka shkaktuar tensione politike dhe kundërshtime të ashpra nga ana e Serbisë.",
       "count": 14,
       "positive": 0,
       "neutral": 14,
@@ -546,7 +546,7 @@
     {
       "label": "Bashkëpunimi ndërkombëtar me Izmirin",
       "fallbackLabel": "Tugay · Izmirit",
-      "summary": "Kryetari i Izmirit, Cemil Tugay, ka nisur një iniciativë për bashkëpunim shumëdimensional me Kosovën, duke synuar forcimin e lidhjeve në fusha të ndryshme të zhvillimit.",
+      "summary": "Kryetari i Izmirit, Cemil Tugay, ka nisur një iniciativë për bashkëpunim shumëdimensional me Kosovën në fusha të ndryshme të zhvillimit.",
       "count": 12,
       "positive": 3,
       "neutral": 9,
@@ -722,7 +722,7 @@
     {
       "label": "Tensionet politike dhe siguria",
       "fallbackLabel": "Ndaj · Serbëve",
-      "summary": "Përshkallëzimi i retorikës politike dhe akuzat për dhunë ndaj serbëve në Kosovë po ndikojnë në stabilitetin e rajonit dhe marrëdhëniet me forcat ndërkombëtare të sigurisë.",
+      "summary": "Përshkallëzimi i retorikës politike dhe akuzat për dhunë ndaj serbëve në Kosovë po ndikojnë negativisht në stabilitetin e rajonit të veriut.",
       "count": 9,
       "positive": 0,
       "neutral": 9,
@@ -884,7 +884,7 @@
     {
       "label": "Konfiskimi i armëve në veri",
       "fallbackLabel": "Veri · Policia",
-      "summary": "Policia e Kosovës ka zhvilluar operacione të suksesshme në veri të vendit, duke konfiskuar sasi të mëdha armësh, municioni dhe uniformash të paligjshme.",
+      "summary": "Policia e Kosovës ka sekuestruar sasi të mëdha armësh, municionesh dhe lëndësh narkotike në veri, duke synuar luftimin e krimit të organizuar.",
       "count": 7,
       "positive": 0,
       "neutral": 7,
@@ -1013,7 +1013,7 @@
     {
       "label": "Pjesëmarrja e Kosovës në Taranto",
       "fallbackLabel": "Taranto · Haxhiu",
-      "summary": "Përfaqësuesit e Kosovës po marrin pjesë në Lojërat Mesdhetare në Taranto, duke promovuar progresin sportiv dhe duke bërë thirrje për unitet politik brenda vendit.",
+      "summary": "Përfaqësuesit e Kosovës po marrin pjesë në Lojërat Mesdhetare në Taranto, duke promovuar sportin dhe kandidaturën për Prishtina 2030.",
       "count": 7,
       "positive": 3,
       "neutral": 3,
@@ -1142,7 +1142,7 @@
     {
       "label": "Gjykimi i Hashim Thaçit",
       "fallbackLabel": "Thaçi · Pret",
-      "summary": "Hashim Thaçi pret vendimin e Gjykatës së Hagës për akuzat e luftës, ndërsa u bën thirrje forcave politike në Kosovë për konsensus dhe dialog.",
+      "summary": "Hashim Thaçi pret vendimin e Gjykatës së Hagës për akuzat e luftës, ndërsa bën thirrje për konsensus politik brenda Kosovës.",
       "count": 7,
       "positive": 0,
       "neutral": 7,
