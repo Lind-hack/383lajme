@@ -1200,6 +1200,19 @@
       "urls": [
         "https://www.prlogos.gr/%CE%BF-%CE%BB%CE%B9%CE%B3%CE%BD%CE%AF%CF%84%CE%B7%CF%82-%CF%80%CE%BF%CF%85-%CE%B4%CE%B5%CE%BD-%CE%B8%CE%B1-%CF%84%CE%B1%CE%BE%CE%B9%CE%B4%CE%B5%CF%8D%CE%B5%CE%B9-%CF%83%CF%84%CE%B1-%CF%83%CE%BA/"
       ]
+    },
+    "OA Sport": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-23",
+      "lastSeen": "2026-08-23",
+      "urls": [
+        "https://www.oasport.it/2026/08/pallamano-litalia-spazza-via-il-kosovo-azzurri-perfetti-nellesordio-ai-giochi-del-mediterraneo/"
+      ]
     }
   }
 }

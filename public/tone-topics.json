@@ -4,10 +4,10 @@
     {
       "label": "Humbja e Kosovës në volejboll",
       "fallbackLabel": "Mesdhetare · Lojërat",
-      "summary": "Kombëtarja e volejbollit e Kosovës u mposht 3-0 nga Greqia në ndeshjen hapëse të Lojërave Mesdhetare, duke shënuar një start të vështirë për ekipin.",
-      "count": 40,
+      "summary": "Kombëtarja e volejbollit e Kosovës u mposht 3-0 nga Greqia në ndeshjen hapëse të Lojërave Mesdhetare, duke shënuar një fillim të vështirë në këtë turne.",
+      "count": 41,
       "positive": 2,
-      "neutral": 35,
+      "neutral": 36,
       "negative": 0,
       "index": 53,
       "countries": [
@@ -185,7 +185,7 @@
     {
       "label": "Zbulimi i varrezave masive",
       "fallbackLabel": "Masive · Gjenden",
-      "summary": "Gjatë kërkimeve në Kosovë janë gjetur mbetjet mortore të më shumë se njëzet personave, duke rihapur çështje të rëndësishme për të kaluarën dhe viktimat e luftës.",
+      "summary": "Gjatë kërkimeve në territorin e Kosovës janë gjetur mbetje mortore të mbi 20 personave, duke rikthyer vëmendjen te pasojat e rënda të së kaluarës.",
       "count": 23,
       "positive": 0,
       "neutral": 23,
@@ -364,9 +364,9 @@
       ]
     },
     {
-      "label": "Kërkesat e Vuçiçit ndaj NATO-s",
+      "label": "Kërkesat serbe ndaj NATO-s",
       "fallbackLabel": "Nato · Kërkon",
-      "summary": "Presidenti serb Vuçiç i ka kërkuar NATO-s ndërhyrje për mbrojtjen e serbëve në Kosovë dhe kundërshtimin e rihapjes së urës së Mitrovicës për qarkullim.",
+      "summary": "Presidenti serb Vuçiq i ka kërkuar NATO-s ndërhyrje për mbrojtjen e serbëve në Kosovë dhe kundërshtimin e hapjes së urës së Mitrovicës për qarkullim.",
       "count": 15,
       "positive": 0,
       "neutral": 14,
@@ -547,7 +547,7 @@
     {
       "label": "Bashkëpunimi ndërkombëtar me Kosovën",
       "fallbackLabel": "Tugay · Izmirit",
-      "summary": "Institucione ndërkombëtare dhe qyteti i Izmirit kanë nisur iniciativa për bashkëpunim shumëdimensional me Kosovën, duke synuar mbështetjen e fëmijëve dhe zhvillimin e projekteve të…",
+      "summary": "Institucione të ndryshme, përfshirë UNICEF-in dhe bashkinë e Izmirit, kanë nisur iniciativa për bashkëpunim shumëdimensional në mbështetje të fëmijëve dhe zhvillimit të Kosovës.",
       "count": 13,
       "positive": 3,
       "neutral": 10,
@@ -723,13 +723,14 @@
     {
       "label": "Zhvillimet politike dhe gjyqësore",
       "fallbackLabel": "Para · Qeverisë",
-      "summary": "Figura të larta politike të Kosovës përballen me procese gjyqësore në Hagë, ndërsa në vend vijojnë protestat dhe përgatitjet për përfaqësim në ngjarje ndërkombëtare.",
-      "count": 9,
+      "summary": "Kosova po përballet me procese të rëndësishme gjyqësore në Hagë, protesta politike të brendshme dhe përgatitje për përfaqësim në ngjarje ndërkombëtare si çmimet Oscar.",
+      "count": 10,
       "positive": 1,
       "neutral": 7,
-      "negative": 0,
-      "index": 56,
+      "negative": 1,
+      "index": 50,
       "countries": [
+        "Francë",
         "Gjermani",
         "Itali",
         "SHBA",
@@ -737,6 +738,22 @@
         "Turqi"
       ],
       "articles": [
+        {
+          "title": "Aleanca hedh qymyr para qeverisë, Ramadani: Kurti po e çon Kosovën në terr politik - Reporteri",
+          "albanianTitle": "Aleanca hedh qymyr para Qeverisë, Ramadani: Kurti po e çon Kosovën në terr politik - Reporteri",
+          "blurb": "Përfaqësuesit e Aleancës për Ardhmërinë e Kosovës kanë hedhur qymyr para ndërtesës së Qeverisë në shenjë proteste.",
+          "imageUrl": null,
+          "url": "https://reporteri.net/fr/nouvelles/L%27alliance-jette-de-l%27huile-sur-le-feu-au-gouvernement-%3A-Ramadan-Kurti-plonge-le-Kosovo-dans-les-t%C3%A9n%C3%A8bres-politiques./",
+          "date": "2026-08-23",
+          "sentiment": "negative",
+          "reason": "Fjalët e vetë mediumit e kornizojnë Kosovën në mënyrë negative, duke përdorur termat 'hedh qymyr' dhe 'çon në terr politik'",
+          "isQuote": false,
+          "speaker": "",
+          "evidence": "hedh qymyr ... çon Kosovën në terr politik",
+          "outlet": "Reporteri",
+          "country": "Francë",
+          "flag": "🇫🇷"
+        },
         {
           "title": "Gashani speaks exclusively to KosovaPress: We will receive the baton in Taranto and showcase progress toward Prishtina 2030 before the Assembly - KosovaPress",
           "albanianTitle": "Gashani ekskluzivisht për KosovaPress: Do ta marrim stafetën në Taranto dhe do të shfaqim progresin drejt Prishtina 2030 para Asamblesë - KosovaPress",
@@ -886,7 +903,7 @@
     {
       "label": "Debati për urën e Ibrit",
       "fallbackLabel": "Ibrit · Kfor",
-      "summary": "Plani për hapjen e urës së Ibrit në Mitrovicë ka shkaktuar tensione politike, me Serbinë që kundërshton vendimin dhe analistët që paralajmërojnë për rrezikun e destabilizimit.",
+      "summary": "Plani për hapjen e urës së Ibrit në Mitrovicë ka nxitur tensione politike, me Serbinë që kundërshton vendimin dhe analistët që paralajmërojnë rrezikun e destabilizimit.",
       "count": 8,
       "positive": 0,
       "neutral": 8,
@@ -1030,9 +1047,9 @@
       ]
     },
     {
-      "label": "Incidentet dhe tensionet politike",
+      "label": "Incidentet dhe tensionet rajonale",
       "fallbackLabel": "Ndaj · Kfor",
-      "summary": "Ngjarje të ndryshme, përfshirë një rast penal në Greqi dhe retorikën politike të ashpër nga Serbia, po ndikojnë në klimën e sigurisë dhe marrëdhëniet në rajon.",
+      "summary": "Situata në Kosovë mbetet e ndjeshme për shkak të incidenteve të ndryshme, kërcënimeve të sigurisë dhe akuzave diplomatike për terror ndaj popullatës serbe në vend.",
       "count": 8,
       "positive": 0,
       "neutral": 8,
@@ -1176,9 +1193,9 @@
       ]
     },
     {
-      "label": "Menaxhimi i fondeve dhe investimeve",
+      "label": "Menaxhimi i fondeve financiare",
       "fallbackLabel": "Milionë · Euro",
-      "summary": "Kosova po përballet me sfida në shfrytëzimin e fondeve të Bashkimit Evropian, duke rrezikuar humbjen e miliona eurove për shkak të vonesave në zbatimin e projekteve.",
+      "summary": "Kosova po përballet me sfida në shfrytëzimin e fondeve të BE-së dhe zbatimin e projekteve sociale, duke rrezikuar humbjen e miliona eurove për shkak të vonesave.",
       "count": 7,
       "positive": 0,
       "neutral": 6,

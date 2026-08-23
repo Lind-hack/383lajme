@@ -1,10 +1,10 @@
 {
   "lastUpdated": "2026-08-23",
   "overallIndex": 53,
-  "totalArticles": 92,
-  "sourceCount": 75,
+  "totalArticles": 93,
+  "sourceCount": 76,
   "stanceVersion": 3,
-  "unattributed": 172,
+  "unattributed": 173,
   "nonEditorial": 21,
   "wrongKosovo": 0,
   "countries": {
@@ -510,6 +510,30 @@
           "lastSeen": "2026-08-21"
         },
         {
+          "name": "OA Sport",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Pallamano: l’Italia spazza via il Kosovo. Azzurri perfetti nell’esordio ai Giochi del Mediterraneo - OA Sport",
+              "albanianTitle": "Hendboll: Italia e shkatërron Kosovën. “Azzurrët” perfekt në debutimin e tyre në Lojërat Mesdhetare - OA Sport",
+              "blurb": "Kombëtarja e Italisë në hendboll ka mposhtur Kosovën në ndeshjen e parë të zhvilluar në Lojërat Mesdhetare.",
+              "imageUrl": "https://www.oasport.it/wp-content/uploads/2026/08/Nazionale-italiana-pallamano-Giacomo-Savini-Luigi-Canu-FIGH-e1787512951223.jpg",
+              "url": "https://www.oasport.it/2026/08/pallamano-litalia-spazza-via-il-kosovo-azzurri-perfetti-nellesordio-ai-giochi-del-mediterraneo/",
+              "date": "2026-08-23",
+              "sentiment": "neutral",
+              "reason": "Përshkrim sportiv i fitores së Italisë, pa gjuhë polemike ndaj Kosovës",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-23",
+          "lastSeen": "2026-08-23"
+        },
+        {
           "name": "Quindici Molfetta",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -755,7 +779,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 22,
+        "n": 23,
         "excluded": 2,
         "confident": true,
         "stanceVersion": 3

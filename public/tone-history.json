@@ -2431,8 +2431,8 @@
   {
     "date": "2026-08-23",
     "overallIndex": 53,
-    "totalArticles": 92,
-    "sourceCount": 75,
+    "totalArticles": 93,
+    "sourceCount": 76,
     "stanceVersion": 3,
     "countries": {
       "Gjermani": {
@@ -2488,7 +2488,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 22,
+        "n": 23,
         "excluded": 2,
         "confident": true,
         "stanceVersion": 3
@@ -2626,6 +2626,14 @@
         "flag": "🇬🇷",
         "url": "https://www.sport-fm.gr/article/amp/ellada-kosobo-31-25-amp/5142968",
         "sentiment": "positive"
+      },
+      {
+        "title": "Aleanca hedh qymyr para qeverisë, Ramadani: Kurti po e çon Kosovën në terr politik - Reporteri",
+        "source": "Reporteri",
+        "country": "Francë",
+        "flag": "🇫🇷",
+        "url": "https://reporteri.net/fr/nouvelles/L%27alliance-jette-de-l%27huile-sur-le-feu-au-gouvernement-%3A-Ramadan-Kurti-plonge-le-Kosovo-dans-les-t%C3%A9n%C3%A8bres-politiques./",
+        "sentiment": "negative"
       }
     ]
   }
