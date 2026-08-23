@@ -41,6 +41,11 @@ MIN_CONFIDENT_COVERAGE = 0.4
 MAX_ARTICLES_PER_OUTLET = 6
 #: How far a country's index must move before it is worth explaining.
 MOVEMENT_THRESHOLD = 4
+#: Bumped from 2 when attribution moved from the Google News feed that found an
+#: article to the outlet that published it, and non-editorial sources stopped
+#: counting. A number produced under these rules is not comparable with one
+#: produced before them, and summarizeToneHistory() will not subtract across it.
+STANCE_VERSION = 3
 
 
 def is_confident(scored: int, excluded: int) -> bool:
@@ -183,7 +188,7 @@ def main() -> int:
             "n": n,
             "excluded": excluded,
             "confident": is_confident(n, excluded),
-            "stanceVersion": 2,
+            "stanceVersion": STANCE_VERSION,
         }
 
         # ── Why it moved ─────────────────────────────────────────────────────
@@ -217,7 +222,7 @@ def main() -> int:
         "overallIndex": round(weighted / total) if total else None,
         "totalArticles": total,
         "sourceCount": sum(len(c["outlets"]) for c in countries_data.values()),
-        "stanceVersion": 2,
+        "stanceVersion": STANCE_VERSION,
         # Said out loud rather than hidden. An article from a newsroom we
         # cannot place — a generic domain we do not recognise, or a country
         # outside the fifteen — is counted nowhere, and a reader checking the
@@ -242,13 +247,49 @@ def main() -> int:
         moved = f"   moved {s['movement']['delta']:+d}" if "movement" in s else ""
         print(f"  {name[:10]:10} n={s['n']:3}  index={str(s['index']):>4}{flag}{moved}")
 
+    # ── The daily row the dashboard actually reads ───────────────────────────
+    #
+    # The homepage tone dashboard renders summarizeToneHistory(), which reads
+    # the LAST row of tone-history.json — not tone-outlets.json. Rebuilding
+    # only the outlets file corrected every drill-down and left the headline
+    # saying "248 artikuj ne 15 vende" under the old attribution, which is the
+    # first thing a reader sees.
+    #
+    # Today's row is replaced rather than appended: it is one day recomputed
+    # under corrected rules, not a new day. Earlier rows are left as they are —
+    # the articles behind them are long out of the cache, and silently
+    # restating history we cannot recompute would be worse than leaving it
+    # visibly on the old method.
+    #
+    # stanceVersion 3 marks the boundary. summarizeToneHistory() already
+    # refuses to subtract across a version change, so the week-delta reports
+    # nothing until there are two corrected rows — the same guard that stopped
+    # the v1/v2 change from reading as a swing in world opinion.
+    row = {
+        "date": previous.get("lastUpdated") or today,
+        "overallIndex": output["overallIndex"],
+        "totalArticles": total,
+        "sourceCount": output["sourceCount"],
+        "stanceVersion": STANCE_VERSION,
+        "countries": {
+            country: {**summary, "stanceVersion": STANCE_VERSION}
+            for country, summary in summaries.items()
+        },
+        "headlines": (history[-1].get("headlines") if history else []) or [],
+    }
+    history = [r for r in history if r.get("date") != row["date"]] + [row]
+    history.sort(key=lambda r: r.get("date", ""))
+    print("history row     : " + str(row["date"]) + " -> index " + str(row["overallIndex"])
+          + ", " + str(row["totalArticles"]) + " articles, v" + str(STANCE_VERSION))
+
     if dry:
         print("\n--dry: nothing written.")
         return 0
 
     OUTLETS_PATH.write_text(json.dumps(output, ensure_ascii=False, indent=2), encoding="utf-8")
     LEDGER_PATH.write_text(json.dumps(ledger, ensure_ascii=False, indent=2), encoding="utf-8")
-    print(f"\nwrote {OUTLETS_PATH.name} and {LEDGER_PATH.name}")
+    HISTORY_PATH.write_text(json.dumps(history, ensure_ascii=False, indent=2), encoding="utf-8")
+    print(f"\nwrote {OUTLETS_PATH.name}, {LEDGER_PATH.name} and {HISTORY_PATH.name}")
     return 0
 
 

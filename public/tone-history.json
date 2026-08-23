@@ -2430,20 +2430,20 @@
   },
   {
     "date": "2026-08-23",
-    "overallIndex": null,
-    "totalArticles": 0,
-    "sourceCount": 0,
-    "stanceVersion": 2,
+    "overallIndex": 52,
+    "totalArticles": 79,
+    "sourceCount": 65,
+    "stanceVersion": 3,
     "countries": {
       "Gjermani": {
-        "index": null,
+        "index": 50,
         "positive": 0,
-        "neutral": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 0,
+        "n": 1,
         "excluded": 0,
         "confident": false,
-        "stanceVersion": 2
+        "stanceVersion": 3
       },
       "SHBA": {
         "index": null,
@@ -2453,37 +2453,45 @@
         "n": 0,
         "excluded": 0,
         "confident": false,
-        "stanceVersion": 2
+        "stanceVersion": 3
       },
       "Britani": {
-        "index": null,
+        "index": 50,
         "positive": 0,
-        "neutral": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 0,
+        "n": 2,
         "excluded": 0,
         "confident": false,
-        "stanceVersion": 2
+        "stanceVersion": 3
       },
       "Francë": {
-        "index": null,
-        "positive": 0,
-        "neutral": 0,
+        "index": 75,
+        "positive": 50,
+        "neutral": 50,
         "negative": 0,
-        "n": 0,
+        "n": 2,
         "excluded": 0,
         "confident": false,
-        "stanceVersion": 2
+        "stanceVersion": 3,
+        "movement": {
+          "delta": 21,
+          "from": 54,
+          "outlet": "ladepeche.fr",
+          "title": "Një artizan i dialogut në Ballkan nga Graulhet",
+          "evidence": "artisan du dialogue",
+          "url": "https://www.ladepeche.fr/2026/08/21/un-graulhetois-artisan-du-dialogue-dans-les-balkans-13516906.php"
+        }
       },
       "Itali": {
-        "index": null,
+        "index": 50,
         "positive": 0,
-        "neutral": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 0,
-        "excluded": 0,
-        "confident": false,
-        "stanceVersion": 2
+        "n": 18,
+        "excluded": 2,
+        "confident": true,
+        "stanceVersion": 3
       },
       "Austri": {
         "index": null,
@@ -2493,7 +2501,7 @@
         "n": 0,
         "excluded": 0,
         "confident": false,
-        "stanceVersion": 2
+        "stanceVersion": 3
       },
       "Zvicër": {
         "index": null,
@@ -2501,49 +2509,49 @@
         "neutral": 0,
         "negative": 0,
         "n": 0,
-        "excluded": 0,
+        "excluded": 2,
         "confident": false,
-        "stanceVersion": 2
+        "stanceVersion": 3
       },
       "Holandë": {
-        "index": null,
+        "index": 50,
         "positive": 0,
-        "neutral": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 0,
+        "n": 2,
         "excluded": 0,
         "confident": false,
-        "stanceVersion": 2
+        "stanceVersion": 3
       },
       "Belgjikë": {
-        "index": null,
+        "index": 50,
         "positive": 0,
-        "neutral": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 0,
+        "n": 2,
         "excluded": 0,
         "confident": false,
-        "stanceVersion": 2
+        "stanceVersion": 3
       },
       "Spanjë": {
-        "index": null,
+        "index": 50,
         "positive": 0,
-        "neutral": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 0,
+        "n": 4,
         "excluded": 0,
         "confident": false,
-        "stanceVersion": 2
+        "stanceVersion": 3
       },
       "Greqi": {
-        "index": null,
+        "index": 50,
         "positive": 0,
-        "neutral": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 0,
-        "excluded": 0,
-        "confident": false,
-        "stanceVersion": 2
+        "n": 23,
+        "excluded": 3,
+        "confident": true,
+        "stanceVersion": 3
       },
       "Suedi": {
         "index": null,
@@ -2553,7 +2561,7 @@
         "n": 0,
         "excluded": 0,
         "confident": false,
-        "stanceVersion": 2
+        "stanceVersion": 3
       },
       "Poloni": {
         "index": null,
@@ -2563,17 +2571,17 @@
         "n": 0,
         "excluded": 0,
         "confident": false,
-        "stanceVersion": 2
+        "stanceVersion": 3
       },
       "Turqi": {
-        "index": null,
-        "positive": 0,
-        "neutral": 0,
-        "negative": 0,
-        "n": 0,
+        "index": 54,
+        "positive": 12,
+        "neutral": 84,
+        "negative": 4,
+        "n": 25,
         "excluded": 0,
-        "confident": false,
-        "stanceVersion": 2
+        "confident": true,
+        "stanceVersion": 3
       },
       "Kroaci": {
         "index": null,
@@ -2583,7 +2591,7 @@
         "n": 0,
         "excluded": 0,
         "confident": false,
-        "stanceVersion": 2
+        "stanceVersion": 3
       }
     },
     "headlines": []

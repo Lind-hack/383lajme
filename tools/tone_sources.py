@@ -278,6 +278,60 @@ TRANSNATIONAL_DOMAINS = {
 }
 
 
+#: Masthead -> country, for the one stage where the URL is useless: a feed
+#: entry's link is a news.google.com redirect and the publisher's own domain is
+#: not known until it is resolved. Google does give the masthead there, so the
+#: name is what attribution has to run on. Built from the domain registry so
+#: the two cannot disagree.
+OUTLET_NAME_COUNTRY = {
+    "der spiegel": "Gjermani", "süddeutsche zeitung": "Gjermani", "die zeit": "Gjermani",
+    "faz": "Gjermani", "bild": "Gjermani", "tagesschau": "Gjermani", "tagesschau.de": "Gjermani",
+    "dw": "Gjermani", "deutsche welle": "Gjermani", "die welt": "Gjermani", "n-tv": "Gjermani",
+    "die presse": "Austri", "der standard": "Austri", "krone": "Austri", "orf": "Austri",
+    "kurier": "Austri", "kleine zeitung": "Austri", "heute": "Austri",
+    "blick": "Zvicër", "nzz": "Zvicër", "srf": "Zvicër", "tages-anzeiger": "Zvicër",
+    "20 minuten": "Zvicër", "watson": "Zvicër", "zentralplus": "Zvicër", "swissinfo": "Zvicër",
+    "le monde": "Francë", "le figaro": "Francë", "france info": "Francë", "afp": "Francë",
+    "libération": "Francë", "l'express": "Francë", "france 24": "Francë", "rfi": "Francë",
+    "le courrier des balkans": "Francë", "la dépêche": "Francë",
+    "la repubblica": "Itali", "corriere della sera": "Itali", "ansa": "Itali",
+    "la stampa": "Itali", "il sole 24 ore": "Itali", "il fatto quotidiano": "Itali",
+    "rainews": "Itali", "il post": "Itali", "agi": "Itali",
+    "the guardian": "Britani", "guardian": "Britani", "bbc": "Britani", "reuters": "Britani",
+    "the independent": "Britani", "the times": "Britani", "financial times": "Britani",
+    "the telegraph": "Britani", "the economist": "Britani", "sky news": "Britani",
+    "balkan insight": "Britani",
+    "ap": "SHBA", "associated press": "SHBA", "the washington post": "SHBA",
+    "the new york times": "SHBA", "bloomberg": "SHBA", "the atlantic": "SHBA",
+    "politico": "SHBA", "cnn": "SHBA", "cbs news": "SHBA", "nbc news": "SHBA",
+    "fox news": "SHBA", "npr": "SHBA", "newsweek": "SHBA", "forbes": "SHBA",
+    "voa": "SHBA", "rferl": "SHBA", "radio free europe": "SHBA",
+    "nos": "Holandë", "nrc": "Holandë", "de volkskrant": "Holandë", "de telegraaf": "Holandë",
+    "het nieuwsblad": "Belgjikë", "de standaard": "Belgjikë", "vrt": "Belgjikë",
+    "le soir": "Belgjikë", "rtbf": "Belgjikë", "the brussels times": "Belgjikë",
+    "el país": "Spanjë", "el mundo": "Spanjë", "abc": "Spanjë", "la vanguardia": "Spanjë",
+    "demócrata": "Spanjë", "efe": "Spanjë",
+    "kathimerini": "Greqi", "to vima": "Greqi", "protothema": "Greqi", "in.gr": "Greqi",
+    "naftemporiki": "Greqi",
+    "svenska dagbladet": "Suedi", "dagens nyheter": "Suedi", "aftonbladet": "Suedi",
+    "expressen": "Suedi", "svt": "Suedi",
+    "gazeta wyborcza": "Poloni", "rzeczpospolita": "Poloni", "onet": "Poloni",
+    "tvn24": "Poloni", "polskie radio": "Poloni", "notes from poland": "Poloni",
+    "hürriyet": "Turqi", "sabah": "Turqi", "milliyet": "Turqi", "trt haber": "Turqi",
+    "trt world": "Turqi", "anadolu": "Turqi", "a news": "Turqi", "harici": "Turqi",
+    "daily sabah": "Turqi", "sözcü": "Turqi", "cumhuriyet": "Turqi", "odatv": "Turqi",
+    "son dakika": "Turqi", "haberler": "Turqi", "haber7": "Turqi",
+    "jutarnji list": "Kroaci", "večernji list": "Kroaci", "index.hr": "Kroaci",
+    "24sata": "Kroaci", "hrt": "Kroaci", "novi list": "Kroaci",
+}
+
+#: Masthead -> "counts for nobody", same reasoning as TRANSNATIONAL_DOMAINS.
+TRANSNATIONAL_NAMES = {
+    "al jazeera", "euronews", "euronews albania", "politico europe",
+    "the conversation", "opendemocracy", "the times of israel",
+}
+
+
 def country_for(url: str, outlet: str = "") -> str | None:
     """The country whose press this outlet belongs to, or None.
 
@@ -285,9 +339,18 @@ def country_for(url: str, outlet: str = "") -> str | None:
     outlet is dropped rather than attributed to whichever feed happened to
     surface it, because a guess here is exactly the bug this replaces.
     """
-    host = _host(url)
-    if not host:
+    name = re.sub(r"\s+", " ", (outlet or "")).strip().lower()
+    if name in TRANSNATIONAL_NAMES:
         return None
+
+    host = _host(url)
+    # A Google News link says nothing about the publisher — the redirect is
+    # resolved much later in the pipeline. Attribute on the masthead instead,
+    # which is the only thing known at that point. Dropping here is what took
+    # the live index to zero outlets: Blick, Tagesschau and ANSA are all in the
+    # registry and all arrived as news.google.com.
+    if not host or host.endswith("news.google.com"):
+        return OUTLET_NAME_COUNTRY.get(name)
     if any(host == d or host.endswith("." + d) for d in TRANSNATIONAL_DOMAINS):
         return None
 
@@ -300,7 +363,7 @@ def country_for(url: str, outlet: str = "") -> str | None:
     for candidate in (parts[-1], parts[-2] if len(parts) > 2 else ""):
         if candidate in CCTLD_COUNTRY:
             return CCTLD_COUNTRY[candidate]
-    return None
+    return OUTLET_NAME_COUNTRY.get(name)
 
 
 def audit(rows):

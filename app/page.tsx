@@ -8,7 +8,6 @@ import DispatchRow from "@/components/dispatch-row";
 import KryesoreFront from "@/components/kryesore-front";
 import DispatchList from "@/components/dispatch-list";
 import ColorSpotlight from "@/components/color-spotlight";
-import ToniHome from "@/components/toni-home";
 import GradientCta from "@/components/gradient-cta";
 import Footer from "@/components/footer";
 import ReagimiDites from "@/components/reagimi-dites";
@@ -297,10 +296,10 @@ export default async function HomePage() {
         {/* 383 Tregu — trending prediction markets */}
         <TrendingStrip />
 
-        {/* Toni — what the world is saying, read right before the day's list.
-            It answers a question the reader already has, and it was buried on
-            a page nobody reaches by accident. */}
-        <ToniHome />
+        {/* Toni — what the world is saying about Kosovo, read directly before
+            the day's list. It used to sit below the archive tail, which is
+            past the point most readers stop. */}
+        <ToneDashboard summary={toneSummary} topics={toneTopics} />
 
         {/* Lajmet e fundit — the archive tail closes the page's news run */}
         {listArticles.length > 0 && (
@@ -323,7 +322,6 @@ export default async function HomePage() {
           padding: "64px 24px 0",
         }}
       >
-        <ToneDashboard summary={toneSummary} topics={toneTopics} />
         <HomeVisitPreview />
       </div>
 

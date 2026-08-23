@@ -97,7 +97,11 @@ TRANSLATE_FALLBACK_MODEL = os.environ.get("GROQ_TRANSLATE_FALLBACK", "llama-3.1-
 # bad news about Kosovo"; v2 reads "is this outlet's own voice hostile toward
 # Kosovo". A row carries the version that produced it so the trend chart can
 # mark where the definition changed instead of splicing two of them together.
-STANCE_SCHEMA_VERSION = 2
+# 3: attribution moved from the Google News feed that found an article to the
+# outlet that published it, and non-editorial sources (score tables, fixture
+# calendars, federations) stopped counting. Numbers before and after are not
+# comparable, and summarizeToneHistory() will not subtract across the boundary.
+STANCE_SCHEMA_VERSION = 3
 
 # Cap so tone-history.json stays a small, fast-to-fetch file (~4 months of
 # daily rows) instead of growing forever.
@@ -1146,7 +1150,6 @@ def fetch_candidates() -> dict[str, list[dict]]:
         dropped: list[str] = []
         non_editorial: list[str] = []
         wrong_place: list[str] = []
-        unattributed: list[str] = []
         reattributed: list[str] = []
         stale = 0
         hl = FEED_LOCALES[country][0]
@@ -1207,16 +1210,20 @@ def fetch_candidates() -> dict[str, list[dict]]:
             if source_is_local_placename(title, summary, hl.split("-")[0]):
                 wrong_place.append(outlet)
                 continue
-            # THE attribution rule. `country` here is the feed that found the
-            # article, which is not a claim about who published it: Germany,
-            # Austria and Switzerland issue the same German-language queries,
-            # so Google returned the same articles to all three and Blick
-            # (Swiss) counted as German press. An article belongs to the
-            # country of its outlet, or to no country at all.
-            owner = source_country_for(url, outlet)
-            if owner is None:
-                unattributed.append(outlet)
-                continue
+            # Attribution deliberately does NOT happen here.
+            #
+            # At this point `url` is a news.google.com redirect — the
+            # publisher's own domain is not known until it is resolved further
+            # down the pipeline. Deciding nationality here dropped Blick,
+            # Tagesschau and ANSA as "unattributable" even though all three are
+            # in the registry, and took the published index to zero outlets.
+            #
+            # The feed's country is carried as a provisional label so nothing
+            # is lost, and tools/tone_rebuild.py re-attributes every article
+            # from its resolved URL when it writes the published files. One
+            # implementation of "whose press is this", running where the
+            # evidence for it actually exists.
+            owner = source_country_for(url, outlet) or country
             if owner != country:
                 reattributed.append(f"{outlet}->{owner}")
 
@@ -1241,7 +1248,6 @@ def fetch_candidates() -> dict[str, list[dict]]:
             ("non-foreign-press", dropped),
             ("non-editorial", non_editorial),
             ("wrong Kosovo", wrong_place),
-            ("unattributable", unattributed),
         ):
             if bucket:
                 names = ", ".join(sorted(set(bucket))[:6])
