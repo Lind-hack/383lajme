@@ -2238,26 +2238,26 @@
   {
     "date": "2026-08-22",
     "overallIndex": 52,
-    "totalArticles": 228,
-    "sourceCount": 164,
+    "totalArticles": 248,
+    "sourceCount": 166,
     "stanceVersion": 2,
     "countries": {
       "Gjermani": {
-        "index": 50,
-        "positive": 0,
-        "neutral": 100,
+        "index": 53,
+        "positive": 6,
+        "neutral": 94,
         "negative": 0,
-        "n": 3,
-        "excluded": 0,
-        "confident": false,
+        "n": 16,
+        "excluded": 7,
+        "confident": true,
         "stanceVersion": 2
       },
       "SHBA": {
         "index": 52,
-        "positive": 7,
+        "positive": 6,
         "neutral": 90,
         "negative": 3,
-        "n": 30,
+        "n": 31,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2
@@ -2268,26 +2268,26 @@
         "neutral": 93,
         "negative": 4,
         "n": 28,
-        "excluded": 1,
+        "excluded": 0,
         "confident": true,
         "stanceVersion": 2
       },
       "Francë": {
-        "index": 55,
-        "positive": 9,
-        "neutral": 91,
+        "index": 54,
+        "positive": 8,
+        "neutral": 92,
         "negative": 0,
-        "n": 11,
-        "excluded": 1,
+        "n": 13,
+        "excluded": 0,
         "confident": true,
         "stanceVersion": 2
       },
       "Itali": {
-        "index": 52,
-        "positive": 5,
-        "neutral": 95,
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 20,
+        "n": 19,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2
@@ -2298,7 +2298,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 4,
-        "excluded": 0,
+        "excluded": 1,
         "confident": false,
         "stanceVersion": 2
       },
@@ -2307,9 +2307,9 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 5,
-        "excluded": 1,
-        "confident": true,
+        "n": 4,
+        "excluded": 2,
+        "confident": false,
         "stanceVersion": 2
       },
       "Holandë": {
@@ -2317,7 +2317,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 3,
+        "n": 4,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
@@ -2328,17 +2328,17 @@
         "neutral": 92,
         "negative": 0,
         "n": 13,
-        "excluded": 1,
+        "excluded": 0,
         "confident": true,
         "stanceVersion": 2
       },
       "Spanjë": {
-        "index": 55,
-        "positive": 10,
-        "neutral": 90,
+        "index": 54,
+        "positive": 8,
+        "neutral": 92,
         "negative": 0,
-        "n": 10,
-        "excluded": 0,
+        "n": 12,
+        "excluded": 3,
         "confident": true,
         "stanceVersion": 2
       },
@@ -2347,8 +2347,8 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 27,
-        "excluded": 0,
+        "n": 29,
+        "excluded": 2,
         "confident": true,
         "stanceVersion": 2
       },
@@ -2367,7 +2367,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 1,
+        "n": 3,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 2
@@ -2378,7 +2378,7 @@
         "neutral": 94,
         "negative": 0,
         "n": 54,
-        "excluded": 0,
+        "excluded": 2,
         "confident": true,
         "stanceVersion": 2
       },
@@ -2387,13 +2387,21 @@
         "positive": 12,
         "neutral": 88,
         "negative": 0,
-        "n": 17,
+        "n": 16,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 2
       }
     },
     "headlines": [
+      {
+        "title": "KFOR: Damit Ibër Bridge die Institutionen der EU und des Kosovo befragt, unterstützen wir diplomatische Bemühungen - Periskopi",
+        "source": "Periskopi",
+        "country": "Gjermani",
+        "flag": "🇩🇪",
+        "url": "https://periskopi.com/de/2026/8/kfor-iber-bridge-institutionen-eu-kosovo-befragt-unterstutzen-diplomatische-bemuhungen",
+        "sentiment": "positive"
+      },
       {
         "title": "ICT for Kosovo’s Growth Building the Knowledge Economy - EEAS",
         "source": "EEAS",
@@ -2411,20 +2419,213 @@
         "sentiment": "positive"
       },
       {
-        "title": "Kosovo. Pristina, la grande sorpresa del nuoto. - Nuoto.com",
-        "source": "Nuoto.com",
-        "country": "Itali",
-        "flag": "🇮🇹",
-        "url": "https://www.nuoto.com/articolo/calendari-e-meeting/kosovo-pristina-la-grande-sorpresa-del-nuoto/",
-        "sentiment": "positive"
-      },
-      {
         "title": "Vucic to Send Letter to Rutte: Don't Open Ibar Bridge - srpske.rs",
         "source": "srpske.rs",
         "country": "SHBA",
         "flag": "🇺🇸",
         "url": "https://srpske.rs/en/news/politika/2026/08/19/vucic-letter-rutte-ibar-bridge",
         "sentiment": "negative"
+      }
+    ]
+  },
+  {
+    "date": "2026-08-23",
+    "overallIndex": 53,
+    "totalArticles": 92,
+    "sourceCount": 75,
+    "stanceVersion": 3,
+    "countries": {
+      "Gjermani": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 1,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "SHBA": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Britani": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 2,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Francë": {
+        "index": 67,
+        "positive": 33,
+        "neutral": 67,
+        "negative": 0,
+        "n": 3,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3,
+        "movement": {
+          "delta": 13,
+          "from": 54,
+          "outlet": "ladepeche.fr",
+          "title": "Një artizan i dialogut në Ballkan nga Graulhet",
+          "evidence": "artisan du dialogue",
+          "url": "https://www.ladepeche.fr/2026/08/21/un-graulhetois-artisan-du-dialogue-dans-les-balkans-13516906.php"
+        }
+      },
+      "Itali": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 22,
+        "excluded": 2,
+        "confident": true,
+        "stanceVersion": 3
+      },
+      "Austri": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Zvicër": {
+        "index": 100,
+        "positive": 100,
+        "neutral": 0,
+        "negative": 0,
+        "n": 1,
+        "excluded": 1,
+        "confident": false,
+        "stanceVersion": 3,
+        "movement": {
+          "delta": 50,
+          "from": 50,
+          "outlet": "Blick",
+          "title": "Futbollistët kosovaro-zviceranë, Hajdari dhe Avdullahu, shënojnë fitore të thellë me Hoffenheimin",
+          "evidence": "Kosovo-Schweizer Hajdari und Avdullahu siegen",
+          "url": "https://www.blick.ch/sport/fussball/international/dfb-pokal/leverkusen-locker-weiter-augsburg-mueht-sich-in-die-zweite-pokal-runde-id22202590.html"
+        }
+      },
+      "Holandë": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 2,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Belgjikë": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 2,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Spanjë": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 5,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 3
+      },
+      "Greqi": {
+        "index": 52,
+        "positive": 4,
+        "neutral": 96,
+        "negative": 0,
+        "n": 26,
+        "excluded": 2,
+        "confident": true,
+        "stanceVersion": 3
+      },
+      "Suedi": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Poloni": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Turqi": {
+        "index": 55,
+        "positive": 14,
+        "neutral": 82,
+        "negative": 4,
+        "n": 28,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 3
+      },
+      "Kroaci": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      }
+    },
+    "headlines": [
+      {
+        "title": "Dua Lipa aide la jeunesse du Kosovo, d'où est originaire sa famille - Ode (Purepeople)",
+        "source": "Ode (Purepeople)",
+        "country": "Francë",
+        "flag": "🇫🇷",
+        "url": "https://www.purepeople.com/diapo/nous-avons-tout-perdu-comment-dua-lipa-sinvestit-avec-son-frere-pour-leur-pays-dorigine_a552969/1",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Kosovo-Schweizer Hajdari und Avdullahu siegen mit Hoffenheim klar - Blick",
+        "source": "Blick",
+        "country": "Zvicër",
+        "flag": "🇨🇭",
+        "url": "https://www.blick.ch/sport/fussball/international/dfb-pokal/leverkusen-locker-weiter-augsburg-mueht-sich-in-die-zweite-pokal-runde-id22202590.html",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Ανατροπή και πρεμιέρα με νίκη στους Μεσογειακούς για την Εθνική χάντμπολ γυναικών - sport-fm.gr",
+        "source": "sport-fm.gr",
+        "country": "Greqi",
+        "flag": "🇬🇷",
+        "url": "https://www.sport-fm.gr/article/amp/ellada-kosobo-31-25-amp/5142968",
+        "sentiment": "positive"
       }
     ]
   }

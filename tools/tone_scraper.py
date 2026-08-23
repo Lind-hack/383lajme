@@ -97,7 +97,11 @@ TRANSLATE_FALLBACK_MODEL = os.environ.get("GROQ_TRANSLATE_FALLBACK", "llama-3.1-
 # bad news about Kosovo"; v2 reads "is this outlet's own voice hostile toward
 # Kosovo". A row carries the version that produced it so the trend chart can
 # mark where the definition changed instead of splicing two of them together.
-STANCE_SCHEMA_VERSION = 2
+# 3: attribution moved from the Google News feed that found an article to the
+# outlet that published it, and non-editorial sources (score tables, fixture
+# calendars, federations) stopped counting. Numbers before and after are not
+# comparable, and summarizeToneHistory() will not subtract across the boundary.
+STANCE_SCHEMA_VERSION = 3
 
 # Cap so tone-history.json stays a small, fast-to-fetch file (~4 months of
 # daily rows) instead of growing forever.
@@ -371,6 +375,16 @@ KNOWN_OUTLETS: dict[str, dict[str, str]] = {
 # Matched against both the domain and the source name, since Google supplies
 # whichever it has. Substring match is deliberate — "koha.net" must also catch
 # "arkiva.koha.net".
+# The three rules that decide whether an article counts, and for whom. Kept in
+# their own module so the rebuild (tools/tone_rebuild.py) and the tests
+# (tools/test_tone_sources.py) apply exactly the same definitions this does —
+# a second copy of "is this journalism" would drift within a month.
+from tone_sources import (  # noqa: E402
+    country_for as source_country_for,
+    is_editorial as source_is_editorial,
+    is_local_placename as source_is_local_placename,
+)
+
 BLOCKED_DOMAINS = {
     # Kosovar / Albanian press — the subject, not the observer.
     "koha.net", "telegrafi.com", "kallxo.com", "gazetaexpress.com",
@@ -1126,12 +1140,19 @@ def _parse_feed(url: str):
 def fetch_candidates() -> dict[str, list[dict]]:
     """Fetch + within-country dedupe only, no classification yet. Returns
     {country: [{title, summary, url, date, outlet}, ...]}."""
-    by_country: dict[str, list[dict]] = {}
+    by_country: dict[str, list[dict]] = {c: [] for c in FEED_LOCALES}
+    # Deduped across every feed, not per feed. The same article now reaches its
+    # owning country from several locales — that is the point of attributing by
+    # outlet — so a per-feed set would let it in once per feed that found it.
+    seen_titles: set[str] = set()
     for country, feed_urls in FEEDS.items():
-        seen_titles: set[str] = set()
         items: list[dict] = []
         dropped: list[str] = []
+        non_editorial: list[str] = []
+        wrong_place: list[str] = []
+        reattributed: list[str] = []
         stale = 0
+        hl = FEED_LOCALES[country][0]
 
         # Several queries per country now. They overlap heavily by design —
         # seen_titles dedupes across all of them, so the extra queries add
@@ -1177,6 +1198,34 @@ def fetch_candidates() -> dict[str, list[dict]]:
             if not is_foreign_press(outlet, url):
                 dropped.append(outlet)
                 continue
+            # A score table, a fixture calendar or a TV listing has no stance
+            # to measure. Counting it "neutral" is a vote for 50 that no
+            # journalist cast, and it was flattening every country's index.
+            if not source_is_editorial(outlet, url):
+                non_editorial.append(outlet)
+                continue
+            # The wrong Kosovo: a village in Poland, a mahalle in Turkey, a
+            # field near Knin. A house fire in gmina Cekcyn was being counted
+            # as Polish coverage of the country.
+            if source_is_local_placename(title, summary, hl.split("-")[0]):
+                wrong_place.append(outlet)
+                continue
+            # Attribution deliberately does NOT happen here.
+            #
+            # At this point `url` is a news.google.com redirect — the
+            # publisher's own domain is not known until it is resolved further
+            # down the pipeline. Deciding nationality here dropped Blick,
+            # Tagesschau and ANSA as "unattributable" even though all three are
+            # in the registry, and took the published index to zero outlets.
+            #
+            # The feed's country is carried as a provisional label so nothing
+            # is lost, and tools/tone_rebuild.py re-attributes every article
+            # from its resolved URL when it writes the published files. One
+            # implementation of "whose press is this", running where the
+            # evidence for it actually exists.
+            owner = source_country_for(url, outlet) or country
+            if owner != country:
+                reattributed.append(f"{outlet}->{owner}")
 
             key = normalize_title(title)
             if key in seen_titles:
@@ -1184,17 +1233,28 @@ def fetch_candidates() -> dict[str, list[dict]]:
             seen_titles.add(key)
             items.append({
                 "title": title, "summary": summary, "url": url,
-                "date": published, "outlet": outlet,
+                "date": published, "outlet": outlet, "country": owner,
             })
-        by_country[country] = items
+        # Filed under the outlet's own country, which is often not the feed
+        # that found it.
+        for item in items:
+            by_country[item["country"]].append(item)
         print(f"    -> {len(items)} usable")
         if stale:
             print(f"  {country}: skipped {stale} outside the {MAX_ARTICLE_AGE_DAYS + 1}-day window")
-        if dropped:
-            # Logged, not silent — the blocklist is a judgement call and this
-            # is how it gets tuned.
-            names = ", ".join(sorted(set(dropped))[:6])
-            print(f"  {country}: dropped {len(dropped)} non-foreign-press ({names})")
+        # Logged, not silent — every one of these is a judgement call, and this
+        # is how they get tuned.
+        for label, bucket in (
+            ("non-foreign-press", dropped),
+            ("non-editorial", non_editorial),
+            ("wrong Kosovo", wrong_place),
+        ):
+            if bucket:
+                names = ", ".join(sorted(set(bucket))[:6])
+                print(f"  {country}: dropped {len(bucket)} {label} ({names})")
+        if reattributed:
+            names = ", ".join(sorted(set(reattributed))[:6])
+            print(f"  {country}: reattributed {len(reattributed)} to their own press ({names})")
     return by_country
 
 

@@ -1,0 +1,76 @@
+# Make a deployment visible.
+#
+# The homepage is `export const revalidate = 3600`, and Vercel keeps that
+# prerender in a durable cache keyed on the pathname — so shipping does not
+# replace the page a reader gets. Measured on 2026-08-23, an hour after a
+# successful deploy: /api/pyet and /kategori/shqiperi were live from the new
+# build while the homepage still returned the previous one, `X-Vercel-Cache:
+# HIT, Age: 253`, with no Kosovë spotlight on it. A cache-busting query does
+# not help; the ISR key ignores the query string.
+#
+# So the deploy tells the site it happened. This fires on Vercel's own
+# deployment_status event rather than on push, because the cache can only be
+# dropped once the new build is the one that would regenerate it.
+name: Revalidate after deploy
+
+on:
+  deployment_status:
+  workflow_dispatch:
+    inputs:
+      paths:
+        description: 'JSON array of paths, e.g. ["/","/toni"]'
+        required: false
+        type: string
+
+jobs:
+  purge:
+    # Only a production deployment that actually succeeded. Previews get their
+    # own URLs and have nothing to do with the cache readers hit.
+    if: >
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.deployment_status.state == 'success' &&
+       startsWith(github.event.deployment.environment, 'Production'))
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Ask production to drop its cached pages
+        env:
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+          PATHS: ${{ inputs.paths }}
+        run: |
+          set -euo pipefail
+          if [ -z "${CRON_SECRET:-}" ]; then
+            echo "::error::CRON_SECRET is not set on this repository."
+            exit 1
+          fi
+
+          body="${PATHS:-}"
+          if [ -z "$body" ]; then
+            body='["/","/toni","/tregu","/visit"]'
+          fi
+
+          # The alias can take a few seconds to point at the new deployment
+          # after the status event fires; revalidating before that would drop
+          # the cache and immediately refill it from the old build.
+          sleep 20
+
+          code=$(curl -sS -o /tmp/out.json -w '%{http_code}' --max-time 60 \
+            -X POST "https://www.383ks.com/api/revalidate" \
+            -H "Authorization: Bearer $CRON_SECRET" \
+            -H "Content-Type: application/json" \
+            -d "{\"paths\": $body}")
+
+          echo "HTTP $code"
+          cat /tmp/out.json; echo
+          [ "$code" = "200" ] || exit 1
+
+      - name: Confirm the homepage is no longer the old build
+        run: |
+          set -euo pipefail
+          sleep 5
+          # Any marker would do; this one is cheap and only exists post-deploy.
+          age=$(curl -sS -D - -o /dev/null https://www.383ks.com/ | tr -d '\r' \
+                | awk -F': ' 'tolower($1)=="age"{print $2}')
+          echo "homepage Age after revalidation: ${age:-unknown}"
+          # A freshly regenerated page reports a small age. This is a signal in
+          # the log, not a gate: a busy edge can legitimately serve a warm copy.

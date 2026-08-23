@@ -47,8 +47,32 @@ export interface ToneArticle {
 export interface ToneOutlet {
   name: string;
   sentiment: ToneSentimentRaw;
+  /** Articles from this outlet in the current window. */
   articleCount: number;
   articles: ToneArticle[];
+  /** Everything this masthead has ever published about Kosovo that we have
+   *  seen, from public/tone-outlet-history.json. The article cache keeps seven
+   *  days; the ledger keeps all of it, which is the difference between "Die
+   *  Presse wrote about Kosovo today" and "Die Presse has covered Kosovo
+   *  fourteen times, trending critical". */
+  totalArticles?: number;
+  /** How that whole history leans: pozitiv / kritik / i përzier / neutral, or
+   *  "i pamjaftueshëm" when there is not enough of it to say. */
+  trend?: string;
+  firstSeen?: string | null;
+  lastSeen?: string | null;
+}
+
+/** Why a country's index moved, when it moved far enough to be worth saying.
+ *  Always attached to a real article the reader can open — an explanation with
+ *  nothing behind it is the one thing this feature cannot afford. */
+export interface CountryMovement {
+  delta: number;
+  from: number;
+  outlet: string;
+  title: string;
+  evidence: string;
+  url: string;
 }
 
 export interface CountrySummary {
@@ -66,6 +90,7 @@ export interface CountrySummary {
   /** Enough articles AND enough of the country's own coverage. See
    *  is_confident() in tools/tone_scraper.py — the two must agree. */
   confident: boolean;
+  movement?: CountryMovement;
 }
 
 // coverageOf lives in lib/tone-scale.ts, not here: this module imports
@@ -79,6 +104,15 @@ export interface ToneOutletsData {
   overallIndex: number | null;
   totalArticles: number;
   sourceCount: number;
+  /** Articles that were read and classified but belong to no country in this
+   *  set — a newsroom on a generic domain we cannot place, or one outside the
+   *  fifteen. Published rather than hidden: a reader checking the method
+   *  should see the size of the pile the index does not rest on. */
+  unattributed?: number;
+  /** Score tables, fixture calendars, TV listings — dropped before scoring. */
+  nonEditorial?: number;
+  /** Articles about a village called Kosowo, Kosova or Kosovo somewhere else. */
+  wrongKosovo?: number;
   countries: Record<string, { outlets: ToneOutlet[]; summary: CountrySummary }>;
 }
 
@@ -130,6 +164,36 @@ async function readJson<T>(file: string): Promise<T | null> {
 
 export async function getToneOutlets(): Promise<ToneOutletsData | null> {
   return readJson<ToneOutletsData>("tone-outlets.json");
+}
+
+/** One masthead's whole record, across every run we have kept. */
+export interface ToneLedgerOutlet {
+  country: string;
+  total: number;
+  positive: number;
+  neutral: number;
+  negative: number;
+  unknown: number;
+  firstSeen: string;
+  lastSeen: string;
+  urls?: string[];
+}
+
+export interface ToneOutletLedger {
+  version: number;
+  outlets: Record<string, ToneLedgerOutlet>;
+}
+
+/**
+ * The per-masthead ledger, which the article cache cannot answer.
+ *
+ * tone-article-cache.json keeps seven days; this accumulates. It is the
+ * difference between "Die Presse wrote about Kosovo today" and "Die Presse has
+ * covered Kosovo fourteen times, and leans critical" — and it is the reason
+ * /toni can say something the homepage module cannot.
+ */
+export async function getToneOutletLedger(): Promise<ToneOutletLedger | null> {
+  return readJson<ToneOutletLedger>("tone-outlet-history.json");
 }
 
 export async function getToneHistory(): Promise<ToneHistoryRow[]> {

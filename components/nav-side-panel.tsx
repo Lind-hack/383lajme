@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import ToniGaugeIcon from "@/components/toni-gauge-icon";
 import {
   ArrowUpRight,
   ChevronDown,
@@ -423,6 +424,103 @@ export default function NavSidePanel({ open, onClose }: Props) {
                     }}
                   >
                     Kosovë + Shqipëri: udhëtimi dhe ndihma
+                  </span>
+                </span>
+                <ArrowUpRight
+                  aria-hidden
+                  size={18}
+                  strokeWidth={2.2}
+                  style={{ flexShrink: 0 }}
+                />
+              </Link>
+            </motion.div>
+          </div>
+
+          {/* Toni — a standing index, not a news category and not a visitor
+              utility. It gets the same standalone treatment as Tregu rather
+              than sitting under "Për vizitorët", which is about travelling. */}
+          <div
+            style={{
+              marginTop: "22px",
+              paddingTop: "20px",
+              borderTop: "1px solid #E8E3DB",
+            }}
+          >
+            <span
+              style={{
+                display: "block",
+                marginBottom: "10px",
+                fontSize: "10px",
+                fontWeight: 800,
+                letterSpacing: "0.2em",
+                textTransform: "uppercase",
+                color: "#C4BDB1",
+                fontFamily: "var(--font-manrope), sans-serif",
+              }}
+            >
+              Toni
+            </span>
+            <motion.div
+              whileHover={{ y: -2 }}
+              whileTap={{ scale: 0.985 }}
+              transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <Link
+                href="/toni"
+                onClick={onClose}
+                style={{
+                  position: "relative",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "13px",
+                  overflow: "hidden",
+                  padding: "14px 16px",
+                  border: "1px solid rgba(23, 22, 20, 0.12)",
+                  borderRadius: "14px",
+                  backgroundColor: "#F7F3EC",
+                  boxShadow: "0 10px 28px rgba(46, 35, 24, 0.08)",
+                  color: "#171614",
+                  textDecoration: "none",
+                }}
+              >
+                <span
+                  style={{
+                    display: "grid",
+                    placeItems: "center",
+                    width: "42px",
+                    height: "42px",
+                    flexShrink: 0,
+                    border: "1px solid rgba(23, 22, 20, 0.2)",
+                    borderRadius: "11px",
+                    background: "rgba(255, 253, 249, 0.72)",
+                    color: "#FF4422",
+                    transform: "rotate(4deg)",
+                  }}
+                >
+                  <ToniGaugeIcon size={20} strokeWidth={2.2} />
+                </span>
+                <span style={{ minWidth: 0, flex: 1 }}>
+                  <span
+                    style={{
+                      display: "block",
+                      fontSize: "14px",
+                      fontWeight: 800,
+                      lineHeight: 1.25,
+                    }}
+                  >
+                    Toni ndaj Kosovës
+                  </span>
+                  <span
+                    style={{
+                      display: "block",
+                      marginTop: "4px",
+                      color: "#665F57",
+                      fontSize: "10px",
+                      fontWeight: 650,
+                      lineHeight: 1.35,
+                    }}
+                  >
+                    Si po shkruan bota për Kosovën, sipas shtetit
                   </span>
                 </span>
                 <ArrowUpRight

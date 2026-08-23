@@ -13,9 +13,80 @@ type OverpassElement = {
 
 const kinds = ["police", "hospital", "fire_station", "fuel"] as const;
 
+type NearbyKind = typeof kinds[number];
+type NearbyBase = { kind: NearbyKind; name: string; latitude: number; longitude: number; distanceKm: number; openingHours: string | null };
+type CommonsPage = {
+  pageid: number;
+  title: string;
+  coordinates?: { lat: number; lon: number }[];
+  imageinfo?: { thumburl?: string; descriptionurl?: string; extmetadata?: Record<string, { value?: string }> }[];
+};
+
+function stripTags(value = "") {
+  return value.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
+}
+
+function mapsDirections(latitude: number, longitude: number) {
+  return `https://www.google.com/maps/dir/?api=1&destination=${latitude},${longitude}&travelmode=driving`;
+}
+
+async function nearbyPhoto(place: NearbyBase, seed: number, offset: number) {
+  try {
+    const params = new URLSearchParams({
+      action: "query",
+      generator: "geosearch",
+      ggsprimary: "all",
+      ggsnamespace: "6",
+      ggsradius: "3000",
+      ggslimit: "12",
+      ggscoord: `${place.latitude}|${place.longitude}`,
+      prop: "imageinfo|coordinates",
+      iiprop: "url|extmetadata",
+      iiurlwidth: "900",
+      format: "json",
+      origin: "*",
+    });
+    const response = await fetch(`https://commons.wikimedia.org/w/api.php?${params}`, {
+      headers: { "User-Agent": "383ks-visitor-utility/2.0 (+https://www.383ks.com/visit)" },
+      cache: "no-store",
+      signal: AbortSignal.timeout(6_000),
+    });
+    if (!response.ok) throw new Error("Commons unavailable");
+    const payload = await response.json() as { query?: { pages?: Record<string, CommonsPage> } };
+    const choices = Object.values(payload.query?.pages ?? {}).flatMap((page) => {
+      const info = page.imageinfo?.[0];
+      const coordinates = page.coordinates?.[0];
+      if (!info?.thumburl || !coordinates || !info.thumburl.startsWith("https://upload.wikimedia.org/")) return [];
+      const metadata = info.extmetadata ?? {};
+      return [{
+        url: info.thumburl,
+        sourceUrl: info.descriptionurl ?? `https://commons.wikimedia.org/?curid=${page.pageid}`,
+        title: stripTags(metadata.ImageDescription?.value) || page.title.replace(/^File:/, ""),
+        credit: stripTags(metadata.Artist?.value) || "Wikimedia Commons",
+        license: stripTags(metadata.LicenseShortName?.value) || "Commons licence",
+        distanceKm: haversineKm(place, { latitude: coordinates.lat, longitude: coordinates.lon }),
+        kind: "photo" as const,
+      }];
+    }).sort((a, b) => a.distanceKm - b.distanceKm).slice(0, 8);
+    if (choices.length) return choices[Math.abs(seed + offset * 17) % choices.length];
+  } catch {
+    // A truthful map preview is used when no reusable nearby photograph is available.
+  }
+  return {
+    url: `https://staticmap.openstreetmap.de/staticmap.php?center=${place.latitude},${place.longitude}&zoom=16&size=900x500&maptype=mapnik&markers=${place.latitude},${place.longitude},red-pushpin&refresh=${seed}`,
+    sourceUrl: "https://www.openstreetmap.org/copyright",
+    title: `Harta e ${place.name}`,
+    credit: "© OpenStreetMap contributors",
+    license: "ODbL",
+    distanceKm: 0,
+    kind: "map" as const,
+  };
+}
+
 export async function GET(request: NextRequest) {
   const latitude = Number(request.nextUrl.searchParams.get("lat"));
   const longitude = Number(request.nextUrl.searchParams.get("lon"));
+  const analysisSeed = Number(request.nextUrl.searchParams.get("analysis")) || Date.now();
   if (!Number.isFinite(latitude) || !Number.isFinite(longitude) || latitude < 41 || latitude > 44 || longitude < 19 || longitude > 23) {
     return NextResponse.json({ error: "Location is outside the supported Kosovo area." }, { status: 400 });
   }
@@ -36,7 +107,7 @@ export async function GET(request: NextRequest) {
     });
     if (!response.ok) throw new Error(`Overpass returned ${response.status}`);
     const payload = (await response.json()) as { elements?: OverpassElement[] };
-    const nearest = Object.fromEntries(kinds.map((kind) => {
+    const nearestBase = Object.fromEntries(kinds.map((kind) => {
       const options = (payload.elements ?? []).flatMap((element) => {
         if (element.tags?.amenity !== kind) return [];
         const lat = element.lat ?? element.center?.lat;
@@ -46,7 +117,12 @@ export async function GET(request: NextRequest) {
         return [{ kind, name: element.tags?.name ?? element.tags?.["name:sq"] ?? ({ police: "Polici", hospital: "Spital / ambulancë", fire_station: "Zjarrfikës", fuel: "Pikë karburanti" } as const)[kind], latitude: lat, longitude: lon, distanceKm, openingHours: element.tags?.opening_hours ?? null }];
       }).sort((a, b) => a.distanceKm - b.distanceKm);
       return [kind, options[0] ?? null];
-    }));
+    })) as Record<NearbyKind, NearbyBase | null>;
+    const nearest = Object.fromEntries(await Promise.all(kinds.map(async (kind, index) => {
+      const place = nearestBase[kind];
+      if (!place) return [kind, null];
+      return [kind, { ...place, mapsUrl: mapsDirections(place.latitude, place.longitude), photo: await nearbyPhoto(place, analysisSeed, index) }];
+    })));
     return NextResponse.json({ nearest, fallbackSearches, degraded: false, attribution: "© OpenStreetMap contributors", note: "Map listings may be incomplete. Verify opening hours and call 112 in an emergency." }, { headers: { "Cache-Control": "private, max-age=300" } });
   } catch (error) {
     return NextResponse.json({

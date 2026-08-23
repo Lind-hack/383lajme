@@ -41,11 +41,21 @@ jobs:
           # pipeline still produces an index, just without those extras.
           GOOGLE_AI_API_KEY: ${{ secrets.GOOGLE_AI_API_KEY }}
 
+      # Attribution runs here, not in the scraper. A feed entry's link is a
+      # news.google.com redirect, so which country's press published a story is
+      # only knowable once the URL has been resolved and cached — which is what
+      # the scraper above has just finished doing. This re-derives the published
+      # files from that cache: it drops score tables and federations, discards
+      # articles about villages called Kosowo, and files every remaining article
+      # under the country of its own outlet rather than the feed that found it.
+      - name: Re-derive the published index from the cache
+        run: python tools/tone_rebuild.py
+
       - name: Commit updated tone data
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
-          git add public/tone-outlets.json public/tone-history.json public/tone-article-cache.json public/tone-topics.json
+          git add public/tone-outlets.json public/tone-history.json public/tone-article-cache.json public/tone-topics.json public/tone-outlet-history.json
           if git diff --cached --quiet; then
             echo "No tone data changes"
             exit 0

@@ -144,7 +144,10 @@ export default async function HomePage() {
     [...njoftimeArticles, ...mostRead].map((a) => a.id)
   );
   for (const id of kryesoreTopIds) usedIds.add(id);
-  const listArticles = nonHero.filter((a) => !usedIds.has(a.id)).slice(0, 20);
+  // Ten, not twenty. The tail of the front page is a shortlist; at twenty it
+  // was five category sub-lists of 60px thumbnails that readers could not
+  // actually read. DispatchList caps this itself too, so the two cannot drift.
+  const listArticles = nonHero.filter((a) => !usedIds.has(a.id)).slice(0, 10);
 
   // Compared against the canonical label: sanitizeArticle has already folded
   // "Politikë", "Siguri" and "Shoqëri" onto Kosovë by the time an article gets
@@ -296,6 +299,11 @@ export default async function HomePage() {
         {/* 383 Tregu — trending prediction markets */}
         <TrendingStrip />
 
+        {/* Toni — what the world is saying about Kosovo, read directly before
+            the day's list. It used to sit below the archive tail, which is
+            past the point most readers stop. */}
+        <ToneDashboard summary={toneSummary} topics={toneTopics} />
+
         {/* Lajmet e fundit — the archive tail closes the page's news run */}
         {listArticles.length > 0 && (
           <div
@@ -317,7 +325,6 @@ export default async function HomePage() {
           padding: "64px 24px 0",
         }}
       >
-        <ToneDashboard summary={toneSummary} topics={toneTopics} />
         <HomeVisitPreview />
       </div>
 
