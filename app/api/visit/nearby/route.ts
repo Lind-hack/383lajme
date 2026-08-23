@@ -1,26 +1,15 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { haversineKm } from "@/lib/visit-border-server";
+import { exactOsmImageReference, googleTypeForKind, selectExactGoogleCandidate } from "@/lib/visit-place-image.mjs";
 
 export const runtime = "nodejs";
 
-type OverpassElement = {
-  id: number;
-  lat?: number;
-  lon?: number;
-  center?: { lat: number; lon: number };
-  tags?: Record<string, string>;
-};
-
+type OverpassElement = { id: number; type: "node" | "way" | "relation"; lat?: number; lon?: number; center?: { lat: number; lon: number }; tags?: Record<string, string> };
 const kinds = ["police", "hospital", "fire_station", "fuel"] as const;
-
 type NearbyKind = typeof kinds[number];
-type NearbyBase = { kind: NearbyKind; name: string; latitude: number; longitude: number; distanceKm: number; openingHours: string | null };
-type CommonsPage = {
-  pageid: number;
-  title: string;
-  coordinates?: { lat: number; lon: number }[];
-  imageinfo?: { thumburl?: string; descriptionurl?: string; extmetadata?: Record<string, { value?: string }> }[];
-};
+type NearbyBase = { kind: NearbyKind; name: string; latitude: number; longitude: number; distanceKm: number; openingHours: string | null; tags: Record<string, string> };
+type CommonsPage = { pageid: number; title: string; imageinfo?: { thumburl?: string; descriptionurl?: string; extmetadata?: Record<string, { value?: string }> }[] };
+type GoogleCandidate = { id?: string; displayName?: { text?: string }; location?: { latitude: number; longitude: number }; photos?: { name: string; authorAttributions?: { displayName?: string; uri?: string; photoUri?: string }[] }[]; googleMapsUri?: string };
 
 function stripTags(value = "") {
   return value.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
@@ -30,63 +19,89 @@ function mapsDirections(latitude: number, longitude: number) {
   return `https://www.google.com/maps/dir/?api=1&destination=${latitude},${longitude}&travelmode=driving`;
 }
 
-async function nearbyPhoto(place: NearbyBase, seed: number, offset: number) {
+function streetView(latitude: number, longitude: number) {
+  return `https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=${latitude},${longitude}`;
+}
+
+async function exactCommonsPhoto(reference: string) {
   try {
-    const params = new URLSearchParams({
-      action: "query",
-      generator: "geosearch",
-      ggsprimary: "all",
-      ggsnamespace: "6",
-      ggsradius: "3000",
-      ggslimit: "12",
-      ggscoord: `${place.latitude}|${place.longitude}`,
-      prop: "imageinfo|coordinates",
-      iiprop: "url|extmetadata",
-      iiurlwidth: "900",
-      format: "json",
-      origin: "*",
-    });
+    const params = new URLSearchParams({ action: "query", titles: reference, prop: "imageinfo", iiprop: "url|extmetadata", iiurlwidth: "900", format: "json", origin: "*" });
     const response = await fetch(`https://commons.wikimedia.org/w/api.php?${params}`, {
-      headers: { "User-Agent": "383ks-visitor-utility/2.0 (+https://www.383ks.com/visit)" },
+      headers: { "User-Agent": "383ks-visitor-utility/3.0 (+https://www.383ks.com/visit)" },
       cache: "no-store",
       signal: AbortSignal.timeout(6_000),
     });
-    if (!response.ok) throw new Error("Commons unavailable");
+    if (!response.ok) return null;
     const payload = await response.json() as { query?: { pages?: Record<string, CommonsPage> } };
-    const choices = Object.values(payload.query?.pages ?? {}).flatMap((page) => {
-      const info = page.imageinfo?.[0];
-      const coordinates = page.coordinates?.[0];
-      if (!info?.thumburl || !coordinates || !info.thumburl.startsWith("https://upload.wikimedia.org/")) return [];
-      const metadata = info.extmetadata ?? {};
-      return [{
-        url: info.thumburl,
-        sourceUrl: info.descriptionurl ?? `https://commons.wikimedia.org/?curid=${page.pageid}`,
-        title: stripTags(metadata.ImageDescription?.value) || page.title.replace(/^File:/, ""),
-        credit: stripTags(metadata.Artist?.value) || "Wikimedia Commons",
-        license: stripTags(metadata.LicenseShortName?.value) || "Commons licence",
-        distanceKm: haversineKm(place, { latitude: coordinates.lat, longitude: coordinates.lon }),
-        kind: "photo" as const,
-      }];
-    }).sort((a, b) => a.distanceKm - b.distanceKm).slice(0, 8);
-    if (choices.length) return choices[Math.abs(seed + offset * 17) % choices.length];
+    const page = Object.values(payload.query?.pages ?? {})[0];
+    const info = page?.imageinfo?.[0];
+    if (!page || !info?.thumburl || !info.thumburl.startsWith("https://upload.wikimedia.org/")) return null;
+    const metadata = info.extmetadata ?? {};
+    return {
+      url: info.thumburl,
+      sourceUrl: info.descriptionurl ?? `https://commons.wikimedia.org/?curid=${page.pageid}`,
+      title: stripTags(metadata.ImageDescription?.value) || page.title.replace(/^File:/, ""),
+      credit: stripTags(metadata.Artist?.value) || "Wikimedia Commons",
+      license: stripTags(metadata.LicenseShortName?.value) || "Commons licence",
+      provider: "wikimedia" as const,
+      verified: true as const,
+      embeddable: true as const,
+    };
   } catch {
-    // A truthful map preview is used when no reusable nearby photograph is available.
+    return null;
   }
-  return {
-    url: `https://staticmap.openstreetmap.de/staticmap.php?center=${place.latitude},${place.longitude}&zoom=16&size=900x500&maptype=mapnik&markers=${place.latitude},${place.longitude},red-pushpin&refresh=${seed}`,
-    sourceUrl: "https://www.openstreetmap.org/copyright",
-    title: `Harta e ${place.name}`,
-    credit: "© OpenStreetMap contributors",
-    license: "ODbL",
-    distanceKm: 0,
-    kind: "map" as const,
-  };
+}
+
+async function exactGooglePhoto(place: NearbyBase) {
+  const apiKey = process.env.GOOGLE_MAPS_PLATFORM_API_KEY;
+  const includedType = googleTypeForKind(place.kind);
+  if (!apiKey || !includedType) return null;
+  try {
+    const response = await fetch("https://places.googleapis.com/v1/places:searchText", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "X-Goog-Api-Key": apiKey, "X-Goog-FieldMask": "places.id,places.displayName,places.location,places.photos,places.googleMapsUri,places.types" },
+      body: JSON.stringify({
+        textQuery: `${place.name}, Kosovo`, includedType, strictTypeFiltering: true, maxResultCount: 3,
+        locationBias: { circle: { center: { latitude: place.latitude, longitude: place.longitude }, radius: 200 } },
+        languageCode: "sq", regionCode: "XK",
+      }),
+      cache: "no-store",
+      signal: AbortSignal.timeout(6_000),
+    });
+    if (!response.ok) return null;
+    const payload = await response.json() as { places?: GoogleCandidate[] };
+    const candidate = selectExactGoogleCandidate(place, payload.places ?? [], haversineKm) as GoogleCandidate | null;
+    const photo = candidate?.photos?.[0];
+    if (!candidate || !photo?.name) return null;
+    const author = photo.authorAttributions?.[0];
+    return {
+      url: `/api/visit/place-photo?name=${encodeURIComponent(photo.name)}`,
+      sourceUrl: candidate.googleMapsUri ?? mapsDirections(place.latitude, place.longitude),
+      title: `${candidate.displayName?.text ?? place.name}, fotografi e vendit`,
+      credit: author?.displayName ? `${author.displayName} / Google Maps` : "Google Maps",
+      creditUrl: author?.uri ?? author?.photoUri ?? candidate.googleMapsUri ?? null,
+      license: "Google Maps",
+      provider: "google" as const,
+      verified: true as const,
+      embeddable: false as const,
+    };
+  } catch {
+    return null;
+  }
+}
+
+async function exactPlacePhoto(place: NearbyBase) {
+  const commonsReference = exactOsmImageReference(place.tags);
+  if (commonsReference) {
+    const photo = await exactCommonsPhoto(commonsReference);
+    if (photo) return photo;
+  }
+  return exactGooglePhoto(place);
 }
 
 export async function GET(request: NextRequest) {
   const latitude = Number(request.nextUrl.searchParams.get("lat"));
   const longitude = Number(request.nextUrl.searchParams.get("lon"));
-  const analysisSeed = Number(request.nextUrl.searchParams.get("analysis")) || Date.now();
   if (!Number.isFinite(latitude) || !Number.isFinite(longitude) || latitude < 41 || latitude > 44 || longitude < 19 || longitude > 23) {
     return NextResponse.json({ error: "Location is outside the supported Kosovo area." }, { status: 400 });
   }
@@ -101,9 +116,10 @@ export async function GET(request: NextRequest) {
   try {
     const response = await fetch("https://overpass-api.de/api/interpreter", {
       method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded", "User-Agent": "383ks-visitor-utility/1.0 (+https://www.383ks.com/visit)" },
+      headers: { "Content-Type": "application/x-www-form-urlencoded", "User-Agent": "383ks-visitor-utility/3.0 (+https://www.383ks.com/visit)" },
       body: new URLSearchParams({ data: query }),
       cache: "no-store",
+      signal: AbortSignal.timeout(18_000),
     });
     if (!response.ok) throw new Error(`Overpass returned ${response.status}`);
     const payload = (await response.json()) as { elements?: OverpassElement[] };
@@ -113,24 +129,32 @@ export async function GET(request: NextRequest) {
         const lat = element.lat ?? element.center?.lat;
         const lon = element.lon ?? element.center?.lon;
         if (lat === undefined || lon === undefined) return [];
-        const distanceKm = haversineKm({ latitude, longitude }, { latitude: lat, longitude: lon });
-        return [{ kind, name: element.tags?.name ?? element.tags?.["name:sq"] ?? ({ police: "Polici", hospital: "Spital / ambulancë", fire_station: "Zjarrfikës", fuel: "Pikë karburanti" } as const)[kind], latitude: lat, longitude: lon, distanceKm, openingHours: element.tags?.opening_hours ?? null }];
+        return [{
+          kind,
+          name: element.tags?.name ?? element.tags?.["name:sq"] ?? ({ police: "Polici", hospital: "Spital / ambulancë", fire_station: "Zjarrfikës", fuel: "Pikë karburanti" } as const)[kind],
+          latitude: lat,
+          longitude: lon,
+          distanceKm: haversineKm({ latitude, longitude }, { latitude: lat, longitude: lon }),
+          openingHours: element.tags?.opening_hours ?? null,
+          tags: element.tags ?? {},
+        }];
       }).sort((a, b) => a.distanceKm - b.distanceKm);
       return [kind, options[0] ?? null];
     })) as Record<NearbyKind, NearbyBase | null>;
-    const nearest = Object.fromEntries(await Promise.all(kinds.map(async (kind, index) => {
+    const nearest = Object.fromEntries(await Promise.all(kinds.map(async (kind) => {
       const place = nearestBase[kind];
       if (!place) return [kind, null];
-      return [kind, { ...place, mapsUrl: mapsDirections(place.latitude, place.longitude), photo: await nearbyPhoto(place, analysisSeed, index) }];
+      const { tags: _tags, ...safePlace } = place;
+      return [kind, { ...safePlace, mapsUrl: mapsDirections(place.latitude, place.longitude), streetViewUrl: streetView(place.latitude, place.longitude), photo: await exactPlacePhoto(place) }];
     })));
-    return NextResponse.json({ nearest, fallbackSearches, degraded: false, attribution: "© OpenStreetMap contributors", note: "Map listings may be incomplete. Verify opening hours and call 112 in an emergency." }, { headers: { "Cache-Control": "private, max-age=300" } });
+    return NextResponse.json({
+      nearest, fallbackSearches, degraded: false, attribution: "© OpenStreetMap contributors",
+      note: "Only imagery tied to the exact place record is shown. Verify opening hours and call 112 in an emergency.",
+    }, { headers: { "Cache-Control": "private, max-age=300" } });
   } catch (error) {
     return NextResponse.json({
-      nearest: { police: null, hospital: null, fire_station: null, fuel: null },
-      fallbackSearches,
-      degraded: true,
-      attribution: "Google Maps search fallback",
-      note: "The live map index is temporarily unavailable. Open a nearby search and verify the result before travelling.",
+      nearest: { police: null, hospital: null, fire_station: null, fuel: null }, fallbackSearches, degraded: true,
+      attribution: "Google Maps search fallback", note: "The live map index is temporarily unavailable. Open a nearby search and verify the result before travelling.",
       detail: String(error instanceof Error ? error.message : error),
     }, { headers: { "Cache-Control": "private, max-age=60" } });
   }

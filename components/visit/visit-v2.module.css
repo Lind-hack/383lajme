@@ -196,9 +196,13 @@
 .waitList p span { display: inline-flex; align-items: center; gap: 5px; }
 .nearbyGrid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; margin: 20px 0 0 34px; border-block: 1px solid #cac2b7; background: #d8d0c6; }
 .nearbyGrid a { display: grid; grid-template-columns: 112px 1fr; min-width: 0; min-height: 116px; overflow: hidden; background: #fffefa; color: inherit; text-decoration: none; transition: background-color 160ms ease, transform 160ms var(--ease-out); }
-.nearbyGrid img, .nearbyPlaceholder { width: 100%; height: 100%; min-height: 116px; object-fit: cover; background: #e8e1d6; }
-.nearbyPlaceholder { display: grid; place-items: center; color: var(--visit-orange); }
-.nearbyGrid a span { display: grid; align-content: center; gap: 4px; min-width: 0; padding: 13px; }
+.nearbyVisual, .nearbyPlaceholder { position: relative; width: 100%; height: 100%; min-height: 116px; overflow: hidden; background: #e8e1d6; }
+.nearbyVisual img { width: 100%; height: 100%; min-height: 116px; object-fit: cover; opacity: 0; transition: opacity 220ms var(--ease-out); }
+.nearbyVisual .nearbyImageLoaded { opacity: 1; }
+.nearbyVisual .nearbyPhotoCredit { position: absolute; inset: auto 5px 5px; display: block; overflow: hidden; padding: 3px 5px; border-radius: 4px; background: rgba(25,24,22,.76); color: #fff; font-size: 8px; font-weight: 700; line-height: 1.2; text-overflow: ellipsis; white-space: nowrap; }
+.nearbyPlaceholder { display: grid; place-content: center; gap: 7px; padding: 9px; color: var(--visit-orange); text-align: center; background: radial-gradient(circle at 30% 26%, rgba(255,68,34,.12), transparent 24%), repeating-linear-gradient(135deg, #eee8de 0 10px, #e7dfd3 10px 11px); }
+.nearbyPlaceholder span { padding: 0; color: #615a52; font-size: 9px; font-weight: 800; line-height: 1.35; }
+.nearbyGrid .nearbyCopy { display: grid; align-content: center; gap: 4px; min-width: 0; padding: 13px; }
 .nearbyGrid small { display: inline-flex; align-items: center; gap: 4px; color: #c9341c; font-size: 8px; font-weight: 900; text-transform: uppercase; letter-spacing: .07em; }
 .nearbyGrid b { overflow: hidden; font-size: 12px; text-overflow: ellipsis; white-space: nowrap; }
 .nearbyGrid em, .nearbyGrid i { color: #69635c; font-size: 8px; font-style: normal; }
