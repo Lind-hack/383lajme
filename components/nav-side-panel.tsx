@@ -434,15 +434,36 @@ export default function NavSidePanel({ open, onClose }: Props) {
                 />
               </Link>
             </motion.div>
+          </div>
 
-            {/* Toni: the same class of destination as the visitor guide — a
-                standing index rather than a story — so it shares the tile
-                treatment instead of sitting in the category list. */}
+          {/* Toni — a standing index, not a news category and not a visitor
+              utility. It gets the same standalone treatment as Tregu rather
+              than sitting under "Për vizitorët", which is about travelling. */}
+          <div
+            style={{
+              marginTop: "22px",
+              paddingTop: "20px",
+              borderTop: "1px solid #E8E3DB",
+            }}
+          >
+            <span
+              style={{
+                display: "block",
+                marginBottom: "10px",
+                fontSize: "10px",
+                fontWeight: 800,
+                letterSpacing: "0.2em",
+                textTransform: "uppercase",
+                color: "#C4BDB1",
+                fontFamily: "var(--font-manrope), sans-serif",
+              }}
+            >
+              Toni
+            </span>
             <motion.div
               whileHover={{ y: -2 }}
               whileTap={{ scale: 0.985 }}
               transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
-              style={{ marginTop: "10px" }}
             >
               <Link
                 href="/toni"
