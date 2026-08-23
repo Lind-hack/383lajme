@@ -4,7 +4,7 @@
     {
       "label": "Humbja e Kosovës në volejboll",
       "fallbackLabel": "Mesdhetare · Lojërat",
-      "summary": "Kombëtarja e volejbollit e Kosovës u mposht nga Greqia në ndeshjen hapëse të Lojërave Mesdhetare, duke shënuar një fillim të vështirë në këtë kompeticion sportiv.",
+      "summary": "Kombëtarja e volejbollit e Kosovës pësoi humbje 3-0 ndaj Greqisë në ndeshjen hapëse të Lojërave Mesdhetare, duke shënuar një fillim të vështirë në këtë kompeticion.",
       "count": 38,
       "positive": 1,
       "neutral": 33,
@@ -185,7 +185,7 @@
     {
       "label": "Zbulimi i varrezave masive",
       "fallbackLabel": "Masive · Gjenden",
-      "summary": "Gjatë kërkimeve në Kosovë janë gjetur mbetjet mortore të mbi njëzet personave, duke rikthyer vëmendjen te pasojat e rënda të luftës dhe procesi i identifikimit.",
+      "summary": "Gjatë kërkimeve në Kosovë janë gjetur mbetjet mortore të mbi 20 personave në varreza masive, duke rikthyer vëmendjen te pasojat e rënda të së kaluarës.",
       "count": 21,
       "positive": 0,
       "neutral": 21,
@@ -365,7 +365,7 @@
     {
       "label": "Debati për urën e Ibrit",
       "fallbackLabel": "Ibrit · Nato",
-      "summary": "Hapja e urës së Ibrit në Mitrovicë ka shkaktuar tensione politike, me Serbinë që kundërshton planin ndërsa NATO kërkon një qasje gjithëpërfshirëse për komunitetet lokale.",
+      "summary": "Hapja e urës së Ibrit në Mitrovicë ka shkaktuar tensione politike, me Serbinë që kundërshton vendimin ndërsa NATO kërkon një qasje që respekton komunitetet lokale.",
       "count": 14,
       "positive": 0,
       "neutral": 14,
@@ -722,7 +722,7 @@
     {
       "label": "Tensionet politike dhe siguria",
       "fallbackLabel": "Ndaj · Serbëve",
-      "summary": "Përshkallëzimi i retorikës politike dhe akuzat për dhunë ndaj serbëve në Kosovë po ndikojnë në stabilitetin e rajonit dhe marrëdhëniet me akterët ndërkombëtarë të sigurisë.",
+      "summary": "Përshkallëzimi i retorikës politike dhe akuzat për dhunë ndaj serbëve në Kosovë po ndikojnë në stabilitetin e rajonit dhe marrëdhëniet me forcat ndërkombëtare të sigurisë.",
       "count": 9,
       "positive": 0,
       "neutral": 9,
@@ -884,7 +884,7 @@
     {
       "label": "Konfiskimi i armëve në veri",
       "fallbackLabel": "Veri · Policia",
-      "summary": "Policia e Kosovës ka zhvilluar operacione të suksesshme në veri, duke konfiskuar sasi të mëdha armësh, municioni dhe uniformash, duke synuar luftimin e krimit në atë zonë.",
+      "summary": "Policia e Kosovës ka zhvilluar operacione të suksesshme në veri të vendit, duke konfiskuar sasi të mëdha armësh, municioni dhe uniformash të paligjshme.",
       "count": 7,
       "positive": 0,
       "neutral": 7,
@@ -1013,7 +1013,7 @@
     {
       "label": "Pjesëmarrja e Kosovës në Taranto",
       "fallbackLabel": "Taranto · Haxhiu",
-      "summary": "Përfaqësuesit e Kosovës marrin pjesë në Lojërat Mesdhetare në Taranto, duke promovuar progresin e vendit dhe duke bërë thirrje për unitet politik përmes vlerave sportive.",
+      "summary": "Përfaqësuesit e Kosovës po marrin pjesë në Lojërat Mesdhetare në Taranto, duke promovuar progresin sportiv dhe duke bërë thirrje për unitet politik brenda vendit.",
       "count": 7,
       "positive": 3,
       "neutral": 3,
@@ -1140,9 +1140,9 @@
       ]
     },
     {
-      "label": "Gjykimi dhe mesazhet e Thaçit",
+      "label": "Gjykimi i Hashim Thaçit",
       "fallbackLabel": "Thaçi · Pret",
-      "summary": "Ish-presidenti Hashim Thaçi pret vendimin e Gjykatës së Hagës duke shprehur besimin në pafajësinë e tij dhe duke u bërë thirrje partive për konsensus politik.",
+      "summary": "Hashim Thaçi pret vendimin e Gjykatës së Hagës për akuzat e luftës, ndërsa u bën thirrje forcave politike në Kosovë për konsensus dhe dialog.",
       "count": 7,
       "positive": 0,
       "neutral": 7,
