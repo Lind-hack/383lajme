@@ -4,7 +4,7 @@
     {
       "label": "Humbja e Kosovës në volejboll",
       "fallbackLabel": "Mesdhetare · Lojërat",
-      "summary": "Kombëtarja e volejbollit e Kosovës pësoi humbje 3-0 ndaj Greqisë në ndeshjen hapëse të Lojërave Mesdhetare, duke shënuar një debutim të vështirë në këtë kompeticion.",
+      "summary": "Kombëtarja e volejbollit e Kosovës u mposht nga Greqia në ndeshjen hapëse të Lojërave Mesdhetare, duke shënuar një fillim të vështirë në këtë kompeticion sportiv.",
       "count": 38,
       "positive": 1,
       "neutral": 33,
@@ -185,7 +185,7 @@
     {
       "label": "Zbulimi i varrezave masive",
       "fallbackLabel": "Masive · Gjenden",
-      "summary": "Gjatë kërkimeve në Kosovë janë gjetur mbetjet mortore të mbi 20 personave në varreza masive, një ngjarje që rihap plagët e së kaluarës dhe kërkon hetime.",
+      "summary": "Gjatë kërkimeve në Kosovë janë gjetur mbetjet mortore të mbi njëzet personave, duke rikthyer vëmendjen te pasojat e rënda të luftës dhe procesi i identifikimit.",
       "count": 21,
       "positive": 0,
       "neutral": 21,
@@ -365,7 +365,7 @@
     {
       "label": "Debati për urën e Ibrit",
       "fallbackLabel": "Ibrit · Nato",
-      "summary": "Hapja e urës së Ibrit në Mitrovicë ka shkaktuar tensione politike, me Serbinë që kundërshton vendimin ndërsa NATO kërkon koordinim për të ruajtur stabilitetin lokal.",
+      "summary": "Hapja e urës së Ibrit në Mitrovicë ka shkaktuar tensione politike, me Serbinë që kundërshton planin ndërsa NATO kërkon një qasje gjithëpërfshirëse për komunitetet lokale.",
       "count": 14,
       "positive": 0,
       "neutral": 14,
@@ -546,7 +546,7 @@
     {
       "label": "Bashkëpunimi ndërkombëtar me Izmirin",
       "fallbackLabel": "Tugay · Izmirit",
-      "summary": "Kryetari i Izmirit, Cemil Tugay, ka nisur një iniciativë për bashkëpunim shumëdimensional me Kosovën, duke synuar forcimin e marrëdhënieve në fusha të ndryshme të zhvillimit.",
+      "summary": "Kryetari i Izmirit, Cemil Tugay, ka nisur një iniciativë për bashkëpunim shumëdimensional me Kosovën, duke synuar forcimin e lidhjeve në fusha të ndryshme të zhvillimit.",
       "count": 12,
       "positive": 3,
       "neutral": 9,
@@ -720,9 +720,9 @@
       ]
     },
     {
-      "label": "Tensionet dhe siguria në Kosovë",
-      "fallbackLabel": "Ndaj · Nato",
-      "summary": "Situata e sigurisë në Kosovë mbetet e brishtë për shkak të retorikës politike të Serbisë, incidenteve kriminale dhe akuzave për dhunë ndaj komunitetit serb në veri.",
+      "label": "Tensionet politike dhe siguria",
+      "fallbackLabel": "Ndaj · Serbëve",
+      "summary": "Përshkallëzimi i retorikës politike dhe akuzat për dhunë ndaj serbëve në Kosovë po ndikojnë në stabilitetin e rajonit dhe marrëdhëniet me akterët ndërkombëtarë të sigurisë.",
       "count": 9,
       "positive": 0,
       "neutral": 9,
@@ -884,7 +884,7 @@
     {
       "label": "Konfiskimi i armëve në veri",
       "fallbackLabel": "Veri · Policia",
-      "summary": "Policia e Kosovës ka zhvilluar operacione të suksesshme në veri duke konfiskuar sasi të mëdha armësh, municionesh dhe drogë, duke synuar luftimin e krimit të organizuar.",
+      "summary": "Policia e Kosovës ka zhvilluar operacione të suksesshme në veri, duke konfiskuar sasi të mëdha armësh, municioni dhe uniformash, duke synuar luftimin e krimit në atë zonë.",
       "count": 7,
       "positive": 0,
       "neutral": 7,
@@ -1013,7 +1013,7 @@
     {
       "label": "Pjesëmarrja e Kosovës në Taranto",
       "fallbackLabel": "Taranto · Haxhiu",
-      "summary": "Përfaqësuesit e Kosovës marrin pjesë në Lojërat Mesdhetare në Taranto, duke promovuar progresin sportiv të vendit dhe kandidaturën për organizimin e Lojërave të vitit 2030.",
+      "summary": "Përfaqësuesit e Kosovës marrin pjesë në Lojërat Mesdhetare në Taranto, duke promovuar progresin e vendit dhe duke bërë thirrje për unitet politik përmes vlerave sportive.",
       "count": 7,
       "positive": 3,
       "neutral": 3,
@@ -1140,9 +1140,9 @@
       ]
     },
     {
-      "label": "Gjykimi i Hashim Thaçit",
-      "fallbackLabel": "Thaçi · Hagës",
-      "summary": "Hashim Thaçi pret vendimin e Gjykatës së Hagës për akuzat e luftës, ndërsa bën thirrje për konsensus politik mes forcave kryesore në Kosovë për tejkalimin e krizave.",
+      "label": "Gjykimi dhe mesazhet e Thaçit",
+      "fallbackLabel": "Thaçi · Pret",
+      "summary": "Ish-presidenti Hashim Thaçi pret vendimin e Gjykatës së Hagës duke shprehur besimin në pafajësinë e tij dhe duke u bërë thirrje partive për konsensus politik.",
       "count": 7,
       "positive": 0,
       "neutral": 7,
