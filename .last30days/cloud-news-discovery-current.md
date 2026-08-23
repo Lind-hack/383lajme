@@ -2,702 +2,702 @@
 
 These are leads only. Open the original publisher, verify the facts and image, then publish only material dated today in Kosovo time.
 
-## Brentford v Tottenham: Premier League – live
-- Lane: The Guardian Sport
-- Publisher: The Guardian Sport
-- Published: 2026-08-22T19:57+02:00 Kosovo time
-- URL: https://www.theguardian.com/football/live/2026/aug/22/brentford-v-tottenham-premier-league-live
-- Summary: ⚽ New-look Spurs make short trip to Brentford. 5.30pm (BST) KO ⚽ Today’s scores | Sign up for Football Daily | Mail Scott The teams are out! Brentford wear their red and white stripes, while Spurs are in their blue, pink, purple and many more colours away kit. According to the marketing blurb, which presumably took upwards of 30 seconds to write, these are “never-before-seen visuals inspired by never-before-seen destinations”. They haven’t even tried to make anything up. No spurious allusions to local industry, significant figures, bus routes? Proper feet-on-the-desk vibes there. Anyway, we’ll
+## Palestinian teen killed in Israeli raid buried in Occupied West Bank
+- Lane: Al Jazeera
+- Publisher: Al Jazeera
+- Published: 2026-08-23T20:47+02:00 Kosovo time
+- URL: https://www.aljazeera.com/video/newsfeed/2026/8/23/23-08-sv-nablus-killing-teen-ps-fm?traffic_source=rss
+- Summary: Hundreds attended the funeral of 14-year-old Islam Ahmad Maher Ajouri, who was killed by Israeli gunfire during a raid.
 
-## Stokes calls Ashes venues ‘shambolic’ then takes three wickets in his first over: county cricket day three – live
-- Lane: The Guardian Sport
-- Publisher: The Guardian Sport
-- Published: 2026-08-22T19:54+02:00 Kosovo time
-- URL: https://www.theguardian.com/sport/live/2026/aug/22/nottinghamshire-v-surrey-warwickshire-v-sussex-and-more-county-cricket-day-three-live
-- Summary: Updates from around the grounds Day two roundup | Sign up for the Spin | Mail Tanya Iced with panache by plucking out Shoaib Bashir’s middle stump. Derbyshire 156 all out, trail Durham by 127. Potts 5-45 leads Durham off, after taking 8-66 against Derbyshire up at CLS in June. Carse looks sensational, 100 per cent pure thoroughbred. Way too good for Derbyshire yesterday, even if the wickets column doesn’t show it. But the press box have been mulling that if he pitched it up and hit the stumps more he’d be unplayable. And boom, he does, and bowls Nick Potts for 2. Derbyshire 153-9. Continue rea
-
-## Gjykata amerikane rrëzon bllokimin e vizave për 75 shtete, mes tyre Shqipëria
+## Qëlloi me armë drejt një makine të parkuar, shpallet në kërkim 32-vjeçari në Kuçovë
 - Lane: Euronews Albania
 - Publisher: Euronews Albania
-- Published: 2026-08-22T19:53+02:00 Kosovo time
-- URL: https://euronews.al/gjykata-amerikane-rrezon-bllokimin-e-vizave-per-75-shtete-mes-tyre-shqiperia/
-- Summary: Një gjykatë federale e Shteteve të Bashkuara ka rrëzuar vendimin e qeverisë amerikane për bllokimin e vizave për shtetasit nga 75 vende, një masë që synonte të kufizonte vendosjen e tyre në SHBA për një kohë të pacaktuar. Vendimi, i marrë nga gjyqtarja Jeannette A. Vargas në Distriktin Jugor të Nju Jorkut, përfaqëson një goditje […] The post Gjykata amerikane rrëzon bllokimin e vizave për 75 shtete, mes tyre Shqipëria appeared first on Euronews Albania .
+- Published: 2026-08-23T20:46+02:00 Kosovo time
+- URL: https://euronews.al/qelloi-me-arme-drejt-nje-makine-te-parkuar-shpallet-ne-kerkim-32-vjecari-ne-kucove/
+- Summary: Një 32-vjeçar është shpallur në kërkim nga Policia e Kuçovës, pasi dyshohet se ka qëlluar me armë zjarri në drejtim të automjetit të parkuar të një 24-vjeçari. Ngjarja ka ndodhur rreth orës 15:40, në lagjen “1 Maji”, Kuçovë ndërsa ka qenë shtetasi S. R., 24 vjeç, që ka njoftuar Policinë se në drejtim të automjetit […] The post Qëlloi me armë drejt një makine të parkuar, shpallet në kërkim 32-vjeçari në Kuçovë appeared first on Euronews Albania .
 
-## Mateta claims final year of Palace deal is invalid
-- Lane: BBC Sport
-- Publisher: BBC Sport
-- Published: 2026-08-22T19:49+02:00 Kosovo time
-- URL: https://www.bbc.co.uk/sport/football/articles/cdx7x90dxywo?at_medium=RSS&at_campaign=rss
-- Summary: Jean-Philippe Mateta is challenging the validity of the final 10 months on his Crystal Palace contract.
+## The Official Home of Formula 1® Racing
+- Lane: Formula 1 official
+- Publisher: Formula 1
+- Published: 2026-08-23T20:41+02:00 Kosovo time
+- URL: https://www.formula1.com/en/results/2026/races/1292/netherlands/sprint-grid
+- Summary: The Official Home of Formula 1® Racing Formula 1
 
-## Lewis Hamilton admits changes made to his Ferrari 'flipped the car on its head'
+## What the teams said – Race day in the Netherlands
+- Lane: Formula 1 official
+- Publisher: Formula 1
+- Published: 2026-08-23T20:41+02:00 Kosovo time
+- URL: https://www.formula1.com/en/latest/article/what-the-teams-said-race-day-in-the-netherlands-2026.1GTy1x6hObFlkGkaXKqhNS
+- Summary: What the teams said – Race day in the Netherlands Formula 1
+
+## Lando Norris backs himself after Dutch Grand Prix win boosts his hopes of a title defence
 - Lane: ESPN major sport
 - Publisher: ESPN
-- Published: 2026-08-22T19:43+02:00 Kosovo time
-- URL: https://africa.espn.com/f1/story/_/id/49610329/lewis-hamilton-admits-changes-made-ferrari-flipped-car-head-dutch-grand-prix-formula-1-zandvoort
-- Summary: Lewis Hamilton admits changes made to his Ferrari 'flipped the car on its head' ESPN
+- Published: 2026-08-23T20:40+02:00 Kosovo time
+- URL: https://africa.espn.com/f1/story/_/id/49679191/lando-norris-backs-dutch-grand-prix-win-boosts-hopes-title-defence-dutch-grand-prix-formula-1-zandvoort
+- Summary: Lando Norris backs himself after Dutch Grand Prix win boosts his hopes of a title defence ESPN
 
-## Norris expects challenge after back-to-back poles
+## Ferrari delay in moving Leclerc costly - Hamilton
 - Lane: BBC Sport
 - Publisher: BBC Sport
-- Published: 2026-08-22T19:43+02:00 Kosovo time
-- URL: https://www.bbc.co.uk/sport/formula1/articles/cy4548x20y5o?at_medium=RSS&at_campaign=rss
-- Summary: World champion Lando Norris says he expects other teams to challenge for victory after securing pole position for Sunday's final Dutch Grand Prix.
+- Published: 2026-08-23T20:39+02:00 Kosovo time
+- URL: https://www.bbc.co.uk/sport/formula1/articles/cvgvgvrg8m2o?at_medium=RSS&at_campaign=rss
+- Summary: Lewis Hamilton says Ferrari's delay in moving team-mate Charles Leclerc out of his way could have cost him second place at the Dutch Grand Prix.
 
-## 'No button to press' - Glasner and Forest must find stability
-- Lane: BBC Sport
-- Publisher: BBC Sport
-- Published: 2026-08-22T19:43+02:00 Kosovo time
-- URL: https://www.bbc.co.uk/sport/football/articles/c3v0vlngz2do?at_medium=RSS&at_campaign=rss
-- Summary: Anton Stach's late goal for Leeds hands Oliver Glasner a defeat in his first game at Nottingham Forest.
+## Viral 'Cat in the Hat' TikTok trend sparks fun fake videos but also real fear
+- Lane: BBC Europe
+- Publisher: BBC Europe
+- Published: 2026-08-23T20:38+02:00 Kosovo time
+- URL: https://www.bbc.co.uk/news/articles/cwyqy29jn74o?at_medium=RSS&at_campaign=rss
+- Summary: The social media posts have prompted police forces in Ireland and the UK to issue statements that the images are fake.
 
-## Ukraina dhe Gjermania diskutojnë prodhimin dhe investimet e përbashkëta në mbrojtje
-- Lane: Euronews Albania
-- Publisher: Euronews Albania
-- Published: 2026-08-22T19:39+02:00 Kosovo time
-- URL: https://euronews.al/ukraina-dhe-gjermania-diskutojne-prodhimin-dhe-investimet-e-perbashketa-ne-mbrojtje/
-- Summary: Ministri i Jashtëm i Ukrainës ka pritur sot homologun e tij gjerman dhe tha se vizita e tij vjen në një “moment të rëndësishëm”. Andrii Sybiha tha se e informoi Johann Wadephul mbi situatën në fushën e betejës dhe pasojat e sulmeve të fundit të Rusisë. “Ne diskutuam përpjekjet e vazhdueshme për paqe dhe hapat […] The post Ukraina dhe Gjermania diskutojnë prodhimin dhe investimet e përbashkëta në mbrojtje appeared first on Euronews Albania .
-
-## 'Maybe people will stop sleeping on us' - Hull enjoy dream return
-- Lane: BBC Sport
-- Publisher: BBC Sport
-- Published: 2026-08-22T19:35+02:00 Kosovo time
-- URL: https://www.bbc.co.uk/sport/football/articles/c62x2z0k0p6o?at_medium=RSS&at_campaign=rss
-- Summary: Relegation favourites Hull City start the season well with a victory over Manchester United as their manager says "we are trying to prove people wrong".
-
-## Seven killed, including two police officers, in UK ‘wrong-side’ car crash
-- Lane: Al Jazeera
-- Publisher: Al Jazeera
-- Published: 2026-08-22T19:34+02:00 Kosovo time
-- URL: https://www.aljazeera.com/news/2026/8/22/seven-killed-including-two-police-officers-in-uk-wrong-side-car-crash?traffic_source=rss
-- Summary: Accident follows similar crashes in Ireland where police highlighted social media trend driving in opposite direction.
-
-## Bitcoin blows past $79,000 as Wall Street piles in
-- Lane: Crypto economy
-- Publisher: Northeast Times
-- Published: 2026-08-22T19:32+02:00 Kosovo time
-- URL: https://northeasttimes.com/2026/08/22/bitcoin-blows-past-79-000-as-wall-street-piles-in/
-- Summary: Bitcoin blows past $79,000 as Wall Street piles in Northeast Times
-
-## Jordan double stuns South Africa as New Zealand clinch statement victory
-- Lane: The Guardian Sport
-- Publisher: The Guardian Sport
-- Published: 2026-08-22T19:28+02:00 Kosovo time
-- URL: https://www.theguardian.com/sport/2026/aug/22/south-africa-new-zealand-rugby-union-greatest-rivalry-series
-- Summary: First Test: South Africa 16-33 New Zealand All Blacks score five tries against world champions As first courses go, this was a delicious appetiser to a series that looks on course to live up to its billing. First blood goes to New Zealand, who withstood a barrage of South Africa scrum pressure and demonstrated a slickness that the double world champions could not live with, clinching a first win at Ellis Park since 2022. By the end, South Africa had two men in the sin-bin and, given their status as the world’s leading side, this must goe down as a disintegration. There will be a backlash – it 
-
-## ‘The difference it makes is unbelievable’ – Hamilton and Leclerc split on Ferrari's Zandvoort changes
+## ‘The logical consequence’ – Wolff explains Mercedes’ decision to invert cars in Dutch Grand Prix
 - Lane: Formula 1 official
 - Publisher: Formula 1
-- Published: 2026-08-22T19:18+02:00 Kosovo time
-- URL: https://www.formula1.com/en/latest/article/the-difference-it-makes-is-unbelievable-hamilton-and-leclerc-split-on-ferraris-zandvoort-changes.3H1Box6iwzvQqsokPx6HDT
-- Summary: ‘The difference it makes is unbelievable’ – Hamilton and Leclerc split on Ferrari's Zandvoort changes Formula 1
+- Published: 2026-08-23T20:34+02:00 Kosovo time
+- URL: https://www.formula1.com/en/latest/article/the-logical-consequence-wolff-explains-mercedes-decision-to-invert-cars-in-dutch-grand-prix.26VGrypPUwwLaL0mBocjmF
+- Summary: ‘The logical consequence’ – Wolff explains Mercedes’ decision to invert cars in Dutch Grand Prix Formula 1
 
-## Irani ndryshon doktrinën ushtarake: Nga mbrojtëse në sulmuese, shpërblime për kapjen e trupave amerikane
-- Lane: Euronews Albania
-- Publisher: Euronews Albania
-- Published: 2026-08-22T19:04+02:00 Kosovo time
-- URL: https://euronews.al/irani-ndryshon-doktrinen-ushtarake-nga-mbrojtese-ne-sulmuese-shperblime-per-kapjen-e-trupave-amerikane/
-- Summary: Ushtria iraniane ka njoftuar një ndryshim të rëndësishëm në doktrinën e saj ushtarake, duke kaluar gradualisht nga një qasje mbrojtëse në një strategji më sulmuese, pas mësimeve të nxjerra nga konfliktet e fundit. Gjeneral brigade Mohammad Akraminia, zëdhënës i ushtrisë iraniane, deklaroi për agjencinë shtetërore IRNA se ky ndryshim është zhvilluar gjatë asaj që ai […] The post Irani ndryshon doktrinën ushtarake: Nga mbrojtëse në sulmuese, shpërblime për kapjen e trupave amerikane appeared first on Euronews Albania .
-
-## Manchester United Transfer News
-- Lane: FootballTransfers
-- Publisher: footballtransfers.com
-- Published: 2026-08-22T18:59+02:00 Kosovo time
-- URL: https://www.footballtransfers.com/us/teams/uk/man-utd/transfer-news/655
-- Summary: Manchester United Transfer News footballtransfers.com
-
-## 'I'm very happy and have many compliments for my players' - Farke
-- Lane: BBC Sport
-- Publisher: BBC Sport
-- Published: 2026-08-22T18:55+02:00 Kosovo time
-- URL: https://www.bbc.co.uk/sport/football/videos/cn5n57dwewko?at_medium=RSS&at_campaign=rss
-- Summary: Leeds United manager Daniel Farke reacts to his side's 1–0 win against Nottingham Forest, sealed by Anton Stach's free‑kick in the opening game of their 2026-27 Premier League season.
-
-## Verstappen explains ‘limitations’ in Dutch GP Qualifying
-- Lane: Formula 1 official
-- Publisher: Formula 1
-- Published: 2026-08-22T18:50+02:00 Kosovo time
-- URL: https://www.formula1.com/en/latest/article/verstappen-didnt-leave-anything-on-the-table-as-he-explains-limitations-after-p7-in-zandvoort-qualifying.47FfDw8RAYhRuqvmF6LuKV
-- Summary: Verstappen explains ‘limitations’ in Dutch GP Qualifying Formula 1
-
-## Dutch Grand Prix: Title leader Kimi Antonelli admits series of mistakes are a 'wake-up call'
-- Lane: ESPN major sport
-- Publisher: ESPN
-- Published: 2026-08-22T18:48+02:00 Kosovo time
-- URL: https://africa.espn.com/f1/story/_/id/49610286/title-leader-kimi-antonelli-admits-series-mistakes-wake-call-formula-1-zandvoort-dutch-grand-prix
-- Summary: Dutch Grand Prix: Title leader Kimi Antonelli admits series of mistakes are a 'wake-up call' ESPN
-
-## South Korea sending first container ship through Arctic route
-- Lane: Al Jazeera
-- Publisher: Al Jazeera
-- Published: 2026-08-22T18:46+02:00 Kosovo time
-- URL: https://www.aljazeera.com/news/2026/8/22/south-korea-sending-first-container-ship-through-arctic-route?traffic_source=rss
-- Summary: PanStar Acro, bound for Europe via Arctic, is testing whether a route opened by melting sea ice is commercially viable.
-
-## Coinbase Stock Jumps 8% as Crypto Market Roars Back — Is $200 Breakout Next?
-- Lane: Crypto economy
-- Publisher: Coinpedia
-- Published: 2026-08-22T18:45+02:00 Kosovo time
-- URL: https://coinpedia.org/price-analysis/coinbase-stock-jumps-8-as-crypto-market-roars-back-is-200-breakout-next/amp/
-- Summary: Coinbase Stock Jumps 8% as Crypto Market Roars Back — Is $200 Breakout Next? Coinpedia
-
-## Wiebes wins Tour of Britain Women stage four as Le Court maintains overall lead
-- Lane: The Guardian Sport
-- Publisher: The Guardian Sport
-- Published: 2026-08-22T18:43+02:00 Kosovo time
-- URL: https://www.theguardian.com/sport/2026/aug/22/lorena-wiebes-kim-le-court-tour-of-britain-women-stage-four
-- Summary: Dutch cyclist secures third stage win of 2026 event Liane Lippert finishes second, Le Court third Lorena Wiebes secured her third stage win of the 2026 Tour of Britain Women while Kim Le Court maintained the overall lead after stage four. Riders departed from Llanidloes in Mid Wales and passed through Rhayader and the Elan Valley, climbing at the Cambrian Mountains before the route took them to Nantmel, Crossgates, Bleddfa and Knighton. Continue reading...
-
-## Sanctioned by EU, Israeli settler steals and kills Palestinian donkey
-- Lane: Al Jazeera
-- Publisher: Al Jazeera
-- Published: 2026-08-22T18:41+02:00 Kosovo time
-- URL: https://www.aljazeera.com/video/newsfeed/2026/8/22/22-08-clip-palestinian-donkey-killed-by-setllers-ps?traffic_source=rss
-- Summary: A donkey belonging to a Palestinian farmer was reportedly stolen and dragged to death by Israeli settlers.
-
-## Championship roundup: Nuno feels the heat after West Ham beaten by Charlton
-- Lane: The Guardian Sport
-- Publisher: The Guardian Sport
-- Published: 2026-08-22T18:36+02:00 Kosovo time
-- URL: https://www.theguardian.com/football/2026/aug/22/championship-roundup-millwall-norwich-west-ham-norwich-charlton
-- Summary: Wolves sink teeth into Preston; Blackburn stun Boro Southampton’s late show leaves Stoke pointless Charlton maintained their perfect start to the Championship season with a 2-1 victory at West Ham in a pulsating London derby to pile more pressure on the Hammers manager, Nuno Espírito Santo. Lloyd Jones and Tyreece Campbell put Charlton 2-0 ahead before Joel Piroe, signed on loan from Leeds, marked his first appearance for the home side with a goal that set up a frantic finish. Taty Castellanos then missed a stoppage-time penalty for West Ham that would have salvaged a point. Continue reading..
-
-## McLaren – F1 Racing Team – Norris, Piastri
-- Lane: Formula 1 official
-- Publisher: Formula 1
-- Published: 2026-08-22T18:35+02:00 Kosovo time
-- URL: https://www.formula1.com/en/teams/mclaren
-- Summary: McLaren – F1 Racing Team – Norris, Piastri Formula 1
-
-## Kurti paralajmëron hapjen e urës së Ibrit: Është absurde të mbahet e mbyllur
-- Lane: Euronews Albania
-- Publisher: Euronews Albania
-- Published: 2026-08-22T18:34+02:00 Kosovo time
-- URL: https://euronews.al/kurti-paralajmeron-hapjen-e-ures-se-ibrit-eshte-absurde-te-mbahet-e-mbyllur/
-- Summary: Kryeministri në detyrë i Kosovës, Albin Kurti, tha se institucionet e vendit janë në komunikim të vazhdueshëm me KFOR-in për hapjen e plotë të urës kryesore mbi lumin Ibër dhe “marrjen tërësisht nën kontroll” të saj nga Policia e Kosovës. “Jemi në komunikim të përditshëm, qoftë Kryeministria, qoftë Ministria e Punëve të Brendshme, në mënyrë […] The post Kurti paralajmëron hapjen e urës së Ibrit: Është absurde të mbahet e mbyllur appeared first on Euronews Albania .
-
-## OpenAI says California should strengthen its AI safety bill
-- Lane: TechCrunch
-- Publisher: TechCrunch
-- Published: 2026-08-22T18:30+02:00 Kosovo time
-- URL: https://techcrunch.com/2026/08/22/openai-says-california-should-strengthen-its-ai-safety-bill/
-- Summary: OpenAI is calling for California to strengthen SB 53, an AI safety bill that the company previously opposed.
-
-## NASA: 5 valë të nxehtit ekstrem, rreth 10 mijë vdekje në Europë nga temperaturat rekord
-- Lane: Euronews Albania
-- Publisher: Euronews Albania
-- Published: 2026-08-22T18:30+02:00 Kosovo time
-- URL: https://euronews.al/nasa-5-vale-te-nxehtit-ekstrem-rreth-10-mije-vdekje-ne-europe-nga-temperaturat-rekord/
-- Summary: NASA tregon përmasat e valës së të nxehtit që ka përfshirë Evropën gjatë muajve të fundit. Pamjet, të përpunuara nga të dhënat satelitore, paraqesin temperaturat maksimale të regjistruara në kontinent nga 1 maji deri më 19 gusht, duke treguar qartë shtrirjen dhe intensitetin e të nxehtit. Sipas NASA-s, Evropa Perëndimore është përballur me pesë valë […] The post NASA: 5 valë të nxehtit ekstrem, rreth 10 mijë vdekje në Europë nga temperaturat rekord appeared first on Euronews Albania .
-
-## Espanyol vs Real Madrid LIVE: La Liga
-- Lane: Al Jazeera
-- Publisher: Al Jazeera
-- Published: 2026-08-22T18:30+02:00 Kosovo time
-- URL: https://www.aljazeera.com/sports/liveblog/2026/8/22/espanyol-vs-real-madrid-live-la-liga?traffic_source=rss
-- Summary: Follow updates as Jose Mourinho returns to lead Madrid - including the build-up, analysis and live text commentary.
-
-## Vendimi i gjykatës britanike mund të frenojë deportimin e viktimave shqiptare të trafikimit
-- Lane: Euronews Albania
-- Publisher: Euronews Albania
-- Published: 2026-08-22T18:27+02:00 Kosovo time
-- URL: https://euronews.al/vendimi-i-gjykates-britanike-mund-te-frenoje-deportimin-e-viktimave-shqiptare-te-trafikimit/
-- Summary: Një vendim i fundit i drejtësisë britanike mund të ndryshojë mënyrën se si autoritetet e Mbretërisë së Bashkuar trajtojnë rastet e shqiptarëve të identifikuar si viktima të trafikimit. Gjykata ka paralajmëruar se kthimi i disa prej tyre në Shqipëri mund t’i ekspozojë ndaj rrezikut të dhunës, ri-trafikimit dhe shfrytëzimit nga rrjetet kriminale. Shqiptarët janë ndër […] The post Vendimi i gjykatës britanike mund të frenojë deportimin e viktimave shqiptare të trafikimit appeared first on Euronews Albania .
-
-## Jack Clarke’s last-minute strike secures Ipswich winning return against Sunderland
-- Lane: The Guardian Sport
-- Publisher: The Guardian Sport
-- Published: 2026-08-22T18:23+02:00 Kosovo time
-- URL: https://www.theguardian.com/football/2026/aug/22/ipswich-sunderland-premier-league-match-report
-- Summary: It would be fascinating to know which recruitment algorithms or eagle-eyed staff in Ipswich’s recruitment department spotted the potential in Emersonn to score the goals to keep them in the Premier League. Thirteen games, no goals and a serious knee injury at the Brazilian side Athletico Paranaense; two league goals in 17 games at Turkish side Goztepe; then six in 28 at French side Toulouse. A modest return and not one that screams ready to break down doors in the English top flight. Continue reading...
-
-## Russell ‘back in my groove’ after securing front-row start
-- Lane: Formula 1 official
-- Publisher: Formula 1
-- Published: 2026-08-22T18:22+02:00 Kosovo time
-- URL: https://www.formula1.com/en/latest/article/russell-celebrates-being-back-in-my-groove-after-securing-front-row-start-in-zandvoort.KUd2HBv9qmqt6rdLOJYoq
-- Summary: Russell ‘back in my groove’ after securing front-row start Formula 1
-
-## St Helens beat Castleford despite Hastings dismissal
-- Lane: BBC Sport
-- Publisher: BBC Sport
-- Published: 2026-08-22T18:22+02:00 Kosovo time
-- URL: https://www.bbc.co.uk/sport/rugby-league/articles/c0m7erz71nyo?at_medium=RSS&at_campaign=rss
-- Summary: St Helens beat Castleford Tigers to boost their faint Super League play-off hopes - despite Jackson Hastings' needless red card.
-
-## Study Finds Frontier AI Labs Have Few Plans to Contain Rogue Models
-- Lane: Technology
-- Publisher: Unite.AI
-- Published: 2026-08-22T18:21+02:00 Kosovo time
-- URL: https://www.unite.ai/study-finds-frontier-ai-labs-have-few-plans-to-contain-rogue-models/
-- Summary: Study Finds Frontier AI Labs Have Few Plans to Contain Rogue Models Unite.AI
-
-## How is the pro-Israel lobby influencing US elections?
-- Lane: Al Jazeera
-- Publisher: Al Jazeera
-- Published: 2026-08-22T18:17+02:00 Kosovo time
-- URL: https://www.aljazeera.com/video/newsfeed/2026/8/22/how-is-the-pro-israel-lobby-influencing-us-midterm-elections?traffic_source=rss
-- Summary: As the 2026 US midterms approach, millions of dollars are pouring into races involving candidates who challenge Israel.
-
-## Done Deals: Every official completed transfer around Europe today
-- Lane: FootballTransfers
-- Publisher: footballtransfers.com
-- Published: 2026-08-22T18:15+02:00 Kosovo time
-- URL: https://www.footballtransfers.com/en/transfer-news/uk-premier-league/2026/08/transfer-news-today-every-official-done-deal-completed-on-22-august-2026
-- Summary: Done Deals: Every official completed transfer around Europe today footballtransfers.com
-
-## ‘We had to try something’ – Lando Norris explains why he was ‘a little surprised’ by Zandvoort pole
-- Lane: Formula 1 official
-- Publisher: Formula 1
-- Published: 2026-08-22T18:14+02:00 Kosovo time
-- URL: https://www.formula1.com/en/latest/article/we-had-to-try-something-norris-explains-why-he-was-a-little-surprised-by-zandvoort-pole.3wd6Hh8WD8QImDXkJEOPqK
-- Summary: ‘We had to try something’ – Lando Norris explains why he was ‘a little surprised’ by Zandvoort pole Formula 1
-
-## Anton Stach snatches late Leeds winner to sour Glasner’s new dawn at Forest
-- Lane: The Guardian Sport
-- Publisher: The Guardian Sport
-- Published: 2026-08-22T18:13+02:00 Kosovo time
-- URL: https://www.theguardian.com/football/2026/aug/22/nottingham-forest-leeds-premier-league-match-report
-- Summary: For Nottingham Forest, a few minutes before kick-off and before the curtain went up on another season, a new protagonist emerged from the tunnel. Oliver Glasner, Forest’s fifth head coach in less than 12 months, surveyed the scene from the home technical area. But the start of the new dawn, this Glasner’s first competitive game in the job, did not go to plan, Anton Stach sneaking a whipped free-kick in at Matz Sels’s near post with a couple of minutes of normal time remaining. At least Forest can put things right quickly, Leeds visiting in a Carabao Cup rematch on Tuesday. Clearcut chances had
-
-## Burnham’s boys enjoy visit from Palace as Everton ease to opening day win
-- Lane: The Guardian Sport
-- Publisher: The Guardian Sport
-- Published: 2026-08-22T18:12+02:00 Kosovo time
-- URL: https://www.theguardian.com/football/2026/aug/22/everton-crystal-palace-premier-league-match-report
-- Summary: Andy Burnham was in the posh seats at Hill Dickinson Stadium to witness how his beloved Everton would fare without the key additions to David Moyes’s team that even the Prime Minister had voiced an opinion on. No right-back, no new centre-forward , no problem: Everton capitalised on a wasteful Crystal Palace display to start their season with an ultimately convincing victory. Kiernan Dewsbury-Hall swept any away lingering resentment over how last season ended for Everton with an outstanding finish before Thierno Barry, a man under pressure should a new striker arrive before the deadline, seale
-
-## Elche vs Barcelona: La Liga – prediction, team news, lineups
-- Lane: Al Jazeera
-- Publisher: Al Jazeera
-- Published: 2026-08-22T18:10+02:00 Kosovo time
-- URL: https://www.aljazeera.com/sports/2026/8/22/elche-vs-barcelona-la-liga-prediction-team-news-lineups?traffic_source=rss
-- Summary: Barcelona start their season at Elche in La Liga on Sunday but will do so without their new signing, Rodri.
-
-## Drinks are on Daiquiri Bay at York after Ebor win: horse racing – as it happened
-- Lane: The Guardian Sport
-- Publisher: The Guardian Sport
-- Published: 2026-08-22T18:08+02:00 Kosovo time
-- URL: https://www.theguardian.com/sport/live/2026/aug/22/ebor-festivals-final-day-from-york-horse-racing-live
-- Summary: Alan King was ‘blown away’ after Daiquiri Bay’s fast finish delivered a memorable victory in Europe’s richest handicap Hamad Al Jehani had two big handicap winners at Glorious Goodwood. Archivist has just followed up in the Group Three Strensall Stakes and Evening Saigon, the Stewards’ Cup winner, will attempt to do the same in the Constantine Handicap at 4.10. 1. ARCHIVIST 9-1, 2. Saber Strike 8-1, 3. Persica 11-2. 11 ran. Continue reading...
-
-## Bitcoin Higher in 7 Days? Traders Flood a Manifold Market at 91% After a 22% Weekly Surge
-- Lane: Crypto economy
-- Publisher: tech-insider.org
-- Published: 2026-08-22T18:03+02:00 Kosovo time
-- URL: https://tech-insider.org/bitcoin-higher-7-days-manifold-odds-2026/
-- Summary: Bitcoin Higher in 7 Days? Traders Flood a Manifold Market at 91% After a 22% Weekly Surge tech-insider.org
-
-## Frontier AI labs still won’t say how they’d contain a rogue model
-- Lane: Technology
-- Publisher: TechCrunch
-- Published: 2026-08-22T18:00+02:00 Kosovo time
-- URL: https://techcrunch.com/2026/08/22/frontier-ai-labs-still-wont-say-how-theyd-contain-a-rogue-model/
-- Summary: Frontier AI labs still won’t say how they’d contain a rogue model TechCrunch
-
-## Rama reagon pas mbërritjes së Global Sumud Flotilla: Këta revolucionarët e rrenave, çoroditën dynjanë
-- Lane: Euronews Albania
-- Publisher: Euronews Albania
-- Published: 2026-08-22T17:57+02:00 Kosovo time
-- URL: https://euronews.al/rama-reagon-pas-mberritjes-se-global-sumud-flotilla-keta-revolucionaret-e-rrenave-coroditen-dynjane/
-- Summary: Kryeministri Edi Rama ka reaguar pas mbërritjes në Vlorë të delegacionit të Global Sumud Flotilla, i cili kishte deklaruar se do të “shpëtonte” Sazanin. Rama ka shpërndarë videon e drejtoreshës së Agjencisë Kombëtare të Turizmit, Jola Hysaj, e cila deklaroi se delegacionit iu ofrua mundësia të vizitonte ishullin e Sazanit dhe të merrte informacion zyrtar, […] The post Rama reagon pas mbërritjes së Global Sumud Flotilla: Këta revolucionarët e rrenave, çoroditën dynjanë appeared first on Euronews Albania .
-
-## Arvid Lindblad P10: 'A little bit disappointed' but 'really good' Q3 day for Racing Bulls
-- Lane: Formula 1 official
-- Publisher: Formula 1
-- Published: 2026-08-22T17:51+02:00 Kosovo time
-- URL: https://www.formula1.com/en/video/arvid-lindblad-p10-a-little-bit-disappointed-but-really-good-q3-day-for-racing-bulls.1874238532329077445
-- Summary: Arvid Lindblad P10: 'A little bit disappointed' but 'really good' Q3 day for Racing Bulls Formula 1
-
-## Katsina United Fixtures & Results - Season 2026/2027
-- Lane: FootballTransfers
-- Publisher: footballtransfers.com
-- Published: 2026-08-22T17:49+02:00 Kosovo time
-- URL: https://www.footballtransfers.com/us/teams/ng/katsina-united-184/fixtures-results
-- Summary: Katsina United Fixtures & Results - Season 2026/2027 footballtransfers.com
-
-## Walk-In “Human Fridges” are Japan’s newest heatwave weapon
-- Lane: Al Jazeera
-- Publisher: Al Jazeera
-- Published: 2026-08-22T17:48+02:00 Kosovo time
-- URL: https://www.aljazeera.com/video/newsfeed/2026/8/22/walk-in-human-fridges-are-japans-newest-heatwave-weapon?traffic_source=rss
-- Summary: Designed to stop heatstroke in its tracks, the "Do Hiemon Box" delivers rapid, targeted cooling during extreme weather.
-
-## Did DOGE cuts make America’s food safety problem worse?
-- Lane: Al Jazeera
-- Publisher: Al Jazeera
-- Published: 2026-08-22T17:46+02:00 Kosovo time
-- URL: https://www.aljazeera.com/video/newsfeed/2026/8/22/08-22-26-us-food-recalls-clip?traffic_source=rss
-- Summary: The US has recorded more than 160 food recalls this year, as a Cyclospora outbreak has sickened nearly 11,000 people.
-
-## Settlers target Palestinian homes in Occupied West Bank’s Area B
-- Lane: Al Jazeera
-- Publisher: Al Jazeera
-- Published: 2026-08-22T17:45+02:00 Kosovo time
-- URL: https://www.aljazeera.com/video/newsfeed/2026/8/22/22-08-reported-nida-live-westbank-ps?traffic_source=rss
-- Summary: Palestinians in Qaryut say Israeli settlers, backed by the military, are forcing families from their homes.
-
-## Man Utd 'didn't look ready' - but hurting Carrick remains calm
-- Lane: BBC Sport
-- Publisher: BBC Sport
-- Published: 2026-08-22T17:44+02:00 Kosovo time
-- URL: https://www.bbc.co.uk/sport/football/articles/c87n78p070do?at_medium=RSS&at_campaign=rss
-- Summary: Manchester United boss Michael Carrick is refusing to panic despite shock loss at newly promoted Hull City.
-
-## Lando Norris surges past Russell and Antonelli to take F1 Dutch GP pole
-- Lane: The Guardian Sport
-- Publisher: The Guardian Sport
-- Published: 2026-08-22T17:42+02:00 Kosovo time
-- URL: https://www.theguardian.com/sport/2026/aug/22/lando-norris-pole-george-russell-kimi-antonelli-f1-dutch-grand-prix
-- Summary: Norris comes back at the last to seal top spot Russell wins the sprint race convincingly What a title fight Formula One would have on its hands if McLaren could make the final steps with their car was demonstrated to dramatic effect on Saturday as Lando Norris hurled his ride around Zandvoort to claim pole position for the Dutch Grand Prix. It was a prize secured against the odds and his own expectations, hours after he had bemoaned being in no position to fulfil his hopes of mounting a successful title defence. The car is immensely quick through the fast corners, perhaps the class of the fiel
-
-## Norris beats Russell to pole position at Zandvoort
-- Lane: BBC Sport
-- Publisher: BBC Sport
-- Published: 2026-08-22T17:41+02:00 Kosovo time
-- URL: https://www.bbc.co.uk/sport/formula1/articles/cgr7rwqyn0xo?at_medium=RSS&at_campaign=rss
-- Summary: Lando Norris beats George Russell to pole position at the Dutch Grand Prix in a frantic scramble to complete laps before a late shower of rain.
-
-## GolfGPT
-- Lane: The Rundown AI
-- Publisher: The Rundown AI
-- Published: 2026-08-22T17:40+02:00 Kosovo time
-- URL: https://www.therundown.ai/tools/golfgpt
-- Summary: GolfGPT The Rundown AI
-
-## Westcott dominates to take maiden F1 ACADEMY win
-- Lane: Formula 1 official
-- Publisher: Formula 1
-- Published: 2026-08-22T17:40+02:00 Kosovo time
-- URL: https://www.formula1.com/en/latest/article/f1-academy-westcott-takes-maiden-win-as-she-dominates-reverse-grid-race-in-zandvoort.xUGVIiqIzhNkXggYPyHk6
-- Summary: Westcott dominates to take maiden F1 ACADEMY win Formula 1
-
-## Brentford vs. Tottenham Hotspur: TV channel, how to watch in UK, kick-off time, live stream, team news, referee, predicted line-ups
-- Lane: ESPN major sport
-- Publisher: ESPN
-- Published: 2026-08-22T17:40+02:00 Kosovo time
-- URL: https://www.espn.com/soccer/story/_/id/49672311/brentford-vs-tottenham-hotspur-2026-27-premier-league-tv-channel-how-watch-kick-live-stream-referee-injury-predicted-lineups
-- Summary: Brentford vs. Tottenham Hotspur: TV channel, how to watch in UK, kick-off time, live stream, team news, referee, predicted line-ups ESPN
-
-## Ray 3.14
-- Lane: The Rundown AI
-- Publisher: The Rundown AI
-- Published: 2026-08-22T17:34+02:00 Kosovo time
-- URL: https://www.therundown.ai/tools/ray-3-14
-- Summary: Ray 3.14 The Rundown AI
-
-## Bitcoin Surges 22% on $1.92 Billion ETF Inflows; Jackson Hole in Focus
-- Lane: Crypto economy
-- Publisher: TechStock²
-- Published: 2026-08-22T17:34+02:00 Kosovo time
-- URL: https://ts2.tech/en/bitcoin-jumps-22-on-1-92-billion-etf-inflows-jackson-hole-is-next/
-- Summary: Bitcoin Surges 22% on $1.92 Billion ETF Inflows; Jackson Hole in Focus TechStock²
-
-## Daiquiri Bay wins Ebor in three-way sprint finish
-- Lane: BBC Sport
-- Publisher: BBC Sport
-- Published: 2026-08-22T17:32+02:00 Kosovo time
-- URL: https://www.bbc.co.uk/sport/horse-racing/articles/c62q2wdpgr6o?at_medium=RSS&at_campaign=rss
-- Summary: Daiquiri Bay edges out Hopewell Rock and Opportunity in a three-way sprint finish at York to win the Ebor Handicap.
-
-## Over 100 ex-diplomats urge France, UK to sanction Israel over Palestine
-- Lane: Al Jazeera
-- Publisher: Al Jazeera
-- Published: 2026-08-22T17:30+02:00 Kosovo time
-- URL: https://www.aljazeera.com/news/2026/8/22/over-100-ex-diplomats-urge-france-uk-to-sanction-israel-over-palestine?traffic_source=rss
-- Summary: An open letter demands a ban on arms transfers and a freeze on EU-Israel and UK-Israel trade agreements.
-
-## Chaos in Germany/ 85 injured in incidents at derby with Kaiserslautern
-- Lane: Kosovo / international
-- Publisher: cna.al
-- Published: 2026-08-22T17:25+02:00 Kosovo time
-- URL: https://www.cna.al/english/kosova-bota/kaos-ne-gjermani-85-te-plagosur-nga-incidentet-ne-derbin-me-kaisersl-i472104
-- Summary: Chaos in Germany/ 85 injured in incidents at derby with Kaiserslautern cna.al
-
-## Wendy Williams says ‘I want out!’ during rare public appearance amid ongoing guardianship battle
-- Lane: Global showbiz
-- Publisher: Yahoo
-- Published: 2026-08-22T17:24+02:00 Kosovo time
-- URL: https://www.yahoo.com/entertainment/celebrity/articles/wendy-williams-says-want-during-152415209.html
-- Summary: Wendy Williams says ‘I want out!’ during rare public appearance amid ongoing guardianship battle Yahoo
-
-## Bitcoin ETFs pull $606 million as Clarity Act drives the crypto news rally
-- Lane: Crypto economy
-- Publisher: openPR.com
-- Published: 2026-08-22T17:24+02:00 Kosovo time
-- URL: https://www.openpr.com/news/4610509/bitcoin-etfs-pull-606-million-as-clarity-act-drives-the-crypto
-- Summary: Bitcoin ETFs pull $606 million as Clarity Act drives the crypto news rally openPR.com
-
-## 'Wait And Watch': Unocoin CEO's Advice To Investors Amid Bitcoin Rally
-- Lane: Crypto economy
-- Publisher: NDTV Profit
-- Published: 2026-08-22T17:22+02:00 Kosovo time
-- URL: https://www.ndtvprofit.com/markets/wait-and-watch-unocoin-ceos-advice-to-investors-amid-bitcoin-rally-11945498
-- Summary: 'Wait And Watch': Unocoin CEO's Advice To Investors Amid Bitcoin Rally NDTV Profit
-
-## US battery startups have found a lifeline in defense
-- Lane: TechCrunch
-- Publisher: TechCrunch
-- Published: 2026-08-22T17:20+02:00 Kosovo time
-- URL: https://techcrunch.com/2026/08/22/us-battery-startups-have-found-a-lifeline-in-defense/
-- Summary: U.S. battery startups pulled in $500 million in grants from the Department of Energy, throwing a lifeline to an industry that was on the ropes after EV incentives were slashed.
-
-## Serbia 3x3 vs Kosovo 3x3 live scores, head to head, schedule, predictions and stats
-- Lane: Kosovo / international
-- Publisher: Sofascore
-- Published: 2026-08-22T17:17+02:00 Kosovo time
-- URL: https://www.sofascore.com/basketball/match/kosovo-3x3-serbia-3x3/GmxesQaaj
-- Summary: Serbia 3x3 vs Kosovo 3x3 live scores, head to head, schedule, predictions and stats Sofascore
-
-## P14 Colapinto: ‘We maximised as team what we had’
-- Lane: Formula 1 official
-- Publisher: Formula 1
-- Published: 2026-08-22T17:17+02:00 Kosovo time
-- URL: https://www.formula1.com/en/video/p14-colapinto-we-maximised-as-team-what-we-had.1874236529164499879
-- Summary: P14 Colapinto: ‘We maximised as team what we had’ Formula 1
-
-## Crypto exchange BitMart weighs partial restart and creditor payouts weeks after announcing shutdown
+## Regulation Crypto is here: State of Crypto
 - Lane: CoinDesk
 - Publisher: CoinDesk
-- Published: 2026-08-22T17:16+02:00 Kosovo time
-- URL: https://www.coindesk.com/business/2026/08/22/crypto-exchange-bitmart-weighs-partial-restart-and-creditor-payouts-weeks-after-announcing-shutdown
+- Published: 2026-08-23T20:30+02:00 Kosovo time
+- URL: https://www.coindesk.com/policy/2026/08/23/regulation-crypto-is-here-state-of-crypto
 - Summary: No RSS summary available.
 
-## deforum
-- Lane: The Rundown AI
-- Publisher: The Rundown AI
-- Published: 2026-08-22T17:14+02:00 Kosovo time
-- URL: https://www.therundown.ai/tools/deforum
-- Summary: deforum The Rundown AI
+## GB's men defend team gold at European Championships
+- Lane: BBC Sport
+- Publisher: BBC Sport
+- Published: 2026-08-23T20:30+02:00 Kosovo time
+- URL: https://www.bbc.co.uk/sport/gymnastics/articles/c20e0e7qx92o?at_medium=RSS&at_campaign=rss
+- Summary: Great Britain produce a superb performance to successfully defend the men's team gold at the European Gymnastics Championships in Zagreb for the first time.
 
-## Putin: Kievi është në një situatë të vështirë dhe për këtë arsye po kryen sulme barbare
+## 'When you score at the end it tastes better' - Iraola
+- Lane: BBC Sport
+- Publisher: BBC Sport
+- Published: 2026-08-23T20:28+02:00 Kosovo time
+- URL: https://www.bbc.co.uk/sport/football/videos/c4gvgj0w9j2o?at_medium=RSS&at_campaign=rss
+- Summary: Liverpool head coach Andoni Iraola reacts to his sides 2-2 draw against Newcastle United on the opening weekend of the 2026-27 Premier League season.
+
+## European football: Mohamed Salah scores first goals in Trabzonspor victory
+- Lane: The Guardian Sport
+- Publisher: The Guardian Sport
+- Published: 2026-08-23T20:27+02:00 Kosovo time
+- URL: https://www.theguardian.com/football/2026/aug/23/european-football-psg-rennes-torino-milan-elche-barcelona-bayern-munich-harry-kane
+- Summary: Former Liverpool forward nets double Harry Kane named player of year in Germany Mohamed Salah scored his first goals for Trabzonspor with a brace in their 2-1 win over Istanbul Basaksehir. The former Liverpool forward joined the Super Lig side on a two-year deal at the start of August and made his debut for the club from the bench in their 1-1 draw at Kasimpasa last week. Continue reading...
+
+## Video: Thousands of families flee fighting in Sudan’s North Kordofan State
+- Lane: Al Jazeera
+- Publisher: Al Jazeera
+- Published: 2026-08-23T20:27+02:00 Kosovo time
+- URL: https://www.aljazeera.com/video/newsfeed/2026/8/23/video-thousands-of-families-flee-fighting-in-sudans-north-kordofan-state?traffic_source=rss
+- Summary: Mothers and their children are in dire need of food and safety in Sudan’s conflict-stricken Kordofan State.
+
+## Aksidenti fatal në Rrashbull–Xhafzotaj, arrestohet pas 48 orësh shoferi 38-vjeçar
 - Lane: Euronews Albania
 - Publisher: Euronews Albania
-- Published: 2026-08-22T17:14+02:00 Kosovo time
-- URL: https://euronews.al/putin-kievi-eshte-ne-nje-situate-te-veshtire-dhe-per-kete-arsye-po-kryen-sulme-barbare/
-- Summary: Presidenti rus Vladimir Putin thotë se Kievi ndodhet në një situatë të vështirë ndaj edhe sipas tij po kryejnë sulme barbare. “Sa më e vështirë bëhet situata për armikun, aq më barbare bëhen sulmet e regjimit të Kievit”, tha Vladimir Putin . Këto sulme demonstrojnë thelbin banderit (pasues i udhëheqësit ultranacionalist ukrainas Stepan Bandera), neo-nazist […] The post Putin: Kievi është në një situatë të vështirë dhe për këtë arsye po kryen sulme barbare appeared first on Euronews Albania .
+- Published: 2026-08-23T20:15+02:00 Kosovo time
+- URL: https://euronews.al/aksidenti-fatal-ne-rrashbull-xhafzotaj-arrestohet-pas-48-oresh-shoferi-38-vjecar/
+- Summary: Policia e Durrësit ka arrestuar një shofer 38-vjeçar, pasi akuzohet se ka aksidentuar për vdekje një person që po lëvizte me biçikletë dhe më pas është larguar nga vendi i ngjarjes. Ai është vënë në pranga pas 48 orësh, ndërsa policia njofton se për aksidentin e ndodhur në aksin rrugor Rrashbull–Xhafzotaj, më 21 gusht 2026, […] The post Aksidenti fatal në Rrashbull–Xhafzotaj, arrestohet pas 48 orësh shoferi 38-vjeçar appeared first on Euronews Albania .
 
-## Lando Norris gets back-to-back poles, Mercedes duo behind for Dutch Grand Prix
-- Lane: ESPN major sport
-- Publisher: ESPN
-- Published: 2026-08-22T17:14+02:00 Kosovo time
-- URL: https://africa.espn.com/f1/story/_/id/49610285/lando-norris-gets-back-back-poles-mercedes-duo-dutch-grand-prix-dutch-grand-prix-formula-1-zandvoort
-- Summary: Lando Norris gets back-to-back poles, Mercedes duo behind for Dutch Grand Prix ESPN
+## Trump has ‘run out of options’ in Iran war: Stephen Walt
+- Lane: Al Jazeera
+- Publisher: Al Jazeera
+- Published: 2026-08-23T20:15+02:00 Kosovo time
+- URL: https://www.aljazeera.com/video/the-bottom-line/2026/8/23/trump-has-run-out-of-options-in-iran-war-stephen-walt?traffic_source=rss
+- Summary: Political scientist Stephen Walt says Trump promised to make US stronger, but many of his policies are making it weaker.
 
-## Norris denies Russell pole position in Dutch GP Qualifying
+## Watkins' absence at Brighton a question for him - Emery
+- Lane: BBC Sport
+- Publisher: BBC Sport
+- Published: 2026-08-23T20:05+02:00 Kosovo time
+- URL: https://www.bbc.co.uk/sport/football/articles/c20j3vjvy48o?at_medium=RSS&at_campaign=rss
+- Summary: Ollie Watkins' absence in Aston Villa's thrashing at Brighton is a question for the striker, says boss Unai Emery.
+
+## Vrasja e komandantit rus në Sevastopol, kush është 32-vjeçarja e arrestuar që dyshohet se aktivizoi bombën
+- Lane: Euronews Albania
+- Publisher: Euronews Albania
+- Published: 2026-08-23T20:00+02:00 Kosovo time
+- URL: https://euronews.al/vrasja-e-komandantit-rus-ne-sevastopol-kush-eshte-32-vjecarja-e-arrestuar-qe-dyshohet-se-aktivizoi-bomben/
+- Summary: Një 32-vjeçare ruse është arrestuar nga autoritetet në lidhje me vrasjen e Robert Shageev, zëvendëskomandant i një brigade nëndetësesh të Flotës Ruse të Detit të Zi, në një shpërthim në Sevastopol, në Krime. Ngjarja ndodhi më 13 gusht, në orët e para të mëngjesit, kur një bombë e fshehur në një kosh mbeturinash shpërtheu teksa […] The post Vrasja e komandantit rus në Sevastopol, kush është 32-vjeçarja e arrestuar që dyshohet se aktivizoi bombën appeared first on Euronews Albania .
+
+## Tunisia sees protests after migrant boat sinking kills eight
+- Lane: Al Jazeera
+- Publisher: Al Jazeera
+- Published: 2026-08-23T19:57+02:00 Kosovo time
+- URL: https://www.aljazeera.com/video/newsfeed/2026/8/23/tunisia-sees-protests-after-migrant-boat-sinking-kills-eight?traffic_source=rss
+- Summary: A migrant boat carrying 15 Tunisians sank off the country's southeastern coast while heading to Italy, killing eight.
+
+## Carlos Sainz accepts blame for unfortunate contact with Albon in Dutch Grand Prix
 - Lane: Formula 1 official
 - Publisher: Formula 1
-- Published: 2026-08-22T17:13+02:00 Kosovo time
-- URL: https://www.formula1.com/en/latest/article/norris-denies-russell-pole-position-in-gripping-conclusion-to-qualifying-for-dutch-grand-prix.2DoHZDC14R5tY7ygGaHCz
-- Summary: Norris denies Russell pole position in Dutch GP Qualifying Formula 1
+- Published: 2026-08-23T19:56+02:00 Kosovo time
+- URL: https://www.formula1.com/en/latest/article/sainz-accepts-blame-for-unfortunate-contact-with-albon-in-dutch-grand-prix.7h2yrHOeTXfsakoxWJTqFB
+- Summary: Carlos Sainz accepts blame for unfortunate contact with Albon in Dutch Grand Prix Formula 1
 
-## Hull City vs. Manchester United: TV channel, how to watch in UK, kick-off time, live stream, team news, referee, predicted line-ups
+## Thousands displaced as wildfire threatens homes in US state of Nevada
+- Lane: Al Jazeera
+- Publisher: Al Jazeera
+- Published: 2026-08-23T19:55+02:00 Kosovo time
+- URL: https://www.aljazeera.com/news/2026/8/23/thousands-displaced-as-wildfire-threatens-homes-in-us-state-of-nevada?traffic_source=rss
+- Summary: A state of emergency is declared in the US state of Nevada as rampant wildfire spurs evacuations.
+
+## Iran war: Top US lawmaker says Republicans can ‘absolutely’ win midterms
+- Lane: Al Jazeera
+- Publisher: Al Jazeera
+- Published: 2026-08-23T19:53+02:00 Kosovo time
+- URL: https://www.aljazeera.com/news/2026/8/23/iran-war-top-us-lawmaker-says-republicans-can-absolutely-win-midterms?traffic_source=rss
+- Summary: House Speaker Mike Johnson, a Trump ally, admits it 'would be helpful' if conflict ends before elections in November.
+
+## George Russell defends Mercedes' team orders: Title rival Kimi Antonelli 'deserved to finish ahead'
 - Lane: ESPN major sport
 - Publisher: ESPN
-- Published: 2026-08-22T17:04+02:00 Kosovo time
-- URL: https://africa.espn.com/football/story/_/id/49671843/hull-city-vs-manchester-united-2026-27-premier-league-tv-channel-how-watch-kick-live-stream-referee-injury-predicted-lineups
-- Summary: Hull City vs. Manchester United: TV channel, how to watch in UK, kick-off time, live stream, team news, referee, predicted line-ups ESPN
+- Published: 2026-08-23T19:49+02:00 Kosovo time
+- URL: https://africa.espn.com/f1/story/_/id/49679189/dutch-grand-prix-george-russell-defends-mercedes-team-orders-title-rival-kimi-antonelli-deserved-finish-ahead-formula-1-zandvoort
+- Summary: George Russell defends Mercedes' team orders: Title rival Kimi Antonelli 'deserved to finish ahead' ESPN
 
-## From Tunisia to Kosovo, Padel’s Mediterranean celebration in Taranto: “Being here is something special”
-- Lane: Kosovo / international
-- Publisher: International Padel Federation
-- Published: 2026-08-22T17:03+02:00 Kosovo time
-- URL: https://www.padelfip.com/2026/08/from-tunisia-to-kosovo-padels-mediterranean-celebration-in-taranto-being-here-is-something-special/
-- Summary: From Tunisia to Kosovo, Padel’s Mediterranean celebration in Taranto: “Being here is something special” International Padel Federation
-
-## Kosovo President Vjosa Osmani says she was dissolving Parliament to pave way for early election after lawmakers failed to elect her successor | Akashvani News
-- Lane: Kosovo / international
-- Publisher: News On AIR
-- Published: 2026-08-22T16:53+02:00 Kosovo time
-- URL: https://newsonair.gov.in/kosovo-president-vjosa-osmani-says-she-was-dissolving-parliament-to-pave-way-for-early-election-after-lawmakers-failed-to-elect-her-successor/
-- Summary: Kosovo President Vjosa Osmani says she was dissolving Parliament to pave way for early election after lawmakers failed to elect her successor | Akashvani News News On AIR
-
-## Legal AI vendors are building their own models to cut inference bills and reduce platform dependence
-- Lane: Technology
-- Publisher: MarketScale
-- Published: 2026-08-22T16:51+02:00 Kosovo time
-- URL: https://www.marketscale.com/industries/business-services/legal-ai-vendors-are-building-their-own-models-to-cut-inference-bills-and-reduce-platform-dependence
-- Summary: Legal AI vendors are building their own models to cut inference bills and reduce platform dependence MarketScale
-
-## Hoxha takon drejtuesit e institucioneve dhe të zgjedhurit shqiptarë në Luginën e Preshevës
-- Lane: Euronews Albania
-- Publisher: Euronews Albania
-- Published: 2026-08-22T16:48+02:00 Kosovo time
-- URL: https://euronews.al/hoxha-takon-drejtuesit-e-institucioneve-dhe-te-zgjedhurit-shqiptare-ne-luginen-e-presheves/
-- Summary: Ministri për Europën dhe Punët e Jashtme, Ferit Hoxha, priti sot në Tiranë, drejtuesit e institucioneve dhe të zgjedhurit shqiptarë në Luginën e Preshevës, Deputetin Shaip Kamberi, Kryetaren e Komunës së Preshevës, Ardita Sinani, Kryetarin e Komunës së Bujanocit, Arbër Pajaziti dhe Kryetarin e Këshillit Kombëtar Shqiptar, Enkel Rexhepi. Ministri thekson se gjatë takimit u […] The post Hoxha takon drejtuesit e institucioneve dhe të zgjedhurit shqiptarë në Luginën e Preshevës appeared first on Euronews Albania .
-
-## Bardeen
-- Lane: The Rundown AI
-- Publisher: The Rundown AI
-- Published: 2026-08-22T16:47+02:00 Kosovo time
-- URL: https://www.therundown.ai/tools/bardeenai
-- Summary: Bardeen The Rundown AI
-
-## Williams and Alcaraz to play US Open mixed doubles
+## Russell impresses as Norris shines - driver ratings
 - Lane: BBC Sport
 - Publisher: BBC Sport
-- Published: 2026-08-22T16:41+02:00 Kosovo time
-- URL: https://www.bbc.co.uk/sport/tennis/articles/c4g3gp9k2njo?at_medium=RSS&at_campaign=rss
-- Summary: Serena Williams will pair up with Carlos Alcaraz for the mixed doubles at the US Open at Flushing Meadows.
+- Published: 2026-08-23T19:49+02:00 Kosovo time
+- URL: https://www.bbc.co.uk/sport/formula1/articles/c1l1l1r5zd4o?at_medium=RSS&at_campaign=rss
+- Summary: BBC Radio 5 Live F1 commentator Harry Benjamin rates how the drivers performed during the Dutch Grand Prix.
 
-## 'We didn't click' - Carrick on Man Utd's loss
+## Leach spins Somerset to victory over Essex; Worcestershire win by eight wickets: county cricket day four – live
+- Lane: The Guardian Sport
+- Publisher: The Guardian Sport
+- Published: 2026-08-23T19:48+02:00 Kosovo time
+- URL: https://www.theguardian.com/sport/live/2026/aug/23/hampshire-v-yorkshire-somerset-v-essex-and-more-county-cricket-day-four-live
+- Summary: Updates from around the grounds on the final day Australia thrash Bangladesh | Get The Spin | Mail Tanya Bohannon, averaging 19.52 this season, pushes forward defensively but it’s a zinger from Luke Procter who, along with James Anderson, is only remaining player from Lancashire’s 2011 Championship winning side still on the pitch. Fact of the day from Paul Edwards: Procter, who was a qualified electrician, considering a plumbing career, and training as a hairdresser when at OT, has just signed a new two-year contract with Northants which will take him to 40. Continue reading...
+
+## GB's Brennan wins Vuelta stage two on Grand Tour debut
 - Lane: BBC Sport
 - Publisher: BBC Sport
-- Published: 2026-08-22T16:40+02:00 Kosovo time
-- URL: https://www.bbc.co.uk/sport/football/videos/cr5956led9lo?at_medium=RSS&at_campaign=rss
-- Summary: Manchester United head coach Michael Carrick says his side 'didn't click' as they suffered a 2-0 defeat at newly promoted Hull City in their first game of the 2026-27 Premier League season.
+- Published: 2026-08-23T19:47+02:00 Kosovo time
+- URL: https://www.bbc.co.uk/sport/cycling/articles/c62q2qzg65go?at_medium=RSS&at_campaign=rss
+- Summary: Britain's Matt Brennan sprints to victory in the second stage of the Vuelta a Espana on Sunday as overall race favourite Tadej Pogacar holds on to the leader's red jersey.
 
-## Israeli drone strike on ‘civilian vehicle’ injures several in Syria
-- Lane: Al Jazeera
-- Publisher: Al Jazeera
-- Published: 2026-08-22T16:37+02:00 Kosovo time
-- URL: https://www.aljazeera.com/news/2026/8/22/israeli-drone-strike-on-civilian-vehicle-causes-injuries-in-syria?traffic_source=rss
-- Summary: Syria condemns attack in southwest as a 'flagrant violation of sovereignty' and a 'blatant breach of international law'.
+## ‘I want to win’ – Lewis Hamilton explains frustrated radio messages in Dutch Grand Prix
+- Lane: Formula 1 official
+- Publisher: Formula 1
+- Published: 2026-08-23T19:45+02:00 Kosovo time
+- URL: https://www.formula1.com/en/latest/article/i-want-to-win-hamilton-explains-frustrated-radio-messages-in-dutch-grand-prix.4mMvpLPKV7T2kfnkITCYuO
+- Summary: ‘I want to win’ – Lewis Hamilton explains frustrated radio messages in Dutch Grand Prix Formula 1
 
-## Infantino asked to stay away from youth tournament
+## Liverpool’s Szoboszlai spot on with late, late leveller to salvage point at Newcastle
+- Lane: The Guardian Sport
+- Publisher: The Guardian Sport
+- Published: 2026-08-23T19:43+02:00 Kosovo time
+- URL: https://www.theguardian.com/football/2026/aug/23/newcastle-liverpool-premier-league-match-report
+- Summary: Before kick-off a banner was raised in the Gallowgate End inscribed with a quotation from the late Kevin Keegan. “I want people to dream about their football,” it read. “We should all be dreamers at heart.” Out on the pitch it swiftly became apparent that both Matthias Jaissle, Keegan’s latest successor in the Newcastle dugout, and Liverpool’s Andoni Iraola are on individual missions to create forms or organised chaos capable of subjecting the best opponents to torrid nightmares. Continue reading...
+
+## France links sharp rise in drownings to heatwaves
+- Lane: BBC Europe
+- Publisher: BBC Europe
+- Published: 2026-08-23T19:39+02:00 Kosovo time
+- URL: https://www.bbc.co.uk/news/articles/cqlxlp4lx9yo?at_medium=RSS&at_campaign=rss
+- Summary: A government minister says people have been taking risks by going into the water, with 301 deaths since 19 June.
+
+## Al-Hilal open talks to sign Arsenal winger Martinelli
 - Lane: BBC Sport
 - Publisher: BBC Sport
-- Published: 2026-08-22T16:29+02:00 Kosovo time
-- URL: https://www.bbc.co.uk/sport/football/articles/cq6d627y8g7o?at_medium=RSS&at_campaign=rss
-- Summary: Gianni Infantino has been asked to stay away from a youth football tournament in the Dominican Republic this weekend by Concacaf president Victor Montagliani.
+- Published: 2026-08-23T19:37+02:00 Kosovo time
+- URL: https://www.bbc.co.uk/sport/football/articles/cgk4k444rmmo?at_medium=RSS&at_campaign=rss
+- Summary: Saudi Arabian club Al-Hilal open negotiations with Arsenal over a move for Brazil forward Gabriel Martinelli.
 
-## How XRP Went From a Cycle Low to a Three-Month High in Four Days
-- Lane: Crypto economy
-- Publisher: AOL.com
-- Published: 2026-08-22T16:23+02:00 Kosovo time
-- URL: https://www.aol.com/articles/xrp-went-cycle-low-three-141505000.html
-- Summary: How XRP Went From a Cycle Low to a Three-Month High in Four Days AOL.com
-
-## “Palestina po fshihet”! Mbi 100 ish-diplomatë britanikë e francezë kërkojnë sanksione ndaj Izraelit
-- Lane: Euronews Albania
-- Publisher: Euronews Albania
-- Published: 2026-08-22T16:22+02:00 Kosovo time
-- URL: https://euronews.al/palestina-po-fshihet-mbi-100-ish-diplomate-britanike-e-franceze-kerkojne-sanksione-ndaj-izraelit/
-- Summary: 100 ish-diplomatë të lartë akuzojnë Izraelin për ndjekje të spastrimit etnik dhe i bëjnë thirrje Britanisë dhe Francës të vendosin kufizime tregtare, të ndalojnë bashkëpunimin ushtarak dhe të mbrojnë mundësinë e një shteti palestinez të pavarur. Më shumë se 100 ish-diplomatë britanikë dhe francezë kanë bërë një apel të përbashkët të jashtëzakonshëm për veprime vendimtare […] The post “Palestina po fshihet”! Mbi 100 ish-diplomatë britanikë e francezë kërkojnë sanksione ndaj Izraelit appeared first on Euronews Albania .
-
-## What did war with the US reveal about Iran’s weapons capabilities?
-- Lane: Al Jazeera
-- Publisher: Al Jazeera
-- Published: 2026-08-22T16:19+02:00 Kosovo time
-- URL: https://www.aljazeera.com/news/2026/8/22/what-did-war-with-the-us-reveal-about-irans-weapons-capabilities?traffic_source=rss
-- Summary: Iran says production is ongoing, but details will not be revealed during war conditions.
-
-## Email Humanizer
-- Lane: The Rundown AI
-- Publisher: The Rundown AI
-- Published: 2026-08-22T16:18+02:00 Kosovo time
-- URL: https://www.therundown.ai/tools/email-humanizer
-- Summary: Email Humanizer The Rundown AI
-
-## Pedro Neto exit close as Chelsea choose replacement
+## Aranda Stats
 - Lane: FootballTransfers
 - Publisher: footballtransfers.com
-- Published: 2026-08-22T16:18+02:00 Kosovo time
-- URL: https://www.footballtransfers.com/en/transfer-news/uk-premier-league/2026/08/chelsea-transfer-news-pedro-neto-francisco-conceicao-jamie-gittens
-- Summary: Pedro Neto exit close as Chelsea choose replacement footballtransfers.com
+- Published: 2026-08-23T19:36+02:00 Kosovo time
+- URL: https://www.footballtransfers.com/en/players/jose-luis-aranda-rojas/stats
+- Summary: Aranda Stats footballtransfers.com
 
-## Wade wins first World Series title in Australia
+## Wissa shines as Isak struggles - Newcastle v Liverpool player ratings
 - Lane: BBC Sport
 - Publisher: BBC Sport
-- Published: 2026-08-22T16:18+02:00 Kosovo time
-- URL: https://www.bbc.co.uk/sport/darts/articles/c4gwg9nnx36o?at_medium=RSS&at_campaign=rss
-- Summary: England's James Wade beats Australian qualifier Brody Klinge 8-5 in the Australian Masters final for his first World Series darts title.
+- Published: 2026-08-23T19:36+02:00 Kosovo time
+- URL: https://www.bbc.co.uk/sport/football/articles/c9q9q2gnxvjo?at_medium=RSS&at_campaign=rss
+- Summary: How Newcastle United and Liverpool's players rated in their Premier League match.
 
-## 'We showed we can compete' - Jakirovic
+## Twelve-try Leeds crush York to top Super League
 - Lane: BBC Sport
 - Publisher: BBC Sport
-- Published: 2026-08-22T16:17+02:00 Kosovo time
-- URL: https://www.bbc.co.uk/sport/football/videos/cgmkm9xgv1zo?at_medium=RSS&at_campaign=rss
-- Summary: Hull City head coach Sergej Jakirovic praises his side for their approach and sticking to the tactical plan to gain a 2-0 win against Manchester United on the opening weekend of the Premier League season.
+- Published: 2026-08-23T19:35+02:00 Kosovo time
+- URL: https://www.bbc.co.uk/sport/rugby-league/articles/c1d1werpe6no?at_medium=RSS&at_campaign=rss
+- Summary: Riley Lumb, Ryan Hall and Kallum Watkins were among the scorers as Leeds demolish York 66-16.
 
-## Web3 gaming network Sandbox stops Base and BNB chain bridging after exploit
-- Lane: CoinDesk
-- Publisher: CoinDesk
-- Published: 2026-08-22T16:10+02:00 Kosovo time
-- URL: https://www.coindesk.com/web3/2026/08/22/web3-gaming-network-sandbox-stops-base-and-bnb-chain-bridging-after-exploit
-- Summary: No RSS summary available.
+## Landfill collapse in Guinea kills at least 30 people
+- Lane: Al Jazeera
+- Publisher: Al Jazeera
+- Published: 2026-08-23T19:35+02:00 Kosovo time
+- URL: https://www.aljazeera.com/news/2026/8/23/landfill-collapse-in-guinea-kills-at-least-22-people-official-says?traffic_source=rss
+- Summary: Heavy rains wash over the site, triggering a landslide that buries several shacks.
 
-## Canada vows ‘dollar for dollar’ response as US puts 50% tariffs on some goods
+## The lesson from Canada’s collapsed trade talks with the US: negotiation may be futile
 - Lane: The Guardian Business
 - Publisher: The Guardian Business
-- Published: 2026-08-22T16:04+02:00 Kosovo time
-- URL: https://www.theguardian.com/world/2026/aug/22/canada-tariffs-trump-trade-deal-talks-fail
-- Summary: Collapse of trade talks could lead to job losses, but biggest impact on traditional allies is expected to be political The US has imposed 50% tariffs on some goods from Canada, and the country’s prime minister, Mark Carney, has vowed to match them “dollar for dollar” after the collapse of trade talks. The tariffs came into force on about $20bn (£14.6bn) of goods – ranging from hockey sticks to tongue depressors – at 04.00 GMT. Trade experts said the tariffs could result in some job losses, but the largest impact is expected to be political, driving a further wedge between the traditional allie
+- Published: 2026-08-23T19:24+02:00 Kosovo time
+- URL: https://www.theguardian.com/us-news/2026/aug/23/canada-us-collapsed-trade-talks-negotiation-breakdown-analysis
+- Summary: Breakdown shows Washington now prioritises its own interests over any semblance of shared economic ground ‘No more!!!’: Trump lashes out after US-Canada talks devolve into trade war The calamitous collapse of trade negotiations between Canada and the United States is a warning to nations worldwide that pursuing any kind of dialogue with the current US administration is doomed at the outset, according to observers who say this recent episode indicates seeking a fair deal is futile. Andrea Lawlor, an associate professor of political science at McMaster University in Ontario, said: “No matter the
 
-## Blaze
-- Lane: The Rundown AI
-- Publisher: The Rundown AI
-- Published: 2026-08-22T16:02+02:00 Kosovo time
-- URL: https://www.therundown.ai/tools/blaze-ai
-- Summary: Blaze The Rundown AI
-
-## Pixel 11 Pro XL review: Snappier cameras can’t hide an iterative upgrade
-- Lane: TechCrunch
-- Publisher: TechCrunch
-- Published: 2026-08-22T16:00+02:00 Kosovo time
-- URL: https://techcrunch.com/2026/08/22/pixel-11-pro-xl-review-snappier-cameras-cant-hide-an-iterative-upgrade/
-- Summary: Google’s Pixel 11 Pro XL brings snappier cameras and genuinely useful AI features like Rambler, but its iterative upgrades may not be enough to tempt recent Pixel owners.
-
-## Tokenized stocks risk repeating Wall Street’s 1960s ‘paper crisis,’ Fairmint CEO says
-- Lane: CoinDesk
-- Publisher: CoinDesk
-- Published: 2026-08-22T16:00+02:00 Kosovo time
-- URL: https://www.coindesk.com/tech/2026/08/22/tokenized-stocks-risk-repeating-wall-street-s-1960s-paper-crisis-fairmint-ceo-says
-- Summary: No RSS summary available.
-
-## Man Utd humiliated at Hull to open Premier League account
+## Photos: Ukraine celebrates National Flag Day
 - Lane: Al Jazeera
 - Publisher: Al Jazeera
-- Published: 2026-08-22T15:54+02:00 Kosovo time
-- URL: https://www.aljazeera.com/sports/2026/8/22/man-utd-slump-to-opening-day-premier-league-defeat-at-hull-city?traffic_source=rss
-- Summary: Manchester United lose 2-0 at newly promoted Hull City to open their Premier League campaign.
+- Published: 2026-08-23T19:18+02:00 Kosovo time
+- URL: https://www.aljazeera.com/gallery/2026/8/23/photos-ukraine-observes-national-flag-day?traffic_source=rss
+- Summary: People observe a minute of silence for those killed in war to mark the holiday established in 2004.
 
-## Kurti: In constant communication with KFOR for the full opening of the bridge over the Ibar River
-- Lane: Kosovo / international
-- Publisher: cna.al
-- Published: 2026-08-22T15:51+02:00 Kosovo time
-- URL: https://www.cna.al/english/kosova-bota/kurti-jemi-ne-komunikim-te-vazhdueshem-me-kfor-in-per-hapjen-e-plote-i472097
-- Summary: Kurti: In constant communication with KFOR for the full opening of the bridge over the Ibar River cna.al
-
-## Fans and police injured in pitch invasion during ‘high risk’ German Cup tie
-- Lane: Al Jazeera
-- Publisher: Al Jazeera
-- Published: 2026-08-22T15:44+02:00 Kosovo time
-- URL: https://www.aljazeera.com/sports/2026/8/22/fans-and-police-injured-in-pitch-invasion-during-high-risk-german-cup-tie?traffic_source=rss
-- Summary: Waldhof Mannheim and Kaiserslautern game halted for 30 minutes as eight people hospitalised with about 100 injured.
-
-## Lando Norris on his McLaren: 'Nowhere near good enough' to fight for title
+## Lewis Hamilton 'proud' of Ferrari despite dicey radio messages during Dutch GP
 - Lane: ESPN major sport
 - Publisher: ESPN
-- Published: 2026-08-22T15:42+02:00 Kosovo time
-- URL: http://kwese.espn.com/f1/story/_/id/49610274/lando-norris-mclaren-nowhere-good-enough-fight-title-dutch-grand-prix-formula-1-zandvoort
-- Summary: Lando Norris on his McLaren: 'Nowhere near good enough' to fight for title ESPN
+- Published: 2026-08-23T19:17+02:00 Kosovo time
+- URL: https://africa.espn.com/f1/story/_/id/49679187/lewis-hamilton-proud-ferrari-dicey-radio-messages-dutch-grand-prix-formula-1-zandvoort
+- Summary: Lewis Hamilton 'proud' of Ferrari despite dicey radio messages during Dutch GP ESPN
 
-## Ajayi and Mendy give Hull dream start against misfiring Manchester United
+## Help is on the way in SF: the 49ers activated TE George Kittle from the Active/Physically Unable to Perform List.
+- Lane: ESPN major sport
+- Publisher: ESPN
+- Published: 2026-08-23T19:07+02:00 Kosovo time
+- URL: https://www.espn.com/contributor/adam-schefter/854a33b5bbc2e
+- Summary: Help is on the way in SF: the 49ers activated TE George Kittle from the Active/Physically Unable to Perform List. ESPN
+
+## ‘Call his agent’: Emery feels Watkins should explain absence from Villa’s rout by Brighton
 - Lane: The Guardian Sport
 - Publisher: The Guardian Sport
-- Published: 2026-08-22T15:36+02:00 Kosovo time
-- URL: https://www.theguardian.com/football/2026/aug/22/hull-manchester-united-premier-league-match-report
-- Summary: Ever since Sir Alex Ferguson’s retirement 13 years ago, Manchester United have been stuck in football’s equivalent of purgatory and a chastening experience in Hull suggests they could be there a while longer. Michael Carrick’s permanent appointment was supposed to hail a new era at Old Trafford but very little has changed based on this defeat. United were sluggish from start to finish and rightly punished for failing to defend set pieces with any degree of competence. Centre-backs Semi Ajayi and Nobel Mendy earned Hull the prized scalp upon their return to the Premier League while United are l
+- Published: 2026-08-23T19:04+02:00 Kosovo time
+- URL: https://www.theguardian.com/football/2026/aug/23/unai-emery-feels-ollie-watkins-should-explain-absence-from-aston-villa-loss-brighton
+- Summary: England forward is considering move to Al-Hilal ‘This question is for him … I answer only with silence’ Unai Emery did nothing to deny that Ollie Watkins had refused to play for Aston Villa in their sobering 4-0 defeat by Brighton at the Amex on Sunday. The head coach had a selection crisis up front with Brian Madjo and Tammy Abraham injured. However, he did not include Watkins in the matchday squad as the England striker considers a move to Al-Hilal in Saudi Arabia. Emery was forced to rely on the attacking midfielder Emiliano Buendía as an emergency striker and his team disappeared without t
 
-## Indonesia bolsters troop numbers to combat Borneo wildfires
+## Ella Baron on AI and the drought – cartoon
+- Lane: The Guardian Business
+- Publisher: The Guardian Business
+- Published: 2026-08-23T19:03+02:00 Kosovo time
+- URL: https://www.theguardian.com/commentisfree/picture/2026/aug/23/ella-baron-on-ai-and-the-drought-cartoon
+- Summary: Continue reading...
+
+## Jamieson takes Trump call after ending 14-year title wait
+- Lane: BBC Sport
+- Publisher: BBC Sport
+- Published: 2026-08-23T18:57+02:00 Kosovo time
+- URL: https://www.bbc.co.uk/sport/golf/articles/c8xnx252220o?at_medium=RSS&at_campaign=rss
+- Summary: Scott Jamieson shoots a final round of 67 at the Nexo Championship to end his 14-year drought and earn a video call with President Donald Trump.
+
+## Rama zbardh mbledhjen 7-orëshe në Pogradec: Nga “Besa” te “Pasqyra Albania” (VIDEO)
+- Lane: Euronews Albania
+- Publisher: Euronews Albania
+- Published: 2026-08-23T18:54+02:00 Kosovo time
+- URL: https://euronews.al/rama-zbardh-mbledhjen-7-oreshe-ne-pogradec-nga-besa-te-pasqyra-albania-video/
+- Summary: Kryeministri Edi Rama ka publikuar në Facebook një video, ku ka dhënë detaje nga mbledhja rreth 7-orëshe me të deleguarit politikë të Partisë Socialiste, kryetarët socialistë të komisioneve parlamentare dhe deputetë të PS-së, të zhvilluar këtë të diel në Pogradec. Rama tha se takimi u zhvillua në kuadër të përgatitjeve për sezonin e ri politik, […] The post Rama zbardh mbledhjen 7-orëshe në Pogradec: Nga “Besa” te “Pasqyra Albania” (VIDEO) appeared first on Euronews Albania .
+
+## ‘You want to fight for every single position’ – Russell offers verdict on Mercedes team orders in Dutch GP
+- Lane: Formula 1 official
+- Publisher: Formula 1
+- Published: 2026-08-23T18:53+02:00 Kosovo time
+- URL: https://www.formula1.com/en/latest/article/you-want-to-fight-for-every-single-position-russell-offers-verdict-on-mercedes-team-orders-in-dutch-gp.3qBtPSF2Jgfyu63IKV8our
+- Summary: ‘You want to fight for every single position’ – Russell offers verdict on Mercedes team orders in Dutch GP Formula 1
+
+## LIVE: Elche vs Barcelona – La Liga
 - Lane: Al Jazeera
 - Publisher: Al Jazeera
-- Published: 2026-08-22T15:35+02:00 Kosovo time
-- URL: https://www.aljazeera.com/news/2026/8/22/indonesia-bolsters-troop-numbers-to-combat-borneo-wildfires?traffic_source=rss
-- Summary: Fires between January and July burned more than 200,000 hectares of land, says the government.
+- Published: 2026-08-23T18:50+02:00 Kosovo time
+- URL: https://www.aljazeera.com/sports/liveblog/2026/8/23/live-elche-vs-barcelona-la-liga?traffic_source=rss
+- Summary: Follow updates as Barcelona kick off their La Liga campaign - including the build-up, analysis and live text commentary.
 
-## OLS Fixtures & Results - Season 2026
+## GB win European Championships men's team gold - highlights
+- Lane: BBC Sport
+- Publisher: BBC Sport
+- Published: 2026-08-23T18:41+02:00 Kosovo time
+- URL: https://www.bbc.co.uk/sport/gymnastics/videos/cvgjgm2v7zdo?at_medium=RSS&at_campaign=rss
+- Summary: Watch highlights as Great Britain's Joe Fraser, Harry Hepworth, Jonas Rushworth, Courtney Tulloch and Sol Scott win gold at the European Gymnastics Championships in Zagreb, Croatia.
+
+## Antonelli details what ‘saved’ Mercedes after P2 in Dutch GP
+- Lane: Formula 1 official
+- Publisher: Formula 1
+- Published: 2026-08-23T18:35+02:00 Kosovo time
+- URL: https://www.formula1.com/en/latest/article/antonelli-details-what-saved-mercedes-as-he-admits-being-disappointed-by-p2-in-dutch-grand-prix.7Cebf84txGCxavWTdiKBs4
+- Summary: Antonelli details what ‘saved’ Mercedes after P2 in Dutch GP Formula 1
+
+## Rion Zejnullahu Stats
 - Lane: FootballTransfers
 - Publisher: footballtransfers.com
-- Published: 2026-08-22T15:32+02:00 Kosovo time
-- URL: https://www.footballtransfers.com/us/teams/fi/ols-247/fixtures-results
-- Summary: OLS Fixtures & Results - Season 2026 footballtransfers.com
+- Published: 2026-08-23T18:35+02:00 Kosovo time
+- URL: https://www.footballtransfers.com/us/players/rion-zejnullahu-1/stats
+- Summary: Rion Zejnullahu Stats footballtransfers.com
 
-## 15 of the Wildest Celebrity TV Cameos of All Time
-- Lane: Global showbiz
-- Publisher: Yahoo
-- Published: 2026-08-22T15:30+02:00 Kosovo time
-- URL: https://www.yahoo.com/entertainment/tv/articles/15-wildest-celebrity-tv-cameos-133053341.html
-- Summary: 15 of the Wildest Celebrity TV Cameos of All Time Yahoo
+## Should You Take Profits on XRP After a 50% Week? We Asked 2 AI Models
+- Lane: Crypto economy
+- Publisher: 24/7 Wall St.
+- Published: 2026-08-23T18:34+02:00 Kosovo time
+- URL: https://247wallst.com/investing/cryptocurrency/2026/08/23/should-you-take-profits-on-xrp-after-a-50-week-we-asked-2-ai-models/
+- Summary: Should You Take Profits on XRP After a 50% Week? We Asked 2 AI Models 24/7 Wall St.
+
+## Anthropic CEO Dario Amodei says the way for AI to win over the public is to 'actually' cure cancer
+- Lane: Technology
+- Publisher: AOL.com
+- Published: 2026-08-23T18:30+02:00 Kosovo time
+- URL: https://www.aol.com/articles/anthropic-ceo-dario-amodei-says-163038000.html
+- Summary: Anthropic CEO Dario Amodei says the way for AI to win over the public is to 'actually' cure cancer AOL.com
+
+## Abdulahi Shino Stats
+- Lane: FootballTransfers
+- Publisher: footballtransfers.com
+- Published: 2026-08-23T18:30+02:00 Kosovo time
+- URL: https://www.footballtransfers.com/en/players/a-shino-1/stats
+- Summary: Abdulahi Shino Stats footballtransfers.com
+
+## Bitcoin Bear Trend: Grayscale Analyst Forecast
+- Lane: Crypto economy
+- Publisher: Coinspot.io
+- Published: 2026-08-23T18:27+02:00 Kosovo time
+- URL: https://coinspot.io/en/analysis/grayscale-analyst-names-condition-under-which-bitcoin-bear-trend-may-end/
+- Summary: Bitcoin Bear Trend: Grayscale Analyst Forecast Coinspot.io
+
+## Cold Bitcoin Storage: Hardware Wallet Risks
+- Lane: Crypto economy
+- Publisher: Coinspot.io
+- Published: 2026-08-23T18:27+02:00 Kosovo time
+- URL: https://coinspot.io/en/company/cold-bitcoin-storage-in-2026-why-hardware-wallets-no-longer-seem-invulnerable/
+- Summary: Cold Bitcoin Storage: Hardware Wallet Risks Coinspot.io
+
+## 'Up front next week?' Maresca's Guehi gamble pays off
+- Lane: BBC Sport
+- Publisher: BBC Sport
+- Published: 2026-08-23T18:26+02:00 Kosovo time
+- URL: https://www.bbc.co.uk/sport/football/articles/cqx7x1wpz20o?at_medium=RSS&at_campaign=rss
+- Summary: Rather than playing safe in selecting his Manchester City side for the first time in the Premier League, Enzo Maresca made a bold choice in midfield. Ultimately, it paid off.
+
+## Mbyllet pas 7 orësh mbledhja e Ramës me të deleguarit dhe kryetarët socialistë të komisioneve parlamentare, çfarë u diskutua në Pogradec
+- Lane: Euronews Albania
+- Publisher: Euronews Albania
+- Published: 2026-08-23T18:25+02:00 Kosovo time
+- URL: https://euronews.al/mbyllet-pas-7-oresh-mbledhja-e-rames-me-socialistet-cfare-u-diskutua-ne-pogradec/
+- Summary: Pas rreth 7 orësh, ka përfunduar mbledhja e kryetarit të Partisë Socialiste, njëherësh kryeministrit Edi Rama, me 12 drejtuesit politikë të qarqeve të vendit, kryetarët socialistë të komisioneve parlamentare dhe disa deputetë të PS-së, e zhvilluar këtë të diel në Pogradec. Gjatë takimit, fokusi kryesor ka qenë mënyra e re se si administrata publike duhet […] The post Mbyllet pas 7 orësh mbledhja e Ramës me të deleguarit dhe kryetarët socialistë të komisioneve parlamentare, çfarë u diskutua në Pogradec appeared first on Euronews Albania .
+
+## Aston Villa 'must accept everything' - Emery after Brighton thrashing
+- Lane: BBC Sport
+- Publisher: BBC Sport
+- Published: 2026-08-23T18:20+02:00 Kosovo time
+- URL: https://www.bbc.co.uk/sport/football/videos/c78g8y8vxpmo?at_medium=RSS&at_campaign=rss
+- Summary: Aston Villa manager Unai Emery reacts to a difficult opening day after a thrashing at the hands of Brighton, having conceding four goals in the first half.
+
+## Dhunoi dhe kanosi me armë bashkëshorten në Palasë, arrestohet 40-vjeçari nga Tirana
+- Lane: Euronews Albania
+- Publisher: Euronews Albania
+- Published: 2026-08-23T18:16+02:00 Kosovo time
+- URL: https://euronews.al/dhunoi-dhe-kanosi-me-arme-bashkeshorten-ne-palase-arrestohet-40-vjecari-nga-tirana/
+- Summary: Një 40-vjeçar nga Tirana, i identifikuar si Elvis Kosova, është arrestuar në flagrancë në Palasë, pasi dyshohet se ka dhunuar dhe kanosur me armë bashkëshorten e tij, në një vilë në një kompleks të zonës. Policia njofton se ngjarja është raportuar rreth orës 13:40 të kësaj të diele, si një konflikti familjar ndërsa menjëherë në […] The post Dhunoi dhe kanosi me armë bashkëshorten në Palasë, arrestohet 40-vjeçari nga Tirana appeared first on Euronews Albania .
+
+## French President Macron to host Saudi Crown Prince MBS in Paris for talks
+- Lane: Al Jazeera
+- Publisher: Al Jazeera
+- Published: 2026-08-23T18:12+02:00 Kosovo time
+- URL: https://www.aljazeera.com/economy/2026/8/23/french-president-macron-to-host-saudi-crown-prince-mbs-in-paris-for-talks?traffic_source=rss
+- Summary: Energy, regional conflicts, and bilateral cooperation to dominate Emmanuel Macron and Mohammed bin Salman's discussions.
+
+## Race Highlights: 2026 Dutch Grand Prix
+- Lane: Formula 1 official
+- Publisher: Formula 1
+- Published: 2026-08-23T18:10+02:00 Kosovo time
+- URL: https://www.formula1.com/en/video/race-highlights-2026-dutch-grand-prix.1874330787952311699
+- Summary: Race Highlights: 2026 Dutch Grand Prix Formula 1
+
+## ‘We needed to put on a show’ – Norris dissects the ‘move that won me’ the final Dutch GP
+- Lane: Formula 1 official
+- Publisher: Formula 1
+- Published: 2026-08-23T18:08+02:00 Kosovo time
+- URL: https://www.formula1.com/en/latest/article/we-needed-to-put-on-a-show-norris-dissects-the-move-that-won-me-the-final-dutch-gp.6fS1X9q1vngxLevmcyQan4
+- Summary: ‘We needed to put on a show’ – Norris dissects the ‘move that won me’ the final Dutch GP Formula 1
+
+## Can Nigeria cash in on Iran war?
+- Lane: Al Jazeera
+- Publisher: Al Jazeera
+- Published: 2026-08-23T18:07+02:00 Kosovo time
+- URL: https://www.aljazeera.com/video/talk-to-al-jazeera/2026/8/23/can-nigeria-cash-in-on-iran-war?traffic_source=rss
+- Summary: Ekperikpe Ekpo says the US-Israel war on Iran has pushed Nigeria to expand its gas production.
+
+## Chelsea's Xabi Alonso: 'World class' Cole Palmer is over his injury problems
+- Lane: ESPN major sport
+- Publisher: ESPN
+- Published: 2026-08-23T18:05+02:00 Kosovo time
+- URL: https://www.espn.com/mlb/story/_/id/xxxxxChapters00:00/Message/
+- Summary: Chelsea's Xabi Alonso: 'World class' Cole Palmer is over his injury problems ESPN
+
+## Brydon Carse handcuffed by police outside nightclub prompting ECB investigation
+- Lane: The Guardian Sport
+- Publisher: The Guardian Sport
+- Published: 2026-08-23T18:04+02:00 Kosovo time
+- URL: https://www.theguardian.com/sport/2026/aug/23/brydon-carse-handcuffed-by-police-outside-nightclub-prompting-ecb-investigation
+- Summary: England fast bowler released without charge Incident happened in Derby as Durham celebrated win Brydon Carse has become the latest England cricketer involved in a late-night incident after footage emerged of the fast bowler in police handcuffs outside a bar in Derby. The England and Wales Cricket Board has confirmed it is investigating the incident, which occurred after Durham, the Division Two leaders, completed a three-day thrashing of Derbyshire in the County Championship on Saturday. Matthew Potts and Ben Stokes can also briefly be seen in the footage. Continue reading...
+
+## TechCrunch Mobility: The custom chip driving Waymo’s robotaxi ambitions
+- Lane: TechCrunch
+- Publisher: TechCrunch
+- Published: 2026-08-23T18:03+02:00 Kosovo time
+- URL: https://techcrunch.com/2026/08/23/techcrunch-mobility-the-custom-chip-driving-waymos-robotaxi-ambitions/
+- Summary: Welcome back to TechCrunch Mobility — your central hub for news and insights on the future of transportation.
+
+## Who got your Dutch GP Driver of the Day vote?
+- Lane: Formula 1 official
+- Publisher: Formula 1
+- Published: 2026-08-23T18:01+02:00 Kosovo time
+- URL: https://www.formula1.com/en/latest/article/driver-of-the-day-norris-edges-alonso-to-clinch-zandvoort-fan-vote.7qs3XJZtZYgGISwFw52bkR
+- Summary: Who got your Dutch GP Driver of the Day vote? Formula 1
+
+## Anthropic market debut could break SpaceX IPO record
+- Lane: Technology
+- Publisher: Taipei Times
+- Published: 2026-08-23T18:00+02:00 Kosovo time
+- URL: https://www.taipeitimes.com/News/biz/archives/2026/08/24/2003863003
+- Summary: Anthropic market debut could break SpaceX IPO record Taipei Times
+
+## Vuelta a España: Britain’s Matt Brennan leaves Pogacar in wake to win stage two
+- Lane: The Guardian Sport
+- Publisher: The Guardian Sport
+- Published: 2026-08-23T17:58+02:00 Kosovo time
+- URL: https://www.theguardian.com/sport/2026/aug/23/vuelta-a-espana-britains-matt-brennan-soars-to-victory-in-second-stage
+- Summary: The 20-year-old Briton is riding in his first Grand Tour Tadej Pogacar retains overall leader’s red jersey Matt Brennan emerged triumphant from a bunch sprint to claim victory in the second stage of the Vuelta a España, while overall favourite Tadej Pogacar retained the red jersey on Sunday. Britain’s Brennan was followed over the line by Pau Miquel and Pogacar after a long 214.3km stage with over 3,000m of climbing, leaving Monaco and heading to Manosque in France. It is Brennan’s first stage win in a Grand Tour – “Hopefully it’s not the last one,” he said – in his first appearance at this le
+
+## How high Goldman Sachs and JPMorgan think European stocks can go
+- Lane: World economy
+- Publisher: Business Post
+- Published: 2026-08-23T17:57+02:00 Kosovo time
+- URL: https://www.businesspost.ie/markets/how-high-goldman-sachs-and-jpmorgan-think-european-stocks-can-go/
+- Summary: How high Goldman Sachs and JPMorgan think European stocks can go Business Post
+
+## Canada, US and tit-for-tat tariffs: How will they impact their economies?
+- Lane: Al Jazeera
+- Publisher: Al Jazeera
+- Published: 2026-08-23T17:54+02:00 Kosovo time
+- URL: https://www.aljazeera.com/news/2026/8/23/canada-us-and-tit-for-tat-tariffs-how-will-it-impact-their-economies?traffic_source=rss
+- Summary: Both countries will suffer from the trade war with steeper tariffs raising business costs and consumer prices.
+
+## Newcastle and Liverpool united in tribute to legend Keegan
+- Lane: BBC Sport
+- Publisher: BBC Sport
+- Published: 2026-08-23T17:53+02:00 Kosovo time
+- URL: https://www.bbc.co.uk/sport/football/articles/ckgdgplejxzo?at_medium=RSS&at_campaign=rss
+- Summary: Both Newcastle and Liverpool pay tribute to their legendary player on the opening weekend of the Premier League season.
+
+## XRP on track for biggest weekly gain in 21 months as Treasury buyback spurs 'curve control' hopes
+- Lane: CoinDesk
+- Publisher: CoinDesk
+- Published: 2026-08-23T17:52+02:00 Kosovo time
+- URL: https://www.coindesk.com/markets/2026/08/23/xrp-on-track-for-biggest-weekly-gain-in-21-months-as-treasury-buyback-spurs-curve-control-hopes
+- Summary: No RSS summary available.
+
+## Man City 'completely deserved to win' - Maresca
+- Lane: BBC Sport
+- Publisher: BBC Sport
+- Published: 2026-08-23T17:52+02:00 Kosovo time
+- URL: https://www.bbc.co.uk/sport/football/videos/c4gkgy8ljqvo?at_medium=RSS&at_campaign=rss
+- Summary: Enzo Maresca marks his first Premier League game as Manchester City manager with a dramatic late comeback against Bournemouth, making a winning start to the 2026–27 season.
+
+## Gaza families search for children missing after years of war
+- Lane: Al Jazeera
+- Publisher: Al Jazeera
+- Published: 2026-08-23T17:42+02:00 Kosovo time
+- URL: https://www.aljazeera.com/video/newsfeed/2026/8/23/gaza-families-search-for-children-missing-after-years-of-war?traffic_source=rss
+- Summary: Families in Gaza continue searching for children and relatives missing in the war.
+
+## Shell's Record Quarter Collides With Windfall-Tax Push and a South African Legal Blow
+- Lane: World economy
+- Publisher: Ad-hoc-news.de
+- Published: 2026-08-23T17:41+02:00 Kosovo time
+- URL: https://www.ad-hoc-news.de/boerse/news/unternehmensnachrichten/shell-s-record-quarter-collides-with-windfall-tax-push-and-a-south-african/69990572
+- Summary: Shell's Record Quarter Collides With Windfall-Tax Push and a South African Legal Blow Ad-hoc-news.de
+
+## Bortoleto talks through his opening lap spin in the Dutch Grand Prix
+- Lane: Formula 1 official
+- Publisher: Formula 1
+- Published: 2026-08-23T17:40+02:00 Kosovo time
+- URL: https://www.formula1.com/en/video/bortoleto-talks-through-his-opening-lap-spin-in-the-dutch-grand-prix.1874328742411097251
+- Summary: Bortoleto talks through his opening lap spin in the Dutch Grand Prix Formula 1
+
+## Vriten me armë zjarri babë e bir në Dukagjin, policia niset drejt vendit të ngjarjes (EMRAT)
+- Lane: Euronews Albania
+- Publisher: Euronews Albania
+- Published: 2026-08-23T17:39+02:00 Kosovo time
+- URL: https://euronews.al/vriten-me-arme-zjarri-babe-e-bir-ne-dukagjin-policia-niset-drejt-vendit-te-ngjarjes-emrat/
+- Summary: Dy persona kanë humbur jetën dhe një tjetër është plagosur pasditen e kësaj të diele, pas disa të shtënave me armë zjarri në fshatin Mgull, në Dukagjin. Viktimat janë identifikuar si Lekë Gjoni dhe Prelë Gjoni, babë e bir, ndërsa i plagosur ka mbetur L.B. Forcat e Policisë janë nisur drejt vendit të ngjarjes, ndërsa […] The post Vriten me armë zjarri babë e bir në Dukagjin, policia niset drejt vendit të ngjarjes (EMRAT) appeared first on Euronews Albania .
+
+## Trump Just Restarted the Trade War With Canada. Should Stock Investors Be Worried?
+- Lane: World conflicts and tariffs
+- Publisher: 24/7 Wall St.
+- Published: 2026-08-23T17:38+02:00 Kosovo time
+- URL: https://247wallst.com/investing/2026/08/23/trump-just-restarted-the-trade-war-with-canada-should-stock-investors-be-worried/
+- Summary: Trump Just Restarted the Trade War With Canada. Should Stock Investors Be Worried? 24/7 Wall St.
+
+## Verstappen reacts to dramatic Dutch GP crash as he sums up ‘disappointing’ home weekend
+- Lane: Formula 1 official
+- Publisher: Formula 1
+- Published: 2026-08-23T17:38+02:00 Kosovo time
+- URL: https://www.formula1.com/en/latest/article/verstappen-reacts-to-dramatic-dutch-gp-crash-as-he-sums-up-disappointing-home-weekend.6nrEOE03YhjdJy6shRzAf1
+- Summary: Verstappen reacts to dramatic Dutch GP crash as he sums up ‘disappointing’ home weekend Formula 1
+
+## Why Owning Crypto ETFs Doesn’t Make Lawmakers Pro-Crypto
+- Lane: Crypto economy
+- Publisher: Coindoo
+- Published: 2026-08-23T17:38+02:00 Kosovo time
+- URL: https://coindoo.com/why-owning-crypto-etfs-doesnt-make-lawmakers-pro-crypto/
+- Summary: Why Owning Crypto ETFs Doesn’t Make Lawmakers Pro-Crypto Coindoo
+
+## Iran’s government signals fuel price hike on eve of new US sanctions
+- Lane: Al Jazeera
+- Publisher: Al Jazeera
+- Published: 2026-08-23T17:38+02:00 Kosovo time
+- URL: https://www.aljazeera.com/economy/2026/8/23/iran-government-signals-fuel-price-hike-on-eve-of-new-us-sanctions?traffic_source=rss
+- Summary: Prices for food and other items are soaring, and there is a history of unrest, so any increase is being considered.
+
+## US stocks rise to a record as oil prices drop and inflation gets less bad
+- Lane: World economy
+- Publisher: Scripps News
+- Published: 2026-08-23T17:32+02:00 Kosovo time
+- URL: https://www.scrippsnews.com/politics/economy/us-stocks-rise-to-a-record-as-oil-prices-drop-and-inflation-gets-less-bad
+- Summary: US stocks rise to a record as oil prices drop and inflation gets less bad Scripps News
+
+## Flock CEO calls for ‘compromise’ as surveillance company faces growing backlash
+- Lane: TechCrunch
+- Publisher: TechCrunch
+- Published: 2026-08-23T17:30+02:00 Kosovo time
+- URL: https://techcrunch.com/2026/08/23/flock-ceo-calls-for-compromise-as-surveillance-company-faces-growing-backlash/
+- Summary: Flock Safety faces a growing public outcry over concerns that its surveillance technology could be misused.
+
+## Lando Norris denies Antonelli in F1 Dutch GP after Verstappen crashes out of home race
+- Lane: The Guardian Sport
+- Publisher: The Guardian Sport
+- Published: 2026-08-23T17:28+02:00 Kosovo time
+- URL: https://www.theguardian.com/sport/2026/aug/23/lando-norris-kimi-antonelli-george-russell-max-verstappen-crash-f1-dutch-grand-prix
+- Summary: Antonelli second and Russell third in final Zandvoort race Dutch driver hits wall on opening lap resulting in restart With a display of fighting spirit worthy of a world champion, Lando Norris’s victory in the Dutch Grand Prix was not only an epic finale for the meeting’s last entry on the Formula One calendar but as the British driver feistily declared, also hopefully heralds what could be an equally heroic fightback in the world championship. The task facing Norris is huge but as the season enters the run-in to the title, the McLaren driver knew he had to at very least chip away at champions
+
+## Norris wins dramatic Dutch Grand Prix as Verstappen crashes
+- Lane: Formula 1 official
+- Publisher: Formula 1
+- Published: 2026-08-23T17:27+02:00 Kosovo time
+- URL: https://www.formula1.com/en/latest/article/norris-wins-dramatic-dutch-grand-prix-from-antonelli-and-russell-as-verstappen-crashes-out.Zn7iYevVGp5eHzFkTEAz7
+- Summary: Norris wins dramatic Dutch Grand Prix as Verstappen crashes Formula 1
+
+## Pezeshkian says Iran ‘has not become Venezuela’ despite war and sanctions
+- Lane: Al Jazeera
+- Publisher: Al Jazeera
+- Published: 2026-08-23T17:25+02:00 Kosovo time
+- URL: https://www.aljazeera.com/video/newsfeed/2026/8/23/23-08-clip-pezeshkian-iran-ir-fm?traffic_source=rss
+- Summary: Iranian President Masoud Pezeshkian says Iran has stood firm despite what he calls a full-scale war.
+
+## Norris beats Antonelli to claim final Dutch GP win
+- Lane: BBC Sport
+- Publisher: BBC Sport
+- Published: 2026-08-23T17:20+02:00 Kosovo time
+- URL: https://www.bbc.co.uk/sport/formula1/articles/ce8l8jek1k1o?at_medium=RSS&at_campaign=rss
+- Summary: Lando Norris and McLaren beats Mercedes' Kimi Antonelli to take a masterful strategic victory in a compelling Dutch Grand Prix.
+
+## Guéhi and Gvardiol late show earns Manchester City dramatic win against Bournemouth
+- Lane: The Guardian Sport
+- Publisher: The Guardian Sport
+- Published: 2026-08-23T17:14+02:00 Kosovo time
+- URL: https://www.theguardian.com/football/2026/aug/23/manchester-city-bournemouth-premier-league-match-report
+- Summary: “WELCOME BACK ENZO” read the tifo beforehand and by the breathless close this was a joyous return for Manchester City’s new manager, Enzo Maresca, as a damaging defeat became a memorable win due to Marc Guéhi’s 84th-minute equaliser and Josko Gvardiol’s added-time winner. Until then, Marco Rose had been closing in on leading Bournemouth to a first away victory at City. But two lapses in defence and suddenly City were the ruthless proposition they were not before. Continue reading...
+
+## Liverpool issue bold update on Bradley Barcola as stance becomes crystal clear
+- Lane: FootballTransfers
+- Publisher: footballtransfers.com
+- Published: 2026-08-23T17:10+02:00 Kosovo time
+- URL: https://www.footballtransfers.com/en/transfer-news/uk-premier-league/2026/08/liverpool-transfers-position-becomes-clear-over-bradley-barcola
+- Summary: Liverpool issue bold update on Bradley Barcola as stance becomes crystal clear footballtransfers.com
+
+## What happens if Germany's far-right AfD party wins in Saxony-Anhalt?
+- Lane: Kosovo / international
+- Publisher: cna.al
+- Published: 2026-08-23T17:08+02:00 Kosovo time
+- URL: https://www.cna.al/english/kosova-bota/fare-ndodh-nese-partia-e-ekstremit-te-djathte-afd-e-gjermanise-te-fi-i472168
+- Summary: What happens if Germany's far-right AfD party wins in Saxony-Anhalt? cna.al
+
+## Lando Norris wins thrilling Dutch Grand Prix to take back-to-back victories
+- Lane: ESPN major sport
+- Publisher: ESPN
+- Published: 2026-08-23T17:08+02:00 Kosovo time
+- URL: https://www.espn.com/f1/story/_/id/49610384/lando-norris-wins-thrilling-dutch-grand-prix-take-back-back-victories-formula-1-zandvoort
+- Summary: Lando Norris wins thrilling Dutch Grand Prix to take back-to-back victories ESPN
+
+## Hull punished United defence in victory but Carrick’s attack is bigger area of concern | Andrew Beasley
+- Lane: The Guardian Sport
+- Publisher: The Guardian Sport
+- Published: 2026-08-23T17:07+02:00 Kosovo time
+- URL: https://www.theguardian.com/football/2026/aug/23/hull-punish-manchester-united-defence-michael-carrick-attack-bigger-concern
+- Summary: Manchester United again struggled against a back five as the promoted hosts exploited a set-piece weakness Hull scored nine league goals from set plays last season, the joint-fewest in the Championship. Yet two in 21 minutes earned them a victory over Manchester United on Saturday. It was a disastrous start to the campaign for the visitors. While Michael Carrick said before the game it would not be easy , he would not have expected victory being so straightforward for Hull. It was a match United simply had to win given the gulf in resources and expectation. Opta rated their chance of victory a
+
+## Tensionet me Iranin, Trump paraqet hartën e Hormuzit si “territor të ri të SHBA-së”
+- Lane: Euronews Albania
+- Publisher: Euronews Albania
+- Published: 2026-08-23T17:07+02:00 Kosovo time
+- URL: https://euronews.al/tensionet-me-iranin-trump-paraqet-harten-e-hormuzit-si-territor-te-ri-te-shba-se/
+- Summary: Presidenti i SHBA-së, Donald Trump, ka ripërtërirë propozimin e tij mbi të ardhmen e Ngushticës së Hormuzit, pasi postoi në platformën Truth Social një hartë që e përshkruan rrugën ujore strategjike si “territor të ri amerikan”, megjithëse nuk komentoi mbi imazhin. Kjo nuk është hera e parë që Trump ka publikuar të njëjtën hartë që […] The post Tensionet me Iranin, Trump paraqet hartën e Hormuzit si “territor të ri të SHBA-së” appeared first on Euronews Albania .
+
+## ECB investigates Carse 'nightclub incident'
+- Lane: BBC Sport
+- Publisher: BBC Sport
+- Published: 2026-08-23T17:07+02:00 Kosovo time
+- URL: https://www.bbc.co.uk/sport/cricket/articles/cg5l53d2ejmo?at_medium=RSS&at_campaign=rss
+- Summary: The ECB is investigating after videos circulating online appear to show England bowler Brydon Carse being led away from a nightclub in handcuffs.
+
+## Illicit deeds have just gotten a new Halloween video game banned in Australia – and it’s not because of the violence
+- Lane: The Guardian Culture
+- Publisher: The Guardian Culture
+- Published: 2026-08-23T17:00+02:00 Kosovo time
+- URL: https://www.theguardian.com/games/2026/aug/24/michael-myers-halloween-video-game-banned-in-australia-drugs
+- Summary: Academics – and a former director of Australia’s Classification Board – say Halloween: The Game’s ban due to ‘incentivised drug use’ highlights an incoherent set of standards Get our breaking news email , free app or daily news podcast Halloween’s Michael Myers is one of film’s most feared boogeymen, responsible for some of the most brutal on-screen deaths in horror cinema. US video game developer Illfonic looked to reproduce those terrors in its upcoming title Halloween: The Game, with gruesome killings a major focus of the gameplay: for instance, you can stomp another player’s head through a
+
+## The end of Latrobe Valley coal – in pictures
+- Lane: The Guardian Business
+- Publisher: The Guardian Business
+- Published: 2026-08-23T17:00+02:00 Kosovo time
+- URL: https://www.theguardian.com/australia-news/gallery/2026/aug/24/the-end-of-latrobe-valley-coal-in-pictures
+- Summary: Once the economic lifeblood of the region, Latrobe Valley’s coal industry is in terminal decline. Jesse Thompson’s photographic project aims to document this period of rapid change and examine the legacy that is being left behind Continue reading...
+
+## Is it legal to train AI models on copyrighted books? It’s complicated
+- Lane: TechCrunch
+- Publisher: TechCrunch
+- Published: 2026-08-23T17:00+02:00 Kosovo time
+- URL: https://techcrunch.com/2026/08/23/is-it-legal-to-train-ai-models-on-copyrighted-books-its-complicated/
+- Summary: Most published authors have, without their knowledge or consent, contributed to the development of the same AI tools that threaten to undermine their livelihoods. That seems illegal, right?
+
+## Crypto card spending tops $1 billion as stablecoins move into everyday purchases
+- Lane: CoinDesk
+- Publisher: CoinDesk
+- Published: 2026-08-23T17:00+02:00 Kosovo time
+- URL: https://www.coindesk.com/business/2026/08/23/crypto-card-spending-tops-usd1-billion-as-stablecoins-move-into-everyday-purchases
+- Summary: No RSS summary available.
+
+## Thousands rally in Sweden to protest climate policies ahead of general election
+- Lane: France 24 Europe
+- Publisher: France 24 Europe
+- Published: 2026-08-23T16:59+02:00 Kosovo time
+- URL: https://www.france24.com/en/europe/20260823-thousands-rally-in-sweden-to-protest-climate-policies-ahead-of-general-election
+- Summary: Some 10,000 people rallied in Stockholm on Sunday to demand stronger action on climate change, weeks before Sweden’s general election. Climate campaigner Greta Thunberg joined the rally, as organisers accused the government of weakening emissions policies and urged politicians to act faster to meet Sweden’s climate targets.
+
+## Ferroviário Nacala Fixtures & Results - Season 2026
+- Lane: FootballTransfers
+- Publisher: footballtransfers.com
+- Published: 2026-08-23T16:51+02:00 Kosovo time
+- URL: https://www.footballtransfers.com/us/teams/mz/ferrovirio-nacala-193/fixtures-results
+- Summary: Ferroviário Nacala Fixtures & Results - Season 2026 footballtransfers.com
+
+## Zelensky rejects wartime elections, saying vote would 'split' Ukraine
+- Lane: France 24 Europe
+- Publisher: France 24 Europe
+- Published: 2026-08-23T16:49+02:00 Kosovo time
+- URL: https://www.france24.com/en/zelensky-rejects-wartime-elections-saying-vote-would-split-ukraine
+- Summary: Ukrainian President Volodymyr Zelensky has said that holding elections during wartime would pose a threat to the country, following a controversial call by his former defense minister to pave the way for an election. According to the latest opinion poll by the Kyiv Institute of Sociology carried out this summer, only 15 per cent of those surveyed want an election to be held at this time. Details by Eliza Herbert.
+
+## Zelensky rejects rival's call for elections, says would be 'huge risk' for Ukraine
+- Lane: France 24 Europe
+- Publisher: France 24 Europe
+- Published: 2026-08-23T16:48+02:00 Kosovo time
+- URL: https://www.france24.com/en/zelensky-rejects-rival-s-call-for-elections-says-would-be-huge-risk-for-ukraine
+- Summary: Ukrainian president Volodymyr Zelensky has rejected the prospect of wartime elections, saying it would be highly dangerous. The remarks come in response to a call from the former defence minister Mykhailo Fedorov to organise a vote, after he was fired by Zelensky last month. Analysis by FRANCE 24 international affairs editor Matthew-Mary Caruchet.
+
+## 2027 pritet të thyejë rekordin e temperaturave, fenomeni El Nino mund të jetë më i rrezikshëm
+- Lane: Euronews Albania
+- Publisher: Euronews Albania
+- Published: 2026-08-23T16:48+02:00 Kosovo time
+- URL: https://euronews.al/2027-pritet-te-thyeje-rekordin-e-temperaturave-fenomeni-el-nino-mund-te-jete-me-i-rrezikshem/
+- Summary: El Nino, fenomeni natyror klimatik që shkaktohet nga ngrohja e pazakontë e ujërave të Oqeanit Paqësor, mund të jetë më i fuqishmi i regjistruar në kohët moderne. Shërbimi Meteorologjik britanik paralajmëron se ndikimi i tij, i kombinuar me ndryshimet klimatike, mund ta bëjë vitin 2027 më të nxehtin në histori. Fenomeni El Nino që po […] The post 2027 pritet të thyejë rekordin e temperaturave, fenomeni El Nino mund të jetë më i rrezikshëm appeared first on Euronews Albania .

@@ -1,0 +1,292 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""Build 2026-08-23T21.json — GPT-5.6 Terra editorial batch (verified direct-publisher sources)."""
+import json
+
+CREATED = "2026-08-23T21:10:00+02:00"
+DISPATCH = "cloud-news-discovery-current + direct publisher verification"
+FORMULA = "weighted editorial ranking"
+
+
+def art(n, slug, url, source, flag, category, published_at, title, excerpt,
+        body, score, reason, breakdown, image_url, image_w, image_h):
+    return {
+        "id": f"383-2026-08-23T21-{n:02d}",
+        "slug": slug,
+        "url": url,
+        "dispatch": DISPATCH,
+        "title": title,
+        "excerpt": excerpt,
+        "body": body,
+        "source": source,
+        "source_flag": flag,
+        "source_bias": "neutral",
+        "tone": "informues",
+        "category": category,
+        "published_at": published_at,
+        "featured": False,
+        "engagement_score": score,
+        "score_reason": reason,
+        "score_breakdown": {k: breakdown[i] for i, k in enumerate(
+            ["relevance", "urgency", "public_impact", "local_depth",
+             "controversy_interest", "credibility", "corroboration", "editorial_safety"])},
+        "score_formula": FORMULA,
+        "reading_time": 2,
+        "image_url": image_url,
+        "image_width": image_w,
+        "image_height": image_h,
+        "created_at": CREATED,
+    }
+
+
+articles = []
+
+# 1 — Kuçova (Euronews Albania, 20:46)
+articles.append(art(
+    1, "kucove-shpallet-ne-kerkim-32-vjecari-qe-qelloi-me-arme-drejt-nje-makine-te-parkuar",
+    "https://euronews.al/qelloi-me-arme-drejt-nje-makine-te-parkuar-shpallet-ne-kerkim-32-vjecari-ne-kucove/",
+    "Euronews Albania", "🇦🇱", "Shoqëri", "2026-08-23T20:46:00+02:00",
+    "Qëlloi me armë drejt një makine të parkuar në Kuçovë, shpallet në kërkim 32-vjeçari",
+    "Ngjarja u regjistrua rreth orës 15:40 në lagjen «1 Maji»; hetuesit e identifikuan shpejt autorin e dyshuar, por ai nuk ishte kapur deri në mbrëmje.",
+    "<p>Një 32-vjeçar është shpallur në kërkim nga Policia e Kuçovës, pasi dyshohet se ka qëlluar me armë zjarri drejt një automjeti të parkuar, raporton Euronews Albania, duke cituar njoftimin zyrtar të policisë. Hetuesit e identifikuan autorin e dyshuar brenda ditës, por ai nuk ishte kapur deri në momentin e publikimit të komunikatës.</p>"
+    "<p>Sipas komunikatës, ngjarja ka ndodhur rreth orës 15:40 në lagjen «1 Maji» të qytetit. Ishte shtetasi S. R., 24 vjeç, ai që ka njoftuar policinë se në drejtim të automjetit të tij të parkuar ishin bërë të shtëna me armë zjarri. Njoftimi zyrtar nuk përmend persona të lënduar dhe nuk jep detaje për tipin e armës ose numrin e të shtënave, ndaj këto elemente mbeten pika që duhen dokumentuar nga hetimi. Në komunikatë nuk jepet asnjë version për motivet e incidentit apo për marrëdhëniet mes personave të përfshirë.</p>"
+    "<p>Pas veprimeve të shpejta hetimore, forcat e rendit e kanë identifikuar dhe shpallur në kërkim autorin e dyshuar, shtetasin A. Ç., alias A. Gj., 32 vjeç, banues në Kuçovë. Shpallja në kërkim u bë vetëm disa orë pas denoncimit, çka tregon ritmin e veprimeve që kanë ndërmarrë strukturat vendore të policisë për ta dalur para autorit. Grupi hetimor po punon për lokalizimin dhe kapjen e tij, si dhe për dokumentimin e plotë të rrethanave të ngjarjes.</p>"
+    "<p>Materialet procedurale i janë referuar Prokurorisë për veprime të mëtejshme, procedurë standarde për çdo rast me përdorim arme zjarri. Shpallja në kërkim erdhi vetëm disa orë pas denoncimit, ritëm që tregon prioritetin që strukturat e rendit u japin rasteve me armë zjarri edhe kur nuk ka persona të lënduar. Grupi hetimor, i cili sipas komunikatës vijon punën për lokalizimin dhe kapjen e të dyshuarit, do të vazhdojë edhe verifikimet në lagjen «1 Maji» dhe me persona që mund të kenë qenë dëshmitarë të momentit të shtënave.</p>"
+    "<p>Zhvillimet e radhës varen nga kapja e autorit dhe nga ekspertiza e vendngjarjes, nga ku hetuesit presin të rekonstruktojnë drejtimin dhe numrin e të shtënave drejt automjetit, si dhe gjurmët e mbetura në skenë. Deri atëherë rasti mbetet i hapur dhe çdo detaj shtesë duhet të konfirmohet nga burimet zyrtare dhe jo nga versione të paverifikuara në rrjetet sociale.</p>",
+    7.0,
+    "Incident i armëzuar i dokumentuar me komunikatë policie dhe zhvillim i freskët i rendit publik në Shqipëri.",
+    [7, 8, 6, 9, 7, 9, 8, 9],
+    "https://euronews.al/wp-content/uploads/2026/08/484145698_1042167211281957_2934269419688951518_n.jpg",
+    1200, 800,
+))
+
+# 2 — Rrashbull–Xhafzotaj (Euronews Albania, 20:15)
+articles.append(art(
+    2, "rrashbull-xhafzotaj-arrestohet-pas-48-oresh-shoferi-qe-largua-vendi-i-aksidentit-fatal",
+    "https://euronews.al/aksidenti-fatal-ne-rrashbull-xhafzotaj-arrestohet-pas-48-oresh-shoferi-38-vjecar/",
+    "Euronews Albania", "🇦🇱", "Shoqëri", "2026-08-23T20:15:00+02:00",
+    "Aksidenti fatal në Rrashbull–Xhafzotaj, arrestohet pas 48 orësh shoferi 38-vjeçar",
+    "Policia e Durrësit thotë se automjeti tip «Benz A-Class» u identifikua bashkë me drejtuesin e dyshuar, dy ditë pas vdekjes së biçiklistit 41-vjeçar.",
+    "<p>Policia e Durrësit ka arrestuar një shofer 38-vjeçar, i akuzuar se ka aksidentuar për vdekje një person që po lëvizte me biçikletë dhe se është larguar nga vendi i ngjarjes, raporton Euronews Albania, duke cituar njoftimin zyrtar të policisë. Arrestimi u bë i mundur pas 48 orësh veprimi hetimor i pandalur.</p>"
+    "<p>Aksidenti ndodhi në aksin rrugor Rrashbull–Xhafzotaj më 21 gusht 2026, ku humbi jetën shtetasi V. H., 41 vjeç, banues në Rrashbull. Sipas policisë, hetimi ka bërë të mundur identifikimin e automjetit dhe të drejtuesit të dyshuar të tij, pas kontrollit të materialeve fotografike dhe video nga zona dhe pas verifikimeve në terren. Aksi Rrashbull–Xhafzotaj lidh Qytetin e Durrësit me fshatrat bregdetare të jugut të qarkut, rrugë që në gusht mbart trafik të dendur pushuesish, biçiklistësh dhe këmbësorësh.</p>"
+    "<p>Në vijim të veprimeve është arrestuar shtetasi R. R., 38 vjeç, banues në Sukth të Durrësit, ndërsa është gjetur edhe automjeti tip «Benz A-Class», me të cilin dyshohet se është përplasur biçiklisti. Autoritetet nuk kanë dhënë detaje për gjendjen shoqëruese të drejtuesit në momentin e aksidentit dhe as për shpejtësinë e lëvizjes; çdo pretendim i tillë mbetet i paverifikuar derisa të përfundojë ekspertiza.</p>"
+    "<p>Sipas policisë, dokumentimi i skenës dhe verifikimet në terren kanë qenë baza që e çuan identifikimin te automjeti dhe te drejtuesi i dyshuar, para se të urdhërohej arrestimi, ndërsa gjetja e vetë automjetit e mbylli qarkun e provave materiale. Materialet procedurale i janë referuar Prokurorisë për veprime të mëtejshme, për veprat penale «Shkelja e rregullave të qarkullimit rrugor» dhe «Largimi nga vendi i aksidentit», akuzuarje që përballojnë saktësisht skenarin e dokumentuar nga hetimi: shkelje që çon në vdekje dhe braktisje e viktimës.</p>"
+    "<p>Prokuroria tani do të vlerësojë materialin hetimor dhe do të vendosë për masat e sigurisë ndaj të arrestuarit, hapat standarde për veprat penale të këtij natyre. Rasti rikthehet te debati i përhershëm i sigurisë rrugore në hyrje dhe dalje të Durrësit, ku aksedentet me pasoja fatale për biçiklistët kanë përsëritur disa herë të njëjtën dinamikë largimi nga vendngjarja gjatë sezonit turistik, duke e kthyer kapjen e shpejtë të autorëve në test periodik për strukturat hetimore të qarkut.</p>",
+    6.8,
+    "Arrestim pas aksidenti fatal me viktimë, i dokumentuar me komunikatën e plotë të Policisë së Durrësit.",
+    [6, 7, 6, 9, 6, 9, 8, 9],
+    "https://euronews.al/wp-content/uploads/2026/08/IMG_7402.jpeg",
+    1200, 800,
+))
+
+# 3 — Palasë (Euronews Albania, 18:16)
+articles.append(art(
+    3, "palase-arrestohet-40-vjecari-qe-dyshohet-se-dhunoi-dhe-kanosi-me-arme-bashkeshorten",
+    "https://euronews.al/dhunoi-dhe-kanosi-me-arme-bashkeshorten-ne-palase-arrestohet-40-vjecari-nga-tirana/",
+    "Euronews Albania", "🇦🇱", "Shoqëri", "2026-08-23T18:16:00+02:00",
+    "Dhunoi dhe kanosi me armë bashkëshorten në Palasë, arrestohet 40-vjeçari nga Tirana",
+    "Policia sekuestroi një pistoletë në vilën e kompleksit turistik dhe municion luftarak gjatë kontrollit të banesës së 40-vjeçarit në Tiranë.",
+    "<p>Një 40-vjeçar nga Tirana, i identifikuar si Elvis Kosova, është arrestuar në flagrancë në Palasë, pasi dyshohet se ka dhunuar dhe kanosur me armë bashkëshorten e tij në një vilë të një kompleksi turistik të zonës, raporton Euronews Albania, duke cituar njoftimin e policisë. Arrestimi në flagrancë u bë i mundur falë ndërhyrjes së menjëhershme të patrullave pas sinjalizimit.</p>"
+    "<p>Ngjarja u raportua rreth orës 13:40 të së dielës si konflikt familjar. Menjëherë në vendngjarje kanë shkuar shërbimet e Patrullës së Zonës dhe forca shtesë të Stacionit të Policisë së Dhërmiut. Sipas policisë, ndërhyrja e menjëhershme e shërbimeve bëri të mundur neutralizimin e situatës dhe parandalimin e përshkallëzimit të mëtejshëm të konfliktit, një element që institucioni e thekson si provë të reagimit të shpejtë në raste me rrezik për jetën.</p>"
+    "<p>Gjatë ndërhyrjes në banesë, forcat e rendit gjetën dhe sekuestruan një armë zjarri, pistoletë, e cila dyshohet se është përdorur për të kanosur bashkëshorten. Ndërsa gjatë kontrollit të banesës së 40-vjeçarit në Tiranë, me mbështetjen e Drejtorisë Vendore të Policisë Tiranë, u gjetën dhe u sekuestruan edhe dy pako me municion luftarak dhe dy krehra me fishekë, gjetje që e rëndon portofolin e provave materiale kundër të arrestuarit.</p>"
+    "<p>«Nga verifikimet paraprake rezulton se shtetasi E. K. dyshohet se ka dhunuar dhe kanosur bashkëshorten e tij. Ndërhyrja e menjëhershme e shërbimeve të Policisë bëri të mundur neutralizimin e situatës dhe parandalimin e përshkallëzimit të mëtejshëm të konfliktit», njofton policia, e cila thekson se sekuestrimi i armës dhe i municionit u realizua brenda të njëjtës ditë, në dy veprime të koordinuara mes strukturave vendore të Vlorës dhe Drejtorisë Vendore të Policisë Tiranë.</p>"
+    "<p>Deri në mbylljen e raportimit nuk janë bërë publike detaje për gjendjen shëndetësore të bashkëshortes dhe as për rrethanat e plota që i paraprinë konfliktit; këto priten të sqarohen në dokumentimin procedural që vazhdon pas arrestimit në flagrancë, ndërkohë që prokuroria do të vlerësojë edhe ligjërimin e posedimit të armëve dhe të municionit luftarak të sekuestruar.</p>",
+    7.0,
+    "Arrestim në flagrancë për dhunë në familje me armë zjarri, i dokumentuar nga policia dhe i relevant për sigurinë e grave.",
+    [7, 8, 7, 8, 8, 9, 8, 9],
+    "https://euronews.al/wp-content/uploads/2026/08/Screenshot_27.png",
+    1005, 562,
+))
+
+# 4 — Rama/Pogradec video (Euronews Albania, 18:54)
+articles.append(art(
+    4, "rama-zbardh-mbledhjen-7-oreshe-ne-pogradec-besa-prania-besnike-dhe-pasqyra-albania-video",
+    "https://euronews.al/rama-zbardh-mbledhjen-7-oreshe-ne-pogradec-nga-besa-te-pasqyra-albania-video/",
+    "Euronews Albania", "🇦🇱", "Politikë", "2026-08-23T18:54:00+02:00",
+    "Rama zbardh mbledhjen 7-orëshe në Pogradec: Besa, Prania Besnike dhe «Pasqyra Albania» (VIDEO)",
+    "Kryeministri publikoi videon e reflektimeve pas mbledhjes me socialistët, duke premtuar se çdo kërkesë e qytetarit do të ndiqet si «pako postale» në kohë reale.",
+    "<p>Kryeministri Edi Rama ka publikuar në Facebook një video me detaje nga mbledhja rreth shtatë-orëshe me të deleguarit politikë të Partisë Socialiste, kryetarët socialistë të komisioneve parlamentare dhe deputetët e PS-së, e zhvilluar këtë të dielë në Pogradec, raporton Euronews Albania. Videoja vjen pak orë pas mbylljes së takimit dhe zbardh për herë të parë tematikat që u diskutuan me derën e mbyllur.</p>"
+    "<p>Sipas kryeministrit, takimi u zhvillua në kuadër të përgatitjeve për sezonin e ri politik, duke u përqendruar te dokumentet «Besa» dhe «Prania Besnike», si dhe te një ekosistem i ri komunikimi i qeverisë me qytetarët. «Nga Pogradeci, aty ku Lasgushi gjente frymëzimet e veta, aty ku ne u përpoqëm të mblidhnim së bashku reflektimet e një periudhe pushimesh aktive, lidhur me sezonin e ri politik. Kemi diskutuar për Besën, kemi diskutuar për Praninë Besnike, ekosistemin e ri të komunikimit të qeverisë me qytetarin dhe për Pasqyrën Unike, Pasqyra Albania, ku qytetarët do të kenë të pranishme të gjitha institucionet», tha Rama në video.</p>"
+    "<p>Kryeministri u ndal edhe te mënyra e re e trajtimit të kërkesave dhe problematikave të qytetarëve, duke e krahasuar atë me një «pako postale» që mund të ndiqet në kohë reale. «Ambicia është që çdo kërkesë, shqetësim apo hall i qytetarit të jetë një pako postale që ndiqet në kohë reale, nga dërguesi dhe nga ana tjetër shteti, qeveria, institucionet ndjekin përgjegjësitë dhe çdo shkelje afati shihet me lupë», u shpreh ai.</p>"
+    "<p>Ai theksoi se synimi është që qytetari të ketë një komunikim më të drejtpërdrejtë e transparent me administratën, ndërsa institucionet të jenë të detyruara të ndjekin dhe të zgjidhin në kohë kërkesat. Me këtë formulim, testi i vërtetë i «Besës» dhe i «Pasqyrës Albania» do të matet pikërisht nga aftësia e administratës për t'u përgjigjur brenda afateve, tema që pritet ta dominojë axhendën e socialistëve në javët e para të sezonit politik që sapo hyn.</p>",
+    7.4,
+    "Zbulimi i përmbajtjes së mbledhjes programore të kryeministrit me dokumentacion të cituar direkt nga vetë Rama, me ndikim në axhendën qeverisëse.",
+    [8, 7, 8, 9, 7, 9, 8, 9],
+    "https://euronews.al/wp-content/uploads/2026/08/Screenshot_33.png",
+    1005, 562,
+))
+
+# 5 — El Niño (Euronews Albania, 16:48)
+articles.append(art(
+    5, "el-nino-mund-te-jete-me-i-fuqishmi-i-regjistruar-2027-kercenohet-te-thyeje-rekordin-e-nxehtesise",
+    "https://euronews.al/2027-pritet-te-thyeje-rekordin-e-temperaturave-fenomeni-el-nino-mund-te-jete-me-i-rrezikshem/",
+    "Euronews Albania", "🌍", "Botë", "2026-08-23T16:48:00+02:00",
+    "El Niño mund të jetë më i fuqishmi i regjistruar; 2027 kërcënohet ta thyejë rekordun e nxehtësisë",
+    "Shërbimi Meteorologjik britanik paralajmëron një sinjal të paprecedentë në Paqësor, me rrezik moti ekstrem dhe rritje çmimesh të ushqimeve në tregjet globale.",
+    "<p>Fenomeni El Niño që po zhvillohet në Oqeanin Paqësor mund të jetë më i fuqishmi i regjistruar në kohët moderne, ka paralajmëruar Shërbimi Meteorologjik britanik, i cili thekson se efekti i tij, i kombinuar me ngrohjen globale të shkaktuar nga aktiviteti njerëzor, mund ta bëjë vitin 2027 më të nxehtin në historinë e matjeve, raporton Euronews Albania.</p>"
+    "<p>Meteorologët britanikë thonë se nuk kanë parë më parë një sinjal kaq të fuqishëm të fenomenit në parashikimet e tyre. Aktualisht temperatura e sipërfaqes së detit në një zonë kyçe të Paqësorit është mbi dy gradë mbi normën, ndërsa në disa zona ujërat në thellësinë 100 metra rezultojnë rreth tetë gradë më të ngrohta se zakonisht. Kjo rezervë e madhe nxehtësie mund ta fuqizojë edhe më shumë fenomenin gjatë muajve të ardhshëm, duke e kthyer prognozën në një nga skenarët më agresivë të viteve të fundit.</p>"
+    "<p>El Niño ndodh zakonisht çdo dy deri në shtatë vjet dhe zgjat rreth një vit. Ai krijohet kur erërat mbi Paqësor dobësohen ose ndryshojnë drejtim, duke lejuar që ujërat e ngrohta të zhvendosen drejt lindjes; nxehtësia kalon më pas nga oqeani në atmosferë, duke rritur temperaturat globale dhe duke ndryshuar shpërndarjen e reshjeve. Për Mbretërinë e Bashkuar dhe Evropën Veriperëndimore parashikohet një vjeshtë më e lagësht dhe me stuhi, ndryshim që prek drejtpërdrejt transportin, bujqësinë dhe sigurinë civile.</p>"
+    "<p>Në të kaluarën fenomene të tilla kanë dëmtuar prodhimin e kafesë, orizit dhe kakaos, duke ushqyer valë rritjeje të çmimeve të ushqimeve në tregjet botërore. Organizata e Kombeve të Bashkuara për Ushqimin dhe Bujqësinë paralajmëron se dhjetëra milionë njerëz mund të përballen me pasiguri të rëndë ushqimore. Sipas ekspertëve, nxehtësia e çliruar nga oqeanet mund ta bëjë 2027-n edhe më të nxehtë se rekordi i vendosur në 2024-n, vit që deri sot mbahet si më i nxehti i regjistruar.</p>",
+    7.2,
+    "Paralajmërim i mirëfilltë shkencor me impakt global dhe ndikim i mundshëm ekonomik për çmimet e ushqimeve.",
+    [7, 6, 8, 5, 6, 8, 8, 9],
+    "https://euronews.al/wp-content/uploads/2026/08/Screenshot_43-1.jpg",
+    1005, 562,
+))
+
+# 6 — Newcastle–Liverpool (The Guardian)
+articles.append(art(
+    6, "szoboszlai-shpeton-liverpoolin-me-penallti-ne-minutat-shtese-newcastlen-dhe-liverpoolin-barazojne-2-2",
+    "https://www.theguardian.com/football/2026/aug/23/newcastle-liverpool-premier-league-match-report",
+    "The Guardian", "⚽", "Sport", "2026-08-23T19:43:00+02:00",
+    "Szoboszlai shpëton Liverpoolin me penallti në minutat shtesë; Newcastle barazon 2–2 në një ndeshje të çmendur",
+    "Jaissle nisi me golat e Osulës dhe Willockut në St James' Park, por Muñoz u rrëzua në zonë dhe hungarezi shenjoi 2–2 në minutën e katërt të zbatimit.",
+    "<p>Liverpooli ka shpëtuar një pikë në St James' Park falë një goditje dënimi të Dominik Szoboszlaï në minutën e katërt të zbatimit, që e mbylli 2–2 sfidën e javës së parë të Premier Ligës kundër Newcastle United, raporton The Guardian në raportin e saj të ndeshjes.</p>"
+    "<p>Newcastle shkoi në avantazh herët: pas një gabimi të Ryan Gravenberch në kufi të zonës, i riu danez William Osula u kthye me shpejtësi dhe asistoi për Anthony Elanga, i cili shenjoi për 1–0 vetëm pesë minuta pas fillimit. Në pjesën e dytë Joe Willock dyfishoi me një goditje të kurvez nga jashtë zone, pas një kalimi të Jasmin Wissës, i cili kishte shmangur tre lojtarë kundërshtarë në një nga aksionet më të bukura të pasdites.</p>"
+    "<p>Para ndeshjes të dy klubet nderuan Kevin Keeganin, legjendën që veshi fanellën e të dyja klubeve dhe që ndërroi jetë muajin e kaluar, me një banner në Gallowgate End me citatin e tij: «I want people to dream about their football. We should all be dreamers at heart».</p>"
+    "<p>Alexander Isak, i kthyer në Newcastle pas transferimit rekord prej 125 milionë funtesh verën e kaluar, u përshëndet me brohoritje «rat, rat, rat», por buzëqeshi përgjatë ngrohjes dhe la pak gjurmë në lojë, pa asnjë goditje në portë në pjesën e parë. Trajnerët e rinj Matthias Jaissle dhe Andoni Iraola e mbajtën ndeshjen në një ritëm të çmendur presingu, me Jaissle që tri javë pas marrjes së drejtimit ka ringjallur një skuadër pa Anthony Gordon, Sandro Tonali dhe Bruno Guimarães.</p>"
+    "<p>Të gjitha u vendosën në fund: Victor Muñoz u rrëzua në zonë nga Lewis Hall dhe Szoboszlai e dërgoi topin nën traversën e portës nga pika e bardhë. Barazimi ia mohon fitoren e parë Jaissle-t në krye të Newcastle-it, ndërsa Liverpoolit i shpëton një start i vështirë sezoni i ri.</p>",
+    8.0,
+    "Rezultat i drejtpërdrejtë i Premier Ligës me interes të lartë publik, i dokumentuar me raport të plotë ndeshjeje.",
+    [8, 9, 7, 4, 7, 8, 8, 9],
+    "https://i.guim.co.uk/img/media/d6b506adf3a099ad4ff20e779abbd11a09522227/269_73_2464_1972/master/2464.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&p",
+    1200, 630,
+))
+
+# 7 — Norris/Guardian F1
+articles.append(art(
+    7, "norris-fituan-gpin-holandez-me-manevren-e-fundit-verstappen-del-me-aksident-ne-zandvoort",
+    "https://www.theguardian.com/sport/2026/aug/23/lando-norris-kimi-antonelli-george-russell-max-verstappen-crash-f1-dutch-grand-prix",
+    "The Guardian", "🏁", "Sport", "2026-08-23T17:28:00+02:00",
+    "Norris fiton GP-në e Holandës me manevrën e fundit, Verstappen del me aksident në Zandvoort",
+    "McLaren guxoi me ndalimin e vonuar dhe Norrsi e kaloi Mercedes-in 15 xhiro nga fundi; Antonelli u radhit i dyti dhe Russell i treti në garën e fundit të Zandvoortit.",
+    "<p>Lando Norris e ka fituar Grand Prix-n e Holandës në Zandvoort, garën e fundit të këtij qarku historik në kalendarin e Formula 1, duke e mposhtur liderin e kampionatit Kimi Antonelli, i cili u radhit i dyti përpara George Russell në të tretin, raporton The Guardian në raportin e saj të garës.</p>"
+    "<p>Gara u shënua nga aksidenti dramatik i Max Verstappen-it në xhiron e hapjes: piloti vendor i Red Bull preku me rrotë vijën e bardhë të lagësht brenda kthesës së fundit, humbi pjesën e pasme dhe u përplas me forcë në barrierat e jashtme, për t'u rikthyer më pas në murin e brendshëm me të katër anët e makinës të shembura. Verstappen dali i padëmtuar dhe e mori përsipër gabimin, ndërsa gara u ndërpre dhe u rinis.</p>"
+    "<p>Norris dhe McLaren hodhën zarret me një ndalim të vonuar dhe dolën në pistë me goma dukshëm më të freskëta. Kur Antonelli vuajti nga humbja e kapjes së gomave, britaniku e sulmoi dhe e kaloi me 15 xhiro nga fundi, një manovër vendimtare që i dha fitoren e dytë radhazi. «The fight is still on, let's keep going!», deklaroi ai pas flamurit me kuadrate, mesditën e një publiku të plotë që i dha lamtumirën e madhe Zandvoortit.</p>"
+    "<p>Megjithatë diferenca në klasifikimin e përgjithshëm mbetet kolosale: Norris është 83 pikë pas Antonellit. Historia megjithatë i jep shpresë: pas Zandvoortit të vitit të kaluar Verstappen nisi një rikthim epok nga minus 104 pikë, që e çoi deri në dy pikë distancë nga titulli në fund të sezonit, skenar që McLaren-i beson se mund të përsëritet në drejtim të kundërt këtë vit.</p>",
+    7.8,
+    "Fitore e madhe F1 me ndryshime në garën për titull dhe finalja e fundit e Zandvoortit në kalendar.",
+    [8, 9, 7, 4, 7, 8, 8, 9],
+    "https://i.guim.co.uk/img/media/d0cb964d3c00a1ae8e57812417d7a7f689b78bf8/25_309_3755_3005/master/3755.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&p",
+    1200, 630,
+))
+
+# 8 — Carse/Guardian
+articles.append(art(
+    8, "brydon-carse-ne-pranga-jashte-nje-klubi-te-nates-ne-derby-ecb-hap-hetime-oficielle",
+    "https://www.theguardian.com/sport/2026/aug/23/brydon-carse-handcuffed-by-police-outside-nightclub-prompting-ecb-investigation",
+    "The Guardian", "🏏", "Sport", "2026-08-23T18:04:00+02:00",
+    "Bowleri i Anglisë Brydon Carse në pranga jashtë klubit të natës në Derby, ECB hap hetim",
+    "Videoja e përhapur në rrjetet sociale e tregonte bowler-in e Durhamit në prangat e policisë; ai u lirua pa akuzë, ndërsa Potts dhe Stokes shihen shkurtimisht në pamje.",
+    "<p>Bowler-i i Anglisë dhe i Durhamit Brydon Carse u shfaq të dielën në video të përhapura në rrjetet sociale ndërsa polica e Derbit e dërgonte me pranga jashtë një klubi të natës, raporton The Guardian. Ai u lirua pa akuzë, por Federata Angleze e Kriketit (ECB) ka konfirmuar se ka hapur hetim për incidentin.</p>"
+    "<p>«Ne jemi në dijeni për një incident që raportohet se ka ndodhur të mbrëmjen në Derby dhe po hetojmë aktualisht», thuhet në deklaratën e ECB-së, e cila premton një përditësim sa herë të jetë e mundur. Në pamje shihen shkurtimisht edhe Matthew Potts dhe Ben Stokes, ndërsa incidenti ndodhi pasi Durham, kryesuesja e Divizionit të Dytë, e kishte mposhtur Derbyshire-n në tri ditë në Kampionatin e Qarqeve të shtunën.</p>"
+    "<p>Carse nuk ishte në detyrë me Anglinë në momentin e incidentit, por është nën kontratë qendrore dhe figuron në skuadrën për Testin e dytë në Lord's. Ai ishte goditësi më produktiv i Anglisë në serinë Ashes, por një dëmtim e ka mbajtur jashtë fushe këtë sezon; përpara Testit të Headingleyt kundër Pakistanit u lëshua të luante me Durhamin. Në vitin 2024 ai ka shërbyer një ndalim tre-mujor për shkelje historike basti mes 2017 dhe 2019.</p>"
+    "<p>Rasti erdhi vetëm pesë ditë pasi kapiteni Joe Root kërkoi nga lojtarët të jenë «role modele të mira», dhe pas një serie incidentesh jashtë fushe: java e njohur e pijes në Noosa gjatë Ashes-it, rasti i Harry Brook i grushtuar nga një roje klubi të natës në Wellington në nëntor, dhe pezullimi i Stokes dhe Gus Atkinson për shkelje të orarit të natës në Testin e dytë kundër Zelandës së Re këtë verë. Vetë Stokes ka pranuar publikisht se kriketi ka një kulturë alkooli, duke e cilësuar këtë si problem që vjen nga kriketi i klubeve.</p>",
+    7.4,
+    "Incident disiplinor i sportistit të njohur ndërkombëtar me hetim zyrtar federate, i verifikuar me deklaratën e ECB-së.",
+    [6, 8, 6, 3, 8, 8, 8, 9],
+    "https://i.guim.co.uk/img/media/3f96fa2388d6f8b6ad9ab5579c520b30a37fe28b/343_0_5295_4236/master/5295.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=9aba956220f1c7b9b8856c33ed08f2bf",
+    1200, 630,
+))
+
+# 9 — Canada trade war analysis (Guardian Business)
+articles.append(art(
+    9, "kanada-shba-perplasje-tregtare-e-plote-carney-premton-tarifa-dollar-per-dollar",
+    "https://www.theguardian.com/us-news/2026/aug/23/canada-us-collapsed-trade-talks-negotiation-breakdown-analysis",
+    "The Guardian", "🌐", "Ekonomi", "2026-08-23T19:24:00+02:00",
+    "Kanada–SHBA, përplasje tregtare e plotë: Carney premton tarifa «dollar për dollar»",
+    "Uashingtoni vendosi tarifa 50% mbi mallrat kanadeze prej 20 miliardë dollarësh; analistët e quajnë kolapsin e negociatave paralajmërim për të gjitha vendet.",
+    "<p>Negociatat tregtare mes Kanadasë dhe Shteteve të Bashkuara janë shembur, duke i futur të dy vendet në një luftë tregtare të plotë, raporton The Guardian në një analizë të publikuar të shtunën. Pak para afatit të shtunës në orën 05:00 sipas Europës, Uashingtoni vendosi tarifa 50% mbi mallra kanadeze me vlerë 20 miliardë dollarë.</p>"
+    "<p>Kryeministri Mark Carney deklaroi të shtunën se e ka refuzuar marrëveshjen për shkak të kërkesave të minutës së fundit amerikane, të cilat sipas tij do të cenuonin sovranitetin e Kanadasë. «Ata kërkuan shumë dhe ofruan pak … ti je në luftë kur të sulmojnë, dhe ne u sulmuam», tha ai, duke u zotuar se do t'i përgjigjet tarifave amerikane «dollar për dollar».</p>"
+    "<p>Andrea Lawlor, profesore e shkencave politike në McMaster University të Ontariosë, e quan kolapsin një paralajmërim për të gjitha vendet e botës. «Pavarësisht afërsisë së relacionit historik, administrata amerikane ka sinjalizuar se tani i ka prioritet interesat e veta mbi çfarëdo koordinimi ekonomik global apo harmonie», tha ajo për median britanike.</p>"
+    "<p>Shembulli kryesor që përdor Shtëpia e Bardhë për justifikimin e tarifave janë ndalesat kanadeze mbi shitjen e alkoolit amerikan në tetë prej dhjetë provincave dhe në të tre territoret, masë efektive pas raundit të parë tarifor të fillvitit 2025. Kolapsi erdhi si shok, pasi Trump kishte pretenduar të marten se afati po shtyhej tri ditë dhe se një «marrëveshje shumë e ndershme për të dy palët» ishte gati e nënshkruar; më pas ai shpërtheu publikisht me mesazhin «No more!!!».</p>"
+    "<p>Për audiencën shqiptare lufta tregtare më e madhe e botës prek drejtpërdrejt çmimet e importit, tregjet financiare dhe fluksin investues global, në një kohë kur edhe Bashkimi Evropian po ripunon marrëdhëniet e veta tregtare me Uashingtonin dhe kur çdo eskalacion i ri reflektohet menjëherë në tregjet e energjisë dhe të mallrave.</p>",
+    8.0,
+    "Zhvillim i madh ekonomiko-tregtar global me tarifa 50% dhe reagime zyrtare të cituara direkt nga Carney.",
+    [8, 8, 9, 4, 8, 8, 8, 9],
+    "https://i.guim.co.uk/img/media/6fca08f3a759225a7da5912b393aadcad7c6b4e7/0_0_4724_3780/master/4724.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=9c91fd8edbb00f55fddce795b22fe159",
+    1200, 630,
+))
+
+# 10 — XRP (24/7 Wall St.)
+articles.append(art(
+    10, "xrp-rikthehet-mbi-150-dollare-me-fitoren-javore-me-te-madhe-ne-21-mujore-clarity-act-celesi-per-2-dollare",
+    "https://247wallst.com/investing/cryptocurrency/2026/08/23/should-you-take-profits-on-xrp-after-a-50-week-we-asked-2-ai-models/",
+    "24/7 Wall St.", "₿", "Ekonomi", "2026-08-23T12:34:00-04:00",
+    "XRP me rritjen javore më të madhe në 21 muaj; vota e CLARITY Act më 15 shtator çelësi drejt 2 dollarëve",
+    "Monedha u rikthye nga 0.99 dollarë më 11 gusht në rreth 1.50 dollarë, ndërsa ETF-të spot tërheqën 39.78 milionë dollarë, java më e fortë që nga maji.",
+    "<p>XRP po përfundon javën me fitoren e saj më të madhe javore në 21 muaj, pasi u rikthye nga një minimum prej rreth 0.99 dollarësh më 11 gusht në nivele rreth 1.50 dollarësh, një rritje mbi 50%, raporton 24/7 Wall St., duke u referuar të dhënave të SoSoValue. Monedha tregtohet rreth 1.50 dollarësh, me maksimum 24-orësh prej 1.68 dollarësh dhe rritje prej 1.15% brenda ditës.</p>"
+    "<p>Fondet e shkëmbimit spot për XRP tërheqën 39.78 milionë dollarë gjatë javës, java e tyre më e fortë që nga maji, në një kthim të qartë nga flukset gati zero të fillimit të gushtit. Rikuperimi nuk është histori vetëm e XRP-së: Bitcoin fitoi rreth 23% në të njëjtën periudhë, çka sugjeron një rikthim të gjerë të tregut të kriptomonedhave të lidhur me likuiditetin e përmirësuar, dhe jo një lëvizje e izoluar e vetëm monedhës së Ripple-it.</p>"
+    "<p>Katalizatori kryesor ende i pazgjidhur mbetet CLARITY Act në Senatin amerikan. Vota procedurale e cloture është caktuar për 15 shtator dhe kërkon 60 vota për të kaluar; miratimi i saj do t'i jepte tregut qartësinë regulatore që sipas analistëve mund ta çonte XRP-në drejt nivelit 2 dollarësh, ndërsa dështimi rrezikon të shkaktojë korrigjim të mprehtë pas rritjes së tanishme.</p>"
+    "<p>Modelet e inteligjencës artificiale ChatGPT dhe Claude, të pyetur nga media, propozojnë të njëjtën strukturë me argumente të ndryshme: shitje e pjesshme 20–30% në nivelet aktuale, mbajtje e pjesës tjetër për një lëvizje të mundshme drejt zonës së rezistencës 1.65–1.70 dollarësh, me qëndrim mbrojtës nëse çmimi bie poshtë intervalit 1.30–1.40 dollarësh. ChatGPT thekson shpejtësinë e lëvizjes dhe rezistencat e afërta, ndërsa Claude e peshon më rëndë papërfundimin e procesit ligjor. Analizat e tyre mbeten vlerësime spekuluese dhe jo rekomandim investimi.</p>",
+    7.4,
+    "Lëvizje e fortë e tregut kripto me të dhëna të verifikuara ETF dhe katalizator konkret rregulator (CLARITY Act) me datë fikse.",
+    [7, 8, 7, 4, 7, 7, 7, 8],
+    "https://247wallst.com/wp-content/uploads/2026/04/shutterstock-2296695173-huge-licensed-scaled.jpg",
+    1536, 1024,
+))
+
+# 11 — Cat in the Hat (BBC)
+articles.append(art(
+    11, "moda-virale-cat-in-the-hat-ne-tiktok-video-te-falsa-nga-ai-dhe-frike-reale-tek-adoleshentet",
+    "https://www.bbc.co.uk/news/articles/cwyqy29jn74o",
+    "BBC News", "🌐", "Teknologji", "2026-08-23T20:38:00+02:00",
+    "Moda virale «Cat in the Hat» në TikTok: video të falsa nga AI dhe frikë reale tek adoleshentët",
+    "Një postim ka mbledhur 14.6 milionë shikime në tri javë; policia e Irlandës dhe e MB-së ka dalë publikisht për të konfirmuar se imazhet janë të falsa.",
+    "<p>Një valë postimesh virale në TikTok me personazhin Cat in the Hat, herë të gjeneruara me inteligjencë artificiale e herë me persona me kostum, ka krijuar frikë dhe konfuzion reale tek adoleshentët në Mbretërinë e Bashkuar dhe Irlandë, raporton BBC. Fenomeni ka bërë që forcat e policisë të dy vendeve të dalin publikisht për të konfirmuar se pamjet janë të falsa.</p>"
+    "<p>Një postim me kostumin origjinal të filmit, i shoqëruar me tekstin «Ndihmë, çfarë të bëj?», ka mbledhur 14.6 milionë shikime në vetëm tri javë, ndërsa komentuesit pyesin «Pse është i taksonomizuar?» dhe përhapin teori konspirative se aktori Mike Myers është bllokuar brenda kostumit. Llogari të tjera të hapura në ditët e fundit publikojnë video me persona me kostum që vallëzojnë me tekste të tipit «Kent, po vij. Mbylli dyert».</p>"
+    "<p>Shumica e imazheve të gjeneruara me AI u përqendruan në qarqet irlandeze të Limerickut dhe Wexfordut, ku video të dridhura pretendonin se personazhi po endej në rrugë. Policia irlandeze Gardaí në Wexford i quajti shpejt të rreme dhe konfirmoi se ishin krijuar me inteligjencë artificiale. Në Angli, South Yorkshire Police mohoi pretendimet për një «Cat in the Hat vrasës» dhe këshilloi verifikimin e llogarive zyrtare: «Macja nuk ka dalë ende nga kapeja… Mos u besoni çdo gjese që lexoni në rrjetet sociale», u shpreh një zëdhënës. U identifikua edhe një postim i falsifikuar në Facebook që vishte emrin e një force policore që nuk ekziston.</p>"
+    "<p>Vetë moda lindi më 8 gusht, kur faqja pop-kulturore DiscussingFilm njoftoi se kostumi origjinal i filmit të vitit 2003 do të shitej në ankand nga Propstore, postim me 10 milionë shikime; loti pritet të sjellë nga 12 deri në 24 mijë dollarë në një ankand me 1,400 pjesë memorabilie filmike. BBC raporton edhe një rast ku një vajzë 14-vjeçare kishte planifikuar të shkonte në një «takim» të organizuar në një pyll pranë Galashielsit, skenar që policia e trajton si sinjal klasik alarmi për rreziqe reale pas modave virale.</p>",
+    6.6,
+    "Fenomen viral me pasoja reale sigurie për adoleshentët dhe përfshirje direkte të policive, i dokumentuar nga BBC.",
+    [7, 7, 7, 3, 7, 8, 8, 9],
+    "https://ichef.bbci.co.uk/ace/branded_news/1200/cpsprodpb/d6d0/live/d9818a60-9f0e-11f1-bca9-4d339be997b1.jpg",
+    1200, 675,
+))
+
+# 12 — Amodei (AOL/Business Insider)
+articles.append(art(
+    12, "amodei-publiku-do-ta-besoje-ai-vetem-kur-ajo-te-sheroje-kancerin-real",
+    "https://www.aol.com/articles/anthropic-ceo-dario-amodei-says-163038000.html",
+    "Business Insider", "🤖", "Teknologji", "2026-08-23T18:30:00+02:00",
+    "Amodei: Publiku do ta besojë AI vetëm kur ajo të «shërojë kancerin real»",
+    "Kryeshefi i Anthropic pranon se besueshmëria e AI është problem i madh dhe premton rezultate të hershme mjekësore brenda muajsh, ndërsa LeCun kërkon modele të hapura.",
+    "<p>Kryeshefi ekzekutiv i Anthropic, Dario Amodei, ka pranon hapur se publiku nuk i beson inteligjencës artificiale dhe se industria mund ta fitojë besimin vetëm duke dëshmuar përfitime shkencore reale, raporton Business Insider përmes AOL. Mesazhi u publikua të shtunën në një postim të rrallë personal në platformën X.</p>"
+    "<p>«Në këtë pikë, thënia se AI do të shërojë kancerin është më shumë kliše sesa frymëzim dhe shumica e njerëzve e konsiderojnë mashtruese», shkroi Amodei. «Kritika më e saktë ndaj kompanive të AI, përfshirë Anthropic-un, është se ne nuk kemi dëshmuar ende premtimet e mëdha për të mirën e botës.» Ai refuzoi edhe idenë se retorika e vet e paralajmërimeve ka helmuar besimin publik: «Nuk jam dakord që mesazhet e mia kanë qenë joproporcionalisht negative».</p>"
+    "<p>Konteksti është i rëndë: një studim i Pew Research Center tregon se rreth gjysma e amerikanëve ndjehen «më të shqetësuar se të emocionuar» nga prania në rritje e AI në jetën e përditshme, ndërsa industria përballet me reagime ndaj qendrave të mëdha të dhënash, padira për të drejtat e autorit dhe tronditje në tregun e punës. Vetë Amodei ka paralajmëruar më parë se modelet e reja sjellin «rreziqe shumë reale» për kibernetikën, financat dhe infrastrukturën kritike, dhe se AI mund t'i zhdukë gjysmën e punëve fillestare.</p>"
+    "<p>Si përgjigje praktike, Anthropic po e zgjeron punën në fushat biologjike e mjekësore: «Shpresojmë të kemi rezultate të jashtëzakonshme në vitet e ardhshme dhe disa shkëlqime të hershme brenda muajsh», u shpreh ai. Yann LeCun, ish-shkencëtari kryesor i AI në Meta, iu përgjigj se e vetmja rrugë e përparë është një AI «i gjerë, i ndarë dhe i hapur»: «Ne kemi nevojë për AI të larmishme për të njëjtin arsyetim pse kemi nevojë për shtyp të larmishëm». Arkitektja e OpenAI Angel Brodin e kundërshtoi edhe tezën e Amodeit, duke kujtuar se edhe farmacia, pavarësisht sukseseve shëndetësore, mbetet një nga industritë më të pabesueshme për publikun.</p>",
+    7.2,
+    "Deklaratë e freskët e një nga udhëheqësve kryesorë të AI-së globale, me citate direkte dhe kontekst të sondazhit Pew.",
+    [7, 7, 7, 4, 7, 7, 7, 9],
+    "https://hermes.media.static.aol.com/media/2026/08/16/205c1599-33e7-3a60-80da-1cc48c4ee688/83fb269d-c5d7-4bf2-b672-c8cf433a0edb.jpg",
+    1280, 720,
+))
+
+# 13 — TechCrunch copyright explainer
+articles.append(art(
+    13, "a-eshte-legal-trainimi-i-modeleve-te-ai-me-libra-te-mbrojtur-padja-15-miliarde-qe-ndryshoi-rregullat",
+    "https://techcrunch.com/2026/08/23/is-it-legal-to-train-ai-models-on-copyrighted-books-its-complicated/",
+    "TechCrunch", "💡", "Teknologji", "2026-08-23T16:00:00+02:00",
+    "A është legal trainimi i modeleve të AI me libra të mbrojtur? Padia 1.5 miliardë dollarëshe që ndryshoi rregullat",
+    "Gjykata e dënoi Anthropic-un për kopjet piratike, por e shpalli trainimin ligjor; avokatët thonë se e drejta e autorit mbetet bllokuar në legjislacionin e vitit 1976.",
+    "<p>A lejohen modelet e inteligjencës artificiale të trajnohen me libra të mbrojtur me të drejta autori? Pyetja mbetet një nga më të komplikuara të industrisë, raporton TechCrunch në një analizë të shtunën, në një kohë kur shumica e autorëve kanë kontribuar pa dijeni e pa pagesë në krijimin e mjeteve që kërcënojnë vetë ekzistencën e tyre profesionale.</p>"
+    "<p>Viti i kaluar solli një nga vendimet e para historike: gjykatësi federal William Alsup urdhëroi Anthropic-un ta paguajë 1.5 miliardë dollarë grupit të shkrimtarëve, por në thelb ai e shpalli trainimin e modeleve ligjor; ajo që u dënua ishte përdorimi i kopjeve piratike të librave, jo vetë akti i trainimit. «Ashtu si çdo lexues që aspironte të bëhej shkrimtar, LLM-të e Anthropic-u u trajnuan me vepra jo për t'i përsëritur apo zëvendësuar ato, por për të kthyer një kthesë të vështirë dhe për të krijuar diçka të ndryshme», shkroi gjykatësi në aktgjëni, duke krahasuar asimilimin e teksteve nga një model me studimin e literaturës nga një shkrimtar.</p>"
+    "<p>Avokatja Cathy Gellis, specialiste e pronës intelektuale, e vlerëson vendimin si lajm të mirë për trainimin e AI: «E drejta e autorit mbështetet te kopjimi, por jo te përdorimi apo përvoja e veprës, konsumimi i veprës, leximi i veprës», i tha ajo TechCrunch. Ajo shton se kompleksiteti i fushës ushqehet edhe nga emocionet e forta, «për dhe kundër», që shoqërojnë çdo debat publik mbi AI-në.</p>"
+    "<p>Niveli i gjobës megjithatë nuk e tremb industrinë: siç vëren analiza, 1.5 miliardë dollarë janë shumë pak për një kompani që parashikon rreth 200 miliardë dollarë të ardhura vjetore deri në vitin 2028. Problemi themelor mbetet ligjor: e drejta e autorit amerikane nuk është përditësuar që nga viti 1976, duke e lënë gjyqtarët ta interpretojnë një legjislacion 50-vjeçar për çështje që do ta formësojnë të ardhmen e industrisë së AI-së dhe të tregut botëror të përmbajtjes.</p>",
+    7.0,
+    "Analizë e thelluar teknologjiko-ligjore mbi çështjen më të nxehtë të AI-së, me vendime gjyqësore të dokumentuara dhe citate direkt.",
+    [7, 6, 7, 4, 7, 8, 8, 9],
+    "https://techcrunch.com/wp-content/uploads/2021/06/GettyImages-1303811813.jpg?resize=1200,749",
+    1200, 749,
+))
+
+
+def main():
+    assert len(articles) == 13
+    with open("data/auto-articles/2026-08-23T21.json", "w", encoding="utf-8") as f:
+        json.dump(articles, f, ensure_ascii=False, indent=2)
+    print(f"Wrote {len(articles)} articles to data/auto-articles/2026-08-23T21.json")
+
+
+if __name__ == "__main__":
+    main()
