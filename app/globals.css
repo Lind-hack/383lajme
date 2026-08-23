@@ -11031,3 +11031,162 @@ header[data-overlay="true"] .nav-search-btn { color: rgba(255, 255, 255, 0.9); }
   .spot-lead:hover .spot-cover img,
   .spot-item:hover .spot-thumb img { transform: none; }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   LAJMET E FUNDIT — the front page's closing shortlist
+   Ten dispatches, each large enough to read and to recognise a photograph in.
+   Replaces five category sub-lists of 60px thumbnails and 15px headlines.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.dispatch-count {
+  padding: 3px 10px;
+  border: 1px solid rgba(255, 68, 34, 0.2);
+  border-radius: var(--radius-pill);
+  background: rgba(255, 68, 34, 0.08);
+  color: var(--color-orange);
+  font-size: 11px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.dispatch-rows {
+  display: flex;
+  flex-direction: column;
+}
+
+.dispatch-row {
+  display: grid;
+  grid-template-columns: 34px 168px minmax(0, 1fr);
+  gap: 18px;
+  align-items: center;
+  padding: 16px 14px;
+  border-bottom: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  color: var(--color-ink);
+  text-decoration: none;
+  transition:
+    background-color var(--duration-base) var(--ease-out),
+    transform var(--duration-base) var(--ease-out);
+}
+.dispatch-rows > *:last-child .dispatch-row { border-bottom: 0; }
+
+.dispatch-no {
+  align-self: start;
+  padding-top: 2px;
+  font-size: 15px;
+  font-weight: 850;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+  opacity: 0.85;
+}
+
+/* The photograph carries the row. At 60px nothing in a news picture is
+   identifiable; at this size a face or a place is. */
+.dispatch-thumb {
+  position: relative;
+  display: block;
+  aspect-ratio: 16 / 11;
+  overflow: hidden;
+  border-radius: 12px;
+}
+.dispatch-thumb img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 520ms var(--ease-out);
+}
+
+.dispatch-body { display: block; min-width: 0; }
+
+.dispatch-cat {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+  font-size: 10px;
+  font-weight: 850;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.dispatch-cat i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+.dispatch-title {
+  display: -webkit-box;
+  color: var(--color-ink);
+  font-size: 17px;
+  font-weight: 800;
+  line-height: 1.32;
+  letter-spacing: -0.02em;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.dispatch-excerpt {
+  display: -webkit-box;
+  margin-top: 5px;
+  max-width: 74ch;
+  color: #5C554E;
+  font-size: 13.5px;
+  font-weight: 500;
+  line-height: 1.5;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.dispatch-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+  margin-top: 10px;
+  min-width: 0;
+}
+/* A masthead breaking across two lines ("Euronews / Albania") reads as two
+   sources. It wraps to the next line whole or not at all. */
+.dispatch-meta > * { white-space: nowrap; }
+.dispatch-time {
+  color: #7C736B;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .dispatch-row:hover {
+    background: rgba(17, 17, 17, 0.025);
+    transform: translateX(3px);
+  }
+  .dispatch-row:hover .dispatch-thumb img { transform: scale(1.05); }
+}
+
+@media (max-width: 860px) {
+  .dispatch-row { grid-template-columns: 26px 128px minmax(0, 1fr); gap: 13px; padding: 14px 10px; }
+  .dispatch-title { font-size: 15.5px; }
+  /* The summary is the first thing to go: on a narrow column the headline and
+     the picture are what a reader is choosing between. */
+  .dispatch-excerpt { display: none; }
+}
+
+@media (max-width: 560px) {
+  .dispatch-row { grid-template-columns: 108px minmax(0, 1fr); gap: 12px; padding: 12px 4px; }
+  /* The rank is decoration once the row is this narrow, and it costs a column
+     the headline needs more. */
+  .dispatch-no { display: none; }
+  .dispatch-title { font-size: 15px; -webkit-line-clamp: 3; }
+  .dispatch-cat { font-size: 9.5px; margin-bottom: 5px; }
+  .dispatch-meta { margin-top: 8px; gap: 8px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dispatch-row,
+  .dispatch-thumb img { transition: none; }
+  .dispatch-row:hover { transform: none; }
+  .dispatch-row:hover .dispatch-thumb img { transform: none; }
+}

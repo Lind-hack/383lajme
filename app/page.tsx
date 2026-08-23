@@ -144,7 +144,10 @@ export default async function HomePage() {
     [...njoftimeArticles, ...mostRead].map((a) => a.id)
   );
   for (const id of kryesoreTopIds) usedIds.add(id);
-  const listArticles = nonHero.filter((a) => !usedIds.has(a.id)).slice(0, 20);
+  // Ten, not twenty. The tail of the front page is a shortlist; at twenty it
+  // was five category sub-lists of 60px thumbnails that readers could not
+  // actually read. DispatchList caps this itself too, so the two cannot drift.
+  const listArticles = nonHero.filter((a) => !usedIds.has(a.id)).slice(0, 10);
 
   // Compared against the canonical label: sanitizeArticle has already folded
   // "Politikë", "Siguri" and "Shoqëri" onto Kosovë by the time an article gets

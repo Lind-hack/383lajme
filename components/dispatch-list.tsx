@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useState } from "react";
+import { motion, useReducedMotion } from "framer-motion";
 import Link from "next/link";
 import { type Article } from "@/lib/mock-data";
 import TimeAgo from "./time-ago";
@@ -13,208 +14,101 @@ interface DispatchListProps {
   articles: Article[];
 }
 
-interface ListItemProps {
-  article: Article;
-  index: number;
-  catColor: string;
-}
+/** The tail of the front page is a shortlist, not an archive. */
+const MAX_ITEMS = 10;
 
-function ListItem({ article, index, catColor }: ListItemProps) {
+/**
+ * One dispatch: number, photograph, headline, provenance.
+ *
+ * The row used to be 60px of thumbnail and 15px of headline, grouped into a
+ * category heading per one or two stories. At twenty items that produced five
+ * sub-lists of tiny rows, and the photographs were too small to identify
+ * anything in them — the section read as a table of contents rather than as
+ * news, and readers said plainly that it was barely readable.
+ *
+ * It is one list of ten now. Dropping the grouping is what buys the space: a
+ * heading over a group of two costs more room than it returns, and the section
+ * a story belongs to is better said on the row itself, where it also survives
+ * being read out of order.
+ */
+function DispatchRow({ article, index }: { article: Article; index: number }) {
+  const [failed, setFailed] = useState(false);
+  const reduce = useReducedMotion();
+  const color = getCategoryColor(article.category);
+  const hasImage = Boolean(article.imageUrl) && !failed;
+
   return (
     <motion.div
-      initial={{ opacity: 0, x: -16 }}
-      whileInView={{ opacity: 1, x: 0 }}
+      initial={reduce ? { opacity: 0 } : { opacity: 0, y: 14 }}
+      whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-60px" }}
       transition={{ delay: Math.min(index, 6) * STAGGER, duration: DUR.reveal, ease: EASE }}
     >
-      <Link href={`/article/${article.slug}`} style={{ textDecoration: "none", display: "block" }}>
-        <motion.div
-          whileHover={{ background: "rgba(0,0,0,0.025)", x: 4 }}
-          transition={{ duration: DUR.base, ease: EASE }}
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "16px",
-            padding: "14px 16px",
-            borderRadius: "12px",
-            cursor: "pointer",
-            borderBottom: "1px solid #E8E3DB",
-            position: "relative",
-          }}
+      <Link href={`/article/${article.slug}`} className="dispatch-row">
+        <span className="dispatch-no" style={{ color }}>
+          {String(index + 1).padStart(2, "0")}
+        </span>
+
+        {/* The tint sits behind the photograph, not instead of it. A lazy image
+            that has not arrived yet used to leave a flat grey rectangle, and at
+            this size grey reads as a broken image rather than as one still
+            loading. */}
+        <span
+          className="dispatch-thumb"
+          style={{ background: `linear-gradient(135deg, ${color}, rgba(17,17,17,0.55))` }}
         >
-          {/* Left accent bar */}
-          <div
-            style={{
-              position: "absolute",
-              left: 0,
-              top: "8px",
-              bottom: "8px",
-              width: "3px",
-              borderRadius: "2px",
-              background: catColor,
-              opacity: 0.35,
-            }}
-          />
+          {hasImage && (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={article.imageUrl}
+              alt=""
+              loading="lazy"
+              onError={() => setFailed(true)}
+            />
+          )}
+        </span>
 
-          {/* Index number */}
-          <span
-            style={{
-              fontSize: "18px",
-              fontWeight: 800,
-              color: catColor,
-              minWidth: "36px",
-              letterSpacing: "-0.02em",
-              flexShrink: 0,
-              lineHeight: 1,
-            }}
-          >
-            {String(index + 1).padStart(2, "0")}
+        <span className="dispatch-body">
+          <span className="dispatch-cat" style={{ color }}>
+            <i style={{ background: color }} />
+            {article.category}
           </span>
-
-          {/* Thumbnail */}
-          <div
-            style={{
-              width: "60px",
-              height: "60px",
-              borderRadius: "8px",
-              overflow: "hidden",
-              flexShrink: 0,
-            }}
-          >
-            {article.imageUrl ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={article.imageUrl}
-                alt=""
-                aria-hidden="true"
-                style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
-              />
-            ) : (
-              <div
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  background: `linear-gradient(135deg, ${catColor}cc, ${catColor}44)`,
-                }}
-              />
-            )}
-          </div>
-
-          {/* Text */}
-          <div style={{ flex: 1, minWidth: 0 }}>
-            <p
-              style={{
-                fontSize: "15px",
-                fontWeight: 700,
-                lineHeight: 1.35,
-                color: "#111111",
-                margin: 0,
-                display: "-webkit-box",
-                WebkitLineClamp: 2,
-                WebkitBoxOrient: "vertical",
-                overflow: "hidden",
-              }}
-            >
-              {article.title}
-            </p>
-          </div>
-
-          {/* Right side */}
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "flex-end",
-              gap: "6px",
-              flexShrink: 0,
-            }}
-          >
-            <SourceBadge source={article.source} flag={article.sourceFlag} size="sm" bias={article.sourceBias} />
-            <span style={{ fontSize: "11px", color: "#6B6B6B", fontWeight: 500 }}>
-              <TimeAgo iso={article.publishedAt} />
+          <span className="dispatch-title">{article.title}</span>
+          {article.excerpt && <span className="dispatch-excerpt">{article.excerpt}</span>}
+          <span className="dispatch-meta">
+            <SourceBadge
+              source={article.source}
+              flag={article.sourceFlag}
+              size="sm"
+              bias={article.sourceBias}
+            />
+            <span className="dispatch-time">
+              <TimeAgo iso={article.publishedAt} /> më parë
             </span>
-          </div>
-        </motion.div>
+          </span>
+        </span>
       </Link>
     </motion.div>
   );
 }
 
 export default function DispatchList({ articles }: DispatchListProps) {
-  // Ordered unique categories (preserving article order)
-  const categories = [...new Set(articles.map((a) => a.category))];
+  const items = articles.slice(0, MAX_ITEMS);
+  if (items.length === 0) return null;
 
   return (
-    <section>
-      {/* Section header */}
+    <section className="dispatch">
       <SectionLabel
         label="LAJMET E FUNDIT"
         marginBottom={8}
-        right={
-          <span
-            style={{
-              fontSize: "11px",
-              fontWeight: 700,
-              color: "#FF4422",
-              background: "rgba(255,68,34,0.08)",
-              padding: "3px 10px",
-              borderRadius: "100px",
-              border: "1px solid rgba(255,68,34,0.2)",
-            }}
-          >
-            {articles.length}
-          </span>
-        }
+        right={<span className="dispatch-count">{items.length}</span>}
       />
 
-      {/* Categorised groups */}
-      {categories.map((cat) => {
-        const catArticles = articles.filter((a) => a.category === cat);
-        const catColor = getCategoryColor(cat);
-        return (
-          <div key={cat} style={{ marginBottom: "24px" }}>
-            {/* Category sub-header */}
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "10px",
-                marginTop: "28px",
-                marginBottom: "4px",
-              }}
-            >
-              <div
-                style={{
-                  width: "3px",
-                  height: "16px",
-                  background: catColor,
-                  borderRadius: "2px",
-                  flexShrink: 0,
-                }}
-              />
-              <span
-                style={{
-                  fontSize: "10px",
-                  fontWeight: 800,
-                  letterSpacing: "0.2em",
-                  textTransform: "uppercase",
-                  color: catColor,
-                }}
-              >
-                {cat}
-              </span>
-              <div style={{ flex: 1, height: "1px", background: "#E8E3DB" }} />
-            </div>
-
-            {/* Articles in this category */}
-            <div style={{ display: "flex", flexDirection: "column", gap: "2px" }}>
-              {catArticles.map((article, i) => (
-                <ListItem key={article.id} article={article} index={i} catColor={catColor} />
-              ))}
-            </div>
-          </div>
-        );
-      })}
+      <div className="dispatch-rows">
+        {items.map((article, i) => (
+          <DispatchRow key={article.id} article={article} index={i} />
+        ))}
+      </div>
     </section>
   );
 }
