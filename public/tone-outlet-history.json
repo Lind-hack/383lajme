@@ -1,0 +1,1116 @@
+{
+  "version": 1,
+  "outlets": {
+    "Tagesschau": {
+      "country": "Gjermani",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-21",
+      "lastSeen": "2026-08-21",
+      "urls": [
+        "https://www.tagesschau.de/multimedia/audio/audio-3431438.html"
+      ]
+    },
+    "CNN": {
+      "country": "SHBA",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-19",
+      "lastSeen": "2026-08-19",
+      "urls": [
+        "https://www.cnn.com/travel/peaks-of-the-balkans-trail-albania-montenegro-kosovo"
+      ]
+    },
+    "CNN en Español": {
+      "country": "SHBA",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-19",
+      "lastSeen": "2026-08-19",
+      "urls": [
+        "https://cnnespanol.cnn.com/2026/08/19/viajes/picos-balcanes-senderismo-montenegro-albania-kosovo-trax"
+      ]
+    },
+    "CBS News": {
+      "country": "SHBA",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-20",
+      "lastSeen": "2026-08-19",
+      "urls": [
+        "https://www.cbsnews.com/news/ice-detainee-spy-terrorism-blerim-skoro/"
+      ]
+    },
+    "Balkan Insight": {
+      "country": "Britani",
+      "total": 3,
+      "positive": 0,
+      "neutral": 3,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-19",
+      "lastSeen": "2026-08-21",
+      "urls": [
+        "https://balkaninsight.com/2026/08/19/suspend-officers-suspected-of-beating-serb-kosovo-police-inspectorate-says/bi/",
+        "https://balkaninsight.com/2026/08/20/remains-of-23-wartime-victims-unearthed-from-mass-graves-in-kosovo/btj/",
+        "https://balkaninsight.com/2026/08/21/thaci-expects-acquittal-as-hague-courts-war-crimes-verdict-nears/btj/"
+      ]
+    },
+    "Ouest-France": {
+      "country": "Francë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-19",
+      "lastSeen": "2026-08-19",
+      "urls": [
+        "https://www.ouest-france.fr/europe/kosovo/kosovo-les-restes-dau-moins-23-personnes-exhumes-de-trois-fosses-communes-834d96a2-9c11-11f1-a150-d338aff2f727"
+      ]
+    },
+    "Le Courrier des Balkans": {
+      "country": "Francë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-20",
+      "lastSeen": "2026-08-20",
+      "urls": [
+        "https://www.courrierdesbalkans.fr/detourner-libar-nouvelle-arme-de-vucic-contre-le-kosovo-98491/"
+      ]
+    },
+    "Le Figaro": {
+      "country": "Francë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-20",
+      "lastSeen": "2026-08-19",
+      "urls": [
+        "https://www.lefigaro.fr/flash-actu/kosovo-les-restes-squelettiques-d-au-moins-23-personnes-exhumes-de-trois-fosses-communes-20260819"
+      ]
+    },
+    "ladepeche.fr": {
+      "country": "Francë",
+      "total": 1,
+      "positive": 1,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-21",
+      "lastSeen": "2026-08-21",
+      "urls": [
+        "https://www.ladepeche.fr/2026/08/21/un-graulhetois-artisan-du-dialogue-dans-les-balkans-13516906.php"
+      ]
+    },
+    "Il Resto del Carlino": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-19",
+      "lastSeen": "2026-08-19",
+      "urls": [
+        "https://www.ilrestodelcarlino.it/pesaro/cronaca/il-dottor-tibaldi-torna-in-7183ba7f"
+      ]
+    },
+    "Osservatorio Balcani Caucaso Transeuropa": {
+      "country": "Itali",
+      "total": 2,
+      "positive": 0,
+      "neutral": 2,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-19",
+      "lastSeen": "2026-08-19",
+      "urls": [
+        "https://www.balcanicaucaso.org/en/cp_article/political-crisis-in-kosovo-no-light-at-the-end-of-the-tunnel/",
+        "https://www.balcanicaucaso.org/cp_article/crisi-politica-in-kosovo-non-ce-luce-alla-fine-del-tunnel/"
+      ]
+    },
+    "ilrestodelcarlino.it": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-19",
+      "lastSeen": "2026-08-19",
+      "urls": [
+        "https://www.ilrestodelcarlino.it/pesaro/cronaca/il-dottor-tibaldi-torna-in-7183ba7f"
+      ]
+    },
+    "FIGC": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-08-20",
+      "lastSeen": "2026-08-20",
+      "urls": [
+        "https://www.figc.it/it/nazionali/news/giochi-del-mediterraneo-la-spedizione-azzurra-arriva-a-taranto-per-sfilare-alla-cerimonia-di-apertura-hpfgneix"
+      ]
+    },
+    "ANSA": {
+      "country": "Itali",
+      "total": 3,
+      "positive": 0,
+      "neutral": 3,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-20",
+      "lastSeen": "2026-08-21",
+      "urls": [
+        "https://www.ansa.it/nuova_europa/en/news/sections/news/2026/08/20/vucic-writes-to-rutte-nato-stop-terror-in-kosovo-do-not-reopen-the_9034279d-c06f-4e44-ab54-096dd4332014.html",
+        "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/08/20/vucic-scrive-a-rutte-nato-fermi-terrore-in-kosovo-non-riaprire-ponte_68050249-06ef-4b0a-b56b-6ff64929514e.html",
+        "https://www.ansa.it/nuova_europa/it/notizie/rubriche/politica/2026/08/21/kosovo-completa-esumazione-23-corpi-da-fossa-comune-scoperta-in-luglio_2a9d9978-3f19-4b2a-8a42-64b84fe4d081.html"
+      ]
+    },
+    "Virgilio": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-20",
+      "lastSeen": "2026-08-20",
+      "urls": [
+        "https://www.virgilio.it/italia/taranto/notizielocali/sono_iniziati_i_giochi_del_mediterraneo_di_taranto_2026_volley_maschile_alle_12_kosovo_grecia_al_palapentassuglia_di_brindisi-77268477.html"
+      ]
+    },
+    "geomagazine.it": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-20",
+      "lastSeen": "2026-08-20",
+      "urls": [
+        "https://www.geomagazine.it/2026/08/20/taranto-2026-al-via-i-giochi-del-mediterraneo-con-una-la-bella-idea-per-la-sostenibilita/"
+      ]
+    },
+    "La Nazione": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-21",
+      "lastSeen": "2026-08-21",
+      "urls": [
+        "https://www.lanazione.it/umbria/cronaca/in-kosovo-unesperienza-da-ricordare-2491dda9"
+      ]
+    },
+    "MolfettaLive.it": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-21",
+      "lastSeen": "2026-08-21",
+      "urls": [
+        "https://molfettalive.it/2026/08/21/francesca-mininni-e-bronzo-agli-europei-youyh-di-pesistica-in-kosovo/"
+      ]
+    },
+    "FSP Polizia di Stato": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-21",
+      "lastSeen": "2026-08-21",
+      "urls": [
+        "https://www.fsp-polizia.it/eulex-kosovo-2026-deputy-head-of-mission-polizia/"
+      ]
+    },
+    "Quindici Molfetta": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-21",
+      "lastSeen": "2026-08-21",
+      "urls": [
+        "https://www.quindici-molfetta.it/medaglia-di-bronzo-in-kosovo-per-francesca-mininni-di-molfetta_62181.aspx"
+      ]
+    },
+    "Report Difesa": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-21",
+      "lastSeen": "2026-08-21",
+      "urls": [
+        "https://www.reportdifesa.it/kosovo-il-ponte-conteso-sicurezza-sovranita-e-narrazioni-lungo-il-fiume-ibar/"
+      ]
+    },
+    "Quotidiano Nazionale": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-21",
+      "lastSeen": "2026-08-21",
+      "urls": [
+        "https://www.quotidiano.net/esteri/il-metodo-putin-anche-in-kosovo-quando-la-difesa-del-piu-debole-diventa-arma-di-guerra-ibrida-89804c37"
+      ]
+    },
+    "Gazzetta Regionale": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-08-21",
+      "lastSeen": "2026-08-20",
+      "urls": [
+        "https://www.gazzettaregionale.it/primavera/2026/08/20/news/xx-giochi-del-mediterraneo-domani-sera-a-taranto-la-cerimonia-di-apertura-184341/"
+      ]
+    },
+    "CasertaNews": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-22",
+      "lastSeen": "2026-08-21",
+      "urls": [
+        "https://www.casertanews.it/social/chef-salvatore-zagaria-grandi-ospiti-diplomazia-gusto.html"
+      ]
+    },
+    "il Nord Est": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-22",
+      "lastSeen": "2026-08-22",
+      "urls": [
+        "https://www.ilnordest.it/oltre-confine/fosse-comuni-kosovo-zubin-potok-23-corpi-e7xbi9hv"
+      ]
+    },
+    "Fijlkam": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-22",
+      "lastSeen": "2026-08-22",
+      "urls": [
+        "https://www.fijlkam.it/judo/news-judo/11642-xxi-stage-internazionale-di-judo-fijlkam-bella-italia-sold-out,-presenti-atleti-da-kosovo,-slovenia,-gran-bretagna-e-scozia.html"
+      ]
+    },
+    "FIGH: Federazione Italiana Giuoco Handball": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-22",
+      "lastSeen": "2026-08-22",
+      "urls": [
+        "https://www.federhandball.it/giochi-del-mediterraneo-litalia-maschile-contro-il-kosovo-allesordio-%C2%B7-pugliese-emozione-indescrivibile-essere-qui/"
+      ]
+    },
+    "Il Sole 24 ORE": {
+      "country": "Itali",
+      "total": 2,
+      "positive": 0,
+      "neutral": 2,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-22",
+      "lastSeen": "2026-08-22",
+      "urls": [
+        "https://en.ilsole24ore.com/art/abodi-e-gonxhja-incontro-vista-giochi-mediterraneo-2030-kosovo-e-albania-AJxnnEs",
+        "https://www.ilsole24ore.com/art/abodi-e-gonxhja-incontro-vista-giochi-mediterraneo-2030-kosovo-e-albania-AJxnnEs"
+      ]
+    },
+    "agenziagiornalisticaopinione.it": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-22",
+      "lastSeen": "2026-08-22",
+      "urls": [
+        "https://www.agenziagiornalisticaopinione.it/opinionmix/sole24/il-sole-24-ore-sport-abodi-e-gonxhja-incontro-in-vista-dei-giochi-del-mediterraneo-del-2030-tra-kosovo-e-albania/"
+      ]
+    },
+    "studio100.it": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-22",
+      "lastSeen": "2026-08-22",
+      "urls": [
+        "https://www.studio100.it/2026/08/22/la-ss-taranto-protagonista-allo-iacovone-presentazione-della-squadra-durante-italia-kosovo/"
+      ]
+    },
+    "Blick": {
+      "country": "Zvicër",
+      "total": 3,
+      "positive": 0,
+      "neutral": 2,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-08-19",
+      "lastSeen": "2026-08-22",
+      "urls": [
+        "https://www.blick.ch/schweiz/zentralschweiz/luzern/verwandte-erklaert-den-ausreisser-aufregung-im-kosovo-wegen-weissem-mercedes-aus-der-schweiz-id22192215.html",
+        "https://www.blick.ch/ausland/auto-faehrt-ueber-trottoir-diese-szene-sorgt-fuer-diskussionen-id22192168.html",
+        "https://www.blick.ch/sport/fussball/international/dfb-pokal/leverkusen-locker-weiter-augsburg-mueht-sich-in-die-zweite-pokal-runde-id22202590.html"
+      ]
+    },
+    "zentralplus": {
+      "country": "Zvicër",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-08-20",
+      "lastSeen": "2026-08-20",
+      "urls": [
+        "https://www.zentralplus.ch/news/luzerner-loest-mit-trottoir-fahrt-shitstorm-aus-2893231/"
+      ]
+    },
+    "De Brug": {
+      "country": "Holandë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-19",
+      "lastSeen": "2026-08-19",
+      "urls": [
+        "https://www.brugnieuws.nl/nieuws/algemeen/370671/veteraan-en-kampenaar-ronald-klappe-overspoeld-met-dankbetuigingen-na-aankondiging-gezinsreis-naar-kosovo"
+      ]
+    },
+    "telegraaf.nl": {
+      "country": "Holandë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-20",
+      "lastSeen": "2026-08-20",
+      "urls": [
+        "https://www.telegraaf.nl/buitenland/massagraf-met-resten-van-ruim-twintig-mensen-gevonden-in-kosovo/160256362.html"
+      ]
+    },
+    "De Telegraaf": {
+      "country": "Holandë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-20",
+      "lastSeen": "2026-08-20",
+      "urls": [
+        "https://www.telegraaf.nl/buitenland/massagraf-met-resten-van-ruim-twintig-mensen-gevonden-in-kosovo/160256362.html"
+      ]
+    },
+    "Nieuwsblad": {
+      "country": "Belgjikë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-20",
+      "lastSeen": "2026-08-20",
+      "urls": [
+        "https://www.nieuwsblad.be/buitenland/zeker-23-lichamen-teruggevonden-in-massagraven-in-kosovo/160257011.html"
+      ]
+    },
+    "HBVL": {
+      "country": "Belgjikë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-20",
+      "lastSeen": "2026-08-20",
+      "urls": [
+        "https://www.hbvl.be/buitenland/zeker-23-lichamen-teruggevonden-in-massagraven-in-kosovo/160257343.html"
+      ]
+    },
+    "Kinótico": {
+      "country": "Spanjë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-20",
+      "lastSeen": "2026-08-20",
+      "urls": [
+        "https://kinotico.es/actualidad/2026-08-20/primeros-movimientos-premios-oscar-2027-turquia-chequia-kosovo-austria-o-republica-dominicana-eligen-sus-representantes"
+      ]
+    },
+    "Demócrata": {
+      "country": "Spanjë",
+      "total": 2,
+      "positive": 0,
+      "neutral": 2,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-22",
+      "lastSeen": "2026-08-22",
+      "urls": [
+        "https://www.democrata.es/en/international/serbia-urges-nato-to-stop-the-withdrawal-of-kfor-from-the-ibar-bridge-in-mitrovica/",
+        "https://www.democrata.es/it/internazionale/serbia-invita-la-nato-a-fermare-il-ritiro-della-kfor-dal-ponte-ibar-a-mitrovica/amp/"
+      ]
+    },
+    "Europa Press": {
+      "country": "Spanjë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-22",
+      "lastSeen": "2026-08-22",
+      "urls": [
+        "https://www.europapress.es/internacional/noticia-serbia-pide-mision-otan-kosovo-reconsidere-retirada-puente-ibar-mitrovica-20260822092257.html"
+      ]
+    },
+    "Real Federación Española de Voleibol": {
+      "country": "Spanjë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-22",
+      "lastSeen": "2026-08-22",
+      "urls": [
+        "https://esvoley.es/comunicacion/noticias/la-seleccion-masculina-suma-ante-kosovo-su-segunda-victoria-en-los-juegos-mediterraneos/"
+      ]
+    },
+    "Sport24": {
+      "country": "Greqi",
+      "total": 3,
+      "positive": 0,
+      "neutral": 3,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-19",
+      "lastSeen": "2026-08-20",
+      "urls": [
+        "https://www.sport24.gr/sports-travel/athlitikoi-proorismoi/me-exi-athlites-i-ellada-sto-evropaiko-protathlima-arsis-varon-paidon-sto-kosovo/",
+        "https://www.sport24.gr/volley/kosovo-ellada-0-3-nikifora-premiera-gia-tin-ethniki-volei-ginaikon-stous-mesogeiakous-agones/?amp",
+        "https://www.sport24.gr/volley/ellada-kosovo-3-0-me-to-dexi-i-ethniki-volei-andron-stous-mesogeiakous-agones/?amp"
+      ]
+    },
+    "thetoc.gr": {
+      "country": "Greqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-19",
+      "lastSeen": "2026-08-19",
+      "urls": [
+        "https://www.thetoc.gr/koinwnia/article/mukonos-kataggelia-18xronis-italidas-gia-biasmo---sunelifthi-enas-23xronos-apo-to-kosobo/"
+      ]
+    },
+    "Παραπολιτικά": {
+      "country": "Greqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-19",
+      "lastSeen": "2026-08-19",
+      "urls": [
+        "https://www.parapolitika.gr/ellada/article/1778830/mukonos-kataggelia-18hronis-italidas-gia-viasmo-tis-se-beach-bar-sunelifthi-23hronos-apo-to-kosovo/"
+      ]
+    },
+    "Ελληνική Ομοσπονδία Πετοσφαίρισης": {
+      "country": "Greqi",
+      "total": 4,
+      "positive": 0,
+      "neutral": 4,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-19",
+      "lastSeen": "2026-08-20",
+      "urls": [
+        "https://volleyball.gr/mesogeiakoi-agones-2026-premiera-gia-tin-ethniki-andron-kontra-sto-kosovo-20-8-13-00/",
+        "https://volleyball.gr/mesogeiakoi-agones-2026-proto-servis-gia-tin-ethniki-gynaikon-apenanti-sto-kosovo-20-8-21-00/",
+        "https://volleyball.gr/mesogeiakoi-agones-2026-idaniki-premiera-gia-tin-ethniki-andron-3-0-to-kosovo/",
+        "https://volleyball.gr/mesogeiakoi-agones-2026-me-to-dexi-i-ethniki-gynaikon-3-0-to-kosovo/"
+      ]
+    },
+    "Gazzetta.gr": {
+      "country": "Greqi",
+      "total": 2,
+      "positive": 0,
+      "neutral": 2,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-19",
+      "lastSeen": "2026-08-20",
+      "urls": [
+        "https://www.gazzetta.gr/volleyball/2562471/mesogeiakoi-agones-2026-kontra-sto-kosobo-premiera-gia-tin-ethniki-andron",
+        "https://www.gazzetta.gr/volleyball/2562585/mesogeiakoi-agones-2026-me-dexi-i-ethniki-andron-3-0-kosobo"
+      ]
+    },
+    "NewsIT": {
+      "country": "Greqi",
+      "total": 2,
+      "positive": 0,
+      "neutral": 2,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-20",
+      "lastSeen": "2026-08-20",
+      "urls": [
+        "https://www.newsit.gr/oikonomia/finance/telos-stis-eksagoges-ellinikou-ligniti-sti-voreia-makedonia-proxorise-se-symfonia-me-to-kosovo-2/4754038/",
+        "https://www.newsit.gr/oikonomia/finance/telos-stis-eksagoges-ellinikou-ligniti-sti-v-makedonia-proxorise-se-symfonia-me-to-kosovo/4754038/"
+      ]
+    },
+    "HuffPost Greece": {
+      "country": "Greqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-20",
+      "lastSeen": "2026-08-20",
+      "urls": [
+        "https://www.huffingtonpost.gr/kinonia/mykonos-syllipsi-23chronou-apo-to-kosovo-gia-sexoualiki-epithesi-se-18chroni-se-gnosto-bits-bar-leei-pos-itan-methysmeni-kai-adynatouse-na-antistathei/"
+      ]
+    },
+    "Ertsports.gr": {
+      "country": "Greqi",
+      "total": 3,
+      "positive": 0,
+      "neutral": 3,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-20",
+      "lastSeen": "2026-08-20",
+      "urls": [
+        "https://www.ertsports.gr/alla-spor/mesogeiakoi-agones/proto-servis-gia-tin-mesogeiaki-ethniki-omada-volei-gynaikon-apenanti-sto-kosovo/",
+        "https://www.ertsports.gr/bolei/i-ethniki-omada-volei-dielyse-to-kosovo-stin-premiera-ton-mesogeiakon-agonon/",
+        "https://www.ertsports.gr/bolei/thetiki-premiera-gia-tin-ethniki-gynaikon-stous-mesogeiakous-agones/"
+      ]
+    },
+    "ΤΑ ΝΕΑ": {
+      "country": "Greqi",
+      "total": 2,
+      "positive": 0,
+      "neutral": 2,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-20",
+      "lastSeen": "2026-08-20",
+      "urls": [
+        "https://www.tanea.gr/2026/08/20/sports/othersports/ellada-kosovo-3-0-sarose-i-ethniki-andron-stin-premiera-ton-mesogeiakon-agonon/",
+        "https://www.tanea.gr/2026/08/21/sports/othersports/mesogeiakoi-agones-idaniki-premiera-me-nikitria-tin-ethniki-volei-gynaikon-apenanti-sto-kosovo/"
+      ]
+    },
+    "sport-fm.gr": {
+      "country": "Greqi",
+      "total": 5,
+      "positive": 0,
+      "neutral": 4,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-08-20",
+      "lastSeen": "2026-08-22",
+      "urls": [
+        "https://www.sport-fm.gr/article/amp/mesogeiakoi-agwnes-agriemeni-stin-premiera-tis-i-ethniki-andrwn-sarwse-to-kosobo-amp/5142502",
+        "https://www.sport-fm.gr/article/amp/ellada-kosobo-3-0-set-amp/5142590",
+        "https://www.sport-fm.gr/article/4139418",
+        "https://www.sport-fm.gr/article/4891906",
+        "https://www.sport-fm.gr/article/amp/ellada-kosobo-31-25-amp/5142968"
+      ]
+    },
+    "In.gr": {
+      "country": "Greqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-21",
+      "lastSeen": "2026-08-21",
+      "urls": [
+        "https://www.in.gr/2026/08/21/sports/othersports/mesogeiakoi-agones-me-to-deksi-ksekinise-i-ethniki-volei-gynaikon-3-0-to-kosovo/"
+      ]
+    },
+    "Skai.gr": {
+      "country": "Greqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-21",
+      "lastSeen": "2026-08-21",
+      "urls": [
+        "https://www.skai.gr/news/world/entasi-sto-kosovo-gia-to-anoigma-mias-gefyras"
+      ]
+    },
+    "ertnews.gr": {
+      "country": "Greqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-21",
+      "lastSeen": "2026-08-21",
+      "urls": [
+        "https://www.ertnews.gr/eidiseis/diethni/kosovo-entaseis-metaksy-servon-kai-alvanon-prokalei-to-anoigma-gefyras/"
+      ]
+    },
+    "Fosonline": {
+      "country": "Greqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-21",
+      "lastSeen": "2026-08-20",
+      "urls": [
+        "https://www.fosonline.gr/volleyball/a-gynaikon/article/388864/mesogeiakoi-agones-me-to-dexi-i-ethniki-gynaikon-3-0-to-kosovo"
+      ]
+    },
+    "η ναυτεμπορικη": {
+      "country": "Greqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-21",
+      "lastSeen": "2026-08-21",
+      "urls": [
+        "https://www.naftemporiki.gr/kosmos/2151998/kosovo-estia-entasis-i-apofasi-gia-to-anoigma-tis-gefyras-sti-diairemeni-mitrovitsa-epistoli-voytsits-ston-royte/"
+      ]
+    },
+    "Bankingnews": {
+      "country": "Greqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-21",
+      "lastSeen": "2026-08-21",
+      "urls": [
+        "https://www.bankingnews.gr/diethni/articles/894916/kolafos-i-zakharova-systimatiki-tromokratia-kata-ton-servon-sto-kosovo-me-anoxi-nato-ee-kai-oie"
+      ]
+    },
+    "Capital.gr": {
+      "country": "Greqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-21",
+      "lastSeen": "2026-08-21",
+      "urls": [
+        "https://www.capital.gr/diethni/4011690/entasi-sto-kosobo-gia-to-anoigma-mias-gefuras/?amp=true"
+      ]
+    },
+    "THE BEST": {
+      "country": "Greqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-22",
+      "lastSeen": "2026-08-20",
+      "urls": [
+        "https://www.thebest.gr/article/842352-mesogeiakoi-agones-2026-idaniki-premiera-i-ethniki-bolei-3-0-to-kosobo"
+      ]
+    },
+    "Η Άποψη": {
+      "country": "Greqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-08-22",
+      "lastSeen": "2026-08-21",
+      "urls": [
+        "https://www.iapopsi.gr/conference-league-o-kathreftis-ton-play-off/"
+      ]
+    },
+    "dete.gr": {
+      "country": "Greqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-08-22",
+      "lastSeen": "2026-08-22",
+      "urls": [
+        "https://dete.gr/oskar-2027-poies-tainies-diekdikoun-me-axioseis-mia-thesi-stis-ypopsifiotites/"
+      ]
+    },
+    "Marcus Oscarsson": {
+      "country": "Suedi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-08-20",
+      "lastSeen": "2026-08-19",
+      "urls": [
+        "https://marcusoscarsson.se/uppgifter-nytt-krig-i-europa-nara-kommer-attackera/"
+      ]
+    },
+    "Cumhuriyet": {
+      "country": "Turqi",
+      "total": 2,
+      "positive": 1,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-19",
+      "lastSeen": "2026-08-21",
+      "urls": [
+        "https://www.cumhuriyet.com.tr/dunya/kosova-da-savas-suclari-sorusturmasi-23-kisiye-ait-kemik-kalintilari-bulundu-2530603",
+        "https://www.cumhuriyet.com.tr/cumhuriyet-in-egesi/izmir-ile-kosova-arasinda-cok-yonlu-is-birligi-donemi-2530991"
+      ]
+    },
+    "Aksiyon.com.TR": {
+      "country": "Turqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-19",
+      "lastSeen": "2026-08-19",
+      "urls": [
+        "https://www.aksiyon.com.tr/kosova-da-zubin-potok-kazisinda-en-az-23-kisiye-ait-kalinti-bulundu-uc-supheli-tutuklandi-337827"
+      ]
+    },
+    "İhlas Haber Ajansı": {
+      "country": "Turqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-19",
+      "lastSeen": "2026-08-19",
+      "urls": [
+        "https://www.iha.com.tr/haber-kosovada-savas-suclari-sorusturmasi-23-kisiye-ait-kemik-kalintilari-bulundu-1197147"
+      ]
+    },
+    "GZT": {
+      "country": "Turqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-19",
+      "lastSeen": "2026-08-19",
+      "urls": [
+        "https://www.gzt.com/dunya/savasin-izleri-yeniden-ortaya-cikti-kosovada-23-kisiye-ait-kemik-kalintilari-bulundu-4252901"
+      ]
+    },
+    "Odatv": {
+      "country": "Turqi",
+      "total": 2,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 1,
+      "unknown": 0,
+      "firstSeen": "2026-08-20",
+      "lastSeen": "2026-08-21",
+      "urls": [
+        "https://www.odatv.com/guncel/sirp-lider-vucic-kfor-komutani-ozkan-ulutasi-hedef-aldi-bunu-o-turk-yapiyor-120159394",
+        "https://www.odatv.com/guncel/vucic-turk-komutani-hedef-aldi-odatv-arastirdi-ibar-nehrinden-cikan-neo-osmanli-kabusu-120159511"
+      ]
+    },
+    "Tokat Haber": {
+      "country": "Turqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-20",
+      "lastSeen": "2026-08-20",
+      "urls": [
+        "https://www.tokathaber.com.tr/tokattan-kosovaya-madalya-yolculugu-ibrahim-ozeren-milli-formayla-yarisacak"
+      ]
+    },
+    "A News": {
+      "country": "Turqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-20",
+      "lastSeen": "2026-08-20",
+      "urls": [
+        "https://www.anews.com.tr/world/2026/08/20/us-to-deport-cia-informant-who-infiltrated-al-qaeda"
+      ]
+    },
+    "Yeni Mesaj": {
+      "country": "Turqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-20",
+      "lastSeen": "2026-08-20",
+      "urls": [
+        "https://www.yenimesaj.com.tr/sirbistan-cumhurbaskani-vucic-kosovadaki-bolunmus-mitrovica-kentinde-bulunan-ibar-koprusunun-arac-trafigine-acilmasi-planina-sert-tepki-gosterdi-H1614704.htm"
+      ]
+    },
+    "Hürriyet": {
+      "country": "Turqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-20",
+      "lastSeen": "2026-08-20",
+      "urls": [
+        "https://www.hurriyet.com.tr/avrupa/24-uluslararasi-sanatla-uyanmak-festivali-prizrende-basladi-43279597"
+      ]
+    },
+    "anayasa.gov.tr": {
+      "country": "Turqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-20",
+      "lastSeen": "2026-08-20",
+      "urls": [
+        "https://www.anayasa.gov.tr/tr/haberler/faaliyetler/anayasa-mahkemesi-heyetinin-kosova-ziyareti-1"
+      ]
+    },
+    "Haberler": {
+      "country": "Turqi",
+      "total": 2,
+      "positive": 0,
+      "neutral": 2,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-20",
+      "lastSeen": "2026-08-21",
+      "urls": [
+        "https://www.haberler.com/3-sayfa/kosova-da-savas-suclari-sorusturmasi-23-kisiye-ait-20159336-haberi/",
+        "https://www.haberler.com/3-sayfa/kosova-da-toplu-mezarlarin-yakininda-cok-sayida-20164351-haberi/"
+      ]
+    },
+    "Son Dakika": {
+      "country": "Turqi",
+      "total": 3,
+      "positive": 0,
+      "neutral": 3,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-20",
+      "lastSeen": "2026-08-21",
+      "urls": [
+        "https://www.sondakika.com/haber/haber-kosova-da-halter-sampiyonasi-basladi-20162761/",
+        "https://www.sondakika.com/3-sayfa/haber-kosovo-da-savas-suclari-sorusturmasi-23-kalinti-bu-20159357/",
+        "https://www.sondakika.com/3-sayfa/haber-kosova-da-toplu-mezarlar-ve-silahlar-bulundu-20164376/"
+      ]
+    },
+    "Harici": {
+      "country": "Turqi",
+      "total": 2,
+      "positive": 0,
+      "neutral": 2,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-21",
+      "lastSeen": "2026-08-20",
+      "urls": [
+        "https://harici.com.tr/en/serbias-vucic-criticises-kfor-commander-over-ibar-bridge-withdrawal/",
+        "https://harici.com.tr/vucicten-turk-kfor-komutanina-kopru-tepkisi/"
+      ]
+    },
+    "İzmir Büyükşehir Belediyesi": {
+      "country": "Turqi",
+      "total": 2,
+      "positive": 2,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-21",
+      "lastSeen": "2026-08-22",
+      "urls": [
+        "https://www.izmir.bel.tr/tr/Haberler/baskan-tugay-kosova-da-izmir-ile-kosova-arasinda-cok-yonlu-is-birligi-donemi/59212/156",
+        "https://www.izmir.bel.tr/tr/Haberler/baskan-tugay-kosovada-yeni-is-birliklerinin-kapisini-araladi/59218/156"
+      ]
+    },
+    "İstiklal Gazetesi": {
+      "country": "Turqi",
+      "total": 2,
+      "positive": 0,
+      "neutral": 2,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-21",
+      "lastSeen": "2026-08-22",
+      "urls": [
+        "https://www.istiklal.com.tr/spor/milli-halterciler-kosovada-6-altin-madalya-kazandi-1102653h",
+        "https://www.istiklal.com.tr/dunya/kosovada-kritik-kesif-toplu-mezarlarin-yani-basinda-cephanelik-cikti-1102801h"
+      ]
+    },
+    "Haber 7": {
+      "country": "Turqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-21",
+      "lastSeen": "2026-08-21",
+      "urls": [
+        "https://www.haber7.com/dunya/haber/3653150-toplu-mezarlar-acildi-cok-sayida-muhimmat-cikti"
+      ]
+    },
+    "Haber Ekspres": {
+      "country": "Turqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-21",
+      "lastSeen": "2026-08-21",
+      "urls": [
+        "https://www.haberekspres.com.tr/cemil-tugaydan-kosovada-cok-yonlu-is-birligi-hamlesi"
+      ]
+    },
+    "TRT World": {
+      "country": "Turqi",
+      "total": 2,
+      "positive": 0,
+      "neutral": 2,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-21",
+      "lastSeen": "2026-08-21",
+      "urls": [
+        "https://www.trtworld.com/video/tv/shows/683ef3c9cff794df564280c5/play/79c92cb03c09",
+        "https://www.trtworld.com/video/tv/shows/683ef3c9cff794df564280c5/play/4f7f32df896b"
+      ]
+    },
+    "SonDakika": {
+      "country": "Turqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-21",
+      "lastSeen": "2026-08-20",
+      "urls": [
+        "https://www.sondakika.com/haber/haber-kosova-da-halter-sampiyonasi-basladi-20162761/"
+      ]
+    },
+    "İlkses Gazetesi": {
+      "country": "Turqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-22",
+      "lastSeen": "2026-08-22",
+      "urls": [
+        "https://ilkses.com.tr/izmir/izmir-ile-kosova-arasinda-yeni-is-birlikleri-icin-temaslar-yogunlasiyor-457800"
+      ]
+    },
+    "Haber Ege": {
+      "country": "Turqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-22",
+      "lastSeen": "2026-08-22",
+      "urls": [
+        "https://www.haberege.com.tr/izmir-ile-kosova-arasindaki-iletisim-gucleniyor-1787405224-3640509"
+      ]
+    }
+  }
+}
