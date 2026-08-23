@@ -4,14 +4,15 @@
     {
       "label": "Humbja e Kosovës në volejboll",
       "fallbackLabel": "Mesdhetare · Lojërat",
-      "summary": "Kombëtarja e volejbollit e Kosovës u mposht 3-0 nga Greqia në ndeshjen hapëse të Lojërave Mesdhetare, duke shënuar një fillim të vështirë në këtë turne.",
-      "count": 41,
+      "summary": "Kombëtarja e volejbollit e Kosovës pësoi humbje 3-0 ndaj Greqisë në ndeshjen hapëse të Lojërave Mesdhetare, duke shënuar një fillim të vështirë në këtë kompeticion.",
+      "count": 45,
       "positive": 2,
-      "neutral": 36,
+      "neutral": 40,
       "negative": 0,
-      "index": 53,
+      "index": 52,
       "countries": [
         "Francë",
+        "Gjermani",
         "Greqi",
         "Holandë",
         "Itali",
@@ -185,7 +186,7 @@
     {
       "label": "Zbulimi i varrezave masive",
       "fallbackLabel": "Masive · Gjenden",
-      "summary": "Gjatë kërkimeve në territorin e Kosovës janë gjetur mbetje mortore të mbi 20 personave, duke rikthyer vëmendjen te pasojat e rënda të së kaluarës.",
+      "summary": "Gjatë kërkimeve në Kosovë janë gjetur mbetjet mortore të mbi njëzet personave, duke rikthyer vëmendjen te pasojat e rënda të luftës dhe procesi i identifikimit.",
       "count": 23,
       "positive": 0,
       "neutral": 23,
@@ -366,10 +367,10 @@
     {
       "label": "Kërkesat serbe ndaj NATO-s",
       "fallbackLabel": "Nato · Kërkon",
-      "summary": "Presidenti serb Vuçiq i ka kërkuar NATO-s ndërhyrje për mbrojtjen e serbëve në Kosovë dhe kundërshtimin e hapjes së urës së Mitrovicës për qarkullim.",
-      "count": 15,
+      "summary": "Presidenti serb Vuçiq i ka kërkuar NATO-s ndërhyrje për mbrojtjen e serbëve në Kosovë dhe kundërshtimin e hapjes së urës kryesore mbi lumin Ibër.",
+      "count": 16,
       "positive": 0,
-      "neutral": 14,
+      "neutral": 15,
       "negative": 0,
       "index": 50,
       "countries": [
@@ -547,7 +548,7 @@
     {
       "label": "Bashkëpunimi ndërkombëtar me Kosovën",
       "fallbackLabel": "Tugay · Izmirit",
-      "summary": "Institucione të ndryshme, përfshirë UNICEF-in dhe bashkinë e Izmirit, kanë nisur iniciativa për bashkëpunim shumëdimensional në mbështetje të fëmijëve dhe zhvillimit të Kosovës.",
+      "summary": "Institucione të ndryshme, si UNICEF dhe bashkia e Izmirit, kanë nënshkruar marrëveshje për të forcuar bashkëpunimin shumëdimensional dhe mbështetjen për fëmijët në Kosovë.",
       "count": 13,
       "positive": 3,
       "neutral": 10,
@@ -723,7 +724,7 @@
     {
       "label": "Zhvillimet politike dhe gjyqësore",
       "fallbackLabel": "Para · Qeverisë",
-      "summary": "Kosova po përballet me procese të rëndësishme gjyqësore në Hagë, protesta politike të brendshme dhe përgatitje për përfaqësim në ngjarje ndërkombëtare si çmimet Oscar.",
+      "summary": "Kosova po përballet me procese të ndryshme, duke përfshirë përzgjedhjen e kandidaturave për çmime ndërkombëtare, protesta politike dhe pritshmëritë për vendimet e gjykatës në Hagë.",
       "count": 10,
       "positive": 1,
       "neutral": 7,
@@ -903,7 +904,7 @@
     {
       "label": "Debati për urën e Ibrit",
       "fallbackLabel": "Ibrit · Kfor",
-      "summary": "Plani për hapjen e urës së Ibrit në Mitrovicë ka nxitur tensione politike, me Serbinë që kundërshton vendimin dhe analistët që paralajmërojnë rrezikun e destabilizimit.",
+      "summary": "Plani për hapjen e urës së Ibrit në Mitrovicë ka shkaktuar tensione politike, me Serbinë që kundërshton vendimin dhe analistët që paralajmërojnë rreziqe për stabilitetin.",
       "count": 8,
       "positive": 0,
       "neutral": 8,
@@ -1049,7 +1050,7 @@
     {
       "label": "Incidentet dhe tensionet rajonale",
       "fallbackLabel": "Ndaj · Kfor",
-      "summary": "Situata në Kosovë mbetet e ndjeshme për shkak të incidenteve të ndryshme, kërcënimeve të sigurisë dhe akuzave diplomatike për terror ndaj popullatës serbe në vend.",
+      "summary": "Situata në Kosovë mbetet e ndjeshme për shkak të incidenteve kriminale, kërcënimeve nga grupe të ndryshme dhe akuzave të vazhdueshme diplomatike nga ana e Serbisë.",
       "count": 8,
       "positive": 0,
       "neutral": 8,
@@ -1195,7 +1196,7 @@
     {
       "label": "Menaxhimi i fondeve financiare",
       "fallbackLabel": "Milionë · Euro",
-      "summary": "Kosova po përballet me sfida në shfrytëzimin e fondeve të BE-së dhe zbatimin e projekteve sociale, duke rrezikuar humbjen e miliona eurove për shkak të vonesave.",
+      "summary": "Kosova po përballet me sfida të mëdha në menaxhimin e fondeve ndërkombëtare, ku rreziku i humbjes së miliona eurove nga BE-ja po shkakton debate të ashpra politike.",
       "count": 7,
       "positive": 0,
       "neutral": 6,

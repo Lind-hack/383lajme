@@ -162,15 +162,16 @@
     },
     "FIGC": {
       "country": "Itali",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 0,
+      "neutral": 1,
       "negative": 0,
       "unknown": 1,
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-20",
+      "lastSeen": "2026-08-23",
       "urls": [
-        "https://www.figc.it/it/nazionali/news/giochi-del-mediterraneo-la-spedizione-azzurra-arriva-a-taranto-per-sfilare-alla-cerimonia-di-apertura-hpfgneix"
+        "https://www.figc.it/it/nazionali/news/giochi-del-mediterraneo-la-spedizione-azzurra-arriva-a-taranto-per-sfilare-alla-cerimonia-di-apertura-hpfgneix",
+        "https://www.figc.it/it/nazionali/news/giochi-del-mediterraneo-esordio-a-senso-unico-per-le-azzurrine-4-1-al-kosovo-qvcvhv0q"
       ]
     },
     "ANSA": {
@@ -1203,6 +1204,20 @@
     },
     "OA Sport": {
       "country": "Itali",
+      "total": 2,
+      "positive": 0,
+      "neutral": 2,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-23",
+      "lastSeen": "2026-08-23",
+      "urls": [
+        "https://www.oasport.it/2026/08/pallamano-litalia-spazza-via-il-kosovo-azzurri-perfetti-nellesordio-ai-giochi-del-mediterraneo/",
+        "https://www.oasport.it/2026/08/calcio-femminile-italia-travolgente-allesordio-contro-il-kosovo-nei-giochi-del-mediterraneo/"
+      ]
+    },
+    "Radio Mugello": {
+      "country": "Itali",
       "total": 1,
       "positive": 0,
       "neutral": 1,
@@ -1211,7 +1226,7 @@
       "firstSeen": "2026-08-23",
       "lastSeen": "2026-08-23",
       "urls": [
-        "https://www.oasport.it/2026/08/pallamano-litalia-spazza-via-il-kosovo-azzurri-perfetti-nellesordio-ai-giochi-del-mediterraneo/"
+        "https://www.radiomugello.it/cronaca/giochi-mediterraneo-italia-romei-kosovo-39-23/"
       ]
     }
   }

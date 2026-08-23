@@ -1,10 +1,10 @@
 {
   "lastUpdated": "2026-08-23",
   "overallIndex": 53,
-  "totalArticles": 93,
-  "sourceCount": 76,
+  "totalArticles": 96,
+  "sourceCount": 77,
   "stanceVersion": 3,
-  "unattributed": 173,
+  "unattributed": 176,
   "nonEditorial": 21,
   "wrongKosovo": 0,
   "countries": {
@@ -330,8 +330,8 @@
         },
         {
           "name": "FIGC",
-          "sentiment": "unknown",
-          "articleCount": 1,
+          "sentiment": "neutral",
+          "articleCount": 2,
           "articles": [
             {
               "title": "Giochi del Mediterraneo, la spedizione azzurra arriva a Taranto per sfilare alla cerimonia di apertura - FIGC",
@@ -345,12 +345,25 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Giochi del Mediterraneo, esordio a senso unico per le Azzurrine: 4-1 al Kosovo - FIGC",
+              "albanianTitle": "Lojërat Mesdhetare, debutim i lehtë për italianet: 4-1 ndaj Kosovës",
+              "blurb": "Ekipi i futbollit të femrave të Italisë ka mposhtur Kosovën me rezultat 4-1 në Lojërat Mesdhetare.",
+              "imageUrl": "https://images.figc.it/view/acePublic/alias/contentid/1tbe82h0isjhczfcjo3/0/0aa32795-42e0-4421-9887-ff9bdc56a8eb-jpg.jpg?f=187%3A100",
+              "url": "https://www.figc.it/it/nazionali/news/giochi-del-mediterraneo-esordio-a-senso-unico-per-le-azzurrine-4-1-al-kosovo-qvcvhv0q",
+              "date": "2026-08-23",
+              "sentiment": "neutral",
+              "reason": "Raportim neutral i rezultatit",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 1,
+          "totalArticles": 2,
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-08-20",
-          "lastSeen": "2026-08-20"
+          "lastSeen": "2026-08-23"
         },
         {
           "name": "FSP Polizia di Stato",
@@ -512,7 +525,7 @@
         {
           "name": "OA Sport",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Pallamano: l’Italia spazza via il Kosovo. Azzurri perfetti nell’esordio ai Giochi del Mediterraneo - OA Sport",
@@ -526,9 +539,22 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Calcio femminile, Italia travolgente all’esordio contro il Kosovo nei Giochi del Mediterraneo - OA Sport",
+              "albanianTitle": "Futboll për femra, Italia shkëlqen në debutim kundër Kosovës në Lojërat Mesdhetare",
+              "blurb": "Futbollistet e Italisë kanë mposhtur Kosovën në ndeshjen e parë të zhvilluar në kuadër të Lojërave Mesdhetare.",
+              "imageUrl": "https://www.oasport.it/wp-content/uploads/2025/06/sweden-v-italy-uefa-womens-european-under-19-championship-202425-group-a-51.jpg",
+              "url": "https://www.oasport.it/2026/08/calcio-femminile-italia-travolgente-allesordio-contro-il-kosovo-nei-giochi-del-mediterraneo/",
+              "date": "2026-08-23",
+              "sentiment": "neutral",
+              "reason": "Raportim neutral i performancës",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 1,
+          "totalArticles": 2,
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-08-23",
           "lastSeen": "2026-08-23"
@@ -580,6 +606,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-08-21",
           "lastSeen": "2026-08-21"
+        },
+        {
+          "name": "Radio Mugello",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Giochi del Mediterraneo, l’Italia con Tommy Romei parte bene: Kosovo battuto 39-23 - Radio Mugello",
+              "albanianTitle": "Lojërat Mesdhetare, Italia me Tommy Romei niset mbarë: Kosova mposhtet 39-23",
+              "blurb": "Italia ka shënuar fitore ndaj Kosovës me rezultat 39-23 në ndeshjen e hendbollit në Lojërat Mesdhetare.",
+              "imageUrl": "https://www.radiomugello.it/wp-content/uploads/2025/05/Screenshot-2025-05-11-alle-18.31.00.jpg",
+              "url": "https://www.radiomugello.it/cronaca/giochi-mediterraneo-italia-romei-kosovo-39-23/",
+              "date": "2026-08-23",
+              "sentiment": "neutral",
+              "reason": "Raportim neutral i rezultatit",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-23",
+          "lastSeen": "2026-08-23"
         },
         {
           "name": "Report Difesa",
@@ -779,7 +829,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 23,
+        "n": 26,
         "excluded": 2,
         "confident": true,
         "stanceVersion": 3

@@ -2431,8 +2431,8 @@
   {
     "date": "2026-08-23",
     "overallIndex": 53,
-    "totalArticles": 93,
-    "sourceCount": 76,
+    "totalArticles": 96,
+    "sourceCount": 77,
     "stanceVersion": 3,
     "countries": {
       "Gjermani": {
@@ -2488,7 +2488,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 23,
+        "n": 26,
         "excluded": 2,
         "confident": true,
         "stanceVersion": 3
@@ -2604,11 +2604,11 @@
     },
     "headlines": [
       {
-        "title": "Dua Lipa aide la jeunesse du Kosovo, d'où est originaire sa famille - Ode (Purepeople)",
-        "source": "Ode (Purepeople)",
-        "country": "Francë",
-        "flag": "🇫🇷",
-        "url": "https://www.purepeople.com/diapo/nous-avons-tout-perdu-comment-dua-lipa-sinvestit-avec-son-frere-pour-leur-pays-dorigine_a552969/1",
+        "title": "\"CNN\": Albania and Kosovo, the best Balkan peaks for hiking - cna.al",
+        "source": "cna.al",
+        "country": "Britani",
+        "flag": "🇬🇧",
+        "url": "https://www.cna.al/english/aktualitet/cnn-shqiperia-dhe-kosova-majat-e-ballkanit-me-te-mira-per-te-bere-ecj-i472191",
         "sentiment": "positive"
       },
       {
@@ -2630,8 +2630,8 @@
       {
         "title": "Aleanca hedh qymyr para qeverisë, Ramadani: Kurti po e çon Kosovën në terr politik - Reporteri",
         "source": "Reporteri",
-        "country": "Francë",
-        "flag": "🇫🇷",
+        "country": "Gjermani",
+        "flag": "🇩🇪",
         "url": "https://reporteri.net/fr/nouvelles/L%27alliance-jette-de-l%27huile-sur-le-feu-au-gouvernement-%3A-Ramadan-Kurti-plonge-le-Kosovo-dans-les-t%C3%A9n%C3%A8bres-politiques./",
         "sentiment": "negative"
       }
