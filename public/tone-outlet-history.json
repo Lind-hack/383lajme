@@ -938,15 +938,16 @@
     },
     "Hürriyet": {
       "country": "Turqi",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-20",
+      "lastSeen": "2026-08-23",
       "urls": [
-        "https://www.hurriyet.com.tr/avrupa/24-uluslararasi-sanatla-uyanmak-festivali-prizrende-basladi-43279597"
+        "https://www.hurriyet.com.tr/avrupa/24-uluslararasi-sanatla-uyanmak-festivali-prizrende-basladi-43279597",
+        "https://www.hurriyet.com.tr/avrupa/zafer-algoze-kosovada-yilin-sanatcisi-odulu-43282311"
       ]
     },
     "anayasa.gov.tr": {
@@ -1110,6 +1111,97 @@
       "lastSeen": "2026-08-22",
       "urls": [
         "https://www.haberege.com.tr/izmir-ile-kosova-arasindaki-iletisim-gucleniyor-1787405224-3640509"
+      ]
+    },
+    "Sud Ouest": {
+      "country": "Francë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-23",
+      "lastSeen": "2026-08-20",
+      "urls": [
+        "https://www.sudouest.fr/culture/histoire/kosovo-les-restes-squelettiques-d-au-moins-23-personnes-exhumes-de-trois-fosses-communes-30313359.php"
+      ]
+    },
+    "Cronache Tarantine": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-23",
+      "lastSeen": "2026-08-23",
+      "urls": [
+        "https://www.cronachetarantine.it/index.php/sp/107-taranto-calcio/17587-presentazione-della-squadra-del-taranto-nellintervallo-di-italia-kosovo"
+      ]
+    },
+    "Studio 100": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-23",
+      "lastSeen": "2026-08-23",
+      "urls": [
+        "https://www.studio100.it/2026/08/23/100-notizie-tg-sportivo-del-23-agosto-2026-italia-kosovo-la-ss-taranto-si-presentera-ufficialmente-ai-suoi-tifosi-gli-itriani-superano-per-6-2-lostuni-e-comincia-dalla-coppa-italia-il-nu/"
+      ]
+    },
+    "El Periódico de España": {
+      "country": "Spanjë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-08-23",
+      "lastSeen": "2026-08-23",
+      "urls": [
+        "https://www.epe.es/es/actualidad/20260823/vivir-bombas-pais-europeo-espana-no-reconoce-elvira-dones-pequena-guerra-perfecta-kosovo-133480145"
+      ]
+    },
+    "Newsbeast": {
+      "country": "Greqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-08-23",
+      "lastSeen": "2026-08-21",
+      "urls": [
+        "https://www.newsbeast.gr/world/arthro/13306034/nea-entasi-metaxy-servias-kosovou-vazei-i-gefyra-tis-mitrovitsas-min-tin-anoixete"
+      ]
+    },
+    "Yeni Meram": {
+      "country": "Turqi",
+      "total": 1,
+      "positive": 1,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-23",
+      "lastSeen": "2026-08-23",
+      "urls": [
+        "https://www.yenimeram.com.tr/kosova-dan-bir-madalya-daha-geldi/536521/"
+      ]
+    },
+    "Yeni Asır": {
+      "country": "Turqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-23",
+      "lastSeen": "2026-08-23",
+      "urls": [
+        "https://www.yeniasir.com.tr/izmir/2026/08/23/izmir-ile-kosova-icin-is-birligi-kapisi-aralandi"
       ]
     }
   }

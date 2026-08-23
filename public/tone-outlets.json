@@ -1,11 +1,11 @@
 {
   "lastUpdated": "2026-08-23",
-  "overallIndex": 52,
-  "totalArticles": 79,
-  "sourceCount": 65,
+  "overallIndex": 53,
+  "totalArticles": 86,
+  "sourceCount": 72,
   "stanceVersion": 3,
-  "unattributed": 153,
-  "nonEditorial": 20,
+  "unattributed": 166,
+  "nonEditorial": 21,
   "wrongKosovo": 0,
   "countries": {
     "Gjermani": {
@@ -137,6 +137,30 @@
           "lastSeen": "2026-08-20"
         },
         {
+          "name": "Sud Ouest",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo : les « restes squelettiques » d’au moins 23 personnes exhumés de trois fosses communes - Sud Ouest",
+              "albanianTitle": "Kosova: Zhvarrosen mbetjet mortore të të paktën 23 personave nga tri varreza masive",
+              "blurb": "Mbetjet skeletore të të paktën njëzet e tre personave janë zhvarrosur nga tri varreza masive të gjetura në Kosovë.",
+              "imageUrl": "https://media.sudouest.fr/30313359/1200x-1/20260801143523-75158412.jpg",
+              "url": "https://www.sudouest.fr/culture/histoire/kosovo-les-restes-squelettiques-d-au-moins-23-personnes-exhumes-de-trois-fosses-communes-30313359.php",
+              "date": "2026-08-20",
+              "sentiment": "neutral",
+              "reason": "Përdorim i fjalës \"restes squelettiques\" në kontekst faktik, pa ngarkim",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-23",
+          "lastSeen": "2026-08-20"
+        },
+        {
           "name": "ladepeche.fr",
           "sentiment": "positive",
           "articleCount": 1,
@@ -162,16 +186,16 @@
         }
       ],
       "summary": {
-        "index": 75,
-        "positive": 50,
-        "neutral": 50,
+        "index": 67,
+        "positive": 33,
+        "neutral": 67,
         "negative": 0,
-        "n": 2,
+        "n": 3,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3,
         "movement": {
-          "delta": 21,
+          "delta": 13,
           "from": 54,
           "outlet": "ladepeche.fr",
           "title": "Një artizan i dialogut në Ballkan nga Graulhet",
@@ -255,6 +279,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-08-22",
           "lastSeen": "2026-08-21"
+        },
+        {
+          "name": "Cronache Tarantine",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Presentazione della squadra del Taranto nell’intervallo di Italia-Kosovo - Cronache Tarantine",
+              "albanianTitle": "Prezantimi i ekipit të Tarantos gjatë pushimit të ndeshjes Itali-Kosovë - Cronache Tarantine",
+              "blurb": "Ekipi i futbollit të Tarantos do të prezantohet para tifozëve gjatë pushimit të ndeshjes mes Italisë dhe Kosovës.",
+              "imageUrl": "https://www.cronachetarantine.it/images/2026/08/21/WhatsApp%20Image%202026-08-14%20at%2020.38.36.jpeg",
+              "url": "https://www.cronachetarantine.it/index.php/sp/107-taranto-calcio/17587-presentazione-della-squadra-del-taranto-nellintervallo-di-italia-kosovo",
+              "date": "2026-08-23",
+              "sentiment": "neutral",
+              "reason": "Informim neutral rreth prezantimit të ekipit",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-23",
+          "lastSeen": "2026-08-23"
         },
         {
           "name": "FIGC",
@@ -510,6 +558,30 @@
           "lastSeen": "2026-08-21"
         },
         {
+          "name": "Studio 100",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "100 NOTIZIE, TG SPORTIVO DEL 23 Agosto 2026. Italia-Kosovo, la SS Taranto si presenterà ufficialmente ai suoi tifosi, Gli itriani superano per 6-2 l’Ostuni e comincia dalla Coppa Italia il nuovo percorso del Brindisi. - Studio 100",
+              "albanianTitle": "100 LAJME, edicioni sportiv i 23 gushtit 2026: Italia-Kosovë, SS Taranto prezantohet para tifozëve, Itriani mposht Ostunin 6-2, ndërsa Brindisi e nis rrugëtimin e ri nga Kupa e Italisë - Studio 100",
+              "blurb": "Klubi i Tarantos prezantohet para tifozëve në ndeshjen Itali-Kosovë, ndërsa Brindisi nis rrugëtimin në Kupën e Italisë.",
+              "imageUrl": "https://www.studio100.it/wp-content/uploads/2026/08/Screenshot-2026-08-23-144253.png",
+              "url": "https://www.studio100.it/2026/08/23/100-notizie-tg-sportivo-del-23-agosto-2026-italia-kosovo-la-ss-taranto-si-presentera-ufficialmente-ai-suoi-tifosi-gli-itriani-superano-per-6-2-lostuni-e-comincia-dalla-coppa-italia-il-nu/",
+              "date": "2026-08-23",
+              "sentiment": "neutral",
+              "reason": "Përmbledhje sportive pa qëndrime",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-23",
+          "lastSeen": "2026-08-23"
+        },
+        {
           "name": "Virgilio",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -635,7 +707,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 18,
+        "n": 20,
         "excluded": 2,
         "confident": true,
         "stanceVersion": 3
@@ -658,20 +730,20 @@
       "outlets": [
         {
           "name": "Blick",
-          "sentiment": "unknown",
+          "sentiment": "positive",
           "articleCount": 1,
           "articles": [
             {
               "title": "Kosovo-Schweizer Hajdari und Avdullahu siegen mit Hoffenheim klar - Blick",
-              "albanianTitle": "Futbollistët shqiptarë nga Kosova, Hajdari dhe Avdullahu, shënojnë fitore bindëse me Hoffenheimin",
-              "blurb": "Futbollistët kosovaro-zviceranë, Hajdari dhe Avdullahu, kanë shënuar fitore të thellë me skuadrën e tyre, Hoffenheim.",
+              "albanianTitle": "Futbollistët kosovaro-zviceranë, Hajdari dhe Avdullahu, shënojnë fitore të thellë me Hoffenheimin",
+              "blurb": "Futbollistët me prejardhje nga Kosova, Hajdari dhe Avdullahu, kanë shënuar fitore të thellë me ekipin e tyre Hoffenheim.",
               "imageUrl": "https://img.blick.ch/incoming/22202961-v1-imago-sp-0822-17150001-1081646945.jpg?imwidth=2000&ratio=16_9&x=1138&y=145&width=2749&height=1548",
               "url": "https://www.blick.ch/sport/fussball/international/dfb-pokal/leverkusen-locker-weiter-augsburg-mueht-sich-in-die-zweite-pokal-runde-id22202590.html",
               "date": "2026-08-22",
-              "sentiment": "unknown",
-              "reason": "",
+              "sentiment": "positive",
+              "reason": "Titulli lavdëron sportistët kosovarë",
               "isQuote": false,
-              "evidence": "",
+              "evidence": "Kosovo-Schweizer Hajdari und Avdullahu siegen",
               "speaker": ""
             }
           ],
@@ -706,14 +778,22 @@
         }
       ],
       "summary": {
-        "index": null,
-        "positive": 0,
+        "index": 100,
+        "positive": 100,
         "neutral": 0,
         "negative": 0,
-        "n": 0,
-        "excluded": 2,
+        "n": 1,
+        "excluded": 1,
         "confident": false,
-        "stanceVersion": 3
+        "stanceVersion": 3,
+        "movement": {
+          "delta": 50,
+          "from": 50,
+          "outlet": "Blick",
+          "title": "Futbollistët kosovaro-zviceranë, Hajdari dhe Avdullahu, shënojnë fitore të thellë me Hoffenheimin",
+          "evidence": "Kosovo-Schweizer Hajdari und Avdullahu siegen",
+          "url": "https://www.blick.ch/sport/fussball/international/dfb-pokal/leverkusen-locker-weiter-augsburg-mueht-sich-in-die-zweite-pokal-runde-id22202590.html"
+        }
       }
     },
     "Holandë": {
@@ -880,6 +960,30 @@
           "lastSeen": "2026-08-22"
         },
         {
+          "name": "El Periódico de España",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Vivir bajo las bombas en el país europeo que España aún no reconoce: \"Nadie hizo nada para evitar la guerra\" - El Periódico de España",
+              "albanianTitle": "Të jetosh nën bomba në shtetin evropian që Spanja ende nuk e njeh: \"Askush nuk bëri asgjë për ta parandaluar luftën\" - El Periódico de España",
+              "blurb": "Dëshmitë e qytetarëve për jetën nën bombardime në një shtet evropian që nuk njihet nga shteti i Spanjës.",
+              "imageUrl": "https://estaticos-cdn.prensaiberica.es/clip/716a0a39-1499-4981-a1b3-aed756f2e602_16-9-discover-aspect-ratio_default_0_x1140y512.jpg",
+              "url": "https://www.epe.es/es/actualidad/20260823/vivir-bombas-pais-europeo-espana-no-reconoce-elvira-dones-pequena-guerra-perfecta-kosovo-133480145",
+              "date": "2026-08-23",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-23",
+          "lastSeen": "2026-08-23"
+        },
+        {
           "name": "Europa Press",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -934,7 +1038,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 4,
-        "excluded": 0,
+        "excluded": 1,
         "confident": false,
         "stanceVersion": 3
       }
@@ -1173,6 +1277,30 @@
           "lastSeen": "2026-08-20"
         },
         {
+          "name": "Newsbeast",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Νέα ένταση μεταξύ Σερβίας-Κοσόβου βάζει η γέφυρα της Μιτροβίτσας – «Μην την ανοίξετε» - Newsbeast",
+              "albanianTitle": "Ura e Mitrovicës nxit tensione të reja mes Serbisë dhe Kosovës – \"Mos e hapni\" - Newsbeast",
+              "blurb": "Ura e Mitrovicës shkakton tensione të reja mes Serbisë dhe Kosovës, me thirrje për të mos e hapur atë.",
+              "imageUrl": "https://www.newsbeast.gr/image/s1200x762/fill/file/files/1/2026/08/AP22363383437236.jpg",
+              "url": "https://www.newsbeast.gr/world/arthro/13306034/nea-entasi-metaxy-servias-kosovou-vazei-i-gefyra-tis-mitrovitsas-min-tin-anoixete",
+              "date": "2026-08-21",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-23",
+          "lastSeen": "2026-08-21"
+        },
+        {
           "name": "Skai.gr",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1364,13 +1492,13 @@
             },
             {
               "title": "Ανατροπή και πρεμιέρα με νίκη στους Μεσογειακούς για την Εθνική χάντμπολ γυναικών - sport-fm.gr",
-              "albanianTitle": "Përmbysje dhe fitore në ndeshjen hapëse të Lojërave Mesdhetare për kombëtaren e hendbollit të femrave - sport-fm.gr",
-              "blurb": "Kombëtarja e hendbollit të femrave ka shënuar fitore në ndeshjen e parë të Lojërave Mesdhetare pas përmbysjes së rezultatit.",
+              "albanianTitle": "Përmbysje dhe start me fitore për Kombëtaren e hendbollit të femrave në Lojërat Mesdhetare",
+              "blurb": "Kombëtarja e hendbollit të femrave ka shënuar fitore në ndeshjen e parë të Lojërave Mesdhetare pas një përmbysjeje të rezultatit.",
               "imageUrl": "https://resources.sport-fm.gr/supersportFM/images/news/26/08/22/handbll-women_212211.jpg?w=880&f=bicubic",
               "url": "https://www.sport-fm.gr/article/amp/ellada-kosobo-31-25-amp/5142968",
               "date": "2026-08-22",
               "sentiment": "unknown",
-              "reason": "",
+              "reason": "Teksti nuk përmend Kosovën, ndaj nuk mund të përcaktohet qëndrimi",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1473,7 +1601,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 23,
-        "excluded": 3,
+        "excluded": 4,
         "confident": true,
         "stanceVersion": 3
       }
@@ -1690,7 +1818,7 @@
         {
           "name": "Hürriyet",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "24. Uluslararası Sanatla Uyanmak Festivali Prizren’de Başladı - Hürriyet",
@@ -1704,12 +1832,25 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Zafer Algöz’e Kosova’da “Yılın Sanatçısı” Ödülü - Hürriyet",
+              "albanianTitle": "Zafer Algöz shpallet \"Artisti i Vitit\" në Kosovë - Hürriyet",
+              "blurb": "Aktori Zafer Algöz është nderuar me çmimin si artisti i vitit gjatë një ceremonie të mbajtur në Kosovë.",
+              "imageUrl": "https://image.hurimg.com/i/hurriyet/90/0x0/6a8aad07de691a4aa8c661f7.jpg",
+              "url": "https://www.hurriyet.com.tr/avrupa/zafer-algoze-kosovada-yilin-sanatcisi-odulu-43282311",
+              "date": "2026-08-23",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 1,
+          "totalArticles": 2,
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-08-20",
-          "lastSeen": "2026-08-20"
+          "lastSeen": "2026-08-23"
         },
         {
           "name": "Odatv",
@@ -1884,6 +2025,54 @@
           "lastSeen": "2026-08-20"
         },
         {
+          "name": "Yeni Asır",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "İzmir ile Kosova için iş birliği kapısı aralandı - Yeni Asır",
+              "albanianTitle": "Hapet dera e bashkëpunimit mes Izmirit dhe Kosovës",
+              "blurb": "Qyteti i Izmirit dhe Kosova kanë nisur bashkëpunimin zyrtar për zhvillimin e marrëdhënieve ekonomike dhe ndërkulturore mes tyre.",
+              "imageUrl": "https://iaysr.tmgrup.com.tr/1fd56e/1200/675/138/0/590/254?u=https://iysr.tmgrup.com.tr/2026/08/22/izmir-ile-kosova-icin-is-birligi-kapisi-aralandi-1787430296722.jpeg",
+              "url": "https://www.yeniasir.com.tr/izmir/2026/08/23/izmir-ile-kosova-icin-is-birligi-kapisi-aralandi",
+              "date": "2026-08-23",
+              "sentiment": "neutral",
+              "reason": "Raportim faktik i bashkëpunimit",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-23",
+          "lastSeen": "2026-08-23"
+        },
+        {
+          "name": "Yeni Meram",
+          "sentiment": "positive",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosova'dan bir madalya daha geldi! - Yeni Meram",
+              "albanianTitle": "Edhe një medalje tjetër për Kosovën! - Yeni Meram",
+              "blurb": "Një medalje e re është fituar nga përfaqësuesit e Kosovës në një garë sportive të zhvilluar së fundmi.",
+              "imageUrl": null,
+              "url": "https://www.yenimeram.com.tr/kosova-dan-bir-madalya-daha-geldi/536521/",
+              "date": "2026-08-23",
+              "sentiment": "positive",
+              "reason": "Titulli shpreh gëzim për arritjen e Kosovës",
+              "isQuote": false,
+              "evidence": "bir madalya daha geldi",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-23",
+          "lastSeen": "2026-08-23"
+        },
+        {
           "name": "Yeni Mesaj",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -2031,11 +2220,11 @@
         }
       ],
       "summary": {
-        "index": 54,
-        "positive": 12,
-        "neutral": 84,
+        "index": 55,
+        "positive": 14,
+        "neutral": 82,
         "negative": 4,
-        "n": 25,
+        "n": 28,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3

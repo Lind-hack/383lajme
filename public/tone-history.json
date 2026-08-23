@@ -2430,9 +2430,9 @@
   },
   {
     "date": "2026-08-23",
-    "overallIndex": 52,
-    "totalArticles": 79,
-    "sourceCount": 65,
+    "overallIndex": 53,
+    "totalArticles": 86,
+    "sourceCount": 72,
     "stanceVersion": 3,
     "countries": {
       "Gjermani": {
@@ -2466,16 +2466,16 @@
         "stanceVersion": 3
       },
       "Francë": {
-        "index": 75,
-        "positive": 50,
-        "neutral": 50,
+        "index": 67,
+        "positive": 33,
+        "neutral": 67,
         "negative": 0,
-        "n": 2,
+        "n": 3,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3,
         "movement": {
-          "delta": 21,
+          "delta": 13,
           "from": 54,
           "outlet": "ladepeche.fr",
           "title": "Një artizan i dialogut në Ballkan nga Graulhet",
@@ -2488,7 +2488,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 18,
+        "n": 20,
         "excluded": 2,
         "confident": true,
         "stanceVersion": 3
@@ -2504,14 +2504,22 @@
         "stanceVersion": 3
       },
       "Zvicër": {
-        "index": null,
-        "positive": 0,
+        "index": 100,
+        "positive": 100,
         "neutral": 0,
         "negative": 0,
-        "n": 0,
-        "excluded": 2,
+        "n": 1,
+        "excluded": 1,
         "confident": false,
-        "stanceVersion": 3
+        "stanceVersion": 3,
+        "movement": {
+          "delta": 50,
+          "from": 50,
+          "outlet": "Blick",
+          "title": "Futbollistët kosovaro-zviceranë, Hajdari dhe Avdullahu, shënojnë fitore të thellë me Hoffenheimin",
+          "evidence": "Kosovo-Schweizer Hajdari und Avdullahu siegen",
+          "url": "https://www.blick.ch/sport/fussball/international/dfb-pokal/leverkusen-locker-weiter-augsburg-mueht-sich-in-die-zweite-pokal-runde-id22202590.html"
+        }
       },
       "Holandë": {
         "index": 50,
@@ -2539,7 +2547,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 4,
-        "excluded": 0,
+        "excluded": 1,
         "confident": false,
         "stanceVersion": 3
       },
@@ -2549,7 +2557,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 23,
-        "excluded": 3,
+        "excluded": 4,
         "confident": true,
         "stanceVersion": 3
       },
@@ -2574,11 +2582,11 @@
         "stanceVersion": 3
       },
       "Turqi": {
-        "index": 54,
-        "positive": 12,
-        "neutral": 84,
+        "index": 55,
+        "positive": 14,
+        "neutral": 82,
         "negative": 4,
-        "n": 25,
+        "n": 28,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
@@ -2594,6 +2602,31 @@
         "stanceVersion": 3
       }
     },
-    "headlines": []
+    "headlines": [
+      {
+        "title": "Dua Lipa aide la jeunesse du Kosovo, d'où est originaire sa famille - Ode (Purepeople)",
+        "source": "Ode (Purepeople)",
+        "country": "Francë",
+        "flag": "🇫🇷",
+        "url": "https://www.purepeople.com/diapo/nous-avons-tout-perdu-comment-dua-lipa-sinvestit-avec-son-frere-pour-leur-pays-dorigine_a552969/1",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Kosovo-Schweizer Hajdari und Avdullahu siegen mit Hoffenheim klar - Blick",
+        "source": "Blick",
+        "country": "Zvicër",
+        "flag": "🇨🇭",
+        "url": "https://www.blick.ch/sport/fussball/international/dfb-pokal/leverkusen-locker-weiter-augsburg-mueht-sich-in-die-zweite-pokal-runde-id22202590.html",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Haberler | Başkan Tugay, Kosova'da yeni iş birliklerinin kapısını araladı - İzmir Büyükşehir Belediyesi",
+        "source": "İzmir Büyükşehir Belediyesi",
+        "country": "Turqi",
+        "flag": "🇹🇷",
+        "url": "https://www.izmir.bel.tr/tr/Haberler/baskan-tugay-kosovada-yeni-is-birliklerinin-kapisini-araladi/59218/156",
+        "sentiment": "positive"
+      }
+    ]
   }
 ]
