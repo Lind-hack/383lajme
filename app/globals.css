@@ -11203,7 +11203,18 @@ header[data-overlay="true"] .nav-search-btn { color: rgba(255, 255, 255, 0.9); }
   z-index: 1;
   max-width: 1280px;
   margin: 0 auto;
-  padding: clamp(26px, 4vw, 52px) clamp(16px, 3vw, 32px) 0;
+  /* The navbar is fixed at --nav-h, so a page that starts at its own padding
+     starts underneath it: the score card's "53" was being clipped by the bar.
+     Every other page clears it the same way (app/page.tsx does it inline), and
+     the extra clamp is the gap below the bar rather than the bar itself.
+
+     The bottom was 0, which put the closing paragraph directly against the
+     footer with no air at all. --space-section is what the homepage uses to
+     part from it. */
+  padding:
+    calc(var(--nav-h) + clamp(18px, 2.6vw, 34px))
+    clamp(16px, 3vw, 32px)
+    var(--space-section);
 }
 
 /* ── Masthead ───────────────────────────────────────────────────────────── */
