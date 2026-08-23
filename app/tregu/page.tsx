@@ -330,7 +330,10 @@ export default function TreguHub() {
   }, [markets, featured, groupedSlugs, sort, league]);
 
   const selectSport = (key: string) => {
-    setCategory("all");
+    // Landing inside the Sport category is part of the promise on the cards:
+    // the pill row reflects it, the server fetch narrows to sport, and the
+    // league filter refines from there.
+    setCategory("sport");
     setLeague((current) => (current === key ? null : key));
     track("tregu_sport_select", { league: key });
     document.getElementById("tregjet")?.scrollIntoView({

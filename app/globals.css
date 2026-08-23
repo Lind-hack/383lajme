@@ -11709,3 +11709,11 @@ header[data-overlay="true"] .nav-search-btn { color: rgba(255, 255, 255, 0.9); }
   .cta-join-arrow,
   .cta-join-icon { transition: none; }
 }
+/* Selected league row — state lives on aria-pressed, not on utility
+   overrides, so the 14px radius and border stay exactly the row's own. */
+.tregu-sport-league[aria-pressed="true"] {
+  background: #fff3ef;
+  border-color: rgba(255, 68, 34, 0.55);
+  box-shadow: inset 0 0 0 1px rgba(255, 68, 34, 0.25);
+}
+.tregu-sport-league[aria-pressed="true"] .tregu-sport-league-count { color: #d63a1c; }

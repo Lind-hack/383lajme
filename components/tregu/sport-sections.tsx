@@ -10,7 +10,7 @@
  */
 
 import { useMemo } from "react";
-import { ArrowRight, Flag, Lock, Trophy } from "lucide-react";
+import { ArrowRight, Lock, Trophy } from "lucide-react";
 import {
   FOOTBALL_LEAGUES,
   FOOTBALL_TOURNAMENTS_SOON,
@@ -63,7 +63,8 @@ function RaceCard({
   return (
     <article className="tregu-sport-card p-5 flex flex-col">
       <header className="flex items-center gap-2.5 mb-4">
-        <Flag size={18} strokeWidth={2} className="text-orange" aria-hidden />
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/logos/f1.svg" alt="F1" width={26} height={26} loading="lazy" />
         <h3 style={{ fontWeight: 800, fontSize: 16, margin: 0, letterSpacing: "-0.01em" }}>
           Formula 1
         </h3>
@@ -84,7 +85,7 @@ function RaceCard({
             <button
               key={r.slug}
               type="button"
-              className={`tregu-sport-league${active === "f1" ? "!border-[#FF4422]/50 !bg-[#fff3ef]" : ""}`}
+              className="tregu-sport-league"
               onClick={() => onSelect("f1")}
               aria-pressed={active === "f1"}
             >
@@ -155,11 +156,15 @@ export default function SportSections({
                 type="button"
                 onClick={() => onSelect(l.key)}
                 aria-pressed={activeLeague === l.key}
-                className={`tregu-sport-league${activeLeague === l.key ? "!border-[#FF4422]/50 !bg-[#fff3ef]" : ""}`}
+                className="tregu-sport-league"
               >
-                <span>
-                  {l.label}
-                  <span style={{ display: "block", fontSize: 11, fontWeight: 600, color: "#9c9c9c", marginTop: 1 }}>{l.country}</span>
+                <span style={{ display: "inline-flex", alignItems: "center", gap: 10, minWidth: 0 }}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={l.logo} alt="" width={20} height={20} loading="lazy" style={{ flexShrink: 0 }} />
+                  <span>
+                    {l.label}
+                    <span style={{ display: "block", fontSize: 11, fontWeight: 600, color: "#9c9c9c", marginTop: 1 }}>{l.country}</span>
+                  </span>
                 </span>
                 <span className="tregu-sport-league-count">{counts[l.key] ?? 0}</span>
               </button>
@@ -170,8 +175,9 @@ export default function SportSections({
           <div className="flex flex-wrap gap-1.5 mt-3.5">
             {FOOTBALL_TOURNAMENTS_SOON.map((t) => (
               <span key={t.key} className="tregu-sport-soon" title="Vjen më vonë">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={t.logo} alt="" width={13} height={13} loading="lazy" />
                 {t.label}
-                <Lock size={10} strokeWidth={2.5} aria-hidden />
               </span>
             ))}
           </div>
