@@ -202,7 +202,7 @@ async function runOfficialSportsRefresh(action: "live_sports", runKey: string, n
     const events = await fetchEspnLiveEvents([...standardMarkets.map((market) => market.live_event), ...(pairMarkets.length === 2 ? [ARGENTINA_SPAIN_PAIR.event] : [])]);
     const signals = buildSportMarketPlan({ markets: standardMarkets, events, now });
     const pairedSignals = buildArgentinaSpainPairedBinaryPlan({ markets: pairMarkets, events, now });
-    const results: Array<{ slug: string; status: "applied" | "no_change" | "no_score" | "failed"; error?: string }> = [];
+    const results: Array<{ slug: string; status: "applied" | "no_change" | "no_score" | "awaiting_official_winner" | "failed"; error?: string }> = [];
     const pairedBinaryEmailUpdates: Array<{ persisted: true; material_change: true; timestamp: string; state: Record<string, unknown> }> = [];
     const f1Results: Array<{ slug: string; status: "applied" | "unchanged" | "unavailable" | "failed"; error?: string }> = [];
     const officialMarketEmailUpdates: Array<{ question: string; slug: string; kind: string; before: Record<string, unknown>; after: Record<string, unknown>; timestamp: string; source_url?: string }> = [];
@@ -231,9 +231,30 @@ async function runOfficialSportsRefresh(action: "live_sports", runKey: string, n
           results.push({ slug: signal.market.slug, status: "no_score" });
           continue;
         }
+        if (signal.kind === "final_unresolved") {
+          // Full time is on the board but no side has decisively won yet: a
+          // two-legged tie still waiting on aggregate, or a shootout. Record
+          // the official state and wait: settling on this leg's score alone
+          // pays the wrong side of the market.
+          const { error: updateError } = await admin.from("markets").update({
+            live_score_state: {
+              key: signal.state_key,
+              status: signal.event.status,
+              detail: signal.event.detail,
+              competitors: signal.event.competitors,
+              football_format: signal.event.football_format,
+              source_url: signal.event.source_url,
+              has_official_score: true,
+              resolution_pending: true,
+            },
+          }).eq("id", signal.market.id).eq("status", "open");
+          if (updateError) throw new Error(updateError.message);
+          results.push({ slug: signal.market.slug, status: "awaiting_official_winner" });
+          continue;
+        }
         const { error: oracleError } = await admin.rpc("apply_sport_market_oracle", {
           p_market_id: signal.market.id, p_provider: "espn", p_event_id: signal.event.event_id,
-          p_state: { key: signal.state_key, status: signal.event.status, detail: signal.event.detail, competitors: signal.event.competitors, metrics: signal.event.metrics, metric_sources: signal.event.metric_sources, starting_lineups: signal.event.starting_lineups, source_url: signal.event.source_url, supplemental: signal.event.supplemental },
+          p_state: { key: signal.state_key, status: signal.event.status, detail: signal.event.detail, competitors: signal.event.competitors, metrics: signal.event.metrics, metric_sources: signal.event.metric_sources, starting_lineups: signal.event.starting_lineups, football_format: signal.event.football_format, series: signal.event.series, source_url: signal.event.source_url, supplemental: signal.event.supplemental },
           p_reference_probabilities: signal.snapshot.reference_probabilities, p_evidence: signal.snapshot.evidence,
           p_reasoning: signal.snapshot.oracle_reasoning, p_requested_cap: signal.snapshot.oracle_cap,
           p_close_market: signal.close_market, p_verified_outcome: signal.verified_outcome ?? null, p_settlement_due_at: signal.settlement_due_at ?? null,

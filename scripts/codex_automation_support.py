@@ -136,6 +136,9 @@ SCORE_WEIGHTS = {
 
 DEFAULT_SITE_URL = "https://383lajme.vercel.app"
 DEFAULT_GITHUB_REPO = "Lind-hack/383lajme"
+TREGU_CHART_UI_VERSION = "live-tape-v1"
+F1_RACE_UI_VERSION = "race-grid-v3"
+FOOTBALL_MARKET_UI_VERSION = "stage-aware-v3"
 # Publish every independently valid fresh item discovered in a scheduled window.
 # Individual invalid/duplicate candidates are removed; a smaller valid batch must
 # not keep the public site stale.
@@ -965,10 +968,73 @@ def verify_public_site(path: Path) -> int:
     last_cache = "unknown"
     last_age = "unknown"
     last_etag = "unknown"
+    # Always compare the public domain with the newest remote main, not merely
+    # with this runner's checkout. A concurrent news or data job can advance
+    # main while this job is still waiting for Vercel.
+    _git_stdout(["git", "fetch", "origin", "main"])
+    expected_commit = (
+        _git_stdout(["git", "rev-parse", "origin/main"]).strip()
+        or _git_stdout(["git", "rev-parse", "HEAD"]).strip()
+    )
 
     while True:
         attempt += 1
         try:
+            contract_request = urllib.request.Request(
+                _cache_busted_url(f"{site_url}/api/deployment-info"),
+                headers={
+                    "Cache-Control": "no-cache",
+                    "Pragma": "no-cache",
+                    "User-Agent": "383-codex-site-verifier/1.0",
+                },
+            )
+            with urllib.request.urlopen(contract_request, timeout=30) as contract_response:
+                contract = json.loads(
+                    contract_response.read().decode("utf-8", errors="replace") or "{}"
+                )
+            deployed_commit = str(contract.get("commit_sha", "") or "").strip()
+            deployed_ref = str(contract.get("commit_ref", "") or "").strip()
+            deployment_environment = str(contract.get("environment", "") or "").strip()
+            deployment_source = str(contract.get("deployment_source", "") or "").strip()
+            if deployed_ref != "main":
+                raise ValueError(
+                    f"production ref is {deployed_ref or 'missing'}, expected main"
+                )
+            if deployment_environment != "production":
+                raise ValueError(
+                    "production environment is "
+                    f"{deployment_environment or 'missing'}, expected production"
+                )
+            if deployment_source != "github-main":
+                raise ValueError(
+                    f"production source is {deployment_source or 'missing'}, expected github-main"
+                )
+            chart_version = str(
+                contract.get("tregu_chart_ui_version", "") or ""
+            ).strip()
+            if chart_version != TREGU_CHART_UI_VERSION:
+                raise ValueError(
+                    f"Tregu chart UI is {chart_version or 'missing'}, expected {TREGU_CHART_UI_VERSION}"
+                )
+            f1_race_version = str(
+                contract.get("f1_race_ui_version", "") or ""
+            ).strip()
+            if f1_race_version != F1_RACE_UI_VERSION:
+                raise ValueError(
+                    f"F1 race UI is {f1_race_version or 'missing'}, expected {F1_RACE_UI_VERSION}"
+                )
+            football_market_version = str(
+                contract.get("football_market_ui_version", "") or ""
+            ).strip()
+            if football_market_version != FOOTBALL_MARKET_UI_VERSION:
+                raise ValueError(
+                    f"Football market UI is {football_market_version or 'missing'}, expected {FOOTBALL_MARKET_UI_VERSION}"
+                )
+            if expected_commit and deployed_commit != expected_commit:
+                raise ValueError(
+                    f"production commit is {deployed_commit[:12] or 'missing'}, expected {expected_commit[:12]}"
+                )
+
             request = urllib.request.Request(
                 _cache_busted_url(site_url),
                 headers={
@@ -1677,9 +1743,10 @@ def finalize(path: Path) -> int:
     print(f"VALID {path.name}: {len(articles)} articles")
     git_publish(path)
 
-    deploy_code = post_vercel_hook()
-    if deploy_code != 0:
-        print("WARN deploy hook did not complete. If Vercel is connected to GitHub, the git push may still deploy automatically.")
+    # GitHub main is the only production source. Vercel's Git integration
+    # deploys the commit pushed above; invoking an old deploy hook here can
+    # rebuild a stale dirty snapshot and overwrite the protected release.
+    print("VERCEL deploy delegated to the GitHub main integration")
 
     email_code = send_report(path)
     if email_code != 0:
