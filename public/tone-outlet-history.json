@@ -1307,6 +1307,19 @@
       "urls": [
         "https://www.voetbalbrabant.nl/2026/08/nederlandse-doelman-kiest-voor-opvallend-avontuur-in-kosovo/"
       ]
+    },
+    "Edirne'nin Sesi": {
+      "country": "Turqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-24",
+      "lastSeen": "2026-08-24",
+      "urls": [
+        "https://www.edirneninsesi.com.tr/kosovali-gencler-edirne-nin-tarihi-ve-kulturel-mirasini-tanidi/43897/"
+      ]
     }
   }
 }

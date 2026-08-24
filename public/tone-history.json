@@ -2640,8 +2640,8 @@
   {
     "date": "2026-08-24",
     "overallIndex": 54,
-    "totalArticles": 64,
-    "sourceCount": 58,
+    "totalArticles": 65,
+    "sourceCount": 59,
     "stanceVersion": 3,
     "countries": {
       "Gjermani": {
@@ -2784,10 +2784,10 @@
       },
       "Turqi": {
         "index": 58,
-        "positive": 21,
-        "neutral": 74,
+        "positive": 20,
+        "neutral": 75,
         "negative": 5,
-        "n": 19,
+        "n": 20,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3

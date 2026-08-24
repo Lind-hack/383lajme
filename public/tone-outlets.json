@@ -1,10 +1,10 @@
 {
   "lastUpdated": "2026-08-24",
   "overallIndex": 54,
-  "totalArticles": 64,
-  "sourceCount": 58,
+  "totalArticles": 65,
+  "sourceCount": 59,
   "stanceVersion": 3,
-  "unattributed": 144,
+  "unattributed": 156,
   "nonEditorial": 14,
   "wrongKosovo": 0,
   "countries": {
@@ -1304,6 +1304,30 @@
           "lastSeen": "2026-08-21"
         },
         {
+          "name": "Edirne'nin Sesi",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovalı Gençler Edirne'nin Tarihi ve Kültürel Mirasını Tanıdı - Edirne'nin Sesi",
+              "albanianTitle": "Të rinjtë nga Kosova njihen me trashëgiminë historike dhe kulturore të Edirnesë",
+              "blurb": "Një grup të rinjsh nga Kosova kanë vizituar qytetin e Edirnesë për t'u njohur me trashëgiminë historike dhe kulturore.",
+              "imageUrl": "https://www.edirneninsesi.com.tr/images/haberler/2026/08/kosovali-gencler-edirne-nin-tarihi-ve-kulturel-mirasini-tanidi-1195.jpg",
+              "url": "https://www.edirneninsesi.com.tr/kosovali-gencler-edirne-nin-tarihi-ve-kulturel-mirasini-tanidi/43897/",
+              "date": "2026-08-24",
+              "sentiment": "neutral",
+              "reason": "Factual report of Kosovar youth activity",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-24",
+          "lastSeen": "2026-08-24"
+        },
+        {
           "name": "Haber 7",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1694,10 +1718,10 @@
       ],
       "summary": {
         "index": 58,
-        "positive": 21,
-        "neutral": 74,
+        "positive": 20,
+        "neutral": 75,
         "negative": 5,
-        "n": 19,
+        "n": 20,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
