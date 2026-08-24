@@ -4,12 +4,12 @@
     {
       "label": "Pjesëmarrja e Kosovës në Lojërat Mesdhetare",
       "fallbackLabel": "Mesdhetare · Lojërat",
-      "summary": "Përfaqësueset e Kosovës në futboll dhe volejboll po marrin pjesë në Lojërat Mesdhetare 2026, ku po përballen me rezultate të ndryshme kundër Algjerisë.",
-      "count": 33,
-      "positive": 2,
+      "summary": "Sportistët e Kosovës po përfaqësohen në turne të ndryshme të Lojërave Mesdhetare në Taranto, duke zhvilluar ndeshje të shumta kundër ekipeve ndërkombëtare.",
+      "count": 34,
+      "positive": 3,
       "neutral": 29,
       "negative": 1,
-      "index": 52,
+      "index": 53,
       "countries": [
         "Austri",
         "Belgjikë",
@@ -69,6 +69,22 @@
           "outlet": "lopinion.ma",
           "country": "Belgjikë",
           "flag": "🇧🇪"
+        },
+        {
+          "title": "Ελλάδα – Κόσοβο 40-20: Επιβλητική η Εθνική γυναικών και 2/2 στο χάντμπολ των Μεσογειακών Αγώνων - ΤΑ ΝΕΑ",
+          "albanianTitle": "Greqi – Kosovë 40-20: Fitore bindëse e kombëtares së femrave dhe 2/2 në hendboll në Lojërat Mesdhetare.",
+          "blurb": "Kombëtarja e Greqisë në hendboll për femra ka mposhtur Kosovën me rezultat 40-20 në kuadër të Lojërave Mesdhetare.",
+          "imageUrl": "https://www.tanea.gr/wp-content/uploads/2026/08/xantmpol-ogimage.jpg",
+          "url": "https://www.tanea.gr/2026/08/24/sports/othersports/ellada-kosovo-40-20-epivlitiki-i-ethniki-gynaikon-kai-2-2-sto-xantmpol-ton-mesogeiakon-agonon/",
+          "date": "2026-08-24",
+          "sentiment": "positive",
+          "reason": "Përdor fjalë pozitive për ekipin kombëtar të Kosovës",
+          "isQuote": false,
+          "speaker": "",
+          "evidence": "Επιβλητική",
+          "outlet": "ΤΑ ΝΕΑ",
+          "country": "Greqi",
+          "flag": "🇬🇷"
         },
         {
           "title": "Μεσογειακοί Αγώνες: Με το δεξί ξεκίνησε η Εθνική βόλεϊ γυναικών, 3-0 το Κόσοβο - In.gr",
@@ -165,29 +181,13 @@
           "outlet": "Calciopress",
           "country": "Itali",
           "flag": "🇮🇹"
-        },
-        {
-          "title": "From Tunisia to Kosovo, Padel’s Mediterranean celebration in Taranto: “Being here is something special” - International Padel Federation",
-          "albanianTitle": "Nga Tunizia në Kosovë, festa mesdhetare e Padelit në Taranto: “Të jesh këtu është diçka e veçantë” – Federata Ndërkombëtare e Padelit",
-          "blurb": "Pjesëmarrësit nga Tunizia dhe Kosova po marrin pjesë në aktivitetet e sportit të padelit në qytetin e Tarantos.",
-          "imageUrl": "https://www.padelfip.com/wp-content/uploads/2026/08/Tunisia-scaled.jpeg",
-          "url": "https://www.padelfip.com/2026/08/from-tunisia-to-kosovo-padels-mediterranean-celebration-in-taranto-being-here-is-something-special/",
-          "date": "2026-08-22",
-          "sentiment": "neutral",
-          "reason": "Fact‑based report mentioning Kosovo without loaded language",
-          "isQuote": true,
-          "speaker": "",
-          "evidence": "",
-          "outlet": "International Padel Federation",
-          "country": "SHBA",
-          "flag": "🇺🇸"
         }
       ]
     },
     {
-      "label": "Bashkëpunimi ndërkombëtar Izmir dhe Kosovë",
+      "label": "Bashkëpunimi shumëdimensional Izmir dhe Kosovë",
       "fallbackLabel": "Tugay · Izmirit",
-      "summary": "Kryetari i Bashkisë së Izmirit, Cemil Tugay, ka nisur një iniciativë për të vendosur marrëdhënie bashkëpunimi shumëdimensional me institucionet në Kosovë.",
+      "summary": "Kryetari i Izmirit, Cemil Tugay, ka nisur një iniciativë për të vendosur marrëdhënie të reja bashkëpunimi mes qytetit të tij dhe Kosovës.",
       "count": 14,
       "positive": 3,
       "neutral": 11,
@@ -363,7 +363,7 @@
     {
       "label": "Debati për hapjen e urës së Ibrit",
       "fallbackLabel": "Ibrit · Nato",
-      "summary": "Hapja e urës së Ibrit mbetet çështje e ndjeshme politike dhe e sigurisë, duke nxitur reagime nga NATO, Serbia dhe analistët lokalë për pasojat.",
+      "summary": "Hapja e urës së Ibrit për qarkullim mbetet temë e ndjeshme politike, me thirrje nga NATO për kujdes dhe shqetësime për destabilizim.",
       "count": 11,
       "positive": 0,
       "neutral": 11,
@@ -541,9 +541,9 @@
       ]
     },
     {
-      "label": "Zbulimi i varrezave masive dhe armatimit",
-      "fallbackLabel": "Masive · Pranë",
-      "summary": "Autoritetet në Kosovë kanë zbuluar sasi të mëdha armësh pranë varrezave masive, ndërsa procesi i zhvarrosjes së trupave ka përfunduar pas hetimeve të kryera.",
+      "label": "Zbulimi i armatimit dhe varrezave masive",
+      "fallbackLabel": "Masive · Varrezave",
+      "summary": "Autoritetet kanë zbuluar sasi të mëdha armësh pranë varrezave masive në Zubin Potok, ndërsa procesi i zhvarrosjes së trupave ka përfunduar së fundmi.",
       "count": 11,
       "positive": 0,
       "neutral": 11,
@@ -717,12 +717,12 @@
       ]
     },
     {
-      "label": "Protestat politike dhe çështjet gjyqësore",
+      "label": "Protestat dhe zhvillimet politike në Kosovë",
       "fallbackLabel": "Para · Qeverisë",
-      "summary": "Opozita po proteston kundër Qeverisë për situatën energjetike, ndërkohë që opinioni publik është i përqendruar te vendimet gjyqësore për ish-udhëheqësit politikë në Hagë.",
-      "count": 9,
+      "summary": "Opozita dhe qytetarët po shprehin pakënaqësi ndaj qeverisë përmes protestave, ndërsa pritet vendimi gjyqësor për ish-udhëheqësit e Kosovës në Hagë.",
+      "count": 10,
       "positive": 0,
-      "neutral": 7,
+      "neutral": 8,
       "negative": 1,
       "index": 44,
       "countries": [
@@ -862,6 +862,22 @@
           "flag": "🇩🇪"
         },
         {
+          "title": "The Democratic Party of Kosovo and the Alliance continue their protest in front of government building - KosovaPress",
+          "albanianTitle": "Partia Demokratike e Kosovës dhe Aleanca vazhdojnë protestën para ndërtesës së qeverisë.",
+          "blurb": "Partia Demokratike e Kosovës dhe Aleanca për Ardhmërinë e Kosovës vazhdojnë protestën para ndërtesës së Qeverisë së vendit.",
+          "imageUrl": null,
+          "url": "https://kosovapress.com/eng/the-democratic-party-of-kosovo-and-the-alliance-continue-their-protest-in-front-of-government-building",
+          "date": "2026-08-24",
+          "sentiment": "neutral",
+          "reason": "reporting protest, neutral tone",
+          "isQuote": false,
+          "speaker": "",
+          "evidence": "",
+          "outlet": "KosovaPress",
+          "country": "SHBA",
+          "flag": "🇺🇸"
+        },
+        {
           "title": "16. September Urteil, Gucati: Am 16. September Bürger des Kosovo vor Gericht - Periskopi",
           "albanianTitle": "Gucati për vendimin e 16 shtatorit: Më 16 shtator qytetarët e Kosovës para gjyqit",
           "blurb": "Nasim Haradinaj ka deklaruar se më 16 shtator do të shpallet aktgjykimi për qytetarët e Kosovës në gjykatë.",
@@ -881,8 +897,8 @@
     },
     {
       "label": "Operacionet policore dhe arrestimet ndërkombëtare",
-      "fallbackLabel": "Arratisurit · Serbi",
-      "summary": "Autoritetet policore në disa shtete kanë kryer arrestime të personave nga Kosova, të cilët kërkoheshin për vepra të ndryshme penale dhe trafikim droge.",
+      "fallbackLabel": "Konfirmon · Arrestimin",
+      "summary": "Autoritetet policore në rajone të ndryshme kanë realizuar arrestime të personave të kërkuar për vepra të rënda penale, përfshirë trafikimin e lëndëve narkotike.",
       "count": 8,
       "positive": 0,
       "neutral": 7,
@@ -1028,9 +1044,9 @@
       ]
     },
     {
-      "label": "Tensionet politike dhe retorika ndëretnike",
+      "label": "Tensionet politike dhe retorika ndërkombëtare",
       "fallbackLabel": "Ndaj · Sistematik",
-      "summary": "Rritja e retorikës së ashpër nga Serbia dhe kërcënimet e grupeve të ndryshme po ndikojnë në përshkallëzimin e situatës së sigurisë në Kosovë.",
+      "summary": "Situata e sigurisë në Kosovë po përballet me kërcënime dhe akuza të ashpra nga zyrtarë rusë dhe serbë për trajtimin e popullatës serbe.",
       "count": 7,
       "positive": 0,
       "neutral": 7,
@@ -1160,7 +1176,7 @@
     {
       "label": "Menaxhimi i fondeve dhe projekteve financiare",
       "fallbackLabel": "Euro · Milionë",
-      "summary": "Kosova po përballet me sfida në shfrytëzimin e fondeve të Bashkimit Evropian, duke rrezikuar humbjen e miliona eurove për shkak të mosrealizimit të projekteve.",
+      "summary": "Kosova po përballet me sfida në shfrytëzimin e fondeve të BE-së, duke rrezikuar humbjen e miliona eurove për shkak të ngecjeve në zbatim.",
       "count": 7,
       "positive": 0,
       "neutral": 7,

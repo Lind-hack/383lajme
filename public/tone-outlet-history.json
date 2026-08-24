@@ -176,17 +176,18 @@
     },
     "ANSA": {
       "country": "Itali",
-      "total": 3,
+      "total": 4,
       "positive": 0,
       "neutral": 3,
       "negative": 0,
-      "unknown": 0,
+      "unknown": 1,
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-21",
+      "lastSeen": "2026-08-24",
       "urls": [
         "https://www.ansa.it/nuova_europa/en/news/sections/news/2026/08/20/vucic-writes-to-rutte-nato-stop-terror-in-kosovo-do-not-reopen-the_9034279d-c06f-4e44-ab54-096dd4332014.html",
         "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/08/20/vucic-scrive-a-rutte-nato-fermi-terrore-in-kosovo-non-riaprire-ponte_68050249-06ef-4b0a-b56b-6ff64929514e.html",
-        "https://www.ansa.it/nuova_europa/it/notizie/rubriche/politica/2026/08/21/kosovo-completa-esumazione-23-corpi-da-fossa-comune-scoperta-in-luglio_2a9d9978-3f19-4b2a-8a42-64b84fe4d081.html"
+        "https://www.ansa.it/nuova_europa/it/notizie/rubriche/politica/2026/08/21/kosovo-completa-esumazione-23-corpi-da-fossa-comune-scoperta-in-luglio_2a9d9978-3f19-4b2a-8a42-64b84fe4d081.html",
+        "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/08/24/nei-balcani-macedonia-del-nord-bosnia-e-serbia-in-preda-agli-incendi_12f9ffd9-6f15-4ffb-982e-a4b1c86da15e.html"
       ]
     },
     "Virgilio": {
@@ -617,16 +618,17 @@
     },
     "ΤΑ ΝΕΑ": {
       "country": "Greqi",
-      "total": 2,
-      "positive": 0,
+      "total": 3,
+      "positive": 1,
       "neutral": 2,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-20",
+      "lastSeen": "2026-08-24",
       "urls": [
         "https://www.tanea.gr/2026/08/20/sports/othersports/ellada-kosovo-3-0-sarose-i-ethniki-andron-stin-premiera-ton-mesogeiakon-agonon/",
-        "https://www.tanea.gr/2026/08/21/sports/othersports/mesogeiakoi-agones-idaniki-premiera-me-nikitria-tin-ethniki-volei-gynaikon-apenanti-sto-kosovo/"
+        "https://www.tanea.gr/2026/08/21/sports/othersports/mesogeiakoi-agones-idaniki-premiera-me-nikitria-tin-ethniki-volei-gynaikon-apenanti-sto-kosovo/",
+        "https://www.tanea.gr/2026/08/24/sports/othersports/ellada-kosovo-40-20-epivlitiki-i-ethniki-gynaikon-kai-2-2-sto-xantmpol-ton-mesogeiakon-agonon/"
       ]
     },
     "sport-fm.gr": {
@@ -1345,6 +1347,19 @@
       "lastSeen": "2026-08-22",
       "urls": [
         "https://www.kicker.at/portugal-gegen-kosovo-2026-mittelmeerspiele-5262186/spielinfo"
+      ]
+    },
+    "Animals Today": {
+      "country": "Holandë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-24",
+      "lastSeen": "2026-08-24",
+      "urls": [
+        "https://www.animalstoday.nl/500-zwerfdieren-gesteriliseerd-kosovo/"
       ]
     }
   }

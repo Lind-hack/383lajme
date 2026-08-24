@@ -1,10 +1,10 @@
 {
   "lastUpdated": "2026-08-24",
   "overallIndex": 54,
-  "totalArticles": 68,
-  "sourceCount": 61,
+  "totalArticles": 70,
+  "sourceCount": 63,
   "stanceVersion": 3,
-  "unattributed": 169,
+  "unattributed": 177,
   "nonEditorial": 14,
   "wrongKosovo": 0,
   "countries": {
@@ -220,7 +220,7 @@
         {
           "name": "ANSA",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Kosovo completa esumazione 23 corpi da fossa comune scoperta in luglio - ANSA",
@@ -234,12 +234,25 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Nei Balcani Macedonia del Nord, Bosnia e Serbia in preda agli incendi - ANSA",
+              "albanianTitle": "Maqedonia e Veriut, Bosnja dhe Serbia të përfshira nga zjarret.",
+              "blurb": "Maqedonia e Veriut, Bosnja dhe Serbia po përballen me zjarre të mëdha që kanë përfshirë këto vende të Ballkanit.",
+              "imageUrl": "https://www.ansa.it/webimages/img_1280x720/2024/1/24/b750e7a3a277325035bcd0f60cdaafb2.jpg",
+              "url": "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/08/24/nei-balcani-macedonia-del-nord-bosnia-e-serbia-in-preda-agli-incendi_12f9ffd9-6f15-4ffb-982e-a4b1c86da15e.html",
+              "date": "2026-08-24",
+              "sentiment": "unknown",
+              "reason": "no mention of Kosovo, cannot infer stance",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 3,
+          "totalArticles": 4,
           "trend": "neutral",
           "firstSeen": "2026-08-20",
-          "lastSeen": "2026-08-21"
+          "lastSeen": "2026-08-24"
         },
         {
           "name": "CasertaNews",
@@ -730,7 +743,7 @@
         "neutral": 96,
         "negative": 4,
         "n": 23,
-        "excluded": 0,
+        "excluded": 1,
         "confident": true,
         "stanceVersion": 3
       }
@@ -862,6 +875,30 @@
     "Holandë": {
       "outlets": [
         {
+          "name": "Animals Today",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "500 zwerfdieren gesteriliseerd in Kosovo - Animals Today",
+              "albanianTitle": "500 kafshë endacake të sterilizuara në Kosovë.",
+              "blurb": "Pesëqind kafshë endacake janë sterilizuar në Kosovë në kuadër të një aksioni të ndërmarrë për kontrollin e popullsisë.",
+              "imageUrl": "https://www.animalstoday.nl/afbeeldingen/2026/08/animalstoday-vijfhonderd-sterilisaties-kosovo-houseofanimals.jpeg",
+              "url": "https://www.animalstoday.nl/500-zwerfdieren-gesteriliseerd-kosovo/",
+              "date": "2026-08-24",
+              "sentiment": "neutral",
+              "reason": "Faktik raportim i sterilimit të kafshëve të rrugës në Kosovë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-24",
+          "lastSeen": "2026-08-24"
+        },
+        {
           "name": "VoetbalBrabant.nl",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -891,7 +928,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 1,
+        "n": 2,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -1265,6 +1302,30 @@
           "lastSeen": "2026-08-21"
         },
         {
+          "name": "ΤΑ ΝΕΑ",
+          "sentiment": "positive",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Ελλάδα – Κόσοβο 40-20: Επιβλητική η Εθνική γυναικών και 2/2 στο χάντμπολ των Μεσογειακών Αγώνων - ΤΑ ΝΕΑ",
+              "albanianTitle": "Greqi – Kosovë 40-20: Fitore bindëse e kombëtares së femrave dhe 2/2 në hendboll në Lojërat Mesdhetare.",
+              "blurb": "Kombëtarja e Greqisë në hendboll për femra ka mposhtur Kosovën me rezultat 40-20 në kuadër të Lojërave Mesdhetare.",
+              "imageUrl": "https://www.tanea.gr/wp-content/uploads/2026/08/xantmpol-ogimage.jpg",
+              "url": "https://www.tanea.gr/2026/08/24/sports/othersports/ellada-kosovo-40-20-epivlitiki-i-ethniki-gynaikon-kai-2-2-sto-xantmpol-ton-mesogeiakon-agonon/",
+              "date": "2026-08-24",
+              "sentiment": "positive",
+              "reason": "Përdor fjalë pozitive për ekipin kombëtar të Kosovës",
+              "isQuote": false,
+              "evidence": "Επιβλητική",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 3,
+          "trend": "i përzier",
+          "firstSeen": "2026-08-20",
+          "lastSeen": "2026-08-24"
+        },
+        {
           "name": "η ναυτεμπορικη",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1290,14 +1351,22 @@
         }
       ],
       "summary": {
-        "index": 55,
-        "positive": 10,
-        "neutral": 90,
+        "index": 59,
+        "positive": 18,
+        "neutral": 82,
         "negative": 0,
-        "n": 10,
+        "n": 11,
         "excluded": 2,
         "confident": true,
-        "stanceVersion": 3
+        "stanceVersion": 3,
+        "movement": {
+          "delta": 7,
+          "from": 52,
+          "outlet": "sport-fm.gr",
+          "title": "Përmbysje dhe fitore në ndeshjen e parë të Lojërave Mesdhetare për kombëtaren e hendbollit të femrave",
+          "evidence": "ανατροπή και πρεμιέρα με νίκη",
+          "url": "https://www.sport-fm.gr/article/amp/ellada-kosobo-31-25-amp/5142968"
+        }
       }
     },
     "Suedi": {

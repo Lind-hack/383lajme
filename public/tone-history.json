@@ -2640,8 +2640,8 @@
   {
     "date": "2026-08-24",
     "overallIndex": 54,
-    "totalArticles": 68,
-    "sourceCount": 61,
+    "totalArticles": 70,
+    "sourceCount": 63,
     "stanceVersion": 3,
     "countries": {
       "Gjermani": {
@@ -2698,7 +2698,7 @@
         "neutral": 96,
         "negative": 4,
         "n": 23,
-        "excluded": 0,
+        "excluded": 1,
         "confident": true,
         "stanceVersion": 3
       },
@@ -2727,7 +2727,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 1,
+        "n": 2,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -2753,14 +2753,22 @@
         "stanceVersion": 3
       },
       "Greqi": {
-        "index": 55,
-        "positive": 10,
-        "neutral": 90,
+        "index": 59,
+        "positive": 18,
+        "neutral": 82,
         "negative": 0,
-        "n": 10,
+        "n": 11,
         "excluded": 2,
         "confident": true,
-        "stanceVersion": 3
+        "stanceVersion": 3,
+        "movement": {
+          "delta": 7,
+          "from": 52,
+          "outlet": "sport-fm.gr",
+          "title": "Përmbysje dhe fitore në ndeshjen e parë të Lojërave Mesdhetare për kombëtaren e hendbollit të femrave",
+          "evidence": "ανατροπή και πρεμιέρα με νίκη",
+          "url": "https://www.sport-fm.gr/article/amp/ellada-kosobo-31-25-amp/5142968"
+        }
       },
       "Suedi": {
         "index": null,
@@ -2803,6 +2811,55 @@
         "stanceVersion": 3
       }
     },
-    "headlines": []
+    "headlines": [
+      {
+        "title": "Kosovo-Schweizer Hajdari und Avdullahu siegen mit Hoffenheim klar - Blick",
+        "source": "Blick",
+        "country": "Zvicër",
+        "flag": "🇨🇭",
+        "url": "https://www.blick.ch/sport/fussball/international/dfb-pokal/leverkusen-locker-weiter-augsburg-mueht-sich-in-die-zweite-pokal-runde-id22202590.html",
+        "sentiment": "positive"
+      },
+      {
+        "title": "JM 2026 : les Lioncelles décrochent un précieux nul face au Portugal - lopinion.ma",
+        "source": "lopinion.ma",
+        "country": "Belgjikë",
+        "flag": "🇧🇪",
+        "url": "https://lopinion.ma/fr/sport/newsroom/jm-2026--les-lioncelles-decrochent-un-precieux-nul-face-au-portugal_a22886?articleId=4125af99-f88e-4b2b-ac18-1b9dbcd0ddf0",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Ελλάδα – Κόσοβο 40-20: Επιβλητική η Εθνική γυναικών και 2/2 στο χάντμπολ των Μεσογειακών Αγώνων - ΤΑ ΝΕΑ",
+        "source": "ΤΑ ΝΕΑ",
+        "country": "Greqi",
+        "flag": "🇬🇷",
+        "url": "https://www.tanea.gr/2026/08/24/sports/othersports/ellada-kosovo-40-20-epivlitiki-i-ethniki-gynaikon-kai-2-2-sto-xantmpol-ton-mesogeiakon-agonon/",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Aleanca hedh qymyr para qeverisë, Ramadani: Kurti po e çon Kosovën në terr politik - Reporteri",
+        "source": "Reporteri",
+        "country": "Gjermani",
+        "flag": "🇩🇪",
+        "url": "https://reporteri.net/fr/nouvelles/L%27alliance-jette-de-l%27huile-sur-le-feu-au-gouvernement-%3A-Ramadan-Kurti-plonge-le-Kosovo-dans-les-t%C3%A9n%C3%A8bres-politiques./",
+        "sentiment": "negative"
+      },
+      {
+        "title": "Tahiri për dy vjetët e Qeverisë Kurti: Varfëri dhe dobësim të Kosovës - Reporteri",
+        "source": "Reporteri",
+        "country": "Francë",
+        "flag": "🇫🇷",
+        "url": "https://reporteri.net/fr/nouvelles/Tahiri-sur-les-deux-ann%C3%A9es-du-gouvernement-Kurti--la-pauvret%C3%A9-et-la-faiblesse-du-Kosovo/",
+        "sentiment": "negative"
+      },
+      {
+        "title": "Giochi del Mediterraneo: calcio femminile, le Azzurrine schiantano il Kosovo 4-1, gli highlights su SportfaceTV - Sportface.it",
+        "source": "Sportface.it",
+        "country": "Itali",
+        "flag": "🇮🇹",
+        "url": "https://www.sportface.it/giochi-del-mediterraneo-taranto-2026/giochi-del-mediterraneo-calcio-femminile-le-azzurrine-schiantano-il-kosovo-4-1-gli-highlights-su-sportfacetv/2826868",
+        "sentiment": "negative"
+      }
+    ]
   }
 ]
