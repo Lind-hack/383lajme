@@ -2640,8 +2640,8 @@
   {
     "date": "2026-08-24",
     "overallIndex": 54,
-    "totalArticles": 66,
-    "sourceCount": 60,
+    "totalArticles": 68,
+    "sourceCount": 61,
     "stanceVersion": 3,
     "countries": {
       "Gjermani": {
@@ -2707,7 +2707,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 1,
+        "n": 2,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -2783,11 +2783,11 @@
         "stanceVersion": 3
       },
       "Turqi": {
-        "index": 58,
-        "positive": 20,
-        "neutral": 75,
+        "index": 57,
+        "positive": 19,
+        "neutral": 76,
         "negative": 5,
-        "n": 20,
+        "n": 21,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3

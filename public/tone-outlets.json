@@ -1,10 +1,10 @@
 {
   "lastUpdated": "2026-08-24",
   "overallIndex": 54,
-  "totalArticles": 66,
-  "sourceCount": 60,
+  "totalArticles": 68,
+  "sourceCount": 61,
   "stanceVersion": 3,
-  "unattributed": 164,
+  "unattributed": 169,
   "nonEditorial": 14,
   "wrongKosovo": 0,
   "countries": {
@@ -760,6 +760,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-08-24",
           "lastSeen": "2026-08-24"
+        },
+        {
+          "name": "kicker",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Spielinfo | Portugal - Kosovo : | 3. Spieltag | Mittelmeerspiele 2026 - kicker",
+              "albanianTitle": "Informacione për ndeshjen | Portugali - Kosovë | Xhiroja e 3-të | Lojërat Mesdhetare 2026",
+              "blurb": "Kombëtarja e Kosovës përballet me Portugalinë në kuadër të xhiros së tretë të Lojërave Mesdhetare të vitit 2026.",
+              "imageUrl": null,
+              "url": "https://www.kicker.at/portugal-gegen-kosovo-2026-mittelmeerspiele-5262186/spielinfo",
+              "date": "2026-08-22",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportuar pa ngarkim",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-24",
+          "lastSeen": "2026-08-22"
         }
       ],
       "summary": {
@@ -767,7 +791,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 1,
+        "n": 2,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -1474,8 +1498,8 @@
         },
         {
           "name": "Odatv",
-          "sentiment": "negative",
-          "articleCount": 2,
+          "sentiment": "neutral",
+          "articleCount": 3,
           "articles": [
             {
               "title": "Vucic, Türk komutanı hedef aldı... Odatv araştırdı: İbar Nehri'nden çıkan Neo-Osmanlı kabusu - Odatv",
@@ -1502,6 +1526,19 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Sırp lider KFOR komutanını hedef aldı: 'Bunu o Türk yapıyor' - Odatv",
+              "albanianTitle": "Lideri serb shënjestron komandantin e KFOR-it: 'Këtë po e bën ai turku'",
+              "blurb": "Një lider serb ka kritikuar komandantin e KFOR-it, duke përmendur përkatësinë e tij kombëtare në lidhje me vendimet e marra.",
+              "imageUrl": "https://img.odatv.com/rcman/Cw1280h720q95gc/storage/files/images/2026/08/20/sirp-lider-vucic-kfor-komutani-ozkan-ulutasi-hedef-aldi-bunu-o-turk-yapiyor-g2dh.jpg",
+              "url": "https://www.odatv.com/guncel/sirp-lider-vucic-kfor-komutani-ozkan-ulutasi-hedef-aldi-bunu-o-turk-yapiyor-120159394",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Report of a Serbian leader's statement without editorializing",
+              "isQuote": true,
+              "evidence": "",
+              "speaker": "Serbian leader"
             }
           ],
           "totalArticles": 2,
@@ -1742,11 +1779,11 @@
         }
       ],
       "summary": {
-        "index": 58,
-        "positive": 20,
-        "neutral": 75,
+        "index": 57,
+        "positive": 19,
+        "neutral": 76,
         "negative": 5,
-        "n": 20,
+        "n": 21,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
