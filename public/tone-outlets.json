@@ -1,15 +1,63 @@
 {
   "lastUpdated": "2026-08-24",
   "overallIndex": 54,
-  "totalArticles": 60,
-  "sourceCount": 55,
+  "totalArticles": 64,
+  "sourceCount": 58,
   "stanceVersion": 3,
-  "unattributed": 132,
+  "unattributed": 144,
   "nonEditorial": 14,
   "wrongKosovo": 0,
   "countries": {
     "Gjermani": {
       "outlets": [
+        {
+          "name": "Joyn",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Albanien - Kosovo - Joyn",
+              "albanianTitle": "Shqipëri - Kosovë - Joyn",
+              "blurb": "Platforma Joyn ka përfshirë në shërbimet e saj përmbajtje të ndryshme që lidhen me Shqipërinë dhe Kosovën.",
+              "imageUrl": null,
+              "url": "https://ran.joyn.de/sports/ticker/ma12492869-albanien-kosovo",
+              "date": "2026-08-24",
+              "sentiment": "neutral",
+              "reason": "Faktikisht raporton titullin pa gjuhë ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-24",
+          "lastSeen": "2026-08-24"
+        },
+        {
+          "name": "Kölnische Rundschau",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Flughafen Köln/Bonn: Mann mit Haftbefehl bei Ausreise in den Kosovo gestoppt - Kölnische Rundschau",
+              "albanianTitle": "Aeroporti i Këlnit/Bonit: Ndalohet një person në kërkim gjatë udhëtimit për në Kosovë - Kölnische Rundschau",
+              "blurb": "Policia në aeroportin e Këlnit ka ndaluar një person me urdhër-arrest gjatë tentativës për të udhëtuar drejt Kosovës.",
+              "imageUrl": "https://static.rundschau-online.de/__images/2026/08/24/e563d448-50aa-4060-a701-5264e18e0ecc.jpeg?w=1200&h=630&fm=jpg&fit=crop&crop=faces,entropy&s=eca8beb2a19a87d11e71ae93a01e02c9",
+              "url": "https://www.rundschau-online.de/koeln/blaulicht-koeln/flughafen-koeln-bonn-mann-mit-haftbefehl-bei-ausreise-in-kosovo-gestoppt-1356272",
+              "date": "2026-08-24",
+              "sentiment": "neutral",
+              "reason": "Raporton ngjarje pa gjuhë përçmuese",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-24",
+          "lastSeen": "2026-08-24"
+        },
         {
           "name": "Tagesschau",
           "sentiment": "neutral",
@@ -40,7 +88,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 1,
+        "n": 3,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -763,13 +811,38 @@
       }
     },
     "Holandë": {
-      "outlets": [],
+      "outlets": [
+        {
+          "name": "VoetbalBrabant.nl",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Nederlandse doelman kiest voor opvallend avontuur in Kosovo - VoetbalBrabant.nl",
+              "albanianTitle": "Portieri holandez zgjedh një aventurë të pazakontë në Kosovë - VoetbalBrabant.nl",
+              "blurb": "Një portier holandez ka vendosur të vazhdojë karrierën e tij futbollistike duke u transferuar në një klub të Kosovës.",
+              "imageUrl": "https://www.voetbalbrabant.nl/wp-content/uploads/2025/05/Keepershandschoenen.png",
+              "url": "https://www.voetbalbrabant.nl/2026/08/nederlandse-doelman-kiest-voor-opvallend-avontuur-in-kosovo/",
+              "date": "2026-08-24",
+              "sentiment": "neutral",
+              "reason": "Përdor gjuhë neutrale për aventurën në Kosovë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-24",
+          "lastSeen": "2026-08-24"
+        }
+      ],
       "summary": {
-        "index": null,
+        "index": 50,
         "positive": 0,
-        "neutral": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 0,
+        "n": 1,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -1499,7 +1572,7 @@
         {
           "name": "İlkses Gazetesi",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "İzmir ile Kosova arasında yeni iş birlikleri için temaslar yoğunlaşıyor - İlkses Gazetesi",
@@ -1513,9 +1586,22 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Başkan Tugay’ın Kosova temaslarında ekonomi ve kültür öne çıktı - İlkses Gazetesi",
+              "albanianTitle": "Ekonomia dhe kultura në fokus të vizitës së kryetarit Tugay në Kosovë - İlkses Gazetesi",
+              "blurb": "Kryetari Tugay gjatë vizitës në Kosovë ka zhvilluar takime ku në fokus kanë qenë bashkëpunimi ekonomik dhe shkëmbimet kulturore.",
+              "imageUrl": "https://ilkses.com.tr/image/2026/08/21/baskan-tugay-in-kosova-temaslarinda-ekonomi-ve-kultur-one-cikti_large.webp",
+              "url": "https://ilkses.com.tr/izmir/baskan-tugay-in-kosova-temaslarinda-ekonomi-ve-kultur-one-cikti-457652",
+              "date": "2026-08-21",
+              "sentiment": "neutral",
+              "reason": "Haber nesnel olarak raporlanıyor",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 1,
+          "totalArticles": 2,
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-08-22",
           "lastSeen": "2026-08-22"
@@ -1608,10 +1694,10 @@
       ],
       "summary": {
         "index": 58,
-        "positive": 22,
-        "neutral": 72,
-        "negative": 6,
-        "n": 18,
+        "positive": 21,
+        "neutral": 74,
+        "negative": 5,
+        "n": 19,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3

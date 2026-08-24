@@ -4,7 +4,7 @@
     {
       "label": "Pjesëmarrja e Kosovës në Lojërat Mesdhetare",
       "fallbackLabel": "Mesdhetare · Lojërat",
-      "summary": "Sportistët e Kosovës po marrin pjesë në Lojërat Mesdhetare 2026 në Taranto, ku po përballen me rezultate të ndryshme në disiplinat e futbollit dhe volejbollit.",
+      "summary": "Sportistët e Kosovës po përfaqësohen në disiplina të ndryshme në Lojërat Mesdhetare 2026, duke zhvilluar ndeshje konkurruese kundër ekipeve ndërkombëtare.",
       "count": 31,
       "positive": 1,
       "neutral": 28,
@@ -184,14 +184,14 @@
       ]
     },
     {
-      "label": "Bashkëpunimi shumëdimensional Izmir dhe Kosovë",
-      "fallbackLabel": "Tugay · Izmirit",
-      "summary": "Kryetari i Izmirit, Cemil Tugay, ka iniciuar një periudhë të re bashkëpunimi shumëdimensional me Kosovën për të forcuar lidhjet dhe zhvilluar projekte të përbashkëta.",
+      "label": "Bashkëpunimi institucional Izmir dhe Kosovë",
+      "fallbackLabel": "Izmirit · Tugay",
+      "summary": "Kryetari i Bashkisë së Izmirit, Cemil Tugay, po zhvillon vizita zyrtare në Kosovë për të nisur një epokë të re bashkëpunimi shumëdimensional.",
       "count": 12,
-      "positive": 3,
-      "neutral": 9,
+      "positive": 4,
+      "neutral": 8,
       "negative": 0,
-      "index": 62,
+      "index": 67,
       "countries": [
         "Turqi"
       ],
@@ -213,6 +213,22 @@
           "flag": "🇹🇷"
         },
         {
+          "title": "Cemil Tugay’dan Kosova’da yoğun diplomasi: İzmir ile Kosova arasında yeni dönem - Ses Gazete",
+          "albanianTitle": "Diplomaci intensive e Cemil Tugay në Kosovë: Një epokë e re mes Izmirit dhe Kosovës - Ses Gazete",
+          "blurb": "Kryetari i Bashkisë së Izmirit, Cemil Tugay, zhvilloi takime diplomatike për të forcuar bashkëpunimin ndërmjet Izmirit dhe Kosovës.",
+          "imageUrl": "https://sesgazetenet.teimg.com/crop/1280x720/sesgazete-net/uploads/2026/08/cemil-tugaydan-kosovada-yogun-diplomasi-izmir-ile-kosova-arasinda-yeni-donem-1.png",
+          "url": "https://sesgazete.net/cemil-tugaydan-kosovada-yogun-diplomasi-izmir-ile-kosova-arasinda-yeni-donem",
+          "date": "2026-08-21",
+          "sentiment": "positive",
+          "reason": "Titulli i mediave e paraqet Kosovën në një dritë pozitive si një epokë e re diplomatike",
+          "isQuote": false,
+          "speaker": "",
+          "evidence": "yeni dönem",
+          "outlet": "Ses Gazete",
+          "country": "Turqi",
+          "flag": "🇹🇷"
+        },
+        {
           "title": "Haberler | Başkan Tugay Kosova’da: İzmir ile Kosova arasında çok yönlü iş birliği dönemi - İzmir Büyükşehir Belediyesi",
           "albanianTitle": "Kryetari Tugay në Kosovë: Fillon epoka e bashkëpunimit shumëdimensional mes Izmirit dhe Kosovës",
           "blurb": "Kryetari i Bashkisë së Izmirit, Tugay, po qëndron në Kosovë për të diskutuar rreth bashkëpunimit shumëplanësh mes dy palëve.",
@@ -229,18 +245,18 @@
           "flag": "🇹🇷"
         },
         {
-          "title": "Haberler | Başkan Tugay, Kosova'da yeni iş birliklerinin kapısını araladı - İzmir Büyükşehir Belediyesi",
-          "albanianTitle": "Kryetari Tugay hap rrugën për bashkëpunime të reja në Kosovë",
-          "blurb": "Kryetari i Bashkisë së Izmirit, Tugay, ka zhvilluar vizitë në Kosovë për të diskutuar mundësitë e bashkëpunimeve të reja ndërinstitucionale.",
-          "imageUrl": "https://www.izmir.bel.tr/YuklenenDosyalar/Haberler/Kucuk/22082026_9143_0.jpeg",
-          "url": "https://www.izmir.bel.tr/tr/Haberler/baskan-tugay-kosovada-yeni-is-birliklerinin-kapisini-araladi/59218/156",
-          "date": "2026-08-22",
+          "title": "İzmir ile Kosova Arasında Yeni Dönem - Kosovahaber.com",
+          "albanianTitle": "Një epokë e re në marrëdhëniet mes Izmirit dhe Kosovës - Kosovahaber.com",
+          "blurb": "Qyteti i Izmirit dhe Kosova kanë nisur një periudhë të re bashkëpunimi në fusha të ndryshme me interes të përbashkët.",
+          "imageUrl": null,
+          "url": "https://kosovahaber.com/haber/izmir-ile-kosova-arasinda-yeni-donem-105204",
+          "date": "2026-08-24",
           "sentiment": "positive",
-          "reason": "outlet uses upbeat language about cooperation with Kosovo",
+          "reason": "Fjalët e medias tregojnë një perspektivë pozitive për marrëdhëniet me Kosovën",
           "isQuote": false,
           "speaker": "",
-          "evidence": "yeni iş birliklerinin kapısını araladı",
-          "outlet": "İzmir Büyükşehir Belediyesi",
+          "evidence": "Yeni Dönem",
+          "outlet": "Kosovahaber.com",
           "country": "Turqi",
           "flag": "🇹🇷"
         },
@@ -261,18 +277,18 @@
           "flag": "🇹🇷"
         },
         {
-          "title": "Cemil Tugay’dan Kosova’da çok yönlü iş birliği hamlesi - Haber Ekspres",
-          "albanianTitle": "Cemil Tugay nis iniciativën për bashkëpunim shumëdimensional në Kosovë",
-          "blurb": "Kryetari i Bashkisë së Izmirit, Cemil Tugay, po ndërmerr hapa për zhvillimin e bashkëpunimit shumëplanësh me institucionet në Kosovë.",
+          "title": "Bakan Sveçla, İzmir Büyükşehir Belediye Başkanı Tugay’ı Kabul Etti - Kosovahaber.com",
+          "albanianTitle": "Ministri Sveçla priti në takim kryetarin e Bashkisë së Izmirit, Tugay",
+          "blurb": "Ministri i Punëve të Brendshme, Xhelal Sveçla, ka pritur në takim kryetarin e Bashkisë së Izmirit, Cemil Tugay.",
           "imageUrl": null,
-          "url": "https://www.haberekspres.com.tr/cemil-tugaydan-kosovada-cok-yonlu-is-birligi-hamlesi",
+          "url": "https://kosovahaber.com/haber/bakan-svecla-izmir-buyuksehir-belediye-baskani-tugayi-kabul-etti-105144",
           "date": "2026-08-21",
           "sentiment": "neutral",
-          "reason": "Raporton një iniciativë bashkëpunimi në Kosovë, pa gjuhë e ngarkuar",
+          "reason": "Raportim neutral i takimit ndërmjet ministrit dhe kryetarit të Bashkisë",
           "isQuote": false,
           "speaker": "",
           "evidence": "",
-          "outlet": "Haber Ekspres",
+          "outlet": "Kosovahaber.com",
           "country": "Turqi",
           "flag": "🇹🇷"
         },
@@ -305,22 +321,6 @@
           "speaker": "",
           "evidence": "",
           "outlet": "Ses Gazete",
-          "country": "Turqi",
-          "flag": "🇹🇷"
-        },
-        {
-          "title": "Başkan Cemil Tugay Kosova’da Yeni İş Birlikleri Kuruyor - nhaberizmir.com",
-          "albanianTitle": "Kryetari Cemil Tugay po krijon bashkëpunime të reja në Kosovë",
-          "blurb": "Kryetari i Bashkisë së Izmirit, Cemil Tugay, po zhvillon takime në Kosovë për të vendosur bashkëpunime të reja ndërmjet dy vendeve.",
-          "imageUrl": "https://nhaberizmircom.teimg.com/crop/1280x720/nhaberizmir-com/uploads/2026/08/cemil-tugay-kosova-ziyareti-1.jpg",
-          "url": "https://www.nhaberizmir.com/baskan-cemil-tugay-kosovada-yeni-is-birlikleri-kuruyor",
-          "date": "2026-08-22",
-          "sentiment": "neutral",
-          "reason": "Lajm i raportuar në mënyrë faktike pa gjuhë ngarkuese",
-          "isQuote": false,
-          "speaker": "",
-          "evidence": "",
-          "outlet": "nhaberizmir.com",
           "country": "Turqi",
           "flag": "🇹🇷"
         },
@@ -359,9 +359,9 @@
       ]
     },
     {
-      "label": "Debati për hapjen e urës së Ibrit",
+      "label": "Debatet për hapjen e urës së Ibrit",
       "fallbackLabel": "Ibrit · Nato",
-      "summary": "Hapja e urës së Ibrit për qarkullim mbetet një çështje e ndjeshme politike që po shkakton tensione dhe kërkon koordinim me faktorët ndërkombëtarë si NATO.",
+      "summary": "Hapja e urës së Ibrit mbetet çështje e ndjeshme politike, me thirrje nga NATO-ja për kujdes dhe shqetësime për destabilizim të mundshëm të sigurisë.",
       "count": 11,
       "positive": 0,
       "neutral": 11,
@@ -539,12 +539,12 @@
       ]
     },
     {
-      "label": "Zbulimi i armatimit dhe varrezave masive",
+      "label": "Zbulimi i varrezave masive dhe armatimit",
       "fallbackLabel": "Masive · Pranë",
-      "summary": "Autoritetet kanë zbuluar sasi të mëdha armësh dhe municionesh pranë varrezave masive në Kosovë, duke çuar në procese të zhvarrosjes së trupave të gjetur.",
-      "count": 10,
+      "summary": "Autoritetet kanë zbuluar sasi të mëdha armësh dhe municionesh pranë varrezave masive në Zubin Potok, duke përfunduar procesin e zhvarrosjes së trupave.",
+      "count": 11,
       "positive": 0,
-      "neutral": 10,
+      "neutral": 11,
       "negative": 0,
       "index": 50,
       "countries": [
@@ -715,9 +715,9 @@
       ]
     },
     {
-      "label": "Protestat dhe pakënaqësitë ndaj qeverisë",
+      "label": "Protestat politike dhe çështjet gjyqësore",
       "fallbackLabel": "Para · Qeverisë",
-      "summary": "Opozita dhe qytetarët po organizojnë protesta para ndërtesës së Qeverisë së Kosovës për të shprehur pakënaqësi lidhur me situatën energjetike dhe zhvillimet politike.",
+      "summary": "Opozita po zhvillon protesta para qeverisë për çështje energjetike, ndërsa vëmendja publike është përqendruar te vendimet gjyqësore të pritshme në Hagë.",
       "count": 8,
       "positive": 0,
       "neutral": 6,
@@ -862,9 +862,9 @@
       ]
     },
     {
-      "label": "Tensionet politike dhe kërcënimet ndaj sigurisë",
+      "label": "Tensionet politike dhe retorika ndërkombëtare",
       "fallbackLabel": "Ndaj · Sistematik",
-      "summary": "Kosova po përballet me retorikë të ashpër nga Serbia dhe aktorë të tjerë, të cilët pretendojnë për terror sistematik dhe përshkallëzim të situatës në veri.",
+      "summary": "Rriten tensionet në veri të Kosovës me akuza për terror sistematik dhe kërcënime nga grupe të ndryshme, duke reflektuar një situatë të brishtë sigurie.",
       "count": 7,
       "positive": 0,
       "neutral": 7,
@@ -994,7 +994,7 @@
     {
       "label": "Menaxhimi i fondeve dhe projekteve financiare",
       "fallbackLabel": "Euro · Milionë",
-      "summary": "Kosova po përballet me sfida në shfrytëzimin e fondeve të BE-së dhe zbatimin e projekteve të mëdha infrastrukturore, duke rrezikuar humbjen e mjeteve financiare.",
+      "summary": "Kosova përballet me sfida në shfrytëzimin e fondeve të Bashkimit Evropian dhe zbatimin e projekteve të mëdha infrastrukturore për shkak të vonesave administrative.",
       "count": 7,
       "positive": 0,
       "neutral": 7,
@@ -1122,9 +1122,9 @@
       ]
     },
     {
-      "label": "Ngjarjet sportive dhe pasqyrimi ndërkombëtar",
+      "label": "Kampionati Evropian i Peshëngritjes në Kosovë",
       "fallbackLabel": "Evropian · Kampionatin",
-      "summary": "Kosova po shërben si vend organizator për kampionate evropiane të peshëngritjes, ndërsa mediat e huaja raportojnë edhe për ndeshjet kualifikuese dhe situatën politike.",
+      "summary": "Kosova po pret Kampionatin Evropian të peshëngritjes për të rinj, ku sportistë nga vende të ndryshme po garojnë për titujt dhe medaljet kontinentale.",
       "count": 5,
       "positive": 0,
       "neutral": 5,
@@ -1170,18 +1170,18 @@
           "flag": "🇹🇷"
         },
         {
-          "title": "Vivir bajo las bombas en el país europeo que España aún no reconoce: \"Nadie hizo nada para evitar la guerra\" - El Periódico de España",
-          "albanianTitle": "Të jetosh nën bomba në shtetin evropian që Spanja ende nuk e njeh: \"Askush nuk bëri asgjë për ta parandaluar luftën\" - El Periódico de España",
-          "blurb": "Dëshmitë për jetën nën bombardime në Kosovë, shtet të cilin Spanja ende nuk e ka njohur zyrtarisht si shtet.",
-          "imageUrl": "https://estaticos-cdn.prensaiberica.es/clip/716a0a39-1499-4981-a1b3-aed756f2e602_16-9-discover-aspect-ratio_default_0_x1140y512.jpg",
-          "url": "https://www.epe.es/es/actualidad/20260823/vivir-bombas-pais-europeo-espana-no-reconoce-elvira-dones-pequena-guerra-perfecta-kosovo-133480145",
-          "date": "2026-08-23",
+          "title": "Inés Conde, campeona de Europa de halterofilia: éxito del talento español en Kosovo - - empresa Exterior",
+          "albanianTitle": "Inés Conde, kampione e Evropës në peshëngritje: suksesi i talentit spanjoll në Kosovë - Empresa Exterior",
+          "blurb": "Ines Conde është shpallur kampione e Evropës në peshëngritje, duke shënuar sukses për talentin spanjoll në garat në Kosovë.",
+          "imageUrl": "https://empresaexterior.com/wp-content/uploads/2026/08/email_img_b92d78a5a4ef46ee9ea5cf45795c21e4.jpg",
+          "url": "https://empresaexterior.com/ines-conde-se-corona-campeona-de-europa-de-halterofilia-y-lidera-el-medallero-espanol-en-kosovo/",
+          "date": "2026-08-22",
           "sentiment": "neutral",
-          "reason": "Quote is attributed; outlet’s own headline is factual description without contempt",
-          "isQuote": true,
+          "reason": "Faktikë të thjeshta, pa ngjyrë",
+          "isQuote": false,
           "speaker": "",
           "evidence": "",
-          "outlet": "El Periódico de España",
+          "outlet": "empresa Exterior",
           "country": "Spanjë",
           "flag": "🇪🇸"
         },

@@ -2640,8 +2640,8 @@
   {
     "date": "2026-08-24",
     "overallIndex": 54,
-    "totalArticles": 60,
-    "sourceCount": 55,
+    "totalArticles": 64,
+    "sourceCount": 58,
     "stanceVersion": 3,
     "countries": {
       "Gjermani": {
@@ -2649,7 +2649,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 1,
+        "n": 3,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -2723,11 +2723,11 @@
         "stanceVersion": 3
       },
       "Holandë": {
-        "index": null,
+        "index": 50,
         "positive": 0,
-        "neutral": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 0,
+        "n": 1,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -2784,10 +2784,10 @@
       },
       "Turqi": {
         "index": 58,
-        "positive": 22,
-        "neutral": 72,
-        "negative": 6,
-        "n": 18,
+        "positive": 21,
+        "neutral": 74,
+        "negative": 5,
+        "n": 19,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
@@ -2807,8 +2807,8 @@
       {
         "title": "\"CNN\": Albania and Kosovo, the best Balkan peaks for hiking - cna.al",
         "source": "cna.al",
-        "country": "SHBA",
-        "flag": "🇺🇸",
+        "country": "Britani",
+        "flag": "🇬🇧",
         "url": "https://www.cna.al/english/aktualitet/cnn-shqiperia-dhe-kosova-majat-e-ballkanit-me-te-mira-per-te-bere-ecj-i472191",
         "sentiment": "positive"
       },

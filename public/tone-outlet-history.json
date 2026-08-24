@@ -1048,15 +1048,16 @@
     },
     "İlkses Gazetesi": {
       "country": "Turqi",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-22",
       "lastSeen": "2026-08-22",
       "urls": [
-        "https://ilkses.com.tr/izmir/izmir-ile-kosova-arasinda-yeni-is-birlikleri-icin-temaslar-yogunlasiyor-457800"
+        "https://ilkses.com.tr/izmir/izmir-ile-kosova-arasinda-yeni-is-birlikleri-icin-temaslar-yogunlasiyor-457800",
+        "https://ilkses.com.tr/izmir/baskan-tugay-in-kosova-temaslarinda-ekonomi-ve-kultur-one-cikti-457652"
       ]
     },
     "Haber Ege": {
@@ -1266,6 +1267,45 @@
       "lastSeen": "2026-08-24",
       "urls": [
         "https://www.santiye.com.tr/calik-renewables-in-zatriq-ruzg%C3%A2r-enerji-santrali-projesi-nde-i-lk-turbinler-devreye-alindi-9629.html"
+      ]
+    },
+    "Joyn": {
+      "country": "Gjermani",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-24",
+      "lastSeen": "2026-08-24",
+      "urls": [
+        "https://ran.joyn.de/sports/ticker/ma12492869-albanien-kosovo"
+      ]
+    },
+    "Kölnische Rundschau": {
+      "country": "Gjermani",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-24",
+      "lastSeen": "2026-08-24",
+      "urls": [
+        "https://www.rundschau-online.de/koeln/blaulicht-koeln/flughafen-koeln-bonn-mann-mit-haftbefehl-bei-ausreise-in-kosovo-gestoppt-1356272"
+      ]
+    },
+    "VoetbalBrabant.nl": {
+      "country": "Holandë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-24",
+      "lastSeen": "2026-08-24",
+      "urls": [
+        "https://www.voetbalbrabant.nl/2026/08/nederlandse-doelman-kiest-voor-opvallend-avontuur-in-kosovo/"
       ]
     }
   }
