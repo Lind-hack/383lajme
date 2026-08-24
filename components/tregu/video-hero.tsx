@@ -3,9 +3,10 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import Link from "next/link";
 
-// Cinematic night-city rotation (Pexels, free license). Two stacked <video>
-// layers crossfade between clips so the loop never hard-cuts — each clip
-// dissolves into the next, and the playlist wraps around seamlessly.
+// Cinematic rotation (Pexels, free license): the cities the platform speaks
+// to, then the sports it prices. Two stacked <video> layers crossfade between
+// clips so the loop never hard-cuts — each clip dissolves into the next, and
+// the playlist wraps around seamlessly.
 const VIDEOS = [
   // #36244310 — aerial city skyline at night, 2560×1440 30fps
   "https://videos.pexels.com/video-files/36244310/15370739_2560_1440_30fps.mp4",
@@ -13,6 +14,12 @@ const VIDEOS = [
   "https://videos.pexels.com/video-files/30070091/12897525_2732_1440_24fps.mp4",
   // #18125882 — hyperlapse of Houston at night, 1922×1440 30fps
   "https://videos.pexels.com/video-files/18125882/18125882-uhd_1922_1440_30fps.mp4",
+  // #10289687 — basketball arena, game under the lights, 1920×1080 24fps
+  "https://videos.pexels.com/video-files/10289687/10289687-hd_1920_1080_24fps.mp4",
+  // #11918917 — football stadium at night, 1920×1080 60fps
+  "https://videos.pexels.com/video-files/11918917/11918917-hd_1920_1080_60fps.mp4",
+  // #9737825 — race car on track, 1920×1080 24fps
+  "https://videos.pexels.com/video-files/9737825/9737825-hd_1920_1080_24fps.mp4",
 ];
 const CROSSFADE_MS = 1800;
 
@@ -186,11 +193,13 @@ function AnimatedHeading({ text, initialDelay = 200 }: { text: string; initialDe
 
 export default function VideoHero({ loggedIn }: { loggedIn: boolean }) {
   return (
-    <section className="relative min-h-[100dvh] overflow-hidden bg-[#111111]">
+    // 72/80dvh instead of full viewport: the hero teases, the floor delivers.
+    // min-height floors keep small phones (SE) and short laptop windows honest.
+    <section className="relative h-[72dvh] min-h-[480px] overflow-hidden bg-[#111111] md:h-[80dvh] md:min-h-[560px]">
       <CinematicBackdrop />
 
-      <div className="relative z-10 flex min-h-[100dvh] flex-col px-6 md:px-12 lg:px-16 pt-28">
-        <div className="flex flex-1 flex-col justify-end pb-12 lg:pb-16">
+      <div className="relative z-10 flex h-full flex-col px-6 md:px-12 lg:px-16 pt-24">
+        <div className="flex flex-1 flex-col justify-end pb-8 lg:pb-12">
           <div className="lg:grid lg:grid-cols-2 lg:items-end">
             <div>
               <AnimatedHeading text={"Parashiko të ardhmen\nme 383 Tregu."} />
@@ -202,33 +211,26 @@ export default function VideoHero({ loggedIn }: { loggedIn: boolean }) {
                 </p>
               </Reveal>
 
-              <div className="flex flex-wrap gap-4">
-                {!loggedIn && (
-                  <Reveal delay={1250}>
-                    <Link
-                      href="/hyr?tab=regjistrohu&next=/tregu"
-                      className="liquid-glass liquid-glass-btn btn-shimmer border border-white/25 text-white px-8 py-3 rounded-lg font-medium"
-                    >
-                      <span className="btn-shimmer-text">Merr 100 383 Coin falas</span>
-                    </Link>
-                  </Reveal>
-                )}
-                <Reveal delay={1450}>
-                  <a
-                    href="#tregjet"
-                    className="liquid-glass liquid-glass-btn btn-shimmer border border-white/20 text-white px-8 py-3 rounded-lg font-medium"
+              {!loggedIn && (
+                <Reveal delay={1250}>
+                  <Link
+                    href="/hyr?tab=regjistrohu&next=/tregu"
+                    className="liquid-glass liquid-glass-btn btn-shimmer border border-white/25 text-white px-8 py-3 rounded-lg font-medium"
                   >
-                    <span className="btn-shimmer-text">Shiko Tregjet</span>
-                  </a>
+                    <span className="btn-shimmer-text">Merr 100 383 Coin falas</span>
+                  </Link>
                 </Reveal>
-              </div>
+              )}
             </div>
 
             <Reveal delay={1750} className="mt-8 flex items-end justify-start lg:mt-0 lg:justify-end">
-              <a href="#tregjet" className="liquid-glass liquid-glass-btn btn-shimmer border border-white/20 px-6 py-3 rounded-xl">
-                <span className="btn-shimmer-text text-lg md:text-xl lg:text-2xl font-light text-white">
-                  Lexo. Parashiko. Fito.
-                </span>
+              {/* Matte orange — flat brand color, no glass or shimmer. Press
+                  feedback per the house motion rules. */}
+              <a
+                href="#tregjet"
+                className="inline-flex items-center rounded-full bg-[#FF4422] px-7 py-3 text-lg md:text-xl lg:text-2xl font-light text-white transition-colors duration-200 ease-out hover:bg-[#e63a1c] active:scale-[0.97] min-h-[44px]"
+              >
+                Lexo. Parashiko. Fito.
               </a>
             </Reveal>
           </div>

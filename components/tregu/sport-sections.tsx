@@ -197,7 +197,9 @@ export default function SportSections({
         {/* Formula 1 */}
         <RaceCard markets={markets} active={activeLeague} onSelect={onSelect} />
 
-        {/* Basketball — honest lock until its pricing algorithm ships. */}
+        {/* Basketball — honest lock until the live automation prices it.
+            The engine ships in 0047: two-outcome markets, NBA + FIBA via
+            ESPN, the Kosovo Superliga through the fbk provider. */}
         <article
           className="tregu-sport-card p-5 flex flex-col"
           data-state="locked"
@@ -215,8 +217,8 @@ export default function SportSections({
             </span>
           </header>
           <p style={{ color: "#6B6B6B", fontSize: 13.5, lineHeight: 1.65, margin: 0 }}>
-            Po ndërtojmë algoritmin e çmimeve për basketbol — të njëjtat rregulla të orakullit
-            verifikues si futbollit dhe F1. Hapet sapo është gati.
+            Motori është gati — tregje me dy rezultate, çmime live nga ESPN për NBA dhe FIBA,
+            dhe Superliga e Kosovës. Hapet sapo orakulli i parë lidhet.
           </p>
           <div className="tregu-basketball-soon" aria-label="Ligat e planifikuara">
             {(["nba", "fbk"] as const).map((key) => (
