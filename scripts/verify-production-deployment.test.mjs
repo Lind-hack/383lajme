@@ -3,7 +3,9 @@ import test from "node:test";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import os from "node:os";
 import {
+  trackedUiDrift,
   verifyChartContract,
   verifyProductionSource,
 } from "./verify-production-deployment.mjs";
@@ -114,4 +116,39 @@ test("production rejects a local upload without Vercel Git repository metadata",
     }),
     /without verified Vercel Git integration metadata/
   );
+});
+
+test("a moved component warns; a lost settlement rule fails the build", () => {
+  // An empty root means every marker is absent, so each table reports its own
+  // whole set. What matters is which table owns which file.
+  const empty = fs.mkdtempSync(path.join(os.tmpdir(), "383-guard-"));
+  const fatal = verifyChartContract(empty);
+  const drift = trackedUiDrift(empty);
+  const listed = (rows, file) => rows.some((row) => row.includes(file));
+
+  // Settlement, betting, migrations, provenance and the build hooks stop a deploy.
+  for (const owned of [
+    "lib/tregu-sport-market.mjs",
+    "lib/tregu-automation-server.ts",
+    "app/api/tregu/bet/route.ts",
+    "app/api/tregu/sell/route.ts",
+    "app/api/deployment-info/route.ts",
+    "package.json",
+  ]) {
+    assert.ok(listed(fatal, owned), `${owned} must be fatal`);
+    assert.ok(!listed(drift, owned), `${owned} must not be demoted to a warning`);
+  }
+
+  // Component names and UI version strings are reported and let through, which
+  // is what a chart rework legitimately changes.
+  for (const tracked of [
+    "components/tregu/f1-race-control.tsx",
+    "components/tregu/group-chart.tsx",
+    "lib/tregu-ui-contract.ts",
+  ]) {
+    assert.ok(listed(drift, tracked), `${tracked} must be tracked`);
+    assert.ok(!listed(fatal, tracked), `${tracked} must not block a deploy`);
+  }
+
+  fs.rmSync(empty, { recursive: true, force: true });
 });

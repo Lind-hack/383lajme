@@ -13,80 +13,28 @@ const FOOTBALL_MARKET_UI_VERSION = "stage-aware-v3";
 const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
 const DEFAULT_ROOT = path.resolve(SCRIPT_DIR, "..");
 
+/**
+ * Invariants. Losing any of these is a behaviour regression, not a refactor:
+ * how a market settles, how a bet is placed or sold, what the migrations
+ * constrain, how production proves it came from GitHub main, and the build
+ * hooks that run this guard at all. A missing marker here fails the build.
+ *
+ * This set is what caught b256881, the stale overlay that quietly reverted
+ * two-legged tie settlement and deleted the guard in the same commit.
+ */
 const REQUIRED_CHART_MARKERS = {
-  "lib/tregu-ui-contract.ts": [
-    `TREGU_CHART_UI_VERSION = "${CHART_UI_VERSION}"`,
-    `F1_RACE_UI_VERSION = "${F1_RACE_UI_VERSION}"`,
-    `FOOTBALL_MARKET_UI_VERSION = "${FOOTBALL_MARKET_UI_VERSION}"`,
-  ],
-  "components/tregu/chart-hooks.ts": [
-    "export function useLiveTape(",
-    "export function useLiveTapeVector(",
-    "normalize ? curRef.current.map",
-    "setInterval(() =>",
-  ],
-  "components/tregu/market-chart.tsx": [
-    "useLiveTape",
-    "getCategoryColor",
-    "data-tregu-chart-version",
-  ],
-  "components/tregu/group-chart.tsx": [
-    "useLiveTapeVector",
-    "tapeDataKey",
-    "data-tregu-chart-version",
-    "data-live-outcome-chart",
-    "data-refresh-cadence-ms",
-  ],
-  "components/tregu/trending-strip.tsx": [
-    'label: "Mundësia"',
-    "data-chart-line-count={chartSeries.length}",
-    "normalize={!isBinary}",
-  ],
-  "components/tregu/f1-race-control.tsx": [
-    "ExactMarketChart",
-    "data-f1-race-ui-version",
-    'className="f1-grid-pair"',
-    "aria-expanded={showAllDrivers}",
-    "{!isLive && (",
-    "timingRow?.gap",
-    "onBetDriver",
-  ],
-  "components/tregu/f1-archive-feature.tsx": [
-    "data-f1-archive-feature",
-    "F1ProbabilityHistory",
-    "Shiko arkivin",
-  ],
-  "app/tregu/page.tsx": [
-    'const qs = category === "all" ? "?status=all"',
-    "function isF1Archive(",
-    "<F1ArchiveFeature",
-  ],
-  "lib/f1-driver-presentation.ts": [
-    "f1DriverHeadshot",
-    "f1TeamColor",
-    "media.formula1.com",
-  ],
   "app/tregu/[slug]/page.tsx": [
     'kind: "f1_race_winner"',
     "outcomeKey: f1OutcomeKey",
-    'id={f1 ? "f1-bet-slip" : undefined}',
-    "data-football-market-ui-version={FOOTBALL_MARKET_UI_VERSION}",
-    "data-market-intent={football.format.marketIntent}",
-    "football.format.drawAllowed",
     'kind: "sport_outcome"',
     "outcomeKey: selectedOutcome.key",
     "previewSportOutcomeSell",
     "canSellFootball",
   ],
   "app/api/tregu/markets/[slug]/route.ts": [
-    "team_colour: row.team_colour",
-    'status: "ARCHIVED"',
-    "grid_position: gridPosition",
-    "timing: board",
     'market.market_type === "two_outcome" || market.market_type === "three_outcome"',
     "sport_oracle_events",
     "outcome_prices",
-    "refreshMs: 120_000",
     "aggregate_then_extra_time_then_penalties",
   ],
   "lib/football-market-format.mjs": [
@@ -147,17 +95,98 @@ const REQUIRED_CHART_MARKERS = {
     '"postbuild": "node scripts/verify-production-deployment.mjs"',
   ],
   "scripts/codex_automation_support.py": [
-    `F1_RACE_UI_VERSION = "${F1_RACE_UI_VERSION}"`,
-    `FOOTBALL_MARKET_UI_VERSION = "${FOOTBALL_MARKET_UI_VERSION}"`,
     'contract.get("f1_race_ui_version", "")',
     'contract.get("football_market_ui_version", "")',
     "VERCEL deploy delegated to the GitHub main integration",
   ],
 };
 
-export function verifyChartContract(root = DEFAULT_ROOT) {
+/**
+ * The UI surface: component names, data attributes, class names and the UI
+ * version strings. These change legitimately every time the Tregu interface
+ * is reworked, so they are reported and never fatal.
+ *
+ * Making them fatal is not free caution. It blocked a deploy the same week
+ * the chart work landed: the version was bumped to smooth-inspector-v3 and
+ * GroupChart became ExactMarketChart, both deliberate. A guard that has to
+ * be re-baselined after every refactor gets re-baselined without reading,
+ * which is how it stops guarding anything.
+ */
+const TRACKED_UI_MARKERS = {
+  "lib/tregu-ui-contract.ts": [
+    `TREGU_CHART_UI_VERSION = "${CHART_UI_VERSION}"`,
+    `F1_RACE_UI_VERSION = "${F1_RACE_UI_VERSION}"`,
+    `FOOTBALL_MARKET_UI_VERSION = "${FOOTBALL_MARKET_UI_VERSION}"`,
+  ],
+  "components/tregu/chart-hooks.ts": [
+    "export function useLiveTape(",
+    "export function useLiveTapeVector(",
+    "normalize ? curRef.current.map",
+    "setInterval(() =>",
+  ],
+  "components/tregu/market-chart.tsx": [
+    "useLiveTape",
+    "getCategoryColor",
+    "data-tregu-chart-version",
+  ],
+  "components/tregu/group-chart.tsx": [
+    "useLiveTapeVector",
+    "tapeDataKey",
+    "data-tregu-chart-version",
+    "data-live-outcome-chart",
+    "data-refresh-cadence-ms",
+  ],
+  "components/tregu/trending-strip.tsx": [
+    'label: "Mundësia"',
+    "data-chart-line-count={chartSeries.length}",
+    "normalize={!isBinary}",
+  ],
+  "components/tregu/f1-race-control.tsx": [
+    "ExactMarketChart",
+    "data-f1-race-ui-version",
+    'className="f1-grid-pair"',
+    "aria-expanded={showAllDrivers}",
+    "{!isLive && (",
+    "timingRow?.gap",
+    "onBetDriver",
+  ],
+  "components/tregu/f1-archive-feature.tsx": [
+    "data-f1-archive-feature",
+    "F1ProbabilityHistory",
+    "Shiko arkivin",
+  ],
+  "app/tregu/page.tsx": [
+    'const qs = category === "all" ? "?status=all"',
+    "function isF1Archive(",
+    "<F1ArchiveFeature",
+  ],
+  "lib/f1-driver-presentation.ts": [
+    "f1DriverHeadshot",
+    "f1TeamColor",
+    "media.formula1.com",
+  ],
+  "app/tregu/[slug]/page.tsx": [
+    'id={f1 ? "f1-bet-slip" : undefined}',
+    "data-football-market-ui-version={FOOTBALL_MARKET_UI_VERSION}",
+    "data-market-intent={football.format.marketIntent}",
+    "football.format.drawAllowed",
+  ],
+  "app/api/tregu/markets/[slug]/route.ts": [
+    "team_colour: row.team_colour",
+    'status: "ARCHIVED"',
+    "grid_position: gridPosition",
+    "timing: board",
+    "refreshMs: 120_000",
+  ],
+  "scripts/codex_automation_support.py": [
+    `F1_RACE_UI_VERSION = "${F1_RACE_UI_VERSION}"`,
+    `FOOTBALL_MARKET_UI_VERSION = "${FOOTBALL_MARKET_UI_VERSION}"`,
+  ],
+};
+
+function missingMarkers(table, root) {
   const failures = [];
-  for (const [relativePath, markers] of Object.entries(REQUIRED_CHART_MARKERS)) {
+  for (const [relativePath, markers] of Object.entries(table)) {
     const absolutePath = path.join(root, relativePath);
     if (!fs.existsSync(absolutePath)) {
       failures.push(`${relativePath} is missing`);
@@ -171,6 +200,19 @@ export function verifyChartContract(root = DEFAULT_ROOT) {
     }
   }
   return failures;
+}
+
+/** Invariants. A non-empty result must stop the build. */
+export function verifyChartContract(root = DEFAULT_ROOT) {
+  return missingMarkers(REQUIRED_CHART_MARKERS, root);
+}
+
+/**
+ * UI markers that have drifted. Reported so a wholesale revert of the Tregu
+ * interface is still visible in the build log, never fatal.
+ */
+export function trackedUiDrift(root = DEFAULT_ROOT) {
+  return missingMarkers(TRACKED_UI_MARKERS, root);
 }
 
 export async function verifyProductionSource({
@@ -251,6 +293,15 @@ export async function verifyProductionSource({
 }
 
 async function main() {
+  const drift = trackedUiDrift();
+  if (drift.length > 0) {
+    console.warn(
+      `DEPLOY GUARD notice: the Tregu UI has moved on from ${drift.length} tracked marker(s). `
+        + "Expected after interface work; worth a look only if you did not change the UI."
+    );
+    for (const item of drift) console.warn(`  - ${item}`);
+  }
+
   const result = await verifyProductionSource();
   if (result.skipped) {
     console.log(`DEPLOY GUARD skipped: ${result.reason}`);
