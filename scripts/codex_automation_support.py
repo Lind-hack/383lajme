@@ -136,7 +136,7 @@ SCORE_WEIGHTS = {
 
 DEFAULT_SITE_URL = "https://383lajme.vercel.app"
 DEFAULT_GITHUB_REPO = "Lind-hack/383lajme"
-TREGU_CHART_UI_VERSION = "live-tape-v1"
+TREGU_CHART_UI_VERSION = "smooth-inspector-v3"
 F1_RACE_UI_VERSION = "race-grid-v3"
 FOOTBALL_MARKET_UI_VERSION = "stage-aware-v3"
 # Publish every independently valid fresh item discovered in a scheduled window.

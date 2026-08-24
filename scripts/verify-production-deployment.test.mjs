@@ -1,9 +1,29 @@
 import assert from "node:assert/strict";
 import test from "node:test";
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import {
   verifyChartContract,
   verifyProductionSource,
 } from "./verify-production-deployment.mjs";
+
+/**
+ * The UI versions are asserted against lib/tregu-ui-contract.ts rather than
+ * restated here. Restating them means a legitimate version bump fails this
+ * test for no reason, which is exactly how it broke the first time.
+ */
+const contractSource = fs.readFileSync(
+  path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..", "lib", "tregu-ui-contract.ts"),
+  "utf8"
+);
+const contractVersion = (name) => {
+  const line = contractSource.split(/\r?\n/).find((row) => row.includes(`${name} =`));
+  assert.ok(line, `lib/tregu-ui-contract.ts does not define ${name}`);
+  const match = line.match(/"([^"]+)"/);
+  assert.ok(match, `${name} carries no string literal in lib/tregu-ui-contract.ts`);
+  return match[1];
+};
 
 const CURRENT_SHA = "a".repeat(40);
 const STALE_SHA = "b".repeat(40);
@@ -62,9 +82,9 @@ test("production accepts the exact current main commit", async () => {
   });
   assert.equal(result.skipped, false);
   assert.equal(result.commitSha, CURRENT_SHA);
-  assert.equal(result.chartUiVersion, "live-tape-v1");
-  assert.equal(result.f1RaceUiVersion, "race-grid-v3");
-  assert.equal(result.footballMarketUiVersion, "stage-aware-v3");
+  assert.equal(result.chartUiVersion, contractVersion("TREGU_CHART_UI_VERSION"));
+  assert.equal(result.f1RaceUiVersion, contractVersion("F1_RACE_UI_VERSION"));
+  assert.equal(result.footballMarketUiVersion, contractVersion("FOOTBALL_MARKET_UI_VERSION"));
 });
 
 test("production fails closed when GitHub main cannot be verified", async () => {

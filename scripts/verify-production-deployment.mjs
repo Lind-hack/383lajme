@@ -7,7 +7,7 @@ const PRODUCTION_BRANCH = "main";
 const PRODUCTION_REPOSITORY_OWNER = "Lind-hack";
 const PRODUCTION_REPOSITORY_SLUG = "383lajme";
 const PRODUCTION_REPOSITORY_ID = "1245103522";
-const CHART_UI_VERSION = "live-tape-v1";
+const CHART_UI_VERSION = "smooth-inspector-v3";
 const F1_RACE_UI_VERSION = "race-grid-v3";
 const FOOTBALL_MARKET_UI_VERSION = "stage-aware-v3";
 const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
@@ -43,7 +43,7 @@ const REQUIRED_CHART_MARKERS = {
     "normalize={!isBinary}",
   ],
   "components/tregu/f1-race-control.tsx": [
-    "GroupChart",
+    "ExactMarketChart",
     "data-f1-race-ui-version",
     'className="f1-grid-pair"',
     "aria-expanded={showAllDrivers}",
@@ -73,7 +73,6 @@ const REQUIRED_CHART_MARKERS = {
     "data-football-market-ui-version={FOOTBALL_MARKET_UI_VERSION}",
     "data-market-intent={football.format.marketIntent}",
     "football.format.drawAllowed",
-    "cadenceMs={120_000}",
     'kind: "sport_outcome"',
     "outcomeKey: selectedOutcome.key",
     "previewSportOutcomeSell",
