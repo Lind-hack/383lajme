@@ -1228,6 +1228,19 @@
       "urls": [
         "https://www.radiomugello.it/cronaca/giochi-mediterraneo-italia-romei-kosovo-39-23/"
       ]
+    },
+    "Republik": {
+      "country": "Zvicër",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-24",
+      "lastSeen": "2026-08-24",
+      "urls": [
+        "https://www.republik.ch/2026/08/24/und-auf-einmal-fehlten-in-kosovo-millionen"
+      ]
     }
   }
 }

@@ -2636,5 +2636,214 @@
         "sentiment": "negative"
       }
     ]
+  },
+  {
+    "date": "2026-08-24",
+    "overallIndex": 55,
+    "totalArticles": 58,
+    "sourceCount": 53,
+    "stanceVersion": 3,
+    "countries": {
+      "Gjermani": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 1,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "SHBA": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Britani": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 1,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Francë": {
+        "index": 100,
+        "positive": 100,
+        "neutral": 0,
+        "negative": 0,
+        "n": 1,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3,
+        "movement": {
+          "delta": 33,
+          "from": 67,
+          "outlet": "ladepeche.fr",
+          "title": "Një artizan i dialogut në Ballkan nga Graulhet",
+          "evidence": "artisan du dialogue",
+          "url": "https://www.ladepeche.fr/2026/08/21/un-graulhetois-artisan-du-dialogue-dans-les-balkans-13516906.php"
+        }
+      },
+      "Itali": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 22,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 3
+      },
+      "Austri": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Zvicër": {
+        "index": 75,
+        "positive": 50,
+        "neutral": 50,
+        "negative": 0,
+        "n": 2,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Holandë": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Belgjikë": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Spanjë": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 4,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Greqi": {
+        "index": 55,
+        "positive": 10,
+        "neutral": 90,
+        "negative": 0,
+        "n": 10,
+        "excluded": 2,
+        "confident": true,
+        "stanceVersion": 3
+      },
+      "Suedi": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Poloni": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Turqi": {
+        "index": 59,
+        "positive": 24,
+        "neutral": 71,
+        "negative": 6,
+        "n": 17,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 3,
+        "movement": {
+          "delta": 4,
+          "from": 55,
+          "outlet": "İzmir Büyükşehir Belediyesi",
+          "title": "Kryetari Tugay hap rrugën për bashkëpunime të reja në Kosovë",
+          "evidence": "yeni iş birliklerinin kapısını araladı",
+          "url": "https://www.izmir.bel.tr/tr/Haberler/baskan-tugay-kosovada-yeni-is-birliklerinin-kapisini-araladi/59218/156"
+        }
+      },
+      "Kroaci": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      }
+    },
+    "headlines": [
+      {
+        "title": "\"CNN\": Albania and Kosovo, the best Balkan peaks for hiking - cna.al",
+        "source": "cna.al",
+        "country": "SHBA",
+        "flag": "🇺🇸",
+        "url": "https://www.cna.al/english/aktualitet/cnn-shqiperia-dhe-kosova-majat-e-ballkanit-me-te-mira-per-te-bere-ecj-i472191",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Kosovo-Schweizer Hajdari und Avdullahu siegen mit Hoffenheim klar - Blick",
+        "source": "Blick",
+        "country": "Zvicër",
+        "flag": "🇨🇭",
+        "url": "https://www.blick.ch/sport/fussball/international/dfb-pokal/leverkusen-locker-weiter-augsburg-mueht-sich-in-die-zweite-pokal-runde-id22202590.html",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Ανατροπή και πρεμιέρα με νίκη στους Μεσογειακούς για την Εθνική χάντμπολ γυναικών - sport-fm.gr",
+        "source": "sport-fm.gr",
+        "country": "Greqi",
+        "flag": "🇬🇷",
+        "url": "https://www.sport-fm.gr/article/amp/ellada-kosobo-31-25-amp/5142968",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Aleanca hedh qymyr para qeverisë, Ramadani: Kurti po e çon Kosovën në terr politik - Reporteri",
+        "source": "Reporteri",
+        "country": "Gjermani",
+        "flag": "🇩🇪",
+        "url": "https://reporteri.net/fr/nouvelles/L%27alliance-jette-de-l%27huile-sur-le-feu-au-gouvernement-%3A-Ramadan-Kurti-plonge-le-Kosovo-dans-les-t%C3%A9n%C3%A8bres-politiques./",
+        "sentiment": "negative"
+      }
+    ]
   }
 ]
