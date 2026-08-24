@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import CoinFace from "@/components/tregu/coin-face";
+import { treguHeroBehindChrome } from "@/components/tregu/video-hero";
 import { fmtNum } from "@/lib/format";
 
 // Mobile-only account bar for the Tregu floor. The collapsed mobile navbar is
@@ -27,14 +28,16 @@ export default function MobileAccountBar({
   flyCoins: number[];
   onClaim: () => void;
 }) {
-  // Mirror the navbar: over the full-screen hero (before ~80px of scroll) the
-  // bar wears dark glass that melts into the image; once the hero scrolls past
-  // it crossfades to the cream "surfaced" look in lockstep with the navbar.
+  // Mirror the navbar: over the hero the bar wears dark glass that melts into
+  // the image; once the hero scrolls past it crossfades to the cream
+  // "surfaced" look in lockstep with the navbar. The threshold is the hero's
+  // real bottom (treguHeroBehindChrome), not a fixed 80px — a bright cream bar
+  // cutting across the video mid-hero read as a glitch.
   const pathname = usePathname();
   const [overlay, setOverlay] = useState(true);
   useEffect(() => {
     const onScroll = () =>
-      setOverlay(pathname === "/tregu" && window.scrollY <= 80);
+      setOverlay(pathname === "/tregu" && treguHeroBehindChrome(window.scrollY));
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);

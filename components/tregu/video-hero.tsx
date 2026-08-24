@@ -14,13 +14,27 @@ const VIDEOS = [
   "https://videos.pexels.com/video-files/30070091/12897525_2732_1440_24fps.mp4",
   // #18125882 — hyperlapse of Houston at night, 1922×1440 30fps
   "https://videos.pexels.com/video-files/18125882/18125882-uhd_1922_1440_30fps.mp4",
-  // #10289687 — basketball arena, game under the lights, 1920×1080 24fps
-  "https://videos.pexels.com/video-files/10289687/10289687-hd_1920_1080_24fps.mp4",
-  // #11918917 — football stadium at night, 1920×1080 60fps
-  "https://videos.pexels.com/video-files/11918917/11918917-hd_1920_1080_60fps.mp4",
-  // #9737825 — race car on track, 1920×1080 24fps
-  "https://videos.pexels.com/video-files/9737825/9737825-hd_1920_1080_24fps.mp4",
+  // #10341482 — basketball in a dark arena, 2048×1080 25fps
+  "https://videos.pexels.com/video-files/10341482/10341482-hd_2048_1080_25fps.mp4",
+  // #35002181 — football under night floodlights, 1920×1080 30fps
+  "https://videos.pexels.com/video-files/35002181/14828537_1920_1080_30fps.mp4",
+  // #13866489 — motorsport at night, 1920×1080 30fps
+  "https://videos.pexels.com/video-files/13866489/13866489-hd_1920_1080_30fps.mp4",
 ];
+
+/** Hero geometry, mirrored by the fixed chrome that floats over it. */
+export const TREGU_HERO = { mobileFrac: 0.82, desktopFrac: 0.9, mobileMin: 520, desktopMin: 600, navH: 64 };
+
+/** True while the hero still sits behind the fixed navbar / account bar. */
+export function treguHeroBehindChrome(scrollY: number): boolean {
+  if (typeof window === "undefined") return true;
+  const mobile = window.innerWidth <= 768;
+  const heroH = Math.max(
+    mobile ? TREGU_HERO.mobileMin : TREGU_HERO.desktopMin,
+    window.innerHeight * (mobile ? TREGU_HERO.mobileFrac : TREGU_HERO.desktopFrac)
+  );
+  return scrollY < heroH - TREGU_HERO.navH;
+}
 const CROSSFADE_MS = 1800;
 
 function CinematicBackdrop() {
@@ -82,6 +96,9 @@ function CinematicBackdrop() {
   }, [mounted]);
 
   const layerClass = "absolute inset-0 h-full w-full object-cover transition-opacity";
+  // Cinematic grade: cooler saturation, lifted contrast, slightly dimmed —
+  // the vignette layer above finishes the mood and feeds the headline contrast.
+  const layerStyle = { filter: "saturate(0.92) contrast(1.06) brightness(0.9)" };
   if (!mounted) return null;
   return (
     <>
@@ -91,7 +108,7 @@ function CinematicBackdrop() {
         playsInline
         preload="auto"
         className={layerClass}
-        style={{ opacity: front === 0 ? 1 : 0, transitionDuration: `${CROSSFADE_MS}ms` }}
+        style={{ ...layerStyle, opacity: front === 0 ? 1 : 0, transitionDuration: `${CROSSFADE_MS}ms` }}
       />
       <video
         ref={layerB}
@@ -99,7 +116,17 @@ function CinematicBackdrop() {
         playsInline
         preload="auto"
         className={layerClass}
-        style={{ opacity: front === 1 ? 1 : 0, transitionDuration: `${CROSSFADE_MS}ms` }}
+        style={{ ...layerStyle, opacity: front === 1 ? 1 : 0, transitionDuration: `${CROSSFADE_MS}ms` }}
+      />
+      {/* Vignette: radial falloff from the upper third plus a top and bottom
+          wash — every clip, bright or dark, lands in the same night world. */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(120% 100% at 50% 25%, rgba(0,0,0,0) 38%, rgba(0,0,0,0.5) 100%), linear-gradient(180deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.08) 40%, rgba(0,0,0,0.6) 100%)",
+        }}
       />
     </>
   );
@@ -195,7 +222,10 @@ export default function VideoHero({ loggedIn }: { loggedIn: boolean }) {
   return (
     // 72/80dvh instead of full viewport: the hero teases, the floor delivers.
     // min-height floors keep small phones (SE) and short laptop windows honest.
-    <section className="relative h-[72dvh] min-h-[480px] overflow-hidden bg-[#111111] md:h-[80dvh] md:min-h-[560px]">
+    // 82/90dvh — taller than the first trim so the clips breathe, still short
+    // enough that the floor teases in. The chrome mirrors these numbers via
+    // treguHeroBehindChrome().
+    <section className="relative h-[82dvh] min-h-[520px] overflow-hidden bg-[#111111] md:h-[90dvh] md:min-h-[600px]">
       <CinematicBackdrop />
 
       <div className="relative z-10 flex h-full flex-col px-6 md:px-12 lg:px-16 pt-24">
@@ -224,12 +254,10 @@ export default function VideoHero({ loggedIn }: { loggedIn: boolean }) {
             </div>
 
             <Reveal delay={1750} className="mt-8 flex items-end justify-start lg:mt-0 lg:justify-end">
-              {/* Matte orange — flat brand color, no glass or shimmer. Press
-                  feedback per the house motion rules. */}
-              <a
-                href="#tregjet"
-                className="inline-flex items-center rounded-full bg-[#FF4422] px-7 py-3 text-lg md:text-xl lg:text-2xl font-light text-white transition-colors duration-200 ease-out hover:bg-[#e63a1c] active:scale-[0.97] min-h-[44px]"
-              >
+              {/* Matte orange with real material depth: a near-invisible
+                  vertical shade, an inset top highlight like brushed metal,
+                  and a tinted drop shadow — no gloss, no shimmer. */}
+              <a href="#tregjet" className="hero-cta-material inline-flex items-center rounded-full px-7 py-3 text-lg md:text-xl lg:text-2xl font-light text-white min-h-[44px]">
                 Lexo. Parashiko. Fito.
               </a>
             </Reveal>

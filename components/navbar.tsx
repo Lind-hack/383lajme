@@ -11,6 +11,7 @@ import NavBalance from "./nav-balance";
 import NavSidePanel from "./nav-side-panel";
 import CoinToast from "./tregu/coin-toast";
 import SearchOverlay from "./search-overlay";
+import { treguHeroBehindChrome } from "@/components/tregu/video-hero";
 import { NAV_CATEGORIES } from "@/lib/category-map";
 
 /** Derived from lib/category-map, so the navbar, the side panel (which imports
@@ -44,6 +45,9 @@ export function KosovoTag() {
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
+  // On /tregu the dark overlay holds until the hero actually ends — not at
+  // 80px, which left a cream bar cutting across the video mid-hero.
+  const [heroUp, setHeroUp] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -61,10 +65,16 @@ export default function Navbar() {
   }, []);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 80);
+    const onScroll = () => {
+      setScrolled(window.scrollY > 80);
+      // On /tregu the dark overlay holds until the hero actually ends — not
+      // at 80px, which left a cream bar cutting across the video mid-hero.
+      setHeroUp(pathname === "/tregu" && treguHeroBehindChrome(window.scrollY));
+    };
+    onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  }, [pathname]);
 
   // Below 768px the inline category row can't fit alongside the logo, so the
   // collapsed hamburger layout is used regardless of scroll position — the
@@ -83,7 +93,7 @@ export default function Navbar() {
   // On the Tregu hub the header melts into the full-screen video hero until
   // the user scrolls: transparent background, ink text flipped to white
   // (color overrides live in globals.css under header[data-overlay]).
-  const overlay = pathname === "/tregu" && !scrolled;
+  const overlay = pathname === "/tregu" && heroUp;
 
   return (
     <header
