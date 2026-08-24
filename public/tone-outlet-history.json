@@ -633,19 +633,21 @@
     },
     "sport-fm.gr": {
       "country": "Greqi",
-      "total": 5,
-      "positive": 0,
-      "neutral": 4,
+      "total": 7,
+      "positive": 1,
+      "neutral": 5,
       "negative": 0,
       "unknown": 1,
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-22",
+      "lastSeen": "2026-08-24",
       "urls": [
         "https://www.sport-fm.gr/article/amp/mesogeiakoi-agwnes-agriemeni-stin-premiera-tis-i-ethniki-andrwn-sarwse-to-kosobo-amp/5142502",
         "https://www.sport-fm.gr/article/amp/ellada-kosobo-3-0-set-amp/5142590",
         "https://www.sport-fm.gr/article/4139418",
         "https://www.sport-fm.gr/article/4891906",
-        "https://www.sport-fm.gr/article/amp/ellada-kosobo-31-25-amp/5142968"
+        "https://www.sport-fm.gr/article/amp/ellada-kosobo-31-25-amp/5142968",
+        "https://www.sport-fm.gr/article/amp/Live-ellada-kosobo-amp/4237404",
+        "https://www.sport-fm.gr/article/amp/ellada-kosobo-40-20-amp/5143343"
       ]
     },
     "In.gr": {

@@ -2639,8 +2639,8 @@
   },
   {
     "date": "2026-08-24",
-    "overallIndex": 54,
-    "totalArticles": 70,
+    "overallIndex": 55,
+    "totalArticles": 72,
     "sourceCount": 63,
     "stanceVersion": 3,
     "countries": {
@@ -2753,16 +2753,16 @@
         "stanceVersion": 3
       },
       "Greqi": {
-        "index": 59,
-        "positive": 18,
-        "neutral": 82,
+        "index": 62,
+        "positive": 23,
+        "neutral": 77,
         "negative": 0,
-        "n": 11,
+        "n": 13,
         "excluded": 2,
         "confident": true,
         "stanceVersion": 3,
         "movement": {
-          "delta": 7,
+          "delta": 10,
           "from": 52,
           "outlet": "sport-fm.gr",
           "title": "Përmbysje dhe fitore në ndeshjen e parë të Lojërave Mesdhetare për kombëtaren e hendbollit të femrave",
@@ -2842,14 +2842,6 @@
         "country": "Gjermani",
         "flag": "🇩🇪",
         "url": "https://reporteri.net/fr/nouvelles/L%27alliance-jette-de-l%27huile-sur-le-feu-au-gouvernement-%3A-Ramadan-Kurti-plonge-le-Kosovo-dans-les-t%C3%A9n%C3%A8bres-politiques./",
-        "sentiment": "negative"
-      },
-      {
-        "title": "Tahiri për dy vjetët e Qeverisë Kurti: Varfëri dhe dobësim të Kosovës - Reporteri",
-        "source": "Reporteri",
-        "country": "Francë",
-        "flag": "🇫🇷",
-        "url": "https://reporteri.net/fr/nouvelles/Tahiri-sur-les-deux-ann%C3%A9es-du-gouvernement-Kurti--la-pauvret%C3%A9-et-la-faiblesse-du-Kosovo/",
         "sentiment": "negative"
       },
       {

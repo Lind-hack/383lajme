@@ -1,11 +1,11 @@
 {
   "lastUpdated": "2026-08-24",
-  "overallIndex": 54,
-  "totalArticles": 70,
+  "overallIndex": 55,
+  "totalArticles": 72,
   "sourceCount": 63,
   "stanceVersion": 3,
-  "unattributed": 177,
-  "nonEditorial": 14,
+  "unattributed": 182,
+  "nonEditorial": 15,
   "wrongKosovo": 0,
   "countries": {
     "Gjermani": {
@@ -237,13 +237,13 @@
             },
             {
               "title": "Nei Balcani Macedonia del Nord, Bosnia e Serbia in preda agli incendi - ANSA",
-              "albanianTitle": "Maqedonia e Veriut, Bosnja dhe Serbia të përfshira nga zjarret.",
+              "albanianTitle": "Në Ballkan, Maqedonia e Veriut, Bosnja dhe Serbia të përfshira nga zjarret - ANSA",
               "blurb": "Maqedonia e Veriut, Bosnja dhe Serbia po përballen me zjarre të mëdha që kanë përfshirë këto vende të Ballkanit.",
               "imageUrl": "https://www.ansa.it/webimages/img_1280x720/2024/1/24/b750e7a3a277325035bcd0f60cdaafb2.jpg",
               "url": "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/08/24/nei-balcani-macedonia-del-nord-bosnia-e-serbia-in-preda-agli-incendi_12f9ffd9-6f15-4ffb-982e-a4b1c86da15e.html",
               "date": "2026-08-24",
               "sentiment": "unknown",
-              "reason": "no mention of Kosovo, cannot infer stance",
+              "reason": "Artikulli nuk përmend Kosovën, prandaj nuk mund të përcaktohet qëndrimi",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1243,7 +1243,7 @@
         {
           "name": "sport-fm.gr",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 4,
           "articles": [
             {
               "title": "Λευκορωσία-Κόσοβο - sport-fm.gr",
@@ -1270,12 +1270,38 @@
               "isQuote": false,
               "evidence": "ανατροπή και πρεμιέρα με νίκη",
               "speaker": ""
+            },
+            {
+              "title": "Ελλάδα-Κόσοβο 1-1 - sport-fm.gr",
+              "albanianTitle": "Greqi - Kosovë 1-1 - sport-fm.gr",
+              "blurb": "Ndeshja e futbollit ndërmjet Greqisë dhe Kosovës përfundoi me rezultatin e barabartë një me një në fushën e lojës.",
+              "imageUrl": "https://resources.sport-fm.gr/supersportFM/images/news/21/11/14/3322312_220352.jpg?w=880&f=bicubic",
+              "url": "https://www.sport-fm.gr/article/amp/Live-ellada-kosobo-amp/4237404",
+              "date": "2026-08-24",
+              "sentiment": "neutral",
+              "reason": "Straightforward score report",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Συνέχισε με νίκη στο Τάραντο η Εθνική χάντμπολ γυναικών - sport-fm.gr",
+              "albanianTitle": "Kombëtarja e hendbollit të femrave vazhdon me fitore në Taranto - sport-fm.gr",
+              "blurb": "Kombëtarja e hendbollit të femrave ka shënuar fitore në ndeshjen e zhvilluar në qytetin italian të Tarantos.",
+              "imageUrl": "https://resources.sport-fm.gr/supersportFM/images/news/26/08/24/greece-kosovo_211513.jpg?w=880&f=bicubic",
+              "url": "https://www.sport-fm.gr/article/amp/ellada-kosobo-40-20-amp/5143343",
+              "date": "2026-08-24",
+              "sentiment": "positive",
+              "reason": "Outlet uses praising language about Kosovo's handball team",
+              "isQuote": false,
+              "evidence": "Συνέχισε με νίκη",
+              "speaker": ""
             }
           ],
-          "totalArticles": 5,
-          "trend": "neutral",
+          "totalArticles": 7,
+          "trend": "i përzier",
           "firstSeen": "2026-08-20",
-          "lastSeen": "2026-08-22"
+          "lastSeen": "2026-08-24"
         },
         {
           "name": "Η Άποψη",
@@ -1351,16 +1377,16 @@
         }
       ],
       "summary": {
-        "index": 59,
-        "positive": 18,
-        "neutral": 82,
+        "index": 62,
+        "positive": 23,
+        "neutral": 77,
         "negative": 0,
-        "n": 11,
+        "n": 13,
         "excluded": 2,
         "confident": true,
         "stanceVersion": 3,
         "movement": {
-          "delta": 7,
+          "delta": 10,
           "from": 52,
           "outlet": "sport-fm.gr",
           "title": "Përmbysje dhe fitore në ndeshjen e parë të Lojërave Mesdhetare për kombëtaren e hendbollit të femrave",
