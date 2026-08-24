@@ -3,6 +3,7 @@ import path from "path";
 import fs from "fs";
 import { createClient as createSupabaseClient } from "@supabase/supabase-js";
 import { MOCK_ARTICLES, type Article } from "./mock-data";
+import { remoteImageSrc } from "./remote-image.mjs";
 
 /**
  * Sample copy is for an empty development database, never for readers.
@@ -57,6 +58,10 @@ function sanitizeArticle(a: Article): Article {
     source: fixMojibake(a.source),
     sourceFlag: fixMojibake(a.sourceFlag),
     category: normalizeCategory(fixMojibake(a.category)),
+    // Imagery is hotlinked from other outlets, which serve whatever size they
+    // uploaded — one Al Jazeera hero measured 11.8 MB. Ask the hosts that
+    // honour it for something the width of the article column instead.
+    imageUrl: remoteImageSrc(a.imageUrl, 1200),
   };
 }
 

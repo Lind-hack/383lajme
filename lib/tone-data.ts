@@ -6,6 +6,7 @@
 
 import { readFile } from "fs/promises";
 import path from "path";
+import { remoteImageSrc } from "./remote-image.mjs";
 
 // tools/tone_scraper.py can now return "unknown" for an article it isn't
 // confident enough to score (deliberately, not a bug — see UNKNOWN in that
@@ -745,7 +746,7 @@ export function getForeignCoverage(
     title: entry.albanianTitle as string,
     originalTitle: entry.title,
     url: entry.url,
-    imageUrl: entry.imageUrl as string,
+    imageUrl: remoteImageSrc(entry.imageUrl as string, 800),
     date: entry.date,
     // "unknown" was filtered out at the top of the candidate loop, which is
     // what ForeignCoverageItem's narrower type documents — but the filter is

@@ -6,6 +6,7 @@ import {
   selectCandidates,
   MAX_AGE_HOURS,
 } from "@/lib/telegram-dispatch.mjs";
+import { remoteImageSrc } from "@/lib/remote-image.mjs";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -121,7 +122,7 @@ export async function GET(request: NextRequest) {
     slug: String(row.slug ?? ""),
     title: String(row.title ?? ""),
     excerpt: String(row.excerpt ?? ""),
-    imageUrl: row.image_url ? String(row.image_url) : null,
+    imageUrl: row.image_url ? remoteImageSrc(String(row.image_url), 1200) : null,
     publishedAt: String(row.published_at ?? ""),
     featured: row.featured === true,
   }));
