@@ -6,6 +6,7 @@ import TimeAgo from "./time-ago";
 import SourceBadge from "@/components/source-badge";
 import ArticleCard from "@/components/article-card";
 import ArticleSidebar from "@/components/article-sidebar";
+import ArticleShareRow from "@/components/article-share-row";
 import ArticleAsk from "@/components/article-ask";
 import { toParagraphs, readingMinutes } from "@/lib/article-body.mjs";
 import CategoryAccordion from "@/components/category-accordion";
@@ -187,6 +188,9 @@ export default function ArticleContent({ article, related, catColor, catBg, cate
             </div>
             {/* The reader has just finished; this is where the questions are. */}
             <ArticleAsk article={article} />
+
+            {/* Phones never see the sidebar, so sharing lives here for them. */}
+            <ArticleShareRow slug={article.slug} title={article.title} />
           </motion.div>
         </article>
 
