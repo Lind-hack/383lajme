@@ -4,7 +4,7 @@
     {
       "label": "Pjesëmarrja e Kosovës në Lojërat Mesdhetare",
       "fallbackLabel": "Mesdhetare · Lojërat",
-      "summary": "Ekipet përfaqësuese të Kosovës po marrin pjesë në Lojërat Mesdhetare në Taranto, duke zhvilluar ndeshje të ndryshme në disiplinat e futbollit dhe volejbollit.",
+      "summary": "Përfaqësueset e Kosovës në futboll dhe volejboll po marrin pjesë në Lojërat Mesdhetare 2026, ku po përballen me rezultate të ndryshme kundër Algjerisë.",
       "count": 33,
       "positive": 2,
       "neutral": 29,
@@ -185,9 +185,9 @@
       ]
     },
     {
-      "label": "Bashkëpunimi shumëdimensional Izmir dhe Kosovë",
+      "label": "Bashkëpunimi ndërkombëtar Izmir dhe Kosovë",
       "fallbackLabel": "Tugay · Izmirit",
-      "summary": "Kryetari i bashkisë së Izmirit, Cemil Tugay, ka nisur një iniciativë për vendosjen e marrëdhënieve të reja të bashkëpunimit shumëdimensional me institucionet në Kosovë.",
+      "summary": "Kryetari i Bashkisë së Izmirit, Cemil Tugay, ka nisur një iniciativë për të vendosur marrëdhënie bashkëpunimi shumëdimensional me institucionet në Kosovë.",
       "count": 14,
       "positive": 3,
       "neutral": 11,
@@ -363,7 +363,7 @@
     {
       "label": "Debati për hapjen e urës së Ibrit",
       "fallbackLabel": "Ibrit · Nato",
-      "summary": "Hapja e urës së Ibrit për qarkullim mbetet një çështje e ndjeshme që kërkon koordinim ndërkombëtar për shkak të rrezikut të destabilizimit të sigurisë lokale.",
+      "summary": "Hapja e urës së Ibrit mbetet çështje e ndjeshme politike dhe e sigurisë, duke nxitur reagime nga NATO, Serbia dhe analistët lokalë për pasojat.",
       "count": 11,
       "positive": 0,
       "neutral": 11,
@@ -542,8 +542,8 @@
     },
     {
       "label": "Zbulimi i varrezave masive dhe armatimit",
-      "fallbackLabel": "Masive · Varrezave",
-      "summary": "Autoritetet kanë zbuluar sasi të mëdha armësh dhe municionesh pranë varrezave masive në Zubin Potok, ndërsa procesi i zhvarrosjes së trupave ka përfunduar së fundmi.",
+      "fallbackLabel": "Masive · Pranë",
+      "summary": "Autoritetet në Kosovë kanë zbuluar sasi të mëdha armësh pranë varrezave masive, ndërsa procesi i zhvarrosjes së trupave ka përfunduar pas hetimeve të kryera.",
       "count": 11,
       "positive": 0,
       "neutral": 11,
@@ -717,9 +717,9 @@
       ]
     },
     {
-      "label": "Protestat politike dhe çështjet energjetike",
+      "label": "Protestat politike dhe çështjet gjyqësore",
       "fallbackLabel": "Para · Qeverisë",
-      "summary": "Opozita në Kosovë po organizon protesta para qeverisë për të shprehur pakënaqësinë ndaj situatës energjetike dhe zhvillimeve lidhur me gjykimin e ish-udhëheqësve në Hagë.",
+      "summary": "Opozita po proteston kundër Qeverisë për situatën energjetike, ndërkohë që opinioni publik është i përqendruar te vendimet gjyqësore për ish-udhëheqësit politikë në Hagë.",
       "count": 9,
       "positive": 0,
       "neutral": 7,
@@ -881,8 +881,8 @@
     },
     {
       "label": "Operacionet policore dhe arrestimet ndërkombëtare",
-      "fallbackLabel": "Policia · Arratisurit",
-      "summary": "Policia dhe autoritetet ndërkombëtare kanë kryer arrestime të personave nga Kosova të përfshirë në vepra të ndryshme penale, duke përfshirë trafikimin e drogës dhe terrorizmin.",
+      "fallbackLabel": "Arratisurit · Serbi",
+      "summary": "Autoritetet policore në disa shtete kanë kryer arrestime të personave nga Kosova, të cilët kërkoheshin për vepra të ndryshme penale dhe trafikim droge.",
       "count": 8,
       "positive": 0,
       "neutral": 7,
@@ -1028,9 +1028,9 @@
       ]
     },
     {
-      "label": "Tensionet politike dhe retorika ndërkombëtare",
+      "label": "Tensionet politike dhe retorika ndëretnike",
       "fallbackLabel": "Ndaj · Sistematik",
-      "summary": "Rritja e tensioneve në veri të Kosovës shoqërohet me akuza të ashpra nga zyrtarët serbë dhe rusë për terror sistematik ndaj popullatës serbe në rajon.",
+      "summary": "Rritja e retorikës së ashpër nga Serbia dhe kërcënimet e grupeve të ndryshme po ndikojnë në përshkallëzimin e situatës së sigurisë në Kosovë.",
       "count": 7,
       "positive": 0,
       "neutral": 7,
@@ -1158,9 +1158,9 @@
       ]
     },
     {
-      "label": "Menaxhimi i fondeve dhe projekteve evropiane",
-      "fallbackLabel": "Milionë · Euro",
-      "summary": "Kosova përballet me sfida në shfrytëzimin e fondeve të Bashkimit Evropian, duke rrezikuar humbjen e miliona eurove për shkak të dështimit në zbatimin e projekteve.",
+      "label": "Menaxhimi i fondeve dhe projekteve financiare",
+      "fallbackLabel": "Euro · Milionë",
+      "summary": "Kosova po përballet me sfida në shfrytëzimin e fondeve të Bashkimit Evropian, duke rrezikuar humbjen e miliona eurove për shkak të mosrealizimit të projekteve.",
       "count": 7,
       "positive": 0,
       "neutral": 7,

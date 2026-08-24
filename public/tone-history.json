@@ -2803,47 +2803,6 @@
         "stanceVersion": 3
       }
     },
-    "headlines": [
-      {
-        "title": "Kosovo-Schweizer Hajdari und Avdullahu siegen mit Hoffenheim klar - Blick",
-        "source": "Blick",
-        "country": "Zvicër",
-        "flag": "🇨🇭",
-        "url": "https://www.blick.ch/sport/fussball/international/dfb-pokal/leverkusen-locker-weiter-augsburg-mueht-sich-in-die-zweite-pokal-runde-id22202590.html",
-        "sentiment": "positive"
-      },
-      {
-        "title": "JM 2026 : les Lioncelles décrochent un précieux nul face au Portugal - lopinion.ma",
-        "source": "lopinion.ma",
-        "country": "Belgjikë",
-        "flag": "🇧🇪",
-        "url": "https://lopinion.ma/fr/sport/newsroom/jm-2026--les-lioncelles-decrochent-un-precieux-nul-face-au-portugal_a22886?articleId=4125af99-f88e-4b2b-ac18-1b9dbcd0ddf0",
-        "sentiment": "positive"
-      },
-      {
-        "title": "Ανατροπή και πρεμιέρα με νίκη στους Μεσογειακούς για την Εθνική χάντμπολ γυναικών - sport-fm.gr",
-        "source": "sport-fm.gr",
-        "country": "Greqi",
-        "flag": "🇬🇷",
-        "url": "https://www.sport-fm.gr/article/amp/ellada-kosobo-31-25-amp/5142968",
-        "sentiment": "positive"
-      },
-      {
-        "title": "Aleanca hedh qymyr para qeverisë, Ramadani: Kurti po e çon Kosovën në terr politik - Reporteri",
-        "source": "Reporteri",
-        "country": "Gjermani",
-        "flag": "🇩🇪",
-        "url": "https://reporteri.net/fr/nouvelles/L%27alliance-jette-de-l%27huile-sur-le-feu-au-gouvernement-%3A-Ramadan-Kurti-plonge-le-Kosovo-dans-les-t%C3%A9n%C3%A8bres-politiques./",
-        "sentiment": "negative"
-      },
-      {
-        "title": "Giochi del Mediterraneo: calcio femminile, le Azzurrine schiantano il Kosovo 4-1, gli highlights su SportfaceTV - Sportface.it",
-        "source": "Sportface.it",
-        "country": "Itali",
-        "flag": "🇮🇹",
-        "url": "https://www.sportface.it/giochi-del-mediterraneo-taranto-2026/giochi-del-mediterraneo-calcio-femminile-le-azzurrine-schiantano-il-kosovo-4-1-gli-highlights-su-sportfacetv/2826868",
-        "sentiment": "negative"
-      }
-    ]
+    "headlines": []
   }
 ]
