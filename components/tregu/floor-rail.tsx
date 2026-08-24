@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { fmtNum } from "@/lib/format";
 import type { MiniMarket } from "./market-mini-card";
+import CoinFace from "./coin-face";
 
 // Small flame for the hottest books — drawn inline like the rest of the
 // tregu glyphs (Sparkline, CoinFace); the project carries no icon library.
@@ -34,12 +35,14 @@ export default function FloorRail({
   loggedIn,
   claiming,
   bonusMsg,
+  coinSpin,
   onClaim,
 }: {
   markets: MiniMarket[];
   loggedIn: boolean;
   claiming?: boolean;
   bonusMsg?: string | null;
+  coinSpin?: boolean;
   onClaim?: () => void;
 }) {
   const hot = [...markets]
@@ -97,25 +100,37 @@ export default function FloorRail({
       )}
 
       {loggedIn ? (
-        <section className="tregu-rail-promo">
-          <h3>Bonusi ditor të pret</h3>
-          <p>Kthehu çdo ditë dhe shto 383 Coin pa rrezik. {bonusMsg && <strong>{bonusMsg}</strong>}</p>
-          <button
-            type="button"
-            className="tregu-rail-promo-btn"
-            onClick={onClaim}
-            disabled={claiming}
-          >
-            {claiming ? "..." : "Merr bonusin"}
-          </button>
+        <section className="tregu-rail-promo" data-reward-state={bonusMsg ? "earned" : "ready"}>
+          <div className="tregu-rail-promo-coin" aria-hidden>
+            <CoinFace size={58} spinning={coinSpin} hoverTilt />
+            <i /><i /><i />
+          </div>
+          <div className="tregu-rail-promo-copy">
+            <h3>Bonusi ditor të pret</h3>
+            <p>Kthehu çdo ditë dhe shto 383 Coin pa rrezik. {bonusMsg && <strong>{bonusMsg}</strong>}</p>
+            <button
+              type="button"
+              className="tregu-rail-promo-btn"
+              onClick={onClaim}
+              disabled={claiming}
+            >
+              {claiming ? "Duke e marrë…" : bonusMsg ? "U shtua në portofol" : "Merr bonusin"}
+            </button>
+          </div>
         </section>
       ) : (
         <section className="tregu-rail-promo">
-          <h3>Merr 100 383C falas</h3>
-          <p>Krijo llogari, merr monedhat e para dhe vër mendimin tënd në provë.</p>
-          <Link href="/hyr" className="tregu-rail-promo-btn">
-            Hyr / Regjistrohu
-          </Link>
+          <div className="tregu-rail-promo-coin" aria-hidden>
+            <CoinFace size={58} hoverTilt />
+            <i /><i /><i />
+          </div>
+          <div className="tregu-rail-promo-copy">
+            <h3>Merr <span className="tregu-rail-bonus-number">100</span> 383C falas</h3>
+            <p>Krijo llogari, merr monedhat e para dhe vër mendimin tënd në provë.</p>
+            <Link href="/hyr" className="tregu-rail-promo-btn">
+              Hyr / Regjistrohu
+            </Link>
+          </div>
         </section>
       )}
     </aside>

@@ -2,6 +2,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { lmsrPriceYes } from "@/lib/tregu";
 import { lmsrSportOutcomePrices } from "@/lib/tregu-client";
+import { resolveMarketMedia } from "@/lib/tregu-market-media.mjs";
 
 export const dynamic = "force-dynamic";
 
@@ -11,6 +12,7 @@ const SPARK_POINTS = 28;
 interface TapeRow {
   market_id: string;
   price_yes: number;
+  coins?: number | null;
   outcome_prices?: Record<string, number> | null;
   created_at: string;
 }
@@ -27,7 +29,17 @@ interface SportOracleRow {
   created_at: string;
 }
 
+interface ArticleMediaRow {
+  slug: string;
+  title?: string | null;
+  image_url?: string | null;
+  category?: string | null;
+  source?: string | null;
+  url?: string | null;
+}
+
 export async function GET(request: NextRequest) {
+  const generatedAt = new Date();
   const supabase = await createClient();
   const category = request.nextUrl.searchParams.get("category");
   const status = request.nextUrl.searchParams.get("status") ?? "open";
@@ -49,19 +61,29 @@ export async function GET(request: NextRequest) {
 
   const rows = data ?? [];
   const ids = rows.map((m) => m.id);
+  const sourceSlugs = [...new Set(
+    rows.flatMap((market) =>
+      Array.isArray(market.source_article_slugs)
+        ? market.source_article_slugs.map(String).filter(Boolean)
+        : []
+    )
+  )];
 
   // One tape query for every listed market (sparklines + weekly deltas), the
   // 5-minute cron snapshots (books move between trades, and most books have
   // few or no trades — without snapshots every sparkline collapses to a dot),
   // and one short public feed — the hub's proof the floor is alive.
-  const [tapeRes, snapRes, sportOracleRes, feedRes] = await Promise.all([
+  const [tapeRes, snapRes, sportOracleRes, feedRes, articleRes] = await Promise.all([
     ids.length
       ? supabase
           .from("market_trades")
-          .select("market_id, price_yes, outcome_prices, created_at")
+          .select("market_id, price_yes, coins, outcome_prices, created_at")
           .in("market_id", ids)
-          .order("created_at", { ascending: true })
-          .limit(4000)
+          // Keep the freshest global window under the cap, then restore
+          // chronological order below. An ascending capped query silently
+          // discarded the newest movements once the floor grew past 4k rows.
+          .order("created_at", { ascending: false })
+          .limit(6000)
       : Promise.resolve({ data: [] as TapeRow[], error: null }),
     ids.length
       ? supabase
@@ -76,18 +98,30 @@ export async function GET(request: NextRequest) {
           .from("sport_oracle_events")
           .select("market_id, reference_probabilities, created_at")
           .in("market_id", ids)
-          .order("created_at", { ascending: true })
-          .limit(2000)
+          .order("created_at", { ascending: false })
+          .limit(4000)
       : Promise.resolve({ data: [] as SportOracleRow[], error: null }),
     supabase
       .from("market_trades")
       .select("action, side, coins, price_yes, created_at, profiles(display_name), markets(question, slug)")
       .order("created_at", { ascending: false })
       .limit(10),
+    sourceSlugs.length
+      ? supabase
+          .from("news_articles")
+          .select("slug, title, image_url, category, source, url")
+          .in("slug", sourceSlugs)
+      : Promise.resolve({ data: [] as ArticleMediaRow[], error: null }),
   ]);
 
+  // Media is supplementary. A news-table failure must never block prices;
+  // the resolver supplies an owned category fallback for editorial markets.
+  const articleMedia = articleRes.error
+    ? []
+    : ((articleRes.data ?? []) as ArticleMediaRow[]);
+
   const byMarket = new Map<string, TapeRow[]>();
-  for (const t of (tapeRes.data ?? []) as TapeRow[]) {
+  for (const t of ([...((tapeRes.data ?? []) as TapeRow[])].reverse())) {
     const arr = byMarket.get(t.market_id);
     if (arr) arr.push(t);
     else byMarket.set(t.market_id, [t]);
@@ -103,7 +137,7 @@ export async function GET(request: NextRequest) {
   }
 
   const bySportOracle = new Map<string, SportOracleRow[]>();
-  for (const row of (sportOracleRes.data ?? []) as SportOracleRow[]) {
+  for (const row of ([...((sportOracleRes.data ?? []) as SportOracleRow[])].reverse())) {
     const arr = bySportOracle.get(row.market_id);
     if (arr) arr.push(row);
     else bySportOracle.set(row.market_id, [row]);
@@ -120,23 +154,29 @@ export async function GET(request: NextRequest) {
     const merged = [
       ...tape.map((t) => ({ t: new Date(t.created_at).getTime(), p: t.price_yes })),
       ...(bySnap.get(m.id) ?? []).map((s) => ({ t: new Date(s.created_at).getTime(), p: Number(s.market_prob) })),
-    ].sort((a, b) => a.t - b.t);
+      // The persisted book state is a real point. Use its own update time,
+      // never request time, so polling cannot manufacture a moving tail.
+      { t: new Date(m.updated_at ?? m.created_at).getTime(), p: prob },
+    ]
+      .filter((point) => Number.isFinite(point.t) && Number.isFinite(point.p))
+      .sort((a, b) => a.t - b.t);
+    const exactMerged = [...new Map(merged.map((point) => [point.t, point])).values()];
 
     // Weekly delta: current prob vs the last known price at/before 7 days ago
     // (or the earliest point if the market is younger than a week).
     let delta7d: number | null = null;
-    if (merged.length > 0) {
-      let anchor = merged[0].p;
-      for (const pt of merged) {
+    if (exactMerged.length > 0) {
+      let anchor = exactMerged[0].p;
+      for (const pt of exactMerged) {
         if (pt.t <= weekAgo) anchor = pt.p;
         else break;
       }
       delta7d = prob - anchor;
     }
 
-    // Downsample the tape to a fixed-width sparkline, always ending at now.
-    const prices = merged.map((pt) => pt.p);
-    prices.push(prob);
+    // Downsample the tape to a fixed-width sparkline, ending at the latest
+    // persisted market state rather than manufacturing a request-time point.
+    const prices = exactMerged.map((pt) => pt.p);
     let spark: number[];
     if (prices.length <= SPARK_POINTS) {
       spark = prices;
@@ -147,7 +187,7 @@ export async function GET(request: NextRequest) {
       }
     }
 
-    const history = merged.map((point) => ({
+    const history = exactMerged.map((point) => ({
       created_at: new Date(point.t).toISOString(),
       probability: point.p,
     }));
@@ -169,14 +209,7 @@ export async function GET(request: NextRequest) {
       ? Object.fromEntries(
           sportOutcomes.map((outcome: { key?: string }, index: number) => {
             const key = String(outcome.key ?? `outcome-${index + 1}`);
-            const initial = Number(
-              m.reference_probabilities?.[key] ?? 1 / sportOutcomes.length
-            );
             const points = [
-              {
-                t: new Date(m.created_at).getTime(),
-                p: Number.isFinite(initial) ? initial : 1 / sportOutcomes.length,
-              },
               ...tape.flatMap((trade) => {
                 const p = Number(trade.outcome_prices?.[key]);
                 return Number.isFinite(p)
@@ -189,7 +222,10 @@ export async function GET(request: NextRequest) {
                   ? [{ t: new Date(event.created_at).getTime(), p }]
                   : [];
               }),
-              { t: Date.now(), p: Number(outcomeProbabilities[key] ?? initial) },
+              {
+                t: new Date(m.updated_at ?? m.created_at).getTime(),
+                p: Number(outcomeProbabilities[key] ?? 1 / sportOutcomes.length),
+              },
             ]
               .filter((point) => Number.isFinite(point.t) && Number.isFinite(point.p))
               .sort((a, b) => a.t - b.t);
@@ -205,15 +241,27 @@ export async function GET(request: NextRequest) {
         )
       : null;
 
+    const sourceTimes = [
+      new Date(m.updated_at ?? m.created_at).getTime(),
+      ...tape.map((row) => new Date(row.created_at).getTime()),
+      ...(bySnap.get(m.id) ?? []).map((row) => new Date(row.created_at).getTime()),
+      ...(bySportOracle.get(m.id) ?? []).map((row) => new Date(row.created_at).getTime()),
+    ].filter(Number.isFinite);
+
     return {
       ...m,
       market_prob: prob,
       spark,
-      delta7d,
+      delta7d: hasCompactOutcomeBook ? null : delta7d,
       trade_count: tape.length,
+      trade_volume: tape.reduce((sum, row) => sum + Math.max(0, Number(row.coins ?? 0)), 0),
+      last_data_at: sourceTimes.length
+        ? new Date(Math.max(...sourceTimes)).toISOString()
+        : m.updated_at ?? m.created_at,
       history,
       outcome_probabilities: outcomeProbabilities,
       outcome_history: outcomeHistory,
+      market_media: resolveMarketMedia(m, articleMedia),
     };
   });
 
@@ -236,5 +284,8 @@ export async function GET(request: NextRequest) {
     slug: t.markets?.slug ?? "",
   }));
 
-  return NextResponse.json({ markets, activity });
+  return NextResponse.json(
+    { markets, activity, generated_at: generatedAt.toISOString() },
+    { headers: { "Cache-Control": "private, no-store, max-age=0" } }
+  );
 }

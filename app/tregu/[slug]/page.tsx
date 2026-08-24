@@ -1,11 +1,12 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState, use as usePromise, type CSSProperties } from "react";
+import { useCallback, useEffect, useRef, useState, use as usePromise, type ComponentProps, type CSSProperties } from "react";
 import Link from "next/link";
 import Navbar from "@/components/navbar";
 import TimeAgo from "@/components/time-ago";
-import MarketChart from "@/components/tregu/market-chart";
-import GroupChart, { OutcomeMiniChart } from "@/components/tregu/group-chart";
+import ExactMarketChart from "@/components/tregu/exact-market-chart";
+import MarketContextMedia from "@/components/tregu/market-context-media";
+import SportBrandMark from "@/components/tregu/sport-brand-mark";
 import { type MiniMarket } from "@/components/tregu/market-mini-card";
 import TeamFlag from "@/components/tregu/team-flag";
 import MarketSocial, { type HolderRow, type CommentItem } from "@/components/tregu/market-social";
@@ -31,8 +32,9 @@ import { outcomeMediaFor } from "@/lib/tregu-media";
 import { eventStatsFor } from "@/lib/tregu-event-stats";
 import RaceStandings from "@/components/tregu/race-standings";
 import F1RaceControl from "@/components/tregu/f1-race-control";
-import { dramatizeSeries, dramatizeSpark } from "@/lib/tregu-tape";
 import { SLUG_TO_CATEGORY } from "@/lib/category-map";
+import { getCategoryColor } from "@/lib/category-colors";
+import { normalizeRecordedOutcomeSeries } from "@/lib/tregu-hub-market.mjs";
 import { f1DriverHeadshot, f1TeamColor } from "@/lib/f1-driver-presentation";
 import { FOOTBALL_MARKET_UI_VERSION } from "@/lib/tregu-ui-contract";
 
@@ -58,6 +60,7 @@ interface MarketDetail {
   q_no: number;
   b: number;
   closes_at: string;
+  updated_at?: string | null;
   source_article_slugs: string[];
   resolution_rules: string | null;
   resolution_source: string | null;
@@ -65,14 +68,15 @@ interface MarketDetail {
   sport_outcomes?: { key: string; label: string; team?: string; color?: string }[] | null;
   outcome_quantities?: Record<string, number> | null;
   reference_probabilities?: Record<string, number> | null;
-  live_event?: { home_team?: string; away_team?: string } | null;
+  live_event?: { home_team?: string; away_team?: string; league?: string; sport?: string } | null;
+  market_media?: ComponentProps<typeof MarketContextMedia>["media"];
 }
 
 interface Snapshot {
   ai_prob: number | null;
   market_prob: number;
   created_at: string;
-  evidence: { title: string; slug: string; url?: string }[] | null;
+  evidence: { title: string; slug: string; url?: string; imageUrl?: string }[] | null;
 }
 
 interface F1Payload { outcomes: { key: string; label: string; team: string; probability: number; headshot_url?: string; team_colour?: string; grid_position?: number }[]; timing: { race?: { status?: string; current_lap?: number; total_laps?: number }; rows?: { driver_code?: string; position?: number; gap?: string; pits?: number; status?: string }[] } | null; history?: { createdAt: string; probabilities: Record<string, number>; lap?: number; status?: string }[]; }
@@ -82,6 +86,7 @@ interface FootballPayload {
     key: string;
     label: string;
     team?: string;
+    logo?: string;
     color: string;
     probability: number;
     series: { t: number; p: number }[];
@@ -150,6 +155,47 @@ function timeAgo(iso: string): string {
   const h = Math.floor(min / 60);
   if (h < 24) return `para ${h} orësh`;
   return `para ${Math.floor(h / 24)} ditësh`;
+}
+
+function FootballOutcomeMark({
+  outcome,
+  size,
+}: {
+  outcome: FootballPayload["outcomes"][number];
+  size: number;
+}) {
+  if (outcome.logo) {
+    return (
+      // Team identity is decorative beside the visible team name.
+      // eslint-disable-next-line @next/next/no-img-element
+      <img
+        className="tregu-football-team-logo"
+        src={outcome.logo}
+        alt=""
+        aria-hidden
+        width={size}
+        height={size}
+        loading="lazy"
+        referrerPolicy="no-referrer"
+      />
+    );
+  }
+  if (outcome.team || !/barazim|draw/i.test(outcome.label)) {
+    return (
+      <TeamFlag
+        team={outcome.team ?? outcome.label}
+        label={outcome.label}
+        size={size}
+        radius={Math.max(7, Math.round(size * .26))}
+      />
+    );
+  }
+  return <span className="tregu-football-draw-mark" style={{ background: outcome.color }} aria-hidden />;
+}
+
+function recordedPoint(timestamp: string | null | undefined, probability: number): { t: number; p: number }[] {
+  const t = timestamp ? new Date(timestamp).getTime() : NaN;
+  return Number.isFinite(t) && Number.isFinite(probability) ? [{ t, p: probability }] : [];
 }
 
 export default function MarketDetailPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -239,6 +285,10 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
         setFootball(nextFootball);
         setFootballOutcomeKey((current) => {
           if (!nextFootball?.outcomes?.length) return "";
+          const requested = new URLSearchParams(window.location.search).get("rezultati");
+          if (requested && nextFootball.outcomes.some((outcome) => outcome.key === requested)) {
+            return requested;
+          }
           if (nextFootball.outcomes.some((outcome) => outcome.key === current)) return current;
           return [...nextFootball.outcomes].sort((a, b) => b.probability - a.probability)[0]?.key ?? "";
         });
@@ -540,30 +590,15 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
   // PO → "Barazim", JO → "Jo Barazim".
   const sideLabel = (s: Side) =>
     currentOutcome ? (s === "PO" ? currentOutcome.label : `Jo ${currentOutcome.label}`) : s;
-  // Timestamped tape per outcome: real cron snapshots from the API when
-  // available, otherwise the hub sparkline mapped onto a 5-min grid ending now
-  // (demo + brand-new markets without snapshot history yet).
-  const eventSeriesFor = (o: GroupOutcome): { t: number; p: number }[] | undefined => {
-    // Demo events carry a scripted in-play match simulation at 2-min steps.
+  const eventOutcomeBySlug = new Map((eventData?.outcomes ?? []).map((outcome) => [outcome.slug, outcome]));
+  // Public event charts use persisted timestamps only. The local demo keeps its
+  // existing, explicitly scripted fixture so the design preview remains useful.
+  const eventSeriesFor = (o: GroupOutcome): { t: number; p: number }[] => {
     if (demo) {
       const sim = demoMatchSeries(o.slug);
       if (sim) return sim;
     }
-    const fromApi = eventData?.outcomes.find((x) => x.slug === o.slug)?.series;
-    if (fromApi && fromApi.length >= 2) return fromApi;
-    if (o.spark && o.spark.length >= 2) {
-      const step = 5 * 60_000;
-      // Quantize the grid's end to the step so the anchor timestamps are stable
-      // across renders/polls — an un-quantized Date.now() end shifted every
-      // anchor a few seconds per render, redrawing the outcome's whole history.
-      const end = Math.floor(Date.now() / step) * step;
-      const n = o.spark.length;
-      return dramatizeSeries(
-        o.spark.map((p, i) => ({ t: end - (n - 1 - i) * step, p })),
-        o.slug
-      );
-    }
-    return undefined;
+    return eventOutcomeBySlug.get(o.slug)?.series ?? [];
   };
   const currentPrice = lmsrPriceYes(market.q_yes, market.q_no, market.b);
   const sidePrice = side === "PO" ? currentPrice : 1 - currentPrice;
@@ -573,6 +608,9 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
   const isClosed = market.status !== "open";
   const volume = Math.round(market.q_yes + market.q_no);
   const deltaPp = weeklyDelta === null ? null : Math.round(weeklyDelta * 100);
+  const weeklyStart = weeklyDelta === null
+    ? null
+    : Math.round(Math.max(0, Math.min(1, market.market_prob - weeklyDelta)) * 100);
   const closesMs = market.closes_at ? new Date(market.closes_at).getTime() : NaN;
   const closesDateLabel = Number.isNaN(closesMs)
     ? null
@@ -592,6 +630,8 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
       : sellPreview !== null
         ? Math.abs(sellPreview.newPriceYes - currentPrice) * 100
         : 0;
+  const priceAfterTradeYes = buyPreview?.newPriceYes ?? sellPreview?.newPriceYes ?? currentPrice;
+  const sidePriceAfterTrade = side === "PO" ? priceAfterTradeYes : 1 - priceAfterTradeYes;
   const potentialProfit = buyPreview ? buyPreview.shares - amount : 0;
   const roi = buyPreview && amount > 0 ? (potentialProfit / amount) * 100 : 0;
   const footballPreview =
@@ -635,12 +675,45 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
   // Race grids (every outcome has a registry headshot) swap the mini-chart
   // grid for a live timing board ranked by the odds.
   const raceField = Boolean(group && group.outcomes.every((o) => outcomeMediaFor(o.label)?.photo));
-  // Repricing cadence: live sports (football, F1 grids) reprice every 2 min,
-  // general/news markets every 5 min. Drives the chart's countdown pill.
-  const isLiveSport = market.category === "sport" || raceField;
-  const chartCadenceMs = isLiveSport ? 120_000 : 300_000;
+  const isSportDetail = market.category === "sport" || Boolean(football || f1);
+  const detailTone: "sport" | "serious" = isSportDetail ? "sport" : "serious";
+  const sportBrandKey = f1 ? "f1" : market.live_event?.league ?? null;
+  const sportIdentity = `${market.live_event?.sport ?? ""} ${market.live_event?.league ?? ""} ${market.market_type ?? ""}`.toLowerCase();
+  const sportTheme = f1 || /formula|\bf1\b|racing/.test(sportIdentity)
+    ? "f1"
+    : /basket|\bnba\b|\bfbk\b/.test(sportIdentity)
+      ? "basketball"
+      : isSportDetail
+        ? "football"
+        : undefined;
   // Per-category chart accent (blue Politikë, green Ekonomi, gold Botë…).
   const chartCategory = SLUG_TO_CATEGORY[market.category] ?? market.category;
+  const marketChartSeries = [{
+    key: market.id,
+    label: sideLabel("PO"),
+    color: getCategoryColor(chartCategory),
+    points: [
+      ...snapshots.flatMap((snapshot) => recordedPoint(snapshot.created_at, snapshot.market_prob)),
+      ...trades.flatMap((trade) => recordedPoint(trade.created_at, trade.price_yes)),
+      ...recordedPoint(market.updated_at, market.market_prob),
+    ],
+    current: market.market_prob,
+  }];
+  const normalizedGroupHistory = normalizeRecordedOutcomeSeries(
+    (group?.outcomes ?? []).map((outcome) => ({
+      key: outcome.slug,
+      points: eventSeriesFor(outcome),
+    }))
+  );
+  const groupedChartSeries = (group?.outcomes ?? []).map((outcome) => {
+    return {
+      key: outcome.slug,
+      label: outcome.label,
+      color: outcome.color,
+      points: normalizedGroupHistory[outcome.slug] ?? [],
+      current: outcome.prob,
+    };
+  });
 
   // Registered head-to-head stat sheet for this event (null when none exists).
   const fallbackEventStats = group ? eventStatsFor(group.title) : null;
@@ -699,93 +772,103 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
   const eventStats = liveStats ?? fallbackEventStats ?? footballScheduledStats;
 
   return (
-    <div className="tregu-scope">
+    <div className="tregu-scope" data-sport-theme={sportTheme}>
       <Navbar />
       {/* Left-anchored container — Polymarket-style, not centered. */}
       <main
         data-auto-refresh-ms={autoRefreshMs}
+        data-sport-theme={sportTheme}
         style={{ maxWidth: 1560, margin: 0, padding: "96px 32px 80px 32px" }}
       >
         <Link href="/tregu" style={{ color: "#6B6B6B", fontSize: 13, textDecoration: "none" }}>
           ← Tregu
         </Link>
 
-        {/* ── Header: flat, no card — question + live ticker row ── */}
-        <header style={{ marginTop: 14, marginBottom: 20 }}>
-          <div style={{ display: "flex", alignItems: "center", flexWrap: "wrap", gap: 10, marginBottom: 12 }}>
-            <span className="tregu-pill">{CATEGORY_LABEL[market.category] ?? market.category}</span>
-            {market.status === "resolved" && (
-              <span className="tregu-pill" style={{ color: market.outcome === "PO" ? "#00854A" : "#C51518" }}>
-                U zgjidh: {market.outcome}
-              </span>
-            )}
-            {market.status === "closed" && <span className="tregu-pill">Mbyllur</span>}
-            {market.status === "open" && <span className="tregu-pill">{closesIn(market.closes_at)}</span>}
-            {/* Permanent way back into the walkthrough once it has been dismissed. */}
-            <button type="button" className="tregu-home-help" onClick={openTradeTutorial}>
-              <span aria-hidden>?</span>
-              Si funksionon
-            </button>
-          </div>
-          <h1
-            style={{
-              fontSize: "clamp(24px, 3.2vw, 34px)",
-              fontWeight: 800,
-              margin: "0 0 10px",
-              lineHeight: 1.2,
-              letterSpacing: "-0.015em",
-              textWrap: "balance",
-              maxWidth: "26ch",
-            }}
-          >
-            {group && currentOutcome ? group.title : market.question}
-          </h1>
-          {group && currentOutcome && (
-            <div className="tregu-event-tabs" role="tablist" aria-label="Rezultatet e ngjarjes">
-              {group.outcomes.map((o) => (
-                <Link
-                  key={o.slug}
-                  href={`/tregu/${o.slug}`}
-                  className="tregu-event-tab"
-                  data-active={o.slug === slug}
-                  role="tab"
-                  aria-selected={o.slug === slug}
-                >
-                  <span className="tregu-gchart-chip-dot" style={{ background: o.color }} />
-                  {o.label} · {Math.round(o.prob * 100)}%
-                </Link>
-              ))}
+        {/* ── Header: market context + question + verified ticker row ── */}
+        <header className="tregu-detail-header" data-tone={detailTone} data-sport-theme={sportTheme} style={{ marginTop: 14, marginBottom: 20 }}>
+          <div className="tregu-detail-header-grid">
+            <div className="tregu-detail-header-copy">
+              <div style={{ display: "flex", alignItems: "center", flexWrap: "wrap", gap: 10, marginBottom: 12 }}>
+                {isSportDetail && sportBrandKey ? <SportBrandMark brandKey={sportBrandKey} size="md" /> : null}
+                <span className="tregu-pill">{CATEGORY_LABEL[market.category] ?? market.category}</span>
+                {market.status === "resolved" && (
+                  <span className="tregu-pill" style={{ color: market.outcome === "PO" ? "#00854A" : "#C51518" }}>
+                    U zgjidh: {market.outcome}
+                  </span>
+                )}
+                {market.status === "closed" && <span className="tregu-pill">Mbyllur</span>}
+                {market.status === "open" && <span className="tregu-pill">{closesIn(market.closes_at)}</span>}
+                {/* Permanent way back into the walkthrough once it has been dismissed. */}
+                <button type="button" className="tregu-home-help" onClick={openTradeTutorial}>
+                  <span aria-hidden>?</span>
+                  Si funksionon
+                </button>
+              </div>
+              <h1
+                style={{
+                  fontSize: "clamp(24px, 3.2vw, 34px)",
+                  fontWeight: 800,
+                  margin: "0 0 10px",
+                  lineHeight: 1.2,
+                  letterSpacing: "-0.015em",
+                  textWrap: "balance",
+                  maxWidth: "26ch",
+                }}
+              >
+                {group && currentOutcome ? group.title : market.question}
+              </h1>
+              {group && currentOutcome && (
+                <nav className="tregu-event-tabs" aria-label="Rezultatet e ngjarjes">
+                  {group.outcomes.map((o) => (
+                    <Link
+                      key={o.slug}
+                      href={`/tregu/${o.slug}`}
+                      className="tregu-event-tab"
+                      data-active={o.slug === slug}
+                      aria-current={o.slug === slug ? "page" : undefined}
+                    >
+                      {group.category === "sport" ? (
+                        <TeamFlag team={o.label} size={20} radius={6} label={o.label} />
+                      ) : (
+                        <span className="tregu-gchart-chip-dot" style={{ background: o.color }} />
+                      )}
+                      {o.label} · {Math.round(o.prob * 100)}%
+                    </Link>
+                  ))}
+                </nav>
+              )}
+              {market.description && (
+                <p style={{ color: "#555555", fontSize: 14, margin: "0 0 14px", maxWidth: "70ch", lineHeight: 1.55 }}>
+                  {market.description}
+                </p>
+              )}
+              <div style={{ display: "flex", alignItems: "baseline", flexWrap: "wrap", gap: "12px 22px" }}>
+                <span style={{ display: "inline-flex", alignItems: "baseline", gap: 10 }}>
+                  <span style={{ fontSize: 40, fontWeight: 800, lineHeight: 1, color: "#111111", fontVariantNumeric: "tabular-nums" }}>
+                    {pct}%
+                  </span>
+                  <span style={{ fontSize: 14, fontWeight: 700, color: "#6B6B6B" }}>
+                    {footballSelectedOutcome
+                      ? `gjasa ${footballSelectedOutcome.label}`
+                      : f1SelectedDriver
+                        ? `gjasa ${f1SelectedDriver.label}`
+                        : currentOutcome
+                          ? `gjasa ${currentOutcome.label}`
+                          : "gjasa PO"}
+                  </span>
+                </span>
+                {!f1 && !football && deltaPp !== null && deltaPp !== 0 && (
+                  <span className="tregu-delta-chip" data-dir={deltaPp > 0 ? "up" : "down"}>
+                    Këtë javë: {weeklyStart}% → {Math.round(market.market_prob * 100)}%
+                  </span>
+                )}
+                <span style={{ fontSize: 13, fontWeight: 700, color: "#555555", fontVariantNumeric: "tabular-nums" }}>
+                  {fmtNum(volume)} 383C vëllim · {fmtNum(tradeCount)} tregtime
+                  {closesDateLabel ? ` · ${isClosed ? "u mbyll" : "mbyllet"} ${closesDateLabel}` : ""}
+                </span>
+              </div>
             </div>
-          )}
-          {market.description && (
-            <p style={{ color: "#555555", fontSize: 14, margin: "0 0 14px", maxWidth: "70ch", lineHeight: 1.55 }}>
-              {market.description}
-            </p>
-          )}
-          <div style={{ display: "flex", alignItems: "baseline", flexWrap: "wrap", gap: "12px 22px" }}>
-            <span style={{ display: "inline-flex", alignItems: "baseline", gap: 10 }}>
-              <span style={{ fontSize: 40, fontWeight: 800, lineHeight: 1, color: "#111111", fontVariantNumeric: "tabular-nums" }}>
-                {pct}%
-              </span>
-              <span style={{ fontSize: 14, fontWeight: 700, color: "#6B6B6B" }}>
-                {footballSelectedOutcome
-                  ? `gjasa ${footballSelectedOutcome.label}`
-                  : f1SelectedDriver
-                    ? `gjasa ${f1SelectedDriver.label}`
-                  : currentOutcome
-                    ? `gjasa ${currentOutcome.label}`
-                    : "gjasa PO"}
-              </span>
-            </span>
-            {!f1 && !football && deltaPp !== null && deltaPp !== 0 && (
-              <span className="tregu-delta-chip" data-dir={deltaPp > 0 ? "up" : "down"}>
-                {deltaPp > 0 ? "▲" : "▼"} {Math.abs(deltaPp)}pp këtë javë
-              </span>
-            )}
-            <span style={{ fontSize: 13, fontWeight: 700, color: "#555555", fontVariantNumeric: "tabular-nums" }}>
-              {fmtNum(volume)} 383C vëllim · {fmtNum(tradeCount)} tregtime
-              {closesDateLabel ? ` · ${isClosed ? "u mbyll" : "mbyllet"} ${closesDateLabel}` : ""}
-            </span>
+            {detailTone === "serious" ? <MarketContextMedia media={market.market_media} variant="detail" /> : null}
           </div>
         </header>
 
@@ -795,7 +878,9 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
             {football ? (
               <>
                 <section
-                  className="tregu-panel tregu-football-market"
+                  className="tregu-panel tregu-football-market tregu-detail-chart-shell"
+                  data-tone="sport"
+                  data-sport-theme="football"
                   data-football-live-chart
                   data-football-market-ui-version={FOOTBALL_MARKET_UI_VERSION}
                   data-outcome-count={football.outcomes.length}
@@ -805,17 +890,20 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                   aria-label={football.format.marketIntent === "to_qualify" ? "Gjasat live të kualifikimit" : "Gjasat live të ndeshjes"}
                 >
                   <div className="tregu-football-market-head">
-                    <div>
-                      <span className="tregu-football-eyebrow">
-                        {football.format.marketIntent === "to_qualify"
-                          ? "Tregu i kualifikimit"
-                          : "Tregu i ndeshjes"}
-                      </span>
-                      <h2>
-                        {football.format.marketIntent === "to_qualify"
-                          ? "Kush kualifikohet?"
-                          : "Gjasat live"}
-                      </h2>
+                    <div className="tregu-football-title-row">
+                      {sportBrandKey ? <SportBrandMark brandKey={sportBrandKey} size="md" /> : null}
+                      <div>
+                        <span className="tregu-football-eyebrow">
+                          {football.format.marketIntent === "to_qualify"
+                            ? "Tregu i kualifikimit"
+                            : "Tregu i ndeshjes"}
+                        </span>
+                        <h2>
+                          {football.format.marketIntent === "to_qualify"
+                            ? "Kush kualifikohet?"
+                            : "Gjasat live"}
+                        </h2>
+                      </div>
                     </div>
                     <div className="tregu-football-meta">
                       <span className="tregu-football-stage">
@@ -840,21 +928,25 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                           setTradeMsg(null);
                         }}
                       >
-                        <span style={{ background: outcome.color }} aria-hidden />
+                        <FootballOutcomeMark outcome={outcome} size={26} />
                         <strong>{outcome.label}</strong>
                         <b>{(outcome.probability * 100).toFixed(1)}%</b>
                       </button>
                     ))}
                   </div>
-                  <GroupChart
+                  <ExactMarketChart
                     height={460}
-                    cadenceMs={120_000}
+                    showRanges
+                    showPulse
+                    tone="sport"
                     series={football.outcomes.map((outcome) => ({
+                      key: outcome.key,
                       label: outcome.label,
                       color: outcome.color,
-                      series: outcome.series,
-                      prob: outcome.probability,
+                      points: outcome.series,
+                      current: outcome.probability,
                     }))}
+                    ariaLabel={football.format.marketIntent === "to_qualify" ? "Historia e verifikuar e kualifikimit" : "Historia e verifikuar e rezultatit"}
                   />
                 </section>
                 {eventStats ? <MatchStats {...eventStats} /> : null}
@@ -881,21 +973,17 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
               />
             ) : group && currentOutcome ? (
               <>
-                {/* Combined event chart — every outcome's live line, Polymarket-style. */}
-                <div className="tregu-panel" style={{ padding: 28 }}>
+                {/* Combined event chart — persisted writes only on public routes. */}
+                <div className="tregu-panel tregu-detail-chart-shell" data-tone={detailTone} data-sport-theme={sportTheme} style={{ padding: 28 }}>
                   <h3 style={{ fontSize: 16, fontWeight: 800, margin: "0 0 16px" }}>Të gjitha rezultatet</h3>
-                  {/* No remount key: the left-to-right reveal must play once on
-                      open, not replay every poll. Prop changes re-render in
-                      place and the internal per-second sim drives the tail. */}
-                  <GroupChart
+                  <ExactMarketChart
                     height={460}
-                    cadenceMs={chartCadenceMs}
-                    series={group.outcomes.map((o) => ({
-                      label: o.label,
-                      color: o.color,
-                      series: eventSeriesFor(o),
-                      prob: o.rawProb,
-                    }))}
+                    showRanges
+                    showPulse
+                    derived
+                    tone={detailTone}
+                    series={groupedChartSeries}
+                    ariaLabel={`Historia e regjistruar për ${group.title}`}
                   />
                 </div>
                 {/* Beneath the chart: the stat lines behind the price moves —
@@ -906,9 +994,8 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                 ) : eventStats ? (
                   <MatchStats {...eventStats} />
                 ) : null}
-                {/* Below the chart: live timing board for race grids, or one
-                    graph per outcome for everything else. */}
-                <div className="tregu-panel" style={{ padding: 28 }}>
+                {/* Below the chart: timing board, or one exact tape per outcome. */}
+                <div className="tregu-panel tregu-detail-chart-shell" data-tone={detailTone} data-sport-theme={sportTheme} style={{ padding: 28 }}>
                   <h3 style={{ fontSize: 15, fontWeight: 800, margin: "0 0 14px" }}>
                     {raceField ? "Renditja live" : "Gjasat sipas rezultatit"}
                   </h3>
@@ -916,16 +1003,31 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                     <RaceStandings outcomes={group.outcomes} currentSlug={slug} />
                   ) : (
                     <div className="tregu-omini-grid">
-                      {group.outcomes.map((o) => (
-                        <OutcomeMiniChart key={o.slug} label={o.label} color={o.color} points={dramatizeSpark(o.spark, o.slug)} prob={o.prob} />
+                      {groupedChartSeries.map((outcome) => (
+                        <ExactMarketChart
+                          key={outcome.key}
+                          compact
+                          derived
+                          height={108}
+                          tone={detailTone}
+                          series={[outcome]}
+                          ariaLabel={`Historia e regjistruar për ${outcome.label}`}
+                        />
                       ))}
                     </div>
                   )}
                 </div>
               </>
             ) : (
-              <div className="tregu-panel" style={{ padding: 28 }}>
-                <MarketChart trades={trades} snapshots={snapshots} currentProb={market.market_prob} seedKey={slug} category={chartCategory} cadenceMs={chartCadenceMs} />
+              <div className="tregu-panel tregu-detail-chart-shell" data-tone={detailTone} data-sport-theme={sportTheme} style={{ padding: 28 }}>
+                <ExactMarketChart
+                  height={460}
+                  showRanges
+                  showPulse
+                  tone={detailTone}
+                  series={marketChartSeries}
+                  ariaLabel={`Historia e regjistruar për ${market.question}`}
+                />
               </div>
             )}
 
@@ -945,7 +1047,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
               <div className="tregu-panel" style={{ padding: 28 }}>
                 <h3 style={{ fontSize: 15, fontWeight: 800, margin: "0 0 14px" }}>Bazuar në lajme</h3>
                 <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                  {latestEvidence.map((e) => {
+                  {latestEvidence.map((e, evidenceIndex) => {
                     let host = "383lajme.com";
                     if (e.url) {
                       try {
@@ -968,11 +1070,16 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                     const initial = (title || host).trim().charAt(0).toUpperCase() || "3";
                     return (
                       <Link
-                        key={e.slug}
+                        key={e.slug || e.url || `${title}-${evidenceIndex}`}
                         href={`/article/${e.slug}`}
                         className="tregu-evidence-item"
                       >
-                        <span className="tregu-evidence-thumb">{initial}</span>
+                        <span className="tregu-evidence-thumb">
+                          {e.imageUrl ? (
+                            // eslint-disable-next-line @next/next/no-img-element
+                            <img src={e.imageUrl} alt="" aria-hidden loading="lazy" decoding="async" referrerPolicy="no-referrer" />
+                          ) : initial}
+                        </span>
                         <span className="tregu-evidence-body">
                           <span className="tregu-evidence-title">{title}</span>
                           <span className="tregu-evidence-src">
@@ -998,6 +1105,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
               data-football-bet-slip={football ? "" : undefined}
               className="tregu-panel tregu-edge"
               data-cat={market.category}
+              data-sport-theme={sportTheme}
               style={{ padding: 28 }}
             >
               {/* Event trade card header: cubic flag avatar + team, plus a
@@ -1024,9 +1132,8 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                       {Math.round(currentOutcome.prob * 100)}%
                     </span>
                   </div>
-                  <div
+                  <nav
                     style={{ display: "flex", gap: 8, overflowX: "auto", paddingBottom: 4, scrollbarWidth: "thin" }}
-                    role="tablist"
                     aria-label="Zgjidh skuadrën"
                   >
                     {group.outcomes.map((o) => (
@@ -1035,8 +1142,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                         href={`/tregu/${o.slug}`}
                         className="tregu-team-switch"
                         data-active={o.slug === slug}
-                        role="tab"
-                        aria-selected={o.slug === slug}
+                        aria-current={o.slug === slug ? "page" : undefined}
                       >
                         <TeamFlag team={o.label} size={22} radius={7} label={o.label} />
                         <span>{o.label}</span>
@@ -1045,17 +1151,12 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                         </span>
                       </Link>
                     ))}
-                  </div>
+                  </nav>
                 </div>
               )}
               {football && footballSelectedOutcome && (
                 <div className="tregu-football-selection">
-                  <TeamFlag
-                    team={footballSelectedOutcome.team ?? footballSelectedOutcome.label}
-                    size={52}
-                    radius={14}
-                    label={footballSelectedOutcome.label}
-                  />
+                  <FootballOutcomeMark outcome={footballSelectedOutcome} size={52} />
                   <span>
                     <small>
                       {football.format.marketIntent === "to_qualify"
@@ -1498,9 +1599,9 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                           <div><span>Aksione</span><strong>{buyPreview.shares.toFixed(2)}</strong></div>
                           <div><span>Çmimi mesatar</span><strong>{(buyPreview.avgPrice * 100).toFixed(1)}%</strong></div>
                           <div>
-                            <span>Ndikimi në çmim</span>
+                            <span>Gjasa pas blerjes</span>
                             <strong style={{ color: impactPp > 5 ? "#B45309" : undefined }}>
-                              {impactPp.toFixed(1)}pp{impactPp > 5 ? " ⚠" : ""}
+                              {(sidePriceAfterTrade * 100).toFixed(1)}%{impactPp > 5 ? " (ndryshim i madh)" : ""}
                             </strong>
                           </div>
                           <div>
@@ -1548,9 +1649,9 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                           <div><span>Merr</span><strong style={{ color: "#00854A" }}>{sellPreview.coins.toFixed(1)} 383C</strong></div>
                           <div><span>Çmimi mesatar i shitjes</span><strong>{(sellPreview.avgPrice * 100).toFixed(1)}%</strong></div>
                           <div>
-                            <span>Ndikimi në çmim</span>
+                            <span>Gjasa pas shitjes</span>
                             <strong style={{ color: impactPp > 5 ? "#B45309" : undefined }}>
-                              {impactPp.toFixed(1)}pp{impactPp > 5 ? " ⚠" : ""}
+                              {(sidePriceAfterTrade * 100).toFixed(1)}%{impactPp > 5 ? " (ndryshim i madh)" : ""}
                             </strong>
                           </div>
                         </div>
@@ -1593,8 +1694,8 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
 
             {/* Sinjali AI — how the newest news-scored probability compares to
                the crowd. This is the surface of the 5-min refresh loop: when
-               news moves the AI line away from the market, traders see the
-               edge before the odds catch up. */}
+               news moves the estimate away from the market, traders see the
+               gap without mixing an inferred line into the recorded chart. */}
             {latestAiSnap && latestAiSnap.ai_prob !== null && (
               <div className="tregu-panel" style={{ padding: 28 }}>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
@@ -1622,10 +1723,10 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                       </div>
                       <p style={{ fontSize: 12.5, color: "#555555", lineHeight: 1.55, margin: 0 }}>
                         {Math.abs(gapPp) < 3
-                          ? "AI dhe tregu pajtohen — çmimi duket i drejtë."
+                          ? "AI dhe tregu kanë pothuajse të njëjtën gjasë."
                           : gapPp > 0
-                            ? `AI e vlerëson ${sideLabel("PO")} ${Math.abs(gapPp)}pp më lart se tregu — lajmet e fundit anojnë PO.`
-                            : `AI e vlerëson ${sideLabel("PO")} ${Math.abs(gapPp)}pp më poshtë se tregu — lajmet e fundit anojnë JO.`}
+                            ? `AI e sheh ${sideLabel("PO")} me ${Math.round(ai * 100)}%, krahasuar me ${Math.round(market.market_prob * 100)}% në treg.`
+                            : `AI e sheh ${sideLabel("PO")} me ${Math.round(ai * 100)}%, krahasuar me ${Math.round(market.market_prob * 100)}% në treg.`}
                       </p>
                     </>
                   );

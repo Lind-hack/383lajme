@@ -5,6 +5,10 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import type { MiniMarket } from "./market-mini-card";
 import { fmtNum } from "@/lib/format";
+import ExactMarketChart, { type ExactMarketSeries } from "./exact-market-chart";
+import MarketContextMedia from "./market-context-media";
+import SportBrandMark from "./sport-brand-mark";
+import { outcomeColor, toExactSeries } from "@/lib/tregu-hub-market.mjs";
 
 const CATEGORY_LABEL: Record<string, string> = {
   politike: "Politikë",
@@ -28,52 +32,6 @@ function closeLabel(iso?: string): string | null {
   return `Mbyllet për ${Math.max(1, Math.floor(ms / 60_000))} min`;
 }
 
-// Feature-scale price tape — same trade data as the mini sparkline drawn at
-// chart size with a gradient floor. uid keeps gradient ids unique per slide.
-function SlideTape({ points, dir, uid }: { points: number[]; dir: "up" | "down" | "flat"; uid: string }) {
-  const W = 480;
-  const H = 120;
-  const min = Math.min(...points);
-  const max = Math.max(...points);
-  const span = Math.max(max - min, 0.04);
-  const step = points.length > 1 ? W / (points.length - 1) : W;
-  const y = (p: number) => 8 + (H - 16) * (1 - (p - min) / span);
-  const path = points
-    .map((p, i) => `${i === 0 ? "M" : "L"}${(i * step).toFixed(1)} ${y(p).toFixed(1)}`)
-    .join(" ");
-  const color = dir === "up" ? "#00854A" : dir === "down" ? "#B91C1C" : "#6B6B6B";
-  const gid = `tg-car-${uid}`;
-  return (
-    <svg
-      viewBox={`0 0 ${W} ${H}`}
-      preserveAspectRatio="none"
-      style={{ width: "100%", height: "100%", display: "block" }}
-      aria-hidden
-    >
-      <defs>
-        <linearGradient id={gid} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor={color} stopOpacity="0.16" />
-          <stop offset="100%" stopColor={color} stopOpacity="0" />
-        </linearGradient>
-      </defs>
-      {[0.25, 0.5, 0.75].map((g) => (
-        <line
-          key={g}
-          x1="0"
-          y1={8 + (H - 16) * g}
-          x2={W}
-          y2={8 + (H - 16) * g}
-          stroke="rgba(17,17,17,0.06)"
-          strokeDasharray={g === 0.5 ? "4 4" : undefined}
-        />
-      ))}
-      <path d={`${path} L${W} ${H} L0 ${H} Z`} fill={`url(#${gid})`} />
-      <path d={path} fill="none" stroke={color} strokeWidth={2.5} strokeLinejoin="round" vectorEffect="non-scaling-stroke" />
-      <circle cx={W} cy={y(points[points.length - 1])} r={4} fill={color} stroke="#FFFFFF" strokeWidth={2} />
-    </svg>
-  );
-}
-
 function Slide({ market, active }: { market: MiniMarket; active: boolean }) {
   const router = useRouter();
   const pct = Math.round(Math.max(0, Math.min(1, market.prob)) * 100);
@@ -84,7 +42,26 @@ function Slide({ market, active }: { market: MiniMarket; active: boolean }) {
   const deltaPp = market.delta7d != null ? Math.round(market.delta7d * 100) : null;
   const dir: "up" | "down" | "flat" =
     deltaPp != null && deltaPp > 0 ? "up" : deltaPp != null && deltaPp < 0 ? "down" : "flat";
-  const spark = market.spark && market.spark.length >= 2 ? market.spark : null;
+  const structured =
+    (market.marketType === "two_outcome" || market.marketType === "three_outcome") &&
+    (market.sportOutcomes?.length ?? 0) >= 2 &&
+    Boolean(market.outcomeProbabilities);
+  const chartSeries: ExactMarketSeries[] = structured
+    ? (market.sportOutcomes ?? []).map((outcome, index) => ({
+        key: outcome.key,
+        label: outcome.label,
+        color: outcomeColor(outcome, index),
+        current: Number(market.outcomeProbabilities?.[outcome.key] ?? 1 / (market.sportOutcomes?.length ?? 2)),
+        points: toExactSeries(market.outcomeHistory?.[outcome.key]),
+      }))
+    : [{
+        key: "po",
+        label: "PO",
+        color: "#00854A",
+        current: market.prob,
+        points: toExactSeries(market.history),
+      }];
+  const leader = [...chartSeries].sort((a, b) => b.current - a.current)[0];
 
   const goToSide = (e: React.MouseEvent, side: "PO" | "JO") => {
     e.preventDefault();
@@ -93,60 +70,84 @@ function Slide({ market, active }: { market: MiniMarket; active: boolean }) {
   };
 
   return (
-    <Link
-      href={`/tregu/${market.slug}`}
+    <article
       className="tregu-car-slide-link"
-      tabIndex={active ? 0 : -1}
       style={{ textDecoration: "none", color: "#111111" }}
-      draggable={false}
     >
-      <div className="tregu-feature-grid">
+      <Link
+        href={`/tregu/${market.slug}`}
+        className="tregu-car-slide-hit"
+        tabIndex={active ? 0 : -1}
+        aria-label={`Hap tregun: ${market.question}`}
+        draggable={false}
+      />
+      <div className="tregu-feature-grid" data-structured={structured || undefined}>
         {/* ── The proposition ── */}
         <div className="tregu-feature-main">
           <div style={{ display: "flex", alignItems: "center", flexWrap: "wrap", gap: 10, marginBottom: 14 }}>
-            {/\bF1\b|Çmimin e Madh/i.test(market.question) && <span aria-label="Formula 1" style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 38, height: 26, borderRadius: 5, background: "#e10600", color: "#fff", fontSize: 13, fontWeight: 950, fontStyle: "italic", letterSpacing: "-1px", boxShadow: "0 6px 18px rgba(225,6,0,.28)" }}>F1</span>}
+            {(market.league === "f1" || /\bF1\b|Çmimin e Madh/i.test(market.question)) && (
+              <SportBrandMark brandKey="f1" size="sm" />
+            )}
+            {market.league && market.league !== "f1" && <SportBrandMark brandKey={market.league} size="sm" />}
             <span className="tregu-pill">{CATEGORY_LABEL[market.category] ?? market.category}</span>
             {remaining && <span className="tregu-market-close">{remaining}</span>}
           </div>
 
           <p className="tregu-feature-q">{market.question}</p>
 
-          <div className="tregu-depth" aria-hidden style={{ marginTop: "auto" }}>
-            <div className="tregu-depth-yes" style={{ width: `${pct}%` }} />
-            <div className="tregu-depth-no" style={{ width: `${noPct}%` }} />
-          </div>
+          {!structured && market.category !== "sport" && (
+            <MarketContextMedia media={market.marketMedia} variant="featured" />
+          )}
 
-          <div className="tregu-sides">
-            <button
-              onClick={(e) => goToSide(e, "PO")}
-              className="tregu-side tregu-btn-yes tregu-feature-side"
-              type="button"
-              tabIndex={active ? 0 : -1}
-            >
-              <div className="tregu-side-row">
-                <span className="tregu-side-name">PO</span>
-                <span className="tregu-side-pct">{pct}%</span>
+          {structured ? (
+            <div className="tregu-feature-outcome-rack">
+              {chartSeries.map((outcome) => (
+                <Link
+                  key={outcome.key}
+                  href={`/tregu/${market.slug}?rezultati=${encodeURIComponent(outcome.key)}`}
+                  tabIndex={active ? 0 : -1}
+                  style={{ ["--outcome-color" as string]: outcome.color }}
+                  aria-label={`${outcome.label}, ${(outcome.current * 100).toFixed(1)} për qind`}
+                >
+                  <em>{outcome.label}</em>
+                  <strong>{(outcome.current * 100).toFixed(1)}%</strong>
+                  <small>×{outcome.current > 0 ? (1 / outcome.current).toFixed(2) : "-"}</small>
+                </Link>
+              ))}
+            </div>
+          ) : (
+            <div className="tregu-sides" style={{ marginTop: "auto" }}>
+                <button
+                  onClick={(e) => goToSide(e, "PO")}
+                  className="tregu-side tregu-btn-yes tregu-feature-side"
+                  type="button"
+                  tabIndex={active ? 0 : -1}
+                >
+                  <div className="tregu-side-row">
+                    <span className="tregu-side-name">PO</span>
+                    <span className="tregu-side-pct">{pct}%</span>
+                  </div>
+                  <span className="tregu-side-mult">{yesMult ? `×${yesMult}` : "-"}</span>
+                </button>
+                <button
+                  onClick={(e) => goToSide(e, "JO")}
+                  className="tregu-side tregu-btn-no tregu-feature-side"
+                  type="button"
+                  tabIndex={active ? 0 : -1}
+                >
+                  <div className="tregu-side-row">
+                    <span className="tregu-side-name">JO</span>
+                    <span className="tregu-side-pct">{noPct}%</span>
+                  </div>
+                  <span className="tregu-side-mult">{noMult ? `×${noMult}` : "-"}</span>
+                </button>
               </div>
-              <span className="tregu-side-mult">{yesMult ? `×${yesMult}` : "—"}</span>
-            </button>
-            <button
-              onClick={(e) => goToSide(e, "JO")}
-              className="tregu-side tregu-btn-no tregu-feature-side"
-              type="button"
-              tabIndex={active ? 0 : -1}
-            >
-              <div className="tregu-side-row">
-                <span className="tregu-side-name">JO</span>
-                <span className="tregu-side-pct">{noPct}%</span>
-              </div>
-              <span className="tregu-side-mult">{noMult ? `×${noMult}` : "—"}</span>
-            </button>
-          </div>
+          )}
 
           <div className="tregu-market-foot" style={{ border: "none", paddingTop: 0 }}>
             <span>
               {market.volume !== undefined && market.volume > 0
-                ? `Vëllimi ${fmtNum(market.volume)} 383C`
+                ? `Aktiviteti i fundit ${fmtNum(market.volume)} 383C`
                 : "Treg i ri"}
             </span>
             <span className="tregu-market-open">Hap tregun →</span>
@@ -157,28 +158,28 @@ function Slide({ market, active }: { market: MiniMarket; active: boolean }) {
         <div className="tregu-feature-chart">
           <div className="tregu-feature-price">
             <div>
-              <span className="tregu-feature-price-label">Gjasa PO</span>
-              <span className="tregu-feature-price-value">{pct}%</span>
+              <span className="tregu-feature-price-label">{structured ? `Në krye · ${leader?.label ?? "Pa të dhëna"}` : "Gjasa PO"}</span>
+              <span className="tregu-feature-price-value">{structured ? `${((leader?.current ?? 0) * 100).toFixed(1)}%` : `${pct}%`}</span>
             </div>
             {deltaPp != null && deltaPp !== 0 && (
               <span className="tregu-delta-chip" data-dir={dir}>
-                {deltaPp > 0 ? "▲" : "▼"} {Math.abs(deltaPp)}pp / 7d
+                7 ditë: {Math.max(0, Math.min(100, pct - deltaPp))}% → {pct}%
               </span>
             )}
           </div>
           <div className="tregu-feature-tape">
-            {spark ? (
-              <SlideTape points={spark} dir={dir} uid={market.slug} />
-            ) : (
-              <div className="tregu-feature-empty">
-                <span style={{ fontWeight: 800, fontSize: 13, color: "#111111" }}>Tape e re</span>
-                <span>Grafiku ndërtohet nga tregtimet e para. Bëhu i pari.</span>
-              </div>
-            )}
+            <ExactMarketChart
+              compact
+              height={structured ? 260 : 218}
+              series={chartSeries}
+              tone={structured || market.category === "sport" ? "sport" : "serious"}
+              showPulse={structured}
+              ariaLabel={`Historia reale për ${market.question}`}
+            />
           </div>
         </div>
       </div>
-    </Link>
+    </article>
   );
 }
 
@@ -189,6 +190,7 @@ function Slide({ market, active }: { market: MiniMarket; active: boolean }) {
 // card with no controls — the carousel chrome earns its place at 2+.
 export default function FeaturedCarousel({ markets }: { markets: MiniMarket[] }) {
   const [index, setIndex] = useState(0);
+  const [direction, setDirection] = useState<"next" | "previous">("next");
   const [paused, setPaused] = useState(false);
   const [reduced, setReduced] = useState(false);
   const touchX = useRef<number | null>(null);
@@ -208,8 +210,12 @@ export default function FeaturedCarousel({ markets }: { markets: MiniMarket[] })
   }, [count]);
 
   const go = useCallback(
-    (next: number) => setIndex(((next % count) + count) % count),
-    [count]
+    (next: number) => {
+      const normalized = ((next % count) + count) % count;
+      setDirection(next < index || (index === 0 && normalized === count - 1) ? "previous" : "next");
+      setIndex(normalized);
+    },
+    [count, index]
   );
 
   useEffect(() => {
@@ -279,7 +285,7 @@ export default function FeaturedCarousel({ markets }: { markets: MiniMarket[] })
         )}
       </div>
 
-      <div className="tregu-car-viewport">
+      <div className="tregu-car-viewport" data-direction={direction}>
         <div
           className="tregu-car-track"
           style={{ transform: `translateX(-${index * 100}%)` }}
@@ -288,6 +294,7 @@ export default function FeaturedCarousel({ markets }: { markets: MiniMarket[] })
             <div
               key={m.slug}
               className="tregu-car-slide"
+              data-active={i === index || undefined}
               aria-hidden={i !== index}
               inert={i !== index ? true : undefined}
             >

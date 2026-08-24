@@ -2,9 +2,10 @@
 
 import { useMemo, useState, type CSSProperties } from "react";
 import { ChevronDown, Flag, Radio, Ticket, Trophy } from "lucide-react";
-import GroupChart from "@/components/tregu/group-chart";
+import ExactMarketChart from "@/components/tregu/exact-market-chart";
 import { f1DriverHeadshot, f1TeamColor } from "@/lib/f1-driver-presentation";
 import { F1_RACE_UI_VERSION } from "@/lib/tregu-ui-contract";
+import SportBrandMark from "@/components/tregu/sport-brand-mark";
 
 type Driver = {
   key: string;
@@ -198,7 +199,10 @@ export default function F1RaceControl({
     [drivers, timingByDriver]
   );
 
-  const chartDrivers = (gridOrder.length >= 10 ? gridOrder : oddsOrder).slice(0, 10);
+  const chartDrivers = useMemo(
+    () => (gridOrder.length >= 10 ? gridOrder : oddsOrder).slice(0, 10),
+    [gridOrder, oddsOrder]
+  );
   const field = isLive || isFinished ? liveOrder : oddsOrder;
   const visibleDrivers = showAllDrivers ? field : field.slice(0, 10);
   const chartSeries = useMemo(
@@ -210,10 +214,11 @@ export default function F1RaceControl({
           return Number.isFinite(t) && Number.isFinite(p) ? [{ t, p: cleanProbability(p) }] : [];
         });
         return {
+          key: driver.key,
           label: driver.key,
           color: teamColor(driver),
-          series: points.length > 0 ? points : undefined,
-          prob: cleanProbability(driver.probability),
+          points,
+          current: cleanProbability(driver.probability),
         };
       }),
     [chartDrivers, history]
@@ -225,17 +230,18 @@ export default function F1RaceControl({
 
   return (
     <section
-      className="f1-race-control"
+      className="f1-race-control tregu-detail-chart-shell"
+      data-tone="sport"
       data-f1-race-ui-version={F1_RACE_UI_VERSION}
       aria-label="Tregu i fituesit të garës Formula 1"
     >
       <header className="f1-race-header">
         <div>
-          <span className="f1-mark">F1</span>
+          <SportBrandMark brandKey="f1" size="lg" />
           <h2>22 pilotë. Një fitues.</h2>
           <p>
             {marketOpen && !isFinished
-              ? "Gjasat lëvizin çdo sekondë. Çdo vijë mban ngjyrën e skuadrës."
+              ? "Gjasat përditësohen vetëm kur mbërrin një vektor i verifikuar. Çdo vijë mban ngjyrën e skuadrës."
               : "Historia e regjistruar e garës, me ngjyrat e skuadrave."}
           </p>
         </div>
@@ -260,15 +266,16 @@ export default function F1RaceControl({
             </div>
             <span className="f1-refresh-label">
               <Radio size={14} strokeWidth={2} aria-hidden />
-              {marketOpen && !isFinished ? "rifreskim 1s" : "arkiv"}
+              {marketOpen && !isFinished ? "të dhëna të verifikuara" : "arkiv"}
             </span>
           </div>
-          <GroupChart
+          <ExactMarketChart
             height={390}
-            cadenceMs={120_000}
+            showRanges
+            showPulse
+            tone="sport"
             series={chartSeries}
-            normalize={false}
-            animate={marketOpen && !isFinished}
+            ariaLabel="Historia e verifikuar e gjasave të pilotëve"
           />
         </div>
 

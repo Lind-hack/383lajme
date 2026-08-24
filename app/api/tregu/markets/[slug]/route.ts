@@ -5,8 +5,20 @@ import { lmsrSportOutcomePrices } from "@/lib/tregu-client";
 import { getArticles } from "@/lib/db";
 import { parseEvent, slugKey } from "@/lib/tregu-groups";
 import { fetchF1LiveLiteLeaderboard } from "@/lib/f1-live-lite";
+import { resolveMarketMedia } from "@/lib/tregu-market-media.mjs";
+import { outcomeColor } from "@/lib/tregu-hub-market.mjs";
 
 export const dynamic = "force-dynamic";
+
+interface ArticleMediaRow {
+  slug: string;
+  title?: string | null;
+  image_url?: string | null;
+  imageUrl?: string | null;
+  category?: string | null;
+  source?: string | null;
+  url?: string | null;
+}
 
 export async function GET(
   _request: NextRequest,
@@ -69,7 +81,31 @@ export async function GET(
         .limit(50),
     ]);
 
-  const articleBySlug = new Map((await getArticles(500)).map((article) => [article.slug, article]));
+  const evidenceSlugs = (snapshots ?? []).flatMap((snapshot) =>
+    (Array.isArray(snapshot.evidence) ? snapshot.evidence : [])
+      .map((item: unknown) => String((item as { slug?: string } | null)?.slug ?? ""))
+      .filter(Boolean)
+  );
+  const wantedArticleSlugs = [...new Set([
+    ...(Array.isArray(market.source_article_slugs) ? market.source_article_slugs.map(String) : []),
+    ...evidenceSlugs,
+  ])];
+  const exactArticlesRes = wantedArticleSlugs.length
+    ? await supabase
+        .from("news_articles")
+        .select("slug, title, image_url, category, source, url")
+        .in("slug", wantedArticleSlugs)
+    : { data: [] as ArticleMediaRow[], error: null };
+  const exactArticles = exactArticlesRes.error
+    ? []
+    : ((exactArticlesRes.data ?? []) as ArticleMediaRow[]);
+  const exactSlugs = new Set(exactArticles.map((article) => article.slug));
+  const missingSlugs = wantedArticleSlugs.filter((articleSlug) => !exactSlugs.has(articleSlug));
+  const fallbackArticles = missingSlugs.length
+    ? (await getArticles(500)).filter((article) => missingSlugs.includes(article.slug))
+    : [];
+  const articleCandidates: ArticleMediaRow[] = [...exactArticles, ...fallbackArticles];
+  const articleBySlug = new Map(articleCandidates.map((article) => [article.slug, article]));
   const snapshotsWithEvidence = (snapshots ?? []).map((snapshot) => {
     const rawEvidence: unknown[] = Array.isArray(snapshot.evidence) ? snapshot.evidence : [];
     const evidence = rawEvidence.map((raw) => {
@@ -80,7 +116,7 @@ export async function GET(
         title: item.title || article?.title || "Lajm i verifikuar që ndikoi në treg",
         source: item.source || article?.source || "Burim i verifikuar",
         url: item.url || article?.url,
-        imageUrl: item.imageUrl || article?.imageUrl,
+        imageUrl: item.imageUrl || article?.imageUrl || article?.image_url || undefined,
       };
     });
     return { ...snapshot, evidence };
@@ -159,7 +195,7 @@ export async function GET(
   if (parsed) {
     const { data: candidates } = await supabase
       .from("markets")
-      .select("id, slug, question, q_yes, q_no, b, status")
+      .select("id, slug, question, q_yes, q_no, b, status, created_at, updated_at")
       .in("status", ["open", "closed"])
       .limit(60);
     const key = slugKey(parsed.title);
@@ -175,7 +211,6 @@ export async function GET(
         .in("market_id", ids)
         .order("created_at", { ascending: true })
         .limit(1000);
-      const nowT = Date.now();
       event = {
         title: parsed.title,
         outcomes: siblings.map((s) => {
@@ -183,7 +218,8 @@ export async function GET(
           const series = (sibSnaps ?? [])
             .filter((r) => r.market_id === s.id)
             .map((r) => ({ t: new Date(r.created_at).getTime(), p: Number(r.market_prob) }));
-          series.push({ t: nowT, p: prob });
+          const persistedAt = new Date(s.updated_at ?? s.created_at).getTime();
+          if (Number.isFinite(persistedAt)) series.push({ t: persistedAt, p: prob });
           return { slug: s.slug, question: s.question, prob, series };
         }),
       };
@@ -225,7 +261,7 @@ export async function GET(
       .eq("market_id", market.id)
       .order("created_at", { ascending: true })
       .limit(500);
-    const nowT = Date.now();
+    const nowT = new Date(market.updated_at ?? market.created_at).getTime();
     const palette = ["#C92F2F", "#7A7A78", "#2E70C9"];
     const storedFormat =
       market.live_event?.football_format &&
@@ -265,6 +301,7 @@ export async function GET(
             color?: string;
             team_color?: string;
             team_colour?: string;
+            logo?: string;
           },
           index: number
         ) => {
@@ -282,16 +319,7 @@ export async function GET(
                   : key.toLowerCase() === "home"
                     ? "#C92F2F"
                     : palette[index % palette.length];
-          const initialProbability = Number(
-            market.reference_probabilities?.[key] ?? 1 / market.sport_outcomes.length
-          );
           const series = [
-            {
-              t: new Date(market.created_at).getTime(),
-              p: Number.isFinite(initialProbability)
-                ? initialProbability
-                : 1 / market.sport_outcomes.length,
-            },
             ...(trades ?? []).flatMap((row) => {
               const values = row.outcome_prices as Record<string, unknown> | null;
               const probability = Number(values?.[key]);
@@ -314,9 +342,15 @@ export async function GET(
             key,
             label: String(outcome.label ?? outcome.team ?? key),
             team: outcome.team ? String(outcome.team) : undefined,
-            color: isDraw
-              ? "#7A7A78"
-              : String(outcome.color ?? outcome.team_color ?? outcome.team_colour ?? knownTeamColor),
+            logo: outcome.logo ? String(outcome.logo) : undefined,
+            color: outcomeColor({
+              ...outcome,
+              key,
+              label: String(outcome.label ?? outcome.team ?? key),
+              color: isDraw
+                ? "#7A7A78"
+                : outcome.color ?? outcome.team_color ?? outcome.team_colour ?? knownTeamColor,
+            }, index),
             probability: Number(prices[key] ?? 1 / market.sport_outcomes.length),
             series,
           };
@@ -386,9 +420,13 @@ export async function GET(
     };
   }
   return NextResponse.json({
-    market: { ...market, market_prob: currentProb }, f1,
+    market: {
+      ...market,
+      market_prob: currentProb,
+      market_media: resolveMarketMedia(market, articleCandidates),
+    }, f1,
     event, football,
-    snapshots: snapshots ?? [],
+    snapshots: snapshotsWithEvidence,
     trades: trades ?? [],
     activity: activity ?? [],
     related: relatedWithProb,

@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import F1ProbabilityHistory from "@/components/tregu/f1-probability-history";
+import SportBrandMark from "@/components/tregu/sport-brand-mark";
 
 type Market = {
   id: string;
@@ -53,19 +54,7 @@ export default function F1ArchiveFeature({ market }: { market: Market }) {
         }}
       >
         <div>
-          <span
-            style={{
-              display: "inline-flex",
-              borderRadius: 5,
-              background: "#e10600",
-              color: "white",
-              padding: "4px 9px",
-              fontWeight: 900,
-              fontStyle: "italic",
-            }}
-          >
-            F1
-          </span>
+          <SportBrandMark brandKey="f1" size="lg" />
           <p style={{ fontSize: 22, fontWeight: 850, margin: "12px 0 4px" }}>
             {market.question}
           </p>

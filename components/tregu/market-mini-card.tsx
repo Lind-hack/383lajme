@@ -2,7 +2,11 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { fmtNum } from "@/lib/format";
+import { toExactSeries } from "@/lib/tregu-hub-market.mjs";
+import type { MarketMedia } from "@/lib/tregu-market-media.mjs";
+import ExactMarketChart, { type ExactMarketSeries } from "./exact-market-chart";
+import MarketContextMedia from "./market-context-media";
+import SportBrandMark from "./sport-brand-mark";
 
 export interface MiniMarket {
   slug: string;
@@ -13,32 +17,23 @@ export interface MiniMarket {
   closesAt?: string;
   spark?: number[]; // downsampled PO price tape, 0..1, oldest first
   delta7d?: number | null; // prob change vs 7 days ago, 0..1 scale
-}
-
-// Tiny trade-tape sparkline. Stretched SVG holds no text, so
-// preserveAspectRatio="none" is safe here.
-function Sparkline({ points, dir, height = 28 }: { points: number[]; dir: "up" | "down" | "flat"; height?: number }) {
-  const W = 100;
-  const H = height;
-  const min = Math.min(...points);
-  const max = Math.max(...points);
-  const span = Math.max(max - min, 0.02); // floor so a flat tape stays a visible line
-  const step = points.length > 1 ? W / (points.length - 1) : W;
-  const y = (p: number) => 3 + (H - 6) * (1 - (p - min) / span);
-  const path = points.map((p, i) => `${i === 0 ? "M" : "L"}${(i * step).toFixed(1)} ${y(p).toFixed(1)}`).join(" ");
-  const color = dir === "up" ? "#00854A" : dir === "down" ? "#B91C1C" : "#6B6B6B";
-  return (
-    <svg
-      viewBox={`0 0 ${W} ${H}`}
-      preserveAspectRatio="none"
-      style={{ width: "100%", height: H, display: "block" }}
-      aria-hidden
-    >
-      <path d={`${path} L${W} ${H} L0 ${H} Z`} fill={color} opacity={0.08} />
-      <path d={path} fill="none" stroke={color} strokeWidth={2} vectorEffect="non-scaling-stroke" />
-      <circle cx={W} cy={y(points[points.length - 1])} r={2.5} fill={color} />
-    </svg>
-  );
+  history?: { created_at: string; probability: number }[];
+  tradeCount?: number;
+  lastDataAt?: string;
+  marketMedia?: MarketMedia | null;
+  marketType?: string;
+  league?: string | null;
+  sportOutcomes?: {
+    key: string;
+    label: string;
+    team?: string;
+    color?: string;
+    team_color?: string;
+    team_colour?: string;
+    logo?: string;
+  }[] | null;
+  outcomeProbabilities?: Record<string, number> | null;
+  outcomeHistory?: Record<string, { created_at: string; probability: number }[]> | null;
 }
 
 const CATEGORY_LABEL: Record<string, string> = {
@@ -80,10 +75,6 @@ export default function MarketMiniCard({ market }: { market: MiniMarket; compact
   const router = useRouter();
   const pct = Math.round(Math.max(0, Math.min(1, market.prob)) * 100);
   const noPct = 100 - pct;
-  // Payout multiple: buying a side at p% returns 100/p per coin if it resolves
-  // that way. This is the number a trader is actually weighing.
-  const yesMult = pct >= 1 ? (100 / pct).toFixed(2) : null;
-  const noMult = noPct >= 1 ? (100 / noPct).toFixed(2) : null;
   const remaining = closeLabel(market.closesAt);
   const closed = remaining === "Mbyllur";
 
@@ -92,12 +83,19 @@ export default function MarketMiniCard({ market }: { market: MiniMarket; compact
   const deltaPp = market.delta7d != null ? Math.round(market.delta7d * 100) : null;
   const dir: "up" | "down" | "flat" =
     deltaPp != null && deltaPp > 0 ? "up" : deltaPp != null && deltaPp < 0 ? "down" : "flat";
-  const spark = market.spark && market.spark.length >= 2 ? market.spark : null;
+  const exactPoints = toExactSeries(market.history);
+  const chartSeries: ExactMarketSeries[] = [{
+    key: "po",
+    label: "PO",
+    color: "#00854A",
+    current: market.prob,
+    points: exactPoints,
+  }];
 
   const ms = msToClose(market.closesAt);
   const isNew = !market.volume;
   const isClosingSoon = !closed && ms !== null && ms > 0 && ms < 48 * 3_600_000;
-  const isMover = Boolean(spark) && deltaPp !== null && Math.abs(deltaPp) >= 3;
+  const isMover = exactPoints.length >= 2 && deltaPp !== null && Math.abs(deltaPp) >= 3;
   const variant: Variant = isNew ? "new" : isClosingSoon ? "closing" : isMover ? "mover" : "default";
 
   const goToSide = (e: React.MouseEvent, side: "PO" | "JO") => {
@@ -111,62 +109,44 @@ export default function MarketMiniCard({ market }: { market: MiniMarket; compact
     <Link
       href={`/tregu/${market.slug}`}
       className="tregu-glass tregu-market tregu-edge"
+      data-simple
       data-cat={market.category}
       data-variant={variant}
       style={{ display: "flex", flexDirection: "column", textDecoration: "none", color: "#111111" }}
     >
       <div className="tregu-market-top">
-        <span className="tregu-pill">{CATEGORY_LABEL[market.category] ?? market.category}</span>
-        {variant === "mover" && deltaPp !== null ? (
-          <span className="tregu-market-flag">
-            {deltaPp > 0 ? "▲" : "▼"} Në lëvizje
-          </span>
-        ) : variant === "new" ? (
-          <span className="tregu-market-flag">Treg i ri</span>
-        ) : variant === "closing" ? (
-          <span className="tregu-market-close">Afati po skadon</span>
-        ) : (
-          remaining && (
-            <span className="tregu-market-close">{closed ? remaining : `Mbyllet ${remaining}`}</span>
-          )
-        )}
+        <span className="tregu-market-kind">
+          {market.category === "sport" && market.league ? <SportBrandMark brandKey={market.league} size="sm" /> : null}
+          <span className="tregu-pill">{CATEGORY_LABEL[market.category] ?? market.category}</span>
+        </span>
+        {remaining && <span className="tregu-market-close">{closed ? remaining : `Mbyllet ${remaining}`}</span>}
       </div>
 
-      <p className="tregu-market-q">{market.question}</p>
-
-      {variant === "mover" && spark && (
-        <div style={{ display: "flex", alignItems: "center", gap: 10, margin: "2px 0 10px" }}>
-          <div style={{ flex: 1, minWidth: 0 }}>
-            <Sparkline points={spark} dir={dir} height={44} />
-          </div>
-          {deltaPp !== null && deltaPp !== 0 && (
-            <span
-              className="tregu-delta-chip"
-              data-dir={dir}
-              style={{ fontSize: 11, padding: "2px 9px", flexShrink: 0 }}
-            >
-              {deltaPp > 0 ? "▲" : "▼"} {Math.abs(deltaPp)}pp / 7d
-            </span>
-          )}
+      {market.category !== "sport" && market.marketMedia ? (
+        <div className="tregu-market-story">
+          <p className="tregu-market-q">{market.question}</p>
+          <MarketContextMedia media={market.marketMedia} variant="card" />
         </div>
+      ) : (
+        <p className="tregu-market-q">{market.question}</p>
       )}
 
-      {variant === "closing" && remaining && (
-        <div className="tregu-market-count">
-          <strong>{remaining}</strong>
-          <span>deri në mbyllje — çmimi ngrin pas kësaj</span>
+      <div className="tregu-market-chart-mini">
+        <div className="tregu-market-readout">
+          <span>Gjasa për PO</span>
+          <strong>{pct}%</strong>
+          {variant === "mover" && deltaPp !== null && deltaPp !== 0 ? (
+            <em data-dir={dir}>Këtë javë: {Math.max(0, Math.min(100, pct - deltaPp))}% → {pct}%</em>
+          ) : null}
         </div>
-      )}
-
-      {variant === "new" && (
-        <div className="tregu-market-invite">
-          <strong>Bëhu i pari.</strong> Asnjë tregtim ende — vendos ti çmimin e parë të kësaj ngjarjeje.
-        </div>
-      )}
-
-      <div className="tregu-depth" aria-hidden>
-        <div className="tregu-depth-yes" style={{ width: `${pct}%` }} />
-        <div className="tregu-depth-no" style={{ width: `${noPct}%` }} />
+        <ExactMarketChart
+          compact
+          minimal
+          height={76}
+          series={chartSeries}
+          tone={market.category === "sport" ? "sport" : "serious"}
+          ariaLabel={`Historia e regjistruar për ${market.question}`}
+        />
       </div>
 
       <div className="tregu-sides">
@@ -175,22 +155,18 @@ export default function MarketMiniCard({ market }: { market: MiniMarket; compact
             <span className="tregu-side-name">PO</span>
             <span className="tregu-side-pct">{pct}%</span>
           </div>
-          <span className="tregu-side-mult">{yesMult ? `×${yesMult}` : "—"}</span>
         </button>
         <button onClick={(e) => goToSide(e, "JO")} className="tregu-side tregu-btn-no" type="button">
           <div className="tregu-side-row">
             <span className="tregu-side-name">JO</span>
             <span className="tregu-side-pct">{noPct}%</span>
           </div>
-          <span className="tregu-side-mult">{noMult ? `×${noMult}` : "—"}</span>
         </button>
       </div>
 
       <div className="tregu-market-foot">
         <span>
-          {market.volume !== undefined && market.volume > 0
-            ? `Vëllimi ${fmtNum(market.volume)} 383C`
-            : "Treg i ri"}
+          Të dhëna live
         </span>
         <span className="tregu-market-open">Hap tregun →</span>
       </div>

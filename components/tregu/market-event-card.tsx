@@ -1,7 +1,7 @@
 "use client";
 
-// Multi-outcome event card — the Polymarket face of a grouped event.
-// One combined chart (every outcome's live line) above outcome rows:
+// Multi-outcome event card. One combined chart of every outcome's recorded
+// line sits above the outcome rows:
 // name + live % + a buy button in that outcome's colour. Clicking a row's
 // button jumps to that outcome's book with PO pre-selected; the card body
 // links to the favourite outcome.
@@ -9,7 +9,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { fmtNum } from "@/lib/format";
 import type { MarketGroup } from "@/lib/tregu-groups";
-import GroupChart from "@/components/tregu/group-chart";
+import { normalizeRecordedOutcomeSeries, toExactSeries } from "@/lib/tregu-hub-market.mjs";
+import ExactMarketChart, { type ExactMarketSeries } from "@/components/tregu/exact-market-chart";
 import TeamFlag from "@/components/tregu/team-flag";
 import { eventLogoFor, outcomeMediaFor } from "@/lib/tregu-media";
 
@@ -20,17 +21,6 @@ const CATEGORY_LABEL: Record<string, string> = {
   bote: "Botë",
   "te-tjera": "Të tjera",
 };
-
-// GroupChart is time-aware but hub sparks are plain arrays, so spread each
-// spark across the last 24h to give every point a timestamp. Without this the
-// chart's `series` field stays empty and each line collapses to a flat
-// two-point fallback at the current prob.
-function sparkSeries(spark?: number[]): { t: number; p: number }[] | undefined {
-  if (!spark || spark.length < 2) return undefined;
-  const now = Date.now();
-  const span = 86_400_000;
-  return spark.map((p, i) => ({ t: now - span + (span * i) / (spark.length - 1), p }));
-}
 
 function closeLabel(iso?: string): string | null {
   if (!iso) return null;
@@ -51,6 +41,21 @@ export default function MarketEventCard({ group }: { group: MarketGroup }) {
   // Big fields (F1 grids) scroll inside the card instead of stretching it far
   // past its grid neighbours — every outcome stays reachable, odds order kept.
   const manyOutcomes = group.outcomes.length > 6;
+  const normalizedHistory = normalizeRecordedOutcomeSeries(
+    group.outcomes.map((outcome) => ({
+      key: outcome.slug,
+      points: toExactSeries(outcome.history),
+    }))
+  );
+  const chartSeries: ExactMarketSeries[] = group.outcomes.map((outcome) => {
+    return {
+      key: outcome.slug,
+      label: outcome.label,
+      color: outcome.color,
+      points: normalizedHistory[outcome.slug] ?? [],
+      current: outcome.prob,
+    };
+  });
 
   const buy = (e: React.MouseEvent, slug: string) => {
     e.preventDefault();
@@ -63,6 +68,7 @@ export default function MarketEventCard({ group }: { group: MarketGroup }) {
       href={`/tregu/${group.outcomes[0].slug}`}
       className="tregu-glass tregu-market tregu-edge tregu-event"
       data-cat={group.category}
+      data-tone={group.category === "sport" ? "sport" : undefined}
       style={{ display: "flex", flexDirection: "column", textDecoration: "none", color: "#111111" }}
     >
       <div className="tregu-market-top">
@@ -79,14 +85,14 @@ export default function MarketEventCard({ group }: { group: MarketGroup }) {
       </p>
 
       <div style={{ margin: "0 0 12px" }}>
-        <GroupChart
-          height={150}
-          series={group.outcomes.map((o) => ({
-            label: o.label,
-            color: o.color,
-            series: sparkSeries(o.spark),
-            prob: o.prob,
-          }))}
+        <ExactMarketChart
+          compact
+          minimal
+          derived
+          height={116}
+          series={chartSeries}
+          tone={group.category === "sport" ? "sport" : "neutral"}
+          ariaLabel={`Historia e regjistruar për ${group.title}`}
         />
       </div>
 
@@ -119,7 +125,7 @@ export default function MarketEventCard({ group }: { group: MarketGroup }) {
 
       <div className="tregu-market-foot">
         <span>
-          {group.volume > 0 ? `Vëllimi ${fmtNum(Math.round(group.volume))} 383C` : "Treg i ri"}
+          {group.volume > 0 ? `Aktiviteti ${fmtNum(Math.round(group.volume))} 383C` : "Treg i ri"}
           {remaining ? ` · ${remaining}` : ""}
         </span>
         <span className="tregu-market-open">Hap ngjarjen →</span>

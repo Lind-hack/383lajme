@@ -17,7 +17,6 @@ export default function RaceStandings({
   outcomes: GroupOutcome[];
   currentSlug?: string;
 }) {
-  const leader = outcomes[0];
   return (
     <div className="tregu-standings">
       <div className="tregu-standings-head" aria-hidden>
@@ -28,7 +27,6 @@ export default function RaceStandings({
         <span>Gjasa</span>
       </div>
       {outcomes.map((o, i) => {
-        const gapPp = (leader.prob - o.prob) * 100;
         return (
           <Link
             key={o.slug}
@@ -39,7 +37,7 @@ export default function RaceStandings({
             <span className="tregu-standing-pos">{i + 1}</span>
             <TeamFlag team={o.label} label={o.label} size={34} radius={10} />
             <span className="tregu-standing-name">{o.label}</span>
-            <span className="tregu-standing-gap">{i === 0 ? "Lider" : `+${gapPp.toFixed(1)} pp`}</span>
+            <span className="tregu-standing-gap">{i === 0 ? "Lider" : "Pas liderit"}</span>
             <span className="tregu-standing-pct" style={{ color: o.color }}>
               {(o.prob * 100).toFixed(1)}%
             </span>

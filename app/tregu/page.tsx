@@ -16,10 +16,16 @@ import type { MiniMarket } from "@/components/tregu/market-mini-card";
 import VideoHero from "@/components/tregu/video-hero";
 import CoinFace from "@/components/tregu/coin-face";
 import MobileAccountBar from "@/components/tregu/mobile-account-bar";
+import StructuredSportMarketCard from "@/components/tregu/structured-sport-market-card";
 import { createClient } from "@/lib/supabase/client";
 import Link from "next/link";
 import { fmtNum } from "@/lib/format";
-import { dramatizeSpark } from "@/lib/tregu-tape";
+import {
+  featuredMarketScore,
+  isStructuredSportMarket,
+  marketVolume,
+} from "@/lib/tregu-hub-market.mjs";
+import type { MarketMedia } from "@/lib/tregu-market-media.mjs";
 import SpotlightTour, { openTour, type TourStep } from "@/components/spotlight-tour";
 
 const TOUR_ID = "tregu-floor";
@@ -89,6 +95,22 @@ interface MarketRow {
   spark?: number[];
   delta7d?: number | null;
   trade_count?: number;
+  trade_volume?: number;
+  history?: { created_at: string; probability: number }[];
+  last_data_at?: string;
+  updated_at?: string;
+  sport_outcomes?: {
+    key: string;
+    label: string;
+    team?: string;
+    color?: string;
+    team_color?: string;
+    team_colour?: string;
+    logo?: string;
+  }[] | null;
+  outcome_probabilities?: Record<string, number> | null;
+  outcome_history?: Record<string, { created_at: string; probability: number }[]> | null;
+  market_media?: MarketMedia | null;
 }
 
 interface ActivityItem {
@@ -129,7 +151,7 @@ const SORTS: { value: SortKey; label: string }[] = [
 ];
 
 function vol(m: MarketRow): number {
-  return (m.q_yes ?? 0) + (m.q_no ?? 0);
+  return marketVolume(m);
 }
 
 function isF1Archive(market: MarketRow): boolean {
@@ -157,26 +179,61 @@ export default function TreguHub() {
   const [flyCoins, setFlyCoins] = useState<number[]>([]);
 
   useEffect(() => {
+    let active = true;
+    let loadedOnce = false;
+    let controller: AbortController | null = null;
     setLoading(true);
     setLoadError(false);
     const qs = category === "all" ? "?status=all" : `?category=${category}&status=all`;
-    fetch(`/api/tregu/markets${qs}`)
-      .then((r) => {
-        if (!r.ok) throw new Error(`markets ${r.status}`);
-        return r.json();
-      })
-      .then((d) => {
+
+    const load = async () => {
+      if (document.visibilityState === "hidden") return;
+      controller?.abort();
+      controller = new AbortController();
+      try {
+        const response = await fetch(`/api/tregu/markets${qs}`, {
+          cache: "no-store",
+          signal: controller.signal,
+        });
+        if (!response.ok) throw new Error(`markets ${response.status}`);
+        const data = await response.json();
+        if (!active) return;
         setMarkets(
-          (d.markets ?? []).filter(
+          (data.markets ?? []).filter(
             (market: MarketRow) => market.status === "open" || isF1Archive(market)
           )
         );
-        setActivity(d.activity ?? []);
-        setUpdatedAt(new Date().toLocaleTimeString("sq-AL", { hour: "2-digit", minute: "2-digit" }));
-      })
-      // Offline or a 5xx must never masquerade as "no markets exist".
-      .catch(() => setLoadError(true))
-      .finally(() => setLoading(false));
+        setActivity(data.activity ?? []);
+        const generatedAt = new Date(data.generated_at ?? Date.now());
+        setUpdatedAt(generatedAt.toLocaleTimeString("sq-AL", { hour: "2-digit", minute: "2-digit" }));
+        loadedOnce = true;
+        setLoadError(false);
+        setLoading(false);
+      } catch (error) {
+        if (!active || (error instanceof DOMException && error.name === "AbortError")) return;
+        // A transient background refresh must not erase a trustworthy floor
+        // already on screen. Only the first failure becomes the blocking state.
+        if (!loadedOnce) {
+          setLoadError(true);
+          setLoading(false);
+        }
+      }
+    };
+
+    void load();
+    const interval = window.setInterval(() => void load(), 15_000);
+    const onVisibility = () => {
+      if (document.visibilityState === "visible") void load();
+    };
+    document.addEventListener("visibilitychange", onVisibility);
+    window.addEventListener("focus", onVisibility);
+    return () => {
+      active = false;
+      controller?.abort();
+      window.clearInterval(interval);
+      document.removeEventListener("visibilitychange", onVisibility);
+      window.removeEventListener("focus", onVisibility);
+    };
   }, [category, reloadKey]);
 
   useEffect(() => {
@@ -275,15 +332,19 @@ export default function TreguHub() {
   const eventGroups = useMemo(
     () =>
       groupMarkets(
-        markets.map((m) => ({
+        markets.filter((market) => !isStructuredSportMarket(market)).map((m) => ({
           slug: m.slug,
           question: m.question,
           category: m.category,
           prob: m.market_prob,
           volume: vol(m),
           closesAt: m.closes_at,
-          spark: dramatizeSpark(m.spark, m.slug),
+          spark: m.spark,
           delta7d: m.delta7d,
+          history: m.history,
+          tradeCount: m.trade_count,
+          lastDataAt: m.last_data_at,
+          marketMedia: m.market_media,
         }))
       ).groups,
     [markets]
@@ -301,7 +362,9 @@ export default function TreguHub() {
     const pool = markets.filter((m) => !groupedSlugs.has(m.slug));
     const nonF1 = pool.filter((market) => !isF1Archive(market));
     if (nonF1.length < 3) return [] as MarketRow[];
-    return [...nonF1].sort((a, b) => vol(b) - vol(a)).slice(0, 4);
+    return [...nonF1]
+      .sort((a, b) => featuredMarketScore(b) - featuredMarketScore(a))
+      .slice(0, 4);
   }, [markets, groupedSlugs]);
 
   // Sorting is the affordance that makes the trader think: chase volume,
@@ -348,8 +411,17 @@ export default function TreguHub() {
     prob: m.market_prob,
     volume: vol(m),
     closesAt: m.closes_at,
-    spark: dramatizeSpark(m.spark, m.slug),
+    spark: m.spark,
     delta7d: m.delta7d,
+    history: m.history,
+    tradeCount: m.trade_count,
+    lastDataAt: m.last_data_at,
+    marketType: m.market_type,
+    league: m.live_event?.league ?? null,
+    sportOutcomes: m.sport_outcomes,
+    outcomeProbabilities: m.outcome_probabilities,
+    outcomeHistory: m.outcome_history,
+    marketMedia: m.market_media,
   });
 
   const claimBonus = async () => {
@@ -395,13 +467,13 @@ export default function TreguHub() {
             <span className="tregu-stat-value">{loading || loadError ? "—" : fmtNum(totals.count)}</span>
           </span>
           <span className="tregu-stat">
-            <span className="tregu-stat-label">Vëllimi</span>
+            <span className="tregu-stat-label">Aktiviteti i fundit</span>
             <span className="tregu-stat-value">
               {loading || loadError ? "—" : `${fmtNum(totals.volume)} 383C`}
             </span>
           </span>
           <span className="tregu-stat">
-            <span className="tregu-stat-label">Përditësuar</span>
+            <span className="tregu-stat-label">Kontrolluar</span>
             <span className="tregu-stat-value">{updatedAt ?? "—"}</span>
           </span>
         </div>
@@ -534,10 +606,11 @@ export default function TreguHub() {
           <div className="tregu-hero-row" data-tour="floor-featured">
             <FeaturedCarousel key={category} markets={featured.map(toMini)} />
             <FloorRail
-              markets={markets.map(toMini)}
+              markets={markets.filter((market) => !isStructuredSportMarket(market)).map(toMini)}
               loggedIn={balance !== null}
               claiming={claiming}
               bonusMsg={bonusMsg}
+              coinSpin={coinSpin}
               onClaim={claimBonus}
             />
           </div>
@@ -646,9 +719,13 @@ export default function TreguHub() {
             {eventGroups.map((g) => (
               <MarketEventCard key={g.key} group={g} />
             ))}
-            {sorted.map((m) => (
-              <MarketMiniCard key={m.id} market={toMini(m)} />
-            ))}
+            {sorted.map((m) =>
+              isStructuredSportMarket(m) ? (
+                <StructuredSportMarketCard key={m.id} market={m} />
+              ) : (
+                <MarketMiniCard key={m.id} market={toMini(m)} />
+              )
+            )}
           </div>
         )}
 

@@ -152,7 +152,7 @@ export default function MarketFeatureCard({ market }: { market: MiniMarket }) {
             </div>
             {deltaPp != null && deltaPp !== 0 && (
               <span className="tregu-delta-chip" data-dir={dir}>
-                {deltaPp > 0 ? "▲" : "▼"} {Math.abs(deltaPp)}pp / 7d
+                7 ditë: {Math.max(0, Math.min(100, pct - deltaPp))}% → {pct}%
               </span>
             )}
           </div>
