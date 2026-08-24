@@ -1,0 +1,39 @@
+# BACKUP pinger only. The primary 15-minute loop runs on cron-job.org
+# (exact timing, free) hitting the same endpoint with the same Bearer secret.
+# GitHub cron drifts and skips under load, so treat this as the safety net that
+# keeps the channel moving if cron-job.org ever lapses.
+#
+# The endpoint is safe to call as often as you like: app/api/cron/dispatch-telegram
+# checks the telegram_posts ledger before every send, so a duplicate ping posts
+# nothing. It caps itself at 3 stories per run regardless.
+#
+# Setup (one-time): repo -> Settings -> Secrets and variables -> Actions ->
+# CRON_SECRET must match the Vercel env var of the same name.
+name: Dispatch Telegram (backup)
+
+on:
+  schedule:
+    - cron: "*/15 * * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: dispatch-telegram
+  cancel-in-progress: false
+
+jobs:
+  dispatch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Send new featured stories to the channel
+        env:
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+        run: |
+          if [ -z "$CRON_SECRET" ]; then
+            echo "CRON_SECRET repo secret is not set — skipping." >&2
+            exit 1
+          fi
+          curl -fsS --max-time 120 \
+            -H "Authorization: Bearer $CRON_SECRET" \
+            "https://383lajme.vercel.app/api/cron/dispatch-telegram" \
+            | head -c 2000
