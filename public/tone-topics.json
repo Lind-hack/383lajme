@@ -4,13 +4,14 @@
     {
       "label": "Pjesëmarrja e Kosovës në Lojërat Mesdhetare",
       "fallbackLabel": "Mesdhetare · Lojërat",
-      "summary": "Ekipet sportive të Kosovës po përballen me Algjerinë në disiplina të ndryshme gjatë Lojërave Mesdhetare 2026 në Taranto.",
-      "count": 28,
+      "summary": "Sportistët e Kosovës po marrin pjesë në Lojërat Mesdhetare 2026 në Taranto, ku po përballen me rezultate të ndryshme në disiplinat e futbollit dhe volejbollit.",
+      "count": 31,
       "positive": 1,
-      "neutral": 26,
-      "negative": 0,
-      "index": 52,
+      "neutral": 28,
+      "negative": 1,
+      "index": 50,
       "countries": [
+        "Austri",
         "Francë",
         "Gjermani",
         "Greqi",
@@ -20,6 +21,22 @@
         "Spanjë"
       ],
       "articles": [
+        {
+          "title": "Giochi del Mediterraneo: calcio femminile, le Azzurrine schiantano il Kosovo 4-1, gli highlights su SportfaceTV - Sportface.it",
+          "albanianTitle": "Lojërat Mesdhetare: Futboll për femra, Italia mposht Kosovën 4-1, pamjet në SportfaceTV",
+          "blurb": "Përfaqësuesja e Italisë në futboll për femra ka mposhtur Kosovën me rezultat 4-1 në kuadër të Lojërave Mesdhetare.",
+          "imageUrl": "https://www.sportface.it/wp-content/uploads/2026/08/italia-calcio-femminile.jpg",
+          "url": "https://www.sportface.it/giochi-del-mediterraneo-taranto-2026/giochi-del-mediterraneo-calcio-femminile-le-azzurrine-schiantano-il-kosovo-4-1-gli-highlights-su-sportfacetv/2826868",
+          "date": "2026-08-24",
+          "sentiment": "negative",
+          "reason": "Fjalët e vetë mediumit janë pejorative ndaj Kosovës",
+          "isQuote": false,
+          "speaker": "",
+          "evidence": "schiantano il Kosovo",
+          "outlet": "Sportface.it",
+          "country": "Itali",
+          "flag": "🇮🇹"
+        },
         {
           "title": "Ανατροπή και πρεμιέρα με νίκη στους Μεσογειακούς για την Εθνική χάντμπολ γυναικών - sport-fm.gr",
           "albanianTitle": "Përmbysje dhe fitore në ndeshjen e parë të Lojërave Mesdhetare për kombëtaren e hendbollit të femrave",
@@ -163,29 +180,13 @@
           "outlet": "footafrique.com",
           "country": "Francë",
           "flag": "🇫🇷"
-        },
-        {
-          "title": "Jeux méditerranéens 2026 : L'Algérie bat une équipe européenne pour débuter ! (Vidéo) - DZfoot",
-          "albanianTitle": "Lojërat Mesdhetare 2026: Algjeria e nis me fitore ndaj një ekipi evropian! (Video)",
-          "blurb": "Algjeria ka nisur garën në Lojërat Mesdhetare të vitit 2026 me fitore ndaj përfaqësueses së hendbollit të Kosovës.",
-          "imageUrl": "https://www.dzfoot.com/wp-content/uploads/2026/08/333333.jpeg",
-          "url": "https://www.dzfoot.com/equipes-nationales/jeux-mediterraneens-2026-lalgerie-bat-une-equipe-europeenne-pour-debuter-video-297923.html",
-          "date": "2026-08-22",
-          "sentiment": "neutral",
-          "reason": "Lajm i raportuar në mënyrë faktike",
-          "isQuote": false,
-          "speaker": "",
-          "evidence": "",
-          "outlet": "DZfoot",
-          "country": "Francë",
-          "flag": "🇫🇷"
         }
       ]
     },
     {
-      "label": "Bashkëpunimi shumëdimensional Izmir-Kosovë",
+      "label": "Bashkëpunimi shumëdimensional Izmir dhe Kosovë",
       "fallbackLabel": "Tugay · Izmirit",
-      "summary": "Kryetari i Izmirit, Cemil Tugay, ka iniciuar një periudhë të re bashkëpunimi shumëdimensional me institucionet në Kosovë.",
+      "summary": "Kryetari i Izmirit, Cemil Tugay, ka iniciuar një periudhë të re bashkëpunimi shumëdimensional me Kosovën për të forcuar lidhjet dhe zhvilluar projekte të përbashkëta.",
       "count": 12,
       "positive": 3,
       "neutral": 9,
@@ -360,7 +361,7 @@
     {
       "label": "Debati për hapjen e urës së Ibrit",
       "fallbackLabel": "Ibrit · Nato",
-      "summary": "Çështja e hapjes së urës së Ibrit për qarkullim mbetet temë e ndjeshme politike që kërkon koordinim me ndërkombëtarët.",
+      "summary": "Hapja e urës së Ibrit për qarkullim mbetet një çështje e ndjeshme politike që po shkakton tensione dhe kërkon koordinim me faktorët ndërkombëtarë si NATO.",
       "count": 11,
       "positive": 0,
       "neutral": 11,
@@ -539,8 +540,8 @@
     },
     {
       "label": "Zbulimi i armatimit dhe varrezave masive",
-      "fallbackLabel": "Masive · Varrezave",
-      "summary": "Autoritetet kanë zbuluar sasi të mëdha armësh dhe municionesh pranë lokacioneve ku janë gjetur varreza masive në Kosovë.",
+      "fallbackLabel": "Masive · Pranë",
+      "summary": "Autoritetet kanë zbuluar sasi të mëdha armësh dhe municionesh pranë varrezave masive në Kosovë, duke çuar në procese të zhvarrosjes së trupave të gjetur.",
       "count": 10,
       "positive": 0,
       "neutral": 10,
@@ -714,14 +715,14 @@
       ]
     },
     {
-      "label": "Protestat dhe pakënaqësitë politike",
+      "label": "Protestat dhe pakënaqësitë ndaj qeverisë",
       "fallbackLabel": "Para · Qeverisë",
-      "summary": "Opozita dhe qytetarët po zhvillojnë protesta kundër qeverisë për çështje të ndryshme, përfshirë krizën energjetike dhe proceset gjyqësore.",
-      "count": 7,
+      "summary": "Opozita dhe qytetarët po organizojnë protesta para ndërtesës së Qeverisë së Kosovës për të shprehur pakënaqësi lidhur me situatën energjetike dhe zhvillimet politike.",
+      "count": 8,
       "positive": 0,
-      "neutral": 5,
+      "neutral": 6,
       "negative": 1,
-      "index": 42,
+      "index": 43,
       "countries": [
         "Francë",
         "Gjermani",
@@ -827,6 +828,22 @@
           "flag": "🇹🇷"
         },
         {
+          "title": "Çalık Renewables’ın Zatriq Rüzgâr Enerji Santrali Projesi’nde İlk Türbinler Devreye Alındı - Şantiye Dergisi",
+          "albanianTitle": "Lëshohen në punë turbinat e para në projektin e Parkut të Erës në Zatriq nga Çalık Renewables",
+          "blurb": "Kompania Çalık Renewables ka vënë në funksion turbinat e para në projektin e parkut të erës në Zatriq.",
+          "imageUrl": "https://www.santiye.com.tr/_medya/ctf/470/246/uploads/2026/08/6a8bf3910f733.png",
+          "url": "https://www.santiye.com.tr/calik-renewables-in-zatriq-ruzg%C3%A2r-enerji-santrali-projesi-nde-i-lk-turbinler-devreye-alindi-9629.html",
+          "date": "2026-08-24",
+          "sentiment": "neutral",
+          "reason": "Lajm i raportuar në mënyrë faktike",
+          "isQuote": false,
+          "speaker": "",
+          "evidence": "",
+          "outlet": "Şantiye Dergisi",
+          "country": "Turqi",
+          "flag": "🇹🇷"
+        },
+        {
           "title": "16. September Urteil, Gucati: Am 16. September Bürger des Kosovo vor Gericht - Periskopi",
           "albanianTitle": "Gucati për vendimin e 16 shtatorit: Më 16 shtator qytetarët e Kosovës para gjyqit",
           "blurb": "Nasim Haradinaj ka deklaruar se më 16 shtator do të shpallet aktgjykimi për qytetarët e Kosovës në gjykatë.",
@@ -845,9 +862,9 @@
       ]
     },
     {
-      "label": "Tensionet politike dhe retorika ndërkombëtare",
+      "label": "Tensionet politike dhe kërcënimet ndaj sigurisë",
       "fallbackLabel": "Ndaj · Sistematik",
-      "summary": "Rritja e retorikës politike dhe kërcënimet nga aktorë të ndryshëm po ndikojnë në stabilitetin dhe sigurinë e përgjithshme në Kosovë.",
+      "summary": "Kosova po përballet me retorikë të ashpër nga Serbia dhe aktorë të tjerë, të cilët pretendojnë për terror sistematik dhe përshkallëzim të situatës në veri.",
       "count": 7,
       "positive": 0,
       "neutral": 7,
@@ -977,7 +994,7 @@
     {
       "label": "Menaxhimi i fondeve dhe projekteve financiare",
       "fallbackLabel": "Euro · Milionë",
-      "summary": "Kosova po përballet me sfida në shfrytëzimin e fondeve të BE-së dhe zbatimin e projekteve të mëdha infrastrukturore e sociale.",
+      "summary": "Kosova po përballet me sfida në shfrytëzimin e fondeve të BE-së dhe zbatimin e projekteve të mëdha infrastrukturore, duke rrezikuar humbjen e mjeteve financiare.",
       "count": 7,
       "positive": 0,
       "neutral": 7,
@@ -1105,9 +1122,9 @@
       ]
     },
     {
-      "label": "Kampionati Evropian i Peshëngritjes në Kosovë",
+      "label": "Ngjarjet sportive dhe pasqyrimi ndërkombëtar",
       "fallbackLabel": "Evropian · Kampionatin",
-      "summary": "Kosova po shërben si vendpritës për kampionatet evropiane të peshëngritjes, ku po marrin pjesë atletë të rinj nga vende të ndryshme.",
+      "summary": "Kosova po shërben si vend organizator për kampionate evropiane të peshëngritjes, ndërsa mediat e huaja raportojnë edhe për ndeshjet kualifikuese dhe situatën politike.",
       "count": 5,
       "positive": 0,
       "neutral": 5,
@@ -1153,18 +1170,18 @@
           "flag": "🇹🇷"
         },
         {
-          "title": "Inés Conde, campeona de Europa de halterofilia: éxito del talento español en Kosovo - - empresa Exterior",
-          "albanianTitle": "Inés Conde, kampione e Evropës në peshëngritje: suksesi i talentit spanjoll në Kosovë - Empresa Exterior",
-          "blurb": "Ines Conde është shpallur kampione e Evropës në peshëngritje, duke shënuar sukses për talentin spanjoll në garat në Kosovë.",
-          "imageUrl": "https://empresaexterior.com/wp-content/uploads/2026/08/email_img_b92d78a5a4ef46ee9ea5cf45795c21e4.jpg",
-          "url": "https://empresaexterior.com/ines-conde-se-corona-campeona-de-europa-de-halterofilia-y-lidera-el-medallero-espanol-en-kosovo/",
-          "date": "2026-08-22",
+          "title": "Vivir bajo las bombas en el país europeo que España aún no reconoce: \"Nadie hizo nada para evitar la guerra\" - El Periódico de España",
+          "albanianTitle": "Të jetosh nën bomba në shtetin evropian që Spanja ende nuk e njeh: \"Askush nuk bëri asgjë për ta parandaluar luftën\" - El Periódico de España",
+          "blurb": "Dëshmitë për jetën nën bombardime në Kosovë, shtet të cilin Spanja ende nuk e ka njohur zyrtarisht si shtet.",
+          "imageUrl": "https://estaticos-cdn.prensaiberica.es/clip/716a0a39-1499-4981-a1b3-aed756f2e602_16-9-discover-aspect-ratio_default_0_x1140y512.jpg",
+          "url": "https://www.epe.es/es/actualidad/20260823/vivir-bombas-pais-europeo-espana-no-reconoce-elvira-dones-pequena-guerra-perfecta-kosovo-133480145",
+          "date": "2026-08-23",
           "sentiment": "neutral",
-          "reason": "Faktikë të thjeshta, pa ngjyrë",
-          "isQuote": false,
+          "reason": "Quote is attributed; outlet’s own headline is factual description without contempt",
+          "isQuote": true,
           "speaker": "",
           "evidence": "",
-          "outlet": "empresa Exterior",
+          "outlet": "El Periódico de España",
           "country": "Spanjë",
           "flag": "🇪🇸"
         },

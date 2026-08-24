@@ -1,10 +1,10 @@
 {
   "lastUpdated": "2026-08-24",
-  "overallIndex": 55,
-  "totalArticles": 58,
-  "sourceCount": 53,
+  "overallIndex": 54,
+  "totalArticles": 60,
+  "sourceCount": 55,
   "stanceVersion": 3,
-  "unattributed": 128,
+  "unattributed": 132,
   "nonEditorial": 14,
   "wrongKosovo": 0,
   "countries": {
@@ -532,6 +532,30 @@
           "lastSeen": "2026-08-21"
         },
         {
+          "name": "Sportface.it",
+          "sentiment": "negative",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Giochi del Mediterraneo: calcio femminile, le Azzurrine schiantano il Kosovo 4-1, gli highlights su SportfaceTV - Sportface.it",
+              "albanianTitle": "Lojërat Mesdhetare: Futboll për femra, Italia mposht Kosovën 4-1, pamjet në SportfaceTV",
+              "blurb": "Përfaqësuesja e Italisë në futboll për femra ka mposhtur Kosovën me rezultat 4-1 në kuadër të Lojërave Mesdhetare.",
+              "imageUrl": "https://www.sportface.it/wp-content/uploads/2026/08/italia-calcio-femminile.jpg",
+              "url": "https://www.sportface.it/giochi-del-mediterraneo-taranto-2026/giochi-del-mediterraneo-calcio-femminile-le-azzurrine-schiantano-il-kosovo-4-1-gli-highlights-su-sportfacetv/2826868",
+              "date": "2026-08-24",
+              "sentiment": "negative",
+              "reason": "Fjalët e vetë mediumit janë pejorative ndaj Kosovës",
+              "isQuote": false,
+              "evidence": "schiantano il Kosovo",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-24",
+          "lastSeen": "2026-08-24"
+        },
+        {
           "name": "Studio 100",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -653,11 +677,11 @@
         }
       ],
       "summary": {
-        "index": 50,
+        "index": 48,
         "positive": 0,
-        "neutral": 100,
-        "negative": 0,
-        "n": 22,
+        "neutral": 96,
+        "negative": 4,
+        "n": 23,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
@@ -1556,25 +1580,41 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-08-21",
           "lastSeen": "2026-08-22"
+        },
+        {
+          "name": "Şantiye Dergisi",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Çalık Renewables’ın Zatriq Rüzgâr Enerji Santrali Projesi’nde İlk Türbinler Devreye Alındı - Şantiye Dergisi",
+              "albanianTitle": "Lëshohen në punë turbinat e para në projektin e Parkut të Erës në Zatriq nga Çalık Renewables",
+              "blurb": "Kompania Çalık Renewables ka vënë në funksion turbinat e para në projektin e parkut të erës në Zatriq.",
+              "imageUrl": "https://www.santiye.com.tr/_medya/ctf/470/246/uploads/2026/08/6a8bf3910f733.png",
+              "url": "https://www.santiye.com.tr/calik-renewables-in-zatriq-ruzg%C3%A2r-enerji-santrali-projesi-nde-i-lk-turbinler-devreye-alindi-9629.html",
+              "date": "2026-08-24",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-24",
+          "lastSeen": "2026-08-24"
         }
       ],
       "summary": {
-        "index": 59,
-        "positive": 24,
-        "neutral": 71,
+        "index": 58,
+        "positive": 22,
+        "neutral": 72,
         "negative": 6,
-        "n": 17,
+        "n": 18,
         "excluded": 0,
         "confident": true,
-        "stanceVersion": 3,
-        "movement": {
-          "delta": 4,
-          "from": 55,
-          "outlet": "İzmir Büyükşehir Belediyesi",
-          "title": "Kryetari Tugay hap rrugën për bashkëpunime të reja në Kosovë",
-          "evidence": "yeni iş birliklerinin kapısını araladı",
-          "url": "https://www.izmir.bel.tr/tr/Haberler/baskan-tugay-kosovada-yeni-is-birliklerinin-kapisini-araladi/59218/156"
-        }
+        "stanceVersion": 3
       }
     },
     "Kroaci": {

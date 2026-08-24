@@ -2639,9 +2639,9 @@
   },
   {
     "date": "2026-08-24",
-    "overallIndex": 55,
-    "totalArticles": 58,
-    "sourceCount": 53,
+    "overallIndex": 54,
+    "totalArticles": 60,
+    "sourceCount": 55,
     "stanceVersion": 3,
     "countries": {
       "Gjermani": {
@@ -2693,11 +2693,11 @@
         }
       },
       "Itali": {
-        "index": 50,
+        "index": 48,
         "positive": 0,
-        "neutral": 100,
-        "negative": 0,
-        "n": 22,
+        "neutral": 96,
+        "negative": 4,
+        "n": 23,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
@@ -2783,22 +2783,14 @@
         "stanceVersion": 3
       },
       "Turqi": {
-        "index": 59,
-        "positive": 24,
-        "neutral": 71,
+        "index": 58,
+        "positive": 22,
+        "neutral": 72,
         "negative": 6,
-        "n": 17,
+        "n": 18,
         "excluded": 0,
         "confident": true,
-        "stanceVersion": 3,
-        "movement": {
-          "delta": 4,
-          "from": 55,
-          "outlet": "İzmir Büyükşehir Belediyesi",
-          "title": "Kryetari Tugay hap rrugën për bashkëpunime të reja në Kosovë",
-          "evidence": "yeni iş birliklerinin kapısını araladı",
-          "url": "https://www.izmir.bel.tr/tr/Haberler/baskan-tugay-kosovada-yeni-is-birliklerinin-kapisini-araladi/59218/156"
-        }
+        "stanceVersion": 3
       },
       "Kroaci": {
         "index": null,
@@ -2842,6 +2834,14 @@
         "country": "Gjermani",
         "flag": "🇩🇪",
         "url": "https://reporteri.net/fr/nouvelles/L%27alliance-jette-de-l%27huile-sur-le-feu-au-gouvernement-%3A-Ramadan-Kurti-plonge-le-Kosovo-dans-les-t%C3%A9n%C3%A8bres-politiques./",
+        "sentiment": "negative"
+      },
+      {
+        "title": "Giochi del Mediterraneo: calcio femminile, le Azzurrine schiantano il Kosovo 4-1, gli highlights su SportfaceTV - Sportface.it",
+        "source": "Sportface.it",
+        "country": "Itali",
+        "flag": "🇮🇹",
+        "url": "https://www.sportface.it/giochi-del-mediterraneo-taranto-2026/giochi-del-mediterraneo-calcio-femminile-le-azzurrine-schiantano-il-kosovo-4-1-gli-highlights-su-sportfacetv/2826868",
         "sentiment": "negative"
       }
     ]

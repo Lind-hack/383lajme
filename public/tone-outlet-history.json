@@ -1241,6 +1241,32 @@
       "urls": [
         "https://www.republik.ch/2026/08/24/und-auf-einmal-fehlten-in-kosovo-millionen"
       ]
+    },
+    "Sportface.it": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 1,
+      "unknown": 0,
+      "firstSeen": "2026-08-24",
+      "lastSeen": "2026-08-24",
+      "urls": [
+        "https://www.sportface.it/giochi-del-mediterraneo-taranto-2026/giochi-del-mediterraneo-calcio-femminile-le-azzurrine-schiantano-il-kosovo-4-1-gli-highlights-su-sportfacetv/2826868"
+      ]
+    },
+    "Şantiye Dergisi": {
+      "country": "Turqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-24",
+      "lastSeen": "2026-08-24",
+      "urls": [
+        "https://www.santiye.com.tr/calik-renewables-in-zatriq-ruzg%C3%A2r-enerji-santrali-projesi-nde-i-lk-turbinler-devreye-alindi-9629.html"
+      ]
     }
   }
 }
