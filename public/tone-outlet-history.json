@@ -1320,6 +1320,19 @@
       "urls": [
         "https://www.edirneninsesi.com.tr/kosovali-gencler-edirne-nin-tarihi-ve-kulturel-mirasini-tanidi/43897/"
       ]
+    },
+    "Sky Sport Austria": {
+      "country": "Austri",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-24",
+      "lastSeen": "2026-08-24",
+      "urls": [
+        "https://www.skysportaustria.at/sturm-graz-verpflichtet-kosovo-teamspieler/"
+      ]
     }
   }
 }

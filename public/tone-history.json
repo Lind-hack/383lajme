@@ -2640,8 +2640,8 @@
   {
     "date": "2026-08-24",
     "overallIndex": 54,
-    "totalArticles": 65,
-    "sourceCount": 59,
+    "totalArticles": 66,
+    "sourceCount": 60,
     "stanceVersion": 3,
     "countries": {
       "Gjermani": {
@@ -2703,11 +2703,11 @@
         "stanceVersion": 3
       },
       "Austri": {
-        "index": null,
+        "index": 50,
         "positive": 0,
-        "neutral": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 0,
+        "n": 1,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -2805,19 +2805,19 @@
     },
     "headlines": [
       {
-        "title": "\"CNN\": Albania and Kosovo, the best Balkan peaks for hiking - cna.al",
-        "source": "cna.al",
-        "country": "Britani",
-        "flag": "🇬🇧",
-        "url": "https://www.cna.al/english/aktualitet/cnn-shqiperia-dhe-kosova-majat-e-ballkanit-me-te-mira-per-te-bere-ecj-i472191",
-        "sentiment": "positive"
-      },
-      {
         "title": "Kosovo-Schweizer Hajdari und Avdullahu siegen mit Hoffenheim klar - Blick",
         "source": "Blick",
         "country": "Zvicër",
         "flag": "🇨🇭",
         "url": "https://www.blick.ch/sport/fussball/international/dfb-pokal/leverkusen-locker-weiter-augsburg-mueht-sich-in-die-zweite-pokal-runde-id22202590.html",
+        "sentiment": "positive"
+      },
+      {
+        "title": "JM 2026 : les Lioncelles décrochent un précieux nul face au Portugal - lopinion.ma",
+        "source": "lopinion.ma",
+        "country": "Belgjikë",
+        "flag": "🇧🇪",
+        "url": "https://lopinion.ma/fr/sport/newsroom/jm-2026--les-lioncelles-decrochent-un-precieux-nul-face-au-portugal_a22886?articleId=4125af99-f88e-4b2b-ac18-1b9dbcd0ddf0",
         "sentiment": "positive"
       },
       {

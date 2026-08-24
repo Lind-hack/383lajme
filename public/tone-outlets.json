@@ -1,10 +1,10 @@
 {
   "lastUpdated": "2026-08-24",
   "overallIndex": 54,
-  "totalArticles": 65,
-  "sourceCount": 59,
+  "totalArticles": 66,
+  "sourceCount": 60,
   "stanceVersion": 3,
-  "unattributed": 156,
+  "unattributed": 164,
   "nonEditorial": 14,
   "wrongKosovo": 0,
   "countries": {
@@ -736,13 +736,38 @@
       }
     },
     "Austri": {
-      "outlets": [],
+      "outlets": [
+        {
+          "name": "Sky Sport Austria",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Sturm Graz verpflichtet Kosovo-Teamspieler - Sky Sport Austria",
+              "albanianTitle": "Sturm Graz transferon futbollistin e Kombëtares së Kosovës",
+              "blurb": "Klubi austriak Sturm Graz ka zyrtarizuar transferimin e futbollistit të përfaqësueses së Kosovës në radhët e veta.",
+              "imageUrl": null,
+              "url": "https://www.skysportaustria.at/sturm-graz-verpflichtet-kosovo-teamspieler/",
+              "date": "2026-08-24",
+              "sentiment": "neutral",
+              "reason": "Factual report of player signing",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-24",
+          "lastSeen": "2026-08-24"
+        }
+      ],
       "summary": {
-        "index": null,
+        "index": 50,
         "positive": 0,
-        "neutral": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 0,
+        "n": 1,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
