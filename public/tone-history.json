@@ -2856,9 +2856,9 @@
   },
   {
     "date": "2026-08-25",
-    "overallIndex": 56,
-    "totalArticles": 48,
-    "sourceCount": 44,
+    "overallIndex": 55,
+    "totalArticles": 51,
+    "sourceCount": 46,
     "stanceVersion": 3,
     "countries": {
       "Gjermani": {
@@ -2892,36 +2892,44 @@
         "stanceVersion": 3
       },
       "Francë": {
-        "index": null,
+        "index": 0,
         "positive": 0,
         "neutral": 0,
-        "negative": 0,
-        "n": 0,
+        "negative": 100,
+        "n": 1,
         "excluded": 0,
         "confident": false,
-        "stanceVersion": 3
+        "stanceVersion": 3,
+        "movement": {
+          "delta": -100,
+          "from": 100,
+          "outlet": "Le Courrier des Balkans",
+          "title": "Kosova: Lojërat me luftën dhe paqen (një tragjikomedi e rrezikshme)",
+          "evidence": "tragicomédie dangereuse",
+          "url": "https://www.courrierdesbalkans.fr/kosovo-jouer-a-la-paix-jouer-a-la-guerre-69437/"
+        }
       },
       "Itali": {
         "index": 47,
         "positive": 0,
-        "neutral": 94,
-        "negative": 6,
-        "n": 18,
+        "neutral": 95,
+        "negative": 5,
+        "n": 19,
         "excluded": 3,
         "confident": true,
         "stanceVersion": 3
       },
       "Austri": {
-        "index": 60,
-        "positive": 20,
-        "neutral": 80,
+        "index": 58,
+        "positive": 17,
+        "neutral": 83,
         "negative": 0,
-        "n": 5,
+        "n": 6,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3,
         "movement": {
-          "delta": 10,
+          "delta": 8,
           "from": 50,
           "outlet": "heute.at",
           "title": "Ish-trajneri i Austrisë, Franco Foda, refuzoi oferta milionëshe për të qëndruar te Kosova",
@@ -3038,14 +3046,6 @@
     },
     "headlines": [
       {
-        "title": "Bleibt beim Kosovo – Ex-ÖFB-Coach Foda lehnte Millionen-Angebot ab - heute.at",
-        "source": "heute.at",
-        "country": "Gjermani",
-        "flag": "🇩🇪",
-        "url": "https://www.heute.at/s/ex-oefb-coach-foda-lehnte-millionen-angebot-ab-120242843",
-        "sentiment": "positive"
-      },
-      {
         "title": "Kosovo-Schweizer Hajdari und Avdullahu siegen mit Hoffenheim klar - Blick",
         "source": "Blick",
         "country": "Zvicër",
@@ -3062,11 +3062,27 @@
         "sentiment": "positive"
       },
       {
+        "title": "Haberler | Başkan Tugay, Kosova'da yeni iş birliklerinin kapısını araladı - İzmir Büyükşehir Belediyesi",
+        "source": "İzmir Büyükşehir Belediyesi",
+        "country": "Turqi",
+        "flag": "🇹🇷",
+        "url": "https://www.izmir.bel.tr/tr/Haberler/baskan-tugay-kosovada-yeni-is-birliklerinin-kapisini-araladi/59218/156",
+        "sentiment": "positive"
+      },
+      {
         "title": "Aleanca hedh qymyr para qeverisë, Ramadani: Kurti po e çon Kosovën në terr politik - Reporteri",
         "source": "Reporteri",
         "country": "Gjermani",
         "flag": "🇩🇪",
         "url": "https://reporteri.net/fr/nouvelles/L%27alliance-jette-de-l%27huile-sur-le-feu-au-gouvernement-%3A-Ramadan-Kurti-plonge-le-Kosovo-dans-les-t%C3%A9n%C3%A8bres-politiques./",
+        "sentiment": "negative"
+      },
+      {
+        "title": "Kosovo : jouer à la guerre, jouer à la paix (tragicomédie dangereuse) - Le Courrier des Balkans",
+        "source": "Le Courrier des Balkans",
+        "country": "Francë",
+        "flag": "🇫🇷",
+        "url": "https://www.courrierdesbalkans.fr/kosovo-jouer-a-la-paix-jouer-a-la-guerre-69437/",
         "sentiment": "negative"
       }
     ]

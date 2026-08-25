@@ -83,15 +83,16 @@
     },
     "Le Courrier des Balkans": {
       "country": "Francë",
-      "total": 1,
+      "total": 2,
       "positive": 0,
       "neutral": 1,
-      "negative": 0,
+      "negative": 1,
       "unknown": 0,
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-20",
+      "lastSeen": "2026-08-24",
       "urls": [
-        "https://www.courrierdesbalkans.fr/detourner-libar-nouvelle-arme-de-vucic-contre-le-kosovo-98491/"
+        "https://www.courrierdesbalkans.fr/detourner-libar-nouvelle-arme-de-vucic-contre-le-kosovo-98491/",
+        "https://www.courrierdesbalkans.fr/kosovo-jouer-a-la-paix-jouer-a-la-guerre-69437/"
       ]
     },
     "Le Figaro": {
@@ -364,16 +365,17 @@
     },
     "agenziagiornalisticaopinione.it": {
       "country": "Itali",
-      "total": 2,
+      "total": 3,
       "positive": 0,
-      "neutral": 2,
+      "neutral": 3,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-22",
       "lastSeen": "2026-08-24",
       "urls": [
         "https://www.agenziagiornalisticaopinione.it/opinionmix/sole24/il-sole-24-ore-sport-abodi-e-gonxhja-incontro-in-vista-dei-giochi-del-mediterraneo-del-2030-tra-kosovo-e-albania/",
-        "https://www.agenziagiornalisticaopinione.it/opinionews/figc-federazione-italiana-giuoco-calcio-azzurrini-ko-3-1-con-lalgeria-ora-serve-unimpresa-contro-il-kosovo/"
+        "https://www.agenziagiornalisticaopinione.it/opinionews/figc-federazione-italiana-giuoco-calcio-azzurrini-ko-3-1-con-lalgeria-ora-serve-unimpresa-contro-il-kosovo/",
+        "https://www.agenziagiornalisticaopinione.it/opinionmix/figc-federazione-italiana-giuoco-calcio-giochi-del-mediterraneo-azzurrine-dominano-il-kosovo-4-1-allesordio/"
       ]
     },
     "studio100.it": {
@@ -1445,6 +1447,19 @@
       "lastSeen": "2026-08-25",
       "urls": [
         "https://www.krone.at/4268829"
+      ]
+    },
+    "Heute": {
+      "country": "Austri",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-25",
+      "lastSeen": "2026-08-25",
+      "urls": [
+        "https://www.heute.at/s/ex-oefb-coach-foda-lehnte-millionen-angebot-ab-120242843"
       ]
     }
   }

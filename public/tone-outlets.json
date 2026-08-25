@@ -1,10 +1,10 @@
 {
   "lastUpdated": "2026-08-25",
-  "overallIndex": 56,
-  "totalArticles": 48,
-  "sourceCount": 44,
+  "overallIndex": 55,
+  "totalArticles": 51,
+  "sourceCount": 46,
   "stanceVersion": 3,
-  "unattributed": 136,
+  "unattributed": 142,
   "nonEditorial": 11,
   "wrongKosovo": 0,
   "countries": {
@@ -97,16 +97,49 @@
       }
     },
     "Francë": {
-      "outlets": [],
+      "outlets": [
+        {
+          "name": "Le Courrier des Balkans",
+          "sentiment": "negative",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo : jouer à la guerre, jouer à la paix (tragicomédie dangereuse) - Le Courrier des Balkans",
+              "albanianTitle": "Kosova: Lojërat me luftën dhe paqen (një tragjikomedi e rrezikshme)",
+              "blurb": "Analizë mbi zhvillimet politike në Kosovë dhe dinamikat e ndërlikuara ndërmjet përpjekjeve për paqe dhe tensioneve të vazhdueshme në rajon.",
+              "imageUrl": "https://www.courrierdesbalkans.fr/wp-content/uploads/2019/09/medieval_novo_brdo_fortress_after_reconstruction.jpg",
+              "url": "https://www.courrierdesbalkans.fr/kosovo-jouer-a-la-paix-jouer-a-la-guerre-69437/",
+              "date": "2026-08-24",
+              "sentiment": "negative",
+              "reason": "Fjalë ngarkuese që portretizojnë Kosovën si një tragikomedi të rrezikshme",
+              "isQuote": false,
+              "evidence": "tragicomédie dangereuse",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 2,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-20",
+          "lastSeen": "2026-08-24"
+        }
+      ],
       "summary": {
-        "index": null,
+        "index": 0,
         "positive": 0,
         "neutral": 0,
-        "negative": 0,
-        "n": 0,
+        "negative": 100,
+        "n": 1,
         "excluded": 0,
         "confident": false,
-        "stanceVersion": 3
+        "stanceVersion": 3,
+        "movement": {
+          "delta": -100,
+          "from": 100,
+          "outlet": "Le Courrier des Balkans",
+          "title": "Kosova: Lojërat me luftën dhe paqen (një tragjikomedi e rrezikshme)",
+          "evidence": "tragicomédie dangereuse",
+          "url": "https://www.courrierdesbalkans.fr/kosovo-jouer-a-la-paix-jouer-a-la-guerre-69437/"
+        }
       }
     },
     "Itali": {
@@ -155,13 +188,13 @@
             },
             {
               "title": "Balkans, North Macedonia, Bosnia, and Serbia gripped by wildfires - ANSA",
-              "albanianTitle": "Ballkani, Maqedonia e Veriut, Bosnja dhe Serbia të përfshira nga zjarret - ANSA",
-              "blurb": "Zjarret kanë përfshirë disa shtete të Ballkanit, duke përfshirë Maqedoninë e Veriut, Bosnjën dhe Serbinë gjatë kësaj periudhe.",
+              "albanianTitle": "Ballkani, Maqedonia e Veriut, Bosnja dhe Serbia të përfshira nga zjarret",
+              "blurb": "Zjarret masive kanë përfshirë rajonin e Ballkanit, duke prekur veçanërisht Maqedoninë e Veriut, Bosnjën dhe Hercegovinën dhe Serbinë.",
               "imageUrl": "https://www.ansa.it/webimages/img_1280x720/2024/1/24/b750e7a3a277325035bcd0f60cdaafb2.jpg",
               "url": "https://www.ansa.it/nuova_europa/en/news/countries/kosovo/2026/08/24/balkans-north-macedonia-bosnia-and-serbia-gripped-by-wildfires_72bbad1c-7f2a-4d8c-b5a4-4e1b2accea77.html",
               "date": "2026-08-24",
               "sentiment": "unknown",
-              "reason": "Item does not mention Kosovo, so outlet stance cannot be determined",
+              "reason": "Article does not mention Kosovo, stance cannot be inferred",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -216,13 +249,13 @@
             },
             {
               "title": "Giochi del Mediterraneo, che battaglia a Brindisi: Azzurrini ko 3-1 con l’Algeria - FIGC",
-              "albanianTitle": "Lojërat Mesdhetare, betejë në Brindizi: Azzurrini munden 3-1 nga Algjeria - FIGC",
-              "blurb": "Ekipi i Italisë është mposhtur me rezultat 3-1 nga Algjeria në ndeshjen e zhvilluar në kuadër të Lojërave Mesdhetare.",
+              "albanianTitle": "Lojërat Mesdhetare, betejë e ashpër në Brindisi: Italia U21 mposhtet 3-1 nga Algjeria",
+              "blurb": "Ekipi i futbollit të Italisë është mposhtur me rezultat 3-1 nga Algjeria në ndeshjen e zhvilluar në Brindisi.",
               "imageUrl": "https://images.figc.it/view/acePublic/alias/contentid/1tc6mvx4wrxhm40ehq6/0/26495864-826f-4d7b-9ebc-506efe5de3f0-jpg.jpg?f=187%3A100",
               "url": "https://www.figc.it/it/nazionali/news/giochi-del-mediterraneo-che-battaglia-a-brindisi-azzurrini-ko-3-1-con-lalgeria-bldoae25",
               "date": "2026-08-24",
               "sentiment": "unknown",
-              "reason": "Item does not mention Kosovo, so outlet stance cannot be determined",
+              "reason": "No reference to Kosovo in the item",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -454,7 +487,7 @@
         {
           "name": "agenziagiornalisticaopinione.it",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 3,
           "articles": [
             {
               "title": "IL SOLE 24 ORE * SPORT: «ABODI E GONXHJA, INCONTRO IN VISTA DEI GIOCHI DEL MEDITERRANEO DEL 2030 TRA KOSOVO E ALBANIA - agenziagiornalisticaopinione.it",
@@ -481,10 +514,23 @@
               "isQuote": true,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "FIGC * FEDERAZIONE ITALIANA GIUOCO CALCIO: «GIOCHI DEL MEDITERRANEO, AZZURRINE DOMINANO IL KOSOVO: 4-1 ALL'ESORDIO - agenziagiornalisticaopinione.it",
+              "albanianTitle": "Lojërat Mesdhetare: Azzurret dominojnë Kosovën, fitojnë 4-1 në ndeshjen e parë",
+              "blurb": "Përfaqësuesja e Italisë në futboll për femra ka shënuar fitore me rezultat 4-1 kundër Kosovës në Lojërat Mesdhetare.",
+              "imageUrl": "https://www.agenziagiornalisticaopinione.it/wp-content/uploads/2026/08/y99z0aa32795-42e0-4421-9887-ff9bdc56a8eb-jpg-1030x773.jpg",
+              "url": "https://www.agenziagiornalisticaopinione.it/opinionmix/figc-federazione-italiana-giuoco-calcio-giochi-del-mediterraneo-azzurrine-dominano-il-kosovo-4-1-allesordio/",
+              "date": "2026-08-23",
+              "sentiment": "neutral",
+              "reason": "Citat i brendshëm i një raporti sportiv, jo zëri i medias",
+              "isQuote": true,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 2,
-          "trend": "i pamjaftueshëm",
+          "totalArticles": 3,
+          "trend": "neutral",
           "firstSeen": "2026-08-22",
           "lastSeen": "2026-08-24"
         },
@@ -564,9 +610,9 @@
       "summary": {
         "index": 47,
         "positive": 0,
-        "neutral": 94,
-        "negative": 6,
-        "n": 18,
+        "neutral": 95,
+        "negative": 5,
+        "n": 19,
         "excluded": 3,
         "confident": true,
         "stanceVersion": 3
@@ -574,6 +620,30 @@
     },
     "Austri": {
       "outlets": [
+        {
+          "name": "Heute",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Bleibt beim Kosovo – Ex-ÖFB-Coach Foda lehnte Millionen-Angebot ab - Heute",
+              "albanianTitle": "Mbetet te Kosova – Ish-trajneri i Austrisë, Foda, refuzoi ofertën milionëshe",
+              "blurb": "Trajneri Franco Foda ka refuzuar një ofertë milionëshe për t'u larguar nga pozita e përzgjedhësit të kombëtares së Kosovës.",
+              "imageUrl": "https://heute-at-prod-images.imgix.net/2022/09/04/ea720b41-8a3b-48c6-b930-a32dcb3da389.jpeg?rect=0%2C15%2C3000%2C1687&w=1200&h=630&fit=crop&fm=jpg",
+              "url": "https://www.heute.at/s/ex-oefb-coach-foda-lehnte-millionen-angebot-ab-120242843",
+              "date": "2026-08-25",
+              "sentiment": "neutral",
+              "reason": "Raportim neutral i vendimit të trajnerit për të qëndruar me Kosovën",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-25",
+          "lastSeen": "2026-08-25"
+        },
         {
           "name": "Kronen Zeitung",
           "sentiment": "neutral",
@@ -696,16 +766,16 @@
         }
       ],
       "summary": {
-        "index": 60,
-        "positive": 20,
-        "neutral": 80,
+        "index": 58,
+        "positive": 17,
+        "neutral": 83,
         "negative": 0,
-        "n": 5,
+        "n": 6,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3,
         "movement": {
-          "delta": 10,
+          "delta": 8,
           "from": 50,
           "outlet": "heute.at",
           "title": "Ish-trajneri i Austrisë, Franco Foda, refuzoi oferta milionëshe për të qëndruar te Kosova",
@@ -897,13 +967,13 @@
           "articles": [
             {
               "title": "‘Pequeña guerra perfecta’, retorno al nacionalismo sangriento de los noventa en los Balcanes - EL PAÍS",
-              "albanianTitle": "‘Lufta e vogël perfekte’, rikthimi i nacionalizmit të përgjakshëm të viteve nëntëdhjetë në Ballkan",
-              "blurb": "Libri Pequeña guerra perfecta analizon kthimin e nacionalizmit të dhunshëm në rajonin e Ballkanit gjatë viteve të nëntëdhjeta.",
-              "imageUrl": null,
+              "albanianTitle": "‘Luftë e vogël perfekte’, rikthimi i nacionalizmit të përgjakshëm të viteve '90 në Ballkan",
+              "blurb": "Analiza e gazetës spanjolle trajton rikthimin e nacionalizmit në Ballkan, duke e krahasuar situatën me konfliktet e viteve nëntëdhjetë.",
+              "imageUrl": "https://imagenes.elpais.com/resizer/v2/X4LCAZTPJFA4DKDGA7UI2VFICU.jpeg?auth=4832a7f1f913ca4d003c0b7f3bbbfecff0cb980d8d627fd51fd178a083a6af55&width=1200",
               "url": "https://elpais.com/babelia/2026-08-25/pequena-guerra-perfecta-retorno-al-nacionalismo-sangriento-de-los-noventa-en-los-balcanes.html",
               "date": "2026-08-25",
               "sentiment": "unknown",
-              "reason": "Titulli nuk përmend Kosovën dhe nuk jep informacion për qëndrimin",
+              "reason": "No reference to Kosovo in the item",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
