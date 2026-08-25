@@ -7,6 +7,7 @@ import ArticleContent from "@/components/article-content";
 import Footer from "@/components/footer";
 import type { AccordionSlide } from "@/components/image-accordion";
 import { getCategoryColor, getCategoryBg } from "@/lib/category-colors";
+import { topicForArticle, timelineFor } from "@/lib/topics.mjs";
 
 export const revalidate = 7200;
 
@@ -129,6 +130,19 @@ export default async function ArticlePage({
   const usedAccordionIds = new Set<string>();
   // Every branch here ended at allArticles[0], which is undefined once the
   // archive is empty — and the next line read .id off it.
+  // Which standing dossier this story belongs to, resolved from its own words
+  // rather than a tag, so every article joins one without editorial work. Null
+  // when nothing matches, and the rail simply does not render.
+  const topic = topicForArticle(article);
+  const dosje = topic
+    ? {
+        topicSlug: topic.slug,
+        topicTitle: topic.title,
+        blurb: topic.blurb,
+        entries: timelineFor(topic.slug, allArticles, article.slug),
+      }
+    : null;
+
   const categorySlides: AccordionSlide[] = accordionCats.flatMap(({ category, label }) => {
     const a =
       allArticles.find((x) => x.category === category && !usedAccordionIds.has(x.id)) ??
@@ -153,6 +167,7 @@ export default async function ArticlePage({
         catColor={catColor}
         catBg={catBg}
         categorySlides={categorySlides}
+        dosje={dosje}
       />
       <Footer />
     </>

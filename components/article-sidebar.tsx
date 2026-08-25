@@ -6,6 +6,7 @@ import { Bookmark, Link2 } from "lucide-react";
 import { type Article } from "@/lib/mock-data";
 import { EASE, DUR } from "@/lib/tokens";
 import SidebarMarketWidget from "@/components/tregu/sidebar-market-widget";
+import DosjePanel, { type DosjeEntry } from "@/components/dosje-panel";
 import { createClient } from "@/lib/supabase/client";
 
 function flagToCode(flag: string): string {
@@ -17,12 +18,20 @@ function flagToCode(flag: string): string {
   return String.fromCharCode(a, b);
 }
 
+export interface DosjeData {
+  topicSlug: string;
+  topicTitle: string;
+  blurb: string;
+  entries: DosjeEntry[];
+}
+
 interface Props {
   article: Article;
   related: Article[];
+  dosje?: DosjeData | null;
 }
 
-export default function ArticleSidebar({ article, related }: Props) {
+export default function ArticleSidebar({ article, related, dosje }: Props) {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [bookmarkAccount, setBookmarkAccount] = useState(false);
@@ -186,6 +195,23 @@ export default function ArticleSidebar({ article, related }: Props) {
           gap: "14px",
         }}
       >
+        {/* Order is deliberate. The dossier and the market are the two things a
+            reader cannot get anywhere else on the page, so they lead; sharing,
+            bookmarking and tags are utilities and can wait until after them.
+            They used to sit below a tall share card, which pushed both far
+            enough down the rail that most readers never scrolled to them. */}
+        {dosje && dosje.entries.length > 0 && (
+          <DosjePanel
+            topicSlug={dosje.topicSlug}
+            topicTitle={dosje.topicTitle}
+            blurb={dosje.blurb}
+            entries={dosje.entries}
+          />
+        )}
+
+        {/* 383 Tregu market related to this article's category. */}
+        <SidebarMarketWidget articleCategory={article.category} />
+
         {/* Social share */}
         <div
           style={{
@@ -264,9 +290,6 @@ export default function ArticleSidebar({ article, related }: Props) {
             </motion.button>
           </div>
         </div>
-
-        {/* 383 Tregu market related to this article's category. */}
-        <SidebarMarketWidget articleCategory={article.category} />
 
         {/* Bookmark */}
         <motion.button

@@ -6,6 +6,7 @@ import TimeAgo from "./time-ago";
 import SourceBadge from "@/components/source-badge";
 import ArticleCard from "@/components/article-card";
 import ArticleSidebar from "@/components/article-sidebar";
+import type { DosjeData } from "@/components/article-sidebar";
 import ArticleShareRow from "@/components/article-share-row";
 import ArticleAsk from "@/components/article-ask";
 import { toParagraphs, readingMinutes } from "@/lib/article-body.mjs";
@@ -19,9 +20,10 @@ interface Props {
   catColor: string;
   catBg: string;
   categorySlides: AccordionSlide[];
+  dosje: DosjeData | null;
 }
 
-export default function ArticleContent({ article, related, catColor, catBg, categorySlides }: Props) {
+export default function ArticleContent({ article, related, catColor, catBg, categorySlides, dosje }: Props) {
   // Counted from the prose, not from the markup the body is stored in.
   const dynamicReadTime = readingMinutes(article.body);
 
@@ -64,31 +66,12 @@ export default function ArticleContent({ article, related, catColor, catBg, cate
                 flexWrap: "wrap",
               }}
             >
-              <span
-                style={{
-                  fontSize: "11px",
-                  fontWeight: 800,
-                  letterSpacing: "0.18em",
-                  textTransform: "uppercase",
-                  color: "#FF4422",
-                  background: "rgba(255,68,34,0.08)",
-                  padding: "5px 12px",
-                  borderRadius: "100px",
-                  border: "1.5px solid rgba(255,68,34,0.2)",
-                }}
-              >
-                NJOFTIM #{String(article.dispatch).padStart(2, "0")}
-              </span>
-              <span
-                style={{
-                  width: "3px",
-                  height: "3px",
-                  borderRadius: "50%",
-                  background: "#E8E3DB",
-                  display: "inline-block",
-                  flexShrink: 0,
-                }}
-              />
+              {/* The NJOFTIM chip is gone. `dispatch` was meant to be a short
+                  code padded to two digits, but the pipeline writes its own
+                  provenance string into that field, so every article carried
+                  "NJOFTIM #cloud-news-discovery + direct publisher
+                  verification" above the headline: internal plumbing, printed
+                  to readers. */}
               <span
                 style={{
                   fontSize: "11px",
@@ -195,7 +178,7 @@ export default function ArticleContent({ article, related, catColor, catBg, cate
         </article>
 
         <div className="article-sidebar-col" style={{ width: "280px", flexShrink: 0 }}>
-          <ArticleSidebar article={article} related={related} />
+          <ArticleSidebar article={article} related={related} dosje={dosje} />
         </div>
       </div>
 
