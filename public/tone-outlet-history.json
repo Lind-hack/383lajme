@@ -162,16 +162,17 @@
     },
     "FIGC": {
       "country": "Itali",
-      "total": 2,
+      "total": 3,
       "positive": 0,
       "neutral": 1,
       "negative": 0,
-      "unknown": 1,
+      "unknown": 2,
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-23",
+      "lastSeen": "2026-08-24",
       "urls": [
         "https://www.figc.it/it/nazionali/news/giochi-del-mediterraneo-la-spedizione-azzurra-arriva-a-taranto-per-sfilare-alla-cerimonia-di-apertura-hpfgneix",
-        "https://www.figc.it/it/nazionali/news/giochi-del-mediterraneo-esordio-a-senso-unico-per-le-azzurrine-4-1-al-kosovo-qvcvhv0q"
+        "https://www.figc.it/it/nazionali/news/giochi-del-mediterraneo-esordio-a-senso-unico-per-le-azzurrine-4-1-al-kosovo-qvcvhv0q",
+        "https://www.figc.it/it/nazionali/news/giochi-del-mediterraneo-che-battaglia-a-brindisi-azzurrini-ko-3-1-con-lalgeria-bldoae25"
       ]
     },
     "ANSA": {
@@ -362,15 +363,16 @@
     },
     "agenziagiornalisticaopinione.it": {
       "country": "Itali",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-22",
-      "lastSeen": "2026-08-22",
+      "lastSeen": "2026-08-24",
       "urls": [
-        "https://www.agenziagiornalisticaopinione.it/opinionmix/sole24/il-sole-24-ore-sport-abodi-e-gonxhja-incontro-in-vista-dei-giochi-del-mediterraneo-del-2030-tra-kosovo-e-albania/"
+        "https://www.agenziagiornalisticaopinione.it/opinionmix/sole24/il-sole-24-ore-sport-abodi-e-gonxhja-incontro-in-vista-dei-giochi-del-mediterraneo-del-2030-tra-kosovo-e-albania/",
+        "https://www.agenziagiornalisticaopinione.it/opinionews/figc-federazione-italiana-giuoco-calcio-azzurrini-ko-3-1-con-lalgeria-ora-serve-unimpresa-contro-il-kosovo/"
       ]
     },
     "studio100.it": {
@@ -1362,6 +1364,32 @@
       "lastSeen": "2026-08-24",
       "urls": [
         "https://www.animalstoday.nl/500-zwerfdieren-gesteriliseerd-kosovo/"
+      ]
+    },
+    "Newsrimini": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-25",
+      "lastSeen": "2026-08-24",
+      "urls": [
+        "https://www.newsrimini.it/icaro-sport/under-21-mercoledi-in-vendita-i-biglietti-per-kosovo-e-spagna-allo-stadium"
+      ]
+    },
+    "EL PAÍS": {
+      "country": "Spanjë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-08-25",
+      "lastSeen": "2026-08-25",
+      "urls": [
+        "https://elpais.com/babelia/2026-08-25/pequena-guerra-perfecta-retorno-al-nacionalismo-sangriento-de-los-noventa-en-los-balcanes.html"
       ]
     }
   }

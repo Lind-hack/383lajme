@@ -2853,5 +2853,222 @@
         "sentiment": "negative"
       }
     ]
+  },
+  {
+    "date": "2026-08-25",
+    "overallIndex": 56,
+    "totalArticles": 42,
+    "sourceCount": 39,
+    "stanceVersion": 3,
+    "countries": {
+      "Gjermani": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 2,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "SHBA": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Britani": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Francë": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Itali": {
+        "index": 47,
+        "positive": 0,
+        "neutral": 94,
+        "negative": 6,
+        "n": 17,
+        "excluded": 2,
+        "confident": true,
+        "stanceVersion": 3
+      },
+      "Austri": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 2,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Zvicër": {
+        "index": 75,
+        "positive": 50,
+        "neutral": 50,
+        "negative": 0,
+        "n": 2,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Holandë": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 2,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Belgjikë": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Spanjë": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 4,
+        "excluded": 1,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Greqi": {
+        "index": 88,
+        "positive": 75,
+        "neutral": 25,
+        "negative": 0,
+        "n": 4,
+        "excluded": 1,
+        "confident": false,
+        "stanceVersion": 3,
+        "movement": {
+          "delta": 26,
+          "from": 62,
+          "outlet": "sport-fm.gr",
+          "title": "Përmbysje dhe fitore në ndeshjen e parë të Lojërave Mesdhetare për kombëtaren e hendbollit të femrave",
+          "evidence": "ανατροπή και πρεμιέρα με νίκη",
+          "url": "https://www.sport-fm.gr/article/amp/ellada-kosobo-31-25-amp/5142968"
+        }
+      },
+      "Suedi": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Poloni": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Turqi": {
+        "index": 61,
+        "positive": 22,
+        "neutral": 78,
+        "negative": 0,
+        "n": 9,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 3,
+        "movement": {
+          "delta": 4,
+          "from": 57,
+          "outlet": "İzmir Büyükşehir Belediyesi",
+          "title": "Kryetari Tugay hap rrugën për bashkëpunime të reja në Kosovë",
+          "evidence": "yeni iş birliklerinin kapısını araladı",
+          "url": "https://www.izmir.bel.tr/tr/Haberler/baskan-tugay-kosovada-yeni-is-birliklerinin-kapisini-araladi/59218/156"
+        }
+      },
+      "Kroaci": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      }
+    },
+    "headlines": [
+      {
+        "title": "Kosovo-Schweizer Hajdari und Avdullahu siegen mit Hoffenheim klar - Blick",
+        "source": "Blick",
+        "country": "Zvicër",
+        "flag": "🇨🇭",
+        "url": "https://www.blick.ch/sport/fussball/international/dfb-pokal/leverkusen-locker-weiter-augsburg-mueht-sich-in-die-zweite-pokal-runde-id22202590.html",
+        "sentiment": "positive"
+      },
+      {
+        "title": "JM 2026 : les Lioncelles décrochent un précieux nul face au Portugal - lopinion.ma",
+        "source": "lopinion.ma",
+        "country": "Belgjikë",
+        "flag": "🇧🇪",
+        "url": "https://lopinion.ma/fr/sport/newsroom/jm-2026--les-lioncelles-decrochent-un-precieux-nul-face-au-portugal_a22886?articleId=4125af99-f88e-4b2b-ac18-1b9dbcd0ddf0",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Ελλάδα – Κόσοβο 40-20: Επιβλητική η Εθνική γυναικών και 2/2 στο χάντμπολ των Μεσογειακών Αγώνων - ΤΑ ΝΕΑ",
+        "source": "ΤΑ ΝΕΑ",
+        "country": "Greqi",
+        "flag": "🇬🇷",
+        "url": "https://www.tanea.gr/2026/08/24/sports/othersports/ellada-kosovo-40-20-epivlitiki-i-ethniki-gynaikon-kai-2-2-sto-xantmpol-ton-mesogeiakon-agonon/",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Aleanca hedh qymyr para qeverisë, Ramadani: Kurti po e çon Kosovën në terr politik - Reporteri",
+        "source": "Reporteri",
+        "country": "Gjermani",
+        "flag": "🇩🇪",
+        "url": "https://reporteri.net/fr/nouvelles/L%27alliance-jette-de-l%27huile-sur-le-feu-au-gouvernement-%3A-Ramadan-Kurti-plonge-le-Kosovo-dans-les-t%C3%A9n%C3%A8bres-politiques./",
+        "sentiment": "negative"
+      },
+      {
+        "title": "Tahiri për dy vjetët e Qeverisë Kurti: Varfëri dhe dobësim të Kosovës - Reporteri",
+        "source": "Reporteri",
+        "country": "Belgjikë",
+        "flag": "🇧🇪",
+        "url": "https://reporteri.net/fr/nouvelles/Tahiri-sur-les-deux-ann%C3%A9es-du-gouvernement-Kurti--la-pauvret%C3%A9-et-la-faiblesse-du-Kosovo/",
+        "sentiment": "negative"
+      }
+    ]
   }
 ]

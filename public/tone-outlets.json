@@ -1,11 +1,11 @@
 {
-  "lastUpdated": "2026-08-24",
-  "overallIndex": 55,
-  "totalArticles": 72,
-  "sourceCount": 63,
+  "lastUpdated": "2026-08-25",
+  "overallIndex": 56,
+  "totalArticles": 42,
+  "sourceCount": 39,
   "stanceVersion": 3,
-  "unattributed": 182,
-  "nonEditorial": 15,
+  "unattributed": 122,
+  "nonEditorial": 11,
   "wrongKosovo": 0,
   "countries": {
     "Gjermani": {
@@ -57,30 +57,6 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-08-24",
           "lastSeen": "2026-08-24"
-        },
-        {
-          "name": "Tagesschau",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosovo: Wahlsieger Kurti blockiert das Parlament - tagesschau.de",
-              "albanianTitle": "Kosovë: Fituesi i zgjedhjeve Kurti bllokon punën e Kuvendit",
-              "blurb": "Fituesi i zgjedhjeve në Kosovë, Albin Kurti, po bllokon punimet e Kuvendit sipas raportimeve të mediave gjermane.",
-              "imageUrl": "https://images.tagesschau.de/image/197a5977-3f5f-4c21-8c08-fad6ecb4b493/AAABnSQwl8A/AAABnSSvrFg/16x9-big/default-audioplayer-100.jpg?width=1280",
-              "url": "https://www.tagesschau.de/multimedia/audio/audio-3431438.html",
-              "date": "2026-08-21",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportim neutral",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-21",
-          "lastSeen": "2026-08-21"
         }
       ],
       "summary": {
@@ -88,7 +64,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 3,
+        "n": 2,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -108,87 +84,29 @@
       }
     },
     "Britani": {
-      "outlets": [
-        {
-          "name": "Balkan Insight",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Thaci Expects Acquittal as Hague Court’s War Crimes Verdict Nears - Balkan Insight",
-              "albanianTitle": "Thaçi pret pafajësinë teksa po afrohet vendimi i Gjykatës së Hagës për krime lufte - Balkan Insight",
-              "blurb": "Hashim Thaçi pret shpalljen e pafajësisë në procesin gjyqësor që po zhvillohet ndaj tij në Gjykatën e Hagës.",
-              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2025/09/11396473.jpg",
-              "url": "https://balkaninsight.com/2026/08/21/thaci-expects-acquittal-as-hague-courts-war-crimes-verdict-nears/btj/",
-              "date": "2026-08-21",
-              "sentiment": "neutral",
-              "reason": "Factual report of Thaci’s expectation",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 3,
-          "trend": "neutral",
-          "firstSeen": "2026-08-19",
-          "lastSeen": "2026-08-21"
-        }
-      ],
+      "outlets": [],
       "summary": {
-        "index": 50,
+        "index": null,
         "positive": 0,
-        "neutral": 100,
+        "neutral": 0,
         "negative": 0,
-        "n": 1,
+        "n": 0,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
       }
     },
     "Francë": {
-      "outlets": [
-        {
-          "name": "ladepeche.fr",
-          "sentiment": "positive",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Un Graulhétois artisan du dialogue dans les Balkans - ladepeche.fr",
-              "albanianTitle": "Një artizan i dialogut në Ballkan nga Graulhet",
-              "blurb": "Një qytetar nga Graulhet i Francës po angazhohet në nxitjen e dialogut dhe bashkëpunimit në rajonin e Ballkanit.",
-              "imageUrl": "https://images.ladepeche.fr/api/v1/images/view/6a87c5cc0ae0b6a27c007903/hd/image.jpg?v=1",
-              "url": "https://www.ladepeche.fr/2026/08/21/un-graulhetois-artisan-du-dialogue-dans-les-balkans-13516906.php",
-              "date": "2026-08-21",
-              "sentiment": "positive",
-              "reason": "Headline praises dialogue work in the Balkans, showing supportive tone toward Kosovo",
-              "isQuote": false,
-              "evidence": "artisan du dialogue",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-21",
-          "lastSeen": "2026-08-21"
-        }
-      ],
+      "outlets": [],
       "summary": {
-        "index": 100,
-        "positive": 100,
+        "index": null,
+        "positive": 0,
         "neutral": 0,
         "negative": 0,
-        "n": 1,
+        "n": 0,
         "excluded": 0,
         "confident": false,
-        "stanceVersion": 3,
-        "movement": {
-          "delta": 33,
-          "from": 67,
-          "outlet": "ladepeche.fr",
-          "title": "Një artizan i dialogut në Ballkan nga Graulhet",
-          "evidence": "artisan du dialogue",
-          "url": "https://www.ladepeche.fr/2026/08/21/un-graulhetois-artisan-du-dialogue-dans-les-balkans-13516906.php"
-        }
+        "stanceVersion": 3
       }
     },
     "Itali": {
@@ -219,31 +137,18 @@
         },
         {
           "name": "ANSA",
-          "sentiment": "neutral",
-          "articleCount": 2,
+          "sentiment": "unknown",
+          "articleCount": 1,
           "articles": [
             {
-              "title": "Kosovo completa esumazione 23 corpi da fossa comune scoperta in luglio - ANSA",
-              "albanianTitle": "Kosova përfundon zhvarrosjen e 23 trupave nga varreza masive e zbuluar në korrik",
-              "blurb": "Autoritetet në Kosovë kanë përfunduar zhvarrosjen e njëzet e tri trupave nga varreza masive e zbuluar gjatë korrikut.",
-              "imageUrl": "https://www.ansa.it/webimages/img_1280x720/2026/8/21/b1bd09394d952f38b9e0707f8e75f325.jpg",
-              "url": "https://www.ansa.it/nuova_europa/it/notizie/rubriche/politica/2026/08/21/kosovo-completa-esumazione-23-corpi-da-fossa-comune-scoperta-in-luglio_2a9d9978-3f19-4b2a-8a42-64b84fe4d081.html",
-              "date": "2026-08-21",
-              "sentiment": "neutral",
-              "reason": "Raportim faktik i ekshumimit të masave të përbashkëta",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
               "title": "Nei Balcani Macedonia del Nord, Bosnia e Serbia in preda agli incendi - ANSA",
-              "albanianTitle": "Në Ballkan, Maqedonia e Veriut, Bosnja dhe Serbia të përfshira nga zjarret - ANSA",
-              "blurb": "Maqedonia e Veriut, Bosnja dhe Serbia po përballen me zjarre të mëdha që kanë përfshirë këto vende të Ballkanit.",
+              "albanianTitle": "Ballkani në flakë: Maqedonia e Veriut, Bosnja dhe Serbia përballen me zjarre masive",
+              "blurb": "Maqedonia e Veriut, Bosnja e Hercegovina dhe Serbia po përballen me vatra të shumta të zjarreve në territore të ndryshme.",
               "imageUrl": "https://www.ansa.it/webimages/img_1280x720/2024/1/24/b750e7a3a277325035bcd0f60cdaafb2.jpg",
               "url": "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/08/24/nei-balcani-macedonia-del-nord-bosnia-e-serbia-in-preda-agli-incendi_12f9ffd9-6f15-4ffb-982e-a4b1c86da15e.html",
               "date": "2026-08-24",
               "sentiment": "unknown",
-              "reason": "Artikulli nuk përmend Kosovën, prandaj nuk mund të përcaktohet qëndrimi",
+              "reason": "No mention of Kosovo, cannot infer outlet stance",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -253,30 +158,6 @@
           "trend": "neutral",
           "firstSeen": "2026-08-20",
           "lastSeen": "2026-08-24"
-        },
-        {
-          "name": "CasertaNews",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Da Casapesenna ai Balcani: la parabola di Salvatore Zagaria, tra grandi ospiti e diplomazia del gusto - CasertaNews",
-              "albanianTitle": "Nga Casapesenna në Ballkan: Rrugëtimi i Salvatore Zagarias, mes mysafirëve të shquar dhe diplomacisë së shijes – CasertaNews",
-              "blurb": "Salvatore Zagaria zhvillon aktivitete diplomatike dhe gastronomike që lidhin rajonin e Casapesennas me vendet e Ballkanit.",
-              "imageUrl": "https://www.casertanews.it/~media/horizontal-hi/69008903643965/ambasciatore-marco-alberti-_-salvatore-zagaria-chef.jpeg",
-              "url": "https://www.casertanews.it/social/chef-salvatore-zagaria-grandi-ospiti-diplomazia-gusto.html",
-              "date": "2026-08-21",
-              "sentiment": "neutral",
-              "reason": "Titulli përshkruan një histori kulturore pa ngarkim negativ apo pozitiv",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-22",
-          "lastSeen": "2026-08-21"
         },
         {
           "name": "Cronache Tarantine",
@@ -305,7 +186,7 @@
         {
           "name": "FIGC",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Giochi del Mediterraneo, esordio a senso unico per le Azzurrine: 4-1 al Kosovo - FIGC",
@@ -319,36 +200,25 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
-            }
-          ],
-          "totalArticles": 2,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-20",
-          "lastSeen": "2026-08-23"
-        },
-        {
-          "name": "FSP Polizia di Stato",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
+            },
             {
-              "title": "EULEX Kosovo 2026: selezione per Deputy Head of Mission - FSP Polizia di Stato",
-              "albanianTitle": "EULEX Kosovë 2026: Shpallet konkursi për pozitën e zëvendësshefit të misionit",
-              "blurb": "Misioni i Bashkimit Evropian për Sundimin e Ligjit në Kosovë, EULEX, ka hapur procesin e përzgjedhjes për pozitën e zëvendësshefit.",
-              "imageUrl": "https://www.fsp-polizia.it/wp-content/uploads/2026/08/elux.jpg",
-              "url": "https://www.fsp-polizia.it/eulex-kosovo-2026-deputy-head-of-mission-polizia/",
-              "date": "2026-08-21",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportim neutral",
+              "title": "Giochi del Mediterraneo, che battaglia a Brindisi: Azzurrini ko 3-1 con l’Algeria - FIGC",
+              "albanianTitle": "Lojërat Mesdhetare, betejë e ashpër në Brindisi: Azzurrini mposhten 3-1 nga Algjeria",
+              "blurb": "Përfaqësuesja e Italisë U21 është mposhtur me rezultat 3-1 nga Algjeria në ndeshjen e zhvilluar në kuadër të Lojërave Mesdhetare.",
+              "imageUrl": "https://images.figc.it/view/acePublic/alias/contentid/1tc6mvx4wrxhm40ehq6/0/26495864-826f-4d7b-9ebc-506efe5de3f0-jpg.jpg?f=187%3A100",
+              "url": "https://www.figc.it/it/nazionali/news/giochi-del-mediterraneo-che-battaglia-a-brindisi-azzurrini-ko-3-1-con-lalgeria-bldoae25",
+              "date": "2026-08-24",
+              "sentiment": "unknown",
+              "reason": "Artikulli nuk ka lidhje me Kosovën",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
             }
           ],
-          "totalArticles": 1,
+          "totalArticles": 3,
           "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-21",
-          "lastSeen": "2026-08-21"
+          "firstSeen": "2026-08-20",
+          "lastSeen": "2026-08-24"
         },
         {
           "name": "Fijlkam",
@@ -412,19 +282,19 @@
           "lastSeen": "2026-08-22"
         },
         {
-          "name": "La Nazione",
+          "name": "Newsrimini",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
-              "title": "In Kosovo un’esperienza da ricordare - La Nazione",
-              "albanianTitle": "Një përvojë e paharrueshme në Kosovë - La Nazione",
-              "blurb": "Vizita në Kosovë është vlerësuar si një përvojë e paharrueshme nga mediat italiane në raportimet e tyre të fundit.",
-              "imageUrl": "https://www.lanazione.it/image-service/view/acePublic/alias/contentid/OTA2ZTkzMmYtOTUzYi00/0/in-kosovo-unesperienza-da-ricordare.jpg?f=16:9&w=1200&h=675",
-              "url": "https://www.lanazione.it/umbria/cronaca/in-kosovo-unesperienza-da-ricordare-2491dda9",
-              "date": "2026-08-21",
+              "title": "Under 21: mercoledì in vendita i biglietti per Kosovo e Spagna allo Stadium - Newsrimini",
+              "albanianTitle": "U21: Të mërkurën dalin në shitje biletat për ndeshjen Kosovë-Spanjë në stadium",
+              "blurb": "Biletat për ndeshjen e futbollit ndërmjet përfaqësueseve U21 të Kosovës dhe Spanjës dalin në shitje të mërkurën në stadium.",
+              "imageUrl": "https://www.newsrimini.it/uploads/2026/c-luistella.webp",
+              "url": "https://www.newsrimini.it/icaro-sport/under-21-mercoledi-in-vendita-i-biglietti-per-kosovo-e-spagna-allo-stadium",
+              "date": "2026-08-24",
               "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
+              "reason": "Faktikë raportim pa ngarkim",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -432,32 +302,8 @@
           ],
           "totalArticles": 1,
           "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-21",
-          "lastSeen": "2026-08-21"
-        },
-        {
-          "name": "MolfettaLive.it",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Francesca Mininni è bronzo agli Europei Youyh di pesistica in Kosovo - MolfettaLive.it",
-              "albanianTitle": "Francesca Mininni fiton medaljen e bronztë në Kampionatin Evropian të peshëngritjes për të rinj në Kosovë - MolfettaLive.it",
-              "blurb": "Peshëngritësja Francesca Mininni ka fituar medaljen e bronztë në Kampionatin Evropian për të rinj që po mbahet në Kosovë.",
-              "imageUrl": "https://molfettalive.it/wp-content/uploads/sites/4/2026/08/WhatsApp-Image-2026-08-20-at-18.43.43-e1787291062545.webp",
-              "url": "https://molfettalive.it/2026/08/21/francesca-mininni-e-bronzo-agli-europei-youyh-di-pesistica-in-kosovo/",
-              "date": "2026-08-21",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-21",
-          "lastSeen": "2026-08-21"
+          "firstSeen": "2026-08-25",
+          "lastSeen": "2026-08-24"
         },
         {
           "name": "OA Sport",
@@ -497,54 +343,6 @@
           "lastSeen": "2026-08-23"
         },
         {
-          "name": "Quindici Molfetta",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Medaglia di bronzo in Kosovo per Francesca Mininni di Molfetta - Quindici Molfetta",
-              "albanianTitle": "Francesca Mininni nga Molfetta fiton medaljen e bronztë në Kosovë - Quindici Molfetta",
-              "blurb": "Sportistja nga Molfetta, Francesca Mininni, ka fituar medaljen e bronztë gjatë një aktiviteti sportiv të mbajtur në Kosovë.",
-              "imageUrl": "https://www.quindici-molfetta.it/Img/News/Francesca%20Mininni%20medaglia%20bronzo.jpg",
-              "url": "https://www.quindici-molfetta.it/medaglia-di-bronzo-in-kosovo-per-francesca-mininni-di-molfetta_62181.aspx",
-              "date": "2026-08-21",
-              "sentiment": "neutral",
-              "reason": "Simple news of a bronze medal event",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-21",
-          "lastSeen": "2026-08-21"
-        },
-        {
-          "name": "Quotidiano Nazionale",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Il metodo Putin (anche in Kosovo). Quando la difesa del più debole diventa arma di guerra ibrida - Quotidiano Nazionale",
-              "albanianTitle": "Metoda e Putinit (edhe në Kosovë): Kur mbrojtja e të dobëtit shndërrohet në armë të luftës hibride - Quotidiano Nazionale",
-              "blurb": "Analiza e Quotidiano Nazionale krahason qasjen e Serbisë në Kosovë me metodat e luftës hibride të Vladimir Putinit.",
-              "imageUrl": "https://www.quotidiano.net/image-service/view/acePublic/alias/contentid/Njc5OWFmZDgtODAyNi00/0/vladimir-putin-in-visita-alla-cattedrale-ortodossa-a-mosca-ansa.jpg?f=16:9&w=1200&h=675",
-              "url": "https://www.quotidiano.net/esteri/il-metodo-putin-anche-in-kosovo-quando-la-difesa-del-piu-debole-diventa-arma-di-guerra-ibrida-89804c37",
-              "date": "2026-08-21",
-              "sentiment": "neutral",
-              "reason": "Përcjell një shembull pa gjuhë përçmuese ndaj Kosovës",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-21",
-          "lastSeen": "2026-08-21"
-        },
-        {
           "name": "Radio Mugello",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -567,30 +365,6 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-08-23",
           "lastSeen": "2026-08-23"
-        },
-        {
-          "name": "Report Difesa",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosovo: il ponte conteso, sicurezza, sovranità e narrazioni lungo il fiume Ibar - Report Difesa",
-              "albanianTitle": "Kosova: Ura e kontestuar, siguria, sovraniteti dhe narrativat përgjatë lumit Ibër - Report Difesa",
-              "blurb": "Çështja e urës mbi lumin Ibër ndërlidhet me sigurinë, sovranitetin dhe narrativat politike në veri të territorit të Kosovës.",
-              "imageUrl": "https://www.reportdifesa.it/wp-content/uploads/2023/12/BRSH_Kosovo_Security_Force_KSF.jpg",
-              "url": "https://www.reportdifesa.it/kosovo-il-ponte-conteso-sicurezza-sovranita-e-narrazioni-lungo-il-fiume-ibar/",
-              "date": "2026-08-21",
-              "sentiment": "neutral",
-              "reason": "Descriptive headline about contested bridge",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-21",
-          "lastSeen": "2026-08-21"
         },
         {
           "name": "Sportface.it",
@@ -643,7 +417,7 @@
         {
           "name": "agenziagiornalisticaopinione.it",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "IL SOLE 24 ORE * SPORT: «ABODI E GONXHJA, INCONTRO IN VISTA DEI GIOCHI DEL MEDITERRANEO DEL 2030 TRA KOSOVO E ALBANIA - agenziagiornalisticaopinione.it",
@@ -657,12 +431,25 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "FIGC * FEDERAZIONE ITALIANA GIUOCO CALCIO: «AZZURRINI KO 3-1 CON L'ALGERIA, ORA SERVE UN'IMPRESA CONTRO IL KOSOVO - agenziagiornalisticaopinione.it",
+              "albanianTitle": "FIGC: Azzurrini humbin 3-1 nga Algjeria, tani duhet një mrekulli kundër Kosovës",
+              "blurb": "Federata Italiane e Futbollit kërkon fitore ndaj Kosovës pas humbjes së pësuar nga Algjeria në Lojërat Mesdhetare në Brindisi.",
+              "imageUrl": "https://www.agenziagiornalisticaopinione.it/wp-content/uploads/2026/08/y99z26495864-826f-4d7b-9ebc-506efe5de3f0-jpg.jpg",
+              "url": "https://www.agenziagiornalisticaopinione.it/opinionews/figc-federazione-italiana-giuoco-calcio-azzurrini-ko-3-1-con-lalgeria-ora-serve-unimpresa-contro-il-kosovo/",
+              "date": "2026-08-24",
+              "sentiment": "neutral",
+              "reason": "Fjalët e cituara i përkasin folësit, jo mediumit",
+              "isQuote": true,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 1,
+          "totalArticles": 2,
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-08-22",
-          "lastSeen": "2026-08-22"
+          "lastSeen": "2026-08-24"
         },
         {
           "name": "il Nord Est",
@@ -738,12 +525,12 @@
         }
       ],
       "summary": {
-        "index": 48,
+        "index": 47,
         "positive": 0,
-        "neutral": 96,
-        "negative": 4,
-        "n": 23,
-        "excluded": 1,
+        "neutral": 94,
+        "negative": 6,
+        "n": 17,
+        "excluded": 2,
         "confident": true,
         "stanceVersion": 3
       }
@@ -987,6 +774,30 @@
           "lastSeen": "2026-08-22"
         },
         {
+          "name": "EL PAÍS",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "‘Pequeña guerra perfecta’, retorno al nacionalismo sangriento de los noventa en los Balcanes - EL PAÍS",
+              "albanianTitle": "‘Lufta e vogël perfekte’, rikthimi i nacionalizmit të përgjakshëm të viteve nëntëdhjetë në Ballkan",
+              "blurb": "Libri Pequeña guerra perfecta analizon kthimin e nacionalizmit të dhunshëm në rajonin e Ballkanit gjatë viteve të nëntëdhjeta.",
+              "imageUrl": null,
+              "url": "https://elpais.com/babelia/2026-08-25/pequena-guerra-perfecta-retorno-al-nacionalismo-sangriento-de-los-noventa-en-los-balcanes.html",
+              "date": "2026-08-25",
+              "sentiment": "unknown",
+              "reason": "Titulli nuk përmend Kosovën dhe nuk jep informacion për qëndrimin",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-25",
+          "lastSeen": "2026-08-25"
+        },
+        {
           "name": "El Periódico de España",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1041,133 +852,13 @@
         "neutral": 100,
         "negative": 0,
         "n": 4,
-        "excluded": 0,
+        "excluded": 1,
         "confident": false,
         "stanceVersion": 3
       }
     },
     "Greqi": {
       "outlets": [
-        {
-          "name": "Bankingnews",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Κόλαφος η Zakharova: «Συστηματική τρομοκρατία κατά των Σέρβων στο Κόσοβο, με ανοχή ΝΑΤΟ, ΕΕ και ΟΗΕ» - Bankingnews",
-              "albanianTitle": "Zakharova e ashpër: Terror sistematik ndaj serbëve në Kosovë, me tolerimin e NATO-s, BE-së dhe OKB-së",
-              "blurb": "Zëdhënësja e Ministrisë së Jashtme ruse, Maria Zakharova, ka akuzuar institucionet ndërkombëtare për tolerim të situatës ndaj serbëve në Kosovë.",
-              "imageUrl": "https://www.bankingnews.gr/media/k2/items/cache/93b514aaf48a1a8bdf3b8aba45787aed_XL.jpg",
-              "url": "https://www.bankingnews.gr/diethni/articles/894916/kolafos-i-zakharova-systimatiki-tromokratia-kata-ton-servon-sto-kosovo-me-anoxi-nato-ee-kai-oie",
-              "date": "2026-08-21",
-              "sentiment": "neutral",
-              "reason": "Përmban citim, gjuhë e arsyetuar nga folësi, jo nga media",
-              "isQuote": true,
-              "evidence": "",
-              "speaker": "Zakharova"
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-21",
-          "lastSeen": "2026-08-21"
-        },
-        {
-          "name": "Capital.gr",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Ένταση στο Κόσοβο για το άνοιγμα μιας γέφυρας - Capital.gr",
-              "albanianTitle": "Tensione në Kosovë për shkak të hapjes së një ure",
-              "blurb": "Planet për hapjen e urës mbi lumin Ibër në Mitrovicë kanë shkaktuar tensione të reja në veri të Kosovës.",
-              "imageUrl": "https://www.capital.gr/Content/ImagesDatabase/fb/1000x523/crop/both/d7/d7c1133196a94a25bbe1342a03e52481.jpg",
-              "url": "https://www.capital.gr/diethni/4011690/entasi-sto-kosobo-gia-to-anoigma-mias-gefuras/?amp=true",
-              "date": "2026-08-21",
-              "sentiment": "neutral",
-              "reason": "Fact‑based headline reporting tension over a bridge opening",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-21",
-          "lastSeen": "2026-08-21"
-        },
-        {
-          "name": "In.gr",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Μεσογειακοί Αγώνες: Με το δεξί ξεκίνησε η Εθνική βόλεϊ γυναικών, 3-0 το Κόσοβο - In.gr",
-              "albanianTitle": "Lojërat Mesdhetare: Kombëtarja e volejbollit të femrave e nis me fitore, mposht Kosovën 3-0",
-              "blurb": "Kombëtarja e volejbollit të femrave të Greqisë ka shënuar fitore 3-0 ndaj përfaqësueses së Kosovës në kuadër të Lojërave Mesdhetare.",
-              "imageUrl": "https://www.in.gr/wp-content/uploads/2026/08/BVOLEI.png",
-              "url": "https://www.in.gr/2026/08/21/sports/othersports/mesogeiakoi-agones-me-to-deksi-ksekinise-i-ethniki-volei-gynaikon-3-0-to-kosovo/",
-              "date": "2026-08-21",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportim neutral",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-21",
-          "lastSeen": "2026-08-21"
-        },
-        {
-          "name": "Newsbeast",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Νέα ένταση μεταξύ Σερβίας-Κοσόβου βάζει η γέφυρα της Μιτροβίτσας – «Μην την ανοίξετε» - Newsbeast",
-              "albanianTitle": "Ura e Mitrovicës nxit tensione të reja mes Serbisë dhe Kosovës – \"Mos e hapni\" - Newsbeast",
-              "blurb": "Çështja e hapjes së urës së Mitrovicës ka shkaktuar tensione të reja në marrëdhëniet ndërmjet Serbisë dhe Kosovës.",
-              "imageUrl": "https://www.newsbeast.gr/image/s1200x762/fill/file/files/1/2026/08/AP22363383437236.jpg",
-              "url": "https://www.newsbeast.gr/world/arthro/13306034/nea-entasi-metaxy-servias-kosovou-vazei-i-gefyra-tis-mitrovitsas-min-tin-anoixete",
-              "date": "2026-08-21",
-              "sentiment": "neutral",
-              "reason": "Citat i përdorur, jo zëri i mediumit",
-              "isQuote": true,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-23",
-          "lastSeen": "2026-08-21"
-        },
-        {
-          "name": "Skai.gr",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Ένταση στο Κόσοβο για το άνοιγμα μιας γέφυρας - Skai.gr",
-              "albanianTitle": "Tensione në Kosovë për hapjen e një ure - Skai.gr",
-              "blurb": "Hapja e urës mbi lumin Ibër në Mitrovicë ka shkaktuar rritje të tensioneve në pjesën veriore të Kosovës.",
-              "imageUrl": "https://cdn.skai.gr/sites/default/files/styles/article_16_9/public/feedelio/mitsovica-bridge.jpg?itok=QJp9iyTJ",
-              "url": "https://www.skai.gr/news/world/entasi-sto-kosovo-gia-to-anoigma-mias-gefyras",
-              "date": "2026-08-21",
-              "sentiment": "neutral",
-              "reason": "Faktikisht raporton tensionin në Kosovë pa gjuhë ngarkuese",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-21",
-          "lastSeen": "2026-08-21"
-        },
         {
           "name": "dete.gr",
           "sentiment": "unknown",
@@ -1193,71 +884,10 @@
           "lastSeen": "2026-08-22"
         },
         {
-          "name": "ertnews.gr",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Κόσοβο: Eντάσεις μεταξύ Σέρβων και Αλβανών προκαλεί το άνοιγμα γέφυρας - ertnews.gr",
-              "albanianTitle": "Kosova: Hapja e urës po shkakton tensione mes serbëve dhe shqiptarëve - ertnews.gr",
-              "blurb": "Planet për hapjen e urës së Mitrovicës kanë nxitur tensione ndërmjet komunitetit serb dhe atij shqiptar në rajon.",
-              "imageUrl": "https://www.ertnews.gr/wp-content/uploads/2026/08/ap090427013637-768x515-1.jpg",
-              "url": "https://www.ertnews.gr/eidiseis/diethni/kosovo-entaseis-metaksy-servon-kai-alvanon-prokalei-to-anoigma-gefyras/",
-              "date": "2026-08-21",
-              "sentiment": "neutral",
-              "reason": "Raportim neutral i tensioneve mes komuniteteve",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-21",
-          "lastSeen": "2026-08-21"
-        },
-        {
-          "name": "prlogos.gr",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Ο λιγνίτης που δεν θα ταξιδεύει στα Σκόπια φέρνει άλλο ένα κύμα ανέργων στην περιοχή - prlogos.gr",
-              "albanianTitle": "Ndalimi i eksportit të linjitit për në Shkup sjell një valë të re papunësie në rajon",
-              "blurb": "Ndalimi i eksportit të linjitit drejt Shkupit pritet të shkaktojë rritje të shkallës së papunësisë në rajonin përkatës.",
-              "imageUrl": null,
-              "url": "https://www.prlogos.gr/%CE%BF-%CE%BB%CE%B9%CE%B3%CE%BD%CE%AF%CF%84%CE%B7%CF%82-%CF%80%CE%BF%CF%85-%CE%B4%CE%B5%CE%BD-%CE%B8%CE%B1-%CF%84%CE%B1%CE%BE%CE%B9%CE%B4%CE%B5%CF%8D%CE%B5%CE%B9-%CF%83%CF%84%CE%B1-%CF%83%CE%BA/",
-              "date": "2026-08-21",
-              "sentiment": "neutral",
-              "reason": "Raportim i çështjes ekonomike pa gjuhë ngarkuese",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-23",
-          "lastSeen": "2026-08-21"
-        },
-        {
           "name": "sport-fm.gr",
-          "sentiment": "neutral",
-          "articleCount": 4,
+          "sentiment": "positive",
+          "articleCount": 3,
           "articles": [
-            {
-              "title": "Λευκορωσία-Κόσοβο - sport-fm.gr",
-              "albanianTitle": "Bjellorusi – Kosovë – sport-fm.gr",
-              "blurb": "Ndeshja sportive ndërmjet përfaqësueses së Bjellorusisë dhe asaj të Kosovës në arenën ndërkombëtare të futbollit.",
-              "imageUrl": "https://resources.sport-fm.gr/supersportFM/images/news/23/06/19/belarus-kosovo_111407.jpg?w=880&f=bicubic",
-              "url": "https://www.sport-fm.gr/article/4891906",
-              "date": "2026-08-21",
-              "sentiment": "neutral",
-              "reason": "Titulli thjesht përmend dy vende, pa gjuhë pozitive apo negative",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "Ανατροπή και πρεμιέρα με νίκη στους Μεσογειακούς για την Εθνική χάντμπολ γυναικών - sport-fm.gr",
               "albanianTitle": "Përmbysje dhe fitore në ndeshjen e parë të Lojërave Mesdhetare për kombëtaren e hendbollit të femrave",
@@ -1304,30 +934,6 @@
           "lastSeen": "2026-08-24"
         },
         {
-          "name": "Η Άποψη",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Conference League: Ο «καθρέφτης» των play off - Η Άποψη",
-              "albanianTitle": "Conference League: Pasqyra e fazës së play-off-it – Analizë",
-              "blurb": "Analizohen ndeshjet e fazës së play-off-it në kuadër të garës evropiane të futbollit, Conference League për sezonin aktual.",
-              "imageUrl": "https://www.iapopsi.gr/wp-content/uploads/2026/08/conference-1.jpg",
-              "url": "https://www.iapopsi.gr/conference-league-o-kathreftis-ton-play-off/",
-              "date": "2026-08-21",
-              "sentiment": "unknown",
-              "reason": "No reference to Kosovo in the headline",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-22",
-          "lastSeen": "2026-08-21"
-        },
-        {
           "name": "ΤΑ ΝΕΑ",
           "sentiment": "positive",
           "articleCount": 1,
@@ -1350,44 +956,20 @@
           "trend": "i përzier",
           "firstSeen": "2026-08-20",
           "lastSeen": "2026-08-24"
-        },
-        {
-          "name": "η ναυτεμπορικη",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Κόσοβο: Εστία έντασης η απόφαση για το άνοιγμα της γέφυρας στη διαιρεμένη Μιτροβίτσα - Επιστολή Βούτσιτς στον Ρούτε - η ναυτεμπορικη",
-              "albanianTitle": "Kosovë: Vendimi për hapjen e urës në Mitrovicën e ndarë nxit tensione – Vuçiq i shkruan Ruttes",
-              "blurb": "Vendimi për hapjen e urës në Mitrovicë ka rritur tensionet, ndërsa presidenti serb Vuçiq i ka shkruar sekretarit Rutte.",
-              "imageUrl": "https://www.naftemporiki.gr/wp-content/uploads/2026/08/kfor-kosobo.jpg",
-              "url": "https://www.naftemporiki.gr/kosmos/2151998/kosovo-estia-entasis-i-apofasi-gia-to-anoigma-tis-gefyras-sti-diairemeni-mitrovitsa-epistoli-voytsits-ston-royte/",
-              "date": "2026-08-21",
-              "sentiment": "neutral",
-              "reason": "Raportim neutral i tensionit rreth hapjes së urës në Mitrovicë",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-21",
-          "lastSeen": "2026-08-21"
         }
       ],
       "summary": {
-        "index": 62,
-        "positive": 23,
-        "neutral": 77,
+        "index": 88,
+        "positive": 75,
+        "neutral": 25,
         "negative": 0,
-        "n": 13,
-        "excluded": 2,
-        "confident": true,
+        "n": 4,
+        "excluded": 1,
+        "confident": false,
         "stanceVersion": 3,
         "movement": {
-          "delta": 10,
-          "from": 52,
+          "delta": 26,
+          "from": 62,
           "outlet": "sport-fm.gr",
           "title": "Përmbysje dhe fitore në ndeshjen e parë të Lojërave Mesdhetare për kombëtaren e hendbollit të femrave",
           "evidence": "ανατροπή και πρεμιέρα με νίκη",
@@ -1424,30 +1006,6 @@
     "Turqi": {
       "outlets": [
         {
-          "name": "Cumhuriyet",
-          "sentiment": "positive",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "İzmir ile Kosova arasında çok yönlü iş birliği dönemi - Cumhuriyet",
-              "albanianTitle": "Fillon epoka e bashkëpunimit shumëdimensional mes Izmirit dhe Kosovës",
-              "blurb": "Qyteti i Izmirit dhe Kosova kanë nisur një periudhë të re bashkëpunimi në fusha të ndryshme me interes të përbashkët.",
-              "imageUrl": "https://media.cumhuriyet.com.tr/Archive/e43c1b0a-aa84-49ba-91d2-8ec74ad48cda.png",
-              "url": "https://www.cumhuriyet.com.tr/cumhuriyet-in-egesi/izmir-ile-kosova-arasinda-cok-yonlu-is-birligi-donemi-2530991",
-              "date": "2026-08-21",
-              "sentiment": "positive",
-              "reason": "Ton pozitiv për bashkëpunimin me Kosovën",
-              "isQuote": false,
-              "evidence": "çok yönlü iş birliği",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 2,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-19",
-          "lastSeen": "2026-08-21"
-        },
-        {
           "name": "Edirne'nin Sesi",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1470,30 +1028,6 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-08-24",
           "lastSeen": "2026-08-24"
-        },
-        {
-          "name": "Haber 7",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Toplu mezarlar açıldı, çok sayıda mühimmat çıktı - Haber 7",
-              "albanianTitle": "U hapën varrezat masive, u gjetën sasi të mëdha municioni",
-              "blurb": "Gjatë gërmimeve në varreza masive janë gjetur sasi të konsiderueshme të municioneve të ndryshme të pashpërthyera në lokacionin përkatës.",
-              "imageUrl": "https://i12.haber7.net//haber/haber7/og_image/2026/34/iCZ48_1787313467_302.jpg",
-              "url": "https://www.haber7.com/dunya/haber/3653150-toplu-mezarlar-acildi-cok-sayida-muhimmat-cikti",
-              "date": "2026-08-21",
-              "sentiment": "neutral",
-              "reason": "Straightforward report of mass graves and ammunition, no editorial judgement",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-21",
-          "lastSeen": "2026-08-21"
         },
         {
           "name": "Haber Ege",
@@ -1520,54 +1054,6 @@
           "lastSeen": "2026-08-22"
         },
         {
-          "name": "Haber Ekspres",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Cemil Tugay’dan Kosova’da çok yönlü iş birliği hamlesi - Haber Ekspres",
-              "albanianTitle": "Cemil Tugay nis iniciativën për bashkëpunim shumëdimensional në Kosovë",
-              "blurb": "Kryetari i Bashkisë së Izmirit, Cemil Tugay, po ndërmerr hapa për zhvillimin e bashkëpunimit shumëplanësh me institucionet në Kosovë.",
-              "imageUrl": null,
-              "url": "https://www.haberekspres.com.tr/cemil-tugaydan-kosovada-cok-yonlu-is-birligi-hamlesi",
-              "date": "2026-08-21",
-              "sentiment": "neutral",
-              "reason": "Raporton një iniciativë bashkëpunimi në Kosovë, pa gjuhë e ngarkuar",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-21",
-          "lastSeen": "2026-08-21"
-        },
-        {
-          "name": "Haberler",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosova’da toplu mezarların yakınında çok sayıda silah ve mühimmat bulundu - Haberler",
-              "albanianTitle": "Sasi e madhe armësh dhe municionesh gjenden pranë varrezave masive në Kosovë",
-              "blurb": "Sasi të mëdha armësh dhe municionesh janë zbuluar nga autoritetet në afërsi të varrezave masive në territorin e Kosovës.",
-              "imageUrl": "https://foto.haberler.com/haber/2026/08/21/kosova-da-toplu-mezarlarin-yakininda-cok-sayi-20164351_amp.jpg",
-              "url": "https://www.haberler.com/3-sayfa/kosova-da-toplu-mezarlarin-yakininda-cok-sayida-20164351-haberi/",
-              "date": "2026-08-21",
-              "sentiment": "neutral",
-              "reason": "Reports finding of weapons near mass graves in a factual manner",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 2,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-20",
-          "lastSeen": "2026-08-21"
-        },
-        {
           "name": "Hürriyet",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1590,117 +1076,6 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-08-20",
           "lastSeen": "2026-08-23"
-        },
-        {
-          "name": "Odatv",
-          "sentiment": "neutral",
-          "articleCount": 3,
-          "articles": [
-            {
-              "title": "Vucic, Türk komutanı hedef aldı... Odatv araştırdı: İbar Nehri'nden çıkan Neo-Osmanlı kabusu - Odatv",
-              "albanianTitle": "Vuçiq vë në shënjestër komandantin turk... Odatv hulumton: Makthi neo-osman që buron nga lumi Ibër - Odatv",
-              "blurb": "Presidenti serb Aleksandar Vuçiq ka kritikuar komandantin turk në një raportim lidhur me zhvillimet rreth lumit Ibër.",
-              "imageUrl": "https://img.odatv.com/rcman/Cw1280h720q95gc/storage/files/images/2026/08/21/vucic-turk-komutani-hedef-aldi-odatv-arastirdi-ibar-nehrinden-cikan-neo-osmanli-kabusu-fwjn.jpg",
-              "url": "https://www.odatv.com/guncel/vucic-turk-komutani-hedef-aldi-odatv-arastirdi-ibar-nehrinden-cikan-neo-osmanli-kabusu-120159511",
-              "date": "2026-08-21",
-              "sentiment": "negative",
-              "reason": "Loaded adjective used by the outlet to describe a phenomenon linked to Kosovo, implying hostility",
-              "isQuote": false,
-              "evidence": "Neo-Osmanlı kabusu",
-              "speaker": ""
-            },
-            {
-              "title": "Vucic, Türk komutanı hedef aldı... Odatv araştırdı: İbar Nehri'nden çıkan Osmanlı korkusu - Odatv",
-              "albanianTitle": "Vuçiq vë në shënjestër komandantin turk... Odatv hulumton: Frika nga osmanët që buron nga lumi Ibër",
-              "blurb": "Presidenti serb Vuçiq ka kritikuar komandantin turk të KFOR-it në lidhje me zhvillimet aktuale rreth lumit Ibër në Kosovë.",
-              "imageUrl": "https://img.odatv.com/rcman/Cw1280h720q95gc/storage/files/images/2026/08/21/vucic-turk-komutani-hedef-aldi-odatv-arastirdi-ibar-nehrinden-cikan-neo-osmanli-kabusu-fwjn.jpg",
-              "url": "https://www.odatv.com/guncel/vucic-turk-komutani-hedef-aldi-odatv-arastirdi-ibar-nehrinden-cikan-neo-osmanli-kabusu-120159511",
-              "date": "2026-08-21",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Sırp lider KFOR komutanını hedef aldı: 'Bunu o Türk yapıyor' - Odatv",
-              "albanianTitle": "Lideri serb shënjestron komandantin e KFOR-it: 'Këtë po e bën ai turku'",
-              "blurb": "Një lider serb ka kritikuar komandantin e KFOR-it, duke përmendur përkatësinë e tij kombëtare në lidhje me vendimet e marra.",
-              "imageUrl": "https://img.odatv.com/rcman/Cw1280h720q95gc/storage/files/images/2026/08/20/sirp-lider-vucic-kfor-komutani-ozkan-ulutasi-hedef-aldi-bunu-o-turk-yapiyor-g2dh.jpg",
-              "url": "https://www.odatv.com/guncel/sirp-lider-vucic-kfor-komutani-ozkan-ulutasi-hedef-aldi-bunu-o-turk-yapiyor-120159394",
-              "date": "2026-08-21",
-              "sentiment": "neutral",
-              "reason": "Report of a Serbian leader's statement without editorializing",
-              "isQuote": true,
-              "evidence": "",
-              "speaker": "Serbian leader"
-            }
-          ],
-          "totalArticles": 2,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-20",
-          "lastSeen": "2026-08-21"
-        },
-        {
-          "name": "Son Dakika",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosova'da Toplu Mezarlar ve Silahlar Bulundu - Son Dakika",
-              "albanianTitle": "Zbulohen varreza masive dhe armatim në Kosovë",
-              "blurb": "Autoritetet në Kosovë kanë raportuar zbulimin e varrezave masive dhe sasi të ndryshme të armatimit në zona të caktuara.",
-              "imageUrl": "https://foto.sondakika.com/haber/2026/08/21/kosova-da-toplu-mezarlarin-yakininda-cok-sayi-5-20164351_amp.jpg",
-              "url": "https://www.sondakika.com/3-sayfa/haber-kosova-da-toplu-mezarlar-ve-silahlar-bulundu-20164376/",
-              "date": "2026-08-21",
-              "sentiment": "neutral",
-              "reason": "Raportim neutral i gjetjeve të varreve masive dhe armëve",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 3,
-          "trend": "neutral",
-          "firstSeen": "2026-08-20",
-          "lastSeen": "2026-08-21"
-        },
-        {
-          "name": "TRT World",
-          "sentiment": "neutral",
-          "articleCount": 2,
-          "articles": [
-            {
-              "title": "Will justice ever be served for Kosovo war victims? - TRT World",
-              "albanianTitle": "A do të vihet ndonjëherë drejtësia në vend për viktimat e luftës në Kosovë? - TRT World",
-              "blurb": "Viktima të luftës në Kosovë kërkojnë drejtësi për krimet e kryera gjatë konfliktit të armatosur në vend.",
-              "imageUrl": null,
-              "url": "https://www.trtworld.com/video/tv/shows/683ef3c9cff794df564280c5/play/79c92cb03c09",
-              "date": "2026-08-21",
-              "sentiment": "neutral",
-              "reason": "Faktikisht pyetje pa ngarkim gjuhësor",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Kosovo still searching for loved ones three decades after the war - TRT World",
-              "albanianTitle": "Kosova ende në kërkim të më të dashurve të tyre tri dekada pas luftës - TRT World",
-              "blurb": "Familjarët në Kosovë vazhdojnë kërkimet për të pagjeturit e luftës edhe tri dekada pas përfundimit të konfliktit të armatosur.",
-              "imageUrl": null,
-              "url": "https://www.trtworld.com/video/tv/shows/683ef3c9cff794df564280c5/play/4f7f32df896b",
-              "date": "2026-08-21",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 2,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-21",
-          "lastSeen": "2026-08-21"
         },
         {
           "name": "Yeni Asır",
@@ -1753,7 +1128,7 @@
         {
           "name": "İlkses Gazetesi",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 1,
           "articles": [
             {
               "title": "İzmir ile Kosova arasında yeni iş birlikleri için temaslar yoğunlaşıyor - İlkses Gazetesi",
@@ -1764,19 +1139,6 @@
               "date": "2026-08-22",
               "sentiment": "neutral",
               "reason": "Titulli përshkruan bashkëpunim të ri me Kosovën pa gjuhë ngarkuar",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Başkan Tugay’ın Kosova temaslarında ekonomi ve kültür öne çıktı - İlkses Gazetesi",
-              "albanianTitle": "Ekonomia dhe kultura në fokus të vizitës së kryetarit Tugay në Kosovë - İlkses Gazetesi",
-              "blurb": "Kryetari Tugay gjatë vizitës në Kosovë ka zhvilluar takime ku në fokus kanë qenë bashkëpunimi ekonomik dhe shkëmbimet kulturore.",
-              "imageUrl": "https://ilkses.com.tr/image/2026/08/21/baskan-tugay-in-kosova-temaslarinda-ekonomi-ve-kultur-one-cikti_large.webp",
-              "url": "https://ilkses.com.tr/izmir/baskan-tugay-in-kosova-temaslarinda-ekonomi-ve-kultur-one-cikti-457652",
-              "date": "2026-08-21",
-              "sentiment": "neutral",
-              "reason": "Haber nesnel olarak raporlanıyor",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1814,21 +1176,8 @@
         {
           "name": "İzmir Büyükşehir Belediyesi",
           "sentiment": "positive",
-          "articleCount": 2,
+          "articleCount": 1,
           "articles": [
-            {
-              "title": "Haberler | Başkan Tugay Kosova’da: İzmir ile Kosova arasında çok yönlü iş birliği dönemi - İzmir Büyükşehir Belediyesi",
-              "albanianTitle": "Kryetari Tugay në Kosovë: Fillon epoka e bashkëpunimit shumëdimensional mes Izmirit dhe Kosovës",
-              "blurb": "Kryetari i Bashkisë së Izmirit, Tugay, po qëndron në Kosovë për të diskutuar rreth bashkëpunimit shumëplanësh mes dy palëve.",
-              "imageUrl": "https://www.izmir.bel.tr/YuklenenDosyalar/Haberler/Kucuk/21082026_85315_0.jpeg",
-              "url": "https://www.izmir.bel.tr/tr/Haberler/baskan-tugay-kosova-da-izmir-ile-kosova-arasinda-cok-yonlu-is-birligi-donemi/59212/156",
-              "date": "2026-08-21",
-              "sentiment": "positive",
-              "reason": "Headline highlights multifaceted cooperation between Izmir and Kosovo",
-              "isQuote": false,
-              "evidence": "çok yönlü iş birliği",
-              "speaker": ""
-            },
             {
               "title": "Haberler | Başkan Tugay, Kosova'da yeni iş birliklerinin kapısını araladı - İzmir Büyükşehir Belediyesi",
               "albanianTitle": "Kryetari Tugay hap rrugën për bashkëpunime të reja në Kosovë",
@@ -1874,14 +1223,22 @@
         }
       ],
       "summary": {
-        "index": 57,
-        "positive": 19,
-        "neutral": 76,
-        "negative": 5,
-        "n": 21,
+        "index": 61,
+        "positive": 22,
+        "neutral": 78,
+        "negative": 0,
+        "n": 9,
         "excluded": 0,
         "confident": true,
-        "stanceVersion": 3
+        "stanceVersion": 3,
+        "movement": {
+          "delta": 4,
+          "from": 57,
+          "outlet": "İzmir Büyükşehir Belediyesi",
+          "title": "Kryetari Tugay hap rrugën për bashkëpunime të reja në Kosovë",
+          "evidence": "yeni iş birliklerinin kapısını araladı",
+          "url": "https://www.izmir.bel.tr/tr/Haberler/baskan-tugay-kosovada-yeni-is-birliklerinin-kapisini-araladi/59218/156"
+        }
       }
     },
     "Kroaci": {
