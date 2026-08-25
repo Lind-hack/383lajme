@@ -1445,10 +1445,11 @@ header[data-overlay] .nav-coin-chip {
   .tregu-headchip { display: none; }
 }
 .tregu-mbar-inner {
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
-  justify-content: space-between;
-  gap: 10px;
+  column-gap: 12px;
+  row-gap: 5px;
   max-width: 1160px;
   margin: 0 auto;
   padding: 9px 16px;
@@ -1490,15 +1491,21 @@ header[data-overlay] .nav-coin-chip {
 .tregu-mbar-actions {
   display: flex;
   align-items: center;
-  gap: 8px;
+  justify-content: flex-end;
   flex-shrink: 0;
 }
 .tregu-mbar-msg {
+  grid-column: 1 / -1;
+  justify-self: end;
+  min-width: 0;
+  max-width: 100%;
   font-size: 12px;
   font-weight: 800;
   color: var(--tg-yes);
   font-variant-numeric: tabular-nums;
-  white-space: nowrap;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+  text-align: right;
   animation: tregu-msg-in 240ms var(--ease-out);
 }
 .tregu-mbar-bonus {
@@ -2308,9 +2315,9 @@ header[data-overlay] .nav-coin-chip {
     grid-template-columns: 1fr;
     gap: 20px;
   }
-  /* Tape moves above the proposition on small screens so the
-     headline probability stays the first thing seen. */
-  .tregu-feature-chart { order: -1; }
+  /* On phones the market question leads. The chart remains supporting
+     evidence instead of pushing the proposition below the fold. */
+  .tregu-feature-chart { order: initial; }
   .tregu-feature-tape { min-height: 90px; }
   .tregu-feature-empty { min-height: 90px; }
 }

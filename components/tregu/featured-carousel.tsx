@@ -101,19 +101,36 @@ function Slide({ market, active }: { market: MiniMarket; active: boolean }) {
 
           {structured ? (
             <div className="tregu-feature-outcome-rack">
-              {chartSeries.map((outcome) => (
-                <Link
-                  key={outcome.key}
-                  href={`/tregu/${market.slug}?rezultati=${encodeURIComponent(outcome.key)}`}
-                  tabIndex={active ? 0 : -1}
-                  style={{ ["--outcome-color" as string]: outcome.color }}
-                  aria-label={`${outcome.label}, ${(outcome.current * 100).toFixed(1)} për qind`}
-                >
-                  <em>{outcome.label}</em>
-                  <strong>{(outcome.current * 100).toFixed(1)}%</strong>
-                  <small>×{outcome.current > 0 ? (1 / outcome.current).toFixed(2) : "-"}</small>
-                </Link>
-              ))}
+              {chartSeries.map((outcome, index) => {
+                const sourceOutcome = market.sportOutcomes?.[index];
+                return (
+                  <Link
+                    key={outcome.key}
+                    href={`/tregu/${market.slug}?rezultati=${encodeURIComponent(outcome.key)}`}
+                    tabIndex={active ? 0 : -1}
+                    style={{ ["--outcome-color" as string]: outcome.color }}
+                    aria-label={`${outcome.label}, ${(outcome.current * 100).toFixed(1)} për qind`}
+                  >
+                    <span className="tregu-native-outcome-name">
+                      {sourceOutcome?.logo ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img
+                          src={sourceOutcome.logo}
+                          alt=""
+                          aria-hidden
+                          loading="lazy"
+                          referrerPolicy="no-referrer"
+                        />
+                      ) : (
+                        <i aria-hidden style={{ background: outcome.color }} />
+                      )}
+                      <em>{outcome.label}</em>
+                    </span>
+                    <strong>{(outcome.current * 100).toFixed(1)}%</strong>
+                    <small>×{outcome.current > 0 ? (1 / outcome.current).toFixed(2) : "-"}</small>
+                  </Link>
+                );
+              })}
             </div>
           ) : (
             <div className="tregu-sides" style={{ marginTop: "auto" }}>

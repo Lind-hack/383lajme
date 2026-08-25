@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type MouseEvent, type ReactNode } from "react";
 import Link from "next/link";
 
 // Cinematic rotation (Pexels, free license): the cities the platform speaks
@@ -219,6 +219,16 @@ function AnimatedHeading({ text, initialDelay = 200 }: { text: string; initialDe
 }
 
 export default function VideoHero({ loggedIn }: { loggedIn: boolean }) {
+  const scrollToMarkets = (event: MouseEvent<HTMLAnchorElement>) => {
+    const floor = document.getElementById("tregjet");
+    if (!floor) return;
+    event.preventDefault();
+    floor.scrollIntoView({
+      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+      block: "start",
+    });
+  };
+
   return (
     // 72/80dvh instead of full viewport: the hero teases, the floor delivers.
     // min-height floors keep small phones (SE) and short laptop windows honest.
@@ -257,7 +267,11 @@ export default function VideoHero({ loggedIn }: { loggedIn: boolean }) {
               {/* Matte orange with real material depth: a near-invisible
                   vertical shade, an inset top highlight like brushed metal,
                   and a tinted drop shadow — no gloss, no shimmer. */}
-              <a href="#tregjet" className="hero-cta-material inline-flex items-center rounded-full px-7 py-3 text-lg md:text-xl lg:text-2xl font-light text-white min-h-[44px]">
+              <a
+                href="#tregjet"
+                className="hero-cta-material inline-flex items-center rounded-full px-7 py-3 text-lg md:text-xl lg:text-2xl font-light text-white min-h-[44px]"
+                onClick={scrollToMarkets}
+              >
                 Lexo. Parashiko. Fito.
               </a>
             </Reveal>

@@ -72,7 +72,6 @@ export default function MobileAccountBar({
         </Link>
 
         <div className="tregu-mbar-actions">
-          {bonusMsg && <span className="tregu-mbar-msg">{bonusMsg}</span>}
           <button
             onClick={onClaim}
             disabled={claiming}
@@ -82,6 +81,11 @@ export default function MobileAccountBar({
             {claiming ? "..." : "Bonusi ditor"}
           </button>
         </div>
+        {bonusMsg && (
+          <span className="tregu-mbar-msg" role="status" aria-live="polite">
+            {bonusMsg}
+          </span>
+        )}
       </div>
     </div>
   );
