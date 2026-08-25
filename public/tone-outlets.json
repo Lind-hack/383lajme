@@ -2,9 +2,9 @@
   "lastUpdated": "2026-08-25",
   "overallIndex": 54,
   "totalArticles": 62,
-  "sourceCount": 56,
+  "sourceCount": 57,
   "stanceVersion": 3,
-  "unattributed": 150,
+  "unattributed": 153,
   "nonEditorial": 11,
   "wrongKosovo": 0,
   "countries": {
@@ -578,13 +578,13 @@
           "articles": [
             {
               "title": "La mucca partorisce di notte - Osservatorio Balcani Caucaso Transeuropa",
-              "albanianTitle": "Lopa pjell gjatë natës - Osservatorio Balcani Caucaso Transeuropa",
-              "blurb": "Një rrëfim mbi jetën dhe sfidat e përditshme në zonat rurale të Ballkanit përmes pasqyrimit të ngjarjeve të thjeshta jetësore.",
+              "albanianTitle": "Lopa pjell gjatë natës",
+              "blurb": "Një lopë ka lindur gjatë orëve të natës, sipas raportimit të publikuar nga Observatori Ballkanik dhe Kaukazit Transeuropa.",
               "imageUrl": "https://www.balcanicaucaso.org/wp-content/uploads/sites/8/2026/08/La-mucca-partorisce-di-notte-evento-14-settembre-2026.jpg",
               "url": "https://www.balcanicaucaso.org/event/la-mucca-partorisce-di-notte/",
               "date": "2026-08-25",
               "sentiment": "unknown",
-              "reason": "Nuk ka referencë për Kosovën në titull",
+              "reason": "Titulli nuk përmban asnjë referencë për Kosovën",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1470,14 +1470,39 @@
       }
     },
     "Poloni": {
-      "outlets": [],
+      "outlets": [
+        {
+          "name": "gostyn24.pl",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Zderzenie tuż przed przejazdem kolejowym. Sprawca pojechał do szpitala na badania - gostyn24.pl",
+              "albanianTitle": "Aksident para vendkalimit hekurudhor, shkaktari dërgohet në spital për kontrolle",
+              "blurb": "Një aksident trafiku ka ndodhur para kalimit hekurudhor, ndërsa shkaktari është dërguar në spital për kontrolle mjekësore pas përplasjes.",
+              "imageUrl": "https://gostyn24.pl/pl/image-meta/news/97529.jpg?v=20260825180926",
+              "url": "https://gostyn24.pl/pl/473_na-sygnale/97529_zderzenie-tuz-przed-torami-kolejowymi-sprawca-pojechal-do-szpitala-na-badania.html",
+              "date": "2026-08-25",
+              "sentiment": "unknown",
+              "reason": "Nuk përmendet Kosova në titull, s’mund të përcaktohet qëndrimi",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-25",
+          "lastSeen": "2026-08-25"
+        }
+      ],
       "summary": {
         "index": null,
         "positive": 0,
         "neutral": 0,
         "negative": 0,
         "n": 0,
-        "excluded": 0,
+        "excluded": 1,
         "confident": false,
         "stanceVersion": 3
       }

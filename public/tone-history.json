@@ -2858,7 +2858,7 @@
     "date": "2026-08-25",
     "overallIndex": 54,
     "totalArticles": 62,
-    "sourceCount": 56,
+    "sourceCount": 57,
     "stanceVersion": 3,
     "countries": {
       "Gjermani": {
@@ -3011,7 +3011,7 @@
         "neutral": 0,
         "negative": 0,
         "n": 0,
-        "excluded": 0,
+        "excluded": 1,
         "confident": false,
         "stanceVersion": 3
       },
@@ -3075,6 +3075,14 @@
         "country": "SHBA",
         "flag": "🇺🇸",
         "url": "https://www.cdm.me/english/kosovo-must-become-a-state-of-its-serbs-too/",
+        "sentiment": "negative"
+      },
+      {
+        "title": "Kosovo : jouer à la guerre, jouer à la paix (tragicomédie dangereuse) - Le Courrier des Balkans",
+        "source": "Le Courrier des Balkans",
+        "country": "Francë",
+        "flag": "🇫🇷",
+        "url": "https://www.courrierdesbalkans.fr/kosovo-jouer-a-la-paix-jouer-a-la-guerre-69437/",
         "sentiment": "negative"
       }
     ]
