@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { EASE, DUR } from "@/lib/tokens";
@@ -68,29 +69,39 @@ export default function GradientCta() {
           Lajmet kryesore ndërkombëtare, të filtruar dhe analizuar çdo ditë.
         </p>
 
-        <motion.button
+        {/* This was a <motion.button> with no onClick and no href: it animated
+            on hover, so it read as the primary call to action on the homepage,
+            and did nothing at all when pressed. An anchor also means it can be
+            middle-clicked, opened in a new tab, and followed by a crawler. */}
+        <motion.div
           whileHover={{ scale: 1.05, boxShadow: "0 8px 32px rgba(0,0,0,0.2)" }}
           whileTap={{ scale: 0.98 }}
           transition={{ duration: DUR.base, ease: EASE }}
-          style={{
-            background: "#FFFFFF",
-            color: "#FF4422",
-            border: "none",
-            borderRadius: "100px",
-            padding: "16px 40px",
-            fontSize: "14px",
-            fontWeight: 800,
-            letterSpacing: "0.06em",
-            textTransform: "uppercase",
-            cursor: "pointer",
-            fontFamily: "inherit",
-            display: "inline-flex",
-            alignItems: "center",
-            gap: "8px",
-          }}
+          style={{ display: "inline-flex", borderRadius: "100px" }}
         >
-          Regjistrohu <ArrowRight size={14} strokeWidth={2.5} />
-        </motion.button>
+          <Link
+            href="/hyr?tab=regjistrohu"
+            style={{
+              background: "#FFFFFF",
+              color: "#FF4422",
+              border: "none",
+              borderRadius: "100px",
+              padding: "16px 40px",
+              fontSize: "14px",
+              fontWeight: 800,
+              letterSpacing: "0.06em",
+              textTransform: "uppercase",
+              cursor: "pointer",
+              fontFamily: "inherit",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "8px",
+              textDecoration: "none",
+            }}
+          >
+            Regjistrohu <ArrowRight size={14} strokeWidth={2.5} />
+          </Link>
+        </motion.div>
       </motion.div>
     </section>
   );
