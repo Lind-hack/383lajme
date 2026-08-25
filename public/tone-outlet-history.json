@@ -165,17 +165,18 @@
     },
     "FIGC": {
       "country": "Itali",
-      "total": 3,
+      "total": 4,
       "positive": 0,
       "neutral": 1,
       "negative": 0,
-      "unknown": 2,
+      "unknown": 3,
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-24",
+      "lastSeen": "2026-08-25",
       "urls": [
         "https://www.figc.it/it/nazionali/news/giochi-del-mediterraneo-la-spedizione-azzurra-arriva-a-taranto-per-sfilare-alla-cerimonia-di-apertura-hpfgneix",
         "https://www.figc.it/it/nazionali/news/giochi-del-mediterraneo-esordio-a-senso-unico-per-le-azzurrine-4-1-al-kosovo-qvcvhv0q",
-        "https://www.figc.it/it/nazionali/news/giochi-del-mediterraneo-che-battaglia-a-brindisi-azzurrini-ko-3-1-con-lalgeria-bldoae25"
+        "https://www.figc.it/it/nazionali/news/giochi-del-mediterraneo-che-battaglia-a-brindisi-azzurrini-ko-3-1-con-lalgeria-bldoae25",
+        "https://www.figc.it/it/nazionali/news/giochi-del-mediterraneo-azzurrine-fermate-sull1-1-dalla-slovenia-hylf1s5e"
       ]
     },
     "ANSA": {
@@ -1595,6 +1596,19 @@
       "lastSeen": "2026-08-25",
       "urls": [
         "https://www.lemanbleu.ch/fr/Actualites/Geneve/A-Geneve-une-marche-pour-les-victimes-de-disparitions-forcees.html"
+      ]
+    },
+    "Fotomaç": {
+      "country": "Turqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-25",
+      "lastSeen": "2026-08-25",
+      "urls": [
+        "https://www.fotomac.com.tr/voleybol/2026/08/25/filenin-efeleri-akdeniz-oyunlarinda-dolu-dizgin-2de-2-yaptik"
       ]
     }
   }

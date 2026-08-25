@@ -1,11 +1,11 @@
 {
   "lastUpdated": "2026-08-25",
   "overallIndex": 54,
-  "totalArticles": 63,
-  "sourceCount": 58,
+  "totalArticles": 65,
+  "sourceCount": 59,
   "stanceVersion": 3,
-  "unattributed": 164,
-  "nonEditorial": 11,
+  "unattributed": 171,
+  "nonEditorial": 12,
   "wrongKosovo": 0,
   "countries": {
     "Gjermani": {
@@ -316,18 +316,18 @@
         },
         {
           "name": "Corriere di Taranto",
-          "sentiment": "unknown",
+          "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
               "title": "Italia-Kosovo, domani cambia la viabilità allo Iacovone - Corriere di Taranto",
-              "albanianTitle": "Itali-Kosovë, nesër ndryshon qarkullimi rrugor te Iacovone - Corriere di Taranto",
-              "blurb": "Autoritetet në Taranto kanë njoftuar ndryshime në trafikun rrugor për shkak të ndeshjes së futbollit ndërmjet Italisë dhe Kosovës.",
+              "albanianTitle": "Itali-Kosovë, nesër ndryshon qarkullimi rrugor te stadiumi Iacovone",
+              "blurb": "Ndryshon qarkullimi rrugor përreth stadiumit Iacovone në Itali për shkak të ndeshjes së futbollit ndërmjet Italisë dhe Kosovës.",
               "imageUrl": null,
               "url": "https://www.corriereditaranto.it/2026/08/25/italia-kosovo-domani-cambia-la-viabilita-allo-iacovone/",
               "date": "2026-08-25",
-              "sentiment": "unknown",
-              "reason": "Lajm i raportuar në mënyrë faktike",
+              "sentiment": "neutral",
+              "reason": "Lajm i thjeshtë për ndryshimin e trafikut, pa gjuhë me ngarkesë",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -378,7 +378,7 @@
         {
           "name": "FIGC",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 3,
           "articles": [
             {
               "title": "Giochi del Mediterraneo, esordio a senso unico per le Azzurrine: 4-1 al Kosovo - FIGC",
@@ -405,12 +405,25 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Giochi del Mediterraneo, Azzurrine fermate sull’1-1 dalla Slovenia - FIGC",
+              "albanianTitle": "Lojërat Mesdhetare, italianet ndalen në barazim 1-1 nga Sllovenia",
+              "blurb": "Përfaqësuesja e Italisë në futboll për femra barazoi 1-1 ndaj Sllovenisë në Lojërat Mesdhetare.",
+              "imageUrl": "https://images.figc.it/view/acePublic/alias/contentid/1tcyb046phqz1l0xzv9/0/68ea18b7-c3e3-465b-8ee3-a50cb3c1f816-jpg.jpg?f=187%3A100",
+              "url": "https://www.figc.it/it/nazionali/news/giochi-del-mediterraneo-azzurrine-fermate-sull1-1-dalla-slovenia-hylf1s5e",
+              "date": "2026-08-25",
+              "sentiment": "unknown",
+              "reason": "Headline does not mention Kosovo, stance cannot be inferred",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 3,
+          "totalArticles": 4,
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-08-20",
-          "lastSeen": "2026-08-24"
+          "lastSeen": "2026-08-25"
         },
         {
           "name": "Fijlkam",
@@ -578,13 +591,13 @@
           "articles": [
             {
               "title": "La mucca partorisce di notte - Osservatorio Balcani Caucaso Transeuropa",
-              "albanianTitle": "Lopa pjell gjatë natës - Osservatorio Balcani Caucaso Transeuropa",
-              "blurb": "Ngjarja për lindjen e një lope gjatë natës është pasqyruar në një raportim nga Osservatorio Balcani Caucaso Transeuropa.",
+              "albanianTitle": "Lopa pjell gjatë natës",
+              "blurb": "Një lopë sjell në jetë viçin gjatë orëve të natës, ngjarje e përshkruar në publikimin e Osservatorio Balcani Caucaso Transeuropa.",
               "imageUrl": "https://www.balcanicaucaso.org/wp-content/uploads/sites/8/2026/08/La-mucca-partorisce-di-notte-evento-14-settembre-2026.jpg",
               "url": "https://www.balcanicaucaso.org/event/la-mucca-partorisce-di-notte/",
               "date": "2026-08-25",
               "sentiment": "unknown",
-              "reason": "No mention of Kosovo, cannot infer outlet's stance",
+              "reason": "Titulli nuk përmend Kosovën, nuk mund të përcaktohet qëndrimi",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -843,7 +856,7 @@
         "positive": 0,
         "neutral": 96,
         "negative": 4,
-        "n": 24,
+        "n": 25,
         "excluded": 5,
         "confident": true,
         "stanceVersion": 3
@@ -1582,6 +1595,30 @@
           "lastSeen": "2026-08-24"
         },
         {
+          "name": "Fotomaç",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Türkiye Kosova voleybol maçı sonucu: Filenin Efeleri 3-2 kazandı - Fotomaç",
+              "albanianTitle": "Rezultati i ndeshjes së volejbollit Turqi - Kosovë: Turqia fiton 3-2",
+              "blurb": "Turqia fitoi ndeshjen e volejbollit kundër Kosovës me rezultat 3-2 pas një loje të zhvilluar.",
+              "imageUrl": "https://iaftm.tmgrup.com.tr/34634a/1200/675/0/0/1280/720?u=https://iftm.tmgrup.com.tr/2026/08/25/filenin-efeleri-akdeniz-oyunlarinda-dolu-dizgin-2de-2-yaptik-1787673285340.png",
+              "url": "https://www.fotomac.com.tr/voleybol/2026/08/25/filenin-efeleri-akdeniz-oyunlarinda-dolu-dizgin-2de-2-yaptik",
+              "date": "2026-08-25",
+              "sentiment": "neutral",
+              "reason": "Match result reported factually",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-25",
+          "lastSeen": "2026-08-25"
+        },
+        {
           "name": "Haber Ege",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1775,11 +1812,11 @@
         }
       ],
       "summary": {
-        "index": 60,
-        "positive": 20,
-        "neutral": 80,
+        "index": 59,
+        "positive": 18,
+        "neutral": 82,
         "negative": 0,
-        "n": 10,
+        "n": 11,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
