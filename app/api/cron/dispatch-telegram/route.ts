@@ -3,6 +3,7 @@ import { automationSecret, isAutomationAuthorized } from "@/lib/tregu-automation
 import { createAdminClient } from "@/lib/supabase/admin";
 import {
   renderCaption,
+  replyMarkup,
   selectCandidates,
   MAX_AGE_HOURS,
 } from "@/lib/telegram-dispatch.mjs";
@@ -141,6 +142,9 @@ export async function GET(request: NextRequest) {
 
     const caption = renderCaption(article);
     const image = absoluteImage(article.imageUrl);
+    // Every send path carries the button, including the text fallback: a photo
+    // that Telegram cannot fetch should not silently cost the post its CTA.
+    const markup = replyMarkup(article);
 
     let response: TelegramResponse | null = null;
     if (image) {
@@ -149,6 +153,7 @@ export async function GET(request: NextRequest) {
         photo: image,
         caption,
         parse_mode: "HTML",
+        reply_markup: markup,
       });
       if (!response.ok) {
         // Remote hosts sometimes block Telegram's fetcher; the text message
@@ -158,6 +163,7 @@ export async function GET(request: NextRequest) {
           text: caption,
           parse_mode: "HTML",
           link_preview_options: { prefer_large_media: true },
+          reply_markup: markup,
         });
       }
     } else {
@@ -166,6 +172,7 @@ export async function GET(request: NextRequest) {
         text: caption,
         parse_mode: "HTML",
         link_preview_options: { prefer_large_media: true },
+        reply_markup: markup,
       });
     }
 
