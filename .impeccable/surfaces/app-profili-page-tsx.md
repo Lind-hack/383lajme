@@ -21,7 +21,7 @@ Identity and current public state → persistent saved reading → 383 Coin bala
 
 ## FIRST VIEWPORT
 
-Show the member identity, email, membership context, public anonymity state, and a compact sticky route to the four tasks. Saved reading starts immediately below. On mobile, identity stacks cleanly and every operational target remains at least 44px.
+On desktop, show member identity, membership context, public anonymity state, and the four task routes in a persistent left rail while saved reading leads the adjacent workspace. Each route previews its current state so the account model is understandable before clicking. On mobile, identity compresses above a horizontally scrollable sticky task route; saved reading follows immediately and every operational target remains at least 44px.
 
 ## FORM
 
@@ -35,3 +35,4 @@ Seed: the incumbent `origin/main:app/profili/page.tsx` identity card, `component
 - Permanent deletion requires the exact typed confirmation `FSHIJE` and remains at the bottom of the page.
 - Balance history uses ledger-step semantics because the balance holds between transactions.
 - Portfolio hierarchy is total value first, subordinate facts second; avoid equal metric tiles.
+- Profile task links preserve spatial continuity with smooth anchor travel for pointer and touch input, an active-section state, and instant navigation for keyboard or reduced-motion users.

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { type MouseEvent, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ArrowRight, Bookmark, BookOpen, Check, ChevronRight, Coins, LogOut, Pencil, ShieldCheck, Trash2, UserRound } from "lucide-react";
@@ -23,6 +23,8 @@ const TX_LABELS: Record<string, string> = {
 
 const MONTHS = ["janar", "shkurt", "mars", "prill", "maj", "qershor", "korrik", "gusht", "shtator", "tetor", "nëntor", "dhjetor"];
 const SHORT_MONTHS = ["jan", "shk", "mar", "pri", "maj", "qer", "kor", "gush", "sht", "tet", "nën", "dhj"];
+const PROFILE_SECTIONS = ["te-ruajtura", "tregu", "privatesia", "llogaria"] as const;
+type ProfileSection = typeof PROFILE_SECTIONS[number];
 
 function formatDate(value: string | null, short = false) {
   if (!value) return "Nuk ka të dhëna";
@@ -71,6 +73,7 @@ export default function ProfileHub({ identity, savedArticles: initialSaved, treg
   const [deleteBusy, setDeleteBusy] = useState(false);
   const [signOutBusy, setSignOutBusy] = useState(false);
   const [dangerMessage, setDangerMessage] = useState<string | null>(null);
+  const [activeSection, setActiveSection] = useState<ProfileSection>("te-ruajtura");
 
   useEffect(() => {
     let localIds: string[] = [];
@@ -104,6 +107,25 @@ export default function ProfileHub({ identity, savedArticles: initialSaved, treg
       if (articles.length) setSavedArticles((current) => [...articles, ...current]);
     });
   }, [initialSaved]);
+
+  useEffect(() => {
+    const sections = PROFILE_SECTIONS
+      .map((id) => document.getElementById(id))
+      .filter((section): section is HTMLElement => section !== null);
+    if (!sections.length) return;
+
+    const observer = new IntersectionObserver((entries) => {
+      const visible = entries
+        .filter((entry) => entry.isIntersecting)
+        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (visible && PROFILE_SECTIONS.includes(visible.target.id as ProfileSection)) {
+        setActiveSection(visible.target.id as ProfileSection);
+      }
+    }, { rootMargin: "-18% 0px -60% 0px", threshold: [0, .2, .5, 1] });
+
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, []);
 
   const balanceChange = useMemo(() => tregu.coins - (tregu.history[0]?.coins ?? tregu.coins), [tregu]);
 
@@ -162,18 +184,42 @@ export default function ProfileHub({ identity, savedArticles: initialSaved, treg
     }
   }
 
+  function navigateToSection(event: MouseEvent<HTMLAnchorElement>, sectionId: ProfileSection) {
+    if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    const section = document.getElementById(sectionId);
+    if (!section) return;
+    event.preventDefault();
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const keyboardActivated = event.detail === 0;
+    setActiveSection(sectionId);
+    window.history.replaceState(null, "", `#${sectionId}`);
+    section.scrollIntoView({
+      behavior: reduceMotion || keyboardActivated ? "auto" : "smooth",
+      block: "start",
+    });
+  }
+
   return <main className={styles.page}><div className={styles.shell}>
-    <header className={styles.identity}>
-      <div className={styles.avatar} aria-hidden>{identity.initials}</div>
-      <div className={styles.identityCopy}><h1>{identity.fullName || displayName}</h1><p>{identity.email}</p><div className={styles.identityMeta}><span>Anëtar që nga {formatDate(identity.joinedAt)}</span><span>Hyrja e fundit {formatDate(identity.lastSignInAt, true)}</span></div></div>
-      <div className={styles.profileState} data-anonymous={anonymous}><ShieldCheck size={18} aria-hidden /><div><strong>{anonymous ? "Profili publik është anonim" : "Profili publik përdor emrin tënd"}</strong><span>Ti vazhdon ta shohësh aktivitetin tënd normalisht.</span></div></div>
-    </header>
+    <aside className={styles.accountRail} aria-label="Përmbledhja e profilit">
+      <header className={styles.identity}>
+        <div className={styles.avatar} aria-hidden>{identity.initials}</div>
+        <div className={styles.identityCopy}><h1>{identity.fullName || displayName}</h1><p>{identity.email}</p><div className={styles.identityMeta}><span>Anëtar që nga {formatDate(identity.joinedAt)}</span><span>Hyrja e fundit {formatDate(identity.lastSignInAt, true)}</span></div></div>
+      </header>
 
-    <nav className={styles.sectionNav} aria-label="Seksionet e profilit"><a href="#te-ruajtura"><Bookmark size={16} aria-hidden /> Të ruajtura</a><a href="#tregu"><Coins size={16} aria-hidden /> Tregu</a><a href="#privatesia"><ShieldCheck size={16} aria-hidden /> Privatësia</a><a href="#llogaria"><UserRound size={16} aria-hidden /> Llogaria</a></nav>
+      <div className={styles.profileState} data-anonymous={anonymous}><ShieldCheck size={18} aria-hidden /><div><strong>{anonymous ? "Në publik je Anonim" : `Në publik je ${displayName}`}</strong><span>Vetëm ti e sheh këtë pasqyrë të plotë.</span></div></div>
 
-    <section id="te-ruajtura" className={styles.section}>
+      <nav className={styles.sectionNav} aria-label="Seksionet e profilit">
+        <a href="#te-ruajtura" data-active={activeSection === "te-ruajtura"} aria-current={activeSection === "te-ruajtura" ? "location" : undefined} onClick={(event) => navigateToSection(event, "te-ruajtura")}><Bookmark size={17} aria-hidden /><span><strong>Të ruajtura</strong><small>{savedArticles.length ? `${savedArticles.length} artikuj` : "Rafti yt i leximit"}</small></span><ChevronRight size={15} aria-hidden /></a>
+        <a href="#tregu" data-active={activeSection === "tregu"} aria-current={activeSection === "tregu" ? "location" : undefined} onClick={(event) => navigateToSection(event, "tregu")}><Coins size={17} aria-hidden /><span><strong>Tregu</strong><small>{formatCoins(tregu.coins)} 383C</small></span><ChevronRight size={15} aria-hidden /></a>
+        <a href="#privatesia" data-active={activeSection === "privatesia"} aria-current={activeSection === "privatesia" ? "location" : undefined} onClick={(event) => navigateToSection(event, "privatesia")}><ShieldCheck size={17} aria-hidden /><span><strong>Privatësia</strong><small>{anonymous ? "Anonim" : "Emër publik"}</small></span><ChevronRight size={15} aria-hidden /></a>
+        <a href="#llogaria" data-active={activeSection === "llogaria"} aria-current={activeSection === "llogaria" ? "location" : undefined} onClick={(event) => navigateToSection(event, "llogaria")}><UserRound size={17} aria-hidden /><span><strong>Llogaria</strong><small>Qasja dhe siguria</small></span><ChevronRight size={15} aria-hidden /></a>
+      </nav>
+    </aside>
+
+    <div className={styles.workspace}>
+    <section id="te-ruajtura" className={`${styles.section} ${styles.savedSection}`}>
       <div className={styles.sectionHeading}><div><h2>Leximi yt i ruajtur</h2><p>Artikujt që ruan mbeten këtu derisa t&apos;i heqësh vetë.</p></div><span className={styles.count}>{savedArticles.length} artikuj</span></div>
-      {dataUnavailable.savedArticles ? <div className={styles.dataError} role="status"><strong>Të ruajturat nuk mund të ngarkoheshin.</strong><span>Asgjë nuk është humbur. Rifresko faqen për të provuar përsëri.</span></div> : !savedArticles.length ? <div className={styles.emptyState}><BookOpen size={28} aria-hidden /><div><strong>Nuk ke ruajtur ende asnjë artikull.</strong><p>Përdor butonin “Ruaj artikullin” gjatë leximit.</p></div><Link href="/">Shfleto lajmet <ArrowRight size={15} aria-hidden /></Link></div> :
+      {dataUnavailable.savedArticles ? <div className={styles.dataError} role="status"><strong>Të ruajturat nuk mund të ngarkoheshin.</strong><span>Asgjë nuk është humbur. Rifresko faqen për të provuar përsëri.</span></div> : !savedArticles.length ? <div className={styles.emptyState}><div className={styles.emptyCopy}><span className={styles.emptyIcon}><BookOpen size={24} aria-hidden /></span><strong>Ndërto raftin tënd të lajmeve.</strong><p>Kur një artikull ia vlen t&apos;i rikthehesh, shtyp “Ruaj artikullin”. Ai do të presë këtu, në çdo pajisje ku hyn.</p><Link href="/">Gjej artikullin e parë <ArrowRight size={15} aria-hidden /></Link></div><div className={styles.emptyPreview} aria-hidden><span className={styles.previewMasthead}>383.</span><span className={styles.previewImage} /><span className={styles.previewLine} /><span className={styles.previewLine} /><span className={styles.previewBookmark}><Bookmark size={19} fill="currentColor" /></span><small>Ruaje. Lexoje kur të duash.</small></div></div> :
         <div className={styles.savedLayout}>{savedArticles.map((article, index) => <article key={article.articleId} className={index === 0 ? styles.savedLead : styles.savedRow}>{article.imageUrl ? <img src={article.imageUrl} alt="" loading="lazy" referrerPolicy="no-referrer" /> : <div className={styles.imageFallback}>383</div>}<div className={styles.savedCopy}><span>{article.category || article.source}</span><h3><Link href={`/article/${article.slug}`}>{article.title}</Link></h3>{index === 0 && article.excerpt && <p>{article.excerpt}</p>}<div className={styles.savedActions}><Link href={`/article/${article.slug}`}>Lexo artikullin <ChevronRight size={14} aria-hidden /></Link><button type="button" onClick={() => void removeSaved(article.articleId)} disabled={removeBusy === article.articleId}>{removeBusy === article.articleId ? "Po hiqet..." : "Hiqe"}</button></div></div></article>)}</div>}
       {savedMessage && <p className={styles.inlineError} role="status">{savedMessage}</p>}
     </section>
@@ -194,5 +240,6 @@ export default function ProfileHub({ identity, savedArticles: initialSaved, treg
 
     <section id="llogaria" className={styles.accountSection}><div className={styles.accountInfo}><h2>Llogaria dhe qasja</h2><dl><div><dt>Emaili</dt><dd>{identity.email}</dd></div><div><dt>Mënyra e hyrjes</dt><dd>{identity.provider === "google" ? "Google" : "Email"}</dd></div><div><dt>Privatësia</dt><dd><Link href="/privatesia">Lexo politikën</Link></dd></div></dl></div>
       <div className={styles.dangerZone}><h2>Zona e rrezikut</h2><p>Dil nga kjo pajisje ose fshije përgjithmonë llogarinë dhe të dhënat e lidhura me të.</p><div className={styles.dangerActions}><button type="button" className={styles.signOut} disabled={signOutBusy} onClick={() => void signOut()}><LogOut size={16} aria-hidden /> {signOutBusy ? "Po del..." : "Dil nga llogaria"}</button><button type="button" className={styles.deleteTrigger} onClick={() => setDeleteOpen((open) => !open)}><Trash2 size={16} aria-hidden /> Fshi llogarinë</button></div>{deleteOpen && <div className={styles.deleteConfirm}><label htmlFor="delete-confirm">Shkruaj <strong>FSHIJE</strong> për ta konfirmuar.</label><div><input id="delete-confirm" value={deleteText} onChange={(event) => setDeleteText(event.target.value)} autoComplete="off" /><button type="button" onClick={() => void deleteAccount()} disabled={deleteBusy || deleteText.trim().toUpperCase() !== "FSHIJE"}>{deleteBusy ? "Po fshihet..." : "Fshije përgjithmonë"}</button></div></div>}{dangerMessage && <p className={styles.settingsError} role="alert">{dangerMessage}</p>}</div></section>
+    </div>
   </div></main>;
 }
