@@ -2857,8 +2857,8 @@
   {
     "date": "2026-08-25",
     "overallIndex": 54,
-    "totalArticles": 62,
-    "sourceCount": 57,
+    "totalArticles": 63,
+    "sourceCount": 58,
     "stanceVersion": 3,
     "countries": {
       "Gjermani": {
@@ -2938,11 +2938,11 @@
         }
       },
       "Zvicër": {
-        "index": 75,
-        "positive": 50,
-        "neutral": 50,
+        "index": 67,
+        "positive": 33,
+        "neutral": 67,
         "negative": 0,
-        "n": 2,
+        "n": 3,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3

@@ -1,10 +1,10 @@
 {
   "lastUpdated": "2026-08-25",
   "overallIndex": 54,
-  "totalArticles": 62,
-  "sourceCount": 57,
+  "totalArticles": 63,
+  "sourceCount": 58,
   "stanceVersion": 3,
-  "unattributed": 153,
+  "unattributed": 164,
   "nonEditorial": 11,
   "wrongKosovo": 0,
   "countries": {
@@ -578,13 +578,13 @@
           "articles": [
             {
               "title": "La mucca partorisce di notte - Osservatorio Balcani Caucaso Transeuropa",
-              "albanianTitle": "Lopa pjell gjatë natës",
-              "blurb": "Një lopë ka lindur gjatë orëve të natës, sipas raportimit të publikuar nga Observatori Ballkanik dhe Kaukazit Transeuropa.",
+              "albanianTitle": "Lopa pjell gjatë natës - Osservatorio Balcani Caucaso Transeuropa",
+              "blurb": "Ngjarja për lindjen e një lope gjatë natës është pasqyruar në një raportim nga Osservatorio Balcani Caucaso Transeuropa.",
               "imageUrl": "https://www.balcanicaucaso.org/wp-content/uploads/sites/8/2026/08/La-mucca-partorisce-di-notte-evento-14-settembre-2026.jpg",
               "url": "https://www.balcanicaucaso.org/event/la-mucca-partorisce-di-notte/",
               "date": "2026-08-25",
               "sentiment": "unknown",
-              "reason": "Titulli nuk përmban asnjë referencë për Kosovën",
+              "reason": "No mention of Kosovo, cannot infer outlet's stance",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1042,6 +1042,30 @@
           "lastSeen": "2026-08-22"
         },
         {
+          "name": "Leman bleu",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "À Genève, une marche pour les victimes de disparitions forcées - Leman bleu",
+              "albanianTitle": "Në Gjenevë mbahet marsh për viktimat e zhdukjeve me forcë",
+              "blurb": "Në Gjenevë është mbajtur një marshim përkujtimor për të nderuar viktimat e zhdukjeve me forcë gjatë konflikteve të ndryshme.",
+              "imageUrl": null,
+              "url": "https://www.lemanbleu.ch/fr/Actualites/Geneve/A-Geneve-une-marche-pour-les-victimes-de-disparitions-forcees.html",
+              "date": "2026-08-25",
+              "sentiment": "neutral",
+              "reason": "Factual report of a march for victims of forced disappearances",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-25",
+          "lastSeen": "2026-08-25"
+        },
+        {
           "name": "Republik",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1067,11 +1091,11 @@
         }
       ],
       "summary": {
-        "index": 75,
-        "positive": 50,
-        "neutral": 50,
+        "index": 67,
+        "positive": 33,
+        "neutral": 67,
         "negative": 0,
-        "n": 2,
+        "n": 3,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3

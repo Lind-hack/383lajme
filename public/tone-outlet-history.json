@@ -1583,6 +1583,19 @@
       "urls": [
         "https://gostyn24.pl/pl/473_na-sygnale/97529_zderzenie-tuz-przed-torami-kolejowymi-sprawca-pojechal-do-szpitala-na-badania.html"
       ]
+    },
+    "Leman bleu": {
+      "country": "Zvicër",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-25",
+      "lastSeen": "2026-08-25",
+      "urls": [
+        "https://www.lemanbleu.ch/fr/Actualites/Geneve/A-Geneve-une-marche-pour-les-victimes-de-disparitions-forcees.html"
+      ]
     }
   }
 }
