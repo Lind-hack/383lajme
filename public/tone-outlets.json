@@ -1,10 +1,10 @@
 {
   "lastUpdated": "2026-08-25",
   "overallIndex": 56,
-  "totalArticles": 42,
-  "sourceCount": 39,
+  "totalArticles": 44,
+  "sourceCount": 41,
   "stanceVersion": 3,
-  "unattributed": 122,
+  "unattributed": 126,
   "nonEditorial": 11,
   "wrongKosovo": 0,
   "countries": {
@@ -138,23 +138,36 @@
         {
           "name": "ANSA",
           "sentiment": "unknown",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Nei Balcani Macedonia del Nord, Bosnia e Serbia in preda agli incendi - ANSA",
-              "albanianTitle": "Ballkani në flakë: Maqedonia e Veriut, Bosnja dhe Serbia përballen me zjarre masive",
-              "blurb": "Maqedonia e Veriut, Bosnja e Hercegovina dhe Serbia po përballen me vatra të shumta të zjarreve në territore të ndryshme.",
+              "albanianTitle": "Në Ballkan, Maqedonia e Veriut, Bosnja dhe Serbia nën flakët e zjarreve",
+              "blurb": "Zjarret kanë përfshirë Maqedoninë e Veriut, Bosnjën dhe Serbinë, duke shkaktuar situatë të vështirë në këto shtete të rajonit.",
               "imageUrl": "https://www.ansa.it/webimages/img_1280x720/2024/1/24/b750e7a3a277325035bcd0f60cdaafb2.jpg",
               "url": "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/08/24/nei-balcani-macedonia-del-nord-bosnia-e-serbia-in-preda-agli-incendi_12f9ffd9-6f15-4ffb-982e-a4b1c86da15e.html",
               "date": "2026-08-24",
               "sentiment": "unknown",
-              "reason": "No mention of Kosovo, cannot infer outlet stance",
+              "reason": "Nuk ka referencë për Kosovën në titull",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Balkans, North Macedonia, Bosnia, and Serbia gripped by wildfires - ANSA",
+              "albanianTitle": "Ballkani, Maqedonia e Veriut, Bosnja dhe Serbia të përfshira nga zjarret",
+              "blurb": "Maqedonia e Veriut, Bosnja e Hercegovina dhe Serbia po përballen me zjarre të mëdha që kanë përfshirë këto vende ballkanike.",
+              "imageUrl": "https://www.ansa.it/webimages/img_1280x720/2024/1/24/b750e7a3a277325035bcd0f60cdaafb2.jpg",
+              "url": "https://www.ansa.it/nuova_europa/en/news/countries/kosovo/2026/08/24/balkans-north-macedonia-bosnia-and-serbia-gripped-by-wildfires_72bbad1c-7f2a-4d8c-b5a4-4e1b2accea77.html",
+              "date": "2026-08-24",
+              "sentiment": "unknown",
+              "reason": "Nuk ka informacione për Kosovën në tekst",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
             }
           ],
-          "totalArticles": 4,
+          "totalArticles": 5,
           "trend": "neutral",
           "firstSeen": "2026-08-20",
           "lastSeen": "2026-08-24"
@@ -203,13 +216,13 @@
             },
             {
               "title": "Giochi del Mediterraneo, che battaglia a Brindisi: Azzurrini ko 3-1 con l’Algeria - FIGC",
-              "albanianTitle": "Lojërat Mesdhetare, betejë e ashpër në Brindisi: Azzurrini mposhten 3-1 nga Algjeria",
-              "blurb": "Përfaqësuesja e Italisë U21 është mposhtur me rezultat 3-1 nga Algjeria në ndeshjen e zhvilluar në kuadër të Lojërave Mesdhetare.",
+              "albanianTitle": "Lojërat Mesdhetare, betejë në Brindisi: Azzurrini mposhten 3-1 nga Algjeria",
+              "blurb": "Ekipi i Italisë është mposhtur nga Algjeria me rezultat 3-1 në ndeshjen e zhvilluar në Brindisi për Lojërat Mesdhetare.",
               "imageUrl": "https://images.figc.it/view/acePublic/alias/contentid/1tc6mvx4wrxhm40ehq6/0/26495864-826f-4d7b-9ebc-506efe5de3f0-jpg.jpg?f=187%3A100",
               "url": "https://www.figc.it/it/nazionali/news/giochi-del-mediterraneo-che-battaglia-a-brindisi-azzurrini-ko-3-1-con-lalgeria-bldoae25",
               "date": "2026-08-24",
               "sentiment": "unknown",
-              "reason": "Artikulli nuk ka lidhje me Kosovën",
+              "reason": "Nuk ka referencë për Kosovën në titull",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -280,6 +293,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-08-22",
           "lastSeen": "2026-08-22"
+        },
+        {
+          "name": "La Gazzetta dello Sport",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "La giovanissima Italia cade con l'Algeria: ora serve battere il Kosovo per le semifinali - La Gazzetta dello Sport",
+              "albanianTitle": "Italia e re mposhtet nga Algjeria: tani duhet fitorja ndaj Kosovës për gjysmëfinale",
+              "blurb": "Italia ka pësuar humbje nga Algjeria dhe tani duhet të mposhtë Kosovën për të siguruar kualifikimin në gjysmëfinale.",
+              "imageUrl": "https://dimages2.gazzettaobjects.it/files/og_thumbnail/files/fp/uploads/2026/08/25/6a8d23268066e.r_d.634-600-0.jpeg",
+              "url": "https://www.gazzetta.it/Calcio/nazionali/25-08-2026/giochi-del-mediterraneo-italia-algeria-partita-risultato.shtml",
+              "date": "2026-08-25",
+              "sentiment": "neutral",
+              "reason": "Thjesht raporton nevojën për të fituar kundër Kosovës",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-25",
+          "lastSeen": "2026-08-25"
         },
         {
           "name": "Newsrimini",
@@ -529,8 +566,8 @@
         "positive": 0,
         "neutral": 94,
         "negative": 6,
-        "n": 17,
-        "excluded": 2,
+        "n": 18,
+        "excluded": 3,
         "confident": true,
         "stanceVersion": 3
       }
@@ -860,6 +897,30 @@
     "Greqi": {
       "outlets": [
         {
+          "name": "Skai.gr",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Ένταση στο Κόσοβο για το άνοιγμα μιας γέφυρας - Skai.gr",
+              "albanianTitle": "Tensione në Kosovë për hapjen e një ure",
+              "blurb": "Situata në Kosovë është tensionuar për shkak të planit për hapjen e një ure për qarkullim të automjeteve.",
+              "imageUrl": "https://cdn.skai.gr/sites/default/files/styles/article_16_9/public/feedelio/mitsovica-bridge.jpg?itok=QJp9iyTJ",
+              "url": "https://www.skai.gr/index.php/news/world/entasi-sto-kosovo-gia-to-anoigma-mias-gefyras",
+              "date": "2026-08-22",
+              "sentiment": "neutral",
+              "reason": "Raportim faktik i tensionit në Kosovë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 2,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-21",
+          "lastSeen": "2026-08-22"
+        },
+        {
           "name": "dete.gr",
           "sentiment": "unknown",
           "articleCount": 1,
@@ -959,16 +1020,16 @@
         }
       ],
       "summary": {
-        "index": 88,
-        "positive": 75,
-        "neutral": 25,
+        "index": 80,
+        "positive": 60,
+        "neutral": 40,
         "negative": 0,
-        "n": 4,
+        "n": 5,
         "excluded": 1,
-        "confident": false,
+        "confident": true,
         "stanceVersion": 3,
         "movement": {
-          "delta": 26,
+          "delta": 18,
           "from": 62,
           "outlet": "sport-fm.gr",
           "title": "Përmbysje dhe fitore në ndeshjen e parë të Lojërave Mesdhetare për kombëtaren e hendbollit të femrave",

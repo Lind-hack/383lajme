@@ -2857,8 +2857,8 @@
   {
     "date": "2026-08-25",
     "overallIndex": 56,
-    "totalArticles": 42,
-    "sourceCount": 39,
+    "totalArticles": 44,
+    "sourceCount": 41,
     "stanceVersion": 3,
     "countries": {
       "Gjermani": {
@@ -2906,8 +2906,8 @@
         "positive": 0,
         "neutral": 94,
         "negative": 6,
-        "n": 17,
-        "excluded": 2,
+        "n": 18,
+        "excluded": 3,
         "confident": true,
         "stanceVersion": 3
       },
@@ -2962,16 +2962,16 @@
         "stanceVersion": 3
       },
       "Greqi": {
-        "index": 88,
-        "positive": 75,
-        "neutral": 25,
+        "index": 80,
+        "positive": 60,
+        "neutral": 40,
         "negative": 0,
-        "n": 4,
+        "n": 5,
         "excluded": 1,
-        "confident": false,
+        "confident": true,
         "stanceVersion": 3,
         "movement": {
-          "delta": 26,
+          "delta": 18,
           "from": 62,
           "outlet": "sport-fm.gr",
           "title": "Përmbysje dhe fitore në ndeshjen e parë të Lojërave Mesdhetare për kombëtaren e hendbollit të femrave",
