@@ -1,10 +1,10 @@
 {
   "lastUpdated": "2026-08-25",
-  "overallIndex": 55,
-  "totalArticles": 51,
-  "sourceCount": 46,
+  "overallIndex": 54,
+  "totalArticles": 56,
+  "sourceCount": 50,
   "stanceVersion": 3,
-  "unattributed": 142,
+  "unattributed": 149,
   "nonEditorial": 11,
   "wrongKosovo": 0,
   "countries": {
@@ -57,6 +57,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-08-24",
           "lastSeen": "2026-08-24"
+        },
+        {
+          "name": "Rundschau Online",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Flughafen Köln/Bonn: Mann mit Haftbefehl bei Ausreise in den Kosovo gestoppt - Rundschau Online",
+              "albanianTitle": "Aeroporti i Këlnit/Bonit: Arrestohet personi në kërkim gjatë tentativës për të udhëtuar drejt Kosovës",
+              "blurb": "Policia gjermane në aeroportin e Këlnit ka ndaluar një person me urdhër-arresti gjatë tentimit për të udhëtuar drejt Kosovës.",
+              "imageUrl": "https://static.rundschau-online.de/__images/2026/08/24/e563d448-50aa-4060-a701-5264e18e0ecc.jpeg?w=1200&h=630&fm=jpg&fit=crop&crop=faces,entropy&s=eca8beb2a19a87d11e71ae93a01e02c9",
+              "url": "https://www.rundschau-online.de/koeln/blaulicht-koeln/flughafen-koeln-bonn-mann-mit-haftbefehl-bei-ausreise-in-kosovo-gestoppt-1356272",
+              "date": "2026-08-24",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim pa ngarkim",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-25",
+          "lastSeen": "2026-08-24"
         }
       ],
       "summary": {
@@ -64,7 +88,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 2,
+        "n": 3,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -121,19 +145,43 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-08-20",
           "lastSeen": "2026-08-24"
+        },
+        {
+          "name": "Midi Libre",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Un podium pour le jeune haltérophile Thomas Alcaraz au Kosovo - Midi Libre",
+              "albanianTitle": "Peshëngritësi i ri Thomas Alcaraz fiton medalje në Kosovë",
+              "blurb": "Peshëngritësi i ri, Thomas Alcaraz, ka arritur të sigurojë një vend në podium gjatë garave të zhvilluara në Kosovë.",
+              "imageUrl": "https://images.midilibre.fr/api/v1/images/view/6a8d095108a09af3460eb424/hd/image.jpg?v=1",
+              "url": "https://www.midilibre.fr/2026/08/25/un-podium-pour-le-jeune-halterophile-thomas-alcaraz-au-kosovo-13521784.php",
+              "date": "2026-08-25",
+              "sentiment": "neutral",
+              "reason": "Raportim i thjeshtë i arritjes sportive",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-25",
+          "lastSeen": "2026-08-25"
         }
       ],
       "summary": {
-        "index": 0,
+        "index": 25,
         "positive": 0,
-        "neutral": 0,
-        "negative": 100,
-        "n": 1,
+        "neutral": 50,
+        "negative": 50,
+        "n": 2,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3,
         "movement": {
-          "delta": -100,
+          "delta": -75,
           "from": 100,
           "outlet": "Le Courrier des Balkans",
           "title": "Kosova: Lojërat me luftën dhe paqen (një tragjikomedi e rrezikshme)",
@@ -188,13 +236,13 @@
             },
             {
               "title": "Balkans, North Macedonia, Bosnia, and Serbia gripped by wildfires - ANSA",
-              "albanianTitle": "Ballkani, Maqedonia e Veriut, Bosnja dhe Serbia të përfshira nga zjarret",
-              "blurb": "Zjarret masive kanë përfshirë rajonin e Ballkanit, duke prekur veçanërisht Maqedoninë e Veriut, Bosnjën dhe Hercegovinën dhe Serbinë.",
+              "albanianTitle": "Ballkani, Maqedonia e Veriut, Bosnja dhe Serbia të përfshira nga zjarret - ANSA",
+              "blurb": "Zjarret e mëdha kanë përfshirë disa shtete të Ballkanit, duke prekur veçanërisht Maqedoninë e Veriut, Bosnjën dhe Serbinë gjatë kësaj periudhe.",
               "imageUrl": "https://www.ansa.it/webimages/img_1280x720/2024/1/24/b750e7a3a277325035bcd0f60cdaafb2.jpg",
               "url": "https://www.ansa.it/nuova_europa/en/news/countries/kosovo/2026/08/24/balkans-north-macedonia-bosnia-and-serbia-gripped-by-wildfires_72bbad1c-7f2a-4d8c-b5a4-4e1b2accea77.html",
               "date": "2026-08-24",
               "sentiment": "unknown",
-              "reason": "Article does not mention Kosovo, stance cannot be inferred",
+              "reason": "No mention of Kosovo in the item",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -204,6 +252,30 @@
           "trend": "neutral",
           "firstSeen": "2026-08-20",
           "lastSeen": "2026-08-24"
+        },
+        {
+          "name": "Buonasera24",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Italia-Kosovo allo Iacovone, cambia la viabilità: strade chiuse dalle 18 - Buonasera24",
+              "albanianTitle": "Ndeshja Itali-Kosovë në stadiumin Iacovone: Ndryshon qarkullimi, rrugët mbyllen nga ora 18:00",
+              "blurb": "Ndeshja futbollistike Itali-Kosovë në stadiumin Iacovone ka sjellë ndryshime në qarkullimin rrugor dhe mbylljen e disa rrugëve nga ora 18:00.",
+              "imageUrl": "https://www.buonasera24.it/resizer/600/315/true/2026_07_30/757186290_1388899979813176_6011170632386578051_n-1785389315617.jpg--italia_kosovo_allo_iacovone__cambia_la_viabilita__strade_chiuse_dalle_18.jpg?1785389315783",
+              "url": "https://www.buonasera24.it/news/cronaca/927313/italia-kosovo-allo-iacovone-cambia-la-viabilita-strade-chiuse-dalle-18.html",
+              "date": "2026-08-25",
+              "sentiment": "neutral",
+              "reason": "Informacion i thjeshtë për ngjarje sportive",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-25",
+          "lastSeen": "2026-08-25"
         },
         {
           "name": "Cronache Tarantine",
@@ -378,7 +450,7 @@
         {
           "name": "OA Sport",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 3,
           "articles": [
             {
               "title": "Pallamano: l’Italia spazza via il Kosovo. Azzurri perfetti nell’esordio ai Giochi del Mediterraneo - OA Sport",
@@ -405,12 +477,25 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Giochi del Mediterraneo 2026, il programma di domani: orari mercoledì 26 agosto, tv, streaming - OA Sport",
+              "albanianTitle": "Lojërat Mesdhetare 2026: Programi i së mërkurës, 26 gusht, oraret dhe transmetimi televiziv",
+              "blurb": "Programi i garave për të mërkurën, 26 gusht, në kuadër të Lojërave Mesdhetare 2026, përfshin oraret dhe transmetimet televizive të planifikuara.",
+              "imageUrl": "https://www.oasport.it/wp-content/uploads/2024/04/13370244_small-e1713882844527.jpg",
+              "url": "https://www.oasport.it/2026/08/giochi-del-mediterraneo-2026-il-programma-di-domani-orari-26-agosto-tv-streaming/",
+              "date": "2026-08-25",
+              "sentiment": "neutral",
+              "reason": "Program i thjeshtë i transmetimit",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 2,
-          "trend": "i pamjaftueshëm",
+          "totalArticles": 3,
+          "trend": "neutral",
           "firstSeen": "2026-08-23",
-          "lastSeen": "2026-08-23"
+          "lastSeen": "2026-08-25"
         },
         {
           "name": "Radio Mugello",
@@ -608,11 +693,11 @@
         }
       ],
       "summary": {
-        "index": 47,
+        "index": 48,
         "positive": 0,
         "neutral": 95,
         "negative": 5,
-        "n": 19,
+        "n": 21,
         "excluded": 3,
         "confident": true,
         "stanceVersion": 3
@@ -967,13 +1052,13 @@
           "articles": [
             {
               "title": "‘Pequeña guerra perfecta’, retorno al nacionalismo sangriento de los noventa en los Balcanes - EL PAÍS",
-              "albanianTitle": "‘Luftë e vogël perfekte’, rikthimi i nacionalizmit të përgjakshëm të viteve '90 në Ballkan",
-              "blurb": "Analiza e gazetës spanjolle trajton rikthimin e nacionalizmit në Ballkan, duke e krahasuar situatën me konfliktet e viteve nëntëdhjetë.",
+              "albanianTitle": "'Luftë e vogël perfekte', rikthimi i nacionalizmit të përgjakshëm të viteve '90 në Ballkan - EL PAÍS",
+              "blurb": "Analiza trajton rikthimin e nacionalizmit në rajonin e Ballkanit, duke e krahasuar situatën aktuale me konfliktet e përgjakshme të viteve nëntëdhjetë.",
               "imageUrl": "https://imagenes.elpais.com/resizer/v2/X4LCAZTPJFA4DKDGA7UI2VFICU.jpeg?auth=4832a7f1f913ca4d003c0b7f3bbbfecff0cb980d8d627fd51fd178a083a6af55&width=1200",
               "url": "https://elpais.com/babelia/2026-08-25/pequena-guerra-perfecta-retorno-al-nacionalismo-sangriento-de-los-noventa-en-los-balcanes.html",
               "date": "2026-08-25",
               "sentiment": "unknown",
-              "reason": "No reference to Kosovo in the item",
+              "reason": "No mention of Kosovo in the item",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1046,6 +1131,30 @@
     },
     "Greqi": {
       "outlets": [
+        {
+          "name": "Gazzetta.gr",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Κόσοβο - Ιρλανδία Live 24-09-2026 | UEFA Nations League - Gazzetta.gr",
+              "albanianTitle": "Kosovë - Irlandë, transmetim direkt më 24-09-2026 në Ligën e Kombeve",
+              "blurb": "Kombëtarja e Kosovës përballet me Irlandën në ndeshjen e vlefshme për Ligën e Kombeve të UEFA-s më 24 shtator 2026.",
+              "imageUrl": "https://www.gazzetta.gr/sites/default/files/shared/gazzetta_share_image.jpg",
+              "url": "https://www.gazzetta.gr/football/uefa-nations-league/live-kosovo-irlandia-24-09-2026",
+              "date": "2026-08-25",
+              "sentiment": "neutral",
+              "reason": "Simple match announcement without loaded language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 3,
+          "trend": "neutral",
+          "firstSeen": "2026-08-19",
+          "lastSeen": "2026-08-25"
+        },
         {
           "name": "Skai.gr",
           "sentiment": "neutral",
@@ -1183,16 +1292,16 @@
         }
       ],
       "summary": {
-        "index": 75,
-        "positive": 50,
-        "neutral": 50,
+        "index": 71,
+        "positive": 43,
+        "neutral": 57,
         "negative": 0,
-        "n": 6,
+        "n": 7,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 3,
         "movement": {
-          "delta": 13,
+          "delta": 9,
           "from": 62,
           "outlet": "sport-fm.gr",
           "title": "Përmbysje dhe fitore në ndeshjen e parë të Lojërave Mesdhetare për kombëtaren e hendbollit të femrave",

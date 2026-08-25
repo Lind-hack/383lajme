@@ -2856,9 +2856,9 @@
   },
   {
     "date": "2026-08-25",
-    "overallIndex": 55,
-    "totalArticles": 51,
-    "sourceCount": 46,
+    "overallIndex": 54,
+    "totalArticles": 56,
+    "sourceCount": 50,
     "stanceVersion": 3,
     "countries": {
       "Gjermani": {
@@ -2866,7 +2866,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 2,
+        "n": 3,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -2892,16 +2892,16 @@
         "stanceVersion": 3
       },
       "Francë": {
-        "index": 0,
+        "index": 25,
         "positive": 0,
-        "neutral": 0,
-        "negative": 100,
-        "n": 1,
+        "neutral": 50,
+        "negative": 50,
+        "n": 2,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3,
         "movement": {
-          "delta": -100,
+          "delta": -75,
           "from": 100,
           "outlet": "Le Courrier des Balkans",
           "title": "Kosova: Lojërat me luftën dhe paqen (një tragjikomedi e rrezikshme)",
@@ -2910,11 +2910,11 @@
         }
       },
       "Itali": {
-        "index": 47,
+        "index": 48,
         "positive": 0,
         "neutral": 95,
         "negative": 5,
-        "n": 19,
+        "n": 21,
         "excluded": 3,
         "confident": true,
         "stanceVersion": 3
@@ -2978,16 +2978,16 @@
         "stanceVersion": 3
       },
       "Greqi": {
-        "index": 75,
-        "positive": 50,
-        "neutral": 50,
+        "index": 71,
+        "positive": 43,
+        "neutral": 57,
         "negative": 0,
-        "n": 6,
+        "n": 7,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 3,
         "movement": {
-          "delta": 13,
+          "delta": 9,
           "from": 62,
           "outlet": "sport-fm.gr",
           "title": "Përmbysje dhe fitore në ndeshjen e parë të Lojërave Mesdhetare për kombëtaren e hendbollit të femrave",
@@ -3078,11 +3078,19 @@
         "sentiment": "negative"
       },
       {
-        "title": "Kosovo : jouer à la guerre, jouer à la paix (tragicomédie dangereuse) - Le Courrier des Balkans",
-        "source": "Le Courrier des Balkans",
-        "country": "Francë",
-        "flag": "🇫🇷",
-        "url": "https://www.courrierdesbalkans.fr/kosovo-jouer-a-la-paix-jouer-a-la-guerre-69437/",
+        "title": "Kosovo must become a state of its Serbs, too - CdM",
+        "source": "CdM",
+        "country": "SHBA",
+        "flag": "🇺🇸",
+        "url": "https://www.cdm.me/english/kosovo-must-become-a-state-of-its-serbs-too/",
+        "sentiment": "negative"
+      },
+      {
+        "title": "Giochi del Mediterraneo: calcio femminile, le Azzurrine schiantano il Kosovo 4-1, gli highlights su SportfaceTV - Sportface.it",
+        "source": "Sportface.it",
+        "country": "Itali",
+        "flag": "🇮🇹",
+        "url": "https://www.sportface.it/giochi-del-mediterraneo-taranto-2026/giochi-del-mediterraneo-calcio-femminile-le-azzurrine-schiantano-il-kosovo-4-1-gli-highlights-su-sportfacetv/2826868",
         "sentiment": "negative"
       }
     ]
