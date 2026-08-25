@@ -2857,8 +2857,8 @@
   {
     "date": "2026-08-25",
     "overallIndex": 56,
-    "totalArticles": 44,
-    "sourceCount": 41,
+    "totalArticles": 48,
+    "sourceCount": 44,
     "stanceVersion": 3,
     "countries": {
       "Gjermani": {
@@ -2912,14 +2912,22 @@
         "stanceVersion": 3
       },
       "Austri": {
-        "index": 50,
-        "positive": 0,
-        "neutral": 100,
+        "index": 60,
+        "positive": 20,
+        "neutral": 80,
         "negative": 0,
-        "n": 2,
+        "n": 5,
         "excluded": 0,
-        "confident": false,
-        "stanceVersion": 3
+        "confident": true,
+        "stanceVersion": 3,
+        "movement": {
+          "delta": 10,
+          "from": 50,
+          "outlet": "heute.at",
+          "title": "Ish-trajneri i Austrisë, Franco Foda, refuzoi oferta milionëshe për të qëndruar te Kosova",
+          "evidence": "Bleibt beim Kosovo",
+          "url": "https://www.heute.at/s/ex-oefb-coach-foda-lehnte-millionen-angebot-ab-120242843"
+        }
       },
       "Zvicër": {
         "index": 75,
@@ -2962,16 +2970,16 @@
         "stanceVersion": 3
       },
       "Greqi": {
-        "index": 80,
-        "positive": 60,
-        "neutral": 40,
+        "index": 75,
+        "positive": 50,
+        "neutral": 50,
         "negative": 0,
-        "n": 5,
+        "n": 6,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 3,
         "movement": {
-          "delta": 18,
+          "delta": 13,
           "from": 62,
           "outlet": "sport-fm.gr",
           "title": "Përmbysje dhe fitore në ndeshjen e parë të Lojërave Mesdhetare për kombëtaren e hendbollit të femrave",
@@ -3030,19 +3038,19 @@
     },
     "headlines": [
       {
+        "title": "Bleibt beim Kosovo – Ex-ÖFB-Coach Foda lehnte Millionen-Angebot ab - heute.at",
+        "source": "heute.at",
+        "country": "Gjermani",
+        "flag": "🇩🇪",
+        "url": "https://www.heute.at/s/ex-oefb-coach-foda-lehnte-millionen-angebot-ab-120242843",
+        "sentiment": "positive"
+      },
+      {
         "title": "Kosovo-Schweizer Hajdari und Avdullahu siegen mit Hoffenheim klar - Blick",
         "source": "Blick",
         "country": "Zvicër",
         "flag": "🇨🇭",
         "url": "https://www.blick.ch/sport/fussball/international/dfb-pokal/leverkusen-locker-weiter-augsburg-mueht-sich-in-die-zweite-pokal-runde-id22202590.html",
-        "sentiment": "positive"
-      },
-      {
-        "title": "JM 2026 : les Lioncelles décrochent un précieux nul face au Portugal - lopinion.ma",
-        "source": "lopinion.ma",
-        "country": "Belgjikë",
-        "flag": "🇧🇪",
-        "url": "https://lopinion.ma/fr/sport/newsroom/jm-2026--les-lioncelles-decrochent-un-precieux-nul-face-au-portugal_a22886?articleId=4125af99-f88e-4b2b-ac18-1b9dbcd0ddf0",
         "sentiment": "positive"
       },
       {
@@ -3059,14 +3067,6 @@
         "country": "Gjermani",
         "flag": "🇩🇪",
         "url": "https://reporteri.net/fr/nouvelles/L%27alliance-jette-de-l%27huile-sur-le-feu-au-gouvernement-%3A-Ramadan-Kurti-plonge-le-Kosovo-dans-les-t%C3%A9n%C3%A8bres-politiques./",
-        "sentiment": "negative"
-      },
-      {
-        "title": "Tahiri për dy vjetët e Qeverisë Kurti: Varfëri dhe dobësim të Kosovës - Reporteri",
-        "source": "Reporteri",
-        "country": "Belgjikë",
-        "flag": "🇧🇪",
-        "url": "https://reporteri.net/fr/nouvelles/Tahiri-sur-les-deux-ann%C3%A9es-du-gouvernement-Kurti--la-pauvret%C3%A9-et-la-faiblesse-du-Kosovo/",
         "sentiment": "negative"
       }
     ]

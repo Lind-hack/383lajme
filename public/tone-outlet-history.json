@@ -636,13 +636,13 @@
     },
     "sport-fm.gr": {
       "country": "Greqi",
-      "total": 7,
+      "total": 8,
       "positive": 1,
-      "neutral": 5,
+      "neutral": 6,
       "negative": 0,
       "unknown": 1,
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-24",
+      "lastSeen": "2026-08-25",
       "urls": [
         "https://www.sport-fm.gr/article/amp/mesogeiakoi-agwnes-agriemeni-stin-premiera-tis-i-ethniki-andrwn-sarwse-to-kosobo-amp/5142502",
         "https://www.sport-fm.gr/article/amp/ellada-kosobo-3-0-set-amp/5142590",
@@ -650,7 +650,8 @@
         "https://www.sport-fm.gr/article/4891906",
         "https://www.sport-fm.gr/article/amp/ellada-kosobo-31-25-amp/5142968",
         "https://www.sport-fm.gr/article/amp/Live-ellada-kosobo-amp/4237404",
-        "https://www.sport-fm.gr/article/amp/ellada-kosobo-40-20-amp/5143343"
+        "https://www.sport-fm.gr/article/amp/ellada-kosobo-40-20-amp/5143343",
+        "https://www.sport-fm.gr/article/4133262"
       ]
     },
     "In.gr": {
@@ -1405,6 +1406,45 @@
       "lastSeen": "2026-08-25",
       "urls": [
         "https://www.gazzetta.it/Calcio/nazionali/25-08-2026/giochi-del-mediterraneo-italia-algeria-partita-risultato.shtml"
+      ]
+    },
+    "LAOLA1": {
+      "country": "Austri",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-25",
+      "lastSeen": "2026-08-25",
+      "urls": [
+        "https://www.laola1.at/de/red/fussball/euro-2028/news/praesident--franco-foda-verzichtete-fuer-kosovo-auf-millionen/"
+      ]
+    },
+    "heute.at": {
+      "country": "Austri",
+      "total": 1,
+      "positive": 1,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-25",
+      "lastSeen": "2026-08-25",
+      "urls": [
+        "https://www.heute.at/s/ex-oefb-coach-foda-lehnte-millionen-angebot-ab-120242843"
+      ]
+    },
+    "Kronen Zeitung": {
+      "country": "Austri",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-25",
+      "lastSeen": "2026-08-25",
+      "urls": [
+        "https://www.krone.at/4268829"
       ]
     }
   }

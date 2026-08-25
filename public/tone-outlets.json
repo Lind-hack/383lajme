@@ -1,10 +1,10 @@
 {
   "lastUpdated": "2026-08-25",
   "overallIndex": 56,
-  "totalArticles": 44,
-  "sourceCount": 41,
+  "totalArticles": 48,
+  "sourceCount": 44,
   "stanceVersion": 3,
-  "unattributed": 126,
+  "unattributed": 136,
   "nonEditorial": 11,
   "wrongKosovo": 0,
   "countries": {
@@ -155,13 +155,13 @@
             },
             {
               "title": "Balkans, North Macedonia, Bosnia, and Serbia gripped by wildfires - ANSA",
-              "albanianTitle": "Ballkani, Maqedonia e Veriut, Bosnja dhe Serbia të përfshira nga zjarret",
-              "blurb": "Maqedonia e Veriut, Bosnja e Hercegovina dhe Serbia po përballen me zjarre të mëdha që kanë përfshirë këto vende ballkanike.",
+              "albanianTitle": "Ballkani, Maqedonia e Veriut, Bosnja dhe Serbia të përfshira nga zjarret - ANSA",
+              "blurb": "Zjarret kanë përfshirë disa shtete të Ballkanit, duke përfshirë Maqedoninë e Veriut, Bosnjën dhe Serbinë gjatë kësaj periudhe.",
               "imageUrl": "https://www.ansa.it/webimages/img_1280x720/2024/1/24/b750e7a3a277325035bcd0f60cdaafb2.jpg",
               "url": "https://www.ansa.it/nuova_europa/en/news/countries/kosovo/2026/08/24/balkans-north-macedonia-bosnia-and-serbia-gripped-by-wildfires_72bbad1c-7f2a-4d8c-b5a4-4e1b2accea77.html",
               "date": "2026-08-24",
               "sentiment": "unknown",
-              "reason": "Nuk ka informacione për Kosovën në tekst",
+              "reason": "Item does not mention Kosovo, so outlet stance cannot be determined",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -216,13 +216,13 @@
             },
             {
               "title": "Giochi del Mediterraneo, che battaglia a Brindisi: Azzurrini ko 3-1 con l’Algeria - FIGC",
-              "albanianTitle": "Lojërat Mesdhetare, betejë në Brindisi: Azzurrini mposhten 3-1 nga Algjeria",
-              "blurb": "Ekipi i Italisë është mposhtur nga Algjeria me rezultat 3-1 në ndeshjen e zhvilluar në Brindisi për Lojërat Mesdhetare.",
+              "albanianTitle": "Lojërat Mesdhetare, betejë në Brindizi: Azzurrini munden 3-1 nga Algjeria - FIGC",
+              "blurb": "Ekipi i Italisë është mposhtur me rezultat 3-1 nga Algjeria në ndeshjen e zhvilluar në kuadër të Lojërave Mesdhetare.",
               "imageUrl": "https://images.figc.it/view/acePublic/alias/contentid/1tc6mvx4wrxhm40ehq6/0/26495864-826f-4d7b-9ebc-506efe5de3f0-jpg.jpg?f=187%3A100",
               "url": "https://www.figc.it/it/nazionali/news/giochi-del-mediterraneo-che-battaglia-a-brindisi-azzurrini-ko-3-1-con-lalgeria-bldoae25",
               "date": "2026-08-24",
               "sentiment": "unknown",
-              "reason": "Nuk ka referencë për Kosovën në titull",
+              "reason": "Item does not mention Kosovo, so outlet stance cannot be determined",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -575,6 +575,54 @@
     "Austri": {
       "outlets": [
         {
+          "name": "Kronen Zeitung",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Präsident enthüllt: - Ex-ÖFB-Teamchef Franco Foda lehnte Millionen ab - Kronen Zeitung",
+              "albanianTitle": "Presidenti zbulon: Ish-përzgjedhësi i Austrisë, Franco Foda, refuzoi miliona për Kosovën",
+              "blurb": "Presidenti i Federatës së Futbollit të Kosovës ka konfirmuar se Franco Foda ka refuzuar oferta të majme për të qëndruar.",
+              "imageUrl": "https://imgl.krone.at/scaled/4090512/v48e7ad/og_image.jpg",
+              "url": "https://www.krone.at/4268829",
+              "date": "2026-08-25",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportuar pa ngarkim",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-25",
+          "lastSeen": "2026-08-25"
+        },
+        {
+          "name": "LAOLA1",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Franco Foda verzichtete für Kosovo auf Millionen - LAOLA1",
+              "albanianTitle": "Franco Foda hoqi dorë nga miliona euro për t'u bërë trajner i Kosovës",
+              "blurb": "Trajneri i Kosovës, Franco Foda, ka refuzuar oferta financiare milionëshe për të vazhduar punën me përfaqësuesen kosovare.",
+              "imageUrl": "https://www.laola1.at/storage/files/01/a0/38/24-94c8-7215-af12-7a0332bbedeb.1280x720.jpg?v=1",
+              "url": "https://www.laola1.at/de/red/fussball/euro-2028/news/praesident--franco-foda-verzichtete-fuer-kosovo-auf-millionen/",
+              "date": "2026-08-25",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportuar pa ngarkim",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-25",
+          "lastSeen": "2026-08-25"
+        },
+        {
           "name": "Sky Sport Austria",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -597,6 +645,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-08-24",
           "lastSeen": "2026-08-24"
+        },
+        {
+          "name": "heute.at",
+          "sentiment": "positive",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Bleibt beim Kosovo – Ex-ÖFB-Coach Foda lehnte Millionen-Angebot ab - heute.at",
+              "albanianTitle": "Ish-trajneri i Austrisë, Franco Foda, refuzoi oferta milionëshe për të qëndruar te Kosova",
+              "blurb": "Ish-trajneri i Austrisë, Franco Foda, ka vendosur të qëndrojë në krye të Kosovës duke refuzuar oferta të tjera milionëshe.",
+              "imageUrl": "https://heute-at-prod-images.imgix.net/2022/09/04/ea720b41-8a3b-48c6-b930-a32dcb3da389.jpeg?rect=0%2C15%2C3000%2C1687&w=1200&h=630&fit=crop&fm=jpg",
+              "url": "https://www.heute.at/s/ex-oefb-coach-foda-lehnte-millionen-angebot-ab-120242843",
+              "date": "2026-08-25",
+              "sentiment": "positive",
+              "reason": "Titulli përshkruan mbështetjen e Foda për Kosovën në mënyrë pozitive",
+              "isQuote": false,
+              "evidence": "Bleibt beim Kosovo",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-25",
+          "lastSeen": "2026-08-25"
         },
         {
           "name": "kicker",
@@ -624,14 +696,22 @@
         }
       ],
       "summary": {
-        "index": 50,
-        "positive": 0,
-        "neutral": 100,
+        "index": 60,
+        "positive": 20,
+        "neutral": 80,
         "negative": 0,
-        "n": 2,
+        "n": 5,
         "excluded": 0,
-        "confident": false,
-        "stanceVersion": 3
+        "confident": true,
+        "stanceVersion": 3,
+        "movement": {
+          "delta": 10,
+          "from": 50,
+          "outlet": "heute.at",
+          "title": "Ish-trajneri i Austrisë, Franco Foda, refuzoi oferta milionëshe për të qëndruar te Kosova",
+          "evidence": "Bleibt beim Kosovo",
+          "url": "https://www.heute.at/s/ex-oefb-coach-foda-lehnte-millionen-angebot-ab-120242843"
+        }
       }
     },
     "Zvicër": {
@@ -947,7 +1027,7 @@
         {
           "name": "sport-fm.gr",
           "sentiment": "positive",
-          "articleCount": 3,
+          "articleCount": 4,
           "articles": [
             {
               "title": "Ανατροπή και πρεμιέρα με νίκη στους Μεσογειακούς για την Εθνική χάντμπολ γυναικών - sport-fm.gr",
@@ -987,12 +1067,25 @@
               "isQuote": false,
               "evidence": "Συνέχισε με νίκη",
               "speaker": ""
+            },
+            {
+              "title": "Κόσοβο-Σλοβενία - sport-fm.gr",
+              "albanianTitle": "Kosovë - Slloveni",
+              "blurb": "Kombëtarja e Kosovës në futboll zhvillon ndeshjen zyrtare kundër përfaqësueses së Sllovenisë në kuadër të garave ndërkombëtare.",
+              "imageUrl": "https://resources.sport-fm.gr/supersportFM/images/news/20/10/11/123054.jpg?w=880&f=bicubic",
+              "url": "https://www.sport-fm.gr/article/4133262",
+              "date": "2026-08-25",
+              "sentiment": "neutral",
+              "reason": "Simple factual title about Kosovo‑Slovenia, no loaded language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 7,
+          "totalArticles": 8,
           "trend": "i përzier",
           "firstSeen": "2026-08-20",
-          "lastSeen": "2026-08-24"
+          "lastSeen": "2026-08-25"
         },
         {
           "name": "ΤΑ ΝΕΑ",
@@ -1020,16 +1113,16 @@
         }
       ],
       "summary": {
-        "index": 80,
-        "positive": 60,
-        "neutral": 40,
+        "index": 75,
+        "positive": 50,
+        "neutral": 50,
         "negative": 0,
-        "n": 5,
+        "n": 6,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 3,
         "movement": {
-          "delta": 18,
+          "delta": 13,
           "from": 62,
           "outlet": "sport-fm.gr",
           "title": "Përmbysje dhe fitore në ndeshjen e parë të Lojërave Mesdhetare për kombëtaren e hendbollit të femrave",
