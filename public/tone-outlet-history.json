@@ -83,16 +83,17 @@
     },
     "Le Courrier des Balkans": {
       "country": "Francë",
-      "total": 2,
+      "total": 3,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 1,
       "unknown": 0,
       "firstSeen": "2026-08-20",
       "lastSeen": "2026-08-24",
       "urls": [
         "https://www.courrierdesbalkans.fr/detourner-libar-nouvelle-arme-de-vucic-contre-le-kosovo-98491/",
-        "https://www.courrierdesbalkans.fr/kosovo-jouer-a-la-paix-jouer-a-la-guerre-69437/"
+        "https://www.courrierdesbalkans.fr/kosovo-jouer-a-la-paix-jouer-a-la-guerre-69437/",
+        "https://www.courrierdesbalkans.fr/independance-du-kosovo-le-plan-secret-de-belgrade-8932/"
       ]
     },
     "Le Figaro": {
@@ -136,16 +137,17 @@
     },
     "Osservatorio Balcani Caucaso Transeuropa": {
       "country": "Itali",
-      "total": 2,
+      "total": 3,
       "positive": 0,
       "neutral": 2,
       "negative": 0,
-      "unknown": 0,
+      "unknown": 1,
       "firstSeen": "2026-08-19",
-      "lastSeen": "2026-08-19",
+      "lastSeen": "2026-08-25",
       "urls": [
         "https://www.balcanicaucaso.org/en/cp_article/political-crisis-in-kosovo-no-light-at-the-end-of-the-tunnel/",
-        "https://www.balcanicaucaso.org/cp_article/crisi-politica-in-kosovo-non-ce-luce-alla-fine-del-tunnel/"
+        "https://www.balcanicaucaso.org/cp_article/crisi-politica-in-kosovo-non-ce-luce-alla-fine-del-tunnel/",
+        "https://www.balcanicaucaso.org/event/la-mucca-partorisce-di-notte/"
       ]
     },
     "ilrestodelcarlino.it": {
@@ -1100,15 +1102,16 @@
     },
     "Cronache Tarantine": {
       "country": "Itali",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-23",
-      "lastSeen": "2026-08-23",
+      "lastSeen": "2026-08-25",
       "urls": [
-        "https://www.cronachetarantine.it/index.php/sp/107-taranto-calcio/17587-presentazione-della-squadra-del-taranto-nellintervallo-di-italia-kosovo"
+        "https://www.cronachetarantine.it/index.php/sp/107-taranto-calcio/17587-presentazione-della-squadra-del-taranto-nellintervallo-di-italia-kosovo",
+        "https://www.cronachetarantine.it/index.php/giochi-2026/17627-giochi-italia-kosovo-di-calcio-chiusure-attorno-allo-iacovone-dalle-18"
       ]
     },
     "Studio 100": {
@@ -1501,6 +1504,71 @@
       "lastSeen": "2026-08-25",
       "urls": [
         "https://www.buonasera24.it/news/cronaca/927313/italia-kosovo-allo-iacovone-cambia-la-viabilita-strade-chiuse-dalle-18.html"
+      ]
+    },
+    "Kicker": {
+      "country": "Gjermani",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-25",
+      "lastSeen": "2026-08-25",
+      "urls": [
+        "https://www.kicker.de/kosovo-gegen-aegypten-2026-mittelmeerspiele-5262180/ergebnis"
+      ]
+    },
+    "infodifesa": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-25",
+      "lastSeen": "2026-08-25",
+      "urls": [
+        "https://infodifesa.it/generale-roberto-vergori-comandante-kfor-kosovo-nato/"
+      ]
+    },
+    "TarantoToday": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-25",
+      "lastSeen": "2026-08-25",
+      "urls": [
+        "https://www.tarantotoday.it/attualita/giochi-del-mediterraneo-modifiche-alla-viabilita-per-la-sfida-italia-kosovo-nel-nuovo-stadio-iacovone.html"
+      ]
+    },
+    "Corriere di Taranto": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-08-25",
+      "lastSeen": "2026-08-25",
+      "urls": [
+        "https://www.corriereditaranto.it/2026/08/25/italia-kosovo-domani-cambia-la-viabilita-allo-iacovone/"
+      ]
+    },
+    "A Spor": {
+      "country": "Turqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-25",
+      "lastSeen": "2026-08-25",
+      "urls": [
+        "https://www.aspor.com.tr/voleybol/2026/08/25/erkek-milli-voleybol-takimi-20-akdeniz-oyunlari-2-macinda-kosovayi-3-2-maglup-etti"
       ]
     }
   }

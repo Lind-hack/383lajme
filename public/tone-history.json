@@ -2857,8 +2857,8 @@
   {
     "date": "2026-08-25",
     "overallIndex": 54,
-    "totalArticles": 56,
-    "sourceCount": 50,
+    "totalArticles": 62,
+    "sourceCount": 56,
     "stanceVersion": 3,
     "countries": {
       "Gjermani": {
@@ -2866,7 +2866,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 3,
+        "n": 4,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -2892,16 +2892,16 @@
         "stanceVersion": 3
       },
       "Francë": {
-        "index": 25,
+        "index": 33,
         "positive": 0,
-        "neutral": 50,
-        "negative": 50,
-        "n": 2,
+        "neutral": 67,
+        "negative": 33,
+        "n": 3,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3,
         "movement": {
-          "delta": -75,
+          "delta": -67,
           "from": 100,
           "outlet": "Le Courrier des Balkans",
           "title": "Kosova: Lojërat me luftën dhe paqen (një tragjikomedi e rrezikshme)",
@@ -2912,10 +2912,10 @@
       "Itali": {
         "index": 48,
         "positive": 0,
-        "neutral": 95,
-        "negative": 5,
-        "n": 21,
-        "excluded": 3,
+        "neutral": 96,
+        "negative": 4,
+        "n": 24,
+        "excluded": 5,
         "confident": true,
         "stanceVersion": 3
       },
@@ -3016,22 +3016,14 @@
         "stanceVersion": 3
       },
       "Turqi": {
-        "index": 61,
-        "positive": 22,
-        "neutral": 78,
+        "index": 60,
+        "positive": 20,
+        "neutral": 80,
         "negative": 0,
-        "n": 9,
+        "n": 10,
         "excluded": 0,
         "confident": true,
-        "stanceVersion": 3,
-        "movement": {
-          "delta": 4,
-          "from": 57,
-          "outlet": "İzmir Büyükşehir Belediyesi",
-          "title": "Kryetari Tugay hap rrugën për bashkëpunime të reja në Kosovë",
-          "evidence": "yeni iş birliklerinin kapısını araladı",
-          "url": "https://www.izmir.bel.tr/tr/Haberler/baskan-tugay-kosovada-yeni-is-birliklerinin-kapisini-araladi/59218/156"
-        }
+        "stanceVersion": 3
       },
       "Kroaci": {
         "index": null,
@@ -3045,6 +3037,14 @@
       }
     },
     "headlines": [
+      {
+        "title": "JM 2026 : les Lioncelles décrochent un précieux nul face au Portugal - lopinion.ma",
+        "source": "lopinion.ma",
+        "country": "Francë",
+        "flag": "🇫🇷",
+        "url": "https://lopinion.ma/fr/sport/newsroom/jm-2026--les-lioncelles-decrochent-un-precieux-nul-face-au-portugal_a22886?articleId=4125af99-f88e-4b2b-ac18-1b9dbcd0ddf0",
+        "sentiment": "positive"
+      },
       {
         "title": "Kosovo-Schweizer Hajdari und Avdullahu siegen mit Hoffenheim klar - Blick",
         "source": "Blick",
@@ -3062,14 +3062,6 @@
         "sentiment": "positive"
       },
       {
-        "title": "Haberler | Başkan Tugay, Kosova'da yeni iş birliklerinin kapısını araladı - İzmir Büyükşehir Belediyesi",
-        "source": "İzmir Büyükşehir Belediyesi",
-        "country": "Turqi",
-        "flag": "🇹🇷",
-        "url": "https://www.izmir.bel.tr/tr/Haberler/baskan-tugay-kosovada-yeni-is-birliklerinin-kapisini-araladi/59218/156",
-        "sentiment": "positive"
-      },
-      {
         "title": "Aleanca hedh qymyr para qeverisë, Ramadani: Kurti po e çon Kosovën në terr politik - Reporteri",
         "source": "Reporteri",
         "country": "Gjermani",
@@ -3083,14 +3075,6 @@
         "country": "SHBA",
         "flag": "🇺🇸",
         "url": "https://www.cdm.me/english/kosovo-must-become-a-state-of-its-serbs-too/",
-        "sentiment": "negative"
-      },
-      {
-        "title": "Giochi del Mediterraneo: calcio femminile, le Azzurrine schiantano il Kosovo 4-1, gli highlights su SportfaceTV - Sportface.it",
-        "source": "Sportface.it",
-        "country": "Itali",
-        "flag": "🇮🇹",
-        "url": "https://www.sportface.it/giochi-del-mediterraneo-taranto-2026/giochi-del-mediterraneo-calcio-femminile-le-azzurrine-schiantano-il-kosovo-4-1-gli-highlights-su-sportfacetv/2826868",
         "sentiment": "negative"
       }
     ]

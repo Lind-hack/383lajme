@@ -1,10 +1,10 @@
 {
   "lastUpdated": "2026-08-25",
   "overallIndex": 54,
-  "totalArticles": 56,
-  "sourceCount": 50,
+  "totalArticles": 62,
+  "sourceCount": 56,
   "stanceVersion": 3,
-  "unattributed": 149,
+  "unattributed": 150,
   "nonEditorial": 11,
   "wrongKosovo": 0,
   "countries": {
@@ -33,6 +33,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-08-24",
           "lastSeen": "2026-08-24"
+        },
+        {
+          "name": "Kicker",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Spielereignisse | Kosovo - Ägypten 21:42 | 2. Spieltag | Mittelmeerspiele 2026 - Kicker",
+              "albanianTitle": "Ngjarjet e ndeshjes | Kosovë - Egjipt 21:42 | Xhiroja e 2-të | Lojërat Mesdhetare 2026 - Kicker",
+              "blurb": "Përfaqësuesja e Kosovës në hendboll pësoi humbje me rezultat 21:42 ndaj Egjiptit në kuadër të Lojërave Mesdhetare 2026.",
+              "imageUrl": null,
+              "url": "https://www.kicker.de/kosovo-gegen-aegypten-2026-mittelmeerspiele-5262180/ergebnis",
+              "date": "2026-08-25",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-25",
+          "lastSeen": "2026-08-25"
         },
         {
           "name": "Kölnische Rundschau",
@@ -88,7 +112,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 3,
+        "n": 4,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -125,7 +149,7 @@
         {
           "name": "Le Courrier des Balkans",
           "sentiment": "negative",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Kosovo : jouer à la guerre, jouer à la paix (tragicomédie dangereuse) - Le Courrier des Balkans",
@@ -139,10 +163,23 @@
               "isQuote": false,
               "evidence": "tragicomédie dangereuse",
               "speaker": ""
+            },
+            {
+              "title": "Indépendance du Kosovo : le plan secret de Belgrade - Le Courrier des Balkans",
+              "albanianTitle": "Pavarësia e Kosovës: plani sekret i Beogradit - Le Courrier des Balkans",
+              "blurb": "Beogradi ka hartuar një plan të fshehtë lidhur me çështjen e pavarësisë së Kosovës, sipas raportimeve të fundit mediatike.",
+              "imageUrl": "https://www.courrierdesbalkans.fr/wp-content/uploads/2008/01/Slobodan_Samardzic.jpg",
+              "url": "https://www.courrierdesbalkans.fr/independance-du-kosovo-le-plan-secret-de-belgrade-8932/",
+              "date": "2026-08-24",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 2,
-          "trend": "i pamjaftueshëm",
+          "totalArticles": 3,
+          "trend": "i përzier",
           "firstSeen": "2026-08-20",
           "lastSeen": "2026-08-24"
         },
@@ -172,16 +209,16 @@
         }
       ],
       "summary": {
-        "index": 25,
+        "index": 33,
         "positive": 0,
-        "neutral": 50,
-        "negative": 50,
-        "n": 2,
+        "neutral": 67,
+        "negative": 33,
+        "n": 3,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3,
         "movement": {
-          "delta": -75,
+          "delta": -67,
           "from": 100,
           "outlet": "Le Courrier des Balkans",
           "title": "Kosova: Lojërat me luftën dhe paqen (një tragjikomedi e rrezikshme)",
@@ -278,9 +315,33 @@
           "lastSeen": "2026-08-25"
         },
         {
+          "name": "Corriere di Taranto",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Italia-Kosovo, domani cambia la viabilità allo Iacovone - Corriere di Taranto",
+              "albanianTitle": "Itali-Kosovë, nesër ndryshon qarkullimi rrugor te Iacovone - Corriere di Taranto",
+              "blurb": "Autoritetet në Taranto kanë njoftuar ndryshime në trafikun rrugor për shkak të ndeshjes së futbollit ndërmjet Italisë dhe Kosovës.",
+              "imageUrl": null,
+              "url": "https://www.corriereditaranto.it/2026/08/25/italia-kosovo-domani-cambia-la-viabilita-allo-iacovone/",
+              "date": "2026-08-25",
+              "sentiment": "unknown",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-25",
+          "lastSeen": "2026-08-25"
+        },
+        {
           "name": "Cronache Tarantine",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Presentazione della squadra del Taranto nell’intervallo di Italia-Kosovo - Cronache Tarantine",
@@ -294,12 +355,25 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Giochi, Italia–Kosovo di calcio: chiusure attorno allo Iacovone dalle 18 - Cronache Tarantine",
+              "albanianTitle": "Lojërat, futboll Itali-Kosovë: rrugët përreth Iacovone mbyllen nga ora 18:00 - Cronache Tarantine",
+              "blurb": "Rrugët përreth stadiumit Iacovone do të mbyllen për qarkullim nga ora 18:00 për shkak të ndeshjes Itali-Kosovë në Lojërat Mesdhetare.",
+              "imageUrl": "https://www.cronachetarantine.it/images/2026/08/25/Immagine%202026-08-25%20163637.jpg",
+              "url": "https://www.cronachetarantine.it/index.php/giochi-2026/17627-giochi-italia-kosovo-di-calcio-chiusure-attorno-allo-iacovone-dalle-18",
+              "date": "2026-08-25",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 1,
+          "totalArticles": 2,
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-08-23",
-          "lastSeen": "2026-08-23"
+          "lastSeen": "2026-08-25"
         },
         {
           "name": "FIGC",
@@ -498,6 +572,30 @@
           "lastSeen": "2026-08-25"
         },
         {
+          "name": "Osservatorio Balcani Caucaso Transeuropa",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "La mucca partorisce di notte - Osservatorio Balcani Caucaso Transeuropa",
+              "albanianTitle": "Lopa pjell gjatë natës - Osservatorio Balcani Caucaso Transeuropa",
+              "blurb": "Një rrëfim mbi jetën dhe sfidat e përditshme në zonat rurale të Ballkanit përmes pasqyrimit të ngjarjeve të thjeshta jetësore.",
+              "imageUrl": "https://www.balcanicaucaso.org/wp-content/uploads/sites/8/2026/08/La-mucca-partorisce-di-notte-evento-14-settembre-2026.jpg",
+              "url": "https://www.balcanicaucaso.org/event/la-mucca-partorisce-di-notte/",
+              "date": "2026-08-25",
+              "sentiment": "unknown",
+              "reason": "Nuk ka referencë për Kosovën në titull",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 3,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-19",
+          "lastSeen": "2026-08-25"
+        },
+        {
           "name": "Radio Mugello",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -568,6 +666,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-08-23",
           "lastSeen": "2026-08-23"
+        },
+        {
+          "name": "TarantoToday",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Giochi del Mediterraneo, modifiche alla viabilità per la sfida Italia-Kosovo nel nuovo stadio Iacovone - TarantoToday",
+              "albanianTitle": "Lojërat Mesdhetare, ndryshime në trafik për ndeshjen Itali-Kosovë në stadiumin e ri Iacovone - TarantoToday",
+              "blurb": "Ndeshja e futbollit mes Italisë dhe Kosovës në stadiumin Iacovone ka sjellë ndryshime në qarkullimin rrugor në qytetin e Tarantos.",
+              "imageUrl": "https://www.tarantotoday.it/~media/horizontal-hi/50744990548951/780729067_1024674410385988_9105584966934044144_n.jpg",
+              "url": "https://www.tarantotoday.it/attualita/giochi-del-mediterraneo-modifiche-alla-viabilita-per-la-sfida-italia-kosovo-nel-nuovo-stadio-iacovone.html",
+              "date": "2026-08-25",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-25",
+          "lastSeen": "2026-08-25"
         },
         {
           "name": "agenziagiornalisticaopinione.it",
@@ -668,6 +790,30 @@
           "lastSeen": "2026-08-23"
         },
         {
+          "name": "infodifesa",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo, l’Italia torna al comando della KFOR: il Generale Roberto Vergori guiderà la missione NATO - infodifesa",
+              "albanianTitle": "Kosova, Italia merr sërish komandën e KFOR-it: Gjenerali Roberto Vergori do ta udhëheqë misionin e NATO-s - infodifesa",
+              "blurb": "Gjenerali Roberto Vergori është emëruar në krye të misionit të NATO-s në Kosovë, duke rikthyer Italinë në komandën e KFOR-it.",
+              "imageUrl": "https://infodifesa.it/wp-content/uploads/2026/08/generale-roberto-vergori.jpg",
+              "url": "https://infodifesa.it/generale-roberto-vergori-comandante-kfor-kosovo-nato/",
+              "date": "2026-08-25",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-25",
+          "lastSeen": "2026-08-25"
+        },
+        {
           "name": "studio100.it",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -695,10 +841,10 @@
       "summary": {
         "index": 48,
         "positive": 0,
-        "neutral": 95,
-        "negative": 5,
-        "n": 21,
-        "excluded": 3,
+        "neutral": 96,
+        "negative": 4,
+        "n": 24,
+        "excluded": 5,
         "confident": true,
         "stanceVersion": 3
       }
@@ -1052,13 +1198,13 @@
           "articles": [
             {
               "title": "‘Pequeña guerra perfecta’, retorno al nacionalismo sangriento de los noventa en los Balcanes - EL PAÍS",
-              "albanianTitle": "'Luftë e vogël perfekte', rikthimi i nacionalizmit të përgjakshëm të viteve '90 në Ballkan - EL PAÍS",
-              "blurb": "Analiza trajton rikthimin e nacionalizmit në rajonin e Ballkanit, duke e krahasuar situatën aktuale me konfliktet e përgjakshme të viteve nëntëdhjetë.",
+              "albanianTitle": "“Lufta e përkryer e vogël”, rikthimi i nacionalizmit të përgjakshëm të viteve të nëntëdhjeta në Ballkan",
+              "blurb": "Analiza e gazetës spanjolle El País trajton rikthimin e nacionalizmit të dhunshëm në Ballkan gjatë periudhës së viteve nëntëdhjetë.",
               "imageUrl": "https://imagenes.elpais.com/resizer/v2/X4LCAZTPJFA4DKDGA7UI2VFICU.jpeg?auth=4832a7f1f913ca4d003c0b7f3bbbfecff0cb980d8d627fd51fd178a083a6af55&width=1200",
               "url": "https://elpais.com/babelia/2026-08-25/pequena-guerra-perfecta-retorno-al-nacionalismo-sangriento-de-los-noventa-en-los-balcanes.html",
               "date": "2026-08-25",
               "sentiment": "unknown",
-              "reason": "No mention of Kosovo in the item",
+              "reason": "Titulli trajton nacionalizmin në Ballkan pa përmendje specifike të Kosovës",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1339,6 +1485,30 @@
     "Turqi": {
       "outlets": [
         {
+          "name": "A Spor",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Erkek Milli Voleybol Takımı, 20. Akdeniz Oyunları 2. maçında Kosova'yı 3-2 mağlup etti! - A Spor",
+              "albanianTitle": "Kombëtarja e meshkujve në volejboll mposht Kosovën 3-2 në ndeshjen e dytë të Lojërave të 20-ta Mesdhetare - A Spor",
+              "blurb": "Kombëtarja e Turqisë në volejboll mposhti Kosovën me rezultat 3-2 në ndeshjen e dytë të Lojërave të 20-ta Mesdhetare.",
+              "imageUrl": "https://iaaspr.tmgrup.com.tr/95f2d3/1200/675/0/140/1344/897?u=https://iaspr.tmgrup.com.tr/2026/08/25/erkek-milli-voleybol-takimi-20-akdeniz-oyunlari-2-macinda-kosovayi-3-2-maglup-etti-1787672603213.jpeg",
+              "url": "https://www.aspor.com.tr/voleybol/2026/08/25/erkek-milli-voleybol-takimi-20-akdeniz-oyunlari-2-macinda-kosovayi-3-2-maglup-etti",
+              "date": "2026-08-25",
+              "sentiment": "neutral",
+              "reason": "Raportim faktik i rezultatit sportiv, pa gjuhë ngarkesë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-25",
+          "lastSeen": "2026-08-25"
+        },
+        {
           "name": "Edirne'nin Sesi",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1556,22 +1726,14 @@
         }
       ],
       "summary": {
-        "index": 61,
-        "positive": 22,
-        "neutral": 78,
+        "index": 60,
+        "positive": 20,
+        "neutral": 80,
         "negative": 0,
-        "n": 9,
+        "n": 10,
         "excluded": 0,
         "confident": true,
-        "stanceVersion": 3,
-        "movement": {
-          "delta": 4,
-          "from": 57,
-          "outlet": "İzmir Büyükşehir Belediyesi",
-          "title": "Kryetari Tugay hap rrugën për bashkëpunime të reja në Kosovë",
-          "evidence": "yeni iş birliklerinin kapısını araladı",
-          "url": "https://www.izmir.bel.tr/tr/Haberler/baskan-tugay-kosovada-yeni-is-birliklerinin-kapisini-araladi/59218/156"
-        }
+        "stanceVersion": 3
       }
     },
     "Kroaci": {
