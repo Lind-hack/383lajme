@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { lmsrPriceYes } from "@/lib/tregu";
+import { buildBalanceHistory } from "@/lib/profile-hub.mjs";
 
 export const dynamic = "force-dynamic";
 
@@ -23,7 +24,7 @@ export async function GET() {
         .gt("shares", 0),
       supabase
         .from("transactions")
-        .select("*")
+        .select("*, markets(question, slug)")
         .eq("user_id", user.id)
         .order("created_at", { ascending: false })
         .limit(50),
@@ -76,28 +77,8 @@ export async function GET() {
   const winRate = settledCount > 0 ? settledWins / settledCount : null;
 
   // --- 30-day coin-balance history (from the ledger, ending at current coins) --
-  const nowMs = Date.now();
-  const windowStart = nowMs - 30 * 86_400_000;
-  const ledger = (allTx ?? []).map((tx) => ({
-    t: new Date(tx.created_at).getTime(),
-    amount: Number(tx.amount),
-  }));
-  const totalDelta = ledger.reduce((s, e) => s + e.amount, 0);
   const currentCoins = Number(profile?.coins ?? 0);
-  let running = currentCoins - totalDelta; // balance before the first recorded tx
-  const balanceHistory: { t: number; coins: number }[] = [];
-  for (const e of ledger) {
-    running += e.amount;
-    if (e.t >= windowStart) balanceHistory.push({ t: e.t, coins: running });
-  }
-  // Anchor both ends so the chart always spans the full window.
-  if (balanceHistory.length === 0 || balanceHistory[0].t > windowStart) {
-    const startBalance = balanceHistory.length > 0
-      ? currentCoins - ledger.filter((e) => e.t >= windowStart).reduce((s, e) => s + e.amount, 0)
-      : currentCoins;
-    balanceHistory.unshift({ t: windowStart, coins: startBalance });
-  }
-  balanceHistory.push({ t: nowMs, coins: currentCoins });
+  const balanceHistory = buildBalanceHistory(allTx ?? [], currentCoins);
 
   return NextResponse.json({
     profile,

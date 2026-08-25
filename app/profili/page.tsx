@@ -1,114 +1,111 @@
 import { redirect } from "next/navigation";
+import Navbar from "@/components/navbar";
 import { createClient } from "@/lib/supabase/server";
-import SignOutButton from "./sign-out-button";
+import { buildBalanceHistory } from "@/lib/profile-hub.mjs";
+import ProfileHub from "./profile-hub";
+
+export const dynamic = "force-dynamic";
 
 export default async function ProfilePage() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
+  if (!user) redirect("/hyr?next=/profili");
 
-  if (!user) redirect("/");
-
-  const { data: profile } = await supabase
+  let { data: profile, error: profileError } = await supabase
     .from("profiles")
-    .select("full_name, updated_at")
+    .select("full_name, display_name, is_anonymous, coins, created_at, updated_at")
     .eq("id", user.id)
     .single();
+  const profileNeedsMigration = Boolean(profileError);
+  if (profileError) {
+    const fallback = await supabase
+      .from("profiles")
+      .select("full_name, display_name, coins, created_at, updated_at")
+      .eq("id", user.id)
+      .single();
+    profile = fallback.data ? { ...fallback.data, is_anonymous: false } : null;
+    profileError = fallback.error;
+  }
 
-  const fullName = profile?.full_name ?? user.user_metadata?.full_name ?? "";
-  const initials = fullName
-    ? fullName.trim().split(/\s+/).slice(0, 2).map((w: string) => w[0]?.toUpperCase() ?? "").join("")
-    : (user.email ?? "?").slice(0, 2).toUpperCase();
+  const [savedResult, recentTransactionsResult, ledgerResult, positionsResult] =
+    await Promise.all([
+      supabase
+        .from("saved_articles")
+        .select("article_id, slug, title, excerpt, category, source, image_url, published_at, saved_at")
+        .eq("user_id", user.id)
+        .order("saved_at", { ascending: false }),
+      supabase
+        .from("transactions")
+        .select("id, type, amount, created_at, market_id, meta, markets(question, slug)")
+        .eq("user_id", user.id)
+        .order("created_at", { ascending: false })
+        .limit(5),
+      supabase
+        .from("transactions")
+        .select("amount, created_at")
+        .eq("user_id", user.id)
+        .order("created_at", { ascending: true })
+        .limit(1000),
+      supabase
+        .from("positions")
+        .select("id", { count: "exact", head: true })
+        .eq("user_id", user.id)
+        .gt("shares", 0),
+    ]);
 
-  const joinDate = new Date(user.created_at).toLocaleDateString("sq-AL", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
+  const fullName = String(profile?.full_name || user.user_metadata?.full_name || "").trim();
+  const displayName = String(profile?.display_name || fullName || user.email?.split("@")[0] || "Lexues 383").trim();
+  const initials = (fullName || displayName || user.email || "?")
+    .trim()
+    .split(/\s+/)
+    .slice(0, 2)
+    .map((word: string) => word[0]?.toUpperCase() ?? "")
+    .join("");
+  const coins = Number(profile?.coins ?? 0);
 
   return (
-    <main
-      style={{
-        minHeight: "100vh",
-        background: "#F9F6F1",
-        paddingTop: "100px",
-        paddingBottom: "60px",
-        fontFamily: "var(--font-manrope), sans-serif",
-      }}
-    >
-      <div
-        style={{
-          maxWidth: "520px",
-          margin: "0 auto",
-          padding: "0 24px",
+    <div className="profile-page-shell">
+      <Navbar />
+      <ProfileHub
+        identity={{
+          fullName,
+          displayName,
+          email: user.email ?? "",
+          initials,
+          anonymous: profile?.is_anonymous === true,
+          joinedAt: user.created_at,
+          lastSignInAt: user.last_sign_in_at ?? null,
+          provider: String(user.app_metadata?.provider ?? "email"),
         }}
-      >
-        <div
-          style={{
-            background: "#fff",
-            borderRadius: "20px",
-            border: "1.5px solid #E8E3DB",
-            padding: "48px 44px",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            gap: "8px",
-          }}
-        >
-          {/* Avatar */}
-          <div
-            style={{
-              width: "80px",
-              height: "80px",
-              borderRadius: "50%",
-              background: "#FF4422",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              fontSize: "28px",
-              fontWeight: 800,
-              color: "#fff",
-              letterSpacing: "0.04em",
-              marginBottom: "16px",
-            }}
-          >
-            {initials}
-          </div>
-
-          {fullName && (
-            <h1
-              style={{
-                margin: 0,
-                fontSize: "22px",
-                fontWeight: 800,
-                color: "#111",
-                letterSpacing: "-0.02em",
-                textAlign: "center",
-              }}
-            >
-              {fullName}
-            </h1>
-          )}
-
-          <p style={{ margin: 0, fontSize: "14px", color: "#888" }}>{user.email}</p>
-
-          <p
-            style={{
-              margin: "8px 0 0",
-              fontSize: "12px",
-              color: "#bbb",
-              fontWeight: 600,
-              letterSpacing: "0.04em",
-              textTransform: "uppercase",
-            }}
-          >
-            Anëtar që nga {joinDate}
-          </p>
-
-          <div style={{ width: "100%", height: "1px", background: "#F0ECE6", margin: "24px 0" }} />
-
-          <SignOutButton />
-        </div>
-      </div>
-    </main>
+        savedArticles={(savedResult.data ?? []).map((item) => ({
+          articleId: item.article_id,
+          slug: item.slug,
+          title: item.title,
+          excerpt: item.excerpt,
+          category: item.category,
+          source: item.source,
+          imageUrl: item.image_url,
+          publishedAt: item.published_at,
+          savedAt: item.saved_at,
+        }))}
+        tregu={{
+          coins,
+          activePositions: positionsResult.count ?? 0,
+          history: buildBalanceHistory(ledgerResult.data ?? [], coins),
+          transactions: (recentTransactionsResult.data ?? []).map((tx) => ({
+            id: tx.id,
+            type: tx.type,
+            amount: Number(tx.amount),
+            createdAt: tx.created_at,
+            market: Array.isArray(tx.markets) ? tx.markets[0] ?? null : tx.markets,
+          })),
+        }}
+        dataUnavailable={{
+          savedArticles: Boolean(savedResult.error),
+          tregu: Boolean(recentTransactionsResult.error || ledgerResult.error || positionsResult.error),
+        }}
+        profileUnavailable={profileNeedsMigration || Boolean(profileError)}
+      />
+    </div>
   );
 }

@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { createClient } from "@/lib/supabase/server";
+import { publicProfileName } from "@/lib/profile-hub.mjs";
 
 export const dynamic = "force-dynamic";
 
@@ -30,21 +31,22 @@ export async function POST(request: NextRequest) {
   const { data, error } = await supabase
     .from("market_comments")
     .insert({ market_id: marketId, user_id: user.id, body })
-    .select("id, body, created_at, user_id, profiles(display_name)")
+    .select("id, body, created_at, user_id, profiles(display_name, is_anonymous)")
     .single();
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
-  const profile = (data as unknown as { profiles: { display_name: string | null } | null }).profiles;
+  const profile = (data as unknown as {
+    profiles: { display_name: string | null; is_anonymous: boolean | null } | null;
+  }).profiles;
   return NextResponse.json({
     comment: {
       id: data.id,
       body: data.body,
       createdAt: data.created_at,
-      userId: data.user_id,
-      name: profile?.display_name ?? "Anonim",
+      name: publicProfileName(profile, "Anonim"),
     },
   });
 }

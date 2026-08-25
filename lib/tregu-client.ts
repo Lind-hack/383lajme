@@ -17,7 +17,7 @@ export interface MarketTrade {
   price_yes: number;
   outcome_prices?: Record<string, number> | null;
   created_at: string;
-  profiles?: { display_name?: string | null } | null;
+  profiles?: { display_name?: string | null; is_anonymous?: boolean | null } | null;
 }
 
 export interface Market {

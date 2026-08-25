@@ -6,6 +6,7 @@ import Navbar from "@/components/navbar";
 import CoinFace from "@/components/tregu/coin-face";
 import { createClient } from "@/lib/supabase/client";
 import { fmtNum } from "@/lib/format";
+import styles from "./portfolio.module.css";
 
 interface Position {
   id: string;
@@ -26,6 +27,7 @@ interface Transaction {
   amount: number;
   created_at: string;
   meta: Record<string, unknown> | null;
+  markets: { question: string; slug: string } | null;
 }
 
 interface Profile {
@@ -70,7 +72,7 @@ function signed(v: number, digits = 1): string {
   return `${v > 0 ? "+" : ""}${v.toFixed(digits)}`;
 }
 
-// 30-day coin balance — small dependency-free SVG area chart with hover.
+// 30-day coin balance with an exact, dependency-free SVG chart and inspector.
 function BalanceChart({ history }: { history: { t: number; coins: number }[] }) {
   const [hover, setHover] = useState<{ frac: number; t: number; coins: number } | null>(null);
   const boxRef = useRef<HTMLDivElement>(null);
@@ -91,7 +93,7 @@ function BalanceChart({ history }: { history: { t: number; coins: number }[] }) 
   const xFor = (t: number) => ((t - tMin) / (tMax - tMin || 1)) * W;
   const yFor = (v: number) => PAD + (1 - (v - vMin) / spread) * (H - PAD * 2);
 
-  // Step line — the balance holds between transactions.
+  // The balance holds between transactions, so the path uses exact steps.
   let path = "";
   history.forEach((h, i) => {
     path += i === 0 ? `M ${xFor(h.t).toFixed(1)} ${yFor(h.coins).toFixed(1)}` : ` H ${xFor(h.t).toFixed(1)} V ${yFor(h.coins).toFixed(1)}`;
@@ -174,6 +176,7 @@ export default function PortofoliPage() {
   const [confirmSell, setConfirmSell] = useState<string | null>(null); // position id awaiting confirm
   const [sellingId, setSellingId] = useState<string | null>(null);
   const [sellMsg, setSellMsg] = useState<string | null>(null);
+  const [activityFilter, setActivityFilter] = useState<"all" | "trade" | "bonus">("all");
 
   const load = () => {
     setLoadError(false);
@@ -226,7 +229,7 @@ export default function PortofoliPage() {
     });
     const data = await res.json();
     if (res.ok) {
-      setSellMsg(`✓ Dole nga pozicioni — more ${Number(data.coinsReceived ?? 0).toFixed(1)} 383C`);
+      setSellMsg(`Dole nga pozicioni dhe more ${Number(data.coinsReceived ?? 0).toFixed(1)} 383C`);
       load();
     } else {
       setSellMsg(data.error ?? "Gabim gjatë shitjes");
@@ -317,51 +320,42 @@ export default function PortofoliPage() {
   }
 
   const canWithdraw = (profile?.coins ?? 0) >= 10000;
+  const chartStart = balanceHistory[0]?.coins ?? profile?.coins ?? 0;
+  const chartChange = (profile?.coins ?? 0) - chartStart;
+  const visibleTransactions = transactions.filter((transaction) => {
+    if (activityFilter === "trade") return ["bet", "sell", "payout"].includes(transaction.type);
+    if (activityFilter === "bonus") return ["signup_bonus", "daily_bonus"].includes(transaction.type);
+    return true;
+  });
 
   return (
     <div className="tregu-scope">
       <Navbar />
-      <main style={{ maxWidth: 960, margin: "0 auto", padding: "104px 24px 80px" }}>
-        <h1 style={{ fontSize: 30, fontWeight: 800, margin: "0 0 24px" }}>Portofoli</h1>
+      <main className={styles.page}>
+        <header className={styles.hero}>
+          <div><Link href="/profili" className={styles.backLink}>Profili</Link><h1>Portofoli yt</h1><p>Shiko qartë çfarë ke të lirë, çfarë ke në treg dhe si ka lëvizur bilanci.</p></div>
+          <div className={styles.heroBalance}><span>Bilanci i lirë</span><strong>{fmtNum(profile?.coins ?? 0)} <small>383C</small></strong><b data-positive={chartChange >= 0}>{chartChange >= 0 ? "+" : ""}{chartChange.toFixed(0)} në 30 ditë</b></div>
+        </header>
 
-        {/* ── Stat tiles ── */}
-        <div className="tregu-tiles">
-          <div className="tregu-glass tregu-glass-hi tregu-tile">
+        <section className={styles.summary} aria-label="Përmbledhja e portofolit">
+          <div className={`tregu-glass tregu-glass-hi ${styles.summaryPrimary}`}>
             <span className="tregu-tile-label">Vlera totale</span>
-            <span className="tregu-tile-value" style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
-              <CoinFace size={22} />
+            <span className={styles.summaryValue}>
+              <CoinFace size={26} />
               {fmtNum(stats?.totalValue ?? profile?.coins ?? 0)}
             </span>
-            <span className="tregu-tile-sub">{fmtNum(profile?.coins ?? 0)} të lira · 10,000 = 10€</span>
+            <span className={styles.summarySub}>{fmtNum(profile?.coins ?? 0)} të lira dhe {fmtNum(stats?.openValue ?? 0)} në treg</span>
           </div>
-          <div className="tregu-glass tregu-tile">
-            <span className="tregu-tile-label">Në pozicione</span>
-            <span className="tregu-tile-value">{fmtNum(stats?.openValue ?? 0)}</span>
-            <span className="tregu-tile-sub">{fmtNum(stats?.openStaked ?? 0)} 383C të investuara</span>
+          <div className={`tregu-glass ${styles.summaryFacts}`}>
+            <div><span>Në pozicione</span><strong>{fmtNum(stats?.openValue ?? 0)}</strong><small>{fmtNum(stats?.openStaked ?? 0)} të investuara</small></div>
+            <div><span>Fitimi i hapur</span><strong style={{ color: pnlColor(stats?.openPnl) }}>{stats ? signed(stats.openPnl) : "Pa të dhëna"}</strong><small>vlera kundrejt investimit</small></div>
+            <div><span>Fitimi i mbyllur</span><strong style={{ color: pnlColor(stats?.realizedPnl) }}>{stats ? signed(stats.realizedPnl) : "Pa të dhëna"}</strong><small>{stats?.winRate !== null && stats?.winRate !== undefined ? `${Math.round(stats.winRate * 100)}% fitore në ${stats.settledCount} tregje` : "ende pa tregje të mbyllura"}</small></div>
           </div>
-          <div className="tregu-glass tregu-tile">
-            <span className="tregu-tile-label">P/L i hapur</span>
-            <span className="tregu-tile-value" style={{ color: pnlColor(stats?.openPnl) }}>
-              {stats ? signed(stats.openPnl) : "—"}
-            </span>
-            <span className="tregu-tile-sub">vlera kundrejt investimit</span>
-          </div>
-          <div className="tregu-glass tregu-tile">
-            <span className="tregu-tile-label">P/L i realizuar</span>
-            <span className="tregu-tile-value" style={{ color: pnlColor(stats?.realizedPnl) }}>
-              {stats ? signed(stats.realizedPnl) : "—"}
-            </span>
-            <span className="tregu-tile-sub">
-              {stats?.winRate !== null && stats?.winRate !== undefined
-                ? `${Math.round(stats.winRate * 100)}% fitore · ${stats.settledCount} tregje`
-                : "ende pa tregje të mbyllura"}
-            </span>
-          </div>
-        </div>
+        </section>
 
         {/* ── 30-day balance ── */}
-        <div className="tregu-glass" style={{ padding: 24, marginBottom: 28 }}>
-          <h2 style={{ fontSize: 16, fontWeight: 800, margin: "0 0 14px" }}>Bilanci — 30 ditët e fundit</h2>
+        <div className={`tregu-glass ${styles.chartPanel}`}>
+          <div className={styles.panelHeading}><div><h2>Bilanci në 30 ditët e fundit</h2><p>Çdo pikë vjen nga një ndryshim i regjistruar në llogarinë tënde.</p></div><span>{chartChange >= 0 ? "+" : ""}{chartChange.toFixed(0)} 383C</span></div>
           <BalanceChart history={balanceHistory} />
         </div>
 
@@ -370,7 +364,7 @@ export default function PortofoliPage() {
         {sellMsg && <p style={{ fontSize: 13, fontWeight: 600, color: sellMsg.startsWith("✓") ? "#00854A" : "#E41E20", marginBottom: 12 }}>{sellMsg}</p>}
         {positions.length === 0 ? (
           <p style={{ color: "#6B6B6B", fontSize: 13, marginBottom: 28 }}>
-            Ende pa pozicione — <Link href="/tregu" style={{ color: "#00854A" }}>shko te Tregu</Link> dhe vër bastin e parë.
+            Ende pa pozicione. <Link href="/tregu" style={{ color: "#00854A" }}>Shko te Tregu</Link> dhe bëj parashikimin e parë.
           </p>
         ) : (
           <div className="tregu-glass tregu-table-wrap" style={{ marginBottom: 28 }}>
@@ -382,7 +376,7 @@ export default function PortofoliPage() {
                 <span>Hyrja</span>
                 <span>Tani</span>
                 <span>Vlera</span>
-                <span>P/L</span>
+                <span>Fitimi</span>
                 <span />
               </div>
               {positions.map((p) => {
@@ -394,11 +388,11 @@ export default function PortofoliPage() {
                     </Link>
                     <span className="tregu-pill" style={{ color: p.side === "PO" ? "#00A651" : "#E41E20", justifySelf: "start" }}>{p.side}</span>
                     <span>{Number(p.shares).toFixed(2)}</span>
-                    <span>{p.entryPrice !== null ? `${(p.entryPrice * 100).toFixed(0)}%` : "—"}</span>
-                    <span>{p.currentPrice !== null ? `${(p.currentPrice * 100).toFixed(0)}%` : "—"}</span>
-                    <span style={{ fontWeight: 800 }}>{p.currentValue !== null ? p.currentValue.toFixed(1) : "—"}</span>
+                    <span>{p.entryPrice !== null ? `${(p.entryPrice * 100).toFixed(0)}%` : "Pa të dhëna"}</span>
+                    <span>{p.currentPrice !== null ? `${(p.currentPrice * 100).toFixed(0)}%` : "Pa të dhëna"}</span>
+                    <span style={{ fontWeight: 800 }}>{p.currentValue !== null ? p.currentValue.toFixed(1) : "Pa të dhëna"}</span>
                     <span style={{ fontWeight: 800, color: pnlColor(p.unrealizedPnl) }}>
-                      {p.unrealizedPnl !== null ? signed(p.unrealizedPnl) : "—"}
+                      {p.unrealizedPnl !== null ? signed(p.unrealizedPnl) : "Pa të dhëna"}
                     </span>
                     {open ? (
                       <button
@@ -427,7 +421,7 @@ export default function PortofoliPage() {
           {canWithdraw ? (
             <>
               <p style={{ fontSize: 13, color: "#6B6B6B", marginBottom: 12 }}>
-                Ke {fmtNum(profile?.coins ?? 0)} 383 Coin — mund të tërheqësh 10,000 për 10€.
+                Ke {fmtNum(profile?.coins ?? 0)} 383 Coin. Mund të tërheqësh 10,000 për 10€.
               </p>
               <div style={{ display: "flex", gap: 10 }}>
                 <input
@@ -458,7 +452,7 @@ export default function PortofoliPage() {
             <div style={{ marginTop: 16, display: "flex", flexDirection: "column", gap: 8 }}>
               {withdrawals.map((w) => (
                 <div key={w.id} style={{ display: "flex", justifyContent: "space-between", fontSize: 12, color: "#6B6B6B" }}>
-                  <span>{new Date(w.requested_at).toLocaleDateString("sq-AL")} · {w.coins_amount} 383C</span>
+                  <span>{new Date(w.requested_at).toLocaleDateString("sq-AL")}, {w.coins_amount} 383C</span>
                   <span style={{ fontWeight: 700, color: statusColor(w.status) }}>{w.status}</span>
                 </div>
               ))}
@@ -467,11 +461,12 @@ export default function PortofoliPage() {
         </div>
 
         {/* ── History ── */}
-        <h2 style={{ fontSize: 16, fontWeight: 800, margin: "0 0 12px" }}>Historiku</h2>
-        <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-          {transactions.map((t) => (
-            <div key={t.id} style={{ display: "flex", justifyContent: "space-between", fontSize: 12, color: "#6B6B6B", padding: "8px 4px", borderBottom: "1px solid rgba(17,17,17,0.08)" }}>
-              <span>{TX_LABEL[t.type] ?? t.type} · {new Date(t.created_at).toLocaleDateString("sq-AL")}</span>
+        <div className={styles.historyHeading}><h2>Historiku</h2><div role="group" aria-label="Filtro historikun"><button data-active={activityFilter === "all"} onClick={() => setActivityFilter("all")}>Të gjitha</button><button data-active={activityFilter === "trade"} onClick={() => setActivityFilter("trade")}>Tregtime</button><button data-active={activityFilter === "bonus"} onClick={() => setActivityFilter("bonus")}>Bonuse</button></div></div>
+        <div className={styles.historyList}>
+          {visibleTransactions.length === 0 && <p className={styles.historyEmpty}>Nuk ka aktivitet në këtë filtër.</p>}
+          {visibleTransactions.map((t) => (
+            <div key={t.id} className={styles.historyRow}>
+              <span><strong>{TX_LABEL[t.type] ?? t.type}</strong><small>{t.markets?.question ?? new Date(t.created_at).toLocaleDateString("sq-AL")}</small></span>
               <span style={{ color: t.amount >= 0 ? "#00854A" : "#E41E20", fontWeight: 700, fontVariantNumeric: "tabular-nums" }}>
                 {t.amount >= 0 ? "+" : ""}
                 {Number(t.amount).toFixed(0)}

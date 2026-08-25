@@ -7,6 +7,7 @@ import { parseEvent, slugKey } from "@/lib/tregu-groups";
 import { fetchF1LiveLiteLeaderboard } from "@/lib/f1-live-lite";
 import { resolveMarketMedia } from "@/lib/tregu-market-media.mjs";
 import { outcomeColor } from "@/lib/tregu-hub-market.mjs";
+import { publicProfileName } from "@/lib/profile-hub.mjs";
 
 export const dynamic = "force-dynamic";
 
@@ -58,7 +59,7 @@ export async function GET(
       // Most recent trades with trader display names — the activity feed.
       supabase
         .from("market_trades")
-        .select("id, action, side, coins, shares, price_yes, created_at, profiles(display_name)")
+        .select("id, action, side, coins, shares, price_yes, created_at, profiles(display_name, is_anonymous)")
         .eq("market_id", market.id)
         .order("created_at", { ascending: false })
         .limit(12),
@@ -75,7 +76,7 @@ export async function GET(
       supabase.rpc("market_top_holders", { p_market_id: market.id, p_limit: 30 }),
       supabase
         .from("market_comments")
-        .select("id, body, created_at, user_id, profiles(display_name)")
+        .select("id, body, created_at, user_id, profiles(display_name, is_anonymous)")
         .eq("market_id", market.id)
         .order("created_at", { ascending: false })
         .limit(50),
@@ -139,13 +140,12 @@ export async function GET(
     body: string;
     created_at: string;
     user_id: string;
-    profiles: { display_name: string | null } | null;
+    profiles: { display_name: string | null; is_anonymous: boolean | null } | null;
   }[]).map((c) => ({
     id: c.id,
     body: c.body,
     createdAt: c.created_at,
-    userId: c.user_id,
-    name: c.profiles?.display_name ?? "Anonim",
+    name: publicProfileName(c.profiles, "Anonim"),
   }));
 
   let position = null;
@@ -428,7 +428,13 @@ export async function GET(
     event, football,
     snapshots: snapshotsWithEvidence,
     trades: trades ?? [],
-    activity: activity ?? [],
+    activity: ((activity ?? []) as unknown as {
+      profiles: { display_name: string | null; is_anonymous: boolean | null } | null;
+      [key: string]: unknown;
+    }[]).map((trade) => ({
+      ...trade,
+      profiles: { display_name: publicProfileName(trade.profiles) },
+    })),
     related: relatedWithProb,
     weeklyDelta,
     tradeCount: tradeCount ?? 0,

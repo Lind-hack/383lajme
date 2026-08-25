@@ -3,6 +3,7 @@ import { createClient } from "@/lib/supabase/server";
 import { lmsrPriceYes } from "@/lib/tregu";
 import { lmsrSportOutcomePrices } from "@/lib/tregu-client";
 import { resolveMarketMedia } from "@/lib/tregu-market-media.mjs";
+import { publicProfileName } from "@/lib/profile-hub.mjs";
 
 export const dynamic = "force-dynamic";
 
@@ -103,7 +104,7 @@ export async function GET(request: NextRequest) {
       : Promise.resolve({ data: [] as SportOracleRow[], error: null }),
     supabase
       .from("market_trades")
-      .select("action, side, coins, price_yes, created_at, profiles(display_name), markets(question, slug)")
+      .select("action, side, coins, price_yes, created_at, profiles(display_name, is_anonymous), markets(question, slug)")
       .order("created_at", { ascending: false })
       .limit(10),
     sourceSlugs.length
@@ -271,10 +272,10 @@ export async function GET(request: NextRequest) {
     coins: number;
     price_yes: number;
     created_at: string;
-    profiles: { display_name: string | null } | null;
+    profiles: { display_name: string | null; is_anonymous: boolean | null } | null;
     markets: { question: string; slug: string } | null;
   }[]).map((t) => ({
-    name: t.profiles?.display_name ?? "Tregtar",
+    name: publicProfileName(t.profiles),
     action: t.action,
     side: t.side,
     coins: Number(t.coins),

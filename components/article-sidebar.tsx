@@ -6,6 +6,7 @@ import { Bookmark, Link2 } from "lucide-react";
 import { type Article } from "@/lib/mock-data";
 import { EASE, DUR } from "@/lib/tokens";
 import SidebarMarketWidget from "@/components/tregu/sidebar-market-widget";
+import { createClient } from "@/lib/supabase/client";
 
 function flagToCode(flag: string): string {
   const cps = [...flag].map((c) => c.codePointAt(0) ?? 0);
@@ -24,6 +25,8 @@ interface Props {
 export default function ArticleSidebar({ article, related }: Props) {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [isBookmarked, setIsBookmarked] = useState(false);
+  const [bookmarkAccount, setBookmarkAccount] = useState(false);
+  const [bookmarkBusy, setBookmarkBusy] = useState(false);
   const [copied, setCopied] = useState(false);
   const [liveReaders, setLiveReaders] = useState(0);
 
@@ -37,11 +40,39 @@ export default function ArticleSidebar({ article, related }: Props) {
   }, []);
 
   useEffect(() => {
-    try {
-      const saved = JSON.parse(localStorage.getItem("bookmarks") ?? "[]") as string[];
-      setIsBookmarked(saved.includes(article.id));
-    } catch { /* ignore */ }
-  }, [article.id]);
+    let active = true;
+    const localSaved = (() => {
+      try {
+        return (JSON.parse(localStorage.getItem("bookmarks") ?? "[]") as string[]).includes(article.id);
+      } catch {
+        return false;
+      }
+    })();
+    setIsBookmarked(localSaved);
+
+    const supabase = createClient();
+    supabase.auth.getUser().then(async ({ data: { user } }) => {
+      if (!active || !user) return;
+      setBookmarkAccount(true);
+      try {
+        const response = await fetch("/api/profile/saved-articles", { cache: "no-store" });
+        if (!response.ok) return;
+        const data = await response.json();
+        const remoteSaved = (data.articles ?? []).some((item: { article_id?: string }) => item.article_id === article.id);
+        if (localSaved && !remoteSaved) {
+          await fetch("/api/profile/saved-articles", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ articleId: article.id, slug: article.slug }),
+          });
+        }
+        if (active) setIsBookmarked(localSaved || remoteSaved);
+      } catch {
+        // The local reading list remains usable while the account service recovers.
+      }
+    });
+    return () => { active = false; };
+  }, [article.id, article.slug]);
 
   useEffect(() => {
     setLiveReaders(Math.floor(Math.random() * 38 + 12));
@@ -54,15 +85,39 @@ export default function ArticleSidebar({ article, related }: Props) {
     return () => clearInterval(interval);
   }, []);
 
-  function toggleBookmark() {
+  async function toggleBookmark() {
+    if (bookmarkBusy) return;
+    const nextState = !isBookmarked;
     try {
       const saved = JSON.parse(localStorage.getItem("bookmarks") ?? "[]") as string[];
       const next = isBookmarked
         ? saved.filter((id) => id !== article.id)
         : [...saved, article.id];
       localStorage.setItem("bookmarks", JSON.stringify(next));
-      setIsBookmarked(!isBookmarked);
+      setIsBookmarked(nextState);
     } catch { /* ignore */ }
+
+    if (!bookmarkAccount) return;
+    setBookmarkBusy(true);
+    try {
+      const response = await fetch("/api/profile/saved-articles", {
+        method: nextState ? "POST" : "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ articleId: article.id, slug: article.slug }),
+      });
+      if (!response.ok) throw new Error("bookmark");
+    } catch {
+      setIsBookmarked(!nextState);
+      try {
+        const saved = JSON.parse(localStorage.getItem("bookmarks") ?? "[]") as string[];
+        const restored = nextState
+          ? saved.filter((id) => id !== article.id)
+          : [...new Set([...saved, article.id])];
+        localStorage.setItem("bookmarks", JSON.stringify(restored));
+      } catch { /* ignore */ }
+    } finally {
+      setBookmarkBusy(false);
+    }
   }
 
   function copyLink() {
@@ -96,7 +151,7 @@ export default function ArticleSidebar({ article, related }: Props) {
 
   return (
     <>
-      {/* Reading progress bar — fixed at top of viewport */}
+      {/* Reading progress bar fixed at the top of the viewport. */}
       <div
         style={{
           position: "fixed",
@@ -210,12 +265,14 @@ export default function ArticleSidebar({ article, related }: Props) {
           </div>
         </div>
 
-        {/* 383 Tregu — live prediction market related to this article's category */}
+        {/* 383 Tregu market related to this article's category. */}
         <SidebarMarketWidget articleCategory={article.category} />
 
         {/* Bookmark */}
         <motion.button
           onClick={toggleBookmark}
+          disabled={bookmarkBusy}
+          aria-pressed={isBookmarked}
           whileHover={{ y: -2, boxShadow: "0 4px 16px rgba(0,0,0,0.08)" }}
           whileTap={{ scale: 0.97 }}
           transition={{ duration: DUR.base, ease: EASE }}
@@ -235,7 +292,7 @@ export default function ArticleSidebar({ article, related }: Props) {
             strokeWidth={2}
             style={{ fill: isBookmarked ? "#FF4422" : "none", color: isBookmarked ? "#FF4422" : "currentColor" }}
           />
-          {isBookmarked ? "Ruajtur" : "Ruaj artikullin"}
+          {bookmarkBusy ? "Po ruhet..." : isBookmarked ? (bookmarkAccount ? "Ruajtur në profil" : "Ruajtur në pajisje") : "Ruaj artikullin"}
         </motion.button>
 
         {/* Live readers */}
