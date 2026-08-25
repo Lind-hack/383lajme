@@ -25,6 +25,9 @@ export interface TimelineEntry {
   summary?: string;
   why?: string;
   slug?: string;
+  imageUrl?: string | null;
+  source?: string | null;
+  publishedAt?: string | null;
   isCurrent?: boolean;
 }
 

@@ -8,6 +8,7 @@ import ArticleCard from "@/components/article-card";
 import ArticleSidebar from "@/components/article-sidebar";
 import type { DosjeData } from "@/components/article-sidebar";
 import ArticleShareRow from "@/components/article-share-row";
+import DosjeMobileEntry from "@/components/dosje-mobile-entry";
 import ArticleAsk from "@/components/article-ask";
 import { toParagraphs, readingMinutes } from "@/lib/article-body.mjs";
 import CategoryAccordion from "@/components/category-accordion";
@@ -172,7 +173,17 @@ export default function ArticleContent({ article, related, catColor, catBg, cate
             {/* The reader has just finished; this is where the questions are. */}
             <ArticleAsk article={article} />
 
-            {/* Phones never see the sidebar, so sharing lives here for them. */}
+            {/* Phones never see the sidebar, so the dossier and sharing both
+                live here for them. */}
+            {dosje && dosje.entries.length > 0 && (
+              <DosjeMobileEntry
+                topicSlug={dosje.topicSlug}
+                topicTitle={dosje.topicTitle}
+                blurb={dosje.blurb}
+                entries={dosje.entries}
+              />
+            )}
+
             <ArticleShareRow slug={article.slug} title={article.title} />
           </motion.div>
         </article>

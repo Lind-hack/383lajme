@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
+import DosjeDrawer from "@/components/dosje-drawer";
 
 /**
  * The dossier rail beside an article.
@@ -27,6 +27,9 @@ export interface DosjeEntry {
   summary?: string;
   why?: string;
   slug?: string;
+  imageUrl?: string | null;
+  source?: string | null;
+  publishedAt?: string | null;
   isCurrent?: boolean;
 }
 
@@ -42,6 +45,7 @@ const COMPACT_BEFORE = 3;
 export default function DosjePanel({ topicSlug, topicTitle, blurb, entries }: Props) {
   const [openId, setOpenId] = useState<string | null>(null);
   const [showAll, setShowAll] = useState(false);
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   if (entries.length === 0) return null;
 
@@ -279,8 +283,9 @@ export default function DosjePanel({ topicSlug, topicTitle, blurb, entries }: Pr
             Shfaq {hidden} të tjera
           </button>
         )}
-        <Link
-          href={`/dosje/${topicSlug}`}
+        <button
+          type="button"
+          onClick={() => setDrawerOpen(true)}
           style={{
             flex: 1,
             height: "38px",
@@ -288,16 +293,27 @@ export default function DosjePanel({ topicSlug, topicTitle, blurb, entries }: Pr
             alignItems: "center",
             justifyContent: "center",
             borderRadius: "9px",
+            border: 0,
             background: "#FF4422",
             color: "#FFFFFF",
             fontSize: "12.5px",
             fontWeight: 700,
-            textDecoration: "none",
+            cursor: "pointer",
+            fontFamily: "inherit",
           }}
         >
           Dosja e plotë →
-        </Link>
+        </button>
       </div>
+
+      <DosjeDrawer
+        open={drawerOpen}
+        onClose={() => setDrawerOpen(false)}
+        topicSlug={topicSlug}
+        topicTitle={topicTitle}
+        blurb={blurb}
+        entries={entries}
+      />
     </section>
   );
 }

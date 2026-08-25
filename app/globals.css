@@ -12855,3 +12855,71 @@ header[data-overlay="true"] .nav-search-btn[style*="margin-right"] {
   background: rgba(255, 255, 255, 0.12);
   border-color: rgba(255, 255, 255, 0.28);
 }
+
+/* --- Dosje drawer -------------------------------------------------------- */
+/* The spine reports reading depth, so the fill is information and the travel
+   is decoration. Under reduced motion the travel and pulse stop; the fill
+   stays, because removing it would remove the meaning rather than the flourish. */
+
+@keyframes dosje-flow {
+  to { background-position: 0 -260px; }
+}
+
+@keyframes dosje-pulse {
+  0%, 100% { transform: scale(1); opacity: 0.9; }
+  50% { transform: scale(1.55); opacity: 0.3; }
+}
+
+@keyframes dosje-drawer-in {
+  from { transform: translateX(28px); opacity: 0; }
+  to { transform: none; opacity: 1; }
+}
+
+@keyframes dosje-scrim-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.dosje-spine-fill {
+  width: 100%;
+  border-radius: 3px;
+  background-image: linear-gradient(
+    180deg,
+    rgba(255, 68, 34, 0.35) 0%,
+    #ff4422 18%,
+    #ff8a63 42%,
+    #ff4422 66%,
+    rgba(255, 68, 34, 0.35) 100%
+  );
+  background-size: 100% 260px;
+  animation: dosje-flow 2.4s linear infinite;
+  transition: height 0.18s ease-out;
+  will-change: background-position;
+}
+
+.dosje-meniscus {
+  position: absolute;
+  left: 12.5px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(circle, rgba(255, 68, 34, 0.95) 0%, rgba(255, 68, 34, 0) 70%);
+  animation: dosje-pulse 1.9s ease-in-out infinite;
+  transition: top 0.18s ease-out;
+}
+
+.dosje-drawer {
+  animation: dosje-drawer-in 0.26s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.dosje-scrim {
+  animation: dosje-scrim-in 0.2s ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dosje-spine-fill { animation: none; }
+  .dosje-meniscus { animation: none; opacity: 0.85; }
+  .dosje-drawer,
+  .dosje-scrim { animation-duration: 0.01ms; }
+}
