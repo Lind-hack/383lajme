@@ -139,6 +139,24 @@ DEFAULT_GITHUB_REPO = "Lind-hack/383lajme"
 TREGU_CHART_UI_VERSION = "smooth-inspector-v3"
 F1_RACE_UI_VERSION = "race-grid-v3"
 FOOTBALL_MARKET_UI_VERSION = "stage-aware-v3"
+DEPLOYMENT_POLICY = "VERCEL deploy delegated to the GitHub main integration"
+
+
+def production_release_contract() -> dict[str, str]:
+    contract = {
+        "chart_ui_version": TREGU_CHART_UI_VERSION,
+        "f1_race_ui_version": F1_RACE_UI_VERSION,
+        "football_market_ui_version": FOOTBALL_MARKET_UI_VERSION,
+        "deployment_policy": DEPLOYMENT_POLICY,
+    }
+    required = (
+        contract.get("f1_race_ui_version", ""),
+        contract.get("football_market_ui_version", ""),
+        contract.get("deployment_policy", ""),
+    )
+    if not all(required):
+        raise RuntimeError("Production release contract is incomplete")
+    return contract
 # Publish every independently valid fresh item discovered in a scheduled window.
 # Individual invalid/duplicate candidates are removed; a smaller valid batch must
 # not keep the public site stale.
