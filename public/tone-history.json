@@ -3086,5 +3086,214 @@
         "sentiment": "negative"
       }
     ]
+  },
+  {
+    "date": "2026-08-26",
+    "overallIndex": 52,
+    "totalArticles": 51,
+    "sourceCount": 46,
+    "stanceVersion": 3,
+    "countries": {
+      "Gjermani": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 4,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "SHBA": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Britani": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Francë": {
+        "index": 40,
+        "positive": 0,
+        "neutral": 80,
+        "negative": 20,
+        "n": 5,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 3
+      },
+      "Itali": {
+        "index": 48,
+        "positive": 0,
+        "neutral": 95,
+        "negative": 5,
+        "n": 20,
+        "excluded": 6,
+        "confident": true,
+        "stanceVersion": 3
+      },
+      "Austri": {
+        "index": 60,
+        "positive": 20,
+        "neutral": 80,
+        "negative": 0,
+        "n": 5,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 3
+      },
+      "Zvicër": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 2,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Holandë": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 2,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Belgjikë": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Spanjë": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 1,
+        "excluded": 1,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Greqi": {
+        "index": 70,
+        "positive": 40,
+        "neutral": 60,
+        "negative": 0,
+        "n": 5,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 3
+      },
+      "Suedi": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Poloni": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 1,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Turqi": {
+        "index": 57,
+        "positive": 14,
+        "neutral": 86,
+        "negative": 0,
+        "n": 7,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 3
+      },
+      "Kroaci": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      }
+    },
+    "headlines": [
+      {
+        "title": "How a Small Country Like Kosovo Became a Judo Powerhouse - JudoInside.com",
+        "source": "JudoInside.com",
+        "country": "SHBA",
+        "flag": "🇺🇸",
+        "url": "https://www.judoinside.com/news/8109/How_a_Small_Country_Like_Kosovo_Became_a_Judo_Powerhouse",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Mehdi Mehmeti, leggenda della pallavolo del Kosovo - Periskopi",
+        "source": "Periskopi",
+        "country": "Itali",
+        "flag": "🇮🇹",
+        "url": "https://periskopi.com/it/2026/8/mehdi-mehmeti-leggenda-pallavolo-kosovo",
+        "sentiment": "positive"
+      },
+      {
+        "title": "JM 2026 : les Lioncelles décrochent un précieux nul face au Portugal - lopinion.ma",
+        "source": "lopinion.ma",
+        "country": "Belgjikë",
+        "flag": "🇧🇪",
+        "url": "https://lopinion.ma/fr/sport/newsroom/jm-2026--les-lioncelles-decrochent-un-precieux-nul-face-au-portugal_a22886?articleId=4125af99-f88e-4b2b-ac18-1b9dbcd0ddf0",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Aleanca hedh qymyr para qeverisë, Ramadani: Kurti po e çon Kosovën në terr politik - Reporteri",
+        "source": "Reporteri",
+        "country": "Gjermani",
+        "flag": "🇩🇪",
+        "url": "https://reporteri.net/fr/nouvelles/L%27alliance-jette-de-l%27huile-sur-le-feu-au-gouvernement-%3A-Ramadan-Kurti-plonge-le-Kosovo-dans-les-t%C3%A9n%C3%A8bres-politiques./",
+        "sentiment": "negative"
+      },
+      {
+        "title": "Kosovo must become a state of its Serbs, too - CdM",
+        "source": "CdM",
+        "country": "SHBA",
+        "flag": "🇺🇸",
+        "url": "https://www.cdm.me/english/kosovo-must-become-a-state-of-its-serbs-too/",
+        "sentiment": "negative"
+      },
+      {
+        "title": "Le Maroc écrase le Kosovo aux Jeux méditerranéens U17 féminins - Yabiladi.com",
+        "source": "Yabiladi.com",
+        "country": "Francë",
+        "flag": "🇫🇷",
+        "url": "https://www.yabiladi.com/articles/details/201362/maroc-ecrase-kosovo-jeux-mediterraneens.html",
+        "sentiment": "negative"
+      }
+    ]
   }
 ]
