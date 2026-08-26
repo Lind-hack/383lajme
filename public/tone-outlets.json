@@ -1,10 +1,10 @@
 {
   "lastUpdated": "2026-08-26",
   "overallIndex": 52,
-  "totalArticles": 61,
-  "sourceCount": 52,
+  "totalArticles": 64,
+  "sourceCount": 54,
   "stanceVersion": 3,
-  "unattributed": 149,
+  "unattributed": 156,
   "nonEditorial": 3,
   "wrongKosovo": 0,
   "countries": {
@@ -311,7 +311,7 @@
         {
           "name": "Buonasera24",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 3,
           "articles": [
             {
               "title": "Italia-Kosovo allo Iacovone, cambia la viabilità: strade chiuse dalle 18 - Buonasera24",
@@ -338,10 +338,23 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Italia-Kosovo allo Iacovone, piano straordinario per bus e navette. Tutto quello che c'è da sapere - Buonasera24",
+              "albanianTitle": "Italia-Kosova në stadiumin Iacovone, plani i jashtëzakonshëm për autobusë dhe transport. Gjithçka që duhet të dini - Buonasera24",
+              "blurb": "Autoritetet italiane kanë hartuar një plan të veçantë për transportin me autobusë për ndeshjen futbollistike Itali-Kosovë në stadiumin Iacovone.",
+              "imageUrl": "https://www.buonasera24.it/resizer/600/315/true/2023_12_28/KYMA_MOBILITA_-1703758430744.jpg--italia_kosovo_allo_iacovone__piano_straordinario_per_bus_e_navette__tutto_quello_che_c_e_da_sapere.webp?1782254250000",
+              "url": "https://www.buonasera24.it/news/cronaca/927375/italia-kosovo-allo-iacovone-piano-straordinario-per-bus-e-navette-tutto-quello-che-c-e-da-sapere.html",
+              "date": "2026-08-26",
+              "sentiment": "neutral",
+              "reason": "Raportim informativ i planit të transportit",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 2,
-          "trend": "i pamjaftueshëm",
+          "totalArticles": 3,
+          "trend": "neutral",
           "firstSeen": "2026-08-25",
           "lastSeen": "2026-08-26"
         },
@@ -733,7 +746,7 @@
               "title": "Italia-Kosovo allo Iacovone, è sold out: gli Azzurri si giocano tutto davanti al pubblico di Taranto - TarantoToday",
               "albanianTitle": "Italia-Kosova në 'Iacovone' me stadiumin e mbushur: Azzurrët kërkojnë fitoren para publikut të Tarantos",
               "blurb": "Ndeshja ndërmjet Italisë dhe Kosovës në stadiumin Iacovone ka shitur të gjitha biletat për shikuesit në qytetin e Tarantos.",
-              "imageUrl": null,
+              "imageUrl": "https://www.tarantotoday.it/~media/horizontal-hi/59493174514480/iacovone-6.jpg",
               "url": "https://www.tarantotoday.it/attualita/italia-kosovo-iacovone-sold-out-giochi-mediterraneo.html",
               "date": "2026-08-26",
               "sentiment": "neutral",
@@ -797,6 +810,30 @@
           "trend": "neutral",
           "firstSeen": "2026-08-22",
           "lastSeen": "2026-08-25"
+        },
+        {
+          "name": "grottaglieinrete.it",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Giochi a Taranto, oggi: Italia – Kosovo. Ecco dove parcheggiare e strade chiuse - grottaglieinrete.it",
+              "albanianTitle": "Lojërat në Taranto, sot: Italia – Kosova. Ku të parkoni dhe cilat rrugë do të jenë të mbyllura - grottaglieinrete.it",
+              "blurb": "Ndeshja ndërmjet Italisë dhe Kosovës në Taranto ka sjellë ndryshime në qarkullimin rrugor dhe planifikimin e parkingjeve për tifozët.",
+              "imageUrl": "https://www.grottaglieinrete.it/it/wp-content/uploads/2026/08/parcheggi-italia-kosovo-taranto.jpg",
+              "url": "https://www.grottaglieinrete.it/it/giochi-a-taranto-oggi-italia-kosovo-ecco-dove-parcheggiare-e-strade-chiuse/",
+              "date": "2026-08-26",
+              "sentiment": "neutral",
+              "reason": "Informacion i thjeshtë për ngjarjen sportive",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-26",
+          "lastSeen": "2026-08-26"
         },
         {
           "name": "il Fatto Nisseno",
@@ -874,9 +911,9 @@
       "summary": {
         "index": 48,
         "positive": 0,
-        "neutral": 96,
-        "negative": 4,
-        "n": 27,
+        "neutral": 97,
+        "negative": 3,
+        "n": 29,
         "excluded": 4,
         "confident": true,
         "stanceVersion": 3
@@ -1012,12 +1049,12 @@
             {
               "title": "ÖFB-Teamchef: Franco Foda verzichtete auf Millionen - weekend.at",
               "albanianTitle": "Përzgjedhësi i Austrisë, Franco Foda, hoqi dorë nga miliona euro",
-              "blurb": "Përzgjedhësi i kombëtares së Austrisë, Franco Foda, ka hequr dorë nga shuma milionëshe gjatë largimit nga pozita e tij.",
+              "blurb": "Përzgjedhësi i kombëtares së futbollit të Austrisë, Franco Foda, ka hequr dorë nga miliona euro gjatë karrierës së tij.",
               "imageUrl": "https://s3.eu-central-1.amazonaws.com/at-wknd-s3/production/s3fs-public/sites/default/files/styles/facebook/public/2026-08/ofb-teamchef-franco-foda-millionen-angebot-kosovo.jpg",
               "url": "https://www.weekend.at/sport/ofb-teamchef-franco-foda-millionen-kosovo-angebot",
               "date": "2026-08-26",
               "sentiment": "unknown",
-              "reason": "No mention of Kosovo or evaluative language toward Kosovo in the headline",
+              "reason": "Itemi nuk përmend Kosovën",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1129,6 +1166,30 @@
           "lastSeen": "2026-08-24"
         },
         {
+          "name": "Transport Online",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Remmen en stuurinrichting defect: politie haalt autotransporter uit Kosovo van de weg - Transport Online",
+              "albanianTitle": "Defekt në frenim dhe drejtim: policia ndalon një kamion transportues nga Kosova - Transport Online",
+              "blurb": "Policia ka ndaluar qarkullimin e një kamioni transportues nga Kosova për shkak të defekteve teknike në sistemin e frenimit.",
+              "imageUrl": "https://www.transport-online.nl/wp-content/uploads/2026/08/politie-haalt-autotransporter-uit-Kosovo-van-de-weg.jpg",
+              "url": "https://www.transport-online.nl/136205/remmen-en-stuurinrichting-defect-politie-haalt-autotransporter-uit-kosovo-van-de-weg/",
+              "date": "2026-08-26",
+              "sentiment": "neutral",
+              "reason": "Raportim neutral i veprimit të policisë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-26",
+          "lastSeen": "2026-08-26"
+        },
+        {
           "name": "VoetbalBrabant.nl",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1158,7 +1219,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 2,
+        "n": 3,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3

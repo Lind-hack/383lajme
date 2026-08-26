@@ -1501,16 +1501,17 @@
     },
     "Buonasera24": {
       "country": "Itali",
-      "total": 2,
+      "total": 3,
       "positive": 0,
-      "neutral": 2,
+      "neutral": 3,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-25",
       "lastSeen": "2026-08-26",
       "urls": [
         "https://www.buonasera24.it/news/cronaca/927313/italia-kosovo-allo-iacovone-cambia-la-viabilita-strade-chiuse-dalle-18.html",
-        "https://www.buonasera24.it/news/cronaca/927361/italia-kosovo-iacovone-tutto-esaurito-le-informazioni-su-come-accedere.html"
+        "https://www.buonasera24.it/news/cronaca/927361/italia-kosovo-iacovone-tutto-esaurito-le-informazioni-su-come-accedere.html",
+        "https://www.buonasera24.it/news/cronaca/927375/italia-kosovo-allo-iacovone-piano-straordinario-per-bus-e-navette-tutto-quello-che-c-e-da-sapere.html"
       ]
     },
     "Kicker": {
@@ -1681,6 +1682,32 @@
       "lastSeen": "2026-08-23",
       "urls": [
         "https://www.smhi.se/vader/prognoser-och-varningar/vaderprognos/q/Mitrovica/789225"
+      ]
+    },
+    "grottaglieinrete.it": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-26",
+      "lastSeen": "2026-08-26",
+      "urls": [
+        "https://www.grottaglieinrete.it/it/giochi-a-taranto-oggi-italia-kosovo-ecco-dove-parcheggiare-e-strade-chiuse/"
+      ]
+    },
+    "Transport Online": {
+      "country": "Holandë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-26",
+      "lastSeen": "2026-08-26",
+      "urls": [
+        "https://www.transport-online.nl/136205/remmen-en-stuurinrichting-defect-politie-haalt-autotransporter-uit-kosovo-van-de-weg/"
       ]
     }
   }
