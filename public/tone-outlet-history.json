@@ -942,16 +942,17 @@
     },
     "Haberler": {
       "country": "Turqi",
-      "total": 2,
+      "total": 3,
       "positive": 0,
-      "neutral": 2,
+      "neutral": 3,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-21",
+      "lastSeen": "2026-08-26",
       "urls": [
         "https://www.haberler.com/3-sayfa/kosova-da-savas-suclari-sorusturmasi-23-kisiye-ait-20159336-haberi/",
-        "https://www.haberler.com/3-sayfa/kosova-da-toplu-mezarlarin-yakininda-cok-sayida-20164351-haberi/"
+        "https://www.haberler.com/3-sayfa/kosova-da-toplu-mezarlarin-yakininda-cok-sayida-20164351-haberi/",
+        "https://www.haberler.com/guncel/trakya-universitesi-ile-haxhi-zeka-universitesi-20177714-haberi/"
       ]
     },
     "Son Dakika": {
@@ -1500,15 +1501,16 @@
     },
     "Buonasera24": {
       "country": "Itali",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-25",
-      "lastSeen": "2026-08-25",
+      "lastSeen": "2026-08-26",
       "urls": [
-        "https://www.buonasera24.it/news/cronaca/927313/italia-kosovo-allo-iacovone-cambia-la-viabilita-strade-chiuse-dalle-18.html"
+        "https://www.buonasera24.it/news/cronaca/927313/italia-kosovo-allo-iacovone-cambia-la-viabilita-strade-chiuse-dalle-18.html",
+        "https://www.buonasera24.it/news/cronaca/927361/italia-kosovo-iacovone-tutto-esaurito-le-informazioni-su-come-accedere.html"
       ]
     },
     "Kicker": {
@@ -1539,15 +1541,16 @@
     },
     "TarantoToday": {
       "country": "Itali",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-25",
-      "lastSeen": "2026-08-25",
+      "lastSeen": "2026-08-26",
       "urls": [
-        "https://www.tarantotoday.it/attualita/giochi-del-mediterraneo-modifiche-alla-viabilita-per-la-sfida-italia-kosovo-nel-nuovo-stadio-iacovone.html"
+        "https://www.tarantotoday.it/attualita/giochi-del-mediterraneo-modifiche-alla-viabilita-per-la-sfida-italia-kosovo-nel-nuovo-stadio-iacovone.html",
+        "https://www.tarantotoday.it/attualita/italia-kosovo-iacovone-sold-out-giochi-mediterraneo.html"
       ]
     },
     "Corriere di Taranto": {
@@ -1639,6 +1642,45 @@
       "lastSeen": "2026-08-25",
       "urls": [
         "https://www.diretta.it/partita/calcio/irlanda-Gfyqk1aG/kosovo-v1DTPQwI/riassunto/formazioni/"
+      ]
+    },
+    "Calcio e Finanza": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-26",
+      "lastSeen": "2026-08-26",
+      "urls": [
+        "https://www.calcioefinanza.it/2026/08/26/italia-kosovo-dove-vederla/"
+      ]
+    },
+    "weekend.at": {
+      "country": "Austri",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-08-26",
+      "lastSeen": "2026-08-26",
+      "urls": [
+        "https://www.weekend.at/sport/ofb-teamchef-franco-foda-millionen-kosovo-angebot"
+      ]
+    },
+    "SMHI": {
+      "country": "Suedi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-26",
+      "lastSeen": "2026-08-23",
+      "urls": [
+        "https://www.smhi.se/vader/prognoser-och-varningar/vaderprognos/q/Mitrovica/789225"
       ]
     }
   }

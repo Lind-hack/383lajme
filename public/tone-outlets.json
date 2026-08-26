@@ -1,10 +1,10 @@
 {
   "lastUpdated": "2026-08-26",
-  "overallIndex": 53,
-  "totalArticles": 56,
-  "sourceCount": 48,
+  "overallIndex": 52,
+  "totalArticles": 61,
+  "sourceCount": 52,
   "stanceVersion": 3,
-  "unattributed": 140,
+  "unattributed": 149,
   "nonEditorial": 3,
   "wrongKosovo": 0,
   "countries": {
@@ -311,7 +311,7 @@
         {
           "name": "Buonasera24",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Italia-Kosovo allo Iacovone, cambia la viabilità: strade chiuse dalle 18 - Buonasera24",
@@ -325,12 +325,49 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Italia-Kosovo, Iacovone tutto esaurito: le informazioni su come accedere - Buonasera24",
+              "albanianTitle": "Italia-Kosova në stadiumin 'Iacovone': gjithçka e shitur, informatat për hyrje",
+              "blurb": "Stadiumi Iacovone është mbushur plot për ndeshjen Itali-Kosovë dhe janë publikuar udhëzimet për hyrjen e shikuesve në këtë arenë.",
+              "imageUrl": "https://www.buonasera24.it/resizer/600/315/true/2026_08_26/WhatsApp_Image_2026-08-26_at_09.37.18-1787731962622.jpeg--il_nuovo_stadio_iacovone_di_taranto.webp?1787731962876",
+              "url": "https://www.buonasera24.it/news/cronaca/927361/italia-kosovo-iacovone-tutto-esaurito-le-informazioni-su-come-accedere.html",
+              "date": "2026-08-26",
+              "sentiment": "neutral",
+              "reason": "Informative announcement about ticket access, no hostile or praising language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 2,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-25",
+          "lastSeen": "2026-08-26"
+        },
+        {
+          "name": "Calcio e Finanza",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Italia-Kosovo, dove vedere la sfida degli Azzurrini ai Giochi del Mediterraneo - Calcio e Finanza",
+              "albanianTitle": "Ku mund ta shikoni ndeshjen Itali-Kosovë në Lojërat Mesdhetare",
+              "blurb": "Tifozët mund të ndjekin ndeshjen e futbollit ndërmjet Italisë dhe Kosovës në kuadër të Lojërave Mesdhetare përmes transmetimeve zyrtare.",
+              "imageUrl": "https://www.calcioefinanza.it/wp-content/uploads/2026/08/Giochi-del-Mediterraneo-2.webp",
+              "url": "https://www.calcioefinanza.it/2026/08/26/italia-kosovo-dove-vederla/",
+              "date": "2026-08-26",
+              "sentiment": "neutral",
+              "reason": "Straightforward guide to viewing a sports match, no evaluative language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
           "totalArticles": 1,
           "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-25",
-          "lastSeen": "2026-08-25"
+          "firstSeen": "2026-08-26",
+          "lastSeen": "2026-08-26"
         },
         {
           "name": "Corriere di Taranto",
@@ -677,7 +714,7 @@
         {
           "name": "TarantoToday",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Giochi del Mediterraneo, modifiche alla viabilità per la sfida Italia-Kosovo nel nuovo stadio Iacovone - TarantoToday",
@@ -691,12 +728,25 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Italia-Kosovo allo Iacovone, è sold out: gli Azzurri si giocano tutto davanti al pubblico di Taranto - TarantoToday",
+              "albanianTitle": "Italia-Kosova në 'Iacovone' me stadiumin e mbushur: Azzurrët kërkojnë fitoren para publikut të Tarantos",
+              "blurb": "Ndeshja ndërmjet Italisë dhe Kosovës në stadiumin Iacovone ka shitur të gjitha biletat për shikuesit në qytetin e Tarantos.",
+              "imageUrl": null,
+              "url": "https://www.tarantotoday.it/attualita/italia-kosovo-iacovone-sold-out-giochi-mediterraneo.html",
+              "date": "2026-08-26",
+              "sentiment": "neutral",
+              "reason": "Simple factual report of match, no loaded language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 1,
+          "totalArticles": 2,
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-08-25",
-          "lastSeen": "2026-08-25"
+          "lastSeen": "2026-08-26"
         },
         {
           "name": "agenziagiornalisticaopinione.it",
@@ -826,7 +876,7 @@
         "positive": 0,
         "neutral": 96,
         "negative": 4,
-        "n": 24,
+        "n": 27,
         "excluded": 4,
         "confident": true,
         "stanceVersion": 3
@@ -953,6 +1003,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-08-25",
           "lastSeen": "2026-08-25"
+        },
+        {
+          "name": "weekend.at",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "ÖFB-Teamchef: Franco Foda verzichtete auf Millionen - weekend.at",
+              "albanianTitle": "Përzgjedhësi i Austrisë, Franco Foda, hoqi dorë nga miliona euro",
+              "blurb": "Përzgjedhësi i kombëtares së Austrisë, Franco Foda, ka hequr dorë nga shuma milionëshe gjatë largimit nga pozita e tij.",
+              "imageUrl": "https://s3.eu-central-1.amazonaws.com/at-wknd-s3/production/s3fs-public/sites/default/files/styles/facebook/public/2026-08/ofb-teamchef-franco-foda-millionen-angebot-kosovo.jpg",
+              "url": "https://www.weekend.at/sport/ofb-teamchef-franco-foda-millionen-kosovo-angebot",
+              "date": "2026-08-26",
+              "sentiment": "unknown",
+              "reason": "No mention of Kosovo or evaluative language toward Kosovo in the headline",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-26",
+          "lastSeen": "2026-08-26"
         }
       ],
       "summary": {
@@ -961,7 +1035,7 @@
         "neutral": 80,
         "negative": 0,
         "n": 5,
-        "excluded": 0,
+        "excluded": 1,
         "confident": true,
         "stanceVersion": 3
       }
@@ -1278,13 +1352,38 @@
       }
     },
     "Suedi": {
-      "outlets": [],
+      "outlets": [
+        {
+          "name": "SMHI",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Väderprognos 10 dygn Mitrovica, Kosovo - SMHI",
+              "albanianTitle": "Parashikimi i motit për 10 ditët e ardhshme në Mitrovicë, Kosovë",
+              "blurb": "Instituti Meteorologjik Suedez ka publikuar parashikimin e motit për dhjetë ditët e ardhshme për qytetin e Mitrovicës në Kosovë.",
+              "imageUrl": null,
+              "url": "https://www.smhi.se/vader/prognoser-och-varningar/vaderprognos/q/Mitrovica/789225",
+              "date": "2026-08-23",
+              "sentiment": "neutral",
+              "reason": "Weather forecast, purely factual",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-26",
+          "lastSeen": "2026-08-23"
+        }
+      ],
       "summary": {
-        "index": null,
+        "index": 50,
         "positive": 0,
-        "neutral": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 0,
+        "n": 1,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -1401,6 +1500,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-08-25",
           "lastSeen": "2026-08-25"
+        },
+        {
+          "name": "Haberler",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Trakya Üniversitesi ile Kosova'daki Haxhi Zeka Üniversitesi arasında iş birliği protokolü imzalandı - Haberler",
+              "albanianTitle": "Nënshkruhet protokolli i bashkëpunimit mes Universitetit të Trakyas dhe Universitetit Haxhi Zeka në Kosovë",
+              "blurb": "Universiteti i Trakyas dhe Universiteti Haxhi Zeka në Kosovë kanë nënshkruar një protokoll zyrtar për bashkëpunim ndëruniversitar.",
+              "imageUrl": "https://foto.haberler.com/haber/2026/08/26/trakya-universitesi-ile-haxhi-zeka-universite-20177714_amp.jpg",
+              "url": "https://www.haberler.com/guncel/trakya-universitesi-ile-haxhi-zeka-universitesi-20177714-haberi/",
+              "date": "2026-08-26",
+              "sentiment": "neutral",
+              "reason": "Report of cooperation agreement, factual description",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 3,
+          "trend": "neutral",
+          "firstSeen": "2026-08-20",
+          "lastSeen": "2026-08-26"
         },
         {
           "name": "Hürriyet",
@@ -1524,11 +1647,11 @@
         }
       ],
       "summary": {
-        "index": 62,
-        "positive": 25,
-        "neutral": 75,
+        "index": 61,
+        "positive": 22,
+        "neutral": 78,
         "negative": 0,
-        "n": 8,
+        "n": 9,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
