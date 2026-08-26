@@ -12963,7 +12963,8 @@ header[data-overlay="true"] .nav-search-btn[style*="margin-right"] {
 
 @media (prefers-reduced-motion: reduce) {
   .dosje-spine-fill { animation: none; }
-  .dosje-surging { animation: none; }
+  .dosje-rail-flow.dosje-surging,
+  .dosje-spine-fill.dosje-surging { animation: none; }
   .dosje-meniscus { animation: none; opacity: 0.85; }
   .dosje-drawer,
   .dosje-scrim { animation-duration: 0.01ms; }
@@ -12986,9 +12987,16 @@ header[data-overlay="true"] .nav-search-btn[style*="margin-right"] {
   100% { filter: brightness(1) saturate(1); transform: scaleX(1); }
 }
 
-.dosje-surging {
+.dosje-rail-flow.dosje-surging {
   animation:
     dosje-flow-rail 5.6s linear infinite,
+    dosje-surge 1.15s cubic-bezier(0.22, 1, 0.36, 1);
+  transform-origin: center;
+}
+
+.dosje-spine-fill.dosje-surging {
+  animation:
+    dosje-flow 6.4s linear infinite,
     dosje-surge 1.15s cubic-bezier(0.22, 1, 0.36, 1);
   transform-origin: center;
 }
