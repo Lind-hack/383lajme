@@ -83,9 +83,9 @@
     },
     "Le Courrier des Balkans": {
       "country": "Francë",
-      "total": 5,
+      "total": 6,
       "positive": 0,
-      "neutral": 4,
+      "neutral": 5,
       "negative": 1,
       "unknown": 0,
       "firstSeen": "2026-08-20",
@@ -95,7 +95,8 @@
         "https://www.courrierdesbalkans.fr/kosovo-jouer-a-la-paix-jouer-a-la-guerre-69437/",
         "https://www.courrierdesbalkans.fr/independance-du-kosovo-le-plan-secret-de-belgrade-8932/",
         "https://www.courrierdesbalkans.fr/un-hommage-en-provenance-du-kosovo-1367/",
-        "https://www.courrierdesbalkans.fr/kosovo-serbie-mais-ou-est-passe-le-journalisme-engage-9084/"
+        "https://www.courrierdesbalkans.fr/kosovo-serbie-mais-ou-est-passe-le-journalisme-engage-9084/",
+        "https://www.courrierdesbalkans.fr/entre-kosovo-et-serbie-la-fin-des-mesures-de-reciprocite-73159/"
       ]
     },
     "Le Figaro": {
@@ -183,19 +184,21 @@
     },
     "ANSA": {
       "country": "Itali",
-      "total": 5,
+      "total": 7,
       "positive": 0,
-      "neutral": 3,
+      "neutral": 5,
       "negative": 0,
       "unknown": 2,
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-24",
+      "lastSeen": "2026-08-26",
       "urls": [
         "https://www.ansa.it/nuova_europa/en/news/sections/news/2026/08/20/vucic-writes-to-rutte-nato-stop-terror-in-kosovo-do-not-reopen-the_9034279d-c06f-4e44-ab54-096dd4332014.html",
         "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/08/20/vucic-scrive-a-rutte-nato-fermi-terrore-in-kosovo-non-riaprire-ponte_68050249-06ef-4b0a-b56b-6ff64929514e.html",
         "https://www.ansa.it/nuova_europa/it/notizie/rubriche/politica/2026/08/21/kosovo-completa-esumazione-23-corpi-da-fossa-comune-scoperta-in-luglio_2a9d9978-3f19-4b2a-8a42-64b84fe4d081.html",
         "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/08/24/nei-balcani-macedonia-del-nord-bosnia-e-serbia-in-preda-agli-incendi_12f9ffd9-6f15-4ffb-982e-a4b1c86da15e.html",
-        "https://www.ansa.it/nuova_europa/en/news/countries/kosovo/2026/08/24/balkans-north-macedonia-bosnia-and-serbia-gripped-by-wildfires_72bbad1c-7f2a-4d8c-b5a4-4e1b2accea77.html"
+        "https://www.ansa.it/nuova_europa/en/news/countries/kosovo/2026/08/24/balkans-north-macedonia-bosnia-and-serbia-gripped-by-wildfires_72bbad1c-7f2a-4d8c-b5a4-4e1b2accea77.html",
+        "https://www.ansa.it/sito/photogallery/primopiano/2026/08/26/il-premier-del-kosovo-albin-kurti-visita-la-macedonia-del-nord_2b25a778-cba8-4d7b-90c7-c13db0adbca7.html",
+        "https://www.ansa.it/puglia/notizie/speciali/xx_giochi_del_mediterraneo_taranto_2026/2026/08/26/giochi-del-mediterraneo-iacovone-sold-out-per-ltalia-kosovo-di-calcio_3721fc27-cf4f-427f-b528-7b301621f166.html"
       ]
     },
     "Virgilio": {
@@ -942,9 +945,9 @@
     },
     "Haberler": {
       "country": "Turqi",
-      "total": 3,
+      "total": 4,
       "positive": 0,
-      "neutral": 3,
+      "neutral": 4,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-20",
@@ -952,7 +955,8 @@
       "urls": [
         "https://www.haberler.com/3-sayfa/kosova-da-savas-suclari-sorusturmasi-23-kisiye-ait-20159336-haberi/",
         "https://www.haberler.com/3-sayfa/kosova-da-toplu-mezarlarin-yakininda-cok-sayida-20164351-haberi/",
-        "https://www.haberler.com/guncel/trakya-universitesi-ile-haxhi-zeka-universitesi-20177714-haberi/"
+        "https://www.haberler.com/guncel/trakya-universitesi-ile-haxhi-zeka-universitesi-20177714-haberi/",
+        "https://www.haberler.com/spor/20-akdeniz-oyunlari-20178750-haberi/"
       ]
     },
     "Son Dakika": {
@@ -1107,29 +1111,31 @@
     },
     "Cronache Tarantine": {
       "country": "Itali",
+      "total": 3,
+      "positive": 0,
+      "neutral": 3,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-23",
+      "lastSeen": "2026-08-26",
+      "urls": [
+        "https://www.cronachetarantine.it/index.php/sp/107-taranto-calcio/17587-presentazione-della-squadra-del-taranto-nellintervallo-di-italia-kosovo",
+        "https://www.cronachetarantine.it/index.php/giochi-2026/17627-giochi-italia-kosovo-di-calcio-chiusure-attorno-allo-iacovone-dalle-18",
+        "https://www.cronachetarantine.it/index.php/giochi-2026/17644-giochi-piano-straordinario-trasporti-e-navette-per-la-partita-di-calcio-italia-kosovo"
+      ]
+    },
+    "Studio 100": {
+      "country": "Itali",
       "total": 2,
       "positive": 0,
       "neutral": 2,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-23",
-      "lastSeen": "2026-08-25",
+      "lastSeen": "2026-08-26",
       "urls": [
-        "https://www.cronachetarantine.it/index.php/sp/107-taranto-calcio/17587-presentazione-della-squadra-del-taranto-nellintervallo-di-italia-kosovo",
-        "https://www.cronachetarantine.it/index.php/giochi-2026/17627-giochi-italia-kosovo-di-calcio-chiusure-attorno-allo-iacovone-dalle-18"
-      ]
-    },
-    "Studio 100": {
-      "country": "Itali",
-      "total": 1,
-      "positive": 0,
-      "neutral": 1,
-      "negative": 0,
-      "unknown": 0,
-      "firstSeen": "2026-08-23",
-      "lastSeen": "2026-08-23",
-      "urls": [
-        "https://www.studio100.it/2026/08/23/100-notizie-tg-sportivo-del-23-agosto-2026-italia-kosovo-la-ss-taranto-si-presentera-ufficialmente-ai-suoi-tifosi-gli-itriani-superano-per-6-2-lostuni-e-comincia-dalla-coppa-italia-il-nu/"
+        "https://www.studio100.it/2026/08/23/100-notizie-tg-sportivo-del-23-agosto-2026-italia-kosovo-la-ss-taranto-si-presentera-ufficialmente-ai-suoi-tifosi-gli-itriani-superano-per-6-2-lostuni-e-comincia-dalla-coppa-italia-il-nu/",
+        "https://www.studio100.it/2026/08/26/italia-kosovo-allo-iacovone-navette-e-strade-chiuse-dalle-18/"
       ]
     },
     "El Periódico de España": {
@@ -1708,6 +1714,46 @@
       "lastSeen": "2026-08-26",
       "urls": [
         "https://www.transport-online.nl/136205/remmen-en-stuurinrichting-defect-politie-haalt-autotransporter-uit-kosovo-van-de-weg/"
+      ]
+    },
+    "Il Gallo": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-26",
+      "lastSeen": "2026-08-24",
+      "urls": [
+        "https://www.ilgallo.it/sport/giochi-del-mediterraneo-poker-azzurro-al-debutto-kosovo-battuto-4-1/"
+      ]
+    },
+    "ABC": {
+      "country": "Spanjë",
+      "total": 2,
+      "positive": 0,
+      "neutral": 2,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-26",
+      "lastSeen": "2026-08-26",
+      "urls": [
+        "https://www.abc.es/internacional/mandatarios-macedonia-norte-kosovo-inauguran-obras-autopista-20260826152345-nt.html",
+        "https://www.abc.es/internacional/primer-ministro-macedonia-norte-recibe-homologo-kosovar-20260826152319-nt.html"
+      ]
+    },
+    "pontosnews.gr": {
+      "country": "Greqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-26",
+      "lastSeen": "2026-08-26",
+      "urls": [
+        "https://www.pontosnews.gr/859229/athlitismos/arsi-varon-tromeri-emfanisi-apo-ton-giorgo-mario-dima-sto/"
       ]
     }
   }

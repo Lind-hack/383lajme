@@ -1,10 +1,10 @@
 {
   "lastUpdated": "2026-08-26",
   "overallIndex": 52,
-  "totalArticles": 64,
-  "sourceCount": 54,
+  "totalArticles": 75,
+  "sourceCount": 57,
   "stanceVersion": 3,
-  "unattributed": 156,
+  "unattributed": 167,
   "nonEditorial": 3,
   "wrongKosovo": 0,
   "countries": {
@@ -149,7 +149,7 @@
         {
           "name": "Le Courrier des Balkans",
           "sentiment": "neutral",
-          "articleCount": 4,
+          "articleCount": 5,
           "articles": [
             {
               "title": "Kosovo : jouer à la guerre, jouer à la paix (tragicomédie dangereuse) - Le Courrier des Balkans",
@@ -202,9 +202,22 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Entre Kosovo et Serbie, la fin des « mesures de réciprocité » - Le Courrier des Balkans",
+              "albanianTitle": "Mes Kosovës dhe Serbisë, fundi i 'masave të reciprocitetit'",
+              "blurb": "Qeveria e Kosovës dhe Serbia kanë ndërprerë zbatimin e masave të reciprocitetit në marrëdhëniet mes dy vendeve.",
+              "imageUrl": "https://www.courrierdesbalkans.fr/wp-content/uploads/2020/06/kosovo-serbia-dialogue-in-berlin.jpg",
+              "url": "https://www.courrierdesbalkans.fr/entre-kosovo-et-serbie-la-fin-des-mesures-de-reciprocite-73159/",
+              "date": "2026-08-24",
+              "sentiment": "neutral",
+              "reason": "Faktik, pa gjuhë ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 5,
+          "totalArticles": 6,
           "trend": "i përzier",
           "firstSeen": "2026-08-20",
           "lastSeen": "2026-08-24"
@@ -235,11 +248,11 @@
         }
       ],
       "summary": {
-        "index": 40,
+        "index": 42,
         "positive": 0,
-        "neutral": 80,
-        "negative": 20,
-        "n": 5,
+        "neutral": 83,
+        "negative": 17,
+        "n": 6,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
@@ -273,8 +286,8 @@
         },
         {
           "name": "ANSA",
-          "sentiment": "unknown",
-          "articleCount": 2,
+          "sentiment": "neutral",
+          "articleCount": 4,
           "articles": [
             {
               "title": "Nei Balcani Macedonia del Nord, Bosnia e Serbia in preda agli incendi - ANSA",
@@ -301,12 +314,38 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Il premier del Kosovo, Albin Kurti visita la Macedonia del Nord - ANSA",
+              "albanianTitle": "Kryeministri i Kosovës, Albin Kurti, viziton Maqedoninë e Veriut",
+              "blurb": "Kryeministri i Kosovës, Albin Kurti, ka zhvilluar një vizitë zyrtare në Maqedoninë e Veriut për takime me autoritetet atje.",
+              "imageUrl": "https://www.ansa.it/webimages/img_1280x720/2026/8/26/bc3576691d2bbf00169d6a27aa8cefa7.jpg",
+              "url": "https://www.ansa.it/sito/photogallery/primopiano/2026/08/26/il-premier-del-kosovo-albin-kurti-visita-la-macedonia-del-nord_2b25a778-cba8-4d7b-90c7-c13db0adbca7.html",
+              "date": "2026-08-26",
+              "sentiment": "neutral",
+              "reason": "Faktik, pa gjuhë ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Giochi del Mediterraneo: Iacovone sold out per ltalia-Kosovo di calcio - ANSA",
+              "albanianTitle": "Lojërat Mesdhetare: Stadiumi 'Iacovone' i mbushur për ndeshjen e futbollit Itali-Kosovë",
+              "blurb": "Stadiumi Iacovone është mbushur plot me shikues për ndeshjen e futbollit ndërmjet Italisë dhe Kosovës në Lojërat Mesdhetare.",
+              "imageUrl": "https://www.ansa.it/webimages/img_1280x720/2026/8/26/29a34f8eb3ee1abe62e1af01eb84b1e0.jpg",
+              "url": "https://www.ansa.it/puglia/notizie/speciali/xx_giochi_del_mediterraneo_taranto_2026/2026/08/26/giochi-del-mediterraneo-iacovone-sold-out-per-ltalia-kosovo-di-calcio_3721fc27-cf4f-427f-b528-7b301621f166.html",
+              "date": "2026-08-26",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 5,
+          "totalArticles": 7,
           "trend": "neutral",
           "firstSeen": "2026-08-20",
-          "lastSeen": "2026-08-24"
+          "lastSeen": "2026-08-26"
         },
         {
           "name": "Buonasera24",
@@ -409,7 +448,7 @@
         {
           "name": "Cronache Tarantine",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 3,
           "articles": [
             {
               "title": "Presentazione della squadra del Taranto nell’intervallo di Italia-Kosovo - Cronache Tarantine",
@@ -436,12 +475,25 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Giochi, piano straordinario trasporti e navette per la partita di calcio Italia – Kosovo - Cronache Tarantine",
+              "albanianTitle": "Lojërat Mesdhetare: Plan emergjent për transportin dhe autobusët për ndeshjen Itali – Kosovë",
+              "blurb": "Autoritetet italiane kanë hartuar një plan të veçantë transporti dhe autobusësh për ndeshjen e futbollit Itali-Kosovë.",
+              "imageUrl": "https://www.cronachetarantine.it/images/archivio/trasporti/kyma%20autobus.jpg",
+              "url": "https://www.cronachetarantine.it/index.php/giochi-2026/17644-giochi-piano-straordinario-trasporti-e-navette-per-la-partita-di-calcio-italia-kosovo",
+              "date": "2026-08-26",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 2,
-          "trend": "i pamjaftueshëm",
+          "totalArticles": 3,
+          "trend": "neutral",
           "firstSeen": "2026-08-23",
-          "lastSeen": "2026-08-25"
+          "lastSeen": "2026-08-26"
         },
         {
           "name": "Diretta",
@@ -516,6 +568,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-08-20",
           "lastSeen": "2026-08-25"
+        },
+        {
+          "name": "Il Gallo",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Giochi del Mediterraneo, poker azzurro al debutto: Kosovo battuto 4-1 - Il Gallo",
+              "albanianTitle": "Lojërat Mesdhetare, start i fuqishëm për Italinë: Mposhtet Kosova me rezultat 4-1",
+              "blurb": "Përfaqësuesja e Kosovës është mposhtur me rezultatin 4-1 nga Italia në ndeshjen debutuese të Lojërave Mesdhetare.",
+              "imageUrl": "https://www.ilgallo.it/wp-content/uploads/2026/08/0aa32795-42e0-4421-9887-ff9bdc56a8eb-1200x630.jpg",
+              "url": "https://www.ilgallo.it/sport/giochi-del-mediterraneo-poker-azzurro-al-debutto-kosovo-battuto-4-1/",
+              "date": "2026-08-24",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-26",
+          "lastSeen": "2026-08-24"
         },
         {
           "name": "La Gazzetta dello Sport",
@@ -703,7 +779,7 @@
         {
           "name": "Studio 100",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "100 NOTIZIE, TG SPORTIVO DEL 23 Agosto 2026. Italia-Kosovo, la SS Taranto si presenterà ufficialmente ai suoi tifosi, Gli itriani superano per 6-2 l’Ostuni e comincia dalla Coppa Italia il nuovo percorso del Brindisi. - Studio 100",
@@ -717,12 +793,25 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Italia-Kosovo allo Iacovone: navette e strade chiuse dalle 18 - Studio 100",
+              "albanianTitle": "Italia-Kosovë në 'Iacovone': Linja autobusësh dhe rrugë të mbyllura nga ora 18:00",
+              "blurb": "Ndeshja Itali-Kosovë në stadiumin Iacovone ka sjellë ndryshime në trafik dhe organizimin e transportit publik nga ora 18:00.",
+              "imageUrl": "https://www.studio100.it/wp-content/uploads/2026/08/viabilita-1.png",
+              "url": "https://www.studio100.it/2026/08/26/italia-kosovo-allo-iacovone-navette-e-strade-chiuse-dalle-18/",
+              "date": "2026-08-26",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 1,
+          "totalArticles": 2,
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-08-23",
-          "lastSeen": "2026-08-23"
+          "lastSeen": "2026-08-26"
         },
         {
           "name": "TarantoToday",
@@ -909,11 +998,11 @@
         }
       ],
       "summary": {
-        "index": 48,
+        "index": 49,
         "positive": 0,
         "neutral": 97,
         "negative": 3,
-        "n": 29,
+        "n": 34,
         "excluded": 4,
         "confident": true,
         "stanceVersion": 3
@@ -1043,18 +1132,18 @@
         },
         {
           "name": "weekend.at",
-          "sentiment": "unknown",
+          "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
               "title": "ÖFB-Teamchef: Franco Foda verzichtete auf Millionen - weekend.at",
-              "albanianTitle": "Përzgjedhësi i Austrisë, Franco Foda, hoqi dorë nga miliona euro",
-              "blurb": "Përzgjedhësi i kombëtares së futbollit të Austrisë, Franco Foda, ka hequr dorë nga miliona euro gjatë karrierës së tij.",
+              "albanianTitle": "Përzgjedhësi i Austrisë: Franco Foda hoqi dorë nga miliona euro - weekend.at",
+              "blurb": "Trajneri i kombëtares së Austrisë, Franco Foda, ka hequr dorë nga miliona euro gjatë karrierës së tij profesionale.",
               "imageUrl": "https://s3.eu-central-1.amazonaws.com/at-wknd-s3/production/s3fs-public/sites/default/files/styles/facebook/public/2026-08/ofb-teamchef-franco-foda-millionen-angebot-kosovo.jpg",
               "url": "https://www.weekend.at/sport/ofb-teamchef-franco-foda-millionen-kosovo-angebot",
               "date": "2026-08-26",
-              "sentiment": "unknown",
-              "reason": "Itemi nuk përmend Kosovën",
+              "sentiment": "neutral",
+              "reason": "Lajm sportiv i paanshëm, pa gjuhë kundër Kosovës",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1067,12 +1156,12 @@
         }
       ],
       "summary": {
-        "index": 60,
-        "positive": 20,
-        "neutral": 80,
+        "index": 58,
+        "positive": 17,
+        "neutral": 83,
         "negative": 0,
-        "n": 5,
-        "excluded": 1,
+        "n": 6,
+        "excluded": 0,
         "confident": true,
         "stanceVersion": 3
       }
@@ -1241,6 +1330,43 @@
     "Spanjë": {
       "outlets": [
         {
+          "name": "ABC",
+          "sentiment": "neutral",
+          "articleCount": 2,
+          "articles": [
+            {
+              "title": "Los mandatarios de Macedonia del Norte y Kosovo inauguran las obras de la autopista que unirá a ambos países - ABC",
+              "albanianTitle": "Krerët e Maqedonisë së Veriut dhe Kosovës përurojnë punimet në autostradën që do t'i lidhë të dyja vendet",
+              "blurb": "Udhëheqësit e Maqedonisë së Veriut dhe Kosovës kanë përuruar zyrtarisht fillimin e punimeve për autostradën që lidh dy vendet.",
+              "imageUrl": "https://s1.abcstatics.com/abc/www/multimedia/internacional/2026/08/26/VIDEO-mandatarios-macedonia-norte-kosovo.jpg",
+              "url": "https://www.abc.es/internacional/mandatarios-macedonia-norte-kosovo-inauguran-obras-autopista-20260826152345-nt.html",
+              "date": "2026-08-26",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "El primer ministro de Macedonia del Norte recibe a su homólogo kosovar - ABC",
+              "albanianTitle": "Kryeministri i Maqedonisë së Veriut pret homologun e tij kosovar",
+              "blurb": "Kryeministri i Maqedonisë së Veriut ka pritur në një takim zyrtar homologun e tij nga shteti i Kosovës.",
+              "imageUrl": "https://s1.abcstatics.com/abc/www/multimedia/internacional/2026/08/26/VIDEO-primer-ministro-macedonia-norte.jpg",
+              "url": "https://www.abc.es/internacional/primer-ministro-macedonia-norte-recibe-homologo-kosovar-20260826152319-nt.html",
+              "date": "2026-08-26",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 2,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-26",
+          "lastSeen": "2026-08-26"
+        },
+        {
           "name": "EL PAÍS",
           "sentiment": "unknown",
           "articleCount": 1,
@@ -1294,7 +1420,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 1,
+        "n": 3,
         "excluded": 1,
         "confident": false,
         "stanceVersion": 3
@@ -1325,6 +1451,30 @@
           "trend": "neutral",
           "firstSeen": "2026-08-19",
           "lastSeen": "2026-08-25"
+        },
+        {
+          "name": "pontosnews.gr",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Άρση βαρών: Τρομερή εμφάνιση από τον Γιώργο-Μάριο Δήμα στο Ευρωπαϊκό Πρωτάθλημα Παίδων, στο Κόσοβο - pontosnews.gr",
+              "albanianTitle": "Peshëngritje: Paraqitje mbresëlënëse e Giorgos-Marios Dimas në Kampionatin Evropian për Kadetë në Kosovë",
+              "blurb": "Peshëngritësi Jorgos-Marios Dimas ka shfaqur performancë në Kampionatin Evropian për të rinj që po mbahet në Kosovë.",
+              "imageUrl": "https://www.pontosnews.gr/wp-content/uploads/2026/08/dimas-giorgos-marios.png",
+              "url": "https://www.pontosnews.gr/859229/athlitismos/arsi-varon-tromeri-emfanisi-apo-ton-giorgo-mario-dima-sto/",
+              "date": "2026-08-26",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-26",
+          "lastSeen": "2026-08-26"
         },
         {
           "name": "sport-fm.gr",
@@ -1402,11 +1552,11 @@
         }
       ],
       "summary": {
-        "index": 70,
-        "positive": 40,
-        "neutral": 60,
+        "index": 67,
+        "positive": 33,
+        "neutral": 67,
         "negative": 0,
-        "n": 5,
+        "n": 6,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
@@ -1565,7 +1715,7 @@
         {
           "name": "Haberler",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Trakya Üniversitesi ile Kosova'daki Haxhi Zeka Üniversitesi arasında iş birliği protokolü imzalandı - Haberler",
@@ -1579,9 +1729,22 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "20. Akdeniz Oyunları - Haberler",
+              "albanianTitle": "Lojërat Mesdhetare të 20-ta",
+              "blurb": "Lojërat Mesdhetare të edicionit të njëzetë janë duke u organizuar dhe përgatitur për zhvillimin e garave sportive.",
+              "imageUrl": null,
+              "url": "https://www.haberler.com/spor/20-akdeniz-oyunlari-20178750-haberi/",
+              "date": "2026-08-26",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 3,
+          "totalArticles": 4,
           "trend": "neutral",
           "firstSeen": "2026-08-20",
           "lastSeen": "2026-08-26"
@@ -1708,11 +1871,11 @@
         }
       ],
       "summary": {
-        "index": 61,
-        "positive": 22,
-        "neutral": 78,
+        "index": 60,
+        "positive": 20,
+        "neutral": 80,
         "negative": 0,
-        "n": 9,
+        "n": 10,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3

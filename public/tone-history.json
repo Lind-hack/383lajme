@@ -3090,8 +3090,8 @@
   {
     "date": "2026-08-26",
     "overallIndex": 52,
-    "totalArticles": 64,
-    "sourceCount": 54,
+    "totalArticles": 75,
+    "sourceCount": 57,
     "stanceVersion": 3,
     "countries": {
       "Gjermani": {
@@ -3125,32 +3125,32 @@
         "stanceVersion": 3
       },
       "Francë": {
-        "index": 40,
+        "index": 42,
         "positive": 0,
-        "neutral": 80,
-        "negative": 20,
-        "n": 5,
+        "neutral": 83,
+        "negative": 17,
+        "n": 6,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
       },
       "Itali": {
-        "index": 48,
+        "index": 49,
         "positive": 0,
         "neutral": 97,
         "negative": 3,
-        "n": 29,
+        "n": 34,
         "excluded": 4,
         "confident": true,
         "stanceVersion": 3
       },
       "Austri": {
-        "index": 60,
-        "positive": 20,
-        "neutral": 80,
+        "index": 58,
+        "positive": 17,
+        "neutral": 83,
         "negative": 0,
-        "n": 5,
-        "excluded": 1,
+        "n": 6,
+        "excluded": 0,
         "confident": true,
         "stanceVersion": 3
       },
@@ -3189,17 +3189,17 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 1,
+        "n": 3,
         "excluded": 1,
         "confident": false,
         "stanceVersion": 3
       },
       "Greqi": {
-        "index": 70,
-        "positive": 40,
-        "neutral": 60,
+        "index": 67,
+        "positive": 33,
+        "neutral": 67,
         "negative": 0,
-        "n": 5,
+        "n": 6,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
@@ -3225,11 +3225,11 @@
         "stanceVersion": 3
       },
       "Turqi": {
-        "index": 61,
-        "positive": 22,
-        "neutral": 78,
+        "index": 60,
+        "positive": 20,
+        "neutral": 80,
         "negative": 0,
-        "n": 9,
+        "n": 10,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
