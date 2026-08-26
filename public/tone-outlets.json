@@ -1,10 +1,10 @@
 {
   "lastUpdated": "2026-08-26",
   "overallIndex": 53,
-  "totalArticles": 83,
-  "sourceCount": 65,
+  "totalArticles": 88,
+  "sourceCount": 68,
   "stanceVersion": 3,
-  "unattributed": 189,
+  "unattributed": 195,
   "nonEditorial": 3,
   "wrongKosovo": 0,
   "countries": {
@@ -119,14 +119,39 @@
       }
     },
     "SHBA": {
-      "outlets": [],
+      "outlets": [
+        {
+          "name": "Radio Free Europe/Radio Liberty",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Water: Life-Saving Resource Or Political Weapon? - Radio Free Europe/Radio Liberty",
+              "albanianTitle": "Uji: Burim jetësor apo armë politike? - Radio Evropa e Lirë",
+              "blurb": "Analizë mbi rolin e ujit si burim jetësor dhe përdorimin e tij si mjet në sferën politike.",
+              "imageUrl": "https://gdb.rferl.org/be80ab23-9504-4e58-7fa9-08decad17715_w1200_h630.jpg",
+              "url": "https://www.rferl.org/a/gazivode-lake-serbia-kosovo-ibar/33839186.html",
+              "date": "2026-08-26",
+              "sentiment": "unknown",
+              "reason": "No indication of outlet's attitude toward Kosovo in the headline",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-26",
+          "lastSeen": "2026-08-26"
+        }
+      ],
       "summary": {
         "index": null,
         "positive": 0,
         "neutral": 0,
         "negative": 0,
         "n": 0,
-        "excluded": 0,
+        "excluded": 1,
         "confident": false,
         "stanceVersion": 3
       }
@@ -571,7 +596,7 @@
         {
           "name": "Diretta",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Kosovo - Irlanda 24/09/2026, Formazioni - Diretta",
@@ -585,9 +610,22 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Kosovo - Irlanda 24/09/2026, Statistiche - Diretta",
+              "albanianTitle": "Kosovë - Irlandë 24/09/2026, Statistikat - Diretta",
+              "blurb": "Të dhënat statistikore për ndeshjen e futbollit ndërmjet Kosovës dhe Irlandës të planifikuar për datën 24 shtator 2026.",
+              "imageUrl": "https://static.flashscore.com/res/image/data/jup8COkl-UVqVfism-WnYHA9YO.png",
+              "url": "https://www.diretta.it/partita/calcio/irlanda-Gfyqk1aG/kosovo-v1DTPQwI/riassunto/statistiche/",
+              "date": "2026-08-25",
+              "sentiment": "neutral",
+              "reason": "Plain statistics listing",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 1,
+          "totalArticles": 2,
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-08-26",
           "lastSeen": "2026-08-25"
@@ -667,6 +705,30 @@
           "lastSeen": "2026-08-24"
         },
         {
+          "name": "La Gazzetta del Mezzogiorno",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Giochi del Mediterraneo, primo appuntamento nel «nuovo» Iacovone: a Taranto lo stadio sold out per ltalia-Kosovo - La Gazzetta del Mezzogiorno",
+              "albanianTitle": "Lojërat Mesdhetare, takimi i parë në stadiumin e rikonstruktuar \"Iacovone\": Në Taranto stadiumi i mbushur për ndeshjen Itali-Kosovë - La Gazzetta del Mezzogiorno",
+              "blurb": "Stadiumi Iacovone në Taranto është mbushur plot për ndeshjen e futbollit ndërmjet Italisë dhe Kosovës në Lojërat Mesdhetare.",
+              "imageUrl": "https://www.lagazzettadelmezzogiorno.it/resizer/600/315/true/2026_08_26/29a34f8eb3ee1abe62e1af01eb84b1e0-1787759253620.jpg--giochi_del_mediterraneo__primo_appuntamento_nel__nuovo__iacovone__lo_stadio_sold_out_per_ltalia_kosovo.webp?1787759253639",
+              "url": "https://www.lagazzettadelmezzogiorno.it/news/taranto/2106862/giochi-del-mediterraneo-primo-appuntamento-nel-nuovo-iacovone-lo-stadio-sold-out-per-ltalia-kosovo.html",
+              "date": "2026-08-26",
+              "sentiment": "neutral",
+              "reason": "Factual report of a sold‑out stadium for Italy‑Kosovo match",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-26",
+          "lastSeen": "2026-08-26"
+        },
+        {
           "name": "La Gazzetta dello Sport",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -717,7 +779,7 @@
         {
           "name": "OA Sport",
           "sentiment": "neutral",
-          "articleCount": 4,
+          "articleCount": 5,
           "articles": [
             {
               "title": "Pallamano: l’Italia spazza via il Kosovo. Azzurri perfetti nell’esordio ai Giochi del Mediterraneo - OA Sport",
@@ -770,10 +832,23 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Pallamano femminile: l’Italia domina con il Kosovo. Altro successo ai Giochi del Mediterraneo - OA Sport",
+              "albanianTitle": "Hendboll për femra: Italia dominon ndaj Kosovës. Një tjetër fitore në Lojërat Mesdhetare - OA Sport",
+              "blurb": "Ekipi i hendbollit të femrave të Italisë ka shënuar fitore bindëse ndaj Kosovës në kuadër të Lojërave Mesdhetare.",
+              "imageUrl": "https://www.oasport.it/wp-content/uploads/2026/08/Italia-pallamano-femminile-Ramona-Manojlovic-Ph.-FIGH-e1787771408413.jpg",
+              "url": "https://www.oasport.it/2026/08/pallamano-femminile-litalia-domina-con-il-kosovo-altro-successo-ai-giochi-del-mediterraneo/",
+              "date": "2026-08-26",
+              "sentiment": "positive",
+              "reason": "Outlet uses praising language about Kosovo’s success",
+              "isQuote": false,
+              "evidence": "Altro successo",
+              "speaker": ""
             }
           ],
-          "totalArticles": 4,
-          "trend": "neutral",
+          "totalArticles": 5,
+          "trend": "i përzier",
           "firstSeen": "2026-08-23",
           "lastSeen": "2026-08-26"
         },
@@ -826,6 +901,30 @@
           "lastSeen": "2026-08-23"
         },
         {
+          "name": "RaiNews",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "L'Italia batte il Kosovo e vola in semifinale - RaiNews",
+              "albanianTitle": "Italia mposht Kosovën dhe kualifikohet në gjysmëfinale - RaiNews",
+              "blurb": "Përfaqësuesja e Italisë ka mposhtur Kosovën në futboll, duke siguruar kualifikimin për në gjysmëfinalen e Lojërave Mesdhetare.",
+              "imageUrl": "https://www.rainews.it/cropgd/1200x630/dl/img/2026/07/08/1783496758343_taranto.jpg",
+              "url": "https://www.rainews.it/tgr/puglia/articoli/2026/08/litalia-batte-il-kosovo-e-vola-in-semifinale-46df43ec-96e7-4af8-b73a-cec055790a73.html",
+              "date": "2026-08-26",
+              "sentiment": "neutral",
+              "reason": "Factual sports report of Italy beating Kosovo",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-26",
+          "lastSeen": "2026-08-26"
+        },
+        {
           "name": "Senza Colonne News",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -852,7 +951,7 @@
         {
           "name": "Sportface.it",
           "sentiment": "negative",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Giochi del Mediterraneo: calcio femminile, le Azzurrine schiantano il Kosovo 4-1, gli highlights su SportfaceTV - Sportface.it",
@@ -866,12 +965,25 @@
               "isQuote": false,
               "evidence": "schiantano il Kosovo",
               "speaker": ""
+            },
+            {
+              "title": "Taranto, Calcio: l’Italia fa l’impresa contro il Kosovo e si qualifica al 97′ – gli highlights - Sportface.it",
+              "albanianTitle": "Taranto, Futboll: Italia arrin sukses ndaj Kosovës në minutën e 97-të – përmbledhja e ndeshjes - Sportface.it",
+              "blurb": "Italia ka shënuar fitore ndaj Kosovës në minutën e 97-të, duke u kualifikuar në fazën tjetër të turneut.",
+              "imageUrl": "https://www.sportface.it/wp-content/uploads/2026/08/Algeria-1.jpg",
+              "url": "https://www.sportface.it/giochi-del-mediterraneo-taranto-2026/taranto-calcio-litalia-fa-limpresa-contro-il-kosovo-e-si-qualifica-al-97-gli-highlights/2827081",
+              "date": "2026-08-26",
+              "sentiment": "neutral",
+              "reason": "Factual sports report of Italy beating Kosovo",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 1,
+          "totalArticles": 2,
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-08-24",
-          "lastSeen": "2026-08-24"
+          "lastSeen": "2026-08-26"
         },
         {
           "name": "Studio 100",
@@ -1132,11 +1244,11 @@
         }
       ],
       "summary": {
-        "index": 50,
-        "positive": 3,
-        "neutral": 95,
-        "negative": 3,
-        "n": 38,
+        "index": 51,
+        "positive": 5,
+        "neutral": 93,
+        "negative": 2,
+        "n": 43,
         "excluded": 4,
         "confident": true,
         "stanceVersion": 3

@@ -1234,8 +1234,8 @@
     },
     "OA Sport": {
       "country": "Itali",
-      "total": 4,
-      "positive": 0,
+      "total": 5,
+      "positive": 1,
       "neutral": 4,
       "negative": 0,
       "unknown": 0,
@@ -1245,7 +1245,8 @@
         "https://www.oasport.it/2026/08/pallamano-litalia-spazza-via-il-kosovo-azzurri-perfetti-nellesordio-ai-giochi-del-mediterraneo/",
         "https://www.oasport.it/2026/08/calcio-femminile-italia-travolgente-allesordio-contro-il-kosovo-nei-giochi-del-mediterraneo/",
         "https://www.oasport.it/2026/08/giochi-del-mediterraneo-2026-il-programma-di-domani-orari-26-agosto-tv-streaming/",
-        "https://www.oasport.it/2026/08/giochi-del-mediterraneo-2026-oggi-in-tv-orari-26-agosto-streaming-azzurri-in-gara/"
+        "https://www.oasport.it/2026/08/giochi-del-mediterraneo-2026-oggi-in-tv-orari-26-agosto-streaming-azzurri-in-gara/",
+        "https://www.oasport.it/2026/08/pallamano-femminile-litalia-domina-con-il-kosovo-altro-successo-ai-giochi-del-mediterraneo/"
       ]
     },
     "Radio Mugello": {
@@ -1276,15 +1277,16 @@
     },
     "Sportface.it": {
       "country": "Itali",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 0,
+      "neutral": 1,
       "negative": 1,
       "unknown": 0,
       "firstSeen": "2026-08-24",
-      "lastSeen": "2026-08-24",
+      "lastSeen": "2026-08-26",
       "urls": [
-        "https://www.sportface.it/giochi-del-mediterraneo-taranto-2026/giochi-del-mediterraneo-calcio-femminile-le-azzurrine-schiantano-il-kosovo-4-1-gli-highlights-su-sportfacetv/2826868"
+        "https://www.sportface.it/giochi-del-mediterraneo-taranto-2026/giochi-del-mediterraneo-calcio-femminile-le-azzurrine-schiantano-il-kosovo-4-1-gli-highlights-su-sportfacetv/2826868",
+        "https://www.sportface.it/giochi-del-mediterraneo-taranto-2026/taranto-calcio-litalia-fa-limpresa-contro-il-kosovo-e-si-qualifica-al-97-gli-highlights/2827081"
       ]
     },
     "Şantiye Dergisi": {
@@ -1643,15 +1645,16 @@
     },
     "Diretta": {
       "country": "Itali",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-26",
       "lastSeen": "2026-08-25",
       "urls": [
-        "https://www.diretta.it/partita/calcio/irlanda-Gfyqk1aG/kosovo-v1DTPQwI/riassunto/formazioni/"
+        "https://www.diretta.it/partita/calcio/irlanda-Gfyqk1aG/kosovo-v1DTPQwI/riassunto/formazioni/",
+        "https://www.diretta.it/partita/calcio/irlanda-Gfyqk1aG/kosovo-v1DTPQwI/riassunto/statistiche/"
       ]
     },
     "Calcio e Finanza": {
@@ -1822,6 +1825,45 @@
       "lastSeen": "2026-08-26",
       "urls": [
         "https://www.sondakika.com/spor/haber-kadin-voleybol-takimi-kosova-yi-3-0-maglup-etti-20178794/"
+      ]
+    },
+    "Radio Free Europe/Radio Liberty": {
+      "country": "SHBA",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-08-26",
+      "lastSeen": "2026-08-26",
+      "urls": [
+        "https://www.rferl.org/a/gazivode-lake-serbia-kosovo-ibar/33839186.html"
+      ]
+    },
+    "RaiNews": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-26",
+      "lastSeen": "2026-08-26",
+      "urls": [
+        "https://www.rainews.it/tgr/puglia/articoli/2026/08/litalia-batte-il-kosovo-e-vola-in-semifinale-46df43ec-96e7-4af8-b73a-cec055790a73.html"
+      ]
+    },
+    "La Gazzetta del Mezzogiorno": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-26",
+      "lastSeen": "2026-08-26",
+      "urls": [
+        "https://www.lagazzettadelmezzogiorno.it/news/taranto/2106862/giochi-del-mediterraneo-primo-appuntamento-nel-nuovo-iacovone-lo-stadio-sold-out-per-ltalia-kosovo.html"
       ]
     }
   }

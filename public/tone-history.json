@@ -3090,8 +3090,8 @@
   {
     "date": "2026-08-26",
     "overallIndex": 53,
-    "totalArticles": 83,
-    "sourceCount": 65,
+    "totalArticles": 88,
+    "sourceCount": 68,
     "stanceVersion": 3,
     "countries": {
       "Gjermani": {
@@ -3110,7 +3110,7 @@
         "neutral": 0,
         "negative": 0,
         "n": 0,
-        "excluded": 0,
+        "excluded": 1,
         "confident": false,
         "stanceVersion": 3
       },
@@ -3135,11 +3135,11 @@
         "stanceVersion": 3
       },
       "Itali": {
-        "index": 50,
-        "positive": 3,
-        "neutral": 95,
-        "negative": 3,
-        "n": 38,
+        "index": 51,
+        "positive": 5,
+        "neutral": 93,
+        "negative": 2,
+        "n": 43,
         "excluded": 4,
         "confident": true,
         "stanceVersion": 3
@@ -3287,11 +3287,11 @@
         "sentiment": "negative"
       },
       {
-        "title": "Le Maroc écrase le Kosovo aux Jeux méditerranéens U17 féminins - Yabiladi.com",
-        "source": "Yabiladi.com",
-        "country": "Francë",
-        "flag": "🇫🇷",
-        "url": "https://www.yabiladi.com/articles/details/201362/maroc-ecrase-kosovo-jeux-mediterraneens.html",
+        "title": "Kosovo must become a state of its Serbs, too - CdM - Cafe del Montenegro",
+        "source": "CdM - Cafe del Montenegro",
+        "country": "Britani",
+        "flag": "🇬🇧",
+        "url": "https://www.cdm.me/english/kosovo-must-become-a-state-of-its-serbs-too/",
         "sentiment": "negative"
       }
     ]
