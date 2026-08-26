@@ -3089,9 +3089,9 @@
   },
   {
     "date": "2026-08-26",
-    "overallIndex": 52,
-    "totalArticles": 51,
-    "sourceCount": 46,
+    "overallIndex": 53,
+    "totalArticles": 56,
+    "sourceCount": 48,
     "stanceVersion": 3,
     "countries": {
       "Gjermani": {
@@ -3137,10 +3137,10 @@
       "Itali": {
         "index": 48,
         "positive": 0,
-        "neutral": 95,
-        "negative": 5,
-        "n": 20,
-        "excluded": 6,
+        "neutral": 96,
+        "negative": 4,
+        "n": 24,
+        "excluded": 4,
         "confident": true,
         "stanceVersion": 3
       },
@@ -3225,11 +3225,11 @@
         "stanceVersion": 3
       },
       "Turqi": {
-        "index": 57,
-        "positive": 14,
-        "neutral": 86,
+        "index": 62,
+        "positive": 25,
+        "neutral": 75,
         "negative": 0,
-        "n": 7,
+        "n": 8,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
@@ -3255,19 +3255,19 @@
         "sentiment": "positive"
       },
       {
-        "title": "Mehdi Mehmeti, leggenda della pallavolo del Kosovo - Periskopi",
-        "source": "Periskopi",
-        "country": "Itali",
-        "flag": "🇮🇹",
-        "url": "https://periskopi.com/it/2026/8/mehdi-mehmeti-leggenda-pallavolo-kosovo",
+        "title": "JM 2026 : les Lioncelles décrochent un précieux nul face au Portugal - lopinion.ma",
+        "source": "lopinion.ma",
+        "country": "Francë",
+        "flag": "🇫🇷",
+        "url": "https://lopinion.ma/fr/sport/newsroom/jm-2026--les-lioncelles-decrochent-un-precieux-nul-face-au-portugal_a22886?articleId=4125af99-f88e-4b2b-ac18-1b9dbcd0ddf0",
         "sentiment": "positive"
       },
       {
-        "title": "JM 2026 : les Lioncelles décrochent un précieux nul face au Portugal - lopinion.ma",
-        "source": "lopinion.ma",
-        "country": "Belgjikë",
-        "flag": "🇧🇪",
-        "url": "https://lopinion.ma/fr/sport/newsroom/jm-2026--les-lioncelles-decrochent-un-precieux-nul-face-au-portugal_a22886?articleId=4125af99-f88e-4b2b-ac18-1b9dbcd0ddf0",
+        "title": "Ελλάδα – Κόσοβο 40-20: Επιβλητική η Εθνική γυναικών και 2/2 στο χάντμπολ των Μεσογειακών Αγώνων - ΤΑ ΝΕΑ",
+        "source": "ΤΑ ΝΕΑ",
+        "country": "Greqi",
+        "flag": "🇬🇷",
+        "url": "https://www.tanea.gr/2026/08/24/sports/othersports/ellada-kosovo-40-20-epivlitiki-i-ethniki-gynaikon-kai-2-2-sto-xantmpol-ton-mesogeiakon-agonon/",
         "sentiment": "positive"
       },
       {

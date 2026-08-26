@@ -1,11 +1,11 @@
 {
   "lastUpdated": "2026-08-26",
-  "overallIndex": 52,
-  "totalArticles": 51,
-  "sourceCount": 46,
+  "overallIndex": 53,
+  "totalArticles": 56,
+  "sourceCount": 48,
   "stanceVersion": 3,
-  "unattributed": 134,
-  "nonEditorial": 2,
+  "unattributed": 140,
+  "nonEditorial": 3,
   "wrongKosovo": 0,
   "countries": {
     "Gjermani": {
@@ -394,6 +394,30 @@
           "lastSeen": "2026-08-25"
         },
         {
+          "name": "Diretta",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo - Irlanda 24/09/2026, Formazioni - Diretta",
+              "albanianTitle": "Kosovë - Irlandë, 24/09/2026: Formacionet dhe transmetimi direkt",
+              "blurb": "Formacionet e ndeshjes ndërmjet Kosovës dhe Irlandës të planifikuar për datën 24 shtator 2026 janë publikuar.",
+              "imageUrl": "https://static.flashscore.com/res/image/data/jup8COkl-UVqVfism-WnYHA9YO.png",
+              "url": "https://www.diretta.it/partita/calcio/irlanda-Gfyqk1aG/kosovo-v1DTPQwI/riassunto/formazioni/",
+              "date": "2026-08-25",
+              "sentiment": "neutral",
+              "reason": "Paraqitje ndeshjeje, pa gjuhë ngacmuese ose mbështetëse",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-26",
+          "lastSeen": "2026-08-25"
+        },
+        {
           "name": "FIGC",
           "sentiment": "neutral",
           "articleCount": 3,
@@ -427,12 +451,12 @@
             {
               "title": "Giochi del Mediterraneo, Azzurrine fermate sull’1-1 dalla Slovenia - FIGC",
               "albanianTitle": "Lojërat Mesdhetare: Italia barazon 1-1 ndaj Sllovenisë",
-              "blurb": "Përfaqësuesja e Italisë në futboll barazoi 1-1 kundër Sllovenisë gjatë garave në Lojërat Mesdhetare të zhvilluara së fundmi.",
+              "blurb": "Përfaqësuesja e Italisë në futboll për femra barazoi me rezultatin 1-1 ndaj Sllovenisë në Lojërat Mesdhetare.",
               "imageUrl": "https://images.figc.it/view/acePublic/alias/contentid/1tcyb046phqz1l0xzv9/0/68ea18b7-c3e3-465b-8ee3-a50cb3c1f816-jpg.jpg?f=187%3A100",
               "url": "https://www.figc.it/it/nazionali/news/giochi-del-mediterraneo-azzurrine-fermate-sull1-1-dalla-slovenia-hylf1s5e",
               "date": "2026-08-25",
-              "sentiment": "unknown",
-              "reason": "Nuk ka përmendje të Kosovës në titull",
+              "sentiment": "neutral",
+              "reason": "Sports result report, no stance toward Kosovo",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -494,7 +518,7 @@
         {
           "name": "OA Sport",
           "sentiment": "neutral",
-          "articleCount": 3,
+          "articleCount": 4,
           "articles": [
             {
               "title": "Pallamano: l’Italia spazza via il Kosovo. Azzurri perfetti nell’esordio ai Giochi del Mediterraneo - OA Sport",
@@ -534,12 +558,25 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Giochi del Mediterraneo 2026 oggi in tv: orari mercoledì 26 agosto, streaming, azzurri in gara - OA Sport",
+              "albanianTitle": "Lojërat Mesdhetare 2026 sot në TV: orari i së mërkurës, 26 gusht, transmetimi dhe garat e italianëve - OA Sport",
+              "blurb": "Programi televiziv dhe oraret e garave për Lojërat Mesdhetare 2026 të datës 26 gusht janë bërë publike.",
+              "imageUrl": "https://www.oasport.it/wp-content/uploads/2026/04/IPA_Agency_IPA60259482.jpg",
+              "url": "https://www.oasport.it/2026/08/giochi-del-mediterraneo-2026-oggi-in-tv-orari-26-agosto-streaming-azzurri-in-gara/",
+              "date": "2026-08-26",
+              "sentiment": "neutral",
+              "reason": "Informacion i thjeshtë për oraret e transmetimit, pa referencë ndaj Kosovës",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 3,
+          "totalArticles": 4,
           "trend": "neutral",
           "firstSeen": "2026-08-23",
-          "lastSeen": "2026-08-25"
+          "lastSeen": "2026-08-26"
         },
         {
           "name": "Osservatorio Balcani Caucaso Transeuropa",
@@ -694,14 +731,14 @@
             },
             {
               "title": "FIGC * FEDERAZIONE ITALIANA GIUOCO CALCIO: «ITALIA-SLOVENIA 1-1 AI GIOCHI DEL MEDITERRANEO, AZZURRINE FRENATE DALLA DIFESA SLOVENA - agenziagiornalisticaopinione.it",
-              "albanianTitle": "FIGC: Italia dhe Sllovenia barazojnë 1-1 në Lojërat Mesdhetare, mbrojtja sllovene ndal hovin e italianeve",
-              "blurb": "Italia dhe Sllovenia barazuan me rezultat 1-1 në ndeshjen e futbollit në kuadër të Lojërave Mesdhetare.",
+              "albanianTitle": "Lojërat Mesdhetare: Italia ndalet në barazim nga mbrojtja sllovene",
+              "blurb": "Italia dhe Sllovenia barazuan 1-1 në ndeshjen e futbollit për femra në kuadër të Lojërave Mesdhetare.",
               "imageUrl": "https://www.agenziagiornalisticaopinione.it/wp-content/uploads/2026/08/y99z68ea18b7-c3e3-465b-8ee3-a50cb3c1f816-jpg-1030x773.jpg",
               "url": "https://www.agenziagiornalisticaopinione.it/opinionews/figc-federazione-italiana-giuoco-calcio-italia-slovenia-1-1-ai-giochi-del-mediterraneo-azzurrine-frenate-dalla-difesa-slovena/",
               "date": "2026-08-25",
-              "sentiment": "unknown",
-              "reason": "Nuk ka përmendje të Kosovës në titull",
-              "isQuote": false,
+              "sentiment": "neutral",
+              "reason": "Quote about match result, not outlet's own voice",
+              "isQuote": true,
               "evidence": "",
               "speaker": ""
             }
@@ -787,10 +824,10 @@
       "summary": {
         "index": 48,
         "positive": 0,
-        "neutral": 95,
-        "negative": 5,
-        "n": 20,
-        "excluded": 6,
+        "neutral": 96,
+        "negative": 4,
+        "n": 24,
+        "excluded": 4,
         "confident": true,
         "stanceVersion": 3
       }
@@ -1438,6 +1475,30 @@
           "lastSeen": "2026-08-23"
         },
         {
+          "name": "İzmir Büyükşehir Belediyesi",
+          "sentiment": "positive",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Haberler | Başkan Tugay, Kosova'da yeni iş birliklerinin kapısını araladı - İzmir Büyükşehir Belediyesi",
+              "albanianTitle": "Lajme | Kryetari Tugay hap rrugën për bashkëpunime të reja në Kosovë - Bashkia e Izmirit",
+              "blurb": "Kryetari i Bashkisë së Izmirit, Tugay, ka zhvilluar vizitë në Kosovë për të diskutuar mundësitë e bashkëpunimit.",
+              "imageUrl": "https://www.izmir.bel.tr/YuklenenDosyalar/Haberler/Kucuk/22082026_9143_0.jpeg",
+              "url": "https://www.izmir.bel.tr/tr/Haberler/baskan-tugay-kosovada-yeni-is-birliklerinin-kapisini-araladi/59218/156",
+              "date": "2026-08-23",
+              "sentiment": "positive",
+              "reason": "Outlet uses positive language praising cooperation with Kosovo",
+              "isQuote": false,
+              "evidence": "yeni iş birliklerinin kapısını araladı",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 2,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-21",
+          "lastSeen": "2026-08-23"
+        },
+        {
           "name": "Şantiye Dergisi",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1463,11 +1524,11 @@
         }
       ],
       "summary": {
-        "index": 57,
-        "positive": 14,
-        "neutral": 86,
+        "index": 62,
+        "positive": 25,
+        "neutral": 75,
         "negative": 0,
-        "n": 7,
+        "n": 8,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
