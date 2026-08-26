@@ -12930,3 +12930,33 @@ header[data-overlay="true"] .nav-search-btn[style*="margin-right"] {
   .dosje-drawer,
   .dosje-scrim { animation-duration: 0.01ms; }
 }
+
+/* The rail's spine. Same idea as the drawer's, but the filled length is fixed
+   by position in the story rather than by scrolling: orange up to the article
+   being read, grey after it. */
+
+@keyframes dosje-flow-rail {
+  to { background-position: 0 -120px; }
+}
+
+.dosje-rail-flow {
+  background-image: linear-gradient(
+    180deg,
+    rgba(255, 68, 34, 0.3) 0%,
+    #ff4422 20%,
+    #ff8a63 50%,
+    #ff4422 80%,
+    rgba(255, 68, 34, 0.3) 100%
+  );
+  background-size: 100% 120px;
+  animation: dosje-flow-rail 2.2s linear infinite;
+  will-change: background-position;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dosje-rail-flow {
+    animation: none;
+    background-image: none;
+    background-color: #ff4422;
+  }
+}

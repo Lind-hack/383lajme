@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { X } from "lucide-react";
 import type { DosjeEntry } from "@/components/dosje-panel";
+import { entryDate } from "@/lib/albanian-date.mjs";
 
 /**
  * The full dossier, over the article rather than away from it.
@@ -29,18 +30,6 @@ interface Props {
   topicTitle: string;
   blurb: string;
   entries: DosjeEntry[];
-}
-
-const MONTHS = [
-  "janar", "shkurt", "mars", "prill", "maj", "qershor",
-  "korrik", "gusht", "shtator", "tetor", "nëntor", "dhjetor",
-];
-
-function albanianDate(iso?: string | null): string | null {
-  if (!iso) return null;
-  const d = new Date(iso);
-  if (Number.isNaN(d.getTime())) return null;
-  return `${d.getDate()} ${MONTHS[d.getMonth()]} ${d.getFullYear()}`;
 }
 
 export default function DosjeDrawer({ open, onClose, topicSlug, topicTitle, blurb, entries }: Props) {
@@ -207,7 +196,7 @@ export default function DosjeDrawer({ open, onClose, topicSlug, topicTitle, blur
 
             {entries.map((e) => {
               const isOpen = openId === e.id;
-              const date = e.kind === "article" ? albanianDate(e.publishedAt) ?? e.date : e.date;
+              const date = entryDate(e);
 
               return (
                 <article key={e.id} style={{ position: "relative", paddingLeft: "48px", paddingBottom: "26px" }}>

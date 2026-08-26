@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import DosjeDrawer from "@/components/dosje-drawer";
+import { entryDate } from "@/lib/albanian-date.mjs";
 
 /**
  * The dossier rail beside an article.
@@ -11,10 +12,14 @@ import DosjeDrawer from "@/components/dosje-drawer";
  * this archive's own coverage after it, and the piece being read marked in
  * place, so its position in the sequence is visible without leaving the page.
  *
- * Compact by default, and the window follows the current article rather than
- * the head of the list — the useful context is what sits either side of today.
- * A rail that opens at full height competes with the article it exists to
- * support.
+ * The rail is a real view of the dossier, not an advert for one. It carries
+ * the thumbnails, the written-out dates and the flowing spine, because a
+ * reader who never presses the button should still get the story. The drawer
+ * is for depth, not for the first useful thing.
+ *
+ * The spine fills from the beginning of the subject up to the article being
+ * read, and the flow runs inside that filled length only. Filled means
+ * "already happened"; the grey remainder is what came after this story.
  */
 
 export interface DosjeEntry {
@@ -52,9 +57,8 @@ export default function DosjePanel({ topicSlug, topicTitle, blurb, entries }: Pr
   const currentIndex = entries.findIndex((e) => e.isCurrent);
   const anchor = currentIndex >= 0 ? currentIndex : entries.length - 1;
 
-  const visible = showAll
-    ? entries
-    : entries.slice(Math.max(0, anchor - COMPACT_BEFORE), anchor + 2);
+  const start = showAll ? 0 : Math.max(0, anchor - COMPACT_BEFORE);
+  const visible = showAll ? entries : entries.slice(start, anchor + 2);
   const hidden = entries.length - visible.length;
 
   const firstYear = (entries.map((e) => e.year).filter(Boolean) as string[]).find((y) =>
@@ -85,6 +89,11 @@ export default function DosjePanel({ topicSlug, topicTitle, blurb, entries }: Pr
           >
             Dosje
           </span>
+          {currentIndex >= 0 && (
+            <span style={{ marginLeft: "auto", fontSize: "10.5px", fontWeight: 700, color: "#9A9A9A" }}>
+              {currentIndex + 1}/{entries.length}
+            </span>
+          )}
         </div>
         <div
           style={{
@@ -104,7 +113,7 @@ export default function DosjePanel({ topicSlug, topicTitle, blurb, entries }: Pr
 
       <div
         style={{
-          maxHeight: showAll ? "560px" : undefined,
+          maxHeight: showAll ? "620px" : undefined,
           overflowY: showAll ? "auto" : undefined,
           padding: "16px 18px 6px",
         }}
@@ -112,6 +121,11 @@ export default function DosjePanel({ topicSlug, topicTitle, blurb, entries }: Pr
         {visible.map((e, i) => {
           const isOpen = openId === e.id;
           const last = i === visible.length - 1;
+          const absoluteIndex = start + i;
+          // Filled up to the article being read; grey after it.
+          const flows = currentIndex >= 0 && absoluteIndex < currentIndex;
+          const date = entryDate(e);
+
           return (
             <div key={e.id} style={{ display: "grid", gridTemplateColumns: "14px 1fr", gap: "11px" }}>
               <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
@@ -131,14 +145,25 @@ export default function DosjePanel({ topicSlug, topicTitle, blurb, entries }: Pr
                           width: "9px",
                           height: "9px",
                           borderRadius: "50%",
-                          background: "#FFFFFF",
-                          border: "2px solid #D8D2C8",
+                          background: flows ? "#FF4422" : "#FFFFFF",
+                          border: flows ? "2px solid #FF4422" : "2px solid #D8D2C8",
                           marginTop: "6px",
                           flexShrink: 0,
                         }
                   }
                 />
-                {!last && <span style={{ width: "2px", flex: 1, background: "#EFEAE2", marginTop: "6px" }} />}
+                {!last && (
+                  <span
+                    className={flows ? "dosje-rail-flow" : undefined}
+                    style={{
+                      width: "2px",
+                      flex: 1,
+                      marginTop: "6px",
+                      borderRadius: "2px",
+                      background: flows ? undefined : "#EFEAE2",
+                    }}
+                  />
+                )}
               </div>
 
               <div style={{ paddingBottom: "16px", minWidth: 0 }}>
@@ -161,7 +186,7 @@ export default function DosjePanel({ topicSlug, topicTitle, blurb, entries }: Pr
                         marginBottom: "7px",
                       }}
                     >
-                      Ky artikull
+                      Ky artikull{date ? ` · ${date}` : ""}
                     </div>
                     <div style={{ fontSize: "13.5px", fontWeight: 700, lineHeight: 1.35, color: "#111111" }}>
                       {e.title}
@@ -182,7 +207,7 @@ export default function DosjePanel({ topicSlug, topicTitle, blurb, entries }: Pr
                       fontFamily: "inherit",
                     }}
                   >
-                    <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "5px" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "6px" }}>
                       <span style={{ fontSize: "11.5px", fontWeight: 800, color: "#111111" }}>{e.year}</span>
                       {e.tag && (
                         <span
@@ -192,18 +217,86 @@ export default function DosjePanel({ topicSlug, topicTitle, blurb, entries }: Pr
                             letterSpacing: "0.1em",
                             textTransform: "uppercase",
                             color: "#8A8A8A",
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                            whiteSpace: "nowrap",
                           }}
                         >
                           {e.tag}
                         </span>
                       )}
                     </div>
-                    <div style={{ fontSize: "13px", fontWeight: 600, lineHeight: 1.4, color: "#2B2B2B" }}>
-                      {e.title}
+
+                    <div style={{ display: "flex", gap: "10px", alignItems: "flex-start" }}>
+                      {e.imageUrl ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img
+                          src={e.imageUrl}
+                          alt=""
+                          loading="lazy"
+                          decoding="async"
+                          style={{
+                            width: "52px",
+                            height: "40px",
+                            objectFit: "cover",
+                            borderRadius: "7px",
+                            flexShrink: 0,
+                            background: "#EFEAE2",
+                          }}
+                        />
+                      ) : (
+                        <span
+                          aria-hidden="true"
+                          style={{
+                            width: "52px",
+                            height: "40px",
+                            borderRadius: "7px",
+                            flexShrink: 0,
+                            background: "#F4EFE7",
+                            border: "1px solid #E8E3DB",
+                            display: "inline-flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            fontSize: "11px",
+                            fontWeight: 800,
+                            color: "#B9B1A5",
+                          }}
+                        >
+                          {e.year}
+                        </span>
+                      )}
+
+                      <span style={{ minWidth: 0, display: "block" }}>
+                        <span
+                          style={{
+                            display: "block",
+                            fontSize: "12.5px",
+                            fontWeight: 600,
+                            lineHeight: 1.35,
+                            color: "#2B2B2B",
+                          }}
+                        >
+                          {e.title}
+                        </span>
+                        {!isOpen && (
+                          <span
+                            style={{
+                              display: "block",
+                              marginTop: "4px",
+                              fontSize: "10.5px",
+                              fontWeight: 600,
+                              color: "#9A9A9A",
+                            }}
+                          >
+                            {date ? `${date} · ` : ""}
+                            <span style={{ color: "#FF4422", fontWeight: 700 }}>zgjero +</span>
+                          </span>
+                        )}
+                      </span>
                     </div>
 
-                    {isOpen ? (
-                      <div style={{ marginTop: "9px", borderLeft: "2px solid #EFEAE2", paddingLeft: "11px" }}>
+                    {isOpen && (
+                      <div style={{ marginTop: "10px", borderLeft: "2px solid #EFEAE2", paddingLeft: "11px" }}>
                         {e.summary && (
                           <div style={{ fontSize: "12.5px", lineHeight: 1.6, color: "#5A5A5A" }}>{e.summary}</div>
                         )}
@@ -227,23 +320,18 @@ export default function DosjePanel({ topicSlug, topicTitle, blurb, entries }: Pr
                             </div>
                           </>
                         )}
-                        {e.slug && (
-                          <span
-                            style={{
-                              display: "inline-block",
-                              marginTop: "10px",
-                              fontSize: "11px",
-                              fontWeight: 700,
-                              color: "#FF4422",
-                            }}
-                          >
-                            Lexo artikullin →
-                          </span>
-                        )}
-                      </div>
-                    ) : (
-                      <div style={{ marginTop: "4px", fontSize: "10.5px", fontWeight: 600, color: "#9A9A9A" }}>
-                        {e.date} · zgjero +
+                        <span
+                          style={{
+                            display: "block",
+                            marginTop: "9px",
+                            fontSize: "10.5px",
+                            fontWeight: 700,
+                            color: "#9A9A9A",
+                          }}
+                        >
+                          {date}
+                          {e.source ? ` · ${e.source}` : ""}
+                        </span>
                       </div>
                     )}
                   </button>
