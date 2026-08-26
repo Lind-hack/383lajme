@@ -21,10 +21,11 @@ interface Props {
   topicSlug: string;
   topicTitle: string;
   blurb: string;
+  videos?: { id: string; channel: string; title: string }[];
   entries: DosjeEntry[];
 }
 
-export default function DosjeMobileEntry({ topicSlug, topicTitle, blurb, entries }: Props) {
+export default function DosjeMobileEntry({ topicSlug, topicTitle, blurb, videos, entries }: Props) {
   const [open, setOpen] = useState(false);
 
   if (entries.length === 0) return null;
@@ -93,6 +94,7 @@ export default function DosjeMobileEntry({ topicSlug, topicTitle, blurb, entries
         topicSlug={topicSlug}
         topicTitle={topicTitle}
         blurb={blurb}
+        videos={videos}
         entries={entries}
       />
 

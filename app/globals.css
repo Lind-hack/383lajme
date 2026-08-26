@@ -12903,7 +12903,7 @@ header[data-overlay="true"] .nav-search-btn[style*="margin-right"] {
    stays, because removing it would remove the meaning rather than the flourish. */
 
 @keyframes dosje-flow {
-  to { background-position: 0 -260px; }
+  to { background-position: 0 -300px; }
 }
 
 @keyframes dosje-pulse {
@@ -12932,9 +12932,12 @@ header[data-overlay="true"] .nav-search-btn[style*="margin-right"] {
     #ff4422 66%,
     rgba(255, 68, 34, 0.35) 100%
   );
-  background-size: 100% 260px;
-  animation: dosje-flow 2.4s linear infinite;
-  transition: height 0.18s ease-out;
+  background-size: 100% 300px;
+  animation: dosje-flow 6.4s linear infinite;
+  /* The fill used to snap when an entry expanded and changed the scroll
+     height. It now glides, so the level visibly rises the way liquid would. */
+  transition: height 0.85s cubic-bezier(0.33, 1, 0.68, 1);
+  box-shadow: 0 0 12px rgba(255, 68, 34, 0.45);
   will-change: background-position;
 }
 
@@ -12946,8 +12949,8 @@ header[data-overlay="true"] .nav-search-btn[style*="margin-right"] {
   border-radius: 50%;
   pointer-events: none;
   background: radial-gradient(circle, rgba(255, 68, 34, 0.95) 0%, rgba(255, 68, 34, 0) 70%);
-  animation: dosje-pulse 1.9s ease-in-out infinite;
-  transition: top 0.18s ease-out;
+  animation: dosje-pulse 2.9s ease-in-out infinite;
+  transition: top 0.85s cubic-bezier(0.33, 1, 0.68, 1);
 }
 
 .dosje-drawer {
@@ -12960,6 +12963,7 @@ header[data-overlay="true"] .nav-search-btn[style*="margin-right"] {
 
 @media (prefers-reduced-motion: reduce) {
   .dosje-spine-fill { animation: none; }
+  .dosje-surging { animation: none; }
   .dosje-meniscus { animation: none; opacity: 0.85; }
   .dosje-drawer,
   .dosje-scrim { animation-duration: 0.01ms; }
@@ -12970,20 +12974,42 @@ header[data-overlay="true"] .nav-search-btn[style*="margin-right"] {
    being read, grey after it. */
 
 @keyframes dosje-flow-rail {
-  to { background-position: 0 -120px; }
+  to { background-position: 0 -170px; }
+}
+
+/* Clicking an entry sends a surge down the spine: the liquid brightens and
+   swells for a moment, then settles. Slow enough to be watched on purpose. */
+@keyframes dosje-surge {
+  0% { filter: brightness(1) saturate(1); transform: scaleX(1); }
+  22% { filter: brightness(1.55) saturate(1.2); transform: scaleX(2.1); }
+  60% { filter: brightness(1.3) saturate(1.1); transform: scaleX(1.5); }
+  100% { filter: brightness(1) saturate(1); transform: scaleX(1); }
+}
+
+.dosje-surging {
+  animation:
+    dosje-flow-rail 5.6s linear infinite,
+    dosje-surge 1.15s cubic-bezier(0.22, 1, 0.36, 1);
+  transform-origin: center;
 }
 
 .dosje-rail-flow {
+  width: 4px;
+  margin-left: -1px;
+  background-color: #ff4422;
   background-image: linear-gradient(
     180deg,
-    rgba(255, 68, 34, 0.3) 0%,
-    #ff4422 20%,
-    #ff8a63 50%,
-    #ff4422 80%,
-    rgba(255, 68, 34, 0.3) 100%
+    #d9331d 0%,
+    #ff4422 16%,
+    #ffb08d 34%,
+    #fff1e8 44%,
+    #ffb08d 54%,
+    #ff4422 72%,
+    #d9331d 100%
   );
-  background-size: 100% 120px;
-  animation: dosje-flow-rail 2.2s linear infinite;
+  background-size: 100% 170px;
+  animation: dosje-flow-rail 5.6s linear infinite;
+  box-shadow: 0 0 9px rgba(255, 68, 34, 0.5);
   will-change: background-position;
 }
 
@@ -12993,4 +13019,90 @@ header[data-overlay="true"] .nav-search-btn[style*="margin-right"] {
     background-image: none;
     background-color: #ff4422;
   }
+}
+
+/* --- Dosje: the archival register ---------------------------------------- */
+/* A dossier is not a news card. It is the record behind the news, so it is
+   given the surface of a record: aged paper, the ghost of a contour map, and
+   type set like an inscription. The palette stays 383's cream, ink and orange
+   - this is the same brand in a quieter, older voice, not a second brand. */
+
+.dosje-archival {
+  position: relative;
+  background-color: #f7f2e9;
+  background-image:
+    /* faint contour lines, like a survey map left in a drawer */
+    repeating-radial-gradient(
+      circle at 18% 12%,
+      rgba(140, 118, 86, 0.055) 0 1px,
+      transparent 1px 13px
+    ),
+    repeating-radial-gradient(
+      circle at 86% 78%,
+      rgba(140, 118, 86, 0.045) 0 1px,
+      transparent 1px 17px
+    ),
+    /* the paper's own uneven tone */
+    linear-gradient(168deg, #fbf7f0 0%, #f6f1e6 46%, #f1eadd 100%);
+  background-blend-mode: multiply, multiply, normal;
+}
+
+/* Foxing and wear, kept under the content so text never loses contrast. */
+.dosje-archival::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background-image:
+    radial-gradient(ellipse at 8% 4%, rgba(150, 120, 74, 0.09), transparent 55%),
+    radial-gradient(ellipse at 96% 92%, rgba(150, 120, 74, 0.07), transparent 52%);
+  mix-blend-mode: multiply;
+}
+
+/* A pressed rule, the kind stamped across an index card. */
+.dosje-rule {
+  height: 1px;
+  background-image: linear-gradient(
+    90deg,
+    rgba(120, 98, 68, 0.42) 0%,
+    rgba(120, 98, 68, 0.16) 62%,
+    transparent 100%
+  );
+}
+
+/* Inscription type for the dossier's own labels. */
+.dosje-inscription {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.19em;
+  text-transform: uppercase;
+}
+
+/* Milestone plates read as archive stamps rather than missing images. */
+.dosje-plate {
+  background-color: #efe6d6;
+  background-image:
+    repeating-linear-gradient(
+      135deg,
+      rgba(140, 118, 86, 0.09) 0 2px,
+      transparent 2px 7px
+    );
+  border: 1px solid rgba(140, 118, 86, 0.34);
+  color: #8c7752;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+}
+
+/* Published photographs are washed toward the archive's tone, and return to
+   full colour when a reader opens the entry - the past is sepia until you
+   look directly at it. */
+.dosje-photo {
+  filter: sepia(0.42) saturate(0.82) contrast(1.03);
+  transition: filter 0.5s ease-out;
+}
+
+.dosje-entry-open .dosje-photo,
+.dosje-photo:hover {
+  filter: none;
 }

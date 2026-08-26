@@ -7,12 +7,20 @@ export interface TopicMilestone {
   why: string;
 }
 
+export interface TopicVideo {
+  /** YouTube id, verified live via the oembed endpoint before being added. */
+  id: string;
+  channel: string;
+  title: string;
+}
+
 export interface Topic {
   slug: string;
   title: string;
   blurb: string;
   forms: string[];
   milestones: TopicMilestone[];
+  videos: TopicVideo[];
 }
 
 export interface TimelineEntry {

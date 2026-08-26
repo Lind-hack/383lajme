@@ -38,19 +38,34 @@ export interface DosjeEntry {
   isCurrent?: boolean;
 }
 
+export interface DosjeVideo {
+  id: string;
+  channel: string;
+  title: string;
+}
+
 interface Props {
   topicSlug: string;
   topicTitle: string;
   blurb: string;
+  videos?: DosjeVideo[];
   entries: DosjeEntry[];
 }
 
 const COMPACT_BEFORE = 3;
 
-export default function DosjePanel({ topicSlug, topicTitle, blurb, entries }: Props) {
+export default function DosjePanel({ topicSlug, topicTitle, blurb, videos, entries }: Props) {
   const [openId, setOpenId] = useState<string | null>(null);
   const [showAll, setShowAll] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  // Bumped on every expand. Remounting the filled segments restarts their
+  // surge animation, which is what makes the click visibly move the liquid.
+  const [surge, setSurge] = useState(0);
+
+  const toggle = (id: string) => {
+    setOpenId((prev) => (prev === id ? null : id));
+    setSurge((n) => n + 1);
+  };
 
   if (entries.length === 0) return null;
 
@@ -68,24 +83,20 @@ export default function DosjePanel({ topicSlug, topicTitle, blurb, entries }: Pr
   return (
     <section
       aria-label={`Dosje: ${topicTitle}`}
+      className="dosje-archival"
       style={{
-        background: "#FFFFFF",
-        border: "1px solid #E8E3DB",
+        border: "1px solid #D9CFBB",
         borderRadius: "var(--radius-md)",
         overflow: "hidden",
+        boxShadow: "0 1px 2px rgba(120,98,68,0.10), inset 0 0 0 1px rgba(255,255,255,0.45)",
       }}
     >
-      <div style={{ padding: "16px 18px 14px", borderBottom: "1px solid #F0EBE3" }}>
+      <div style={{ position: "relative", padding: "16px 18px 14px" }}>
         <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "9px" }}>
           <span style={{ width: "7px", height: "7px", borderRadius: "50%", background: "#FF4422" }} />
           <span
-            style={{
-              fontSize: "10px",
-              fontWeight: 800,
-              letterSpacing: "0.15em",
-              textTransform: "uppercase",
-              color: "#111111",
-            }}
+            className="dosje-inscription"
+            style={{ fontSize: "10px", fontWeight: 800, color: "#3E3527" }}
           >
             Dosje
           </span>
@@ -106,9 +117,10 @@ export default function DosjePanel({ topicSlug, topicTitle, blurb, entries }: Pr
         >
           {topicTitle}
         </div>
-        <div style={{ marginTop: "7px", fontSize: "11.5px", fontWeight: 500, lineHeight: 1.5, color: "#6B6B6B" }}>
+        <div style={{ marginTop: "7px", fontSize: "11.5px", fontWeight: 500, lineHeight: 1.5, color: "#6A5D48" }}>
           {entries.length} momente{firstYear ? ` · ${firstYear} deri sot` : ""}. {blurb}
         </div>
+        <div className="dosje-rule" style={{ marginTop: "13px" }} />
       </div>
 
       <div
@@ -154,13 +166,14 @@ export default function DosjePanel({ topicSlug, topicTitle, blurb, entries }: Pr
                 />
                 {!last && (
                   <span
-                    className={flows ? "dosje-rail-flow" : undefined}
+                    key={flows ? `flow-${surge}` : "track"}
+                    className={flows ? "dosje-rail-flow dosje-surging" : undefined}
                     style={{
-                      width: "2px",
+                      width: flows ? undefined : "2px",
                       flex: 1,
                       marginTop: "6px",
                       borderRadius: "2px",
-                      background: flows ? undefined : "#EFEAE2",
+                      background: flows ? undefined : "rgba(140,118,86,0.22)",
                     }}
                   />
                 )}
@@ -195,7 +208,7 @@ export default function DosjePanel({ topicSlug, topicTitle, blurb, entries }: Pr
                 ) : (
                   <button
                     type="button"
-                    onClick={() => setOpenId(isOpen ? null : e.id)}
+                    onClick={() => toggle(e.id)}
                     aria-expanded={isOpen}
                     style={{
                       width: "100%",
@@ -235,6 +248,7 @@ export default function DosjePanel({ topicSlug, topicTitle, blurb, entries }: Pr
                           alt=""
                           loading="lazy"
                           decoding="async"
+                          className={isOpen ? undefined : "dosje-photo"}
                           style={{
                             width: "52px",
                             height: "40px",
@@ -247,19 +261,17 @@ export default function DosjePanel({ topicSlug, topicTitle, blurb, entries }: Pr
                       ) : (
                         <span
                           aria-hidden="true"
+                          className="dosje-plate"
                           style={{
                             width: "52px",
                             height: "40px",
                             borderRadius: "7px",
                             flexShrink: 0,
-                            background: "#F4EFE7",
-                            border: "1px solid #E8E3DB",
                             display: "inline-flex",
                             alignItems: "center",
                             justifyContent: "center",
                             fontSize: "11px",
                             fontWeight: 800,
-                            color: "#B9B1A5",
                           }}
                         >
                           {e.year}
@@ -344,11 +356,11 @@ export default function DosjePanel({ topicSlug, topicTitle, blurb, entries }: Pr
 
       <div
         style={{
-          borderTop: "1px solid #F0EBE3",
+          position: "relative",
+          borderTop: "1px solid rgba(140,118,86,0.24)",
           padding: "12px 18px",
           display: "flex",
           gap: "9px",
-          background: "#FDFBF8",
         }}
       >
         {hidden > 0 && !showAll && (
@@ -400,6 +412,7 @@ export default function DosjePanel({ topicSlug, topicTitle, blurb, entries }: Pr
         topicSlug={topicSlug}
         topicTitle={topicTitle}
         blurb={blurb}
+        videos={videos}
         entries={entries}
       />
     </section>

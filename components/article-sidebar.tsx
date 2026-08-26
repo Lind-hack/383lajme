@@ -18,10 +18,17 @@ function flagToCode(flag: string): string {
   return String.fromCharCode(a, b);
 }
 
+export interface DosjeVideo {
+  id: string;
+  channel: string;
+  title: string;
+}
+
 export interface DosjeData {
   topicSlug: string;
   topicTitle: string;
   blurb: string;
+  videos?: DosjeVideo[];
   entries: DosjeEntry[];
 }
 
@@ -205,6 +212,7 @@ export default function ArticleSidebar({ article, related, dosje }: Props) {
             topicSlug={dosje.topicSlug}
             topicTitle={dosje.topicTitle}
             blurb={dosje.blurb}
+            videos={dosje.videos}
             entries={dosje.entries}
           />
         )}

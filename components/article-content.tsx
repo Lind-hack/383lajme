@@ -180,6 +180,7 @@ export default function ArticleContent({ article, related, catColor, catBg, cate
                 topicSlug={dosje.topicSlug}
                 topicTitle={dosje.topicTitle}
                 blurb={dosje.blurb}
+                videos={dosje.videos}
                 entries={dosje.entries}
               />
             )}

@@ -139,6 +139,7 @@ export default async function ArticlePage({
         topicSlug: topic.slug,
         topicTitle: topic.title,
         blurb: topic.blurb,
+        videos: topic.videos ?? [],
         entries: timelineFor(topic.slug, allArticles, article.slug),
       }
     : null;

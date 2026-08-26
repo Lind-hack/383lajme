@@ -29,12 +29,20 @@ interface Props {
   topicSlug: string;
   topicTitle: string;
   blurb: string;
+  /** Explainers in English. Every id was checked live before being added. */
+  videos?: { id: string; channel: string; title: string }[];
   entries: DosjeEntry[];
 }
 
-export default function DosjeDrawer({ open, onClose, topicSlug, topicTitle, blurb, entries }: Props) {
+export default function DosjeDrawer({ open, onClose, topicSlug, topicTitle, blurb, videos, entries }: Props) {
   const [openId, setOpenId] = useState<string | null>(null);
   const [progress, setProgress] = useState(0);
+  const [surge, setSurge] = useState(0);
+
+  const toggle = (id: string) => {
+    setOpenId((prev) => (prev === id ? null : id));
+    setSurge((n) => n + 1);
+  };
   const bodyRef = useRef<HTMLDivElement | null>(null);
   const closeRef = useRef<HTMLButtonElement | null>(null);
 
@@ -84,13 +92,12 @@ export default function DosjeDrawer({ open, onClose, topicSlug, topicTitle, blur
       />
 
       <aside
-        className="dosje-drawer"
+        className="dosje-drawer dosje-archival"
         style={{
           position: "relative",
           width: "min(720px, 94vw)",
           height: "100%",
-          background: "#F9F6F1",
-          borderLeft: "1px solid #E8E3DB",
+          borderLeft: "1px solid #D9CFBB",
           boxShadow: "-24px 0 64px rgba(17,17,17,0.16)",
           display: "flex",
           flexDirection: "column",
@@ -177,14 +184,15 @@ export default function DosjeDrawer({ open, onClose, topicSlug, topicTitle, blur
                 left: "17px",
                 top: "6px",
                 bottom: "6px",
-                width: "3px",
-                borderRadius: "3px",
-                background: "#EAE4DA",
+                width: "6px",
+                borderRadius: "6px",
+                background: "rgba(140,118,86,0.20)",
                 overflow: "hidden",
               }}
             >
               <div
-                className="dosje-spine-fill"
+                key={`fill-${surge}`}
+                className="dosje-spine-fill dosje-surging"
                 style={{ height: `${Math.round(progress * 100)}%` }}
               />
             </div>
@@ -217,7 +225,7 @@ export default function DosjeDrawer({ open, onClose, topicSlug, topicTitle, blur
 
                   <button
                     type="button"
-                    onClick={() => setOpenId(isOpen ? null : e.id)}
+                    onClick={() => toggle(e.id)}
                     aria-expanded={isOpen}
                     style={{
                       width: "100%",
@@ -380,6 +388,84 @@ export default function DosjeDrawer({ open, onClose, topicSlug, topicTitle, blur
               );
             })}
           </div>
+
+          {videos && videos.length > 0 && (
+            <section aria-label="Shpjegime në video" style={{ marginTop: "10px" }}>
+              <div className="dosje-rule" style={{ marginBottom: "16px" }} />
+              <h3
+                className="dosje-inscription"
+                style={{ margin: "0 0 4px", fontSize: "10px", fontWeight: 800, color: "#3E3527" }}
+              >
+                Shpjegime në video
+              </h3>
+              <p style={{ margin: "0 0 14px", fontSize: "11.5px", color: "#6A5D48", lineHeight: 1.5 }}>
+                Në anglisht, nga media dhe institute ndërkombëtare. Hapen në YouTube.
+              </p>
+
+              <div style={{ display: "grid", gap: "10px" }}>
+                {videos.map((v) => (
+                  <a
+                    key={v.id}
+                    href={`https://www.youtube.com/watch?v=${v.id}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      display: "flex",
+                      gap: "12px",
+                      alignItems: "center",
+                      padding: "10px 12px",
+                      borderRadius: "12px",
+                      border: "1px solid rgba(140,118,86,0.28)",
+                      background: "rgba(255,255,255,0.55)",
+                      textDecoration: "none",
+                    }}
+                  >
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={`https://i.ytimg.com/vi/${v.id}/mqdefault.jpg`}
+                      alt=""
+                      loading="lazy"
+                      decoding="async"
+                      width={92}
+                      height={52}
+                      style={{
+                        width: "92px",
+                        height: "52px",
+                        objectFit: "cover",
+                        borderRadius: "8px",
+                        flexShrink: 0,
+                        background: "#EFE6D6",
+                      }}
+                    />
+                    <span style={{ minWidth: 0 }}>
+                      <span
+                        style={{
+                          display: "block",
+                          fontSize: "12.5px",
+                          fontWeight: 700,
+                          lineHeight: 1.35,
+                          color: "#241F17",
+                        }}
+                      >
+                        {v.title}
+                      </span>
+                      <span
+                        style={{
+                          display: "block",
+                          marginTop: "3px",
+                          fontSize: "10.5px",
+                          fontWeight: 600,
+                          color: "#8C7752",
+                        }}
+                      >
+                        {v.channel} · YouTube
+                      </span>
+                    </span>
+                  </a>
+                ))}
+              </div>
+            </section>
+          )}
         </div>
 
         <footer
