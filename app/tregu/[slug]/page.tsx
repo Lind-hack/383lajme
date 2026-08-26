@@ -65,7 +65,7 @@ interface MarketDetail {
   resolution_rules: string | null;
   resolution_source: string | null;
   live_score_state?: unknown;
-  sport_outcomes?: { key: string; label: string; team?: string; color?: string }[] | null;
+  sport_outcomes?: { key: string; label: string; team?: string; color?: string; logo?: string }[] | null;
   outcome_quantities?: Record<string, number> | null;
   reference_probabilities?: Record<string, number> | null;
   live_event?: { home_team?: string; away_team?: string; league?: string; sport?: string } | null;
@@ -191,6 +191,45 @@ function FootballOutcomeMark({
     );
   }
   return <span className="tregu-football-draw-mark" style={{ background: outcome.color }} aria-hidden />;
+}
+
+function RelatedMarketMark({ market }: { market: MiniMarket }) {
+  const teamOutcomes = (market.sportOutcomes ?? [])
+    .filter((outcome) => outcome.logo && !/barazim|draw/i.test(`${outcome.key} ${outcome.label}`))
+    .slice(0, 2);
+
+  if (teamOutcomes.length === 2) {
+    return (
+      <span className="tregu-rel-matchup" aria-hidden>
+        {teamOutcomes.map((outcome, index) => (
+          <span className="tregu-rel-matchup-part" key={outcome.key}>
+            {index === 1 && <span className="tregu-rel-versus">VS</span>}
+            {/* The full matchup is already named by the adjacent question. */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              className="tregu-rel-team-logo"
+              src={outcome.logo}
+              alt=""
+              width={26}
+              height={26}
+              loading="lazy"
+              decoding="async"
+              referrerPolicy="no-referrer"
+            />
+          </span>
+        ))}
+      </span>
+    );
+  }
+
+  return (
+    <TeamFlag
+      team={parseEvent(market.question)?.outcome ?? market.question}
+      size={34}
+      radius={10}
+      label={market.question}
+    />
+  );
 }
 
 function recordedPoint(timestamp: string | null | undefined, probability: number): { t: number; p: number }[] {
@@ -1677,13 +1716,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                 <div style={{ display: "flex", flexDirection: "column" }}>
                   {related.map((m) => (
                     <Link key={m.slug} href={`/tregu/${m.slug}`} className="tregu-rel-row">
-                      {/* Event questions carry both team names — flag must key off the outcome half. */}
-                      <TeamFlag
-                        team={parseEvent(m.question)?.outcome ?? m.question}
-                        size={34}
-                        radius={10}
-                        label={m.question}
-                      />
+                      <RelatedMarketMark market={m} />
                       <span className="tregu-rel-q">{m.question}</span>
                       <span className="tregu-rel-pct">{Math.round(m.prob * 100)}%</span>
                     </Link>

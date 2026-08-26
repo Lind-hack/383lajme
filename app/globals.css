@@ -4138,6 +4138,40 @@ header[data-overlay] .nav-coin-chip {
 .tregu-rel-row:hover .tregu-rel-q {
   text-decoration: underline;
 }
+.tregu-rel-row:focus-visible {
+  outline: 2px solid #ff4422;
+  outline-offset: 4px;
+  border-radius: 10px;
+}
+.tregu-rel-matchup {
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
+  gap: 4px;
+}
+.tregu-rel-matchup-part {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.tregu-rel-team-logo {
+  display: block;
+  width: 26px;
+  height: 26px;
+  flex: 0 0 26px;
+  padding: 2px;
+  border: 1px solid rgba(17, 17, 17, 0.09);
+  border-radius: 10px;
+  background: #ffffff;
+  object-fit: contain;
+}
+.tregu-rel-versus {
+  color: #6b6b6b;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  line-height: 1;
+}
 .tregu-rel-q {
   flex: 1;
   min-width: 0;

@@ -65,7 +65,7 @@ export async function GET(
         .limit(12),
       supabase
         .from("markets")
-        .select("slug, question, category, q_yes, q_no, b, closes_at")
+        .select("slug, question, category, q_yes, q_no, b, closes_at, sport_outcomes")
         .eq("category", market.category)
         .eq("status", "open")
         .neq("id", market.id)
@@ -238,6 +238,7 @@ export async function GET(
     prob: lmsrPriceYes(m.q_yes, m.q_no, m.b),
     volume: m.q_yes + m.q_no,
     closesAt: m.closes_at,
+    sportOutcomes: Array.isArray(m.sport_outcomes) ? m.sport_outcomes : null,
   }));
 
   let football = null;
