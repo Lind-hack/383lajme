@@ -709,7 +709,7 @@ export async function runUpcomingFootballTemplateAutomation(now = new Date()) {
   if (started.existing) return { ok:true, skipped:true, runKey, reason:"already_processed", run:started.run };
   try {
     const { fetchUpcomingEspnFootballFixtures, buildUpcomingFootballTemplate } = await import("@/lib/espn-upcoming-football.mjs");
-    const fixtures = await fetchUpcomingEspnFootballFixtures({ now, windowHours:72 }); const created=[]; const recalibrated=[];
+    const fixtures = await fetchUpcomingEspnFootballFixtures({ now, windowHours:72 }); const created=[]; const refreshed=[]; const unchanged=[];
     for (const fixture of fixtures) {
       const { data: existing, error: checkError } = await admin.from("markets").select("id,status,slug,live_event,live_score_state,reference_probabilities").contains("live_event", { event_id:fixture.event_id }).limit(1);
       if (checkError) throw new Error(`Could not check football template duplicate: ${checkError.message}`);
@@ -719,7 +719,7 @@ export async function runUpcomingFootballTemplateAutomation(now = new Date()) {
         if (market.status === "draft") {
           const { error: updateError } = await admin.from("markets").update({ live_event:template.live_event, reference_probabilities:template.reference_probabilities, outcome_quantities:template.outcome_quantities, b:template.b, pre_match_analysis:template.pre_match_analysis, updated_at:now.toISOString() }).eq("id",market.id).eq("status","draft");
           if (updateError) throw new Error(`Could not calibrate football template ${fixture.event_id}: ${updateError.message}`);
-          recalibrated.push({ id:market.id,slug:market.slug,status:"draft",target_probabilities:template.reference_probabilities });
+          refreshed.push({ id:market.id,slug:market.slug,status:"draft",target_probabilities:template.reference_probabilities });
         } else if (market.status === "open") {
           // The current builder embeds its source-backed opening model directly in
           // reference_probabilities; older drafts may carry an explicit opening_model.
@@ -732,7 +732,7 @@ export async function runUpcomingFootballTemplateAutomation(now = new Date()) {
           const target = template.reference_probabilities;
           const atTarget = ["home", "draw", "away"].every((key) => Math.abs(Number(current[key] ?? 0) - Number(target[key] ?? 0)) <= 1e-12);
           if (atTarget) {
-            recalibrated.push({ id:market.id,slug:market.slug,status:"open",unchanged:true,target_probabilities:target });
+            unchanged.push({ id:market.id,slug:market.slug,status:"open",unchanged:true,target_probabilities:target });
             continue;
           }
           const stateValues = ["home", "draw", "away"].map((key) => `${key}:${Number(current[key] ?? 0).toFixed(12)}:${Number(target[key] ?? 0).toFixed(12)}`).join("|");
@@ -772,13 +772,13 @@ export async function runUpcomingFootballTemplateAutomation(now = new Date()) {
             p_settlement_due_at: null,
           });
           if (oracleError) throw new Error(`Could not apply pre-match football oracle ${fixture.event_id}: ${oracleError.message}`);
-          recalibrated.push({ id:market.id,slug:market.slug,status:"open",target_probabilities:model.probabilities,oracle_cap:0.10 });
+          refreshed.push({ id:market.id,slug:market.slug,status:"open",target_probabilities:model.probabilities,oracle_cap:0.10 });
         }
         continue;
       }
       const { data, error }=await admin.from("markets").insert(template).select("id,slug,status").single();
       if (error) throw new Error(`Could not create football template ${fixture.event_id}: ${error.message}`); created.push(data);
     }
-    await finishRun(admin, started.run.id, "succeeded", { created:created.length, recalibrated:recalibrated.length, fixtures:fixtures.length, markets:created, recalibrated_markets:recalibrated }); return { ok:true, created:created.length, recalibrated:recalibrated.length, fixtures:fixtures.length, markets:created, recalibrated_markets:recalibrated };
+    await finishRun(admin, started.run.id, "succeeded", { created:created.length, refreshed:refreshed.length, unchanged:unchanged.length, fixtures:fixtures.length, markets:created, refreshed_markets:refreshed, unchanged_markets:unchanged }); return { ok:true, created:created.length, refreshed:refreshed.length, unchanged:unchanged.length, fixtures:fixtures.length, markets:created, refreshed_markets:refreshed, unchanged_markets:unchanged };
   } catch (error) { const message=String(error instanceof Error?error.message:error); await finishRun(admin, started.run.id, "failed", {}, message); throw error; }
 }
