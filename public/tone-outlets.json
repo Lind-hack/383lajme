@@ -1,10 +1,10 @@
 {
   "lastUpdated": "2026-08-26",
   "overallIndex": 52,
-  "totalArticles": 75,
-  "sourceCount": 57,
+  "totalArticles": 81,
+  "sourceCount": 62,
   "stanceVersion": 3,
-  "unattributed": 167,
+  "unattributed": 173,
   "nonEditorial": 3,
   "wrongKosovo": 0,
   "countries": {
@@ -245,14 +245,38 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-08-25",
           "lastSeen": "2026-08-25"
+        },
+        {
+          "name": "Orange Actualités",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Destination Francophonie - Destination Francophonie au Kosovo - Orange Actualités",
+              "albanianTitle": "Destinacioni Frankofonia - Destinacioni Frankofonia në Kosovë - Orange Actualités",
+              "blurb": "Emisioni Destination Francophonie pasqyron aktivitetet dhe promovimin e gjuhës frënge nëpër qytete të ndryshme të Kosovës.",
+              "imageUrl": "//media1.woopic.com/api/v1/images/2279%2Fv%2FdlIrA1gZjGwn_WPyu%2Fx240?format=1200x630&facedetect=1&quality=85",
+              "url": "https://actu.orange.fr/videos/politique/destination-francophonie-destination-francophonie-au-kosovo-CNT000002rxEGJ.html",
+              "date": "2026-08-26",
+              "sentiment": "neutral",
+              "reason": "Simple factual headline about Francophonie in Kosovo",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-26",
+          "lastSeen": "2026-08-26"
         }
       ],
       "summary": {
-        "index": 42,
+        "index": 43,
         "positive": 0,
-        "neutral": 83,
-        "negative": 17,
-        "n": 6,
+        "neutral": 86,
+        "negative": 14,
+        "n": 7,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
@@ -413,6 +437,30 @@
               "reason": "Straightforward guide to viewing a sports match, no evaluative language",
               "isQuote": false,
               "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-26",
+          "lastSeen": "2026-08-26"
+        },
+        {
+          "name": "Cavalierenews",
+          "sentiment": "positive",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Ruzhdi Gashi, il ponte letterario tra il Kosovo e il mondo: la memoria dell'Olocausto e il trionfo della cultura senza confini - Cavalierenews",
+              "albanianTitle": "Ruzhdi Gashi, ura letrare mes Kosovës dhe botës: kujtimi i Holokaustit dhe triumfi i kulturës pa kufij - Cavalierenews",
+              "blurb": "Ruzhdi Gashi vlerësohet për kontributin e tij letrar në lidhjen e Kosovës me botën përmes temave të ndryshme.",
+              "imageUrl": "https://cavalierenews.it/wp-content/uploads/2026/08/Immagine-2026-08-26-115629-909x600.jpg",
+              "url": "https://cavalierenews.it/ruzhdi-gashi-il-ponte-letterario-tra-il-kosovo-e-il-mondo-la-memoria-dellolocausto-e-il-trionfo-della-cultura-senza-confini/",
+              "date": "2026-08-26",
+              "sentiment": "positive",
+              "reason": "Outlet praises Kosovo's cultural contribution",
+              "isQuote": false,
+              "evidence": "trionfo della cultura senza confini",
               "speaker": ""
             }
           ],
@@ -753,6 +801,30 @@
           "lastSeen": "2026-08-23"
         },
         {
+          "name": "Senza Colonne News",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Italia-Kosovo, sold out allo Iacovone: cambiano le modalità di ingresso allo stadio - Senza Colonne News",
+              "albanianTitle": "Italia-Kosova, stadiumi Iacovone i mbushur plot: ndryshojnë procedurat e hyrjes në stadium - Senza Colonne News",
+              "blurb": "Stadiumi Iacovone është mbushur plot për ndeshjen Itali-Kosovë, duke shkaktuar ndryshime në procedurat e hyrjes për tifozët.",
+              "imageUrl": "https://www.senzacolonnenews.it/wp-content/2026/08/29a34f8eb3ee1abe62e1af01eb84b1e0.webp",
+              "url": "https://www.senzacolonnenews.it/sport/item/italia-kosovo-sold-out-allo-iacovone-cambiano-le-modalita-di-ingresso-allo-stadio.html",
+              "date": "2026-08-26",
+              "sentiment": "neutral",
+              "reason": "Report on event logistics, no evaluative language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-26",
+          "lastSeen": "2026-08-26"
+        },
+        {
           "name": "Sportface.it",
           "sentiment": "negative",
           "articleCount": 1,
@@ -903,7 +975,7 @@
         {
           "name": "grottaglieinrete.it",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Giochi a Taranto, oggi: Italia – Kosovo. Ecco dove parcheggiare e strade chiuse - grottaglieinrete.it",
@@ -914,6 +986,19 @@
               "date": "2026-08-26",
               "sentiment": "neutral",
               "reason": "Informacion i thjeshtë për ngjarjen sportive",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Giochi a Taranto, oggi: Italia – Kosovo. Ecco dove parcheggiare e strade chiuse. Bus e navette - grottaglieinrete.it",
+              "albanianTitle": "Lojërat në Taranto, sot: Italia – Kosova. Ja ku mund të parkoni dhe rrugët e mbyllura. Autobusët dhe linjat e transportit - grottaglieinrete.it",
+              "blurb": "Ndeshja e futbollit mes Italisë dhe Kosovës në Taranto sjell ndryshime në trafik, parkingje dhe linja të transportit.",
+              "imageUrl": "https://www.grottaglieinrete.it/it/wp-content/uploads/2026/08/parcheggi-italia-kosovo-taranto.jpg",
+              "url": "https://www.grottaglieinrete.it/it/giochi-a-taranto-oggi-italia-kosovo-ecco-dove-parcheggiare-e-strade-chiuse/",
+              "date": "2026-08-26",
+              "sentiment": "neutral",
+              "reason": "Informational headline about parking and transport, no evaluative language",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -998,11 +1083,11 @@
         }
       ],
       "summary": {
-        "index": 49,
-        "positive": 0,
-        "neutral": 97,
+        "index": 50,
+        "positive": 3,
+        "neutral": 95,
         "negative": 3,
-        "n": 34,
+        "n": 37,
         "excluded": 4,
         "confident": true,
         "stanceVersion": 3
@@ -1603,6 +1688,30 @@
     "Poloni": {
       "outlets": [
         {
+          "name": "espresso.com.pl",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Serbia – kandydat do UE z nierozwiązanym sporem terytorialnym - espresso.com.pl",
+              "albanianTitle": "Serbia – kandidate për në BE me një mosmarrëveshje territoriale të pazgjidhur - espresso.com.pl",
+              "blurb": "Serbia vazhdon rrugën drejt Bashkimit Evropian duke u përballur me sfidën e pazgjidhur të kontestit territorial.",
+              "imageUrl": "https://espresso.com.pl/wp-content/uploads/2026/08/source_45610.jpg",
+              "url": "https://espresso.com.pl/serbia-fakty-historia-geografia-kosowo-unia-europejska/",
+              "date": "2026-08-26",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportuar pa gjuhë ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-26",
+          "lastSeen": "2026-08-26"
+        },
+        {
           "name": "gostyn24.pl",
           "sentiment": "unknown",
           "articleCount": 1,
@@ -1628,11 +1737,11 @@
         }
       ],
       "summary": {
-        "index": null,
+        "index": 50,
         "positive": 0,
-        "neutral": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 0,
+        "n": 1,
         "excluded": 1,
         "confident": false,
         "stanceVersion": 3
@@ -1822,6 +1931,30 @@
           "lastSeen": "2026-08-23"
         },
         {
+          "name": "sondakika.com",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kadın Voleybol Takımı Kosova'yı 3-0 Mağlup Etti - sondakika.com",
+              "albanianTitle": "Ekipi i volejbollit të femrave mposhti Kosovën me rezultat 3-0 - sondakika.com",
+              "blurb": "Ekipi i volejbollit të femrave ka shënuar fitore me rezultat 3-0 ndaj përfaqësueses së Kosovës në ndeshjen përkatëse.",
+              "imageUrl": null,
+              "url": "https://www.sondakika.com/spor/haber-kadin-voleybol-takimi-kosova-yi-3-0-maglup-etti-20178794/",
+              "date": "2026-08-26",
+              "sentiment": "neutral",
+              "reason": "Raportim sportiv faktik",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-26",
+          "lastSeen": "2026-08-26"
+        },
+        {
           "name": "İzmir Büyükşehir Belediyesi",
           "sentiment": "positive",
           "articleCount": 1,
@@ -1871,11 +2004,11 @@
         }
       ],
       "summary": {
-        "index": 60,
-        "positive": 20,
-        "neutral": 80,
+        "index": 59,
+        "positive": 18,
+        "neutral": 82,
         "negative": 0,
-        "n": 10,
+        "n": 11,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3

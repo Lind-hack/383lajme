@@ -3090,8 +3090,8 @@
   {
     "date": "2026-08-26",
     "overallIndex": 52,
-    "totalArticles": 75,
-    "sourceCount": 57,
+    "totalArticles": 81,
+    "sourceCount": 62,
     "stanceVersion": 3,
     "countries": {
       "Gjermani": {
@@ -3125,21 +3125,21 @@
         "stanceVersion": 3
       },
       "Francë": {
-        "index": 42,
+        "index": 43,
         "positive": 0,
-        "neutral": 83,
-        "negative": 17,
-        "n": 6,
+        "neutral": 86,
+        "negative": 14,
+        "n": 7,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
       },
       "Itali": {
-        "index": 49,
-        "positive": 0,
-        "neutral": 97,
+        "index": 50,
+        "positive": 3,
+        "neutral": 95,
         "negative": 3,
-        "n": 34,
+        "n": 37,
         "excluded": 4,
         "confident": true,
         "stanceVersion": 3
@@ -3215,21 +3215,21 @@
         "stanceVersion": 3
       },
       "Poloni": {
-        "index": null,
+        "index": 50,
         "positive": 0,
-        "neutral": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 0,
+        "n": 1,
         "excluded": 1,
         "confident": false,
         "stanceVersion": 3
       },
       "Turqi": {
-        "index": 60,
-        "positive": 20,
-        "neutral": 80,
+        "index": 59,
+        "positive": 18,
+        "neutral": 82,
         "negative": 0,
-        "n": 10,
+        "n": 11,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
@@ -3263,11 +3263,11 @@
         "sentiment": "positive"
       },
       {
-        "title": "Ελλάδα – Κόσοβο 40-20: Επιβλητική η Εθνική γυναικών και 2/2 στο χάντμπολ των Μεσογειακών Αγώνων - ΤΑ ΝΕΑ",
-        "source": "ΤΑ ΝΕΑ",
-        "country": "Greqi",
-        "flag": "🇬🇷",
-        "url": "https://www.tanea.gr/2026/08/24/sports/othersports/ellada-kosovo-40-20-epivlitiki-i-ethniki-gynaikon-kai-2-2-sto-xantmpol-ton-mesogeiakon-agonon/",
+        "title": "Ruzhdi Gashi, il ponte letterario tra il Kosovo e il mondo: la memoria dell'Olocausto e il trionfo della cultura senza confini - Cavalierenews",
+        "source": "Cavalierenews",
+        "country": "Itali",
+        "flag": "🇮🇹",
+        "url": "https://cavalierenews.it/ruzhdi-gashi-il-ponte-letterario-tra-il-kosovo-e-il-mondo-la-memoria-dellolocausto-e-il-trionfo-della-cultura-senza-confini/",
         "sentiment": "positive"
       },
       {
@@ -3279,11 +3279,11 @@
         "sentiment": "negative"
       },
       {
-        "title": "Kosovo must become a state of its Serbs, too - CdM",
-        "source": "CdM",
+        "title": "The Ibar Bridge And The End Of A Strategic Illusion - Eurasia Review",
+        "source": "Eurasia Review",
         "country": "SHBA",
         "flag": "🇺🇸",
-        "url": "https://www.cdm.me/english/kosovo-must-become-a-state-of-its-serbs-too/",
+        "url": "https://www.eurasiareview.com/26082026-the-ibar-bridge-and-the-end-of-a-strategic-illusion/",
         "sentiment": "negative"
       },
       {

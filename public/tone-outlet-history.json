@@ -1755,6 +1755,71 @@
       "urls": [
         "https://www.pontosnews.gr/859229/athlitismos/arsi-varon-tromeri-emfanisi-apo-ton-giorgo-mario-dima-sto/"
       ]
+    },
+    "Orange Actualités": {
+      "country": "Francë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-26",
+      "lastSeen": "2026-08-26",
+      "urls": [
+        "https://actu.orange.fr/videos/politique/destination-francophonie-destination-francophonie-au-kosovo-CNT000002rxEGJ.html"
+      ]
+    },
+    "Senza Colonne News": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-26",
+      "lastSeen": "2026-08-26",
+      "urls": [
+        "https://www.senzacolonnenews.it/sport/item/italia-kosovo-sold-out-allo-iacovone-cambiano-le-modalita-di-ingresso-allo-stadio.html"
+      ]
+    },
+    "Cavalierenews": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 1,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-26",
+      "lastSeen": "2026-08-26",
+      "urls": [
+        "https://cavalierenews.it/ruzhdi-gashi-il-ponte-letterario-tra-il-kosovo-e-il-mondo-la-memoria-dellolocausto-e-il-trionfo-della-cultura-senza-confini/"
+      ]
+    },
+    "espresso.com.pl": {
+      "country": "Poloni",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-26",
+      "lastSeen": "2026-08-26",
+      "urls": [
+        "https://espresso.com.pl/serbia-fakty-historia-geografia-kosowo-unia-europejska/"
+      ]
+    },
+    "sondakika.com": {
+      "country": "Turqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-26",
+      "lastSeen": "2026-08-26",
+      "urls": [
+        "https://www.sondakika.com/spor/haber-kadin-voleybol-takimi-kosova-yi-3-0-maglup-etti-20178794/"
+      ]
     }
   }
 }
