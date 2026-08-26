@@ -1,10 +1,10 @@
 {
   "lastUpdated": "2026-08-26",
-  "overallIndex": 52,
-  "totalArticles": 81,
-  "sourceCount": 62,
+  "overallIndex": 53,
+  "totalArticles": 83,
+  "sourceCount": 65,
   "stanceVersion": 3,
-  "unattributed": 173,
+  "unattributed": 189,
   "nonEditorial": 3,
   "wrongKosovo": 0,
   "countries": {
@@ -132,13 +132,38 @@
       }
     },
     "Britani": {
-      "outlets": [],
+      "outlets": [
+        {
+          "name": "Balkan Insight",
+          "sentiment": "positive",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo’s Ruling Party Optimistic About Resolving Deadlock Over New President - Balkan Insight",
+              "albanianTitle": "Partia në pushtet në Kosovë optimiste për zgjidhjen e ngërçit për presidentin e ri",
+              "blurb": "Partia në pushtet në Kosovë shprehet optimiste për gjetjen e një zgjidhjeje rreth ngërçit për zgjedhjen e presidentit.",
+              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/03/Kosovo-Presidents-e1775140747768.jpg",
+              "url": "https://balkaninsight.com/2026/08/26/kosovos-ruling-party-optimistic-about-resolving-deadlock-over-new-president/bi/",
+              "date": "2026-08-26",
+              "sentiment": "positive",
+              "reason": "Gjuha e medias tregon optimizëm për Kosovën",
+              "isQuote": false,
+              "evidence": "Optimistic About Resolving Deadlock",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 4,
+          "trend": "i përzier",
+          "firstSeen": "2026-08-19",
+          "lastSeen": "2026-08-26"
+        }
+      ],
       "summary": {
-        "index": null,
-        "positive": 0,
+        "index": 100,
+        "positive": 100,
         "neutral": 0,
         "negative": 0,
-        "n": 0,
+        "n": 1,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -1080,6 +1105,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-08-25",
           "lastSeen": "2026-08-25"
+        },
+        {
+          "name": "studio100.it",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Italia-Kosovo allo Iacovone: navette e strade chiuse dalle 18 - studio100.it",
+              "albanianTitle": "Italia-Kosova në stadiumin Iacovone: autobusë dhe rrugë të mbyllura nga ora 18:00",
+              "blurb": "Ndeshja mes Italisë dhe Kosovës në stadiumin Iacovone sjell ndryshime në trafik dhe linja të reja të transportit.",
+              "imageUrl": "https://www.studio100.it/wp-content/uploads/2026/08/viabilita-1.png",
+              "url": "https://www.studio100.it/2026/08/26/italia-kosovo-allo-iacovone-navette-e-strade-chiuse-dalle-18/",
+              "date": "2026-08-26",
+              "sentiment": "neutral",
+              "reason": "Titulli është thjesht informativ",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 2,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-22",
+          "lastSeen": "2026-08-26"
         }
       ],
       "summary": {
@@ -1087,7 +1136,7 @@
         "positive": 3,
         "neutral": 95,
         "negative": 3,
-        "n": 37,
+        "n": 38,
         "excluded": 4,
         "confident": true,
         "stanceVersion": 3
@@ -1883,6 +1932,30 @@
           "lastSeen": "2026-08-23"
         },
         {
+          "name": "Son Dakika",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kadın Voleybol Takımı Kosova'yı 3-0 Mağlup Etti - Son Dakika",
+              "albanianTitle": "Ekipi i volejbollit të femrave mposht Kosovën me rezultat 3-0 - Son Dakika",
+              "blurb": "Ekipi i volejbollit të femrave ka shënuar fitore ndaj përfaqësueses së Kosovës me rezultat 3-0 në një ndeshje zyrtare.",
+              "imageUrl": null,
+              "url": "https://www.sondakika.com/spor/haber-kadin-voleybol-takimi-kosova-yi-3-0-maglup-etti-20178794/",
+              "date": "2026-08-26",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 4,
+          "trend": "neutral",
+          "firstSeen": "2026-08-20",
+          "lastSeen": "2026-08-26"
+        },
+        {
           "name": "Yeni Asır",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -2009,7 +2082,7 @@
         "neutral": 82,
         "negative": 0,
         "n": 11,
-        "excluded": 0,
+        "excluded": 1,
         "confident": true,
         "stanceVersion": 3
       }

@@ -3089,9 +3089,9 @@
   },
   {
     "date": "2026-08-26",
-    "overallIndex": 52,
-    "totalArticles": 81,
-    "sourceCount": 62,
+    "overallIndex": 53,
+    "totalArticles": 83,
+    "sourceCount": 65,
     "stanceVersion": 3,
     "countries": {
       "Gjermani": {
@@ -3115,11 +3115,11 @@
         "stanceVersion": 3
       },
       "Britani": {
-        "index": null,
-        "positive": 0,
+        "index": 100,
+        "positive": 100,
         "neutral": 0,
         "negative": 0,
-        "n": 0,
+        "n": 1,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -3139,7 +3139,7 @@
         "positive": 3,
         "neutral": 95,
         "negative": 3,
-        "n": 37,
+        "n": 38,
         "excluded": 4,
         "confident": true,
         "stanceVersion": 3
@@ -3230,7 +3230,7 @@
         "neutral": 82,
         "negative": 0,
         "n": 11,
-        "excluded": 0,
+        "excluded": 1,
         "confident": true,
         "stanceVersion": 3
       },
@@ -3255,19 +3255,19 @@
         "sentiment": "positive"
       },
       {
+        "title": "Kosovo’s Ruling Party Optimistic About Resolving Deadlock Over New President - Balkan Insight",
+        "source": "Balkan Insight",
+        "country": "Britani",
+        "flag": "🇬🇧",
+        "url": "https://balkaninsight.com/2026/08/26/kosovos-ruling-party-optimistic-about-resolving-deadlock-over-new-president/bi/",
+        "sentiment": "positive"
+      },
+      {
         "title": "JM 2026 : les Lioncelles décrochent un précieux nul face au Portugal - lopinion.ma",
         "source": "lopinion.ma",
         "country": "Francë",
         "flag": "🇫🇷",
         "url": "https://lopinion.ma/fr/sport/newsroom/jm-2026--les-lioncelles-decrochent-un-precieux-nul-face-au-portugal_a22886?articleId=4125af99-f88e-4b2b-ac18-1b9dbcd0ddf0",
-        "sentiment": "positive"
-      },
-      {
-        "title": "Ruzhdi Gashi, il ponte letterario tra il Kosovo e il mondo: la memoria dell'Olocausto e il trionfo della cultura senza confini - Cavalierenews",
-        "source": "Cavalierenews",
-        "country": "Itali",
-        "flag": "🇮🇹",
-        "url": "https://cavalierenews.it/ruzhdi-gashi-il-ponte-letterario-tra-il-kosovo-e-il-mondo-la-memoria-dellolocausto-e-il-trionfo-della-cultura-senza-confini/",
         "sentiment": "positive"
       },
       {

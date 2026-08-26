@@ -55,17 +55,18 @@
     },
     "Balkan Insight": {
       "country": "Britani",
-      "total": 3,
-      "positive": 0,
+      "total": 4,
+      "positive": 1,
       "neutral": 3,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-19",
-      "lastSeen": "2026-08-21",
+      "lastSeen": "2026-08-26",
       "urls": [
         "https://balkaninsight.com/2026/08/19/suspend-officers-suspected-of-beating-serb-kosovo-police-inspectorate-says/bi/",
         "https://balkaninsight.com/2026/08/20/remains-of-23-wartime-victims-unearthed-from-mass-graves-in-kosovo/btj/",
-        "https://balkaninsight.com/2026/08/21/thaci-expects-acquittal-as-hague-courts-war-crimes-verdict-nears/btj/"
+        "https://balkaninsight.com/2026/08/21/thaci-expects-acquittal-as-hague-courts-war-crimes-verdict-nears/btj/",
+        "https://balkaninsight.com/2026/08/26/kosovos-ruling-party-optimistic-about-resolving-deadlock-over-new-president/bi/"
       ]
     },
     "Ouest-France": {
@@ -389,15 +390,16 @@
     },
     "studio100.it": {
       "country": "Itali",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-22",
-      "lastSeen": "2026-08-22",
+      "lastSeen": "2026-08-26",
       "urls": [
-        "https://www.studio100.it/2026/08/22/la-ss-taranto-protagonista-allo-iacovone-presentazione-della-squadra-durante-italia-kosovo/"
+        "https://www.studio100.it/2026/08/22/la-ss-taranto-protagonista-allo-iacovone-presentazione-della-squadra-durante-italia-kosovo/",
+        "https://www.studio100.it/2026/08/26/italia-kosovo-allo-iacovone-navette-e-strade-chiuse-dalle-18/"
       ]
     },
     "Blick": {
@@ -961,17 +963,18 @@
     },
     "Son Dakika": {
       "country": "Turqi",
-      "total": 3,
+      "total": 4,
       "positive": 0,
       "neutral": 3,
       "negative": 0,
-      "unknown": 0,
+      "unknown": 1,
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-21",
+      "lastSeen": "2026-08-26",
       "urls": [
         "https://www.sondakika.com/haber/haber-kosova-da-halter-sampiyonasi-basladi-20162761/",
         "https://www.sondakika.com/3-sayfa/haber-kosovo-da-savas-suclari-sorusturmasi-23-kalinti-bu-20159357/",
-        "https://www.sondakika.com/3-sayfa/haber-kosova-da-toplu-mezarlar-ve-silahlar-bulundu-20164376/"
+        "https://www.sondakika.com/3-sayfa/haber-kosova-da-toplu-mezarlar-ve-silahlar-bulundu-20164376/",
+        "https://www.sondakika.com/spor/haber-kadin-voleybol-takimi-kosova-yi-3-0-maglup-etti-20178794/"
       ]
     },
     "Harici": {
