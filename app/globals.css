@@ -13337,7 +13337,10 @@ header[data-overlay="true"] .nav-search-btn[style*="margin-right"] {
 
 .dosje-section {
   container-type: inline-size;
-  --dosje-gutter: 58px;
+}
+
+.dosje-inner {
+  --dosje-gutter: 54px;
 }
 
 .dosje-entry-body {
@@ -13392,16 +13395,8 @@ header[data-overlay="true"] .nav-search-btn[style*="margin-right"] {
 
 /* Roomier: the photograph moves beside the prose and the year gutter grows. */
 @container (min-width: 470px) {
-  .dosje-section {
-    --dosje-gutter: 84px;
-  }
-  .dosje-entry-body {
-    grid-template-columns: 190px 1fr;
-    gap: 18px;
-    align-items: start;
-  }
-  .dosje-entry-img {
-    height: 150px;
+  .dosje-inner {
+    --dosje-gutter: 76px;
   }
   .dosje-video-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -13414,9 +13409,19 @@ header[data-overlay="true"] .nav-search-btn[style*="margin-right"] {
   }
 }
 
-@container (min-width: 820px) {
-  .dosje-section {
-    --dosje-gutter: 96px;
+/* Only here is there room for both: roughly 640px of card leaves 380+ for the
+   line after the gutter, the photograph and the padding. */
+@container (min-width: 700px) {
+  .dosje-inner {
+    --dosje-gutter: 92px;
+  }
+  .dosje-entry-body {
+    grid-template-columns: 200px 1fr;
+    gap: 20px;
+    align-items: start;
+  }
+  .dosje-entry-img {
+    height: 148px;
   }
   .dosje-video-grid {
     grid-template-columns: repeat(3, 1fr);

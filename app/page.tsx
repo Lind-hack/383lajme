@@ -1,6 +1,7 @@
 import { getArticles, getLatestArticles } from "@/lib/db";
 import DosjeSection from "@/components/dosje-section";
 import ArticleCard from "@/components/article-card";
+import type { Article } from "@/lib/mock-data";
 import { topicForArticle, timelineFor, articlesForTopic } from "@/lib/topics.mjs";
 import { MoveHorizontal } from "lucide-react";
 import TextureBg from "@/components/aurora-bg";
@@ -275,7 +276,7 @@ export default async function HomePage() {
                 {frontDosje.topic.blurb}
               </p>
               <div style={{ display: "grid", gap: "18px" }}>
-                {frontDosje.articles.map((a) => (
+                {frontDosje.articles.map((a: Article) => (
                   <ArticleCard key={a.slug} article={a} variant="wide" />
                 ))}
               </div>

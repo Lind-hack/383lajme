@@ -288,6 +288,8 @@ export default function DosjeSection({ topicSlug, topicTitle, blurb, videos, ent
     >
       <DosjeMotifs variant="full" />
 
+      <div className="dosje-inner">
+
       <div style={{ position: "relative", padding: "clamp(22px, 4vw, 34px) clamp(18px, 4vw, 34px) 0" }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "12px" }}>
           <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
@@ -440,6 +442,7 @@ export default function DosjeSection({ topicSlug, topicTitle, blurb, videos, ent
         <p style={{ margin: "14px 0 0", textAlign: "center", font: `italic 400 14px/1.5 ${SERIF}`, color: "rgba(43,37,33,.58)" }}>
           Kronologjia përditësohet me çdo artikull të ri.
         </p>
+      </div>
       </div>
     </section>
   );
