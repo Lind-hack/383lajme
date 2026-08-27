@@ -14119,40 +14119,76 @@ header[data-overlay="true"] .nav-search-btn[style*="margin-right"] {
   .dosje-holding { pointer-events: auto; }
 }
 
-/* --- Dosja e ditës, on the front page ------------------------------------ */
-/* The dossier sits right, its own recent coverage left. The card is given 520
-   rather than the rail's 400 because this is the one place on the site with
-   room to spare, and the extra width is what the prose needs. */
+/* --- Dosje: the dossier page --------------------------------------------- */
+/* The file takes the window. It was a 980px column with the page either side
+   of it, which made the fullest version of the dossier the most cramped one. */
 
-.front-dosje {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 520px;
-  gap: 40px;
-  align-items: start;
-  margin: 56px 0 8px;
+.dosje-page {
+  width: 100%;
+  max-width: none;
+  min-height: calc(100vh - 64px);
+  margin: 0;
+  padding: clamp(18px, 2.4vw, 30px) clamp(14px, 2.4vw, 30px) 72px;
 }
 
-.front-dosje-right {
-  position: sticky;
-  top: 88px;
+.dosje-page .dosje-section {
+  min-height: calc(100vh - 140px);
 }
 
-@media (max-width: 1180px) {
-  .front-dosje {
-    grid-template-columns: minmax(0, 1fr) 420px;
+/* --- Dosje: attaching new moments ---------------------------------------- */
+/* Asking for the rest of the file is the one deliberate act in this card, so
+   it is given weight. The page is held while the moments arrive, each one
+   dropping onto the stack and knocking the card as it lands; the knock scales
+   with how many arrived, so unlocking two feels different from unlocking ten. */
+
+@keyframes dosje-attach {
+  0% { opacity: 0; transform: translateY(-38px) scaleY(0.82); transform-origin: top center; }
+  58% { opacity: 1; transform: translateY(6px) scaleY(1.04); }
+  78% { transform: translateY(-2px) scaleY(0.99); }
+  100% { opacity: 1; transform: none; }
+}
+
+.dosje-attached {
+  animation: dosje-attach 0.62s cubic-bezier(0.3, 1.5, 0.55, 1) both;
+  animation-delay: var(--u, 0ms);
+}
+
+@keyframes dosje-shake {
+  0% { transform: translate3d(0, 0, 0); }
+  12% { transform: translate3d(calc(var(--shake, 4px) * -1), 2px, 0) rotate(-0.32deg); }
+  26% { transform: translate3d(var(--shake, 4px), -2px, 0) rotate(0.3deg); }
+  42% { transform: translate3d(calc(var(--shake, 4px) * -0.7), 1px, 0) rotate(-0.2deg); }
+  58% { transform: translate3d(calc(var(--shake, 4px) * 0.55), -1px, 0) rotate(0.14deg); }
+  74% { transform: translate3d(calc(var(--shake, 4px) * -0.3), 0, 0) rotate(-0.07deg); }
+  100% { transform: translate3d(0, 0, 0); }
+}
+
+.dosje-quake {
+  animation: dosje-shake 0.62s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+/* The page does not move while the card is working. Restored the moment the
+   last moment has landed — a lock that outlives its animation is a bug. */
+.dosje-locked {
+  overflow: hidden !important;
+  touch-action: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dosje-attached,
+  .dosje-quake { animation: none; }
+  .dosje-locked { overflow: auto !important; touch-action: auto; }
+}
+
+/* The card takes the window; the line does not. Past roughly 75 characters the
+   eye loses its place returning to the next line, so the prose keeps a measure
+   inside a card that is otherwise as wide as the page. */
+@container (min-width: 1000px) {
+  .dosje-entry-body {
+    grid-template-columns: 260px minmax(0, 78ch);
     gap: 28px;
   }
-}
-
-/* Below the two-column threshold the dossier leads and the coverage follows,
-   because the card is the reason this band exists. */
-@media (max-width: 960px) {
-  .front-dosje {
-    grid-template-columns: 1fr;
-    gap: 32px;
-  }
-  .front-dosje-right {
-    position: static;
-    order: -1;
+  .dosje-entry-img {
+    height: 190px;
   }
 }

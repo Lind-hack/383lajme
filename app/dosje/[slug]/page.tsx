@@ -62,7 +62,7 @@ export default async function DosjePage({ params }: { params: Promise<{ slug: st
       {/* The page is the card, given room. It used to be a second, thinner
           design of the same material, which meant two places to keep in step
           and one of them always lagging. */}
-      <main style={{ maxWidth: "980px", margin: "0 auto", padding: "clamp(24px, 4vw, 44px) clamp(16px, 4vw, 28px) 72px" }}>
+      <main className="dosje-page">
         <DosjeSection
           topicSlug={topic.slug}
           topicTitle={topic.title}
@@ -71,7 +71,7 @@ export default async function DosjePage({ params }: { params: Promise<{ slug: st
           entries={timeline}
         />
 
-        <div style={{ marginTop: "44px", paddingTop: "24px", borderTop: "1px solid rgba(43,37,33,.16)" }}>
+        <div style={{ marginTop: "44px", paddingTop: "24px", borderTop: "1px solid rgba(228,50,43,.28)" }}>
           <div
             style={{
               font: "600 10px var(--font-manrope), sans-serif",

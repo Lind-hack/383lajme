@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import DosjeMotifs from "@/components/dosje-motifs";
 import DosjeWritten, { useRevealOnce } from "@/components/dosje-written";
@@ -102,7 +102,7 @@ function Entry({ e, index, unlockIndex }: { e: DosjeEntry; index: number; unlock
       ref={ref}
       className={[
         shown ? "dosje-writing" : armed ? "dosje-armed" : "",
-        unlockIndex !== null ? "dosje-unlocked" : "",
+        unlockIndex !== null ? "dosje-attached" : "",
       ]
         .filter(Boolean)
         .join(" ") || undefined}
@@ -240,6 +240,12 @@ export default function DosjeSection({ topicSlug, topicTitle, blurb, videos, ent
   const [unlocking, setUnlocking] = useState(false);
   const cardRef = useRef<HTMLElement | null>(null);
 
+  const currentIdx = entries.findIndex((e) => e.isCurrent);
+  const anchorIdx = currentIdx >= 0 ? currentIdx : entries.length - 1;
+  const firstShown = Math.max(0, anchorIdx - 4);
+  const shownCount = Math.min(anchorIdx + 2, entries.length) - firstShown;
+  const hiddenCount = entries.length - shownCount;
+
   /**
    * Opening the rest of the file. The card returns to its own top first —
    * without that the new moments land above the fold and the reader only ever
@@ -257,7 +263,30 @@ export default function DosjeSection({ topicSlug, topicTitle, blurb, videos, ent
     if (reduced) return;
 
     setUnlocking(true);
-    window.setTimeout(() => setUnlocking(false), 1500);
+
+    // The page is held while the moments land, so the arrival is watched
+    // rather than scrolled past. Two things matter here: the lock is released
+    // on a timer that is always longer than the animation it covers, and it is
+    // released again in the cleanup, because a lock that survives its
+    // animation is a page the reader cannot scroll.
+    document.documentElement.classList.add("dosje-locked");
+    document.body.classList.add("dosje-locked");
+
+    const total = 900 + Math.min(hiddenCount, 8) * 110;
+    window.setTimeout(() => {
+      document.documentElement.classList.remove("dosje-locked");
+      document.body.classList.remove("dosje-locked");
+      setUnlocking(false);
+    }, total);
+  }, [hiddenCount]);
+
+  // Whatever happens — navigation, unmount, a thrown error mid-animation — the
+  // page is never left locked.
+  useEffect(() => {
+    return () => {
+      document.documentElement.classList.remove("dosje-locked");
+      document.body.classList.remove("dosje-locked");
+    };
   }, []);
 
   if (entries.length === 0) return null;
@@ -276,12 +305,16 @@ export default function DosjeSection({ topicSlug, topicTitle, blurb, videos, ent
     <section
       aria-label={`Dosje: ${topicTitle}`}
       ref={cardRef}
-      className={`dosje-section${unlocking ? " dosje-sweeping dosje-holding" : ""}`}
+      className={`dosje-section${unlocking ? " dosje-quake dosje-holding" : ""}`}
       style={{
         position: "relative",
         background: "#FAF6F1",
-        border: "1px solid rgba(43,37,33,.16)",
+        border: "1.5px solid rgba(228,50,43,.42)",
         borderRadius: "16px",
+        boxShadow: "0 1px 3px rgba(228,50,43,.08)",
+        ...(unlocking
+          ? ({ ["--shake" as string]: `${Math.min(3 + hiddenCount * 0.7, 11)}px` } as React.CSSProperties)
+          : {}),
         overflow: "hidden",
         margin: "clamp(32px, 5vw, 52px) 0",
       }}

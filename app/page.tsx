@@ -1,8 +1,4 @@
 import { getArticles, getLatestArticles } from "@/lib/db";
-import DosjeSection from "@/components/dosje-section";
-import ArticleCard from "@/components/article-card";
-import type { Article } from "@/lib/mock-data";
-import { topicForArticle, timelineFor, articlesForTopic } from "@/lib/topics.mjs";
 import { MoveHorizontal } from "lucide-react";
 import TextureBg from "@/components/aurora-bg";
 import SectionLabel from "@/components/section-label";
@@ -55,18 +51,6 @@ export default async function HomePage() {
     getToneArticleCache(),
     getToneTopics(),
   ]);
-
-  // The dossier of the day. Whichever standing subject the freshest news is
-  // actually about gets the front page, so the card follows the news rather
-  // than sitting on a fixed topic that may be quiet this week.
-  const frontTopic = articles.map((a) => topicForArticle(a)).find(Boolean) ?? null;
-  const frontDosje = frontTopic
-    ? {
-        topic: frontTopic,
-        entries: timelineFor(frontTopic.slug, articles),
-        articles: articlesForTopic(frontTopic.slug, articles).slice(0, 4),
-      }
-    : null;
 
   const toneSummary = summarizeToneHistory(toneHistory);
   // Bota Flet reads the cache (72h rolling pool, refreshed 9x/day), not
@@ -258,41 +242,6 @@ export default async function HomePage() {
         {/* Daily video reaction */}
         <ReagimiDites fallbackView={reagimiFallback} serverDateKey={reagimiDateKey} />
 
-        {/* Dosja e ditës — the standing subject behind today's news, with its
-            own recent coverage beside it. The card sits right because that is
-            where the reader already looks for context on this site. */}
-        {frontDosje && frontDosje.entries.length > 0 && (
-          <section className="front-dosje" aria-label="Dosja e ditës">
-            <div className="front-dosje-left">
-              <SectionLabel label="DOSJA E DITËS" marginBottom={12} />
-              <p
-                style={{
-                  margin: "0 0 20px",
-                  maxWidth: "56ch",
-                  font: "italic 400 17px/1.6 var(--font-garamond), Georgia, serif",
-                  color: "#5F5B56",
-                }}
-              >
-                {frontDosje.topic.blurb}
-              </p>
-              <div style={{ display: "grid", gap: "18px" }}>
-                {frontDosje.articles.map((a: Article) => (
-                  <ArticleCard key={a.slug} article={a} variant="wide" />
-                ))}
-              </div>
-            </div>
-
-            <div className="front-dosje-right">
-              <DosjeSection
-                topicSlug={frontDosje.topic.slug}
-                topicTitle={frontDosje.topic.title}
-                blurb={frontDosje.topic.blurb}
-                videos={frontDosje.topic.videos ?? []}
-                entries={frontDosje.entries}
-              />
-            </div>
-          </section>
-        )}
 
         {/* News before diversions: NJOFTIME and the topic leaders now sit directly
             under the daily reaction, and the poll and prediction markets follow

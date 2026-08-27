@@ -41,7 +41,7 @@ export default function ArticleContent({ article, related, catColor, catBg, cate
 
       <div
         style={{
-          maxWidth: "1340px",
+          maxWidth: "1420px",
           margin: "0 auto",
           padding: "56px 24px 64px",
           display: "flex",
@@ -178,14 +178,14 @@ export default function ArticleContent({ article, related, catColor, catBg, cate
           </motion.div>
         </article>
 
-        <div className="article-sidebar-col" style={{ width: "400px", flexShrink: 0 }}>
+        <div className="article-sidebar-col" style={{ width: "460px", flexShrink: 0 }}>
           <ArticleSidebar article={article} related={related} dosje={dosje} />
         </div>
       </div>
 
       <style>{`
         @media (max-width: 1200px) {
-          .article-sidebar-col { width: 340px !important; }
+          .article-sidebar-col { width: 360px !important; }
         }
         @media (max-width: 1023px) {
           .article-sidebar-col { display: none; }
