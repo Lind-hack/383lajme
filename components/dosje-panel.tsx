@@ -85,7 +85,8 @@ export default function DosjePanel({ topicSlug, topicTitle, blurb, videos, entri
       aria-label={`Dosje: ${topicTitle}`}
       className="dosje-archival"
       style={{
-        border: "1px solid #D9CFBB",
+        position: "relative",
+        border: "1px solid rgba(43,37,33,.16)",
         borderRadius: "var(--radius-md)",
         overflow: "hidden",
         boxShadow: "0 1px 2px rgba(120,98,68,0.10), inset 0 0 0 1px rgba(255,255,255,0.45)",
@@ -125,6 +126,7 @@ export default function DosjePanel({ topicSlug, topicTitle, blurb, videos, entri
 
       <div
         style={{
+          position: "relative",
           maxHeight: showAll ? "620px" : undefined,
           overflowY: showAll ? "auto" : undefined,
           padding: "16px 18px 6px",

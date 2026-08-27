@@ -5,6 +5,7 @@ import Link from "next/link";
 import { X } from "lucide-react";
 import type { DosjeEntry } from "@/components/dosje-panel";
 import { entryDate } from "@/lib/albanian-date.mjs";
+import DosjeMotifs from "@/components/dosje-motifs";
 
 /**
  * The full dossier, over the article rather than away from it.
@@ -176,6 +177,8 @@ export default function DosjeDrawer({ open, onClose, topicSlug, topicTitle, blur
           style={{ flex: 1, overflowY: "auto", padding: "26px 24px 40px", position: "relative" }}
         >
           <div style={{ position: "relative" }}>
+            <DosjeMotifs />
+
             {/* The spine. Track, then the filled section that carries the flow. */}
             <div
               aria-hidden="true"
