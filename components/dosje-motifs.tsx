@@ -61,12 +61,8 @@ const RAIL: Motif[] = [
   { src: null, name: "Shpallja e Pavarësisë, Vlorë", dates: "28 NËNTOR 1912", side: "right", top: "76%", width: 164, height: 136, bleed: 68 },
 ];
 
-const SERIF = "var(--font-garamond), Georgia, serif";
-
 export default function DosjeMotifs({ variant = "full" }: { variant?: "full" | "rail" }) {
   const motifs = variant === "rail" ? RAIL : FULL;
-  const nameSize = variant === "rail" ? 9.5 : 10.5;
-  const dateSize = variant === "rail" ? 7.5 : 8;
 
   return (
     <div aria-hidden="true" style={{ position: "absolute", inset: 0, overflow: "hidden", pointerEvents: "none" }}>
@@ -79,7 +75,7 @@ export default function DosjeMotifs({ variant = "full" }: { variant?: "full" | "
           backgroundRepeat: "no-repeat",
           backgroundSize: "100% auto",
           backgroundPosition: "center top",
-          opacity: variant === "rail" ? 0.6 : 0.75,
+          opacity: variant === "rail" ? 0.4 : 0.55,
         }}
       />
 
@@ -100,7 +96,7 @@ export default function DosjeMotifs({ variant = "full" }: { variant?: "full" | "
                     width: "100%",
                     height: "100%",
                     objectFit: "contain",
-                    opacity: 0.46,
+                    opacity: 0.3,
                     mixBlendMode: "multiply",
                     filter: m.src.endsWith(".jpg") ? "grayscale(1) contrast(1.15)" : undefined,
                     WebkitMaskImage: "url(/dosje/erode-mask.svg)",
@@ -114,28 +110,6 @@ export default function DosjeMotifs({ variant = "full" }: { variant?: "full" | "
               </div>
             )}
 
-            {/* Centred on its own anchor rather than growing up from it, so the
-                string extends evenly both ways and cannot lose its dates. */}
-            <div
-              style={{
-                position: "absolute",
-                ...labelEdge,
-                top: m.top,
-                transform: `translateY(-50%) rotate(${m.side === "right" ? 90 : -90}deg)`,
-                transformOrigin: "center",
-                whiteSpace: "nowrap",
-                display: "flex",
-                alignItems: "baseline",
-                gap: "8px",
-              }}
-            >
-              <span style={{ font: `italic 400 ${nameSize}px ${SERIF}`, color: "rgba(43,37,33,.3)", letterSpacing: "0.03em" }}>
-                {m.name}
-              </span>
-              <span style={{ font: `400 ${dateSize}px inherit`, letterSpacing: "0.18em", color: "rgba(43,37,33,.22)" }}>
-                {m.dates}
-              </span>
-            </div>
           </div>
         );
       })}

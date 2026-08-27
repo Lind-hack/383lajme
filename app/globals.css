@@ -13114,3 +13114,141 @@ header[data-overlay="true"] .nav-search-btn[style*="margin-right"] {
 .dosje-photo:hover {
   filter: none;
 }
+
+/* --- Dosje: the spine as liquid ------------------------------------------ */
+/* The spine fills to whichever entry is open. Opening a later one sends the
+   level down; opening an earlier one draws it back up. Each segment is a
+   separate element, so the flow is a stagger: the delay is set per segment
+   from its distance to the previously-filled point, which is what makes the
+   run read as one body of liquid moving rather than several bars recolouring
+   at once.
+
+   The easing carries the weight. Falling overshoots slightly and settles, the
+   way something viscous lands; rising is slower and never overshoots, because
+   liquid climbing is being pulled, not dropped. */
+
+.dosje-seg {
+  width: 4px;
+  margin-left: -1px;
+  border-radius: 3px;
+  background-color: rgba(43, 37, 33, 0.16);
+  transform-origin: top center;
+  transition:
+    background-color 0.5s ease-out,
+    box-shadow 0.5s ease-out,
+    transform 0.62s cubic-bezier(0.34, 1.42, 0.64, 1);
+}
+
+.dosje-seg-fill {
+  background-color: #e4322b;
+  background-image: linear-gradient(
+    180deg,
+    #c22a22 0%,
+    #e4322b 16%,
+    #ff9d7e 34%,
+    #fff3ec 44%,
+    #ff9d7e 54%,
+    #e4322b 72%,
+    #c22a22 100%
+  );
+  background-size: 100% 200px;
+  animation: dosje-flow-rail 9s linear infinite;
+  box-shadow: 0 0 10px rgba(228, 50, 43, 0.45);
+}
+
+/* Falling: a short squash as the level arrives, then settle. */
+.dosje-seg-down {
+  animation:
+    dosje-flow-rail 9s linear infinite,
+    dosje-drop 0.72s cubic-bezier(0.34, 1.42, 0.64, 1);
+}
+
+/* Rising: slower, no overshoot. */
+.dosje-seg-up {
+  animation:
+    dosje-flow-rail 9s linear infinite,
+    dosje-climb 0.95s cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+@keyframes dosje-drop {
+  0% { transform: scaleY(0.05); }
+  62% { transform: scaleY(1.06); }
+  100% { transform: scaleY(1); }
+}
+
+@keyframes dosje-climb {
+  0% { transform: scaleY(0.12); transform-origin: bottom center; }
+  100% { transform: scaleY(1); transform-origin: bottom center; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dosje-seg,
+  .dosje-seg-fill,
+  .dosje-seg-down,
+  .dosje-seg-up {
+    animation: none;
+    transition: background-color 0.2s linear;
+    transform: none;
+  }
+  .dosje-seg-fill { background-image: none; }
+}
+
+/* --- Dosje: arrival and actions ------------------------------------------ */
+
+/* The card settles in from the side rather than appearing. Short, and only
+   once — a rail the reader passes every article should not perform. */
+@keyframes dosje-card-in {
+  from { opacity: 0; transform: translateX(16px); }
+  to { opacity: 1; transform: none; }
+}
+
+.dosje-card-in {
+  animation: dosje-card-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.dosje-action {
+  border-radius: 12px;
+  transition:
+    background-color 0.25s ease-out,
+    transform 0.25s cubic-bezier(0.34, 1.4, 0.64, 1),
+    box-shadow 0.25s ease-out;
+  box-shadow: 0 1px 2px rgba(228, 50, 43, 0.22);
+}
+
+.dosje-action:hover {
+  background-color: #c72a24;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(228, 50, 43, 0.3);
+}
+
+.dosje-action:active {
+  transform: translateY(0) scale(0.985);
+  box-shadow: 0 1px 2px rgba(228, 50, 43, 0.24);
+}
+
+.dosje-ghost {
+  border-radius: 11px;
+  transition: background-color 0.2s ease-out, border-color 0.2s ease-out;
+}
+
+.dosje-ghost:hover {
+  background-color: rgba(43, 37, 33, 0.05);
+  border-color: rgba(43, 37, 33, 0.34);
+}
+
+.dosje-video {
+  border-radius: 12px;
+  transition: background-color 0.2s ease-out, transform 0.2s ease-out;
+}
+
+.dosje-video:hover {
+  background-color: rgba(255, 255, 255, 0.9);
+  transform: translateY(-1px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dosje-card-in { animation: none; }
+  .dosje-action:hover,
+  .dosje-action:active,
+  .dosje-video:hover { transform: none; }
+}
