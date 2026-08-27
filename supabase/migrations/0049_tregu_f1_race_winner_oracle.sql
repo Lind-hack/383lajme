@@ -2,6 +2,11 @@
 -- Keeps pre-race/live reference probabilities separate from user balances,
 -- positions, transactions, and final settlement.
 
+-- Existing deployments may contain an earlier same-signature function with
+-- parameter defaults. PostgreSQL cannot remove defaults with CREATE OR REPLACE.
+drop function if exists public.apply_f1_race_winner_oracle(uuid, jsonb, jsonb, jsonb, text, numeric, boolean, text);
+drop function if exists public.record_f1_vector_snapshot(uuid, jsonb, jsonb, text);
+
 create or replace function public.apply_f1_race_winner_oracle(
   p_market_id uuid,
   p_state jsonb,
