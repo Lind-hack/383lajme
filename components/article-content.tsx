@@ -8,7 +8,7 @@ import ArticleCard from "@/components/article-card";
 import ArticleSidebar from "@/components/article-sidebar";
 import type { DosjeData } from "@/components/article-sidebar";
 import ArticleShareRow from "@/components/article-share-row";
-import DosjeMobileEntry from "@/components/dosje-mobile-entry";
+import DosjeSection from "@/components/dosje-section";
 import ArticleAsk from "@/components/article-ask";
 import { toParagraphs, readingMinutes } from "@/lib/article-body.mjs";
 import CategoryAccordion from "@/components/category-accordion";
@@ -173,10 +173,10 @@ export default function ArticleContent({ article, related, catColor, catBg, cate
             {/* The reader has just finished; this is where the questions are. */}
             <ArticleAsk article={article} />
 
-            {/* Phones never see the sidebar, so the dossier and sharing both
-                live here for them. */}
+            {/* The dossier reads at full width for everyone, on every device,
+                rather than as a rail desktop sees and phones never do. */}
             {dosje && dosje.entries.length > 0 && (
-              <DosjeMobileEntry
+              <DosjeSection
                 topicSlug={dosje.topicSlug}
                 topicTitle={dosje.topicTitle}
                 blurb={dosje.blurb}

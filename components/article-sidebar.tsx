@@ -6,7 +6,7 @@ import { Bookmark, Link2 } from "lucide-react";
 import { type Article } from "@/lib/mock-data";
 import { EASE, DUR } from "@/lib/tokens";
 import SidebarMarketWidget from "@/components/tregu/sidebar-market-widget";
-import DosjePanel, { type DosjeEntry } from "@/components/dosje-panel";
+import type { DosjeEntry } from "@/components/dosje-section";
 import { createClient } from "@/lib/supabase/client";
 
 function flagToCode(flag: string): string {
@@ -202,21 +202,9 @@ export default function ArticleSidebar({ article, related, dosje }: Props) {
           gap: "14px",
         }}
       >
-        {/* Order is deliberate. The dossier and the market are the two things a
-            reader cannot get anywhere else on the page, so they lead; sharing,
-            bookmarking and tags are utilities and can wait until after them.
-            They used to sit below a tall share card, which pushed both far
-            enough down the rail that most readers never scrolled to them. */}
-        {dosje && dosje.entries.length > 0 && (
-          <DosjePanel
-            topicSlug={dosje.topicSlug}
-            topicTitle={dosje.topicTitle}
-            blurb={dosje.blurb}
-            videos={dosje.videos}
-            entries={dosje.entries}
-          />
-        )}
-
+        {/* The dossier used to lead this rail. It now runs full width inside
+            the article instead: at 280px it could not hold a paragraph, and
+            every entry needed opening by hand to show anything at all. */}
         {/* 383 Tregu market related to this article's category. */}
         <SidebarMarketWidget articleCategory={article.category} />
 

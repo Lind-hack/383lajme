@@ -1,0 +1,331 @@
+"use client";
+
+import { useState } from "react";
+import Link from "next/link";
+import DosjeMotifs from "@/components/dosje-motifs";
+import DosjeWritten, { useRevealOnce } from "@/components/dosje-written";
+import { entryDate } from "@/lib/albanian-date.mjs";
+
+/**
+ * The dossier, in the article and at full width.
+ *
+ * The rail version asked the reader to open every entry by hand to see any of
+ * it, in a 280px column that could not hold a paragraph. Both were the same
+ * mistake: the dossier was being treated as an index when what a reader wants
+ * is the account itself.
+ *
+ * So nothing is collapsed. Every entry is already open, and reveals itself as
+ * it scrolls into view — the text writes itself in, the photograph fades up
+ * beside it. There is no expand control, because there is nothing to expand;
+ * the only clicks left are the ones that take you somewhere else.
+ *
+ * At full article width there is room for the photograph and the prose to sit
+ * side by side; below 720px they stack. One component, three breakpoints, no
+ * separate mobile build to fall out of sync.
+ */
+
+export interface DosjeEntry {
+  kind: "milestone" | "article";
+  id: string;
+  year?: string;
+  date?: string;
+  tag?: string;
+  title: string;
+  summary?: string;
+  why?: string;
+  slug?: string;
+  imageUrl?: string | null;
+  source?: string | null;
+  publishedAt?: string | null;
+  isCurrent?: boolean;
+}
+
+export interface DosjeVideo {
+  id: string;
+  channel: string;
+  title: string;
+}
+
+interface Props {
+  topicSlug: string;
+  topicTitle: string;
+  blurb: string;
+  videos?: DosjeVideo[];
+  entries: DosjeEntry[];
+}
+
+const SERIF = "var(--font-garamond), Georgia, serif";
+const SANS = "var(--font-manrope), sans-serif";
+const INK = "#241F1B";
+const MUTED = "rgba(43,37,33,.52)";
+const RULE = "rgba(43,37,33,.2)";
+const ACCENT = "#E4322B";
+
+function spanLabel(entries: DosjeEntry[]): string | null {
+  const first = entries.find((e) => e.date || e.publishedAt);
+  const last = [...entries].reverse().find((e) => e.date || e.publishedAt);
+  const a = first ? entryDate(first) : null;
+  const b = last ? entryDate(last) : null;
+  if (!a || !b || a === b) return a ?? null;
+  return `${a} — ${b}`;
+}
+
+const diamond = (size: number, color: string) => (
+  <span
+    aria-hidden="true"
+    style={{ width: `${size}px`, height: `${size}px`, background: color, transform: "rotate(45deg)", display: "inline-block", flexShrink: 0 }}
+  />
+);
+
+const Rule = () => (
+  <div style={{ display: "flex", alignItems: "center", gap: "10px" }} aria-hidden="true">
+    <span style={{ flex: 1, height: "1px", background: RULE }} />
+    {diamond(5, "rgba(43,37,33,.35)")}
+    <span style={{ flex: 1, height: "1px", background: RULE }} />
+  </div>
+);
+
+function Entry({ e, index }: { e: DosjeEntry; index: number }) {
+  const { ref, shown, armed } = useRevealOnce<HTMLDivElement>();
+  const date = entryDate(e);
+  const body = e.summary ?? "";
+  const bodyDelay = 260;
+  const whyDelay = bodyDelay + body.split(/\s+/).length * 26 + 180;
+
+  return (
+    <div
+      ref={ref}
+      className={shown ? "dosje-writing" : armed ? "dosje-armed" : undefined}
+      style={{ display: "grid", gridTemplateColumns: "var(--dosje-gutter) 1fr", gap: "0", position: "relative" }}
+    >
+      <div style={{ textAlign: "right", paddingRight: "18px", paddingTop: "2px" }}>
+        <div style={{ font: `500 clamp(20px, 3vw, 26px)/1 ${SERIF}`, color: INK, letterSpacing: "0.01em" }}>{e.year}</div>
+        {e.tag && (
+          <div style={{ marginTop: "6px", font: `600 9px ${SANS}`, letterSpacing: "0.18em", textTransform: "uppercase", color: MUTED }}>
+            {e.tag}
+          </div>
+        )}
+      </div>
+
+      <div
+        style={{
+          borderLeft: `1px solid ${RULE}`,
+          paddingLeft: "clamp(16px, 3vw, 28px)",
+          paddingBottom: "clamp(28px, 4vw, 44px)",
+          minWidth: 0,
+        }}
+      >
+        {e.isCurrent && (
+          <div style={{ font: `600 9px ${SANS}`, letterSpacing: "0.2em", textTransform: "uppercase", color: ACCENT, marginBottom: "8px" }}>
+            Ky artikull
+          </div>
+        )}
+
+        <DosjeWritten
+          as="div"
+          active={shown}
+          offset={0}
+          step={22}
+          text={e.title}
+          style={{ font: `600 clamp(19px, 2.4vw, 24px)/1.24 ${SERIF}`, color: INK, marginBottom: "8px" }}
+        />
+
+        {date && (
+          <div style={{ font: `500 12px ${SANS}`, color: MUTED, marginBottom: "14px" }}>
+            {date}
+            {e.source ? ` · ${e.source}` : ""}
+          </div>
+        )}
+
+        <div className="dosje-entry-body">
+          {e.imageUrl && (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={e.imageUrl}
+              alt=""
+              loading="lazy"
+              decoding="async"
+              className="dosje-plate-in dosje-entry-img"
+              style={{ borderRadius: "12px", objectFit: "cover", background: "#EFEAE2" }}
+            />
+          )}
+
+          <div style={{ minWidth: 0 }}>
+            {body && (
+              <DosjeWritten
+                active={shown}
+                offset={bodyDelay}
+                step={24}
+                text={body}
+                showNib={!e.why}
+                style={{ margin: 0, font: `400 clamp(15px, 1.7vw, 16.5px)/1.72 ${SANS}`, color: "rgba(36,31,27,.9)" }}
+              />
+            )}
+
+            {e.why && (
+              <div style={{ marginTop: "16px", borderTop: `1px solid rgba(43,37,33,.16)`, borderBottom: `1px solid rgba(43,37,33,.16)`, padding: "13px 0" }}>
+                <div style={{ font: `600 9px ${SANS}`, letterSpacing: "0.2em", textTransform: "uppercase", color: ACCENT, marginBottom: "7px" }}>
+                  Pse ka rëndësi
+                </div>
+                <DosjeWritten
+                  active={shown}
+                  offset={whyDelay}
+                  step={24}
+                  text={e.why}
+                  showNib
+                  style={{ margin: 0, font: `italic 400 clamp(15.5px, 1.8vw, 17px)/1.6 ${SERIF}`, color: "rgba(36,31,27,.9)" }}
+                />
+              </div>
+            )}
+
+            {e.slug && !e.isCurrent && (
+              <Link
+                href={`/article/${e.slug}`}
+                style={{ display: "inline-block", marginTop: "14px", font: `600 10px ${SANS}`, letterSpacing: "0.16em", textTransform: "uppercase", color: ACCENT, textDecoration: "none" }}
+              >
+                Lexo artikullin →
+              </Link>
+            )}
+          </div>
+        </div>
+      </div>
+
+      <span
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          left: "calc(var(--dosje-gutter) - 5px)",
+          top: "6px",
+          width: "9px",
+          height: "9px",
+          borderRadius: "50%",
+          background: e.isCurrent ? ACCENT : "#FAF6F1",
+          border: `1px solid ${e.isCurrent ? ACCENT : "rgba(43,37,33,.45)"}`,
+          boxShadow: e.isCurrent ? "0 0 0 4px rgba(228,50,43,.14)" : undefined,
+        }}
+      />
+    </div>
+  );
+}
+
+export default function DosjeSection({ topicSlug, topicTitle, blurb, videos, entries }: Props) {
+  const [showAll, setShowAll] = useState(false);
+  if (entries.length === 0) return null;
+
+  const INITIAL = 6;
+  const currentIndex = entries.findIndex((e) => e.isCurrent);
+  const anchor = currentIndex >= 0 ? currentIndex : entries.length - 1;
+  const from = showAll ? 0 : Math.max(0, anchor - (INITIAL - 2));
+  const visible = showAll ? entries : entries.slice(from, anchor + 2);
+  const hidden = entries.length - visible.length;
+  const span = spanLabel(entries);
+
+  return (
+    <section
+      aria-label={`Dosje: ${topicTitle}`}
+      className="dosje-section"
+      style={{
+        position: "relative",
+        background: "#FAF6F1",
+        border: "1px solid rgba(43,37,33,.16)",
+        borderRadius: "16px",
+        overflow: "hidden",
+        margin: "clamp(32px, 5vw, 52px) 0",
+      }}
+    >
+      <DosjeMotifs variant="full" />
+
+      <div style={{ position: "relative", padding: "clamp(22px, 4vw, 34px) clamp(18px, 4vw, 34px) 0" }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "12px" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+            {diamond(6, ACCENT)}
+            <span style={{ font: `600 10px ${SANS}`, letterSpacing: "0.24em", textTransform: "uppercase", color: "rgba(43,37,33,.66)" }}>
+              Dosje
+            </span>
+          </div>
+          <span style={{ font: `500 11px ${SERIF}`, letterSpacing: "0.16em", textTransform: "uppercase", color: MUTED }}>
+            {entries.length} momente
+          </span>
+        </div>
+
+        <h2 style={{ margin: "14px 0 0", font: `600 clamp(28px, 5vw, 44px)/1.05 ${SERIF}`, letterSpacing: "-0.015em", color: INK }}>
+          {topicTitle}
+        </h2>
+
+        <p style={{ margin: "12px 0 0", maxWidth: "62ch", font: `italic 400 clamp(16px, 2vw, 18px)/1.55 ${SERIF}`, color: "rgba(43,37,33,.74)" }}>
+          {blurb}
+        </p>
+
+        <div style={{ margin: "20px 0 6px" }}><Rule /></div>
+
+        {span && (
+          <div style={{ textAlign: "center", font: `500 10px ${SANS}`, letterSpacing: "0.2em", textTransform: "uppercase", color: "rgba(43,37,33,.46)" }}>
+            {span}
+          </div>
+        )}
+      </div>
+
+      <div style={{ position: "relative", padding: "clamp(24px, 4vw, 36px) clamp(18px, 4vw, 34px) 0" }}>
+        {visible.map((e, i) => (
+          <Entry key={e.id} e={e} index={i} />
+        ))}
+      </div>
+
+      {videos && videos.length > 0 && (
+        <div style={{ position: "relative", zIndex: 1, padding: "0 clamp(18px, 4vw, 34px)" }}>
+          <Rule />
+          <div style={{ marginTop: "18px", font: `600 9.5px ${SANS}`, letterSpacing: "0.2em", textTransform: "uppercase", color: MUTED }}>
+            Kuptoje më thellë
+          </div>
+          <p style={{ margin: "6px 0 16px", font: `italic 400 15px/1.5 ${SERIF}`, color: "rgba(43,37,33,.64)" }}>
+            Shpjegime në anglisht, nga media dhe institute ndërkombëtare.
+          </p>
+          <div className="dosje-video-grid">
+            {videos.map((v) => (
+              <a
+                key={v.id}
+                href={`https://www.youtube.com/watch?v=${v.id}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="dosje-video"
+                style={{ display: "block", border: "1px solid rgba(43,37,33,.16)", background: "rgba(255,255,255,.6)", textDecoration: "none", overflow: "hidden" }}
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={`https://i.ytimg.com/vi/${v.id}/mqdefault.jpg`}
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+                  style={{ width: "100%", aspectRatio: "16 / 9", objectFit: "cover", display: "block", background: "#EFE6D6" }}
+                />
+                <span style={{ display: "block", padding: "11px 13px 13px" }}>
+                  <span style={{ display: "block", font: `600 14px/1.35 ${SERIF}`, color: INK }}>{v.title}</span>
+                  <span style={{ display: "block", marginTop: "4px", font: `500 10.5px ${SANS}`, color: MUTED }}>{v.channel}</span>
+                </span>
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
+
+      <div style={{ position: "relative", zIndex: 1, padding: "clamp(22px, 4vw, 30px) clamp(18px, 4vw, 34px)" }}>
+        <div style={{ marginBottom: "16px" }}><Rule /></div>
+
+        <div className="dosje-actions">
+          {hidden > 0 && !showAll && (
+            <button type="button" onClick={() => setShowAll(true)} className="dosje-ghost dosje-btn">
+              Shfaq {hidden} momente të tjera
+            </button>
+          )}
+          <Link href={`/dosje/${topicSlug}`} className="dosje-action dosje-btn dosje-btn-primary">
+            Dosja e plotë
+          </Link>
+        </div>
+
+        <p style={{ margin: "14px 0 0", textAlign: "center", font: `italic 400 14px/1.5 ${SERIF}`, color: "rgba(43,37,33,.58)" }}>
+          Kronologjia përditësohet me çdo artikull të ri.
+        </p>
+      </div>
+    </section>
+  );
+}

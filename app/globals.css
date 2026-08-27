@@ -13252,3 +13252,167 @@ header[data-overlay="true"] .nav-search-btn[style*="margin-right"] {
   .dosje-action:active,
   .dosje-video:hover { transform: none; }
 }
+
+/* --- Dosje: writing ------------------------------------------------------ */
+/* Text arrives as if it were being set down rather than switched on. Words
+   are staggered, each rising a little and sharpening from a slight blur, so
+   the line builds left to right the way a hand moves.
+
+   Word granularity, not character: a character typewriter on a 70-word
+   paragraph is a thousand animated nodes and it stutters on the phones most
+   of this audience reads on. Words give the same reading of "being written"
+   at a twentieth of the cost, and every word is real text in the DOM from the
+   first frame, so selection, search and screen readers are unaffected. */
+
+@keyframes dosje-write {
+  from { opacity: 0; transform: translateY(0.22em); filter: blur(2.5px); }
+  to { opacity: 1; transform: none; filter: blur(0); }
+}
+
+.dosje-word {
+  display: inline-block;
+  white-space: pre;
+}
+
+.dosje-armed .dosje-word {
+  opacity: 0;
+  will-change: opacity, transform;
+}
+
+.dosje-writing .dosje-word {
+  animation: dosje-write 0.42s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: var(--d, 0ms);
+}
+
+/* The nib: a thin rule that travels with the last word and lifts when done. */
+@keyframes dosje-nib {
+  0%, 100% { opacity: 0; }
+  8%, 92% { opacity: 1; }
+}
+
+.dosje-nib {
+  display: inline-block;
+  width: 1px;
+  height: 1em;
+  margin-left: 2px;
+  background: #e4322b;
+  vertical-align: text-bottom;
+  animation: dosje-nib var(--nib, 1s) steps(1, end) 1 both;
+}
+
+/* The plate fades up alongside the first words rather than after them, so the
+   entry reads as one arrival instead of two. */
+@keyframes dosje-plate-in {
+  from { opacity: 0; transform: scale(1.03); filter: saturate(0.4); }
+  to { opacity: 1; transform: none; filter: saturate(1); }
+}
+
+.dosje-writing .dosje-plate-in {
+  animation: dosje-plate-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 60ms;
+}
+
+.dosje-armed .dosje-plate-in {
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dosje-word,
+  .dosje-writing .dosje-word,
+  .dosje-plate-in,
+  .dosje-writing .dosje-plate-in {
+    animation: none;
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+  .dosje-nib { display: none; }
+}
+
+/* --- Dosje: the in-article section --------------------------------------- */
+/* One layout across every width. The year gutter narrows, the photograph
+   moves from beside the prose to above it, and the video row becomes a
+   column — all from container width, so a tablet in either orientation is
+   handled by the same three rules rather than a device guess. */
+
+.dosje-section {
+  --dosje-gutter: 96px;
+}
+
+.dosje-entry-body {
+  display: grid;
+  grid-template-columns: 210px 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+.dosje-entry-img {
+  width: 100%;
+  height: 150px;
+}
+
+.dosje-video-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+.dosje-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.dosje-btn {
+  flex: 1;
+  height: 52px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 18px;
+  font: 700 11.5px var(--font-manrope), sans-serif;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+}
+
+.dosje-btn-primary {
+  background: #e4322b;
+  color: #fff;
+  border: 0;
+}
+
+.dosje-ghost.dosje-btn {
+  background: transparent;
+  color: #241f1b;
+  border: 1px solid rgba(43, 37, 33, 0.24);
+}
+
+@media (max-width: 900px) {
+  .dosje-section {
+    --dosje-gutter: 68px;
+  }
+  .dosje-video-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 720px) {
+  .dosje-section {
+    --dosje-gutter: 54px;
+  }
+  .dosje-entry-body {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .dosje-entry-img {
+    height: 190px;
+  }
+  .dosje-video-grid {
+    grid-template-columns: 1fr;
+  }
+  .dosje-actions {
+    flex-direction: column;
+  }
+}
