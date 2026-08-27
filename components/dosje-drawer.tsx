@@ -177,7 +177,7 @@ export default function DosjeDrawer({ open, onClose, topicSlug, topicTitle, blur
           style={{ flex: 1, overflowY: "auto", padding: "26px 24px 40px", position: "relative" }}
         >
           <div style={{ position: "relative" }}>
-            <DosjeMotifs />
+            <DosjeMotifs variant="full" />
 
             {/* The spine. Track, then the filled section that carries the flow. */}
             <div

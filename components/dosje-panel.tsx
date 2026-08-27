@@ -3,6 +3,7 @@
 import { useState } from "react";
 import DosjeDrawer from "@/components/dosje-drawer";
 import { entryDate } from "@/lib/albanian-date.mjs";
+import DosjeMotifs from "@/components/dosje-motifs";
 
 /**
  * The dossier rail beside an article.
@@ -92,6 +93,8 @@ export default function DosjePanel({ topicSlug, topicTitle, blurb, videos, entri
         boxShadow: "0 1px 2px rgba(120,98,68,0.10), inset 0 0 0 1px rgba(255,255,255,0.45)",
       }}
     >
+      <DosjeMotifs variant="rail" />
+
       <div style={{ position: "relative", padding: "16px 18px 14px" }}>
         <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "9px" }}>
           <span style={{ width: "7px", height: "7px", borderRadius: "50%", background: "#FF4422" }} />
@@ -359,6 +362,7 @@ export default function DosjePanel({ topicSlug, topicTitle, blurb, videos, entri
       <div
         style={{
           position: "relative",
+          zIndex: 1,
           borderTop: "1px solid rgba(140,118,86,0.24)",
           padding: "12px 18px",
           display: "flex",

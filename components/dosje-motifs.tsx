@@ -11,6 +11,14 @@
  * it never moves. Nothing here is a control and nothing here is information a
  * reader has to have.
  *
+ * Two variants, because a rotated label is as long as the text inside it and
+ * clips against a short card. 3a spaces five figures down a sheet 1600 units
+ * tall; the sidebar rail is a fraction of that, so at the design's own
+ * percentages the labels run past the top edge and lose their dates. The rail
+ * variant therefore carries three figures on a band that keeps every label
+ * clear of both edges, at reduced scale. The full variant is the design as
+ * drawn, for surfaces tall enough to hold it.
+ *
  * A figure whose pencil plate is missing still contributes its label. That is
  * deliberate — the labels are the memorial, the drawings are the atmosphere,
  * and a missing plate must never leave a broken image over the text.
@@ -22,77 +30,43 @@ interface Motif {
   name: string;
   dates: string;
   side: "left" | "right";
-  /** Vertical position down the card, as the design specifies it. */
+  /** Vertical position down the card. */
   top: string;
   width: number;
   height: number;
   /** How far the plate hangs past the card edge. */
   bleed: number;
-  /** Where the rotated label sits relative to the plate. */
-  labelOffset: number;
 }
 
-const MOTIFS: Motif[] = [
-  {
-    src: "/dosje/pencil-skanderbeg.png",
-    name: "Përkrenarja e Skënderbeut",
-    dates: "1405–1468",
-    side: "right",
-    top: "6.5%",
-    width: 196,
-    height: 172,
-    bleed: 84,
-    labelOffset: 73,
-  },
-  {
-    src: null,
-    name: "Ibrahim Rugova",
-    dates: "1944–2006",
-    side: "left",
-    top: "19%",
-    width: 196,
-    height: 190,
-    bleed: 80,
-    labelOffset: 81,
-  },
-  {
-    src: null,
-    name: "Adem Jashari",
-    dates: "1955–1998",
-    side: "right",
-    top: "38%",
-    width: 190,
-    height: 200,
-    bleed: 86,
-    labelOffset: 86,
-  },
-  {
-    src: null,
-    name: "Kompleksi Memorial, Prekaz",
-    dates: "5–7 MARS 1998",
-    side: "left",
-    top: "57%",
-    width: 226,
-    height: 168,
-    bleed: 94,
-    labelOffset: 72,
-  },
-  {
-    src: null,
-    name: "Shpallja e Pavarësisë, Vlorë",
-    dates: "28 NËNTOR 1912",
-    side: "right",
-    top: "76%",
-    width: 214,
-    height: 178,
-    bleed: 90,
-    labelOffset: 77,
-  },
+const SKANDERBEG = "/dosje/pencil-skanderbeg.png";
+
+/** The design as drawn: five figures down a tall sheet. */
+const FULL: Motif[] = [
+  { src: SKANDERBEG, name: "Përkrenarja e Skënderbeut", dates: "1405–1468", side: "right", top: "6.5%", width: 196, height: 172, bleed: 84 },
+  { src: null, name: "Ibrahim Rugova", dates: "1944–2006", side: "left", top: "19%", width: 196, height: 190, bleed: 80 },
+  { src: null, name: "Adem Jashari", dates: "1955–1998", side: "right", top: "38%", width: 190, height: 200, bleed: 86 },
+  { src: null, name: "Kompleksi Memorial, Prekaz", dates: "5–7 MARS 1998", side: "left", top: "57%", width: 226, height: 168, bleed: 94 },
+  { src: null, name: "Shpallja e Pavarësisë, Vlorë", dates: "28 NËNTOR 1912", side: "right", top: "76%", width: 214, height: 178, bleed: 90 },
+];
+
+/**
+ * The rail: three figures on a 24–76% band. Every label's midpoint sits at
+ * least a quarter of the card from either edge, which is what keeps a rotated
+ * string from losing its dates off the top.
+ */
+const RAIL: Motif[] = [
+  { src: SKANDERBEG, name: "Përkrenarja e Skënderbeut", dates: "1405–1468", side: "right", top: "24%", width: 150, height: 132, bleed: 62 },
+  { src: null, name: "Adem Jashari", dates: "1955–1998", side: "left", top: "50%", width: 146, height: 154, bleed: 60 },
+  { src: null, name: "Shpallja e Pavarësisë, Vlorë", dates: "28 NËNTOR 1912", side: "right", top: "76%", width: 164, height: 136, bleed: 68 },
 ];
 
 const SERIF = "Georgia, 'Times New Roman', serif";
 
-export default function DosjeMotifs() {
+export default function DosjeMotifs({ variant = "full" }: { variant?: "full" | "rail" }) {
+  const motifs = variant === "rail" ? RAIL : FULL;
+  const nameSize = variant === "rail" ? 9.5 : 10.5;
+  const dateSize = variant === "rail" ? 7.5 : 8;
+
   return (
     <div aria-hidden="true" style={{ position: "absolute", inset: 0, overflow: "hidden", pointerEvents: "none" }}>
       {/* Hand-drawn iconography and grain, well under the text's contrast floor. */}
@@ -104,13 +78,13 @@ export default function DosjeMotifs() {
           backgroundRepeat: "no-repeat",
           backgroundSize: "100% auto",
           backgroundPosition: "center top",
-          opacity: 0.75,
+          opacity: variant === "rail" ? 0.6 : 0.75,
         }}
       />
 
-      {MOTIFS.map((m) => {
+      {motifs.map((m) => {
         const edge = m.side === "right" ? { right: `${-m.bleed}px` } : { left: `${-m.bleed}px` };
-        const labelEdge = m.side === "right" ? { right: "2px" } : { left: "2px" };
+        const labelEdge = m.side === "right" ? { right: "3px" } : { left: "3px" };
         return (
           <div key={m.name}>
             {m.src && (
@@ -138,35 +112,25 @@ export default function DosjeMotifs() {
               </div>
             )}
 
+            {/* Centred on its own anchor rather than growing up from it, so the
+                string extends evenly both ways and cannot lose its dates. */}
             <div
               style={{
                 position: "absolute",
                 ...labelEdge,
-                top: `calc(${m.top} + ${m.labelOffset}px)`,
-                transform: m.side === "right" ? "rotate(90deg)" : "rotate(-90deg)",
-                transformOrigin: m.side === "right" ? "right center" : "left center",
+                top: m.top,
+                transform: `translateY(-50%) rotate(${m.side === "right" ? 90 : -90}deg)`,
+                transformOrigin: "center",
                 whiteSpace: "nowrap",
                 display: "flex",
                 alignItems: "baseline",
                 gap: "8px",
               }}
             >
-              <span
-                style={{
-                  font: `italic 400 10.5px ${SERIF}`,
-                  color: "rgba(43,37,33,.3)",
-                  letterSpacing: "0.03em",
-                }}
-              >
+              <span style={{ font: `italic 400 ${nameSize}px ${SERIF}`, color: "rgba(43,37,33,.3)", letterSpacing: "0.03em" }}>
                 {m.name}
               </span>
-              <span
-                style={{
-                  font: "400 8px inherit",
-                  letterSpacing: "0.18em",
-                  color: "rgba(43,37,33,.22)",
-                }}
-              >
+              <span style={{ font: `400 ${dateSize}px inherit`, letterSpacing: "0.18em", color: "rgba(43,37,33,.22)" }}>
                 {m.dates}
               </span>
             </div>
