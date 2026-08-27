@@ -38,8 +38,6 @@ export interface DosjeEntry {
   /** Where an illustrative photograph came from, always shown with it. */
   imageCredit?: string | null;
   imageSlug?: string | null;
-  /** True when the photograph is of this subject, not merely from the dossier. */
-  imageIsSubject?: boolean;
   source?: string | null;
   publishedAt?: string | null;
   isCurrent?: boolean;
@@ -154,7 +152,7 @@ function Entry({ e, index, unlockIndex }: { e: DosjeEntry; index: number; unlock
         )}
 
         <div className="dosje-entry-body">
-          {e.imageUrl && (
+          {e.imageUrl && e.imageCredit && e.imageSlug && (
             <figure className="dosje-plate-in" style={{ margin: 0 }}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
@@ -165,13 +163,18 @@ function Entry({ e, index, unlockIndex }: { e: DosjeEntry; index: number; unlock
                 className="dosje-entry-img"
                 style={{ borderRadius: "12px", objectFit: "cover", background: "#EFEAE2", display: "block" }}
               />
-              {e.kind === "milestone" && e.imageCredit && (
-                /* 383 holds no photograph of 1999 or of March 2004. This one is
-                   from the archive's coverage of the subject, and says so —
-                   the caption is what keeps an illustration from reading as a
-                   photograph of the event itself. */
+              {e.kind === "milestone" && (
+                /* One tier, not two. "Foto ilustruese" was the other half of a
+                   bug that put a Bitcoin chart under the 2013 NATO drawdown: a
+                   disclaimer made a wrong pairing survivable in review. A
+                   photograph here is this archive's own reporting of that
+                   event, credited and linked so a reader can check it in one
+                   click — or it is not shown. */
                 <figcaption style={{ marginTop: "6px", font: `500 10px ${SANS}`, color: "rgba(43,37,33,.5)", letterSpacing: "0.02em" }}>
-                  {e.imageIsSubject ? "Nga mbulimi i 383-shit" : "Foto ilustruese"} · {e.imageCredit}
+                  <Link href={`/article/${e.imageSlug}`} style={{ color: "inherit", textDecoration: "underline" }}>
+                    Nga mbulimi i 383-shit
+                  </Link>
+                  {e.imageCredit ? ` · ${e.imageCredit}` : ""}
                 </figcaption>
               )}
             </figure>
