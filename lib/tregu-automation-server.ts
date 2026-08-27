@@ -50,14 +50,30 @@ function fiveMinuteRunKey(now: Date): string {
   return `tregu-live:${new Date(bucket).toISOString()}`;
 }
 
+const STALE_RUN_AFTER_MS = 30 * 60 * 1000;
+
 async function beginRun(admin: AdminClient, action: RunAction, runKey: string) {
   const { data: existing, error: findError } = await admin
     .from("market_automation_runs")
-    .select("id, status, details, error")
+    .select("id, status, details, error, started_at, finished_at")
     .eq("run_key", runKey)
     .maybeSingle();
   if (findError) throw new Error(`Could not check automation idempotency: ${findError.message}`);
-  if (existing) return { existing: true, run: existing };
+  if (existing) {
+    const age = Date.now() - Date.parse(String(existing.started_at ?? ""));
+    if (existing.status === "running" && Number.isFinite(age) && age > STALE_RUN_AFTER_MS) {
+      const { data: reconciled, error: reconcileError } = await admin
+        .from("market_automation_runs")
+        .update({ status: "failed", error: "stale_run_reconciled", finished_at: new Date().toISOString() })
+        .eq("id", existing.id)
+        .eq("status", "running")
+        .select("id, status, details, error, started_at, finished_at")
+        .maybeSingle();
+      if (reconcileError) throw new Error(`Could not reconcile stale automation audit: ${reconcileError.message}`);
+      if (reconciled) return { existing: true, run: reconciled };
+    }
+    return { existing: true, run: existing };
+  }
 
   const { data: created, error } = await admin
     .from("market_automation_runs")
@@ -67,7 +83,7 @@ async function beginRun(admin: AdminClient, action: RunAction, runKey: string) {
   if (error) {
     const { data: raced } = await admin
       .from("market_automation_runs")
-      .select("id, status, details, error")
+      .select("id, status, details, error, started_at, finished_at")
       .eq("run_key", runKey)
       .maybeSingle();
     if (raced) return { existing: true, run: raced };
