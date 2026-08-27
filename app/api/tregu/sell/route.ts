@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
     | {
         marketId?: string;
         side?: "PO" | "JO";
-        kind?: "sport_outcome";
+        kind?: "sport_outcome" | "f1_race_winner";
         outcomeKey?: string;
         shares?: number;
       }
@@ -32,6 +32,25 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Rezultati i zgjedhur nuk është i vlefshëm" }, { status: 400 });
     }
     const { data, error } = await supabase.rpc("sell_sport_market_shares", {
+      p_market_id: body.marketId,
+      p_side: outcomeKey,
+      p_shares: body.shares,
+    });
+    if (error) return NextResponse.json({ error: error.message }, { status: 400 });
+    const row = Array.isArray(data) ? data[0] : data;
+    return NextResponse.json({
+      ok: true,
+      coinsReceived: row?.coins_received,
+      prices: row?.prices,
+    });
+  }
+
+  if (body.kind === "f1_race_winner") {
+    const outcomeKey = String(body.outcomeKey ?? "").trim().toUpperCase();
+    if (!/^[A-Z]{3}$/.test(outcomeKey)) {
+      return NextResponse.json({ error: "Piloti i zgjedhur nuk është i vlefshëm" }, { status: 400 });
+    }
+    const { data, error } = await supabase.rpc("sell_f1_race_winner_shares", {
       p_market_id: body.marketId,
       p_side: outcomeKey,
       p_shares: body.shares,

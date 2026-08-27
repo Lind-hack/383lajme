@@ -38,6 +38,12 @@ import { getCategoryColor } from "@/lib/category-colors";
 import { normalizeRecordedOutcomeSeries } from "@/lib/tregu-hub-market.mjs";
 import { f1DriverHeadshot, f1TeamColor } from "@/lib/f1-driver-presentation";
 import { FOOTBALL_MARKET_UI_VERSION } from "@/lib/tregu-ui-contract";
+import MobileTradeSheet, {
+  type MobileTradeOption,
+  type MobileTradeReceipt,
+  type MobileTradeMode,
+} from "@/components/tregu/mobile-trade-sheet";
+import { normalizeCategory } from "@/lib/category-map";
 
 // Sibling outcome series from the detail API — real 5-min cron snapshots.
 interface EventOutcome {
@@ -136,6 +142,12 @@ const CATEGORY_LABEL: Record<string, string> = {
 };
 
 const QUICK_AMOUNTS = [10, 25, 50, 100];
+
+function tradeThemeColor(market: MarketDetail, footballColor?: string, f1Color?: string): string {
+  if (footballColor) return footballColor;
+  if (f1Color) return f1Color.startsWith("#") ? f1Color : `#${f1Color}`;
+  return getCategoryColor(normalizeCategory(market.category));
+}
 
 function closesIn(iso: string): string {
   const ms = new Date(iso).getTime() - Date.now();
@@ -267,7 +279,11 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
   const [sellShares, setSellShares] = useState(0);
   const [placing, setPlacing] = useState(false);
   const [tradeMsg, setTradeMsg] = useState<{ ok: boolean; text: string } | null>(null);
+  const [mobileTradeOpen, setMobileTradeOpen] = useState(false);
+  const [purchaseReceipt, setPurchaseReceipt] = useState<MobileTradeReceipt | null>(null);
   const lastSuccessfulLoad = useRef(0);
+  const closeMobileTrade = useCallback(() => setMobileTradeOpen(false), []);
+  const dismissPurchaseReceipt = useCallback(() => setPurchaseReceipt(null), []);
 
   // /tregu/demo renders the full trading interface from local sample data —
   // dev-only design preview, no DB market needed.
@@ -474,10 +490,49 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
       )
     : [];
 
+  const showPurchaseReceipt = (sharesBought?: number) => {
+    if (!market) return;
+    if (!mobileTradeOpen) return;
+    const footballChoice = football?.outcomes.find((outcome) => outcome.key === footballOutcomeKey);
+    const f1Choice = f1?.outcomes.find((driver) => driver.key === f1OutcomeKey);
+    const binaryPreview = !football && !f1
+      ? previewBet({ q_yes: market.q_yes, q_no: market.q_no, b: market.b }, side, amount)
+      : null;
+    const sportPreview = (footballChoice || f1Choice) && market.sport_outcomes && market.outcome_quantities
+      ? previewSportOutcomeBet(
+          {
+            sport_outcomes: market.sport_outcomes,
+            outcome_quantities: market.outcome_quantities,
+            b: market.b,
+          },
+          footballChoice?.key ?? f1Choice?.key ?? "",
+          amount
+        )
+      : null;
+    const selection = footballChoice?.label ?? f1Choice?.label ?? side;
+    const probability = footballChoice?.probability ?? f1Choice?.probability ?? (side === "PO" ? market.market_prob : 1 - market.market_prob);
+    const potentialReturn = Number(sharesBought) || sportPreview?.shares || binaryPreview?.shares || amount;
+    setPurchaseReceipt({
+      market: market.question,
+      selection,
+      coins: amount,
+      potentialReturn,
+      probability,
+      color: tradeThemeColor(market, footballChoice?.color, f1Choice?.team_colour),
+      imageUrl: footballChoice?.logo ?? f1Choice?.headshot_url,
+    });
+    setMobileTradeOpen(false);
+  };
+
   const submitTrade = async () => {
     if (!market) return;
+    if (market.status !== "open") {
+      setTradeMsg({ ok: false, text: "Ky treg është mbyllur." });
+      return;
+    }
     if (demo) {
-      setTradeMsg({ ok: true, text: "Treg demonstrimi — tregtimet e vërteta hapen kur tregu të jetë live." });
+      if (mode === "buy") showPurchaseReceipt();
+      setTradeMsg({ ok: true, text: "Treg demonstrimi — ky veprim nuk ndryshon bilancin tënd." });
       return;
     }
     setPlacing(true);
@@ -512,6 +567,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
             ok: true,
             text: `Basti u vendos te ${selectedOutcome.label} për ${amount} 383C.`,
           });
+          showPurchaseReceipt(Number(data.sharesBought));
           load();
           refreshBalance();
         } else {
@@ -543,6 +599,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
             text: `Shite ${shares.toFixed(2)} aksione të ${selectedOutcome.label} për ${Number(data.coinsReceived ?? 0).toFixed(1)} 383C.`,
           });
           setSellShares(0);
+          setMobileTradeOpen(false);
           load();
           refreshBalance();
         } else {
@@ -559,27 +616,59 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
         return;
       }
       const selectedDriver = f1.outcomes.find((driver) => driver.key === f1OutcomeKey);
-      const res = await fetch("/api/tregu/bet", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          marketId: market.id,
-          kind: "f1_race_winner",
-          outcomeKey: f1OutcomeKey,
-          coins: amount,
-        }),
-      });
-      const data = await res.json();
-      if (res.ok) {
-        track("tregu_trade", { side: "buy", kind: "f1_race_winner", marketId: market.id, coins: amount });
-        setTradeMsg({
-          ok: true,
-          text: `Basti u vendos te ${selectedDriver?.label ?? f1OutcomeKey} për ${amount} 383C.`,
+      if (mode === "buy") {
+        const res = await fetch("/api/tregu/bet", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            marketId: market.id,
+            kind: "f1_race_winner",
+            outcomeKey: f1OutcomeKey,
+            coins: amount,
+          }),
         });
-        load();
-        refreshBalance();
+        const data = await res.json();
+        if (res.ok) {
+          track("tregu_trade", { side: "buy", kind: "f1_race_winner", marketId: market.id, coins: amount });
+          setTradeMsg({
+            ok: true,
+            text: `Basti u vendos te ${selectedDriver?.label ?? f1OutcomeKey} për ${amount} 383C.`,
+          });
+          showPurchaseReceipt(Number(data.sharesBought));
+          load();
+          refreshBalance();
+        } else {
+          setTradeMsg({ ok: false, text: data.error ?? "Gabim" });
+        }
       } else {
-        setTradeMsg({ ok: false, text: data.error ?? "Gabim" });
+        const position = footballHeldOn(f1OutcomeKey);
+        if (!position || sellShares <= 0) {
+          setTradeMsg({ ok: false, text: `Nuk ke aksione të ${selectedDriver?.label ?? f1OutcomeKey} për të shitur.` });
+          setPlacing(false);
+          return;
+        }
+        const shares = Math.min(sellShares, Number(position.shares));
+        const res = await fetch("/api/tregu/sell", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            marketId: market.id,
+            kind: "f1_race_winner",
+            outcomeKey: f1OutcomeKey,
+            shares,
+          }),
+        });
+        const data = await res.json();
+        if (res.ok) {
+          track("tregu_trade", { side: "sell", kind: "f1_race_winner", marketId: market.id, shares });
+          setTradeMsg({ ok: true, text: `Shite ${shares.toFixed(2)} aksione të ${selectedDriver?.label ?? f1OutcomeKey} për ${Number(data.coinsReceived ?? 0).toFixed(1)} 383C.` });
+          setSellShares(0);
+          setMobileTradeOpen(false);
+          load();
+          refreshBalance();
+        } else {
+          setTradeMsg({ ok: false, text: data.error ?? "Gabim" });
+        }
       }
       setPlacing(false);
       return;
@@ -594,6 +683,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
       if (res.ok) {
         track("tregu_trade", { side: "buy", kind: "binary", marketId: market.id, coins: amount });
         setTradeMsg({ ok: true, text: `✓ Bleve ${data.sharesBought?.toFixed(2)} aksione ${side} për ${amount} 383C` });
+        showPurchaseReceipt(Number(data.sharesBought));
         load();
         refreshBalance();
       } else {
@@ -610,6 +700,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
         track("tregu_trade", { side: "sell", kind: "binary", marketId: market.id, shares: sellShares });
         setTradeMsg({ ok: true, text: `✓ Shite ${sellShares.toFixed(2)} aksione ${side} për ${Number(data.coinsReceived ?? 0).toFixed(1)} 383C` });
         setSellShares(0);
+        setMobileTradeOpen(false);
         load();
         refreshBalance();
       } else {
@@ -729,6 +820,31 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
           sellShares
         )
       : null;
+  const f1Held = f1OutcomeKey ? footballHeldOn(f1OutcomeKey) : undefined;
+  const f1Preview =
+    f1 && mode === "buy" && f1SelectedDriver && market.sport_outcomes && market.outcome_quantities
+      ? previewSportOutcomeBet(
+          {
+            sport_outcomes: market.sport_outcomes,
+            outcome_quantities: market.outcome_quantities,
+            b: market.b,
+          },
+          f1SelectedDriver.key,
+          amount
+        )
+      : null;
+  const f1SellPreview =
+    f1 && mode === "sell" && f1SelectedDriver && market.sport_outcomes && market.outcome_quantities && sellShares > 0
+      ? previewSportOutcomeSell(
+          {
+            sport_outcomes: market.sport_outcomes,
+            outcome_quantities: market.outcome_quantities,
+            b: market.b,
+          },
+          f1SelectedDriver.key,
+          sellShares
+        )
+      : null;
 
   const canBuy = !placing && amount > 0 && (balance === null || amount <= balance);
   const canSell = !placing && sellShares > 0 && Boolean(held);
@@ -737,6 +853,11 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
     sellShares > 0 &&
     Boolean(footballHeld) &&
     sellShares <= Number(footballHeld?.shares ?? 0);
+  const canSellF1 =
+    !placing &&
+    sellShares > 0 &&
+    Boolean(f1Held) &&
+    sellShares <= Number(f1Held?.shares ?? 0);
 
   // Race grids (every outcome has a registry headshot) swap the mini-chart
   // grid for a live timing board ranked by the odds.
@@ -765,6 +886,61 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
     ],
     current: market.market_prob,
   }];
+
+  const binaryTheme = tradeThemeColor(market);
+  const mobileTradeOptions: MobileTradeOption[] = football
+    ? football.outcomes.map((outcome) => ({
+        key: outcome.key,
+        label: outcome.label,
+        probability: outcome.probability,
+        color: outcome.color,
+        imageUrl: outcome.logo,
+        heldShares: Number(footballHeldOn(outcome.key)?.shares ?? 0),
+      }))
+    : f1
+      ? f1.outcomes.map((driver) => ({
+          key: driver.key,
+          label: driver.label,
+          probability: driver.probability,
+          color: tradeThemeColor(market, undefined, driver.team_colour),
+          imageUrl: driver.headshot_url,
+          heldShares: Number(footballHeldOn(driver.key)?.shares ?? 0),
+        }))
+      : (["PO", "JO"] as Side[]).map((optionSide) => ({
+          key: optionSide,
+          label: sideLabel(optionSide),
+          probability: optionSide === "PO" ? currentPrice : 1 - currentPrice,
+          color: binaryTheme,
+          heldShares: Number(heldOn(optionSide)?.shares ?? 0),
+        }));
+  const mobileSelectedKey = football ? footballOutcomeKey : f1 ? f1OutcomeKey : side;
+  const mobileHeld = mobileTradeOptions.find((option) => option.key === mobileSelectedKey)?.heldShares ?? 0;
+  const mobileSellEnabled = !isClosed && mobileTradeOptions.some((option) => Number(option.heldShares ?? 0) > 0);
+  const mobileBuyReturn = football ? footballPreview?.shares ?? null : f1 ? f1Preview?.shares ?? null : buyPreview?.shares ?? null;
+  const mobileSellReturn = football ? footballSellPreview?.coins ?? null : f1 ? f1SellPreview?.coins ?? null : sellPreview?.coins ?? null;
+
+  const selectMobileTradeOption = (key: string, nextMode: MobileTradeMode = mode) => {
+    if (football) setFootballOutcomeKey(key);
+    else if (f1) setF1OutcomeKey(key);
+    else setSide(key as Side);
+    if (nextMode === "sell") setSellShares(Number(footballHeldOn(key)?.shares ?? heldOn(key as Side)?.shares ?? 0));
+    setTradeMsg(null);
+  };
+
+  const changeMobileTradeMode = (nextMode: MobileTradeMode) => {
+    setMode(nextMode);
+    setTradeMsg(null);
+    if (nextMode === "sell") {
+      const firstHeld = mobileTradeOptions.find((option) => Number(option.heldShares ?? 0) > 0);
+      if (firstHeld) selectMobileTradeOption(firstHeld.key, nextMode);
+    }
+  };
+
+  const openMobileTrade = (nextMode: MobileTradeMode) => {
+    changeMobileTradeMode(nextMode);
+    setMobileTradeOpen(true);
+  };
+
   const normalizedGroupHistory = normalizeRecordedOutcomeSeries(
     (group?.outcomes ?? []).map((outcome) => ({
       key: outcome.slug,
@@ -842,6 +1018,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
       <Navbar />
       {/* Left-anchored container — Polymarket-style, not centered. */}
       <main
+        className="tregu-detail-main"
         data-auto-refresh-ms={autoRefreshMs}
         data-sport-theme={sportTheme}
         style={{ maxWidth: 1560, margin: 0, padding: "96px 32px 80px 32px" }}
@@ -851,10 +1028,10 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
         </Link>
 
         {/* ── Header: market context + question + verified ticker row ── */}
-        <header className="tregu-detail-header" data-tone={detailTone} data-sport-theme={sportTheme} style={{ marginTop: 14, marginBottom: 20 }}>
+        <header className="tregu-detail-header" data-tone={detailTone} data-sport-theme={sportTheme}>
           <div className="tregu-detail-header-grid">
             <div className="tregu-detail-header-copy">
-              <div style={{ display: "flex", alignItems: "center", flexWrap: "wrap", gap: 10, marginBottom: 12 }}>
+              <div className="tregu-detail-meta-row" style={{ display: "flex", alignItems: "center", flexWrap: "wrap", gap: 10, marginBottom: 12 }}>
                 {isSportDetail && sportBrandKey ? <SportBrandMark brandKey={sportBrandKey} size="md" /> : null}
                 <span className="tregu-pill">{CATEGORY_LABEL[market.category] ?? market.category}</span>
                 {market.status === "resolved" && (
@@ -871,6 +1048,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                 </button>
               </div>
               <h1
+                className="tregu-detail-title"
                 style={{
                   fontSize: "clamp(24px, 3.2vw, 34px)",
                   fontWeight: 800,
@@ -1814,6 +1992,37 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
             </div>
           </aside>
         </div>
+
+        <MobileTradeSheet
+          open={mobileTradeOpen}
+          mode={mode}
+          marketOpen={!isClosed}
+          loggedIn={Boolean(user)}
+          loginHref={`/hyr?next=${encodeURIComponent(`/tregu/${slug}`)}`}
+          question={group && currentOutcome ? group.title : market.question}
+          balance={balance}
+          options={mobileTradeOptions}
+          selectedKey={mobileSelectedKey}
+          amount={amount}
+          sellShares={sellShares}
+          maxSellShares={Number(mobileHeld)}
+          buyReturn={mobileBuyReturn}
+          sellReturn={mobileSellReturn}
+          canBuy={canBuy && Boolean(mobileSelectedKey)}
+          canSell={football ? canSellFootball : f1 ? canSellF1 : canSell}
+          sellEnabled={mobileSellEnabled}
+          placing={placing}
+          message={tradeMsg}
+          receipt={purchaseReceipt}
+          onOpen={openMobileTrade}
+          onClose={closeMobileTrade}
+          onModeChange={changeMobileTradeMode}
+          onSelect={selectMobileTradeOption}
+          onAmountChange={setAmount}
+          onSellSharesChange={setSellShares}
+          onSubmit={submitTrade}
+          onDismissReceipt={dismissPurchaseReceipt}
+        />
 
         {/* Practice sandbox — first market page a visitor opens walks them
             through reading the graph, betting and getting back out. */}
