@@ -3295,5 +3295,214 @@
         "sentiment": "negative"
       }
     ]
+  },
+  {
+    "date": "2026-08-27",
+    "overallIndex": 53,
+    "totalArticles": 90,
+    "sourceCount": 68,
+    "stanceVersion": 3,
+    "countries": {
+      "Gjermani": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 4,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "SHBA": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 1,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Britani": {
+        "index": 75,
+        "positive": 50,
+        "neutral": 50,
+        "negative": 0,
+        "n": 2,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Francë": {
+        "index": 44,
+        "positive": 0,
+        "neutral": 88,
+        "negative": 12,
+        "n": 8,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 3
+      },
+      "Itali": {
+        "index": 51,
+        "positive": 5,
+        "neutral": 93,
+        "negative": 2,
+        "n": 43,
+        "excluded": 4,
+        "confident": true,
+        "stanceVersion": 3
+      },
+      "Austri": {
+        "index": 58,
+        "positive": 17,
+        "neutral": 83,
+        "negative": 0,
+        "n": 6,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 3
+      },
+      "Zvicër": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 2,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Holandë": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 3,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Belgjikë": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Spanjë": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 2,
+        "excluded": 1,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Greqi": {
+        "index": 62,
+        "positive": 25,
+        "neutral": 75,
+        "negative": 0,
+        "n": 8,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 3
+      },
+      "Suedi": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Poloni": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 2,
+        "excluded": 1,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Turqi": {
+        "index": 56,
+        "positive": 11,
+        "neutral": 89,
+        "negative": 0,
+        "n": 9,
+        "excluded": 1,
+        "confident": true,
+        "stanceVersion": 3
+      },
+      "Kroaci": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      }
+    },
+    "headlines": [
+      {
+        "title": "Since Kosovo is Serbian, why doesn’t Milan Knezevic pop over to Pristina and ban them from singing about Jashari? - CdM",
+        "source": "CdM",
+        "country": "SHBA",
+        "flag": "🇺🇸",
+        "url": "https://www.cdm.me/english/since-kosovo-is-serbian-why-doesnt-milan-knezevic-pop-over-to-pristina-and-ban-them-from-singing-about-jashari/",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Kosovo’s Ruling Party Optimistic About Resolving Deadlock Over New President - Balkan Insight",
+        "source": "Balkan Insight",
+        "country": "Britani",
+        "flag": "🇬🇧",
+        "url": "https://balkaninsight.com/2026/08/26/kosovos-ruling-party-optimistic-about-resolving-deadlock-over-new-president/bi/",
+        "sentiment": "positive"
+      },
+      {
+        "title": "JM 2026 : les Lioncelles décrochent un précieux nul face au Portugal - lopinion.ma",
+        "source": "lopinion.ma",
+        "country": "Francë",
+        "flag": "🇫🇷",
+        "url": "https://lopinion.ma/fr/sport/newsroom/jm-2026--les-lioncelles-decrochent-un-precieux-nul-face-au-portugal_a22886?articleId=4125af99-f88e-4b2b-ac18-1b9dbcd0ddf0",
+        "sentiment": "positive"
+      },
+      {
+        "title": "The Ibar Bridge And The End Of A Strategic Illusion - Eurasia Review",
+        "source": "Eurasia Review",
+        "country": "SHBA",
+        "flag": "🇺🇸",
+        "url": "https://www.eurasiareview.com/26082026-the-ibar-bridge-and-the-end-of-a-strategic-illusion/",
+        "sentiment": "negative"
+      },
+      {
+        "title": "Le Maroc écrase le Kosovo aux Jeux méditerranéens U17 féminins - Yabiladi.com",
+        "source": "Yabiladi.com",
+        "country": "Francë",
+        "flag": "🇫🇷",
+        "url": "https://www.yabiladi.com/articles/details/201362/maroc-ecrase-kosovo-jeux-mediterraneens.html",
+        "sentiment": "negative"
+      },
+      {
+        "title": "Jeux méditerranéens : les Lioncelles U17 surclassent le Kosovo - Mountakhab.net",
+        "source": "Mountakhab.net",
+        "country": "Francë",
+        "flag": "🇫🇷",
+        "url": "https://mountakhab.net/jeux-mediterraneens-les-lioncelles-u17-surclassent-le-kosovo/",
+        "sentiment": "negative"
+      }
+    ]
   }
 ]

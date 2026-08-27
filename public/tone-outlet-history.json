@@ -55,18 +55,19 @@
     },
     "Balkan Insight": {
       "country": "Britani",
-      "total": 4,
+      "total": 5,
       "positive": 1,
-      "neutral": 3,
+      "neutral": 4,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-19",
-      "lastSeen": "2026-08-26",
+      "lastSeen": "2026-08-27",
       "urls": [
         "https://balkaninsight.com/2026/08/19/suspend-officers-suspected-of-beating-serb-kosovo-police-inspectorate-says/bi/",
         "https://balkaninsight.com/2026/08/20/remains-of-23-wartime-victims-unearthed-from-mass-graves-in-kosovo/btj/",
         "https://balkaninsight.com/2026/08/21/thaci-expects-acquittal-as-hague-courts-war-crimes-verdict-nears/btj/",
-        "https://balkaninsight.com/2026/08/26/kosovos-ruling-party-optimistic-about-resolving-deadlock-over-new-president/bi/"
+        "https://balkaninsight.com/2026/08/26/kosovos-ruling-party-optimistic-about-resolving-deadlock-over-new-president/bi/",
+        "https://balkaninsight.com/2026/08/27/kosovo-judicial-council-rejects-serb-judges-reinstation/bi/"
       ]
     },
     "Ouest-France": {
@@ -84,20 +85,21 @@
     },
     "Le Courrier des Balkans": {
       "country": "Francë",
-      "total": 6,
+      "total": 7,
       "positive": 0,
-      "neutral": 5,
+      "neutral": 6,
       "negative": 1,
       "unknown": 0,
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-24",
+      "lastSeen": "2026-08-27",
       "urls": [
         "https://www.courrierdesbalkans.fr/detourner-libar-nouvelle-arme-de-vucic-contre-le-kosovo-98491/",
         "https://www.courrierdesbalkans.fr/kosovo-jouer-a-la-paix-jouer-a-la-guerre-69437/",
         "https://www.courrierdesbalkans.fr/independance-du-kosovo-le-plan-secret-de-belgrade-8932/",
         "https://www.courrierdesbalkans.fr/un-hommage-en-provenance-du-kosovo-1367/",
         "https://www.courrierdesbalkans.fr/kosovo-serbie-mais-ou-est-passe-le-journalisme-engage-9084/",
-        "https://www.courrierdesbalkans.fr/entre-kosovo-et-serbie-la-fin-des-mesures-de-reciprocite-73159/"
+        "https://www.courrierdesbalkans.fr/entre-kosovo-et-serbie-la-fin-des-mesures-de-reciprocite-73159/",
+        "https://www.courrierdesbalkans.fr/kosovo-68-des-serbes-estiment-que-leur-situation-sest-degradee-depuis-un-an-98756/"
       ]
     },
     "Le Figaro": {
@@ -650,13 +652,13 @@
     },
     "sport-fm.gr": {
       "country": "Greqi",
-      "total": 8,
+      "total": 9,
       "positive": 1,
-      "neutral": 6,
+      "neutral": 7,
       "negative": 0,
       "unknown": 1,
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-25",
+      "lastSeen": "2026-08-26",
       "urls": [
         "https://www.sport-fm.gr/article/amp/mesogeiakoi-agwnes-agriemeni-stin-premiera-tis-i-ethniki-andrwn-sarwse-to-kosobo-amp/5142502",
         "https://www.sport-fm.gr/article/amp/ellada-kosobo-3-0-set-amp/5142590",
@@ -665,7 +667,8 @@
         "https://www.sport-fm.gr/article/amp/ellada-kosobo-31-25-amp/5142968",
         "https://www.sport-fm.gr/article/amp/Live-ellada-kosobo-amp/4237404",
         "https://www.sport-fm.gr/article/amp/ellada-kosobo-40-20-amp/5143343",
-        "https://www.sport-fm.gr/article/4133262"
+        "https://www.sport-fm.gr/article/4133262",
+        "https://www.sport-fm.gr/article/amp/Live-kosobo-kupros-amp/4327483"
       ]
     },
     "In.gr": {
@@ -1567,15 +1570,16 @@
     },
     "Corriere di Taranto": {
       "country": "Itali",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 0,
+      "neutral": 1,
       "negative": 0,
       "unknown": 1,
       "firstSeen": "2026-08-25",
-      "lastSeen": "2026-08-25",
+      "lastSeen": "2026-08-26",
       "urls": [
-        "https://www.corriereditaranto.it/2026/08/25/italia-kosovo-domani-cambia-la-viabilita-allo-iacovone/"
+        "https://www.corriereditaranto.it/2026/08/25/italia-kosovo-domani-cambia-la-viabilita-allo-iacovone/",
+        "https://www.corriereditaranto.it/2026/08/27/iacovone-in-delirio-litalia-si-qualifica-al-96-per-la-semifinale/"
       ]
     },
     "A Spor": {
@@ -1864,6 +1868,126 @@
       "lastSeen": "2026-08-26",
       "urls": [
         "https://www.lagazzettadelmezzogiorno.it/news/taranto/2106862/giochi-del-mediterraneo-primo-appuntamento-nel-nuovo-iacovone-lo-stadio-sold-out-per-ltalia-kosovo.html"
+      ]
+    },
+    "Hellas Verona": {
+      "country": "Itali",
+      "total": 2,
+      "positive": 0,
+      "neutral": 2,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-27",
+      "lastSeen": "2026-08-27",
+      "urls": [
+        "https://www.hellasverona.it/en/news/2026-mediterranean-games-casagrande-scores-again-in-italys-victory-over-kosovo",
+        "https://hellasverona.it/news/giochi-del-mediterraneo-2026-casagrande-ancora-a-segno-nella-vittoria-sul-kosovo"
+      ]
+    },
+    "dialessandria.it": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-27",
+      "lastSeen": "2026-08-27",
+      "urls": [
+        "https://www.dialessandria.it/sport/giochi-mediterraneo-franceschini-ripagato-laffetto-con-una-vittoria-preziosa/296423.html"
+      ]
+    },
+    "esercito.difesa.it": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-27",
+      "lastSeen": "2026-08-25",
+      "urls": [
+        "https://www.esercito.difesa.it/en/news/kosovo-15th-cavalleggeri-di-lodi-regiment-takes-command-of-regional-command-west/204029.html"
+      ]
+    },
+    "Giornale RossoBlu": {
+      "country": "Itali",
+      "total": 3,
+      "positive": 0,
+      "neutral": 3,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-27",
+      "lastSeen": "2026-08-27",
+      "urls": [
+        "https://giornalerossoblu.it/italia-kosovo-3-0-le-interviste/",
+        "https://giornalerossoblu.it/taranto-2026-italia-da-impazzire-tris-al-kosovo-e-qualificazione-alle-semifinali/",
+        "https://giornalerossoblu.it/italia-la-notte-dello-iacovone-franceschini-e-gli-azzurri-celebrano-il-tris-al-kosovo/"
+      ]
+    },
+    "Hellas Live": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-27",
+      "lastSeen": "2026-08-26",
+      "urls": [
+        "https://www.hellaslive.it/news/giochi-del-mediterraneo-italia-kosovo-3-0-in-gol-il-gialloblu-casagrande-azzurrini-in-semifinale"
+      ]
+    },
+    "Ολύμπιο Βήμα": {
+      "country": "Greqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-27",
+      "lastSeen": "2026-08-27",
+      "urls": [
+        "https://olympiobima.gr/o-giorgos-marios-dimas-katektise-tin-pebti-thesi-sto-kosovo/"
+      ]
+    },
+    "Interia Sport": {
+      "country": "Poloni",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-27",
+      "lastSeen": "2026-08-27",
+      "urls": [
+        "https://sport.interia.pl/tenis/mecz-kosovo-w-zimbabwe-w-fed-cup-gr-iii-k,spmi,3729230"
+      ]
+    },
+    "T.C. Vakıflar Genel Müdürlüğü": {
+      "country": "Turqi",
+      "total": 1,
+      "positive": 1,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-27",
+      "lastSeen": "2026-08-27",
+      "urls": [
+        "https://www.vgm.gov.tr/haberler/hayal-et-kesfet-vakfet-kosovada-ortak-mirasimizin"
+      ]
+    },
+    "Basketfaul": {
+      "country": "Turqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-27",
+      "lastSeen": "2026-08-27",
+      "urls": [
+        "https://basketfaul.com.tr/gundem/buyukcekmece-kosova-yolcusu/"
       ]
     }
   }
