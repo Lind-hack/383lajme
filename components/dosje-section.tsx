@@ -272,14 +272,42 @@ export default function DosjeSection({ topicSlug, topicTitle, blurb, videos, ent
       </div>
 
       {videos && videos.length > 0 && (
-        <div style={{ position: "relative", zIndex: 1, padding: "0 clamp(18px, 4vw, 34px)" }}>
-          <Rule />
-          <div style={{ marginTop: "18px", font: `600 9.5px ${SANS}`, letterSpacing: "0.2em", textTransform: "uppercase", color: MUTED }}>
-            Kuptoje më thellë
+        <div
+          style={{
+            position: "relative",
+            zIndex: 1,
+            margin: "clamp(8px, 2vw, 16px) clamp(18px, 4vw, 34px) 0",
+            padding: "clamp(20px, 3vw, 26px) clamp(18px, 3vw, 24px)",
+            background: "rgba(36,31,27,.045)",
+            border: "1px solid rgba(43,37,33,.16)",
+            borderRadius: "14px",
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center", gap: "9px", marginBottom: "6px" }}>
+            <span
+              aria-hidden="true"
+              style={{
+                width: "22px",
+                height: "22px",
+                borderRadius: "50%",
+                background: ACCENT,
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                flexShrink: 0,
+              }}
+            >
+              <span style={{ width: 0, height: 0, borderTop: "4px solid transparent", borderBottom: "4px solid transparent", borderLeft: "7px solid #fff", marginLeft: "2px" }} />
+            </span>
+            <h3 style={{ margin: 0, font: `600 clamp(19px, 2.2vw, 23px)/1.2 ${SERIF}`, color: INK }}>
+              Shikoje të shpjeguar
+            </h3>
           </div>
-          <p style={{ margin: "6px 0 16px", font: `italic 400 15px/1.5 ${SERIF}`, color: "rgba(43,37,33,.64)" }}>
-            Shpjegime në anglisht, nga media dhe institute ndërkombëtare.
+
+          <p style={{ margin: "0 0 16px", maxWidth: "58ch", font: `italic 400 15px/1.55 ${SERIF}`, color: "rgba(43,37,33,.7)" }}>
+            Nese do të kuptosh temen nga fillimi, këto jane shpjegimet më të mira në anglisht — nga Al Jazeera, BBC, DW dhe institute ndërkombëtare.
           </p>
+
           <div className="dosje-video-grid">
             {videos.map((v) => (
               <a
@@ -288,19 +316,48 @@ export default function DosjeSection({ topicSlug, topicTitle, blurb, videos, ent
                 target="_blank"
                 rel="noopener noreferrer"
                 className="dosje-video"
-                style={{ display: "block", border: "1px solid rgba(43,37,33,.16)", background: "rgba(255,255,255,.6)", textDecoration: "none", overflow: "hidden" }}
+                style={{ display: "block", border: "1px solid rgba(43,37,33,.16)", background: "#fff", textDecoration: "none", overflow: "hidden" }}
               >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={`https://i.ytimg.com/vi/${v.id}/mqdefault.jpg`}
-                  alt=""
-                  loading="lazy"
-                  decoding="async"
-                  style={{ width: "100%", aspectRatio: "16 / 9", objectFit: "cover", display: "block", background: "#EFE6D6" }}
-                />
-                <span style={{ display: "block", padding: "11px 13px 13px" }}>
-                  <span style={{ display: "block", font: `600 14px/1.35 ${SERIF}`, color: INK }}>{v.title}</span>
-                  <span style={{ display: "block", marginTop: "4px", font: `500 10.5px ${SANS}`, color: MUTED }}>{v.channel}</span>
+                <span style={{ display: "block", position: "relative" }}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={`https://i.ytimg.com/vi/${v.id}/mqdefault.jpg`}
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                    style={{ width: "100%", aspectRatio: "16 / 9", objectFit: "cover", display: "block", background: "#EFE6D6" }}
+                  />
+                  <span
+                    aria-hidden="true"
+                    style={{
+                      position: "absolute",
+                      inset: 0,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <span
+                      style={{
+                        width: "44px",
+                        height: "44px",
+                        borderRadius: "50%",
+                        background: "rgba(228,50,43,.92)",
+                        display: "inline-flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        boxShadow: "0 4px 14px rgba(17,17,17,.28)",
+                      }}
+                    >
+                      <span style={{ width: 0, height: 0, borderTop: "7px solid transparent", borderBottom: "7px solid transparent", borderLeft: "12px solid #fff", marginLeft: "3px" }} />
+                    </span>
+                  </span>
+                </span>
+                <span style={{ display: "block", padding: "12px 14px 14px" }}>
+                  <span style={{ display: "block", font: `600 14.5px/1.35 ${SERIF}`, color: INK }}>{v.title}</span>
+                  <span style={{ display: "block", marginTop: "5px", font: `500 10.5px ${SANS}`, letterSpacing: "0.06em", color: MUTED }}>
+                    {v.channel} · YouTube
+                  </span>
                 </span>
               </a>
             ))}
