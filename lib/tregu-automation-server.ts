@@ -151,10 +151,9 @@ export async function runDailyDraftAutomation(candidates: unknown, now = new Dat
       throw new Error("Live-event submission must create exactly four unique review-only draft cards.");
     }
     if (!expectedLiveEventRunKey) {
-      const hasHomeMass = plan.audienceTiers.some(({ tier }) => tier === "home_mass");
-      const hasWorldMass = plan.audienceTiers.some(({ tier }) => tier === "world_mass");
-      if (plan.rows.length < 3 || !hasHomeMass || !hasWorldMass) {
-        const reason = plan.rows.length < 3 ? "insufficient_mass_audience_inventory" : "missing_home_world_mix";
+      const hasMassAudience = plan.audienceTiers.some(({ tier }) => tier === "home_mass" || tier === "world_mass");
+      if (plan.rows.length < 2 || !hasMassAudience) {
+        const reason = plan.rows.length < 2 ? "insufficient_tradable_market_inventory" : "missing_mass_audience";
         const details = { created: 0, rejected: plan.rejected, admin_approval_required: true, no_publish_reason: reason };
         await finishRun(admin, started.run.id, "succeeded", details);
         return { ok: true, skipped: true, runKey, ...details, markets: [] };
@@ -169,8 +168,8 @@ export async function runDailyDraftAutomation(candidates: unknown, now = new Dat
       status: row.live_event ? "draft" : "open",
       slug: `${slugifyQuestion(row.question) || "treg"}-${dateSuffix}-${index + 1}`,
     }));
-    if (rows.length < 3 || rows.length > 5) {
-      throw new Error("Codex draft payload must produce 3 to 5 unique draft markets after validation.");
+    if (rows.length < 2 || rows.length > 5) {
+      throw new Error("Codex draft payload must produce 2 to 5 unique draft markets after validation.");
     }
     let createdMarkets: Array<Record<string, unknown>> = [];
     if (rows.length) {

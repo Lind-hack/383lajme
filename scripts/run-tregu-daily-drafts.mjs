@@ -27,10 +27,10 @@ const { articles, activeMarkets = [], futureTemplates = [] } = await contextResp
 const now = new Date();
 const prompt = `You are the 383 Tregu daily market editor for NON-SPORTS markets. Official football and F1 templates are created by a separate verified sports lane; never propose sport markets here.
 
-Your job is to select 3 to 5 genuinely tradable, uncertain, public-interest binary markets from the supplied verified articles. Think like a Polymarket/Kalshi market editor: a headline is not a contract. A good market isolates one measurable decision or threshold that can move as new information arrives, has a short useful trading window, and has a source and edge-case rule that make settlement unambiguous.
+Your job is to select 2 to 5 genuinely tradable, uncertain, public-interest binary markets from the supplied verified articles. Think like a Polymarket/Kalshi market editor: a headline is not a contract. A good market isolates one measurable decision or threshold that can move as new information arrives, has a short useful trading window, and has a source and edge-case rule that make settlement unambiguous.
 
 MANDATORY MARKET CONTRACT (all fields are required):
-- market_archetype: one of scheduled_decision, threshold, data_release, policy_action, appointment_or_selection, escalation_or_deescalation.
+- market_archetype: one of scheduled_decision, threshold, data_release, policy_action, appointment_or_selection, escalation_or_deescalation, corporate_decision, executive_action.
 - topic_key: a stable lowercase kebab-case identity for the underlying topic, not the date and not a sentence. It must not match any active topic below.
 - decision_point: the concrete fork traders are pricing, including the two plausible paths.
 - why_uncertain: the current evidence for both paths and what new information could move the price. Do not write generic filler.
@@ -48,7 +48,14 @@ QUALITY RULES:
 6. The question must be concise Albanian, end with “?”, never mechanically start with “A do të”, and include “deri më <day> <month>”. Set closes_in_hours so that the title date matches now plus that many hours in Europe/Pristina: normally 8–96 hours; scheduled decisions may use 8–168 hours only when the supplied evidence documents a real scheduled window. Do not use closes_in_days.
 7. A date is a trading deadline, not a prediction. Do not extend a market to a far future date merely because the underlying story may continue. If there is no imminent decision or threshold window, return no market for that story.
 8. Use at least two supplied articles from independent publishers when available. Source slugs must be copied exactly from the packet. The resolution source must be named in the criteria and must not be “burimi zyrtar” or another generic placeholder.
-9. Do not repeat an active topic, source story, or near-identical question listed below. Return {"markets":[]} if fewer than 3 high-quality, distinct markets are supported. Never fill the batch with weak ideas.
+9. Do not repeat an active topic, source story, or near-identical question listed below. Return {"markets":[]} if fewer than 2 high-quality, distinct markets are supported. Never fill the batch with weak ideas.
+10. An active breaking story with documented competing claims can support a 24–72 hour market even without a pre-announced calendar event, provided the next official response/source is explicit. Do not return an empty batch merely because the event is not scheduled.
+
+Good shapes (illustrative only; never copy facts):
+- a named parliament/court/central bank decision with two plausible outcomes;
+- a public count, price, rate, or threshold that can cross a stated number before the deadline;
+- a formal appointment, removal, acquisition, agreement, or escalation whose outcome is still disputed.
+Bad shapes: “will the article’s event be confirmed?”, a routine meeting, a generic announcement, or a result that the source has already established.
 
 Current time: ${now.toISOString()}
 Active non-sports markets to avoid:
@@ -58,7 +65,7 @@ Verified source articles (each includes source, URL, excerpt, and bounded body):
 ${JSON.stringify(articles)}
 
 Return ONLY compact JSON, with no markdown:
-{"markets":[{"question":"...","description":"current state plus the unresolved fork","resolution_criteria":"PO: ... JO: ... Burimi i zgjidhjes: ... Afati: ... Edge cases: ...","category":"politike|ekonomi|bote|te-tjera","closes_in_hours":48,"market_archetype":"scheduled_decision|threshold|data_release|policy_action|appointment_or_selection|escalation_or_deescalation","topic_key":"topic-name","decision_point":"...","why_uncertain":"...","trading_angle":"...","resolution_source":"...","deadline_basis":"...","threshold_value":"...","source_slugs":["slug1","slug2"]}]}`;
+{"markets":[{"question":"...","description":"current state plus the unresolved fork","resolution_criteria":"PO: ... JO: ... Burimi i zgjidhjes: ... Afati: ... Edge cases: ...","category":"politike|ekonomi|bote|te-tjera","closes_in_hours":48,"market_archetype":"scheduled_decision|threshold|data_release|policy_action|appointment_or_selection|escalation_or_deescalation|corporate_decision|executive_action","topic_key":"topic-name","decision_point":"...","why_uncertain":"...","trading_angle":"...","resolution_source":"...","deadline_basis":"...","threshold_value":"...","source_slugs":["slug1","slug2"]}]}`;
 
 
 // Cron has a minimal PATH. Use the installed VPS launcher unless an operator
