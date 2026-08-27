@@ -88,6 +88,26 @@ const REQUIRED_CHART_MARKERS = {
     "runUpcomingFootballTemplateAutomation(now)",
     "football_template: footballTemplate",
     '"awaiting_official_winner"',
+    "validateDailyDraftSubmission",
+    "nonSportOnly: !expectedLiveEventRunKey",
+    "getLatestArticles(60)",
+  ],
+  "lib/tregu-daily-market-quality.mjs": [
+    '"daily-market-v2"',
+    "headline_restatement_already_known",
+    "duplicate_topic",
+    "deadline_outside_trading_window",
+  ],
+  "scripts/run-tregu-daily-drafts.mjs": [
+    "Active non-sports markets to avoid",
+    "market_archetype",
+    "topic_key",
+    "Do not use closes_in_days",
+  ],
+  "app/api/automation/tregu/daily-drafts/route.ts": [
+    "selectDailySourceArticles",
+    "activeMarkets",
+    "body: String(article.body",
   ],
   "supabase/migrations/0038_tregu_football_stage_template.sql": [
     "market_type in ('two_outcome', 'three_outcome', 'f1_race_winner')",

@@ -22,17 +22,43 @@ const sportsResponse = await fetch(`${baseUrl}/api/automation/tregu/upcoming-spo
 if (!sportsResponse.ok) throw new Error(`Could not create upcoming sport templates: ${await sportsResponse.text()}`);
 const contextResponse = await fetch(`${baseUrl}/api/automation/tregu/daily-drafts`, { headers });
 if (!contextResponse.ok) throw new Error(`Could not load Codex draft context: ${await contextResponse.text()}`);
-const { articles, futureTemplates = [] } = await contextResponse.json();
-const prompt = `You are the 383 Tregu daily market editor for NON-SPORTS markets. Official football and F1 templates are created by a separate verified sports lane; do not propose sport markets here.
+const { articles, activeMarkets = [], futureTemplates = [] } = await contextResponse.json();
+const now = new Date();
+const prompt = `You are the 383 Tregu daily market editor for NON-SPORTS markets. Official football and F1 templates are created by a separate verified sports lane; never propose sport markets here.
 
-Use ONLY the supplied verified source articles. Propose 3 to 5 unique Albanian binary PO/JO markets only when they are broad, recognizable and likely to matter to a Kosovo audience. The priority order is: (1) major Kosovo or Kosovo-relevant domestic developments such as government/parliament power struggles, protests, arrests, courts, public safety, major fires/disasters, prices/energy, Kosovo–Serbia/KFOR/security events; (2) major world drama such as wars, Gaza/Iran/Ukraine, Trump/US/China/EU/NATO power moves, major sanctions/tariffs/oil shocks, mass evacuations/deaths, or globally recognized scandals; (3) a globally famous public figure or institution only when the supplied source documents a genuinely consequential breaking development.
+Your job is to select 3 to 5 genuinely tradable, uncertain, public-interest binary markets from the supplied verified articles. Think like a Polymarket/Kalshi market editor: a headline is not a contract. A good market isolates one measurable decision or threshold that can move as new information arrives, has a short useful trading window, and has a source and edge-case rule that make settlement unambiguous.
 
-Reject niche or boring material: minor municipal/project announcements, routine official notices, obscure legal or technical disputes, narrow military logistics, small company acquisitions, minor finance/crypto/AI updates, lower-tier crime, obscure foreign local stories, and ordinary sports/transfer news. Do not turn a niche article into a market merely because it has a deadline. Every accepted market must be understandable to a general Kosovo reader without specialist knowledge, with a concrete event and an authoritative resolution source.
+MANDATORY MARKET CONTRACT (all fields are required):
+- market_archetype: one of scheduled_decision, threshold, data_release, policy_action, appointment_or_selection, escalation_or_deescalation.
+- topic_key: a stable lowercase kebab-case identity for the underlying topic, not the date and not a sentence. It must not match any active topic below.
+- decision_point: the concrete fork traders are pricing, including the two plausible paths.
+- why_uncertain: the current evidence for both paths and what new information could move the price. Do not write generic filler.
+- trading_angle: why an informed trader could reasonably disagree today.
+- resolution_source: the named institution, official dataset, court, election authority, or other authoritative source that determines the result.
+- deadline_basis: why this deadline is tied to a real event/release/decision window, not an arbitrary date.
+- resolution_criteria: explicit PO and JO rules, named source, exact deadline, and edge cases such as postponement, partial action, revised data, or no decision.
 
-The batch must contain at least one Kosovo/Kosovo-relevant public-interest market and at least one major-world public-interest market when the supplied inventory supports them. If 3 high-recognition non-sport markets or that Kosovo/world mix cannot be supported by the supplied evidence, return {"markets":[]} rather than filling the batch with niche topics. Never invent facts, sources, outcomes or deadlines. Use short Polymarket-style titles that never mechanically begin with "A do të". Every title must include a concrete "deri më <day> <month>" deadline and end in "?". Every market must include explicit resolution criteria naming the authoritative source and deadline. Use breaking windows of 6–168 hours and scheduled-event windows of 2–7 days. Cite only supplied source slugs. Return ONLY compact JSON: {"markets":[{"question":"...","description":"...","resolution_criteria":"Zgjidhet sipas ... deri më ...","category":"politike|ekonomi|bote|te-tjera","closes_in_hours":12,"source_slugs":["..."]}]}. No markdown.
+QUALITY RULES:
+1. Use ONLY the supplied verified articles and never invent facts, sources, dates, thresholds, meetings, or outcomes.
+2. Prefer high-interest Kosovo/region public affairs, household economy/energy/prices, major geopolitics, major technology policy, courts, elections, or decisions affecting many people. Reject niche corporate news, routine notices, minor crime, obscure logistics, and ordinary celebrity gossip.
+3. Do not create a headline restatement. Reject any topic whose supplied source has already established the proposed PO outcome. Do not ask whether an already-reported arrest, signing, meeting, arrival, death, victory, or announcement will be confirmed.
+4. Never create meeting-only, generic announcement, generic “will X happen?”, or “will institution confirm what the article says?” markets. A meeting is eligible only when it contains a consequential decision, vote, ruling, appointment, agreement, or measurable outcome.
+5. Prefer a real threshold or decision: a named vote/ruling, a measurable public number, a policy taking effect, a selection/appointment, or a clearly defined escalation/de-escalation condition. For threshold/data_release, include the numeric threshold in the question and threshold_value.
+6. The question must be concise Albanian, end with “?”, never mechanically start with “A do të”, and include “deri më <day> <month>”. Set closes_in_hours so that the title date matches now plus that many hours in Europe/Pristina: normally 8–96 hours; scheduled decisions may use 8–168 hours only when the supplied evidence documents a real scheduled window. Do not use closes_in_days.
+7. A date is a trading deadline, not a prediction. Do not extend a market to a far future date merely because the underlying story may continue. If there is no imminent decision or threshold window, return no market for that story.
+8. Use at least two supplied articles from independent publishers when available. Source slugs must be copied exactly from the packet. The resolution source must be named in the criteria and must not be “burimi zyrtar” or another generic placeholder.
+9. Do not repeat an active topic, source story, or near-identical question listed below. Return {"markets":[]} if fewer than 3 high-quality, distinct markets are supported. Never fill the batch with weak ideas.
 
-Verified articles:
-${JSON.stringify(articles)}`;
+Current time: ${now.toISOString()}
+Active non-sports markets to avoid:
+${JSON.stringify(activeMarkets)}
+
+Verified source articles (each includes source, URL, excerpt, and bounded body):
+${JSON.stringify(articles)}
+
+Return ONLY compact JSON, with no markdown:
+{"markets":[{"question":"...","description":"current state plus the unresolved fork","resolution_criteria":"PO: ... JO: ... Burimi i zgjidhjes: ... Afati: ... Edge cases: ...","category":"politike|ekonomi|bote|te-tjera","closes_in_hours":48,"market_archetype":"scheduled_decision|threshold|data_release|policy_action|appointment_or_selection|escalation_or_deescalation","topic_key":"topic-name","decision_point":"...","why_uncertain":"...","trading_angle":"...","resolution_source":"...","deadline_basis":"...","threshold_value":"...","source_slugs":["slug1","slug2"]}]}`;
+
 
 // Cron has a minimal PATH. Use the installed VPS launcher unless an operator
 // explicitly supplies a different Hermes binary. The command pins the supported

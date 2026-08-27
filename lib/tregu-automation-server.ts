@@ -1,4 +1,4 @@
-import { getArticles } from "@/lib/db";
+import { getArticles, getLatestArticles } from "@/lib/db";
 import { liveHeadlinesFor } from "@/lib/live-news";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { scoreMarketWithAI, slugifyQuestion, type Market } from "@/lib/tregu";
@@ -110,12 +110,17 @@ export async function runDailyDraftAutomation(candidates: unknown, now = new Dat
   if (requestedRunKey !== undefined && typeof requestedRunKey !== "string") throw new Error("Invalid live-event draft run key.");
   const admin = createAdminClient();
   if (!admin) throw new Error("Supabase service-role configuration is required for Tregu automation.");
-  const sourceArticles = await getArticles(30);
+  const sourceArticles = await getLatestArticles(60);
   const expectedLiveEventRunKey = typeof requestedRunKey === "string" ? buildLiveEventDraftRunKey({ candidates, now }) : null;
   const validated = validateDailyDraftSubmission(
     candidates,
     new Set(sourceArticles.map((article) => article.slug)),
-    { minimum: expectedLiveEventRunKey ? 3 : 0 },
+    {
+      minimum: expectedLiveEventRunKey ? 3 : 0,
+      nonSportOnly: !expectedLiveEventRunKey,
+      sourceArticles,
+      now,
+    },
   );
   if (!validated.ok) throw new Error(validated.error);
   if (expectedLiveEventRunKey && requestedRunKey !== expectedLiveEventRunKey) throw new Error("Invalid live-event draft run key.");
@@ -127,12 +132,16 @@ export async function runDailyDraftAutomation(candidates: unknown, now = new Dat
   if (started.existing) return { ok: true, skipped: true, runKey, reason: "already_processed", run: started.run };
 
   try {
-    const { data: existingMarkets, error: existingError } = await admin.from("markets").select("question");
+    const { data: existingMarkets, error: existingError } = await admin
+      .from("markets")
+      .select("question,source_article_slugs,pre_match_analysis,status,market_classification")
+      .in("status", ["open", "draft", "stale"])
+      .eq("market_classification", "general_news");
     if (existingError) throw new Error(`Could not load existing markets: ${existingError.message}`);
 
     const plan = buildDailyDraftPlan({
       candidates: validated.candidates,
-      existingQuestions: (existingMarkets ?? []).map((market) => String(market.question)),
+      existingMarkets: existingMarkets ?? [],
       now,
       audienceArticles: sourceArticles,
       requireMassAudience: !expectedLiveEventRunKey,
@@ -187,16 +196,30 @@ export async function runDailyDraftAutomation(candidates: unknown, now = new Dat
   }
 }
 
-/** Validates and renders a no-write draft preview. It never allocates a run key or inserts a market. */
 export async function previewDailyDraftAutomation(candidates: unknown, now = new Date()) {
   const admin = createAdminClient();
   if (!admin) throw new Error("Supabase service-role configuration is required for Tregu automation.");
-  const sourceArticles = await getArticles(30);
-  const validated = validateDailyDraftSubmission(candidates, new Set(sourceArticles.map((article) => article.slug)));
+  const sourceArticles = await getLatestArticles(60);
+  const validated = validateDailyDraftSubmission(candidates, new Set(sourceArticles.map((article) => article.slug)), {
+    nonSportOnly: true,
+    sourceArticles,
+    now,
+  });
   if (!validated.ok) throw new Error(validated.error);
-  const { data: existingMarkets, error } = await admin.from("markets").select("question");
+  const { data: existingMarkets, error } = await admin
+    .from("markets")
+    .select("question,source_article_slugs,pre_match_analysis,status,market_classification")
+    .in("status", ["open", "draft", "stale"])
+    .eq("market_classification", "general_news");
   if (error) throw new Error(`Could not load existing markets: ${error.message}`);
-  const plan = buildDailyDraftPlan({ candidates: validated.candidates, existingQuestions: (existingMarkets ?? []).map((market) => String(market.question)), now });
+  const plan = buildDailyDraftPlan({
+    candidates: validated.candidates,
+    existingMarkets: existingMarkets ?? [],
+    now,
+    audienceArticles: sourceArticles,
+    requireMassAudience: true,
+    nonSportOnly: true,
+  });
   return { ok: true, preview: true, created: 0, rejected: plan.rejected, markets: plan.rows };
 }
 

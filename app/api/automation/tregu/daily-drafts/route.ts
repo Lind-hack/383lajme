@@ -1,7 +1,8 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { automationSecret, isAutomationAuthorized } from "@/lib/tregu-automation.mjs";
 import { previewDailyDraftAutomation, runDailyDraftAutomation } from "@/lib/tregu-automation-server";
-import { getArticles } from "@/lib/db";
+import { getLatestArticles } from "@/lib/db";
+import { selectDailySourceArticles } from "@/lib/tregu-daily-market-quality.mjs";
 import { createAdminClient } from "@/lib/supabase/admin";
 
 export const dynamic = "force-dynamic";
@@ -21,12 +22,39 @@ function authorized(request: NextRequest) {
 export async function GET(request: NextRequest) {
   const auth = authorized(request);
   if (auth.error) return auth.error;
-  const articles = await getArticles(30);
+  const sourceArticles = selectDailySourceArticles(await getLatestArticles(60), 24);
   const admin = createAdminClient();
   const { data: futureTemplates, error: futureError } = admin ? await admin.from("markets").select("id,slug,question,description,closes_at,live_event,sport_outcomes,status,market_classification,market_type").eq("status", "draft").in("market_classification", ["live_f1", "live_football"]).gt("closes_at", new Date().toISOString()) : { data: [], error: null };
+  const { data: activeMarkets, error: activeError } = admin ? await admin
+    .from("markets")
+    .select("question,category,closes_at,source_article_slugs,pre_match_analysis,status,market_classification")
+    .in("status", ["open", "draft", "stale"])
+    .eq("market_classification", "general_news")
+    .order("created_at", { ascending: false })
+    .limit(80) : { data: [], error: null };
   if (futureError) return NextResponse.json({ error: `Could not load future sport templates: ${futureError.message}` }, { status: 500 });
+  if (activeError) return NextResponse.json({ error: `Could not load active market topics: ${activeError.message}` }, { status: 500 });
   return NextResponse.json({
-    articles: articles.slice(0, 20).map(({ slug, category, title, excerpt, publishedAt }) => ({ slug, category, title, excerpt, publishedAt })),
+    articles: sourceArticles.map((article) => ({
+      slug: article.slug,
+      category: article.category,
+      title: article.title,
+      excerpt: article.excerpt,
+      body: String(article.body ?? "").slice(0, 4500),
+      source: article.source,
+      url: article.url ?? null,
+      publishedAt: article.publishedAt,
+    })),
+    activeMarkets: (activeMarkets ?? []).map((market) => {
+      const analysis = market.pre_match_analysis && typeof market.pre_match_analysis === "object" ? market.pre_match_analysis as Record<string, unknown> : {};
+      return {
+        question: market.question,
+        category: market.category,
+        closes_at: market.closes_at,
+        source_article_slugs: market.source_article_slugs ?? [],
+        topic_key: typeof analysis.topic_key === "string" ? analysis.topic_key : null,
+      };
+    }),
     futureTemplates: (futureTemplates ?? []).filter((market) => !(market.live_event as Record<string, unknown> | null)?.review_email_sent_at),
   });
 }
