@@ -39,12 +39,13 @@ interface Motif {
 }
 
 const SKANDERBEG = "/dosje/pencil-skanderbeg.png";
+const JASHARI = "/dosje/photo-jashari.jpg";
 
 /** The design as drawn: five figures down a tall sheet. */
 const FULL: Motif[] = [
   { src: SKANDERBEG, name: "Përkrenarja e Skënderbeut", dates: "1405–1468", side: "right", top: "6.5%", width: 196, height: 172, bleed: 84 },
   { src: null, name: "Ibrahim Rugova", dates: "1944–2006", side: "left", top: "19%", width: 196, height: 190, bleed: 80 },
-  { src: null, name: "Adem Jashari", dates: "1955–1998", side: "right", top: "38%", width: 190, height: 200, bleed: 86 },
+  { src: JASHARI, name: "Adem Jashari", dates: "1955–1998", side: "right", top: "38%", width: 190, height: 200, bleed: 86 },
   { src: null, name: "Kompleksi Memorial, Prekaz", dates: "5–7 MARS 1998", side: "left", top: "57%", width: 226, height: 168, bleed: 94 },
   { src: null, name: "Shpallja e Pavarësisë, Vlorë", dates: "28 NËNTOR 1912", side: "right", top: "76%", width: 214, height: 178, bleed: 90 },
 ];
@@ -56,11 +57,11 @@ const FULL: Motif[] = [
  */
 const RAIL: Motif[] = [
   { src: SKANDERBEG, name: "Përkrenarja e Skënderbeut", dates: "1405–1468", side: "right", top: "24%", width: 150, height: 132, bleed: 62 },
-  { src: null, name: "Adem Jashari", dates: "1955–1998", side: "left", top: "50%", width: 146, height: 154, bleed: 60 },
+  { src: JASHARI, name: "Adem Jashari", dates: "1955–1998", side: "left", top: "50%", width: 146, height: 154, bleed: 60 },
   { src: null, name: "Shpallja e Pavarësisë, Vlorë", dates: "28 NËNTOR 1912", side: "right", top: "76%", width: 164, height: 136, bleed: 68 },
 ];
 
-const SERIF = "Georgia, 'Times New Roman', serif";
+const SERIF = "var(--font-garamond), Georgia, serif";
 
 export default function DosjeMotifs({ variant = "full" }: { variant?: "full" | "rail" }) {
   const motifs = variant === "rail" ? RAIL : FULL;
@@ -101,6 +102,7 @@ export default function DosjeMotifs({ variant = "full" }: { variant?: "full" | "
                     objectFit: "contain",
                     opacity: 0.46,
                     mixBlendMode: "multiply",
+                    filter: m.src.endsWith(".jpg") ? "grayscale(1) contrast(1.15)" : undefined,
                     WebkitMaskImage: "url(/dosje/erode-mask.svg)",
                     maskImage: "url(/dosje/erode-mask.svg)",
                     WebkitMaskSize: "100% 100%",

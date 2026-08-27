@@ -1,9 +1,20 @@
 import type { Metadata } from "next";
-import { Manrope, Figtree } from "next/font/google";
+import { Manrope, Figtree, EB_Garamond } from "next/font/google";
 import "./globals.css";
 import SignupPrompt from "@/components/signup-prompt";
 import MotionProvider from "@/components/motion-provider";
 import Ga from "@/components/analytics/ga";
+
+// The dossier is set in a serif: it is the record behind the news rather than
+// the news, and design 3a leans on that register throughout — the topic title,
+// every entry title, and the italic notes.
+const ebGaramond = EB_Garamond({
+  subsets: ["latin", "latin-ext"],
+  weight: ["400", "500", "600"],
+  style: ["normal", "italic"],
+  display: "swap",
+  variable: "--font-garamond",
+});
 
 const manrope = Manrope({
   subsets: ["latin"],
@@ -66,7 +77,7 @@ const structuredData = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="sq" className={`${manrope.variable} ${figtree.variable}`} style={{ background: "#F9F6F1" }}>
+    <html lang="sq" className={`${manrope.variable} ${figtree.variable} ${ebGaramond.variable}`} style={{ background: "#F9F6F1" }}>
       <head>
         <meta name="theme-color" content="#F9F6F1" />
         <script
