@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import Link from "next/link";
 import DosjeMotifs from "@/components/dosje-motifs";
 import DosjeWritten, { useRevealOnce } from "@/components/dosje-written";
@@ -35,6 +35,11 @@ export interface DosjeEntry {
   why?: string;
   slug?: string;
   imageUrl?: string | null;
+  /** Where an illustrative photograph came from, always shown with it. */
+  imageCredit?: string | null;
+  imageSlug?: string | null;
+  /** True when the photograph is of this subject, not merely from the dossier. */
+  imageIsSubject?: boolean;
   source?: string | null;
   publishedAt?: string | null;
   isCurrent?: boolean;
@@ -85,7 +90,7 @@ const Rule = () => (
   </div>
 );
 
-function Entry({ e, index }: { e: DosjeEntry; index: number }) {
+function Entry({ e, index, unlockIndex }: { e: DosjeEntry; index: number; unlockIndex: number | null }) {
   const { ref, shown, armed } = useRevealOnce<HTMLDivElement>();
   const date = entryDate(e);
   const body = e.summary ?? "";
@@ -95,8 +100,19 @@ function Entry({ e, index }: { e: DosjeEntry; index: number }) {
   return (
     <div
       ref={ref}
-      className={shown ? "dosje-writing" : armed ? "dosje-armed" : undefined}
-      style={{ display: "grid", gridTemplateColumns: "var(--dosje-gutter) 1fr", gap: "0", position: "relative" }}
+      className={[
+        shown ? "dosje-writing" : armed ? "dosje-armed" : "",
+        unlockIndex !== null ? "dosje-unlocked" : "",
+      ]
+        .filter(Boolean)
+        .join(" ") || undefined}
+      style={{
+        display: "grid",
+        gridTemplateColumns: "var(--dosje-gutter) 1fr",
+        gap: "0",
+        position: "relative",
+        ...(unlockIndex !== null ? ({ ["--u" as string]: `${unlockIndex * 110}ms` } as React.CSSProperties) : {}),
+      }}
     >
       <div style={{ textAlign: "right", paddingRight: "18px", paddingTop: "2px" }}>
         <div style={{ font: `500 clamp(20px, 3vw, 26px)/1 ${SERIF}`, color: INK, letterSpacing: "0.01em" }}>{e.year}</div>
@@ -139,15 +155,26 @@ function Entry({ e, index }: { e: DosjeEntry; index: number }) {
 
         <div className="dosje-entry-body">
           {e.imageUrl && (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={e.imageUrl}
-              alt=""
-              loading="lazy"
-              decoding="async"
-              className="dosje-plate-in dosje-entry-img"
-              style={{ borderRadius: "12px", objectFit: "cover", background: "#EFEAE2" }}
-            />
+            <figure className="dosje-plate-in" style={{ margin: 0 }}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={e.imageUrl}
+                alt=""
+                loading="lazy"
+                decoding="async"
+                className="dosje-entry-img"
+                style={{ borderRadius: "12px", objectFit: "cover", background: "#EFEAE2", display: "block" }}
+              />
+              {e.kind === "milestone" && e.imageCredit && (
+                /* 383 holds no photograph of 1999 or of March 2004. This one is
+                   from the archive's coverage of the subject, and says so —
+                   the caption is what keeps an illustration from reading as a
+                   photograph of the event itself. */
+                <figcaption style={{ marginTop: "6px", font: `500 10px ${SANS}`, color: "rgba(43,37,33,.5)", letterSpacing: "0.02em" }}>
+                  {e.imageIsSubject ? "Nga mbulimi i 383-shit" : "Foto ilustruese"} · {e.imageCredit}
+                </figcaption>
+              )}
+            </figure>
           )}
 
           <div style={{ minWidth: 0 }}>
@@ -210,6 +237,29 @@ function Entry({ e, index }: { e: DosjeEntry; index: number }) {
 
 export default function DosjeSection({ topicSlug, topicTitle, blurb, videos, entries }: Props) {
   const [showAll, setShowAll] = useState(false);
+  const [unlocking, setUnlocking] = useState(false);
+  const cardRef = useRef<HTMLElement | null>(null);
+
+  /**
+   * Opening the rest of the file. The card returns to its own top first —
+   * without that the new moments land above the fold and the reader only ever
+   * finds them by scrolling back — then the card is held for the length of the
+   * entrance so the arrival is watched rather than scrolled past.
+   */
+  const unlock = useCallback(() => {
+    const reduced =
+      typeof window !== "undefined" &&
+      typeof window.matchMedia === "function" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    cardRef.current?.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "start" });
+    setShowAll(true);
+    if (reduced) return;
+
+    setUnlocking(true);
+    window.setTimeout(() => setUnlocking(false), 1500);
+  }, []);
+
   if (entries.length === 0) return null;
 
   const INITIAL = 6;
@@ -218,12 +268,15 @@ export default function DosjeSection({ topicSlug, topicTitle, blurb, videos, ent
   const from = showAll ? 0 : Math.max(0, anchor - (INITIAL - 2));
   const visible = showAll ? entries : entries.slice(from, anchor + 2);
   const hidden = entries.length - visible.length;
+  // Where the list ended before unlocking, so only the new arrivals animate.
+  const visibleBefore = Math.min(anchor + 2, entries.length) - Math.max(0, anchor - (INITIAL - 2));
   const span = spanLabel(entries);
 
   return (
     <section
       aria-label={`Dosje: ${topicTitle}`}
-      className="dosje-section"
+      ref={cardRef}
+      className={`dosje-section${unlocking ? " dosje-sweeping dosje-holding" : ""}`}
       style={{
         position: "relative",
         background: "#FAF6F1",
@@ -267,7 +320,12 @@ export default function DosjeSection({ topicSlug, topicTitle, blurb, videos, ent
 
       <div style={{ position: "relative", padding: "clamp(24px, 4vw, 36px) clamp(18px, 4vw, 34px) 0" }}>
         {visible.map((e, i) => (
-          <Entry key={e.id} e={e} index={i} />
+          <Entry
+            key={e.id}
+            e={e}
+            index={i}
+            unlockIndex={unlocking && i >= visibleBefore ? i - visibleBefore : null}
+          />
         ))}
       </div>
 
@@ -370,7 +428,7 @@ export default function DosjeSection({ topicSlug, topicTitle, blurb, videos, ent
 
         <div className="dosje-actions">
           {hidden > 0 && !showAll && (
-            <button type="button" onClick={() => setShowAll(true)} className="dosje-ghost dosje-btn">
+            <button type="button" onClick={unlock} className="dosje-ghost dosje-btn">
               Shfaq {hidden} momente të tjera
             </button>
           )}

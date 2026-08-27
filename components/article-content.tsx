@@ -8,7 +8,6 @@ import ArticleCard from "@/components/article-card";
 import ArticleSidebar from "@/components/article-sidebar";
 import type { DosjeData } from "@/components/article-sidebar";
 import ArticleShareRow from "@/components/article-share-row";
-import DosjeSection from "@/components/dosje-section";
 import ArticleAsk from "@/components/article-ask";
 import { toParagraphs, readingMinutes } from "@/lib/article-body.mjs";
 import CategoryAccordion from "@/components/category-accordion";
@@ -42,11 +41,11 @@ export default function ArticleContent({ article, related, catColor, catBg, cate
 
       <div
         style={{
-          maxWidth: "1200px",
+          maxWidth: "1340px",
           margin: "0 auto",
           padding: "56px 24px 64px",
           display: "flex",
-          gap: "48px",
+          gap: "44px",
           alignItems: "flex-start",
         }}
       >
@@ -175,26 +174,19 @@ export default function ArticleContent({ article, related, catColor, catBg, cate
 
             {/* The dossier reads at full width for everyone, on every device,
                 rather than as a rail desktop sees and phones never do. */}
-            {dosje && dosje.entries.length > 0 && (
-              <DosjeSection
-                topicSlug={dosje.topicSlug}
-                topicTitle={dosje.topicTitle}
-                blurb={dosje.blurb}
-                videos={dosje.videos}
-                entries={dosje.entries}
-              />
-            )}
-
             <ArticleShareRow slug={article.slug} title={article.title} />
           </motion.div>
         </article>
 
-        <div className="article-sidebar-col" style={{ width: "280px", flexShrink: 0 }}>
+        <div className="article-sidebar-col" style={{ width: "400px", flexShrink: 0 }}>
           <ArticleSidebar article={article} related={related} dosje={dosje} />
         </div>
       </div>
 
       <style>{`
+        @media (max-width: 1200px) {
+          .article-sidebar-col { width: 340px !important; }
+        }
         @media (max-width: 1023px) {
           .article-sidebar-col { display: none; }
         }

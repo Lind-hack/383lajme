@@ -13329,48 +13329,49 @@ header[data-overlay="true"] .nav-search-btn[style*="margin-right"] {
   .dosje-nib { display: none; }
 }
 
-/* --- Dosje: the in-article section --------------------------------------- */
-/* One layout across every width. The year gutter narrows, the photograph
-   moves from beside the prose to above it, and the video row becomes a
-   column — all from container width, so a tablet in either orientation is
-   handled by the same three rules rather than a device guess. */
+/* --- Dosje: the card, at whatever width it is given ---------------------- */
+/* The same card sits in a 400px rail and on a full-width page, so the layout
+   answers to the card rather than the viewport. Container queries are exactly
+   this: a viewport media query would have to guess which context it was in,
+   and would guess wrong on the dossier page. */
 
 .dosje-section {
-  --dosje-gutter: 96px;
+  container-type: inline-size;
+  --dosje-gutter: 58px;
 }
 
 .dosje-entry-body {
   display: grid;
-  grid-template-columns: 210px 1fr;
-  gap: 20px;
-  align-items: start;
+  grid-template-columns: 1fr;
+  gap: 12px;
 }
 
 .dosje-entry-img {
   width: 100%;
-  height: 150px;
+  height: 168px;
 }
 
 .dosje-video-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 14px;
+  grid-template-columns: 1fr;
+  gap: 12px;
 }
 
 .dosje-actions {
   display: flex;
-  gap: 12px;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .dosje-btn {
-  flex: 1;
-  height: 52px;
+  width: 100%;
+  height: 50px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   padding: 0 18px;
-  font: 700 11.5px var(--font-manrope), sans-serif;
-  letter-spacing: 0.16em;
+  font: 700 11px var(--font-manrope), sans-serif;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
   cursor: pointer;
   text-align: center;
@@ -13389,30 +13390,91 @@ header[data-overlay="true"] .nav-search-btn[style*="margin-right"] {
   border: 1px solid rgba(43, 37, 33, 0.24);
 }
 
-@media (max-width: 900px) {
+/* Roomier: the photograph moves beside the prose and the year gutter grows. */
+@container (min-width: 560px) {
   .dosje-section {
-    --dosje-gutter: 68px;
+    --dosje-gutter: 84px;
+  }
+  .dosje-entry-body {
+    grid-template-columns: 220px 1fr;
+    gap: 20px;
+    align-items: start;
+  }
+  .dosje-entry-img {
+    height: 150px;
   }
   .dosje-video-grid {
     grid-template-columns: repeat(2, 1fr);
   }
+  .dosje-actions {
+    flex-direction: row;
+  }
+  .dosje-btn {
+    flex: 1;
+  }
 }
 
-@media (max-width: 720px) {
+@container (min-width: 820px) {
   .dosje-section {
-    --dosje-gutter: 54px;
-  }
-  .dosje-entry-body {
-    grid-template-columns: 1fr;
-    gap: 14px;
-  }
-  .dosje-entry-img {
-    height: 190px;
+    --dosje-gutter: 96px;
   }
   .dosje-video-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(3, 1fr);
   }
-  .dosje-actions {
-    flex-direction: column;
-  }
+}
+
+/* Where container queries are unavailable the card simply stays in its single
+   column layout, which is the readable one at every width. */
+
+/* --- Dosje: unlocking the rest of the file -------------------------------- */
+/* Asking for the remaining moments is the one deliberate act in this card, so
+   it is the one thing that gets a real entrance. The card is scrolled back to
+   its own top first — otherwise the new entries appear above the fold and the
+   reader never sees them arrive — then held for a beat while they come in.
+
+   The hold is on the card alone and lasts under a second. Locking the page
+   would be hostile; locking the thing you just pressed reads as the card
+   working. */
+
+@keyframes dosje-unlock {
+  0% { opacity: 0; transform: translateY(26px) scale(0.985); filter: blur(6px); }
+  55% { opacity: 1; filter: blur(0); }
+  100% { opacity: 1; transform: none; filter: blur(0); }
+}
+
+.dosje-unlocked {
+  animation: dosje-unlock 0.72s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: var(--u, 0ms);
+}
+
+/* A single sweep of light down the card as the new moments land. */
+@keyframes dosje-sweep {
+  from { opacity: 0.55; transform: translateY(-60%); }
+  to { opacity: 0; transform: translateY(160%); }
+}
+
+.dosje-sweeping::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 3;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.85) 45%,
+    rgba(228, 50, 43, 0.14) 55%,
+    transparent 100%
+  );
+  animation: dosje-sweep 0.9s cubic-bezier(0.33, 1, 0.68, 1) both;
+}
+
+.dosje-holding {
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dosje-unlocked { animation: none; }
+  .dosje-sweeping::after { display: none; }
+  .dosje-holding { pointer-events: auto; }
 }

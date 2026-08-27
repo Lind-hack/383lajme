@@ -6,7 +6,7 @@ import { Bookmark, Link2 } from "lucide-react";
 import { type Article } from "@/lib/mock-data";
 import { EASE, DUR } from "@/lib/tokens";
 import SidebarMarketWidget from "@/components/tregu/sidebar-market-widget";
-import type { DosjeEntry } from "@/components/dosje-section";
+import DosjeSection, { type DosjeEntry } from "@/components/dosje-section";
 import { createClient } from "@/lib/supabase/client";
 
 function flagToCode(flag: string): string {
@@ -202,9 +202,19 @@ export default function ArticleSidebar({ article, related, dosje }: Props) {
           gap: "14px",
         }}
       >
-        {/* The dossier used to lead this rail. It now runs full width inside
-            the article instead: at 280px it could not hold a paragraph, and
-            every entry needed opening by hand to show anything at all. */}
+        {/* The dossier leads the rail. The column is 400px rather than 280
+            so the prose has a real measure — the reason it was moved into the
+            body before was width, not placement. */}
+        {dosje && dosje.entries.length > 0 && (
+          <DosjeSection
+            topicSlug={dosje.topicSlug}
+            topicTitle={dosje.topicTitle}
+            blurb={dosje.blurb}
+            videos={dosje.videos}
+            entries={dosje.entries}
+          />
+        )}
+
         {/* 383 Tregu market related to this article's category. */}
         <SidebarMarketWidget articleCategory={article.category} />
 
