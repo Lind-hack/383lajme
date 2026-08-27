@@ -78,7 +78,20 @@ const submitResponse = await fetch(`${baseUrl}/api/automation/tregu/daily-drafts
 const result = await submitResponse.json();
 if (!submitResponse.ok) throw new Error(result.error ?? "Daily draft submission failed.");
 if (dryRun) {
-  console.log(JSON.stringify({ ok: true, dryRun: true, created: 0, accepted: result.markets ?? [], rejected: result.rejected ?? [] }, null, 2));
+  console.log(JSON.stringify({
+    ok: true,
+    dryRun: true,
+    created: 0,
+    model_candidate_count: Array.isArray(candidates) ? candidates.length : 0,
+    model_candidates: Array.isArray(candidates) ? candidates.map((candidate) => ({
+      question: candidate?.question ?? "",
+      market_archetype: candidate?.market_archetype ?? null,
+      topic_key: candidate?.topic_key ?? null,
+      closes_in_hours: candidate?.closes_in_hours ?? null,
+    })) : [],
+    accepted: result.markets ?? [],
+    rejected: result.rejected ?? [],
+  }, null, 2));
   process.exit(0);
 }
 if (!result.skipped && result.created > 0) {
