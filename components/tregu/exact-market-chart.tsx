@@ -16,6 +16,7 @@ export type ExactMarketSeries = {
   label: string;
   color: string;
   points: { t: number; p: number }[];
+  hold?: { t: number; p: number };
   current: number;
 };
 
@@ -69,12 +70,15 @@ export default function ExactMarketChart({
   const model = useMemo(() => {
     const cleaned = selected.series;
     const timestamps = cleaned.flatMap((item) => item.points.map((point) => point.t));
-    const latestT = timestamps.length ? Math.max(...timestamps) : null;
-    const earliestT = timestamps.length ? Math.min(...timestamps) : null;
-    const minT = earliestT ?? 0;
-    const maxT = latestT ?? minT;
+    const latestT = timestamps.length ? Math.max(...timestamps) : selected.end;
+    const earliestT = timestamps.length ? Math.min(...timestamps) : selected.start ?? selected.end;
+    const minT = selected.start ?? earliestT ?? 0;
+    const maxT = selected.end ?? latestT ?? minT;
     const timeSpan = Math.max(1, maxT - minT);
-    const values = cleaned.flatMap((item) => item.points.map((point) => point.p));
+    const values = cleaned.flatMap((item) => [
+      ...item.points.map((point) => point.p),
+      ...(item.hold ? [item.hold.p] : []),
+    ]);
     const domain = probabilityDomain(values.length ? values : cleaned.map((item) => item.current));
     const plotH = height - PAD_Y * 2;
     const plotW = W - PAD_L - (compact ? PAD_L : PAD_R);
@@ -91,16 +95,18 @@ export default function ExactMarketChart({
       plotW,
       domain,
       hasTimeline: cleaned.some((item) => item.points.length >= 2),
+      hasDisplayData: cleaned.some((item) => item.points.length > 0 || item.hold),
       x,
       y,
     };
   }, [compact, height, selected.series]);
 
   const summaries = model.cleaned.map((item) => {
-    const latest = item.points.at(-1)?.p ?? item.current;
-    const first = item.points[0]?.p ?? latest;
-    const low = item.points.length ? Math.min(...item.points.map((point) => point.p)) : latest;
-    const high = item.points.length ? Math.max(...item.points.map((point) => point.p)) : latest;
+    const displayPoints = item.points.length ? item.points : item.hold ? [item.hold] : [];
+    const latest = displayPoints.at(-1)?.p ?? item.current;
+    const first = displayPoints[0]?.p ?? latest;
+    const low = displayPoints.length ? Math.min(...displayPoints.map((point) => point.p)) : latest;
+    const high = displayPoints.length ? Math.max(...displayPoints.map((point) => point.p)) : latest;
     return {
       key: item.key,
       label: item.label,
@@ -125,8 +131,9 @@ export default function ExactMarketChart({
       Math.abs(candidate - inspectionT) < Math.abs(nearest - inspectionT) ? candidate : nearest
     );
     const entries = model.cleaned.flatMap((item) => {
-      if (item.points.length === 0) return [];
-      const point = item.points.reduce((nearest, candidate) =>
+      const displayPoints = item.points.length ? item.points : item.hold ? [item.hold] : [];
+      if (displayPoints.length === 0) return [];
+      const point = displayPoints.reduce((nearest, candidate) =>
         Math.abs(candidate.t - timestamp) < Math.abs(nearest.t - timestamp) ? candidate : nearest
       );
       return [{ ...item, point }];
@@ -252,10 +259,17 @@ export default function ExactMarketChart({
           ))}
 
           {model.cleaned.map((item) => {
-            if (item.points.length === 0) return null;
-            const path = smoothRecordedPath(item.points, model.x, model.y);
-            const last = item.points[item.points.length - 1];
-            const first = item.points[0];
+            const displayPoints = item.points.length ? item.points : item.hold ? [item.hold] : [];
+            if (displayPoints.length === 0) return null;
+            const path = item.points.length >= 2 ? smoothRecordedPath(item.points, model.x, model.y) : "";
+            const last = displayPoints[displayPoints.length - 1];
+            const first = displayPoints[0];
+            // A short range can contain exactly one real persisted point. Hold
+            // that known value across the visible window instead of showing a
+            // lone dot and incorrectly claiming the chart is empty.
+            const displayPath = item.points.length >= 2
+              ? path
+              : `M${PAD_L} ${model.y(last.p).toFixed(1)} L${(PAD_L + model.plotW).toFixed(1)} ${model.y(last.p).toFixed(1)}`;
             const gradientId = `exact-fill-${uid}-${item.key.replace(/[^a-z0-9_-]/gi, "")}`;
             const fillPath = item.points.length >= 2
               ? `${path} L${model.x(last.t).toFixed(1)} ${height - PAD_Y} L${model.x(first.t).toFixed(1)} ${height - PAD_Y} Z`
@@ -273,9 +287,9 @@ export default function ExactMarketChart({
                     <path d={fillPath} fill={`url(#${gradientId})`} />
                   </>
                 )}
-                {item.points.length >= 2 && (
+                {item.points.length >= 1 && (
                   <path
-                    d={path}
+                    d={displayPath}
                     pathLength={1}
                     fill="none"
                     stroke={item.color}
@@ -283,7 +297,7 @@ export default function ExactMarketChart({
                     strokeLinejoin="round"
                     strokeLinecap="round"
                     vectorEffect="non-scaling-stroke"
-                    className="tregu-exact-chart-line"
+                    className={`tregu-exact-chart-line${item.points.length === 1 ? " tregu-exact-chart-line--held" : ""}`}
                   />
                 )}
                 <circle
@@ -364,10 +378,10 @@ export default function ExactMarketChart({
           </div>
         )}
 
-        {!model.hasTimeline && (
+        {!model.hasDisplayData && (
           <div className="tregu-exact-chart-empty" role="status">
-            <strong>{minimal ? "Nuk ka ndryshim ende" : "Ende pa lëvizje në këtë interval"}</strong>
-            {!minimal && <span>Vija shfaqet pas ndryshimit të dytë të regjistruar.</span>}
+            <strong>{minimal ? "Nuk ka të dhëna ende" : "Pa të dhëna të regjistruara në këtë interval"}</strong>
+            {!minimal && <span>Linja shfaqet sapo të regjistrohet një vlerë e këtij intervali.</span>}
           </div>
         )}
       </div>

@@ -69,6 +69,15 @@ const REQUIRED_CHART_MARKERS = {
     "f1History",
     "Vercel-CDN-Cache-Control",
   ],
+  "components/tregu/exact-market-chart.tsx": [
+    "const displayPoints = item.points.length ? item.points : item.hold ? [item.hold] : []",
+    "item.points.length >= 1",
+    "!model.hasDisplayData",
+  ],
+  "lib/tregu-probability-domain.mjs": [
+    "const hold = start == null ? undefined",
+    "return { ...item, points, hold }",
+  ],
   "lib/tregu-sport-market.mjs": [
     "function decisiveWinnerTeam(",
     '"final_unresolved"',
