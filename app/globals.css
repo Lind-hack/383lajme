@@ -13391,13 +13391,13 @@ header[data-overlay="true"] .nav-search-btn[style*="margin-right"] {
 }
 
 /* Roomier: the photograph moves beside the prose and the year gutter grows. */
-@container (min-width: 560px) {
+@container (min-width: 470px) {
   .dosje-section {
     --dosje-gutter: 84px;
   }
   .dosje-entry-body {
-    grid-template-columns: 220px 1fr;
-    gap: 20px;
+    grid-template-columns: 190px 1fr;
+    gap: 18px;
     align-items: start;
   }
   .dosje-entry-img {
@@ -13477,4 +13477,42 @@ header[data-overlay="true"] .nav-search-btn[style*="margin-right"] {
   .dosje-unlocked { animation: none; }
   .dosje-sweeping::after { display: none; }
   .dosje-holding { pointer-events: auto; }
+}
+
+/* --- Dosja e ditës, on the front page ------------------------------------ */
+/* The dossier sits right, its own recent coverage left. The card is given 520
+   rather than the rail's 400 because this is the one place on the site with
+   room to spare, and the extra width is what the prose needs. */
+
+.front-dosje {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 520px;
+  gap: 40px;
+  align-items: start;
+  margin: 56px 0 8px;
+}
+
+.front-dosje-right {
+  position: sticky;
+  top: 88px;
+}
+
+@media (max-width: 1180px) {
+  .front-dosje {
+    grid-template-columns: minmax(0, 1fr) 420px;
+    gap: 28px;
+  }
+}
+
+/* Below the two-column threshold the dossier leads and the coverage follows,
+   because the card is the reason this band exists. */
+@media (max-width: 960px) {
+  .front-dosje {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .front-dosje-right {
+    position: static;
+    order: -1;
+  }
 }
