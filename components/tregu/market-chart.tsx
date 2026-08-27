@@ -286,7 +286,7 @@ export default function MarketChart({
     return a.p + (b.p - a.p) * f;
   };
 
-  if (data.realCount < 2) {
+  if (data.realCount < 1) {
     return (
       <div style={{ height: H, display: "flex", alignItems: "center", justifyContent: "center", color: "#6B6B6B", fontSize: 13 }}>
         Ende pa mjaftueshëm të dhëna historike
