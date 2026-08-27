@@ -201,6 +201,7 @@ export async function previewDailyDraftAutomation(candidates: unknown, now = new
   if (!admin) throw new Error("Supabase service-role configuration is required for Tregu automation.");
   const sourceArticles = await getLatestArticles(60);
   const validated = validateDailyDraftSubmission(candidates, new Set(sourceArticles.map((article) => article.slug)), {
+    minimum: 0,
     nonSportOnly: true,
     sourceArticles,
     now,
