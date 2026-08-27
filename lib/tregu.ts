@@ -1,7 +1,8 @@
-import { getArticles } from "./db";
+import { getArticles, getLatestArticles } from "./db";
 import type { Article } from "./mock-data";
 import { groqChat, parseJSON } from "./groq";
 import { marketAiChat } from "./tregu-ai-provider.mjs";
+import { selectDailySourceArticles } from "./tregu-daily-market-quality.mjs";
 
 export type { MarketCategory, MarketStatus, Side, Market, MarketSnapshot } from "./tregu-client";
 export { lmsrPriceYes, lmsrThreeOutcomePrices, previewBet } from "./tregu-client";
@@ -75,25 +76,27 @@ interface DraftedMarket {
   description: string;
   resolution_criteria: string;
   category: MarketCategory;
-  closes_in_days: number;
-  long_duration_reason?: string;
-  resolution_rules?: string;
-  resolution_source?: string;
+  closes_in_hours: number;
+  market_archetype: string;
+  topic_key: string;
+  decision_point: string;
+  why_uncertain: string;
+  trading_angle: string;
+  resolution_source: string;
+  deadline_basis: string;
+  threshold_value?: string;
   source_slugs: string[];
 }
 
-/** Ask Groq to draft new market questions from today's top articles (admin approves before going live). */
+/** Ask Groq to draft v2 market questions from recent verified news; the admin route still keeps them review-only. */
 export async function draftMarketsFromNews(limit = 5): Promise<DraftedMarket[]> {
-  const articles = (await getArticles(30)).slice(0, 20);
-  const context = articles.map((a) => `[${a.slug}] (${a.category}) ${a.title} — ${a.excerpt}`).join("\n");
+  const articles = selectDailySourceArticles(await getLatestArticles(60), 24);
+  const context = articles.map((a) => JSON.stringify({ slug: a.slug, category: a.category, title: a.title, excerpt: a.excerpt, body: String(a.body ?? "").slice(0, 3500), source: a.source, url: a.url, publishedAt: a.publishedAt })).join("\n");
 
   const system =
-    "Je editor per 383 Tregu, nje treg parashikimesh si Polymarket per lajme nga Kosova/rajoni. " +
-    "Nga artikujt e dhene, propozo vetem zhvillime unike, polemika ose lajme live nga Kosova, bota dhe sporti. Titujt duhet te jene te shkurter, Polymarket-style, pa filluar mekanikisht me 'A do te', me afat konkret dhe kriter zgjidhjeje nga burim autoritativ. Per lajme te fundit perdor 2-48 ore; afat me te gjate vetem kur arsyeja objektive e kerkon. " +
-    `Kthe VETEM JSON: {"markets": [{"question": "...?", "description": "...", "resolution_criteria": "Zgjidhet sipas ... deri me ...", "category": "politike|ekonomi|sport|bote|te-tjera", "closes_in_days": 7, "long_duration_reason": "...", "source_slugs": ["slug1"]}]}`;
-  const user = `Artikuj te fundit:\n${context}\n\nPropozo deri ne ${limit} tregje te reja.`;
-
-  const raw = await groqChat(system, user, { json: true, maxTokens: 1200 });
+    "Je editor i tregjeve parashikuese per 383. Krijo vetem tregje NON-SPORTS qe nje lexues i Kosoves do t'i debatoje dhe tretoje. Mos perserit titullin e artikullit dhe mos pyet nese nje ngjarje e perfunduar do te konfirmohet. Prefero nje vendim te hapur, prag numerik, publikim te dhenash, emerim/largim, marreveshje ose permbarim/pershkallezim ku PO dhe JO jane realisht te mundshme. Cdo treg duhet te kete market_archetype, topic_key, decision_point, why_uncertain, trading_angle, resolution_source, deadline_basis, closes_in_hours, kriteret eksplicite PO/JO dhe source_slugs. Afati normal eshte 8-96 ore; deri 168 ore vetem per vendim te planifikuar te dokumentuar. Mos perdor closes_in_days. Perdor vetem faktet dhe slug-et e artikujve te dhene. Kthe VETEM JSON.";
+  const user = `Koha aktuale: ${new Date().toISOString()}\nArtikujt e verifikuar:\n${context}\n\nKthe deri ne ${limit} tregje me kete forme: {"markets":[{"question":"... deri me <dita> <muaji>?","description":"...","resolution_criteria":"PO: ... JO: ... Burimi i zgjidhjes: ... Afati: ... Edge cases: ...","category":"politike|ekonomi|bote|te-tjera","closes_in_hours":48,"market_archetype":"scheduled_decision|threshold|data_release|policy_action|appointment_or_selection|escalation_or_deescalation|corporate_decision|executive_action","topic_key":"topic-name","decision_point":"...","why_uncertain":"...","trading_angle":"...","resolution_source":"...","deadline_basis":"...","threshold_value":"...","source_slugs":["slug1","slug2"]}]}`;
+  const raw = await groqChat(system, user, { json: true, maxTokens: 2400 });
   const parsed = parseJSON<{ markets: DraftedMarket[] }>(raw);
   return Array.isArray(parsed.markets) ? parsed.markets.slice(0, limit) : [];
 }

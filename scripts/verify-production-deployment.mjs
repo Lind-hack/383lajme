@@ -110,6 +110,19 @@ const REQUIRED_CHART_MARKERS = {
     "activeMarkets",
     "body: String(article.body",
   ],
+  "lib/tregu.ts": [
+    "selectDailySourceArticles",
+    "market_archetype",
+    "closes_in_hours",
+    "Mos perdor closes_in_days",
+  ],
+  "app/api/admin/tregu/draft/route.ts": [
+    "getLatestArticles",
+    "validateDailyDraftSubmission",
+    "buildDailyDraftPlan",
+    "dailyDraftPublicationReason",
+    "status: \"draft\"",
+  ],
   "supabase/migrations/0038_tregu_football_stage_template.sql": [
     "market_type in ('two_outcome', 'three_outcome', 'f1_race_winner')",
     "sport_outcomes @> jsonb_build_array",

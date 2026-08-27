@@ -2,13 +2,14 @@ import { getArticles, getLatestArticles } from "@/lib/db";
 import { liveHeadlinesFor } from "@/lib/live-news";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { scoreMarketWithAI, slugifyQuestion, type Market } from "@/lib/tregu";
-import { buildDailyDraftPlan, buildLiveEventDraftRunKey, buildRepricePlan, isEligibleNewsDeadlineMarket, repriceMarketSkipReason, validateDailyDraftSubmission } from "@/lib/tregu-automation.mjs";
+import { buildDailyDraftPlan, buildLiveEventDraftRunKey, buildRepricePlan, dailyDraftPublicationReason, isEligibleNewsDeadlineMarket, repriceMarketSkipReason, validateDailyDraftSubmission } from "@/lib/tregu-automation.mjs";
 import { kosovoLocalDate } from "@/lib/tregu-date-key.mjs";
 import { fetchEspnLiveEvents } from "@/lib/espn-live-score.mjs";
 import { ARGENTINA_SPAIN_PAIR, buildArgentinaSpainPairedBinaryPlan, buildSportMarketPlan } from "@/lib/tregu-sport-market.mjs";
 import { buildF1MarketPlan, buildF1RaceWinnerPlan, buildF1SettlementPlan, openF1ToWinnerLeaderboard } from "@/lib/f1-live-lite.mjs";
 import { fetchOpenF1LiveRace } from "@/lib/openf1-live.mjs";
 import { classifyProviderFailure } from "@/lib/tregu-ai-provider.mjs";
+import { DAILY_MARKET_CONTRACT_VERSION } from "@/lib/tregu-daily-market-quality.mjs";
 import { hasPersistedMaterialPairedBinaryChange } from "@/lib/tregu-live-email-content.mjs";
 import { sendTreguLiveNotification } from "@/lib/tregu-live-email";
 
@@ -127,7 +128,7 @@ export async function runDailyDraftAutomation(candidates: unknown, now = new Dat
   // Breaking-news inventory refreshes every four hours. Idempotency is per
   // Europe/Pristina four-hour window so fresh qualifying markets can open
   // through the day without duplicating the same window.
-  const runKey = expectedLiveEventRunKey ?? `daily-drafts:${kosovoLocalDate(now)}:${String(Math.floor(now.getUTCHours() / 4)).padStart(2, "0")}`;
+  const runKey = expectedLiveEventRunKey ?? `daily-drafts:${DAILY_MARKET_CONTRACT_VERSION}:${kosovoLocalDate(now)}:${String(Math.floor(now.getUTCHours() / 4)).padStart(2, "0")}`;
   const started = await beginRun(admin, "daily_drafts", runKey);
   if (started.existing) return { ok: true, skipped: true, runKey, reason: "already_processed", run: started.run };
 
@@ -151,10 +152,9 @@ export async function runDailyDraftAutomation(candidates: unknown, now = new Dat
       throw new Error("Live-event submission must create exactly four unique review-only draft cards.");
     }
     if (!expectedLiveEventRunKey) {
-      const hasMassAudience = plan.audienceTiers.some(({ tier }) => tier === "home_mass" || tier === "world_mass");
-      if (plan.rows.length < 2 || !hasMassAudience) {
-        const reason = plan.rows.length < 2 ? "insufficient_tradable_market_inventory" : "missing_mass_audience";
-        const details = { created: 0, rejected: plan.rejected, admin_approval_required: true, no_publish_reason: reason };
+      const noPublishReason = dailyDraftPublicationReason(plan);
+      if (noPublishReason) {
+        const details = { created: 0, rejected: plan.rejected, admin_approval_required: true, no_publish_reason: noPublishReason };
         await finishRun(admin, started.run.id, "succeeded", details);
         return { ok: true, skipped: true, runKey, ...details, markets: [] };
       }
@@ -220,7 +220,15 @@ export async function previewDailyDraftAutomation(candidates: unknown, now = new
     requireMassAudience: true,
     nonSportOnly: true,
   });
-  return { ok: true, preview: true, created: 0, rejected: plan.rejected, markets: plan.rows };
+  const noPublishReason = dailyDraftPublicationReason(plan);
+  return {
+    ok: true,
+    preview: true,
+    created: 0,
+    rejected: plan.rejected,
+    no_publish_reason: noPublishReason,
+    markets: noPublishReason ? [] : plan.rows,
+  };
 }
 
 /** Fetches official ESPN summaries, locks official finals, and settles only verified due sport markets. */
