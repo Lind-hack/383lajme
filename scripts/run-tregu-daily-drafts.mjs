@@ -16,10 +16,11 @@ if (!baseUrl || !secret) {
 }
 
 const headers = { authorization: `Bearer ${secret}` };
+const dryRun = process.argv.includes("--dry-run");
 // 07:20 is the sole creation window: discover verified F1/football fixtures within 72h,
 // persist review-only template trades, then load all drafts for the consolidated email.
-const sportsResponse = await fetch(`${baseUrl}/api/automation/tregu/upcoming-sports`, { method: "POST", headers });
-if (!sportsResponse.ok) throw new Error(`Could not create upcoming sport templates: ${await sportsResponse.text()}`);
+const sportsResponse = dryRun ? null : await fetch(`${baseUrl}/api/automation/tregu/upcoming-sports`, { method: "POST", headers });
+if (sportsResponse && !sportsResponse.ok) throw new Error(`Could not create upcoming sport templates: ${await sportsResponse.text()}`);
 const contextResponse = await fetch(`${baseUrl}/api/automation/tregu/daily-drafts`, { headers });
 if (!contextResponse.ok) throw new Error(`Could not load Codex draft context: ${await contextResponse.text()}`);
 const { articles, activeMarkets = [], futureTemplates = [] } = await contextResponse.json();
@@ -72,10 +73,14 @@ const json = output.trim().replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/, "
 const parsed = JSON.parse(json);
 const candidates = Array.isArray(parsed) ? parsed : parsed.markets;
 const submitResponse = await fetch(`${baseUrl}/api/automation/tregu/daily-drafts`, {
-  method: "POST", headers: { ...headers, "content-type": "application/json" }, body: JSON.stringify({ candidates }),
+  method: "POST", headers: { ...headers, "content-type": "application/json" }, body: JSON.stringify({ candidates, ...(dryRun ? { dryRun: true } : {}) }),
 });
 const result = await submitResponse.json();
 if (!submitResponse.ok) throw new Error(result.error ?? "Daily draft submission failed.");
+if (dryRun) {
+  console.log(JSON.stringify({ ok: true, dryRun: true, created: 0, accepted: result.markets ?? [], rejected: result.rejected ?? [] }, null, 2));
+  process.exit(0);
+}
 if (!result.skipped && result.created > 0) {
   const html = buildDraftReviewEmail({ appUrl: baseUrl, reviewPath: `/admin/tregu/review?drafts=${encodeURIComponent(result.runKey)}`, markets: result.markets });
   const directory = mkdtempSync(join(tmpdir(), "tregu-drafts-"));

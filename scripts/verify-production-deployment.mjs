@@ -103,6 +103,7 @@ const REQUIRED_CHART_MARKERS = {
     "market_archetype",
     "topic_key",
     "Do not use closes_in_days",
+    "process.argv.includes(\"--dry-run\")",
   ],
   "app/api/automation/tregu/daily-drafts/route.ts": [
     "selectDailySourceArticles",
