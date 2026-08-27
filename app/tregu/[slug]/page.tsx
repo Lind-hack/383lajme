@@ -20,6 +20,7 @@ import {
   previewSportOutcomeBet,
   previewSportOutcomeSell,
   lmsrPriceYes,
+  lmsrSportOutcomePrices,
   type Side,
   type MarketTrade,
 } from "@/lib/tregu-client";
@@ -378,6 +379,31 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
       .catch(() => {});
   }, [slug, demo]);
 
+  const loadLive = useCallback(() => {
+    if (demo) return;
+    fetch(`/api/tregu/markets/${encodeURIComponent(slug)}/live?ts=${Date.now()}`, { cache: "no-store" })
+      .then((response) => (response.ok ? response.json() : null))
+      .then((data) => {
+        if (!data?.market) return;
+        setMarket((current) => current ? { ...current, ...data.market } : current);
+        setSnapshots(data.snapshots ?? []);
+        const probabilities = (data.probabilities ?? {}) as Record<string, number>;
+        setFootball((current) => current ? {
+          ...current,
+          liveState: data.liveState ?? current.liveState,
+          outcomes: current.outcomes.map((outcome) => ({ ...outcome, probability: Number(probabilities[outcome.key] ?? outcome.probability) })),
+        } : current);
+        setF1((current) => current ? {
+          ...current,
+          timing: data.timing ?? current.timing,
+          history: data.f1History?.length ? data.f1History : current.history,
+          outcomes: current.outcomes.map((outcome) => ({ ...outcome, probability: Number(probabilities[outcome.key] ?? outcome.probability) })),
+        } : current);
+        lastSuccessfulLoad.current = Date.now();
+      })
+      .catch(() => {});
+  }, [slug, demo]);
+
   const refreshBalance = useCallback(() => {
     fetch("/api/tregu/portfolio")
       .then((r) => r.json())
@@ -404,19 +430,20 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
     });
   }, [slug, load, refreshBalance, demo]);
 
-  const autoRefreshMs = market?.category === "sport" ? 120_000 : 300_000;
+  const autoRefreshMs = market?.category === "sport" ? 1_000 : 300_000;
 
-  // The browser picks up every live-sport repricing window without a reload.
+  // The browser polls only the lightweight persisted-state endpoint. The
+  // official worker still writes snapshots only when verified inputs change.
   // Returning to a stale background tab also refreshes immediately.
   useEffect(() => {
     if (demo) return;
-    const id = window.setInterval(load, autoRefreshMs);
+    const id = window.setInterval(loadLive, autoRefreshMs);
     const onVisibilityChange = () => {
       if (
         document.visibilityState === "visible" &&
         Date.now() - lastSuccessfulLoad.current >= autoRefreshMs
       ) {
-        load();
+        loadLive();
       }
     };
     document.addEventListener("visibilitychange", onVisibilityChange);
@@ -424,7 +451,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
       window.clearInterval(id);
       document.removeEventListener("visibilitychange", onVisibilityChange);
     };
-  }, [load, demo, autoRefreshMs]);
+  }, [loadLive, demo, autoRefreshMs]);
 
   const heldOn = (s: Side) => positions.find((p) => p.side === s && p.shares > 0);
   const held = heldOn(side);
@@ -949,7 +976,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                         {football.format.stageLabel}
                         {football.format.leg ? ` · Ndeshja ${football.format.leg}` : ""}
                       </span>
-                      <span className="tregu-football-cadence">Përditësim automatik çdo 2 min</span>
+                      <span className="tregu-football-cadence">Shfaqje 1s · burimi zyrtar 2 min</span>
                     </div>
                   </div>
                   <div

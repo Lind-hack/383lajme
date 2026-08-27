@@ -359,7 +359,7 @@ export async function GET(
       ),
       format,
       liveState: market.live_score_state ?? oracleEvents?.at(-1)?.official_state ?? null,
-      refreshMs: 120_000,
+      refreshMs: 1_000,
     };
   }
 

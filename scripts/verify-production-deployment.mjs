@@ -49,6 +49,26 @@ const REQUIRED_CHART_MARKERS = {
     "football_format: footballFormat",
     "outcomes: outcomeKeys",
   ],
+  "lib/football-pre-match.mjs": [
+    "buildFootballOpeningModel",
+    "americanOddsToProbability",
+    "market_value_status",
+  ],
+  "lib/f1-pre-match.mjs": [
+    "buildF1RaceWinnerOpeningModel",
+    "simulator_probability",
+    "circuitHistory",
+  ],
+  "supabase/migrations/0049_tregu_f1_race_winner_oracle.sql": [
+    "apply_f1_race_winner_oracle",
+    "record_f1_vector_snapshot",
+    "f1_vector",
+  ],
+  "app/api/tregu/markets/[slug]/live/route.ts": [
+    "lmsrSportOutcomePrices",
+    "f1History",
+    "Vercel-CDN-Cache-Control",
+  ],
   "lib/tregu-sport-market.mjs": [
     "function decisiveWinnerTeam(",
     '"final_unresolved"',
@@ -176,7 +196,7 @@ const TRACKED_UI_MARKERS = {
     'status: "ARCHIVED"',
     "grid_position: gridPosition",
     "timing: board",
-    "refreshMs: 120_000",
+    "refreshMs: 1_000",
   ],
   "scripts/codex_automation_support.py": [
     `F1_RACE_UI_VERSION = "${F1_RACE_UI_VERSION}"`,

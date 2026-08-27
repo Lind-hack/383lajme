@@ -297,6 +297,71 @@ async function runOfficialSportsRefresh(action: "live_sports", runKey: string, n
     const f1EmailUpdates: Array<{ question: string; driver_code: string; position: number; gap: string; pits: number; before_probability: number; after_probability: number; source_url: string }> = [];
     if ((f1Markets ?? []).length) {
       try {
+        const futureF1Groups = new Map<string, any[]>();
+        for (const market of f1Markets ?? []) {
+          const raceEventId = String(market.live_event?.event_id ?? "");
+          const raceStart = Date.parse(String(market.live_event?.race_start ?? ""));
+          if (raceEventId && Number.isFinite(raceStart) && raceStart > now.getTime()) {
+            const group = futureF1Groups.get(raceEventId) ?? [];
+            group.push(market);
+            futureF1Groups.set(raceEventId, group);
+          }
+        }
+        if (futureF1Groups.size) {
+          for (const futureF1Markets of futureF1Groups.values()) {
+          const { fetchF1OpeningFactors } = await import("@/lib/f1-upcoming-race.mjs");
+          const source = futureF1Markets[0];
+          const config = source.live_event ?? {};
+          const roster = (source.sport_outcomes ?? []).map((driver: any) => ({ key: String(driver.key ?? "").toUpperCase(), driver_number: Number(driver.driver_number), label: String(driver.label ?? ""), team: String(driver.team ?? ""), team_colour: String(driver.team_colour ?? ""), headshot_url: driver.headshot_url ?? null }));
+          let race = {
+            event_id: String(config.event_id),
+            meeting_key: Number(config.openf1_meeting_key),
+            year: new Date(String(config.race_start)).getUTCFullYear(),
+            session_key: Number(config.openf1_session_key),
+            date_start: String(config.race_start),
+            circuit_short_name: String(config.circuit_short_name ?? ""),
+            country_name: String(config.country_name ?? ""),
+            source_url: String(config.openf1_race_source ?? "https://api.openf1.org/v1/sessions"),
+          };
+          if (!Number.isInteger(race.meeting_key) || !Number.isInteger(race.session_key) || !race.circuit_short_name) {
+            const { fetchUpcomingOpenF1Race } = await import("@/lib/f1-upcoming-race.mjs");
+            const discovered = await fetchUpcomingOpenF1Race({ now, leadDays: 3 });
+            if (!discovered || discovered.event_id !== race.event_id) throw new Error(`OpenF1 metadata is missing for future market ${race.event_id}`);
+            race = discovered;
+          }
+          const enrichedLiveEvent = { ...config, openf1_meeting_key: race.meeting_key, openf1_session_key: race.session_key, circuit_short_name: race.circuit_short_name, country_name: race.country_name, race_start: race.date_start, openf1_race_source: race.source_url };
+          for (const market of futureF1Markets) {
+            const { error: metadataError } = await admin.from("markets").update({ live_event: enrichedLiveEvent }).eq("id", market.id).eq("status", "open");
+            if (metadataError) throw new Error(`Could not persist F1 race metadata for ${market.slug}: ${metadataError.message}`);
+          }
+          const opening = await (fetchF1OpeningFactors as any)({ race, roster, now });
+          const state = {
+            key: `f1-pre-match:${race.event_id}:${opening.model_version}:${JSON.stringify(opening.probabilities)}`,
+            source_url: race.source_url,
+            source_provider: "OpenF1",
+            race: { status: "PRE_RACE", current_lap: null, total_laps: null },
+            pre_match_inputs: opening.inputs,
+          };
+          const evidence = [{ title: "OpenF1 verified pre-race factors", url: race.source_url, probabilities: opening.probabilities, inputs: opening.inputs, availability: opening.availability }];
+          for (const market of futureF1Markets) {
+            const marketState = { ...state, previous_probabilities: market.reference_probabilities ?? null };
+            try {
+              if (market.live_score_state?.key === state.key) {
+                f1Results.push({ slug: market.slug, status: "unchanged" });
+                continue;
+              }
+              const { error: applyError } = await admin.rpc("apply_f1_race_winner_oracle", { p_market_id: market.id, p_state: marketState, p_probabilities: opening.probabilities, p_evidence: evidence, p_reasoning: opening.method, p_cap: 0.05, p_final: false, p_winner: null });
+              if (applyError) throw new Error(applyError.message);
+              const { error: snapshotError } = await admin.rpc("record_f1_vector_snapshot", { p_market_id: market.id, p_state: marketState, p_probabilities: opening.probabilities, p_reasoning: opening.method });
+              if (snapshotError) throw new Error(snapshotError.message);
+              await captureOfficialMarketChange(market, "f1_pre_match_state", race.source_url);
+              f1Results.push({ slug: market.slug, status: "applied" });
+            } catch (error) {
+              f1Results.push({ slug: market.slug, status: "failed", error: String(error instanceof Error ? error.message : error) });
+            }
+          }
+          }
+        } else {
         const openF1Live = await fetchOpenF1LiveRace({ now });
         const leaderboard = openF1ToWinnerLeaderboard(openF1Live);
         if (!leaderboard || !openF1Live) throw new Error("OpenF1 did not expose a complete active race session.");
@@ -305,9 +370,10 @@ async function runOfficialSportsRefresh(action: "live_sports", runKey: string, n
         const f1RaceWinnerSignals = buildF1RaceWinnerPlan({ markets: f1Markets, leaderboard });
         for (const signal of f1RaceWinnerSignals) {
           try {
-            const { error: f1RaceOracleError } = await admin.rpc("apply_f1_race_winner_oracle", { p_market_id: signal.market.id, p_state: signal.state, p_probabilities: signal.probabilities, p_evidence: signal.evidence, p_reasoning: signal.reasoning, p_cap: signal.oracle_cap, p_final: false, p_winner: null });
+            const f1State = { ...signal.state, previous_probabilities: signal.market.reference_probabilities ?? null };
+            const { error: f1RaceOracleError } = await admin.rpc("apply_f1_race_winner_oracle", { p_market_id: signal.market.id, p_state: f1State, p_probabilities: signal.probabilities, p_evidence: signal.evidence, p_reasoning: signal.reasoning, p_cap: signal.oracle_cap, p_final: false, p_winner: null });
             if (f1RaceOracleError) throw new Error(f1RaceOracleError.message);
-            const { error: f1SnapshotError } = await admin.rpc("record_f1_vector_snapshot", { p_market_id: signal.market.id, p_state: signal.state, p_probabilities: signal.probabilities, p_reasoning: signal.reasoning });
+            const { error: f1SnapshotError } = await admin.rpc("record_f1_vector_snapshot", { p_market_id: signal.market.id, p_state: f1State, p_probabilities: signal.probabilities, p_reasoning: signal.reasoning });
             if (f1SnapshotError) throw new Error(f1SnapshotError.message);
             await captureOfficialMarketChange(signal.market, "f1_race_winner_state", f1SourceUrl);
             f1Results.push({ slug: signal.market.slug, status: "applied" });
@@ -336,6 +402,7 @@ async function runOfficialSportsRefresh(action: "live_sports", runKey: string, n
           const { error: resolveError } = await admin.rpc("resolve_market", { p_market_id: settlement.market.id, p_outcome: settlement.outcome });
           if (resolveError) throw new Error(`Could not settle F1 ${settlement.market.slug}: ${resolveError.message}`);
           await captureOfficialMarketChange(settlement.market, "f1_settlement", leaderboard.source_url);
+        }
         }
       } catch (f1Error) {
         for (const market of f1Markets ?? []) f1Results.push({ slug: market.slug, status: "unavailable", error: String(f1Error instanceof Error ? f1Error.message : f1Error) });
@@ -381,12 +448,22 @@ async function runOfficialSportsRefresh(action: "live_sports", runKey: string, n
 
 /** Two-minute official sports processor: idempotently discovers 72-hour templates and refreshes active markets. */
 export async function runLiveSportsAutomation(now = new Date()) {
-  const [f1Template, footballTemplate, live] = await Promise.all([
+  // The official live heartbeat is the critical two-minute lane. Template
+  // discovery is best-effort and must never delay or cancel score refreshes.
+  const live = await runOfficialSportsRefresh("live_sports", oneMinuteRunKey(now), now);
+  const [f1Template, footballTemplate] = await Promise.allSettled([
     runUpcomingF1TemplateAutomation(now),
     runUpcomingFootballTemplateAutomation(now),
-    runOfficialSportsRefresh("live_sports", oneMinuteRunKey(now), now),
   ]);
-  return { ...live, f1_template: f1Template, football_template: footballTemplate };
+  return {
+    ...live,
+    f1_template: f1Template.status === "fulfilled"
+      ? f1Template.value
+      : { ok: false, created: 0, reason: "f1_template_unavailable", error: String(f1Template.reason instanceof Error ? f1Template.reason.message : f1Template.reason) },
+    football_template: footballTemplate.status === "fulfilled"
+      ? footballTemplate.value
+      : { ok: false, created: 0, reason: "football_template_unavailable", error: String(footballTemplate.reason instanceof Error ? footballTemplate.reason.message : footballTemplate.reason) },
+  };
 }
 
 /** Shared news-only AI repricer. The caller selects an explicit audit action and idempotency bucket. */
@@ -689,14 +766,26 @@ export async function runUpcomingF1TemplateAutomation(now = new Date()) {
   const runKey = `f1-template:${kosovoLocalDate(now)}:${String(now.getUTCHours()).padStart(2, "0")}:${Math.floor(now.getUTCMinutes() / 15)}`; const started = await beginRun(admin, "daily_drafts", runKey);
   if (started.existing) return { ok:true, skipped:true, runKey, reason:"already_processed", run:started.run };
   try {
-    const { fetchUpcomingOpenF1Race, fetchOpenF1Roster, buildUpcomingF1MarketTemplate } = await import("@/lib/f1-upcoming-race.mjs");
+    const { fetchUpcomingOpenF1Race, fetchOpenF1Roster, fetchF1OpeningFactors, buildUpcomingF1MarketTemplate } = await import("@/lib/f1-upcoming-race.mjs");
     const race = await fetchUpcomingOpenF1Race({ now, leadDays: 3 });
     if (!race) { await finishRun(admin, started.run.id, "succeeded", { created:0, reason:"no_race_within_three_days" }); return { ok:true, created:0, reason:"no_race_within_three_days" }; }
-    const { data: existing, error: existingError } = await admin.from("markets").select("id,slug").contains("live_event", { event_id: race.event_id }).limit(1);
+    const { data: existing, error: existingError } = await admin.from("markets").select("id,slug,status,reference_probabilities").contains("live_event", { event_id: race.event_id }).limit(1);
     if (existingError) throw new Error(`Could not check F1 template duplicate: ${existingError.message}`);
-    if (existing?.length) { await finishRun(admin, started.run.id, "succeeded", { created:0, reason:"already_exists", event_id:race.event_id }); return { ok:true, created:0, reason:"already_exists", event_id:race.event_id }; }
     const roster = await (fetchOpenF1Roster as any)({ sessionKey: race.session_key });
-    const template = buildUpcomingF1MarketTemplate({ race, roster, now });
+    const openingModel = await (fetchF1OpeningFactors as any)({ race, roster, now });
+    const template = buildUpcomingF1MarketTemplate({ race, roster, openingModel, now });
+    if (existing?.length) {
+      const market = existing[0];
+      if (market.status === "draft") {
+        const { error: updateError } = await admin.from("markets").update({ live_event: template.live_event, reference_probabilities: template.reference_probabilities, outcome_quantities: template.outcome_quantities, sport_outcomes: template.sport_outcomes, pre_match_analysis: template.pre_match_analysis, updated_at: now.toISOString() }).eq("id", market.id).eq("status", "draft");
+        if (updateError) throw new Error(`Could not refresh F1 template ${race.event_id}: ${updateError.message}`);
+        const details = { created: 0, refreshed: 1, event_id: race.event_id, market: { id: market.id, slug: market.slug, status: market.status }, model_version: openingModel.model_version };
+        await finishRun(admin, started.run.id, "succeeded", details);
+        return { ok: true, ...details };
+      }
+      await finishRun(admin, started.run.id, "succeeded", { created: 0, refreshed: 0, reason: "already_exists", event_id: race.event_id });
+      return { ok: true, created: 0, reason: "already_exists", event_id: race.event_id };
+    }
     const { data, error } = await admin.from("markets").insert(template).select("id,slug,status").single();
     if (error) throw new Error(`Could not create F1 race template: ${error.message}`);
     await finishRun(admin, started.run.id, "succeeded", { created:1, event_id:race.event_id, market:data }); return { ok:true, created:1, event_id:race.event_id, market:data };
