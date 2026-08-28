@@ -40,3 +40,4 @@ tmp/
 .last30days/**/*.jpg
 .last30days/**/*.jpeg
 .last30days/**/*.webp
+supabase/.temp/
