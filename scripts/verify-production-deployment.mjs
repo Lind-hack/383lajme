@@ -104,6 +104,8 @@ const REQUIRED_CHART_MARKERS = {
     "topic_key",
     "Do not use closes_in_days",
     "process.argv.includes(\"--dry-run\")",
+    "const sendReceipt",
+    "const escapeHtml",
   ],
   "app/api/automation/tregu/daily-drafts/route.ts": [
     "selectDailySourceArticles",

@@ -1,5 +1,5 @@
 import { execFileSync } from "node:child_process";
-import { mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import {
@@ -101,14 +101,34 @@ if (dryRun) {
   }, null, 2));
   process.exit(0);
 }
-if (!result.skipped && result.created > 0) {
-  const html = buildDraftReviewEmail({ appUrl: baseUrl, reviewPath: `/admin/tregu/review?drafts=${encodeURIComponent(result.runKey)}`, markets: result.markets });
+const receiptMarkerDir = process.env.TREGU_RECEIPT_MARKER_DIR ?? "/opt/data/linear-hermes-bridge/state/tregu-receipts";
+const escapeHtml = (value) => String(value ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\"/g, "&quot;").replace(/'/g, "&#39;");
+const sendReceipt = ({ subject, html, markerKey }) => {
+  mkdirSync(receiptMarkerDir, { recursive: true, mode: 0o700 });
+  const safeKey = String(markerKey).replace(/[^A-Za-z0-9_.-]/g, "_");
+  const marker = join(receiptMarkerDir, `${safeKey}.sent`);
+  if (existsSync(marker)) {
+    console.log(`TREGU RECEIPT ALREADY SENT runKey=${result.runKey}`);
+    return;
+  }
   const directory = mkdtempSync(join(tmpdir(), "tregu-drafts-"));
-  const htmlFile = join(directory, "review.html");
+  const htmlFile = join(directory, "receipt.html");
   try {
     writeFileSync(htmlFile, html, { encoding: "utf8", mode: 0o600 });
-    execFileSync("python3", ["scripts/send-tregu-review-email.py", "--recipient", TREGU_DRAFT_REVIEW_RECIPIENT, "--subject", `383 Tregu — ${result.created} draftet e reja`, "--html-file", htmlFile], { cwd: process.cwd(), stdio: "inherit" });
+    execFileSync("python3", ["scripts/send-tregu-review-email.py", "--recipient", TREGU_DRAFT_REVIEW_RECIPIENT, "--subject", subject, "--html-file", htmlFile], { cwd: process.cwd(), stdio: "inherit" });
+    writeFileSync(marker, `${new Date().toISOString()}\n`, { encoding: "utf8", mode: 0o600 });
+    console.log(`TREGU RECEIPT SENT runKey=${result.runKey} recipient=${TREGU_DRAFT_REVIEW_RECIPIENT}`);
   } finally { rmSync(directory, { recursive: true, force: true }); }
+};
+
+if (!result.skipped && result.created > 0) {
+  const html = buildDraftReviewEmail({ appUrl: baseUrl, reviewPath: `/admin/tregu/review?drafts=${encodeURIComponent(result.runKey)}`, markets: result.markets });
+  sendReceipt({ subject: `383 Tregu — ${result.created} draftet e reja — PASSED`, html, markerKey: `${result.runKey}-drafts` });
+} else {
+  const state = result.skipped ? "SUCCEEDED — already processed safely" : "SUCCEEDED — no new market was eligible";
+  const reviewUrl = `${baseUrl}/admin/tregu/review?drafts=${encodeURIComponent(result.runKey ?? "")}`;
+  const html = `<!doctype html><html><body style="font-family:Arial,sans-serif;background:#f8fafc;padding:24px;color:#0f172a"><main style="max-width:680px;margin:auto;background:#fff;border:1px solid #cbd5e1;border-radius:12px;padding:24px"><h1 style="margin-top:0">383 Tregu — execution receipt</h1><p><strong>Status:</strong> ${escapeHtml(state)}</p><p><strong>Run key:</strong> <code>${escapeHtml(result.runKey)}</code></p><p><strong>Created:</strong> ${escapeHtml(result.created)}</p><p>This confirms that the Tregu creation endpoint ran successfully and did not create duplicates.</p><p><a href="${escapeHtml(reviewUrl)}">Open Tregu review</a></p></main></body></html>`;
+  sendReceipt({ subject: `383 Tregu — PASSED — ${result.skipped ? "already processed" : "no eligible drafts"}`, html, markerKey: `${result.runKey}-receipt` });
 }
 if (Array.isArray(futureTemplates) && futureTemplates.length) {
   const cards = futureTemplates.map((market) => `<article style="border:1px solid #fed7aa;border-radius:12px;padding:18px;margin:0 0 14px"><p style="margin:0 0 8px;color:#c2410c;font-weight:700;letter-spacing:1px">${String(market.market_classification ?? "LIVE SPORT").toUpperCase()} · REVIEW-ONLY TEMPLATE</p><h2 style="margin:0 0 8px">${String(market.question ?? "F1 race")}</h2><p>${String(market.description ?? "")}</p><p><b>${Array.isArray(market.sport_outcomes) ? market.sport_outcomes.length : 0} drivers</b> · review roster and grid before approval.</p><a href="${baseUrl}/admin/tregu" style="display:inline-block;background:#111827;color:#fff;padding:10px 14px;border-radius:7px;text-decoration:none">Open Admin review</a></article>`).join("");
