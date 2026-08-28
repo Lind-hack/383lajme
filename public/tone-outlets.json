@@ -1,43 +1,19 @@
 {
-  "lastUpdated": "2026-08-27",
+  "lastUpdated": "2026-08-28",
   "overallIndex": 53,
-  "totalArticles": 90,
-  "sourceCount": 68,
+  "totalArticles": 79,
+  "sourceCount": 61,
   "stanceVersion": 3,
-  "unattributed": 210,
-  "nonEditorial": 4,
+  "unattributed": 152,
+  "nonEditorial": 3,
   "wrongKosovo": 0,
   "countries": {
     "Gjermani": {
       "outlets": [
         {
-          "name": "Joyn",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Albanien - Kosovo - Joyn",
-              "albanianTitle": "Shqipëri - Kosovë - Joyn",
-              "blurb": "Platforma Joyn ka përfshirë në shërbimet e saj përmbajtje të ndryshme që lidhen me Shqipërinë dhe Kosovën.",
-              "imageUrl": null,
-              "url": "https://ran.joyn.de/sports/ticker/ma12492869-albanien-kosovo",
-              "date": "2026-08-24",
-              "sentiment": "neutral",
-              "reason": "Faktikisht raporton titullin pa gjuhë ngarkuar",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-24",
-          "lastSeen": "2026-08-24"
-        },
-        {
           "name": "Kicker",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Spielereignisse | Kosovo - Ägypten 21:42 | 2. Spieltag | Mittelmeerspiele 2026 - Kicker",
@@ -51,60 +27,25 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-25",
-          "lastSeen": "2026-08-25"
-        },
-        {
-          "name": "Kölnische Rundschau",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
+            },
             {
-              "title": "Flughafen Köln/Bonn: Mann mit Haftbefehl bei Ausreise in den Kosovo gestoppt - Kölnische Rundschau",
-              "albanianTitle": "Aeroporti i Këlnit/Bonit: Ndalohet një person në kërkim gjatë udhëtimit për në Kosovë - Kölnische Rundschau",
-              "blurb": "Policia në aeroportin e Këlnit ka ndaluar një person me urdhër-arrest gjatë tentativës për të udhëtuar drejt Kosovës.",
-              "imageUrl": "https://static.rundschau-online.de/__images/2026/08/24/e563d448-50aa-4060-a701-5264e18e0ecc.jpeg?w=1200&h=630&fm=jpg&fit=crop&crop=faces,entropy&s=eca8beb2a19a87d11e71ae93a01e02c9",
-              "url": "https://www.rundschau-online.de/koeln/blaulicht-koeln/flughafen-koeln-bonn-mann-mit-haftbefehl-bei-ausreise-in-kosovo-gestoppt-1356272",
-              "date": "2026-08-24",
+              "title": "Spielereignisse | Portugal - Kosovo 33:25 | 3. Spieltag | Mittelmeerspiele 2026 - Kicker",
+              "albanianTitle": "Statistikat e ndeshjes: Portugali - Kosovë 33:25, xhiroja e tretë, Lojërat Mesdhetare 2026 - Kicker",
+              "blurb": "Kombëtarja e Kosovës në hendboll është mposhtur nga Portugalia me rezultat 33:25 në kuadër të Lojërave Mesdhetare 2026.",
+              "imageUrl": null,
+              "url": "https://www.kicker.de/portugal-gegen-kosovo-2026-mittelmeerspiele-5262186/ergebnis",
+              "date": "2026-08-27",
               "sentiment": "neutral",
-              "reason": "Raporton ngjarje pa gjuhë përçmuese",
+              "reason": "Faktikë sportive, raportim neutral",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
             }
           ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-24",
-          "lastSeen": "2026-08-24"
-        },
-        {
-          "name": "Rundschau Online",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Flughafen Köln/Bonn: Mann mit Haftbefehl bei Ausreise in den Kosovo gestoppt - Rundschau Online",
-              "albanianTitle": "Aeroporti i Këlnit/Bonit: Arrestohet personi në kërkim gjatë tentativës për të udhëtuar drejt Kosovës",
-              "blurb": "Policia gjermane në aeroportin e Këlnit ka ndaluar një person me urdhër-arresti gjatë tentimit për të udhëtuar drejt Kosovës.",
-              "imageUrl": "https://static.rundschau-online.de/__images/2026/08/24/e563d448-50aa-4060-a701-5264e18e0ecc.jpeg?w=1200&h=630&fm=jpg&fit=crop&crop=faces,entropy&s=eca8beb2a19a87d11e71ae93a01e02c9",
-              "url": "https://www.rundschau-online.de/koeln/blaulicht-koeln/flughafen-koeln-bonn-mann-mit-haftbefehl-bei-ausreise-in-kosovo-gestoppt-1356272",
-              "date": "2026-08-24",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportim pa ngarkim",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
+          "totalArticles": 2,
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-08-25",
-          "lastSeen": "2026-08-24"
+          "lastSeen": "2026-08-27"
         }
       ],
       "summary": {
@@ -112,7 +53,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 4,
+        "n": 2,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -120,6 +61,43 @@
     },
     "SHBA": {
       "outlets": [
+        {
+          "name": "Bloomberg",
+          "sentiment": "neutral",
+          "articleCount": 2,
+          "articles": [
+            {
+              "title": "Dua Lipa Is Opening Europe’s Youngest Country to the World - Bloomberg.com",
+              "albanianTitle": "Dua Lipa po e prezanton shtetin më të ri të Evropës para botës - Bloomberg.com",
+              "blurb": "Këngëtarja me famë botërore Dua Lipa po ndihmon në promovimin e Kosovës në arenën ndërkombëtare përmes ndikimit të saj.",
+              "imageUrl": null,
+              "url": "https://www.bloomberg.com/news/articles/2026-08-27/dua-lipa-puts-kosovo-on-the-music-map-with-sunny-hill-festival",
+              "date": "2026-08-27",
+              "sentiment": "neutral",
+              "reason": "Titull faktik, pa gjuhë ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Dua Lipa Is Opening Europe’s Youngest Country to the World - Bloomberg",
+              "albanianTitle": "Dua Lipa po e hap shtetin më të ri të Evropës për botën - Bloomberg",
+              "blurb": "Artikulli i Bloomberg trajton ndikimin e Dua Lipës në rritjen e njohjes së Kosovës në botë përmes aktiviteteve të saj.",
+              "imageUrl": null,
+              "url": "https://www.bloomberg.com/news/articles/2026-08-27/dua-lipa-puts-kosovo-on-the-music-map-with-sunny-hill-festival",
+              "date": "2026-08-27",
+              "sentiment": "neutral",
+              "reason": "Factual reporting without loaded language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-28",
+          "lastSeen": "2026-08-27"
+        },
         {
           "name": "Radio Free Europe/Radio Liberty",
           "sentiment": "neutral",
@@ -143,6 +121,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-08-26",
           "lastSeen": "2026-08-26"
+        },
+        {
+          "name": "rferl.org",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Water: Life-Saving Resource Or Political Weapon? - rferl.org",
+              "albanianTitle": "Uji: Burim për shpëtimin e jetës apo armë politike? - rferl.org",
+              "blurb": "Analizë mbi rolin e ujit si burim jetësor dhe përdorimin e tij të mundshëm si mjet në proceset politike aktuale.",
+              "imageUrl": "https://gdb.rferl.org/be80ab23-9504-4e58-7fa9-08decad17715_w1200_h630.jpg",
+              "url": "https://www.rferl.org/a/gazivode-lake-serbia-kosovo-ibar/33839186.html",
+              "date": "2026-08-26",
+              "sentiment": "unknown",
+              "reason": "Nuk përmendet Kosova në titull, s’mund të përcaktohet qëndrimi",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-28",
+          "lastSeen": "2026-08-26"
         }
       ],
       "summary": {
@@ -150,8 +152,8 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 1,
-        "excluded": 0,
+        "n": 3,
+        "excluded": 1,
         "confident": false,
         "stanceVersion": 3
       }
@@ -212,73 +214,8 @@
         {
           "name": "Le Courrier des Balkans",
           "sentiment": "neutral",
-          "articleCount": 6,
+          "articleCount": 1,
           "articles": [
-            {
-              "title": "Kosovo : jouer à la guerre, jouer à la paix (tragicomédie dangereuse) - Le Courrier des Balkans",
-              "albanianTitle": "Kosova: Lojërat me luftën dhe paqen (një tragjikomedi e rrezikshme)",
-              "blurb": "Analizë mbi zhvillimet politike në Kosovë dhe dinamikat e ndërlikuara ndërmjet përpjekjeve për paqe dhe tensioneve të vazhdueshme në rajon.",
-              "imageUrl": "https://www.courrierdesbalkans.fr/wp-content/uploads/2019/09/medieval_novo_brdo_fortress_after_reconstruction.jpg",
-              "url": "https://www.courrierdesbalkans.fr/kosovo-jouer-a-la-paix-jouer-a-la-guerre-69437/",
-              "date": "2026-08-24",
-              "sentiment": "negative",
-              "reason": "Fjalë ngarkuese që portretizojnë Kosovën si një tragikomedi të rrezikshme",
-              "isQuote": false,
-              "evidence": "tragicomédie dangereuse",
-              "speaker": ""
-            },
-            {
-              "title": "Indépendance du Kosovo : le plan secret de Belgrade - Le Courrier des Balkans",
-              "albanianTitle": "Pavarësia e Kosovës: plani sekret i Beogradit - Le Courrier des Balkans",
-              "blurb": "Beogradi ka hartuar një plan të fshehtë lidhur me çështjen e pavarësisë së Kosovës, sipas raportimeve të fundit mediatike.",
-              "imageUrl": "https://www.courrierdesbalkans.fr/wp-content/uploads/2008/01/Slobodan_Samardzic.jpg",
-              "url": "https://www.courrierdesbalkans.fr/independance-du-kosovo-le-plan-secret-de-belgrade-8932/",
-              "date": "2026-08-24",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Un hommage en provenance du Kosovo - Le Courrier des Balkans",
-              "albanianTitle": "Një homazh që vjen nga Kosova - Le Courrier des Balkans",
-              "blurb": "Një homazh është dërguar nga Kosova në drejtim të një ngjarjeje ose personaliteti të caktuar në rajon.",
-              "imageUrl": null,
-              "url": "https://www.courrierdesbalkans.fr/un-hommage-en-provenance-du-kosovo-1367/",
-              "date": "2026-08-24",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportim neutral",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Kosovo-Serbie : mais où est passé le journalisme engagé ? - Le Courrier des Balkans",
-              "albanianTitle": "Kosovë-Serbi: ku mbeti gazetaria e angazhuar? - Le Courrier des Balkans",
-              "blurb": "Analizë mbi gjendjen aktuale të gazetarisë së angazhuar në raportimet ndërmjet Kosovës dhe Serbisë në media.",
-              "imageUrl": null,
-              "url": "https://www.courrierdesbalkans.fr/kosovo-serbie-mais-ou-est-passe-le-journalisme-engage-9084/",
-              "date": "2026-08-24",
-              "sentiment": "neutral",
-              "reason": "Titulli është pyetje kritike, por pa gjuhë kundërshtuese ndaj Kosovës",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Entre Kosovo et Serbie, la fin des « mesures de réciprocité » - Le Courrier des Balkans",
-              "albanianTitle": "Mes Kosovës dhe Serbisë, fundi i 'masave të reciprocitetit'",
-              "blurb": "Qeveria e Kosovës dhe Serbia kanë ndërprerë zbatimin e masave të reciprocitetit në marrëdhëniet mes dy vendeve.",
-              "imageUrl": "https://www.courrierdesbalkans.fr/wp-content/uploads/2020/06/kosovo-serbia-dialogue-in-berlin.jpg",
-              "url": "https://www.courrierdesbalkans.fr/entre-kosovo-et-serbie-la-fin-des-mesures-de-reciprocite-73159/",
-              "date": "2026-08-24",
-              "sentiment": "neutral",
-              "reason": "Faktik, pa gjuhë ngarkuar",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "Kosovo : 68 % des Serbes estiment que leur situation s’est dégradée depuis un an - Le Courrier des Balkans",
               "albanianTitle": "Kosova: 68% e serbëve vlerësojnë se gjendja e tyre është përkeqësuar gjatë një viti - Le Courrier des Balkans",
@@ -348,13 +285,13 @@
         }
       ],
       "summary": {
-        "index": 44,
+        "index": 50,
         "positive": 0,
-        "neutral": 88,
-        "negative": 12,
-        "n": 8,
+        "neutral": 100,
+        "negative": 0,
+        "n": 3,
         "excluded": 0,
-        "confident": true,
+        "confident": false,
         "stanceVersion": 3
       }
     },
@@ -363,34 +300,8 @@
         {
           "name": "ANSA",
           "sentiment": "neutral",
-          "articleCount": 4,
+          "articleCount": 2,
           "articles": [
-            {
-              "title": "Nei Balcani Macedonia del Nord, Bosnia e Serbia in preda agli incendi - ANSA",
-              "albanianTitle": "Në Ballkan, Maqedonia e Veriut, Bosnja dhe Serbia nën flakët e zjarreve",
-              "blurb": "Zjarret kanë përfshirë Maqedoninë e Veriut, Bosnjën dhe Serbinë, duke shkaktuar situatë të vështirë në këto shtete të rajonit.",
-              "imageUrl": "https://www.ansa.it/webimages/img_1280x720/2024/1/24/b750e7a3a277325035bcd0f60cdaafb2.jpg",
-              "url": "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/08/24/nei-balcani-macedonia-del-nord-bosnia-e-serbia-in-preda-agli-incendi_12f9ffd9-6f15-4ffb-982e-a4b1c86da15e.html",
-              "date": "2026-08-24",
-              "sentiment": "unknown",
-              "reason": "Nuk ka referencë për Kosovën në titull",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Balkans, North Macedonia, Bosnia, and Serbia gripped by wildfires - ANSA",
-              "albanianTitle": "Ballkani, Maqedonia e Veriut, Bosnja dhe Serbia të përfshira nga zjarret - ANSA",
-              "blurb": "Zjarret e mëdha kanë përfshirë disa shtete të Ballkanit, duke prekur veçanërisht Maqedoninë e Veriut, Bosnjën dhe Serbinë gjatë kësaj periudhe.",
-              "imageUrl": "https://www.ansa.it/webimages/img_1280x720/2024/1/24/b750e7a3a277325035bcd0f60cdaafb2.jpg",
-              "url": "https://www.ansa.it/nuova_europa/en/news/countries/kosovo/2026/08/24/balkans-north-macedonia-bosnia-and-serbia-gripped-by-wildfires_72bbad1c-7f2a-4d8c-b5a4-4e1b2accea77.html",
-              "date": "2026-08-24",
-              "sentiment": "unknown",
-              "reason": "No mention of Kosovo in the item",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "Il premier del Kosovo, Albin Kurti visita la Macedonia del Nord - ANSA",
               "albanianTitle": "Kryeministri i Kosovës, Albin Kurti, viziton Maqedoninë e Veriut",
@@ -635,21 +546,8 @@
         {
           "name": "FIGC",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 1,
           "articles": [
-            {
-              "title": "Giochi del Mediterraneo, che battaglia a Brindisi: Azzurrini ko 3-1 con l’Algeria - FIGC",
-              "albanianTitle": "Lojërat Mesdhetare, betejë e ashpër në Brindisi: Italia U21 mposhtet 3-1 nga Algjeria",
-              "blurb": "Ekipi i futbollit të Italisë është mposhtur me rezultat 3-1 nga Algjeria në ndeshjen e zhvilluar në Brindisi.",
-              "imageUrl": "https://images.figc.it/view/acePublic/alias/contentid/1tc6mvx4wrxhm40ehq6/0/26495864-826f-4d7b-9ebc-506efe5de3f0-jpg.jpg?f=187%3A100",
-              "url": "https://www.figc.it/it/nazionali/news/giochi-del-mediterraneo-che-battaglia-a-brindisi-azzurrini-ko-3-1-con-lalgeria-bldoae25",
-              "date": "2026-08-24",
-              "sentiment": "unknown",
-              "reason": "No reference to Kosovo in the item",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "Giochi del Mediterraneo, Azzurrine fermate sull’1-1 dalla Slovenia - FIGC",
               "albanianTitle": "Lojërat Mesdhetare: Italia barazon 1-1 ndaj Sllovenisë",
@@ -781,30 +679,6 @@
           "lastSeen": "2026-08-27"
         },
         {
-          "name": "Il Gallo",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Giochi del Mediterraneo, poker azzurro al debutto: Kosovo battuto 4-1 - Il Gallo",
-              "albanianTitle": "Lojërat Mesdhetare, start i fuqishëm për Italinë: Mposhtet Kosova me rezultat 4-1",
-              "blurb": "Përfaqësuesja e Kosovës është mposhtur me rezultatin 4-1 nga Italia në ndeshjen debutuese të Lojërave Mesdhetare.",
-              "imageUrl": "https://www.ilgallo.it/wp-content/uploads/2026/08/0aa32795-42e0-4421-9887-ff9bdc56a8eb-1200x630.jpg",
-              "url": "https://www.ilgallo.it/sport/giochi-del-mediterraneo-poker-azzurro-al-debutto-kosovo-battuto-4-1/",
-              "date": "2026-08-24",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-26",
-          "lastSeen": "2026-08-24"
-        },
-        {
           "name": "La Gazzetta del Mezzogiorno",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -853,33 +727,9 @@
           "lastSeen": "2026-08-25"
         },
         {
-          "name": "Newsrimini",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Under 21: mercoledì in vendita i biglietti per Kosovo e Spagna allo Stadium - Newsrimini",
-              "albanianTitle": "U21: Të mërkurën dalin në shitje biletat për ndeshjen Kosovë-Spanjë në stadium",
-              "blurb": "Biletat për ndeshjen e futbollit ndërmjet përfaqësueseve U21 të Kosovës dhe Spanjës dalin në shitje të mërkurën në stadium.",
-              "imageUrl": "https://www.newsrimini.it/uploads/2026/c-luistella.webp",
-              "url": "https://www.newsrimini.it/icaro-sport/under-21-mercoledi-in-vendita-i-biglietti-per-kosovo-e-spagna-allo-stadium",
-              "date": "2026-08-24",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportim pa ngarkim",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-25",
-          "lastSeen": "2026-08-24"
-        },
-        {
           "name": "OA Sport",
           "sentiment": "neutral",
-          "articleCount": 3,
+          "articleCount": 4,
           "articles": [
             {
               "title": "Giochi del Mediterraneo 2026, il programma di domani: orari mercoledì 26 agosto, tv, streaming - OA Sport",
@@ -919,9 +769,22 @@
               "isQuote": false,
               "evidence": "Altro successo",
               "speaker": ""
+            },
+            {
+              "title": "Calcio, tris degli azzurri contro il Kosovo ai Giochi del Mediterraneo: c’è l’insperata qualificazione alle semifinali! - OA Sport",
+              "albanianTitle": "Futboll: Italia mposht Kosovën në Lojërat Mesdhetare dhe siguron kualifikimin e papritur në gjysmëfinale - OA Sport",
+              "blurb": "Kombëtarja e Italisë ka mposhtur Kosovën në futboll në Lojërat Mesdhetare, duke siguruar kualifikimin për në fazën gjysmëfinale.",
+              "imageUrl": "https://www.oasport.it/wp-content/uploads/2026/08/whatsapp-image-2026-08-22-at-21-52-48-1-jpeg-1000x600.jpg",
+              "url": "https://www.oasport.it/2026/08/calcio-tris-degli-azzurri-contro-il-kosovo-ai-giochi-del-mediterraneo-ce-linsperata-qualificazione-alle-semifinali/amp/",
+              "date": "2026-08-26",
+              "sentiment": "neutral",
+              "reason": "Sports result reported without evaluative language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 5,
+          "totalArticles": 6,
           "trend": "i përzier",
           "firstSeen": "2026-08-23",
           "lastSeen": "2026-08-26"
@@ -1000,22 +863,9 @@
         },
         {
           "name": "Sportface.it",
-          "sentiment": "negative",
-          "articleCount": 2,
+          "sentiment": "neutral",
+          "articleCount": 1,
           "articles": [
-            {
-              "title": "Giochi del Mediterraneo: calcio femminile, le Azzurrine schiantano il Kosovo 4-1, gli highlights su SportfaceTV - Sportface.it",
-              "albanianTitle": "Lojërat Mesdhetare: Futboll për femra, Italia mposht Kosovën 4-1, pamjet në SportfaceTV",
-              "blurb": "Përfaqësuesja e Italisë në futboll për femra ka mposhtur Kosovën me rezultat 4-1 në kuadër të Lojërave Mesdhetare.",
-              "imageUrl": "https://www.sportface.it/wp-content/uploads/2026/08/italia-calcio-femminile.jpg",
-              "url": "https://www.sportface.it/giochi-del-mediterraneo-taranto-2026/giochi-del-mediterraneo-calcio-femminile-le-azzurrine-schiantano-il-kosovo-4-1-gli-highlights-su-sportfacetv/2826868",
-              "date": "2026-08-24",
-              "sentiment": "negative",
-              "reason": "Fjalët e vetë mediumit janë pejorative ndaj Kosovës",
-              "isQuote": false,
-              "evidence": "schiantano il Kosovo",
-              "speaker": ""
-            },
             {
               "title": "Taranto, Calcio: l’Italia fa l’impresa contro il Kosovo e si qualifica al 97′ – gli highlights - Sportface.it",
               "albanianTitle": "Taranto, Futboll: Italia arrin sukses ndaj Kosovës në minutën e 97-të – përmbledhja e ndeshjes - Sportface.it",
@@ -1099,21 +949,8 @@
         {
           "name": "agenziagiornalisticaopinione.it",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 1,
           "articles": [
-            {
-              "title": "FIGC * FEDERAZIONE ITALIANA GIUOCO CALCIO: «AZZURRINI KO 3-1 CON L'ALGERIA, ORA SERVE UN'IMPRESA CONTRO IL KOSOVO - agenziagiornalisticaopinione.it",
-              "albanianTitle": "FIGC: Azzurrini humbin 3-1 nga Algjeria, tani duhet një mrekulli kundër Kosovës",
-              "blurb": "Federata Italiane e Futbollit kërkon fitore ndaj Kosovës pas humbjes së pësuar nga Algjeria në Lojërat Mesdhetare në Brindisi.",
-              "imageUrl": "https://www.agenziagiornalisticaopinione.it/wp-content/uploads/2026/08/y99z26495864-826f-4d7b-9ebc-506efe5de3f0-jpg.jpg",
-              "url": "https://www.agenziagiornalisticaopinione.it/opinionews/figc-federazione-italiana-giuoco-calcio-azzurrini-ko-3-1-con-lalgeria-ora-serve-unimpresa-contro-il-kosovo/",
-              "date": "2026-08-24",
-              "sentiment": "neutral",
-              "reason": "Fjalët e cituara i përkasin folësit, jo mediumit",
-              "isQuote": true,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "FIGC * FEDERAZIONE ITALIANA GIUOCO CALCIO: «ITALIA-SLOVENIA 1-1 AI GIOCHI DEL MEDITERRANEO, AZZURRINE FRENATE DALLA DIFESA SLOVENA - agenziagiornalisticaopinione.it",
               "albanianTitle": "Lojërat Mesdhetare: Italia ndalet në barazim nga mbrojtja sllovene",
@@ -1292,12 +1129,12 @@
         }
       ],
       "summary": {
-        "index": 51,
+        "index": 52,
         "positive": 5,
-        "neutral": 93,
-        "negative": 2,
-        "n": 43,
-        "excluded": 4,
+        "neutral": 95,
+        "negative": 0,
+        "n": 40,
+        "excluded": 1,
         "confident": true,
         "stanceVersion": 3
       }
@@ -1327,6 +1164,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-08-25",
           "lastSeen": "2026-08-25"
+        },
+        {
+          "name": "Kleine Zeitung",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Busfahrer aus dem Kosovo illegal in Kärnten unterwegs - Kleine Zeitung",
+              "albanianTitle": "Shoferë autobusësh nga Kosova operojnë ilegalisht në Kärnten - Kleine Zeitung",
+              "blurb": "Autoritetet në Kärnten të Austrisë kanë ndaluar një shofer autobusi nga Kosova për shkak të punës pa leje përkatëse.",
+              "imageUrl": "https://img.kleinezeitung.at/public/incoming/kfj9q5-22730394788112554bldhiresjpg/alternates/KLZ_SOCIAL/22730394788112554_BLD_HiRes.jpg",
+              "url": "https://www.kleinezeitung.at/artikel/41209217/busfahrer-aus-dem-kosovo-illegal-in-kaernten-unterwegs",
+              "date": "2026-08-27",
+              "sentiment": "neutral",
+              "reason": "Report of alleged illegal activity of an individual, not a stance toward Kosovo",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-28",
+          "lastSeen": "2026-08-27"
         },
         {
           "name": "Kronen Zeitung",
@@ -1375,30 +1236,6 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-08-25",
           "lastSeen": "2026-08-25"
-        },
-        {
-          "name": "Sky Sport Austria",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Sturm Graz verpflichtet Kosovo-Teamspieler - Sky Sport Austria",
-              "albanianTitle": "Sturm Graz transferon futbollistin e Kombëtares së Kosovës",
-              "blurb": "Klubi austriak Sturm Graz ka zyrtarizuar transferimin e futbollistit të përfaqësueses së Kosovës në radhët e veta.",
-              "imageUrl": null,
-              "url": "https://www.skysportaustria.at/sturm-graz-verpflichtet-kosovo-teamspieler/",
-              "date": "2026-08-24",
-              "sentiment": "neutral",
-              "reason": "Factual report of player signing",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-24",
-          "lastSeen": "2026-08-24"
         },
         {
           "name": "heute.at",
@@ -1485,30 +1322,6 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-08-25",
           "lastSeen": "2026-08-25"
-        },
-        {
-          "name": "Republik",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Und auf einmal fehlten in Kosovo Millionen - Republik",
-              "albanianTitle": "Dhe papritmas, miliona euro u zhdukën në Kosovë",
-              "blurb": "Humbja e miliona eurove në Kosovë është bërë temë e një shkrimi të publikuar në mediumin Republik.",
-              "imageUrl": "https://cdn.repub.ch/s3/republik-assets/repos/republik/article-kosovo/images/fddf24d6-0747-422f-b4cb-c59ecfbdaafd.jpg?size=5000x2500&resize=1200x",
-              "url": "https://www.republik.ch/2026/08/24/und-auf-einmal-fehlten-in-kosovo-millionen",
-              "date": "2026-08-24",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportim pa gjuhë ngarkuar",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-24",
-          "lastSeen": "2026-08-24"
         }
       ],
       "summary": {
@@ -1516,7 +1329,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 2,
+        "n": 1,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -1524,30 +1337,6 @@
     },
     "Holandë": {
       "outlets": [
-        {
-          "name": "Animals Today",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "500 zwerfdieren gesteriliseerd in Kosovo - Animals Today",
-              "albanianTitle": "500 kafshë endacake të sterilizuara në Kosovë.",
-              "blurb": "Pesëqind kafshë endacake janë sterilizuar në Kosovë në kuadër të një aksioni të ndërmarrë për kontrollin e popullsisë.",
-              "imageUrl": "https://www.animalstoday.nl/afbeeldingen/2026/08/animalstoday-vijfhonderd-sterilisaties-kosovo-houseofanimals.jpeg",
-              "url": "https://www.animalstoday.nl/500-zwerfdieren-gesteriliseerd-kosovo/",
-              "date": "2026-08-24",
-              "sentiment": "neutral",
-              "reason": "Faktik raportim i sterilimit të kafshëve të rrugës në Kosovë",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-24",
-          "lastSeen": "2026-08-24"
-        },
         {
           "name": "Transport Online",
           "sentiment": "neutral",
@@ -1571,30 +1360,6 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-08-26",
           "lastSeen": "2026-08-26"
-        },
-        {
-          "name": "VoetbalBrabant.nl",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Nederlandse doelman kiest voor opvallend avontuur in Kosovo - VoetbalBrabant.nl",
-              "albanianTitle": "Portieri holandez zgjedh një aventurë të pazakontë në Kosovë - VoetbalBrabant.nl",
-              "blurb": "Një portier holandez ka vendosur të vazhdojë karrierën e tij futbollistike duke u transferuar në një klub të Kosovës.",
-              "imageUrl": "https://www.voetbalbrabant.nl/wp-content/uploads/2025/05/Keepershandschoenen.png",
-              "url": "https://www.voetbalbrabant.nl/2026/08/nederlandse-doelman-kiest-voor-opvallend-avontuur-in-kosovo/",
-              "date": "2026-08-24",
-              "sentiment": "neutral",
-              "reason": "Përdor gjuhë neutrale për aventurën në Kosovë",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-24",
-          "lastSeen": "2026-08-24"
         }
       ],
       "summary": {
@@ -1602,7 +1367,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 3,
+        "n": 1,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -1723,6 +1488,43 @@
           "lastSeen": "2026-08-25"
         },
         {
+          "name": "International Committee of Mediterranean Games",
+          "sentiment": "neutral",
+          "articleCount": 2,
+          "articles": [
+            {
+              "title": "Kosovo wins its first gold at Taranto 2026 - International Committee of Mediterranean Games",
+              "albanianTitle": "Kosova fiton medaljen e parë të artë në Taranto 2026 - Komiteti Ndërkombëtar i Lojërave Mesdhetare",
+              "blurb": "Sportistët e Kosovës kanë fituar medaljen e parë të artë në Lojërat Mesdhetare që po mbahen në qytetin e Tarantos.",
+              "imageUrl": "https://cijm.org.gr/wp-content/uploads/2026/08/kosovo.jpg",
+              "url": "https://cijm.org.gr/kosovo-wins-its-first-gold-at-taranto-2026/",
+              "date": "2026-08-27",
+              "sentiment": "neutral",
+              "reason": "Lajm i thjeshtë sportiv, pa ngjyrë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "To Kόσοβο κατέκτησε το πρώτο χρυσό στο Taranto 2026 - International Committee of Mediterranean Games",
+              "albanianTitle": "Kosova fiton medaljen e parë të artë në Taranto 2026 - Komiteti Ndërkombëtar i Lojërave Mesdhetare",
+              "blurb": "Kosova ka fituar medaljen e parë të artë në Lojërat Mesdhetare që po mbahen në qytetin e Tarantos.",
+              "imageUrl": "https://cijm.org.gr/wp-content/uploads/2026/08/kosovo.jpg",
+              "url": "https://cijm.org.gr/to-kosovo-katektise-to-proto-chryso-sto-taranto-2026/?lang=el",
+              "date": "2026-08-27",
+              "sentiment": "neutral",
+              "reason": "Announcement of sporting achievement, presented factually",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 2,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-28",
+          "lastSeen": "2026-08-27"
+        },
+        {
           "name": "pontosnews.gr",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1749,34 +1551,8 @@
         {
           "name": "sport-fm.gr",
           "sentiment": "neutral",
-          "articleCount": 4,
+          "articleCount": 2,
           "articles": [
-            {
-              "title": "Ελλάδα-Κόσοβο 1-1 - sport-fm.gr",
-              "albanianTitle": "Greqi - Kosovë 1-1 - sport-fm.gr",
-              "blurb": "Ndeshja e futbollit ndërmjet Greqisë dhe Kosovës përfundoi me rezultatin e barabartë një me një në fushën e lojës.",
-              "imageUrl": "https://resources.sport-fm.gr/supersportFM/images/news/21/11/14/3322312_220352.jpg?w=880&f=bicubic",
-              "url": "https://www.sport-fm.gr/article/amp/Live-ellada-kosobo-amp/4237404",
-              "date": "2026-08-24",
-              "sentiment": "neutral",
-              "reason": "Straightforward score report",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Συνέχισε με νίκη στο Τάραντο η Εθνική χάντμπολ γυναικών - sport-fm.gr",
-              "albanianTitle": "Kombëtarja e hendbollit të femrave vazhdon me fitore në Taranto - sport-fm.gr",
-              "blurb": "Kombëtarja e hendbollit të femrave ka shënuar fitore në ndeshjen e zhvilluar në qytetin italian të Tarantos.",
-              "imageUrl": "https://resources.sport-fm.gr/supersportFM/images/news/26/08/24/greece-kosovo_211513.jpg?w=880&f=bicubic",
-              "url": "https://www.sport-fm.gr/article/amp/ellada-kosobo-40-20-amp/5143343",
-              "date": "2026-08-24",
-              "sentiment": "positive",
-              "reason": "Outlet uses praising language about Kosovo's handball team",
-              "isQuote": false,
-              "evidence": "Συνέχισε με νίκη",
-              "speaker": ""
-            },
             {
               "title": "Κόσοβο-Σλοβενία - sport-fm.gr",
               "albanianTitle": "Kosovë - Slloveni",
@@ -1832,51 +1608,52 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-08-27",
           "lastSeen": "2026-08-27"
-        },
-        {
-          "name": "ΤΑ ΝΕΑ",
-          "sentiment": "positive",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Ελλάδα – Κόσοβο 40-20: Επιβλητική η Εθνική γυναικών και 2/2 στο χάντμπολ των Μεσογειακών Αγώνων - ΤΑ ΝΕΑ",
-              "albanianTitle": "Greqi – Kosovë 40-20: Fitore bindëse e kombëtares së femrave dhe 2/2 në hendboll në Lojërat Mesdhetare.",
-              "blurb": "Kombëtarja e Greqisë në hendboll për femra ka mposhtur Kosovën me rezultat 40-20 në kuadër të Lojërave Mesdhetare.",
-              "imageUrl": "https://www.tanea.gr/wp-content/uploads/2026/08/xantmpol-ogimage.jpg",
-              "url": "https://www.tanea.gr/2026/08/24/sports/othersports/ellada-kosovo-40-20-epivlitiki-i-ethniki-gynaikon-kai-2-2-sto-xantmpol-ton-mesogeiakon-agonon/",
-              "date": "2026-08-24",
-              "sentiment": "positive",
-              "reason": "Përdor fjalë pozitive për ekipin kombëtar të Kosovës",
-              "isQuote": false,
-              "evidence": "Επιβλητική",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 3,
-          "trend": "i përzier",
-          "firstSeen": "2026-08-20",
-          "lastSeen": "2026-08-24"
         }
       ],
       "summary": {
-        "index": 62,
-        "positive": 25,
-        "neutral": 75,
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 8,
+        "n": 7,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
       }
     },
     "Suedi": {
-      "outlets": [],
+      "outlets": [
+        {
+          "name": "SMHI",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Väderprognos 10 dygn Pristina, Kosovo - SMHI",
+              "albanianTitle": "Parashikimi i motit për 10 ditët e ardhshme në Prishtinë, Kosovë - SMHI",
+              "blurb": "Instituti Meteorologjik Suedez ka publikuar parashikimin e motit për dhjetë ditët e ardhshme për kryeqytetin e Kosovës, Prishtinën.",
+              "imageUrl": null,
+              "url": "https://www.smhi.se/vader/prognoser-och-varningar/vaderprognos/q/Pristina/786714",
+              "date": "2026-08-25",
+              "sentiment": "neutral",
+              "reason": "Straightforward weather forecast, no evaluative language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 2,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-26",
+          "lastSeen": "2026-08-25"
+        }
+      ],
       "summary": {
-        "index": null,
+        "index": 50,
         "positive": 0,
-        "neutral": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 0,
+        "n": 1,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -2019,30 +1796,6 @@
           "lastSeen": "2026-08-27"
         },
         {
-          "name": "Edirne'nin Sesi",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosovalı Gençler Edirne'nin Tarihi ve Kültürel Mirasını Tanıdı - Edirne'nin Sesi",
-              "albanianTitle": "Të rinjtë nga Kosova njihen me trashëgiminë historike dhe kulturore të Edirnesë",
-              "blurb": "Një grup të rinjsh nga Kosova kanë vizituar qytetin e Edirnesë për t'u njohur me trashëgiminë historike dhe kulturore.",
-              "imageUrl": "https://www.edirneninsesi.com.tr/images/haberler/2026/08/kosovali-gencler-edirne-nin-tarihi-ve-kulturel-mirasini-tanidi-1195.jpg",
-              "url": "https://www.edirneninsesi.com.tr/kosovali-gencler-edirne-nin-tarihi-ve-kulturel-mirasini-tanidi/43897/",
-              "date": "2026-08-24",
-              "sentiment": "neutral",
-              "reason": "Factual report of Kosovar youth activity",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-24",
-          "lastSeen": "2026-08-24"
-        },
-        {
           "name": "Fotomaç",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -2069,7 +1822,7 @@
         {
           "name": "Haberler",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 3,
           "articles": [
             {
               "title": "Trakya Üniversitesi ile Kosova'daki Haxhi Zeka Üniversitesi arasında iş birliği protokolü imzalandı - Haberler",
@@ -2096,27 +1849,40 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Büyükçekmece Basketbol, Kosova'da Kamp Yapıyor - Haberler",
+              "albanianTitle": "Büyükçekmece Basketbol po zhvillon kampin stërvitor në Kosovë - Haberler",
+              "blurb": "Ekipi i basketbollit Büyükçekmece ka zgjedhur Kosovën si destinacion për zhvillimin e fazës përgatitore dhe kampit stërvitor.",
+              "imageUrl": null,
+              "url": "https://www.haberler.com/spor/buyukcekmece-basketbol-yeni-sezona-kosova-da-20182746-haberi/",
+              "date": "2026-08-27",
+              "sentiment": "neutral",
+              "reason": "Faktikë, pa gjuhë ngarkuese",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 4,
+          "totalArticles": 5,
           "trend": "neutral",
           "firstSeen": "2026-08-20",
-          "lastSeen": "2026-08-26"
+          "lastSeen": "2026-08-27"
         },
         {
           "name": "Son Dakika",
-          "sentiment": "unknown",
+          "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
               "title": "Kadın Voleybol Takımı Kosova'yı 3-0 Mağlup Etti - Son Dakika",
-              "albanianTitle": "Ekipi i volejbollit të femrave mposht Kosovën me rezultat 3-0 - Son Dakika",
-              "blurb": "Ekipi i volejbollit të femrave ka shënuar fitore ndaj përfaqësueses së Kosovës me rezultat 3-0 në një ndeshje zyrtare.",
+              "albanianTitle": "Ekipi i volejbollit të femrave mposhti Kosovën me rezultat 3-0 - Son Dakika",
+              "blurb": "Ekipi i volejbollit të femrave ka shënuar fitore me rezultat 3-0 ndaj përfaqësueses së Kosovës në ndeshjen e zhvilluar.",
               "imageUrl": null,
               "url": "https://www.sondakika.com/spor/haber-kadin-voleybol-takimi-kosova-yi-3-0-maglup-etti-20178794/",
               "date": "2026-08-26",
-              "sentiment": "unknown",
-              "reason": "",
+              "sentiment": "neutral",
+              "reason": "Rezultat sportiv i raportuar në mënyrë faktike",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -2174,30 +1940,6 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-08-26",
           "lastSeen": "2026-08-26"
-        },
-        {
-          "name": "Şantiye Dergisi",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Çalık Renewables’ın Zatriq Rüzgâr Enerji Santrali Projesi’nde İlk Türbinler Devreye Alındı - Şantiye Dergisi",
-              "albanianTitle": "Lëshohen në punë turbinat e para në projektin e Parkut të Erës në Zatriq nga Çalık Renewables",
-              "blurb": "Kompania Çalık Renewables ka vënë në funksion turbinat e para në projektin e parkut të erës në Zatriq.",
-              "imageUrl": "https://www.santiye.com.tr/_medya/ctf/470/246/uploads/2026/08/6a8bf3910f733.png",
-              "url": "https://www.santiye.com.tr/calik-renewables-in-zatriq-ruzg%C3%A2r-enerji-santrali-projesi-nde-i-lk-turbinler-devreye-alindi-9629.html",
-              "date": "2026-08-24",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-24",
-          "lastSeen": "2026-08-24"
         }
       ],
       "summary": {
@@ -2206,7 +1948,7 @@
         "neutral": 89,
         "negative": 0,
         "n": 9,
-        "excluded": 1,
+        "excluded": 0,
         "confident": true,
         "stanceVersion": 3
       }
