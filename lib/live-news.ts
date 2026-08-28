@@ -158,10 +158,13 @@ export async function liveHeadlinesFor(
   );
   if (urls.length === 0) return [];
 
+  const specificCount = liveNewsSearchUrls(question).length;
   const batches = await Promise.all(urls.map(fetchFeed));
   const seen = new Set<string>();
   const merged: LiveHeadline[] = [];
-  for (const h of batches.flat().sort((a, b) => a.ageMin - b.ageMin)) {
+  const prioritized = batches.slice(0, specificCount).flat().sort((a, b) => a.ageMin - b.ageMin);
+  const fallback = batches.slice(specificCount).flat().sort((a, b) => a.ageMin - b.ageMin);
+  for (const h of [...prioritized.slice(0, 6), ...fallback]) {
     const key = h.title.toLowerCase().slice(0, 80);
     if (seen.has(key)) continue;
     seen.add(key);
