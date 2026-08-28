@@ -37,19 +37,59 @@ const STOPWORDS = new Set([
   "a", "do", "te", "të", "ne", "në", "e", "i", "u", "me", "dhe", "se", "që", "qe",
   "nga", "per", "për", "mbi", "nen", "nën", "ka", "kane", "kanë", "eshte", "është",
   "jane", "janë", "para", "deri", "pas", "kjo", "ky", "kete", "këtë", "vitit", "muajit",
-  "the", "a", "an", "of", "to", "in", "on", "is", "are", "will", "before", "by",
+  "the", "an", "of", "to", "in", "on", "is", "are", "will", "before", "by",
 ]);
 
-function questionFeedUrl(question: string): string | null {
-  const words = question
-    .toLowerCase()
+const SEARCH_ALIASES = [
+  ["ngushtic", "strait"], ["hormuz", "hormuz"], ["rihap", "reopen"],
+  ["urë", "bridge"], ["ure", "bridge"], ["iber", "ibar"], ["ibrit", "ibar"],
+  ["armepush", "ceasefire"], ["rus", "russia"], ["ukrain", "ukraine"],
+  ["viz", "visa"], ["emigru", "immigrant"], ["amerikan", "america"], ["kosovar", "kosovo"],
+  ["shqiper", "albania"], ["kapituj", "chapters"], ["negociat", "negotiations"],
+  ["bised", "talks"], ["marrevesh", "deal"], ["marrëvesh", "deal"], ["bler", "acquisition"],
+  ["nenshkru", "signed"], ["nënshkru", "signed"], ["shkark", "removal"], ["larg", "removal"],
+  ["zjar", "fire"], ["algjer", "algeria"], ["luft", "war"], ["sanksion", "sanctions"],
+  ["trump", "trump"], ["nvidia", "nvidia"], ["hugging", "hugging"], ["face", "face"],
+  ["bitcoin", "bitcoin"], ["lisa", "lisa"], ["cook", "cook"],
+];
+const CANONICAL_STOPWORDS = new Set([
+  ...STOPWORDS,
+  "brenda", "plotesisht", "plotësisht", "kryesor", "kryesore", "zyrtar", "zyrtarisht", "konfirmoje", "konfirmohet", "marrë", "marre", "deri", "gusht", "shtator", "tetor", "nëntor", "nentor", "dhjetor", "janar", "shkurt", "mars", "prill", "maj", "qershor", "korrik", "muaj", "muajve", "ditë", "dite", "ditëve", "ditve", "vite", "vitit", "vjet", "tre", "katër", "kater", "gjashtë", "gjashte", "një", "nje",
+]);
+
+function foldSearch(value: string): string {
+  return String(value ?? "")
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase();
+}
+
+function normalizeSearchToken(token: string): string {
+  const folded = foldSearch(token);
+  const alias = SEARCH_ALIASES.find(([prefix]) => folded.startsWith(foldSearch(prefix)));
+  return alias?.[1] ?? folded;
+}
+
+function questionSearchWords(question: string): string[] {
+  return foldSearch(question)
     .replace(/[?!.,:;"'()]/g, " ")
     .split(/\s+/)
-    .filter((w) => w.length >= 3 && !STOPWORDS.has(w))
-    .slice(0, 6);
-  if (words.length < 2) return null;
-  const q = encodeURIComponent(words.join(" ") + " when:1d");
-  return `https://news.google.com/rss/search?q=${q}&hl=sq&gl=XK&ceid=XK:sq`;
+    .filter((word) => word.length >= 3 && !STOPWORDS.has(word));
+}
+
+export function liveNewsSearchUrls(question: string): string[] {
+  const words = questionSearchWords(question);
+  if (words.length < 2) return [];
+  const baseWords = words.slice(0, 6);
+  const urls = [`https://news.google.com/rss/search?q=${encodeURIComponent(baseWords.join(" ") + " when:1d")}&hl=sq&gl=XK&ceid=XK:sq`];
+  const canonicalTerms = [...new Set(words.map(normalizeSearchToken))]
+    .filter((term) => term.length >= 4 && !CANONICAL_STOPWORDS.has(term) && !/^\d+$/.test(term))
+    .slice(0, 5);
+  if (canonicalTerms.length >= 2) {
+    const canonicalUrl = `https://news.google.com/rss/search?q=${encodeURIComponent(canonicalTerms.join(" ") + " when:1d")}&hl=en-US&gl=US&ceid=US:en`;
+    if (!urls.includes(canonicalUrl)) urls.push(canonicalUrl);
+  }
+  return urls;
 }
 
 function decodeEntities(s: string): string {
@@ -63,10 +103,9 @@ function decodeEntities(s: string): string {
     .trim();
 }
 
-function parseRss(xml: string): LiveHeadline[] {
+export function parseLiveNewsRss(xml: string, now = Date.now()): LiveHeadline[] {
   const out: LiveHeadline[] = [];
   const items = xml.match(/<item>[\s\S]*?<\/item>/g) ?? [];
-  const now = Date.now();
   for (const item of items) {
     const title = decodeEntities(item.match(/<title>([\s\S]*?)<\/title>/)?.[1] ?? "");
     const source = decodeEntities(item.match(/<source[^>]*>([\s\S]*?)<\/source>/)?.[1] ?? "");
@@ -100,7 +139,7 @@ async function fetchFeed(url: string): Promise<LiveHeadline[]> {
     });
     clearTimeout(timer);
     if (!res.ok) throw new Error(`RSS ${res.status}`);
-    const headlines = parseRss(await res.text());
+    const headlines = parseLiveNewsRss(await res.text());
     cache.set(url, { at: Date.now(), headlines });
     return headlines;
   } catch {
@@ -114,7 +153,7 @@ export async function liveHeadlinesFor(
   question: string,
   category: MarketCategory,
 ): Promise<LiveHeadline[]> {
-  const urls = [questionFeedUrl(question), CATEGORY_FEED[category], ...(category === "politike" || category === "ekonomi" || category === "te-tjera" ? [LOCAL_BREAKING_FEED] : [])].filter(
+  const urls = [...liveNewsSearchUrls(question), CATEGORY_FEED[category], ...(category === "politike" || category === "ekonomi" || category === "te-tjera" ? [LOCAL_BREAKING_FEED] : [])].filter(
     (u): u is string => Boolean(u),
   );
   if (urls.length === 0) return [];

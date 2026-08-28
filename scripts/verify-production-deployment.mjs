@@ -117,6 +117,8 @@ const REQUIRED_CHART_MARKERS = {
   ],
   "lib/live-news.ts": [
     "url?: string",
+    "liveNewsSearchUrls",
+    "parseLiveNewsRss",
     "<link>",
     "out.push({ title, source, ageMin",
   ],
