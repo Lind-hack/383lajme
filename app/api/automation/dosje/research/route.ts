@@ -1,0 +1,228 @@
+import { NextResponse } from "next/server";
+
+import { createAdminClient } from "@/lib/supabase/admin";
+import { llmJSON } from "@/lib/llm";
+import { gatherEvidence } from "@/lib/dosje-sources.mjs";
+import { validateMilestoneDraft } from "@/lib/dosje-draft.mjs";
+
+export const dynamic = "force-dynamic";
+export const maxDuration = 300;
+
+/**
+ * Drafting one dossier moment a night.
+ *
+ * Writes with status 'draft' — nothing generated here reaches a reader until it
+ * is approved in /admin/dosje. The precedent, and the comment this one is
+ * modelled on, is app/api/automation/sondazhi/draft.
+ *
+ * The order of operations is the design. Evidence is fetched first; the model
+ * is then shown a numbered list of excerpts and may only cite by index. It is
+ * never asked for a url and never asked whether something is true, because a
+ * model asked for a source will supply a plausible one. Everything after the
+ * model call is deterministic code in lib/dosje-draft.mjs.
+ *
+ * Every failure path ends in "no row". There is no partial write and no
+ * best-effort milestone: a dossier with fewer moments is honest, one with an
+ * invented date is not.
+ */
+
+const SYSTEM = `Ti je asistent kërkimor për një arkiv historik të lajmeve në Kosovë.
+
+Do të marrësh një listë burimesh të numëruara. Secili burim është tekst REAL i
+shkarkuar nga interneti.
+
+Rregullat, pa përjashtim:
+- Mund të mbështetesh VETËM në tekstin e burimeve të dhëna.
+- NUK guxon të shkruash asnjë URL. Cito duke treguar indeksin e burimit.
+- Çdo fjali e përmbledhjes duhet të ketë të paktën një burim.
+- Çdo shifër, datë ose numër viktimash duhet të shfaqet fjalë për fjalë në
+  tekstin e një burimi. Nëse nuk e gjen, mos e shkruaj.
+- Nëse burimet nuk mjaftojnë, kthe {"milestones": []}. Kjo është përgjigje e
+  saktë, jo dështim.
+
+Shkruaj shqip, në kohën e tashme historike, pa mbiemra vlerësues.`;
+
+type DraftShape = {
+  milestones?: Array<{
+    title?: string;
+    summary?: string;
+    why?: string;
+    tag?: string;
+    event_date?: string;
+    date_precision?: string;
+    display_date?: string;
+    claims?: Array<{ sentence?: string; source_indexes?: number[] }>;
+  }>;
+};
+
+function authorised(req: Request): boolean {
+  const secret = process.env.CRON_SECRET ?? process.env.TREGU_AUTOMATION_SECRET ?? "";
+  if (!secret) return false;
+  const header = req.headers.get("authorization") ?? "";
+  const url = new URL(req.url);
+  return header === `Bearer ${secret}` || url.searchParams.get("secret") === secret;
+}
+
+export async function POST(req: Request) {
+  if (!authorised(req)) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  const supabase = createAdminClient();
+  if (!supabase) {
+    return NextResponse.json({ error: "Supabase not configured" }, { status: 500 });
+  }
+
+  const url = new URL(req.url);
+  const subject = url.searchParams.get("subject");
+  const topicSlug = url.searchParams.get("topic");
+  if (!subject || !topicSlug) {
+    return NextResponse.json(
+      { error: "subject and topic are required" },
+      { status: 400 }
+    );
+  }
+
+  // Claim the work before doing any of it. The unique (subject_key, run_date)
+  // makes a double fire a no-op rather than a doubled spend and a duplicate
+  // draft; a row that already exists means today's run is already accounted for.
+  const { error: claimError } = await supabase
+    .from("dosje_research_runs")
+    .insert({ subject_key: subject, outcome: "in_progress" });
+  if (claimError) {
+    return NextResponse.json(
+      { ok: true, skipped: "already_ran_today", subject },
+      { status: 200 }
+    );
+  }
+
+  const finish = async (outcome: string, detail: Record<string, unknown>, cooldownDays = 0) => {
+    const cooldown =
+      cooldownDays > 0
+        ? new Date(Date.now() + cooldownDays * 86400000).toISOString().slice(0, 10)
+        : null;
+    await supabase
+      .from("dosje_research_runs")
+      .update({ outcome, detail, cooldown_until: cooldown })
+      .eq("subject_key", subject)
+      .eq("run_date", new Date().toISOString().slice(0, 10));
+  };
+
+  // ── 1. evidence, before anything is written ────────────────────────────────
+  const sources = await gatherEvidence(subject, { max: 6 });
+  if (sources.length < 2) {
+    await finish("no_sources", { found: sources.length }, 30);
+    return NextResponse.json(
+      { ok: false, reason: "no_sources", found: sources.length },
+      { status: 422 }
+    );
+  }
+
+  // ── 2. the model sees excerpts and may only point at them ──────────────────
+  const numbered = sources
+    .map((s, i) => `[${i}] ${s.publisher ?? "?"} — ${s.title ?? ""}\n${(s.text ?? "").slice(0, 2500)}`)
+    .join("\n\n---\n\n");
+
+  let drafted: DraftShape | null = null;
+  try {
+    drafted = await llmJSON<DraftShape>(
+      SYSTEM,
+      `Subjekti: ${subject}\n\nBurimet:\n\n${numbered}\n\n` +
+        `Kthe JSON: {"milestones":[{"title","summary","why","tag","event_date":"YYYY-MM-DD",` +
+        `"date_precision":"day|month|year","display_date","claims":[{"sentence","source_indexes":[0]}]}]}`,
+      { prefer: "gemini" }
+    );
+  } catch (err) {
+    await finish("llm_failed", { error: String(err) }, 1);
+    return NextResponse.json({ ok: false, reason: "llm_failed" }, { status: 502 });
+  }
+
+  const candidates = drafted?.milestones ?? [];
+  if (!candidates.length) {
+    // The model declining is a correct answer, not an error.
+    await finish("verify_failed", { reason: "model_returned_none" }, 7);
+    return NextResponse.json({ ok: false, reason: "model_returned_none" }, { status: 422 });
+  }
+
+  // ── 3. deterministic refusal ───────────────────────────────────────────────
+  type Accepted = {
+    milestone: Record<string, unknown>;
+    citations: Array<Record<string, unknown>>;
+  };
+  const accepted: Accepted[] = [];
+  const rejected: Array<{ title: string; reasons: string[] }> = [];
+
+  for (const raw of candidates) {
+    const verdict = validateMilestoneDraft(raw, { sources });
+    if (verdict.ok && verdict.milestone) {
+      accepted.push({
+        milestone: verdict.milestone as Record<string, unknown>,
+        citations: (verdict.citations ?? []) as Array<Record<string, unknown>>,
+      });
+    } else {
+      rejected.push({
+        title: String(raw?.title ?? "(pa titull)"),
+        reasons: (verdict.reasons ?? []) as string[],
+      });
+    }
+  }
+
+  if (!accepted.length) {
+    await finish("verify_failed", { rejected }, 7);
+    return NextResponse.json({ ok: false, reason: "verify_failed", rejected }, { status: 422 });
+  }
+
+  // ── 4. write as drafts, with their citations ───────────────────────────────
+  let written = 0;
+  for (const { milestone, citations } of accepted) {
+    const { data: row, error } = await supabase
+      .from("dosje_milestones")
+      .insert({
+        ...milestone,
+        topic_slug: topicSlug,
+        status: "draft",
+        drafted_by: "dosje-research",
+      })
+      .select("id")
+      .single();
+
+    // A duplicate is the dedupe key doing its job, not a failure.
+    if (error || !row) continue;
+
+    const rows = citations.map((c) => ({
+      ...c,
+      milestone_id: row.id,
+      // The fetch that produced this text is the verification. It is recorded
+      // here because the database counts only citations that answered 200.
+      http_status: 200,
+      fetched_at: new Date().toISOString(),
+    }));
+    if (rows.length) await supabase.from("dosje_citations").insert(rows);
+    written += 1;
+  }
+
+  await finish("drafted", { written, rejected });
+  return NextResponse.json({ ok: true, subject, drafted: written, rejected });
+}
+
+/** Read-only diagnostics: what the job would see, without writing anything. */
+export async function GET(req: Request) {
+  if (!authorised(req)) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+  const subject = new URL(req.url).searchParams.get("subject");
+  if (!subject) return NextResponse.json({ error: "subject required" }, { status: 400 });
+
+  const sources = await gatherEvidence(subject, { max: 6 });
+  return NextResponse.json({
+    subject,
+    sources: sources.map((s) => ({
+      url: s.url,
+      publisher: s.publisher,
+      tier: s.tier,
+      chars: (s.text ?? "").length,
+    })),
+    publishers: [...new Set(sources.map((s) => s.publisher))].length,
+    wouldProceed: sources.length >= 2,
+  });
+}
