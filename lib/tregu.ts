@@ -48,16 +48,16 @@ interface AiScoreResult {
 export async function scoreMarketWithAI(market: Market, suppliedArticles?: Article[]): Promise<AiScoreResult> {
   const articles = suppliedArticles ?? await articlesForMarket(market);
   const context = articles
-    .map((a) => `[${a.slug}] (${a.publishedAt}) ${a.title}\n${a.excerpt}\n${String(a.body ?? "").slice(0, 4000)}`)
+    .map((a) => `[${a.slug}] (${a.publishedAt}) ${a.title}\n${a.excerpt}\n${String(a.body ?? "").slice(0, 1800)}`)
     .join("\n\n");
 
   const system =
     "Je analist lajmesh per 383, nje sajt lajmesh ne Kosove. Vleresoje probabilitetin qe nje treg parashikimi te zgjidhet 'PO', bazuar VETEM ne artikujt e dhene. evidence_level duhet te jete 'decisive' VETEM kur te pakten dy artikuj te cituar nga botues te pavarur e vertetojne qarte se rezultati PO eshte pothuajse i pamundur ose pothuajse i sigurt sipas pyetjes dhe kritereve te zgjidhjes. resolution_action duhet te jete 'settle_po' ose 'settle_jo' VETEM kur dy burime te pavarura te cituara konfirmojne nje fakt perfundimtar qe ploteson drejtperdrejt kriteret e zgjidhjes; ndryshe duhet te jete 'unresolved'. Numri i artikujve nuk vendos madhesine e levizjes; lidhja direkte me kriteret e zgjidhjes e vendos. Per cdo rast tjeter perdor 'ordinary' dhe 'unresolved'. Mos shpik fakte, transferime, rezultate ose kritere. Kthe VETEM JSON: " +
-    `{"probability": 0.0-1.0, "evidence_level": "ordinary|decisive", "resolution_action": "unresolved|settle_po|settle_jo", "reasoning": "shpjegim i shkurter shqip", "cited_slugs": ["slug1", "slug2"]}`;
+    `{"probability": 0.0-1.0, "evidence_level": "ordinary|decisive", "resolution_action": "unresolved|settle_po|settle_jo", "reasoning": "shpjegim i shkurter shqip, maksimumi 280 karaktere", "cited_slugs": ["slug1", "slug2"]}`;
   const criteria = String((market as Market & { resolution_criteria?: string; resolution_rules?: string }).resolution_criteria ?? (market as Market & { resolution_rules?: string }).resolution_rules ?? "").trim();
   const user = `Pyetja e tregut: "${market.question}"\n${market.description ? `Kontekst: ${market.description}\n` : ""}${criteria ? `Kriteret e zgjidhjes: ${criteria}\n` : ""}\nArtikuj te fundit:\n\n${context || "(pa artikuj te lidhur)"}`;
 
-  const response = await marketAiChat(system, user, { json: true, maxTokens: 600 });
+  const response = await marketAiChat(system, user, { json: true, maxTokens: 900 });
   const parsed = parseJSON<Omit<AiScoreResult, "provider" | "fallback_index" | "fallback_reason">>(response.content);
   return {
     probability: Math.min(1, Math.max(0, Number(parsed.probability))),

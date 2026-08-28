@@ -126,7 +126,7 @@ const REQUIRED_CHART_MARKERS = {
     "selectDailySourceArticles",
     "market_archetype",
     "closes_in_hours",
-    "String(a.body ?? \"\").slice(0, 4000)",
+    "String(a.body ?? \"\").slice(0, 1800)",
     "Mos perdor closes_in_days",
   ],
   "app/api/admin/tregu/draft/route.ts": [
