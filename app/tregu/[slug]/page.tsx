@@ -1002,7 +1002,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
     home: homeName,
     away: awayName,
     score: `${Number(homeTeam.score ?? 0)} - ${Number(awayTeam.score ?? 0)}`,
-    note: `LIVE · ${live?.detail ?? ""}`,
+    note: `LIVE ${live?.detail ?? ""}`.trim(),
     rows: [
       { label: "Golat e pritshëm (xG)", home: homeMetrics.xg ?? 0, away: awayMetrics.xg ?? 0, homeText: Number(homeMetrics.xg ?? 0).toFixed(2), awayText: Number(awayMetrics.xg ?? 0).toFixed(2) },
       { label: "Posedimi i topit", home: homeMetrics.possession ?? 0, away: awayMetrics.possession ?? 0, homeText: `${homeMetrics.possession ?? 0}%`, awayText: `${awayMetrics.possession ?? 0}%` },

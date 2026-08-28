@@ -71,7 +71,7 @@ const REQUIRED_CHART_MARKERS = {
   ],
   "components/tregu/exact-market-chart.tsx": [
     "const displayPoints = item.points.length ? item.points : item.hold ? [item.hold] : []",
-    "item.points.length >= 1",
+    "displayPoints.length >= 1",
     "!model.hasDisplayData",
   ],
   "lib/tregu-probability-domain.mjs": [

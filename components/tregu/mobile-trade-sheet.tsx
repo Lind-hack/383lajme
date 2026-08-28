@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, type CSSProperties, type MouseEvent } from "react";
 import Link from "next/link";
 import CoinFace from "@/components/tregu/coin-face";
+import { playTradeSuccessSound, primeTradeSuccessSound } from "@/components/tregu/trade-success-sound";
 
 export type MobileTradeMode = "buy" | "sell";
 
@@ -108,6 +109,7 @@ export default function MobileTradeSheet({
 }: MobileTradeSheetProps) {
   const [animateSheet, setAnimateSheet] = useState(true);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const soundedReceiptRef = useRef<MobileTradeReceipt | null>(null);
   const selected = options.find((option) => option.key === selectedKey) ?? options[0];
 
   useEffect(() => {
@@ -130,9 +132,20 @@ export default function MobileTradeSheet({
     };
   }, [open, receipt]);
 
+  useEffect(() => {
+    if (!receipt || soundedReceiptRef.current === receipt) return;
+    soundedReceiptRef.current = receipt;
+    void playTradeSuccessSound();
+  }, [receipt]);
+
   const openFromDock = (event: MouseEvent<HTMLButtonElement>, nextMode: MobileTradeMode) => {
     setAnimateSheet(event.detail !== 0);
     onOpen(nextMode);
+  };
+
+  const submitFromSheet = () => {
+    if (mode === "buy") primeTradeSuccessSound();
+    onSubmit();
   };
 
   const receiptStyle = receipt
@@ -269,7 +282,7 @@ export default function MobileTradeSheet({
                     <span>Fitimi i mundshëm</span>
                     <strong>{buyReturn === null ? "—" : `${buyReturn.toFixed(1)} 383C`}</strong>
                   </div>
-                  <button className="tregu-mobile-sheet-submit" type="button" disabled={!canBuy} onClick={onSubmit}>
+                  <button className="tregu-mobile-sheet-submit" type="button" disabled={!canBuy} onClick={submitFromSheet}>
                     {placing ? "Duke blerë..." : `Blej ${selected?.label ?? "pozicionin"}`}
                   </button>
                 </div>
@@ -307,7 +320,7 @@ export default function MobileTradeSheet({
                     <span>Merr afërsisht</span>
                     <strong>{sellReturn === null ? "—" : `${sellReturn.toFixed(1)} 383C`}</strong>
                   </div>
-                  <button className="tregu-mobile-sheet-submit" data-variant="sell" type="button" disabled={!canSell} onClick={onSubmit}>
+                  <button className="tregu-mobile-sheet-submit" data-variant="sell" type="button" disabled={!canSell} onClick={submitFromSheet}>
                     {placing ? "Duke shitur..." : "Shit pozicionin"}
                   </button>
                 </div>

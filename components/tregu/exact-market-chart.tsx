@@ -2,11 +2,12 @@
 
 import { useId, useMemo, useState, type PointerEvent as ReactPointerEvent } from "react";
 import {
+  angularRecordedPath,
   RECORDED_RANGE_OPTIONS,
   formatProbabilityTick,
   probabilityDomain,
+  recordedRangeDisplaySeries,
   selectRecordedRange,
-  smoothRecordedPath,
   type RecordedRangeKey,
 } from "@/lib/tregu-probability-domain.mjs";
 import { TREGU_CHART_UI_VERSION } from "@/lib/tregu-ui-contract";
@@ -70,34 +71,34 @@ export default function ExactMarketChart({
   );
 
   const model = useMemo(() => {
-    const cleaned = selected.series;
-    const timestamps = cleaned.flatMap((item) => item.points.map((point) => point.t));
-    const latestT = timestamps.length ? Math.max(...timestamps) : selected.end;
-    const earliestT = timestamps.length ? Math.min(...timestamps) : selected.start ?? selected.end;
-    const minT = selected.start ?? earliestT ?? 0;
-    const maxT = selected.end ?? latestT ?? minT;
-    const timeSpan = Math.max(1, maxT - minT);
+    const cleaned = recordedRangeDisplaySeries(selected.series, selected.start, selected.end);
+    const recordedTimestamps = cleaned.flatMap((item) => item.points.map((point) => point.t));
+    const timestamps = [...new Set(cleaned.flatMap((item) => item.displayPoints.map((point) => point.t)))].sort((a, b) => a - b);
+    const latestT = recordedTimestamps.length ? Math.max(...recordedTimestamps) : selected.end;
+    const earliestT = recordedTimestamps.length ? Math.min(...recordedTimestamps) : selected.start ?? selected.end;
     const values = cleaned.flatMap((item) => [
-      ...item.points.map((point) => point.p),
-      ...(item.hold ? [item.hold.p] : []),
+      ...item.displayPoints.map((point) => point.p),
     ]);
     const domain = probabilityDomain(values.length ? values : cleaned.map((item) => item.current));
     const plotH = height - PAD_Y * 2;
     const plotW = W - PAD_L - (compact ? PAD_L : PAD_R);
-    const x = (t: number) => PAD_L + ((t - minT) / timeSpan) * plotW;
+    const timelineIndex = new Map(timestamps.map((timestamp, index) => [timestamp, index]));
+    const x = (t: number) => {
+      if (timestamps.length <= 1) return PAD_L + plotW / 2;
+      const index = timelineIndex.get(t) ?? 0;
+      return PAD_L + (index / (timestamps.length - 1)) * plotW;
+    };
     const y = (p: number) => PAD_Y + ((domain.hi - p) / Math.max(0.000001, domain.hi - domain.lo)) * plotH;
     return {
       cleaned,
-      timestamps: [...new Set(timestamps)].sort((a, b) => a - b),
+      timestamps,
+      recordedTimestamps: [...new Set(recordedTimestamps)].sort((a, b) => a - b),
       latestT,
       earliestT,
-      minT,
-      maxT,
-      timeSpan,
       plotW,
       domain,
-      hasTimeline: cleaned.some((item) => item.points.length >= 2),
-      hasDisplayData: cleaned.some((item) => item.points.length > 0 || item.hold),
+      hasTimeline: cleaned.some((item) => item.displayPoints.length >= 2),
+      hasDisplayData: cleaned.some((item) => item.displayPoints.length > 0),
       x,
       y,
     };
@@ -125,7 +126,7 @@ export default function ExactMarketChart({
   const biggestMove = [...summaries].sort((a, b) => Math.abs(b.change) - Math.abs(a.change))[0];
   const single = summaries.length === 1 ? summaries[0] : null;
   const scaleLabel = `${formatProbabilityTick(model.domain.lo, model.domain.tickStep)}-${formatProbabilityTick(model.domain.hi, model.domain.tickStep)}`;
-  const updateCount = model.timestamps.length;
+  const updateCount = model.recordedTimestamps.length;
   const [inspectionT, setInspectionT] = useState<number | null>(null);
   const inspection = useMemo(() => {
     if (inspectionT == null || model.timestamps.length === 0) return null;
@@ -133,7 +134,7 @@ export default function ExactMarketChart({
       Math.abs(candidate - inspectionT) < Math.abs(nearest - inspectionT) ? candidate : nearest
     );
     const entries = model.cleaned.flatMap((item) => {
-      const displayPoints = item.points.length ? item.points : item.hold ? [item.hold] : [];
+      const displayPoints = item.displayPoints;
       if (displayPoints.length === 0) return [];
       const point = displayPoints.reduce((nearest, candidate) =>
         Math.abs(candidate.t - timestamp) < Math.abs(nearest.t - timestamp) ? candidate : nearest
@@ -150,12 +151,13 @@ export default function ExactMarketChart({
     const svgX = ((event.clientX - rect.left) / Math.max(1, rect.width)) * W;
     const clampedX = Math.max(PAD_L, Math.min(plotRight, svgX));
     const ratio = (clampedX - PAD_L) / Math.max(1, model.plotW);
-    setInspectionT(model.minT + ratio * model.timeSpan);
+    const index = Math.round(ratio * Math.max(0, model.timestamps.length - 1));
+    setInspectionT(model.timestamps[index] ?? null);
   };
 
   const moveInspection = (direction: -1 | 1) => {
     if (model.timestamps.length === 0) return;
-    const current = inspection?.timestamp ?? model.timestamps.at(-1) ?? model.minT;
+    const current = inspection?.timestamp ?? model.timestamps.at(-1) ?? 0;
     const index = Math.max(0, model.timestamps.findIndex((timestamp) => timestamp >= current));
     const next = model.timestamps[Math.max(0, Math.min(model.timestamps.length - 1, index + direction))];
     setInspectionT(next);
@@ -263,23 +265,23 @@ export default function ExactMarketChart({
           ))}
 
           {model.cleaned.map((item) => {
-            const displayPoints = item.points.length ? item.points : item.hold ? [item.hold] : [];
+            const displayPoints = item.displayPoints;
             if (displayPoints.length === 0) return null;
-            const path = item.points.length >= 2 ? smoothRecordedPath(item.points, model.x, model.y) : "";
+            const path = displayPoints.length >= 2 ? angularRecordedPath(displayPoints, model.x, model.y) : "";
             const last = displayPoints[displayPoints.length - 1];
             const first = displayPoints[0];
             // A short range can contain exactly one real persisted point. Hold
             // that known value across the visible window instead of showing a
             // lone dot and incorrectly claiming the chart is empty.
-            const displayPath = item.points.length >= 2
+            const displayPath = displayPoints.length >= 2
               ? path
               : `M${PAD_L} ${model.y(last.p).toFixed(1)} L${(PAD_L + model.plotW).toFixed(1)} ${model.y(last.p).toFixed(1)}`;
             const gradientId = `exact-fill-${uid}-${item.key.replace(/[^a-z0-9_-]/gi, "")}`;
-            const fillPath = item.points.length >= 2
+            const fillPath = displayPoints.length >= 2
               ? `${path} L${model.x(last.t).toFixed(1)} ${height - PAD_Y} L${model.x(first.t).toFixed(1)} ${height - PAD_Y} Z`
               : "";
             return (
-              <g key={item.key}>
+              <g key={`${item.key}-${showRanges ? range : "all"}`}>
                 {model.cleaned.length === 1 && fillPath && (
                   <>
                     <defs>
@@ -291,7 +293,7 @@ export default function ExactMarketChart({
                     <path d={fillPath} fill={`url(#${gradientId})`} />
                   </>
                 )}
-                {item.points.length >= 1 && (
+                {displayPoints.length >= 1 && (
                   <path
                     d={displayPath}
                     pathLength={1}
@@ -301,17 +303,30 @@ export default function ExactMarketChart({
                     strokeLinejoin="round"
                     strokeLinecap="round"
                     vectorEffect="non-scaling-stroke"
-                    className={`tregu-exact-chart-line${item.points.length === 1 ? " tregu-exact-chart-line--held" : ""}`}
+                    className={`tregu-exact-chart-line${displayPoints.length === 1 ? " tregu-exact-chart-line--held" : ""}`}
                   />
                 )}
+                {displayPoints.length <= 48 && displayPoints.map((point) => point.held ? null : (
+                  <circle
+                    key={`${item.key}-${point.t}`}
+                    cx={model.x(point.t)}
+                    cy={model.y(point.p)}
+                    r={2.15}
+                    fill={item.color}
+                    fillOpacity={0.72}
+                    className="tregu-exact-chart-point"
+                  />
+                ))}
                 <circle
-                  cx={item.points.length >= 2 ? model.x(last.t) : (compact ? W / 2 : (W - PAD_R) / 2)}
+                  key={`${item.key}-latest-${last.t}`}
+                  cx={model.x(last.t)}
                   cy={model.y(last.p)}
                   r={model.cleaned.length > 1 ? 4 : 4.5}
                   fill={item.color}
                   stroke="#fff"
                   strokeWidth={2}
                   vectorEffect="non-scaling-stroke"
+                  className="tregu-exact-chart-last"
                 />
               </g>
             );

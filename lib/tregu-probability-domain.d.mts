@@ -21,8 +21,18 @@ export function selectRecordedRange<T extends { points: RecordedPoint[] }>(serie
   option: (typeof RECORDED_RANGE_OPTIONS)[number];
   start: number | null;
   end: number | null;
-  series: T[];
+  series: (T & { hold?: RecordedPoint })[];
 };
+export function recordedRangeDisplaySeries<T extends { points: RecordedPoint[]; hold?: RecordedPoint }>(
+  series: T[],
+  start: number | null,
+  end: number | null
+): (T & { displayPoints: (RecordedPoint & { held: boolean })[] })[];
+export function angularRecordedPath(
+  points: RecordedPoint[],
+  xFor: (timestamp: number) => number,
+  yFor: (probability: number) => number
+): string;
 export function smoothRecordedPath(
   points: RecordedPoint[],
   xFor: (timestamp: number) => number,
