@@ -2,7 +2,7 @@ import { getArticles, getLatestArticles } from "@/lib/db";
 import { liveHeadlinesFor } from "@/lib/live-news";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { scoreMarketWithAI, slugifyQuestion, type Market } from "@/lib/tregu";
-import { buildDailyDraftPlan, buildLiveEventDraftRunKey, buildRepricePlan, dailyDraftPublicationReason, isEligibleNewsDeadlineMarket, repriceMarketSkipReason, validateDailyDraftSubmission } from "@/lib/tregu-automation.mjs";
+import { buildDailyDraftPlan, buildLiveEventDraftRunKey, buildRepricePlan, dailyDraftPublicationReason, isEligibleNewsDeadlineMarket, newsDeadlineAction, repriceMarketSkipReason, validateDailyDraftSubmission } from "@/lib/tregu-automation.mjs";
 import { kosovoLocalDate } from "@/lib/tregu-date-key.mjs";
 import { fetchEspnLiveEvents } from "@/lib/espn-live-score.mjs";
 import { ARGENTINA_SPAIN_PAIR, buildArgentinaSpainPairedBinaryPlan, buildSportMarketPlan } from "@/lib/tregu-sport-market.mjs";
@@ -574,7 +574,6 @@ async function runNewsReprice(action: "reprice" | "tregu_live", runKey: string, 
         .from("markets")
         .update({ last_checked_at: now.toISOString(), last_scan_result: scan })
         .eq("id", marketId)
-        .eq("status", "open")
         .select("id");
       if (error) throw new Error(`Could not persist market scan: ${error.message}`);
       return Boolean(data?.length);
@@ -594,6 +593,7 @@ async function runNewsReprice(action: "reprice" | "tregu_live", runKey: string, 
         // The deadline RPCs enforce this too, but guard here to make live, F1,
         // and multi-outcome scans a harmless no-op rather than an oracle failure.
         const deadlineEligible = isEligibleNewsDeadlineMarket(currentMarket);
+        const deadlineAction = newsDeadlineAction(currentMarket, now);
         const deadlineBefore = deadlineEligible && currentMarket ? {
           probability: Math.exp(Number(currentMarket.q_yes) / Number(currentMarket.b)) / (Math.exp(Number(currentMarket.q_yes) / Number(currentMarket.b)) + Math.exp(Number(currentMarket.q_no) / Number(currentMarket.b))),
           status: currentMarket.status,
@@ -615,29 +615,25 @@ async function runNewsReprice(action: "reprice" | "tregu_live", runKey: string, 
             timestamp: now.toISOString(), verified_sources: [],
           };
         };
-        if (item.deadline && !deadlineEligible) {
-          const persisted = await recordMarketCheck(item.market.id, { status: "deadline_skipped_ineligible", checked_at: now.toISOString(), market_type: currentMarket?.market_type ?? null, market_classification: currentMarket?.market_classification ?? null });
-          results.push(persisted ? { slug: item.market.slug, status: "skipped_ineligible" } : { slug: item.market.slug, status: "skipped_closed" });
-          continue;
-        }
-        if (item.deadline?.requires_deadline_oracle && deadlineEligible) {
+        if (deadlineAction === "settle") {
           const { error: deadlineError } = await admin.rpc("apply_news_deadline_settlement", { p_market_id: item.market.id });
           if (deadlineError) throw new Error(`Could not apply deadline settlement for ${item.market.slug}: ${deadlineError.message}`);
-          const emailUpdate = await deadlineChange("deadline_settlement");
-          results.push({ slug: item.market.slug, status: "deadline_settled", ...(emailUpdate ? { email_update: emailUpdate } : {}) });
+          const persisted = await recordMarketCheck(item.market.id, { status: "deadline_settlement", checked_at: now.toISOString(), reference_probability: 0.05 });
+          const emailUpdate = persisted ? await deadlineChange("deadline_settlement") : null;
+          results.push(persisted ? { slug: item.market.slug, status: "deadline_settled", ...(emailUpdate ? { email_update: emailUpdate } : {}) } : { slug: item.market.slug, status: "skipped_closed" });
           continue;
         }
         if (repriceMarketSkipReason(currentMarket, now)) {
           results.push({ slug: item.market.slug, status: "skipped_closed" });
           continue;
         }
-        if (item.deadline && !item.deadline.requires_deadline_oracle && item.deadline.reference_probability != null && deadlineEligible) {
+        if (deadlineAction === "decay" && item.evidence.length === 0) {
           const { error: deadlineDecayError } = await admin.rpc("apply_news_deadline_decay", {
             p_market_id: item.market.id,
-            p_reference_probability: item.deadline.reference_probability,
+            p_reference_probability: 0.05,
           });
           if (deadlineDecayError) throw new Error(`Could not apply deadline decay for ${item.market.slug}: ${deadlineDecayError.message}`);
-          const persisted = await recordMarketCheck(item.market.id, { status: "deadline_decay", checked_at: now.toISOString(), reference_probability: item.deadline.reference_probability });
+          const persisted = await recordMarketCheck(item.market.id, { status: "deadline_decay", checked_at: now.toISOString(), reference_probability: 0.05 });
           const emailUpdate = persisted ? await deadlineChange("deadline_decay") : null;
           results.push(persisted ? { slug: item.market.slug, status: "deadline_decay", ...(emailUpdate ? { email_update: emailUpdate } : {}) } : { slug: item.market.slug, status: "skipped_closed" });
           continue;

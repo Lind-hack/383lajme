@@ -94,6 +94,9 @@ const REQUIRED_CHART_MARKERS = {
     "open_markets_excluded",
     "headline.url",
     "market_classification === \"general_news\"",
+    "newsDeadlineAction(currentMarket, now)",
+    "deadlineAction === \"settle\"",
+    "deadlineAction === \"decay\"",
   ],
   "lib/tregu-daily-market-quality.mjs": [
     '"daily-market-v2"',
