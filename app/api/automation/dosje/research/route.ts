@@ -34,9 +34,16 @@ shkarkuar nga interneti.
 Rregullat, pa përjashtim:
 - Mund të mbështetesh VETËM në tekstin e burimeve të dhëna.
 - NUK guxon të shkruash asnjë URL. Cito duke treguar indeksin e burimit.
-- Çdo fjali e përmbledhjes duhet të ketë të paktën një burim.
+- "claims" duhet të ketë NJË zë për ÇDO fjali të "summary", dhe fjalia duhet
+  kopjuar fjalë për fjalë nga "summary". Nëse "summary" ka tri fjali, "claims"
+  ka tri zëra. Një fjali pa zë të vetin e hedh poshtë të gjithë momentin.
+- Momenti duhet të mbështetet në të paktën DY botues të ndryshëm. Shiko emrin e
+  botuesit te çdo burim dhe sigurohu që indekset që cito nuk vijnë të gjitha
+  nga i njëjti botues. Nëse nuk ke dy botues, mos e shkruaj momentin fare.
 - Çdo shifër, datë ose numër viktimash duhet të shfaqet fjalë për fjalë në
   tekstin e një burimi. Nëse nuk e gjen, mos e shkruaj.
+- Mbaje "summary" të shkurtër: dy ose tri fjali. Sa më shumë fjali, aq më shumë
+  citime duhen.
 - Nëse burimet nuk mjaftojnë, kthe {"milestones": []}. Kjo është përgjigje e
   saktë, jo dështim.
 
