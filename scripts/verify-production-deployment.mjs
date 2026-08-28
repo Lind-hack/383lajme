@@ -91,6 +91,9 @@ const REQUIRED_CHART_MARKERS = {
     "validateDailyDraftSubmission",
     "nonSportOnly: !expectedLiveEventRunKey",
     "getLatestArticles(60)",
+    "open_markets_excluded",
+    "headline.url",
+    "market_classification === \"general_news\"",
   ],
   "lib/tregu-daily-market-quality.mjs": [
     '"daily-market-v2"',
@@ -112,10 +115,16 @@ const REQUIRED_CHART_MARKERS = {
     "activeMarkets",
     "body: String(article.body",
   ],
+  "lib/live-news.ts": [
+    "url?: string",
+    "<link>",
+    "out.push({ title, source, ageMin",
+  ],
   "lib/tregu.ts": [
     "selectDailySourceArticles",
     "market_archetype",
     "closes_in_hours",
+    "String(a.body ?? \"\").slice(0, 4000)",
     "Mos perdor closes_in_days",
   ],
   "app/api/admin/tregu/draft/route.ts": [

@@ -11,6 +11,7 @@ export interface LiveHeadline {
   title: string;
   source: string;
   ageMin: number;
+  url?: string;
 }
 
 const FETCH_TIMEOUT_MS = 4000;
@@ -69,12 +70,13 @@ function parseRss(xml: string): LiveHeadline[] {
   for (const item of items) {
     const title = decodeEntities(item.match(/<title>([\s\S]*?)<\/title>/)?.[1] ?? "");
     const source = decodeEntities(item.match(/<source[^>]*>([\s\S]*?)<\/source>/)?.[1] ?? "");
+    const url = decodeEntities(item.match(/<link>([\s\S]*?)<\/link>/)?.[1] ?? item.match(/<guid[^>]*>([\s\S]*?)<\/guid>/)?.[1] ?? "");
     const pubDate = item.match(/<pubDate>([\s\S]*?)<\/pubDate>/)?.[1] ?? "";
     if (!title) continue;
     const ts = Date.parse(pubDate);
     const ageMin = Number.isFinite(ts) ? Math.max(0, Math.round((now - ts) / 60000)) : MAX_AGE_MIN;
     if (ageMin > MAX_AGE_MIN) continue;
-    out.push({ title, source, ageMin });
+    out.push({ title, source, ageMin, ...(url ? { url } : {}) });
   }
   return out;
 }

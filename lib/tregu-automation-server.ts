@@ -162,10 +162,9 @@ export async function runDailyDraftAutomation(candidates: unknown, now = new Dat
     const dateSuffix = kosovoLocalDate(now).replace(/-/g, "");
     const rows = plan.rows.map((row, index) => ({
       ...row,
-      // User-authorized: verified short-window General/News markets open
-      // immediately. Live football/F1 templates remain review-only because
-      // their provider/event contracts must be checked before opening.
-      status: row.live_event ? "draft" : "open",
+      // Every automated daily candidate is review-only. Sports templates and
+      // General/News candidates both require an explicit admin approval action.
+      status: "draft" as const,
       slug: `${slugifyQuestion(row.question) || "treg"}-${dateSuffix}-${index + 1}`,
     }));
     if (rows.length < 2 || rows.length > 5) {
@@ -522,20 +521,29 @@ async function runNewsReprice(action: "reprice" | "tregu_live", runKey: string, 
   const startedAt = Date.now();
 
   try {
-    const { data: markets, error: marketsError } = await admin.from("markets").select("*").eq("status", "open");
+    const { data: openMarkets, error: marketsError } = await admin.from("markets").select("*").eq("status", "open");
     if (marketsError) throw new Error(`Could not load open markets: ${marketsError.message}`);
+    const markets = (openMarkets ?? []).filter((market) => {
+      const category = String(market?.category ?? "").trim().toLowerCase();
+      return market?.market_classification === "general_news"
+        && market?.market_type === "binary"
+        && !["sport", "f1", "football", "basketball"].includes(category)
+        && !market?.live_event
+        && !Array.isArray(market?.sport_outcomes);
+    });
 
     // Per-market external discovery plus the market's explicitly pinned, already
-    // verified direct-source article. A newly auto-opened market may use its own
+    // verified direct-source article. A newly approved market may use its own
     // named source once; last_news_at prevents repeat scoring on later scans.
     const verifiedPool = await getArticles(100);
     const researchedMarkets = await Promise.all((markets ?? []).map(async (market) => {
       const headlines = await liveHeadlinesFor(String(market.question ?? ""), market.category as Parameters<typeof liveHeadlinesFor>[1]);
       const pinned = verifiedPool.filter((article) => Array.isArray(market.source_article_slugs) && market.source_article_slugs.includes(article.slug));
-      return { market, articles: [...pinned, ...headlines.map((headline, index) => ({
+      return { market, articles: [...pinned, ...headlines.filter((headline) => headline.url).map((headline, index) => ({
         slug: `google-news:${encodeURIComponent(`${headline.source}:${headline.title}`).slice(0, 180)}:${index}`,
+        url: headline.url,
         category: "external-google-news", publishedAt: new Date(now.getTime() - headline.ageMin * 60_000).toISOString(),
-        source: headline.source, title: headline.title, excerpt: headline.title, verification: "external_google_news",
+        source: headline.source, title: headline.title, excerpt: headline.title, body: headline.title, verification: "external_google_news",
       }))] };
     }));
     const plan = researchedMarkets.flatMap(({ market, articles }) => buildRepricePlan({ markets: [market], verifiedArticles: articles }));
@@ -761,6 +769,7 @@ async function runNewsReprice(action: "reprice" | "tregu_live", runKey: string, 
       completed_at: new Date().toISOString(),
       duration_ms: Date.now() - startedAt,
       open_markets_scanned: (markets ?? []).length,
+      open_markets_excluded: (openMarkets ?? []).length - (markets ?? []).length,
       markets_checked: results.filter((result) => result.status !== "skipped_closed").length,
       markets_with_evidence: plan.filter((item: { evidence: unknown[] }) => item.evidence.length > 0).length,
       updates_applied: emailUpdates.length,

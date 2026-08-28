@@ -48,7 +48,7 @@ interface AiScoreResult {
 export async function scoreMarketWithAI(market: Market, suppliedArticles?: Article[]): Promise<AiScoreResult> {
   const articles = suppliedArticles ?? await articlesForMarket(market);
   const context = articles
-    .map((a) => `[${a.slug}] (${a.publishedAt}) ${a.title}\n${a.excerpt}`)
+    .map((a) => `[${a.slug}] (${a.publishedAt}) ${a.title}\n${a.excerpt}\n${String(a.body ?? "").slice(0, 4000)}`)
     .join("\n\n");
 
   const system =
