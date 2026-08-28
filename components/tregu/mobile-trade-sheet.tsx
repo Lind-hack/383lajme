@@ -23,6 +23,7 @@ export interface MobileTradeReceipt {
   probability: number;
   color: string;
   imageUrl?: string;
+  finish: "standard" | "gloss" | "carbon" | "metallic" | "parquet" | "speed";
 }
 
 interface MobileTradeSheetProps {
@@ -120,7 +121,8 @@ export default function MobileTradeSheet({
   }, [open, onClose]);
 
   useEffect(() => {
-    if (!open && !receipt) return;
+    const mobileReceipt = Boolean(receipt) && window.matchMedia("(max-width: 760px)").matches;
+    if (!open && !mobileReceipt) return;
     const previous = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     return () => {
@@ -142,15 +144,6 @@ export default function MobileTradeSheet({
       <div className="tregu-mobile-dock" data-market-open={marketOpen} aria-label="Veprimet e tregut">
         <button
           type="button"
-          className="tregu-mobile-dock-buy"
-          disabled={!marketOpen}
-          onClick={(event) => openFromDock(event, "buy")}
-        >
-          <span>Blej</span>
-          <strong>{selected ? `${Math.round(selected.probability * 100)}%` : "383C"}</strong>
-        </button>
-        <button
-          type="button"
           className="tregu-mobile-dock-sell"
           disabled={!marketOpen || !sellEnabled}
           aria-describedby={!sellEnabled ? "tregu-mobile-sell-state" : undefined}
@@ -158,6 +151,15 @@ export default function MobileTradeSheet({
         >
           <span>Shit</span>
           <strong>{sellEnabled ? "Pozicionin" : "Pa pozicion"}</strong>
+        </button>
+        <button
+          type="button"
+          className="tregu-mobile-dock-buy"
+          disabled={!marketOpen}
+          onClick={(event) => openFromDock(event, "buy")}
+        >
+          <span>Blej</span>
+          <strong>{selected ? `${Math.round(selected.probability * 100)}%` : "383C"}</strong>
         </button>
         <span id="tregu-mobile-sell-state" className="tregu-sr-only">
           Shitja aktivizohet pasi të kesh blerë një pozicion në këtë treg.
@@ -319,12 +321,17 @@ export default function MobileTradeSheet({
       {receipt && (
         <section
           className="tregu-trade-celebration"
+          data-finish={receipt.finish}
           style={receiptStyle}
           role="dialog"
           aria-modal="true"
           aria-labelledby="tregu-trade-celebration-title"
         >
           <div className="tregu-trade-celebration-wash" aria-hidden />
+          <div className="tregu-trade-celebration-ribbons" aria-hidden><i /><i /><i /></div>
+          <div className="tregu-trade-celebration-sparks" aria-hidden>
+            {Array.from({ length: 7 }, (_, index) => <i key={index} />)}
+          </div>
           <button type="button" onClick={onDismissReceipt} aria-label="Mbyll konfirmimin"><CloseIcon /></button>
           <div className="tregu-trade-celebration-content">
             <div className="tregu-trade-celebration-confirm"><span><CheckIcon /></span> U ble</div>

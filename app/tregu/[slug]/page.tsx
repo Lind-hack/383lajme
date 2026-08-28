@@ -3,9 +3,9 @@
 import { useCallback, useEffect, useRef, useState, use as usePromise, type ComponentProps, type CSSProperties } from "react";
 import Link from "next/link";
 import Navbar from "@/components/navbar";
-import TimeAgo from "@/components/time-ago";
 import ExactMarketChart from "@/components/tregu/exact-market-chart";
 import MarketContextMedia from "@/components/tregu/market-context-media";
+import MarketShareActions from "@/components/tregu/market-share-actions";
 import SportBrandMark from "@/components/tregu/sport-brand-mark";
 import { type MiniMarket } from "@/components/tregu/market-mini-card";
 import TeamFlag from "@/components/tregu/team-flag";
@@ -149,6 +149,25 @@ function tradeThemeColor(market: MarketDetail, footballColor?: string, f1Color?:
   return getCategoryColor(normalizeCategory(market.category));
 }
 
+function tradeSurfaceFinish(
+  selection: string,
+  team: string | undefined,
+  sportTheme: "football" | "f1" | "basketball" | undefined
+): MobileTradeReceipt["finish"] {
+  const identity = `${selection} ${team ?? ""}`.toLowerCase();
+  if (/real madrid/.test(identity)) return "gloss";
+  if (/chelsea/.test(identity)) return "standard";
+  if (/ferrari|red bull/.test(identity)) return "speed";
+  if (/mercedes|mclaren|aston martin|alpine/.test(identity)) return "carbon";
+  if (sportTheme === "basketball") return "parquet";
+  if (sportTheme === "f1") return "metallic";
+  if (sportTheme !== "football") return "standard";
+
+  const finishes: MobileTradeReceipt["finish"][] = ["standard", "gloss", "metallic", "carbon"];
+  const hash = identity.split("").reduce((sum, character) => sum + character.charCodeAt(0), 0);
+  return finishes[hash % finishes.length];
+}
+
 function closesIn(iso: string): string {
   const ms = new Date(iso).getTime() - Date.now();
   if (Number.isNaN(ms) || ms <= 0) return "Mbyllur";
@@ -157,17 +176,6 @@ function closesIn(iso: string): string {
   const hours = Math.floor(ms / 3_600_000);
   if (hours >= 1) return `Mbyllet për ${hours} orë`;
   return `Mbyllet për ${Math.max(1, Math.floor(ms / 60_000))} min`;
-}
-
-function timeAgo(iso: string): string {
-  const ms = Date.now() - new Date(iso).getTime();
-  if (!Number.isFinite(ms)) return "—";
-  if (ms < 60_000) return "tani";
-  const min = Math.floor(ms / 60_000);
-  if (min < 60) return `para ${min} min`;
-  const h = Math.floor(min / 60);
-  if (h < 24) return `para ${h} orësh`;
-  return `para ${Math.floor(h / 24)} ditësh`;
 }
 
 function FootballOutcomeMark({
@@ -492,7 +500,6 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
 
   const showPurchaseReceipt = (sharesBought?: number) => {
     if (!market) return;
-    if (!mobileTradeOpen) return;
     const footballChoice = football?.outcomes.find((outcome) => outcome.key === footballOutcomeKey);
     const f1Choice = f1?.outcomes.find((driver) => driver.key === f1OutcomeKey);
     const binaryPreview = !football && !f1
@@ -520,6 +527,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
       probability,
       color: tradeThemeColor(market, footballChoice?.color, f1Choice?.team_colour),
       imageUrl: footballChoice?.logo ?? f1Choice?.headshot_url,
+      finish: tradeSurfaceFinish(selection, footballChoice?.team ?? f1Choice?.team, sportTheme),
     });
     setMobileTradeOpen(false);
   };
@@ -734,8 +742,6 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
   }
 
   const latestEvidence = [...snapshots].reverse().find((s) => s.evidence && s.evidence.length > 0)?.evidence ?? [];
-  // Bonus: live AI signal — the newest news-scored probability vs the market.
-  const latestAiSnap = [...snapshots].reverse().find((s) => s.ai_prob !== null) ?? null;
   const currentOutcome = group?.outcomes.find((o) => o.slug === slug) ?? null;
   const footballSelectedOutcome =
     football?.outcomes.find((outcome) => outcome.key === footballOutcomeKey) ??
@@ -873,6 +879,19 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
       : isSportDetail
         ? "football"
         : undefined;
+  const headerFootballOutcomes = football?.outcomes
+    .filter((outcome) => !/barazim|draw/i.test(`${outcome.key} ${outcome.label}`))
+    .slice(0, 2) ?? [];
+  const headerTitle = group && currentOutcome ? group.title : market.question;
+  const headerSelection = footballSelectedOutcome?.label ?? f1SelectedDriver?.label ?? currentOutcome?.label ?? sideLabel("PO");
+  const sportResolutionRules = sportTheme === "f1"
+    ? "Tregu zgjidhet sipas klasifikimit zyrtar të garës pas përfundimit të saj."
+    : sportTheme === "basketball"
+      ? "Tregu zgjidhet sipas rezultatit zyrtar pas përfundimit të ndeshjes."
+      : "Tregu zgjidhet sipas rezultatit zyrtar pas 90 minutave, përveç kur pyetja e tregut përcakton qartë një format tjetër.";
+  const sportResolutionSource = sportTheme === "f1"
+    ? "Klasifikimi zyrtar i garës"
+    : "Rezultati zyrtar i ndeshjes";
   // Per-category chart accent (blue Politikë, green Ekonomi, gold Botë…).
   const chartCategory = SLUG_TO_CATEGORY[market.category] ?? market.category;
   const marketChartSeries = [{
@@ -1031,6 +1050,34 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
         <header className="tregu-detail-header" data-tone={detailTone} data-sport-theme={sportTheme}>
           <div className="tregu-detail-header-grid">
             <div className="tregu-detail-header-copy">
+              <div className="tregu-detail-headline-row">
+                <h1
+                  className="tregu-detail-title"
+                  style={{
+                    fontSize: "clamp(24px, 3.2vw, 34px)",
+                    fontWeight: 800,
+                    margin: 0,
+                    lineHeight: 1.16,
+                    letterSpacing: "-0.025em",
+                    textWrap: "balance",
+                    maxWidth: "26ch",
+                  }}
+                >
+                  {headerTitle}
+                </h1>
+                {isSportDetail && (
+                  <div className="tregu-detail-reference" data-sport-theme={sportTheme} aria-label={`Referenca: ${headerSelection}`}>
+                    {football && headerFootballOutcomes.length > 0 ? (
+                      headerFootballOutcomes.map((outcome) => <FootballOutcomeMark key={outcome.key} outcome={outcome} size={42} />)
+                    ) : f1SelectedDriver && f1DriverHeadshot(f1SelectedDriver.key, f1SelectedDriver.headshot_url) ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={f1DriverHeadshot(f1SelectedDriver.key, f1SelectedDriver.headshot_url)} alt="" aria-hidden referrerPolicy="no-referrer" />
+                    ) : sportBrandKey ? (
+                      <SportBrandMark brandKey={sportBrandKey} size="md" />
+                    ) : null}
+                  </div>
+                )}
+              </div>
               <div className="tregu-detail-meta-row" style={{ display: "flex", alignItems: "center", flexWrap: "wrap", gap: 10, marginBottom: 12 }}>
                 {isSportDetail && sportBrandKey ? <SportBrandMark brandKey={sportBrandKey} size="md" /> : null}
                 <span className="tregu-pill">{CATEGORY_LABEL[market.category] ?? market.category}</span>
@@ -1047,20 +1094,6 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                   Si funksionon
                 </button>
               </div>
-              <h1
-                className="tregu-detail-title"
-                style={{
-                  fontSize: "clamp(24px, 3.2vw, 34px)",
-                  fontWeight: 800,
-                  margin: "0 0 10px",
-                  lineHeight: 1.2,
-                  letterSpacing: "-0.015em",
-                  textWrap: "balance",
-                  maxWidth: "26ch",
-                }}
-              >
-                {group && currentOutcome ? group.title : market.question}
-              </h1>
               {group && currentOutcome && (
                 <nav className="tregu-event-tabs" aria-label="Rezultatet e ngjarjes">
                   {group.outcomes.map((o) => (
@@ -1081,12 +1114,12 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                   ))}
                 </nav>
               )}
-              {market.description && (
+              {market.description && !isSportDetail && (
                 <p style={{ color: "#555555", fontSize: 14, margin: "0 0 14px", maxWidth: "70ch", lineHeight: 1.55 }}>
                   {market.description}
                 </p>
               )}
-              <div style={{ display: "flex", alignItems: "baseline", flexWrap: "wrap", gap: "12px 22px" }}>
+              <div className="tregu-detail-quickfacts" style={{ display: "flex", alignItems: "baseline", flexWrap: "wrap", gap: "12px 22px" }}>
                 <span style={{ display: "inline-flex", alignItems: "baseline", gap: 10 }}>
                   <span style={{ fontSize: 40, fontWeight: 800, lineHeight: 1, color: "#111111", fontVariantNumeric: "tabular-nums" }}>
                     {pct}%
@@ -1110,6 +1143,14 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                   {fmtNum(volume)} 383C vëllim · {fmtNum(tradeCount)} tregtime
                   {closesDateLabel ? ` · ${isClosed ? "u mbyll" : "mbyllet"} ${closesDateLabel}` : ""}
                 </span>
+                <MarketShareActions
+                  slug={slug}
+                  title={headerTitle}
+                  selection={headerSelection}
+                  probability={pct / 100}
+                  volume={volume}
+                  accent={tradeThemeColor(market, footballSelectedOutcome?.color, f1SelectedDriver?.team_colour)}
+                />
               </div>
             </div>
             {detailTone === "serious" ? <MarketContextMedia media={market.market_media} variant="detail" /> : null}
@@ -1287,7 +1328,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
               demo={demo}
             />
 
-            {latestEvidence.length > 0 && (
+            {!isSportDetail && latestEvidence.length > 0 && (
               <div className="tregu-panel" style={{ padding: 28 }}>
                 <h3 style={{ fontSize: 15, fontWeight: 800, margin: "0 0 14px" }}>Bazuar në lajme</h3>
                 <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
@@ -1930,59 +1971,17 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
               </div>
             )}
 
-            {/* Sinjali AI — how the newest news-scored probability compares to
-               the crowd. This is the surface of the 5-min refresh loop: when
-               news moves the estimate away from the market, traders see the
-               gap without mixing an inferred line into the recorded chart. */}
-            {latestAiSnap && latestAiSnap.ai_prob !== null && (
-              <div className="tregu-panel" style={{ padding: 28 }}>
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
-                  <h3 style={{ fontSize: 15, fontWeight: 800, margin: 0 }}>Sinjali AI</h3>
-                  <TimeAgo iso={latestAiSnap.created_at} format={timeAgo} style={{ fontSize: 11, color: "#6B6B6B" }} />
-                </div>
-                {(() => {
-                  const ai = latestAiSnap.ai_prob as number;
-                  const gapPp = Math.round((ai - market.market_prob) * 100);
-                  return (
-                    <>
-                      <div style={{ display: "flex", gap: 24, marginBottom: 12 }}>
-                        <div>
-                          <div style={{ fontSize: 11, fontWeight: 700, color: "#6B6B6B", marginBottom: 2 }}>AI nga lajmet</div>
-                          <div style={{ fontSize: 26, fontWeight: 800, color: "#B45309", fontVariantNumeric: "tabular-nums" }}>
-                            {Math.round(ai * 100)}%
-                          </div>
-                        </div>
-                        <div>
-                          <div style={{ fontSize: 11, fontWeight: 700, color: "#6B6B6B", marginBottom: 2 }}>Tregu</div>
-                          <div style={{ fontSize: 26, fontWeight: 800, color: "#00854A", fontVariantNumeric: "tabular-nums" }}>
-                            {pct}%
-                          </div>
-                        </div>
-                      </div>
-                      <p style={{ fontSize: 12.5, color: "#555555", lineHeight: 1.55, margin: 0 }}>
-                        {Math.abs(gapPp) < 3
-                          ? "AI dhe tregu kanë pothuajse të njëjtën gjasë."
-                          : gapPp > 0
-                            ? `AI e sheh ${sideLabel("PO")} me ${Math.round(ai * 100)}%, krahasuar me ${Math.round(market.market_prob * 100)}% në treg.`
-                            : `AI e sheh ${sideLabel("PO")} me ${Math.round(ai * 100)}%, krahasuar me ${Math.round(market.market_prob * 100)}% në treg.`}
-                      </p>
-                    </>
-                  );
-                })()}
-              </div>
-            )}
-
             {/* Resolution rules — the trust surface. */}
             <div className="tregu-panel" style={{ padding: 28 }}>
               <h3 style={{ fontSize: 15, fontWeight: 800, margin: "0 0 10px" }}>Rregullat e zgjidhjes</h3>
               <p style={{ fontSize: 13, color: "#111111", lineHeight: 1.6, margin: "0 0 12px" }}>
-                {market.resolution_rules ||
+                {(isSportDetail ? sportResolutionRules : market.resolution_rules) ||
                   "Tregu zgjidhet PO nëse ngjarja e përshkruar ndodh dhe konfirmohet nga burime zyrtare para datës së mbylljes. Çdo rezultat tjetër zgjidhet JO."}
               </p>
               <div style={{ fontSize: 12, color: "#6B6B6B", lineHeight: 1.7 }}>
                 <div>
                   <strong style={{ color: "#111111" }}>Burimi:</strong>{" "}
-                  {market.resolution_source || "Burime zyrtare + raportimi i 383"}
+                  {(isSportDetail ? sportResolutionSource : market.resolution_source) || "Burime zyrtare + raportimi i 383"}
                 </div>
                 <div>
                   <strong style={{ color: "#111111" }}>Mbyllet:</strong>{" "}

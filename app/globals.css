@@ -12667,7 +12667,7 @@ header[data-overlay="true"] .nav-search-btn { color: rgba(255, 255, 255, 0.9); }
     repeating-linear-gradient(0deg, transparent 0 31px, rgba(83, 65, 47, .025) 31px 32px);
 }
 .tregu-detail-header[data-tone="sport"] {
-  padding: 24px clamp(18px, 2.4vw, 34px) 25px;
+  padding: 16px clamp(18px, 2.4vw, 30px) 17px;
   overflow: hidden;
   border: 1px solid rgba(17, 20, 26, .14);
   border-radius: 5px 24px 5px 24px;
@@ -12693,6 +12693,87 @@ header[data-overlay="true"] .nav-search-btn { color: rgba(255, 255, 255, 0.9); }
 }
 .tregu-detail-header-copy { min-width: 0; }
 .tregu-detail-header[data-tone="sport"] .tregu-detail-header-copy { position: relative; z-index: 1; }
+.tregu-detail-headline-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 22px;
+  margin-bottom: 10px;
+}
+.tregu-detail-reference {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  min-width: 74px;
+  min-height: 58px;
+  padding: 8px 12px;
+  border: 1px solid rgba(17, 20, 26, .12);
+  border-radius: 16px 4px 16px 4px;
+  background: rgba(255, 255, 255, .8);
+  box-shadow: 0 8px 20px rgba(24, 20, 16, .07);
+}
+.tregu-detail-reference > * + * { margin-left: -8px; }
+.tregu-detail-reference img {
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 6px rgba(17, 17, 17, .12));
+}
+.tregu-detail-reference[data-sport-theme="f1"] img { width: 58px; height: 52px; object-fit: cover; object-position: top; }
+.tregu-detail-quickfacts { min-height: 40px; }
+
+.tregu-share-actions { position: relative; z-index: 8; }
+.tregu-share-actions summary {
+  display: inline-flex;
+  min-height: 34px;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 10px;
+  border: 1px solid rgba(17, 17, 17, .12);
+  border-radius: 10px;
+  color: #34363a;
+  background: rgba(255, 255, 255, .78);
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+  list-style: none;
+}
+.tregu-share-actions summary::-webkit-details-marker { display: none; }
+.tregu-share-actions summary:focus-visible { outline: 3px solid rgba(255, 68, 34, .24); outline-offset: 2px; }
+.tregu-share-menu {
+  position: absolute;
+  top: calc(100% + 7px);
+  right: 0;
+  display: grid;
+  width: 188px;
+  overflow: hidden;
+  padding: 6px;
+  border: 1px solid rgba(17, 17, 17, .12);
+  border-radius: 13px;
+  background: #fff;
+  box-shadow: 0 16px 36px rgba(22, 18, 15, .18), 0 3px 8px rgba(22, 18, 15, .08);
+}
+.tregu-share-menu a,
+.tregu-share-menu button {
+  display: flex;
+  min-height: 38px;
+  align-items: center;
+  gap: 9px;
+  padding: 8px 10px;
+  border: 0;
+  border-radius: 8px;
+  color: #24262a;
+  background: transparent;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 750;
+  text-align: left;
+  text-decoration: none;
+}
+.tregu-share-menu a:hover,
+.tregu-share-menu button:hover { background: #f3f1ed; }
+.tregu-share-menu button:disabled { opacity: .5; }
 
 /* Sport detail pages keep the same 383 layout and change only their material:
    pitch markings for football, timing graphics for F1, and court arcs for
@@ -12865,8 +12946,7 @@ header[data-overlay="true"] .nav-search-btn { color: rgba(255, 255, 255, 0.9); }
    intact on desktop; phones keep the proposition, live price and chart first,
    while execution moves into a compact bottom sheet. */
 .tregu-mobile-dock,
-.tregu-mobile-sheet-layer,
-.tregu-trade-celebration {
+.tregu-mobile-sheet-layer {
   display: none;
 }
 
@@ -12882,56 +12962,168 @@ header[data-overlay="true"] .nav-search-btn { color: rgba(255, 255, 255, 0.9); }
   border: 0;
 }
 
+/* A desktop trade receipt stays card-sized; the mobile breakpoint turns the
+   same event into the authored bottom-up Victory Lift celebration. */
+.tregu-trade-celebration {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 110;
+  display: grid;
+  width: min(390px, calc(100vw - 48px));
+  max-height: calc(100vh - 48px);
+  place-items: center;
+  overflow: hidden;
+  padding: 28px 28px 24px;
+  border: 1px solid rgba(255, 255, 255, .18);
+  border-radius: 5px 24px 5px 24px;
+  color: #fff;
+  background: #15171b;
+  box-shadow: 0 24px 60px rgba(11, 10, 9, .3), 0 5px 16px rgba(11, 10, 9, .18);
+  animation: tregu-trade-desktop-in 320ms cubic-bezier(.16, 1, .3, 1) both;
+}
+.tregu-trade-celebration-wash {
+  position: absolute;
+  inset: 0;
+  background: color-mix(in srgb, var(--trade-celebration) 58%, #15171b 42%);
+}
+.tregu-trade-celebration[data-finish="gloss"] .tregu-trade-celebration-wash {
+  background:
+    radial-gradient(circle at 72% 16%, rgba(255, 255, 255, .42), transparent 28%),
+    linear-gradient(128deg, color-mix(in srgb, var(--trade-celebration) 72%, #fff 28%), color-mix(in srgb, var(--trade-celebration) 64%, #111 36%));
+}
+.tregu-trade-celebration[data-finish="carbon"] .tregu-trade-celebration-wash {
+  background:
+    repeating-conic-gradient(from 45deg, rgba(255,255,255,.07) 0 25%, transparent 0 50%) 0 0 / 18px 18px,
+    color-mix(in srgb, var(--trade-celebration) 52%, #111317 48%);
+}
+.tregu-trade-celebration[data-finish="metallic"] .tregu-trade-celebration-wash {
+  background:
+    linear-gradient(105deg, transparent 20%, rgba(255,255,255,.26) 36%, transparent 50%),
+    linear-gradient(160deg, color-mix(in srgb, var(--trade-celebration) 74%, #e9edf2 26%), color-mix(in srgb, var(--trade-celebration) 54%, #16191e 46%));
+}
+.tregu-trade-celebration[data-finish="parquet"] .tregu-trade-celebration-wash {
+  background:
+    repeating-linear-gradient(90deg, rgba(255,255,255,.08) 0 1px, transparent 1px 58px),
+    repeating-linear-gradient(0deg, transparent 0 28px, rgba(0,0,0,.09) 28px 29px),
+    color-mix(in srgb, var(--trade-celebration) 68%, #6b3f1f 32%);
+}
+.tregu-trade-celebration[data-finish="speed"] .tregu-trade-celebration-wash {
+  background:
+    linear-gradient(118deg, transparent 0 60%, rgba(255,255,255,.2) 60% 63%, transparent 63% 69%, rgba(0,0,0,.13) 69% 72%, transparent 72%),
+    color-mix(in srgb, var(--trade-celebration) 70%, #111317 30%);
+}
+.tregu-trade-celebration-ribbons,
+.tregu-trade-celebration-sparks { display: none; }
+.tregu-trade-celebration > button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 4;
+  display: grid;
+  width: 40px;
+  height: 40px;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  color: #fff;
+  background: rgba(17, 19, 23, .24);
+}
+.tregu-trade-celebration > button svg { width: 19px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
+.tregu-trade-celebration-content { position: relative; z-index: 2; width: 100%; text-align: center; }
+.tregu-trade-celebration-confirm { display: inline-flex; align-items: center; gap: 7px; margin-bottom: 14px; font-size: 14px; font-weight: 850; }
+.tregu-trade-celebration-confirm span { display: grid; width: 22px; height: 22px; place-items: center; border-radius: 50%; color: #111317; background: #fff; }
+.tregu-trade-celebration-confirm svg { width: 14px; fill: none; stroke: currentColor; stroke-width: 2.4; }
+.tregu-trade-celebration-mark { display: grid; width: 68px; height: 68px; place-items: center; margin: 0 auto 14px; border: 1px solid rgba(255,255,255,.22); border-radius: 18px; background: rgba(255,255,255,.14); }
+.tregu-trade-celebration-mark img { width: 54px; height: 54px; object-fit: contain; }
+.tregu-trade-celebration-content > p { overflow: hidden; margin: 0 auto 5px; color: rgba(255,255,255,.76); font-size: 12px; text-overflow: ellipsis; white-space: nowrap; }
+.tregu-trade-celebration h2 { margin: 0 0 18px; font-size: 27px; line-height: 1.05; letter-spacing: -.035em; text-wrap: balance; }
+.tregu-trade-celebration dl { margin: 0; border-top: 1px solid rgba(255,255,255,.22); }
+.tregu-trade-celebration dl div { display: flex; align-items: baseline; justify-content: space-between; gap: 18px; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,.16); }
+.tregu-trade-celebration dt { color: rgba(255,255,255,.74); font-size: 12px; }
+.tregu-trade-celebration dd { margin: 0; font-size: 16px; font-weight: 850; font-variant-numeric: tabular-nums; }
+.tregu-trade-celebration-content > small { display: block; margin-top: 13px; color: rgba(255,255,255,.65); font-size: 11px; font-weight: 800; }
+
+@keyframes tregu-trade-desktop-in {
+  from { opacity: 0; transform: translateY(18px) scale(.98); }
+  to { opacity: 1; transform: none; }
+}
+
 @media (max-width: 760px) {
   .tregu-detail-main {
     padding: 78px 14px calc(128px + env(safe-area-inset-bottom)) !important;
   }
   .tregu-detail-main > a:first-child {
     display: inline-flex;
-    min-height: 44px;
+    min-height: 32px;
     align-items: center;
   }
   .tregu-detail-header {
-    margin: 2px 0 12px !important;
-    padding: 14px 0 16px;
+    margin: 0 0 8px !important;
+    padding: 10px 0 12px;
   }
   .tregu-detail-header[data-tone="sport"] {
-    padding: 16px 16px 18px;
-    border-radius: 4px 20px 4px 20px;
+    padding: 11px 12px 12px;
+    border-radius: 4px 16px 4px 16px;
   }
   .tregu-detail-header-copy {
     display: flex;
     flex-direction: column;
   }
-  .tregu-detail-title {
+  .tregu-detail-headline-row {
     order: 1;
-    max-width: 21ch !important;
-    margin: 0 0 10px !important;
-    font-size: clamp(25px, 7.5vw, 31px) !important;
-    line-height: 1.08 !important;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 7px;
+  }
+  .tregu-detail-title {
+    max-width: none !important;
+    margin: 0 !important;
+    font-size: clamp(21px, 6.1vw, 25px) !important;
+    line-height: 1.04 !important;
     letter-spacing: -.028em !important;
   }
+  .tregu-detail-reference {
+    min-width: 54px;
+    min-height: 46px;
+    padding: 5px 7px;
+    border-radius: 12px 4px 12px 4px;
+  }
+  .tregu-detail-reference img { width: 31px; height: 31px; }
+  .tregu-detail-reference[data-sport-theme="f1"] img { width: 44px; height: 38px; }
   .tregu-detail-meta-row {
     order: 2;
-    gap: 6px !important;
-    margin: 0 0 10px !important;
+    gap: 5px !important;
+    margin: 0 0 6px !important;
   }
+  .tregu-detail-meta-row > .tregu-brand-mark { display: none; }
   .tregu-detail-meta-row .tregu-pill,
   .tregu-detail-meta-row .tregu-home-help {
-    min-height: 34px;
-    padding-block: 6px;
-    font-size: 11px;
+    min-height: 27px;
+    padding: 4px 8px;
+    font-size: 10px;
   }
   .tregu-detail-header-copy > p {
     display: none;
   }
-  .tregu-detail-header-copy > div:last-child {
+  .tregu-detail-quickfacts {
     order: 3;
-    gap: 6px 12px !important;
+    min-height: 32px;
+    gap: 4px 10px !important;
   }
-  .tregu-detail-header-copy > div:last-child > span:first-child > span:first-child {
-    font-size: 34px !important;
+  .tregu-detail-quickfacts > span:first-child > span:first-child {
+    font-size: 29px !important;
   }
+  .tregu-detail-quickfacts > span:nth-of-type(2) {
+    max-width: calc(100% - 90px);
+    overflow: hidden;
+    font-size: 10.5px !important;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .tregu-share-actions { margin-left: auto; }
+  .tregu-share-actions summary { min-height: 29px; padding: 5px 8px; font-size: 10.5px; }
+  .tregu-share-menu { right: 0; width: 180px; }
   .tregu-event-tabs {
     order: 4;
     margin-top: 12px;
@@ -12944,14 +13136,14 @@ header[data-overlay="true"] .nav-search-btn { color: rgba(255, 255, 255, 0.9); }
     gap: 12px !important;
   }
   .tregu-detail-chart-shell {
-    padding: 14px !important;
-    border-radius: 16px;
+    padding: 10px !important;
+    border-radius: 12px;
   }
   .tregu-detail-chart-shell .tregu-exact-chart-plot {
-    height: 280px !important;
+    height: 184px !important;
   }
   .tregu-football-market-head {
-    margin-bottom: 10px;
+    display: none;
   }
   .tregu-football-title-row h2 {
     font-size: 21px;
@@ -12961,13 +13153,37 @@ header[data-overlay="true"] .nav-search-btn { color: rgba(255, 255, 255, 0.9); }
     display: none;
   }
   .tregu-football-legend {
-    gap: 6px;
-    margin-bottom: 10px;
+    gap: 5px;
+    margin-bottom: 7px;
   }
   .tregu-football-legend button {
-    min-height: 50px;
-    padding: 8px 10px;
+    grid-template-columns: 20px minmax(0, 1fr) auto;
+    min-height: 40px;
+    padding: 5px 7px;
   }
+  .tregu-football-legend .tregu-football-team-logo { width: 20px; height: 20px; }
+  .tregu-football-legend strong,
+  .tregu-football-legend b { font-size: 10px; }
+  .tregu-detail-chart-shell .tregu-exact-chart-head,
+  .tregu-detail-chart-shell .tregu-exact-chart-scale,
+  .tregu-detail-chart-shell .tregu-chart-pulse { display: none; }
+  .tregu-football-market .tregu-exact-chart-legend { display: none; }
+  .tregu-exact-chart-ranges {
+    display: flex;
+    gap: 2px;
+    overflow-x: auto;
+    margin-bottom: 6px;
+    scrollbar-width: none;
+  }
+  .tregu-exact-chart-ranges::-webkit-scrollbar { display: none; }
+  .tregu-exact-chart-ranges button { min-width: 32px; padding: 5px 7px; font-size: 9px; }
+  .f1-race-control { padding: 10px !important; }
+  .f1-race-header,
+  .f1-grid-card,
+  .f1-chart-shell > .f1-section-heading { display: none; }
+  .f1-race-stage { display: block; padding: 0; background: transparent; }
+  .f1-chart-shell { padding: 0; border: 0; background: transparent; }
+  .f1-favorites-section { margin-top: 14px; }
   .tregu-detail-side > .tregu-edge {
     display: none;
   }
@@ -12979,7 +13195,7 @@ header[data-overlay="true"] .nav-search-btn { color: rgba(255, 255, 255, 0.9); }
     left: 10px;
     z-index: 84;
     display: grid;
-    grid-template-columns: minmax(0, 1.28fr) minmax(0, .92fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 8px;
     padding: 7px;
     border: 1px solid rgba(17, 17, 17, .12);
@@ -13356,9 +13572,55 @@ header[data-overlay="true"] .nav-search-btn { color: rgba(255, 255, 255, 0.9); }
     position: absolute;
     inset: -8%;
     background: color-mix(in srgb, var(--trade-celebration) 70%, #111317 30%);
-    clip-path: circle(150% at 50% 100%);
-    animation: tregu-trade-color-reveal 620ms cubic-bezier(.23, 1, .32, 1) both;
+    clip-path: inset(0 0 0 0 round 0);
+    animation: tregu-trade-color-reveal 720ms cubic-bezier(.16, 1, .3, 1) both;
   }
+  .tregu-trade-celebration-ribbons {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    display: block;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .tregu-trade-celebration-ribbons i {
+    position: absolute;
+    bottom: -36%;
+    width: 18vw;
+    height: 92vh;
+    border-radius: 999px;
+    background: linear-gradient(180deg, transparent, rgba(255,255,255,.18) 40%, rgba(255,255,255,.02));
+    transform: rotate(12deg);
+    animation: tregu-trade-ribbon-rise 820ms cubic-bezier(.16, 1, .3, 1) both;
+  }
+  .tregu-trade-celebration-ribbons i:nth-child(1) { left: 2%; animation-delay: 40ms; }
+  .tregu-trade-celebration-ribbons i:nth-child(2) { left: 42%; width: 11vw; animation-delay: 95ms; }
+  .tregu-trade-celebration-ribbons i:nth-child(3) { right: 1%; animation-delay: 145ms; }
+  .tregu-trade-celebration-sparks {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: block;
+    pointer-events: none;
+  }
+  .tregu-trade-celebration-sparks i {
+    position: absolute;
+    bottom: 14%;
+    left: var(--spark-x, 50%);
+    width: var(--spark-size, 7px);
+    height: var(--spark-size, 7px);
+    border: 1px solid rgba(255,255,255,.7);
+    border-radius: 50%;
+    background: rgba(255,255,255,.42);
+    animation: tregu-trade-spark-lift 920ms cubic-bezier(.16, 1, .3, 1) var(--spark-delay, 80ms) both;
+  }
+  .tregu-trade-celebration-sparks i:nth-child(1) { --spark-x: 11%; --spark-size: 6px; --spark-delay: 70ms; }
+  .tregu-trade-celebration-sparks i:nth-child(2) { --spark-x: 24%; --spark-size: 10px; --spark-delay: 150ms; }
+  .tregu-trade-celebration-sparks i:nth-child(3) { --spark-x: 39%; --spark-size: 5px; --spark-delay: 30ms; }
+  .tregu-trade-celebration-sparks i:nth-child(4) { --spark-x: 54%; --spark-size: 8px; --spark-delay: 180ms; }
+  .tregu-trade-celebration-sparks i:nth-child(5) { --spark-x: 68%; --spark-size: 5px; --spark-delay: 110ms; }
+  .tregu-trade-celebration-sparks i:nth-child(6) { --spark-x: 81%; --spark-size: 9px; --spark-delay: 55ms; }
+  .tregu-trade-celebration-sparks i:nth-child(7) { --spark-x: 91%; --spark-size: 6px; --spark-delay: 205ms; }
   .tregu-trade-celebration::after {
     position: absolute;
     top: 10%;
@@ -13390,7 +13652,7 @@ header[data-overlay="true"] .nav-search-btn { color: rgba(255, 255, 255, 0.9); }
   .tregu-trade-celebration-content > h2,
   .tregu-trade-celebration-content > dl,
   .tregu-trade-celebration-content > small {
-    animation: tregu-trade-pop 520ms cubic-bezier(.34, 1.56, .64, 1) both;
+    animation: tregu-trade-pop 520ms cubic-bezier(.16, 1, .3, 1) both;
   }
   .tregu-trade-celebration-confirm {
     display: inline-flex;
@@ -13420,7 +13682,8 @@ header[data-overlay="true"] .nav-search-btn { color: rgba(255, 255, 255, 0.9); }
     border-radius: 22px;
     background: rgba(255, 255, 255, .14);
     box-shadow: 0 14px 32px rgba(0, 0, 0, .16);
-    animation-delay: 50ms;
+    transform-origin: 50% 100%;
+    animation: tregu-trade-mark-lift 760ms cubic-bezier(.16, 1, .3, 1) 60ms both;
   }
   .tregu-trade-celebration-mark img {
     width: 68px;
@@ -13470,12 +13733,30 @@ header[data-overlay="true"] .nav-search-btn { color: rgba(255, 255, 255, 0.9); }
 }
 
 @keyframes tregu-trade-color-reveal {
-  from { clip-path: circle(0 at 50% 100%); }
+  from { clip-path: inset(100% 0 0 0 round 50% 50% 0 0); filter: brightness(.76); }
+  to { clip-path: inset(0 0 0 0 round 0); filter: none; }
 }
 
 @keyframes tregu-trade-pop {
   from { opacity: 0; transform: translateY(12px) scale(.96); }
   to { opacity: 1; transform: none; }
+}
+
+@keyframes tregu-trade-mark-lift {
+  0% { opacity: 0; transform: translateY(120px) rotateX(34deg) scale(.82); filter: blur(7px); }
+  62% { opacity: 1; transform: translateY(-8px) rotateX(-3deg) scale(1.035); filter: blur(0); }
+  100% { opacity: 1; transform: none; filter: none; }
+}
+
+@keyframes tregu-trade-ribbon-rise {
+  from { opacity: 0; transform: translateY(52vh) rotate(12deg); }
+  to { opacity: 1; transform: translateY(-20vh) rotate(12deg); }
+}
+
+@keyframes tregu-trade-spark-lift {
+  0% { opacity: 0; transform: translateY(80px) scale(.7); }
+  35% { opacity: .9; }
+  100% { opacity: 0; transform: translateY(-54vh) translateX(18px) scale(1.15); }
 }
 
 @media (max-width: 760px) and (prefers-reduced-motion: reduce) {
@@ -13486,6 +13767,8 @@ header[data-overlay="true"] .nav-search-btn { color: rgba(255, 255, 255, 0.9); }
     transition-duration: 0ms;
   }
   .tregu-trade-celebration-wash,
+  .tregu-trade-celebration-ribbons i,
+  .tregu-trade-celebration-sparks i,
   .tregu-trade-celebration-confirm,
   .tregu-trade-celebration-mark,
   .tregu-trade-celebration-content > p,
