@@ -58,7 +58,7 @@ export default function MarketShareActions({
 
   return (
     <details className="tregu-share-actions">
-      <summary><Share2 size={15} aria-hidden /> Shpërnda</summary>
+      <summary><Share2 size={15} aria-hidden /> Shpërndaje</summary>
       <div className="tregu-share-menu" aria-label="Mënyrat e shpërndarjes">
         <button type="button" onClick={downloadPng} disabled={downloading}>
           <Download size={16} aria-hidden /> {downloading ? "Duke krijuar…" : "Ruaj PNG"}

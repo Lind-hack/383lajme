@@ -45,6 +45,7 @@ export default function ExactMarketChart({
   showRanges = false,
   showPulse = false,
   minimal = false,
+  concise = false,
   derived = false,
   tone = "serious",
   defaultRange = "1d",
@@ -56,6 +57,7 @@ export default function ExactMarketChart({
   showRanges?: boolean;
   showPulse?: boolean;
   minimal?: boolean;
+  concise?: boolean;
   derived?: boolean;
   tone?: "serious" | "sport" | "neutral";
   defaultRange?: RecordedRangeKey;
@@ -175,13 +177,15 @@ export default function ExactMarketChart({
             <span className="tregu-live-dot" aria-hidden />
             {derived ? "Nga pika të regjistruara" : "Të dhëna të regjistruara"}
           </span>
-          <time dateTime={model.latestT != null ? new Date(model.latestT).toISOString() : undefined}>
-            {model.earliestT == null
-              ? timeLabel(null)
-              : model.earliestT === model.latestT
-                ? timeLabel(model.latestT, compact)
-                : `${timeLabel(model.earliestT, compact)} - ${timeLabel(model.latestT, compact)}`}
-          </time>
+          {!concise && (
+            <time dateTime={model.latestT != null ? new Date(model.latestT).toISOString() : undefined}>
+              {model.earliestT == null
+                ? timeLabel(null)
+                : model.earliestT === model.latestT
+                  ? timeLabel(model.latestT, compact)
+                  : `${timeLabel(model.earliestT, compact)} - ${timeLabel(model.latestT, compact)}`}
+            </time>
+          )}
         </div>
       )}
 
@@ -205,7 +209,7 @@ export default function ExactMarketChart({
         </div>
       )}
 
-      {!minimal && (
+      {!minimal && !concise && (
         <div className="tregu-exact-chart-scale">
           <span>{selected.option.description}</span>
           <strong>{model.domain.zoomed ? "Pamje e zmadhuar" : "Shkallë e plotë"}</strong>

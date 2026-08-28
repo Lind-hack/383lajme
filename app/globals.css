@@ -4530,27 +4530,11 @@ header[data-overlay] .nav-coin-chip {
   gap: 11px;
   min-width: 0;
 }
-.tregu-football-eyebrow,
-.tregu-football-cadence {
-  color: #6B6B6B;
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-.tregu-football-cadence {
-  padding: 6px 9px;
-  border: 1px solid rgba(17, 17, 17, 0.09);
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.72);
-  letter-spacing: 0;
-  text-transform: none;
-}
 .tregu-football-meta {
   display: flex;
   align-items: flex-end;
   flex-direction: column;
-  gap: 7px;
+  gap: 0;
 }
 .tregu-football-stage {
   color: #4B4B49;
@@ -12667,8 +12651,10 @@ header[data-overlay="true"] .nav-search-btn { color: rgba(255, 255, 255, 0.9); }
     repeating-linear-gradient(0deg, transparent 0 31px, rgba(83, 65, 47, .025) 31px 32px);
 }
 .tregu-detail-header[data-tone="sport"] {
+  z-index: 2;
   padding: 16px clamp(18px, 2.4vw, 30px) 17px;
-  overflow: hidden;
+  overflow: visible;
+  margin-bottom: 20px;
   border: 1px solid rgba(17, 20, 26, .14);
   border-radius: 5px 24px 5px 24px;
   background:
@@ -13063,7 +13049,7 @@ header[data-overlay="true"] .nav-search-btn { color: rgba(255, 255, 255, 0.9); }
     padding: 10px 0 12px;
   }
   .tregu-detail-header[data-tone="sport"] {
-    padding: 11px 12px 12px;
+    padding: 9px 10px 10px;
     border-radius: 4px 16px 4px 16px;
   }
   .tregu-detail-header-copy {
@@ -13079,17 +13065,17 @@ header[data-overlay="true"] .nav-search-btn { color: rgba(255, 255, 255, 0.9); }
   .tregu-detail-title {
     max-width: none !important;
     margin: 0 !important;
-    font-size: clamp(21px, 6.1vw, 25px) !important;
+    font-size: 20px !important;
     line-height: 1.04 !important;
     letter-spacing: -.028em !important;
   }
   .tregu-detail-reference {
-    min-width: 54px;
-    min-height: 46px;
-    padding: 5px 7px;
+    min-width: 48px;
+    min-height: 40px;
+    padding: 4px 6px;
     border-radius: 12px 4px 12px 4px;
   }
-  .tregu-detail-reference img { width: 31px; height: 31px; }
+  .tregu-detail-reference img { width: 28px; height: 28px; }
   .tregu-detail-reference[data-sport-theme="f1"] img { width: 44px; height: 38px; }
   .tregu-detail-meta-row {
     order: 2;
@@ -13112,7 +13098,7 @@ header[data-overlay="true"] .nav-search-btn { color: rgba(255, 255, 255, 0.9); }
     gap: 4px 10px !important;
   }
   .tregu-detail-quickfacts > span:first-child > span:first-child {
-    font-size: 29px !important;
+    font-size: 28px !important;
   }
   .tregu-detail-quickfacts > span:nth-of-type(2) {
     max-width: calc(100% - 90px);
@@ -13140,17 +13126,13 @@ header[data-overlay="true"] .nav-search-btn { color: rgba(255, 255, 255, 0.9); }
     border-radius: 12px;
   }
   .tregu-detail-chart-shell .tregu-exact-chart-plot {
-    height: 184px !important;
+    height: 220px !important;
   }
   .tregu-football-market-head {
     display: none;
   }
   .tregu-football-title-row h2 {
     font-size: 21px;
-  }
-  .tregu-football-cadence,
-  .tregu-football-eyebrow {
-    display: none;
   }
   .tregu-football-legend {
     gap: 5px;
@@ -13562,11 +13544,18 @@ header[data-overlay="true"] .nav-search-btn { color: rgba(255, 255, 255, 0.9); }
     inset: 0;
     z-index: 110;
     display: grid;
+    width: auto;
+    max-width: none;
+    height: auto;
+    max-height: none;
     place-items: center;
     overflow: hidden;
     padding: max(24px, env(safe-area-inset-top)) 22px max(24px, env(safe-area-inset-bottom));
+    border: 0;
+    border-radius: 0;
     color: #fff;
     background: #111317;
+    box-shadow: none;
   }
   .tregu-trade-celebration-wash {
     position: absolute;

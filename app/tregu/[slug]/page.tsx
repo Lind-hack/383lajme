@@ -1178,11 +1178,6 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                     <div className="tregu-football-title-row">
                       {sportBrandKey ? <SportBrandMark brandKey={sportBrandKey} size="md" /> : null}
                       <div>
-                        <span className="tregu-football-eyebrow">
-                          {football.format.marketIntent === "to_qualify"
-                            ? "Tregu i kualifikimit"
-                            : "Tregu i ndeshjes"}
-                        </span>
                         <h2>
                           {football.format.marketIntent === "to_qualify"
                             ? "Kush kualifikohet?"
@@ -1195,7 +1190,6 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                         {football.format.stageLabel}
                         {football.format.leg ? ` · Ndeshja ${football.format.leg}` : ""}
                       </span>
-                      <span className="tregu-football-cadence">Shfaqje 1s · burimi zyrtar 2 min</span>
                     </div>
                   </div>
                   <div
@@ -1223,6 +1217,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                     height={460}
                     showRanges
                     showPulse
+                    concise
                     tone="sport"
                     series={football.outcomes.map((outcome) => ({
                       key: outcome.key,
