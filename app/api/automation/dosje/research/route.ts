@@ -110,10 +110,19 @@ export async function POST(req: Request) {
 
   // ── 1. evidence, before anything is written ────────────────────────────────
   const sources = await gatherEvidence(subject, { max: 6 });
-  if (sources.length < 2) {
-    await finish("no_sources", { found: sources.length }, 30);
+
+  // Gate on distinct publishers, not on how many pages were fetched. Six
+  // documents from one institution are one account of events, and the
+  // validator will refuse them anyway — checking it here means a subject that
+  // cannot possibly pass never reaches the model.
+  const distinctPublishers = new Set(
+    sources.map((s) => String(s.publisher ?? "").toLowerCase().trim()).filter(Boolean)
+  ).size;
+
+  if (distinctPublishers < 2) {
+    await finish("no_sources", { found: sources.length, publishers: distinctPublishers }, 30);
     return NextResponse.json(
-      { ok: false, reason: "no_sources", found: sources.length },
+      { ok: false, reason: "no_sources", found: sources.length, publishers: distinctPublishers },
       { status: 422 }
     );
   }
@@ -223,6 +232,10 @@ export async function GET(req: Request) {
       chars: (s.text ?? "").length,
     })),
     publishers: [...new Set(sources.map((s) => s.publisher))].length,
-    wouldProceed: sources.length >= 2,
+    // The same rule the POST enforces, so a dry run cannot say yes where the
+    // real run would refuse.
+    wouldProceed:
+      new Set(sources.map((s) => String(s.publisher ?? "").toLowerCase().trim()).filter(Boolean))
+        .size >= 2,
   });
 }
