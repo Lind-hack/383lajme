@@ -171,29 +171,30 @@
     },
     "FIGC": {
       "country": "Itali",
-      "total": 4,
+      "total": 5,
       "positive": 0,
       "neutral": 1,
       "negative": 0,
-      "unknown": 3,
+      "unknown": 4,
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-25",
+      "lastSeen": "2026-08-28",
       "urls": [
         "https://www.figc.it/it/nazionali/news/giochi-del-mediterraneo-la-spedizione-azzurra-arriva-a-taranto-per-sfilare-alla-cerimonia-di-apertura-hpfgneix",
         "https://www.figc.it/it/nazionali/news/giochi-del-mediterraneo-esordio-a-senso-unico-per-le-azzurrine-4-1-al-kosovo-qvcvhv0q",
         "https://www.figc.it/it/nazionali/news/giochi-del-mediterraneo-che-battaglia-a-brindisi-azzurrini-ko-3-1-con-lalgeria-bldoae25",
-        "https://www.figc.it/it/nazionali/news/giochi-del-mediterraneo-azzurrine-fermate-sull1-1-dalla-slovenia-hylf1s5e"
+        "https://www.figc.it/it/nazionali/news/giochi-del-mediterraneo-azzurrine-fermate-sull1-1-dalla-slovenia-hylf1s5e",
+        "https://www.figc.it/it/nazionali/news/mondiale-di-futsal-2028-il-cammino-inizia-in-calabria-il-20-ottobre-gli-azzurri-a-rende-per-italia-georgia-o5b5okwc"
       ]
     },
     "ANSA": {
       "country": "Itali",
-      "total": 7,
+      "total": 8,
       "positive": 0,
-      "neutral": 5,
+      "neutral": 6,
       "negative": 0,
       "unknown": 2,
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-26",
+      "lastSeen": "2026-08-28",
       "urls": [
         "https://www.ansa.it/nuova_europa/en/news/sections/news/2026/08/20/vucic-writes-to-rutte-nato-stop-terror-in-kosovo-do-not-reopen-the_9034279d-c06f-4e44-ab54-096dd4332014.html",
         "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/08/20/vucic-scrive-a-rutte-nato-fermi-terrore-in-kosovo-non-riaprire-ponte_68050249-06ef-4b0a-b56b-6ff64929514e.html",
@@ -201,7 +202,8 @@
         "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/08/24/nei-balcani-macedonia-del-nord-bosnia-e-serbia-in-preda-agli-incendi_12f9ffd9-6f15-4ffb-982e-a4b1c86da15e.html",
         "https://www.ansa.it/nuova_europa/en/news/countries/kosovo/2026/08/24/balkans-north-macedonia-bosnia-and-serbia-gripped-by-wildfires_72bbad1c-7f2a-4d8c-b5a4-4e1b2accea77.html",
         "https://www.ansa.it/sito/photogallery/primopiano/2026/08/26/il-premier-del-kosovo-albin-kurti-visita-la-macedonia-del-nord_2b25a778-cba8-4d7b-90c7-c13db0adbca7.html",
-        "https://www.ansa.it/puglia/notizie/speciali/xx_giochi_del_mediterraneo_taranto_2026/2026/08/26/giochi-del-mediterraneo-iacovone-sold-out-per-ltalia-kosovo-di-calcio_3721fc27-cf4f-427f-b528-7b301621f166.html"
+        "https://www.ansa.it/puglia/notizie/speciali/xx_giochi_del_mediterraneo_taranto_2026/2026/08/26/giochi-del-mediterraneo-iacovone-sold-out-per-ltalia-kosovo-di-calcio_3721fc27-cf4f-427f-b528-7b301621f166.html",
+        "https://www.ansa.it/europa/notizie/rubriche/altrenews/2026/08/28/ue-il-kosovo-deve-reintegrare-il-personale-giudiziario-serbo_ebde8f7d-d1a6-4236-99bf-af10c06f834b.html"
       ]
     },
     "Virgilio": {
@@ -512,29 +514,34 @@
     },
     "Demócrata": {
       "country": "Spanjë",
-      "total": 2,
+      "total": 6,
       "positive": 0,
-      "neutral": 2,
-      "negative": 0,
+      "neutral": 4,
+      "negative": 2,
       "unknown": 0,
       "firstSeen": "2026-08-22",
-      "lastSeen": "2026-08-22",
+      "lastSeen": "2026-08-28",
       "urls": [
         "https://www.democrata.es/en/international/serbia-urges-nato-to-stop-the-withdrawal-of-kfor-from-the-ibar-bridge-in-mitrovica/",
-        "https://www.democrata.es/it/internazionale/serbia-invita-la-nato-a-fermare-il-ritiro-della-kfor-dal-ponte-ibar-a-mitrovica/amp/"
+        "https://www.democrata.es/it/internazionale/serbia-invita-la-nato-a-fermare-il-ritiro-della-kfor-dal-ponte-ibar-a-mitrovica/amp/",
+        "https://www.democrata.es/en/international/the-eu-criticizes-that-kosovo-validates-resignations-of-serbian-judges-already-withdrawn/",
+        "https://www.democrata.es/fr/international/l-ue-critique-que-le-kosovo-valide-des-demissions-de-juges-serbes-deja-retirees/",
+        "https://www.democrata.es/it/internazionale/l-ue-critica-che-il-kosovo-convalidi-le-dimissioni-dei-giudici-serbi-gia-ritirate/",
+        "https://www.democrata.es/internacional/la-ue-critica-que-kosovo-valide-dimisiones-de-jueces-serbios-ya-retiradas/"
       ]
     },
     "Europa Press": {
       "country": "Spanjë",
-      "total": 1,
+      "total": 2,
       "positive": 0,
       "neutral": 1,
-      "negative": 0,
+      "negative": 1,
       "unknown": 0,
       "firstSeen": "2026-08-22",
-      "lastSeen": "2026-08-22",
+      "lastSeen": "2026-08-28",
       "urls": [
-        "https://www.europapress.es/internacional/noticia-serbia-pide-mision-otan-kosovo-reconsidere-retirada-puente-ibar-mitrovica-20260822092257.html"
+        "https://www.europapress.es/internacional/noticia-serbia-pide-mision-otan-kosovo-reconsidere-retirada-puente-ibar-mitrovica-20260822092257.html",
+        "https://www.europapress.es/internacional/noticia-ue-lamenta-kosovo-haya-acabado-aceptando-dimisiones-jueces-serbios-ya-sido-retiradas-20260828184957.html"
       ]
     },
     "Sport24": {
@@ -580,17 +587,18 @@
     },
     "Gazzetta.gr": {
       "country": "Greqi",
-      "total": 3,
+      "total": 4,
       "positive": 0,
-      "neutral": 3,
+      "neutral": 4,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-19",
-      "lastSeen": "2026-08-25",
+      "lastSeen": "2026-08-28",
       "urls": [
         "https://www.gazzetta.gr/volleyball/2562471/mesogeiakoi-agones-2026-kontra-sto-kosobo-premiera-gia-tin-ethniki-andron",
         "https://www.gazzetta.gr/volleyball/2562585/mesogeiakoi-agones-2026-me-dexi-i-ethniki-andron-3-0-kosobo",
-        "https://www.gazzetta.gr/football/uefa-nations-league/live-kosovo-irlandia-24-09-2026"
+        "https://www.gazzetta.gr/football/uefa-nations-league/live-kosovo-irlandia-24-09-2026",
+        "https://www.gazzetta.gr/football/uefa-nations-league/live-aystria-kosovo-27-09-2026"
       ]
     },
     "NewsIT": {
@@ -1118,17 +1126,18 @@
     },
     "Cronache Tarantine": {
       "country": "Itali",
-      "total": 3,
+      "total": 4,
       "positive": 0,
-      "neutral": 3,
+      "neutral": 4,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-23",
-      "lastSeen": "2026-08-26",
+      "lastSeen": "2026-08-27",
       "urls": [
         "https://www.cronachetarantine.it/index.php/sp/107-taranto-calcio/17587-presentazione-della-squadra-del-taranto-nellintervallo-di-italia-kosovo",
         "https://www.cronachetarantine.it/index.php/giochi-2026/17627-giochi-italia-kosovo-di-calcio-chiusure-attorno-allo-iacovone-dalle-18",
-        "https://www.cronachetarantine.it/index.php/giochi-2026/17644-giochi-piano-straordinario-trasporti-e-navette-per-la-partita-di-calcio-italia-kosovo"
+        "https://www.cronachetarantine.it/index.php/giochi-2026/17644-giochi-piano-straordinario-trasporti-e-navette-per-la-partita-di-calcio-italia-kosovo",
+        "https://www.cronachetarantine.it/index.php/giochi-2026/17658-impresa-degli-azzurrini-nel-calcio-3-0-al-kosovo-e-semifinale-contro-la-tunisia"
       ]
     },
     "Studio 100": {
@@ -1850,15 +1859,16 @@
     },
     "RaiNews": {
       "country": "Itali",
-      "total": 1,
+      "total": 2,
       "positive": 0,
       "neutral": 1,
       "negative": 0,
-      "unknown": 0,
+      "unknown": 1,
       "firstSeen": "2026-08-26",
-      "lastSeen": "2026-08-26",
+      "lastSeen": "2026-08-27",
       "urls": [
-        "https://www.rainews.it/tgr/puglia/articoli/2026/08/litalia-batte-il-kosovo-e-vola-in-semifinale-46df43ec-96e7-4af8-b73a-cec055790a73.html"
+        "https://www.rainews.it/tgr/puglia/articoli/2026/08/litalia-batte-il-kosovo-e-vola-in-semifinale-46df43ec-96e7-4af8-b73a-cec055790a73.html",
+        "https://www.rainews.it/tgr/puglia/video/2026/08/giochi-del-mediterraneo-9f31ae0f-6f7d-4a46-ad0f-f710b8af0546.html"
       ]
     },
     "La Gazzetta del Mezzogiorno": {
@@ -1996,15 +2006,16 @@
     },
     "Bloomberg": {
       "country": "SHBA",
-      "total": 1,
-      "positive": 0,
+      "total": 2,
+      "positive": 1,
       "neutral": 1,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-28",
-      "lastSeen": "2026-08-27",
+      "lastSeen": "2026-08-28",
       "urls": [
-        "https://www.bloomberg.com/news/articles/2026-08-27/dua-lipa-puts-kosovo-on-the-music-map-with-sunny-hill-festival"
+        "https://www.bloomberg.com/news/articles/2026-08-27/dua-lipa-puts-kosovo-on-the-music-map-with-sunny-hill-festival",
+        "https://www.bloomberg.com/news/newsletters/2026-08-28/dua-lipa-wants-the-world-to-come-to-kosovo"
       ]
     },
     "rferl.org": {
@@ -2045,6 +2056,71 @@
       "urls": [
         "https://cijm.org.gr/kosovo-wins-its-first-gold-at-taranto-2026/",
         "https://cijm.org.gr/to-kosovo-katektise-to-proto-chryso-sto-taranto-2026/?lang=el"
+      ]
+    },
+    "Virgilio Sport": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-28",
+      "lastSeen": "2026-08-27",
+      "urls": [
+        "https://sport.virgilio.it/giochi-del-mediterraneo-miracolo-italia-3-0-al-96-al-kosovo-e-semifinale-centrata-per-un-gol-in-piu-in-differenza-reti-sull-albania-968926"
+      ]
+    },
+    "Remocontro": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 1,
+      "unknown": 0,
+      "firstSeen": "2026-08-28",
+      "lastSeen": "2026-08-28",
+      "urls": [
+        "https://www.remocontro.it/2026/08/28/kosovo-alleato-ma-le-armi-della-serbia-sono-piu-utili/"
+      ]
+    },
+    "Solothurner Zeitung": {
+      "country": "Zvicër",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-08-28",
+      "lastSeen": "2026-08-28",
+      "urls": [
+        "https://www.solothurnerzeitung.ch/solothurn/kanton-solothurn/solothurner-mutter-und-kinder-muessen-schweiz-verlassen-ld.4223422"
+      ]
+    },
+    "ESPN.nl": {
+      "country": "Holandë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-28",
+      "lastSeen": "2026-08-28",
+      "urls": [
+        "https://www.espn.nl/voetbal/wedstrijd?wedstrijdId=505471&action=summary"
+      ]
+    },
+    "iGaming Polska": {
+      "country": "Poloni",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-28",
+      "lastSeen": "2026-08-27",
+      "urls": [
+        "https://igamingpolska.pl/mistrzostwa-swiata-socca-2026-terminarz-wyniki/"
       ]
     }
   }
