@@ -96,6 +96,9 @@ if (dryRun) {
       topic_key: candidate?.topic_key ?? null,
       closes_in_hours: candidate?.closes_in_hours ?? null,
     })) : [],
+    accepted_count: result.accepted_count ?? (result.markets ?? []).length,
+    rejected_count: result.rejected_count ?? (result.rejected ?? []).length,
+    no_publish_reason: result.no_publish_reason ?? null,
     accepted: result.markets ?? [],
     rejected: result.rejected ?? [],
   }, null, 2));

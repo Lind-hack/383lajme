@@ -116,6 +116,9 @@ const REQUIRED_CHART_MARKERS = {
     "process.argv.includes(\"--dry-run\")",
     "const sendReceipt",
     "const escapeHtml",
+    "accepted_count",
+    "rejected_count",
+    "no_publish_reason",
   ],
   "app/api/automation/tregu/daily-drafts/route.ts": [
     "selectDailySourceArticles",

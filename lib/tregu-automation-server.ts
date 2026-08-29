@@ -107,6 +107,31 @@ function errorClass(error: unknown): string {
   return classifyProviderFailure(value?.status ?? 400, value?.message ?? String(error ?? ""));
 }
 
+function summarizeDailyPlan(candidates: unknown, plan: { rows: Array<Record<string, any>>; rejected: Array<Record<string, any>> }) {
+  const modelCandidates = Array.isArray(candidates) ? candidates : [];
+  return {
+    model_candidate_count: modelCandidates.length,
+    model_candidates: modelCandidates.map((candidate) => ({
+      question: String(candidate?.question ?? ""),
+      market_archetype: candidate?.market_archetype ?? null,
+      topic_key: candidate?.topic_key ?? null,
+      closes_in_hours: candidate?.closes_in_hours ?? null,
+      source_slugs: Array.isArray(candidate?.source_slugs) ? candidate.source_slugs.map(String).slice(0, 8) : [],
+    })),
+    accepted_count: plan.rows.length,
+    accepted_markets: plan.rows.map((row) => ({
+      question: row.question,
+      category: row.category,
+      closes_at: row.closes_at,
+      market_archetype: row.pre_match_analysis?.market_archetype ?? null,
+      topic_key: row.pre_match_analysis?.topic_key ?? null,
+      source_article_slugs: Array.isArray(row.source_article_slugs) ? row.source_article_slugs : [],
+    })),
+    rejected_count: plan.rejected.length,
+    rejected_candidates: plan.rejected,
+  };
+}
+
 export async function runDailyDraftAutomation(candidates: unknown, now = new Date(), requestedRunKey?: unknown) {
   if (requestedRunKey !== undefined && typeof requestedRunKey !== "string") throw new Error("Invalid live-event draft run key.");
   const admin = createAdminClient();
@@ -154,7 +179,7 @@ export async function runDailyDraftAutomation(candidates: unknown, now = new Dat
     if (!expectedLiveEventRunKey) {
       const noPublishReason = dailyDraftPublicationReason(plan);
       if (noPublishReason) {
-        const details = { created: 0, rejected: plan.rejected, admin_approval_required: true, no_publish_reason: noPublishReason };
+        const details = { created: 0, ...summarizeDailyPlan(validated.candidates, plan), admin_approval_required: true, no_publish_reason: noPublishReason };
         await finishRun(admin, started.run.id, "succeeded", details);
         return { ok: true, skipped: true, runKey, ...details, markets: [] };
       }
@@ -176,7 +201,7 @@ export async function runDailyDraftAutomation(candidates: unknown, now = new Dat
       if (error) throw new Error(`Could not insert market drafts: ${error.message}`);
       createdMarkets = data ?? [];
     }
-    const details = { created: rows.length, rejected: plan.rejected, admin_approval_required: true };
+    const details = { created: rows.length, ...summarizeDailyPlan(validated.candidates, plan), admin_approval_required: true };
     await finishRun(admin, started.run.id, "succeeded", details);
     const sourceBySlug = new Map(sourceArticles.map((article) => [article.slug, article]));
     const markets = createdMarkets.map((market) => ({
@@ -224,7 +249,7 @@ export async function previewDailyDraftAutomation(candidates: unknown, now = new
     ok: true,
     preview: true,
     created: 0,
-    rejected: plan.rejected,
+    ...summarizeDailyPlan(validated.candidates, plan),
     no_publish_reason: noPublishReason,
     markets: noPublishReason ? [] : plan.rows,
   };
