@@ -188,13 +188,13 @@
     },
     "ANSA": {
       "country": "Itali",
-      "total": 8,
+      "total": 10,
       "positive": 0,
       "neutral": 6,
       "negative": 0,
-      "unknown": 2,
+      "unknown": 4,
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-28",
+      "lastSeen": "2026-08-29",
       "urls": [
         "https://www.ansa.it/nuova_europa/en/news/sections/news/2026/08/20/vucic-writes-to-rutte-nato-stop-terror-in-kosovo-do-not-reopen-the_9034279d-c06f-4e44-ab54-096dd4332014.html",
         "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/08/20/vucic-scrive-a-rutte-nato-fermi-terrore-in-kosovo-non-riaprire-ponte_68050249-06ef-4b0a-b56b-6ff64929514e.html",
@@ -203,7 +203,9 @@
         "https://www.ansa.it/nuova_europa/en/news/countries/kosovo/2026/08/24/balkans-north-macedonia-bosnia-and-serbia-gripped-by-wildfires_72bbad1c-7f2a-4d8c-b5a4-4e1b2accea77.html",
         "https://www.ansa.it/sito/photogallery/primopiano/2026/08/26/il-premier-del-kosovo-albin-kurti-visita-la-macedonia-del-nord_2b25a778-cba8-4d7b-90c7-c13db0adbca7.html",
         "https://www.ansa.it/puglia/notizie/speciali/xx_giochi_del_mediterraneo_taranto_2026/2026/08/26/giochi-del-mediterraneo-iacovone-sold-out-per-ltalia-kosovo-di-calcio_3721fc27-cf4f-427f-b528-7b301621f166.html",
-        "https://www.ansa.it/europa/notizie/rubriche/altrenews/2026/08/28/ue-il-kosovo-deve-reintegrare-il-personale-giudiziario-serbo_ebde8f7d-d1a6-4236-99bf-af10c06f834b.html"
+        "https://www.ansa.it/europa/notizie/rubriche/altrenews/2026/08/28/ue-il-kosovo-deve-reintegrare-il-personale-giudiziario-serbo_ebde8f7d-d1a6-4236-99bf-af10c06f834b.html",
+        "https://www.ansa.it/english/news/news_from_embassies/2026/08/29/ambassador-to-kosovo-antonini-meets-with-interim-president-haxhiu_f485b25c-005b-4f3c-8398-8720fb63847b.html",
+        "https://www.ansa.it/sito/notizie/mondo/news_dalle_ambasciate/2026/08/29/ambasciatore-in-kosovo-antonini-incontra-la-presidente-ad-interim-haxhiu_16bdddb8-9b56-4b96-a5cb-53107756bc7b.html"
       ]
     },
     "Virgilio": {
@@ -660,13 +662,13 @@
     },
     "sport-fm.gr": {
       "country": "Greqi",
-      "total": 9,
+      "total": 10,
       "positive": 1,
       "neutral": 7,
       "negative": 0,
-      "unknown": 1,
+      "unknown": 2,
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-26",
+      "lastSeen": "2026-08-29",
       "urls": [
         "https://www.sport-fm.gr/article/amp/mesogeiakoi-agwnes-agriemeni-stin-premiera-tis-i-ethniki-andrwn-sarwse-to-kosobo-amp/5142502",
         "https://www.sport-fm.gr/article/amp/ellada-kosobo-3-0-set-amp/5142590",
@@ -676,7 +678,8 @@
         "https://www.sport-fm.gr/article/amp/Live-ellada-kosobo-amp/4237404",
         "https://www.sport-fm.gr/article/amp/ellada-kosobo-40-20-amp/5143343",
         "https://www.sport-fm.gr/article/4133262",
-        "https://www.sport-fm.gr/article/amp/Live-kosobo-kupros-amp/4327483"
+        "https://www.sport-fm.gr/article/amp/Live-kosobo-kupros-amp/4327483",
+        "https://www.sport-fm.gr/article/795903"
       ]
     },
     "In.gr": {
@@ -1477,15 +1480,16 @@
     },
     "Kronen Zeitung": {
       "country": "Austri",
-      "total": 1,
+      "total": 2,
       "positive": 0,
       "neutral": 1,
       "negative": 0,
-      "unknown": 0,
+      "unknown": 1,
       "firstSeen": "2026-08-25",
-      "lastSeen": "2026-08-25",
+      "lastSeen": "2026-08-29",
       "urls": [
-        "https://www.krone.at/4268829"
+        "https://www.krone.at/4268829",
+        "https://www.krone.at/4269964"
       ]
     },
     "Heute": {
@@ -2103,15 +2107,16 @@
     },
     "ESPN.nl": {
       "country": "Holandë",
-      "total": 1,
+      "total": 2,
       "positive": 0,
       "neutral": 1,
       "negative": 0,
-      "unknown": 0,
+      "unknown": 1,
       "firstSeen": "2026-08-28",
       "lastSeen": "2026-08-28",
       "urls": [
-        "https://www.espn.nl/voetbal/wedstrijd?wedstrijdId=505471&action=summary"
+        "https://www.espn.nl/voetbal/wedstrijd?wedstrijdId=505471&action=summary",
+        "https://www.espn.nl/voetbal/wedstrijd?wedstrijdId=570760&action=summary"
       ]
     },
     "iGaming Polska": {

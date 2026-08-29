@@ -1,10 +1,10 @@
 {
   "lastUpdated": "2026-08-29",
   "overallIndex": 51,
-  "totalArticles": 74,
-  "sourceCount": 54,
+  "totalArticles": 76,
+  "sourceCount": 55,
   "stanceVersion": 3,
-  "unattributed": 146,
+  "unattributed": 150,
   "nonEditorial": 2,
   "wrongKosovo": 0,
   "countries": {
@@ -276,7 +276,7 @@
         {
           "name": "ANSA",
           "sentiment": "neutral",
-          "articleCount": 3,
+          "articleCount": 5,
           "articles": [
             {
               "title": "Il premier del Kosovo, Albin Kurti visita la Macedonia del Nord - ANSA",
@@ -316,12 +316,38 @@
               "isQuote": true,
               "evidence": "",
               "speaker": "UE"
+            },
+            {
+              "title": "Ambassador to Kosovo Antonini Meets with Interim President Haxhiu - ANSA",
+              "albanianTitle": "Ambasadori në Kosovë, Antonini, takon ushtruesen e detyrës së presidentit, Haxhiu – ANSA",
+              "blurb": "Ambasadori italian në Kosovë, Antonini, ka zhvilluar një takim zyrtar me ushtruesen e detyrës së presidentit, Vjosa Osmani-Sadriu.",
+              "imageUrl": "https://www.ansa.it/webimages/img_1280x720/2026/8/29/0d49b2ffcbc94596722d725b4af37a7a.jpg",
+              "url": "https://www.ansa.it/english/news/news_from_embassies/2026/08/29/ambassador-to-kosovo-antonini-meets-with-interim-president-haxhiu_f485b25c-005b-4f3c-8398-8720fb63847b.html",
+              "date": "2026-08-29",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Ambasciatore in Kosovo Antonini incontra la presidente ad interim Haxhiu - ANSA",
+              "albanianTitle": "Ambasadori në Kosovë, Antonini, takon ushtruesen e detyrës së presidentit, Haxhiu – ANSA",
+              "blurb": "Ambasadori i Italisë në Kosovë, Antonini, është takuar me ushtruesen e detyrës së presidentit të vendit, Vjosa Osmani-Sadriu.",
+              "imageUrl": "https://www.ansa.it/webimages/img_1280x720/2026/8/29/0d49b2ffcbc94596722d725b4af37a7a.jpg",
+              "url": "https://www.ansa.it/sito/notizie/mondo/news_dalle_ambasciate/2026/08/29/ambasciatore-in-kosovo-antonini-incontra-la-presidente-ad-interim-haxhiu_16bdddb8-9b56-4b96-a5cb-53107756bc7b.html",
+              "date": "2026-08-29",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 8,
+          "totalArticles": 10,
           "trend": "neutral",
           "firstSeen": "2026-08-20",
-          "lastSeen": "2026-08-28"
+          "lastSeen": "2026-08-29"
         },
         {
           "name": "Aise.it - Agenzia Internazionale Stampa Estero",
@@ -508,18 +534,18 @@
         },
         {
           "name": "FIGC",
-          "sentiment": "unknown",
+          "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
               "title": "Mondiale di futsal 2028, il cammino inizia in Calabria: il 20 ottobre gli Azzurri a Rende per Italia-Georgia - FIGC",
-              "albanianTitle": "Kampionati Botëror i futsallit 2028, rrugëtimi nis në Kalabri: më 20 tetor “Azzurrët” në Rende për ndeshjen Itali-Gjeorgji - FIGC",
-              "blurb": "Kombëtarja e Italisë në futsall do të përballet me Gjeorgjinë në Rende më 20 tetor, në kuadër të kualifikimeve për botëror.",
+              "albanianTitle": "Kampionati Botëror i futsallit 2028, rrugëtimi nis në Kalabri: më 20 tetor Italia luan kundër Gjeorgjisë në Rende - FIGC",
+              "blurb": "Kombëtarja italiane e futsalit do të përballet me Gjeorgjinë në Rende më 20 tetor, për kualifikimet e botërorit.",
               "imageUrl": "https://images.figc.it/view/acePublic/alias/contentid/1tf45kl5u1q9umrdekk/0/2259428813-jpg.jpg?f=187%3A100",
               "url": "https://www.figc.it/it/nazionali/news/mondiale-di-futsal-2028-il-cammino-inizia-in-calabria-il-20-ottobre-gli-azzurri-a-rende-per-italia-georgia-o5b5okwc",
               "date": "2026-08-28",
-              "sentiment": "unknown",
-              "reason": "Nuk ka asnjë përmendje të Kosovës në titull",
+              "sentiment": "neutral",
+              "reason": "Lajm i thjeshtë, pa gjuhë vlerësuese",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -760,12 +786,12 @@
             {
               "title": "Le emozioni nello stadio e nel palazzetto - RaiNews",
               "albanianTitle": "Emocione në stadium dhe në palestër - RaiNews",
-              "blurb": "Ngjarjet sportive në stadiume dhe palestra po përcillen me emocione të mëdha nga ana e shikuesve dhe tifozëve prezentë.",
+              "blurb": "Përjetimet dhe atmosfera në stadiume dhe palestra sportive gjatë zhvillimit të ndeshjeve të ndryshme të sportit.",
               "imageUrl": "https://www.rainews.it/cropgd/1200x630/dl/img/2026/08/27/1787832555136_stadio_iacovone.jpg",
               "url": "https://www.rainews.it/tgr/puglia/video/2026/08/giochi-del-mediterraneo-9f31ae0f-6f7d-4a46-ad0f-f710b8af0546.html",
               "date": "2026-08-27",
-              "sentiment": "unknown",
-              "reason": "Nuk ka asnjë përmendje të Kosovës në titull",
+              "sentiment": "neutral",
+              "reason": "Lajm i thjeshtë, pa gjuhë vlerësuese",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1009,9 +1035,9 @@
       "summary": {
         "index": 51,
         "positive": 6,
-        "neutral": 91,
+        "neutral": 92,
         "negative": 3,
-        "n": 34,
+        "n": 36,
         "excluded": 2,
         "confident": true,
         "stanceVersion": 3
@@ -1042,6 +1068,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-08-28",
           "lastSeen": "2026-08-27"
+        },
+        {
+          "name": "Kronen Zeitung",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Für Abonnenten - Die „Krone“ fliegt Sie zum Länderspiel-Doppelpack - Kronen Zeitung",
+              "albanianTitle": "Për abonentët: „Krone“ ju dërgon në dy ndeshjet e kombëtares – Kronen Zeitung",
+              "blurb": "Gazeta austriake Kronen Zeitung ofron mundësinë për abonentët e saj që të udhëtojnë për të ndjekur ndeshjet e kombëtares.",
+              "imageUrl": "https://imgl.krone.at/scaled/4269985/v16289f/og_image.jpg",
+              "url": "https://www.krone.at/4269964",
+              "date": "2026-08-29",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 2,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-25",
+          "lastSeen": "2026-08-29"
         },
         {
           "name": "Sky Sport Austria",
@@ -1111,7 +1161,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 4,
-        "excluded": 0,
+        "excluded": 1,
         "confident": false,
         "stanceVersion": 3
       }
@@ -1125,13 +1175,13 @@
           "articles": [
             {
               "title": "Mutter aus Kanton Solothurn: Wegweisung trotz Drohungen des Ehemanns - Solothurner Zeitung",
-              "albanianTitle": "Nënë nga Kantoni i Solothurnit: Dëbim pavarësisht kërcënimeve nga bashkëshorti - Solothurner Zeitung",
-              "blurb": "Një nënë nga kantoni i Solothurnit përballet me urdhër dëbimi pavarësisht kërcënimeve të vazhdueshme nga bashkëshorti i saj.",
+              "albanianTitle": "Nënë nga kantoni i Solothurnit: U urdhërua të largohej pavarësisht kërcënimeve nga bashkëshorti - Solothurner Zeitung",
+              "blurb": "Një nënë nga kantoni i Solothurnit është urdhëruar të largohet nga shtëpia pavarësisht kërcënimeve nga bashkëshorti i saj.",
               "imageUrl": null,
               "url": "https://www.solothurnerzeitung.ch/solothurn/kanton-solothurn/solothurner-mutter-und-kinder-muessen-schweiz-verlassen-ld.4223422",
               "date": "2026-08-28",
               "sentiment": "unknown",
-              "reason": "Nuk përmendet Kosova në titull, prandaj nuk mund të përcaktohet qëndrimi",
+              "reason": "No mention of Kosovo in the item",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1159,7 +1209,7 @@
         {
           "name": "ESPN.nl",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Malta 0-5 Kosovo (17 nov., 2018) Uitslag - ESPN.nl",
@@ -1173,9 +1223,22 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Kosovo 1-2 Griekenland (6 sep., 2020) Uitslag - ESPN.nl",
+              "albanianTitle": "Kosova mposhtet 1-2 nga Greqia (6 shtator 2020) - Rezultati final",
+              "blurb": "Kombëtarja e Kosovës në futboll është mposhtur nga Greqia me rezultat 1-2 në ndeshjen e zhvilluar më 6 shtator 2020.",
+              "imageUrl": null,
+              "url": "https://www.espn.nl/voetbal/wedstrijd?wedstrijdId=570760&action=summary",
+              "date": "2026-08-27",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 1,
+          "totalArticles": 2,
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-08-28",
           "lastSeen": "2026-08-28"
@@ -1211,7 +1274,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 2,
-        "excluded": 0,
+        "excluded": 1,
         "confident": false,
         "stanceVersion": 3
       }
@@ -1457,7 +1520,7 @@
         {
           "name": "sport-fm.gr",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Κόσοβο-Κύπρος - sport-fm.gr",
@@ -1471,12 +1534,25 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Συνεχίζει τις «εμπρηστικές» δηλώσεις για το Κόσοβο ο Ράμα - sport-fm.gr",
+              "albanianTitle": "Rama vazhdon me deklarata „provokuese“ për Kosovën – sport-fm.gr",
+              "blurb": "Kryeministri i Shqipërisë, Edi Rama, vazhdon të bëjë deklarata lidhur me çështjen e Kosovës të cilat vlerësohen si provokuese.",
+              "imageUrl": "https://resources.sport-fm.gr/supersportFM/images/news/14/11/11/130147.jpg?w=880&f=bicubic",
+              "url": "https://www.sport-fm.gr/article/795903",
+              "date": "2026-08-29",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 9,
+          "totalArticles": 10,
           "trend": "i përzier",
           "firstSeen": "2026-08-20",
-          "lastSeen": "2026-08-26"
+          "lastSeen": "2026-08-29"
         },
         {
           "name": "Ολύμπιο Βήμα",
@@ -1509,7 +1585,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 6,
-        "excluded": 0,
+        "excluded": 1,
         "confident": true,
         "stanceVersion": 3
       }

@@ -3733,8 +3733,8 @@
   {
     "date": "2026-08-29",
     "overallIndex": 51,
-    "totalArticles": 74,
-    "sourceCount": 54,
+    "totalArticles": 76,
+    "sourceCount": 55,
     "stanceVersion": 3,
     "countries": {
       "Gjermani": {
@@ -3780,9 +3780,9 @@
       "Itali": {
         "index": 51,
         "positive": 6,
-        "neutral": 91,
+        "neutral": 92,
         "negative": 3,
-        "n": 34,
+        "n": 36,
         "excluded": 2,
         "confident": true,
         "stanceVersion": 3
@@ -3793,7 +3793,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 4,
-        "excluded": 0,
+        "excluded": 1,
         "confident": false,
         "stanceVersion": 3
       },
@@ -3813,7 +3813,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 2,
-        "excluded": 0,
+        "excluded": 1,
         "confident": false,
         "stanceVersion": 3
       },
@@ -3843,7 +3843,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 6,
-        "excluded": 0,
+        "excluded": 1,
         "confident": true,
         "stanceVersion": 3
       },
