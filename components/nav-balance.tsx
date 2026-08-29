@@ -20,6 +20,7 @@ const FLIGHT_COUNT = 12;
 
 interface FlightCoin {
   id: number;
+  amount: number;
   tx: number;
   ty: number;
   drift: number;
@@ -43,7 +44,7 @@ export default function NavBalance() {
   const onTregu = pathname === "/tregu" || Boolean(pathname?.startsWith("/tregu/"));
 
   const [balance, setBalance] = useState<number | null>(null);
-  const [flyCoins, setFlyCoins] = useState<number[]>([]);
+  const [flyCoins, setFlyCoins] = useState<Array<{ id: number; amount: number }>>([]);
   const [flight, setFlight] = useState<FlightCoin[]>([]);
   const [popping, setPopping] = useState(false);
   const [spinning, setSpinning] = useState(false);
@@ -80,12 +81,13 @@ export default function NavBalance() {
       if (next === prev) return;
       runCounter(prev, next);
       if (next > prev) {
+        const earned = next - prev;
         // Slide the "Coins earned!" card in with the amount gained.
-        window.dispatchEvent(new CustomEvent("383:coins-earned", { detail: next - prev }));
+        window.dispatchEvent(new CustomEvent("383:coins-earned", { detail: earned }));
         // One quick burst — coins stream in one by one, 55ms apart —
         // and the chip coin plays its earn flip.
-        const n = Math.min(10, Math.max(4, Math.ceil((next - prev) / 25)));
-        setFlyCoins(Array.from({ length: n }, (_, i) => performance.now() + i));
+        const n = Math.min(10, Math.max(4, Math.ceil(earned / 25)));
+        setFlyCoins(Array.from({ length: n }, (_, i) => ({ id: performance.now() + i, amount: earned })));
         setPopping(true);
         setSpinning(true);
         window.setTimeout(() => {
@@ -119,6 +121,7 @@ export default function NavBalance() {
         setFlight(
           Array.from({ length: FLIGHT_COUNT }, (_, i) => ({
             id: i,
+            amount: coins,
             tx: tx + Math.random() * 36 - 18,
             ty: ty + Math.random() * 16 - 8,
             drift: Math.random() * 160 - 80,
@@ -199,6 +202,8 @@ export default function NavBalance() {
 
   if (!onTregu || balance === null) return null;
 
+  const activeRewardAmount = flyCoins[0]?.amount ?? flight[0]?.amount ?? null;
+
   return (
     <>
       <Link
@@ -208,12 +213,17 @@ export default function NavBalance() {
         data-anim={popping ? "true" : undefined}
         title="383 Coin — portofoli im"
       >
-        {flyCoins.map((id, i) => (
-          <span key={id} className="nav-coin-fly" style={{ animationDelay: `${i * 55}ms` }} aria-hidden>
-            <CoinFace size={16} shine={false} idle={false} />
+        {flyCoins.map((coin, i) => (
+          <span key={coin.id} className="nav-coin-fly" style={{ animationDelay: `${i * 55}ms` }} aria-hidden>
+            <CoinFace size={16} numeral={`+${fmtNum(coin.amount)}`} shine={false} idle={false} />
           </span>
         ))}
-        <CoinFace size={20} spinning={spinning} hoverTilt />
+        <CoinFace
+          size={20}
+          numeral={spinning && activeRewardAmount ? `+${fmtNum(activeRewardAmount)}` : "383"}
+          spinning={spinning}
+          hoverTilt
+        />
         <span ref={numRef}>{fmtNum(balance)}</span>
       </Link>
       {flight.length > 0 && (
@@ -232,7 +242,7 @@ export default function NavBalance() {
               }
             >
               <span className="coin-tumble">
-                <CoinFace size={44} shine={false} idle={false} />
+                <CoinFace size={44} numeral={`+${fmtNum(c.amount)}`} shine={false} idle={false} />
               </span>
             </span>
           ))}

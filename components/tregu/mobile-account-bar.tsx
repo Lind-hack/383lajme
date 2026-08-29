@@ -19,13 +19,15 @@ export default function MobileAccountBar({
   bonusMsg,
   coinSpin,
   flyCoins,
+  rewardAmount,
   onClaim,
 }: {
   balance: number;
   claiming: boolean;
   bonusMsg: string | null;
   coinSpin: boolean;
-  flyCoins: number[];
+  flyCoins: Array<{ id: number; amount: number }>;
+  rewardAmount: number | null;
   onClaim: () => void;
 }) {
   // Mirror the navbar: over the hero the bar wears dark glass that melts into
@@ -53,17 +55,22 @@ export default function MobileAccountBar({
           data-anim={flyCoins.length ? "true" : undefined}
           aria-label="Bilanci im — hap portofolin"
         >
-          {flyCoins.map((id, i) => (
+          {flyCoins.map((coin, i) => (
             <span
-              key={id}
+              key={coin.id}
               className="nav-coin-fly"
               style={{ animationDelay: `${i * 55}ms` }}
               aria-hidden
             >
-              <CoinFace size={16} shine={false} idle={false} />
+              <CoinFace size={16} numeral={`+${fmtNum(coin.amount)}`} shine={false} idle={false} />
             </span>
           ))}
-          <CoinFace size={22} spinning={coinSpin} hoverTilt />
+          <CoinFace
+            size={22}
+            numeral={coinSpin && rewardAmount ? `+${fmtNum(rewardAmount)}` : "383"}
+            spinning={coinSpin}
+            hoverTilt
+          />
           <span className="tregu-mbar-bal">{fmtNum(balance)}</span>
           <span className="tregu-mbar-unit">383C</span>
           <span className="tregu-mbar-chev" aria-hidden>

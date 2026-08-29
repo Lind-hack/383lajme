@@ -33,7 +33,12 @@ export default function CoinFace({
   const small = size < 50;
   const large = size >= 120;
   const inset = Math.max(2, Math.round(size * (small ? 2 / 28 : large ? 8 / 168 : 4 / 76)));
-  const font = Math.round(size * (small ? 11 / 28 : 19 / 76));
+  const baseFont = Math.round(size * (small ? 11 / 28 : 19 / 76));
+  const numeralLength = numeral.replace(/\s/g, "").length;
+  const font = Math.max(
+    Math.round(size * 0.12),
+    Math.round(baseFont * Math.min(1, 3.2 / Math.max(1, numeralLength)))
+  );
   const showShine = shine ?? true;
 
   const ringShadow = small

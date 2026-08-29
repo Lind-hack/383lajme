@@ -30,7 +30,7 @@ const clips = {
     duration: 2,
   },
   football: {
-    output: "football-crowd.wav",
+    output: "football-crowd-3s-5s.wav",
     start: 3,
     duration: 2,
   },

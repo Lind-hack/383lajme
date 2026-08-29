@@ -36,6 +36,7 @@ export default function FloorRail({
   claiming,
   bonusMsg,
   coinSpin,
+  rewardAmount,
   onClaim,
 }: {
   markets: MiniMarket[];
@@ -43,6 +44,7 @@ export default function FloorRail({
   claiming?: boolean;
   bonusMsg?: string | null;
   coinSpin?: boolean;
+  rewardAmount?: number | null;
   onClaim?: () => void;
 }) {
   const hot = [...markets]
@@ -102,7 +104,12 @@ export default function FloorRail({
       {loggedIn ? (
         <section className="tregu-rail-promo" data-reward-state={bonusMsg ? "earned" : "ready"}>
           <div className="tregu-rail-promo-coin" aria-hidden>
-            <CoinFace size={58} spinning={coinSpin} hoverTilt />
+            <CoinFace
+              size={58}
+              numeral={coinSpin && rewardAmount ? `+${fmtNum(rewardAmount)}` : "383"}
+              spinning={coinSpin}
+              hoverTilt
+            />
             <i /><i /><i />
           </div>
           <div className="tregu-rail-promo-copy">

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import CoinFace from "@/components/tregu/coin-face";
+import { fmtNum } from "@/lib/format";
 
 // "Coins earned!" card — slides in from the right whenever the balance
 // grows (daily bonus, bet payout, signup). Listens for the 383:coins-earned
@@ -56,10 +57,10 @@ export default function CoinToast() {
       role="status"
       aria-live="polite"
     >
-      <CoinFace size={46} numeral={`+${toast.amount}`} spinning />
+      <CoinFace size={46} numeral={`+${fmtNum(toast.amount)}`} spinning />
       <div className="coin-toast-text">
         <span className="coin-toast-title">Monedha të fituara!</span>
-        <span className="coin-toast-sub">Bilanci u përditësua</span>
+        <span className="coin-toast-sub">+{fmtNum(toast.amount)} 383C në bilanc</span>
       </div>
     </div>
   );

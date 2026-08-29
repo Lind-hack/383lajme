@@ -177,7 +177,8 @@ export default function TreguHub() {
   const [claiming, setClaiming] = useState(false);
   const [bonusMsg, setBonusMsg] = useState<string | null>(null);
   const [coinSpin, setCoinSpin] = useState(false);
-  const [flyCoins, setFlyCoins] = useState<number[]>([]);
+  const [flyCoins, setFlyCoins] = useState<Array<{ id: number; amount: number }>>([]);
+  const [rewardAmount, setRewardAmount] = useState<number | null>(null);
 
   useEffect(() => {
     let active = true;
@@ -262,9 +263,13 @@ export default function TreguHub() {
     const celebrateMobile = (coins: number) => {
       // Stream coins into the mobile chip, flip its coin, and raise the toast.
       const n = Math.min(12, Math.max(6, Math.ceil(coins / 20)));
-      setFlyCoins(Array.from({ length: n }, (_, i) => performance.now() + i));
+      setRewardAmount(coins);
+      setFlyCoins(Array.from({ length: n }, (_, i) => ({ id: performance.now() + i, amount: coins })));
       setCoinSpin(true);
-      window.setTimeout(() => setFlyCoins([]), n * 55 + 600);
+      window.setTimeout(() => {
+        setFlyCoins([]);
+        setRewardAmount(null);
+      }, n * 55 + 600);
       window.setTimeout(() => setCoinSpin(false), 950);
       window.dispatchEvent(new CustomEvent("383:coins-earned", { detail: coins }));
     };
@@ -431,16 +436,21 @@ export default function TreguHub() {
     const res = await fetch("/api/tregu/daily-bonus", { method: "POST" });
     const data = await res.json();
     if (res.ok) {
+      const earned = Number(data.bonus);
       track("tregu_bonus_claim", { bonus: Number(data.bonus) });
       setBonusMsg(`+${data.bonus} 383C`);
-      setBalance((b) => (b === null ? null : b + Number(data.bonus)));
+      setBalance((b) => (b === null ? null : b + earned));
       // Earn flip on the chip coin — same state as the approved coin mock.
       setCoinSpin(true);
-      window.setTimeout(() => setCoinSpin(false), 950);
+      setRewardAmount(earned);
+      window.setTimeout(() => {
+        setCoinSpin(false);
+        setRewardAmount(null);
+      }, 950);
       // Stream coins into the mobile bar chip (the navbar chip that plays this
       // on desktop is hidden on mobile). Count scales with the bonus size.
-      const n = Math.min(10, Math.max(4, Math.ceil(Number(data.bonus) / 25)));
-      setFlyCoins(Array.from({ length: n }, (_, i) => performance.now() + i));
+      const n = Math.min(10, Math.max(4, Math.ceil(earned / 25)));
+      setFlyCoins(Array.from({ length: n }, (_, i) => ({ id: performance.now() + i, amount: earned })));
       window.setTimeout(() => setFlyCoins([]), n * 55 + 500);
       if (balance !== null) {
         // The navbar balance chip listens for this and plays the coin fly-in.
@@ -489,6 +499,7 @@ export default function TreguHub() {
           bonusMsg={bonusMsg}
           coinSpin={coinSpin}
           flyCoins={flyCoins}
+          rewardAmount={rewardAmount}
           onClaim={claimBonus}
         />
       )}
@@ -612,6 +623,7 @@ export default function TreguHub() {
               claiming={claiming}
               bonusMsg={bonusMsg}
               coinSpin={coinSpin}
+              rewardAmount={rewardAmount}
               onClaim={claimBonus}
             />
           </div>
