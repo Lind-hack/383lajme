@@ -3,6 +3,8 @@
 import {
   TRADE_SUCCESS_SOUND_ASSET as SOUND_ASSETS,
   TRADE_SUCCESS_SOUND_DURATION_MS as SOUND_DURATIONS,
+  TRADE_SUCCESS_SOUND_FADE_OUT_MS,
+  TRADE_SUCCESS_SOUND_MAX_DURATION_MS,
   resolveTradeSuccessSoundProfile as resolveSoundProfile,
 } from "@/lib/tregu-trade-sound.mjs";
 
@@ -256,9 +258,19 @@ export async function playTradeSuccessSound(profile: TradeSuccessSoundProfile = 
   const recorded = await loadTradeSuccessSound(context, profile);
   if (recorded) {
     const source = context.createBufferSource();
+    const gain = context.createGain();
+    const duration = Math.min(recorded.duration, TRADE_SUCCESS_SOUND_MAX_DURATION_MS / 1_000);
+    const end = start + duration;
+    const fadeDuration = Math.min(duration, TRADE_SUCCESS_SOUND_FADE_OUT_MS / 1_000);
+    const fadeStart = end - fadeDuration;
     source.buffer = recorded;
-    source.connect(context.destination);
-    source.start(start);
+    source.connect(gain);
+    gain.connect(context.destination);
+    gain.gain.setValueAtTime(1, start);
+    gain.gain.setValueAtTime(1, fadeStart);
+    gain.gain.linearRampToValueAtTime(0, end);
+    source.start(start, 0, duration);
+    source.stop(end + 0.02);
     return;
   }
   if (profile === "football") playFootballCue(context, start);
