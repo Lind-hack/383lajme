@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 
 import { createAdminClient } from "@/lib/supabase/admin";
 import { fetchSource } from "@/lib/dosje-sources.mjs";
+import { TOPICS } from "@/lib/topics.mjs";
+import { checkVideo, admissible } from "@/lib/dosje-video.mjs";
 
 export const dynamic = "force-dynamic";
 export const maxDuration = 300;
@@ -100,7 +102,59 @@ export async function POST(req: Request) {
     }
   }
 
-  // ── videos: still alive? ───────────────────────────────────────────────────
+  // ── videos ─────────────────────────────────────────────────────────────────
+  //
+  // Explainers were the one part of the dossier nothing checked: written into
+  // lib/topics.mjs by hand, rendered from there, never approved and never
+  // re-examined. That is how an anonymous commentary channel came to be the
+  // explainer for KFOR.
+  //
+  // They now enter the same queue as everything else. The channel must be a
+  // newsroom and the video must still exist; both are conditions to be offered
+  // for review, not to be published.
+  let vetted = 0;
+  const refused: Array<{ id: string; author: string | null; reason: string | null }> = [];
+
+  // What is already in the queue, so a nightly run proposes each explainer once
+  // rather than stacking a duplicate every night.
+  const { data: existingVideos } = await supabase
+    .from("dosje_media")
+    .select("url")
+    .eq("kind", "video");
+  const known = new Set((existingVideos ?? []).map((r) => (r as { url: string }).url));
+
+  for (const topic of TOPICS as { slug: string; videos?: { id: string }[] }[]) {
+    for (const v of topic.videos ?? []) {
+      if (known.has(`https://www.youtube.com/watch?v=${v.id}`)) continue;
+      const check = await checkVideo(v.id);
+      const verdict = admissible(check);
+      if (!verdict.ok) {
+        refused.push({ id: v.id, author: check.author, reason: verdict.reason });
+        continue;
+      }
+      const { error: insertError } = await supabase.from("dosje_media").insert({
+        topic_slug: topic.slug,
+        kind: "video",
+        url: check.url,
+        // Who made it and how they are funded, so the reviewer weighs a
+        // state broadcaster knowingly rather than by accident.
+        credit: check.vetted?.funding
+          ? `${check.author} (${check.vetted.funding})`
+          : check.author,
+        source_url: check.url,
+        relation: "explainer",
+        checked_at: new Date().toISOString(),
+        check_status: check.http_status,
+        approved: false,
+      });
+      if (!insertError) {
+        known.add(check.url);
+        vetted += 1;
+      }
+    }
+  }
+
+  // ── videos already in the queue: do they still exist? ──────────────────────
   const { data: videos } = await supabase
     .from("dosje_media")
     .select("id, url")
@@ -111,26 +165,27 @@ export async function POST(req: Request) {
   let retired = 0;
   for (const v of videos ?? []) {
     const row = v as { id: string; url: string };
-    const res = await fetchSource(row.url, { timeoutMs: 6000 });
+    const id = (row.url.match(/[?&]v=([^&]+)/) || [])[1] ?? "";
+    const check = id ? await checkVideo(id) : null;
     checked += 1;
-    const alive = res.http_status === 200;
+    // Only a definite "gone" takes a video down. A check that could not run is
+    // recorded and left alone, because a network failure is not evidence.
+    const dead = check?.alive === false;
     await supabase
       .from("dosje_media")
       .update({
         checked_at: new Date().toISOString(),
-        check_status: res.http_status,
-        // A link that has stopped answering comes off the site rather than
-        // staying as a broken thumbnail nobody notices.
-        ...(alive ? {} : { approved: false }),
+        check_status: check?.http_status ?? null,
+        ...(dead ? { approved: false } : {}),
       })
       .eq("id", row.id);
-    if (!alive) retired += 1;
+    if (dead) retired += 1;
   }
 
   return NextResponse.json({
     ok: true,
     images: { examined, proposed, awaiting_review: proposed },
-    videos: { checked, retired },
+    videos: { proposed: vetted, refused, rechecked: checked, retired },
   });
 }
 

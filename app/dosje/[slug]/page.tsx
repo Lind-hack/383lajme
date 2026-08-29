@@ -72,7 +72,7 @@ export default async function DosjePage({ params }: { params: Promise<{ slug: st
           topicSlug={topic.slug}
           topicTitle={dosje?.title ?? topic.title}
           blurb={dosje?.blurb ?? topic.blurb}
-          videos={topic.videos ?? []}
+          videos={dosje?.videos ?? []}
           entries={timeline}
         />
 

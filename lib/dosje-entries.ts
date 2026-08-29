@@ -25,6 +25,12 @@ export interface DosjeResult {
   entries: DosjeEntry[];
   /** True when this dossier's history is sourced. Drives the citation UI. */
   sourced: boolean;
+  /**
+   * Approved explainers. Empty until they have been vetted and approved, which
+   * is correct: an unreviewed video is more persuasive than an unreviewed
+   * sentence and a reader cannot skim it for the error.
+   */
+  videos: { id: string; channel: string; title: string }[];
 }
 
 type Article = {
@@ -86,6 +92,11 @@ export async function dosjeFor(
       blurb: live.topic.blurb,
       entries: [...milestones, ...archiveEntries(slug, articles, currentSlug)],
       sourced: true,
+      videos: (live.videos ?? []).map((v) => ({
+        id: (String(v.url).match(/[?&]v=([^&]+)/) || [])[1] ?? "",
+        channel: v.credit ?? "",
+        title: "",
+      })).filter((v) => v.id),
     };
   }
 
@@ -99,5 +110,7 @@ export async function dosjeFor(
     blurb: topic.blurb,
     entries: timelineFor(slug, articles, currentSlug) as DosjeEntry[],
     sourced: false,
+    // The hand-written list, minus what the vetting pass has already refused.
+    videos: topic.videos ?? [],
   };
 }

@@ -142,7 +142,7 @@ export default async function ArticlePage({
           topicSlug: topic.slug,
           topicTitle: file.title,
           blurb: file.blurb,
-          videos: topic.videos ?? [],
+          videos: file.videos ?? [],
           entries: file.entries,
         }
       : null;
