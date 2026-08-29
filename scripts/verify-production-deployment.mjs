@@ -97,6 +97,8 @@ const REQUIRED_CHART_MARKERS = {
     "newsDeadlineAction(currentMarket, now)",
     "deadlineAction === \"settle\"",
     "deadlineAction === \"decay\"",
+    "deadline_action: deadlineAction",
+    "reason: \"deadline_result_not_persisted\"",
   ],
   "lib/tregu-daily-market-quality.mjs": [
     '"daily-market-v2"',

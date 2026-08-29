@@ -555,6 +555,8 @@ async function runNewsReprice(action: "reprice" | "tregu_live", runKey: string, 
       fallback_reason?: string | null;
       error?: string;
       error_class?: string;
+      reason?: string;
+      deadline_action?: "settle" | "decay" | null;
       email_update?: {
         question: string;
         slug: string;
@@ -620,11 +622,12 @@ async function runNewsReprice(action: "reprice" | "tregu_live", runKey: string, 
           if (deadlineError) throw new Error(`Could not apply deadline settlement for ${item.market.slug}: ${deadlineError.message}`);
           const persisted = await recordMarketCheck(item.market.id, { status: "deadline_settlement", checked_at: now.toISOString(), reference_probability: 0.05 });
           const emailUpdate = persisted ? await deadlineChange("deadline_settlement") : null;
-          results.push(persisted ? { slug: item.market.slug, status: "deadline_settled", ...(emailUpdate ? { email_update: emailUpdate } : {}) } : { slug: item.market.slug, status: "skipped_closed" });
+          results.push(persisted ? { slug: item.market.slug, status: "deadline_settled", deadline_action: deadlineAction, ...(emailUpdate ? { email_update: emailUpdate } : {}) } : { slug: item.market.slug, status: "skipped_closed", reason: "deadline_result_not_persisted", deadline_action: deadlineAction });
           continue;
         }
-        if (repriceMarketSkipReason(currentMarket, now)) {
-          results.push({ slug: item.market.slug, status: "skipped_closed" });
+        const skipReason = repriceMarketSkipReason(currentMarket, now);
+        if (skipReason) {
+          results.push({ slug: item.market.slug, status: "skipped_closed", reason: skipReason, deadline_action: deadlineAction });
           continue;
         }
         if (deadlineAction === "decay" && item.evidence.length === 0) {
@@ -635,13 +638,13 @@ async function runNewsReprice(action: "reprice" | "tregu_live", runKey: string, 
           if (deadlineDecayError) throw new Error(`Could not apply deadline decay for ${item.market.slug}: ${deadlineDecayError.message}`);
           const persisted = await recordMarketCheck(item.market.id, { status: "deadline_decay", checked_at: now.toISOString(), reference_probability: 0.05 });
           const emailUpdate = persisted ? await deadlineChange("deadline_decay") : null;
-          results.push(persisted ? { slug: item.market.slug, status: "deadline_decay", ...(emailUpdate ? { email_update: emailUpdate } : {}) } : { slug: item.market.slug, status: "skipped_closed" });
+          results.push(persisted ? { slug: item.market.slug, status: "deadline_decay", deadline_action: deadlineAction, ...(emailUpdate ? { email_update: emailUpdate } : {}) } : { slug: item.market.slug, status: "skipped_closed", reason: "deadline_decay_not_persisted", deadline_action: deadlineAction });
           continue;
         }
         if (item.evidence.length === 0) {
           const persisted = await recordMarketCheck(item.market.id, { status: "no_fresh_evidence", checked_at: now.toISOString(), evidence_count: 0 });
           results.push(persisted
-            ? { slug: item.market.slug, status: "no_fresh_evidence" }
+            ? { slug: item.market.slug, status: "no_fresh_evidence", deadline_action: deadlineAction }
             : { slug: item.market.slug, status: "skipped_closed" });
           continue;
         }
