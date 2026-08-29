@@ -23,8 +23,7 @@ export default function StickyMarketBack() {
 
   return (
     <button type="button" className="tregu-sticky-back" onClick={goBack} aria-label="Kthehu te faqja e mëparshme">
-      <ArrowLeft aria-hidden size={17} strokeWidth={2.4} />
-      <span>Kthehu</span>
+      <ArrowLeft aria-hidden size={19} strokeWidth={2.2} />
     </button>
   );
 }

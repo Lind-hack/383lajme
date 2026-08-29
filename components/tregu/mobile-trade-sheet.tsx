@@ -43,6 +43,7 @@ interface MobileTradeSheetProps {
   options: MobileTradeOption[];
   selectedKey: string;
   amount: number;
+  amountInput: string;
   sellShares: number;
   maxSellShares: number;
   buyReturn: number | null;
@@ -53,11 +54,12 @@ interface MobileTradeSheetProps {
   placing: boolean;
   message: { ok: boolean; text: string } | null;
   receipt: MobileTradeReceipt | null;
+  soundProfile: TradeSuccessSoundProfile;
   onOpen: (mode: MobileTradeMode) => void;
   onClose: () => void;
   onModeChange: (mode: MobileTradeMode) => void;
   onSelect: (key: string) => void;
-  onAmountChange: (amount: number) => void;
+  onAmountChange: (amount: number | string) => void;
   onSellSharesChange: (shares: number) => void;
   onSubmit: () => void;
   onDismissReceipt: () => void;
@@ -93,6 +95,7 @@ export default function MobileTradeSheet({
   options,
   selectedKey,
   amount,
+  amountInput,
   sellShares,
   maxSellShares,
   buyReturn,
@@ -103,6 +106,7 @@ export default function MobileTradeSheet({
   placing,
   message,
   receipt,
+  soundProfile,
   onOpen,
   onClose,
   onModeChange,
@@ -149,7 +153,7 @@ export default function MobileTradeSheet({
   };
 
   const submitFromSheet = () => {
-    if (mode === "buy") primeTradeSuccessSound();
+    if (mode === "buy") primeTradeSuccessSound(soundProfile);
     onSubmit();
   };
 
@@ -262,16 +266,29 @@ export default function MobileTradeSheet({
                 <div className="tregu-mobile-sheet-trade">
                   <div className="tregu-mobile-sheet-balance">
                     <span>Shuma</span>
-                    {balance !== null && <small>Bilanci {balance.toFixed(0)} 383C</small>}
+                    {balance !== null && (
+                      <span className="tregu-mobile-sheet-wallet">
+                        <small>Bilanci <strong>{balance.toFixed(2)} 383C</strong></small>
+                        <button
+                          type="button"
+                          disabled={balance <= 0}
+                          onClick={() => onAmountChange(Number(balance.toFixed(2)))}
+                        >
+                          Max
+                        </button>
+                      </span>
+                    )}
                   </div>
                   <label className="tregu-mobile-sheet-amount">
                     <CoinFace size={30} />
                     <input
                       type="number"
-                      min={1}
-                      inputMode="numeric"
-                      value={amount}
-                      onChange={(event) => onAmountChange(Math.max(1, Number(event.target.value) || 1))}
+                      min={0}
+                      step="any"
+                      inputMode="decimal"
+                      value={amountInput}
+                      placeholder="0"
+                      onChange={(event) => onAmountChange(event.target.value)}
                       aria-label="Shuma në 383 Coin"
                     />
                     <span>383C</span>

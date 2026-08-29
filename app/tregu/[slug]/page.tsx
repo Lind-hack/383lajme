@@ -45,7 +45,7 @@ import MobileTradeSheet, {
 } from "@/components/tregu/mobile-trade-sheet";
 import { normalizeCategory } from "@/lib/category-map";
 import StickyMarketBack from "@/components/tregu/sticky-market-back";
-import { resolveTradeSuccessSoundProfile } from "@/components/tregu/trade-success-sound";
+import { primeTradeSuccessSound, resolveTradeSuccessSoundProfile } from "@/components/tregu/trade-success-sound";
 import { buildFootballMetricRows } from "@/lib/tregu-market-detail.mjs";
 import { formatKosovoDate } from "@/lib/tregu-local-time.mjs";
 
@@ -287,7 +287,12 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
 
   const [mode, setMode] = useState<"buy" | "sell">("buy");
   const [side, setSide] = useState<Side>("PO");
-  const [amount, setAmount] = useState(10);
+  const [amountInput, setAmountInput] = useState("10");
+  const amount = Number(amountInput);
+  const setAmount = useCallback((value: number | string) => {
+    const next = String(value);
+    if (next === "" || /^\d*(?:\.\d*)?$/.test(next)) setAmountInput(next);
+  }, []);
   const [sellShares, setSellShares] = useState(0);
   const [placing, setPlacing] = useState(false);
   const [tradeMsg, setTradeMsg] = useState<{ ok: boolean; text: string } | null>(null);
@@ -544,6 +549,26 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
     if (!market) return;
     if (market.status !== "open") {
       setTradeMsg({ ok: false, text: "Ky treg është mbyllur." });
+      return;
+    }
+    if (mode === "buy") {
+      const identity = `${market.live_event?.sport ?? ""} ${market.live_event?.league ?? ""} ${market.market_type ?? ""}`.toLowerCase();
+      const successSportTheme = f1 || /formula|\bf1\b|racing/.test(identity)
+        ? "f1"
+        : /basket|\bnba\b|\bfbk\b/.test(identity)
+          ? "basketball"
+          : football || market.category === "sport"
+            ? "football"
+            : undefined;
+      primeTradeSuccessSound(resolveTradeSuccessSoundProfile({ sportTheme: successSportTheme, league: market.live_event?.league }));
+    }
+    if (mode === "buy" && (!Number.isFinite(amount) || amount <= 0 || (balance !== null && amount > balance))) {
+      setTradeMsg({
+        ok: false,
+        text: balance !== null && amount > balance
+          ? "Shuma është më e madhe se bilanci yt."
+          : "Shkruaj një shumë më të madhe se zero.",
+      });
       return;
     }
     if (demo) {
@@ -1023,7 +1048,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
         className="tregu-detail-main"
         data-auto-refresh-ms={autoRefreshMs}
         data-sport-theme={sportTheme}
-        style={{ maxWidth: 1560, margin: 0, padding: "132px 32px 80px 32px" }}
+        style={{ maxWidth: 1560, margin: 0, padding: "96px 32px 80px 32px" }}
       >
         <StickyMarketBack />
 
@@ -1553,9 +1578,12 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                         <CoinFace size={20} />
                         <input
                           type="number"
-                          min={1}
-                          value={amount}
-                          onChange={(event) => setAmount(Math.max(1, Number(event.target.value)))}
+                          min={0}
+                          step="any"
+                          inputMode="decimal"
+                          value={amountInput}
+                          placeholder="0"
+                          onChange={(event) => setAmount(event.target.value)}
                           className="tregu-input"
                         />
                       </div>
@@ -1574,8 +1602,8 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                         {balance !== null && balance >= 1 && (
                           <button
                             className="tregu-chip tregu-raise"
-                            data-active={amount === Math.floor(balance)}
-                            onClick={() => setAmount(Math.floor(balance))}
+                            data-active={amount === Number(balance.toFixed(2))}
+                            onClick={() => setAmount(Number(balance.toFixed(2)))}
                             type="button"
                           >
                             Max
@@ -1700,9 +1728,12 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                     <CoinFace size={20} />
                     <input
                       type="number"
-                      min={1}
-                      value={amount}
-                      onChange={(event) => setAmount(Math.max(1, Number(event.target.value)))}
+                      min={0}
+                      step="any"
+                      inputMode="decimal"
+                      value={amountInput}
+                      placeholder="0"
+                      onChange={(event) => setAmount(event.target.value)}
                       className="tregu-input"
                     />
                   </div>
@@ -1721,8 +1752,8 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                     {balance !== null && balance >= 1 && (
                       <button
                         className="tregu-chip tregu-raise"
-                        data-active={amount === Math.floor(balance)}
-                        onClick={() => setAmount(Math.floor(balance))}
+                        data-active={amount === Number(balance.toFixed(2))}
+                        onClick={() => setAmount(Number(balance.toFixed(2)))}
                         type="button"
                       >
                         Max
@@ -1835,9 +1866,12 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                         <CoinFace size={20} />
                         <input
                           type="number"
-                          min={1}
-                          value={amount}
-                          onChange={(e) => setAmount(Math.max(1, Number(e.target.value)))}
+                          min={0}
+                          step="any"
+                          inputMode="decimal"
+                          value={amountInput}
+                          placeholder="0"
+                          onChange={(event) => setAmount(event.target.value)}
                           className="tregu-input"
                         />
                       </div>
@@ -1848,7 +1882,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                           </button>
                         ))}
                         {balance !== null && balance >= 1 && (
-                          <button className="tregu-chip tregu-raise" data-active={amount === Math.floor(balance)} onClick={() => setAmount(Math.floor(balance))} type="button">
+                          <button className="tregu-chip tregu-raise" data-active={amount === Number(balance.toFixed(2))} onClick={() => setAmount(Number(balance.toFixed(2)))} type="button">
                             Max
                           </button>
                         )}
@@ -1979,6 +2013,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
           options={mobileTradeOptions}
           selectedKey={mobileSelectedKey}
           amount={amount}
+          amountInput={amountInput}
           sellShares={sellShares}
           maxSellShares={Number(mobileHeld)}
           buyReturn={mobileBuyReturn}
@@ -1989,6 +2024,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
           placing={placing}
           message={tradeMsg}
           receipt={purchaseReceipt}
+          soundProfile={resolveTradeSuccessSoundProfile({ sportTheme, league: market.live_event?.league })}
           onOpen={openMobileTrade}
           onClose={closeMobileTrade}
           onModeChange={changeMobileTradeMode}

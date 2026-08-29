@@ -1,11 +1,14 @@
 "use client";
 
 import {
+  TRADE_SUCCESS_SOUND_ASSET as SOUND_ASSETS,
   TRADE_SUCCESS_SOUND_DURATION_MS as SOUND_DURATIONS,
   resolveTradeSuccessSoundProfile as resolveSoundProfile,
 } from "@/lib/tregu-trade-sound.mjs";
 
 let tradeAudioContext: AudioContext | null = null;
+const decodedSounds = new Map<TradeSuccessSoundProfile, AudioBuffer>();
+const loadingSounds = new Map<TradeSuccessSoundProfile, Promise<AudioBuffer | null>>();
 
 export type TradeSuccessSoundProfile =
   | "football"
@@ -17,6 +20,7 @@ export type TradeSuccessSoundProfile =
   | "default";
 
 export const TRADE_SUCCESS_SOUND_DURATION_MS = SOUND_DURATIONS as Record<TradeSuccessSoundProfile, number>;
+export const TRADE_SUCCESS_SOUND_ASSET = SOUND_ASSETS as Record<TradeSuccessSoundProfile, string>;
 
 export function resolveTradeSuccessSoundProfile({
   sportTheme,
@@ -38,10 +42,32 @@ function getAudioContext() {
 }
 
 /** Unlock Web Audio while the buy button still owns a user gesture. */
-export function primeTradeSuccessSound() {
+async function loadTradeSuccessSound(context: AudioContext, profile: TradeSuccessSoundProfile) {
+  const cached = decodedSounds.get(profile);
+  if (cached) return cached;
+  const loading = loadingSounds.get(profile);
+  if (loading) return loading;
+  const request = fetch(TRADE_SUCCESS_SOUND_ASSET[profile], { cache: "force-cache" })
+    .then((response) => {
+      if (!response.ok) throw new Error(`trade_sound_${response.status}`);
+      return response.arrayBuffer();
+    })
+    .then((data) => context.decodeAudioData(data))
+    .then((buffer) => {
+      decodedSounds.set(profile, buffer);
+      return buffer;
+    })
+    .catch(() => null)
+    .finally(() => loadingSounds.delete(profile));
+  loadingSounds.set(profile, request);
+  return request;
+}
+
+export function primeTradeSuccessSound(profile: TradeSuccessSoundProfile = "default") {
   const context = getAudioContext();
-  if (!context || document.hidden || context.state !== "suspended") return;
-  void context.resume().catch(() => undefined);
+  if (!context || document.hidden) return;
+  if (context.state === "suspended") void context.resume().catch(() => undefined);
+  void loadTradeSuccessSound(context, profile);
 }
 
 /** A short, quiet ascending confirmation chord. It never blocks the receipt. */
@@ -211,17 +237,6 @@ function playChoralCue(context: AudioContext, start: number, profile: "champions
     });
   });
 
-  // This is an original, non-melodic choral sting. The two-word competition
-  // phrase is spoken softly when the browser exposes speech synthesis; no
-  // UEFA recording or anthem melody is bundled or reproduced.
-  if (profile === "champions" && "speechSynthesis" in window && !window.speechSynthesis.speaking) {
-    const phrase = new SpeechSynthesisUtterance("The Champions");
-    phrase.lang = "en-GB";
-    phrase.rate = 0.72;
-    phrase.pitch = 0.62;
-    phrase.volume = 0.16;
-    window.setTimeout(() => window.speechSynthesis.speak(phrase), 480);
-  }
 }
 
 /** Contextual, bounded success feedback. It never blocks the receipt. */
@@ -238,6 +253,14 @@ export async function playTradeSuccessSound(profile: TradeSuccessSoundProfile = 
   }
 
   const start = context.currentTime + 0.015;
+  const recorded = await loadTradeSuccessSound(context, profile);
+  if (recorded) {
+    const source = context.createBufferSource();
+    source.buffer = recorded;
+    source.connect(context.destination);
+    source.start(start);
+    return;
+  }
   if (profile === "football") playFootballCue(context, start);
   else if (profile === "f1") playF1Cue(context, start);
   else if (profile === "basketball") playBasketballCue(context, start);

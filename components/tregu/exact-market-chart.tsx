@@ -66,6 +66,7 @@ export default function ExactMarketChart({
 }) {
   const uid = useId().replace(/:/g, "");
   const [range, setRange] = useState<RecordedRangeKey>(defaultRange);
+  const drawsLive = showRanges && (range === "1s" || range === "1m" || range === "5m");
   const selected = useMemo(
     () => selectRecordedRange(series, showRanges ? range : "Gjithë"),
     [range, series, showRanges]
@@ -99,7 +100,7 @@ export default function ExactMarketChart({
       plotW,
       domain,
       hasTimeline: cleaned.some((item) => item.displayPoints.length >= 2),
-      hasDisplayData: cleaned.some((item) => item.displayPoints.length > 0),
+      hasDisplayData: cleaned.some((item) => item.displayPoints.length >= 1),
       x,
       y,
     };
@@ -172,6 +173,7 @@ export default function ExactMarketChart({
       data-inspecting={inspection ? true : undefined}
       data-tone={tone}
       data-range={showRanges ? range : undefined}
+      data-live-drawing={drawsLive || undefined}
       data-curve={curve}
       data-tregu-chart-version={TREGU_CHART_UI_VERSION}
     >
@@ -269,6 +271,11 @@ export default function ExactMarketChart({
           {model.cleaned.map((item) => {
             const displayPoints = item.displayPoints;
             if (displayPoints.length === 0) return null;
+            const pathFor = (points: typeof displayPoints) => points.length >= 2
+              ? curve === "smooth"
+                ? smoothRecordedPath(points, model.x, model.y)
+                : angularRecordedPath(points, model.x, model.y)
+              : "";
             const path = displayPoints.length >= 2
               ? curve === "smooth"
                 ? smoothRecordedPath(displayPoints, model.x, model.y)
@@ -279,9 +286,11 @@ export default function ExactMarketChart({
             // A short range can contain exactly one real persisted point. Hold
             // that known value across the visible window instead of showing a
             // lone dot and incorrectly claiming the chart is empty.
-            const displayPath = displayPoints.length >= 2
-              ? path
-              : `M${PAD_L} ${model.y(last.p).toFixed(1)} L${(PAD_L + model.plotW).toFixed(1)} ${model.y(last.p).toFixed(1)}`;
+            const heldPath = `M${PAD_L} ${model.y(last.p).toFixed(1)} L${(PAD_L + model.plotW).toFixed(1)} ${model.y(last.p).toFixed(1)}`;
+            const liveSegmentPoints = drawsLive && displayPoints.length >= 2 ? displayPoints.slice(-2) : [];
+            const basePoints = liveSegmentPoints.length ? displayPoints.slice(0, -1) : displayPoints;
+            const displayPath = basePoints.length >= 2 ? pathFor(basePoints) : basePoints.length === 1 && !liveSegmentPoints.length ? heldPath : "";
+            const livePath = pathFor(liveSegmentPoints);
             const gradientId = `exact-fill-${uid}-${item.key.replace(/[^a-z0-9_-]/gi, "")}`;
             const fillPath = displayPoints.length >= 2
               ? `${path} L${model.x(last.t).toFixed(1)} ${height - PAD_Y} L${model.x(first.t).toFixed(1)} ${height - PAD_Y} Z`
@@ -299,7 +308,7 @@ export default function ExactMarketChart({
                     <path d={fillPath} fill={`url(#${gradientId})`} />
                   </>
                 )}
-                {displayPoints.length >= 1 && (
+                {displayPath && (
                   <path
                     d={displayPath}
                     pathLength={1}
@@ -310,6 +319,20 @@ export default function ExactMarketChart({
                     strokeLinecap="round"
                     vectorEffect="non-scaling-stroke"
                     className={`tregu-exact-chart-line${displayPoints.length === 1 ? " tregu-exact-chart-line--held" : ""}`}
+                  />
+                )}
+                {livePath && (
+                  <path
+                    key={`${item.key}-live-${last.t}`}
+                    d={livePath}
+                    pathLength={1}
+                    fill="none"
+                    stroke={item.color}
+                    strokeWidth={model.cleaned.length > 1 ? 2.5 : 3}
+                    strokeLinejoin="round"
+                    strokeLinecap="round"
+                    vectorEffect="non-scaling-stroke"
+                    className="tregu-exact-chart-line tregu-exact-chart-line--live"
                   />
                 )}
                 {displayPoints.length <= 48 && displayPoints.map((point) => point.held ? null : (
