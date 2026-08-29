@@ -1,6 +1,13 @@
 "use client";
 
-import { useId, useMemo, useState, type PointerEvent as ReactPointerEvent } from "react";
+import {
+  useId,
+  useMemo,
+  useRef,
+  useState,
+  type CSSProperties,
+  type PointerEvent as ReactPointerEvent,
+} from "react";
 import {
   angularRecordedPath,
   smoothRecordedPath,
@@ -130,6 +137,7 @@ export default function ExactMarketChart({
   const scaleLabel = `${formatProbabilityTick(model.domain.lo, model.domain.tickStep)}-${formatProbabilityTick(model.domain.hi, model.domain.tickStep)}`;
   const updateCount = model.recordedTimestamps.length;
   const [inspectionT, setInspectionT] = useState<number | null>(null);
+  const activeTouchPointer = useRef<number | null>(null);
   const inspection = useMemo(() => {
     if (inspectionT == null || model.timestamps.length === 0) return null;
     const timestamp = model.timestamps.reduce((nearest, candidate) =>
@@ -152,9 +160,20 @@ export default function ExactMarketChart({
     const plotRight = compact ? W - PAD_L : W - PAD_R;
     const svgX = ((event.clientX - rect.left) / Math.max(1, rect.width)) * W;
     const clampedX = Math.max(PAD_L, Math.min(plotRight, svgX));
-    const ratio = (clampedX - PAD_L) / Math.max(1, model.plotW);
-    const index = Math.round(ratio * Math.max(0, model.timestamps.length - 1));
-    setInspectionT(model.timestamps[index] ?? null);
+    const timestamp = model.timestamps.reduce((nearest, candidate) =>
+      Math.abs(model.x(candidate) - clampedX) < Math.abs(model.x(nearest) - clampedX)
+        ? candidate
+        : nearest
+    );
+    setInspectionT(timestamp);
+  };
+
+  const finishTouchInspection = (event: ReactPointerEvent<HTMLDivElement>) => {
+    if (activeTouchPointer.current !== event.pointerId) return;
+    activeTouchPointer.current = null;
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+      event.currentTarget.releasePointerCapture(event.pointerId);
+    }
   };
 
   const moveInspection = (direction: -1 | 1) => {
@@ -238,13 +257,21 @@ export default function ExactMarketChart({
           if (event.key === "Escape") setInspectionT(null);
         }}
         onPointerMove={(event) => {
-          if (event.pointerType === "mouse" || event.currentTarget.hasPointerCapture(event.pointerId)) {
+          if (event.pointerType === "mouse" || activeTouchPointer.current === event.pointerId) {
             inspectFromPointer(event);
           }
         }}
         onPointerDown={(event) => {
           inspectFromPointer(event);
-          if (event.pointerType !== "mouse") event.currentTarget.setPointerCapture(event.pointerId);
+          if (event.pointerType !== "mouse") {
+            activeTouchPointer.current = event.pointerId;
+            event.currentTarget.setPointerCapture(event.pointerId);
+          }
+        }}
+        onPointerUp={finishTouchInspection}
+        onPointerCancel={finishTouchInspection}
+        onLostPointerCapture={(event) => {
+          if (activeTouchPointer.current === event.pointerId) activeTouchPointer.current = null;
         }}
         onPointerLeave={(event) => {
           if (event.pointerType === "mouse") setInspectionT(null);
@@ -383,7 +410,7 @@ export default function ExactMarketChart({
         {!inspection && model.hasTimeline && !minimal && (
           <span className="tregu-chart-inspect-hint" aria-hidden>
             <span>Kalo miun për detaje</span>
-            <span>Prek grafikun për detaje</span>
+            <span>Prek ose rrëshqit për detaje</span>
           </span>
         )}
 
@@ -391,7 +418,7 @@ export default function ExactMarketChart({
           <div
             className="tregu-exact-chart-inspector"
             data-align={inspection.x > W * 0.7 ? "end" : "start"}
-            style={{ left: `${(inspection.x / W) * 100}%` }}
+            style={{ "--inspection-x": `${(inspection.x / W) * 100}%` } as CSSProperties}
             role="status"
             aria-live="polite"
           >

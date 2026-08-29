@@ -11966,6 +11966,11 @@ header[data-overlay="true"] .nav-search-btn { color: rgba(255, 255, 255, 0.9); }
   stroke-width: 1;
   stroke-dasharray: 3 4;
   vector-effect: non-scaling-stroke;
+  transition: x1 80ms linear, x2 80ms linear;
+}
+.tregu-exact-chart-inspector-marks circle {
+  filter: drop-shadow(0 2px 3px rgba(17, 17, 17, .18));
+  transition: cx 80ms linear, cy 80ms linear;
 }
 .tregu-chart-inspect-hint {
   position: absolute;
@@ -11985,6 +11990,7 @@ header[data-overlay="true"] .nav-search-btn { color: rgba(255, 255, 255, 0.9); }
 .tregu-exact-chart-inspector {
   position: absolute;
   top: 9px;
+  left: var(--inspection-x);
   z-index: 5;
   display: grid;
   min-width: 138px;
@@ -11996,6 +12002,7 @@ header[data-overlay="true"] .nav-search-btn { color: rgba(255, 255, 255, 0.9); }
   box-shadow: 0 10px 28px rgba(45, 35, 25, .14);
   color: #17130f;
   transform: translateX(10px);
+  transition: left 80ms linear;
   backdrop-filter: blur(8px);
 }
 .tregu-exact-chart-inspector[data-align="end"] { transform: translateX(calc(-100% - 10px)); }
@@ -13033,7 +13040,19 @@ header[data-overlay="true"] .nav-search-btn { color: rgba(255, 255, 255, 0.9); }
 @media (hover: none), (pointer: coarse) {
   .tregu-chart-inspect-hint > span:first-child { display: none; }
   .tregu-chart-inspect-hint > span:last-child { display: inline; }
-  .tregu-exact-chart-inspector > button { display: grid; place-items: center; }
+  .tregu-exact-chart-inspector {
+    left: clamp(96px, var(--inspection-x), calc(100% - 96px));
+    width: min(176px, calc(100% - 16px));
+    min-width: 0;
+    transform: translateX(-50%);
+  }
+  .tregu-exact-chart-inspector[data-align="end"] { transform: translateX(-50%); }
+  .tregu-exact-chart-inspector > button {
+    display: grid;
+    width: 32px;
+    height: 32px;
+    place-items: center;
+  }
 }
 
 @media (max-width: 760px) {

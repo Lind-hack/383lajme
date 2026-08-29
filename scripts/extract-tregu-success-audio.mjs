@@ -34,12 +34,17 @@ const clips = {
     start: 3,
     duration: 2,
   },
+  basketball: {
+    output: "basketball-squeak.wav",
+    start: 5,
+    duration: 3,
+  },
 };
 
 function parseInputs(argv) {
   const inputs = {};
   for (let index = 0; index < argv.length; index += 1) {
-    const match = argv[index].match(/^--(champions|europa|f1|football)$/);
+    const match = argv[index].match(/^--(champions|europa|f1|football|basketball)$/);
     if (!match || !argv[index + 1]) continue;
     inputs[match[1]] = resolve(argv[index + 1]);
     index += 1;
