@@ -97,9 +97,9 @@ class DirectSupabasePublicationTests(unittest.TestCase):
         self.assertIn("materially matches published headline", output.getvalue())
         self.assertTrue(all(method == "GET" for method, _, _ in calls))
 
-    def test_validation_rejects_more_than_eighteen_articles_before_any_request(self):
-        self.path.write_text(json.dumps([article(index) for index in range(1, 22)]), encoding="utf-8")
-        with self.assertRaisesRegex(ValueError, "cap each run at 18"):
+    def test_validation_rejects_more_than_twenty_two_articles_before_any_request(self):
+        self.path.write_text(json.dumps([article(index) for index in range(1, 24)]), encoding="utf-8")
+        with self.assertRaisesRegex(ValueError, "cap each run at 22"):
             self.support.validate_batch(self.path)
 
     def test_publish_inserts_exact_mapping_and_verifies_readback(self):

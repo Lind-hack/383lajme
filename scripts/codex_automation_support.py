@@ -161,7 +161,7 @@ def production_release_contract() -> dict[str, str]:
 # Individual invalid/duplicate candidates are removed; a smaller valid batch must
 # not keep the public site stale.
 MIN_ARTICLES_PER_BATCH = 1
-MAX_ARTICLES_PER_BATCH = 18
+MAX_ARTICLES_PER_BATCH = 22
 MAX_X_ARTICLES = 2
 MAX_SOCIAL_SHARE = 0.40
 MIN_SOCIAL_ARTICLES = 0
