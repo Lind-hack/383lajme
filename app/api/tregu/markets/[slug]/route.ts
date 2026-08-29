@@ -2,7 +2,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { lmsrPriceYes } from "@/lib/tregu";
 import { lmsrSportOutcomePrices } from "@/lib/tregu-client";
-import { getArticles } from "@/lib/db";
+import { getArticlesBySlugs } from "@/lib/db";
 import { parseEvent, slugKey } from "@/lib/tregu-groups";
 import { fetchF1LiveLiteLeaderboard } from "@/lib/f1-live-lite";
 import { resolveMarketMedia } from "@/lib/tregu-market-media.mjs";
@@ -103,7 +103,7 @@ export async function GET(
   const exactSlugs = new Set(exactArticles.map((article) => article.slug));
   const missingSlugs = wantedArticleSlugs.filter((articleSlug) => !exactSlugs.has(articleSlug));
   const fallbackArticles = missingSlugs.length
-    ? (await getArticles(500)).filter((article) => missingSlugs.includes(article.slug))
+    ? await getArticlesBySlugs(missingSlugs)
     : [];
   const articleCandidates: ArticleMediaRow[] = [...exactArticles, ...fallbackArticles];
   const articleBySlug = new Map(articleCandidates.map((article) => [article.slug, article]));

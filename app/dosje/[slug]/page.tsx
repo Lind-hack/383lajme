@@ -18,7 +18,21 @@ const SITE = "https://www.383ks.com";
  * enough.
  */
 
-export const revalidate = 900;
+/**
+ * A dossier is history, and history does not change every fifteen minutes.
+ *
+ * This sat at 900s while every other page on the site used an hour or two,
+ * and it is the most expensive page here: four hundred articles fetched on
+ * each rebuild, across five dossiers. That is where the database egress
+ * allowance went.
+ *
+ * Twelve hours is safe rather than merely cheap, because publishing does not
+ * wait for it: approving a moment or a file calls revalidatePath("/dosje") and
+ * the page rebuilds immediately. This interval only governs how quickly an
+ * unrelated new article joins a dossier's recent coverage, which nobody is
+ * waiting on.
+ */
+export const revalidate = 43200;
 
 export function generateStaticParams() {
   return TOPICS.map((t: { slug: string }) => ({ slug: t.slug }));

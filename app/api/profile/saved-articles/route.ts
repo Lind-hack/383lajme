@@ -1,6 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { createClient } from "@/lib/supabase/server";
-import { getArticleBySlug, getArticles } from "@/lib/db";
+import { getArticleBySlug, getArticleById } from "@/lib/db";
 
 export const dynamic = "force-dynamic";
 
@@ -36,7 +36,7 @@ export async function POST(request: NextRequest) {
   const articleId = String(payload.articleId ?? "").trim();
   const slug = String(payload.slug ?? "").trim();
   let article = slug ? await getArticleBySlug(slug) : null;
-  if (!article && articleId) article = (await getArticles(500)).find((item) => item.id === articleId) ?? null;
+  if (!article && articleId) article = await getArticleById(articleId);
   if (!article) return NextResponse.json({ error: "Artikulli nuk u gjet" }, { status: 404 });
 
   const { data, error } = await supabase

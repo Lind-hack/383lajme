@@ -253,6 +253,60 @@ export async function getArticles(
 }
 
 /**
+ * One article by id.
+ *
+ * There was no such function, so callers that had an id and not a slug fetched
+ * five hundred rows and searched them in JavaScript. That is several megabytes
+ * off the wire to find a single row the database could have returned by key.
+ */
+export async function getArticleById(id: string): Promise<Article | null> {
+  if (!id) return null;
+  const supabase = supabaseNewsClient();
+  if (supabase) {
+    try {
+      const { data, error } = await supabase
+        .from("news_articles")
+        .select(ARTICLE_COLUMNS)
+        .eq("id", id)
+        .maybeSingle();
+      if (error) throw new Error(error.message);
+      if (data) return mapAutoRow(data as unknown as Record<string, unknown>);
+    } catch (error) {
+      console.error("[news] Supabase article-by-id unavailable; using fallback", error);
+    }
+  }
+  // The fallback path is small and local, so scanning it is cheap.
+  return (await getArticles(500)).find((a) => a.id === id) ?? null;
+}
+
+/**
+ * A named set of articles, fetched as a set.
+ *
+ * Same reason as getArticleById: asking for the newest five hundred and
+ * filtering in memory is the expensive way to answer a question Postgres
+ * answers with an index.
+ */
+export async function getArticlesBySlugs(slugs: string[]): Promise<Article[]> {
+  const wanted = [...new Set((slugs ?? []).filter(Boolean))];
+  if (!wanted.length) return [];
+  const supabase = supabaseNewsClient();
+  if (supabase) {
+    try {
+      const { data, error } = await supabase
+        .from("news_articles")
+        .select(ARTICLE_COLUMNS)
+        .in("slug", wanted);
+      if (error) throw new Error(error.message);
+      if (data) return data.map((a) => mapAutoRow(a as unknown as Record<string, unknown>));
+    } catch (error) {
+      console.error("[news] Supabase articles-by-slug unavailable; using fallback", error);
+    }
+  }
+  const all = await getArticles(500);
+  return all.filter((a) => wanted.includes(a.slug));
+}
+
+/**
  * Chronological feed for time-sensitive surfaces such as the homepage news
  * strip. This intentionally ignores featured and engagement ranking so a new
  * pipeline article can never be hidden behind older, higher-scored stories.
