@@ -170,13 +170,8 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          MODEL="${CODEX_MODEL:-gpt-5.4}"
-          if [ "$MODEL" = "gpt-5-codex" ]; then
-            echo "gpt-5-codex is not supported with ChatGPT Codex auth; using gpt-5.4-mini."
-            MODEL="gpt-5.4-mini"
-          fi
-          echo "Codex smoke model: $MODEL"
-          smoke_output="$(printf '%s\n' 'Return exactly CODEX_CI_SMOKE_OK and nothing else.' | codex exec --sandbox read-only --ask-for-approval never -m "$MODEL" - 2>&1)" || {
+          echo "Codex smoke model: account default"
+          smoke_output="$(printf '%s\n' 'Return exactly CODEX_CI_SMOKE_OK and nothing else.' | codex exec --sandbox read-only --ask-for-approval never - 2>&1)" || {
             printf '%s\n' "$smoke_output"
             echo "ERROR Codex auth/model smoke test failed."
             exit 1
@@ -267,11 +262,9 @@ jobs:
           export CRON_SLOT_LABEL
           echo "CRON_SLOT_LABEL=$CRON_SLOT_LABEL" >> "$GITHUB_ENV"
           echo "Cron slot label: $CRON_SLOT_LABEL"
-          MODEL="${CODEX_MODEL:-gpt-5.4}"
-          if [ "$MODEL" = "gpt-5-codex" ]; then
-            echo "gpt-5-codex is not supported with ChatGPT Codex auth; using gpt-5.4-mini."
-            MODEL="gpt-5.4-mini"
-          fi
+          # Do not force a model alias here: ChatGPT Codex auth exposes the
+          # account's currently supported default, while stale CODEX_MODEL
+          # variables can make an otherwise valid account fail immediately.
           cat > /tmp/383-codex-news-prompt.md <<'PROMPT'
           Run the 383 Lajme GPT-5.6 Luna production news pipeline from this GitHub Actions cloud runner.
 
@@ -299,7 +292,7 @@ jobs:
 
           Create the new JSON batch at TARGET_BATCH_FILE when that environment variable is present; otherwise create data/auto-articles/YYYY-MM-DDTHH.json using UTC HH 00-23. Preserve CRON_SLOT_LABEL so the email report shows which scheduled Kosovo-time slot produced the batch. Never write an empty JSON array: use the verified web/RSS leads and social discovery to make at least one real article, or leave no batch file and explain the blocking evidence. Your responsibility ends after writing the complete JSON batch. Do not run validate, build, publish, deploy, verify, send-report, or finalize yourself. The workflow runs those required post-generation steps and owns the one email report.
           PROMPT
-          codex exec --cd "$GITHUB_WORKSPACE" --sandbox workspace-write --ask-for-approval never -m "$MODEL" - < /tmp/383-codex-news-prompt.md
+          codex exec --cd "$GITHUB_WORKSPACE" --sandbox workspace-write --ask-for-approval never - < /tmp/383-codex-news-prompt.md
 
           if python3 - "$TARGET_BATCH_FILE" <<'PY'
           import json
@@ -322,7 +315,7 @@ jobs:
 
             Write the batch only to $TARGET_BATCH_FILE. Never write an empty JSON array. Do not run validation, build, publish, deploy, verification, email, or finalize; this workflow owns those steps.
           PROMPT
-            codex exec --cd "$GITHUB_WORKSPACE" --sandbox workspace-write --ask-for-approval never -m "$MODEL" - < /tmp/383-codex-empty-batch-retry.md
+            codex exec --cd "$GITHUB_WORKSPACE" --sandbox workspace-write --ask-for-approval never - < /tmp/383-codex-empty-batch-retry.md
           fi
 
           python scripts/codex_automation_support.py normalize --file "$TARGET_BATCH_FILE"
@@ -338,7 +331,7 @@ jobs:
             python scripts/validate_source_mix.py --file "$TARGET_BATCH_FILE"
             Do not stop until all three commands pass.
           PROMPT
-            codex exec --cd "$GITHUB_WORKSPACE" --sandbox workspace-write --ask-for-approval never -m "$MODEL" - < /tmp/383-codex-batch-repair.md
+            codex exec --cd "$GITHUB_WORKSPACE" --sandbox workspace-write --ask-for-approval never - < /tmp/383-codex-batch-repair.md
           fi
 
       - name: Validate, publish, and email generated batch
