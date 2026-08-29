@@ -85,6 +85,7 @@ export async function dosjeFor(
       imageCredit: m.image?.credit ?? null,
       imageSlug: null,
       citations: m.citations ?? [],
+      lastVerifiedAt: m.last_verified_at ?? null,
     }));
 
     return {

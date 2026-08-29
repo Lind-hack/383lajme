@@ -52,7 +52,16 @@ export interface DosjeEntry {
     publisher: string;
     title?: string | null;
     date?: string | null;
+    /** The sentence in the source that carries the claim, when one was found. */
+    quote?: string | null;
   }[];
+  /**
+   * When this moment was last confirmed to still rest on live sources. Links
+   * decay; a claim checked two years ago and never since is a weaker claim
+   * than the same words checked last week, and the reader deserves to know
+   * which they are looking at.
+   */
+  lastVerifiedAt?: string | null;
 }
 
 export interface DosjeVideo {
@@ -244,7 +253,10 @@ function Entry({ e, index, unlockIndex }: { e: DosjeEntry; index: number; unlock
                     href={c.url}
                     target="_blank"
                     rel="noreferrer"
-                    title={c.title ?? c.url}
+                    // The supporting sentence, verbatim from the source. It is
+                    // the difference between a link the reader must take on
+                    // faith and one they can weigh without leaving the page.
+                    title={c.quote ? `“${c.quote}”` : (c.title ?? c.url)}
                     style={{
                       font: `500 11.5px ${SANS}`,
                       color: "rgba(43,37,33,.68)",
@@ -257,6 +269,11 @@ function Entry({ e, index, unlockIndex }: { e: DosjeEntry; index: number; unlock
                     {c.date ? ` ${String(c.date).slice(0, 4)}` : ""}
                   </a>
                 ))}
+                {e.lastVerifiedAt && (
+                  <span style={{ font: `400 10.5px ${SANS}`, color: "rgba(43,37,33,.4)" }}>
+                    · kontrolluar {String(e.lastVerifiedAt).slice(0, 10)}
+                  </span>
+                )}
               </div>
             )}
 

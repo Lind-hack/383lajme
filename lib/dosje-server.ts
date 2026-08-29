@@ -27,6 +27,10 @@ export interface DosjeCitation {
   publisher: string;
   title: string | null;
   date: string | null;
+  /** The supporting sentence, verified verbatim against the fetched source. */
+  quote?: string | null;
+  /** When this url last answered. Absent means it has never been re-checked. */
+  lastOkAt?: string | null;
 }
 
 export interface DosjeImage {
@@ -47,6 +51,8 @@ export interface DosjeMilestone {
   why: string | null;
   citations: DosjeCitation[];
   image: DosjeImage | null;
+  /** When this moment was last confirmed to rest on two live sources. */
+  last_verified_at?: string | null;
 }
 
 export interface DosjeTopic {

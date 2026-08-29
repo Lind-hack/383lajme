@@ -1,0 +1,64 @@
+name: Dosje reverify
+
+# Do the sources still answer?
+#
+# Every other guard in this feature runs once, when a claim is written. This
+# one runs forever, because the guarantee has to keep being true: a link
+# fetched today may 404 in a year while the page still asserts the claim and
+# still promises two verified sources.
+#
+# Weekly, oldest checks first, a slice at a time. There is no hurry — link rot
+# is measured in months — and a slow rotation is gentler on the publishers
+# being re-fetched than a nightly sweep of everything.
+#
+# A demotion is the system working, not an incident: a moment that falls below
+# two live publishers comes off the site and goes back to the review queue.
+
+on:
+  schedule:
+    - cron: "40 3 * * 1"
+  workflow_dispatch:
+    inputs:
+      limit:
+        description: "How many citations to re-check"
+        required: false
+        default: "25"
+
+jobs:
+  reverify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: How stale is the evidence
+        env:
+          BASE: ${{ secrets.PRODUCTION_URL || 'https://www.383ks.com' }}
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+        run: |
+          curl -sS -H "Authorization: Bearer $CRON_SECRET" \
+            "$BASE/api/automation/dosje/reverify" | tee /tmp/before.json
+          echo
+
+      - name: Re-check the sources
+        env:
+          BASE: ${{ secrets.PRODUCTION_URL || 'https://www.383ks.com' }}
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+          LIMIT: ${{ inputs.limit || '25' }}
+        run: |
+          status=$(curl -sS -o /tmp/out.json -w '%{http_code}' -X POST \
+            -H "Authorization: Bearer $CRON_SECRET" \
+            "$BASE/api/automation/dosje/reverify?limit=$LIMIT")
+          cat /tmp/out.json; echo
+
+          if [ "$status" != "200" ]; then
+            echo "::error::reverify failed with HTTP $status"
+            exit 1
+          fi
+
+          # A demotion needs a person to look at it, so it is surfaced rather
+          # than buried in the log — but it is a warning, not a failure. The
+          # job did exactly what it should.
+          demoted=$(python3 -c "import json,sys;print(json.load(open('/tmp/out.json')).get('momentsDemoted',0))")
+          if [ "$demoted" != "0" ]; then
+            echo "::warning::$demoted moment(s) lost a live source and were returned to the review queue"
+          fi
+          echo "::notice::$(cat /tmp/out.json)"
