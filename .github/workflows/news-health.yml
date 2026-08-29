@@ -65,6 +65,32 @@ jobs:
             echo "::warning::Only $total articles remain — well below a normal day."
           fi
 
+      - name: Confirm the latest article is fresh enough for market creation
+        env:
+          SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+        run: |
+          set -euo pipefail
+          latest=$(curl -fsSL --max-time 45 \
+            -H "apikey: $SUPABASE_ANON_KEY" \
+            -H "Authorization: Bearer $SUPABASE_ANON_KEY" \
+            "$SUPABASE_URL/rest/v1/news_articles?select=published_at&order=published_at.desc&limit=1")
+          python3 - "$latest" <<'PY'
+          import json
+          import sys
+          from datetime import datetime, timezone
+
+          rows = json.loads(sys.argv[1])
+          if not rows or not rows[0].get("published_at"):
+              raise SystemExit("::error::No timestamped article is available for market creation.")
+          value = rows[0]["published_at"].replace("Z", "+00:00")
+          published = datetime.fromisoformat(value)
+          age_hours = (datetime.now(timezone.utc) - published.astimezone(timezone.utc)).total_seconds() / 3600
+          print(f"latest article age: {age_hours:.1f}h")
+          if age_hours > 26:
+              raise SystemExit("::error::Article packet is older than 26 hours; daily market creation must remain blocked until ingestion recovers.")
+          PY
+
       - name: Confirm the homepage is not serving sample copy
         run: |
           set -euo pipefail
