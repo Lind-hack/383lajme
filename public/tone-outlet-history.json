@@ -1529,17 +1529,18 @@
     },
     "Buonasera24": {
       "country": "Itali",
-      "total": 3,
+      "total": 4,
       "positive": 0,
-      "neutral": 3,
+      "neutral": 4,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-25",
-      "lastSeen": "2026-08-26",
+      "lastSeen": "2026-08-27",
       "urls": [
         "https://www.buonasera24.it/news/cronaca/927313/italia-kosovo-allo-iacovone-cambia-la-viabilita-strade-chiuse-dalle-18.html",
         "https://www.buonasera24.it/news/cronaca/927361/italia-kosovo-iacovone-tutto-esaurito-le-informazioni-su-come-accedere.html",
-        "https://www.buonasera24.it/news/cronaca/927375/italia-kosovo-allo-iacovone-piano-straordinario-per-bus-e-navette-tutto-quello-che-c-e-da-sapere.html"
+        "https://www.buonasera24.it/news/cronaca/927375/italia-kosovo-allo-iacovone-piano-straordinario-per-bus-e-navette-tutto-quello-che-c-e-da-sapere.html",
+        "https://www.buonasera24.it/video/cronaca/927417/il-nuovo-iacovone-porta-fortuna-allitalia-3-0-al-kosovo-e-azzurri-in-semifinale-il-video.html"
       ]
     },
     "Kicker": {
@@ -2137,6 +2138,19 @@
       "lastSeen": "2026-08-28",
       "urls": [
         "https://www.aise.it/rete-diplomatica/kosovo-lambasciatore-antonini-incontra-la-presidente-facente-funzioni-albulena-haxhiu/236458/163"
+      ]
+    },
+    "Giornale Diplomatico": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-29",
+      "lastSeen": "2026-08-29",
+      "urls": [
+        "https://www.giornalediplomatico.it/kosovo-amb-antonini-con-presidente-facente-funzioni-albulena-haxhiu.htm"
       ]
     }
   }

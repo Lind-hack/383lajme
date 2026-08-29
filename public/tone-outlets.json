@@ -1,11 +1,11 @@
 {
   "lastUpdated": "2026-08-29",
   "overallIndex": 51,
-  "totalArticles": 72,
-  "sourceCount": 53,
+  "totalArticles": 74,
+  "sourceCount": 54,
   "stanceVersion": 3,
-  "unattributed": 124,
-  "nonEditorial": 1,
+  "unattributed": 146,
+  "nonEditorial": 2,
   "wrongKosovo": 0,
   "countries": {
     "Gjermani": {
@@ -350,7 +350,7 @@
         {
           "name": "Buonasera24",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 3,
           "articles": [
             {
               "title": "Italia-Kosovo, Iacovone tutto esaurito: le informazioni su come accedere - Buonasera24",
@@ -377,12 +377,25 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Il nuovo Iacovone porta fortuna all’Italia: 3-0 al Kosovo e azzurri in semifinale. Il video - Buonasera24",
+              "albanianTitle": "Stadiumi i ri 'Iacovone' i sjell fat Italisë: 3-0 ndaj Kosovës dhe 'axurrët' kualifikohen në gjysmëfinale",
+              "blurb": "Kombëtarja e Italisë ka mposhtur Kosovën me rezultat 3-0, duke u kualifikuar në gjysmëfinalen e turneut futbollistik.",
+              "imageUrl": "https://www.buonasera24.it/resizer/600/315/true/2026_08_27/9b25c185027e7377671e8a1da3b0dd81.jpg--.webp",
+              "url": "https://www.buonasera24.it/video/cronaca/927417/il-nuovo-iacovone-porta-fortuna-allitalia-3-0-al-kosovo-e-azzurri-in-semifinale-il-video.html",
+              "date": "2026-08-27",
+              "sentiment": "neutral",
+              "reason": "Lajm sportiv i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 3,
+          "totalArticles": 4,
           "trend": "neutral",
           "firstSeen": "2026-08-25",
-          "lastSeen": "2026-08-26"
+          "lastSeen": "2026-08-27"
         },
         {
           "name": "Calcio e Finanza",
@@ -500,13 +513,13 @@
           "articles": [
             {
               "title": "Mondiale di futsal 2028, il cammino inizia in Calabria: il 20 ottobre gli Azzurri a Rende per Italia-Georgia - FIGC",
-              "albanianTitle": "Kampionati Botëror i futsallit 2028, rrugëtimi nis në Kalabri: më 20 tetor Italia luan kundër Gjeorgjisë në Rende - FIGC",
-              "blurb": "Kualifikimet për kampionatin botëror të futsallit 2028 nisin në Kalabri me ndeshjen Itali-Gjeorgji më 20 tetor.",
+              "albanianTitle": "Kampionati Botëror i futsallit 2028, rrugëtimi nis në Kalabri: më 20 tetor “Azzurrët” në Rende për ndeshjen Itali-Gjeorgji - FIGC",
+              "blurb": "Kombëtarja e Italisë në futsall do të përballet me Gjeorgjinë në Rende më 20 tetor, në kuadër të kualifikimeve për botëror.",
               "imageUrl": "https://images.figc.it/view/acePublic/alias/contentid/1tf45kl5u1q9umrdekk/0/2259428813-jpg.jpg?f=187%3A100",
               "url": "https://www.figc.it/it/nazionali/news/mondiale-di-futsal-2028-il-cammino-inizia-in-calabria-il-20-ottobre-gli-azzurri-a-rende-per-italia-georgia-o5b5okwc",
               "date": "2026-08-28",
               "sentiment": "unknown",
-              "reason": "No mention of Kosovo, cannot infer outlet's stance",
+              "reason": "Nuk ka asnjë përmendje të Kosovës në titull",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -516,6 +529,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-08-20",
           "lastSeen": "2026-08-28"
+        },
+        {
+          "name": "Giornale Diplomatico",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo: amb. Antonini con presidente facente funzioni Albulena Haxhiu - Giornale Diplomatico",
+              "albanianTitle": "Kosovë: Ambasadori Antonini në takim me ushtruesen e detyrës së presidentit, Albulena Haxhiu",
+              "blurb": "Ambasadori Antonini ka zhvilluar një takim zyrtar me ushtruesen e detyrës së presidentit, Albulena Haxhiu, në Kosovë.",
+              "imageUrl": "https://www.giornalediplomatico.it/foto/grandi/img-6904.png",
+              "url": "https://www.giornalediplomatico.it/kosovo-amb-antonini-con-presidente-facente-funzioni-albulena-haxhiu.htm",
+              "date": "2026-08-29",
+              "sentiment": "neutral",
+              "reason": "Raportim neutral i emërimit në Kosovë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-29",
+          "lastSeen": "2026-08-29"
         },
         {
           "name": "Giornale RossoBlu",
@@ -722,13 +759,13 @@
             },
             {
               "title": "Le emozioni nello stadio e nel palazzetto - RaiNews",
-              "albanianTitle": "Emocionet në stadium dhe në palestrën sportive - RaiNews",
-              "blurb": "Ngjarjet sportive në stadiume dhe palestra po përcillen me emocione të mëdha nga ana e shikuesve.",
+              "albanianTitle": "Emocione në stadium dhe në palestër - RaiNews",
+              "blurb": "Ngjarjet sportive në stadiume dhe palestra po përcillen me emocione të mëdha nga ana e shikuesve dhe tifozëve prezentë.",
               "imageUrl": "https://www.rainews.it/cropgd/1200x630/dl/img/2026/08/27/1787832555136_stadio_iacovone.jpg",
               "url": "https://www.rainews.it/tgr/puglia/video/2026/08/giochi-del-mediterraneo-9f31ae0f-6f7d-4a46-ad0f-f710b8af0546.html",
               "date": "2026-08-27",
               "sentiment": "unknown",
-              "reason": "No mention of Kosovo, cannot infer outlet's stance",
+              "reason": "Nuk ka asnjë përmendje të Kosovës në titull",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -970,11 +1007,11 @@
         }
       ],
       "summary": {
-        "index": 52,
+        "index": 51,
         "positive": 6,
         "neutral": 91,
         "negative": 3,
-        "n": 32,
+        "n": 34,
         "excluded": 2,
         "confident": true,
         "stanceVersion": 3

@@ -3733,8 +3733,8 @@
   {
     "date": "2026-08-29",
     "overallIndex": 51,
-    "totalArticles": 72,
-    "sourceCount": 53,
+    "totalArticles": 74,
+    "sourceCount": 54,
     "stanceVersion": 3,
     "countries": {
       "Gjermani": {
@@ -3778,11 +3778,11 @@
         "stanceVersion": 3
       },
       "Itali": {
-        "index": 52,
+        "index": 51,
         "positive": 6,
         "neutral": 91,
         "negative": 3,
-        "n": 32,
+        "n": 34,
         "excluded": 2,
         "confident": true,
         "stanceVersion": 3
@@ -3906,20 +3906,12 @@
         "sentiment": "positive"
       },
       {
-        "title": "Issa Sanga Ouédraogo, un jeune talent burkinabè s’envole pour le Kosovo - 226foot.com",
-        "source": "226foot.com",
-        "country": "Francë",
-        "flag": "🇫🇷",
-        "url": "https://226foot.com/issa-sanga-ouedraogo-un-jeune-talent-burkinabe-senvole-pour-le-kosovo/",
+        "title": "Pallamano femminile: l’Italia domina con il Kosovo. Altro successo ai Giochi del Mediterraneo - OA Sport",
+        "source": "OA Sport",
+        "country": "Itali",
+        "flag": "🇮🇹",
+        "url": "https://www.oasport.it/2026/08/pallamano-femminile-litalia-domina-con-il-kosovo-altro-successo-ai-giochi-del-mediterraneo/",
         "sentiment": "positive"
-      },
-      {
-        "title": "The Ibar Bridge And The End Of A Strategic Illusion - Eurasia Review",
-        "source": "Eurasia Review",
-        "country": "SHBA",
-        "flag": "🇺🇸",
-        "url": "https://www.eurasiareview.com/26082026-the-ibar-bridge-and-the-end-of-a-strategic-illusion/",
-        "sentiment": "negative"
       },
       {
         "title": "Kosovo alleato ma le armi della Serbia sono più utili - Remocontro",
@@ -3935,6 +3927,14 @@
         "country": "Spanjë",
         "flag": "🇪🇸",
         "url": "https://www.democrata.es/it/internazionale/l-ue-critica-che-il-kosovo-convalidi-le-dimissioni-dei-giudici-serbi-gia-ritirate/",
+        "sentiment": "negative"
+      },
+      {
+        "title": "La UE lamenta que Kosovo haya acabado aceptando dimisiones de jueces serbios que ya habían sido retiradas - Europa Press",
+        "source": "Europa Press",
+        "country": "Spanjë",
+        "flag": "🇪🇸",
+        "url": "https://www.europapress.es/internacional/noticia-ue-lamenta-kosovo-haya-acabado-aceptando-dimisiones-jueces-serbios-ya-sido-retiradas-20260828184957.html",
         "sentiment": "negative"
       }
     ]
