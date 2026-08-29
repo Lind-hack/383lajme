@@ -48,6 +48,7 @@ jobs:
       ADMIN_SECRET: ${{ secrets.ADMIN_SECRET || vars.ADMIN_SECRET }}
       NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
       NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+      SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
       SCRAPECREATORS_API_KEY: ${{ secrets.SCRAPECREATORS_API_KEY }}
       XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
       PERPLEXITY_API_KEY: ${{ secrets.PERPLEXITY_API_KEY }}
@@ -379,7 +380,7 @@ jobs:
           python scripts/codex_automation_support.py validate --file "$TARGET_BATCH_FILE"
           python scripts/validate_source_mix.py --file "$TARGET_BATCH_FILE"
           npm run build
-          python scripts/codex_automation_support.py finalize --file "$TARGET_BATCH_FILE"
+          python scripts/codex_automation_support.py finalize-supabase --file "$TARGET_BATCH_FILE"
 
       - name: Notify failure by email
         if: failure()
