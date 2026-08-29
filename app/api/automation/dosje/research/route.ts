@@ -110,13 +110,40 @@ export async function POST(req: Request) {
     subject = pick.subject ?? pick.title ?? pick.topic;
   }
 
+  // Release claims that cannot still be running before making a new one.
+  //
+  // The claim is what stops a double fire spending twice, but only the finish
+  // path clears it, so a run that timed out or crashed left its row as
+  // in_progress forever. The unique (subject_key, run_date) then refused every
+  // retry for the rest of the day and, carrying no cooldown, never surfaced as
+  // a problem — the subject just stopped being researched.
+  //
+  // The check lives here rather than on its own schedule because the job that
+  // would notice a wedged claim is the same job the claim is blocking.
+  const { data: swept } = await supabase.rpc("dosje_sweep_stale_claims");
+  if (typeof swept === "number" && swept > 0) {
+    console.warn(`[dosje] released ${swept} stale research claim(s)`);
+  }
+
   // Claim the work before doing any of it. The unique (subject_key, run_date)
   // makes a double fire a no-op rather than a doubled spend and a duplicate
   // draft; a row that already exists means today's run is already accounted for.
-  const { error: claimError } = await supabase
+  const { data: claim, error: claimError } = await supabase
     .from("dosje_research_runs")
-    .insert({ subject_key: subject, outcome: "in_progress" });
+    .insert({ subject_key: subject, outcome: "in_progress" })
+    .select("id")
+    .single();
   if (claimError) {
+    // Distinguish "already accounted for today" from a database problem. Both
+    // used to answer 200 with ok:true, so an outage read exactly like normal
+    // idempotency and the workflow called it a success.
+    const duplicate = /duplicate key|already exists|23505/i.test(claimError.message);
+    if (!duplicate) {
+      return NextResponse.json(
+        { ok: false, reason: "claim_failed", detail: claimError.message },
+        { status: 500 }
+      );
+    }
     return NextResponse.json(
       { ok: true, skipped: "already_ran_today", subject },
       { status: 200 }
@@ -131,8 +158,11 @@ export async function POST(req: Request) {
     await supabase
       .from("dosje_research_runs")
       .update({ outcome, detail, cooldown_until: cooldown })
-      .eq("subject_key", subject)
-      .eq("run_date", new Date().toISOString().slice(0, 10));
+      // Addressed by the id this run claimed, rather than by recomputing the
+      // date. run_date defaults to Postgres current_date while this matched a
+      // UTC date built in Node; wherever those disagree the update touched no
+      // rows, the run stayed in_progress and no cooldown was ever written.
+      .eq("id", claim?.id ?? "");
   };
 
   // ── 1. evidence, before anything is written ────────────────────────────────
