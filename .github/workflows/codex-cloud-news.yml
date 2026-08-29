@@ -153,6 +153,19 @@ jobs:
       - name: Install Codex CLI
         run: npm install -g @openai/codex
 
+      - name: Configure Codex auth
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p ~/.codex
+          if [ -z "${CODEX_AUTH_JSON_B64:-}" ]; then
+            echo "Missing CODEX_AUTH_JSON_B64. This dedicated GitHub secret is required for the news account."
+            exit 2
+          fi
+          unset OPENAI_API_KEY CODEX_ACCESS_TOKEN
+          printf '%s' "$CODEX_AUTH_JSON_B64" | base64 -d > ~/.codex/auth.json
+          chmod 600 ~/.codex/auth.json
+
       - name: Verify Codex auth and model smoke test
         shell: bash
         run: |
@@ -173,19 +186,6 @@ jobs:
             echo "ERROR Codex smoke test returned an unexpected response."
             exit 1
           fi
-
-      - name: Configure Codex auth
-        shell: bash
-        run: |
-          set -euo pipefail
-          mkdir -p ~/.codex
-          if [ -z "${CODEX_AUTH_JSON_B64:-}" ]; then
-            echo "Missing CODEX_AUTH_JSON_B64. This dedicated GitHub secret is required for the news account."
-            exit 2
-          fi
-          unset OPENAI_API_KEY CODEX_ACCESS_TOKEN
-          printf '%s' "$CODEX_AUTH_JSON_B64" | base64 -d > ~/.codex/auth.json
-          chmod 600 ~/.codex/auth.json
 
       - name: Preflight repo environment
         run: |
