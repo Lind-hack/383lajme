@@ -380,18 +380,19 @@
     },
     "agenziagiornalisticaopinione.it": {
       "country": "Itali",
-      "total": 4,
+      "total": 5,
       "positive": 0,
       "neutral": 3,
       "negative": 0,
-      "unknown": 1,
+      "unknown": 2,
       "firstSeen": "2026-08-22",
-      "lastSeen": "2026-08-25",
+      "lastSeen": "2026-08-29",
       "urls": [
         "https://www.agenziagiornalisticaopinione.it/opinionmix/sole24/il-sole-24-ore-sport-abodi-e-gonxhja-incontro-in-vista-dei-giochi-del-mediterraneo-del-2030-tra-kosovo-e-albania/",
         "https://www.agenziagiornalisticaopinione.it/opinionews/figc-federazione-italiana-giuoco-calcio-azzurrini-ko-3-1-con-lalgeria-ora-serve-unimpresa-contro-il-kosovo/",
         "https://www.agenziagiornalisticaopinione.it/opinionmix/figc-federazione-italiana-giuoco-calcio-giochi-del-mediterraneo-azzurrine-dominano-il-kosovo-4-1-allesordio/",
-        "https://www.agenziagiornalisticaopinione.it/opinionews/figc-federazione-italiana-giuoco-calcio-italia-slovenia-1-1-ai-giochi-del-mediterraneo-azzurrine-frenate-dalla-difesa-slovena/"
+        "https://www.agenziagiornalisticaopinione.it/opinionews/figc-federazione-italiana-giuoco-calcio-italia-slovenia-1-1-ai-giochi-del-mediterraneo-azzurrine-frenate-dalla-difesa-slovena/",
+        "https://www.agenziagiornalisticaopinione.it/opinionews/figc-federazione-italiana-giuoco-calcio-azzurrine-in-finale-per-loro-ciurleo-pareggia-allultimo-minuto/"
       ]
     },
     "studio100.it": {

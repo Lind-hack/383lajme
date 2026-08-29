@@ -1,10 +1,10 @@
 {
   "lastUpdated": "2026-08-29",
   "overallIndex": 51,
-  "totalArticles": 76,
-  "sourceCount": 55,
+  "totalArticles": 79,
+  "sourceCount": 56,
   "stanceVersion": 3,
-  "unattributed": 150,
+  "unattributed": 160,
   "nonEditorial": 2,
   "wrongKosovo": 0,
   "countries": {
@@ -319,26 +319,26 @@
             },
             {
               "title": "Ambassador to Kosovo Antonini Meets with Interim President Haxhiu - ANSA",
-              "albanianTitle": "Ambasadori në Kosovë, Antonini, takon ushtruesen e detyrës së presidentit, Haxhiu – ANSA",
-              "blurb": "Ambasadori italian në Kosovë, Antonini, ka zhvilluar një takim zyrtar me ushtruesen e detyrës së presidentit, Vjosa Osmani-Sadriu.",
+              "albanianTitle": "Ambasadori në Kosovë, Antonini, takon ushtruesen e detyrës së presidentit, Haxhiu - ANSA",
+              "blurb": "Ambasadori italian në Kosovë, Antonini, zhvilloi një takim zyrtar me presidenten në detyrë, Vjosa Osmani-Haxhiu.",
               "imageUrl": "https://www.ansa.it/webimages/img_1280x720/2026/8/29/0d49b2ffcbc94596722d725b4af37a7a.jpg",
               "url": "https://www.ansa.it/english/news/news_from_embassies/2026/08/29/ambassador-to-kosovo-antonini-meets-with-interim-president-haxhiu_f485b25c-005b-4f3c-8398-8720fb63847b.html",
               "date": "2026-08-29",
-              "sentiment": "unknown",
-              "reason": "",
+              "sentiment": "neutral",
+              "reason": "Raportim i thjeshtë faktik",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
             },
             {
               "title": "Ambasciatore in Kosovo Antonini incontra la presidente ad interim Haxhiu - ANSA",
-              "albanianTitle": "Ambasadori në Kosovë, Antonini, takon ushtruesen e detyrës së presidentit, Haxhiu – ANSA",
-              "blurb": "Ambasadori i Italisë në Kosovë, Antonini, është takuar me ushtruesen e detyrës së presidentit të vendit, Vjosa Osmani-Sadriu.",
+              "albanianTitle": "Ambasadori në Kosovë, Antonini, takon ushtruesen e detyrës së presidentit, Haxhiu - ANSA",
+              "blurb": "Ambasadori i Italisë në Kosovë, Antonini, realizoi një takim pune me presidenten në detyrë, Vjosa Osmani-Haxhiu.",
               "imageUrl": "https://www.ansa.it/webimages/img_1280x720/2026/8/29/0d49b2ffcbc94596722d725b4af37a7a.jpg",
               "url": "https://www.ansa.it/sito/notizie/mondo/news_dalle_ambasciate/2026/08/29/ambasciatore-in-kosovo-antonini-incontra-la-presidente-ad-interim-haxhiu_16bdddb8-9b56-4b96-a5cb-53107756bc7b.html",
               "date": "2026-08-29",
-              "sentiment": "unknown",
-              "reason": "",
+              "sentiment": "neutral",
+              "reason": "Raportim i thjeshtë faktik",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -947,6 +947,30 @@
           "lastSeen": "2026-08-27"
         },
         {
+          "name": "agenziagiornalisticaopinione.it",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "FIGC * FEDERAZIONE ITALIANA GIUOCO CALCIO: «AZZURRINE IN FINALE PER L'ORO, CIURLEO PAREGGIA ALL'ULTIMO MINUTO - agenziagiornalisticaopinione.it",
+              "albanianTitle": "Federata Italiane e Futbollit: “Azzurrine” në finale për medaljen e artë, Ciurleo barazon në minutën e fundit - agenziagiornalisticaopinione.it",
+              "blurb": "Kombëtarja e vajzave të Italisë është kualifikuar në finalen për medaljen e artë pas barazimit të shënuar nga Ciurleo.",
+              "imageUrl": "https://www.agenziagiornalisticaopinione.it/wp-content/uploads/2026/08/y99zc82428b7-5698-4e07-93e3-385029461481-jpg.jpg",
+              "url": "https://www.agenziagiornalisticaopinione.it/opinionews/figc-federazione-italiana-giuoco-calcio-azzurrine-in-finale-per-loro-ciurleo-pareggia-allultimo-minuto/",
+              "date": "2026-08-29",
+              "sentiment": "unknown",
+              "reason": "Nuk përmendet Kosova, prandaj nuk mund të përcaktohet qëndrimi",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 5,
+          "trend": "neutral",
+          "firstSeen": "2026-08-22",
+          "lastSeen": "2026-08-29"
+        },
+        {
           "name": "dialessandria.it",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1034,11 +1058,11 @@
       ],
       "summary": {
         "index": 51,
-        "positive": 6,
+        "positive": 5,
         "neutral": 92,
         "negative": 3,
-        "n": 36,
-        "excluded": 2,
+        "n": 38,
+        "excluded": 1,
         "confident": true,
         "stanceVersion": 3
       }
@@ -1076,13 +1100,13 @@
           "articles": [
             {
               "title": "Für Abonnenten - Die „Krone“ fliegt Sie zum Länderspiel-Doppelpack - Kronen Zeitung",
-              "albanianTitle": "Për abonentët: „Krone“ ju dërgon në dy ndeshjet e kombëtares – Kronen Zeitung",
-              "blurb": "Gazeta austriake Kronen Zeitung ofron mundësinë për abonentët e saj që të udhëtojnë për të ndjekur ndeshjet e kombëtares.",
+              "albanianTitle": "Për abonentët: „Krone“ ju dërgon në dy ndeshjet e kombëtares - Kronen Zeitung",
+              "blurb": "Gazeta Kronen Zeitung ofron mundësinë për abonentët e saj që të udhëtojnë për të ndjekur ndeshjet e kombëtares.",
               "imageUrl": "https://imgl.krone.at/scaled/4269985/v16289f/og_image.jpg",
               "url": "https://www.krone.at/4269964",
               "date": "2026-08-29",
               "sentiment": "unknown",
-              "reason": "",
+              "reason": "Nuk përmendet Kosova në titull, prandaj qëndrimi nuk është i qartë",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1175,13 +1199,13 @@
           "articles": [
             {
               "title": "Mutter aus Kanton Solothurn: Wegweisung trotz Drohungen des Ehemanns - Solothurner Zeitung",
-              "albanianTitle": "Nënë nga kantoni i Solothurnit: U urdhërua të largohej pavarësisht kërcënimeve nga bashkëshorti - Solothurner Zeitung",
-              "blurb": "Një nënë nga kantoni i Solothurnit është urdhëruar të largohet nga shtëpia pavarësisht kërcënimeve nga bashkëshorti i saj.",
+              "albanianTitle": "Nënë nga kantoni i Solothurnit: U dëbua pavarësisht kërcënimeve nga bashkëshorti - Solothurner Zeitung",
+              "blurb": "Një nënë nga kantoni i Solothurnit përballet me dëbim, pavarësisht kërcënimeve të vazhdueshme nga ana e bashkëshortit të saj.",
               "imageUrl": null,
               "url": "https://www.solothurnerzeitung.ch/solothurn/kanton-solothurn/solothurner-mutter-und-kinder-muessen-schweiz-verlassen-ld.4223422",
               "date": "2026-08-28",
               "sentiment": "unknown",
-              "reason": "No mention of Kosovo in the item",
+              "reason": "Titulli nuk përmend Kosovën",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1537,13 +1561,13 @@
             },
             {
               "title": "Συνεχίζει τις «εμπρηστικές» δηλώσεις για το Κόσοβο ο Ράμα - sport-fm.gr",
-              "albanianTitle": "Rama vazhdon me deklarata „provokuese“ për Kosovën – sport-fm.gr",
-              "blurb": "Kryeministri i Shqipërisë, Edi Rama, vazhdon të bëjë deklarata lidhur me çështjen e Kosovës të cilat vlerësohen si provokuese.",
+              "albanianTitle": "Rama vazhdon me deklaratat „provokuese“ për Kosovën - sport-fm.gr",
+              "blurb": "Kryeministri shqiptar Edi Rama vazhdon me deklaratat e tij lidhur me situatën politike në Kosovë.",
               "imageUrl": "https://resources.sport-fm.gr/supersportFM/images/news/14/11/11/130147.jpg?w=880&f=bicubic",
               "url": "https://www.sport-fm.gr/article/795903",
               "date": "2026-08-29",
-              "sentiment": "unknown",
-              "reason": "",
+              "sentiment": "neutral",
+              "reason": "Përdor gjuhë përshkruese, por pa shprehje të drejtpërdrejtë kundër Kosovës",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1584,8 +1608,8 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 6,
-        "excluded": 1,
+        "n": 7,
+        "excluded": 0,
         "confident": true,
         "stanceVersion": 3
       }
