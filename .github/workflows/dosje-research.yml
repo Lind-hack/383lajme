@@ -17,42 +17,52 @@ on:
   workflow_dispatch:
     inputs:
       subject:
-        description: "Subject to research"
-        required: true
+        description: "Subject to research (leave empty to let the job choose)"
+        required: false
       topic:
-        description: "Dossier slug it belongs to"
-        required: true
+        description: "Dossier slug (leave empty to let the job choose)"
+        required: false
 
 jobs:
   research:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - name: Look at the evidence first
+      - name: Draft whichever dossier the news has been returning to
         env:
           BASE: ${{ secrets.PRODUCTION_URL || 'https://www.383ks.com' }}
           CRON_SECRET: ${{ secrets.CRON_SECRET }}
-          SUBJECT: ${{ inputs.subject || 'KFOR Kosovo' }}
+          SUBJECT: ${{ inputs.subject }}
+          TOPIC: ${{ inputs.topic }}
         run: |
-          echo "Subject: $SUBJECT"
-          curl -sS -H "Authorization: Bearer $CRON_SECRET" \
-            "$BASE/api/automation/dosje/research?subject=$(printf %s "$SUBJECT" | jq -sRr @uri)" \
-            | tee /tmp/evidence.json
-          echo
+          # With no subject named, the route asks the database which dossier is
+          # most worth researching now: recurring in recent news, not on
+          # cooldown, waiting longest. That is what connects this job to the
+          # subject detection that runs every two hours — before, it ran on a
+          # hardcoded subject and ignored all of it.
+          QUERY=""
+          if [ -n "$SUBJECT" ] && [ -n "$TOPIC" ]; then
+            QUERY="?subject=$(printf %s "$SUBJECT" | jq -sRr @uri)&topic=$TOPIC"
+            echo "Subject named by hand: $SUBJECT -> $TOPIC"
+          else
+            echo "No subject named; the job will choose."
+          fi
 
-      - name: Draft, and accept a refusal
-        env:
-          BASE: ${{ secrets.PRODUCTION_URL || 'https://www.383ks.com' }}
-          CRON_SECRET: ${{ secrets.CRON_SECRET }}
-          SUBJECT: ${{ inputs.subject || 'KFOR Kosovo' }}
-          TOPIC: ${{ inputs.topic || 'kfor' }}
-        run: |
           status=$(curl -sS -o /tmp/out.json -w '%{http_code}' -X POST \
             -H "Authorization: Bearer $CRON_SECRET" \
-            "$BASE/api/automation/dosje/research?subject=$(printf %s "$SUBJECT" | jq -sRr @uri)&topic=$TOPIC")
+            "$BASE/api/automation/dosje/research$QUERY")
           cat /tmp/out.json; echo
+
           case "$status" in
-            200) echo "::notice::drafted for review" ;;
-            422) echo "::warning::refused — evidence did not support a claim. This is correct behaviour." ; exit 0 ;;
+            200)
+              # "no_candidate" is the normal answer on most nights: the news
+              # did not add to any standing subject. Not a failure.
+              if grep -q '"no_candidate"' /tmp/out.json; then
+                echo "::notice::nothing recurring enough to research today"
+              else
+                echo "::notice::drafted for review"
+              fi
+              ;;
+            422) echo "::warning::refused — the evidence did not support a claim. This is correct behaviour." ; exit 0 ;;
             *)   echo "::error::research failed with HTTP $status" ; exit 1 ;;
           esac

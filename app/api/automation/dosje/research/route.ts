@@ -85,13 +85,29 @@ export async function POST(req: Request) {
   }
 
   const url = new URL(req.url);
-  const subject = url.searchParams.get("subject");
-  const topicSlug = url.searchParams.get("topic");
+  let subject = url.searchParams.get("subject");
+  let topicSlug = url.searchParams.get("topic");
+
+  // With nothing named, ask which dossier is most worth researching now. This
+  // is what connects the two halves: dosje-subjects has been mapping articles
+  // to dossiers every two hours, and until this existed the research job
+  // ignored all of it and ran on a hardcoded subject every night.
   if (!subject || !topicSlug) {
-    return NextResponse.json(
-      { error: "subject and topic are required" },
-      { status: 400 }
-    );
+    const { data: next, error: pickError } = await supabase.rpc("dosje_next_subject", {
+      p_min_articles: 3,
+      p_min_days: 2,
+    });
+    if (pickError) {
+      return NextResponse.json({ error: pickError.message }, { status: 500 });
+    }
+    const pick = next as { topic?: string | null; subject?: string; title?: string } | null;
+    if (!pick?.topic) {
+      // Nothing recurring enough to deserve a dossier. A normal answer, not a
+      // failure: most days the news does not add to a standing subject.
+      return NextResponse.json({ ok: true, reason: "no_candidate" }, { status: 200 });
+    }
+    topicSlug = pick.topic;
+    subject = pick.subject ?? pick.title ?? pick.topic;
   }
 
   // Claim the work before doing any of it. The unique (subject_key, run_date)
