@@ -74,6 +74,7 @@ export default async function DosjePage({ params }: { params: Promise<{ slug: st
           blurb={dosje?.blurb ?? topic.blurb}
           videos={dosje?.videos ?? []}
           entries={timeline}
+          sourced={dosje?.sourced ?? false}
         />
 
         <div style={{ marginTop: "44px", paddingTop: "24px", borderTop: "1px solid rgba(228,50,43,.28)" }}>

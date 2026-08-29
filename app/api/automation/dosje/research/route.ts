@@ -42,6 +42,10 @@ Rregullat, pa përjashtim:
   nga i njëjti botues. Nëse nuk ke dy botues, mos e shkruaj momentin fare.
 - Çdo shifër, datë ose numër viktimash duhet të shfaqet fjalë për fjalë në
   tekstin e një burimi. Nëse nuk e gjen, mos e shkruaj.
+- Për çdo zë të "claims" shto edhe "quote": fjalinë E SAKTË, kopjuar shkronjë
+  për shkronjë nga teksti i burimit që e mbështet. Mos e përkthe, mos e shkurto
+  dhe mos e rishkruaj. Nëse nuk gjen fjali të saktë, lëre bosh — një citim i
+  shpikur është më i keq se asnjë citim.
 - Mbaje "summary" të shkurtër: dy ose tri fjali. Sa më shumë fjali, aq më shumë
   citime duhen.
 - Nëse burimet nuk mjaftojnë, kthe {"milestones": []}. Kjo është përgjigje e
@@ -58,7 +62,7 @@ type DraftShape = {
     event_date?: string;
     date_precision?: string;
     display_date?: string;
-    claims?: Array<{ sentence?: string; source_indexes?: number[] }>;
+    claims?: Array<{ sentence?: string; source_indexes?: number[]; quote?: string }>;
   }>;
 };
 
@@ -145,7 +149,7 @@ export async function POST(req: Request) {
       SYSTEM,
       `Subjekti: ${subject}\n\nBurimet:\n\n${numbered}\n\n` +
         `Kthe JSON: {"milestones":[{"title","summary","why","tag","event_date":"YYYY-MM-DD",` +
-        `"date_precision":"day|month|year","display_date","claims":[{"sentence","source_indexes":[0]}]}]}`,
+        `"date_precision":"day|month|year","display_date","claims":[{"sentence","source_indexes":[0],"quote"}]}]}`,
       { prefer: "gemini" }
     );
   } catch (err) {

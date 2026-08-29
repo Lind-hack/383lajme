@@ -144,6 +144,7 @@ export default async function ArticlePage({
           blurb: file.blurb,
           videos: file.videos ?? [],
           entries: file.entries,
+          sourced: file.sourced,
         }
       : null;
 

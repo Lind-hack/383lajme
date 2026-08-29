@@ -67,6 +67,13 @@ interface Props {
   blurb: string;
   videos?: DosjeVideo[];
   entries: DosjeEntry[];
+  /**
+   * Whether this file's history has been through the pipeline: fetched,
+   * corroborated by two publishers per moment, and approved by a person.
+   * Defaults to false, so a caller that forgets to pass it understates the
+   * dossier rather than overstating it.
+   */
+  sourced?: boolean;
 }
 
 const SERIF = "var(--font-garamond), Georgia, serif";
@@ -283,7 +290,7 @@ function Entry({ e, index, unlockIndex }: { e: DosjeEntry; index: number; unlock
   );
 }
 
-export default function DosjeSection({ topicSlug, topicTitle, blurb, videos, entries }: Props) {
+export default function DosjeSection({ topicSlug, topicTitle, blurb, videos, entries, sourced = false }: Props) {
   const [showAll, setShowAll] = useState(false);
   const [unlocking, setUnlocking] = useState(false);
   const cardRef = useRef<HTMLElement | null>(null);
@@ -391,6 +398,38 @@ export default function DosjeSection({ topicSlug, topicTitle, blurb, videos, ent
         <p style={{ margin: "12px 0 0", maxWidth: "62ch", font: `italic 400 clamp(16px, 2vw, 18px)/1.55 ${SERIF}`, color: "rgba(43,37,33,.74)" }}>
           {blurb}
         </p>
+
+        {/* How this file was checked.
+            Verification the reader cannot see does nothing for trust, and it
+            does something worse: an unchecked dossier that looks identical to
+            a checked one borrows credibility it has not earned. So the state
+            is stated either way, quietly, in the same place every time. */}
+        <div
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: "7px",
+            margin: "14px 0 0",
+            padding: "5px 10px 5px 8px",
+            borderRadius: "20px",
+            border: `1px solid ${sourced ? "rgba(30,122,60,.3)" : "rgba(43,37,33,.2)"}`,
+            background: sourced ? "rgba(30,122,60,.06)" : "rgba(43,37,33,.04)",
+          }}
+        >
+          {diamond(5, sourced ? "#1e7a3c" : "rgba(43,37,33,.42)")}
+          <span
+            style={{
+              font: `600 10px ${SANS}`,
+              letterSpacing: "0.1em",
+              textTransform: "uppercase",
+              color: sourced ? "#1a6b35" : "rgba(43,37,33,.58)",
+            }}
+          >
+            {sourced
+              ? "Çdo moment me dy burime të verifikuara"
+              : "Kronologji pune — ende pa burime të verifikuara"}
+          </span>
+        </div>
 
         <div style={{ margin: "20px 0 6px" }}><Rule /></div>
 

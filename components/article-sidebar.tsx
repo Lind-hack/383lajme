@@ -30,6 +30,8 @@ export interface DosjeData {
   blurb: string;
   videos?: DosjeVideo[];
   entries: DosjeEntry[];
+  /** Whether this file's history carries verified sources. */
+  sourced?: boolean;
 }
 
 interface Props {
@@ -212,6 +214,7 @@ export default function ArticleSidebar({ article, related, dosje }: Props) {
             blurb={dosje.blurb}
             videos={dosje.videos}
             entries={dosje.entries}
+            sourced={dosje.sourced ?? false}
           />
         )}
 
