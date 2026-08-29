@@ -141,8 +141,13 @@ async function run(req: Request, dryRun: boolean) {
   let written = 0;
   if (matches.length) {
     const { error } = await supabase.from("dosje_article_topics").upsert(
-      matches.map(({ publishedAt: _publishedAt, ...row }) => ({
+      matches.map(({ publishedAt, ...row }) => ({
         ...row,
+        // Keep the publication date. Whether a subject is standing is a fact
+        // about the news, not about when this job happened to run — and
+        // discarding it here is what made the selector count every mapping run
+        // as a single day and never return a candidate.
+        published_at: publishedAt ?? null,
         decided_at: new Date().toISOString(),
       })),
       { onConflict: "article_slug,topic_slug" }
