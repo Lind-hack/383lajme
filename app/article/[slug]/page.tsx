@@ -77,7 +77,10 @@ export default async function ArticlePage({
 
   const catColor = getCategoryColor(article.category);
   const catBg = getCategoryBg(article.category, 0.08);
-  const allArticles = await getArticles(50);
+  // Related cards, the dossier's archive half and the accordion — all of which
+  // show a headline and an image. The article being read has its own body from
+  // getArticleBySlug; these fifty do not need theirs.
+  const allArticles = await getArticles(50, undefined, { withBody: false });
 
   const canonicalUrl = `${SITE}/article/${slug}`;
   const ogImage = article.imageUrl

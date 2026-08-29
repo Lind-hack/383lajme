@@ -90,47 +90,72 @@ comment on function public.dosje_next_subject(int, int) is
 
 revoke all on function public.dosje_next_subject(int, int) from public;
 
--- Prove it, at apply time — specifically the case that was broken: everything
--- mapped in one run, about articles published on different days.
+-- Prove it, at apply time.
+--
+-- The assertion is about the day count itself, not about which subject wins.
+-- Ranking depends on whatever real mappings exist — a busier live subject
+-- legitimately outranks a fixture — so asserting "my test topic is selected"
+-- tests the wrong thing and fails for the right reason. What was broken is
+-- that every mapping run counted as one day, and that is what is measured
+-- here, using the same expression the function uses.
 do $$
 declare
-  picked jsonb;
-  today  timestamptz := now();
+  d_multi int;
+  d_same  int;
+  today   timestamptz := now();
 begin
   insert into public.dosje_topics (slug, title, blurb, status, research_query)
        values ('__days_test__', 'Days', 'Days', 'draft', 'days test subject')
     on conflict (slug) do nothing;
 
-  -- One mapping run, one decided_at, three articles from three different days.
+  -- One mapping run — a single decided_at — over articles published on three
+  -- separate days. This is exactly the shape the mapper produces, and the
+  -- shape that used to count as one day.
   insert into public.dosje_article_topics
          (article_slug, topic_slug, score, decided_at, published_at)
-       values ('d1', '__days_test__', 5, today, today - interval '1 day'),
-              ('d2', '__days_test__', 5, today, today - interval '2 days'),
-              ('d3', '__days_test__', 5, today, today - interval '3 days')
-    on conflict (article_slug, topic_slug) do nothing;
+       values ('__d1', '__days_test__', 5, today, today - interval '1 day'),
+              ('__d2', '__days_test__', 5, today, today - interval '2 days'),
+              ('__d3', '__days_test__', 5, today, today - interval '3 days')
+    on conflict (article_slug, topic_slug) do update
+       set published_at = excluded.published_at, decided_at = excluded.decided_at;
 
-  picked := public.dosje_next_subject();
-  if picked ->> 'topic' is distinct from '__days_test__' then
+  select count(distinct coalesce(at.published_at, at.decided_at)::date)
+    into d_multi
+    from public.dosje_article_topics at
+   where at.topic_slug = '__days_test__';
+
+  if d_multi <> 3 then
     raise exception
-      'a subject seen across three publication days was not selected (got %)', picked;
+      'three publication days in one mapping run counted as % day(s) — the day count is still measuring the job, not the news',
+      d_multi;
   end if;
 
-  -- And the case that must still be refused: three articles, all same day.
+  -- And one busy day must still be one day.
   delete from public.dosje_article_topics where topic_slug = '__days_test__';
   insert into public.dosje_article_topics
          (article_slug, topic_slug, score, decided_at, published_at)
-       values ('s1', '__days_test__', 5, today, today),
-              ('s2', '__days_test__', 5, today, today),
-              ('s3', '__days_test__', 5, today, today)
-    on conflict (article_slug, topic_slug) do nothing;
+       values ('__s1', '__days_test__', 5, today, today),
+              ('__s2', '__days_test__', 5, today, today),
+              ('__s3', '__days_test__', 5, today, today)
+    on conflict (article_slug, topic_slug) do update
+       set published_at = excluded.published_at, decided_at = excluded.decided_at;
 
-  picked := public.dosje_next_subject();
-  if picked ->> 'topic' = '__days_test__' then
-    raise exception 'three articles from one day were treated as a standing subject';
+  select count(distinct coalesce(at.published_at, at.decided_at)::date)
+    into d_same
+    from public.dosje_article_topics at
+   where at.topic_slug = '__days_test__';
+
+  if d_same <> 1 then
+    raise exception 'three articles from one day counted as % days', d_same;
+  end if;
+
+  -- And the selector runs without error and refuses the one-day fixture.
+  if public.dosje_next_subject() ->> 'topic' = '__days_test__' then
+    raise exception 'a one-day subject was offered for research';
   end if;
 
   delete from public.dosje_article_topics where topic_slug = '__days_test__';
   delete from public.dosje_topics where slug = '__days_test__';
-  raise notice 'dosje_next_subject verified: one mapping run across three publication days selects; one busy day does not';
+  raise notice 'dosje_next_subject verified: three publication days in one mapping run count as three; one busy day counts as one';
 end;
 $$;

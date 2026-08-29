@@ -1,3 +1,4 @@
+import { cache } from "react";
 import Database from "better-sqlite3";
 import path from "path";
 import fs from "fs";
@@ -183,7 +184,17 @@ const ARTICLE_COLUMNS = [
  */
 const ARTICLE_COLUMNS_LIGHT = ARTICLE_COLUMNS.replace(",body", "");
 
-export async function getArticles(
+/**
+ * Memoised for the duration of one render.
+ *
+ * A page and the components inside it each fetch their own list, so the same
+ * query ran two or three times per request and paid for the rows every time.
+ * React's cache() collapses identical calls within a single render pass; it is
+ * not a cross-request cache and does not change how fresh anything is.
+ */
+export const getArticles = cache(getArticlesUncached);
+
+async function getArticlesUncached(
   limit = 50,
   category?: string,
   opts: { withBody?: boolean } = {}
