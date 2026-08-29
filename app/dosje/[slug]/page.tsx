@@ -6,7 +6,8 @@ import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import DosjeSection from "@/components/dosje-section";
 import { getArticles } from "@/lib/db";
-import { TOPICS, topicBySlug, articlesForTopic, timelineFor } from "@/lib/topics.mjs";
+import { TOPICS, topicBySlug, articlesForTopic } from "@/lib/topics.mjs";
+import { dosjeFor } from "@/lib/dosje-entries";
 
 const SITE = "https://www.383ks.com";
 
@@ -52,7 +53,11 @@ export default async function DosjePage({ params }: { params: Promise<{ slug: st
   if (!topic) notFound();
 
   const all = await getArticles(400);
-  const timeline = timelineFor(slug, all);
+  // Approved rows when this dossier has been published, the hand-written file
+  // until then. Never the two mixed: an unsourced line beside a cited one
+  // borrows authority it has not earned.
+  const dosje = await dosjeFor(slug, all);
+  const timeline = dosje?.entries ?? [];
 
   return (
     <>
@@ -65,8 +70,8 @@ export default async function DosjePage({ params }: { params: Promise<{ slug: st
       <main className="dosje-page">
         <DosjeSection
           topicSlug={topic.slug}
-          topicTitle={topic.title}
-          blurb={topic.blurb}
+          topicTitle={dosje?.title ?? topic.title}
+          blurb={dosje?.blurb ?? topic.blurb}
           videos={topic.videos ?? []}
           entries={timeline}
         />

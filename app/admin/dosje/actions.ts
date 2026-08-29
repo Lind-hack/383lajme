@@ -152,3 +152,67 @@ export async function approveMediaAction(formData: FormData) {
   revalidatePath("/admin/dosje");
   redirect("/admin/dosje?approved=1");
 }
+
+/**
+ * Publish a whole dossier.
+ *
+ * A topic and its moments are approved separately on purpose: approving the
+ * text of one moment is a claim about that moment, while approving the topic is
+ * a decision that this subject should exist as a file at all. Until the topic
+ * is approved the dossier is invisible however many moments are ready, because
+ * dosje_topic() and the row level security behind it both require it.
+ *
+ * Refused while the topic has no approved moments — an empty dossier on the
+ * site is worse than no dossier, and this is the one place that mistake is
+ * cheap to prevent.
+ */
+export async function approveTopicAction(formData: FormData) {
+  await requireAuth();
+  const supabase = createAdminClient();
+  if (!supabase) redirect("/admin/dosje?err=db");
+
+  const slug = String(formData.get("slug") ?? "");
+
+  const { count, error: countError } = await supabase
+    .from("dosje_milestones")
+    .select("id", { count: "exact", head: true })
+    .eq("topic_slug", slug)
+    .eq("status", "approved");
+
+  if (countError) redirect(`/admin/dosje?err=${encodeURIComponent(countError.message)}`);
+  if (!count) {
+    redirect(
+      `/admin/dosje?err=${encodeURIComponent(
+        "Dosja nuk mund të publikohet pa asnjë moment të miratuar."
+      )}`
+    );
+  }
+
+  const { error } = await supabase
+    .from("dosje_topics")
+    .update({ status: "approved", updated_at: new Date().toISOString() })
+    .eq("slug", slug);
+
+  if (error) redirect(`/admin/dosje?err=${encodeURIComponent(error.message)}`);
+  revalidatePath("/admin/dosje");
+  revalidatePath("/dosje", "layout");
+  redirect("/admin/dosje?approved=1");
+}
+
+/** Take a dossier back off the site without touching its moments. */
+export async function retireTopicAction(formData: FormData) {
+  await requireAuth();
+  const supabase = createAdminClient();
+  if (!supabase) redirect("/admin/dosje?err=db");
+
+  const slug = String(formData.get("slug") ?? "");
+  const { error } = await supabase
+    .from("dosje_topics")
+    .update({ status: "retired", updated_at: new Date().toISOString() })
+    .eq("slug", slug);
+
+  if (error) redirect(`/admin/dosje?err=${encodeURIComponent(error.message)}`);
+  revalidatePath("/admin/dosje");
+  revalidatePath("/dosje", "layout");
+  redirect("/admin/dosje?retired=1");
+}

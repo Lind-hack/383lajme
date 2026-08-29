@@ -7,7 +7,8 @@ import ArticleContent from "@/components/article-content";
 import Footer from "@/components/footer";
 import type { AccordionSlide } from "@/components/image-accordion";
 import { getCategoryColor, getCategoryBg } from "@/lib/category-colors";
-import { topicForArticle, timelineFor } from "@/lib/topics.mjs";
+import { topicForArticle } from "@/lib/topics.mjs";
+import { dosjeFor } from "@/lib/dosje-entries";
 
 export const revalidate = 7200;
 
@@ -134,15 +135,17 @@ export default async function ArticlePage({
   // rather than a tag, so every article joins one without editorial work. Null
   // when nothing matches, and the rail simply does not render.
   const topic = topicForArticle(article);
-  const dosje = topic
-    ? {
-        topicSlug: topic.slug,
-        topicTitle: topic.title,
-        blurb: topic.blurb,
-        videos: topic.videos ?? [],
-        entries: timelineFor(topic.slug, allArticles, article.slug),
-      }
-    : null;
+  const file = topic ? await dosjeFor(topic.slug, allArticles, article.slug) : null;
+  const dosje =
+    topic && file
+      ? {
+          topicSlug: topic.slug,
+          topicTitle: file.title,
+          blurb: file.blurb,
+          videos: topic.videos ?? [],
+          entries: file.entries,
+        }
+      : null;
 
   const categorySlides: AccordionSlide[] = accordionCats.flatMap(({ category, label }) => {
     const a =

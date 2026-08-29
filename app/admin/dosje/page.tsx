@@ -7,6 +7,8 @@ import {
   saveMilestoneAction,
   approveMilestoneAction,
   rejectMilestoneAction,
+  approveTopicAction,
+  retireTopicAction,
 } from "./actions";
 
 export const dynamic = "force-dynamic";
@@ -31,6 +33,13 @@ type Citation = {
   quote: string | null;
   http_status: number | null;
   fetched_at: string | null;
+};
+
+type Topic = {
+  slug: string;
+  title: string;
+  blurb: string;
+  status: string;
 };
 
 type Milestone = {
@@ -100,6 +109,8 @@ export default async function DosjeAdminPage({
 
   const supabase = createAdminClient();
   let drafts: Milestone[] = [];
+  let topics: Topic[] = [];
+  let approvedByTopic: Record<string, number> = {};
   let loadError: string | null = null;
 
   if (!supabase) {
@@ -115,6 +126,24 @@ export default async function DosjeAdminPage({
     // rendering an empty queue that looks like "nothing to review".
     if (error) loadError = error.message;
     else drafts = (data ?? []) as Milestone[];
+
+    const { data: t } = await supabase
+      .from("dosje_topics")
+      .select("slug, title, blurb, status")
+      .order("title");
+    topics = (t ?? []) as Topic[];
+
+    // How many moments each dossier already has on the site. A topic with none
+    // must not be publishable, and the number is what tells the reviewer why.
+    const { data: approved } = await supabase
+      .from("dosje_milestones")
+      .select("topic_slug")
+      .eq("status", "approved");
+    approvedByTopic = (approved ?? []).reduce<Record<string, number>>((acc, r) => {
+      const k = (r as { topic_slug: string }).topic_slug;
+      acc[k] = (acc[k] ?? 0) + 1;
+      return acc;
+    }, {});
   }
 
   return (
@@ -144,6 +173,52 @@ export default async function DosjeAdminPage({
         <p style={{ padding: "10px 12px", borderRadius: "7px", background: "#eaf7ee", color: "#1e7a3c", margin: "0 0 16px" }}>
           U miratua.
         </p>
+      )}
+
+      {/* Dossiers. A topic and its moments are approved separately: one is a
+          claim about an event, the other a decision that the subject deserves
+          a file. Nothing renders publicly until the topic itself is approved. */}
+      {topics.length > 0 && (
+        <section style={{ marginBottom: "26px", border: "1px solid #e2e2e2", borderRadius: "11px", padding: "14px 16px", background: "#fcfcfc" }}>
+          <div style={{ fontSize: "11.5px", letterSpacing: ".03em", textTransform: "uppercase", color: "#8a8a8a", marginBottom: "10px" }}>
+            Dosjet
+          </div>
+          {topics.map((t) => {
+            const n = approvedByTopic[t.slug] ?? 0;
+            const live = t.status === "approved";
+            return (
+              <div key={t.slug} style={{ display: "flex", alignItems: "center", gap: "10px", padding: "7px 0", borderBottom: "1px solid #f0f0f0" }}>
+                <span style={{ flex: 1 }}>
+                  <strong>{t.title}</strong>
+                  <span style={{ color: "#999" }}> · {n} {n === 1 ? "moment i miratuar" : "momente të miratuara"}</span>
+                </span>
+                <span style={{ fontSize: "11.5px", padding: "2px 8px", borderRadius: "20px", background: live ? "#eaf7ee" : "#f1f1f1", color: live ? "#1e7a3c" : "#777" }}>
+                  {live ? "publike" : t.status}
+                </span>
+                {live ? (
+                  <form action={retireTopicAction}>
+                    <input type="hidden" name="slug" value={t.slug} />
+                    <button type="submit" style={{ padding: "5px 11px", borderRadius: "6px", border: "1px solid #ccc", background: "#fff", font: SANS, cursor: "pointer" }}>
+                      Hiq nga faqja
+                    </button>
+                  </form>
+                ) : (
+                  <form action={approveTopicAction}>
+                    <input type="hidden" name="slug" value={t.slug} />
+                    <button
+                      type="submit"
+                      disabled={n === 0}
+                      title={n === 0 ? "Pa asnjë moment të miratuar" : undefined}
+                      style={{ padding: "5px 11px", borderRadius: "6px", border: "none", background: n === 0 ? "#d8d8d8" : "#1e7a3c", color: "#fff", font: SANS, cursor: n === 0 ? "not-allowed" : "pointer" }}
+                    >
+                      Publiko dosjen
+                    </button>
+                  </form>
+                )}
+              </div>
+            );
+          })}
+        </section>
       )}
 
       {loadError && (

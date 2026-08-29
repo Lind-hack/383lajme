@@ -41,6 +41,18 @@ export interface DosjeEntry {
   source?: string | null;
   publishedAt?: string | null;
   isCurrent?: boolean;
+  /**
+   * Where this claim comes from. Present only on milestones that went through
+   * the research pipeline, where two distinct publishers were fetched and
+   * answered before it could be approved. The hand-written file has none and
+   * therefore shows none — the absence is accurate, not an omission.
+   */
+  citations?: {
+    url: string;
+    publisher: string;
+    title?: string | null;
+    date?: string | null;
+  }[];
 }
 
 export interface DosjeVideo {
@@ -205,6 +217,39 @@ function Entry({ e, index, unlockIndex }: { e: DosjeEntry; index: number; unlock
                   showNib
                   style={{ margin: 0, font: `italic 400 clamp(15.5px, 1.8vw, 17px)/1.6 ${SERIF}`, color: "rgba(36,31,27,.9)" }}
                 />
+              </div>
+            )}
+
+            {/* The sources, in the open.
+                A historical claim the reader cannot check is precisely what
+                went wrong here before: a confident date, an authoritative
+                tone, and nothing underneath it. Two publishers had to answer
+                before this line could be published, and naming them is what
+                makes that requirement worth anything to the person reading. */}
+            {e.kind === "milestone" && e.citations && e.citations.length > 0 && (
+              <div style={{ marginTop: "12px", display: "flex", flexWrap: "wrap", gap: "8px", alignItems: "baseline" }}>
+                <span style={{ font: `600 9px ${SANS}`, letterSpacing: "0.16em", textTransform: "uppercase", color: "rgba(43,37,33,.45)" }}>
+                  Burimet
+                </span>
+                {e.citations.map((c) => (
+                  <a
+                    key={c.url}
+                    href={c.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    title={c.title ?? c.url}
+                    style={{
+                      font: `500 11.5px ${SANS}`,
+                      color: "rgba(43,37,33,.68)",
+                      textDecoration: "none",
+                      borderBottom: `1px solid ${ACCENT}55`,
+                      paddingBottom: "1px",
+                    }}
+                  >
+                    {c.publisher}
+                    {c.date ? ` ${String(c.date).slice(0, 4)}` : ""}
+                  </a>
+                ))}
               </div>
             )}
 
