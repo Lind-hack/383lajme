@@ -1059,16 +1059,17 @@
     },
     "TRT World": {
       "country": "Turqi",
-      "total": 2,
+      "total": 3,
       "positive": 0,
-      "neutral": 2,
+      "neutral": 3,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-21",
-      "lastSeen": "2026-08-21",
+      "lastSeen": "2026-08-28",
       "urls": [
         "https://www.trtworld.com/video/tv/shows/683ef3c9cff794df564280c5/play/79c92cb03c09",
-        "https://www.trtworld.com/video/tv/shows/683ef3c9cff794df564280c5/play/4f7f32df896b"
+        "https://www.trtworld.com/video/tv/shows/683ef3c9cff794df564280c5/play/4f7f32df896b",
+        "https://www.trtworld.com/video/tv/shows/683ef3c9cff794df564280c5/play/6fd87ebe9b7e"
       ]
     },
     "SonDakika": {
@@ -1370,15 +1371,17 @@
     },
     "Sky Sport Austria": {
       "country": "Austri",
-      "total": 1,
+      "total": 3,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 3,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-24",
-      "lastSeen": "2026-08-24",
+      "lastSeen": "2026-08-28",
       "urls": [
-        "https://www.skysportaustria.at/sturm-graz-verpflichtet-kosovo-teamspieler/"
+        "https://www.skysportaustria.at/sturm-graz-verpflichtet-kosovo-teamspieler/",
+        "https://www.skysportaustria.at/mediathek/kacuri-kosovo-einberufung-waere-ein-traum/",
+        "https://www.skysportaustria.at/mediathek/kosovo-co-trainer-ibertsberger-kacuri-ein-sehr-spannender-spieler/"
       ]
     },
     "kicker": {
@@ -2121,6 +2124,19 @@
       "lastSeen": "2026-08-27",
       "urls": [
         "https://igamingpolska.pl/mistrzostwa-swiata-socca-2026-terminarz-wyniki/"
+      ]
+    },
+    "Aise.it - Agenzia Internazionale Stampa Estero": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-29",
+      "lastSeen": "2026-08-28",
+      "urls": [
+        "https://www.aise.it/rete-diplomatica/kosovo-lambasciatore-antonini-incontra-la-presidente-facente-funzioni-albulena-haxhiu/236458/163"
       ]
     }
   }

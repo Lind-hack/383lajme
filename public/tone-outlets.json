@@ -1,11 +1,11 @@
 {
-  "lastUpdated": "2026-08-28",
+  "lastUpdated": "2026-08-29",
   "overallIndex": 51,
-  "totalArticles": 93,
-  "sourceCount": 68,
+  "totalArticles": 72,
+  "sourceCount": 53,
   "stanceVersion": 3,
-  "unattributed": 181,
-  "nonEditorial": 3,
+  "unattributed": 124,
+  "nonEditorial": 1,
   "wrongKosovo": 0,
   "countries": {
     "Gjermani": {
@@ -13,21 +13,8 @@
         {
           "name": "Kicker",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 1,
           "articles": [
-            {
-              "title": "Spielereignisse | Kosovo - Ägypten 21:42 | 2. Spieltag | Mittelmeerspiele 2026 - Kicker",
-              "albanianTitle": "Ngjarjet e ndeshjes | Kosovë - Egjipt 21:42 | Xhiroja e 2-të | Lojërat Mesdhetare 2026 - Kicker",
-              "blurb": "Përfaqësuesja e Kosovës në hendboll pësoi humbje me rezultat 21:42 ndaj Egjiptit në kuadër të Lojërave Mesdhetare 2026.",
-              "imageUrl": null,
-              "url": "https://www.kicker.de/kosovo-gegen-aegypten-2026-mittelmeerspiele-5262180/ergebnis",
-              "date": "2026-08-25",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "Spielereignisse | Portugal - Kosovo 33:25 | 3. Spieltag | Mittelmeerspiele 2026 - Kicker",
               "albanianTitle": "Statistikat e ndeshjes: Portugali - Kosovë 33:25, xhiroja e tretë, Lojërat Mesdhetare 2026 - Kicker",
@@ -53,7 +40,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 2,
+        "n": 1,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -168,15 +155,7 @@
         "n": 4,
         "excluded": 1,
         "confident": false,
-        "stanceVersion": 3,
-        "movement": {
-          "delta": 12,
-          "from": 50,
-          "outlet": "Bloomberg",
-          "title": "Dua Lipa fton botën ta vizitojë Kosovën - Bloomberg.com",
-          "evidence": "Wants the World to Come to Kosovo",
-          "url": "https://www.bloomberg.com/news/newsletters/2026-08-28/dua-lipa-wants-the-world-to-come-to-kosovo"
-        }
+        "stanceVersion": 3
       }
     },
     "Britani": {
@@ -257,30 +236,6 @@
           "lastSeen": "2026-08-27"
         },
         {
-          "name": "Midi Libre",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Un podium pour le jeune haltérophile Thomas Alcaraz au Kosovo - Midi Libre",
-              "albanianTitle": "Peshëngritësi i ri Thomas Alcaraz fiton medalje në Kosovë",
-              "blurb": "Peshëngritësi i ri, Thomas Alcaraz, ka arritur të sigurojë një vend në podium gjatë garave të zhvilluara në Kosovë.",
-              "imageUrl": "https://images.midilibre.fr/api/v1/images/view/6a8d095108a09af3460eb424/hd/image.jpg?v=1",
-              "url": "https://www.midilibre.fr/2026/08/25/un-podium-pour-le-jeune-halterophile-thomas-alcaraz-au-kosovo-13521784.php",
-              "date": "2026-08-25",
-              "sentiment": "neutral",
-              "reason": "Raportim i thjeshtë i arritjes sportive",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-25",
-          "lastSeen": "2026-08-25"
-        },
-        {
           "name": "Orange Actualités",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -310,7 +265,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 3,
+        "n": 2,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -369,23 +324,34 @@
           "lastSeen": "2026-08-28"
         },
         {
-          "name": "Buonasera24",
+          "name": "Aise.it - Agenzia Internazionale Stampa Estero",
           "sentiment": "neutral",
-          "articleCount": 3,
+          "articleCount": 1,
           "articles": [
             {
-              "title": "Italia-Kosovo allo Iacovone, cambia la viabilità: strade chiuse dalle 18 - Buonasera24",
-              "albanianTitle": "Ndeshja Itali-Kosovë në stadiumin Iacovone: Ndryshon qarkullimi, rrugët mbyllen nga ora 18:00",
-              "blurb": "Ndeshja futbollistike Itali-Kosovë në stadiumin Iacovone ka sjellë ndryshime në qarkullimin rrugor dhe mbylljen e disa rrugëve nga ora 18:00.",
-              "imageUrl": "https://www.buonasera24.it/resizer/600/315/true/2026_07_30/757186290_1388899979813176_6011170632386578051_n-1785389315617.jpg--italia_kosovo_allo_iacovone__cambia_la_viabilita__strade_chiuse_dalle_18.jpg?1785389315783",
-              "url": "https://www.buonasera24.it/news/cronaca/927313/italia-kosovo-allo-iacovone-cambia-la-viabilita-strade-chiuse-dalle-18.html",
-              "date": "2026-08-25",
+              "title": "Kosovo: l'Ambasciatore Antonini incontra la Presidente facente funzioni Albulena Haxhiu - Aise.it - Agenzia Internazionale Stampa Estero",
+              "albanianTitle": "Kosova: Ambasadori Antonini takon ushtruesen e detyrës së Presidentit, Albulena Haxhiu",
+              "blurb": "Ambasadori Antonini ka zhvilluar një takim zyrtar me ushtruesen e detyrës së presidentes së Kosovës, Albulena Haxhiu, në Prishtinë.",
+              "imageUrl": "https://www.aise.it/public/file/varie26/28kosobo.jpg",
+              "url": "https://www.aise.it/rete-diplomatica/kosovo-lambasciatore-antonini-incontra-la-presidente-facente-funzioni-albulena-haxhiu/236458/163",
+              "date": "2026-08-28",
               "sentiment": "neutral",
-              "reason": "Informacion i thjeshtë për ngjarje sportive",
+              "reason": "Straightforward diplomatic meeting report",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
-            },
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-29",
+          "lastSeen": "2026-08-28"
+        },
+        {
+          "name": "Buonasera24",
+          "sentiment": "neutral",
+          "articleCount": 2,
+          "articles": [
             {
               "title": "Italia-Kosovo, Iacovone tutto esaurito: le informazioni su come accedere - Buonasera24",
               "albanianTitle": "Italia-Kosova në stadiumin 'Iacovone': gjithçka e shitur, informatat për hyrje",
@@ -469,21 +435,8 @@
         {
           "name": "Corriere di Taranto",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 1,
           "articles": [
-            {
-              "title": "Italia-Kosovo, domani cambia la viabilità allo Iacovone - Corriere di Taranto",
-              "albanianTitle": "Itali-Kosovë, nesër ndryshon qarkullimi rrugor te stadiumi Iacovone",
-              "blurb": "Ndryshon qarkullimi rrugor përreth stadiumit Iacovone në Itali për shkak të ndeshjes së futbollit ndërmjet Italisë dhe Kosovës.",
-              "imageUrl": null,
-              "url": "https://www.corriereditaranto.it/2026/08/25/italia-kosovo-domani-cambia-la-viabilita-allo-iacovone/",
-              "date": "2026-08-25",
-              "sentiment": "neutral",
-              "reason": "Lajm i thjeshtë për ndryshimin e trafikut, pa gjuhë me ngarkesë",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "Iacovone in delirio, l’Italia si qualifica al 96′ per la semifinale - Corriere di Taranto",
               "albanianTitle": "Eufori në stadiumin Iacovone, Italia kualifikohet në gjysmëfinale në minutën e 96-të - Corriere di Taranto",
@@ -506,21 +459,8 @@
         {
           "name": "Cronache Tarantine",
           "sentiment": "neutral",
-          "articleCount": 3,
+          "articleCount": 2,
           "articles": [
-            {
-              "title": "Giochi, Italia–Kosovo di calcio: chiusure attorno allo Iacovone dalle 18 - Cronache Tarantine",
-              "albanianTitle": "Lojërat, futboll Itali-Kosovë: rrugët përreth Iacovone mbyllen nga ora 18:00 - Cronache Tarantine",
-              "blurb": "Rrugët përreth stadiumit Iacovone do të mbyllen për qarkullim nga ora 18:00 për shkak të ndeshjes Itali-Kosovë në Lojërat Mesdhetare.",
-              "imageUrl": "https://www.cronachetarantine.it/images/2026/08/25/Immagine%202026-08-25%20163637.jpg",
-              "url": "https://www.cronachetarantine.it/index.php/giochi-2026/17627-giochi-italia-kosovo-di-calcio-chiusure-attorno-allo-iacovone-dalle-18",
-              "date": "2026-08-25",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "Giochi, piano straordinario trasporti e navette per la partita di calcio Italia – Kosovo - Cronache Tarantine",
               "albanianTitle": "Lojërat Mesdhetare: Plan emergjent për transportin dhe autobusët për ndeshjen Itali – Kosovë",
@@ -554,69 +494,19 @@
           "lastSeen": "2026-08-27"
         },
         {
-          "name": "Diretta",
-          "sentiment": "neutral",
-          "articleCount": 2,
-          "articles": [
-            {
-              "title": "Kosovo - Irlanda 24/09/2026, Formazioni - Diretta",
-              "albanianTitle": "Kosovë - Irlandë, 24/09/2026: Formacionet dhe transmetimi direkt",
-              "blurb": "Formacionet e ndeshjes ndërmjet Kosovës dhe Irlandës të planifikuar për datën 24 shtator 2026 janë publikuar.",
-              "imageUrl": "https://static.flashscore.com/res/image/data/jup8COkl-UVqVfism-WnYHA9YO.png",
-              "url": "https://www.diretta.it/partita/calcio/irlanda-Gfyqk1aG/kosovo-v1DTPQwI/riassunto/formazioni/",
-              "date": "2026-08-25",
-              "sentiment": "neutral",
-              "reason": "Paraqitje ndeshjeje, pa gjuhë ngacmuese ose mbështetëse",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Kosovo - Irlanda 24/09/2026, Statistiche - Diretta",
-              "albanianTitle": "Kosovë - Irlandë 24/09/2026, Statistikat - Diretta",
-              "blurb": "Të dhënat statistikore për ndeshjen e futbollit ndërmjet Kosovës dhe Irlandës të planifikuar për datën 24 shtator 2026.",
-              "imageUrl": "https://static.flashscore.com/res/image/data/jup8COkl-UVqVfism-WnYHA9YO.png",
-              "url": "https://www.diretta.it/partita/calcio/irlanda-Gfyqk1aG/kosovo-v1DTPQwI/riassunto/statistiche/",
-              "date": "2026-08-25",
-              "sentiment": "neutral",
-              "reason": "Plain statistics listing",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 2,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-26",
-          "lastSeen": "2026-08-25"
-        },
-        {
           "name": "FIGC",
-          "sentiment": "neutral",
-          "articleCount": 2,
+          "sentiment": "unknown",
+          "articleCount": 1,
           "articles": [
-            {
-              "title": "Giochi del Mediterraneo, Azzurrine fermate sull’1-1 dalla Slovenia - FIGC",
-              "albanianTitle": "Lojërat Mesdhetare: Italia barazon 1-1 ndaj Sllovenisë",
-              "blurb": "Përfaqësuesja e Italisë në futboll për femra barazoi me rezultatin 1-1 ndaj Sllovenisë në Lojërat Mesdhetare.",
-              "imageUrl": "https://images.figc.it/view/acePublic/alias/contentid/1tcyb046phqz1l0xzv9/0/68ea18b7-c3e3-465b-8ee3-a50cb3c1f816-jpg.jpg?f=187%3A100",
-              "url": "https://www.figc.it/it/nazionali/news/giochi-del-mediterraneo-azzurrine-fermate-sull1-1-dalla-slovenia-hylf1s5e",
-              "date": "2026-08-25",
-              "sentiment": "neutral",
-              "reason": "Sports result report, no stance toward Kosovo",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "Mondiale di futsal 2028, il cammino inizia in Calabria: il 20 ottobre gli Azzurri a Rende per Italia-Georgia - FIGC",
-              "albanianTitle": "Kampionati Botëror i Futsallit 2028 nis në Kalabri: Më 20 tetor Italia luan kundër Gjeorgjisë në Rende",
-              "blurb": "Përfaqësuesja e Italisë në futsall do të nisë rrugëtimin për Kampionatin Botëror 2028 me ndeshjen kundër Gjeorgjisë në Rende.",
+              "albanianTitle": "Kampionati Botëror i futsallit 2028, rrugëtimi nis në Kalabri: më 20 tetor Italia luan kundër Gjeorgjisë në Rende - FIGC",
+              "blurb": "Kualifikimet për kampionatin botëror të futsallit 2028 nisin në Kalabri me ndeshjen Itali-Gjeorgji më 20 tetor.",
               "imageUrl": "https://images.figc.it/view/acePublic/alias/contentid/1tf45kl5u1q9umrdekk/0/2259428813-jpg.jpg?f=187%3A100",
               "url": "https://www.figc.it/it/nazionali/news/mondiale-di-futsal-2028-il-cammino-inizia-in-calabria-il-20-ottobre-gli-azzurri-a-rende-per-italia-georgia-o5b5okwc",
               "date": "2026-08-28",
               "sentiment": "unknown",
-              "reason": "Nuk ka informacione mbi Kosovën në titull ose fragment",
+              "reason": "No mention of Kosovo, cannot infer outlet's stance",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -763,47 +653,10 @@
           "lastSeen": "2026-08-26"
         },
         {
-          "name": "La Gazzetta dello Sport",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "La giovanissima Italia cade con l'Algeria: ora serve battere il Kosovo per le semifinali - La Gazzetta dello Sport",
-              "albanianTitle": "Italia e re mposhtet nga Algjeria: tani duhet fitorja ndaj Kosovës për gjysmëfinale",
-              "blurb": "Italia ka pësuar humbje nga Algjeria dhe tani duhet të mposhtë Kosovën për të siguruar kualifikimin në gjysmëfinale.",
-              "imageUrl": "https://dimages2.gazzettaobjects.it/files/og_thumbnail/files/fp/uploads/2026/08/25/6a8d23268066e.r_d.634-600-0.jpeg",
-              "url": "https://www.gazzetta.it/Calcio/nazionali/25-08-2026/giochi-del-mediterraneo-italia-algeria-partita-risultato.shtml",
-              "date": "2026-08-25",
-              "sentiment": "neutral",
-              "reason": "Thjesht raporton nevojën për të fituar kundër Kosovës",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-25",
-          "lastSeen": "2026-08-25"
-        },
-        {
           "name": "OA Sport",
           "sentiment": "neutral",
-          "articleCount": 4,
+          "articleCount": 3,
           "articles": [
-            {
-              "title": "Giochi del Mediterraneo 2026, il programma di domani: orari mercoledì 26 agosto, tv, streaming - OA Sport",
-              "albanianTitle": "Lojërat Mesdhetare 2026: Programi i së mërkurës, 26 gusht, oraret dhe transmetimi televiziv",
-              "blurb": "Programi i garave për të mërkurën, 26 gusht, në kuadër të Lojërave Mesdhetare 2026, përfshin oraret dhe transmetimet televizive të planifikuara.",
-              "imageUrl": "https://www.oasport.it/wp-content/uploads/2024/04/13370244_small-e1713882844527.jpg",
-              "url": "https://www.oasport.it/2026/08/giochi-del-mediterraneo-2026-il-programma-di-domani-orari-26-agosto-tv-streaming/",
-              "date": "2026-08-25",
-              "sentiment": "neutral",
-              "reason": "Program i thjeshtë i transmetimit",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "Giochi del Mediterraneo 2026 oggi in tv: orari mercoledì 26 agosto, streaming, azzurri in gara - OA Sport",
               "albanianTitle": "Lojërat Mesdhetare 2026 sot në TV: orari i së mërkurës, 26 gusht, transmetimi dhe garat e italianëve - OA Sport",
@@ -850,30 +703,6 @@
           "lastSeen": "2026-08-26"
         },
         {
-          "name": "Osservatorio Balcani Caucaso Transeuropa",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "La mucca partorisce di notte - Osservatorio Balcani Caucaso Transeuropa",
-              "albanianTitle": "Lopa pjell gjatë natës",
-              "blurb": "Një lopë sjell në jetë viçin gjatë orëve të natës, ngjarje e përshkruar në publikimin e Osservatorio Balcani Caucaso Transeuropa.",
-              "imageUrl": "https://www.balcanicaucaso.org/wp-content/uploads/sites/8/2026/08/La-mucca-partorisce-di-notte-evento-14-settembre-2026.jpg",
-              "url": "https://www.balcanicaucaso.org/event/la-mucca-partorisce-di-notte/",
-              "date": "2026-08-25",
-              "sentiment": "unknown",
-              "reason": "Titulli nuk përmend Kosovën, nuk mund të përcaktohet qëndrimi",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 3,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-19",
-          "lastSeen": "2026-08-25"
-        },
-        {
           "name": "RaiNews",
           "sentiment": "neutral",
           "articleCount": 2,
@@ -893,13 +722,13 @@
             },
             {
               "title": "Le emozioni nello stadio e nel palazzetto - RaiNews",
-              "albanianTitle": "Emocionet në stadium dhe në palestër",
-              "blurb": "Përjetimet e tifozëve dhe atmosfera e krijuar në stadium dhe në palazzetto gjatë zhvillimit të ngjarjeve sportive në Kosovë.",
+              "albanianTitle": "Emocionet në stadium dhe në palestrën sportive - RaiNews",
+              "blurb": "Ngjarjet sportive në stadiume dhe palestra po përcillen me emocione të mëdha nga ana e shikuesve.",
               "imageUrl": "https://www.rainews.it/cropgd/1200x630/dl/img/2026/08/27/1787832555136_stadio_iacovone.jpg",
               "url": "https://www.rainews.it/tgr/puglia/video/2026/08/giochi-del-mediterraneo-9f31ae0f-6f7d-4a46-ad0f-f710b8af0546.html",
               "date": "2026-08-27",
               "sentiment": "unknown",
-              "reason": "Nuk ka informacione mbi Kosovën në titull ose fragment",
+              "reason": "No mention of Kosovo, cannot infer outlet's stance",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1009,21 +838,8 @@
         {
           "name": "TarantoToday",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 1,
           "articles": [
-            {
-              "title": "Giochi del Mediterraneo, modifiche alla viabilità per la sfida Italia-Kosovo nel nuovo stadio Iacovone - TarantoToday",
-              "albanianTitle": "Lojërat Mesdhetare, ndryshime në trafik për ndeshjen Itali-Kosovë në stadiumin e ri Iacovone - TarantoToday",
-              "blurb": "Ndeshja e futbollit mes Italisë dhe Kosovës në stadiumin Iacovone ka sjellë ndryshime në qarkullimin rrugor në qytetin e Tarantos.",
-              "imageUrl": "https://www.tarantotoday.it/~media/horizontal-hi/50744990548951/780729067_1024674410385988_9105584966934044144_n.jpg",
-              "url": "https://www.tarantotoday.it/attualita/giochi-del-mediterraneo-modifiche-alla-viabilita-per-la-sfida-italia-kosovo-nel-nuovo-stadio-iacovone.html",
-              "date": "2026-08-25",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "Italia-Kosovo allo Iacovone, è sold out: gli Azzurri si giocano tutto davanti al pubblico di Taranto - TarantoToday",
               "albanianTitle": "Italia-Kosova në 'Iacovone' me stadiumin e mbushur: Azzurrët kërkojnë fitoren para publikut të Tarantos",
@@ -1068,30 +884,6 @@
           "lastSeen": "2026-08-27"
         },
         {
-          "name": "agenziagiornalisticaopinione.it",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "FIGC * FEDERAZIONE ITALIANA GIUOCO CALCIO: «ITALIA-SLOVENIA 1-1 AI GIOCHI DEL MEDITERRANEO, AZZURRINE FRENATE DALLA DIFESA SLOVENA - agenziagiornalisticaopinione.it",
-              "albanianTitle": "Lojërat Mesdhetare: Italia ndalet në barazim nga mbrojtja sllovene",
-              "blurb": "Italia dhe Sllovenia barazuan 1-1 në ndeshjen e futbollit për femra në kuadër të Lojërave Mesdhetare.",
-              "imageUrl": "https://www.agenziagiornalisticaopinione.it/wp-content/uploads/2026/08/y99z68ea18b7-c3e3-465b-8ee3-a50cb3c1f816-jpg-1030x773.jpg",
-              "url": "https://www.agenziagiornalisticaopinione.it/opinionews/figc-federazione-italiana-giuoco-calcio-italia-slovenia-1-1-ai-giochi-del-mediterraneo-azzurrine-frenate-dalla-difesa-slovena/",
-              "date": "2026-08-25",
-              "sentiment": "neutral",
-              "reason": "Quote about match result, not outlet's own voice",
-              "isQuote": true,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 4,
-          "trend": "neutral",
-          "firstSeen": "2026-08-22",
-          "lastSeen": "2026-08-25"
-        },
-        {
           "name": "dialessandria.it",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1114,30 +906,6 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-08-27",
           "lastSeen": "2026-08-27"
-        },
-        {
-          "name": "esercito.difesa.it",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosovo: 15th “Cavalleggeri di Lodi” Regiment Takes Command of Regional Command West - esercito.difesa.it",
-              "albanianTitle": "Kosova: Regjimenti i 15-të “Cavalleggeri di Lodi” merr komandën e Komandës Rajonale Perëndim - esercito.difesa.it",
-              "blurb": "Regjimenti i 15-të Cavalleggeri di Lodi ka marrë komandën e Komandës Rajonale Perëndimore në misionin e KFOR-it në Kosovë.",
-              "imageUrl": null,
-              "url": "https://www.esercito.difesa.it/en/news/kosovo-15th-cavalleggeri-di-lodi-regiment-takes-command-of-regional-command-west/204029.html",
-              "date": "2026-08-25",
-              "sentiment": "neutral",
-              "reason": "Raportim faktik i bashkëpunimit ushtarak, pa gjuhë negative",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-27",
-          "lastSeen": "2026-08-25"
         },
         {
           "name": "grottaglieinrete.it",
@@ -1177,54 +945,6 @@
           "lastSeen": "2026-08-26"
         },
         {
-          "name": "il Fatto Nisseno",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Pesistica. Ai Campionati Europei Youth in Kosovo, il nisseno Mattia Riggi (Fiamme Oro) migliora 3 record italiani e sfiora il podio - il Fatto Nisseno",
-              "albanianTitle": "Peshëngritje: Në Kampionatin Evropian për të rinj në Kosovë, Mattia Riggi thyen 3 rekorde italiane dhe i afrohet podiumit - il Fatto Nisseno",
-              "blurb": "Peshëngritësi Mattia Riggi ka thyer tri rekorde italiane në Kampionatin Evropian për të rinj të mbajtur në Kosovë.",
-              "imageUrl": "https://www.ilfattonisseno.it/wp-content/uploads/2026/08/786939346_1784455156205180_83028026502645912_n.jpg",
-              "url": "https://www.ilfattonisseno.it/2026/08/pesistica-ai-campionati-europei-youth-in-kosovo-il-nisseno-mattia-riggi-fiamme-oro-migliora-3-record-italiani-e-sfiora-il-podio/",
-              "date": "2026-08-25",
-              "sentiment": "neutral",
-              "reason": "Raportim faktik i arritjeve në një ngjarje në Kosovë",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-26",
-          "lastSeen": "2026-08-25"
-        },
-        {
-          "name": "infodifesa",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosovo, l’Italia torna al comando della KFOR: il Generale Roberto Vergori guiderà la missione NATO - infodifesa",
-              "albanianTitle": "Kosova, Italia merr sërish komandën e KFOR-it: Gjenerali Roberto Vergori do ta udhëheqë misionin e NATO-s - infodifesa",
-              "blurb": "Gjenerali Roberto Vergori është emëruar në krye të misionit të NATO-s në Kosovë, duke rikthyer Italinë në komandën e KFOR-it.",
-              "imageUrl": "https://infodifesa.it/wp-content/uploads/2026/08/generale-roberto-vergori.jpg",
-              "url": "https://infodifesa.it/generale-roberto-vergori-comandante-kfor-kosovo-nato/",
-              "date": "2026-08-25",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-25",
-          "lastSeen": "2026-08-25"
-        },
-        {
           "name": "studio100.it",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1250,42 +970,18 @@
         }
       ],
       "summary": {
-        "index": 51,
-        "positive": 5,
-        "neutral": 93,
-        "negative": 2,
-        "n": 44,
-        "excluded": 3,
+        "index": 52,
+        "positive": 6,
+        "neutral": 91,
+        "negative": 3,
+        "n": 32,
+        "excluded": 2,
         "confident": true,
         "stanceVersion": 3
       }
     },
     "Austri": {
       "outlets": [
-        {
-          "name": "Heute",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Bleibt beim Kosovo – Ex-ÖFB-Coach Foda lehnte Millionen-Angebot ab - Heute",
-              "albanianTitle": "Mbetet te Kosova – Ish-trajneri i Austrisë, Foda, refuzoi ofertën milionëshe",
-              "blurb": "Trajneri Franco Foda ka refuzuar një ofertë milionëshe për t'u larguar nga pozita e përzgjedhësit të kombëtares së Kosovës.",
-              "imageUrl": "https://heute-at-prod-images.imgix.net/2022/09/04/ea720b41-8a3b-48c6-b930-a32dcb3da389.jpeg?rect=0%2C15%2C3000%2C1687&w=1200&h=630&fit=crop&fm=jpg",
-              "url": "https://www.heute.at/s/ex-oefb-coach-foda-lehnte-millionen-angebot-ab-120242843",
-              "date": "2026-08-25",
-              "sentiment": "neutral",
-              "reason": "Raportim neutral i vendimit të trajnerit për të qëndruar me Kosovën",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-25",
-          "lastSeen": "2026-08-25"
-        },
         {
           "name": "Kleine Zeitung",
           "sentiment": "neutral",
@@ -1311,76 +1007,41 @@
           "lastSeen": "2026-08-27"
         },
         {
-          "name": "Kronen Zeitung",
+          "name": "Sky Sport Austria",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
-              "title": "Präsident enthüllt: - Ex-ÖFB-Teamchef Franco Foda lehnte Millionen ab - Kronen Zeitung",
-              "albanianTitle": "Presidenti zbulon: Ish-përzgjedhësi i Austrisë, Franco Foda, refuzoi miliona për Kosovën",
-              "blurb": "Presidenti i Federatës së Futbollit të Kosovës ka konfirmuar se Franco Foda ka refuzuar oferta të majme për të qëndruar.",
-              "imageUrl": "https://imgl.krone.at/scaled/4090512/v48e7ad/og_image.jpg",
-              "url": "https://www.krone.at/4268829",
-              "date": "2026-08-25",
+              "title": "Kacuri: Kosovo-Einberufung \"wäre ein Traum\" - Sky Sport Austria",
+              "albanianTitle": "Kacuri: Ftesa nga Kosova do të ishte një ëndërr",
+              "blurb": "Futbollisti Kacuri shprehet se ftesa për të luajtur me përfaqësuesen e Kosovës do të ishte një ëndërr e realizuar.",
+              "imageUrl": null,
+              "url": "https://www.skysportaustria.at/mediathek/kacuri-kosovo-einberufung-waere-ein-traum/",
+              "date": "2026-08-28",
               "sentiment": "neutral",
-              "reason": "Faktikë raportuar pa ngarkim",
-              "isQuote": false,
+              "reason": "Quote reporting, outlet not expressing opinion",
+              "isQuote": true,
               "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-25",
-          "lastSeen": "2026-08-25"
-        },
-        {
-          "name": "LAOLA1",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
+              "speaker": "Kacuri"
+            },
             {
-              "title": "Franco Foda verzichtete für Kosovo auf Millionen - LAOLA1",
-              "albanianTitle": "Franco Foda hoqi dorë nga miliona euro për t'u bërë trajner i Kosovës",
-              "blurb": "Trajneri i Kosovës, Franco Foda, ka refuzuar oferta financiare milionëshe për të vazhduar punën me përfaqësuesen kosovare.",
-              "imageUrl": "https://www.laola1.at/storage/files/01/a0/38/24-94c8-7215-af12-7a0332bbedeb.1280x720.jpg?v=1",
-              "url": "https://www.laola1.at/de/red/fussball/euro-2028/news/praesident--franco-foda-verzichtete-fuer-kosovo-auf-millionen/",
-              "date": "2026-08-25",
+              "title": "Kosovo-Co-Trainer Ibertsberger: Kacuri \"ein sehr spannender Spieler\" - Sky Sport Austria",
+              "albanianTitle": "Ndihmëstrajneri i Kosovës, Ibertsberger: Kacuri është një lojtar shumë interesant",
+              "blurb": "Ndihmëstrajneri i Kosovës, Ibertsberger, e vlerëson futbollistin Kacuri si një lojtar mjaft interesant për të ardhmen e ekipit kombëtar.",
+              "imageUrl": null,
+              "url": "https://www.skysportaustria.at/mediathek/kosovo-co-trainer-ibertsberger-kacuri-ein-sehr-spannender-spieler/",
+              "date": "2026-08-28",
               "sentiment": "neutral",
-              "reason": "Faktikë raportuar pa ngarkim",
-              "isQuote": false,
+              "reason": "Quote reporting, outlet not expressing opinion",
+              "isQuote": true,
               "evidence": "",
-              "speaker": ""
+              "speaker": "Ibertsberger"
             }
           ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-25",
-          "lastSeen": "2026-08-25"
-        },
-        {
-          "name": "heute.at",
-          "sentiment": "positive",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Bleibt beim Kosovo – Ex-ÖFB-Coach Foda lehnte Millionen-Angebot ab - heute.at",
-              "albanianTitle": "Ish-trajneri i Austrisë, Franco Foda, refuzoi oferta milionëshe për të qëndruar te Kosova",
-              "blurb": "Ish-trajneri i Austrisë, Franco Foda, ka vendosur të qëndrojë në krye të Kosovës duke refuzuar oferta të tjera milionëshe.",
-              "imageUrl": "https://heute-at-prod-images.imgix.net/2022/09/04/ea720b41-8a3b-48c6-b930-a32dcb3da389.jpeg?rect=0%2C15%2C3000%2C1687&w=1200&h=630&fit=crop&fm=jpg",
-              "url": "https://www.heute.at/s/ex-oefb-coach-foda-lehnte-millionen-angebot-ab-120242843",
-              "date": "2026-08-25",
-              "sentiment": "positive",
-              "reason": "Titulli përshkruan mbështetjen e Foda për Kosovën në mënyrë pozitive",
-              "isQuote": false,
-              "evidence": "Bleibt beim Kosovo",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-25",
-          "lastSeen": "2026-08-25"
+          "totalArticles": 3,
+          "trend": "neutral",
+          "firstSeen": "2026-08-24",
+          "lastSeen": "2026-08-28"
         },
         {
           "name": "weekend.at",
@@ -1408,42 +1069,18 @@
         }
       ],
       "summary": {
-        "index": 58,
-        "positive": 17,
-        "neutral": 83,
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 6,
+        "n": 4,
         "excluded": 0,
-        "confident": true,
+        "confident": false,
         "stanceVersion": 3
       }
     },
     "Zvicër": {
       "outlets": [
-        {
-          "name": "Leman bleu",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "À Genève, une marche pour les victimes de disparitions forcées - Leman bleu",
-              "albanianTitle": "Në Gjenevë mbahet marsh për viktimat e zhdukjeve me forcë",
-              "blurb": "Në Gjenevë është mbajtur një marshim përkujtimor për të nderuar viktimat e zhdukjeve me forcë gjatë konflikteve të ndryshme.",
-              "imageUrl": null,
-              "url": "https://www.lemanbleu.ch/fr/Actualites/Geneve/A-Geneve-une-marche-pour-les-victimes-de-disparitions-forcees.html",
-              "date": "2026-08-25",
-              "sentiment": "neutral",
-              "reason": "Factual report of a march for victims of forced disappearances",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-25",
-          "lastSeen": "2026-08-25"
-        },
         {
           "name": "Solothurner Zeitung",
           "sentiment": "unknown",
@@ -1470,11 +1107,11 @@
         }
       ],
       "summary": {
-        "index": 50,
+        "index": null,
         "positive": 0,
-        "neutral": 100,
+        "neutral": 0,
         "negative": 0,
-        "n": 1,
+        "n": 0,
         "excluded": 1,
         "confident": false,
         "stanceVersion": 3
@@ -1658,30 +1295,6 @@
           "lastSeen": "2026-08-28"
         },
         {
-          "name": "EL PAÍS",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "‘Pequeña guerra perfecta’, retorno al nacionalismo sangriento de los noventa en los Balcanes - EL PAÍS",
-              "albanianTitle": "“Lufta e përkryer e vogël”, rikthimi i nacionalizmit të përgjakshëm të viteve të nëntëdhjeta në Ballkan",
-              "blurb": "Analiza e gazetës spanjolle El País trajton rikthimin e nacionalizmit të dhunshëm në Ballkan gjatë periudhës së viteve nëntëdhjetë.",
-              "imageUrl": "https://imagenes.elpais.com/resizer/v2/X4LCAZTPJFA4DKDGA7UI2VFICU.jpeg?auth=4832a7f1f913ca4d003c0b7f3bbbfecff0cb980d8d627fd51fd178a083a6af55&width=1200",
-              "url": "https://elpais.com/babelia/2026-08-25/pequena-guerra-perfecta-retorno-al-nacionalismo-sangriento-de-los-noventa-en-los-balcanes.html",
-              "date": "2026-08-25",
-              "sentiment": "unknown",
-              "reason": "Titulli trajton nacionalizmin në Ballkan pa përmendje specifike të Kosovës",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-25",
-          "lastSeen": "2026-08-25"
-        },
-        {
           "name": "Europa Press",
           "sentiment": "negative",
           "articleCount": 1,
@@ -1712,17 +1325,9 @@
         "neutral": 57,
         "negative": 43,
         "n": 7,
-        "excluded": 1,
+        "excluded": 0,
         "confident": true,
-        "stanceVersion": 3,
-        "movement": {
-          "delta": -21,
-          "from": 50,
-          "outlet": "Europa Press",
-          "title": "BE shpreh keqardhje që Kosova pranoi dorëheqjet e gjyqtarëve serbë të cilët i kishin tërhequr ato më herët - Europa Press",
-          "evidence": "lamenta que Kosovo haya acabado aceptando",
-          "url": "https://www.europapress.es/internacional/noticia-ue-lamenta-kosovo-haya-acabado-aceptando-dimisiones-jueces-serbios-ya-sido-retiradas-20260828184957.html"
-        }
+        "stanceVersion": 3
       }
     },
     "Greqi": {
@@ -1730,21 +1335,8 @@
         {
           "name": "Gazzetta.gr",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 1,
           "articles": [
-            {
-              "title": "Κόσοβο - Ιρλανδία Live 24-09-2026 | UEFA Nations League - Gazzetta.gr",
-              "albanianTitle": "Kosovë - Irlandë, transmetim direkt më 24-09-2026 në Ligën e Kombeve",
-              "blurb": "Kombëtarja e Kosovës përballet me Irlandën në ndeshjen e vlefshme për Ligën e Kombeve të UEFA-s më 24 shtator 2026.",
-              "imageUrl": "https://www.gazzetta.gr/sites/default/files/shared/gazzetta_share_image.jpg",
-              "url": "https://www.gazzetta.gr/football/uefa-nations-league/live-kosovo-irlandia-24-09-2026",
-              "date": "2026-08-25",
-              "sentiment": "neutral",
-              "reason": "Simple match announcement without loaded language",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "Αυστρία - Κόσοβο Live 27-09-2026 | UEFA Nations League - Gazzetta.gr",
               "albanianTitle": "Austri - Kosovë Live 27-09-2026 | UEFA Nations League - Gazzetta.gr",
@@ -1828,21 +1420,8 @@
         {
           "name": "sport-fm.gr",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 1,
           "articles": [
-            {
-              "title": "Κόσοβο-Σλοβενία - sport-fm.gr",
-              "albanianTitle": "Kosovë - Slloveni",
-              "blurb": "Kombëtarja e Kosovës në futboll zhvillon ndeshjen zyrtare kundër përfaqësueses së Sllovenisë në kuadër të garave ndërkombëtare.",
-              "imageUrl": "https://resources.sport-fm.gr/supersportFM/images/news/20/10/11/123054.jpg?w=880&f=bicubic",
-              "url": "https://www.sport-fm.gr/article/4133262",
-              "date": "2026-08-25",
-              "sentiment": "neutral",
-              "reason": "Simple factual title about Kosovo‑Slovenia, no loaded language",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "Κόσοβο-Κύπρος - sport-fm.gr",
               "albanianTitle": "Kosovë-Qipro - sport-fm.gr",
@@ -1892,45 +1471,20 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 8,
+        "n": 6,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
       }
     },
     "Suedi": {
-      "outlets": [
-        {
-          "name": "SMHI",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Väderprognos 10 dygn Pristina, Kosovo - SMHI",
-              "albanianTitle": "Parashikimi i motit për 10 ditët e ardhshme në Prishtinë, Kosovë - SMHI",
-              "blurb": "Instituti Meteorologjik Suedez ka publikuar parashikimin e motit për dhjetë ditët e ardhshme për kryeqytetin e Kosovës, Prishtinën.",
-              "imageUrl": null,
-              "url": "https://www.smhi.se/vader/prognoser-och-varningar/vaderprognos/q/Pristina/786714",
-              "date": "2026-08-25",
-              "sentiment": "neutral",
-              "reason": "Straightforward weather forecast, no evaluative language",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 2,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-26",
-          "lastSeen": "2026-08-25"
-        }
-      ],
+      "outlets": [],
       "summary": {
-        "index": 50,
+        "index": null,
         "positive": 0,
-        "neutral": 100,
+        "neutral": 0,
         "negative": 0,
-        "n": 1,
+        "n": 0,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -1987,30 +1541,6 @@
           "lastSeen": "2026-08-26"
         },
         {
-          "name": "gostyn24.pl",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Zderzenie tuż przed przejazdem kolejowym. Sprawca pojechał do szpitala na badania - gostyn24.pl",
-              "albanianTitle": "Aksident para vendkalimit hekurudhor, shkaktari dërgohet në spital për kontrolle",
-              "blurb": "Një aksident trafiku ka ndodhur para kalimit hekurudhor, ndërsa shkaktari është dërguar në spital për kontrolle mjekësore pas përplasjes.",
-              "imageUrl": "https://gostyn24.pl/pl/image-meta/news/97529.jpg?v=20260825180926",
-              "url": "https://gostyn24.pl/pl/473_na-sygnale/97529_zderzenie-tuz-przed-torami-kolejowymi-sprawca-pojechal-do-szpitala-na-badania.html",
-              "date": "2026-08-25",
-              "sentiment": "unknown",
-              "reason": "Nuk përmendet Kosova në titull, s’mund të përcaktohet qëndrimi",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-25",
-          "lastSeen": "2026-08-25"
-        },
-        {
           "name": "iGaming Polska",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -2041,37 +1571,13 @@
         "neutral": 100,
         "negative": 0,
         "n": 3,
-        "excluded": 1,
+        "excluded": 0,
         "confident": false,
         "stanceVersion": 3
       }
     },
     "Turqi": {
       "outlets": [
-        {
-          "name": "A Spor",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Erkek Milli Voleybol Takımı, 20. Akdeniz Oyunları 2. maçında Kosova'yı 3-2 mağlup etti! - A Spor",
-              "albanianTitle": "Kombëtarja e meshkujve në volejboll mposht Kosovën 3-2 në ndeshjen e dytë të Lojërave të 20-ta Mesdhetare - A Spor",
-              "blurb": "Kombëtarja e Turqisë në volejboll mposhti Kosovën me rezultat 3-2 në ndeshjen e dytë të Lojërave të 20-ta Mesdhetare.",
-              "imageUrl": "https://iaaspr.tmgrup.com.tr/95f2d3/1200/675/0/140/1344/897?u=https://iaspr.tmgrup.com.tr/2026/08/25/erkek-milli-voleybol-takimi-20-akdeniz-oyunlari-2-macinda-kosovayi-3-2-maglup-etti-1787672603213.jpeg",
-              "url": "https://www.aspor.com.tr/voleybol/2026/08/25/erkek-milli-voleybol-takimi-20-akdeniz-oyunlari-2-macinda-kosovayi-3-2-maglup-etti",
-              "date": "2026-08-25",
-              "sentiment": "neutral",
-              "reason": "Raportim faktik i rezultatit sportiv, pa gjuhë ngarkesë",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-25",
-          "lastSeen": "2026-08-25"
-        },
         {
           "name": "Basketfaul",
           "sentiment": "neutral",
@@ -2095,30 +1601,6 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-08-27",
           "lastSeen": "2026-08-27"
-        },
-        {
-          "name": "Fotomaç",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Türkiye Kosova voleybol maçı sonucu: Filenin Efeleri 3-2 kazandı - Fotomaç",
-              "albanianTitle": "Rezultati i ndeshjes së volejbollit Turqi - Kosovë: Turqia fiton 3-2",
-              "blurb": "Turqia fitoi ndeshjen e volejbollit kundër Kosovës me rezultat 3-2 pas një loje të zhvilluar.",
-              "imageUrl": "https://iaftm.tmgrup.com.tr/34634a/1200/675/0/0/1280/720?u=https://iftm.tmgrup.com.tr/2026/08/25/filenin-efeleri-akdeniz-oyunlarinda-dolu-dizgin-2de-2-yaptik-1787673285340.png",
-              "url": "https://www.fotomac.com.tr/voleybol/2026/08/25/filenin-efeleri-akdeniz-oyunlarinda-dolu-dizgin-2de-2-yaptik",
-              "date": "2026-08-25",
-              "sentiment": "neutral",
-              "reason": "Match result reported factually",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-25",
-          "lastSeen": "2026-08-25"
         },
         {
           "name": "Haberler",
@@ -2232,6 +1714,30 @@
           "lastSeen": "2026-08-27"
         },
         {
+          "name": "TRT World",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "How is the AI adoption in the Balkan countries? - TRT World",
+              "albanianTitle": "Si po ecën adoptimi i Inteligjencës Artificiale në vendet e Ballkanit?",
+              "blurb": "Analiza mbi nivelin e adoptimit dhe zhvillimit të teknologjisë së inteligjencës artificiale në vendet e rajonit të Ballkanit.",
+              "imageUrl": null,
+              "url": "https://www.trtworld.com/video/tv/shows/683ef3c9cff794df564280c5/play/6fd87ebe9b7e",
+              "date": "2026-08-28",
+              "sentiment": "neutral",
+              "reason": "General informational piece, no evaluative language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 3,
+          "trend": "neutral",
+          "firstSeen": "2026-08-21",
+          "lastSeen": "2026-08-28"
+        },
+        {
           "name": "sondakika.com",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -2257,11 +1763,11 @@
         }
       ],
       "summary": {
-        "index": 55,
-        "positive": 10,
-        "neutral": 90,
+        "index": 56,
+        "positive": 11,
+        "neutral": 89,
         "negative": 0,
-        "n": 10,
+        "n": 9,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
