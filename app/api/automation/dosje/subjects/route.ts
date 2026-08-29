@@ -79,7 +79,7 @@ async function run(req: Request, dryRun: boolean) {
     return NextResponse.json({ ok: true, reason: "no_topics", matched: 0 });
   }
 
-  const articles = await getArticles(200);
+  const articles = await getArticles(200, undefined, { withBody: false });
 
   const matches: Array<{
     article_slug: string;

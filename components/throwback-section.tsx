@@ -25,7 +25,7 @@ function formatArchiveDate(iso: string): string {
 }
 
 export default async function ThrowbackSection() {
-  const all = await getArticles(100);
+  const all = await getArticles(100, undefined, { withBody: false });
   const cutoff = Date.now() - MIN_AGE_MS;
 
   const eligible = all

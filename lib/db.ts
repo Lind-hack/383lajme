@@ -155,7 +155,39 @@ function supabaseNewsClient() {
   });
 }
 
-export async function getArticles(limit = 50, category?: string): Promise<Article[]> {
+/**
+ * The columns the site actually renders.
+ *
+ * Every read here used to be `select("*")`, which drags back `raw_article` —
+ * a complete JSON copy of the article kept for the ingest record and read by
+ * nothing on the site — along with score_breakdown, the scoring prose and the
+ * social metadata. On a call like getArticles(500) that is a few kilobytes of
+ * dead weight per row, several megabytes per request, on pages that revalidate
+ * every fifteen minutes. It is the reason the egress allowance kept running
+ * out, and none of it ever reached a reader.
+ *
+ * mapAutoRow below is the authority on what is needed: if a field is added
+ * there, add it here too, or it will silently arrive undefined.
+ */
+const ARTICLE_COLUMNS = [
+  "id", "slug", "url", "dispatch", "title", "excerpt", "body",
+  "source", "source_flag", "source_bias", "tone", "category",
+  "published_at", "created_at", "reading_time", "featured",
+  "image_url", "engagement_score", "video_clip_url",
+].join(",");
+
+/**
+ * The same list without the article body, for callers that only render
+ * headlines and cards. body is the largest remaining column and no list view
+ * touches it.
+ */
+const ARTICLE_COLUMNS_LIGHT = ARTICLE_COLUMNS.replace(",body", "");
+
+export async function getArticles(
+  limit = 50,
+  category?: string,
+  opts: { withBody?: boolean } = {}
+): Promise<Article[]> {
   // A section owns its retired aliases, so filtering on the label alone would
   // hide every row the pipeline filed under the old name.
   const wanted = category ? normalizeCategory(category) : undefined;
@@ -164,7 +196,9 @@ export async function getArticles(limit = 50, category?: string): Promise<Articl
     try {
       let query = supabase
         .from("news_articles")
-        .select("*")
+        // Body is opt-in: the handful of callers that render or summarise an
+        // article ask for it, and the many that show a card do not pay for it.
+        .select(opts.withBody === false ? ARTICLE_COLUMNS_LIGHT : ARTICLE_COLUMNS)
         .order("featured", { ascending: false })
         .order("engagement_score", { ascending: false })
         .order("published_at", { ascending: false })
@@ -172,7 +206,7 @@ export async function getArticles(limit = 50, category?: string): Promise<Articl
       if (wanted) query = query.in("category", categoryQueryValues(wanted));
       const { data, error } = await query;
       if (error) throw new Error(error.message);
-      if (data?.length) return data.map((article) => mapAutoRow(article as Record<string, unknown>));
+      if (data?.length) return data.map((article) => mapAutoRow(article as unknown as Record<string, unknown>));
     } catch (error) {
       // News batches are committed to data/auto-articles specifically so a
       // temporary Supabase/Cloudflare outage cannot block a production build.
@@ -229,13 +263,13 @@ export async function getLatestArticles(limit = 10): Promise<Article[]> {
     try {
       const { data, error } = await supabase
         .from("news_articles")
-        .select("*")
+        .select(ARTICLE_COLUMNS)
         .order("published_at", { ascending: false })
         .limit(limit);
       if (error) throw new Error(error.message);
       if (data?.length) {
         return data.map((article) =>
-          mapAutoRow(article as Record<string, unknown>)
+          mapAutoRow(article as unknown as Record<string, unknown>)
         );
       }
     } catch (error) {
@@ -286,11 +320,11 @@ export async function getArticleBySlug(slug: string): Promise<Article | null> {
     try {
       const { data, error } = await supabase
         .from("news_articles")
-        .select("*")
+        .select(ARTICLE_COLUMNS)
         .eq("slug", slug)
         .maybeSingle();
       if (error) throw new Error(error.message);
-      if (data) return mapAutoRow(data as Record<string, unknown>);
+      if (data) return mapAutoRow(data as unknown as Record<string, unknown>);
     } catch (error) {
       console.error("[news] Supabase article lookup unavailable; using committed fallback", error);
     }

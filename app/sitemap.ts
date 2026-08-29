@@ -33,7 +33,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // the next successful refresh without serving invented data.
   let articlePages: MetadataRoute.Sitemap = [];
   try {
-    articlePages = (await getArticles(500))
+    articlePages = (await getArticles(500, undefined, { withBody: false }))
       .filter((a) => a.slug)
       .map((a) => ({
         url: `${BASE}/article/${a.slug}`,

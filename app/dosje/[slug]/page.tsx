@@ -52,7 +52,8 @@ export default async function DosjePage({ params }: { params: Promise<{ slug: st
   const topic = topicBySlug(slug);
   if (!topic) notFound();
 
-  const all = await getArticles(400);
+  // Cards only on this page, so the article bodies are left in the database.
+  const all = await getArticles(400, undefined, { withBody: false });
   // Approved rows when this dossier has been published, the hand-written file
   // until then. Never the two mixed: an unsourced line beside a cited one
   // borrows authority it has not earned.
