@@ -56,11 +56,36 @@ export async function POST(req: Request) {
   const limit = Number(new URL(req.url).searchParams.get("limit") ?? 10);
 
   // ── photographs, from the citations a moment already rests on ──────────────
-  const { data: milestones, error } = await supabase
+  // Milestones that have no candidate yet, oldest first.
+  //
+  // This used to take the first `limit` rows with no ordering and skip the
+  // ones that already had media in JS afterwards. Once the oldest ten each had
+  // a candidate — approved or rejected, since a rejection keeps its row — every
+  // run loaded the same ten, skipped all ten, and reported zero work done.
+  // Milestone eleven onward would never have been offered a photograph.
+  const { data: withMedia } = await supabase
+    .from("dosje_media")
+    .select("milestone_id")
+    .eq("kind", "image")
+    .not("milestone_id", "is", null);
+  const alreadyProposed = new Set(
+    (withMedia ?? []).map((r) => (r as { milestone_id: string }).milestone_id)
+  );
+
+  let milestoneQuery = supabase
     .from("dosje_milestones")
     .select("id, title, dosje_citations(url, publisher), dosje_media(id)")
     .in("status", ["approved", "draft"])
+    .order("drafted_at", { ascending: true })
     .limit(limit);
+  if (alreadyProposed.size) {
+    milestoneQuery = milestoneQuery.not(
+      "id",
+      "in",
+      `(${[...alreadyProposed].join(",")})`
+    );
+  }
+  const { data: milestones, error } = await milestoneQuery;
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
 

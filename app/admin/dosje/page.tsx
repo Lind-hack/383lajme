@@ -36,6 +36,9 @@ type Citation = {
   quote: string | null;
   http_status: number | null;
   fetched_at: string | null;
+  /** Consecutive failed re-checks. A rotted source must not count as verified. */
+  fail_count: number | null;
+  last_ok_at: string | null;
 };
 
 type Topic = {
@@ -76,11 +79,24 @@ type Milestone = {
 
 const SANS = "13px/1.55 ui-sans-serif, system-ui, -apple-system, sans-serif";
 
+/**
+ * A citation counts when it last answered — the same rule the database
+ * enforces in dosje_citation_is_live.
+ *
+ * This used to test only `http_status === 200` and ignore the failure count,
+ * so a citation that had rotted still lit the approve button green. The
+ * trigger then refused it, or worse, agreed and republished a moment with a
+ * dead source under a badge promising two live ones.
+ */
+const DEAD_AFTER = 3;
+
 function verifiedPublishers(cites: Citation[]): string[] {
   return [
     ...new Set(
       cites
-        .filter((c) => c.http_status === 200 && c.publisher)
+        .filter(
+          (c) => c.http_status === 200 && (c.fail_count ?? 0) < DEAD_AFTER && c.publisher
+        )
         .map((c) => String(c.publisher).toLowerCase().trim())
     ),
   ];
@@ -158,10 +174,14 @@ export default async function DosjeAdminPage({
     const { data: m } = await supabase
       .from("dosje_media")
       .select("*, dosje_milestones(title, display_date)")
-      .eq("kind", "image")
+      // Images and explainers both. The video half of the vetting job was
+      // filtered out here, so every candidate it produced sat in a queue with
+      // no way to open it: approved dossiers showed no videos at all, while
+      // unapproved ones fell back to the raw unvetted list.
+      .in("kind", ["image", "video"])
       .eq("approved", false)
       .is("approved_by", null)
-      .limit(20);
+      .limit(30);
     media = (m ?? []) as unknown as MediaRow[];
 
     approvedByTopic = (approved ?? []).reduce<Record<string, number>>((acc, r) => {
@@ -264,16 +284,32 @@ export default async function DosjeAdminPage({
       {media.length > 0 && (
         <section style={{ marginBottom: "26px" }}>
           <div style={{ fontSize: "11.5px", letterSpacing: ".03em", textTransform: "uppercase", color: "#8a8a8a", marginBottom: "10px" }}>
-            Fotografi të propozuara — {media.length}
+            Media për shqyrtim — {media.length}
           </div>
           {media.map((mm) => (
             <div key={mm.id} style={{ display: "flex", gap: "12px", alignItems: "flex-start", border: "1px solid #e2e2e2", borderRadius: "10px", padding: "12px", marginBottom: "10px", background: "#fff" }}>
+              {/* A video is a thumbnail and a channel, not a photograph. Showing
+                  it as one gave the reviewer a broken image and no way to judge. */}
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={mm.url} alt="" style={{ width: "150px", height: "100px", objectFit: "cover", borderRadius: "7px", background: "#f0f0f0" }} />
+              <img
+                src={
+                  mm.kind === "video"
+                    ? `https://i.ytimg.com/vi/${(mm.url.match(/[?&]v=([^&]+)/) || [])[1] ?? ""}/mqdefault.jpg`
+                    : mm.url
+                }
+                alt=""
+                style={{ width: "150px", height: "100px", objectFit: "cover", borderRadius: "7px", background: "#f0f0f0" }}
+              />
               <div style={{ flex: 1 }}>
-                <div style={{ fontWeight: 600 }}>{mm.dosje_milestones?.title ?? "(moment i panjohur)"}</div>
+                <div style={{ fontWeight: 600 }}>
+                  {mm.kind === "video"
+                    ? (mm.credit ?? "Video")
+                    : (mm.dosje_milestones?.title ?? "(moment i panjohur)")}
+                </div>
                 <div style={{ color: "#777", fontSize: "12px", margin: "2px 0 6px" }}>
-                  {mm.dosje_milestones?.display_date} · {mm.credit ?? "pa kredit"}
+                  {mm.kind === "video"
+                    ? "Shpjegues për të gjithë dosjen"
+                    : `${mm.dosje_milestones?.display_date} · ${mm.credit ?? "pa kredit"}`}
                 </div>
                 {mm.source_url && (
                   <a href={mm.source_url} target="_blank" rel="noreferrer" style={{ color: "#0b57d0", fontSize: "12px", wordBreak: "break-all" }}>
@@ -284,7 +320,7 @@ export default async function DosjeAdminPage({
                   <form action={approveMediaAction}>
                     <input type="hidden" name="id" value={mm.id} />
                     <button type="submit" style={{ padding: "6px 12px", borderRadius: "6px", border: "none", background: "#1e7a3c", color: "#fff", font: SANS, cursor: "pointer" }}>
-                      Kjo është foto e ngjarjes
+                      {mm.kind === "video" ? "Publiko shpjeguesin" : "Kjo është foto e ngjarjes"}
                     </button>
                   </form>
                   <form action={rejectMediaAction}>

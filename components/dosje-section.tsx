@@ -92,6 +92,27 @@ const MUTED = "rgba(43,37,33,.52)";
 const RULE = "rgba(43,37,33,.2)";
 const ACCENT = "#E4322B";
 
+/**
+ * What the badge may honestly claim.
+ *
+ * It used to read "every moment has two verified sources" whenever the file
+ * came from the database at all — a statement about where the rows were
+ * stored, never about the citations on them. A moment whose sources had since
+ * rotted renders with one link, or none, under a badge asserting two. So the
+ * label is now counted from the citations actually being shown.
+ */
+function verifiedLabel(entries: DosjeEntry[]): string {
+  const milestones = entries.filter((e) => e.kind === "milestone");
+  if (!milestones.length) return "Dosje me burime të verifikuara";
+
+  const publishers = (e: DosjeEntry) =>
+    new Set((e.citations ?? []).map((c) => String(c.publisher).toLowerCase().trim())).size;
+
+  const full = milestones.filter((e) => publishers(e) >= 2).length;
+  if (full === milestones.length) return "Çdo moment me dy burime të verifikuara";
+  return `${full} nga ${milestones.length} momente me dy burime të verifikuara`;
+}
+
 function spanLabel(entries: DosjeEntry[]): string | null {
   const first = entries.find((e) => e.date || e.publishedAt);
   const last = [...entries].reverse().find((e) => e.date || e.publishedAt);
@@ -442,9 +463,7 @@ export default function DosjeSection({ topicSlug, topicTitle, blurb, videos, ent
               color: sourced ? "#1a6b35" : "rgba(43,37,33,.58)",
             }}
           >
-            {sourced
-              ? "Çdo moment me dy burime të verifikuara"
-              : "Kronologji pune — ende pa burime të verifikuara"}
+            {sourced ? verifiedLabel(entries) : "Kronologji pune — ende pa burime të verifikuara"}
           </span>
         </div>
 

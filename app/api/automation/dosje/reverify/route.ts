@@ -58,7 +58,7 @@ export async function POST(req: Request) {
   const { data, error } = await supabase
     .from("dosje_citations")
     .select("id, milestone_id, url, publisher, fail_count")
-    .order("last_ok_at", { ascending: true, nullsFirst: true })
+    .order("last_checked_at", { ascending: true, nullsFirst: true })
     .limit(limit);
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
@@ -98,10 +98,20 @@ export async function POST(req: Request) {
         http_status: res.http_status,
         fetched_at: new Date().toISOString(),
         fail_count: fails,
+        // Rotation is ordered by last_checked_at, which a failure advances,
+        // rather than by last_ok_at, which it must not. Ordering on last_ok_at
+        // kept every dead link sorted first forever — once the corpses
+        // outnumbered the weekly slice, the job re-fetched only those and no
+        // live citation was ever re-checked again. But last_ok_at is shown to
+        // the reader as the date this source last answered, so stamping it
+        // here would put a verification date on a dead link.
+        last_checked_at: new Date().toISOString(),
       })
       .eq("id", c.id);
 
-    if (fails === DEAD_AFTER) {
+    // Report on the crossing and on anything already past it, so a changed
+    // threshold or a hand-edited row cannot slip by unannounced.
+    if (fails >= DEAD_AFTER) {
       newlyDead.push({ url: c.url, publisher: c.publisher, fails });
     }
   }
@@ -139,7 +149,7 @@ export async function GET(req: Request) {
   const { data, error } = await supabase
     .from("dosje_citations")
     .select("url, publisher, last_ok_at, fail_count, http_status")
-    .order("last_ok_at", { ascending: true, nullsFirst: true })
+    .order("last_checked_at", { ascending: true, nullsFirst: true })
     .limit(50);
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
