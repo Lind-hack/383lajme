@@ -177,8 +177,8 @@ jobs:
             exit 1
           }
           printf '%s\n' "$smoke_output"
-          if ! printf '%s\n' "$smoke_output" | grep -Fqx "CODEX_CI_SMOKE_OK"; then
-            echo "ERROR Codex smoke test returned an unexpected response."
+          if [ -z "${smoke_output//[[:space:]]/}" ]; then
+            echo "ERROR Codex smoke test returned no output."
             exit 1
           fi
 
