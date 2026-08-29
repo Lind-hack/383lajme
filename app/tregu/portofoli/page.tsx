@@ -7,6 +7,7 @@ import CoinFace from "@/components/tregu/coin-face";
 import { createClient } from "@/lib/supabase/client";
 import { fmtNum } from "@/lib/format";
 import styles from "./portfolio.module.css";
+import { formatKosovoDate } from "@/lib/tregu-local-time.mjs";
 
 interface Position {
   id: string;
@@ -148,7 +149,7 @@ function BalanceChart({ history }: { history: { t: number; coins: number }[] }) 
       </svg>
       {hover && (
         <div className="tregu-chart-tip" style={{ left: `${Math.max(12, Math.min(88, hover.frac * 100))}%`, top: 0 }}>
-          <div className="tregu-chart-tip-date">{new Date(hover.t).toLocaleDateString("sq-AL", { day: "numeric", month: "short" })}</div>
+          <div className="tregu-chart-tip-date">{formatKosovoDate(hover.t)}</div>
           <div className="tregu-chart-tip-row">
             <span className="tregu-chart-tip-dot" style={{ background: solid }} />
             <strong>{fmtNum(hover.coins)} 383C</strong>
@@ -452,7 +453,7 @@ export default function PortofoliPage() {
             <div style={{ marginTop: 16, display: "flex", flexDirection: "column", gap: 8 }}>
               {withdrawals.map((w) => (
                 <div key={w.id} style={{ display: "flex", justifyContent: "space-between", fontSize: 12, color: "#6B6B6B" }}>
-                  <span>{new Date(w.requested_at).toLocaleDateString("sq-AL")}, {w.coins_amount} 383C</span>
+                  <span>{formatKosovoDate(w.requested_at, { year: true })}, {w.coins_amount} 383C</span>
                   <span style={{ fontWeight: 700, color: statusColor(w.status) }}>{w.status}</span>
                 </div>
               ))}
@@ -466,7 +467,7 @@ export default function PortofoliPage() {
           {visibleTransactions.length === 0 && <p className={styles.historyEmpty}>Nuk ka aktivitet në këtë filtër.</p>}
           {visibleTransactions.map((t) => (
             <div key={t.id} className={styles.historyRow}>
-              <span><strong>{TX_LABEL[t.type] ?? t.type}</strong><small>{t.markets?.question ?? new Date(t.created_at).toLocaleDateString("sq-AL")}</small></span>
+              <span><strong>{TX_LABEL[t.type] ?? t.type}</strong><small>{t.markets?.question ?? formatKosovoDate(t.created_at, { year: true })}</small></span>
               <span style={{ color: t.amount >= 0 ? "#00854A" : "#E41E20", fontWeight: 700, fontVariantNumeric: "tabular-nums" }}>
                 {t.amount >= 0 ? "+" : ""}
                 {Number(t.amount).toFixed(0)}

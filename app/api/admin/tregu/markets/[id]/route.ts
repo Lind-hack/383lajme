@@ -1,6 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { isAdminAuthed } from "@/lib/admin-auth";
+import { DEFAULT_SPORT_LIQUIDITY, rescaleOutcomeQuantities } from "@/lib/tregu-liquidity.mjs";
 
 export const dynamic = "force-dynamic";
 
@@ -38,7 +39,7 @@ export async function PATCH(
   if (!body) return NextResponse.json({ error: "Trup i pavlefshëm" }, { status: 400 });
 
   if (body.action === "approve") {
-    const { data: draft, error: draftError } = await admin.from("markets").select("market_classification, market_type, live_event, sport_outcomes").eq("id", id).eq("status", "draft").maybeSingle();
+    const { data: draft, error: draftError } = await admin.from("markets").select("category, b, q_yes, q_no, outcome_quantities, market_classification, market_type, live_event, sport_outcomes").eq("id", id).eq("status", "draft").maybeSingle();
     if (draftError) return NextResponse.json({ error: draftError.message }, { status: 500 });
     if (!draft) return NextResponse.json({ error: "Drafti nuk u gjet" }, { status: 404 });
     const liveEvent = draft.live_event as Record<string, unknown> | null;
@@ -79,9 +80,20 @@ export async function PATCH(
     if (draft.market_classification === "live_f1" && draft.market_type !== "f1_race_winner" && (draft.market_type !== "binary" || liveEvent?.provider !== "formula1_dashboard" || !/^[A-Za-z0-9_-]+$/.test(String(liveEvent.event_id ?? "")) || !/^[A-Z]{3}$/.test(String(liveEvent.driver_code ?? "").toUpperCase()))) {
       return NextResponse.json({ error: "Live F1 kërkon treg binar dhe Formula 1 Dashboard event_id/race_id me driver_code me 3 shkronja para miratimit." }, { status: 400 });
     }
+    const currentLiquidity = Number(draft.b);
+    const shouldRaiseLiquidity = String(draft.category).toLowerCase() === "sport" && currentLiquidity < DEFAULT_SPORT_LIQUIDITY;
+    const liquidityRatio = shouldRaiseLiquidity ? DEFAULT_SPORT_LIQUIDITY / Math.max(1, currentLiquidity) : 1;
+    const liquidityPatch = shouldRaiseLiquidity ? {
+      b: DEFAULT_SPORT_LIQUIDITY,
+      q_yes: Number(draft.q_yes ?? 0) * liquidityRatio,
+      q_no: Number(draft.q_no ?? 0) * liquidityRatio,
+      outcome_quantities: draft.outcome_quantities
+        ? rescaleOutcomeQuantities(draft.outcome_quantities, currentLiquidity)
+        : draft.outcome_quantities,
+    } : {};
     const { data, error } = await admin
       .from("markets")
-      .update({ status: "open" })
+      .update({ ...liquidityPatch, status: "open" })
       .eq("id", id)
       .eq("status", "draft")
       .select()
@@ -138,8 +150,15 @@ export async function PATCH(
     if ((count ?? 0) > 0) {
       return NextResponse.json({ error: "Tregu ka tregtime — nuk mund të rivendosen gjasat" }, { status: 409 });
     }
+    const { data: seedMarket, error: seedMarketError } = await admin
+      .from("markets")
+      .select("category")
+      .eq("id", id)
+      .maybeSingle();
+    if (seedMarketError) return NextResponse.json({ error: seedMarketError.message }, { status: 500 });
+    if (!seedMarket) return NextResponse.json({ error: "Tregu nuk u gjet" }, { status: 404 });
     const p = Math.min(0.98, Math.max(0.02, body.initialProb));
-    const b = 100;
+    const b = String(seedMarket.category).toLowerCase() === "sport" ? DEFAULT_SPORT_LIQUIDITY : 100;
     const diff = b * Math.log(p / (1 - p));
     const { data, error } = await admin
       .from("markets")

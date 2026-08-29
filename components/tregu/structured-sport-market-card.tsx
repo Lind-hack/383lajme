@@ -79,6 +79,7 @@ export default function StructuredSportMarketCard({ market }: { market: Structur
       <ExactMarketChart
         compact
         minimal
+        curve="smooth"
         height={104}
         series={chartSeries}
         tone="sport"

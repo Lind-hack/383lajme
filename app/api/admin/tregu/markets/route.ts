@@ -2,6 +2,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { isAdminAuthed } from "@/lib/admin-auth";
 import { slugifyQuestion } from "@/lib/tregu";
+import { DEFAULT_SPORT_LIQUIDITY } from "@/lib/tregu-liquidity.mjs";
 
 export const dynamic = "force-dynamic";
 
@@ -53,7 +54,7 @@ export async function POST(request: NextRequest) {
   let seed: { q_yes: number; q_no: number; b: number } | null = null;
   if (typeof body.initialProb === "number" && Number.isFinite(body.initialProb)) {
     const p = Math.min(0.98, Math.max(0.02, body.initialProb));
-    const b = 100;
+    const b = String(body.category).toLowerCase() === "sport" ? DEFAULT_SPORT_LIQUIDITY : 100;
     const diff = b * Math.log(p / (1 - p));
     seed = {
       q_yes: Math.round(Math.max(0, diff) * 100) / 100,

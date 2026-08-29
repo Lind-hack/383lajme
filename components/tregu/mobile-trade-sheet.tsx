@@ -3,7 +3,11 @@
 import { useEffect, useRef, useState, type CSSProperties, type MouseEvent } from "react";
 import Link from "next/link";
 import CoinFace from "@/components/tregu/coin-face";
-import { playTradeSuccessSound, primeTradeSuccessSound } from "@/components/tregu/trade-success-sound";
+import {
+  playTradeSuccessSound,
+  primeTradeSuccessSound,
+  type TradeSuccessSoundProfile,
+} from "@/components/tregu/trade-success-sound";
 
 export type MobileTradeMode = "buy" | "sell";
 
@@ -25,6 +29,7 @@ export interface MobileTradeReceipt {
   color: string;
   imageUrl?: string;
   finish: "standard" | "gloss" | "carbon" | "metallic" | "parquet" | "speed";
+  soundProfile: TradeSuccessSoundProfile;
 }
 
 interface MobileTradeSheetProps {
@@ -135,7 +140,7 @@ export default function MobileTradeSheet({
   useEffect(() => {
     if (!receipt || soundedReceiptRef.current === receipt) return;
     soundedReceiptRef.current = receipt;
-    void playTradeSuccessSound();
+    void playTradeSuccessSound(receipt.soundProfile);
   }, [receipt]);
 
   const openFromDock = (event: MouseEvent<HTMLButtonElement>, nextMode: MobileTradeMode) => {

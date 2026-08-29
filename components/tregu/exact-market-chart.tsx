@@ -3,6 +3,7 @@
 import { useId, useMemo, useState, type PointerEvent as ReactPointerEvent } from "react";
 import {
   angularRecordedPath,
+  smoothRecordedPath,
   RECORDED_RANGE_OPTIONS,
   formatProbabilityTick,
   probabilityDomain,
@@ -11,6 +12,7 @@ import {
   type RecordedRangeKey,
 } from "@/lib/tregu-probability-domain.mjs";
 import { TREGU_CHART_UI_VERSION } from "@/lib/tregu-ui-contract";
+import { formatKosovoDateTime, formatKosovoTime } from "@/lib/tregu-local-time.mjs";
 
 export type ExactMarketSeries = {
   key: string;
@@ -32,10 +34,7 @@ function percent(value: number) {
 
 function timeLabel(timestamp: number | null, compact = false) {
   if (timestamp == null || !Number.isFinite(timestamp)) return "Pa pikë të regjistruar";
-  return new Intl.DateTimeFormat("sq-AL", compact
-    ? { hour: "2-digit", minute: "2-digit" }
-    : { hour: "2-digit", minute: "2-digit", day: "2-digit", month: "short" }
-  ).format(new Date(timestamp));
+  return compact ? formatKosovoTime(timestamp) : formatKosovoDateTime(timestamp);
 }
 
 export default function ExactMarketChart({
@@ -50,6 +49,7 @@ export default function ExactMarketChart({
   derived = false,
   tone = "serious",
   defaultRange = "1d",
+  curve = "angular",
 }: {
   series: ExactMarketSeries[];
   height?: number;
@@ -62,6 +62,7 @@ export default function ExactMarketChart({
   derived?: boolean;
   tone?: "serious" | "sport" | "neutral";
   defaultRange?: RecordedRangeKey;
+  curve?: "angular" | "smooth";
 }) {
   const uid = useId().replace(/:/g, "");
   const [range, setRange] = useState<RecordedRangeKey>(defaultRange);
@@ -82,11 +83,11 @@ export default function ExactMarketChart({
     const domain = probabilityDomain(values.length ? values : cleaned.map((item) => item.current));
     const plotH = height - PAD_Y * 2;
     const plotW = W - PAD_L - (compact ? PAD_L : PAD_R);
-    const timelineIndex = new Map(timestamps.map((timestamp, index) => [timestamp, index]));
+    const firstT = timestamps[0] ?? 0;
+    const lastT = timestamps.at(-1) ?? firstT;
     const x = (t: number) => {
       if (timestamps.length <= 1) return PAD_L + plotW / 2;
-      const index = timelineIndex.get(t) ?? 0;
-      return PAD_L + (index / (timestamps.length - 1)) * plotW;
+      return PAD_L + ((t - firstT) / Math.max(1, lastT - firstT)) * plotW;
     };
     const y = (p: number) => PAD_Y + ((domain.hi - p) / Math.max(0.000001, domain.hi - domain.lo)) * plotH;
     return {
@@ -171,6 +172,7 @@ export default function ExactMarketChart({
       data-inspecting={inspection ? true : undefined}
       data-tone={tone}
       data-range={showRanges ? range : undefined}
+      data-curve={curve}
       data-tregu-chart-version={TREGU_CHART_UI_VERSION}
     >
       {!minimal && (
@@ -267,7 +269,11 @@ export default function ExactMarketChart({
           {model.cleaned.map((item) => {
             const displayPoints = item.displayPoints;
             if (displayPoints.length === 0) return null;
-            const path = displayPoints.length >= 2 ? angularRecordedPath(displayPoints, model.x, model.y) : "";
+            const path = displayPoints.length >= 2
+              ? curve === "smooth"
+                ? smoothRecordedPath(displayPoints, model.x, model.y)
+                : angularRecordedPath(displayPoints, model.x, model.y)
+              : "";
             const last = displayPoints[displayPoints.length - 1];
             const first = displayPoints[0];
             // A short range can contain exactly one real persisted point. Hold

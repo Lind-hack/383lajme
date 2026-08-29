@@ -89,6 +89,7 @@ export default function MarketEventCard({ group }: { group: MarketGroup }) {
           compact
           minimal
           derived
+          curve="smooth"
           height={116}
           series={chartSeries}
           tone={group.category === "sport" ? "sport" : "neutral"}

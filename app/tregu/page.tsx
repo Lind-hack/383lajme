@@ -27,6 +27,7 @@ import {
 } from "@/lib/tregu-hub-market.mjs";
 import type { MarketMedia } from "@/lib/tregu-market-media.mjs";
 import SpotlightTour, { openTour, type TourStep } from "@/components/spotlight-tour";
+import { formatKosovoTime } from "@/lib/tregu-local-time.mjs";
 
 const TOUR_ID = "tregu-floor";
 
@@ -205,7 +206,7 @@ export default function TreguHub() {
         );
         setActivity(data.activity ?? []);
         const generatedAt = new Date(data.generated_at ?? Date.now());
-        setUpdatedAt(generatedAt.toLocaleTimeString("sq-AL", { hour: "2-digit", minute: "2-digit" }));
+        setUpdatedAt(formatKosovoTime(generatedAt));
         loadedOnce = true;
         setLoadError(false);
         setLoading(false);

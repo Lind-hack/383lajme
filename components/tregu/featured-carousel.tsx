@@ -187,6 +187,7 @@ function Slide({ market, active }: { market: MiniMarket; active: boolean }) {
           <div className="tregu-feature-tape">
             <ExactMarketChart
               compact
+              curve="smooth"
               height={structured ? 260 : 218}
               series={chartSeries}
               tone={structured || market.category === "sport" ? "sport" : "serious"}

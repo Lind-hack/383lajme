@@ -142,6 +142,7 @@ export default function MarketMiniCard({ market }: { market: MiniMarket; compact
         <ExactMarketChart
           compact
           minimal
+          curve="smooth"
           height={76}
           series={chartSeries}
           tone={market.category === "sport" ? "sport" : "serious"}

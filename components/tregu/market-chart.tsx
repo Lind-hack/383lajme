@@ -4,6 +4,7 @@ import { useEffect, useId, useMemo, useRef, useState } from "react";
 import { makeSampler, smoothPath } from "@/lib/tregu-tape";
 import { getCategoryColor } from "@/lib/category-colors";
 import { TREGU_CHART_UI_VERSION } from "@/lib/tregu-ui-contract";
+import { formatKosovoDateTime, formatKosovoTime } from "@/lib/tregu-local-time.mjs";
 import { useReducedMotion, useDrawReveal, useLiveTape, useChartPan, useLiveClock, frozenFitRange, type FitBand } from "./chart-hooks";
 
 // Interactive single-market price chart — dependency-free SVG.
@@ -444,9 +445,9 @@ export default function MarketChart({
   // multi-week window reads dates.
   const fmtAxis = (t: number) => {
     const d = new Date(t);
-    if (spanMs <= 180_000) return d.toLocaleTimeString("sq-AL", { minute: "2-digit", second: "2-digit" });
-    if (spanMs <= 2 * 86_400_000) return d.toLocaleTimeString("sq-AL", { hour: "2-digit", minute: "2-digit" });
-    return d.toLocaleDateString("sq-AL", { day: "numeric", month: "short" });
+    if (spanMs <= 180_000) return formatKosovoTime(d, { seconds: true });
+    if (spanMs <= 2 * 86_400_000) return formatKosovoTime(d);
+    return formatKosovoDateTime(d);
   };
   const axisTicks = [0.08, 0.5, 0.92].map((f) => ({
     f,
@@ -473,7 +474,7 @@ export default function MarketChart({
         <div className="tregu-live-pill" aria-live="off">
           <span className="tregu-live-dot" aria-hidden />
           <span className="tregu-live-clock">
-            {new Date(clockNow).toLocaleTimeString("sq-AL", { hour: "2-digit", minute: "2-digit", second: "2-digit" })}
+            {formatKosovoTime(clockNow, { seconds: true })}
           </span>
           <span className="tregu-live-sep" aria-hidden>·</span>
           <span className="tregu-live-refresh">Rifreskim {mmss(nextInMs)}</span>
@@ -738,10 +739,10 @@ export default function MarketChart({
             >
               <div className="tregu-chart-tip-date">
                 {hover.live
-                  ? `Tani · ${new Date(hover.t).toLocaleTimeString("sq-AL", { hour: "2-digit", minute: "2-digit", second: "2-digit" })}`
+                  ? `Tani · ${formatKosovoTime(hover.t, { seconds: true })}`
                   : spanMs <= 180_000
-                    ? new Date(hover.t).toLocaleTimeString("sq-AL", { hour: "2-digit", minute: "2-digit", second: "2-digit" })
-                    : `${new Date(hover.t).toLocaleDateString("sq-AL", { day: "numeric", month: "short" })} ${new Date(hover.t).toLocaleTimeString("sq-AL", { hour: "2-digit", minute: "2-digit" })}`}
+                    ? formatKosovoTime(hover.t, { seconds: true })
+                    : formatKosovoDateTime(hover.t)}
               </div>
               <div className="tregu-chart-tip-row">
                 <span className="tregu-chart-tip-dot" style={{ background: accent }} />

@@ -44,6 +44,10 @@ import MobileTradeSheet, {
   type MobileTradeMode,
 } from "@/components/tregu/mobile-trade-sheet";
 import { normalizeCategory } from "@/lib/category-map";
+import StickyMarketBack from "@/components/tregu/sticky-market-back";
+import { resolveTradeSuccessSoundProfile } from "@/components/tregu/trade-success-sound";
+import { buildFootballMetricRows } from "@/lib/tregu-market-detail.mjs";
+import { formatKosovoDate } from "@/lib/tregu-local-time.mjs";
 
 // Sibling outcome series from the detail API — real 5-min cron snapshots.
 interface EventOutcome {
@@ -528,6 +532,10 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
       color: tradeThemeColor(market, footballChoice?.color, f1Choice?.team_colour),
       imageUrl: footballChoice?.logo ?? f1Choice?.headshot_url,
       finish: tradeSurfaceFinish(selection, footballChoice?.team ?? f1Choice?.team, sportTheme),
+      soundProfile: resolveTradeSuccessSoundProfile({
+        sportTheme,
+        league: market.live_event?.league,
+      }),
     });
     setMobileTradeOpen(false);
   };
@@ -777,7 +785,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
   const closesMs = market.closes_at ? new Date(market.closes_at).getTime() : NaN;
   const closesDateLabel = Number.isNaN(closesMs)
     ? null
-    : new Date(closesMs).toLocaleDateString("sq-AL", { day: "numeric", month: "short" });
+    : formatKosovoDate(closesMs);
 
   const buyPreview =
     !football && mode === "buy" && amount > 0
@@ -997,40 +1005,15 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
   const awayName = awayTeam.team ?? "Mysafirët";
   const homeMetrics = live?.metrics?.[homeName] ?? {};
   const awayMetrics = live?.metrics?.[awayName] ?? {};
-  const hasLiveMetrics = Object.keys(homeMetrics).length > 0 || Object.keys(awayMetrics).length > 0;
-  const liveStats = live?.status !== "STATUS_SCHEDULED" && hasLiveMetrics && (football || group) ? {
+  const liveMetricRows = buildFootballMetricRows(homeMetrics, awayMetrics);
+  const liveStats = live?.status !== "STATUS_SCHEDULED" && liveMetricRows.length > 0 && (football || group) ? {
     home: homeName,
     away: awayName,
     score: `${Number(homeTeam.score ?? 0)} - ${Number(awayTeam.score ?? 0)}`,
     note: `LIVE ${live?.detail ?? ""}`.trim(),
-    rows: [
-      { label: "Golat e pritshëm (xG)", home: homeMetrics.xg ?? 0, away: awayMetrics.xg ?? 0, homeText: Number(homeMetrics.xg ?? 0).toFixed(2), awayText: Number(awayMetrics.xg ?? 0).toFixed(2) },
-      { label: "Posedimi i topit", home: homeMetrics.possession ?? 0, away: awayMetrics.possession ?? 0, homeText: `${homeMetrics.possession ?? 0}%`, awayText: `${awayMetrics.possession ?? 0}%` },
-      { label: "Gjuajtjet totale", home: homeMetrics.shots ?? 0, away: awayMetrics.shots ?? 0 },
-      { label: "Gjuajtjet në portë", home: homeMetrics.shots_on_target ?? 0, away: awayMetrics.shots_on_target ?? 0 },
-      { label: "Goditje nga këndi", home: homeMetrics.corners ?? 0, away: awayMetrics.corners ?? 0 },
-      { label: "Shanse të mëdha të krijuara", home: homeMetrics.big_chances ?? 0, away: awayMetrics.big_chances ?? 0 },
-      { label: "Kartonë të verdhë", home: homeMetrics.yellow_cards ?? 0, away: awayMetrics.yellow_cards ?? 0 },
-      { label: "Kartonë të kuq", home: homeMetrics.red_cards ?? 0, away: awayMetrics.red_cards ?? 0 },
-    ],
+    rows: liveMetricRows,
   } : null;
-  const footballScheduledStats = football ? {
-    home: homeName,
-    away: awayName,
-    score: `${Number(homeTeam.score ?? 0)} - ${Number(awayTeam.score ?? 0)}`,
-    note: live?.detail ?? "Para ndeshjes",
-    rows: [
-      { label: "Golat e pritshëm (xG)", home: 0, away: 0, homeText: "0.00", awayText: "0.00" },
-      { label: "Posedimi i topit", home: 0, away: 0, homeText: "0%", awayText: "0%" },
-      { label: "Gjuajtjet totale", home: 0, away: 0 },
-      { label: "Gjuajtjet në portë", home: 0, away: 0 },
-      { label: "Goditje nga këndi", home: 0, away: 0 },
-      { label: "Shanse të mëdha të krijuara", home: 0, away: 0 },
-      { label: "Kartonë të verdhë", home: 0, away: 0 },
-      { label: "Kartonë të kuq", home: 0, away: 0 },
-    ],
-  } : null;
-  const eventStats = liveStats ?? fallbackEventStats ?? footballScheduledStats;
+  const eventStats = liveStats ?? (live?.status === "STATUS_SCHEDULED" ? null : fallbackEventStats);
 
   return (
     <div className="tregu-scope" data-sport-theme={sportTheme}>
@@ -1040,11 +1023,9 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
         className="tregu-detail-main"
         data-auto-refresh-ms={autoRefreshMs}
         data-sport-theme={sportTheme}
-        style={{ maxWidth: 1560, margin: 0, padding: "96px 32px 80px 32px" }}
+        style={{ maxWidth: 1560, margin: 0, padding: "132px 32px 80px 32px" }}
       >
-        <Link href="/tregu" style={{ color: "#6B6B6B", fontSize: 13, textDecoration: "none" }}>
-          ← Tregu
-        </Link>
+        <StickyMarketBack />
 
         {/* ── Header: market context + question + verified ticker row ── */}
         <header className="tregu-detail-header" data-tone={detailTone} data-sport-theme={sportTheme}>
@@ -1980,7 +1961,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                 </div>
                 <div>
                   <strong style={{ color: "#111111" }}>Mbyllet:</strong>{" "}
-                  {new Date(market.closes_at).toLocaleDateString("sq-AL", { day: "numeric", month: "long", year: "numeric" })}
+                  {formatKosovoDate(market.closes_at, { year: true })}
                 </div>
               </div>
             </div>
