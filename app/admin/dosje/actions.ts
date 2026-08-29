@@ -216,3 +216,20 @@ export async function retireTopicAction(formData: FormData) {
   revalidatePath("/dosje", "layout");
   redirect("/admin/dosje?retired=1");
 }
+
+/** Refuse a proposed photograph. Kept, so it is not proposed again. */
+export async function rejectMediaAction(formData: FormData) {
+  await requireAuth();
+  const supabase = createAdminClient();
+  if (!supabase) redirect("/admin/dosje?err=db");
+
+  const id = String(formData.get("id") ?? "");
+  const { error } = await supabase
+    .from("dosje_media")
+    .update({ approved: false, approved_by: "admin:rejected", approved_at: new Date().toISOString() })
+    .eq("id", id);
+
+  if (error) redirect(`/admin/dosje?err=${encodeURIComponent(error.message)}`);
+  revalidatePath("/admin/dosje");
+  redirect("/admin/dosje?rejected=1");
+}

@@ -9,6 +9,8 @@ import {
   rejectMilestoneAction,
   approveTopicAction,
   retireTopicAction,
+  approveMediaAction,
+  rejectMediaAction,
 } from "./actions";
 
 export const dynamic = "force-dynamic";
@@ -40,6 +42,18 @@ type Topic = {
   title: string;
   blurb: string;
   status: string;
+};
+
+type MediaRow = {
+  id: string;
+  milestone_id: string | null;
+  kind: string;
+  url: string;
+  credit: string | null;
+  source_url: string | null;
+  approved: boolean;
+  approved_by: string | null;
+  dosje_milestones: { title: string; display_date: string } | null;
 };
 
 type Milestone = {
@@ -111,6 +125,7 @@ export default async function DosjeAdminPage({
   let drafts: Milestone[] = [];
   let topics: Topic[] = [];
   let approvedByTopic: Record<string, number> = {};
+  let media: MediaRow[] = [];
   let loadError: string | null = null;
 
   if (!supabase) {
@@ -139,6 +154,15 @@ export default async function DosjeAdminPage({
       .from("dosje_milestones")
       .select("topic_slug")
       .eq("status", "approved");
+    const { data: m } = await supabase
+      .from("dosje_media")
+      .select("*, dosje_milestones(title, display_date)")
+      .eq("kind", "image")
+      .eq("approved", false)
+      .is("approved_by", null)
+      .limit(20);
+    media = (m ?? []) as unknown as MediaRow[];
+
     approvedByTopic = (approved ?? []).reduce<Record<string, number>>((acc, r) => {
       const k = (r as { topic_slug: string }).topic_slug;
       acc[k] = (acc[k] ?? 0) + 1;
@@ -229,6 +253,50 @@ export default async function DosjeAdminPage({
             Ndoshta migrimi 0051/0052 nuk është aplikuar ende.
           </span>
         </p>
+      )}
+
+      {/* Proposed photographs.
+          Approving one asserts the picture is of that event. The archive
+          cannot supply that — 383 begins in 2026 — so every candidate here
+          comes from the page of a source the moment already cites, and the
+          decision stays with a person because a fetch cannot make it. */}
+      {media.length > 0 && (
+        <section style={{ marginBottom: "26px" }}>
+          <div style={{ fontSize: "11.5px", letterSpacing: ".03em", textTransform: "uppercase", color: "#8a8a8a", marginBottom: "10px" }}>
+            Fotografi të propozuara — {media.length}
+          </div>
+          {media.map((mm) => (
+            <div key={mm.id} style={{ display: "flex", gap: "12px", alignItems: "flex-start", border: "1px solid #e2e2e2", borderRadius: "10px", padding: "12px", marginBottom: "10px", background: "#fff" }}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={mm.url} alt="" style={{ width: "150px", height: "100px", objectFit: "cover", borderRadius: "7px", background: "#f0f0f0" }} />
+              <div style={{ flex: 1 }}>
+                <div style={{ fontWeight: 600 }}>{mm.dosje_milestones?.title ?? "(moment i panjohur)"}</div>
+                <div style={{ color: "#777", fontSize: "12px", margin: "2px 0 6px" }}>
+                  {mm.dosje_milestones?.display_date} · {mm.credit ?? "pa kredit"}
+                </div>
+                {mm.source_url && (
+                  <a href={mm.source_url} target="_blank" rel="noreferrer" style={{ color: "#0b57d0", fontSize: "12px", wordBreak: "break-all" }}>
+                    burimi që e mbron këtë moment →
+                  </a>
+                )}
+                <div style={{ display: "flex", gap: "8px", marginTop: "9px" }}>
+                  <form action={approveMediaAction}>
+                    <input type="hidden" name="id" value={mm.id} />
+                    <button type="submit" style={{ padding: "6px 12px", borderRadius: "6px", border: "none", background: "#1e7a3c", color: "#fff", font: SANS, cursor: "pointer" }}>
+                      Kjo është foto e ngjarjes
+                    </button>
+                  </form>
+                  <form action={rejectMediaAction}>
+                    <input type="hidden" name="id" value={mm.id} />
+                    <button type="submit" style={{ padding: "6px 12px", borderRadius: "6px", border: "1px solid #ccc", background: "#fff", font: SANS, cursor: "pointer" }}>
+                      Jo
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          ))}
+        </section>
       )}
 
       {!loadError && drafts.length === 0 && (
