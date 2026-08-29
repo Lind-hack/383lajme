@@ -1,11 +1,11 @@
 {
   "lastUpdated": "2026-08-29",
   "overallIndex": 51,
-  "totalArticles": 79,
+  "totalArticles": 80,
   "sourceCount": 56,
   "stanceVersion": 3,
-  "unattributed": 160,
-  "nonEditorial": 2,
+  "unattributed": 170,
+  "nonEditorial": 3,
   "wrongKosovo": 0,
   "countries": {
     "Gjermani": {
@@ -238,7 +238,7 @@
         {
           "name": "Orange Actualités",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Destination Francophonie - Destination Francophonie au Kosovo - Orange Actualités",
@@ -252,12 +252,25 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Au Kosovo, une dépendance au charbon qui tue - Orange Actualités",
+              "albanianTitle": "Varësia nga qymyri në Kosovë po shkakton vdekje",
+              "blurb": "Kosova vazhdon të jetë e varur nga qymyri për prodhimin e energjisë elektrike, duke shkaktuar pasoja në shëndetin publik.",
+              "imageUrl": "//media1.woopic.com/api/v1/images/2275%2Factu%2Fafp-news%2Fdeac921e-79d9-4bdc-b0cf-ba37b04f0d64.jpg?format=1200x630&facedetect=1&quality=85",
+              "url": "https://actu.orange.fr/societe/sante/au-kosovo-une-dependance-au-charbon-qui-tue-CNT000002rAr6y.html",
+              "date": "2026-08-28",
+              "sentiment": "neutral",
+              "reason": "Raportim kritik i situatës, jo armiqësor ndaj Kosovës",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 1,
+          "totalArticles": 2,
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-08-26",
-          "lastSeen": "2026-08-26"
+          "lastSeen": "2026-08-28"
         }
       ],
       "summary": {
@@ -265,7 +278,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 2,
+        "n": 3,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -953,13 +966,13 @@
           "articles": [
             {
               "title": "FIGC * FEDERAZIONE ITALIANA GIUOCO CALCIO: «AZZURRINE IN FINALE PER L'ORO, CIURLEO PAREGGIA ALL'ULTIMO MINUTO - agenziagiornalisticaopinione.it",
-              "albanianTitle": "Federata Italiane e Futbollit: “Azzurrine” në finale për medaljen e artë, Ciurleo barazon në minutën e fundit - agenziagiornalisticaopinione.it",
-              "blurb": "Kombëtarja e vajzave të Italisë është kualifikuar në finalen për medaljen e artë pas barazimit të shënuar nga Ciurleo.",
+              "albanianTitle": "FIGC: „Azzurrine“ në finale për medaljen e artë, Ciurleo barazon në minutën e fundit",
+              "blurb": "Përfaqësuesja e Italisë për femra është kualifikuar në finale për medaljen e artë, pas golit të barazimit nga Ciurleo.",
               "imageUrl": "https://www.agenziagiornalisticaopinione.it/wp-content/uploads/2026/08/y99zc82428b7-5698-4e07-93e3-385029461481-jpg.jpg",
               "url": "https://www.agenziagiornalisticaopinione.it/opinionews/figc-federazione-italiana-giuoco-calcio-azzurrine-in-finale-per-loro-ciurleo-pareggia-allultimo-minuto/",
               "date": "2026-08-29",
               "sentiment": "unknown",
-              "reason": "Nuk përmendet Kosova, prandaj nuk mund të përcaktohet qëndrimi",
+              "reason": "No mention of Kosovo in the item",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1100,13 +1113,13 @@
           "articles": [
             {
               "title": "Für Abonnenten - Die „Krone“ fliegt Sie zum Länderspiel-Doppelpack - Kronen Zeitung",
-              "albanianTitle": "Për abonentët: „Krone“ ju dërgon në dy ndeshjet e kombëtares - Kronen Zeitung",
-              "blurb": "Gazeta Kronen Zeitung ofron mundësinë për abonentët e saj që të udhëtojnë për të ndjekur ndeshjet e kombëtares.",
+              "albanianTitle": "Për abonentët: „Krone“ ju dërgon në dy ndeshjet e kombëtares",
+              "blurb": "Gazeta Kronen Zeitung ofron mundësi për abonentët e saj që të udhëtojnë për të ndjekur dy ndeshjet e radhës ndërkombëtare.",
               "imageUrl": "https://imgl.krone.at/scaled/4269985/v16289f/og_image.jpg",
               "url": "https://www.krone.at/4269964",
               "date": "2026-08-29",
               "sentiment": "unknown",
-              "reason": "Nuk përmendet Kosova në titull, prandaj qëndrimi nuk është i qartë",
+              "reason": "No mention of Kosovo in the item",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1199,13 +1212,13 @@
           "articles": [
             {
               "title": "Mutter aus Kanton Solothurn: Wegweisung trotz Drohungen des Ehemanns - Solothurner Zeitung",
-              "albanianTitle": "Nënë nga kantoni i Solothurnit: U dëbua pavarësisht kërcënimeve nga bashkëshorti - Solothurner Zeitung",
-              "blurb": "Një nënë nga kantoni i Solothurnit përballet me dëbim, pavarësisht kërcënimeve të vazhdueshme nga ana e bashkëshortit të saj.",
+              "albanianTitle": "Nënë nga Kantoni i Solothurnit: U urdhërua të largohet pavarësisht kërcënimeve nga bashkëshorti",
+              "blurb": "Një nënë nga kantoni i Solothurnit është urdhëruar të largohet nga shtëpia, pavarësisht kërcënimeve të vazhdueshme nga bashkëshorti i saj.",
               "imageUrl": null,
               "url": "https://www.solothurnerzeitung.ch/solothurn/kanton-solothurn/solothurner-mutter-und-kinder-muessen-schweiz-verlassen-ld.4223422",
               "date": "2026-08-28",
               "sentiment": "unknown",
-              "reason": "Titulli nuk përmend Kosovën",
+              "reason": "No mention of Kosovo in the item",
               "isQuote": false,
               "evidence": "",
               "speaker": ""

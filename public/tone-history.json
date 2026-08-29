@@ -3733,7 +3733,7 @@
   {
     "date": "2026-08-29",
     "overallIndex": 51,
-    "totalArticles": 79,
+    "totalArticles": 80,
     "sourceCount": 56,
     "stanceVersion": 3,
     "countries": {
@@ -3772,7 +3772,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 2,
+        "n": 3,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -3914,6 +3914,14 @@
         "sentiment": "positive"
       },
       {
+        "title": "I dug criticism out of Brussels: Kosovo cannot sacrifice legal state for EU smoothing policies - Periskopi",
+        "source": "Periskopi",
+        "country": "Britani",
+        "flag": "🇬🇧",
+        "url": "https://periskopi.com/en/2026/8/dug-criticism-brussels-kosovo-sacrifice-legal-eu-smoothing-policies",
+        "sentiment": "negative"
+      },
+      {
         "title": "Kosovo alleato ma le armi della Serbia sono più utili - Remocontro",
         "source": "Remocontro",
         "country": "Itali",
@@ -3927,14 +3935,6 @@
         "country": "Spanjë",
         "flag": "🇪🇸",
         "url": "https://www.democrata.es/it/internazionale/l-ue-critica-che-il-kosovo-convalidi-le-dimissioni-dei-giudici-serbi-gia-ritirate/",
-        "sentiment": "negative"
-      },
-      {
-        "title": "La UE lamenta que Kosovo haya acabado aceptando dimisiones de jueces serbios que ya habían sido retiradas - Europa Press",
-        "source": "Europa Press",
-        "country": "Spanjë",
-        "flag": "🇪🇸",
-        "url": "https://www.europapress.es/internacional/noticia-ue-lamenta-kosovo-haya-acabado-aceptando-dimisiones-jueces-serbios-ya-sido-retiradas-20260828184957.html",
         "sentiment": "negative"
       }
     ]

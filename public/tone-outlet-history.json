@@ -1790,15 +1790,16 @@
     },
     "Orange Actualités": {
       "country": "Francë",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-26",
-      "lastSeen": "2026-08-26",
+      "lastSeen": "2026-08-28",
       "urls": [
-        "https://actu.orange.fr/videos/politique/destination-francophonie-destination-francophonie-au-kosovo-CNT000002rxEGJ.html"
+        "https://actu.orange.fr/videos/politique/destination-francophonie-destination-francophonie-au-kosovo-CNT000002rxEGJ.html",
+        "https://actu.orange.fr/societe/sante/au-kosovo-une-dependance-au-charbon-qui-tue-CNT000002rAr6y.html"
       ]
     },
     "Senza Colonne News": {
