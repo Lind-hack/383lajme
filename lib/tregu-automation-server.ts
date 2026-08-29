@@ -631,6 +631,11 @@ async function runNewsReprice(action: "reprice" | "tregu_live", runKey: string, 
           continue;
         }
         if (deadlineAction === "decay" && item.evidence.length === 0) {
+          if (deadlineBefore && deadlineBefore.probability <= 0.050000000001) {
+            const persisted = await recordMarketCheck(item.market.id, { status: "deadline_decay_no_change", checked_at: now.toISOString(), reference_probability: 0.05 });
+            results.push(persisted ? { slug: item.market.slug, status: "no_change", reason: "deadline_floor_reached", deadline_action: deadlineAction } : { slug: item.market.slug, status: "skipped_closed", reason: "deadline_floor_readback_failed", deadline_action: deadlineAction });
+            continue;
+          }
           const { error: deadlineDecayError } = await admin.rpc("apply_news_deadline_decay", {
             p_market_id: item.market.id,
             p_reference_probability: 0.05,

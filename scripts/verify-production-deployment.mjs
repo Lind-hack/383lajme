@@ -99,6 +99,8 @@ const REQUIRED_CHART_MARKERS = {
     "deadlineAction === \"decay\"",
     "deadline_action: deadlineAction",
     "reason: \"deadline_result_not_persisted\"",
+    "deadlineBefore.probability <= 0.050000000001",
+    "reason: \"deadline_floor_reached\"",
   ],
   "lib/tregu-daily-market-quality.mjs": [
     '"daily-market-v2"',
