@@ -68,7 +68,33 @@ export async function saveMilestoneAction(formData: FormData) {
   const title = String(formData.get("title") ?? "").trim();
   const summary = String(formData.get("summary") ?? "").trim();
   const why = String(formData.get("why") ?? "").trim();
-  const changed = String(formData.get("changed") ?? "") === "1";
+
+  // Whether the text actually moved, not whether the form was submitted. This
+  // was a hidden field pinned to "1", so saving a typo fix — or saving nothing
+  // at all — marked the moment as edited after verification, which the trigger
+  // then refuses to approve. With no reset path anywhere, the first click on
+  // "Ruaj ndryshimet" made a milestone permanently unapprovable and the queue
+  // filled with drafts that looked like reviewer backlog.
+  const { data: before, error: readError } = await supabase
+    .from("dosje_milestones")
+    .select("title, summary, why, claims")
+    .eq("id", id)
+    .single();
+
+  if (readError || !before) {
+    redirect(`/admin/dosje?err=${encodeURIComponent(readError?.message ?? "not found")}`);
+  }
+
+  const prev = before as {
+    title: string;
+    summary: string;
+    why: string | null;
+    claims: Record<string, unknown> | null;
+  };
+  const textChanged =
+    prev.title !== title ||
+    prev.summary !== summary ||
+    (prev.why ?? "") !== why;
 
   const { error } = await supabase
     .from("dosje_milestones")
@@ -77,7 +103,13 @@ export async function saveMilestoneAction(formData: FormData) {
       summary,
       why: why || null,
       updated_at: new Date().toISOString(),
-      ...(changed ? { claims: { edited_after_verification: true } } : {}),
+      // Merged, never replaced. claims carries the sentence-to-citation map
+      // written at drafting time — the record of which line rests on which
+      // source — and overwriting it with a single boolean destroyed it
+      // unrecoverably.
+      ...(textChanged
+        ? { claims: { ...(prev.claims ?? {}), edited_after_verification: true } }
+        : {}),
     })
     .eq("id", id)
     .in("status", ["draft", "needs_source"]);
@@ -215,6 +247,48 @@ export async function retireTopicAction(formData: FormData) {
   revalidatePath("/admin/dosje");
   revalidatePath("/dosje", "layout");
   redirect("/admin/dosje?retired=1");
+}
+
+/**
+ * Confirm that edited text still matches its sources.
+ *
+ * Editing after verification blocks approval, which is right — the sentence a
+ * citation supported is no longer the sentence on the page. But there was no
+ * way back: the flag was set and nothing anywhere cleared it, so a moment
+ * became permanently unapprovable and only a manual SQL update could rescue it.
+ *
+ * This is the reviewer saying they have re-read the sources against the new
+ * wording. It is deliberately a separate, explicit act rather than something
+ * the save quietly does, because that assertion is the whole point of the flag.
+ */
+export async function confirmSourcesAction(formData: FormData) {
+  await requireAuth();
+  const supabase = createAdminClient();
+  if (!supabase) redirect("/admin/dosje?err=db");
+
+  const id = String(formData.get("id") ?? "");
+  const { data: row, error: readError } = await supabase
+    .from("dosje_milestones")
+    .select("claims")
+    .eq("id", id)
+    .single();
+
+  if (readError || !row) {
+    redirect(`/admin/dosje?err=${encodeURIComponent(readError?.message ?? "not found")}`);
+  }
+
+  const claims = { ...((row as { claims: Record<string, unknown> | null }).claims ?? {}) };
+  delete claims.edited_after_verification;
+
+  const { error } = await supabase
+    .from("dosje_milestones")
+    .update({ claims, last_verified_at: new Date().toISOString() })
+    .eq("id", id)
+    .in("status", ["draft", "needs_source"]);
+
+  if (error) redirect(`/admin/dosje?err=${encodeURIComponent(error.message)}`);
+  revalidatePath("/admin/dosje");
+  redirect("/admin/dosje?saved=1");
 }
 
 /** Refuse a proposed photograph. Kept, so it is not proposed again. */

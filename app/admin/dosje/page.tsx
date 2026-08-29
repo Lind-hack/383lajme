@@ -11,6 +11,7 @@ import {
   retireTopicAction,
   approveMediaAction,
   rejectMediaAction,
+  confirmSourcesAction,
 } from "./actions";
 
 export const dynamic = "force-dynamic";
@@ -330,7 +331,6 @@ export default async function DosjeAdminPage({
 
             <form action={saveMilestoneAction}>
               <input type="hidden" name="id" value={m.id} />
-              <input type="hidden" name="changed" value="1" />
               <input
                 name="title"
                 defaultValue={m.title}
@@ -408,6 +408,19 @@ export default async function DosjeAdminPage({
                   Refuzo
                 </button>
               </form>
+              {/* The way back. Editing after verification blocks approval,
+                  correctly — but with no way to clear it a moment was stuck
+                  forever and only SQL could rescue it. This is the reviewer
+                  stating they have re-read the sources against the new
+                  wording, which is exactly the assertion the flag stands for. */}
+              {edited && (
+                <form action={confirmSourcesAction}>
+                  <input type="hidden" name="id" value={m.id} />
+                  <button type="submit" style={{ padding: "8px 15px", borderRadius: "7px", border: "1px solid #1e7a3c", background: "#fff", color: "#1a6b35", font: SANS, cursor: "pointer" }}>
+                    I rikontrollova burimet
+                  </button>
+                </form>
+              )}
               {blocked && <span style={{ color: "#a5281b" }}>{blocked}</span>}
             </div>
           </article>
