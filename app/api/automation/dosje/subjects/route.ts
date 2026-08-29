@@ -140,18 +140,35 @@ async function run(req: Request, dryRun: boolean) {
   // the decision is simply refreshed.
   let written = 0;
   if (matches.length) {
-    const { error } = await supabase.from("dosje_article_topics").upsert(
-      matches.map(({ publishedAt, ...row }) => ({
-        ...row,
-        // Keep the publication date. Whether a subject is standing is a fact
-        // about the news, not about when this job happened to run — and
-        // discarding it here is what made the selector count every mapping run
-        // as a single day and never return a candidate.
-        published_at: publishedAt ?? null,
-        decided_at: new Date().toISOString(),
-      })),
-      { onConflict: "article_slug,topic_slug" }
-    );
+    // Keep the publication date. Whether a subject is standing is a fact about
+    // the news, not about when this job happened to run — discarding it is what
+    // made the selector count every mapping run as a single day.
+    const rows = matches.map(({ publishedAt, ...row }) => ({
+      ...row,
+      // "" is what lib/db.ts yields for a missing date, and Postgres will not
+      // take it for a timestamptz.
+      published_at: publishedAt || null,
+      decided_at: new Date().toISOString(),
+    }));
+
+    let { error } = await supabase
+      .from("dosje_article_topics")
+      .upsert(rows, { onConflict: "article_slug,topic_slug" });
+
+    // A deploy can land before its migration is applied. When that happens the
+    // mapping is still worth writing without the new column — the selector
+    // falls back to decided_at — rather than failing the whole run and leaving
+    // the job erroring every two hours until someone notices.
+    if (error && /published_at/.test(error.message)) {
+      console.warn(
+        "[dosje] published_at missing; writing mappings without it. Apply migration 0056."
+      );
+      const legacy = rows.map(({ published_at: _drop, ...rest }) => rest);
+      ({ error } = await supabase
+        .from("dosje_article_topics")
+        .upsert(legacy, { onConflict: "article_slug,topic_slug" }));
+    }
+
     if (error) {
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
