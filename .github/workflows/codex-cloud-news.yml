@@ -292,7 +292,38 @@ jobs:
 
           Create the new JSON batch at TARGET_BATCH_FILE when that environment variable is present; otherwise create data/auto-articles/YYYY-MM-DDTHH.json using UTC HH 00-23. Preserve CRON_SLOT_LABEL so the email report shows which scheduled Kosovo-time slot produced the batch. Never write an empty JSON array: use the verified web/RSS leads and social discovery to make at least one real article, or leave no batch file and explain the blocking evidence. Your responsibility ends after writing the complete JSON batch. Do not run validate, build, publish, deploy, verify, send-report, or finalize yourself. The workflow runs those required post-generation steps and owns the one email report.
           PROMPT
-          codex exec --cd "$GITHUB_WORKSPACE" --sandbox danger-full-access - < /tmp/383-codex-news-prompt.md
+          run_codex_write() {
+            local prompt_file="$1"
+            set +e
+            codex exec --cd "$GITHUB_WORKSPACE" --sandbox danger-full-access - < "$prompt_file"
+            local codex_status=$?
+            set -e
+            if [ "$codex_status" -eq 0 ]; then
+              return 0
+            fi
+            # Codex can exhaust credits during post-write cleanup/compaction
+            # after the requested batch is already on disk. Let the real
+            # normalize/validate/publish stages judge that file instead of
+            # discarding a complete batch solely because the agent finished
+            # with a late nonzero status.
+            if [ -s "$TARGET_BATCH_FILE" ] && python3 - "$TARGET_BATCH_FILE" <<'PY'
+          import json
+          import sys
+          from pathlib import Path
+          try:
+              payload = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
+          except (FileNotFoundError, json.JSONDecodeError):
+              raise SystemExit(1)
+          raise SystemExit(0 if isinstance(payload, list) and payload else 1)
+          PY
+            then
+              echo "Codex exited $codex_status after writing a non-empty batch; continuing to authoritative validation."
+              return 0
+            fi
+            return "$codex_status"
+          }
+
+          run_codex_write /tmp/383-codex-news-prompt.md
 
           if python3 - "$TARGET_BATCH_FILE" <<'PY'
           import json
@@ -315,7 +346,7 @@ jobs:
 
             Write the batch only to $TARGET_BATCH_FILE. Never write an empty JSON array. Do not run validation, build, publish, deploy, verification, email, or finalize; this workflow owns those steps.
           PROMPT
-            codex exec --cd "$GITHUB_WORKSPACE" --sandbox danger-full-access - < /tmp/383-codex-empty-batch-retry.md
+            run_codex_write /tmp/383-codex-empty-batch-retry.md
           fi
 
           python scripts/codex_automation_support.py normalize --file "$TARGET_BATCH_FILE"
@@ -331,7 +362,7 @@ jobs:
             python scripts/validate_source_mix.py --file "$TARGET_BATCH_FILE"
             Do not stop until all three commands pass.
           PROMPT
-            codex exec --cd "$GITHUB_WORKSPACE" --sandbox danger-full-access - < /tmp/383-codex-batch-repair.md
+            run_codex_write /tmp/383-codex-batch-repair.md
           fi
 
       - name: Validate, publish, and email generated batch
