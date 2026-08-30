@@ -1,8 +1,7 @@
 import { getArticles, getLatestArticles } from "@/lib/db";
-import { liveHeadlinesFor } from "@/lib/live-news";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { scoreMarketWithAI, slugifyQuestion, type Market } from "@/lib/tregu";
-import { buildDailyDraftPlan, buildLiveEventDraftRunKey, buildRepricePlan, dailyDraftPublicationReason, isEligibleNewsDeadlineMarket, newsDeadlineAction, repriceMarketSkipReason, validateDailyDraftSubmission } from "@/lib/tregu-automation.mjs";
+import { buildDailyDraftPlan, buildLiveEventDraftRunKey, buildRepricePlan, dailyDraftPublicationReason, evidenceIdentity, isEligibleNewsDeadlineMarket, newsDeadlineAction, repriceMarketSkipReason, validateDailyDraftSubmission } from "@/lib/tregu-automation.mjs";
 import { kosovoLocalDate } from "@/lib/tregu-date-key.mjs";
 import { fetchEspnLiveEvents } from "@/lib/espn-live-score.mjs";
 import { ARGENTINA_SPAIN_PAIR, buildArgentinaSpainPairedBinaryPlan, buildSportMarketPlan } from "@/lib/tregu-sport-market.mjs";
@@ -39,11 +38,44 @@ function officialMarketNotificationState(market: any) {
     price_yes: binaryPrice,
     reference_probabilities: market?.reference_probabilities ?? null,
     outcome_quantities: market?.outcome_quantities ?? null,
+    competitors: Array.isArray(market?.live_score_state?.competitors) ? market.live_score_state.competitors : [],
+    sport_outcomes: Array.isArray(market?.sport_outcomes) ? market.sport_outcomes : [],
   };
 }
 
 function didOfficialMarketStateChange(before: Record<string, unknown>, after: Record<string, unknown>) {
   return JSON.stringify(before) !== JSON.stringify(after);
+}
+
+async function readPersistedMarketGraph(admin: AdminClient, marketId: string) {
+  const { data, error } = await admin.from("market_snapshots")
+    .select("created_at,market_prob,reference_probability,evidence,oracle_kind")
+    .eq("market_id", marketId)
+    .order("created_at", { ascending: true })
+    .limit(180);
+  if (error) {
+    console.error(`Could not read persisted graph for ${marketId}:`, error.message);
+    return { points: [], series: {}, error: error.message };
+  }
+  const points: Array<{ timestamp: string; probability: number; kind?: string }> = [];
+  const series = new Map<string, Array<{ timestamp: string; probability: number; kind?: string }>>();
+  for (const row of data ?? []) {
+    const timestamp = String(row.created_at ?? "");
+    const probability = Number(row.market_prob);
+    if (timestamp && Number.isFinite(probability)) points.push({ timestamp, probability, kind: row.oracle_kind ?? undefined });
+    const evidence = Array.isArray(row.evidence) ? row.evidence : [];
+    const refs = evidence[0]?.probabilities && typeof evidence[0].probabilities === "object" ? evidence[0].probabilities : null;
+    if (refs) for (const [key, value] of Object.entries(refs)) {
+      const point = { timestamp, probability: Number(value), kind: row.oracle_kind ?? undefined };
+      if (timestamp && Number.isFinite(point.probability)) {
+        const rows = series.get(key) ?? [];
+        rows.push(point);
+        series.set(key, rows);
+      }
+    }
+  }
+  const dedupe = (rows: Array<{ timestamp: string; probability: number; kind?: string }>) => [...new Map(rows.map((row) => [`${row.timestamp}:${row.probability}`, row])).values()];
+  return { points: dedupe(points), series: Object.fromEntries([...series.entries()].map(([key, rows]) => [key, dedupe(rows)])) };
 }
 
 function fiveMinuteRunKey(now: Date): string {
@@ -270,7 +302,16 @@ async function runOfficialSportsRefresh(action: "live_sports", runKey: string, n
     if (f1MarketsError) throw new Error(`Could not load open F1 markets: ${f1MarketsError.message}`);
     const pairMarkets = (markets ?? []).filter((market) => [ARGENTINA_SPAIN_PAIR.spainSlug, ARGENTINA_SPAIN_PAIR.argentinaSlug].includes(market.slug));
     const standardMarkets = (markets ?? []).filter((market) => Array.isArray(market.sport_outcomes) && market.sport_outcomes.length);
-    const events = await fetchEspnLiveEvents([...standardMarkets.map((market) => market.live_event), ...(pairMarkets.length === 2 ? [ARGENTINA_SPAIN_PAIR.event] : [])]);
+    let events: any[] = [];
+    let officialSourceError: string | null = null;
+    try {
+      events = await fetchEspnLiveEvents([...standardMarkets.map((market) => market.live_event), ...(pairMarkets.length === 2 ? [ARGENTINA_SPAIN_PAIR.event] : [])]);
+    } catch (error) {
+      // Keep the two-minute worker alive for settlement and the next poll. A
+      // source outage is recorded as unavailable, never converted into odds.
+      officialSourceError = String(error instanceof Error ? error.message : error);
+      console.error("Official sports source unavailable; continuing to settlement pass:", officialSourceError);
+    }
     const signals = buildSportMarketPlan({ markets: standardMarkets, events, now });
     const pairedSignals = buildArgentinaSpainPairedBinaryPlan({ markets: pairMarkets, events, now });
     const results: Array<{ slug: string; status: "applied" | "no_change" | "no_score" | "awaiting_official_winner" | "failed"; error?: string }> = [];
@@ -280,12 +321,15 @@ async function runOfficialSportsRefresh(action: "live_sports", runKey: string, n
     const captureOfficialMarketChange = async (market: any, kind: string, source_url?: string) => {
       const before = officialMarketNotificationState(market);
       const { data: afterMarket, error: readbackError } = await admin.from("markets")
-        .select("status,outcome,live_score_state,q_yes,q_no,b,reference_probabilities,outcome_quantities")
+        .select("status,outcome,live_score_state,q_yes,q_no,b,reference_probabilities,outcome_quantities,live_event,sport_outcomes")
         .eq("id", market.id).maybeSingle();
       if (readbackError) throw new Error(`Could not read persisted official market ${market.slug}: ${readbackError.message}`);
       if (!afterMarket) throw new Error(`Persisted official market ${market.slug} disappeared before notification readback.`);
       const after = officialMarketNotificationState(afterMarket);
-      if (didOfficialMarketStateChange(before, after)) officialMarketEmailUpdates.push({ question: String(market.question), slug: String(market.slug), kind, before, after, timestamp: now.toISOString(), ...(source_url ? { source_url } : {}) });
+      if (didOfficialMarketStateChange(before, after)) {
+        const graph = await readPersistedMarketGraph(admin, String(market.id));
+        officialMarketEmailUpdates.push({ question: String(market.question), slug: String(market.slug), kind, before: { ...before, graph }, after: { ...after, graph }, timestamp: now.toISOString(), ...(source_url ? { source_url } : {}) });
+      }
     };
     for (const signal of signals) {
       try {
@@ -359,13 +403,16 @@ async function runOfficialSportsRefresh(action: "live_sports", runKey: string, n
           continue;
         }
         results.push({ slug: signal.spainMarket.slug, status: "applied" }, { slug: signal.argentinaMarket.slug, status: "applied" });
-        if (signal.material_change === true) pairedBinaryEmailUpdates.push({ persisted: true, material_change: true, timestamp: now.toISOString(), state: signal.state });
+        if (signal.material_change === true) {
+          const graph = await readPersistedMarketGraph(admin, String(signal.spainMarket.id));
+          pairedBinaryEmailUpdates.push({ persisted: true, material_change: true, timestamp: now.toISOString(), state: { ...signal.state, graph } });
+        }
       } catch (pairOracleError) {
         const error = String(pairOracleError instanceof Error ? pairOracleError.message : pairOracleError);
         results.push({ slug: signal.spainMarket.slug, status: "failed", error }, { slug: signal.argentinaMarket.slug, status: "failed", error });
       }
     }
-    const f1EmailUpdates: Array<{ question: string; driver_code: string; position: number; gap: string; pits: number; before_probability: number; after_probability: number; source_url: string }> = [];
+    const f1EmailUpdates: Array<{ question: string; slug: string; driver_code: string; driver_name: string; team_name: string; team_logo_url?: string | null; position: number; gap: string; pits: number; before_probability: number; after_probability: number; source_url: string; graph: Record<string, unknown> }> = [];
     if ((f1Markets ?? []).length) {
       try {
         const futureF1Groups = new Map<string, any[]>();
@@ -464,7 +511,9 @@ async function runOfficialSportsRefresh(action: "live_sports", runKey: string, n
             const oracle = Array.isArray(f1OracleRows) ? f1OracleRows[0] : null;
             if (!oracle) { f1Results.push({ slug: signal.market.slug, status: "unchanged" }); continue; }
             f1Results.push({ slug: signal.market.slug, status: "applied" });
-            f1EmailUpdates.push({ question: signal.market.question, driver_code: signal.config.driver_code, position: signal.row.position, gap: signal.row.gap, pits: signal.row.pits, before_probability: Number(oracle.previous_price_yes), after_probability: Number(oracle.new_price_yes), source_url: leaderboard.source_url });
+            const mappedOutcome = (signal.market.sport_outcomes ?? []).find((outcome: any) => String(outcome.key ?? "").toUpperCase() === String(signal.config.driver_code).toUpperCase() || String(outcome.driver_code ?? "").toUpperCase() === String(signal.config.driver_code).toUpperCase());
+            const graph = await readPersistedMarketGraph(admin, String(signal.market.id));
+            f1EmailUpdates.push({ question: signal.market.question, slug: signal.market.slug, driver_code: signal.config.driver_code, driver_name: String(mappedOutcome?.label ?? signal.row.driver ?? signal.config.driver_code), team_name: String(mappedOutcome?.team ?? signal.row.team ?? "Team not supplied"), team_logo_url: mappedOutcome?.team_logo_url ?? mappedOutcome?.logo ?? null, position: signal.row.position, gap: signal.row.gap, pits: signal.row.pits, before_probability: Number(oracle.previous_price_yes), after_probability: Number(oracle.new_price_yes), source_url: leaderboard.source_url, graph });
           } catch (f1OracleError) { f1Results.push({ slug: signal.market.slug, status: "failed", error: String(f1OracleError instanceof Error ? f1OracleError.message : f1OracleError) }); }
         }
         // A FINISHED classification settles explicitly mapped markets only via
@@ -485,7 +534,7 @@ async function runOfficialSportsRefresh(action: "live_sports", runKey: string, n
     if (settlementError) throw new Error(`Could not settle verified sport markets: ${settlementError.message}`);
     if (Number(settled ?? 0) > 0) for (const market of dueSportMarkets ?? []) await captureOfficialMarketChange(market, "football_settlement", String(market.live_score_state?.source_url ?? ""));
     const officialUpdates = results.filter((result) => result.status === "applied").length + f1Results.filter((result) => result.status === "applied").length + Number(settled ?? 0);
-    const details = { official_espn_events: signals.length, results, official_f1_markets: (f1Markets ?? []).length, f1_results: f1Results, f1_email_updates: f1EmailUpdates, official_market_email_updates: officialMarketEmailUpdates, settled_market_count: settled ?? 0, official_updates: officialUpdates, paired_binary_email_updates: pairedBinaryEmailUpdates, user_trade_ledger_changed_only_by_due_settlement: true };
+    const details = { official_espn_events: signals.length, official_source_error: officialSourceError, results, official_f1_markets: (f1Markets ?? []).length, f1_results: f1Results, f1_email_updates: f1EmailUpdates, official_market_email_updates: officialMarketEmailUpdates, settled_market_count: settled ?? 0, official_updates: officialUpdates, paired_binary_email_updates: pairedBinaryEmailUpdates, user_trade_ledger_changed_only_by_due_settlement: true };
     await finishRun(admin, started.run.id, "succeeded", details);
     if (hasPersistedMaterialPairedBinaryChange({ skipped: false, paired_binary_email_updates: pairedBinaryEmailUpdates })) {
       try {
@@ -557,21 +606,40 @@ async function runNewsReprice(action: "reprice" | "tregu_live", runKey: string, 
         && !Array.isArray(market?.sport_outcomes);
     });
 
-    // Per-market external discovery plus the market's explicitly pinned, already
-    // verified direct-source article. A newly approved market may use its own
-    // named source once; last_news_at prevents repeat scoring on later scans.
-    const verifiedPool = await getArticles(100);
-    const researchedMarkets = await Promise.all((markets ?? []).map(async (market) => {
-      const headlines = await liveHeadlinesFor(String(market.question ?? ""), market.category as Parameters<typeof liveHeadlinesFor>[1]);
-      const pinned = verifiedPool.filter((article) => Array.isArray(market.source_article_slugs) && market.source_article_slugs.includes(article.slug));
-      return { market, articles: [...pinned, ...headlines.filter((headline) => headline.url).map((headline, index) => ({
-        slug: `google-news:${encodeURIComponent(`${headline.source}:${headline.title}`).slice(0, 180)}:${index}`,
-        url: headline.url,
-        category: "external-google-news", publishedAt: new Date(now.getTime() - headline.ageMin * 60_000).toISOString(),
-        source: headline.source, title: headline.title, excerpt: headline.title, body: headline.title, verification: "external_google_news",
-      }))] };
+    // Only full-body articles already stored in the newsroom can move odds.
+    // RSS/Google headlines remain discovery signals and are never promoted into
+    // fake verified evidence with body=title.
+    const verifiedPool = await getLatestArticles(200);
+    const marketIds = (markets ?? []).map((market) => String(market.id)).filter(Boolean);
+    const { data: priorNewsSnapshots, error: priorNewsSnapshotsError } = marketIds.length
+      ? await admin.from("market_snapshots")
+        .select("market_id,evidence_slugs,evidence,created_at,oracle_kind,oracle_reasoning")
+        .eq("oracle_kind", "news_oracle")
+        .in("market_id", marketIds)
+        .order("created_at", { ascending: false })
+        .limit(1000)
+      : { data: [], error: null };
+    if (priorNewsSnapshotsError) throw new Error(`Could not load news evidence ledger: ${priorNewsSnapshotsError.message}`);
+    const usedEvidenceByMarket = new Map<string, Set<string>>();
+    const lastDeadlineDecayAtByMarket = new Map<string, number>();
+    for (const snapshot of priorNewsSnapshots ?? []) {
+      const marketId = String(snapshot.market_id ?? "");
+      if (!marketId) continue;
+      const used = usedEvidenceByMarket.get(marketId) ?? new Set<string>();
+      for (const slug of Array.isArray(snapshot.evidence_slugs) ? snapshot.evidence_slugs : []) used.add(String(slug).toLocaleLowerCase());
+      for (const article of Array.isArray(snapshot.evidence) ? snapshot.evidence : []) used.add(evidenceIdentity(article));
+      usedEvidenceByMarket.set(marketId, used);
+      const isDeadlineDecay = String(snapshot.oracle_reasoning ?? "").toLocaleLowerCase().includes("deadline decay")
+        && (Array.isArray(snapshot.evidence_slugs) ? snapshot.evidence_slugs.length : 0) === 0;
+      const createdAt = Date.parse(String(snapshot.created_at ?? ""));
+      if (isDeadlineDecay && Number.isFinite(createdAt)) {
+        lastDeadlineDecayAtByMarket.set(marketId, Math.max(lastDeadlineDecayAtByMarket.get(marketId) ?? 0, createdAt));
+      }
+    }
+    const researchedMarkets = (markets ?? []).map((market) => ({ market, articles: verifiedPool }));
+    const plan = researchedMarkets.flatMap(({ market, articles }) => buildRepricePlan({
+      markets: [market], verifiedArticles: articles, now, usedEvidenceByMarket,
     }));
-    const plan = researchedMarkets.flatMap(({ market, articles }) => buildRepricePlan({ markets: [market], verifiedArticles: articles }));
     const results: Array<{
       slug: string;
       status: "oracle_applied" | "settled" | "deadline_settled" | "deadline_decay" | "oracle_failed" | "no_change" | "no_fresh_evidence" | "skipped_closed" | "skipped_ineligible";
@@ -593,7 +661,9 @@ async function runNewsReprice(action: "reprice" | "tregu_live", runKey: string, 
         before_state?: { status: string; outcome: string | null };
         after_state?: { status: string; outcome: string | null };
         timestamp: string;
-        verified_sources: Array<{ label: string; title: string; slug: string; url?: string }>;
+        remaining_hours?: number | null;
+        evidence_fingerprint?: string;
+        verified_sources: Array<{ label: string; title: string; slug: string; url?: string; published_at?: string }>;
       };
     }> = [];
     const recordMarketCheck = async (marketId: string, scan: Record<string, unknown>) => {
@@ -626,6 +696,9 @@ async function runNewsReprice(action: "reprice" | "tregu_live", runKey: string, 
           status: currentMarket.status,
           outcome: currentMarket.outcome ?? null,
         } : null;
+        const deadlineRemainingHours = Number.isFinite(Date.parse(String(currentMarket?.closes_at ?? "")))
+          ? Math.max(0, (Date.parse(String(currentMarket?.closes_at ?? "")) - now.getTime()) / 3_600_000)
+          : null;
         const deadlineChange = async (reason: "deadline_decay" | "deadline_settlement") => {
           const { data: after, error: afterError } = await admin.from("markets").select("status, outcome, q_yes, q_no, b").eq("id", item.market.id).maybeSingle();
           if (afterError) throw new Error(`Could not read deadline result for ${item.market.slug}: ${afterError.message}`);
@@ -639,7 +712,7 @@ async function runNewsReprice(action: "reprice" | "tregu_live", runKey: string, 
             absolute_percentage_point_change: Math.abs(afterProbability - deadlineBefore.probability),
             before_state: { status: deadlineBefore.status, outcome: deadlineBefore.outcome },
             after_state: { status: after.status, outcome: after.outcome ?? null },
-            timestamp: now.toISOString(), verified_sources: [],
+            timestamp: now.toISOString(), remaining_hours: deadlineRemainingHours, verified_sources: [],
           };
         };
         if (deadlineAction === "settle") {
@@ -656,17 +729,38 @@ async function runNewsReprice(action: "reprice" | "tregu_live", runKey: string, 
           continue;
         }
         if (deadlineAction === "decay" && item.evidence.length === 0) {
+          const lastDecayAt = lastDeadlineDecayAtByMarket.get(String(item.market.id)) ?? 0;
+          if (lastDecayAt && now.getTime() - lastDecayAt < 60 * 60 * 1000) {
+            const persisted = await recordMarketCheck(item.market.id, { status: "deadline_decay_rate_limited", checked_at: now.toISOString(), reference_probability: deadlineBefore?.probability ?? null, deadline_remaining_hours: deadlineRemainingHours });
+            results.push(persisted ? { slug: item.market.slug, status: "no_change", reason: "deadline_decay_rate_limited", deadline_action: deadlineAction } : { slug: item.market.slug, status: "skipped_closed", reason: "deadline_decay_readback_failed", deadline_action: deadlineAction });
+            continue;
+          }
           if (deadlineBefore && deadlineBefore.probability <= 0.050000000001) {
-            const persisted = await recordMarketCheck(item.market.id, { status: "deadline_decay_no_change", checked_at: now.toISOString(), reference_probability: 0.05 });
+            const persisted = await recordMarketCheck(item.market.id, { status: "deadline_decay_no_change", checked_at: now.toISOString(), reference_probability: 0.05, deadline_remaining_hours: deadlineRemainingHours });
             results.push(persisted ? { slug: item.market.slug, status: "no_change", reason: "deadline_floor_reached", deadline_action: deadlineAction } : { slug: item.market.slug, status: "skipped_closed", reason: "deadline_floor_readback_failed", deadline_action: deadlineAction });
             continue;
           }
-          const { error: deadlineDecayError } = await admin.rpc("apply_news_deadline_decay", {
+          const decayCap = deadlineRemainingHours !== null && deadlineRemainingHours <= 24 ? 0.03 : 0.005;
+          let { error: deadlineDecayError } = await admin.rpc("apply_news_deadline_decay_window", {
             p_market_id: item.market.id,
             p_reference_probability: 0.05,
+            p_max_move: decayCap,
           });
+          if (deadlineDecayError && /function .*apply_news_deadline_decay_window.*does not exist|could not find the function/i.test(deadlineDecayError.message)) {
+            if (deadlineRemainingHours !== null && deadlineRemainingHours <= 24) {
+              ({ error: deadlineDecayError } = await admin.rpc("apply_news_deadline_decay", {
+                p_market_id: item.market.id,
+                p_reference_probability: 0.05,
+              }));
+            } else {
+              const persisted = await recordMarketCheck(item.market.id, { status: "deadline_decay_migration_pending", checked_at: now.toISOString(), deadline_remaining_hours: deadlineRemainingHours });
+              results.push(persisted ? { slug: item.market.slug, status: "no_change", reason: "deadline_decay_migration_pending", deadline_action: deadlineAction } : { slug: item.market.slug, status: "skipped_closed", reason: "deadline_decay_readback_failed", deadline_action: deadlineAction });
+              continue;
+            }
+          }
           if (deadlineDecayError) throw new Error(`Could not apply deadline decay for ${item.market.slug}: ${deadlineDecayError.message}`);
-          const persisted = await recordMarketCheck(item.market.id, { status: "deadline_decay", checked_at: now.toISOString(), reference_probability: 0.05 });
+          const persisted = await recordMarketCheck(item.market.id, { status: "deadline_decay", checked_at: now.toISOString(), reference_probability: 0.05, deadline_remaining_hours: deadlineRemainingHours });
+          lastDeadlineDecayAtByMarket.set(String(item.market.id), now.getTime());
           const emailUpdate = persisted ? await deadlineChange("deadline_decay") : null;
           results.push(persisted ? { slug: item.market.slug, status: "deadline_decay", deadline_action: deadlineAction, ...(emailUpdate ? { email_update: emailUpdate } : {}) } : { slug: item.market.slug, status: "skipped_closed", reason: "deadline_decay_not_persisted", deadline_action: deadlineAction });
           continue;
@@ -681,6 +775,10 @@ async function runNewsReprice(action: "reprice" | "tregu_live", runKey: string, 
         // Score only the already-filtered fresh evidence; social-only articles can
         // neither influence Groq nor reach the database adjustment boundary.
         const score = await scoreMarketWithAI(item.market as Market, item.evidence);
+        const citedSlugs = Array.isArray(score.cited_slugs) ? score.cited_slugs.map(String) : [];
+        if (!citedSlugs.length || !citedSlugs.some((slug) => item.evidence.some((article: { slug: string }) => article.slug === slug))) {
+          throw new Error(`AI returned no valid citation for ${item.market.slug}.`);
+        }
         const outcome = item.scoreSuccess(score);
         const evidence = item.evidence
           .filter((article: { slug: string }) => outcome.snapshot!.evidence_slugs.includes(article.slug))
@@ -721,8 +819,8 @@ async function runNewsReprice(action: "reprice" | "tregu_live", runKey: string, 
           continue;
         }
         if (!outcome.snapshot) throw new Error(outcome.audit.error ?? "Could not build news reference signal.");
-        const latestNewsAt = item.evidence.map((article: { publishedAt: string }) => article.publishedAt).sort().at(-1) ?? now.toISOString();
-        const { data: oracleRows, error: oracleError } = await admin.rpc("apply_news_oracle", {
+        const latestNewsAt = evidence.map((article: { publishedAt: string }) => article.publishedAt).sort().at(-1) ?? now.toISOString();
+        const oraclePayload = {
           p_market_id: item.market.id,
           p_reference_probability: outcome.snapshot.reference_probability,
           p_oracle_reasoning: outcome.snapshot.oracle_reasoning,
@@ -731,10 +829,16 @@ async function runNewsReprice(action: "reprice" | "tregu_live", runKey: string, 
           p_evidence_sources: outcome.snapshot.evidence_sources,
           p_last_news_at: latestNewsAt,
           p_requested_cap: outcome.snapshot.oracle_cap,
-          // Supabase has legacy and current overloaded RPCs; always supply the
-          // discriminator so PostgREST selects the current 9-argument function.
+          p_evidence_fingerprint: outcome.snapshot.evidence_fingerprint,
           p_evidence_kind: outcome.snapshot.evidence_kind ?? "ordinary",
-        });
+        };
+        let { data: oracleRows, error: oracleError } = await admin.rpc("apply_news_oracle", oraclePayload);
+        if (oracleError && /function .*apply_news_oracle.*does not exist|could not find the function/i.test(oracleError.message)) {
+          // Rolling compatibility for a database before migration 0059. The
+          // persisted snapshot ledger still prevents repeats in this state.
+          const { p_evidence_fingerprint: _ignoredFingerprint, ...legacyPayload } = oraclePayload;
+          ({ data: oracleRows, error: oracleError } = await admin.rpc("apply_news_oracle", legacyPayload));
+        }
         if (oracleError) throw new Error(`Could not apply hybrid oracle for ${item.market.slug}: ${oracleError.message}`);
         const oracle = Array.isArray(oracleRows) ? oracleRows[0] : null;
         if (!oracle) throw new Error(`News oracle did not return an audit result for ${item.market.slug}.`);
@@ -746,6 +850,10 @@ async function runNewsReprice(action: "reprice" | "tregu_live", runKey: string, 
           evidence_count: evidence.length,
           provider: score.provider,
           fallback_index: score.fallback_index,
+          evidence_slugs: outcome.snapshot.evidence_slugs,
+          evidence_sources: outcome.snapshot.evidence_sources,
+          evidence_fingerprint: outcome.snapshot.evidence_fingerprint,
+          deadline_remaining_hours: outcome.snapshot.deadline_remaining_hours,
         });
         if (!persisted) {
           results.push({ slug: item.market.slug, status: "skipped_closed" });
@@ -766,11 +874,14 @@ async function runNewsReprice(action: "reprice" | "tregu_live", runKey: string, 
               after_probability: Number(oracle.new_price_yes),
               absolute_percentage_point_change: Math.abs(Number(oracle.new_price_yes) - Number(oracle.previous_price_yes)),
               timestamp: now.toISOString(),
-              verified_sources: evidence.map((article: { source?: string; title: string; slug: string; url?: string }) => ({
+              remaining_hours: outcome.snapshot.deadline_remaining_hours,
+              evidence_fingerprint: outcome.snapshot.evidence_fingerprint,
+              verified_sources: evidence.map((article: { source?: string; title: string; slug: string; url?: string; publishedAt?: string }) => ({
                 label: String(article.source ?? "Verified source"),
                 title: article.title,
                 slug: article.slug,
                 url: article.url,
+                published_at: article.publishedAt,
               })),
             },
           } : {}),

@@ -6,7 +6,7 @@ import {
   buildArgentinaEnglandDraftFromRuntimeSources,
   extractVerifiedFullTimeThreeWayOdds,
   fetchArgentinaEnglandRuntimeSources,
-} from "./tregu-argentina-england-cli.mjs";
+} from "./lib/tregu-argentina-england-cli.mjs";
 
 const event = {
   provider: "espn",

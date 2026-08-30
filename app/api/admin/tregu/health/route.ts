@@ -83,16 +83,21 @@ function activityFromRuns(runs: Run[] | null, automation: MarketActivity["automa
 
 function summarize(runs: Run[] | null, cadenceSeconds: number, automation: MarketActivity["automation"]) {
   const latest = runs?.[0] ?? null;
-  const lastSuccessful = (runs ?? []).find((run) => run.status === "succeeded" && run.finished_at) ?? null;
+  const latestDetails = (latest?.details ?? {}) as Record<string, unknown>;
+  const hasMarketErrors = latestDetails.outcome === "completed_with_market_errors"
+    || (Array.isArray(latestDetails.results) && latestDetails.results.some((item) => item && typeof item === "object" && String((item as Record<string, unknown>).status ?? "").includes("failed")));
+  const sourceError = typeof latestDetails.official_source_error === "string" ? latestDetails.official_source_error : null;
+  const lastSuccessful = (runs ?? []).find((run) => run.status === "succeeded" && run.finished_at && !((run.details ?? {}) as Record<string, unknown>).outcome?.toString().includes("error")) ?? null;
   const lastAt = lastSuccessful?.finished_at ? new Date(lastSuccessful.finished_at).getTime() : 0;
   const ageMs = lastAt ? Date.now() - lastAt : null;
-  const status = latest?.status === "failed" ? "failed" : ageMs === null || ageMs > cadenceSeconds * 2_500 ? "stale" : ageMs <= cadenceSeconds * 1_250 ? "active" : "healthy";
+  const status = latest?.status === "failed" || hasMarketErrors ? "failed" : sourceError ? "stale" : ageMs === null || ageMs > cadenceSeconds * 2_500 ? "stale" : ageMs <= cadenceSeconds * 1_250 ? "active" : "healthy";
   const recent_market_activity = activityFromRuns(runs, automation);
   return {
     cadence_seconds: cadenceSeconds,
     status,
     last_successful_refresh: lastSuccessful?.finished_at ?? null,
     latest_run: latest,
+    source_error: sourceError,
     activity_window_minutes: ACTIVITY_WINDOW_MS / 60_000,
     recent_market_activity,
   };
@@ -106,15 +111,19 @@ export async function GET(request: NextRequest) {
   if (!admin) return NextResponse.json({ error: "Supabase not configured" }, { status: 500 });
 
   const select = "run_key,status,details,error,started_at,finished_at";
-  const [sportsResult, liveResult] = await Promise.all([
+  const [sportsResult, newsRepriceResult, legacyLiveResult] = await Promise.all([
     admin.from("market_automation_runs").select(select).eq("action", "live_sports").order("started_at", { ascending: false }).limit(20),
+    admin.from("market_automation_runs").select(select).eq("action", "reprice").order("started_at", { ascending: false }).limit(20),
     admin.from("market_automation_runs").select(select).eq("action", "tregu_live").order("started_at", { ascending: false }).limit(20),
   ]);
-  const error = sportsResult.error ?? liveResult.error;
+  const error = sportsResult.error ?? newsRepriceResult.error ?? legacyLiveResult.error;
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
 
   return NextResponse.json({
-    sports_refresh: summarize(sportsResult.data as Run[] | null, 120, "sports"),
-    tregu_live: summarize(liveResult.data as Run[] | null, 300, "news"),
+    sports_refresh: { ...summarize(sportsResult.data as Run[] | null, 120, "sports"), runner_identity: "383-tregu-sports.timer" },
+    news_reprice: { ...summarize(newsRepriceResult.data as Run[] | null, 120, "news"), runner_identity: "383-tregu-reprice.timer" },
+    // Kept separate so an old remote stream cannot masquerade as the active
+    // two-minute news worker in the admin panel.
+    tregu_live: { ...summarize(legacyLiveResult.data as Run[] | null, 300, "news"), runner_identity: "tregu-live.timer (legacy)" },
   }, { headers: { "Cache-Control": "no-store" } });
 }

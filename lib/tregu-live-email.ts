@@ -15,7 +15,9 @@ type NewsUpdate = {
     before_state?: { status: string; outcome: string | null };
     after_state?: { status: string; outcome: string | null };
     timestamp: string;
-    verified_sources: Array<{ label: string; title: string; slug: string; url?: string }>;
+    verified_sources: Array<{ label: string; title: string; slug: string; url?: string; published_at?: string }>;
+    evidence_fingerprint?: string;
+    remaining_hours?: number | null;
   }>;
 };
 
@@ -33,7 +35,7 @@ type PairedBinaryLiveUpdate = {
 type F1LiveUpdate = {
   kind: "f1_live_update";
   runKey: string;
-  changes: Array<{ question: string; driver_code: string; position: number; gap: string; pits: number; before_probability: number; after_probability: number; source_url: string }>;
+  changes: Array<{ question: string; slug: string; driver_code: string; driver_name: string; team_name: string; team_logo_url?: string | null; position: number; gap: string; pits: number; before_probability: number; after_probability: number; source_url: string; graph: Record<string, unknown> }>;
 };
 
 type OfficialMarketUpdate = {

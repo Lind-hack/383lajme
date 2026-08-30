@@ -55,11 +55,13 @@ interface RefreshSourceHealth {
   latest_run: { status?: string; details?: Record<string, unknown>; error?: string | null } | null;
   activity_window_minutes: number;
   recent_market_activity: MarketActivity[];
+  runner_identity?: string;
 }
 
 interface RefreshHealth {
   sports_refresh: RefreshSourceHealth;
-  tregu_live: RefreshSourceHealth;
+  news_reprice: RefreshSourceHealth;
+  tregu_live?: RefreshSourceHealth;
 }
 
 const statusLabels: Record<MarketStatus, string> = {
@@ -129,7 +131,7 @@ export default function TreguAdminClient() {
     try {
       const response = await fetch("/api/admin/tregu/health", { cache: "no-store" });
       const data = await response.json().catch(() => ({}));
-      if (!response.ok || !data.sports_refresh || !data.tregu_live) throw new Error(data.error ?? `HTTP ${response.status}`);
+      if (!response.ok || !data.sports_refresh || !data.news_reprice) throw new Error(data.error ?? `HTTP ${response.status}`);
       setRefreshHealth(data);
       setHealthError(null);
     } catch (error) {
@@ -231,7 +233,7 @@ export default function TreguAdminClient() {
 
   const recentChangesBySlug = useMemo(() => {
     const changes = [
-      ...(refreshHealth?.tregu_live.recent_market_activity ?? []),
+      ...(refreshHealth?.news_reprice.recent_market_activity ?? []),
       ...(refreshHealth?.sports_refresh.recent_market_activity ?? []),
     ].sort((a, b) => new Date(b.applied_at).getTime() - new Date(a.applied_at).getTime());
     const latestBySlug = new Map<string, MarketActivity>();
@@ -301,7 +303,7 @@ export default function TreguAdminClient() {
 
 function RefreshHealthPanel({ health, error, recentChangesBySlug }: { health: RefreshHealth | null; error: string | null; recentChangesBySlug: Map<string, MarketActivity> }) {
   const [filter, setFilter] = useState<ActivityFilter>("changed");
-  const live = health?.tregu_live;
+  const live = health?.news_reprice ?? health?.tregu_live;
   const sports = health?.sports_refresh;
   const details = live?.latest_run?.details ?? {};
   const activity = [
@@ -334,7 +336,7 @@ function RefreshHealthPanel({ health, error, recentChangesBySlug }: { health: Re
       </div>
 
       <div className={styles.sourceGrid}>
-        <HealthSource title="Lajme të verifikuara" source={live} detail={`Ndryshimet e aplikuara: ${String(details.updates_applied ?? "0")}`} />
+        <HealthSource title="Lajme të verifikuara (2 min)" source={live} detail={`${live?.runner_identity ?? "383-tregu-reprice.timer"} · Ndryshimet e aplikuara: ${String(details.updates_applied ?? "0")}`} />
         <HealthSource title="Procesori zyrtar sportiv (2 min)" source={sports} detail={`Përditësime zyrtare: ${String(sports?.latest_run?.details?.official_updates ?? "0")}`} />
       </div>
 

@@ -65,6 +65,7 @@ export interface MarketSnapshot {
   oracle_cap?: number | null;
   evidence_sources?: string[];
   evidence_slugs?: string[];
+  evidence_fingerprint?: string | null;
   market_prob: number;
   volume: number;
   evidence: { title: string; slug: string; url?: string }[] | null;
