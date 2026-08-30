@@ -1,6 +1,7 @@
 import { cookies } from "next/headers";
 
 import { createAdminClient } from "@/lib/supabase/admin";
+import { buildDosjeCoverage } from "@/lib/dosje-coverage.mjs";
 import {
   loginAction,
   logoutAction,
@@ -48,16 +49,83 @@ type Topic = {
   status: string;
 };
 
+type ArticleTopicRow = {
+  article_slug: string;
+  topic_slug: string;
+  score: number | null;
+  method: string | null;
+  published_at: string | null;
+  decided_at: string | null;
+};
+
+type ArticleRow = {
+  slug: string;
+  title: string;
+  source: string | null;
+  published_at: string | null;
+  category: string | null;
+};
+
+type MilestoneRef = {
+  id: string;
+  topic_slug: string;
+  status: string;
+};
+
 type MediaRow = {
   id: string;
   milestone_id: string | null;
+  topic_slug: string | null;
   kind: string;
   url: string;
   credit: string | null;
   source_url: string | null;
+  license: string | null;
+  relation: string | null;
+  checked_at: string | null;
+  check_status: number | null;
   approved: boolean;
   approved_by: string | null;
-  dosje_milestones: { title: string; display_date: string } | null;
+  dosje_milestones: { title: string; display_date: string; topic_slug?: string } | null;
+};
+
+type Coverage = {
+  slug: string;
+  title: string;
+  status: string;
+  articles: Array<{
+    slug: string;
+    title: string;
+    source: string | null;
+    publishedAt: string | null;
+    score: number;
+    method: string | null;
+    missing: boolean;
+  }>;
+  moments: {
+    total: number;
+    approved: number;
+    draft: number;
+    needsSource: number;
+    rejected: number;
+    items: Array<{ id: string; title: string; status: string; eventDate: string | null; displayDate: string | null }>;
+  };
+  media: {
+    total: number;
+    image: { total: number; approved: number; review: number; rejected: number };
+    video: { total: number; approved: number; review: number; rejected: number };
+    items: Array<{
+      id: string;
+      kind: string;
+      url: string | null;
+      credit: string | null;
+      sourceUrl: string | null;
+      milestoneId: string | null;
+      approved: boolean;
+      approvedBy: string | null;
+      checkStatus: number | null;
+    }>;
+  };
 };
 
 type Milestone = {
@@ -102,6 +170,23 @@ function verifiedPublishers(cites: Citation[]): string[] {
   ];
 }
 
+function coverageDate(value: string | null): string {
+  return value ? String(value).slice(0, 10) : "pa datë";
+}
+
+function momentStatusLabel(status: string): string {
+  if (status === "needs_source") return "ka nevojë për burim";
+  if (status === "approved") return "miratuar";
+  if (status === "rejected") return "refuzuar";
+  return status || "e panjohur";
+}
+
+function mediaStatusLabel(item: Coverage["media"]["items"][number]): string {
+  if (item.approved) return "miratuar";
+  if (item.approvedBy) return "refuzuar";
+  return "në shqyrtim";
+}
+
 export default async function DosjeAdminPage({
   searchParams,
 }: {
@@ -112,7 +197,7 @@ export default async function DosjeAdminPage({
   const authed = store.get("dosje_admin_auth")?.value === "1";
 
   if (!authed) {
-    return (
+  return (
       <main style={{ maxWidth: "380px", margin: "80px auto", padding: "0 20px", font: SANS }}>
         <h1 style={{ font: "600 20px/1.2 ui-sans-serif, system-ui, sans-serif", margin: "0 0 6px" }}>
           Dosje — miratimi
@@ -143,7 +228,12 @@ export default async function DosjeAdminPage({
   let topics: Topic[] = [];
   let approvedByTopic: Record<string, number> = {};
   let media: MediaRow[] = [];
+  let allMilestones: MilestoneRef[] = [];
+  let allMedia: MediaRow[] = [];
+  let articleTopics: ArticleTopicRow[] = [];
+  let articles: ArticleRow[] = [];
   let loadError: string | null = null;
+  let coverageError: string | null = null;
 
   if (!supabase) {
     loadError = "Supabase nuk është konfiguruar.";
@@ -159,37 +249,64 @@ export default async function DosjeAdminPage({
     if (error) loadError = error.message;
     else drafts = (data ?? []) as Milestone[];
 
-    const { data: t } = await supabase
+    const { data: t, error: topicsError } = await supabase
       .from("dosje_topics")
       .select("slug, title, blurb, status")
       .order("title");
+    if (topicsError) coverageError = topicsError.message;
     topics = (t ?? []) as Topic[];
 
-    // How many moments each dossier already has on the site. A topic with none
-    // must not be publishable, and the number is what tells the reviewer why.
-    const { data: approved } = await supabase
+    const { data: milestoneRows, error: milestoneError } = await supabase
       .from("dosje_milestones")
-      .select("topic_slug")
-      .eq("status", "approved");
-    const { data: m } = await supabase
-      .from("dosje_media")
-      .select("*, dosje_milestones(title, display_date)")
-      // Images and explainers both. The video half of the vetting job was
-      // filtered out here, so every candidate it produced sat in a queue with
-      // no way to open it: approved dossiers showed no videos at all, while
-      // unapproved ones fell back to the raw unvetted list.
-      .in("kind", ["image", "video"])
-      .eq("approved", false)
-      .is("approved_by", null)
-      .limit(30);
-    media = (m ?? []) as unknown as MediaRow[];
-
-    approvedByTopic = (approved ?? []).reduce<Record<string, number>>((acc, r) => {
-      const k = (r as { topic_slug: string }).topic_slug;
-      acc[k] = (acc[k] ?? 0) + 1;
+      .select("id, topic_slug, status")
+      .limit(1000);
+    if (milestoneError) coverageError = coverageError ?? milestoneError.message;
+    allMilestones = (milestoneRows ?? []) as MilestoneRef[];
+    approvedByTopic = allMilestones.reduce<Record<string, number>>((acc, row) => {
+      if (row.status !== "approved") return acc;
+      acc[row.topic_slug] = (acc[row.topic_slug] ?? 0) + 1;
       return acc;
     }, {});
+
+    const { data: m, error: mediaError } = await supabase
+      .from("dosje_media")
+      .select("*, dosje_milestones(title, display_date, topic_slug)")
+      .in("kind", ["image", "video"])
+      .limit(1000);
+    if (mediaError) coverageError = coverageError ?? mediaError.message;
+    allMedia = (m ?? []) as unknown as MediaRow[];
+    media = allMedia
+      .filter((row) => !row.approved && !row.approved_by)
+      .slice(0, 30);
+
+    const { data: mappingRows, error: mappingError } = await supabase
+      .from("dosje_article_topics")
+      .select("article_slug, topic_slug, score, method, published_at, decided_at")
+      .order("published_at", { ascending: false })
+      .order("decided_at", { ascending: false })
+      .limit(1000);
+    if (mappingError) coverageError = coverageError ?? mappingError.message;
+    articleTopics = (mappingRows ?? []) as ArticleTopicRow[];
+
+    const articleSlugs = [...new Set(articleTopics.map((row) => row.article_slug).filter(Boolean))];
+    if (articleSlugs.length) {
+      const { data: articleRows, error: articlesError } = await supabase
+        .from("news_articles")
+        .select("slug, title, source, published_at, category")
+        .in("slug", articleSlugs);
+      if (articlesError) coverageError = coverageError ?? articlesError.message;
+      articles = (articleRows ?? []) as ArticleRow[];
+    }
   }
+
+  const coverage = buildDosjeCoverage({
+    topics,
+    articleTopics,
+    articles,
+    milestones: allMilestones,
+    media: allMedia,
+  }) as Coverage[];
+  const coverageByTopic = new Map(coverage.map((item) => [item.slug, item]));
 
   return (
     <main style={{ maxWidth: "860px", margin: "36px auto 90px", padding: "0 20px", font: SANS, color: "#1a1a1a" }}>
@@ -229,37 +346,141 @@ export default async function DosjeAdminPage({
             Dosjet
           </div>
           {topics.map((t) => {
-            const n = approvedByTopic[t.slug] ?? 0;
+            const item = coverageByTopic.get(t.slug);
+            const n = item?.moments.approved ?? approvedByTopic[t.slug] ?? 0;
             const live = t.status === "approved";
             return (
-              <div key={t.slug} style={{ display: "flex", alignItems: "center", gap: "10px", padding: "7px 0", borderBottom: "1px solid #f0f0f0" }}>
-                <span style={{ flex: 1 }}>
-                  <strong>{t.title}</strong>
-                  <span style={{ color: "#999" }}> · {n} {n === 1 ? "moment i miratuar" : "momente të miratuara"}</span>
-                </span>
-                <span style={{ fontSize: "11.5px", padding: "2px 8px", borderRadius: "20px", background: live ? "#eaf7ee" : "#f1f1f1", color: live ? "#1e7a3c" : "#777" }}>
-                  {live ? "publike" : t.status}
-                </span>
-                {live ? (
-                  <form action={retireTopicAction}>
-                    <input type="hidden" name="slug" value={t.slug} />
-                    <button type="submit" style={{ padding: "5px 11px", borderRadius: "6px", border: "1px solid #ccc", background: "#fff", font: SANS, cursor: "pointer" }}>
-                      Hiq nga faqja
-                    </button>
-                  </form>
-                ) : (
-                  <form action={approveTopicAction}>
-                    <input type="hidden" name="slug" value={t.slug} />
-                    <button
-                      type="submit"
-                      disabled={n === 0}
-                      title={n === 0 ? "Pa asnjë moment të miratuar" : undefined}
-                      style={{ padding: "5px 11px", borderRadius: "6px", border: "none", background: n === 0 ? "#d8d8d8" : "#1e7a3c", color: "#fff", font: SANS, cursor: n === 0 ? "not-allowed" : "pointer" }}
-                    >
-                      Publiko dosjen
-                    </button>
-                  </form>
-                )}
+              <div key={t.slug} style={{ padding: "8px 0 10px", borderBottom: "1px solid #f0f0f0" }}>
+                <div style={{ display: "flex", alignItems: "center", flexWrap: "wrap", gap: "8px 10px" }}>
+                  <span style={{ flex: "1 1 260px", minWidth: 0 }}>
+                    <strong>{t.title}</strong>
+                    <span style={{ color: "#999" }}>
+                      {" · "}{n} {n === 1 ? "moment i miratuar" : "momente të miratuara"}
+                    </span>
+                  </span>
+                  <span style={{ fontSize: "11.5px", padding: "2px 8px", borderRadius: "20px", background: live ? "#eaf7ee" : "#f1f1f1", color: live ? "#1e7a3c" : "#777" }}>
+                    {live ? "publike" : t.status}
+                  </span>
+                  {live ? (
+                    <form action={retireTopicAction}>
+                      <input type="hidden" name="slug" value={t.slug} />
+                      <button type="submit" style={{ padding: "5px 11px", borderRadius: "6px", border: "1px solid #ccc", background: "#fff", font: SANS, cursor: "pointer" }}>
+                        Hiq nga faqja
+                      </button>
+                    </form>
+                  ) : (
+                    <form action={approveTopicAction}>
+                      <input type="hidden" name="slug" value={t.slug} />
+                      <button
+                        type="submit"
+                        disabled={n === 0}
+                        title={n === 0 ? "Pa asnjë moment të miratuar" : undefined}
+                        style={{ padding: "5px 11px", borderRadius: "6px", border: "none", background: n === 0 ? "#d8d8d8" : "#1e7a3c", color: "#fff", font: SANS, cursor: n === 0 ? "not-allowed" : "pointer" }}
+                      >
+                        Publiko dosjen
+                      </button>
+                    </form>
+                  )}
+                </div>
+
+                {item ? (
+                  <details style={{ marginTop: "9px", border: "1px solid #ececec", borderRadius: "8px", background: "#fff" }}>
+                    <summary style={{ cursor: "pointer", padding: "9px 11px", color: "#555", fontSize: "12px", listStylePosition: "inside" }}>
+                      <strong>Mbulimi:</strong>{" "}
+                      {item.articles.length} artikuj · {item.moments.total} momente · {item.media.image.total} foto · {item.media.video.total} video
+                    </summary>
+                    <div style={{ padding: "0 12px 13px" }}>
+                      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(170px, 1fr))", gap: "8px", margin: "3px 0 15px" }}>
+                        <div style={{ padding: "9px 10px", background: "#fafafa", borderRadius: "7px" }}>
+                          <strong>Momente</strong>
+                          <div style={{ color: "#666", fontSize: "12px", marginTop: "3px" }}>
+                            {item.moments.total} gjithsej · {item.moments.approved} miratuara · {item.moments.draft + item.moments.needsSource} në shqyrtim
+                          </div>
+                        </div>
+                        <div style={{ padding: "9px 10px", background: "#fafafa", borderRadius: "7px" }}>
+                          <strong>Foto</strong>
+                          <div style={{ color: "#666", fontSize: "12px", marginTop: "3px" }}>
+                            {item.media.image.total} gjithsej · {item.media.image.approved} miratuara · {item.media.image.review} në shqyrtim
+                          </div>
+                        </div>
+                        <div style={{ padding: "9px 10px", background: "#fafafa", borderRadius: "7px" }}>
+                          <strong>Video</strong>
+                          <div style={{ color: "#666", fontSize: "12px", marginTop: "3px" }}>
+                            {item.media.video.total} gjithsej · {item.media.video.approved} miratuara · {item.media.video.review} në shqyrtim
+                          </div>
+                        </div>
+                      </div>
+
+                      <div style={{ marginTop: "10px" }}>
+                        <div style={{ fontSize: "11.5px", letterSpacing: ".03em", textTransform: "uppercase", color: "#8a8a8a", marginBottom: "6px" }}>
+                          Artikujt që hapin këtë dosje — {item.articles.length}
+                        </div>
+                        {item.articles.length === 0 ? (
+                          <p style={{ color: "#777", margin: 0, fontSize: "12px" }}>Nuk ka artikull të lidhur ende.</p>
+                        ) : (
+                          <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
+                            {item.articles.map((article) => (
+                              <li key={article.slug} style={{ padding: "8px 0", borderTop: "1px solid #f1f1f1" }}>
+                                <div style={{ display: "flex", gap: "8px", alignItems: "baseline", flexWrap: "wrap" }}>
+                                  {article.missing ? (
+                                    <span style={{ color: "#a5281b", fontWeight: 600 }}>{article.title}</span>
+                                  ) : (
+                                    <a href={`/article/${encodeURIComponent(article.slug)}`} style={{ color: "#0b57d0", fontWeight: 600, textDecoration: "none" }}>
+                                      {article.title}
+                                    </a>
+                                  )}
+                                  <span style={{ color: article.missing ? "#a5281b" : "#777", fontSize: "11.5px" }}>
+                                    {article.missing ? "artikulli mungon në arkiv" : `${item.moments.total} momente në këtë dosje`}
+                                  </span>
+                                </div>
+                                <div style={{ color: "#888", fontSize: "11.5px", marginTop: "3px" }}>
+                                  {article.source ?? "pa burim"} · {coverageDate(article.publishedAt)} · score {article.score}
+                                </div>
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                      </div>
+
+                      {item.moments.items.length > 0 && (
+                        <div style={{ marginTop: "14px" }}>
+                          <div style={{ fontSize: "11.5px", letterSpacing: ".03em", textTransform: "uppercase", color: "#8a8a8a", marginBottom: "6px" }}>
+                            Momentet e kësaj dosjeje
+                          </div>
+                          <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
+                            {item.moments.items.map((moment) => (
+                              <li key={moment.id} style={{ display: "flex", gap: "8px", justifyContent: "space-between", flexWrap: "wrap", padding: "5px 0", borderTop: "1px solid #f1f1f1", fontSize: "12px" }}>
+                                <span>{moment.title || "(pa titull)"}</span>
+                                <span style={{ color: "#777" }}>{coverageDate(moment.eventDate)} · {momentStatusLabel(moment.status)}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+
+                      {item.media.items.length > 0 && (
+                        <div style={{ marginTop: "14px" }}>
+                          <div style={{ fontSize: "11.5px", letterSpacing: ".03em", textTransform: "uppercase", color: "#8a8a8a", marginBottom: "6px" }}>
+                            Media e lidhur me këtë dosje
+                          </div>
+                          <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
+                            {item.media.items.map((mediaItem) => (
+                              <li key={mediaItem.id} style={{ display: "flex", gap: "8px", justifyContent: "space-between", flexWrap: "wrap", padding: "5px 0", borderTop: "1px solid #f1f1f1", fontSize: "12px" }}>
+                                <span>
+                                  <strong>{mediaItem.kind === "image" ? "Foto" : "Video"}</strong>{" · "}
+                                  {mediaItem.url ? <a href={mediaItem.url} target="_blank" rel="noreferrer" style={{ color: "#0b57d0", wordBreak: "break-all" }}>{mediaItem.credit || mediaItem.url}</a> : "pa URL"}
+                                </span>
+                                <span style={{ color: "#777" }}>{mediaStatusLabel(mediaItem)}{mediaItem.checkStatus ? ` · HTTP ${mediaItem.checkStatus}` : ""}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+                    </div>
+                  </details>
+                ) : coverageError ? (
+                  <div style={{ color: "#a5281b", fontSize: "12px", margin: "7px 0 0" }}>Mbulimi nuk u lexua: {coverageError}</div>
+                ) : null}
               </div>
             );
           })}
@@ -273,6 +494,11 @@ export default async function DosjeAdminPage({
           <span style={{ color: "#9a7330" }}>
             Ndoshta migrimi 0051/0052 nuk është aplikuar ende.
           </span>
+        </p>
+      )}
+      {coverageError && (
+        <p style={{ padding: "10px 12px", borderRadius: "7px", background: "#fff6e5", color: "#8a5a00", margin: "0 0 16px" }}>
+          Mbulimi i artikujve nuk u lexua plotësisht: {coverageError}
         </p>
       )}
 
