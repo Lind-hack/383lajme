@@ -49,7 +49,7 @@ async function loadTradeSuccessSound(context: AudioContext, profile: TradeSucces
   if (cached) return cached;
   const loading = loadingSounds.get(profile);
   if (loading) return loading;
-  const request = fetch(TRADE_SUCCESS_SOUND_ASSET[profile], { cache: "force-cache" })
+  const request = fetch(TRADE_SUCCESS_SOUND_ASSET[profile], { cache: "reload" })
     .then((response) => {
       if (!response.ok) throw new Error(`trade_sound_${response.status}`);
       return response.arrayBuffer();
@@ -273,9 +273,6 @@ export async function playTradeSuccessSound(profile: TradeSuccessSoundProfile = 
     source.stop(end + 0.02);
     return;
   }
-  if (profile === "football") playFootballCue(context, start);
-  else if (profile === "f1") playF1Cue(context, start);
-  else if (profile === "basketball") playBasketballCue(context, start);
-  else if (profile === "champions" || profile === "europa" || profile === "conference") playChoralCue(context, start, profile);
-  else playDefaultCue(context, start);
+  // Never substitute the retired generated sport cues. A failed recording
+  // request should be silent rather than make a successful trade sound stale.
 }

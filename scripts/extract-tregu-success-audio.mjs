@@ -15,27 +15,27 @@ const FFMPEG = process.env.FFMPEG_PATH || "ffmpeg";
 
 const clips = {
   champions: {
-    output: "champions-original-stinger.wav",
+    output: "champions-the-champions-13s-17s-v2.wav",
     start: 13,
     duration: 4,
   },
   europa: {
-    output: "europa-original-stinger.wav",
+    output: "europa-intro-0s-5s-v2.wav",
     start: 0,
     duration: 5,
   },
   f1: {
-    output: "f1-passby.wav",
+    output: "f1-passby-2s-4s-v2.wav",
     start: 2,
     duration: 2,
   },
   football: {
-    output: "football-crowd-3s-5s.wav",
+    output: "football-crowd-3s-5s-v2.wav",
     start: 3,
     duration: 2,
   },
   basketball: {
-    output: "basketball-squeak.wav",
+    output: "basketball-swish-5s-8s-v2.wav",
     start: 5,
     duration: 3,
   },
