@@ -132,6 +132,8 @@ const REQUIRED_CHART_MARKERS = {
   "lib/tregu-automation.mjs": [
     "NEWS_EVIDENCE_LOOKBACK_MS",
     "news.google.com",
+    "SUBJECT_ACTION_GROUPS",
+    "subjectActionGroups",
     "isUsableVerifiedEvidence",
   ],
   "lib/tregu-ai-provider.mjs": [
