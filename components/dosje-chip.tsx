@@ -40,9 +40,9 @@ export default function DosjeChip({ article, dark = false, compact = false }: Pr
       data-dosje-chip={link.slug}
       aria-label={`Hap dosjen: ${dossierTitle}`}
       title={`Hap dosjen: ${dossierTitle}`}
-      onPointerDownCapture={blockParent}
+      onPointerDownCapture={open}
       onMouseDownCapture={blockParent}
-      onClickCapture={open}
+      onClickCapture={blockParent}
       onKeyDownCapture={(event) => {
         if (isDosjeActivationKey(event.key)) open(event);
       }}
