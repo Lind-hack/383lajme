@@ -8,7 +8,6 @@ import TimeAgo from "./time-ago";
 import { getCategoryColor } from "@/lib/category-colors";
 import { EASE, DUR, STAGGER, RADIUS, SHADOW } from "@/lib/tokens";
 import SourceBadge from "./source-badge";
-import DosjeChip from "./dosje-chip";
 
 interface KryesoreFrontProps {
   lead: Article;
@@ -203,8 +202,6 @@ function LeadCard({ article }: { article: Article }) {
 
         {/* Content */}
         <div style={{ padding: "28px 32px 30px", display: "flex", flexDirection: "column", gap: "12px" }}>
-          <DosjeChip article={article} />
-
           <h3 style={{
             fontSize: "clamp(25px, 2.35vw, 34px)",
             fontWeight: 800,
@@ -301,8 +298,6 @@ function SecondaryCard({ article, index }: { article: Article; index: number }) 
           }}>
             {article.category}
           </span>
-          <DosjeChip article={article} compact />
-
           <h4 style={{
             fontSize: "18px",
             fontWeight: 800,
@@ -404,7 +399,6 @@ function MostReadRail({ articles }: { articles: Article[] }) {
               }}>
                 {article.title}
               </span>
-              <DosjeChip article={article} compact />
               <span style={{ fontSize: "12px", color: "#777777", fontWeight: 500 }}>
                 {article.category} · <TimeAgo iso={article.publishedAt} />
               </span>

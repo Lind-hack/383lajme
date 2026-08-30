@@ -5,7 +5,6 @@ import TimeAgo from './time-ago'
 import TopicCarousel from './topic-carousel'
 import { getCategoryColor } from '@/lib/category-colors'
 import { FONT, RADIUS, SHADOW } from '@/lib/tokens'
-import DosjeChip from '@/components/dosje-chip'
 
 export interface AccordionSlide {
   article: Article
@@ -221,8 +220,6 @@ export default function ImageAccordion({ slides }: Props) {
                   zIndex: 2,
                 }}
               >
-                <DosjeChip article={slide.article} dark compact />
-
                 <h3
                   className="feature-grid-title"
                   style={{

@@ -9,7 +9,6 @@ import TimeAgo from "./time-ago";
 import { getCategoryColor, getCategoryGradient } from "@/lib/category-colors";
 import { CATEGORY_TO_SLUG, type NavCategory } from "@/lib/category-map";
 import { EASE, DUR, STAGGER } from "@/lib/tokens";
-import DosjeChip from "./dosje-chip";
 
 interface ColorSpotlightProps {
   articles: Article[];
@@ -135,7 +134,6 @@ export default function ColorSpotlight({ articles, category, label }: ColorSpotl
                   <i />
                   {lead.category}
                 </span>
-                <DosjeChip article={lead} compact />
                 <h3>{lead.title}</h3>
                 {lead.excerpt && <p className="spot-lead-excerpt">{lead.excerpt}</p>}
                 <span className="spot-meta">
@@ -162,7 +160,6 @@ export default function ColorSpotlight({ articles, category, label }: ColorSpotl
                   <Link href={`/article/${article.slug}`} className="spot-item">
                     <Thumb article={article} color={color} deep={deep} />
                     <span className="spot-item-body">
-                      <DosjeChip article={article} compact />
                       <span className="spot-item-title">{article.title}</span>
                       <span className="spot-meta">
                         {article.source} · <TimeAgo iso={article.publishedAt} /> më parë

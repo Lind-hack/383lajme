@@ -18,6 +18,7 @@ import ThrowbackSection from "@/components/throwback-section";
 import AlertsCta from "@/components/alerts-cta";
 import DailyPoll from "@/components/daily-poll";
 import ImageAccordion, { type AccordionSlide } from "@/components/image-accordion";
+import DosjeFeedIndex from "@/components/dosje-feed-index";
 import TrendingStrip from "@/components/tregu/trending-strip";
 import {
   CurrencyExchangeCard,
@@ -242,6 +243,7 @@ export default async function HomePage() {
         {/* Daily video reaction */}
         <ReagimiDites fallbackView={reagimiFallback} serverDateKey={reagimiDateKey} />
 
+        <DosjeFeedIndex articles={articles} />
 
         {/* News before diversions: NJOFTIME and the topic leaders now sit directly
             under the daily reaction, and the poll and prediction markets follow

@@ -11,3 +11,15 @@ export interface DosjeFeedLink {
 }
 
 export function dosjeLinkForArticle(article: DosjeFeedArticle): DosjeFeedLink | null;
+
+
+export interface DosjeFeedEntry {
+  articleSlug: string;
+  articleTitle: string;
+  dossierSlug: string;
+  dossierTitle: string;
+  articleHref: string;
+  dossierHref: string;
+}
+
+export function dosjeFeedEntries(articles: DosjeFeedArticle[]): DosjeFeedEntry[];
