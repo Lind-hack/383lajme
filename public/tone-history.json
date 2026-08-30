@@ -3943,7 +3943,7 @@
     "date": "2026-08-30",
     "overallIndex": 50,
     "totalArticles": 50,
-    "sourceCount": 40,
+    "sourceCount": 41,
     "stanceVersion": 3,
     "countries": {
       "Gjermani": {
@@ -4058,7 +4058,7 @@
         "neutral": 40,
         "negative": 60,
         "n": 5,
-        "excluded": 0,
+        "excluded": 1,
         "confident": true,
         "stanceVersion": 3,
         "movement": {

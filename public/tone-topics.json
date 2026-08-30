@@ -4,7 +4,7 @@
     {
       "label": "Refuzimi i kthimit të gjyqtarëve serbë",
       "fallbackLabel": "Serbë · Gjyqtarëve",
-      "summary": "Këshilli Gjyqësor i Kosovës ka refuzuar zyrtarisht kërkesën e gjyqtarëve serbë për t'u rikthyer në detyrë pas dorëheqjeve të tyre të mëparshme.",
+      "summary": "Këshilli Gjyqësor i Kosovës ka refuzuar zyrtarisht kërkesën e gjyqtarëve dhe prokurorëve serbë për t'u rikthyer në detyrë pas dorëheqjeve të tyre të mëparshme.",
       "count": 18,
       "positive": 0,
       "neutral": 15,
@@ -183,7 +183,7 @@
     {
       "label": "Pjesëmarrja e Kosovës në Lojërat Mesdhetare",
       "fallbackLabel": "Mesdhetare · Lojërat",
-      "summary": "Sportistët e Kosovës po garojnë në Lojërat Mesdhetare Taranto 2026, ku kanë arritur të fitojnë medaljen e parë të artë në këtë aktivitet.",
+      "summary": "Sportistët e Kosovës po marrin pjesë në Lojërat Mesdhetare 2026 në Taranto, ku kanë regjistruar rezultate të ndryshme në disiplina të ndryshme sportive.",
       "count": 14,
       "positive": 1,
       "neutral": 12,
@@ -361,9 +361,9 @@
       ]
     },
     {
-      "label": "Vendimet dhe zhvillimet qeveritare",
+      "label": "Zhvillimet politike dhe qeverisëse në Kosovë",
       "fallbackLabel": "Qeveria · Para",
-      "summary": "Qeveria e Kosovës ka ndërmarrë vendime për financimin e barnave esenciale, ndërsa përballet me protesta dhe kërkesa për formim të shpejtë të institucioneve.",
+      "summary": "Qeveria e Kosovës po përballet me protesta, vendime për ndarje buxhetore dhe kërkesa ndërkombëtare për stabilitet institucional dhe formim të shpejtë të qeverisë.",
       "count": 14,
       "positive": 0,
       "neutral": 11,
@@ -539,9 +539,9 @@
       ]
     },
     {
-      "label": "Organizimi i kampionateve ndërkombëtare sportive",
+      "label": "Organizimi i kampionateve ndërkombëtare në Kosovë",
       "fallbackLabel": "Botëror · Kampionatin",
-      "summary": "Kosova po shërben si nikoqire për gara të ndryshme ndërkombëtare, duke përfshirë kampionate evropiane të peshëngritjes dhe botërore të sporteve luftarake.",
+      "summary": "Kosova po shërben si vend mikpritës për kampionate të ndryshme botërore dhe evropiane të sporteve, duke tërhequr atletë nga vende të ndryshme të botës.",
       "count": 8,
       "positive": 0,
       "neutral": 6,
@@ -685,9 +685,9 @@
       ]
     },
     {
-      "label": "Kritika politike ndaj Albin Kurtit",
+      "label": "Kritikat ndaj qeverisjes së Albin Kurtit",
       "fallbackLabel": "Kurti · Peng",
-      "summary": "Figura të ndryshme politike akuzojnë kryeministrin Kurti për mbajtjen peng të institucioneve dhe shkelje të të drejtave të njeriut në Luginën e Preshevës.",
+      "summary": "Figura të opozitës dhe aktorë politikë akuzojnë kryeministrin Kurti për mbajtjen peng të institucioneve dhe dështim në menaxhimin e çështjeve kyçe politike në vend.",
       "count": 8,
       "positive": 0,
       "neutral": 4,
@@ -831,8 +831,8 @@
     },
     {
       "label": "Takimet diplomatike me ambasadorët e huaj",
-      "fallbackLabel": "Ambasadori · Ushtruesen",
-      "summary": "Ambasadorët e Francës dhe Italisë kanë zhvilluar takime lamtumirëse dhe zyrtare me krerët e institucioneve të Kosovës për të diskutuar zhvillimet politike.",
+      "fallbackLabel": "Ambasadori · Antonini",
+      "summary": "Ambasadorët e shteteve perëndimore po zhvillojnë takime lamtumire ose pune me udhëheqësit e institucioneve të Kosovës për të diskutuar zhvillimet dhe konsensusin politik.",
       "count": 7,
       "positive": 0,
       "neutral": 7,
@@ -958,9 +958,9 @@
       ]
     },
     {
-      "label": "Rezultatet sportive dhe çështje gjyqësore",
+      "label": "Performanca sportive dhe çështjet gjyqësore",
       "fallbackLabel": "Ndaj · Gjysmëfinale",
-      "summary": "Përfaqësuesja e Italisë ka mposhtur Kosovën në futboll, ndërsa në Prishtinë po zhvillohen procese gjyqësore dhe po raportohen incidente të rënda kriminale.",
+      "summary": "Përveç humbjes së kombëtares së futbollit ndaj Italisë në Lojërat Mesdhetare, në vend po zhvillohen procese gjyqësore dhe raportohen raste të incidenteve kriminale.",
       "count": 6,
       "positive": 0,
       "neutral": 6,
@@ -1071,8 +1071,8 @@
     },
     {
       "label": "Mbështetja ndërkombëtare dhe zhvillimi ekonomik",
-      "fallbackLabel": "Jetë · Serbia",
-      "summary": "Përfaqësues ndërkombëtarë dhe ekspertë theksojnë rëndësinë e zhvillimit ekonomik vendor dhe mbështetjen për integrimin e Kosovës në Bashkimin Evropian.",
+      "fallbackLabel": "Jetë · Vazhdon",
+      "summary": "Përfaqësues ndërkombëtarë dhe ekspertë lokalë theksojnë rëndësinë e zhvillimit ekonomik, anëtarësimit në BE dhe sigurisë rajonale për të ardhmen e shtetit të Kosovës.",
       "count": 6,
       "positive": 2,
       "neutral": 4,

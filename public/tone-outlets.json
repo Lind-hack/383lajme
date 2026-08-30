@@ -2,9 +2,9 @@
   "lastUpdated": "2026-08-30",
   "overallIndex": 50,
   "totalArticles": 50,
-  "sourceCount": 40,
+  "sourceCount": 41,
   "stanceVersion": 3,
-  "unattributed": 130,
+  "unattributed": 133,
   "nonEditorial": 2,
   "wrongKosovo": 0,
   "countries": {
@@ -625,8 +625,8 @@
             },
             {
               "title": "FIGC * FEDERAZIONE ITALIANA GIUOCO CALCIO: «GIOCHI DEL MEDITERRANEO, AZZURRINI 4° POSTO: MAROCCO VINCE 4-1 - agenziagiornalisticaopinione.it",
-              "albanianTitle": "Lojërat Mesdhetare: Italia e re në vendin e katërt, Maroku fiton 4-1",
-              "blurb": "Maroku ka mposhtur Italinë me rezultat 4-1 në kuadër të Lojërave Mesdhetare, duke e lënë Italinë në vendin e katërt.",
+              "albanianTitle": "Lojërat Mesdhetare: Italia e re zë vendin e katërt, Maroku fiton 4-1",
+              "blurb": "Përfaqësuesja e Italisë në futboll përfundoi në vendin e katërt në Lojërat Mesdhetare pas humbjes nga Maroku me rezultat 4-1.",
               "imageUrl": "https://www.agenziagiornalisticaopinione.it/wp-content/uploads/2026/08/y99zdb2b930c-2883-4655-a2f5-b54a038aa955-jpg.jpg",
               "url": "https://www.agenziagiornalisticaopinione.it/opinionmix/figc-federazione-italiana-giuoco-calcio-giochi-del-mediterraneo-azzurrini-4-posto-marocco-vince-4-1/",
               "date": "2026-08-30",
@@ -1005,6 +1005,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-08-22",
           "lastSeen": "2026-08-28"
+        },
+        {
+          "name": "www.diariojaen.es",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Juan Cámara entra en la historia con el Inter Escaldes al ser el primer club de Andorra en una fase de grupos europea - www.diariojaen.es",
+              "albanianTitle": "Juan Cámara hyn në histori me Inter Escaldes, klubi i parë nga Andorra që kualifikohet në fazën e grupeve në Evropë",
+              "blurb": "Inter Escaldes bëhet klubi i parë nga Andorra që kualifikohet në fazën e grupeve të një kompeticioni evropian futbolli.",
+              "imageUrl": "https://www.diariojaen.es/binrepository/616x346/16c1/600d346/none/10717/NELQ/a-44-2026-08-28t095937-991_18717458_20260828100043.jpg",
+              "url": "https://www.diariojaen.es/deportes/juan-camara-entra-en-la-historia-con-el-inter-escaldes-al-ser-el-primer-club-de-andorra-en-una-fase-de-grupos-europea-BN11585488",
+              "date": "2026-08-28",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-30",
+          "lastSeen": "2026-08-28"
         }
       ],
       "summary": {
@@ -1013,7 +1037,7 @@
         "neutral": 40,
         "negative": 60,
         "n": 5,
-        "excluded": 0,
+        "excluded": 1,
         "confident": true,
         "stanceVersion": 3,
         "movement": {
