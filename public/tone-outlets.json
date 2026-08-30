@@ -4,7 +4,7 @@
   "totalArticles": 50,
   "sourceCount": 40,
   "stanceVersion": 3,
-  "unattributed": 123,
+  "unattributed": 130,
   "nonEditorial": 2,
   "wrongKosovo": 0,
   "countries": {
@@ -625,13 +625,13 @@
             },
             {
               "title": "FIGC * FEDERAZIONE ITALIANA GIUOCO CALCIO: «GIOCHI DEL MEDITERRANEO, AZZURRINI 4° POSTO: MAROCCO VINCE 4-1 - agenziagiornalisticaopinione.it",
-              "albanianTitle": "FIGC: Lojërat Mesdhetare, italianët në vendin e 4-t: Maroku fiton 4-1 - agenziagiornalisticaopinione.it",
-              "blurb": "Përfaqësuesja e futbollit të Marokut ka mposhtur Italinë me rezultat 4-1 në kuadër të Lojërave Mesdhetare në futboll.",
+              "albanianTitle": "Lojërat Mesdhetare: Italia e re në vendin e katërt, Maroku fiton 4-1",
+              "blurb": "Maroku ka mposhtur Italinë me rezultat 4-1 në kuadër të Lojërave Mesdhetare, duke e lënë Italinë në vendin e katërt.",
               "imageUrl": "https://www.agenziagiornalisticaopinione.it/wp-content/uploads/2026/08/y99zdb2b930c-2883-4655-a2f5-b54a038aa955-jpg.jpg",
               "url": "https://www.agenziagiornalisticaopinione.it/opinionmix/figc-federazione-italiana-giuoco-calcio-giochi-del-mediterraneo-azzurrini-4-posto-marocco-vince-4-1/",
               "date": "2026-08-30",
               "sentiment": "unknown",
-              "reason": "Kosovo not mentioned, cannot infer outlet stance",
+              "reason": "",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -820,7 +820,7 @@
         {
           "name": "ESPN.nl",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 3,
           "articles": [
             {
               "title": "Malta 0-5 Kosovo (17 nov., 2018) Uitslag - ESPN.nl",
@@ -847,12 +847,25 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Cyprus 0-4 Kosovo (9 sep., 2024) Uitslag - ESPN.nl",
+              "albanianTitle": "Qipro 0-4 Kosovë (9 shtator 2024)",
+              "blurb": "Përfaqësuesja e Kosovës në futboll ka shënuar fitore me rezultat 4-0 ndaj Qipros në ndeshjen e zhvilluar më 9 shtator.",
+              "imageUrl": null,
+              "url": "https://www.espn.nl/voetbal/wedstrijd?wedstrijdId=698919&action=summary",
+              "date": "2026-08-30",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 2,
+          "totalArticles": 3,
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-08-28",
-          "lastSeen": "2026-08-28"
+          "lastSeen": "2026-08-30"
         }
       ],
       "summary": {
@@ -861,7 +874,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 2,
-        "excluded": 0,
+        "excluded": 1,
         "confident": false,
         "stanceVersion": 3
       }
