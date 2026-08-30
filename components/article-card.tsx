@@ -8,6 +8,7 @@ import TimeAgo from "./time-ago";
 import { getCategoryColor, getCategoryBg } from "@/lib/category-colors";
 import { EASE, DUR, STAGGER, RADIUS, SHADOW } from "@/lib/tokens";
 import SourceBadge from "./source-badge";
+import DosjeChip from "./dosje-chip";
 
 interface ArticleCardProps {
   article: Article;
@@ -187,6 +188,8 @@ export default function ArticleCard({ article, variant = "grid", index = 0 }: Ar
               }} />
             </div>
 
+            <DosjeChip article={article} compact />
+
             <h3 style={{
               fontSize: "16.5px",
               fontWeight: 800,
@@ -286,6 +289,8 @@ export default function ArticleCard({ article, variant = "grid", index = 0 }: Ar
               </span>
             </div>
 
+            <DosjeChip article={article} compact />
+
             <h3 style={{
               fontSize: "24px",
               fontWeight: 800,
@@ -375,6 +380,8 @@ export default function ArticleCard({ article, variant = "grid", index = 0 }: Ar
                 #{article.dispatch}
               </span>
             </div>
+
+            <DosjeChip article={article} compact />
 
             <h3 style={{
               fontSize: "20px",
@@ -535,6 +542,8 @@ export default function ArticleCard({ article, variant = "grid", index = 0 }: Ar
           flexDirection: "column",
         }}>
           {/* Title */}
+          <DosjeChip article={article} compact />
+
           <h3 style={{
             fontSize: "18px",
             fontWeight: 800,

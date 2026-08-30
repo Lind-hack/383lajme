@@ -9,6 +9,7 @@ import { getCategoryColor } from "@/lib/category-colors";
 import { EASE, DUR, STAGGER } from "@/lib/tokens";
 import SectionLabel from "./section-label";
 import SourceBadge from "./source-badge";
+import DosjeChip from "./dosje-chip";
 
 interface DispatchListProps {
   articles: Article[];
@@ -73,6 +74,7 @@ function DispatchRow({ article, index }: { article: Article; index: number }) {
             <i style={{ background: color }} />
             {article.category}
           </span>
+          <DosjeChip article={article} compact />
           <span className="dispatch-title">{article.title}</span>
           {article.excerpt && <span className="dispatch-excerpt">{article.excerpt}</span>}
           <span className="dispatch-meta">

@@ -8,6 +8,7 @@ import { type Article, calcReadingTime } from "@/lib/mock-data";
 import TimeAgo from "./time-ago";
 import { getCategoryColor, getCategoryBg } from "@/lib/category-colors";
 import SourceBadge from "./source-badge";
+import DosjeChip from "./dosje-chip";
 
 interface HeroDispatchProps {
   article: Article;
@@ -121,6 +122,7 @@ export default function HeroDispatch({ article }: HeroDispatchProps) {
         >
           <TimeAgo iso={article.publishedAt} /> më parë
         </span>
+        <DosjeChip article={article} dark compact />
       </div>
 
       {/* Bottom content */}
