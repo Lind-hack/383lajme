@@ -28,10 +28,15 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
+      - uses: actions/checkout@v4
+
       - name: Draft whichever dossier the news has been returning to
         env:
           BASE: ${{ secrets.PRODUCTION_URL || 'https://www.383ks.com' }}
           CRON_SECRET: ${{ secrets.CRON_SECRET }}
+          GMAIL_USER: ${{ secrets.GMAIL_USER }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          RECIPIENT_EMAIL: ${{ secrets.RECIPIENT_EMAIL || 'lindsylqa@gmail.com' }}
           SUBJECT: ${{ inputs.subject }}
           TOPIC: ${{ inputs.topic }}
         run: |
@@ -48,21 +53,9 @@ jobs:
             echo "No subject named; the job will choose."
           fi
 
-          status=$(curl -sS -o /tmp/out.json -w '%{http_code}' -X POST \
-            -H "Authorization: Bearer $CRON_SECRET" \
-            "$BASE/api/automation/dosje/research$QUERY")
-          cat /tmp/out.json; echo
-
-          case "$status" in
-            200)
-              # "no_candidate" is the normal answer on most nights: the news
-              # did not add to any standing subject. Not a failure.
-              if grep -q '"no_candidate"' /tmp/out.json; then
-                echo "::notice::nothing recurring enough to research today"
-              else
-                echo "::notice::drafted for review"
-              fi
-              ;;
-            422) echo "::warning::refused — the evidence did not support a claim. This is correct behaviour." ; exit 0 ;;
-            *)   echo "::error::research failed with HTTP $status" ; exit 1 ;;
-          esac
+          python3 scripts/dosje_cron_report.py \
+            --stage research \
+            --url "$BASE/api/automation/dosje/research$QUERY" \
+            --allowed-status 200,422 \
+            --workflow-url "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID" \
+            --event "$GITHUB_EVENT_NAME"

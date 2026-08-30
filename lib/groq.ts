@@ -121,12 +121,36 @@ export async function groqChat(
   throw new Error(`Groq API error — ${failures.join(" | ")}`);
 }
 
-/** Parse a JSON response, tolerating stray code fences. */
+/** Parse JSON while preserving model text and repairing only illegal string controls. */
 export function parseJSON<T>(raw: string): T {
   const cleaned = raw
     .trim()
     .replace(/^```(?:json)?/i, "")
     .replace(/```$/, "")
     .trim();
-  return JSON.parse(cleaned) as T;
+  let normalized = "";
+  let inString = false;
+  let escaped = false;
+  for (const character of cleaned) {
+    if (escaped) {
+      normalized += character;
+      escaped = false;
+      continue;
+    }
+    if (character === "\\" && inString) {
+      normalized += character;
+      escaped = true;
+      continue;
+    }
+    if (character === '"') {
+      normalized += character;
+      inString = !inString;
+      continue;
+    }
+    if (inString && character === "\n") { normalized += "\\n"; continue; }
+    if (inString && character === "\r") { normalized += "\\r"; continue; }
+    if (inString && character === "\t") { normalized += "\\t"; continue; }
+    normalized += character;
+  }
+  return JSON.parse(normalized) as T;
 }
