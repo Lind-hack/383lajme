@@ -3938,5 +3938,246 @@
         "sentiment": "negative"
       }
     ]
+  },
+  {
+    "date": "2026-08-30",
+    "overallIndex": 48,
+    "totalArticles": 48,
+    "sourceCount": 37,
+    "stanceVersion": 3,
+    "countries": {
+      "Gjermani": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 1,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "SHBA": {
+        "index": 67,
+        "positive": 33,
+        "neutral": 67,
+        "negative": 0,
+        "n": 3,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3,
+        "movement": {
+          "delta": 5,
+          "from": 62,
+          "outlet": "Bloomberg",
+          "title": "Dua Lipa fton botën ta vizitojë Kosovën - Bloomberg.com",
+          "evidence": "Wants the World to Come to Kosovo",
+          "url": "https://www.bloomberg.com/news/newsletters/2026-08-28/dua-lipa-wants-the-world-to-come-to-kosovo"
+        }
+      },
+      "Britani": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 1,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Francë": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 2,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Itali": {
+        "index": 47,
+        "positive": 0,
+        "neutral": 94,
+        "negative": 6,
+        "n": 17,
+        "excluded": 1,
+        "confident": true,
+        "stanceVersion": 3,
+        "movement": {
+          "delta": -4,
+          "from": 51,
+          "outlet": "Remocontro",
+          "title": "Kosova aleate, por armët e Serbisë janë më të nevojshme",
+          "evidence": "armi della Serbia sono più utili",
+          "url": "https://www.remocontro.it/2026/08/28/kosovo-alleato-ma-le-armi-della-serbia-sono-piu-utili/"
+        }
+      },
+      "Austri": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 3,
+        "excluded": 1,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Zvicër": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 1,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Holandë": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 2,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Belgjikë": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 1,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Spanjë": {
+        "index": 20,
+        "positive": 0,
+        "neutral": 40,
+        "negative": 60,
+        "n": 5,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 3,
+        "movement": {
+          "delta": -9,
+          "from": 29,
+          "outlet": "Europa Press",
+          "title": "BE shpreh keqardhje që Kosova pranoi dorëheqjet e gjyqtarëve serbë të cilët i kishin tërhequr ato më herët - Europa Press",
+          "evidence": "lamenta que Kosovo haya acabado aceptando",
+          "url": "https://www.europapress.es/internacional/noticia-ue-lamenta-kosovo-haya-acabado-aceptando-dimisiones-jueces-serbios-ya-sido-retiradas-20260828184957.html"
+        }
+      },
+      "Greqi": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 5,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 3
+      },
+      "Suedi": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 2,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Poloni": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 2,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Turqi": {
+        "index": 62,
+        "positive": 25,
+        "neutral": 75,
+        "negative": 0,
+        "n": 4,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3,
+        "movement": {
+          "delta": 6,
+          "from": 56,
+          "outlet": "T.C. Vakıflar Genel Müdürlüğü",
+          "title": "Përfytyro, zbulo, dhuro: Në gjurmët e trashëgimisë sonë të përbashkët në Kosovë - Drejtoria e Përgjithshme e Vakëfeve e Turqisë",
+          "evidence": "ortak mirasımızın izinde",
+          "url": "https://www.vgm.gov.tr/haberler/hayal-et-kesfet-vakfet-kosovada-ortak-mirasimizin"
+        }
+      },
+      "Kroaci": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      }
+    },
+    "headlines": [
+      {
+        "title": "Dua Lipa Wants the World to Come to Kosovo - Bloomberg.com",
+        "source": "Bloomberg",
+        "country": "SHBA",
+        "flag": "🇺🇸",
+        "url": "https://www.bloomberg.com/news/newsletters/2026-08-28/dua-lipa-wants-the-world-to-come-to-kosovo",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Il pragmatismo di Zelensky: il Kosovo è un alleato ma le armi della Serbia sono più utili - InsideOver",
+        "source": "InsideOver",
+        "country": "Itali",
+        "flag": "🇮🇹",
+        "url": "https://it.insideover.com/politica/il-pragmatismo-di-zelensky-il-kosovo-e-un-alleato-ma-le-armi-della-serbia-sono-piu-utili.html",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Turistas de todo el mundo descubren la magia del pueblo de Kosovo en los Ródopes - БНР Новини",
+        "source": "БНР Новини",
+        "country": "Spanjë",
+        "flag": "🇪🇸",
+        "url": "https://bnrnews.bg/es/post/521438/turistas-de-todo-el-mundo-descubren-la-magia-del-pueblo-de-kosovo-en-los-rodopes",
+        "sentiment": "positive"
+      },
+      {
+        "title": "L'UE critica che il Kosovo convalidi le dimissioni dei giudici serbi già ritirate - Demócrata",
+        "source": "Demócrata",
+        "country": "Spanjë",
+        "flag": "🇪🇸",
+        "url": "https://www.democrata.es/it/internazionale/l-ue-critica-che-il-kosovo-convalidi-le-dimissioni-dei-giudici-serbi-gia-ritirate/",
+        "sentiment": "negative"
+      },
+      {
+        "title": "La UE lamenta que Kosovo haya acabado aceptando dimisiones de jueces serbios que ya habían sido retiradas - Europa Press",
+        "source": "Europa Press",
+        "country": "Spanjë",
+        "flag": "🇪🇸",
+        "url": "https://www.europapress.es/internacional/noticia-ue-lamenta-kosovo-haya-acabado-aceptando-dimisiones-jueces-serbios-ya-sido-retiradas-20260828184957.html",
+        "sentiment": "negative"
+      },
+      {
+        "title": "La UE critica que Kosovo valide dimisiones de jueces serbios ya retiradas - Demócrata",
+        "source": "Demócrata",
+        "country": "Spanjë",
+        "flag": "🇪🇸",
+        "url": "https://www.democrata.es/internacional/la-ue-critica-que-kosovo-valide-dimisiones-de-jueces-serbios-ya-retiradas/",
+        "sentiment": "negative"
+      }
+    ]
   }
 ]

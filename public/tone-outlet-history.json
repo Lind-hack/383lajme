@@ -1710,16 +1710,17 @@
     },
     "SMHI": {
       "country": "Suedi",
-      "total": 2,
+      "total": 3,
       "positive": 0,
-      "neutral": 2,
+      "neutral": 3,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-26",
-      "lastSeen": "2026-08-25",
+      "lastSeen": "2026-08-27",
       "urls": [
         "https://www.smhi.se/vader/prognoser-och-varningar/vaderprognos/q/Mitrovica/789225",
-        "https://www.smhi.se/vader/prognoser-och-varningar/vaderprognos/q/Pristina/786714"
+        "https://www.smhi.se/vader/prognoser-och-varningar/vaderprognos/q/Pristina/786714",
+        "https://www.smhi.se/vader/prognoser-och-varningar/vaderprognos/q/Prizren/786712"
       ]
     },
     "grottaglieinrete.it": {
@@ -2158,6 +2159,19 @@
       "lastSeen": "2026-08-29",
       "urls": [
         "https://www.giornalediplomatico.it/kosovo-amb-antonini-con-presidente-facente-funzioni-albulena-haxhiu.htm"
+      ]
+    },
+    "Doorbraak.be": {
+      "country": "Belgjikë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-30",
+      "lastSeen": "2026-08-30",
+      "urls": [
+        "https://doorbraak.be/nieuwe-kerk-in-kosovo-leidt-tot-identitair-debat-met-moslims"
       ]
     }
   }
