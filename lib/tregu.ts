@@ -59,8 +59,17 @@ export async function scoreMarketWithAI(market: Market, suppliedArticles?: Artic
   const remainingHours = Number.isFinite(closesAt) ? Math.max(0, (closesAt - Date.now()) / 3_600_000) : null;
   const user = `Koha aktuale UTC: ${new Date().toISOString()}\nAfati i tregut UTC: ${Number.isFinite(closesAt) ? new Date(closesAt).toISOString() : "i panjohur"}\nOrë të mbetura: ${remainingHours === null ? "e panjohur" : remainingHours.toFixed(2)}\nPyetja e tregut: "${market.question}"\n${market.description ? `Kontekst: ${market.description}\n` : ""}${criteria ? `Kriteret e zgjidhjes: ${criteria}\n` : ""}\nArtikuj të fundit, të plotë dhe të filtruar për këtë treg:\n\n${context || "(pa artikuj të lidhur)"}\n\nMos përdor tituj ose fakte nga kujtesa jote. Mos cito artikull që nuk e ke përdorur. Koha deri në afat duhet të ndikojë në probabilitet kur pyetja kërkon një veprim para një date të caktuar.`;
 
-  const response = await marketAiChat(system, user, { json: true, maxTokens: 900 });
-  const parsed = parseJSON<Omit<AiScoreResult, "provider" | "fallback_index" | "fallback_reason">>(response.content);
+  let response = await marketAiChat(system, user, { json: true, maxTokens: 900 });
+  let parsed: Omit<AiScoreResult, "provider" | "fallback_index" | "fallback_reason">;
+  try {
+    parsed = parseJSON<Omit<AiScoreResult, "provider" | "fallback_index" | "fallback_reason">>(response.content);
+  } catch (error) {
+    // A malformed completion must not fail the entire two-minute scan when one
+    // bounded JSON-only retry can recover it. The retry receives the same
+    // filtered evidence and cannot expand the source set.
+    response = await marketAiChat(system, `${user}\n\nKthe vetëm një objekt JSON të vlefshëm, pa markdown ose tekst shtesë.`, { json: true, maxTokens: 900 });
+    parsed = parseJSON<Omit<AiScoreResult, "provider" | "fallback_index" | "fallback_reason">>(response.content);
+  }
   return {
     probability: Math.min(1, Math.max(0, Number(parsed.probability))),
     reasoning: String(parsed.reasoning ?? ""),

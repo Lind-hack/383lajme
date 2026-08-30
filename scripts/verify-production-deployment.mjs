@@ -134,6 +134,14 @@ const REQUIRED_CHART_MARKERS = {
     "news.google.com",
     "isUsableVerifiedEvidence",
   ],
+  "lib/tregu-ai-provider.mjs": [
+    "gemini-3.6-flash",
+    "isFallbackEligible",
+  ],
+  "lib/tregu.ts": [
+    "të filtruar për këtë treg",
+    "Kthe vetëm një objekt JSON të vlefshëm",
+  ],
   "lib/tregu-daily-market-quality.mjs": [
     '"daily-market-v2"',
     "headline_restatement_already_known",
