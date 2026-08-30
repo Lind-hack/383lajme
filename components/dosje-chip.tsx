@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import type { Article } from "@/lib/mock-data";
 import { dosjeLinkForArticle, isDosjeActivationKey } from "@/lib/dosje-feed.mjs";
 
@@ -15,22 +15,39 @@ interface Props {
  * card. The parent card still opens the article; this chip opens the full file.
  */
 export default function DosjeChip({ article, dark = false, compact = false }: Props) {
-  const router = useRouter();
   const link = dosjeLinkForArticle(article);
+  const dossierHref = link?.href ?? "";
+  const dossierSlug = link?.slug ?? "";
+
+  useEffect(() => {
+    if (!dossierHref || !dossierSlug) return;
+    // Some legacy cards wrap their whole surface in an anchor. Capture the
+    // chip click at document level before that parent anchor can navigate.
+    function handleDocumentClick(event: MouseEvent) {
+      const target = event.target;
+      if (!(target instanceof Element)) return;
+      const chip = target.closest<HTMLElement>("[data-dosje-chip]");
+      if (chip?.getAttribute("data-dosje-chip") !== dossierSlug) return;
+      event.preventDefault();
+      event.stopPropagation();
+      event.stopImmediatePropagation();
+      window.location.assign(dossierHref);
+    }
+    document.addEventListener("click", handleDocumentClick, true);
+    return () => document.removeEventListener("click", handleDocumentClick, true);
+  }, [dossierHref, dossierSlug]);
+
   if (!link) return null;
-  const dossierHref = link.href;
   const dossierTitle = link.title;
 
   function blockParent(event: React.SyntheticEvent) {
     event.stopPropagation();
   }
 
-  function open(event: React.MouseEvent | React.KeyboardEvent) {
+  function open(event: React.KeyboardEvent) {
     event.preventDefault();
     event.stopPropagation();
-    // A chip lives inside a card link. Capture the activation before that
-    // parent link can handle it, then use the exact dossier destination.
-    router.push(dossierHref);
+    window.location.assign(dossierHref);
   }
 
   return (
@@ -40,7 +57,7 @@ export default function DosjeChip({ article, dark = false, compact = false }: Pr
       data-dosje-chip={link.slug}
       aria-label={`Hap dosjen: ${dossierTitle}`}
       title={`Hap dosjen: ${dossierTitle}`}
-      onPointerDownCapture={open}
+      onPointerDownCapture={blockParent}
       onMouseDownCapture={blockParent}
       onClickCapture={blockParent}
       onKeyDownCapture={(event) => {
