@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import type { Article } from "@/lib/mock-data";
-import { dosjeLinkForArticle } from "@/lib/dosje-feed.mjs";
+import { dosjeLinkForArticle, isDosjeActivationKey } from "@/lib/dosje-feed.mjs";
 
 interface Props {
   article: Pick<Article, "title" | "excerpt" | "category">;
@@ -21,9 +21,15 @@ export default function DosjeChip({ article, dark = false, compact = false }: Pr
   const dossierHref = link.href;
   const dossierTitle = link.title;
 
+  function blockParent(event: React.SyntheticEvent) {
+    event.stopPropagation();
+  }
+
   function open(event: React.MouseEvent | React.KeyboardEvent) {
     event.preventDefault();
     event.stopPropagation();
+    // A chip lives inside a card link. Capture the activation before that
+    // parent link can handle it, then use the exact dossier destination.
     router.push(dossierHref);
   }
 
@@ -34,9 +40,11 @@ export default function DosjeChip({ article, dark = false, compact = false }: Pr
       data-dosje-chip={link.slug}
       aria-label={`Hap dosjen: ${dossierTitle}`}
       title={`Hap dosjen: ${dossierTitle}`}
-      onClick={open}
-      onKeyDown={(event) => {
-        if (event.key === "Enter" || event.key === " ") open(event);
+      onPointerDownCapture={blockParent}
+      onMouseDownCapture={blockParent}
+      onClickCapture={open}
+      onKeyDownCapture={(event) => {
+        if (isDosjeActivationKey(event.key)) open(event);
       }}
       style={{
         display: "inline-flex",
