@@ -3941,20 +3941,28 @@
   },
   {
     "date": "2026-08-30",
-    "overallIndex": 48,
-    "totalArticles": 48,
-    "sourceCount": 37,
+    "overallIndex": 50,
+    "totalArticles": 50,
+    "sourceCount": 40,
     "stanceVersion": 3,
     "countries": {
       "Gjermani": {
-        "index": 50,
-        "positive": 0,
-        "neutral": 100,
+        "index": 75,
+        "positive": 50,
+        "neutral": 50,
         "negative": 0,
-        "n": 1,
+        "n": 2,
         "excluded": 0,
         "confident": false,
-        "stanceVersion": 3
+        "stanceVersion": 3,
+        "movement": {
+          "delta": 25,
+          "from": 50,
+          "outlet": "MDR.de",
+          "title": "Nga refugjat i Kosovës në sipërmarrës të suksesshëm: Shpetim Alaj dhe autobiografia e tij - MDR.de",
+          "evidence": "erfolgreichen Unternehmer",
+          "url": "https://www.mdr.de/nachrichten/thueringen/west-thueringen/eisenach/autobiografie-shpetim-alaj-handball-,kosovo-fluechtling-100.html"
+        }
       },
       "SHBA": {
         "index": 67,
@@ -3995,22 +4003,14 @@
         "stanceVersion": 3
       },
       "Itali": {
-        "index": 47,
-        "positive": 0,
-        "neutral": 94,
+        "index": 50,
+        "positive": 6,
+        "neutral": 89,
         "negative": 6,
-        "n": 17,
-        "excluded": 1,
+        "n": 18,
+        "excluded": 2,
         "confident": true,
-        "stanceVersion": 3,
-        "movement": {
-          "delta": -4,
-          "from": 51,
-          "outlet": "Remocontro",
-          "title": "Kosova aleate, por armët e Serbisë janë më të nevojshme",
-          "evidence": "armi della Serbia sono più utili",
-          "url": "https://www.remocontro.it/2026/08/28/kosovo-alleato-ma-le-armi-della-serbia-sono-piu-utili/"
-        }
+        "stanceVersion": 3
       },
       "Austri": {
         "index": 50,
@@ -4106,7 +4106,7 @@
         "neutral": 75,
         "negative": 0,
         "n": 4,
-        "excluded": 0,
+        "excluded": 1,
         "confident": false,
         "stanceVersion": 3,
         "movement": {
@@ -4131,6 +4131,14 @@
     },
     "headlines": [
       {
+        "title": "Vom Kosovo-Flüchtling zum erfolgreichen Unternehmer: Shpetim Alaj und seine Autobiografie - MDR.de",
+        "source": "MDR.de",
+        "country": "Gjermani",
+        "flag": "🇩🇪",
+        "url": "https://www.mdr.de/nachrichten/thueringen/west-thueringen/eisenach/autobiografie-shpetim-alaj-handball-,kosovo-fluechtling-100.html",
+        "sentiment": "positive"
+      },
+      {
         "title": "Dua Lipa Wants the World to Come to Kosovo - Bloomberg.com",
         "source": "Bloomberg",
         "country": "SHBA",
@@ -4139,19 +4147,11 @@
         "sentiment": "positive"
       },
       {
-        "title": "Il pragmatismo di Zelensky: il Kosovo è un alleato ma le armi della Serbia sono più utili - InsideOver",
-        "source": "InsideOver",
+        "title": "Taranto 2026 – La pugile Donjeta Sadiku fa la storia: è suo il primo oro del Kosovo ai Giochi del Mediterraneo. - Sporteconomy",
+        "source": "Sporteconomy",
         "country": "Itali",
         "flag": "🇮🇹",
-        "url": "https://it.insideover.com/politica/il-pragmatismo-di-zelensky-il-kosovo-e-un-alleato-ma-le-armi-della-serbia-sono-piu-utili.html",
-        "sentiment": "positive"
-      },
-      {
-        "title": "Turistas de todo el mundo descubren la magia del pueblo de Kosovo en los Ródopes - БНР Новини",
-        "source": "БНР Новини",
-        "country": "Spanjë",
-        "flag": "🇪🇸",
-        "url": "https://bnrnews.bg/es/post/521438/turistas-de-todo-el-mundo-descubren-la-magia-del-pueblo-de-kosovo-en-los-rodopes",
+        "url": "https://www.sporteconomy.it/la-pugile-donjeta-sadiku-fa-la-storia-e-suo-il-primo-oro-del-kosovo-ai-giochi-del-mediterraneo/",
         "sentiment": "positive"
       },
       {

@@ -1,10 +1,10 @@
 {
   "lastUpdated": "2026-08-30",
-  "overallIndex": 48,
-  "totalArticles": 48,
-  "sourceCount": 37,
+  "overallIndex": 50,
+  "totalArticles": 50,
+  "sourceCount": 40,
   "stanceVersion": 3,
-  "unattributed": 111,
+  "unattributed": 123,
   "nonEditorial": 2,
   "wrongKosovo": 0,
   "countries": {
@@ -33,17 +33,49 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-08-25",
           "lastSeen": "2026-08-27"
+        },
+        {
+          "name": "MDR.de",
+          "sentiment": "positive",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Vom Kosovo-Flüchtling zum erfolgreichen Unternehmer: Shpetim Alaj und seine Autobiografie - MDR.de",
+              "albanianTitle": "Nga refugjat i Kosovës në sipërmarrës të suksesshëm: Shpetim Alaj dhe autobiografia e tij - MDR.de",
+              "blurb": "Shpetim Alaj publikon autobiografinë e tij ku rrëfen rrugëtimin nga refugjat kosovar deri te sipërmarrësi i suksesshëm në Gjermani.",
+              "imageUrl": "https://images.mdr.de/image/e08bf306-8cb3-46f4-81c1-2d00545c525b/AAABoFHR84c/AAABnSSvrFg/16x9-big/lesung-shpetim-alaj-104.webp?width=1920",
+              "url": "https://www.mdr.de/nachrichten/thueringen/west-thueringen/eisenach/autobiografie-shpetim-alaj-handball-,kosovo-fluechtling-100.html",
+              "date": "2026-08-30",
+              "sentiment": "positive",
+              "reason": "Positive framing of a Kosovo refugee's success",
+              "isQuote": false,
+              "evidence": "erfolgreichen Unternehmer",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-30",
+          "lastSeen": "2026-08-30"
         }
       ],
       "summary": {
-        "index": 50,
-        "positive": 0,
-        "neutral": 100,
+        "index": 75,
+        "positive": 50,
+        "neutral": 50,
         "negative": 0,
-        "n": 1,
+        "n": 2,
         "excluded": 0,
         "confident": false,
-        "stanceVersion": 3
+        "stanceVersion": 3,
+        "movement": {
+          "delta": 25,
+          "from": 50,
+          "outlet": "MDR.de",
+          "title": "Nga refugjat i Kosovës në sipërmarrës të suksesshëm: Shpetim Alaj dhe autobiografia e tij - MDR.de",
+          "evidence": "erfolgreichen Unternehmer",
+          "url": "https://www.mdr.de/nachrichten/thueringen/west-thueringen/eisenach/autobiografie-shpetim-alaj-handball-,kosovo-fluechtling-100.html"
+        }
       }
     },
     "SHBA": {
@@ -526,6 +558,30 @@
           "lastSeen": "2026-08-28"
         },
         {
+          "name": "Sporteconomy",
+          "sentiment": "positive",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Taranto 2026 – La pugile Donjeta Sadiku fa la storia: è suo il primo oro del Kosovo ai Giochi del Mediterraneo. - Sporteconomy",
+              "albanianTitle": "Taranto 2026 – Boksierja Donjeta Sadiku shkruan histori: fiton medaljen e parë të artë për Kosovën në Lojërat Mesdhetare - Sporteconomy",
+              "blurb": "Boksierja Donjeta Sadiku fiton medaljen e artë në Lojërat Mesdhetare në Taranto, duke shkruar histori për sportin e Kosovës.",
+              "imageUrl": "https://www.sporteconomy.it/wp-content/uploads/2026/08/IMG_9517-1-scaled.jpeg",
+              "url": "https://www.sporteconomy.it/la-pugile-donjeta-sadiku-fa-la-storia-e-suo-il-primo-oro-del-kosovo-ai-giochi-del-mediterraneo/",
+              "date": "2026-08-29",
+              "sentiment": "positive",
+              "reason": "Positive celebration of Kosovo's achievement",
+              "isQuote": false,
+              "evidence": "primo oro del Kosovo",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-30",
+          "lastSeen": "2026-08-29"
+        },
+        {
           "name": "Virgilio Sport",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -552,26 +608,39 @@
         {
           "name": "agenziagiornalisticaopinione.it",
           "sentiment": "unknown",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "FIGC * FEDERAZIONE ITALIANA GIUOCO CALCIO: «AZZURRINE IN FINALE PER L'ORO, CIURLEO PAREGGIA ALL'ULTIMO MINUTO - agenziagiornalisticaopinione.it",
-              "albanianTitle": "Federata Italiane e Futbollit: Azzurrine në finale për të artën, Ciurleo barazon në minutën e fundit",
-              "blurb": "Ekipi i futbollit të femrave të Italisë është kualifikuar në finale për medaljen e artë pas barazimit në minutat shtesë.",
+              "albanianTitle": "FIGC: Azzurrine në finale për të artën, Ciurleo barazon në minutën e fundit - agenziagiornalisticaopinione.it",
+              "blurb": "Përfaqësuesja e Italisë në futboll për femra është kualifikuar në finale pas barazimit të shënuar në minutën e fundit.",
               "imageUrl": "https://www.agenziagiornalisticaopinione.it/wp-content/uploads/2026/08/y99zc82428b7-5698-4e07-93e3-385029461481-jpg.jpg",
               "url": "https://www.agenziagiornalisticaopinione.it/opinionews/figc-federazione-italiana-giuoco-calcio-azzurrine-in-finale-per-loro-ciurleo-pareggia-allultimo-minuto/",
               "date": "2026-08-29",
               "sentiment": "unknown",
-              "reason": "Nuk përmendet Kosova në titull",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "FIGC * FEDERAZIONE ITALIANA GIUOCO CALCIO: «GIOCHI DEL MEDITERRANEO, AZZURRINI 4° POSTO: MAROCCO VINCE 4-1 - agenziagiornalisticaopinione.it",
+              "albanianTitle": "FIGC: Lojërat Mesdhetare, italianët në vendin e 4-t: Maroku fiton 4-1 - agenziagiornalisticaopinione.it",
+              "blurb": "Përfaqësuesja e futbollit të Marokut ka mposhtur Italinë me rezultat 4-1 në kuadër të Lojërave Mesdhetare në futboll.",
+              "imageUrl": "https://www.agenziagiornalisticaopinione.it/wp-content/uploads/2026/08/y99zdb2b930c-2883-4655-a2f5-b54a038aa955-jpg.jpg",
+              "url": "https://www.agenziagiornalisticaopinione.it/opinionmix/figc-federazione-italiana-giuoco-calcio-giochi-del-mediterraneo-azzurrini-4-posto-marocco-vince-4-1/",
+              "date": "2026-08-30",
+              "sentiment": "unknown",
+              "reason": "Kosovo not mentioned, cannot infer outlet stance",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
             }
           ],
-          "totalArticles": 5,
+          "totalArticles": 6,
           "trend": "neutral",
           "firstSeen": "2026-08-22",
-          "lastSeen": "2026-08-29"
+          "lastSeen": "2026-08-30"
         },
         {
           "name": "dialessandria.it",
@@ -599,22 +668,14 @@
         }
       ],
       "summary": {
-        "index": 47,
-        "positive": 0,
-        "neutral": 94,
+        "index": 50,
+        "positive": 6,
+        "neutral": 89,
         "negative": 6,
-        "n": 17,
-        "excluded": 1,
+        "n": 18,
+        "excluded": 2,
         "confident": true,
-        "stanceVersion": 3,
-        "movement": {
-          "delta": -4,
-          "from": 51,
-          "outlet": "Remocontro",
-          "title": "Kosova aleate, por armët e Serbisë janë më të nevojshme",
-          "evidence": "armi della Serbia sono più utili",
-          "url": "https://www.remocontro.it/2026/08/28/kosovo-alleato-ma-le-armi-della-serbia-sono-piu-utili/"
-        }
+        "stanceVersion": 3
       }
     },
     "Austri": {
@@ -1239,6 +1300,30 @@
           "lastSeen": "2026-08-27"
         },
         {
+          "name": "Son Dakika",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Milliler Kosova'yı Yendi, Çeyrek Finale Yükseldi - Son Dakika",
+              "albanianTitle": "Kombëtarja turke mposht Kosovën dhe kualifikohet në çerekfinale - Son Dakika",
+              "blurb": "Kombëtarja turke ka mposhtur Kosovën duke siguruar kualifikimin për në çerekfinale të kampionatit të futbollit.",
+              "imageUrl": null,
+              "url": "https://www.sondakika.com/spor/haber-milliler-kosova-yi-yendi-ceyrek-finale-yukseldi-20190048/",
+              "date": "2026-08-30",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 5,
+          "trend": "neutral",
+          "firstSeen": "2026-08-20",
+          "lastSeen": "2026-08-30"
+        },
+        {
           "name": "T.C. Vakıflar Genel Müdürlüğü",
           "sentiment": "positive",
           "articleCount": 1,
@@ -1293,7 +1378,7 @@
         "neutral": 75,
         "negative": 0,
         "n": 4,
-        "excluded": 0,
+        "excluded": 1,
         "confident": false,
         "stanceVersion": 3,
         "movement": {
