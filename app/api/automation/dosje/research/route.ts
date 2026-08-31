@@ -4,6 +4,8 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { llmJSON } from "@/lib/llm";
 import { gatherEvidence } from "@/lib/dosje-sources.mjs";
 import { validateMilestoneDraft } from "@/lib/dosje-draft.mjs";
+import { relevanceGroupsForQuery } from "@/lib/dosje-sources.mjs";
+import { topicBySlug } from "@/lib/topics.mjs";
 
 export const dynamic = "force-dynamic";
 export const maxDuration = 300;
@@ -166,7 +168,8 @@ export async function POST(req: Request) {
   };
 
   // ── 1. evidence, before anything is written ────────────────────────────────
-  const sources = await gatherEvidence(subject, { max: 6 });
+  const relevanceGroups = topicBySlug(topicSlug ?? "")?.researchGroups ?? relevanceGroupsForQuery(subject);
+  const sources = await gatherEvidence(subject, { max: 6, relevanceGroups });
 
   // Gate on distinct publishers, not on how many pages were fetched. Six
   // documents from one institution are one account of events, and the
@@ -279,7 +282,9 @@ export async function GET(req: Request) {
   const subject = new URL(req.url).searchParams.get("subject");
   if (!subject) return NextResponse.json({ error: "subject required" }, { status: 400 });
 
-  const sources = await gatherEvidence(subject, { max: 6 });
+  const topicSlug = new URL(req.url).searchParams.get("topic");
+  const relevanceGroups = topicBySlug(topicSlug ?? "")?.researchGroups ?? relevanceGroupsForQuery(subject);
+  const sources = await gatherEvidence(subject, { max: 6, relevanceGroups });
   return NextResponse.json({
     subject,
     sources: sources.map((s) => ({
