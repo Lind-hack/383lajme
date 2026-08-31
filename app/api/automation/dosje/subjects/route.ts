@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getArticles } from "@/lib/db";
+import { TOPICS } from "@/lib/topics.mjs";
 import { matchTopic, isStandingSubject } from "@/lib/dosje-match.mjs";
 
 export const dynamic = "force-dynamic";
@@ -69,12 +70,18 @@ async function run(req: Request, dryRun: boolean) {
     return NextResponse.json({ error: topicError.message }, { status: 500 });
   }
 
-  const topics = (topicRows ?? []).map((t) => ({
-    ...(t as TopicRow),
-    anchors: (t as TopicRow).anchors ?? [],
-    signals: (t as TopicRow).signals ?? [],
-    excludes: (t as TopicRow).excludes ?? [],
-  }));
+  const topics = (topicRows ?? []).map((t) => {
+    const row = t as TopicRow;
+    const canonical = TOPICS.find((candidate) => candidate.slug === row.slug);
+    return {
+      ...row,
+      anchors: canonical?.anchors ?? row.anchors ?? [],
+      signals: canonical?.signals ?? row.signals ?? [],
+      excludes: canonical?.excludes ?? row.excludes ?? [],
+      matchGroups: canonical?.matchGroups ?? [],
+      context: canonical?.context ?? [],
+    };
+  });
   if (!topics.length) {
     return NextResponse.json({ ok: true, reason: "no_topics", matched: 0 });
   }
@@ -126,14 +133,40 @@ async function run(req: Request, dryRun: boolean) {
     });
   }
 
+  const scannedSlugs = articles.map((article) => article.slug).filter(Boolean);
+  const expectedKeys = new Set(matches.map((match) => `${match.article_slug}:${match.topic_slug}`));
+  let pruned = 0;
+  let staleMappings: Array<{ article_slug: string; topic_slug: string }> = [];
+  if (scannedSlugs.length) {
+    const { data: existingMappings, error: existingError } = await supabase
+      .from("dosje_article_topics")
+      .select("article_slug, topic_slug")
+      .in("article_slug", scannedSlugs);
+    if (existingError) return NextResponse.json({ error: existingError.message }, { status: 500 });
+    staleMappings = (existingMappings ?? []).filter(
+      (row) => !expectedKeys.has(`${row.article_slug}:${row.topic_slug}`)
+    ) as Array<{ article_slug: string; topic_slug: string }>;
+  }
+
   if (dryRun) {
     return NextResponse.json({
       ok: true,
       dryRun: true,
       articlesScanned: articles.length,
       matched: matches.length,
+      prunable: staleMappings.length,
       candidates,
     });
+  }
+
+  for (const stale of staleMappings) {
+    const { error: deleteError } = await supabase
+      .from("dosje_article_topics")
+      .delete()
+      .eq("article_slug", stale.article_slug)
+      .eq("topic_slug", stale.topic_slug);
+    if (deleteError) return NextResponse.json({ error: deleteError.message }, { status: 500 });
+    pruned += 1;
   }
 
   // Upsert so a re-run is idempotent: the same article keeps the same topic and
@@ -179,6 +212,7 @@ async function run(req: Request, dryRun: boolean) {
     ok: true,
     articlesScanned: articles.length,
     matched: written,
+    pruned,
     candidates,
   });
 }
