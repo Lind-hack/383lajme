@@ -4182,9 +4182,9 @@
   },
   {
     "date": "2026-08-31",
-    "overallIndex": 50,
-    "totalArticles": 32,
-    "sourceCount": 28,
+    "overallIndex": 52,
+    "totalArticles": 55,
+    "sourceCount": 38,
     "stanceVersion": 3,
     "countries": {
       "Gjermani": {
@@ -4198,16 +4198,16 @@
         "stanceVersion": 3
       },
       "SHBA": {
-        "index": 100,
-        "positive": 100,
-        "neutral": 0,
+        "index": 75,
+        "positive": 50,
+        "neutral": 50,
         "negative": 0,
-        "n": 1,
+        "n": 2,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3,
         "movement": {
-          "delta": 33,
+          "delta": 8,
           "from": 67,
           "outlet": "Bloomberg",
           "title": "Dua Lipa fton botën ta vizitojë Kosovën - Bloomberg.com",
@@ -4220,7 +4220,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 1,
+        "n": 3,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -4230,20 +4230,28 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 2,
+        "n": 4,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
       },
       "Itali": {
-        "index": 50,
-        "positive": 9,
-        "neutral": 82,
-        "negative": 9,
-        "n": 11,
+        "index": 54,
+        "positive": 15,
+        "neutral": 77,
+        "negative": 8,
+        "n": 13,
         "excluded": 1,
         "confident": true,
-        "stanceVersion": 3
+        "stanceVersion": 3,
+        "movement": {
+          "delta": 4,
+          "from": 50,
+          "outlet": "LameziaTerme.it",
+          "title": "Soveria Mannelli, UNITALSI dhuron shpresë për Kosovën",
+          "evidence": "dona speranza al Kosovo",
+          "url": "https://www.lameziaterme.it/soveria-mannelli-unitalsi-dona-speranza-kosovo/"
+        }
       },
       "Austri": {
         "index": 50,
@@ -4286,11 +4294,11 @@
         "stanceVersion": 3
       },
       "Spanjë": {
-        "index": 25,
+        "index": 36,
         "positive": 0,
-        "neutral": 50,
-        "negative": 50,
-        "n": 6,
+        "neutral": 73,
+        "negative": 27,
+        "n": 11,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
@@ -4300,48 +4308,40 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 2,
+        "n": 6,
         "excluded": 0,
-        "confident": false,
+        "confident": true,
         "stanceVersion": 3
       },
       "Suedi": {
-        "index": null,
+        "index": 50,
         "positive": 0,
-        "neutral": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 0,
+        "n": 1,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
       },
       "Poloni": {
-        "index": null,
+        "index": 50,
         "positive": 0,
-        "neutral": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 0,
+        "n": 1,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
       },
       "Turqi": {
-        "index": 67,
-        "positive": 33,
-        "neutral": 67,
+        "index": 62,
+        "positive": 25,
+        "neutral": 75,
         "negative": 0,
-        "n": 3,
+        "n": 8,
         "excluded": 0,
-        "confident": false,
-        "stanceVersion": 3,
-        "movement": {
-          "delta": 5,
-          "from": 62,
-          "outlet": "Forbes Türkiye",
-          "title": "Dua Lipa promovon shtetin më të ri në Evropë para botës - Forbes Türkiye",
-          "evidence": "en genç ülkesini",
-          "url": "https://www.forbes.com.tr/forbes-life/dua-lipa-avrupa-nin-en-genc-ulkesini-dunyaya-tanitiyor"
-        }
+        "confident": true,
+        "stanceVersion": 3
       },
       "Kroaci": {
         "index": null,
@@ -4357,7 +4357,7 @@
     "headlines": [
       {
         "title": "Vom Kosovo-Flüchtling zum erfolgreichen Unternehmer: Shpetim Alaj und seine Autobiografie - MDR.de",
-        "source": "MDR.de",
+        "source": "mdr.de",
         "country": "Gjermani",
         "flag": "🇩🇪",
         "url": "https://www.mdr.de/nachrichten/thueringen/west-thueringen/eisenach/autobiografie-shpetim-alaj-handball-,kosovo-fluechtling-100.html",
@@ -4372,20 +4372,12 @@
         "sentiment": "positive"
       },
       {
-        "title": "Taranto 2026 – La pugile Donjeta Sadiku fa la storia: è suo il primo oro del Kosovo ai Giochi del Mediterraneo. - Sporteconomy",
-        "source": "Sporteconomy",
+        "title": "Soveria Mannelli, l’UNITALSI dona speranza al Kosovo - LameziaTerme.it",
+        "source": "LameziaTerme.it",
         "country": "Itali",
         "flag": "🇮🇹",
-        "url": "https://www.sporteconomy.it/la-pugile-donjeta-sadiku-fa-la-storia-e-suo-il-primo-oro-del-kosovo-ai-giochi-del-mediterraneo/",
+        "url": "https://www.lameziaterme.it/soveria-mannelli-unitalsi-dona-speranza-kosovo/",
         "sentiment": "positive"
-      },
-      {
-        "title": "Die Jugend des PDK umgibt die Regierung mit Gefahrband: Kurtis Stolpermacht gefährdet Demokratie und Staat - Periskopi",
-        "source": "Periskopi",
-        "country": "Austri",
-        "flag": "🇦🇹",
-        "url": "https://periskopi.com/de/2026/8/jugend-pdk-umgibt-regierung-gefahrband-kurtis-stolpermacht-gefahrdet-demokratie-staat",
-        "sentiment": "negative"
       },
       {
         "title": "L'UE critica che il Kosovo convalidi le dimissioni dei giudici serbi già ritirate - Demócrata",
@@ -4396,8 +4388,16 @@
         "sentiment": "negative"
       },
       {
+        "title": "La UE critica que Kosovo valide dimisiones de jueces serbios ya retiradas - Demócrata",
+        "source": "Demócrata",
+        "country": "Spanjë",
+        "flag": "🇪🇸",
+        "url": "https://www.democrata.es/internacional/la-ue-critica-que-kosovo-valide-dimisiones-de-jueces-serbios-ya-retiradas/",
+        "sentiment": "negative"
+      },
+      {
         "title": "La UE lamenta que Kosovo haya acabado aceptando dimisiones de jueces serbios que ya habían sido retiradas - Europa Press",
-        "source": "Europa Press",
+        "source": "tuperiodico.soy",
         "country": "Spanjë",
         "flag": "🇪🇸",
         "url": "https://www.europapress.es/internacional/noticia-ue-lamenta-kosovo-haya-acabado-aceptando-dimisiones-jueces-serbios-ya-sido-retiradas-20260828184957.html",

@@ -55,9 +55,9 @@
     },
     "Balkan Insight": {
       "country": "Britani",
-      "total": 6,
+      "total": 7,
       "positive": 1,
-      "neutral": 5,
+      "neutral": 6,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-19",
@@ -68,7 +68,8 @@
         "https://balkaninsight.com/2026/08/21/thaci-expects-acquittal-as-hague-courts-war-crimes-verdict-nears/btj/",
         "https://balkaninsight.com/2026/08/26/kosovos-ruling-party-optimistic-about-resolving-deadlock-over-new-president/bi/",
         "https://balkaninsight.com/2026/08/27/kosovo-judicial-council-rejects-serb-judges-reinstation/bi/",
-        "https://balkaninsight.com/2026/08/31/two-kosovo-serbs-plead-guilty-to-participating-in-2022-unrest/bi/"
+        "https://balkaninsight.com/2026/08/31/two-kosovo-serbs-plead-guilty-to-participating-in-2022-unrest/bi/",
+        "https://balkaninsight.com/2026/08/31/kosovos-vetevendosje-ldk-agree-on-ex-judge-as-joint-presidential-candidate/bi/"
       ]
     },
     "Ouest-France": {
@@ -520,34 +521,39 @@
     },
     "Demócrata": {
       "country": "Spanjë",
-      "total": 6,
+      "total": 10,
       "positive": 0,
-      "neutral": 4,
+      "neutral": 8,
       "negative": 2,
       "unknown": 0,
       "firstSeen": "2026-08-22",
-      "lastSeen": "2026-08-28",
+      "lastSeen": "2026-08-31",
       "urls": [
         "https://www.democrata.es/en/international/serbia-urges-nato-to-stop-the-withdrawal-of-kfor-from-the-ibar-bridge-in-mitrovica/",
         "https://www.democrata.es/it/internazionale/serbia-invita-la-nato-a-fermare-il-ritiro-della-kfor-dal-ponte-ibar-a-mitrovica/amp/",
         "https://www.democrata.es/en/international/the-eu-criticizes-that-kosovo-validates-resignations-of-serbian-judges-already-withdrawn/",
         "https://www.democrata.es/fr/international/l-ue-critique-que-le-kosovo-valide-des-demissions-de-juges-serbes-deja-retirees/",
         "https://www.democrata.es/it/internazionale/l-ue-critica-che-il-kosovo-convalidi-le-dimissioni-dei-giudici-serbi-gia-ritirate/",
-        "https://www.democrata.es/internacional/la-ue-critica-que-kosovo-valide-dimisiones-de-jueces-serbios-ya-retiradas/"
+        "https://www.democrata.es/internacional/la-ue-critica-que-kosovo-valide-dimisiones-de-jueces-serbios-ya-retiradas/",
+        "https://www.democrata.es/en/international/government-and-opposition-agree-on-a-consensus-candidate-for-the-presidency-of-kosovo-to-avoid-new-elections/",
+        "https://www.democrata.es/fr/international/gouvernement-et-opposition-s-accordent-sur-un-candidat-de-consensus-a-la-presidence-du-kosovo-pour-eviter-de-nouvelles-elections/",
+        "https://www.democrata.es/it/internazionale/governo-e-opposizione-concordano-un-candidato-di-consenso-alla-presidenza-del-kosovo-per-evitare-nuove-elezioni/",
+        "https://www.democrata.es/internacional/gobierno-y-oposicion-pactan-un-candidato-de-consenso-a-la-presidencia-de-kosovo-para-evitar-nuevas-elecciones/amp/"
       ]
     },
     "Europa Press": {
       "country": "Spanjë",
-      "total": 2,
+      "total": 3,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 1,
       "unknown": 0,
       "firstSeen": "2026-08-22",
-      "lastSeen": "2026-08-28",
+      "lastSeen": "2026-08-31",
       "urls": [
         "https://www.europapress.es/internacional/noticia-serbia-pide-mision-otan-kosovo-reconsidere-retirada-puente-ibar-mitrovica-20260822092257.html",
-        "https://www.europapress.es/internacional/noticia-ue-lamenta-kosovo-haya-acabado-aceptando-dimisiones-jueces-serbios-ya-sido-retiradas-20260828184957.html"
+        "https://www.europapress.es/internacional/noticia-ue-lamenta-kosovo-haya-acabado-aceptando-dimisiones-jueces-serbios-ya-sido-retiradas-20260828184957.html",
+        "https://www.europapress.es/internacional/noticia-partido-gobernante-oposicion-acuerdan-candidato-presidencia-kosovo-evitar-elecciones-20260831160656.html"
       ]
     },
     "Sport24": {
@@ -666,13 +672,13 @@
     },
     "sport-fm.gr": {
       "country": "Greqi",
-      "total": 10,
+      "total": 11,
       "positive": 1,
-      "neutral": 7,
+      "neutral": 8,
       "negative": 0,
       "unknown": 2,
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-29",
+      "lastSeen": "2026-08-30",
       "urls": [
         "https://www.sport-fm.gr/article/amp/mesogeiakoi-agwnes-agriemeni-stin-premiera-tis-i-ethniki-andrwn-sarwse-to-kosobo-amp/5142502",
         "https://www.sport-fm.gr/article/amp/ellada-kosobo-3-0-set-amp/5142590",
@@ -683,7 +689,8 @@
         "https://www.sport-fm.gr/article/amp/ellada-kosobo-40-20-amp/5143343",
         "https://www.sport-fm.gr/article/4133262",
         "https://www.sport-fm.gr/article/amp/Live-kosobo-kupros-amp/4327483",
-        "https://www.sport-fm.gr/article/795903"
+        "https://www.sport-fm.gr/article/795903",
+        "https://www.sport-fm.gr/article/5004006"
       ]
     },
     "In.gr": {
@@ -767,15 +774,16 @@
     },
     "Capital.gr": {
       "country": "Greqi",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-21",
-      "lastSeen": "2026-08-21",
+      "lastSeen": "2026-08-31",
       "urls": [
-        "https://www.capital.gr/diethni/4011690/entasi-sto-kosobo-gia-to-anoigma-mias-gefuras/?amp=true"
+        "https://www.capital.gr/diethni/4011690/entasi-sto-kosobo-gia-to-anoigma-mias-gefuras/?amp=true",
+        "https://www.capital.gr/diethni/4013561/kosobo-sumfonia-kourti-me-tin-antipoliteusi-gia-tin-eklogi-neou-proedrou/"
       ]
     },
     "THE BEST": {
@@ -982,19 +990,21 @@
     },
     "Son Dakika": {
       "country": "Turqi",
-      "total": 5,
+      "total": 7,
       "positive": 0,
-      "neutral": 3,
+      "neutral": 5,
       "negative": 0,
       "unknown": 2,
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-30",
+      "lastSeen": "2026-08-31",
       "urls": [
         "https://www.sondakika.com/haber/haber-kosova-da-halter-sampiyonasi-basladi-20162761/",
         "https://www.sondakika.com/3-sayfa/haber-kosovo-da-savas-suclari-sorusturmasi-23-kalinti-bu-20159357/",
         "https://www.sondakika.com/3-sayfa/haber-kosova-da-toplu-mezarlar-ve-silahlar-bulundu-20164376/",
         "https://www.sondakika.com/spor/haber-kadin-voleybol-takimi-kosova-yi-3-0-maglup-etti-20178794/",
-        "https://www.sondakika.com/spor/haber-milliler-kosova-yi-yendi-ceyrek-finale-yukseldi-20190048/"
+        "https://www.sondakika.com/spor/haber-milliler-kosova-yi-yendi-ceyrek-finale-yukseldi-20190048/",
+        "https://www.sondakika.com/politika/haber-kosova-da-cumhurbaskani-adayligi-uzerinde-uzlasma-20193550/",
+        "https://www.sondakika.com/guncel/haber-kosova-da-cumhurbaskani-adayi-sejdiu-belirlendi-20194210/"
       ]
     },
     "Harici": {
@@ -1721,7 +1731,7 @@
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-26",
-      "lastSeen": "2026-08-27",
+      "lastSeen": "2026-08-28",
       "urls": [
         "https://www.smhi.se/vader/prognoser-och-varningar/vaderprognos/q/Mitrovica/789225",
         "https://www.smhi.se/vader/prognoser-och-varningar/vaderprognos/q/Pristina/786714",
@@ -1923,7 +1933,7 @@
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-27",
-      "lastSeen": "2026-08-27",
+      "lastSeen": "2026-08-29",
       "urls": [
         "https://www.dialessandria.it/sport/giochi-mediterraneo-franceschini-ripagato-laffetto-con-una-vittoria-preziosa/296423.html"
       ]
@@ -2023,16 +2033,17 @@
     },
     "Bloomberg": {
       "country": "SHBA",
-      "total": 2,
+      "total": 3,
       "positive": 1,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-28",
-      "lastSeen": "2026-08-28",
+      "lastSeen": "2026-08-31",
       "urls": [
         "https://www.bloomberg.com/news/articles/2026-08-27/dua-lipa-puts-kosovo-on-the-music-map-with-sunny-hill-festival",
-        "https://www.bloomberg.com/news/newsletters/2026-08-28/dua-lipa-wants-the-world-to-come-to-kosovo"
+        "https://www.bloomberg.com/news/newsletters/2026-08-28/dua-lipa-wants-the-world-to-come-to-kosovo",
+        "https://www.bloomberg.com/news/articles/2026-08-31/kosovo-leaders-agree-on-president-pick-after-months-of-deadlock"
       ]
     },
     "rferl.org": {
@@ -2137,7 +2148,7 @@
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-28",
-      "lastSeen": "2026-08-27",
+      "lastSeen": "2026-08-31",
       "urls": [
         "https://igamingpolska.pl/mistrzostwa-swiata-socca-2026-terminarz-wyniki/"
       ]
@@ -2238,6 +2249,85 @@
       "total": 1,
       "positive": 1,
       "neutral": 0,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-31",
+      "lastSeen": "2026-08-31",
+      "urls": [
+        "https://www.forbes.com.tr/forbes-life/dua-lipa-avrupa-nin-en-genc-ulkesini-dunyaya-tanitiyor"
+      ]
+    },
+    "Reuters": {
+      "country": "Britani",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-31",
+      "lastSeen": "2026-08-31",
+      "urls": [
+        "https://www.reuters.com/world/kosovo-parties-strike-deal-elect-president-breaking-deadlock-2026-08-31/"
+      ]
+    },
+    "LameziaTerme.it": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 1,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-31",
+      "lastSeen": "2026-08-31",
+      "urls": [
+        "https://www.lameziaterme.it/soveria-mannelli-unitalsi-dona-speranza-kosovo/"
+      ]
+    },
+    "BusinessDaily": {
+      "country": "Greqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-31",
+      "lastSeen": "2026-08-31",
+      "urls": [
+        "https://www.businessdaily.gr/diethni/228943_symfonia-vv-kai-ldk-gia-stirixi-seintioy-stin-proedria-toy-kosoboy"
+      ]
+    },
+    "Αθήνα 9,84": {
+      "country": "Greqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-31",
+      "lastSeen": "2026-08-31",
+      "urls": [
+        "https://athina984.gr/2026/08/31/kosovo-ta-kommata-vv-kai-ldk-symfonisan-na-stirixoyn-apo-koinoy-ton-seintioy-gia-tin-proedria-termatizontas-to-politiko-adiexodo/"
+      ]
+    },
+    "A Haber": {
+      "country": "Turqi",
+      "total": 2,
+      "positive": 1,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-31",
+      "lastSeen": "2026-08-31",
+      "urls": [
+        "https://www.ahaber.com.tr/ozel-haberler/2026/08/31/kosova-savunma-bakani-maqedonci-a-haberde",
+        "https://www.ahaber.com.tr/video/ozel-haber/kosova-savunma-bakani-a-habere-konustu"
+      ]
+    },
+    "forbes.com.tr": {
+      "country": "Turqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-31",
