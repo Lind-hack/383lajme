@@ -15,6 +15,14 @@ type Driver = {
   headshot_url?: string;
   team_colour?: string;
   grid_position?: number;
+  championship_position?: number;
+  championship_points?: number;
+  latest_race_position?: number | null;
+  latest_race_points?: number;
+  weekend_points?: number;
+  gap_to_leader?: number;
+  gap_change?: number;
+  position_change?: number;
 };
 
 type TimingRow = {
@@ -49,6 +57,12 @@ type Props = {
   history?: HistoryPoint[];
   selectedDriverKey?: string;
   onBetDriver?: (driverKey: string) => void;
+  championship?: {
+    season?: number;
+    racesRemaining?: number;
+    sprintsRemaining?: number;
+    latestRace?: { circuit?: string | null; endedAt?: string | null };
+  } | null;
 };
 
 const cleanProbability = (value: number) =>
@@ -168,7 +182,9 @@ export default function F1RaceControl({
   history = [],
   selectedDriverKey,
   onBetDriver,
+  championship,
 }: Props) {
+  const isChampionship = Boolean(championship);
   const [showAllDrivers, setShowAllDrivers] = useState(false);
   const raceStatus = String(timing?.race?.status ?? "UNAVAILABLE").toUpperCase();
   const isLive = raceStatus === "LIVE";
@@ -203,7 +219,7 @@ export default function F1RaceControl({
     () => oddsOrder.slice(0, 5),
     [oddsOrder]
   );
-  const field = isLive || isFinished ? liveOrder : oddsOrder;
+  const field = isChampionship ? oddsOrder : isLive || isFinished ? liveOrder : oddsOrder;
   const visibleDrivers = showAllDrivers ? field : field.slice(0, 10);
   const chartSeries = useMemo(
     () =>
@@ -231,16 +247,22 @@ export default function F1RaceControl({
   return (
     <section
       className="f1-race-control tregu-detail-chart-shell"
+      data-championship={isChampionship || undefined}
       data-tone="sport"
       data-f1-race-ui-version={F1_RACE_UI_VERSION}
-      aria-label="Tregu i fituesit të garës Formula 1"
+      aria-label={isChampionship ? "Tregu i kampionit të Formula 1" : "Tregu i fituesit të garës Formula 1"}
     >
       <header className="f1-race-header">
         <div>
-          <SportBrandMark brandKey="f1" size="lg" />
-          <h2>22 pilotë. Një fitues.</h2>
+          <div className="f1-title-lockup">
+            <SportBrandMark brandKey="f1" size="lg" />
+            {isChampionship ? <span className="f1-crown-mark"><Trophy size={22} strokeWidth={2} aria-hidden /></span> : null}
+          </div>
+          <h2>{isChampionship ? `Kush merr kurorën e ${championship?.season ?? "sezonit"}?` : "22 pilotë. Një fitues."}</h2>
           <p>
-            {marketOpen && !isFinished
+            {isChampionship
+              ? `Çdo garë lëviz gjasat sipas pikëve zyrtare, diferencës nga kreu dhe modelit OpenF1. Tregu qëndron hapur deri sa titulli të vendoset matematikisht.`
+              : marketOpen && !isFinished
               ? "Gjasat përditësohen vetëm kur mbërrin një vektor i verifikuar. Çdo vijë mban ngjyrën e skuadrës."
               : "Historia e regjistruar e garës, me ngjyrat e skuadrave."}
           </p>
@@ -248,7 +270,9 @@ export default function F1RaceControl({
         <div className="f1-race-status" data-live={isLive || undefined}>
           {isLive ? <Radio size={16} strokeWidth={2} aria-hidden /> : <Flag size={16} strokeWidth={2} aria-hidden />}
           <span>
-            {isLive
+            {isChampionship
+              ? `${championship?.racesRemaining ?? 0} gara të mbetura`
+              : isLive
               ? `LIVE${lap ? ` · Xhiro ${lap}${totalLaps ? `/${totalLaps}` : ""}` : ""}`
               : isFinished
                 ? "Gara përfundoi"
@@ -261,12 +285,12 @@ export default function F1RaceControl({
         <div className="f1-chart-shell">
           <div className="f1-section-heading">
             <div>
-              <h3>5 favoritët</h3>
-              <p>Vetëm vijat që ndikojnë garën për fitore</p>
+              <h3>{isChampionship ? "5 pretendentët" : "5 favoritët"}</h3>
+              <p>{isChampionship ? "Historia e gjasave për kurorën" : "Vetëm vijat që ndikojnë garën për fitore"}</p>
             </div>
             <span className="f1-refresh-label">
               <Radio size={14} strokeWidth={2} aria-hidden />
-              {marketOpen && !isFinished ? "të dhëna të verifikuara" : "arkiv"}
+              {isChampionship ? "OpenF1 + pikët zyrtare" : marketOpen && !isFinished ? "të dhëna të verifikuara" : "arkiv"}
             </span>
           </div>
           <ExactMarketChart
@@ -278,7 +302,7 @@ export default function F1RaceControl({
           />
         </div>
 
-        {!isLive && (
+        {!isLive && !isChampionship && (
           <aside className="f1-grid-card" aria-label="Gridi zyrtar i nisjes">
             <div className="f1-grid-card-head">
               <span>
@@ -296,14 +320,18 @@ export default function F1RaceControl({
         <div className="f1-section-heading">
           <div>
             <h3 id="f1-favorites-title">
-              {showAllDrivers
+              {isChampionship
+                ? showAllDrivers ? "Të gjithë pilotët" : "10 pretendentët për titull"
+                : showAllDrivers
                 ? drivers.length === 22
                   ? "Të 22 pilotët"
                   : "Të gjithë pilotët"
                 : "10 favoritët për fitore"}
             </h3>
             <p>
-              {isLive || isFinished
+              {isChampionship
+                ? "Gjasat, pikët dhe lëvizja ndaj kreut pas garës së fundit"
+                : isLive || isFinished
                 ? "Renditja dhe diferenca ndaj liderit"
                 : showAllDrivers
                   ? "Nga favoriti te piloti me gjasën më të ulët"
@@ -312,14 +340,14 @@ export default function F1RaceControl({
           </div>
           <span className="f1-driver-market-state">
             <Trophy size={18} strokeWidth={1.9} aria-hidden />
-            {isLive || isFinished ? "LIVE TIMING" : "GJASA PËR FITORE"}
+            {isChampionship ? "GARA PËR KURORËN" : isLive || isFinished ? "LIVE TIMING" : "GJASA PËR FITORE"}
           </span>
         </div>
         <ol id="f1-driver-market-list" className="f1-favorites">
           {visibleDrivers.map((driver, index) => {
             const color = teamColor(driver);
             const timingRow = timingByDriver.get(driver.key.toUpperCase());
-            const position = isLive || isFinished ? timingRow?.position ?? index + 1 : index + 1;
+            const position = isChampionship ? driver.championship_position ?? index + 1 : isLive || isFinished ? timingRow?.position ?? index + 1 : index + 1;
             const gap =
               position === 1
                 ? "Lider"
@@ -341,10 +369,19 @@ export default function F1RaceControl({
                 <DriverFace driver={driver} className="f1-favorite-face" />
                 <span className="f1-favorite-name">
                   <strong>{driver.label}</strong>
-                  <small>{driver.team}</small>
+                  <small>{isChampionship ? `${driver.team} · ${driver.championship_points ?? 0} pikë` : driver.team}</small>
                 </span>
+                {isChampionship ? (
+                  <span className="f1-championship-movement" data-direction={Number(driver.gap_change) > 0 ? "closer" : Number(driver.gap_change) < 0 ? "farther" : "flat"}>
+                    <strong>{driver.latest_race_position ? `P${driver.latest_race_position} · +${driver.weekend_points ?? driver.latest_race_points ?? 0}` : `+${driver.weekend_points ?? 0} pikë`}</strong>
+                    <small>{driver.gap_to_leader ? `${driver.gap_to_leader} pikë nga kreu` : "Lider i kampionatit"}</small>
+                    {driver.gap_to_leader ? <em>{Number(driver.gap_change) > 0 ? `Afroi ${driver.gap_change}` : Number(driver.gap_change) < 0 ? `U largua ${Math.abs(Number(driver.gap_change))}` : "Pa ndryshim"}</em> : null}
+                  </span>
+                ) : null}
                 <span className="f1-favorite-odds" data-live={isLive || isFinished || undefined}>
-                  {isLive || isFinished
+                  {isChampionship
+                    ? `${(cleanProbability(driver.probability) * 100).toFixed(1)}%`
+                    : isLive || isFinished
                     ? gap
                     : `${(cleanProbability(driver.probability) * 100).toFixed(1)}%`}
                 </span>

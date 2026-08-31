@@ -571,9 +571,10 @@ export async function runLiveSportsAutomation(now = new Date()) {
   // The official live heartbeat is the critical two-minute lane. Template
   // discovery is best-effort and must never delay or cancel score refreshes.
   const live = await runOfficialSportsRefresh("live_sports", oneMinuteRunKey(now), now);
-  const [f1Template, footballTemplate] = await Promise.allSettled([
+  const [f1Template, footballTemplate, f1Championship] = await Promise.allSettled([
     runUpcomingF1TemplateAutomation(now),
     runUpcomingFootballTemplateAutomation(now),
+    runF1ChampionshipAutomation(now),
   ]);
   return {
     ...live,
@@ -583,6 +584,9 @@ export async function runLiveSportsAutomation(now = new Date()) {
     football_template: footballTemplate.status === "fulfilled"
       ? footballTemplate.value
       : { ok: false, created: 0, reason: "football_template_unavailable", error: String(footballTemplate.reason instanceof Error ? footballTemplate.reason.message : footballTemplate.reason) },
+    f1_championship: f1Championship.status === "fulfilled"
+      ? f1Championship.value
+      : { ok: false, reason: "f1_championship_unavailable", error: String(f1Championship.reason instanceof Error ? f1Championship.reason.message : f1Championship.reason) },
   };
 }
 
@@ -988,11 +992,29 @@ export async function runUpcomingF1TemplateAutomation(now = new Date()) {
   } catch (error) { const message=String(error instanceof Error?error.message:error); await finishRun(admin, started.run.id, "failed", {}, message); throw error; }
 }
 
+async function f1ChampionshipRunKey(admin: any, now: Date, season: number) {
+  const { data, error } = await admin.from("markets")
+    .select("live_event,status")
+    .eq("market_classification", "live_f1")
+    .order("updated_at", { ascending: false })
+    .limit(30);
+  if (error) throw new Error(`Could not inspect the active F1 race window: ${error.message}`);
+  const raceWindow = (data ?? []).map((row: any) => row.live_event).find((event: any) => {
+    if (!event || event.event_kind === "championship") return false;
+    const raceStart = Date.parse(String(event.race_start ?? event.kickoff ?? ""));
+    return Number.isFinite(raceStart) && now.getTime() >= raceStart - 30 * 60_000 && now.getTime() <= raceStart + 6 * 60 * 60_000;
+  });
+  if (raceWindow) {
+    return `f1-championship:${season}:race-window:${raceWindow.event_id}:${Math.floor(now.getTime() / (15 * 60_000))}`;
+  }
+  return `f1-championship:${season}:${kosovoLocalDate(now)}:${Math.floor(now.getUTCHours() / 6)}`;
+}
+
 export async function runF1ChampionshipAutomation(now = new Date()) {
   const admin = createAdminClient();
   if (!admin) throw new Error("Supabase service-role configuration is required for the F1 championship market.");
   const season = now.getUTCFullYear();
-  const runKey = `f1-championship:${season}:${kosovoLocalDate(now)}:${Math.floor(now.getUTCHours() / 6)}`;
+  const runKey = await f1ChampionshipRunKey(admin, now, season);
   const started = await beginRun(admin, "pre_match_refresh", runKey);
   if (started.existing) return { ok: true, skipped: true, runKey, reason: "already_processed", run: started.run };
   try {
@@ -1034,6 +1056,7 @@ export async function runF1ChampionshipAutomation(now = new Date()) {
       await admin.from("markets").update({
         pre_match_analysis: { source: "OpenF1", model: championship.model, updated_at: now.toISOString() },
         closes_at: template.closes_at,
+        sport_outcomes: template.sport_outcomes,
       }).eq("id", market.id).eq("status", "open");
     }
 

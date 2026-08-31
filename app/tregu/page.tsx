@@ -89,7 +89,7 @@ interface MarketRow {
   status: string;
   market_classification?: string;
   market_type?: string;
-  live_event?: { league?: string; sport?: string } | null;
+  live_event?: { league?: string; sport?: string; event_kind?: string } | null;
   closes_at: string;
   q_yes: number;
   q_no: number;
@@ -108,6 +108,12 @@ interface MarketRow {
     team_color?: string;
     team_colour?: string;
     logo?: string;
+    championship_position?: number;
+    championship_points?: number;
+    latest_race_position?: number | null;
+    weekend_points?: number;
+    gap_to_leader?: number;
+    gap_change?: number;
   }[] | null;
   outcome_probabilities?: Record<string, number> | null;
   outcome_history?: Record<string, { created_at: string; probability: number }[]> | null;
@@ -424,6 +430,7 @@ export default function TreguHub() {
     lastDataAt: m.last_data_at,
     marketType: m.market_type,
     league: m.live_event?.league ?? null,
+    eventKind: m.live_event?.event_kind ?? null,
     sportOutcomes: m.sport_outcomes,
     outcomeProbabilities: m.outcome_probabilities,
     outcomeHistory: m.outcome_history,

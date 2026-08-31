@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { Trophy } from "lucide-react";
 import { toExactSeries } from "@/lib/tregu-hub-market.mjs";
 import type { MarketMedia } from "@/lib/tregu-market-media.mjs";
 import ExactMarketChart, { type ExactMarketSeries } from "./exact-market-chart";
@@ -23,6 +24,7 @@ export interface MiniMarket {
   marketMedia?: MarketMedia | null;
   marketType?: string;
   league?: string | null;
+  eventKind?: string | null;
   sportOutcomes?: {
     key: string;
     label: string;
@@ -31,6 +33,12 @@ export interface MiniMarket {
     team_color?: string;
     team_colour?: string;
     logo?: string;
+    championship_position?: number;
+    championship_points?: number;
+    latest_race_position?: number | null;
+    weekend_points?: number;
+    gap_to_leader?: number;
+    gap_change?: number;
   }[] | null;
   outcomeProbabilities?: Record<string, number> | null;
   outcomeHistory?: Record<string, { created_at: string; probability: number }[]> | null;
@@ -97,6 +105,13 @@ export default function MarketMiniCard({ market }: { market: MiniMarket; compact
   const isClosingSoon = !closed && ms !== null && ms > 0 && ms < 48 * 3_600_000;
   const isMover = exactPoints.length >= 2 && deltaPp !== null && Math.abs(deltaPp) >= 3;
   const variant: Variant = isNew ? "new" : isClosingSoon ? "closing" : isMover ? "mover" : "default";
+  const isChampionship = market.marketType === "f1_race_winner" && market.eventKind === "championship";
+  const championshipLeaders = isChampionship
+    ? (market.sportOutcomes ?? [])
+        .map((driver) => ({ ...driver, probability: Number(market.outcomeProbabilities?.[driver.key] ?? 0) }))
+        .sort((a, b) => b.probability - a.probability)
+        .slice(0, 3)
+    : [];
 
   const goToSide = (e: React.MouseEvent, side: "PO" | "JO") => {
     // The whole card links to the market; PO/JO jump straight to that side.
@@ -104,6 +119,40 @@ export default function MarketMiniCard({ market }: { market: MiniMarket; compact
     e.stopPropagation();
     router.push(`/tregu/${market.slug}?ana=${side.toLowerCase()}`);
   };
+
+  if (isChampionship) {
+    return (
+      <Link
+        href={`/tregu/${market.slug}`}
+        className="tregu-glass tregu-market tregu-edge tregu-championship-card"
+        data-cat={market.category}
+        data-championship=""
+      >
+        <div className="tregu-championship-card-head">
+          <span className="tregu-championship-mark" aria-hidden><Trophy size={20} strokeWidth={2.2} /></span>
+          <span>Formula 1 · Kampionati</span>
+          {remaining ? <span className="tregu-market-close">{closed ? remaining : `Mbyllet ${remaining}`}</span> : null}
+        </div>
+        <p className="tregu-market-q">{market.question}</p>
+        <div className="tregu-championship-leaders" aria-label="Favoritët për titull">
+          {championshipLeaders.map((driver, index) => (
+            <div className="tregu-championship-leader" key={driver.key}>
+              <span className="tregu-championship-rank">{index + 1}</span>
+              <span className="tregu-championship-driver">
+                <strong>{driver.label}</strong>
+                <small>{driver.championship_points ?? 0} pikë · {driver.gap_to_leader ? `−${driver.gap_to_leader} nga kreu` : "kryeson"}</small>
+              </span>
+              <strong className="tregu-championship-odd">{Math.round(driver.probability * 100)}%</strong>
+            </div>
+          ))}
+        </div>
+        <div className="tregu-market-foot">
+          <span>OpenF1 · 22 pilotë</span>
+          <span className="tregu-market-open">Hap tregun e titullit →</span>
+        </div>
+      </Link>
+    );
+  }
 
   return (
     <Link

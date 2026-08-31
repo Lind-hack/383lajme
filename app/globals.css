@@ -5575,6 +5575,146 @@ header[data-overlay] .nav-coin-chip {
   }
 }
 
+/* The season title is the peak of the F1 floor: the same cream, ink and
+   orange vocabulary, with a standings register instead of race-grid theatre. */
+.tregu-championship-card {
+  position: relative;
+  display: flex;
+  min-height: 340px;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 20px;
+  border-color: rgba(255, 68, 34, 0.34);
+  background:
+    linear-gradient(135deg, rgba(255, 68, 34, 0.12), transparent 42%),
+    #fffaf3;
+  color: #111;
+  text-decoration: none;
+  box-shadow: 0 18px 42px rgba(60, 31, 20, 0.12);
+}
+.tregu-championship-card::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 20px;
+  left: 20px;
+  height: 3px;
+  background: #ff4422;
+}
+.tregu-championship-card-head {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: #8f2d1c;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.tregu-championship-card-head .tregu-market-close { margin-left: auto; }
+.tregu-championship-mark {
+  display: inline-flex;
+  width: 34px;
+  height: 34px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 68, 34, 0.28);
+  border-radius: 10px;
+  background: #ffebe3;
+  color: #b42e18;
+}
+.tregu-championship-card .tregu-market-q {
+  margin: 20px 0 16px;
+  font-size: clamp(20px, 2.2vw, 28px);
+  line-height: 1.18;
+  letter-spacing: -0.025em;
+}
+.tregu-championship-leaders { display: grid; gap: 7px; }
+.tregu-championship-leader {
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  min-height: 52px;
+  padding: 8px 10px;
+  border: 1px solid rgba(17, 17, 17, 0.1);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.72);
+}
+.tregu-championship-rank,
+.tregu-championship-odd { font-variant-numeric: tabular-nums; }
+.tregu-championship-rank { color: #a2321f; font-size: 12px; font-weight: 900; }
+.tregu-championship-driver { min-width: 0; }
+.tregu-championship-driver strong,
+.tregu-championship-driver small { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.tregu-championship-driver strong { font-size: 13px; }
+.tregu-championship-driver small { margin-top: 2px; color: #665c55; font-size: 10px; }
+.tregu-championship-odd { font-size: 17px; font-weight: 900; }
+.tregu-championship-card .tregu-market-foot { margin-top: auto; }
+
+.f1-title-lockup { display: flex; align-items: center; gap: 11px; }
+.f1-crown-mark {
+  display: inline-flex;
+  width: 42px;
+  height: 42px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 68, 34, 0.28);
+  border-radius: 12px;
+  background: #ffebe3;
+  color: #a82f1b;
+  box-shadow: 0 8px 22px rgba(90, 40, 24, 0.12);
+}
+.f1-race-control[data-championship] {
+  border-color: rgba(255, 68, 34, 0.34);
+  background:
+    linear-gradient(135deg, rgba(255, 68, 34, 0.11), transparent 34%),
+    #fffaf3;
+}
+.f1-race-control[data-championship] .f1-race-header {
+  border-top: 3px solid #ff4422;
+}
+.f1-race-control[data-championship] .f1-race-stage { grid-template-columns: 1fr; }
+.f1-race-control[data-championship] .f1-favorites { grid-template-columns: 1fr; }
+.f1-race-control[data-championship] .f1-favorite-card {
+  grid-template-columns: 28px 58px minmax(150px, 1fr) minmax(145px, auto) 68px 76px;
+}
+.f1-championship-movement {
+  display: grid;
+  min-width: 0;
+  padding: 7px 10px;
+  border-right: 1px solid rgba(255, 255, 255, 0.12);
+  border-left: 1px solid rgba(255, 255, 255, 0.12);
+  font-variant-numeric: tabular-nums;
+}
+.f1-championship-movement strong { font-size: 11px; }
+.f1-championship-movement small { margin-top: 2px; color: rgba(255,255,255,.7); font-size: 10px; }
+.f1-championship-movement em { margin-top: 3px; color: #f1b19f; font-size: 9px; font-style: normal; font-weight: 800; }
+.f1-championship-movement[data-direction="closer"] em { color: #bfe6c8; }
+
+@media (hover: hover) and (pointer: fine) {
+  .tregu-championship-card:hover { border-color: rgba(255, 68, 34, 0.58); transform: translateY(-2px); }
+}
+@media (max-width: 760px) {
+  .f1-race-control[data-championship] .f1-favorite-card {
+    grid-template-columns: 25px 54px minmax(0, 1fr) auto;
+    padding-bottom: 7px;
+  }
+  .f1-race-control[data-championship] .f1-championship-movement {
+    grid-column: 3;
+    grid-row: 2;
+    gap: 2px;
+    padding: 0 7px 4px;
+    border: 0;
+  }
+  .f1-race-control[data-championship] .f1-favorite-odds { grid-column: 4; grid-row: 1; }
+  .f1-race-control[data-championship] .f1-bet-button { grid-column: 4; grid-row: 2; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tregu-championship-card { transition-duration: 0.01ms; }
+  .tregu-championship-card:hover { transform: none; }
+}
+
 /* ── Homepage market utilities ─────────────────────────────────────────────
    Cream-and-orange adaptation of the supplied glass-card material. */
 .home-front-layout {

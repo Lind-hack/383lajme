@@ -21,6 +21,8 @@ interface TapeRow {
 interface SnapRow {
   market_id: string;
   market_prob: number;
+  oracle_kind?: string | null;
+  evidence?: unknown;
   created_at: string;
 }
 
@@ -89,7 +91,7 @@ export async function GET(request: NextRequest) {
     ids.length
       ? supabase
           .from("market_snapshots")
-          .select("market_id, market_prob, created_at")
+          .select("market_id, market_prob, oracle_kind, evidence, created_at")
           .in("market_id", ids)
           .order("created_at", { ascending: false })
           .limit(2000)
@@ -199,14 +201,21 @@ export async function GET(request: NextRequest) {
       sportOutcomes.length <= 3 &&
       m.outcome_quantities &&
       typeof m.outcome_quantities === "object";
-    const outcomeProbabilities = hasCompactOutcomeBook
+    const hasF1OutcomeBook =
+      m.market_type === "f1_race_winner" &&
+      sportOutcomes.length >= 20 &&
+      sportOutcomes.length <= 22 &&
+      m.outcome_quantities &&
+      typeof m.outcome_quantities === "object";
+    const hasOutcomeBook = hasCompactOutcomeBook || hasF1OutcomeBook;
+    const outcomeProbabilities = hasOutcomeBook
       ? lmsrSportOutcomePrices({
           sport_outcomes: sportOutcomes,
           outcome_quantities: m.outcome_quantities,
           b: Number(m.b),
         })
       : null;
-    const outcomeHistory = hasCompactOutcomeBook && outcomeProbabilities
+    const outcomeHistory = hasOutcomeBook && outcomeProbabilities
       ? Object.fromEntries(
           sportOutcomes.map((outcome: { key?: string }, index: number) => {
             const key = String(outcome.key ?? `outcome-${index + 1}`);
@@ -215,6 +224,14 @@ export async function GET(request: NextRequest) {
                 const p = Number(trade.outcome_prices?.[key]);
                 return Number.isFinite(p)
                   ? [{ t: new Date(trade.created_at).getTime(), p }]
+                  : [];
+              }),
+              ...(bySnap.get(m.id) ?? []).flatMap((snapshot) => {
+                if (snapshot.oracle_kind !== "f1_vector") return [];
+                const evidence = Array.isArray(snapshot.evidence) ? snapshot.evidence[0] : snapshot.evidence;
+                const p = Number((evidence as { probabilities?: Record<string, number> } | null)?.probabilities?.[key]);
+                return Number.isFinite(p)
+                  ? [{ t: new Date(snapshot.created_at).getTime(), p }]
                   : [];
               }),
               ...(bySportOracle.get(m.id) ?? []).flatMap((event) => {
@@ -253,7 +270,7 @@ export async function GET(request: NextRequest) {
       ...m,
       market_prob: prob,
       spark,
-      delta7d: hasCompactOutcomeBook ? null : delta7d,
+      delta7d: hasOutcomeBook ? null : delta7d,
       trade_count: tape.length,
       trade_volume: tape.reduce((sum, row) => sum + Math.max(0, Number(row.coins ?? 0)), 0),
       last_data_at: sourceTimes.length

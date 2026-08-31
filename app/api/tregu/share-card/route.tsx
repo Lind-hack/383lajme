@@ -1,6 +1,5 @@
 import { ImageResponse } from "next/og";
 
-export const contentType = "image/png";
 
 const safeColor = (value: string | null) =>
   value && /^#[0-9a-f]{6}$/i.test(value) ? value : "#ff4422";

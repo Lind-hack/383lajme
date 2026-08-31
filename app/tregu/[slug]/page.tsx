@@ -90,7 +90,16 @@ interface Snapshot {
   evidence: { title: string; slug: string; url?: string; imageUrl?: string }[] | null;
 }
 
-interface F1Payload { outcomes: { key: string; label: string; team: string; probability: number; headshot_url?: string; team_colour?: string; grid_position?: number }[]; timing: { race?: { status?: string; current_lap?: number; total_laps?: number }; rows?: { driver_code?: string; position?: number; gap?: string; pits?: number; status?: string }[] } | null; history?: { createdAt: string; probabilities: Record<string, number>; lap?: number; status?: string }[]; }
+interface F1Payload {
+  outcomes: {
+    key: string; label: string; team: string; probability: number; headshot_url?: string; team_colour?: string; grid_position?: number;
+    championship_position?: number; championship_points?: number; latest_race_position?: number | null; latest_race_points?: number;
+    weekend_points?: number; gap_to_leader?: number; gap_change?: number; position_change?: number;
+  }[];
+  timing: { race?: { status?: string; current_lap?: number; total_laps?: number }; rows?: { driver_code?: string; position?: number; gap?: string; pits?: number; status?: string }[] } | null;
+  history?: { createdAt: string; probabilities: Record<string, number>; lap?: number; status?: string }[];
+  championship?: { season?: number; racesRemaining?: number; sprintsRemaining?: number; latestRace?: { circuit?: string | null; endedAt?: string | null } } | null;
+}
 
 interface FootballPayload {
   outcomes: {
@@ -369,6 +378,8 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
         setF1(nextF1);
         setF1OutcomeKey((current) => {
           if (!nextF1?.outcomes?.length) return "";
+          const requested = new URLSearchParams(window.location.search).get("piloti")?.toUpperCase();
+          if (requested && nextF1.outcomes.some((driver) => driver.key === requested)) return requested;
           if (nextF1.outcomes.some((driver) => driver.key === current)) return current;
           return [...nextF1.outcomes].sort((a, b) => b.probability - a.probability)[0]?.key ?? "";
         });
@@ -1244,11 +1255,16 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                 drivers={f1.outcomes}
                 timing={f1.timing}
                 history={f1.history}
+                championship={f1.championship}
                 selectedDriverKey={f1OutcomeKey}
                 onBetDriver={(driverKey) => {
                   setF1OutcomeKey(driverKey);
                   setMode("buy");
                   setTradeMsg(null);
+                  if (window.matchMedia("(max-width: 859px)").matches) {
+                    setMobileTradeOpen(true);
+                    return;
+                  }
                   requestAnimationFrame(() => {
                     document.getElementById("f1-bet-slip")?.scrollIntoView({
                       behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",

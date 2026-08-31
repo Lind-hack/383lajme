@@ -8,7 +8,6 @@ import { getCategoryColor } from "@/lib/category-colors";
  * Uses next/og's default font (Noto Sans), which covers Albanian ë/ç.
  */
 
-export const contentType = "image/png";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);

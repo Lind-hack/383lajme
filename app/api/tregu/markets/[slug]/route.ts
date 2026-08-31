@@ -365,9 +365,10 @@ export async function GET(
 
   let f1 = null;
   if (market.market_type === "f1_race_winner" && Array.isArray(market.sport_outcomes)) {
+    const isChampionship = market.live_event?.event_kind === "championship";
     let board = market.live_score_state ?? null;
     const isArchived = market.status === "closed" || market.status === "resolved";
-    if (!isArchived) {
+    if (!isArchived && !isChampionship) {
       try { board = await fetchF1LiveLiteLeaderboard(); } catch { /* cached audited timing remains the fallback */ }
     }
     if (isArchived && !board) {
@@ -383,7 +384,11 @@ export async function GET(
       const evidence = Array.isArray(snapshot.evidence) ? snapshot.evidence[0] as { probabilities?: unknown; timing?: { race?: { current_lap?: number; status?: string } } } : null;
       return snapshot.oracle_kind === "f1_vector" && evidence && typeof evidence.probabilities === "object" && evidence.probabilities !== null ? [{ createdAt: snapshot.created_at ?? "", probabilities: evidence.probabilities as Record<string, number>, lap: evidence.timing?.race?.current_lap, status: evidence.timing?.race?.status }] : [];
     });
-    const latest = history.at(-1)?.probabilities ?? market.reference_probabilities ?? {};
+    const latest = lmsrSportOutcomePrices({
+      sport_outcomes: market.sport_outcomes,
+      outcome_quantities: market.outcome_quantities,
+      b: Number(market.b),
+    });
     f1 = {
       outcomes: market.sport_outcomes.map(
         (
@@ -395,6 +400,14 @@ export async function GET(
             team_color?: string;
             headshot_url?: string;
             grid_position?: number;
+            championship_position?: number;
+            championship_points?: number;
+            latest_race_position?: number | null;
+            latest_race_points?: number;
+            weekend_points?: number;
+            gap_to_leader?: number;
+            gap_change?: number;
+            position_change?: number;
           },
           index: number
         ) => {
@@ -413,11 +426,23 @@ export async function GET(
             headshot_url: row.headshot_url,
             grid_position: gridPosition,
             probability: Number(latest[row.key ?? ""] ?? 0),
+            championship_position: row.championship_position,
+            championship_points: row.championship_points,
+            latest_race_position: row.latest_race_position,
+            latest_race_points: row.latest_race_points,
+            weekend_points: row.weekend_points,
+            gap_to_leader: row.gap_to_leader,
+            gap_change: row.gap_change,
+            position_change: row.position_change,
           };
         }
       ),
-      timing: board,
+      timing: isChampionship ? null : board,
       history,
+      championship: isChampionship ? {
+        season: market.live_event?.season,
+        ...(market.live_score_state?.championship ?? {}),
+      } : null,
     };
   }
   return NextResponse.json({

@@ -7,6 +7,12 @@ export type F1ChampionshipOutcome = {
   driver_number: number;
   championship_position: number;
   championship_points: number;
+  latest_race_position: number | null;
+  latest_race_points: number;
+  weekend_points: number;
+  gap_to_leader: number;
+  gap_change: number;
+  position_change: number;
 };
 
 export function championshipDecision(standings: unknown[], remainingEvents: unknown[]): {
