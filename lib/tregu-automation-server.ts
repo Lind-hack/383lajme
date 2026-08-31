@@ -1041,12 +1041,25 @@ export async function runF1ChampionshipAutomation(now = new Date()) {
     if (championship.model.decided && market.status === "open") {
       const winner = championship.outcomes.find((outcome: any) => outcome.driver_number === championship.model.winnerDriverNumber)?.key;
       if (!winner) throw new Error("The decided F1 title has no matching market outcome.");
-      const { error } = await admin.rpc("settle_f1_championship_market", {
-        p_market_id: market.id,
-        p_winner: winner,
-        p_state_key: championship.stateKey,
-      });
-      if (error) throw new Error(`Could not settle the F1 championship market: ${error.message}`);
+      const decidedAt = now.toISOString();
+      const { data: closed, error: closeError } = await admin.from("markets").update({
+        status: "closed",
+        outcome: winner,
+        official_final_at: decidedAt,
+        settlement_due_at: decidedAt,
+        closes_at: decidedAt,
+        updated_at: decidedAt,
+      })
+        .eq("id", market.id)
+        .eq("status", "open")
+        .contains("live_event", { event_kind: "championship", source_provider: "OpenF1" })
+        .eq("live_score_state->>key", championship.stateKey)
+        .select("id")
+        .maybeSingle();
+      if (closeError) throw new Error(`Could not close the decided F1 championship market: ${closeError.message}`);
+      if (!closed) throw new Error("The F1 championship settlement state changed before the market could close.");
+      const { error: settlementError } = await admin.rpc("settle_due_sport_markets");
+      if (settlementError) throw new Error(`Could not settle the F1 championship market: ${settlementError.message}`);
       settled = true;
     }
     const details = { created, updated: created ? 0 : 1, settled, season, market: { id: market.id, slug: market.slug }, state_key: championship.stateKey, races_remaining: championship.model.racesRemaining, model_version: championship.model.version };
