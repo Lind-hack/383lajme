@@ -1005,9 +1005,9 @@ async function f1ChampionshipRunKey(admin: any, now: Date, season: number) {
     return Number.isFinite(raceStart) && now.getTime() >= raceStart - 30 * 60_000 && now.getTime() <= raceStart + 6 * 60 * 60_000;
   });
   if (raceWindow) {
-    return `f1-championship:${season}:race-window:${raceWindow.event_id}:${Math.floor(now.getTime() / (15 * 60_000))}`;
+    return `f1-championship:v2:${season}:race-window:${raceWindow.event_id}:${Math.floor(now.getTime() / (15 * 60_000))}`;
   }
-  return `f1-championship:${season}:${kosovoLocalDate(now)}:${Math.floor(now.getUTCHours() / 6)}`;
+  return `f1-championship:v2:${season}:${kosovoLocalDate(now)}:${Math.floor(now.getUTCHours() / 6)}`;
 }
 
 export async function runF1ChampionshipAutomation(now = new Date()) {
