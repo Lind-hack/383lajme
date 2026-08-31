@@ -1,487 +1,118 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import Navbar from "@/components/navbar";
 import CoinFace from "@/components/tregu/coin-face";
-import { createClient } from "@/lib/supabase/client";
 import { fmtNum } from "@/lib/format";
-import styles from "./portfolio.module.css";
+import { createClient } from "@/lib/supabase/client";
 import { formatKosovoDate } from "@/lib/tregu-local-time.mjs";
+import styles from "./portfolio.module.css";
 
-interface Position {
-  id: string;
-  market_id: string;
-  side: "PO" | "JO";
-  shares: number;
-  coins_staked: number;
-  currentPrice: number | null;
-  currentValue: number | null;
-  entryPrice: number | null;
-  unrealizedPnl: number | null;
-  markets: { question: string; slug: string; status: string; outcome: string | null } | null;
-}
+type Market = { question: string; slug: string; status: string; outcome: string | null; category: string; closes_at?: string; market_type?: string; market_classification?: string };
+type Position = { id: string; market_id: string; side: string; sideLabel: string; shares: number; coins_staked: number; currentPrice: number | null; currentValue: number | null; entryPrice: number | null; unrealizedPnl: number | null; sideColor?: string | null; sideHeadshotUrl?: string | null; sellKind: "binary" | "sport_outcome" | "f1_winner"; markets: Market | null };
+type Trade = { marketId: string; slug: string; question: string; category: string; invested: number; returned: number; pnl: number; result: "win" | "loss" | "flat"; resolution: "settled" | "sold"; concludedAtIso: string | null; selected: { key: string; label: string }[]; official: { key: string; label: string } | null };
+type Transaction = { id: string; type: string; amount: number; created_at: string; markets: { question: string; slug: string } | null };
+type Profile = { coins: number; display_name: string | null };
+type Withdrawal = { id: string; status: string; coins_amount: number; payout_method: string; requested_at: string };
+type Stats = { coins: number; openValue: number; totalValue: number; openStaked: number; openPnl: number; realizedPnl: number; pnl30d: number; realizedBalance: number; winRate: number | null; settledCount: number };
+type BalancePoint = { t: number; coins: number; pnl?: number; kind?: string; question?: string };
 
-interface Transaction {
-  id: string;
-  type: string;
-  amount: number;
-  created_at: string;
-  meta: Record<string, unknown> | null;
-  markets: { question: string; slug: string } | null;
-}
+const signed = (value: number, digits = 1) => `${value > 0 ? "+" : ""}${value.toFixed(digits)}`;
+const tone = (value: number | null | undefined) => value == null || Math.abs(value) < 0.001 ? "neutral" : value > 0 ? "positive" : "negative";
+const statusColor = (status: string) => status === "paid" || status === "approved" ? "#087443" : status === "rejected" ? "#b4181a" : "#b45309";
 
-interface Profile {
-  coins: number;
-  display_name: string | null;
-}
-
-interface Withdrawal {
-  id: string;
-  status: string;
-  coins_amount: number;
-  payout_method: string;
-  requested_at: string;
-}
-
-interface Stats {
-  coins: number;
-  openValue: number;
-  totalValue: number;
-  openStaked: number;
-  openPnl: number;
-  realizedPnl: number;
-  winRate: number | null;
-  settledCount: number;
-}
-
-const TX_LABEL: Record<string, string> = {
-  signup_bonus: "Bonus regjistrimi",
-  daily_bonus: "Bonus ditor",
-  bet: "Blerje",
-  sell: "Shitje",
-  payout: "Fitim",
-  withdrawal: "Tërheqje",
-};
-
-function pnlColor(v: number | null | undefined): string {
-  if (v === null || v === undefined || v === 0) return "#6B6B6B";
-  return v > 0 ? "#00854A" : "#E41E20";
-}
-
-function signed(v: number, digits = 1): string {
-  return `${v > 0 ? "+" : ""}${v.toFixed(digits)}`;
-}
-
-// 30-day coin balance with an exact, dependency-free SVG chart and inspector.
-function BalanceChart({ history }: { history: { t: number; coins: number }[] }) {
-  const [hover, setHover] = useState<{ frac: number; t: number; coins: number } | null>(null);
-  const boxRef = useRef<HTMLDivElement>(null);
-  const W = 640;
-  const H = 140;
-  const PAD = 10;
-
-  if (history.length < 2) {
-    return <div style={{ height: H, display: "flex", alignItems: "center", justifyContent: "center", color: "#6B6B6B", fontSize: 13 }}>Ende pa histori</div>;
-  }
-
-  const tMin = history[0].t;
-  const tMax = history[history.length - 1].t;
-  const vals = history.map((h) => h.coins);
-  const vMin = Math.min(...vals);
-  const vMax = Math.max(...vals);
-  const spread = vMax - vMin || 1;
-  const xFor = (t: number) => ((t - tMin) / (tMax - tMin || 1)) * W;
-  const yFor = (v: number) => PAD + (1 - (v - vMin) / spread) * (H - PAD * 2);
-
-  // The balance holds between transactions, so the path uses exact steps.
+function BalanceChart({ history }: { history: BalancePoint[] }) {
+  const host = useRef<HTMLDivElement>(null);
+  const [active, setActive] = useState<BalancePoint | null>(null);
+  const W = 900, H = 270, left = 58, right = 18, top = 18, bottom = 38;
+  if (history.length < 2) return <div className={styles.chartEmpty}>Ende pa tregti të përfunduara.</div>;
+  const t0 = history[0].t, t1 = history.at(-1)?.t ?? t0 + 1;
+  const values = history.map((point) => point.coins);
+  const rawMin = Math.min(...values), rawMax = Math.max(...values);
+  const padding = Math.max(20, (rawMax - rawMin) * 0.22);
+  const min = Math.max(0, rawMin - padding), max = rawMax + padding;
+  const x = (time: number) => left + ((time - t0) / Math.max(1, t1 - t0)) * (W - left - right);
+  const y = (value: number) => top + (1 - (value - min) / Math.max(1, max - min)) * (H - top - bottom);
   let path = "";
-  history.forEach((h, i) => {
-    path += i === 0 ? `M ${xFor(h.t).toFixed(1)} ${yFor(h.coins).toFixed(1)}` : ` H ${xFor(h.t).toFixed(1)} V ${yFor(h.coins).toFixed(1)}`;
-  });
-  const area = `${path} L ${W} ${H - PAD} L 0 ${H - PAD} Z`;
-  const last = history[history.length - 1];
-  const up = last.coins >= history[0].coins;
-  // Up wears the brand orange with a glow; down fades to a washed-out black.
-  const stroke = up ? "url(#tg-bal-line)" : "rgba(17,17,17,0.40)";
-  const glow = up ? "#FF5B2E" : "#111111";
-  const solid = up ? "#FF4422" : "rgba(17,17,17,0.55)";
-
+  history.forEach((point, index) => { path += index === 0 ? `M ${x(point.t).toFixed(1)} ${y(point.coins).toFixed(1)}` : ` H ${x(point.t).toFixed(1)} V ${y(point.coins).toFixed(1)}`; });
+  const ticks = [0, 0.5, 1].map((ratio) => ({ ratio, value: max - (max - min) * ratio }));
   const onMove = (clientX: number) => {
-    const rect = boxRef.current?.getBoundingClientRect();
-    if (!rect || rect.width === 0) return;
-    const frac = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
-    const t = tMin + frac * (tMax - tMin);
-    // Step semantics: the balance at time t is the last entry at or before t.
-    let cur = history[0];
-    for (const h of history) if (h.t <= t) cur = h;
-    setHover({ frac, t, coins: cur.coins });
+    const rect = host.current?.getBoundingClientRect();
+    if (!rect) return;
+    const time = t0 + Math.max(0, Math.min(1, (clientX - rect.left) / rect.width)) * (t1 - t0);
+    setActive(history.reduce((best, point) => point.t <= time ? point : best, history[0]));
   };
+  return <div ref={host} className={styles.chart} onPointerMove={(event) => onMove(event.clientX)} onPointerLeave={() => setActive(null)}>
+    <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label="Bilanci i realizuar gjatë 30 ditëve">
+      {ticks.map((tick) => <g key={tick.ratio}><line x1={left} x2={W - right} y1={top + tick.ratio * (H - top - bottom)} y2={top + tick.ratio * (H - top - bottom)} className={styles.gridLine}/><text x={left - 10} y={top + tick.ratio * (H - top - bottom) + 4} textAnchor="end" className={styles.axisText}>{fmtNum(tick.value)}</text></g>)}
+      <path d={path} className={styles.balanceLine}/>
+      {history.filter((point) => point.kind === "win" || point.kind === "loss").map((point) => <circle key={`${point.t}-${point.coins}`} cx={x(point.t)} cy={y(point.coins)} r="5" className={point.kind === "win" ? styles.winDot : styles.lossDot}/>) }
+      <text x={left} y={H - 8} className={styles.axisText}>{formatKosovoDate(t0)}</text><text x={W - right} y={H - 8} textAnchor="end" className={styles.axisText}>Sot</text>
+      {active && <><line x1={x(active.t)} x2={x(active.t)} y1={top} y2={H - bottom} className={styles.inspector}/><circle cx={x(active.t)} cy={y(active.coins)} r="5" className={styles.activeDot}/></>}
+    </svg>
+    {active && <div className={styles.tooltip} style={{ left: `${Math.max(12, Math.min(82, ((active.t - t0) / Math.max(1, t1 - t0)) * 100))}%` }}><span>{formatKosovoDate(active.t, { year: true })}</span><strong>{fmtNum(active.coins)} 383C</strong>{active.pnl ? <small data-tone={tone(active.pnl)}>{signed(active.pnl)} nga tregtia</small> : null}</div>}
+  </div>;
+}
 
-  return (
-    <div ref={boxRef} style={{ position: "relative", touchAction: "pan-y" }} onPointerMove={(e) => onMove(e.clientX)} onPointerLeave={() => setHover(null)}>
-      <svg viewBox={`0 0 ${W} ${H}`} width="100%" height={H} preserveAspectRatio="none" style={{ display: "block" }}>
-        <defs>
-          <linearGradient id="tg-bal-line" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%" stopColor="#FF6B3D" />
-            <stop offset="100%" stopColor="#FF4422" />
-          </linearGradient>
-          <linearGradient id="tg-bal" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor={glow} stopOpacity={up ? 0.22 : 0.08} />
-            <stop offset="100%" stopColor={glow} stopOpacity="0" />
-          </linearGradient>
-          <filter id="tg-bal-glow" x="-20%" y="-80%" width="140%" height="260%">
-            <feGaussianBlur stdDeviation="5" />
-          </filter>
-        </defs>
-        <path d={area} fill="url(#tg-bal)" />
-        {/* Blurred copy under the line is the glow itself. */}
-        <path d={path} fill="none" stroke={glow} strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" opacity={up ? 0.5 : 0.18} filter="url(#tg-bal-glow)" />
-        <path d={path} fill="none" stroke={stroke} strokeWidth="2.5" strokeLinejoin="round" />
-        {hover ? (
-          <line x1={hover.frac * W} y1={PAD} x2={hover.frac * W} y2={H - PAD} stroke="rgba(17,17,17,0.28)" strokeDasharray="3 3" />
-        ) : (
-          <>
-            <circle cx={W} cy={yFor(last.coins)} r="8" fill={glow} opacity={up ? 0.4 : 0.18} filter="url(#tg-bal-glow)" />
-            <circle cx={W} cy={yFor(last.coins)} r="4" fill={solid} stroke="#FFFFFF" strokeWidth="2" />
-          </>
-        )}
-      </svg>
-      {hover && (
-        <div className="tregu-chart-tip" style={{ left: `${Math.max(12, Math.min(88, hover.frac * 100))}%`, top: 0 }}>
-          <div className="tregu-chart-tip-date">{formatKosovoDate(hover.t)}</div>
-          <div className="tregu-chart-tip-row">
-            <span className="tregu-chart-tip-dot" style={{ background: solid }} />
-            <strong>{fmtNum(hover.coins)} 383C</strong>
-          </div>
-        </div>
-      )}
-    </div>
-  );
+function PositionCard({ position, confirming, selling, onSell }: { position: Position; confirming: boolean; selling: boolean; onSell: () => void }) {
+  const market = position.markets;
+  const color = position.sideColor || "#ff4422";
+  return <article className={`tregu-glass tregu-market tregu-native-market tregu-edge ${styles.positionCard}`} style={{ "--position-color": color } as CSSProperties}>
+    <div className="tregu-market-top"><span className={styles.marketTag}>{market?.market_classification === "live_f1" ? "F1 · Pozicioni yt" : `${market?.category || "Tregu"} · Pozicioni yt`}</span><span className="tregu-market-close">Aktiv</span></div>
+    <Link href={`/tregu/${market?.slug}`} className="tregu-native-title">{market?.question}</Link>
+    <div className={styles.pickRow}>{position.sideHeadshotUrl ? <img src={position.sideHeadshotUrl} alt="" aria-hidden/> : <i aria-hidden/>}<div><span>Zgjedhja jote</span><strong>{position.sideLabel || position.side}</strong></div><b>{position.currentPrice == null ? "—" : `${(position.currentPrice * 100).toFixed(1)}%`}</b></div>
+    <div className={styles.positionFacts}><span><small>Investuar</small><strong>{fmtNum(position.coins_staked)} 383C</strong></span><span><small>Vlera tani</small><strong>{position.currentValue == null ? "—" : `${fmtNum(position.currentValue)} 383C`}</strong></span><span><small>P/L i hapur</small><strong data-tone={tone(position.unrealizedPnl)}>{position.unrealizedPnl == null ? "—" : `${signed(position.unrealizedPnl)} 383C`}</strong></span></div>
+    <footer className={`tregu-market-foot ${styles.positionActions}`}><Link href={`/tregu/${market?.slug}`} className="tregu-market-open">Hap tregun →</Link><button type="button" onClick={onSell} disabled={selling}>{selling ? "Duke shitur…" : confirming ? "Konfirmo shitjen" : "Shit të gjitha"}</button></footer>
+  </article>;
 }
 
 export default function PortofoliPage() {
-  const [checkedAuth, setCheckedAuth] = useState(false);
-  const [signedIn, setSignedIn] = useState(false);
-  const [loadingProfile, setLoadingProfile] = useState(true);
-  const [loadError, setLoadError] = useState(false);
-  const [profile, setProfile] = useState<Profile | null>(null);
-  const [positions, setPositions] = useState<Position[]>([]);
-  const [transactions, setTransactions] = useState<Transaction[]>([]);
-  const [stats, setStats] = useState<Stats | null>(null);
-  const [balanceHistory, setBalanceHistory] = useState<{ t: number; coins: number }[]>([]);
-  const [withdrawals, setWithdrawals] = useState<Withdrawal[]>([]);
-  const [payoutMethod, setPayoutMethod] = useState("");
-  const [withdrawMsg, setWithdrawMsg] = useState<string | null>(null);
-  const [submitting, setSubmitting] = useState(false);
-  const [confirmSell, setConfirmSell] = useState<string | null>(null); // position id awaiting confirm
-  const [sellingId, setSellingId] = useState<string | null>(null);
-  const [sellMsg, setSellMsg] = useState<string | null>(null);
-  const [activityFilter, setActivityFilter] = useState<"all" | "trade" | "bonus">("all");
-
-  const load = () => {
-    setLoadError(false);
-    Promise.all([
-      fetch("/api/tregu/portfolio").then((r) => {
-        if (!r.ok) throw new Error(`portfolio ${r.status}`);
-        return r.json();
-      }),
-      fetch("/api/tregu/withdraw").then((r) => {
-        if (!r.ok) throw new Error(`withdraw ${r.status}`);
-        return r.json();
-      }),
-    ])
-      .then(([p, w]) => {
-        setProfile(p.profile ?? null);
-        setPositions(p.positions ?? []);
-        setTransactions(p.transactions ?? []);
-        setStats(p.stats ?? null);
-        setBalanceHistory(p.balanceHistory ?? []);
-        setWithdrawals(w.withdrawals ?? []);
-      })
-      // A failed fetch must never render as a zero balance.
-      .catch(() => setLoadError(true))
-      .finally(() => setLoadingProfile(false));
+  const [auth, setAuth] = useState<"checking" | "out" | "in">("checking");
+  const [loading, setLoading] = useState(true), [failed, setFailed] = useState(false);
+  const [profile, setProfile] = useState<Profile | null>(null), [positions, setPositions] = useState<Position[]>([]), [trades, setTrades] = useState<Trade[]>([]), [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [stats, setStats] = useState<Stats | null>(null), [history, setHistory] = useState<BalancePoint[]>([]), [withdrawals, setWithdrawals] = useState<Withdrawal[]>([]);
+  const [confirmSell, setConfirmSell] = useState<string | null>(null), [selling, setSelling] = useState<string | null>(null), [message, setMessage] = useState<string | null>(null);
+  const [payoutMethod, setPayoutMethod] = useState(""), [submitting, setSubmitting] = useState(false);
+  const load = async () => {
+    setFailed(false);
+    try {
+      const [portfolioResponse, withdrawalResponse] = await Promise.all([fetch("/api/tregu/portfolio"), fetch("/api/tregu/withdraw")]);
+      if (!portfolioResponse.ok || !withdrawalResponse.ok) throw new Error("portfolio");
+      const portfolio = await portfolioResponse.json(), withdrawal = await withdrawalResponse.json();
+      setProfile(portfolio.profile ?? null); setPositions(portfolio.positions ?? []); setTrades(portfolio.tradeHistory ?? []); setTransactions(portfolio.transactions ?? []); setStats(portfolio.stats ?? null); setHistory(portfolio.balanceHistory ?? []); setWithdrawals(withdrawal.withdrawals ?? []);
+    } catch { setFailed(true); } finally { setLoading(false); }
+  };
+  useEffect(() => { createClient().auth.getUser().then(({ data: { user } }) => { setAuth(user ? "in" : "out"); if (user) void load(); }); }, []);
+  const sellAll = async (position: Position) => {
+    if (confirmSell !== position.id) { setConfirmSell(position.id); window.setTimeout(() => setConfirmSell((value) => value === position.id ? null : value), 4000); return; }
+    setConfirmSell(null); setSelling(position.id); setMessage(null);
+    const payload: Record<string, unknown> = { marketId: position.market_id, shares: position.shares, side: position.side };
+    if (position.sellKind === "sport_outcome") Object.assign(payload, { kind: "sport_outcome", outcomeKey: position.side });
+    if (position.sellKind === "f1_winner") Object.assign(payload, { kind: "f1_race_winner", outcomeKey: position.side });
+    const response = await fetch("/api/tregu/sell", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
+    const result = await response.json(); setMessage(response.ok ? `Pozicioni u shit. U kthyen ${fmtNum(Number(result.coinsReceived ?? 0))} 383C.` : result.error ?? "Shitja dështoi.");
+    setSelling(null); if (response.ok) await load();
+  };
+  const withdraw = async () => {
+    if (!payoutMethod.trim()) return; setSubmitting(true); setMessage(null);
+    const response = await fetch("/api/tregu/withdraw", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ payoutMethod }) });
+    const result = await response.json(); setMessage(response.ok ? "Kërkesa për tërheqje u regjistrua." : result.error ?? "Kërkesa dështoi.");
+    if (response.ok) { setPayoutMethod(""); await load(); } setSubmitting(false);
   };
 
-  useEffect(() => {
-    const supabase = createClient();
-    supabase.auth.getUser().then(({ data: { user } }) => {
-      setSignedIn(Boolean(user));
-      setCheckedAuth(true);
-      if (user) load();
-    });
-  }, []);
+  if (auth === "out") return <div className="tregu-scope"><Navbar/><main className={styles.state}><h1>Portofoli yt</h1><p>Kyçu për të parë pozicionet dhe rezultatet e tua.</p><Link href="/hyr" className="tregu-btn-primary">Hyr</Link></main></div>;
+  if (auth === "checking" || loading) return <div className="tregu-scope"><Navbar/><main className={styles.page}><div className={styles.loadingHero}/><div className={styles.loadingGrid}>{[0,1,2].map((key) => <i key={key}/>)}</div></main></div>;
+  if (failed) return <div className="tregu-scope"><Navbar/><main className={styles.state}><h1>Portofoli nuk u ngarkua</h1><p>Kontrollo lidhjen dhe provo përsëri.</p><button className="tregu-btn-primary" onClick={() => { setLoading(true); void load(); }}>Provo përsëri</button></main></div>;
 
-  const cashOut = async (p: Position) => {
-    if (confirmSell !== p.id) {
-      setConfirmSell(p.id);
-      // Confirm window expires so a stray click never sells later.
-      setTimeout(() => setConfirmSell((c) => (c === p.id ? null : c)), 4000);
-      return;
-    }
-    setConfirmSell(null);
-    setSellingId(p.id);
-    setSellMsg(null);
-    const res = await fetch("/api/tregu/sell", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ marketId: p.market_id, side: p.side, shares: p.shares }),
-    });
-    const data = await res.json();
-    if (res.ok) {
-      setSellMsg(`Dole nga pozicioni dhe more ${Number(data.coinsReceived ?? 0).toFixed(1)} 383C`);
-      load();
-    } else {
-      setSellMsg(data.error ?? "Gabim gjatë shitjes");
-    }
-    setSellingId(null);
-  };
-
-  const requestWithdraw = async () => {
-    if (!payoutMethod.trim()) return;
-    setSubmitting(true);
-    setWithdrawMsg(null);
-    const res = await fetch("/api/tregu/withdraw", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ payoutMethod }),
-    });
-    const data = await res.json();
-    if (res.ok) {
-      setWithdrawMsg("Kërkesa u dërgua! Do të përpunohet brenda pak ditësh.");
-      setPayoutMethod("");
-      load();
-    } else {
-      setWithdrawMsg(data.error ?? "Gabim");
-    }
-    setSubmitting(false);
-  };
-
-  if (checkedAuth && !signedIn) {
-    return (
-      <div className="tregu-scope">
-        <Navbar />
-        <div style={{ padding: "140px 24px", textAlign: "center" }}>
-          <p style={{ marginBottom: 16 }}>Duhet të kyçesh për të parë portofolin tënd.</p>
-          <Link href="/hyr" className="tregu-btn-primary" style={{ padding: "10px 22px", borderRadius: 100, textDecoration: "none" }}>
-            Hyr
-          </Link>
-        </div>
-      </div>
-    );
-  }
-
-  if (checkedAuth && signedIn && loadingProfile) {
-    return (
-      <div className="tregu-scope">
-        <Navbar />
-        <main style={{ maxWidth: 960, margin: "0 auto", padding: "104px 24px 80px" }}>
-          <h1 style={{ fontSize: 30, fontWeight: 800, margin: "0 0 24px" }}>Portofoli</h1>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 16 }}>
-            {[0, 1, 2, 3].map((i) => (
-              <div
-                key={i}
-                className="tregu-glass"
-                style={{ height: 92, borderRadius: 16, opacity: 0.5 }}
-                aria-hidden
-              />
-            ))}
-          </div>
-        </main>
-      </div>
-    );
-  }
-
-  if (checkedAuth && signedIn && loadError) {
-    return (
-      <div className="tregu-scope">
-        <Navbar />
-        <main style={{ maxWidth: 960, margin: "0 auto", padding: "104px 24px 80px" }}>
-          <h1 style={{ fontSize: 30, fontWeight: 800, margin: "0 0 24px" }}>Portofoli</h1>
-          <div className="tregu-glass" style={{ padding: "40px 28px", textAlign: "center" }}>
-            <p style={{ fontWeight: 800, fontSize: 16, margin: 0 }}>Portofoli nuk u ngarkua</p>
-            <p style={{ color: "#6B6B6B", fontSize: 14, margin: "6px 0 16px" }}>
-              Kontrollo lidhjen me internetin dhe provo përsëri.
-            </p>
-            <button
-              onClick={() => {
-                setLoadingProfile(true);
-                load();
-              }}
-              className="tregu-btn-primary"
-              style={{ padding: "10px 22px", borderRadius: 100, fontSize: 13, cursor: "pointer" }}
-            >
-              Provo përsëri
-            </button>
-          </div>
-        </main>
-      </div>
-    );
-  }
-
-  const canWithdraw = (profile?.coins ?? 0) >= 10000;
-  const chartStart = balanceHistory[0]?.coins ?? profile?.coins ?? 0;
-  const chartChange = (profile?.coins ?? 0) - chartStart;
-  const visibleTransactions = transactions.filter((transaction) => {
-    if (activityFilter === "trade") return ["bet", "sell", "payout"].includes(transaction.type);
-    if (activityFilter === "bonus") return ["signup_bonus", "daily_bonus"].includes(transaction.type);
-    return true;
-  });
-
-  return (
-    <div className="tregu-scope">
-      <Navbar />
-      <main className={styles.page}>
-        <header className={styles.hero}>
-          <div><Link href="/profili" className={styles.backLink}>Profili</Link><h1>Portofoli yt</h1><p>Shiko qartë çfarë ke të lirë, çfarë ke në treg dhe si ka lëvizur bilanci.</p></div>
-          <div className={styles.heroBalance}><span>Bilanci i lirë</span><strong>{fmtNum(profile?.coins ?? 0)} <small>383C</small></strong><b data-positive={chartChange >= 0}>{chartChange >= 0 ? "+" : ""}{chartChange.toFixed(0)} në 30 ditë</b></div>
-        </header>
-
-        <section className={styles.summary} aria-label="Përmbledhja e portofolit">
-          <div className={`tregu-glass tregu-glass-hi ${styles.summaryPrimary}`}>
-            <span className="tregu-tile-label">Vlera totale</span>
-            <span className={styles.summaryValue}>
-              <CoinFace size={26} />
-              {fmtNum(stats?.totalValue ?? profile?.coins ?? 0)}
-            </span>
-            <span className={styles.summarySub}>{fmtNum(profile?.coins ?? 0)} të lira dhe {fmtNum(stats?.openValue ?? 0)} në treg</span>
-          </div>
-          <div className={`tregu-glass ${styles.summaryFacts}`}>
-            <div><span>Në pozicione</span><strong>{fmtNum(stats?.openValue ?? 0)}</strong><small>{fmtNum(stats?.openStaked ?? 0)} të investuara</small></div>
-            <div><span>Fitimi i hapur</span><strong style={{ color: pnlColor(stats?.openPnl) }}>{stats ? signed(stats.openPnl) : "Pa të dhëna"}</strong><small>vlera kundrejt investimit</small></div>
-            <div><span>Fitimi i mbyllur</span><strong style={{ color: pnlColor(stats?.realizedPnl) }}>{stats ? signed(stats.realizedPnl) : "Pa të dhëna"}</strong><small>{stats?.winRate !== null && stats?.winRate !== undefined ? `${Math.round(stats.winRate * 100)}% fitore në ${stats.settledCount} tregje` : "ende pa tregje të mbyllura"}</small></div>
-          </div>
-        </section>
-
-        {/* ── 30-day balance ── */}
-        <div className={`tregu-glass ${styles.chartPanel}`}>
-          <div className={styles.panelHeading}><div><h2>Bilanci në 30 ditët e fundit</h2><p>Çdo pikë vjen nga një ndryshim i regjistruar në llogarinë tënde.</p></div><span>{chartChange >= 0 ? "+" : ""}{chartChange.toFixed(0)} 383C</span></div>
-          <BalanceChart history={balanceHistory} />
-        </div>
-
-        {/* ── Positions table ── */}
-        <h2 style={{ fontSize: 16, fontWeight: 800, margin: "0 0 12px" }}>Pozicionet aktive</h2>
-        {sellMsg && <p style={{ fontSize: 13, fontWeight: 600, color: sellMsg.startsWith("✓") ? "#00854A" : "#E41E20", marginBottom: 12 }}>{sellMsg}</p>}
-        {positions.length === 0 ? (
-          <p style={{ color: "#6B6B6B", fontSize: 13, marginBottom: 28 }}>
-            Ende pa pozicione. <Link href="/tregu" style={{ color: "#00854A" }}>Shko te Tregu</Link> dhe bëj parashikimin e parë.
-          </p>
-        ) : (
-          <div className="tregu-glass tregu-table-wrap" style={{ marginBottom: 28 }}>
-            <div className="tregu-table">
-              <div className="tregu-table-head">
-                <span>Tregu</span>
-                <span>Ana</span>
-                <span>Aksione</span>
-                <span>Hyrja</span>
-                <span>Tani</span>
-                <span>Vlera</span>
-                <span>Fitimi</span>
-                <span />
-              </div>
-              {positions.map((p) => {
-                const open = p.markets?.status === "open";
-                return (
-                  <div key={p.id} className="tregu-table-row">
-                    <Link href={`/tregu/${p.markets?.slug}`} style={{ color: "#111111", textDecoration: "none", fontWeight: 700, fontSize: 13, minWidth: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-                      {p.markets?.question}
-                    </Link>
-                    <span className="tregu-pill" style={{ color: p.side === "PO" ? "#00A651" : "#E41E20", justifySelf: "start" }}>{p.side}</span>
-                    <span>{Number(p.shares).toFixed(2)}</span>
-                    <span>{p.entryPrice !== null ? `${(p.entryPrice * 100).toFixed(0)}%` : "Pa të dhëna"}</span>
-                    <span>{p.currentPrice !== null ? `${(p.currentPrice * 100).toFixed(0)}%` : "Pa të dhëna"}</span>
-                    <span style={{ fontWeight: 800 }}>{p.currentValue !== null ? p.currentValue.toFixed(1) : "Pa të dhëna"}</span>
-                    <span style={{ fontWeight: 800, color: pnlColor(p.unrealizedPnl) }}>
-                      {p.unrealizedPnl !== null ? signed(p.unrealizedPnl) : "Pa të dhëna"}
-                    </span>
-                    {open ? (
-                      <button
-                        className="tregu-chip"
-                        data-active={confirmSell === p.id}
-                        onClick={() => cashOut(p)}
-                        disabled={sellingId === p.id}
-                        type="button"
-                        style={{ whiteSpace: "nowrap" }}
-                      >
-                        {sellingId === p.id ? "..." : confirmSell === p.id ? "Konfirmo" : "Dil"}
-                      </button>
-                    ) : (
-                      <span style={{ fontSize: 11, color: "#6B6B6B" }}>{p.markets?.status === "resolved" ? "U zgjidh" : "Mbyllur"}</span>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        )}
-
-        {/* ── Withdraw ── */}
-        <h2 style={{ fontSize: 16, fontWeight: 800, margin: "0 0 12px" }}>Tërhiqe fitimin</h2>
-        <div className="tregu-glass" style={{ padding: 20, marginBottom: 28 }}>
-          {canWithdraw ? (
-            <>
-              <p style={{ fontSize: 13, color: "#6B6B6B", marginBottom: 12 }}>
-                Ke {fmtNum(profile?.coins ?? 0)} 383 Coin. Mund të tërheqësh 10,000 për 10€.
-              </p>
-              <div style={{ display: "flex", gap: 10 }}>
-                <input
-                  value={payoutMethod}
-                  onChange={(e) => setPayoutMethod(e.target.value)}
-                  placeholder="PayPal email ose IBAN"
-                  className="tregu-input"
-                  style={{ fontSize: 13, fontWeight: 500 }}
-                />
-                <button
-                  onClick={requestWithdraw}
-                  disabled={submitting || !payoutMethod.trim()}
-                  className="tregu-btn-primary"
-                  style={{ padding: "10px 20px", borderRadius: 10, cursor: "pointer" }}
-                >
-                  Kërko
-                </button>
-              </div>
-              {withdrawMsg && <p style={{ fontSize: 12, marginTop: 10, color: "#B45309" }}>{withdrawMsg}</p>}
-            </>
-          ) : (
-            <p style={{ fontSize: 13, color: "#6B6B6B" }}>
-              Duhen 10,000 383 Coin për të tërhequr (ke {fmtNum(profile?.coins ?? 0)}).
-            </p>
-          )}
-
-          {withdrawals.length > 0 && (
-            <div style={{ marginTop: 16, display: "flex", flexDirection: "column", gap: 8 }}>
-              {withdrawals.map((w) => (
-                <div key={w.id} style={{ display: "flex", justifyContent: "space-between", fontSize: 12, color: "#6B6B6B" }}>
-                  <span>{formatKosovoDate(w.requested_at, { year: true })}, {w.coins_amount} 383C</span>
-                  <span style={{ fontWeight: 700, color: statusColor(w.status) }}>{w.status}</span>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-
-        {/* ── History ── */}
-        <div className={styles.historyHeading}><h2>Historiku</h2><div role="group" aria-label="Filtro historikun"><button data-active={activityFilter === "all"} onClick={() => setActivityFilter("all")}>Të gjitha</button><button data-active={activityFilter === "trade"} onClick={() => setActivityFilter("trade")}>Tregtime</button><button data-active={activityFilter === "bonus"} onClick={() => setActivityFilter("bonus")}>Bonuse</button></div></div>
-        <div className={styles.historyList}>
-          {visibleTransactions.length === 0 && <p className={styles.historyEmpty}>Nuk ka aktivitet në këtë filtër.</p>}
-          {visibleTransactions.map((t) => (
-            <div key={t.id} className={styles.historyRow}>
-              <span><strong>{TX_LABEL[t.type] ?? t.type}</strong><small>{t.markets?.question ?? formatKosovoDate(t.created_at, { year: true })}</small></span>
-              <span style={{ color: t.amount >= 0 ? "#00854A" : "#E41E20", fontWeight: 700, fontVariantNumeric: "tabular-nums" }}>
-                {t.amount >= 0 ? "+" : ""}
-                {Number(t.amount).toFixed(0)}
-              </span>
-            </div>
-          ))}
-        </div>
-      </main>
-    </div>
-  );
-}
-
-function statusColor(status: string) {
-  if (status === "paid") return "#00A651";
-  if (status === "rejected") return "#E41E20";
-  return "#B45309";
+  const extras = transactions.filter((transaction) => !["bet", "sell", "payout"].includes(transaction.type));
+  const canWithdraw = Number(profile?.coins ?? 0) >= 10000;
+  return <div className="tregu-scope"><Navbar/><main className={styles.page}>
+    <header className={styles.hero}><div><Link href="/tregu" className={styles.eyebrow}>TREGU / PORTOFOLI</Link><h1>Portofoli yt</h1><p>Kapitali aktiv, rezultati i realizuar dhe çdo tregti e mbyllur — pa e numëruar një investim të hapur si humbje.</p></div><div className={styles.heroBalance}><span>Bilanci i realizuar</span><strong>{fmtNum(stats?.realizedBalance ?? profile?.coins ?? 0)} <small>383C</small></strong><b data-tone={tone(stats?.pnl30d)}>{signed(stats?.pnl30d ?? 0, 0)} në 30 ditë</b></div></header>
+    <section className={styles.summary} aria-label="Përmbledhja"><article className={`tregu-glass tregu-glass-hi ${styles.totalCard}`}><span>Vlera totale tani</span><strong><CoinFace size={28}/>{fmtNum(stats?.totalValue ?? 0)}</strong><small>{fmtNum(profile?.coins ?? 0)} të lira · {fmtNum(stats?.openValue ?? 0)} vlerë e hapur</small></article><article className={`tregu-glass ${styles.metricCard}`}><span><small>Fituar / humbur · 30 ditë</small><strong data-tone={tone(stats?.pnl30d)}>{signed(stats?.pnl30d ?? 0)} 383C</strong></span><span><small>P/L i hapur</small><strong data-tone={tone(stats?.openPnl)}>{signed(stats?.openPnl ?? 0)} 383C</strong></span><span><small>Norma e fitoreve</small><strong>{stats?.winRate == null ? "—" : `${Math.round(stats.winRate * 100)}%`}</strong></span></article></section>
+    <section className={`tregu-glass ${styles.chartPanel}`}><div className={styles.sectionHead}><div><span>REZULTATI I REALIZUAR</span><h2>30 ditët e fundit</h2><p>Vija lëviz vetëm kur një tregti shitet ose zgjidhet.</p></div><strong data-tone={tone(stats?.pnl30d)}>{signed(stats?.pnl30d ?? 0)} 383C</strong></div><BalanceChart history={history}/></section>
+    <section className={styles.section}><div className={styles.sectionTitle}><div><span>KAPITAL NË PUNË</span><h2>Pozicionet aktive</h2></div><b>{positions.length}</b></div>{message && <p className={styles.message}>{message}</p>}{positions.length ? <div className={styles.positionGrid}>{positions.map((position) => <PositionCard key={position.id} position={position} confirming={confirmSell === position.id} selling={selling === position.id} onSell={() => void sellAll(position)}/>)}</div> : <div className={styles.empty}><p>Nuk ke pozicione aktive.</p><Link href="/tregu">Shiko tregjet →</Link></div>}</section>
+    <section className={styles.section}><div className={styles.sectionTitle}><div><span>REZULTATET E MBYLLURA</span><h2>Historiku i tregtimeve</h2></div><b>{trades.length}</b></div><div className={styles.tradeList}>{trades.length ? trades.map((trade) => <article key={trade.marketId} className={styles.tradeRow}><span className={styles.resultMark} data-result={trade.result}>{trade.result === "win" ? "F" : trade.result === "loss" ? "H" : "—"}</span><div className={styles.tradeIdentity}><Link href={`/tregu/${trade.slug}`}>{trade.question}</Link><small>{trade.selected.map((item) => item.label).join(", ") || "Pozicion"}{trade.official ? ` · Rezultati: ${trade.official.label}` : " · Shitur para mbylljes"}</small></div><div><small>Investuar</small><strong>{fmtNum(trade.invested)}</strong></div><div><small>Kthyer</small><strong>{fmtNum(trade.returned)}</strong></div><div className={styles.tradePnl}><small>P/L</small><strong data-tone={tone(trade.pnl)}>{signed(trade.pnl)} 383C</strong></div><time>{trade.concludedAtIso ? formatKosovoDate(trade.concludedAtIso, { year: true }) : "—"}</time></article>) : <div className={styles.empty}><p>Ende pa tregti të përfunduara.</p></div>}</div></section>
+    <section className={styles.lowerGrid}><article className={`tregu-glass ${styles.withdraw}`}><span>TËRHEQJA</span><h2>Ktheji 383C në shpërblim</h2><p>{canWithdraw ? `Ke ${fmtNum(profile?.coins ?? 0)} 383C të lira. Raporti është 10,000 383C për 10€.` : `Duhen 10,000 383C. Aktualisht ke ${fmtNum(profile?.coins ?? 0)}.`}</p>{canWithdraw && <div><input className="tregu-input" value={payoutMethod} onChange={(event) => setPayoutMethod(event.target.value)} placeholder="PayPal email ose IBAN"/><button className="tregu-btn-primary" disabled={submitting || !payoutMethod.trim()} onClick={() => void withdraw()}>Kërko</button></div>}{withdrawals.map((withdrawal) => <small key={withdrawal.id}>{formatKosovoDate(withdrawal.requested_at, { year: true })} · {fmtNum(withdrawal.coins_amount)} 383C <b style={{ color: statusColor(withdrawal.status) }}>{withdrawal.status}</b></small>)}</article><article className={`tregu-glass ${styles.otherActivity}`}><span>LËVIZJE TË TJERA</span><h2>Bonuse dhe tërheqje</h2>{extras.length ? extras.slice(0, 8).map((transaction) => <div key={transaction.id}><span>{transaction.type === "daily_bonus" ? "Bonus ditor" : transaction.type === "signup_bonus" ? "Bonus regjistrimi" : transaction.type}</span><strong data-tone={tone(transaction.amount)}>{signed(Number(transaction.amount), 0)}</strong></div>) : <p>Pa lëvizje të tjera.</p>}</article></section>
+  </main></div>;
 }

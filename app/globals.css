@@ -5036,9 +5036,10 @@ header[data-overlay] .nav-coin-chip {
 }
 .f1-grid-track {
   will-change: transform;
-  animation: f1-grid-tour var(--f1-grid-duration, 34s) cubic-bezier(0.65, 0, 0.35, 1) infinite alternate;
+  animation: f1-grid-tour var(--f1-grid-duration, 34s) linear infinite alternate;
 }
-.f1-grid-card:hover .f1-grid-track {
+.f1-grid-card:hover .f1-grid-track,
+.f1-grid-card:focus-within .f1-grid-track {
   animation-play-state: paused;
 }
 @keyframes f1-grid-tour {

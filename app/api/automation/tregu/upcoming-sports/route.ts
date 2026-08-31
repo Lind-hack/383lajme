@@ -1,6 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { automationSecret, isAutomationAuthorized } from "@/lib/tregu-automation.mjs";
-import { runUpcomingF1TemplateAutomation, runUpcomingFootballTemplateAutomation } from "@/lib/tregu-automation-server";
+import { runF1ChampionshipAutomation, runUpcomingF1TemplateAutomation, runUpcomingFootballTemplateAutomation } from "@/lib/tregu-automation-server";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -14,7 +14,7 @@ export async function POST(request: NextRequest) {
     // OpenF1 blocks unauthenticated global access during live F1 sessions, which
     // must not block football template discovery. F1 failure is reported, not thrown.
     const [f1Result, football] = await Promise.allSettled([
-      runUpcomingF1TemplateAutomation(new Date()),
+      (async () => ({ race: await runUpcomingF1TemplateAutomation(new Date()), championship: await runF1ChampionshipAutomation(new Date()) }))(),
       runUpcomingFootballTemplateAutomation(new Date()),
     ]);
     if (football.status === "rejected") throw football.reason;

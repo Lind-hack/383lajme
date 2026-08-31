@@ -200,8 +200,8 @@ export default function F1RaceControl({
   );
 
   const chartDrivers = useMemo(
-    () => (gridOrder.length >= 10 ? gridOrder : oddsOrder).slice(0, 10),
-    [gridOrder, oddsOrder]
+    () => oddsOrder.slice(0, 5),
+    [oddsOrder]
   );
   const field = isLive || isFinished ? liveOrder : oddsOrder;
   const visibleDrivers = showAllDrivers ? field : field.slice(0, 10);
@@ -261,8 +261,8 @@ export default function F1RaceControl({
         <div className="f1-chart-shell">
           <div className="f1-section-heading">
             <div>
-              <h3>{gridOrder.length >= 10 ? "Top 10 nga gridi" : "Top 10 sipas gjasave"}</h3>
-              <p>Çmimi live i fitores</p>
+              <h3>5 favoritët</h3>
+              <p>Vetëm vijat që ndikojnë garën për fitore</p>
             </div>
             <span className="f1-refresh-label">
               <Radio size={14} strokeWidth={2} aria-hidden />
@@ -270,9 +270,8 @@ export default function F1RaceControl({
             </span>
           </div>
           <ExactMarketChart
-            height={390}
-            showRanges
-            showPulse
+            height={300}
+            minimal
             tone="sport"
             series={chartSeries}
             ariaLabel="Historia e verifikuar e gjasave të pilotëve"

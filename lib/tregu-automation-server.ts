@@ -988,6 +988,77 @@ export async function runUpcomingF1TemplateAutomation(now = new Date()) {
   } catch (error) { const message=String(error instanceof Error?error.message:error); await finishRun(admin, started.run.id, "failed", {}, message); throw error; }
 }
 
+export async function runF1ChampionshipAutomation(now = new Date()) {
+  const admin = createAdminClient();
+  if (!admin) throw new Error("Supabase service-role configuration is required for the F1 championship market.");
+  const season = now.getUTCFullYear();
+  const runKey = `f1-championship:${season}:${kosovoLocalDate(now)}:${Math.floor(now.getUTCHours() / 6)}`;
+  const started = await beginRun(admin, "pre_match_refresh", runKey);
+  if (started.existing) return { ok: true, skipped: true, runKey, reason: "already_processed", run: started.run };
+  try {
+    const { buildCurrentF1ChampionshipMarket, buildChampionshipMarketTemplate } = await import("@/lib/f1-championship.mjs");
+    const championship = await buildCurrentF1ChampionshipMarket({ now, simulations: 5000 });
+    const template = buildChampionshipMarketTemplate(championship, { now }) as any;
+    const { data: matches, error: findError } = await admin.from("markets")
+      .select("id,slug,status,live_score_state,reference_probabilities")
+      .contains("live_event", { event_id: template.live_event.event_id })
+      .limit(1);
+    if (findError) throw new Error(`Could not find the F1 championship market: ${findError.message}`);
+
+    let market = matches?.[0] as any;
+    let created = 0;
+    if (!market) {
+      const { data, error } = await admin.from("markets").insert(template).select("id,slug,status,live_score_state,reference_probabilities").single();
+      if (error) throw new Error(`Could not create the F1 championship market: ${error.message}`);
+      market = data;
+      created = 1;
+    } else if (market.status === "open" && market.live_score_state?.key !== championship.stateKey) {
+      const state = {
+        key: championship.stateKey,
+        source_url: championship.sourceUrl,
+        source_provider: "OpenF1",
+        previous_probabilities: market.reference_probabilities ?? null,
+        championship: championship.model,
+      };
+      const { error } = await admin.rpc("apply_f1_race_winner_oracle", {
+        p_market_id: market.id,
+        p_state: state,
+        p_probabilities: championship.probabilities,
+        p_evidence: [{ title: "OpenF1 championship model", url: championship.sourceUrl, probabilities: championship.probabilities, model: championship.model }],
+        p_reasoning: "Monte Carlo: standings, recent form, race pace, speed, reliability, constructor strength and remaining-track fit.",
+        p_cap: 0.05,
+        p_final: championship.model.decided,
+        p_winner: championship.model.decided ? championship.outcomes.find((outcome: any) => outcome.driver_number === championship.model.winnerDriverNumber)?.key ?? null : null,
+      });
+      if (error) throw new Error(`Could not update the F1 championship vector: ${error.message}`);
+      await admin.from("markets").update({
+        pre_match_analysis: { source: "OpenF1", model: championship.model, updated_at: now.toISOString() },
+        closes_at: template.closes_at,
+      }).eq("id", market.id).eq("status", "open");
+    }
+
+    let settled = false;
+    if (championship.model.decided && market.status === "open") {
+      const winner = championship.outcomes.find((outcome: any) => outcome.driver_number === championship.model.winnerDriverNumber)?.key;
+      if (!winner) throw new Error("The decided F1 title has no matching market outcome.");
+      const { error } = await admin.rpc("settle_f1_championship_market", {
+        p_market_id: market.id,
+        p_winner: winner,
+        p_state_key: championship.stateKey,
+      });
+      if (error) throw new Error(`Could not settle the F1 championship market: ${error.message}`);
+      settled = true;
+    }
+    const details = { created, updated: created ? 0 : 1, settled, season, market: { id: market.id, slug: market.slug }, state_key: championship.stateKey, races_remaining: championship.model.racesRemaining, model_version: championship.model.version };
+    await finishRun(admin, started.run.id, "succeeded", details);
+    return { ok: true, skipped: false, runKey, ...details };
+  } catch (error) {
+    const message = String(error instanceof Error ? error.message : error);
+    await finishRun(admin, started.run.id, "failed", {}, message);
+    throw error;
+  }
+}
+
 export async function runUpcomingFootballTemplateAutomation(now = new Date()) {
   const admin = createAdminClient(); if (!admin) throw new Error("Supabase service-role configuration is required for football templates.");
   const runKey = `football-template:opening-v4:${kosovoLocalDate(now)}:${String(now.getUTCHours()).padStart(2, "0")}:${Math.floor(now.getUTCMinutes() / 15)}`; const started = await beginRun(admin, "pre_match_refresh", runKey);
