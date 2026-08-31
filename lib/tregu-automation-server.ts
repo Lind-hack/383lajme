@@ -687,7 +687,7 @@ async function runNewsReprice(action: "reprice" | "tregu_live", runKey: string, 
         // non-error audit result and never reaches an AI or oracle write.
         const { data: currentMarket, error: currentMarketError } = await admin
           .from("markets")
-          .select("id, status, closes_at, outcome, q_yes, q_no, b, category, market_type, market_classification")
+          .select("id, created_at, status, closes_at, outcome, q_yes, q_no, b, category, market_type, market_classification")
           .eq("id", item.market.id)
           .maybeSingle();
         if (currentMarketError) throw new Error(`Could not recheck market ${item.market.slug}: ${currentMarketError.message}`);
@@ -750,7 +750,7 @@ async function runNewsReprice(action: "reprice" | "tregu_live", runKey: string, 
             p_reference_probability: 0.05,
             p_max_move: decayCap,
           });
-          if (deadlineDecayError && /function .*apply_news_deadline_decay_window.*does not exist|could not find the function/i.test(deadlineDecayError.message)) {
+          if (deadlineDecayError && /function .*apply_news_deadline_decay_window.*does not exist|could not find the function|outside (?:horizon-based )?deadline decay window/i.test(deadlineDecayError.message)) {
             if (deadlineRemainingHours !== null && deadlineRemainingHours <= 24) {
               ({ error: deadlineDecayError } = await admin.rpc("apply_news_deadline_decay", {
                 p_market_id: item.market.id,

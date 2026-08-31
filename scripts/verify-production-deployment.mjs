@@ -119,6 +119,13 @@ const REQUIRED_CHART_MARKERS = {
     "interval '72 hours'",
     "p_max_move",
   ],
+  "supabase/migrations/0062_tregu_deadline_decay_horizon.sql": [
+    "horizon-based deadline decay",
+    "14 * 24",
+    "7 * 24",
+    "created_at",
+    "p_max_move",
+  ],
   "lib/tregu-live-email-content.mjs": [
     "graphSvg",
     "logoImage",
