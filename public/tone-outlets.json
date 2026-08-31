@@ -1,39 +1,15 @@
 {
-  "lastUpdated": "2026-08-30",
+  "lastUpdated": "2026-08-31",
   "overallIndex": 50,
-  "totalArticles": 50,
-  "sourceCount": 41,
+  "totalArticles": 32,
+  "sourceCount": 28,
   "stanceVersion": 3,
-  "unattributed": 133,
-  "nonEditorial": 2,
+  "unattributed": 120,
+  "nonEditorial": 1,
   "wrongKosovo": 0,
   "countries": {
     "Gjermani": {
       "outlets": [
-        {
-          "name": "Kicker",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Spielereignisse | Portugal - Kosovo 33:25 | 3. Spieltag | Mittelmeerspiele 2026 - Kicker",
-              "albanianTitle": "Statistikat e ndeshjes: Portugali - Kosovë 33:25, xhiroja e tretë, Lojërat Mesdhetare 2026 - Kicker",
-              "blurb": "Kombëtarja e Kosovës në hendboll është mposhtur nga Portugalia me rezultat 33:25 në kuadër të Lojërave Mesdhetare 2026.",
-              "imageUrl": null,
-              "url": "https://www.kicker.de/portugal-gegen-kosovo-2026-mittelmeerspiele-5262186/ergebnis",
-              "date": "2026-08-27",
-              "sentiment": "neutral",
-              "reason": "Faktikë sportive, raportim neutral",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 2,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-25",
-          "lastSeen": "2026-08-27"
-        },
         {
           "name": "MDR.de",
           "sentiment": "positive",
@@ -57,6 +33,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-08-30",
           "lastSeen": "2026-08-30"
+        },
+        {
+          "name": "WAZ",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "50 Fotos: Albanien und Kosovo feiern zusammen beim FC Besa Essen - wegen der Socca WM - WAZ",
+              "albanianTitle": "50 foto: Shqipëria dhe Kosova festojnë së bashku te FC Besa Essen në kuadër të Kampionatit Botëror të Socca-s - WAZ",
+              "blurb": "Shqiptarët nga Shqipëria dhe Kosova festuan së bashku në klubin FC Besa në Essen gjatë kampionatit botëror Socca.",
+              "imageUrl": "https://img.sparknews.funkemedien.de/413012541/413012541_1788175130_v16_9_1600.jpeg",
+              "url": "https://www.waz.de/sport/lokalsport/essen/article413012589/50-fotos-albanien-und-kosovo-feiern-zusammen-beim-fc-besa-essen-wegen-der-socca-wm.html",
+              "date": "2026-08-31",
+              "sentiment": "neutral",
+              "reason": "Headline reports joint celebration without evaluative language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-31",
+          "lastSeen": "2026-08-31"
         }
       ],
       "summary": {
@@ -67,50 +67,16 @@
         "n": 2,
         "excluded": 0,
         "confident": false,
-        "stanceVersion": 3,
-        "movement": {
-          "delta": 25,
-          "from": 50,
-          "outlet": "MDR.de",
-          "title": "Nga refugjat i Kosovës në sipërmarrës të suksesshëm: Shpetim Alaj dhe autobiografia e tij - MDR.de",
-          "evidence": "erfolgreichen Unternehmer",
-          "url": "https://www.mdr.de/nachrichten/thueringen/west-thueringen/eisenach/autobiografie-shpetim-alaj-handball-,kosovo-fluechtling-100.html"
-        }
+        "stanceVersion": 3
       }
     },
     "SHBA": {
       "outlets": [
         {
           "name": "Bloomberg",
-          "sentiment": "neutral",
-          "articleCount": 3,
+          "sentiment": "positive",
+          "articleCount": 1,
           "articles": [
-            {
-              "title": "Dua Lipa Is Opening Europe’s Youngest Country to the World - Bloomberg.com",
-              "albanianTitle": "Dua Lipa po e prezanton shtetin më të ri të Evropës para botës - Bloomberg.com",
-              "blurb": "Këngëtarja me famë botërore Dua Lipa po ndihmon në promovimin e Kosovës në arenën ndërkombëtare përmes ndikimit të saj.",
-              "imageUrl": null,
-              "url": "https://www.bloomberg.com/news/articles/2026-08-27/dua-lipa-puts-kosovo-on-the-music-map-with-sunny-hill-festival",
-              "date": "2026-08-27",
-              "sentiment": "neutral",
-              "reason": "Titull faktik, pa gjuhë ngarkuar",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Dua Lipa Is Opening Europe’s Youngest Country to the World - Bloomberg",
-              "albanianTitle": "Dua Lipa po e hap shtetin më të ri të Evropës për botën - Bloomberg",
-              "blurb": "Artikulli i Bloomberg trajton ndikimin e Dua Lipës në rritjen e njohjes së Kosovës në botë përmes aktiviteteve të saj.",
-              "imageUrl": null,
-              "url": "https://www.bloomberg.com/news/articles/2026-08-27/dua-lipa-puts-kosovo-on-the-music-map-with-sunny-hill-festival",
-              "date": "2026-08-27",
-              "sentiment": "neutral",
-              "reason": "Factual reporting without loaded language",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "Dua Lipa Wants the World to Come to Kosovo - Bloomberg.com",
               "albanianTitle": "Dua Lipa fton botën ta vizitojë Kosovën - Bloomberg.com",
@@ -132,17 +98,17 @@
         }
       ],
       "summary": {
-        "index": 67,
-        "positive": 33,
-        "neutral": 67,
+        "index": 100,
+        "positive": 100,
+        "neutral": 0,
         "negative": 0,
-        "n": 3,
+        "n": 1,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3,
         "movement": {
-          "delta": 5,
-          "from": 62,
+          "delta": 33,
+          "from": 67,
           "outlet": "Bloomberg",
           "title": "Dua Lipa fton botën ta vizitojë Kosovën - Bloomberg.com",
           "evidence": "Wants the World to Come to Kosovo",
@@ -158,23 +124,23 @@
           "articleCount": 1,
           "articles": [
             {
-              "title": "Kosovo Judicial Council Rejects Serb Judges’ Reinstation - Balkan Insight",
-              "albanianTitle": "Këshilli Gjyqësor i Kosovës refuzon rikthimin e gjyqtarëve serbë - Balkan Insight",
-              "blurb": "Këshilli Gjyqësor i Kosovës ka marrë vendim negativ ndaj kërkesës së gjyqtarëve serbë për t'u kthyer në sistemin gjyqësor kosovar.",
-              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/08/732338-T7KTzAt7Bs.jpg",
-              "url": "https://balkaninsight.com/2026/08/27/kosovo-judicial-council-rejects-serb-judges-reinstation/bi/",
-              "date": "2026-08-27",
+              "title": "Two Kosovo Serbs Plead Guilty to Participating in 2022 Unrest - Balkan Insight",
+              "albanianTitle": "Dy serbë të Kosovës pranojnë fajësinë për pjesëmarrje në trazirat e vitit 2022 - Balkan Insight",
+              "blurb": "Dy serbë të Kosovës janë deklaruar fajtorë për pjesëmarrje në trazirat e ndodhura gjatë vitit 2022 në veri të vendit.",
+              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/08/viber_image_2026-08-31_11-20-45-134-e1788171467147.jpg",
+              "url": "https://balkaninsight.com/2026/08/31/two-kosovo-serbs-plead-guilty-to-participating-in-2022-unrest/bi/",
+              "date": "2026-08-31",
               "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
+              "reason": "Factual report of court plea",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
             }
           ],
-          "totalArticles": 5,
+          "totalArticles": 6,
           "trend": "i përzier",
           "firstSeen": "2026-08-19",
-          "lastSeen": "2026-08-27"
+          "lastSeen": "2026-08-31"
         }
       ],
       "summary": {
@@ -196,23 +162,23 @@
           "articleCount": 1,
           "articles": [
             {
-              "title": "Kosovo : 68 % des Serbes estiment que leur situation s’est dégradée depuis un an - Le Courrier des Balkans",
-              "albanianTitle": "Kosova: 68% e serbëve vlerësojnë se gjendja e tyre është përkeqësuar gjatë një viti - Le Courrier des Balkans",
-              "blurb": "Sondazhi tregon se 68 për qind e serbëve në Kosovë vlerësojnë se gjendja e tyre është përkeqësuar gjatë vitit të fundit.",
-              "imageUrl": "https://www.courrierdesbalkans.fr/wp-content/uploads/2023/04/20221130_112513_c5873796-scaled.jpg",
-              "url": "https://www.courrierdesbalkans.fr/kosovo-68-des-serbes-estiment-que-leur-situation-sest-degradee-depuis-un-an-98756/",
-              "date": "2026-08-27",
+              "title": "Kosovo : quand le blocage institutionnel devient une stratégie politique - Le Courrier des Balkans",
+              "albanianTitle": "Kosova: Kur bllokada institucionale shndërrohet në strategji politike - Le Courrier des Balkans",
+              "blurb": "Bllokada institucionale në Kosovë po analizohet si një strategji politike e përdorur nga aktorët për të ndikuar në vendimmarrje.",
+              "imageUrl": "https://www.courrierdesbalkans.fr/wp-content/uploads/2026/08/Capture-decran-2026-08-29-173302.png",
+              "url": "https://www.courrierdesbalkans.fr/kosovo-quand-le-blocage-institutionnel-devient-une-strategie-politique-98768/",
+              "date": "2026-08-31",
               "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
+              "reason": "Analytical description of political deadlock, not hostile language",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
             }
           ],
-          "totalArticles": 7,
+          "totalArticles": 8,
           "trend": "i përzier",
           "firstSeen": "2026-08-20",
-          "lastSeen": "2026-08-27"
+          "lastSeen": "2026-08-31"
         },
         {
           "name": "Orange Actualités",
@@ -332,47 +298,47 @@
           "articleCount": 1,
           "articles": [
             {
-              "title": "Il nuovo Iacovone porta fortuna all’Italia: 3-0 al Kosovo e azzurri in semifinale. Il video - Buonasera24",
-              "albanianTitle": "Stadiumi i ri 'Iacovone' i sjell fat Italisë: 3-0 ndaj Kosovës dhe 'axurrët' kualifikohen në gjysmëfinale",
-              "blurb": "Kombëtarja e Italisë ka mposhtur Kosovën me rezultat 3-0, duke u kualifikuar në gjysmëfinalen e turneut futbollistik.",
-              "imageUrl": "https://www.buonasera24.it/resizer/600/315/true/2026_08_27/9b25c185027e7377671e8a1da3b0dd81.jpg--.webp",
-              "url": "https://www.buonasera24.it/video/cronaca/927417/il-nuovo-iacovone-porta-fortuna-allitalia-3-0-al-kosovo-e-azzurri-in-semifinale-il-video.html",
-              "date": "2026-08-27",
+              "title": "Fasano, bandiera palestinese e magliette “Free Palestine” durante Tunisia-Kosovo: Global Sumud Puglia chiede chiarimenti - Buonasera24",
+              "albanianTitle": "Fasano, flamuri palestinez dhe fanellat “Free Palestine” gjatë ndeshjes Tunizi-Kosovë: Global Sumud Puglia kërkon sqarime - Buonasera24",
+              "blurb": "Organizata Global Sumud Puglia kërkon sqarime pas shfaqjes së flamujve dhe mbishkrimeve për Palestinën gjatë ndeshjes Tunizi-Kosovë në Fasano.",
+              "imageUrl": "https://www.buonasera24.it/resizer/600/315/true/articoli/2022/11/giornata-sport-taranto-5.jpeg--fasano__bandiera_palestinese_e_magliette__free_palestine__durante_tunisia_kosovo__global_sumud_puglia_chiede_chiarimenti.webp",
+              "url": "https://www.buonasera24.it/news/cronaca/927606/fasano-bandiera-palestinese-e-magliette-free-palestine-durante-tunisia-kosovo-global-sumud-puglia-chiede-chiarimenti.html",
+              "date": "2026-08-31",
               "sentiment": "neutral",
-              "reason": "Lajm sportiv i raportuar në mënyrë faktike",
+              "reason": "Neutral description of a controversy involving a match",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
             }
           ],
-          "totalArticles": 4,
+          "totalArticles": 5,
           "trend": "neutral",
           "firstSeen": "2026-08-25",
-          "lastSeen": "2026-08-27"
+          "lastSeen": "2026-08-31"
         },
         {
-          "name": "Cronache Tarantine",
+          "name": "Cavalierenews",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
-              "title": "Impresa degli azzurrini nel calcio: 3-0 al Kosovo e semifinale contro la Tunisia - Cronache Tarantine",
-              "albanianTitle": "Fitore e madhe e Italisë U21: 3-0 ndaj Kosovës dhe kualifikim në gjysmëfinale kundër Tunizisë",
-              "blurb": "Përfaqësuesja e Italisë në futboll ka siguruar kualifikimin në gjysmëfinale pas fitores ndaj Kosovës, ku do të përballet me Tunizinë.",
-              "imageUrl": "https://www.cronachetarantine.it/images/2026/08/28/ita-kosovo_1.jpg",
-              "url": "https://www.cronachetarantine.it/index.php/giochi-2026/17658-impresa-degli-azzurrini-nel-calcio-3-0-al-kosovo-e-semifinale-contro-la-tunisia",
-              "date": "2026-08-27",
+              "title": "L'orgoglio tricolore nei Balcani: i soldati italiani della missione NATO garanti di pace e sicurezza nel cuore del Kosovo - Cavalierenews",
+              "albanianTitle": "Krenaria tringjyrëshe në Ballkan: Ushtarët italianë të misionit të NATO-s, garantë të paqes dhe sigurisë në zemër të Kosovës - Cavalierenews",
+              "blurb": "Ushtarët italianë të misionit të NATO-s në Kosovë vazhdojnë angazhimin e tyre për ruajtjen e paqes dhe sigurisë në rajon.",
+              "imageUrl": "https://cavalierenews.it/wp-content/uploads/2026/08/Immagine-2026-08-31-110500-910x600.jpg",
+              "url": "https://cavalierenews.it/lorgoglio-tricolore-nei-balcani-i-soldati-italiani-della-missione-nato-garanti-di-pace-e-sicurezza-nel-cuore-del-kosovo/",
+              "date": "2026-08-31",
               "sentiment": "neutral",
-              "reason": "Raportim faktik i rezultatit të ndeshjes, pa gjuhë ngarkuese",
+              "reason": "Report of NATO peace role in Kosovo without evaluative language",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
             }
           ],
-          "totalArticles": 4,
-          "trend": "neutral",
-          "firstSeen": "2026-08-23",
-          "lastSeen": "2026-08-27"
+          "totalArticles": 2,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-26",
+          "lastSeen": "2026-08-31"
         },
         {
           "name": "FIGC",
@@ -423,117 +389,6 @@
           "lastSeen": "2026-08-29"
         },
         {
-          "name": "Giornale RossoBlu",
-          "sentiment": "neutral",
-          "articleCount": 3,
-          "articles": [
-            {
-              "title": "Italia-Kosovo 3-0, le interviste - Giornale RossoBlu",
-              "albanianTitle": "Italia-Kosova 3-0, intervistat pas ndeshjes - Giornale RossoBlu",
-              "blurb": "Përfaqësuesit e Italisë kanë dhënë intervista pas përfundimit të ndeshjes së futbollit ndaj Kosovës që përfundoi me rezultatin 3-0.",
-              "imageUrl": "https://giornalerossoblu.it/wp-content/uploads/2026/08/WhatsApp-Image-2026-08-27-at-04..jpg",
-              "url": "https://giornalerossoblu.it/italia-kosovo-3-0-le-interviste/",
-              "date": "2026-08-27",
-              "sentiment": "neutral",
-              "reason": "Titull i thjeshtë sportiv, pa ngarkim",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Taranto 2026, Italia da impazzire: tris al Kosovo e qualificazione alle semifinali - Giornale RossoBlu",
-              "albanianTitle": "Taranto 2026, Itali e jashtëzakonshme: fitore 3-0 ndaj Kosovës dhe kualifikim në gjysmëfinale - Giornale RossoBlu",
-              "blurb": "Italia ka siguruar kualifikimin në gjysmëfinale të Lojërave Mesdhetare pas fitores me rezultat 3-0 ndaj përfaqësueses së Kosovës.",
-              "imageUrl": "https://giornalerossoblu.it/wp-content/uploads/2026/08/WhatsApp-Image-2026-08-26-at-21.-1.jpg",
-              "url": "https://giornalerossoblu.it/taranto-2026-italia-da-impazzire-tris-al-kosovo-e-qualificazione-alle-semifinali/",
-              "date": "2026-08-27",
-              "sentiment": "neutral",
-              "reason": "Përshkrim i rezultatit sportiv, pa gjuhë përçmuese",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Italia, la notte dello Iacovone: Franceschini e gli Azzurri celebrano il tris al Kosovo - Giornale RossoBlu",
-              "albanianTitle": "Italia, nata e Iacovone-s: Franceschini dhe Azzurrët festojnë fitoren ndaj Kosovës - Giornale RossoBlu",
-              "blurb": "Trajneri Franceschini dhe lojtarët e Italisë kanë festuar fitoren 3-0 ndaj Kosovës në stadiumin Iacovone në Taranto.",
-              "imageUrl": "https://giornalerossoblu.it/wp-content/uploads/2026/08/WhatsApp-Image-2026-08-26-at-21.-2.jpg",
-              "url": "https://giornalerossoblu.it/italia-la-notte-dello-iacovone-franceschini-e-gli-azzurri-celebrano-il-tris-al-kosovo/",
-              "date": "2026-08-27",
-              "sentiment": "neutral",
-              "reason": "Titull celebrativ për fitoret italiane, pa gjuhë negative ndaj Kosovës",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 3,
-          "trend": "neutral",
-          "firstSeen": "2026-08-27",
-          "lastSeen": "2026-08-27"
-        },
-        {
-          "name": "Hellas Verona",
-          "sentiment": "neutral",
-          "articleCount": 2,
-          "articles": [
-            {
-              "title": "2026 Mediterranean Games | Casagrande scores again in Italy's victory over Kosovo - Hellas Verona",
-              "albanianTitle": "Lojërat Mesdhetare 2026 | Casagrande shënon sërish në fitoren e Italisë ndaj Kosovës - Hellas Verona",
-              "blurb": "Casagrande shënon sërish në fitoren e Italisë ndaj Kosovës në kuadër të Lojërave Mesdhetare të vitit 2026 në futboll.",
-              "imageUrl": "https://hellas.hqcdn.it/media/share?f=2026/08/progetto-senza-titolo-2.jpg",
-              "url": "https://www.hellasverona.it/en/news/2026-mediterranean-games-casagrande-scores-again-in-italys-victory-over-kosovo",
-              "date": "2026-08-27",
-              "sentiment": "neutral",
-              "reason": "Raportim neutral i rezultatit sportiv",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Giochi del Mediterraneo 2026 | Casagrande ancora a segno nella vittoria sul Kosovo - Hellas Verona",
-              "albanianTitle": "Lojërat Mesdhetare 2026 | Casagrande sërish realizues në fitoren ndaj Kosovës - Hellas Verona",
-              "blurb": "Futbollisti Casagrande ka shënuar gol në fitoren e Italisë ndaj Kosovës në kuadër të Lojërave Mesdhetare 2026.",
-              "imageUrl": "https://hellas.hqcdn.it/media/share?f=2026/08/progetto-senza-titolo-2.jpg",
-              "url": "https://hellasverona.it/news/giochi-del-mediterraneo-2026-casagrande-ancora-a-segno-nella-vittoria-sul-kosovo",
-              "date": "2026-08-27",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 2,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-27",
-          "lastSeen": "2026-08-27"
-        },
-        {
-          "name": "RaiNews",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Le emozioni nello stadio e nel palazzetto - RaiNews",
-              "albanianTitle": "Emocione në stadium dhe në palestër - RaiNews",
-              "blurb": "Përjetimet dhe atmosfera në stadiume dhe palestra sportive gjatë zhvillimit të ndeshjeve të ndryshme të sportit.",
-              "imageUrl": "https://www.rainews.it/cropgd/1200x630/dl/img/2026/08/27/1787832555136_stadio_iacovone.jpg",
-              "url": "https://www.rainews.it/tgr/puglia/video/2026/08/giochi-del-mediterraneo-9f31ae0f-6f7d-4a46-ad0f-f710b8af0546.html",
-              "date": "2026-08-27",
-              "sentiment": "neutral",
-              "reason": "Lajm i thjeshtë, pa gjuhë vlerësuese",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 2,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-26",
-          "lastSeen": "2026-08-27"
-        },
-        {
           "name": "Remocontro",
           "sentiment": "negative",
           "articleCount": 1,
@@ -582,32 +437,8 @@
           "lastSeen": "2026-08-29"
         },
         {
-          "name": "Virgilio Sport",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Giochi del Mediterraneo: miracolo Italia, 3-0 al 96' al Kosovo e semifinale centrata per un gol in più in differenza reti sull'Albania - Virgilio Sport",
-              "albanianTitle": "Lojërat Mesdhetare: Italia mposht Kosovën 3-0 dhe kualifikohet në gjysmëfinale falë goldallimit më të mirë se Shqipëria",
-              "blurb": "Italia ka mposhtur Kosovën me rezultat 3-0 në Lojërat Mesdhetare, duke siguruar kualifikimin në gjysmëfinale falë diferencës së golave.",
-              "imageUrl": "https://wips.plug.it/cips/sport.virgilio.it/cms/2026/08/rocco.jpg?w=1217&a=r",
-              "url": "https://sport.virgilio.it/giochi-del-mediterraneo-miracolo-italia-3-0-al-96-al-kosovo-e-semifinale-centrata-per-un-gol-in-piu-in-differenza-reti-sull-albania-968926",
-              "date": "2026-08-27",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportim për rezultat futboll, pa gjuhë ngarkuese ndaj Kosovës",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-28",
-          "lastSeen": "2026-08-27"
-        },
-        {
           "name": "agenziagiornalisticaopinione.it",
-          "sentiment": "unknown",
+          "sentiment": "neutral",
           "articleCount": 2,
           "articles": [
             {
@@ -625,14 +456,14 @@
             },
             {
               "title": "FIGC * FEDERAZIONE ITALIANA GIUOCO CALCIO: «GIOCHI DEL MEDITERRANEO, AZZURRINI 4° POSTO: MAROCCO VINCE 4-1 - agenziagiornalisticaopinione.it",
-              "albanianTitle": "Lojërat Mesdhetare: Italia e re zë vendin e katërt, Maroku fiton 4-1",
-              "blurb": "Përfaqësuesja e Italisë në futboll përfundoi në vendin e katërt në Lojërat Mesdhetare pas humbjes nga Maroku me rezultat 4-1.",
+              "albanianTitle": "Lojërat Mesdhetare: Italia e re zë vendin e katërt, Maroku fiton 4-1 - agenziagiornalisticaopinione.it",
+              "blurb": "Përfaqësuesja e Italisë në futboll ka përfunduar në vendin e katërt në Lojërat Mesdhetare pas humbjes ndaj Marokut.",
               "imageUrl": "https://www.agenziagiornalisticaopinione.it/wp-content/uploads/2026/08/y99zdb2b930c-2883-4655-a2f5-b54a038aa955-jpg.jpg",
               "url": "https://www.agenziagiornalisticaopinione.it/opinionmix/figc-federazione-italiana-giuoco-calcio-giochi-del-mediterraneo-azzurrini-4-posto-marocco-vince-4-1/",
               "date": "2026-08-30",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
+              "sentiment": "neutral",
+              "reason": "Përdor citim në titull, por pa gjuhë kundërshtuese ndaj Kosovës",
+              "isQuote": true,
               "evidence": "",
               "speaker": ""
             }
@@ -641,69 +472,21 @@
           "trend": "neutral",
           "firstSeen": "2026-08-22",
           "lastSeen": "2026-08-30"
-        },
-        {
-          "name": "dialessandria.it",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Giochi del Mediterraneo, azzurri del calcio in semifinale col 3-0 al Kosovo - dialessandria.it",
-              "albanianTitle": "Lojërat Mesdhetare, futbollistët italianë në gjysmëfinale pas fitores 3-0 ndaj Kosovës - dialessandria.it",
-              "blurb": "Përfaqësuesja e Italisë është kualifikuar në gjysmëfinale të Lojërave Mesdhetare pas fitores 3-0 ndaj përfaqësueses së Kosovës.",
-              "imageUrl": "https://i0.wp.com/www.dialessandria.it/wp-content/uploads/2021/12/DiAlessandria-no-photo.jpg?fit=1600%2C1200&ssl=1",
-              "url": "https://www.dialessandria.it/sport/giochi-mediterraneo-franceschini-ripagato-laffetto-con-una-vittoria-preziosa/296423.html",
-              "date": "2026-08-27",
-              "sentiment": "neutral",
-              "reason": "Faktikë sportive, pa gjuhë ngarkuar ndaj Kosovës",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-27",
-          "lastSeen": "2026-08-27"
         }
       ],
       "summary": {
         "index": 50,
-        "positive": 6,
-        "neutral": 89,
-        "negative": 6,
-        "n": 18,
-        "excluded": 2,
+        "positive": 9,
+        "neutral": 82,
+        "negative": 9,
+        "n": 11,
+        "excluded": 1,
         "confident": true,
         "stanceVersion": 3
       }
     },
     "Austri": {
       "outlets": [
-        {
-          "name": "Kleine Zeitung",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Busfahrer aus dem Kosovo illegal in Kärnten unterwegs - Kleine Zeitung",
-              "albanianTitle": "Shoferë autobusësh nga Kosova operojnë ilegalisht në Kärnten - Kleine Zeitung",
-              "blurb": "Autoritetet në Kärnten të Austrisë kanë ndaluar një shofer autobusi nga Kosova për shkak të punës pa leje përkatëse.",
-              "imageUrl": "https://img.kleinezeitung.at/public/incoming/kfj9q5-22730394788112554bldhiresjpg/alternates/KLZ_SOCIAL/22730394788112554_BLD_HiRes.jpg",
-              "url": "https://www.kleinezeitung.at/artikel/41209217/busfahrer-aus-dem-kosovo-illegal-in-kaernten-unterwegs",
-              "date": "2026-08-27",
-              "sentiment": "neutral",
-              "reason": "Report of alleged illegal activity of an individual, not a stance toward Kosovo",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-28",
-          "lastSeen": "2026-08-27"
-        },
         {
           "name": "Kronen Zeitung",
           "sentiment": "unknown",
@@ -771,7 +554,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 3,
+        "n": 2,
         "excluded": 1,
         "confident": false,
         "stanceVersion": 3
@@ -820,7 +603,7 @@
         {
           "name": "ESPN.nl",
           "sentiment": "neutral",
-          "articleCount": 3,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Malta 0-5 Kosovo (17 nov., 2018) Uitslag - ESPN.nl",
@@ -831,19 +614,6 @@
               "date": "2026-08-28",
               "sentiment": "neutral",
               "reason": "Raportim i rezultatit të një ndeshjeje sportive, pa ngarkim",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Kosovo 1-2 Griekenland (6 sep., 2020) Uitslag - ESPN.nl",
-              "albanianTitle": "Kosova 1-2 Greqia (6 shtator 2020): Rezultati përfundimtar - ESPN.nl",
-              "blurb": "Kombëtarja e Kosovës në futboll pësoi humbje me rezultat 1-2 kundër Greqisë në ndeshjen e zhvilluar më 6 shtator 2020.",
-              "imageUrl": null,
-              "url": "https://www.espn.nl/voetbal/wedstrijd?wedstrijdId=570760&action=summary",
-              "date": "2026-08-27",
-              "sentiment": "neutral",
-              "reason": "Faktikisht raporton rezultatin e ndeshjes pa gjuhë të ngarkuar",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -873,7 +643,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 2,
+        "n": 1,
         "excluded": 1,
         "confident": false,
         "stanceVersion": 3
@@ -1008,18 +778,18 @@
         },
         {
           "name": "www.diariojaen.es",
-          "sentiment": "unknown",
+          "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
               "title": "Juan Cámara entra en la historia con el Inter Escaldes al ser el primer club de Andorra en una fase de grupos europea - www.diariojaen.es",
-              "albanianTitle": "Juan Cámara hyn në histori me Inter Escaldes, klubi i parë nga Andorra që kualifikohet në fazën e grupeve në Evropë",
-              "blurb": "Inter Escaldes bëhet klubi i parë nga Andorra që kualifikohet në fazën e grupeve të një kompeticioni evropian futbolli.",
+              "albanianTitle": "Juan Cámara hyn në histori me Inter Escaldes, klubi i parë nga Andorra që arrin në fazën e grupeve evropiane - www.diariojaen.es",
+              "blurb": "Juan Camara dhe Inter Escaldes shkruajnë histori duke u bërë klubi i parë nga Andorra në fazën e grupeve evropiane.",
               "imageUrl": "https://www.diariojaen.es/binrepository/616x346/16c1/600d346/none/10717/NELQ/a-44-2026-08-28t095937-991_18717458_20260828100043.jpg",
               "url": "https://www.diariojaen.es/deportes/juan-camara-entra-en-la-historia-con-el-inter-escaldes-al-ser-el-primer-club-de-andorra-en-una-fase-de-grupos-europea-BN11585488",
               "date": "2026-08-28",
-              "sentiment": "unknown",
-              "reason": "",
+              "sentiment": "neutral",
+              "reason": "Titull i thjeshtë, pa ngarkim",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1032,22 +802,14 @@
         }
       ],
       "summary": {
-        "index": 20,
+        "index": 25,
         "positive": 0,
-        "neutral": 40,
-        "negative": 60,
-        "n": 5,
-        "excluded": 1,
+        "neutral": 50,
+        "negative": 50,
+        "n": 6,
+        "excluded": 0,
         "confident": true,
-        "stanceVersion": 3,
-        "movement": {
-          "delta": -9,
-          "from": 29,
-          "outlet": "Europa Press",
-          "title": "BE shpreh keqardhje që Kosova pranoi dorëheqjet e gjyqtarëve serbë të cilët i kishin tërhequr ato më herët - Europa Press",
-          "evidence": "lamenta que Kosovo haya acabado aceptando",
-          "url": "https://www.europapress.es/internacional/noticia-ue-lamenta-kosovo-haya-acabado-aceptando-dimisiones-jueces-serbios-ya-sido-retiradas-20260828184957.html"
-        }
+        "stanceVersion": 3
       }
     },
     "Greqi": {
@@ -1077,43 +839,6 @@
           "lastSeen": "2026-08-28"
         },
         {
-          "name": "International Committee of Mediterranean Games",
-          "sentiment": "neutral",
-          "articleCount": 2,
-          "articles": [
-            {
-              "title": "Kosovo wins its first gold at Taranto 2026 - International Committee of Mediterranean Games",
-              "albanianTitle": "Kosova fiton medaljen e parë të artë në Taranto 2026 - Komiteti Ndërkombëtar i Lojërave Mesdhetare",
-              "blurb": "Sportistët e Kosovës kanë fituar medaljen e parë të artë në Lojërat Mesdhetare që po mbahen në qytetin e Tarantos.",
-              "imageUrl": "https://cijm.org.gr/wp-content/uploads/2026/08/kosovo.jpg",
-              "url": "https://cijm.org.gr/kosovo-wins-its-first-gold-at-taranto-2026/",
-              "date": "2026-08-27",
-              "sentiment": "neutral",
-              "reason": "Lajm i thjeshtë sportiv, pa ngjyrë",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "To Kόσοβο κατέκτησε το πρώτο χρυσό στο Taranto 2026 - International Committee of Mediterranean Games",
-              "albanianTitle": "Kosova fiton medaljen e parë të artë në Taranto 2026 - Komiteti Ndërkombëtar i Lojërave Mesdhetare",
-              "blurb": "Kosova ka fituar medaljen e parë të artë në Lojërat Mesdhetare që po mbahen në qytetin e Tarantos.",
-              "imageUrl": "https://cijm.org.gr/wp-content/uploads/2026/08/kosovo.jpg",
-              "url": "https://cijm.org.gr/to-kosovo-katektise-to-proto-chryso-sto-taranto-2026/?lang=el",
-              "date": "2026-08-27",
-              "sentiment": "neutral",
-              "reason": "Announcement of sporting achievement, presented factually",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 2,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-28",
-          "lastSeen": "2026-08-27"
-        },
-        {
           "name": "sport-fm.gr",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1136,81 +861,6 @@
           "trend": "i përzier",
           "firstSeen": "2026-08-20",
           "lastSeen": "2026-08-29"
-        },
-        {
-          "name": "Ολύμπιο Βήμα",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Ο Γιώργος Μάριος Δήμας κατέκτησε την πέμπτη θέση στο Κόσοβο - Ολύμπιο Βήμα",
-              "albanianTitle": "Giorgos Marios Dimas zë vendin e pestë në Kosovë - Olimpio Vima",
-              "blurb": "Sportisti grek Giorgos Marios Dimas është renditur në vendin e pestë gjatë një gare të zhvilluar në Kosovë.",
-              "imageUrl": "https://olympiobima.gr/wp-content/uploads/2026/08/giorgos-marios-dimas-katektise-pempti-53608.webp",
-              "url": "https://olympiobima.gr/o-giorgos-marios-dimas-katektise-tin-pebti-thesi-sto-kosovo/",
-              "date": "2026-08-27",
-              "sentiment": "neutral",
-              "reason": "Fact‑based report",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-27",
-          "lastSeen": "2026-08-27"
-        }
-      ],
-      "summary": {
-        "index": 50,
-        "positive": 0,
-        "neutral": 100,
-        "negative": 0,
-        "n": 5,
-        "excluded": 0,
-        "confident": true,
-        "stanceVersion": 3
-      }
-    },
-    "Suedi": {
-      "outlets": [
-        {
-          "name": "SMHI",
-          "sentiment": "neutral",
-          "articleCount": 2,
-          "articles": [
-            {
-              "title": "Väderprognos 10 dygn Mitrovica, Kosovo - SMHI",
-              "albanianTitle": "Parashikimi i motit për 10 ditët e ardhshme në Mitrovicë, Kosovë",
-              "blurb": "Instituti Meteorologjik Suedez ka publikuar parashikimin e motit për dhjetë ditët e ardhshme për qytetin e Mitrovicës.",
-              "imageUrl": null,
-              "url": "https://www.smhi.se/vader/prognoser-och-varningar/vaderprognos/q/Mitrovica/789225",
-              "date": "2026-08-27",
-              "sentiment": "neutral",
-              "reason": "Titulli është një parashikim të motit, pa ngjyrë",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Väderprognos 10 dygn Prizren, Kosovo - SMHI",
-              "albanianTitle": "Parashikimi i motit për 10 ditët e ardhshme në Prizren, Kosovë",
-              "blurb": "Instituti Meteorologjik Suedez ka publikuar parashikimin e motit për dhjetë ditët e ardhshme për qytetin e Prizrenit.",
-              "imageUrl": null,
-              "url": "https://www.smhi.se/vader/prognoser-och-varningar/vaderprognos/q/Prizren/786712",
-              "date": "2026-08-27",
-              "sentiment": "neutral",
-              "reason": "Titulli është një parashikim të motit, pa ngjyrë",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 3,
-          "trend": "neutral",
-          "firstSeen": "2026-08-26",
-          "lastSeen": "2026-08-27"
         }
       ],
       "summary": {
@@ -1224,63 +874,27 @@
         "stanceVersion": 3
       }
     },
-    "Poloni": {
-      "outlets": [
-        {
-          "name": "Interia Sport",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosovo (w) - zimbabwe (w) - Interia Sport",
-              "albanianTitle": "Kosovë (femrat) - Zimbabve (femrat) - Interia Sport",
-              "blurb": "Ekipi i futbollit të femrave të Kosovës do të përballet me ekipin përfaqësues të Zimbabvesë në një ndeshje miqësore.",
-              "imageUrl": null,
-              "url": "https://sport.interia.pl/tenis/mecz-kosovo-w-zimbabwe-w-fed-cup-gr-iii-k,spmi,3729230",
-              "date": "2026-08-27",
-              "sentiment": "neutral",
-              "reason": "Fact‑based report",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-27",
-          "lastSeen": "2026-08-27"
-        },
-        {
-          "name": "iGaming Polska",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Mistrzostwa Świata Socca 2026: terminarz, harmonogram i wyniki - iGaming Polska",
-              "albanianTitle": "Kampionati Botëror i Socca 2026: orari, kalendari dhe rezultatet - iGaming Polska",
-              "blurb": "Publikohet orari, kalendari i ndeshjeve dhe rezultatet për kampionatin botëror të futbollit Socca që mbahet gjatë vitit 2026.",
-              "imageUrl": null,
-              "url": "https://igamingpolska.pl/mistrzostwa-swiata-socca-2026-terminarz-wyniki/",
-              "date": "2026-08-27",
-              "sentiment": "neutral",
-              "reason": "Informacion i thjeshtë për turneun, pa gjuhë të ngarkuar",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-28",
-          "lastSeen": "2026-08-27"
-        }
-      ],
+    "Suedi": {
+      "outlets": [],
       "summary": {
-        "index": 50,
+        "index": null,
         "positive": 0,
-        "neutral": 100,
+        "neutral": 0,
         "negative": 0,
-        "n": 2,
+        "n": 0,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      }
+    },
+    "Poloni": {
+      "outlets": [],
+      "summary": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -1289,67 +903,43 @@
     "Turqi": {
       "outlets": [
         {
-          "name": "Basketfaul",
-          "sentiment": "neutral",
+          "name": "Forbes Türkiye",
+          "sentiment": "positive",
           "articleCount": 1,
           "articles": [
             {
-              "title": "Büyükçekmece Kosova Yolcusu - Basketfaul",
-              "albanianTitle": "Büyükçekmece udhëton drejt Kosovës - Basketfaul",
-              "blurb": "Ekipi i basketbollit Büyükçekmece është nisur drejt Kosovës për të zhvilluar ndeshje në kuadër të angazhimeve të tyre sportive.",
-              "imageUrl": null,
-              "url": "https://basketfaul.com.tr/gundem/buyukcekmece-kosova-yolcusu/",
-              "date": "2026-08-27",
-              "sentiment": "neutral",
-              "reason": "Straightforward title without loaded language",
+              "title": "Dua Lipa Avrupa’nın en genç ülkesini dünyaya tanıtıyor - Forbes Türkiye",
+              "albanianTitle": "Dua Lipa promovon shtetin më të ri në Evropë para botës - Forbes Türkiye",
+              "blurb": "Këngëtarja me famë botërore Dua Lipa po promovon Kosovën si shtetin më të ri në Evropë përmes aktiviteteve të saj.",
+              "imageUrl": "https://files.forbes.com.tr/host/Image/article/dua-lipa-avrupa-nin-en-genc-ulkesini-dunyaya-tanitiyor-2026-08-31-13-43-59.jpeg",
+              "url": "https://www.forbes.com.tr/forbes-life/dua-lipa-avrupa-nin-en-genc-ulkesini-dunyaya-tanitiyor",
+              "date": "2026-08-31",
+              "sentiment": "positive",
+              "reason": "Outlet praises Kosovo as Europe’s youngest country",
               "isQuote": false,
-              "evidence": "",
+              "evidence": "en genç ülkesini",
               "speaker": ""
             }
           ],
           "totalArticles": 1,
           "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-27",
-          "lastSeen": "2026-08-27"
-        },
-        {
-          "name": "Haberler",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Büyükçekmece Basketbol, Kosova'da Kamp Yapıyor - Haberler",
-              "albanianTitle": "Büyükçekmece Basketbol po zhvillon kampin stërvitor në Kosovë - Haberler",
-              "blurb": "Ekipi i basketbollit Büyükçekmece ka zgjedhur Kosovën si destinacion për zhvillimin e fazës përgatitore dhe kampit stërvitor.",
-              "imageUrl": null,
-              "url": "https://www.haberler.com/spor/buyukcekmece-basketbol-yeni-sezona-kosova-da-20182746-haberi/",
-              "date": "2026-08-27",
-              "sentiment": "neutral",
-              "reason": "Faktikë, pa gjuhë ngarkuese",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 5,
-          "trend": "neutral",
-          "firstSeen": "2026-08-20",
-          "lastSeen": "2026-08-27"
+          "firstSeen": "2026-08-31",
+          "lastSeen": "2026-08-31"
         },
         {
           "name": "Son Dakika",
-          "sentiment": "unknown",
+          "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
               "title": "Milliler Kosova'yı Yendi, Çeyrek Finale Yükseldi - Son Dakika",
               "albanianTitle": "Kombëtarja turke mposht Kosovën dhe kualifikohet në çerekfinale - Son Dakika",
-              "blurb": "Kombëtarja turke ka mposhtur Kosovën duke siguruar kualifikimin për në çerekfinale të kampionatit të futbollit.",
+              "blurb": "Kombëtarja turke ka mposhtur Kosovën në ndeshjen e fundit, duke siguruar kualifikimin për në çerekfinale të këtij kampionati.",
               "imageUrl": null,
               "url": "https://www.sondakika.com/spor/haber-milliler-kosova-yi-yendi-ceyrek-finale-yukseldi-20190048/",
               "date": "2026-08-30",
-              "sentiment": "unknown",
-              "reason": "",
+              "sentiment": "neutral",
+              "reason": "Raportim sportiv i fitores, pa gjuhë përçmuese",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1359,30 +949,6 @@
           "trend": "neutral",
           "firstSeen": "2026-08-20",
           "lastSeen": "2026-08-30"
-        },
-        {
-          "name": "T.C. Vakıflar Genel Müdürlüğü",
-          "sentiment": "positive",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "HAYAL ET, KEŞFET VAKFET: KOSOVA'DA ORTAK MİRASIMIZIN İZİNDE - T.C. Vakıflar Genel Müdürlüğü",
-              "albanianTitle": "Përfytyro, zbulo, dhuro: Në gjurmët e trashëgimisë sonë të përbashkët në Kosovë - Drejtoria e Përgjithshme e Vakëfeve e Turqisë",
-              "blurb": "Drejtoria e Përgjithshme e Vakëfeve të Turqisë po zhvillon një projekt për hulumtimin e trashëgimisë së përbashkët në Kosovë.",
-              "imageUrl": null,
-              "url": "https://www.vgm.gov.tr/haberler/hayal-et-kesfet-vakfet-kosovada-ortak-mirasimizin",
-              "date": "2026-08-27",
-              "sentiment": "positive",
-              "reason": "Positive framing of Kosovo as shared heritage",
-              "isQuote": false,
-              "evidence": "ortak mirasımızın izinde",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-27",
-          "lastSeen": "2026-08-27"
         },
         {
           "name": "TRT World",
@@ -1410,21 +976,21 @@
         }
       ],
       "summary": {
-        "index": 62,
-        "positive": 25,
-        "neutral": 75,
+        "index": 67,
+        "positive": 33,
+        "neutral": 67,
         "negative": 0,
-        "n": 4,
-        "excluded": 1,
+        "n": 3,
+        "excluded": 0,
         "confident": false,
         "stanceVersion": 3,
         "movement": {
-          "delta": 6,
-          "from": 56,
-          "outlet": "T.C. Vakıflar Genel Müdürlüğü",
-          "title": "Përfytyro, zbulo, dhuro: Në gjurmët e trashëgimisë sonë të përbashkët në Kosovë - Drejtoria e Përgjithshme e Vakëfeve e Turqisë",
-          "evidence": "ortak mirasımızın izinde",
-          "url": "https://www.vgm.gov.tr/haberler/hayal-et-kesfet-vakfet-kosovada-ortak-mirasimizin"
+          "delta": 5,
+          "from": 62,
+          "outlet": "Forbes Türkiye",
+          "title": "Dua Lipa promovon shtetin më të ri në Evropë para botës - Forbes Türkiye",
+          "evidence": "en genç ülkesini",
+          "url": "https://www.forbes.com.tr/forbes-life/dua-lipa-avrupa-nin-en-genc-ulkesini-dunyaya-tanitiyor"
         }
       }
     },

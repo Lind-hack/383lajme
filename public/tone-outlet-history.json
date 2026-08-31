@@ -55,19 +55,20 @@
     },
     "Balkan Insight": {
       "country": "Britani",
-      "total": 5,
+      "total": 6,
       "positive": 1,
-      "neutral": 4,
+      "neutral": 5,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-19",
-      "lastSeen": "2026-08-27",
+      "lastSeen": "2026-08-31",
       "urls": [
         "https://balkaninsight.com/2026/08/19/suspend-officers-suspected-of-beating-serb-kosovo-police-inspectorate-says/bi/",
         "https://balkaninsight.com/2026/08/20/remains-of-23-wartime-victims-unearthed-from-mass-graves-in-kosovo/btj/",
         "https://balkaninsight.com/2026/08/21/thaci-expects-acquittal-as-hague-courts-war-crimes-verdict-nears/btj/",
         "https://balkaninsight.com/2026/08/26/kosovos-ruling-party-optimistic-about-resolving-deadlock-over-new-president/bi/",
-        "https://balkaninsight.com/2026/08/27/kosovo-judicial-council-rejects-serb-judges-reinstation/bi/"
+        "https://balkaninsight.com/2026/08/27/kosovo-judicial-council-rejects-serb-judges-reinstation/bi/",
+        "https://balkaninsight.com/2026/08/31/two-kosovo-serbs-plead-guilty-to-participating-in-2022-unrest/bi/"
       ]
     },
     "Ouest-France": {
@@ -85,13 +86,13 @@
     },
     "Le Courrier des Balkans": {
       "country": "Francë",
-      "total": 7,
+      "total": 8,
       "positive": 0,
-      "neutral": 6,
+      "neutral": 7,
       "negative": 1,
       "unknown": 0,
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-27",
+      "lastSeen": "2026-08-31",
       "urls": [
         "https://www.courrierdesbalkans.fr/detourner-libar-nouvelle-arme-de-vucic-contre-le-kosovo-98491/",
         "https://www.courrierdesbalkans.fr/kosovo-jouer-a-la-paix-jouer-a-la-guerre-69437/",
@@ -99,7 +100,8 @@
         "https://www.courrierdesbalkans.fr/un-hommage-en-provenance-du-kosovo-1367/",
         "https://www.courrierdesbalkans.fr/kosovo-serbie-mais-ou-est-passe-le-journalisme-engage-9084/",
         "https://www.courrierdesbalkans.fr/entre-kosovo-et-serbie-la-fin-des-mesures-de-reciprocite-73159/",
-        "https://www.courrierdesbalkans.fr/kosovo-68-des-serbes-estiment-que-leur-situation-sest-degradee-depuis-un-an-98756/"
+        "https://www.courrierdesbalkans.fr/kosovo-68-des-serbes-estiment-que-leur-situation-sest-degradee-depuis-un-an-98756/",
+        "https://www.courrierdesbalkans.fr/kosovo-quand-le-blocage-institutionnel-devient-une-strategie-politique-98768/"
       ]
     },
     "Le Figaro": {
@@ -1536,18 +1538,19 @@
     },
     "Buonasera24": {
       "country": "Itali",
-      "total": 4,
+      "total": 5,
       "positive": 0,
-      "neutral": 4,
+      "neutral": 5,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-25",
-      "lastSeen": "2026-08-27",
+      "lastSeen": "2026-08-31",
       "urls": [
         "https://www.buonasera24.it/news/cronaca/927313/italia-kosovo-allo-iacovone-cambia-la-viabilita-strade-chiuse-dalle-18.html",
         "https://www.buonasera24.it/news/cronaca/927361/italia-kosovo-iacovone-tutto-esaurito-le-informazioni-su-come-accedere.html",
         "https://www.buonasera24.it/news/cronaca/927375/italia-kosovo-allo-iacovone-piano-straordinario-per-bus-e-navette-tutto-quello-che-c-e-da-sapere.html",
-        "https://www.buonasera24.it/video/cronaca/927417/il-nuovo-iacovone-porta-fortuna-allitalia-3-0-al-kosovo-e-azzurri-in-semifinale-il-video.html"
+        "https://www.buonasera24.it/video/cronaca/927417/il-nuovo-iacovone-porta-fortuna-allitalia-3-0-al-kosovo-e-azzurri-in-semifinale-il-video.html",
+        "https://www.buonasera24.it/news/cronaca/927606/fasano-bandiera-palestinese-e-magliette-free-palestine-durante-tunisia-kosovo-global-sumud-puglia-chiede-chiarimenti.html"
       ]
     },
     "Kicker": {
@@ -1820,15 +1823,16 @@
     },
     "Cavalierenews": {
       "country": "Itali",
-      "total": 1,
+      "total": 2,
       "positive": 1,
-      "neutral": 0,
+      "neutral": 1,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-26",
-      "lastSeen": "2026-08-26",
+      "lastSeen": "2026-08-31",
       "urls": [
-        "https://cavalierenews.it/ruzhdi-gashi-il-ponte-letterario-tra-il-kosovo-e-il-mondo-la-memoria-dellolocausto-e-il-trionfo-della-cultura-senza-confini/"
+        "https://cavalierenews.it/ruzhdi-gashi-il-ponte-letterario-tra-il-kosovo-e-il-mondo-la-memoria-dellolocausto-e-il-trionfo-della-cultura-senza-confini/",
+        "https://cavalierenews.it/lorgoglio-tricolore-nei-balcani-i-soldati-italiani-della-missione-nato-garanti-di-pace-e-sicurezza-nel-cuore-del-kosovo/"
       ]
     },
     "espresso.com.pl": {
@@ -2214,6 +2218,32 @@
       "lastSeen": "2026-08-28",
       "urls": [
         "https://www.diariojaen.es/deportes/juan-camara-entra-en-la-historia-con-el-inter-escaldes-al-ser-el-primer-club-de-andorra-en-una-fase-de-grupos-europea-BN11585488"
+      ]
+    },
+    "WAZ": {
+      "country": "Gjermani",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-31",
+      "lastSeen": "2026-08-31",
+      "urls": [
+        "https://www.waz.de/sport/lokalsport/essen/article413012589/50-fotos-albanien-und-kosovo-feiern-zusammen-beim-fc-besa-essen-wegen-der-socca-wm.html"
+      ]
+    },
+    "Forbes Türkiye": {
+      "country": "Turqi",
+      "total": 1,
+      "positive": 1,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-08-31",
+      "lastSeen": "2026-08-31",
+      "urls": [
+        "https://www.forbes.com.tr/forbes-life/dua-lipa-avrupa-nin-en-genc-ulkesini-dunyaya-tanitiyor"
       ]
     }
   }

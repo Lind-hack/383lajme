@@ -4179,5 +4179,230 @@
         "sentiment": "negative"
       }
     ]
+  },
+  {
+    "date": "2026-08-31",
+    "overallIndex": 50,
+    "totalArticles": 32,
+    "sourceCount": 28,
+    "stanceVersion": 3,
+    "countries": {
+      "Gjermani": {
+        "index": 75,
+        "positive": 50,
+        "neutral": 50,
+        "negative": 0,
+        "n": 2,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "SHBA": {
+        "index": 100,
+        "positive": 100,
+        "neutral": 0,
+        "negative": 0,
+        "n": 1,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3,
+        "movement": {
+          "delta": 33,
+          "from": 67,
+          "outlet": "Bloomberg",
+          "title": "Dua Lipa fton botën ta vizitojë Kosovën - Bloomberg.com",
+          "evidence": "Wants the World to Come to Kosovo",
+          "url": "https://www.bloomberg.com/news/newsletters/2026-08-28/dua-lipa-wants-the-world-to-come-to-kosovo"
+        }
+      },
+      "Britani": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 1,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Francë": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 2,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Itali": {
+        "index": 50,
+        "positive": 9,
+        "neutral": 82,
+        "negative": 9,
+        "n": 11,
+        "excluded": 1,
+        "confident": true,
+        "stanceVersion": 3
+      },
+      "Austri": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 2,
+        "excluded": 1,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Zvicër": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 1,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Holandë": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 1,
+        "excluded": 1,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Belgjikë": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 1,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Spanjë": {
+        "index": 25,
+        "positive": 0,
+        "neutral": 50,
+        "negative": 50,
+        "n": 6,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 3
+      },
+      "Greqi": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 2,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Suedi": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Poloni": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Turqi": {
+        "index": 67,
+        "positive": 33,
+        "neutral": 67,
+        "negative": 0,
+        "n": 3,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3,
+        "movement": {
+          "delta": 5,
+          "from": 62,
+          "outlet": "Forbes Türkiye",
+          "title": "Dua Lipa promovon shtetin më të ri në Evropë para botës - Forbes Türkiye",
+          "evidence": "en genç ülkesini",
+          "url": "https://www.forbes.com.tr/forbes-life/dua-lipa-avrupa-nin-en-genc-ulkesini-dunyaya-tanitiyor"
+        }
+      },
+      "Kroaci": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      }
+    },
+    "headlines": [
+      {
+        "title": "Vom Kosovo-Flüchtling zum erfolgreichen Unternehmer: Shpetim Alaj und seine Autobiografie - MDR.de",
+        "source": "MDR.de",
+        "country": "Gjermani",
+        "flag": "🇩🇪",
+        "url": "https://www.mdr.de/nachrichten/thueringen/west-thueringen/eisenach/autobiografie-shpetim-alaj-handball-,kosovo-fluechtling-100.html",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Dua Lipa Wants the World to Come to Kosovo - Bloomberg.com",
+        "source": "Bloomberg",
+        "country": "SHBA",
+        "flag": "🇺🇸",
+        "url": "https://www.bloomberg.com/news/newsletters/2026-08-28/dua-lipa-wants-the-world-to-come-to-kosovo",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Taranto 2026 – La pugile Donjeta Sadiku fa la storia: è suo il primo oro del Kosovo ai Giochi del Mediterraneo. - Sporteconomy",
+        "source": "Sporteconomy",
+        "country": "Itali",
+        "flag": "🇮🇹",
+        "url": "https://www.sporteconomy.it/la-pugile-donjeta-sadiku-fa-la-storia-e-suo-il-primo-oro-del-kosovo-ai-giochi-del-mediterraneo/",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Die Jugend des PDK umgibt die Regierung mit Gefahrband: Kurtis Stolpermacht gefährdet Demokratie und Staat - Periskopi",
+        "source": "Periskopi",
+        "country": "Austri",
+        "flag": "🇦🇹",
+        "url": "https://periskopi.com/de/2026/8/jugend-pdk-umgibt-regierung-gefahrband-kurtis-stolpermacht-gefahrdet-demokratie-staat",
+        "sentiment": "negative"
+      },
+      {
+        "title": "L'UE critica che il Kosovo convalidi le dimissioni dei giudici serbi già ritirate - Demócrata",
+        "source": "Demócrata",
+        "country": "Spanjë",
+        "flag": "🇪🇸",
+        "url": "https://www.democrata.es/it/internazionale/l-ue-critica-che-il-kosovo-convalidi-le-dimissioni-dei-giudici-serbi-gia-ritirate/",
+        "sentiment": "negative"
+      },
+      {
+        "title": "La UE lamenta que Kosovo haya acabado aceptando dimisiones de jueces serbios que ya habían sido retiradas - Europa Press",
+        "source": "Europa Press",
+        "country": "Spanjë",
+        "flag": "🇪🇸",
+        "url": "https://www.europapress.es/internacional/noticia-ue-lamenta-kosovo-haya-acabado-aceptando-dimisiones-jueces-serbios-ya-sido-retiradas-20260828184957.html",
+        "sentiment": "negative"
+      }
+    ]
   }
 ]
