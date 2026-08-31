@@ -106,6 +106,7 @@ const REQUIRED_CHART_MARKERS = {
     "reason: \"deadline_floor_reached\"",
     "deadline_decay_rate_limited",
     "apply_news_deadline_decay_window",
+    "newsDeadlineDecayCap(deadlineRemainingHours)",
     "60 * 60 * 1000",
   ],
   "supabase/migrations/0059_tregu_reprice_evidence_fingerprint.sql": [

@@ -1,7 +1,7 @@
 import { getArticles, getLatestArticles } from "@/lib/db";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { scoreMarketWithAI, slugifyQuestion, type Market } from "@/lib/tregu";
-import { buildDailyDraftPlan, buildLiveEventDraftRunKey, buildRepricePlan, dailyDraftPublicationReason, evidenceIdentity, isEligibleNewsDeadlineMarket, newsDeadlineAction, repriceMarketSkipReason, validateDailyDraftSubmission } from "@/lib/tregu-automation.mjs";
+import { buildDailyDraftPlan, buildLiveEventDraftRunKey, buildRepricePlan, dailyDraftPublicationReason, evidenceIdentity, isEligibleNewsDeadlineMarket, newsDeadlineAction, newsDeadlineDecayCap, repriceMarketSkipReason, validateDailyDraftSubmission } from "@/lib/tregu-automation.mjs";
 import { kosovoLocalDate } from "@/lib/tregu-date-key.mjs";
 import { fetchEspnLiveEvents } from "@/lib/espn-live-score.mjs";
 import { ARGENTINA_SPAIN_PAIR, buildArgentinaSpainPairedBinaryPlan, buildSportMarketPlan } from "@/lib/tregu-sport-market.mjs";
@@ -740,7 +740,7 @@ async function runNewsReprice(action: "reprice" | "tregu_live", runKey: string, 
             results.push(persisted ? { slug: item.market.slug, status: "no_change", reason: "deadline_floor_reached", deadline_action: deadlineAction } : { slug: item.market.slug, status: "skipped_closed", reason: "deadline_floor_readback_failed", deadline_action: deadlineAction });
             continue;
           }
-          const decayCap = deadlineRemainingHours !== null && deadlineRemainingHours <= 24 ? 0.03 : 0.005;
+          const decayCap = newsDeadlineDecayCap(deadlineRemainingHours) ?? 0.01;
           let { error: deadlineDecayError } = await admin.rpc("apply_news_deadline_decay_window", {
             p_market_id: item.market.id,
             p_reference_probability: 0.05,
