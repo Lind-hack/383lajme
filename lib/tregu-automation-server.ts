@@ -1,7 +1,7 @@
 import { getArticles, getLatestArticles } from "@/lib/db";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { scoreMarketWithAI, slugifyQuestion, type Market } from "@/lib/tregu";
-import { buildDailyDraftPlan, buildLiveEventDraftRunKey, buildRepricePlan, dailyDraftPublicationReason, evidenceIdentity, isEligibleNewsDeadlineMarket, newsDeadlineAction, newsDeadlineDecayCap, repriceMarketSkipReason, validateDailyDraftSubmission } from "@/lib/tregu-automation.mjs";
+import { buildDailyDraftPlan, buildLiveEventDraftRunKey, buildRepricePlan, dailyDraftPublicationReason, evidenceIdentity, isEligibleNewsDeadlineMarket, newsDeadlineAction, newsDeadlineDecayCap, NEWS_DEADLINE_DECAY_INTERVAL_MS, repriceMarketSkipReason, validateDailyDraftSubmission } from "@/lib/tregu-automation.mjs";
 import { kosovoLocalDate } from "@/lib/tregu-date-key.mjs";
 import { fetchEspnLiveEvents } from "@/lib/espn-live-score.mjs";
 import { ARGENTINA_SPAIN_PAIR, buildArgentinaSpainPairedBinaryPlan, buildSportMarketPlan } from "@/lib/tregu-sport-market.mjs";
@@ -730,7 +730,7 @@ async function runNewsReprice(action: "reprice" | "tregu_live", runKey: string, 
         }
         if (deadlineAction === "decay" && item.evidence.length === 0) {
           const lastDecayAt = lastDeadlineDecayAtByMarket.get(String(item.market.id)) ?? 0;
-          if (lastDecayAt && now.getTime() - lastDecayAt < 60 * 60 * 1000) {
+          if (lastDecayAt && now.getTime() - lastDecayAt < NEWS_DEADLINE_DECAY_INTERVAL_MS) {
             const persisted = await recordMarketCheck(item.market.id, { status: "deadline_decay_rate_limited", checked_at: now.toISOString(), reference_probability: deadlineBefore?.probability ?? null, deadline_remaining_hours: deadlineRemainingHours });
             results.push(persisted ? { slug: item.market.slug, status: "no_change", reason: "deadline_decay_rate_limited", deadline_action: deadlineAction } : { slug: item.market.slug, status: "skipped_closed", reason: "deadline_decay_readback_failed", deadline_action: deadlineAction });
             continue;
