@@ -4407,8 +4407,8 @@
   },
   {
     "date": "2026-09-01",
-    "overallIndex": 57,
-    "totalArticles": 46,
+    "overallIndex": 56,
+    "totalArticles": 47,
     "sourceCount": 36,
     "stanceVersion": 3,
     "countries": {
@@ -4453,16 +4453,16 @@
         "stanceVersion": 3
       },
       "Itali": {
-        "index": 59,
-        "positive": 18,
-        "neutral": 82,
+        "index": 58,
+        "positive": 17,
+        "neutral": 83,
         "negative": 0,
-        "n": 11,
-        "excluded": 2,
+        "n": 12,
+        "excluded": 1,
         "confident": true,
         "stanceVersion": 3,
         "movement": {
-          "delta": 5,
+          "delta": 4,
           "from": 54,
           "outlet": "LameziaTerme.it",
           "title": "Soveria Mannelli, UNITALSI dhuron shpresë për Kosovën",
@@ -4574,7 +4574,7 @@
     "headlines": [
       {
         "title": "Vom Kosovo-Flüchtling zum erfolgreichen Unternehmer: Shpetim Alaj und seine Autobiografie - MDR.de",
-        "source": "mdr.de",
+        "source": "MDR.de",
         "country": "Gjermani",
         "flag": "🇩🇪",
         "url": "https://www.mdr.de/nachrichten/thueringen/west-thueringen/eisenach/autobiografie-shpetim-alaj-handball-,kosovo-fluechtling-100.html",
@@ -4582,7 +4582,7 @@
       },
       {
         "title": "Soveria Mannelli, l’UNITALSI dona speranza al Kosovo - LameziaTerme.it",
-        "source": "LameziaTerme.it",
+        "source": "lameziaterme.it",
         "country": "Itali",
         "flag": "🇮🇹",
         "url": "https://www.lameziaterme.it/soveria-mannelli-unitalsi-dona-speranza-kosovo/",
@@ -4590,11 +4590,19 @@
       },
       {
         "title": "Turistas de todo el mundo descubren la magia del pueblo de Kosovo en los Ródopes - БНР Новини",
-        "source": "bnrnews.bg",
+        "source": "БНР Новини",
         "country": "Spanjë",
         "flag": "🇪🇸",
         "url": "https://bnrnews.bg/es/post/521438/turistas-de-todo-el-mundo-descubren-la-magia-del-pueblo-de-kosovo-en-los-rodopes",
         "sentiment": "positive"
+      },
+      {
+        "title": "Vucic: Kosovo and Metohija is Serbia – it was, it is, and it will be - kosovo-online.com",
+        "source": "kosovo-online.com",
+        "country": "Britani",
+        "flag": "🇬🇧",
+        "url": "https://www.kosovo-online.com/en/news/politics/vucic-kosovo-and-metohija-serbia-it-was-it-and-it-will-be-29-8-2026",
+        "sentiment": "negative"
       }
     ]
   }
