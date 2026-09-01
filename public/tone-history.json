@@ -4408,16 +4408,16 @@
   {
     "date": "2026-09-01",
     "overallIndex": 56,
-    "totalArticles": 39,
-    "sourceCount": 30,
+    "totalArticles": 43,
+    "sourceCount": 34,
     "stanceVersion": 3,
     "countries": {
       "Gjermani": {
-        "index": 67,
-        "positive": 33,
-        "neutral": 67,
+        "index": 62,
+        "positive": 25,
+        "neutral": 75,
         "negative": 0,
-        "n": 3,
+        "n": 4,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -4453,16 +4453,16 @@
         "stanceVersion": 3
       },
       "Itali": {
-        "index": 61,
-        "positive": 22,
-        "neutral": 78,
+        "index": 59,
+        "positive": 18,
+        "neutral": 82,
         "negative": 0,
-        "n": 9,
+        "n": 11,
         "excluded": 2,
         "confident": true,
         "stanceVersion": 3,
         "movement": {
-          "delta": 7,
+          "delta": 5,
           "from": 54,
           "outlet": "LameziaTerme.it",
           "title": "Soveria Mannelli, UNITALSI dhuron shpresë për Kosovën",
@@ -4476,7 +4476,7 @@
         "neutral": 0,
         "negative": 0,
         "n": 0,
-        "excluded": 1,
+        "excluded": 2,
         "confident": false,
         "stanceVersion": 3
       },
@@ -4551,11 +4551,11 @@
         "stanceVersion": 3
       },
       "Turqi": {
-        "index": 62,
-        "positive": 25,
-        "neutral": 75,
+        "index": 61,
+        "positive": 22,
+        "neutral": 78,
         "negative": 0,
-        "n": 8,
+        "n": 9,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
@@ -4574,7 +4574,7 @@
     "headlines": [
       {
         "title": "Vom Kosovo-Flüchtling zum erfolgreichen Unternehmer: Shpetim Alaj und seine Autobiografie - MDR.de",
-        "source": "mdr.de",
+        "source": "MDR.de",
         "country": "Gjermani",
         "flag": "🇩🇪",
         "url": "https://www.mdr.de/nachrichten/thueringen/west-thueringen/eisenach/autobiografie-shpetim-alaj-handball-,kosovo-fluechtling-100.html",
@@ -4582,7 +4582,7 @@
       },
       {
         "title": "Soveria Mannelli, l’UNITALSI dona speranza al Kosovo - LameziaTerme.it",
-        "source": "lameziaterme.it",
+        "source": "LameziaTerme.it",
         "country": "Itali",
         "flag": "🇮🇹",
         "url": "https://www.lameziaterme.it/soveria-mannelli-unitalsi-dona-speranza-kosovo/",
@@ -4595,22 +4595,6 @@
         "flag": "🇪🇸",
         "url": "https://bnrnews.bg/es/post/521438/turistas-de-todo-el-mundo-descubren-la-magia-del-pueblo-de-kosovo-en-los-rodopes",
         "sentiment": "positive"
-      },
-      {
-        "title": "Office for Kosovo and Metohija: Pristina obstructs every attempt to clarify the fate of missing Serbs - kosovo-online.com",
-        "source": "kosovo-online.com",
-        "country": "SHBA",
-        "flag": "🇺🇸",
-        "url": "https://www.kosovo-online.com/en/news/politics/office-kosovo-and-metohija-pristina-obstructs-every-attempt-clarify-fate-missing",
-        "sentiment": "negative"
-      },
-      {
-        "title": "Arms race in the Balkans: Kosovo still dependent on foreign support - kosovo-online.com",
-        "source": "kosovo-online.com",
-        "country": "SHBA",
-        "flag": "🇺🇸",
-        "url": "https://www.kosovo-online.com/en/news/analysis/arms-race-balkans-kosovo-still-dependent-foreign-support-29-8-2026",
-        "sentiment": "negative"
       }
     ]
   }

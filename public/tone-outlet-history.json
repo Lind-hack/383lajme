@@ -991,13 +991,13 @@
     },
     "Son Dakika": {
       "country": "Turqi",
-      "total": 7,
+      "total": 8,
       "positive": 0,
-      "neutral": 5,
+      "neutral": 6,
       "negative": 0,
       "unknown": 2,
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-31",
+      "lastSeen": "2026-09-01",
       "urls": [
         "https://www.sondakika.com/haber/haber-kosova-da-halter-sampiyonasi-basladi-20162761/",
         "https://www.sondakika.com/3-sayfa/haber-kosovo-da-savas-suclari-sorusturmasi-23-kalinti-bu-20159357/",
@@ -1005,7 +1005,8 @@
         "https://www.sondakika.com/spor/haber-kadin-voleybol-takimi-kosova-yi-3-0-maglup-etti-20178794/",
         "https://www.sondakika.com/spor/haber-milliler-kosova-yi-yendi-ceyrek-finale-yukseldi-20190048/",
         "https://www.sondakika.com/politika/haber-kosova-da-cumhurbaskani-adayligi-uzerinde-uzlasma-20193550/",
-        "https://www.sondakika.com/guncel/haber-kosova-da-cumhurbaskani-adayi-sejdiu-belirlendi-20194210/"
+        "https://www.sondakika.com/guncel/haber-kosova-da-cumhurbaskani-adayi-sejdiu-belirlendi-20194210/",
+        "https://www.sondakika.com/spor/haber-berber-ali-turkben-iki-turkiye-sampiyonlugunun-ard-20195760/"
       ]
     },
     "Harici": {
@@ -2350,6 +2351,58 @@
       "lastSeen": "2026-08-30",
       "urls": [
         "https://www.friedenskooperative.de/index.php/friedensforum/artikel/der-krieg-im-kosovo"
+      ]
+    },
+    "DW.com": {
+      "country": "Gjermani",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-01",
+      "lastSeen": "2026-09-01",
+      "urls": [
+        "https://www.dw.com/de/zoonosen-deutschland-und-kosovo-k%C3%A4mpfen-gemeinsam-gegen-hyalomma-zecken-und-krim-kongo-virus/a-78532533"
+      ]
+    },
+    "Unitalsi": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-01",
+      "lastSeen": "2026-09-01",
+      "urls": [
+        "https://unitalsi.it/news-territorio/donazione-del-gruppo-dellunitalsi-del-reventino-per-il-kosovo/"
+      ]
+    },
+    "il Lametino.it": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-01",
+      "lastSeen": "2026-09-01",
+      "urls": [
+        "https://www.lametino.it/ultimora/da-soveria-mannelli-parte-grande-donazione-del-gruppo-unitalsi-del-reventino-per-il-kosovo.html"
+      ]
+    },
+    "krone.at": {
+      "country": "Austri",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-01",
+      "lastSeen": "2026-08-29",
+      "urls": [
+        "https://www.krone.at/4269964"
       ]
     }
   }

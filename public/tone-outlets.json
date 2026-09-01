@@ -1,15 +1,39 @@
 {
   "lastUpdated": "2026-09-01",
   "overallIndex": 56,
-  "totalArticles": 39,
-  "sourceCount": 30,
+  "totalArticles": 43,
+  "sourceCount": 34,
   "stanceVersion": 3,
-  "unattributed": 119,
+  "unattributed": 122,
   "nonEditorial": 3,
   "wrongKosovo": 0,
   "countries": {
     "Gjermani": {
       "outlets": [
+        {
+          "name": "DW.com",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Wie ein Virus Deutschland und den Kosovo verbindet - DW.com",
+              "albanianTitle": "Si po e lidh një virus Gjermaninë dhe Kosovën - DW.com",
+              "blurb": "Një virus shërben si lidhje mes Gjermanisë dhe Kosovës në një hulumtim të publikuar nga Deutsche Welle.",
+              "imageUrl": "https://static.dw.com/image/78532710_6.jpg",
+              "url": "https://www.dw.com/de/zoonosen-deutschland-und-kosovo-k%C3%A4mpfen-gemeinsam-gegen-hyalomma-zecken-und-krim-kongo-virus/a-78532533",
+              "date": "2026-09-01",
+              "sentiment": "neutral",
+              "reason": "Faktik, pa ngarkim gjuhësor",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-01",
+          "lastSeen": "2026-09-01"
+        },
         {
           "name": "MDR.de",
           "sentiment": "positive",
@@ -84,11 +108,11 @@
         }
       ],
       "summary": {
-        "index": 67,
-        "positive": 33,
-        "neutral": 67,
+        "index": 62,
+        "positive": 25,
+        "neutral": 75,
         "negative": 0,
-        "n": 3,
+        "n": 4,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -431,6 +455,30 @@
           "lastSeen": "2026-08-29"
         },
         {
+          "name": "Unitalsi",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Donazione del gruppo dell’Unitalsi del Reventino per il Kosovo - Unitalsi",
+              "albanianTitle": "Donacion nga grupi Unitalsi i Reventinos për Kosovën - Unitalsi",
+              "blurb": "Grupi Unitalsi nga Reventino ka realizuar një donacion humanitar për nevojat e qytetarëve në territorin e Kosovës.",
+              "imageUrl": "https://unitalsi.it/wp-content/uploads/2026/09/COP-Screenshot-2026-09-01-alle-10.07.22.jpg",
+              "url": "https://unitalsi.it/news-territorio/donazione-del-gruppo-dellunitalsi-del-reventino-per-il-kosovo/",
+              "date": "2026-09-01",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-01",
+          "lastSeen": "2026-09-01"
+        },
+        {
           "name": "agenziagiornalisticaopinione.it",
           "sentiment": "neutral",
           "articleCount": 3,
@@ -463,13 +511,13 @@
             },
             {
               "title": "FIGC * FEDERAZIONE ITALIANA GIUOCO CALCIO: «ITALIA 2° ALLA PRIMA EDIZIONE FEMMINILE DEL TORNEO, PORTOGALLO VINCE 4-0 - agenziagiornalisticaopinione.it",
-              "albanianTitle": "Italia e dyta në turneun e parë të futbollit për femra, Portugalia fiton 4-0",
-              "blurb": "Përfaqësuesja e Italisë në futboll për femra u rendit e dyta në turne, pas humbjes 4-0 në finale kundër Portugalisë.",
+              "albanianTitle": "FIGC: Italia e dyta në edicionin e parë të turneut të femrave, Portugalia fiton 4-0 - agenziagiornalisticaopinione.it",
+              "blurb": "Portugalia ka fituar 4-0 ndaj Italisë në finalen e turneut të parë të futbollit për femra.",
               "imageUrl": "https://www.agenziagiornalisticaopinione.it/wp-content/uploads/2026/08/y99z5a7197ba-9a41-43eb-9ef4-6b4049155e3f-jpg.jpg",
               "url": "https://www.agenziagiornalisticaopinione.it/opinionmix/figc-federazione-italiana-giuoco-calcio-italia-2-alla-prima-edizione-femminile-del-torneo-portogallo-vince-4-0/",
               "date": "2026-08-31",
               "sentiment": "unknown",
-              "reason": "",
+              "reason": "No mention of Kosovo in the item",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -503,19 +551,43 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-08-27",
           "lastSeen": "2026-08-29"
+        },
+        {
+          "name": "il Lametino.it",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Da Soveria Mannelli parte grande donazione del gruppo Unitalsi del Reventino per il Kosovo - il Lametino.it",
+              "albanianTitle": "Nga Soveria Mannelli niset një donacion i madh i grupit Unitalsi të Reventinos për Kosovën - il Lametino.it",
+              "blurb": "Grupi Unitalsi nga Soveria Mannelli ka dërguar një donacion të konsiderueshëm për nevojat e qytetarëve në Kosovë.",
+              "imageUrl": "https://www.lametino.it/images/soveriaWA0283_0eb6c.jpg",
+              "url": "https://www.lametino.it/ultimora/da-soveria-mannelli-parte-grande-donazione-del-gruppo-unitalsi-del-reventino-per-il-kosovo.html",
+              "date": "2026-09-01",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-01",
+          "lastSeen": "2026-09-01"
         }
       ],
       "summary": {
-        "index": 61,
-        "positive": 22,
-        "neutral": 78,
+        "index": 59,
+        "positive": 18,
+        "neutral": 82,
         "negative": 0,
-        "n": 9,
+        "n": 11,
         "excluded": 2,
         "confident": true,
         "stanceVersion": 3,
         "movement": {
-          "delta": 7,
+          "delta": 5,
           "from": 54,
           "outlet": "LameziaTerme.it",
           "title": "Soveria Mannelli, UNITALSI dhuron shpresë për Kosovën",
@@ -549,6 +621,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-08-25",
           "lastSeen": "2026-08-29"
+        },
+        {
+          "name": "krone.at",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Für Abonnenten - Die „Krone“ fliegt Sie zum Länderspiel-Doppelpack - krone.at",
+              "albanianTitle": "Për abonentët: „Krone“ ju dërgon me aeroplan për t'i ndjekur dy ndeshjet e kombëtares - krone.at",
+              "blurb": "Gazeta Krone ofron mundësi për abonentët e saj që të udhëtojnë për të ndjekur ndeshjet e kombëtares së futbollit.",
+              "imageUrl": "https://imgl.krone.at/scaled/4269985/v16289f/og_image.jpg",
+              "url": "https://www.krone.at/4269964",
+              "date": "2026-08-29",
+              "sentiment": "unknown",
+              "reason": "Nuk ka informacion të mjaftueshëm për të përcaktuar qëndrimin",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-01",
+          "lastSeen": "2026-08-29"
         }
       ],
       "summary": {
@@ -557,7 +653,7 @@
         "neutral": 0,
         "negative": 0,
         "n": 0,
-        "excluded": 1,
+        "excluded": 2,
         "confident": false,
         "stanceVersion": 3
       }
@@ -1029,7 +1125,7 @@
         {
           "name": "Son Dakika",
           "sentiment": "neutral",
-          "articleCount": 3,
+          "articleCount": 4,
           "articles": [
             {
               "title": "Milliler Kosova'yı Yendi, Çeyrek Finale Yükseldi - Son Dakika",
@@ -1069,12 +1165,25 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Berber Ali Türkben İki Türkiye Şampiyonluğunun Ardından Kosova'daki Dünya Şampiyonası'nda İlk Turda - Son Dakika",
+              "albanianTitle": "Berberi Ali Türkben, pas dy titujve kampion në Turqi, eliminohet në raundin e parë të Kampionatit Botëror në Kosovë - Son Dakika",
+              "blurb": "Berberi Ali Turkben është eliminuar në raundin e parë të kampionatit botëror që po mbahet në Kosovë.",
+              "imageUrl": "https://foto.sondakika.com/haber/2026/09/01/genc-milli-muaythai-sporcusu-ali-turkben-in-g-5-20195681_amp.jpg",
+              "url": "https://www.sondakika.com/spor/haber-berber-ali-turkben-iki-turkiye-sampiyonlugunun-ard-20195760/",
+              "date": "2026-09-01",
+              "sentiment": "neutral",
+              "reason": "Sports report, factual description of an event in Kosovo",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 7,
+          "totalArticles": 8,
           "trend": "neutral",
           "firstSeen": "2026-08-20",
-          "lastSeen": "2026-08-31"
+          "lastSeen": "2026-09-01"
         },
         {
           "name": "forbes.com.tr",
@@ -1102,11 +1211,11 @@
         }
       ],
       "summary": {
-        "index": 62,
-        "positive": 25,
-        "neutral": 75,
+        "index": 61,
+        "positive": 22,
+        "neutral": 78,
         "negative": 0,
-        "n": 8,
+        "n": 9,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
