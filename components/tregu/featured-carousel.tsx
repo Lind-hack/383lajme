@@ -204,7 +204,7 @@ function Slide({ market, active }: { market: MiniMarket; active: boolean }) {
           <div className="tregu-market-foot" style={{ border: "none", paddingTop: 0 }}>
             <span>
               {isChampionship
-                ? "OpenF1 · 22 pilotë"
+                ? "Të dhëna zyrtare F1 · 22 pilotë"
                 : market.volume !== undefined && market.volume > 0
                 ? `Aktiviteti i fundit ${fmtNum(market.volume)} 383C`
                 : "Treg i ri"}

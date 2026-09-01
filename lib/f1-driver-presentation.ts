@@ -41,7 +41,10 @@ const TEAM_COLORS: Record<string, string> = {
 };
 
 export function f1DriverHeadshot(driverKey: string, supplied?: string): string | undefined {
-  return String(supplied ?? "").trim() || HEADSHOTS[String(driverKey ?? "").trim().toUpperCase()];
+  const key = String(driverKey ?? "").trim().toUpperCase();
+  // The feed can retain last season's portrait URL after a team change. The
+  // versioned official 2026 portrait is authoritative for known grid drivers.
+  return HEADSHOTS[key] || String(supplied ?? "").trim() || undefined;
 }
 
 export function f1TeamColor(team: string, supplied?: string): string {

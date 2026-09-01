@@ -314,10 +314,7 @@ export default function ExactMarketChart({
             // that known value across the visible window instead of showing a
             // lone dot and incorrectly claiming the chart is empty.
             const heldPath = `M${PAD_L} ${model.y(last.p).toFixed(1)} L${(PAD_L + model.plotW).toFixed(1)} ${model.y(last.p).toFixed(1)}`;
-            const liveSegmentPoints = drawsLive && displayPoints.length >= 2 ? displayPoints.slice(-2) : [];
-            const basePoints = liveSegmentPoints.length ? displayPoints.slice(0, -1) : displayPoints;
-            const displayPath = basePoints.length >= 2 ? pathFor(basePoints) : basePoints.length === 1 && !liveSegmentPoints.length ? heldPath : "";
-            const livePath = pathFor(liveSegmentPoints);
+            const displayPath = displayPoints.length >= 2 ? pathFor(displayPoints) : heldPath;
             const gradientId = `exact-fill-${uid}-${item.key.replace(/[^a-z0-9_-]/gi, "")}`;
             const fillPath = displayPoints.length >= 2
               ? `${path} L${model.x(last.t).toFixed(1)} ${height - PAD_Y} L${model.x(first.t).toFixed(1)} ${height - PAD_Y} Z`
@@ -345,34 +342,9 @@ export default function ExactMarketChart({
                     strokeLinejoin="round"
                     strokeLinecap="round"
                     vectorEffect="non-scaling-stroke"
-                    className={`tregu-exact-chart-line${displayPoints.length === 1 ? " tregu-exact-chart-line--held" : ""}`}
+                    className={`tregu-exact-chart-line${displayPoints.length === 1 ? " tregu-exact-chart-line--held" : ""}${drawsLive ? " tregu-exact-chart-line--live" : ""}`}
                   />
                 )}
-                {livePath && (
-                  <path
-                    key={`${item.key}-live-${last.t}`}
-                    d={livePath}
-                    pathLength={1}
-                    fill="none"
-                    stroke={item.color}
-                    strokeWidth={model.cleaned.length > 1 ? 2.5 : 3}
-                    strokeLinejoin="round"
-                    strokeLinecap="round"
-                    vectorEffect="non-scaling-stroke"
-                    className="tregu-exact-chart-line tregu-exact-chart-line--live"
-                  />
-                )}
-                {displayPoints.length <= 48 && displayPoints.map((point) => point.held ? null : (
-                  <circle
-                    key={`${item.key}-${point.t}`}
-                    cx={model.x(point.t)}
-                    cy={model.y(point.p)}
-                    r={2.15}
-                    fill={item.color}
-                    fillOpacity={0.72}
-                    className="tregu-exact-chart-point"
-                  />
-                ))}
                 <circle
                   key={`${item.key}-latest-${last.t}`}
                   cx={model.x(last.t)}

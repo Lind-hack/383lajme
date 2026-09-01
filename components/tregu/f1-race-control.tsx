@@ -261,7 +261,7 @@ export default function F1RaceControl({
           <h2>{isChampionship ? `Kush merr kurorën e ${championship?.season ?? "sezonit"}?` : "22 pilotë. Një fitues."}</h2>
           <p>
             {isChampionship
-              ? `Çdo garë lëviz gjasat sipas pikëve zyrtare, diferencës nga kreu dhe modelit OpenF1. Tregu qëndron hapur deri sa titulli të vendoset matematikisht.`
+              ? `Çdo garë lëviz gjasat sipas pikëve zyrtare, formës, ritmit dhe tregtimeve. Tregu qëndron hapur derisa titulli të vendoset matematikisht.`
               : marketOpen && !isFinished
               ? "Gjasat përditësohen vetëm kur mbërrin një vektor i verifikuar. Çdo vijë mban ngjyrën e skuadrës."
               : "Historia e regjistruar e garës, me ngjyrat e skuadrave."}
@@ -290,7 +290,7 @@ export default function F1RaceControl({
             </div>
             <span className="f1-refresh-label">
               <Radio size={14} strokeWidth={2} aria-hidden />
-              {isChampionship ? "OpenF1 + pikët zyrtare" : marketOpen && !isFinished ? "të dhëna të verifikuara" : "arkiv"}
+              {isChampionship ? "Të dhëna zyrtare F1" : marketOpen && !isFinished ? "të dhëna të verifikuara" : "arkiv"}
             </span>
           </div>
           <ExactMarketChart

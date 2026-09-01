@@ -147,7 +147,7 @@ export default function MarketMiniCard({ market }: { market: MiniMarket; compact
           ))}
         </div>
         <div className="tregu-market-foot">
-          <span>OpenF1 · 22 pilotë</span>
+          <span>Të dhëna zyrtare F1 · 22 pilotë</span>
           <span className="tregu-market-open">Hap tregun e titullit →</span>
         </div>
       </Link>

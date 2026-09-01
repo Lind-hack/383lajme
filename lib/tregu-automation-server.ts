@@ -1007,7 +1007,7 @@ async function f1ChampionshipRunKey(admin: any, now: Date, season: number) {
   if (raceWindow) {
     return `f1-championship:v3:${season}:race-window:${raceWindow.event_id}:${Math.floor(now.getTime() / (15 * 60_000))}`;
   }
-  return `f1-championship:v3:${season}:${kosovoLocalDate(now)}:${Math.floor(now.getUTCHours() / 6)}`;
+  return `f1-championship:v3:${season}:${kosovoLocalDate(now)}:${Math.floor(now.getTime() / (15 * 60_000))}`;
 }
 
 export async function runF1ChampionshipAutomation(now = new Date()) {
@@ -1022,19 +1022,73 @@ export async function runF1ChampionshipAutomation(now = new Date()) {
     const championship = await buildCurrentF1ChampionshipMarket({ now, simulations: 5000 });
     const template = buildChampionshipMarketTemplate(championship, { now }) as any;
     const { data: matches, error: findError } = await admin.from("markets")
-      .select("id,slug,status,live_score_state,reference_probabilities")
+      .select("id,slug,status,b,live_score_state,reference_probabilities,sport_outcomes,outcome_quantities")
       .contains("live_event", { event_id: template.live_event.event_id })
       .limit(1);
     if (findError) throw new Error(`Could not find the F1 championship market: ${findError.message}`);
 
     let market = matches?.[0] as any;
     let created = 0;
+    let rebased = false;
     if (!market) {
       const { data, error } = await admin.from("markets").insert(template).select("id,slug,status,live_score_state,reference_probabilities").single();
       if (error) throw new Error(`Could not create the F1 championship market: ${error.message}`);
       market = data;
       created = 1;
     } else if (market.status === "open" && market.live_score_state?.key !== template.live_score_state.key) {
+      const oldKeys = (market.sport_outcomes ?? []).map((outcome: any) => String(outcome?.key ?? "")).filter(Boolean);
+      const newKeys = template.sport_outcomes.map((outcome: any) => String(outcome?.key ?? "")).filter(Boolean);
+      const removedKeys = oldKeys.filter((key: string) => !newKeys.includes(key));
+      const modelChanged = market.live_score_state?.championship?.version !== championship.model.version;
+      const rosterChanged = oldKeys.length !== newKeys.length || oldKeys.some((key: string) => !newKeys.includes(key));
+
+      if (modelChanged || rosterChanged) {
+        if (removedKeys.length) {
+          const { data: exposedPositions, error: positionError } = await admin.from("positions")
+            .select("id,side,shares")
+            .eq("market_id", market.id)
+            .in("side", removedKeys)
+            .gt("shares", 0)
+            .limit(1);
+          if (positionError) throw new Error(`Could not verify stale F1 seats: ${positionError.message}`);
+          if (exposedPositions?.length) throw new Error(`Cannot remove an F1 outcome with an open position: ${exposedPositions[0].side}`);
+        }
+        const liquidity = Number(market.b);
+        const oldReference = market.reference_probabilities ?? {};
+        const oldQuantities = market.outcome_quantities ?? {};
+        const quantities = Object.fromEntries(newKeys.map((key: string) => {
+          const oldProbability = Number(oldReference[key]);
+          const oldQuantity = Number(oldQuantities[key]);
+          const tradeDelta = Number.isFinite(oldQuantity) && oldProbability > 0
+            ? oldQuantity - liquidity * Math.log(oldProbability)
+            : 0;
+          return [key, liquidity * Math.log(Math.max(0.000001, Number(championship.probabilities[key]))) + tradeDelta];
+        }));
+        const state = {
+          ...template.live_score_state,
+          previous_probabilities: market.reference_probabilities ?? null,
+          rebase_reason: rosterChanged ? "roster_and_model_upgrade" : "model_upgrade",
+        };
+        const { error: rebaseError } = await admin.from("markets").update({
+          sport_outcomes: template.sport_outcomes,
+          outcome_quantities: quantities,
+          reference_probabilities: championship.probabilities,
+          live_score_state: state,
+          pre_match_analysis: template.pre_match_analysis,
+          closes_at: template.closes_at,
+          updated_at: now.toISOString(),
+        }).eq("id", market.id).eq("status", "open");
+        if (rebaseError) throw new Error(`Could not rebase the F1 championship book: ${rebaseError.message}`);
+        const { error: snapshotError } = await admin.from("market_snapshots").insert({
+          market_id: market.id,
+          market_prob: Math.max(...Object.values(championship.probabilities).map(Number)),
+          evidence: [{ title: "F1 championship model upgrade", url: championship.sourceUrl, probabilities: championship.probabilities, model: championship.model }],
+          reasoning: "Roster-safe model upgrade preserving existing driver trade deltas.",
+          oracle_kind: "f1_vector",
+        });
+        if (snapshotError) throw new Error(`Could not record the F1 championship rebase: ${snapshotError.message}`);
+        rebased = true;
+      } else {
       const state = {
         key: template.live_score_state.key,
         source_url: championship.sourceUrl,
@@ -1058,6 +1112,7 @@ export async function runF1ChampionshipAutomation(now = new Date()) {
         closes_at: template.closes_at,
         sport_outcomes: template.sport_outcomes,
       }).eq("id", market.id).eq("status", "open");
+      }
     }
 
     let settled = false;
@@ -1085,7 +1140,7 @@ export async function runF1ChampionshipAutomation(now = new Date()) {
       if (settlementError) throw new Error(`Could not settle the F1 championship market: ${settlementError.message}`);
       settled = true;
     }
-    const details = { created, updated: created ? 0 : 1, settled, season, market: { id: market.id, slug: market.slug }, state_key: template.live_score_state.key, races_remaining: championship.model.racesRemaining, model_version: championship.model.version };
+    const details = { created, updated: created ? 0 : 1, rebased, settled, season, market: { id: market.id, slug: market.slug }, state_key: template.live_score_state.key, races_remaining: championship.model.racesRemaining, model_version: championship.model.version };
     await finishRun(admin, started.run.id, "succeeded", details);
     return { ok: true, skipped: false, runKey, ...details };
   } catch (error) {

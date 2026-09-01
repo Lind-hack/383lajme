@@ -1077,7 +1077,8 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                     lineHeight: 1.16,
                     letterSpacing: "-0.025em",
                     textWrap: "balance",
-                    maxWidth: "26ch",
+                    maxWidth: "min(100%, 34ch)",
+                    overflowWrap: "normal",
                   }}
                 >
                   {headerTitle}
@@ -1729,7 +1730,14 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
               ) : f1 ? (
                 <>
                   <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>
-                    <strong style={{ fontSize: 14 }}>Basto për fituesin</strong>
+                    <div className="tregu-sort" role="tablist" aria-label="Blej ose shit aksione F1">
+                      <button type="button" aria-pressed={mode === "buy"} onClick={() => { setMode("buy"); setTradeMsg(null); }}>Blej</button>
+                      <button type="button" aria-pressed={mode === "sell"} disabled={!positions.some((position) => f1.outcomes.some((driver) => driver.key === position.side) && Number(position.shares) > 0)} onClick={() => {
+                        const owned = positions.find((position) => f1.outcomes.some((driver) => driver.key === position.side) && Number(position.shares) > 0);
+                        if (!owned) return;
+                        setF1OutcomeKey(owned.side); setSellShares(Number(owned.shares)); setMode("sell"); setTradeMsg(null);
+                      }}>Shit</button>
+                    </div>
                     {balance !== null && (
                       <span style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: 12, fontWeight: 800, fontVariantNumeric: "tabular-nums" }}>
                         <CoinFace size={16} /> {fmtNum(balance)}
@@ -1739,7 +1747,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                   <p className="f1-trade-note">
                     Zgjidh një pilot nga lista. Gjasat dhe renditja rifreskohen pa ringarkuar faqen.
                   </p>
-                  <label style={{ fontSize: 12, color: "#6B6B6B", fontWeight: 700 }}>Shuma (383 Coin)</label>
+                  <label style={{ fontSize: 12, color: "#6B6B6B", fontWeight: 700 }}>{mode === "buy" ? "Shuma (383 Coin)" : `Aksione për shitje · ke ${Number(f1Held?.shares ?? 0).toFixed(2)}`}</label>
                   <div style={{ display: "flex", alignItems: "center", gap: 10, margin: "8px 0 10px" }}>
                     <CoinFace size={20} />
                     <input
@@ -1747,13 +1755,13 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                       min={0}
                       step="any"
                       inputMode="decimal"
-                      value={amountInput}
+                      value={mode === "buy" ? amountInput : sellShares || ""}
                       placeholder="0"
-                      onChange={(event) => setAmount(event.target.value)}
+                      onChange={(event) => mode === "buy" ? setAmount(event.target.value) : setSellShares(Math.max(0, Number(event.target.value)))}
                       className="tregu-input"
                     />
                   </div>
-                  <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 16 }}>
+                  {mode === "buy" ? <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 16 }}>
                     {QUICK_AMOUNTS.map((quickAmount) => (
                       <button
                         key={quickAmount}
@@ -1775,16 +1783,16 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                         Max
                       </button>
                     )}
-                  </div>
-                  {balance !== null && amount > balance && (
+                  </div> : f1SellPreview ? <div className="tregu-preview" style={{ marginBottom: 16 }}><div><span>Merr</span><strong>{f1SellPreview.coins.toFixed(1)} 383C</strong></div><div><span>Çmimi mesatar</span><strong>{(f1SellPreview.avgPrice * 100).toFixed(1)}%</strong></div></div> : null}
+                  {mode === "buy" && balance !== null && amount > balance && (
                     <p style={{ color: "#E41E20", fontSize: 12, marginBottom: 12 }}>
                       Nuk ke mjaftueshëm 383 Coin ({balance})
                     </p>
                   )}
-                  <ConfirmButton onClick={submitTrade} disabled={!canBuy || !f1OutcomeKey}>
+                  <ConfirmButton onClick={submitTrade} disabled={mode === "buy" ? !canBuy || !f1OutcomeKey : !canSellF1} variant={mode === "sell" ? "sell" : undefined}>
                     {placing
-                      ? "Duke vendosur bastin..."
-                      : `Basto ${amount} 383C te ${f1SelectedDriver?.key ?? "piloti"}`}
+                      ? mode === "buy" ? "Duke vendosur bastin..." : "Duke shitur..."
+                      : mode === "buy" ? `Basto ${amount} 383C te ${f1SelectedDriver?.key ?? "piloti"}` : `Shit ${f1SelectedDriver?.key ?? "pilotin"}`}
                   </ConfirmButton>
                   {tradeMsg && (
                     <p style={{ marginTop: 12, fontSize: 13, fontWeight: 600, color: tradeMsg.ok ? "#00854A" : "#E41E20" }}>

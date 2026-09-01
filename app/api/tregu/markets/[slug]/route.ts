@@ -380,15 +380,29 @@ export async function GET(
     const positions = board?.race?.status === "INACTIVE"
       ? new Map((board.rows ?? []).map((row: { driver_code?: string; position?: number }) => [row.driver_code, row.position]))
       : new Map<string | undefined, number | undefined>();
-    const history = (snapshots ?? []).flatMap((snapshot: { created_at?: string; oracle_kind?: string; evidence?: unknown[] }) => {
+    const snapshotHistory = (snapshots ?? []).flatMap((snapshot: { created_at?: string; oracle_kind?: string; evidence?: unknown[] }) => {
       const evidence = Array.isArray(snapshot.evidence) ? snapshot.evidence[0] as { probabilities?: unknown; timing?: { race?: { current_lap?: number; status?: string } } } : null;
       return snapshot.oracle_kind === "f1_vector" && evidence && typeof evidence.probabilities === "object" && evidence.probabilities !== null ? [{ createdAt: snapshot.created_at ?? "", probabilities: evidence.probabilities as Record<string, number>, lap: evidence.timing?.race?.current_lap, status: evidence.timing?.race?.status }] : [];
     });
+    const tradeHistory = (trades ?? []).flatMap((trade: { created_at?: string; outcome_prices?: unknown }) =>
+      trade.outcome_prices && typeof trade.outcome_prices === "object"
+        ? [{ createdAt: trade.created_at ?? "", probabilities: trade.outcome_prices as Record<string, number>, status: "TRADE" }]
+        : []
+    );
+    const openingProbabilities = market.reference_probabilities && typeof market.reference_probabilities === "object"
+      ? [{ createdAt: market.created_at, probabilities: market.reference_probabilities as Record<string, number>, status: "OPEN" }]
+      : [];
     const latest = lmsrSportOutcomePrices({
       sport_outcomes: market.sport_outcomes,
       outcome_quantities: market.outcome_quantities,
       b: Number(market.b),
     });
+    const history = [
+      ...openingProbabilities,
+      ...snapshotHistory,
+      ...tradeHistory,
+      { createdAt: market.updated_at ?? market.created_at, probabilities: latest, status: "CURRENT" },
+    ].filter((point) => Number.isFinite(Date.parse(point.createdAt))).sort((a, b) => Date.parse(a.createdAt) - Date.parse(b.createdAt));
     f1 = {
       outcomes: market.sport_outcomes.map(
         (
@@ -448,6 +462,7 @@ export async function GET(
   return NextResponse.json({
     market: {
       ...market,
+      description: typeof market.description === "string" ? market.description.replace(/OpenF1/gi, "të dhëna zyrtare F1") : market.description,
       market_prob: currentProb,
       market_media: resolveMarketMedia(market, articleCandidates),
     }, f1,

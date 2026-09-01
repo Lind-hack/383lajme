@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { createClient } from "@/lib/supabase/server";
+import { sendWithdrawalRequestNotification } from "@/lib/tregu-live-email";
 
 export const dynamic = "force-dynamic";
 
@@ -29,7 +30,15 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: error.message }, { status: 400 });
   }
 
-  return NextResponse.json({ ok: true, requestId: data });
+  let notificationSent = false;
+  try {
+    await sendWithdrawalRequestNotification({ requestId: String(data), userEmail: user.email });
+    notificationSent = true;
+  } catch (notificationError) {
+    console.error("Withdrawal request was saved but its review email failed", notificationError);
+  }
+
+  return NextResponse.json({ ok: true, requestId: data, notificationSent });
 }
 
 export async function GET() {

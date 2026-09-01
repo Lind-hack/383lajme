@@ -10,6 +10,7 @@
  */
 
 import { useMemo } from "react";
+import Link from "next/link";
 import { ArrowRight, Lock, Trophy } from "lucide-react";
 import type { CSSProperties } from "react";
 import SportBrandMark from "@/components/tregu/sport-brand-mark";
@@ -88,19 +89,17 @@ function RaceCard({
       ) : (
         <div className="flex flex-col gap-2">
           {races.map((r) => (
-            <button
+            <Link
               key={r.slug}
-              type="button"
               className="tregu-sport-league"
-              onClick={() => onSelect("f1")}
-              aria-pressed={active === "f1"}
+              href={`/tregu/${r.slug}`}
             >
               <span className="tregu-race-name min-w-0 truncate">
                 <SportBrandMark brandKey="f1" size="sm" />
                 {r.name}
               </span>
               <span className="tregu-sport-league-count">{shortDate(r.closesAt)}</span>
-            </button>
+            </Link>
           ))}
         </div>
       )}
