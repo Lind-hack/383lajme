@@ -7,6 +7,7 @@ import SourceBadge from "@/components/source-badge";
 import ArticleCard from "@/components/article-card";
 import ArticleSidebar from "@/components/article-sidebar";
 import type { DosjeData } from "@/components/article-sidebar";
+import DosjeSection from "@/components/dosje-section";
 import ArticleShareRow from "@/components/article-share-row";
 import ArticleAsk from "@/components/article-ask";
 import { toParagraphs, readingMinutes } from "@/lib/article-body.mjs";
@@ -40,16 +41,14 @@ export default function ArticleContent({ article, related, catColor, catBg, cate
       <div style={{ height: "4px", background: catColor, width: "100%" }} />
 
       <div
+        className="article-grid"
         style={{
           maxWidth: "1420px",
           margin: "0 auto",
           padding: "56px 24px 64px",
-          display: "flex",
-          gap: "44px",
-          alignItems: "flex-start",
         }}
       >
-        <article style={{ flex: 1, minWidth: 0 }}>
+        <article className="article-story" style={{ minWidth: 0 }}>
 
           {/* Group 1 — header block: badges + h1 + meta, single 0.45s rise */}
           <motion.div
@@ -172,22 +171,63 @@ export default function ArticleContent({ article, related, catColor, catBg, cate
             {/* The reader has just finished; this is where the questions are. */}
             <ArticleAsk article={article} />
 
-            {/* The dossier reads at full width for everyone, on every device,
-                rather than as a rail desktop sees and phones never do. */}
             <ArticleShareRow slug={article.slug} title={article.title} />
           </motion.div>
         </article>
 
-        <div className="article-sidebar-col" style={{ width: "460px", flexShrink: 0 }}>
-          <ArticleSidebar article={article} related={related} dosje={dosje} />
+        {/* The dossier is a child of the grid, not of the rail: above 1024px it
+            leads the sidebar column, below it runs full width under the story.
+            The rail itself is display:none on a phone, which is why a dossier
+            rendered inside it reached no phone at all. */}
+        {dosje && dosje.entries.length > 0 && (
+          <div className="article-dosje">
+            <DosjeSection
+              topicSlug={dosje.topicSlug}
+              topicTitle={dosje.topicTitle}
+              blurb={dosje.blurb}
+              videos={dosje.videos}
+              entries={dosje.entries}
+              sourced={dosje.sourced ?? false}
+            />
+          </div>
+        )}
+
+        <div className="article-sidebar-col">
+          <ArticleSidebar article={article} related={related} />
         </div>
       </div>
 
       <style>{`
+        .article-grid {
+          display: grid;
+          grid-template-columns: minmax(0, 1fr) 460px;
+          grid-template-rows: auto 1fr;
+          grid-template-areas:
+            "story dosje"
+            "story rail";
+          column-gap: 44px;
+          row-gap: 14px;
+          align-items: start;
+        }
+        .article-story { grid-area: story; }
+        .article-dosje { grid-area: dosje; }
+        /* The rail stretches into the leftover row so its sticky inner column
+           has somewhere to travel; align-items:start alone would collapse it
+           to content height and the stickiness would silently do nothing. */
+        .article-sidebar-col { grid-area: rail; align-self: stretch; }
+
         @media (max-width: 1200px) {
-          .article-sidebar-col { width: 360px !important; }
+          .article-grid { grid-template-columns: minmax(0, 1fr) 360px; }
         }
         @media (max-width: 1023px) {
+          .article-grid {
+            grid-template-columns: minmax(0, 1fr);
+            grid-template-rows: auto auto;
+            grid-template-areas:
+              "story"
+              "dosje";
+            row-gap: 44px;
+          }
           .article-sidebar-col { display: none; }
         }
       `}</style>
