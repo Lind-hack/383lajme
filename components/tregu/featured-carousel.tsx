@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { Trophy } from "lucide-react";
 import type { MiniMarket } from "./market-mini-card";
 import { fmtNum } from "@/lib/format";
 import ExactMarketChart, { type ExactMarketSeries } from "./exact-market-chart";
@@ -46,7 +47,22 @@ function Slide({ market, active }: { market: MiniMarket; active: boolean }) {
     (market.marketType === "two_outcome" || market.marketType === "three_outcome") &&
     (market.sportOutcomes?.length ?? 0) >= 2 &&
     Boolean(market.outcomeProbabilities);
-  const chartSeries: ExactMarketSeries[] = structured
+  const isChampionship = market.marketType === "f1_race_winner" && market.eventKind === "championship";
+  const championshipDrivers = isChampionship
+    ? (market.sportOutcomes ?? [])
+        .map((driver) => ({ ...driver, probability: Number(market.outcomeProbabilities?.[driver.key] ?? 0) }))
+        .sort((a, b) => b.probability - a.probability)
+        .slice(0, 3)
+    : [];
+  const chartSeries: ExactMarketSeries[] = isChampionship
+    ? championshipDrivers.map((driver, index) => ({
+        key: driver.key,
+        label: driver.label,
+        color: outcomeColor(driver, index),
+        current: driver.probability,
+        points: toExactSeries(market.outcomeHistory?.[driver.key]),
+      }))
+    : structured
     ? (market.sportOutcomes ?? []).map((outcome, index) => ({
         key: outcome.key,
         label: outcome.label,
@@ -71,7 +87,8 @@ function Slide({ market, active }: { market: MiniMarket; active: boolean }) {
 
   return (
     <article
-      className="tregu-car-slide-link"
+      className={`tregu-car-slide-link${isChampionship ? " tregu-championship-card" : ""}`}
+      data-championship={isChampionship ? "" : undefined}
       style={{ textDecoration: "none", color: "#111111" }}
     >
       <Link
@@ -81,11 +98,16 @@ function Slide({ market, active }: { market: MiniMarket; active: boolean }) {
         aria-label={`Hap tregun: ${market.question}`}
         draggable={false}
       />
-      <div className="tregu-feature-grid" data-structured={structured || undefined}>
+      <div className="tregu-feature-grid" data-structured={structured || isChampionship || undefined}>
         {/* ── The proposition ── */}
         <div className="tregu-feature-main">
           <div style={{ display: "flex", alignItems: "center", flexWrap: "wrap", gap: 10, marginBottom: 14 }}>
-            {(market.league === "f1" || /\bF1\b|Çmimin e Madh/i.test(market.question)) && (
+            {isChampionship ? (
+              <span className="tregu-championship-card-head">
+                <span className="tregu-championship-mark" aria-hidden><Trophy size={20} strokeWidth={2.2} /></span>
+                <span>Formula 1 · Kampionati</span>
+              </span>
+            ) : (market.league === "f1" || /\bF1\b|Çmimin e Madh/i.test(market.question)) && (
               <SportBrandMark brandKey="f1" size="sm" />
             )}
             {market.league && market.league !== "f1" && <SportBrandMark brandKey={market.league} size="sm" />}
@@ -95,11 +117,29 @@ function Slide({ market, active }: { market: MiniMarket; active: boolean }) {
 
           <p className="tregu-feature-q">{market.question}</p>
 
-          {!structured && market.category !== "sport" && (
+          {!structured && !isChampionship && market.category !== "sport" && (
             <MarketContextMedia media={market.marketMedia} variant="featured" />
           )}
 
-          {structured ? (
+          {isChampionship ? (
+            <div className="tregu-championship-leaders" aria-label="Favoritët për titull">
+              {championshipDrivers.map((driver, index) => (
+                <Link
+                  className="tregu-championship-leader"
+                  href={`/tregu/${market.slug}?piloti=${encodeURIComponent(driver.key)}`}
+                  key={driver.key}
+                  tabIndex={active ? 0 : -1}
+                >
+                  <span className="tregu-championship-rank">{index + 1}</span>
+                  <span className="tregu-championship-driver">
+                    <strong>{driver.label}</strong>
+                    <small>{driver.championship_points ?? 0} pikë · {driver.gap_to_leader ? `−${driver.gap_to_leader} nga kreu` : "kryeson"}</small>
+                  </span>
+                  <strong className="tregu-championship-odd">{Math.round(driver.probability * 100)}%</strong>
+                </Link>
+              ))}
+            </div>
+          ) : structured ? (
             <div className="tregu-feature-outcome-rack">
               {chartSeries.map((outcome, index) => {
                 const sourceOutcome = market.sportOutcomes?.[index];
@@ -163,11 +203,13 @@ function Slide({ market, active }: { market: MiniMarket; active: boolean }) {
 
           <div className="tregu-market-foot" style={{ border: "none", paddingTop: 0 }}>
             <span>
-              {market.volume !== undefined && market.volume > 0
+              {isChampionship
+                ? "OpenF1 · 22 pilotë"
+                : market.volume !== undefined && market.volume > 0
                 ? `Aktiviteti i fundit ${fmtNum(market.volume)} 383C`
                 : "Treg i ri"}
             </span>
-            <span className="tregu-market-open">Hap tregun →</span>
+            <span className="tregu-market-open">{isChampionship ? "Hap tregun e titullit →" : "Hap tregun →"}</span>
           </div>
         </div>
 
@@ -175,8 +217,8 @@ function Slide({ market, active }: { market: MiniMarket; active: boolean }) {
         <div className="tregu-feature-chart">
           <div className="tregu-feature-price">
             <div>
-              <span className="tregu-feature-price-label">{structured ? `Në krye · ${leader?.label ?? "Pa të dhëna"}` : "Gjasa PO"}</span>
-              <span className="tregu-feature-price-value">{structured ? `${((leader?.current ?? 0) * 100).toFixed(1)}%` : `${pct}%`}</span>
+              <span className="tregu-feature-price-label">{structured || isChampionship ? `Në krye · ${leader?.label ?? "Pa të dhëna"}` : "Gjasa PO"}</span>
+              <span className="tregu-feature-price-value">{structured || isChampionship ? `${((leader?.current ?? 0) * 100).toFixed(1)}%` : `${pct}%`}</span>
             </div>
             {deltaPp != null && deltaPp !== 0 && (
               <span className="tregu-delta-chip" data-dir={dir}>
@@ -188,10 +230,10 @@ function Slide({ market, active }: { market: MiniMarket; active: boolean }) {
             <ExactMarketChart
               compact
               curve="smooth"
-              height={structured ? 260 : 218}
+              height={structured || isChampionship ? 260 : 218}
               series={chartSeries}
-              tone={structured || market.category === "sport" ? "sport" : "serious"}
-              showPulse={structured}
+              tone={structured || isChampionship || market.category === "sport" ? "sport" : "serious"}
+              showPulse={structured || isChampionship}
               ariaLabel={`Historia reale për ${market.question}`}
             />
           </div>
