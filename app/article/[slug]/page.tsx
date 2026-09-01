@@ -138,7 +138,7 @@ export default async function ArticlePage({
   // rather than a tag, so every article joins one without editorial work. Null
   // when nothing matches, and the rail simply does not render.
   const topic = topicForArticle(article);
-  const file = topic ? await dosjeFor(topic.slug, allArticles, article.slug) : null;
+  const file = topic ? await dosjeFor(topic.slug, allArticles, article.slug, article) : null;
   const dosje =
     topic && file
       ? {

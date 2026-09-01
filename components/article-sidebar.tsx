@@ -6,7 +6,7 @@ import { Bookmark, Link2 } from "lucide-react";
 import { type Article } from "@/lib/mock-data";
 import { EASE, DUR } from "@/lib/tokens";
 import SidebarMarketWidget from "@/components/tregu/sidebar-market-widget";
-import DosjeSection, { type DosjeEntry } from "@/components/dosje-section";
+import { type DosjeEntry } from "@/components/dosje-section";
 import { createClient } from "@/lib/supabase/client";
 
 function flagToCode(flag: string): string {
@@ -37,10 +37,9 @@ export interface DosjeData {
 interface Props {
   article: Article;
   related: Article[];
-  dosje?: DosjeData | null;
 }
 
-export default function ArticleSidebar({ article, related, dosje }: Props) {
+export default function ArticleSidebar({ article, related }: Props) {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [bookmarkAccount, setBookmarkAccount] = useState(false);
@@ -204,19 +203,8 @@ export default function ArticleSidebar({ article, related, dosje }: Props) {
           gap: "14px",
         }}
       >
-        {/* The dossier leads the rail. The column is 400px rather than 280
-            so the prose has a real measure — the reason it was moved into the
-            body before was width, not placement. */}
-        {dosje && dosje.entries.length > 0 && (
-          <DosjeSection
-            topicSlug={dosje.topicSlug}
-            topicTitle={dosje.topicTitle}
-            blurb={dosje.blurb}
-            videos={dosje.videos}
-            entries={dosje.entries}
-            sourced={dosje.sourced ?? false}
-          />
-        )}
+        {/* The dossier used to lead the rail and so reached only desktop.
+            ArticleContent now places it on the grid; see .article-dosje. */}
 
         {/* 383 Tregu market related to this article's category. */}
         <SidebarMarketWidget articleCategory={article.category} />
