@@ -1005,9 +1005,9 @@ async function f1ChampionshipRunKey(admin: any, now: Date, season: number) {
     return Number.isFinite(raceStart) && now.getTime() >= raceStart - 30 * 60_000 && now.getTime() <= raceStart + 6 * 60 * 60_000;
   });
   if (raceWindow) {
-    return `f1-championship:v2:${season}:race-window:${raceWindow.event_id}:${Math.floor(now.getTime() / (15 * 60_000))}`;
+    return `f1-championship:v3:${season}:race-window:${raceWindow.event_id}:${Math.floor(now.getTime() / (15 * 60_000))}`;
   }
-  return `f1-championship:v2:${season}:${kosovoLocalDate(now)}:${Math.floor(now.getUTCHours() / 6)}`;
+  return `f1-championship:v3:${season}:${kosovoLocalDate(now)}:${Math.floor(now.getUTCHours() / 6)}`;
 }
 
 export async function runF1ChampionshipAutomation(now = new Date()) {
@@ -1034,9 +1034,9 @@ export async function runF1ChampionshipAutomation(now = new Date()) {
       if (error) throw new Error(`Could not create the F1 championship market: ${error.message}`);
       market = data;
       created = 1;
-    } else if (market.status === "open" && market.live_score_state?.key !== championship.stateKey) {
+    } else if (market.status === "open" && market.live_score_state?.key !== template.live_score_state.key) {
       const state = {
-        key: championship.stateKey,
+        key: template.live_score_state.key,
         source_url: championship.sourceUrl,
         source_provider: "OpenF1",
         previous_probabilities: market.reference_probabilities ?? null,
@@ -1076,7 +1076,7 @@ export async function runF1ChampionshipAutomation(now = new Date()) {
         .eq("id", market.id)
         .eq("status", "open")
         .contains("live_event", { event_kind: "championship", source_provider: "OpenF1" })
-        .eq("live_score_state->>key", championship.stateKey)
+        .eq("live_score_state->>key", template.live_score_state.key)
         .select("id")
         .maybeSingle();
       if (closeError) throw new Error(`Could not close the decided F1 championship market: ${closeError.message}`);
@@ -1085,7 +1085,7 @@ export async function runF1ChampionshipAutomation(now = new Date()) {
       if (settlementError) throw new Error(`Could not settle the F1 championship market: ${settlementError.message}`);
       settled = true;
     }
-    const details = { created, updated: created ? 0 : 1, settled, season, market: { id: market.id, slug: market.slug }, state_key: championship.stateKey, races_remaining: championship.model.racesRemaining, model_version: championship.model.version };
+    const details = { created, updated: created ? 0 : 1, settled, season, market: { id: market.id, slug: market.slug }, state_key: template.live_score_state.key, races_remaining: championship.model.racesRemaining, model_version: championship.model.version };
     await finishRun(admin, started.run.id, "succeeded", details);
     return { ok: true, skipped: false, runKey, ...details };
   } catch (error) {
