@@ -974,25 +974,26 @@
     },
     "Haberler": {
       "country": "Turqi",
-      "total": 5,
+      "total": 6,
       "positive": 0,
-      "neutral": 5,
+      "neutral": 6,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-27",
+      "lastSeen": "2026-08-31",
       "urls": [
         "https://www.haberler.com/3-sayfa/kosova-da-savas-suclari-sorusturmasi-23-kisiye-ait-20159336-haberi/",
         "https://www.haberler.com/3-sayfa/kosova-da-toplu-mezarlarin-yakininda-cok-sayida-20164351-haberi/",
         "https://www.haberler.com/guncel/trakya-universitesi-ile-haxhi-zeka-universitesi-20177714-haberi/",
         "https://www.haberler.com/spor/20-akdeniz-oyunlari-20178750-haberi/",
-        "https://www.haberler.com/spor/buyukcekmece-basketbol-yeni-sezona-kosova-da-20182746-haberi/"
+        "https://www.haberler.com/spor/buyukcekmece-basketbol-yeni-sezona-kosova-da-20182746-haberi/",
+        "https://www.haberler.com/guncel/kosova-da-bekim-sejdiu-nun-cumhurbaskani-20194186-haberi/"
       ]
     },
     "Son Dakika": {
       "country": "Turqi",
-      "total": 8,
-      "positive": 0,
+      "total": 9,
+      "positive": 1,
       "neutral": 6,
       "negative": 0,
       "unknown": 2,
@@ -1006,7 +1007,8 @@
         "https://www.sondakika.com/spor/haber-milliler-kosova-yi-yendi-ceyrek-finale-yukseldi-20190048/",
         "https://www.sondakika.com/politika/haber-kosova-da-cumhurbaskani-adayligi-uzerinde-uzlasma-20193550/",
         "https://www.sondakika.com/guncel/haber-kosova-da-cumhurbaskani-adayi-sejdiu-belirlendi-20194210/",
-        "https://www.sondakika.com/spor/haber-berber-ali-turkben-iki-turkiye-sampiyonlugunun-ard-20195760/"
+        "https://www.sondakika.com/spor/haber-berber-ali-turkben-iki-turkiye-sampiyonlugunun-ard-20195760/",
+        "https://www.sondakika.com/guncel/haber-kosova-daki-yildizlar-avrupa-halter-sampiyonasi-nd-20196635/"
       ]
     },
     "Harici": {
@@ -2403,6 +2405,19 @@
       "lastSeen": "2026-08-29",
       "urls": [
         "https://www.krone.at/4269964"
+      ]
+    },
+    "AEF info": {
+      "country": "Francë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-01",
+      "lastSeen": "2026-09-01",
+      "urls": [
+        "https://www.aefinfo.fr/depeche/755907-inalco-delphine-alles-devient-administratrice-provisoire-apres-le-depart-de-jean-francois-huchet-au-kosovo"
       ]
     }
   }

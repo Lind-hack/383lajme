@@ -4407,9 +4407,9 @@
   },
   {
     "date": "2026-09-01",
-    "overallIndex": 56,
-    "totalArticles": 43,
-    "sourceCount": 34,
+    "overallIndex": 57,
+    "totalArticles": 46,
+    "sourceCount": 36,
     "stanceVersion": 3,
     "countries": {
       "Gjermani": {
@@ -4447,7 +4447,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 3,
+        "n": 4,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -4551,11 +4551,11 @@
         "stanceVersion": 3
       },
       "Turqi": {
-        "index": 61,
-        "positive": 22,
-        "neutral": 78,
+        "index": 64,
+        "positive": 27,
+        "neutral": 73,
         "negative": 0,
-        "n": 9,
+        "n": 11,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
@@ -4574,7 +4574,7 @@
     "headlines": [
       {
         "title": "Vom Kosovo-Flüchtling zum erfolgreichen Unternehmer: Shpetim Alaj und seine Autobiografie - MDR.de",
-        "source": "MDR.de",
+        "source": "mdr.de",
         "country": "Gjermani",
         "flag": "🇩🇪",
         "url": "https://www.mdr.de/nachrichten/thueringen/west-thueringen/eisenach/autobiografie-shpetim-alaj-handball-,kosovo-fluechtling-100.html",
@@ -4590,7 +4590,7 @@
       },
       {
         "title": "Turistas de todo el mundo descubren la magia del pueblo de Kosovo en los Ródopes - БНР Новини",
-        "source": "БНР Новини",
+        "source": "bnrnews.bg",
         "country": "Spanjë",
         "flag": "🇪🇸",
         "url": "https://bnrnews.bg/es/post/521438/turistas-de-todo-el-mundo-descubren-la-magia-del-pueblo-de-kosovo-en-los-rodopes",

@@ -4,10 +4,10 @@
     {
       "label": "Zhvillimet diplomatike dhe presidenciale",
       "fallbackLabel": "President · Kandidat",
-      "summary": "Ambasadori italian dhe zyrtarë të lartë zhvillojnë takime për çështje institucionale, ndërsa diskutohen kandidaturat për postin e presidentit të Kosovës.",
-      "count": 35,
+      "summary": "Ambasadorët dhe zyrtarët e lartë po zhvillojnë takime për çështje institucionale, ndërsa po diskutohen kandidaturat për postin e presidentit të Kosovës.",
+      "count": 43,
       "positive": 0,
-      "neutral": 33,
+      "neutral": 42,
       "negative": 0,
       "index": 50,
       "countries": [
@@ -184,14 +184,14 @@
       ]
     },
     {
-      "label": "Pjesëmarrja në kampionate ndërkombëtare",
-      "fallbackLabel": "Botëror · Socca",
-      "summary": "Sportistët kosovarë po marrin pjesë në gara të ndryshme ndërkombëtare, duke përfshirë kampionatin botëror të socca-s dhe garat evropiane të të rinjve.",
-      "count": 9,
-      "positive": 0,
+      "label": "Pjesëmarrja në kampionate sportive",
+      "fallbackLabel": "Botëror · Kampionatin",
+      "summary": "Sportistët dhe ekipet e Kosovës po marrin pjesë në gara ndërkombëtare të ndryshme, duke përfshirë kampionatet botërore të socca-s dhe evropianët e rinj.",
+      "count": 10,
+      "positive": 1,
       "neutral": 8,
       "negative": 0,
-      "index": 50,
+      "index": 56,
       "countries": [
         "Gjermani",
         "Poloni",
@@ -199,6 +199,22 @@
         "Turqi"
       ],
       "articles": [
+        {
+          "title": "Kosova'daki Yıldızlar Avrupa Halter Şampiyonası'nda 200 Kiloyla Şampiyon Olan Zehra Nur Arslan, Amasya Valisi'ni Ziyaret Etti - Son Dakika",
+          "albanianTitle": "Zehra Nur Arslan, kampione në Kampionatin Evropian të Peshëngritjes për të Rinj në Kosovë, viziton guvernatorin e Amasyas",
+          "blurb": "Kampionia evropiane në peshëngritje, Zehra Nur Arslan, e cila fitoi medaljen në Kosovë, ka vizituar guvernatorin e Amasias.",
+          "imageUrl": "https://foto.sondakika.com/haber/2026/09/01/avrupa-sampiyonu-arslan-dan-amasya-valisi-bak-2-20196558_amp.jpg",
+          "url": "https://www.sondakika.com/guncel/haber-kosova-daki-yildizlar-avrupa-halter-sampiyonasi-nd-20196635/",
+          "date": "2026-09-01",
+          "sentiment": "positive",
+          "reason": "Outlet praises Kosovar athlete’s achievement",
+          "isQuote": false,
+          "speaker": "",
+          "evidence": "200 Kiloyla Şampiyon Olan",
+          "outlet": "Son Dakika",
+          "country": "Turqi",
+          "flag": "🇹🇷"
+        },
         {
           "title": "Taşköprülü şampiyon dünya tahtı için Kosova’da ringe çıkıyor - Taşköprü Postası",
           "albanianTitle": "Kampioni nga Taşköprü ngjitet në ring në Kosovë për titullin botëror",
@@ -346,9 +362,9 @@
       ]
     },
     {
-      "label": "Protestat e opozitës para qeverisë",
+      "label": "Protestat e opozitës ndaj qeverisë",
       "fallbackLabel": "Qeverisë · Sërish",
-      "summary": "Rinia e PDK-së dhe përfaqësues të AAK-së po zhvillojnë protesta simbolike duke bllokuar hyrjen e Qeverisë në shenjë pakënaqësie ndaj pushtetit.",
+      "summary": "Rinia e PDK-së dhe partitë opozitare po organizojnë protesta simbolike para ndërtesës së Qeverisë, duke akuzuar pushtetin për rrezikim të demokracisë.",
       "count": 8,
       "positive": 0,
       "neutral": 6,
@@ -492,9 +508,9 @@
       ]
     },
     {
-      "label": "Politikat qeveritare dhe çështjet kombëtare",
+      "label": "Agjenda politike e kryeministrit Kurti",
       "fallbackLabel": "Kurti · Drejtat",
-      "summary": "Kryeministri Kurti po angazhohet për të drejtat në Luginën e Preshevës, zbardhjen e fatit të të pagjeturve dhe marrëveshje politike me opozitën.",
+      "summary": "Kryeministri Kurti po angazhohet për të drejtat në Luginën e Preshevës, çështjen e të pagjeturve dhe marrëveshjet politike me partitë opozitare.",
       "count": 6,
       "positive": 0,
       "neutral": 4,
@@ -606,7 +622,7 @@
     {
       "label": "Bashkëpunimi ndërkombëtar dhe siguria",
       "fallbackLabel": "Bashkëpunimi · Maqedonci",
-      "summary": "Kosova po forcon bashkëpunimin strategjik me Turqinë në mbrojtje dhe po punon me organizatat ndërkombëtare për çështjet e sigurisë dhe drejtësisë.",
+      "summary": "Kosova po forcon bashkëpunimin strategjik me Turqinë në fushën e mbrojtjes dhe po kërkon mbështetje ndërkombëtare për zbardhjen e fatit të të pagjeturve.",
       "count": 6,
       "positive": 1,
       "neutral": 3,
@@ -716,9 +732,9 @@
       ]
     },
     {
-      "label": "Deklaratat për stabilitetin rajonal",
-      "fallbackLabel": "Ballkan · Vazhdon",
-      "summary": "William Walker dhe misionet e NATO-s vlerësojnë rolin e Kosovës në rajon, duke theksuar se ajo nuk përbën kërcënim për sigurinë ballkanike.",
+      "label": "Siguria rajonale dhe roli i NATO-s",
+      "fallbackLabel": "Ballkan · Serbia",
+      "summary": "Diskutimet mbi sigurinë në Ballkan vazhdojnë, ku roli i ushtarëve të NATO-s vlerësohet si garant i paqes dhe stabilitetit në territorin e Kosovës.",
       "count": 5,
       "positive": 1,
       "neutral": 4,
@@ -814,9 +830,9 @@
       ]
     },
     {
-      "label": "Vendimet gjyqësore dhe reagimet ndërkombëtare",
+      "label": "Vendimet për gjyqtarët serbë",
       "fallbackLabel": "Serbë · Vendimin",
-      "summary": "Vendimet e Këshillit Gjyqësor të Kosovës për gjyqtarët serbë kanë shkaktuar reagime të ndryshme nga Bashkimi Evropian dhe Shtetet e Bashkuara të Amerikës.",
+      "summary": "Vendimet e Këshillit Gjyqësor lidhur me gjyqtarët serbë kanë nxitur reagime të ndryshme nga Bashkimi Evropian dhe Shtetet e Bashkuara të Amerikës.",
       "count": 5,
       "positive": 0,
       "neutral": 4,
@@ -911,9 +927,9 @@
       ]
     },
     {
-      "label": "Kërkesat politike dhe sociale",
-      "fallbackLabel": "Kërkon · Tërnava",
-      "summary": "Opozita dhe përfaqësues të ndryshëm po kërkojnë hetime për çështje të ndjeshme, hapjen e arkivave për të pagjeturit dhe ndryshime në legjislacionin për shtetësinë.",
+      "label": "Kërkesat për hetime dhe çështje sociale",
+      "fallbackLabel": "Kërkon · Hetim",
+      "summary": "Opozita dhe përfaqësues të ndryshëm po kërkojnë hetime për çështje të ndjeshme, ndërsa po diskutohen edhe tema të shtetësisë dhe ngjarjeve ndërkombëtare.",
       "count": 5,
       "positive": 0,
       "neutral": 5,

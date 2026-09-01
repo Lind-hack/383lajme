@@ -1,10 +1,10 @@
 {
   "lastUpdated": "2026-09-01",
-  "overallIndex": 56,
-  "totalArticles": 43,
-  "sourceCount": 34,
+  "overallIndex": 57,
+  "totalArticles": 46,
+  "sourceCount": 36,
   "stanceVersion": 3,
-  "unattributed": 122,
+  "unattributed": 133,
   "nonEditorial": 3,
   "wrongKosovo": 0,
   "countries": {
@@ -234,6 +234,30 @@
     "Francë": {
       "outlets": [
         {
+          "name": "AEF info",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Inalco : Delphine Allès devient administratrice provisoire après le départ de Jean-François Huchet au Kosovo - AEF info",
+              "albanianTitle": "Inalco: Delphine Allès emërohet administratore e përkohshme pas largimit të Jean-François Huchet në Kosovë",
+              "blurb": "Delphine Allès është emëruar administratore e përkohshme në Inalco pas largimit të Jean-François Huchet për në Kosovë.",
+              "imageUrl": "https://www.aefinfo.fr/assets/medias/documents/5/2/528638_grande.webp",
+              "url": "https://www.aefinfo.fr/depeche/755907-inalco-delphine-alles-devient-administratrice-provisoire-apres-le-depart-de-jean-francois-huchet-au-kosovo",
+              "date": "2026-09-01",
+              "sentiment": "neutral",
+              "reason": "Factual report of administrative appointment related to Kosovo",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-01",
+          "lastSeen": "2026-09-01"
+        },
+        {
           "name": "Le Courrier des Balkans",
           "sentiment": "neutral",
           "articleCount": 3,
@@ -289,7 +313,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 3,
+        "n": 4,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -511,13 +535,13 @@
             },
             {
               "title": "FIGC * FEDERAZIONE ITALIANA GIUOCO CALCIO: «ITALIA 2° ALLA PRIMA EDIZIONE FEMMINILE DEL TORNEO, PORTOGALLO VINCE 4-0 - agenziagiornalisticaopinione.it",
-              "albanianTitle": "FIGC: Italia e dyta në edicionin e parë të turneut të femrave, Portugalia fiton 4-0 - agenziagiornalisticaopinione.it",
-              "blurb": "Portugalia ka fituar 4-0 ndaj Italisë në finalen e turneut të parë të futbollit për femra.",
+              "albanianTitle": "Federata Italiane e Futbollit: Italia e dyta në edicionin e parë të turneut për femra, Portugalia fiton 4-0",
+              "blurb": "Italia është renditur e dyta në turneun e parë të futbollit për femra, pasi Portugalia fitoi ndeshjen finale 4-0.",
               "imageUrl": "https://www.agenziagiornalisticaopinione.it/wp-content/uploads/2026/08/y99z5a7197ba-9a41-43eb-9ef4-6b4049155e3f-jpg.jpg",
               "url": "https://www.agenziagiornalisticaopinione.it/opinionmix/figc-federazione-italiana-giuoco-calcio-italia-2-alla-prima-edizione-femminile-del-torneo-portogallo-vince-4-0/",
               "date": "2026-08-31",
               "sentiment": "unknown",
-              "reason": "No mention of Kosovo in the item",
+              "reason": "No reference to Kosovo in the item",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1123,9 +1147,33 @@
           "lastSeen": "2026-08-31"
         },
         {
+          "name": "Haberler",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosova'da Cumhurbaşkanlığı Uzlaşısı: Bekim Sejdiu Aday - Haberler",
+              "albanianTitle": "Konsensusi për Presidentin në Kosovë: Bekim Sejdiu kandidat",
+              "blurb": "Bekim Sejdiu është kandidati i propozuar për postin e presidentit të Kosovës pas arritjes së një konsensusi politik.",
+              "imageUrl": null,
+              "url": "https://www.haberler.com/guncel/kosova-da-bekim-sejdiu-nun-cumhurbaskani-20194186-haberi/",
+              "date": "2026-08-31",
+              "sentiment": "neutral",
+              "reason": "Neutral report of presidential consensus in Kosovo",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 6,
+          "trend": "neutral",
+          "firstSeen": "2026-08-20",
+          "lastSeen": "2026-08-31"
+        },
+        {
           "name": "Son Dakika",
           "sentiment": "neutral",
-          "articleCount": 4,
+          "articleCount": 5,
           "articles": [
             {
               "title": "Milliler Kosova'yı Yendi, Çeyrek Finale Yükseldi - Son Dakika",
@@ -1178,10 +1226,23 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Kosova'daki Yıldızlar Avrupa Halter Şampiyonası'nda 200 Kiloyla Şampiyon Olan Zehra Nur Arslan, Amasya Valisi'ni Ziyaret Etti - Son Dakika",
+              "albanianTitle": "Zehra Nur Arslan, kampione në Kampionatin Evropian të Peshëngritjes për të Rinj në Kosovë, viziton guvernatorin e Amasyas",
+              "blurb": "Kampionia evropiane në peshëngritje, Zehra Nur Arslan, e cila fitoi medaljen në Kosovë, ka vizituar guvernatorin e Amasias.",
+              "imageUrl": "https://foto.sondakika.com/haber/2026/09/01/avrupa-sampiyonu-arslan-dan-amasya-valisi-bak-2-20196558_amp.jpg",
+              "url": "https://www.sondakika.com/guncel/haber-kosova-daki-yildizlar-avrupa-halter-sampiyonasi-nd-20196635/",
+              "date": "2026-09-01",
+              "sentiment": "positive",
+              "reason": "Outlet praises Kosovar athlete’s achievement",
+              "isQuote": false,
+              "evidence": "200 Kiloyla Şampiyon Olan",
+              "speaker": ""
             }
           ],
-          "totalArticles": 8,
-          "trend": "neutral",
+          "totalArticles": 9,
+          "trend": "i përzier",
           "firstSeen": "2026-08-20",
           "lastSeen": "2026-09-01"
         },
@@ -1211,11 +1272,11 @@
         }
       ],
       "summary": {
-        "index": 61,
-        "positive": 22,
-        "neutral": 78,
+        "index": 64,
+        "positive": 27,
+        "neutral": 73,
         "negative": 0,
-        "n": 9,
+        "n": 11,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
