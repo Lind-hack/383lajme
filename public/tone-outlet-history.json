@@ -383,20 +383,21 @@
     },
     "agenziagiornalisticaopinione.it": {
       "country": "Itali",
-      "total": 6,
+      "total": 7,
       "positive": 0,
       "neutral": 3,
       "negative": 0,
-      "unknown": 3,
+      "unknown": 4,
       "firstSeen": "2026-08-22",
-      "lastSeen": "2026-08-30",
+      "lastSeen": "2026-08-31",
       "urls": [
         "https://www.agenziagiornalisticaopinione.it/opinionmix/sole24/il-sole-24-ore-sport-abodi-e-gonxhja-incontro-in-vista-dei-giochi-del-mediterraneo-del-2030-tra-kosovo-e-albania/",
         "https://www.agenziagiornalisticaopinione.it/opinionews/figc-federazione-italiana-giuoco-calcio-azzurrini-ko-3-1-con-lalgeria-ora-serve-unimpresa-contro-il-kosovo/",
         "https://www.agenziagiornalisticaopinione.it/opinionmix/figc-federazione-italiana-giuoco-calcio-giochi-del-mediterraneo-azzurrine-dominano-il-kosovo-4-1-allesordio/",
         "https://www.agenziagiornalisticaopinione.it/opinionews/figc-federazione-italiana-giuoco-calcio-italia-slovenia-1-1-ai-giochi-del-mediterraneo-azzurrine-frenate-dalla-difesa-slovena/",
         "https://www.agenziagiornalisticaopinione.it/opinionews/figc-federazione-italiana-giuoco-calcio-azzurrine-in-finale-per-loro-ciurleo-pareggia-allultimo-minuto/",
-        "https://www.agenziagiornalisticaopinione.it/opinionmix/figc-federazione-italiana-giuoco-calcio-giochi-del-mediterraneo-azzurrini-4-posto-marocco-vince-4-1/"
+        "https://www.agenziagiornalisticaopinione.it/opinionmix/figc-federazione-italiana-giuoco-calcio-giochi-del-mediterraneo-azzurrini-4-posto-marocco-vince-4-1/",
+        "https://www.agenziagiornalisticaopinione.it/opinionmix/figc-federazione-italiana-giuoco-calcio-italia-2-alla-prima-edizione-femminile-del-torneo-portogallo-vince-4-0/"
       ]
     },
     "studio100.it": {
@@ -1994,15 +1995,16 @@
     },
     "Interia Sport": {
       "country": "Poloni",
-      "total": 1,
+      "total": 2,
       "positive": 0,
       "neutral": 1,
       "negative": 0,
-      "unknown": 0,
+      "unknown": 1,
       "firstSeen": "2026-08-27",
-      "lastSeen": "2026-08-27",
+      "lastSeen": "2026-08-31",
       "urls": [
-        "https://sport.interia.pl/tenis/mecz-kosovo-w-zimbabwe-w-fed-cup-gr-iii-k,spmi,3729230"
+        "https://sport.interia.pl/tenis/mecz-kosovo-w-zimbabwe-w-fed-cup-gr-iii-k,spmi,3729230",
+        "https://sport.interia.pl/pilka-reczna/mecz-kosowo-k-holandia-k-mistrzostwa-europy-k-kwal,spmi,2463312"
       ]
     },
     "T.C. Vakıflar Genel Müdürlüğü": {
@@ -2311,16 +2313,17 @@
     },
     "A Haber": {
       "country": "Turqi",
-      "total": 2,
+      "total": 3,
       "positive": 1,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-31",
       "lastSeen": "2026-08-31",
       "urls": [
         "https://www.ahaber.com.tr/ozel-haberler/2026/08/31/kosova-savunma-bakani-maqedonci-a-haberde",
-        "https://www.ahaber.com.tr/video/ozel-haber/kosova-savunma-bakani-a-habere-konustu"
+        "https://www.ahaber.com.tr/video/ozel-haber/kosova-savunma-bakani-a-habere-konustu",
+        "https://www.ahaber.com.tr/video/story/kosova-savunma-bakani-a-haberde"
       ]
     },
     "forbes.com.tr": {
@@ -2334,6 +2337,19 @@
       "lastSeen": "2026-08-31",
       "urls": [
         "https://www.forbes.com.tr/forbes-life/dua-lipa-avrupa-nin-en-genc-ulkesini-dunyaya-tanitiyor"
+      ]
+    },
+    "Netzwerk Friedenskooperative": {
+      "country": "Gjermani",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-01",
+      "lastSeen": "2026-08-30",
+      "urls": [
+        "https://www.friedenskooperative.de/index.php/friedensforum/artikel/der-krieg-im-kosovo"
       ]
     }
   }

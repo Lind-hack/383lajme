@@ -1,11 +1,11 @@
 {
-  "lastUpdated": "2026-08-31",
-  "overallIndex": 52,
-  "totalArticles": 55,
-  "sourceCount": 38,
+  "lastUpdated": "2026-09-01",
+  "overallIndex": 56,
+  "totalArticles": 39,
+  "sourceCount": 30,
   "stanceVersion": 3,
-  "unattributed": 155,
-  "nonEditorial": 2,
+  "unattributed": 119,
+  "nonEditorial": 3,
   "wrongKosovo": 0,
   "countries": {
     "Gjermani": {
@@ -35,6 +35,30 @@
           "lastSeen": "2026-08-30"
         },
         {
+          "name": "Netzwerk Friedenskooperative",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Der Krieg im Kosovo - Netzwerk Friedenskooperative",
+              "albanianTitle": "Lufta në Kosovë – Rrjeti i Kooperativës për Paqe",
+              "blurb": "Rrjeti i bashkëpunimit për paqe publikon të dhëna dhe analiza mbi zhvillimet e luftës në territorin e Kosovës.",
+              "imageUrl": "https://www.friedenskooperative.de/sites/default/files/styles/social_media_teaser/public/media/image/2026/zeitschrift-friedensforum-schwerpunkt_0.png?h=5463d0de&itok=YbTOrf_Y",
+              "url": "https://www.friedenskooperative.de/index.php/friedensforum/artikel/der-krieg-im-kosovo",
+              "date": "2026-08-30",
+              "sentiment": "neutral",
+              "reason": "Titulli thjesht raporton temën pa gjuhë ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-01",
+          "lastSeen": "2026-08-30"
+        },
+        {
           "name": "WAZ",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -60,11 +84,11 @@
         }
       ],
       "summary": {
-        "index": 75,
-        "positive": 50,
-        "neutral": 50,
+        "index": 67,
+        "positive": 33,
+        "neutral": 67,
         "negative": 0,
-        "n": 2,
+        "n": 3,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -74,22 +98,9 @@
       "outlets": [
         {
           "name": "Bloomberg",
-          "sentiment": "positive",
-          "articleCount": 2,
+          "sentiment": "neutral",
+          "articleCount": 1,
           "articles": [
-            {
-              "title": "Dua Lipa Wants the World to Come to Kosovo - Bloomberg.com",
-              "albanianTitle": "Dua Lipa fton botën ta vizitojë Kosovën - Bloomberg.com",
-              "blurb": "Këngëtarja Dua Lipa promovon Kosovën si destinacion turistik në një intervistë për mediumin ndërkombëtar Bloomberg.",
-              "imageUrl": null,
-              "url": "https://www.bloomberg.com/news/newsletters/2026-08-28/dua-lipa-wants-the-world-to-come-to-kosovo",
-              "date": "2026-08-28",
-              "sentiment": "positive",
-              "reason": "Outlet advocates for Kosovo by encouraging visitors",
-              "isQuote": false,
-              "evidence": "Wants the World to Come to Kosovo",
-              "speaker": ""
-            },
             {
               "title": "Kosovo Leaders Agree on President Pick After Months of Deadlock - Bloomberg.com",
               "albanianTitle": "Liderët e Kosovës merren vesh për presidentin pas muajsh bllokadë - Bloomberg.com",
@@ -111,22 +122,14 @@
         }
       ],
       "summary": {
-        "index": 75,
-        "positive": 50,
-        "neutral": 50,
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 2,
+        "n": 1,
         "excluded": 0,
         "confident": false,
-        "stanceVersion": 3,
-        "movement": {
-          "delta": 8,
-          "from": 67,
-          "outlet": "Bloomberg",
-          "title": "Dua Lipa fton botën ta vizitojë Kosovën - Bloomberg.com",
-          "evidence": "Wants the World to Come to Kosovo",
-          "url": "https://www.bloomberg.com/news/newsletters/2026-08-28/dua-lipa-wants-the-world-to-come-to-kosovo"
-        }
+        "stanceVersion": 3
       }
     },
     "Britani": {
@@ -255,30 +258,6 @@
           "trend": "i përzier",
           "firstSeen": "2026-08-20",
           "lastSeen": "2026-08-31"
-        },
-        {
-          "name": "Orange Actualités",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Au Kosovo, une dépendance au charbon qui tue - Orange Actualités",
-              "albanianTitle": "Varësia nga qymyri në Kosovë po shkakton vdekje",
-              "blurb": "Kosova vazhdon të jetë e varur nga qymyri për prodhimin e energjisë elektrike, duke shkaktuar pasoja në shëndetin publik.",
-              "imageUrl": "//media1.woopic.com/api/v1/images/2275%2Factu%2Fafp-news%2Fdeac921e-79d9-4bdc-b0cf-ba37b04f0d64.jpg?format=1200x630&facedetect=1&quality=85",
-              "url": "https://actu.orange.fr/societe/sante/au-kosovo-une-dependance-au-charbon-qui-tue-CNT000002rAr6y.html",
-              "date": "2026-08-28",
-              "sentiment": "neutral",
-              "reason": "Raportim kritik i situatës, jo armiqësor ndaj Kosovës",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 2,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-26",
-          "lastSeen": "2026-08-28"
         }
       ],
       "summary": {
@@ -286,7 +265,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 4,
+        "n": 3,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -297,21 +276,8 @@
         {
           "name": "ANSA",
           "sentiment": "neutral",
-          "articleCount": 3,
+          "articleCount": 2,
           "articles": [
-            {
-              "title": "Ue, 'il Kosovo deve reintegrare il personale giudiziario serbo' - ANSA",
-              "albanianTitle": "BE: Kosova duhet t'i kthejë në punë gjyqtarët dhe prokurorët serbë",
-              "blurb": "Bashkimi Evropian ka kërkuar nga institucionet e Kosovës që të bëjnë riintegrimin e personelit gjyqësor serb në sistemin e drejtësisë.",
-              "imageUrl": "https://www.ansa.it",
-              "url": "https://www.ansa.it/europa/notizie/rubriche/altrenews/2026/08/28/ue-il-kosovo-deve-reintegrare-il-personale-giudiziario-serbo_ebde8f7d-d1a6-4236-99bf-af10c06f834b.html",
-              "date": "2026-08-28",
-              "sentiment": "neutral",
-              "reason": "Quote from EU, outlet merely reports statement",
-              "isQuote": true,
-              "evidence": "",
-              "speaker": "UE"
-            },
             {
               "title": "Ambassador to Kosovo Antonini Meets with Interim President Haxhiu - ANSA",
               "albanianTitle": "Ambasadori në Kosovë, Antonini, takon ushtruesen e detyrës së presidentit, Haxhiu - ANSA",
@@ -343,30 +309,6 @@
           "trend": "neutral",
           "firstSeen": "2026-08-20",
           "lastSeen": "2026-08-29"
-        },
-        {
-          "name": "Aise.it - Agenzia Internazionale Stampa Estero",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosovo: l'Ambasciatore Antonini incontra la Presidente facente funzioni Albulena Haxhiu - Aise.it - Agenzia Internazionale Stampa Estero",
-              "albanianTitle": "Kosova: Ambasadori Antonini takon ushtruesen e detyrës së Presidentit, Albulena Haxhiu",
-              "blurb": "Ambasadori Antonini ka zhvilluar një takim zyrtar me ushtruesen e detyrës së presidentes së Kosovës, Albulena Haxhiu, në Prishtinë.",
-              "imageUrl": "https://www.aise.it/public/file/varie26/28kosobo.jpg",
-              "url": "https://www.aise.it/rete-diplomatica/kosovo-lambasciatore-antonini-incontra-la-presidente-facente-funzioni-albulena-haxhiu/236458/163",
-              "date": "2026-08-28",
-              "sentiment": "neutral",
-              "reason": "Straightforward diplomatic meeting report",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-29",
-          "lastSeen": "2026-08-28"
         },
         {
           "name": "Buonasera24",
@@ -417,30 +359,6 @@
           "lastSeen": "2026-08-31"
         },
         {
-          "name": "FIGC",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Mondiale di futsal 2028, il cammino inizia in Calabria: il 20 ottobre gli Azzurri a Rende per Italia-Georgia - FIGC",
-              "albanianTitle": "Kampionati Botëror i futsallit 2028, rrugëtimi nis në Kalabri: më 20 tetor Italia luan kundër Gjeorgjisë në Rende - FIGC",
-              "blurb": "Kombëtarja italiane e futsalit do të përballet me Gjeorgjinë në Rende më 20 tetor, për kualifikimet e botërorit.",
-              "imageUrl": "https://images.figc.it/view/acePublic/alias/contentid/1tf45kl5u1q9umrdekk/0/2259428813-jpg.jpg?f=187%3A100",
-              "url": "https://www.figc.it/it/nazionali/news/mondiale-di-futsal-2028-il-cammino-inizia-in-calabria-il-20-ottobre-gli-azzurri-a-rende-per-italia-georgia-o5b5okwc",
-              "date": "2026-08-28",
-              "sentiment": "neutral",
-              "reason": "Lajm i thjeshtë, pa gjuhë vlerësuese",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 5,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-20",
-          "lastSeen": "2026-08-28"
-        },
-        {
           "name": "Giornale Diplomatico",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -489,30 +407,6 @@
           "lastSeen": "2026-08-31"
         },
         {
-          "name": "Remocontro",
-          "sentiment": "negative",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosovo alleato ma le armi della Serbia sono più utili - Remocontro",
-              "albanianTitle": "Kosova aleate, por armët e Serbisë janë më të nevojshme",
-              "blurb": "Qëndrimi i Ukrainës ndaj Kosovës dhe Serbisë në raport me nevojat për armatim dhe aleancat politike në rajonin e Ballkanit.",
-              "imageUrl": "https://www.remocontro.it/wp-content/uploads/2026/08/ucraina-serbia-copertyina.jpg",
-              "url": "https://www.remocontro.it/2026/08/28/kosovo-alleato-ma-le-armi-della-serbia-sono-piu-utili/",
-              "date": "2026-08-28",
-              "sentiment": "negative",
-              "reason": "Lajmi i përmban frazë që e bën Kosovën të duket më pak i vlefshëm se armët serbe",
-              "isQuote": false,
-              "evidence": "armi della Serbia sono più utili",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-28",
-          "lastSeen": "2026-08-28"
-        },
-        {
           "name": "Sporteconomy",
           "sentiment": "positive",
           "articleCount": 1,
@@ -539,7 +433,7 @@
         {
           "name": "agenziagiornalisticaopinione.it",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 3,
           "articles": [
             {
               "title": "FIGC * FEDERAZIONE ITALIANA GIUOCO CALCIO: «AZZURRINE IN FINALE PER L'ORO, CIURLEO PAREGGIA ALL'ULTIMO MINUTO - agenziagiornalisticaopinione.it",
@@ -566,12 +460,25 @@
               "isQuote": true,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "FIGC * FEDERAZIONE ITALIANA GIUOCO CALCIO: «ITALIA 2° ALLA PRIMA EDIZIONE FEMMINILE DEL TORNEO, PORTOGALLO VINCE 4-0 - agenziagiornalisticaopinione.it",
+              "albanianTitle": "Italia e dyta në turneun e parë të futbollit për femra, Portugalia fiton 4-0",
+              "blurb": "Përfaqësuesja e Italisë në futboll për femra u rendit e dyta në turne, pas humbjes 4-0 në finale kundër Portugalisë.",
+              "imageUrl": "https://www.agenziagiornalisticaopinione.it/wp-content/uploads/2026/08/y99z5a7197ba-9a41-43eb-9ef4-6b4049155e3f-jpg.jpg",
+              "url": "https://www.agenziagiornalisticaopinione.it/opinionmix/figc-federazione-italiana-giuoco-calcio-italia-2-alla-prima-edizione-femminile-del-torneo-portogallo-vince-4-0/",
+              "date": "2026-08-31",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 6,
+          "totalArticles": 7,
           "trend": "neutral",
           "firstSeen": "2026-08-22",
-          "lastSeen": "2026-08-30"
+          "lastSeen": "2026-08-31"
         },
         {
           "name": "dialessandria.it",
@@ -599,17 +506,17 @@
         }
       ],
       "summary": {
-        "index": 54,
-        "positive": 15,
-        "neutral": 77,
-        "negative": 8,
-        "n": 13,
-        "excluded": 1,
+        "index": 61,
+        "positive": 22,
+        "neutral": 78,
+        "negative": 0,
+        "n": 9,
+        "excluded": 2,
         "confident": true,
         "stanceVersion": 3,
         "movement": {
-          "delta": 4,
-          "from": 50,
+          "delta": 7,
+          "from": 54,
           "outlet": "LameziaTerme.it",
           "title": "Soveria Mannelli, UNITALSI dhuron shpresë për Kosovën",
           "evidence": "dona speranza al Kosovo",
@@ -642,81 +549,6 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-08-25",
           "lastSeen": "2026-08-29"
-        },
-        {
-          "name": "Sky Sport Austria",
-          "sentiment": "neutral",
-          "articleCount": 2,
-          "articles": [
-            {
-              "title": "Kacuri: Kosovo-Einberufung \"wäre ein Traum\" - Sky Sport Austria",
-              "albanianTitle": "Kacuri: Ftesa nga Kosova do të ishte një ëndërr",
-              "blurb": "Futbollisti Kacuri shprehet se ftesa për të luajtur me përfaqësuesen e Kosovës do të ishte një ëndërr e realizuar.",
-              "imageUrl": null,
-              "url": "https://www.skysportaustria.at/mediathek/kacuri-kosovo-einberufung-waere-ein-traum/",
-              "date": "2026-08-28",
-              "sentiment": "neutral",
-              "reason": "Quote reporting, outlet not expressing opinion",
-              "isQuote": true,
-              "evidence": "",
-              "speaker": "Kacuri"
-            },
-            {
-              "title": "Kosovo-Co-Trainer Ibertsberger: Kacuri \"ein sehr spannender Spieler\" - Sky Sport Austria",
-              "albanianTitle": "Ndihmëstrajneri i Kosovës, Ibertsberger: Kacuri është një lojtar shumë interesant",
-              "blurb": "Ndihmëstrajneri i Kosovës, Ibertsberger, e vlerëson futbollistin Kacuri si një lojtar mjaft interesant për të ardhmen e ekipit kombëtar.",
-              "imageUrl": null,
-              "url": "https://www.skysportaustria.at/mediathek/kosovo-co-trainer-ibertsberger-kacuri-ein-sehr-spannender-spieler/",
-              "date": "2026-08-28",
-              "sentiment": "neutral",
-              "reason": "Quote reporting, outlet not expressing opinion",
-              "isQuote": true,
-              "evidence": "",
-              "speaker": "Ibertsberger"
-            }
-          ],
-          "totalArticles": 3,
-          "trend": "neutral",
-          "firstSeen": "2026-08-24",
-          "lastSeen": "2026-08-28"
-        }
-      ],
-      "summary": {
-        "index": 50,
-        "positive": 0,
-        "neutral": 100,
-        "negative": 0,
-        "n": 2,
-        "excluded": 1,
-        "confident": false,
-        "stanceVersion": 3
-      }
-    },
-    "Zvicër": {
-      "outlets": [
-        {
-          "name": "Solothurner Zeitung",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Mutter aus Kanton Solothurn: Wegweisung trotz Drohungen des Ehemanns - Solothurner Zeitung",
-              "albanianTitle": "Nënë nga Kantoni i Solothurnit: U urdhërua të largohet pavarësisht kërcënimeve nga bashkëshorti",
-              "blurb": "Një nënë nga kantoni i Solothurnit është urdhëruar të largohet nga shtëpia, pavarësisht kërcënimeve të vazhdueshme nga bashkëshorti i saj.",
-              "imageUrl": null,
-              "url": "https://www.solothurnerzeitung.ch/solothurn/kanton-solothurn/solothurner-mutter-und-kinder-muessen-schweiz-verlassen-ld.4223422",
-              "date": "2026-08-28",
-              "sentiment": "unknown",
-              "reason": "No mention of Kosovo in the item",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-28",
-          "lastSeen": "2026-08-28"
         }
       ],
       "summary": {
@@ -730,26 +562,26 @@
         "stanceVersion": 3
       }
     },
+    "Zvicër": {
+      "outlets": [],
+      "summary": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      }
+    },
     "Holandë": {
       "outlets": [
         {
           "name": "ESPN.nl",
-          "sentiment": "neutral",
-          "articleCount": 2,
+          "sentiment": "unknown",
+          "articleCount": 1,
           "articles": [
-            {
-              "title": "Malta 0-5 Kosovo (17 nov., 2018) Uitslag - ESPN.nl",
-              "albanianTitle": "Malta 0-5 Kosova (17 nëntor 2018) Rezultati - ESPN.nl",
-              "blurb": "Përfaqësuesja e Kosovës në futboll shënoi fitore bindëse me rezultat 5-0 ndaj Maltës në ndeshjen e zhvilluar në nëntor.",
-              "imageUrl": null,
-              "url": "https://www.espn.nl/voetbal/wedstrijd?wedstrijdId=505471&action=summary",
-              "date": "2026-08-28",
-              "sentiment": "neutral",
-              "reason": "Raportim i rezultatit të një ndeshjeje sportive, pa ngarkim",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "Cyprus 0-4 Kosovo (9 sep., 2024) Uitslag - ESPN.nl",
               "albanianTitle": "Qipro 0-4 Kosovë (9 shtator 2024)",
@@ -771,11 +603,11 @@
         }
       ],
       "summary": {
-        "index": 50,
+        "index": null,
         "positive": 0,
-        "neutral": 100,
+        "neutral": 0,
         "negative": 0,
-        "n": 1,
+        "n": 0,
         "excluded": 1,
         "confident": false,
         "stanceVersion": 3
@@ -824,60 +656,8 @@
         {
           "name": "Demócrata",
           "sentiment": "neutral",
-          "articleCount": 6,
+          "articleCount": 4,
           "articles": [
-            {
-              "title": "The EU criticizes that Kosovo validates resignations of Serbian judges already withdrawn - Demócrata",
-              "albanianTitle": "BE kritikon Kosovën për validimin e dorëheqjeve të gjyqtarëve serbë që ishin tërhequr më parë - Demócrata",
-              "blurb": "Bashkimi Evropian kritikon Kosovën për validimin e dorëheqjeve të gjyqtarëve serbë, të cilat ishin tërhequr më parë nga vetë ata.",
-              "imageUrl": null,
-              "url": "https://www.democrata.es/en/international/the-eu-criticizes-that-kosovo-validates-resignations-of-serbian-judges-already-withdrawn/",
-              "date": "2026-08-28",
-              "sentiment": "neutral",
-              "reason": "Titulli thjesht raporton kritikën e BE-së ndaj Kosovës, pa gjuhë ejetare negative ose pozitive",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "L'UE critique que le Kosovo valide des démissions de juges serbes déjà retirées - Demócrata",
-              "albanianTitle": "BE kritikon Kosovën për validimin e dorëheqjeve të gjyqtarëve serbë që ishin tërhequr më parë - Demócrata",
-              "blurb": "Bashkimi Evropian shpreh kritika ndaj Kosovës për pranimin e dorëheqjeve të gjyqtarëve serbë që ishin tërhequr paraprakisht nga vendimet.",
-              "imageUrl": null,
-              "url": "https://www.democrata.es/fr/international/l-ue-critique-que-le-kosovo-valide-des-demissions-de-juges-serbes-deja-retirees/",
-              "date": "2026-08-28",
-              "sentiment": "neutral",
-              "reason": "Titulli në frëngjisht thjesht raporton kritikën e BE-së ndaj Kosovës, pa ngarkim",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "L'UE critica che il Kosovo convalidi le dimissioni dei giudici serbi già ritirate - Demócrata",
-              "albanianTitle": "BE kritikon Kosovën për validimin e dorëheqjeve të gjyqtarëve serbë që ishin tërhequr më parë - Demócrata",
-              "blurb": "Bashkimi Evropian kritikon vendimin e Kosovës për të konfirmuar dorëheqjet e gjyqtarëve serbë që tashmë ishin tërhequr nga ato pozita.",
-              "imageUrl": null,
-              "url": "https://www.democrata.es/it/internazionale/l-ue-critica-che-il-kosovo-convalidi-le-dimissioni-dei-giudici-serbi-gia-ritirate/",
-              "date": "2026-08-28",
-              "sentiment": "negative",
-              "reason": "Fjalët e vetë mediumit e kornizojnë Kosovën në mënyrë kritike",
-              "isQuote": false,
-              "evidence": "critica che il Kosovo convalidi",
-              "speaker": ""
-            },
-            {
-              "title": "La UE critica que Kosovo valide dimisiones de jueces serbios ya retiradas - Demócrata",
-              "albanianTitle": "BE kritikon Kosovën për validimin e dorëheqjeve të gjyqtarëve serbë që ishin tërhequr më parë - Demócrata",
-              "blurb": "Bashkimi Evropian kritikon Kosovën për validimin e dorëheqjeve të gjyqtarëve serbë, të cilat ishin tërhequr më herët nga procedura.",
-              "imageUrl": null,
-              "url": "https://www.democrata.es/internacional/la-ue-critica-que-kosovo-valide-dimisiones-de-jueces-serbios-ya-retiradas/",
-              "date": "2026-08-28",
-              "sentiment": "negative",
-              "reason": "Fjalët e vetë mediumit e kornizojnë Kosovën në mënyrë kritike",
-              "isQuote": false,
-              "evidence": "critica que Kosovo valide",
-              "speaker": ""
-            },
             {
               "title": "Government and opposition agree on a consensus candidate for the Presidency of Kosovo to avoid new elections - Demócrata",
               "albanianTitle": "Pozita dhe opozita pajtohen për një kandidat konsensual për president të Kosovës për të shmangur zgjedhjet e reja",
@@ -903,6 +683,32 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Governo e opposizione concordano un candidato di consenso alla Presidenza del Kosovo per evitare nuove elezioni - Demócrata",
+              "albanianTitle": "Qeveria dhe opozita dakordohen për një kandidat konsensual për president të Kosovës për të shmangur zgjedhjet e reja",
+              "blurb": "Qeveria dhe opozita në Kosovë janë dakorduar për një kandidat të përbashkët për president për të parandaluar mbajtjen e zgjedhjeve.",
+              "imageUrl": null,
+              "url": "https://www.democrata.es/it/internazionale/governo-e-opposizione-concordano-un-candidato-di-consenso-alla-presidenza-del-kosovo-per-evitare-nuove-elezioni/",
+              "date": "2026-08-31",
+              "sentiment": "neutral",
+              "reason": "Faktikë, pa gjuhë ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Gobierno y oposición pactan un candidato de consenso a la Presidencia de Kosovo para evitar nuevas elecciones - Demócrata",
+              "albanianTitle": "Qeveria dhe opozita bëjnë pakt për një kandidat konsensual për president të Kosovës për të shmangur zgjedhjet e reja",
+              "blurb": "Qeveria dhe opozita në Kosovë kanë arritur marrëveshje për një kandidat konsensual për president për të shmangur zgjedhjet e reja.",
+              "imageUrl": null,
+              "url": "https://www.democrata.es/internacional/gobierno-y-oposicion-pactan-un-candidato-de-consenso-a-la-presidencia-de-kosovo-para-evitar-nuevas-elecciones/amp/",
+              "date": "2026-08-31",
+              "sentiment": "neutral",
+              "reason": "Faktikë, pa gjuhë ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
           "totalArticles": 10,
@@ -912,22 +718,9 @@
         },
         {
           "name": "Europa Press",
-          "sentiment": "negative",
-          "articleCount": 2,
+          "sentiment": "neutral",
+          "articleCount": 1,
           "articles": [
-            {
-              "title": "La UE lamenta que Kosovo haya acabado aceptando dimisiones de jueces serbios que ya habían sido retiradas - Europa Press",
-              "albanianTitle": "BE shpreh keqardhje që Kosova pranoi dorëheqjet e gjyqtarëve serbë të cilët i kishin tërhequr ato më herët - Europa Press",
-              "blurb": "Bashkimi Evropian shpreh keqardhje që Kosova pranoi dorëheqjet e gjyqtarëve serbë, të cilat ishin tërhequr zyrtarisht nga vetë ata.",
-              "imageUrl": "https://img.europapress.es/fotoweb/fotonoticia_20260828184957_1200.jpg",
-              "url": "https://www.europapress.es/internacional/noticia-ue-lamenta-kosovo-haya-acabado-aceptando-dimisiones-jueces-serbios-ya-sido-retiradas-20260828184957.html",
-              "date": "2026-08-28",
-              "sentiment": "negative",
-              "reason": "Fjalët e vetë mediumit e kornizojnë Kosovën në mënyrë kritike",
-              "isQuote": false,
-              "evidence": "lamenta que Kosovo haya acabado aceptando",
-              "speaker": ""
-            },
             {
               "title": "El partido gobernante y la oposición acuerdan un candidato a la Presidencia de Kosovo para evitar elecciones - Europa Press",
               "albanianTitle": "Partia në pushtet dhe opozita pajtohen për një kandidat për president të Kosovës për të shmangur zgjedhjet",
@@ -946,38 +739,14 @@
           "trend": "i përzier",
           "firstSeen": "2026-08-22",
           "lastSeen": "2026-08-31"
-        },
-        {
-          "name": "www.diariojaen.es",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Juan Cámara entra en la historia con el Inter Escaldes al ser el primer club de Andorra en una fase de grupos europea - www.diariojaen.es",
-              "albanianTitle": "Juan Cámara hyn në histori me Inter Escaldes, klubi i parë nga Andorra që arrin në fazën e grupeve evropiane - www.diariojaen.es",
-              "blurb": "Juan Camara dhe Inter Escaldes shkruajnë histori duke u bërë klubi i parë nga Andorra në fazën e grupeve evropiane.",
-              "imageUrl": "https://www.diariojaen.es/binrepository/616x346/16c1/600d346/none/10717/NELQ/a-44-2026-08-28t095937-991_18717458_20260828100043.jpg",
-              "url": "https://www.diariojaen.es/deportes/juan-camara-entra-en-la-historia-con-el-inter-escaldes-al-ser-el-primer-club-de-andorra-en-una-fase-de-grupos-europea-BN11585488",
-              "date": "2026-08-28",
-              "sentiment": "neutral",
-              "reason": "Titull i thjeshtë, pa ngarkim",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-30",
-          "lastSeen": "2026-08-28"
         }
       ],
       "summary": {
-        "index": 36,
+        "index": 50,
         "positive": 0,
-        "neutral": 73,
-        "negative": 27,
-        "n": 11,
+        "neutral": 100,
+        "negative": 0,
+        "n": 5,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
@@ -1032,30 +801,6 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-08-21",
           "lastSeen": "2026-08-31"
-        },
-        {
-          "name": "Gazzetta.gr",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Αυστρία - Κόσοβο Live 27-09-2026 | UEFA Nations League - Gazzetta.gr",
-              "albanianTitle": "Austri - Kosovë Live 27-09-2026 | UEFA Nations League - Gazzetta.gr",
-              "blurb": "Kombëtarja e Austrisë dhe ajo e Kosovës do të përballen në kuadër të Ligës së Kombeve më 27 shtator 2026.",
-              "imageUrl": "https://www.gazzetta.gr/sites/default/files/shared/gazzetta_share_image.jpg",
-              "url": "https://www.gazzetta.gr/football/uefa-nations-league/live-aystria-kosovo-27-09-2026",
-              "date": "2026-08-28",
-              "sentiment": "neutral",
-              "reason": "Informacion i thjeshtë për ndeshjen, pa gjuhë të ngarkuar",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 4,
-          "trend": "neutral",
-          "firstSeen": "2026-08-19",
-          "lastSeen": "2026-08-28"
         },
         {
           "name": "sport-fm.gr",
@@ -1124,45 +869,20 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 6,
+        "n": 5,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
       }
     },
     "Suedi": {
-      "outlets": [
-        {
-          "name": "SMHI",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Väderprognos 10 dygn Mitrovica, Kosovo - SMHI",
-              "albanianTitle": "Parashikimi i motit për 10 ditët e ardhshme në Mitrovicë, Kosovë",
-              "blurb": "Instituti Meteorologjik Suedez ka publikuar parashikimin e motit për qytetin e Mitrovicës për dhjetë ditët e ardhshme.",
-              "imageUrl": null,
-              "url": "https://www.smhi.se/vader/prognoser-och-varningar/vaderprognos/q/Mitrovica/789225",
-              "date": "2026-08-28",
-              "sentiment": "neutral",
-              "reason": "Faktikë i raportuar në mënyrë neutrale, pa gjuhë ngarkuese",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 3,
-          "trend": "neutral",
-          "firstSeen": "2026-08-26",
-          "lastSeen": "2026-08-28"
-        }
-      ],
+      "outlets": [],
       "summary": {
-        "index": 50,
+        "index": null,
         "positive": 0,
-        "neutral": 100,
+        "neutral": 0,
         "negative": 0,
-        "n": 1,
+        "n": 0,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -1170,6 +890,30 @@
     },
     "Poloni": {
       "outlets": [
+        {
+          "name": "Interia Sport",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosowo (k) - holandia (k) - Interia Sport",
+              "albanianTitle": "Kosovë (femrat) - Holandë (femrat)",
+              "blurb": "Përfaqësuesja e femrave e Kosovës në futboll do të përballet me ekipin kombëtar të Holandës në një ndeshje zyrtare.",
+              "imageUrl": null,
+              "url": "https://sport.interia.pl/pilka-reczna/mecz-kosowo-k-holandia-k-mistrzostwa-europy-k-kwal,spmi,2463312",
+              "date": "2026-08-31",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 2,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-27",
+          "lastSeen": "2026-08-31"
+        },
         {
           "name": "iGaming Polska",
           "sentiment": "neutral",
@@ -1201,7 +945,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 1,
-        "excluded": 0,
+        "excluded": 1,
         "confident": false,
         "stanceVersion": 3
       }
@@ -1210,8 +954,8 @@
       "outlets": [
         {
           "name": "A Haber",
-          "sentiment": "positive",
-          "articleCount": 2,
+          "sentiment": "neutral",
+          "articleCount": 3,
           "articles": [
             {
               "title": "Kosova Savunma Bakanı Maqedonci A Haber'de! Türk savunma sanayisine övgüler: 'Türkiye ile iş birliğimiz stratejik bir avantaj' - A Haber",
@@ -1238,10 +982,23 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "KOSOVA SAVUNMA BAKANI A HABER'DE - A Haber",
+              "albanianTitle": "Ministri i Mbrojtjes i Kosovës në A Haber",
+              "blurb": "Ministri i Mbrojtjes së Kosovës, Ejup Maqedonci, ishte i ftuar në një intervistë për kanalin televiziv turk A Haber.",
+              "imageUrl": "https://iaahbr.tmgrup.com.tr/854a9b/1200/675/0/549/1080/1155?u=https://iahbr.tmgrup.com.tr/2026/09/01/kosova-savunma-bakani-a-haberde-1788214533221.jpeg",
+              "url": "https://www.ahaber.com.tr/video/story/kosova-savunma-bakani-a-haberde",
+              "date": "2026-08-31",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportuar në mënyrë neutrale",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 2,
-          "trend": "i pamjaftueshëm",
+          "totalArticles": 3,
+          "trend": "i përzier",
           "firstSeen": "2026-08-31",
           "lastSeen": "2026-08-31"
         },
@@ -1318,30 +1075,6 @@
           "trend": "neutral",
           "firstSeen": "2026-08-20",
           "lastSeen": "2026-08-31"
-        },
-        {
-          "name": "TRT World",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "How is the AI adoption in the Balkan countries? - TRT World",
-              "albanianTitle": "Si po ecën adoptimi i Inteligjencës Artificiale në vendet e Ballkanit?",
-              "blurb": "Analiza mbi nivelin e adoptimit dhe zhvillimit të teknologjisë së inteligjencës artificiale në vendet e rajonit të Ballkanit.",
-              "imageUrl": null,
-              "url": "https://www.trtworld.com/video/tv/shows/683ef3c9cff794df564280c5/play/6fd87ebe9b7e",
-              "date": "2026-08-28",
-              "sentiment": "neutral",
-              "reason": "General informational piece, no evaluative language",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 3,
-          "trend": "neutral",
-          "firstSeen": "2026-08-21",
-          "lastSeen": "2026-08-28"
         },
         {
           "name": "forbes.com.tr",
