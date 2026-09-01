@@ -49,4 +49,5 @@ export function timelineFor(
   slug: string,
   articles: unknown[],
   currentSlug?: string | null,
+  currentArticle?: { slug: string; publishedAt?: string } | null,
 ): TimelineEntry[];

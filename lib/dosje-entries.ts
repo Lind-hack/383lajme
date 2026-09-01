@@ -55,9 +55,10 @@ export interface SourcedEntry extends DosjeEntry {
 function archiveEntries(
   slug: string,
   articles: Article[],
-  currentSlug?: string
+  currentSlug?: string,
+  currentArticle?: Article | null
 ): DosjeEntry[] {
-  return (timelineFor(slug, articles, currentSlug) as DosjeEntry[]).filter(
+  return (timelineFor(slug, articles, currentSlug, currentArticle) as DosjeEntry[]).filter(
     (e) => e.kind === "article"
   );
 }
@@ -65,7 +66,8 @@ function archiveEntries(
 export async function dosjeFor(
   slug: string,
   articles: Article[],
-  currentSlug?: string
+  currentSlug?: string,
+  currentArticle?: Article | null
 ): Promise<DosjeResult | null> {
   const live = await getDosje(slug);
 
@@ -91,7 +93,7 @@ export async function dosjeFor(
     return {
       title: live.topic.title,
       blurb: live.topic.blurb,
-      entries: [...milestones, ...archiveEntries(slug, articles, currentSlug)],
+      entries: [...milestones, ...archiveEntries(slug, articles, currentSlug, currentArticle)],
       sourced: true,
       videos: (live.videos ?? []).map((v) => ({
         id: (String(v.url).match(/[?&]v=([^&]+)/) || [])[1] ?? "",
@@ -109,7 +111,7 @@ export async function dosjeFor(
   return {
     title: topic.title,
     blurb: topic.blurb,
-    entries: timelineFor(slug, articles, currentSlug) as DosjeEntry[],
+    entries: timelineFor(slug, articles, currentSlug, currentArticle) as DosjeEntry[],
     sourced: false,
     // The hand-written list, minus what the vetting pass has already refused.
     videos: topic.videos ?? [],
