@@ -1,10 +1,10 @@
 {
   "lastUpdated": "2026-09-02",
-  "overallIndex": 55,
-  "totalArticles": 54,
-  "sourceCount": 39,
+  "overallIndex": 54,
+  "totalArticles": 57,
+  "sourceCount": 42,
   "stanceVersion": 3,
-  "unattributed": 161,
+  "unattributed": 169,
   "nonEditorial": 1,
   "wrongKosovo": 0,
   "countries": {
@@ -444,6 +444,30 @@
           "lastSeen": "2026-08-31"
         },
         {
+          "name": "FIGC",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Giochi del Mediterraneo, medaglia d’argento per le Azzurrine battute in finale dal Portogallo - FIGC",
+              "albanianTitle": "Lojërat Mesdhetare, medalje argjendi për italianet pas humbjes në finale nga Portugalia - FIGC",
+              "blurb": "Ekipi i futbollit të femrave të Italisë ka fituar medaljen e argjendtë në Lojërat Mesdhetare pas humbjes në finale.",
+              "imageUrl": "https://images.figc.it/view/acePublic/alias/contentid/1thltfkfaamv19y2des/0/5a7197ba-9a41-43eb-9ef4-6b4049155e3f-jpg.jpg?f=187%3A100",
+              "url": "https://www.figc.it/it/nazionali/news/giochi-del-mediterraneo-medaglia-dargento-per-le-azzurrine-battute-in-finale-dal-portogallo-iebdcslk",
+              "date": "2026-08-31",
+              "sentiment": "unknown",
+              "reason": "Nuk përmendet Kosova në titull",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 6,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-20",
+          "lastSeen": "2026-08-31"
+        },
+        {
           "name": "Il Sole 24 ORE",
           "sentiment": "neutral",
           "articleCount": 2,
@@ -681,7 +705,7 @@
         "neutral": 93,
         "negative": 0,
         "n": 15,
-        "excluded": 0,
+        "excluded": 1,
         "confident": true,
         "stanceVersion": 3
       }
@@ -1135,6 +1159,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-08-28",
           "lastSeen": "2026-08-31"
+        },
+        {
+          "name": "igamingpolska.pl",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Mistrzostwa Świata Socca 2026: terminarz, harmonogram i wyniki - igamingpolska.pl",
+              "albanianTitle": "Kampionati Botëror i Socca 2026: kalendari, orari dhe rezultatet - igamingpolska.pl",
+              "blurb": "Publikohet orari, kalendari i ndeshjeve dhe rezultatet për Kampionatin Botëror të Socca-s që do të mbahet në vitin 2026.",
+              "imageUrl": null,
+              "url": "https://igamingpolska.pl/mistrzostwa-swiata-socca-2026-terminarz-wyniki/",
+              "date": "2026-09-01",
+              "sentiment": "unknown",
+              "reason": "Nuk përmendet Kosova në titull",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-02",
+          "lastSeen": "2026-09-01"
         }
       ],
       "summary": {
@@ -1143,7 +1191,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 2,
-        "excluded": 0,
+        "excluded": 1,
         "confident": false,
         "stanceVersion": 3
       }
@@ -1347,14 +1395,64 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-08-31",
           "lastSeen": "2026-08-31"
+        },
+        {
+          "name": "sondakika.com",
+          "sentiment": "neutral",
+          "articleCount": 3,
+          "articles": [
+            {
+              "title": "Kosova'da Cumhurbaşkanı Adaylığı Üzerinde Uzlaşma - sondakika.com",
+              "albanianTitle": "Konsensus në Kosovë për kandidaturën për president - sondakika.com",
+              "blurb": "Partitë politike në Kosovë kanë arritur një pajtim lidhur me kandidaturën për postin e presidentit të vendit.",
+              "imageUrl": null,
+              "url": "https://www.sondakika.com/politika/haber-kosova-da-cumhurbaskani-adayligi-uzerinde-uzlasma-20193550/",
+              "date": "2026-08-31",
+              "sentiment": "neutral",
+              "reason": "Titulli thjesht njofton për një uzlashë në kandidaturën presidenciale në Kosova",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Milliler Kosova'yı Yendi, Çeyrek Finale Yükseldi - sondakika.com",
+              "albanianTitle": "Kombëtarja mund Kosovën dhe kualifikohet në çerekfinale - sondakika.com",
+              "blurb": "Kombëtarja e Turqisë ka mposhtur Kosovën në ndeshjen e fundit, duke siguruar kualifikimin për në çerekfinale të turneut.",
+              "imageUrl": null,
+              "url": "https://www.sondakika.com/spor/haber-milliler-kosova-yi-yendi-ceyrek-finale-yukseldi-20190048/",
+              "date": "2026-08-30",
+              "sentiment": "neutral",
+              "reason": "Lajm sportiv i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Kosova'da Cumhurbaşkanı Adayı Sejdiu Belirlendi - sondakika.com",
+              "albanianTitle": "Sejdiu caktohet kandidat për president të Kosovës",
+              "blurb": "Sejdiu është përcaktuar si kandidat për president të Kosovës, sipas njoftimeve të fundit nga mediat turke.",
+              "imageUrl": null,
+              "url": "https://www.sondakika.com/guncel/haber-kosova-da-cumhurbaskani-adayi-sejdiu-belirlendi-20194210/",
+              "date": "2026-08-31",
+              "sentiment": "neutral",
+              "reason": "Lajm politik i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 4,
+          "trend": "neutral",
+          "firstSeen": "2026-08-26",
+          "lastSeen": "2026-08-31"
         }
       ],
       "summary": {
-        "index": 64,
-        "positive": 27,
-        "neutral": 73,
+        "index": 61,
+        "positive": 21,
+        "neutral": 79,
         "negative": 0,
-        "n": 11,
+        "n": 14,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3

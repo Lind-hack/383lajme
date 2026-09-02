@@ -175,19 +175,20 @@
     },
     "FIGC": {
       "country": "Itali",
-      "total": 5,
+      "total": 6,
       "positive": 0,
       "neutral": 1,
       "negative": 0,
-      "unknown": 4,
+      "unknown": 5,
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-28",
+      "lastSeen": "2026-08-31",
       "urls": [
         "https://www.figc.it/it/nazionali/news/giochi-del-mediterraneo-la-spedizione-azzurra-arriva-a-taranto-per-sfilare-alla-cerimonia-di-apertura-hpfgneix",
         "https://www.figc.it/it/nazionali/news/giochi-del-mediterraneo-esordio-a-senso-unico-per-le-azzurrine-4-1-al-kosovo-qvcvhv0q",
         "https://www.figc.it/it/nazionali/news/giochi-del-mediterraneo-che-battaglia-a-brindisi-azzurrini-ko-3-1-con-lalgeria-bldoae25",
         "https://www.figc.it/it/nazionali/news/giochi-del-mediterraneo-azzurrine-fermate-sull1-1-dalla-slovenia-hylf1s5e",
-        "https://www.figc.it/it/nazionali/news/mondiale-di-futsal-2028-il-cammino-inizia-in-calabria-il-20-ottobre-gli-azzurri-a-rende-per-italia-georgia-o5b5okwc"
+        "https://www.figc.it/it/nazionali/news/mondiale-di-futsal-2028-il-cammino-inizia-in-calabria-il-20-ottobre-gli-azzurri-a-rende-per-italia-georgia-o5b5okwc",
+        "https://www.figc.it/it/nazionali/news/giochi-del-mediterraneo-medaglia-dargento-per-le-azzurrine-battute-in-finale-dal-portogallo-iebdcslk"
       ]
     },
     "ANSA": {
@@ -1871,15 +1872,18 @@
     },
     "sondakika.com": {
       "country": "Turqi",
-      "total": 1,
+      "total": 4,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 4,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-26",
-      "lastSeen": "2026-08-26",
+      "lastSeen": "2026-08-31",
       "urls": [
-        "https://www.sondakika.com/spor/haber-kadin-voleybol-takimi-kosova-yi-3-0-maglup-etti-20178794/"
+        "https://www.sondakika.com/spor/haber-kadin-voleybol-takimi-kosova-yi-3-0-maglup-etti-20178794/",
+        "https://www.sondakika.com/politika/haber-kosova-da-cumhurbaskani-adayligi-uzerinde-uzlasma-20193550/",
+        "https://www.sondakika.com/spor/haber-milliler-kosova-yi-yendi-ceyrek-finale-yukseldi-20190048/",
+        "https://www.sondakika.com/guncel/haber-kosova-da-cumhurbaskani-adayi-sejdiu-belirlendi-20194210/"
       ]
     },
     "Radio Free Europe/Radio Liberty": {
@@ -2516,6 +2520,19 @@
       "lastSeen": "2026-08-31",
       "urls": [
         "https://best-tv.gr/mesogeiakoi-agones-2026-me-aroma-messinias-i-deyteri-thesi-kai-to-asimenio-metallio-tis-ethnikis-andron/"
+      ]
+    },
+    "igamingpolska.pl": {
+      "country": "Poloni",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-02",
+      "lastSeen": "2026-09-01",
+      "urls": [
+        "https://igamingpolska.pl/mistrzostwa-swiata-socca-2026-terminarz-wyniki/"
       ]
     }
   }

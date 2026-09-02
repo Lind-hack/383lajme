@@ -4600,9 +4600,9 @@
   },
   {
     "date": "2026-09-02",
-    "overallIndex": 55,
-    "totalArticles": 54,
-    "sourceCount": 39,
+    "overallIndex": 54,
+    "totalArticles": 57,
+    "sourceCount": 42,
     "stanceVersion": 3,
     "countries": {
       "Gjermani": {
@@ -4651,7 +4651,7 @@
         "neutral": 93,
         "negative": 0,
         "n": 15,
-        "excluded": 0,
+        "excluded": 1,
         "confident": true,
         "stanceVersion": 3
       },
@@ -4731,16 +4731,16 @@
         "neutral": 100,
         "negative": 0,
         "n": 2,
-        "excluded": 0,
+        "excluded": 1,
         "confident": false,
         "stanceVersion": 3
       },
       "Turqi": {
-        "index": 64,
-        "positive": 27,
-        "neutral": 73,
+        "index": 61,
+        "positive": 21,
+        "neutral": 79,
         "negative": 0,
-        "n": 11,
+        "n": 14,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
@@ -4767,19 +4767,27 @@
       },
       {
         "title": "Kosova'daki Yıldızlar Avrupa Halter Şampiyonası'nda 200 Kiloyla Şampiyon Olan Zehra Nur Arslan, Amasya Valisi'ni Ziyaret Etti - Son Dakika",
-        "source": "Son Dakika",
+        "source": "sondakika.com",
         "country": "Turqi",
         "flag": "🇹🇷",
         "url": "https://www.sondakika.com/guncel/haber-kosova-daki-yildizlar-avrupa-halter-sampiyonasi-nd-20196635/",
         "sentiment": "positive"
       },
       {
-        "title": "İbre Nehri Üzerindeki Köprünün Açılması Çok Önemli Bir Adım - kosovahaber.com",
+        "title": "Abdixhiku'dan Kurti'ye Teşekkür: Kosova İçin Değerli Bir Anlaşmaya Vardık - Kosovahaber.com",
         "source": "Kosovahaber.com",
         "country": "Turqi",
         "flag": "🇹🇷",
-        "url": "https://kosovahaber.com/haber/ibre-nehri-uzerindeki-koprunun-acilmasi-cok-onemli-bir-adim-105598",
+        "url": "https://kosovahaber.com/haber/abdixhikudan-kurtiye-tesekkur-kosova-icin-degerli-bir-anlasmaya-vardik-105513",
         "sentiment": "positive"
+      },
+      {
+        "title": "Progress Rama: Kurti's government is condemning citizens of the municipalities that voted the VV, s'ena needs communism - periskopi.com",
+        "source": "periskopi.com",
+        "country": "Britani",
+        "flag": "🇬🇧",
+        "url": "https://periskopi.com/en/2026/9/progress-rama-kurtis-government-condemning-citizens-municipalities-voted-vv-sena-communism",
+        "sentiment": "negative"
       }
     ]
   }
