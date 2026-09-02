@@ -1,10 +1,10 @@
 {
   "lastUpdated": "2026-09-02",
   "overallIndex": 55,
-  "totalArticles": 53,
+  "totalArticles": 54,
   "sourceCount": 39,
   "stanceVersion": 3,
-  "unattributed": 143,
+  "unattributed": 161,
   "nonEditorial": 1,
   "wrongKosovo": 0,
   "countries": {
@@ -185,7 +185,7 @@
         {
           "name": "Balkan Insight",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 3,
           "articles": [
             {
               "title": "Two Kosovo Serbs Plead Guilty to Participating in 2022 Unrest - Balkan Insight",
@@ -212,12 +212,25 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Kosovo President’s Election Jeopardised by Party’s Inner Divisions - Balkan Insight",
+              "albanianTitle": "Përçarjet e brendshme partiake rrezikojnë zgjedhjen e Presidentit të Kosovës",
+              "blurb": "Përçarjet e brendshme partiake po rrezikojnë procesin e zgjedhjes së presidentit të ri të Republikës së Kosovës.",
+              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/07/Lumir-Abdixhiku-foto-KALLXOcom.jpg",
+              "url": "https://balkaninsight.com/2026/09/02/kosovo-presidents-election-jeopardised-by-partys-inner-divisions/bi/",
+              "date": "2026-09-02",
+              "sentiment": "neutral",
+              "reason": "Descriptive headline about internal politics, not hostile toward Kosovo",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 7,
+          "totalArticles": 8,
           "trend": "i përzier",
           "firstSeen": "2026-08-19",
-          "lastSeen": "2026-08-31"
+          "lastSeen": "2026-09-02"
         },
         {
           "name": "Reuters",
@@ -262,9 +275,9 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 4,
+        "n": 5,
         "excluded": 0,
-        "confident": false,
+        "confident": true,
         "stanceVersion": 3
       }
     },

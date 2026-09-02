@@ -55,13 +55,13 @@
     },
     "Balkan Insight": {
       "country": "Britani",
-      "total": 7,
+      "total": 8,
       "positive": 1,
-      "neutral": 6,
+      "neutral": 7,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-19",
-      "lastSeen": "2026-08-31",
+      "lastSeen": "2026-09-02",
       "urls": [
         "https://balkaninsight.com/2026/08/19/suspend-officers-suspected-of-beating-serb-kosovo-police-inspectorate-says/bi/",
         "https://balkaninsight.com/2026/08/20/remains-of-23-wartime-victims-unearthed-from-mass-graves-in-kosovo/btj/",
@@ -69,7 +69,8 @@
         "https://balkaninsight.com/2026/08/26/kosovos-ruling-party-optimistic-about-resolving-deadlock-over-new-president/bi/",
         "https://balkaninsight.com/2026/08/27/kosovo-judicial-council-rejects-serb-judges-reinstation/bi/",
         "https://balkaninsight.com/2026/08/31/two-kosovo-serbs-plead-guilty-to-participating-in-2022-unrest/bi/",
-        "https://balkaninsight.com/2026/08/31/kosovos-vetevendosje-ldk-agree-on-ex-judge-as-joint-presidential-candidate/bi/"
+        "https://balkaninsight.com/2026/08/31/kosovos-vetevendosje-ldk-agree-on-ex-judge-as-joint-presidential-candidate/bi/",
+        "https://balkaninsight.com/2026/09/02/kosovo-presidents-election-jeopardised-by-partys-inner-divisions/bi/"
       ]
     },
     "Ouest-France": {

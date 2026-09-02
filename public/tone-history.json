@@ -4601,7 +4601,7 @@
   {
     "date": "2026-09-02",
     "overallIndex": 55,
-    "totalArticles": 53,
+    "totalArticles": 54,
     "sourceCount": 39,
     "stanceVersion": 3,
     "countries": {
@@ -4630,9 +4630,9 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 4,
+        "n": 5,
         "excluded": 0,
-        "confident": false,
+        "confident": true,
         "stanceVersion": 3
       },
       "Francë": {
@@ -4758,14 +4758,6 @@
     },
     "headlines": [
       {
-        "title": "Vom Kosovo-Flüchtling zum erfolgreichen Unternehmer: Shpetim Alaj und seine Autobiografie - MDR.de",
-        "source": "MDR.de",
-        "country": "Gjermani",
-        "flag": "🇩🇪",
-        "url": "https://www.mdr.de/nachrichten/thueringen/west-thueringen/eisenach/autobiografie-shpetim-alaj-handball-,kosovo-fluechtling-100.html",
-        "sentiment": "positive"
-      },
-      {
         "title": "Kosova Savunma Bakanı Maqedonci A Haber'de! Türk savunma sanayisine övgüler: 'Türkiye ile iş birliğimiz stratejik bir avantaj' - A Haber",
         "source": "A Haber",
         "country": "Turqi",
@@ -4779,6 +4771,14 @@
         "country": "Turqi",
         "flag": "🇹🇷",
         "url": "https://www.sondakika.com/guncel/haber-kosova-daki-yildizlar-avrupa-halter-sampiyonasi-nd-20196635/",
+        "sentiment": "positive"
+      },
+      {
+        "title": "İbre Nehri Üzerindeki Köprünün Açılması Çok Önemli Bir Adım - kosovahaber.com",
+        "source": "Kosovahaber.com",
+        "country": "Turqi",
+        "flag": "🇹🇷",
+        "url": "https://kosovahaber.com/haber/ibre-nehri-uzerindeki-koprunun-acilmasi-cok-onemli-bir-adim-105598",
         "sentiment": "positive"
       }
     ]
