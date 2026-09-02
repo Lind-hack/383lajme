@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 import { type Article, calcReadingTime } from "@/lib/mock-data";
 import TimeAgo from "./time-ago";
 import { getCategoryColor } from "@/lib/category-colors";
@@ -122,13 +123,14 @@ function LeadCard({ article }: { article: Article }) {
         {/* Image */}
         <div style={{ aspectRatio: "16/9", overflow: "hidden", position: "relative", flexShrink: 0 }}>
           {article.imageUrl && !imgFailed ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
+            <Image
               src={article.imageUrl}
               alt=""
               aria-hidden="true"
+              fill
+              sizes="(max-width: 768px) 100vw, 620px"
               onError={() => setImgFailed(true)}
-              style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+              style={{ objectFit: "cover" }}
             />
           ) : (
             <div style={{
@@ -270,13 +272,14 @@ function SecondaryCard({ article, index }: { article: Article; index: number }) 
         {/* Thumbnail — left */}
         <div style={{ width: "148px", flexShrink: 0, position: "relative", overflow: "hidden" }}>
           {article.imageUrl && !imgFailed ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
+            <Image
               src={article.imageUrl}
               alt=""
               aria-hidden="true"
+              fill
+              sizes="148px"
               onError={() => setImgFailed(true)}
-              style={{ width: "100%", height: "100%", objectFit: "cover", display: "block", position: "absolute", inset: 0 }}
+              style={{ objectFit: "cover" }}
             />
           ) : (
             <div style={{

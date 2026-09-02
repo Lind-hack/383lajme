@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 import { type Article, calcReadingTime } from "@/lib/mock-data";
 import TimeAgo from "./time-ago";
 import { getCategoryColor, getCategoryBg } from "@/lib/category-colors";
@@ -87,13 +88,14 @@ export default function ArticleCard({ article, variant = "grid", index = 0 }: Ar
           {/* Image area */}
           <div style={{ height: "146px", overflow: "hidden", position: "relative", flexShrink: 0 }}>
             {article.imageUrl && !imgFailed ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
+              <Image
                 src={article.imageUrl}
                 alt=""
                 aria-hidden="true"
+                fill
+                sizes="(max-width: 768px) 100vw, 360px"
                 onError={() => setImgFailed(true)}
-                style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+                style={{ objectFit: "cover" }}
               />
             ) : (
               <div
@@ -245,13 +247,14 @@ export default function ArticleCard({ article, variant = "grid", index = 0 }: Ar
           {/* Image — left 40% */}
           <div style={{ width: "40%", position: "relative", flexShrink: 0 }}>
             {article.imageUrl && !imgFailed ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
+              <Image
                 src={article.imageUrl}
                 alt=""
                 aria-hidden="true"
+                fill
+                sizes="(max-width: 768px) 40vw, 300px"
                 onError={() => setImgFailed(true)}
-                style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+                style={{ objectFit: "cover" }}
               />
             ) : (
               <div
@@ -344,13 +347,14 @@ export default function ArticleCard({ article, variant = "grid", index = 0 }: Ar
         >
           <div style={{ aspectRatio: "16/10", overflow: "hidden", position: "relative", flexShrink: 0 }}>
             {article.imageUrl && !imgFailed ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
+              <Image
                 src={article.imageUrl}
                 alt=""
                 aria-hidden="true"
+                fill
+                sizes="(max-width: 768px) 100vw, 400px"
                 onError={() => setImgFailed(true)}
-                style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+                style={{ objectFit: "cover" }}
               />
             ) : (
               <div
@@ -435,13 +439,14 @@ export default function ArticleCard({ article, variant = "grid", index = 0 }: Ar
         {/* Image area */}
         <div style={{ aspectRatio: "16/10", overflow: "hidden", position: "relative", flexShrink: 0 }}>
           {article.imageUrl && !imgFailed ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
+            <Image
               src={article.imageUrl}
               alt=""
               aria-hidden="true"
+              fill
+              sizes="(max-width: 768px) 100vw, 400px"
               onError={() => setImgFailed(true)}
-              style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+              style={{ objectFit: "cover" }}
             />
           ) : (
             <div
