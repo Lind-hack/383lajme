@@ -65,15 +65,23 @@ const RATE_COUNT_UP_SCRIPT = `(function(){
     if (!isFinite(target)) return;
     var suffix = el.dataset.suffix || '';
     var start = null, dur = 750;
+    // Tabular figures give every digit the same width, but not the same COUNT.
+    // "0.00" is four glyphs and "92.16" is five, so counting up from zero made
+    // this element narrower than the value the server rendered and then grew it
+    // back, reflowing the card after paint. That was the whole of the homepage's
+    // 0.595 mobile CLS. Padding each intermediate value to the final length
+    // keeps the box one fixed width from first frame to last.
+    var targetStr = target.toFixed(2);
+    function pad(s){ while (s.length < targetStr.length) s = '0' + s; return s; }
     function frame(now){
       if (start === null) start = now;
       var t = Math.min(1, (now - start) / dur);
       var eased = 1 - Math.pow(1 - t, 3);
-      el.textContent = (target * eased).toFixed(2) + suffix;
+      el.textContent = pad((target * eased).toFixed(2)) + suffix;
       if (t < 1) requestAnimationFrame(frame);
-      else el.textContent = target.toFixed(2) + suffix;
+      else el.textContent = targetStr + suffix;
     }
-    el.textContent = (0).toFixed(2) + suffix;
+    el.textContent = pad((0).toFixed(2)) + suffix;
     requestAnimationFrame(frame);
   } catch (e) { /* the server-rendered value stays put */ }
 })();`;
