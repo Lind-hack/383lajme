@@ -369,27 +369,29 @@
     },
     "Il Sole 24 ORE": {
       "country": "Itali",
-      "total": 2,
+      "total": 4,
       "positive": 0,
-      "neutral": 2,
+      "neutral": 4,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-22",
-      "lastSeen": "2026-08-22",
+      "lastSeen": "2026-09-02",
       "urls": [
         "https://en.ilsole24ore.com/art/abodi-e-gonxhja-incontro-vista-giochi-mediterraneo-2030-kosovo-e-albania-AJxnnEs",
-        "https://www.ilsole24ore.com/art/abodi-e-gonxhja-incontro-vista-giochi-mediterraneo-2030-kosovo-e-albania-AJxnnEs"
+        "https://www.ilsole24ore.com/art/abodi-e-gonxhja-incontro-vista-giochi-mediterraneo-2030-kosovo-e-albania-AJxnnEs",
+        "https://en.ilsole24ore.com/art/from-somalia-kosovo-autumn-the-front-line-the-armed-forces-AJzY7Yg",
+        "https://www.ilsole24ore.com/art/dalla-somalia-kosovo-autunno-prima-linea-le-forze-armate-AJzY7Yg"
       ]
     },
     "agenziagiornalisticaopinione.it": {
       "country": "Itali",
-      "total": 7,
+      "total": 8,
       "positive": 0,
-      "neutral": 3,
+      "neutral": 4,
       "negative": 0,
       "unknown": 4,
       "firstSeen": "2026-08-22",
-      "lastSeen": "2026-08-31",
+      "lastSeen": "2026-09-02",
       "urls": [
         "https://www.agenziagiornalisticaopinione.it/opinionmix/sole24/il-sole-24-ore-sport-abodi-e-gonxhja-incontro-in-vista-dei-giochi-del-mediterraneo-del-2030-tra-kosovo-e-albania/",
         "https://www.agenziagiornalisticaopinione.it/opinionews/figc-federazione-italiana-giuoco-calcio-azzurrini-ko-3-1-con-lalgeria-ora-serve-unimpresa-contro-il-kosovo/",
@@ -397,7 +399,8 @@
         "https://www.agenziagiornalisticaopinione.it/opinionews/figc-federazione-italiana-giuoco-calcio-italia-slovenia-1-1-ai-giochi-del-mediterraneo-azzurrine-frenate-dalla-difesa-slovena/",
         "https://www.agenziagiornalisticaopinione.it/opinionews/figc-federazione-italiana-giuoco-calcio-azzurrine-in-finale-per-loro-ciurleo-pareggia-allultimo-minuto/",
         "https://www.agenziagiornalisticaopinione.it/opinionmix/figc-federazione-italiana-giuoco-calcio-giochi-del-mediterraneo-azzurrini-4-posto-marocco-vince-4-1/",
-        "https://www.agenziagiornalisticaopinione.it/opinionmix/figc-federazione-italiana-giuoco-calcio-italia-2-alla-prima-edizione-femminile-del-torneo-portogallo-vince-4-0/"
+        "https://www.agenziagiornalisticaopinione.it/opinionmix/figc-federazione-italiana-giuoco-calcio-italia-2-alla-prima-edizione-femminile-del-torneo-portogallo-vince-4-0/",
+        "https://www.agenziagiornalisticaopinione.it/opinionews/il-sole-24-ore-italia-dalla-somalia-al-kosovo-autunno-in-prima-linea-per-le-forze-armate/"
       ]
     },
     "studio100.it": {
@@ -2419,6 +2422,58 @@
       "lastSeen": "2026-09-01",
       "urls": [
         "https://www.aefinfo.fr/depeche/755907-inalco-delphine-alles-devient-administratrice-provisoire-apres-le-depart-de-jean-francois-huchet-au-kosovo"
+      ]
+    },
+    "en.ilsole24ore.com": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-02",
+      "lastSeen": "2026-09-02",
+      "urls": [
+        "https://en.ilsole24ore.com/art/from-somalia-kosovo-autumn-the-front-line-the-armed-forces-AJzY7Yg"
+      ]
+    },
+    "ilReventino.it": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-02",
+      "lastSeen": "2026-08-31",
+      "urls": [
+        "https://www.ilreventino.it/soveria-mannelli-grande-donazione-del-gruppo-unitalsi-del-reventino-per-il-kosovo/"
+      ]
+    },
+    "MeinBezirk.at": {
+      "country": "Austri",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-02",
+      "lastSeen": "2026-09-01",
+      "urls": [
+        "https://www.meinbezirk.at/c-freizeit/mit-magenta-zum-frauen-nationalteam-spiel-gegen-kosovo_a8857229"
+      ]
+    },
+    "Journal B": {
+      "country": "Zvicër",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-02",
+      "lastSeen": "2026-09-01",
+      "urls": [
+        "https://journal-b.ch/artikel/junge-perspektiven-auf-den-kosovo/"
       ]
     }
   }

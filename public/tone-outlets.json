@@ -1,11 +1,11 @@
 {
-  "lastUpdated": "2026-09-01",
-  "overallIndex": 56,
-  "totalArticles": 51,
-  "sourceCount": 37,
+  "lastUpdated": "2026-09-02",
+  "overallIndex": 55,
+  "totalArticles": 50,
+  "sourceCount": 35,
   "stanceVersion": 3,
-  "unattributed": 153,
-  "nonEditorial": 3,
+  "unattributed": 125,
+  "nonEditorial": 1,
   "wrongKosovo": 0,
   "countries": {
     "Gjermani": {
@@ -198,7 +198,7 @@
         {
           "name": "Reuters",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Kosovo parties strike deal to elect president, breaking deadlock - Reuters",
@@ -209,6 +209,19 @@
               "date": "2026-08-31",
               "sentiment": "neutral",
               "reason": "Reuters typically reports factually",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Kosovo parties strike deal to elect president, breaking deadlock - reuters.com",
+              "albanianTitle": "Partitë në Kosovë arrijnë marrëveshje për zgjedhjen e presidentit, duke zhbllokuar situatën - reuters.com",
+              "blurb": "Partitë politike në Kosovë arrijnë marrëveshje për zgjedhjen e presidentit, duke i dhënë fund bllokadës së krijuar në institucionet shtetërore.",
+              "imageUrl": null,
+              "url": "https://www.reuters.com/world/kosovo-parties-strike-deal-elect-president-breaking-deadlock-2026-08-31/",
+              "date": "2026-08-31",
+              "sentiment": "neutral",
+              "reason": "Faktik raportim i paanshëm",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -225,7 +238,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 3,
+        "n": 4,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -260,7 +273,7 @@
         {
           "name": "Le Courrier des Balkans",
           "sentiment": "neutral",
-          "articleCount": 4,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Kosovo : quand le blocage institutionnel devient une stratégie politique - Le Courrier des Balkans",
@@ -287,32 +300,6 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
-            },
-            {
-              "title": "Kosovo : 68 % des Serbes estiment que leur situation s’est dégradée depuis un an - Le Courrier des Balkans",
-              "albanianTitle": "Kosovë: 68% e serbëve vlerësojnë se gjendja e tyre është përkeqësuar gjatë një viti",
-              "blurb": "Sipas një sondazhi, 68 për qind e serbëve në Kosovë konsiderojnë se gjendja e tyre është përkeqësuar gjatë vitit të fundit.",
-              "imageUrl": "https://www.courrierdesbalkans.fr/wp-content/uploads/2023/04/20221130_112513_c5873796-scaled.jpg",
-              "url": "https://www.courrierdesbalkans.fr/kosovo-68-des-serbes-estiment-que-leur-situation-sest-degradee-depuis-un-an-98756/",
-              "date": "2026-08-29",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportuar në mënyrë neutrale",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Kosovo : 68 % des Serbes estiment que leur situation s’est dégradée depuis un an - courrierdesbalkans.fr",
-              "albanianTitle": "Kosovë: 68% e serbëve vlerësojnë se gjendja e tyre është përkeqësuar gjatë një viti",
-              "blurb": "Sondazhet tregojnë se 68 për qind e serbëve në Kosovë vlerësojnë se gjendja e tyre është përkeqësuar gjatë vitit të fundit.",
-              "imageUrl": "https://www.courrierdesbalkans.fr/wp-content/uploads/2023/04/20221130_112513_c5873796-scaled.jpg",
-              "url": "https://www.courrierdesbalkans.fr/kosovo-68-des-serbes-estiment-que-leur-situation-sest-degradee-depuis-un-an-98756/",
-              "date": "2026-08-29",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportuar pa ngjyrë",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
             }
           ],
           "totalArticles": 8,
@@ -326,64 +313,14 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 5,
+        "n": 3,
         "excluded": 0,
-        "confident": true,
+        "confident": false,
         "stanceVersion": 3
       }
     },
     "Itali": {
       "outlets": [
-        {
-          "name": "ANSA",
-          "sentiment": "neutral",
-          "articleCount": 3,
-          "articles": [
-            {
-              "title": "Ambassador to Kosovo Antonini Meets with Interim President Haxhiu - ANSA",
-              "albanianTitle": "Ambasadori në Kosovë, Antonini, takon ushtruesen e detyrës së presidentit, Haxhiu - ANSA",
-              "blurb": "Ambasadori italian në Kosovë, Antonini, zhvilloi një takim zyrtar me presidenten në detyrë, Vjosa Osmani-Haxhiu.",
-              "imageUrl": "https://www.ansa.it/webimages/img_1280x720/2026/8/29/0d49b2ffcbc94596722d725b4af37a7a.jpg",
-              "url": "https://www.ansa.it/english/news/news_from_embassies/2026/08/29/ambassador-to-kosovo-antonini-meets-with-interim-president-haxhiu_f485b25c-005b-4f3c-8398-8720fb63847b.html",
-              "date": "2026-08-29",
-              "sentiment": "neutral",
-              "reason": "Raportim i thjeshtë faktik",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Ambasciatore in Kosovo Antonini incontra la presidente ad interim Haxhiu - ANSA",
-              "albanianTitle": "Ambasadori në Kosovë, Antonini, takon ushtruesen e detyrës së presidentit, Haxhiu - ANSA",
-              "blurb": "Ambasadori i Italisë në Kosovë, Antonini, realizoi një takim pune me presidenten në detyrë, Vjosa Osmani-Haxhiu.",
-              "imageUrl": "https://www.ansa.it/webimages/img_1280x720/2026/8/29/0d49b2ffcbc94596722d725b4af37a7a.jpg",
-              "url": "https://www.ansa.it/sito/notizie/mondo/news_dalle_ambasciate/2026/08/29/ambasciatore-in-kosovo-antonini-incontra-la-presidente-ad-interim-haxhiu_16bdddb8-9b56-4b96-a5cb-53107756bc7b.html",
-              "date": "2026-08-29",
-              "sentiment": "neutral",
-              "reason": "Raportim i thjeshtë faktik",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Ambasciatore in Kosovo Antonini incontra la presidente ad interim Haxhiu - ansa.it",
-              "albanianTitle": "Ambasadorja italiane në Kosovë, Antonini, takon u.d. së presidentes, Haxhiu",
-              "blurb": "Ambasadori italian në Kosovë, Antonini, ka zhvilluar një takim zyrtar me ushtruesen e detyrës së presidentit, Vjosa Osmani Haxhiu.",
-              "imageUrl": "https://www.ansa.it/webimages/img_1280x720/2026/8/29/0d49b2ffcbc94596722d725b4af37a7a.jpg",
-              "url": "https://www.ansa.it/sito/notizie/mondo/news_dalle_ambasciate/2026/08/29/ambasciatore-in-kosovo-antonini-incontra-la-presidente-ad-interim-haxhiu_16bdddb8-9b56-4b96-a5cb-53107756bc7b.html",
-              "date": "2026-08-29",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportuar pa ngjyrë",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 10,
-          "trend": "neutral",
-          "firstSeen": "2026-08-20",
-          "lastSeen": "2026-08-29"
-        },
         {
           "name": "Buonasera24",
           "sentiment": "neutral",
@@ -433,28 +370,41 @@
           "lastSeen": "2026-08-31"
         },
         {
-          "name": "Giornale Diplomatico",
+          "name": "Il Sole 24 ORE",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
-              "title": "Kosovo: amb. Antonini con presidente facente funzioni Albulena Haxhiu - Giornale Diplomatico",
-              "albanianTitle": "Kosovë: Ambasadori Antonini në takim me ushtruesen e detyrës së presidentit, Albulena Haxhiu",
-              "blurb": "Ambasadori Antonini ka zhvilluar një takim zyrtar me ushtruesen e detyrës së presidentit, Albulena Haxhiu, në Kosovë.",
-              "imageUrl": "https://www.giornalediplomatico.it/foto/grandi/img-6904.png",
-              "url": "https://www.giornalediplomatico.it/kosovo-amb-antonini-con-presidente-facente-funzioni-albulena-haxhiu.htm",
-              "date": "2026-08-29",
+              "title": "From Somalia to Kosovo: autumn on the front line for the Armed Forces - Il Sole 24 ORE",
+              "albanianTitle": "Nga Somalia në Kosovë: vjeshtë në vijën e parë për Forcat e Armatosura - Il Sole 24 ORE",
+              "blurb": "Angazhimi i forcave të armatosura vazhdon gjatë vjeshtës me operacione të rëndësishme në Somali dhe në territorin e Kosovës.",
+              "imageUrl": "https://i2.res.24o.it/images2010/S24/Documenti/2026/08/07/Immagini/Ritagli/kosovo-U44748601483FVz-1440x752@IlSole24Ore-Web.jpg?r=1170x507",
+              "url": "https://en.ilsole24ore.com/art/from-somalia-kosovo-autumn-the-front-line-the-armed-forces-AJzY7Yg",
+              "date": "2026-09-02",
               "sentiment": "neutral",
-              "reason": "Raportim neutral i emërimit në Kosovë",
+              "reason": "Faktik raportim i paanshëm",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Dalla Somalia al Kosovo, autunno in prima linea per le Forze armate - Il Sole 24 ORE",
+              "albanianTitle": "Nga Somalia në Kosovë, vjeshtë në vijën e parë për Forcat e Armatosura - Il Sole 24 ORE",
+              "blurb": "Aktivitetet e forcave të armatosura gjatë sezonit të vjeshtës përfshijnë misione në Somali dhe prezencë ushtarake në Kosovë.",
+              "imageUrl": "https://i2.res.24o.it/images2010/S24/Documenti/2026/08/07/Immagini/Ritagli/kosovo-U44748601483FVz-1440x752@IlSole24Ore-Web.jpg?r=1170x507",
+              "url": "https://www.ilsole24ore.com/art/dalla-somalia-kosovo-autunno-prima-linea-le-forze-armate-AJzY7Yg",
+              "date": "2026-09-02",
+              "sentiment": "neutral",
+              "reason": "Faktik raportim i paanshëm",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
             }
           ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-29",
-          "lastSeen": "2026-08-29"
+          "totalArticles": 4,
+          "trend": "neutral",
+          "firstSeen": "2026-08-22",
+          "lastSeen": "2026-09-02"
         },
         {
           "name": "LameziaTerme.it",
@@ -479,30 +429,6 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-08-31",
           "lastSeen": "2026-08-31"
-        },
-        {
-          "name": "Sporteconomy",
-          "sentiment": "positive",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Taranto 2026 – La pugile Donjeta Sadiku fa la storia: è suo il primo oro del Kosovo ai Giochi del Mediterraneo. - Sporteconomy",
-              "albanianTitle": "Taranto 2026 – Boksierja Donjeta Sadiku shkruan histori: fiton medaljen e parë të artë për Kosovën në Lojërat Mesdhetare - Sporteconomy",
-              "blurb": "Boksierja Donjeta Sadiku fiton medaljen e artë në Lojërat Mesdhetare në Taranto, duke shkruar histori për sportin e Kosovës.",
-              "imageUrl": "https://www.sporteconomy.it/wp-content/uploads/2026/08/IMG_9517-1-scaled.jpeg",
-              "url": "https://www.sporteconomy.it/la-pugile-donjeta-sadiku-fa-la-storia-e-suo-il-primo-oro-del-kosovo-ai-giochi-del-mediterraneo/",
-              "date": "2026-08-29",
-              "sentiment": "positive",
-              "reason": "Positive celebration of Kosovo's achievement",
-              "isQuote": false,
-              "evidence": "primo oro del Kosovo",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-30",
-          "lastSeen": "2026-08-29"
         },
         {
           "name": "Unitalsi",
@@ -534,19 +460,6 @@
           "articleCount": 3,
           "articles": [
             {
-              "title": "FIGC * FEDERAZIONE ITALIANA GIUOCO CALCIO: «AZZURRINE IN FINALE PER L'ORO, CIURLEO PAREGGIA ALL'ULTIMO MINUTO - agenziagiornalisticaopinione.it",
-              "albanianTitle": "FIGC: Azzurrine në finale për të artën, Ciurleo barazon në minutën e fundit - agenziagiornalisticaopinione.it",
-              "blurb": "Përfaqësuesja e Italisë në futboll për femra është kualifikuar në finale pas barazimit të shënuar në minutën e fundit.",
-              "imageUrl": "https://www.agenziagiornalisticaopinione.it/wp-content/uploads/2026/08/y99zc82428b7-5698-4e07-93e3-385029461481-jpg.jpg",
-              "url": "https://www.agenziagiornalisticaopinione.it/opinionews/figc-federazione-italiana-giuoco-calcio-azzurrine-in-finale-per-loro-ciurleo-pareggia-allultimo-minuto/",
-              "date": "2026-08-29",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
               "title": "FIGC * FEDERAZIONE ITALIANA GIUOCO CALCIO: «GIOCHI DEL MEDITERRANEO, AZZURRINI 4° POSTO: MAROCCO VINCE 4-1 - agenziagiornalisticaopinione.it",
               "albanianTitle": "Lojërat Mesdhetare: Italia e re zë vendin e katërt, Maroku fiton 4-1 - agenziagiornalisticaopinione.it",
               "blurb": "Përfaqësuesja e Italisë në futboll ka përfunduar në vendin e katërt në Lojërat Mesdhetare pas humbjes ndaj Marokut.",
@@ -571,27 +484,40 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "IL SOLE 24 ORE * ITALIA: «DALLA SOMALIA AL KOSOVO, AUTUNNO IN PRIMA LINEA PER LE FORZE ARMATE - agenziagiornalisticaopinione.it",
+              "albanianTitle": "IL SOLE 24 ORE * ITALIA: «NGA SOMALIA NË KOSOVË, VJESHTË NË VIJËN E PARË PËR FORCAT E ARMATOSURA - agenziagiornalisticaopinione.it",
+              "blurb": "Media italiane raporton për angazhimin e forcave ushtarake në operacione të ndryshme, duke përfshirë ato në Somali dhe Kosovë.",
+              "imageUrl": "https://www.agenziagiornalisticaopinione.it/wp-content/uploads/2026/09/Y99Zecafbf4de9044b399450594c072f8403file.jpeg",
+              "url": "https://www.agenziagiornalisticaopinione.it/opinionews/il-sole-24-ore-italia-dalla-somalia-al-kosovo-autunno-in-prima-linea-per-le-forze-armate/",
+              "date": "2026-09-02",
+              "sentiment": "neutral",
+              "reason": "Citim i titullit, jo zëri i mediumit",
+              "isQuote": true,
+              "evidence": "",
+              "speaker": "Il Sole 24 ORE"
             }
           ],
-          "totalArticles": 7,
+          "totalArticles": 8,
           "trend": "neutral",
           "firstSeen": "2026-08-22",
-          "lastSeen": "2026-08-31"
+          "lastSeen": "2026-09-02"
         },
         {
-          "name": "dialessandria.it",
+          "name": "en.ilsole24ore.com",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
-              "title": "Giochi del Mediterraneo, azzurri del calcio in semifinale col 3-0 al Kosovo - dialessandria.it",
-              "albanianTitle": "Lojërat Mesdhetare: Kombëtarja e Italisë në futboll në gjysmëfinale pas fitores 3-0 ndaj Kosovës",
-              "blurb": "Përfaqësuesja e futbollit të Kosovës u mposht 3-0 nga Italia në kuadër të Lojërave Mesdhetare duke mbetur jashtë gjysmëfinales.",
-              "imageUrl": "https://i0.wp.com/www.dialessandria.it/wp-content/uploads/2021/12/DiAlessandria-no-photo.jpg?fit=1600%2C1200&ssl=1",
-              "url": "https://www.dialessandria.it/sport/giochi-mediterraneo-franceschini-ripagato-laffetto-con-una-vittoria-preziosa/296423.html",
-              "date": "2026-08-29",
+              "title": "From Somalia to Kosovo: autumn on the front line for the Armed Forces - en.ilsole24ore.com",
+              "albanianTitle": "Nga Somalia në Kosovë: vjeshtë në vijën e parë për Forcat e Armatosura - en.ilsole24ore.com",
+              "blurb": "Forcat e armatosura italiane janë angazhuar në misione të ndryshme, duke përfshirë dislokimet në Somali dhe në Kosovë.",
+              "imageUrl": "https://i2.res.24o.it/images2010/S24/Documenti/2026/08/07/Immagini/Ritagli/kosovo-U44748601483FVz-1440x752@IlSole24Ore-Web.jpg?r=1170x507",
+              "url": "https://en.ilsole24ore.com/art/from-somalia-kosovo-autumn-the-front-line-the-armed-forces-AJzY7Yg",
+              "date": "2026-09-02",
               "sentiment": "neutral",
-              "reason": "Faktikë raportuar në mënyrë neutrale",
+              "reason": "Fact‑based report",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -599,8 +525,8 @@
           ],
           "totalArticles": 1,
           "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-27",
-          "lastSeen": "2026-08-29"
+          "firstSeen": "2026-09-02",
+          "lastSeen": "2026-09-02"
         },
         {
           "name": "il Lametino.it",
@@ -625,67 +551,21 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-01",
           "lastSeen": "2026-09-01"
-        }
-      ],
-      "summary": {
-        "index": 58,
-        "positive": 15,
-        "neutral": 85,
-        "negative": 0,
-        "n": 13,
-        "excluded": 1,
-        "confident": true,
-        "stanceVersion": 3,
-        "movement": {
-          "delta": 4,
-          "from": 54,
-          "outlet": "LameziaTerme.it",
-          "title": "Soveria Mannelli, UNITALSI dhuron shpresë për Kosovën",
-          "evidence": "dona speranza al Kosovo",
-          "url": "https://www.lameziaterme.it/soveria-mannelli-unitalsi-dona-speranza-kosovo/"
-        }
-      }
-    },
-    "Austri": {
-      "outlets": [
-        {
-          "name": "Kronen Zeitung",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Für Abonnenten - Die „Krone“ fliegt Sie zum Länderspiel-Doppelpack - Kronen Zeitung",
-              "albanianTitle": "Për abonentët: „Krone“ ju dërgon në dy ndeshjet e kombëtares",
-              "blurb": "Gazeta Kronen Zeitung ofron mundësi udhëtimi për abonentët e saj për të ndjekur dy ndeshje të kombëtares së futbollit.",
-              "imageUrl": "https://imgl.krone.at/scaled/4269985/v16289f/og_image.jpg",
-              "url": "https://www.krone.at/4269964",
-              "date": "2026-08-29",
-              "sentiment": "unknown",
-              "reason": "Nuk përmendet Kosova në titull",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 2,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-25",
-          "lastSeen": "2026-08-29"
         },
         {
-          "name": "krone.at",
-          "sentiment": "unknown",
+          "name": "ilReventino.it",
+          "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
-              "title": "Für Abonnenten - Die „Krone“ fliegt Sie zum Länderspiel-Doppelpack - krone.at",
-              "albanianTitle": "Për abonentët: „Krone“ ju dërgon me aeroplan për t'i ndjekur dy ndeshjet e kombëtares - krone.at",
-              "blurb": "Gazeta Krone ofron mundësi për abonentët e saj që të udhëtojnë për të ndjekur ndeshjet e kombëtares së futbollit.",
-              "imageUrl": "https://imgl.krone.at/scaled/4269985/v16289f/og_image.jpg",
-              "url": "https://www.krone.at/4269964",
-              "date": "2026-08-29",
-              "sentiment": "unknown",
-              "reason": "Nuk ka informacion të mjaftueshëm për të përcaktuar qëndrimin",
+              "title": "Soveria Mannelli: grande donazione del gruppo Unitalsi del Reventino per il Kosovo - ilReventino.it",
+              "albanianTitle": "Soveria Mannelli: Donacion i madh nga grupi Unitalsi i Reventinos për Kosovën",
+              "blurb": "Grupi Unitalsi nga Reventino ka dërguar një donacion të konsiderueshëm ndihmash për qytetarët në Kosovë.",
+              "imageUrl": "https://www.ilreventino.it/wp-content/uploads/2026/08/SOVERIA-MANNELLI_-GRANDE-DONAZIONE-DEL-GRUPPO-UNITALSI-DEL-REVENTINO-PER-IL-KOSOVO-1.jpg",
+              "url": "https://www.ilreventino.it/soveria-mannelli-grande-donazione-del-gruppo-unitalsi-del-reventino-per-il-kosovo/",
+              "date": "2026-08-31",
+              "sentiment": "neutral",
+              "reason": "Faktik raportim i paanshëm",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -693,29 +573,92 @@
           ],
           "totalArticles": 1,
           "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-01",
-          "lastSeen": "2026-08-29"
+          "firstSeen": "2026-09-02",
+          "lastSeen": "2026-08-31"
         }
       ],
       "summary": {
-        "index": null,
-        "positive": 0,
-        "neutral": 0,
+        "index": 54,
+        "positive": 8,
+        "neutral": 92,
         "negative": 0,
-        "n": 0,
-        "excluded": 2,
+        "n": 12,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 3
+      }
+    },
+    "Austri": {
+      "outlets": [
+        {
+          "name": "MeinBezirk.at",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Gewinnspiel: Mit Magenta zum Frauen-Nationalteam-Spiel gegen Kosovo! - MeinBezirk.at",
+              "albanianTitle": "Lojë shpërblyese: Me Magenta në ndeshjen e kombëtares së femrave kundër Kosovës! - MeinBezirk.at",
+              "blurb": "Platforma Magenta organizon lojë shpërblyese për tifozët që dëshirojnë të ndjekin ndeshjen e kombëtares së femrave kundër Kosovës.",
+              "imageUrl": null,
+              "url": "https://www.meinbezirk.at/c-freizeit/mit-magenta-zum-frauen-nationalteam-spiel-gegen-kosovo_a8857229",
+              "date": "2026-09-01",
+              "sentiment": "neutral",
+              "reason": "Fact‑based report",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-02",
+          "lastSeen": "2026-09-01"
+        }
+      ],
+      "summary": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 1,
+        "excluded": 0,
         "confident": false,
         "stanceVersion": 3
       }
     },
     "Zvicër": {
-      "outlets": [],
+      "outlets": [
+        {
+          "name": "Journal B",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Junge Perspektiven auf den Kosovo - Journal B",
+              "albanianTitle": "Perspektiva të reja mbi Kosovën - Journal B",
+              "blurb": "Publikimi Journal B sjell këndvështrime të reja dhe perspektiva të të rinjve mbi zhvillimet aktuale në shtetin e Kosovës.",
+              "imageUrl": "https://journal-b.ch/wp-content/uploads/2026/09/kino_kosovo-6-aspect-ratio-816-612-1632x1224.jpg",
+              "url": "https://journal-b.ch/artikel/junge-perspektiven-auf-den-kosovo/",
+              "date": "2026-09-01",
+              "sentiment": "neutral",
+              "reason": "Fact‑based report",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-02",
+          "lastSeen": "2026-09-01"
+        }
+      ],
       "summary": {
-        "index": null,
+        "index": 50,
         "positive": 0,
-        "neutral": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 0,
+        "n": 1,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -725,18 +668,18 @@
       "outlets": [
         {
           "name": "ESPN.nl",
-          "sentiment": "unknown",
+          "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
               "title": "Cyprus 0-4 Kosovo (9 sep., 2024) Uitslag - ESPN.nl",
-              "albanianTitle": "Qipro 0-4 Kosovë (9 shtator 2024)",
-              "blurb": "Përfaqësuesja e Kosovës në futboll ka shënuar fitore me rezultat 4-0 ndaj Qipros në ndeshjen e zhvilluar më 9 shtator.",
+              "albanianTitle": "Qipro 0-4 Kosovë (9 shtator 2024) Rezultati",
+              "blurb": "Kombëtarja e Kosovës ka shënuar fitore me rezultat 4-0 ndaj Qipros në ndeshjen e zhvilluar më 9 shtator.",
               "imageUrl": null,
               "url": "https://www.espn.nl/voetbal/wedstrijd?wedstrijdId=698919&action=summary",
               "date": "2026-08-30",
-              "sentiment": "unknown",
-              "reason": "",
+              "sentiment": "neutral",
+              "reason": "Straightforward match result reporting",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -749,12 +692,12 @@
         }
       ],
       "summary": {
-        "index": null,
+        "index": 50,
         "positive": 0,
-        "neutral": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 0,
-        "excluded": 1,
+        "n": 1,
+        "excluded": 0,
         "confident": false,
         "stanceVersion": 3
       }
@@ -951,21 +894,8 @@
         {
           "name": "sport-fm.gr",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 1,
           "articles": [
-            {
-              "title": "Συνεχίζει τις «εμπρηστικές» δηλώσεις για το Κόσοβο ο Ράμα - sport-fm.gr",
-              "albanianTitle": "Rama vazhdon me deklaratat „provokuese“ për Kosovën - sport-fm.gr",
-              "blurb": "Kryeministri shqiptar Edi Rama vazhdon me deklaratat e tij lidhur me situatën politike në Kosovë.",
-              "imageUrl": "https://resources.sport-fm.gr/supersportFM/images/news/14/11/11/130147.jpg?w=880&f=bicubic",
-              "url": "https://www.sport-fm.gr/article/795903",
-              "date": "2026-08-29",
-              "sentiment": "neutral",
-              "reason": "Përdor gjuhë përshkruese, por pa shprehje të drejtpërdrejtë kundër Kosovës",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "Κύπρος-Κόσοβο 0-4 - sport-fm.gr",
               "albanianTitle": "Qipro - Kosovë 0-4",
@@ -1015,9 +945,9 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 5,
+        "n": 4,
         "excluded": 0,
-        "confident": true,
+        "confident": false,
         "stanceVersion": 3
       }
     },
@@ -1197,30 +1127,6 @@
           "lastSeen": "2026-08-31"
         },
         {
-          "name": "Hürriyet",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Edirne Haberleri - Trakya Üniversitesi heyeti Kosova'daki sanat festivaline katıldı - Yerel Haberler - Hürriyet",
-              "albanianTitle": "Delegacioni i Universitetit të Trakyas merr pjesë në festivalin e artit në Kosovë",
-              "blurb": "Një delegacion nga Universiteti i Trakyas ka marrë pjesë në festivalin e artit që po mbahet në territorin e Kosovës.",
-              "imageUrl": "https://image.hurimg.com/i/hurriyet/90/0x0/6a928166461a0305b8ab9faf.jpg",
-              "url": "https://www.hurriyet.com.tr/yerel-haberler/edirne/trakya-universitesi-heyeti-kosovadaki-sanat-fe-43288748",
-              "date": "2026-08-29",
-              "sentiment": "neutral",
-              "reason": "Faktikë të raportuara në mënyrë neutrale",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 3,
-          "trend": "neutral",
-          "firstSeen": "2026-08-20",
-          "lastSeen": "2026-08-29"
-        },
-        {
           "name": "Son Dakika",
           "sentiment": "neutral",
           "articleCount": 5,
@@ -1322,11 +1228,11 @@
         }
       ],
       "summary": {
-        "index": 62,
-        "positive": 25,
-        "neutral": 75,
+        "index": 64,
+        "positive": 27,
+        "neutral": 73,
         "negative": 0,
-        "n": 12,
+        "n": 11,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
