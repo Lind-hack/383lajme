@@ -129,6 +129,18 @@ function LeadCard({ article }: { article: Article }) {
               aria-hidden="true"
               fill
               sizes="(max-width: 768px) 100vw, 620px"
+              // This is the homepage's LCP element - Lighthouse resolves it to
+              // exactly this node. It was lazy, which failed all three of the
+              // LCP discovery checks at once: no fetchpriority, not eagerly
+              // loaded, and not discoverable in the initial HTML. The image
+              // itself downloads in 27ms; the cost was 1.5s of waiting before
+              // the browser was allowed to ask for it.
+              //
+              // `priority` sets loading=eager and fetchpriority=high and emits
+              // a preload link, which is all three checks. It belongs on this
+              // image and no other on the page: a second priority hint only
+              // dilutes the first.
+              priority
               onError={() => setImgFailed(true)}
               style={{ objectFit: "cover" }}
             />

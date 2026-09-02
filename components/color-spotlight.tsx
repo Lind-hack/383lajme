@@ -194,9 +194,9 @@ function Cover({
   const ok = Boolean(coverSrc);
 
   return (
-    <span className="spot-cover" aria-hidden={ok ? undefined : true}>
+    <span className="spot-cover" aria-hidden={coverSrc ? undefined : true}>
       {coverSrc ? (
-        // eslint-disable-next-line @next/next/no-img-element
+
         <Image
           src={coverSrc}
           alt=""
@@ -218,13 +218,22 @@ function Cover({
 /** A rail thumbnail. Falls back to the same coloured panel, at rail size. */
 function Thumb({ article, color, deep }: { article: Article; color: string; deep: string }) {
   const [failed, setFailed] = useState(false);
-  const ok = article.imageUrl && !failed;
+  // .spot-thumb is a grid item under align-items: stretch, so the row gives it
+  // a definite height and `fill` has a real box to occupy. Only min-height is
+  // declared on it, which is why this one was left behind the first time.
+  const thumbSrc = failed ? undefined : article.imageUrl;
 
   return (
     <span className="spot-thumb">
-      {ok ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img src={article.imageUrl} alt="" loading="lazy" onError={() => setFailed(true)} />
+      {thumbSrc ? (
+
+        <Image
+          src={thumbSrc}
+          alt=""
+          fill
+          sizes="(max-width: 768px) 34vw, 220px"
+          onError={() => setFailed(true)}
+        />
       ) : (
         <span
           className="spot-cover-blank"
