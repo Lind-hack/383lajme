@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
@@ -189,16 +190,18 @@ function Cover({
   reduce: boolean;
 }) {
   const [failed, setFailed] = useState(false);
-  const ok = article.imageUrl && !failed;
+  const coverSrc = failed ? undefined : article.imageUrl;
+  const ok = Boolean(coverSrc);
 
   return (
     <span className="spot-cover" aria-hidden={ok ? undefined : true}>
-      {ok ? (
+      {coverSrc ? (
         // eslint-disable-next-line @next/next/no-img-element
-        <img
-          src={article.imageUrl}
+        <Image
+          src={coverSrc}
           alt=""
-          loading="lazy"
+          fill
+          sizes="(max-width: 768px) 100vw, 720px"
           onError={() => setFailed(true)}
           style={reduce ? { transition: "none" } : undefined}
         />

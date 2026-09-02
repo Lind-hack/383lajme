@@ -8,6 +8,7 @@
 // fallback below is a real, reachable path, not just defensive theater.
 
 import { useState, type CSSProperties } from "react";
+import Image from "next/image";
 import type { ForeignCoverageItem } from "@/lib/tone-data";
 import { formatArticleDate } from "@/lib/tone-scale";
 
@@ -36,7 +37,7 @@ export function HeroCard({ item }: { item: ForeignCoverageItem }) {
   return (
     <a href={item.url} target="_blank" rel="noopener noreferrer" className="bota-flet-hero" style={{ textDecoration: "none" }}>
       {showImage ? (
-        <img src={item.imageUrl} alt="" onError={onError} />
+        <Image src={item.imageUrl} alt="" fill sizes="(max-width: 768px) 100vw, 1100px" onError={onError} />
       ) : (
         <div aria-hidden style={{ width: "100%", height: "100%", background: `linear-gradient(135deg, ${color}CC 0%, ${color}33 100%)` }} />
       )}

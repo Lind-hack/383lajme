@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
 import Link from "next/link";
 import { type Article } from "@/lib/mock-data";
@@ -35,7 +36,7 @@ function DispatchRow({ article, index }: { article: Article; index: number }) {
   const [failed, setFailed] = useState(false);
   const reduce = useReducedMotion();
   const color = getCategoryColor(article.category);
-  const hasImage = Boolean(article.imageUrl) && !failed;
+  const imageSrc = failed ? undefined : article.imageUrl;
 
   return (
     <motion.div
@@ -57,12 +58,12 @@ function DispatchRow({ article, index }: { article: Article; index: number }) {
           className="dispatch-thumb"
           style={{ background: `linear-gradient(135deg, ${color}, rgba(17,17,17,0.55))` }}
         >
-          {hasImage && (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={article.imageUrl}
+          {imageSrc && (
+            <Image
+              src={imageSrc}
               alt=""
-              loading="lazy"
+              fill
+              sizes="(max-width: 768px) 40vw, 220px"
               onError={() => setFailed(true)}
             />
           )}
