@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import { EASE } from "@/lib/tokens";
 import { type Article, calcReadingTime } from "@/lib/mock-data";
@@ -34,19 +35,16 @@ export default function HeroDispatch({ article }: HeroDispatchProps) {
     >
       {/* Background image or fallback gradient */}
       {article.imageUrl ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
+        <Image
           src={article.imageUrl}
           alt=""
           aria-hidden="true"
-          style={{
-            position: "absolute",
-            inset: 0,
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
-            objectPosition: "center",
-          }}
+          fill
+          // The hero is above the fold and is the LCP element on most loads, so
+          // it is the one image on the page that must not be lazy.
+          priority
+          sizes="(max-width: 768px) 100vw, 1200px"
+          style={{ objectFit: "cover", objectPosition: "center" }}
         />
       ) : (
         <div
