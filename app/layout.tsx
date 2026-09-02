@@ -16,8 +16,18 @@ const ebGaramond = EB_Garamond({
   variable: "--font-garamond",
 });
 
+// latin-ext is declared for the same reason it is on the other two faces, and
+// leaving it off here was the single largest layout shift on the site.
+//
+// next/font only preloads the subsets a font actually declares. Manrope asked
+// for "latin" alone, so Google's latin-ext @font-face was still emitted and
+// still matched by characters on the page — but its file was never preloaded.
+// It therefore arrived after first paint and swapped, and Lighthouse traced the
+// whole 0.595 mobile CLS to exactly that: "Web font loaded", pointing at
+// Manrope 400's latin-ext woff2. The currency card was blamed because it is
+// what visibly moved, not because it was at fault.
 const manrope = Manrope({
-  subsets: ["latin"],
+  subsets: ["latin", "latin-ext"],
   weight: ["400", "500", "600", "700", "800"],
   variable: "--font-manrope",
   display: "swap",
