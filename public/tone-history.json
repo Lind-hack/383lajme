@@ -4408,8 +4408,8 @@
   {
     "date": "2026-09-01",
     "overallIndex": 56,
-    "totalArticles": 47,
-    "sourceCount": 36,
+    "totalArticles": 51,
+    "sourceCount": 37,
     "stanceVersion": 3,
     "countries": {
       "Gjermani": {
@@ -4447,17 +4447,17 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 4,
+        "n": 5,
         "excluded": 0,
-        "confident": false,
+        "confident": true,
         "stanceVersion": 3
       },
       "Itali": {
         "index": 58,
-        "positive": 17,
-        "neutral": 83,
+        "positive": 15,
+        "neutral": 85,
         "negative": 0,
-        "n": 12,
+        "n": 13,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 3,
@@ -4545,17 +4545,17 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 1,
-        "excluded": 1,
+        "n": 2,
+        "excluded": 0,
         "confident": false,
         "stanceVersion": 3
       },
       "Turqi": {
-        "index": 64,
-        "positive": 27,
-        "neutral": 73,
+        "index": 62,
+        "positive": 25,
+        "neutral": 75,
         "negative": 0,
-        "n": 11,
+        "n": 12,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
@@ -4582,7 +4582,7 @@
       },
       {
         "title": "Soveria Mannelli, l’UNITALSI dona speranza al Kosovo - LameziaTerme.it",
-        "source": "lameziaterme.it",
+        "source": "LameziaTerme.it",
         "country": "Itali",
         "flag": "🇮🇹",
         "url": "https://www.lameziaterme.it/soveria-mannelli-unitalsi-dona-speranza-kosovo/",
@@ -4590,19 +4590,11 @@
       },
       {
         "title": "Turistas de todo el mundo descubren la magia del pueblo de Kosovo en los Ródopes - БНР Новини",
-        "source": "БНР Новини",
+        "source": "bnrnews.bg",
         "country": "Spanjë",
         "flag": "🇪🇸",
         "url": "https://bnrnews.bg/es/post/521438/turistas-de-todo-el-mundo-descubren-la-magia-del-pueblo-de-kosovo-en-los-rodopes",
         "sentiment": "positive"
-      },
-      {
-        "title": "Vucic: Kosovo and Metohija is Serbia – it was, it is, and it will be - kosovo-online.com",
-        "source": "kosovo-online.com",
-        "country": "Britani",
-        "flag": "🇬🇧",
-        "url": "https://www.kosovo-online.com/en/news/politics/vucic-kosovo-and-metohija-serbia-it-was-it-and-it-will-be-29-8-2026",
-        "sentiment": "negative"
       }
     ]
   }

@@ -1,10 +1,10 @@
 {
   "lastUpdated": "2026-09-01",
   "overallIndex": 56,
-  "totalArticles": 47,
-  "sourceCount": 36,
+  "totalArticles": 51,
+  "sourceCount": 37,
   "stanceVersion": 3,
-  "unattributed": 159,
+  "unattributed": 153,
   "nonEditorial": 3,
   "wrongKosovo": 0,
   "countries": {
@@ -260,7 +260,7 @@
         {
           "name": "Le Courrier des Balkans",
           "sentiment": "neutral",
-          "articleCount": 3,
+          "articleCount": 4,
           "articles": [
             {
               "title": "Kosovo : quand le blocage institutionnel devient une stratégie politique - Le Courrier des Balkans",
@@ -300,6 +300,19 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Kosovo : 68 % des Serbes estiment que leur situation s’est dégradée depuis un an - courrierdesbalkans.fr",
+              "albanianTitle": "Kosovë: 68% e serbëve vlerësojnë se gjendja e tyre është përkeqësuar gjatë një viti",
+              "blurb": "Sondazhet tregojnë se 68 për qind e serbëve në Kosovë vlerësojnë se gjendja e tyre është përkeqësuar gjatë vitit të fundit.",
+              "imageUrl": "https://www.courrierdesbalkans.fr/wp-content/uploads/2023/04/20221130_112513_c5873796-scaled.jpg",
+              "url": "https://www.courrierdesbalkans.fr/kosovo-68-des-serbes-estiment-que-leur-situation-sest-degradee-depuis-un-an-98756/",
+              "date": "2026-08-29",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportuar pa ngjyrë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
           "totalArticles": 8,
@@ -313,9 +326,9 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 4,
+        "n": 5,
         "excluded": 0,
-        "confident": false,
+        "confident": true,
         "stanceVersion": 3
       }
     },
@@ -324,7 +337,7 @@
         {
           "name": "ANSA",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 3,
           "articles": [
             {
               "title": "Ambassador to Kosovo Antonini Meets with Interim President Haxhiu - ANSA",
@@ -348,6 +361,19 @@
               "date": "2026-08-29",
               "sentiment": "neutral",
               "reason": "Raportim i thjeshtë faktik",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Ambasciatore in Kosovo Antonini incontra la presidente ad interim Haxhiu - ansa.it",
+              "albanianTitle": "Ambasadorja italiane në Kosovë, Antonini, takon u.d. së presidentes, Haxhiu",
+              "blurb": "Ambasadori italian në Kosovë, Antonini, ka zhvilluar një takim zyrtar me ushtruesen e detyrës së presidentit, Vjosa Osmani Haxhiu.",
+              "imageUrl": "https://www.ansa.it/webimages/img_1280x720/2026/8/29/0d49b2ffcbc94596722d725b4af37a7a.jpg",
+              "url": "https://www.ansa.it/sito/notizie/mondo/news_dalle_ambasciate/2026/08/29/ambasciatore-in-kosovo-antonini-incontra-la-presidente-ad-interim-haxhiu_16bdddb8-9b56-4b96-a5cb-53107756bc7b.html",
+              "date": "2026-08-29",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportuar pa ngjyrë",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -603,10 +629,10 @@
       ],
       "summary": {
         "index": 58,
-        "positive": 17,
-        "neutral": 83,
+        "positive": 15,
+        "neutral": 85,
         "negative": 0,
-        "n": 12,
+        "n": 13,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 3,
@@ -1012,18 +1038,18 @@
       "outlets": [
         {
           "name": "Interia Sport",
-          "sentiment": "unknown",
+          "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
               "title": "Kosowo (k) - holandia (k) - Interia Sport",
-              "albanianTitle": "Kosovë (femrat) - Holandë (femrat)",
-              "blurb": "Përfaqësuesja e femrave e Kosovës në futboll do të përballet me ekipin kombëtar të Holandës në një ndeshje zyrtare.",
+              "albanianTitle": "Kosovë - Holandë - Interia Sport",
+              "blurb": "Përfaqësueset e femrave të Kosovës dhe Holandës do të përballen mes vete në një ndeshje futbolli.",
               "imageUrl": null,
               "url": "https://sport.interia.pl/pilka-reczna/mecz-kosowo-k-holandia-k-mistrzostwa-europy-k-kwal,spmi,2463312",
               "date": "2026-08-31",
-              "sentiment": "unknown",
-              "reason": "",
+              "sentiment": "neutral",
+              "reason": "Faktikë të raportuara në mënyrë neutrale",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1064,8 +1090,8 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 1,
-        "excluded": 1,
+        "n": 2,
+        "excluded": 0,
         "confident": false,
         "stanceVersion": 3
       }
@@ -1171,6 +1197,30 @@
           "lastSeen": "2026-08-31"
         },
         {
+          "name": "Hürriyet",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Edirne Haberleri - Trakya Üniversitesi heyeti Kosova'daki sanat festivaline katıldı - Yerel Haberler - Hürriyet",
+              "albanianTitle": "Delegacioni i Universitetit të Trakyas merr pjesë në festivalin e artit në Kosovë",
+              "blurb": "Një delegacion nga Universiteti i Trakyas ka marrë pjesë në festivalin e artit që po mbahet në territorin e Kosovës.",
+              "imageUrl": "https://image.hurimg.com/i/hurriyet/90/0x0/6a928166461a0305b8ab9faf.jpg",
+              "url": "https://www.hurriyet.com.tr/yerel-haberler/edirne/trakya-universitesi-heyeti-kosovadaki-sanat-fe-43288748",
+              "date": "2026-08-29",
+              "sentiment": "neutral",
+              "reason": "Faktikë të raportuara në mënyrë neutrale",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 3,
+          "trend": "neutral",
+          "firstSeen": "2026-08-20",
+          "lastSeen": "2026-08-29"
+        },
+        {
           "name": "Son Dakika",
           "sentiment": "neutral",
           "articleCount": 5,
@@ -1272,11 +1322,11 @@
         }
       ],
       "summary": {
-        "index": 64,
-        "positive": 27,
-        "neutral": 73,
+        "index": 62,
+        "positive": 25,
+        "neutral": 75,
         "negative": 0,
-        "n": 11,
+        "n": 12,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3

@@ -947,16 +947,17 @@
     },
     "Hürriyet": {
       "country": "Turqi",
-      "total": 2,
+      "total": 3,
       "positive": 0,
-      "neutral": 2,
+      "neutral": 3,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-23",
+      "lastSeen": "2026-08-29",
       "urls": [
         "https://www.hurriyet.com.tr/avrupa/24-uluslararasi-sanatla-uyanmak-festivali-prizrende-basladi-43279597",
-        "https://www.hurriyet.com.tr/avrupa/zafer-algoze-kosovada-yilin-sanatcisi-odulu-43282311"
+        "https://www.hurriyet.com.tr/avrupa/zafer-algoze-kosovada-yilin-sanatcisi-odulu-43282311",
+        "https://www.hurriyet.com.tr/yerel-haberler/edirne/trakya-universitesi-heyeti-kosovadaki-sanat-fe-43288748"
       ]
     },
     "anayasa.gov.tr": {
