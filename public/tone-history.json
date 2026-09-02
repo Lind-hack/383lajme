@@ -4601,8 +4601,8 @@
   {
     "date": "2026-09-02",
     "overallIndex": 55,
-    "totalArticles": 50,
-    "sourceCount": 35,
+    "totalArticles": 53,
+    "sourceCount": 39,
     "stanceVersion": 3,
     "countries": {
       "Gjermani": {
@@ -4611,7 +4611,7 @@
         "neutral": 75,
         "negative": 0,
         "n": 4,
-        "excluded": 0,
+        "excluded": 1,
         "confident": false,
         "stanceVersion": 3
       },
@@ -4646,11 +4646,11 @@
         "stanceVersion": 3
       },
       "Itali": {
-        "index": 54,
-        "positive": 8,
-        "neutral": 92,
+        "index": 53,
+        "positive": 7,
+        "neutral": 93,
         "negative": 0,
-        "n": 12,
+        "n": 15,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
@@ -4711,7 +4711,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 4,
-        "excluded": 0,
+        "excluded": 1,
         "confident": false,
         "stanceVersion": 3
       },
@@ -4766,19 +4766,19 @@
         "sentiment": "positive"
       },
       {
-        "title": "Soveria Mannelli, l’UNITALSI dona speranza al Kosovo - LameziaTerme.it",
-        "source": "LameziaTerme.it",
-        "country": "Itali",
-        "flag": "🇮🇹",
-        "url": "https://www.lameziaterme.it/soveria-mannelli-unitalsi-dona-speranza-kosovo/",
-        "sentiment": "positive"
-      },
-      {
         "title": "Kosova Savunma Bakanı Maqedonci A Haber'de! Türk savunma sanayisine övgüler: 'Türkiye ile iş birliğimiz stratejik bir avantaj' - A Haber",
         "source": "A Haber",
         "country": "Turqi",
         "flag": "🇹🇷",
         "url": "https://www.ahaber.com.tr/ozel-haberler/2026/08/31/kosova-savunma-bakani-maqedonci-a-haberde",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Kosova'daki Yıldızlar Avrupa Halter Şampiyonası'nda 200 Kiloyla Şampiyon Olan Zehra Nur Arslan, Amasya Valisi'ni Ziyaret Etti - Son Dakika",
+        "source": "Son Dakika",
+        "country": "Turqi",
+        "flag": "🇹🇷",
+        "url": "https://www.sondakika.com/guncel/haber-kosova-daki-yildizlar-avrupa-halter-sampiyonasi-nd-20196635/",
         "sentiment": "positive"
       }
     ]

@@ -191,13 +191,13 @@
     },
     "ANSA": {
       "country": "Itali",
-      "total": 10,
+      "total": 12,
       "positive": 0,
-      "neutral": 6,
+      "neutral": 8,
       "negative": 0,
       "unknown": 4,
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-29",
+      "lastSeen": "2026-09-02",
       "urls": [
         "https://www.ansa.it/nuova_europa/en/news/sections/news/2026/08/20/vucic-writes-to-rutte-nato-stop-terror-in-kosovo-do-not-reopen-the_9034279d-c06f-4e44-ab54-096dd4332014.html",
         "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/08/20/vucic-scrive-a-rutte-nato-fermi-terrore-in-kosovo-non-riaprire-ponte_68050249-06ef-4b0a-b56b-6ff64929514e.html",
@@ -208,7 +208,9 @@
         "https://www.ansa.it/puglia/notizie/speciali/xx_giochi_del_mediterraneo_taranto_2026/2026/08/26/giochi-del-mediterraneo-iacovone-sold-out-per-ltalia-kosovo-di-calcio_3721fc27-cf4f-427f-b528-7b301621f166.html",
         "https://www.ansa.it/europa/notizie/rubriche/altrenews/2026/08/28/ue-il-kosovo-deve-reintegrare-il-personale-giudiziario-serbo_ebde8f7d-d1a6-4236-99bf-af10c06f834b.html",
         "https://www.ansa.it/english/news/news_from_embassies/2026/08/29/ambassador-to-kosovo-antonini-meets-with-interim-president-haxhiu_f485b25c-005b-4f3c-8398-8720fb63847b.html",
-        "https://www.ansa.it/sito/notizie/mondo/news_dalle_ambasciate/2026/08/29/ambasciatore-in-kosovo-antonini-incontra-la-presidente-ad-interim-haxhiu_16bdddb8-9b56-4b96-a5cb-53107756bc7b.html"
+        "https://www.ansa.it/sito/notizie/mondo/news_dalle_ambasciate/2026/08/29/ambasciatore-in-kosovo-antonini-incontra-la-presidente-ad-interim-haxhiu_16bdddb8-9b56-4b96-a5cb-53107756bc7b.html",
+        "https://www.ansa.it/nuova_europa/en/news/sections/politics/2026/09/02/kosovo-kurti-ldk-presidential-election-agreement-is-in-jeopardy_9f20ca05-94a0-4b5e-81c4-64c4556f89e1.html",
+        "https://www.ansa.it/amp/nuova_europa/it/notizie/rubriche/altrenews/2026/09/02/in-kosovo-rischia-di-saltare-accordo-kurti-ldk-su-elezione-presidente_944ef000-13c1-4420-a456-d75c4b144d9f.html"
       ]
     },
     "Virgilio": {
@@ -2474,6 +2476,45 @@
       "lastSeen": "2026-09-01",
       "urls": [
         "https://journal-b.ch/artikel/junge-perspektiven-auf-den-kosovo/"
+      ]
+    },
+    "friedenskooperative.de": {
+      "country": "Gjermani",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-02",
+      "lastSeen": "2026-08-30",
+      "urls": [
+        "https://www.friedenskooperative.de/index.php/friedensforum/artikel/der-krieg-im-kosovo"
+      ]
+    },
+    "Internazionale": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-02",
+      "lastSeen": "2026-08-31",
+      "urls": [
+        "https://www.internazionale.it/ultime-notizie-reuters/2026/08/31/kosovo-parties-strike-deal-to-elect-president-breaking-deadlock"
+      ]
+    },
+    "best-tv.gr": {
+      "country": "Greqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-02",
+      "lastSeen": "2026-08-31",
+      "urls": [
+        "https://best-tv.gr/mesogeiakoi-agones-2026-me-aroma-messinias-i-deyteri-thesi-kai-to-asimenio-metallio-tis-ethnikis-andron/"
       ]
     }
   }

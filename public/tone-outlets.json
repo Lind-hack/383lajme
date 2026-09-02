@@ -1,10 +1,10 @@
 {
   "lastUpdated": "2026-09-02",
   "overallIndex": 55,
-  "totalArticles": 50,
-  "sourceCount": 35,
+  "totalArticles": 53,
+  "sourceCount": 39,
   "stanceVersion": 3,
-  "unattributed": 125,
+  "unattributed": 143,
   "nonEditorial": 1,
   "wrongKosovo": 0,
   "countries": {
@@ -105,6 +105,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-08-31",
           "lastSeen": "2026-08-31"
+        },
+        {
+          "name": "friedenskooperative.de",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Der Krieg im Kosovo - friedenskooperative.de",
+              "albanianTitle": "Lufta në Kosovë - friedenskooperative.de",
+              "blurb": "Analizë mbi zhvillimet dhe historikun e luftës në Kosovë e publikuar nga platforma gjermane friedenskooperative.de për lexuesit.",
+              "imageUrl": null,
+              "url": "https://www.friedenskooperative.de/index.php/friedensforum/artikel/der-krieg-im-kosovo",
+              "date": "2026-08-30",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-02",
+          "lastSeen": "2026-08-30"
         }
       ],
       "summary": {
@@ -113,7 +137,7 @@
         "neutral": 75,
         "negative": 0,
         "n": 4,
-        "excluded": 0,
+        "excluded": 1,
         "confident": false,
         "stanceVersion": 3
       }
@@ -322,6 +346,43 @@
     "Itali": {
       "outlets": [
         {
+          "name": "ANSA",
+          "sentiment": "neutral",
+          "articleCount": 2,
+          "articles": [
+            {
+              "title": "Kosovo, Kurti-LDK presidential election agreement is in jeopardy - ANSA",
+              "albanianTitle": "Kosovë, rrezikohet marrëveshja Kurti-LDK për zgjedhjen e presidentit - ANSA",
+              "blurb": "Marrëveshja ndërmjet Lëvizjes Vetëvendosje dhe LDK-së për zgjedhjen e presidentit të Kosovës është në rrezik të dështimit.",
+              "imageUrl": "https://www.ansa.it/webimages/img_1280x720/2026/8/26/65e63b3143cc7cd1f0855a67bcbc0948.jpg",
+              "url": "https://www.ansa.it/nuova_europa/en/news/sections/politics/2026/09/02/kosovo-kurti-ldk-presidential-election-agreement-is-in-jeopardy_9f20ca05-94a0-4b5e-81c4-64c4556f89e1.html",
+              "date": "2026-09-02",
+              "sentiment": "neutral",
+              "reason": "Faktikë e raportuar në mënyrë neutrale",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "In Kosovo rischia di saltare accordo Kurti-Ldk su elezione presidente - ANSA",
+              "albanianTitle": "Në Kosovë rrezikon të dështojë marrëveshja Kurti-LDK për zgjedhjen e presidentit - ANSA",
+              "blurb": "Marrëveshja politike ndërmjet Kurtit dhe LDK-së për zgjedhjen e presidentit të ri të Kosovës rrezikon të dështojë.",
+              "imageUrl": null,
+              "url": "https://www.ansa.it/amp/nuova_europa/it/notizie/rubriche/altrenews/2026/09/02/in-kosovo-rischia-di-saltare-accordo-kurti-ldk-su-elezione-presidente_944ef000-13c1-4420-a456-d75c4b144d9f.html",
+              "date": "2026-09-02",
+              "sentiment": "neutral",
+              "reason": "Faktikë e raportuar në mënyrë neutrale",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 12,
+          "trend": "neutral",
+          "firstSeen": "2026-08-20",
+          "lastSeen": "2026-09-02"
+        },
+        {
           "name": "Buonasera24",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -405,6 +466,30 @@
           "trend": "neutral",
           "firstSeen": "2026-08-22",
           "lastSeen": "2026-09-02"
+        },
+        {
+          "name": "Internazionale",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo parties strike deal to elect president, breaking deadlock - Internazionale",
+              "albanianTitle": "Partitë në Kosovë arrijnë marrëveshje për zgjedhjen e presidentit, zhbllokohet situata",
+              "blurb": "Partitë politike në Kosovë kanë arritur marrëveshje për zgjedhjen e presidentit, duke i dhënë fund bllokadës institucionale.",
+              "imageUrl": "https://media.internazionale.it/images/2026/08/31/357363-hd.jpeg",
+              "url": "https://www.internazionale.it/ultime-notizie-reuters/2026/08/31/kosovo-parties-strike-deal-to-elect-president-breaking-deadlock",
+              "date": "2026-08-31",
+              "sentiment": "neutral",
+              "reason": "Faktikë e raportuar në mënyrë neutrale",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-02",
+          "lastSeen": "2026-08-31"
         },
         {
           "name": "LameziaTerme.it",
@@ -578,11 +663,11 @@
         }
       ],
       "summary": {
-        "index": 54,
-        "positive": 8,
-        "neutral": 92,
+        "index": 53,
+        "positive": 7,
+        "neutral": 93,
         "negative": 0,
-        "n": 12,
+        "n": 15,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
@@ -892,6 +977,30 @@
           "lastSeen": "2026-08-31"
         },
         {
+          "name": "best-tv.gr",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Μεσογειακοί Αγώνες 2026: Με άρωμα Μεσσηνίας η δεύτερη θέση και το ασημένιο μετάλλιο της Εθνικής ανδρών - best-tv.gr",
+              "albanianTitle": "Lojërat Mesdhetare 2026: Me aromë Mesinie vendi i dytë dhe medalja e argjendtë për kombëtaren e meshkujve - best-tv.gr",
+              "blurb": "Ekipi kombëtar i meshkujve ka fituar medaljen e argjendtë në Lojërat Mesdhetare të vitit 2026 në disiplinën përkatëse.",
+              "imageUrl": "https://best-tv.gr/wp-content/uploads/2026/08/784351504_1586336656559025_2390669654273620204_n.jpg",
+              "url": "https://best-tv.gr/mesogeiakoi-agones-2026-me-aroma-messinias-i-deyteri-thesi-kai-to-asimenio-metallio-tis-ethnikis-andron/",
+              "date": "2026-08-31",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-02",
+          "lastSeen": "2026-08-31"
+        },
+        {
           "name": "sport-fm.gr",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -946,7 +1055,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 4,
-        "excluded": 0,
+        "excluded": 1,
         "confident": false,
         "stanceVersion": 3
       }
