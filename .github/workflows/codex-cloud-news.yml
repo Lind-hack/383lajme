@@ -175,6 +175,21 @@ jobs:
           smoke_output="$(printf '%s\n' 'Return exactly CODEX_CI_SMOKE_OK and nothing else.' | codex exec --sandbox read-only - 2>&1)" || {
             printf '%s\n' "$smoke_output"
             echo "ERROR Codex auth/model smoke test failed."
+            # Carry the reason into the failure email. Without it the report says
+            # only "open GitHub Actions", so an exhausted Codex workspace looked
+            # like any other breakage and went unread for two days.
+            # `|| true`: pipefail is on, and a grep that matches nothing exits 1.
+            # Losing the reason to the very case where there is no ERROR line
+            # would defeat the point of capturing it.
+            reason="$(printf "%s" "$smoke_output" | grep -iE "^[[:space:]]*ERROR" | head -1 | cut -c1-300 || true)"
+            if [ -z "${reason//[[:space:]]/}" ]; then
+              reason="smoke test-i deshtoi pa nje rresht gabimi; shihni logun e hapit."
+            fi
+            {
+              echo "PIPELINE_FAILURE_REASON<<PIPELINE_EOF"
+              echo "$reason"
+              echo "PIPELINE_EOF"
+            } >> "$GITHUB_ENV"
             exit 1
           }
           printf '%s\n' "$smoke_output"
@@ -386,5 +401,10 @@ jobs:
         if: failure()
         shell: bash
         run: |
-          python scripts/codex_automation_support.py send-status-report \
-            --message "Pipelinei cloud dështoi para publikimit. Hapni GitHub Actions për detajin e hapit që dështoi."
+          # A step that knew why it failed leaves the reason behind for this one.
+          if [ -n "${PIPELINE_FAILURE_REASON:-}" ]; then
+            message="Pipelinei cloud dështoi para publikimit. Shkaku: ${PIPELINE_FAILURE_REASON} Hapni GitHub Actions për detajin e plotë."
+          else
+            message="Pipelinei cloud dështoi para publikimit. Hapni GitHub Actions për detajin e hapit që dështoi."
+          fi
+          python scripts/codex_automation_support.py send-status-report --message "$message"
