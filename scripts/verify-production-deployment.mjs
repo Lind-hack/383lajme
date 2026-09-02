@@ -282,7 +282,10 @@ const TRACKED_UI_MARKERS = {
     "data-f1-race-ui-version",
     'className="f1-grid-pair"',
     "aria-expanded={showAllDrivers}",
-    "{!isLive && (",
+    // Was "{!isLive && (" until the crown market added a championship case to
+    // the same branch. The prefix is what matters — that a not-live rendering
+    // still exists — and it survives the next conjunct someone adds.
+    "{!isLive &&",
     "timingRow?.gap",
     "onBetDriver",
   ],
@@ -311,7 +314,9 @@ const TRACKED_UI_MARKERS = {
     "team_colour: row.team_colour",
     'status: "ARCHIVED"',
     "grid_position: gridPosition",
-    "timing: board",
+    // Was "timing: board". A championship market has no live timing board, so
+    // the field is now conditional; it is still the field the race UI reads.
+    "timing: isChampionship ? null : board",
     "refreshMs: 1_000",
   ],
   "scripts/codex_automation_support.py": [
