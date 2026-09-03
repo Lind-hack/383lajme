@@ -72,17 +72,45 @@ REQUIRED_FIELDS = {
     "created_at",
 }
 
+# The seven sections the site actually navigates by. Nothing else is a category.
+#
+# The generator had been writing five values the frontend has no section for --
+# Politikë, Siguri, Shoqëri, Kulturë and a mis-accented "Kosovo" -- and
+# lib/category-map.ts was quietly folding all of them into Kosovë at read time.
+# On a 103-article archive that was 28 articles filed by a default rather than
+# by a decision, and it is the same normalisation that let a Montenegro story
+# inherit Kosovo's dossier.
 VALID_CATEGORIES = {
-    "Politikë",
-    "Ekonomi",
-    "Botë",
-    "Siguri",
+    "Kosovë",
+    "Shqipëri",
     "Sport",
     "Teknologji",
-    "Kulturë",
-    "Shoqëri",
+    "Ekonomi",
+    "Botë",
     "Showbiz",
-    "Kosovo",
+}
+
+# Written by earlier batches, and by any run still in flight against the old
+# list. Kept as a translation table rather than as valid values, so an old
+# category is corrected into the right section instead of failing validation.
+# The targets match RESOLVABLE_SLUGS in lib/category-map.ts, so a reader
+# following an old /kategori/politike link lands where the article now lives.
+LEGACY_CATEGORY_ALIASES = {
+    "kosovo": "Kosovë",
+    "kosova": "Kosovë",
+    "kosovë": "Kosovë",
+    "politikë": "Kosovë",
+    "politike": "Kosovë",
+    "siguri": "Kosovë",
+    "shoqëri": "Kosovë",
+    "shoqeri": "Kosovë",
+    "kulturë": "Showbiz",
+    "kulture": "Showbiz",
+    "diaspora": "Botë",
+    "albania": "Shqipëri",
+    "shqiperia": "Shqipëri",
+    "shqipëri": "Shqipëri",
+    "shqiperi": "Shqipëri",
 }
 
 KOSOVO_COMPETITOR_SOURCES = {
@@ -251,14 +279,13 @@ def normalize_batch(path: Path) -> list[dict[str, Any]]:
                         changed += 1
                         break
         category = str(article.get("category") or "").strip()
-        if category in {"Kosovë", "Kosova"}:
-            article["category"] = "Kosovo"
-            changed += 1
-        elif category.casefold() in {"shqipëri", "shqiperia", "albania"}:
-            # Albania is editorial geography, not a frontend category. Preserve
-            # the article under the neutral public-affairs category rather than
-            # rejecting an otherwise verified Albanian story.
-            article["category"] = "Shoqëri"
+        # Albania used to be rewritten to "Shoqëri" on the grounds that it was
+        # "editorial geography, not a frontend category". Shqipëri is one of the
+        # seven sections, so that reasoning no longer holds and every Albanian
+        # story was being filed as Kosovo news by way of the default.
+        mapped = LEGACY_CATEGORY_ALIASES.get(category.casefold())
+        if mapped and mapped != category:
+            article["category"] = mapped
             changed += 1
         breakdown = article.get("score_breakdown")
         if not isinstance(breakdown, dict):
@@ -561,7 +588,11 @@ def validate_batch(path: Path) -> list[dict[str, Any]]:
 
         category = str(article.get("category", ""))
         if category not in VALID_CATEGORIES:
-            errors.append(f"{label} invalid category: {category!r}")
+            # Naming the accepted set matters: the retry step feeds this log
+            # back to the generator, and "invalid category" on its own leaves it
+            # guessing which seven are allowed.
+            allowed = ", ".join(sorted(VALID_CATEGORIES))
+            errors.append(f"{label} invalid category: {category!r} (accepted: {allowed})")
 
         article_id = str(article.get("id", ""))
         if not article_id:
@@ -1279,7 +1310,8 @@ def send_report(path: Path) -> int:
         + "</div>"
     )
 
-    category_order = ["Politikë", "Ekonomi", "Siguri", "Sport", "Showbiz", "Botë", "Teknologji", "Kulturë", "Shoqëri"]
+    # Same order as NAV_CATEGORIES, so the email reads like the site.
+    category_order = ["Kosovë", "Shqipëri", "Sport", "Teknologji", "Ekonomi", "Botë", "Showbiz"]
     category_sections: list[str] = []
     for category in category_order:
         category_articles = [article for article in sorted_articles if str(article.get("category")) == category]
