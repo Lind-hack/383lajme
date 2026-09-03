@@ -2143,17 +2143,18 @@
     },
     "ESPN.nl": {
       "country": "Holandë",
-      "total": 3,
+      "total": 4,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 2,
       "firstSeen": "2026-08-28",
-      "lastSeen": "2026-08-30",
+      "lastSeen": "2026-09-02",
       "urls": [
         "https://www.espn.nl/voetbal/wedstrijd?wedstrijdId=505471&action=summary",
         "https://www.espn.nl/voetbal/wedstrijd?wedstrijdId=570760&action=summary",
-        "https://www.espn.nl/voetbal/wedstrijd?wedstrijdId=698919&action=summary"
+        "https://www.espn.nl/voetbal/wedstrijd?wedstrijdId=698919&action=summary",
+        "https://www.espn.nl/voetbal/team/statistieken/_/id/18272/competitie/UEFA.NATIONS/season/2026"
       ]
     },
     "iGaming Polska": {

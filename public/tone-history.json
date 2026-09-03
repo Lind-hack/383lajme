@@ -4790,5 +4790,190 @@
         "sentiment": "negative"
       }
     ]
+  },
+  {
+    "date": "2026-09-03",
+    "overallIndex": 54,
+    "totalArticles": 50,
+    "sourceCount": 37,
+    "stanceVersion": 3,
+    "countries": {
+      "Gjermani": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 2,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "SHBA": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 1,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Britani": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 5,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 3
+      },
+      "Francë": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 3,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Itali": {
+        "index": 54,
+        "positive": 7,
+        "neutral": 93,
+        "negative": 0,
+        "n": 14,
+        "excluded": 1,
+        "confident": true,
+        "stanceVersion": 3
+      },
+      "Austri": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 1,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Zvicër": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 1,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Holandë": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 1,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Belgjikë": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Spanjë": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 5,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 3
+      },
+      "Greqi": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 3,
+        "excluded": 1,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Suedi": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Poloni": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 2,
+        "excluded": 1,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Turqi": {
+        "index": 62,
+        "positive": 25,
+        "neutral": 75,
+        "negative": 0,
+        "n": 12,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 3
+      },
+      "Kroaci": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      }
+    },
+    "headlines": [
+      {
+        "title": "Kosova'daki Yıldızlar Avrupa Halter Şampiyonası'nda 200 Kiloyla Şampiyon Olan Zehra Nur Arslan, Amasya Valisi'ni Ziyaret Etti - Son Dakika",
+        "source": "Son Dakika",
+        "country": "Turqi",
+        "flag": "🇹🇷",
+        "url": "https://www.sondakika.com/guncel/haber-kosova-daki-yildizlar-avrupa-halter-sampiyonasi-nd-20196635/",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Abdixhiku'dan Kurti'ye Teşekkür: Kosova İçin Değerli Bir Anlaşmaya Vardık - Kosovahaber.com",
+        "source": "kosovahaber.com",
+        "country": "Turqi",
+        "flag": "🇹🇷",
+        "url": "https://kosovahaber.com/haber/abdixhikudan-kurtiye-tesekkur-kosova-icin-degerli-bir-anlasmaya-vardik-105513",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Haxhiu, Akdeniz Oyunları’nda Madalya Kazanan Judo Ekibini Kabul Etti - kosovahaber.com",
+        "source": "kosovahaber.com",
+        "country": "Turqi",
+        "flag": "🇹🇷",
+        "url": "https://kosovahaber.com/haber/haxhiu-akdeniz-oyunlarinda-madalya-kazanan-judo-ekibini-kabul-etti-105579",
+        "sentiment": "positive"
+      }
+    ]
   }
 ]
