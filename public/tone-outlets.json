@@ -1,10 +1,10 @@
 {
-  "lastUpdated": "2026-09-02",
-  "overallIndex": 55,
-  "totalArticles": 53,
-  "sourceCount": 39,
+  "lastUpdated": "2026-09-03",
+  "overallIndex": 54,
+  "totalArticles": 50,
+  "sourceCount": 37,
   "stanceVersion": 3,
-  "unattributed": 143,
+  "unattributed": 157,
   "nonEditorial": 1,
   "wrongKosovo": 0,
   "countries": {
@@ -35,54 +35,6 @@
           "lastSeen": "2026-09-01"
         },
         {
-          "name": "MDR.de",
-          "sentiment": "positive",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Vom Kosovo-Flüchtling zum erfolgreichen Unternehmer: Shpetim Alaj und seine Autobiografie - MDR.de",
-              "albanianTitle": "Nga refugjat i Kosovës në sipërmarrës të suksesshëm: Shpetim Alaj dhe autobiografia e tij - MDR.de",
-              "blurb": "Shpetim Alaj publikon autobiografinë e tij ku rrëfen rrugëtimin nga refugjat kosovar deri te sipërmarrësi i suksesshëm në Gjermani.",
-              "imageUrl": "https://images.mdr.de/image/e08bf306-8cb3-46f4-81c1-2d00545c525b/AAABoFHR84c/AAABnSSvrFg/16x9-big/lesung-shpetim-alaj-104.webp?width=1920",
-              "url": "https://www.mdr.de/nachrichten/thueringen/west-thueringen/eisenach/autobiografie-shpetim-alaj-handball-,kosovo-fluechtling-100.html",
-              "date": "2026-08-30",
-              "sentiment": "positive",
-              "reason": "Positive framing of a Kosovo refugee's success",
-              "isQuote": false,
-              "evidence": "erfolgreichen Unternehmer",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-30",
-          "lastSeen": "2026-08-30"
-        },
-        {
-          "name": "Netzwerk Friedenskooperative",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Der Krieg im Kosovo - Netzwerk Friedenskooperative",
-              "albanianTitle": "Lufta në Kosovë – Rrjeti i Kooperativës për Paqe",
-              "blurb": "Rrjeti i bashkëpunimit për paqe publikon të dhëna dhe analiza mbi zhvillimet e luftës në territorin e Kosovës.",
-              "imageUrl": "https://www.friedenskooperative.de/sites/default/files/styles/social_media_teaser/public/media/image/2026/zeitschrift-friedensforum-schwerpunkt_0.png?h=5463d0de&itok=YbTOrf_Y",
-              "url": "https://www.friedenskooperative.de/index.php/friedensforum/artikel/der-krieg-im-kosovo",
-              "date": "2026-08-30",
-              "sentiment": "neutral",
-              "reason": "Titulli thjesht raporton temën pa gjuhë ngarkuar",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-01",
-          "lastSeen": "2026-08-30"
-        },
-        {
           "name": "WAZ",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -105,39 +57,15 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-08-31",
           "lastSeen": "2026-08-31"
-        },
-        {
-          "name": "friedenskooperative.de",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Der Krieg im Kosovo - friedenskooperative.de",
-              "albanianTitle": "Lufta në Kosovë - friedenskooperative.de",
-              "blurb": "Analizë mbi zhvillimet dhe historikun e luftës në Kosovë e publikuar nga platforma gjermane friedenskooperative.de për lexuesit.",
-              "imageUrl": null,
-              "url": "https://www.friedenskooperative.de/index.php/friedensforum/artikel/der-krieg-im-kosovo",
-              "date": "2026-08-30",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-02",
-          "lastSeen": "2026-08-30"
         }
       ],
       "summary": {
-        "index": 62,
-        "positive": 25,
-        "neutral": 75,
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 4,
-        "excluded": 1,
+        "n": 2,
+        "excluded": 0,
         "confident": false,
         "stanceVersion": 3
       }
@@ -185,7 +113,7 @@
         {
           "name": "Balkan Insight",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 3,
           "articles": [
             {
               "title": "Two Kosovo Serbs Plead Guilty to Participating in 2022 Unrest - Balkan Insight",
@@ -212,12 +140,25 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Kosovo President’s Election Jeopardised by Party’s Inner Divisions - Balkan Insight",
+              "albanianTitle": "Përçarjet e brendshme partiake rrezikojnë zgjedhjen e Presidentit të Kosovës",
+              "blurb": "Përçarjet e brendshme partiake po rrezikojnë procesin e zgjedhjes së presidentit të ri të Republikës së Kosovës.",
+              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/07/Lumir-Abdixhiku-foto-KALLXOcom.jpg",
+              "url": "https://balkaninsight.com/2026/09/02/kosovo-presidents-election-jeopardised-by-partys-inner-divisions/bi/",
+              "date": "2026-09-02",
+              "sentiment": "neutral",
+              "reason": "Descriptive headline about internal politics, not hostile toward Kosovo",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 7,
+          "totalArticles": 8,
           "trend": "i përzier",
           "firstSeen": "2026-08-19",
-          "lastSeen": "2026-08-31"
+          "lastSeen": "2026-09-02"
         },
         {
           "name": "Reuters",
@@ -262,9 +203,9 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 4,
+        "n": 5,
         "excluded": 0,
-        "confident": false,
+        "confident": true,
         "stanceVersion": 3
       }
     },
@@ -431,6 +372,30 @@
           "lastSeen": "2026-08-31"
         },
         {
+          "name": "FIGC",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Giochi del Mediterraneo, medaglia d’argento per le Azzurrine battute in finale dal Portogallo - FIGC",
+              "albanianTitle": "Lojërat Mesdhetare, medalje argjendi për italianet pas humbjes në finale nga Portugalia - FIGC",
+              "blurb": "Ekipi i futbollit të femrave të Italisë ka fituar medaljen e argjendtë në Lojërat Mesdhetare pas humbjes në finale.",
+              "imageUrl": "https://images.figc.it/view/acePublic/alias/contentid/1thltfkfaamv19y2des/0/5a7197ba-9a41-43eb-9ef4-6b4049155e3f-jpg.jpg?f=187%3A100",
+              "url": "https://www.figc.it/it/nazionali/news/giochi-del-mediterraneo-medaglia-dargento-per-le-azzurrine-battute-in-finale-dal-portogallo-iebdcslk",
+              "date": "2026-08-31",
+              "sentiment": "unknown",
+              "reason": "Nuk përmendet Kosova në titull",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 6,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-20",
+          "lastSeen": "2026-08-31"
+        },
+        {
           "name": "Il Sole 24 ORE",
           "sentiment": "neutral",
           "articleCount": 2,
@@ -542,21 +507,8 @@
         {
           "name": "agenziagiornalisticaopinione.it",
           "sentiment": "neutral",
-          "articleCount": 3,
+          "articleCount": 2,
           "articles": [
-            {
-              "title": "FIGC * FEDERAZIONE ITALIANA GIUOCO CALCIO: «GIOCHI DEL MEDITERRANEO, AZZURRINI 4° POSTO: MAROCCO VINCE 4-1 - agenziagiornalisticaopinione.it",
-              "albanianTitle": "Lojërat Mesdhetare: Italia e re zë vendin e katërt, Maroku fiton 4-1 - agenziagiornalisticaopinione.it",
-              "blurb": "Përfaqësuesja e Italisë në futboll ka përfunduar në vendin e katërt në Lojërat Mesdhetare pas humbjes ndaj Marokut.",
-              "imageUrl": "https://www.agenziagiornalisticaopinione.it/wp-content/uploads/2026/08/y99zdb2b930c-2883-4655-a2f5-b54a038aa955-jpg.jpg",
-              "url": "https://www.agenziagiornalisticaopinione.it/opinionmix/figc-federazione-italiana-giuoco-calcio-giochi-del-mediterraneo-azzurrini-4-posto-marocco-vince-4-1/",
-              "date": "2026-08-30",
-              "sentiment": "neutral",
-              "reason": "Përdor citim në titull, por pa gjuhë kundërshtuese ndaj Kosovës",
-              "isQuote": true,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "FIGC * FEDERAZIONE ITALIANA GIUOCO CALCIO: «ITALIA 2° ALLA PRIMA EDIZIONE FEMMINILE DEL TORNEO, PORTOGALLO VINCE 4-0 - agenziagiornalisticaopinione.it",
               "albanianTitle": "FIGC: Italia e dyta në edicionin e parë të turneut për femra, Portugalia fiton 4-0",
@@ -663,12 +615,12 @@
         }
       ],
       "summary": {
-        "index": 53,
+        "index": 54,
         "positive": 7,
         "neutral": 93,
         "negative": 0,
-        "n": 15,
-        "excluded": 0,
+        "n": 14,
+        "excluded": 1,
         "confident": true,
         "stanceVersion": 3
       }
@@ -757,23 +709,23 @@
           "articleCount": 1,
           "articles": [
             {
-              "title": "Cyprus 0-4 Kosovo (9 sep., 2024) Uitslag - ESPN.nl",
-              "albanianTitle": "Qipro 0-4 Kosovë (9 shtator 2024) Rezultati",
-              "blurb": "Kombëtarja e Kosovës ka shënuar fitore me rezultat 4-0 ndaj Qipros në ndeshjen e zhvilluar më 9 shtator.",
+              "title": "Scoring statistieken Kosovo, UEFA Nations League 2026 - ESPN.nl",
+              "albanianTitle": "Statistikat e golave të Kosovës në Ligën e Kombeve 2026",
+              "blurb": "Statistikat e shënimit të golave për përfaqësuesen e Kosovës në kuadër të Ligës së Kombeve për vitin 2026.",
               "imageUrl": null,
-              "url": "https://www.espn.nl/voetbal/wedstrijd?wedstrijdId=698919&action=summary",
-              "date": "2026-08-30",
+              "url": "https://www.espn.nl/voetbal/team/statistieken/_/id/18272/competitie/UEFA.NATIONS/season/2026",
+              "date": "2026-09-02",
               "sentiment": "neutral",
-              "reason": "Straightforward match result reporting",
+              "reason": "Raportim sportiv neutral",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
             }
           ],
-          "totalArticles": 3,
+          "totalArticles": 4,
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-08-28",
-          "lastSeen": "2026-08-30"
+          "lastSeen": "2026-09-02"
         }
       ],
       "summary": {
@@ -788,38 +740,13 @@
       }
     },
     "Belgjikë": {
-      "outlets": [
-        {
-          "name": "Doorbraak.be",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Nieuwe kerk in Kosovo leidt tot identitair debat met moslims - Doorbraak.be",
-              "albanianTitle": "Kisha e re në Kosovë nxit debat mbi identitetin me komunitetin mysliman",
-              "blurb": "Ndërtimi i një kishe të re në Kosovë ka nxitur debat mbi identitetin fetar me komunitetin mysliman lokal.",
-              "imageUrl": "https://doorbraak.be/wp-content/uploads/2026/08/34_Prishtene_-_Katedralja-tFtvYw.jpg",
-              "url": "https://doorbraak.be/nieuwe-kerk-in-kosovo-leidt-tot-identitair-debat-met-moslims",
-              "date": "2026-08-30",
-              "sentiment": "neutral",
-              "reason": "Titulli raporton faktin në mënyrë neutrale",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-30",
-          "lastSeen": "2026-08-30"
-        }
-      ],
+      "outlets": [],
       "summary": {
-        "index": 50,
+        "index": null,
         "positive": 0,
-        "neutral": 100,
+        "neutral": 0,
         "negative": 0,
-        "n": 1,
+        "n": 0,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -1001,30 +928,6 @@
           "lastSeen": "2026-08-31"
         },
         {
-          "name": "sport-fm.gr",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Κύπρος-Κόσοβο 0-4 - sport-fm.gr",
-              "albanianTitle": "Qipro - Kosovë 0-4",
-              "blurb": "Përfaqësuesja e Kosovës në futboll ka shënuar fitore me rezultat 4-0 kundër përfaqësueses së Qipros në ndeshjen e zhvilluar.",
-              "imageUrl": "https://resources.sport-fm.gr/supersportFM/images/news/24/09/09/cyprus-kosovo_094725.jpg?w=880&f=bicubic",
-              "url": "https://www.sport-fm.gr/article/5004006",
-              "date": "2026-08-30",
-              "sentiment": "neutral",
-              "reason": "Faktikë i raportuar në mënyrë neutrale, pa gjuhë ngarkuese",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 11,
-          "trend": "i përzier",
-          "firstSeen": "2026-08-20",
-          "lastSeen": "2026-08-30"
-        },
-        {
           "name": "Αθήνα 9,84",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1054,7 +957,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 4,
+        "n": 3,
         "excluded": 1,
         "confident": false,
         "stanceVersion": 3
@@ -1122,6 +1025,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-08-28",
           "lastSeen": "2026-08-31"
+        },
+        {
+          "name": "igamingpolska.pl",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Mistrzostwa Świata Socca 2026: terminarz, harmonogram i wyniki - igamingpolska.pl",
+              "albanianTitle": "Kampionati Botëror i Socca 2026: kalendari, orari dhe rezultatet - igamingpolska.pl",
+              "blurb": "Publikohet orari, kalendari i ndeshjeve dhe rezultatet për Kampionatin Botëror të Socca-s që do të mbahet në vitin 2026.",
+              "imageUrl": null,
+              "url": "https://igamingpolska.pl/mistrzostwa-swiata-socca-2026-terminarz-wyniki/",
+              "date": "2026-09-01",
+              "sentiment": "unknown",
+              "reason": "Nuk përmendet Kosova në titull",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-02",
+          "lastSeen": "2026-09-01"
         }
       ],
       "summary": {
@@ -1130,7 +1057,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 2,
-        "excluded": 0,
+        "excluded": 1,
         "confident": false,
         "stanceVersion": 3
       }
@@ -1238,21 +1165,8 @@
         {
           "name": "Son Dakika",
           "sentiment": "neutral",
-          "articleCount": 5,
+          "articleCount": 4,
           "articles": [
-            {
-              "title": "Milliler Kosova'yı Yendi, Çeyrek Finale Yükseldi - Son Dakika",
-              "albanianTitle": "Kombëtarja turke mposht Kosovën dhe kualifikohet në çerekfinale - Son Dakika",
-              "blurb": "Kombëtarja turke ka mposhtur Kosovën në ndeshjen e fundit, duke siguruar kualifikimin për në çerekfinale të këtij kampionati.",
-              "imageUrl": null,
-              "url": "https://www.sondakika.com/spor/haber-milliler-kosova-yi-yendi-ceyrek-finale-yukseldi-20190048/",
-              "date": "2026-08-30",
-              "sentiment": "neutral",
-              "reason": "Raportim sportiv i fitores, pa gjuhë përçmuese",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "Kosova'da Cumhurbaşkanı Adaylığı Üzerinde Uzlaşma - Son Dakika",
               "albanianTitle": "Konsensus në Kosovë për kandidaturën për president",
@@ -1334,14 +1248,51 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-08-31",
           "lastSeen": "2026-08-31"
+        },
+        {
+          "name": "sondakika.com",
+          "sentiment": "neutral",
+          "articleCount": 2,
+          "articles": [
+            {
+              "title": "Kosova'da Cumhurbaşkanı Adaylığı Üzerinde Uzlaşma - sondakika.com",
+              "albanianTitle": "Konsensus në Kosovë për kandidaturën për president - sondakika.com",
+              "blurb": "Partitë politike në Kosovë kanë arritur një pajtim lidhur me kandidaturën për postin e presidentit të vendit.",
+              "imageUrl": null,
+              "url": "https://www.sondakika.com/politika/haber-kosova-da-cumhurbaskani-adayligi-uzerinde-uzlasma-20193550/",
+              "date": "2026-08-31",
+              "sentiment": "neutral",
+              "reason": "Titulli thjesht njofton për një uzlashë në kandidaturën presidenciale në Kosova",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Kosova'da Cumhurbaşkanı Adayı Sejdiu Belirlendi - sondakika.com",
+              "albanianTitle": "Sejdiu caktohet kandidat për president të Kosovës",
+              "blurb": "Sejdiu është përcaktuar si kandidat për president të Kosovës, sipas njoftimeve të fundit nga mediat turke.",
+              "imageUrl": null,
+              "url": "https://www.sondakika.com/guncel/haber-kosova-da-cumhurbaskani-adayi-sejdiu-belirlendi-20194210/",
+              "date": "2026-08-31",
+              "sentiment": "neutral",
+              "reason": "Lajm politik i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 4,
+          "trend": "neutral",
+          "firstSeen": "2026-08-26",
+          "lastSeen": "2026-08-31"
         }
       ],
       "summary": {
-        "index": 64,
-        "positive": 27,
-        "neutral": 73,
+        "index": 62,
+        "positive": 25,
+        "neutral": 75,
         "negative": 0,
-        "n": 11,
+        "n": 12,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
