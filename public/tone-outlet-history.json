@@ -88,13 +88,13 @@
     },
     "Le Courrier des Balkans": {
       "country": "Francë",
-      "total": 8,
+      "total": 9,
       "positive": 0,
-      "neutral": 7,
+      "neutral": 8,
       "negative": 1,
       "unknown": 0,
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-31",
+      "lastSeen": "2026-09-02",
       "urls": [
         "https://www.courrierdesbalkans.fr/detourner-libar-nouvelle-arme-de-vucic-contre-le-kosovo-98491/",
         "https://www.courrierdesbalkans.fr/kosovo-jouer-a-la-paix-jouer-a-la-guerre-69437/",
@@ -103,7 +103,8 @@
         "https://www.courrierdesbalkans.fr/kosovo-serbie-mais-ou-est-passe-le-journalisme-engage-9084/",
         "https://www.courrierdesbalkans.fr/entre-kosovo-et-serbie-la-fin-des-mesures-de-reciprocite-73159/",
         "https://www.courrierdesbalkans.fr/kosovo-68-des-serbes-estiment-que-leur-situation-sest-degradee-depuis-un-an-98756/",
-        "https://www.courrierdesbalkans.fr/kosovo-quand-le-blocage-institutionnel-devient-une-strategie-politique-98768/"
+        "https://www.courrierdesbalkans.fr/kosovo-quand-le-blocage-institutionnel-devient-une-strategie-politique-98768/",
+        "https://www.courrierdesbalkans.fr/laccord-sur-un-candidat-commun-a-la-presidence-suffira-t-il-a-sortir-le-kosovo-de-limpasse-99042/"
       ]
     },
     "Le Figaro": {

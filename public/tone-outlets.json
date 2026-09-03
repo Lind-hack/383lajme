@@ -1,7 +1,7 @@
 {
   "lastUpdated": "2026-09-03",
   "overallIndex": 54,
-  "totalArticles": 50,
+  "totalArticles": 51,
   "sourceCount": 37,
   "stanceVersion": 3,
   "unattributed": 157,
@@ -238,7 +238,7 @@
         {
           "name": "Le Courrier des Balkans",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 3,
           "articles": [
             {
               "title": "Kosovo : quand le blocage institutionnel devient une stratégie politique - Le Courrier des Balkans",
@@ -265,12 +265,25 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "L’accord sur un candidat commun à la présidence suffira-t-il à sortir le Kosovo de l’impasse ? - Le Courrier des Balkans",
+              "albanianTitle": "A do të mjaftojë marrëveshja për një kandidat të përbashkët për president për ta nxjerrë Kosovën nga ngërçi politik?",
+              "blurb": "Partitë politike në Kosovë po diskutojnë për një kandidat të përbashkët për president me qëllim tejkalimin e bllokadës institucionale.",
+              "imageUrl": "https://www.courrierdesbalkans.fr/wp-content/uploads/2026/09/Bekim-Sejdiu.jpg",
+              "url": "https://www.courrierdesbalkans.fr/laccord-sur-un-candidat-commun-a-la-presidence-suffira-t-il-a-sortir-le-kosovo-de-limpasse-99042/",
+              "date": "2026-09-02",
+              "sentiment": "neutral",
+              "reason": "Headline poses a neutral question about political solution without hostile language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 8,
+          "totalArticles": 9,
           "trend": "i përzier",
           "firstSeen": "2026-08-20",
-          "lastSeen": "2026-08-31"
+          "lastSeen": "2026-09-02"
         }
       ],
       "summary": {
@@ -278,7 +291,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 3,
+        "n": 4,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
