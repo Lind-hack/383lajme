@@ -4794,8 +4794,8 @@
   {
     "date": "2026-09-03",
     "overallIndex": 53,
-    "totalArticles": 55,
-    "sourceCount": 40,
+    "totalArticles": 58,
+    "sourceCount": 41,
     "stanceVersion": 3,
     "countries": {
       "Gjermani": {
@@ -4823,7 +4823,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 6,
+        "n": 8,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
@@ -4843,7 +4843,7 @@
         "positive": 6,
         "neutral": 94,
         "negative": 0,
-        "n": 16,
+        "n": 17,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 3
@@ -4960,7 +4960,7 @@
       },
       {
         "title": "Kosova'daki Yıldızlar Avrupa Halter Şampiyonası'nda 200 Kiloyla Şampiyon Olan Zehra Nur Arslan, Amasya Valisi'ni Ziyaret Etti - Son Dakika",
-        "source": "Son Dakika",
+        "source": "sondakika.com",
         "country": "Turqi",
         "flag": "🇹🇷",
         "url": "https://www.sondakika.com/guncel/haber-kosova-daki-yildizlar-avrupa-halter-sampiyonasi-nd-20196635/",
@@ -4968,11 +4968,19 @@
       },
       {
         "title": "Abdixhiku'dan Kurti'ye Teşekkür: Kosova İçin Değerli Bir Anlaşmaya Vardık - Kosovahaber.com",
-        "source": "kosovahaber.com",
+        "source": "Kosovahaber.com",
         "country": "Turqi",
         "flag": "🇹🇷",
         "url": "https://kosovahaber.com/haber/abdixhikudan-kurtiye-tesekkur-kosova-icin-degerli-bir-anlasmaya-vardik-105513",
         "sentiment": "positive"
+      },
+      {
+        "title": "Rama: Kurtis Regierung bestraft Bürger, nur weil sie nicht für VV gestimmt haben; Kosovo gleitet in Richtung Diktatur ab - gazetaexpress.com",
+        "source": "gazetaexpress.com",
+        "country": "Zvicër",
+        "flag": "🇨🇭",
+        "url": "https://www.gazetaexpress.com/de/Rama--die-Kurti-Regierung-bestraft-B%C3%BCrger-nur-deshalb--weil-sie-nicht-f%C3%BCr-ihn-gestimmt-haben.-Kosovo-gleitet-in-Richtung-Diktatur-ab./",
+        "sentiment": "negative"
       }
     ]
   }

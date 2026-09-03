@@ -2551,6 +2551,19 @@
       "urls": [
         "https://www.ilnordest.it/oltre-confine/kosovo-crisi-politica-presidente-bekim-sejdiu-kurti-franchi-tiratori-hz4x1m9p"
       ]
+    },
+    "unitalsi.it": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-03",
+      "lastSeen": "2026-09-01",
+      "urls": [
+        "https://unitalsi.it/news-territorio/donazione-del-gruppo-dellunitalsi-del-reventino-per-il-kosovo/"
+      ]
     }
   }
 }

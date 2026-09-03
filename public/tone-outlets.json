@@ -1,10 +1,10 @@
 {
   "lastUpdated": "2026-09-03",
   "overallIndex": 53,
-  "totalArticles": 55,
-  "sourceCount": 40,
+  "totalArticles": 58,
+  "sourceCount": 41,
   "stanceVersion": 3,
-  "unattributed": 181,
+  "unattributed": 200,
   "nonEditorial": 1,
   "wrongKosovo": 0,
   "countries": {
@@ -113,7 +113,7 @@
         {
           "name": "Balkan Insight",
           "sentiment": "neutral",
-          "articleCount": 4,
+          "articleCount": 6,
           "articles": [
             {
               "title": "Two Kosovo Serbs Plead Guilty to Participating in 2022 Unrest - Balkan Insight",
@@ -163,6 +163,32 @@
               "date": "2026-09-03",
               "sentiment": "neutral",
               "reason": "Faktikë raportuar pa ngarkim",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "‘Not Mere Incidents’: Kosovo Questions Femicide Approach after New Killings - balkaninsight.com",
+              "albanianTitle": "‘Nuk janë thjesht incidente’: Kosova vë në pikëpyetje qasjen ndaj femicideve pas vrasjeve të fundit",
+              "blurb": "Institucionet në Kosovë po shqyrtojnë qasjen ndaj femicideve pas vrasjeve të fundit të grave në vend.",
+              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/09/20260828_123621-scaled.jpg",
+              "url": "https://balkaninsight.com/2026/09/03/not-mere-incidents-kosovo-questions-femicide-approach-after-new-killings/bi/",
+              "date": "2026-09-03",
+              "sentiment": "neutral",
+              "reason": "Quoted phrase in headline, no hostile language from outlet",
+              "isQuote": true,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Two Kosovo Serbs Plead Guilty to Participating in 2022 Unrest - balkaninsight.com",
+              "albanianTitle": "Dy serbë të Kosovës pranojnë fajësinë për pjesëmarrje në trazirat e vitit 2022",
+              "blurb": "Dy serbë të Kosovës janë deklaruar fajtorë për pjesëmarrje në trazirat e ndodhura gjatë vitit 2022.",
+              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/08/viber_image_2026-08-31_11-20-45-134-e1788171467147.jpg",
+              "url": "https://balkaninsight.com/2026/08/31/two-kosovo-serbs-plead-guilty-to-participating-in-2022-unrest/bi/",
+              "date": "2026-08-31",
+              "sentiment": "neutral",
+              "reason": "Straightforward report of court outcome, no evaluative language",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -216,7 +242,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 6,
+        "n": 8,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
@@ -429,12 +455,12 @@
             {
               "title": "Giochi del Mediterraneo, medaglia d’argento per le Azzurrine battute in finale dal Portogallo - FIGC",
               "albanianTitle": "Lojërat Mesdhetare, medalje argjendi për italianet pas humbjes në finale nga Portugalia - FIGC",
-              "blurb": "Ekipi i vajzave të Italisë ka fituar medaljen e argjendtë në Lojërat Mesdhetare pas humbjes në finale nga Portugalia.",
+              "blurb": "Ekipi i futbollit të femrave të Italisë ka fituar medaljen e argjendtë në Lojërat Mesdhetare pas humbjes në finale.",
               "imageUrl": "https://images.figc.it/view/acePublic/alias/contentid/1thltfkfaamv19y2des/0/5a7197ba-9a41-43eb-9ef4-6b4049155e3f-jpg.jpg?f=187%3A100",
               "url": "https://www.figc.it/it/nazionali/news/giochi-del-mediterraneo-medaglia-dargento-per-le-azzurrine-battute-in-finale-dal-portogallo-iebdcslk",
               "date": "2026-08-31",
               "sentiment": "unknown",
-              "reason": "Artikulli nuk ka lidhje me Kosovën, ndaj nuk mund të përcaktohet qëndrimi",
+              "reason": "Artikulli nuk ka të bëjë me Kosovën, asnjë qëndrim i shprehur",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -686,6 +712,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-03",
           "lastSeen": "2026-09-03"
+        },
+        {
+          "name": "unitalsi.it",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Donazione del gruppo dell’Unitalsi del Reventino per il Kosovo - unitalsi.it",
+              "albanianTitle": "Donacion nga grupi Unitalsi i Reventinos për Kosovën",
+              "blurb": "Grupi Unitalsi nga Reventino ka realizuar një donacion për qytetarët dhe nevojat e ndryshme në Kosovë.",
+              "imageUrl": "https://unitalsi.it/wp-content/uploads/2026/09/COP-Screenshot-2026-09-01-alle-10.07.22.jpg",
+              "url": "https://unitalsi.it/news-territorio/donazione-del-gruppo-dellunitalsi-del-reventino-per-il-kosovo/",
+              "date": "2026-09-01",
+              "sentiment": "neutral",
+              "reason": "Faktikë e thjeshtë, raportim i dhurimit",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-03",
+          "lastSeen": "2026-09-01"
         }
       ],
       "summary": {
@@ -693,7 +743,7 @@
         "positive": 6,
         "neutral": 94,
         "negative": 0,
-        "n": 16,
+        "n": 17,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 3
