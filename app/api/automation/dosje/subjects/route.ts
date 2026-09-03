@@ -119,17 +119,61 @@ async function run(req: Request, dryRun: boolean) {
     byTopic.get(m.topic_slug)!.push(m);
   }
 
+  // The standing test has to see the whole history, not one scan window.
+  //
+  // This scan reads the most recent 200 articles, and on the live archive
+  // roughly one article in a hundred matches any dossier subject at all -- the
+  // matcher is right to be that selective, since the six near-misses it refuses
+  // are Serbia's own elections, Montenegro's EU path, North Macedonia, Albania
+  // and Libya. But it means a scan yields about two matches, so a bar of three
+  // articles across two days could never be met from one run's matches, and the
+  // subject selector returned no candidate every time.
+  //
+  // The mappings were being persisted the whole time. Reading them back keeps
+  // the editorial bar exactly where it was and lets a subject accumulate toward
+  // it over weeks instead of starting from nothing on every run.
+  const topicSlugs = [...byTopic.keys()];
+  const history = new Map<string, Array<{ articleSlug: string; publishedAt: string }>>();
+  if (topicSlugs.length) {
+    const { data: priorRows, error: priorError } = await supabase
+      .from("dosje_article_topics")
+      .select("article_slug, topic_slug, published_at")
+      .in("topic_slug", topicSlugs);
+    // A missing published_at column means the migration has not landed yet;
+    // that is survivable, it just leaves the run with this scan's matches only.
+    if (!priorError) {
+      for (const row of (priorRows ?? []) as Array<{
+        article_slug: string;
+        topic_slug: string;
+        published_at: string | null;
+      }>) {
+        if (!row.published_at) continue;
+        if (!history.has(row.topic_slug)) history.set(row.topic_slug, []);
+        history.get(row.topic_slug)!.push({
+          articleSlug: row.article_slug,
+          publishedAt: row.published_at,
+        });
+      }
+    }
+  }
+
   const candidates: Array<{ topic: string; title: string; articles: number; days: number }> = [];
   for (const [slug, rows] of byTopic) {
-    const standing = isStandingSubject(
-      rows.map((r) => ({ articleSlug: r.article_slug, publishedAt: r.publishedAt }))
-    );
-    if (!standing) continue;
+    // This run's matches plus everything already recorded for the subject, one
+    // entry per article: an article re-scanned on a later run is the same
+    // article, and must not be able to count twice toward the bar.
+    const byArticle = new Map<string, { articleSlug: string; publishedAt: string }>();
+    for (const r of history.get(slug) ?? []) byArticle.set(r.articleSlug, r);
+    for (const r of rows) {
+      if (r.publishedAt) byArticle.set(r.article_slug, { articleSlug: r.article_slug, publishedAt: r.publishedAt });
+    }
+    const all = [...byArticle.values()];
+    if (!isStandingSubject(all)) continue;
     candidates.push({
       topic: slug,
       title: topics.find((t) => t.slug === slug)?.title ?? slug,
-      articles: rows.length,
-      days: new Set(rows.map((r) => String(r.publishedAt).slice(0, 10))).size,
+      articles: all.length,
+      days: new Set(all.map((r) => String(r.publishedAt).slice(0, 10))).size,
     });
   }
 
