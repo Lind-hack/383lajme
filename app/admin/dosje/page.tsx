@@ -1,4 +1,6 @@
 import { cookies } from "next/headers";
+import { isAdminAuthed } from "@/lib/admin-auth";
+import { totpEnabled } from "@/lib/admin-totp";
 
 import { createAdminClient } from "@/lib/supabase/admin";
 import { buildDosjeCoverage } from "@/lib/dosje-coverage.mjs";
@@ -194,7 +196,7 @@ export default async function DosjeAdminPage({
 }) {
   const params = await searchParams;
   const store = await cookies();
-  const authed = store.get("dosje_admin_auth")?.value === "1";
+  const authed = await isAdminAuthed();
 
   if (!authed) {
   return (
@@ -215,6 +217,17 @@ export default async function DosjeAdminPage({
             placeholder="Fjalëkalimi"
             style={{ flex: 1, padding: "9px 11px", border: "1px solid #ccc", borderRadius: "7px", font: SANS }}
           />
+          {totpEnabled() && (
+            <input
+              type="text"
+              name="code"
+              inputMode="numeric"
+              autoComplete="one-time-code"
+              maxLength={6}
+              placeholder="Kodi"
+              style={{ width: "110px", padding: "9px 11px", border: "1px solid #ccc", borderRadius: "7px", font: SANS, letterSpacing: "0.2em" }}
+            />
+          )}
           <button type="submit" style={{ padding: "9px 15px", borderRadius: "7px", border: "none", background: "#111", color: "#fff", font: SANS, cursor: "pointer" }}>
             Hyr
           </button>

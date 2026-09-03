@@ -2,25 +2,36 @@
 
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { ADMIN_COOKIE, ADMIN_COOKIE_OPTIONS, mintAdminSession, verifyAdminSession } from "@/lib/admin-session";
+import { totpEnabled, verifyTotp } from "@/lib/admin-totp";
 import { revalidatePath } from "next/cache";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { dateKeyInKosovo } from "@/lib/reagimi-data";
 import { MAX_OPTIONS } from "@/lib/sondazhi-draft.mjs";
 
-const AUTH_COOKIE = "poll_admin_auth";
+// One shared admin session, replacing a per-panel cookie whose value was the
+// literal string "1". httpOnly keeps page scripts out of a cookie; it does not
+// stop the person holding the browser from setting one in devtools or curl, and
+// a value of "1" leaves nothing to guess. Sending `Cookie: poll_admin_auth=1`
+// to production returned the full panel.
+const AUTH_COOKIE = ADMIN_COOKIE;
 
 export async function loginAction(formData: FormData) {
+  const secret = process.env.ADMIN_SECRET ?? "";
   const password = formData.get("password") as string;
-  if (password !== process.env.ADMIN_SECRET) {
+  if (!secret || password !== secret) {
     redirect("/admin/poll?err=1");
   }
-  const cookieStore = await cookies();
-  cookieStore.set(AUTH_COOKIE, "1", {
-    httpOnly: true,
-    maxAge: 60 * 60 * 24,
-    path: "/",
-    sameSite: "lax",
-  });
+  // Same second factor as the main dashboard, so one enrolled device covers
+  // every panel and there is no weaker door left standing beside a locked one.
+  if (totpEnabled()) {
+    const code = String(formData.get("code") ?? "");
+    if (!verifyTotp(code, (process.env.ADMIN_TOTP_SECRET ?? "").trim())) {
+      redirect("/admin/poll?err=1");
+    }
+  }
+  const store = await cookies();
+  store.set(AUTH_COOKIE, mintAdminSession(secret), ADMIN_COOKIE_OPTIONS);
   redirect("/admin/poll");
 }
 

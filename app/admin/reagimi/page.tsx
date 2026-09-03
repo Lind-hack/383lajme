@@ -1,4 +1,6 @@
 import { cookies } from "next/headers";
+import { isAdminAuthed } from "@/lib/admin-auth";
+import { totpEnabled } from "@/lib/admin-totp";
 import { createClient } from "@/lib/supabase/server";
 import {
   dateKeyInKosovo,
@@ -26,7 +28,7 @@ export default async function AdminReagimiPage({
 }) {
   const params = await searchParams;
   const cookieStore = await cookies();
-  const isAuthed = cookieStore.get("reagimi_admin_auth")?.value === "1";
+  const isAuthed = await isAdminAuthed();
 
   const pageStyle: React.CSSProperties = {
     minHeight: "100vh",
@@ -138,6 +140,18 @@ export default async function AdminReagimiPage({
               autoFocus
               style={inputStyle}
             />
+            {totpEnabled() && (
+              <input
+                type="text"
+                name="code"
+                inputMode="numeric"
+                autoComplete="one-time-code"
+                maxLength={6}
+                placeholder="Kodi 6-shifror"
+                required
+                style={inputStyle}
+              />
+            )}
             <button type="submit" style={submitBtnStyle}>
               Hyr
             </button>

@@ -2,6 +2,8 @@
 
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { ADMIN_COOKIE, ADMIN_COOKIE_OPTIONS, mintAdminSession, verifyAdminSession } from "@/lib/admin-session";
+import { totpEnabled, verifyTotp } from "@/lib/admin-totp";
 import { revalidatePath } from "next/cache";
 
 import { createAdminClient } from "@/lib/supabase/admin";
@@ -21,25 +23,36 @@ import { createAdminClient } from "@/lib/supabase/admin";
  * database and this code reports the refusal rather than deciding it.
  */
 
-const AUTH_COOKIE = "dosje_admin_auth";
+// One shared admin session, replacing a per-panel cookie whose value was the
+// literal string "1". httpOnly keeps page scripts out of a cookie; it does not
+// stop the person holding the browser from setting one in devtools or curl, and
+// a value of "1" leaves nothing to guess. Sending `Cookie: poll_admin_auth=1`
+// to production returned the full panel.
+const AUTH_COOKIE = ADMIN_COOKIE;
 
 async function requireAuth() {
   const store = await cookies();
-  if (store.get(AUTH_COOKIE)?.value !== "1") redirect("/admin/dosje");
+  if (!verifyAdminSession(store.get(AUTH_COOKIE)?.value, process.env.ADMIN_SECRET ?? "")) {
+    redirect("/admin/dosje");
+  }
 }
 
 export async function loginAction(formData: FormData) {
+  const secret = process.env.ADMIN_SECRET ?? "";
   const password = formData.get("password") as string;
-  if (!process.env.ADMIN_SECRET || password !== process.env.ADMIN_SECRET) {
+  if (!secret || password !== secret) {
     redirect("/admin/dosje?err=1");
   }
+  // Same second factor as the main dashboard, so one enrolled device covers
+  // every panel and there is no weaker door left standing beside a locked one.
+  if (totpEnabled()) {
+    const code = String(formData.get("code") ?? "");
+    if (!verifyTotp(code, (process.env.ADMIN_TOTP_SECRET ?? "").trim())) {
+      redirect("/admin/dosje?err=1");
+    }
+  }
   const store = await cookies();
-  store.set(AUTH_COOKIE, "1", {
-    httpOnly: true,
-    maxAge: 60 * 60 * 24,
-    path: "/",
-    sameSite: "lax",
-  });
+  store.set(AUTH_COOKIE, mintAdminSession(secret), ADMIN_COOKIE_OPTIONS);
   redirect("/admin/dosje");
 }
 
