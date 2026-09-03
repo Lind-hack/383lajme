@@ -55,13 +55,13 @@
     },
     "Balkan Insight": {
       "country": "Britani",
-      "total": 8,
+      "total": 9,
       "positive": 1,
-      "neutral": 7,
+      "neutral": 8,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-19",
-      "lastSeen": "2026-09-02",
+      "lastSeen": "2026-09-03",
       "urls": [
         "https://balkaninsight.com/2026/08/19/suspend-officers-suspected-of-beating-serb-kosovo-police-inspectorate-says/bi/",
         "https://balkaninsight.com/2026/08/20/remains-of-23-wartime-victims-unearthed-from-mass-graves-in-kosovo/btj/",
@@ -70,7 +70,8 @@
         "https://balkaninsight.com/2026/08/27/kosovo-judicial-council-rejects-serb-judges-reinstation/bi/",
         "https://balkaninsight.com/2026/08/31/two-kosovo-serbs-plead-guilty-to-participating-in-2022-unrest/bi/",
         "https://balkaninsight.com/2026/08/31/kosovos-vetevendosje-ldk-agree-on-ex-judge-as-joint-presidential-candidate/bi/",
-        "https://balkaninsight.com/2026/09/02/kosovo-presidents-election-jeopardised-by-partys-inner-divisions/bi/"
+        "https://balkaninsight.com/2026/09/02/kosovo-presidents-election-jeopardised-by-partys-inner-divisions/bi/",
+        "https://balkaninsight.com/2026/09/03/not-mere-incidents-kosovo-questions-femicide-approach-after-new-killings/bi/"
       ]
     },
     "Ouest-France": {
@@ -1698,16 +1699,17 @@
     },
     "Diretta": {
       "country": "Itali",
-      "total": 2,
+      "total": 3,
       "positive": 0,
-      "neutral": 2,
+      "neutral": 3,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-26",
-      "lastSeen": "2026-08-25",
+      "lastSeen": "2026-08-31",
       "urls": [
         "https://www.diretta.it/partita/calcio/irlanda-Gfyqk1aG/kosovo-v1DTPQwI/riassunto/formazioni/",
-        "https://www.diretta.it/partita/calcio/irlanda-Gfyqk1aG/kosovo-v1DTPQwI/riassunto/statistiche/"
+        "https://www.diretta.it/partita/calcio/irlanda-Gfyqk1aG/kosovo-v1DTPQwI/riassunto/statistiche/",
+        "https://www.diretta.it/news/futebol-campeonato-do-mundo-mundial-2026-governo-do-kosovo-promete-premio-de-1-5-milhoes-de-euros-em-caso-de-apuramento/pljv92vq/"
       ]
     },
     "Calcio e Finanza": {
@@ -1744,7 +1746,7 @@
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-26",
-      "lastSeen": "2026-08-28",
+      "lastSeen": "2026-09-01",
       "urls": [
         "https://www.smhi.se/vader/prognoser-och-varningar/vaderprognos/q/Mitrovica/789225",
         "https://www.smhi.se/vader/prognoser-och-varningar/vaderprognos/q/Pristina/786714",
@@ -2535,6 +2537,19 @@
       "lastSeen": "2026-09-01",
       "urls": [
         "https://igamingpolska.pl/mistrzostwa-swiata-socca-2026-terminarz-wyniki/"
+      ]
+    },
+    "ilnordest.it": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-03",
+      "lastSeen": "2026-09-03",
+      "urls": [
+        "https://www.ilnordest.it/oltre-confine/kosovo-crisi-politica-presidente-bekim-sejdiu-kurti-franchi-tiratori-hz4x1m9p"
       ]
     }
   }

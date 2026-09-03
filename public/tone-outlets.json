@@ -1,10 +1,10 @@
 {
   "lastUpdated": "2026-09-03",
-  "overallIndex": 54,
-  "totalArticles": 51,
-  "sourceCount": 37,
+  "overallIndex": 53,
+  "totalArticles": 55,
+  "sourceCount": 40,
   "stanceVersion": 3,
-  "unattributed": 157,
+  "unattributed": 181,
   "nonEditorial": 1,
   "wrongKosovo": 0,
   "countries": {
@@ -113,7 +113,7 @@
         {
           "name": "Balkan Insight",
           "sentiment": "neutral",
-          "articleCount": 3,
+          "articleCount": 4,
           "articles": [
             {
               "title": "Two Kosovo Serbs Plead Guilty to Participating in 2022 Unrest - Balkan Insight",
@@ -153,12 +153,25 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "‘Not Mere Incidents’: Kosovo Questions Femicide Approach after New Killings - Balkan Insight",
+              "albanianTitle": "‘Nuk janë thjesht incidente’: Kosova vë në pikëpyetje trajtimin e femicideve pas vrasjeve të fundit",
+              "blurb": "Institucionet në Kosovë po shqyrtojnë qasjen ndaj femicideve pas vrasjeve të fundit që kanë ndodhur në vend gjatë kësaj periudhe.",
+              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/09/20260828_123621-scaled.jpg",
+              "url": "https://balkaninsight.com/2026/09/03/not-mere-incidents-kosovo-questions-femicide-approach-after-new-killings/bi/",
+              "date": "2026-09-03",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportuar pa ngarkim",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 8,
+          "totalArticles": 9,
           "trend": "i përzier",
           "firstSeen": "2026-08-19",
-          "lastSeen": "2026-09-02"
+          "lastSeen": "2026-09-03"
         },
         {
           "name": "Reuters",
@@ -203,7 +216,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 5,
+        "n": 6,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
@@ -385,6 +398,30 @@
           "lastSeen": "2026-08-31"
         },
         {
+          "name": "Diretta",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Mundial-2026: Governo do Kosovo promete prémio de 1,5 milhões de euros em caso de apuramento - Diretta",
+              "albanianTitle": "Botërori 2026: Qeveria e Kosovës premton 1,5 milionë euro shpërblim në rast kualifikimi - Live",
+              "blurb": "Qeveria e Kosovës ka premtuar një shpërblim prej 1.5 milionë eurosh nëse kombëtarja kualifikohet në Kampionatin Botëror 2026.",
+              "imageUrl": "https://livesport-ott-images.ssl.cdn.cra.cz/r1200xfq60/37eb20b0-3698-44ba-8b7c-09887518b12c.jpeg",
+              "url": "https://www.diretta.it/news/futebol-campeonato-do-mundo-mundial-2026-governo-do-kosovo-promete-premio-de-1-5-milhoes-de-euros-em-caso-de-apuramento/pljv92vq/",
+              "date": "2026-08-31",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportuar pa ngarkim",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 3,
+          "trend": "neutral",
+          "firstSeen": "2026-08-26",
+          "lastSeen": "2026-08-31"
+        },
+        {
           "name": "FIGC",
           "sentiment": "unknown",
           "articleCount": 1,
@@ -392,12 +429,12 @@
             {
               "title": "Giochi del Mediterraneo, medaglia d’argento per le Azzurrine battute in finale dal Portogallo - FIGC",
               "albanianTitle": "Lojërat Mesdhetare, medalje argjendi për italianet pas humbjes në finale nga Portugalia - FIGC",
-              "blurb": "Ekipi i futbollit të femrave të Italisë ka fituar medaljen e argjendtë në Lojërat Mesdhetare pas humbjes në finale.",
+              "blurb": "Ekipi i vajzave të Italisë ka fituar medaljen e argjendtë në Lojërat Mesdhetare pas humbjes në finale nga Portugalia.",
               "imageUrl": "https://images.figc.it/view/acePublic/alias/contentid/1thltfkfaamv19y2des/0/5a7197ba-9a41-43eb-9ef4-6b4049155e3f-jpg.jpg?f=187%3A100",
               "url": "https://www.figc.it/it/nazionali/news/giochi-del-mediterraneo-medaglia-dargento-per-le-azzurrine-battute-in-finale-dal-portogallo-iebdcslk",
               "date": "2026-08-31",
               "sentiment": "unknown",
-              "reason": "Nuk përmendet Kosova në titull",
+              "reason": "Artikulli nuk ka lidhje me Kosovën, ndaj nuk mund të përcaktohet qëndrimi",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -625,14 +662,38 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-02",
           "lastSeen": "2026-08-31"
+        },
+        {
+          "name": "ilnordest.it",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo nel caos istituzionale: spunta il candidato super partes Sejdiu, ma la fronda fa tremare l'accordo - ilnordest.it",
+              "albanianTitle": "Kosova në kaos institucional: shfaqet kandidati konsensual Sejdiu, por kundërshtitë rrezikojnë marrëveshjen",
+              "blurb": "Kandidatura e Bekim Sejdiut për president po përballet me kundërshtime të brendshme, duke shkaktuar paqartësi në skenën politike të Kosovës.",
+              "imageUrl": "https://images.ilnordest.it/view/acePublic/alias/contentid/1tj3hfi8izwf17kd4or/0/copia-di-image_148050475.webp?f=16%3A9&w=840",
+              "url": "https://www.ilnordest.it/oltre-confine/kosovo-crisi-politica-presidente-bekim-sejdiu-kurti-franchi-tiratori-hz4x1m9p",
+              "date": "2026-09-03",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportuar pa ngarkim",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-03",
+          "lastSeen": "2026-09-03"
         }
       ],
       "summary": {
-        "index": 54,
-        "positive": 7,
-        "neutral": 93,
+        "index": 53,
+        "positive": 6,
+        "neutral": 94,
         "negative": 0,
-        "n": 14,
+        "n": 16,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 3
@@ -977,13 +1038,38 @@
       }
     },
     "Suedi": {
-      "outlets": [],
+      "outlets": [
+        {
+          "name": "SMHI",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Väderprognos 10 dygn Prizren, Kosovo - SMHI",
+              "albanianTitle": "Parashikimi i motit për 10 ditët e ardhshme në Prizren, Kosovë - SMHI",
+              "blurb": "Instituti Meteorologjik Suedez ka publikuar parashikimin e motit për qytetin e Prizrenit për dhjetë ditët e ardhshme në Kosovë.",
+              "imageUrl": null,
+              "url": "https://www.smhi.se/vader/prognoser-och-varningar/vaderprognos/q/Prizren/786712",
+              "date": "2026-09-01",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportuar pa ngarkim",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 3,
+          "trend": "neutral",
+          "firstSeen": "2026-08-26",
+          "lastSeen": "2026-09-01"
+        }
+      ],
       "summary": {
-        "index": null,
+        "index": 50,
         "positive": 0,
-        "neutral": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 0,
+        "n": 1,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3

@@ -4793,9 +4793,9 @@
   },
   {
     "date": "2026-09-03",
-    "overallIndex": 54,
-    "totalArticles": 51,
-    "sourceCount": 37,
+    "overallIndex": 53,
+    "totalArticles": 55,
+    "sourceCount": 40,
     "stanceVersion": 3,
     "countries": {
       "Gjermani": {
@@ -4823,7 +4823,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 5,
+        "n": 6,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
@@ -4839,11 +4839,11 @@
         "stanceVersion": 3
       },
       "Itali": {
-        "index": 54,
-        "positive": 7,
-        "neutral": 93,
+        "index": 53,
+        "positive": 6,
+        "neutral": 94,
         "negative": 0,
-        "n": 14,
+        "n": 16,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 3
@@ -4909,11 +4909,11 @@
         "stanceVersion": 3
       },
       "Suedi": {
-        "index": null,
+        "index": 50,
         "positive": 0,
-        "neutral": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 0,
+        "n": 1,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -4949,6 +4949,31 @@
         "stanceVersion": 3
       }
     },
-    "headlines": []
+    "headlines": [
+      {
+        "title": "Äntligen en överenskommelse: Kosovos parter enas om att ha en universitetsprofessor som statschef - Free Press - Слободен печат",
+        "source": "Слободен печат",
+        "country": "Suedi",
+        "flag": "🇸🇪",
+        "url": "https://www.slobodenpecat.mk/sv/konechno-dogovor-kosovskite-partii-se-soglasija-univerzitetski-profesor-da-bide-shef-na-drzhavata/",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Kosova'daki Yıldızlar Avrupa Halter Şampiyonası'nda 200 Kiloyla Şampiyon Olan Zehra Nur Arslan, Amasya Valisi'ni Ziyaret Etti - Son Dakika",
+        "source": "Son Dakika",
+        "country": "Turqi",
+        "flag": "🇹🇷",
+        "url": "https://www.sondakika.com/guncel/haber-kosova-daki-yildizlar-avrupa-halter-sampiyonasi-nd-20196635/",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Abdixhiku'dan Kurti'ye Teşekkür: Kosova İçin Değerli Bir Anlaşmaya Vardık - Kosovahaber.com",
+        "source": "kosovahaber.com",
+        "country": "Turqi",
+        "flag": "🇹🇷",
+        "url": "https://kosovahaber.com/haber/abdixhikudan-kurtiye-tesekkur-kosova-icin-degerli-bir-anlasmaya-vardik-105513",
+        "sentiment": "positive"
+      }
+    ]
   }
 ]
