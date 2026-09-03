@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { jsonLdString } from "@/lib/json-ld";
 import { Manrope, Figtree, EB_Garamond } from "next/font/google";
 import "./globals.css";
 import SignupPrompt from "@/components/signup-prompt";
@@ -92,7 +93,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <meta name="theme-color" content="#F9F6F1" />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+          dangerouslySetInnerHTML={{ __html: jsonLdString(structuredData) }}
         />
       </head>
       <body style={{ fontFamily: "var(--font-manrope), sans-serif", background: "#F9F6F1" }}>

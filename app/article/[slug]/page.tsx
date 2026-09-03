@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { jsonLdString } from "@/lib/json-ld";
 import type { Metadata } from "next";
 import { getArticleBySlug, getArticles } from "@/lib/db";
 import TextureBg from "@/components/aurora-bg";
@@ -165,7 +166,7 @@ export default async function ArticlePage({
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(newsArticleJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdString(newsArticleJsonLd) }}
       />
       <TextureBg />
       <Navbar />
