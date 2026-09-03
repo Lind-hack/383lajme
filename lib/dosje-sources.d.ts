@@ -19,14 +19,44 @@ export interface FetchedSource {
   error?: string;
   ms?: number;
   lead?: string;
+  /** Snapshot actually read when the live url did not resolve; null otherwise. */
+  archive_url?: string | null;
+  via_archive?: boolean;
 }
 
 export declare const PUBLISHER_TIERS: { tier: number; hosts: string[] }[];
 export declare function tierOf(url: string): number | null;
 export declare function publisherOf(url: string): string | null;
-export declare function fetchSource(url: string, opts?: { timeoutMs?: number }): Promise<FetchedSource>;
+export declare function fetchSource(
+  url: string,
+  opts?: {
+    timeoutMs?: number;
+    /** Injected for tests so the fallback can be exercised without network. */
+    fetchImpl?: typeof fetch;
+    /** Set false to refuse the archive and report the live failure as-is. */
+    archive?: boolean;
+    /** yyyymmdd; steers which snapshot is returned. */
+    timestamp?: string | null;
+  }
+): Promise<FetchedSource>;
+
+export declare const WAYBACK_AVAILABILITY: string;
+export declare function archiveSnapshot(
+  url: string,
+  opts?: { timeoutMs?: number; fetchImpl?: typeof fetch; timestamp?: string | null }
+): Promise<string | null>;
+/** A four-digit year in the query, as a yyyymmdd Wayback timestamp, or null. */
+export declare function timestampForQuery(query: string): string | null;
+export declare function relevanceGroupsForQuery(query: string): string[][];
+export declare function sourceMatchesProfile(
+  source: { title?: string | null; text?: string | null },
+  groups: string[][]
+): boolean;
 export declare function searchSources(
   query: string,
   opts?: { limit?: number; timeoutMs?: number }
 ): Promise<{ url: string; title: string | null; published_date: string | null; lead?: string }[]>;
-export declare function gatherEvidence(query: string, opts?: { max?: number }): Promise<FetchedSource[]>;
+export declare function gatherEvidence(
+  query: string,
+  opts?: { max?: number; relevanceGroups?: string[][] | null }
+): Promise<FetchedSource[]>;
