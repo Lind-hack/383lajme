@@ -1,17 +1,11 @@
 import { type NextRequest, NextResponse } from "next/server";
-import { cookies } from "next/headers";
 import { readArticlesFromDisk, writeArticles } from "@/lib/github-articles";
+import { isAdminAuthed } from "@/lib/admin-auth";
 
-const ADMIN_SECRET = process.env.ADMIN_SECRET ?? "";
-
-async function isAuthed(req: NextRequest): Promise<boolean> {
-  const cookieStore = await cookies();
-  const session = cookieStore.get("admin_auth")?.value ?? "";
-  if (ADMIN_SECRET && session === ADMIN_SECRET) return true;
-  const urlSecret = req.nextUrl.searchParams.get("secret") ?? "";
-  if (ADMIN_SECRET && urlSecret === ADMIN_SECRET) return true;
-  return false;
-}
+// Was a private copy of the old lib/admin-auth check, cookie-equals-password
+// and ?secret= included. Two copies of an auth rule is one rule that gets
+// hardened and one that does not, which is what happened here.
+const isAuthed = (_req: NextRequest) => isAdminAuthed();
 
 export async function DELETE(request: NextRequest) {
   if (!(await isAuthed(request))) {

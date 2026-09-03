@@ -1,4 +1,5 @@
 import { cookies } from "next/headers";
+import { isAdminAuthed } from "@/lib/admin-auth";
 import TreguAdminClient from "./TreguAdminClient";
 
 const ADMIN_SECRET = process.env.ADMIN_SECRET ?? "";
@@ -94,9 +95,7 @@ function LoginScreen() {
 }
 
 export default async function AdminTreguPage() {
-  const cookieStore = await cookies();
-  const session = cookieStore.get("admin_auth")?.value ?? "";
-  const isAuthed = Boolean(ADMIN_SECRET && session === ADMIN_SECRET);
+  const isAuthed = await isAdminAuthed();
 
   if (!isAuthed) return <LoginScreen />;
   return <TreguAdminClient />;

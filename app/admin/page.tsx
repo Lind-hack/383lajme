@@ -1,4 +1,5 @@
 import { cookies } from "next/headers";
+import { isAdminAuthed } from "@/lib/admin-auth";
 import fs from "fs";
 import path from "path";
 import AdminClient, { type AdminArticle } from "./AdminClient";
@@ -43,9 +44,7 @@ export default async function AdminPage({
 }: {
   searchParams: Promise<{ id?: string }>;
 }) {
-  const cookieStore = await cookies();
-  const session = cookieStore.get("admin_auth")?.value ?? "";
-  const isAuthed = Boolean(ADMIN_SECRET && session === ADMIN_SECRET);
+  const isAuthed = await isAdminAuthed();
 
   const params = await searchParams;
   const initialEditId = params.id ?? undefined;
@@ -100,6 +99,27 @@ function LoginScreen() {
               background: "#FAFAF8",
             }}
           />
+          {/* Shown only when the deployment has ADMIN_TOTP_SECRET set, so the
+              form is unchanged for anyone who has not enrolled a device yet. */}
+          <input
+            id="code-input"
+            type="text"
+            inputMode="numeric"
+            autoComplete="one-time-code"
+            maxLength={6}
+            placeholder="Kodi 6-shifror"
+            hidden
+            style={{
+              padding: "12px 16px",
+              borderRadius: "10px",
+              border: "1.5px solid #E8E3DB",
+              fontSize: "15px",
+              fontFamily: "inherit",
+              outline: "none",
+              background: "#FAFAF8",
+              letterSpacing: "0.3em",
+            }}
+          />
           <button
             id="login-btn"
             type="button"
@@ -124,19 +144,35 @@ function LoginScreen() {
         <script
           dangerouslySetInnerHTML={{
             __html: `
+              var codeEl = document.getElementById('code-input');
+              // Ask the server whether this deployment wants a second factor,
+              // rather than hardcoding it: the field then appears the moment
+              // ADMIN_TOTP_SECRET is set, with no redeploy of this page.
+              fetch('/api/admin/login').then(function(r) { return r.json(); }).then(function(d) {
+                if (d && d.totp) codeEl.hidden = false;
+              }).catch(function() {});
+
               async function doLogin() {
                 var pw = document.getElementById('pw-input').value;
+                var body = { password: pw };
+                if (!codeEl.hidden) body.code = codeEl.value;
                 var res = await fetch('/api/admin/login', {
                   method: 'POST',
                   headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({ password: pw })
+                  body: JSON.stringify(body)
                 });
-                if (res.ok) { window.location.reload(); }
-                else { document.getElementById('login-error').style.display = 'block'; }
+                if (res.ok) { window.location.reload(); return; }
+                var err = document.getElementById('login-error');
+                var msg = 'Fjalëkalim i gabuar.';
+                try { var j = await res.json(); if (j && j.error) msg = j.error; } catch (e) {}
+                err.textContent = msg;
+                err.style.display = 'block';
               }
               document.getElementById('login-btn').addEventListener('click', doLogin);
-              document.getElementById('pw-input').addEventListener('keydown', function(e) {
-                if (e.key === 'Enter') doLogin();
+              ['pw-input', 'code-input'].forEach(function(id) {
+                document.getElementById(id).addEventListener('keydown', function(e) {
+                  if (e.key === 'Enter') doLogin();
+                });
               });
             `,
           }}
