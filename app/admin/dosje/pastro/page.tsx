@@ -2,7 +2,6 @@ import Link from "next/link";
 import { AlertCircle, ArrowLeft } from "lucide-react";
 import { isAdminAuthed } from "@/lib/admin-auth";
 import { dosjeTopics } from "@/lib/admin/dosje";
-import AdminNav from "../../_components/AdminNav";
 import DosjeCleanup from "../_components/DosjeCleanup";
 
 /**
@@ -21,7 +20,6 @@ export default async function DosjeCleanupPage() {
   if (!(await isAdminAuthed())) {
     return (
       <>
-        <AdminNav />
         <main className="mx-auto max-w-[1180px] px-3 py-4 sm:px-5">
           <p className="panel m-0 p-4 text-[13px] font-semibold">Hyr së pari.</p>
         </main>
@@ -33,7 +31,6 @@ export default async function DosjeCleanupPage() {
 
   return (
     <>
-      <AdminNav />
       <main className="mx-auto max-w-[1180px] px-3 py-4 sm:px-5">
         <div className="mb-3 flex flex-wrap items-center gap-2">
           <Link href="/admin/dosje" className="btn btn-sm">

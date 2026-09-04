@@ -1,7 +1,6 @@
 import { AlertCircle } from "lucide-react";
 import { isAdminAuthed } from "@/lib/admin-auth";
 import { articleCategoryCounts, listArticles, type SortKey } from "@/lib/admin/articles";
-import AdminNav from "./_components/AdminNav";
 import ArticleList from "./_components/ArticleList";
 import ArticleToolbar from "./_components/ArticleToolbar";
 import Pagination from "./_components/Pagination";
@@ -47,7 +46,6 @@ export default async function AdminPage({
 
   return (
     <>
-      <AdminNav />
       <main className="mx-auto max-w-[1180px] px-3 py-4 sm:px-5">
         <ArticleToolbar categories={categories} total={result.total} />
 

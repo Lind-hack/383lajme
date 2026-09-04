@@ -10,13 +10,27 @@
  * Decoding is for display only. Nothing here re-enters HTML: React escapes it
  * again on render, so turning `&lt;` back into `<` cannot introduce markup.
  */
+/**
+ * A numeric entity that is out of Unicode range, or a surrogate half.
+ *
+ * String.fromCodePoint throws RangeError on anything above U+10FFFF, and this
+ * runs inside a server component's render path over scraped citation titles --
+ * so one malformed entity in one source title would 500 the whole dossier
+ * timeline. Out-of-range entities are left as written instead.
+ */
+function codePoint(raw: number): string | null {
+  if (!Number.isFinite(raw) || raw < 0 || raw > 0x10ffff) return null;
+  if (raw >= 0xd800 && raw <= 0xdfff) return null;
+  return String.fromCodePoint(raw);
+}
+
 export function decodeEntities(value: string): string {
   if (!value) return "";
   return value
-    .replace(/&#x([0-9a-fA-F]+);/g, (_, hex: string) =>
-      String.fromCodePoint(Number.parseInt(hex, 16)),
+    .replace(/&#x([0-9a-fA-F]+);/g, (whole, hex: string) =>
+      codePoint(Number.parseInt(hex, 16)) ?? whole,
     )
-    .replace(/&#(\d+);/g, (_, dec: string) => String.fromCodePoint(Number.parseInt(dec, 10)))
+    .replace(/&#(\d+);/g, (whole, dec: string) => codePoint(Number.parseInt(dec, 10)) ?? whole)
     .replace(/&quot;/g, '"')
     .replace(/&apos;/g, "'")
     .replace(/&nbsp;/g, " ")

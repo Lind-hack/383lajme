@@ -39,11 +39,22 @@ export default function ArticleToolbar({
   const [q, setQ] = useState(urlQ);
   const typed = useRef(false);
 
-  // Keep the box in step when the URL changes from elsewhere (back button, a
-  // cleared filter), but never fight the operator mid-keystroke.
+  /**
+   * Keep the box in step with the URL without fighting the operator mid-word.
+   *
+   * `typed` was previously latched true on the first keystroke and never
+   * cleared, which disabled this sync for the life of the component: pressing
+   * Back then dropped `q` from the URL and re-rendered an unfiltered list while
+   * the input still showed the old term. It is released once what was typed has
+   * actually reached the URL, so a later external change is adopted again.
+   */
   useEffect(() => {
-    if (!typed.current) setQ(urlQ);
-  }, [urlQ]);
+    if (!typed.current) {
+      setQ(urlQ);
+      return;
+    }
+    if (urlQ === q.trim()) typed.current = false;
+  }, [urlQ, q]);
 
   function apply(next: Record<string, string | null>, replace = false) {
     const sp = new URLSearchParams(params.toString());

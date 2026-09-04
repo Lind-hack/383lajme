@@ -190,11 +190,27 @@ export async function getArticleForEdit(id: string): Promise<AdminArticleFull | 
 export async function articleCategoryCounts(): Promise<Array<{ category: NavCategory; count: number }>> {
   const supabase = readClient();
   if (!supabase) return [];
-  const { data, error } = await supabase.from("news_articles").select("category").limit(2000);
-  if (error || !data) return [];
+  // PostgREST answers at most 1,000 rows whatever the limit says, so the old
+  // `.limit(2000)` was a silent truncation waiting to happen: past 1,000
+  // articles the pill counts would drift, and a section whose rows all fell
+  // outside the window would vanish from the filter bar entirely, leaving the
+  // operator no way to filter to it. Paged, and ordered so the pages are stable.
+  const PAGE = 1000;
+  const rows: Array<{ category: string | null }> = [];
+  for (let from = 0; ; from += PAGE) {
+    const { data, error } = await supabase
+      .from("news_articles")
+      .select("category,published_at")
+      .order("published_at", { ascending: false })
+      .range(from, from + PAGE - 1);
+    if (error) return [];
+    const batch = (data ?? []) as Array<{ category: string | null }>;
+    rows.push(...batch);
+    if (batch.length < PAGE || from > 100_000) break;
+  }
 
   const tally = new Map<NavCategory, number>();
-  for (const row of data as Array<{ category: string | null }>) {
+  for (const row of rows) {
     const label = normalizeCategory(row.category);
     tally.set(label, (tally.get(label) ?? 0) + 1);
   }
@@ -236,9 +252,12 @@ export async function updateArticle(id: string, patch: ArticlePatch): Promise<Wr
   if (patch.body !== undefined) row.body = patch.body;
   if (patch.category !== undefined) row.category = normalizeCategory(patch.category);
   if (patch.featured !== undefined) row.featured = patch.featured;
-  // Distinguish clearing the image from leaving it alone: undefined skips the
-  // column, null writes SQL NULL.
-  if (patch.imageUrl !== undefined) row.image_url = patch.imageUrl || null;
+  // Clearing the image writes an empty string, never SQL NULL: 0003 declares
+  // `image_url text not null`, so a null here is rejected by Postgres and takes
+  // the whole save down with it -- including the title and body edits sent in
+  // the same request. Empty reads as "no image" downstream: mapAutoRow in
+  // lib/db.ts already resolves a falsy image_url to undefined.
+  if (patch.imageUrl !== undefined) row.image_url = patch.imageUrl ?? "";
 
   const { error } = await supabase.from("news_articles").update(row).eq("id", id);
   return error ? { ok: false, error: error.message } : { ok: true };

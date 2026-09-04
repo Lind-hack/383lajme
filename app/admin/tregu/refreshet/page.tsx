@@ -2,7 +2,6 @@ import Link from "next/link";
 import { AlertCircle, ArrowLeft, ExternalLink, Minus, TrendingDown, TrendingUp } from "lucide-react";
 import { isAdminAuthed } from "@/lib/admin-auth";
 import { marketRefreshes, type MarketRefresh, type RefreshSort } from "@/lib/admin/tregu-refreshes";
-import AdminNav from "../../_components/AdminNav";
 
 /**
  * When the odds refreshed, on which markets, and on what evidence.
@@ -39,7 +38,6 @@ export default async function RefreshesPage({
   if (!(await isAdminAuthed())) {
     return (
       <>
-        <AdminNav />
         <main className="mx-auto max-w-[1180px] px-3 py-4 sm:px-5">
           <p className="panel m-0 p-4 text-[13px] font-semibold">Hyr së pari.</p>
         </main>
@@ -54,7 +52,6 @@ export default async function RefreshesPage({
 
   return (
     <>
-      <AdminNav />
       <main className="mx-auto max-w-[1180px] px-3 py-4 sm:px-5">
         <div className="mb-3 flex flex-wrap items-center gap-2">
           <Link href="/admin/tregu" className="btn btn-sm">

@@ -62,6 +62,7 @@ export default function ArticleList({ rows }: { rows: AdminArticleRow[] }) {
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [savedId, setSavedId] = useState<string | null>(null);
   const openedDeepLink = useRef(false);
+  const openTicket = useRef(0);
 
   /**
    * The pipeline emails `/admin?id=<id>` links. Those ids are news_articles
@@ -83,17 +84,53 @@ export default function ArticleList({ rows }: { rows: AdminArticleRow[] }) {
 
   const dirty = Boolean(full && draft) && changedFields() !== null;
 
-  // A body edit is minutes of work, and the editor is one click from a nav
-  // link. This is the browser's own prompt, so it cannot be styled -- and it
-  // is registered only while there is something to lose.
+  /**
+   * A body edit is minutes of work and the editor sits one click from a nav
+   * link, so leaving with unsaved changes has to be deliberate.
+   *
+   * beforeunload alone does not do this. It covers a reload, a closed tab and a
+   * typed URL, but Next's <Link> navigations never unload the document, so the
+   * exact case this guard was written for -- clicking "Dosje" in the nav --
+   * discarded the edit silently. Anchor clicks are intercepted in the capture
+   * phase as well, before the router sees them.
+   */
   useEffect(() => {
     if (!dirty) return;
-    const warn = (e: BeforeUnloadEvent) => e.preventDefault();
-    window.addEventListener("beforeunload", warn);
-    return () => window.removeEventListener("beforeunload", warn);
+
+    const warnOnUnload = (e: BeforeUnloadEvent) => e.preventDefault();
+
+    const warnOnInAppNav = (e: MouseEvent) => {
+      // Let modified clicks through: they open a new tab and leave this one,
+      // with its unsaved edit, exactly where it is.
+      if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) {
+        return;
+      }
+      const anchor = (e.target as HTMLElement | null)?.closest?.("a[href]");
+      if (!(anchor instanceof HTMLAnchorElement)) return;
+      if (anchor.target === "_blank" || anchor.hasAttribute("download")) return;
+      // Same-document jumps are not a navigation away from the edit.
+      if (anchor.getAttribute("href")?.startsWith("#")) return;
+      if (!window.confirm("Ke ndryshime të paruajtura. Largohu pa i ruajtur?")) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    };
+
+    window.addEventListener("beforeunload", warnOnUnload);
+    document.addEventListener("click", warnOnInAppNav, true);
+    return () => {
+      window.removeEventListener("beforeunload", warnOnUnload);
+      document.removeEventListener("click", warnOnInAppNav, true);
+    };
   }, [dirty]);
 
   async function openEditor(id: string) {
+    // Every open gets a ticket, and only the newest one may write state. Two
+    // overlapping fetches otherwise resolve in arbitrary order: the deep-link
+    // effect opens article A, the operator clicks Edito on B before it lands,
+    // A answers last, and the panel under B is filled with A -- so saving
+    // writes A while the operator believes they edited B.
+    const ticket = ++openTicket.current;
     setOpenId(id);
     setError(null);
     setFull(null);
@@ -104,17 +141,20 @@ export default function ArticleList({ rows }: { rows: AdminArticleRow[] }) {
         credentials: "include",
       });
       const payload = (await res.json()) as { article?: AdminArticleFull; error?: string };
+      if (ticket !== openTicket.current) return;
       if (!res.ok || !payload.article) throw new Error(payload.error ?? `HTTP ${res.status}`);
       setFull(payload.article);
       setDraft(draftFrom(payload.article));
     } catch (err) {
+      if (ticket !== openTicket.current) return;
       setError(err instanceof Error ? err.message : String(err));
     } finally {
-      setLoading(false);
+      if (ticket === openTicket.current) setLoading(false);
     }
   }
 
   function closeEditor() {
+    openTicket.current += 1;
     setOpenId(null);
     setFull(null);
     setDraft(null);
@@ -186,7 +226,42 @@ export default function ArticleList({ rows }: { rows: AdminArticleRow[] }) {
     }
   }
 
-  if (rows.length === 0) {
+  /**
+   * The pipeline emails /admin?id=X links, and X is very often an article that
+   * is not among the 25 rows of the current page -- it may be hours or days
+   * old. The editor JSX lives inside the row loop, so in that case opening it
+   * rendered nothing at all: no editor, no skeleton, and not even the "not
+   * found" error, because that branch is inside the same block. The article is
+   * shown as its own row above the list instead.
+   *
+   * AdminArticleFull extends AdminArticleRow, so the fetched article is already
+   * a valid row; while it is still loading there is nothing to show but its id.
+   */
+  const deepLinkRow: AdminArticleRow | null =
+    openId && !rows.some((r) => r.id === openId)
+      ? full && full.id === openId
+        ? full
+        : {
+            id: openId,
+            slug: "",
+            title: loading ? "Duke ngarkuar artikullin…" : "Artikulli i kërkuar",
+            excerpt: "",
+            source: "",
+            sourceFlag: "",
+            category: "",
+            categoryLabel: "",
+            publishedAt: "",
+            publishedLabel: "—",
+            createdAt: null,
+            imageUrl: null,
+            score: null,
+            featured: false,
+          }
+      : null;
+
+  const displayRows = deepLinkRow ? [deepLinkRow, ...rows] : rows;
+
+  if (displayRows.length === 0) {
     return (
       <div
         className="panel mt-3 flex flex-col items-center gap-2 px-6 py-14 text-center"
@@ -216,7 +291,7 @@ export default function ArticleList({ rows }: { rows: AdminArticleRow[] }) {
         </p>
       )}
 
-      {rows.map((a) => {
+      {displayRows.map((a) => {
         const isOpen = openId === a.id;
         const isDeleting = deletingId === a.id;
         const justSaved = savedId === a.id;

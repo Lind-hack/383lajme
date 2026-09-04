@@ -89,22 +89,85 @@ export type TopicsResult = {
   error: string | null;
 };
 
+/** PostgREST answers at most 1,000 rows however large a `limit` asks for. */
+const PAGE = 1000;
+
+/**
+ * Every row of a table, fetched a page at a time.
+ *
+ * These counts decide which dossiers are offered for deletion, so a short read
+ * is not a cosmetic problem: a topic whose link rows fall outside a truncated
+ * window counts zero articles, is marked dead weight, and is then selected by
+ * "Zgjidh të bllokuarat" and cascade-deleted along with its milestones,
+ * citations and media. A single `.limit(5000)` silently returned 1,000.
+ *
+ * The explicit order matters as much as the paging: without it PostgREST gives
+ * no stable row order across requests, so pages could overlap or skip, and the
+ * same dossier could look blocked on one load and healthy on the next.
+ */
+async function fetchAllRows<T>(
+  client: NonNullable<ReturnType<typeof dosjeClient>["client"]>,
+  table: string,
+  columns: string,
+  orderBy: string,
+): Promise<{ rows: T[]; error: string | null }> {
+  const rows: T[] = [];
+  for (let from = 0; ; from += PAGE) {
+    const { data, error } = await client
+      .from(table)
+      .select(columns)
+      .order(orderBy, { ascending: true })
+      .range(from, from + PAGE - 1);
+    if (error) return { rows, error: error.message };
+    const batch = (data ?? []) as T[];
+    rows.push(...batch);
+    if (batch.length < PAGE) return { rows, error: null };
+    // A pathological table must not spin forever.
+    if (from > 200_000) return { rows, error: null };
+  }
+}
+
 export async function dosjeTopics(): Promise<TopicsResult> {
   const { client, mode } = dosjeClient();
   if (!client) return { topics: [], mode, error: "Supabase nuk është konfiguruar." };
 
-  const [topicsRes, milestonesRes, articleTopicsRes, mediaRes] = await Promise.all([
+  const [topicsRes, milestonesAll, articleTopicsAll, mediaAll] = await Promise.all([
     client.from("dosje_topics").select("*").order("title"),
-    client.from("dosje_milestones").select("topic_slug,status").limit(5000),
-    client.from("dosje_article_topics").select("topic_slug").limit(5000),
-    client.from("dosje_media").select("topic_slug,milestone_id").limit(5000),
+    fetchAllRows<{ topic_slug: string; status: string; id: string }>(
+      client,
+      "dosje_milestones",
+      "id,topic_slug,status",
+      "id",
+    ),
+    fetchAllRows<{ topic_slug: string }>(
+      client,
+      "dosje_article_topics",
+      "topic_slug,article_slug",
+      "article_slug",
+    ),
+    fetchAllRows<{ topic_slug: string | null; milestone_id: string | null }>(
+      client,
+      "dosje_media",
+      "id,topic_slug,milestone_id",
+      "id",
+    ),
   ]);
 
   if (topicsRes.error) return { topics: [], mode, error: topicsRes.error.message };
 
-  const milestones = (milestonesRes.data ?? []) as Array<{ topic_slug: string; status: string }>;
-  const articleTopics = (articleTopicsRes.data ?? []) as Array<{ topic_slug: string }>;
-  const media = (mediaRes.data ?? []) as Array<{ topic_slug: string | null }>;
+  // A failed count read must never be presented as a zero: zero is what marks a
+  // dossier deletable. Surface the error and let the screen refuse to act.
+  const countError = milestonesAll.error ?? articleTopicsAll.error ?? mediaAll.error;
+  if (countError) return { topics: [], mode, error: countError };
+
+  const milestones = milestonesAll.rows;
+  const articleTopics = articleTopicsAll.rows;
+  const media = mediaAll.rows;
+
+  // Media attaches to either a milestone or a topic (0051 allows one of the two
+  // to be null, not both), so a dossier whose pictures hang off milestones --
+  // which is how the media job files images -- counted zero.
+  const topicOfMilestone = new Map(milestones.map((m) => [m.id, m.topic_slug]));
 
   const count = <T,>(rows: T[], key: (r: T) => string | null | undefined) => {
     const m = new Map<string, number>();
@@ -121,7 +184,14 @@ export async function dosjeTopics(): Promise<TopicsResult> {
     milestones.filter((m) => m.status === "approved"),
     (r) => r.topic_slug,
   );
-  const mediaCounts = count(media, (r) => r.topic_slug);
+  // Resolve each media row to its dossier through the milestone when it has no
+  // topic_slug of its own: app/api/automation/dosje/media inserts images
+  // against milestone_id alone and only videos carry topic_slug, so counting
+  // topic_slug showed "Media 0" for a dossier full of approved photographs --
+  // on the row the operator is deciding whether to delete.
+  const mediaCounts = count(media, (r) =>
+    r.topic_slug ?? (r.milestone_id ? topicOfMilestone.get(r.milestone_id) : null),
+  );
 
   const topics = ((topicsRes.data ?? []) as Array<Record<string, unknown>>).map((t) => {
     const slug = String(t.slug ?? "");
@@ -178,8 +248,9 @@ export type Citation = {
   quote: string | null;
   supports: string | null;
   httpStatus: number | null;
+  failCount: number;
   fetchedAtLabel: string | null;
-  /** Counts toward the two-publisher minimum only when it has fetched 200. */
+  /** Live by 0057's rule, which is what the approval trigger actually counts. */
   verified: boolean;
 };
 
@@ -273,7 +344,12 @@ export async function dosjeTimeline(slug: string): Promise<TimelineResult> {
   ]);
 
   const topic = topics.find((t) => t.slug === slug) ?? null;
-  if (milestonesRes.error) return { ...empty, topic, error: milestonesRes.error.message };
+  // Every read is checked, not just the milestones. An unreported failure on
+  // the article-links read renders as "no article was ever classified into this
+  // dossier" -- which is the evidence the operator purges on. Zero here has to
+  // mean zero.
+  const readError = milestonesRes.error ?? mediaRes.error ?? linkRes.error;
+  if (readError) return { ...empty, topic, error: readError.message };
 
   const milestoneRows = (milestonesRes.data ?? []) as Array<Record<string, unknown>>;
   const milestoneIds = milestoneRows.map((m) => String(m.id));
@@ -283,6 +359,9 @@ export async function dosjeTimeline(slug: string): Promise<TimelineResult> {
   const milestoneMediaRes = milestoneIds.length
     ? await client.from("dosje_media").select("*").in("milestone_id", milestoneIds)
     : { data: [], error: null };
+  if (milestoneMediaRes.error) {
+    return { ...empty, topic, error: milestoneMediaRes.error.message };
+  }
 
   const mediaByMilestone = new Map<string, MediaItem[]>();
   for (const row of (milestoneMediaRes.data ?? []) as Array<Record<string, unknown>>) {
@@ -309,12 +388,25 @@ export async function dosjeTimeline(slug: string): Promise<TimelineResult> {
       quote: c.quote ? decodeEntities(String(c.quote)) : null,
       supports: c.supports ? String(c.supports) : null,
       httpStatus: c.http_status == null ? null : Number(c.http_status),
+      failCount: c.fail_count == null ? 0 : Number(c.fail_count),
       fetchedAtLabel: c.fetched_at ? adminTimestamp(String(c.fetched_at)) : null,
-      verified: Number(c.http_status) === 200,
+      // 0057 exists to end exactly this disagreement -- its header lists "the
+      // admin queue -- http_status === 200" as one of four rules that had
+      // drifted apart. dosje_citation_is_live is `http_status = 200 and
+      // coalesce(fail_count, 0) < 3`, and that is what the approval trigger
+      // counts, so a citation that has rotted must not show as verified here.
+      verified: Number(c.http_status) === 200 && (c.fail_count == null ? 0 : Number(c.fail_count)) < 3,
     }));
 
+    // Folded the way dosje_require_sources folds it -- distinct lower(btrim(
+    // publisher)) -- so "Koha" and "koha " cannot read as two publishers here
+    // and then be refused as one by the trigger.
     const verifiedPublishers = [
-      ...new Set(citations.filter((c) => c.verified && c.publisher).map((c) => c.publisher)),
+      ...new Map(
+        citations
+          .filter((c) => c.verified && c.publisher.trim())
+          .map((c) => [c.publisher.trim().toLowerCase(), c.publisher.trim()]),
+      ).values(),
     ];
 
     return {

@@ -19,7 +19,6 @@ import {
   type MediaItem,
   type Milestone,
 } from "@/lib/admin/dosje";
-import AdminNav from "../../_components/AdminNav";
 import MediaThumb from "../_components/MediaThumb";
 
 /**
@@ -45,7 +44,6 @@ export default async function DosjeTimelinePage({
   if (!(await isAdminAuthed())) {
     return (
       <>
-        <AdminNav />
         <main className="mx-auto max-w-[1180px] px-3 py-4 sm:px-5">
           <p className="panel m-0 p-4 text-[13px] font-semibold">Hyr së pari.</p>
         </main>
@@ -60,7 +58,6 @@ export default async function DosjeTimelinePage({
 
   return (
     <>
-      <AdminNav />
       <main className="mx-auto max-w-[1180px] px-3 py-4 sm:px-5">
         <div className="mb-3 flex flex-wrap items-center gap-2">
           <Link href="/admin/dosje/pastro" className="btn btn-sm">
