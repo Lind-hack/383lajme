@@ -75,8 +75,8 @@ export default function ArticleToolbar({
 
   return (
     <div className="flex flex-col gap-2.5">
-      <div className="flex flex-wrap items-center gap-2">
-        <div className="relative min-w-0 flex-1 sm:max-w-[380px]">
+      <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center">
+        <div className="relative min-w-0 sm:max-w-[380px] sm:flex-1">
           <Search
             size={15}
             strokeWidth={2.2}
@@ -118,6 +118,7 @@ export default function ArticleToolbar({
           ) : null}
         </div>
 
+        <div className="flex items-center gap-2">
         <select
           value={activeSort}
           onChange={(e) => apply({ sort: e.target.value === "recent" ? null : e.target.value })}
@@ -138,6 +139,7 @@ export default function ArticleToolbar({
         >
           {total} {total === 1 ? "artikull" : "artikuj"}
         </span>
+        </div>
       </div>
 
       <div className="flex items-center gap-1.5 overflow-x-auto pb-0.5" style={{ scrollbarWidth: "none" }}>

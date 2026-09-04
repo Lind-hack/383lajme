@@ -258,6 +258,10 @@ export default function TreguAdminClient() {
         </div>
         <div className={styles.headerActions}>
           <Link href="/admin" className={styles.buttonSecondary}>Admin kryesor</Link>
+          {/* The panel below says which odds moved in the last 30 minutes, from
+              the run log. It cannot say why: market_snapshots holds the cited
+              evidence and nothing rendered it. */}
+          <Link href="/admin/tregu/refreshet" className={styles.buttonSecondary}>Rifreskimet dhe burimet</Link>
           <button type="button" onClick={draftFromNews} disabled={drafting} className={styles.buttonAccent}>
             {drafting ? "Duke krijuar..." : "Krijo nga lajmet"}
           </button>
