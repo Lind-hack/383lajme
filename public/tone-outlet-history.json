@@ -149,17 +149,18 @@
     },
     "Osservatorio Balcani Caucaso Transeuropa": {
       "country": "Itali",
-      "total": 3,
+      "total": 4,
       "positive": 0,
-      "neutral": 2,
+      "neutral": 3,
       "negative": 0,
       "unknown": 1,
       "firstSeen": "2026-08-19",
-      "lastSeen": "2026-08-25",
+      "lastSeen": "2026-09-04",
       "urls": [
         "https://www.balcanicaucaso.org/en/cp_article/political-crisis-in-kosovo-no-light-at-the-end-of-the-tunnel/",
         "https://www.balcanicaucaso.org/cp_article/crisi-politica-in-kosovo-non-ce-luce-alla-fine-del-tunnel/",
-        "https://www.balcanicaucaso.org/event/la-mucca-partorisce-di-notte/"
+        "https://www.balcanicaucaso.org/event/la-mucca-partorisce-di-notte/",
+        "https://www.balcanicaucaso.org/cp_article/kosovo-i-ragni-della-val-rugova/"
       ]
     },
     "ilrestodelcarlino.it": {
@@ -195,13 +196,13 @@
     },
     "ANSA": {
       "country": "Itali",
-      "total": 12,
+      "total": 13,
       "positive": 0,
-      "neutral": 8,
+      "neutral": 9,
       "negative": 0,
       "unknown": 4,
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-09-02",
+      "lastSeen": "2026-09-04",
       "urls": [
         "https://www.ansa.it/nuova_europa/en/news/sections/news/2026/08/20/vucic-writes-to-rutte-nato-stop-terror-in-kosovo-do-not-reopen-the_9034279d-c06f-4e44-ab54-096dd4332014.html",
         "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/08/20/vucic-scrive-a-rutte-nato-fermi-terrore-in-kosovo-non-riaprire-ponte_68050249-06ef-4b0a-b56b-6ff64929514e.html",
@@ -214,7 +215,8 @@
         "https://www.ansa.it/english/news/news_from_embassies/2026/08/29/ambassador-to-kosovo-antonini-meets-with-interim-president-haxhiu_f485b25c-005b-4f3c-8398-8720fb63847b.html",
         "https://www.ansa.it/sito/notizie/mondo/news_dalle_ambasciate/2026/08/29/ambasciatore-in-kosovo-antonini-incontra-la-presidente-ad-interim-haxhiu_16bdddb8-9b56-4b96-a5cb-53107756bc7b.html",
         "https://www.ansa.it/nuova_europa/en/news/sections/politics/2026/09/02/kosovo-kurti-ldk-presidential-election-agreement-is-in-jeopardy_9f20ca05-94a0-4b5e-81c4-64c4556f89e1.html",
-        "https://www.ansa.it/amp/nuova_europa/it/notizie/rubriche/altrenews/2026/09/02/in-kosovo-rischia-di-saltare-accordo-kurti-ldk-su-elezione-presidente_944ef000-13c1-4420-a456-d75c4b144d9f.html"
+        "https://www.ansa.it/amp/nuova_europa/it/notizie/rubriche/altrenews/2026/09/02/in-kosovo-rischia-di-saltare-accordo-kurti-ldk-su-elezione-presidente_944ef000-13c1-4420-a456-d75c4b144d9f.html",
+        "https://www.ansa.it/europa/notizie/rubriche/altrenews/2026/09/04/negoziatore-kosovo-lo-stallo-sulladesione-mostra-mancanza-di-leadership-ue_00cd0876-fc23-4285-a25f-4bdf2f067b44.html"
       ]
     },
     "Virgilio": {
@@ -2253,15 +2255,16 @@
     },
     "WAZ": {
       "country": "Gjermani",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-31",
-      "lastSeen": "2026-08-31",
+      "lastSeen": "2026-09-03",
       "urls": [
-        "https://www.waz.de/sport/lokalsport/essen/article413012589/50-fotos-albanien-und-kosovo-feiern-zusammen-beim-fc-besa-essen-wegen-der-socca-wm.html"
+        "https://www.waz.de/sport/lokalsport/essen/article413012589/50-fotos-albanien-und-kosovo-feiern-zusammen-beim-fc-besa-essen-wegen-der-socca-wm.html",
+        "https://www.waz.de/sport/lokalsport/essen/article413042332/socca-wm-spannung-und-tore-ueber-30-fotos-vom-letzten-vorrundenspieltag.html"
       ]
     },
     "Forbes Türkiye": {
@@ -2563,6 +2566,71 @@
       "lastSeen": "2026-09-01",
       "urls": [
         "https://unitalsi.it/news-territorio/donazione-del-gruppo-dellunitalsi-del-reventino-per-il-kosovo/"
+      ]
+    },
+    "geo.fr": {
+      "country": "Francë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-04",
+      "lastSeen": "2026-09-04",
+      "urls": [
+        "https://www.geo.fr/environnement/au-kosovo-une-dependance-au-charbon-qui-tue-233466"
+      ]
+    },
+    "magazine GEO": {
+      "country": "Francë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-04",
+      "lastSeen": "2026-09-04",
+      "urls": [
+        "https://www.geo.fr/environnement/au-kosovo-une-dependance-au-charbon-qui-tue-233466"
+      ]
+    },
+    "oefb.at": {
+      "country": "Austri",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-04",
+      "lastSeen": "2026-09-04",
+      "urls": [
+        "https://www.oefb.at/oefb/News/FNT-AUTKOS-VVK-Start"
+      ]
+    },
+    "24 Heures": {
+      "country": "Zvicër",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-04",
+      "lastSeen": "2026-09-02",
+      "urls": [
+        "https://www.24heures.ch/kosovo-lancien-president-thaci-accuse-de-crimes-de-guerre-877518889859"
+      ]
+    },
+    "eKAI": {
+      "country": "Poloni",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-04",
+      "lastSeen": "2026-09-04",
+      "urls": [
+        "https://www.ekai.pl/polscy-zolnierze-pomagaja-lokalnym-spolecznosciom-w-kosowie-i-turcji/"
       ]
     }
   }

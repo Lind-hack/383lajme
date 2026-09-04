@@ -1,10 +1,10 @@
 {
-  "lastUpdated": "2026-09-03",
-  "overallIndex": 53,
-  "totalArticles": 58,
-  "sourceCount": 41,
+  "lastUpdated": "2026-09-04",
+  "overallIndex": 52,
+  "totalArticles": 30,
+  "sourceCount": 25,
   "stanceVersion": 3,
-  "unattributed": 200,
+  "unattributed": 156,
   "nonEditorial": 1,
   "wrongKosovo": 0,
   "countries": {
@@ -40,23 +40,23 @@
           "articleCount": 1,
           "articles": [
             {
-              "title": "50 Fotos: Albanien und Kosovo feiern zusammen beim FC Besa Essen - wegen der Socca WM - WAZ",
-              "albanianTitle": "50 foto: Shqipëria dhe Kosova festojnë së bashku te FC Besa Essen në kuadër të Kampionatit Botëror të Socca-s - WAZ",
-              "blurb": "Shqiptarët nga Shqipëria dhe Kosova festuan së bashku në klubin FC Besa në Essen gjatë kampionatit botëror Socca.",
-              "imageUrl": "https://img.sparknews.funkemedien.de/413012541/413012541_1788175130_v16_9_1600.jpeg",
-              "url": "https://www.waz.de/sport/lokalsport/essen/article413012589/50-fotos-albanien-und-kosovo-feiern-zusammen-beim-fc-besa-essen-wegen-der-socca-wm.html",
-              "date": "2026-08-31",
+              "title": "Socca WM: Spannung und Tore - über 30 Fotos vom letzten Vorrundenspieltag - WAZ",
+              "albanianTitle": "Kupa e Botës në Socca: Emocione dhe gola – mbi 30 fotografi nga dita e fundit e fazës së grupeve",
+              "blurb": "Dita e fundit e fazës së grupeve në Kampionatin Botëror të Socca-s është përcjellë me shumë gola dhe emocione sportive.",
+              "imageUrl": "https://img.sparknews.funkemedien.de/413042347/413042347_1788431588_v16_9_1600.jpeg",
+              "url": "https://www.waz.de/sport/lokalsport/essen/article413042332/socca-wm-spannung-und-tore-ueber-30-fotos-vom-letzten-vorrundenspieltag.html",
+              "date": "2026-09-03",
               "sentiment": "neutral",
-              "reason": "Headline reports joint celebration without evaluative language",
+              "reason": "Faktikë raportim neutral",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
             }
           ],
-          "totalArticles": 1,
+          "totalArticles": 2,
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-08-31",
-          "lastSeen": "2026-08-31"
+          "lastSeen": "2026-09-03"
         }
       ],
       "summary": {
@@ -71,38 +71,13 @@
       }
     },
     "SHBA": {
-      "outlets": [
-        {
-          "name": "Bloomberg",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosovo Leaders Agree on President Pick After Months of Deadlock - Bloomberg.com",
-              "albanianTitle": "Liderët e Kosovës merren vesh për presidentin pas muajsh bllokadë - Bloomberg.com",
-              "blurb": "Liderët politikë në Kosovë kanë arritur marrëveshje për zgjedhjen e presidentit pas një ngërçi disamujor në institucione.",
-              "imageUrl": null,
-              "url": "https://www.bloomberg.com/news/articles/2026-08-31/kosovo-leaders-agree-on-president-pick-after-months-of-deadlock",
-              "date": "2026-08-31",
-              "sentiment": "neutral",
-              "reason": "Factual report without evaluative language",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 3,
-          "trend": "i përzier",
-          "firstSeen": "2026-08-28",
-          "lastSeen": "2026-08-31"
-        }
-      ],
+      "outlets": [],
       "summary": {
-        "index": 50,
+        "index": null,
         "positive": 0,
-        "neutral": 100,
+        "neutral": 0,
         "negative": 0,
-        "n": 1,
+        "n": 0,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -113,34 +88,8 @@
         {
           "name": "Balkan Insight",
           "sentiment": "neutral",
-          "articleCount": 6,
+          "articleCount": 3,
           "articles": [
-            {
-              "title": "Two Kosovo Serbs Plead Guilty to Participating in 2022 Unrest - Balkan Insight",
-              "albanianTitle": "Dy serbë të Kosovës pranojnë fajësinë për pjesëmarrje në trazirat e vitit 2022 - Balkan Insight",
-              "blurb": "Dy serbë të Kosovës janë deklaruar fajtorë për pjesëmarrje në trazirat e ndodhura gjatë vitit 2022 në veri të vendit.",
-              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/08/viber_image_2026-08-31_11-20-45-134-e1788171467147.jpg",
-              "url": "https://balkaninsight.com/2026/08/31/two-kosovo-serbs-plead-guilty-to-participating-in-2022-unrest/bi/",
-              "date": "2026-08-31",
-              "sentiment": "neutral",
-              "reason": "Factual report of court plea",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Kosovo’s Vetevendosje, LDK Agree on Ex-Judge as Joint Presidential Candidate - Balkan Insight",
-              "albanianTitle": "Vetëvendosje dhe LDK pajtohen që ish-gjyqtari të jetë kandidat i përbashkët për president",
-              "blurb": "Lëvizja Vetëvendosje dhe LDK janë pajtuar që një ish-gjyqtar të jetë kandidati i përbashkët për postin e presidentit.",
-              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/08/viber_image_2026-08-31_13-16-51-608-1024x768-1.jpg",
-              "url": "https://balkaninsight.com/2026/08/31/kosovos-vetevendosje-ldk-agree-on-ex-judge-as-joint-presidential-candidate/bi/",
-              "date": "2026-08-31",
-              "sentiment": "neutral",
-              "reason": "Neutral reporting of political agreement",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "Kosovo President’s Election Jeopardised by Party’s Inner Divisions - Balkan Insight",
               "albanianTitle": "Përçarjet e brendshme partiake rrezikojnë zgjedhjen e Presidentit të Kosovës",
@@ -179,62 +128,12 @@
               "isQuote": true,
               "evidence": "",
               "speaker": ""
-            },
-            {
-              "title": "Two Kosovo Serbs Plead Guilty to Participating in 2022 Unrest - balkaninsight.com",
-              "albanianTitle": "Dy serbë të Kosovës pranojnë fajësinë për pjesëmarrje në trazirat e vitit 2022",
-              "blurb": "Dy serbë të Kosovës janë deklaruar fajtorë për pjesëmarrje në trazirat e ndodhura gjatë vitit 2022.",
-              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/08/viber_image_2026-08-31_11-20-45-134-e1788171467147.jpg",
-              "url": "https://balkaninsight.com/2026/08/31/two-kosovo-serbs-plead-guilty-to-participating-in-2022-unrest/bi/",
-              "date": "2026-08-31",
-              "sentiment": "neutral",
-              "reason": "Straightforward report of court outcome, no evaluative language",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
             }
           ],
           "totalArticles": 9,
           "trend": "i përzier",
           "firstSeen": "2026-08-19",
           "lastSeen": "2026-09-03"
-        },
-        {
-          "name": "Reuters",
-          "sentiment": "neutral",
-          "articleCount": 2,
-          "articles": [
-            {
-              "title": "Kosovo parties strike deal to elect president, breaking deadlock - Reuters",
-              "albanianTitle": "Partitë në Kosovë arrijnë marrëveshje për zgjedhjen e presidentit, i jepet fund bllokadës",
-              "blurb": "Partitë politike në Kosovë arritën marrëveshje për zgjedhjen e presidentit, duke i dhënë fund bllokadës së krijuar në vend.",
-              "imageUrl": "https://www.reuters.com/resizer/v2/YDZXWVQEBVOITMGNKJFBCWX2BY.jpg?auth=a959ddf19ad8ccddbcd2bf117b5e0d18e43a88943abc3612ae65fda7f478a197&height=1005&width=1920&quality=80&smart=true",
-              "url": "https://www.reuters.com/world/kosovo-parties-strike-deal-elect-president-breaking-deadlock-2026-08-31/",
-              "date": "2026-08-31",
-              "sentiment": "neutral",
-              "reason": "Reuters typically reports factually",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Kosovo parties strike deal to elect president, breaking deadlock - reuters.com",
-              "albanianTitle": "Partitë në Kosovë arrijnë marrëveshje për zgjedhjen e presidentit, duke zhbllokuar situatën - reuters.com",
-              "blurb": "Partitë politike në Kosovë arrijnë marrëveshje për zgjedhjen e presidentit, duke i dhënë fund bllokadës së krijuar në institucionet shtetërore.",
-              "imageUrl": null,
-              "url": "https://www.reuters.com/world/kosovo-parties-strike-deal-elect-president-breaking-deadlock-2026-08-31/",
-              "date": "2026-08-31",
-              "sentiment": "neutral",
-              "reason": "Faktik raportim i paanshëm",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-31",
-          "lastSeen": "2026-08-31"
         }
       ],
       "summary": {
@@ -242,9 +141,9 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 8,
+        "n": 3,
         "excluded": 0,
-        "confident": true,
+        "confident": false,
         "stanceVersion": 3
       }
     },
@@ -277,34 +176,8 @@
         {
           "name": "Le Courrier des Balkans",
           "sentiment": "neutral",
-          "articleCount": 3,
+          "articleCount": 1,
           "articles": [
-            {
-              "title": "Kosovo : quand le blocage institutionnel devient une stratégie politique - Le Courrier des Balkans",
-              "albanianTitle": "Kosova: Kur bllokada institucionale shndërrohet në strategji politike - Le Courrier des Balkans",
-              "blurb": "Bllokada institucionale në Kosovë po analizohet si një strategji politike e përdorur nga aktorët për të ndikuar në vendimmarrje.",
-              "imageUrl": "https://www.courrierdesbalkans.fr/wp-content/uploads/2026/08/Capture-decran-2026-08-29-173302.png",
-              "url": "https://www.courrierdesbalkans.fr/kosovo-quand-le-blocage-institutionnel-devient-une-strategie-politique-98768/",
-              "date": "2026-08-31",
-              "sentiment": "neutral",
-              "reason": "Analytical description of political deadlock, not hostile language",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Donika Emini, chercheuse en sciences politiques : « Il faut développer une culture du compromis et de la coexistence politique » au Kosovo - Le Courrier des Balkans",
-              "albanianTitle": "Donika Emini, studiuese e shkencave politike: Në Kosovë duhet të zhvillohet kultura e kompromisit dhe bashkëjetesës politike",
-              "blurb": "Studiuesja Donika Emini vlerëson se në Kosovë duhet të zhvillohet një kulturë më e madhe e kompromisit dhe bashkëjetesës politike.",
-              "imageUrl": "https://www.courrierdesbalkans.fr/wp-content/uploads/2026/08/Capture-decran-2026-08-29-173302.png",
-              "url": "https://www.courrierdesbalkans.fr/kosovo-quand-le-blocage-institutionnel-devient-une-strategie-politique-98768/",
-              "date": "2026-08-31",
-              "sentiment": "neutral",
-              "reason": "Headline reports a quoted statement; outlet itself uses neutral wording",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "L’accord sur un candidat commun à la présidence suffira-t-il à sortir le Kosovo de l’impasse ? - Le Courrier des Balkans",
               "albanianTitle": "A do të mjaftojë marrëveshja për një kandidat të përbashkët për president për ta nxjerrë Kosovën nga ngërçi politik?",
@@ -323,6 +196,54 @@
           "trend": "i përzier",
           "firstSeen": "2026-08-20",
           "lastSeen": "2026-09-02"
+        },
+        {
+          "name": "geo.fr",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo : à Obilic, l'air des centrales au lignite alimente la peur du cancer - geo.fr",
+              "albanianTitle": "Kosovë: Në Obiliq, ajri i ndotur nga termocentralet me linjit shton frikën nga kanceri",
+              "blurb": "Banorët e Obiliqit shprehin shqetësim për rrezikun nga kanceri si pasojë e ndotjes së ajrit nga termocentralet me linjit.",
+              "imageUrl": "https://www.geo.fr/imgre/fit/~1~geo~2026~09~02~c2d413fc-6bb2-4551-9a72-3fd22a67624b.jpg/1200x630/focus-point/50%2C50/au-kosovo-une-dependance-au-charbon-qui-tue.jpg",
+              "url": "https://www.geo.fr/environnement/au-kosovo-une-dependance-au-charbon-qui-tue-233466",
+              "date": "2026-09-04",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-04",
+          "lastSeen": "2026-09-04"
+        },
+        {
+          "name": "magazine GEO",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo : à Obilic, l'air des centrales au lignite alimente la peur du cancer - magazine GEO",
+              "albanianTitle": "Kosovë: Në Obiliq, ajri nga termocentralet me linjit shton frikën nga kanceri - revista GEO",
+              "blurb": "Ndotja e ajrit nga termocentralet me linjit në Obiliq po shkakton shqetësime për rritjen e rasteve me kancer.",
+              "imageUrl": "https://www.geo.fr/imgre/fit/~1~geo~2026~09~02~c2d413fc-6bb2-4551-9a72-3fd22a67624b.jpg/1200x630/focus-point/50%2C50/au-kosovo-une-dependance-au-charbon-qui-tue.jpg",
+              "url": "https://www.geo.fr/environnement/au-kosovo-une-dependance-au-charbon-qui-tue-233466",
+              "date": "2026-09-04",
+              "sentiment": "neutral",
+              "reason": "Report on environmental health issue, no hostile or praising language toward Kosovo",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-04",
+          "lastSeen": "2026-09-04"
         }
       ],
       "summary": {
@@ -341,7 +262,7 @@
         {
           "name": "ANSA",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 3,
           "articles": [
             {
               "title": "Kosovo, Kurti-LDK presidential election agreement is in jeopardy - ANSA",
@@ -368,108 +289,25 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Negoziatore Kosovo, 'lo stallo sull'adesione mostra mancanza di leadership Ue' - ANSA",
+              "albanianTitle": "Negociatori për Kosovën: Ngërçi në procesin e anëtarësimit tregon mungesë të lidershipit të BE-së - ANSA",
+              "blurb": "Negociatori i Kosovës vlerëson se ngecja në procesin e anëtarësimit tregon mungesë të lidershipit nga Bashkimi Evropian.",
+              "imageUrl": "https://www.ansa.it",
+              "url": "https://www.ansa.it/europa/notizie/rubriche/altrenews/2026/09/04/negoziatore-kosovo-lo-stallo-sulladesione-mostra-mancanza-di-leadership-ue_00cd0876-fc23-4285-a25f-4bdf2f067b44.html",
+              "date": "2026-09-04",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 12,
+          "totalArticles": 13,
           "trend": "neutral",
           "firstSeen": "2026-08-20",
-          "lastSeen": "2026-09-02"
-        },
-        {
-          "name": "Buonasera24",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Fasano, bandiera palestinese e magliette “Free Palestine” durante Tunisia-Kosovo: Global Sumud Puglia chiede chiarimenti - Buonasera24",
-              "albanianTitle": "Fasano, flamuri palestinez dhe fanellat “Free Palestine” gjatë ndeshjes Tunizi-Kosovë: Global Sumud Puglia kërkon sqarime - Buonasera24",
-              "blurb": "Organizata Global Sumud Puglia kërkon sqarime pas shfaqjes së flamujve dhe mbishkrimeve për Palestinën gjatë ndeshjes Tunizi-Kosovë në Fasano.",
-              "imageUrl": "https://www.buonasera24.it/resizer/600/315/true/articoli/2022/11/giornata-sport-taranto-5.jpeg--fasano__bandiera_palestinese_e_magliette__free_palestine__durante_tunisia_kosovo__global_sumud_puglia_chiede_chiarimenti.webp",
-              "url": "https://www.buonasera24.it/news/cronaca/927606/fasano-bandiera-palestinese-e-magliette-free-palestine-durante-tunisia-kosovo-global-sumud-puglia-chiede-chiarimenti.html",
-              "date": "2026-08-31",
-              "sentiment": "neutral",
-              "reason": "Neutral description of a controversy involving a match",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 5,
-          "trend": "neutral",
-          "firstSeen": "2026-08-25",
-          "lastSeen": "2026-08-31"
-        },
-        {
-          "name": "Cavalierenews",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "L'orgoglio tricolore nei Balcani: i soldati italiani della missione NATO garanti di pace e sicurezza nel cuore del Kosovo - Cavalierenews",
-              "albanianTitle": "Krenaria tringjyrëshe në Ballkan: Ushtarët italianë të misionit të NATO-s, garantë të paqes dhe sigurisë në zemër të Kosovës - Cavalierenews",
-              "blurb": "Ushtarët italianë të misionit të NATO-s në Kosovë vazhdojnë angazhimin e tyre për ruajtjen e paqes dhe sigurisë në rajon.",
-              "imageUrl": "https://cavalierenews.it/wp-content/uploads/2026/08/Immagine-2026-08-31-110500-910x600.jpg",
-              "url": "https://cavalierenews.it/lorgoglio-tricolore-nei-balcani-i-soldati-italiani-della-missione-nato-garanti-di-pace-e-sicurezza-nel-cuore-del-kosovo/",
-              "date": "2026-08-31",
-              "sentiment": "neutral",
-              "reason": "Report of NATO peace role in Kosovo without evaluative language",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 2,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-26",
-          "lastSeen": "2026-08-31"
-        },
-        {
-          "name": "Diretta",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Mundial-2026: Governo do Kosovo promete prémio de 1,5 milhões de euros em caso de apuramento - Diretta",
-              "albanianTitle": "Botërori 2026: Qeveria e Kosovës premton 1,5 milionë euro shpërblim në rast kualifikimi - Live",
-              "blurb": "Qeveria e Kosovës ka premtuar një shpërblim prej 1.5 milionë eurosh nëse kombëtarja kualifikohet në Kampionatin Botëror 2026.",
-              "imageUrl": "https://livesport-ott-images.ssl.cdn.cra.cz/r1200xfq60/37eb20b0-3698-44ba-8b7c-09887518b12c.jpeg",
-              "url": "https://www.diretta.it/news/futebol-campeonato-do-mundo-mundial-2026-governo-do-kosovo-promete-premio-de-1-5-milhoes-de-euros-em-caso-de-apuramento/pljv92vq/",
-              "date": "2026-08-31",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportuar pa ngarkim",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 3,
-          "trend": "neutral",
-          "firstSeen": "2026-08-26",
-          "lastSeen": "2026-08-31"
-        },
-        {
-          "name": "FIGC",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Giochi del Mediterraneo, medaglia d’argento per le Azzurrine battute in finale dal Portogallo - FIGC",
-              "albanianTitle": "Lojërat Mesdhetare, medalje argjendi për italianet pas humbjes në finale nga Portugalia - FIGC",
-              "blurb": "Ekipi i futbollit të femrave të Italisë ka fituar medaljen e argjendtë në Lojërat Mesdhetare pas humbjes në finale.",
-              "imageUrl": "https://images.figc.it/view/acePublic/alias/contentid/1thltfkfaamv19y2des/0/5a7197ba-9a41-43eb-9ef4-6b4049155e3f-jpg.jpg?f=187%3A100",
-              "url": "https://www.figc.it/it/nazionali/news/giochi-del-mediterraneo-medaglia-dargento-per-le-azzurrine-battute-in-finale-dal-portogallo-iebdcslk",
-              "date": "2026-08-31",
-              "sentiment": "unknown",
-              "reason": "Artikulli nuk ka të bëjë me Kosovën, asnjë qëndrim i shprehur",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 6,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-20",
-          "lastSeen": "2026-08-31"
+          "lastSeen": "2026-09-04"
         },
         {
           "name": "Il Sole 24 ORE",
@@ -509,52 +347,28 @@
           "lastSeen": "2026-09-02"
         },
         {
-          "name": "Internazionale",
+          "name": "Osservatorio Balcani Caucaso Transeuropa",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
-              "title": "Kosovo parties strike deal to elect president, breaking deadlock - Internazionale",
-              "albanianTitle": "Partitë në Kosovë arrijnë marrëveshje për zgjedhjen e presidentit, zhbllokohet situata",
-              "blurb": "Partitë politike në Kosovë kanë arritur marrëveshje për zgjedhjen e presidentit, duke i dhënë fund bllokadës institucionale.",
-              "imageUrl": "https://media.internazionale.it/images/2026/08/31/357363-hd.jpeg",
-              "url": "https://www.internazionale.it/ultime-notizie-reuters/2026/08/31/kosovo-parties-strike-deal-to-elect-president-breaking-deadlock",
-              "date": "2026-08-31",
+              "title": "Kosovo: i Ragni della Val Rugova - Osservatorio Balcani Caucaso Transeuropa",
+              "albanianTitle": "Kosovë: Alpinistët në Grykën e Rugovës - Osservatorio Balcani Caucaso Transeuropa",
+              "blurb": "Alpinistët në Rugovë po zhvillojnë aktivitete të ngjitjes në shkëmbinjtë e kësaj zone malore të Kosovës.",
+              "imageUrl": "https://www.balcanicaucaso.org/wp-content/uploads/sites/8/2026/09/Inizio-anni-2000-Mauro-Barisone-con-i-ragazzi-fondatori-di-Marimangat-I-Ragni-della-Val-Rugova-1.jpg",
+              "url": "https://www.balcanicaucaso.org/cp_article/kosovo-i-ragni-della-val-rugova/",
+              "date": "2026-09-04",
               "sentiment": "neutral",
-              "reason": "Faktikë e raportuar në mënyrë neutrale",
+              "reason": "Lajm i raportuar në mënyrë faktike",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
             }
           ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-02",
-          "lastSeen": "2026-08-31"
-        },
-        {
-          "name": "LameziaTerme.it",
-          "sentiment": "positive",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Soveria Mannelli, l’UNITALSI dona speranza al Kosovo - LameziaTerme.it",
-              "albanianTitle": "Soveria Mannelli, UNITALSI dhuron shpresë për Kosovën",
-              "blurb": "Organizata UNITALSI nga Soveria Mannelli ka ndërmarrë një iniciativë për të ofruar ndihmë dhe mbështetje për qytetarët në Kosovë.",
-              "imageUrl": "https://www.lameziaterme.it/wp-content/uploads/2026/08/soveria-mannelli-unitalsi-dona-speranza-kosovo-1.jpeg",
-              "url": "https://www.lameziaterme.it/soveria-mannelli-unitalsi-dona-speranza-kosovo/",
-              "date": "2026-08-31",
-              "sentiment": "positive",
-              "reason": "Gjuha e mediave është pozitive, i përshkruan Kosovën me shpresë",
-              "isQuote": false,
-              "evidence": "dona speranza al Kosovo",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-31",
-          "lastSeen": "2026-08-31"
+          "totalArticles": 4,
+          "trend": "neutral",
+          "firstSeen": "2026-08-19",
+          "lastSeen": "2026-09-04"
         },
         {
           "name": "Unitalsi",
@@ -583,21 +397,8 @@
         {
           "name": "agenziagiornalisticaopinione.it",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 1,
           "articles": [
-            {
-              "title": "FIGC * FEDERAZIONE ITALIANA GIUOCO CALCIO: «ITALIA 2° ALLA PRIMA EDIZIONE FEMMINILE DEL TORNEO, PORTOGALLO VINCE 4-0 - agenziagiornalisticaopinione.it",
-              "albanianTitle": "FIGC: Italia e dyta në edicionin e parë të turneut për femra, Portugalia fiton 4-0",
-              "blurb": "Italia zuri vendin e dytë në turneun e parë të futbollit për femra, pasi humbi ndeshjen finale ndaj Portugalisë.",
-              "imageUrl": "https://www.agenziagiornalisticaopinione.it/wp-content/uploads/2026/08/y99z5a7197ba-9a41-43eb-9ef4-6b4049155e3f-jpg.jpg",
-              "url": "https://www.agenziagiornalisticaopinione.it/opinionmix/figc-federazione-italiana-giuoco-calcio-italia-2-alla-prima-edizione-femminile-del-torneo-portogallo-vince-4-0/",
-              "date": "2026-08-31",
-              "sentiment": "neutral",
-              "reason": "Lajm sportiv i thjeshtë, pa ngarkim",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "IL SOLE 24 ORE * ITALIA: «DALLA SOMALIA AL KOSOVO, AUTUNNO IN PRIMA LINEA PER LE FORZE ARMATE - agenziagiornalisticaopinione.it",
               "albanianTitle": "IL SOLE 24 ORE * ITALIA: «NGA SOMALIA NË KOSOVË, VJESHTË NË VIJËN E PARË PËR FORCAT E ARMATOSURA - agenziagiornalisticaopinione.it",
@@ -666,30 +467,6 @@
           "lastSeen": "2026-09-01"
         },
         {
-          "name": "ilReventino.it",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Soveria Mannelli: grande donazione del gruppo Unitalsi del Reventino per il Kosovo - ilReventino.it",
-              "albanianTitle": "Soveria Mannelli: Donacion i madh nga grupi Unitalsi i Reventinos për Kosovën",
-              "blurb": "Grupi Unitalsi nga Reventino ka dërguar një donacion të konsiderueshëm ndihmash për qytetarët në Kosovë.",
-              "imageUrl": "https://www.ilreventino.it/wp-content/uploads/2026/08/SOVERIA-MANNELLI_-GRANDE-DONAZIONE-DEL-GRUPPO-UNITALSI-DEL-REVENTINO-PER-IL-KOSOVO-1.jpg",
-              "url": "https://www.ilreventino.it/soveria-mannelli-grande-donazione-del-gruppo-unitalsi-del-reventino-per-il-kosovo/",
-              "date": "2026-08-31",
-              "sentiment": "neutral",
-              "reason": "Faktik raportim i paanshëm",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-02",
-          "lastSeen": "2026-08-31"
-        },
-        {
           "name": "ilnordest.it",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -739,12 +516,12 @@
         }
       ],
       "summary": {
-        "index": 53,
-        "positive": 6,
-        "neutral": 94,
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 17,
-        "excluded": 1,
+        "n": 12,
+        "excluded": 0,
         "confident": true,
         "stanceVersion": 3
       }
@@ -774,6 +551,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-02",
           "lastSeen": "2026-09-01"
+        },
+        {
+          "name": "oefb.at",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Tickets für WM-Playoff gegen den Kosovo im Verkauf - oefb.at",
+              "albanianTitle": "Nisin shitjet e biletave për ndeshjen e play-off-it të Kupës së Botës kundër Kosovës",
+              "blurb": "Federata Austriake e Futbollit ka nxjerrë në shitje biletat për ndeshjen e play-offit të Kupës së Botës kundër Kosovës.",
+              "imageUrl": "https://www.oefb.at/oefb/FNT-VVK-Start-AUTKOS-Foto-2.jpg?:w=600&:h=315&:bf=true&:s=d59zCAev&ch=YGitoLKm&:hp=5184;107449;de",
+              "url": "https://www.oefb.at/oefb/News/FNT-AUTKOS-VVK-Start",
+              "date": "2026-09-04",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim neutral",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-04",
+          "lastSeen": "2026-09-04"
         }
       ],
       "summary": {
@@ -781,7 +582,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 1,
+        "n": 2,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -789,6 +590,30 @@
     },
     "Zvicër": {
       "outlets": [
+        {
+          "name": "24 Heures",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Hashim Thaçi, un ancien président du Kosovo accusé de crimes de guerre - 24 Heures",
+              "albanianTitle": "Hashim Thaçi, ish-presidenti i Kosovës i akuzuar për krime lufte",
+              "blurb": "Ish-presidenti i Kosovës, Hashim Thaçi, po përballet me akuza për krime lufte në gjykatat ndërkombëtare.",
+              "imageUrl": "https://cdn.unitycms.io/images/D9rQVRMA4A39WK79GtZ6TH.jpg?op=ocroped&val=1200,600,1000,750,107,0&sum=SvTtV9V93RQ",
+              "url": "https://www.24heures.ch/kosovo-lancien-president-thaci-accuse-de-crimes-de-guerre-877518889859",
+              "date": "2026-09-02",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-04",
+          "lastSeen": "2026-09-02"
+        },
         {
           "name": "Journal B",
           "sentiment": "neutral",
@@ -819,7 +644,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 1,
+        "n": 2,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -877,212 +702,27 @@
       }
     },
     "Spanjë": {
-      "outlets": [
-        {
-          "name": "Demócrata",
-          "sentiment": "neutral",
-          "articleCount": 4,
-          "articles": [
-            {
-              "title": "Government and opposition agree on a consensus candidate for the Presidency of Kosovo to avoid new elections - Demócrata",
-              "albanianTitle": "Pozita dhe opozita pajtohen për një kandidat konsensual për president të Kosovës për të shmangur zgjedhjet e reja",
-              "blurb": "Pozita dhe opozita në Kosovë janë pajtuar për një kandidat konsensual për president me qëllim shmangien e zgjedhjeve të reja.",
-              "imageUrl": null,
-              "url": "https://www.democrata.es/en/international/government-and-opposition-agree-on-a-consensus-candidate-for-the-presidency-of-kosovo-to-avoid-new-elections/",
-              "date": "2026-08-31",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportuar në mënyrë neutrale",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Gouvernement et opposition s'accordent sur un candidat de consensus à la Présidence du Kosovo pour éviter de nouvelles élections - Demócrata",
-              "albanianTitle": "Qeveria dhe opozita arrijnë konsensus për kandidatin për president të Kosovës për të evituar zgjedhjet e parakohshme",
-              "blurb": "Qeveria dhe opozita në Kosovë kanë arritur pajtim për një kandidat konsensual për president për të shmangur zgjedhjet e parakohshme.",
-              "imageUrl": null,
-              "url": "https://www.democrata.es/fr/international/gouvernement-et-opposition-s-accordent-sur-un-candidat-de-consensus-a-la-presidence-du-kosovo-pour-eviter-de-nouvelles-elections/",
-              "date": "2026-08-31",
-              "sentiment": "neutral",
-              "reason": "Faktikë, pa gjuhë ngarkuar",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Governo e opposizione concordano un candidato di consenso alla Presidenza del Kosovo per evitare nuove elezioni - Demócrata",
-              "albanianTitle": "Qeveria dhe opozita dakordohen për një kandidat konsensual për president të Kosovës për të shmangur zgjedhjet e reja",
-              "blurb": "Qeveria dhe opozita në Kosovë janë dakorduar për një kandidat të përbashkët për president për të parandaluar mbajtjen e zgjedhjeve.",
-              "imageUrl": null,
-              "url": "https://www.democrata.es/it/internazionale/governo-e-opposizione-concordano-un-candidato-di-consenso-alla-presidenza-del-kosovo-per-evitare-nuove-elezioni/",
-              "date": "2026-08-31",
-              "sentiment": "neutral",
-              "reason": "Faktikë, pa gjuhë ngarkuar",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Gobierno y oposición pactan un candidato de consenso a la Presidencia de Kosovo para evitar nuevas elecciones - Demócrata",
-              "albanianTitle": "Qeveria dhe opozita bëjnë pakt për një kandidat konsensual për president të Kosovës për të shmangur zgjedhjet e reja",
-              "blurb": "Qeveria dhe opozita në Kosovë kanë arritur marrëveshje për një kandidat konsensual për president për të shmangur zgjedhjet e reja.",
-              "imageUrl": null,
-              "url": "https://www.democrata.es/internacional/gobierno-y-oposicion-pactan-un-candidato-de-consenso-a-la-presidencia-de-kosovo-para-evitar-nuevas-elecciones/amp/",
-              "date": "2026-08-31",
-              "sentiment": "neutral",
-              "reason": "Faktikë, pa gjuhë ngarkuar",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 10,
-          "trend": "kritik",
-          "firstSeen": "2026-08-22",
-          "lastSeen": "2026-08-31"
-        },
-        {
-          "name": "Europa Press",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "El partido gobernante y la oposición acuerdan un candidato a la Presidencia de Kosovo para evitar elecciones - Europa Press",
-              "albanianTitle": "Partia në pushtet dhe opozita pajtohen për një kandidat për president të Kosovës për të shmangur zgjedhjet",
-              "blurb": "Partia në pushtet dhe opozita në Kosovë janë pajtuar për një kandidat për president me qëllim shmangien e zgjedhjeve të reja.",
-              "imageUrl": "https://img.europapress.es/fotoweb/fotonoticia_20260831160656_1200.jpg",
-              "url": "https://www.europapress.es/internacional/noticia-partido-gobernante-oposicion-acuerdan-candidato-presidencia-kosovo-evitar-elecciones-20260831160656.html",
-              "date": "2026-08-31",
-              "sentiment": "neutral",
-              "reason": "Faktikë, pa gjuhë ngarkuar",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 3,
-          "trend": "i përzier",
-          "firstSeen": "2026-08-22",
-          "lastSeen": "2026-08-31"
-        }
-      ],
+      "outlets": [],
       "summary": {
-        "index": 50,
+        "index": null,
         "positive": 0,
-        "neutral": 100,
+        "neutral": 0,
         "negative": 0,
-        "n": 5,
+        "n": 0,
         "excluded": 0,
-        "confident": true,
+        "confident": false,
         "stanceVersion": 3
       }
     },
     "Greqi": {
-      "outlets": [
-        {
-          "name": "BusinessDaily",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Συμφωνία VV και LDK για κοινή στήριξη Σεϊντίου στην προεδρία Κοσόβου - BusinessDaily",
-              "albanianTitle": "VV dhe LDK dakordohen për mbështetjen e Sejdiut për president të Kosovës",
-              "blurb": "Lëvizja Vetëvendosje dhe Lidhja Demokratike e Kosovës janë dakorduar për mbështetjen e përbashkët të Sejdiut për postin e presidentit.",
-              "imageUrl": "https://www.businessdaily.gr/sites/default/files/styles/main_full/public/2022-08/businessdaily-Kosovo-Simaia.jpg?itok=1-wkg6v3",
-              "url": "https://www.businessdaily.gr/diethni/228943_symfonia-vv-kai-ldk-gia-stirixi-seintioy-stin-proedria-toy-kosoboy",
-              "date": "2026-08-31",
-              "sentiment": "neutral",
-              "reason": "Faktikë i raportuar në mënyrë neutrale, pa gjuhë ngarkuese",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-31",
-          "lastSeen": "2026-08-31"
-        },
-        {
-          "name": "Capital.gr",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Κόσοβο: Συμφωνία Κούρτι με την αντιπολίτευση για την εκλογή νέου προέδρου - Capital.gr",
-              "albanianTitle": "Kosovë: Kurti arrin marrëveshje me opozitën për zgjedhjen e presidentit të ri",
-              "blurb": "Kryeministri Kurti dhe partitë opozitare kanë arritur marrëveshje për procesin e zgjedhjes së presidentit të ri të Kosovës.",
-              "imageUrl": "https://www.capital.gr/Content/ImagesDatabase/fb/1000x523/crop/both/68/685abdef2adc4a2e97c3bb9cd14d421a.jpg",
-              "url": "https://www.capital.gr/diethni/4013561/kosobo-sumfonia-kourti-me-tin-antipoliteusi-gia-tin-eklogi-neou-proedrou/",
-              "date": "2026-08-31",
-              "sentiment": "neutral",
-              "reason": "Faktikë i raportuar në mënyrë neutrale, pa gjuhë ngarkuese",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 2,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-21",
-          "lastSeen": "2026-08-31"
-        },
-        {
-          "name": "best-tv.gr",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Μεσογειακοί Αγώνες 2026: Με άρωμα Μεσσηνίας η δεύτερη θέση και το ασημένιο μετάλλιο της Εθνικής ανδρών - best-tv.gr",
-              "albanianTitle": "Lojërat Mesdhetare 2026: Me aromë Mesinie vendi i dytë dhe medalja e argjendtë për kombëtaren e meshkujve - best-tv.gr",
-              "blurb": "Ekipi kombëtar i meshkujve ka fituar medaljen e argjendtë në Lojërat Mesdhetare të vitit 2026 në disiplinën përkatëse.",
-              "imageUrl": "https://best-tv.gr/wp-content/uploads/2026/08/784351504_1586336656559025_2390669654273620204_n.jpg",
-              "url": "https://best-tv.gr/mesogeiakoi-agones-2026-me-aroma-messinias-i-deyteri-thesi-kai-to-asimenio-metallio-tis-ethnikis-andron/",
-              "date": "2026-08-31",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-02",
-          "lastSeen": "2026-08-31"
-        },
-        {
-          "name": "Αθήνα 9,84",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Κόσοβο: Τα κόμματα VV και LDK συμφώνησαν να στηρίξουν τον Σεϊντίου για την προεδρία τερματίζοντας το πολιτικό αδιέξοδο - Αθήνα 9,84",
-              "albanianTitle": "Kosovë: VV dhe LDK pajtohen ta mbështesin Sejdiun për president, i jepet fund ngërçit politik",
-              "blurb": "Partitë VV dhe LDK kanë arritur konsensus për mbështetjen e Sejdiut për president, duke i dhënë fund bllokadës politike.",
-              "imageUrl": "https://athina984.gr/wp-content/uploads/2025/02/w09-95722KOSOVO.jpg",
-              "url": "https://athina984.gr/2026/08/31/kosovo-ta-kommata-vv-kai-ldk-symfonisan-na-stirixoyn-apo-koinoy-ton-seintioy-gia-tin-proedria-termatizontas-to-politiko-adiexodo/",
-              "date": "2026-08-31",
-              "sentiment": "neutral",
-              "reason": "Faktikë i raportuar në mënyrë neutrale, pa gjuhë ngarkuese",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-31",
-          "lastSeen": "2026-08-31"
-        }
-      ],
+      "outlets": [],
       "summary": {
-        "index": 50,
+        "index": null,
         "positive": 0,
-        "neutral": 100,
+        "neutral": 0,
         "negative": 0,
-        "n": 3,
-        "excluded": 1,
+        "n": 0,
+        "excluded": 0,
         "confident": false,
         "stanceVersion": 3
       }
@@ -1128,43 +768,19 @@
     "Poloni": {
       "outlets": [
         {
-          "name": "Interia Sport",
+          "name": "eKAI",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
-              "title": "Kosowo (k) - holandia (k) - Interia Sport",
-              "albanianTitle": "Kosovë - Holandë - Interia Sport",
-              "blurb": "Përfaqësueset e femrave të Kosovës dhe Holandës do të përballen mes vete në një ndeshje futbolli.",
-              "imageUrl": null,
-              "url": "https://sport.interia.pl/pilka-reczna/mecz-kosowo-k-holandia-k-mistrzostwa-europy-k-kwal,spmi,2463312",
-              "date": "2026-08-31",
+              "title": "Polscy żołnierze pomagają lokalnym społecznościom w Kosowie i Turcji - eKAI",
+              "albanianTitle": "Ushtarët polakë ndihmojnë komunitetet lokale në Kosovë dhe Turqi - eKAI",
+              "blurb": "Ushtarët polakë po ofrojnë ndihmë për komunitetet lokale në Kosovë dhe Turqi përmes angazhimeve të tyre humanitare.",
+              "imageUrl": "https://www.ekai.pl/wp-content/uploads/2026/09/kfor-kosowo.jpg",
+              "url": "https://www.ekai.pl/polscy-zolnierze-pomagaja-lokalnym-spolecznosciom-w-kosowie-i-turcji/",
+              "date": "2026-09-04",
               "sentiment": "neutral",
-              "reason": "Faktikë të raportuara në mënyrë neutrale",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 2,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-27",
-          "lastSeen": "2026-08-31"
-        },
-        {
-          "name": "iGaming Polska",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Mistrzostwa Świata Socca 2026: terminarz, harmonogram i wyniki - iGaming Polska",
-              "albanianTitle": "Kampionati Botëror i Socca 2026: orari, kalendari dhe rezultatet",
-              "blurb": "Është publikuar orari, kalendari i ndeshjeve dhe rezultatet për Kampionatin Botëror të Socca-s që mbahet gjatë vitit 2026.",
-              "imageUrl": null,
-              "url": "https://igamingpolska.pl/mistrzostwa-swiata-socca-2026-terminarz-wyniki/",
-              "date": "2026-08-31",
-              "sentiment": "neutral",
-              "reason": "Faktik raportim i sportit, pa ngarkim negativ ose pozitiv ndaj Kosovës",
+              "reason": "Faktikë raportimi, asnjë gjuhë e ngarkuar ndaj Kosovës",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1172,8 +788,8 @@
           ],
           "totalArticles": 1,
           "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-28",
-          "lastSeen": "2026-08-31"
+          "firstSeen": "2026-09-04",
+          "lastSeen": "2026-09-04"
         },
         {
           "name": "igamingpolska.pl",
@@ -1205,7 +821,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 2,
+        "n": 1,
         "excluded": 1,
         "confident": false,
         "stanceVersion": 3
@@ -1214,134 +830,10 @@
     "Turqi": {
       "outlets": [
         {
-          "name": "A Haber",
-          "sentiment": "neutral",
-          "articleCount": 3,
-          "articles": [
-            {
-              "title": "Kosova Savunma Bakanı Maqedonci A Haber'de! Türk savunma sanayisine övgüler: 'Türkiye ile iş birliğimiz stratejik bir avantaj' - A Haber",
-              "albanianTitle": "Ministri i Mbrojtjes i Kosovës, Maqedonci në A Haber: Bashkëpunimi me Turqinë është avantazh strategjik",
-              "blurb": "Ministri i Mbrojtjes i Kosovës, Ejup Maqedonci, vlerësoi bashkëpunimin strategjik me industrinë turke të mbrojtjes në një intervistë televizive.",
-              "imageUrl": "https://iaahbr.tmgrup.com.tr/5bb189/1200/675/0/0/823/463?u=https://iahbr.tmgrup.com.tr/2026/08/31/kosova-savunma-bakani-maqedonci-a-haberde-1788192717349.jpg",
-              "url": "https://www.ahaber.com.tr/ozel-haberler/2026/08/31/kosova-savunma-bakani-maqedonci-a-haberde",
-              "date": "2026-08-31",
-              "sentiment": "positive",
-              "reason": "Titulli përdor fjalë pozitive për ministrin e Kosovës dhe bashkëpunimin me Turqinë",
-              "isQuote": false,
-              "evidence": "övgüler",
-              "speaker": ""
-            },
-            {
-              "title": "Kosova Savunma Bakanı A Haber'e konuştu - A Haber",
-              "albanianTitle": "Ministri i Mbrojtjes i Kosovës flet për A Haber",
-              "blurb": "Ministri i Mbrojtjes i Kosovës ka dhënë një intervistë për televizionin turk A Haber mbi zhvillimet aktuale.",
-              "imageUrl": "https://iaahbr.tmgrup.com.tr/fb2ab7/1200/675/86/0/1025/528?u=https://iahbr.tmgrup.com.tr/2026/08/31/kosova-savunma-bakani-a-habere-konustu-1788191978201.jpg",
-              "url": "https://www.ahaber.com.tr/video/ozel-haber/kosova-savunma-bakani-a-habere-konustu",
-              "date": "2026-08-31",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportim i thjeshtë",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "KOSOVA SAVUNMA BAKANI A HABER'DE - A Haber",
-              "albanianTitle": "Ministri i Mbrojtjes i Kosovës në A Haber",
-              "blurb": "Ministri i Mbrojtjes së Kosovës, Ejup Maqedonci, ishte i ftuar në një intervistë për kanalin televiziv turk A Haber.",
-              "imageUrl": "https://iaahbr.tmgrup.com.tr/854a9b/1200/675/0/549/1080/1155?u=https://iahbr.tmgrup.com.tr/2026/09/01/kosova-savunma-bakani-a-haberde-1788214533221.jpeg",
-              "url": "https://www.ahaber.com.tr/video/story/kosova-savunma-bakani-a-haberde",
-              "date": "2026-08-31",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportuar në mënyrë neutrale",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 3,
-          "trend": "i përzier",
-          "firstSeen": "2026-08-31",
-          "lastSeen": "2026-08-31"
-        },
-        {
-          "name": "Forbes Türkiye",
-          "sentiment": "positive",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Dua Lipa Avrupa’nın en genç ülkesini dünyaya tanıtıyor - Forbes Türkiye",
-              "albanianTitle": "Dua Lipa promovon shtetin më të ri në Evropë para botës - Forbes Türkiye",
-              "blurb": "Këngëtarja me famë botërore Dua Lipa po promovon Kosovën si shtetin më të ri në Evropë përmes aktiviteteve të saj.",
-              "imageUrl": "https://files.forbes.com.tr/host/Image/article/dua-lipa-avrupa-nin-en-genc-ulkesini-dunyaya-tanitiyor-2026-08-31-13-43-59.jpeg",
-              "url": "https://www.forbes.com.tr/forbes-life/dua-lipa-avrupa-nin-en-genc-ulkesini-dunyaya-tanitiyor",
-              "date": "2026-08-31",
-              "sentiment": "positive",
-              "reason": "Outlet praises Kosovo as Europe’s youngest country",
-              "isQuote": false,
-              "evidence": "en genç ülkesini",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-31",
-          "lastSeen": "2026-08-31"
-        },
-        {
-          "name": "Haberler",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosova'da Cumhurbaşkanlığı Uzlaşısı: Bekim Sejdiu Aday - Haberler",
-              "albanianTitle": "Konsensusi për Presidentin në Kosovë: Bekim Sejdiu kandidat",
-              "blurb": "Bekim Sejdiu është kandidati i propozuar për postin e presidentit të Kosovës pas arritjes së një konsensusi politik.",
-              "imageUrl": null,
-              "url": "https://www.haberler.com/guncel/kosova-da-bekim-sejdiu-nun-cumhurbaskani-20194186-haberi/",
-              "date": "2026-08-31",
-              "sentiment": "neutral",
-              "reason": "Neutral report of presidential consensus in Kosovo",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 6,
-          "trend": "neutral",
-          "firstSeen": "2026-08-20",
-          "lastSeen": "2026-08-31"
-        },
-        {
           "name": "Son Dakika",
           "sentiment": "neutral",
-          "articleCount": 4,
+          "articleCount": 2,
           "articles": [
-            {
-              "title": "Kosova'da Cumhurbaşkanı Adaylığı Üzerinde Uzlaşma - Son Dakika",
-              "albanianTitle": "Konsensus në Kosovë për kandidaturën për president",
-              "blurb": "Subjektet politike në Kosovë kanë arritur pajtueshmëri lidhur me kandidaturën për postin e presidentit të vendit.",
-              "imageUrl": null,
-              "url": "https://www.sondakika.com/politika/haber-kosova-da-cumhurbaskani-adayligi-uzerinde-uzlasma-20193550/",
-              "date": "2026-08-31",
-              "sentiment": "neutral",
-              "reason": "Raportim faktik i marrëveshjes politike në Kosovë",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Kosova'da Cumhurbaşkanı Adayı Sejdiu Belirlendi - Son Dakika",
-              "albanianTitle": "Caktohet kandidati për president të Kosovës, Sejdiu",
-              "blurb": "Bekim Sejdiu është zyrtarizuar si kandidat për postin e presidentit të Kosovës në procesin e fundit zgjedhor.",
-              "imageUrl": null,
-              "url": "https://www.sondakika.com/guncel/haber-kosova-da-cumhurbaskani-adayi-sejdiu-belirlendi-20194210/",
-              "date": "2026-08-31",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportim i thjeshtë",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "Berber Ali Türkben İki Türkiye Şampiyonluğunun Ardından Kosova'daki Dünya Şampiyonası'nda İlk Turda - Son Dakika",
               "albanianTitle": "Berberi Ali Türkben, pas dy titujve kampion në Turqi, eliminohet në raundin e parë të Kampionatit Botëror në Kosovë - Son Dakika",
@@ -1373,78 +865,25 @@
           "trend": "i përzier",
           "firstSeen": "2026-08-20",
           "lastSeen": "2026-09-01"
-        },
-        {
-          "name": "forbes.com.tr",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Dua Lipa Avrupa’nın en genç ülkesini dünyaya tanıtıyor - forbes.com.tr",
-              "albanianTitle": "Dua Lipa po e promovon shtetin më të ri në Evropë para botës",
-              "blurb": "Këngëtarja Dua Lipa po e promovon Kosovën si shtetin më të ri në Evropë para audiencës ndërkombëtare.",
-              "imageUrl": "https://files.forbes.com.tr/host/Image/article/dua-lipa-avrupa-nin-en-genc-ulkesini-dunyaya-tanitiyor-2026-08-31-13-43-59.jpeg",
-              "url": "https://www.forbes.com.tr/forbes-life/dua-lipa-avrupa-nin-en-genc-ulkesini-dunyaya-tanitiyor",
-              "date": "2026-08-31",
-              "sentiment": "neutral",
-              "reason": "Raportim neutral për promovimin e Kosovës nga Dua Lipa",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-31",
-          "lastSeen": "2026-08-31"
-        },
-        {
-          "name": "sondakika.com",
-          "sentiment": "neutral",
-          "articleCount": 2,
-          "articles": [
-            {
-              "title": "Kosova'da Cumhurbaşkanı Adaylığı Üzerinde Uzlaşma - sondakika.com",
-              "albanianTitle": "Konsensus në Kosovë për kandidaturën për president - sondakika.com",
-              "blurb": "Partitë politike në Kosovë kanë arritur një pajtim lidhur me kandidaturën për postin e presidentit të vendit.",
-              "imageUrl": null,
-              "url": "https://www.sondakika.com/politika/haber-kosova-da-cumhurbaskani-adayligi-uzerinde-uzlasma-20193550/",
-              "date": "2026-08-31",
-              "sentiment": "neutral",
-              "reason": "Titulli thjesht njofton për një uzlashë në kandidaturën presidenciale në Kosova",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Kosova'da Cumhurbaşkanı Adayı Sejdiu Belirlendi - sondakika.com",
-              "albanianTitle": "Sejdiu caktohet kandidat për president të Kosovës",
-              "blurb": "Sejdiu është përcaktuar si kandidat për president të Kosovës, sipas njoftimeve të fundit nga mediat turke.",
-              "imageUrl": null,
-              "url": "https://www.sondakika.com/guncel/haber-kosova-da-cumhurbaskani-adayi-sejdiu-belirlendi-20194210/",
-              "date": "2026-08-31",
-              "sentiment": "neutral",
-              "reason": "Lajm politik i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 4,
-          "trend": "neutral",
-          "firstSeen": "2026-08-26",
-          "lastSeen": "2026-08-31"
         }
       ],
       "summary": {
-        "index": 62,
-        "positive": 25,
-        "neutral": 75,
+        "index": 75,
+        "positive": 50,
+        "neutral": 50,
         "negative": 0,
-        "n": 12,
+        "n": 2,
         "excluded": 0,
-        "confident": true,
-        "stanceVersion": 3
+        "confident": false,
+        "stanceVersion": 3,
+        "movement": {
+          "delta": 13,
+          "from": 62,
+          "outlet": "Son Dakika",
+          "title": "Zehra Nur Arslan, kampione në Kampionatin Evropian të Peshëngritjes për të Rinj në Kosovë, viziton guvernatorin e Amasyas",
+          "evidence": "200 Kiloyla Şampiyon Olan",
+          "url": "https://www.sondakika.com/guncel/haber-kosova-daki-yildizlar-avrupa-halter-sampiyonasi-nd-20196635/"
+        }
       }
     },
     "Kroaci": {
