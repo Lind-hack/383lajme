@@ -1,5 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { automationSecret, isAutomationAuthorized } from "@/lib/tregu-automation.mjs";
+import { automationDenied } from "@/lib/require-automation";
 import { previewDailyDraftAutomation, runDailyDraftAutomation } from "@/lib/tregu-automation-server";
 import { getLatestArticles } from "@/lib/db";
 import { selectDailySourceArticles } from "@/lib/tregu-daily-market-quality.mjs";
@@ -9,19 +9,10 @@ export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 export const maxDuration = 60;
 
-function authorized(request: NextRequest) {
-  const secret = automationSecret();
-  if (!secret) return { error: NextResponse.json({ error: "TREGU_AUTOMATION_SECRET (or CRON_SECRET) is required." }, { status: 500 }) };
-  if (!isAutomationAuthorized(request.headers.get("authorization") ?? "", secret)) {
-    return { error: NextResponse.json({ error: "Unauthorized" }, { status: 401 }) };
-  }
-  return {};
-}
-
 // Read-only context for the root/container Hermes Codex OAuth caller.
 export async function GET(request: NextRequest) {
-  const auth = authorized(request);
-  if (auth.error) return auth.error;
+  const denied = automationDenied(request);
+  if (denied) return denied;
   const sourceArticles = selectDailySourceArticles(await getLatestArticles(60), 24);
   const admin = createAdminClient();
   const { data: futureTemplates, error: futureError } = admin ? await admin.from("markets").select("id,slug,question,description,closes_at,live_event,sport_outcomes,status,market_classification,market_type").eq("status", "draft").in("market_classification", ["live_f1", "live_football"]).gt("closes_at", new Date().toISOString()) : { data: [], error: null };
@@ -60,8 +51,8 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-  const auth = authorized(request);
-  if (auth.error) return auth.error;
+  const denied = automationDenied(request);
+  if (denied) return denied;
   const body = (await request.json().catch(() => null)) as { candidates?: unknown; dryRun?: boolean; runKey?: unknown; markTemplateIds?: unknown } | null;
   if (body && Array.isArray(body.markTemplateIds)) {
     const admin = createAdminClient();

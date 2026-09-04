@@ -1,5 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { automationSecret, isAutomationAuthorized } from "@/lib/tregu-automation.mjs";
+import { automationDenied } from "@/lib/require-automation";
 import { runRepriceAutomation } from "@/lib/tregu-automation-server";
 import { sendTreguLiveNotification } from "@/lib/tregu-live-email";
 import { hasEvidenceBackedRepriceChanges } from "@/lib/tregu-live-email-content.mjs";
@@ -9,13 +9,8 @@ export const runtime = "nodejs";
 export const maxDuration = 60;
 
 export async function POST(request: NextRequest) {
-  const secret = automationSecret();
-  if (!secret) {
-    return NextResponse.json({ error: "TREGU_AUTOMATION_SECRET (or CRON_SECRET) is required." }, { status: 500 });
-  }
-  if (!isAutomationAuthorized(request.headers.get("authorization") ?? "", secret)) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
+  const denied = automationDenied(request);
+  if (denied) return denied;
   try {
     const result = await runRepriceAutomation();
     if (!result.skipped && "email_updates" in result && hasEvidenceBackedRepriceChanges(result)) {

@@ -1,6 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { revalidatePath } from "next/cache";
-import { automationSecret, isAutomationAuthorized } from "@/lib/tregu-automation.mjs";
+import { automationDenied } from "@/lib/require-automation";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -33,11 +33,8 @@ const DEFAULT_PATHS = ["/", "/toni", "/tregu", "/visit"];
 const MAX_PATHS = 20;
 
 export async function POST(request: NextRequest) {
-  const secrets = [automationSecret(), process.env.CRON_SECRET ?? ""].filter(Boolean);
-  const header = request.headers.get("authorization") ?? "";
-  if (!secrets.some((secret) => isAutomationAuthorized(header, secret))) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
+  const denied = automationDenied(request);
+  if (denied) return denied;
 
   const body = await request.json().catch(() => null);
   const requested = Array.isArray(body?.paths) ? body.paths : DEFAULT_PATHS;

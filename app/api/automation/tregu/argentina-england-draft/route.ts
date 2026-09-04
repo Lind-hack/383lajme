@@ -1,6 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { automationSecret, isAutomationAuthorized } from "@/lib/tregu-automation.mjs";
+import { automationDenied } from "@/lib/require-automation";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -34,9 +34,8 @@ function validateOpenMarket(draft: Record<string, unknown>) {
 }
 
 export async function POST(request: NextRequest) {
-  const secret = automationSecret();
-  if (!secret) return NextResponse.json({ error: "TREGU_AUTOMATION_SECRET (or CRON_SECRET) is required." }, { status: 500 });
-  if (!isAutomationAuthorized(request.headers.get("authorization") ?? "", secret)) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const denied = automationDenied(request);
+  if (denied) return denied;
 
   const body = (await request.json().catch(() => null)) as { draft?: Record<string, unknown>; dryRun?: boolean; open?: boolean } | null;
   if (!body?.draft) return NextResponse.json({ error: "Argentina–England draft payload is required." }, { status: 400 });

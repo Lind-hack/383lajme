@@ -1,5 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { automationSecret, isAutomationAuthorized } from "@/lib/tregu-automation.mjs";
+import { automationDenied } from "@/lib/require-automation";
 import { runLiveSportsAutomation } from "@/lib/tregu-automation-server";
 
 export const dynamic = "force-dynamic";
@@ -7,9 +7,8 @@ export const runtime = "nodejs";
 export const maxDuration = 60;
 
 export async function POST(request: NextRequest) {
-  const secret = automationSecret();
-  if (!secret) return NextResponse.json({ error: "TREGU_AUTOMATION_SECRET (or CRON_SECRET) is required." }, { status: 500 });
-  if (!isAutomationAuthorized(request.headers.get("authorization") ?? "", secret)) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const denied = automationDenied(request);
+  if (denied) return denied;
   try {
     return NextResponse.json(await runLiveSportsAutomation());
   } catch (error) {

@@ -41,3 +41,11 @@ tmp/
 .last30days/**/*.jpeg
 .last30days/**/*.webp
 supabase/.temp/
+
+# Local scratch: agent planning dirs, UI experiments, knowledge-graph output.
+# Untracked working material — stays on disk, out of git status and clones.
+.planning/
+.zcode/
+app/hero-preview/
+components/hero-value-prop.tsx
+graphify-out/

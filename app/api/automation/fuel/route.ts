@@ -1,6 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { revalidatePath } from "next/cache";
-import { automationSecret, isAutomationAuthorized } from "@/lib/tregu-automation.mjs";
+import { isAutomationRequest } from "@/lib/require-automation";
 import { fetchNaftaSotStations, getDailyFuelSnapshot } from "@/lib/home-market-data";
 import { createAdminClient } from "@/lib/supabase/admin";
 
@@ -19,9 +19,7 @@ export const runtime = "nodejs";
  * something about the deployment rather than about the news.
  */
 function authorized(request: NextRequest) {
-  const secrets = [automationSecret(), process.env.CRON_SECRET ?? ""].filter(Boolean);
-  const header = request.headers.get("authorization") ?? "";
-  return secrets.some((secret) => isAutomationAuthorized(header, secret));
+  return isAutomationRequest(request);
 }
 
 /**
@@ -76,9 +74,7 @@ export async function POST(request: NextRequest) {
 }
 
 export async function GET(request: NextRequest) {
-  const secrets = [automationSecret(), process.env.CRON_SECRET ?? ""].filter(Boolean);
-  const header = request.headers.get("authorization") ?? "";
-  if (!secrets.some((secret) => isAutomationAuthorized(header, secret))) {
+  if (!isAutomationRequest(request)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 

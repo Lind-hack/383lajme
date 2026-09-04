@@ -1,5 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { automationSecret, isAutomationAuthorized } from "@/lib/tregu-automation.mjs";
+import { automationDenied } from "@/lib/require-automation";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getArticles } from "@/lib/db";
 import { llmJSON } from "@/lib/llm";
@@ -28,27 +28,6 @@ export const maxDuration = 60;
  * the job firing.
  */
 
-function authorized(request: NextRequest) {
-  // Either secret opens this. automationSecret() prefers
-  // TREGU_AUTOMATION_SECRET, but the GitHub Actions runner holds CRON_SECRET,
-  // and nothing guarantees the two values are the same — accepting only the
-  // preferred one turns a mismatch into an unexplained 401 on a nightly job.
-  const secrets = [automationSecret(), process.env.CRON_SECRET ?? ""].filter(Boolean);
-  if (secrets.length === 0) {
-    return {
-      error: NextResponse.json(
-        { error: "TREGU_AUTOMATION_SECRET or CRON_SECRET is required." },
-        { status: 500 }
-      ),
-    };
-  }
-  const header = request.headers.get("authorization") ?? "";
-  if (!secrets.some((secret) => isAutomationAuthorized(header, secret))) {
-    return { error: NextResponse.json({ error: "Unauthorized" }, { status: 401 }) };
-  }
-  return {};
-}
-
 async function recentQuestions(
   supabase: NonNullable<ReturnType<typeof createAdminClient>>,
   beforeKey: string
@@ -66,8 +45,8 @@ async function recentQuestions(
 
 /** Read-only context, so a caller can see what a draft would be built from. */
 export async function GET(request: NextRequest) {
-  const auth = authorized(request);
-  if (auth.error) return auth.error;
+  const denied = automationDenied(request);
+  if (denied) return denied;
 
   const todayKey = dateKeyInKosovo();
   // Wider than the 20 the prompt shows: the regional source runs a day or
@@ -100,8 +79,8 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-  const auth = authorized(request);
-  if (auth.error) return auth.error;
+  const denied = automationDenied(request);
+  if (denied) return denied;
 
   const supabase = createAdminClient();
   if (!supabase) {

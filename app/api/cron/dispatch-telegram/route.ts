@@ -1,5 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { automationSecret, isAutomationAuthorized } from "@/lib/tregu-automation.mjs";
+import { automationDenied } from "@/lib/require-automation";
 import { createAdminClient } from "@/lib/supabase/admin";
 import {
   renderCaption,
@@ -64,16 +64,8 @@ function absoluteImage(url?: string | null): string | null {
 }
 
 export async function GET(request: NextRequest) {
-  const secret = automationSecret();
-  if (!secret) {
-    return NextResponse.json(
-      { error: "CRON_SECRET or TREGU_AUTOMATION_SECRET is required." },
-      { status: 500 }
-    );
-  }
-  if (!isAutomationAuthorized(request.headers.get("authorization") ?? "", secret)) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
+  const denied = automationDenied(request);
+  if (denied) return denied;
 
   const token = process.env.TELEGRAM_BOT_TOKEN;
   const channel = process.env.TELEGRAM_CHANNEL_ID;
