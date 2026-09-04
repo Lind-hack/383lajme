@@ -5708,10 +5708,6 @@ header[data-overlay] .nav-coin-chip {
    the same corner, and "mostly clear" is a layout that breaks on the first
    longer number. These two claim their width back so the car has the corner
    outright and nothing is ever printed through it. */
-.tregu-car-slide-link[data-f1] .tregu-feature-price-label,
-.tregu-car-slide-link[data-f1] .tregu-feature-price-value {
-  max-width: calc(100% - 190px);
-}
 .tregu-car-slide-link[data-f1] .tregu-exact-chart-head {
   padding-right: 196px;
 }
@@ -5892,10 +5888,18 @@ a.tregu-f1-top3-row:focus-visible {
   }
   .f1-race-control[data-championship] .f1-favorite-odds { grid-column: 4; grid-row: 1; }
   .f1-race-control[data-championship] .f1-bet-button { grid-column: 4; grid-row: 2; }
-  /* The card is one column here and every corner is spoken for: at any size
-     that reads as a car it lands on the question or the first driver. It is
-     decoration, and decoration is what a narrow screen gives up first. */
-  .tregu-f1-car-art { display: none; }
+  /* One column: every car becomes a laid-out item in its header row, so the
+     browser reserves its width and nothing can be printed through it. The
+     featured card's car is absolute only on wider screens. */
+  .tregu-f1-car-art {
+    position: static;
+    margin-left: auto;
+    width: 64px;
+    height: 40px;
+    max-height: none;
+    flex: 0 0 auto;
+    object-position: right center;
+  }
 }
 @media (prefers-reduced-motion: reduce) {
   .tregu-championship-card { transition-duration: 0.01ms; }

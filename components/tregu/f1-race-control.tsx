@@ -293,9 +293,15 @@ export default function F1RaceControl({
               {isChampionship ? "Të dhëna zyrtare F1" : marketOpen && !isFinished ? "të dhëna të verifikuara" : "arkiv"}
             </span>
           </div>
+          {/* Same timeframe rail the football books carry. A race reprices on a
+              two-minute clock like everything else on the floor, so a reader
+              needs the same 1s/1m/5m window to see a penalty or a safety car
+              land; without it every F1 chart was locked to "Gjithë historia"
+              and a move made minutes ago was invisible inside the whole run. */}
           <ExactMarketChart
             height={300}
             minimal
+            showRanges
             tone="sport"
             series={chartSeries}
             ariaLabel="Historia e verifikuar e gjasave të pilotëve"

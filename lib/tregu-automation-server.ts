@@ -468,7 +468,15 @@ async function runOfficialSportsRefresh(action: "live_sports", runKey: string, n
                 f1Results.push({ slug: market.slug, status: "unchanged" });
                 continue;
               }
-              const { error: applyError } = await admin.rpc("apply_f1_race_winner_oracle", { p_market_id: market.id, p_state: marketState, p_probabilities: opening.probabilities, p_evidence: evidence, p_reasoning: opening.method, p_cap: 0.05, p_final: false, p_winner: null });
+              // Which drivers moved for a reason rather than an opinion. A
+              // verified withdrawal, or a penalty worth three grid places or
+              // more, is released from the five-point cap by 0068 so the price
+              // is right on the first tick instead of the fourth; everyone else
+              // is still capped, and the book renormalises around them.
+              const structuralKeys = Object.entries((opening.inputs ?? {}) as Record<string, { not_starting?: boolean | null; grid_penalty_places?: number | null }>)
+                .filter(([, input]) => Boolean(input?.not_starting) || Number(input?.grid_penalty_places ?? 0) >= 3)
+                .map(([key]) => key);
+              const { error: applyError } = await admin.rpc("apply_f1_race_winner_oracle", { p_market_id: market.id, p_state: marketState, p_probabilities: opening.probabilities, p_evidence: evidence, p_reasoning: opening.method, p_cap: 0.05, p_final: false, p_winner: null, p_structural_keys: structuralKeys });
               if (applyError) throw new Error(applyError.message);
               const { error: snapshotError } = await admin.rpc("record_f1_vector_snapshot", { p_market_id: market.id, p_state: marketState, p_probabilities: opening.probabilities, p_reasoning: opening.method });
               if (snapshotError) throw new Error(snapshotError.message);

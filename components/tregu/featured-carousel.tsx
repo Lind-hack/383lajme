@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { Trophy } from "lucide-react";
 
 import F1TopThree, { topThreeDrivers, type F1TopThreeDriver } from "@/components/tregu/f1-top-three";
+import { f1TeamColor } from "@/lib/f1-driver-presentation";
 import type { MiniMarket } from "./market-mini-card";
 import { fmtNum } from "@/lib/format";
 import ExactMarketChart, { type ExactMarketSeries } from "./exact-market-chart";
@@ -74,11 +75,21 @@ function Slide({ market, active }: { market: MiniMarket; active: boolean }) {
       ? topThreeDrivers(market.sportOutcomes as unknown as Array<Record<string, unknown>>, market.outcomeProbabilities ?? null)
       : [];
 
-  const chartSeries: ExactMarketSeries[] = isChampionship
-    ? championshipDrivers.map((driver, index) => ({
+  // A race is not a yes/no question, and charting it as one drew a single flat
+  // "Gjasa PO 50%" line that answered nothing: the market has twenty-two
+  // outcomes and the reader wants to know whose. Championship cards already
+  // charted their drivers; races fell through to the binary branch purely
+  // because market_type is f1_race_winner rather than two/three_outcome.
+  const f1Chart = isF1 && f1Top3.length >= 2;
+  const chartSeries: ExactMarketSeries[] = f1Chart
+    ? f1Top3.map((driver, index) => ({
         key: driver.key,
         label: driver.label,
-        color: outcomeColor(driver, index),
+        // The constructor's colour, the same source the rack below uses. The
+        // generic outcome palette gave Leclerc and Antonelli the identical red,
+        // so two of the three lines were indistinguishable and neither matched
+        // the driver's own row a few pixels away.
+        color: f1TeamColor(driver.team ?? "", driver.team_colour ?? undefined),
         current: driver.probability,
         points: toExactSeries(market.outcomeHistory?.[driver.key]),
       }))
@@ -119,7 +130,6 @@ function Slide({ market, active }: { market: MiniMarket; active: boolean }) {
         aria-label={`Hap tregun: ${market.question}`}
         draggable={false}
       />
-      {isF1 ? <img className="tregu-f1-car-art" src="/images/tregu/f1-rear-smoke-v1.png" alt="" aria-hidden /> : null}
       <div className="tregu-feature-grid" data-structured={structured || isChampionship || undefined}>
         {/* ── The proposition ── */}
         <div className="tregu-feature-main">
@@ -135,6 +145,14 @@ function Slide({ market, active }: { market: MiniMarket; active: boolean }) {
             {market.league && market.league !== "f1" && <SportBrandMark brandKey={market.league} size="sm" />}
             <span className="tregu-pill">{CATEGORY_LABEL[market.category] ?? market.category}</span>
             {remaining && <span className="tregu-market-close">{remaining}</span>}
+            {/* Inside the header row, but absolutely positioned on desktop, so
+                it anchors to the card's top-right corner there and simply
+                becomes the row's last item on one column. One element, one
+                source of truth, and no width where there is none to spare. */}
+            {isF1 ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img className="tregu-f1-car-art" src="/images/tregu/f1-rear-smoke-v1.png" alt="" aria-hidden />
+            ) : null}
           </div>
 
           <p className="tregu-feature-q">{market.question}</p>
@@ -228,8 +246,8 @@ function Slide({ market, active }: { market: MiniMarket; active: boolean }) {
         <div className="tregu-feature-chart">
           <div className="tregu-feature-price">
             <div>
-              <span className="tregu-feature-price-label">{structured || isChampionship ? `Në krye · ${leader?.label ?? "Pa të dhëna"}` : "Gjasa PO"}</span>
-              <span className="tregu-feature-price-value">{structured || isChampionship ? `${((leader?.current ?? 0) * 100).toFixed(1)}%` : `${pct}%`}</span>
+              <span className="tregu-feature-price-label">{structured || f1Chart ? `Në krye · ${leader?.label ?? "Pa të dhëna"}` : "Gjasa PO"}</span>
+              <span className="tregu-feature-price-value">{structured || f1Chart ? `${((leader?.current ?? 0) * 100).toFixed(1)}%` : `${pct}%`}</span>
             </div>
             {deltaPp != null && deltaPp !== 0 && (
               <span className="tregu-delta-chip" data-dir={dir}>
