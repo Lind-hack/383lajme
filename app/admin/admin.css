@@ -382,8 +382,12 @@
   }
 
   .admin-root .field {
-    /* 16px stops iOS Safari zooming the viewport on focus. */
+    /* 16px stops iOS Safari zooming the viewport on focus.
+       Longhands only: the `padding` shorthand here would reset the
+       padding-left that .field-icon-l sets, putting the placeholder back
+       under the search icon on every touch device. */
     font-size: 16px;
-    padding: 10px 12px;
+    padding-top: 10px;
+    padding-bottom: 10px;
   }
 }
