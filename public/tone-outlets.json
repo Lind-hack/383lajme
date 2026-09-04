@@ -1,10 +1,10 @@
 {
   "lastUpdated": "2026-09-04",
-  "overallIndex": 52,
-  "totalArticles": 34,
-  "sourceCount": 28,
+  "overallIndex": 53,
+  "totalArticles": 37,
+  "sourceCount": 30,
   "stanceVersion": 3,
-  "unattributed": 174,
+  "unattributed": 190,
   "nonEditorial": 1,
   "wrongKosovo": 0,
   "countries": {
@@ -323,6 +323,30 @@
           "lastSeen": "2026-09-04"
         },
         {
+          "name": "EcoDelloJonio.it",
+          "sentiment": "positive",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Da Vaccarizzo al Kosovo, il vino ricuce l’Arbëria: Pomillo ambasciatore dell’Hardh Fest - EcoDelloJonio.it",
+              "albanianTitle": "Nga Vaccarizzo në Kosovë, vera lidh Arbërinë: Pomillo ambasador i Hardh Festit",
+              "blurb": "Prodhuesi i verës Pomillo është emëruar ambasador i Hardh Festit, duke lidhur komunitetin arbëresh me Kosovën përmes promovimit të verës.",
+              "imageUrl": "https://ecodellojonio.b-cdn.net/media/posts/26/09/1788534199.jpeg?aspect_ratio=16:9&width=1152",
+              "url": "https://ecodellojonio.it/articoli/territorio/2026/09/da-vaccarizzo-al-kosovo-il-vino-ricuce-l-arberia-pomillo-ambasciatore-dell-hardh-fest",
+              "date": "2026-09-04",
+              "sentiment": "positive",
+              "reason": "Ton pozitiv për kulturën dhe produktet e Kosovës",
+              "isQuote": false,
+              "evidence": "il vino ricuce l’Arbëria",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-04",
+          "lastSeen": "2026-09-04"
+        },
+        {
           "name": "Il Sole 24 ORE",
           "sentiment": "neutral",
           "articleCount": 2,
@@ -361,18 +385,18 @@
         },
         {
           "name": "OA Sport",
-          "sentiment": "unknown",
+          "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
               "title": "Dove si svolgerrano i Giochi del Mediterraneo 2030? Nazione ospitante e date - OA Sport",
-              "albanianTitle": "Ku do të mbahen Lojërat Mesdhetare 2030? Shteti nikoqir dhe datat",
-              "blurb": "Lojërat Mesdhetare të vitit 2030 do të mbahen në Prishtinë, ku janë përcaktuar vendi dhe datat e zhvillimit.",
+              "albanianTitle": "Ku do të mbahen Lojërat Mesdhetare 2030? Shteti nikoqir dhe datat - OA Sport",
+              "blurb": "Lojërat Mesdhetare të vitit 2030 do të organizohen në Kosovë, duke shënuar një ngjarje të rëndësishme sportive për vendin tonë.",
               "imageUrl": "https://www.oasport.it/wp-content/uploads/2026/09/Giochi-del-Mediterraneo-IPA-Sport.jpg",
               "url": "https://www.oasport.it/2026/09/dove-si-svolgerrano-i-giochi-del-mediterraneo-2030-nazione-ospitante-e-date/",
               "date": "2026-09-04",
-              "sentiment": "unknown",
-              "reason": "Artikulli nuk përmend Kosovën, ndaj qëndrimi nuk është i qartë",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike pa ngjyrë",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -553,12 +577,12 @@
         }
       ],
       "summary": {
-        "index": 50,
-        "positive": 0,
-        "neutral": 100,
+        "index": 54,
+        "positive": 7,
+        "neutral": 93,
         "negative": 0,
-        "n": 12,
-        "excluded": 1,
+        "n": 14,
+        "excluded": 0,
         "confident": true,
         "stanceVersion": 3
       }
@@ -765,13 +789,38 @@
       }
     },
     "Greqi": {
-      "outlets": [],
+      "outlets": [
+        {
+          "name": "BusinessDaily",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Δίωξη σε 35 Σέρβους πρώην αστυνομικούς για τη σφαγή του Πρεκάζ στο Κόσοβο - BusinessDaily",
+              "albanianTitle": "Aktakuzë ndaj 35 ish-policëve serbë për masakrën e Prekazit në Kosovë",
+              "blurb": "Prokuroria ka ngritur aktakuzë ndaj tridhjetë e pesë ish-policëve serbë për përfshirje në masakrën e ndodhur në Prekaz të Kosovës.",
+              "imageUrl": "https://www.businessdaily.gr/sites/default/files/styles/main_full/public/2019-11/dikastirio_areios_pagos_dikaiosini.jpg?itok=W4vwhw1H",
+              "url": "https://www.businessdaily.gr/diethni/229998_dioxi-se-35-serboys-proin-astynomikoys-gia-ti-sfagi-toy-prekaz-sto-kosobo",
+              "date": "2026-09-04",
+              "sentiment": "neutral",
+              "reason": "Faktikisht raporton procesin, pa gjuhë ngarkuese",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 2,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-31",
+          "lastSeen": "2026-09-04"
+        }
+      ],
       "summary": {
-        "index": null,
+        "index": 50,
         "positive": 0,
-        "neutral": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 0,
+        "n": 1,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3

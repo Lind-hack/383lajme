@@ -2310,15 +2310,16 @@
     },
     "BusinessDaily": {
       "country": "Greqi",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-31",
-      "lastSeen": "2026-08-31",
+      "lastSeen": "2026-09-04",
       "urls": [
-        "https://www.businessdaily.gr/diethni/228943_symfonia-vv-kai-ldk-gia-stirixi-seintioy-stin-proedria-toy-kosoboy"
+        "https://www.businessdaily.gr/diethni/228943_symfonia-vv-kai-ldk-gia-stirixi-seintioy-stin-proedria-toy-kosoboy",
+        "https://www.businessdaily.gr/diethni/229998_dioxi-se-35-serboys-proin-astynomikoys-gia-ti-sfagi-toy-prekaz-sto-kosobo"
       ]
     },
     "Αθήνα 9,84": {
@@ -2646,6 +2647,19 @@
       "lastSeen": "2026-09-04",
       "urls": [
         "https://www.trthaber.com/haber/dunya/turk-askeri-kosovali-cocuklar-icin-oyun-parki-kurdu-955899.html"
+      ]
+    },
+    "EcoDelloJonio.it": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 1,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-04",
+      "lastSeen": "2026-09-04",
+      "urls": [
+        "https://ecodellojonio.it/articoli/territorio/2026/09/da-vaccarizzo-al-kosovo-il-vino-ricuce-l-arberia-pomillo-ambasciatore-dell-hardh-fest"
       ]
     }
   }
