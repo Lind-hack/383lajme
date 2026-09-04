@@ -55,13 +55,13 @@
     },
     "Balkan Insight": {
       "country": "Britani",
-      "total": 9,
+      "total": 10,
       "positive": 1,
-      "neutral": 8,
+      "neutral": 9,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-19",
-      "lastSeen": "2026-09-03",
+      "lastSeen": "2026-09-04",
       "urls": [
         "https://balkaninsight.com/2026/08/19/suspend-officers-suspected-of-beating-serb-kosovo-police-inspectorate-says/bi/",
         "https://balkaninsight.com/2026/08/20/remains-of-23-wartime-victims-unearthed-from-mass-graves-in-kosovo/btj/",
@@ -71,7 +71,8 @@
         "https://balkaninsight.com/2026/08/31/two-kosovo-serbs-plead-guilty-to-participating-in-2022-unrest/bi/",
         "https://balkaninsight.com/2026/08/31/kosovos-vetevendosje-ldk-agree-on-ex-judge-as-joint-presidential-candidate/bi/",
         "https://balkaninsight.com/2026/09/02/kosovo-presidents-election-jeopardised-by-partys-inner-divisions/bi/",
-        "https://balkaninsight.com/2026/09/03/not-mere-incidents-kosovo-questions-femicide-approach-after-new-killings/bi/"
+        "https://balkaninsight.com/2026/09/03/not-mere-incidents-kosovo-questions-femicide-approach-after-new-killings/bi/",
+        "https://balkaninsight.com/2026/09/04/kosovo-charges-serbian-security-officers-over-jashari-compound-massacre/btj/"
       ]
     },
     "Ouest-France": {
@@ -1282,20 +1283,21 @@
     },
     "OA Sport": {
       "country": "Itali",
-      "total": 6,
+      "total": 7,
       "positive": 1,
       "neutral": 5,
       "negative": 0,
-      "unknown": 0,
+      "unknown": 1,
       "firstSeen": "2026-08-23",
-      "lastSeen": "2026-08-26",
+      "lastSeen": "2026-09-04",
       "urls": [
         "https://www.oasport.it/2026/08/pallamano-litalia-spazza-via-il-kosovo-azzurri-perfetti-nellesordio-ai-giochi-del-mediterraneo/",
         "https://www.oasport.it/2026/08/calcio-femminile-italia-travolgente-allesordio-contro-il-kosovo-nei-giochi-del-mediterraneo/",
         "https://www.oasport.it/2026/08/giochi-del-mediterraneo-2026-il-programma-di-domani-orari-26-agosto-tv-streaming/",
         "https://www.oasport.it/2026/08/giochi-del-mediterraneo-2026-oggi-in-tv-orari-26-agosto-streaming-azzurri-in-gara/",
         "https://www.oasport.it/2026/08/pallamano-femminile-litalia-domina-con-il-kosovo-altro-successo-ai-giochi-del-mediterraneo/",
-        "https://www.oasport.it/2026/08/calcio-tris-degli-azzurri-contro-il-kosovo-ai-giochi-del-mediterraneo-ce-linsperata-qualificazione-alle-semifinali/amp/"
+        "https://www.oasport.it/2026/08/calcio-tris-degli-azzurri-contro-il-kosovo-ai-giochi-del-mediterraneo-ce-linsperata-qualificazione-alle-semifinali/amp/",
+        "https://www.oasport.it/2026/09/dove-si-svolgerrano-i-giochi-del-mediterraneo-2030-nazione-ospitante-e-date/"
       ]
     },
     "Radio Mugello": {
@@ -2170,7 +2172,7 @@
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-28",
-      "lastSeen": "2026-08-31",
+      "lastSeen": "2026-09-04",
       "urls": [
         "https://igamingpolska.pl/mistrzostwa-swiata-socca-2026-terminarz-wyniki/"
       ]
@@ -2631,6 +2633,19 @@
       "lastSeen": "2026-09-04",
       "urls": [
         "https://www.ekai.pl/polscy-zolnierze-pomagaja-lokalnym-spolecznosciom-w-kosowie-i-turcji/"
+      ]
+    },
+    "TRT Haber": {
+      "country": "Turqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-04",
+      "lastSeen": "2026-09-04",
+      "urls": [
+        "https://www.trthaber.com/haber/dunya/turk-askeri-kosovali-cocuklar-icin-oyun-parki-kurdu-955899.html"
       ]
     }
   }

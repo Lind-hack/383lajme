@@ -1,10 +1,10 @@
 {
   "lastUpdated": "2026-09-04",
   "overallIndex": 52,
-  "totalArticles": 30,
-  "sourceCount": 25,
+  "totalArticles": 34,
+  "sourceCount": 28,
   "stanceVersion": 3,
-  "unattributed": 156,
+  "unattributed": 174,
   "nonEditorial": 1,
   "wrongKosovo": 0,
   "countries": {
@@ -88,7 +88,7 @@
         {
           "name": "Balkan Insight",
           "sentiment": "neutral",
-          "articleCount": 3,
+          "articleCount": 4,
           "articles": [
             {
               "title": "Kosovo President’s Election Jeopardised by Party’s Inner Divisions - Balkan Insight",
@@ -128,12 +128,25 @@
               "isQuote": true,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Kosovo Charges Serbian Security Officers Over Jashari Compound Massacre - Balkan Insight",
+              "albanianTitle": "Kosova ngre aktakuzë ndaj zyrtarëve të sigurisë serbe për masakrën në kompleksin Jashari",
+              "blurb": "Prokuroria e Kosovës ka ngritur aktakuza ndaj zyrtarëve serbë të sigurisë për masakrën e kryer në kompleksin e familjes Jashari.",
+              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/09/viber_image_2026-09-04_14-05-08-143.jpg",
+              "url": "https://balkaninsight.com/2026/09/04/kosovo-charges-serbian-security-officers-over-jashari-compound-massacre/btj/",
+              "date": "2026-09-04",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportuar pa ngarkim",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 9,
+          "totalArticles": 10,
           "trend": "i përzier",
           "firstSeen": "2026-08-19",
-          "lastSeen": "2026-09-03"
+          "lastSeen": "2026-09-04"
         }
       ],
       "summary": {
@@ -141,7 +154,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 3,
+        "n": 4,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -347,6 +360,30 @@
           "lastSeen": "2026-09-02"
         },
         {
+          "name": "OA Sport",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Dove si svolgerrano i Giochi del Mediterraneo 2030? Nazione ospitante e date - OA Sport",
+              "albanianTitle": "Ku do të mbahen Lojërat Mesdhetare 2030? Shteti nikoqir dhe datat",
+              "blurb": "Lojërat Mesdhetare të vitit 2030 do të mbahen në Prishtinë, ku janë përcaktuar vendi dhe datat e zhvillimit.",
+              "imageUrl": "https://www.oasport.it/wp-content/uploads/2026/09/Giochi-del-Mediterraneo-IPA-Sport.jpg",
+              "url": "https://www.oasport.it/2026/09/dove-si-svolgerrano-i-giochi-del-mediterraneo-2030-nazione-ospitante-e-date/",
+              "date": "2026-09-04",
+              "sentiment": "unknown",
+              "reason": "Artikulli nuk përmend Kosovën, ndaj qëndrimi nuk është i qartë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 7,
+          "trend": "i përzier",
+          "firstSeen": "2026-08-23",
+          "lastSeen": "2026-09-04"
+        },
+        {
           "name": "Osservatorio Balcani Caucaso Transeuropa",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -521,7 +558,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 12,
-        "excluded": 0,
+        "excluded": 1,
         "confident": true,
         "stanceVersion": 3
       }
@@ -593,7 +630,7 @@
         {
           "name": "24 Heures",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Hashim Thaçi, un ancien président du Kosovo accusé de crimes de guerre - 24 Heures",
@@ -604,6 +641,19 @@
               "date": "2026-09-02",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Hashim Thaçi, un ancien président du Kosovo accusé de crimes de guerre - 24heures.ch",
+              "albanianTitle": "Hashim Thaçi, ish-presidenti i Kosovës i akuzuar për krime lufte",
+              "blurb": "Ish-presidenti i Kosovës, Hashim Thaçi, po përballet me akuza për krime lufte në gjykatën ndërkombëtare në Hagë.",
+              "imageUrl": "https://cdn.unitycms.io/images/D9rQVRMA4A39WK79GtZ6TH.jpg?op=ocroped&val=1200,600,1000,750,107,0&sum=SvTtV9V93RQ",
+              "url": "https://www.24heures.ch/kosovo-lancien-president-thaci-accuse-de-crimes-de-guerre-877518889859",
+              "date": "2026-09-02",
+              "sentiment": "neutral",
+              "reason": "Raportim faktik i akuzës pa gjuhë të ngarkuar",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -644,7 +694,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 2,
+        "n": 3,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -792,6 +842,30 @@
           "lastSeen": "2026-09-04"
         },
         {
+          "name": "iGaming Polska",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Mistrzostwa Świata Socca 2026: terminarz, harmonogram i wyniki - iGaming Polska",
+              "albanianTitle": "Kampionati Botëror i Socca 2026: orari, kalendari dhe rezultatet",
+              "blurb": "Kampionati Botëror i Socca 2026 përfshin detaje mbi orarin e ndeshjeve, kalendarin e plotë dhe rezultatet e ekipeve pjesëmarrëse.",
+              "imageUrl": null,
+              "url": "https://igamingpolska.pl/mistrzostwa-swiata-socca-2026-terminarz-wyniki/",
+              "date": "2026-09-04",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim pa gjuhë ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-28",
+          "lastSeen": "2026-09-04"
+        },
+        {
           "name": "igamingpolska.pl",
           "sentiment": "unknown",
           "articleCount": 1,
@@ -821,7 +895,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 1,
+        "n": 2,
         "excluded": 1,
         "confident": false,
         "stanceVersion": 3
@@ -865,19 +939,43 @@
           "trend": "i përzier",
           "firstSeen": "2026-08-20",
           "lastSeen": "2026-09-01"
+        },
+        {
+          "name": "TRT Haber",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Türk askeri, Kosovalı çocuklar için oyun parkı kurdu - TRT Haber",
+              "albanianTitle": "Ushtria turke ndërton kënd lojërash për fëmijët kosovarë",
+              "blurb": "Ushtarët turq të misionit të KFOR-it kanë ndërtuar një kënd lojërash për fëmijët në një shkollë në Kosovë.",
+              "imageUrl": "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/2486000/kosova-turk-askeri-2487065.jpg",
+              "url": "https://www.trthaber.com/haber/dunya/turk-askeri-kosovali-cocuklar-icin-oyun-parki-kurdu-955899.html",
+              "date": "2026-09-04",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim pa gjuhë ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-04",
+          "lastSeen": "2026-09-04"
         }
       ],
       "summary": {
-        "index": 75,
-        "positive": 50,
-        "neutral": 50,
+        "index": 67,
+        "positive": 33,
+        "neutral": 67,
         "negative": 0,
-        "n": 2,
+        "n": 3,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3,
         "movement": {
-          "delta": 13,
+          "delta": 5,
           "from": 62,
           "outlet": "Son Dakika",
           "title": "Zehra Nur Arslan, kampione në Kampionatin Evropian të Peshëngritjes për të Rinj në Kosovë, viziton guvernatorin e Amasyas",

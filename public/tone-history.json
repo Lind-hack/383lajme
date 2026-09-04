@@ -4987,8 +4987,8 @@
   {
     "date": "2026-09-04",
     "overallIndex": 52,
-    "totalArticles": 30,
-    "sourceCount": 25,
+    "totalArticles": 34,
+    "sourceCount": 28,
     "stanceVersion": 3,
     "countries": {
       "Gjermani": {
@@ -5016,7 +5016,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 3,
+        "n": 4,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -5037,7 +5037,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 12,
-        "excluded": 0,
+        "excluded": 1,
         "confident": true,
         "stanceVersion": 3
       },
@@ -5056,7 +5056,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 2,
+        "n": 3,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -5116,22 +5116,22 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 1,
+        "n": 2,
         "excluded": 1,
         "confident": false,
         "stanceVersion": 3
       },
       "Turqi": {
-        "index": 75,
-        "positive": 50,
-        "neutral": 50,
+        "index": 67,
+        "positive": 33,
+        "neutral": 67,
         "negative": 0,
-        "n": 2,
+        "n": 3,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3,
         "movement": {
-          "delta": 13,
+          "delta": 5,
           "from": 62,
           "outlet": "Son Dakika",
           "title": "Zehra Nur Arslan, kampione në Kampionatin Evropian të Peshëngritjes për të Rinj në Kosovë, viziton guvernatorin e Amasyas",
@@ -5174,14 +5174,6 @@
         "flag": "🇹🇷",
         "url": "https://kosovahaber.com/haber/kosova-sirbistan-diyalogu-baris-icin-gerekli-105605",
         "sentiment": "positive"
-      },
-      {
-        "title": "PDK e Alliance prima del governo: Kurti sta mantenendo il Kosovo in blocco - Periskopi",
-        "source": "Periskopi",
-        "country": "Itali",
-        "flag": "🇮🇹",
-        "url": "https://periskopi.com/it/2026/9/pdk-alliance-governo-kurti-mantenendo-kosovo-blocco",
-        "sentiment": "negative"
       }
     ]
   }
