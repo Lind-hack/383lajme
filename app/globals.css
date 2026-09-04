@@ -4854,7 +4854,10 @@ header[data-overlay] .nav-coin-chip {
   overflow: hidden;
   border: 1px solid var(--f1-line);
   border-radius: 16px;
-  background: #fffdf9;
+  /* White, like .tregu-panel and every other trade. The warm cream here and the
+     orange washes below marked F1 out as a different kind of product; it is the
+     same kind of trade and now reads as one. */
+  background: #fff;
   color: var(--f1-ink);
   box-shadow: 0 2px 14px rgba(45, 33, 20, 0.06);
 }
@@ -4866,15 +4869,11 @@ header[data-overlay] .nav-coin-chip {
   gap: 24px;
   padding: 24px 26px 20px;
   border-bottom: 1px solid var(--f1-line);
-  background:
-    radial-gradient(circle at 100% 0, rgba(255, 68, 34, 0.1), transparent 38%),
-    #fffdf9;
+  background: #fff;
 }
 .f1-race-header > div:first-child {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  align-items: center;
-  column-gap: 12px;
+  min-width: 0;
+  flex: 1 1 auto;
 }
 .f1-mark {
   display: inline-flex;
@@ -4893,7 +4892,7 @@ header[data-overlay] .nav-coin-chip {
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
 }
 .f1-race-header h2 {
-  margin: 0;
+  margin: 14px 0 0;
   font-size: 22px;
   font-weight: 850;
   letter-spacing: -0.025em;
@@ -5584,13 +5583,11 @@ header[data-overlay] .nav-coin-chip {
   flex-direction: column;
   overflow: hidden;
   padding: 20px;
-  border-color: rgba(255, 68, 34, 0.34);
-  background:
-    linear-gradient(135deg, rgba(255, 68, 34, 0.12), transparent 42%),
-    #fffaf3;
+  border-color: rgba(17, 17, 17, 0.12);
+  background: #fff;
   color: #111;
   text-decoration: none;
-  box-shadow: 0 18px 42px rgba(60, 31, 20, 0.12);
+  box-shadow: 0 18px 42px rgba(24, 20, 16, 0.1);
 }
 .tregu-championship-card::after {
   content: "";
@@ -5652,6 +5649,191 @@ header[data-overlay] .nav-coin-chip {
 .tregu-championship-odd { font-size: 17px; font-weight: 900; }
 .tregu-championship-card .tregu-market-foot { margin-top: auto; }
 
+/* The car sits in the top-right corner, at its own opacity.
+ *
+ * It used to be washed to .13 and cut out with a radial-gradient mask, pinned
+ * bottom-right — which put it directly under the chart, so the one place it was
+ * legible was the one place something was always drawn on top of it. A gradient
+ * ellipse is also the cheap approximation of a photographic edge: it fades the
+ * bodywork and the background at the same rate, which is why it had to be run
+ * so faint to look deliberate.
+ *
+ * The blend now lives in the asset's own alpha channel, so the car can be
+ * painted at full strength and still dissolve into the card where the tyre
+ * smoke does. The corner is the one region of both card layouts that carries no
+ * text, and content still declares z-index above it, so nothing can be
+ * obscured if a card ever runs long. */
+.tregu-f1-car-art {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 0;
+  width: min(21%, 160px);
+  max-height: 132px;
+  object-fit: contain;
+  object-position: right top;
+  opacity: 1;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* On a grid card the car is laid out, not overlaid.
+ *
+ * The close time ("Mbyllet 1d") is the right-hand item of .tregu-market-top
+ * under justify-content: space-between — the exact corner the car wants. An
+ * absolutely-positioned car put the two in the same place and the time lost,
+ * which is the wrong way round: the time is information and the car is
+ * decoration. Making the car the last flex item in that row means the browser
+ * reserves its width, so the pill and the time keep theirs and no overlap is
+ * possible at any card width. margin-left:auto holds it to the corner while
+ * the other two stay grouped at the left. */
+.tregu-f1-car-art--inline {
+  position: static;
+  margin-left: auto;
+  width: 84px;
+  height: 52px;
+  max-height: none;
+  flex: 0 0 auto;
+  object-fit: contain;
+  object-position: right center;
+}
+.tregu-market[data-f1] .tregu-market-top,
+.tregu-championship-card-head {
+  justify-content: flex-start;
+  gap: 8px;
+}
+
+/* The corner is reserved, not shared. Sizing the car to the gap is not enough
+   on its own — the headline price and the chart's own header both reach into
+   the same corner, and "mostly clear" is a layout that breaks on the first
+   longer number. These two claim their width back so the car has the corner
+   outright and nothing is ever printed through it. */
+.tregu-car-slide-link[data-f1] .tregu-feature-price-label,
+.tregu-car-slide-link[data-f1] .tregu-feature-price-value {
+  max-width: calc(100% - 190px);
+}
+.tregu-car-slide-link[data-f1] .tregu-exact-chart-head {
+  padding-right: 196px;
+}
+
+/* ── F1: the three most likely winners ──────────────────────────────────── */
+
+.tregu-f1-top3 {
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0;
+}
+
+.tregu-f1-top3-row {
+  display: grid;
+  grid-template-columns: 12px 34px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 0;
+  border-top: 1px solid rgba(17, 17, 17, 0.07);
+}
+.tregu-f1-top3 li:first-child .tregu-f1-top3-row { border-top: 0; }
+a.tregu-f1-top3-row { text-decoration: none; color: inherit; }
+@media (hover: hover) and (pointer: fine) {
+  a.tregu-f1-top3-row:hover .tregu-f1-top3-who strong { color: var(--f1-team, #111111); }
+}
+a.tregu-f1-top3-row:focus-visible {
+  outline: 2px solid #ff4422;
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+.tregu-f1-top3-rank {
+  font: 800 11px var(--font-manrope), sans-serif;
+  font-variant-numeric: tabular-nums;
+  color: rgba(17, 17, 17, 0.38);
+  text-align: center;
+}
+
+.tregu-f1-top3-face {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  overflow: hidden;
+  border-radius: 100px;
+  /* The constructor's colour rings the portrait rather than filling a bar down
+     the side of the row: identity on the driver, not a stripe on the list. */
+  border: 2px solid var(--f1-team, #625a50);
+  background: rgba(17, 17, 17, 0.05);
+}
+.tregu-f1-top3-face img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+}
+.tregu-f1-top3-initials {
+  font: 800 10px var(--font-manrope), sans-serif;
+  letter-spacing: 0.02em;
+  color: var(--f1-team, #625a50);
+}
+
+.tregu-f1-top3-who {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+.tregu-f1-top3-who strong {
+  font: 700 14px/1.2 var(--font-manrope), sans-serif;
+  color: #111111;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.tregu-f1-top3-who small {
+  font: 500 11px var(--font-manrope), sans-serif;
+  color: #6b6b6b;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* The floor's depth bar, sized to this driver's share of the leader's. */
+.tregu-f1-top3-bar {
+  display: block;
+  height: 3px;
+  width: var(--f1-share, 0%);
+  margin-top: 3px;
+  border-radius: 100px;
+  background: var(--f1-team, #625a50);
+  transform-origin: left center;
+  animation: tregu-f1-top3-bar 460ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.tregu-f1-top3 li:nth-child(2) .tregu-f1-top3-bar { animation-delay: 70ms; }
+.tregu-f1-top3 li:nth-child(3) .tregu-f1-top3-bar { animation-delay: 140ms; }
+@keyframes tregu-f1-top3-bar {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+.tregu-f1-top3-odd {
+  font: 800 16px var(--font-manrope), sans-serif;
+  font-variant-numeric: tabular-nums;
+  color: #111111;
+}
+.tregu-f1-top3-odd span[aria-hidden] {
+  margin-left: 1px;
+  font-size: 11px;
+  font-weight: 700;
+  color: rgba(17, 17, 17, 0.5);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tregu-f1-top3-bar { animation: none; }
+}
+.tregu-market[data-f1] > :not(.tregu-f1-car-art),
+.tregu-car-slide-link[data-f1] > :not(.tregu-f1-car-art) {
+  position: relative;
+  z-index: 1;
+}
+.tregu-car-slide-link[data-f1] .tregu-car-slide-hit { z-index: 2; }
+
 .f1-title-lockup { display: flex; align-items: center; gap: 11px; }
 .f1-crown-mark {
   display: inline-flex;
@@ -5666,10 +5848,8 @@ header[data-overlay] .nav-coin-chip {
   box-shadow: 0 8px 22px rgba(90, 40, 24, 0.12);
 }
 .f1-race-control[data-championship] {
-  border-color: rgba(255, 68, 34, 0.34);
-  background:
-    linear-gradient(135deg, rgba(255, 68, 34, 0.11), transparent 34%),
-    #fffaf3;
+  border-color: rgba(17, 17, 17, 0.12);
+  background: #fff;
 }
 .f1-race-control[data-championship] .f1-race-header {
   border-top: 3px solid #ff4422;
@@ -5695,6 +5875,9 @@ header[data-overlay] .nav-coin-chip {
 @media (hover: hover) and (pointer: fine) {
   .tregu-championship-card:hover { border-color: rgba(255, 68, 34, 0.58); transform: translateY(-2px); }
 }
+@media (min-width: 761px) {
+  .f1-race-header h2 { white-space: nowrap; }
+}
 @media (max-width: 760px) {
   .f1-race-control[data-championship] .f1-favorite-card {
     grid-template-columns: 25px 54px minmax(0, 1fr) auto;
@@ -5709,6 +5892,10 @@ header[data-overlay] .nav-coin-chip {
   }
   .f1-race-control[data-championship] .f1-favorite-odds { grid-column: 4; grid-row: 1; }
   .f1-race-control[data-championship] .f1-bet-button { grid-column: 4; grid-row: 2; }
+  /* The card is one column here and every corner is spoken for: at any size
+     that reads as a car it lands on the question or the first driver. It is
+     decoration, and decoration is what a narrow screen gives up first. */
+  .tregu-f1-car-art { display: none; }
 }
 @media (prefers-reduced-motion: reduce) {
   .tregu-championship-card { transition-duration: 0.01ms; }
@@ -12073,22 +12260,47 @@ header[data-overlay="true"] .nav-search-btn { color: rgba(255, 255, 255, 0.9); }
   stroke-width: 1;
   vector-effect: non-scaling-stroke;
 }
+/* The draw-in dash lives in the keyframes, never on the element.
+ *
+ * This is what left the right-hand third of the canvas blank. The line carries
+ * pathLength="1" so `stroke-dasharray: 1` means "one dash the length of the
+ * whole path" — correct in user space, and wrong on screen. The chart draws at
+ * preserveAspectRatio="none" into a box that stretches 640 user units across
+ * ~855px while leaving the 300 vertical units alone, so a nearly horizontal run
+ * is ~1.34x longer painted than it is measured. The dash is measured, so it ran
+ * out before the path did and the flattest, most-stretched stretch — the recent
+ * one, on the right — was the part that went missing. Every series ended short
+ * of its own end dot.
+ *
+ * Holding the dash on the element meant that state was permanent: fill-mode
+ * `both` pins the last keyframe, so the line stayed clipped long after the
+ * 420ms animation finished. Ending on `none` restores an undashed path, and
+ * keeping the property out of the base rule means a reader with reduced motion
+ * — who never runs the keyframes at all — gets a solid line rather than a
+ * permanently truncated one. */
 .tregu-exact-chart-line {
-  stroke-dasharray: 1;
   stroke-dashoffset: 0;
   animation: tregu-exact-line-in 420ms cubic-bezier(.23,1,.32,1) both;
 }
 .tregu-exact-chart-line--live {
   opacity: 1;
-  stroke-dashoffset: 1;
   animation: tregu-exact-live-segment 620ms linear both;
 }
 @keyframes tregu-exact-live-segment {
-  to { stroke-dashoffset: 0; }
+  from { stroke-dasharray: 1; stroke-dashoffset: 1; }
+  99% { stroke-dasharray: 1; stroke-dashoffset: 0; }
+  to { stroke-dasharray: none; stroke-dashoffset: 0; }
 }
 @keyframes tregu-exact-line-in {
-  from { opacity: .28; stroke-dashoffset: 1; }
-  to { opacity: 1; stroke-dashoffset: 0; }
+  from { opacity: .28; stroke-dasharray: 1; stroke-dashoffset: 1; }
+  99% { opacity: 1; stroke-dasharray: 1; stroke-dashoffset: 0; }
+  to { opacity: 1; stroke-dasharray: none; stroke-dashoffset: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tregu-exact-chart-line,
+  .tregu-exact-chart-line--live {
+    animation: none;
+  }
 }
 .tregu-exact-chart-point { pointer-events: none; }
 .tregu-exact-chart-last {

@@ -17,7 +17,11 @@ export function probabilityDomain(values: unknown[]): {
 };
 export function formatProbabilityTick(value: number, step?: number): string;
 export function cleanRecordedPoints(points?: unknown[] | null): RecordedPoint[];
-export function selectRecordedRange<T extends { points: RecordedPoint[] }>(series: T[], rangeKey?: RecordedRangeKey): {
+export function selectRecordedRange<T extends { points: RecordedPoint[] }>(
+  series: T[],
+  rangeKey?: RecordedRangeKey,
+  visibleEnd?: number | null
+): {
   option: (typeof RECORDED_RANGE_OPTIONS)[number];
   start: number | null;
   end: number | null;

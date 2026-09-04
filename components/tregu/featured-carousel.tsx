@@ -4,6 +4,8 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Trophy } from "lucide-react";
+
+import F1TopThree, { topThreeDrivers, type F1TopThreeDriver } from "@/components/tregu/f1-top-three";
 import type { MiniMarket } from "./market-mini-card";
 import { fmtNum } from "@/lib/format";
 import ExactMarketChart, { type ExactMarketSeries } from "./exact-market-chart";
@@ -48,12 +50,30 @@ function Slide({ market, active }: { market: MiniMarket; active: boolean }) {
     (market.sportOutcomes?.length ?? 0) >= 2 &&
     Boolean(market.outcomeProbabilities);
   const isChampionship = market.marketType === "f1_race_winner" && market.eventKind === "championship";
+  const isF1 = market.marketType === "f1_race_winner" || market.league === "f1" || /\bF1\b|Çmimin e Madh/i.test(market.question);
   const championshipDrivers = isChampionship
     ? (market.sportOutcomes ?? [])
         .map((driver) => ({ ...driver, probability: Number(market.outcomeProbabilities?.[driver.key] ?? 0) }))
         .sort((a, b) => b.probability - a.probability)
         .slice(0, 3)
     : [];
+  // Both F1 card kinds show the same three-row rack. The championship rows earn
+  // their second line with points and the gap to the leader; a race has neither
+  // yet, so the row names the constructor instead.
+  const f1Top3: F1TopThreeDriver[] = isChampionship
+    ? championshipDrivers.map((driver) => ({
+        key: driver.key,
+        label: driver.label,
+        team: driver.team ?? null,
+        team_colour: driver.team_colour ?? null,
+        headshot_url: driver.headshot_url ?? null,
+        probability: driver.probability,
+        meta: `${driver.championship_points ?? 0} pikë · ${driver.gap_to_leader ? `−${driver.gap_to_leader} nga kreu` : "kryeson"}`,
+      }))
+    : isF1
+      ? topThreeDrivers(market.sportOutcomes as unknown as Array<Record<string, unknown>>, market.outcomeProbabilities ?? null)
+      : [];
+
   const chartSeries: ExactMarketSeries[] = isChampionship
     ? championshipDrivers.map((driver, index) => ({
         key: driver.key,
@@ -89,6 +109,7 @@ function Slide({ market, active }: { market: MiniMarket; active: boolean }) {
     <article
       className={`tregu-car-slide-link${isChampionship ? " tregu-championship-card" : ""}`}
       data-championship={isChampionship ? "" : undefined}
+      data-f1={isF1 ? "" : undefined}
       style={{ textDecoration: "none", color: "#111111" }}
     >
       <Link
@@ -98,6 +119,7 @@ function Slide({ market, active }: { market: MiniMarket; active: boolean }) {
         aria-label={`Hap tregun: ${market.question}`}
         draggable={false}
       />
+      {isF1 ? <img className="tregu-f1-car-art" src="/images/tregu/f1-rear-smoke-v1.png" alt="" aria-hidden /> : null}
       <div className="tregu-feature-grid" data-structured={structured || isChampionship || undefined}>
         {/* ── The proposition ── */}
         <div className="tregu-feature-main">
@@ -121,24 +143,13 @@ function Slide({ market, active }: { market: MiniMarket; active: boolean }) {
             <MarketContextMedia media={market.marketMedia} variant="featured" />
           )}
 
-          {isChampionship ? (
-            <div className="tregu-championship-leaders" aria-label="Favoritët për titull">
-              {championshipDrivers.map((driver, index) => (
-                <Link
-                  className="tregu-championship-leader"
-                  href={`/tregu/${market.slug}?piloti=${encodeURIComponent(driver.key)}`}
-                  key={driver.key}
-                  tabIndex={active ? 0 : -1}
-                >
-                  <span className="tregu-championship-rank">{index + 1}</span>
-                  <span className="tregu-championship-driver">
-                    <strong>{driver.label}</strong>
-                    <small>{driver.championship_points ?? 0} pikë · {driver.gap_to_leader ? `−${driver.gap_to_leader} nga kreu` : "kryeson"}</small>
-                  </span>
-                  <strong className="tregu-championship-odd">{Math.round(driver.probability * 100)}%</strong>
-                </Link>
-              ))}
-            </div>
+          {f1Top3.length ? (
+            <F1TopThree
+              drivers={f1Top3}
+              label={isChampionship ? "Favoritët për titull" : "Tre favoritët për fitore"}
+              hrefFor={(driver) => `/tregu/${market.slug}?piloti=${encodeURIComponent(driver.key)}`}
+              tabIndex={active ? 0 : -1}
+            />
           ) : structured ? (
             <div className="tregu-feature-outcome-rack">
               {chartSeries.map((outcome, index) => {

@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  useEffect,
   useId,
   useMemo,
   useRef,
@@ -74,9 +75,19 @@ export default function ExactMarketChart({
   const uid = useId().replace(/:/g, "");
   const [range, setRange] = useState<RecordedRangeKey>(defaultRange);
   const drawsLive = showRanges && (range === "1s" || range === "1m" || range === "5m");
+  const [visibleEnd, setVisibleEnd] = useState<number | null>(null);
+
+  useEffect(() => {
+    const cadence = drawsLive ? 1_000 : 60_000;
+    const updateVisibleEnd = () => setVisibleEnd(Date.now());
+    updateVisibleEnd();
+    const timer = window.setInterval(updateVisibleEnd, cadence);
+    return () => window.clearInterval(timer);
+  }, [drawsLive]);
+
   const selected = useMemo(
-    () => selectRecordedRange(series, showRanges ? range : "Gjithë"),
-    [range, series, showRanges]
+    () => selectRecordedRange(series, showRanges ? range : "Gjithë", visibleEnd),
+    [range, series, showRanges, visibleEnd]
   );
 
   const model = useMemo(() => {
@@ -111,7 +122,7 @@ export default function ExactMarketChart({
       x,
       y,
     };
-  }, [compact, height, selected.series]);
+  }, [compact, height, selected]);
 
   const summaries = model.cleaned.map((item) => {
     const displayPoints = item.points.length ? item.points : item.hold ? [item.hold] : [];

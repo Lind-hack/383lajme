@@ -374,9 +374,29 @@ export default function TreguHub() {
     const pool = markets.filter((m) => !groupedSlugs.has(m.slug));
     const nonF1 = pool.filter((market) => !isF1Archive(market));
     if (nonF1.length < 3) return [] as MarketRow[];
-    return [...nonF1]
-      .sort((a, b) => featuredMarketScore(b) - featuredMarketScore(a))
-      .slice(0, 4);
+    const byScore = [...nonF1].sort((a, b) => featuredMarketScore(b) - featuredMarketScore(a));
+
+    // The next race leads the floor.
+    //
+    // featuredMarketScore is movement times five, and a race that has not been
+    // repriced yet has no movement to show — so the one market with a fixed,
+    // advertised start time was the one that could never earn the front of the
+    // carousel, and lost it to whichever football fixture happened to have
+    // ticked most recently. Ranking cannot express "this is on Sunday"; a
+    // deliberate slot can. Everything behind it is still ranked on merit.
+    const nextRace = nonF1
+      .filter(
+        (market) =>
+          market.status === "open" &&
+          market.market_classification === "live_f1" &&
+          market.market_type === "f1_race_winner" &&
+          market.live_event?.event_kind !== "championship" &&
+          new Date(market.closes_at).getTime() > Date.now()
+      )
+      .sort((a, b) => new Date(a.closes_at).getTime() - new Date(b.closes_at).getTime())[0];
+
+    if (!nextRace) return byScore.slice(0, 4);
+    return [nextRace, ...byScore.filter((market) => market.slug !== nextRace.slug)].slice(0, 4);
   }, [markets, groupedSlugs]);
 
   // Sorting is the affordance that makes the trader think: chase volume,

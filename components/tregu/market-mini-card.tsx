@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Trophy } from "lucide-react";
+
+import F1TopThree, { type F1TopThreeDriver } from "@/components/tregu/f1-top-three";
 import { toExactSeries } from "@/lib/tregu-hub-market.mjs";
 import type { MarketMedia } from "@/lib/tregu-market-media.mjs";
 import ExactMarketChart, { type ExactMarketSeries } from "./exact-market-chart";
@@ -32,6 +34,9 @@ export interface MiniMarket {
     color?: string;
     team_color?: string;
     team_colour?: string;
+    /* Written by f1-upcoming-race.mjs from the OpenF1 roster; the card just
+       never declared it, so the portrait was unreachable from here. */
+    headshot_url?: string | null;
     logo?: string;
     championship_position?: number;
     championship_points?: number;
@@ -106,12 +111,23 @@ export default function MarketMiniCard({ market }: { market: MiniMarket; compact
   const isMover = exactPoints.length >= 2 && deltaPp !== null && Math.abs(deltaPp) >= 3;
   const variant: Variant = isNew ? "new" : isClosingSoon ? "closing" : isMover ? "mover" : "default";
   const isChampionship = market.marketType === "f1_race_winner" && market.eventKind === "championship";
+  const isF1 = market.marketType === "f1_race_winner" || market.league === "f1" || /\bF1\b|Çmimin e Madh/i.test(market.question);
   const championshipLeaders = isChampionship
     ? (market.sportOutcomes ?? [])
         .map((driver) => ({ ...driver, probability: Number(market.outcomeProbabilities?.[driver.key] ?? 0) }))
         .sort((a, b) => b.probability - a.probability)
         .slice(0, 3)
     : [];
+
+  const championshipTop3: F1TopThreeDriver[] = championshipLeaders.map((driver) => ({
+    key: driver.key,
+    label: driver.label,
+    team: driver.team ?? null,
+    team_colour: driver.team_colour ?? null,
+    headshot_url: driver.headshot_url ?? null,
+    probability: driver.probability,
+    meta: `${driver.championship_points ?? 0} pikë · ${driver.gap_to_leader ? `−${driver.gap_to_leader} nga kreu` : "kryeson"}`,
+  }));
 
   const goToSide = (e: React.MouseEvent, side: "PO" | "JO") => {
     // The whole card links to the market; PO/JO jump straight to that side.
@@ -127,25 +143,18 @@ export default function MarketMiniCard({ market }: { market: MiniMarket; compact
         className="tregu-glass tregu-market tregu-edge tregu-championship-card"
         data-cat={market.category}
         data-championship=""
+        data-f1=""
       >
         <div className="tregu-championship-card-head">
           <span className="tregu-championship-mark" aria-hidden><Trophy size={20} strokeWidth={2.2} /></span>
           <span>Formula 1 · Kampionati</span>
           {remaining ? <span className="tregu-market-close">{closed ? remaining : `Mbyllet ${remaining}`}</span> : null}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img className="tregu-f1-car-art tregu-f1-car-art--inline" src="/images/tregu/f1-rear-smoke-v1.png" alt="" aria-hidden />
         </div>
         <p className="tregu-market-q">{market.question}</p>
-        <div className="tregu-championship-leaders" aria-label="Favoritët për titull">
-          {championshipLeaders.map((driver, index) => (
-            <div className="tregu-championship-leader" key={driver.key}>
-              <span className="tregu-championship-rank">{index + 1}</span>
-              <span className="tregu-championship-driver">
-                <strong>{driver.label}</strong>
-                <small>{driver.championship_points ?? 0} pikë · {driver.gap_to_leader ? `−${driver.gap_to_leader} nga kreu` : "kryeson"}</small>
-              </span>
-              <strong className="tregu-championship-odd">{Math.round(driver.probability * 100)}%</strong>
-            </div>
-          ))}
-        </div>
+        {/* The whole card is already a link, so these rows must not be. */}
+        <F1TopThree drivers={championshipTop3} label="Favoritët për titull" />
         <div className="tregu-market-foot">
           <span>Të dhëna zyrtare F1 · 22 pilotë</span>
           <span className="tregu-market-open">Hap tregun e titullit →</span>
@@ -161,6 +170,7 @@ export default function MarketMiniCard({ market }: { market: MiniMarket; compact
       data-simple
       data-cat={market.category}
       data-variant={variant}
+      data-f1={isF1 ? "" : undefined}
       style={{ display: "flex", flexDirection: "column", textDecoration: "none", color: "#111111" }}
     >
       <div className="tregu-market-top">
@@ -169,6 +179,10 @@ export default function MarketMiniCard({ market }: { market: MiniMarket; compact
           <span className="tregu-pill">{CATEGORY_LABEL[market.category] ?? market.category}</span>
         </span>
         {remaining && <span className="tregu-market-close">{closed ? remaining : `Mbyllet ${remaining}`}</span>}
+        {isF1 ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img className="tregu-f1-car-art tregu-f1-car-art--inline" src="/images/tregu/f1-rear-smoke-v1.png" alt="" aria-hidden />
+        ) : null}
       </div>
 
       {market.category !== "sport" && market.marketMedia ? (
