@@ -67,6 +67,12 @@ export default function Ga() {
     window.dispatchEvent(new Event(CONSENT_EVENT));
   };
 
+  // The admin panel is an internal tool, not a page with readers. Measuring it
+  // pollutes the site's analytics with the operator's own traffic, and asking
+  // them to consent to that sits a dismissable card over the article list they
+  // came to work through. Placed after every hook so the order never varies.
+  if (pathname?.startsWith("/admin")) return null;
+
   return (
     <>
       {consent === "granted" && GA_ID && (
