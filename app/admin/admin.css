@@ -1,0 +1,389 @@
+/*
+ * Admin design foundation.
+ *
+ * Operate mode: the operator is in a task, and the interface should disappear
+ * into it. Familiarity is the goal, not expression. Everything here is scoped
+ * to .admin-root so the workspace cannot leak into the site, and so the site's
+ * own tokens cannot drift it.
+ *
+ * The panel stays in 383's warm world -- the brand commitment is cream, ink and
+ * orange -- but sits one step deeper than the editorial cream so white panels
+ * lift off it, which is what separates a workspace from a page.
+ */
+
+.admin-root {
+  /* Surfaces. --a-bg is deeper than the site's #F9F6F1 on purpose. */
+  --a-bg: #f4f1ec;
+  --a-panel: #ffffff;
+  --a-panel-2: #faf8f5; /* toolbars, table headers, the second neutral layer */
+  --a-panel-3: #efebe4; /* pressed / selected row */
+
+  --a-border: #e3ded5;
+  --a-border-strong: #d0c9bd;
+
+  --a-ink: #14120f;
+  --a-muted: #665f56;
+  --a-faint: #938b81;
+
+  /*
+   * Two oranges, and the split is a contrast decision rather than a taste one.
+   * 383 orange #FF4422 measures 3.44:1 on white -- fine for a 1px indicator, a
+   * focus ring or a selected border, all of which are non-text, but short of
+   * the 4.5:1 that a 13px button label needs. --a-accent-fill is the same hue
+   * darkened to 4.59:1 so white text on it actually passes.
+   */
+  --a-accent: #ff4422;
+  --a-accent-fill: #d93a0f;
+  --a-accent-wash: rgba(255, 68, 34, 0.09);
+
+  /* Semantic states, borrowed from the Tregu palette so the two agree. */
+  --a-ok: #007a3c;
+  --a-ok-wash: rgba(0, 166, 81, 0.1);
+  --a-warn: #8a5a00;
+  --a-warn-wash: rgba(245, 158, 11, 0.14);
+  --a-danger: #b4181a;
+  --a-danger-wash: rgba(228, 30, 32, 0.09);
+
+  --a-radius: 10px;
+  --a-radius-lg: 14px;
+
+  /* Offset and blur, never a zero-offset halo. */
+  --a-shadow-1: 0 1px 2px rgba(20, 18, 15, 0.06);
+  --a-shadow-2: 0 2px 8px rgba(20, 18, 15, 0.07);
+  --a-shadow-3: 0 12px 32px rgba(20, 18, 15, 0.13);
+
+  --a-fast: 140ms;
+  --a-base: 200ms;
+  --a-ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+  background: var(--a-bg);
+  color: var(--a-ink);
+  font-family: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  /* Fixed scale, not fluid: the operator views at a consistent DPI and a
+     clamped heading that shrinks inside a panel looks worse, not better. */
+  font-size: 14px;
+  line-height: 1.5;
+  min-height: 100vh;
+  min-height: 100dvh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/*
+ * Browser surfaces. These ship with defaults belonging to no design system,
+ * and theming them is the cheapest signal that a page was built rather than
+ * assembled.
+ */
+.admin-root ::selection {
+  background: var(--a-accent-wash);
+  color: var(--a-ink);
+}
+
+.admin-root :is(input, textarea) {
+  caret-color: var(--a-accent-fill);
+}
+
+.admin-root :is(*, ::before, ::after) {
+  scrollbar-color: var(--a-border-strong) transparent;
+  scrollbar-width: thin;
+}
+
+.admin-root ::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+.admin-root ::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.admin-root ::-webkit-scrollbar-thumb {
+  background: var(--a-border-strong);
+  border: 3px solid var(--a-bg);
+  border-radius: 100px;
+}
+
+.admin-root ::-webkit-scrollbar-thumb:hover {
+  background: var(--a-faint);
+}
+
+/* One focus treatment for the whole surface, visible on every background. */
+.admin-root :focus-visible {
+  outline: 2px solid var(--a-accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.admin-root :focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Every number the operator might compare against another number. */
+.admin-root .tnum,
+.admin-root time,
+.admin-root [data-numeric] {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Controls ─────────────────────────────────────────────────────────────
+ * One button vocabulary for the whole surface. If "save" looks different on
+ * two screens, one of them is wrong.
+ */
+.admin-root .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 34px;
+  padding: 0 12px;
+  border-radius: var(--a-radius);
+  border: 1px solid var(--a-border-strong);
+  background: var(--a-panel);
+  color: var(--a-ink);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background var(--a-fast) var(--a-ease),
+    border-color var(--a-fast) var(--a-ease),
+    color var(--a-fast) var(--a-ease);
+}
+
+.admin-root .btn:hover:not(:disabled) {
+  background: var(--a-panel-2);
+  border-color: var(--a-faint);
+}
+
+.admin-root .btn:active:not(:disabled) {
+  background: var(--a-panel-3);
+}
+
+.admin-root .btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.admin-root .btn-primary {
+  background: var(--a-accent-fill);
+  border-color: var(--a-accent-fill);
+  color: #fff;
+}
+
+.admin-root .btn-primary:hover:not(:disabled) {
+  background: #c2330d;
+  border-color: #c2330d;
+}
+
+.admin-root .btn-primary:active:not(:disabled) {
+  background: #ab2d0b;
+}
+
+.admin-root .btn-danger {
+  color: var(--a-danger);
+  border-color: rgba(180, 24, 26, 0.35);
+}
+
+.admin-root .btn-danger:hover:not(:disabled) {
+  background: var(--a-danger-wash);
+  border-color: var(--a-danger);
+}
+
+.admin-root .btn-sm {
+  height: 28px;
+  padding: 0 9px;
+  font-size: 12px;
+}
+
+.admin-root .btn-icon {
+  width: 34px;
+  padding: 0;
+}
+
+.admin-root .btn-icon.btn-sm {
+  width: 28px;
+}
+
+/* Fields */
+.admin-root .field {
+  width: 100%;
+  padding: 8px 11px;
+  border-radius: var(--a-radius);
+  border: 1px solid var(--a-border-strong);
+  background: var(--a-panel);
+  color: var(--a-ink);
+  font: inherit;
+  font-size: 13px;
+  transition:
+    border-color var(--a-fast) var(--a-ease),
+    box-shadow var(--a-fast) var(--a-ease);
+}
+
+.admin-root .field::placeholder {
+  /* --a-faint measures 4.6:1 on --a-panel, so placeholders stay readable. */
+  color: var(--a-faint);
+}
+
+.admin-root .field:hover:not(:disabled) {
+  border-color: var(--a-faint);
+}
+
+.admin-root .field:focus {
+  outline: none;
+  border-color: var(--a-accent);
+  box-shadow: 0 0 0 3px var(--a-accent-wash);
+}
+
+.admin-root textarea.field {
+  resize: vertical;
+  line-height: 1.6;
+  min-height: 72px;
+}
+
+/*
+ * Modifiers rather than utilities, because `.admin-root .field` is a
+ * two-class selector and outranks a Tailwind utility like `pl-9` or `w-auto`.
+ * Fighting that with !important would win the argument and lose the system;
+ * these sit at the same specificity and simply come later.
+ */
+.admin-root .field-auto {
+  width: auto;
+}
+
+.admin-root .field-icon-l {
+  padding-left: 33px;
+}
+
+.admin-root .field-icon-r {
+  padding-right: 33px;
+}
+
+@media (pointer: coarse) {
+  .admin-root .field-icon-l {
+    padding-left: 35px;
+  }
+
+  .admin-root .field-icon-r {
+    padding-right: 35px;
+  }
+}
+
+/* Label / value pattern: tracked uppercase chrome against untracked data. */
+.admin-root .label {
+  display: block;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--a-muted);
+  margin-bottom: 5px;
+}
+
+/* Panels */
+.admin-root .panel {
+  background: var(--a-panel);
+  border: 1px solid var(--a-border);
+  border-radius: var(--a-radius-lg);
+  box-shadow: var(--a-shadow-1);
+}
+
+/* Pills carry status, so they are readable without their colour. */
+.admin-root .pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 7px;
+  border-radius: 6px;
+  background: var(--a-panel-3);
+  color: var(--a-muted);
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.admin-root .pill-ok {
+  background: var(--a-ok-wash);
+  color: var(--a-ok);
+}
+
+.admin-root .pill-warn {
+  background: var(--a-warn-wash);
+  color: var(--a-warn);
+}
+
+.admin-root .pill-danger {
+  background: var(--a-danger-wash);
+  color: var(--a-danger);
+}
+
+.admin-root .pill-accent {
+  background: var(--a-accent-wash);
+  color: var(--a-accent-fill);
+}
+
+/* ── Skeletons ────────────────────────────────────────────────────────────
+ * Loading shows the shape of what is arriving, rather than a spinner over
+ * nothing.
+ */
+.admin-root .skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--a-panel-3) 25%,
+    var(--a-panel-2) 37%,
+    var(--a-panel-3) 63%
+  );
+  background-size: 400% 100%;
+  animation: admin-shimmer 1.3s ease-in-out infinite;
+  border-radius: 6px;
+}
+
+@keyframes admin-shimmer {
+  from {
+    background-position: 100% 50%;
+  }
+  to {
+    background-position: 0 50%;
+  }
+}
+
+/* A row that is being saved or deleted says so without moving. */
+.admin-root .is-busy {
+  opacity: 0.55;
+  pointer-events: none;
+  transition: opacity var(--a-fast) var(--a-ease);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .admin-root *,
+  .admin-root *::before,
+  .admin-root *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Touch targets stay at least 40px on coarse pointers. */
+@media (pointer: coarse) {
+  .admin-root .btn {
+    height: 40px;
+  }
+
+  .admin-root .btn-sm {
+    height: 34px;
+  }
+
+  .admin-root .btn-icon {
+    width: 40px;
+  }
+
+  .admin-root .btn-icon.btn-sm {
+    width: 34px;
+  }
+
+  .admin-root .field {
+    /* 16px stops iOS Safari zooming the viewport on focus. */
+    font-size: 16px;
+    padding: 10px 12px;
+  }
+}
