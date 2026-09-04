@@ -27,7 +27,11 @@ export default function SignupPrompt() {
   const [benefitsOpen, setBenefitsOpen] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
-  const excludedRoute = pathname === "/visit" || pathname?.startsWith("/visit/");
+  // /admin is an internal tool: the operator is already signed in as the admin
+  // and has no account to create, so the prompt is pure interruption over the
+  // queue they came to work through.
+  const excludedRoute =
+    pathname === "/visit" || pathname?.startsWith("/visit/") || pathname?.startsWith("/admin");
 
   useEffect(() => {
     if (!excludedRoute) return;

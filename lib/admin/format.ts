@@ -1,5 +1,7 @@
 import { KOSOVO_TZ, KOSOVO_TZ_FALLBACK } from "@/lib/reagimi-data";
 
+export { decodeEntities } from "./text";
+
 /**
  * Timestamps for the admin, formatted on the server.
  *

@@ -327,11 +327,19 @@ export default async function DosjeAdminPage({
         <h1 style={{ font: "600 21px/1.2 ui-sans-serif, system-ui, sans-serif", margin: 0 }}>
           Dosje — miratimi
         </h1>
-        <form action={logoutAction}>
-          <button type="submit" style={{ border: "none", background: "none", color: "#777", font: SANS, cursor: "pointer" }}>
-            Dil
-          </button>
-        </form>
+        <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
+          {/* The approval queue shows moments awaiting review. Neither the
+              dossiers themselves nor a moment's own pictures were reachable
+              from here, so an unpublishable topic had nowhere to be seen. */}
+          <a href="/admin/dosje/pastro" style={{ color: "#c2330d", font: SANS, fontWeight: 600, textDecoration: "none" }}>
+            Dosjet dhe pastrimi
+          </a>
+          <form action={logoutAction}>
+            <button type="submit" style={{ border: "none", background: "none", color: "#777", font: SANS, cursor: "pointer" }}>
+              Dil
+            </button>
+          </form>
+        </div>
       </header>
 
       <p style={{ color: "#666", margin: "0 0 22px" }}>
