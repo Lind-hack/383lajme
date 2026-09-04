@@ -1,8 +1,8 @@
 {
   "lastUpdated": "2026-09-04",
   "overallIndex": 53,
-  "totalArticles": 37,
-  "sourceCount": 30,
+  "totalArticles": 39,
+  "sourceCount": 32,
   "stanceVersion": 3,
   "unattributed": 190,
   "nonEditorial": 1,
@@ -711,6 +711,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-02",
           "lastSeen": "2026-09-01"
+        },
+        {
+          "name": "journal-b.ch",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Junge Perspektiven auf den Kosovo - journal-b.ch",
+              "albanianTitle": "Perspektiva të reja për Kosovën - journal-b.ch",
+              "blurb": "Platforma journal-b.ch publikon vështrime të ndryshme mbi zhvillimet aktuale dhe perspektivat e të rinjve në Kosovë.",
+              "imageUrl": "https://journal-b.ch/wp-content/uploads/2026/09/kino_kosovo-6-aspect-ratio-816-612-1632x1224.jpg",
+              "url": "https://journal-b.ch/artikel/junge-perspektiven-auf-den-kosovo/",
+              "date": "2026-09-01",
+              "sentiment": "neutral",
+              "reason": "Neutral factual reporting",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-04",
+          "lastSeen": "2026-09-01"
         }
       ],
       "summary": {
@@ -718,7 +742,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 3,
+        "n": 4,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -813,6 +837,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-08-31",
           "lastSeen": "2026-09-04"
+        },
+        {
+          "name": "Fpress.gr",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Σιάμισιης: Η HELLENiQ ENERGY «χτίζει» ενεργειακό διάδρομο προς τα Βαλκάνια - Fpress.gr",
+              "albanianTitle": "Siamisis: HELLENiQ ENERGY po ndërton korridor energjetik drejt Ballkanit - Fpress.gr",
+              "blurb": "Drejtori i HELLENiQ ENERGY, Andreas Shiamishis, deklaroi se kompania po ndërton një korridor energjetik drejt vendeve të Ballkanit.",
+              "imageUrl": null,
+              "url": "https://fpress.gr/epicheirimatikotita/siamisiis-i-helleniq-energy-chtizei-energeiako-diadromo-pros-ta-valkania/",
+              "date": "2026-09-04",
+              "sentiment": "neutral",
+              "reason": "Quoted word treated as speaker, outlet remains neutral",
+              "isQuote": true,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-04",
+          "lastSeen": "2026-09-04"
         }
       ],
       "summary": {
@@ -820,7 +868,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 1,
+        "n": 2,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3

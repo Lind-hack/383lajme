@@ -4987,8 +4987,8 @@
   {
     "date": "2026-09-04",
     "overallIndex": 53,
-    "totalArticles": 37,
-    "sourceCount": 30,
+    "totalArticles": 39,
+    "sourceCount": 32,
     "stanceVersion": 3,
     "countries": {
       "Gjermani": {
@@ -5056,7 +5056,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 3,
+        "n": 4,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -5096,7 +5096,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 1,
+        "n": 2,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -5152,27 +5152,11 @@
     },
     "headlines": [
       {
-        "title": "Da Vaccarizzo al Kosovo, il vino ricuce l’Arbëria: Pomillo ambasciatore dell’Hardh Fest - EcoDelloJonio.it",
-        "source": "EcoDelloJonio.it",
-        "country": "Itali",
-        "flag": "🇮🇹",
-        "url": "https://ecodellojonio.it/articoli/territorio/2026/09/da-vaccarizzo-al-kosovo-il-vino-ricuce-l-arberia-pomillo-ambasciatore-dell-hardh-fest",
-        "sentiment": "positive"
-      },
-      {
-        "title": "Βούλγαρία-Κόσοβο με κοινές προσπάθειες για την ειρήνη και την ασφάλεια - bnrnews.bg",
-        "source": "bnrnews.bg",
-        "country": "Greqi",
-        "flag": "🇬🇷",
-        "url": "https://bnrnews.bg/el/post/523471/boylgaria-kosobo-me-koines-prospa8eies-gia-thn-eirhnh-kai-thn-asfaleia",
-        "sentiment": "positive"
-      },
-      {
-        "title": "Kosova'daki Yıldızlar Avrupa Halter Şampiyonası'nda 200 Kiloyla Şampiyon Olan Zehra Nur Arslan, Amasya Valisi'ni Ziyaret Etti - Son Dakika",
-        "source": "Son Dakika",
+        "title": "“Kosova-Sırbistan Diyalogu Barış İçin Gerekli” - Kosovahaber.com",
+        "source": "Kosovahaber.com",
         "country": "Turqi",
         "flag": "🇹🇷",
-        "url": "https://www.sondakika.com/guncel/haber-kosova-daki-yildizlar-avrupa-halter-sampiyonasi-nd-20196635/",
+        "url": "https://kosovahaber.com/haber/kosova-sirbistan-diyalogu-baris-icin-gerekli-105605",
         "sentiment": "positive"
       }
     ]

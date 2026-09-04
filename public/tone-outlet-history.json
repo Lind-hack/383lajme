@@ -2661,6 +2661,32 @@
       "urls": [
         "https://ecodellojonio.it/articoli/territorio/2026/09/da-vaccarizzo-al-kosovo-il-vino-ricuce-l-arberia-pomillo-ambasciatore-dell-hardh-fest"
       ]
+    },
+    "journal-b.ch": {
+      "country": "Zvicër",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-04",
+      "lastSeen": "2026-09-01",
+      "urls": [
+        "https://journal-b.ch/artikel/junge-perspektiven-auf-den-kosovo/"
+      ]
+    },
+    "Fpress.gr": {
+      "country": "Greqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-04",
+      "lastSeen": "2026-09-04",
+      "urls": [
+        "https://fpress.gr/epicheirimatikotita/siamisiis-i-helleniq-energy-chtizei-energeiako-diadromo-pros-ta-valkania/"
+      ]
     }
   }
 }

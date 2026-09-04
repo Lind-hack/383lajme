@@ -4,7 +4,7 @@
     {
       "label": "Marrëveshja për zgjedhjen e presidentit",
       "fallbackLabel": "Presidentit · Zgjedhjen",
-      "summary": "Partitë politike në Kosovë arrijnë një marrëveshje për kandidatin për president, duke i dhënë fund bllokadës disamujore të institucioneve shtetërore.",
+      "summary": "Partitë politike në Kosovë arrijnë një marrëveshje për kandidatin për president, duke i dhënë fund bllokadës disamujore që kishte paralizuar procesin institucional.",
       "count": 20,
       "positive": 0,
       "neutral": 20,
@@ -184,7 +184,7 @@
     {
       "label": "Protestat opozitare para Qeverisë",
       "fallbackLabel": "Qeverisë · Para",
-      "summary": "Partitë opozitare PDK dhe AAK vazhdojnë protestat dhe bllokimin e hyrjes së Qeverisë, duke kërkuar thirrjen e seancave dhe ndryshimin e qasjes qeveritare.",
+      "summary": "Partitë opozitare PDK dhe AAK vazhdojnë protestat dhe bllokimin e hyrjes së Qeverisë, duke kërkuar thirrjen e seancës dhe duke kritikuar qeverisjen aktuale.",
       "count": 16,
       "positive": 0,
       "neutral": 14,
@@ -363,7 +363,7 @@
     {
       "label": "Sukseset e Kosovës në sport",
       "fallbackLabel": "Mesdhetare · Lojërat",
-      "summary": "Sportistët kosovarë arrijnë rezultate të larta në Lojërat Mesdhetare, duke fituar nëntë medalje në disiplina të ndryshme si xhme si xhme si xhshme si xhudo dhe karate.",
+      "summary": "Sportistët kosovarë arrijnë rezultate të larta në Lojërat Mesdhetare, duke fituar nëntë medalje në disiplina të ndryshme si xhudo, karate dhe atletikë.",
       "count": 15,
       "positive": 1,
       "neutral": 12,
@@ -539,8 +539,8 @@
     },
     {
       "label": "Angazhimi i forcave ushtarake ndërkombëtare",
-      "fallbackLabel": "Parë · Armatosura",
-      "summary": "Forcat e armatosura italiane raportojnë për angazhimin e tyre në misione ndërkombëtare, duke përfshirë dislokimin e trupave në Kosovë dhe Somali.",
+      "fallbackLabel": "Parë · Vjeshtë",
+      "summary": "Forcat e armatosura italiane raportojnë mbi operacionet e tyre në Kosovë, duke e krahasuar vjeshtën në vijën e parë me angazhimet e mëparshme në Somali.",
       "count": 9,
       "positive": 0,
       "neutral": 9,
@@ -702,10 +702,10 @@
     {
       "label": "Kriza politike dhe institucionale",
       "fallbackLabel": "Politike · Kriza",
-      "summary": "Kosova përballet me një krizë të vazhdueshme politike që pengon dialogun me Serbinë dhe kërkon ndërhyrje urgjente për formimin e institucioneve.",
+      "summary": "Vonesat në formimin e institucioneve dhe kriza politike në Kosovë po ndikojnë negativisht në dialogun me Serbinë, duke nxitur reagime nga ndërkombëtarët.",
       "count": 9,
       "positive": 0,
-      "neutral": 7,
+      "neutral": 8,
       "negative": 0,
       "index": 50,
       "countries": [
@@ -744,6 +744,22 @@
           "outlet": "cna.al",
           "country": "SHBA",
           "flag": "🇺🇸"
+        },
+        {
+          "title": "Kosova’daki Siyasi Tıkanıklık, Sırbistan’la Diyalogu da Etkiliyor - Kosovahaber.com",
+          "albanianTitle": "Bllokada politike në Kosovë po ndikon edhe në dialogun me Serbinë - Kosovahaber.com",
+          "blurb": "Bllokada politike në Kosovë po ndikon drejtpërdrejt në procesin e dialogut për normalizimin e marrëdhënieve me shtetin e Serbisë.",
+          "imageUrl": null,
+          "url": "https://kosovahaber.com/haber/kosovadaki-siyasi-tikaniklik-sirbistanla-diyalogu-da-etkiliyor-105563",
+          "date": "2026-09-01",
+          "sentiment": "neutral",
+          "reason": "Neutral factual reporting",
+          "isQuote": false,
+          "speaker": "",
+          "evidence": "",
+          "outlet": "Kosovahaber.com",
+          "country": "Turqi",
+          "flag": "🇹🇷"
         },
         {
           "title": "Kosova’daki Siyasi Krize Çözüm Bulunacak mı? - kosovahaber.com",
@@ -826,22 +842,6 @@
           "flag": "🇺🇸"
         },
         {
-          "title": "Kosova’daki Siyasi Tıkanıklık, Sırbistan’la Diyalogu da Etkiliyor - Kosovahaber.com",
-          "albanianTitle": "Bllokada politike në Kosovë po ndikon edhe në dialogun me Serbinë",
-          "blurb": "Bllokada politike në Kosovë po shkakton ndikim negativ në procesin e dialogut që po zhvillohet me shtetin e Serbisë.",
-          "imageUrl": null,
-          "url": "https://kosovahaber.com/haber/kosovadaki-siyasi-tikaniklik-sirbistanla-diyalogu-da-etkiliyor-105563",
-          "date": "2026-09-01",
-          "sentiment": "unknown",
-          "reason": "",
-          "isQuote": false,
-          "speaker": "",
-          "evidence": "",
-          "outlet": "Kosovahaber.com",
-          "country": "Turqi",
-          "flag": "🇹🇷"
-        },
-        {
           "title": "Kosova’daki Mevcut Siyasi Kriz Yalnızca Düşmanlarının İşine Yarıyor - Kosovahaber.com",
           "albanianTitle": "Kriza aktuale politike në Kosovë u shkon për shtati vetëm armiqve të saj - Kosovahaber.com",
           "blurb": "Kriza aktuale politike në Kosovë po ndikon negativisht në interesat e vendit duke favorizuar vetëm kundërshtarët e shtetit tonë.",
@@ -860,9 +860,9 @@
       ]
     },
     {
-      "label": "Aktakuzat për masakrën e Prekazit",
+      "label": "Aktakuzat për masakrën në Prekaz",
       "fallbackLabel": "Ndaj · Aktakuzë",
-      "summary": "Prokuroria Speciale e Kosovës ka ngritur aktakuzë ndaj 35 ish-zyrtarëve serbë për përfshirjen e tyre në masakrën ndaj familjes Jashari në Prekaz.",
+      "summary": "Prokuroria Speciale e Kosovës ka ngritur aktakuzë ndaj 35 ish-zyrtarëve të sigurisë serbe për përfshirjen e tyre në masakrën ndaj familjes Jashari në Prekaz.",
       "count": 8,
       "positive": 0,
       "neutral": 8,
@@ -1007,9 +1007,9 @@
       ]
     },
     {
-      "label": "Investimet dhe tenderët publikë",
+      "label": "Investimet publike dhe tenderët",
       "fallbackLabel": "Milionë · Euro",
-      "summary": "Kosova zhvillon projekte të rëndësishme infrastrukturore dhe teknologjike, ndërsa komunat shprehin shqetësim për bllokimin e mjeteve financiare nga ana e qeverisë.",
+      "summary": "Kosova po zhvillon projekte të mëdha infrastrukturore dhe teknologjike, ndërkohë që komunat protestojnë për bllokimin e fondeve të rëndësishme buxhetore nga qeveria qendrore.",
       "count": 7,
       "positive": 0,
       "neutral": 7,
@@ -1137,7 +1137,7 @@
     {
       "label": "Kërkesat për funksionalizimin e institucioneve",
       "fallbackLabel": "Institutit · Themelimin",
-      "summary": "Përfaqësuesit ndërkombëtarë dhe opozita kërkojnë themelimin e shpejtë të institucioneve shtetërore për të shmangur kaosin institucional dhe për të garantuar funksionimin e shtetit.",
+      "summary": "Përfaqësuesit ndërkombëtarë dhe opozita kërkojnë formimin urgjent të institucioneve funksionale në Kosovë për të tejkaluar kaosin politik dhe bllokadat e vazhdueshme.",
       "count": 7,
       "positive": 0,
       "neutral": 7,
