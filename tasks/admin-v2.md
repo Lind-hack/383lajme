@@ -1,78 +1,75 @@
 # Admin v2 — rebuild
 
-Branch `feat/admin-v2`. Started 2026-09-04. Ships to a Vercel preview, not main.
+Branch `feat/admin-v2`, pushed 2026-09-04. Vercel preview only; `main` untouched.
 
-## Why this is a rebuild and not a polish pass
+## Why this was a rebuild and not a polish pass
 
-The panel is pointed at the wrong database. Measured, not inferred:
+The panel was pointed at the wrong database. Measured, not inferred:
 
 | store | rows | who reads it |
 |---|---|---|
 | Supabase `news_articles` | 84 | the live site (`lib/db.ts:206`) |
-| `data/auto-articles/*.json` | 1074 | the admin panel (`app/admin/page.tsx:52`) |
+| `data/auto-articles/*.json` | 1074 | the old admin panel (`app/admin/page.tsx:52`) |
 | slugs in both | **0** | — |
 
-`/api/edit` and `/api/admin/articles` write only to the JSON files via
-`lib/github-articles.ts`. Nothing in `app/`, `lib/` or `scripts/` ever updates
-`news_articles`; the pipeline is its only writer
-(`scripts/codex_automation_support.py:1759`). Those JSON batches are the
-*outage fallback* — `lib/db.ts:222` reads them only when Supabase fails.
+`/api/edit` and `/api/admin/articles` wrote only to the JSON files. Nothing in
+`app/`, `lib/` or `scripts/` ever updates `news_articles`; the pipeline is its
+only writer (`scripts/codex_automation_support.py:1759`). Those batches are the
+outage fallback `lib/db.ts:222` reads when Supabase fails.
 
-So every edit and delete in the admin today is a no-op against production, and
-the 84 live articles are invisible to the operator.
+Three symptoms, one cause:
+1. Every edit and delete was a no-op against production.
+2. The `/admin?id=` links the pipeline emails (`scripts/kosovo_pipeline.py:1326`)
+   carry `news_articles` ids — 0 of 3 sampled existed in the disk store, so the
+   links opened the panel and silently did nothing.
+3. The lag: 130 files, 1,228 articles, **3.75 MB** including 1.5 MB of body
+   text, serialized into the RSC payload and rendered unvirtualized.
 
-The lag has the same root: `loadArticlesWithFiles()` reads all 130 JSON files,
-1,228 articles, **3.75 MB including full bodies** (41% of the payload), hands
-them to a client component as props, and renders every row unvirtualized.
-Repointing at Supabase with server-side paging removes the cause rather than
-optimizing it.
+## Done
 
-## Decisions taken (2026-09-04)
+- [x] Articles read one page of `news_articles`, filtered in Postgres, no body
+      in the list payload. Token-AND search over title/excerpt/body/source/slug
+      (`lib/admin/search-terms.ts`, 9 tests).
+- [x] Writes (`PATCH`/`DELETE`) go to `news_articles` via the service role.
+- [x] Nav reaches Dosje, Sondazhi and Reagimi — only Tregu had a link.
+- [x] Tregu refresh view over `market_snapshots`: price, step, window move, AI
+      gap, and **the cited evidence**, which nothing had ever rendered.
+- [x] Dosje cleanup screen: per-topic blockers, selective purge, capped at 50,
+      explicit slug list — no rule-driven deletion.
+- [x] Dosje timeline: milestone text, citations (publisher, HTTP status, quote,
+      0063 Wayback snapshot), and rendered images/video posters.
+- [x] Hydration mismatch fixed — dates are formatted server-side in Kosovo time.
+- [x] GA consent card and the signup prompt no longer fire inside /admin.
+- [x] Entity decoding for scraped citation text (6 tests).
+- [x] Pre-ship pass: colour-scheme, touch-action, scroll-margin, autocomplete,
+      translate="no", unsaved-changes guard.
+- [x] 664 tests pass, `npm run build` clean, console clean.
 
-1. Panel manages Supabase `news_articles` only. The 1,074 disk articles stay on
-   disk as the fallback they were meant to be. No import.
-2. Ineligible dossiers are removed through a review-and-purge screen that shows
-   *why* each is ineligible. No blind rule-based mass delete.
-3. Tailwind v4 + lucide, already installed. No shadcn — it would introduce
-   theming variables into a codebase that has none.
-4. Branch + Vercel preview. Nothing touches 383ks.com until merged.
+## Not verified, and why
 
-## Design
+- **The dosje cleanup screen has never been seen against real drafts.** There is
+  no `SUPABASE_SERVICE_ROLE_KEY` in `.env.local`, and RLS hides draft topics
+  from the anon key, so locally it lists 1 topic instead of the 13 that exist
+  (0064 added 12 as drafts). The screen says so rather than showing a confident
+  zero. Verify on the preview, where Vercel supplies the key.
+- **Deletion has never been executed.** Same reason. The API is written and
+  typechecks; no dossier has actually been deleted by it.
+- **The broken-image fallback is unverified in-browser.** The one dead image in
+  the data (kallxo.com) started loading again mid-session, so the failure path
+  never rendered.
 
-Operate mode (impeccable). Earned familiarity; the tool disappears into the
-task. Restrained color — `#FF4422` for primary action and current selection
-only, never decoration. One family (Manrope) on a fixed rem scale. Density is
-allowed. Skeletons, not spinners. Inline over modal. Drawn lucide icons, never
-emoji. `tabular-nums` on every comparable number, matching the Tregu rule.
+## Left alone deliberately
 
-## Tasks
+- `app/admin/AdminClient.tsx` — now orphaned, nothing imports it. Kept rather
+  than deleted without asking. It is the old disk-store editor, so leaving it
+  is a trap for a future reader; delete it once the branch is accepted.
+- `/api/edit` — still writes to `data/auto-articles`. No longer called by the
+  panel. Same call: remove it or repoint it.
+- `futures_signal.py` and the rest of the automation repo — out of scope.
 
-### Phase 0 — foundation
-- [x] Branch, plan
-- [ ] `lib/admin/articles.ts` — server-side list/search/paginate against `news_articles`
-- [ ] `app/api/admin/articles` — PATCH + DELETE against Supabase, admin-session gated
-- [ ] Admin shell: responsive nav across Artikuj / Dosje / Tregu / Sondazhi / Reagimi
-- [ ] Admin CSS layer in `app/admin/admin.css`, scoped, no leak into the site
+## Still open from the September audit
 
-### Phase 1 — articles
-- [ ] Server-paginated list, real search (title, excerpt, body, source, category)
-- [ ] Category + date filters, sort by date/score
-- [ ] Inline edit, optimistic save, error recovery
-- [ ] Delete with an in-page confirm, not `window.confirm`
-
-### Phase 2 — dosje
-- [ ] Link from the main panel (missing today)
-- [ ] Per-topic timeline: each milestone with citations, matched 383 articles,
-      image and video thumbnails the operator can actually eyeball
-- [ ] Eligibility screen: why each dossier is ineligible, per-row + bulk delete
-
-### Phase 3 — tregu refreshes
-- [ ] Refresh feed from `market_snapshots`: when, which market, how far the
-      probability moved, and the cited evidence that moved it
-- [ ] Handle null `ai_prob` — sport markets are scraper-priced, not Groq-priced
-
-### Phase 4 — verify
-- [ ] `npm test` green
-- [ ] `npm run build` clean
-- [ ] Desktop + mobile pass
-- [ ] web-design-guidelines pre-ship review
+- `feat/topic-rail-mobile` / `2bcce11` remains unmerged.
+- No CI workflow runs `npm test`.
+- The npm cache had grown to 10.7 GB and the disk hit 0 bytes mid-session;
+  cleared, 4 stale worktrees pruned, 41 remain.
