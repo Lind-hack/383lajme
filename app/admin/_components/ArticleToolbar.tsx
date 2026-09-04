@@ -93,6 +93,9 @@ export default function ArticleToolbar({
             }}
             placeholder="Kërko në titull, tekst, burim…"
             aria-label="Kërko artikuj"
+            name="q"
+            autoComplete="off"
+            spellCheck={false}
             className="field field-icon-l field-icon-r"
           />
           {pending ? (

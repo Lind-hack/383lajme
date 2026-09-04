@@ -56,6 +56,12 @@
   --a-base: 200ms;
   --a-ease: cubic-bezier(0.22, 1, 0.36, 1);
 
+  /* The workspace is committed to light: it is used at a desk and on a phone
+     in daylight, and the site it belongs to has no dark theme to inherit.
+     Declaring it keeps native controls -- select, checkbox, scrollbar -- from
+     rendering dark for an operator whose OS is. */
+  color-scheme: light;
+
   background: var(--a-bg);
   color: var(--a-ink);
   font-family: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
@@ -104,6 +110,34 @@
 
 .admin-root ::-webkit-scrollbar-thumb:hover {
   background: var(--a-faint);
+}
+
+/*
+ * Every control the operator taps. `manipulation` drops the 300ms double-tap
+ * delay, and the tap highlight is set deliberately rather than left as the
+ * platform's blue-grey flash over a warm palette.
+ */
+.admin-root :is(button, a, input, select, textarea, label, [role="button"]) {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: var(--a-accent-wash);
+}
+
+/* Headings wrap on meaning rather than leaving one word on the last line. */
+.admin-root :is(h1, h2, h3) {
+  text-wrap: balance;
+}
+
+/* Long Albanian summaries read better without ragged orphans. */
+.admin-root p {
+  text-wrap: pretty;
+}
+
+/*
+ * The header is sticky, so an element focused by keyboard could otherwise be
+ * scrolled underneath it.
+ */
+.admin-root :is(h1, h2, h3, article, [id^="article-"]) {
+  scroll-margin-top: 120px;
 }
 
 /* One focus treatment for the whole surface, visible on every background. */

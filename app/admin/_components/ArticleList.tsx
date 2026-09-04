@@ -81,6 +81,18 @@ export default function ArticleList({ rows }: { rows: AdminArticleRow[] }) {
     el?.scrollIntoView({ behavior: "smooth", block: "nearest" });
   }, [openId]);
 
+  const dirty = Boolean(full && draft) && changedFields() !== null;
+
+  // A body edit is minutes of work, and the editor is one click from a nav
+  // link. This is the browser's own prompt, so it cannot be styled -- and it
+  // is registered only while there is something to lose.
+  useEffect(() => {
+    if (!dirty) return;
+    const warn = (e: BeforeUnloadEvent) => e.preventDefault();
+    window.addEventListener("beforeunload", warn);
+    return () => window.removeEventListener("beforeunload", warn);
+  }, [dirty]);
+
   async function openEditor(id: string) {
     setOpenId(id);
     setError(null);
@@ -397,6 +409,8 @@ export default function ArticleList({ rows }: { rows: AdminArticleRow[] }) {
                         </label>
                         <input
                           id={`title-${a.id}`}
+                          name="title"
+                          autoComplete="off"
                           className="field"
                           value={draft.title}
                           onChange={(e) => setDraft({ ...draft, title: e.target.value })}
@@ -432,8 +446,12 @@ export default function ArticleList({ rows }: { rows: AdminArticleRow[] }) {
                         <input
                           id={`img-${a.id}`}
                           type="url"
+                          name="imageUrl"
+                          inputMode="url"
+                          autoComplete="off"
+                          spellCheck={false}
                           className="field"
-                          placeholder="https://…"
+                          placeholder="https://example.com/foto.jpg"
                           value={draft.imageUrl}
                           onChange={(e) => setDraft({ ...draft, imageUrl: e.target.value })}
                         />
