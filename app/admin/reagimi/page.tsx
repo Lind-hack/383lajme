@@ -30,53 +30,62 @@ export default async function AdminReagimiPage({
   const cookieStore = await cookies();
   const isAuthed = await isAdminAuthed();
 
+  // The login view centres itself: the layout renders no nav when unauthed.
   const pageStyle: React.CSSProperties = {
     minHeight: "100vh",
-    background: "#F9F6F1",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
     padding: "40px 24px",
-    fontFamily: "var(--font-manrope), sans-serif",
   };
 
+  // The signed-in view sits under the shared nav, so it starts at the top and
+  // matches the width of every other admin surface.
+  const shellStyle: React.CSSProperties = {
+    maxWidth: "1180px",
+    margin: "0 auto",
+    padding: "16px 12px 40px",
+  };
+
+  // Token values rather than hardcoded hexes, so this reads as the same tool as
+  // the article, dossier and Tregu screens instead of a separate little app.
   const cardStyle: React.CSSProperties = {
-    background: "#fff",
-    borderRadius: "20px",
-    border: "1.5px solid #E8E3DB",
-    padding: "40px 44px",
+    background: "var(--a-panel)",
+    borderRadius: "var(--a-radius-lg)",
+    border: "1px solid var(--a-border)",
+    padding: "24px 26px",
     width: "100%",
     maxWidth: "520px",
-    boxShadow: "0 4px 24px rgba(0,0,0,0.06)",
+    boxShadow: "var(--a-shadow-1)",
   };
 
   const inputStyle: React.CSSProperties = {
     width: "100%",
-    padding: "11px 14px",
-    borderRadius: "10px",
-    border: "1.5px solid #E8E3DB",
-    fontSize: "14px",
-    fontFamily: "var(--font-manrope), sans-serif",
+    padding: "8px 11px",
+    borderRadius: "var(--a-radius)",
+    border: "1px solid var(--a-border-strong)",
+    fontSize: "13px",
+    fontFamily: "inherit",
     outline: "none",
-    background: "#FAFAF8",
-    color: "#111",
+    background: "var(--a-panel)",
+    color: "var(--a-ink)",
     boxSizing: "border-box",
   };
 
   const labelStyle: React.CSSProperties = {
     display: "block",
-    fontSize: "11px",
+    fontSize: "10px",
     fontWeight: 700,
-    color: "#6B6B6B",
-    letterSpacing: "0.08em",
+    color: "var(--a-muted)",
+    letterSpacing: "0.09em",
     textTransform: "uppercase",
-    marginBottom: "8px",
+    marginBottom: "5px",
   };
 
   const hintStyle: React.CSSProperties = {
     display: "block",
     fontSize: "11px",
-    color: "#9a9a9a",
+    color: "var(--a-faint)",
     fontWeight: 500,
     marginTop: "6px",
     letterSpacing: 0,
@@ -84,15 +93,18 @@ export default async function AdminReagimiPage({
   };
 
   const submitBtnStyle: React.CSSProperties = {
-    padding: "12px",
-    borderRadius: "10px",
-    background: "#FF4422",
+    padding: "0 12px",
+    height: "34px",
+    borderRadius: "var(--a-radius)",
+    // --a-accent-fill, not #FF4422: white on the brand orange measures 3.44:1
+    // and fails the 4.5:1 a 13px label needs. Same hue, darkened to 4.59:1.
+    background: "var(--a-accent-fill)",
     color: "#fff",
-    border: "none",
-    fontWeight: 700,
-    fontSize: "14px",
+    border: "1px solid var(--a-accent-fill)",
+    fontWeight: 600,
+    fontSize: "13px",
     cursor: "pointer",
-    fontFamily: "var(--font-manrope), sans-serif",
+    fontFamily: "inherit",
     width: "100%",
   };
 
@@ -175,8 +187,8 @@ export default async function AdminReagimiPage({
   const isToday = targetDate === today;
 
   return (
-    <div style={pageStyle}>
-      <div style={{ ...cardStyle, maxWidth: "600px" }}>
+    <div style={shellStyle}>
+      <div style={{ ...cardStyle, maxWidth: "680px" }}>
         <div
           style={{
             display: "flex",
@@ -223,13 +235,14 @@ export default async function AdminReagimiPage({
         <div style={{ display: "flex", gap: "10px", margin: "0 0 20px" }}>
           <a
             href={`/admin/reagimi?d=${today}`}
-            style={{ fontSize: "12px", color: isToday ? "#111" : "#FF4422", fontWeight: 700 }}
+            // Orange as text needs the darkened token; #FF4422 is 3.44:1.
+            style={{ fontSize: "12px", color: isToday ? "var(--a-ink)" : "var(--a-accent-fill)", fontWeight: 700 }}
           >
             Sot
           </a>
           <a
             href={`/admin/reagimi?d=${shiftDateKey(today, 1)}`}
-            style={{ fontSize: "12px", color: "#FF4422", fontWeight: 700 }}
+            style={{ fontSize: "12px", color: "var(--a-accent-fill)", fontWeight: 700 }}
           >
             Nesër
           </a>
