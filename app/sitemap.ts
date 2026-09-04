@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { getArticles } from "@/lib/db";
 import { SLUG_TO_CATEGORY } from "@/lib/category-map";
+import { listAllDosjeTopics } from "@/lib/dosje-entries";
 
 export const revalidate = 3600;
 
@@ -17,6 +18,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: BASE, changeFrequency: "hourly", priority: 1 },
     { url: `${BASE}/visit`, changeFrequency: "weekly", priority: 0.9 },
     { url: `${BASE}/tregu`, changeFrequency: "daily", priority: 0.7 },
+    { url: `${BASE}/dosje`, changeFrequency: "weekly", priority: 0.8 },
     { url: `${BASE}/privatesia`, changeFrequency: "yearly", priority: 0.2 },
   ];
 
@@ -45,5 +47,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     console.error("[sitemap] article lookup unavailable; emitting static sitemap", error);
   }
 
-  return [...staticPages, ...categoryPages, ...articlePages];
+  // Dossiers were absent from the sitemap entirely, including the five that
+  // have been live for months. Same posture as the articles above: a database
+  // outage costs this section for an hour, not the deployment.
+  let dosjePages: MetadataRoute.Sitemap = [];
+  try {
+    dosjePages = (await listAllDosjeTopics()).map((t) => ({
+      url: `${BASE}/dosje/${t.slug}`,
+      changeFrequency: "weekly" as const,
+      priority: 0.7,
+    }));
+  } catch (error) {
+    console.error("[sitemap] dossier lookup unavailable; omitting dossier URLs", error);
+  }
+
+  return [...staticPages, ...categoryPages, ...dosjePages, ...articlePages];
 }

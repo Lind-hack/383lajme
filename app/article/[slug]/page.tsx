@@ -9,7 +9,7 @@ import Footer from "@/components/footer";
 import type { AccordionSlide } from "@/components/image-accordion";
 import { getCategoryColor, getCategoryBg } from "@/lib/category-colors";
 import { topicForArticle } from "@/lib/topics.mjs";
-import { dosjeFor } from "@/lib/dosje-entries";
+import { dosjeFor, dosjeUniverse } from "@/lib/dosje-entries";
 
 export const revalidate = 7200;
 
@@ -138,7 +138,10 @@ export default async function ArticlePage({
   // Which standing dossier this story belongs to, resolved from its own words
   // rather than a tag, so every article joins one without editorial work. Null
   // when nothing matches, and the rail simply does not render.
-  const topic = topicForArticle(article);
+  // Matched over every subject both halves know, so the rail beside a story and
+  // the dossier it links to can never disagree about which file the story is in.
+  const universe = await dosjeUniverse();
+  const topic = topicForArticle(article, universe);
   const file = topic ? await dosjeFor(topic.slug, allArticles, article.slug, article) : null;
   const dosje =
     topic && file

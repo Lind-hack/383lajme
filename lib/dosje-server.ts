@@ -59,6 +59,12 @@ export interface DosjeTopic {
   slug: string;
   title: string;
   blurb: string;
+  /** Required terms. A topic without one of these cannot match at all. */
+  anchors?: string[] | null;
+  /** Supporting terms. These can never carry a match on their own. */
+  signals?: string[] | null;
+  /** Vetoes, whatever else matched. */
+  excludes?: string[] | null;
 }
 
 export interface Dosje {
@@ -120,9 +126,13 @@ export async function listDosjeTopics(): Promise<DosjeTopic[]> {
   if (!supabase) return [];
 
   try {
+    // The matching vocabulary travels with the topic. It used to be left
+    // behind, so a dossier the database knew about could be listed and linked
+    // but could never attract an article — the archive half of its own page
+    // came out empty.
     const { data, error } = await supabase
       .from("dosje_topics")
-      .select("slug, title, blurb")
+      .select("slug, title, blurb, anchors, signals, excludes")
       .order("title");
     if (error || !data) return [];
     return data as DosjeTopic[];

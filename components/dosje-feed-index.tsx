@@ -1,9 +1,13 @@
 import Link from "next/link";
 import type { Article } from "@/lib/mock-data";
 import { dosjeFeedEntries } from "@/lib/dosje-feed.mjs";
+import { dosjeUniverse } from "@/lib/dosje-entries";
 
-export default function DosjeFeedIndex({ articles }: { articles: Article[] }) {
-  const entries = dosjeFeedEntries(articles).filter((entry): entry is NonNullable<typeof entry> => entry !== null);
+export default async function DosjeFeedIndex({ articles }: { articles: Article[] }) {
+  // Server component: the strip advertises a dossier, so it has to be asking
+  // the same question the dossier page answers, over the same set of subjects.
+  const universe = await dosjeUniverse();
+  const entries = dosjeFeedEntries(articles, universe).filter((entry): entry is NonNullable<typeof entry> => entry !== null);
   if (!entries.length) return null;
 
   return (

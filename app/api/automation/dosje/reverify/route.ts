@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 
 import { createAdminClient } from "@/lib/supabase/admin";
-import { fetchSource } from "@/lib/dosje-sources.mjs";
+import { fetchSource, isFetchableCitationUrl } from "@/lib/dosje-sources.mjs";
 
 export const dynamic = "force-dynamic";
 export const maxDuration = 300;
@@ -67,9 +67,26 @@ export async function POST(req: Request) {
   const touched = new Set<string>();
   let ok = 0;
   let failed = 0;
+  let placeholders = 0;
   const newlyDead: Array<{ url: string; publisher: string | null; fails: number }> = [];
 
   for (const c of rows) {
+    // A url that cannot resolve by standard was never a link, so a failure to
+    // fetch it is not news. These were being counted, retried nightly and
+    // reported to the newsroom as sources that had just died — for a host that
+    // has never existed. They keep their place in the rotation so it advances,
+    // and their fail_count is left where it is: dosje_reverify already refuses
+    // to count them toward the two-publisher rule, which is the correct
+    // outcome and the reason the seed used a fake url in the first place.
+    if (!isFetchableCitationUrl(c.url)) {
+      placeholders += 1;
+      await supabase
+        .from("dosje_citations")
+        .update({ last_checked_at: new Date().toISOString() })
+        .eq("id", c.id);
+      continue;
+    }
+
     const res = await fetchSource(c.url, { timeoutMs: 10000 });
     const alive = res.http_status === 200 && (res.text ?? "").length > 0;
     touched.add(c.milestone_id);
@@ -134,6 +151,8 @@ export async function POST(req: Request) {
     checked: rows.length,
     stillLive: ok,
     failedThisRun: failed,
+    // Counted apart from the failures so a quiet night reads as a quiet night.
+    placeholdersSkipped: placeholders,
     newlyDead,
     momentsDemoted: demoted.length,
   });

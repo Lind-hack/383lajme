@@ -40,6 +40,13 @@ export declare function fetchSource(
   }
 ): Promise<FetchedSource>;
 
+/**
+ * False for a url no request can ever satisfy — a reserved host (RFC 2606 /
+ * 6761) or a non-http scheme. Used to keep placeholder citations out of the
+ * link-rot rotation instead of reporting them as links that just died.
+ */
+export declare function isFetchableCitationUrl(url: string): boolean;
+
 export declare const WAYBACK_AVAILABILITY: string;
 export declare function archiveSnapshot(
   url: string,

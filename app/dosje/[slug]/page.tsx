@@ -6,8 +6,7 @@ import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import DosjeSection from "@/components/dosje-section";
 import { getArticles } from "@/lib/db";
-import { TOPICS, topicBySlug, articlesForTopic } from "@/lib/topics.mjs";
-import { dosjeFor } from "@/lib/dosje-entries";
+import { dosjeFor, dosjeTopicRef, listAllDosjeTopics } from "@/lib/dosje-entries";
 
 const SITE = "https://www.383ks.com";
 
@@ -34,8 +33,14 @@ const SITE = "https://www.383ks.com";
  */
 export const revalidate = 43200;
 
-export function generateStaticParams() {
-  return TOPICS.map((t: { slug: string }) => ({ slug: t.slug }));
+/**
+ * Prebuild every dossier both halves know about. dynamicParams stays on, so a
+ * subject approved after this build still renders on first request rather than
+ * waiting for a deploy — which is the point of keeping the topic list in the
+ * database.
+ */
+export async function generateStaticParams() {
+  return (await listAllDosjeTopics()).map((t) => ({ slug: t.slug }));
 }
 
 export async function generateMetadata({
@@ -44,7 +49,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const topic = topicBySlug(slug);
+  const topic = await dosjeTopicRef(slug);
   if (!topic) return { title: "Dosje — 383" };
   const title = `${topic.title} — dosje | 383`;
   return {
@@ -63,7 +68,12 @@ export async function generateMetadata({
 
 export default async function DosjePage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const topic = topicBySlug(slug);
+  // Resolved against the database and the file together. Gating on the file
+  // alone 404'd the twelve subjects migration 0064 added, however thoroughly
+  // they had been approved. The whole list is read here rather than through
+  // dosjeTopicRef so the rail at the foot of the page costs no second query.
+  const topics = await listAllDosjeTopics();
+  const topic = topics.find((t) => t.slug === slug);
   if (!topic) notFound();
 
   // Cards only on this page, so the article bodies are left in the database.
@@ -104,8 +114,21 @@ export default async function DosjePage({ params }: { params: Promise<{ slug: st
           >
             Dosje të tjera
           </div>
+          {/* The rail pointed sideways and never up; /dosje is the address the
+              feature never had. */}
+          <div style={{ marginBottom: "14px" }}>
+            <Link
+              href="/dosje"
+              style={{
+                font: "500 13px var(--font-garamond), Georgia, serif",
+                color: "#a9362d",
+              }}
+            >
+              Të gjitha dosjet →
+            </Link>
+          </div>
           <div style={{ display: "flex", flexWrap: "wrap", gap: "9px" }}>
-            {TOPICS.filter((t: { slug: string }) => t.slug !== topic.slug).map((t: { slug: string; title: string }) => (
+            {topics.filter((t) => t.slug !== topic.slug).map((t) => (
               <Link
                 key={t.slug}
                 href={`/dosje/${t.slug}`}
