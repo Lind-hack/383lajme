@@ -591,10 +591,36 @@ async function runOfficialSportsRefresh(action: "live_sports", runKey: string, n
           }
           }
         } else {
-        const openF1Live = await fetchOpenF1LiveRace({ now });
-        const leaderboard = openF1ToWinnerLeaderboard(openF1Live);
-        if (!leaderboard || !openF1Live) throw new Error("OpenF1 did not expose a complete active race session.");
-        const f1SourceUrl = `https://api.openf1.org/v1/sessions?session_key=${encodeURIComponent(String(openF1Live.session?.session_key ?? ""))}`;
+        // OpenF1 first, then F1's own dashboard.
+        //
+        // OpenF1 refuses anonymous callers for the entire duration of a session,
+        // which is the only time this branch runs — so on a free key it is
+        // reliably unavailable exactly when a race is being run. The Formula 1
+        // Dashboard renderer already in this file's toolbox produces the same
+        // leaderboard shape from a page anyone can load, so it stands in rather
+        // than the whole live path going quiet. Both routes end at
+        // buildF1RaceWinnerPlan, so nothing downstream knows which one ran.
+        let leaderboard: any = null;
+        let f1SourceUrl = "";
+        let liveSource = "openf1";
+        try {
+          const openF1Live = await fetchOpenF1LiveRace({ now });
+          leaderboard = openF1ToWinnerLeaderboard(openF1Live);
+          if (leaderboard && openF1Live) {
+            f1SourceUrl = `https://api.openf1.org/v1/sessions?session_key=${encodeURIComponent(String(openF1Live.session?.session_key ?? ""))}`;
+          } else {
+            leaderboard = null;
+          }
+        } catch {
+          leaderboard = null;
+        }
+        if (!leaderboard) {
+          const { fetchF1LiveLiteLeaderboard } = await import("@/lib/f1-live-lite.mjs");
+          leaderboard = await (fetchF1LiveLiteLeaderboard as any)();
+          liveSource = "formula1dashboard";
+          f1SourceUrl = leaderboard?.source_url ?? "https://app.formula1dashboard.com/live-timing/";
+        }
+        if (!leaderboard) throw new Error("Neither OpenF1 nor the Formula 1 Dashboard exposed a complete active race session.");
         const f1Signals = buildF1MarketPlan({ markets: f1Markets, leaderboard });
         const f1RaceWinnerSignals = buildF1RaceWinnerPlan({ markets: f1Markets, leaderboard });
         for (const signal of f1RaceWinnerSignals) {
