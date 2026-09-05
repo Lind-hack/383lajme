@@ -452,15 +452,64 @@ async function runOfficialSportsRefresh(action: "live_sports", runKey: string, n
             const { error: metadataError } = await admin.from("markets").update({ live_event: enrichedLiveEvent }).eq("id", market.id).eq("status", "open");
             if (metadataError) throw new Error(`Could not persist F1 race metadata for ${market.slug}: ${metadataError.message}`);
           }
-          const opening = await (fetchF1OpeningFactors as any)({ race, roster, now });
+          // Motorsport press, ahead of the grid sheet.
+          //
+          // OpenF1 publishes starting_grid with every penalty already served,
+          // which is authoritative and hours late: the paddock knows on Friday,
+          // the sheet lands on Saturday. These feeds close that window. They are
+          // read for structural facts only — a penalty with a stated number of
+          // places, a withdrawal, a disqualification — and two independent
+          // publishers must agree before anything reaches a price. A failed
+          // fetch or a refusing model yields no penalties and the run continues
+          // on OpenF1 alone, which is the behaviour that existed before.
+          let f1News: { applied: Record<string, unknown>; pending: unknown[]; considered: number; reason: string | null } =
+            { applied: {}, pending: [], considered: 0, reason: "not_run" };
+          try {
+            const [{ fetchF1Headlines, extractF1Penalties }, { llmJSON }] = await Promise.all([
+              import("@/lib/f1-news-sources.mjs"),
+              import("@/lib/llm"),
+            ]);
+            const feed = await (fetchF1Headlines as any)({ now: now.getTime() });
+            // The model only reads when the press has actually said something
+            // since the last look. Feeds are polled every two minutes; asking
+            // Groq to re-read the same thirty headlines seven hundred times a
+            // day would spend the budget on an answer that cannot have changed.
+            // When nothing is fresh the previous verdict is carried forward, so
+            // a penalty found on Friday still holds on Saturday.
+            const carried = (source.live_score_state?.news_penalties ?? {}) as Record<string, unknown>;
+            const freshest = feed.headlines[0]?.ageMin ?? Number.POSITIVE_INFINITY;
+            if (freshest <= 120) {
+              f1News = await (extractF1Penalties as any)({
+                headlines: feed.headlines,
+                roster,
+                now,
+                llm: (system: string, user: string) => llmJSON(system, user, { maxTokens: 700, prefer: "groq" }),
+              });
+            } else {
+              f1News = { applied: carried, pending: [], considered: feed.headlines.length, reason: "no_fresh_headlines" };
+            }
+          } catch (error) {
+            f1News = { applied: {}, pending: [], considered: 0, reason: String(error instanceof Error ? error.message : error) };
+          }
+
+          const opening = await (fetchF1OpeningFactors as any)({ race, roster, now, penalties: f1News.applied });
           const state = {
             key: `f1-pre-match:${race.event_id}:${opening.model_version}:${JSON.stringify(opening.probabilities)}`,
             source_url: race.source_url,
             source_provider: "OpenF1",
             race: { status: "PRE_RACE", current_lap: null, total_laps: null },
             pre_match_inputs: opening.inputs,
+            news_penalties: f1News.applied,
           };
-          const evidence = [{ title: "OpenF1 verified pre-race factors", url: race.source_url, probabilities: opening.probabilities, inputs: opening.inputs, availability: opening.availability }];
+          const evidence = [
+            { title: "OpenF1 verified pre-race factors", url: race.source_url, probabilities: opening.probabilities, inputs: opening.inputs, availability: opening.availability },
+            ...Object.values(f1News.applied).map((penalty: any) => ({
+              title: `${penalty.driver}: ${penalty.reason}`,
+              url: penalty.source,
+              publishers: penalty.publishers,
+              cited_urls: penalty.cited_urls,
+            })),
+          ];
           for (const market of futureF1Markets) {
             const marketState = { ...state, previous_probabilities: market.reference_probabilities ?? null };
             try {
