@@ -4,7 +4,7 @@
   "totalArticles": 57,
   "sourceCount": 28,
   "stanceVersion": 3,
-  "unattributed": 170,
+  "unattributed": 182,
   "nonEditorial": 2,
   "wrongKosovo": 0,
   "countries": {
@@ -1004,7 +1004,7 @@
         {
           "name": "iGaming Polska",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Mistrzostwa Świata Socca 2026: terminarz, harmonogram i wyniki - iGaming Polska",
@@ -1018,12 +1018,25 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Mistrzostwa Świata Socca 2026: Wyniki, terminarz - iGaming Polska",
+              "albanianTitle": "Kampionati Botëror i Socca 2026: Rezultatet dhe orari i ndeshjeve - iGaming Polska",
+              "blurb": "Platforma iGaming Polska publikon rezultatet dhe orarin e ndeshjeve për Kampionatin Botëror të Socca-s të vitit 2026.",
+              "imageUrl": null,
+              "url": "https://igamingpolska.pl/mistrzostwa-swiata-socca-2026-terminarz-wyniki/",
+              "date": "2026-09-05",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
           "totalArticles": 1,
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-08-28",
-          "lastSeen": "2026-09-04"
+          "lastSeen": "2026-09-05"
         }
       ],
       "summary": {
@@ -1032,7 +1045,7 @@
         "neutral": 67,
         "negative": 0,
         "n": 3,
-        "excluded": 0,
+        "excluded": 1,
         "confident": false,
         "stanceVersion": 3,
         "movement": {

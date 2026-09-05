@@ -5302,7 +5302,7 @@
         "neutral": 67,
         "negative": 0,
         "n": 3,
-        "excluded": 0,
+        "excluded": 1,
         "confident": false,
         "stanceVersion": 3,
         "movement": {
@@ -5361,6 +5361,14 @@
         "sentiment": "positive"
       },
       {
+        "title": "Opposition gegen die Regierung: Kosovo durchlebt schwierige Zeiten, wir haben immer noch keine Institutionen - gazetaexpress.com",
+        "source": "gazetaexpress.com",
+        "country": "Zvicër",
+        "flag": "🇨🇭",
+        "url": "https://www.gazetaexpress.com/de/Die-Opposition-steht-der-Regierung-gegen%C3%BCber.-Kosovo-durchlebt-schwierige-Zeiten--wir-haben-immer-noch-keine-Institutionen./",
+        "sentiment": "negative"
+      },
+      {
         "title": "FETÖ Kosova'da kök salıyor: Siyasetçi ve bürokratları okullarla avlıyor - Yeni Şafak",
         "source": "Yeni Şafak",
         "country": "Turqi",
@@ -5370,7 +5378,7 @@
       },
       {
         "title": "Kosova Anayasal Çizginin Dışına Çıktı - Kosovahaber.com",
-        "source": "Kosovahaber.com",
+        "source": "kosovahaber.com",
         "country": "Turqi",
         "flag": "🇹🇷",
         "url": "https://kosovahaber.com/haber/kosova-anayasal-cizginin-disina-cikti-105740",
