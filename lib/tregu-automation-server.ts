@@ -462,10 +462,10 @@ async function runOfficialSportsRefresh(action: "live_sports", runKey: string, n
           // publishers must agree before anything reaches a price. A failed
           // fetch or a refusing model yields no penalties and the run continues
           // on OpenF1 alone, which is the behaviour that existed before.
-          let f1News: { applied: Record<string, unknown>; pending: unknown[]; considered: number; reason: string | null } =
-            { applied: {}, pending: [], considered: 0, reason: "not_run" };
+          let f1News: { applied: Record<string, unknown>; pending: unknown[]; considered: number; reason: string | null; signals?: Record<string, unknown>; signals_pending?: unknown[] } =
+            { applied: {}, pending: [], considered: 0, reason: "not_run", signals: {} };
           try {
-            const [{ fetchF1Headlines, extractF1Penalties }, { llmJSON }] = await Promise.all([
+            const [{ fetchF1Headlines, extractF1Penalties, extractF1Signals }, { llmJSON }] = await Promise.all([
               import("@/lib/f1-news-sources.mjs"),
               import("@/lib/llm"),
             ]);
@@ -478,21 +478,31 @@ async function runOfficialSportsRefresh(action: "live_sports", runKey: string, n
             // a penalty found on Friday still holds on Saturday.
             const carried = (source.live_score_state?.news_penalties ?? {}) as Record<string, unknown>;
             const freshest = feed.headlines[0]?.ageMin ?? Number.POSITIVE_INFINITY;
+            const ask = (system: string, user: string) => llmJSON(system, user, { maxTokens: 700, prefer: "groq" });
             if (freshest <= 120) {
-              f1News = await (extractF1Penalties as any)({
-                headlines: feed.headlines,
-                roster,
-                now,
-                llm: (system: string, user: string) => llmJSON(system, user, { maxTokens: 700, prefer: "groq" }),
-              });
+              // Two reads of the same headlines, kept apart on purpose. Facts
+              // about the grid are released from the cap; pace and paddock talk
+              // are not, and mixing them into one call would invite the model
+              // to launder the second as the first.
+              const [penalties, signals] = await Promise.all([
+                (extractF1Penalties as any)({ headlines: feed.headlines, roster, now, llm: ask }),
+                (extractF1Signals as any)({ headlines: feed.headlines, roster, now, llm: ask }),
+              ]);
+              f1News = { ...penalties, signals: signals.applied, signals_pending: signals.pending };
             } else {
-              f1News = { applied: carried, pending: [], considered: feed.headlines.length, reason: "no_fresh_headlines" };
+              f1News = {
+                applied: carried,
+                pending: [],
+                considered: feed.headlines.length,
+                reason: "no_fresh_headlines",
+                signals: (source.live_score_state?.news_signals ?? {}) as Record<string, unknown>,
+              };
             }
           } catch (error) {
-            f1News = { applied: {}, pending: [], considered: 0, reason: String(error instanceof Error ? error.message : error) };
+            f1News = { applied: {}, pending: [], considered: 0, reason: String(error instanceof Error ? error.message : error), signals: {} };
           }
 
-          const opening = await (fetchF1OpeningFactors as any)({ race, roster, now, penalties: f1News.applied });
+          const opening = await (fetchF1OpeningFactors as any)({ race, roster, now, penalties: f1News.applied, signals: f1News.signals ?? {} });
           const state = {
             key: `f1-pre-match:${race.event_id}:${opening.model_version}:${JSON.stringify(opening.probabilities)}`,
             source_url: race.source_url,
@@ -500,6 +510,7 @@ async function runOfficialSportsRefresh(action: "live_sports", runKey: string, n
             race: { status: "PRE_RACE", current_lap: null, total_laps: null },
             pre_match_inputs: opening.inputs,
             news_penalties: f1News.applied,
+            news_signals: f1News.signals ?? {},
           };
           const evidence = [
             { title: "OpenF1 verified pre-race factors", url: race.source_url, probabilities: opening.probabilities, inputs: opening.inputs, availability: opening.availability },
@@ -1062,7 +1073,11 @@ async function f1ChampionshipRunKey(admin: any, now: Date, season: number) {
     return Number.isFinite(raceStart) && now.getTime() >= raceStart - 30 * 60_000 && now.getTime() <= raceStart + 6 * 60 * 60_000;
   });
   if (raceWindow) {
-    return `f1-championship:v3:${season}:race-window:${raceWindow.event_id}:${Math.floor(now.getTime() / (15 * 60_000))}`;
+    // Two minutes while the race is on, matching the race market's own clock.
+    // A fifteen-minute bucket was fine when the title book only moved on a
+    // published classification; now that the running order feeds it, a quarter
+    // of an hour is most of a stint.
+    return `f1-championship:v4:${season}:race-window:${raceWindow.event_id}:${Math.floor(now.getTime() / 120_000)}`;
   }
   return `f1-championship:v3:${season}:${kosovoLocalDate(now)}:${Math.floor(now.getTime() / (15 * 60_000))}`;
 }
@@ -1076,7 +1091,18 @@ export async function runF1ChampionshipAutomation(now = new Date()) {
   if (started.existing) return { ok: true, skipped: true, runKey, reason: "already_processed", run: started.run };
   try {
     const { buildCurrentF1ChampionshipMarket, buildChampionshipMarketTemplate } = await import("@/lib/f1-championship.mjs");
-    const championship = await buildCurrentF1ChampionshipMarket({ now, simulations: 5000 });
+    // The race on track feeds the title book. Every other market on the floor
+    // reacts to a Grand Prix while it is being run; the championship was the
+    // one that waited for the classification, so a driver could take
+    // twenty-five points out of a rival's lead and the title odds would not
+    // move for two hours. A live outage simply means no projection.
+    let liveRace: unknown = null;
+    try {
+      liveRace = await fetchOpenF1LiveRace({ now });
+    } catch {
+      liveRace = null;
+    }
+    const championship = await buildCurrentF1ChampionshipMarket({ now, simulations: 5000, liveRace });
     const template = buildChampionshipMarketTemplate(championship, { now }) as any;
     const { data: matches, error: findError } = await admin.from("markets")
       .select("id,slug,status,b,live_score_state,reference_probabilities,sport_outcomes,outcome_quantities")

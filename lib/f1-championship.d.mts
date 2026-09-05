@@ -21,6 +21,8 @@ export function championshipDecision(standings: unknown[], remainingEvents: unkn
   maximumRemaining: number;
 };
 export function buildChampionshipModel(context: Record<string, unknown>, options?: { simulations?: number }): any;
-export function fetchOpenF1ChampionshipContext(options?: { now?: Date; fetchImpl?: typeof fetch }): Promise<any>;
-export function buildCurrentF1ChampionshipMarket(options?: { now?: Date; fetchImpl?: typeof fetch; simulations?: number }): Promise<any>;
+/** liveRace is a fetchOpenF1LiveRace payload; the running order is scored onto
+ *  the standings before the model reads them. */
+export function fetchOpenF1ChampionshipContext(options?: { now?: Date; fetchImpl?: typeof fetch; liveRace?: unknown }): Promise<any>;
+export function buildCurrentF1ChampionshipMarket(options?: { now?: Date; fetchImpl?: typeof fetch; simulations?: number; liveRace?: unknown }): Promise<any>;
 export function buildChampionshipMarketTemplate(championship: any, options?: { now?: Date }): Record<string, unknown>;
