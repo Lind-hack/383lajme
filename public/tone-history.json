@@ -5335,55 +5335,6 @@
         "stanceVersion": 3
       }
     },
-    "headlines": [
-      {
-        "title": "Historischer Moment für die QSU, ein Kadett aus Kosovo beginnt mit einem Stipendium sein Studium in den USA - albinfo.ch",
-        "source": "albinfo.ch",
-        "country": "Gjermani",
-        "flag": "🇩🇪",
-        "url": "https://www.albinfo.ch/de/moment-historik-per-qsu-ne-kadeti-nga-kosova-nis-studimet-ne-shba-me-burse/",
-        "sentiment": "positive"
-      },
-      {
-        "title": "Moment historique pour la QSU, un cadet du Kosovo commence ses études aux États-Unis grâce à une bourse - albinfo.ch",
-        "source": "albinfo.ch",
-        "country": "Francë",
-        "flag": "🇫🇷",
-        "url": "https://www.albinfo.ch/fr/moment-historik-per-qsu-ne-kadeti-nga-kosova-nis-studimet-ne-shba-me-burse/",
-        "sentiment": "positive"
-      },
-      {
-        "title": "Da Vaccarizzo al Kosovo, il vino ricuce l’Arbëria: Pomillo ambasciatore dell’Hardh Fest - EcoDelloJonio.it",
-        "source": "EcoDelloJonio.it",
-        "country": "Itali",
-        "flag": "🇮🇹",
-        "url": "https://ecodellojonio.it/articoli/territorio/2026/09/da-vaccarizzo-al-kosovo-il-vino-ricuce-l-arberia-pomillo-ambasciatore-dell-hardh-fest",
-        "sentiment": "positive"
-      },
-      {
-        "title": "Opposition gegen die Regierung: Kosovo durchlebt schwierige Zeiten, wir haben immer noch keine Institutionen - gazetaexpress.com",
-        "source": "gazetaexpress.com",
-        "country": "Zvicër",
-        "flag": "🇨🇭",
-        "url": "https://www.gazetaexpress.com/de/Die-Opposition-steht-der-Regierung-gegen%C3%BCber.-Kosovo-durchlebt-schwierige-Zeiten--wir-haben-immer-noch-keine-Institutionen./",
-        "sentiment": "negative"
-      },
-      {
-        "title": "FETÖ Kosova'da kök salıyor: Siyasetçi ve bürokratları okullarla avlıyor - Yeni Şafak",
-        "source": "Yeni Şafak",
-        "country": "Turqi",
-        "flag": "🇹🇷",
-        "url": "https://www.yenisafak.com/dunya/feto-kosovada-kok-saliyor-siyasetci-ve-burokratlari-okullarla-avliyor-4853420",
-        "sentiment": "negative"
-      },
-      {
-        "title": "Kosova Anayasal Çizginin Dışına Çıktı - Kosovahaber.com",
-        "source": "kosovahaber.com",
-        "country": "Turqi",
-        "flag": "🇹🇷",
-        "url": "https://kosovahaber.com/haber/kosova-anayasal-cizginin-disina-cikti-105740",
-        "sentiment": "negative"
-      }
-    ]
+    "headlines": []
   }
 ]
