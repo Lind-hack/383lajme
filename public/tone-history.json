@@ -5164,7 +5164,7 @@
   {
     "date": "2026-09-05",
     "overallIndex": 55,
-    "totalArticles": 56,
+    "totalArticles": 57,
     "sourceCount": 28,
     "stanceVersion": 3,
     "countries": {
@@ -5193,9 +5193,9 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 4,
+        "n": 5,
         "excluded": 0,
-        "confident": false,
+        "confident": true,
         "stanceVersion": 3
       },
       "Francë": {
@@ -5354,11 +5354,19 @@
       },
       {
         "title": "Da Vaccarizzo al Kosovo, il vino ricuce l’Arbëria: Pomillo ambasciatore dell’Hardh Fest - EcoDelloJonio.it",
-        "source": "ecodellojonio.it",
+        "source": "EcoDelloJonio.it",
         "country": "Itali",
         "flag": "🇮🇹",
         "url": "https://ecodellojonio.it/articoli/territorio/2026/09/da-vaccarizzo-al-kosovo-il-vino-ricuce-l-arberia-pomillo-ambasciatore-dell-hardh-fest",
         "sentiment": "positive"
+      },
+      {
+        "title": "FETÖ Kosova'da kök salıyor: Siyasetçi ve bürokratları okullarla avlıyor - Yeni Şafak",
+        "source": "Yeni Şafak",
+        "country": "Turqi",
+        "flag": "🇹🇷",
+        "url": "https://www.yenisafak.com/dunya/feto-kosovada-kok-saliyor-siyasetci-ve-burokratlari-okullarla-avliyor-4853420",
+        "sentiment": "negative"
       },
       {
         "title": "Kosova Anayasal Çizginin Dışına Çıktı - Kosovahaber.com",

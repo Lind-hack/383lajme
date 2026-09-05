@@ -1,10 +1,10 @@
 {
   "lastUpdated": "2026-09-05",
   "overallIndex": 55,
-  "totalArticles": 56,
+  "totalArticles": 57,
   "sourceCount": 28,
   "stanceVersion": 3,
-  "unattributed": 167,
+  "unattributed": 170,
   "nonEditorial": 2,
   "wrongKosovo": 0,
   "countries": {
@@ -88,7 +88,7 @@
         {
           "name": "Balkan Insight",
           "sentiment": "neutral",
-          "articleCount": 4,
+          "articleCount": 5,
           "articles": [
             {
               "title": "Kosovo President’s Election Jeopardised by Party’s Inner Divisions - Balkan Insight",
@@ -141,6 +141,19 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Kosovo Charges Serbian Security Officers Over Jashari Compound Massacre - balkaninsight.com",
+              "albanianTitle": "Kosova ngrit aktakuzë ndaj zyrtarëve të sigurisë serbe për masakrën në kompleksin Jashari",
+              "blurb": "Prokuroria e Kosovës ka ngritur aktakuzë ndaj zyrtarëve të sigurimit serb për masakrën e kryer në kompleksin Jashari.",
+              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/09/viber_image_2026-09-04_14-05-08-143.jpg",
+              "url": "https://balkaninsight.com/2026/09/04/kosovo-charges-serbian-security-officers-over-jashari-compound-massacre/btj/",
+              "date": "2026-09-04",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim neutral",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
           "totalArticles": 10,
@@ -154,9 +167,9 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 4,
+        "n": 5,
         "excluded": 0,
-        "confident": false,
+        "confident": true,
         "stanceVersion": 3
       }
     },
