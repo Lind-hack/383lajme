@@ -413,6 +413,7 @@ async function runOfficialSportsRefresh(action: "live_sports", runKey: string, n
         results.push({ slug: signal.spainMarket.slug, status: "failed", error }, { slug: signal.argentinaMarket.slug, status: "failed", error });
       }
     }
+    const f1QualifyingEmails: Array<{ question: string; slug: string; sourceUrl: string; rows: Array<{ grid: number; key: string; name: string; team: string; colour?: string | null; face?: string | null; before?: number | null; after: number; penalty?: string | null }> }> = [];
     const f1EmailUpdates: Array<{ question: string; slug: string; driver_code: string; driver_name: string; team_name: string; team_logo_url?: string | null; headshot_url?: string | null; team_colour?: string | null; note?: string | null; position: number | null; gap: string; pits: number; before_probability: number; after_probability: number; source_url: string; graph: Record<string, unknown> }> = [];
     if ((f1Markets ?? []).length) {
       try {
@@ -548,9 +549,48 @@ async function runOfficialSportsRefresh(action: "live_sports", runKey: string, n
               // moves. Gated on three points so a two-minute drift does not
               // mail twenty-two cards; a grid, a penalty or a withdrawal clears
               // it comfortably and nothing else does.
+              // Qualifying has landed when a starting grid appears where there
+              // was none. It is the heaviest term in the model — weight 1.00,
+              // about 135x from pole to the back row — so it gets its own
+              // report rather than another generic market update, and only on
+              // the transition, so it is sent once and not every two minutes.
+              const previousInputs = (market.live_score_state?.pre_match_inputs ?? {}) as Record<string, { starting_grid?: number | null }>;
+              const hadGrid = Object.values(previousInputs).some((input) => input?.starting_grid != null);
+              const inputsNow = (opening.inputs ?? {}) as Record<string, any>;
+              const hasGrid = Object.values(inputsNow).some((input) => input?.starting_grid != null);
+
               const before = (market.reference_probabilities ?? {}) as Record<string, number>;
               const after = opening.probabilities as Record<string, number>;
               const biggestMove = Math.max(0, ...Object.keys(after).map((key) => Math.abs(Number(after[key] ?? 0) - Number(before[key] ?? 0))));
+
+              if (!hadGrid && hasGrid) {
+                const seats = new Map((market.sport_outcomes ?? []).map((outcome: any) => [String(outcome?.key ?? ""), outcome]));
+                f1QualifyingEmails.push({
+                  question: market.question,
+                  slug: market.slug,
+                  sourceUrl: race.source_url,
+                  rows: Object.entries(inputsNow)
+                    .filter(([, input]) => input?.starting_grid != null)
+                    .map(([key, input]) => {
+                      const seat: any = seats.get(key) ?? {};
+                      return {
+                        grid: Number(input.starting_grid),
+                        key,
+                        name: String(seat.label ?? key),
+                        team: String(seat.team ?? ""),
+                        colour: f1TeamColor(String(seat.team ?? ""), seat.team_colour),
+                        face: f1DriverHeadshot(key, seat.headshot_url) ?? null,
+                        before: Number(before[key] ?? NaN),
+                        after: Number(after[key] ?? 0),
+                        penalty: input.not_starting
+                          ? `Nuk niset${input.penalty_reason ? " — " + input.penalty_reason : ""}`
+                          : input.grid_penalty_places
+                            ? `Penalizim ${input.grid_penalty_places} vendesh${input.penalty_reason ? " — " + input.penalty_reason : ""}`
+                            : null,
+                      };
+                    }),
+                });
+              }
               if (biggestMove >= 0.03) {
                 const outcomes = new Map((market.sport_outcomes ?? []).map((outcome: any) => [String(outcome?.key ?? ""), outcome]));
                 for (const [key] of Object.entries(after).sort((a, b) => Number(b[1]) - Number(a[1]))) {
@@ -686,6 +726,16 @@ async function runOfficialSportsRefresh(action: "live_sports", runKey: string, n
         await sendTreguLiveNotification({ kind: "f1_live_update", runKey, changes: f1EmailUpdates });
       } catch (emailError) {
         console.error("Formula 1 live notification failed after persistence:", String(emailError instanceof Error ? emailError.message : emailError));
+      }
+    }
+    // Qualifying gets its own message, one per market, and only on the run
+    // where the grid first appeared. A transport failure is logged rather than
+    // thrown: the prices are already persisted and retrying would duplicate.
+    for (const qualifying of f1QualifyingEmails) {
+      try {
+        await sendTreguLiveNotification({ kind: "f1_qualifying", runKey, ...qualifying });
+      } catch (emailError) {
+        console.error("Formula 1 qualifying notification failed after persistence:", String(emailError instanceof Error ? emailError.message : emailError));
       }
     }
     if (officialMarketEmailUpdates.length) {

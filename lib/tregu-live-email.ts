@@ -1,5 +1,5 @@
 import * as nodemailer from "nodemailer";
-import { buildArgentinaSpainLiveEmail, buildF1LiveEmail, buildOfficialMarketUpdateEmail, buildTreguRepriceEmail } from "./tregu-live-email-content.mjs";
+import { buildArgentinaSpainLiveEmail, buildF1LiveEmail, buildF1QualifyingEmail, buildOfficialMarketUpdateEmail, buildTreguRepriceEmail } from "./tregu-live-email-content.mjs";
 
 type NewsUpdate = {
   kind: "news_update";
@@ -44,7 +44,18 @@ type OfficialMarketUpdate = {
   changes: Array<{ question: string; slug: string; kind: string; before: Record<string, unknown>; after: Record<string, unknown>; timestamp: string; source_url?: string }>;
 };
 
-type TreguLiveEmail = NewsUpdate | PairedBinaryLiveUpdate | F1LiveUpdate | OfficialMarketUpdate;
+/** Qualifying sets the grid, which is the heaviest term in the opening model. */
+type F1QualifyingUpdate = {
+  kind: "f1_qualifying";
+  runKey: string;
+  question: string;
+  slug: string;
+  sourceUrl?: string;
+  provisional?: boolean;
+  rows: Array<{ grid: number; key: string; name: string; team: string; colour?: string | null; face?: string | null; before?: number | null; after: number; penalty?: string | null }>;
+};
+
+type TreguLiveEmail = NewsUpdate | PairedBinaryLiveUpdate | F1LiveUpdate | OfficialMarketUpdate | F1QualifyingUpdate;
 
 function configuredRecipient() {
   const recipient = (process.env.TREGU_LIVE_RECIPIENT ?? process.env.RECIPIENT_EMAIL ?? "").trim();
@@ -63,7 +74,9 @@ function gmailTransport() {
 export async function sendTreguLiveNotification(notification: TreguLiveEmail) {
   const recipient = configuredRecipient();
   const { user, transport } = gmailTransport();
-  const message = notification.kind === "paired_binary_live_update"
+  const message = notification.kind === "f1_qualifying"
+    ? buildF1QualifyingEmail({ runKey: notification.runKey, question: notification.question, slug: notification.slug, rows: notification.rows, sourceUrl: notification.sourceUrl, provisional: notification.provisional })
+    : notification.kind === "paired_binary_live_update"
     ? buildArgentinaSpainLiveEmail({ runKey: notification.runKey, changes: notification.changes })
     : notification.kind === "f1_live_update"
       ? buildF1LiveEmail({ runKey: notification.runKey, changes: notification.changes })
