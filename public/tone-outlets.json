@@ -2,9 +2,9 @@
   "lastUpdated": "2026-09-05",
   "overallIndex": 55,
   "totalArticles": 57,
-  "sourceCount": 28,
+  "sourceCount": 31,
   "stanceVersion": 3,
-  "unattributed": 175,
+  "unattributed": 190,
   "nonEditorial": 2,
   "wrongKosovo": 0,
   "countries": {
@@ -528,6 +528,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-05",
           "lastSeen": "2026-09-02"
+        },
+        {
+          "name": "oasport.it",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Dove si svolgerrano i Giochi del Mediterraneo 2030? Nazione ospitante e date - oasport.it",
+              "albanianTitle": "Ku do të mbahen Lojërat Mesdhetare 2030? Shteti nikoqir dhe datat",
+              "blurb": "Përcaktohet shteti nikoqir dhe datat e mbajtjes së Lojërave Mesdhetare për vitin 2030 në këtë njoftim zyrtar.",
+              "imageUrl": "https://www.oasport.it/wp-content/uploads/2026/09/Giochi-del-Mediterraneo-IPA-Sport.jpg",
+              "url": "https://www.oasport.it/2026/09/dove-si-svolgerrano-i-giochi-del-mediterraneo-2030-nazione-ospitante-e-date/",
+              "date": "2026-09-04",
+              "sentiment": "unknown",
+              "reason": "Headline does not mention Kosovo",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-05",
+          "lastSeen": "2026-09-04"
         }
       ],
       "summary": {
@@ -536,7 +560,7 @@
         "neutral": 92,
         "negative": 0,
         "n": 13,
-        "excluded": 0,
+        "excluded": 1,
         "confident": true,
         "stanceVersion": 3
       }
@@ -702,7 +726,7 @@
               "speaker": ""
             }
           ],
-          "totalArticles": 20,
+          "totalArticles": 22,
           "trend": "pozitiv",
           "firstSeen": "2026-09-05",
           "lastSeen": "2026-09-04"
@@ -714,7 +738,7 @@
         "neutral": 82,
         "negative": 0,
         "n": 22,
-        "excluded": 0,
+        "excluded": 2,
         "confident": true,
         "stanceVersion": 3,
         "movement": {
@@ -1037,6 +1061,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-08-28",
           "lastSeen": "2026-09-05"
+        },
+        {
+          "name": "igamingpolska.pl",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Mistrzostwa Świata Socca 2026: Wyniki, terminarz - igamingpolska.pl",
+              "albanianTitle": "Kampionati Botëror i Socca 2026: Rezultatet dhe orari i ndeshjeve",
+              "blurb": "Kampionati Botëror i Socca 2026 po zhvillohet me rezultatet dhe orarin e ndeshjeve të publikuara për publikun e gjerë.",
+              "imageUrl": null,
+              "url": "https://igamingpolska.pl/mistrzostwa-swiata-socca-2026-terminarz-wyniki/",
+              "date": "2026-09-05",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-02",
+          "lastSeen": "2026-09-05"
         }
       ],
       "summary": {
@@ -1045,7 +1093,7 @@
         "neutral": 67,
         "negative": 0,
         "n": 3,
-        "excluded": 1,
+        "excluded": 2,
         "confident": false,
         "stanceVersion": 3,
         "movement": {
@@ -1060,6 +1108,30 @@
     },
     "Turqi": {
       "outlets": [
+        {
+          "name": "TRT Avaz",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Üsküp’te “Osmanlı Avrupası’nda Edebiyat, 1400-1800” Sempozyumu düzenlendi - Türkistan'dan - Haber - TRT Avaz",
+              "albanianTitle": "Në Shkup u mbajt simpoziumi \"Letërsia në Evropën Osmane, 1400-1800\"",
+              "blurb": "Në Shkup është mbajtur simpoziumi mbi letërsinë në Evropën Osmane gjatë periudhës 1400-1800 me pjesëmarrjen e studiuesve të ndryshëm.",
+              "imageUrl": "https://www.trtavaz.com.tr/uploads/photos/2026/09/05/75406f9035e44aa493ff66962e977970.jpg?w=640",
+              "url": "https://www.trtavaz.com.tr/haber/tur/turkistandan/uskup-te-osmanli-avrupasi-nda-edebiyat-1400-1800-sempozyumu-duzenlendi/6a9bda56e72ad848a0b1de17",
+              "date": "2026-09-05",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-05",
+          "lastSeen": "2026-09-05"
+        },
         {
           "name": "TRT Haber",
           "sentiment": "neutral",
@@ -1091,7 +1163,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 1,
-        "excluded": 0,
+        "excluded": 1,
         "confident": false,
         "stanceVersion": 3
       }

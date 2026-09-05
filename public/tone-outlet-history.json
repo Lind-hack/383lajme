@@ -2544,7 +2544,7 @@
       "negative": 0,
       "unknown": 1,
       "firstSeen": "2026-09-02",
-      "lastSeen": "2026-09-01",
+      "lastSeen": "2026-09-05",
       "urls": [
         "https://igamingpolska.pl/mistrzostwa-swiata-socca-2026-terminarz-wyniki/"
       ]
@@ -2707,11 +2707,11 @@
     },
     "albinfo.ch": {
       "country": "Zvicër",
-      "total": 20,
+      "total": 22,
       "positive": 4,
       "neutral": 16,
       "negative": 0,
-      "unknown": 0,
+      "unknown": 2,
       "firstSeen": "2026-09-05",
       "lastSeen": "2026-09-04",
       "urls": [
@@ -2734,7 +2734,9 @@
         "https://www.albinfo.ch/de/cendrine-berisha-nga-zvicra-drejt-skenes-se-modes-shpallet-miss-inteligjenca-kosova-2026/",
         "https://www.albinfo.ch/de/astronomja-pranvera-hyseni-perfaqeson-kosoven-ne-konferencen-e-planetariumeve-ne-shba/",
         "https://www.albinfo.ch/de/kianoush-rostami-i-sjell-kosoves-medaljen-e-tete-ne-taranto-2026/",
-        "https://www.albinfo.ch/de/filmi-i-regjisorit-kosovar-besim-ugzmajli-perzgjidhet-ne-festivalin-kualifikues-per-oscar/"
+        "https://www.albinfo.ch/de/filmi-i-regjisorit-kosovar-besim-ugzmajli-perzgjidhet-ne-festivalin-kualifikues-per-oscar/",
+        "https://www.albinfo.ch/de/dua-lipa-mund-te-jete-nje-nga-emrat-kryesore-te-coachella-2027/",
+        "https://www.albinfo.ch/de/guret-e-adriatikut-behen-art-luan-bajraktari-me-ekspoziten-beneath-the-tongue-a-pebble-ne-kroaci/"
       ]
     },
     "ekai.pl": {
@@ -2761,6 +2763,32 @@
       "lastSeen": "2026-09-02",
       "urls": [
         "https://www.ilsole24ore.com/art/dalla-somalia-kosovo-autunno-prima-linea-le-forze-armate-AJzY7Yg"
+      ]
+    },
+    "oasport.it": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-05",
+      "lastSeen": "2026-09-04",
+      "urls": [
+        "https://www.oasport.it/2026/09/dove-si-svolgerrano-i-giochi-del-mediterraneo-2030-nazione-ospitante-e-date/"
+      ]
+    },
+    "TRT Avaz": {
+      "country": "Turqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-05",
+      "lastSeen": "2026-09-05",
+      "urls": [
+        "https://www.trtavaz.com.tr/haber/tur/turkistandan/uskup-te-osmanli-avrupasi-nda-edebiyat-1400-1800-sempozyumu-duzenlendi/6a9bda56e72ad848a0b1de17"
       ]
     }
   }

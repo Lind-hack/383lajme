@@ -5165,7 +5165,7 @@
     "date": "2026-09-05",
     "overallIndex": 55,
     "totalArticles": 57,
-    "sourceCount": 28,
+    "sourceCount": 31,
     "stanceVersion": 3,
     "countries": {
       "Gjermani": {
@@ -5214,7 +5214,7 @@
         "neutral": 92,
         "negative": 0,
         "n": 13,
-        "excluded": 0,
+        "excluded": 1,
         "confident": true,
         "stanceVersion": 3
       },
@@ -5234,7 +5234,7 @@
         "neutral": 82,
         "negative": 0,
         "n": 22,
-        "excluded": 0,
+        "excluded": 2,
         "confident": true,
         "stanceVersion": 3,
         "movement": {
@@ -5302,7 +5302,7 @@
         "neutral": 67,
         "negative": 0,
         "n": 3,
-        "excluded": 1,
+        "excluded": 2,
         "confident": false,
         "stanceVersion": 3,
         "movement": {
@@ -5320,7 +5320,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 1,
-        "excluded": 0,
+        "excluded": 1,
         "confident": false,
         "stanceVersion": 3
       },
@@ -5335,6 +5335,47 @@
         "stanceVersion": 3
       }
     },
-    "headlines": []
+    "headlines": [
+      {
+        "title": "Historischer Moment für die QSU, ein Kadett aus Kosovo beginnt mit einem Stipendium sein Studium in den USA - albinfo.ch",
+        "source": "albinfo.ch",
+        "country": "Gjermani",
+        "flag": "🇩🇪",
+        "url": "https://www.albinfo.ch/de/moment-historik-per-qsu-ne-kadeti-nga-kosova-nis-studimet-ne-shba-me-burse/",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Moment historique pour la QSU, un cadet du Kosovo commence ses études aux États-Unis grâce à une bourse - albinfo.ch",
+        "source": "albinfo.ch",
+        "country": "Francë",
+        "flag": "🇫🇷",
+        "url": "https://www.albinfo.ch/fr/moment-historik-per-qsu-ne-kadeti-nga-kosova-nis-studimet-ne-shba-me-burse/",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Da Vaccarizzo al Kosovo, il vino ricuce l’Arbëria: Pomillo ambasciatore dell’Hardh Fest - EcoDelloJonio.it",
+        "source": "EcoDelloJonio.it",
+        "country": "Itali",
+        "flag": "🇮🇹",
+        "url": "https://ecodellojonio.it/articoli/territorio/2026/09/da-vaccarizzo-al-kosovo-il-vino-ricuce-l-arberia-pomillo-ambasciatore-dell-hardh-fest",
+        "sentiment": "positive"
+      },
+      {
+        "title": "FETÖ Kosova'da kök salıyor: Siyasetçi ve bürokratları okullarla avlıyor - Yeni Şafak",
+        "source": "Yeni Şafak",
+        "country": "Turqi",
+        "flag": "🇹🇷",
+        "url": "https://www.yenisafak.com/dunya/feto-kosovada-kok-saliyor-siyasetci-ve-burokratlari-okullarla-avliyor-4853420",
+        "sentiment": "negative"
+      },
+      {
+        "title": "Kosova Anayasal Çizginin Dışına Çıktı - Kosovahaber.com",
+        "source": "Kosovahaber.com",
+        "country": "Turqi",
+        "flag": "🇹🇷",
+        "url": "https://kosovahaber.com/haber/kosova-anayasal-cizginin-disina-cikti-105740",
+        "sentiment": "negative"
+      }
+    ]
   }
 ]
