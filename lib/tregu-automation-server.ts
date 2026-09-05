@@ -11,6 +11,7 @@ import { classifyProviderFailure } from "@/lib/tregu-ai-provider.mjs";
 import { DAILY_MARKET_CONTRACT_VERSION } from "@/lib/tregu-daily-market-quality.mjs";
 import { hasPersistedMaterialPairedBinaryChange } from "@/lib/tregu-live-email-content.mjs";
 import { sendTreguLiveNotification } from "@/lib/tregu-live-email";
+import { f1DriverHeadshot, f1TeamColor } from "@/lib/f1-driver-presentation";
 
 type AdminClient = NonNullable<ReturnType<typeof createAdminClient>>;
 type RunAction = "daily_drafts" | "reprice" | "live_sports" | "tregu_live" | "pre_match_refresh";
@@ -412,7 +413,7 @@ async function runOfficialSportsRefresh(action: "live_sports", runKey: string, n
         results.push({ slug: signal.spainMarket.slug, status: "failed", error }, { slug: signal.argentinaMarket.slug, status: "failed", error });
       }
     }
-    const f1EmailUpdates: Array<{ question: string; slug: string; driver_code: string; driver_name: string; team_name: string; team_logo_url?: string | null; position: number; gap: string; pits: number; before_probability: number; after_probability: number; source_url: string; graph: Record<string, unknown> }> = [];
+    const f1EmailUpdates: Array<{ question: string; slug: string; driver_code: string; driver_name: string; team_name: string; team_logo_url?: string | null; headshot_url?: string | null; team_colour?: string | null; note?: string | null; position: number | null; gap: string; pits: number; before_probability: number; after_probability: number; source_url: string; graph: Record<string, unknown> }> = [];
     if ((f1Markets ?? []).length) {
       try {
         const futureF1Groups = new Map<string, any[]>();
@@ -542,6 +543,48 @@ async function runOfficialSportsRefresh(action: "live_sports", runKey: string, n
               if (snapshotError) throw new Error(snapshotError.message);
               await captureOfficialMarketChange(market, "f1_pre_match_state", race.source_url);
               f1Results.push({ slug: market.slug, status: "applied" });
+
+              // The whole field, by name and face, whenever the book actually
+              // moves. Gated on three points so a two-minute drift does not
+              // mail twenty-two cards; a grid, a penalty or a withdrawal clears
+              // it comfortably and nothing else does.
+              const before = (market.reference_probabilities ?? {}) as Record<string, number>;
+              const after = opening.probabilities as Record<string, number>;
+              const biggestMove = Math.max(0, ...Object.keys(after).map((key) => Math.abs(Number(after[key] ?? 0) - Number(before[key] ?? 0))));
+              if (biggestMove >= 0.03) {
+                const outcomes = new Map((market.sport_outcomes ?? []).map((outcome: any) => [String(outcome?.key ?? ""), outcome]));
+                for (const [key] of Object.entries(after).sort((a, b) => Number(b[1]) - Number(a[1]))) {
+                  const outcome: any = outcomes.get(key) ?? {};
+                  const input: any = (opening.inputs ?? {})[key] ?? {};
+                  const note = input.not_starting
+                    ? `Nuk niset — ${input.penalty_reason ?? "tërhequr"}`
+                    : input.grid_penalty_places
+                      ? `Nis P${input.starting_grid} · penalizim ${input.grid_penalty_places} vendesh`
+                      : input.starting_grid
+                        ? `Nis P${input.starting_grid}`
+                        : input.qualifying_position
+                          ? `Kualifikimi P${input.qualifying_position}`
+                          : "Para kualifikimit";
+                  f1EmailUpdates.push({
+                    question: market.question,
+                    slug: market.slug,
+                    driver_code: key,
+                    driver_name: String(outcome.label ?? key),
+                    team_name: String(outcome.team ?? "Ekipi i papërcaktuar"),
+                    team_logo_url: outcome.team_logo_url ?? outcome.logo ?? null,
+                    headshot_url: f1DriverHeadshot(key, outcome.headshot_url) ?? null,
+                    team_colour: f1TeamColor(String(outcome.team ?? ""), outcome.team_colour),
+                    note,
+                    position: null,
+                    gap: "",
+                    pits: 0,
+                    before_probability: Number(before[key] ?? 0),
+                    after_probability: Number(after[key] ?? 0),
+                    source_url: input.penalty_source ?? race.source_url,
+                    graph: {},
+                  } as any);
+                }
+              }
             } catch (error) {
               f1Results.push({ slug: market.slug, status: "failed", error: String(error instanceof Error ? error.message : error) });
             }
@@ -581,7 +624,7 @@ async function runOfficialSportsRefresh(action: "live_sports", runKey: string, n
             f1Results.push({ slug: signal.market.slug, status: "applied" });
             const mappedOutcome = (signal.market.sport_outcomes ?? []).find((outcome: any) => String(outcome.key ?? "").toUpperCase() === String(signal.config.driver_code).toUpperCase() || String(outcome.driver_code ?? "").toUpperCase() === String(signal.config.driver_code).toUpperCase());
             const graph = await readPersistedMarketGraph(admin, String(signal.market.id));
-            f1EmailUpdates.push({ question: signal.market.question, slug: signal.market.slug, driver_code: signal.config.driver_code, driver_name: String(mappedOutcome?.label ?? signal.row.driver ?? signal.config.driver_code), team_name: String(mappedOutcome?.team ?? signal.row.team ?? "Team not supplied"), team_logo_url: mappedOutcome?.team_logo_url ?? mappedOutcome?.logo ?? null, position: signal.row.position, gap: signal.row.gap, pits: signal.row.pits, before_probability: Number(oracle.previous_price_yes), after_probability: Number(oracle.new_price_yes), source_url: leaderboard.source_url, graph });
+            f1EmailUpdates.push({ question: signal.market.question, slug: signal.market.slug, driver_code: signal.config.driver_code, driver_name: String(mappedOutcome?.label ?? signal.row.driver ?? signal.config.driver_code), team_name: String(mappedOutcome?.team ?? signal.row.team ?? "Team not supplied"), team_logo_url: mappedOutcome?.team_logo_url ?? mappedOutcome?.logo ?? null, headshot_url: f1DriverHeadshot(String(signal.config.driver_code ?? ""), (mappedOutcome as any)?.headshot_url) ?? null, team_colour: f1TeamColor(String(mappedOutcome?.team ?? signal.row.team ?? ""), (mappedOutcome as any)?.team_colour), note: null, position: signal.row.position, gap: signal.row.gap, pits: signal.row.pits, before_probability: Number(oracle.previous_price_yes), after_probability: Number(oracle.new_price_yes), source_url: leaderboard.source_url, graph });
           } catch (f1OracleError) { f1Results.push({ slug: signal.market.slug, status: "failed", error: String(f1OracleError instanceof Error ? f1OracleError.message : f1OracleError) }); }
         }
         // A FINISHED classification settles explicitly mapped markets only via

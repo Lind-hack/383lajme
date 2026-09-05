@@ -35,7 +35,7 @@ type PairedBinaryLiveUpdate = {
 type F1LiveUpdate = {
   kind: "f1_live_update";
   runKey: string;
-  changes: Array<{ question: string; slug: string; driver_code: string; driver_name: string; team_name: string; team_logo_url?: string | null; position: number; gap: string; pits: number; before_probability: number; after_probability: number; source_url: string; graph: Record<string, unknown> }>;
+  changes: Array<{ question: string; slug: string; driver_code: string; driver_name: string; team_name: string; team_logo_url?: string | null; headshot_url?: string | null; team_colour?: string | null; note?: string | null; position: number | null; gap: string; pits: number; before_probability: number; after_probability: number; source_url: string; graph: Record<string, unknown> }>;
 };
 
 type OfficialMarketUpdate = {
