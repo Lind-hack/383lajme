@@ -197,9 +197,9 @@
     },
     "ANSA": {
       "country": "Itali",
-      "total": 13,
+      "total": 14,
       "positive": 0,
-      "neutral": 9,
+      "neutral": 10,
       "negative": 0,
       "unknown": 4,
       "firstSeen": "2026-08-20",
@@ -217,7 +217,8 @@
         "https://www.ansa.it/sito/notizie/mondo/news_dalle_ambasciate/2026/08/29/ambasciatore-in-kosovo-antonini-incontra-la-presidente-ad-interim-haxhiu_16bdddb8-9b56-4b96-a5cb-53107756bc7b.html",
         "https://www.ansa.it/nuova_europa/en/news/sections/politics/2026/09/02/kosovo-kurti-ldk-presidential-election-agreement-is-in-jeopardy_9f20ca05-94a0-4b5e-81c4-64c4556f89e1.html",
         "https://www.ansa.it/amp/nuova_europa/it/notizie/rubriche/altrenews/2026/09/02/in-kosovo-rischia-di-saltare-accordo-kurti-ldk-su-elezione-presidente_944ef000-13c1-4420-a456-d75c4b144d9f.html",
-        "https://www.ansa.it/europa/notizie/rubriche/altrenews/2026/09/04/negoziatore-kosovo-lo-stallo-sulladesione-mostra-mancanza-di-leadership-ue_00cd0876-fc23-4285-a25f-4bdf2f067b44.html"
+        "https://www.ansa.it/europa/notizie/rubriche/altrenews/2026/09/04/negoziatore-kosovo-lo-stallo-sulladesione-mostra-mancanza-di-leadership-ue_00cd0876-fc23-4285-a25f-4bdf2f067b44.html",
+        "https://www.ansa.it/amp/nuova_europa/it/notizie/nazioni/kosovo/2026/09/02/in-kosovo-rischia-di-saltare-accordo-kurti-ldk-su-elezione-presidente_4abb9b04-441f-4e93-91a1-56a1d07b67c8.html"
       ]
     },
     "Virgilio": {
@@ -612,18 +613,19 @@
     },
     "Gazzetta.gr": {
       "country": "Greqi",
-      "total": 4,
+      "total": 5,
       "positive": 0,
-      "neutral": 4,
+      "neutral": 5,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-19",
-      "lastSeen": "2026-08-28",
+      "lastSeen": "2026-09-05",
       "urls": [
         "https://www.gazzetta.gr/volleyball/2562471/mesogeiakoi-agones-2026-kontra-sto-kosobo-premiera-gia-tin-ethniki-andron",
         "https://www.gazzetta.gr/volleyball/2562585/mesogeiakoi-agones-2026-me-dexi-i-ethniki-andron-3-0-kosobo",
         "https://www.gazzetta.gr/football/uefa-nations-league/live-kosovo-irlandia-24-09-2026",
-        "https://www.gazzetta.gr/football/uefa-nations-league/live-aystria-kosovo-27-09-2026"
+        "https://www.gazzetta.gr/football/uefa-nations-league/live-aystria-kosovo-27-09-2026",
+        "https://www.gazzetta.gr/football/uefa-nations-league/live-kosovo-aystria-04-10-2026"
       ]
     },
     "NewsIT": {
@@ -708,15 +710,16 @@
     },
     "In.gr": {
       "country": "Greqi",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-21",
-      "lastSeen": "2026-08-21",
+      "lastSeen": "2026-09-04",
       "urls": [
-        "https://www.in.gr/2026/08/21/sports/othersports/mesogeiakoi-agones-me-to-deksi-ksekinise-i-ethniki-volei-gynaikon-3-0-to-kosovo/"
+        "https://www.in.gr/2026/08/21/sports/othersports/mesogeiakoi-agones-me-to-deksi-ksekinise-i-ethniki-volei-gynaikon-3-0-to-kosovo/",
+        "https://www.in.gr/2026/09/04/world/kosovo-i-eisaggelia-askise-dioksi-se-35-servous-proin-astynomikous-gia-ti-sfagi-tou-prekaz-tou-1998/"
       ]
     },
     "Skai.gr": {
@@ -735,15 +738,16 @@
     },
     "ertnews.gr": {
       "country": "Greqi",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-21",
-      "lastSeen": "2026-08-21",
+      "lastSeen": "2026-09-04",
       "urls": [
-        "https://www.ertnews.gr/eidiseis/diethni/kosovo-entaseis-metaksy-servon-kai-alvanon-prokalei-to-anoigma-gefyras/"
+        "https://www.ertnews.gr/eidiseis/diethni/kosovo-entaseis-metaksy-servon-kai-alvanon-prokalei-to-anoigma-gefyras/",
+        "https://www.ertnews.gr/roi-idiseon/kosovo-dioksi-se-35-proin-servous-astynomikous-gia-ti-sfagi-sto-prekaz/"
       ]
     },
     "Fosonline": {
@@ -2686,6 +2690,64 @@
       "lastSeen": "2026-09-04",
       "urls": [
         "https://fpress.gr/epicheirimatikotita/siamisiis-i-helleniq-energy-chtizei-energeiako-diadromo-pros-ta-valkania/"
+      ]
+    },
+    "waz.de": {
+      "country": "Gjermani",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-05",
+      "lastSeen": "2026-09-03",
+      "urls": [
+        "https://www.waz.de/sport/lokalsport/essen/article413042332/socca-wm-spannung-und-tore-ueber-30-fotos-vom-letzten-vorrundenspieltag.html"
+      ]
+    },
+    "albinfo.ch": {
+      "country": "Zvicër",
+      "total": 20,
+      "positive": 4,
+      "neutral": 16,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-05",
+      "lastSeen": "2026-09-04",
+      "urls": [
+        "https://www.albinfo.ch/de/talenti-i-bayern-munich-zgjedh-kosoven-ambasadori-i-jep-pasaporten-konfirmon-se-do-te-luaje-per-dardanet/",
+        "https://www.albinfo.ch/de/moment-historik-per-qsu-ne-kadeti-nga-kosova-nis-studimet-ne-shba-me-burse/",
+        "https://www.albinfo.ch/de/kosove-efta-marreveshja-e-tregtise-se-lire-hyn-ne-fuqi-me-1-tetor/",
+        "https://www.albinfo.ch/de/i-riu-nga-kosova-fiton-cmim-nderkombetar-per-projektin-e-ai-se-ne-gjuhen-shqipe-te-shenjave/",
+        "https://www.albinfo.ch/fr/talenti-i-bayern-munich-zgjedh-kosoven-ambasadori-i-jep-pasaporten-konfirmon-se-do-te-luaje-per-dardanet/",
+        "https://www.albinfo.ch/fr/moment-historik-per-qsu-ne-kadeti-nga-kosova-nis-studimet-ne-shba-me-burse/",
+        "https://www.albinfo.ch/fr/kosova-pranon-flamurin-e-lojerave-mesdhetare-nis-rrugetimi-drejt-prishtina-2030/",
+        "https://www.albinfo.ch/fr/kosove-efta-marreveshja-e-tregtise-se-lire-hyn-ne-fuqi-me-1-tetor/",
+        "https://www.albinfo.ch/fr/kosova-kthehet-nga-lojerat-mesdhetare-me-9-te-medalje-te-fituara/",
+        "https://www.albinfo.ch/fr/kianoush-rostami-i-sjell-kosoves-medaljen-e-tete-ne-taranto-2026/",
+        "https://www.albinfo.ch/fr/astronomja-pranvera-hyseni-perfaqeson-kosoven-ne-konferencen-e-planetariumeve-ne-shba/",
+        "https://www.albinfo.ch/fr/reconnect-bashkoi-16-te-rinj-nga-zvicra-dhe-kosova-ne-prizren/",
+        "https://www.albinfo.ch/fr/filmi-i-regjisorit-kosovar-besim-ugzmajli-perzgjidhet-ne-festivalin-kualifikues-per-oscar/",
+        "https://www.albinfo.ch/de/kosova-pranon-flamurin-e-lojerave-mesdhetare-nis-rrugetimi-drejt-prishtina-2030/",
+        "https://www.albinfo.ch/de/reconnect-bashkoi-16-te-rinj-nga-zvicra-dhe-kosova-ne-prizren/",
+        "https://www.albinfo.ch/de/kosova-kthehet-nga-lojerat-mesdhetare-me-9-te-medalje-te-fituara/",
+        "https://www.albinfo.ch/de/cendrine-berisha-nga-zvicra-drejt-skenes-se-modes-shpallet-miss-inteligjenca-kosova-2026/",
+        "https://www.albinfo.ch/de/astronomja-pranvera-hyseni-perfaqeson-kosoven-ne-konferencen-e-planetariumeve-ne-shba/",
+        "https://www.albinfo.ch/de/kianoush-rostami-i-sjell-kosoves-medaljen-e-tete-ne-taranto-2026/",
+        "https://www.albinfo.ch/de/filmi-i-regjisorit-kosovar-besim-ugzmajli-perzgjidhet-ne-festivalin-kualifikues-per-oscar/"
+      ]
+    },
+    "ekai.pl": {
+      "country": "Poloni",
+      "total": 1,
+      "positive": 1,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-05",
+      "lastSeen": "2026-09-04",
+      "urls": [
+        "https://www.ekai.pl/polscy-zolnierze-pomagaja-lokalnym-spolecznosciom-w-kosowie-i-turcji/"
       ]
     }
   }

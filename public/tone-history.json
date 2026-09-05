@@ -5160,5 +5160,214 @@
         "sentiment": "positive"
       }
     ]
+  },
+  {
+    "date": "2026-09-05",
+    "overallIndex": 55,
+    "totalArticles": 55,
+    "sourceCount": 27,
+    "stanceVersion": 3,
+    "countries": {
+      "Gjermani": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 2,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "SHBA": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Britani": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 4,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Francë": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 3,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Itali": {
+        "index": 54,
+        "positive": 8,
+        "neutral": 92,
+        "negative": 0,
+        "n": 12,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 3
+      },
+      "Austri": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 1,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Zvicër": {
+        "index": 59,
+        "positive": 18,
+        "neutral": 82,
+        "negative": 0,
+        "n": 22,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 3,
+        "movement": {
+          "delta": 9,
+          "from": 50,
+          "outlet": "albinfo.ch",
+          "title": "Kianoush Rostami i sjell Kosovës medaljen e tetë në “Taranto 2026”",
+          "evidence": "beschert dem Kosovo die achte Medaille",
+          "url": "https://www.albinfo.ch/de/kianoush-rostami-i-sjell-kosoves-medaljen-e-tete-ne-taranto-2026/"
+        }
+      },
+      "Holandë": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 1,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Belgjikë": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Spanjë": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Greqi": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 6,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 3
+      },
+      "Suedi": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Poloni": {
+        "index": 67,
+        "positive": 33,
+        "neutral": 67,
+        "negative": 0,
+        "n": 3,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3,
+        "movement": {
+          "delta": 17,
+          "from": 50,
+          "outlet": "ekai.pl",
+          "title": "Ushtarët polakë ndihmojnë komunitetet lokale në Kosovë dhe Turqi - ekai.pl",
+          "evidence": "pomagają",
+          "url": "https://www.ekai.pl/polscy-zolnierze-pomagaja-lokalnym-spolecznosciom-w-kosowie-i-turcji/"
+        }
+      },
+      "Turqi": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 1,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Kroaci": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      }
+    },
+    "headlines": [
+      {
+        "title": "Historischer Moment für die QSU, ein Kadett aus Kosovo beginnt mit einem Stipendium sein Studium in den USA - albinfo.ch",
+        "source": "albinfo.ch",
+        "country": "Gjermani",
+        "flag": "🇩🇪",
+        "url": "https://www.albinfo.ch/de/moment-historik-per-qsu-ne-kadeti-nga-kosova-nis-studimet-ne-shba-me-burse/",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Moment historique pour la QSU, un cadet du Kosovo commence ses études aux États-Unis grâce à une bourse - albinfo.ch",
+        "source": "albinfo.ch",
+        "country": "Francë",
+        "flag": "🇫🇷",
+        "url": "https://www.albinfo.ch/fr/moment-historik-per-qsu-ne-kadeti-nga-kosova-nis-studimet-ne-shba-me-burse/",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Da Vaccarizzo al Kosovo, il vino ricuce l’Arbëria: Pomillo ambasciatore dell’Hardh Fest - EcoDelloJonio.it",
+        "source": "EcoDelloJonio.it",
+        "country": "Itali",
+        "flag": "🇮🇹",
+        "url": "https://ecodellojonio.it/articoli/territorio/2026/09/da-vaccarizzo-al-kosovo-il-vino-ricuce-l-arberia-pomillo-ambasciatore-dell-hardh-fest",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Kosova Anayasal Çizginin Dışına Çıktı - Kosovahaber.com",
+        "source": "Kosovahaber.com",
+        "country": "Turqi",
+        "flag": "🇹🇷",
+        "url": "https://kosovahaber.com/haber/kosova-anayasal-cizginin-disina-cikti-105740",
+        "sentiment": "negative"
+      }
+    ]
   }
 ]

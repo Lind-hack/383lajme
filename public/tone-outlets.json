@@ -1,39 +1,15 @@
 {
-  "lastUpdated": "2026-09-04",
-  "overallIndex": 53,
-  "totalArticles": 39,
-  "sourceCount": 32,
+  "lastUpdated": "2026-09-05",
+  "overallIndex": 55,
+  "totalArticles": 55,
+  "sourceCount": 27,
   "stanceVersion": 3,
-  "unattributed": 190,
-  "nonEditorial": 1,
+  "unattributed": 157,
+  "nonEditorial": 2,
   "wrongKosovo": 0,
   "countries": {
     "Gjermani": {
       "outlets": [
-        {
-          "name": "DW.com",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Wie ein Virus Deutschland und den Kosovo verbindet - DW.com",
-              "albanianTitle": "Si po e lidh një virus Gjermaninë dhe Kosovën - DW.com",
-              "blurb": "Një virus shërben si lidhje mes Gjermanisë dhe Kosovës në një hulumtim të publikuar nga Deutsche Welle.",
-              "imageUrl": "https://static.dw.com/image/78532710_6.jpg",
-              "url": "https://www.dw.com/de/zoonosen-deutschland-und-kosovo-k%C3%A4mpfen-gemeinsam-gegen-hyalomma-zecken-und-krim-kongo-virus/a-78532533",
-              "date": "2026-09-01",
-              "sentiment": "neutral",
-              "reason": "Faktik, pa ngarkim gjuhësor",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-01",
-          "lastSeen": "2026-09-01"
-        },
         {
           "name": "WAZ",
           "sentiment": "neutral",
@@ -56,6 +32,30 @@
           "totalArticles": 2,
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-08-31",
+          "lastSeen": "2026-09-03"
+        },
+        {
+          "name": "waz.de",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Socca WM: Spannung und Tore - über 30 Fotos vom letzten Vorrundenspieltag - waz.de",
+              "albanianTitle": "Kampionati Botëror i Socca-s: Tension dhe gola – mbi 30 fotografi nga dita e fundit e fazës së grupeve",
+              "blurb": "Dita e fundit e fazës së grupeve në Kampionatin Botëror të Socca-s është përcjellë me ndeshje të tensionuara.",
+              "imageUrl": "https://img.sparknews.funkemedien.de/413042347/413042347_1788431588_v16_9_1600.jpeg",
+              "url": "https://www.waz.de/sport/lokalsport/essen/article413042332/socca-wm-spannung-und-tore-ueber-30-fotos-vom-letzten-vorrundenspieltag.html",
+              "date": "2026-09-03",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportuar në mënyrë neutrale",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-05",
           "lastSeen": "2026-09-03"
         }
       ],
@@ -163,30 +163,6 @@
     "Francë": {
       "outlets": [
         {
-          "name": "AEF info",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Inalco : Delphine Allès devient administratrice provisoire après le départ de Jean-François Huchet au Kosovo - AEF info",
-              "albanianTitle": "Inalco: Delphine Allès emërohet administratore e përkohshme pas largimit të Jean-François Huchet në Kosovë",
-              "blurb": "Delphine Allès është emëruar administratore e përkohshme në Inalco pas largimit të Jean-François Huchet për në Kosovë.",
-              "imageUrl": "https://www.aefinfo.fr/assets/medias/documents/5/2/528638_grande.webp",
-              "url": "https://www.aefinfo.fr/depeche/755907-inalco-delphine-alles-devient-administratrice-provisoire-apres-le-depart-de-jean-francois-huchet-au-kosovo",
-              "date": "2026-09-01",
-              "sentiment": "neutral",
-              "reason": "Factual report of administrative appointment related to Kosovo",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-01",
-          "lastSeen": "2026-09-01"
-        },
-        {
           "name": "Le Courrier des Balkans",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -264,7 +240,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 4,
+        "n": 3,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -275,7 +251,7 @@
         {
           "name": "ANSA",
           "sentiment": "neutral",
-          "articleCount": 3,
+          "articleCount": 4,
           "articles": [
             {
               "title": "Kosovo, Kurti-LDK presidential election agreement is in jeopardy - ANSA",
@@ -315,9 +291,22 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "In Kosovo rischia di saltare accordo Kurti-Ldk su elezione presidente - ansa.it",
+              "albanianTitle": "Në Kosovë rrezikohet marrëveshja Kurti-LDK për zgjedhjen e presidentit",
+              "blurb": "Marrëveshja ndërmjet Kurtit dhe LDK-së për zgjedhjen e presidentit të Kosovës rrezikon të dështojë sipas raportimeve të fundit italiane.",
+              "imageUrl": null,
+              "url": "https://www.ansa.it/amp/nuova_europa/it/notizie/nazioni/kosovo/2026/09/02/in-kosovo-rischia-di-saltare-accordo-kurti-ldk-su-elezione-presidente_4abb9b04-441f-4e93-91a1-56a1d07b67c8.html",
+              "date": "2026-09-02",
+              "sentiment": "neutral",
+              "reason": "Faktik, pa gjuhë ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 13,
+          "totalArticles": 14,
           "trend": "neutral",
           "firstSeen": "2026-08-20",
           "lastSeen": "2026-09-04"
@@ -432,30 +421,6 @@
           "lastSeen": "2026-09-04"
         },
         {
-          "name": "Unitalsi",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Donazione del gruppo dell’Unitalsi del Reventino per il Kosovo - Unitalsi",
-              "albanianTitle": "Donacion nga grupi Unitalsi i Reventinos për Kosovën - Unitalsi",
-              "blurb": "Grupi Unitalsi nga Reventino ka realizuar një donacion humanitar për nevojat e qytetarëve në territorin e Kosovës.",
-              "imageUrl": "https://unitalsi.it/wp-content/uploads/2026/09/COP-Screenshot-2026-09-01-alle-10.07.22.jpg",
-              "url": "https://unitalsi.it/news-territorio/donazione-del-gruppo-dellunitalsi-del-reventino-per-il-kosovo/",
-              "date": "2026-09-01",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-01",
-          "lastSeen": "2026-09-01"
-        },
-        {
           "name": "agenziagiornalisticaopinione.it",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -504,30 +469,6 @@
           "lastSeen": "2026-09-02"
         },
         {
-          "name": "il Lametino.it",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Da Soveria Mannelli parte grande donazione del gruppo Unitalsi del Reventino per il Kosovo - il Lametino.it",
-              "albanianTitle": "Nga Soveria Mannelli niset një donacion i madh i grupit Unitalsi të Reventinos për Kosovën - il Lametino.it",
-              "blurb": "Grupi Unitalsi nga Soveria Mannelli ka dërguar një donacion të konsiderueshëm për nevojat e qytetarëve në Kosovë.",
-              "imageUrl": "https://www.lametino.it/images/soveriaWA0283_0eb6c.jpg",
-              "url": "https://www.lametino.it/ultimora/da-soveria-mannelli-parte-grande-donazione-del-gruppo-unitalsi-del-reventino-per-il-kosovo.html",
-              "date": "2026-09-01",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-01",
-          "lastSeen": "2026-09-01"
-        },
-        {
           "name": "ilnordest.it",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -550,38 +491,14 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-03",
           "lastSeen": "2026-09-03"
-        },
-        {
-          "name": "unitalsi.it",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Donazione del gruppo dell’Unitalsi del Reventino per il Kosovo - unitalsi.it",
-              "albanianTitle": "Donacion nga grupi Unitalsi i Reventinos për Kosovën",
-              "blurb": "Grupi Unitalsi nga Reventino ka realizuar një donacion për qytetarët dhe nevojat e ndryshme në Kosovë.",
-              "imageUrl": "https://unitalsi.it/wp-content/uploads/2026/09/COP-Screenshot-2026-09-01-alle-10.07.22.jpg",
-              "url": "https://unitalsi.it/news-territorio/donazione-del-gruppo-dellunitalsi-del-reventino-per-il-kosovo/",
-              "date": "2026-09-01",
-              "sentiment": "neutral",
-              "reason": "Faktikë e thjeshtë, raportim i dhurimit",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-03",
-          "lastSeen": "2026-09-01"
         }
       ],
       "summary": {
         "index": 54,
-        "positive": 7,
-        "neutral": 93,
+        "positive": 8,
+        "neutral": 92,
         "negative": 0,
-        "n": 14,
+        "n": 12,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
@@ -589,30 +506,6 @@
     },
     "Austri": {
       "outlets": [
-        {
-          "name": "MeinBezirk.at",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Gewinnspiel: Mit Magenta zum Frauen-Nationalteam-Spiel gegen Kosovo! - MeinBezirk.at",
-              "albanianTitle": "Lojë shpërblyese: Me Magenta në ndeshjen e kombëtares së femrave kundër Kosovës! - MeinBezirk.at",
-              "blurb": "Platforma Magenta organizon lojë shpërblyese për tifozët që dëshirojnë të ndjekin ndeshjen e kombëtares së femrave kundër Kosovës.",
-              "imageUrl": null,
-              "url": "https://www.meinbezirk.at/c-freizeit/mit-magenta-zum-frauen-nationalteam-spiel-gegen-kosovo_a8857229",
-              "date": "2026-09-01",
-              "sentiment": "neutral",
-              "reason": "Fact‑based report",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-02",
-          "lastSeen": "2026-09-01"
-        },
         {
           "name": "oefb.at",
           "sentiment": "neutral",
@@ -643,7 +536,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 2,
+        "n": 1,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -689,63 +582,112 @@
           "lastSeen": "2026-09-02"
         },
         {
-          "name": "Journal B",
+          "name": "albinfo.ch",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 6,
           "articles": [
             {
-              "title": "Junge Perspektiven auf den Kosovo - Journal B",
-              "albanianTitle": "Perspektiva të reja mbi Kosovën - Journal B",
-              "blurb": "Publikimi Journal B sjell këndvështrime të reja dhe perspektiva të të rinjve mbi zhvillimet aktuale në shtetin e Kosovës.",
-              "imageUrl": "https://journal-b.ch/wp-content/uploads/2026/09/kino_kosovo-6-aspect-ratio-816-612-1632x1224.jpg",
-              "url": "https://journal-b.ch/artikel/junge-perspektiven-auf-den-kosovo/",
-              "date": "2026-09-01",
+              "title": "Bayern-München-Talent entscheidet sich für Kosovo, der Botschafter überreicht ihm den Pass und bestätigt, dass er für die Dardanen spielen wird - albinfo.ch",
+              "albanianTitle": "Talenti i Bayern Münchenit vendos për Kosovën, ambasadori ia dorëzon pasaportën dhe konfirmon se do të luajë për Dardanët",
+              "blurb": "Talenti i Bayern Munichut ka vendosur të përfaqësojë Kosovën, pasi ka pranuar pasaportën nga ambasadori ynë në Gjermani.",
+              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/787540801_2455386548281482_8084774625265517413_n-e1788538099584.jpg",
+              "url": "https://www.albinfo.ch/de/talenti-i-bayern-munich-zgjedh-kosoven-ambasadori-i-jep-pasaporten-konfirmon-se-do-te-luaje-per-dardanet/",
+              "date": "2026-09-04",
               "sentiment": "neutral",
-              "reason": "Fact‑based report",
+              "reason": "Faktikë raportuar në mënyrë neutrale",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-02",
-          "lastSeen": "2026-09-01"
-        },
-        {
-          "name": "journal-b.ch",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
+            },
             {
-              "title": "Junge Perspektiven auf den Kosovo - journal-b.ch",
-              "albanianTitle": "Perspektiva të reja për Kosovën - journal-b.ch",
-              "blurb": "Platforma journal-b.ch publikon vështrime të ndryshme mbi zhvillimet aktuale dhe perspektivat e të rinjve në Kosovë.",
-              "imageUrl": "https://journal-b.ch/wp-content/uploads/2026/09/kino_kosovo-6-aspect-ratio-816-612-1632x1224.jpg",
-              "url": "https://journal-b.ch/artikel/junge-perspektiven-auf-den-kosovo/",
-              "date": "2026-09-01",
+              "title": "Historischer Moment für die QSU, ein Kadett aus Kosovo beginnt mit einem Stipendium sein Studium in den USA - albinfo.ch",
+              "albanianTitle": "Moment historik për QSU-në, kadeti nga Kosova nis studimet në SHBA me bursë",
+              "blurb": "Një kadet nga Kosova ka nisur studimet në Shtetet e Bashkuara të Amerikës përmes një burse të fituar në QSU.",
+              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/img_2793.jpeg",
+              "url": "https://www.albinfo.ch/de/moment-historik-per-qsu-ne-kadeti-nga-kosova-nis-studimet-ne-shba-me-burse/",
+              "date": "2026-09-04",
+              "sentiment": "positive",
+              "reason": "Ton pozitiv, admiring i mediave për Kosovën",
+              "isQuote": false,
+              "evidence": "historischer Moment",
+              "speaker": ""
+            },
+            {
+              "title": "Kosovo–EFTA: Das Freihandelsabkommen tritt am 1. Oktober in Kraft - albinfo.ch",
+              "albanianTitle": "Kosova-EFTA: Marrëveshja e tregtisë së lirë hyn në fuqi më 1 tetor",
+              "blurb": "Marrëveshja e tregtisë së lirë ndërmjet Kosovës dhe shteteve të EFTA-s hyn në fuqi nga data një tetor.",
+              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/img_2800.jpeg",
+              "url": "https://www.albinfo.ch/de/kosove-efta-marreveshja-e-tregtise-se-lire-hyn-ne-fuqi-me-1-tetor/",
+              "date": "2026-09-04",
               "sentiment": "neutral",
-              "reason": "Neutral factual reporting",
+              "reason": "Faktikë raportuar në mënyrë neutrale",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Ein junger Mann aus dem Kosovo gewinnt einen internationalen Preis für ein KI-Projekt in albanischer Gebärdensprache - albinfo.ch",
+              "albanianTitle": "Një i ri nga Kosova fiton çmim ndërkombëtar për një projekt të inteligjencës artificiale në gjuhën shqipe të shenjave",
+              "blurb": "Një i ri nga Kosova është shpërblyer me çmim ndërkombëtar për zhvillimin e një projekti të inteligjencës artificiale për gjuhën.",
+              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/img_1024.jpeg",
+              "url": "https://www.albinfo.ch/de/i-riu-nga-kosova-fiton-cmim-nderkombetar-per-projektin-e-ai-se-ne-gjuhen-shqipe-te-shenjave/",
+              "date": "2026-09-02",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportuar në mënyrë neutrale",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Le talent du Bayern Munich choisit le Kosovo, l’ambassadeur lui remet son passeport et confirme qu’il jouera pour les Dardaniens - albinfo.ch",
+              "albanianTitle": "Talenti i Bayern Munich zgjedh Kosovën, ambasadori ia dorëzon pasaportën dhe konfirmon se do të luajë për Dardanët - albinfo.ch",
+              "blurb": "Talenti i Bayern Munichut ka pajisur me pasaportë të Kosovës dhe do të përfaqësojë kombëtaren e futbollit të Kosovës.",
+              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/787540801_2455386548281482_8084774625265517413_n-e1788538099584.jpg",
+              "url": "https://www.albinfo.ch/fr/talenti-i-bayern-munich-zgjedh-kosoven-ambasadori-i-jep-pasaporten-konfirmon-se-do-te-luaje-per-dardanet/",
+              "date": "2026-09-04",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportuar pa ngarkim",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Moment historique pour la QSU, un cadet du Kosovo commence ses études aux États-Unis grâce à une bourse - albinfo.ch",
+              "albanianTitle": "Moment historik për QSU-në, një kadet nga Kosova nis studimet në Shtetet e Bashkuara falë një burse - albinfo.ch",
+              "blurb": "Një kadet nga Kosova ka filluar studimet në Shtetet e Bashkuara të Amerikës përmes një burse të fituar së fundmi.",
+              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/img_2793.jpeg",
+              "url": "https://www.albinfo.ch/fr/moment-historik-per-qsu-ne-kadeti-nga-kosova-nis-studimet-ne-shba-me-burse/",
+              "date": "2026-09-04",
+              "sentiment": "positive",
+              "reason": "Ton i ngrohtë dhe admirues për arritjen e Kosovës",
+              "isQuote": false,
+              "evidence": "Moment historique",
+              "speaker": ""
             }
           ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-04",
-          "lastSeen": "2026-09-01"
+          "totalArticles": 20,
+          "trend": "pozitiv",
+          "firstSeen": "2026-09-05",
+          "lastSeen": "2026-09-04"
         }
       ],
       "summary": {
-        "index": 50,
-        "positive": 0,
-        "neutral": 100,
+        "index": 59,
+        "positive": 18,
+        "neutral": 82,
         "negative": 0,
-        "n": 4,
+        "n": 22,
         "excluded": 0,
-        "confident": false,
-        "stanceVersion": 3
+        "confident": true,
+        "stanceVersion": 3,
+        "movement": {
+          "delta": 9,
+          "from": 50,
+          "outlet": "albinfo.ch",
+          "title": "Kianoush Rostami i sjell Kosovës medaljen e tetë në “Taranto 2026”",
+          "evidence": "beschert dem Kosovo die achte Medaille",
+          "url": "https://www.albinfo.ch/de/kianoush-rostami-i-sjell-kosoves-medaljen-e-tete-ne-taranto-2026/"
+        }
       }
     },
     "Holandë": {
@@ -817,7 +759,7 @@
         {
           "name": "BusinessDaily",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Δίωξη σε 35 Σέρβους πρώην αστυνομικούς για τη σφαγή του Πρεκάζ στο Κόσοβο - BusinessDaily",
@@ -828,6 +770,19 @@
               "date": "2026-09-04",
               "sentiment": "neutral",
               "reason": "Faktikisht raporton procesin, pa gjuhë ngarkuese",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Δίωξη σε 35 πρώην Σέρβους αστυνομικούς για τη σφαγή Πρεκάζ στο Κόσοβο - BusinessDaily",
+              "albanianTitle": "Aktakuzë ndaj 35 ish-policëve serbë për masakrën e Prekazit në Kosovë - BusinessDaily",
+              "blurb": "Prokuroria ka ngritur padi kundër 35 ish-zyrtarëve policorë serbë për rolin e tyre në masakrën e kryer në Prekaz të Kosovës.",
+              "imageUrl": "https://www.businessdaily.gr/sites/default/files/styles/main_full/public/2019-11/dikastirio_areios_pagos_dikaiosini.jpg?itok=W4vwhw1H",
+              "url": "https://www.businessdaily.gr/diethni/229998_dioxi-se-35-serboys-proin-astynomikoys-gia-ti-sfagi-toy-prekaz-sto-kosobo",
+              "date": "2026-09-04",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportuar pa ngarkim",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -861,33 +816,43 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-04",
           "lastSeen": "2026-09-04"
-        }
-      ],
-      "summary": {
-        "index": 50,
-        "positive": 0,
-        "neutral": 100,
-        "negative": 0,
-        "n": 2,
-        "excluded": 0,
-        "confident": false,
-        "stanceVersion": 3
-      }
-    },
-    "Suedi": {
-      "outlets": [
+        },
         {
-          "name": "SMHI",
+          "name": "Gazzetta.gr",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
-              "title": "Väderprognos 10 dygn Prizren, Kosovo - SMHI",
-              "albanianTitle": "Parashikimi i motit për 10 ditët e ardhshme në Prizren, Kosovë - SMHI",
-              "blurb": "Instituti Meteorologjik Suedez ka publikuar parashikimin e motit për qytetin e Prizrenit për dhjetë ditët e ardhshme në Kosovë.",
-              "imageUrl": null,
-              "url": "https://www.smhi.se/vader/prognoser-och-varningar/vaderprognos/q/Prizren/786712",
-              "date": "2026-09-01",
+              "title": "Κόσοβο - Αυστρία Live 04-10-2026 | UEFA Nations League - Gazzetta.gr",
+              "albanianTitle": "Kosova - Austri, ndeshje direkte më 04-10-2026 | UEFA Nations League - Gazzetta.gr",
+              "blurb": "Kombëtarja e Kosovës në futboll do të zhvillojë ndeshjen kundër Austrisë në kuadër të Ligës së Kombeve më 4 tetor 2026.",
+              "imageUrl": "https://www.gazzetta.gr/sites/default/files/shared/gazzetta_share_image.jpg",
+              "url": "https://www.gazzetta.gr/football/uefa-nations-league/live-kosovo-aystria-04-10-2026",
+              "date": "2026-09-05",
+              "sentiment": "neutral",
+              "reason": "Lajm sportiv i thjeshtë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 5,
+          "trend": "neutral",
+          "firstSeen": "2026-08-19",
+          "lastSeen": "2026-09-05"
+        },
+        {
+          "name": "In.gr",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Κόσοβο: Η εισαγγελία άσκησε δίωξη σε 35 Σέρβους πρώην αστυνομικούς για τη σφαγή του Πρεκάζ, του 1998 - In.gr",
+              "albanianTitle": "Kosova: Prokuroria ngre aktakuzë ndaj 35 ish-policëve serbë për masakrën e Prekazit në vitin 1998 - In.gr",
+              "blurb": "Prokuroria e Kosovës ka ngritur aktakuzë ndaj 35 ish-pjesëtarëve të policisë serbe për masakrën e kryer në Prekaz gjatë vitit 1998.",
+              "imageUrl": "https://www.in.gr/wp-content/uploads/2026/09/Adem_Jashari_Memorial_in_Prekaz_January_2013_01.jpg",
+              "url": "https://www.in.gr/2026/09/04/world/kosovo-i-eisaggelia-askise-dioksi-se-35-servous-proin-astynomikous-gia-ti-sfagi-tou-prekaz-tou-1998/",
+              "date": "2026-09-04",
               "sentiment": "neutral",
               "reason": "Faktikë raportuar pa ngarkim",
               "isQuote": false,
@@ -895,10 +860,34 @@
               "speaker": ""
             }
           ],
-          "totalArticles": 3,
-          "trend": "neutral",
-          "firstSeen": "2026-08-26",
-          "lastSeen": "2026-09-01"
+          "totalArticles": 2,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-21",
+          "lastSeen": "2026-09-04"
+        },
+        {
+          "name": "ertnews.gr",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Κόσοβο: Δίωξη σε 35 πρώην Σέρβους αστυνομικούς για τη σφαγή στο Πρέκαζ - ertnews.gr",
+              "albanianTitle": "Kosova: Aktakuzë ndaj 35 ish-policëve serbë për masakrën në Prekaz - ertnews.gr",
+              "blurb": "Autoritetet në Kosovë kanë nisur procedurat ligjore ndaj 35 ish-policëve serbë të dyshuar për përfshirje në masakrën e ndodhur në Prekaz.",
+              "imageUrl": "https://www.ertnews.gr/wp-content/uploads/2026/09/ap17066679261825-scaled.jpg",
+              "url": "https://www.ertnews.gr/roi-idiseon/kosovo-dioksi-se-35-proin-servous-astynomikous-gia-ti-sfagi-sto-prekaz/",
+              "date": "2026-09-04",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportuar pa ngarkim",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 2,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-21",
+          "lastSeen": "2026-09-04"
         }
       ],
       "summary": {
@@ -906,7 +895,20 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 1,
+        "n": 6,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 3
+      }
+    },
+    "Suedi": {
+      "outlets": [],
+      "summary": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -939,6 +941,30 @@
           "lastSeen": "2026-09-04"
         },
         {
+          "name": "ekai.pl",
+          "sentiment": "positive",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Polscy żołnierze pomagają lokalnym społecznościom w Kosowie i Turcji - ekai.pl",
+              "albanianTitle": "Ushtarët polakë ndihmojnë komunitetet lokale në Kosovë dhe Turqi - ekai.pl",
+              "blurb": "Ushtarët polakë janë duke ofruar ndihmë për komunitetet lokale në Kosovë dhe në Turqi përmes aktiviteteve të ndryshme mbështetëse.",
+              "imageUrl": "https://www.ekai.pl/wp-content/uploads/2026/09/kfor-kosowo.jpg",
+              "url": "https://www.ekai.pl/polscy-zolnierze-pomagaja-lokalnym-spolecznosciom-w-kosowie-i-turcji/",
+              "date": "2026-09-04",
+              "sentiment": "positive",
+              "reason": "Përshkrim pozitiv i ndihmës ndaj Kosovës",
+              "isQuote": false,
+              "evidence": "pomagają",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-05",
+          "lastSeen": "2026-09-04"
+        },
+        {
           "name": "iGaming Polska",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -961,82 +987,29 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-08-28",
           "lastSeen": "2026-09-04"
-        },
-        {
-          "name": "igamingpolska.pl",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Mistrzostwa Świata Socca 2026: terminarz, harmonogram i wyniki - igamingpolska.pl",
-              "albanianTitle": "Kampionati Botëror i Socca 2026: kalendari, orari dhe rezultatet - igamingpolska.pl",
-              "blurb": "Publikohet orari, kalendari i ndeshjeve dhe rezultatet për Kampionatin Botëror të Socca-s që do të mbahet në vitin 2026.",
-              "imageUrl": null,
-              "url": "https://igamingpolska.pl/mistrzostwa-swiata-socca-2026-terminarz-wyniki/",
-              "date": "2026-09-01",
-              "sentiment": "unknown",
-              "reason": "Nuk përmendet Kosova në titull",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-02",
-          "lastSeen": "2026-09-01"
         }
       ],
       "summary": {
-        "index": 50,
-        "positive": 0,
-        "neutral": 100,
+        "index": 67,
+        "positive": 33,
+        "neutral": 67,
         "negative": 0,
-        "n": 2,
-        "excluded": 1,
+        "n": 3,
+        "excluded": 0,
         "confident": false,
-        "stanceVersion": 3
+        "stanceVersion": 3,
+        "movement": {
+          "delta": 17,
+          "from": 50,
+          "outlet": "ekai.pl",
+          "title": "Ushtarët polakë ndihmojnë komunitetet lokale në Kosovë dhe Turqi - ekai.pl",
+          "evidence": "pomagają",
+          "url": "https://www.ekai.pl/polscy-zolnierze-pomagaja-lokalnym-spolecznosciom-w-kosowie-i-turcji/"
+        }
       }
     },
     "Turqi": {
       "outlets": [
-        {
-          "name": "Son Dakika",
-          "sentiment": "neutral",
-          "articleCount": 2,
-          "articles": [
-            {
-              "title": "Berber Ali Türkben İki Türkiye Şampiyonluğunun Ardından Kosova'daki Dünya Şampiyonası'nda İlk Turda - Son Dakika",
-              "albanianTitle": "Berberi Ali Türkben, pas dy titujve kampion në Turqi, eliminohet në raundin e parë të Kampionatit Botëror në Kosovë - Son Dakika",
-              "blurb": "Berberi Ali Turkben është eliminuar në raundin e parë të kampionatit botëror që po mbahet në Kosovë.",
-              "imageUrl": "https://foto.sondakika.com/haber/2026/09/01/genc-milli-muaythai-sporcusu-ali-turkben-in-g-5-20195681_amp.jpg",
-              "url": "https://www.sondakika.com/spor/haber-berber-ali-turkben-iki-turkiye-sampiyonlugunun-ard-20195760/",
-              "date": "2026-09-01",
-              "sentiment": "neutral",
-              "reason": "Sports report, factual description of an event in Kosovo",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Kosova'daki Yıldızlar Avrupa Halter Şampiyonası'nda 200 Kiloyla Şampiyon Olan Zehra Nur Arslan, Amasya Valisi'ni Ziyaret Etti - Son Dakika",
-              "albanianTitle": "Zehra Nur Arslan, kampione në Kampionatin Evropian të Peshëngritjes për të Rinj në Kosovë, viziton guvernatorin e Amasyas",
-              "blurb": "Kampionia evropiane në peshëngritje, Zehra Nur Arslan, e cila fitoi medaljen në Kosovë, ka vizituar guvernatorin e Amasias.",
-              "imageUrl": "https://foto.sondakika.com/haber/2026/09/01/avrupa-sampiyonu-arslan-dan-amasya-valisi-bak-2-20196558_amp.jpg",
-              "url": "https://www.sondakika.com/guncel/haber-kosova-daki-yildizlar-avrupa-halter-sampiyonasi-nd-20196635/",
-              "date": "2026-09-01",
-              "sentiment": "positive",
-              "reason": "Outlet praises Kosovar athlete’s achievement",
-              "isQuote": false,
-              "evidence": "200 Kiloyla Şampiyon Olan",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 9,
-          "trend": "i përzier",
-          "firstSeen": "2026-08-20",
-          "lastSeen": "2026-09-01"
-        },
         {
           "name": "TRT Haber",
           "sentiment": "neutral",
@@ -1063,22 +1036,14 @@
         }
       ],
       "summary": {
-        "index": 67,
-        "positive": 33,
-        "neutral": 67,
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 3,
+        "n": 1,
         "excluded": 0,
         "confident": false,
-        "stanceVersion": 3,
-        "movement": {
-          "delta": 5,
-          "from": 62,
-          "outlet": "Son Dakika",
-          "title": "Zehra Nur Arslan, kampione në Kampionatin Evropian të Peshëngritjes për të Rinj në Kosovë, viziton guvernatorin e Amasyas",
-          "evidence": "200 Kiloyla Şampiyon Olan",
-          "url": "https://www.sondakika.com/guncel/haber-kosova-daki-yildizlar-avrupa-halter-sampiyonasi-nd-20196635/"
-        }
+        "stanceVersion": 3
       }
     },
     "Kroaci": {
