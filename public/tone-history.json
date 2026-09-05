@@ -5164,8 +5164,8 @@
   {
     "date": "2026-09-05",
     "overallIndex": 55,
-    "totalArticles": 55,
-    "sourceCount": 27,
+    "totalArticles": 56,
+    "sourceCount": 28,
     "stanceVersion": 3,
     "countries": {
       "Gjermani": {
@@ -5213,7 +5213,7 @@
         "positive": 8,
         "neutral": 92,
         "negative": 0,
-        "n": 12,
+        "n": 13,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
@@ -5354,7 +5354,7 @@
       },
       {
         "title": "Da Vaccarizzo al Kosovo, il vino ricuce l’Arbëria: Pomillo ambasciatore dell’Hardh Fest - EcoDelloJonio.it",
-        "source": "EcoDelloJonio.it",
+        "source": "ecodellojonio.it",
         "country": "Itali",
         "flag": "🇮🇹",
         "url": "https://ecodellojonio.it/articoli/territorio/2026/09/da-vaccarizzo-al-kosovo-il-vino-ricuce-l-arberia-pomillo-ambasciatore-dell-hardh-fest",

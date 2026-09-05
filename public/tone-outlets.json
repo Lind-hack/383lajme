@@ -1,10 +1,10 @@
 {
   "lastUpdated": "2026-09-05",
   "overallIndex": 55,
-  "totalArticles": 55,
-  "sourceCount": 27,
+  "totalArticles": 56,
+  "sourceCount": 28,
   "stanceVersion": 3,
-  "unattributed": 157,
+  "unattributed": 167,
   "nonEditorial": 2,
   "wrongKosovo": 0,
   "countries": {
@@ -491,6 +491,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-03",
           "lastSeen": "2026-09-03"
+        },
+        {
+          "name": "ilsole24ore.com",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Dalla Somalia al Kosovo, autunno in prima linea per le Forze armate - ilsole24ore.com",
+              "albanianTitle": "Nga Somalia në Kosovë, vjeshtë në vijën e parë për Forcat e Armatosura",
+              "blurb": "Forcat e armatosura italiane janë angazhuar në operacione ushtarake në Somali dhe në Kosovë gjatë kësaj vjeshte.",
+              "imageUrl": "https://i2.res.24o.it/images2010/S24/Documenti/2026/08/07/Immagini/Ritagli/kosovo-U44748601483FVz-1440x752@IlSole24Ore-Web.jpg?r=1170x507",
+              "url": "https://www.ilsole24ore.com/art/dalla-somalia-kosovo-autunno-prima-linea-le-forze-armate-AJzY7Yg",
+              "date": "2026-09-02",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-05",
+          "lastSeen": "2026-09-02"
         }
       ],
       "summary": {
@@ -498,7 +522,7 @@
         "positive": 8,
         "neutral": 92,
         "negative": 0,
-        "n": 12,
+        "n": 13,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
