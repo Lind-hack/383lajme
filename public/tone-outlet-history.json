@@ -197,13 +197,13 @@
     },
     "ANSA": {
       "country": "Itali",
-      "total": 14,
+      "total": 15,
       "positive": 0,
-      "neutral": 10,
+      "neutral": 11,
       "negative": 0,
       "unknown": 4,
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-09-04",
+      "lastSeen": "2026-09-06",
       "urls": [
         "https://www.ansa.it/nuova_europa/en/news/sections/news/2026/08/20/vucic-writes-to-rutte-nato-stop-terror-in-kosovo-do-not-reopen-the_9034279d-c06f-4e44-ab54-096dd4332014.html",
         "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/08/20/vucic-scrive-a-rutte-nato-fermi-terrore-in-kosovo-non-riaprire-ponte_68050249-06ef-4b0a-b56b-6ff64929514e.html",
@@ -218,7 +218,8 @@
         "https://www.ansa.it/nuova_europa/en/news/sections/politics/2026/09/02/kosovo-kurti-ldk-presidential-election-agreement-is-in-jeopardy_9f20ca05-94a0-4b5e-81c4-64c4556f89e1.html",
         "https://www.ansa.it/amp/nuova_europa/it/notizie/rubriche/altrenews/2026/09/02/in-kosovo-rischia-di-saltare-accordo-kurti-ldk-su-elezione-presidente_944ef000-13c1-4420-a456-d75c4b144d9f.html",
         "https://www.ansa.it/europa/notizie/rubriche/altrenews/2026/09/04/negoziatore-kosovo-lo-stallo-sulladesione-mostra-mancanza-di-leadership-ue_00cd0876-fc23-4285-a25f-4bdf2f067b44.html",
-        "https://www.ansa.it/amp/nuova_europa/it/notizie/nazioni/kosovo/2026/09/02/in-kosovo-rischia-di-saltare-accordo-kurti-ldk-su-elezione-presidente_4abb9b04-441f-4e93-91a1-56a1d07b67c8.html"
+        "https://www.ansa.it/amp/nuova_europa/it/notizie/nazioni/kosovo/2026/09/02/in-kosovo-rischia-di-saltare-accordo-kurti-ldk-su-elezione-presidente_4abb9b04-441f-4e93-91a1-56a1d07b67c8.html",
+        "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/09/06/linformazione-dei-balcani-si-incontra-a-trieste_b6343cee-eb0d-4448-a261-a23b804985ba.html"
       ]
     },
     "Virgilio": {
@@ -2383,15 +2384,16 @@
     },
     "DW.com": {
       "country": "Gjermani",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-01",
-      "lastSeen": "2026-09-01",
+      "lastSeen": "2026-09-06",
       "urls": [
-        "https://www.dw.com/de/zoonosen-deutschland-und-kosovo-k%C3%A4mpfen-gemeinsam-gegen-hyalomma-zecken-und-krim-kongo-virus/a-78532533"
+        "https://www.dw.com/de/zoonosen-deutschland-und-kosovo-k%C3%A4mpfen-gemeinsam-gegen-hyalomma-zecken-und-krim-kongo-virus/a-78532533",
+        "https://www.dw.com/en/germany-kosovo-unite-against-ticks-carrying-deadly-virus/a-78655223"
       ]
     },
     "Unitalsi": {
@@ -2800,15 +2802,16 @@
     },
     "Luino Notizie": {
       "country": "Itali",
-      "total": 1,
+      "total": 2,
       "positive": 0,
       "neutral": 0,
       "negative": 0,
-      "unknown": 1,
+      "unknown": 2,
       "firstSeen": "2026-09-06",
       "lastSeen": "2026-09-06",
       "urls": [
-        "https://www.luinonotizie.it/2026/09/06/in-viaggio-per-incontrare-laltro-unestate-di-servizio-tra-medjugorje-kosovo-e-albania/580174"
+        "https://www.luinonotizie.it/2026/09/06/in-viaggio-per-incontrare-laltro-unestate-di-servizio-tra-medjugorje-kosovo-e-albania/580174",
+        "https://www.luinonotizie.it/2026/09/06/in-viaggio-per-incontrare-laltro-unestate-di-servizio-tra-medjugorje-kosovo-e-albania/580174/kosovo-1/"
       ]
     },
     "balcanicaucaso.org": {
@@ -2848,6 +2851,19 @@
       "lastSeen": "2026-09-06",
       "urls": [
         "https://www.sabah.com.tr/turizm/2026/09/06/yazin-son-sarkisi-avrupada-caliyor"
+      ]
+    },
+    "diariojaen.es": {
+      "country": "Spanjë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-06",
+      "lastSeen": "2026-09-06",
+      "urls": [
+        "https://www.diariojaen.es/deportes/adrian-franco-acaba-noveno-en-el-europeo-sub-17-despues-de-ser-octavo-en-el-mundial-BM11596171"
       ]
     }
   }

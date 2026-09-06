@@ -5381,8 +5381,8 @@
   {
     "date": "2026-09-06",
     "overallIndex": 55,
-    "totalArticles": 46,
-    "sourceCount": 29,
+    "totalArticles": 50,
+    "sourceCount": 30,
     "stanceVersion": 3,
     "countries": {
       "Gjermani": {
@@ -5390,7 +5390,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 2,
+        "n": 3,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -5426,22 +5426,14 @@
         "stanceVersion": 3
       },
       "Itali": {
-        "index": 60,
-        "positive": 20,
-        "neutral": 80,
+        "index": 57,
+        "positive": 14,
+        "neutral": 86,
         "negative": 0,
-        "n": 5,
+        "n": 7,
         "excluded": 3,
         "confident": true,
-        "stanceVersion": 3,
-        "movement": {
-          "delta": 6,
-          "from": 54,
-          "outlet": "EcoDelloJonio.it",
-          "title": "Nga Vaccarizzo në Kosovë, vera lidh Arbërinë: Pomillo ambasador i Hardh Festit",
-          "evidence": "il vino ricuce l’Arbëria",
-          "url": "https://ecodellojonio.it/articoli/territorio/2026/09/da-vaccarizzo-al-kosovo-il-vino-ricuce-l-arberia-pomillo-ambasciatore-dell-hardh-fest"
-        }
+        "stanceVersion": 3
       },
       "Austri": {
         "index": 50,
@@ -5458,8 +5450,8 @@
         "positive": 14,
         "neutral": 86,
         "negative": 0,
-        "n": 21,
-        "excluded": 2,
+        "n": 22,
+        "excluded": 1,
         "confident": true,
         "stanceVersion": 3
       },
@@ -5570,8 +5562,8 @@
         "sentiment": "positive"
       },
       {
-        "title": "FETÖ Kosova'da kök salıyor: Siyasetçi ve bürokratları okullarla avlıyor - Yeni Şafak",
-        "source": "Yeni Şafak",
+        "title": "FETÖ Kosova'da kök salıyor: Siyasetçi ve bürokratları okullarla avlıyor - yenisafak.com",
+        "source": "yenisafak.com",
         "country": "Turqi",
         "flag": "🇹🇷",
         "url": "https://www.yenisafak.com/dunya/feto-kosovada-kok-saliyor-siyasetci-ve-burokratlari-okullarla-avliyor-4853420",

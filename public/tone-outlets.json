@@ -1,15 +1,39 @@
 {
   "lastUpdated": "2026-09-06",
   "overallIndex": 55,
-  "totalArticles": 46,
-  "sourceCount": 29,
+  "totalArticles": 50,
+  "sourceCount": 30,
   "stanceVersion": 3,
-  "unattributed": 139,
+  "unattributed": 154,
   "nonEditorial": 1,
   "wrongKosovo": 0,
   "countries": {
     "Gjermani": {
       "outlets": [
+        {
+          "name": "DW.com",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Germany, Kosovo unite against ticks carrying deadly virus - DW.com",
+              "albanianTitle": "Gjermania dhe Kosova bëhen bashkë kundër rriqrave që bartin virusin vdekjeprurës - DW.com",
+              "blurb": "Gjermania dhe Kosova kanë bashkuar forcat për të luftuar rriqrat që mbartin virusin vdekjeprurës në rajon.",
+              "imageUrl": "https://static.dw.com/image/78532710_6.jpg",
+              "url": "https://www.dw.com/en/germany-kosovo-unite-against-ticks-carrying-deadly-virus/a-78655223",
+              "date": "2026-09-06",
+              "sentiment": "neutral",
+              "reason": "Fact‑based headline without loaded or contemptuous language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 2,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-01",
+          "lastSeen": "2026-09-06"
+        },
         {
           "name": "WAZ",
           "sentiment": "neutral",
@@ -64,7 +88,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 2,
+        "n": 3,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -227,7 +251,7 @@
         {
           "name": "ANSA",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Negoziatore Kosovo, 'lo stallo sull'adesione mostra mancanza di leadership Ue' - ANSA",
@@ -241,12 +265,25 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "L'informazione dei Balcani si incontra a Trieste - ANSA",
+              "albanianTitle": "Informimi nga Ballkani takohet në Trieste - ANSA",
+              "blurb": "Përfaqësuesit e mediave nga Ballkani janë mbledhur në Trieste për të diskutuar mbi zhvillimet në fushën e informimit.",
+              "imageUrl": "https://www.ansa.it/webimages/img_1280x720/2026/9/6/0d0f6a84b36ed2c35741a77b5e7de7d4.jpg",
+              "url": "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/09/06/linformazione-dei-balcani-si-incontra-a-trieste_b6343cee-eb0d-4448-a261-a23b804985ba.html",
+              "date": "2026-09-06",
+              "sentiment": "neutral",
+              "reason": "Event announcement without any stance toward Kosovo",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 14,
+          "totalArticles": 15,
           "trend": "neutral",
           "firstSeen": "2026-08-20",
-          "lastSeen": "2026-09-04"
+          "lastSeen": "2026-09-06"
         },
         {
           "name": "EcoDelloJonio.it",
@@ -274,15 +311,28 @@
         },
         {
           "name": "Luino Notizie",
-          "sentiment": "unknown",
-          "articleCount": 1,
+          "sentiment": "neutral",
+          "articleCount": 2,
           "articles": [
             {
               "title": "In viaggio per incontrare l’altro: un’estate di servizio tra Medjugorje, Kosovo e Albania - Luino Notizie",
               "albanianTitle": "Në udhëtim për të takuar tjetrin: Një verë shërbimi mes Medjugorjes, Kosovës dhe Shqipërisë",
-              "blurb": "Një grup vullnetarësh po zhvillon një udhëtim shërbimi nëpër Medjugorje, Kosovë dhe Shqipëri gjatë kësaj vere.",
+              "blurb": "Një grup vullnetarësh po zhvillon aktivitete shërbimi gjatë verës nëpër lokacione të ndryshme, përfshirë Medjugorjen, Kosovën dhe Shqipërinë.",
               "imageUrl": "https://www.luinonotizie.it/wp-content/uploads/2026/09/kosovo.jpg",
               "url": "https://www.luinonotizie.it/2026/09/06/in-viaggio-per-incontrare-laltro-unestate-di-servizio-tra-medjugorje-kosovo-e-albania/580174",
+              "date": "2026-09-06",
+              "sentiment": "neutral",
+              "reason": "Lajm faktik, pa gjuhë të ngarkuar për Kosovën",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "kosovo 1 - Luino Notizie",
+              "albanianTitle": null,
+              "blurb": "Luino Notizie raporton mbi zhvillimet aktuale në Kosovë përmes një përmbledhjeje të shkurtër të situatës politike.",
+              "imageUrl": null,
+              "url": "https://www.luinonotizie.it/2026/09/06/in-viaggio-per-incontrare-laltro-unestate-di-servizio-tra-medjugorje-kosovo-e-albania/580174/kosovo-1/",
               "date": "2026-09-06",
               "sentiment": "unknown",
               "reason": "",
@@ -291,7 +341,7 @@
               "speaker": ""
             }
           ],
-          "totalArticles": 1,
+          "totalArticles": 2,
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-06",
           "lastSeen": "2026-09-06"
@@ -418,22 +468,14 @@
         }
       ],
       "summary": {
-        "index": 60,
-        "positive": 20,
-        "neutral": 80,
+        "index": 57,
+        "positive": 14,
+        "neutral": 86,
         "negative": 0,
-        "n": 5,
+        "n": 7,
         "excluded": 3,
         "confident": true,
-        "stanceVersion": 3,
-        "movement": {
-          "delta": 6,
-          "from": 54,
-          "outlet": "EcoDelloJonio.it",
-          "title": "Nga Vaccarizzo në Kosovë, vera lidh Arbërinë: Pomillo ambasador i Hardh Festit",
-          "evidence": "il vino ricuce l’Arbëria",
-          "url": "https://ecodellojonio.it/articoli/territorio/2026/09/da-vaccarizzo-al-kosovo-il-vino-ricuce-l-arberia-pomillo-ambasciatore-dell-hardh-fest"
-        }
+        "stanceVersion": 3
       }
     },
     "Austri": {
@@ -595,8 +637,8 @@
         "positive": 14,
         "neutral": 86,
         "negative": 0,
-        "n": 21,
-        "excluded": 2,
+        "n": 22,
+        "excluded": 1,
         "confident": true,
         "stanceVersion": 3
       }
@@ -630,27 +672,27 @@
     "Spanjë": {
       "outlets": [
         {
-          "name": "www.diariojaen.es",
+          "name": "diariojaen.es",
           "sentiment": "unknown",
           "articleCount": 1,
           "articles": [
             {
-              "title": "Es fiel al legado de su abuelo, Hilario Montalbán, que es el pionero de la halterofilia en Linares y que sigue trabajando con la misma ilusión pese a la falta de recursos de instalaciones. Su nieto, Adrián Franco Montalbán no ha parado en todo el verano. Prim - www.diariojaen.es",
-              "albanianTitle": "Ai ndoqi gjurmët e gjyshit të tij, Hilario Montalbán, pionierit të peshëngritjes në Linares, i cili vazhdon të punojë me të njëjtin pasion pavarësisht mungesës së kushteve. Nipi i tij, Adrián Franco Montalbán, nuk ka pushuar gjatë gjithë verës.",
-              "blurb": "Adrián Franco Montalbán vazhdon trashëgiminë e gjyshit të tij, Hilario Montalbán, në sportin e peshëngritjes në qytetin e Linaresit.",
+              "title": "Es fiel al legado de su abuelo, Hilario Montalbán, que es el pionero de la halterofilia en Linares y que sigue trabajando con la misma ilusión pese a la falta de recursos de instalaciones. Su nieto, Adrián Franco Montalbán no ha parado en todo el verano. Prim - diariojaen.es",
+              "albanianTitle": "Ai ndoqi gjurmët e gjyshit të tij, Hilario Montalbán, pionierit të peshëngritjes në Linares, i cili vazhdon të punojë me të njëjtin pasion pavarësisht mungesës së kushteve. Nipi i tij, Adrián Franco Montalbán, nuk është ndalur gjatë gjithë verës.",
+              "blurb": "Adrián Franco Montalbán vazhdon stërvitjet në peshëngritje duke ndjekur hapat e gjyshit të tij, pionierit Hilario Montalbán në Linares.",
               "imageUrl": "https://www.diariojaen.es/binrepository/600x400/0c23/600d346/none/10717/RRWP/adrian-franco-montalban-1_18736448_20260905200730.jpg",
               "url": "https://www.diariojaen.es/deportes/adrian-franco-acaba-noveno-en-el-europeo-sub-17-despues-de-ser-octavo-en-el-mundial-BM11596171",
               "date": "2026-09-06",
               "sentiment": "unknown",
-              "reason": "",
+              "reason": "Nuk përmendet Kosova në titull ose fragment",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
             }
           ],
-          "totalArticles": 2,
+          "totalArticles": 1,
           "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-30",
+          "firstSeen": "2026-09-06",
           "lastSeen": "2026-09-06"
         }
       ],
@@ -958,12 +1000,12 @@
             {
               "title": "Yazın son şarkısı Avrupa’da çalıyor - Sabah",
               "albanianTitle": "Hiti i fundit i verës po dëgjohet nëpër Evropë",
-              "blurb": "Kënga e fundit e verës po transmetohet nëpër stacionet dhe platformat e ndryshme muzikore në të gjithë kontinentin evropian.",
+              "blurb": "Kënga e fundit e verës po transmetohet nëpër stacionet dhe platformat muzikore në të gjithë kontinentin evropian.",
               "imageUrl": "https://iasbh.tmgrup.com.tr/b83c58/1200/675/0/118/1135/756?u=https://isbh.tmgrup.com.tr/sbh/2026/09/05/yazin-son-sarkisi-avrupada-caliyor-1788612020999.jpeg",
               "url": "https://www.sabah.com.tr/turizm/2026/09/06/yazin-son-sarkisi-avrupada-caliyor",
               "date": "2026-09-06",
               "sentiment": "unknown",
-              "reason": "",
+              "reason": "Nuk përmendet Kosova në titull ose fragment",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
