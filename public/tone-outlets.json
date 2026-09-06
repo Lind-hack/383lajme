@@ -1,11 +1,11 @@
 {
-  "lastUpdated": "2026-09-05",
+  "lastUpdated": "2026-09-06",
   "overallIndex": 55,
-  "totalArticles": 57,
-  "sourceCount": 31,
+  "totalArticles": 46,
+  "sourceCount": 29,
   "stanceVersion": 3,
-  "unattributed": 190,
-  "nonEditorial": 2,
+  "unattributed": 139,
+  "nonEditorial": 1,
   "wrongKosovo": 0,
   "countries": {
     "Gjermani": {
@@ -88,21 +88,8 @@
         {
           "name": "Balkan Insight",
           "sentiment": "neutral",
-          "articleCount": 5,
+          "articleCount": 4,
           "articles": [
-            {
-              "title": "Kosovo President’s Election Jeopardised by Party’s Inner Divisions - Balkan Insight",
-              "albanianTitle": "Përçarjet e brendshme partiake rrezikojnë zgjedhjen e Presidentit të Kosovës",
-              "blurb": "Përçarjet e brendshme partiake po rrezikojnë procesin e zgjedhjes së presidentit të ri të Republikës së Kosovës.",
-              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/07/Lumir-Abdixhiku-foto-KALLXOcom.jpg",
-              "url": "https://balkaninsight.com/2026/09/02/kosovo-presidents-election-jeopardised-by-partys-inner-divisions/bi/",
-              "date": "2026-09-02",
-              "sentiment": "neutral",
-              "reason": "Descriptive headline about internal politics, not hostile toward Kosovo",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "‘Not Mere Incidents’: Kosovo Questions Femicide Approach after New Killings - Balkan Insight",
               "albanianTitle": "‘Nuk janë thjesht incidente’: Kosova vë në pikëpyetje trajtimin e femicideve pas vrasjeve të fundit",
@@ -167,38 +154,14 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 5,
+        "n": 4,
         "excluded": 0,
-        "confident": true,
+        "confident": false,
         "stanceVersion": 3
       }
     },
     "Francë": {
       "outlets": [
-        {
-          "name": "Le Courrier des Balkans",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "L’accord sur un candidat commun à la présidence suffira-t-il à sortir le Kosovo de l’impasse ? - Le Courrier des Balkans",
-              "albanianTitle": "A do të mjaftojë marrëveshja për një kandidat të përbashkët për president për ta nxjerrë Kosovën nga ngërçi politik?",
-              "blurb": "Partitë politike në Kosovë po diskutojnë për një kandidat të përbashkët për president me qëllim tejkalimin e bllokadës institucionale.",
-              "imageUrl": "https://www.courrierdesbalkans.fr/wp-content/uploads/2026/09/Bekim-Sejdiu.jpg",
-              "url": "https://www.courrierdesbalkans.fr/laccord-sur-un-candidat-commun-a-la-presidence-suffira-t-il-a-sortir-le-kosovo-de-limpasse-99042/",
-              "date": "2026-09-02",
-              "sentiment": "neutral",
-              "reason": "Headline poses a neutral question about political solution without hostile language",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 9,
-          "trend": "i përzier",
-          "firstSeen": "2026-08-20",
-          "lastSeen": "2026-09-02"
-        },
         {
           "name": "geo.fr",
           "sentiment": "neutral",
@@ -253,7 +216,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 3,
+        "n": 2,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -264,34 +227,8 @@
         {
           "name": "ANSA",
           "sentiment": "neutral",
-          "articleCount": 4,
+          "articleCount": 1,
           "articles": [
-            {
-              "title": "Kosovo, Kurti-LDK presidential election agreement is in jeopardy - ANSA",
-              "albanianTitle": "Kosovë, rrezikohet marrëveshja Kurti-LDK për zgjedhjen e presidentit - ANSA",
-              "blurb": "Marrëveshja ndërmjet Lëvizjes Vetëvendosje dhe LDK-së për zgjedhjen e presidentit të Kosovës është në rrezik të dështimit.",
-              "imageUrl": "https://www.ansa.it/webimages/img_1280x720/2026/8/26/65e63b3143cc7cd1f0855a67bcbc0948.jpg",
-              "url": "https://www.ansa.it/nuova_europa/en/news/sections/politics/2026/09/02/kosovo-kurti-ldk-presidential-election-agreement-is-in-jeopardy_9f20ca05-94a0-4b5e-81c4-64c4556f89e1.html",
-              "date": "2026-09-02",
-              "sentiment": "neutral",
-              "reason": "Faktikë e raportuar në mënyrë neutrale",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "In Kosovo rischia di saltare accordo Kurti-Ldk su elezione presidente - ANSA",
-              "albanianTitle": "Në Kosovë rrezikon të dështojë marrëveshja Kurti-LDK për zgjedhjen e presidentit - ANSA",
-              "blurb": "Marrëveshja politike ndërmjet Kurtit dhe LDK-së për zgjedhjen e presidentit të ri të Kosovës rrezikon të dështojë.",
-              "imageUrl": null,
-              "url": "https://www.ansa.it/amp/nuova_europa/it/notizie/rubriche/altrenews/2026/09/02/in-kosovo-rischia-di-saltare-accordo-kurti-ldk-su-elezione-presidente_944ef000-13c1-4420-a456-d75c4b144d9f.html",
-              "date": "2026-09-02",
-              "sentiment": "neutral",
-              "reason": "Faktikë e raportuar në mënyrë neutrale",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "Negoziatore Kosovo, 'lo stallo sull'adesione mostra mancanza di leadership Ue' - ANSA",
               "albanianTitle": "Negociatori për Kosovën: Ngërçi në procesin e anëtarësimit tregon mungesë të lidershipit të BE-së - ANSA",
@@ -301,19 +238,6 @@
               "date": "2026-09-04",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "In Kosovo rischia di saltare accordo Kurti-Ldk su elezione presidente - ansa.it",
-              "albanianTitle": "Në Kosovë rrezikohet marrëveshja Kurti-LDK për zgjedhjen e presidentit",
-              "blurb": "Marrëveshja ndërmjet Kurtit dhe LDK-së për zgjedhjen e presidentit të Kosovës rrezikon të dështojë sipas raportimeve të fundit italiane.",
-              "imageUrl": null,
-              "url": "https://www.ansa.it/amp/nuova_europa/it/notizie/nazioni/kosovo/2026/09/02/in-kosovo-rischia-di-saltare-accordo-kurti-ldk-su-elezione-presidente_4abb9b04-441f-4e93-91a1-56a1d07b67c8.html",
-              "date": "2026-09-02",
-              "sentiment": "neutral",
-              "reason": "Faktik, pa gjuhë ngarkuar",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -349,41 +273,28 @@
           "lastSeen": "2026-09-04"
         },
         {
-          "name": "Il Sole 24 ORE",
-          "sentiment": "neutral",
-          "articleCount": 2,
+          "name": "Luino Notizie",
+          "sentiment": "unknown",
+          "articleCount": 1,
           "articles": [
             {
-              "title": "From Somalia to Kosovo: autumn on the front line for the Armed Forces - Il Sole 24 ORE",
-              "albanianTitle": "Nga Somalia në Kosovë: vjeshtë në vijën e parë për Forcat e Armatosura - Il Sole 24 ORE",
-              "blurb": "Angazhimi i forcave të armatosura vazhdon gjatë vjeshtës me operacione të rëndësishme në Somali dhe në territorin e Kosovës.",
-              "imageUrl": "https://i2.res.24o.it/images2010/S24/Documenti/2026/08/07/Immagini/Ritagli/kosovo-U44748601483FVz-1440x752@IlSole24Ore-Web.jpg?r=1170x507",
-              "url": "https://en.ilsole24ore.com/art/from-somalia-kosovo-autumn-the-front-line-the-armed-forces-AJzY7Yg",
-              "date": "2026-09-02",
-              "sentiment": "neutral",
-              "reason": "Faktik raportim i paanshëm",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Dalla Somalia al Kosovo, autunno in prima linea per le Forze armate - Il Sole 24 ORE",
-              "albanianTitle": "Nga Somalia në Kosovë, vjeshtë në vijën e parë për Forcat e Armatosura - Il Sole 24 ORE",
-              "blurb": "Aktivitetet e forcave të armatosura gjatë sezonit të vjeshtës përfshijnë misione në Somali dhe prezencë ushtarake në Kosovë.",
-              "imageUrl": "https://i2.res.24o.it/images2010/S24/Documenti/2026/08/07/Immagini/Ritagli/kosovo-U44748601483FVz-1440x752@IlSole24Ore-Web.jpg?r=1170x507",
-              "url": "https://www.ilsole24ore.com/art/dalla-somalia-kosovo-autunno-prima-linea-le-forze-armate-AJzY7Yg",
-              "date": "2026-09-02",
-              "sentiment": "neutral",
-              "reason": "Faktik raportim i paanshëm",
+              "title": "In viaggio per incontrare l’altro: un’estate di servizio tra Medjugorje, Kosovo e Albania - Luino Notizie",
+              "albanianTitle": "Në udhëtim për të takuar tjetrin: Një verë shërbimi mes Medjugorjes, Kosovës dhe Shqipërisë",
+              "blurb": "Një grup vullnetarësh po zhvillon një udhëtim shërbimi nëpër Medjugorje, Kosovë dhe Shqipëri gjatë kësaj vere.",
+              "imageUrl": "https://www.luinonotizie.it/wp-content/uploads/2026/09/kosovo.jpg",
+              "url": "https://www.luinonotizie.it/2026/09/06/in-viaggio-per-incontrare-laltro-unestate-di-servizio-tra-medjugorje-kosovo-e-albania/580174",
+              "date": "2026-09-06",
+              "sentiment": "unknown",
+              "reason": "",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
             }
           ],
-          "totalArticles": 4,
-          "trend": "neutral",
-          "firstSeen": "2026-08-22",
-          "lastSeen": "2026-09-02"
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-06",
+          "lastSeen": "2026-09-06"
         },
         {
           "name": "OA Sport",
@@ -434,43 +345,19 @@
           "lastSeen": "2026-09-04"
         },
         {
-          "name": "agenziagiornalisticaopinione.it",
-          "sentiment": "neutral",
+          "name": "balcanicaucaso.org",
+          "sentiment": "unknown",
           "articleCount": 1,
           "articles": [
             {
-              "title": "IL SOLE 24 ORE * ITALIA: «DALLA SOMALIA AL KOSOVO, AUTUNNO IN PRIMA LINEA PER LE FORZE ARMATE - agenziagiornalisticaopinione.it",
-              "albanianTitle": "IL SOLE 24 ORE * ITALIA: «NGA SOMALIA NË KOSOVË, VJESHTË NË VIJËN E PARË PËR FORCAT E ARMATOSURA - agenziagiornalisticaopinione.it",
-              "blurb": "Media italiane raporton për angazhimin e forcave ushtarake në operacione të ndryshme, duke përfshirë ato në Somali dhe Kosovë.",
-              "imageUrl": "https://www.agenziagiornalisticaopinione.it/wp-content/uploads/2026/09/Y99Zecafbf4de9044b399450594c072f8403file.jpeg",
-              "url": "https://www.agenziagiornalisticaopinione.it/opinionews/il-sole-24-ore-italia-dalla-somalia-al-kosovo-autunno-in-prima-linea-per-le-forze-armate/",
-              "date": "2026-09-02",
-              "sentiment": "neutral",
-              "reason": "Citim i titullit, jo zëri i mediumit",
-              "isQuote": true,
-              "evidence": "",
-              "speaker": "Il Sole 24 ORE"
-            }
-          ],
-          "totalArticles": 8,
-          "trend": "neutral",
-          "firstSeen": "2026-08-22",
-          "lastSeen": "2026-09-02"
-        },
-        {
-          "name": "en.ilsole24ore.com",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "From Somalia to Kosovo: autumn on the front line for the Armed Forces - en.ilsole24ore.com",
-              "albanianTitle": "Nga Somalia në Kosovë: vjeshtë në vijën e parë për Forcat e Armatosura - en.ilsole24ore.com",
-              "blurb": "Forcat e armatosura italiane janë angazhuar në misione të ndryshme, duke përfshirë dislokimet në Somali dhe në Kosovë.",
-              "imageUrl": "https://i2.res.24o.it/images2010/S24/Documenti/2026/08/07/Immagini/Ritagli/kosovo-U44748601483FVz-1440x752@IlSole24Ore-Web.jpg?r=1170x507",
-              "url": "https://en.ilsole24ore.com/art/from-somalia-kosovo-autumn-the-front-line-the-armed-forces-AJzY7Yg",
-              "date": "2026-09-02",
-              "sentiment": "neutral",
-              "reason": "Fact‑based report",
+              "title": "Kosovo: i Ragni della Val Rugova - balcanicaucaso.org",
+              "albanianTitle": "Kosova: \"Merimangat\" e Rugovës",
+              "blurb": "Artikulli trajton temën e alpinistëve dhe eksploruesve në zonën e luginës së Rugovës në Kosovë.",
+              "imageUrl": "https://www.balcanicaucaso.org/wp-content/uploads/sites/8/2026/09/Inizio-anni-2000-Mauro-Barisone-con-i-ragazzi-fondatori-di-Marimangat-I-Ragni-della-Val-Rugova-1.jpg",
+              "url": "https://www.balcanicaucaso.org/cp_article/kosovo-i-ragni-della-val-rugova/",
+              "date": "2026-09-04",
+              "sentiment": "unknown",
+              "reason": "",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -478,8 +365,8 @@
           ],
           "totalArticles": 1,
           "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-02",
-          "lastSeen": "2026-09-02"
+          "firstSeen": "2026-09-06",
+          "lastSeen": "2026-09-04"
         },
         {
           "name": "ilnordest.it",
@@ -504,30 +391,6 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-03",
           "lastSeen": "2026-09-03"
-        },
-        {
-          "name": "ilsole24ore.com",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Dalla Somalia al Kosovo, autunno in prima linea per le Forze armate - ilsole24ore.com",
-              "albanianTitle": "Nga Somalia në Kosovë, vjeshtë në vijën e parë për Forcat e Armatosura",
-              "blurb": "Forcat e armatosura italiane janë angazhuar në operacione ushtarake në Somali dhe në Kosovë gjatë kësaj vjeshte.",
-              "imageUrl": "https://i2.res.24o.it/images2010/S24/Documenti/2026/08/07/Immagini/Ritagli/kosovo-U44748601483FVz-1440x752@IlSole24Ore-Web.jpg?r=1170x507",
-              "url": "https://www.ilsole24ore.com/art/dalla-somalia-kosovo-autunno-prima-linea-le-forze-armate-AJzY7Yg",
-              "date": "2026-09-02",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-05",
-          "lastSeen": "2026-09-02"
         },
         {
           "name": "oasport.it",
@@ -555,18 +418,50 @@
         }
       ],
       "summary": {
-        "index": 54,
-        "positive": 8,
-        "neutral": 92,
+        "index": 60,
+        "positive": 20,
+        "neutral": 80,
         "negative": 0,
-        "n": 13,
-        "excluded": 1,
+        "n": 5,
+        "excluded": 3,
         "confident": true,
-        "stanceVersion": 3
+        "stanceVersion": 3,
+        "movement": {
+          "delta": 6,
+          "from": 54,
+          "outlet": "EcoDelloJonio.it",
+          "title": "Nga Vaccarizzo në Kosovë, vera lidh Arbërinë: Pomillo ambasador i Hardh Festit",
+          "evidence": "il vino ricuce l’Arbëria",
+          "url": "https://ecodellojonio.it/articoli/territorio/2026/09/da-vaccarizzo-al-kosovo-il-vino-ricuce-l-arberia-pomillo-ambasciatore-dell-hardh-fest"
+        }
       }
     },
     "Austri": {
       "outlets": [
+        {
+          "name": "NÖN.at - Niederösterreichische Nachrichten",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Damals bei uns - 2006: Als Horner Soldaten in den Kosovo aufbrachen - NÖN.at - Niederösterreichische Nachrichten",
+              "albanianTitle": "Kujtimet e vitit 2006: Kur ushtarët nga Horner u nisën për në Kosovë",
+              "blurb": "Ushtarët nga Horner u nisën drejt Kosovës në vitin 2006, sipas arkivave të gazetës Niederösterreichische Nachrichten.",
+              "imageUrl": null,
+              "url": "https://www.noen.at/horn/damals-bei-uns-2006-als-horner-soldaten-in-den-kosovo-aufbrachen-537183700",
+              "date": "2026-09-06",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportuar në mënyrë neutrale",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-06",
+          "lastSeen": "2026-09-06"
+        },
         {
           "name": "oefb.at",
           "sentiment": "neutral",
@@ -597,7 +492,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 1,
+        "n": 2,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -605,43 +500,6 @@
     },
     "Zvicër": {
       "outlets": [
-        {
-          "name": "24 Heures",
-          "sentiment": "neutral",
-          "articleCount": 2,
-          "articles": [
-            {
-              "title": "Hashim Thaçi, un ancien président du Kosovo accusé de crimes de guerre - 24 Heures",
-              "albanianTitle": "Hashim Thaçi, ish-presidenti i Kosovës i akuzuar për krime lufte",
-              "blurb": "Ish-presidenti i Kosovës, Hashim Thaçi, po përballet me akuza për krime lufte në gjykatat ndërkombëtare.",
-              "imageUrl": "https://cdn.unitycms.io/images/D9rQVRMA4A39WK79GtZ6TH.jpg?op=ocroped&val=1200,600,1000,750,107,0&sum=SvTtV9V93RQ",
-              "url": "https://www.24heures.ch/kosovo-lancien-president-thaci-accuse-de-crimes-de-guerre-877518889859",
-              "date": "2026-09-02",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Hashim Thaçi, un ancien président du Kosovo accusé de crimes de guerre - 24heures.ch",
-              "albanianTitle": "Hashim Thaçi, ish-presidenti i Kosovës i akuzuar për krime lufte",
-              "blurb": "Ish-presidenti i Kosovës, Hashim Thaçi, po përballet me akuza për krime lufte në gjykatën ndërkombëtare në Hagë.",
-              "imageUrl": "https://cdn.unitycms.io/images/D9rQVRMA4A39WK79GtZ6TH.jpg?op=ocroped&val=1200,600,1000,750,107,0&sum=SvTtV9V93RQ",
-              "url": "https://www.24heures.ch/kosovo-lancien-president-thaci-accuse-de-crimes-de-guerre-877518889859",
-              "date": "2026-09-02",
-              "sentiment": "neutral",
-              "reason": "Raportim faktik i akuzës pa gjuhë të ngarkuar",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-04",
-          "lastSeen": "2026-09-02"
-        },
         {
           "name": "albinfo.ch",
           "sentiment": "neutral",
@@ -687,19 +545,6 @@
               "speaker": ""
             },
             {
-              "title": "Ein junger Mann aus dem Kosovo gewinnt einen internationalen Preis für ein KI-Projekt in albanischer Gebärdensprache - albinfo.ch",
-              "albanianTitle": "Një i ri nga Kosova fiton çmim ndërkombëtar për një projekt të inteligjencës artificiale në gjuhën shqipe të shenjave",
-              "blurb": "Një i ri nga Kosova është shpërblyer me çmim ndërkombëtar për zhvillimin e një projekti të inteligjencës artificiale për gjuhën.",
-              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/img_1024.jpeg",
-              "url": "https://www.albinfo.ch/de/i-riu-nga-kosova-fiton-cmim-nderkombetar-per-projektin-e-ai-se-ne-gjuhen-shqipe-te-shenjave/",
-              "date": "2026-09-02",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportuar në mënyrë neutrale",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
               "title": "Le talent du Bayern Munich choisit le Kosovo, l’ambassadeur lui remet son passeport et confirme qu’il jouera pour les Dardaniens - albinfo.ch",
               "albanianTitle": "Talenti i Bayern Munich zgjedh Kosovën, ambasadori ia dorëzon pasaportën dhe konfirmon se do të luajë për Dardanët - albinfo.ch",
               "blurb": "Talenti i Bayern Munichut ka pajisur me pasaportë të Kosovës dhe do të përfaqësojë kombëtaren e futbollit të Kosovës.",
@@ -724,66 +569,46 @@
               "isQuote": false,
               "evidence": "Moment historique",
               "speaker": ""
-            }
-          ],
-          "totalArticles": 22,
-          "trend": "pozitiv",
-          "firstSeen": "2026-09-05",
-          "lastSeen": "2026-09-04"
-        }
-      ],
-      "summary": {
-        "index": 59,
-        "positive": 18,
-        "neutral": 82,
-        "negative": 0,
-        "n": 22,
-        "excluded": 2,
-        "confident": true,
-        "stanceVersion": 3,
-        "movement": {
-          "delta": 9,
-          "from": 50,
-          "outlet": "albinfo.ch",
-          "title": "Kianoush Rostami i sjell Kosovës medaljen e tetë në “Taranto 2026”",
-          "evidence": "beschert dem Kosovo die achte Medaille",
-          "url": "https://www.albinfo.ch/de/kianoush-rostami-i-sjell-kosoves-medaljen-e-tete-ne-taranto-2026/"
-        }
-      }
-    },
-    "Holandë": {
-      "outlets": [
-        {
-          "name": "ESPN.nl",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
+            },
             {
-              "title": "Scoring statistieken Kosovo, UEFA Nations League 2026 - ESPN.nl",
-              "albanianTitle": "Statistikat e golave të Kosovës në Ligën e Kombeve 2026",
-              "blurb": "Statistikat e shënimit të golave për përfaqësuesen e Kosovës në kuadër të Ligës së Kombeve për vitin 2026.",
-              "imageUrl": null,
-              "url": "https://www.espn.nl/voetbal/team/statistieken/_/id/18272/competitie/UEFA.NATIONS/season/2026",
-              "date": "2026-09-02",
+              "title": "Kosovo reçoit le drapeau des Jeux méditerranéens, le chemin vers \"Prishtina 2030\" commence - albinfo.ch",
+              "albanianTitle": "Kosova pranon flamurin e Lojërave Mesdhetare, nis rrugëtimi drejt 'Prishtina 2030' - albinfo.ch",
+              "blurb": "Kosova ka pranuar zyrtarisht flamurin e Lojërave Mesdhetare, duke shënuar fillimin e përgatitjeve për organizimin e Prishtina 2030.",
+              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/img_2787.jpeg",
+              "url": "https://www.albinfo.ch/fr/kosova-pranon-flamurin-e-lojerave-mesdhetare-nis-rrugetimi-drejt-prishtina-2030/",
+              "date": "2026-09-04",
               "sentiment": "neutral",
-              "reason": "Raportim sportiv neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
             }
           ],
-          "totalArticles": 4,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-28",
-          "lastSeen": "2026-09-02"
+          "totalArticles": 28,
+          "trend": "pozitiv",
+          "firstSeen": "2026-09-05",
+          "lastSeen": "2026-09-05"
         }
       ],
       "summary": {
-        "index": 50,
-        "positive": 0,
-        "neutral": 100,
+        "index": 57,
+        "positive": 14,
+        "neutral": 86,
         "negative": 0,
-        "n": 1,
+        "n": 21,
+        "excluded": 2,
+        "confident": true,
+        "stanceVersion": 3
+      }
+    },
+    "Holandë": {
+      "outlets": [],
+      "summary": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -803,14 +628,39 @@
       }
     },
     "Spanjë": {
-      "outlets": [],
+      "outlets": [
+        {
+          "name": "www.diariojaen.es",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Es fiel al legado de su abuelo, Hilario Montalbán, que es el pionero de la halterofilia en Linares y que sigue trabajando con la misma ilusión pese a la falta de recursos de instalaciones. Su nieto, Adrián Franco Montalbán no ha parado en todo el verano. Prim - www.diariojaen.es",
+              "albanianTitle": "Ai ndoqi gjurmët e gjyshit të tij, Hilario Montalbán, pionierit të peshëngritjes në Linares, i cili vazhdon të punojë me të njëjtin pasion pavarësisht mungesës së kushteve. Nipi i tij, Adrián Franco Montalbán, nuk ka pushuar gjatë gjithë verës.",
+              "blurb": "Adrián Franco Montalbán vazhdon trashëgiminë e gjyshit të tij, Hilario Montalbán, në sportin e peshëngritjes në qytetin e Linaresit.",
+              "imageUrl": "https://www.diariojaen.es/binrepository/600x400/0c23/600d346/none/10717/RRWP/adrian-franco-montalban-1_18736448_20260905200730.jpg",
+              "url": "https://www.diariojaen.es/deportes/adrian-franco-acaba-noveno-en-el-europeo-sub-17-despues-de-ser-octavo-en-el-mundial-BM11596171",
+              "date": "2026-09-06",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 2,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-30",
+          "lastSeen": "2026-09-06"
+        }
+      ],
       "summary": {
         "index": null,
         "positive": 0,
         "neutral": 0,
         "negative": 0,
         "n": 0,
-        "excluded": 0,
+        "excluded": 1,
         "confident": false,
         "stanceVersion": 3
       }
@@ -1095,19 +945,35 @@
         "n": 3,
         "excluded": 2,
         "confident": false,
-        "stanceVersion": 3,
-        "movement": {
-          "delta": 17,
-          "from": 50,
-          "outlet": "ekai.pl",
-          "title": "Ushtarët polakë ndihmojnë komunitetet lokale në Kosovë dhe Turqi - ekai.pl",
-          "evidence": "pomagają",
-          "url": "https://www.ekai.pl/polscy-zolnierze-pomagaja-lokalnym-spolecznosciom-w-kosowie-i-turcji/"
-        }
+        "stanceVersion": 3
       }
     },
     "Turqi": {
       "outlets": [
+        {
+          "name": "Sabah",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Yazın son şarkısı Avrupa’da çalıyor - Sabah",
+              "albanianTitle": "Hiti i fundit i verës po dëgjohet nëpër Evropë",
+              "blurb": "Kënga e fundit e verës po transmetohet nëpër stacionet dhe platformat e ndryshme muzikore në të gjithë kontinentin evropian.",
+              "imageUrl": "https://iasbh.tmgrup.com.tr/b83c58/1200/675/0/118/1135/756?u=https://isbh.tmgrup.com.tr/sbh/2026/09/05/yazin-son-sarkisi-avrupada-caliyor-1788612020999.jpeg",
+              "url": "https://www.sabah.com.tr/turizm/2026/09/06/yazin-son-sarkisi-avrupada-caliyor",
+              "date": "2026-09-06",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-06",
+          "lastSeen": "2026-09-06"
+        },
         {
           "name": "TRT Avaz",
           "sentiment": "unknown",
@@ -1163,7 +1029,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 1,
-        "excluded": 1,
+        "excluded": 2,
         "confident": false,
         "stanceVersion": 3
       }

@@ -5377,5 +5377,214 @@
         "sentiment": "negative"
       }
     ]
+  },
+  {
+    "date": "2026-09-06",
+    "overallIndex": 55,
+    "totalArticles": 46,
+    "sourceCount": 29,
+    "stanceVersion": 3,
+    "countries": {
+      "Gjermani": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 2,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "SHBA": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Britani": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 4,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Francë": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 2,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Itali": {
+        "index": 60,
+        "positive": 20,
+        "neutral": 80,
+        "negative": 0,
+        "n": 5,
+        "excluded": 3,
+        "confident": true,
+        "stanceVersion": 3,
+        "movement": {
+          "delta": 6,
+          "from": 54,
+          "outlet": "EcoDelloJonio.it",
+          "title": "Nga Vaccarizzo në Kosovë, vera lidh Arbërinë: Pomillo ambasador i Hardh Festit",
+          "evidence": "il vino ricuce l’Arbëria",
+          "url": "https://ecodellojonio.it/articoli/territorio/2026/09/da-vaccarizzo-al-kosovo-il-vino-ricuce-l-arberia-pomillo-ambasciatore-dell-hardh-fest"
+        }
+      },
+      "Austri": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 2,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Zvicër": {
+        "index": 57,
+        "positive": 14,
+        "neutral": 86,
+        "negative": 0,
+        "n": 21,
+        "excluded": 2,
+        "confident": true,
+        "stanceVersion": 3
+      },
+      "Holandë": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Belgjikë": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Spanjë": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 1,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Greqi": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 6,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 3
+      },
+      "Suedi": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Poloni": {
+        "index": 67,
+        "positive": 33,
+        "neutral": 67,
+        "negative": 0,
+        "n": 3,
+        "excluded": 2,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Turqi": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 1,
+        "excluded": 2,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Kroaci": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      }
+    },
+    "headlines": [
+      {
+        "title": "Historischer Moment für die QSU, ein Kadett aus Kosovo beginnt mit einem Stipendium sein Studium in den USA - albinfo.ch",
+        "source": "albinfo.ch",
+        "country": "Gjermani",
+        "flag": "🇩🇪",
+        "url": "https://www.albinfo.ch/de/moment-historik-per-qsu-ne-kadeti-nga-kosova-nis-studimet-ne-shba-me-burse/",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Moment historique pour la QSU, un cadet du Kosovo commence ses études aux États-Unis grâce à une bourse - albinfo.ch",
+        "source": "albinfo.ch",
+        "country": "Francë",
+        "flag": "🇫🇷",
+        "url": "https://www.albinfo.ch/fr/moment-historik-per-qsu-ne-kadeti-nga-kosova-nis-studimet-ne-shba-me-burse/",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Βούλγαρία-Κόσοβο με κοινές προσπάθειες για την ειρήνη και την ασφάλεια - БНР Новини",
+        "source": "БНР Новини",
+        "country": "Greqi",
+        "flag": "🇬🇷",
+        "url": "https://bnrnews.bg/el/post/523471/boylgaria-kosobo-me-koines-prospa8eies-gia-thn-eirhnh-kai-thn-asfaleia",
+        "sentiment": "positive"
+      },
+      {
+        "title": "FETÖ Kosova'da kök salıyor: Siyasetçi ve bürokratları okullarla avlıyor - Yeni Şafak",
+        "source": "Yeni Şafak",
+        "country": "Turqi",
+        "flag": "🇹🇷",
+        "url": "https://www.yenisafak.com/dunya/feto-kosovada-kok-saliyor-siyasetci-ve-burokratlari-okullarla-avliyor-4853420",
+        "sentiment": "negative"
+      },
+      {
+        "title": "Kosova Anayasal Çizginin Dışına Çıktı - Kosovahaber.com",
+        "source": "Kosovahaber.com",
+        "country": "Turqi",
+        "flag": "🇹🇷",
+        "url": "https://kosovahaber.com/haber/kosova-anayasal-cizginin-disina-cikti-105740",
+        "sentiment": "negative"
+      }
+    ]
   }
 ]

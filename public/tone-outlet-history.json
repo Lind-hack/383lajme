@@ -2248,15 +2248,16 @@
     },
     "www.diariojaen.es": {
       "country": "Spanjë",
-      "total": 1,
+      "total": 2,
       "positive": 0,
       "neutral": 0,
       "negative": 0,
-      "unknown": 1,
+      "unknown": 2,
       "firstSeen": "2026-08-30",
-      "lastSeen": "2026-08-28",
+      "lastSeen": "2026-09-06",
       "urls": [
-        "https://www.diariojaen.es/deportes/juan-camara-entra-en-la-historia-con-el-inter-escaldes-al-ser-el-primer-club-de-andorra-en-una-fase-de-grupos-europea-BN11585488"
+        "https://www.diariojaen.es/deportes/juan-camara-entra-en-la-historia-con-el-inter-escaldes-al-ser-el-primer-club-de-andorra-en-una-fase-de-grupos-europea-BN11585488",
+        "https://www.diariojaen.es/deportes/adrian-franco-acaba-noveno-en-el-europeo-sub-17-despues-de-ser-octavo-en-el-mundial-BM11596171"
       ]
     },
     "WAZ": {
@@ -2707,13 +2708,13 @@
     },
     "albinfo.ch": {
       "country": "Zvicër",
-      "total": 22,
+      "total": 28,
       "positive": 4,
-      "neutral": 16,
+      "neutral": 21,
       "negative": 0,
-      "unknown": 2,
+      "unknown": 3,
       "firstSeen": "2026-09-05",
-      "lastSeen": "2026-09-04",
+      "lastSeen": "2026-09-05",
       "urls": [
         "https://www.albinfo.ch/de/talenti-i-bayern-munich-zgjedh-kosoven-ambasadori-i-jep-pasaporten-konfirmon-se-do-te-luaje-per-dardanet/",
         "https://www.albinfo.ch/de/moment-historik-per-qsu-ne-kadeti-nga-kosova-nis-studimet-ne-shba-me-burse/",
@@ -2736,7 +2737,13 @@
         "https://www.albinfo.ch/de/kianoush-rostami-i-sjell-kosoves-medaljen-e-tete-ne-taranto-2026/",
         "https://www.albinfo.ch/de/filmi-i-regjisorit-kosovar-besim-ugzmajli-perzgjidhet-ne-festivalin-kualifikues-per-oscar/",
         "https://www.albinfo.ch/de/dua-lipa-mund-te-jete-nje-nga-emrat-kryesore-te-coachella-2027/",
-        "https://www.albinfo.ch/de/guret-e-adriatikut-behen-art-luan-bajraktari-me-ekspoziten-beneath-the-tongue-a-pebble-ne-kroaci/"
+        "https://www.albinfo.ch/de/guret-e-adriatikut-behen-art-luan-bajraktari-me-ekspoziten-beneath-the-tongue-a-pebble-ne-kroaci/",
+        "https://www.albinfo.ch/de/mbahen-konsultimet-politike-ndermjet-kosoves-dhe-zvicres-ne-berne/",
+        "https://www.albinfo.ch/de/mjeku-shqiptar-nga-zvicra-qe-u-kujdes-per-ekipin-olimpik-te-kosoves-ne-lojerat-mesdhetare/",
+        "https://www.albinfo.ch/de/rahoveci-hap-dyert-per-festivalin-hardh-fest-festa-e-rrushit/",
+        "https://www.albinfo.ch/fr/mjeku-shqiptar-nga-zvicra-qe-u-kujdes-per-ekipin-olimpik-te-kosoves-ne-lojerat-mesdhetare/",
+        "https://www.albinfo.ch/fr/mbahen-konsultimet-politike-ndermjet-kosoves-dhe-zvicres-ne-berne/",
+        "https://www.albinfo.ch/fr/rahoveci-hap-dyert-per-festivalin-hardh-fest-festa-e-rrushit/"
       ]
     },
     "ekai.pl": {
@@ -2789,6 +2796,58 @@
       "lastSeen": "2026-09-05",
       "urls": [
         "https://www.trtavaz.com.tr/haber/tur/turkistandan/uskup-te-osmanli-avrupasi-nda-edebiyat-1400-1800-sempozyumu-duzenlendi/6a9bda56e72ad848a0b1de17"
+      ]
+    },
+    "Luino Notizie": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-06",
+      "lastSeen": "2026-09-06",
+      "urls": [
+        "https://www.luinonotizie.it/2026/09/06/in-viaggio-per-incontrare-laltro-unestate-di-servizio-tra-medjugorje-kosovo-e-albania/580174"
+      ]
+    },
+    "balcanicaucaso.org": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-06",
+      "lastSeen": "2026-09-04",
+      "urls": [
+        "https://www.balcanicaucaso.org/cp_article/kosovo-i-ragni-della-val-rugova/"
+      ]
+    },
+    "NÖN.at - Niederösterreichische Nachrichten": {
+      "country": "Austri",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-06",
+      "lastSeen": "2026-09-06",
+      "urls": [
+        "https://www.noen.at/horn/damals-bei-uns-2006-als-horner-soldaten-in-den-kosovo-aufbrachen-537183700"
+      ]
+    },
+    "Sabah": {
+      "country": "Turqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-06",
+      "lastSeen": "2026-09-06",
+      "urls": [
+        "https://www.sabah.com.tr/turizm/2026/09/06/yazin-son-sarkisi-avrupada-caliyor"
       ]
     }
   }
