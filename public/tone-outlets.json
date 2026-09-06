@@ -1,8 +1,8 @@
 {
   "lastUpdated": "2026-09-06",
   "overallIndex": 55,
-  "totalArticles": 50,
-  "sourceCount": 30,
+  "totalArticles": 54,
+  "sourceCount": 35,
   "stanceVersion": 3,
   "unattributed": 154,
   "nonEditorial": 1,
@@ -59,6 +59,30 @@
           "lastSeen": "2026-09-03"
         },
         {
+          "name": "WAZ | Westdeutsche Allgemeine Zeitung",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Socca WM: Spannung und Tore - über 30 Fotos vom letzten Vorrundenspieltag - WAZ | Westdeutsche Allgemeine Zeitung",
+              "albanianTitle": null,
+              "blurb": "Kampionati Botëror i Socca-s sjell ndeshje të tensionuara dhe gola, të pasqyruara përmes një galerie fotografike nga faza grupore.",
+              "imageUrl": "https://img.sparknews.funkemedien.de/413042347/413042347_1788431588_v16_9_1600.jpeg",
+              "url": "https://www.waz.de/sport/lokalsport/essen/article413042332/socca-wm-spannung-und-tore-ueber-30-fotos-vom-letzten-vorrundenspieltag.html",
+              "date": "2026-09-03",
+              "sentiment": "unknown",
+              "reason": "No mention of Kosovo in the item",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-06",
+          "lastSeen": "2026-09-03"
+        },
+        {
           "name": "waz.de",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -89,7 +113,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 3,
-        "excluded": 0,
+        "excluded": 1,
         "confident": false,
         "stanceVersion": 3
       }
@@ -396,18 +420,18 @@
         },
         {
           "name": "balcanicaucaso.org",
-          "sentiment": "unknown",
+          "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
               "title": "Kosovo: i Ragni della Val Rugova - balcanicaucaso.org",
               "albanianTitle": "Kosova: \"Merimangat\" e Rugovës",
-              "blurb": "Artikulli trajton temën e alpinistëve dhe eksploruesve në zonën e luginës së Rugovës në Kosovë.",
+              "blurb": "Një vështrim mbi alpinistët e njohur si merimangat e Val Rugovës dhe sfidat e tyre në terrenet malore kosovare.",
               "imageUrl": "https://www.balcanicaucaso.org/wp-content/uploads/sites/8/2026/09/Inizio-anni-2000-Mauro-Barisone-con-i-ragazzi-fondatori-di-Marimangat-I-Ragni-della-Val-Rugova-1.jpg",
               "url": "https://www.balcanicaucaso.org/cp_article/kosovo-i-ragni-della-val-rugova/",
               "date": "2026-09-04",
-              "sentiment": "unknown",
-              "reason": "",
+              "sentiment": "neutral",
+              "reason": "Headline mentions Kosovo in a neutral context (spiders of Rugova Valley)",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -468,18 +492,66 @@
         }
       ],
       "summary": {
-        "index": 57,
-        "positive": 14,
-        "neutral": 86,
+        "index": 56,
+        "positive": 12,
+        "neutral": 88,
         "negative": 0,
-        "n": 7,
-        "excluded": 3,
+        "n": 8,
+        "excluded": 2,
         "confident": true,
         "stanceVersion": 3
       }
     },
     "Austri": {
       "outlets": [
+        {
+          "name": "Kathpress",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Zehn Jahre heilig: Weltweites Gedenken an Mutter Teresa - Kathpress",
+              "albanianTitle": null,
+              "blurb": "Besimtarët në mbarë botën shënojnë dhjetëvjetorin e shenjtërimit të Nënë Terezës përmes aktiviteteve të ndryshme përkujtimore.",
+              "imageUrl": null,
+              "url": "https://www.kathpress.at/goto/meldung/2609648/zehn-jahre-heilig-weltweites-gedenken-an-mutter-teresa",
+              "date": "2026-09-06",
+              "sentiment": "unknown",
+              "reason": "No mention of Kosovo in the item",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-06",
+          "lastSeen": "2026-09-06"
+        },
+        {
+          "name": "Kronen Zeitung",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Überraschender Besuch - Wahlsieger aus dem Kosovo bei Kanzler Stocker - Kronen Zeitung",
+              "albanianTitle": null,
+              "blurb": "Fituesi i zgjedhjeve në Kosovë zhvillon një vizitë të papritur te kancelari austriak Stocker për të diskutuar çështje politike.",
+              "imageUrl": "https://imgl.krone.at/scaled/4171099/vb5ee87/og_image.jpg",
+              "url": "https://www.krone.at/4171096",
+              "date": "2026-09-06",
+              "sentiment": "neutral",
+              "reason": "Headline reports a visit without loaded language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 3,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-25",
+          "lastSeen": "2026-09-06"
+        },
         {
           "name": "NÖN.at - Niederösterreichische Nachrichten",
           "sentiment": "neutral",
@@ -494,6 +566,30 @@
               "date": "2026-09-06",
               "sentiment": "neutral",
               "reason": "Faktikë raportuar në mënyrë neutrale",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-06",
+          "lastSeen": "2026-09-06"
+        },
+        {
+          "name": "noen.at",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Damals bei uns - 2006: Als Horner Soldaten in den Kosovo aufbrachen - noen.at",
+              "albanianTitle": null,
+              "blurb": "Kujtohet viti 2006 kur ushtarët nga qyteti i Hornit u nisën për mision paqeruajtës në territorin e Kosovës.",
+              "imageUrl": null,
+              "url": "https://www.noen.at/horn/damals-bei-uns-2006-als-horner-soldaten-in-den-kosovo-aufbrachen-537183700",
+              "date": "2026-09-06",
+              "sentiment": "neutral",
+              "reason": "Faktikë raporti neutral",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -534,8 +630,8 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 2,
-        "excluded": 0,
+        "n": 4,
+        "excluded": 1,
         "confident": false,
         "stanceVersion": 3
       }
@@ -672,19 +768,19 @@
     "Spanjë": {
       "outlets": [
         {
-          "name": "diariojaen.es",
-          "sentiment": "unknown",
+          "name": "diariodeleon.es",
+          "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
-              "title": "Es fiel al legado de su abuelo, Hilario Montalbán, que es el pionero de la halterofilia en Linares y que sigue trabajando con la misma ilusión pese a la falta de recursos de instalaciones. Su nieto, Adrián Franco Montalbán no ha parado en todo el verano. Prim - diariojaen.es",
-              "albanianTitle": "Ai ndoqi gjurmët e gjyshit të tij, Hilario Montalbán, pionierit të peshëngritjes në Linares, i cili vazhdon të punojë me të njëjtin pasion pavarësisht mungesës së kushteve. Nipi i tij, Adrián Franco Montalbán, nuk është ndalur gjatë gjithë verës.",
-              "blurb": "Adrián Franco Montalbán vazhdon stërvitjet në peshëngritje duke ndjekur hapat e gjyshit të tij, pionierit Hilario Montalbán në Linares.",
-              "imageUrl": "https://www.diariojaen.es/binrepository/600x400/0c23/600d346/none/10717/RRWP/adrian-franco-montalban-1_18736448_20260905200730.jpg",
-              "url": "https://www.diariojaen.es/deportes/adrian-franco-acaba-noveno-en-el-europeo-sub-17-despues-de-ser-octavo-en-el-mundial-BM11596171",
+              "title": "De la calma de León a vivir en un país de posguerra - diariodeleon.es",
+              "albanianTitle": null,
+              "blurb": "Një rrëfim personal për kalimin nga qetësia e qytetit të Leonit drejt jetës në një vend të pasluftës.",
+              "imageUrl": "https://imagenes.diariodeleon.es/files/og_thumbnail/uploads/2026/09/06/6a9d83a70ccd7.png",
+              "url": "https://www.diariodeleon.es/sociedad/260906/2096518/calma-leon-vivir-pais-posguerra.html",
               "date": "2026-09-06",
-              "sentiment": "unknown",
-              "reason": "Nuk përmendet Kosova në titull ose fragment",
+              "sentiment": "neutral",
+              "reason": "Headline is a factual description of moving to a post‑war country, no hostile or admiring tone",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -694,14 +790,38 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-06",
           "lastSeen": "2026-09-06"
+        },
+        {
+          "name": "www.diariojaen.es",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Es fiel al legado de su abuelo, Hilario Montalbán, que es el pionero de la halterofilia en Linares y que sigue trabajando con la misma ilusión pese a la falta de recursos de instalaciones. Su nieto, Adrián Franco Montalbán no ha parado en todo el verano. Prim - www.diariojaen.es",
+              "albanianTitle": "Adrián Franco Montalbán ndjek gjurmët e gjyshit të tij, Hilario Montalbán, pionier i peshëngritjes në Linares, i cili vazhdon punën me pasion pavarësisht mungesës së kushteve.",
+              "blurb": "Adrián Franco Montalbán vazhdon stërvitjet gjatë verës, duke ndjekur hapat e gjyshit të tij, pionierit të peshëngritjes Hilario Montalbán.",
+              "imageUrl": "https://www.diariojaen.es/binrepository/600x400/0c23/600d346/none/10717/RRWP/adrian-franco-montalban-1_18736448_20260905200730.jpg",
+              "url": "https://www.diariojaen.es/deportes/adrian-franco-acaba-noveno-en-el-europeo-sub-17-despues-de-ser-octavo-en-el-mundial-BM11596171",
+              "date": "2026-09-06",
+              "sentiment": "unknown",
+              "reason": "Article snippet does not mention Kosovo, so outlet stance cannot be determined",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 2,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-30",
+          "lastSeen": "2026-09-06"
         }
       ],
       "summary": {
-        "index": null,
+        "index": 50,
         "positive": 0,
-        "neutral": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 0,
+        "n": 1,
         "excluded": 1,
         "confident": false,
         "stanceVersion": 3
@@ -937,13 +1057,13 @@
             },
             {
               "title": "Mistrzostwa Świata Socca 2026: Wyniki, terminarz - iGaming Polska",
-              "albanianTitle": "Kampionati Botëror i Socca 2026: Rezultatet dhe orari i ndeshjeve - iGaming Polska",
-              "blurb": "Platforma iGaming Polska publikon rezultatet dhe orarin e ndeshjeve për Kampionatin Botëror të Socca-s të vitit 2026.",
+              "albanianTitle": "Kampionati Botëror i Socca 2026: Rezultatet dhe orari i ndeshjeve",
+              "blurb": "Informacione mbi rezultatet dhe orarin e ndeshjeve për Kampionatin Botëror të Socca-s që do të mbahet gjatë vitit 2026.",
               "imageUrl": null,
               "url": "https://igamingpolska.pl/mistrzostwa-swiata-socca-2026-terminarz-wyniki/",
-              "date": "2026-09-05",
+              "date": "2026-09-06",
               "sentiment": "unknown",
-              "reason": "",
+              "reason": "Article snippet is about a sports tournament and does not reference Kosovo",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -952,7 +1072,7 @@
           "totalArticles": 1,
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-08-28",
-          "lastSeen": "2026-09-05"
+          "lastSeen": "2026-09-06"
         },
         {
           "name": "igamingpolska.pl",

@@ -1518,16 +1518,17 @@
     },
     "Kronen Zeitung": {
       "country": "Austri",
-      "total": 2,
+      "total": 3,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 1,
       "firstSeen": "2026-08-25",
-      "lastSeen": "2026-08-29",
+      "lastSeen": "2026-09-06",
       "urls": [
         "https://www.krone.at/4268829",
-        "https://www.krone.at/4269964"
+        "https://www.krone.at/4269964",
+        "https://www.krone.at/4171096"
       ]
     },
     "Heute": {
@@ -2177,7 +2178,7 @@
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-28",
-      "lastSeen": "2026-09-05",
+      "lastSeen": "2026-09-06",
       "urls": [
         "https://igamingpolska.pl/mistrzostwa-swiata-socca-2026-terminarz-wyniki/"
       ]
@@ -2864,6 +2865,58 @@
       "lastSeen": "2026-09-06",
       "urls": [
         "https://www.diariojaen.es/deportes/adrian-franco-acaba-noveno-en-el-europeo-sub-17-despues-de-ser-octavo-en-el-mundial-BM11596171"
+      ]
+    },
+    "WAZ | Westdeutsche Allgemeine Zeitung": {
+      "country": "Gjermani",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-06",
+      "lastSeen": "2026-09-03",
+      "urls": [
+        "https://www.waz.de/sport/lokalsport/essen/article413042332/socca-wm-spannung-und-tore-ueber-30-fotos-vom-letzten-vorrundenspieltag.html"
+      ]
+    },
+    "Kathpress": {
+      "country": "Austri",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-06",
+      "lastSeen": "2026-09-06",
+      "urls": [
+        "https://www.kathpress.at/goto/meldung/2609648/zehn-jahre-heilig-weltweites-gedenken-an-mutter-teresa"
+      ]
+    },
+    "noen.at": {
+      "country": "Austri",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-06",
+      "lastSeen": "2026-09-06",
+      "urls": [
+        "https://www.noen.at/horn/damals-bei-uns-2006-als-horner-soldaten-in-den-kosovo-aufbrachen-537183700"
+      ]
+    },
+    "diariodeleon.es": {
+      "country": "Spanjë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-06",
+      "lastSeen": "2026-09-06",
+      "urls": [
+        "https://www.diariodeleon.es/sociedad/260906/2096518/calma-leon-vivir-pais-posguerra.html"
       ]
     }
   }

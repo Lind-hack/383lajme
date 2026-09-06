@@ -5381,8 +5381,8 @@
   {
     "date": "2026-09-06",
     "overallIndex": 55,
-    "totalArticles": 50,
-    "sourceCount": 30,
+    "totalArticles": 54,
+    "sourceCount": 35,
     "stanceVersion": 3,
     "countries": {
       "Gjermani": {
@@ -5391,7 +5391,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 3,
-        "excluded": 0,
+        "excluded": 1,
         "confident": false,
         "stanceVersion": 3
       },
@@ -5426,12 +5426,12 @@
         "stanceVersion": 3
       },
       "Itali": {
-        "index": 57,
-        "positive": 14,
-        "neutral": 86,
+        "index": 56,
+        "positive": 12,
+        "neutral": 88,
         "negative": 0,
-        "n": 7,
-        "excluded": 3,
+        "n": 8,
+        "excluded": 2,
         "confident": true,
         "stanceVersion": 3
       },
@@ -5440,8 +5440,8 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 2,
-        "excluded": 0,
+        "n": 4,
+        "excluded": 1,
         "confident": false,
         "stanceVersion": 3
       },
@@ -5476,11 +5476,11 @@
         "stanceVersion": 3
       },
       "Spanjë": {
-        "index": null,
+        "index": 50,
         "positive": 0,
-        "neutral": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 0,
+        "n": 1,
         "excluded": 1,
         "confident": false,
         "stanceVersion": 3
@@ -5546,24 +5546,16 @@
         "sentiment": "positive"
       },
       {
-        "title": "Moment historique pour la QSU, un cadet du Kosovo commence ses études aux États-Unis grâce à une bourse - albinfo.ch",
-        "source": "albinfo.ch",
-        "country": "Francë",
-        "flag": "🇫🇷",
-        "url": "https://www.albinfo.ch/fr/moment-historik-per-qsu-ne-kadeti-nga-kosova-nis-studimet-ne-shba-me-burse/",
-        "sentiment": "positive"
-      },
-      {
-        "title": "Βούλγαρία-Κόσοβο με κοινές προσπάθειες για την ειρήνη και την ασφάλεια - БНР Новини",
-        "source": "БНР Новини",
+        "title": "Βούλγαρία-Κόσοβο με κοινές προσπάθειες για την ειρήνη και την ασφάλεια - bnrnews.bg",
+        "source": "bnrnews.bg",
         "country": "Greqi",
         "flag": "🇬🇷",
         "url": "https://bnrnews.bg/el/post/523471/boylgaria-kosobo-me-koines-prospa8eies-gia-thn-eirhnh-kai-thn-asfaleia",
         "sentiment": "positive"
       },
       {
-        "title": "FETÖ Kosova'da kök salıyor: Siyasetçi ve bürokratları okullarla avlıyor - yenisafak.com",
-        "source": "yenisafak.com",
+        "title": "FETÖ Kosova'da kök salıyor: Siyasetçi ve bürokratları okullarla avlıyor - Yeni Şafak",
+        "source": "Yeni Şafak",
         "country": "Turqi",
         "flag": "🇹🇷",
         "url": "https://www.yenisafak.com/dunya/feto-kosovada-kok-saliyor-siyasetci-ve-burokratlari-okullarla-avliyor-4853420",
