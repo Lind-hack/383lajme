@@ -2918,6 +2918,32 @@
       "urls": [
         "https://www.diariodeleon.es/sociedad/260906/2096518/calma-leon-vivir-pais-posguerra.html"
       ]
+    },
+    "ilmessaggero.it": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 1,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-06",
+      "lastSeen": "2026-09-06",
+      "urls": [
+        "https://www.ilmessaggero.it/sport/altrisport/giochi_mediterraneo_ferrarese_taranto_cosa_ha_detto-9743199.html"
+      ]
+    },
+    "luinonotizie.it": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-06",
+      "lastSeen": "2026-09-06",
+      "urls": [
+        "https://www.luinonotizie.it/2026/09/06/in-viaggio-per-incontrare-laltro-unestate-di-servizio-tra-medjugorje-kosovo-e-albania/580174/kosovo-1/"
+      ]
     }
   }
 }

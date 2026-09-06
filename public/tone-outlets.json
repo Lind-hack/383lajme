@@ -1,10 +1,10 @@
 {
   "lastUpdated": "2026-09-06",
-  "overallIndex": 55,
-  "totalArticles": 54,
-  "sourceCount": 35,
+  "overallIndex": 56,
+  "totalArticles": 55,
+  "sourceCount": 37,
   "stanceVersion": 3,
-  "unattributed": 154,
+  "unattributed": 167,
   "nonEditorial": 1,
   "wrongKosovo": 0,
   "countries": {
@@ -61,7 +61,7 @@
         {
           "name": "WAZ | Westdeutsche Allgemeine Zeitung",
           "sentiment": "unknown",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Socca WM: Spannung und Tore - über 30 Fotos vom letzten Vorrundenspieltag - WAZ | Westdeutsche Allgemeine Zeitung",
@@ -72,6 +72,19 @@
               "date": "2026-09-03",
               "sentiment": "unknown",
               "reason": "No mention of Kosovo in the item",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Socca WM 2026 in Essen: Spannung und Tore - über 30 Fotos vom letzten Vorrundenspieltag - WAZ | Westdeutsche Allgemeine Zeitung",
+              "albanianTitle": "Kupa e Botës në Socca 2026 në Essen: Emocione dhe gola – mbi 30 fotografi nga dita e fundit e fazës së grupeve – WAZ",
+              "blurb": "Kampionati Botëror i Socca-s në Essen përmbyllet me ndeshjet e fundit të fazës së grupeve dhe shumë fotografi.",
+              "imageUrl": "https://img.sparknews.funkemedien.de/413042347/413042347_1788431588_v16_9_1600.jpeg",
+              "url": "https://www.waz.de/sport/lokalsport/essen/article413042332/socca-wm-spannung-und-tore-ueber-30-fotos-vom-letzten-vorrundenspieltag.html",
+              "date": "2026-09-03",
+              "sentiment": "unknown",
+              "reason": "No reference to Kosovo in the item",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -113,7 +126,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 3,
-        "excluded": 1,
+        "excluded": 2,
         "confident": false,
         "stanceVersion": 3
       }
@@ -443,6 +456,30 @@
           "lastSeen": "2026-09-04"
         },
         {
+          "name": "ilmessaggero.it",
+          "sentiment": "positive",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Giochi del Mediterraneo, Ferrarese pronto a dare una mano al Kosovo. Fidal in campo per gestire due impianti - ilmessaggero.it",
+              "albanianTitle": "Lojërat Mesdhetare, Ferrarese gati ta ndihmojë Kosovën. FIDAL angazhohet për menaxhimin e dy impianteve – ilmessaggero.it",
+              "blurb": "Ferrarese ofron mbështetje për Kosovën në Lojërat Mesdhetare, ndërsa Fidal angazhohet për menaxhimin e dy objekteve sportive.",
+              "imageUrl": "https://statics.cedscdn.it/photos/MED_HIGH/2026/09/04/9743199_04114659_palaricciardi.jpg",
+              "url": "https://www.ilmessaggero.it/sport/altrisport/giochi_mediterraneo_ferrarese_taranto_cosa_ha_detto-9743199.html",
+              "date": "2026-09-06",
+              "sentiment": "positive",
+              "reason": "Outlet uses supportive language offering help to Kosovo",
+              "isQuote": false,
+              "evidence": "pronto a dare una mano al Kosovo",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-06",
+          "lastSeen": "2026-09-06"
+        },
+        {
           "name": "ilnordest.it",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -465,6 +502,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-03",
           "lastSeen": "2026-09-03"
+        },
+        {
+          "name": "luinonotizie.it",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "kosovo 1 - luinonotizie.it",
+              "albanianTitle": null,
+              "blurb": "Informacionet e fundit lidhur me zhvillimet në Kosovë të raportuara nga portali italian Luino Notizie për lexuesit e tij.",
+              "imageUrl": null,
+              "url": "https://www.luinonotizie.it/2026/09/06/in-viaggio-per-incontrare-laltro-unestate-di-servizio-tra-medjugorje-kosovo-e-albania/580174/kosovo-1/",
+              "date": "2026-09-06",
+              "sentiment": "unknown",
+              "reason": "Item provides no context or stance toward Kosovo",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-06",
+          "lastSeen": "2026-09-06"
         },
         {
           "name": "oasport.it",
@@ -492,14 +553,22 @@
         }
       ],
       "summary": {
-        "index": 56,
-        "positive": 12,
-        "neutral": 88,
+        "index": 61,
+        "positive": 22,
+        "neutral": 78,
         "negative": 0,
-        "n": 8,
-        "excluded": 2,
+        "n": 9,
+        "excluded": 3,
         "confident": true,
-        "stanceVersion": 3
+        "stanceVersion": 3,
+        "movement": {
+          "delta": 7,
+          "from": 54,
+          "outlet": "ilmessaggero.it",
+          "title": "Lojërat Mesdhetare, Ferrarese gati ta ndihmojë Kosovën. FIDAL angazhohet për menaxhimin e dy impianteve – ilmessaggero.it",
+          "evidence": "pronto a dare una mano al Kosovo",
+          "url": "https://www.ilmessaggero.it/sport/altrisport/giochi_mediterraneo_ferrarese_taranto_cosa_ha_detto-9743199.html"
+        }
       }
     },
     "Austri": {
@@ -1057,13 +1126,13 @@
             },
             {
               "title": "Mistrzostwa Świata Socca 2026: Wyniki, terminarz - iGaming Polska",
-              "albanianTitle": "Kampionati Botëror i Socca 2026: Rezultatet dhe orari i ndeshjeve",
-              "blurb": "Informacione mbi rezultatet dhe orarin e ndeshjeve për Kampionatin Botëror të Socca-s që do të mbahet gjatë vitit 2026.",
+              "albanianTitle": "Kampionati Botëror i Socca 2026: Rezultatet dhe orari - iGaming Polska",
+              "blurb": "Kampionati Botëror i Socca-s për vitin 2026 përfshin rezultatet dhe orarin e ndeshjeve për ekipet pjesëmarrëse në këtë garë.",
               "imageUrl": null,
               "url": "https://igamingpolska.pl/mistrzostwa-swiata-socca-2026-terminarz-wyniki/",
               "date": "2026-09-06",
               "sentiment": "unknown",
-              "reason": "Article snippet is about a sports tournament and does not reference Kosovo",
+              "reason": "Metin Kosova ile ilgili değil",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1119,13 +1188,13 @@
           "articles": [
             {
               "title": "Yazın son şarkısı Avrupa’da çalıyor - Sabah",
-              "albanianTitle": "Hiti i fundit i verës po dëgjohet nëpër Evropë",
-              "blurb": "Kënga e fundit e verës po transmetohet nëpër stacionet dhe platformat muzikore në të gjithë kontinentin evropian.",
+              "albanianTitle": "Hiti i fundit i verës po dëgjohet nëpër Evropë - Sabah",
+              "blurb": "Kënga e fundit e verës po dëgjohet nëpër vende të ndryshme të Evropës gjatë kësaj periudhe të vitit.",
               "imageUrl": "https://iasbh.tmgrup.com.tr/b83c58/1200/675/0/118/1135/756?u=https://isbh.tmgrup.com.tr/sbh/2026/09/05/yazin-son-sarkisi-avrupada-caliyor-1788612020999.jpeg",
               "url": "https://www.sabah.com.tr/turizm/2026/09/06/yazin-son-sarkisi-avrupada-caliyor",
               "date": "2026-09-06",
               "sentiment": "unknown",
-              "reason": "Nuk përmendet Kosova në titull ose fragment",
+              "reason": "Metin Kosova ile ilgili değil",
               "isQuote": false,
               "evidence": "",
               "speaker": ""

@@ -5380,9 +5380,9 @@
   },
   {
     "date": "2026-09-06",
-    "overallIndex": 55,
-    "totalArticles": 54,
-    "sourceCount": 35,
+    "overallIndex": 56,
+    "totalArticles": 55,
+    "sourceCount": 37,
     "stanceVersion": 3,
     "countries": {
       "Gjermani": {
@@ -5391,7 +5391,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 3,
-        "excluded": 1,
+        "excluded": 2,
         "confident": false,
         "stanceVersion": 3
       },
@@ -5426,14 +5426,22 @@
         "stanceVersion": 3
       },
       "Itali": {
-        "index": 56,
-        "positive": 12,
-        "neutral": 88,
+        "index": 61,
+        "positive": 22,
+        "neutral": 78,
         "negative": 0,
-        "n": 8,
-        "excluded": 2,
+        "n": 9,
+        "excluded": 3,
         "confident": true,
-        "stanceVersion": 3
+        "stanceVersion": 3,
+        "movement": {
+          "delta": 7,
+          "from": 54,
+          "outlet": "ilmessaggero.it",
+          "title": "Lojërat Mesdhetare, Ferrarese gati ta ndihmojë Kosovën. FIDAL angazhohet për menaxhimin e dy impianteve – ilmessaggero.it",
+          "evidence": "pronto a dare una mano al Kosovo",
+          "url": "https://www.ilmessaggero.it/sport/altrisport/giochi_mediterraneo_ferrarese_taranto_cosa_ha_detto-9743199.html"
+        }
       },
       "Austri": {
         "index": 50,
@@ -5538,35 +5546,51 @@
     },
     "headlines": [
       {
-        "title": "Historischer Moment für die QSU, ein Kadett aus Kosovo beginnt mit einem Stipendium sein Studium in den USA - albinfo.ch",
-        "source": "albinfo.ch",
-        "country": "Gjermani",
-        "flag": "🇩🇪",
-        "url": "https://www.albinfo.ch/de/moment-historik-per-qsu-ne-kadeti-nga-kosova-nis-studimet-ne-shba-me-burse/",
+        "title": "Giochi del Mediterraneo, Ferrarese pronto a dare una mano al Kosovo. Fidal in campo per gestire due impianti - ilmessaggero.it",
+        "source": "ilmessaggero.it",
+        "country": "Itali",
+        "flag": "🇮🇹",
+        "url": "https://www.ilmessaggero.it/sport/altrisport/giochi_mediterraneo_ferrarese_taranto_cosa_ha_detto-9743199.html",
         "sentiment": "positive"
       },
       {
-        "title": "Βούλγαρία-Κόσοβο με κοινές προσπάθειες για την ειρήνη και την ασφάλεια - bnrnews.bg",
-        "source": "bnrnews.bg",
+        "title": "Βούλγαρία-Κόσοβο με κοινές προσπάθειες για την ειρήνη και την ασφάλεια - БНР Новини",
+        "source": "БНР Новини",
         "country": "Greqi",
         "flag": "🇬🇷",
         "url": "https://bnrnews.bg/el/post/523471/boylgaria-kosobo-me-koines-prospa8eies-gia-thn-eirhnh-kai-thn-asfaleia",
         "sentiment": "positive"
       },
       {
-        "title": "FETÖ Kosova'da kök salıyor: Siyasetçi ve bürokratları okullarla avlıyor - Yeni Şafak",
-        "source": "Yeni Şafak",
+        "title": "Enver Zymeri ve Afrim Bunjaku Polislerin En Büyük İlham Kaynağı - Kosovahaber.com",
+        "source": "Kosovahaber.com",
+        "country": "Turqi",
+        "flag": "🇹🇷",
+        "url": "https://kosovahaber.com/haber/enver-zymeri-ve-afrim-bunjaku-polislerin-en-buyuk-ilham-kaynagi-105787",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Hoxhaj an die Regierung: Kosovo wird hier als Geisel gehalten, wir werden nicht ruhen, bis das Land seinen Bürgern zurückgegeben wird - gazetaexpress.com",
+        "source": "gazetaexpress.com",
+        "country": "Zvicër",
+        "flag": "🇨🇭",
+        "url": "https://www.gazetaexpress.com/de/Hoxhaj--vor-der-Regierung%3A-Kosovo-wird-hier-als-Geisel-gehalten.-Wir-werden-nicht-ruhen--bis-das-Land-an-seine-B%C3%BCrger-zur%C3%BCckgegeben-wird./",
+        "sentiment": "negative"
+      },
+      {
+        "title": "FETÖ Kosova'da kök salıyor: Siyasetçi ve bürokratları okullarla avlıyor - yenisafak.com",
+        "source": "yenisafak.com",
         "country": "Turqi",
         "flag": "🇹🇷",
         "url": "https://www.yenisafak.com/dunya/feto-kosovada-kok-saliyor-siyasetci-ve-burokratlari-okullarla-avliyor-4853420",
         "sentiment": "negative"
       },
       {
-        "title": "Kosova Anayasal Çizginin Dışına Çıktı - Kosovahaber.com",
+        "title": "Kosova, Washington ile İlişkilerde Stratejik Hata Yaptı - Kosovahaber.com",
         "source": "Kosovahaber.com",
         "country": "Turqi",
         "flag": "🇹🇷",
-        "url": "https://kosovahaber.com/haber/kosova-anayasal-cizginin-disina-cikti-105740",
+        "url": "https://kosovahaber.com/haber/kosova-washington-ile-iliskilerde-stratejik-hata-yapti-105774",
         "sentiment": "negative"
       }
     ]
