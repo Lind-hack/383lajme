@@ -964,17 +964,18 @@
     },
     "Hürriyet": {
       "country": "Turqi",
-      "total": 3,
+      "total": 4,
       "positive": 0,
-      "neutral": 3,
+      "neutral": 4,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-29",
+      "lastSeen": "2026-09-07",
       "urls": [
         "https://www.hurriyet.com.tr/avrupa/24-uluslararasi-sanatla-uyanmak-festivali-prizrende-basladi-43279597",
         "https://www.hurriyet.com.tr/avrupa/zafer-algoze-kosovada-yilin-sanatcisi-odulu-43282311",
-        "https://www.hurriyet.com.tr/yerel-haberler/edirne/trakya-universitesi-heyeti-kosovadaki-sanat-fe-43288748"
+        "https://www.hurriyet.com.tr/yerel-haberler/edirne/trakya-universitesi-heyeti-kosovadaki-sanat-fe-43288748",
+        "https://www.hurriyet.com.tr/avrupa/prizrende-ilkokul-ogrencilerine-egitim-setleri-dagitildi-43298523"
       ]
     },
     "anayasa.gov.tr": {
@@ -1657,15 +1658,17 @@
     },
     "gostyn24.pl": {
       "country": "Poloni",
-      "total": 1,
+      "total": 3,
       "positive": 0,
       "neutral": 0,
       "negative": 0,
-      "unknown": 1,
+      "unknown": 3,
       "firstSeen": "2026-08-25",
-      "lastSeen": "2026-08-25",
+      "lastSeen": "2026-09-07",
       "urls": [
-        "https://gostyn24.pl/pl/473_na-sygnale/97529_zderzenie-tuz-przed-torami-kolejowymi-sprawca-pojechal-do-szpitala-na-badania.html"
+        "https://gostyn24.pl/pl/473_na-sygnale/97529_zderzenie-tuz-przed-torami-kolejowymi-sprawca-pojechal-do-szpitala-na-badania.html",
+        "https://gostyn24.pl/pl/19_wiadomosci-z-regionu/588_gostyn/98135_998-metrow-ktore-potrafilo-dac-w-kosc-najtrudniejsze-bylo-to-w-czym-biegli.html",
+        "https://gostyn24.pl/pl/19_wiadomosci-z-regionu/588_gostyn/98141_znana-trasa-dostala-zupelnie-nowe-oblicze-biegacze-zapamietaja-ten-podbieg.html"
       ]
     },
     "Leman bleu": {
@@ -2178,7 +2181,7 @@
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-28",
-      "lastSeen": "2026-09-06",
+      "lastSeen": "2026-09-07",
       "urls": [
         "https://igamingpolska.pl/mistrzostwa-swiata-socca-2026-terminarz-wyniki/"
       ]
@@ -2711,13 +2714,13 @@
     },
     "albinfo.ch": {
       "country": "Zvicër",
-      "total": 28,
+      "total": 34,
       "positive": 4,
-      "neutral": 21,
+      "neutral": 27,
       "negative": 0,
       "unknown": 3,
       "firstSeen": "2026-09-05",
-      "lastSeen": "2026-09-05",
+      "lastSeen": "2026-09-06",
       "urls": [
         "https://www.albinfo.ch/de/talenti-i-bayern-munich-zgjedh-kosoven-ambasadori-i-jep-pasaporten-konfirmon-se-do-te-luaje-per-dardanet/",
         "https://www.albinfo.ch/de/moment-historik-per-qsu-ne-kadeti-nga-kosova-nis-studimet-ne-shba-me-burse/",
@@ -2746,7 +2749,13 @@
         "https://www.albinfo.ch/de/rahoveci-hap-dyert-per-festivalin-hardh-fest-festa-e-rrushit/",
         "https://www.albinfo.ch/fr/mjeku-shqiptar-nga-zvicra-qe-u-kujdes-per-ekipin-olimpik-te-kosoves-ne-lojerat-mesdhetare/",
         "https://www.albinfo.ch/fr/mbahen-konsultimet-politike-ndermjet-kosoves-dhe-zvicres-ne-berne/",
-        "https://www.albinfo.ch/fr/rahoveci-hap-dyert-per-festivalin-hardh-fest-festa-e-rrushit/"
+        "https://www.albinfo.ch/fr/rahoveci-hap-dyert-per-festivalin-hardh-fest-festa-e-rrushit/",
+        "https://www.albinfo.ch/de/kosova-dhe-gjermania-bashke-kunder-rriqrave-qe-bartin-virusin-vdekjeprures/",
+        "https://www.albinfo.ch/de/tre-pilote-nga-kosova-ne-top-10-te-botes-ne-paragllajdizem/",
+        "https://www.albinfo.ch/fr/tre-pilote-nga-kosova-ne-top-10-te-botes-ne-paragllajdizem/",
+        "https://www.albinfo.ch/fr/kosova-dhe-gjermania-bashke-kunder-rriqrave-qe-bartin-virusin-vdekjeprures/",
+        "https://www.albinfo.ch/fr/zvicer-kosove-tregtia-arrin-175-milione-franga-marreveshja-e-re-heq-barrierat-doganore/",
+        "https://www.albinfo.ch/de/zvicer-kosove-tregtia-arrin-175-milione-franga-marreveshja-e-re-heq-barrierat-doganore/"
       ]
     },
     "ekai.pl": {
@@ -2943,6 +2952,71 @@
       "lastSeen": "2026-09-06",
       "urls": [
         "https://www.luinonotizie.it/2026/09/06/in-viaggio-per-incontrare-laltro-unestate-di-servizio-tra-medjugorje-kosovo-e-albania/580174/kosovo-1/"
+      ]
+    },
+    "RFI": {
+      "country": "Francë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-07",
+      "lastSeen": "2026-09-04",
+      "urls": [
+        "https://www.rfi.fr/fr/europe/20260904-%C3%A0-la-une-en-serbie-les-%C3%A9tudiants-cibl%C3%A9s-par-le-logiciel-espion-pegasus"
+      ]
+    },
+    "Gazzetta di Parma": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-07",
+      "lastSeen": "2026-09-07",
+      "urls": [
+        "https://www.gazzettadiparma.it/gweb+/2026/09/07/news/beffarde-coincidenze-d-inizio-settembre-966138/"
+      ]
+    },
+    "NZZ": {
+      "country": "Zvicër",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-07",
+      "lastSeen": "2026-09-07",
+      "urls": [
+        "https://www.nzz.ch/meinung/der-balkan-ist-eine-nach-wie-vor-vernachlaessigte-problemregion-serbien-bleibt-der-massgebliche-unruhestifter-ld.10016355"
+      ]
+    },
+    "Diario de León": {
+      "country": "Spanjë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-07",
+      "lastSeen": "2026-09-06",
+      "urls": [
+        "https://www.diariodeleon.es/sociedad/260906/2096518/calma-leon-vivir-pais-posguerra.html"
+      ]
+    },
+    "smhi.se": {
+      "country": "Suedi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-07",
+      "lastSeen": "2026-09-05",
+      "urls": [
+        "https://www.smhi.se/vader/prognoser-och-varningar/vaderprognos/q/Mitrovica/789225"
       ]
     }
   }

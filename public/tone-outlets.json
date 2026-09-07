@@ -1,11 +1,11 @@
 {
-  "lastUpdated": "2026-09-06",
-  "overallIndex": 56,
-  "totalArticles": 55,
-  "sourceCount": 37,
+  "lastUpdated": "2026-09-07",
+  "overallIndex": 55,
+  "totalArticles": 54,
+  "sourceCount": 40,
   "stanceVersion": 3,
-  "unattributed": 167,
-  "nonEditorial": 1,
+  "unattributed": 110,
+  "nonEditorial": 0,
   "wrongKosovo": 0,
   "countries": {
     "Gjermani": {
@@ -33,91 +33,6 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-01",
           "lastSeen": "2026-09-06"
-        },
-        {
-          "name": "WAZ",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Socca WM: Spannung und Tore - über 30 Fotos vom letzten Vorrundenspieltag - WAZ",
-              "albanianTitle": "Kupa e Botës në Socca: Emocione dhe gola – mbi 30 fotografi nga dita e fundit e fazës së grupeve",
-              "blurb": "Dita e fundit e fazës së grupeve në Kampionatin Botëror të Socca-s është përcjellë me shumë gola dhe emocione sportive.",
-              "imageUrl": "https://img.sparknews.funkemedien.de/413042347/413042347_1788431588_v16_9_1600.jpeg",
-              "url": "https://www.waz.de/sport/lokalsport/essen/article413042332/socca-wm-spannung-und-tore-ueber-30-fotos-vom-letzten-vorrundenspieltag.html",
-              "date": "2026-09-03",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportim neutral",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 2,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-31",
-          "lastSeen": "2026-09-03"
-        },
-        {
-          "name": "WAZ | Westdeutsche Allgemeine Zeitung",
-          "sentiment": "unknown",
-          "articleCount": 2,
-          "articles": [
-            {
-              "title": "Socca WM: Spannung und Tore - über 30 Fotos vom letzten Vorrundenspieltag - WAZ | Westdeutsche Allgemeine Zeitung",
-              "albanianTitle": null,
-              "blurb": "Kampionati Botëror i Socca-s sjell ndeshje të tensionuara dhe gola, të pasqyruara përmes një galerie fotografike nga faza grupore.",
-              "imageUrl": "https://img.sparknews.funkemedien.de/413042347/413042347_1788431588_v16_9_1600.jpeg",
-              "url": "https://www.waz.de/sport/lokalsport/essen/article413042332/socca-wm-spannung-und-tore-ueber-30-fotos-vom-letzten-vorrundenspieltag.html",
-              "date": "2026-09-03",
-              "sentiment": "unknown",
-              "reason": "No mention of Kosovo in the item",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Socca WM 2026 in Essen: Spannung und Tore - über 30 Fotos vom letzten Vorrundenspieltag - WAZ | Westdeutsche Allgemeine Zeitung",
-              "albanianTitle": "Kupa e Botës në Socca 2026 në Essen: Emocione dhe gola – mbi 30 fotografi nga dita e fundit e fazës së grupeve – WAZ",
-              "blurb": "Kampionati Botëror i Socca-s në Essen përmbyllet me ndeshjet e fundit të fazës së grupeve dhe shumë fotografi.",
-              "imageUrl": "https://img.sparknews.funkemedien.de/413042347/413042347_1788431588_v16_9_1600.jpeg",
-              "url": "https://www.waz.de/sport/lokalsport/essen/article413042332/socca-wm-spannung-und-tore-ueber-30-fotos-vom-letzten-vorrundenspieltag.html",
-              "date": "2026-09-03",
-              "sentiment": "unknown",
-              "reason": "No reference to Kosovo in the item",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-06",
-          "lastSeen": "2026-09-03"
-        },
-        {
-          "name": "waz.de",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Socca WM: Spannung und Tore - über 30 Fotos vom letzten Vorrundenspieltag - waz.de",
-              "albanianTitle": "Kampionati Botëror i Socca-s: Tension dhe gola – mbi 30 fotografi nga dita e fundit e fazës së grupeve",
-              "blurb": "Dita e fundit e fazës së grupeve në Kampionatin Botëror të Socca-s është përcjellë me ndeshje të tensionuara.",
-              "imageUrl": "https://img.sparknews.funkemedien.de/413042347/413042347_1788431588_v16_9_1600.jpeg",
-              "url": "https://www.waz.de/sport/lokalsport/essen/article413042332/socca-wm-spannung-und-tore-ueber-30-fotos-vom-letzten-vorrundenspieltag.html",
-              "date": "2026-09-03",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportuar në mënyrë neutrale",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-05",
-          "lastSeen": "2026-09-03"
         }
       ],
       "summary": {
@@ -125,8 +40,8 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 3,
-        "excluded": 2,
+        "n": 1,
+        "excluded": 0,
         "confident": false,
         "stanceVersion": 3
       }
@@ -149,34 +64,8 @@
         {
           "name": "Balkan Insight",
           "sentiment": "neutral",
-          "articleCount": 4,
+          "articleCount": 2,
           "articles": [
-            {
-              "title": "‘Not Mere Incidents’: Kosovo Questions Femicide Approach after New Killings - Balkan Insight",
-              "albanianTitle": "‘Nuk janë thjesht incidente’: Kosova vë në pikëpyetje trajtimin e femicideve pas vrasjeve të fundit",
-              "blurb": "Institucionet në Kosovë po shqyrtojnë qasjen ndaj femicideve pas vrasjeve të fundit që kanë ndodhur në vend gjatë kësaj periudhe.",
-              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/09/20260828_123621-scaled.jpg",
-              "url": "https://balkaninsight.com/2026/09/03/not-mere-incidents-kosovo-questions-femicide-approach-after-new-killings/bi/",
-              "date": "2026-09-03",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportuar pa ngarkim",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "‘Not Mere Incidents’: Kosovo Questions Femicide Approach after New Killings - balkaninsight.com",
-              "albanianTitle": "‘Nuk janë thjesht incidente’: Kosova vë në pikëpyetje qasjen ndaj femicideve pas vrasjeve të fundit",
-              "blurb": "Institucionet në Kosovë po shqyrtojnë qasjen ndaj femicideve pas vrasjeve të fundit të grave në vend.",
-              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/09/20260828_123621-scaled.jpg",
-              "url": "https://balkaninsight.com/2026/09/03/not-mere-incidents-kosovo-questions-femicide-approach-after-new-killings/bi/",
-              "date": "2026-09-03",
-              "sentiment": "neutral",
-              "reason": "Quoted phrase in headline, no hostile language from outlet",
-              "isQuote": true,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "Kosovo Charges Serbian Security Officers Over Jashari Compound Massacre - Balkan Insight",
               "albanianTitle": "Kosova ngre aktakuzë ndaj zyrtarëve të sigurisë serbe për masakrën në kompleksin Jashari",
@@ -215,7 +104,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 4,
+        "n": 2,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -223,6 +112,30 @@
     },
     "Francë": {
       "outlets": [
+        {
+          "name": "RFI",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "À la Une: en Serbie, les étudiants ciblés par le logiciel espion Pegasus - RFI",
+              "albanianTitle": "Në fokus: në Serbi, studentët në shënjestër të softuerit spiun Pegasus",
+              "blurb": "Studentët në Serbi janë vënë në shënjestër të programit spiun Pegasus, sipas raportimeve të fundit nga mediat.",
+              "imageUrl": null,
+              "url": "https://www.rfi.fr/fr/europe/20260904-%C3%A0-la-une-en-serbie-les-%C3%A9tudiants-cibl%C3%A9s-par-le-logiciel-espion-pegasus",
+              "date": "2026-09-04",
+              "sentiment": "unknown",
+              "reason": "No reference to Kosovo in headline",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-07",
+          "lastSeen": "2026-09-04"
+        },
         {
           "name": "geo.fr",
           "sentiment": "neutral",
@@ -278,7 +191,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 2,
-        "excluded": 0,
+        "excluded": 1,
         "confident": false,
         "stanceVersion": 3
       }
@@ -345,6 +258,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-04",
           "lastSeen": "2026-09-04"
+        },
+        {
+          "name": "Gazzetta di Parma",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Beffarde coincidenze d'inizio settembre - Gazzetta di Parma",
+              "albanianTitle": "Rastësi ironike në fillim të shtatorit",
+              "blurb": "Ngjarjet e fillimit të shtatorit shënohen nga koincidenca të ndryshme të cilat po trajtohen nga mediat italiane.",
+              "imageUrl": "https://gazzettadiparma.cdn.m33cloud.com/resizer/600/315/true/2026_09_07/afd-1788763843573.jpg--beffarde_coincidenze_d_inizio_settembre.webp?1788763844090",
+              "url": "https://www.gazzettadiparma.it/gweb+/2026/09/07/news/beffarde-coincidenze-d-inizio-settembre-966138/",
+              "date": "2026-09-07",
+              "sentiment": "unknown",
+              "reason": "No reference to Kosovo in headline",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-07",
+          "lastSeen": "2026-09-07"
         },
         {
           "name": "Luino Notizie",
@@ -480,30 +417,6 @@
           "lastSeen": "2026-09-06"
         },
         {
-          "name": "ilnordest.it",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosovo nel caos istituzionale: spunta il candidato super partes Sejdiu, ma la fronda fa tremare l'accordo - ilnordest.it",
-              "albanianTitle": "Kosova në kaos institucional: shfaqet kandidati konsensual Sejdiu, por kundërshtitë rrezikojnë marrëveshjen",
-              "blurb": "Kandidatura e Bekim Sejdiut për president po përballet me kundërshtime të brendshme, duke shkaktuar paqartësi në skenën politike të Kosovës.",
-              "imageUrl": "https://images.ilnordest.it/view/acePublic/alias/contentid/1tj3hfi8izwf17kd4or/0/copia-di-image_148050475.webp?f=16%3A9&w=840",
-              "url": "https://www.ilnordest.it/oltre-confine/kosovo-crisi-politica-presidente-bekim-sejdiu-kurti-franchi-tiratori-hz4x1m9p",
-              "date": "2026-09-03",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportuar pa ngarkim",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-03",
-          "lastSeen": "2026-09-03"
-        },
-        {
           "name": "luinonotizie.it",
           "sentiment": "unknown",
           "articleCount": 1,
@@ -553,22 +466,14 @@
         }
       ],
       "summary": {
-        "index": 61,
-        "positive": 22,
-        "neutral": 78,
+        "index": 62,
+        "positive": 25,
+        "neutral": 75,
         "negative": 0,
-        "n": 9,
-        "excluded": 3,
+        "n": 8,
+        "excluded": 4,
         "confident": true,
-        "stanceVersion": 3,
-        "movement": {
-          "delta": 7,
-          "from": 54,
-          "outlet": "ilmessaggero.it",
-          "title": "Lojërat Mesdhetare, Ferrarese gati ta ndihmojë Kosovën. FIDAL angazhohet për menaxhimin e dy impianteve – ilmessaggero.it",
-          "evidence": "pronto a dare una mano al Kosovo",
-          "url": "https://www.ilmessaggero.it/sport/altrisport/giochi_mediterraneo_ferrarese_taranto_cosa_ha_detto-9743199.html"
-        }
+        "stanceVersion": 3
       }
     },
     "Austri": {
@@ -708,6 +613,43 @@
     "Zvicër": {
       "outlets": [
         {
+          "name": "NZZ",
+          "sentiment": "unknown",
+          "articleCount": 2,
+          "articles": [
+            {
+              "title": "Der Balkan ist eine Problemregion – und Serbien der grösste Unruhestifter - nzz.ch",
+              "albanianTitle": "Ballkani është rajon problematik – ndërsa Serbia shkaktari më i madh i trazirave",
+              "blurb": "Rajoni i Ballkanit vlerësohet si zonë problematike, ndërsa Serbia cilësohet si faktori kryesor që shkakton trazira në rajon.",
+              "imageUrl": "https://img-msp-prod.nzz.ch/2026/09/04/fd463207-d593-4ea8-8402-cc27318d1cee.jpg?width=1200&height=675&fit=bounds&quality=75&auto=webp&crop=5850,3291,x0,y430&wmark=nzz",
+              "url": "https://www.nzz.ch/meinung/der-balkan-ist-eine-nach-wie-vor-vernachlaessigte-problemregion-serbien-bleibt-der-massgebliche-unruhestifter-ld.10016355",
+              "date": "2026-09-07",
+              "sentiment": "unknown",
+              "reason": "No reference to Kosovo in headline",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Der Balkan ist eine Problemregion – und Serbien der grösste Unruhestifter - NZZ",
+              "albanianTitle": "Ballkani është rajon problematik – ndërsa Serbia shkaktari më i madh i trazirave",
+              "blurb": "Analiza e NZZ e përshkruan Ballkanin si rajon problematik dhe Serbinë si shkaktarin kryesor të paqëndrueshmërisë në këtë pjesë.",
+              "imageUrl": "https://img-msp-prod.nzz.ch/2026/09/04/fd463207-d593-4ea8-8402-cc27318d1cee.jpg?width=1200&height=675&fit=bounds&quality=75&auto=webp&crop=5850,3291,x0,y430&wmark=nzz",
+              "url": "https://www.nzz.ch/meinung/der-balkan-ist-eine-nach-wie-vor-vernachlaessigte-problemregion-serbien-bleibt-der-massgebliche-unruhestifter-ld.10016355",
+              "date": "2026-09-07",
+              "sentiment": "unknown",
+              "reason": "No reference to Kosovo in headline",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-07",
+          "lastSeen": "2026-09-07"
+        },
+        {
           "name": "albinfo.ch",
           "sentiment": "neutral",
           "articleCount": 6,
@@ -791,19 +733,19 @@
               "speaker": ""
             }
           ],
-          "totalArticles": 28,
+          "totalArticles": 34,
           "trend": "pozitiv",
           "firstSeen": "2026-09-05",
-          "lastSeen": "2026-09-05"
+          "lastSeen": "2026-09-06"
         }
       ],
       "summary": {
-        "index": 57,
-        "positive": 14,
-        "neutral": 86,
+        "index": 55,
+        "positive": 9,
+        "neutral": 91,
         "negative": 0,
         "n": 22,
-        "excluded": 1,
+        "excluded": 2,
         "confident": true,
         "stanceVersion": 3
       }
@@ -836,6 +778,30 @@
     },
     "Spanjë": {
       "outlets": [
+        {
+          "name": "Diario de León",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "De la calma de León a vivir en un país de posguerra - Diario de León",
+              "albanianTitle": "Nga qetësia e Leonit te jeta në një vend të pasluftës",
+              "blurb": "Një rrëfim personal për kalimin nga qetësia e qytetit të Leonit drejt jetesës në një vend të pasluftës.",
+              "imageUrl": "https://imagenes.diariodeleon.es/files/og_thumbnail/uploads/2026/09/06/6a9d83a70ccd7.png",
+              "url": "https://www.diariodeleon.es/sociedad/260906/2096518/calma-leon-vivir-pais-posguerra.html",
+              "date": "2026-09-06",
+              "sentiment": "neutral",
+              "reason": "Descriptive term, not hostile or praising Kosovo",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-07",
+          "lastSeen": "2026-09-06"
+        },
         {
           "name": "diariodeleon.es",
           "sentiment": "neutral",
@@ -890,7 +856,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 1,
+        "n": 2,
         "excluded": 1,
         "confident": false,
         "stanceVersion": 3
@@ -1044,13 +1010,38 @@
       }
     },
     "Suedi": {
-      "outlets": [],
+      "outlets": [
+        {
+          "name": "smhi.se",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Väderprognos 10 dygn Mitrovica, Kosovo - smhi.se",
+              "albanianTitle": "Parashikimi i motit për 10 ditët e ardhshme në Mitrovicë, Kosovë - smhi.se",
+              "blurb": "Instituti Meteorologjik i Suedisë publikon parashikimin e motit për dhjetë ditët e ardhshme në qytetin e Mitrovicës.",
+              "imageUrl": null,
+              "url": "https://www.smhi.se/vader/prognoser-och-varningar/vaderprognos/q/Mitrovica/789225",
+              "date": "2026-09-05",
+              "sentiment": "neutral",
+              "reason": "Parashikim moti, informacion faktik",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-07",
+          "lastSeen": "2026-09-05"
+        }
+      ],
       "summary": {
-        "index": null,
+        "index": 50,
         "positive": 0,
-        "neutral": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 0,
+        "n": 1,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -1107,6 +1098,43 @@
           "lastSeen": "2026-09-04"
         },
         {
+          "name": "gostyn24.pl",
+          "sentiment": "unknown",
+          "articleCount": 2,
+          "articles": [
+            {
+              "title": "998 metrów, które potrafiło dać w kość. Najtrudniejsze było to, w czym biegli - gostyn24.pl",
+              "albanianTitle": "998 metra që të lodhin: Pjesa më e vështirë ishte terreni ku vrapuan - gostyn24.pl",
+              "blurb": "Pjesëmarrësit në një garë vrapimi përballen me vështirësi në një segment prej 998 metrash gjatë zhvillimit të aktivitetit.",
+              "imageUrl": "https://gostyn24.pl/pl/image-meta/news/98135.jpg?v=20260906200953",
+              "url": "https://gostyn24.pl/pl/19_wiadomosci-z-regionu/588_gostyn/98135_998-metrow-ktore-potrafilo-dac-w-kosc-najtrudniejsze-bylo-to-w-czym-biegli.html",
+              "date": "2026-09-06",
+              "sentiment": "unknown",
+              "reason": "Artikulli nuk ka lidhje me Kosovën",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Znana trasa dostała zupełnie nowe oblicze. Biegacze zapamiętają ten podbieg - gostyn24.pl",
+              "albanianTitle": "Një shteg i njohur me pamje krejtësisht të re: Vrapuesit do ta mbajnë mend këtë përpjetë - gostyn24.pl",
+              "blurb": "Një shteg i njohur vrapimi është modifikuar, duke u ofruar garuesve një përvojë të re gjatë përshkrimit të terrenit.",
+              "imageUrl": "https://gostyn24.pl/pl/image-meta/news/98141.jpg?v=20260906203800",
+              "url": "https://gostyn24.pl/pl/19_wiadomosci-z-regionu/588_gostyn/98141_znana-trasa-dostala-zupelnie-nowe-oblicze-biegacze-zapamietaja-ten-podbieg.html",
+              "date": "2026-09-07",
+              "sentiment": "unknown",
+              "reason": "No reference to Kosovo in the text",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 3,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-25",
+          "lastSeen": "2026-09-07"
+        },
+        {
           "name": "iGaming Polska",
           "sentiment": "neutral",
           "articleCount": 2,
@@ -1127,12 +1155,12 @@
             {
               "title": "Mistrzostwa Świata Socca 2026: Wyniki, terminarz - iGaming Polska",
               "albanianTitle": "Kampionati Botëror i Socca 2026: Rezultatet dhe orari - iGaming Polska",
-              "blurb": "Kampionati Botëror i Socca-s për vitin 2026 përfshin rezultatet dhe orarin e ndeshjeve për ekipet pjesëmarrëse në këtë garë.",
+              "blurb": "Publikohen rezultatet dhe orari i ndeshjeve për Kampionatin Botëror të Socca-s që do të mbahet gjatë vitit 2026.",
               "imageUrl": null,
               "url": "https://igamingpolska.pl/mistrzostwa-swiata-socca-2026-terminarz-wyniki/",
-              "date": "2026-09-06",
-              "sentiment": "unknown",
-              "reason": "Metin Kosova ile ilgili değil",
+              "date": "2026-09-07",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1141,7 +1169,7 @@
           "totalArticles": 1,
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-08-28",
-          "lastSeen": "2026-09-06"
+          "lastSeen": "2026-09-07"
         },
         {
           "name": "igamingpolska.pl",
@@ -1169,18 +1197,42 @@
         }
       ],
       "summary": {
-        "index": 67,
-        "positive": 33,
-        "neutral": 67,
+        "index": 62,
+        "positive": 25,
+        "neutral": 75,
         "negative": 0,
-        "n": 3,
-        "excluded": 2,
+        "n": 4,
+        "excluded": 3,
         "confident": false,
         "stanceVersion": 3
       }
     },
     "Turqi": {
       "outlets": [
+        {
+          "name": "Hürriyet",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Prizren’de ilkokul öğrencilerine eğitim setleri dağıtıldı - Hürriyet",
+              "albanianTitle": "Në Prizren shpërndahen pako shkollore për nxënësit e shkollave fillore - Hürriyet",
+              "blurb": "Nxënësit e shkollave fillore në qytetin e Prizrenit janë pajisur me mjete dhe materiale të nevojshme shkollore.",
+              "imageUrl": "https://image.hurimg.com/i/hurriyet/90/0x0/6a9e57f15548acce712522fe.jpg",
+              "url": "https://www.hurriyet.com.tr/avrupa/prizrende-ilkokul-ogrencilerine-egitim-setleri-dagitildi-43298523",
+              "date": "2026-09-07",
+              "sentiment": "neutral",
+              "reason": "Raportim faktik i shpërndarjes së seteve arsimore",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 4,
+          "trend": "neutral",
+          "firstSeen": "2026-08-20",
+          "lastSeen": "2026-09-07"
+        },
         {
           "name": "Sabah",
           "sentiment": "unknown",
@@ -1259,7 +1311,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 1,
+        "n": 2,
         "excluded": 2,
         "confident": false,
         "stanceVersion": 3
