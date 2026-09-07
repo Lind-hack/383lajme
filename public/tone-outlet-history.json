@@ -55,13 +55,13 @@
     },
     "Balkan Insight": {
       "country": "Britani",
-      "total": 10,
+      "total": 11,
       "positive": 1,
-      "neutral": 9,
+      "neutral": 10,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-19",
-      "lastSeen": "2026-09-04",
+      "lastSeen": "2026-09-07",
       "urls": [
         "https://balkaninsight.com/2026/08/19/suspend-officers-suspected-of-beating-serb-kosovo-police-inspectorate-says/bi/",
         "https://balkaninsight.com/2026/08/20/remains-of-23-wartime-victims-unearthed-from-mass-graves-in-kosovo/btj/",
@@ -72,7 +72,8 @@
         "https://balkaninsight.com/2026/08/31/kosovos-vetevendosje-ldk-agree-on-ex-judge-as-joint-presidential-candidate/bi/",
         "https://balkaninsight.com/2026/09/02/kosovo-presidents-election-jeopardised-by-partys-inner-divisions/bi/",
         "https://balkaninsight.com/2026/09/03/not-mere-incidents-kosovo-questions-femicide-approach-after-new-killings/bi/",
-        "https://balkaninsight.com/2026/09/04/kosovo-charges-serbian-security-officers-over-jashari-compound-massacre/btj/"
+        "https://balkaninsight.com/2026/09/04/kosovo-charges-serbian-security-officers-over-jashari-compound-massacre/btj/",
+        "https://balkaninsight.com/2026/09/07/kosovo-man-pleads-not-guilty-to-spying-for-serbia/bi/"
       ]
     },
     "Ouest-France": {
@@ -536,13 +537,13 @@
     },
     "Demócrata": {
       "country": "Spanjë",
-      "total": 10,
+      "total": 13,
       "positive": 0,
-      "neutral": 8,
+      "neutral": 11,
       "negative": 2,
       "unknown": 0,
       "firstSeen": "2026-08-22",
-      "lastSeen": "2026-08-31",
+      "lastSeen": "2026-09-07",
       "urls": [
         "https://www.democrata.es/en/international/serbia-urges-nato-to-stop-the-withdrawal-of-kfor-from-the-ibar-bridge-in-mitrovica/",
         "https://www.democrata.es/it/internazionale/serbia-invita-la-nato-a-fermare-il-ritiro-della-kfor-dal-ponte-ibar-a-mitrovica/amp/",
@@ -553,22 +554,26 @@
         "https://www.democrata.es/en/international/government-and-opposition-agree-on-a-consensus-candidate-for-the-presidency-of-kosovo-to-avoid-new-elections/",
         "https://www.democrata.es/fr/international/gouvernement-et-opposition-s-accordent-sur-un-candidat-de-consensus-a-la-presidence-du-kosovo-pour-eviter-de-nouvelles-elections/",
         "https://www.democrata.es/it/internazionale/governo-e-opposizione-concordano-un-candidato-di-consenso-alla-presidenza-del-kosovo-per-evitare-nuove-elezioni/",
-        "https://www.democrata.es/internacional/gobierno-y-oposicion-pactan-un-candidato-de-consenso-a-la-presidencia-de-kosovo-para-evitar-nuevas-elecciones/amp/"
+        "https://www.democrata.es/internacional/gobierno-y-oposicion-pactan-un-candidato-de-consenso-a-la-presidencia-de-kosovo-para-evitar-nuevas-elecciones/amp/",
+        "https://www.democrata.es/en/international/kosovo-joins-the-international-stabilization-force-in-gaza-after-signing-a-key-agreement/",
+        "https://www.democrata.es/fr/international/le-kosovo-rejoint-la-force-internationale-de-stabilisation-a-gaza-apres-avoir-signe-un-accord-cle/",
+        "https://www.democrata.es/it/internazionale/il-kosovo-si-unisce-alla-forza-internazionale-di-stabilizzazione-a-gaza-dopo-aver-firmato-un-accordo-chiave/"
       ]
     },
     "Europa Press": {
       "country": "Spanjë",
-      "total": 3,
+      "total": 4,
       "positive": 0,
-      "neutral": 2,
+      "neutral": 3,
       "negative": 1,
       "unknown": 0,
       "firstSeen": "2026-08-22",
-      "lastSeen": "2026-08-31",
+      "lastSeen": "2026-09-07",
       "urls": [
         "https://www.europapress.es/internacional/noticia-serbia-pide-mision-otan-kosovo-reconsidere-retirada-puente-ibar-mitrovica-20260822092257.html",
         "https://www.europapress.es/internacional/noticia-ue-lamenta-kosovo-haya-acabado-aceptando-dimisiones-jueces-serbios-ya-sido-retiradas-20260828184957.html",
-        "https://www.europapress.es/internacional/noticia-partido-gobernante-oposicion-acuerdan-candidato-presidencia-kosovo-evitar-elecciones-20260831160656.html"
+        "https://www.europapress.es/internacional/noticia-partido-gobernante-oposicion-acuerdan-candidato-presidencia-kosovo-evitar-elecciones-20260831160656.html",
+        "https://www.europapress.es/internacional/noticia-kosovo-firma-acuerdo-sumarse-fuerza-internacional-estabilizacion-gaza-20260907150646.html"
       ]
     },
     "Sport24": {
@@ -673,17 +678,18 @@
     },
     "ΤΑ ΝΕΑ": {
       "country": "Greqi",
-      "total": 3,
+      "total": 4,
       "positive": 1,
-      "neutral": 2,
+      "neutral": 3,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-24",
+      "lastSeen": "2026-09-07",
       "urls": [
         "https://www.tanea.gr/2026/08/20/sports/othersports/ellada-kosovo-3-0-sarose-i-ethniki-andron-stin-premiera-ton-mesogeiakon-agonon/",
         "https://www.tanea.gr/2026/08/21/sports/othersports/mesogeiakoi-agones-idaniki-premiera-me-nikitria-tin-ethniki-volei-gynaikon-apenanti-sto-kosovo/",
-        "https://www.tanea.gr/2026/08/24/sports/othersports/ellada-kosovo-40-20-epivlitiki-i-ethniki-gynaikon-kai-2-2-sto-xantmpol-ton-mesogeiakon-agonon/"
+        "https://www.tanea.gr/2026/08/24/sports/othersports/ellada-kosovo-40-20-epivlitiki-i-ethniki-gynaikon-kai-2-2-sto-xantmpol-ton-mesogeiakon-agonon/",
+        "https://www.tanea.gr/2026/09/07/world/kosovo-symfonia-gia-apostoli-strateymaton-sti-diethni-dynami-gia-ti-gaza/"
       ]
     },
     "sport-fm.gr": {
@@ -993,20 +999,21 @@
     },
     "Haberler": {
       "country": "Turqi",
-      "total": 6,
+      "total": 7,
       "positive": 0,
-      "neutral": 6,
+      "neutral": 7,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-31",
+      "lastSeen": "2026-09-07",
       "urls": [
         "https://www.haberler.com/3-sayfa/kosova-da-savas-suclari-sorusturmasi-23-kisiye-ait-20159336-haberi/",
         "https://www.haberler.com/3-sayfa/kosova-da-toplu-mezarlarin-yakininda-cok-sayida-20164351-haberi/",
         "https://www.haberler.com/guncel/trakya-universitesi-ile-haxhi-zeka-universitesi-20177714-haberi/",
         "https://www.haberler.com/spor/20-akdeniz-oyunlari-20178750-haberi/",
         "https://www.haberler.com/spor/buyukcekmece-basketbol-yeni-sezona-kosova-da-20182746-haberi/",
-        "https://www.haberler.com/guncel/kosova-da-bekim-sejdiu-nun-cumhurbaskani-20194186-haberi/"
+        "https://www.haberler.com/guncel/kosova-da-bekim-sejdiu-nun-cumhurbaskani-20194186-haberi/",
+        "https://www.haberler.com/guncel/kosovali-askerlerin-gazze-ye-konuslandirilmasina-20215256-haberi/"
       ]
     },
     "Son Dakika": {
@@ -1573,19 +1580,20 @@
     },
     "Buonasera24": {
       "country": "Itali",
-      "total": 5,
+      "total": 6,
       "positive": 0,
-      "neutral": 5,
+      "neutral": 6,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-25",
-      "lastSeen": "2026-08-31",
+      "lastSeen": "2026-09-07",
       "urls": [
         "https://www.buonasera24.it/news/cronaca/927313/italia-kosovo-allo-iacovone-cambia-la-viabilita-strade-chiuse-dalle-18.html",
         "https://www.buonasera24.it/news/cronaca/927361/italia-kosovo-iacovone-tutto-esaurito-le-informazioni-su-come-accedere.html",
         "https://www.buonasera24.it/news/cronaca/927375/italia-kosovo-allo-iacovone-piano-straordinario-per-bus-e-navette-tutto-quello-che-c-e-da-sapere.html",
         "https://www.buonasera24.it/video/cronaca/927417/il-nuovo-iacovone-porta-fortuna-allitalia-3-0-al-kosovo-e-azzurri-in-semifinale-il-video.html",
-        "https://www.buonasera24.it/news/cronaca/927606/fasano-bandiera-palestinese-e-magliette-free-palestine-durante-tunisia-kosovo-global-sumud-puglia-chiede-chiarimenti.html"
+        "https://www.buonasera24.it/news/cronaca/927606/fasano-bandiera-palestinese-e-magliette-free-palestine-durante-tunisia-kosovo-global-sumud-puglia-chiede-chiarimenti.html",
+        "https://www.buonasera24.it/news/cronaca/928115/il-messaggero-guarda-gia-a-pristina-ferrarese-consigli-al-kosovo-ma-il-mio-futuro-non-e-li.html"
       ]
     },
     "Kicker": {
@@ -1759,7 +1767,7 @@
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-26",
-      "lastSeen": "2026-09-01",
+      "lastSeen": "2026-09-05",
       "urls": [
         "https://www.smhi.se/vader/prognoser-och-varningar/vaderprognos/q/Mitrovica/789225",
         "https://www.smhi.se/vader/prognoser-och-varningar/vaderprognos/q/Pristina/786714",
@@ -2480,15 +2488,16 @@
     },
     "MeinBezirk.at": {
       "country": "Austri",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-02",
-      "lastSeen": "2026-09-01",
+      "lastSeen": "2026-09-07",
       "urls": [
-        "https://www.meinbezirk.at/c-freizeit/mit-magenta-zum-frauen-nationalteam-spiel-gegen-kosovo_a8857229"
+        "https://www.meinbezirk.at/c-freizeit/mit-magenta-zum-frauen-nationalteam-spiel-gegen-kosovo_a8857229",
+        "https://www.meinbezirk.at/c-sport/mit-magenta-zum-frauen-nationalteam-spiel-gegen-kosovo_a8884982"
       ]
     },
     "Journal B": {
@@ -3017,6 +3026,85 @@
       "lastSeen": "2026-09-05",
       "urls": [
         "https://www.smhi.se/vader/prognoser-och-varningar/vaderprognos/q/Mitrovica/789225"
+      ]
+    },
+    "aefinfo.fr": {
+      "country": "Francë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-07",
+      "lastSeen": "2026-09-07",
+      "urls": [
+        "https://www.aefinfo.fr/depeche/755907-inalco-delphine-alles-devient-administratrice-provisoire-apres-le-depart-de-jean-francois-huchet-au-kosovo"
+      ]
+    },
+    "Il Fatto Quotidiano": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-07",
+      "lastSeen": "2026-09-07",
+      "urls": [
+        "https://www.ilfattoquotidiano.it/2026/09/07/funerali-mladic-belgrado-srebrenica-notizie/8499728/"
+      ]
+    },
+    "Albinfo": {
+      "country": "Zvicër",
+      "total": 2,
+      "positive": 0,
+      "neutral": 2,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-07",
+      "lastSeen": "2026-09-06",
+      "urls": [
+        "https://www.albinfo.ch/fr/tre-pilote-nga-kosova-ne-top-10-te-botes-ne-paragllajdizem/",
+        "https://www.albinfo.ch/fr/kosove-efta-marreveshja-e-tregtise-se-lire-hyn-ne-fuqi-me-1-tetor/"
+      ]
+    },
+    "iAxia -": {
+      "country": "Greqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 1,
+      "unknown": 0,
+      "firstSeen": "2026-09-07",
+      "lastSeen": "2026-09-07",
+      "urls": [
+        "https://www.iaxia.gr/diethni/kosovo-sti-gaza-oi-valkanioi-pou-pane-na-sosoun-ton-trab/"
+      ]
+    },
+    "AllStarBasket.gr": {
+      "country": "Greqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-07",
+      "lastSeen": "2026-09-05",
+      "urls": [
+        "https://www.allstarbasket.gr/ellada/greek-basketball-league/o-iraklis-72-59-tin-baskimi-apo-to-kosovo"
+      ]
+    },
+    "Daily Sabah": {
+      "country": "Turqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-07",
+      "lastSeen": "2026-09-07",
+      "urls": [
+        "https://www.dailysabah.com/world/europe/kosovo-signs-deal-to-join-gaza-stabilization-force"
       ]
     }
   }

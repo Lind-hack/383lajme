@@ -5597,9 +5597,9 @@
   },
   {
     "date": "2026-09-07",
-    "overallIndex": 55,
-    "totalArticles": 54,
-    "sourceCount": 40,
+    "overallIndex": 53,
+    "totalArticles": 73,
+    "sourceCount": 53,
     "stanceVersion": 3,
     "countries": {
       "Gjermani": {
@@ -5627,7 +5627,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 2,
+        "n": 3,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -5637,37 +5637,45 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 2,
-        "excluded": 1,
-        "confident": false,
-        "stanceVersion": 3
-      },
-      "Itali": {
-        "index": 62,
-        "positive": 25,
-        "neutral": 75,
-        "negative": 0,
-        "n": 8,
-        "excluded": 4,
-        "confident": true,
-        "stanceVersion": 3
-      },
-      "Austri": {
-        "index": 50,
-        "positive": 0,
-        "neutral": 100,
-        "negative": 0,
         "n": 4,
         "excluded": 1,
         "confident": false,
         "stanceVersion": 3
       },
-      "Zvicër": {
-        "index": 55,
-        "positive": 9,
-        "neutral": 91,
+      "Itali": {
+        "index": 60,
+        "positive": 20,
+        "neutral": 80,
         "negative": 0,
-        "n": 22,
+        "n": 10,
+        "excluded": 4,
+        "confident": true,
+        "stanceVersion": 3
+      },
+      "Austri": {
+        "index": 58,
+        "positive": 17,
+        "neutral": 83,
+        "negative": 0,
+        "n": 6,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 3,
+        "movement": {
+          "delta": 8,
+          "from": 50,
+          "outlet": "Kathpress",
+          "title": "Zehn Jahre heilig: Weltweites Gedenken an Mutter Teresa - Kathpress",
+          "evidence": "Zehn Jahre heilig",
+          "url": "https://www.kathpress.at/goto/meldung/2609648/zehn-jahre-heilig-weltweites-gedenken-an-mutter-teresa"
+        }
+      },
+      "Zvicër": {
+        "index": 54,
+        "positive": 8,
+        "neutral": 92,
+        "negative": 0,
+        "n": 24,
         "excluded": 2,
         "confident": true,
         "stanceVersion": 3
@@ -5697,27 +5705,35 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 2,
+        "n": 6,
         "excluded": 1,
-        "confident": false,
+        "confident": true,
         "stanceVersion": 3
       },
       "Greqi": {
-        "index": 50,
+        "index": 44,
         "positive": 0,
-        "neutral": 100,
-        "negative": 0,
-        "n": 6,
+        "neutral": 89,
+        "negative": 11,
+        "n": 9,
         "excluded": 0,
         "confident": true,
-        "stanceVersion": 3
+        "stanceVersion": 3,
+        "movement": {
+          "delta": -6,
+          "from": 50,
+          "outlet": "iAxia -",
+          "title": "Κόσοβο στη Γάζα: Οι Βαλκάνιοι που πάνε να σώσουν τον Τραμπ - iAxia -",
+          "evidence": "οι Βαλκάνιοι που πάνε να σώσουν τον Τραμπ",
+          "url": "https://www.iaxia.gr/diethni/kosovo-sti-gaza-oi-valkanioi-pou-pane-na-sosoun-ton-trab/"
+        }
       },
       "Suedi": {
         "index": 50,
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 1,
+        "n": 2,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -5737,7 +5753,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 2,
+        "n": 4,
         "excluded": 2,
         "confident": false,
         "stanceVersion": 3
@@ -5755,6 +5771,14 @@
     },
     "headlines": [
       {
+        "title": "Zehn Jahre heilig: Weltweites Gedenken an Mutter Teresa - Kathpress",
+        "source": "Kathpress",
+        "country": "Gjermani",
+        "flag": "🇩🇪",
+        "url": "https://www.kathpress.at/goto/meldung/2609648/zehn-jahre-heilig-weltweites-gedenken-an-mutter-teresa",
+        "sentiment": "positive"
+      },
+      {
         "title": "Giochi del Mediterraneo, Ferrarese pronto a dare una mano al Kosovo. Fidal in campo per gestire due impianti - ilmessaggero.it",
         "source": "Il Messaggero",
         "country": "Itali",
@@ -5771,12 +5795,12 @@
         "sentiment": "positive"
       },
       {
-        "title": "Enver Zymeri ve Afrim Bunjaku Polislerin En Büyük İlham Kaynağı - Kosovahaber.com",
-        "source": "Kosovahaber.com",
-        "country": "Turqi",
-        "flag": "🇹🇷",
-        "url": "https://kosovahaber.com/haber/enver-zymeri-ve-afrim-bunjaku-polislerin-en-buyuk-ilham-kaynagi-105787",
-        "sentiment": "positive"
+        "title": "Κόσοβο στη Γάζα: Οι Βαλκάνιοι που πάνε να σώσουν τον Τραμπ - iAxia -",
+        "source": "iAxia -",
+        "country": "Greqi",
+        "flag": "🇬🇷",
+        "url": "https://www.iaxia.gr/diethni/kosovo-sti-gaza-oi-valkanioi-pou-pane-na-sosoun-ton-trab/",
+        "sentiment": "negative"
       },
       {
         "title": "FETÖ Kosova'da kök salıyor: Siyasetçi ve bürokratları okullarla avlıyor - Yeni Şafak",
@@ -5787,19 +5811,11 @@
         "sentiment": "negative"
       },
       {
-        "title": "Kosova, Washington ile İlişkilerde Stratejik Hata Yaptı - Kosovahaber.com",
+        "title": "Kaçanik Anayasası’nı Anıp Devleti Krizde Tutmak İkiyüzlülük - Kosovahaber.com",
         "source": "Kosovahaber.com",
         "country": "Turqi",
         "flag": "🇹🇷",
-        "url": "https://kosovahaber.com/haber/kosova-washington-ile-iliskilerde-stratejik-hata-yapti-105774",
-        "sentiment": "negative"
-      },
-      {
-        "title": "Kosova Anayasal Çizginin Dışına Çıktı - Kosovahaber.com",
-        "source": "Kosovahaber.com",
-        "country": "Turqi",
-        "flag": "🇹🇷",
-        "url": "https://kosovahaber.com/haber/kosova-anayasal-cizginin-disina-cikti-105740",
+        "url": "https://kosovahaber.com/haber/kacanik-anayasasini-anip-devleti-krizde-tutmak-ikiyuzluluk-105813",
         "sentiment": "negative"
       }
     ]
