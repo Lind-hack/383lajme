@@ -5598,8 +5598,8 @@
   {
     "date": "2026-09-07",
     "overallIndex": 53,
-    "totalArticles": 73,
-    "sourceCount": 53,
+    "totalArticles": 78,
+    "sourceCount": 55,
     "stanceVersion": 3,
     "countries": {
       "Gjermani": {
@@ -5653,16 +5653,16 @@
         "stanceVersion": 3
       },
       "Austri": {
-        "index": 58,
-        "positive": 17,
-        "neutral": 83,
+        "index": 57,
+        "positive": 14,
+        "neutral": 86,
         "negative": 0,
-        "n": 6,
+        "n": 7,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3,
         "movement": {
-          "delta": 8,
+          "delta": 7,
           "from": 50,
           "outlet": "Kathpress",
           "title": "Dhjetë vjet shenjtëri: Përkujtim mbarëbotëror për Nënë Terezën - Kathpress",
@@ -5672,10 +5672,10 @@
       },
       "Zvicër": {
         "index": 54,
-        "positive": 8,
-        "neutral": 92,
+        "positive": 7,
+        "neutral": 93,
         "negative": 0,
-        "n": 24,
+        "n": 27,
         "excluded": 2,
         "confident": true,
         "stanceVersion": 3
@@ -5753,9 +5753,9 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 4,
+        "n": 5,
         "excluded": 2,
-        "confident": false,
+        "confident": true,
         "stanceVersion": 3
       },
       "Kroaci": {
@@ -5787,20 +5787,12 @@
         "sentiment": "positive"
       },
       {
-        "title": "Sechs Jahre nach dem Washingtoner Abkommen, Hoti: Als Kosovo von einer Regierung mit einer klar euro-atlantischen Orientierung geführt wurde - gazetaexpress.com",
-        "source": "gazetaexpress.com",
-        "country": "Zvicër",
-        "flag": "🇨🇭",
-        "url": "https://www.gazetaexpress.com/de/Sechs-Jahre-sind-seit-dem-Washingtoner-Hoti-Abkommen-vergangen--als-Kosovo-von-einer-Regierung-mit-einer-klar-euro-atlantischen-Orientierung-gef%C3%BChrt-wurde./",
+        "title": "Hamza: E rëndësishme që Kosova më 16 shtator ta ketë Kuvendin e konstituuar, marrim pjesë në seancën e 9 shtatorit - Reporteri.net",
+        "source": "Reporteri.net",
+        "country": "Belgjikë",
+        "flag": "🇧🇪",
+        "url": "https://reporteri.net/fr/nouvelles/Hamza--il-est-important-que-le-Kosovo-dispose-d%27une-assembl%C3%A9e-constitu%C3%A9e-le-16-septembre.-Nous-participerons-%C3%A0-la-session-du-9-septembre./",
         "sentiment": "positive"
-      },
-      {
-        "title": "Linta: Kurti’s regime carrying out deliberate and sustained campaign against Serbian people - kosovo-online.com",
-        "source": "kosovo-online.com",
-        "country": "Britani",
-        "flag": "🇬🇧",
-        "url": "https://www.kosovo-online.com/en/news/politics/linta-kurtis-regime-carrying-out-deliberate-and-sustained-campaign-against-serbian",
-        "sentiment": "negative"
       },
       {
         "title": "Κόσοβο στη Γάζα: Οι Βαλκάνιοι που πάνε να σώσουν τον Τραμπ - iAxia -",
@@ -5816,6 +5808,14 @@
         "country": "Turqi",
         "flag": "🇹🇷",
         "url": "https://www.yenisafak.com/dunya/feto-kosovada-kok-saliyor-siyasetci-ve-burokratlari-okullarla-avliyor-4853420",
+        "sentiment": "negative"
+      },
+      {
+        "title": "Kosova, Washington ile İlişkilerde Stratejik Hata Yaptı - Kosovahaber.com",
+        "source": "Kosovahaber.com",
+        "country": "Turqi",
+        "flag": "🇹🇷",
+        "url": "https://kosovahaber.com/haber/kosova-washington-ile-iliskilerde-stratejik-hata-yapti-105774",
         "sentiment": "negative"
       }
     ]

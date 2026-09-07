@@ -1,10 +1,10 @@
 {
   "lastUpdated": "2026-09-07",
   "overallIndex": 53,
-  "totalArticles": 73,
-  "sourceCount": 53,
+  "totalArticles": 78,
+  "sourceCount": 55,
   "stanceVersion": 3,
-  "unattributed": 155,
+  "unattributed": 157,
   "nonEditorial": 0,
   "wrongKosovo": 0,
   "countries": {
@@ -132,13 +132,13 @@
           "articles": [
             {
               "title": "À la Une: en Serbie, les étudiants ciblés par le logiciel espion Pegasus - RFI",
-              "albanianTitle": "Në fokus: në Serbi, studentët në shënjestër të softuerit spiun Pegasus",
-              "blurb": "Studentët në Serbi janë vënë në shënjestër të programit spiun Pegasus, sipas raportimeve të fundit nga mediat.",
+              "albanianTitle": "Në fokus: Në Serbi, studentët në shënjestër të softuerit spiun Pegasus - RFI",
+              "blurb": "Studentët në Serbi janë vënë në shënjestër të programit spiun Pegasus, sipas raportimeve të fundit nga mediat ndërkombëtare.",
               "imageUrl": null,
               "url": "https://www.rfi.fr/fr/europe/20260904-%C3%A0-la-une-en-serbie-les-%C3%A9tudiants-cibl%C3%A9s-par-le-logiciel-espion-pegasus",
               "date": "2026-09-04",
               "sentiment": "unknown",
-              "reason": "No reference to Kosovo in headline",
+              "reason": "No reference to Kosovo in the headline or snippet",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -340,13 +340,13 @@
           "articles": [
             {
               "title": "Beffarde coincidenze d'inizio settembre - Gazzetta di Parma",
-              "albanianTitle": "Rastësi ironike në fillim të shtatorit - Gazzetta di Parma",
-              "blurb": "Fillimi i muajit shtator sjell një sërë rastësish të papritura të cilat po diskutohen në opinionin publik italian.",
+              "albanianTitle": "Rastësi tallëse në fillim të shtatorit - Gazzetta di Parma",
+              "blurb": "Përkujtimi i ngjarjeve të ndodhura në fillim të muajit shtator që kanë shënuar një koincidencë të veçantë kohore.",
               "imageUrl": "https://gazzettadiparma.cdn.m33cloud.com/resizer/600/315/true/2026_09_07/afd-1788763843573.jpg--beffarde_coincidenze_d_inizio_settembre.webp?1788763844090",
               "url": "https://www.gazzettadiparma.it/gweb+/2026/09/07/news/beffarde-coincidenze-d-inizio-settembre-966138/",
               "date": "2026-09-07",
               "sentiment": "unknown",
-              "reason": "No reference to Kosovo in the provided text",
+              "reason": "No reference to Kosovo in the headline or snippet",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -402,12 +402,12 @@
             {
               "title": "kosovo 1 - Luino Notizie",
               "albanianTitle": null,
-              "blurb": "Luino Notizie raporton mbi zhvillimet aktuale në Kosovë përmes një përmbledhjeje të shkurtër të situatës politike.",
+              "blurb": "Informacionet e fundit lidhur me zhvillimet në Kosovë të raportuara nga burimet mediatike në gjuhën italiane.",
               "imageUrl": null,
               "url": "https://www.luinonotizie.it/2026/09/06/in-viaggio-per-incontrare-laltro-unestate-di-servizio-tra-medjugorje-kosovo-e-albania/580174/kosovo-1/",
               "date": "2026-09-06",
               "sentiment": "unknown",
-              "reason": "",
+              "reason": "No reference to Kosovo in the headline or snippet",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -673,6 +673,30 @@
           "lastSeen": "2026-09-06"
         },
         {
+          "name": "krone.at",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Überraschender Besuch - Wahlsieger aus dem Kosovo bei Kanzler Stocker - krone.at",
+              "albanianTitle": "Vizitë e papritur: Fituesi i zgjedhjeve nga Kosova te kancelari Stocker",
+              "blurb": "Fituesi i zgjedhjeve në Kosovë ka zhvilluar një vizitë të papritur te kancelari Stocker për të diskutuar çështje të ndryshme.",
+              "imageUrl": "https://imgl.krone.at/scaled/4171099/vb5ee87/og_image.jpg",
+              "url": "https://www.krone.at/4171096",
+              "date": "2026-09-06",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim neutral i vizitës së fituesit kosovar te kancler Stocker",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 2,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-01",
+          "lastSeen": "2026-09-06"
+        },
+        {
           "name": "noen.at",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -722,16 +746,16 @@
         }
       ],
       "summary": {
-        "index": 58,
-        "positive": 17,
-        "neutral": 83,
+        "index": 57,
+        "positive": 14,
+        "neutral": 86,
         "negative": 0,
-        "n": 6,
+        "n": 7,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3,
         "movement": {
-          "delta": 8,
+          "delta": 7,
           "from": 50,
           "outlet": "Kathpress",
           "title": "Dhjetë vjet shenjtëri: Përkujtim mbarëbotëror për Nënë Terezën - Kathpress",
@@ -745,7 +769,7 @@
         {
           "name": "Albinfo",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 5,
           "articles": [
             {
               "title": "Trois pilotes du Kosovo dans le Top 10 mondial de parapente - Albinfo",
@@ -772,12 +796,51 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Kurti erinnert an den 36. Jahrestag der Ausrufung der Republik Kosovo in Kaçanik - Albinfo",
+              "albanianTitle": "Kurti përkujton 36-vjetorin e shpalljes së Republikës së Kosovës në Kaçanik",
+              "blurb": "Kryeministri Albin Kurti shënoi 36-vjetorin e shpalljes së Republikës së Kosovës në një ceremoni të mbajtur në Kaçanik.",
+              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2023/05/554068490_highres.jpg",
+              "url": "https://www.albinfo.ch/de/kurti-kujton-36-vjetorin-e-shpalljes-se-republikes-se-kosoves-ne-kacanik/",
+              "date": "2026-09-07",
+              "sentiment": "neutral",
+              "reason": "Faktikë raporti pa gjuhë ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "27. Jahrestag der Kosovo-Polizei, Kurti: Präsenz im ganzen Land - Albinfo",
+              "albanianTitle": "27-vjetori i Policisë së Kosovës, Kurti: Prani në çdo cep të vendit",
+              "blurb": "Kryeministri Albin Kurti vlerësoi praninë e Policisë së Kosovës në të gjithë territorin e vendit gjatë 27-vjetorit të themelimit.",
+              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/733031-5xbqsu83d6.jpeg",
+              "url": "https://www.albinfo.ch/de/27-vjetori-i-policise-se-kosove-kurti-shtrirje-ne-gjithe-vendin/",
+              "date": "2026-09-07",
+              "sentiment": "neutral",
+              "reason": "Faktikë raporti pa gjuhë ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Kurti commémore le 36e anniversaire de la proclamation de la République du Kosovo à Kaçanik - Albinfo",
+              "albanianTitle": "Kurti përkujton 36-vjetorin e shpalljes së Republikës së Kosovës në Kaçanik",
+              "blurb": "Kryeministri Albin Kurti përkujtoi 36-vjetorin e shpalljes së Republikës së Kosovës në një aktivitet të organizuar në qytetin e Kaçanikut.",
+              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2023/05/554068490_highres.jpg",
+              "url": "https://www.albinfo.ch/fr/kurti-kujton-36-vjetorin-e-shpalljes-se-republikes-se-kosoves-ne-kacanik/",
+              "date": "2026-09-07",
+              "sentiment": "neutral",
+              "reason": "Faktikë raporti pa gjuhë ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 2,
-          "trend": "i pamjaftueshëm",
+          "totalArticles": 5,
+          "trend": "neutral",
           "firstSeen": "2026-09-07",
-          "lastSeen": "2026-09-06"
+          "lastSeen": "2026-09-07"
         },
         {
           "name": "NZZ",
@@ -786,26 +849,26 @@
           "articles": [
             {
               "title": "Der Balkan ist eine Problemregion – und Serbien der grösste Unruhestifter - nzz.ch",
-              "albanianTitle": "Ballkani është rajon problematik – ndërsa Serbia shkaktari më i madh i trazirave",
-              "blurb": "Rajoni i Ballkanit vlerësohet si zonë problematike ku Serbia identifikohet si faktori kryesor që shkakton paqëndrueshmëri dhe tensione politike.",
+              "albanianTitle": "Ballkani është rajon problematik – dhe Serbia shkaktari më i madh i trazirave - nzz.ch",
+              "blurb": "Analiza ndërkombëtare vlerëson se rajoni i Ballkanit mbetet problematik, me Serbinë si faktorin kryesor të destabilizimit në zonë.",
               "imageUrl": "https://img-msp-prod.nzz.ch/2026/09/04/fd463207-d593-4ea8-8402-cc27318d1cee.jpg?width=1200&height=675&fit=bounds&quality=75&auto=webp&crop=5850,3291,x0,y430&wmark=nzz",
               "url": "https://www.nzz.ch/meinung/der-balkan-ist-eine-nach-wie-vor-vernachlaessigte-problemregion-serbien-bleibt-der-massgebliche-unruhestifter-ld.10016355",
               "date": "2026-09-07",
               "sentiment": "unknown",
-              "reason": "",
+              "reason": "No reference to Kosovo in the headline or snippet",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
             },
             {
               "title": "Der Balkan ist eine Problemregion – und Serbien der grösste Unruhestifter - NZZ",
-              "albanianTitle": "Ballkani është rajon problematik – ndërsa Serbia është shkaktari më i madh i trazirave - NZZ",
-              "blurb": "Analiza e gazetës zvicerane NZZ vlerëson se Ballkani mbetet rajon problematik, duke e identifikuar Serbinë si faktorin kryesor destabilizues.",
+              "albanianTitle": "Ballkani është rajon problematik – dhe Serbia shkaktari më i madh i trazirave - NZZ",
+              "blurb": "Serbia konsiderohet si shkaktari kryesor i tensioneve në Ballkan, rajon që vazhdon të përballet me sfida të shumta politike.",
               "imageUrl": "https://img-msp-prod.nzz.ch/2026/09/04/fd463207-d593-4ea8-8402-cc27318d1cee.jpg?width=1200&height=675&fit=bounds&quality=75&auto=webp&crop=5850,3291,x0,y430&wmark=nzz",
               "url": "https://www.nzz.ch/meinung/der-balkan-ist-eine-nach-wie-vor-vernachlaessigte-problemregion-serbien-bleibt-der-massgebliche-unruhestifter-ld.10016355",
               "date": "2026-09-07",
               "sentiment": "unknown",
-              "reason": "No reference to Kosovo in the provided text",
+              "reason": "No reference to Kosovo in the headline or snippet",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -908,10 +971,10 @@
       ],
       "summary": {
         "index": 54,
-        "positive": 8,
-        "neutral": 92,
+        "positive": 7,
+        "neutral": 93,
         "negative": 0,
-        "n": 24,
+        "n": 27,
         "excluded": 2,
         "confident": true,
         "stanceVersion": 3
@@ -1450,12 +1513,12 @@
             {
               "title": "998 metrów, które potrafiło dać w kość. Najtrudniejsze było to, w czym biegli - gostyn24.pl",
               "albanianTitle": "998 metra që të lodhin. Më e vështira ishte ajo në të cilën vrapuan - gostyn24.pl",
-              "blurb": "Një garë vrapimi prej 998 metrash ka sfiduar pjesëmarrësit për shkak të vështirësive teknike dhe pajisjeve të përdorura gjatë saj.",
+              "blurb": "Një garë vrapimi prej 998 metrash ka paraqitur vështirësi për pjesëmarrësit për shkak të kushteve dhe pajisjeve të përdorura.",
               "imageUrl": "https://gostyn24.pl/pl/image-meta/news/98135.jpg?v=20260906200953",
               "url": "https://gostyn24.pl/pl/19_wiadomosci-z-regionu/588_gostyn/98135_998-metrow-ktore-potrafilo-dac-w-kosc-najtrudniejsze-bylo-to-w-czym-biegli.html",
               "date": "2026-09-06",
               "sentiment": "unknown",
-              "reason": "No reference to Kosovo in the provided text",
+              "reason": "No reference to Kosovo in the headline or snippet",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1651,6 +1714,30 @@
           "lastSeen": "2026-09-06"
         },
         {
+          "name": "Son Dakika",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosova Prizren'deki ilkokula Mehmetçik oyun parkı kurdu - Son Dakika",
+              "albanianTitle": "Ushtria turke ndërton kënd lojërash në një shkollë fillore në Prizren",
+              "blurb": "Ushtria turke ka ndërtuar një kënd lojërash për fëmijët e një shkolle fillore në qytetin e Prizrenit në Kosovë.",
+              "imageUrl": "https://foto.sondakika.com/haber/2026/09/04/turk-askeri-kosovali-cocuklar-icin-oyun-parki-5-20206984_amp.jpg",
+              "url": "https://www.sondakika.com/guncel/haber-kosova-prizren-deki-ilkokula-mehmetcik-oyun-parki--20207034/",
+              "date": "2026-09-04",
+              "sentiment": "neutral",
+              "reason": "Raportim neutral i ndërtimit të një parku lojërash Mehmetçik në shkollën fillore të Prizrenit",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 10,
+          "trend": "i përzier",
+          "firstSeen": "2026-08-20",
+          "lastSeen": "2026-09-04"
+        },
+        {
           "name": "TRT Avaz",
           "sentiment": "unknown",
           "articleCount": 1,
@@ -1704,9 +1791,9 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 4,
+        "n": 5,
         "excluded": 2,
-        "confident": false,
+        "confident": true,
         "stanceVersion": 3
       }
     },

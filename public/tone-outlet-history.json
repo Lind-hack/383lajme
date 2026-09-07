@@ -1018,13 +1018,13 @@
     },
     "Son Dakika": {
       "country": "Turqi",
-      "total": 9,
+      "total": 10,
       "positive": 1,
-      "neutral": 6,
+      "neutral": 7,
       "negative": 0,
       "unknown": 2,
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-09-01",
+      "lastSeen": "2026-09-04",
       "urls": [
         "https://www.sondakika.com/haber/haber-kosova-da-halter-sampiyonasi-basladi-20162761/",
         "https://www.sondakika.com/3-sayfa/haber-kosovo-da-savas-suclari-sorusturmasi-23-kalinti-bu-20159357/",
@@ -1034,7 +1034,8 @@
         "https://www.sondakika.com/politika/haber-kosova-da-cumhurbaskani-adayligi-uzerinde-uzlasma-20193550/",
         "https://www.sondakika.com/guncel/haber-kosova-da-cumhurbaskani-adayi-sejdiu-belirlendi-20194210/",
         "https://www.sondakika.com/spor/haber-berber-ali-turkben-iki-turkiye-sampiyonlugunun-ard-20195760/",
-        "https://www.sondakika.com/guncel/haber-kosova-daki-yildizlar-avrupa-halter-sampiyonasi-nd-20196635/"
+        "https://www.sondakika.com/guncel/haber-kosova-daki-yildizlar-avrupa-halter-sampiyonasi-nd-20196635/",
+        "https://www.sondakika.com/guncel/haber-kosova-prizren-deki-ilkokula-mehmetcik-oyun-parki--20207034/"
       ]
     },
     "Harici": {
@@ -2436,15 +2437,16 @@
     },
     "krone.at": {
       "country": "Austri",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 0,
+      "neutral": 1,
       "negative": 0,
       "unknown": 1,
       "firstSeen": "2026-09-01",
-      "lastSeen": "2026-08-29",
+      "lastSeen": "2026-09-06",
       "urls": [
-        "https://www.krone.at/4269964"
+        "https://www.krone.at/4269964",
+        "https://www.krone.at/4171096"
       ]
     },
     "AEF info": {
@@ -3056,16 +3058,19 @@
     },
     "Albinfo": {
       "country": "Zvicër",
-      "total": 2,
+      "total": 5,
       "positive": 0,
-      "neutral": 2,
+      "neutral": 5,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-07",
-      "lastSeen": "2026-09-06",
+      "lastSeen": "2026-09-07",
       "urls": [
         "https://www.albinfo.ch/fr/tre-pilote-nga-kosova-ne-top-10-te-botes-ne-paragllajdizem/",
-        "https://www.albinfo.ch/fr/kosove-efta-marreveshja-e-tregtise-se-lire-hyn-ne-fuqi-me-1-tetor/"
+        "https://www.albinfo.ch/fr/kosove-efta-marreveshja-e-tregtise-se-lire-hyn-ne-fuqi-me-1-tetor/",
+        "https://www.albinfo.ch/de/kurti-kujton-36-vjetorin-e-shpalljes-se-republikes-se-kosoves-ne-kacanik/",
+        "https://www.albinfo.ch/de/27-vjetori-i-policise-se-kosove-kurti-shtrirje-ne-gjithe-vendin/",
+        "https://www.albinfo.ch/fr/kurti-kujton-36-vjetorin-e-shpalljes-se-republikes-se-kosoves-ne-kacanik/"
       ]
     },
     "iAxia -": {
