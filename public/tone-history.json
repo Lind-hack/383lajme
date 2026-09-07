@@ -5665,7 +5665,7 @@
           "delta": 8,
           "from": 50,
           "outlet": "Kathpress",
-          "title": "Zehn Jahre heilig: Weltweites Gedenken an Mutter Teresa - Kathpress",
+          "title": "Dhjetë vjet shenjtëri: Përkujtim mbarëbotëror për Nënë Terezën - Kathpress",
           "evidence": "Zehn Jahre heilig",
           "url": "https://www.kathpress.at/goto/meldung/2609648/zehn-jahre-heilig-weltweites-gedenken-an-mutter-teresa"
         }
@@ -5723,7 +5723,7 @@
           "delta": -6,
           "from": 50,
           "outlet": "iAxia -",
-          "title": "Κόσοβο στη Γάζα: Οι Βαλκάνιοι που πάνε να σώσουν τον Τραμπ - iAxia -",
+          "title": "Kosova në Gaza: Ballkanasit që po shkojnë për ta shpëtuar Trumpin - iAxia",
           "evidence": "οι Βαλκάνιοι που πάνε να σώσουν τον Τραμπ",
           "url": "https://www.iaxia.gr/diethni/kosovo-sti-gaza-oi-valkanioi-pou-pane-na-sosoun-ton-trab/"
         }
@@ -5779,20 +5779,28 @@
         "sentiment": "positive"
       },
       {
-        "title": "Giochi del Mediterraneo, Ferrarese pronto a dare una mano al Kosovo. Fidal in campo per gestire due impianti - ilmessaggero.it",
-        "source": "Il Messaggero",
+        "title": "Da Vaccarizzo al Kosovo, il vino ricuce l’Arbëria: Pomillo ambasciatore dell’Hardh Fest - EcoDelloJonio.it",
+        "source": "EcoDelloJonio.it",
         "country": "Itali",
         "flag": "🇮🇹",
-        "url": "https://www.ilmessaggero.it/sport/altrisport/giochi_mediterraneo_ferrarese_taranto_cosa_ha_detto-9743199.html",
+        "url": "https://ecodellojonio.it/articoli/territorio/2026/09/da-vaccarizzo-al-kosovo-il-vino-ricuce-l-arberia-pomillo-ambasciatore-dell-hardh-fest",
         "sentiment": "positive"
       },
       {
-        "title": "Βούλγαρία-Κόσοβο με κοινές προσπάθειες για την ειρήνη και την ασφάλεια - БНР Новини",
-        "source": "БНР Новини",
-        "country": "Greqi",
-        "flag": "🇬🇷",
-        "url": "https://bnrnews.bg/el/post/523471/boylgaria-kosobo-me-koines-prospa8eies-gia-thn-eirhnh-kai-thn-asfaleia",
+        "title": "Sechs Jahre nach dem Washingtoner Abkommen, Hoti: Als Kosovo von einer Regierung mit einer klar euro-atlantischen Orientierung geführt wurde - gazetaexpress.com",
+        "source": "gazetaexpress.com",
+        "country": "Zvicër",
+        "flag": "🇨🇭",
+        "url": "https://www.gazetaexpress.com/de/Sechs-Jahre-sind-seit-dem-Washingtoner-Hoti-Abkommen-vergangen--als-Kosovo-von-einer-Regierung-mit-einer-klar-euro-atlantischen-Orientierung-gef%C3%BChrt-wurde./",
         "sentiment": "positive"
+      },
+      {
+        "title": "Linta: Kurti’s regime carrying out deliberate and sustained campaign against Serbian people - kosovo-online.com",
+        "source": "kosovo-online.com",
+        "country": "Britani",
+        "flag": "🇬🇧",
+        "url": "https://www.kosovo-online.com/en/news/politics/linta-kurtis-regime-carrying-out-deliberate-and-sustained-campaign-against-serbian",
+        "sentiment": "negative"
       },
       {
         "title": "Κόσοβο στη Γάζα: Οι Βαλκάνιοι που πάνε να σώσουν τον Τραμπ - iAxia -",
@@ -5808,14 +5816,6 @@
         "country": "Turqi",
         "flag": "🇹🇷",
         "url": "https://www.yenisafak.com/dunya/feto-kosovada-kok-saliyor-siyasetci-ve-burokratlari-okullarla-avliyor-4853420",
-        "sentiment": "negative"
-      },
-      {
-        "title": "Kaçanik Anayasası’nı Anıp Devleti Krizde Tutmak İkiyüzlülük - Kosovahaber.com",
-        "source": "Kosovahaber.com",
-        "country": "Turqi",
-        "flag": "🇹🇷",
-        "url": "https://kosovahaber.com/haber/kacanik-anayasasini-anip-devleti-krizde-tutmak-ikiyuzluluk-105813",
         "sentiment": "negative"
       }
     ]

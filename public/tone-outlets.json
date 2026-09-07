@@ -4,7 +4,7 @@
   "totalArticles": 73,
   "sourceCount": 53,
   "stanceVersion": 3,
-  "unattributed": 131,
+  "unattributed": 155,
   "nonEditorial": 0,
   "wrongKosovo": 0,
   "countries": {
@@ -340,13 +340,13 @@
           "articles": [
             {
               "title": "Beffarde coincidenze d'inizio settembre - Gazzetta di Parma",
-              "albanianTitle": "Rastësi ironike në fillim të shtatorit",
-              "blurb": "Ngjarje të ndryshme dhe koincidenca të pazakonta shënohen në fillim të muajit shtator sipas raportimeve të gazetës italiane Gazzetta di Parma.",
+              "albanianTitle": "Rastësi ironike në fillim të shtatorit - Gazzetta di Parma",
+              "blurb": "Fillimi i muajit shtator sjell një sërë rastësish të papritura të cilat po diskutohen në opinionin publik italian.",
               "imageUrl": "https://gazzettadiparma.cdn.m33cloud.com/resizer/600/315/true/2026_09_07/afd-1788763843573.jpg--beffarde_coincidenze_d_inizio_settembre.webp?1788763844090",
               "url": "https://www.gazzettadiparma.it/gweb+/2026/09/07/news/beffarde-coincidenze-d-inizio-settembre-966138/",
               "date": "2026-09-07",
               "sentiment": "unknown",
-              "reason": "Headline contains no reference to Kosovo, stance cannot be inferred",
+              "reason": "No reference to Kosovo in the provided text",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -583,7 +583,7 @@
           "articles": [
             {
               "title": "Zehn Jahre heilig: Weltweites Gedenken an Mutter Teresa - Kathpress",
-              "albanianTitle": null,
+              "albanianTitle": "Dhjetë vjet shenjtëri: Përkujtim mbarëbotëror për Nënë Terezën - Kathpress",
               "blurb": "Shënohet dhjetëvjetori i shenjtërimit të Nënë Terezës përmes aktiviteteve përkujtimore të organizuara në mbarë botën për nder të saj.",
               "imageUrl": null,
               "url": "https://www.kathpress.at/goto/meldung/2609648/zehn-jahre-heilig-weltweites-gedenken-an-mutter-teresa",
@@ -734,7 +734,7 @@
           "delta": 8,
           "from": 50,
           "outlet": "Kathpress",
-          "title": "Zehn Jahre heilig: Weltweites Gedenken an Mutter Teresa - Kathpress",
+          "title": "Dhjetë vjet shenjtëri: Përkujtim mbarëbotëror për Nënë Terezën - Kathpress",
           "evidence": "Zehn Jahre heilig",
           "url": "https://www.kathpress.at/goto/meldung/2609648/zehn-jahre-heilig-weltweites-gedenken-an-mutter-teresa"
         }
@@ -799,13 +799,13 @@
             },
             {
               "title": "Der Balkan ist eine Problemregion – und Serbien der grösste Unruhestifter - NZZ",
-              "albanianTitle": "Ballkani është rajon problematik – ndërsa Serbia shkaktari më i madh i trazirave",
-              "blurb": "Analiza e NZZ-së e vlerëson Ballkanin si rajon me probleme, duke e cilësuar Serbinë si shkaktarin kryesor të trazirave në këtë zonë.",
+              "albanianTitle": "Ballkani është rajon problematik – ndërsa Serbia është shkaktari më i madh i trazirave - NZZ",
+              "blurb": "Analiza e gazetës zvicerane NZZ vlerëson se Ballkani mbetet rajon problematik, duke e identifikuar Serbinë si faktorin kryesor destabilizues.",
               "imageUrl": "https://img-msp-prod.nzz.ch/2026/09/04/fd463207-d593-4ea8-8402-cc27318d1cee.jpg?width=1200&height=675&fit=bounds&quality=75&auto=webp&crop=5850,3291,x0,y430&wmark=nzz",
               "url": "https://www.nzz.ch/meinung/der-balkan-ist-eine-nach-wie-vor-vernachlaessigte-problemregion-serbien-bleibt-der-massgebliche-unruhestifter-ld.10016355",
               "date": "2026-09-07",
               "sentiment": "unknown",
-              "reason": "",
+              "reason": "No reference to Kosovo in the provided text",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1269,7 +1269,7 @@
           "articles": [
             {
               "title": "Κόσοβο στη Γάζα: Οι Βαλκάνιοι που πάνε να σώσουν τον Τραμπ - iAxia -",
-              "albanianTitle": null,
+              "albanianTitle": "Kosova në Gaza: Ballkanasit që po shkojnë për ta shpëtuar Trumpin - iAxia",
               "blurb": "Përfshirja e Kosovës në forcën ndërkombëtare në Gaza është temë e diskutimit në mediat ndërkombëtare lidhur me zhvillimet aktuale.",
               "imageUrl": "https://www.iaxia.gr/wp-content/uploads/2026/09/image-416.jpg",
               "url": "https://www.iaxia.gr/diethni/kosovo-sti-gaza-oi-valkanioi-pou-pane-na-sosoun-ton-trab/",
@@ -1324,7 +1324,7 @@
           "delta": -6,
           "from": 50,
           "outlet": "iAxia -",
-          "title": "Κόσοβο στη Γάζα: Οι Βαλκάνιοι που πάνε να σώσουν τον Τραμπ - iAxia -",
+          "title": "Kosova në Gaza: Ballkanasit që po shkojnë për ta shpëtuar Trumpin - iAxia",
           "evidence": "οι Βαλκάνιοι που πάνε να σώσουν τον Τραμπ",
           "url": "https://www.iaxia.gr/diethni/kosovo-sti-gaza-oi-valkanioi-pou-pane-na-sosoun-ton-trab/"
         }
@@ -1449,13 +1449,13 @@
           "articles": [
             {
               "title": "998 metrów, które potrafiło dać w kość. Najtrudniejsze było to, w czym biegli - gostyn24.pl",
-              "albanianTitle": "998 metra që të lodhin: Pjesa më e vështirë ishte terreni ku vrapuan - gostyn24.pl",
-              "blurb": "Pjesëmarrësit në një garë vrapimi prej 998 metrash përballen me vështirësi të mëdha për shkak të kushteve dhe natyrës së garës.",
+              "albanianTitle": "998 metra që të lodhin. Më e vështira ishte ajo në të cilën vrapuan - gostyn24.pl",
+              "blurb": "Një garë vrapimi prej 998 metrash ka sfiduar pjesëmarrësit për shkak të vështirësive teknike dhe pajisjeve të përdorura gjatë saj.",
               "imageUrl": "https://gostyn24.pl/pl/image-meta/news/98135.jpg?v=20260906200953",
               "url": "https://gostyn24.pl/pl/19_wiadomosci-z-regionu/588_gostyn/98135_998-metrow-ktore-potrafilo-dac-w-kosc-najtrudniejsze-bylo-to-w-czym-biegli.html",
               "date": "2026-09-06",
               "sentiment": "unknown",
-              "reason": "",
+              "reason": "No reference to Kosovo in the provided text",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
