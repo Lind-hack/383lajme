@@ -1,10 +1,10 @@
 {
   "lastUpdated": "2026-09-08",
-  "overallIndex": 50,
-  "totalArticles": 57,
+  "overallIndex": 52,
+  "totalArticles": 60,
   "sourceCount": 43,
   "stanceVersion": 3,
-  "unattributed": 163,
+  "unattributed": 167,
   "nonEditorial": 0,
   "wrongKosovo": 0,
   "countries": {
@@ -699,7 +699,7 @@
         {
           "name": "Albinfo",
           "sentiment": "neutral",
-          "articleCount": 5,
+          "articleCount": 6,
           "articles": [
             {
               "title": "Trois pilotes du Kosovo dans le Top 10 mondial de parapente - Albinfo",
@@ -765,12 +765,25 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Konjufca: Die kosovarische Diaspora stärkt die Beziehungen zwischen Kosovo und der Schweiz - Albinfo",
+              "albanianTitle": "Konjufca: Diaspora kosovare po forcon marrëdhëniet mes Kosovës dhe Zvicrës",
+              "blurb": "Kryetari i Kuvendit, Glauk Konjufca, vlerëson rolin e diasporës kosovare në forcimin e marrëdhënieve ndërmjet Kosovës dhe Zvicrës.",
+              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/733184-sbrkpauqmc.jpeg",
+              "url": "https://www.albinfo.ch/de/konjufca-diaspora-kosovare-forcon-lidhjet-mes-kosoves-dhe-zvicres/",
+              "date": "2026-09-08",
+              "sentiment": "neutral",
+              "reason": "Headline reports a statement without loaded language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 6,
-          "trend": "neutral",
+          "totalArticles": 9,
+          "trend": "pozitiv",
           "firstSeen": "2026-09-07",
-          "lastSeen": "2026-09-07"
+          "lastSeen": "2026-09-08"
         },
         {
           "name": "NZZ",
@@ -900,11 +913,11 @@
         }
       ],
       "summary": {
-        "index": 50,
-        "positive": 0,
-        "neutral": 100,
+        "index": 55,
+        "positive": 10,
+        "neutral": 90,
         "negative": 0,
-        "n": 17,
+        "n": 20,
         "excluded": 2,
         "confident": true,
         "stanceVersion": 3

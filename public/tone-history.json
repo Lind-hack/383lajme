@@ -5822,8 +5822,8 @@
   },
   {
     "date": "2026-09-08",
-    "overallIndex": 50,
-    "totalArticles": 57,
+    "overallIndex": 52,
+    "totalArticles": 60,
     "sourceCount": 43,
     "stanceVersion": 3,
     "countries": {
@@ -5896,11 +5896,11 @@
         "stanceVersion": 3
       },
       "Zvicër": {
-        "index": 50,
-        "positive": 0,
-        "neutral": 100,
+        "index": 55,
+        "positive": 10,
+        "neutral": 90,
         "negative": 0,
-        "n": 17,
+        "n": 20,
         "excluded": 2,
         "confident": true,
         "stanceVersion": 3
@@ -6004,11 +6004,11 @@
         "sentiment": "positive"
       },
       {
-        "title": "Hamza: E rëndësishme që Kosova më 16 shtator ta ketë Kuvendin e konstituuar, marrim pjesë në seancën e 9 shtatorit - Reporteri.net",
-        "source": "Reporteri.net",
+        "title": "Du Kosovo à la Garde nationale des États-Unis, le parcours de réussite de Rona Mala - Albinfo",
+        "source": "Albinfo",
         "country": "Francë",
         "flag": "🇫🇷",
-        "url": "https://reporteri.net/fr/nouvelles/Hamza--il-est-important-que-le-Kosovo-dispose-d%27une-assembl%C3%A9e-constitu%C3%A9e-le-16-septembre.-Nous-participerons-%C3%A0-la-session-du-9-septembre./",
+        "url": "https://www.albinfo.ch/fr/nga-kosova-ne-garden-kombetare-te-shba-se-rrefimi-i-suksesit-te-rona-males/",
         "sentiment": "positive"
       },
       {

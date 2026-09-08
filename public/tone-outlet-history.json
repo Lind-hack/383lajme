@@ -3062,20 +3062,23 @@
     },
     "Albinfo": {
       "country": "Zvicër",
-      "total": 6,
-      "positive": 0,
-      "neutral": 6,
+      "total": 9,
+      "positive": 2,
+      "neutral": 7,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-07",
-      "lastSeen": "2026-09-07",
+      "lastSeen": "2026-09-08",
       "urls": [
         "https://www.albinfo.ch/fr/tre-pilote-nga-kosova-ne-top-10-te-botes-ne-paragllajdizem/",
         "https://www.albinfo.ch/fr/kosove-efta-marreveshja-e-tregtise-se-lire-hyn-ne-fuqi-me-1-tetor/",
         "https://www.albinfo.ch/de/kurti-kujton-36-vjetorin-e-shpalljes-se-republikes-se-kosoves-ne-kacanik/",
         "https://www.albinfo.ch/de/27-vjetori-i-policise-se-kosove-kurti-shtrirje-ne-gjithe-vendin/",
         "https://www.albinfo.ch/fr/kurti-kujton-36-vjetorin-e-shpalljes-se-republikes-se-kosoves-ne-kacanik/",
-        "https://www.albinfo.ch/fr/27-vjetori-i-policise-se-kosove-kurti-shtrirje-ne-gjithe-vendin/"
+        "https://www.albinfo.ch/fr/27-vjetori-i-policise-se-kosove-kurti-shtrirje-ne-gjithe-vendin/",
+        "https://www.albinfo.ch/de/konjufca-diaspora-kosovare-forcon-lidhjet-mes-kosoves-dhe-zvicres/",
+        "https://www.albinfo.ch/de/nga-kosova-ne-garden-kombetare-te-shba-se-rrefimi-i-suksesit-te-rona-males/",
+        "https://www.albinfo.ch/fr/nga-kosova-ne-garden-kombetare-te-shba-se-rrefimi-i-suksesit-te-rona-males/"
       ]
     },
     "iAxia -": {
