@@ -1,10 +1,10 @@
 {
   "lastUpdated": "2026-09-08",
-  "overallIndex": 51,
-  "totalArticles": 48,
-  "sourceCount": 39,
+  "overallIndex": 50,
+  "totalArticles": 54,
+  "sourceCount": 42,
   "stanceVersion": 3,
-  "unattributed": 123,
+  "unattributed": 149,
   "nonEditorial": 0,
   "wrongKosovo": 0,
   "countries": {
@@ -64,7 +64,7 @@
         {
           "name": "Balkan Insight",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 3,
           "articles": [
             {
               "title": "Kosovo Man Pleads Not Guilty to Spying for Serbia - Balkan Insight",
@@ -91,23 +91,44 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Kosovo Parliament to Reconvene, ‘Chaos’ Looms over Election of President - Balkan Insight",
+              "albanianTitle": "Kuvendi i Kosovës mblidhet sërish, paralajmërohet 'kaos' për zgjedhjen e presidentit - Balkan Insight",
+              "blurb": "Kuvendi i Kosovës mblidhet për të vazhduar punimet, ndërsa pritet situatë e tensionuar gjatë procesit të zgjedhjes së presidentit.",
+              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/09/Kosovo-parliament-2-e1788869718812.jpg",
+              "url": "https://balkaninsight.com/2026/09/08/kosovo-parliament-to-reconvene-chaos-looms-over-election-of-president/bi/",
+              "date": "2026-09-08",
+              "sentiment": "negative",
+              "reason": "Outlet frames Kosovo's political situation as chaotic",
+              "isQuote": false,
+              "evidence": "Chaos",
+              "speaker": ""
             }
           ],
-          "totalArticles": 11,
+          "totalArticles": 12,
           "trend": "i përzier",
           "firstSeen": "2026-08-19",
-          "lastSeen": "2026-09-07"
+          "lastSeen": "2026-09-08"
         }
       ],
       "summary": {
-        "index": 50,
+        "index": 33,
         "positive": 0,
-        "neutral": 100,
-        "negative": 0,
-        "n": 2,
+        "neutral": 67,
+        "negative": 33,
+        "n": 3,
         "excluded": 0,
         "confident": false,
-        "stanceVersion": 3
+        "stanceVersion": 3,
+        "movement": {
+          "delta": -17,
+          "from": 50,
+          "outlet": "Balkan Insight",
+          "title": "Kuvendi i Kosovës mblidhet sërish, paralajmërohet 'kaos' për zgjedhjen e presidentit - Balkan Insight",
+          "evidence": "Chaos",
+          "url": "https://balkaninsight.com/2026/09/08/kosovo-parliament-to-reconvene-chaos-looms-over-election-of-president/bi/"
+        }
       }
     },
     "Francë": {
@@ -153,7 +174,7 @@
         {
           "name": "ANSA",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 3,
           "articles": [
             {
               "title": "L'informazione dei Balcani si incontra a Trieste - ANSA",
@@ -167,12 +188,38 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "L'informazione dei Balcani si incontra a Trieste - ansa.it",
+              "albanianTitle": "Informimi nga Ballkani takohet në Trieste - ansa.it",
+              "blurb": "Përfaqësues të mediave nga rajoni i Ballkanit mblidhen në qytetin e Triestes për të diskutuar mbi zhvillimet në fushën informative.",
+              "imageUrl": "https://www.ansa.it/webimages/img_1280x720/2026/9/6/0d0f6a84b36ed2c35741a77b5e7de7d4.jpg",
+              "url": "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/09/06/linformazione-dei-balcani-si-incontra-a-trieste_b6343cee-eb0d-4448-a261-a23b804985ba.html",
+              "date": "2026-09-06",
+              "sentiment": "neutral",
+              "reason": "Raportim faktik për takim informativ në Trieste",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Accelerare l'integrazione dei Balcani per il futuro dell'Ue, forum a Trieste - ansa.it",
+              "albanianTitle": "Përshpejtimi i integrimit të Ballkanit për të ardhmen e BE-së, diskutohet në forumin e Triestes",
+              "blurb": "Forumi i mbajtur në Trieste diskuton përshpejtimin e integrimit të vendeve të Ballkanit në Bashkimin Evropian.",
+              "imageUrl": "https://www.ansa.it/webimages/img_1280x720/2026/9/8/96724cc9c5be573846c2e4243c3aa35b.jpg",
+              "url": "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/09/08/accelerare-lintegrazione-dei-balcani-per-il-futuro-dellue-forum-a-trieste_6069c0ef-27e1-4bf2-b6c8-4b8ebcc0f985.html",
+              "date": "2026-09-08",
+              "sentiment": "neutral",
+              "reason": "Raportim neutral për forum integrimi të Ballkanit",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 15,
+          "totalArticles": 16,
           "trend": "neutral",
           "firstSeen": "2026-08-20",
-          "lastSeen": "2026-09-06"
+          "lastSeen": "2026-09-08"
         },
         {
           "name": "Buonasera24",
@@ -197,6 +244,30 @@
           "trend": "neutral",
           "firstSeen": "2026-08-25",
           "lastSeen": "2026-09-07"
+        },
+        {
+          "name": "Corriere della Sera",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "L'ambasciatrice del Kosovo in Italia: «Mladic e quel passato che non passa» - Corriere della Sera",
+              "albanianTitle": "Ambasadorja e Kosovës në Itali: Mladiqi dhe e kaluara që nuk po kalon - Corriere della Sera",
+              "blurb": "Ambasadorja e Kosovës në Itali flet për figurën e Mlladiqit dhe ndikimin e së kaluarës në marrëdhëniet aktuale rajonale.",
+              "imageUrl": "https://dimages2.corriereobjects.it/files/image_1200_900/files/fp/uploads/2026/09/08/6aa0035993a78.r_d.622-749-11594.jpeg",
+              "url": "https://www.corriere.it/esteri/26_settembre_08/ambasciatrice-kosovo-italia-1e35fc84-6ab4-4a98-98e7-587952d31xlk.shtml",
+              "date": "2026-09-08",
+              "sentiment": "neutral",
+              "reason": "Quote from Kosovo ambassador, not outlet's own stance",
+              "isQuote": true,
+              "evidence": "",
+              "speaker": "ambasciatrice del Kosovo in Italia"
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-08",
+          "lastSeen": "2026-09-08"
         },
         {
           "name": "Gazzetta di Parma",
@@ -247,6 +318,30 @@
           "lastSeen": "2026-09-07"
         },
         {
+          "name": "Il Messaggero",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Roma-Prishtina, il Kosovo è più vicino: al via il volo diretto tra le due capitali - Il Messaggero",
+              "albanianTitle": "Romë-Prishtinë, Kosova më afër: nis fluturimi direkt mes dy kryeqyteteve - Il Messaggero",
+              "blurb": "Vendoset linja e re e fluturimit direkt që lidh kryeqytetin e Italisë, Romën, me kryeqytetin e Kosovës, Prishtinën.",
+              "imageUrl": "https://statics.cedscdn.it/photos/MED_HIGH/2026/09/08/9751050_08153724_prishtina_nga_katedrala_1.jpg",
+              "url": "https://www.ilmessaggero.it/viaggi/mondo/volo_roma_prishtina_kosovo_prezzi_compagnie_aeree-9751050.html",
+              "date": "2026-09-08",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim për fluturim të ri, pa gjuhë ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-08",
+          "lastSeen": "2026-09-08"
+        },
+        {
           "name": "Luino Notizie",
           "sentiment": "neutral",
           "articleCount": 2,
@@ -267,12 +362,12 @@
             {
               "title": "kosovo 1 - Luino Notizie",
               "albanianTitle": null,
-              "blurb": "Ngjarje dhe zhvillime të ndryshme lidhur me Kosovën janë raportuar në portalin informativ italian Luino Notizie gjatë ditës.",
+              "blurb": "Informacionet e publikuara në lidhje me zhvillimet aktuale në Kosovë të raportuara nga media italiane Luino Notizie.",
               "imageUrl": null,
               "url": "https://www.luinonotizie.it/2026/09/06/in-viaggio-per-incontrare-laltro-unestate-di-servizio-tra-medjugorje-kosovo-e-albania/580174/kosovo-1/",
               "date": "2026-09-06",
               "sentiment": "unknown",
-              "reason": "Mungon informacion i mjaftueshem per te percaktuar qendrimin",
+              "reason": "Nuk ka informacion të mjaftueshëm për të përcaktuar qëndrimin e medias ndaj Kosovës",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -357,11 +452,11 @@
         }
       ],
       "summary": {
-        "index": 60,
-        "positive": 20,
-        "neutral": 80,
+        "index": 56,
+        "positive": 11,
+        "neutral": 89,
         "negative": 0,
-        "n": 5,
+        "n": 9,
         "excluded": 4,
         "confident": true,
         "stanceVersion": 3
@@ -372,7 +467,7 @@
         {
           "name": "Kathpress",
           "sentiment": "positive",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Zehn Jahre heilig: Weltweites Gedenken an Mutter Teresa - Kathpress",
@@ -385,6 +480,19 @@
               "reason": "Outlet praises Mother Teresa, a figure associated with Kosovo",
               "isQuote": false,
               "evidence": "Zehn Jahre heilig",
+              "speaker": ""
+            },
+            {
+              "title": "Zehn Jahre heilig: Weltweites Gedenken an Mutter Teresa - kathpress.at",
+              "albanianTitle": "Dhjetë vjet shenjtëri: Përkujtim mbarëbotëror për Nënë Terezën",
+              "blurb": "Në dhjetëvjetorin e shenjtërimit të Nënë Terezës, besimtarët në mbarë botën shënojnë përvjetorin e saj me aktivitete përkujtimore.",
+              "imageUrl": null,
+              "url": "https://www.kathpress.at/goto/meldung/2609648/zehn-jahre-heilig-weltweites-gedenken-an-mutter-teresa",
+              "date": "2026-09-06",
+              "sentiment": "unknown",
+              "reason": "Nuk ka përmendje të Kosovës në titull",
+              "isQuote": false,
+              "evidence": "",
               "speaker": ""
             }
           ],
@@ -416,6 +524,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-08-25",
           "lastSeen": "2026-09-06"
+        },
+        {
+          "name": "LAOLA1",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Vor ÖFB-Duell: Schnappt sich Foda ein DFB-Juwel der Bayern? - LAOLA1",
+              "albanianTitle": "Para duelit me Austrinë: A po ia rrëmben Foda një talent të Bayernit Gjermanisë?",
+              "blurb": "Trajneri Franco Foda po synon të bindë një talent të Bayern Munichut që të luajë për përfaqësuesen e Kosovës.",
+              "imageUrl": "https://www.laola1.at/storage/files/01/a0/38/24-94c8-7215-af12-7a0332bbedeb.1280x720.jpg?v=1",
+              "url": "https://www.laola1.at/de/red/fussball/nations-league/news/vor-oefb-duell--schnappt-sich-foda-ein-dfb-juwel-der-bayern-/",
+              "date": "2026-09-08",
+              "sentiment": "neutral",
+              "reason": "Neutral factual reporting, no hostile or supportive language toward Kosovo",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 2,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-25",
+          "lastSeen": "2026-09-08"
         },
         {
           "name": "MeinBezirk.at",
@@ -515,12 +647,12 @@
         }
       ],
       "summary": {
-        "index": 58,
-        "positive": 17,
-        "neutral": 83,
+        "index": 57,
+        "positive": 14,
+        "neutral": 86,
         "negative": 0,
-        "n": 6,
-        "excluded": 0,
+        "n": 7,
+        "excluded": 1,
         "confident": true,
         "stanceVersion": 3
       }
@@ -610,13 +742,13 @@
           "articles": [
             {
               "title": "Der Balkan ist eine Problemregion – und Serbien der grösste Unruhestifter - nzz.ch",
-              "albanianTitle": "Ballkani është rajon problematik – dhe Serbia shkaktari më i madh i trazirave - nzz.ch",
-              "blurb": "Analiza ndërkombëtare vlerëson se rajoni i Ballkanit mbetet problematik, me Serbinë si faktorin kryesor të destabilizimit në zonë.",
+              "albanianTitle": "Ballkani është rajon problematik – ndërsa Serbia shkaktari më i madh i trazirave - nzz.ch",
+              "blurb": "Analiza e gazetës zvicerane NZZ vlerëson Ballkanin si rajon problematik dhe Serbinë si faktorin kryesor të destabilizimit në rajon.",
               "imageUrl": "https://img-msp-prod.nzz.ch/2026/09/04/fd463207-d593-4ea8-8402-cc27318d1cee.jpg?width=1200&height=675&fit=bounds&quality=75&auto=webp&crop=5850,3291,x0,y430&wmark=nzz",
               "url": "https://www.nzz.ch/meinung/der-balkan-ist-eine-nach-wie-vor-vernachlaessigte-problemregion-serbien-bleibt-der-massgebliche-unruhestifter-ld.10016355",
               "date": "2026-09-07",
               "sentiment": "unknown",
-              "reason": "No reference to Kosovo in the headline or snippet",
+              "reason": "Titulli trajton Serbinë dhe rajonin, pa përmendje të Kosovës, prandaj qëndrimi ndaj Kosovës nuk është i qartë",
               "isQuote": false,
               "evidence": "",
               "speaker": ""

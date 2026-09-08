@@ -55,13 +55,13 @@
     },
     "Balkan Insight": {
       "country": "Britani",
-      "total": 11,
+      "total": 12,
       "positive": 1,
       "neutral": 10,
-      "negative": 0,
+      "negative": 1,
       "unknown": 0,
       "firstSeen": "2026-08-19",
-      "lastSeen": "2026-09-07",
+      "lastSeen": "2026-09-08",
       "urls": [
         "https://balkaninsight.com/2026/08/19/suspend-officers-suspected-of-beating-serb-kosovo-police-inspectorate-says/bi/",
         "https://balkaninsight.com/2026/08/20/remains-of-23-wartime-victims-unearthed-from-mass-graves-in-kosovo/btj/",
@@ -73,7 +73,8 @@
         "https://balkaninsight.com/2026/09/02/kosovo-presidents-election-jeopardised-by-partys-inner-divisions/bi/",
         "https://balkaninsight.com/2026/09/03/not-mere-incidents-kosovo-questions-femicide-approach-after-new-killings/bi/",
         "https://balkaninsight.com/2026/09/04/kosovo-charges-serbian-security-officers-over-jashari-compound-massacre/btj/",
-        "https://balkaninsight.com/2026/09/07/kosovo-man-pleads-not-guilty-to-spying-for-serbia/bi/"
+        "https://balkaninsight.com/2026/09/07/kosovo-man-pleads-not-guilty-to-spying-for-serbia/bi/",
+        "https://balkaninsight.com/2026/09/08/kosovo-parliament-to-reconvene-chaos-looms-over-election-of-president/bi/"
       ]
     },
     "Ouest-France": {
@@ -198,13 +199,13 @@
     },
     "ANSA": {
       "country": "Itali",
-      "total": 15,
+      "total": 16,
       "positive": 0,
-      "neutral": 11,
+      "neutral": 12,
       "negative": 0,
       "unknown": 4,
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-09-06",
+      "lastSeen": "2026-09-08",
       "urls": [
         "https://www.ansa.it/nuova_europa/en/news/sections/news/2026/08/20/vucic-writes-to-rutte-nato-stop-terror-in-kosovo-do-not-reopen-the_9034279d-c06f-4e44-ab54-096dd4332014.html",
         "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/08/20/vucic-scrive-a-rutte-nato-fermi-terrore-in-kosovo-non-riaprire-ponte_68050249-06ef-4b0a-b56b-6ff64929514e.html",
@@ -220,7 +221,8 @@
         "https://www.ansa.it/amp/nuova_europa/it/notizie/rubriche/altrenews/2026/09/02/in-kosovo-rischia-di-saltare-accordo-kurti-ldk-su-elezione-presidente_944ef000-13c1-4420-a456-d75c4b144d9f.html",
         "https://www.ansa.it/europa/notizie/rubriche/altrenews/2026/09/04/negoziatore-kosovo-lo-stallo-sulladesione-mostra-mancanza-di-leadership-ue_00cd0876-fc23-4285-a25f-4bdf2f067b44.html",
         "https://www.ansa.it/amp/nuova_europa/it/notizie/nazioni/kosovo/2026/09/02/in-kosovo-rischia-di-saltare-accordo-kurti-ldk-su-elezione-presidente_4abb9b04-441f-4e93-91a1-56a1d07b67c8.html",
-        "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/09/06/linformazione-dei-balcani-si-incontra-a-trieste_b6343cee-eb0d-4448-a261-a23b804985ba.html"
+        "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/09/06/linformazione-dei-balcani-si-incontra-a-trieste_b6343cee-eb0d-4448-a261-a23b804985ba.html",
+        "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/09/08/accelerare-lintegrazione-dei-balcani-per-il-futuro-dellue-forum-a-trieste_6069c0ef-27e1-4bf2-b6c8-4b8ebcc0f985.html"
       ]
     },
     "Virgilio": {
@@ -1501,15 +1503,16 @@
     },
     "LAOLA1": {
       "country": "Austri",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-25",
-      "lastSeen": "2026-08-25",
+      "lastSeen": "2026-09-08",
       "urls": [
-        "https://www.laola1.at/de/red/fussball/euro-2028/news/praesident--franco-foda-verzichtete-fuer-kosovo-auf-millionen/"
+        "https://www.laola1.at/de/red/fussball/euro-2028/news/praesident--franco-foda-verzichtete-fuer-kosovo-auf-millionen/",
+        "https://www.laola1.at/de/red/fussball/nations-league/news/vor-oefb-duell--schnappt-sich-foda-ein-dfb-juwel-der-bayern-/"
       ]
     },
     "heute.at": {
@@ -3124,6 +3127,32 @@
       "lastSeen": "2026-09-07",
       "urls": [
         "https://www.gazzettadiparma.it/gweb+/2026/09/07/news/beffarde-coincidenze-d-inizio-settembre-966138/"
+      ]
+    },
+    "Corriere della Sera": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-08",
+      "lastSeen": "2026-09-08",
+      "urls": [
+        "https://www.corriere.it/esteri/26_settembre_08/ambasciatrice-kosovo-italia-1e35fc84-6ab4-4a98-98e7-587952d31xlk.shtml"
+      ]
+    },
+    "Il Messaggero": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-08",
+      "lastSeen": "2026-09-08",
+      "urls": [
+        "https://www.ilmessaggero.it/viaggi/mondo/volo_roma_prishtina_kosovo_prezzi_compagnie_aeree-9751050.html"
       ]
     }
   }
