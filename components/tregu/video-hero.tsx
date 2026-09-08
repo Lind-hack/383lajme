@@ -23,7 +23,7 @@ const VIDEOS = [
 ];
 
 /** Hero geometry, mirrored by the fixed chrome that floats over it. */
-export const TREGU_HERO = { mobileFrac: 0.82, desktopFrac: 0.9, mobileMin: 520, desktopMin: 600, navH: 64 };
+export const TREGU_HERO = { mobileFrac: 0.58, desktopFrac: 0.72, mobileMin: 410, desktopMin: 520, navH: 64 };
 
 /** True while the hero still sits behind the fixed navbar / account bar. */
 export function treguHeroBehindChrome(scrollY: number): boolean {
@@ -235,7 +235,7 @@ export default function VideoHero({ loggedIn }: { loggedIn: boolean }) {
     // 82/90dvh — taller than the first trim so the clips breathe, still short
     // enough that the floor teases in. The chrome mirrors these numbers via
     // treguHeroBehindChrome().
-    <section className="relative h-[82dvh] min-h-[520px] overflow-hidden bg-[#111111] md:h-[90dvh] md:min-h-[600px]">
+    <section className="relative h-[58dvh] min-h-[410px] overflow-hidden bg-[#111111] md:h-[72dvh] md:min-h-[520px]">
       <CinematicBackdrop />
 
       <div className="relative z-10 flex h-full flex-col px-6 md:px-12 lg:px-16 pt-24">

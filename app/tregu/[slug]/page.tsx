@@ -31,6 +31,7 @@ import MatchStats from "@/components/tregu/match-stats";
 import { groupForSlug, parseEvent, type GroupOutcome, type MarketGroup } from "@/lib/tregu-groups";
 import { outcomeMediaFor } from "@/lib/tregu-media";
 import { eventStatsFor } from "@/lib/tregu-event-stats";
+import { cashOutCoins, sharesForCoins } from "@/lib/tregu-cash-out.mjs";
 import RaceStandings from "@/components/tregu/race-standings";
 import F1RaceControl from "@/components/tregu/f1-race-control";
 import { SLUG_TO_CATEGORY } from "@/lib/category-map";
@@ -302,7 +303,8 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
     const next = String(value);
     if (next === "" || /^\d*(?:\.\d*)?$/.test(next)) setAmountInput(next);
   }, []);
-  const [sellShares, setSellShares] = useState(0);
+  const [sellCoinInput, setSellCoinInput] = useState("");
+  const [sellEverything, setSellEverything] = useState(false);
   const [placing, setPlacing] = useState(false);
   const [tradeMsg, setTradeMsg] = useState<{ ok: boolean; text: string } | null>(null);
   const [mobileTradeOpen, setMobileTradeOpen] = useState(false);
@@ -548,6 +550,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
       color: tradeThemeColor(market, footballChoice?.color, f1Choice?.team_colour),
       imageUrl: footballChoice?.logo ?? f1Choice?.headshot_url,
       finish: tradeSurfaceFinish(selection, footballChoice?.team ?? f1Choice?.team, sportTheme),
+      competition: market.live_event?.league,
       soundProfile: resolveTradeSuccessSoundProfile({
         sportTheme,
         league: market.live_event?.league,
@@ -628,7 +631,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
       } else {
         const position = footballHeldOn(selectedOutcome.key);
         if (!position || sellShares <= 0) {
-          setTradeMsg({ ok: false, text: `Nuk ke aksione të ${selectedOutcome.label} për të shitur.` });
+          setTradeMsg({ ok: false, text: `Nuk ke pozicion te ${selectedOutcome.label} për të shitur.` });
           setPlacing(false);
           return;
         }
@@ -640,7 +643,8 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
             marketId: market.id,
             kind: "sport_outcome",
             outcomeKey: selectedOutcome.key,
-            shares,
+            coins: sellEverything ? undefined : Number(sellCoinInput),
+            sellAll: sellEverything,
           }),
         });
         const data = await res.json();
@@ -648,7 +652,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
           track("tregu_trade", { side: "sell", kind: "sport_outcome", marketId: market.id, shares });
           setTradeMsg({
             ok: true,
-            text: `Shite ${shares.toFixed(2)} aksione të ${selectedOutcome.label} për ${Number(data.coinsReceived ?? 0).toFixed(1)} 383C.`,
+            text: `Shitja te ${selectedOutcome.label} u krye. More ${Number(data.coinsReceived ?? 0).toFixed(1)} 383C.`,
           });
           setSellShares(0);
           setMobileTradeOpen(false);
@@ -695,7 +699,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
       } else {
         const position = footballHeldOn(f1OutcomeKey);
         if (!position || sellShares <= 0) {
-          setTradeMsg({ ok: false, text: `Nuk ke aksione të ${selectedDriver?.label ?? f1OutcomeKey} për të shitur.` });
+          setTradeMsg({ ok: false, text: `Nuk ke pozicion te ${selectedDriver?.label ?? f1OutcomeKey} për të shitur.` });
           setPlacing(false);
           return;
         }
@@ -707,13 +711,14 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
             marketId: market.id,
             kind: "f1_race_winner",
             outcomeKey: f1OutcomeKey,
-            shares,
+            coins: sellEverything ? undefined : Number(sellCoinInput),
+            sellAll: sellEverything,
           }),
         });
         const data = await res.json();
         if (res.ok) {
           track("tregu_trade", { side: "sell", kind: "f1_race_winner", marketId: market.id, shares });
-          setTradeMsg({ ok: true, text: `Shite ${shares.toFixed(2)} aksione të ${selectedDriver?.label ?? f1OutcomeKey} për ${Number(data.coinsReceived ?? 0).toFixed(1)} 383C.` });
+          setTradeMsg({ ok: true, text: `Shitja te ${selectedDriver?.label ?? f1OutcomeKey} u krye. More ${Number(data.coinsReceived ?? 0).toFixed(1)} 383C.` });
           setSellShares(0);
           setMobileTradeOpen(false);
           load();
@@ -734,7 +739,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
       const data = await res.json();
       if (res.ok) {
         track("tregu_trade", { side: "buy", kind: "binary", marketId: market.id, coins: amount });
-        setTradeMsg({ ok: true, text: `✓ Bleve ${data.sharesBought?.toFixed(2)} aksione ${side} për ${amount} 383C` });
+        setTradeMsg({ ok: true, text: `✓ Investove ${amount} 383 Coin te ${side}` });
         showPurchaseReceipt(Number(data.sharesBought));
         load();
         refreshBalance();
@@ -745,12 +750,12 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
       const res = await fetch("/api/tregu/sell", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ marketId: market.id, side, shares: sellShares }),
+        body: JSON.stringify({ marketId: market.id, side, coins: sellEverything ? undefined : Number(sellCoinInput), sellAll: sellEverything }),
       });
       const data = await res.json();
       if (res.ok) {
         track("tregu_trade", { side: "sell", kind: "binary", marketId: market.id, shares: sellShares });
-        setTradeMsg({ ok: true, text: `✓ Shite ${sellShares.toFixed(2)} aksione ${side} për ${Number(data.coinsReceived ?? 0).toFixed(1)} 383C` });
+        setTradeMsg({ ok: true, text: `✓ Shitja u krye. More ${Number(data.coinsReceived ?? 0).toFixed(1)} 383C` });
         setSellShares(0);
         setMobileTradeOpen(false);
         load();
@@ -766,7 +771,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
     return (
       <div className="tregu-scope">
         <Navbar />
-        <div style={{ padding: "140px 24px", textAlign: "center", color: "#6B6B6B" }}>Duke ngarkuar...</div>
+        <div style={{ padding: "140px 24px", textAlign: "center", color: "#6B6B6B" }}>Duke ngarkuar tregun…<div className="tregu-skeleton" aria-hidden style={{ height: 380, maxWidth: 900, margin: "24px auto", borderRadius: 16 }} /></div>
       </div>
     );
   }
@@ -823,6 +828,18 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
     ? null
     : formatKosovoDate(closesMs);
 
+  const f1Held = f1OutcomeKey ? footballHeldOn(f1OutcomeKey) : undefined;
+  const cashOutPrice = f1SelectedDriver?.probability ?? footballSelectedOutcome?.probability ?? sidePrice;
+  const cashOutHeld = Number((f1 ? f1Held : football ? footballHeld : held)?.shares ?? 0);
+  const cashOutMaximum = cashOutCoins(cashOutPrice, market.b, cashOutHeld);
+  const cashOutInput = sellEverything ? cashOutMaximum.toFixed(2) : sellCoinInput;
+  const sellShares = sellEverything ? cashOutHeld : sharesForCoins(cashOutPrice, market.b, Number(sellCoinInput), cashOutHeld);
+  const setCashOutCoins = (value: number | string) => { setSellEverything(false); setSellCoinInput(String(value)); };
+  const setSellShares = (shares: number) => {
+    setSellEverything(shares > 0 && shares >= cashOutHeld);
+    setSellCoinInput(shares > 0 ? cashOutCoins(cashOutPrice, market.b, shares).toFixed(2) : "");
+  };
+
   const buyPreview =
     !football && mode === "buy" && amount > 0
       ? previewBet({ q_yes: market.q_yes, q_no: market.q_no, b: market.b }, side, amount)
@@ -870,7 +887,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
           sellShares
         )
       : null;
-  const f1Held = f1OutcomeKey ? footballHeldOn(f1OutcomeKey) : undefined;
+
   const f1Preview =
     f1 && mode === "buy" && f1SelectedDriver && market.sport_outcomes && market.outcome_quantities
       ? previewSportOutcomeBet(
@@ -896,18 +913,19 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
         )
       : null;
 
+
   const canBuy = !placing && amount > 0 && (balance === null || amount <= balance);
-  const canSell = !placing && sellShares > 0 && Boolean(held);
+  const canSell = !placing && sellShares > 0 && Boolean(held) && (sellEverything || Number(sellCoinInput) <= cashOutMaximum);
   const canSellFootball =
     !placing &&
     sellShares > 0 &&
     Boolean(footballHeld) &&
-    sellShares <= Number(footballHeld?.shares ?? 0);
+    sellShares <= Number(footballHeld?.shares ?? 0) && (sellEverything || Number(sellCoinInput) <= cashOutMaximum);
   const canSellF1 =
     !placing &&
     sellShares > 0 &&
     Boolean(f1Held) &&
-    sellShares <= Number(f1Held?.shares ?? 0);
+    sellShares <= Number(f1Held?.shares ?? 0) && (sellEverything || Number(sellCoinInput) <= cashOutMaximum);
 
   // Race grids (every outcome has a registry headshot) swap the mini-chart
   // grid for a live timing board ranked by the odds.
@@ -986,7 +1004,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
     if (football) setFootballOutcomeKey(key);
     else if (f1) setF1OutcomeKey(key);
     else setSide(key as Side);
-    if (nextMode === "sell") setSellShares(Number(footballHeldOn(key)?.shares ?? heldOn(key as Side)?.shares ?? 0));
+    if (nextMode === "sell") setSellEverything(true);
     setTradeMsg(null);
   };
 
@@ -1232,7 +1250,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                     ))}
                   </div>
                   <ExactMarketChart
-                    height={460}
+                    height={540}
                     showRanges
                     showPulse
                     concise
@@ -1280,7 +1298,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                 <div className="tregu-panel tregu-detail-chart-shell" data-tone={detailTone} data-sport-theme={sportTheme} style={{ padding: 28 }}>
                   <h3 style={{ fontSize: 16, fontWeight: 800, margin: "0 0 16px" }}>Të gjitha rezultatet</h3>
                   <ExactMarketChart
-                    height={460}
+                    height={540}
                     showRanges
                     showPulse
                     derived
@@ -1324,7 +1342,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
             ) : (
               <div className="tregu-panel tregu-detail-chart-shell" data-tone={detailTone} data-sport-theme={sportTheme} style={{ padding: 28 }}>
                 <ExactMarketChart
-                  height={460}
+                  height={540}
                   showRanges
                   showPulse
                   tone={detailTone}
@@ -1508,7 +1526,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
               ) : football ? (
                 <>
                   <div className="tregu-football-trade-mode">
-                    <div className="tregu-sort" role="tablist" aria-label="Blej ose shit aksione">
+                    <div className="tregu-sort" role="tablist" aria-label="Blej ose shit pozicionin">
                       <button
                         aria-pressed={mode === "buy"}
                         onClick={() => {
@@ -1528,7 +1546,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                           setMode("sell");
                           setTradeMsg(null);
                           setFootballOutcomeKey(firstPosition.side);
-                          setSellShares(Number(firstPosition.shares));
+                          setSellEverything(true);
                         }}
                         type="button"
                       >
@@ -1544,7 +1562,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                   <div className="tregu-football-bet-head">
                     <strong>
                       {mode === "sell"
-                        ? "Shit aksionet e rezultatit"
+                        ? "Shit pozicionin"
                         : football.format.marketIntent === "to_qualify"
                           ? "Basto kush kualifikohet"
                           : "Basto për rezultatin"}
@@ -1572,14 +1590,14 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                             onClick={() => {
                               if (unavailable) return;
                               setFootballOutcomeKey(outcome.key);
-                              if (mode === "sell") setSellShares(Number(outcomePosition?.shares ?? 0));
+                              if (mode === "sell") setSellEverything(true);
                               setTradeMsg(null);
                             }}
                           >
                             <span>{outcome.label}</span>
                             <strong>{(outcome.probability * 100).toFixed(1)}%</strong>
                             {mode === "sell" && outcomePosition && (
-                              <small>{Number(outcomePosition.shares).toFixed(2)} aksione</small>
+                              <small>{Number(outcomePosition.coins_staked).toFixed(2)} Coin investuar</small>
                             )}
                           </button>
                         );
@@ -1634,7 +1652,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                             <strong>{(footballSelectedOutcome.probability * 100).toFixed(1)}%</strong>
                           </div>
                           <div>
-                            <span>Aksione të parashikuara</span>
+                            <span>Coin nëse fiton</span>
                             <strong>{footballPreview.shares.toFixed(2)}</strong>
                           </div>
                           <div>
@@ -1662,25 +1680,25 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                     <>
                       {footballHeld && (
                         <p className="tregu-football-position">
-                          Pozicioni yt: <strong>{Number(footballHeld.shares).toFixed(2)} aksione</strong>
+                          Mund të marrësh: <strong>{cashOutMaximum.toFixed(2)} Coin</strong>
                           {Number(footballHeld.shares) > 0 && (
                             <> · hyrja {((Number(footballHeld.coins_staked) / Number(footballHeld.shares)) * 100).toFixed(0)}%</>
                           )}
                         </p>
                       )}
                       <label style={{ fontSize: 12, color: "#6B6B6B", fontWeight: 700 }}>
-                        Aksione për të shitur
+                        383 Coin që dëshiron të marrësh
                       </label>
                       <div style={{ display: "flex", alignItems: "center", gap: 10, margin: "8px 0 12px" }}>
                         <input
                           type="number"
                           min={0}
                           step={0.01}
-                          max={Number(footballHeld?.shares ?? 0)}
-                          value={sellShares || ""}
+                          max={cashOutMaximum}
+                          value={cashOutInput}
                           onChange={(event) => {
-                            const value = Math.max(0, Number(event.target.value));
-                            setSellShares(Math.min(value, Number(footballHeld?.shares ?? 0)));
+                            const value = event.target.value;
+                            setCashOutCoins(value);
                           }}
                           className="tregu-input"
                         />
@@ -1730,12 +1748,12 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
               ) : f1 ? (
                 <>
                   <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>
-                    <div className="tregu-sort" role="tablist" aria-label="Blej ose shit aksione F1">
+                    <div className="tregu-sort" role="tablist" aria-label="Blej ose shit pozicionin F1">
                       <button type="button" aria-pressed={mode === "buy"} onClick={() => { setMode("buy"); setTradeMsg(null); }}>Blej</button>
                       <button type="button" aria-pressed={mode === "sell"} disabled={!positions.some((position) => f1.outcomes.some((driver) => driver.key === position.side) && Number(position.shares) > 0)} onClick={() => {
                         const owned = positions.find((position) => f1.outcomes.some((driver) => driver.key === position.side) && Number(position.shares) > 0);
                         if (!owned) return;
-                        setF1OutcomeKey(owned.side); setSellShares(Number(owned.shares)); setMode("sell"); setTradeMsg(null);
+                        setF1OutcomeKey(owned.side); setSellEverything(true); setMode("sell"); setTradeMsg(null);
                       }}>Shit</button>
                     </div>
                     {balance !== null && (
@@ -1747,7 +1765,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                   <p className="f1-trade-note">
                     Zgjidh një pilot nga lista. Gjasat dhe renditja rifreskohen pa ringarkuar faqen.
                   </p>
-                  <label style={{ fontSize: 12, color: "#6B6B6B", fontWeight: 700 }}>{mode === "buy" ? "Shuma (383 Coin)" : `Aksione për shitje · ke ${Number(f1Held?.shares ?? 0).toFixed(2)}`}</label>
+                  <label style={{ fontSize: 12, color: "#6B6B6B", fontWeight: 700 }}>{mode === "buy" ? "Shuma (383 Coin)" : `Merr 383 Coin · deri ${cashOutMaximum.toFixed(2)}`}</label>
                   <div style={{ display: "flex", alignItems: "center", gap: 10, margin: "8px 0 10px" }}>
                     <CoinFace size={20} />
                     <input
@@ -1755,9 +1773,9 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                       min={0}
                       step="any"
                       inputMode="decimal"
-                      value={mode === "buy" ? amountInput : sellShares || ""}
+                      value={mode === "buy" ? amountInput : cashOutInput}
                       placeholder="0"
-                      onChange={(event) => mode === "buy" ? setAmount(event.target.value) : setSellShares(Math.max(0, Number(event.target.value)))}
+                      onChange={(event) => mode === "buy" ? setAmount(event.target.value) : setCashOutCoins(event.target.value)}
                       className="tregu-input"
                     />
                   </div>
@@ -1817,7 +1835,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                           const h = heldOn(side) ?? positions.find((p) => p.shares > 0);
                           if (h) {
                             setSide(h.side as Side);
-                            setSellShares(Number(h.shares));
+                            setSellEverything(true);
                           }
                         }}
                         type="button"
@@ -1845,7 +1863,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                           onClick={() => {
                             if (disabled) return;
                             setSide(s);
-                            if (mode === "sell") setSellShares(Number(heldOn(s)?.shares ?? 0));
+                            if (mode === "sell") setSellEverything(true);
                           }}
                           className={`tregu-raise${active ? (s === "PO" ? " tregu-btn-yes" : " tregu-btn-no") : ""}`}
                           type="button"
@@ -1915,7 +1933,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                       {buyPreview && (
                         <div className="tregu-slip-summary">
                           <div><span>Çmimi aktual {sideLabel(side)}</span><strong>{(sidePrice * 100).toFixed(1)}%</strong></div>
-                          <div><span>Aksione</span><strong>{buyPreview.shares.toFixed(2)}</strong></div>
+                          <div><span>Coin nëse fiton</span><strong>{buyPreview.shares.toFixed(2)}</strong></div>
                           <div><span>Çmimi mesatar</span><strong>{(buyPreview.avgPrice * 100).toFixed(1)}%</strong></div>
                           <div>
                             <span>Gjasa pas blerjes</span>
@@ -1942,17 +1960,17 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                     </>
                   ) : (
                     <>
-                      <label style={{ fontSize: 12, color: "#6B6B6B", fontWeight: 700 }}>Aksione për të shitur</label>
+                      <label style={{ fontSize: 12, color: "#6B6B6B", fontWeight: 700 }}>383 Coin që dëshiron të marrësh</label>
                       <div style={{ display: "flex", alignItems: "center", gap: 10, margin: "8px 0 10px" }}>
                         <input
                           type="number"
                           min={0}
                           step={0.01}
-                          max={held ? Number(held.shares) : 0}
-                          value={sellShares || ""}
+                          max={cashOutMaximum}
+                          value={cashOutInput}
                           onChange={(e) => {
-                            const v = Math.max(0, Number(e.target.value));
-                            setSellShares(held ? Math.min(v, Number(held.shares)) : v);
+                            const v = e.target.value;
+                            setCashOutCoins(v);
                           }}
                           className="tregu-input"
                         />
@@ -2039,6 +2057,9 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
           amount={amount}
           amountInput={amountInput}
           sellShares={sellShares}
+          liquidity={market.b}
+          sellCoinInput={cashOutInput}
+          onSellCoinsChange={setCashOutCoins}
           maxSellShares={Number(mobileHeld)}
           buyReturn={mobileBuyReturn}
           sellReturn={mobileSellReturn}

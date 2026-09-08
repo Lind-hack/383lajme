@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, useState, type CSSProperties, type MouseEvent } from "react";
 import Link from "next/link";
+import { cashOutCoins } from "@/lib/tregu-cash-out.mjs";
+import CompetitionArt from "./competition-art";
 import CoinFace from "@/components/tregu/coin-face";
 import {
   playTradeSuccessSound,
@@ -21,6 +23,7 @@ export interface MobileTradeOption {
 }
 
 export interface MobileTradeReceipt {
+  competition?: string;
   market: string;
   selection: string;
   coins: number;
@@ -45,6 +48,9 @@ interface MobileTradeSheetProps {
   amount: number;
   amountInput: string;
   sellShares: number;
+  liquidity: number;
+  sellCoinInput: string;
+  onSellCoinsChange: (value: string) => void;
   maxSellShares: number;
   buyReturn: number | null;
   sellReturn: number | null;
@@ -97,6 +103,9 @@ export default function MobileTradeSheet({
   amount,
   amountInput,
   sellShares,
+  liquidity,
+  sellCoinInput,
+  onSellCoinsChange,
   maxSellShares,
   buyReturn,
   sellReturn,
@@ -311,21 +320,21 @@ export default function MobileTradeSheet({
               ) : (
                 <div className="tregu-mobile-sheet-trade">
                   <div className="tregu-mobile-sheet-balance">
-                    <span>Aksione për të shitur</span>
-                    <small>Ke {maxSellShares.toFixed(2)}</small>
+                    <span>383 Coin që dëshiron të marrësh</span>
+                    <small>Deri {cashOutCoins(options.find(o => o.key === selectedKey)?.probability ?? 0, liquidity, maxSellShares).toFixed(2)} Coin</small>
                   </div>
                   <label className="tregu-mobile-sheet-amount">
                     <input
                       type="number"
                       min={0}
-                      max={maxSellShares}
+                      max={cashOutCoins(options.find(o => o.key === selectedKey)?.probability ?? 0, liquidity, maxSellShares)}
                       step={0.01}
                       inputMode="decimal"
-                      value={sellShares || ""}
-                      onChange={(event) => onSellSharesChange(Math.min(maxSellShares, Math.max(0, Number(event.target.value) || 0)))}
-                      aria-label="Aksione për të shitur"
+                      value={sellCoinInput}
+                      onChange={(event) => onSellCoinsChange(event.target.value)}
+                      aria-label="383 Coin që dëshiron të marrësh"
                     />
-                    <span>aksione</span>
+                    <span>383C</span>
                   </label>
                   <div className="tregu-mobile-sheet-quick">
                     {SELL_PARTS.map((part) => (
@@ -357,11 +366,13 @@ export default function MobileTradeSheet({
         <section
           className="tregu-trade-celebration"
           data-finish={receipt.finish}
+          data-competition={receipt.competition}
           style={receiptStyle}
           role="dialog"
           aria-modal="true"
           aria-labelledby="tregu-trade-celebration-title"
         >
+          <CompetitionArt league={receipt.competition} />
           <div className="tregu-trade-celebration-wash" aria-hidden />
           <div className="tregu-trade-celebration-ribbons" aria-hidden><i /><i /><i /></div>
           <div className="tregu-trade-celebration-sparks" aria-hidden>

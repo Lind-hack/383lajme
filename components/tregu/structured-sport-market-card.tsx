@@ -1,8 +1,10 @@
 "use client";
+import { sportBrandFor } from "@/lib/tregu-sport-branding";
 
 import Link from "next/link";
 import type { CSSProperties } from "react";
 import ExactMarketChart, { type ExactMarketSeries } from "./exact-market-chart";
+import CompetitionArt from "./competition-art";
 import SportBrandMark from "./sport-brand-mark";
 import { outcomeColor, toExactSeries } from "@/lib/tregu-hub-market.mjs";
 
@@ -61,13 +63,15 @@ export default function StructuredSportMarketCard({ market }: { market: Structur
   return (
     <article
       className="tregu-glass tregu-market tregu-native-market tregu-edge"
+      data-competition={league}
       data-native-sport-market
       data-outcomes={outcomes.length}
     >
+      <CompetitionArt league={league} />
       <div className="tregu-market-top">
         <span className="tregu-native-brand">
           <SportBrandMark brandKey={league} size="sm" />
-          <span>{league ? "Treg sportiv" : "Sport"}</span>
+          <span>{sportBrandFor(league)?.label ?? "Sport"}</span>
         </span>
         {closing && <span className="tregu-market-close">{closing}</span>}
       </div>
@@ -80,7 +84,7 @@ export default function StructuredSportMarketCard({ market }: { market: Structur
         compact
         minimal
         curve="smooth"
-        height={104}
+        height={132}
         series={chartSeries}
         tone="sport"
         ariaLabel={`Lëvizjet reale për ${market.question}`}

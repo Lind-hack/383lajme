@@ -19,10 +19,22 @@ export async function POST(request: NextRequest) {
         kind?: "sport_outcome" | "f1_race_winner";
         outcomeKey?: string;
         shares?: number;
+        coins?: number;
+        sellAll?: boolean;
+        preview?: boolean;
       }
     | null;
 
-  if (!body?.marketId || !body?.shares || body.shares <= 0) {
+  if (body?.marketId && (body.coins !== undefined || body.sellAll || body.preview)) {
+    if (body.coins !== undefined && (!Number.isFinite(body.coins) || body.coins <= 0)) return NextResponse.json({ error: "Shuma duhet të jetë pozitive" }, { status: 400 });
+    const selected = String(body.outcomeKey ?? body.side ?? "");
+    if (!/^[a-z0-9_-]{1,40}$/i.test(selected)) return NextResponse.json({ error: "Zgjedhje e pavlefshme" }, { status: 400 });
+    const { data, error } = await supabase.rpc("sell_market_coins", { p_market_id: body.marketId, p_side: selected, p_coins: body.coins ?? null, p_sell_all: body.sellAll === true, p_preview: body.preview === true });
+    if (error) return NextResponse.json({ error: error.message }, { status: 400 });
+    return NextResponse.json({ ok: true, ...data });
+  }
+
+  if (!body?.marketId || !body?.shares || !Number.isFinite(body.shares) || body.shares <= 0) {
     return NextResponse.json({ error: "Parametra të pavlefshëm" }, { status: 400 });
   }
 

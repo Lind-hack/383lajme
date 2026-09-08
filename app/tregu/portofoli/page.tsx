@@ -7,10 +7,11 @@ import CoinFace from "@/components/tregu/coin-face";
 import { fmtNum } from "@/lib/format";
 import { createClient } from "@/lib/supabase/client";
 import { formatKosovoDate } from "@/lib/tregu-local-time.mjs";
+import { cashOutCoins } from "@/lib/tregu-cash-out.mjs";
 import styles from "./portfolio.module.css";
 
-type Market = { question: string; slug: string; status: string; outcome: string | null; category: string; closes_at?: string; market_type?: string; market_classification?: string };
-type Position = { id: string; market_id: string; side: string; sideLabel: string; shares: number; coins_staked: number; currentPrice: number | null; currentValue: number | null; entryPrice: number | null; unrealizedPnl: number | null; sideColor?: string | null; sideHeadshotUrl?: string | null; sellKind: "binary" | "sport_outcome" | "f1_winner"; markets: Market | null };
+type Market = { b?: number; question: string; slug: string; status: string; outcome: string | null; category: string; closes_at?: string; market_type?: string; market_classification?: string };
+type Position = { id: string; market_id: string; side: string; sideLabel: string; shares: number; coins_staked: number; currentPrice: number | null; currentValue: number | null; entryPrice: number | null; unrealizedPnl: number | null; sideColor?: string | null; sideLogo?: string | null; sideHeadshotUrl?: string | null; sellKind: "binary" | "sport_outcome" | "f1_winner"; markets: Market | null };
 type Trade = { marketId: string; slug: string; question: string; category: string; invested: number; cashOuts: number; settlementPayout: number; returned: number; pnl: number; result: "win" | "loss" | "flat"; resolution: "settled" | "sold"; concludedAtIso: string | null; selected: { key: string; label: string }[]; official: { key: string; label: string } | null };
 type Transaction = { id: string; type: string; amount: number; created_at: string; markets: { question: string; slug: string } | null };
 type Profile = { coins: number; display_name: string | null };
@@ -57,15 +58,18 @@ function BalanceChart({ history }: { history: BalancePoint[] }) {
   </div>;
 }
 
-function PositionCard({ position, confirming, selling, onSell }: { position: Position; confirming: boolean; selling: boolean; onSell: () => void }) {
+function PositionCard({ position, confirming, selling, onSell }: { position: Position; confirming: boolean; selling: boolean; onSell: (coins?: number, all?: boolean) => void }) {
+  const [coins, setCoins] = useState("");
   const market = position.markets;
+  const maximum = cashOutCoins(position.currentPrice ?? 0, market?.b ?? 0, position.shares);
   const color = position.sideColor || "#ff4422";
   return <article className={`tregu-glass tregu-market tregu-native-market tregu-edge ${styles.positionCard}`} style={{ "--position-color": color } as CSSProperties}>
     <div className="tregu-market-top"><span className={styles.marketTag}>{market?.market_classification === "live_f1" ? "F1 · Pozicioni yt" : `${market?.category || "Tregu"} · Pozicioni yt`}</span><span className="tregu-market-close">Aktiv</span></div>
     <Link href={`/tregu/${market?.slug}`} className="tregu-native-title">{market?.question}</Link>
-    <div className={styles.pickRow}>{position.sideHeadshotUrl ? <img src={position.sideHeadshotUrl} alt="" aria-hidden/> : <i aria-hidden/>}<div><span>Zgjedhja jote</span><strong>{position.sideLabel || position.side}</strong></div><b>{position.currentPrice == null ? "—" : `${(position.currentPrice * 100).toFixed(1)}%`}</b></div>
+    <div className={styles.pickRow}>{(position.sideHeadshotUrl || position.sideLogo) ? <img src={position.sideHeadshotUrl || position.sideLogo || ""} alt="" aria-hidden/> : <i aria-hidden/>}<div><span>Zgjedhja jote</span><strong>{position.sideLabel || position.side}</strong></div><b>{position.currentPrice == null ? "—" : `${(position.currentPrice * 100).toFixed(1)}%`}</b></div>
     <div className={styles.positionFacts}><span><small>Investuar</small><strong>{fmtNum(position.coins_staked)} 383C</strong></span><span><small>Vlera tani</small><strong>{position.currentValue == null ? "—" : `${fmtNum(position.currentValue)} 383C`}</strong></span><span><small>P/L i hapur</small><strong data-tone={tone(position.unrealizedPnl)}>{position.unrealizedPnl == null ? "—" : `${signed(position.unrealizedPnl)} 383C`}</strong></span></div>
-    <footer className={`tregu-market-foot ${styles.positionActions}`}><Link href={`/tregu/${market?.slug}`} className="tregu-market-open">Hap tregun →</Link><button type="button" onClick={onSell} disabled={selling}>{selling ? "Duke shitur…" : confirming ? "Konfirmo shitjen" : "Shit të gjitha"}</button></footer>
+    {confirming && <div className={styles.sellForm}><label>Sa 383 Coin dëshiron të marrësh?<input type="number" inputMode="decimal" min="0.01" step="0.01" max={maximum} value={coins} onChange={e => setCoins(e.target.value)} /></label><p>Vlera e shitjes tani: {maximum.toFixed(2)} 383C. Përfshin ndikimin në çmim.</p><div><button type="button" disabled={selling || Number(coins) <= 0 || Number(coins) > maximum} onClick={() => onSell(Number(coins), false)}>Merr {Number(coins || 0).toFixed(2)} Coin</button><button type="button" disabled={selling} onClick={() => onSell(undefined, true)}>Shit të gjitha · {maximum.toFixed(2)} Coin</button></div></div>}
+    <footer className={`tregu-market-foot ${styles.positionActions}`}><Link href={`/tregu/${market?.slug}`} className="tregu-market-open">Hap tregun →</Link><button type="button" onClick={() => onSell()} disabled={selling}>{selling ? "Duke shitur…" : confirming ? "Anulo" : "Shit"}</button></footer>
   </article>;
 }
 
@@ -89,17 +93,19 @@ export default function PortofoliPage() {
     } catch { setFailed(true); } finally { setLoading(false); }
   };
   useEffect(() => { createClient().auth.getUser().then(({ data: { user } }) => { setAuth(user ? "in" : "out"); if (user) void load(); }); }, []);
-  const sellAll = async (position: Position) => {
-    if (confirmSell !== position.id) { setConfirmSell(position.id); window.setTimeout(() => setConfirmSell((value) => value === position.id ? null : value), 4000); return; }
-    setConfirmSell(null); setSelling(position.id); setMessage(null);
-    const payload: Record<string, unknown> = { marketId: position.market_id, shares: position.shares, side: position.side };
-    if (position.sellKind === "sport_outcome") Object.assign(payload, { kind: "sport_outcome", outcomeKey: position.side });
-    if (position.sellKind === "f1_winner") Object.assign(payload, { kind: "f1_race_winner", outcomeKey: position.side });
-    const response = await fetch("/api/tregu/sell", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
-    const result = await response.json(); setMessage(response.ok ? `Pozicioni u shit. U kthyen ${fmtNum(Number(result.coinsReceived ?? 0))} 383C.` : result.error ?? "Shitja dështoi.");
-    if (response.ok) setPositions((current) => current.filter((item) => item.id !== position.id));
-    setSelling(null); if (response.ok) await load();
+  const sellAll = async (position: Position, coins?: number, all?: boolean) => {
+    if (coins === undefined && !all) { setConfirmSell(current => current === position.id ? null : position.id); return; }
+    setSelling(position.id); setMessage(null);
+    try {
+      const response = await fetch("/api/tregu/sell", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ marketId: position.market_id, side: position.side, coins, sellAll: all === true }) });
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.error || "Shitja dështoi.");
+      setMessage(`U kthyen ${Number(result.coinsReceived).toFixed(2)} 383C.`);
+      setConfirmSell(null); await load();
+    } catch (error) { setMessage(error instanceof Error ? error.message : "Lidhja dështoi. Provo përsëri."); }
+    finally { setSelling(null); }
   };
+
   const withdraw = async () => {
     if (!payoutMethod.trim()) return; setSubmitting(true); setMessage(null);
     const response = await fetch("/api/tregu/withdraw", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ payoutMethod }) });
@@ -117,7 +123,7 @@ export default function PortofoliPage() {
     <header className={styles.hero}><div><Link href="/tregu" className={styles.eyebrow}>TREGU / PORTOFOLI</Link><h1>Portofoli yt</h1><p>Kapitali aktiv, rezultati i realizuar dhe çdo tregti e mbyllur — pa e numëruar një investim të hapur si humbje.</p></div><div className={styles.heroBalance}><span>Bilanci i realizuar</span><strong>{fmtNum(stats?.realizedBalance ?? profile?.coins ?? 0)} <small>383C</small></strong><b data-tone={tone(stats?.pnl30d)}>{signed(stats?.pnl30d ?? 0, 0)} në 30 ditë</b></div></header>
     <section className={styles.summary} aria-label="Përmbledhja"><article className={`tregu-glass tregu-glass-hi ${styles.totalCard}`}><span>Vlera totale tani</span><strong><CoinFace size={28}/>{fmtNum(stats?.totalValue ?? 0)}</strong><small>{fmtNum(profile?.coins ?? 0)} të lira · {fmtNum(stats?.openValue ?? 0)} vlerë e hapur</small></article><article className={`tregu-glass ${styles.metricCard}`}><span><small>Fituar / humbur · 30 ditë</small><strong data-tone={tone(stats?.pnl30d)}>{signed(stats?.pnl30d ?? 0)} 383C</strong></span><span><small>P/L i hapur</small><strong data-tone={tone(stats?.openPnl)}>{signed(stats?.openPnl ?? 0)} 383C</strong></span><span><small>Norma e fitoreve</small><strong>{stats?.winRate == null ? "—" : `${Math.round(stats.winRate * 100)}%`}</strong></span></article></section>
     <section className={`tregu-glass ${styles.chartPanel}`}><div className={styles.sectionHead}><div><span>REZULTATI I REALIZUAR</span><h2>30 ditët e fundit</h2><p>Vija lëviz vetëm kur një tregti shitet ose zgjidhet.</p></div><strong data-tone={tone(stats?.pnl30d)}>{signed(stats?.pnl30d ?? 0)} 383C</strong></div><BalanceChart history={history}/></section>
-    <section className={styles.section}><div className={styles.sectionTitle}><div><span>KAPITAL NË PUNË</span><h2>Pozicionet aktive</h2></div><b>{positions.length}</b></div>{message && <p className={styles.message}>{message}</p>}{positions.length ? <div className={styles.positionGrid}>{positions.map((position) => <PositionCard key={position.id} position={position} confirming={confirmSell === position.id} selling={selling === position.id} onSell={() => void sellAll(position)}/>)}</div> : <div className={styles.empty}><p>Nuk ke pozicione aktive.</p><Link href="/tregu">Shiko tregjet →</Link></div>}</section>
+    <section className={styles.section}><div className={styles.sectionTitle}><div><span>KAPITAL NË PUNË</span><h2>Pozicionet aktive</h2></div><b>{positions.length}</b></div>{message && <p className={styles.message}>{message}</p>}{positions.length ? <div className={styles.positionGrid}>{positions.map((position) => <PositionCard key={position.id} position={position} confirming={confirmSell === position.id} selling={selling === position.id} onSell={(coins, all) => void sellAll(position, coins, all)}/>)}</div> : <div className={styles.empty}><p>Nuk ke pozicione aktive.</p><Link href="/tregu">Shiko tregjet →</Link></div>}</section>
     <section className={styles.section}><div className={styles.sectionTitle}><div><span>REZULTATET E MBYLLURA</span><h2>Historiku i tregtimeve</h2></div><b>{trades.length}</b></div><div className={styles.tradeList}>{trades.length ? trades.map((trade) => <article key={trade.marketId} className={styles.tradeRow}><span className={styles.resultMark} data-result={trade.result}>{trade.result === "win" ? "F" : trade.result === "loss" ? "H" : "—"}</span><div className={styles.tradeIdentity}><Link href={`/tregu/${trade.slug}`}>{trade.question}</Link><small>{trade.selected.map((item) => item.label).join(", ") || "Pozicion"}{trade.official ? ` · Rezultati: ${trade.official.label}` : " · Shitur para mbylljes"}</small></div><div><small>Investuar</small><strong>{fmtNum(trade.invested)}</strong></div><div><small>{trade.cashOuts > 0 && trade.settlementPayout > 0 ? "Gjithsej kthyer" : "Kthyer"}</small><strong>{fmtNum(trade.returned)}</strong>{trade.cashOuts > 0 && trade.settlementPayout > 0 ? <em className={styles.returnBreakdown}>{fmtNum(trade.cashOuts)} shitje + {fmtNum(trade.settlementPayout)} shlyerje</em> : null}</div><div className={styles.tradePnl}><small>P/L</small><strong data-tone={tone(trade.pnl)}>{signed(trade.pnl)} 383C</strong></div><time>{trade.concludedAtIso ? formatKosovoDate(trade.concludedAtIso, { year: true }) : "—"}</time></article>) : <div className={styles.empty}><p>Ende pa tregti të përfunduara.</p></div>}</div></section>
     <section className={styles.lowerGrid}><article className={`tregu-glass ${styles.withdraw}`}><span>TËRHEQJA</span><h2>Ktheji 383C në shpërblim</h2><div className={styles.withdrawProgress} aria-label={`${Math.min(100, Math.floor((Number(profile?.coins ?? 0) / 10000) * 100))}% e pragut të tërheqjes`}><i style={{ width: `${Math.min(100, (Number(profile?.coins ?? 0) / 10000) * 100)}%` }}/></div><div className={styles.withdrawNumbers}><strong>{Math.min(100, Math.floor((Number(profile?.coins ?? 0) / 10000) * 100))}% arritur</strong><span>{fmtNum(Math.max(0, 10000 - Number(profile?.coins ?? 0)))} 383C mbeten</span></div><p>{canWithdraw ? `Pragu u arrit. Raporti është 10,000 383C për 10€.` : `Duhen 10,000 383C. Aktualisht ke ${fmtNum(profile?.coins ?? 0)}.`}</p><p className={styles.withdrawTrust}>Çdo kërkesë verifikohet kundrejt bilancit dhe historikut të transaksioneve. Konfirmimi dërgohet nga <a href="mailto:info@383media.com">info@383media.com</a>.</p>{canWithdraw && <div><input className="tregu-input" value={payoutMethod} onChange={(event) => setPayoutMethod(event.target.value)} placeholder="PayPal email ose IBAN"/><button className="tregu-btn-primary" disabled={submitting || !payoutMethod.trim()} onClick={() => void withdraw()}>Kërko verifikim</button></div>}{withdrawals.map((withdrawal) => <small key={withdrawal.id}>{formatKosovoDate(withdrawal.requested_at, { year: true })} · {fmtNum(withdrawal.coins_amount)} 383C <b style={{ color: statusColor(withdrawal.status) }}>{withdrawal.status}</b></small>)}</article><article className={`tregu-glass ${styles.otherActivity}`}><span>LËVIZJE TË TJERA</span><h2>Bonuse dhe tërheqje</h2>{extras.length ? extras.slice(0, 8).map((transaction) => <div key={transaction.id}><span>{transaction.type === "daily_bonus" ? "Bonus ditor" : transaction.type === "signup_bonus" ? "Bonus regjistrimi" : transaction.type}</span><strong data-tone={tone(transaction.amount)}>{signed(Number(transaction.amount), 0)}</strong></div>) : <p>Pa lëvizje të tjera.</p>}</article></section>
   </main></div>;

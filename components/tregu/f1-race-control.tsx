@@ -128,53 +128,6 @@ function BetButton({
   );
 }
 
-function GridMarquee({ drivers }: { drivers: Driver[] }) {
-  if (drivers.length === 0) {
-    return (
-      <div className="f1-grid-empty">
-        <Flag size={21} strokeWidth={1.8} aria-hidden />
-        <strong>Në pritje të gridit zyrtar</strong>
-        <span>Pozicionet shfaqen sapo verifikohen.</span>
-      </div>
-    );
-  }
-
-  const pairs = Array.from({ length: Math.ceil(drivers.length / 2) }, (_, index) =>
-    drivers.slice(index * 2, index * 2 + 2)
-  );
-
-  return (
-    <div
-      className="f1-grid-marquee"
-      style={{ "--f1-grid-duration": `${Math.max(30, pairs.length * 3.1)}s` } as CSSProperties}
-    >
-      <div className="f1-grid-track">
-        <ol className="f1-grid-list">
-          {pairs.map((pair, pairIndex) => (
-            <li key={`grid-row-${pairIndex + 1}`} className="f1-grid-pair">
-              {pair.map((driver, laneIndex) => (
-                <article
-                  key={driver.key}
-                  className="f1-grid-slot"
-                  data-lane={laneIndex === 0 ? "left" : "right"}
-                  aria-label={`Pozita ${driver.grid_position}: ${driver.label}, ${driver.team}`}
-                >
-                  <span className="f1-grid-position">P{driver.grid_position}</span>
-                  <DriverFace driver={driver} className="f1-grid-face" eager />
-                  <span className="f1-grid-driver">
-                    <strong>{driver.label}</strong>
-                    <small>{driver.team}</small>
-                  </span>
-                </article>
-              ))}
-            </li>
-          ))}
-        </ol>
-      </div>
-    </div>
-  );
-}
-
 export default function F1RaceControl({
   marketOpen,
   drivers,
@@ -192,13 +145,6 @@ export default function F1RaceControl({
 
   const oddsOrder = useMemo(
     () => [...drivers].sort((a, b) => cleanProbability(b.probability) - cleanProbability(a.probability)),
-    [drivers]
-  );
-  const gridOrder = useMemo(
-    () =>
-      [...drivers]
-        .filter((driver) => Number.isInteger(driver.grid_position))
-        .sort((a, b) => Number(a.grid_position) - Number(b.grid_position)),
     [drivers]
   );
   const timingByDriver = useMemo(
@@ -242,7 +188,6 @@ export default function F1RaceControl({
 
   const lap = timing?.race?.current_lap;
   const totalLaps = timing?.race?.total_laps;
-  const hasCompleteGrid = gridOrder.length === drivers.length && drivers.length >= 20;
 
   return (
     <section
@@ -299,7 +244,7 @@ export default function F1RaceControl({
               land; without it every F1 chart was locked to "Gjithë historia"
               and a move made minutes ago was invisible inside the whole run. */}
           <ExactMarketChart
-            height={300}
+            height={440}
             minimal
             showRanges
             tone="sport"
@@ -308,18 +253,7 @@ export default function F1RaceControl({
           />
         </div>
 
-        {!isLive && !isChampionship && (
-          <aside className="f1-grid-card" aria-label="Gridi zyrtar i nisjes">
-            <div className="f1-grid-card-head">
-              <span>
-                <Flag size={17} strokeWidth={2} aria-hidden />
-                Gridi
-              </span>
-              <strong>{hasCompleteGrid ? `P1-P${drivers.length}` : "Zyrtar"}</strong>
-            </div>
-            <GridMarquee drivers={gridOrder} />
-          </aside>
-        )}
+
       </div>
 
       <section className="f1-favorites-section" aria-labelledby="f1-favorites-title">

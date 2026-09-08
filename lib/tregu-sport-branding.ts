@@ -45,6 +45,9 @@ export const SPORT_BRANDS: Record<string, SportBrand> = {
     tint: "#FFF0F1",
     sourceUrl: "https://www.bundesliga.com/",
   },
+  "uefa.champions": { key: "uefa.champions", label: "Champions League", shortLabel: "UCL", logo: "/logos/uefachampionsleague.svg", accent: "#263cc9", tint: "#f3f5ff" },
+  "uefa.europa": { key: "uefa.europa", label: "Europa League", shortLabel: "UEL", logo: "/logos/uefaeuropaleague.svg", accent: "#b95408", tint: "#fff7ee" },
+  "uefa.europa.conf": { key: "uefa.europa.conf", label: "Conference League", shortLabel: "UECL", logo: "/logos/uefaeuroconferenceleague.svg", accent: "#13843c", tint: "#f1faf2" },
   f1: {
     key: "f1",
     label: "Formula 1",

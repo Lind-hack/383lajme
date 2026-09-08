@@ -9,7 +9,7 @@ export default function StickyMarketBack() {
   const goBack = () => {
     let hasLocalReferrer = false;
     try {
-      hasLocalReferrer = Boolean(document.referrer) && new URL(document.referrer).origin === window.location.origin;
+      hasLocalReferrer = Boolean(sessionStorage.getItem("tregu-floor")) || Boolean(document.referrer) && new URL(document.referrer).origin === window.location.origin;
     } catch {
       hasLocalReferrer = false;
     }

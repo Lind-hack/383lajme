@@ -1,5 +1,4 @@
 "use client";
-
 /**
  * Sports discovery cards on the hub floor: football leagues (the four big
  * ones, cups marked as coming later), the F1 race calendar, and basketball
@@ -8,10 +7,9 @@
  * already trading. Selecting a league hands the filter back to the page,
  * which applies it to the floor grid and scrolls there.
  */
-
 import { useMemo } from "react";
 import Link from "next/link";
-import { ArrowRight, Lock, Trophy } from "lucide-react";
+import { ArrowRight, Trophy } from "lucide-react";
 import type { CSSProperties } from "react";
 import SportBrandMark from "@/components/tregu/sport-brand-mark";
 import { sportBrandFor } from "@/lib/tregu-sport-branding";
@@ -21,7 +19,6 @@ import {
   f1Calendar,
   footballLeagueCounts,
 } from "@/lib/tregu-sport-sections.mjs";
-
 export type SportMarketLike = {
   slug: string;
   question: string;
@@ -32,18 +29,15 @@ export type SportMarketLike = {
   closes_at: string;
   live_event?: { league?: string; sport?: string } | null;
 };
-
 const MONTHS_SQ = [
   "jan", "shk", "mar", "pri", "maj", "qer",
   "kor", "gus", "sht", "tet", "nën", "dhj",
 ];
-
 function shortDate(iso: string): string {
   const d = new Date(iso);
   if (Number.isNaN(d.getTime())) return "";
   return `${d.getUTCDate()} ${MONTHS_SQ[d.getUTCMonth()]}`;
 }
-
 function RaceCard({
   markets,
   active,
@@ -63,7 +57,6 @@ function RaceCard({
       }[],
     [markets]
   );
-
   return (
     <article
       className="tregu-sport-card p-5 flex flex-col"
@@ -81,7 +74,6 @@ function RaceCard({
           </span>
         )}
       </header>
-
       {races.length === 0 ? (
         <p style={{ color: "#6B6B6B", fontSize: 13, lineHeight: 1.6, margin: 0 }}>
           Kalendari mbushet automatikisht tre ditë para çdo gare.
@@ -103,7 +95,6 @@ function RaceCard({
           ))}
         </div>
       )}
-
       <button
         type="button"
         onClick={() => onSelect("f1")}
@@ -116,7 +107,6 @@ function RaceCard({
     </article>
   );
 }
-
 export default function SportSections({
   markets,
   isOpen,
@@ -140,8 +130,7 @@ export default function SportSections({
           Zgjidh një ligë — lista më poshtë filtrohet.
         </p>
       </div>
-
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 16 }}>
+      <div className="tregu-sports-discovery">
         {/* Football */}
         <article
           className="tregu-sport-card p-5 flex flex-col"
@@ -155,9 +144,8 @@ export default function SportSections({
               {totalFootball} të hapura
             </span>
           </header>
-
-          <div className="flex flex-col gap-2">
-            {FOOTBALL_LEAGUES.map((l) => (
+          <div className="tregu-football-leagues">
+            {[...FOOTBALL_LEAGUES, ...FOOTBALL_TOURNAMENTS_SOON.map(t => ({ ...t, country: "Europë" }))].map((l) => (
               <button
                 key={l.key}
                 type="button"
@@ -180,52 +168,18 @@ export default function SportSections({
               </button>
             ))}
           </div>
-
-          {/* Cups exist in the pipeline — their sections come later. */}
-          <div className="flex flex-wrap gap-1.5 mt-3.5">
-            {FOOTBALL_TOURNAMENTS_SOON.map((t) => (
-              <span key={t.key} className="tregu-sport-soon" title="Vjen më vonë">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={t.logo} alt="" width={13} height={13} loading="lazy" />
-                {t.label}
-              </span>
-            ))}
-          </div>
         </article>
-
         {/* Formula 1 */}
         <RaceCard markets={markets} active={activeLeague} onSelect={onSelect} />
-
-        {/* Basketball — honest lock until the live automation prices it. */}
-        <article
-          className="tregu-sport-card p-5 flex flex-col"
-          data-state="locked"
-          data-sport="basketball"
-          style={{ "--sport-accent": "#17408B", "--sport-tint": "#EEF4FF" } as CSSProperties}
-          aria-disabled
-        >
+        <article className="tregu-sport-card p-5 flex flex-col" data-sport="basketball">
           <header className="flex items-center gap-2.5 mb-4">
-            <Lock size={18} strokeWidth={2} className="text-[#9c9c9c]" aria-hidden />
-            <h3 style={{ fontWeight: 800, fontSize: 16, margin: 0, letterSpacing: "-0.01em", color: "#9c9c9c" }}>
-              Basketboll
-            </h3>
-            <span className="ml-auto rounded-full px-3 py-1 text-[10.5px] font-extrabold uppercase tracking-[0.08em] bg-[#111]/[0.06] text-[#6b6b6b]">
-              Së shpejti
-            </span>
+            <SportBrandMark brandKey="nba" size="md" />
+            <h3 className="font-extrabold">Basketboll</h3>
           </header>
-          <p style={{ color: "#6B6B6B", fontSize: 13.5, lineHeight: 1.65, margin: 0 }}>
-            Motori është gati — tregje me dy rezultate për NBA, FIBA dhe Superligën e Kosovës.
-            Hapet sapo të lidhet burimi i parë zyrtar.
-          </p>
-          <div className="tregu-basketball-soon" aria-label="Ligat e planifikuara">
-            {(["nba", "fbk"] as const).map((key) => (
-              <span key={key}>
-                <SportBrandMark brandKey={key} size="md" />
-                <em>{sportBrandFor(key)?.label}</em>
-                <Lock size={11} strokeWidth={2.3} aria-hidden />
-              </span>
-            ))}
-          </div>
+          <p className="text-sm text-gray-500">NBA dhe FIBA. Ndeshjet shfaqen kur konfirmohen në kalendar.</p>
+          <button type="button" className="tregu-sport-league mt-3" aria-pressed={activeLeague === "basketball"} onClick={() => onSelect("basketball")}>
+            Shiko ndeshjet <ArrowRight size={16} aria-hidden />
+          </button>
         </article>
       </div>
     </section>

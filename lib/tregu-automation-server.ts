@@ -301,6 +301,14 @@ async function runOfficialSportsRefresh(action: "live_sports", runKey: string, n
     ]);
     if (error) throw new Error(`Could not load open sport markets: ${error.message}`);
     if (f1MarketsError) throw new Error(`Could not load open F1 markets: ${f1MarketsError.message}`);
+    // Recovery precedes live timing: a missed session must not stay open forever.
+    for (const market of f1Markets ?? []) {
+      try {
+        const { fetchF1FinalResult, persistF1FinalResult } = await import("@/lib/f1-result-recovery.mjs");
+        const result = await fetchF1FinalResult(market, { now });
+        if (result) { await persistF1FinalResult(admin, market, result, now); market.status = "closed"; }
+      } catch (error) { console.error("F1 final classification unavailable", market.slug, error instanceof Error ? error.message : String(error)); }
+    }
     const pairMarkets = (markets ?? []).filter((market) => [ARGENTINA_SPAIN_PAIR.spainSlug, ARGENTINA_SPAIN_PAIR.argentinaSlug].includes(market.slug));
     const standardMarkets = (markets ?? []).filter((market) => Array.isArray(market.sport_outcomes) && market.sport_outcomes.length);
     let events: any[] = [];
@@ -449,7 +457,9 @@ async function runOfficialSportsRefresh(action: "live_sports", runKey: string, n
             if (!discovered || discovered.event_id !== race.event_id) throw new Error(`OpenF1 metadata is missing for future market ${race.event_id}`);
             race = discovered;
           }
-          const enrichedLiveEvent = { ...config, openf1_meeting_key: race.meeting_key, openf1_session_key: race.session_key, circuit_short_name: race.circuit_short_name, country_name: race.country_name, race_start: race.date_start, openf1_race_source: race.source_url };
+          const { fetchF1RaceDistance } = await import("@/lib/f1-race-distance.mjs");
+          const raceDistance = config.total_laps ? { total_laps: config.total_laps, lap_count_source: config.lap_count_source } : await fetchF1RaceDistance(race);
+          const enrichedLiveEvent = { ...config, ...raceDistance, openf1_meeting_key: race.meeting_key, openf1_session_key: race.session_key, circuit_short_name: race.circuit_short_name, country_name: race.country_name, race_start: race.date_start, openf1_race_source: race.source_url };
           for (const market of futureF1Markets) {
             const { error: metadataError } = await admin.from("markets").update({ live_event: enrichedLiveEvent }).eq("id", market.id).eq("status", "open");
             if (metadataError) throw new Error(`Could not persist F1 race metadata for ${market.slug}: ${metadataError.message}`);
@@ -536,7 +546,7 @@ async function runOfficialSportsRefresh(action: "live_sports", runKey: string, n
               // is right on the first tick instead of the fourth; everyone else
               // is still capped, and the book renormalises around them.
               const structuralKeys = Object.entries((opening.inputs ?? {}) as Record<string, { not_starting?: boolean | null; grid_penalty_places?: number | null }>)
-                .filter(([, input]) => Boolean(input?.not_starting) || Number(input?.grid_penalty_places ?? 0) >= 3)
+                .filter(([, input]) => Boolean(input?.not_starting) || Number(input?.grid_penalty_places ?? 0) >= 1 || (input as any)?.starting_grid != null)
                 .map(([key]) => key);
               const { error: applyError } = await admin.rpc("apply_f1_race_winner_oracle", { p_market_id: market.id, p_state: marketState, p_probabilities: opening.probabilities, p_evidence: evidence, p_reasoning: opening.method, p_cap: 0.05, p_final: false, p_winner: null, p_structural_keys: structuralKeys });
               if (applyError) throw new Error(applyError.message);
@@ -630,7 +640,9 @@ async function runOfficialSportsRefresh(action: "live_sports", runKey: string, n
             }
           }
           }
-        } else {
+        }
+        const liveF1Markets = (f1Markets ?? []).filter(m => m.status === "open" && Number.isFinite(Date.parse(m.live_event?.race_start ?? "")) && Date.parse(m.live_event.race_start) <= now.getTime() && now.getTime() - Date.parse(m.live_event.race_start) < 6 * 3600000);
+        if (liveF1Markets.length) {
         // OpenF1 first, then F1's own dashboard.
         //
         // OpenF1 refuses anonymous callers for the entire duration of a session,
@@ -661,12 +673,12 @@ async function runOfficialSportsRefresh(action: "live_sports", runKey: string, n
           f1SourceUrl = leaderboard?.source_url ?? "https://app.formula1dashboard.com/live-timing/";
         }
         if (!leaderboard) throw new Error("Neither OpenF1 nor the Formula 1 Dashboard exposed a complete active race session.");
-        const f1Signals = buildF1MarketPlan({ markets: f1Markets, leaderboard });
-        const f1RaceWinnerSignals = buildF1RaceWinnerPlan({ markets: f1Markets, leaderboard });
+        const f1Signals = buildF1MarketPlan({ markets: liveF1Markets, leaderboard });
+        const f1RaceWinnerSignals = buildF1RaceWinnerPlan({ markets: liveF1Markets, leaderboard });
         for (const signal of f1RaceWinnerSignals) {
           try {
             const f1State = { ...signal.state, previous_probabilities: signal.market.reference_probabilities ?? null };
-            const { error: f1RaceOracleError } = await admin.rpc("apply_f1_race_winner_oracle", { p_market_id: signal.market.id, p_state: f1State, p_probabilities: signal.probabilities, p_evidence: signal.evidence, p_reasoning: signal.reasoning, p_cap: signal.oracle_cap, p_final: false, p_winner: null });
+            const { error: f1RaceOracleError } = await admin.rpc("apply_f1_race_winner_oracle", { p_market_id: signal.market.id, p_state: f1State, p_probabilities: signal.probabilities, p_evidence: signal.evidence, p_reasoning: signal.reasoning, p_cap: signal.oracle_cap, p_final: false, p_winner: null, p_structural_keys: Object.keys(signal.probabilities) });
             if (f1RaceOracleError) throw new Error(f1RaceOracleError.message);
             const { error: f1SnapshotError } = await admin.rpc("record_f1_vector_snapshot", { p_market_id: signal.market.id, p_state: f1State, p_probabilities: signal.probabilities, p_reasoning: signal.reasoning });
             if (f1SnapshotError) throw new Error(f1SnapshotError.message);
@@ -695,7 +707,7 @@ async function runOfficialSportsRefresh(action: "live_sports", runKey: string, n
         }
         // A FINISHED classification settles explicitly mapped markets only via
         // the existing idempotent settlement authority; provisional rows cannot settle.
-        for (const settlement of buildF1SettlementPlan({ markets: f1Markets, leaderboard })) {
+        for (const settlement of buildF1SettlementPlan({ markets: liveF1Markets, leaderboard })) {
           const { error: resolveError } = await admin.rpc("resolve_market", { p_market_id: settlement.market.id, p_outcome: settlement.outcome });
           if (resolveError) throw new Error(`Could not settle F1 ${settlement.market.slug}: ${resolveError.message}`);
           await captureOfficialMarketChange(settlement.market, "f1_settlement", leaderboard.source_url);
@@ -758,10 +770,11 @@ export async function runLiveSportsAutomation(now = new Date()) {
   // The official live heartbeat is the critical two-minute lane. Template
   // discovery is best-effort and must never delay or cancel score refreshes.
   const live = await runOfficialSportsRefresh("live_sports", oneMinuteRunKey(now), now);
-  const [f1Template, footballTemplate, f1Championship] = await Promise.allSettled([
+  const [f1Template, footballTemplate, f1Championship, basketballTemplate] = await Promise.allSettled([
     runUpcomingF1TemplateAutomation(now),
     runUpcomingFootballTemplateAutomation(now),
     runF1ChampionshipAutomation(now),
+    runUpcomingBasketballAutomation(now),
   ]);
   return {
     ...live,
@@ -771,6 +784,7 @@ export async function runLiveSportsAutomation(now = new Date()) {
     football_template: footballTemplate.status === "fulfilled"
       ? footballTemplate.value
       : { ok: false, created: 0, reason: "football_template_unavailable", error: String(footballTemplate.reason instanceof Error ? footballTemplate.reason.message : footballTemplate.reason) },
+    basketball_template: basketballTemplate.status === "fulfilled" ? basketballTemplate.value : { ok: false, error: String(basketballTemplate.reason) },
     f1_championship: f1Championship.status === "fulfilled"
       ? f1Championship.value
       : { ok: false, reason: "f1_championship_unavailable", error: String(f1Championship.reason instanceof Error ? f1Championship.reason.message : f1Championship.reason) },
@@ -1360,8 +1374,12 @@ export async function runUpcomingFootballTemplateAutomation(now = new Date()) {
     const { fetchUpcomingEspnFootballFixtures, buildUpcomingFootballTemplate } = await import("@/lib/espn-upcoming-football.mjs");
     const fixtures = await fetchUpcomingEspnFootballFixtures({ now, windowHours:72 }); const created=[]; const refreshed=[]; const unchanged=[];
     for (const fixture of fixtures) {
-      const { data: existing, error: checkError } = await admin.from("markets").select("id,status,slug,live_event,live_score_state,reference_probabilities").contains("live_event", { event_id:fixture.event_id }).limit(1);
+      const { data: existing, error: checkError } = await admin.from("markets").select("id,status,slug,live_event,live_score_state,reference_probabilities,pre_match_analysis").contains("live_event", { event_id:fixture.event_id }).limit(1);
       if (checkError) throw new Error(`Could not check football template duplicate: ${checkError.message}`);
+      try {
+        const { fetchPregameRoster } = await import("@/lib/sport-pregame-context.mjs");
+        (fixture as any).team_news = await fetchPregameRoster(fixture);
+      } catch { (fixture as any).team_news = existing?.[0]?.pre_match_analysis?.fixture?.team_news ?? []; }
       const template=buildUpcomingFootballTemplate(fixture);
       if (existing?.length) {
         const market = existing[0];
@@ -1430,4 +1448,34 @@ export async function runUpcomingFootballTemplateAutomation(now = new Date()) {
     }
     await finishRun(admin, started.run.id, "succeeded", { created:created.length, refreshed:refreshed.length, unchanged:unchanged.length, fixtures:fixtures.length, markets:created, refreshed_markets:refreshed, unchanged_markets:unchanged }); return { ok:true, created:created.length, refreshed:refreshed.length, unchanged:unchanged.length, fixtures:fixtures.length, markets:created, refreshed_markets:refreshed, unchanged_markets:unchanged };
   } catch (error) { const message=String(error instanceof Error?error.message:error); await finishRun(admin, started.run.id, "failed", {}, message); throw error; }
+}
+
+async function runUpcomingBasketballAutomation(now = new Date()) {
+  const admin = createAdminClient();
+  if (!admin) throw new Error("Supabase service role is required");
+  const { discoverBasketball } = await import("@/lib/basketball-live.mjs");
+  const fixtures = await discoverBasketball({ now });
+  let created = 0;
+  for (const fixture of fixtures) {
+    const { data, error } = await admin.from("markets").select("id,status,reference_probabilities").eq("slug", fixture.slug).maybeSingle();
+    if (error) throw error;
+    if (data) {
+      if (data.status === "open" && fixture.pre_match_analysis.opening_model.method !== "Neutral prior: provider moneyline unavailable" && JSON.stringify(data.reference_probabilities) !== JSON.stringify(fixture.reference_probabilities)) {
+        const { error: oracleError } = await admin.rpc("apply_sport_market_oracle", {
+          p_market_id: data.id, p_provider: "espn", p_event_id: fixture.live_event.event_id,
+          p_state: { key: `basketball-opening:${fixture.live_event.event_id}:${JSON.stringify(fixture.reference_probabilities)}`, status: "STATUS_SCHEDULED", has_official_score: false },
+          p_reference_probabilities: fixture.reference_probabilities,
+          p_evidence: [{ title: "ESPN pregame moneyline", url: fixture.live_event.source_url }],
+          p_reasoning: fixture.pre_match_analysis.opening_model.method, p_requested_cap: .1,
+          p_close_market: false, p_verified_outcome: null, p_settlement_due_at: null,
+        });
+        if (oracleError) throw oracleError;
+      }
+      continue;
+    }
+    const { error: insertError } = await admin.from("markets").insert(fixture);
+    if (insertError && insertError.code !== "23505") throw insertError;
+    if (!insertError) created++;
+  }
+  return { ok: true, created, fixtures: fixtures.length };
 }

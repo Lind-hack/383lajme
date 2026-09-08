@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Navbar from "@/components/navbar";
 import TimeAgo from "@/components/time-ago";
 import MarketMiniCard from "@/components/tregu/market-mini-card";
@@ -172,6 +172,9 @@ function isF1Archive(market: MarketRow): boolean {
 export default function TreguHub() {
   const [markets, setMarkets] = useState<MarketRow[]>([]);
   const [activity, setActivity] = useState<ActivityItem[]>([]);
+  const [query, setQuery] = useState("");
+  const pendingScroll = useRef(false);
+  const restore = useRef<{ y: number; slug?: string; offset?: number } | null>(null);
   const [category, setCategory] = useState("all");
   const [league, setLeague] = useState<string | null>(null);
   const [sort, setSort] = useState<SortKey>("vellim");
@@ -185,6 +188,34 @@ export default function TreguHub() {
   const [coinSpin, setCoinSpin] = useState(false);
   const [flyCoins, setFlyCoins] = useState<Array<{ id: number; amount: number }>>([]);
   const [rewardAmount, setRewardAmount] = useState<number | null>(null);
+
+  useEffect(() => {
+    try {
+      const saved = JSON.parse(sessionStorage.getItem("tregu-floor") || "null");
+      if (saved?.returning) {
+        setCategory(saved.category || "all"); setLeague(saved.league || null);
+        setSort(saved.sort || "vellim"); setQuery(saved.query || "");
+        restore.current = saved;
+        sessionStorage.setItem("tregu-floor", JSON.stringify({ ...saved, returning: false }));
+      }
+    } catch { /* Storage can be unavailable in private browsing. */ }
+  }, []);
+
+  useEffect(() => {
+    if (loading) return;
+    const frame = requestAnimationFrame(() => {
+      if (restore.current) {
+        const saved = restore.current;
+        const link = [...document.querySelectorAll<HTMLAnchorElement>("main a[href]")].find(a => a.pathname === saved.slug);
+        window.scrollTo({ top: link && saved.offset != null ? window.scrollY + link.getBoundingClientRect().top - saved.offset : saved.y, behavior: "instant" });
+        restore.current = null;
+      } else if (pendingScroll.current) {
+        document.getElementById("tregjet-aktive")?.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth" });
+        pendingScroll.current = false;
+      }
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [loading, league, markets]);
 
   useEffect(() => {
     let active = true;
@@ -336,7 +367,7 @@ export default function TreguHub() {
     }),
     [markets]
   );
-  const f1Archives = useMemo(() => markets.filter(isF1Archive), [markets]);
+  const f1Archives = useMemo(() => markets.filter(isF1Archive).filter(m => !/hungar|hungaris|zandvoort/i.test(m.slug + " " + m.question)), [markets]);
 
   // Multi-outcome events: markets titled "<Ngjarja>: <Rezultati>?" fold into
   // one Polymarket-style card with a combined chart and one buy row per
@@ -408,32 +439,35 @@ export default function TreguHub() {
     let arr = markets.filter(
       (market) =>
         !isF1Archive(market) &&
-        !featuredSlugs.has(market.slug) &&
+        (league || query.trim() || !featuredSlugs.has(market.slug)) &&
         !groupedSlugs.has(market.slug)
     );
-    if (league === "f1") {
+    if (league === "basketball") {
+      arr = arr.filter((m) => m.market_classification === "live_basketball");
+    } else if (league === "f1") {
       arr = arr.filter((m) => isF1Market(m));
     } else if (league) {
       arr = marketsForFootballLeague(arr, league);
     }
+    if (query.trim()) arr = arr.filter(m => `${m.question} ${m.live_event?.league || ""} ${(m.sport_outcomes || []).map(o => o.label).join(" ")}`.toLocaleLowerCase().includes(query.trim().toLocaleLowerCase()));
     if (sort === "vellim") arr.sort((a, b) => vol(b) - vol(a));
     else if (sort === "afat")
       arr.sort((a, b) => new Date(a.closes_at).getTime() - new Date(b.closes_at).getTime());
     else if (sort === "nxehta")
       arr.sort((a, b) => Math.abs(0.5 - a.market_prob) - Math.abs(0.5 - b.market_prob));
     return arr;
-  }, [markets, featured, groupedSlugs, sort, league]);
+  }, [markets, featured, groupedSlugs, sort, league, query]);
 
   const selectSport = (key: string) => {
     // Landing inside the Sport category is part of the promise on the cards:
     // the pill row reflects it, the server fetch narrows to sport, and the
     // league filter refines from there.
+    pendingScroll.current = true;
+    if (category !== "sport") setLoading(true);
     setCategory("sport");
     setLeague((current) => (current === key ? null : key));
     track("tregu_sport_select", { league: key });
-    document.getElementById("tregjet")?.scrollIntoView({
-      behavior: window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
-    });
+
   };
 
   const toMini = (m: MarketRow): MiniMarket => ({
@@ -531,7 +565,11 @@ export default function TreguHub() {
         />
       )}
 
-      <main id="tregjet" style={{ maxWidth: 1160, margin: "0 auto", padding: "44px 24px 80px", scrollMarginTop: 88 }}>
+      <main onClickCapture={(event) => {
+        const link = (event.target as HTMLElement).closest<HTMLAnchorElement>("a[href]");
+        if (!link || !link.pathname.startsWith("/tregu/") || link.pathname.includes("portofoli")) return;
+        try { sessionStorage.setItem("tregu-floor", JSON.stringify({ category, league, sort, query, y: window.scrollY, slug: link.pathname, offset: link.getBoundingClientRect().top, returning: true })); } catch {}
+      }} id="tregjet" style={{ maxWidth: 1160, margin: "0 auto", padding: "44px 24px 80px", scrollMarginTop: 88 }}>
         {/* Floor head — accent bar + focused, active-voice line. */}
         <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", flexWrap: "wrap", gap: 16, marginBottom: 26 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
@@ -577,14 +615,18 @@ export default function TreguHub() {
           )}
         </div>
 
+        <div className="tregu-discovery-controls">
+          <label className="tregu-search"><span>Kërko tregje</span><input type="search" placeholder="Skuadër, pilot ose ngjarje…" value={query} onChange={e => setQuery(e.target.value)} /></label>
+          <label className="tregu-category-mobile"><span>Kategoria</span><select value={category} onChange={e => { setCategory(e.target.value); setLeague(null); }}>{CATEGORIES.map(c => <option key={c.value} value={c.value}>{c.label}</option>)}</select></label>
+        </div>
         {/* Category filters — ink active state, matches the rest of the site */}
-        <div data-tour="floor-filters" style={{ display: "flex", gap: 8, marginBottom: 18, overflowX: "auto", paddingBottom: 4 }}>
+        <div className="tregu-category-desktop" data-tour="floor-filters" style={{ display: "flex", gap: 8, marginBottom: 18, overflowX: "auto", paddingBottom: 4 }}>
           {CATEGORIES.map((c) => {
             const active = category === c.value;
             return (
               <button
                 key={c.value}
-                onClick={() => setCategory(c.value)}
+                onClick={() => { setCategory(c.value); setLeague(null); }}
                 style={{
                   padding: "8px 16px",
                   borderRadius: 100,
@@ -685,7 +727,7 @@ export default function TreguHub() {
         )}
 
         {/* Controls — count + segmented sort (traders sort). */}
-        <div className="tregu-controls">
+        <div className="tregu-controls" id="tregjet-aktive" style={{ scrollMarginTop: 120 }}>
           <span className="tregu-count">
             {loading ? (
               "Duke ngarkuar tregjet…"
@@ -693,7 +735,7 @@ export default function TreguHub() {
               "Tregjet nuk u ngarkuan"
             ) : (
               <>
-                <strong>{markets.length}</strong> {markets.length === 1 ? "treg aktiv" : "tregje aktive"}
+                <strong>{sorted.length}</strong> {sorted.length === 1 ? "treg aktiv" : "tregje aktive"}
               </>
             )}
           </span>
@@ -710,7 +752,7 @@ export default function TreguHub() {
           <>
             {/* Hero-row-shaped skeleton so the flagship slot doesn't pop in late. */}
             <div className="tregu-hero-row">
-              <div className="tregu-glass" style={{ height: 300, opacity: 0.5, borderRadius: 18 }} />
+              <div className="tregu-glass tregu-skeleton" style={{ height: 300, opacity: 0.5, borderRadius: 18 }} />
               <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
                 <div className="tregu-glass" style={{ flex: 1, opacity: 0.5 }} />
                 <div className="tregu-glass" style={{ height: 96, opacity: 0.5 }} />
@@ -718,7 +760,7 @@ export default function TreguHub() {
             </div>
             <div className="tregu-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 14 }}>
               {[0, 1, 2, 3, 4, 5].map((i) => (
-                <div key={i} className="tregu-glass" style={{ height: 208, opacity: 0.5 }} />
+                <div key={i} aria-hidden className="tregu-glass tregu-skeleton" style={{ height: 208, opacity: 0.5 }} />
               ))}
             </div>
           </>
@@ -736,7 +778,7 @@ export default function TreguHub() {
               Provo përsëri
             </button>
           </div>
-        ) : sorted.length === 0 && eventGroups.length === 0 && f1Archives.length === 0 ? (
+        ) : sorted.length === 0 && (league || query || eventGroups.length === 0) ? (
           <div className="tregu-glass" style={{ padding: "40px 28px", textAlign: "center" }}>
             <p style={{ fontWeight: 800, fontSize: 16, margin: 0 }}>
               {league ? `Nuk ka tregje të hapura në ${sportLabel(league)} për momentin` : "Asnjë treg aktiv këtu ende"}
@@ -756,7 +798,7 @@ export default function TreguHub() {
           </div>
         ) : (
           <div className="tregu-grid" data-tour="floor-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 14 }}>
-            {eventGroups.map((g) => (
+            {(!league ? eventGroups.filter(g => !query || g.title.toLocaleLowerCase().includes(query.toLocaleLowerCase())) : []).map((g) => (
               <MarketEventCard key={g.key} group={g} />
             ))}
             {sorted.map((m) =>

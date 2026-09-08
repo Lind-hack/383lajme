@@ -8,7 +8,7 @@ const PRODUCTION_REPOSITORY_OWNER = "Lind-hack";
 const PRODUCTION_REPOSITORY_SLUG = "383lajme";
 const PRODUCTION_REPOSITORY_ID = "1245103522";
 const CHART_UI_VERSION = "smooth-inspector-v3";
-const F1_RACE_UI_VERSION = "race-grid-v3";
+const F1_RACE_UI_VERSION = "race-live-v4";
 const FOOTBALL_MARKET_UI_VERSION = "stage-aware-v3";
 const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
 const DEFAULT_ROOT = path.resolve(SCRIPT_DIR, "..");
@@ -280,12 +280,8 @@ const TRACKED_UI_MARKERS = {
   "components/tregu/f1-race-control.tsx": [
     "ExactMarketChart",
     "data-f1-race-ui-version",
-    'className="f1-grid-pair"',
+    "height={440}",
     "aria-expanded={showAllDrivers}",
-    // Was "{!isLive && (" until the crown market added a championship case to
-    // the same branch. The prefix is what matters — that a not-live rendering
-    // still exists — and it survives the next conjunct someone adds.
-    "{!isLive &&",
     "timingRow?.gap",
     "onBetDriver",
   ],
