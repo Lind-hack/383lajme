@@ -1,10 +1,10 @@
 {
-  "lastUpdated": "2026-09-07",
-  "overallIndex": 53,
-  "totalArticles": 78,
-  "sourceCount": 55,
+  "lastUpdated": "2026-09-08",
+  "overallIndex": 51,
+  "totalArticles": 48,
+  "sourceCount": 39,
   "stanceVersion": 3,
-  "unattributed": 157,
+  "unattributed": 123,
   "nonEditorial": 0,
   "wrongKosovo": 0,
   "countries": {
@@ -64,34 +64,8 @@
         {
           "name": "Balkan Insight",
           "sentiment": "neutral",
-          "articleCount": 3,
+          "articleCount": 2,
           "articles": [
-            {
-              "title": "Kosovo Charges Serbian Security Officers Over Jashari Compound Massacre - Balkan Insight",
-              "albanianTitle": "Kosova ngre aktakuzë ndaj zyrtarëve të sigurisë serbe për masakrën në kompleksin Jashari",
-              "blurb": "Prokuroria e Kosovës ka ngritur aktakuza ndaj zyrtarëve serbë të sigurisë për masakrën e kryer në kompleksin e familjes Jashari.",
-              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/09/viber_image_2026-09-04_14-05-08-143.jpg",
-              "url": "https://balkaninsight.com/2026/09/04/kosovo-charges-serbian-security-officers-over-jashari-compound-massacre/btj/",
-              "date": "2026-09-04",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportuar pa ngarkim",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Kosovo Charges Serbian Security Officers Over Jashari Compound Massacre - balkaninsight.com",
-              "albanianTitle": "Kosova ngrit aktakuzë ndaj zyrtarëve të sigurisë serbe për masakrën në kompleksin Jashari",
-              "blurb": "Prokuroria e Kosovës ka ngritur aktakuzë ndaj zyrtarëve të sigurimit serb për masakrën e kryer në kompleksin Jashari.",
-              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/09/viber_image_2026-09-04_14-05-08-143.jpg",
-              "url": "https://balkaninsight.com/2026/09/04/kosovo-charges-serbian-security-officers-over-jashari-compound-massacre/btj/",
-              "date": "2026-09-04",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportim neutral",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "Kosovo Man Pleads Not Guilty to Spying for Serbia - Balkan Insight",
               "albanianTitle": "Shtetasi kosovar deklarohet i pafajshëm për spiunazh në favor të Serbisë - Balkan Insight",
@@ -101,6 +75,19 @@
               "date": "2026-09-07",
               "sentiment": "neutral",
               "reason": "Faktik, pa gjuhë ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Kosovo Man Pleads Not Guilty to Spying for Serbia - balkaninsight.com",
+              "albanianTitle": "Shtetasi nga Kosova deklarohet i pafajshëm për akuzat për spiunazh në favor të Serbisë",
+              "blurb": "Një shtetas i Kosovës është deklaruar i pafajshëm për akuzat që lidhen me spiunazh në favor të Serbisë.",
+              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/09/viber_image_2026-09-07_09-33-38-848-1024x768-1.png",
+              "url": "https://balkaninsight.com/2026/09/07/kosovo-man-pleads-not-guilty-to-spying-for-serbia/bi/",
+              "date": "2026-09-07",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportuar pa gjuhë ngarkuar",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -117,7 +104,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 3,
+        "n": 2,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -125,43 +112,6 @@
     },
     "Francë": {
       "outlets": [
-        {
-          "name": "RFI",
-          "sentiment": "neutral",
-          "articleCount": 2,
-          "articles": [
-            {
-              "title": "À la Une: en Serbie, les étudiants ciblés par le logiciel espion Pegasus - RFI",
-              "albanianTitle": "Në fokus: Në Serbi, studentët në shënjestër të softuerit spiun Pegasus - RFI",
-              "blurb": "Studentët në Serbi janë vënë në shënjestër të programit spiun Pegasus, sipas raportimeve të fundit nga mediat ndërkombëtare.",
-              "imageUrl": null,
-              "url": "https://www.rfi.fr/fr/europe/20260904-%C3%A0-la-une-en-serbie-les-%C3%A9tudiants-cibl%C3%A9s-par-le-logiciel-espion-pegasus",
-              "date": "2026-09-04",
-              "sentiment": "unknown",
-              "reason": "No reference to Kosovo in the headline or snippet",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "À la Une: en Serbie, les étudiants ciblés par le logiciel espion Pegasus - rfi.fr",
-              "albanianTitle": "Në fokus: Studentët në Serbi, cak i softuerit spiun Pegasus - rfi.fr",
-              "blurb": "Studentët në Serbi janë vënë në shënjestër të programit spiunues Pegasus sipas raportimeve të fundit.",
-              "imageUrl": null,
-              "url": "https://www.rfi.fr/fr/europe/20260904-%C3%A0-la-une-en-serbie-les-%C3%A9tudiants-cibl%C3%A9s-par-le-logiciel-espion-pegasus",
-              "date": "2026-09-04",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-07",
-          "lastSeen": "2026-09-04"
-        },
         {
           "name": "aefinfo.fr",
           "sentiment": "neutral",
@@ -185,54 +135,6 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-07",
           "lastSeen": "2026-09-07"
-        },
-        {
-          "name": "geo.fr",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosovo : à Obilic, l'air des centrales au lignite alimente la peur du cancer - geo.fr",
-              "albanianTitle": "Kosovë: Në Obiliq, ajri i ndotur nga termocentralet me linjit shton frikën nga kanceri",
-              "blurb": "Banorët e Obiliqit shprehin shqetësim për rrezikun nga kanceri si pasojë e ndotjes së ajrit nga termocentralet me linjit.",
-              "imageUrl": "https://www.geo.fr/imgre/fit/~1~geo~2026~09~02~c2d413fc-6bb2-4551-9a72-3fd22a67624b.jpg/1200x630/focus-point/50%2C50/au-kosovo-une-dependance-au-charbon-qui-tue.jpg",
-              "url": "https://www.geo.fr/environnement/au-kosovo-une-dependance-au-charbon-qui-tue-233466",
-              "date": "2026-09-04",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-04",
-          "lastSeen": "2026-09-04"
-        },
-        {
-          "name": "magazine GEO",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosovo : à Obilic, l'air des centrales au lignite alimente la peur du cancer - magazine GEO",
-              "albanianTitle": "Kosovë: Në Obiliq, ajri nga termocentralet me linjit shton frikën nga kanceri - revista GEO",
-              "blurb": "Ndotja e ajrit nga termocentralet me linjit në Obiliq po shkakton shqetësime për rritjen e rasteve me kancer.",
-              "imageUrl": "https://www.geo.fr/imgre/fit/~1~geo~2026~09~02~c2d413fc-6bb2-4551-9a72-3fd22a67624b.jpg/1200x630/focus-point/50%2C50/au-kosovo-une-dependance-au-charbon-qui-tue.jpg",
-              "url": "https://www.geo.fr/environnement/au-kosovo-une-dependance-au-charbon-qui-tue-233466",
-              "date": "2026-09-04",
-              "sentiment": "neutral",
-              "reason": "Report on environmental health issue, no hostile or praising language toward Kosovo",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-04",
-          "lastSeen": "2026-09-04"
         }
       ],
       "summary": {
@@ -240,8 +142,8 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 4,
-        "excluded": 1,
+        "n": 1,
+        "excluded": 0,
         "confident": false,
         "stanceVersion": 3
       }
@@ -251,21 +153,8 @@
         {
           "name": "ANSA",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 1,
           "articles": [
-            {
-              "title": "Negoziatore Kosovo, 'lo stallo sull'adesione mostra mancanza di leadership Ue' - ANSA",
-              "albanianTitle": "Negociatori për Kosovën: Ngërçi në procesin e anëtarësimit tregon mungesë të lidershipit të BE-së - ANSA",
-              "blurb": "Negociatori i Kosovës vlerëson se ngecja në procesin e anëtarësimit tregon mungesë të lidershipit nga Bashkimi Evropian.",
-              "imageUrl": "https://www.ansa.it",
-              "url": "https://www.ansa.it/europa/notizie/rubriche/altrenews/2026/09/04/negoziatore-kosovo-lo-stallo-sulladesione-mostra-mancanza-di-leadership-ue_00cd0876-fc23-4285-a25f-4bdf2f067b44.html",
-              "date": "2026-09-04",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "L'informazione dei Balcani si incontra a Trieste - ANSA",
               "albanianTitle": "Informimi nga Ballkani takohet në Trieste - ANSA",
@@ -308,30 +197,6 @@
           "trend": "neutral",
           "firstSeen": "2026-08-25",
           "lastSeen": "2026-09-07"
-        },
-        {
-          "name": "EcoDelloJonio.it",
-          "sentiment": "positive",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Da Vaccarizzo al Kosovo, il vino ricuce l’Arbëria: Pomillo ambasciatore dell’Hardh Fest - EcoDelloJonio.it",
-              "albanianTitle": "Nga Vaccarizzo në Kosovë, vera lidh Arbërinë: Pomillo ambasador i Hardh Festit",
-              "blurb": "Prodhuesi i verës Pomillo është emëruar ambasador i Hardh Festit, duke lidhur komunitetin arbëresh me Kosovën përmes promovimit të verës.",
-              "imageUrl": "https://ecodellojonio.b-cdn.net/media/posts/26/09/1788534199.jpeg?aspect_ratio=16:9&width=1152",
-              "url": "https://ecodellojonio.it/articoli/territorio/2026/09/da-vaccarizzo-al-kosovo-il-vino-ricuce-l-arberia-pomillo-ambasciatore-dell-hardh-fest",
-              "date": "2026-09-04",
-              "sentiment": "positive",
-              "reason": "Ton pozitiv për kulturën dhe produktet e Kosovës",
-              "isQuote": false,
-              "evidence": "il vino ricuce l’Arbëria",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-04",
-          "lastSeen": "2026-09-04"
         },
         {
           "name": "Gazzetta di Parma",
@@ -402,12 +267,12 @@
             {
               "title": "kosovo 1 - Luino Notizie",
               "albanianTitle": null,
-              "blurb": "Informacionet e fundit lidhur me zhvillimet në Kosovë të raportuara nga burimet mediatike në gjuhën italiane.",
+              "blurb": "Ngjarje dhe zhvillime të ndryshme lidhur me Kosovën janë raportuar në portalin informativ italian Luino Notizie gjatë ditës.",
               "imageUrl": null,
               "url": "https://www.luinonotizie.it/2026/09/06/in-viaggio-per-incontrare-laltro-unestate-di-servizio-tra-medjugorje-kosovo-e-albania/580174/kosovo-1/",
               "date": "2026-09-06",
               "sentiment": "unknown",
-              "reason": "No reference to Kosovo in the headline or snippet",
+              "reason": "Mungon informacion i mjaftueshem per te percaktuar qendrimin",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -419,67 +284,19 @@
           "lastSeen": "2026-09-06"
         },
         {
-          "name": "OA Sport",
-          "sentiment": "neutral",
+          "name": "gazzettadiparma.it",
+          "sentiment": "unknown",
           "articleCount": 1,
           "articles": [
             {
-              "title": "Dove si svolgerrano i Giochi del Mediterraneo 2030? Nazione ospitante e date - OA Sport",
-              "albanianTitle": "Ku do të mbahen Lojërat Mesdhetare 2030? Shteti nikoqir dhe datat - OA Sport",
-              "blurb": "Lojërat Mesdhetare të vitit 2030 do të organizohen në Kosovë, duke shënuar një ngjarje të rëndësishme sportive për vendin tonë.",
-              "imageUrl": "https://www.oasport.it/wp-content/uploads/2026/09/Giochi-del-Mediterraneo-IPA-Sport.jpg",
-              "url": "https://www.oasport.it/2026/09/dove-si-svolgerrano-i-giochi-del-mediterraneo-2030-nazione-ospitante-e-date/",
-              "date": "2026-09-04",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike pa ngjyrë",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 7,
-          "trend": "i përzier",
-          "firstSeen": "2026-08-23",
-          "lastSeen": "2026-09-04"
-        },
-        {
-          "name": "Osservatorio Balcani Caucaso Transeuropa",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosovo: i Ragni della Val Rugova - Osservatorio Balcani Caucaso Transeuropa",
-              "albanianTitle": "Kosovë: Alpinistët në Grykën e Rugovës - Osservatorio Balcani Caucaso Transeuropa",
-              "blurb": "Alpinistët në Rugovë po zhvillojnë aktivitete të ngjitjes në shkëmbinjtë e kësaj zone malore të Kosovës.",
-              "imageUrl": "https://www.balcanicaucaso.org/wp-content/uploads/sites/8/2026/09/Inizio-anni-2000-Mauro-Barisone-con-i-ragazzi-fondatori-di-Marimangat-I-Ragni-della-Val-Rugova-1.jpg",
-              "url": "https://www.balcanicaucaso.org/cp_article/kosovo-i-ragni-della-val-rugova/",
-              "date": "2026-09-04",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 4,
-          "trend": "neutral",
-          "firstSeen": "2026-08-19",
-          "lastSeen": "2026-09-04"
-        },
-        {
-          "name": "balcanicaucaso.org",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosovo: i Ragni della Val Rugova - balcanicaucaso.org",
-              "albanianTitle": "Kosova: \"Merimangat\" e Rugovës",
-              "blurb": "Një vështrim mbi alpinistët e njohur si merimangat e Val Rugovës dhe sfidat e tyre në terrenet malore kosovare.",
-              "imageUrl": "https://www.balcanicaucaso.org/wp-content/uploads/sites/8/2026/09/Inizio-anni-2000-Mauro-Barisone-con-i-ragazzi-fondatori-di-Marimangat-I-Ragni-della-Val-Rugova-1.jpg",
-              "url": "https://www.balcanicaucaso.org/cp_article/kosovo-i-ragni-della-val-rugova/",
-              "date": "2026-09-04",
-              "sentiment": "neutral",
-              "reason": "Headline mentions Kosovo in a neutral context (spiders of Rugova Valley)",
+              "title": "Beffarde coincidenze d'inizio settembre - gazzettadiparma.it",
+              "albanianTitle": "Koincidenca ironike në fillim të shtatorit",
+              "blurb": "Artikulli trajton rastësi të ndryshme që kanë ndodhur gjatë periudhës së fillimit të muajit shtator në vend.",
+              "imageUrl": "https://gazzettadiparma.cdn.m33cloud.com/resizer/600/315/true/2026_09_07/afd-1788763843573.jpg--beffarde_coincidenze_d_inizio_settembre.webp?1788763844090",
+              "url": "https://www.gazzettadiparma.it/gweb+/2026/09/07/news/beffarde-coincidenze-d-inizio-settembre-966138/",
+              "date": "2026-09-07",
+              "sentiment": "unknown",
+              "reason": "Nuk ka informacion të mjaftueshëm për të përcaktuar qëndrimin ndaj Kosovës",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -487,8 +304,8 @@
           ],
           "totalArticles": 1,
           "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-06",
-          "lastSeen": "2026-09-04"
+          "firstSeen": "2026-09-08",
+          "lastSeen": "2026-09-07"
         },
         {
           "name": "ilmessaggero.it",
@@ -537,30 +354,6 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-06",
           "lastSeen": "2026-09-06"
-        },
-        {
-          "name": "oasport.it",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Dove si svolgerrano i Giochi del Mediterraneo 2030? Nazione ospitante e date - oasport.it",
-              "albanianTitle": "Ku do të mbahen Lojërat Mesdhetare 2030? Shteti nikoqir dhe datat",
-              "blurb": "Përcaktohet shteti nikoqir dhe datat e mbajtjes së Lojërave Mesdhetare për vitin 2030 në këtë njoftim zyrtar.",
-              "imageUrl": "https://www.oasport.it/wp-content/uploads/2026/09/Giochi-del-Mediterraneo-IPA-Sport.jpg",
-              "url": "https://www.oasport.it/2026/09/dove-si-svolgerrano-i-giochi-del-mediterraneo-2030-nazione-ospitante-e-date/",
-              "date": "2026-09-04",
-              "sentiment": "unknown",
-              "reason": "Headline does not mention Kosovo",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-05",
-          "lastSeen": "2026-09-04"
         }
       ],
       "summary": {
@@ -568,7 +361,7 @@
         "positive": 20,
         "neutral": 80,
         "negative": 0,
-        "n": 10,
+        "n": 5,
         "excluded": 4,
         "confident": true,
         "stanceVersion": 3
@@ -719,49 +512,17 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-06",
           "lastSeen": "2026-09-06"
-        },
-        {
-          "name": "oefb.at",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Tickets für WM-Playoff gegen den Kosovo im Verkauf - oefb.at",
-              "albanianTitle": "Nisin shitjet e biletave për ndeshjen e play-off-it të Kupës së Botës kundër Kosovës",
-              "blurb": "Federata Austriake e Futbollit ka nxjerrë në shitje biletat për ndeshjen e play-offit të Kupës së Botës kundër Kosovës.",
-              "imageUrl": "https://www.oefb.at/oefb/FNT-VVK-Start-AUTKOS-Foto-2.jpg?:w=600&:h=315&:bf=true&:s=d59zCAev&ch=YGitoLKm&:hp=5184;107449;de",
-              "url": "https://www.oefb.at/oefb/News/FNT-AUTKOS-VVK-Start",
-              "date": "2026-09-04",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportim neutral",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-04",
-          "lastSeen": "2026-09-04"
         }
       ],
       "summary": {
-        "index": 57,
-        "positive": 14,
-        "neutral": 86,
+        "index": 58,
+        "positive": 17,
+        "neutral": 83,
         "negative": 0,
-        "n": 7,
+        "n": 6,
         "excluded": 0,
         "confident": true,
-        "stanceVersion": 3,
-        "movement": {
-          "delta": 7,
-          "from": 50,
-          "outlet": "Kathpress",
-          "title": "Dhjetë vjet shenjtëri: Përkujtim mbarëbotëror për Nënë Terezën - Kathpress",
-          "evidence": "Zehn Jahre heilig",
-          "url": "https://www.kathpress.at/goto/meldung/2609648/zehn-jahre-heilig-weltweites-gedenken-an-mutter-teresa"
-        }
+        "stanceVersion": 3
       }
     },
     "Zvicër": {
@@ -778,19 +539,6 @@
               "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/633269021_1564878762080969_8574478831148187001_n-e1788705409757.jpg",
               "url": "https://www.albinfo.ch/fr/tre-pilote-nga-kosova-ne-top-10-te-botes-ne-paragllajdizem/",
               "date": "2026-09-06",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Kosovo–AELE: l’accord de libre-échange entre en vigueur le 1er octobre - Albinfo",
-              "albanianTitle": "Kosova-EFTA: Marrëveshja e tregtisë së lirë hyn në fuqi më 1 tetor - Albinfo",
-              "blurb": "Marrëveshja për tregti të lirë ndërmjet Kosovës dhe vendeve të AELE-s hyn në fuqi më 1 tetor.",
-              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/img_2800.jpeg",
-              "url": "https://www.albinfo.ch/fr/kosove-efta-marreveshja-e-tregtise-se-lire-hyn-ne-fuqi-me-1-tetor/",
-              "date": "2026-09-04",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike",
               "isQuote": false,
@@ -835,9 +583,22 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "27e anniversaire de la Police du Kosovo, Kurti: Une présence sur l’ensemble du territoire - Albinfo",
+              "albanianTitle": "27-vjetori i Policisë së Kosovës, Kurti: Prani në të gjithë territorin",
+              "blurb": "Kryeministri Kurti deklaroi se Policia e Kosovës ka shtrirë praninë e saj në të gjithë territorin e vendit.",
+              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/733031-5xbqsu83d6.jpeg",
+              "url": "https://www.albinfo.ch/fr/27-vjetori-i-policise-se-kosove-kurti-shtrirje-ne-gjithe-vendin/",
+              "date": "2026-09-07",
+              "sentiment": "neutral",
+              "reason": "Raportim faktik i përvjetorit të Policisë së Kosovës",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 5,
+          "totalArticles": 6,
           "trend": "neutral",
           "firstSeen": "2026-09-07",
           "lastSeen": "2026-09-07"
@@ -885,12 +646,12 @@
           "articleCount": 6,
           "articles": [
             {
-              "title": "Bayern-München-Talent entscheidet sich für Kosovo, der Botschafter überreicht ihm den Pass und bestätigt, dass er für die Dardanen spielen wird - albinfo.ch",
-              "albanianTitle": "Talenti i Bayern Münchenit vendos për Kosovën, ambasadori ia dorëzon pasaportën dhe konfirmon se do të luajë për Dardanët",
-              "blurb": "Talenti i Bayern Munichut ka vendosur të përfaqësojë Kosovën, pasi ka pranuar pasaportën nga ambasadori ynë në Gjermani.",
-              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/787540801_2455386548281482_8084774625265517413_n-e1788538099584.jpg",
-              "url": "https://www.albinfo.ch/de/talenti-i-bayern-munich-zgjedh-kosoven-ambasadori-i-jep-pasaporten-konfirmon-se-do-te-luaje-per-dardanet/",
-              "date": "2026-09-04",
+              "title": "Politische Konsultationen zwischen Kosovo und der Schweiz finden in Bern statt - albinfo.ch",
+              "albanianTitle": "Në Bernë mbahen konsultimet politike mes Kosovës dhe Zvicrës",
+              "blurb": "Përfaqësuesit e Kosovës dhe Zvicrës po zhvillojnë konsultime politike në Bernë për çështje të ndryshme dypalëshe.",
+              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/foto-ambasadoret.jpeg",
+              "url": "https://www.albinfo.ch/de/mbahen-konsultimet-politike-ndermjet-kosoves-dhe-zvicres-ne-berne/",
+              "date": "2026-09-05",
               "sentiment": "neutral",
               "reason": "Faktikë raportuar në mënyrë neutrale",
               "isQuote": false,
@@ -898,25 +659,12 @@
               "speaker": ""
             },
             {
-              "title": "Historischer Moment für die QSU, ein Kadett aus Kosovo beginnt mit einem Stipendium sein Studium in den USA - albinfo.ch",
-              "albanianTitle": "Moment historik për QSU-në, kadeti nga Kosova nis studimet në SHBA me bursë",
-              "blurb": "Një kadet nga Kosova ka nisur studimet në Shtetet e Bashkuara të Amerikës përmes një burse të fituar në QSU.",
-              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/img_2793.jpeg",
-              "url": "https://www.albinfo.ch/de/moment-historik-per-qsu-ne-kadeti-nga-kosova-nis-studimet-ne-shba-me-burse/",
-              "date": "2026-09-04",
-              "sentiment": "positive",
-              "reason": "Ton pozitiv, admiring i mediave për Kosovën",
-              "isQuote": false,
-              "evidence": "historischer Moment",
-              "speaker": ""
-            },
-            {
-              "title": "Kosovo–EFTA: Das Freihandelsabkommen tritt am 1. Oktober in Kraft - albinfo.ch",
-              "albanianTitle": "Kosova-EFTA: Marrëveshja e tregtisë së lirë hyn në fuqi më 1 tetor",
-              "blurb": "Marrëveshja e tregtisë së lirë ndërmjet Kosovës dhe shteteve të EFTA-s hyn në fuqi nga data një tetor.",
-              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/img_2800.jpeg",
-              "url": "https://www.albinfo.ch/de/kosove-efta-marreveshja-e-tregtise-se-lire-hyn-ne-fuqi-me-1-tetor/",
-              "date": "2026-09-04",
+              "title": "Der albanische Arzt aus der Schweiz, der das kosovarische Olympiateam bei den Mittelmeerspielen betreute - albinfo.ch",
+              "albanianTitle": "Mjeku shqiptar nga Zvicra që u kujdes për ekipin olimpik të Kosovës në Lojërat Mesdhetare",
+              "blurb": "Mjeku shqiptar nga Zvicra ka ofruar shërbime shëndetësore për ekipin olimpik të Kosovës gjatë Lojërave Mesdhetare.",
+              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/img_2832.jpeg",
+              "url": "https://www.albinfo.ch/de/mjeku-shqiptar-nga-zvicra-qe-u-kujdes-per-ekipin-olimpik-te-kosoves-ne-lojerat-mesdhetare/",
+              "date": "2026-09-05",
               "sentiment": "neutral",
               "reason": "Faktikë raportuar në mënyrë neutrale",
               "isQuote": false,
@@ -924,40 +672,53 @@
               "speaker": ""
             },
             {
-              "title": "Le talent du Bayern Munich choisit le Kosovo, l’ambassadeur lui remet son passeport et confirme qu’il jouera pour les Dardaniens - albinfo.ch",
-              "albanianTitle": "Talenti i Bayern Munich zgjedh Kosovën, ambasadori ia dorëzon pasaportën dhe konfirmon se do të luajë për Dardanët - albinfo.ch",
-              "blurb": "Talenti i Bayern Munichut ka pajisur me pasaportë të Kosovës dhe do të përfaqësojë kombëtaren e futbollit të Kosovës.",
-              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/787540801_2455386548281482_8084774625265517413_n-e1788538099584.jpg",
-              "url": "https://www.albinfo.ch/fr/talenti-i-bayern-munich-zgjedh-kosoven-ambasadori-i-jep-pasaporten-konfirmon-se-do-te-luaje-per-dardanet/",
-              "date": "2026-09-04",
+              "title": "Rahovec öffnet seine Türen für das Festival \"Hardh Fest\", das Fest der Trauben - albinfo.ch",
+              "albanianTitle": "Rahoveci hap dyert për \"Hardh Fest\", festivalin e rrushit",
+              "blurb": "Qyteti i Rahovecit ka hapur dyert për edicionin e festivalit Hardh Fest, i njohur si festa e rrushit.",
+              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/screenshot-2026-09-05-091521.png",
+              "url": "https://www.albinfo.ch/de/rahoveci-hap-dyert-per-festivalin-hardh-fest-festa-e-rrushit/",
+              "date": "2026-09-05",
               "sentiment": "neutral",
-              "reason": "Faktikë raportuar pa ngarkim",
+              "reason": "Faktikë raportuar në mënyrë neutrale",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
             },
             {
-              "title": "Moment historique pour la QSU, un cadet du Kosovo commence ses études aux États-Unis grâce à une bourse - albinfo.ch",
-              "albanianTitle": "Moment historik për QSU-në, një kadet nga Kosova nis studimet në Shtetet e Bashkuara falë një burse - albinfo.ch",
-              "blurb": "Një kadet nga Kosova ka filluar studimet në Shtetet e Bashkuara të Amerikës përmes një burse të fituar së fundmi.",
-              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/img_2793.jpeg",
-              "url": "https://www.albinfo.ch/fr/moment-historik-per-qsu-ne-kadeti-nga-kosova-nis-studimet-ne-shba-me-burse/",
-              "date": "2026-09-04",
-              "sentiment": "positive",
-              "reason": "Ton i ngrohtë dhe admirues për arritjen e Kosovës",
+              "title": "Le médecin albanais de Suisse qui s’est occupé de l’équipe olympique du Kosovo aux Jeux méditerranéens - albinfo.ch",
+              "albanianTitle": "Mjeku shqiptar nga Zvicra që u kujdes për ekipin olimpik të Kosovës në Lojërat Mesdhetare",
+              "blurb": "Mjeku shqiptar nga Zvicra u kujdes për ekipin olimpik të Kosovës gjatë pjesëmarrjes në Lojërat Mesdhetare.",
+              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/img_2832.jpeg",
+              "url": "https://www.albinfo.ch/fr/mjeku-shqiptar-nga-zvicra-qe-u-kujdes-per-ekipin-olimpik-te-kosoves-ne-lojerat-mesdhetare/",
+              "date": "2026-09-05",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportuar në mënyrë neutrale",
               "isQuote": false,
-              "evidence": "Moment historique",
+              "evidence": "",
               "speaker": ""
             },
             {
-              "title": "Kosovo reçoit le drapeau des Jeux méditerranéens, le chemin vers \"Prishtina 2030\" commence - albinfo.ch",
-              "albanianTitle": "Kosova pranon flamurin e Lojërave Mesdhetare, nis rrugëtimi drejt 'Prishtina 2030' - albinfo.ch",
-              "blurb": "Kosova ka pranuar zyrtarisht flamurin e Lojërave Mesdhetare, duke shënuar fillimin e përgatitjeve për organizimin e Prishtina 2030.",
-              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/img_2787.jpeg",
-              "url": "https://www.albinfo.ch/fr/kosova-pranon-flamurin-e-lojerave-mesdhetare-nis-rrugetimi-drejt-prishtina-2030/",
-              "date": "2026-09-04",
+              "title": "Des consultations politiques entre le Kosovo et la Suisse se tiennent à Berne - albinfo.ch",
+              "albanianTitle": "Në Bernë mbahen konsultimet politike mes Kosovës dhe Zvicrës",
+              "blurb": "Autoritetet e Kosovës dhe ato të Zvicrës po mbajnë takime konsultative politike në qytetin e Bernës.",
+              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/foto-ambasadoret.jpeg",
+              "url": "https://www.albinfo.ch/fr/mbahen-konsultimet-politike-ndermjet-kosoves-dhe-zvicres-ne-berne/",
+              "date": "2026-09-05",
               "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
+              "reason": "Faktikë raportuar në mënyrë neutrale",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Rahovec ouvre ses portes au festival \"Hardh Fest\", la fête du raisin - albinfo.ch",
+              "albanianTitle": "Rahoveci hap dyert për festivalin e rrushit \"Hardh Fest\"",
+              "blurb": "Qyteti i Rahovecit ka hapur zyrtarisht edicionin e sivjetmë të festivalit Hardh Fest, i cili feston traditën e vjeljes së rrushit.",
+              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/screenshot-2026-09-05-091521.png",
+              "url": "https://www.albinfo.ch/fr/rahoveci-hap-dyert-per-festivalin-hardh-fest-festa-e-rrushit/",
+              "date": "2026-09-05",
+              "sentiment": "neutral",
+              "reason": "Lajm faktik, pa gjuhë të ngarkuar për Kosovën",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -970,11 +731,11 @@
         }
       ],
       "summary": {
-        "index": 54,
-        "positive": 7,
-        "neutral": 93,
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 27,
+        "n": 17,
         "excluded": 2,
         "confident": true,
         "stanceVersion": 3
@@ -1193,67 +954,6 @@
           "lastSeen": "2026-09-05"
         },
         {
-          "name": "BusinessDaily",
-          "sentiment": "neutral",
-          "articleCount": 2,
-          "articles": [
-            {
-              "title": "Δίωξη σε 35 Σέρβους πρώην αστυνομικούς για τη σφαγή του Πρεκάζ στο Κόσοβο - BusinessDaily",
-              "albanianTitle": "Aktakuzë ndaj 35 ish-policëve serbë për masakrën e Prekazit në Kosovë",
-              "blurb": "Prokuroria ka ngritur aktakuzë ndaj tridhjetë e pesë ish-policëve serbë për përfshirje në masakrën e ndodhur në Prekaz të Kosovës.",
-              "imageUrl": "https://www.businessdaily.gr/sites/default/files/styles/main_full/public/2019-11/dikastirio_areios_pagos_dikaiosini.jpg?itok=W4vwhw1H",
-              "url": "https://www.businessdaily.gr/diethni/229998_dioxi-se-35-serboys-proin-astynomikoys-gia-ti-sfagi-toy-prekaz-sto-kosobo",
-              "date": "2026-09-04",
-              "sentiment": "neutral",
-              "reason": "Faktikisht raporton procesin, pa gjuhë ngarkuese",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Δίωξη σε 35 πρώην Σέρβους αστυνομικούς για τη σφαγή Πρεκάζ στο Κόσοβο - BusinessDaily",
-              "albanianTitle": "Aktakuzë ndaj 35 ish-policëve serbë për masakrën e Prekazit në Kosovë - BusinessDaily",
-              "blurb": "Prokuroria ka ngritur padi kundër 35 ish-zyrtarëve policorë serbë për rolin e tyre në masakrën e kryer në Prekaz të Kosovës.",
-              "imageUrl": "https://www.businessdaily.gr/sites/default/files/styles/main_full/public/2019-11/dikastirio_areios_pagos_dikaiosini.jpg?itok=W4vwhw1H",
-              "url": "https://www.businessdaily.gr/diethni/229998_dioxi-se-35-serboys-proin-astynomikoys-gia-ti-sfagi-toy-prekaz-sto-kosobo",
-              "date": "2026-09-04",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportuar pa ngarkim",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 2,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-31",
-          "lastSeen": "2026-09-04"
-        },
-        {
-          "name": "Fpress.gr",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Σιάμισιης: Η HELLENiQ ENERGY «χτίζει» ενεργειακό διάδρομο προς τα Βαλκάνια - Fpress.gr",
-              "albanianTitle": "Siamisis: HELLENiQ ENERGY po ndërton korridor energjetik drejt Ballkanit - Fpress.gr",
-              "blurb": "Drejtori i HELLENiQ ENERGY, Andreas Shiamishis, deklaroi se kompania po ndërton një korridor energjetik drejt vendeve të Ballkanit.",
-              "imageUrl": null,
-              "url": "https://fpress.gr/epicheirimatikotita/siamisiis-i-helleniq-energy-chtizei-energeiako-diadromo-pros-ta-valkania/",
-              "date": "2026-09-04",
-              "sentiment": "neutral",
-              "reason": "Quoted word treated as speaker, outlet remains neutral",
-              "isQuote": true,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-04",
-          "lastSeen": "2026-09-04"
-        },
-        {
           "name": "Gazzetta.gr",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1276,54 +976,6 @@
           "trend": "neutral",
           "firstSeen": "2026-08-19",
           "lastSeen": "2026-09-05"
-        },
-        {
-          "name": "In.gr",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Κόσοβο: Η εισαγγελία άσκησε δίωξη σε 35 Σέρβους πρώην αστυνομικούς για τη σφαγή του Πρεκάζ, του 1998 - In.gr",
-              "albanianTitle": "Kosova: Prokuroria ngre aktakuzë ndaj 35 ish-policëve serbë për masakrën e Prekazit në vitin 1998 - In.gr",
-              "blurb": "Prokuroria e Kosovës ka ngritur aktakuzë ndaj 35 ish-pjesëtarëve të policisë serbe për masakrën e kryer në Prekaz gjatë vitit 1998.",
-              "imageUrl": "https://www.in.gr/wp-content/uploads/2026/09/Adem_Jashari_Memorial_in_Prekaz_January_2013_01.jpg",
-              "url": "https://www.in.gr/2026/09/04/world/kosovo-i-eisaggelia-askise-dioksi-se-35-servous-proin-astynomikous-gia-ti-sfagi-tou-prekaz-tou-1998/",
-              "date": "2026-09-04",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportuar pa ngarkim",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 2,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-21",
-          "lastSeen": "2026-09-04"
-        },
-        {
-          "name": "ertnews.gr",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Κόσοβο: Δίωξη σε 35 πρώην Σέρβους αστυνομικούς για τη σφαγή στο Πρέκαζ - ertnews.gr",
-              "albanianTitle": "Kosova: Aktakuzë ndaj 35 ish-policëve serbë për masakrën në Prekaz - ertnews.gr",
-              "blurb": "Autoritetet në Kosovë kanë nisur procedurat ligjore ndaj 35 ish-policëve serbë të dyshuar për përfshirje në masakrën e ndodhur në Prekaz.",
-              "imageUrl": "https://www.ertnews.gr/wp-content/uploads/2026/09/ap17066679261825-scaled.jpg",
-              "url": "https://www.ertnews.gr/roi-idiseon/kosovo-dioksi-se-35-proin-servous-astynomikous-gia-ti-sfagi-sto-prekaz/",
-              "date": "2026-09-04",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportuar pa ngarkim",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 2,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-21",
-          "lastSeen": "2026-09-04"
         },
         {
           "name": "iAxia -",
@@ -1375,17 +1027,17 @@
         }
       ],
       "summary": {
-        "index": 44,
+        "index": 38,
         "positive": 0,
-        "neutral": 89,
-        "negative": 11,
-        "n": 9,
+        "neutral": 75,
+        "negative": 25,
+        "n": 4,
         "excluded": 0,
-        "confident": true,
+        "confident": false,
         "stanceVersion": 3,
         "movement": {
           "delta": -6,
-          "from": 50,
+          "from": 44,
           "outlet": "iAxia -",
           "title": "Kosova në Gaza: Ballkanasit që po shkojnë për ta shpëtuar Trumpin - iAxia",
           "evidence": "οι Βαλκάνιοι που πάνε να σώσουν τον Τραμπ",
@@ -1458,54 +1110,6 @@
     "Poloni": {
       "outlets": [
         {
-          "name": "eKAI",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Polscy żołnierze pomagają lokalnym społecznościom w Kosowie i Turcji - eKAI",
-              "albanianTitle": "Ushtarët polakë ndihmojnë komunitetet lokale në Kosovë dhe Turqi - eKAI",
-              "blurb": "Ushtarët polakë po ofrojnë ndihmë për komunitetet lokale në Kosovë dhe Turqi përmes angazhimeve të tyre humanitare.",
-              "imageUrl": "https://www.ekai.pl/wp-content/uploads/2026/09/kfor-kosowo.jpg",
-              "url": "https://www.ekai.pl/polscy-zolnierze-pomagaja-lokalnym-spolecznosciom-w-kosowie-i-turcji/",
-              "date": "2026-09-04",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportimi, asnjë gjuhë e ngarkuar ndaj Kosovës",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-04",
-          "lastSeen": "2026-09-04"
-        },
-        {
-          "name": "ekai.pl",
-          "sentiment": "positive",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Polscy żołnierze pomagają lokalnym społecznościom w Kosowie i Turcji - ekai.pl",
-              "albanianTitle": "Ushtarët polakë ndihmojnë komunitetet lokale në Kosovë dhe Turqi - ekai.pl",
-              "blurb": "Ushtarët polakë janë duke ofruar ndihmë për komunitetet lokale në Kosovë dhe në Turqi përmes aktiviteteve të ndryshme mbështetëse.",
-              "imageUrl": "https://www.ekai.pl/wp-content/uploads/2026/09/kfor-kosowo.jpg",
-              "url": "https://www.ekai.pl/polscy-zolnierze-pomagaja-lokalnym-spolecznosciom-w-kosowie-i-turcji/",
-              "date": "2026-09-04",
-              "sentiment": "positive",
-              "reason": "Përshkrim pozitiv i ndihmës ndaj Kosovës",
-              "isQuote": false,
-              "evidence": "pomagają",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-05",
-          "lastSeen": "2026-09-04"
-        },
-        {
           "name": "gostyn24.pl",
           "sentiment": "unknown",
           "articleCount": 2,
@@ -1545,21 +1149,8 @@
         {
           "name": "iGaming Polska",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 1,
           "articles": [
-            {
-              "title": "Mistrzostwa Świata Socca 2026: terminarz, harmonogram i wyniki - iGaming Polska",
-              "albanianTitle": "Kampionati Botëror i Socca 2026: orari, kalendari dhe rezultatet",
-              "blurb": "Kampionati Botëror i Socca 2026 përfshin detaje mbi orarin e ndeshjeve, kalendarin e plotë dhe rezultatet e ekipeve pjesëmarrëse.",
-              "imageUrl": null,
-              "url": "https://igamingpolska.pl/mistrzostwa-swiata-socca-2026-terminarz-wyniki/",
-              "date": "2026-09-04",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportim pa gjuhë ngarkuar",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "Mistrzostwa Świata Socca 2026: Wyniki, terminarz - iGaming Polska",
               "albanianTitle": "Kampionati Botëror i Socca 2026: Rezultatet dhe orari - iGaming Polska",
@@ -1605,11 +1196,11 @@
         }
       ],
       "summary": {
-        "index": 62,
-        "positive": 25,
-        "neutral": 75,
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 4,
+        "n": 1,
         "excluded": 3,
         "confident": false,
         "stanceVersion": 3
@@ -1714,30 +1305,6 @@
           "lastSeen": "2026-09-06"
         },
         {
-          "name": "Son Dakika",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosova Prizren'deki ilkokula Mehmetçik oyun parkı kurdu - Son Dakika",
-              "albanianTitle": "Ushtria turke ndërton kënd lojërash në një shkollë fillore në Prizren",
-              "blurb": "Ushtria turke ka ndërtuar një kënd lojërash për fëmijët e një shkolle fillore në qytetin e Prizrenit në Kosovë.",
-              "imageUrl": "https://foto.sondakika.com/haber/2026/09/04/turk-askeri-kosovali-cocuklar-icin-oyun-parki-5-20206984_amp.jpg",
-              "url": "https://www.sondakika.com/guncel/haber-kosova-prizren-deki-ilkokula-mehmetcik-oyun-parki--20207034/",
-              "date": "2026-09-04",
-              "sentiment": "neutral",
-              "reason": "Raportim neutral i ndërtimit të një parku lojërash Mehmetçik në shkollën fillore të Prizrenit",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 10,
-          "trend": "i përzier",
-          "firstSeen": "2026-08-20",
-          "lastSeen": "2026-09-04"
-        },
-        {
           "name": "TRT Avaz",
           "sentiment": "unknown",
           "articleCount": 1,
@@ -1760,30 +1327,6 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-05",
           "lastSeen": "2026-09-05"
-        },
-        {
-          "name": "TRT Haber",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Türk askeri, Kosovalı çocuklar için oyun parkı kurdu - TRT Haber",
-              "albanianTitle": "Ushtria turke ndërton kënd lojërash për fëmijët kosovarë",
-              "blurb": "Ushtarët turq të misionit të KFOR-it kanë ndërtuar një kënd lojërash për fëmijët në një shkollë në Kosovë.",
-              "imageUrl": "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/2486000/kosova-turk-askeri-2487065.jpg",
-              "url": "https://www.trthaber.com/haber/dunya/turk-askeri-kosovali-cocuklar-icin-oyun-parki-kurdu-955899.html",
-              "date": "2026-09-04",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportim pa gjuhë ngarkuar",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-04",
-          "lastSeen": "2026-09-04"
         }
       ],
       "summary": {
@@ -1791,9 +1334,9 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 5,
+        "n": 3,
         "excluded": 2,
-        "confident": true,
+        "confident": false,
         "stanceVersion": 3
       }
     },

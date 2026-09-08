@@ -3058,9 +3058,9 @@
     },
     "Albinfo": {
       "country": "Zvicër",
-      "total": 5,
+      "total": 6,
       "positive": 0,
-      "neutral": 5,
+      "neutral": 6,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-07",
@@ -3070,7 +3070,8 @@
         "https://www.albinfo.ch/fr/kosove-efta-marreveshja-e-tregtise-se-lire-hyn-ne-fuqi-me-1-tetor/",
         "https://www.albinfo.ch/de/kurti-kujton-36-vjetorin-e-shpalljes-se-republikes-se-kosoves-ne-kacanik/",
         "https://www.albinfo.ch/de/27-vjetori-i-policise-se-kosove-kurti-shtrirje-ne-gjithe-vendin/",
-        "https://www.albinfo.ch/fr/kurti-kujton-36-vjetorin-e-shpalljes-se-republikes-se-kosoves-ne-kacanik/"
+        "https://www.albinfo.ch/fr/kurti-kujton-36-vjetorin-e-shpalljes-se-republikes-se-kosoves-ne-kacanik/",
+        "https://www.albinfo.ch/fr/27-vjetori-i-policise-se-kosove-kurti-shtrirje-ne-gjithe-vendin/"
       ]
     },
     "iAxia -": {
@@ -3110,6 +3111,19 @@
       "lastSeen": "2026-09-07",
       "urls": [
         "https://www.dailysabah.com/world/europe/kosovo-signs-deal-to-join-gaza-stabilization-force"
+      ]
+    },
+    "gazzettadiparma.it": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-08",
+      "lastSeen": "2026-09-07",
+      "urls": [
+        "https://www.gazzettadiparma.it/gweb+/2026/09/07/news/beffarde-coincidenze-d-inizio-settembre-966138/"
       ]
     }
   }
