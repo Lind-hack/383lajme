@@ -1,10 +1,10 @@
 {
   "lastUpdated": "2026-09-08",
   "overallIndex": 50,
-  "totalArticles": 54,
-  "sourceCount": 42,
+  "totalArticles": 57,
+  "sourceCount": 43,
   "stanceVersion": 3,
-  "unattributed": 149,
+  "unattributed": 163,
   "nonEditorial": 0,
   "wrongKosovo": 0,
   "countries": {
@@ -33,6 +33,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-01",
           "lastSeen": "2026-09-06"
+        },
+        {
+          "name": "fussballdaten.de",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo verkündet schon seinen Wechsel – Bayern-Talent lässt Entscheidung offen - fussballdaten.de",
+              "albanianTitle": "Kosova shpall ndryshimin, talenti i Bayernit ende nuk ka marrë vendim",
+              "blurb": "Federata e Futbollit të Kosovës njofton për ndërrimin e përfaqësueses, ndërsa talenti i Bayernit ende nuk ka vendosur.",
+              "imageUrl": null,
+              "url": "https://www.fussballdaten.de/news/kosovo-verkuendet-schon-seinen-wechsel-bayern-talent-laesst/",
+              "date": "2026-09-08",
+              "sentiment": "neutral",
+              "reason": "Faktik, pa gjuhë ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-08",
+          "lastSeen": "2026-09-08"
         }
       ],
       "summary": {
@@ -40,7 +64,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 1,
+        "n": 2,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -174,7 +198,7 @@
         {
           "name": "ANSA",
           "sentiment": "neutral",
-          "articleCount": 3,
+          "articleCount": 4,
           "articles": [
             {
               "title": "L'informazione dei Balcani si incontra a Trieste - ANSA",
@@ -214,9 +238,22 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Dal Mas (Ince), se non si accelera l'allargamento i Balcani vanno altrove - ANSA",
+              "albanianTitle": "Dal Mas (Ince): Nëse nuk përshpejtohet zgjerimi, Ballkani do të orientohet diku tjetër",
+              "blurb": "Përfaqësuesi i Ince, Dal Mas, paralajmëron se vonesat në zgjerimin e Bashkimit Evropian po i largojnë vendet e Ballkanit.",
+              "imageUrl": "https://www.ansa.it/webimages/img_1280x720/2026/9/8/ac603c1022a9f082a811619f4213937c.jpg",
+              "url": "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/09/08/dal-mas-ince-se-non-si-accelera-lallargamento-i-balcani-vanno-altrove_387874fe-f0c9-46ca-bf6d-aece6b329298.html",
+              "date": "2026-09-08",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportuar në mënyrë neutrale",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 16,
+          "totalArticles": 17,
           "trend": "neutral",
           "firstSeen": "2026-08-20",
           "lastSeen": "2026-09-08"
@@ -452,11 +489,11 @@
         }
       ],
       "summary": {
-        "index": 56,
-        "positive": 11,
-        "neutral": 89,
+        "index": 55,
+        "positive": 10,
+        "neutral": 90,
         "negative": 0,
-        "n": 9,
+        "n": 10,
         "excluded": 4,
         "confident": true,
         "stanceVersion": 3
@@ -1343,7 +1380,7 @@
         {
           "name": "Daily Sabah",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Kosovo signs deal to join Gaza stabilization force - Daily Sabah",
@@ -1354,6 +1391,19 @@
               "date": "2026-09-07",
               "sentiment": "neutral",
               "reason": "Faktikë raportuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Kosovo signs deal to join Gaza stabilization force - dailysabah.com",
+              "albanianTitle": "Kosova nënshkruan marrëveshjen për t'iu bashkuar forcës për stabilizimin e Gazës",
+              "blurb": "Kosova ka nënshkruar marrëveshjen zyrtare për t'u bërë pjesë e forcës ndërkombëtare për stabilizimin e situatës në Gaza.",
+              "imageUrl": "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/09/07/thumbs/1200x675/459590.jpg",
+              "url": "https://www.dailysabah.com/world/europe/kosovo-signs-deal-to-join-gaza-stabilization-force",
+              "date": "2026-09-07",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportuar në mënyrë neutrale",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1466,7 +1516,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 3,
+        "n": 4,
         "excluded": 2,
         "confident": false,
         "stanceVersion": 3

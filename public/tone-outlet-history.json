@@ -199,9 +199,9 @@
     },
     "ANSA": {
       "country": "Itali",
-      "total": 16,
+      "total": 17,
       "positive": 0,
-      "neutral": 12,
+      "neutral": 13,
       "negative": 0,
       "unknown": 4,
       "firstSeen": "2026-08-20",
@@ -222,7 +222,8 @@
         "https://www.ansa.it/europa/notizie/rubriche/altrenews/2026/09/04/negoziatore-kosovo-lo-stallo-sulladesione-mostra-mancanza-di-leadership-ue_00cd0876-fc23-4285-a25f-4bdf2f067b44.html",
         "https://www.ansa.it/amp/nuova_europa/it/notizie/nazioni/kosovo/2026/09/02/in-kosovo-rischia-di-saltare-accordo-kurti-ldk-su-elezione-presidente_4abb9b04-441f-4e93-91a1-56a1d07b67c8.html",
         "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/09/06/linformazione-dei-balcani-si-incontra-a-trieste_b6343cee-eb0d-4448-a261-a23b804985ba.html",
-        "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/09/08/accelerare-lintegrazione-dei-balcani-per-il-futuro-dellue-forum-a-trieste_6069c0ef-27e1-4bf2-b6c8-4b8ebcc0f985.html"
+        "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/09/08/accelerare-lintegrazione-dei-balcani-per-il-futuro-dellue-forum-a-trieste_6069c0ef-27e1-4bf2-b6c8-4b8ebcc0f985.html",
+        "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/09/08/dal-mas-ince-se-non-si-accelera-lallargamento-i-balcani-vanno-altrove_387874fe-f0c9-46ca-bf6d-aece6b329298.html"
       ]
     },
     "Virgilio": {
@@ -3153,6 +3154,19 @@
       "lastSeen": "2026-09-08",
       "urls": [
         "https://www.ilmessaggero.it/viaggi/mondo/volo_roma_prishtina_kosovo_prezzi_compagnie_aeree-9751050.html"
+      ]
+    },
+    "fussballdaten.de": {
+      "country": "Gjermani",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-08",
+      "lastSeen": "2026-09-08",
+      "urls": [
+        "https://www.fussballdaten.de/news/kosovo-verkuendet-schon-seinen-wechsel-bayern-talent-laesst/"
       ]
     }
   }
