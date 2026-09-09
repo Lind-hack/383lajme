@@ -4,10 +4,10 @@
     {
       "label": "Konstituimi i Kuvendit të Kosovës",
       "fallbackLabel": "Kuvendit · Haxhiu",
-      "summary": "Partitë politike në Kosovë konfirmojnë pjesëmarrjen në seancën konstituive të Kuvendit, duke përmbushur detyrimin kushtetues për funksionimin e institucioneve shtetërore.",
-      "count": 22,
+      "summary": "Partitë politike në Kosovë konfirmojnë pjesëmarrjen në seancën konstituive të Kuvendit, duke përmbushur kështu një obligim të rëndësishëm kushtetues për funksionimin e shtetit.",
+      "count": 24,
       "positive": 1,
-      "neutral": 20,
+      "neutral": 22,
       "negative": 1,
       "index": 50,
       "countries": [
@@ -183,16 +183,17 @@
     {
       "label": "Pjesëmarrja e Kosovës në Gaza",
       "fallbackLabel": "Ndërkombëtare · Forcës",
-      "summary": "Kosova ka nënshkruar marrëveshje zyrtare për t'iu bashkuar forcës ndërkombëtare stabilizuese në Gaza, duke u bërë pjesë e përpjekjeve ndërkombëtare në rajon.",
-      "count": 16,
+      "summary": "Kosova ka nënshkruar marrëveshje zyrtare për t'iu bashkuar forcës ndërkombëtare të stabilizimit në Gaza, duke u bërë pjesë e përpjekjeve globale për paqe.",
+      "count": 17,
       "positive": 1,
-      "neutral": 15,
+      "neutral": 16,
       "negative": 0,
       "index": 53,
       "countries": [
         "Belgjikë",
         "Britani",
         "Francë",
+        "Greqi",
         "SHBA",
         "Spanjë",
         "Turqi"
@@ -362,8 +363,8 @@
     },
     {
       "label": "Aktivitetet dhe kritikat ndaj Kurtit",
-      "fallbackLabel": "Kurti · Shpalljes",
-      "summary": "Kryeministri Kurti zhvillon takime diplomatike dhe përkujtime historike, ndërkohë që përballet me kritika të ashpra nga opozita për çështje të ndryshme qeverisëse.",
+      "fallbackLabel": "Kurti · Republikës",
+      "summary": "Kryeministri Kurti përballet me kritika nga opozita ndërsa zhvillon takime diplomatike, përkujton ngjarje historike dhe ndjek zhvillimet e Gjykatës Speciale për UÇK-në.",
       "count": 15,
       "positive": 0,
       "neutral": 13,
@@ -541,9 +542,9 @@
       ]
     },
     {
-      "label": "Transferimi i talentit në Kosovë",
+      "label": "Talenti i Bayernit për Kosovën",
       "fallbackLabel": "Bayernit · Luajë",
-      "summary": "Mesfushori i Bayernit të Mynihut pritet t'i bashkohet kombëtares së Kosovës, duke shkaktuar reagime rreth humbjes së mundshme të lojtarit për Gjermaninë.",
+      "summary": "Raportimet mediatike sugjerojnë se një mesfushor i talentuar i Bayern Munichut pritet të zgjedhë përfaqësimin e Kosovës në futboll, duke lënë ekipin gjerman.",
       "count": 13,
       "positive": 0,
       "neutral": 13,
@@ -721,14 +722,14 @@
       ]
     },
     {
-      "label": "Bashkëpunimi shëndetësor Kosovë-Gjermani",
+      "label": "Bashkëpunimi Kosovë-Gjermani kundër rriqrave",
       "fallbackLabel": "Kundër · Bartin",
-      "summary": "Kosova dhe Gjermania po bashkojnë forcat në luftën kundër rriqrave që bartin viruse vdekjeprurëse, duke synuar mbrojtjen e shëndetit publik përmes bashkëpunimit.",
-      "count": 11,
+      "summary": "Kosova dhe Gjermania kanë bashkuar forcat për të luftuar rriqrat e llojit Hyalomma, të cilat bartin viruse vdekjeprurëse, duke synuar mbrojtjen e shëndetit publik.",
+      "count": 12,
       "positive": 1,
-      "neutral": 10,
+      "neutral": 11,
       "negative": 0,
-      "index": 55,
+      "index": 54,
       "countries": [
         "Francë",
         "Gjermani",
@@ -900,9 +901,9 @@
       ]
     },
     {
-      "label": "Zhvillimet rajonale në Ballkan",
+      "label": "Zhvillimet politike dhe ekonomike ballkanike",
       "fallbackLabel": "Ballkani · Trieste",
-      "summary": "Artikujt trajtojnë dinamikat politike dhe ekonomike në Ballkan, duke përfshirë tensionet me Serbinë dhe zgjerimin e bizneseve ndërkombëtare në rajon.",
+      "summary": "Rajoni i Ballkanit përballet me sfida politike dhe tensione, ndërkohë që investime të reja ndërkombëtare dhe aktivitete kulturore po zhvillohen në hapësirën rajonale.",
       "count": 11,
       "positive": 1,
       "neutral": 7,
@@ -1080,9 +1081,9 @@
       ]
     },
     {
-      "label": "Marrëveshjet tregtare dhe diplomatike",
+      "label": "Marrëveshjet ndërkombëtare dhe tregtare",
       "fallbackLabel": "Bashkuar · Nënshkruan",
-      "summary": "Analizohet gjendja e marrëveshjeve ndërkombëtare të Kosovës, duke përfshirë shkëmbimet tregtare me Zvicrën dhe ngecjen e normalizimit të marrëdhënieve me Serbinë.",
+      "summary": "Analizohet ngecja e normalizimit mes Kosovës dhe Serbisë pas gjashtë vitesh, krahasuar me përparimin e marrëveshjeve të reja tregtare mes Kosovës dhe Zvicrës.",
       "count": 8,
       "positive": 0,
       "neutral": 8,
@@ -1229,8 +1230,8 @@
     },
     {
       "label": "Masat tregtare ndaj Serbisë",
-      "fallbackLabel": "Serbia · Vendos",
-      "summary": "Kosova ka vendosur masa antidumping për importin e farës së grurit nga Serbia, si përgjigje ndaj zhvillimeve të fundit në marrëdhëniet tregtare.",
+      "fallbackLabel": "Serbia · Grurit",
+      "summary": "Kosova ka vendosur taksa antidumping për importin e farës së grurit nga Serbia, ndërsa tensionet diplomatike vazhdojnë pas abstenimit të Serbisë në OKB.",
       "count": 6,
       "positive": 0,
       "neutral": 5,

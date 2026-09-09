@@ -6048,8 +6048,8 @@
   {
     "date": "2026-09-09",
     "overallIndex": 52,
-    "totalArticles": 60,
-    "sourceCount": 44,
+    "totalArticles": 67,
+    "sourceCount": 50,
     "stanceVersion": 3,
     "countries": {
       "Gjermani": {
@@ -6057,9 +6057,9 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 4,
+        "n": 5,
         "excluded": 0,
-        "confident": false,
+        "confident": true,
         "stanceVersion": 3
       },
       "SHBA": {
@@ -6093,11 +6093,11 @@
         "stanceVersion": 3
       },
       "Itali": {
-        "index": 54,
-        "positive": 7,
-        "neutral": 93,
+        "index": 53,
+        "positive": 6,
+        "neutral": 94,
         "negative": 0,
-        "n": 14,
+        "n": 16,
         "excluded": 4,
         "confident": true,
         "stanceVersion": 3
@@ -6161,16 +6161,16 @@
         "stanceVersion": 3
       },
       "Greqi": {
-        "index": 25,
+        "index": 33,
         "positive": 0,
-        "neutral": 50,
-        "negative": 50,
-        "n": 2,
+        "neutral": 67,
+        "negative": 33,
+        "n": 3,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3,
         "movement": {
-          "delta": -13,
+          "delta": -5,
           "from": 38,
           "outlet": "iAxia -",
           "title": "Kosova në Gaza: Ballkanasit që po shkojnë për ta shpëtuar Trumpin - iAxia",
@@ -6193,7 +6193,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 1,
+        "n": 2,
         "excluded": 2,
         "confident": false,
         "stanceVersion": 3
@@ -6203,7 +6203,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 6,
+        "n": 8,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 3
@@ -6221,11 +6221,11 @@
     },
     "headlines": [
       {
-        "title": "Vom Kosovo zur Nationalgarde der USA, die Erfolgsgeschichte von Rona Mala - Albinfo",
-        "source": "Albinfo",
+        "title": "Zehn Jahre heilig: Weltweites Gedenken an Mutter Teresa - Kathpress",
+        "source": "Kathpress",
         "country": "Gjermani",
         "flag": "🇩🇪",
-        "url": "https://www.albinfo.ch/de/nga-kosova-ne-garden-kombetare-te-shba-se-rrefimi-i-suksesit-te-rona-males/",
+        "url": "https://www.kathpress.at/goto/meldung/2609648/zehn-jahre-heilig-weltweites-gedenken-an-mutter-teresa",
         "sentiment": "positive"
       },
       {

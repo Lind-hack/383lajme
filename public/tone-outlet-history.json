@@ -3205,15 +3205,16 @@
     },
     "Die Rheinpfalz": {
       "country": "Gjermani",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-09",
       "lastSeen": "2026-09-09",
       "urls": [
-        "https://www.rheinpfalz.de/lokal/pirmasens_artikel,-spendenaufruf-kosovo-hilfe-petersberg-bittet-ein-letztes-mal-um-unterst%C3%BCtzung-_arid,5927621.html"
+        "https://www.rheinpfalz.de/lokal/pirmasens_artikel,-spendenaufruf-kosovo-hilfe-petersberg-bittet-ein-letztes-mal-um-unterst%C3%BCtzung-_arid,5927621.html",
+        "https://www.rheinpfalz.de/lokal/pirmasens_artikel,-seltenes-handwerk-letzte-spendenaktion-f%C3%BCr-kosovo-und-ein-neuer-modeladen-_arid,5927815.html"
       ]
     },
     "Barletta NEWS24": {
@@ -3227,6 +3228,84 @@
       "lastSeen": "2026-09-09",
       "urls": [
         "https://www.barlettanews24.it/sport/25042/qualif-mondiali-italia-kosovo-a-barletta-grimaldi-una-grande-vittoria-per-la-nostra-citta"
+      ]
+    },
+    "ildolomiti.it": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-09",
+      "lastSeen": "2026-09-09",
+      "urls": [
+        "https://www.ildolomiti.it/altra-montagna/storie/2026/era-in-kosovo-per-aiutare-la-popolazione-colpita-dalla-guerra-riuni-dei-giovani-per-aprire-vie-di-arrampicata-nacquero-cosi-i-ragni-del-val-rugova"
+      ]
+    },
+    "BarlettaViva": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-09",
+      "lastSeen": "2026-09-09",
+      "urls": [
+        "https://www.barlettaviva.it/sport/italia-kosovo-di-futsal-a-barletta-grimaldi-una-grande-opportunita-per-la-citta/"
+      ]
+    },
+    "tanea.gr": {
+      "country": "Greqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-09",
+      "lastSeen": "2026-09-07",
+      "urls": [
+        "https://www.tanea.gr/2026/09/07/world/kosovo-symfonia-gia-apostoli-strateymaton-sti-diethni-dynami-gia-ti-gaza/"
+      ]
+    },
+    "wspinanie.pl": {
+      "country": "Poloni",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-09",
+      "lastSeen": "2026-09-09",
+      "urls": [
+        "https://wspinanie.pl/2026/09/kanion-rugova-kosowo/"
+      ]
+    },
+    "Pusu Haber": {
+      "country": "Turqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-09",
+      "lastSeen": "2026-09-09",
+      "urls": [
+        "https://pusuhaber.com.tr/politika/214211-kosovada-meclis-baskani-yeniden-albulena-haxhiu-oldu"
+      ]
+    },
+    "hurriyet.com.tr": {
+      "country": "Turqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-09",
+      "lastSeen": "2026-09-07",
+      "urls": [
+        "https://www.hurriyet.com.tr/avrupa/prizrende-ilkokul-ogrencilerine-egitim-setleri-dagitildi-43298523"
       ]
     }
   }

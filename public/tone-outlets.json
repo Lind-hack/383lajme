@@ -1,10 +1,10 @@
 {
   "lastUpdated": "2026-09-09",
   "overallIndex": 52,
-  "totalArticles": 60,
-  "sourceCount": 44,
+  "totalArticles": 67,
+  "sourceCount": 50,
   "stanceVersion": 3,
-  "unattributed": 188,
+  "unattributed": 197,
   "nonEditorial": 0,
   "wrongKosovo": 0,
   "countries": {
@@ -37,7 +37,7 @@
         {
           "name": "Die Rheinpfalz",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Spen­den­auf­ruf: Kosovo-​Hilfe Pe­ters­berg bit­tet ein letz­tes Mal um Un­ter­stüt­zung - Die Rheinpfalz",
@@ -51,9 +51,22 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Sel­te­nes Hand­werk, letz­te Spen­den­ak­ti­on für Ko­so­vo und ein neuer Mo­de­la­den - Die Rheinpfalz",
+              "albanianTitle": "Artizanati i vjetër, aksioni i fundit i ndihmave për Kosovën dhe një dyqan i ri mode - Die Rheinpfalz",
+              "blurb": "Një organizatë gjermane po zhvillon aksionin e fundit të ndihmave për Kosovën krahas aktiviteteve të tjera lokale.",
+              "imageUrl": "https://www.rheinpfalz.de/cms_media/module_img/14192/7096458_3_facebookSM_L1002335.jpg.webp",
+              "url": "https://www.rheinpfalz.de/lokal/pirmasens_artikel,-seltenes-handwerk-letzte-spendenaktion-f%C3%BCr-kosovo-und-ein-neuer-modeladen-_arid,5927815.html",
+              "date": "2026-09-09",
+              "sentiment": "neutral",
+              "reason": "Headline reports a donation action without loaded language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 1,
+          "totalArticles": 2,
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-09",
           "lastSeen": "2026-09-09"
@@ -112,9 +125,9 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 4,
+        "n": 5,
         "excluded": 0,
-        "confident": false,
+        "confident": true,
         "stanceVersion": 3
       }
     },
@@ -325,6 +338,30 @@
               "date": "2026-09-09",
               "sentiment": "neutral",
               "reason": "Citim i raportuar, jo zëri i mediumit",
+              "isQuote": true,
+              "evidence": "",
+              "speaker": "Grimaldi"
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-09",
+          "lastSeen": "2026-09-09"
+        },
+        {
+          "name": "BarlettaViva",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Italia-Kosovo di futsal a Barletta, Grimaldi: «Una grande opportunità per la città» - BarlettaViva",
+              "albanianTitle": "Italia-Kosova në futsal në Barletta, Grimaldi: «Një mundësi e madhe për qytetin» - BarlettaViva",
+              "blurb": "Qyteti i Barletës në Itali do të presë ndeshjen e futsallit mes përfaqësueseve të Italisë dhe të Kosovës.",
+              "imageUrl": "https://barletta.gocity.it/library/media/ruggiero_grimaldij.jpg",
+              "url": "https://www.barlettaviva.it/sport/italia-kosovo-di-futsal-a-barletta-grimaldi-una-grande-opportunita-per-la-citta/",
+              "date": "2026-09-09",
+              "sentiment": "neutral",
+              "reason": "Positive comment is quoted and attributed, outlet itself remains neutral",
               "isQuote": true,
               "evidence": "",
               "speaker": "Grimaldi"
@@ -565,6 +602,30 @@
           "lastSeen": "2026-09-07"
         },
         {
+          "name": "ildolomiti.it",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Era in Kosovo per aiutare la popolazione colpita dalla guerra: riunì dei giovani per aprire vie di arrampicata. Nacquero così i \"Ragni del val Rugova\" - ildolomiti.it",
+              "albanianTitle": "Ishte në Kosovë për të ndihmuar popullsinë e prekur nga lufta: mblodhi të rinj për të hapur shtigje ngjitjeje. Kështu lindën \"Peshkaqenët e Rugovës\" - ildolomiti.it",
+              "blurb": "Një grup të rinjsh në Kosovë u bashkua për të hapur shtigje alpinizmi pas luftës, duke formuar grupin Ragni.",
+              "imageUrl": "https://cdn.ildolomiti.it/s3fs-public/styles/opengraph/public/montagna/articoli/2026/09/maurobarisone.png?itok=TO7JcpJd",
+              "url": "https://www.ildolomiti.it/altra-montagna/storie/2026/era-in-kosovo-per-aiutare-la-popolazione-colpita-dalla-guerra-riuni-dei-giovani-per-aprire-vie-di-arrampicata-nacquero-cosi-i-ragni-del-val-rugova",
+              "date": "2026-09-09",
+              "sentiment": "neutral",
+              "reason": "Report of a humanitarian climbing project, presented factually",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-09",
+          "lastSeen": "2026-09-09"
+        },
+        {
           "name": "ilmessaggero.it",
           "sentiment": "positive",
           "articleCount": 1,
@@ -614,11 +675,11 @@
         }
       ],
       "summary": {
-        "index": 54,
-        "positive": 7,
-        "neutral": 93,
+        "index": 53,
+        "positive": 6,
+        "neutral": 94,
         "negative": 0,
-        "n": 14,
+        "n": 16,
         "excluded": 4,
         "confident": true,
         "stanceVersion": 3
@@ -1269,6 +1330,30 @@
           "lastSeen": "2026-09-07"
         },
         {
+          "name": "tanea.gr",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Κόσοβο: Συμφωνία για αποστολή στρατευμάτων στη διεθνή δύναμη για τη Γάζα - tanea.gr",
+              "albanianTitle": "Kosovë: Marrëveshje për dërgimin e trupave në forcën ndërkombëtare për Gazën - tanea.gr",
+              "blurb": "Kosova ka arritur marrëveshje për dërgimin e trupave ushtarake në kuadër të forcës ndërkombëtare për Gazën.",
+              "imageUrl": "https://www.tanea.gr/wp-content/uploads/2026/09/HRnLXzFWsAAIbzM-ogimage.jpg",
+              "url": "https://www.tanea.gr/2026/09/07/world/kosovo-symfonia-gia-apostoli-strateymaton-sti-diethni-dynami-gia-ti-gaza/",
+              "date": "2026-09-07",
+              "sentiment": "neutral",
+              "reason": "Straightforward report of a troop‑deployment agreement, no loaded wording",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-09",
+          "lastSeen": "2026-09-07"
+        },
+        {
           "name": "ΤΑ ΝΕΑ",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1294,16 +1379,16 @@
         }
       ],
       "summary": {
-        "index": 25,
+        "index": 33,
         "positive": 0,
-        "neutral": 50,
-        "negative": 50,
-        "n": 2,
+        "neutral": 67,
+        "negative": 33,
+        "n": 3,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3,
         "movement": {
-          "delta": -13,
+          "delta": -5,
           "from": 38,
           "outlet": "iAxia -",
           "title": "Kosova në Gaza: Ballkanasit që po shkojnë për ta shpëtuar Trumpin - iAxia",
@@ -1387,6 +1472,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-08-28",
           "lastSeen": "2026-09-07"
+        },
+        {
+          "name": "wspinanie.pl",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Gryka e Rugovës – wspinaczkowa (i nie tylko) atrakcja Kosowa - wspinanie.pl",
+              "albanianTitle": "Gryka e Rugovës – atraksion për ngjitje (dhe jo vetëm) në Kosovë - wspinanie.pl",
+              "blurb": "Gryka e Rugovës njihet si një atraksion i rëndësishëm për alpinizmin dhe aktivitete të tjera në natyrën e Kosovës.",
+              "imageUrl": "https://wspinanie.pl/wp-content/uploads/2026/09/peja.jpg",
+              "url": "https://wspinanie.pl/2026/09/kanion-rugova-kosowo/",
+              "date": "2026-09-09",
+              "sentiment": "neutral",
+              "reason": "Titulli përshkruan një atraksion pa gjuhë të ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-09",
+          "lastSeen": "2026-09-09"
         }
       ],
       "summary": {
@@ -1394,7 +1503,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 1,
+        "n": 2,
         "excluded": 2,
         "confident": false,
         "stanceVersion": 3
@@ -1512,6 +1621,30 @@
           "lastSeen": "2026-09-07"
         },
         {
+          "name": "Pusu Haber",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosova’da meclis başkanı yeniden Albulena Haxhiu oldu - Pusu Haber",
+              "albanianTitle": "Albulena Haxhiu rizgjidhet kryetare e Kuvendit në Kosovë - Pusu Haber",
+              "blurb": "Albulena Haxhiu është rizgjedhur në pozitën e kryetares së kuvendit në një proces të zhvilluar në Kosovë.",
+              "imageUrl": "https://pusuhaber.com.tr/img/kosovada-meclis-baskani-yeniden-albulena-haxhiu-oldu-20260909AW784801.jpg",
+              "url": "https://pusuhaber.com.tr/politika/214211-kosovada-meclis-baskani-yeniden-albulena-haxhiu-oldu",
+              "date": "2026-09-09",
+              "sentiment": "neutral",
+              "reason": "Lajm faktik për ndryshimin e kryetarit të parlamentit",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-09",
+          "lastSeen": "2026-09-09"
+        },
+        {
           "name": "Sabah",
           "sentiment": "unknown",
           "articleCount": 1,
@@ -1558,6 +1691,30 @@
           "trend": "i përzier",
           "firstSeen": "2026-08-20",
           "lastSeen": "2026-09-09"
+        },
+        {
+          "name": "hurriyet.com.tr",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Prizren’de ilkokul öğrencilerine eğitim setleri dağıtıldı - hurriyet.com.tr",
+              "albanianTitle": "Në Prizren u shpërndanë pako shkollore për nxënësit e shkollave fillore - hurriyet.com.tr",
+              "blurb": "Nxënësit e shkollave fillore në qytetin e Prizrenit kanë pranuar pajisje dhe materiale të ndryshme për procesin e tyre mësimor.",
+              "imageUrl": "https://image.hurimg.com/i/hurriyet/90/0x0/6a9e57f15548acce712522fe.jpg",
+              "url": "https://www.hurriyet.com.tr/avrupa/prizrende-ilkokul-ogrencilerine-egitim-setleri-dagitildi-43298523",
+              "date": "2026-09-07",
+              "sentiment": "neutral",
+              "reason": "Faktik raportim i titullit pa gjuhë ngacmuese",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-09",
+          "lastSeen": "2026-09-07"
         }
       ],
       "summary": {
@@ -1565,7 +1722,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 6,
+        "n": 8,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 3
