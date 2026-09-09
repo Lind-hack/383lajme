@@ -1,10 +1,10 @@
 {
-  "lastUpdated": "2026-09-08",
-  "overallIndex": 52,
-  "totalArticles": 60,
-  "sourceCount": 43,
+  "lastUpdated": "2026-09-09",
+  "overallIndex": 53,
+  "totalArticles": 54,
+  "sourceCount": 40,
   "stanceVersion": 3,
-  "unattributed": 167,
+  "unattributed": 187,
   "nonEditorial": 0,
   "wrongKosovo": 0,
   "countries": {
@@ -33,6 +33,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-01",
           "lastSeen": "2026-09-06"
+        },
+        {
+          "name": "T-Online",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Botschafter irritiert: Verliert der DFB nun auch ein Bayern-Talent? - T-Online",
+              "albanianTitle": "Ambasadori i irrituar: A po e humb DFB-ja edhe një talent të Bayernit?",
+              "blurb": "Talenti i Bayern Munichut, Erblin Osmani, mund të zgjedhë të përfaqësojë Kosovën në vend të Gjermanisë në të ardhmen.",
+              "imageUrl": "https://images.t-online.de/2026/09/T5ajlwMP5w0y/672x54:1815x1020/fit-in/1200x0/erblin-osmani-er-feierte-im-maerz-sein-profidebuet-im-spiel-gegen-union-berlin.jpg",
+              "url": "https://www.t-online.de/sport/fussball/bundesliga/fc-bayern-muenchen/id_101426574/dfb-botschafter-irritiert-mit-post-spielt-osmani-kuenftig-fuer-kosovo-.html",
+              "date": "2026-09-09",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportuar pa gjuhë ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-09",
+          "lastSeen": "2026-09-09"
         },
         {
           "name": "fussballdaten.de",
@@ -64,7 +88,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 2,
+        "n": 3,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -144,15 +168,7 @@
         "n": 3,
         "excluded": 0,
         "confident": false,
-        "stanceVersion": 3,
-        "movement": {
-          "delta": -17,
-          "from": 50,
-          "outlet": "Balkan Insight",
-          "title": "Kuvendi i Kosovës mblidhet sërish, paralajmërohet 'kaos' për zgjedhjen e presidentit - Balkan Insight",
-          "evidence": "Chaos",
-          "url": "https://balkaninsight.com/2026/09/08/kosovo-parliament-to-reconvene-chaos-looms-over-election-of-president/bi/"
-        }
+        "stanceVersion": 3
       }
     },
     "Francë": {
@@ -198,7 +214,7 @@
         {
           "name": "ANSA",
           "sentiment": "neutral",
-          "articleCount": 4,
+          "articleCount": 5,
           "articles": [
             {
               "title": "L'informazione dei Balcani si incontra a Trieste - ANSA",
@@ -251,12 +267,25 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Allargamento Ue e pluralismo, a Trieste l'informazione dei Balcani - ANSA",
+              "albanianTitle": "Zgjerimi i BE-së dhe pluralizmi, informimi nga Ballkani në Trieste",
+              "blurb": "Në Trieste po diskutohet për procesin e zgjerimit të Bashkimit Evropian dhe rëndësinë e pluralizmit mediatik në vendet e Ballkanit.",
+              "imageUrl": "https://www.ansa.it/webimages/img_1280x720/2026/9/9/da9f5a1235f3bd81c1c41cf2603942ff.jpg",
+              "url": "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/09/09/allargamento-ue-e-pluralismo-a-trieste-linformazione-dei-balcani_5d3f66d8-7acb-4c4d-bf15-d3ed8d0b274d.html",
+              "date": "2026-09-09",
+              "sentiment": "unknown",
+              "reason": "No reference to Kosovo in the headline",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 17,
+          "totalArticles": 18,
           "trend": "neutral",
           "firstSeen": "2026-08-20",
-          "lastSeen": "2026-09-08"
+          "lastSeen": "2026-09-09"
         },
         {
           "name": "Buonasera24",
@@ -281,6 +310,30 @@
           "trend": "neutral",
           "firstSeen": "2026-08-25",
           "lastSeen": "2026-09-07"
+        },
+        {
+          "name": "Cavalierenews",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "\"Klithma - Il Grido\": la straziante voce dei bambini mutilati dalla guerra del Kosovo nel capolavoro verità di Alketa Gashi Fazliu - Cavalierenews",
+              "albanianTitle": "\"Klithma\": Zëri rrëqethës i fëmijëve të gjymtuar nga lufta në Kosovë në kryeveprën e Alketa Gashi-Fazliut",
+              "blurb": "Vepra artistike e Alketa Gashi Fazliut pasqyron përvojat e fëmijëve të prekur nga pasojat e luftës në Kosovë.",
+              "imageUrl": "https://cavalierenews.it/wp-content/uploads/2026/09/Immagine-2026-09-09-112622-971x600.jpg",
+              "url": "https://cavalierenews.it/klithma-il-grido-la-straziante-voce-dei-bambini-mutilati-dalla-guerra-del-kosovo-nel-capolavoro-verita-di-alketa-gashi-fazliu/",
+              "date": "2026-09-09",
+              "sentiment": "neutral",
+              "reason": "Reports tragic war impact without hostile language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 3,
+          "trend": "i përzier",
+          "firstSeen": "2026-08-26",
+          "lastSeen": "2026-09-09"
         },
         {
           "name": "Corriere della Sera",
@@ -416,6 +469,30 @@
           "lastSeen": "2026-09-06"
         },
         {
+          "name": "Soroptimist International d'Italia",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Italia e Kosovo unite nel nome del Soroptimist - Soroptimist International d'Italia",
+              "albanianTitle": "Italia dhe Kosova të bashkuara në emër të Soroptimist",
+              "blurb": "Organizata Soroptimist International po zhvillon aktivitete të përbashkëta për të forcuar bashkëpunimin ndërmjet Italisë dhe Kosovës në fusha të ndryshme.",
+              "imageUrl": null,
+              "url": "https://www.soroptimist.it/it/attivita/attivita-nazionali/italia-e-kosovo-unite-nel-nome-del-soroptimist-60812/",
+              "date": "2026-09-08",
+              "sentiment": "neutral",
+              "reason": "Factually reports cooperation without loaded language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-09",
+          "lastSeen": "2026-09-08"
+        },
+        {
           "name": "gazzettadiparma.it",
           "sentiment": "unknown",
           "articleCount": 1,
@@ -489,12 +566,12 @@
         }
       ],
       "summary": {
-        "index": 55,
-        "positive": 10,
-        "neutral": 90,
+        "index": 54,
+        "positive": 8,
+        "neutral": 92,
         "negative": 0,
-        "n": 10,
-        "excluded": 4,
+        "n": 12,
+        "excluded": 5,
         "confident": true,
         "stanceVersion": 3
       }
@@ -780,7 +857,7 @@
               "speaker": ""
             }
           ],
-          "totalArticles": 9,
+          "totalArticles": 10,
           "trend": "pozitiv",
           "firstSeen": "2026-09-07",
           "lastSeen": "2026-09-08"
@@ -828,79 +905,79 @@
           "articleCount": 6,
           "articles": [
             {
-              "title": "Politische Konsultationen zwischen Kosovo und der Schweiz finden in Bern statt - albinfo.ch",
-              "albanianTitle": "Në Bernë mbahen konsultimet politike mes Kosovës dhe Zvicrës",
-              "blurb": "Përfaqësuesit e Kosovës dhe Zvicrës po zhvillojnë konsultime politike në Bernë për çështje të ndryshme dypalëshe.",
-              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/foto-ambasadoret.jpeg",
-              "url": "https://www.albinfo.ch/de/mbahen-konsultimet-politike-ndermjet-kosoves-dhe-zvicres-ne-berne/",
-              "date": "2026-09-05",
+              "title": "Kosovo und Deutschland gemeinsam gegen Zecken, die ein tödliches Virus übertragen - albinfo.ch",
+              "albanianTitle": "Kosova dhe Gjermania bashkë kundër rriqrave që bartin virusin vdekjeprurës - albinfo.ch",
+              "blurb": "Kosova dhe Gjermania bashkëpunojnë në luftën kundër rriqrave që bartin viruse vdekjeprurëse për qytetarët në vendin tonë.",
+              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2023/04/ixodes-ricinus-5260296_1920.jpg",
+              "url": "https://www.albinfo.ch/de/kosova-dhe-gjermania-bashke-kunder-rriqrave-qe-bartin-virusin-vdekjeprures/",
+              "date": "2026-09-06",
               "sentiment": "neutral",
-              "reason": "Faktikë raportuar në mënyrë neutrale",
+              "reason": "Faktikë raportuar pa ngarkim",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
             },
             {
-              "title": "Der albanische Arzt aus der Schweiz, der das kosovarische Olympiateam bei den Mittelmeerspielen betreute - albinfo.ch",
-              "albanianTitle": "Mjeku shqiptar nga Zvicra që u kujdes për ekipin olimpik të Kosovës në Lojërat Mesdhetare",
-              "blurb": "Mjeku shqiptar nga Zvicra ka ofruar shërbime shëndetësore për ekipin olimpik të Kosovës gjatë Lojërave Mesdhetare.",
-              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/img_2832.jpeg",
-              "url": "https://www.albinfo.ch/de/mjeku-shqiptar-nga-zvicra-qe-u-kujdes-per-ekipin-olimpik-te-kosoves-ne-lojerat-mesdhetare/",
-              "date": "2026-09-05",
+              "title": "Drei Piloten aus dem Kosovo unter den Top 10 der Welt im Gleitschirmfliegen - albinfo.ch",
+              "albanianTitle": "Tre pilotë nga Kosova në mesin e 10 më të mirëve në botë për parashutizëm - albinfo.ch",
+              "blurb": "Tre pilotë nga Kosova janë renditur në mesin e dhjetë më të mirëve në botë për fluturim me parashutë.",
+              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/633269021_1564878762080969_8574478831148187001_n-e1788705409757.jpg",
+              "url": "https://www.albinfo.ch/de/tre-pilote-nga-kosova-ne-top-10-te-botes-ne-paragllajdizem/",
+              "date": "2026-09-06",
               "sentiment": "neutral",
-              "reason": "Faktikë raportuar në mënyrë neutrale",
+              "reason": "Faktikë raportuar pa ngarkim",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
             },
             {
-              "title": "Rahovec öffnet seine Türen für das Festival \"Hardh Fest\", das Fest der Trauben - albinfo.ch",
-              "albanianTitle": "Rahoveci hap dyert për \"Hardh Fest\", festivalin e rrushit",
-              "blurb": "Qyteti i Rahovecit ka hapur dyert për edicionin e festivalit Hardh Fest, i njohur si festa e rrushit.",
-              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/screenshot-2026-09-05-091521.png",
-              "url": "https://www.albinfo.ch/de/rahoveci-hap-dyert-per-festivalin-hardh-fest-festa-e-rrushit/",
-              "date": "2026-09-05",
+              "title": "Trois pilotes du Kosovo dans le Top 10 mondial de parapente - albinfo.ch",
+              "albanianTitle": "Tre pilotë nga Kosova në top 10-shen botërore të parashutizmit - albinfo.ch",
+              "blurb": "Tre parashutistë nga Kosova janë renditur në dhjetëshen më të mirë botërore në disiplinën e fluturimit me parashutë.",
+              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/633269021_1564878762080969_8574478831148187001_n-e1788705409757.jpg",
+              "url": "https://www.albinfo.ch/fr/tre-pilote-nga-kosova-ne-top-10-te-botes-ne-paragllajdizem/",
+              "date": "2026-09-06",
               "sentiment": "neutral",
-              "reason": "Faktikë raportuar në mënyrë neutrale",
+              "reason": "Faktikë, raportim neutral",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
             },
             {
-              "title": "Le médecin albanais de Suisse qui s’est occupé de l’équipe olympique du Kosovo aux Jeux méditerranéens - albinfo.ch",
-              "albanianTitle": "Mjeku shqiptar nga Zvicra që u kujdes për ekipin olimpik të Kosovës në Lojërat Mesdhetare",
-              "blurb": "Mjeku shqiptar nga Zvicra u kujdes për ekipin olimpik të Kosovës gjatë pjesëmarrjes në Lojërat Mesdhetare.",
-              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/img_2832.jpeg",
-              "url": "https://www.albinfo.ch/fr/mjeku-shqiptar-nga-zvicra-qe-u-kujdes-per-ekipin-olimpik-te-kosoves-ne-lojerat-mesdhetare/",
-              "date": "2026-09-05",
+              "title": "Le Kosovo et l’Allemagne unissent leurs efforts contre les tiques porteuses d’un virus mortel - albinfo.ch",
+              "albanianTitle": "Kosova dhe Gjermania bashkojnë forcat kundër rriqrave që bartin virus vdekjeprurës",
+              "blurb": "Kosova dhe Gjermania po bashkëpunojnë për të luftuar rrezikun nga rriqrat që mbartin një virus vdekjeprurës.",
+              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2023/04/ixodes-ricinus-5260296_1920.jpg",
+              "url": "https://www.albinfo.ch/fr/kosova-dhe-gjermania-bashke-kunder-rriqrave-qe-bartin-virusin-vdekjeprures/",
+              "date": "2026-09-06",
               "sentiment": "neutral",
-              "reason": "Faktikë raportuar në mënyrë neutrale",
+              "reason": "Faktikë, raportim neutral",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
             },
             {
-              "title": "Des consultations politiques entre le Kosovo et la Suisse se tiennent à Berne - albinfo.ch",
-              "albanianTitle": "Në Bernë mbahen konsultimet politike mes Kosovës dhe Zvicrës",
-              "blurb": "Autoritetet e Kosovës dhe ato të Zvicrës po mbajnë takime konsultative politike në qytetin e Bernës.",
-              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/foto-ambasadoret.jpeg",
-              "url": "https://www.albinfo.ch/fr/mbahen-konsultimet-politike-ndermjet-kosoves-dhe-zvicres-ne-berne/",
-              "date": "2026-09-05",
+              "title": "Suisse-Kosovo, les échanges commerciaux atteignent 175 millions de francs: le nouvel accord supprime les barrières douanières - albinfo.ch",
+              "albanianTitle": "Zvicër-Kosovë, shkëmbimet tregtare arrijnë në 175 milionë franga: marrëveshja e re heq barrierat doganore",
+              "blurb": "Shkëmbimet tregtare mes Zvicrës dhe Kosovës arrijnë 175 milionë franga, ndërsa marrëveshja e re heq barrierat doganore.",
+              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/634038575_highres.jpg",
+              "url": "https://www.albinfo.ch/fr/zvicer-kosove-tregtia-arrin-175-milione-franga-marreveshja-e-re-heq-barrierat-doganore/",
+              "date": "2026-09-06",
               "sentiment": "neutral",
-              "reason": "Faktikë raportuar në mënyrë neutrale",
+              "reason": "Faktikë, raportim neutral",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
             },
             {
-              "title": "Rahovec ouvre ses portes au festival \"Hardh Fest\", la fête du raisin - albinfo.ch",
-              "albanianTitle": "Rahoveci hap dyert për festivalin e rrushit \"Hardh Fest\"",
-              "blurb": "Qyteti i Rahovecit ka hapur zyrtarisht edicionin e sivjetmë të festivalit Hardh Fest, i cili feston traditën e vjeljes së rrushit.",
-              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/screenshot-2026-09-05-091521.png",
-              "url": "https://www.albinfo.ch/fr/rahoveci-hap-dyert-per-festivalin-hardh-fest-festa-e-rrushit/",
-              "date": "2026-09-05",
+              "title": "Schweiz-Kosovo, Handelsvolumen erreicht 175 Millionen Franken: Neues Abkommen beseitigt Zollbarrieren - albinfo.ch",
+              "albanianTitle": "Zvicër-Kosovë, vëllimi tregtar arrin 175 milionë franga: marrëveshja e re eliminon barrierat doganore",
+              "blurb": "Vëllimi tregtar mes Zvicrës dhe Kosovës shënon 175 milionë franga pas hyrjes në fuqi të marrëveshjes për heqjen e doganave.",
+              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/634038575_highres.jpg",
+              "url": "https://www.albinfo.ch/de/zvicer-kosove-tregtia-arrin-175-milione-franga-marreveshja-e-re-heq-barrierat-doganore/",
+              "date": "2026-09-06",
               "sentiment": "neutral",
-              "reason": "Lajm faktik, pa gjuhë të ngarkuar për Kosovën",
+              "reason": "Factual report of trade agreement, no evaluative language toward Kosovo",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -913,14 +990,22 @@
         }
       ],
       "summary": {
-        "index": 55,
-        "positive": 10,
-        "neutral": 90,
+        "index": 60,
+        "positive": 20,
+        "neutral": 80,
         "negative": 0,
-        "n": 20,
+        "n": 15,
         "excluded": 2,
         "confident": true,
-        "stanceVersion": 3
+        "stanceVersion": 3,
+        "movement": {
+          "delta": 5,
+          "from": 55,
+          "outlet": "Albinfo",
+          "title": "Nga Kosova në Gardën Kombëtare të SHBA-së, rrugëtimi i suksesshëm i Rona Malës",
+          "evidence": "parcours de réussite",
+          "url": "https://www.albinfo.ch/fr/nga-kosova-ne-garden-kombetare-te-shba-se-rrefimi-i-suksesit-te-rona-males/"
+        }
       }
     },
     "Holandë": {
@@ -1112,54 +1197,6 @@
     "Greqi": {
       "outlets": [
         {
-          "name": "AllStarBasket.gr",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Ο Ηρακλής 72-59 την Μπασκίμι από το Κόσοβο - AllStarBasket.gr",
-              "albanianTitle": null,
-              "blurb": "Skuadra e basketbollit Iraklis ka shënuar fitore me rezultat 72-59 ndaj ekipit kosovar Bashkimi në një ndeshje zyrtare.",
-              "imageUrl": "https://www.allstarbasket.gr/media/k2/items/cache/fd326f823df16531bb4e36f545787edd_L.jpg?t=20260905_182005",
-              "url": "https://www.allstarbasket.gr/ellada/greek-basketball-league/o-iraklis-72-59-tin-baskimi-apo-to-kosovo",
-              "date": "2026-09-05",
-              "sentiment": "neutral",
-              "reason": "Sport news reported factually",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-07",
-          "lastSeen": "2026-09-05"
-        },
-        {
-          "name": "Gazzetta.gr",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Κόσοβο - Αυστρία Live 04-10-2026 | UEFA Nations League - Gazzetta.gr",
-              "albanianTitle": "Kosova - Austri, ndeshje direkte më 04-10-2026 | UEFA Nations League - Gazzetta.gr",
-              "blurb": "Kombëtarja e Kosovës në futboll do të zhvillojë ndeshjen kundër Austrisë në kuadër të Ligës së Kombeve më 4 tetor 2026.",
-              "imageUrl": "https://www.gazzetta.gr/sites/default/files/shared/gazzetta_share_image.jpg",
-              "url": "https://www.gazzetta.gr/football/uefa-nations-league/live-kosovo-aystria-04-10-2026",
-              "date": "2026-09-05",
-              "sentiment": "neutral",
-              "reason": "Lajm sportiv i thjeshtë",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 5,
-          "trend": "neutral",
-          "firstSeen": "2026-08-19",
-          "lastSeen": "2026-09-05"
-        },
-        {
           "name": "iAxia -",
           "sentiment": "negative",
           "articleCount": 1,
@@ -1209,17 +1246,17 @@
         }
       ],
       "summary": {
-        "index": 38,
+        "index": 25,
         "positive": 0,
-        "neutral": 75,
-        "negative": 25,
-        "n": 4,
+        "neutral": 50,
+        "negative": 50,
+        "n": 2,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3,
         "movement": {
-          "delta": -6,
-          "from": 44,
+          "delta": -13,
+          "from": 38,
           "outlet": "iAxia -",
           "title": "Kosova në Gaza: Ballkanasit që po shkojnë për ta shpëtuar Trumpin - iAxia",
           "evidence": "οι Βαλκάνιοι που πάνε να σώσουν τον Τραμπ",
@@ -1228,62 +1265,13 @@
       }
     },
     "Suedi": {
-      "outlets": [
-        {
-          "name": "SMHI",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Väderprognos 10 dygn Mitrovica, Kosovo - SMHI",
-              "albanianTitle": null,
-              "blurb": "Instituti Meteorologjik ka publikuar parashikimin e motit për dhjetë ditët e ardhshme për qytetin e Mitrovicës në Kosovë.",
-              "imageUrl": null,
-              "url": "https://www.smhi.se/vader/prognoser-och-varningar/vaderprognos/q/Mitrovica/789225",
-              "date": "2026-09-05",
-              "sentiment": "neutral",
-              "reason": "Weather forecast, factual",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 3,
-          "trend": "neutral",
-          "firstSeen": "2026-08-26",
-          "lastSeen": "2026-09-05"
-        },
-        {
-          "name": "smhi.se",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Väderprognos 10 dygn Mitrovica, Kosovo - smhi.se",
-              "albanianTitle": "Parashikimi i motit për 10 ditët e ardhshme në Mitrovicë, Kosovë - smhi.se",
-              "blurb": "Instituti Meteorologjik i Suedisë publikon parashikimin e motit për dhjetë ditët e ardhshme në qytetin e Mitrovicës.",
-              "imageUrl": null,
-              "url": "https://www.smhi.se/vader/prognoser-och-varningar/vaderprognos/q/Mitrovica/789225",
-              "date": "2026-09-05",
-              "sentiment": "neutral",
-              "reason": "Parashikim moti, informacion faktik",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-07",
-          "lastSeen": "2026-09-05"
-        }
-      ],
+      "outlets": [],
       "summary": {
-        "index": 50,
+        "index": null,
         "positive": 0,
-        "neutral": 100,
+        "neutral": 0,
         "negative": 0,
-        "n": 2,
+        "n": 0,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -1351,30 +1339,6 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-08-28",
           "lastSeen": "2026-09-07"
-        },
-        {
-          "name": "igamingpolska.pl",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Mistrzostwa Świata Socca 2026: Wyniki, terminarz - igamingpolska.pl",
-              "albanianTitle": "Kampionati Botëror i Socca 2026: Rezultatet dhe orari i ndeshjeve",
-              "blurb": "Kampionati Botëror i Socca 2026 po zhvillohet me rezultatet dhe orarin e ndeshjeve të publikuara për publikun e gjerë.",
-              "imageUrl": null,
-              "url": "https://igamingpolska.pl/mistrzostwa-swiata-socca-2026-terminarz-wyniki/",
-              "date": "2026-09-05",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-02",
-          "lastSeen": "2026-09-05"
         }
       ],
       "summary": {
@@ -1383,7 +1347,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 1,
-        "excluded": 3,
+        "excluded": 2,
         "confident": false,
         "stanceVersion": 3
       }
@@ -1498,30 +1462,6 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-06",
           "lastSeen": "2026-09-06"
-        },
-        {
-          "name": "TRT Avaz",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Üsküp’te “Osmanlı Avrupası’nda Edebiyat, 1400-1800” Sempozyumu düzenlendi - Türkistan'dan - Haber - TRT Avaz",
-              "albanianTitle": "Në Shkup u mbajt simpoziumi \"Letërsia në Evropën Osmane, 1400-1800\"",
-              "blurb": "Në Shkup është mbajtur simpoziumi mbi letërsinë në Evropën Osmane gjatë periudhës 1400-1800 me pjesëmarrjen e studiuesve të ndryshëm.",
-              "imageUrl": "https://www.trtavaz.com.tr/uploads/photos/2026/09/05/75406f9035e44aa493ff66962e977970.jpg?w=640",
-              "url": "https://www.trtavaz.com.tr/haber/tur/turkistandan/uskup-te-osmanli-avrupasi-nda-edebiyat-1400-1800-sempozyumu-duzenlendi/6a9bda56e72ad848a0b1de17",
-              "date": "2026-09-05",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-05",
-          "lastSeen": "2026-09-05"
         }
       ],
       "summary": {
@@ -1530,7 +1470,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 4,
-        "excluded": 2,
+        "excluded": 1,
         "confident": false,
         "stanceVersion": 3
       }

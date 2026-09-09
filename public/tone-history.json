@@ -6044,5 +6044,230 @@
         "sentiment": "negative"
       }
     ]
+  },
+  {
+    "date": "2026-09-09",
+    "overallIndex": 53,
+    "totalArticles": 54,
+    "sourceCount": 40,
+    "stanceVersion": 3,
+    "countries": {
+      "Gjermani": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 3,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "SHBA": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Britani": {
+        "index": 33,
+        "positive": 0,
+        "neutral": 67,
+        "negative": 33,
+        "n": 3,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Francë": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 1,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Itali": {
+        "index": 54,
+        "positive": 8,
+        "neutral": 92,
+        "negative": 0,
+        "n": 12,
+        "excluded": 5,
+        "confident": true,
+        "stanceVersion": 3
+      },
+      "Austri": {
+        "index": 57,
+        "positive": 14,
+        "neutral": 86,
+        "negative": 0,
+        "n": 7,
+        "excluded": 1,
+        "confident": true,
+        "stanceVersion": 3
+      },
+      "Zvicër": {
+        "index": 60,
+        "positive": 20,
+        "neutral": 80,
+        "negative": 0,
+        "n": 15,
+        "excluded": 2,
+        "confident": true,
+        "stanceVersion": 3,
+        "movement": {
+          "delta": 5,
+          "from": 55,
+          "outlet": "Albinfo",
+          "title": "Nga Kosova në Gardën Kombëtare të SHBA-së, rrugëtimi i suksesshëm i Rona Malës",
+          "evidence": "parcours de réussite",
+          "url": "https://www.albinfo.ch/fr/nga-kosova-ne-garden-kombetare-te-shba-se-rrefimi-i-suksesit-te-rona-males/"
+        }
+      },
+      "Holandë": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Belgjikë": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Spanjë": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 6,
+        "excluded": 1,
+        "confident": true,
+        "stanceVersion": 3
+      },
+      "Greqi": {
+        "index": 25,
+        "positive": 0,
+        "neutral": 50,
+        "negative": 50,
+        "n": 2,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3,
+        "movement": {
+          "delta": -13,
+          "from": 38,
+          "outlet": "iAxia -",
+          "title": "Kosova në Gaza: Ballkanasit që po shkojnë për ta shpëtuar Trumpin - iAxia",
+          "evidence": "οι Βαλκάνιοι που πάνε να σώσουν τον Τραμπ",
+          "url": "https://www.iaxia.gr/diethni/kosovo-sti-gaza-oi-valkanioi-pou-pane-na-sosoun-ton-trab/"
+        }
+      },
+      "Suedi": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Poloni": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 1,
+        "excluded": 2,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Turqi": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 4,
+        "excluded": 1,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Kroaci": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      }
+    },
+    "headlines": [
+      {
+        "title": "Zehn Jahre heilig: Weltweites Gedenken an Mutter Teresa - Kathpress",
+        "source": "Kathpress",
+        "country": "Gjermani",
+        "flag": "🇩🇪",
+        "url": "https://www.kathpress.at/goto/meldung/2609648/zehn-jahre-heilig-weltweites-gedenken-an-mutter-teresa",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Konjufca: la diaspora kosovare renforce les liens entre le Kosovo et la Suisse - Albinfo",
+        "source": "Albinfo",
+        "country": "Francë",
+        "flag": "🇫🇷",
+        "url": "https://www.albinfo.ch/fr/konjufca-diaspora-kosovare-forcon-lidhjet-mes-kosoves-dhe-zvicres/",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Giochi del Mediterraneo, Ferrarese pronto a dare una mano al Kosovo. Fidal in campo per gestire due impianti - ilmessaggero.it",
+        "source": "Il Messaggero",
+        "country": "Itali",
+        "flag": "🇮🇹",
+        "url": "https://www.ilmessaggero.it/sport/altrisport/giochi_mediterraneo_ferrarese_taranto_cosa_ha_detto-9743199.html",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Kosovo Parliament to Reconvene, ‘Chaos’ Looms over Election of President - Balkan Insight",
+        "source": "Balkan Insight",
+        "country": "Britani",
+        "flag": "🇬🇧",
+        "url": "https://balkaninsight.com/2026/09/08/kosovo-parliament-to-reconvene-chaos-looms-over-election-of-president/bi/",
+        "sentiment": "negative"
+      },
+      {
+        "title": "Le reinterpretazioni politiche del ‘mito del Kosovo’ – il nazionalismo di Milošević e Vučić in Serbia - Giovani Reporter",
+        "source": "Giovani Reporter",
+        "country": "Itali",
+        "flag": "🇮🇹",
+        "url": "https://www.giovanireporter.org/2026/09/09/reinterpretazioni-politiche-mito-kosovo/",
+        "sentiment": "negative"
+      },
+      {
+        "title": "Κόσοβο στη Γάζα: Οι Βαλκάνιοι που πάνε να σώσουν τον Τραμπ - iAxia -",
+        "source": "iAxia -",
+        "country": "Greqi",
+        "flag": "🇬🇷",
+        "url": "https://www.iaxia.gr/diethni/kosovo-sti-gaza-oi-valkanioi-pou-pane-na-sosoun-ton-trab/",
+        "sentiment": "negative"
+      }
+    ]
   }
 ]

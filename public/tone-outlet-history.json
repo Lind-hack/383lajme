@@ -199,13 +199,13 @@
     },
     "ANSA": {
       "country": "Itali",
-      "total": 17,
+      "total": 18,
       "positive": 0,
       "neutral": 13,
       "negative": 0,
-      "unknown": 4,
+      "unknown": 5,
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-09-08",
+      "lastSeen": "2026-09-09",
       "urls": [
         "https://www.ansa.it/nuova_europa/en/news/sections/news/2026/08/20/vucic-writes-to-rutte-nato-stop-terror-in-kosovo-do-not-reopen-the_9034279d-c06f-4e44-ab54-096dd4332014.html",
         "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/08/20/vucic-scrive-a-rutte-nato-fermi-terrore-in-kosovo-non-riaprire-ponte_68050249-06ef-4b0a-b56b-6ff64929514e.html",
@@ -223,7 +223,8 @@
         "https://www.ansa.it/amp/nuova_europa/it/notizie/nazioni/kosovo/2026/09/02/in-kosovo-rischia-di-saltare-accordo-kurti-ldk-su-elezione-presidente_4abb9b04-441f-4e93-91a1-56a1d07b67c8.html",
         "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/09/06/linformazione-dei-balcani-si-incontra-a-trieste_b6343cee-eb0d-4448-a261-a23b804985ba.html",
         "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/09/08/accelerare-lintegrazione-dei-balcani-per-il-futuro-dellue-forum-a-trieste_6069c0ef-27e1-4bf2-b6c8-4b8ebcc0f985.html",
-        "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/09/08/dal-mas-ince-se-non-si-accelera-lallargamento-i-balcani-vanno-altrove_387874fe-f0c9-46ca-bf6d-aece6b329298.html"
+        "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/09/08/dal-mas-ince-se-non-si-accelera-lallargamento-i-balcani-vanno-altrove_387874fe-f0c9-46ca-bf6d-aece6b329298.html",
+        "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/09/09/allargamento-ue-e-pluralismo-a-trieste-linformazione-dei-balcani_5d3f66d8-7acb-4c4d-bf15-d3ed8d0b274d.html"
       ]
     },
     "Virgilio": {
@@ -1874,16 +1875,17 @@
     },
     "Cavalierenews": {
       "country": "Itali",
-      "total": 2,
+      "total": 3,
       "positive": 1,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-26",
-      "lastSeen": "2026-08-31",
+      "lastSeen": "2026-09-09",
       "urls": [
         "https://cavalierenews.it/ruzhdi-gashi-il-ponte-letterario-tra-il-kosovo-e-il-mondo-la-memoria-dellolocausto-e-il-trionfo-della-cultura-senza-confini/",
-        "https://cavalierenews.it/lorgoglio-tricolore-nei-balcani-i-soldati-italiani-della-missione-nato-garanti-di-pace-e-sicurezza-nel-cuore-del-kosovo/"
+        "https://cavalierenews.it/lorgoglio-tricolore-nei-balcani-i-soldati-italiani-della-missione-nato-garanti-di-pace-e-sicurezza-nel-cuore-del-kosovo/",
+        "https://cavalierenews.it/klithma-il-grido-la-straziante-voce-dei-bambini-mutilati-dalla-guerra-del-kosovo-nel-capolavoro-verita-di-alketa-gashi-fazliu/"
       ]
     },
     "espresso.com.pl": {
@@ -3062,8 +3064,8 @@
     },
     "Albinfo": {
       "country": "Zvicër",
-      "total": 9,
-      "positive": 2,
+      "total": 10,
+      "positive": 3,
       "neutral": 7,
       "negative": 0,
       "unknown": 0,
@@ -3078,7 +3080,8 @@
         "https://www.albinfo.ch/fr/27-vjetori-i-policise-se-kosove-kurti-shtrirje-ne-gjithe-vendin/",
         "https://www.albinfo.ch/de/konjufca-diaspora-kosovare-forcon-lidhjet-mes-kosoves-dhe-zvicres/",
         "https://www.albinfo.ch/de/nga-kosova-ne-garden-kombetare-te-shba-se-rrefimi-i-suksesit-te-rona-males/",
-        "https://www.albinfo.ch/fr/nga-kosova-ne-garden-kombetare-te-shba-se-rrefimi-i-suksesit-te-rona-males/"
+        "https://www.albinfo.ch/fr/nga-kosova-ne-garden-kombetare-te-shba-se-rrefimi-i-suksesit-te-rona-males/",
+        "https://www.albinfo.ch/fr/konjufca-diaspora-kosovare-forcon-lidhjet-mes-kosoves-dhe-zvicres/"
       ]
     },
     "iAxia -": {
@@ -3170,6 +3173,32 @@
       "lastSeen": "2026-09-08",
       "urls": [
         "https://www.fussballdaten.de/news/kosovo-verkuendet-schon-seinen-wechsel-bayern-talent-laesst/"
+      ]
+    },
+    "T-Online": {
+      "country": "Gjermani",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-09",
+      "lastSeen": "2026-09-09",
+      "urls": [
+        "https://www.t-online.de/sport/fussball/bundesliga/fc-bayern-muenchen/id_101426574/dfb-botschafter-irritiert-mit-post-spielt-osmani-kuenftig-fuer-kosovo-.html"
+      ]
+    },
+    "Soroptimist International d'Italia": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-09",
+      "lastSeen": "2026-09-08",
+      "urls": [
+        "https://www.soroptimist.it/it/attivita/attivita-nazionali/italia-e-kosovo-unite-nel-nome-del-soroptimist-60812/"
       ]
     }
   }
