@@ -1,10 +1,10 @@
 {
   "lastUpdated": "2026-09-09",
-  "overallIndex": 52,
-  "totalArticles": 67,
-  "sourceCount": 50,
+  "overallIndex": 51,
+  "totalArticles": 71,
+  "sourceCount": 53,
   "stanceVersion": 3,
-  "unattributed": 197,
+  "unattributed": 210,
   "nonEditorial": 0,
   "wrongKosovo": 0,
   "countries": {
@@ -74,7 +74,7 @@
         {
           "name": "T-Online",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Botschafter irritiert: Verliert der DFB nun auch ein Bayern-Talent? - T-Online",
@@ -85,6 +85,19 @@
               "date": "2026-09-09",
               "sentiment": "neutral",
               "reason": "Faktikë raportuar pa gjuhë ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Botschafter irritiert: Verliert der DFB nun auch ein Bayern-Talent? - t-online.de",
+              "albanianTitle": "Ambasadori i irrituar: A po e humb DFB-ja edhe një talent të Bayernit?",
+              "blurb": "Federata Gjermane e Futbollit rrezikon të humbasë një talent të Bayern Munichut sipas raportimeve të fundit mediatike.",
+              "imageUrl": "https://images.t-online.de/2026/09/T5ajlwMP5w0y/672x54:1815x1020/fit-in/1200x0/erblin-osmani-er-feierte-im-maerz-sein-profidebuet-im-spiel-gegen-union-berlin.jpg",
+              "url": "https://www.t-online.de/sport/fussball/bundesliga/fc-bayern-muenchen/id_101426574/dfb-botschafter-irritiert-mit-post-spielt-osmani-kuenftig-fuer-kosovo-.html",
+              "date": "2026-09-09",
+              "sentiment": "unknown",
+              "reason": "No mention of Kosovo in the headline",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -126,7 +139,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 5,
-        "excluded": 0,
+        "excluded": 1,
         "confident": true,
         "stanceVersion": 3
       }
@@ -251,7 +264,7 @@
         {
           "name": "ANSA",
           "sentiment": "neutral",
-          "articleCount": 5,
+          "articleCount": 6,
           "articles": [
             {
               "title": "L'informazione dei Balcani si incontra a Trieste - ANSA",
@@ -317,9 +330,22 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Pozzo (Confindustria), 'i Balcani strategici per accorciare le catene di fornitura' - ANSA",
+              "albanianTitle": "Pozzo (Confindustria): Ballkani është strategjik për shkurtimin e zinxhirëve të furnizimit",
+              "blurb": "Përfaqësuesi i Confindustria, Pozzo, vlerëson se Ballkani është strategjik për shkurtimin e zinxhirëve të furnizimit për kompanitë italiane.",
+              "imageUrl": "https://www.ansa.it/webimages/img_1280x720/2026/9/9/a4be673afce5b9b31196a5d97c6c5f98.jpg",
+              "url": "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/09/09/pozzo-confindustria-i-balcani-strategici-per-accorciare-le-catene-di-fornitura_8b3e32a0-422d-4a3c-af42-ef3afcdfddd2.html",
+              "date": "2026-09-09",
+              "sentiment": "neutral",
+              "reason": "Raporton thënie të Pozzo-s, pa gjuhë të ngarkuar nga media",
+              "isQuote": true,
+              "evidence": "",
+              "speaker": "Pozzo (Confindustria)"
             }
           ],
-          "totalArticles": 18,
+          "totalArticles": 19,
           "trend": "neutral",
           "firstSeen": "2026-08-20",
           "lastSeen": "2026-09-09"
@@ -679,7 +705,7 @@
         "positive": 6,
         "neutral": 94,
         "negative": 0,
-        "n": 16,
+        "n": 17,
         "excluded": 4,
         "confident": true,
         "stanceVersion": 3
@@ -845,6 +871,30 @@
           "lastSeen": "2026-09-06"
         },
         {
+          "name": "laola1.at",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Vor ÖFB-Duell: Schnappt sich Foda ein DFB-Juwel der Bayern? - laola1.at",
+              "albanianTitle": "Para duelit me Austrinë: A do t'ia rrëmbejë Foda Bayernit një talent të futbollit gjerman?",
+              "blurb": "Trajneri Franco Foda po shqyrton mundësinë e angazhimit të një talenti të Bayernit për përfaqësuesen e futbollit të Austrisë.",
+              "imageUrl": "https://www.laola1.at/storage/files/01/a0/38/24-94c8-7215-af12-7a0332bbedeb.1280x720.jpg?v=1",
+              "url": "https://www.laola1.at/de/red/fussball/nations-league/news/vor-oefb-duell--schnappt-sich-foda-ein-dfb-juwel-der-bayern-/",
+              "date": "2026-09-08",
+              "sentiment": "neutral",
+              "reason": "Titulli është faktik, pa gjuhë ngarkuese",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-09",
+          "lastSeen": "2026-09-08"
+        },
+        {
           "name": "noen.at",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -870,11 +920,11 @@
         }
       ],
       "summary": {
-        "index": 57,
-        "positive": 14,
-        "neutral": 86,
+        "index": 56,
+        "positive": 12,
+        "neutral": 88,
         "negative": 0,
-        "n": 7,
+        "n": 8,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 3
@@ -1118,13 +1168,38 @@
       }
     },
     "Holandë": {
-      "outlets": [],
+      "outlets": [
+        {
+          "name": "Puna.nl",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosso maakt moeilijke beslissing en emigreert met zijn gezin naar Kosovo: \"Nederland, bedankt voor alles\" - Puna.nl",
+              "albanianTitle": "Kosso merr vendimin e vështirë dhe emigron me familjen në Kosovë: \"Holandë, faleminderit për gjithçka\"",
+              "blurb": "Reperi Kosso ka marrë vendimin për t'u shpërngulur nga Holanda drejt Kosovës së bashku me familjen e tij.",
+              "imageUrl": null,
+              "url": "https://www.puna.nl/news/kosso-maakt-moeilijke-beslissing-en-emigreert-met-zijn-gezin-naar-kosovo-nederland-bedankt-voor-alles",
+              "date": "2026-09-09",
+              "sentiment": "neutral",
+              "reason": "Citim i personit, media raporton neutral",
+              "isQuote": true,
+              "evidence": "",
+              "speaker": "Kosso"
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-09",
+          "lastSeen": "2026-09-09"
+        }
+      ],
       "summary": {
-        "index": null,
+        "index": 50,
         "positive": 0,
-        "neutral": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 0,
+        "n": 1,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -1693,6 +1768,30 @@
           "lastSeen": "2026-09-09"
         },
         {
+          "name": "T24",
+          "sentiment": "negative",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Hasan Servet Öktem | Kosovalı parlamenterlerin yaptığı seçmene saygısızlık değil mi? - T24",
+              "albanianTitle": "Hasan Servet Öktem: A nuk është mosrespekt ndaj votuesve ajo që po bëjnë deputetët kosovarë?",
+              "blurb": "Hasan Servet Öktem ngre pyetjen nëse veprimet e parlamentarëve kosovarë përbëjnë mungesë respekti ndaj votuesve që i zgjodhën ata.",
+              "imageUrl": null,
+              "url": "https://t24.com.tr/yazarlar/hasan-servet-oktem/kosovali-parlamenterlerin-yaptigi-secmene-saygisizlik-degil-mi,58967",
+              "date": "2026-09-09",
+              "sentiment": "negative",
+              "reason": "Media përdor fjalë pejorative për parlamentarët kosovarë",
+              "isQuote": false,
+              "evidence": "saygısızlık",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-09",
+          "lastSeen": "2026-09-09"
+        },
+        {
           "name": "hurriyet.com.tr",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1718,14 +1817,22 @@
         }
       ],
       "summary": {
-        "index": 50,
+        "index": 44,
         "positive": 0,
-        "neutral": 100,
-        "negative": 0,
-        "n": 8,
+        "neutral": 89,
+        "negative": 11,
+        "n": 9,
         "excluded": 1,
         "confident": true,
-        "stanceVersion": 3
+        "stanceVersion": 3,
+        "movement": {
+          "delta": -6,
+          "from": 50,
+          "outlet": "T24",
+          "title": "Hasan Servet Öktem: A nuk është mosrespekt ndaj votuesve ajo që po bëjnë deputetët kosovarë?",
+          "evidence": "saygısızlık",
+          "url": "https://t24.com.tr/yazarlar/hasan-servet-oktem/kosovali-parlamenterlerin-yaptigi-secmene-saygisizlik-degil-mi,58967"
+        }
       }
     },
     "Kroaci": {
