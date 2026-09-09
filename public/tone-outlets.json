@@ -1,10 +1,10 @@
 {
   "lastUpdated": "2026-09-09",
-  "overallIndex": 53,
-  "totalArticles": 54,
-  "sourceCount": 40,
+  "overallIndex": 52,
+  "totalArticles": 60,
+  "sourceCount": 44,
   "stanceVersion": 3,
-  "unattributed": 187,
+  "unattributed": 188,
   "nonEditorial": 0,
   "wrongKosovo": 0,
   "countries": {
@@ -33,6 +33,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-01",
           "lastSeen": "2026-09-06"
+        },
+        {
+          "name": "Die Rheinpfalz",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Spen­den­auf­ruf: Kosovo-​Hilfe Pe­ters­berg bit­tet ein letz­tes Mal um Un­ter­stüt­zung - Die Rheinpfalz",
+              "albanianTitle": "Apel për ndihmë: Shoqata 'Kosovo-Hilfe Petersberg' kërkon mbështetje për herë të fundit - Die Rheinpfalz",
+              "blurb": "Organizata Kosovo-Hilfe Petersberg kërkon mbështetje financiare për herë të fundit për të ndihmuar qytetarët në Kosovë.",
+              "imageUrl": "https://www.rheinpfalz.de/cms_media/module_img/14192/7096350_1_facebookSM_91-134270982.jpg.webp",
+              "url": "https://www.rheinpfalz.de/lokal/pirmasens_artikel,-spendenaufruf-kosovo-hilfe-petersberg-bittet-ein-letztes-mal-um-unterst%C3%BCtzung-_arid,5927621.html",
+              "date": "2026-09-09",
+              "sentiment": "neutral",
+              "reason": "Neutral factual reporting",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-09",
+          "lastSeen": "2026-09-09"
         },
         {
           "name": "T-Online",
@@ -88,7 +112,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 3,
+        "n": 4,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -270,13 +294,13 @@
             },
             {
               "title": "Allargamento Ue e pluralismo, a Trieste l'informazione dei Balcani - ANSA",
-              "albanianTitle": "Zgjerimi i BE-së dhe pluralizmi, informimi nga Ballkani në Trieste",
-              "blurb": "Në Trieste po diskutohet për procesin e zgjerimit të Bashkimit Evropian dhe rëndësinë e pluralizmit mediatik në vendet e Ballkanit.",
+              "albanianTitle": "Zgjerimi i BE-së dhe pluralizmi, në Trieste diskutohet për mediat në Ballkan - ANSA",
+              "blurb": "Triesta pret një diskutim mbi zgjerimin e Bashkimit Evropian dhe pluralizmin mediatik në rajonin e Ballkanit Perëndimor.",
               "imageUrl": "https://www.ansa.it/webimages/img_1280x720/2026/9/9/da9f5a1235f3bd81c1c41cf2603942ff.jpg",
               "url": "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/09/09/allargamento-ue-e-pluralismo-a-trieste-linformazione-dei-balcani_5d3f66d8-7acb-4c4d-bf15-d3ed8d0b274d.html",
               "date": "2026-09-09",
-              "sentiment": "unknown",
-              "reason": "No reference to Kosovo in the headline",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike, pa gjuhë ngarkuese",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -285,6 +309,30 @@
           "totalArticles": 18,
           "trend": "neutral",
           "firstSeen": "2026-08-20",
+          "lastSeen": "2026-09-09"
+        },
+        {
+          "name": "Barletta NEWS24",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Qualif. Mondiali, Italia-Kosovo a Barletta, Grimaldi: «Una grande vittoria per la nostra città» - Barletta NEWS24",
+              "albanianTitle": "Kualifikimet për Botëror, Italia-Kosovo në Barletta, Grimaldi: Një fitore e madhe për qytetin tonë - Barletta NEWS24",
+              "blurb": "Qyteti i Barletës do të presë ndeshjen kualifikuese për botëror mes Italisë dhe Kosovës në futboll.",
+              "imageUrl": null,
+              "url": "https://www.barlettanews24.it/sport/25042/qualif-mondiali-italia-kosovo-a-barletta-grimaldi-una-grande-vittoria-per-la-nostra-citta",
+              "date": "2026-09-09",
+              "sentiment": "neutral",
+              "reason": "Citim i raportuar, jo zëri i mediumit",
+              "isQuote": true,
+              "evidence": "",
+              "speaker": "Grimaldi"
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-09",
           "lastSeen": "2026-09-09"
         },
         {
@@ -567,11 +615,11 @@
       ],
       "summary": {
         "index": 54,
-        "positive": 8,
-        "neutral": 92,
+        "positive": 7,
+        "neutral": 93,
         "negative": 0,
-        "n": 12,
-        "excluded": 5,
+        "n": 14,
+        "excluded": 4,
         "confident": true,
         "stanceVersion": 3
       }
@@ -990,16 +1038,16 @@
         }
       ],
       "summary": {
-        "index": 60,
-        "positive": 20,
-        "neutral": 80,
+        "index": 59,
+        "positive": 19,
+        "neutral": 81,
         "negative": 0,
-        "n": 15,
+        "n": 16,
         "excluded": 2,
         "confident": true,
         "stanceVersion": 3,
         "movement": {
-          "delta": 5,
+          "delta": 4,
           "from": 55,
           "outlet": "Albinfo",
           "title": "Nga Kosova në Gardën Kombëtare të SHBA-së, rrugëtimi i suksesshëm i Rona Malës",
@@ -1355,6 +1403,30 @@
     "Turqi": {
       "outlets": [
         {
+          "name": "Aksiyon.com.TR",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosova meclis başkanlığında devam kararı: Albulena Haxhiu yeniden seçildi - Aksiyon.com.TR",
+              "albanianTitle": "Vazhdimi i seancës për kryetar të Kuvendit: Albulena Haxhiu rizgjidhet në krye të legjislativit - Aksiyon.com.TR",
+              "blurb": "Albulena Haxhiu vazhdon detyrën në krye të Kuvendit të Kosovës pas votimit të zhvilluar në seancën parlamentare.",
+              "imageUrl": "https://cdn.aksiyon.com.tr/uploads/1280x720/images/202609/kosova-meclis-baskanliginda-devam-karari-albulena-haxhiu-yeniden-secildi-1200-549031.jpg",
+              "url": "https://www.aksiyon.com.tr/kosova-meclis-baskanliginda-devam-karari-albulena-haxhiu-yeniden-secildi-351222",
+              "date": "2026-09-09",
+              "sentiment": "neutral",
+              "reason": "Factual report of parliamentary decision without loaded language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 2,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-19",
+          "lastSeen": "2026-09-09"
+        },
+        {
           "name": "Daily Sabah",
           "sentiment": "neutral",
           "articleCount": 2,
@@ -1462,6 +1534,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-06",
           "lastSeen": "2026-09-06"
+        },
+        {
+          "name": "Son Dakika",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Albulena Haxhiu, Kosova'da 62 oyla yeniden Meclis Başkanı seçildi - Son Dakika",
+              "albanianTitle": "Albulena Haxhiu rizgjidhet kryetare e Kuvendit të Kosovës me 62 vota - Son Dakika",
+              "blurb": "Albulena Haxhiu është rizgjedhur në postin e kryetares së Kuvendit të Kosovës me 62 vota të deputetëve.",
+              "imageUrl": "https://foto.sondakika.com/haber/2026/09/09/kosova-da-meclis-baskani-yeniden-albulena-hax-3-20222119_amp.jpg",
+              "url": "https://www.sondakika.com/politika/haber-albulena-haxhiu-kosova-da-62-oyla-yeniden-meclis-b-20222171/",
+              "date": "2026-09-09",
+              "sentiment": "neutral",
+              "reason": "Faktikë pa ngarkim gjuhësor",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 11,
+          "trend": "i përzier",
+          "firstSeen": "2026-08-20",
+          "lastSeen": "2026-09-09"
         }
       ],
       "summary": {
@@ -1469,9 +1565,9 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 4,
+        "n": 6,
         "excluded": 1,
-        "confident": false,
+        "confident": true,
         "stanceVersion": 3
       }
     },

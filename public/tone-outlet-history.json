@@ -882,15 +882,16 @@
     },
     "Aksiyon.com.TR": {
       "country": "Turqi",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-19",
-      "lastSeen": "2026-08-19",
+      "lastSeen": "2026-09-09",
       "urls": [
-        "https://www.aksiyon.com.tr/kosova-da-zubin-potok-kazisinda-en-az-23-kisiye-ait-kalinti-bulundu-uc-supheli-tutuklandi-337827"
+        "https://www.aksiyon.com.tr/kosova-da-zubin-potok-kazisinda-en-az-23-kisiye-ait-kalinti-bulundu-uc-supheli-tutuklandi-337827",
+        "https://www.aksiyon.com.tr/kosova-meclis-baskanliginda-devam-karari-albulena-haxhiu-yeniden-secildi-351222"
       ]
     },
     "İhlas Haber Ajansı": {
@@ -1022,13 +1023,13 @@
     },
     "Son Dakika": {
       "country": "Turqi",
-      "total": 10,
+      "total": 11,
       "positive": 1,
-      "neutral": 7,
+      "neutral": 8,
       "negative": 0,
       "unknown": 2,
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-09-04",
+      "lastSeen": "2026-09-09",
       "urls": [
         "https://www.sondakika.com/haber/haber-kosova-da-halter-sampiyonasi-basladi-20162761/",
         "https://www.sondakika.com/3-sayfa/haber-kosovo-da-savas-suclari-sorusturmasi-23-kalinti-bu-20159357/",
@@ -1039,7 +1040,8 @@
         "https://www.sondakika.com/guncel/haber-kosova-da-cumhurbaskani-adayi-sejdiu-belirlendi-20194210/",
         "https://www.sondakika.com/spor/haber-berber-ali-turkben-iki-turkiye-sampiyonlugunun-ard-20195760/",
         "https://www.sondakika.com/guncel/haber-kosova-daki-yildizlar-avrupa-halter-sampiyonasi-nd-20196635/",
-        "https://www.sondakika.com/guncel/haber-kosova-prizren-deki-ilkokula-mehmetcik-oyun-parki--20207034/"
+        "https://www.sondakika.com/guncel/haber-kosova-prizren-deki-ilkokula-mehmetcik-oyun-parki--20207034/",
+        "https://www.sondakika.com/politika/haber-albulena-haxhiu-kosova-da-62-oyla-yeniden-meclis-b-20222171/"
       ]
     },
     "Harici": {
@@ -3199,6 +3201,32 @@
       "lastSeen": "2026-09-08",
       "urls": [
         "https://www.soroptimist.it/it/attivita/attivita-nazionali/italia-e-kosovo-unite-nel-nome-del-soroptimist-60812/"
+      ]
+    },
+    "Die Rheinpfalz": {
+      "country": "Gjermani",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-09",
+      "lastSeen": "2026-09-09",
+      "urls": [
+        "https://www.rheinpfalz.de/lokal/pirmasens_artikel,-spendenaufruf-kosovo-hilfe-petersberg-bittet-ein-letztes-mal-um-unterst%C3%BCtzung-_arid,5927621.html"
+      ]
+    },
+    "Barletta NEWS24": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-09",
+      "lastSeen": "2026-09-09",
+      "urls": [
+        "https://www.barlettanews24.it/sport/25042/qualif-mondiali-italia-kosovo-a-barletta-grimaldi-una-grande-vittoria-per-la-nostra-citta"
       ]
     }
   }
