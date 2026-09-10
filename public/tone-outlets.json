@@ -1,11 +1,11 @@
 {
   "lastUpdated": "2026-09-10",
-  "overallIndex": 48,
-  "totalArticles": 65,
-  "sourceCount": 43,
+  "overallIndex": 50,
+  "totalArticles": 74,
+  "sourceCount": 45,
   "stanceVersion": 3,
-  "unattributed": 234,
-  "nonEditorial": 1,
+  "unattributed": 233,
+  "nonEditorial": 2,
   "wrongKosovo": 0,
   "countries": {
     "Gjermani": {
@@ -272,6 +272,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-07",
           "lastSeen": "2026-09-07"
+        },
+        {
+          "name": "courrierdesbalkans.fr",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo : encore six ans de prison requis contre Hashim Thaçi pour entrave à la justice - courrierdesbalkans.fr",
+              "albanianTitle": "Kosovë: Kërkohen edhe gjashtë vjet burg për Hashim Thaçin për pengim të drejtësisë - courrierdesbalkans.fr",
+              "blurb": "Prokuroria ka kërkuar gjashtë vite shtesë burgim për Hashim Thaçin për shkak të akuzave për pengim të drejtësisë.",
+              "imageUrl": "https://www.courrierdesbalkans.fr/wp-content/uploads/2026/09/95d8319b-b867-413a-1d73-08df0d9fbd54_cx17_cy3_cw63_w1023_r1_s.webp",
+              "url": "https://www.courrierdesbalkans.fr/kosovo-encore-six-ans-de-prison-requis-contre-hashim-thaci-pour-entrave-a-la-justice-99460/",
+              "date": "2026-09-10",
+              "sentiment": "neutral",
+              "reason": "Legal news reported without contempt or praise",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-10",
+          "lastSeen": "2026-09-10"
         }
       ],
       "summary": {
@@ -279,7 +303,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 1,
+        "n": 2,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -495,6 +519,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-08",
           "lastSeen": "2026-09-08"
+        },
+        {
+          "name": "Divisione Calcio a 5",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Qualificazioni Mondiali 2028, anche la Puglia si tinge d'Azzurro: Italia-Kosovo al PalaDisfida di Barletta. Si gioca il 10 novembre - Divisione Calcio a 5",
+              "albanianTitle": "Kualifikimet për Botërorin 2028, Italia-Kosovo luhet më 10 nëntor në Barletta - Divisione Calcio a 5",
+              "blurb": "Kombëtarja e Italisë dhe ajo e Kosovës do të përballen në Barleta më 10 nëntor për kualifikimet botërore.",
+              "imageUrl": "https://divisionecalcioa5.it/wp-content/uploads/2026/09/italfutsal-squadra-azzurra-2.jpg",
+              "url": "https://divisionecalcioa5.it/news/nazionale-maschile/qualificazioni-mondiali-2028-anche-la-puglia-si-tinge-dazzurro-italia-kosovo-al-paladisfida-di-barletta-si-gioca-il-10-novembre/",
+              "date": "2026-09-10",
+              "sentiment": "neutral",
+              "reason": "Simple factual announcement of a match",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-10",
+          "lastSeen": "2026-09-10"
         },
         {
           "name": "FIGC",
@@ -729,9 +777,9 @@
       "summary": {
         "index": 42,
         "positive": 0,
-        "neutral": 84,
-        "negative": 16,
-        "n": 19,
+        "neutral": 85,
+        "negative": 15,
+        "n": 20,
         "excluded": 2,
         "confident": true,
         "stanceVersion": 3,
@@ -917,7 +965,7 @@
               "speaker": ""
             }
           ],
-          "totalArticles": 12,
+          "totalArticles": 19,
           "trend": "pozitiv",
           "firstSeen": "2026-09-07",
           "lastSeen": "2026-09-10"
@@ -961,14 +1009,22 @@
         }
       ],
       "summary": {
-        "index": 62,
-        "positive": 25,
-        "neutral": 75,
+        "index": 66,
+        "positive": 32,
+        "neutral": 68,
         "negative": 0,
-        "n": 12,
+        "n": 19,
         "excluded": 2,
         "confident": true,
-        "stanceVersion": 3
+        "stanceVersion": 3,
+        "movement": {
+          "delta": 7,
+          "from": 59,
+          "outlet": "Albinfo",
+          "title": "Dy motra nga Kosova, një histori suksesi ndërkombëtar në inxhinieri në Gjermani - Albinfo",
+          "evidence": "internationale Erfolgsgeschichte",
+          "url": "https://www.albinfo.ch/de/dy-motra-nga-kosova-nje-histori-suksesi-nderkombetar-ne-fushen-e-inxhinierise-ne-gjermani/"
+        }
       }
     },
     "Holandë": {

@@ -6280,9 +6280,9 @@
   },
   {
     "date": "2026-09-10",
-    "overallIndex": 48,
-    "totalArticles": 65,
-    "sourceCount": 43,
+    "overallIndex": 50,
+    "totalArticles": 74,
+    "sourceCount": 45,
     "stanceVersion": 3,
     "countries": {
       "Gjermani": {
@@ -6320,7 +6320,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 1,
+        "n": 2,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -6328,9 +6328,9 @@
       "Itali": {
         "index": 42,
         "positive": 0,
-        "neutral": 84,
-        "negative": 16,
-        "n": 19,
+        "neutral": 85,
+        "negative": 15,
+        "n": 20,
         "excluded": 2,
         "confident": true,
         "stanceVersion": 3,
@@ -6354,14 +6354,22 @@
         "stanceVersion": 3
       },
       "Zvicër": {
-        "index": 62,
-        "positive": 25,
-        "neutral": 75,
+        "index": 66,
+        "positive": 32,
+        "neutral": 68,
         "negative": 0,
-        "n": 12,
+        "n": 19,
         "excluded": 2,
         "confident": true,
-        "stanceVersion": 3
+        "stanceVersion": 3,
+        "movement": {
+          "delta": 7,
+          "from": 59,
+          "outlet": "Albinfo",
+          "title": "Dy motra nga Kosova, një histori suksesi ndërkombëtar në inxhinieri në Gjermani - Albinfo",
+          "evidence": "internationale Erfolgsgeschichte",
+          "url": "https://www.albinfo.ch/de/dy-motra-nga-kosova-nje-histori-suksesi-nderkombetar-ne-fushen-e-inxhinierise-ne-gjermani/"
+        }
       },
       "Holandë": {
         "index": 50,
@@ -6446,27 +6454,27 @@
     },
     "headlines": [
       {
-        "title": "Hamza: E rëndësishme që Kosova më 16 shtator ta ketë Kuvendin e konstituuar, marrim pjesë në seancën e 9 shtatorit - Reporteri.net",
-        "source": "Reporteri",
+        "title": "Zwei Schwestern aus dem Kosovo, eine internationale Erfolgsgeschichte im Ingenieurwesen in Deutschland - Albinfo",
+        "source": "Albinfo",
+        "country": "Gjermani",
+        "flag": "🇩🇪",
+        "url": "https://www.albinfo.ch/de/dy-motra-nga-kosova-nje-histori-suksesi-nderkombetar-ne-fushen-e-inxhinierise-ne-gjermani/",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Deux sœurs originaires du Kosovo, une réussite internationale dans le domaine de l’ingénierie en Allemagne - Albinfo",
+        "source": "Albinfo",
         "country": "Francë",
         "flag": "🇫🇷",
-        "url": "https://reporteri.net/fr/nouvelles/Hamza--il-est-important-que-le-Kosovo-dispose-d%27une-assembl%C3%A9e-constitu%C3%A9e-le-16-septembre.-Nous-participerons-%C3%A0-la-session-du-9-septembre./",
+        "url": "https://www.albinfo.ch/fr/dy-motra-nga-kosova-nje-histori-suksesi-nderkombetar-ne-fushen-e-inxhinierise-ne-gjermani/",
         "sentiment": "positive"
       },
       {
-        "title": "Kosova’nın İşleyen Bir Meclis’e İhtiyacı Var - Kosovahaber.com",
-        "source": "Kosovahaber.com",
-        "country": "Turqi",
-        "flag": "🇹🇷",
-        "url": "https://kosovahaber.com/haber/kosovanin-isleyen-bir-meclise-ihtiyaci-var-105980",
-        "sentiment": "positive"
-      },
-      {
-        "title": "Sırp Listesi, Sırp Halkı Değildir; Kosova Sırbistan da Değildir - Kosovahaber.com",
-        "source": "Kosovahaber.com",
-        "country": "Turqi",
-        "flag": "🇹🇷",
-        "url": "https://kosovahaber.com/haber/sirp-listesi-sirp-halki-degildir-kosova-sirbistan-da-degildir-105928",
+        "title": "Kosovos Judokas kehren auf die große Wettkampfbühne zurück und peilen Medaillen in Budapest an - Albinfo",
+        "source": "Albinfo",
+        "country": "Austri",
+        "flag": "🇦🇹",
+        "url": "https://www.albinfo.ch/de/xhudistet-e-kosoves-rikthehen-ne-garat-e-medha-synojne-medalje-ne-budapest/",
         "sentiment": "positive"
       },
       {

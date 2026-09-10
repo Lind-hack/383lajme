@@ -3076,9 +3076,9 @@
     },
     "Albinfo": {
       "country": "Zvicër",
-      "total": 12,
-      "positive": 3,
-      "neutral": 9,
+      "total": 19,
+      "positive": 6,
+      "neutral": 13,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-07",
@@ -3095,7 +3095,14 @@
         "https://www.albinfo.ch/fr/nga-kosova-ne-garden-kombetare-te-shba-se-rrefimi-i-suksesit-te-rona-males/",
         "https://www.albinfo.ch/fr/konjufca-diaspora-kosovare-forcon-lidhjet-mes-kosoves-dhe-zvicres/",
         "https://www.albinfo.ch/de/die-neutralitaetsinitiative-gefaehrdet-den-schweizer-einsatz-im-kosovo/",
-        "https://www.albinfo.ch/de/ku-jane-te-gjithe-kino-kosova-film-festival-rikthehet-me-edicionin-e-shtate-ne-berne/"
+        "https://www.albinfo.ch/de/ku-jane-te-gjithe-kino-kosova-film-festival-rikthehet-me-edicionin-e-shtate-ne-berne/",
+        "https://www.albinfo.ch/de/dy-motra-nga-kosova-nje-histori-suksesi-nderkombetar-ne-fushen-e-inxhinierise-ne-gjermani/",
+        "https://www.albinfo.ch/de/adrian-simnica-perfaqeson-rinine-shqiptare-ne-parlamentin-evropian/",
+        "https://www.albinfo.ch/fr/xhudistet-e-kosoves-rikthehen-ne-garat-e-medha-synojne-medalje-ne-budapest/",
+        "https://www.albinfo.ch/fr/dy-motra-nga-kosova-nje-histori-suksesi-nderkombetar-ne-fushen-e-inxhinierise-ne-gjermani/",
+        "https://www.albinfo.ch/fr/adrian-simnica-perfaqeson-rinine-shqiptare-ne-parlamentin-evropian/",
+        "https://www.albinfo.ch/de/xhudistet-e-kosoves-rikthehen-ne-garat-e-medha-synojne-medalje-ne-budapest/",
+        "https://www.albinfo.ch/de/kino-kosova-nje-festival-qe-hap-perspektiva-te-reja/"
       ]
     },
     "iAxia -": {
@@ -3370,6 +3377,32 @@
       "lastSeen": "2026-09-07",
       "urls": [
         "https://www.dw.com/en/germany-kosovo-unite-against-ticks-carrying-deadly-virus/a-78655223"
+      ]
+    },
+    "courrierdesbalkans.fr": {
+      "country": "Francë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-10",
+      "lastSeen": "2026-09-10",
+      "urls": [
+        "https://www.courrierdesbalkans.fr/kosovo-encore-six-ans-de-prison-requis-contre-hashim-thaci-pour-entrave-a-la-justice-99460/"
+      ]
+    },
+    "Divisione Calcio a 5": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-10",
+      "lastSeen": "2026-09-10",
+      "urls": [
+        "https://divisionecalcioa5.it/news/nazionale-maschile/qualificazioni-mondiali-2028-anche-la-puglia-si-tinge-dazzurro-italia-kosovo-al-paladisfida-di-barletta-si-gioca-il-10-novembre/"
       ]
     }
   }
