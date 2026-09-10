@@ -1,10 +1,10 @@
 {
   "lastUpdated": "2026-09-10",
   "overallIndex": 48,
-  "totalArticles": 60,
+  "totalArticles": 65,
   "sourceCount": 43,
   "stanceVersion": 3,
-  "unattributed": 208,
+  "unattributed": 234,
   "nonEditorial": 1,
   "wrongKosovo": 0,
   "countries": {
@@ -290,7 +290,7 @@
         {
           "name": "ANSA",
           "sentiment": "neutral",
-          "articleCount": 4,
+          "articleCount": 6,
           "articles": [
             {
               "title": "Accelerare l'integrazione dei Balcani per il futuro dell'Ue, forum a Trieste - ansa.it",
@@ -343,12 +343,38 @@
               "isQuote": true,
               "evidence": "",
               "speaker": "Pozzo (Confindustria)"
+            },
+            {
+              "title": "Kosovo court in The Hague seeks 6-year sentence for Thaçi for obstruction of justice - ANSA",
+              "albanianTitle": "Gjykata e Kosovës në Hagë kërkon 6 vjet burgim për Thaçin për pengim të drejtësisë",
+              "blurb": "Prokuroria në Gjykatën e Hagës ka kërkuar dënim me gjashtë vjet burgim për Hashim Thaçin për pengim të drejtësisë.",
+              "imageUrl": "https://www.ansa.it/webimages/img_1280x720/2026/9/10/241f4b5d4e1837564cdf2242f3c16272.jpg",
+              "url": "https://www.ansa.it/nuova_europa/en/news/sections/politics/2026/09/10/kosovo-court-in-the-hague-seeks-6-year-sentence-for-thaci-for_b42b4a85-551f-49c3-99b0-f74e97aead46.html",
+              "date": "2026-09-10",
+              "sentiment": "neutral",
+              "reason": "Factual report of court seeking sentence",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Corte del Kosovo all'Aja chiede 6 anni per Thaci per ostruzione alla giustizia - ANSA",
+              "albanianTitle": "Gjykata e Kosovës në Hagë kërkon 6 vjet burgim për Thaçin për pengim të drejtësisë",
+              "blurb": "Gjykata e Kosovës në Hagë ka kërkuar dënimin me gjashtë vjet burgim për Thaçin për shkak të pengimit të drejtësisë.",
+              "imageUrl": "https://www.ansa.it/webimages/img_1280x720/2026/9/10/241f4b5d4e1837564cdf2242f3c16272.jpg",
+              "url": "https://www.ansa.it/nuova_europa/it/notizie/rubriche/politica/2026/09/10/corte-del-kosovo-allaja-chiede-6-anni-per-thaci-per-ostruzione_7963cf81-2f90-4c9c-abbe-f2ef01ea0f76.html",
+              "date": "2026-09-10",
+              "sentiment": "neutral",
+              "reason": "Factual report of court seeking sentence",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 19,
+          "totalArticles": 21,
           "trend": "neutral",
           "firstSeen": "2026-08-20",
-          "lastSeen": "2026-09-09"
+          "lastSeen": "2026-09-10"
         },
         {
           "name": "Barletta NEWS24",
@@ -569,7 +595,7 @@
         {
           "name": "Osservatorio Balcani Caucaso Transeuropa",
           "sentiment": "negative",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Kosovo, politics at a dead end - Osservatorio Balcani Caucaso Transeuropa",
@@ -583,10 +609,23 @@
               "isQuote": false,
               "evidence": "politics at a dead end",
               "speaker": ""
+            },
+            {
+              "title": "Kosovo, la politica in un vicolo cieco - Osservatorio Balcani Caucaso Transeuropa",
+              "albanianTitle": "Kosova në ngërç politik - Osservatorio Balcani Caucaso Transeuropa",
+              "blurb": "Skena politike në Kosovë ndodhet në një ngërç institucional që po pengon zhvillimet e mëtejshme në vend.",
+              "imageUrl": "https://www.balcanicaucaso.org/wp-content/uploads/sites/8/2026/09/shutterstock_2277262145.jpg",
+              "url": "https://www.balcanicaucaso.org/cp_article/kosovo-la-politica-in-un-vicolo-cieco/",
+              "date": "2026-09-10",
+              "sentiment": "negative",
+              "reason": "Outlet frames Kosovo politics as a dead end",
+              "isQuote": false,
+              "evidence": "vicolo cieco",
+              "speaker": ""
             }
           ],
-          "totalArticles": 5,
-          "trend": "i përzier",
+          "totalArticles": 6,
+          "trend": "kritik",
           "firstSeen": "2026-08-19",
           "lastSeen": "2026-09-10"
         },
@@ -621,7 +660,7 @@
           "articles": [
             {
               "title": "Kosovo, la politica in un vicolo cieco - balcanicaucaso.org",
-              "albanianTitle": null,
+              "albanianTitle": "Kosova, politika në rrugë pa krye",
               "blurb": "Skena politike në Kosovë po përballet me një bllokadë të vazhdueshme në proceset e saj vendimmarrëse institucionale.",
               "imageUrl": "https://www.balcanicaucaso.org/wp-content/uploads/sites/8/2026/09/shutterstock_2277262145.jpg",
               "url": "https://www.balcanicaucaso.org/cp_article/kosovo-la-politica-in-un-vicolo-cieco/",
@@ -688,19 +727,19 @@
         }
       ],
       "summary": {
-        "index": 44,
+        "index": 42,
         "positive": 0,
-        "neutral": 88,
-        "negative": 12,
-        "n": 16,
+        "neutral": 84,
+        "negative": 16,
+        "n": 19,
         "excluded": 2,
         "confident": true,
         "stanceVersion": 3,
         "movement": {
-          "delta": -9,
+          "delta": -11,
           "from": 53,
           "outlet": "balcanicaucaso.org",
-          "title": "Kosovo, la politica in un vicolo cieco - balcanicaucaso.org",
+          "title": "Kosova, politika në rrugë pa krye",
           "evidence": "politica in un vicolo cieco",
           "url": "https://www.balcanicaucaso.org/cp_article/kosovo-la-politica-in-un-vicolo-cieco/"
         }
@@ -878,7 +917,7 @@
               "speaker": ""
             }
           ],
-          "totalArticles": 11,
+          "totalArticles": 12,
           "trend": "pozitiv",
           "firstSeen": "2026-09-07",
           "lastSeen": "2026-09-10"
@@ -922,22 +961,14 @@
         }
       ],
       "summary": {
-        "index": 65,
-        "positive": 30,
-        "neutral": 70,
+        "index": 62,
+        "positive": 25,
+        "neutral": 75,
         "negative": 0,
-        "n": 10,
+        "n": 12,
         "excluded": 2,
         "confident": true,
-        "stanceVersion": 3,
-        "movement": {
-          "delta": 6,
-          "from": 59,
-          "outlet": "Albinfo",
-          "title": "Nga Kosova në Gardën Kombëtare të SHBA-së, rrugëtimi i suksesshëm i Rona Malës",
-          "evidence": "parcours de réussite",
-          "url": "https://www.albinfo.ch/fr/nga-kosova-ne-garden-kombetare-te-shba-se-rrefimi-i-suksesit-te-rona-males/"
-        }
+        "stanceVersion": 3
       }
     },
     "Holandë": {

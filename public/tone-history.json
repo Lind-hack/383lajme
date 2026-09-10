@@ -6281,7 +6281,7 @@
   {
     "date": "2026-09-10",
     "overallIndex": 48,
-    "totalArticles": 60,
+    "totalArticles": 65,
     "sourceCount": 43,
     "stanceVersion": 3,
     "countries": {
@@ -6326,19 +6326,19 @@
         "stanceVersion": 3
       },
       "Itali": {
-        "index": 44,
+        "index": 42,
         "positive": 0,
-        "neutral": 88,
-        "negative": 12,
-        "n": 16,
+        "neutral": 84,
+        "negative": 16,
+        "n": 19,
         "excluded": 2,
         "confident": true,
         "stanceVersion": 3,
         "movement": {
-          "delta": -9,
+          "delta": -11,
           "from": 53,
           "outlet": "balcanicaucaso.org",
-          "title": "Kosovo, la politica in un vicolo cieco - balcanicaucaso.org",
+          "title": "Kosova, politika në rrugë pa krye",
           "evidence": "politica in un vicolo cieco",
           "url": "https://www.balcanicaucaso.org/cp_article/kosovo-la-politica-in-un-vicolo-cieco/"
         }
@@ -6354,22 +6354,14 @@
         "stanceVersion": 3
       },
       "Zvicër": {
-        "index": 65,
-        "positive": 30,
-        "neutral": 70,
+        "index": 62,
+        "positive": 25,
+        "neutral": 75,
         "negative": 0,
-        "n": 10,
+        "n": 12,
         "excluded": 2,
         "confident": true,
-        "stanceVersion": 3,
-        "movement": {
-          "delta": 6,
-          "from": 59,
-          "outlet": "Albinfo",
-          "title": "Nga Kosova në Gardën Kombëtare të SHBA-së, rrugëtimi i suksesshëm i Rona Malës",
-          "evidence": "parcours de réussite",
-          "url": "https://www.albinfo.ch/fr/nga-kosova-ne-garden-kombetare-te-shba-se-rrefimi-i-suksesit-te-rona-males/"
-        }
+        "stanceVersion": 3
       },
       "Holandë": {
         "index": 50,
@@ -6462,19 +6454,19 @@
         "sentiment": "positive"
       },
       {
+        "title": "Kosova’nın İşleyen Bir Meclis’e İhtiyacı Var - Kosovahaber.com",
+        "source": "Kosovahaber.com",
+        "country": "Turqi",
+        "flag": "🇹🇷",
+        "url": "https://kosovahaber.com/haber/kosovanin-isleyen-bir-meclise-ihtiyaci-var-105980",
+        "sentiment": "positive"
+      },
+      {
         "title": "Sırp Listesi, Sırp Halkı Değildir; Kosova Sırbistan da Değildir - Kosovahaber.com",
         "source": "Kosovahaber.com",
         "country": "Turqi",
         "flag": "🇹🇷",
         "url": "https://kosovahaber.com/haber/sirp-listesi-sirp-halki-degildir-kosova-sirbistan-da-degildir-105928",
-        "sentiment": "positive"
-      },
-      {
-        "title": "Lahey'de Yargılanan Eski UÇK Yöneticilerinin Beraat Edeceğine İnanıyorum - Kosovahaber.com",
-        "source": "Kosovahaber.com",
-        "country": "Turqi",
-        "flag": "🇹🇷",
-        "url": "https://kosovahaber.com/haber/laheyde-yargilanan-eski-uck-yoneticilerinin-beraat-edecegine-inaniyorum-105960",
         "sentiment": "positive"
       },
       {
@@ -6494,8 +6486,8 @@
         "sentiment": "negative"
       },
       {
-        "title": "Kosovo, la politica in un vicolo cieco - balcanicaucaso.org",
-        "source": "balcanicaucaso.org",
+        "title": "Kosovo, la politica in un vicolo cieco - Osservatorio Balcani Caucaso Transeuropa",
+        "source": "Osservatorio Balcani Caucaso Transeuropa",
         "country": "Itali",
         "flag": "🇮🇹",
         "url": "https://www.balcanicaucaso.org/cp_article/kosovo-la-politica-in-un-vicolo-cieco/",
