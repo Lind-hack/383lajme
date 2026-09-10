@@ -93,6 +93,7 @@ interface Snapshot {
 }
 
 interface F1Payload {
+  forecast?: ComponentProps<typeof F1RaceControl>["forecast"];
   outcomes: {
     key: string; label: string; team: string; probability: number; headshot_url?: string; team_colour?: string; grid_position?: number;
     championship_position?: number; championship_points?: number; latest_race_position?: number | null; latest_race_points?: number;
@@ -1277,6 +1278,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                 marketOpen={market.status === "open"}
                 drivers={f1.outcomes}
                 timing={f1.timing}
+                forecast={f1.forecast}
                 history={f1.history}
                 championship={f1.championship}
                 selectedDriverKey={f1OutcomeKey}

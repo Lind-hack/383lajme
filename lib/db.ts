@@ -322,6 +322,26 @@ export async function getArticlesBySlugs(slugs: string[]): Promise<Article[]> {
  * strip. This intentionally ignores featured and engagement ranking so a new
  * pipeline article can never be hidden behind older, higher-scored stories.
  */
+export async function getPropositionArticles(terms: string[], now = new Date()): Promise<Article[]> {
+  const supabase = supabaseNewsClient();
+  if (!supabase || !terms.length) return [];
+  const results = await Promise.allSettled(terms.slice(0, 4).map(async term => {
+    const { data, error } = await supabase.from("news_articles").select(ARTICLE_COLUMNS)
+      .ilike("title", `%${term}%`)
+      .gte("published_at", new Date(now.getTime() - 30 * 86400000).toISOString())
+      .lte("published_at", now.toISOString())
+      .order("published_at", { ascending: false }).limit(40);
+    if (error) throw new Error(error.message);
+    return (data ?? []).map(article => mapAutoRow(article as unknown as Record<string, unknown>));
+  }));
+  const articles = new Map<string, Article>();
+  for (const result of results) {
+    if (result.status === "rejected") console.error("[news] Proposition retrieval failed", result.reason);
+    else for (const article of result.value) articles.set(article.slug, article);
+  }
+  return [...articles.values()];
+}
+
 export async function getLatestArticles(limit = 10): Promise<Article[]> {
   const supabase = supabaseNewsClient();
   if (supabase) {

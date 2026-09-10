@@ -50,6 +50,7 @@ type HistoryPoint = {
 };
 
 type Props = {
+  forecast?: { unavailable?: string; issued_at?: string; source_url?: string; rain_expected?: boolean; precipitation_complete?: boolean } | null;
   marketId: string;
   marketOpen: boolean;
   drivers: Driver[];
@@ -136,12 +137,13 @@ export default function F1RaceControl({
   selectedDriverKey,
   onBetDriver,
   championship,
+  forecast,
 }: Props) {
   const isChampionship = Boolean(championship);
   const [showAllDrivers, setShowAllDrivers] = useState(false);
   const raceStatus = String(timing?.race?.status ?? "UNAVAILABLE").toUpperCase();
   const isLive = raceStatus === "LIVE";
-  const isFinished = raceStatus === "FINISHED";
+  const isFinished = !marketOpen || ["FINISHED", "ARCHIVED"].includes(raceStatus);
 
   const oddsOrder = useMemo(
     () => [...drivers].sort((a, b) => cleanProbability(b.probability) - cleanProbability(a.probability)),
@@ -257,6 +259,18 @@ export default function F1RaceControl({
       </div>
 
       <section className="f1-favorites-section" aria-labelledby="f1-favorites-title">
+        {forecast && !isChampionship ? (
+          <aside className="f1-section-heading" aria-label="Parashikimi i motit">
+            <div><h3>Moti gjatë garës</h3><p>{forecast.unavailable
+              ? "Parashikimi nuk është i disponueshëm."
+              : forecast.rain_expected ? "Parashikohet reshje gjatë orëve të garës."
+              : forecast.precipitation_complete ? "Nuk parashikohen reshje gjatë orëve të garës."
+              : "Të dhënat e reshjeve janë të pjesshme."}</p>
+              {forecast.issued_at ? <small>Përditësuar {new Date(forecast.issued_at).toLocaleString("sq-AL")}</small> : null}
+            </div>
+            {forecast.source_url ? <a href={forecast.source_url} target="_blank" rel="noopener noreferrer">MET Norway · parashikim</a> : null}
+          </aside>
+        ) : null}
         <div className="f1-section-heading">
           <div>
             <h3 id="f1-favorites-title">

@@ -4,7 +4,6 @@ import { lmsrPriceYes } from "@/lib/tregu";
 import { lmsrSportOutcomePrices } from "@/lib/tregu-client";
 import { getArticlesBySlugs } from "@/lib/db";
 import { parseEvent, slugKey } from "@/lib/tregu-groups";
-import { fetchF1LiveLiteLeaderboard } from "@/lib/f1-live-lite";
 import { resolveMarketMedia } from "@/lib/tregu-market-media.mjs";
 import { outcomeColor } from "@/lib/tregu-hub-market.mjs";
 import { publicProfileName } from "@/lib/profile-hub.mjs";
@@ -368,9 +367,8 @@ export async function GET(
     const isChampionship = market.live_event?.event_kind === "championship";
     let board = market.live_score_state ?? null;
     const isArchived = market.status === "closed" || market.status === "resolved";
-    if (!isArchived && !isChampionship) {
-      try { board = await fetchF1LiveLiteLeaderboard(); } catch { /* cached audited timing remains the fallback */ }
-    }
+    // Public reads use this market's persisted evidence. A global latest
+    // leaderboard can belong to another race and must not replace it here.
     if (isArchived && !board) {
       board = { race: { status: "ARCHIVED" }, rows: [] };
     }
@@ -452,6 +450,7 @@ export async function GET(
         }
       ),
       timing: isChampionship ? null : board,
+      forecast: market.pre_match_analysis?.opening_model?.weather_forecast ?? null,
       history,
       championship: isChampionship ? {
         season: market.live_event?.season,

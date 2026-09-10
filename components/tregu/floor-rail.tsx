@@ -65,7 +65,8 @@ export default function FloorRail({
             Temat e nxehta
           </h3>
           {hot.map((m, i) => {
-            const pct = Math.round(Math.max(0, Math.min(1, m.prob)) * 100);
+            const values = Object.values(m.outcomeProbabilities ?? {}).filter(Number.isFinite);
+            const pct = Math.round(Math.max(0, Math.min(1, values.length ? Math.max(...values) : m.prob)) * 100);
             return (
               <Link key={m.slug} href={`/tregu/${m.slug}`} className="tregu-hot-row">
                 <span className="tregu-hot-rank">{i + 1}</span>

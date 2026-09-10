@@ -1,10 +1,11 @@
-import { getArticles, getLatestArticles } from "@/lib/db";
+import { getArticles, getLatestArticles, getPropositionArticles } from "@/lib/db";
+import { propositionSearchTerms } from "@/lib/tregu-news-search.mjs";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { scoreMarketWithAI, slugifyQuestion, type Market } from "@/lib/tregu";
 import { buildDailyDraftPlan, buildLiveEventDraftRunKey, buildRepricePlan, dailyDraftPublicationReason, evidenceIdentity, isEligibleNewsDeadlineMarket, newsDeadlineAction, newsDeadlineDecayCap, NEWS_DEADLINE_DECAY_INTERVAL_MS, repriceMarketSkipReason, validateDailyDraftSubmission } from "@/lib/tregu-automation.mjs";
 import { kosovoLocalDate } from "@/lib/tregu-date-key.mjs";
 import { fetchEspnLiveEvents } from "@/lib/espn-live-score.mjs";
-import { ARGENTINA_SPAIN_PAIR, buildArgentinaSpainPairedBinaryPlan, buildSportMarketPlan, sportEventState, rescheduledSportClose } from "@/lib/tregu-sport-market.mjs";
+import { ARGENTINA_SPAIN_PAIR, buildArgentinaSpainPairedBinaryPlan, buildSportMarketPlan, sportEventState, rescheduledSportClose, isDuplicateSportOracle } from "@/lib/tregu-sport-market.mjs";
 import { buildF1MarketPlan, buildF1RaceWinnerPlan, buildF1SettlementPlan, openF1ToWinnerLeaderboard } from "@/lib/f1-live-lite.mjs";
 import { fetchOpenF1LiveRace } from "@/lib/openf1-live.mjs";
 import { classifyProviderFailure } from "@/lib/tregu-ai-provider.mjs";
@@ -405,6 +406,7 @@ async function runOfficialSportsRefresh(action: "live_sports", runKey: string, n
               ...sportEventState(signal.event, signal.state_key),
               resolution_pending: true,
             },
+            closes_at: now.toISOString(),
           }).eq("id", signal.market.id).eq("status", "open");
           if (updateError) throw new Error(updateError.message);
           results.push({ slug: signal.market.slug, status: "awaiting_official_winner" });
@@ -417,6 +419,10 @@ async function runOfficialSportsRefresh(action: "live_sports", runKey: string, n
           p_reasoning: signal.snapshot.oracle_reasoning, p_requested_cap: signal.snapshot.oracle_cap,
           p_close_market: signal.close_market, p_verified_outcome: signal.verified_outcome ?? null, p_settlement_due_at: signal.settlement_due_at ?? null,
         });
+        if (isDuplicateSportOracle(oracleError)) {
+          results.push({ slug: signal.market.slug, status: "no_change" });
+          continue;
+        }
         if (oracleError) throw new Error(oracleError.message);
         await captureOfficialMarketChange(signal.market, signal.close_market ? "football_final_lock" : "football_live_state", signal.event.source_url);
         results.push({ slug: signal.market.slug, status: "applied" });
@@ -495,7 +501,7 @@ async function runOfficialSportsRefresh(action: "live_sports", runKey: string, n
           const raceDistance = config.total_laps ? { total_laps: config.total_laps, lap_count_source: config.lap_count_source } : await fetchF1RaceDistance(race);
           const enrichedLiveEvent = { ...config, ...raceDistance, openf1_meeting_key: race.meeting_key, openf1_session_key: race.session_key, circuit_short_name: race.circuit_short_name, country_name: race.country_name, race_start: race.date_start, openf1_race_source: race.source_url };
           for (const market of futureF1Markets) {
-            const { error: metadataError } = await admin.from("markets").update({ live_event: enrichedLiveEvent }).eq("id", market.id).eq("status", "open");
+            const { error: metadataError } = await admin.from("markets").update({ live_event: enrichedLiveEvent, closes_at: new Date(Date.parse(race.date_start) + 6 * 3600000).toISOString() }).eq("id", market.id).eq("status", "open");
             if (metadataError) throw new Error(`Could not persist F1 race metadata for ${market.slug}: ${metadataError.message}`);
           }
           // Motorsport press, ahead of the grid sheet.
@@ -712,7 +718,7 @@ async function runOfficialSportsRefresh(action: "live_sports", runKey: string, n
         for (const signal of f1RaceWinnerSignals) {
           try {
             const f1State = { ...signal.state, previous_probabilities: signal.market.reference_probabilities ?? null };
-            const { error: f1RaceOracleError } = await admin.rpc("apply_f1_race_winner_oracle", { p_market_id: signal.market.id, p_state: f1State, p_probabilities: signal.probabilities, p_evidence: signal.evidence, p_reasoning: signal.reasoning, p_cap: signal.oracle_cap, p_final: false, p_winner: null, p_structural_keys: Object.keys(signal.probabilities) });
+            const { error: f1RaceOracleError } = await admin.rpc("apply_f1_race_winner_oracle", { p_market_id: signal.market.id, p_state: f1State, p_probabilities: signal.probabilities, p_evidence: signal.evidence, p_reasoning: signal.reasoning, p_cap: signal.oracle_cap, p_final: false, p_winner: null, p_structural_keys: [] });
             if (f1RaceOracleError) throw new Error(f1RaceOracleError.message);
             const { error: f1SnapshotError } = await admin.rpc("record_f1_vector_snapshot", { p_market_id: signal.market.id, p_state: f1State, p_probabilities: signal.probabilities, p_reasoning: signal.reasoning });
             if (f1SnapshotError) throw new Error(f1SnapshotError.message);
@@ -877,7 +883,15 @@ async function runNewsReprice(action: "reprice" | "tregu_live", runKey: string, 
         lastDeadlineDecayAtByMarket.set(marketId, Math.max(lastDeadlineDecayAtByMarket.get(marketId) ?? 0, createdAt));
       }
     }
-    const researchedMarkets = (markets ?? []).map((market) => ({ market, articles: verifiedPool }));
+    const researchedMarkets = [];
+    for (let offset = 0; offset < markets.length; offset += 4) {
+      const batch = await Promise.all(markets.slice(offset, offset + 4).map(async market => {
+        const targeted = await getPropositionArticles(propositionSearchTerms(market), now);
+        const articles = [...new Map([...targeted, ...verifiedPool].map(article => [article.slug, article])).values()];
+        return { market, articles };
+      }));
+      researchedMarkets.push(...batch);
+    }
     const plan = researchedMarkets.flatMap(({ market, articles }) => buildRepricePlan({
       markets: [market], verifiedArticles: articles, now, usedEvidenceByMarket,
     }));
@@ -1216,13 +1230,17 @@ export async function runUpcomingF1TemplateAutomation(now = new Date()) {
     if (!race) { await finishRun(admin, started.run.id, "succeeded", { created:0, reason:"no_race_within_three_days" }); return { ok:true, created:0, reason:"no_race_within_three_days" }; }
     const { data: existing, error: existingError } = await admin.from("markets").select("id,slug,status,reference_probabilities").contains("live_event", { event_id: race.event_id }).limit(1);
     if (existingError) throw new Error(`Could not check F1 template duplicate: ${existingError.message}`);
+    if (existing?.length && existing[0].status !== "draft") {
+      await finishRun(admin, started.run.id, "succeeded", { created: 0, refreshed: 0, reason: "already_exists", event_id: race.event_id });
+      return { ok: true, created: 0, reason: "already_exists", event_id: race.event_id };
+    }
     const roster = await (fetchOpenF1Roster as any)({ sessionKey: race.session_key });
     const openingModel = await (fetchF1OpeningFactors as any)({ race, roster, now });
     const template = buildUpcomingF1MarketTemplate({ race, roster, openingModel, now });
     if (existing?.length) {
       const market = existing[0];
       if (market.status === "draft") {
-        const { error: updateError } = await admin.from("markets").update({ live_event: template.live_event, reference_probabilities: template.reference_probabilities, outcome_quantities: template.outcome_quantities, sport_outcomes: template.sport_outcomes, pre_match_analysis: template.pre_match_analysis, updated_at: now.toISOString() }).eq("id", market.id).eq("status", "draft");
+        const { error: updateError } = await admin.from("markets").update({ status: "open", closes_at: template.closes_at, live_event: template.live_event, reference_probabilities: template.reference_probabilities, outcome_quantities: template.outcome_quantities, sport_outcomes: template.sport_outcomes, pre_match_analysis: template.pre_match_analysis, updated_at: now.toISOString() }).eq("id", market.id).eq("status", "draft");
         if (updateError) throw new Error(`Could not refresh F1 template ${race.event_id}: ${updateError.message}`);
         const details = { created: 0, refreshed: 1, event_id: race.event_id, market: { id: market.id, slug: market.slug, status: market.status }, model_version: openingModel.model_version };
         await finishRun(admin, started.run.id, "succeeded", details);
@@ -1395,7 +1413,11 @@ export async function runF1ChampionshipAutomation(now = new Date()) {
         .select("id")
         .maybeSingle();
       if (closeError) throw new Error(`Could not close the decided F1 championship market: ${closeError.message}`);
-      if (!closed) throw new Error("The F1 championship settlement state changed before the market could close.");
+      if (!closed) {
+        const { data: finalized, error: finalReadError } = await admin.from("markets").select("id")
+          .eq("id", market.id).in("status", ["closed", "resolved"]).eq("outcome", winner).maybeSingle();
+        if (finalReadError || !finalized) throw new Error("The F1 championship settlement state changed before the market could close.");
+      }
       const { error: settlementError } = await admin.rpc("settle_due_sport_markets");
       if (settlementError) throw new Error(`Could not settle the F1 championship market: ${settlementError.message}`);
       settled = true;
@@ -1482,6 +1504,7 @@ export async function runUpcomingFootballTemplateAutomation(now = new Date()) {
             p_verified_outcome: null,
             p_settlement_due_at: null,
           });
+          if (isDuplicateSportOracle(oracleError)) continue;
           if (oracleError) throw new Error(`Could not apply pre-match football oracle ${fixture.event_id}: ${oracleError.message}`);
           refreshed.push({ id:market.id,slug:market.slug,status:"open",target_probabilities:model.probabilities,oracle_cap:0.10 });
         }
@@ -1529,6 +1552,7 @@ async function runUpcomingBasketballAutomation(now = new Date()) {
           p_reasoning: fixture.pre_match_analysis.opening_model.method, p_requested_cap: .1,
           p_close_market: false, p_verified_outcome: null, p_settlement_due_at: null,
         });
+        if (isDuplicateSportOracle(oracleError)) continue;
         if (oracleError) throw oracleError;
         const { error: modelError } = await admin.from("markets").update({
           pre_match_analysis: { ...data.pre_match_analysis, opening_model: fixture.pre_match_analysis.opening_model },
