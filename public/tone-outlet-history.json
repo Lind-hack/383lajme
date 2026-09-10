@@ -55,13 +55,13 @@
     },
     "Balkan Insight": {
       "country": "Britani",
-      "total": 12,
+      "total": 14,
       "positive": 1,
-      "neutral": 10,
+      "neutral": 12,
       "negative": 1,
       "unknown": 0,
       "firstSeen": "2026-08-19",
-      "lastSeen": "2026-09-08",
+      "lastSeen": "2026-09-10",
       "urls": [
         "https://balkaninsight.com/2026/08/19/suspend-officers-suspected-of-beating-serb-kosovo-police-inspectorate-says/bi/",
         "https://balkaninsight.com/2026/08/20/remains-of-23-wartime-victims-unearthed-from-mass-graves-in-kosovo/btj/",
@@ -74,7 +74,9 @@
         "https://balkaninsight.com/2026/09/03/not-mere-incidents-kosovo-questions-femicide-approach-after-new-killings/bi/",
         "https://balkaninsight.com/2026/09/04/kosovo-charges-serbian-security-officers-over-jashari-compound-massacre/btj/",
         "https://balkaninsight.com/2026/09/07/kosovo-man-pleads-not-guilty-to-spying-for-serbia/bi/",
-        "https://balkaninsight.com/2026/09/08/kosovo-parliament-to-reconvene-chaos-looms-over-election-of-president/bi/"
+        "https://balkaninsight.com/2026/09/08/kosovo-parliament-to-reconvene-chaos-looms-over-election-of-president/bi/",
+        "https://balkaninsight.com/2026/09/10/after-delays-and-controversies-end-in-sight-for-thacis-kosovo-war-crimes-trial/btj/",
+        "https://balkaninsight.com/2026/09/10/hague-prosecutors-seek-six-years-for-kosovos-thaci-for-obstructing-justice/btj/"
       ]
     },
     "Ouest-France": {
@@ -152,18 +154,19 @@
     },
     "Osservatorio Balcani Caucaso Transeuropa": {
       "country": "Itali",
-      "total": 4,
+      "total": 5,
       "positive": 0,
       "neutral": 3,
-      "negative": 0,
+      "negative": 1,
       "unknown": 1,
       "firstSeen": "2026-08-19",
-      "lastSeen": "2026-09-04",
+      "lastSeen": "2026-09-10",
       "urls": [
         "https://www.balcanicaucaso.org/en/cp_article/political-crisis-in-kosovo-no-light-at-the-end-of-the-tunnel/",
         "https://www.balcanicaucaso.org/cp_article/crisi-politica-in-kosovo-non-ce-luce-alla-fine-del-tunnel/",
         "https://www.balcanicaucaso.org/event/la-mucca-partorisce-di-notte/",
-        "https://www.balcanicaucaso.org/cp_article/kosovo-i-ragni-della-val-rugova/"
+        "https://www.balcanicaucaso.org/cp_article/kosovo-i-ragni-della-val-rugova/",
+        "https://www.balcanicaucaso.org/en/cp_article/kosovo-la-politica-in-un-vicolo-cieco/"
       ]
     },
     "ilrestodelcarlino.it": {
@@ -181,27 +184,28 @@
     },
     "FIGC": {
       "country": "Itali",
-      "total": 6,
+      "total": 7,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 5,
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-31",
+      "lastSeen": "2026-09-10",
       "urls": [
         "https://www.figc.it/it/nazionali/news/giochi-del-mediterraneo-la-spedizione-azzurra-arriva-a-taranto-per-sfilare-alla-cerimonia-di-apertura-hpfgneix",
         "https://www.figc.it/it/nazionali/news/giochi-del-mediterraneo-esordio-a-senso-unico-per-le-azzurrine-4-1-al-kosovo-qvcvhv0q",
         "https://www.figc.it/it/nazionali/news/giochi-del-mediterraneo-che-battaglia-a-brindisi-azzurrini-ko-3-1-con-lalgeria-bldoae25",
         "https://www.figc.it/it/nazionali/news/giochi-del-mediterraneo-azzurrine-fermate-sull1-1-dalla-slovenia-hylf1s5e",
         "https://www.figc.it/it/nazionali/news/mondiale-di-futsal-2028-il-cammino-inizia-in-calabria-il-20-ottobre-gli-azzurri-a-rende-per-italia-georgia-o5b5okwc",
-        "https://www.figc.it/it/nazionali/news/giochi-del-mediterraneo-medaglia-dargento-per-le-azzurrine-battute-in-finale-dal-portogallo-iebdcslk"
+        "https://www.figc.it/it/nazionali/news/giochi-del-mediterraneo-medaglia-dargento-per-le-azzurrine-battute-in-finale-dal-portogallo-iebdcslk",
+        "https://www.figc.it/it/nazionali/news/qualificazione-al-mondiale-italia-kosovo-si-giochera-a-barletta-il-10-novembre-av5n3jy4"
       ]
     },
     "ANSA": {
       "country": "Itali",
-      "total": 18,
+      "total": 19,
       "positive": 0,
-      "neutral": 13,
+      "neutral": 14,
       "negative": 0,
       "unknown": 5,
       "firstSeen": "2026-08-20",
@@ -224,7 +228,8 @@
         "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/09/06/linformazione-dei-balcani-si-incontra-a-trieste_b6343cee-eb0d-4448-a261-a23b804985ba.html",
         "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/09/08/accelerare-lintegrazione-dei-balcani-per-il-futuro-dellue-forum-a-trieste_6069c0ef-27e1-4bf2-b6c8-4b8ebcc0f985.html",
         "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/09/08/dal-mas-ince-se-non-si-accelera-lallargamento-i-balcani-vanno-altrove_387874fe-f0c9-46ca-bf6d-aece6b329298.html",
-        "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/09/09/allargamento-ue-e-pluralismo-a-trieste-linformazione-dei-balcani_5d3f66d8-7acb-4c4d-bf15-d3ed8d0b274d.html"
+        "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/09/09/allargamento-ue-e-pluralismo-a-trieste-linformazione-dei-balcani_5d3f66d8-7acb-4c4d-bf15-d3ed8d0b274d.html",
+        "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/09/09/pozzo-confindustria-i-balcani-strategici-per-accorciare-le-catene-di-fornitura_8b3e32a0-422d-4a3c-af42-ef3afcdfddd2.html"
       ]
     },
     "Virgilio": {
@@ -1023,13 +1028,13 @@
     },
     "Son Dakika": {
       "country": "Turqi",
-      "total": 11,
+      "total": 12,
       "positive": 1,
-      "neutral": 8,
+      "neutral": 9,
       "negative": 0,
       "unknown": 2,
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-09-09",
+      "lastSeen": "2026-09-10",
       "urls": [
         "https://www.sondakika.com/haber/haber-kosova-da-halter-sampiyonasi-basladi-20162761/",
         "https://www.sondakika.com/3-sayfa/haber-kosovo-da-savas-suclari-sorusturmasi-23-kalinti-bu-20159357/",
@@ -1041,7 +1046,8 @@
         "https://www.sondakika.com/spor/haber-berber-ali-turkben-iki-turkiye-sampiyonlugunun-ard-20195760/",
         "https://www.sondakika.com/guncel/haber-kosova-daki-yildizlar-avrupa-halter-sampiyonasi-nd-20196635/",
         "https://www.sondakika.com/guncel/haber-kosova-prizren-deki-ilkokula-mehmetcik-oyun-parki--20207034/",
-        "https://www.sondakika.com/politika/haber-albulena-haxhiu-kosova-da-62-oyla-yeniden-meclis-b-20222171/"
+        "https://www.sondakika.com/politika/haber-albulena-haxhiu-kosova-da-62-oyla-yeniden-meclis-b-20222171/",
+        "https://www.sondakika.com/spor/haber-vanli-sporcu-furkan-bilici-kosova-da-91-kiloda-dun-20224169/"
       ]
     },
     "Harici": {
@@ -2845,15 +2851,16 @@
     },
     "balcanicaucaso.org": {
       "country": "Itali",
-      "total": 1,
+      "total": 2,
       "positive": 0,
       "neutral": 0,
-      "negative": 0,
+      "negative": 1,
       "unknown": 1,
       "firstSeen": "2026-09-06",
-      "lastSeen": "2026-09-04",
+      "lastSeen": "2026-09-10",
       "urls": [
-        "https://www.balcanicaucaso.org/cp_article/kosovo-i-ragni-della-val-rugova/"
+        "https://www.balcanicaucaso.org/cp_article/kosovo-i-ragni-della-val-rugova/",
+        "https://www.balcanicaucaso.org/cp_article/kosovo-la-politica-in-un-vicolo-cieco/"
       ]
     },
     "NÖN.at - Niederösterreichische Nachrichten": {
@@ -3066,13 +3073,13 @@
     },
     "Albinfo": {
       "country": "Zvicër",
-      "total": 10,
+      "total": 11,
       "positive": 3,
-      "neutral": 7,
+      "neutral": 8,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-07",
-      "lastSeen": "2026-09-08",
+      "lastSeen": "2026-09-10",
       "urls": [
         "https://www.albinfo.ch/fr/tre-pilote-nga-kosova-ne-top-10-te-botes-ne-paragllajdizem/",
         "https://www.albinfo.ch/fr/kosove-efta-marreveshja-e-tregtise-se-lire-hyn-ne-fuqi-me-1-tetor/",
@@ -3083,7 +3090,8 @@
         "https://www.albinfo.ch/de/konjufca-diaspora-kosovare-forcon-lidhjet-mes-kosoves-dhe-zvicres/",
         "https://www.albinfo.ch/de/nga-kosova-ne-garden-kombetare-te-shba-se-rrefimi-i-suksesit-te-rona-males/",
         "https://www.albinfo.ch/fr/nga-kosova-ne-garden-kombetare-te-shba-se-rrefimi-i-suksesit-te-rona-males/",
-        "https://www.albinfo.ch/fr/konjufca-diaspora-kosovare-forcon-lidhjet-mes-kosoves-dhe-zvicres/"
+        "https://www.albinfo.ch/fr/konjufca-diaspora-kosovare-forcon-lidhjet-mes-kosoves-dhe-zvicres/",
+        "https://www.albinfo.ch/de/die-neutralitaetsinitiative-gefaehrdet-den-schweizer-einsatz-im-kosovo/"
       ]
     },
     "iAxia -": {
@@ -3306,6 +3314,58 @@
       "lastSeen": "2026-09-07",
       "urls": [
         "https://www.hurriyet.com.tr/avrupa/prizrende-ilkokul-ogrencilerine-egitim-setleri-dagitildi-43298523"
+      ]
+    },
+    "laola1.at": {
+      "country": "Austri",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-09",
+      "lastSeen": "2026-09-08",
+      "urls": [
+        "https://www.laola1.at/de/red/fussball/nations-league/news/vor-oefb-duell--schnappt-sich-foda-ein-dfb-juwel-der-bayern-/"
+      ]
+    },
+    "Puna.nl": {
+      "country": "Holandë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-09",
+      "lastSeen": "2026-09-09",
+      "urls": [
+        "https://www.puna.nl/news/kosso-maakt-moeilijke-beslissing-en-emigreert-met-zijn-gezin-naar-kosovo-nederland-bedankt-voor-alles"
+      ]
+    },
+    "T24": {
+      "country": "Turqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 1,
+      "unknown": 0,
+      "firstSeen": "2026-09-09",
+      "lastSeen": "2026-09-09",
+      "urls": [
+        "https://t24.com.tr/yazarlar/hasan-servet-oktem/kosovali-parlamenterlerin-yaptigi-secmene-saygisizlik-degil-mi,58967"
+      ]
+    },
+    "dw.com": {
+      "country": "Gjermani",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-10",
+      "lastSeen": "2026-09-07",
+      "urls": [
+        "https://www.dw.com/en/germany-kosovo-unite-against-ticks-carrying-deadly-virus/a-78655223"
       ]
     }
   }

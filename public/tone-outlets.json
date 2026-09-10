@@ -1,39 +1,15 @@
 {
-  "lastUpdated": "2026-09-09",
-  "overallIndex": 52,
-  "totalArticles": 67,
-  "sourceCount": 50,
+  "lastUpdated": "2026-09-10",
+  "overallIndex": 48,
+  "totalArticles": 60,
+  "sourceCount": 43,
   "stanceVersion": 3,
-  "unattributed": 197,
-  "nonEditorial": 0,
+  "unattributed": 208,
+  "nonEditorial": 1,
   "wrongKosovo": 0,
   "countries": {
     "Gjermani": {
       "outlets": [
-        {
-          "name": "DW.com",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Germany, Kosovo unite against ticks carrying deadly virus - DW.com",
-              "albanianTitle": "Gjermania dhe Kosova bëhen bashkë kundër rriqrave që bartin virusin vdekjeprurës - DW.com",
-              "blurb": "Gjermania dhe Kosova kanë bashkuar forcat për të luftuar rriqrat që mbartin virusin vdekjeprurës në rajon.",
-              "imageUrl": "https://static.dw.com/image/78532710_6.jpg",
-              "url": "https://www.dw.com/en/germany-kosovo-unite-against-ticks-carrying-deadly-virus/a-78655223",
-              "date": "2026-09-06",
-              "sentiment": "neutral",
-              "reason": "Fact‑based headline without loaded or contemptuous language",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 2,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-01",
-          "lastSeen": "2026-09-06"
-        },
         {
           "name": "Die Rheinpfalz",
           "sentiment": "neutral",
@@ -74,7 +50,7 @@
         {
           "name": "T-Online",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Botschafter irritiert: Verliert der DFB nun auch ein Bayern-Talent? - T-Online",
@@ -88,12 +64,49 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Botschafter irritiert: Verliert der DFB nun auch ein Bayern-Talent? - t-online.de",
+              "albanianTitle": "Ambasadori i irrituar: A po e humb DFB-ja edhe një talent të Bayernit?",
+              "blurb": "Federata Gjermane e Futbollit rrezikon të humbasë një talent të Bayern Munichut sipas raportimeve të fundit mediatike.",
+              "imageUrl": "https://images.t-online.de/2026/09/T5ajlwMP5w0y/672x54:1815x1020/fit-in/1200x0/erblin-osmani-er-feierte-im-maerz-sein-profidebuet-im-spiel-gegen-union-berlin.jpg",
+              "url": "https://www.t-online.de/sport/fussball/bundesliga/fc-bayern-muenchen/id_101426574/dfb-botschafter-irritiert-mit-post-spielt-osmani-kuenftig-fuer-kosovo-.html",
+              "date": "2026-09-09",
+              "sentiment": "unknown",
+              "reason": "No mention of Kosovo in the headline",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
           "totalArticles": 1,
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-09",
           "lastSeen": "2026-09-09"
+        },
+        {
+          "name": "dw.com",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Germany, Kosovo unite against ticks carrying deadly virus - dw.com",
+              "albanianTitle": "Gjermania dhe Kosova bashkohen kundër rriqrave që bartin virusin vdekjeprurës",
+              "blurb": "Gjermania dhe Kosova kanë bashkuar forcat për të luftuar rrezikun nga rriqrat që bartin viruse vdekjeprurëse.",
+              "imageUrl": "https://static.dw.com/image/78532710_6.jpg",
+              "url": "https://www.dw.com/en/germany-kosovo-unite-against-ticks-carrying-deadly-virus/a-78655223",
+              "date": "2026-09-07",
+              "sentiment": "neutral",
+              "reason": "Factual report of cooperation between Germany and Kosovo, no evaluative language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-10",
+          "lastSeen": "2026-09-07"
         },
         {
           "name": "fussballdaten.de",
@@ -126,7 +139,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 5,
-        "excluded": 0,
+        "excluded": 1,
         "confident": true,
         "stanceVersion": 3
       }
@@ -149,7 +162,7 @@
         {
           "name": "Balkan Insight",
           "sentiment": "neutral",
-          "articleCount": 3,
+          "articleCount": 5,
           "articles": [
             {
               "title": "Kosovo Man Pleads Not Guilty to Spying for Serbia - Balkan Insight",
@@ -189,22 +202,48 @@
               "isQuote": false,
               "evidence": "Chaos",
               "speaker": ""
+            },
+            {
+              "title": "After Delays and Controversies, End in Sight For Thaci’s Kosovo War Crimes Trial - Balkan Insight",
+              "albanianTitle": "Pas vonesave dhe polemikave, po i vjen fundi gjykimit për krime lufte ndaj Thaçit",
+              "blurb": "Gjykimi për krime lufte ndaj Hashim Thaçit po i afrohet përfundimit pas vonesave dhe polemikave të shumta të ndodhura.",
+              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/08/13754652-scaled-e1785770536619.jpg",
+              "url": "https://balkaninsight.com/2026/09/10/after-delays-and-controversies-end-in-sight-for-thacis-kosovo-war-crimes-trial/btj/",
+              "date": "2026-09-10",
+              "sentiment": "neutral",
+              "reason": "Titulli përshkruan faktet pa gjuhë ngacmuese",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Hague Prosecutors Seek Six Years for Kosovo’s Thaci for Obstructing Justice - Balkan Insight",
+              "albanianTitle": "Prokurorët e Hagës kërkojnë gjashtë vjet burg për Thaçin e Kosovës për pengim të drejtësisë",
+              "blurb": "Prokurorët në Hagë kërkojnë gjashtë vjet burgim për Hashim Thaçin për shkak të akuzave për pengim të drejtësisë.",
+              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/09/Thaci-header-image-1280x720.png",
+              "url": "https://balkaninsight.com/2026/09/10/hague-prosecutors-seek-six-years-for-kosovos-thaci-for-obstructing-justice/btj/",
+              "date": "2026-09-10",
+              "sentiment": "neutral",
+              "reason": "Faktik, pa gjuhë të ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 12,
+          "totalArticles": 14,
           "trend": "i përzier",
           "firstSeen": "2026-08-19",
-          "lastSeen": "2026-09-08"
+          "lastSeen": "2026-09-10"
         }
       ],
       "summary": {
-        "index": 33,
+        "index": 40,
         "positive": 0,
-        "neutral": 67,
-        "negative": 33,
-        "n": 3,
+        "neutral": 80,
+        "negative": 20,
+        "n": 5,
         "excluded": 0,
-        "confident": false,
+        "confident": true,
         "stanceVersion": 3
       }
     },
@@ -251,34 +290,8 @@
         {
           "name": "ANSA",
           "sentiment": "neutral",
-          "articleCount": 5,
+          "articleCount": 4,
           "articles": [
-            {
-              "title": "L'informazione dei Balcani si incontra a Trieste - ANSA",
-              "albanianTitle": "Informimi nga Ballkani takohet në Trieste - ANSA",
-              "blurb": "Përfaqësuesit e mediave nga Ballkani janë mbledhur në Trieste për të diskutuar mbi zhvillimet në fushën e informimit.",
-              "imageUrl": "https://www.ansa.it/webimages/img_1280x720/2026/9/6/0d0f6a84b36ed2c35741a77b5e7de7d4.jpg",
-              "url": "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/09/06/linformazione-dei-balcani-si-incontra-a-trieste_b6343cee-eb0d-4448-a261-a23b804985ba.html",
-              "date": "2026-09-06",
-              "sentiment": "neutral",
-              "reason": "Event announcement without any stance toward Kosovo",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "L'informazione dei Balcani si incontra a Trieste - ansa.it",
-              "albanianTitle": "Informimi nga Ballkani takohet në Trieste - ansa.it",
-              "blurb": "Përfaqësues të mediave nga rajoni i Ballkanit mblidhen në qytetin e Triestes për të diskutuar mbi zhvillimet në fushën informative.",
-              "imageUrl": "https://www.ansa.it/webimages/img_1280x720/2026/9/6/0d0f6a84b36ed2c35741a77b5e7de7d4.jpg",
-              "url": "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/09/06/linformazione-dei-balcani-si-incontra-a-trieste_b6343cee-eb0d-4448-a261-a23b804985ba.html",
-              "date": "2026-09-06",
-              "sentiment": "neutral",
-              "reason": "Raportim faktik për takim informativ në Trieste",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "Accelerare l'integrazione dei Balcani per il futuro dell'Ue, forum a Trieste - ansa.it",
               "albanianTitle": "Përshpejtimi i integrimit të Ballkanit për të ardhmen e BE-së, diskutohet në forumin e Triestes",
@@ -317,9 +330,22 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Pozzo (Confindustria), 'i Balcani strategici per accorciare le catene di fornitura' - ANSA",
+              "albanianTitle": "Pozzo (Confindustria): Ballkani është strategjik për shkurtimin e zinxhirëve të furnizimit",
+              "blurb": "Përfaqësuesi i Confindustria, Pozzo, vlerëson se Ballkani është strategjik për shkurtimin e zinxhirëve të furnizimit për kompanitë italiane.",
+              "imageUrl": "https://www.ansa.it/webimages/img_1280x720/2026/9/9/a4be673afce5b9b31196a5d97c6c5f98.jpg",
+              "url": "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/09/09/pozzo-confindustria-i-balcani-strategici-per-accorciare-le-catene-di-fornitura_8b3e32a0-422d-4a3c-af42-ef3afcdfddd2.html",
+              "date": "2026-09-09",
+              "sentiment": "neutral",
+              "reason": "Raporton thënie të Pozzo-s, pa gjuhë të ngarkuar nga media",
+              "isQuote": true,
+              "evidence": "",
+              "speaker": "Pozzo (Confindustria)"
             }
           ],
-          "totalArticles": 18,
+          "totalArticles": 19,
           "trend": "neutral",
           "firstSeen": "2026-08-20",
           "lastSeen": "2026-09-09"
@@ -445,6 +471,30 @@
           "lastSeen": "2026-09-08"
         },
         {
+          "name": "FIGC",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Qualificazione al Mondiale, Italia-Kosovo si giocherà a Barletta il 10 novembre - FIGC",
+              "albanianTitle": "Kualifikimet për Botëror, Italia-Kosova do të luhet në Barleta më 10 nëntor",
+              "blurb": "Ndeshja kualifikuese për Kampionatin Botëror mes Italisë dhe Kosovës do të zhvillohet në Barleta më 10 nëntor.",
+              "imageUrl": "https://images.figc.it/view/acePublic/alias/contentid/1tp3w4mr7nt3dxvdc0r/0/paladisfida1-jpg.jpg?f=187%3A100",
+              "url": "https://www.figc.it/it/nazionali/news/qualificazione-al-mondiale-italia-kosovo-si-giochera-a-barletta-il-10-novembre-av5n3jy4",
+              "date": "2026-09-10",
+              "sentiment": "neutral",
+              "reason": "Faktik, pa gjuhë të ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 7,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-20",
+          "lastSeen": "2026-09-10"
+        },
+        {
           "name": "Gazzetta di Parma",
           "sentiment": "unknown",
           "articleCount": 1,
@@ -517,41 +567,28 @@
           "lastSeen": "2026-09-08"
         },
         {
-          "name": "Luino Notizie",
-          "sentiment": "neutral",
-          "articleCount": 2,
+          "name": "Osservatorio Balcani Caucaso Transeuropa",
+          "sentiment": "negative",
+          "articleCount": 1,
           "articles": [
             {
-              "title": "In viaggio per incontrare l’altro: un’estate di servizio tra Medjugorje, Kosovo e Albania - Luino Notizie",
-              "albanianTitle": "Në udhëtim për të takuar tjetrin: Një verë shërbimi mes Medjugorjes, Kosovës dhe Shqipërisë",
-              "blurb": "Një grup vullnetarësh po zhvillon aktivitete shërbimi gjatë verës nëpër lokacione të ndryshme, përfshirë Medjugorjen, Kosovën dhe Shqipërinë.",
-              "imageUrl": "https://www.luinonotizie.it/wp-content/uploads/2026/09/kosovo.jpg",
-              "url": "https://www.luinonotizie.it/2026/09/06/in-viaggio-per-incontrare-laltro-unestate-di-servizio-tra-medjugorje-kosovo-e-albania/580174",
-              "date": "2026-09-06",
-              "sentiment": "neutral",
-              "reason": "Lajm faktik, pa gjuhë të ngarkuar për Kosovën",
+              "title": "Kosovo, politics at a dead end - Osservatorio Balcani Caucaso Transeuropa",
+              "albanianTitle": "Kosova, politika në rrugë pa krye",
+              "blurb": "Situata politike në Kosovë është vlerësuar si e bllokuar në një rrugë pa krye nga vëzhguesit ndërkombëtarë.",
+              "imageUrl": "https://www.balcanicaucaso.org/wp-content/uploads/sites/8/2026/09/shutterstock_2277262145.jpg",
+              "url": "https://www.balcanicaucaso.org/en/cp_article/kosovo-la-politica-in-un-vicolo-cieco/",
+              "date": "2026-09-10",
+              "sentiment": "negative",
+              "reason": "Outlet characterises Kosovo's politics as a dead end, a hostile assessment",
               "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "kosovo 1 - Luino Notizie",
-              "albanianTitle": null,
-              "blurb": "Informacionet e publikuara në lidhje me zhvillimet aktuale në Kosovë të raportuara nga media italiane Luino Notizie.",
-              "imageUrl": null,
-              "url": "https://www.luinonotizie.it/2026/09/06/in-viaggio-per-incontrare-laltro-unestate-di-servizio-tra-medjugorje-kosovo-e-albania/580174/kosovo-1/",
-              "date": "2026-09-06",
-              "sentiment": "unknown",
-              "reason": "Nuk ka informacion të mjaftueshëm për të përcaktuar qëndrimin e medias ndaj Kosovës",
-              "isQuote": false,
-              "evidence": "",
+              "evidence": "politics at a dead end",
               "speaker": ""
             }
           ],
-          "totalArticles": 2,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-06",
-          "lastSeen": "2026-09-06"
+          "totalArticles": 5,
+          "trend": "i përzier",
+          "firstSeen": "2026-08-19",
+          "lastSeen": "2026-09-10"
         },
         {
           "name": "Soroptimist International d'Italia",
@@ -576,6 +613,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-09",
           "lastSeen": "2026-09-08"
+        },
+        {
+          "name": "balcanicaucaso.org",
+          "sentiment": "negative",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo, la politica in un vicolo cieco - balcanicaucaso.org",
+              "albanianTitle": null,
+              "blurb": "Skena politike në Kosovë po përballet me një bllokadë të vazhdueshme në proceset e saj vendimmarrëse institucionale.",
+              "imageUrl": "https://www.balcanicaucaso.org/wp-content/uploads/sites/8/2026/09/shutterstock_2277262145.jpg",
+              "url": "https://www.balcanicaucaso.org/cp_article/kosovo-la-politica-in-un-vicolo-cieco/",
+              "date": "2026-09-10",
+              "sentiment": "negative",
+              "reason": "Titulli e mediave e paraqet Kosovën në mënyrë kritike",
+              "isQuote": false,
+              "evidence": "politica in un vicolo cieco",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 2,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-06",
+          "lastSeen": "2026-09-10"
         },
         {
           "name": "gazzettadiparma.it",
@@ -624,130 +685,29 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-09",
           "lastSeen": "2026-09-09"
-        },
-        {
-          "name": "ilmessaggero.it",
-          "sentiment": "positive",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Giochi del Mediterraneo, Ferrarese pronto a dare una mano al Kosovo. Fidal in campo per gestire due impianti - ilmessaggero.it",
-              "albanianTitle": "Lojërat Mesdhetare, Ferrarese gati ta ndihmojë Kosovën. FIDAL angazhohet për menaxhimin e dy impianteve – ilmessaggero.it",
-              "blurb": "Ferrarese ofron mbështetje për Kosovën në Lojërat Mesdhetare, ndërsa Fidal angazhohet për menaxhimin e dy objekteve sportive.",
-              "imageUrl": "https://statics.cedscdn.it/photos/MED_HIGH/2026/09/04/9743199_04114659_palaricciardi.jpg",
-              "url": "https://www.ilmessaggero.it/sport/altrisport/giochi_mediterraneo_ferrarese_taranto_cosa_ha_detto-9743199.html",
-              "date": "2026-09-06",
-              "sentiment": "positive",
-              "reason": "Outlet uses supportive language offering help to Kosovo",
-              "isQuote": false,
-              "evidence": "pronto a dare una mano al Kosovo",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-06",
-          "lastSeen": "2026-09-06"
-        },
-        {
-          "name": "luinonotizie.it",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "kosovo 1 - luinonotizie.it",
-              "albanianTitle": null,
-              "blurb": "Informacionet e fundit lidhur me zhvillimet në Kosovë të raportuara nga portali italian Luino Notizie për lexuesit e tij.",
-              "imageUrl": null,
-              "url": "https://www.luinonotizie.it/2026/09/06/in-viaggio-per-incontrare-laltro-unestate-di-servizio-tra-medjugorje-kosovo-e-albania/580174/kosovo-1/",
-              "date": "2026-09-06",
-              "sentiment": "unknown",
-              "reason": "Item provides no context or stance toward Kosovo",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-06",
-          "lastSeen": "2026-09-06"
         }
       ],
       "summary": {
-        "index": 53,
-        "positive": 6,
-        "neutral": 94,
-        "negative": 0,
+        "index": 44,
+        "positive": 0,
+        "neutral": 88,
+        "negative": 12,
         "n": 16,
-        "excluded": 4,
+        "excluded": 2,
         "confident": true,
-        "stanceVersion": 3
+        "stanceVersion": 3,
+        "movement": {
+          "delta": -9,
+          "from": 53,
+          "outlet": "balcanicaucaso.org",
+          "title": "Kosovo, la politica in un vicolo cieco - balcanicaucaso.org",
+          "evidence": "politica in un vicolo cieco",
+          "url": "https://www.balcanicaucaso.org/cp_article/kosovo-la-politica-in-un-vicolo-cieco/"
+        }
       }
     },
     "Austri": {
       "outlets": [
-        {
-          "name": "Kathpress",
-          "sentiment": "positive",
-          "articleCount": 2,
-          "articles": [
-            {
-              "title": "Zehn Jahre heilig: Weltweites Gedenken an Mutter Teresa - Kathpress",
-              "albanianTitle": "Dhjetë vjet shenjtëri: Përkujtim mbarëbotëror për Nënë Terezën - Kathpress",
-              "blurb": "Shënohet dhjetëvjetori i shenjtërimit të Nënë Terezës përmes aktiviteteve përkujtimore të organizuara në mbarë botën për nder të saj.",
-              "imageUrl": null,
-              "url": "https://www.kathpress.at/goto/meldung/2609648/zehn-jahre-heilig-weltweites-gedenken-an-mutter-teresa",
-              "date": "2026-09-06",
-              "sentiment": "positive",
-              "reason": "Outlet praises Mother Teresa, a figure associated with Kosovo",
-              "isQuote": false,
-              "evidence": "Zehn Jahre heilig",
-              "speaker": ""
-            },
-            {
-              "title": "Zehn Jahre heilig: Weltweites Gedenken an Mutter Teresa - kathpress.at",
-              "albanianTitle": "Dhjetë vjet shenjtëri: Përkujtim mbarëbotëror për Nënë Terezën",
-              "blurb": "Në dhjetëvjetorin e shenjtërimit të Nënë Terezës, besimtarët në mbarë botën shënojnë përvjetorin e saj me aktivitete përkujtimore.",
-              "imageUrl": null,
-              "url": "https://www.kathpress.at/goto/meldung/2609648/zehn-jahre-heilig-weltweites-gedenken-an-mutter-teresa",
-              "date": "2026-09-06",
-              "sentiment": "unknown",
-              "reason": "Nuk ka përmendje të Kosovës në titull",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-06",
-          "lastSeen": "2026-09-06"
-        },
-        {
-          "name": "Kronen Zeitung",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Überraschender Besuch - Wahlsieger aus dem Kosovo bei Kanzler Stocker - Kronen Zeitung",
-              "albanianTitle": null,
-              "blurb": "Fituesi i zgjedhjeve në Kosovë zhvillon një vizitë të papritur te kancelari austriak Stocker për të diskutuar çështje politike.",
-              "imageUrl": "https://imgl.krone.at/scaled/4171099/vb5ee87/og_image.jpg",
-              "url": "https://www.krone.at/4171096",
-              "date": "2026-09-06",
-              "sentiment": "neutral",
-              "reason": "Headline reports a visit without loaded language",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 3,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-25",
-          "lastSeen": "2026-09-06"
-        },
         {
           "name": "LAOLA1",
           "sentiment": "neutral",
@@ -797,19 +757,19 @@
           "lastSeen": "2026-09-07"
         },
         {
-          "name": "NÖN.at - Niederösterreichische Nachrichten",
+          "name": "laola1.at",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
-              "title": "Damals bei uns - 2006: Als Horner Soldaten in den Kosovo aufbrachen - NÖN.at - Niederösterreichische Nachrichten",
-              "albanianTitle": "Kujtimet e vitit 2006: Kur ushtarët nga Horner u nisën për në Kosovë",
-              "blurb": "Ushtarët nga Horner u nisën drejt Kosovës në vitin 2006, sipas arkivave të gazetës Niederösterreichische Nachrichten.",
-              "imageUrl": null,
-              "url": "https://www.noen.at/horn/damals-bei-uns-2006-als-horner-soldaten-in-den-kosovo-aufbrachen-537183700",
-              "date": "2026-09-06",
+              "title": "Vor ÖFB-Duell: Schnappt sich Foda ein DFB-Juwel der Bayern? - laola1.at",
+              "albanianTitle": "Para duelit me Austrinë: A do t'ia rrëmbejë Foda Bayernit një talent të futbollit gjerman?",
+              "blurb": "Trajneri Franco Foda po shqyrton mundësinë e angazhimit të një talenti të Bayernit për përfaqësuesen e futbollit të Austrisë.",
+              "imageUrl": "https://www.laola1.at/storage/files/01/a0/38/24-94c8-7215-af12-7a0332bbedeb.1280x720.jpg?v=1",
+              "url": "https://www.laola1.at/de/red/fussball/nations-league/news/vor-oefb-duell--schnappt-sich-foda-ein-dfb-juwel-der-bayern-/",
+              "date": "2026-09-08",
               "sentiment": "neutral",
-              "reason": "Faktikë raportuar në mënyrë neutrale",
+              "reason": "Titulli është faktik, pa gjuhë ngarkuese",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -817,66 +777,18 @@
           ],
           "totalArticles": 1,
           "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-06",
-          "lastSeen": "2026-09-06"
-        },
-        {
-          "name": "krone.at",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Überraschender Besuch - Wahlsieger aus dem Kosovo bei Kanzler Stocker - krone.at",
-              "albanianTitle": "Vizitë e papritur: Fituesi i zgjedhjeve nga Kosova te kancelari Stocker",
-              "blurb": "Fituesi i zgjedhjeve në Kosovë ka zhvilluar një vizitë të papritur te kancelari Stocker për të diskutuar çështje të ndryshme.",
-              "imageUrl": "https://imgl.krone.at/scaled/4171099/vb5ee87/og_image.jpg",
-              "url": "https://www.krone.at/4171096",
-              "date": "2026-09-06",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportim neutral i vizitës së fituesit kosovar te kancler Stocker",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 2,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-01",
-          "lastSeen": "2026-09-06"
-        },
-        {
-          "name": "noen.at",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Damals bei uns - 2006: Als Horner Soldaten in den Kosovo aufbrachen - noen.at",
-              "albanianTitle": null,
-              "blurb": "Kujtohet viti 2006 kur ushtarët nga qyteti i Hornit u nisën për mision paqeruajtës në territorin e Kosovës.",
-              "imageUrl": null,
-              "url": "https://www.noen.at/horn/damals-bei-uns-2006-als-horner-soldaten-in-den-kosovo-aufbrachen-537183700",
-              "date": "2026-09-06",
-              "sentiment": "neutral",
-              "reason": "Faktikë raporti neutral",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-06",
-          "lastSeen": "2026-09-06"
+          "firstSeen": "2026-09-09",
+          "lastSeen": "2026-09-08"
         }
       ],
       "summary": {
-        "index": 57,
-        "positive": 14,
-        "neutral": 86,
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 7,
-        "excluded": 1,
-        "confident": true,
+        "n": 3,
+        "excluded": 0,
+        "confident": false,
         "stanceVersion": 3
       }
     },
@@ -887,19 +799,6 @@
           "sentiment": "neutral",
           "articleCount": 6,
           "articles": [
-            {
-              "title": "Trois pilotes du Kosovo dans le Top 10 mondial de parapente - Albinfo",
-              "albanianTitle": "Tre pilotë nga Kosova në dhjetëshen më të mirë botërore të paraglajdingut - Albinfo",
-              "blurb": "Tre pilotë nga Kosova janë renditur në dhjetëshen më të mirë të parapenteve në nivel botëror.",
-              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/633269021_1564878762080969_8574478831148187001_n-e1788705409757.jpg",
-              "url": "https://www.albinfo.ch/fr/tre-pilote-nga-kosova-ne-top-10-te-botes-ne-paragllajdizem/",
-              "date": "2026-09-06",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "Kurti erinnert an den 36. Jahrestag der Ausrufung der Republik Kosovo in Kaçanik - Albinfo",
               "albanianTitle": "Kurti përkujton 36-vjetorin e shpalljes së Republikës së Kosovës në Kaçanik",
@@ -964,12 +863,25 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Vom Kosovo zur Nationalgarde der USA, die Erfolgsgeschichte von Rona Mala - Albinfo",
+              "albanianTitle": "Nga Kosova në Gardën Kombëtare të SHBA-së, historia e suksesit e Rona Malës",
+              "blurb": "Rona Mala ka arritur sukses profesional duke u bërë pjesë e Gardës Kombëtare të Shteteve të Bashkuara të Amerikës.",
+              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/img_2880.jpeg",
+              "url": "https://www.albinfo.ch/de/nga-kosova-ne-garden-kombetare-te-shba-se-rrefimi-i-suksesit-te-rona-males/",
+              "date": "2026-09-08",
+              "sentiment": "positive",
+              "reason": "Outlet uses a positive adjective to describe a Kosovo-born individual's achievement",
+              "isQuote": false,
+              "evidence": "Erfolgsgeschichte",
+              "speaker": ""
             }
           ],
-          "totalArticles": 10,
+          "totalArticles": 11,
           "trend": "pozitiv",
           "firstSeen": "2026-09-07",
-          "lastSeen": "2026-09-08"
+          "lastSeen": "2026-09-10"
         },
         {
           "name": "NZZ",
@@ -1007,109 +919,20 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-07",
           "lastSeen": "2026-09-07"
-        },
-        {
-          "name": "albinfo.ch",
-          "sentiment": "neutral",
-          "articleCount": 6,
-          "articles": [
-            {
-              "title": "Kosovo und Deutschland gemeinsam gegen Zecken, die ein tödliches Virus übertragen - albinfo.ch",
-              "albanianTitle": "Kosova dhe Gjermania bashkë kundër rriqrave që bartin virusin vdekjeprurës - albinfo.ch",
-              "blurb": "Kosova dhe Gjermania bashkëpunojnë në luftën kundër rriqrave që bartin viruse vdekjeprurëse për qytetarët në vendin tonë.",
-              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2023/04/ixodes-ricinus-5260296_1920.jpg",
-              "url": "https://www.albinfo.ch/de/kosova-dhe-gjermania-bashke-kunder-rriqrave-qe-bartin-virusin-vdekjeprures/",
-              "date": "2026-09-06",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportuar pa ngarkim",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Drei Piloten aus dem Kosovo unter den Top 10 der Welt im Gleitschirmfliegen - albinfo.ch",
-              "albanianTitle": "Tre pilotë nga Kosova në mesin e 10 më të mirëve në botë për parashutizëm - albinfo.ch",
-              "blurb": "Tre pilotë nga Kosova janë renditur në mesin e dhjetë më të mirëve në botë për fluturim me parashutë.",
-              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/633269021_1564878762080969_8574478831148187001_n-e1788705409757.jpg",
-              "url": "https://www.albinfo.ch/de/tre-pilote-nga-kosova-ne-top-10-te-botes-ne-paragllajdizem/",
-              "date": "2026-09-06",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportuar pa ngarkim",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Trois pilotes du Kosovo dans le Top 10 mondial de parapente - albinfo.ch",
-              "albanianTitle": "Tre pilotë nga Kosova në top 10-shen botërore të parashutizmit - albinfo.ch",
-              "blurb": "Tre parashutistë nga Kosova janë renditur në dhjetëshen më të mirë botërore në disiplinën e fluturimit me parashutë.",
-              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/633269021_1564878762080969_8574478831148187001_n-e1788705409757.jpg",
-              "url": "https://www.albinfo.ch/fr/tre-pilote-nga-kosova-ne-top-10-te-botes-ne-paragllajdizem/",
-              "date": "2026-09-06",
-              "sentiment": "neutral",
-              "reason": "Faktikë, raportim neutral",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Le Kosovo et l’Allemagne unissent leurs efforts contre les tiques porteuses d’un virus mortel - albinfo.ch",
-              "albanianTitle": "Kosova dhe Gjermania bashkojnë forcat kundër rriqrave që bartin virus vdekjeprurës",
-              "blurb": "Kosova dhe Gjermania po bashkëpunojnë për të luftuar rrezikun nga rriqrat që mbartin një virus vdekjeprurës.",
-              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2023/04/ixodes-ricinus-5260296_1920.jpg",
-              "url": "https://www.albinfo.ch/fr/kosova-dhe-gjermania-bashke-kunder-rriqrave-qe-bartin-virusin-vdekjeprures/",
-              "date": "2026-09-06",
-              "sentiment": "neutral",
-              "reason": "Faktikë, raportim neutral",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Suisse-Kosovo, les échanges commerciaux atteignent 175 millions de francs: le nouvel accord supprime les barrières douanières - albinfo.ch",
-              "albanianTitle": "Zvicër-Kosovë, shkëmbimet tregtare arrijnë në 175 milionë franga: marrëveshja e re heq barrierat doganore",
-              "blurb": "Shkëmbimet tregtare mes Zvicrës dhe Kosovës arrijnë 175 milionë franga, ndërsa marrëveshja e re heq barrierat doganore.",
-              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/634038575_highres.jpg",
-              "url": "https://www.albinfo.ch/fr/zvicer-kosove-tregtia-arrin-175-milione-franga-marreveshja-e-re-heq-barrierat-doganore/",
-              "date": "2026-09-06",
-              "sentiment": "neutral",
-              "reason": "Faktikë, raportim neutral",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Schweiz-Kosovo, Handelsvolumen erreicht 175 Millionen Franken: Neues Abkommen beseitigt Zollbarrieren - albinfo.ch",
-              "albanianTitle": "Zvicër-Kosovë, vëllimi tregtar arrin 175 milionë franga: marrëveshja e re eliminon barrierat doganore",
-              "blurb": "Vëllimi tregtar mes Zvicrës dhe Kosovës shënon 175 milionë franga pas hyrjes në fuqi të marrëveshjes për heqjen e doganave.",
-              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/634038575_highres.jpg",
-              "url": "https://www.albinfo.ch/de/zvicer-kosove-tregtia-arrin-175-milione-franga-marreveshja-e-re-heq-barrierat-doganore/",
-              "date": "2026-09-06",
-              "sentiment": "neutral",
-              "reason": "Factual report of trade agreement, no evaluative language toward Kosovo",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 34,
-          "trend": "pozitiv",
-          "firstSeen": "2026-09-05",
-          "lastSeen": "2026-09-06"
         }
       ],
       "summary": {
-        "index": 59,
-        "positive": 19,
-        "neutral": 81,
+        "index": 65,
+        "positive": 30,
+        "neutral": 70,
         "negative": 0,
-        "n": 16,
+        "n": 10,
         "excluded": 2,
         "confident": true,
         "stanceVersion": 3,
         "movement": {
-          "delta": 4,
-          "from": 55,
+          "delta": 6,
+          "from": 59,
           "outlet": "Albinfo",
           "title": "Nga Kosova në Gardën Kombëtare të SHBA-së, rrugëtimi i suksesshëm i Rona Malës",
           "evidence": "parcours de réussite",
@@ -1118,13 +941,38 @@
       }
     },
     "Holandë": {
-      "outlets": [],
+      "outlets": [
+        {
+          "name": "Puna.nl",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosso maakt moeilijke beslissing en emigreert met zijn gezin naar Kosovo: \"Nederland, bedankt voor alles\" - Puna.nl",
+              "albanianTitle": "Kosso merr vendimin e vështirë dhe emigron me familjen në Kosovë: \"Holandë, faleminderit për gjithçka\"",
+              "blurb": "Reperi Kosso ka marrë vendimin për t'u shpërngulur nga Holanda drejt Kosovës së bashku me familjen e tij.",
+              "imageUrl": null,
+              "url": "https://www.puna.nl/news/kosso-maakt-moeilijke-beslissing-en-emigreert-met-zijn-gezin-naar-kosovo-nederland-bedankt-voor-alles",
+              "date": "2026-09-09",
+              "sentiment": "neutral",
+              "reason": "Citim i personit, media raporton neutral",
+              "isQuote": true,
+              "evidence": "",
+              "speaker": "Kosso"
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-09",
+          "lastSeen": "2026-09-09"
+        }
+      ],
       "summary": {
-        "index": null,
+        "index": 50,
         "positive": 0,
-        "neutral": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 0,
+        "n": 1,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -1196,30 +1044,6 @@
           "lastSeen": "2026-09-07"
         },
         {
-          "name": "Diario de León",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "De la calma de León a vivir en un país de posguerra - Diario de León",
-              "albanianTitle": "Nga qetësia e Leonit te jeta në një vend të pasluftës",
-              "blurb": "Një rrëfim personal për kalimin nga qetësia e qytetit të Leonit drejt jetesës në një vend të pasluftës.",
-              "imageUrl": "https://imagenes.diariodeleon.es/files/og_thumbnail/uploads/2026/09/06/6a9d83a70ccd7.png",
-              "url": "https://www.diariodeleon.es/sociedad/260906/2096518/calma-leon-vivir-pais-posguerra.html",
-              "date": "2026-09-06",
-              "sentiment": "neutral",
-              "reason": "Descriptive term, not hostile or praising Kosovo",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-07",
-          "lastSeen": "2026-09-06"
-        },
-        {
           "name": "Europa Press",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1242,54 +1066,6 @@
           "trend": "i përzier",
           "firstSeen": "2026-08-22",
           "lastSeen": "2026-09-07"
-        },
-        {
-          "name": "diariodeleon.es",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "De la calma de León a vivir en un país de posguerra - diariodeleon.es",
-              "albanianTitle": null,
-              "blurb": "Një rrëfim personal për kalimin nga qetësia e qytetit të Leonit drejt jetës në një vend të pasluftës.",
-              "imageUrl": "https://imagenes.diariodeleon.es/files/og_thumbnail/uploads/2026/09/06/6a9d83a70ccd7.png",
-              "url": "https://www.diariodeleon.es/sociedad/260906/2096518/calma-leon-vivir-pais-posguerra.html",
-              "date": "2026-09-06",
-              "sentiment": "neutral",
-              "reason": "Headline is a factual description of moving to a post‑war country, no hostile or admiring tone",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-06",
-          "lastSeen": "2026-09-06"
-        },
-        {
-          "name": "www.diariojaen.es",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Es fiel al legado de su abuelo, Hilario Montalbán, que es el pionero de la halterofilia en Linares y que sigue trabajando con la misma ilusión pese a la falta de recursos de instalaciones. Su nieto, Adrián Franco Montalbán no ha parado en todo el verano. Prim - www.diariojaen.es",
-              "albanianTitle": "Adrián Franco Montalbán ndjek gjurmët e gjyshit të tij, Hilario Montalbán, pionier i peshëngritjes në Linares, i cili vazhdon punën me pasion pavarësisht mungesës së kushteve.",
-              "blurb": "Adrián Franco Montalbán vazhdon stërvitjet gjatë verës, duke ndjekur hapat e gjyshit të tij, pionierit të peshëngritjes Hilario Montalbán.",
-              "imageUrl": "https://www.diariojaen.es/binrepository/600x400/0c23/600d346/none/10717/RRWP/adrian-franco-montalban-1_18736448_20260905200730.jpg",
-              "url": "https://www.diariojaen.es/deportes/adrian-franco-acaba-noveno-en-el-europeo-sub-17-despues-de-ser-octavo-en-el-mundial-BM11596171",
-              "date": "2026-09-06",
-              "sentiment": "unknown",
-              "reason": "Article snippet does not mention Kosovo, so outlet stance cannot be determined",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 2,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-30",
-          "lastSeen": "2026-09-06"
         }
       ],
       "summary": {
@@ -1297,9 +1073,9 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 6,
-        "excluded": 1,
-        "confident": true,
+        "n": 4,
+        "excluded": 0,
+        "confident": false,
         "stanceVersion": 3
       }
     },
@@ -1386,15 +1162,7 @@
         "n": 3,
         "excluded": 0,
         "confident": false,
-        "stanceVersion": 3,
-        "movement": {
-          "delta": -5,
-          "from": 38,
-          "outlet": "iAxia -",
-          "title": "Kosova në Gaza: Ballkanasit që po shkojnë për ta shpëtuar Trumpin - iAxia",
-          "evidence": "οι Βαλκάνιοι που πάνε να σώσουν τον Τραμπ",
-          "url": "https://www.iaxia.gr/diethni/kosovo-sti-gaza-oi-valkanioi-pou-pane-na-sosoun-ton-trab/"
-        }
+        "stanceVersion": 3
       }
     },
     "Suedi": {
@@ -1415,21 +1183,8 @@
         {
           "name": "gostyn24.pl",
           "sentiment": "unknown",
-          "articleCount": 2,
+          "articleCount": 1,
           "articles": [
-            {
-              "title": "998 metrów, które potrafiło dać w kość. Najtrudniejsze było to, w czym biegli - gostyn24.pl",
-              "albanianTitle": "998 metra që të lodhin. Më e vështira ishte ajo në të cilën vrapuan - gostyn24.pl",
-              "blurb": "Një garë vrapimi prej 998 metrash ka paraqitur vështirësi për pjesëmarrësit për shkak të kushteve dhe pajisjeve të përdorura.",
-              "imageUrl": "https://gostyn24.pl/pl/image-meta/news/98135.jpg?v=20260906200953",
-              "url": "https://gostyn24.pl/pl/19_wiadomosci-z-regionu/588_gostyn/98135_998-metrow-ktore-potrafilo-dac-w-kosc-najtrudniejsze-bylo-to-w-czym-biegli.html",
-              "date": "2026-09-06",
-              "sentiment": "unknown",
-              "reason": "No reference to Kosovo in the headline or snippet",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "Znana trasa dostała zupełnie nowe oblicze. Biegacze zapamiętają ten podbieg - gostyn24.pl",
               "albanianTitle": "Një shteg i njohur me pamje krejtësisht të re: Vrapuesit do ta mbajnë mend këtë përpjetë - gostyn24.pl",
@@ -1504,7 +1259,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 2,
-        "excluded": 2,
+        "excluded": 1,
         "confident": false,
         "stanceVersion": 3
       }
@@ -1645,33 +1400,9 @@
           "lastSeen": "2026-09-09"
         },
         {
-          "name": "Sabah",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Yazın son şarkısı Avrupa’da çalıyor - Sabah",
-              "albanianTitle": "Hiti i fundit i verës po dëgjohet nëpër Evropë - Sabah",
-              "blurb": "Kënga e fundit e verës po dëgjohet nëpër vende të ndryshme të Evropës gjatë kësaj periudhe të vitit.",
-              "imageUrl": "https://iasbh.tmgrup.com.tr/b83c58/1200/675/0/118/1135/756?u=https://isbh.tmgrup.com.tr/sbh/2026/09/05/yazin-son-sarkisi-avrupada-caliyor-1788612020999.jpeg",
-              "url": "https://www.sabah.com.tr/turizm/2026/09/06/yazin-son-sarkisi-avrupada-caliyor",
-              "date": "2026-09-06",
-              "sentiment": "unknown",
-              "reason": "Metin Kosova ile ilgili değil",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-06",
-          "lastSeen": "2026-09-06"
-        },
-        {
           "name": "Son Dakika",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Albulena Haxhiu, Kosova'da 62 oyla yeniden Meclis Başkanı seçildi - Son Dakika",
@@ -1685,11 +1416,48 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Vanlı sporcu Furkan Bilici, Kosova'da +91 kiloda dünya şampiyonu oldu - Son Dakika",
+              "albanianTitle": "Sportisti nga Vani, Furkan Bilici, shpallet kampion bote në kategorinë +91 kg në Kosovë - Son Dakika",
+              "blurb": "Sportisti nga Vani, Furkan Bilici, ka fituar titullin e kampionit botëror në kategorinë mbi 91 kilogramë në Kosovë.",
+              "imageUrl": "https://foto.sondakika.com/haber/2026/09/10/vanli-sporcu-furkan-bilici-altin-madalya-kaza-2-20224114_amp.jpg",
+              "url": "https://www.sondakika.com/spor/haber-vanli-sporcu-furkan-bilici-kosova-da-91-kiloda-dun-20224169/",
+              "date": "2026-09-10",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportuar pa ngarkim",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 11,
+          "totalArticles": 12,
           "trend": "i përzier",
           "firstSeen": "2026-08-20",
+          "lastSeen": "2026-09-10"
+        },
+        {
+          "name": "T24",
+          "sentiment": "negative",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Hasan Servet Öktem | Kosovalı parlamenterlerin yaptığı seçmene saygısızlık değil mi? - T24",
+              "albanianTitle": "Hasan Servet Öktem: A nuk është mosrespekt ndaj votuesve ajo që po bëjnë deputetët kosovarë?",
+              "blurb": "Hasan Servet Öktem ngre pyetjen nëse veprimet e parlamentarëve kosovarë përbëjnë mungesë respekti ndaj votuesve që i zgjodhën ata.",
+              "imageUrl": null,
+              "url": "https://t24.com.tr/yazarlar/hasan-servet-oktem/kosovali-parlamenterlerin-yaptigi-secmene-saygisizlik-degil-mi,58967",
+              "date": "2026-09-09",
+              "sentiment": "negative",
+              "reason": "Media përdor fjalë pejorative për parlamentarët kosovarë",
+              "isQuote": false,
+              "evidence": "saygısızlık",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-09",
           "lastSeen": "2026-09-09"
         },
         {
@@ -1718,12 +1486,12 @@
         }
       ],
       "summary": {
-        "index": 50,
+        "index": 45,
         "positive": 0,
-        "neutral": 100,
-        "negative": 0,
-        "n": 8,
-        "excluded": 1,
+        "neutral": 90,
+        "negative": 10,
+        "n": 10,
+        "excluded": 0,
         "confident": true,
         "stanceVersion": 3
       }

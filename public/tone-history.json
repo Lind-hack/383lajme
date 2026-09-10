@@ -6047,9 +6047,9 @@
   },
   {
     "date": "2026-09-09",
-    "overallIndex": 52,
-    "totalArticles": 67,
-    "sourceCount": 50,
+    "overallIndex": 51,
+    "totalArticles": 71,
+    "sourceCount": 53,
     "stanceVersion": 3,
     "countries": {
       "Gjermani": {
@@ -6058,7 +6058,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 5,
-        "excluded": 0,
+        "excluded": 1,
         "confident": true,
         "stanceVersion": 3
       },
@@ -6097,17 +6097,17 @@
         "positive": 6,
         "neutral": 94,
         "negative": 0,
-        "n": 16,
+        "n": 17,
         "excluded": 4,
         "confident": true,
         "stanceVersion": 3
       },
       "Austri": {
-        "index": 57,
-        "positive": 14,
-        "neutral": 86,
+        "index": 56,
+        "positive": 12,
+        "neutral": 88,
         "negative": 0,
-        "n": 7,
+        "n": 8,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 3
@@ -6131,11 +6131,11 @@
         }
       },
       "Holandë": {
-        "index": null,
+        "index": 50,
         "positive": 0,
-        "neutral": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 0,
+        "n": 1,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -6199,14 +6199,22 @@
         "stanceVersion": 3
       },
       "Turqi": {
-        "index": 50,
+        "index": 44,
         "positive": 0,
-        "neutral": 100,
-        "negative": 0,
-        "n": 8,
+        "neutral": 89,
+        "negative": 11,
+        "n": 9,
         "excluded": 1,
         "confident": true,
-        "stanceVersion": 3
+        "stanceVersion": 3,
+        "movement": {
+          "delta": -6,
+          "from": 50,
+          "outlet": "T24",
+          "title": "Hasan Servet Öktem: A nuk është mosrespekt ndaj votuesve ajo që po bëjnë deputetët kosovarë?",
+          "evidence": "saygısızlık",
+          "url": "https://t24.com.tr/yazarlar/hasan-servet-oktem/kosovali-parlamenterlerin-yaptigi-secmene-saygisizlik-degil-mi,58967"
+        }
       },
       "Kroaci": {
         "index": null,
@@ -6266,6 +6274,231 @@
         "country": "Greqi",
         "flag": "🇬🇷",
         "url": "https://www.iaxia.gr/diethni/kosovo-sti-gaza-oi-valkanioi-pou-pane-na-sosoun-ton-trab/",
+        "sentiment": "negative"
+      }
+    ]
+  },
+  {
+    "date": "2026-09-10",
+    "overallIndex": 48,
+    "totalArticles": 60,
+    "sourceCount": 43,
+    "stanceVersion": 3,
+    "countries": {
+      "Gjermani": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 5,
+        "excluded": 1,
+        "confident": true,
+        "stanceVersion": 3
+      },
+      "SHBA": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Britani": {
+        "index": 40,
+        "positive": 0,
+        "neutral": 80,
+        "negative": 20,
+        "n": 5,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 3
+      },
+      "Francë": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 1,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Itali": {
+        "index": 44,
+        "positive": 0,
+        "neutral": 88,
+        "negative": 12,
+        "n": 16,
+        "excluded": 2,
+        "confident": true,
+        "stanceVersion": 3,
+        "movement": {
+          "delta": -9,
+          "from": 53,
+          "outlet": "balcanicaucaso.org",
+          "title": "Kosovo, la politica in un vicolo cieco - balcanicaucaso.org",
+          "evidence": "politica in un vicolo cieco",
+          "url": "https://www.balcanicaucaso.org/cp_article/kosovo-la-politica-in-un-vicolo-cieco/"
+        }
+      },
+      "Austri": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 3,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Zvicër": {
+        "index": 65,
+        "positive": 30,
+        "neutral": 70,
+        "negative": 0,
+        "n": 10,
+        "excluded": 2,
+        "confident": true,
+        "stanceVersion": 3,
+        "movement": {
+          "delta": 6,
+          "from": 59,
+          "outlet": "Albinfo",
+          "title": "Nga Kosova në Gardën Kombëtare të SHBA-së, rrugëtimi i suksesshëm i Rona Malës",
+          "evidence": "parcours de réussite",
+          "url": "https://www.albinfo.ch/fr/nga-kosova-ne-garden-kombetare-te-shba-se-rrefimi-i-suksesit-te-rona-males/"
+        }
+      },
+      "Holandë": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 1,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Belgjikë": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Spanjë": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 4,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Greqi": {
+        "index": 33,
+        "positive": 0,
+        "neutral": 67,
+        "negative": 33,
+        "n": 3,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Suedi": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Poloni": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 2,
+        "excluded": 1,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Turqi": {
+        "index": 45,
+        "positive": 0,
+        "neutral": 90,
+        "negative": 10,
+        "n": 10,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 3
+      },
+      "Kroaci": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      }
+    },
+    "headlines": [
+      {
+        "title": "Hamza: E rëndësishme që Kosova më 16 shtator ta ketë Kuvendin e konstituuar, marrim pjesë në seancën e 9 shtatorit - Reporteri.net",
+        "source": "Reporteri",
+        "country": "Francë",
+        "flag": "🇫🇷",
+        "url": "https://reporteri.net/fr/nouvelles/Hamza--il-est-important-que-le-Kosovo-dispose-d%27une-assembl%C3%A9e-constitu%C3%A9e-le-16-septembre.-Nous-participerons-%C3%A0-la-session-du-9-septembre./",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Sırp Listesi, Sırp Halkı Değildir; Kosova Sırbistan da Değildir - Kosovahaber.com",
+        "source": "Kosovahaber.com",
+        "country": "Turqi",
+        "flag": "🇹🇷",
+        "url": "https://kosovahaber.com/haber/sirp-listesi-sirp-halki-degildir-kosova-sirbistan-da-degildir-105928",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Lahey'de Yargılanan Eski UÇK Yöneticilerinin Beraat Edeceğine İnanıyorum - Kosovahaber.com",
+        "source": "Kosovahaber.com",
+        "country": "Turqi",
+        "flag": "🇹🇷",
+        "url": "https://kosovahaber.com/haber/laheyde-yargilanan-eski-uck-yoneticilerinin-beraat-edecegine-inaniyorum-105960",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Kosovo, politics at a dead end - Osservatorio Balcani Caucaso Transeuropa",
+        "source": "Osservatorio Balcani Caucaso Transeuropa",
+        "country": "SHBA",
+        "flag": "🇺🇸",
+        "url": "https://www.balcanicaucaso.org/en/cp_article/kosovo-la-politica-in-un-vicolo-cieco/",
+        "sentiment": "negative"
+      },
+      {
+        "title": "Kosovo Parliament to Reconvene, ‘Chaos’ Looms over Election of President - Balkan Insight",
+        "source": "Balkan Insight",
+        "country": "Britani",
+        "flag": "🇬🇧",
+        "url": "https://balkaninsight.com/2026/09/08/kosovo-parliament-to-reconvene-chaos-looms-over-election-of-president/bi/",
+        "sentiment": "negative"
+      },
+      {
+        "title": "Kosovo, la politica in un vicolo cieco - balcanicaucaso.org",
+        "source": "balcanicaucaso.org",
+        "country": "Itali",
+        "flag": "🇮🇹",
+        "url": "https://www.balcanicaucaso.org/cp_article/kosovo-la-politica-in-un-vicolo-cieco/",
         "sentiment": "negative"
       }
     ]
