@@ -4,7 +4,7 @@
     {
       "label": "Konstituimi i Kuvendit të Kosovës",
       "fallbackLabel": "Kuvendit · Haxhiu",
-      "summary": "Partitë politike në Kosovë konfirmojnë pjesëmarrjen në seancën konstituive të Kuvendit, duke përmbushur detyrimin kushtetues për funksionimin e institucioneve shtetërore.",
+      "summary": "Partitë politike në Kosovë konfirmojnë pjesëmarrjen në seancën konstituive të Kuvendit, duke përmbushur kështu obligimin kushtetues për funksionalizimin e institucionit më të lartë…",
       "count": 29,
       "positive": 1,
       "neutral": 27,
@@ -183,7 +183,7 @@
     {
       "label": "Pjesëmarrja e Kosovës në Gaza",
       "fallbackLabel": "Ndërkombëtare · Forcës",
-      "summary": "Kosova ka nënshkruar marrëveshje zyrtare për t'iu bashkuar forcës ndërkombëtare stabilizuese në Gaza, duke u bërë pjesë e përpjekjeve ndërkombëtare për siguri.",
+      "summary": "Kosova ka nënshkruar marrëveshje zyrtare për t'iu bashkuar forcës ndërkombëtare të stabilizimit në Gaza, duke u bërë pjesë e misionit të udhëhequr nga Shtetet e Bashkuara.",
       "count": 19,
       "positive": 1,
       "neutral": 18,
@@ -362,9 +362,9 @@
       ]
     },
     {
-      "label": "Talenti i Bayernit për Kosovën",
+      "label": "Transferimi i talentit në Kosovë",
       "fallbackLabel": "Bayernit · Luajë",
-      "summary": "Mesfushori i talentuar i Bayern Munich raportohet se do të përfaqësojë Kosovën, duke shkaktuar reagime për humbjen e mundshme të lojtarit nga Gjermania.",
+      "summary": "Mediat raportojnë se një mesfushor i talentuar i Bayernit pritet të ndërrojë përfaqësuesen dhe të luajë për kombëtaren e Kosovës, duke shkaktuar reagime në Gjermani.",
       "count": 15,
       "positive": 0,
       "neutral": 14,
@@ -543,9 +543,9 @@
       ]
     },
     {
-      "label": "Aktivitetet përkujtimore të Kurtit",
-      "fallbackLabel": "Kurti · Shpalljes",
-      "summary": "Kryeministri Kurti ka shënuar përvjetorë të rëndësishëm shtetërorë dhe policorë, duke theksuar rëndësinë e pranisë së institucioneve në të gjithë territorin e vendit.",
+      "label": "Aktivitetet zyrtare të Kryeministrit Kurti",
+      "fallbackLabel": "Kurti · Kaçanik",
+      "summary": "Kryeministri Kurti ka shënuar përvjetorë të rëndësishëm shtetërorë dhe policorë, si dhe ka zhvilluar takime diplomatike për forcimin e marrëdhënieve ndërkombëtare të vendit.",
       "count": 14,
       "positive": 0,
       "neutral": 12,
@@ -723,9 +723,9 @@
       ]
     },
     {
-      "label": "Zhvillimet gjeopolitike në Ballkan",
-      "fallbackLabel": "Ballkani · Shkaktari",
-      "summary": "Analizat ndërkombëtare dhe zhvillimet ekonomike vënë në pah rolin e Ballkanit në gjeopolitikën rajonale dhe ndikimin e Serbisë në stabilitetin e zonës.",
+      "label": "Zhvillimet gjeopolitike dhe ekonomike rajonale",
+      "fallbackLabel": "Ballkani · Madh",
+      "summary": "Analizat trajtojnë tensionet në Ballkan, rolin e Serbisë në trazira dhe zgjerimin e bizneseve ndërkombëtare në rajon përmes marrëveshjeve të reja tregtare dhe kulturore.",
       "count": 10,
       "positive": 1,
       "neutral": 6,
@@ -903,14 +903,14 @@
       ]
     },
     {
-      "label": "Vendimmarrja politike në Kosovë",
-      "fallbackLabel": "Kundër · Kabinetin",
-      "summary": "Parlamenti i Kosovës ka miratuar kabinetin qeveritar, ndërsa debatet politike vazhdojnë lidhur me akuzat për gjuhën e përdorur dhe proceset e brendshme zgjedhore.",
-      "count": 9,
+      "label": "Vendimmarrja politike dhe parlamentare",
+      "fallbackLabel": "Kundër · Vota",
+      "summary": "Artikujt pasqyrojnë procese të rëndësishme politike, përfshirë votimin e kabinetit qeveritar, debatet e brendshme partiake dhe bashkëpunimin rajonal kundër ndikimeve të jashtme.",
+      "count": 10,
       "positive": 1,
-      "neutral": 8,
+      "neutral": 9,
       "negative": 0,
-      "index": 56,
+      "index": 55,
       "countries": [
         "Gjermani",
         "SHBA",
@@ -1060,13 +1060,29 @@
           "outlet": "Kosovahaber.com",
           "country": "Turqi",
           "flag": "🇹🇷"
+        },
+        {
+          "title": "Germany, Kosovo unite against ticks carrying deadly virus - dw.com",
+          "albanianTitle": "Gjermania dhe Kosova bashkohen kundër rriqrave që bartin virusin vdekjeprurës",
+          "blurb": "Gjermania dhe Kosova kanë bashkuar forcat për të luftuar rrezikun nga rriqrat që bartin viruse vdekjeprurëse.",
+          "imageUrl": "https://static.dw.com/image/78532710_6.jpg",
+          "url": "https://www.dw.com/en/germany-kosovo-unite-against-ticks-carrying-deadly-virus/a-78655223",
+          "date": "2026-09-07",
+          "sentiment": "neutral",
+          "reason": "Factual report of cooperation between Germany and Kosovo, no evaluative language",
+          "isQuote": false,
+          "speaker": "",
+          "evidence": "",
+          "outlet": "dw.com",
+          "country": "SHBA",
+          "flag": "🇺🇸"
         }
       ]
     },
     {
-      "label": "Çështjet gjyqësore dhe politike",
+      "label": "Çështjet ligjore dhe politike",
       "fallbackLabel": "Ndaj · Lumenjtë",
-      "summary": "Zhvillimet lidhur me gjykimet për krime lufte dhe tensionet politike ndërmjet Kosovës dhe Serbisë mbeten në qendër të vëmendjes së mediave ndërkombëtare.",
+      "summary": "Diskutohen sfidat e sigurisë, proceset gjyqësore ndaj ish-krerëve të UÇK-së dhe tensionet politike që ndërlidhen me zhvillimet e brendshme dhe ato ndërkombëtare.",
       "count": 7,
       "positive": 0,
       "neutral": 6,
@@ -1193,9 +1209,9 @@
       ]
     },
     {
-      "label": "Bashkëpunimi ushtarak dhe rajonal",
+      "label": "Angazhimi ndërkombëtar dhe sfidat rajonale",
       "fallbackLabel": "Shba · Forcës",
-      "summary": "Kosova forcon bashkëpunimin ushtarak me SHBA-në përmes forcave stabilizuese, ndërkohë që vazhdojnë kritikat ndaj qëndrimeve të Serbisë ndaj vendeve të rajonit.",
+      "summary": "Kosova forcon bashkëpunimin ushtarak me SHBA-në përmes misioneve në Gaza, ndërkohë që përballet me retorikën agresive të udhëheqjes serbe në rajon.",
       "count": 6,
       "positive": 2,
       "neutral": 4,

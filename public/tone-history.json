@@ -6280,9 +6280,9 @@
   },
   {
     "date": "2026-09-10",
-    "overallIndex": 50,
-    "totalArticles": 54,
-    "sourceCount": 39,
+    "overallIndex": 48,
+    "totalArticles": 60,
+    "sourceCount": 43,
     "stanceVersion": 3,
     "countries": {
       "Gjermani": {
@@ -6290,9 +6290,9 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 4,
+        "n": 5,
         "excluded": 1,
-        "confident": false,
+        "confident": true,
         "stanceVersion": 3
       },
       "SHBA": {
@@ -6306,13 +6306,13 @@
         "stanceVersion": 3
       },
       "Britani": {
-        "index": 38,
+        "index": 40,
         "positive": 0,
-        "neutral": 75,
-        "negative": 25,
-        "n": 4,
+        "neutral": 80,
+        "negative": 20,
+        "n": 5,
         "excluded": 0,
-        "confident": false,
+        "confident": true,
         "stanceVersion": 3
       },
       "Francë": {
@@ -6326,14 +6326,22 @@
         "stanceVersion": 3
       },
       "Itali": {
-        "index": 50,
+        "index": 44,
         "positive": 0,
-        "neutral": 100,
-        "negative": 0,
-        "n": 13,
+        "neutral": 88,
+        "negative": 12,
+        "n": 16,
         "excluded": 2,
         "confident": true,
-        "stanceVersion": 3
+        "stanceVersion": 3,
+        "movement": {
+          "delta": -9,
+          "from": 53,
+          "outlet": "balcanicaucaso.org",
+          "title": "Kosovo, la politica in un vicolo cieco - balcanicaucaso.org",
+          "evidence": "politica in un vicolo cieco",
+          "url": "https://www.balcanicaucaso.org/cp_article/kosovo-la-politica-in-un-vicolo-cieco/"
+        }
       },
       "Austri": {
         "index": 50,
@@ -6346,16 +6354,16 @@
         "stanceVersion": 3
       },
       "Zvicër": {
-        "index": 67,
-        "positive": 33,
-        "neutral": 67,
+        "index": 65,
+        "positive": 30,
+        "neutral": 70,
         "negative": 0,
-        "n": 9,
+        "n": 10,
         "excluded": 2,
         "confident": true,
         "stanceVersion": 3,
         "movement": {
-          "delta": 8,
+          "delta": 6,
           "from": 59,
           "outlet": "Albinfo",
           "title": "Nga Kosova në Gardën Kombëtare të SHBA-së, rrugëtimi i suksesshëm i Rona Malës",
@@ -6470,6 +6478,14 @@
         "sentiment": "positive"
       },
       {
+        "title": "Kosovo, politics at a dead end - Osservatorio Balcani Caucaso Transeuropa",
+        "source": "Osservatorio Balcani Caucaso Transeuropa",
+        "country": "SHBA",
+        "flag": "🇺🇸",
+        "url": "https://www.balcanicaucaso.org/en/cp_article/kosovo-la-politica-in-un-vicolo-cieco/",
+        "sentiment": "negative"
+      },
+      {
         "title": "Kosovo Parliament to Reconvene, ‘Chaos’ Looms over Election of President - Balkan Insight",
         "source": "Balkan Insight",
         "country": "Britani",
@@ -6478,19 +6494,11 @@
         "sentiment": "negative"
       },
       {
-        "title": "Le reinterpretazioni politiche del ‘mito del Kosovo’ – il nazionalismo di Milošević e Vučić in Serbia - Giovani Reporter",
-        "source": "Giovani Reporter",
+        "title": "Kosovo, la politica in un vicolo cieco - balcanicaucaso.org",
+        "source": "balcanicaucaso.org",
         "country": "Itali",
         "flag": "🇮🇹",
-        "url": "https://www.giovanireporter.org/2026/09/09/reinterpretazioni-politiche-mito-kosovo/",
-        "sentiment": "negative"
-      },
-      {
-        "title": "Autofahren wie im Kosovo: 20-Jähriger war nach seiner rücksichtslosen Fahrt mit Unfall komplett uneinsichtig und aggressiv - Mainfranken News",
-        "source": "Mainfranken News",
-        "country": "Austri",
-        "flag": "🇦🇹",
-        "url": "https://mainfranken.news/2026/09/10/autofahren-wie-im-kosovo-20-jaehriger-war-nach-seiner-ruecksichtslosen-fahrt-mit-unfall-komplett-uneinsichtig-und-aggressiv/",
+        "url": "https://www.balcanicaucaso.org/cp_article/kosovo-la-politica-in-un-vicolo-cieco/",
         "sentiment": "negative"
       }
     ]

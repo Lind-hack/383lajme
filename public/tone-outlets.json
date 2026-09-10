@@ -1,10 +1,10 @@
 {
   "lastUpdated": "2026-09-10",
-  "overallIndex": 50,
-  "totalArticles": 54,
-  "sourceCount": 39,
+  "overallIndex": 48,
+  "totalArticles": 60,
+  "sourceCount": 43,
   "stanceVersion": 3,
-  "unattributed": 194,
+  "unattributed": 208,
   "nonEditorial": 1,
   "wrongKosovo": 0,
   "countries": {
@@ -85,6 +85,30 @@
           "lastSeen": "2026-09-09"
         },
         {
+          "name": "dw.com",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Germany, Kosovo unite against ticks carrying deadly virus - dw.com",
+              "albanianTitle": "Gjermania dhe Kosova bashkohen kundër rriqrave që bartin virusin vdekjeprurës",
+              "blurb": "Gjermania dhe Kosova kanë bashkuar forcat për të luftuar rrezikun nga rriqrat që bartin viruse vdekjeprurëse.",
+              "imageUrl": "https://static.dw.com/image/78532710_6.jpg",
+              "url": "https://www.dw.com/en/germany-kosovo-unite-against-ticks-carrying-deadly-virus/a-78655223",
+              "date": "2026-09-07",
+              "sentiment": "neutral",
+              "reason": "Factual report of cooperation between Germany and Kosovo, no evaluative language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-10",
+          "lastSeen": "2026-09-07"
+        },
+        {
           "name": "fussballdaten.de",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -114,9 +138,9 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 4,
+        "n": 5,
         "excluded": 1,
-        "confident": false,
+        "confident": true,
         "stanceVersion": 3
       }
     },
@@ -138,7 +162,7 @@
         {
           "name": "Balkan Insight",
           "sentiment": "neutral",
-          "articleCount": 4,
+          "articleCount": 5,
           "articles": [
             {
               "title": "Kosovo Man Pleads Not Guilty to Spying for Serbia - Balkan Insight",
@@ -191,22 +215,35 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Hague Prosecutors Seek Six Years for Kosovo’s Thaci for Obstructing Justice - Balkan Insight",
+              "albanianTitle": "Prokurorët e Hagës kërkojnë gjashtë vjet burg për Thaçin e Kosovës për pengim të drejtësisë",
+              "blurb": "Prokurorët në Hagë kërkojnë gjashtë vjet burgim për Hashim Thaçin për shkak të akuzave për pengim të drejtësisë.",
+              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/09/Thaci-header-image-1280x720.png",
+              "url": "https://balkaninsight.com/2026/09/10/hague-prosecutors-seek-six-years-for-kosovos-thaci-for-obstructing-justice/btj/",
+              "date": "2026-09-10",
+              "sentiment": "neutral",
+              "reason": "Faktik, pa gjuhë të ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 13,
+          "totalArticles": 14,
           "trend": "i përzier",
           "firstSeen": "2026-08-19",
           "lastSeen": "2026-09-10"
         }
       ],
       "summary": {
-        "index": 38,
+        "index": 40,
         "positive": 0,
-        "neutral": 75,
-        "negative": 25,
-        "n": 4,
+        "neutral": 80,
+        "negative": 20,
+        "n": 5,
         "excluded": 0,
-        "confident": false,
+        "confident": true,
         "stanceVersion": 3
       }
     },
@@ -434,6 +471,30 @@
           "lastSeen": "2026-09-08"
         },
         {
+          "name": "FIGC",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Qualificazione al Mondiale, Italia-Kosovo si giocherà a Barletta il 10 novembre - FIGC",
+              "albanianTitle": "Kualifikimet për Botëror, Italia-Kosova do të luhet në Barleta më 10 nëntor",
+              "blurb": "Ndeshja kualifikuese për Kampionatin Botëror mes Italisë dhe Kosovës do të zhvillohet në Barleta më 10 nëntor.",
+              "imageUrl": "https://images.figc.it/view/acePublic/alias/contentid/1tp3w4mr7nt3dxvdc0r/0/paladisfida1-jpg.jpg?f=187%3A100",
+              "url": "https://www.figc.it/it/nazionali/news/qualificazione-al-mondiale-italia-kosovo-si-giochera-a-barletta-il-10-novembre-av5n3jy4",
+              "date": "2026-09-10",
+              "sentiment": "neutral",
+              "reason": "Faktik, pa gjuhë të ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 7,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-20",
+          "lastSeen": "2026-09-10"
+        },
+        {
           "name": "Gazzetta di Parma",
           "sentiment": "unknown",
           "articleCount": 1,
@@ -506,6 +567,30 @@
           "lastSeen": "2026-09-08"
         },
         {
+          "name": "Osservatorio Balcani Caucaso Transeuropa",
+          "sentiment": "negative",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo, politics at a dead end - Osservatorio Balcani Caucaso Transeuropa",
+              "albanianTitle": "Kosova, politika në rrugë pa krye",
+              "blurb": "Situata politike në Kosovë është vlerësuar si e bllokuar në një rrugë pa krye nga vëzhguesit ndërkombëtarë.",
+              "imageUrl": "https://www.balcanicaucaso.org/wp-content/uploads/sites/8/2026/09/shutterstock_2277262145.jpg",
+              "url": "https://www.balcanicaucaso.org/en/cp_article/kosovo-la-politica-in-un-vicolo-cieco/",
+              "date": "2026-09-10",
+              "sentiment": "negative",
+              "reason": "Outlet characterises Kosovo's politics as a dead end, a hostile assessment",
+              "isQuote": false,
+              "evidence": "politics at a dead end",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 5,
+          "trend": "i përzier",
+          "firstSeen": "2026-08-19",
+          "lastSeen": "2026-09-10"
+        },
+        {
           "name": "Soroptimist International d'Italia",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -528,6 +613,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-09",
           "lastSeen": "2026-09-08"
+        },
+        {
+          "name": "balcanicaucaso.org",
+          "sentiment": "negative",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo, la politica in un vicolo cieco - balcanicaucaso.org",
+              "albanianTitle": null,
+              "blurb": "Skena politike në Kosovë po përballet me një bllokadë të vazhdueshme në proceset e saj vendimmarrëse institucionale.",
+              "imageUrl": "https://www.balcanicaucaso.org/wp-content/uploads/sites/8/2026/09/shutterstock_2277262145.jpg",
+              "url": "https://www.balcanicaucaso.org/cp_article/kosovo-la-politica-in-un-vicolo-cieco/",
+              "date": "2026-09-10",
+              "sentiment": "negative",
+              "reason": "Titulli e mediave e paraqet Kosovën në mënyrë kritike",
+              "isQuote": false,
+              "evidence": "politica in un vicolo cieco",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 2,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-06",
+          "lastSeen": "2026-09-10"
         },
         {
           "name": "gazzettadiparma.it",
@@ -579,14 +688,22 @@
         }
       ],
       "summary": {
-        "index": 50,
+        "index": 44,
         "positive": 0,
-        "neutral": 100,
-        "negative": 0,
-        "n": 13,
+        "neutral": 88,
+        "negative": 12,
+        "n": 16,
         "excluded": 2,
         "confident": true,
-        "stanceVersion": 3
+        "stanceVersion": 3,
+        "movement": {
+          "delta": -9,
+          "from": 53,
+          "outlet": "balcanicaucaso.org",
+          "title": "Kosovo, la politica in un vicolo cieco - balcanicaucaso.org",
+          "evidence": "politica in un vicolo cieco",
+          "url": "https://www.balcanicaucaso.org/cp_article/kosovo-la-politica-in-un-vicolo-cieco/"
+        }
       }
     },
     "Austri": {
@@ -761,10 +878,10 @@
               "speaker": ""
             }
           ],
-          "totalArticles": 10,
+          "totalArticles": 11,
           "trend": "pozitiv",
           "firstSeen": "2026-09-07",
-          "lastSeen": "2026-09-08"
+          "lastSeen": "2026-09-10"
         },
         {
           "name": "NZZ",
@@ -805,16 +922,16 @@
         }
       ],
       "summary": {
-        "index": 67,
-        "positive": 33,
-        "neutral": 67,
+        "index": 65,
+        "positive": 30,
+        "neutral": 70,
         "negative": 0,
-        "n": 9,
+        "n": 10,
         "excluded": 2,
         "confident": true,
         "stanceVersion": 3,
         "movement": {
-          "delta": 8,
+          "delta": 6,
           "from": 59,
           "outlet": "Albinfo",
           "title": "Nga Kosova në Gardën Kombëtare të SHBA-së, rrugëtimi i suksesshëm i Rona Malës",
