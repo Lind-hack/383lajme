@@ -4,7 +4,7 @@ import { scoreMarketWithAI, slugifyQuestion, type Market } from "@/lib/tregu";
 import { buildDailyDraftPlan, buildLiveEventDraftRunKey, buildRepricePlan, dailyDraftPublicationReason, evidenceIdentity, isEligibleNewsDeadlineMarket, newsDeadlineAction, newsDeadlineDecayCap, NEWS_DEADLINE_DECAY_INTERVAL_MS, repriceMarketSkipReason, validateDailyDraftSubmission } from "@/lib/tregu-automation.mjs";
 import { kosovoLocalDate } from "@/lib/tregu-date-key.mjs";
 import { fetchEspnLiveEvents } from "@/lib/espn-live-score.mjs";
-import { ARGENTINA_SPAIN_PAIR, buildArgentinaSpainPairedBinaryPlan, buildSportMarketPlan } from "@/lib/tregu-sport-market.mjs";
+import { ARGENTINA_SPAIN_PAIR, buildArgentinaSpainPairedBinaryPlan, buildSportMarketPlan, sportEventState, rescheduledSportClose } from "@/lib/tregu-sport-market.mjs";
 import { buildF1MarketPlan, buildF1RaceWinnerPlan, buildF1SettlementPlan, openF1ToWinnerLeaderboard } from "@/lib/f1-live-lite.mjs";
 import { fetchOpenF1LiveRace } from "@/lib/openf1-live.mjs";
 import { classifyProviderFailure } from "@/lib/tregu-ai-provider.mjs";
@@ -218,15 +218,31 @@ export async function runDailyDraftAutomation(candidates: unknown, now = new Dat
       }
     }
     const dateSuffix = kosovoLocalDate(now).replace(/-/g, "");
-    const rows = plan.rows.map((row, index) => ({
+    let remainingDailySlots = 6;
+    if (!expectedLiveEventRunKey) {
+      // Count every status: closing a market must not free a publication slot.
+      // The trigger in 0075 enforces this again atomically across workers.
+      const { data: recentPublications, error: quotaError } = await admin.from("markets")
+        .select("created_at")
+        .eq("market_classification", "general_news")
+        .eq("pre_match_analysis->>contract_version", "news-event-v3")
+        .gte("created_at", new Date(now.getTime() - 26 * 3_600_000).toISOString());
+      if (quotaError) throw new Error(`Could not check daily publication quota: ${quotaError.message}`);
+      remainingDailySlots = Math.max(0, 6 - (recentPublications ?? []).filter(row => kosovoLocalDate(new Date(row.created_at)) === kosovoLocalDate(now)).length);
+      if (!remainingDailySlots) {
+        const details = { created: 0, no_publish_reason: "daily_limit_reached" };
+        await finishRun(admin, started.run.id, "succeeded", details);
+        return { ok: true, skipped: true, runKey, ...details, markets: [] };
+      }
+    }
+    const rows = plan.rows.slice(0, remainingDailySlots).map((row, index) => ({
       ...row,
-      // Every automated daily candidate is review-only. Sports templates and
-      // General/News candidates both require an explicit admin approval action.
-      status: "draft" as const,
+      // Only validated v3 news contracts qualify for automatic publication.
+      status: !expectedLiveEventRunKey && row.pre_match_analysis?.contract_version === "news-event-v3" ? "open" as const : "draft" as const,
       slug: `${slugifyQuestion(row.question) || "treg"}-${dateSuffix}-${index + 1}`,
     }));
-    if (rows.length < 2 || rows.length > 5) {
-      throw new Error("Codex draft payload must produce 2 to 5 unique draft markets after validation.");
+    if (rows.length < 1 || rows.length > (expectedLiveEventRunKey ? 5 : 6)) {
+      throw new Error("Daily submission must produce 1 to 6 qualified news markets, or the required live-event drafts.");
     }
     let createdMarkets: Array<Record<string, unknown>> = [];
     if (rows.length) {
@@ -234,7 +250,7 @@ export async function runDailyDraftAutomation(candidates: unknown, now = new Dat
       if (error) throw new Error(`Could not insert market drafts: ${error.message}`);
       createdMarkets = data ?? [];
     }
-    const details = { created: rows.length, ...summarizeDailyPlan(validated.candidates, plan), admin_approval_required: true };
+    const details = { created: rows.length, ...summarizeDailyPlan(validated.candidates, plan), admin_approval_required: rows.some(row => row.status === "draft") };
     await finishRun(admin, started.run.id, "succeeded", details);
     const sourceBySlug = new Map(sourceArticles.map((article) => [article.slug, article]));
     const markets = createdMarkets.map((market) => ({
@@ -321,6 +337,29 @@ async function runOfficialSportsRefresh(action: "live_sports", runKey: string, n
       officialSourceError = String(error instanceof Error ? error.message : error);
       console.error("Official sports source unavailable; continuing to settlement pass:", officialSourceError);
     }
+    const fbkMarkets = standardMarkets.filter(market => market.live_event?.provider === "fbk");
+    if (fbkMarkets.length) {
+      try {
+        const { fetchFbkFixtures, normalizeFbkFixture } = await import("@/lib/fbk-basketball.mjs");
+        const { fetchLinkedFbkLiveStats } = await import("@/lib/fbk-livestats.mjs");
+        const fixtures = await fetchFbkFixtures();
+        const mappedIds = new Set(fbkMarkets.map(market => market.live_event.event_id));
+        const mappedFixtures = fixtures.filter(fixture => mappedIds.has(fixture.event_id));
+        for (let offset = 0; offset < mappedFixtures.length; offset += 4) {
+          const batch = mappedFixtures.slice(offset, offset + 4);
+          const observations = await Promise.allSettled(batch.map(fixture => fetchLinkedFbkLiveStats(fixture, { now })));
+          observations.forEach((observation, index) => {
+            if (observation.status === "fulfilled") events.push(observation.value);
+            else {
+              events.push(normalizeFbkFixture(batch[index], now));
+              officialSourceError = [officialSourceError, `FBK ${batch[index].event_id}: ${String(observation.reason)}`].filter(Boolean).join("; ");
+            }
+          });
+        }
+      } catch (error) {
+        officialSourceError = [officialSourceError, `FBK: ${String(error instanceof Error ? error.message : error)}`].filter(Boolean).join("; ");
+      }
+    }
     const signals = buildSportMarketPlan({ markets: standardMarkets, events, now });
     const pairedSignals = buildArgentinaSpainPairedBinaryPlan({ markets: pairMarkets, events, now });
     const results: Array<{ slug: string; status: "applied" | "no_change" | "no_score" | "awaiting_official_winner" | "failed"; error?: string }> = [];
@@ -347,7 +386,8 @@ async function runOfficialSportsRefresh(action: "live_sports", runKey: string, n
           const existingSources = Array.isArray(existingAnalysis.sources) ? existingAnalysis.sources : [];
           const { error: updateError } = await admin.from("markets").update({
             live_event: { ...signal.market.live_event, kickoff: signal.kickoff },
-            live_score_state: { key: signal.state_key, status: signal.event.status, detail: signal.event.detail, competitors: signal.event.competitors, source_url: signal.event.source_url, kickoff: signal.kickoff, has_official_score: false, supplemental: signal.event.supplemental },
+            closes_at: rescheduledSportClose(signal.market, signal.kickoff),
+            live_score_state: sportEventState(signal.event, signal.state_key),
             pre_match_analysis: { ...existingAnalysis, sources: [...existingSources, ...signal.pre_match_evidence] },
           }).eq("id", signal.market.id).eq("status", "open");
           if (updateError) throw new Error(updateError.message);
@@ -362,13 +402,7 @@ async function runOfficialSportsRefresh(action: "live_sports", runKey: string, n
           // pays the wrong side of the market.
           const { error: updateError } = await admin.from("markets").update({
             live_score_state: {
-              key: signal.state_key,
-              status: signal.event.status,
-              detail: signal.event.detail,
-              competitors: signal.event.competitors,
-              football_format: signal.event.football_format,
-              source_url: signal.event.source_url,
-              has_official_score: true,
+              ...sportEventState(signal.event, signal.state_key),
               resolution_pending: true,
             },
           }).eq("id", signal.market.id).eq("status", "open");
@@ -377,8 +411,8 @@ async function runOfficialSportsRefresh(action: "live_sports", runKey: string, n
           continue;
         }
         const { error: oracleError } = await admin.rpc("apply_sport_market_oracle", {
-          p_market_id: signal.market.id, p_provider: "espn", p_event_id: signal.event.event_id,
-          p_state: { key: signal.state_key, status: signal.event.status, detail: signal.event.detail, competitors: signal.event.competitors, metrics: signal.event.metrics, metric_sources: signal.event.metric_sources, starting_lineups: signal.event.starting_lineups, football_format: signal.event.football_format, series: signal.event.series, source_url: signal.event.source_url, supplemental: signal.event.supplemental },
+          p_market_id: signal.market.id, p_provider: signal.event.provider, p_event_id: signal.event.event_id,
+          p_state: sportEventState(signal.event, signal.state_key),
           p_reference_probabilities: signal.snapshot.reference_probabilities, p_evidence: signal.snapshot.evidence,
           p_reasoning: signal.snapshot.oracle_reasoning, p_requested_cap: signal.snapshot.oracle_cap,
           p_close_market: signal.close_market, p_verified_outcome: signal.verified_outcome ?? null, p_settlement_due_at: signal.settlement_due_at ?? null,
@@ -800,6 +834,8 @@ async function runNewsReprice(action: "reprice" | "tregu_live", runKey: string, 
   const startedAt = Date.now();
 
   try {
+    const { error: reviewError } = await admin.rpc("pause_due_news_event_markets");
+    if (reviewError) throw new Error(`Could not pause due event-review markets: ${reviewError.message}`);
     const { data: openMarkets, error: marketsError } = await admin.from("markets").select("*").eq("status", "open");
     if (marketsError) throw new Error(`Could not load open markets: ${marketsError.message}`);
     const markets = (openMarkets ?? []).filter((market) => {
@@ -971,6 +1007,14 @@ async function runNewsReprice(action: "reprice" | "tregu_live", runKey: string, 
           continue;
         }
         if (item.evidence.length === 0) {
+          const { data: convergenceRows, error: convergenceError } = await admin.rpc("advance_news_evidence_target", { p_market_id: item.market.id });
+          if (convergenceError) throw new Error(`Could not advance evidence target for ${item.market.slug}: ${convergenceError.message}`);
+          const convergence = Array.isArray(convergenceRows) ? convergenceRows[0] : null;
+          if (convergence && Number(convergence.new_price_yes) !== Number(convergence.previous_price_yes)) {
+            const persisted = await recordMarketCheck(item.market.id, { status: "oracle_applied", checked_at: now.toISOString(), evidence_count: 0 });
+            results.push({ slug: item.market.slug, status: persisted ? "oracle_applied" : "skipped_closed", reason: "persisted_evidence_target", deadline_action: deadlineAction });
+            continue;
+          }
           const persisted = await recordMarketCheck(item.market.id, { status: "no_fresh_evidence", checked_at: now.toISOString(), evidence_count: 0 });
           results.push(persisted
             ? { slug: item.market.slug, status: "no_fresh_evidence", deadline_action: deadlineAction }
@@ -987,7 +1031,7 @@ async function runNewsReprice(action: "reprice" | "tregu_live", runKey: string, 
         const outcome = item.scoreSuccess(score);
         const evidence = item.evidence
           .filter((article: { slug: string }) => outcome.snapshot!.evidence_slugs.includes(article.slug))
-          .map((article: { title: string; slug: string; source?: string; url?: string; imageUrl?: string }) => ({ title: article.title, slug: article.slug, source: article.source, url: article.url, imageUrl: article.imageUrl }));
+          .map((article: { title: string; slug: string; source?: string; url?: string; imageUrl?: string; publishedAt?: string }) => ({ title: article.title, slug: article.slug, source: article.source, url: article.url, imageUrl: article.imageUrl, publishedAt: article.publishedAt }));
         if (evidence.length === 0) throw new Error(`No verified cited evidence for ${item.market.slug}.`);
         if ("settlement" in outcome && outcome.settlement) {
           const { data: settlementRows, error: settlementError } = await admin.rpc("apply_verified_news_settlement", {
@@ -1454,22 +1498,43 @@ async function runUpcomingBasketballAutomation(now = new Date()) {
   const admin = createAdminClient();
   if (!admin) throw new Error("Supabase service role is required");
   const { discoverBasketball } = await import("@/lib/basketball-live.mjs");
-  const fixtures = await discoverBasketball({ now });
+  const { fetchFbkFixtures, buildFbkMarkets } = await import("@/lib/fbk-basketball.mjs");
+  const discovery = await Promise.allSettled([
+    discoverBasketball({ now }),
+    fetchFbkFixtures().then(events => buildFbkMarkets(events, { now })),
+  ]);
+  if (discovery.every(result => result.status === "rejected")) throw new Error("All basketball fixture providers unavailable");
+  const fixtures = discovery.flatMap(result => result.status === "fulfilled" ? result.value : []);
+  const providerErrors = discovery.flatMap((result, index) => result.status === "rejected" ? [{ provider: index === 0 ? "espn" : "fbk", error: String(result.reason) }] : []);
   let created = 0;
+  let refreshed = 0;
+  let rescheduled = 0;
   for (const fixture of fixtures) {
-    const { data, error } = await admin.from("markets").select("id,status,reference_probabilities").eq("slug", fixture.slug).maybeSingle();
+    const { data, error } = await admin.from("markets").select("id,status,reference_probabilities,live_event,pre_match_analysis").eq("slug", fixture.slug).maybeSingle();
     if (error) throw error;
     if (data) {
+      if (data.status === "open" && data.live_event?.kickoff !== fixture.live_event.kickoff) {
+        const { error: scheduleError } = await admin.from("markets").update({
+          live_event: { ...data.live_event, ...fixture.live_event }, closes_at: fixture.closes_at,
+        }).eq("id", data.id).eq("status", "open");
+        if (scheduleError) throw scheduleError;
+        rescheduled++;
+      }
       if (data.status === "open" && fixture.pre_match_analysis.opening_model.method !== "Neutral prior: provider moneyline unavailable" && JSON.stringify(data.reference_probabilities) !== JSON.stringify(fixture.reference_probabilities)) {
         const { error: oracleError } = await admin.rpc("apply_sport_market_oracle", {
-          p_market_id: data.id, p_provider: "espn", p_event_id: fixture.live_event.event_id,
-          p_state: { key: `basketball-opening:${fixture.live_event.event_id}:${JSON.stringify(fixture.reference_probabilities)}`, status: "STATUS_SCHEDULED", has_official_score: false },
+          p_market_id: data.id, p_provider: fixture.live_event.provider, p_event_id: fixture.live_event.event_id,
+          p_state: { key: `basketball-opening:${fixture.live_event.event_id}:${JSON.stringify([fixture.reference_probabilities, data.reference_probabilities])}`, status: "STATUS_SCHEDULED", has_official_score: false, source_url: fixture.live_event.source_url, kickoff: fixture.live_event.kickoff, opening_model: fixture.pre_match_analysis.opening_model },
           p_reference_probabilities: fixture.reference_probabilities,
-          p_evidence: [{ title: "ESPN pregame moneyline", url: fixture.live_event.source_url }],
+          p_evidence: [{ title: fixture.pre_match_analysis.opening_model.method, url: fixture.live_event.source_url }],
           p_reasoning: fixture.pre_match_analysis.opening_model.method, p_requested_cap: .1,
           p_close_market: false, p_verified_outcome: null, p_settlement_due_at: null,
         });
         if (oracleError) throw oracleError;
+        const { error: modelError } = await admin.from("markets").update({
+          pre_match_analysis: { ...data.pre_match_analysis, opening_model: fixture.pre_match_analysis.opening_model },
+        }).eq("id", data.id).eq("status", "open");
+        if (modelError) throw modelError;
+        refreshed++;
       }
       continue;
     }
@@ -1477,5 +1542,5 @@ async function runUpcomingBasketballAutomation(now = new Date()) {
     if (insertError && insertError.code !== "23505") throw insertError;
     if (!insertError) created++;
   }
-  return { ok: true, created, fixtures: fixtures.length };
+  return { ok: providerErrors.length === 0, created, refreshed, rescheduled, fixtures: fixtures.length, provider_errors: providerErrors };
 }

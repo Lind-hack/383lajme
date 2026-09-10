@@ -58,10 +58,11 @@ export default function MatchStats({
       <div className="tregu-mstats-rows">
         {visibleRows.map((r, index) => {
           const total = r.home + r.away;
+          const comparable = r.homeText !== "—" && r.awayText !== "—";
           const homePct = total > 0 ? (r.home / total) * 100 : 50;
-          const homeLeads = r.home > r.away;
-          const awayLeads = r.away > r.home;
-          const empty = total <= 0;
+          const homeLeads = comparable && r.home > r.away;
+          const awayLeads = comparable && r.away > r.home;
+          const empty = total <= 0 || !comparable;
           return (
             <div
               className="tregu-mstat"

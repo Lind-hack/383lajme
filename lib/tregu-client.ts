@@ -41,7 +41,21 @@ export interface Market {
   sport_outcomes?: { key: string; label: string; team?: string; color?: string }[] | null;
   outcome_quantities?: Record<string, number> | null;
   reference_probabilities?: Record<string, number> | null;
-  pre_match_analysis?: { claims?: unknown[]; sources?: { title: string; url: string; source: string }[] } | null;
+  pre_match_analysis?: {
+    claims?: unknown[];
+    sources?: { title: string; url: string; source: string }[];
+    contract_version?: string;
+    proposition?: {
+      entities: string[];
+      geography: string;
+      decision: string;
+      yes_condition: string;
+      no_condition: string;
+      resolution_source: string;
+      resolution_mode: "event_pair" | "deadline_occurrence";
+      review_policy: "pause_for_review";
+    };
+  } | null;
   closes_at: string;
   resolved_at: string | null;
   last_news_at?: string | null;

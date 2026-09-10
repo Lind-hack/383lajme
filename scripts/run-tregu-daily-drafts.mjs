@@ -2,8 +2,8 @@ import { execFileSync } from "node:child_process";
 import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
+import { generateDailyMarkets } from "../lib/tregu-daily-generation.mjs";
 import {
-  buildDailyCodexCommand,
   buildDraftReviewEmail,
   TREGU_DRAFT_REVIEW_RECIPIENT,
 } from "../lib/tregu-automation.mjs";
@@ -17,17 +17,14 @@ if (!baseUrl || !secret) {
 
 const headers = { authorization: `Bearer ${secret}` };
 const dryRun = process.argv.includes("--dry-run");
-// 07:20 is the sole creation window: discover verified F1/football fixtures within 72h,
-// persist review-only template trades, then load all drafts for the consolidated email.
-const sportsResponse = dryRun ? null : await fetch(`${baseUrl}/api/automation/tregu/upcoming-sports`, { method: "POST", headers });
-if (sportsResponse && !sportsResponse.ok) throw new Error(`Could not create upcoming sport templates: ${await sportsResponse.text()}`);
+// Sports discovery runs independently in the two-minute sports worker.
 const contextResponse = await fetch(`${baseUrl}/api/automation/tregu/daily-drafts`, { headers });
 if (!contextResponse.ok) throw new Error(`Could not load Codex draft context: ${await contextResponse.text()}`);
 const { articles, activeMarkets = [], futureTemplates = [] } = await contextResponse.json();
 const now = new Date();
 const prompt = `You are the 383 Tregu daily market editor for NON-SPORTS markets. Official football and F1 templates are created by a separate verified sports lane; never propose sport markets here.
 
-Your job is to select 2 to 5 genuinely tradable, uncertain, public-interest binary markets from the supplied verified articles. Think like a Polymarket/Kalshi market editor: a headline is not a contract. A good market isolates one measurable decision or threshold that can move as new information arrives, has a short useful trading window, and has a source and edge-case rule that make settlement unambiguous.
+Your job is to select 3 to 6 engaging, uncertain public-interest markets. Publish fewer when evidence is weak. Prefer major Kosovo, Albania and world developments that people widely discuss, with documented 30–90-day decision timelines.
 
 MANDATORY MARKET CONTRACT (all fields are required):
 - market_archetype: one of scheduled_decision, threshold, data_release, policy_action, appointment_or_selection, escalation_or_deescalation, corporate_decision, executive_action.
@@ -45,11 +42,11 @@ QUALITY RULES:
 3. Do not create a headline restatement. Reject any topic whose supplied source has already established the proposed PO outcome. Do not ask whether an already-reported arrest, signing, meeting, arrival, death, victory, or announcement will be confirmed.
 4. Never create meeting-only, generic announcement, generic “will X happen?”, or “will institution confirm what the article says?” markets. A meeting is eligible only when it contains a consequential decision, vote, ruling, appointment, agreement, or measurable outcome.
 5. Prefer a real threshold or decision: a named vote/ruling, a measurable public number, a policy taking effect, a selection/appointment, or a clearly defined escalation/de-escalation condition. For threshold/data_release, include the numeric threshold in the question and threshold_value.
-6. The question must be concise Albanian, end with “?”, never mechanically start with “A do të”, and include “deri më <day> <month>”. Set closes_in_hours so that the title date matches now plus that many hours in Europe/Pristina: normally 8–96 hours; scheduled decisions may use 8–168 hours only when the supplied evidence documents a real scheduled window. Do not use closes_in_days.
-7. A date is a trading deadline, not a prediction. Do not extend a market to a far future date merely because the underlying story may continue. If there is no imminent decision or threshold window, return no market for that story.
-8. Use at least two supplied articles from independent publishers when available. Source slugs must be copied exactly from the packet. The resolution source must be named in the criteria and must not be “burimi zyrtar” or another generic placeholder.
-9. Do not repeat an active topic, source story, or near-identical question listed below. Return {"markets":[]} if fewer than 2 high-quality, distinct markets are supported. Never fill the batch with weak ideas.
-10. An active breaking story with documented competing claims can support a 24–72 hour market even without a pre-announced calendar event, provided the next official response/source is explicit. Do not return an empty batch merely because the event is not scheduled.
+6. Write a concise Albanian question ending with ?. Do not mechanically start with A do të. Do not force a date into the title. Set closes_in_hours between 720 and 2160 (30–90 days), based on the documented decision timeline. Do not use closes_in_days.
+7. Prefer explicit competing events such as approval versus rejection. For event_pair markets, the date is a review date, not an automatic JO outcome. Neither event verified means pause_for_review. Do not invent a scheduled decision date.
+8. Require at least two independent publishers from the supplied articles. Copy source slugs exactly. Name the authoritative resolution source and explain why the topic is widely discussed.
+9. Never repeat an active topic or near-identical question. Return fewer than three markets, including zero, when only fewer pass all quality gates.
+10. Every market requires contract_version: news-event-v3 and proposition: {entities: [named entities], geography: Kosovo|Albania|World, decision: concrete fork, yes_condition: explicit winning event, no_condition: explicit losing event, resolution_source: named authority, resolution_mode: event_pair|deadline_occurrence, review_policy: pause_for_review}. Event-pair JO must be a real event, not absence of PO by a date.
 
 Good shapes (illustrative only; never copy facts):
 - a named parliament/court/central bank decision with two plausible outcomes;
@@ -65,20 +62,12 @@ Verified source articles (each includes source, URL, excerpt, and bounded body):
 ${JSON.stringify(articles)}
 
 Return ONLY compact JSON, with no markdown:
-{"markets":[{"question":"...","description":"current state plus the unresolved fork","resolution_criteria":"PO: ... JO: ... Burimi i zgjidhjes: ... Afati: ... Edge cases: ...","category":"politike|ekonomi|bote|te-tjera","closes_in_hours":48,"market_archetype":"scheduled_decision|threshold|data_release|policy_action|appointment_or_selection|escalation_or_deescalation|corporate_decision|executive_action","topic_key":"topic-name","decision_point":"...","why_uncertain":"...","trading_angle":"...","resolution_source":"...","deadline_basis":"...","threshold_value":"...","source_slugs":["slug1","slug2"]}]}`;
+{"markets":[{"question":"...","description":"current state plus the unresolved fork","resolution_criteria":"PO: ... JO: ... Burimi i zgjidhjes: ... Afati: ... Edge cases: ...","category":"politike|ekonomi|bote|te-tjera","contract_version":"news-event-v3","closes_in_hours":1440,"proposition":{"entities":["..."],"geography":"Kosovo","decision":"...","yes_condition":"...","no_condition":"...","resolution_source":"...","resolution_mode":"event_pair","review_policy":"pause_for_review"},"market_archetype":"scheduled_decision|threshold|data_release|policy_action|appointment_or_selection|escalation_or_deescalation|corporate_decision|executive_action","topic_key":"topic-name","decision_point":"...","why_uncertain":"...","trading_angle":"...","resolution_source":"...","deadline_basis":"...","threshold_value":"...","source_slugs":["slug1","slug2"]}]}`;
 
 
-// Cron has a minimal PATH. Use the installed VPS launcher unless an operator
-// explicitly supplies a different Hermes binary. The command pins the supported
-// Codex OAuth provider so a fresh child cannot fall back to an ambient xAI key.
-const hermesBin = process.env.HERMES_BIN ?? "/opt/hermes/.venv/bin/hermes";
-const hermesHome = process.env.HERMES_HOME ?? "/opt/data";
-const output = execFileSync(hermesBin, buildDailyCodexCommand(prompt), {
-  cwd: process.cwd(), env: { ...process.env, HERMES_HOME: hermesHome }, encoding: "utf8", maxBuffer: 1024 * 1024,
-});
-const json = output.trim().replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/, "");
-const parsed = JSON.parse(json);
-const candidates = Array.isArray(parsed) ? parsed : parsed.markets;
+const generation = await generateDailyMarkets(prompt);
+const candidates = generation.candidates;
+console.log(JSON.stringify({ stage: "generation", provider: generation.provider, fallback_reason: generation.fallback_reason, candidate_count: candidates.length }));
 const submitResponse = await fetch(`${baseUrl}/api/automation/tregu/daily-drafts`, {
   method: "POST", headers: { ...headers, "content-type": "application/json" }, body: JSON.stringify({ candidates, ...(dryRun ? { dryRun: true } : {}) }),
 });
@@ -107,6 +96,7 @@ if (dryRun) {
 const receiptMarkerDir = process.env.TREGU_RECEIPT_MARKER_DIR ?? "/opt/data/linear-hermes-bridge/state/tregu-receipts";
 const escapeHtml = (value) => String(value ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\"/g, "&quot;").replace(/'/g, "&#39;");
 const sendReceipt = ({ subject, html, markerKey }) => {
+  if (!process.argv.includes("--notify")) return;
   mkdirSync(receiptMarkerDir, { recursive: true, mode: 0o700 });
   const safeKey = String(markerKey).replace(/[^A-Za-z0-9_.-]/g, "_");
   const marker = join(receiptMarkerDir, `${safeKey}.sent`);
@@ -133,7 +123,7 @@ if (!result.skipped && result.created > 0) {
   const html = `<!doctype html><html><body style="font-family:Arial,sans-serif;background:#f8fafc;padding:24px;color:#0f172a"><main style="max-width:680px;margin:auto;background:#fff;border:1px solid #cbd5e1;border-radius:12px;padding:24px"><h1 style="margin-top:0">383 Tregu — execution receipt</h1><p><strong>Status:</strong> ${escapeHtml(state)}</p><p><strong>Run key:</strong> <code>${escapeHtml(result.runKey)}</code></p><p><strong>Created:</strong> ${escapeHtml(result.created)}</p><p>This confirms that the Tregu creation endpoint ran successfully and did not create duplicates.</p><p><a href="${escapeHtml(reviewUrl)}">Open Tregu review</a></p></main></body></html>`;
   sendReceipt({ subject: `383 Tregu — PASSED — ${result.skipped ? "already processed" : "no eligible drafts"}`, html, markerKey: `${result.runKey}-receipt` });
 }
-if (Array.isArray(futureTemplates) && futureTemplates.length) {
+if (process.argv.includes("--notify") && Array.isArray(futureTemplates) && futureTemplates.length) {
   const cards = futureTemplates.map((market) => `<article style="border:1px solid #fed7aa;border-radius:12px;padding:18px;margin:0 0 14px"><p style="margin:0 0 8px;color:#c2410c;font-weight:700;letter-spacing:1px">${String(market.market_classification ?? "LIVE SPORT").toUpperCase()} · REVIEW-ONLY TEMPLATE</p><h2 style="margin:0 0 8px">${String(market.question ?? "F1 race")}</h2><p>${String(market.description ?? "")}</p><p><b>${Array.isArray(market.sport_outcomes) ? market.sport_outcomes.length : 0} drivers</b> · review roster and grid before approval.</p><a href="${baseUrl}/admin/tregu" style="display:inline-block;background:#111827;color:#fff;padding:10px 14px;border-radius:7px;text-decoration:none">Open Admin review</a></article>`).join("");
   const html = `<!doctype html><html><body style="font-family:Arial;background:#fff7ed;padding:24px"><h1>383 Tregu — F1 race awaiting approval</h1>${cards}</body></html>`;
   const directory = mkdtempSync(join(tmpdir(), "tregu-f1-")); const htmlFile = join(directory, "review.html");

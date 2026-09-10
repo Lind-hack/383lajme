@@ -280,14 +280,14 @@ export default function F1RaceControl({
           </div>
           <span className="f1-driver-market-state">
             <Trophy size={18} strokeWidth={1.9} aria-hidden />
-            {isChampionship ? "GARA PËR KURORËN" : isLive || isFinished ? "LIVE TIMING" : "GJASA PËR FITORE"}
+            {isChampionship ? "GARA PËR KURORËN" : isFinished ? "ARKIVI I GARËS" : isLive ? "LIVE TIMING" : "GJASA PËR FITORE"}
           </span>
         </div>
         <ol id="f1-driver-market-list" className="f1-favorites">
           {visibleDrivers.map((driver, index) => {
             const color = teamColor(driver);
             const timingRow = timingByDriver.get(driver.key.toUpperCase());
-            const position = isChampionship ? driver.championship_position ?? index + 1 : isLive || isFinished ? timingRow?.position ?? index + 1 : index + 1;
+            const position = isChampionship ? driver.championship_position ?? index + 1 : isLive || isFinished ? timingRow?.position ?? null : index + 1;
             const gap =
               position === 1
                 ? "Lider"
@@ -305,7 +305,7 @@ export default function F1RaceControl({
                   } as CSSProperties
                 }
               >
-                <span className="f1-favorite-rank">{String(position).padStart(2, "0")}</span>
+                <span className="f1-favorite-rank">{position == null ? "—" : String(position).padStart(2, "0")}</span>
                 <DriverFace driver={driver} className="f1-favorite-face" />
                 <span className="f1-favorite-name">
                   <strong>{driver.label}</strong>

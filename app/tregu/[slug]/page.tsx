@@ -48,6 +48,7 @@ import { normalizeCategory } from "@/lib/category-map";
 import StickyMarketBack from "@/components/tregu/sticky-market-back";
 import { primeTradeSuccessSound, resolveTradeSuccessSoundProfile } from "@/components/tregu/trade-success-sound";
 import { buildFootballMetricRows } from "@/lib/tregu-market-detail.mjs";
+import { buildBasketballMetricRows } from "@/lib/basketball-stats.mjs";
 import { formatKosovoDate } from "@/lib/tregu-local-time.mjs";
 
 // Sibling outcome series from the detail API — real 5-min cron snapshots.
@@ -1059,12 +1060,15 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
   const awayName = awayTeam.team ?? "Mysafirët";
   const homeMetrics = live?.metrics?.[homeName] ?? {};
   const awayMetrics = live?.metrics?.[awayName] ?? {};
-  const liveMetricRows = buildFootballMetricRows(homeMetrics, awayMetrics);
-  const liveStats = live?.status !== "STATUS_SCHEDULED" && liveMetricRows.length > 0 && (football || group) ? {
+  const basketball = sportTheme === "basketball";
+  const liveMetricRows = basketball
+    ? buildBasketballMetricRows({ ...homeMetrics, points: homeTeam.score }, { ...awayMetrics, points: awayTeam.score })
+    : buildFootballMetricRows(homeMetrics, awayMetrics);
+  const liveStats = Boolean(live?.status) && live?.status !== "STATUS_SCHEDULED" && liveMetricRows.length > 0 && (football || group || basketball) ? {
     home: homeName,
     away: awayName,
     score: `${Number(homeTeam.score ?? 0)} - ${Number(awayTeam.score ?? 0)}`,
-    note: `LIVE ${live?.detail ?? ""}`.trim(),
+    note: `${/FINAL|FULL_TIME|POST/.test(live?.status ?? "") ? "Përfunduar" : "LIVE"} ${live?.detail ?? ""}`.trim(),
     rows: liveMetricRows,
   } : null;
   const eventStats = liveStats ?? (live?.status === "STATUS_SCHEDULED" ? null : fallbackEventStats);
