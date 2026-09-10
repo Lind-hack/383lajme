@@ -55,13 +55,13 @@
     },
     "Balkan Insight": {
       "country": "Britani",
-      "total": 12,
+      "total": 13,
       "positive": 1,
-      "neutral": 10,
+      "neutral": 11,
       "negative": 1,
       "unknown": 0,
       "firstSeen": "2026-08-19",
-      "lastSeen": "2026-09-08",
+      "lastSeen": "2026-09-10",
       "urls": [
         "https://balkaninsight.com/2026/08/19/suspend-officers-suspected-of-beating-serb-kosovo-police-inspectorate-says/bi/",
         "https://balkaninsight.com/2026/08/20/remains-of-23-wartime-victims-unearthed-from-mass-graves-in-kosovo/btj/",
@@ -74,7 +74,8 @@
         "https://balkaninsight.com/2026/09/03/not-mere-incidents-kosovo-questions-femicide-approach-after-new-killings/bi/",
         "https://balkaninsight.com/2026/09/04/kosovo-charges-serbian-security-officers-over-jashari-compound-massacre/btj/",
         "https://balkaninsight.com/2026/09/07/kosovo-man-pleads-not-guilty-to-spying-for-serbia/bi/",
-        "https://balkaninsight.com/2026/09/08/kosovo-parliament-to-reconvene-chaos-looms-over-election-of-president/bi/"
+        "https://balkaninsight.com/2026/09/08/kosovo-parliament-to-reconvene-chaos-looms-over-election-of-president/bi/",
+        "https://balkaninsight.com/2026/09/10/after-delays-and-controversies-end-in-sight-for-thacis-kosovo-war-crimes-trial/btj/"
       ]
     },
     "Ouest-France": {
@@ -1024,13 +1025,13 @@
     },
     "Son Dakika": {
       "country": "Turqi",
-      "total": 11,
+      "total": 12,
       "positive": 1,
-      "neutral": 8,
+      "neutral": 9,
       "negative": 0,
       "unknown": 2,
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-09-09",
+      "lastSeen": "2026-09-10",
       "urls": [
         "https://www.sondakika.com/haber/haber-kosova-da-halter-sampiyonasi-basladi-20162761/",
         "https://www.sondakika.com/3-sayfa/haber-kosovo-da-savas-suclari-sorusturmasi-23-kalinti-bu-20159357/",
@@ -1042,7 +1043,8 @@
         "https://www.sondakika.com/spor/haber-berber-ali-turkben-iki-turkiye-sampiyonlugunun-ard-20195760/",
         "https://www.sondakika.com/guncel/haber-kosova-daki-yildizlar-avrupa-halter-sampiyonasi-nd-20196635/",
         "https://www.sondakika.com/guncel/haber-kosova-prizren-deki-ilkokula-mehmetcik-oyun-parki--20207034/",
-        "https://www.sondakika.com/politika/haber-albulena-haxhiu-kosova-da-62-oyla-yeniden-meclis-b-20222171/"
+        "https://www.sondakika.com/politika/haber-albulena-haxhiu-kosova-da-62-oyla-yeniden-meclis-b-20222171/",
+        "https://www.sondakika.com/spor/haber-vanli-sporcu-furkan-bilici-kosova-da-91-kiloda-dun-20224169/"
       ]
     },
     "Harici": {
