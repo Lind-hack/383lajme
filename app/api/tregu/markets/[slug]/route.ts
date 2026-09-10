@@ -425,11 +425,14 @@ export async function GET(
         ) => {
           const storedPosition = Number(row.grid_position);
           const boardPosition = Number(positions.get(row.key));
+          // Archives keep their original 22-driver ordering as a deterministic
+          // historical grid. An upcoming race has no grid until qualifying runs,
+          // so report it missing rather than passing the array index off as one.
           const gridPosition = Number.isInteger(storedPosition) && storedPosition > 0
             ? storedPosition
             : Number.isInteger(boardPosition) && boardPosition > 0
               ? boardPosition
-              : index + 1;
+              : isArchived ? index + 1 : null;
           return {
             key: row.key,
             label: row.label,

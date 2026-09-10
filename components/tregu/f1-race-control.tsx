@@ -14,7 +14,7 @@ type Driver = {
   probability: number;
   headshot_url?: string;
   team_colour?: string;
-  grid_position?: number;
+  grid_position?: number | null;
   championship_position?: number;
   championship_points?: number;
   latest_race_position?: number | null;

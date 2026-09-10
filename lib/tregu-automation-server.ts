@@ -96,7 +96,8 @@ async function beginRun(admin: AdminClient, action: RunAction, runKey: string) {
   if (findError) throw new Error(`Could not check automation idempotency: ${findError.message}`);
   if (existing) {
     const age = Date.now() - Date.parse(String(existing.started_at ?? ""));
-    if (existing.status === "running" && Number.isFinite(age) && age > STALE_RUN_AFTER_MS) {
+    let status = String(existing.status ?? "");
+    if (status === "running" && Number.isFinite(age) && age > STALE_RUN_AFTER_MS) {
       const { data: reconciled, error: reconcileError } = await admin
         .from("market_automation_runs")
         .update({ status: "failed", error: "stale_run_reconciled", finished_at: new Date().toISOString() })
@@ -105,7 +106,27 @@ async function beginRun(admin: AdminClient, action: RunAction, runKey: string) {
         .select("id, status, details, error, started_at, finished_at")
         .maybeSingle();
       if (reconcileError) throw new Error(`Could not reconcile stale automation audit: ${reconcileError.message}`);
-      if (reconciled) return { existing: true, run: reconciled };
+      if (reconciled) status = String(reconciled.status ?? "");
+    }
+    // A failed audit must not burn its run key. An F1 template that lost its
+    // fifteen-minute bucket to a transient OpenF1 429 could not retry until the
+    // next bucket minted a fresh key. Reclaim the row instead and let the caller
+    // run again on the next tick. The status guard keeps it race-safe: only one
+    // concurrent caller wins the update. The previous error is left in place as
+    // forensics for the retry window; finishRun overwrites it either way.
+    // ponytail: retry is bounded by the caller's own timer, so a persistently
+    // failing fifteen-minute key now retries on every two-minute tick. Add a
+    // backoff column if that ever costs more than it recovers.
+    if (status === "failed") {
+      const { data: reclaimed, error: reclaimError } = await admin
+        .from("market_automation_runs")
+        .update({ status: "running", started_at: new Date().toISOString(), finished_at: null })
+        .eq("id", existing.id)
+        .eq("status", "failed")
+        .select("id")
+        .maybeSingle();
+      if (reclaimError) throw new Error(`Could not reclaim failed automation audit: ${reclaimError.message}`);
+      if (reclaimed) return { existing: false, run: reclaimed };
     }
     return { existing: true, run: existing };
   }

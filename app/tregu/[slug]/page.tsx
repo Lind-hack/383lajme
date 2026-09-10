@@ -95,7 +95,7 @@ interface Snapshot {
 interface F1Payload {
   forecast?: ComponentProps<typeof F1RaceControl>["forecast"];
   outcomes: {
-    key: string; label: string; team: string; probability: number; headshot_url?: string; team_colour?: string; grid_position?: number;
+    key: string; label: string; team: string; probability: number; headshot_url?: string; team_colour?: string; grid_position?: number | null;
     championship_position?: number; championship_points?: number; latest_race_position?: number | null; latest_race_points?: number;
     weekend_points?: number; gap_to_leader?: number; gap_change?: number; position_change?: number;
   }[];
