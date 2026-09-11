@@ -3435,6 +3435,33 @@
     },
     "CUMHA Cumhur Haber Ajansı": {
       "country": "Turqi",
+      "total": 2,
+      "positive": 0,
+      "neutral": 2,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-11",
+      "lastSeen": "2026-09-11",
+      "urls": [
+        "https://cumha.com.tr/turkiye-u24-muaythai-milli-takimi-kosovada-18-madalyayla-dunya-sampiyonu-oldu",
+        "https://cumha.com.tr/hamza-eren-goeksu-kosovada-zirveye-cikti-ucuncu-kez-muaythai-dunya-sampiyonu-oldu"
+      ]
+    },
+    "Telefriuli": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-11",
+      "lastSeen": "2026-09-10",
+      "urls": [
+        "https://www.telefriuli.it/cronaca/lancieri-di-novara-rientrano-da-kosovo-cerimonia-a-villa-manin/"
+      ]
+    },
+    "trtavaz.com.tr": {
+      "country": "Turqi",
       "total": 1,
       "positive": 0,
       "neutral": 1,
@@ -3443,7 +3470,7 @@
       "firstSeen": "2026-09-11",
       "lastSeen": "2026-09-11",
       "urls": [
-        "https://cumha.com.tr/turkiye-u24-muaythai-milli-takimi-kosovada-18-madalyayla-dunya-sampiyonu-oldu"
+        "https://www.trtavaz.com.tr/haber/tur/turkistandan/maarif-okullari-kosova-da-yapay-zek-yi-mufredata-alan-ilk-okul-oldu/6aa3bb729721236aedeb0e66"
       ]
     }
   }

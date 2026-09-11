@@ -1,10 +1,10 @@
 {
   "lastUpdated": "2026-09-11",
   "overallIndex": 51,
-  "totalArticles": 52,
-  "sourceCount": 30,
+  "totalArticles": 59,
+  "sourceCount": 32,
   "stanceVersion": 3,
-  "unattributed": 190,
+  "unattributed": 206,
   "nonEditorial": 2,
   "wrongKosovo": 0,
   "countries": {
@@ -67,13 +67,13 @@
             },
             {
               "title": "Botschafter irritiert: Verliert der DFB nun auch ein Bayern-Talent? - t-online.de",
-              "albanianTitle": "Ambasadori i irrituar: A po e humb DFB-ja edhe një talent të Bayernit?",
-              "blurb": "Federata Gjermane e Futbollit rrezikon të humbasë një talent të Bayern Munichut sipas raportimeve të fundit mediatike.",
+              "albanianTitle": "Ambasadori i irrituar: A po e humb DFB-ja edhe një talent të Bayernit? - t-online.de",
+              "blurb": "Federata Gjermane e Futbollit rrezikon të humbasë një talent të Bayernit, i cili po shqyrton mundësinë e përfaqësimit të Kosovës.",
               "imageUrl": "https://images.t-online.de/2026/09/T5ajlwMP5w0y/672x54:1815x1020/fit-in/1200x0/erblin-osmani-er-feierte-im-maerz-sein-profidebuet-im-spiel-gegen-union-berlin.jpg",
               "url": "https://www.t-online.de/sport/fussball/bundesliga/fc-bayern-muenchen/id_101426574/dfb-botschafter-irritiert-mit-post-spielt-osmani-kuenftig-fuer-kosovo-.html",
               "date": "2026-09-09",
               "sentiment": "unknown",
-              "reason": "No mention of Kosovo in the headline",
+              "reason": "No mention of Kosovo in the provided text",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -138,7 +138,7 @@
         {
           "name": "Balkan Insight",
           "sentiment": "neutral",
-          "articleCount": 4,
+          "articleCount": 6,
           "articles": [
             {
               "title": "Kosovo Parliament to Reconvene, ‘Chaos’ Looms over Election of President - Balkan Insight",
@@ -191,6 +191,32 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Intimidation Claims Loom Large as Kosovo’s Thaci Awaits Trial Verdict - balkaninsight.com",
+              "albanianTitle": "Akuzat për frikësim hedhin hije mbi gjykimin e Thaçit në Hagë - balkaninsight.com",
+              "blurb": "Pretendimet për frikësim të dëshmitarëve shoqërojnë procesin gjyqësor ndaj Hashim Thaçit në Gjykatën Speciale në Hagë.",
+              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/09/1765458561737140-scaled-e1768309305127-1280x719-1.jpg",
+              "url": "https://balkaninsight.com/2026/09/11/intimidation-claims-loom-large-as-kosovos-thaci-awaits-trial-verdict/btj/",
+              "date": "2026-09-11",
+              "sentiment": "neutral",
+              "reason": "Factual report of intimidation claims and trial verdict",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Kosovo Parliament to Reconvene, ‘Chaos’ Looms over Election of President - balkaninsight.com",
+              "albanianTitle": "Kuvendi i Kosovës mblidhet sërish, frikë nga 'kaosi' për zgjedhjen e presidentit - balkaninsight.com",
+              "blurb": "Parlamenti i Kosovës pritet të mblidhet për zgjedhjen e presidentit, ndërsa ekzistojnë paralajmërime për situatë të tensionuar.",
+              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/09/Kosovo-parliament-2-e1788869718812.jpg",
+              "url": "https://balkaninsight.com/2026/09/08/kosovo-parliament-to-reconvene-chaos-looms-over-election-of-president/bi/",
+              "date": "2026-09-08",
+              "sentiment": "neutral",
+              "reason": "The term 'Chaos' is quoted, not outlet's own language",
+              "isQuote": true,
+              "evidence": "",
+              "speaker": ""
             }
           ],
           "totalArticles": 15,
@@ -200,13 +226,13 @@
         }
       ],
       "summary": {
-        "index": 38,
+        "index": 42,
         "positive": 0,
-        "neutral": 75,
-        "negative": 25,
-        "n": 4,
+        "neutral": 83,
+        "negative": 17,
+        "n": 6,
         "excluded": 0,
-        "confident": false,
+        "confident": true,
         "stanceVersion": 3
       }
     },
@@ -461,18 +487,18 @@
         },
         {
           "name": "Corriere dello Sport",
-          "sentiment": "unknown",
+          "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
               "title": "San Marino-Kosovo U21, dove acquistare i biglietti per il 24 settembre - Corriere dello Sport",
               "albanianTitle": "San Marino-Kosovë U21, ku mund të blini biletat për ndeshjen e 24 shtatorit - Corriere dello Sport",
-              "blurb": "Detaje mbi mënyrën e blerjes së biletave për ndeshjen e futbollit ndërmjet përfaqësueseve U21 të San Marinos dhe Kosovës.",
+              "blurb": "Tifozët mund të blejnë biletat për ndeshjen ndërmjet përfaqësueseve U21 të San Marinos dhe Kosovës që zhvillohet më 24 shtator.",
               "imageUrl": "https://cdn.corrieredellosport.it/images/2026/09/11/080104061-fefcee65-1a0e-4c38-823a-4838121c74d2.jpg",
               "url": "https://www.corrieredellosport.it/news/biglietti/2026/09/11-151169652/san_marino-kosovo_u21_dove_acquistare_i_biglietti_per_il_24_settembre",
               "date": "2026-09-11",
-              "sentiment": "unknown",
-              "reason": "",
+              "sentiment": "neutral",
+              "reason": "Informacion sportiv i thjeshtë për ndeshjen San Marino‑Kosovo U21",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -557,19 +583,19 @@
         },
         {
           "name": "Messaggero Veneto",
-          "sentiment": "unknown",
+          "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
               "title": "Codroipo riabbraccia i Lancieri rientrati dal Kosovo: «Portatori di pace e comunità» - Messaggero Veneto",
-              "albanianTitle": "Codroipo pret ushtarët e Lancieri-t të kthyer nga Kosova: «Sjellës të paqes dhe komunitet»",
-              "blurb": "Ushtarët e regjimentit Lancieri janë kthyer në Codroipo të Italisë pas përfundimit të misionit paqeruajtës në Kosovë.",
+              "albanianTitle": "Codroipo mirëpret Lancieri-t që u kthyen nga Kosova: «Sjellës të paqes dhe komunitet» - Messaggero Veneto",
+              "blurb": "Ushtarët e regjimentit Lancieri janë kthyer në Codroipo pas përfundimit të misionit të tyre paqeruajtës në territorin e Kosovës.",
               "imageUrl": "https://images.messaggeroveneto.it/view/acePublic/alias/contentid/1tp7mr6kc3ylpuloh17/0/sfsfsfsfsfssfsfsf.webp?f=16%3A9&w=840",
               "url": "https://www.messaggeroveneto.it/cronaca/codroipo-lancieri-novara-missione-nato-kosovo-militari-ui1onb2c",
               "date": "2026-09-11",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
+              "sentiment": "neutral",
+              "reason": "Raportim faktik mbi kthimin e ushtarëve nga Kosova",
+              "isQuote": true,
               "evidence": "",
               "speaker": ""
             }
@@ -641,6 +667,30 @@
           "lastSeen": "2026-09-08"
         },
         {
+          "name": "Telefriuli",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Lancieri di Novara rientrano da Kosovo, cerimonia a Villa Manin - Telefriuli",
+              "albanianTitle": "Regjimenti 'Lancieri di Novara' kthehet nga Kosova, mbahet ceremonia në Villa Manin - Telefriuli",
+              "blurb": "Ushtarët e regjimentit Lancieri di Novara janë kthyer nga misioni në Kosovë, ku u mbajt ceremoni në Villa Manin.",
+              "imageUrl": "https://www.telefriuli.it/wp-content/uploads/2026/09/35762_Lancieri-di-Novara-rientrano-da-Kosovo-cerimonia-a-Villa-Manin_1789126748.jpg",
+              "url": "https://www.telefriuli.it/cronaca/lancieri-di-novara-rientrano-da-kosovo-cerimonia-a-villa-manin/",
+              "date": "2026-09-10",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-11",
+          "lastSeen": "2026-09-10"
+        },
+        {
           "name": "balcanicaucaso.org",
           "sentiment": "negative",
           "articleCount": 1,
@@ -690,12 +740,12 @@
         }
       ],
       "summary": {
-        "index": 42,
+        "index": 43,
         "positive": 0,
-        "neutral": 83,
-        "negative": 17,
-        "n": 18,
-        "excluded": 2,
+        "neutral": 86,
+        "negative": 14,
+        "n": 21,
+        "excluded": 0,
         "confident": true,
         "stanceVersion": 3
       }
@@ -1030,7 +1080,7 @@
         {
           "name": "CUMHA Cumhur Haber Ajansı",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Türkiye U24 Muaythai Milli Takımı Kosova’da 18 madalyayla dünya şampiyonu oldu - CUMHA Cumhur Haber Ajansı",
@@ -1044,9 +1094,22 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Hamza Eren Göksu Kosova’da zirveye çıktı, üçüncü kez Muaythai Dünya Şampiyonu oldu - CUMHA Cumhur Haber Ajansı",
+              "albanianTitle": "Hamza Eren Göksu shpallet kampion bote në Muaythai për herë të tretë",
+              "blurb": "Sportisti Hamza Eren Goksu është shpallur kampion bote në Muaythai për herë të tretë gjatë garave në Kosovë.",
+              "imageUrl": "https://cumha.com.tr/uploads/images/202609/image_instagram_6aa3f88968edd.jpg",
+              "url": "https://cumha.com.tr/hamza-eren-goeksu-kosovada-zirveye-cikti-ucuncu-kez-muaythai-dunya-sampiyonu-oldu",
+              "date": "2026-09-11",
+              "sentiment": "neutral",
+              "reason": "Faktik raportim pa ngarkesë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 1,
+          "totalArticles": 2,
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-11",
           "lastSeen": "2026-09-11"
@@ -1135,14 +1198,38 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-09",
           "lastSeen": "2026-09-09"
+        },
+        {
+          "name": "trtavaz.com.tr",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Maarif Okulları, Kosova’da yapay zekâyı müfredata alan ilk okul oldu - Türkistan'dan - Haber - trtavaz.com.tr",
+              "albanianTitle": "Shkollat 'Maarif' bëhen të parat në Kosovë që përfshijnë inteligjencën artificiale në kurrikulë - trtavaz.com.tr",
+              "blurb": "Shkollat Maarif në Kosovë kanë futur inteligjencën artificiale në kurrikulën e tyre mësimore për herë të parë.",
+              "imageUrl": "https://www.trtavaz.com.tr/uploads/photos/2026/09/11/2ba3f22218b840f89b45f839f71b5aca.jpg?w=640",
+              "url": "https://www.trtavaz.com.tr/haber/tur/turkistandan/maarif-okullari-kosova-da-yapay-zek-yi-mufredata-alan-ilk-okul-oldu/6aa3bb729721236aedeb0e66",
+              "date": "2026-09-11",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-11",
+          "lastSeen": "2026-09-11"
         }
       ],
       "summary": {
-        "index": 42,
+        "index": 44,
         "positive": 0,
-        "neutral": 83,
-        "negative": 17,
-        "n": 6,
+        "neutral": 88,
+        "negative": 12,
+        "n": 8,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
