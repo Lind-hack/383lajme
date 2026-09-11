@@ -1,10 +1,10 @@
 {
-  "lastUpdated": "2026-09-10",
-  "overallIndex": 50,
-  "totalArticles": 74,
-  "sourceCount": 45,
+  "lastUpdated": "2026-09-11",
+  "overallIndex": 51,
+  "totalArticles": 52,
+  "sourceCount": 30,
   "stanceVersion": 3,
-  "unattributed": 233,
+  "unattributed": 190,
   "nonEditorial": 2,
   "wrongKosovo": 0,
   "countries": {
@@ -85,30 +85,6 @@
           "lastSeen": "2026-09-09"
         },
         {
-          "name": "dw.com",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Germany, Kosovo unite against ticks carrying deadly virus - dw.com",
-              "albanianTitle": "Gjermania dhe Kosova bashkohen kundër rriqrave që bartin virusin vdekjeprurës",
-              "blurb": "Gjermania dhe Kosova kanë bashkuar forcat për të luftuar rrezikun nga rriqrat që bartin viruse vdekjeprurëse.",
-              "imageUrl": "https://static.dw.com/image/78532710_6.jpg",
-              "url": "https://www.dw.com/en/germany-kosovo-unite-against-ticks-carrying-deadly-virus/a-78655223",
-              "date": "2026-09-07",
-              "sentiment": "neutral",
-              "reason": "Factual report of cooperation between Germany and Kosovo, no evaluative language",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-10",
-          "lastSeen": "2026-09-07"
-        },
-        {
           "name": "fussballdaten.de",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -138,9 +114,9 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 5,
+        "n": 4,
         "excluded": 1,
-        "confident": true,
+        "confident": false,
         "stanceVersion": 3
       }
     },
@@ -162,34 +138,8 @@
         {
           "name": "Balkan Insight",
           "sentiment": "neutral",
-          "articleCount": 5,
+          "articleCount": 4,
           "articles": [
-            {
-              "title": "Kosovo Man Pleads Not Guilty to Spying for Serbia - Balkan Insight",
-              "albanianTitle": "Shtetasi kosovar deklarohet i pafajshëm për spiunazh në favor të Serbisë - Balkan Insight",
-              "blurb": "Një shtetas kosovar është deklaruar i pafajshëm për akuzat për spiunazh në favor të shtetit të Serbisë.",
-              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/09/viber_image_2026-09-07_09-33-38-848-1024x768-1.png",
-              "url": "https://balkaninsight.com/2026/09/07/kosovo-man-pleads-not-guilty-to-spying-for-serbia/bi/",
-              "date": "2026-09-07",
-              "sentiment": "neutral",
-              "reason": "Faktik, pa gjuhë ngarkuar",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Kosovo Man Pleads Not Guilty to Spying for Serbia - balkaninsight.com",
-              "albanianTitle": "Shtetasi nga Kosova deklarohet i pafajshëm për akuzat për spiunazh në favor të Serbisë",
-              "blurb": "Një shtetas i Kosovës është deklaruar i pafajshëm për akuzat që lidhen me spiunazh në favor të Serbisë.",
-              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/09/viber_image_2026-09-07_09-33-38-848-1024x768-1.png",
-              "url": "https://balkaninsight.com/2026/09/07/kosovo-man-pleads-not-guilty-to-spying-for-serbia/bi/",
-              "date": "2026-09-07",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportuar pa gjuhë ngarkuar",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "Kosovo Parliament to Reconvene, ‘Chaos’ Looms over Election of President - Balkan Insight",
               "albanianTitle": "Kuvendi i Kosovës mblidhet sërish, paralajmërohet 'kaos' për zgjedhjen e presidentit - Balkan Insight",
@@ -228,50 +178,63 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Intimidation Claims Loom Large as Kosovo’s Thaci Awaits Trial Verdict - Balkan Insight",
+              "albanianTitle": "Akuzat për frikësim rëndojnë mbi procesin, ndërsa Thaçi pret vendimin e gjykatës - Balkan Insight",
+              "blurb": "Ish-presidenti Hashim Thaçi pret vendimin e gjykatës në Hagë mes pretendimeve për frikësim të dëshmitarëve gjatë procesit gjyqësor.",
+              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/09/1765458561737140-scaled-e1768309305127-1280x719-1.jpg",
+              "url": "https://balkaninsight.com/2026/09/11/intimidation-claims-loom-large-as-kosovos-thaci-awaits-trial-verdict/btj/",
+              "date": "2026-09-11",
+              "sentiment": "neutral",
+              "reason": "reporting intimidation claims without editorializing",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 14,
+          "totalArticles": 15,
           "trend": "i përzier",
           "firstSeen": "2026-08-19",
-          "lastSeen": "2026-09-10"
+          "lastSeen": "2026-09-11"
         }
       ],
       "summary": {
-        "index": 40,
+        "index": 38,
         "positive": 0,
-        "neutral": 80,
-        "negative": 20,
-        "n": 5,
+        "neutral": 75,
+        "negative": 25,
+        "n": 4,
         "excluded": 0,
-        "confident": true,
+        "confident": false,
         "stanceVersion": 3
       }
     },
     "Francë": {
       "outlets": [
         {
-          "name": "aefinfo.fr",
+          "name": "Le Courrier des Balkans",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
-              "title": "Inalco : Delphine Allès devient administratrice provisoire après le départ de Jean-François Huchet au Kosovo - aefinfo.fr",
-              "albanianTitle": "Inalco: Delphine Allès emërohet administratore e përkohshme pas largimit të Jean-François Huchet drejt Kosovës - aefinfo.fr",
-              "blurb": "Delphine Allès emërohet administratore e përkohshme e Inalco pas largimit të Jean-François Huchet drejt Kosovës.",
-              "imageUrl": "https://www.aefinfo.fr/assets/medias/documents/7/0/704767_grande.webp",
-              "url": "https://www.aefinfo.fr/depeche/755907-inalco-delphine-alles-devient-administratrice-provisoire-apres-le-depart-de-jean-francois-huchet-au-kosovo",
-              "date": "2026-09-07",
+              "title": "Crimes de guerre au Kosovo : l’heure de la justice sera-t-elle celle de la réconciliation ? - Le Courrier des Balkans",
+              "albanianTitle": "Krimet e luftës në Kosovë: A do të jetë ora e drejtësisë edhe ora e pajtimit? - Le Courrier des Balkans",
+              "blurb": "Analizë mbi proceset gjyqësore për krimet e luftës në Kosovë dhe ndikimin e tyre të mundshëm në procesin e pajtimit.",
+              "imageUrl": "https://www.courrierdesbalkans.fr/wp-content/uploads/2026/09/792092074_122107991018489890_3871494510194384348_n.jpg",
+              "url": "https://www.courrierdesbalkans.fr/crimes-de-guerre-au-kosovo-lheure-de-la-justice-sera-t-elle-celle-de-la-reconciliation-99414/",
+              "date": "2026-09-11",
               "sentiment": "neutral",
-              "reason": "Faktik, pa gjuhë ngarkuar",
+              "reason": "Raportim i çështjes së krimeve të luftës pa gjuhë përçmuese",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
             }
           ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-07",
-          "lastSeen": "2026-09-07"
+          "totalArticles": 10,
+          "trend": "i përzier",
+          "firstSeen": "2026-08-20",
+          "lastSeen": "2026-09-11"
         },
         {
           "name": "courrierdesbalkans.fr",
@@ -449,30 +412,6 @@
           "lastSeen": "2026-09-09"
         },
         {
-          "name": "Buonasera24",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Il Messaggero guarda già a Pristina. Ferrarese: consigli al Kosovo, ma il mio futuro non è lì - Buonasera24",
-              "albanianTitle": "Il Messaggero e sheh Prishtinën. Ferrarese: Këshilla për Kosovën, por e ardhmja ime nuk është atje - Buonasera24",
-              "blurb": "Ferrarese deklaron se ofron këshilla për Kosovën, por mohon mundësinë e zhvendosjes së karrierës së tij atje.",
-              "imageUrl": "https://buonasera24.cdn.m33cloud.com/resizer/600/315/true/2026_09_07/798744015_4114809415485704_5511945509244372560_n-1788779152912_1788779173.jpg--massimo_ferrarese.webp?1788779173393",
-              "url": "https://www.buonasera24.it/news/cronaca/928115/il-messaggero-guarda-gia-a-pristina-ferrarese-consigli-al-kosovo-ma-il-mio-futuro-non-e-li.html",
-              "date": "2026-09-07",
-              "sentiment": "neutral",
-              "reason": "Fact‑based report without loaded language",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 6,
-          "trend": "neutral",
-          "firstSeen": "2026-08-25",
-          "lastSeen": "2026-09-07"
-        },
-        {
           "name": "Cavalierenews",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -519,6 +458,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-08",
           "lastSeen": "2026-09-08"
+        },
+        {
+          "name": "Corriere dello Sport",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "San Marino-Kosovo U21, dove acquistare i biglietti per il 24 settembre - Corriere dello Sport",
+              "albanianTitle": "San Marino-Kosovë U21, ku mund të blini biletat për ndeshjen e 24 shtatorit - Corriere dello Sport",
+              "blurb": "Detaje mbi mënyrën e blerjes së biletave për ndeshjen e futbollit ndërmjet përfaqësueseve U21 të San Marinos dhe Kosovës.",
+              "imageUrl": "https://cdn.corrieredellosport.it/images/2026/09/11/080104061-fefcee65-1a0e-4c38-823a-4838121c74d2.jpg",
+              "url": "https://www.corrieredellosport.it/news/biglietti/2026/09/11-151169652/san_marino-kosovo_u21_dove_acquistare_i_biglietti_per_il_24_settembre",
+              "date": "2026-09-11",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-11",
+          "lastSeen": "2026-09-11"
         },
         {
           "name": "Divisione Calcio a 5",
@@ -569,54 +532,6 @@
           "lastSeen": "2026-09-10"
         },
         {
-          "name": "Gazzetta di Parma",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Beffarde coincidenze d'inizio settembre - Gazzetta di Parma",
-              "albanianTitle": "Rastësi tallëse në fillim të shtatorit - Gazzetta di Parma",
-              "blurb": "Përkujtimi i ngjarjeve të ndodhura në fillim të muajit shtator që kanë shënuar një koincidencë të veçantë kohore.",
-              "imageUrl": "https://gazzettadiparma.cdn.m33cloud.com/resizer/600/315/true/2026_09_07/afd-1788763843573.jpg--beffarde_coincidenze_d_inizio_settembre.webp?1788763844090",
-              "url": "https://www.gazzettadiparma.it/gweb+/2026/09/07/news/beffarde-coincidenze-d-inizio-settembre-966138/",
-              "date": "2026-09-07",
-              "sentiment": "unknown",
-              "reason": "No reference to Kosovo in the headline or snippet",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-07",
-          "lastSeen": "2026-09-07"
-        },
-        {
-          "name": "Il Fatto Quotidiano",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "\"Mladić ci ha difeso, gli siamo grati\": le voci dei serbi ai funerali del boia di Srebrenica - Il Fatto Quotidiano",
-              "albanianTitle": "\"Mladiq na mbrojti, i jemi mirënjohës\": Zërat e serbëve në varrimin e kriminelit të Srebrenicës - Il Fatto Quotidiano",
-              "blurb": "Qytetarë serbë shprehin mirënjohje për Ratko Mladiqin gjatë ceremonisë së varrimit të tij në Serbi.",
-              "imageUrl": "https://st.ilfattoquotidiano.it/wp-content/uploads/2026/09/07/24728372_small-1200x675.jpg",
-              "url": "https://www.ilfattoquotidiano.it/2026/09/07/funerali-mladic-belgrado-srebrenica-notizie/8499728/",
-              "date": "2026-09-07",
-              "sentiment": "neutral",
-              "reason": "Headline quotes statements from Serbs, not outlet’s own voice",
-              "isQuote": true,
-              "evidence": "",
-              "speaker": "serbi"
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-07",
-          "lastSeen": "2026-09-07"
-        },
-        {
           "name": "Il Messaggero",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -639,6 +554,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-08",
           "lastSeen": "2026-09-08"
+        },
+        {
+          "name": "Messaggero Veneto",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Codroipo riabbraccia i Lancieri rientrati dal Kosovo: «Portatori di pace e comunità» - Messaggero Veneto",
+              "albanianTitle": "Codroipo pret ushtarët e Lancieri-t të kthyer nga Kosova: «Sjellës të paqes dhe komunitet»",
+              "blurb": "Ushtarët e regjimentit Lancieri janë kthyer në Codroipo të Italisë pas përfundimit të misionit paqeruajtës në Kosovë.",
+              "imageUrl": "https://images.messaggeroveneto.it/view/acePublic/alias/contentid/1tp7mr6kc3ylpuloh17/0/sfsfsfsfsfssfsfsf.webp?f=16%3A9&w=840",
+              "url": "https://www.messaggeroveneto.it/cronaca/codroipo-lancieri-novara-missione-nato-kosovo-militari-ui1onb2c",
+              "date": "2026-09-11",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-11",
+          "lastSeen": "2026-09-11"
         },
         {
           "name": "Osservatorio Balcani Caucaso Transeuropa",
@@ -726,30 +665,6 @@
           "lastSeen": "2026-09-10"
         },
         {
-          "name": "gazzettadiparma.it",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Beffarde coincidenze d'inizio settembre - gazzettadiparma.it",
-              "albanianTitle": "Koincidenca ironike në fillim të shtatorit",
-              "blurb": "Artikulli trajton rastësi të ndryshme që kanë ndodhur gjatë periudhës së fillimit të muajit shtator në vend.",
-              "imageUrl": "https://gazzettadiparma.cdn.m33cloud.com/resizer/600/315/true/2026_09_07/afd-1788763843573.jpg--beffarde_coincidenze_d_inizio_settembre.webp?1788763844090",
-              "url": "https://www.gazzettadiparma.it/gweb+/2026/09/07/news/beffarde-coincidenze-d-inizio-settembre-966138/",
-              "date": "2026-09-07",
-              "sentiment": "unknown",
-              "reason": "Nuk ka informacion të mjaftueshëm për të përcaktuar qëndrimin ndaj Kosovës",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-08",
-          "lastSeen": "2026-09-07"
-        },
-        {
           "name": "ildolomiti.it",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -777,20 +692,12 @@
       "summary": {
         "index": 42,
         "positive": 0,
-        "neutral": 85,
-        "negative": 15,
-        "n": 20,
+        "neutral": 83,
+        "negative": 17,
+        "n": 18,
         "excluded": 2,
         "confident": true,
-        "stanceVersion": 3,
-        "movement": {
-          "delta": -11,
-          "from": 53,
-          "outlet": "balcanicaucaso.org",
-          "title": "Kosova, politika në rrugë pa krye",
-          "evidence": "politica in un vicolo cieco",
-          "url": "https://www.balcanicaucaso.org/cp_article/kosovo-la-politica-in-un-vicolo-cieco/"
-        }
+        "stanceVersion": 3
       }
     },
     "Austri": {
@@ -818,30 +725,6 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-08-25",
           "lastSeen": "2026-09-08"
-        },
-        {
-          "name": "MeinBezirk.at",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Gewinnspiel: Mit Magenta zum Frauen-Nationalteam-Spiel gegen Kosovo! - MeinBezirk.at",
-              "albanianTitle": "Lojë shpërblyese: Me Magenta në ndeshjen e kombëtares së femrave kundër Kosovës! - MeinBezirk.at",
-              "blurb": "Kompania Magenta organizon lojë shpërblyese për tifozët që dëshirojnë të ndjekin ndeshjen e futbollit mes Kosovës dhe ekipit kombëtar të grave.",
-              "imageUrl": "https://media04.meinbezirk.at/article/2026/09/07/7/52475057_XXL.webp",
-              "url": "https://www.meinbezirk.at/c-sport/mit-magenta-zum-frauen-nationalteam-spiel-gegen-kosovo_a8884982",
-              "date": "2026-09-07",
-              "sentiment": "neutral",
-              "reason": "Faktikë pa ngarkim gjuhësor",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 2,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-02",
-          "lastSeen": "2026-09-07"
         },
         {
           "name": "laola1.at",
@@ -873,7 +756,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 3,
+        "n": 2,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -886,58 +769,6 @@
           "sentiment": "neutral",
           "articleCount": 6,
           "articles": [
-            {
-              "title": "Kurti erinnert an den 36. Jahrestag der Ausrufung der Republik Kosovo in Kaçanik - Albinfo",
-              "albanianTitle": "Kurti përkujton 36-vjetorin e shpalljes së Republikës së Kosovës në Kaçanik",
-              "blurb": "Kryeministri Albin Kurti shënoi 36-vjetorin e shpalljes së Republikës së Kosovës në një ceremoni të mbajtur në Kaçanik.",
-              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2023/05/554068490_highres.jpg",
-              "url": "https://www.albinfo.ch/de/kurti-kujton-36-vjetorin-e-shpalljes-se-republikes-se-kosoves-ne-kacanik/",
-              "date": "2026-09-07",
-              "sentiment": "neutral",
-              "reason": "Faktikë raporti pa gjuhë ngarkuar",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "27. Jahrestag der Kosovo-Polizei, Kurti: Präsenz im ganzen Land - Albinfo",
-              "albanianTitle": "27-vjetori i Policisë së Kosovës, Kurti: Prani në çdo cep të vendit",
-              "blurb": "Kryeministri Albin Kurti vlerësoi praninë e Policisë së Kosovës në të gjithë territorin e vendit gjatë 27-vjetorit të themelimit.",
-              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/733031-5xbqsu83d6.jpeg",
-              "url": "https://www.albinfo.ch/de/27-vjetori-i-policise-se-kosove-kurti-shtrirje-ne-gjithe-vendin/",
-              "date": "2026-09-07",
-              "sentiment": "neutral",
-              "reason": "Faktikë raporti pa gjuhë ngarkuar",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Kurti commémore le 36e anniversaire de la proclamation de la République du Kosovo à Kaçanik - Albinfo",
-              "albanianTitle": "Kurti përkujton 36-vjetorin e shpalljes së Republikës së Kosovës në Kaçanik",
-              "blurb": "Kryeministri Albin Kurti përkujtoi 36-vjetorin e shpalljes së Republikës së Kosovës në një aktivitet të organizuar në qytetin e Kaçanikut.",
-              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2023/05/554068490_highres.jpg",
-              "url": "https://www.albinfo.ch/fr/kurti-kujton-36-vjetorin-e-shpalljes-se-republikes-se-kosoves-ne-kacanik/",
-              "date": "2026-09-07",
-              "sentiment": "neutral",
-              "reason": "Faktikë raporti pa gjuhë ngarkuar",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "27e anniversaire de la Police du Kosovo, Kurti: Une présence sur l’ensemble du territoire - Albinfo",
-              "albanianTitle": "27-vjetori i Policisë së Kosovës, Kurti: Prani në të gjithë territorin",
-              "blurb": "Kryeministri Kurti deklaroi se Policia e Kosovës ka shtrirë praninë e saj në të gjithë territorin e vendit.",
-              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/733031-5xbqsu83d6.jpeg",
-              "url": "https://www.albinfo.ch/fr/27-vjetori-i-policise-se-kosove-kurti-shtrirje-ne-gjithe-vendin/",
-              "date": "2026-09-07",
-              "sentiment": "neutral",
-              "reason": "Raportim faktik i përvjetorit të Policisë së Kosovës",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "Konjufca: Die kosovarische Diaspora stärkt die Beziehungen zwischen Kosovo und der Schweiz - Albinfo",
               "albanianTitle": "Konjufca: Diaspora kosovare po forcon marrëdhëniet mes Kosovës dhe Zvicrës",
@@ -963,63 +794,78 @@
               "isQuote": false,
               "evidence": "Erfolgsgeschichte",
               "speaker": ""
+            },
+            {
+              "title": "Du Kosovo à la Garde nationale des États-Unis, le parcours de réussite de Rona Mala - Albinfo",
+              "albanianTitle": "Nga Kosova në Gardën Kombëtare të SHBA-së, rrugëtimi i suksesshëm i Rona Malës",
+              "blurb": "Rona Mala ka ndërtuar një karrierë të suksesshme duke u bërë pjesë e Gardës Kombëtare të Shteteve të Bashkuara.",
+              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/img_2880.jpeg",
+              "url": "https://www.albinfo.ch/fr/nga-kosova-ne-garden-kombetare-te-shba-se-rrefimi-i-suksesit-te-rona-males/",
+              "date": "2026-09-08",
+              "sentiment": "positive",
+              "reason": "Gjuha e outlet-it e lavdëron Kosovën përmes një suksesi",
+              "isQuote": false,
+              "evidence": "parcours de réussite",
+              "speaker": ""
+            },
+            {
+              "title": "Konjufca: la diaspora kosovare renforce les liens entre le Kosovo et la Suisse - Albinfo",
+              "albanianTitle": "Konjufca: Diaspora kosovare forcon lidhjet mes Kosovës dhe Zvicrës",
+              "blurb": "Kryetari i Kuvendit, Glauk Konjufca, vlerësoi rolin e diasporës kosovare në forcimin e lidhjeve ndërmjet Kosovës dhe Zvicrës.",
+              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/733184-sbrkpauqmc.jpeg",
+              "url": "https://www.albinfo.ch/fr/konjufca-diaspora-kosovare-forcon-lidhjet-mes-kosoves-dhe-zvicres/",
+              "date": "2026-09-08",
+              "sentiment": "positive",
+              "reason": "Outlet uses positive language praising Kosovo's diaspora ties",
+              "isQuote": false,
+              "evidence": "renforce les liens",
+              "speaker": ""
+            },
+            {
+              "title": "“Die Neutralitätsinitiative gefährdet den Schweizer Einsatz im Kosovo” - Albinfo",
+              "albanianTitle": "Iniciativa për neutralitet rrezikon angazhimin e Zvicrës në Kosovë",
+              "blurb": "Iniciativa për neutralitetin zviceran rrezikon vazhdimësinë e misionit të ushtrisë së Zvicrës në territorin e Kosovës.",
+              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/bb101368-1-scaled.jpg",
+              "url": "https://www.albinfo.ch/de/die-neutralitaetsinitiative-gefaehrdet-den-schweizer-einsatz-im-kosovo/",
+              "date": "2026-09-10",
+              "sentiment": "neutral",
+              "reason": "Headline is inside quotation marks, treated as quoted speech, not outlet's own voice",
+              "isQuote": true,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "“Die Neutralitätsinitiative gefährdet den Schweizer Einsatz im Kosovo” - albinfo.ch",
+              "albanianTitle": "“Iniciativa për neutralitet rrezikon misionin e Zvicrës në Kosovë” - albinfo.ch",
+              "blurb": "Iniciativa për neutralitet në Zvicër vlerësohet se rrezikon misionin e ushtarëve zviceranë në kuadër të forcave të KFOR-it.",
+              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/bb101368-1-scaled.jpg",
+              "url": "https://www.albinfo.ch/de/die-neutralitaetsinitiative-gefaehrdet-den-schweizer-einsatz-im-kosovo/",
+              "date": "2026-09-10",
+              "sentiment": "neutral",
+              "reason": "Report on potential impact of initiative, no hostile language toward Kosovo",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
           "totalArticles": 19,
           "trend": "pozitiv",
           "firstSeen": "2026-09-07",
           "lastSeen": "2026-09-10"
-        },
-        {
-          "name": "NZZ",
-          "sentiment": "unknown",
-          "articleCount": 2,
-          "articles": [
-            {
-              "title": "Der Balkan ist eine Problemregion – und Serbien der grösste Unruhestifter - nzz.ch",
-              "albanianTitle": "Ballkani është rajon problematik – ndërsa Serbia shkaktari më i madh i trazirave - nzz.ch",
-              "blurb": "Analiza e gazetës zvicerane NZZ vlerëson Ballkanin si rajon problematik dhe Serbinë si faktorin kryesor të destabilizimit në rajon.",
-              "imageUrl": "https://img-msp-prod.nzz.ch/2026/09/04/fd463207-d593-4ea8-8402-cc27318d1cee.jpg?width=1200&height=675&fit=bounds&quality=75&auto=webp&crop=5850,3291,x0,y430&wmark=nzz",
-              "url": "https://www.nzz.ch/meinung/der-balkan-ist-eine-nach-wie-vor-vernachlaessigte-problemregion-serbien-bleibt-der-massgebliche-unruhestifter-ld.10016355",
-              "date": "2026-09-07",
-              "sentiment": "unknown",
-              "reason": "Titulli trajton Serbinë dhe rajonin, pa përmendje të Kosovës, prandaj qëndrimi ndaj Kosovës nuk është i qartë",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Der Balkan ist eine Problemregion – und Serbien der grösste Unruhestifter - NZZ",
-              "albanianTitle": "Ballkani është rajon problematik – dhe Serbia shkaktari më i madh i trazirave - NZZ",
-              "blurb": "Serbia konsiderohet si shkaktari kryesor i tensioneve në Ballkan, rajon që vazhdon të përballet me sfida të shumta politike.",
-              "imageUrl": "https://img-msp-prod.nzz.ch/2026/09/04/fd463207-d593-4ea8-8402-cc27318d1cee.jpg?width=1200&height=675&fit=bounds&quality=75&auto=webp&crop=5850,3291,x0,y430&wmark=nzz",
-              "url": "https://www.nzz.ch/meinung/der-balkan-ist-eine-nach-wie-vor-vernachlaessigte-problemregion-serbien-bleibt-der-massgebliche-unruhestifter-ld.10016355",
-              "date": "2026-09-07",
-              "sentiment": "unknown",
-              "reason": "No reference to Kosovo in the headline or snippet",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-07",
-          "lastSeen": "2026-09-07"
         }
       ],
       "summary": {
-        "index": 66,
-        "positive": 32,
-        "neutral": 68,
+        "index": 71,
+        "positive": 43,
+        "neutral": 57,
         "negative": 0,
-        "n": 19,
-        "excluded": 2,
+        "n": 14,
+        "excluded": 0,
         "confident": true,
         "stanceVersion": 3,
         "movement": {
-          "delta": 7,
-          "from": 59,
+          "delta": 5,
+          "from": 66,
           "outlet": "Albinfo",
           "title": "Dy motra nga Kosova, një histori suksesi ndërkombëtar në inxhinieri në Gjermani - Albinfo",
           "evidence": "internationale Erfolgsgeschichte",
@@ -1079,174 +925,26 @@
       }
     },
     "Spanjë": {
-      "outlets": [
-        {
-          "name": "Demócrata",
-          "sentiment": "neutral",
-          "articleCount": 3,
-          "articles": [
-            {
-              "title": "Kosovo joins the International Stabilization Force in Gaza after signing a key agreement - Demócrata",
-              "albanianTitle": null,
-              "blurb": "Kosova i është bashkuar Forcës Ndërkombëtare të Stabilizimit në Gaza pas nënshkrimit të një marrëveshjeje zyrtare për këtë qëllim.",
-              "imageUrl": null,
-              "url": "https://www.democrata.es/en/international/kosovo-joins-the-international-stabilization-force-in-gaza-after-signing-a-key-agreement/",
-              "date": "2026-09-07",
-              "sentiment": "neutral",
-              "reason": "Straightforward factual announcement",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Le Kosovo rejoint la Force internationale de stabilisation à Gaza après avoir signé un accord clé. - Demócrata",
-              "albanianTitle": null,
-              "blurb": "Kosova është bërë pjesë e Forcës Ndërkombëtare të Stabilizimit në Gaza pas finalizimit të një marrëveshjeje të rëndësishme bashkëpunimi.",
-              "imageUrl": null,
-              "url": "https://www.democrata.es/fr/international/le-kosovo-rejoint-la-force-internationale-de-stabilisation-a-gaza-apres-avoir-signe-un-accord-cle/",
-              "date": "2026-09-07",
-              "sentiment": "neutral",
-              "reason": "Straightforward factual announcement",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Il Kosovo si unisce alla Forza Internazionale di Stabilizzazione a Gaza dopo aver firmato un accordo chiave - Demócrata",
-              "albanianTitle": null,
-              "blurb": "Kosova ka nënshkruar një marrëveshje për t'u bërë pjesë e Forcës Ndërkombëtare të Stabilizimit që operon në Rripin e Gazës.",
-              "imageUrl": null,
-              "url": "https://www.democrata.es/it/internazionale/il-kosovo-si-unisce-alla-forza-internazionale-di-stabilizzazione-a-gaza-dopo-aver-firmato-un-accordo-chiave/",
-              "date": "2026-09-07",
-              "sentiment": "neutral",
-              "reason": "Straightforward factual announcement",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 13,
-          "trend": "kritik",
-          "firstSeen": "2026-08-22",
-          "lastSeen": "2026-09-07"
-        },
-        {
-          "name": "Europa Press",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosovo firma un acuerdo para sumarse a la Fuerza Internacional de Estabilización en Gaza - Europa Press",
-              "albanianTitle": null,
-              "blurb": "Institucionet e Kosovës kanë nënshkruar marrëveshjen për t'u përfshirë në Forcën Ndërkombëtare të Stabilizimit në territorin e Gazës.",
-              "imageUrl": "https://img.europapress.es/fotoweb/fotonoticia_20260907150646_1200.jpg",
-              "url": "https://www.europapress.es/internacional/noticia-kosovo-firma-acuerdo-sumarse-fuerza-internacional-estabilizacion-gaza-20260907150646.html",
-              "date": "2026-09-07",
-              "sentiment": "neutral",
-              "reason": "Straightforward factual announcement",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 4,
-          "trend": "i përzier",
-          "firstSeen": "2026-08-22",
-          "lastSeen": "2026-09-07"
-        }
-      ],
+      "outlets": [],
       "summary": {
-        "index": 50,
+        "index": null,
         "positive": 0,
-        "neutral": 100,
+        "neutral": 0,
         "negative": 0,
-        "n": 4,
+        "n": 0,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
       }
     },
     "Greqi": {
-      "outlets": [
-        {
-          "name": "iAxia -",
-          "sentiment": "negative",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Κόσοβο στη Γάζα: Οι Βαλκάνιοι που πάνε να σώσουν τον Τραμπ - iAxia -",
-              "albanianTitle": "Kosova në Gaza: Ballkanasit që po shkojnë për ta shpëtuar Trumpin - iAxia",
-              "blurb": "Përfshirja e Kosovës në forcën ndërkombëtare në Gaza është temë e diskutimit në mediat ndërkombëtare lidhur me zhvillimet aktuale.",
-              "imageUrl": "https://www.iaxia.gr/wp-content/uploads/2026/09/image-416.jpg",
-              "url": "https://www.iaxia.gr/diethni/kosovo-sti-gaza-oi-valkanioi-pou-pane-na-sosoun-ton-trab/",
-              "date": "2026-09-07",
-              "sentiment": "negative",
-              "reason": "Framing derisive toward Kosovo involvement",
-              "isQuote": false,
-              "evidence": "οι Βαλκάνιοι που πάνε να σώσουν τον Τραμπ",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-07",
-          "lastSeen": "2026-09-07"
-        },
-        {
-          "name": "tanea.gr",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Κόσοβο: Συμφωνία για αποστολή στρατευμάτων στη διεθνή δύναμη για τη Γάζα - tanea.gr",
-              "albanianTitle": "Kosovë: Marrëveshje për dërgimin e trupave në forcën ndërkombëtare për Gazën - tanea.gr",
-              "blurb": "Kosova ka arritur marrëveshje për dërgimin e trupave ushtarake në kuadër të forcës ndërkombëtare për Gazën.",
-              "imageUrl": "https://www.tanea.gr/wp-content/uploads/2026/09/HRnLXzFWsAAIbzM-ogimage.jpg",
-              "url": "https://www.tanea.gr/2026/09/07/world/kosovo-symfonia-gia-apostoli-strateymaton-sti-diethni-dynami-gia-ti-gaza/",
-              "date": "2026-09-07",
-              "sentiment": "neutral",
-              "reason": "Straightforward report of a troop‑deployment agreement, no loaded wording",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-09",
-          "lastSeen": "2026-09-07"
-        },
-        {
-          "name": "ΤΑ ΝΕΑ",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Κόσοβο: Συμφωνία για αποστολή στρατευμάτων στη διεθνή δύναμη για τη Γάζα - ΤΑ ΝΕΑ",
-              "albanianTitle": null,
-              "blurb": "Kosova ka arritur marrëveshje për dërgimin e trupave në kuadër të forcës ndërkombëtare që vepron në rajonin e Gazës.",
-              "imageUrl": "https://www.tanea.gr/wp-content/uploads/2026/09/HRnLXzFWsAAIbzM-ogimage.jpg",
-              "url": "https://www.tanea.gr/2026/09/07/world/kosovo-symfonia-gia-apostoli-strateymaton-sti-diethni-dynami-gia-ti-gaza/",
-              "date": "2026-09-07",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportuar pa ngarkesë",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 4,
-          "trend": "i përzier",
-          "firstSeen": "2026-08-20",
-          "lastSeen": "2026-09-07"
-        }
-      ],
+      "outlets": [],
       "summary": {
-        "index": 33,
+        "index": null,
         "positive": 0,
-        "neutral": 67,
-        "negative": 33,
-        "n": 3,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -1267,54 +965,6 @@
     },
     "Poloni": {
       "outlets": [
-        {
-          "name": "gostyn24.pl",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Znana trasa dostała zupełnie nowe oblicze. Biegacze zapamiętają ten podbieg - gostyn24.pl",
-              "albanianTitle": "Një shteg i njohur me pamje krejtësisht të re: Vrapuesit do ta mbajnë mend këtë përpjetë - gostyn24.pl",
-              "blurb": "Një shteg i njohur vrapimi është modifikuar, duke u ofruar garuesve një përvojë të re gjatë përshkrimit të terrenit.",
-              "imageUrl": "https://gostyn24.pl/pl/image-meta/news/98141.jpg?v=20260906203800",
-              "url": "https://gostyn24.pl/pl/19_wiadomosci-z-regionu/588_gostyn/98141_znana-trasa-dostala-zupelnie-nowe-oblicze-biegacze-zapamietaja-ten-podbieg.html",
-              "date": "2026-09-07",
-              "sentiment": "unknown",
-              "reason": "No reference to Kosovo in the text",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 3,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-25",
-          "lastSeen": "2026-09-07"
-        },
-        {
-          "name": "iGaming Polska",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Mistrzostwa Świata Socca 2026: Wyniki, terminarz - iGaming Polska",
-              "albanianTitle": "Kampionati Botëror i Socca 2026: Rezultatet dhe orari - iGaming Polska",
-              "blurb": "Publikohen rezultatet dhe orari i ndeshjeve për Kampionatin Botëror të Socca-s që do të mbahet gjatë vitit 2026.",
-              "imageUrl": null,
-              "url": "https://igamingpolska.pl/mistrzostwa-swiata-socca-2026-terminarz-wyniki/",
-              "date": "2026-09-07",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-28",
-          "lastSeen": "2026-09-07"
-        },
         {
           "name": "wspinanie.pl",
           "sentiment": "neutral",
@@ -1345,8 +995,8 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 2,
-        "excluded": 1,
+        "n": 1,
+        "excluded": 0,
         "confident": false,
         "stanceVersion": 3
       }
@@ -1378,32 +1028,19 @@
           "lastSeen": "2026-09-09"
         },
         {
-          "name": "Daily Sabah",
+          "name": "CUMHA Cumhur Haber Ajansı",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 1,
           "articles": [
             {
-              "title": "Kosovo signs deal to join Gaza stabilization force - Daily Sabah",
-              "albanianTitle": null,
-              "blurb": "Kosova ka nënshkruar marrëveshjen për t'u bërë pjesë e forcës ndërkombëtare të stabilizimit që është vendosur në Gaza.",
-              "imageUrl": "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/09/07/thumbs/1200x675/459590.jpg",
-              "url": "https://www.dailysabah.com/world/europe/kosovo-signs-deal-to-join-gaza-stabilization-force",
-              "date": "2026-09-07",
+              "title": "Türkiye U24 Muaythai Milli Takımı Kosova’da 18 madalyayla dünya şampiyonu oldu - CUMHA Cumhur Haber Ajansı",
+              "albanianTitle": "Ekipi kombëtar i Turqisë U24 në Muaythai shpallet kampion bote në Kosovë me 18 medalje",
+              "blurb": "Ekipi kombëtar i Turqisë U24 në Muaythai është shpallur kampion bote në Kosovë me 18 medalje të fituara.",
+              "imageUrl": "https://cumha.com.tr/uploads/images/202609/image_instagram_6aa3bb422447d.jpg",
+              "url": "https://cumha.com.tr/turkiye-u24-muaythai-milli-takimi-kosovada-18-madalyayla-dunya-sampiyonu-oldu",
+              "date": "2026-09-11",
               "sentiment": "neutral",
-              "reason": "Faktikë raportuar",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Kosovo signs deal to join Gaza stabilization force - dailysabah.com",
-              "albanianTitle": "Kosova nënshkruan marrëveshjen për t'iu bashkuar forcës për stabilizimin e Gazës",
-              "blurb": "Kosova ka nënshkruar marrëveshjen zyrtare për t'u bërë pjesë e forcës ndërkombëtare për stabilizimin e situatës në Gaza.",
-              "imageUrl": "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/09/07/thumbs/1200x675/459590.jpg",
-              "url": "https://www.dailysabah.com/world/europe/kosovo-signs-deal-to-join-gaza-stabilization-force",
-              "date": "2026-09-07",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportuar në mënyrë neutrale",
+              "reason": "Raportim faktik pa ngarkim",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1411,56 +1048,8 @@
           ],
           "totalArticles": 1,
           "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-07",
-          "lastSeen": "2026-09-07"
-        },
-        {
-          "name": "Haberler",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosovalı askerlerin Gazze'ye konuşlandırılmasına yönelik anlaşma imzalandı - Haberler",
-              "albanianTitle": null,
-              "blurb": "Është nënshkruar marrëveshja për dislokimin e ushtarëve të Kosovës në një mision paqeruajtës në territorin e Gazës.",
-              "imageUrl": null,
-              "url": "https://www.haberler.com/guncel/kosovali-askerlerin-gazze-ye-konuslandirilmasina-20215256-haberi/",
-              "date": "2026-09-07",
-              "sentiment": "neutral",
-              "reason": "Straightforward factual report of an agreement",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 7,
-          "trend": "neutral",
-          "firstSeen": "2026-08-20",
-          "lastSeen": "2026-09-07"
-        },
-        {
-          "name": "Hürriyet",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Prizren’de ilkokul öğrencilerine eğitim setleri dağıtıldı - Hürriyet",
-              "albanianTitle": "Në Prizren shpërndahen pako shkollore për nxënësit e shkollave fillore - Hürriyet",
-              "blurb": "Nxënësit e shkollave fillore në qytetin e Prizrenit janë pajisur me mjete dhe materiale të nevojshme shkollore.",
-              "imageUrl": "https://image.hurimg.com/i/hurriyet/90/0x0/6a9e57f15548acce712522fe.jpg",
-              "url": "https://www.hurriyet.com.tr/avrupa/prizrende-ilkokul-ogrencilerine-egitim-setleri-dagitildi-43298523",
-              "date": "2026-09-07",
-              "sentiment": "neutral",
-              "reason": "Raportim faktik i shpërndarjes së seteve arsimore",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 4,
-          "trend": "neutral",
-          "firstSeen": "2026-08-20",
-          "lastSeen": "2026-09-07"
+          "firstSeen": "2026-09-11",
+          "lastSeen": "2026-09-11"
         },
         {
           "name": "Pusu Haber",
@@ -1546,38 +1135,14 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-09",
           "lastSeen": "2026-09-09"
-        },
-        {
-          "name": "hurriyet.com.tr",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Prizren’de ilkokul öğrencilerine eğitim setleri dağıtıldı - hurriyet.com.tr",
-              "albanianTitle": "Në Prizren u shpërndanë pako shkollore për nxënësit e shkollave fillore - hurriyet.com.tr",
-              "blurb": "Nxënësit e shkollave fillore në qytetin e Prizrenit kanë pranuar pajisje dhe materiale të ndryshme për procesin e tyre mësimor.",
-              "imageUrl": "https://image.hurimg.com/i/hurriyet/90/0x0/6a9e57f15548acce712522fe.jpg",
-              "url": "https://www.hurriyet.com.tr/avrupa/prizrende-ilkokul-ogrencilerine-egitim-setleri-dagitildi-43298523",
-              "date": "2026-09-07",
-              "sentiment": "neutral",
-              "reason": "Faktik raportim i titullit pa gjuhë ngacmuese",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-09",
-          "lastSeen": "2026-09-07"
         }
       ],
       "summary": {
-        "index": 45,
+        "index": 42,
         "positive": 0,
-        "neutral": 90,
-        "negative": 10,
-        "n": 10,
+        "neutral": 83,
+        "negative": 17,
+        "n": 6,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3

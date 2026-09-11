@@ -55,13 +55,13 @@
     },
     "Balkan Insight": {
       "country": "Britani",
-      "total": 14,
+      "total": 15,
       "positive": 1,
-      "neutral": 12,
+      "neutral": 13,
       "negative": 1,
       "unknown": 0,
       "firstSeen": "2026-08-19",
-      "lastSeen": "2026-09-10",
+      "lastSeen": "2026-09-11",
       "urls": [
         "https://balkaninsight.com/2026/08/19/suspend-officers-suspected-of-beating-serb-kosovo-police-inspectorate-says/bi/",
         "https://balkaninsight.com/2026/08/20/remains-of-23-wartime-victims-unearthed-from-mass-graves-in-kosovo/btj/",
@@ -76,7 +76,8 @@
         "https://balkaninsight.com/2026/09/07/kosovo-man-pleads-not-guilty-to-spying-for-serbia/bi/",
         "https://balkaninsight.com/2026/09/08/kosovo-parliament-to-reconvene-chaos-looms-over-election-of-president/bi/",
         "https://balkaninsight.com/2026/09/10/after-delays-and-controversies-end-in-sight-for-thacis-kosovo-war-crimes-trial/btj/",
-        "https://balkaninsight.com/2026/09/10/hague-prosecutors-seek-six-years-for-kosovos-thaci-for-obstructing-justice/btj/"
+        "https://balkaninsight.com/2026/09/10/hague-prosecutors-seek-six-years-for-kosovos-thaci-for-obstructing-justice/btj/",
+        "https://balkaninsight.com/2026/09/11/intimidation-claims-loom-large-as-kosovos-thaci-awaits-trial-verdict/btj/"
       ]
     },
     "Ouest-France": {
@@ -94,13 +95,13 @@
     },
     "Le Courrier des Balkans": {
       "country": "Francë",
-      "total": 9,
+      "total": 10,
       "positive": 0,
-      "neutral": 8,
+      "neutral": 9,
       "negative": 1,
       "unknown": 0,
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-09-02",
+      "lastSeen": "2026-09-11",
       "urls": [
         "https://www.courrierdesbalkans.fr/detourner-libar-nouvelle-arme-de-vucic-contre-le-kosovo-98491/",
         "https://www.courrierdesbalkans.fr/kosovo-jouer-a-la-paix-jouer-a-la-guerre-69437/",
@@ -110,7 +111,8 @@
         "https://www.courrierdesbalkans.fr/entre-kosovo-et-serbie-la-fin-des-mesures-de-reciprocite-73159/",
         "https://www.courrierdesbalkans.fr/kosovo-68-des-serbes-estiment-que-leur-situation-sest-degradee-depuis-un-an-98756/",
         "https://www.courrierdesbalkans.fr/kosovo-quand-le-blocage-institutionnel-devient-une-strategie-politique-98768/",
-        "https://www.courrierdesbalkans.fr/laccord-sur-un-candidat-commun-a-la-presidence-suffira-t-il-a-sortir-le-kosovo-de-limpasse-99042/"
+        "https://www.courrierdesbalkans.fr/laccord-sur-un-candidat-commun-a-la-presidence-suffira-t-il-a-sortir-le-kosovo-de-limpasse-99042/",
+        "https://www.courrierdesbalkans.fr/crimes-de-guerre-au-kosovo-lheure-de-la-justice-sera-t-elle-celle-de-la-reconciliation-99414/"
       ]
     },
     "Le Figaro": {
@@ -3403,6 +3405,45 @@
       "lastSeen": "2026-09-10",
       "urls": [
         "https://divisionecalcioa5.it/news/nazionale-maschile/qualificazioni-mondiali-2028-anche-la-puglia-si-tinge-dazzurro-italia-kosovo-al-paladisfida-di-barletta-si-gioca-il-10-novembre/"
+      ]
+    },
+    "Corriere dello Sport": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-11",
+      "lastSeen": "2026-09-11",
+      "urls": [
+        "https://www.corrieredellosport.it/news/biglietti/2026/09/11-151169652/san_marino-kosovo_u21_dove_acquistare_i_biglietti_per_il_24_settembre"
+      ]
+    },
+    "Messaggero Veneto": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-11",
+      "lastSeen": "2026-09-11",
+      "urls": [
+        "https://www.messaggeroveneto.it/cronaca/codroipo-lancieri-novara-missione-nato-kosovo-militari-ui1onb2c"
+      ]
+    },
+    "CUMHA Cumhur Haber Ajansı": {
+      "country": "Turqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-11",
+      "lastSeen": "2026-09-11",
+      "urls": [
+        "https://cumha.com.tr/turkiye-u24-muaythai-milli-takimi-kosovada-18-madalyayla-dunya-sampiyonu-oldu"
       ]
     }
   }
