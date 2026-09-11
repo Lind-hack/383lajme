@@ -2,7 +2,7 @@ import { execFileSync } from "node:child_process";
 import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { generateDailyMarkets } from "../lib/tregu-daily-generation.mjs";
+import { generateDailyMarkets, shortlistDailyTopics } from "../lib/tregu-daily-generation.mjs";
 import {
   buildDraftReviewEmail,
   TREGU_DRAFT_REVIEW_RECIPIENT,
@@ -22,9 +22,52 @@ const contextResponse = await fetch(`${baseUrl}/api/automation/tregu/daily-draft
 if (!contextResponse.ok) throw new Error(`Could not load Codex draft context: ${await contextResponse.text()}`);
 const { articles, activeMarkets = [], futureTemplates = [] } = await contextResponse.json();
 const now = new Date();
+
+// Stage one of two. Asking for discovery, filtering and the full ten-field contract in
+// a single reply made gpt-oss-120b return an empty markets array on every run from
+// 2026-08-28 onward. Naming candidate topics is a task it can complete; stage two then
+// only has to write contracts for topics that are already vetted. No quality gate moves.
+const shortlistPrompt = `You are scanning Kosovo, Albania and world news for prediction-market topics.
+
+From the verified articles below, name 6 to 10 topics whose outcome is genuinely still UNDECIDED and will be settled by a named authority within the next 30 to 90 days.
+
+A topic qualifies only if:
+- the article reports a live dispute, upcoming vote, ruling, appointment, threshold or decision — not something already settled;
+- an informed person could reasonably disagree today about how it ends;
+- it matters to many people (public affairs, household economy, energy, prices, courts, elections, major geopolitics or technology policy);
+- at least two DIFFERENT publishers in the supplied articles cover it.
+
+Reject: sport of any kind, routine meetings with no decision, generic announcements, minor crime, celebrity gossip, niche corporate notices, and anything whose outcome the article already establishes.
+
+Do not write market questions. Do not invent facts. Name topics only.
+Skip any topic already listed as active below.
+
+Current time: ${now.toISOString()}
+
+Already-active topics to skip:
+${JSON.stringify(activeMarkets)}
+
+Verified source articles:
+${JSON.stringify(articles)}
+
+Return ONLY compact JSON, no markdown:
+{"topics":[{"topic_key":"kebab-case-stable-identity","decision":"the concrete fork in one sentence","yes_path":"...","no_path":"...","resolution_source":"named authority","why_undecided":"...","source_slugs":["slug1","slug2"]}]}`;
+
+const shortlist = await shortlistDailyTopics(shortlistPrompt);
+console.log(JSON.stringify({
+  stage: "shortlist",
+  provider: shortlist.provider,
+  fallback_reason: shortlist.fallback_reason,
+  topic_count: shortlist.topics.length,
+  topic_keys: shortlist.topics.map((topic) => topic?.topic_key ?? null),
+}));
+
 const prompt = `You are the 383 Tregu daily market editor for NON-SPORTS markets. Official football and F1 templates are created by a separate verified sports lane; never propose sport markets here.
 
-Your job is to select 3 to 6 engaging, uncertain public-interest markets. Publish fewer when evidence is weak. Prefer major Kosovo, Albania and world developments that people widely discuss, with documented 30–90-day decision timelines.
+Stage one already shortlisted the topics listed below from these same verified articles. You are no longer searching for topics: your job is to write the full market contract for those that genuinely qualify. Drop any shortlisted topic that fails a quality rule, and return at most 6. Prefer major Kosovo, Albania and world developments that people widely discuss, with documented 30–90-day decision timelines.
+
+SHORTLISTED TOPICS (write contracts for these):
+${JSON.stringify(shortlist.topics)}
 
 MANDATORY MARKET CONTRACT (all fields are required):
 - market_archetype: one of scheduled_decision, threshold, data_release, policy_action, appointment_or_selection, escalation_or_deescalation, corporate_decision, executive_action.
@@ -65,9 +108,13 @@ Return ONLY compact JSON, with no markdown:
 {"markets":[{"question":"...","description":"current state plus the unresolved fork","resolution_criteria":"PO: ... JO: ... Burimi i zgjidhjes: ... Afati: ... Edge cases: ...","category":"politike|ekonomi|bote|te-tjera","contract_version":"news-event-v3","closes_in_hours":1440,"proposition":{"entities":["..."],"geography":"Kosovo","decision":"...","yes_condition":"...","no_condition":"...","resolution_source":"...","resolution_mode":"event_pair","review_policy":"pause_for_review"},"market_archetype":"scheduled_decision|threshold|data_release|policy_action|appointment_or_selection|escalation_or_deescalation|corporate_decision|executive_action","topic_key":"topic-name","decision_point":"...","why_uncertain":"...","trading_angle":"...","resolution_source":"...","deadline_basis":"...","threshold_value":"...","source_slugs":["slug1","slug2"]}]}`;
 
 
-const generation = await generateDailyMarkets(prompt);
+// An empty shortlist means stage one found nothing undecided worth pricing. That is a
+// legitimate outcome, and spending a second provider call to confirm it is waste.
+const generation = shortlist.topics.length
+  ? await generateDailyMarkets(prompt)
+  : { candidates: [], provider: shortlist.provider, fallback_reason: "empty_shortlist" };
 const candidates = generation.candidates;
-console.log(JSON.stringify({ stage: "generation", provider: generation.provider, fallback_reason: generation.fallback_reason, candidate_count: candidates.length }));
+console.log(JSON.stringify({ stage: "generation", provider: generation.provider, fallback_reason: generation.fallback_reason, shortlisted: shortlist.topics.length, candidate_count: candidates.length }));
 const submitResponse = await fetch(`${baseUrl}/api/automation/tregu/daily-drafts`, {
   method: "POST", headers: { ...headers, "content-type": "application/json" }, body: JSON.stringify({ candidates, ...(dryRun ? { dryRun: true } : {}) }),
 });

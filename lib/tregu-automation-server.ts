@@ -1463,10 +1463,22 @@ export async function runUpcomingFootballTemplateAutomation(now = new Date()) {
     for (const fixture of fixtures) {
       const { data: existing, error: checkError } = await admin.from("markets").select("id,status,slug,live_event,live_score_state,reference_probabilities,pre_match_analysis").contains("live_event", { event_id:fixture.event_id }).limit(1);
       if (checkError) throw new Error(`Could not check football template duplicate: ${checkError.message}`);
-      try {
-        const { fetchPregameRoster } = await import("@/lib/sport-pregame-context.mjs");
-        (fixture as any).team_news = await fetchPregameRoster(fixture);
-      } catch { (fixture as any).team_news = existing?.[0]?.pre_match_analysis?.fixture?.team_news ?? []; }
+      // The opening model applies roster news only when no bookmaker line exists,
+      // because a published line already prices confirmed absences and applying a
+      // second haircut would double-count. Fetching the roster anyway cost one ESPN
+      // request per fixture on every refresh for a result that was then discarded.
+      // team_news stays defined on both branches: a later refresh can lose the
+      // bookmaker line, and the fallback path reads this value.
+      const { extractFootballBookmakerProbabilities } = await import("@/lib/football-pre-match.mjs");
+      const persistedTeamNews = existing?.[0]?.pre_match_analysis?.fixture?.team_news ?? [];
+      if (extractFootballBookmakerProbabilities((fixture as any).bookmaker_odds)) {
+        (fixture as any).team_news = persistedTeamNews;
+      } else {
+        try {
+          const { fetchPregameRoster } = await import("@/lib/sport-pregame-context.mjs");
+          (fixture as any).team_news = await fetchPregameRoster(fixture);
+        } catch { (fixture as any).team_news = persistedTeamNews; }
+      }
       const template=buildUpcomingFootballTemplate(fixture);
       if (existing?.length) {
         const market = existing[0];
