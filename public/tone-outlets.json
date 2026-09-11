@@ -1,10 +1,10 @@
 {
   "lastUpdated": "2026-09-11",
   "overallIndex": 51,
-  "totalArticles": 59,
+  "totalArticles": 60,
   "sourceCount": 32,
   "stanceVersion": 3,
-  "unattributed": 206,
+  "unattributed": 215,
   "nonEditorial": 2,
   "wrongKosovo": 0,
   "countries": {
@@ -219,18 +219,18 @@
               "speaker": ""
             }
           ],
-          "totalArticles": 15,
+          "totalArticles": 16,
           "trend": "i përzier",
           "firstSeen": "2026-08-19",
           "lastSeen": "2026-09-11"
         }
       ],
       "summary": {
-        "index": 42,
+        "index": 43,
         "positive": 0,
-        "neutral": 83,
-        "negative": 17,
-        "n": 6,
+        "neutral": 86,
+        "negative": 14,
+        "n": 7,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3

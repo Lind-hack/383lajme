@@ -6506,7 +6506,7 @@
   {
     "date": "2026-09-11",
     "overallIndex": 51,
-    "totalArticles": 59,
+    "totalArticles": 60,
     "sourceCount": 32,
     "stanceVersion": 3,
     "countries": {
@@ -6531,11 +6531,11 @@
         "stanceVersion": 3
       },
       "Britani": {
-        "index": 42,
+        "index": 43,
         "positive": 0,
-        "neutral": 83,
-        "negative": 17,
-        "n": 6,
+        "neutral": 86,
+        "negative": 14,
+        "n": 7,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3

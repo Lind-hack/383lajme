@@ -4,10 +4,10 @@
     {
       "label": "Konstituimi i Kuvendit të Kosovës",
       "fallbackLabel": "Kuvendit · Haxhiu",
-      "summary": "Zhvillimet politike rreth seancave për konstituimin e Kuvendit të Kosovës dhe sfidat ligjore që po shoqërojnë këtë proces të rëndësishëm shtetëror.",
-      "count": 31,
+      "summary": "Përpjekjet për konstituimin e Kuvendit të Kosovës vazhdojnë mes sfidave politike, obligimeve kushtetuese dhe tensioneve lidhur me zgjedhjen e presidentit.",
+      "count": 34,
       "positive": 1,
-      "neutral": 29,
+      "neutral": 32,
       "negative": 1,
       "index": 50,
       "countries": [
@@ -180,9 +180,9 @@
       ]
     },
     {
-      "label": "Transferimi i talentit në Kosovë",
+      "label": "Transferimi i talentit në Kombëtare",
       "fallbackLabel": "Bayernit · Luajë",
-      "summary": "Spekulimet mediatike mbi mundësinë që një futbollist i talentuar i Bayernit të zgjedhë të përfaqësojë kombëtaren e Kosovës në të ardhmen.",
+      "summary": "Mesfushori i Bayernit po përflitet për një kalim të mundshëm në përfaqësuesen e Kosovës, duke shkaktuar reagime në mediat sportive gjermane.",
       "count": 15,
       "positive": 0,
       "neutral": 14,
@@ -361,12 +361,12 @@
       ]
     },
     {
-      "label": "Mbështetja për kauza dhe projekte",
+      "label": "Mbështetja për kauza dhe organizata",
       "fallbackLabel": "Mbështetjen · Shtatorit",
-      "summary": "Nisma të ndryshme për mbështetje sociale, arsimore dhe politike, përfshirë organizimin e marshimeve dhe përurimin e objekteve të reja në Kosovë.",
-      "count": 12,
+      "summary": "Organizata të ndryshme dhe institucione po ofrojnë mbështetje për iniciativa sociale, arsimore dhe politike, duke përfshirë marrëveshje ndërkombëtare dhe protesta.",
+      "count": 13,
       "positive": 1,
-      "neutral": 11,
+      "neutral": 12,
       "negative": 0,
       "index": 54,
       "countries": [
@@ -538,9 +538,9 @@
       ]
     },
     {
-      "label": "Gjykimi i Thaçit në Hagë",
+      "label": "Gjykimi i krerëve në Hagë",
       "fallbackLabel": "Hagë · Burgim",
-      "summary": "Procesi gjyqësor ndaj ish-presidentit Hashim Thaçi në Hagë ka hyrë në fazën përfundimtare, ku prokuroria kërkon dënim për pengim të drejtësisë.",
+      "summary": "Prokuroria në Hagë ka paraqitur fjalët përfundimtare në gjykimin ndaj Hashim Thaçit dhe të tjerëve, duke kërkuar dënime për pengim të drejtësisë.",
       "count": 12,
       "positive": 1,
       "neutral": 11,
@@ -715,9 +715,9 @@
       ]
     },
     {
-      "label": "Përfshirja e Kosovës në Gaza",
-      "fallbackLabel": "Shba · Gazës",
-      "summary": "Vendimi i Kosovës për t'iu bashkuar forcës ndërkombëtare të udhëhequr nga SHBA për stabilizimin e Gazës ka nxitur reagime dhe vlerësime ndërkombëtare.",
+      "label": "Pjesëmarrja e Kosovës në Gaza",
+      "fallbackLabel": "Shba · Stabilizimin",
+      "summary": "Kosova ka vendosur t'i bashkohet forcës ndërkombëtare të udhëhequr nga SHBA për stabilizimin e Gazës, duke shënuar një angazhim të ri diplomatik.",
       "count": 10,
       "positive": 4,
       "neutral": 6,
@@ -894,9 +894,9 @@
       ]
     },
     {
-      "label": "Aktivitetet zyrtare të kryeministrit Kurti",
-      "fallbackLabel": "Kurti · Shtetëror",
-      "summary": "Kryeministri Kurti zhvillon takime me personalitete ndërkombëtare, viziton projekte infrastrukturore dhe reagon ndaj zhvillimeve politike në rajon lidhur me gjenocidin.",
+      "label": "Aktivitetet dhe deklaratat e Kurtit",
+      "fallbackLabel": "Kurti · Gjenocidit",
+      "summary": "Kryeministri Kurti po zhvillon takime institucionale dhe vizita në terren, ndërsa kritikon ashpër glorifikimin e gjenocidit nga ana e Serbisë.",
       "count": 8,
       "positive": 0,
       "neutral": 6,
@@ -1039,10 +1039,10 @@
       ]
     },
     {
-      "label": "Sukseset ndërkombëtare dhe kultura",
-      "fallbackLabel": "Ndërkombëtar · Turke",
-      "summary": "Arritjet e individëve me prejardhje nga Kosova në fusha të ndryshme dhe organizimi i festivaleve ndërkombëtare të teatrit në gjuhën turke.",
-      "count": 7,
+      "label": "Sukseset ndërkombëtare dhe ngjarjet kulturore",
+      "fallbackLabel": "Ndërkombëtare · Gazën",
+      "summary": "Kosovarët po shënojnë suksese në fusha si inxhinieria dhe teatri, ndërsa vendi po merr pjesë në iniciativa ndërkombëtare për stabilitetin global.",
+      "count": 8,
       "positive": 3,
       "neutral": 2,
       "negative": 1,
@@ -1152,25 +1152,41 @@
         },
         {
           "title": "Seydişehirli sporcu dünyayı salladı: Gümüş madalyayla döndü - Saray Medya",
-          "albanianTitle": "Sportisti nga Seydişehir shkëlqen në arenën ndërkombëtare: Kthehet me medalje argjendi",
-          "blurb": "Një sportist nga Seydişehiri ka fituar medaljen e argjendtë në një garë ndërkombëtare sportive të mbajtur së fundmi.",
+          "albanianTitle": "Sportisti nga Seydişehir shkëlqen në arenën ndërkombëtare: Kthehet me medalje argjendi - Saray Medya",
+          "blurb": "Sportisti nga Seydişehir është kthyer në vendlindje pasi ka fituar medaljen e argjendtë në një garë ndërkombëtare.",
           "imageUrl": "https://img.saraymedya.com/manset/2026/09/seydisehirli-sporcu-dunyayi-salladi-gumus-madalyayla-dondu-1789125526.webp",
           "url": "https://www.saraymedya.com/haber/seydisehirli-sporcu-dunyayi-salladi-gumus-madalyayla-dondu_302349/",
           "date": "2026-09-11",
           "sentiment": "unknown",
-          "reason": "Nuk ka përmendje të Kosovës në titull",
+          "reason": "Artikulli nuk përmend Kosovën, prandaj nuk mund të përcaktohet qëndrimi",
           "isQuote": false,
           "speaker": "",
           "evidence": "",
           "outlet": "Saray Medya",
           "country": "Turqi",
           "flag": "🇹🇷"
+        },
+        {
+          "title": "Board of Peace focuses on International Stabilization Force for Gaza - Foundation for Defense of Democracies",
+          "albanianTitle": "Këshilli për Paqe fokusohet te Forca Ndërkombëtare Stabilizuese për Gazën - Foundation for Defense of Democracies",
+          "blurb": "Bordi për Paqe po shqyrton mundësinë e krijimit të një force ndërkombëtare stabilizuese për Gazën, sipas Fondacionit për Mbrojtjen e Demokracive.",
+          "imageUrl": null,
+          "url": "https://www.fdd.org/analysis/2026/09/11/board-of-peace-focuses-on-international-stabilization-force-for-gaza/",
+          "date": "2026-09-11",
+          "sentiment": "unknown",
+          "reason": "No reference to Kosovo in the item",
+          "isQuote": false,
+          "speaker": "",
+          "evidence": "",
+          "outlet": "Foundation for Defense of Democracies",
+          "country": "SHBA",
+          "flag": "🇺🇸"
         }
       ]
     },
     {
       "label": "Nominimet për Adriatic Film Awards",
-      "fallbackLabel": "Film · Awards",
+      "fallbackLabel": "Adriatic · Awards",
       "summary": "DJ Ahmet është shpallur si kandidati kryesor për çmimet e filmit dhe televizionit në edicionin e sivjetmë të Adriatic Film and TV Awards.",
       "count": 7,
       "positive": 0,
@@ -1267,13 +1283,13 @@
         },
         {
           "title": "DJ Ahmet domine les nominations pour les Adriatic Film and TV Awards - Cineuropa",
-          "albanianTitle": "DJ Ahmet kryeson nominimet për Adriatic Film and TV Awards - Cineuropa",
-          "blurb": "DJ Ahmet është kandidati kryesor për çmimet në edicionin e sivjetmë të Adriatic Film and TV Awards në rajon.",
+          "albanianTitle": "DJ Ahmet kryeson nominimet për çmimet Adriatic Film and TV Awards - Cineuropa",
+          "blurb": "DJ Ahmet është kandidati kryesor për çmimet Adriatic Film and TV Awards sipas njoftimit nga Cineuropa.",
           "imageUrl": null,
           "url": "https://cineuropa.org/fr/newsdetail/495125",
           "date": "2026-09-10",
           "sentiment": "unknown",
-          "reason": "Titulli nuk përmend Kosovën, prandaj s’mund të përcaktohet qëndrimi",
+          "reason": "Artikulli nuk përmend Kosovën, prandaj nuk mund të përcaktohet qëndrimi",
           "isQuote": false,
           "speaker": "",
           "evidence": "",
