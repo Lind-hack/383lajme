@@ -6505,9 +6505,9 @@
   },
   {
     "date": "2026-09-11",
-    "overallIndex": 51,
-    "totalArticles": 60,
-    "sourceCount": 32,
+    "overallIndex": 50,
+    "totalArticles": 62,
+    "sourceCount": 35,
     "stanceVersion": 3,
     "countries": {
       "Gjermani": {
@@ -6531,11 +6531,11 @@
         "stanceVersion": 3
       },
       "Britani": {
-        "index": 43,
+        "index": 44,
         "positive": 0,
-        "neutral": 86,
-        "negative": 14,
-        "n": 7,
+        "neutral": 88,
+        "negative": 12,
+        "n": 8,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
@@ -6551,12 +6551,12 @@
         "stanceVersion": 3
       },
       "Itali": {
-        "index": 43,
+        "index": 41,
         "positive": 0,
-        "neutral": 86,
-        "negative": 14,
-        "n": 21,
-        "excluded": 0,
+        "neutral": 82,
+        "negative": 18,
+        "n": 22,
+        "excluded": 3,
         "confident": true,
         "stanceVersion": 3
       },
@@ -6687,11 +6687,11 @@
         "sentiment": "positive"
       },
       {
-        "title": "Deux sœurs originaires du Kosovo, une réussite internationale dans le domaine de l’ingénierie en Allemagne - Albinfo",
-        "source": "Albinfo",
+        "title": "DJ Ahmet domine les nominations pour les Adriatic Film and TV Awards - Cineuropa",
+        "source": "Cineuropa",
         "country": "Francë",
         "flag": "🇫🇷",
-        "url": "https://www.albinfo.ch/fr/dy-motra-nga-kosova-nje-histori-suksesi-nderkombetar-ne-fushen-e-inxhinierise-ne-gjermani/",
+        "url": "https://cineuropa.org/fr/newsdetail/495125",
         "sentiment": "positive"
       },
       {

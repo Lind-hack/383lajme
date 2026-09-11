@@ -1,10 +1,10 @@
 {
   "lastUpdated": "2026-09-11",
-  "overallIndex": 51,
-  "totalArticles": 60,
-  "sourceCount": 32,
+  "overallIndex": 50,
+  "totalArticles": 62,
+  "sourceCount": 35,
   "stanceVersion": 3,
-  "unattributed": 215,
+  "unattributed": 232,
   "nonEditorial": 2,
   "wrongKosovo": 0,
   "countries": {
@@ -219,18 +219,18 @@
               "speaker": ""
             }
           ],
-          "totalArticles": 16,
+          "totalArticles": 17,
           "trend": "i përzier",
           "firstSeen": "2026-08-19",
           "lastSeen": "2026-09-11"
         }
       ],
       "summary": {
-        "index": 43,
+        "index": 44,
         "positive": 0,
-        "neutral": 86,
-        "negative": 14,
-        "n": 7,
+        "neutral": 88,
+        "negative": 12,
+        "n": 8,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
@@ -558,6 +558,30 @@
           "lastSeen": "2026-09-10"
         },
         {
+          "name": "Il Mattino",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Rrahmani, stop polemico alla nazionale: «Niente Kosovo finché resterà questa Federazione» - Il Mattino",
+              "albanianTitle": "Rrahmani i jep fund aventurës me kombëtaren: S'do të luaj për Kosovën përderisa kjo Federatë është në krye - Il Mattino",
+              "blurb": "Amir Rrahmani ka njoftuar largimin nga kombëtarja e Kosovës për shkak të pakënaqësive me udhëheqjen aktuale të Federatës së Futbollit.",
+              "imageUrl": "https://statics.cedscdn.it/photos/MED_HIGH/2026/09/11/9757879_11214824_rrahmani.jpg",
+              "url": "https://www.ilmattino.it/sport/calcio/rrahmani_stop_polemico_nazionale_niente_kosovo_finche_restera_federazione-9757879.html",
+              "date": "2026-09-11",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-11",
+          "lastSeen": "2026-09-11"
+        },
+        {
           "name": "Il Messaggero",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -596,6 +620,30 @@
               "sentiment": "neutral",
               "reason": "Raportim faktik mbi kthimin e ushtarëve nga Kosova",
               "isQuote": true,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-11",
+          "lastSeen": "2026-09-11"
+        },
+        {
+          "name": "NapoliCalcioNews.it",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "CLAMOROSO RRAHMANI, ADDIO AL KOSOVO: “NON FARÒ PIÙ PARTE DELLA NAZIONALE” - NapoliCalcioNews.it",
+              "albanianTitle": "Rrahmani trondit opinionin, lamtumirë Kosovës: Nuk do të jem më pjesë e kombëtares - NapoliCalcioNews.it",
+              "blurb": "Futbollisti Amir Rrahmani ka vendosur të mos jetë më pjesë e përfaqësueses së Kosovës në futboll pas deklaratës së tij.",
+              "imageUrl": "https://www.napolicalcionews.it/public/news/639247624281100491_Rrahmani_Napoli15.jpg",
+              "url": "https://www.napolicalcionews.it/news-calcio-napoli/Clamoroso-Rrahmani--addio-al-Kosovo--%E2%80%9CNon-faro-piu-parte-della-Nazionale%E2%80%9D-150113.aspx",
+              "date": "2026-09-11",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
               "evidence": "",
               "speaker": ""
             }
@@ -693,7 +741,7 @@
         {
           "name": "balcanicaucaso.org",
           "sentiment": "negative",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Kosovo, la politica in un vicolo cieco - balcanicaucaso.org",
@@ -707,9 +755,22 @@
               "isQuote": false,
               "evidence": "politica in un vicolo cieco",
               "speaker": ""
+            },
+            {
+              "title": "Kosovo, politics at a dead end - balcanicaucaso.org",
+              "albanianTitle": "Kosova, politika në rrugë pa krye",
+              "blurb": "Situata politike në Kosovë është përballur me një bllokadë, duke shkaktuar vështirësi në funksionimin e institucioneve shtetërore të vendit.",
+              "imageUrl": "https://www.balcanicaucaso.org/wp-content/uploads/sites/8/2026/09/shutterstock_2277262145.jpg",
+              "url": "https://www.balcanicaucaso.org/en/cp_article/kosovo-la-politica-in-un-vicolo-cieco/",
+              "date": "2026-09-10",
+              "sentiment": "negative",
+              "reason": "Gjuha e titullit e bën një vlerësim negativ për Kosovën",
+              "isQuote": false,
+              "evidence": "politics at a dead end",
+              "speaker": ""
             }
           ],
-          "totalArticles": 2,
+          "totalArticles": 3,
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-06",
           "lastSeen": "2026-09-10"
@@ -737,15 +798,39 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-09",
           "lastSeen": "2026-09-09"
+        },
+        {
+          "name": "telefriuli.it",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Lancieri di Novara rientrano da Kosovo, cerimonia a Villa Manin - telefriuli.it",
+              "albanianTitle": "Ushtarët e Novarës kthehen nga Kosova, mbahet ceremonia në Villa Manin - telefriuli.it",
+              "blurb": "Ushtarët e regjimentit Lancieri di Novara janë kthyer nga misioni në Kosovë, ku u mbajt ceremoni në Villa Manin.",
+              "imageUrl": "https://www.telefriuli.it/wp-content/uploads/2026/09/35762_Lancieri-di-Novara-rientrano-da-Kosovo-cerimonia-a-Villa-Manin_1789126748.jpg",
+              "url": "https://www.telefriuli.it/cronaca/lancieri-di-novara-rientrano-da-kosovo-cerimonia-a-villa-manin/",
+              "date": "2026-09-10",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-11",
+          "lastSeen": "2026-09-10"
         }
       ],
       "summary": {
-        "index": 43,
+        "index": 41,
         "positive": 0,
-        "neutral": 86,
-        "negative": 14,
-        "n": 21,
-        "excluded": 0,
+        "neutral": 82,
+        "negative": 18,
+        "n": 22,
+        "excluded": 3,
         "confident": true,
         "stanceVersion": 3
       }

@@ -55,9 +55,9 @@
     },
     "Balkan Insight": {
       "country": "Britani",
-      "total": 16,
+      "total": 17,
       "positive": 1,
-      "neutral": 14,
+      "neutral": 15,
       "negative": 1,
       "unknown": 0,
       "firstSeen": "2026-08-19",
@@ -78,7 +78,8 @@
         "https://balkaninsight.com/2026/09/10/after-delays-and-controversies-end-in-sight-for-thacis-kosovo-war-crimes-trial/btj/",
         "https://balkaninsight.com/2026/09/10/hague-prosecutors-seek-six-years-for-kosovos-thaci-for-obstructing-justice/btj/",
         "https://balkaninsight.com/2026/09/11/intimidation-claims-loom-large-as-kosovos-thaci-awaits-trial-verdict/btj/",
-        "https://balkaninsight.com/2026/09/11/kosovo-ex-president-thacis-defence-seeks-acquittal-in-obstruction-of-justice-trial/btj/"
+        "https://balkaninsight.com/2026/09/11/kosovo-ex-president-thacis-defence-seeks-acquittal-in-obstruction-of-justice-trial/btj/",
+        "https://balkaninsight.com/2026/09/11/kosovo-parliament-hit-by-fresh-dispute-over-deputy-speakers/bi/"
       ]
     },
     "Ouest-France": {
@@ -2857,16 +2858,17 @@
     },
     "balcanicaucaso.org": {
       "country": "Itali",
-      "total": 2,
+      "total": 3,
       "positive": 0,
       "neutral": 0,
-      "negative": 1,
+      "negative": 2,
       "unknown": 1,
       "firstSeen": "2026-09-06",
       "lastSeen": "2026-09-10",
       "urls": [
         "https://www.balcanicaucaso.org/cp_article/kosovo-i-ragni-della-val-rugova/",
-        "https://www.balcanicaucaso.org/cp_article/kosovo-la-politica-in-un-vicolo-cieco/"
+        "https://www.balcanicaucaso.org/cp_article/kosovo-la-politica-in-un-vicolo-cieco/",
+        "https://www.balcanicaucaso.org/en/cp_article/kosovo-la-politica-in-un-vicolo-cieco/"
       ]
     },
     "NÖN.at - Niederösterreichische Nachrichten": {
@@ -3472,6 +3474,45 @@
       "lastSeen": "2026-09-11",
       "urls": [
         "https://www.trtavaz.com.tr/haber/tur/turkistandan/maarif-okullari-kosova-da-yapay-zek-yi-mufredata-alan-ilk-okul-oldu/6aa3bb729721236aedeb0e66"
+      ]
+    },
+    "Il Mattino": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-11",
+      "lastSeen": "2026-09-11",
+      "urls": [
+        "https://www.ilmattino.it/sport/calcio/rrahmani_stop_polemico_nazionale_niente_kosovo_finche_restera_federazione-9757879.html"
+      ]
+    },
+    "telefriuli.it": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-11",
+      "lastSeen": "2026-09-10",
+      "urls": [
+        "https://www.telefriuli.it/cronaca/lancieri-di-novara-rientrano-da-kosovo-cerimonia-a-villa-manin/"
+      ]
+    },
+    "NapoliCalcioNews.it": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-11",
+      "lastSeen": "2026-09-11",
+      "urls": [
+        "https://www.napolicalcionews.it/news-calcio-napoli/Clamoroso-Rrahmani--addio-al-Kosovo--%E2%80%9CNon-faro-piu-parte-della-Nazionale%E2%80%9D-150113.aspx"
       ]
     }
   }
