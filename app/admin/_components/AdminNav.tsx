@@ -10,6 +10,7 @@ import {
   LogOut,
   MessageSquare,
   Vote,
+  Activity,
 } from "lucide-react";
 
 /**
@@ -21,6 +22,7 @@ import {
  */
 
 const SECTIONS = [
+  { href: "/admin/automation", label: "Automatizimet", Icon: Activity },
   { href: "/admin", label: "Artikuj", Icon: FileText },
   { href: "/admin/dosje", label: "Dosje", Icon: FolderSearch },
   { href: "/admin/tregu", label: "Tregu", Icon: LineChart },
