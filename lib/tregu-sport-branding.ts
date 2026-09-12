@@ -82,3 +82,17 @@ export function sportBrandFor(key?: string | null): SportBrand | null {
   if (normalized.includes("fbk") || normalized.includes("kosov")) return SPORT_BRANDS.fbk;
   return null;
 }
+
+/* Competitions that get the full night treatment: a navy surface lit by
+   drifting blue and violet, with this photograph anchored at its foot. The look
+   itself lives in [data-competition] rules in globals.css; adding a competition
+   here plus a colour block there is the whole job. Shared by the floor card, the
+   market header and the trade receipt so all three stay in step. */
+export const COMPETITION_NIGHT_ART: Record<string, string> = {
+  "uefa.champions": "/images/tregu/ucl-stadium-night-v1.webp",
+};
+
+export function nightArtFor(league?: string | null): string | null {
+  if (!league) return null;
+  return COMPETITION_NIGHT_ART[league.toLowerCase()] ?? null;
+}

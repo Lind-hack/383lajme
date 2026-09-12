@@ -13671,7 +13671,9 @@ header[data-overlay="true"] .nav-search-btn { color: rgba(255, 255, 255, 0.9); }
     border-radius: 12px;
   }
   .tregu-detail-chart-shell .tregu-exact-chart-plot {
-    height: 220px !important;
+    /* The chart is why people open this page; it was giving up height to the
+       chrome around it. */
+    height: 268px !important;
   }
   .tregu-football-market-head {
     display: none;
@@ -15291,7 +15293,7 @@ header[data-overlay="true"] .nav-search-btn[style*="margin-right"] {
    Transform and opacity only -- each wash rasterizes once and the compositor
    moves it thereafter. No blur filter: the gradients are already soft, and
    blurring a layer that also scales forces a re-raster every frame. */
-.tregu-native-market .tregu-night-glow {
+.tregu-night-glow {
   position: absolute;
   inset: -22%;
   z-index: 0;
@@ -15397,7 +15399,7 @@ header[data-overlay="true"] .nav-search-btn[style*="margin-right"] {
    What keeps it part of the card rather than a sticker: the saturate/hue-rotate
    grade pulls the photograph's neutral concrete toward the card's own blue, and
    the side masks dissolve both ends into the navy. */
-.tregu-native-market .tregu-night-stadium {
+.tregu-night-stadium {
   position: absolute;
   right: auto;
   bottom: 0;
@@ -15441,6 +15443,12 @@ header[data-overlay="true"] .nav-search-btn[style*="margin-right"] {
   pointer-events: none;
   background: radial-gradient(72% 100% at 50% 100%, rgba(34, 84, 214, .30) 0%, rgba(110, 30, 190, .16) 44%, transparent 78%);
 }
+
+/* `.tregu-native-market > *` (12528) sets position:relative; z-index:1 on every
+   direct child, which would pull both decorative layers into the content
+   stack. (0,2,0) beats it without touching the generic rules above. */
+.tregu-native-market .tregu-night-glow { position: absolute; z-index: 0; }
+.tregu-native-market .tregu-night-stadium { position: absolute; z-index: 1; }
 
 /* --- Rim and hover -------------------------------------------------------
    .tregu-edge::after (3193) and .tregu-native-market::after (12517) target the
@@ -15589,4 +15597,175 @@ header[data-overlay="true"] .nav-search-btn[style*="margin-right"] {
      desktop or the arcs crowd the footer text. */
   .tregu-native-market[data-competition="uefa.champions"] { padding-bottom: 88px; }
   .tregu-native-market[data-competition="uefa.champions"] .tregu-night-stadium { max-height: 150px; opacity: .92; }
+}
+
+/* ==========================================================================
+   UCL night -- the other two surfaces
+   --------------------------------------------------------------------------
+   The floor card, the market header and the trade receipt are the same object
+   seen three times, so they share one surface: the same navy, the same drifting
+   blue/violet, the same stadium at the foot. `.tregu-night-glow` and
+   `.tregu-night-stadium` above are host-agnostic; the blocks below only place
+   them and fix the contrast each host needs.
+   ========================================================================== */
+
+/* --- Market header banner ------------------------------------------------
+   Replaces the football pitch markings for this competition. The pitch art is
+   drawn in `background` and a centre-spot `::after`, so both are overridden --
+   otherwise the green halfway line stays on top of the navy. */
+.tregu-detail-header[data-competition="uefa.champions"] {
+  --tg-text: #F2F5FF;
+  --tg-muted: #9FB6E8;
+  --tg-border: rgba(150, 180, 255, .18);
+  --tg-border-hi: rgba(150, 180, 255, .34);
+
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: 22px 22px 24px;
+  border-radius: 18px;
+  border-color: rgba(120, 155, 255, .26);
+  color: var(--tg-text);
+  background:
+    radial-gradient(120% 78% at 78% 128%, #0B2A72 0%, rgba(11, 42, 114, 0) 62%),
+    linear-gradient(178deg, #081950 0%, #061539 52%, #05123F 100%);
+  box-shadow:
+    0 4px 22px -6px color-mix(in srgb, var(--ucl-edge-1) 52%, transparent),
+    0 20px 46px -12px color-mix(in srgb, var(--ucl-edge-2) 48%, transparent),
+    0 2px 14px rgba(3, 10, 38, .46);
+  animation: tregu-night-edge 17s ease-in-out infinite;
+}
+
+/* The pitch centre-spot belongs to the football theme, not to this one. */
+.tregu-detail-header[data-competition="uefa.champions"]::after {
+  display: none;
+}
+
+.tregu-detail-header[data-competition="uefa.champions"] > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* ...which also hits the two decorative children, exactly as
+   `.tregu-native-market > *` does on the card. Same remedy: out-specify it
+   rather than maintain a :not() list. Without this the stadium goes static and
+   lands at the top of the banner in document order. */
+.tregu-detail-header[data-competition="uefa.champions"] .tregu-night-glow {
+  position: absolute;
+  z-index: 0;
+}
+
+.tregu-detail-header[data-competition="uefa.champions"] .tregu-night-stadium {
+  position: absolute;
+  z-index: 1;
+}
+
+/* The fact row reads --tg-text / --tg-muted directly now (those were inline
+   literals in the page and no selector could beat them). The share control is a
+   popover with its own light surface and keeps its own colours. */
+
+/* #00854A scores under 2:1 on this navy. */
+.tregu-detail-header[data-competition="uefa.champions"] .tregu-delta-chip {
+  border-color: rgba(43, 227, 154, .34);
+  background: rgba(43, 227, 154, .14);
+  color: #2BE39A;
+}
+
+/* Bottom-right rather than centred: the banner is a wide landscape block and
+   its left half carries the question, so the building sits where the copy
+   isn't. */
+.tregu-detail-header[data-competition="uefa.champions"] .tregu-night-stadium {
+  right: 0;
+  left: auto;
+  width: min(62%, 640px);
+  transform: none;
+  max-height: 170px;
+  object-position: right bottom;
+  -webkit-mask-image:
+    linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, .72) 16%, #000 38%, #000 100%),
+    linear-gradient(90deg, transparent 0%, #000 26%, #000 100%);
+  mask-image:
+    linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, .72) 16%, #000 38%, #000 100%),
+    linear-gradient(90deg, transparent 0%, #000 26%, #000 100%);
+}
+
+.tregu-detail-header[data-competition="uefa.champions"] .tregu-pill,
+.tregu-detail-header[data-competition="uefa.champions"] .tregu-home-help {
+  border-color: rgba(150, 180, 255, .26);
+  background: rgba(9, 22, 64, .66);
+  color: #CBD9F6;
+}
+
+.tregu-detail-header[data-competition="uefa.champions"] .tregu-detail-reference {
+  border-color: rgba(150, 180, 255, .24);
+  background: rgba(9, 22, 64, .72);
+}
+
+@media (max-width: 700px) {
+  .tregu-detail-header[data-competition="uefa.champions"] {
+    padding: 16px 14px 18px;
+    border-radius: 14px;
+  }
+  .tregu-detail-header[data-competition="uefa.champions"] .tregu-night-stadium {
+    width: 78%;
+    max-height: 116px;
+    opacity: .9;
+  }
+}
+
+/* --- Trade receipt -------------------------------------------------------
+   The dark UCL receipt already existed at 15156; it gets the same smoke and
+   the same building so the confirmation is recognisably the card you bought
+   from. Its own line-art competition art is suppressed for the same reason it
+   is on the card -- two stadiums in one slot is mud. */
+.tregu-trade-celebration[data-competition="uefa.champions"] {
+  isolation: isolate;
+  overflow: hidden;
+  background:
+    radial-gradient(120% 62% at 50% 118%, #0B2A72 0%, rgba(11, 42, 114, 0) 62%),
+    linear-gradient(178deg, #081950 0%, #061539 52%, #05123F 100%) !important;
+  animation: tregu-night-edge 17s ease-in-out infinite;
+}
+
+.tregu-trade-celebration[data-competition="uefa.champions"] .tregu-competition-art {
+  display: none;
+}
+
+.tregu-trade-celebration[data-competition="uefa.champions"] .tregu-night-glow {
+  inset: -10%;
+}
+
+.tregu-trade-celebration[data-competition="uefa.champions"] .tregu-night-stadium {
+  width: 132%;
+  max-height: 260px;
+  opacity: .92;
+}
+
+.tregu-trade-celebration[data-competition="uefa.champions"] .tregu-trade-celebration-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* --- Chart and range row -------------------------------------------------
+   Both are mobile-only corrections, and both have to be appended after the
+   minified block at 15157, which is where the rules they beat actually live. */
+@media (max-width: 768px) {
+  /* The range row inherits `.tregu-sort button { flex: 1; min-height: 44px }`
+     from the minified mobile block, which stretched nine pills to fill the row
+     and made it as tall as a primary control. These are a scale switch, not a
+     primary action, so they shrink to their content and stop competing.
+     36px keeps them a comfortable touch target -- above the 24px WCAG 2.5.8
+     minimum, below the 44px reserved for real actions. */
+  .tregu-exact-chart-ranges {
+    gap: 1px;
+    padding: 2px;
+    margin-bottom: 6px;
+  }
+  .tregu-exact-chart-ranges button {
+    flex: 0 0 auto;
+    min-width: 0;
+    min-height: 36px;
+    padding: 6px 10px;
+    font-size: 11px;
+  }
 }

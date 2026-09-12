@@ -24,6 +24,7 @@ import {
   type Side,
   type MarketTrade,
 } from "@/lib/tregu-client";
+import { nightArtFor } from "@/lib/tregu-sport-branding";
 import { fmtNum } from "@/lib/format";
 import { track } from "@/lib/analytics";
 import { DEMO_SLUG, demoDetail, demoEventMinis, demoMatchSeries, demoMatchStats, isDemoEnabled } from "@/lib/tregu-demo";
@@ -1062,6 +1063,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
   const homeMetrics = live?.metrics?.[homeName] ?? {};
   const awayMetrics = live?.metrics?.[awayName] ?? {};
   const basketball = sportTheme === "basketball";
+  const headerNightArt = nightArtFor(market.live_event?.league);
   const liveMetricRows = basketball
     ? buildBasketballMetricRows({ ...homeMetrics, points: homeTeam.score }, { ...awayMetrics, points: awayTeam.score })
     : buildFootballMetricRows(homeMetrics, awayMetrics);
@@ -1087,7 +1089,30 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
         <StickyMarketBack />
 
         {/* ── Header: market context + question + verified ticker row ── */}
-        <header className="tregu-detail-header" data-tone={detailTone} data-sport-theme={sportTheme}>
+        <header className="tregu-detail-header" data-tone={detailTone} data-sport-theme={sportTheme} data-competition={market.live_event?.league}>
+          {headerNightArt && (
+            <>
+              {/* Same night treatment as the floor card: smoke behind, stadium
+                  in front of it, both below the header's own content. */}
+              <span className="tregu-night-glow" aria-hidden>
+                <i />
+                <i />
+                <i />
+                <i />
+              </span>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                className="tregu-night-stadium"
+                src={headerNightArt}
+                alt=""
+                aria-hidden
+                loading="lazy"
+                decoding="async"
+                width={1000}
+                height={265}
+              />
+            </>
+          )}
           <div className="tregu-detail-header-grid">
             <div className="tregu-detail-header-copy">
               <div className="tregu-detail-headline-row">
@@ -1156,16 +1181,16 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                 </nav>
               )}
               {market.description && !isSportDetail && (
-                <p style={{ color: "#555555", fontSize: 14, margin: "0 0 14px", maxWidth: "70ch", lineHeight: 1.55 }}>
+                <p style={{ color: "var(--tg-muted)", fontSize: 14, margin: "0 0 14px", maxWidth: "70ch", lineHeight: 1.55 }}>
                   {market.description}
                 </p>
               )}
               <div className="tregu-detail-quickfacts" style={{ display: "flex", alignItems: "baseline", flexWrap: "wrap", gap: "12px 22px" }}>
                 <span style={{ display: "inline-flex", alignItems: "baseline", gap: 10 }}>
-                  <span style={{ fontSize: 40, fontWeight: 800, lineHeight: 1, color: "#111111", fontVariantNumeric: "tabular-nums" }}>
+                  <span style={{ fontSize: 40, fontWeight: 800, lineHeight: 1, color: "var(--tg-text)", fontVariantNumeric: "tabular-nums" }}>
                     {pct}%
                   </span>
-                  <span style={{ fontSize: 14, fontWeight: 700, color: "#6B6B6B" }}>
+                  <span style={{ fontSize: 14, fontWeight: 700, color: "var(--tg-muted)" }}>
                     {footballSelectedOutcome
                       ? `gjasa ${footballSelectedOutcome.label}`
                       : f1SelectedDriver
@@ -1180,7 +1205,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                     Këtë javë: {weeklyStart}% → {Math.round(market.market_prob * 100)}%
                   </span>
                 )}
-                <span style={{ fontSize: 13, fontWeight: 700, color: "#555555", fontVariantNumeric: "tabular-nums" }}>
+                <span style={{ fontSize: 13, fontWeight: 700, color: "var(--tg-muted)", fontVariantNumeric: "tabular-nums" }}>
                   {fmtNum(volume)} 383C vëllim · {fmtNum(tradeCount)} tregtime
                   {closesDateLabel ? ` · ${isClosed ? "u mbyll" : "mbyllet"} ${closesDateLabel}` : ""}
                 </span>

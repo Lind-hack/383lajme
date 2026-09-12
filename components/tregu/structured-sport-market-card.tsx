@@ -1,5 +1,5 @@
 "use client";
-import { sportBrandFor } from "@/lib/tregu-sport-branding";
+import { nightArtFor, sportBrandFor } from "@/lib/tregu-sport-branding";
 
 import Link from "next/link";
 import type { CSSProperties } from "react";
@@ -47,14 +47,6 @@ function closeLabel(iso?: string) {
   return `Mbyllet ${Math.max(1, Math.floor(ms / 60_000))}m`;
 }
 
-// Competitions that get the full night treatment: navy substrate, a drifting
-// blue/violet glow and a photographic stadium anchored to the bottom edge. The
-// look itself lives in [data-competition] rules in globals.css, so adding a
-// competition here plus a colour block there is the whole job.
-const NIGHT_ART: Record<string, string> = {
-  "uefa.champions": "/images/tregu/ucl-stadium-night-v1.webp",
-};
-
 export default function StructuredSportMarketCard({ market }: { market: StructuredSportMarket }) {
   const outcomes = market.sport_outcomes ?? [];
   const probabilities = market.outcome_probabilities ?? {};
@@ -66,7 +58,7 @@ export default function StructuredSportMarketCard({ market }: { market: Structur
     points: toExactSeries(market.outcome_history?.[outcome.key]),
   }));
   const league = market.live_event?.league ?? null;
-  const nightArt = league ? NIGHT_ART[league] ?? null : null;
+  const nightArt = nightArtFor(league);
   const closing = closeLabel(market.closes_at);
 
   return (

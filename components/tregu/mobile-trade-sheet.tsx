@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, type CSSProperties, type MouseEvent } from "react";
 import Link from "next/link";
 import { cashOutCoins } from "@/lib/tregu-cash-out.mjs";
+import { nightArtFor } from "@/lib/tregu-sport-branding";
 import CompetitionArt from "./competition-art";
 import CoinFace from "@/components/tregu/coin-face";
 import {
@@ -169,6 +170,7 @@ export default function MobileTradeSheet({
   const receiptStyle = receipt
     ? ({ "--trade-celebration": receipt.color } as CSSProperties)
     : undefined;
+  const receiptNightArt = nightArtFor(receipt?.competition);
 
   return (
     <>
@@ -372,7 +374,30 @@ export default function MobileTradeSheet({
           aria-modal="true"
           aria-labelledby="tregu-trade-celebration-title"
         >
-          <CompetitionArt league={receipt.competition} />
+          {receiptNightArt ? (
+            <>
+              {/* The receipt gets the same night surface as the card it was
+                  bought from, so the confirmation reads as the same object. */}
+              <span className="tregu-night-glow" aria-hidden>
+                <i />
+                <i />
+                <i />
+                <i />
+              </span>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                className="tregu-night-stadium"
+                src={receiptNightArt}
+                alt=""
+                aria-hidden
+                decoding="async"
+                width={1000}
+                height={265}
+              />
+            </>
+          ) : (
+            <CompetitionArt league={receipt.competition} />
+          )}
           <div className="tregu-trade-celebration-wash" aria-hidden />
           <div className="tregu-trade-celebration-ribbons" aria-hidden><i /><i /><i /></div>
           <div className="tregu-trade-celebration-sparks" aria-hidden>
