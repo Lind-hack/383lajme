@@ -1,7 +1,10 @@
+"use client";
+
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import type { CSSProperties } from "react";
 import StructuredSportMarketCard, { type StructuredSportMarket } from "@/components/tregu/structured-sport-market-card";
+import MobileTradeSheet, { type MobileTradeReceipt } from "@/components/tregu/mobile-trade-sheet";
 
 const start = Date.UTC(2026, 8, 8, 12);
 
@@ -51,6 +54,20 @@ const CHAMPIONS: Sample[] = [
   { league: "uefa.champions", home: "Bayern Munich", away: "Bodø/Glimt", homeColor: "#dc052d", awayColor: "#ffd100", probs: [.71, .18, .11], drift: .06 },
 ];
 
+const UCL_RECEIPT: MobileTradeReceipt = {
+  competition: "uefa.champions",
+  market: "Real Madrid — Internazionale: rezultati pas 90 minutave?",
+  selection: "Real Madrid",
+  coins: 10,
+  potentialReturn: 21.3,
+  probability: 0.47,
+  color: "#dfe6f5",
+  finish: "standard",
+  soundProfile: "champions",
+};
+
+const NOOP = () => {};
+
 const GRID: CSSProperties = {
   display: "grid",
   gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,320px),1fr))",
@@ -76,6 +93,44 @@ export default function UefaCardPreview() {
       <div style={GRID}>
         <StructuredSportMarketCard market={sample(CHAMPIONS[0])} />
       </div>
+
+      <h2 style={{ margin: "44px 0 8px", fontSize: 20, letterSpacing: "-.02em" }}>Konfirmimi i blerjes</h2>
+      <p style={{ margin: "0 0 20px", color: "#6b625a", lineHeight: 1.6 }}>Fatura pas blerjes — e njëjta natë si karta.</p>
+      <MobileTradeSheet
+        open={false}
+        mode="buy"
+        marketOpen
+        loggedIn
+        loginHref="/hyr"
+        question={UCL_RECEIPT.market}
+        balance={500}
+        options={[{ key: "home", label: "Real Madrid", probability: 0.47, color: "#dfe6f5" }]}
+        selectedKey="home"
+        amount={10}
+        amountInput="10"
+        sellShares={0}
+        liquidity={1000}
+        sellCoinInput=""
+        onSellCoinsChange={NOOP}
+        maxSellShares={0}
+        buyReturn={21.3}
+        sellReturn={null}
+        canBuy
+        canSell={false}
+        sellEnabled={false}
+        placing={false}
+        message={null}
+        receipt={UCL_RECEIPT}
+        soundProfile="champions"
+        onOpen={NOOP}
+        onClose={NOOP}
+        onModeChange={NOOP}
+        onSelect={NOOP}
+        onAmountChange={NOOP}
+        onSellSharesChange={NOOP}
+        onSubmit={NOOP}
+        onDismissReceipt={NOOP}
+      />
 
       <h2 style={{ margin: "44px 0 8px", fontSize: 20, letterSpacing: "-.02em" }}>Europa &amp; Conference</h2>
       <p style={{ margin: "0 0 20px", color: "#6b625a", lineHeight: 1.6 }}>Pa trajtimin e natës — për krahasim.</p>
