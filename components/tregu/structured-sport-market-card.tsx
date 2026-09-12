@@ -1,10 +1,11 @@
 "use client";
-import { nightArtFor, sportBrandFor } from "@/lib/tregu-sport-branding";
+import { sportBrandFor } from "@/lib/tregu-sport-branding";
 
 import Link from "next/link";
 import type { CSSProperties } from "react";
 import ExactMarketChart, { type ExactMarketSeries } from "./exact-market-chart";
 import CompetitionArt from "./competition-art";
+import CompetitionArtwork from "./competition-artwork";
 import SportBrandMark from "./sport-brand-mark";
 import { outcomeColor, toExactSeries } from "@/lib/tregu-hub-market.mjs";
 
@@ -58,7 +59,6 @@ export default function StructuredSportMarketCard({ market }: { market: Structur
     points: toExactSeries(market.outcome_history?.[outcome.key]),
   }));
   const league = market.live_event?.league ?? null;
-  const nightArt = nightArtFor(league);
   const closing = closeLabel(market.closes_at);
 
   return (
@@ -68,36 +68,7 @@ export default function StructuredSportMarketCard({ market }: { market: Structur
       data-native-sport-market
       data-outcomes={outcomes.length}
     >
-      {nightArt && (
-        <>
-          {/* Four bodies at different sizes and rates so it reads as smoke
-              rather than as ellipses. Painted BEFORE the stadium: the smoke
-              must not bury the building. */}
-          <span className="tregu-night-glow" aria-hidden>
-            <i />
-            <i />
-            <i />
-            <i />
-          </span>
-          {/* In front of the smoke so it stays legible. It still belongs to the
-              card rather than sitting on it, because `mix-blend-mode: screen`
-              keeps its dark areas transparent -- the smoke reads straight
-              through the building, and only the lit dome and arcs come
-              forward. Plain <img> like the F1 car art, so next/image's wrapper
-              <span> never lands in the z-index rules for direct children. */}
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            className="tregu-night-stadium"
-            src={nightArt}
-            alt=""
-            aria-hidden
-            loading="lazy"
-            decoding="async"
-            width={1000}
-            height={265}
-          />
-        </>
-      )}
+      <CompetitionArtwork league={league} />
       <CompetitionArt league={league} />
       <div className="tregu-market-top">
         <span className="tregu-native-brand">

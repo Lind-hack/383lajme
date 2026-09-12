@@ -7,6 +7,7 @@ import ExactMarketChart from "@/components/tregu/exact-market-chart";
 import MarketContextMedia from "@/components/tregu/market-context-media";
 import MarketShareActions from "@/components/tregu/market-share-actions";
 import SportBrandMark from "@/components/tregu/sport-brand-mark";
+import CompetitionArtwork from "@/components/tregu/competition-artwork";
 import { type MiniMarket } from "@/components/tregu/market-mini-card";
 import TeamFlag from "@/components/tregu/team-flag";
 import MarketSocial, { type HolderRow, type CommentItem } from "@/components/tregu/market-social";
@@ -24,7 +25,6 @@ import {
   type Side,
   type MarketTrade,
 } from "@/lib/tregu-client";
-import { nightArtFor } from "@/lib/tregu-sport-branding";
 import { fmtNum } from "@/lib/format";
 import { track } from "@/lib/analytics";
 import { DEMO_SLUG, demoDetail, demoEventMinis, demoMatchSeries, demoMatchStats, isDemoEnabled } from "@/lib/tregu-demo";
@@ -1063,7 +1063,6 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
   const homeMetrics = live?.metrics?.[homeName] ?? {};
   const awayMetrics = live?.metrics?.[awayName] ?? {};
   const basketball = sportTheme === "basketball";
-  const headerNightArt = nightArtFor(market.live_event?.league);
   const liveMetricRows = basketball
     ? buildBasketballMetricRows({ ...homeMetrics, points: homeTeam.score }, { ...awayMetrics, points: awayTeam.score })
     : buildFootballMetricRows(homeMetrics, awayMetrics);
@@ -1090,29 +1089,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
 
         {/* ── Header: market context + question + verified ticker row ── */}
         <header className="tregu-detail-header" data-tone={detailTone} data-sport-theme={sportTheme} data-competition={market.live_event?.league}>
-          {headerNightArt && (
-            <>
-              {/* Same night treatment as the floor card: smoke behind, stadium
-                  in front of it, both below the header's own content. */}
-              <span className="tregu-night-glow" aria-hidden>
-                <i />
-                <i />
-                <i />
-                <i />
-              </span>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                className="tregu-night-stadium"
-                src={headerNightArt}
-                alt=""
-                aria-hidden
-                loading="lazy"
-                decoding="async"
-                width={1000}
-                height={265}
-              />
-            </>
-          )}
+          <CompetitionArtwork league={market.live_event?.league} />
           <div className="tregu-detail-header-grid">
             <div className="tregu-detail-header-copy">
               <div className="tregu-detail-headline-row">

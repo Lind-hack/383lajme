@@ -15769,3 +15769,457 @@ header[data-overlay="true"] .nav-search-btn[style*="margin-right"] {
     font-size: 11px;
   }
 }
+
+/* ==========================================================================
+   Europa League -- falling beams
+   --------------------------------------------------------------------------
+   A sibling of the Champions treatment, not a recolour of it. Where that card
+   is a still navy night lit from within, this one is a deep orange ground with
+   hard light moving across it, and a trophy standing beside the content rather
+   than behind it.
+
+   The layout rule that shapes everything here: nothing overlaps anything. The
+   trophy gets a column of its own and the card's content is inset to clear it,
+   so neither has to give way to the other.
+   ========================================================================== */
+
+@property --uel-edge-1 {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #ff7a18;
+}
+
+@property --uel-edge-2 {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #c2200a;
+}
+
+.tregu-native-market[data-competition="uefa.europa"] {
+  --competition-color: #FFB067;
+
+  --tg-text: #FFF3EA;
+  --tg-muted: #E7B08C;
+  --tg-border: rgba(255, 150, 80, .20);
+  --tg-border-hi: rgba(255, 150, 80, .38);
+  --tg-panel: rgba(46, 8, 2, .66);
+  --tg-yes: #3BE38E;
+  --tg-yes-dim: rgba(59, 227, 142, .16);
+  --tg-no: #FF6B6B;
+  --tg-no-dim: rgba(255, 107, 107, .16);
+
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  color: var(--tg-text);
+  /* Dark maroon ground with the heat pooled low and right, under the trophy --
+     the same direction the light comes from in the reference. */
+  background:
+    radial-gradient(78% 62% at 88% 104%, rgba(255, 122, 24, .52) 0%, rgba(214, 58, 4, .26) 38%, rgba(120, 20, 2, 0) 72%),
+    radial-gradient(120% 84% at 12% -10%, rgba(120, 24, 4, .58) 0%, rgba(60, 8, 2, 0) 64%),
+    linear-gradient(176deg, #2A0502 0%, #1E0300 54%, #170200 100%);
+  border-color: rgba(255, 140, 70, .28);
+  box-shadow:
+    0 4px 22px -6px color-mix(in srgb, var(--uel-edge-1) 54%, transparent),
+    0 20px 46px -12px color-mix(in srgb, var(--uel-edge-2) 52%, transparent),
+    0 2px 14px rgba(30, 6, 0, .5),
+    inset 0 1px 0 rgba(255, 190, 150, .12);
+  animation: tregu-rise 420ms var(--ease-out) both, tregu-uel-edge 17s ease-in-out infinite;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+
+  /* The lane. Trophy is 104px wide sitting 6px past the right edge, so it
+     starts 98px in; content stops at 116px, leaving an 18px gutter. Measured,
+     not guessed -- at 96px the two overlapped by 2px. */
+  padding-right: 116px;
+}
+
+@keyframes tregu-uel-edge {
+  0%, 100% { --uel-edge-1: #ff7a18; --uel-edge-2: #c2200a; }
+  50% { --uel-edge-1: #c2200a; --uel-edge-2: #ff7a18; }
+}
+
+.tregu-native-market[data-competition="uefa.europa"] .tregu-competition-art {
+  display: none;
+}
+
+/* --- The beams -----------------------------------------------------------
+   Each beam is a two-segment path: down from above the top edge, a corner
+   exactly on the bottom edge, then up and out through the right side, keeping
+   the horizontal direction it arrived with rather than folding back. The
+   refraction is geometry, not animation -- a box translating along one axis
+   cannot change direction mid-flight, which is why these are drawn rather
+   than moved.
+
+   What animates is stroke-dashoffset. A lit segment and a gap that together
+   equal the path length, shifted by exactly one full period per cycle, so the
+   loop has no seam to catch: the tail leaves as the head arrives.
+
+   pathLength="100" normalises all four paths to the same nominal length, so a
+   single dash animation advances every beam at an identical rate however
+   different their real geometry is. One duration, no delays -- they travel
+   together. */
+.tregu-uel-beams {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.tregu-uel-beams path {
+  fill: none;
+  stroke: #FF8A1F;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  /* Deliberately NOT vector-effect: non-scaling-stroke. That switches
+     stroke-dasharray into screen pixels, which defeats pathLength="100" -- the
+     path then tiles with dozens of short dashes instead of carrying one
+     travelling segment. Stroke width stays in user units and is set per
+     breakpoint instead. */
+  stroke-dasharray: 30 70;
+  stroke-dashoffset: 100;
+  filter: drop-shadow(0 0 5px rgba(255, 128, 24, .75)) drop-shadow(0 0 16px rgba(255, 96, 10, .45));
+  animation: tregu-uel-beam 6.5s linear infinite;
+}
+
+/* Only the colour and weight vary between them; never the timing. */
+.tregu-uel-beams path:nth-child(1) { stroke: #FFA83C; stroke-width: 1.45; }
+.tregu-uel-beams path:nth-child(2) { stroke: #FF8A1F; stroke-width: 2; }
+.tregu-uel-beams path:nth-child(3) { stroke: #FF7A12; stroke-width: 1.6; }
+.tregu-uel-beams path:nth-child(4) { stroke: #FF9629; stroke-width: 1.85; }
+
+@keyframes tregu-uel-beam {
+  from { stroke-dashoffset: 100; }
+  to { stroke-dashoffset: 0; }
+}
+
+/* --- The trophy ----------------------------------------------------------
+   Sits in the padding lane, bottom-aligned, never over the content. The source
+   crop keeps its own dark surround rather than being cut out -- the two
+   backgrounds are the same deep maroon, so the edges dissolve into the card
+   instead of showing a rectangle. */
+.tregu-uel-trophy {
+  position: absolute;
+  right: -6px;
+  bottom: -4px;
+  z-index: 1;
+  width: 104px;
+  max-width: none;
+  height: auto;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
+  filter: saturate(1.08) contrast(1.06);
+  -webkit-mask-image: radial-gradient(120% 92% at 62% 58%, #000 42%, rgba(0, 0, 0, .55) 72%, transparent 100%);
+  mask-image: radial-gradient(120% 92% at 62% 58%, #000 42%, rgba(0, 0, 0, .55) 72%, transparent 100%);
+}
+
+/* --- Contrast ------------------------------------------------------------ */
+.tregu-native-market[data-competition="uefa.europa"] .tregu-native-title { color: var(--tg-text); }
+.tregu-native-market[data-competition="uefa.europa"] .tregu-native-brand { color: var(--tg-muted); }
+.tregu-native-market[data-competition="uefa.europa"] .tregu-market-open { color: #FFB067; }
+
+.tregu-native-market[data-competition="uefa.europa"] .tregu-market-foot {
+  border-top: 0;
+  padding-top: 11px;
+  background-image: linear-gradient(90deg, transparent, rgba(255, 170, 110, .26) 18%, rgba(255, 170, 110, .26) 82%, transparent);
+  background-size: 100% 1px;
+  background-repeat: no-repeat;
+  background-position: 0 0;
+}
+
+.tregu-native-market[data-competition="uefa.europa"] .tregu-native-outcome {
+  border-color: color-mix(in srgb, var(--outcome-color) 44%, rgba(255, 160, 90, .22));
+  background: color-mix(in srgb, var(--outcome-color) 14%, rgba(38, 7, 2, .93));
+  color: #FFEFE2;
+}
+
+.tregu-native-market[data-competition="uefa.europa"] .tregu-native-outcome-name em { color: #E7B08C; }
+
+.tregu-native-market[data-competition="uefa.europa"] .tregu-native-outcome strong {
+  color: color-mix(in srgb, var(--outcome-color) 45%, #FFEFE2);
+}
+
+@supports (color: oklch(from red l c h)) {
+  .tregu-native-market[data-competition="uefa.europa"] .tregu-native-outcome strong {
+    color: oklch(from var(--outcome-color) max(l, .78) c h);
+  }
+}
+
+.tregu-native-market[data-competition="uefa.europa"] .tregu-exact-chart-plot {
+  background:
+    repeating-linear-gradient(90deg, rgba(255, 170, 110, .05) 0 1px, transparent 1px 54px),
+    linear-gradient(180deg, rgba(52, 10, 2, .90), rgba(28, 5, 0, .95));
+  border-color: rgba(255, 160, 90, .20);
+  box-shadow: inset 0 1px 0 rgba(255, 190, 150, .10);
+}
+
+.tregu-native-market[data-competition="uefa.europa"] .tregu-exact-chart-grid { stroke: rgba(255, 180, 130, .14); }
+.tregu-native-market[data-competition="uefa.europa"] .tregu-exact-chart-empty { color: #E7B08C; }
+.tregu-native-market[data-competition="uefa.europa"] .tregu-exact-chart-empty strong { color: #FFEFE2; }
+.tregu-native-market[data-competition="uefa.europa"] .tregu-exact-chart-inspector-marks line { stroke: rgba(255, 200, 160, .46); }
+
+.tregu-native-market[data-competition="uefa.europa"] .tregu-exact-chart-inspector {
+  background: rgba(40, 8, 2, .94);
+  border-color: rgba(255, 160, 90, .22);
+  color: #FFEFE2;
+}
+
+.tregu-native-market[data-competition="uefa.europa"] .tregu-exact-chart-inspector > time { color: #E7B08C; }
+
+.tregu-native-market[data-competition="uefa.europa"] .tregu-exact-chart-line,
+.tregu-native-market[data-competition="uefa.europa"] .tregu-exact-chart-last {
+  filter: brightness(1.95) saturate(.9);
+}
+
+.tregu-native-market[data-competition="uefa.europa"]::after {
+  z-index: 2;
+  padding: 0;
+  animation: none;
+  -webkit-mask: none;
+  mask: none;
+  background: linear-gradient(90deg, transparent, rgba(255, 150, 60, .30) 34%, rgba(255, 108, 20, .42) 52%, rgba(255, 150, 60, .26) 68%, transparent);
+}
+
+.tregu-native-market[data-competition="uefa.europa"]::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  z-index: 3;
+  border-radius: inherit;
+  padding: 1.6px;
+  background: linear-gradient(135deg, var(--uel-edge-1) 0%, var(--uel-edge-2) 50%, var(--uel-edge-1) 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* `.tregu-native-market > *` would pull both decorative layers into the content
+   stack; (0,2,0) beats it. */
+.tregu-native-market .tregu-uel-beams { position: absolute; z-index: 0; }
+.tregu-native-market .tregu-uel-trophy { position: absolute; z-index: 1; }
+
+@media (max-width: 700px) {
+  /* Wider trophy here, so the lane widens with it: 116 - 6 + 18 = 128. */
+  .tregu-native-market[data-competition="uefa.europa"] { padding-right: 128px; }
+  .tregu-native-market .tregu-uel-trophy { width: 116px; }
+  /* The viewBox is squeezed harder into a narrow card, so the same user-unit
+     stroke lands thinner here. */
+  .tregu-uel-beams path { stroke-width: 2.3; }
+  .tregu-uel-beams path:nth-child(1) { stroke-width: 2; }
+  .tregu-uel-beams path:nth-child(2) { stroke-width: 2.7; }
+  .tregu-uel-beams path:nth-child(3) { stroke-width: 2.2; }
+  .tregu-uel-beams path:nth-child(4) { stroke-width: 2.5; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* A frozen beam mid-fall reads as a rendering fault. The ground keeps its
+     heat; the moving light simply is not there. */
+  .tregu-uel-beams { display: none; }
+  .tregu-native-market[data-competition="uefa.europa"] { animation: none !important; }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .tregu-native-market[data-competition="uefa.europa"] { background: #200400; }
+  .tregu-native-market[data-competition="uefa.europa"] .tregu-native-outcome { background: #2E0702; }
+  .tregu-native-market[data-competition="uefa.europa"] .tregu-exact-chart-plot { background: #260500; }
+}
+
+@media (prefers-contrast: more) {
+  .tregu-uel-beams { display: none; }
+  .tregu-native-market[data-competition="uefa.europa"] .tregu-native-outcome {
+    border-color: rgba(255, 200, 160, .55);
+    background: #2A0602;
+  }
+}
+
+/* ==========================================================================
+   Europa League -- banner and receipt
+   --------------------------------------------------------------------------
+   Same treatment as the floor card on the other two surfaces. The artwork is
+   identical markup (components/tregu/competition-artwork.tsx); only the
+   placement differs, and only where the shape of the surface demands it.
+   ========================================================================== */
+
+/* --- Market banner -------------------------------------------------------
+   Replaces the green pitch for this competition. The pitch lives in
+   `background` plus a centre-spot `::after`, so both have to go or the
+   halfway line sits on top of the orange. */
+.tregu-detail-header[data-competition="uefa.europa"] {
+  --tg-text: #FFF3EA;
+  --tg-muted: #E7B08C;
+  --tg-border: rgba(255, 150, 80, .20);
+  --tg-border-hi: rgba(255, 150, 80, .38);
+
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: 22px 22px 24px;
+  border-radius: 18px;
+  border-color: rgba(255, 140, 70, .28);
+  color: var(--tg-text);
+  background:
+    radial-gradient(72% 78% at 86% 112%, rgba(255, 122, 24, .52) 0%, rgba(214, 58, 4, .26) 40%, rgba(120, 20, 2, 0) 74%),
+    radial-gradient(120% 84% at 10% -12%, rgba(120, 24, 4, .58) 0%, rgba(60, 8, 2, 0) 64%),
+    linear-gradient(176deg, #2A0502 0%, #1E0300 54%, #170200 100%);
+  box-shadow:
+    0 4px 22px -6px color-mix(in srgb, var(--uel-edge-1) 50%, transparent),
+    0 20px 46px -12px color-mix(in srgb, var(--uel-edge-2) 46%, transparent),
+    0 2px 14px rgba(30, 6, 0, .5);
+  animation: tregu-uel-edge 17s ease-in-out infinite;
+}
+
+.tregu-detail-header[data-competition="uefa.europa"]::after { display: none; }
+
+.tregu-detail-header[data-competition="uefa.europa"] > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* ...which catches the artwork too, exactly as it does on the card. Out-specify
+   it rather than maintain a :not() list. */
+.tregu-detail-header[data-competition="uefa.europa"] .tregu-uel-beams {
+  position: absolute;
+  z-index: 0;
+}
+
+/* The banner is near-square, so viewBox 0 0 100 100 barely stretches and the
+   same user-unit stroke lands far heavier than it does on a tall card. Thinner
+   and softer here, so the beams stay behind the question rather than competing
+   with it. */
+.tregu-detail-header[data-competition="uefa.europa"] .tregu-uel-beams path { stroke-width: 1; opacity: .62; }
+.tregu-detail-header[data-competition="uefa.europa"] .tregu-uel-beams path:nth-child(1) { stroke-width: .85; }
+.tregu-detail-header[data-competition="uefa.europa"] .tregu-uel-beams path:nth-child(2) { stroke-width: 1.2; }
+.tregu-detail-header[data-competition="uefa.europa"] .tregu-uel-beams path:nth-child(3) { stroke-width: .95; }
+.tregu-detail-header[data-competition="uefa.europa"] .tregu-uel-beams path:nth-child(4) { stroke-width: 1.1; }
+
+.tregu-detail-header[data-competition="uefa.europa"] .tregu-uel-trophy {
+  position: absolute;
+  z-index: 1;
+  right: 18px;
+  bottom: -8px;
+  left: auto;
+  transform: none;
+  width: 96px;
+}
+
+/* The banner is a wide landscape block whose left half carries the question, so
+   the trophy stands on the right and the copy is inset to clear it. */
+.tregu-detail-header[data-competition="uefa.europa"] .tregu-detail-header-copy {
+  padding-right: 128px;
+}
+
+.tregu-detail-header[data-competition="uefa.europa"] .tregu-pill,
+.tregu-detail-header[data-competition="uefa.europa"] .tregu-home-help {
+  border-color: rgba(255, 160, 90, .26);
+  background: rgba(46, 8, 2, .66);
+  color: #F0C6A8;
+}
+
+.tregu-detail-header[data-competition="uefa.europa"] .tregu-detail-reference {
+  border-color: rgba(255, 160, 90, .24);
+  background: rgba(46, 8, 2, .72);
+}
+
+.tregu-detail-header[data-competition="uefa.europa"] .tregu-delta-chip {
+  border-color: rgba(59, 227, 142, .34);
+  background: rgba(59, 227, 142, .14);
+  color: #3BE38E;
+}
+
+@media (max-width: 700px) {
+  .tregu-detail-header[data-competition="uefa.europa"] {
+    padding: 16px 14px 18px;
+    border-radius: 14px;
+  }
+  .tregu-detail-header[data-competition="uefa.europa"] .tregu-detail-header-copy {
+    padding-right: 104px;
+  }
+  .tregu-detail-header[data-competition="uefa.europa"] .tregu-uel-trophy {
+    right: 6px;
+    width: 88px;
+  }
+}
+
+/* --- Trade receipt -------------------------------------------------------
+   Here the trophy is centred at the foot rather than set to one side: the
+   receipt is a tall portrait sheet with its content stacked down the middle,
+   so a trophy on the right would sit beside nothing. Bottom-centre puts it
+   under the figures, where the card's stadium sits. */
+.tregu-trade-celebration[data-competition="uefa.europa"] {
+  isolation: isolate;
+  overflow: hidden;
+  /* Same heat as the card, restacked for a portrait sheet: the pool sits low
+     and centred under the trophy, with two weaker sources high right and mid
+     left so the field has somewhere to fall off to. A single gradient on a
+     surface this tall reads as flat brown. */
+  background:
+    radial-gradient(64% 38% at 50% 106%, rgba(255, 138, 32, .62) 0%, rgba(214, 58, 4, .3) 44%, rgba(120, 20, 2, 0) 76%),
+    radial-gradient(78% 44% at 88% 14%, rgba(206, 52, 6, .44) 0%, rgba(120, 20, 2, 0) 70%),
+    radial-gradient(72% 40% at 8% 58%, rgba(158, 32, 4, .42) 0%, rgba(90, 14, 2, 0) 72%),
+    linear-gradient(176deg, #300703 0%, #1E0300 56%, #170200 100%) !important;
+  animation: tregu-uel-edge 17s ease-in-out infinite;
+}
+
+.tregu-trade-celebration[data-competition="uefa.europa"] .tregu-competition-art { display: none; }
+
+.tregu-trade-celebration[data-competition="uefa.europa"] .tregu-uel-beams {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.tregu-trade-celebration[data-competition="uefa.europa"] .tregu-uel-trophy {
+  position: absolute;
+  z-index: 1;
+  right: auto;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  /* Width controls how far up the sheet it reaches. 136px stands it clearly at
+     the foot without the figures sitting on it; at 180px it ran the full height
+     and the text was on top of the metal. */
+  width: 136px;
+  opacity: .92;
+  /* Same treatment as the card: no clip, and the edges dissolved with a radial
+     mask so the crop's surround melts into the sheet instead of ending on a
+     rectangle. A drawn silhouette was tried here and rejected -- it took the
+     cup's own sides with it, and the beams around the trophy turn out to be
+     part of how it reads rather than something to remove. This works because
+     the sheet is now the same orange as the photograph's own ground. */
+  -webkit-mask-image: radial-gradient(116% 86% at 54% 56%, #000 40%, rgba(0, 0, 0, .58) 70%, transparent 100%);
+  mask-image: radial-gradient(116% 86% at 54% 56%, #000 40%, rgba(0, 0, 0, .58) 70%, transparent 100%);
+}
+
+/* The receipt is a tall sheet, so viewBox 0 0 100 100 stretches roughly twice
+   as hard vertically as horizontally and the same user-unit stroke lands about
+   twice as heavy as it does on a card. Thinner here to match. */
+/* A longer lit run than the card's. The sheet is tall, so a 30-unit segment
+   only ever lights a short stretch and the beams look like they start halfway
+   down; 58 units keeps the streak visible from the top edge through the bend.
+   Still one full period, so the loop stays seamless. */
+.tregu-trade-celebration[data-competition="uefa.europa"] .tregu-uel-beams path {
+  stroke-width: 1.1;
+  opacity: .8;
+  stroke-dasharray: 58 42;
+}
+.tregu-trade-celebration[data-competition="uefa.europa"] .tregu-uel-beams path:nth-child(1) { stroke-width: .95; }
+.tregu-trade-celebration[data-competition="uefa.europa"] .tregu-uel-beams path:nth-child(2) { stroke-width: 1.3; }
+.tregu-trade-celebration[data-competition="uefa.europa"] .tregu-uel-beams path:nth-child(3) { stroke-width: 1.05; }
+.tregu-trade-celebration[data-competition="uefa.europa"] .tregu-uel-beams path:nth-child(4) { stroke-width: 1.2; }
+
+.tregu-trade-celebration[data-competition="uefa.europa"] .tregu-trade-celebration-content {
+  position: relative;
+  z-index: 2;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tregu-detail-header[data-competition="uefa.europa"],
+  .tregu-trade-celebration[data-competition="uefa.europa"] { animation: none !important; }
+}

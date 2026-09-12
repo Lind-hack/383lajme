@@ -92,6 +92,18 @@ export const COMPETITION_NIGHT_ART: Record<string, string> = {
   "uefa.champions": "/images/tregu/ucl-stadium-night-v1.webp",
 };
 
+/* Europa is a different treatment, not a recolour of the Champions one: a deep
+   orange ground crossed by falling beams, with the trophy standing in a lane of
+   its own on the right. It needs its own art slot for that reason. */
+export const COMPETITION_TROPHY_ART: Record<string, string> = {
+  "uefa.europa": "/images/tregu/uel-trophy-v1.webp",
+};
+
+export function trophyArtFor(league?: string | null): string | null {
+  if (!league) return null;
+  return COMPETITION_TROPHY_ART[league.toLowerCase()] ?? null;
+}
+
 export function nightArtFor(league?: string | null): string | null {
   if (!league) return null;
   return COMPETITION_NIGHT_ART[league.toLowerCase()] ?? null;

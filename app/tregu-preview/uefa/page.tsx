@@ -66,6 +66,18 @@ const UCL_RECEIPT: MobileTradeReceipt = {
   soundProfile: "champions",
 };
 
+const UEL_RECEIPT: MobileTradeReceipt = {
+  competition: "uefa.europa",
+  market: "Roma — Porto: rezultati pas 90 minutave?",
+  selection: "Roma",
+  coins: 10,
+  potentialReturn: 22.7,
+  probability: 0.44,
+  color: "#f2c9a6",
+  finish: "standard",
+  soundProfile: "europa",
+};
+
 const NOOP = () => {};
 
 const GRID: CSSProperties = {
@@ -76,6 +88,9 @@ const GRID: CSSProperties = {
 
 export default function UefaCardPreview() {
   if (process.env.NODE_ENV !== "development") notFound();
+  // ?receipt=uel swaps the mounted confirmation so both competitions can be
+  // checked without a second sheet on the page.
+  const showEuropaReceipt = typeof window !== "undefined" && window.location.search.includes("receipt=uel");
   return <div className="tregu-scope" style={{ minHeight: "100vh", background: "#f8f5ef" }}>
     <main style={{ maxWidth: 960, margin: "0 auto", padding: "40px 24px 64px" }}>
       <Link href="/tregu" style={{ fontSize: 14, color: "#6b625a" }}>← Kthehu te Tregu</Link>
@@ -120,7 +135,7 @@ export default function UefaCardPreview() {
         sellEnabled={false}
         placing={false}
         message={null}
-        receipt={UCL_RECEIPT}
+        receipt={showEuropaReceipt ? UEL_RECEIPT : UCL_RECEIPT}
         soundProfile="champions"
         onOpen={NOOP}
         onClose={NOOP}
@@ -132,10 +147,16 @@ export default function UefaCardPreview() {
         onDismissReceipt={NOOP}
       />
 
-      <h2 style={{ margin: "44px 0 8px", fontSize: 20, letterSpacing: "-.02em" }}>Europa &amp; Conference</h2>
-      <p style={{ margin: "0 0 20px", color: "#6b625a", lineHeight: 1.6 }}>Pa trajtimin e natës — për krahasim.</p>
+      <h2 style={{ margin: "44px 0 8px", fontSize: 20, letterSpacing: "-.02em" }}>Europa League</h2>
+      <p style={{ margin: "0 0 20px", color: "#6b625a", lineHeight: 1.6 }}>Rrezet bien nga lart, thyhen te fundi i kartës dhe dalin nga e djathta — paralele, me të njëjtën distancë mes tyre.</p>
+      <div inert className="tregu-grid" style={GRID}>
+        <StructuredSportMarketCard market={sample({ league: "uefa.europa", home: "Roma", away: "Porto", homeColor: "#8e1f2f", awayColor: "#0d5eaf", probs: [.44, .28, .28] })} />
+        <StructuredSportMarketCard market={sample({ league: "uefa.europa", home: "Ajax", away: "Olympique Lyonnais", homeColor: "#d2122e", awayColor: "#1b3f8f", probs: [.51, .26, .23], drift: .04 })} />
+      </div>
+
+      <h2 style={{ margin: "44px 0 8px", fontSize: 20, letterSpacing: "-.02em" }}>Conference</h2>
+      <p style={{ margin: "0 0 20px", color: "#6b625a", lineHeight: 1.6 }}>Ende pa trajtim — për krahasim.</p>
       <div inert style={GRID}>
-        <StructuredSportMarketCard market={sample({ league: "uefa.europa", home: "Roma", away: "Porto" })} />
         <StructuredSportMarketCard market={sample({ league: "uefa.europa.conf", home: "Fiorentina", away: "Rapid Wien" })} />
       </div>
     </main>
