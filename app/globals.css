@@ -16541,3 +16541,52 @@ header[data-overlay="true"] .nav-search-btn[style*="margin-right"] {
     background: #052C1D;
   }
 }
+
+/* ==========================================================================
+   Champions League -- the beams
+   --------------------------------------------------------------------------
+   The third competition to get them, and the last: all three now share one
+   motion language, differing only in colour and in the object they fall past.
+
+   Champions is the one that also keeps its drifting washes, so these are
+   pitched a little lighter than Europa's and Conference's -- the smoke gives
+   the card its depth, the beams give it the movement, and neither should be
+   fighting the other for the same attention.
+   ========================================================================== */
+
+.tregu-native-market[data-competition="uefa.champions"] .tregu-uel-beams path,
+.tregu-detail-header[data-competition="uefa.champions"] .tregu-uel-beams path,
+.tregu-trade-celebration[data-competition="uefa.champions"] .tregu-uel-beams path {
+  stroke: #4FA8FF;
+  opacity: .72;
+  filter: drop-shadow(0 0 5px rgba(80, 170, 255, .7)) drop-shadow(0 0 16px rgba(1, 117, 254, .42));
+}
+
+.tregu-native-market[data-competition="uefa.champions"] .tregu-uel-beams path:nth-child(1),
+.tregu-detail-header[data-competition="uefa.champions"] .tregu-uel-beams path:nth-child(1),
+.tregu-trade-celebration[data-competition="uefa.champions"] .tregu-uel-beams path:nth-child(1) { stroke: #6FD6FF; }
+
+.tregu-native-market[data-competition="uefa.champions"] .tregu-uel-beams path:nth-child(2),
+.tregu-detail-header[data-competition="uefa.champions"] .tregu-uel-beams path:nth-child(2),
+.tregu-trade-celebration[data-competition="uefa.champions"] .tregu-uel-beams path:nth-child(2) { stroke: #2E86FF; }
+
+.tregu-native-market[data-competition="uefa.champions"] .tregu-uel-beams path:nth-child(3),
+.tregu-detail-header[data-competition="uefa.champions"] .tregu-uel-beams path:nth-child(3),
+.tregu-trade-celebration[data-competition="uefa.champions"] .tregu-uel-beams path:nth-child(3) { stroke: #9A5BF5; }
+
+.tregu-native-market[data-competition="uefa.champions"] .tregu-uel-beams path:nth-child(4),
+.tregu-detail-header[data-competition="uefa.champions"] .tregu-uel-beams path:nth-child(4),
+.tregu-trade-celebration[data-competition="uefa.champions"] .tregu-uel-beams path:nth-child(4) { stroke: #5F9DFF; }
+
+/* Per-surface weights, for the same reason the other two have them: the viewBox
+   stretches differently on a card, a near-square banner and a tall sheet. */
+.tregu-detail-header[data-competition="uefa.champions"] .tregu-uel-beams path { stroke-width: 1; opacity: .56; }
+.tregu-trade-celebration[data-competition="uefa.champions"] .tregu-uel-beams path { stroke-width: 1.1; opacity: .7; stroke-dasharray: 58 42; }
+
+/* The stadium stays in front of the beams, as it is in front of the washes. */
+.tregu-detail-header[data-competition="uefa.champions"] .tregu-uel-beams,
+.tregu-trade-celebration[data-competition="uefa.champions"] .tregu-uel-beams {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
