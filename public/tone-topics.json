@@ -2,9 +2,9 @@
   "lastUpdated": "2026-09-12",
   "topics": [
     {
-      "label": "Zgjedhja e kryetarit të Kuvendit",
+      "label": "Zgjedhja e kryetares së Kuvendit",
       "fallbackLabel": "Kuvendit · Haxhiu",
-      "summary": "Albulena Haxhiu rizgjidhet kryetare e Kuvendit të Kosovës pas debateve politike dhe mosmarrëveshjeve brenda LVV-së për procesin e votimit.",
+      "summary": "Albulena Haxhiu është rizgjedhur në krye të Kuvendit të Kosovës, pas një procesi të diskutueshëm ku LVV nuk votoi kandidatin për kryetar.",
       "count": 32,
       "positive": 1,
       "neutral": 27,
@@ -182,9 +182,9 @@
       ]
     },
     {
-      "label": "Mbështetja për kauza shoqërore",
-      "fallbackLabel": "Mbështetje · Marshin",
-      "summary": "Organizata të ndryshme dhe institucione ndërkombëtare ofrojnë mbështetje për iniciativa humanitare, arsimore dhe protesta civile nëpër qytete të ndryshme të Kosovës.",
+      "label": "Mbështetja për nisma dhe organizata",
+      "fallbackLabel": "Mbështetje · Shtatorit",
+      "summary": "Shoqata, institucione dhe organizata të ndryshme po ofrojnë mbështetje për kauza sociale, arsimore dhe fetare përmes marshimeve, ndihmave financiare dhe projekteve infrastrukturore.",
       "count": 19,
       "positive": 1,
       "neutral": 12,
@@ -361,9 +361,9 @@
       ]
     },
     {
-      "label": "Përkujtimi i 11 shtatorit",
+      "label": "Përkujtimi i 11 shtatorit dhe sporti",
       "fallbackLabel": "Shtatorit · Kurti",
-      "summary": "Udhëheqësit politikë të Kosovës riafirmojnë aleancën e ngushtë me Shtetet e Bashkuara të Amerikës në 25-vjetorin e sulmeve terroriste të 11 shtatorit.",
+      "summary": "Udhëheqësit politikë të Kosovës shprehën solidaritet të palëkundur me Shtetet e Bashkuara në 25-vjetorin e sulmeve të 11 shtatorit, krahas aktiviteteve sportive ndërkombëtare.",
       "count": 15,
       "positive": 0,
       "neutral": 10,
@@ -542,9 +542,9 @@
       ]
     },
     {
-      "label": "Largimi i Amir Rrahmanit",
+      "label": "Largimi i Amir Rrahmanit nga kombëtarja",
       "fallbackLabel": "Rrahmani · Kombëtarja",
-      "summary": "Kapiteni Amir Rrahmani njofton tërheqjen nga Kombëtarja e Kosovës pas akuzave për sulme të koordinuara dhe pakënaqësive ndaj Federatës së Futbollit.",
+      "summary": "Kapiteni Amir Rrahmani u tërhoq nga Kombëtarja e Kosovës pas akuzave për sulme të koordinuara dhe pakënaqësive të thella ndaj Federatës së Futbollit.",
       "count": 15,
       "positive": 0,
       "neutral": 8,
@@ -725,7 +725,7 @@
     {
       "label": "Gjykimi i Thaçit në Hagë",
       "fallbackLabel": "Hagë · Burgim",
-      "summary": "Prokuroria në Hagë kërkon dënim me burgim për ish-presidentin Hashim Thaçi, duke e akuzuar atë për pengim të drejtësisë dhe ndikim te dëshmitarët.",
+      "summary": "Prokuroria në Hagë ka nisur fjalimet përmbyllëse në gjykimin ndaj Hashim Thaçit, duke kërkuar dënim për pengim të drejtësisë dhe ndikim te dëshmitarët.",
       "count": 13,
       "positive": 1,
       "neutral": 12,
@@ -901,10 +901,10 @@
       ]
     },
     {
-      "label": "Sfidat politike dhe presidenciale",
+      "label": "Statusi politik dhe gjyqësor i Thaçit",
       "fallbackLabel": "Thaçi · Presidentit",
-      "summary": "Kosova përballet me pasiguri politike lidhur me postin e presidentit dhe ndikimin e gjykimeve në Hagë mbi figurat kryesore të shtetit.",
-      "count": 10,
+      "summary": "Debatet mbi të ardhmen politike të Hashim Thaçit dhe sfidat e zgjedhjes së presidentit vazhdojnë ndërsa mbrojtja kërkon pafajësi në procesin gjyqësor në Hagë.",
+      "count": 11,
       "positive": 0,
       "neutral": 6,
       "negative": 0,
@@ -1013,9 +1013,9 @@
           "flag": "🇺🇸"
         },
         {
-          "title": "Kosovo Counts Down to War Crimes Trial of Former President Seen as Hero - Bloomberg.com",
-          "albanianTitle": "Kosova në prag të gjykimit për krime lufte ndaj ish-presidentit që shihet si hero",
-          "blurb": "Kosova po përgatitet për fillimin e gjykimit për krime lufte ndaj ish-presidentit të vendit, i konsideruar si hero.",
+          "title": "Kosovo Counts Down to War Crimes Trial of Former President Seen as Hero - bloomberg.com",
+          "albanianTitle": "Kosova në pritje të gjykimit për krime lufte ndaj ish-presidentit që shihet si hero",
+          "blurb": "Kosova po pret fillimin e gjykimit për krime lufte ndaj ish-presidentit të vendit, i konsideruar si hero.",
           "imageUrl": null,
           "url": "https://www.bloomberg.com/news/articles/2026-09-12/kosovo-counts-down-to-war-crimes-trial-of-former-president-seen-as-hero",
           "date": "2026-09-12",
@@ -1079,17 +1079,18 @@
       ]
     },
     {
-      "label": "Drejtësia për krimet e luftës",
+      "label": "Krimet e luftës dhe drejtësia",
       "fallbackLabel": "Luftës · Krimet",
-      "summary": "Diskutimet mbi krimet e luftës në Kosovë vazhdojnë të jenë në qendër të vëmendjes ndërkombëtare përmes ekspozitave dhe analizave për drejtësinë e pajtimin.",
-      "count": 10,
+      "summary": "Ekspozitat dhe debatet ndërkombëtare trajtojnë trashëgiminë e krimeve të luftës në Kosovë, duke reflektuar mbi mundësinë e drejtësisë dhe pajtimit pas vendimeve gjyqësore.",
+      "count": 11,
       "positive": 0,
-      "neutral": 4,
+      "neutral": 5,
       "negative": 0,
       "index": 50,
       "countries": [
         "Britani",
         "Francë",
+        "Gjermani",
         "SHBA"
       ],
       "articles": [
@@ -1158,6 +1159,22 @@
           "flag": "🇺🇸"
         },
         {
+          "title": "Vorwürfe gegen Ex-UCK-Führer – welche Rolle spielte der Kosovo-Kriegsfonds in der Schweiz? - nzz.ch",
+          "albanianTitle": "Akuzat ndaj ish-udhëheqësve të UÇK-së – çfarë roli luajti Fondi i Luftës së Kosovës në Zvicër?",
+          "blurb": "Hetimet po shqyrtojnë rolin e fondit të luftës së Kosovës në Zvicër dhe akuzat ndaj ish-udhëheqësve të UÇK-së.",
+          "imageUrl": "https://img-msp-prod.nzz.ch/2026/09/10/10e4a3e2-7750-4b6d-bdf3-8bc152e112b7.jpg?width=1200&height=675&fit=bounds&quality=75&auto=webp&crop=2000,1125,x0,y266&wmark=nzz",
+          "url": "https://www.nzz.ch/schweiz/vorwuerfe-gegen-uck-fuehrer-welche-rolle-spielte-der-kriegsfonds-in-der-schweiz-ld.10023346",
+          "date": "2026-09-12",
+          "sentiment": "neutral",
+          "reason": "Faktikisht raporton një çështje lidhur me fondin e luftës së Kosovës pa gjuhë ngarkuese",
+          "isQuote": false,
+          "speaker": "",
+          "evidence": "",
+          "outlet": "nzz.ch",
+          "country": "Gjermani",
+          "flag": "🇩🇪"
+        },
+        {
           "title": "Trump: Putin seeks deal to end war in Ukraine - cna.al",
           "albanianTitle": "Trump: Putini kërkon marrëveshje për t'i dhënë fund luftës në Ukrainë",
           "blurb": "Donald Trump deklaron se Vladimir Putin po kërkon një marrëveshje për t'i dhënë fund luftës në Ukrainë.",
@@ -1175,8 +1192,8 @@
         },
         {
           "title": "Kosovo War Crimes - Dayton Daily News",
-          "albanianTitle": "Krimet e luftës në Kosovë - Dayton Daily News",
-          "blurb": "Gazeta Dayton Daily News publikon informacione lidhur me proceset gjyqësore për krimet e luftës të kryera në Kosovë.",
+          "albanianTitle": "Krimet e luftës në Kosovë",
+          "blurb": "Procesi gjyqësor për krimet e luftës në Kosovë vazhdon të jetë temë e raportimeve në mediat ndërkombëtare.",
           "imageUrl": "https://bloximages.chicago2.vip.townnews.com/daytondailynews.com/content/tncms/assets/v3/editorial/4/14/4140cdd5-1618-5136-b8a0-b1a8169ce8af/6aa55de3b5513.image.jpg?crop=5680%2C2982%2C0%2C402&resize=1200%2C630&order=crop%2Cresize",
           "url": "https://www.daytondailynews.com/nation-world/kosovo-war-crimes/image_4140cdd5-1618-5136-b8a0-b1a8169ce8af.html",
           "date": "2026-09-12",
@@ -1191,8 +1208,8 @@
         },
         {
           "title": "Kosovo War Crimes - Springfield News-Sun",
-          "albanianTitle": "Krimet e luftës në Kosovë - Springfield News-Sun",
-          "blurb": "Publikimi Springfield News-Sun trajton çështjet ligjore dhe zhvillimet rreth proceseve për krimet e luftës në territorin e Kosovës.",
+          "albanianTitle": "Krimet e luftës në Kosovë",
+          "blurb": "Zhvillimet lidhur me gjykimin për krimet e luftës në Kosovë po ndiqen nga mediat e huaja amerikane.",
           "imageUrl": "https://bloximages.chicago2.vip.townnews.com/springfieldnewssun.com/content/tncms/assets/v3/editorial/2/70/27094a2b-c29b-5088-be5d-e82ffe62fc3d/6aa5569b13b03.image.jpg?crop=4943%2C2595%2C0%2C350&resize=1200%2C630&order=crop%2Cresize",
           "url": "https://www.springfieldnewssun.com/nation-world/kosovo-war-crimes/image_27094a2b-c29b-5088-be5d-e82ffe62fc3d.html",
           "date": "2026-09-12",
@@ -1207,8 +1224,8 @@
         },
         {
           "title": "Kosovo War Crimes - Journal-News.com",
-          "albanianTitle": "Krimet e luftës në Kosovë - Journal-News.com",
-          "blurb": "Portali Journal-News raporton mbi zhvillimet e fundit që ndërlidhen me gjykimin për krimet e luftës të ndodhura në Kosovë.",
+          "albanianTitle": "Krimet e luftës në Kosovë",
+          "blurb": "Çështja e krimeve të luftës në Kosovë mbetet në fokus të vëmendjes së mediave ndërkombëtare gjatë kësaj periudhe.",
           "imageUrl": "https://bloximages.chicago2.vip.townnews.com/journal-news.com/content/tncms/assets/v3/editorial/9/93/9937616a-4f99-5ac7-a070-29c66ce414a9/6aa5569b1edb5.image.jpg?crop=1763%2C926%2C0%2C125&resize=1200%2C630&order=crop%2Cresize",
           "url": "https://www.journal-news.com/nation-world/kosovo-war-crimes/image_9937616a-4f99-5ac7-a070-29c66ce414a9.html",
           "date": "2026-09-12",
@@ -1223,8 +1240,8 @@
         },
         {
           "title": "Kosovo War Crimes - Goshen News",
-          "albanianTitle": "Krimet e luftës në Kosovë - Goshen News",
-          "blurb": "Gazeta Goshen News sjell detaje mbi proceset gjyqësore që po zhvillohen për krimet e luftës të kryera në Kosovë.",
+          "albanianTitle": "Krimet e luftës në Kosovë",
+          "blurb": "Gjykimet për krimet e luftës në Kosovë po trajtohen si çështje me rëndësi në raportimet e mediave botërore.",
           "imageUrl": "https://bloximages.chicago2.vip.townnews.com/goshennews.com/content/tncms/assets/v3/editorial/4/06/4068f3c4-a202-5a32-aa5f-8a6356865856/6aa55e0dc5eb2.image.jpg?crop=1763%2C926%2C0%2C124&resize=1200%2C630&order=crop%2Cresize",
           "url": "https://www.goshennews.com/news/national_news/kosovo-war-crimes/image_4068f3c4-a202-5a32-aa5f-8a6356865856.html",
           "date": "2026-09-12",
@@ -1236,29 +1253,13 @@
           "outlet": "Goshen News",
           "country": "SHBA",
           "flag": "🇺🇸"
-        },
-        {
-          "title": "Kosovo War Crimes - gazettextra.com",
-          "albanianTitle": "Krimet e luftës në Kosovë - gazettextra.com",
-          "blurb": "Gazeta Extra publikon informacione rreth zhvillimeve gjyqësore që lidhen me akuzat për krimet e luftës në Kosovë.",
-          "imageUrl": "https://bloximages.newyork1.vip.townnews.com/gazettextra.com/content/tncms/assets/v3/editorial/9/d3/9d394d60-e869-50ff-8c1a-ffff6767c4bc/6aa557b034274.image.jpg?crop=1763%2C926%2C0%2C125&resize=1200%2C630&order=crop%2Cresize",
-          "url": "https://www.gazettextra.com/news/nation_world/kosovo-war-crimes/image_9d394d60-e869-50ff-8c1a-ffff6767c4bc.html",
-          "date": "2026-09-12",
-          "sentiment": "unknown",
-          "reason": "",
-          "isQuote": false,
-          "speaker": "",
-          "evidence": "",
-          "outlet": "GazetteXtra",
-          "country": "Britani",
-          "flag": "🇬🇧"
         }
       ]
     },
     {
-      "label": "Pjesëmarrja e Kosovës në sport",
+      "label": "Sukseset e sportistëve kosovarë ndërkombëtarisht",
       "fallbackLabel": "Botëror · Kualifikimet",
-      "summary": "Sportistët kosovarë arrijnë suksese në arenën ndërkombëtare, ndërsa kombëtaret përgatiten për ndeshje kualifikuese të rëndësishme në futboll dhe disiplina të tjera.",
+      "summary": "Sportistët kosovarë po shënojnë suksese të rëndësishme në arenën botërore përmes medaljeve në sportet luftarake dhe përgatitjeve për ndeshjet kualifikuese të kampionateve botërore.",
       "count": 9,
       "positive": 1,
       "neutral": 5,
@@ -1371,7 +1372,7 @@
         {
           "title": "MUAY THAÏ - MONDIAUX DE KOSOVO - Claudia Henri échoue en finale - L'Express de Madagascar",
           "albanianTitle": "Kampionati Botëror i Muay Thai në Kosovë: Claudia Henri mposhtet në finale",
-          "blurb": "Sportistja Claudia Henri është mposhtur në finalen e kampionatit botëror të Muay Thai që po zhvillohet në Kosovë.",
+          "blurb": "Sportistja Claudia Henri është mposhtur në finalen e kampionatit botëror të Muay Thai që po mbahet në Kosovë.",
           "imageUrl": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh91z7A73ozr9Bl-h8-m8zDnO0HEmmTexos0SkdUqkFwMht_96v_aN7C6okf1gmxS5hJR-TobYe3o8uUSn0t2s6AWi2duz1suSkR3hbK9rM-MFP8t_S3aK0x0D-gjwDQMfme83YW3qCwnOQnICahDdME0HtBdOyQrbe2d8dSE8D0F3MPWgacbuC94bBAmFg/w1600/unnamed.jpg",
           "url": "https://www.lexpress.mg/2026/09/muay-thai-mondiaux-de-kosovo-claudia.html",
           "date": "2026-09-12",
@@ -1402,8 +1403,8 @@
         },
         {
           "title": "De las escuelas deportivas de Soacha al podio mundial: Quitze Atahualpa Torres ganó bronce en Kosovo - Extrategia Medios",
-          "albanianTitle": "Nga shkollat sportive të Soachas në podiumin botëror: Quitze Atahualpa Torres fiton medaljen e bronztë në Kosovë - Extrategia Medios",
-          "blurb": "Sportisti nga Soacha, Quitze Atahualpa Torres, ka fituar medaljen e bronztë në një garë ndërkombëtare të zhvilluar në Kosovë.",
+          "albanianTitle": "Nga shkollat sportive të Soachas në podiumin botëror: Quitze Atahualpa Torres fiton medaljen e bronztë në Kosovë",
+          "blurb": "Sportisti Quitze Atahualpa Torres nga Soacha ka fituar medaljen e bronztë në një garë të zhvilluar në Kosovë.",
           "imageUrl": "https://extrategiamedios.com/wp-content/uploads/2026/09/De-las-escuelas-deportivas-de-Soacha-al-podio-mundial-Quitze-Atahualpa-Torres-gano-bronce-en-Kosovo1.png",
           "url": "https://extrategiamedios.com/de-las-escuelas-deportivas-de-soacha-al-podio-mundial-quitze-atahualpa-torres-gano-bronce-en-kosovo/",
           "date": "2026-09-12",

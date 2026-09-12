@@ -1018,11 +1018,11 @@
     },
     "Haberler": {
       "country": "Turqi",
-      "total": 8,
+      "total": 9,
       "positive": 0,
       "neutral": 7,
       "negative": 0,
-      "unknown": 1,
+      "unknown": 2,
       "firstSeen": "2026-08-20",
       "lastSeen": "2026-09-12",
       "urls": [
@@ -1033,7 +1033,8 @@
         "https://www.haberler.com/spor/buyukcekmece-basketbol-yeni-sezona-kosova-da-20182746-haberi/",
         "https://www.haberler.com/guncel/kosova-da-bekim-sejdiu-nun-cumhurbaskani-20194186-haberi/",
         "https://www.haberler.com/guncel/kosovali-askerlerin-gazze-ye-konuslandirilmasina-20215256-haberi/",
-        "https://www.haberler.com/guncel/lahey-de-yargilanan-eski-uck-komutanlarina-kosova-20231603-haberi/"
+        "https://www.haberler.com/guncel/lahey-de-yargilanan-eski-uck-komutanlarina-kosova-20231603-haberi/",
+        "https://www.haberler.com/politika/kosova-da-on-binlerce-kisi-eski-cumhurbaskani-20232252-haberi/"
       ]
     },
     "Son Dakika": {
@@ -3086,13 +3087,13 @@
     },
     "Albinfo": {
       "country": "Zvicër",
-      "total": 25,
-      "positive": 6,
+      "total": 27,
+      "positive": 8,
       "neutral": 13,
       "negative": 0,
       "unknown": 6,
       "firstSeen": "2026-09-07",
-      "lastSeen": "2026-09-11",
+      "lastSeen": "2026-09-12",
       "urls": [
         "https://www.albinfo.ch/fr/tre-pilote-nga-kosova-ne-top-10-te-botes-ne-paragllajdizem/",
         "https://www.albinfo.ch/fr/kosove-efta-marreveshja-e-tregtise-se-lire-hyn-ne-fuqi-me-1-tetor/",
@@ -3118,7 +3119,9 @@
         "https://www.albinfo.ch/fr/perfundon-parku-i-eres-ne-zatriq-kosoves-i-shtohen-70-mw-energji-te-paster/",
         "https://www.albinfo.ch/de/ganimet-shala-pjese-e-delegacionit-evropian-qe-monitoron-zgjedhjet-ne-suedi/",
         "https://www.albinfo.ch/de/kapiteni-rrahmani-terhiqet-nga-perfaqesuesja-e-kosoves/",
-        "https://www.albinfo.ch/fr/ganimet-shala-pjese-e-delegacionit-evropian-qe-monitoron-zgjedhjet-ne-suedi/"
+        "https://www.albinfo.ch/fr/ganimet-shala-pjese-e-delegacionit-evropian-qe-monitoron-zgjedhjet-ne-suedi/",
+        "https://www.albinfo.ch/de/von-scham-und-geld-filmi-kosovar-qe-triumfoi-ne-sundance-shfaqet-ne-premiere-ne-mynih/",
+        "https://www.albinfo.ch/fr/ambasadorja-e-re-e-zvicres-ne-kosove-miqesia-mes-dy-vendeve-bazohet-ne-besim-dhe-bashkepunim/"
       ]
     },
     "iAxia -": {
@@ -3629,6 +3632,45 @@
       "lastSeen": "2026-09-12",
       "urls": [
         "https://www.france24.com/en/live-news/20260912-thousands-rally-in-kosovo-ahead-of-ex-leader-s-war-crimes-verdict"
+      ]
+    },
+    "afp.com": {
+      "country": "Francë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-12",
+      "lastSeen": "2026-09-12",
+      "urls": [
+        "https://www.afp.com/en/thousands-rally-kosovo-ahead-ex-leaders-war-crimes-verdict"
+      ]
+    },
+    "nzz.ch": {
+      "country": "Zvicër",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-12",
+      "lastSeen": "2026-09-12",
+      "urls": [
+        "https://www.nzz.ch/schweiz/vorwuerfe-gegen-uck-fuehrer-welche-rolle-spielte-der-kriegsfonds-in-der-schweiz-ld.10023346"
+      ]
+    },
+    "Dagens Arbete": {
+      "country": "Suedi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-12",
+      "lastSeen": "2026-09-11",
+      "urls": [
+        "https://da.se/2026/09/dottern-dog-da-utvisades-familjen/"
       ]
     }
   }

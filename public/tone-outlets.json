@@ -1,10 +1,10 @@
 {
   "lastUpdated": "2026-09-12",
-  "overallIndex": 48,
-  "totalArticles": 49,
-  "sourceCount": 39,
+  "overallIndex": 50,
+  "totalArticles": 53,
+  "sourceCount": 42,
   "stanceVersion": 3,
-  "unattributed": 234,
+  "unattributed": 239,
   "nonEditorial": 2,
   "wrongKosovo": 0,
   "countries": {
@@ -18,7 +18,7 @@
             {
               "title": "Kosovo: aviso de seguridad, septiembre de 2026 - Buch-dein-Visum.de",
               "albanianTitle": "Kosovë: Njoftim për siguri, shtator 2026 - Buch-dein-Visum.de",
-              "blurb": "Platforma Buch-dein-Visum ka publikuar një njoftim sigurie për udhëtarët që planifikojnë vizitë në Kosovë gjatë shtatorit 2026.",
+              "blurb": "Autoritetet kanë publikuar një njoftim të ri lidhur me situatën e sigurisë në Kosovë për shtatorin e vitit 2026.",
               "imageUrl": "https://www.buch-dein-visum.de/assets/cache/images/konig1200x630-630x630-ef9.png",
               "url": "https://www.buch-dein-visum.de/es/news/allgemein/kosovo-aktueller-sicherheitshinweis-wegen-demonstrationen-und-angespannter-lage-im-norden-7af6d0",
               "date": "2026-09-11",
@@ -152,9 +152,9 @@
           "articleCount": 1,
           "articles": [
             {
-              "title": "Kosovo Counts Down to War Crimes Trial of Former President Seen as Hero - Bloomberg.com",
-              "albanianTitle": "Kosova në prag të gjykimit për krime lufte ndaj ish-presidentit që shihet si hero",
-              "blurb": "Kosova po përgatitet për fillimin e gjykimit për krime lufte ndaj ish-presidentit të vendit, i konsideruar si hero.",
+              "title": "Kosovo Counts Down to War Crimes Trial of Former President Seen as Hero - bloomberg.com",
+              "albanianTitle": "Kosova në pritje të gjykimit për krime lufte ndaj ish-presidentit që shihet si hero",
+              "blurb": "Kosova po pret fillimin e gjykimit për krime lufte ndaj ish-presidentit të vendit, i konsideruar si hero.",
               "imageUrl": null,
               "url": "https://www.bloomberg.com/news/articles/2026-09-12/kosovo-counts-down-to-war-crimes-trial-of-former-president-seen-as-hero",
               "date": "2026-09-12",
@@ -312,6 +312,30 @@
           "lastSeen": "2026-09-11"
         },
         {
+          "name": "afp.com",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Thousands rally in Kosovo ahead of ex-leader's war crimes verdict - afp.com",
+              "albanianTitle": "Mijëra qytetarë protestojnë në Kosovë para shpalljes së aktgjykimit për ish-krerët e UÇK-së",
+              "blurb": "Mijëra qytetarë në Kosovë kanë protestuar në prag të shpalljes së vendimit për ish-udhëheqësit e akuzuar për krime lufte.",
+              "imageUrl": "https://www.afp.com/sites/default/files/styles/afp_mea/public/afp-stories/19a3a006f29b2b93cc3e8bafeb487068-0.jpg?itok=5WHniODx",
+              "url": "https://www.afp.com/en/thousands-rally-kosovo-ahead-ex-leaders-war-crimes-verdict",
+              "date": "2026-09-12",
+              "sentiment": "neutral",
+              "reason": "Raportim faktik i protestës në Kosovë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-12",
+          "lastSeen": "2026-09-12"
+        },
+        {
           "name": "courrierdesbalkans.fr",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -365,7 +389,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 2,
+        "n": 3,
         "excluded": 1,
         "confident": false,
         "stanceVersion": 3
@@ -431,9 +455,9 @@
               "speaker": ""
             },
             {
-              "title": "Manifestazione per l'ex leader dell'Esercito Liberazione del Kosovo Hashim Thaci - ansa.it",
+              "title": "Manifestazione per l'ex leader dell'Esercito Liberazione del Kosovo Hashim Thaci - ANSA",
               "albanianTitle": "Protestë në mbështetje të ish-liderit të Ushtrisë Çlirimtare të Kosovës, Hashim Thaçi",
-              "blurb": "Qytetarët kanë organizuar një manifestim në mbështetje të ish-liderit të Ushtrisë Çlirimtare të Kosovës, Hashim Thaçi.",
+              "blurb": "Qytetarët kanë organizuar një protestë në mbështetje të ish-liderit të Ushtrisë Çlirimtare të Kosovës, Hashim Thaçi, i cili po mbahet në Hagë.",
               "imageUrl": "https://www.ansa.it/webimages/img_1280x720/2026/9/12/2094976ced22457890703653344bbe17.jpg",
               "url": "https://www.ansa.it/sito/photogallery/primopiano/2026/09/12/manifestazione-per-lex-leader-dellesercito-liberazione-del-kosovo-hashim-thaci_fa03c435-930f-4574-a6b8-2a3915e0d445.html",
               "date": "2026-09-12",
@@ -935,10 +959,10 @@
               "speaker": ""
             }
           ],
-          "totalArticles": 25,
+          "totalArticles": 27,
           "trend": "pozitiv",
           "firstSeen": "2026-09-07",
-          "lastSeen": "2026-09-11"
+          "lastSeen": "2026-09-12"
         },
         {
           "name": "Blick",
@@ -947,8 +971,8 @@
           "articles": [
             {
               "title": "Manifestation géante à Pristina pour la libération de Hashim Thaçi - Blick",
-              "albanianTitle": "Protestë masive në Prishtinë për lirimin e Hashim Thaçit - Blick",
-              "blurb": "Qytetarët në Prishtinë kanë organizuar një protestë masive për të kërkuar lirimin e ish-presidentit Hashim Thaçi nga paraburgimi.",
+              "albanianTitle": "Protestë masive në Prishtinë për lirimin e Hashim Thaçit",
+              "blurb": "Një numër i madh qytetarësh janë mbledhur në Prishtinë për të kërkuar lirimin e ish-presidentit të Kosovës, Hashim Thaçi.",
               "imageUrl": "https://images.blick.ch/1/HTik9lGaHR0cHM6Ly9vY2RuLmV1L3B1bHNjbXMvTURBXy8zZDYwYzY4MC05NjBjLTQ3ZjYtOTI0My02MzY1N2M1NDg3MzYuanBlZ5CBoTAH",
               "url": "https://www.blick.ch/fr/monde/pristina-manifestation-pour-la-liberation-de-hashim-thaci/13yvk2f",
               "date": "2026-09-12",
@@ -976,14 +1000,38 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-08-19",
           "lastSeen": "2026-09-12"
+        },
+        {
+          "name": "nzz.ch",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Vorwürfe gegen Ex-UCK-Führer – welche Rolle spielte der Kosovo-Kriegsfonds in der Schweiz? - nzz.ch",
+              "albanianTitle": "Akuzat ndaj ish-udhëheqësve të UÇK-së – çfarë roli luajti Fondi i Luftës së Kosovës në Zvicër?",
+              "blurb": "Hetimet po shqyrtojnë rolin e fondit të luftës së Kosovës në Zvicër dhe akuzat ndaj ish-udhëheqësve të UÇK-së.",
+              "imageUrl": "https://img-msp-prod.nzz.ch/2026/09/10/10e4a3e2-7750-4b6d-bdf3-8bc152e112b7.jpg?width=1200&height=675&fit=bounds&quality=75&auto=webp&crop=2000,1125,x0,y266&wmark=nzz",
+              "url": "https://www.nzz.ch/schweiz/vorwuerfe-gegen-uck-fuehrer-welche-rolle-spielte-der-kriegsfonds-in-der-schweiz-ld.10023346",
+              "date": "2026-09-12",
+              "sentiment": "neutral",
+              "reason": "Faktikisht raporton një çështje lidhur me fondin e luftës së Kosovës pa gjuhë ngarkuese",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-12",
+          "lastSeen": "2026-09-12"
         }
       ],
       "summary": {
-        "index": 65,
-        "positive": 30,
-        "neutral": 70,
+        "index": 69,
+        "positive": 38,
+        "neutral": 62,
         "negative": 0,
-        "n": 10,
+        "n": 13,
         "excluded": 9,
         "confident": true,
         "stanceVersion": 3
@@ -1035,8 +1083,8 @@
           "articles": [
             {
               "title": "Sadri vluchtte uit Kosovo, maar liet de dieren daar nooit los: ‘Voor hen is elke dag een gevecht om te overleven’ - Vriendin.nl",
-              "albanianTitle": "Sadriu iku nga Kosova, por nuk i harroi kurrë kafshët atje: ‘Për to, çdo ditë është luftë për mbijetesë’",
-              "blurb": "Sadri, i cili u largua nga Kosova, vazhdon të kujdeset për kafshët që po përballen me mbijetesën në vend.",
+              "albanianTitle": "Sadriu u largua nga Kosova, por nuk i harroi kurrë kafshët: ‘Për to, çdo ditë është luftë për mbijetesë’",
+              "blurb": "Sadri u largua nga Kosova, por vazhdon të kujdeset për kafshët që përballen me vështirësi për mbijetesë.",
               "imageUrl": "https://www.vriendin.nl/wp-content/uploads/2026/09/Ontwerp-zonder-titel-2026-09-02T161548.962.png",
               "url": "https://www.vriendin.nl/club/persoonlijk/dierenliefde/sadri-vluchtte-kosovo-dieren/",
               "date": "2026-09-12",
@@ -1086,8 +1134,8 @@
           "articles": [
             {
               "title": "Marcha en apoyo al exlíder del Ejército de Liberación de Kosovo, Hashim Thaçi - ABC",
-              "albanianTitle": "Marshim në përkrahje të ish-udhëheqësit të Ushtrisë Çlirimtare të Kosovës, Hashim Thaçi - ABC",
-              "blurb": "Në Prishtinë është mbajtur një marshim në mbështetje të ish-liderit të Ushtrisë Çlirimtare të Kosovës, Hashim Thaçi.",
+              "albanianTitle": "Marsh përkrahës për ish-liderin e Ushtrisë Çlirimtare të Kosovës, Hashim Thaçi",
+              "blurb": "Qytetarët kanë organizuar një marsh për të shprehur mbështetjen e tyre ndaj ish-liderit të Ushtrisë Çlirimtare të Kosovës.",
               "imageUrl": "https://s1.abcstatics.com/abc/www/multimedia/espana/2026/09/12/VIDEO-marcha-apoyo-exlder-ejrcito.jpg",
               "url": "https://www.abc.es/espana/marcha-apoyo-exlider-ejercito-liberacion-kosovo-hashim-20260912170937-nt.html",
               "date": "2026-09-12",
@@ -1124,8 +1172,8 @@
           "articles": [
             {
               "title": "Κόσοβο: Η ετυμηγορία για τον Θάτσι απειλεί να ανατρέψει τις πολιτικές ισορροπίες - mononews.gr",
-              "albanianTitle": "Kosova: Vendimi për Thaçin kërcënon të përmbysë ekuilibrat politikë",
-              "blurb": "Vendimi gjyqësor ndaj Hashim Thaçit mund të ndikojë në ndryshimin e ekuilibrave politikë në Kosovë.",
+              "albanianTitle": "Kosova: Aktgjykimi për Thaçin kërcënon të përmbysë ekuilibrat politikë",
+              "blurb": "Vendimi gjyqësor ndaj Hashim Thaçit mund të ndikojë në ndryshimin e ekuilibrave politikë brenda territorit të Kosovës.",
               "imageUrl": "https://www.mononews.gr/wp-content/uploads/2026/09/260912120550_chasim-thatsi.png",
               "url": "https://www.mononews.gr/bloomberg/kosovo-i-etymigoria-gia-ton-thatsi-apeilei-na-anatrepsei-tis-politikes-isorropies",
               "date": "2026-09-12",
@@ -1155,6 +1203,30 @@
     },
     "Suedi": {
       "outlets": [
+        {
+          "name": "Dagens Arbete",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Dottern dog – då utvisades familjen - Dagens Arbete",
+              "albanianTitle": "Vdiq vajza – pastaj familja u dëbua nga vendi",
+              "blurb": "Një familje është dëbuar nga shteti pas vdekjes së vajzës së tyre, sipas raportimeve të mediave suedeze për këtë rast.",
+              "imageUrl": "https://da.se/app/uploads/2026/09/Kosovo_Foto_David_Lundmark_1.jpg",
+              "url": "https://da.se/2026/09/dottern-dog-da-utvisades-familjen/",
+              "date": "2026-09-11",
+              "sentiment": "unknown",
+              "reason": "Nuk ka informacion të mjaftueshëm në titull për të përcaktuar qëndrimin ndaj Kosovës",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-12",
+          "lastSeen": "2026-09-11"
+        },
         {
           "name": "da.se",
           "sentiment": "unknown",
@@ -1186,7 +1258,7 @@
         "neutral": 0,
         "negative": 0,
         "n": 0,
-        "excluded": 1,
+        "excluded": 2,
         "confident": false,
         "stanceVersion": 3
       }
@@ -1295,12 +1367,12 @@
         {
           "name": "Haberler",
           "sentiment": "unknown",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Lahey'de yargılanan eski UÇK komutanlarına Kosova'da destek gösterisi düzenlendi - Haberler",
-              "albanianTitle": "Protestë në mbështetje të ish-krerëve të UÇK-së që po gjykohen në Hagë - Haberler",
-              "blurb": "Në Kosovë është mbajtur një protestë në mbështetje të ish-komandantëve të UÇK-së që po gjykohen në Gjykatën e Hagës.",
+              "albanianTitle": "Në Kosovë mbahet protestë në mbështetje të ish-komandantëve të UÇK-së që po gjykohen në Hagë",
+              "blurb": "Në Kosovë është mbajtur një protestë në mbështetje të ish-komandantëve të UÇK-së që po gjykohen në Hagë.",
               "imageUrl": "https://foto.haberler.com/haber/2026/09/12/lahey-de-yargilanan-eski-uck-komutanlarina-ko-20231603_amp.jpg",
               "url": "https://www.haberler.com/guncel/lahey-de-yargilanan-eski-uck-komutanlarina-kosova-20231603-haberi/",
               "date": "2026-09-12",
@@ -1309,9 +1381,22 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Kosova’da on binlerce kişi, eski Cumhurbaşkanı Thaçi ve UÇK liderlerinin serbest bırakılması için sokaklara döküldü - Haberler",
+              "albanianTitle": "Dhjetëra mijëra qytetarë në Kosovë protestuan për lirimin e ish-presidentit Thaçi dhe krerëve të UÇK-së",
+              "blurb": "Dhjetëra mijëra qytetarë në Kosovë kanë protestuar duke kërkuar lirimin e ish-presidentit Thaçi dhe udhëheqësve të tjerë të UÇK-së.",
+              "imageUrl": null,
+              "url": "https://www.haberler.com/politika/kosova-da-on-binlerce-kisi-eski-cumhurbaskani-20232252-haberi/",
+              "date": "2026-09-12",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 8,
+          "totalArticles": 9,
           "trend": "neutral",
           "firstSeen": "2026-08-20",
           "lastSeen": "2026-09-12"
@@ -1432,7 +1517,7 @@
         "neutral": 88,
         "negative": 12,
         "n": 8,
-        "excluded": 1,
+        "excluded": 2,
         "confident": true,
         "stanceVersion": 3
       }
