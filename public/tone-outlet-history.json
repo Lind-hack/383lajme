@@ -448,17 +448,18 @@
     },
     "Blick": {
       "country": "Zvicër",
-      "total": 3,
+      "total": 4,
       "positive": 0,
       "neutral": 2,
       "negative": 0,
-      "unknown": 1,
+      "unknown": 2,
       "firstSeen": "2026-08-19",
-      "lastSeen": "2026-08-22",
+      "lastSeen": "2026-09-12",
       "urls": [
         "https://www.blick.ch/schweiz/zentralschweiz/luzern/verwandte-erklaert-den-ausreisser-aufregung-im-kosovo-wegen-weissem-mercedes-aus-der-schweiz-id22192215.html",
         "https://www.blick.ch/ausland/auto-faehrt-ueber-trottoir-diese-szene-sorgt-fuer-diskussionen-id22192168.html",
-        "https://www.blick.ch/sport/fussball/international/dfb-pokal/leverkusen-locker-weiter-augsburg-mueht-sich-in-die-zweite-pokal-runde-id22202590.html"
+        "https://www.blick.ch/sport/fussball/international/dfb-pokal/leverkusen-locker-weiter-augsburg-mueht-sich-in-die-zweite-pokal-runde-id22202590.html",
+        "https://www.blick.ch/fr/monde/pristina-manifestation-pour-la-liberation-de-hashim-thaci/13yvk2f"
       ]
     },
     "zentralplus": {
@@ -1017,13 +1018,13 @@
     },
     "Haberler": {
       "country": "Turqi",
-      "total": 7,
+      "total": 8,
       "positive": 0,
       "neutral": 7,
       "negative": 0,
-      "unknown": 0,
+      "unknown": 1,
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-09-07",
+      "lastSeen": "2026-09-12",
       "urls": [
         "https://www.haberler.com/3-sayfa/kosova-da-savas-suclari-sorusturmasi-23-kisiye-ait-20159336-haberi/",
         "https://www.haberler.com/3-sayfa/kosova-da-toplu-mezarlarin-yakininda-cok-sayida-20164351-haberi/",
@@ -1031,7 +1032,8 @@
         "https://www.haberler.com/spor/20-akdeniz-oyunlari-20178750-haberi/",
         "https://www.haberler.com/spor/buyukcekmece-basketbol-yeni-sezona-kosova-da-20182746-haberi/",
         "https://www.haberler.com/guncel/kosova-da-bekim-sejdiu-nun-cumhurbaskani-20194186-haberi/",
-        "https://www.haberler.com/guncel/kosovali-askerlerin-gazze-ye-konuslandirilmasina-20215256-haberi/"
+        "https://www.haberler.com/guncel/kosovali-askerlerin-gazze-ye-konuslandirilmasina-20215256-haberi/",
+        "https://www.haberler.com/guncel/lahey-de-yargilanan-eski-uck-komutanlarina-kosova-20231603-haberi/"
       ]
     },
     "Son Dakika": {
@@ -1837,16 +1839,17 @@
     },
     "ABC": {
       "country": "Spanjë",
-      "total": 2,
+      "total": 3,
       "positive": 0,
       "neutral": 2,
       "negative": 0,
-      "unknown": 0,
+      "unknown": 1,
       "firstSeen": "2026-08-26",
-      "lastSeen": "2026-08-26",
+      "lastSeen": "2026-09-12",
       "urls": [
         "https://www.abc.es/internacional/mandatarios-macedonia-norte-kosovo-inauguran-obras-autopista-20260826152345-nt.html",
-        "https://www.abc.es/internacional/primer-ministro-macedonia-norte-recibe-homologo-kosovar-20260826152319-nt.html"
+        "https://www.abc.es/internacional/primer-ministro-macedonia-norte-recibe-homologo-kosovar-20260826152319-nt.html",
+        "https://www.abc.es/espana/marcha-apoyo-exlider-ejercito-liberacion-kosovo-hashim-20260912170937-nt.html"
       ]
     },
     "pontosnews.gr": {
@@ -3355,15 +3358,16 @@
     },
     "Puna.nl": {
       "country": "Holandë",
-      "total": 1,
+      "total": 2,
       "positive": 0,
       "neutral": 1,
       "negative": 0,
-      "unknown": 0,
+      "unknown": 1,
       "firstSeen": "2026-09-09",
-      "lastSeen": "2026-09-09",
+      "lastSeen": "2026-09-12",
       "urls": [
-        "https://www.puna.nl/news/kosso-maakt-moeilijke-beslissing-en-emigreert-met-zijn-gezin-naar-kosovo-nederland-bedankt-voor-alles"
+        "https://www.puna.nl/news/kosso-maakt-moeilijke-beslissing-en-emigreert-met-zijn-gezin-naar-kosovo-nederland-bedankt-voor-alles",
+        "https://www.puna.nl/news/kosso-koos-kosovo-boven-dubai-en-woont-nu-twee-huizen-verwijderd-van-de-president-een-soort-van-beverly-hills"
       ]
     },
     "T24": {
@@ -3599,6 +3603,32 @@
       "lastSeen": "2026-09-11",
       "urls": [
         "https://da.se/2026/09/dottern-dog-da-utvisades-familjen/"
+      ]
+    },
+    "Buch-dein-Visum.de": {
+      "country": "Gjermani",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-12",
+      "lastSeen": "2026-09-11",
+      "urls": [
+        "https://www.buch-dein-visum.de/es/news/allgemein/kosovo-aktueller-sicherheitshinweis-wegen-demonstrationen-und-angespannter-lage-im-norden-7af6d0"
+      ]
+    },
+    "france24.com": {
+      "country": "Francë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-12",
+      "lastSeen": "2026-09-12",
+      "urls": [
+        "https://www.france24.com/en/live-news/20260912-thousands-rally-in-kosovo-ahead-of-ex-leader-s-war-crimes-verdict"
       ]
     }
   }

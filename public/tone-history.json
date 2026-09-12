@@ -6724,7 +6724,7 @@
     "date": "2026-09-12",
     "overallIndex": 48,
     "totalArticles": 49,
-    "sourceCount": 35,
+    "sourceCount": 39,
     "stanceVersion": 3,
     "countries": {
       "Gjermani": {
@@ -6733,7 +6733,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 4,
-        "excluded": 1,
+        "excluded": 2,
         "confident": false,
         "stanceVersion": 3
       },
@@ -6763,7 +6763,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 2,
-        "excluded": 0,
+        "excluded": 1,
         "confident": false,
         "stanceVersion": 3
       },
@@ -6773,7 +6773,7 @@
         "neutral": 76,
         "negative": 24,
         "n": 17,
-        "excluded": 4,
+        "excluded": 5,
         "confident": true,
         "stanceVersion": 3
       },
@@ -6793,7 +6793,7 @@
         "neutral": 70,
         "negative": 0,
         "n": 10,
-        "excluded": 7,
+        "excluded": 9,
         "confident": true,
         "stanceVersion": 3
       },
@@ -6803,7 +6803,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 1,
-        "excluded": 1,
+        "excluded": 2,
         "confident": false,
         "stanceVersion": 3
       },
@@ -6823,7 +6823,7 @@
         "neutral": 0,
         "negative": 0,
         "n": 0,
-        "excluded": 0,
+        "excluded": 1,
         "confident": false,
         "stanceVersion": 3
       },
@@ -6863,7 +6863,7 @@
         "neutral": 88,
         "negative": 12,
         "n": 8,
-        "excluded": 0,
+        "excluded": 1,
         "confident": true,
         "stanceVersion": 3
       },

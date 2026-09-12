@@ -2,14 +2,38 @@
   "lastUpdated": "2026-09-12",
   "overallIndex": 48,
   "totalArticles": 49,
-  "sourceCount": 35,
+  "sourceCount": 39,
   "stanceVersion": 3,
-  "unattributed": 210,
+  "unattributed": 234,
   "nonEditorial": 2,
   "wrongKosovo": 0,
   "countries": {
     "Gjermani": {
       "outlets": [
+        {
+          "name": "Buch-dein-Visum.de",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo: aviso de seguridad, septiembre de 2026 - Buch-dein-Visum.de",
+              "albanianTitle": "Kosovë: Njoftim për siguri, shtator 2026 - Buch-dein-Visum.de",
+              "blurb": "Platforma Buch-dein-Visum ka publikuar një njoftim sigurie për udhëtarët që planifikojnë vizitë në Kosovë gjatë shtatorit 2026.",
+              "imageUrl": "https://www.buch-dein-visum.de/assets/cache/images/konig1200x630-630x630-ef9.png",
+              "url": "https://www.buch-dein-visum.de/es/news/allgemein/kosovo-aktueller-sicherheitshinweis-wegen-demonstrationen-und-angespannter-lage-im-norden-7af6d0",
+              "date": "2026-09-11",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-12",
+          "lastSeen": "2026-09-11"
+        },
         {
           "name": "Die Rheinpfalz",
           "sentiment": "neutral",
@@ -50,7 +74,7 @@
         {
           "name": "T-Online",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Botschafter irritiert: Verliert der DFB nun auch ein Bayern-Talent? - T-Online",
@@ -61,6 +85,19 @@
               "date": "2026-09-09",
               "sentiment": "neutral",
               "reason": "Faktikë raportuar pa gjuhë ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Botschafter irritiert: Verliert der DFB nun auch ein Bayern-Talent? - t-online.de",
+              "albanianTitle": "Ambasadori i shqetësuar: A po e humbet DFB-ja edhe një talent të Bayernit?",
+              "blurb": "Talenti i Bayern Munichut mund të largohet nga përfaqësuesja e Gjermanisë pas zhvillimeve të fundit rreth të ardhmes së tij.",
+              "imageUrl": "https://images.t-online.de/2026/09/T5ajlwMP5w0y/672x54:1815x1020/fit-in/1200x0/erblin-osmani-er-feierte-im-maerz-sein-profidebuet-im-spiel-gegen-union-berlin.jpg",
+              "url": "https://www.t-online.de/sport/fussball/bundesliga/fc-bayern-muenchen/id_101426574/dfb-botschafter-irritiert-mit-post-spielt-osmani-kuenftig-fuer-kosovo-.html",
+              "date": "2026-09-09",
+              "sentiment": "unknown",
+              "reason": "",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -94,30 +131,6 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-12",
           "lastSeen": "2026-09-12"
-        },
-        {
-          "name": "t-online.de",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Botschafter irritiert: Verliert der DFB nun auch ein Bayern-Talent? - t-online.de",
-              "albanianTitle": "Ambasadori i irrituar: A po e humb DFB-ja edhe një talent të Bayernit? - t-online.de",
-              "blurb": "Federata Gjermane e Futbollit rrezikon të humbasë një talent të Bayernit për shkak të zhvillimeve të fundit.",
-              "imageUrl": "https://images.t-online.de/2026/09/T5ajlwMP5w0y/672x54:1815x1020/fit-in/1200x0/erblin-osmani-er-feierte-im-maerz-sein-profidebuet-im-spiel-gegen-union-berlin.jpg",
-              "url": "https://www.t-online.de/sport/fussball/bundesliga/fc-bayern-muenchen/id_101426574/dfb-botschafter-irritiert-mit-post-spielt-osmani-kuenftig-fuer-kosovo-.html",
-              "date": "2026-09-09",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-09",
-          "lastSeen": "2026-09-09"
         }
       ],
       "summary": {
@@ -126,7 +139,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 4,
-        "excluded": 1,
+        "excluded": 2,
         "confident": false,
         "stanceVersion": 3
       }
@@ -321,6 +334,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-10",
           "lastSeen": "2026-09-10"
+        },
+        {
+          "name": "france24.com",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Thousands rally in Kosovo ahead of ex-leader's war crimes verdict - france24.com",
+              "albanianTitle": "Mijëra qytetarë protestojnë në Kosovë para shpalljes së aktgjykimit për ish-liderin",
+              "blurb": "Qytetarët në Kosovë organizojnë tubim masiv në mbështetje të ish-liderit para vendimit të gjykatës për krimet e luftës.",
+              "imageUrl": null,
+              "url": "https://www.france24.com/en/live-news/20260912-thousands-rally-in-kosovo-ahead-of-ex-leader-s-war-crimes-verdict",
+              "date": "2026-09-12",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-12",
+          "lastSeen": "2026-09-12"
         }
       ],
       "summary": {
@@ -329,7 +366,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 2,
-        "excluded": 0,
+        "excluded": 1,
         "confident": false,
         "stanceVersion": 3
       }
@@ -339,7 +376,7 @@
         {
           "name": "ANSA",
           "sentiment": "neutral",
-          "articleCount": 5,
+          "articleCount": 6,
           "articles": [
             {
               "title": "Allargamento Ue e pluralismo, a Trieste l'informazione dei Balcani - ANSA",
@@ -394,12 +431,25 @@
               "speaker": ""
             },
             {
-              "title": "Manifestazione per l'ex leader dell'Esercito Liberazione del Kosovo Hashim Thaci - ANSA",
+              "title": "Manifestazione per l'ex leader dell'Esercito Liberazione del Kosovo Hashim Thaci - ansa.it",
               "albanianTitle": "Protestë në mbështetje të ish-liderit të Ushtrisë Çlirimtare të Kosovës, Hashim Thaçi",
-              "blurb": "Në Prishtinë është mbajtur një protestë në mbështetje të ish-liderit të Ushtrisë Çlirimtare të Kosovës, Hashim Thaçi, përballë procesit gjyqësor.",
+              "blurb": "Qytetarët kanë organizuar një manifestim në mbështetje të ish-liderit të Ushtrisë Çlirimtare të Kosovës, Hashim Thaçi.",
               "imageUrl": "https://www.ansa.it/webimages/img_1280x720/2026/9/12/2094976ced22457890703653344bbe17.jpg",
               "url": "https://www.ansa.it/sito/photogallery/primopiano/2026/09/12/manifestazione-per-lex-leader-dellesercito-liberazione-del-kosovo-hashim-thaci_fa03c435-930f-4574-a6b8-2a3915e0d445.html",
               "date": "2026-09-12",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Allargamento Ue e pluralismo, a Trieste l'informazione dei Balcani - ansa.it",
+              "albanianTitle": "Zgjerimi i BE-së dhe pluralizmi, në Trieste diskutohet për mediat në Ballkan",
+              "blurb": "Në Trieste diskutohet për zgjerimin e Bashkimit Evropian dhe rolin e pluralizmit në mediat e rajonit të Ballkanit.",
+              "imageUrl": "https://www.ansa.it/webimages/img_1280x720/2026/9/9/da9f5a1235f3bd81c1c41cf2603942ff.jpg",
+              "url": "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/09/09/allargamento-ue-e-pluralismo-a-trieste-linformazione-dei-balcani_5d3f66d8-7acb-4c4d-bf15-d3ed8d0b274d.html",
+              "date": "2026-09-09",
               "sentiment": "unknown",
               "reason": "",
               "isQuote": false,
@@ -563,8 +613,8 @@
           "articles": [
             {
               "title": "Rrahmani, stop polemico alla nazionale: «Niente Kosovo finché resterà questa Federazione» - Il Mattino",
-              "albanianTitle": "Rrahmani, lamtumirë polemike kombëtares: S’do të luaj për Kosovën përderisa është kjo Federatë",
-              "blurb": "Amir Rrahmani ka vendosur të largohet nga kombëtarja e Kosovës për shkak të pakënaqësive me udhëheqjen e federatës.",
+              "albanianTitle": "Rrahmani, largim polemik nga kombëtarja: S’ka më Kosovë përderisa është kjo Federatë",
+              "blurb": "Amir Rrahmani ka ndërprerë angazhimin me kombëtaren e Kosovës për shkak të pakënaqësive ndaj udhëheqjes së federatës.",
               "imageUrl": "https://statics.cedscdn.it/photos/MED_HIGH/2026/09/11/9757879_11214824_rrahmani.jpg",
               "url": "https://www.ilmattino.it/sport/calcio/rrahmani_stop_polemico_nazionale_niente_kosovo_finche_restera_federazione-9757879.html",
               "date": "2026-09-11",
@@ -611,8 +661,8 @@
           "articles": [
             {
               "title": "CLAMOROSO RRAHMANI, ADDIO AL KOSOVO: “NON FARÒ PIÙ PARTE DELLA NAZIONALE” - NapoliCalcioNews.it",
-              "albanianTitle": "Rrahmani trondit me vendimin: I them lamtumirë Kosovës, nuk do të jem më pjesë e kombëtares",
-              "blurb": "Mbrojtësi Amir Rrahmani ka konfirmuar largimin përfundimtar nga ekipi kombëtar i Kosovës pas deklaratave të fundit publike.",
+              "albanianTitle": "Lajm bombastik: Amir Rrahmani i thotë lamtumirë Kosovës – “Nuk do të jem më pjesë e Kombëtares”",
+              "blurb": "Futbollisti Amir Rrahmani ka njoftuar vendimin e tij për të mos qenë më pjesë e Kombëtares së Kosovës.",
               "imageUrl": "https://www.napolicalcionews.it/public/news/639247624281100491_Rrahmani_Napoli15.jpg",
               "url": "https://www.napolicalcionews.it/news-calcio-napoli/Clamoroso-Rrahmani--addio-al-Kosovo--%E2%80%9CNon-faro-piu-parte-della-Nazionale%E2%80%9D-150113.aspx",
               "date": "2026-09-12",
@@ -781,7 +831,7 @@
         "neutral": 76,
         "negative": 24,
         "n": 17,
-        "excluded": 4,
+        "excluded": 5,
         "confident": true,
         "stanceVersion": 3
       }
@@ -889,6 +939,43 @@
           "trend": "pozitiv",
           "firstSeen": "2026-09-07",
           "lastSeen": "2026-09-11"
+        },
+        {
+          "name": "Blick",
+          "sentiment": "unknown",
+          "articleCount": 2,
+          "articles": [
+            {
+              "title": "Manifestation géante à Pristina pour la libération de Hashim Thaçi - Blick",
+              "albanianTitle": "Protestë masive në Prishtinë për lirimin e Hashim Thaçit - Blick",
+              "blurb": "Qytetarët në Prishtinë kanë organizuar një protestë masive për të kërkuar lirimin e ish-presidentit Hashim Thaçi nga paraburgimi.",
+              "imageUrl": "https://images.blick.ch/1/HTik9lGaHR0cHM6Ly9vY2RuLmV1L3B1bHNjbXMvTURBXy8zZDYwYzY4MC05NjBjLTQ3ZjYtOTI0My02MzY1N2M1NDg3MzYuanBlZ5CBoTAH",
+              "url": "https://www.blick.ch/fr/monde/pristina-manifestation-pour-la-liberation-de-hashim-thaci/13yvk2f",
+              "date": "2026-09-12",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Manifestation géante à Pristina pour la libération de Hashim Thaçi - blick.ch",
+              "albanianTitle": "Protestë masive në Prishtinë për lirimin e Hashim Thaçit - blick.ch",
+              "blurb": "Një protestë e madhe është mbajtur në Prishtinë për të kërkuar lirimin e ish-presidentit të Kosovës, Hashim Thaçi.",
+              "imageUrl": "https://images.blick.ch/1/HTik9lGaHR0cHM6Ly9vY2RuLmV1L3B1bHNjbXMvTURBXy8zZDYwYzY4MC05NjBjLTQ3ZjYtOTI0My02MzY1N2M1NDg3MzYuanBlZ5CBoTAH",
+              "url": "https://www.blick.ch/fr/monde/pristina-manifestation-pour-la-liberation-de-hashim-thaci/13yvk2f",
+              "date": "2026-09-12",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 4,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-19",
+          "lastSeen": "2026-09-12"
         }
       ],
       "summary": {
@@ -897,7 +984,7 @@
         "neutral": 70,
         "negative": 0,
         "n": 10,
-        "excluded": 7,
+        "excluded": 9,
         "confident": true,
         "stanceVersion": 3
       }
@@ -907,7 +994,7 @@
         {
           "name": "Puna.nl",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Kosso maakt moeilijke beslissing en emigreert met zijn gezin naar Kosovo: \"Nederland, bedankt voor alles\" - Puna.nl",
@@ -921,12 +1008,25 @@
               "isQuote": true,
               "evidence": "",
               "speaker": "Kosso"
+            },
+            {
+              "title": "Kosso koos Kosovo boven Dubai en woont nu twee huizen verwijderd van de president: \"Een soort van Beverly Hills\" - Puna.nl",
+              "albanianTitle": "Kosso e zgjodhi Kosovën para Dubait dhe tani jeton dy shtëpi larg presidentit: \"Një lloj Beverly Hillsi\" - Puna.nl",
+              "blurb": "Reperi Kosso ka zgjedhur të jetojë në Kosovë në vend të Dubait, duke u vendosur pranë rezidencës së presidentit.",
+              "imageUrl": null,
+              "url": "https://www.puna.nl/news/kosso-koos-kosovo-boven-dubai-en-woont-nu-twee-huizen-verwijderd-van-de-president-een-soort-van-beverly-hills",
+              "date": "2026-09-12",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 1,
+          "totalArticles": 2,
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-09",
-          "lastSeen": "2026-09-09"
+          "lastSeen": "2026-09-12"
         },
         {
           "name": "Vriendin.nl",
@@ -935,8 +1035,8 @@
           "articles": [
             {
               "title": "Sadri vluchtte uit Kosovo, maar liet de dieren daar nooit los: ‘Voor hen is elke dag een gevecht om te overleven’ - Vriendin.nl",
-              "albanianTitle": "Sadri u largua nga Kosova, por kurrë nuk i harroi kafshët atje: ‘Për to, çdo ditë është një luftë për mbijetesë’ - Vriendin.nl",
-              "blurb": "Sadri u largua nga Kosova, por vazhdon të kujdeset për kafshët që ndodhen në vendlindjen e tij.",
+              "albanianTitle": "Sadriu iku nga Kosova, por nuk i harroi kurrë kafshët atje: ‘Për to, çdo ditë është luftë për mbijetesë’",
+              "blurb": "Sadri, i cili u largua nga Kosova, vazhdon të kujdeset për kafshët që po përballen me mbijetesën në vend.",
               "imageUrl": "https://www.vriendin.nl/wp-content/uploads/2026/09/Ontwerp-zonder-titel-2026-09-02T161548.962.png",
               "url": "https://www.vriendin.nl/club/persoonlijk/dierenliefde/sadri-vluchtte-kosovo-dieren/",
               "date": "2026-09-12",
@@ -959,7 +1059,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 1,
-        "excluded": 1,
+        "excluded": 2,
         "confident": false,
         "stanceVersion": 3
       }
@@ -978,14 +1078,39 @@
       }
     },
     "Spanjë": {
-      "outlets": [],
+      "outlets": [
+        {
+          "name": "ABC",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Marcha en apoyo al exlíder del Ejército de Liberación de Kosovo, Hashim Thaçi - ABC",
+              "albanianTitle": "Marshim në përkrahje të ish-udhëheqësit të Ushtrisë Çlirimtare të Kosovës, Hashim Thaçi - ABC",
+              "blurb": "Në Prishtinë është mbajtur një marshim në mbështetje të ish-liderit të Ushtrisë Çlirimtare të Kosovës, Hashim Thaçi.",
+              "imageUrl": "https://s1.abcstatics.com/abc/www/multimedia/espana/2026/09/12/VIDEO-marcha-apoyo-exlder-ejrcito.jpg",
+              "url": "https://www.abc.es/espana/marcha-apoyo-exlider-ejercito-liberacion-kosovo-hashim-20260912170937-nt.html",
+              "date": "2026-09-12",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 3,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-26",
+          "lastSeen": "2026-09-12"
+        }
+      ],
       "summary": {
         "index": null,
         "positive": 0,
         "neutral": 0,
         "negative": 0,
         "n": 0,
-        "excluded": 0,
+        "excluded": 1,
         "confident": false,
         "stanceVersion": 3
       }
@@ -999,8 +1124,8 @@
           "articles": [
             {
               "title": "Κόσοβο: Η ετυμηγορία για τον Θάτσι απειλεί να ανατρέψει τις πολιτικές ισορροπίες - mononews.gr",
-              "albanianTitle": "Kosovë: Vendimi për Thaçin kërcënon të përmbysë ekuilibrat politikë - mononews.gr",
-              "blurb": "Vendimi gjyqësor për Hashim Thaçin mund të ndikojë në ndryshimin e ekuilibrave politikë brenda shtetit të Kosovës.",
+              "albanianTitle": "Kosova: Vendimi për Thaçin kërcënon të përmbysë ekuilibrat politikë",
+              "blurb": "Vendimi gjyqësor ndaj Hashim Thaçit mund të ndikojë në ndryshimin e ekuilibrave politikë në Kosovë.",
               "imageUrl": "https://www.mononews.gr/wp-content/uploads/2026/09/260912120550_chasim-thatsi.png",
               "url": "https://www.mononews.gr/bloomberg/kosovo-i-etymigoria-gia-ton-thatsi-apeilei-na-anatrepsei-tis-politikes-isorropies",
               "date": "2026-09-12",
@@ -1037,8 +1162,8 @@
           "articles": [
             {
               "title": "Dottern dog – då utvisades familjen - da.se",
-              "albanianTitle": "Vajza u nda nga jeta – familja dëbohet nga vendi",
-              "blurb": "Një familje është dëbuar nga shteti pas vdekjes së vajzës së tyre, duke shkaktuar reagime lidhur me rastin e tyre.",
+              "albanianTitle": "Vdiq e bija – pastaj familja u dëbua nga vendi",
+              "blurb": "Një familje është dëbuar nga vendi pas vdekjes së vajzës së tyre, sipas raportimeve të fundit mediatike.",
               "imageUrl": "https://da.se/app/uploads/2026/09/Kosovo_Foto_David_Lundmark_1.jpg",
               "url": "https://da.se/2026/09/dottern-dog-da-utvisades-familjen/",
               "date": "2026-09-11",
@@ -1168,6 +1293,30 @@
           "lastSeen": "2026-09-11"
         },
         {
+          "name": "Haberler",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Lahey'de yargılanan eski UÇK komutanlarına Kosova'da destek gösterisi düzenlendi - Haberler",
+              "albanianTitle": "Protestë në mbështetje të ish-krerëve të UÇK-së që po gjykohen në Hagë - Haberler",
+              "blurb": "Në Kosovë është mbajtur një protestë në mbështetje të ish-komandantëve të UÇK-së që po gjykohen në Gjykatën e Hagës.",
+              "imageUrl": "https://foto.haberler.com/haber/2026/09/12/lahey-de-yargilanan-eski-uck-komutanlarina-ko-20231603_amp.jpg",
+              "url": "https://www.haberler.com/guncel/lahey-de-yargilanan-eski-uck-komutanlarina-kosova-20231603-haberi/",
+              "date": "2026-09-12",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 8,
+          "trend": "neutral",
+          "firstSeen": "2026-08-20",
+          "lastSeen": "2026-09-12"
+        },
+        {
           "name": "Pusu Haber",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1283,7 +1432,7 @@
         "neutral": 88,
         "negative": 12,
         "n": 8,
-        "excluded": 0,
+        "excluded": 1,
         "confident": true,
         "stanceVersion": 3
       }
