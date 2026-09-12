@@ -2095,17 +2095,18 @@
     },
     "Bloomberg": {
       "country": "SHBA",
-      "total": 3,
+      "total": 4,
       "positive": 1,
       "neutral": 2,
       "negative": 0,
-      "unknown": 0,
+      "unknown": 1,
       "firstSeen": "2026-08-28",
-      "lastSeen": "2026-08-31",
+      "lastSeen": "2026-09-12",
       "urls": [
         "https://www.bloomberg.com/news/articles/2026-08-27/dua-lipa-puts-kosovo-on-the-music-map-with-sunny-hill-festival",
         "https://www.bloomberg.com/news/newsletters/2026-08-28/dua-lipa-wants-the-world-to-come-to-kosovo",
-        "https://www.bloomberg.com/news/articles/2026-08-31/kosovo-leaders-agree-on-president-pick-after-months-of-deadlock"
+        "https://www.bloomberg.com/news/articles/2026-08-31/kosovo-leaders-agree-on-president-pick-after-months-of-deadlock",
+        "https://www.bloomberg.com/news/articles/2026-09-12/kosovo-counts-down-to-war-crimes-trial-of-former-president-seen-as-hero"
       ]
     },
     "rferl.org": {
@@ -3081,13 +3082,13 @@
     },
     "Albinfo": {
       "country": "Zvicër",
-      "total": 19,
+      "total": 24,
       "positive": 6,
       "neutral": 13,
       "negative": 0,
-      "unknown": 0,
+      "unknown": 5,
       "firstSeen": "2026-09-07",
-      "lastSeen": "2026-09-10",
+      "lastSeen": "2026-09-11",
       "urls": [
         "https://www.albinfo.ch/fr/tre-pilote-nga-kosova-ne-top-10-te-botes-ne-paragllajdizem/",
         "https://www.albinfo.ch/fr/kosove-efta-marreveshja-e-tregtise-se-lire-hyn-ne-fuqi-me-1-tetor/",
@@ -3107,7 +3108,12 @@
         "https://www.albinfo.ch/fr/dy-motra-nga-kosova-nje-histori-suksesi-nderkombetar-ne-fushen-e-inxhinierise-ne-gjermani/",
         "https://www.albinfo.ch/fr/adrian-simnica-perfaqeson-rinine-shqiptare-ne-parlamentin-evropian/",
         "https://www.albinfo.ch/de/xhudistet-e-kosoves-rikthehen-ne-garat-e-medha-synojne-medalje-ne-budapest/",
-        "https://www.albinfo.ch/de/kino-kosova-nje-festival-qe-hap-perspektiva-te-reja/"
+        "https://www.albinfo.ch/de/kino-kosova-nje-festival-qe-hap-perspektiva-te-reja/",
+        "https://www.albinfo.ch/de/perfundon-parku-i-eres-ne-zatriq-kosoves-i-shtohen-70-mw-energji-te-paster/",
+        "https://www.albinfo.ch/fr/kapiteni-rrahmani-terhiqet-nga-perfaqesuesja-e-kosoves/",
+        "https://www.albinfo.ch/fr/perfundon-parku-i-eres-ne-zatriq-kosoves-i-shtohen-70-mw-energji-te-paster/",
+        "https://www.albinfo.ch/de/ganimet-shala-pjese-e-delegacionit-evropian-qe-monitoron-zgjedhjet-ne-suedi/",
+        "https://www.albinfo.ch/de/kapiteni-rrahmani-terhiqet-nga-perfaqesuesja-e-kosoves/"
       ]
     },
     "iAxia -": {
@@ -3513,6 +3519,71 @@
       "lastSeen": "2026-09-11",
       "urls": [
         "https://www.napolicalcionews.it/news-calcio-napoli/Clamoroso-Rrahmani--addio-al-Kosovo--%E2%80%9CNon-faro-piu-parte-della-Nazionale%E2%80%9D-150113.aspx"
+      ]
+    },
+    "t-online.de": {
+      "country": "Gjermani",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-09",
+      "lastSeen": "2026-09-09",
+      "urls": [
+        "https://www.t-online.de/sport/fussball/bundesliga/fc-bayern-muenchen/id_101426574/dfb-botschafter-irritiert-mit-post-spielt-osmani-kuenftig-fuer-kosovo-.html"
+      ]
+    },
+    "neunzigplus.de": {
+      "country": "Gjermani",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-12",
+      "lastSeen": "2026-09-12",
+      "urls": [
+        "https://neunzigplus.de/fussball-news/beben-im-kosovo-kapitaen-amir-rrahmani-tritt-nach-verbands-eklat-zurueck/"
+      ]
+    },
+    "Napolicalcionews.it": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-11",
+      "lastSeen": "2026-09-12",
+      "urls": [
+        "https://www.napolicalcionews.it/news-calcio-napoli/Clamoroso-Rrahmani--addio-al-Kosovo--%E2%80%9CNon-faro-piu-parte-della-Nazionale%E2%80%9D-150113.aspx"
+      ]
+    },
+    "Vriendin.nl": {
+      "country": "Holandë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-12",
+      "lastSeen": "2026-09-12",
+      "urls": [
+        "https://www.vriendin.nl/club/persoonlijk/dierenliefde/sadri-vluchtte-kosovo-dieren/"
+      ]
+    },
+    "mononews.gr": {
+      "country": "Greqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-12",
+      "lastSeen": "2026-09-12",
+      "urls": [
+        "https://www.mononews.gr/bloomberg/kosovo-i-etymigoria-gia-ton-thatsi-apeilei-na-anatrepsei-tis-politikes-isorropies"
       ]
     }
   }

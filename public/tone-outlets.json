@@ -1,10 +1,10 @@
 {
-  "lastUpdated": "2026-09-11",
-  "overallIndex": 50,
-  "totalArticles": 62,
-  "sourceCount": 35,
+  "lastUpdated": "2026-09-12",
+  "overallIndex": 48,
+  "totalArticles": 49,
+  "sourceCount": 34,
   "stanceVersion": 3,
-  "unattributed": 232,
+  "unattributed": 193,
   "nonEditorial": 2,
   "wrongKosovo": 0,
   "countries": {
@@ -50,7 +50,7 @@
         {
           "name": "T-Online",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 1,
           "articles": [
             {
               "title": "Botschafter irritiert: Verliert der DFB nun auch ein Bayern-Talent? - T-Online",
@@ -64,16 +64,51 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
-            },
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-09",
+          "lastSeen": "2026-09-09"
+        },
+        {
+          "name": "neunzigplus.de",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Beben im Kosovo: Kapitän Amir Rrahmani tritt nach Verbands-Eklat zurück - neunzigplus.de",
+              "albanianTitle": "Tërmet në Kosovë: Kapiteni Amir Rrahmani largohet nga kombëtarja pas skandalit me Federatën",
+              "blurb": "Kapiteni Amir Rrahmani është larguar nga përfaqësuesja e Kosovës pas përplasjeve të ndodhura brenda Federatës së Futbollit.",
+              "imageUrl": "https://neunzigplus.de/wp-content/uploads/2024/02/us-sassuolo-v-ssc-napoli-serie-a-tim-2.jpg",
+              "url": "https://neunzigplus.de/fussball-news/beben-im-kosovo-kapitaen-amir-rrahmani-tritt-nach-verbands-eklat-zurueck/",
+              "date": "2026-09-12",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike pa gjuhë ngarkuese",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-12",
+          "lastSeen": "2026-09-12"
+        },
+        {
+          "name": "t-online.de",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
             {
               "title": "Botschafter irritiert: Verliert der DFB nun auch ein Bayern-Talent? - t-online.de",
               "albanianTitle": "Ambasadori i irrituar: A po e humb DFB-ja edhe një talent të Bayernit? - t-online.de",
-              "blurb": "Federata Gjermane e Futbollit rrezikon të humbasë një talent të Bayernit, i cili po shqyrton mundësinë e përfaqësimit të Kosovës.",
+              "blurb": "Federata Gjermane e Futbollit rrezikon të humbasë një talent të Bayernit për shkak të zhvillimeve të fundit.",
               "imageUrl": "https://images.t-online.de/2026/09/T5ajlwMP5w0y/672x54:1815x1020/fit-in/1200x0/erblin-osmani-er-feierte-im-maerz-sein-profidebuet-im-spiel-gegen-union-berlin.jpg",
               "url": "https://www.t-online.de/sport/fussball/bundesliga/fc-bayern-muenchen/id_101426574/dfb-botschafter-irritiert-mit-post-spielt-osmani-kuenftig-fuer-kosovo-.html",
               "date": "2026-09-09",
               "sentiment": "unknown",
-              "reason": "No mention of Kosovo in the provided text",
+              "reason": "",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -83,30 +118,6 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-09",
           "lastSeen": "2026-09-09"
-        },
-        {
-          "name": "fussballdaten.de",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosovo verkündet schon seinen Wechsel – Bayern-Talent lässt Entscheidung offen - fussballdaten.de",
-              "albanianTitle": "Kosova shpall ndryshimin, talenti i Bayernit ende nuk ka marrë vendim",
-              "blurb": "Federata e Futbollit të Kosovës njofton për ndërrimin e përfaqësueses, ndërsa talenti i Bayernit ende nuk ka vendosur.",
-              "imageUrl": null,
-              "url": "https://www.fussballdaten.de/news/kosovo-verkuendet-schon-seinen-wechsel-bayern-talent-laesst/",
-              "date": "2026-09-08",
-              "sentiment": "neutral",
-              "reason": "Faktik, pa gjuhë ngarkuar",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-08",
-          "lastSeen": "2026-09-08"
         }
       ],
       "summary": {
@@ -121,14 +132,39 @@
       }
     },
     "SHBA": {
-      "outlets": [],
+      "outlets": [
+        {
+          "name": "Bloomberg",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo Counts Down to War Crimes Trial of Former President Seen as Hero - Bloomberg.com",
+              "albanianTitle": "Kosova në prag të gjykimit për krime lufte ndaj ish-presidentit që shihet si hero",
+              "blurb": "Kosova po përgatitet për fillimin e gjykimit për krime lufte ndaj ish-presidentit të vendit, i konsideruar si hero.",
+              "imageUrl": null,
+              "url": "https://www.bloomberg.com/news/articles/2026-09-12/kosovo-counts-down-to-war-crimes-trial-of-former-president-seen-as-hero",
+              "date": "2026-09-12",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 4,
+          "trend": "i përzier",
+          "firstSeen": "2026-08-28",
+          "lastSeen": "2026-09-12"
+        }
+      ],
       "summary": {
         "index": null,
         "positive": 0,
         "neutral": 0,
         "negative": 0,
         "n": 0,
-        "excluded": 0,
+        "excluded": 1,
         "confident": false,
         "stanceVersion": 3
       }
@@ -140,19 +176,6 @@
           "sentiment": "neutral",
           "articleCount": 6,
           "articles": [
-            {
-              "title": "Kosovo Parliament to Reconvene, ‘Chaos’ Looms over Election of President - Balkan Insight",
-              "albanianTitle": "Kuvendi i Kosovës mblidhet sërish, paralajmërohet 'kaos' për zgjedhjen e presidentit - Balkan Insight",
-              "blurb": "Kuvendi i Kosovës mblidhet për të vazhduar punimet, ndërsa pritet situatë e tensionuar gjatë procesit të zgjedhjes së presidentit.",
-              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/09/Kosovo-parliament-2-e1788869718812.jpg",
-              "url": "https://balkaninsight.com/2026/09/08/kosovo-parliament-to-reconvene-chaos-looms-over-election-of-president/bi/",
-              "date": "2026-09-08",
-              "sentiment": "negative",
-              "reason": "Outlet frames Kosovo's political situation as chaotic",
-              "isQuote": false,
-              "evidence": "Chaos",
-              "speaker": ""
-            },
             {
               "title": "After Delays and Controversies, End in Sight For Thaci’s Kosovo War Crimes Trial - Balkan Insight",
               "albanianTitle": "Pas vonesave dhe polemikave, po i vjen fundi gjykimit për krime lufte ndaj Thaçit",
@@ -206,15 +229,28 @@
               "speaker": ""
             },
             {
-              "title": "Kosovo Parliament to Reconvene, ‘Chaos’ Looms over Election of President - balkaninsight.com",
-              "albanianTitle": "Kuvendi i Kosovës mblidhet sërish, frikë nga 'kaosi' për zgjedhjen e presidentit - balkaninsight.com",
-              "blurb": "Parlamenti i Kosovës pritet të mblidhet për zgjedhjen e presidentit, ndërsa ekzistojnë paralajmërime për situatë të tensionuar.",
-              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/09/Kosovo-parliament-2-e1788869718812.jpg",
-              "url": "https://balkaninsight.com/2026/09/08/kosovo-parliament-to-reconvene-chaos-looms-over-election-of-president/bi/",
-              "date": "2026-09-08",
+              "title": "Kosovo Ex-President Thaci’s Defence Seeks Acquittal in Obstruction of Justice Trial - balkaninsight.com",
+              "albanianTitle": "Mbrojtja e ish-presidentit Thaçi kërkon pafajësi në gjykimin për pengim të drejtësisë - balkaninsight.com",
+              "blurb": "Mbrojtja e ish-presidentit të Kosovës, Hashim Thaçi, ka kërkuar lirimin nga akuzat në gjykimin për pengim të drejtësisë në Hagë.",
+              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/09/Untitled-1-1536x864-1.jpg",
+              "url": "https://balkaninsight.com/2026/09/11/kosovo-ex-president-thacis-defence-seeks-acquittal-in-obstruction-of-justice-trial/btj/",
+              "date": "2026-09-11",
               "sentiment": "neutral",
-              "reason": "The term 'Chaos' is quoted, not outlet's own language",
-              "isQuote": true,
+              "reason": "Factual report of a trial without loaded language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Kosovo Parliament Hit by Fresh Dispute Over Deputy Speakers - Balkan Insight",
+              "albanianTitle": "Parlamenti i Kosovës përfshihet nga një përplasje e re për nënkryetarët",
+              "blurb": "Kuvendi i Kosovës është përfshirë në një mosmarrëveshje të re lidhur me procesin e zgjedhjes së nënkryetarëve të këtij institucioni.",
+              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/09/Kosovo-parliament-September-11-2026-BIRN-e1789136878366.jpg",
+              "url": "https://balkaninsight.com/2026/09/11/kosovo-parliament-hit-by-fresh-dispute-over-deputy-speakers/bi/",
+              "date": "2026-09-11",
+              "sentiment": "neutral",
+              "reason": "Titulli përshkruan një mosmarrëveshje pa gjuhë ngacmuese",
+              "isQuote": false,
               "evidence": "",
               "speaker": ""
             }
@@ -226,11 +262,11 @@
         }
       ],
       "summary": {
-        "index": 44,
+        "index": 50,
         "positive": 0,
-        "neutral": 88,
-        "negative": 12,
-        "n": 8,
+        "neutral": 100,
+        "negative": 0,
+        "n": 6,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
@@ -303,34 +339,8 @@
         {
           "name": "ANSA",
           "sentiment": "neutral",
-          "articleCount": 6,
+          "articleCount": 4,
           "articles": [
-            {
-              "title": "Accelerare l'integrazione dei Balcani per il futuro dell'Ue, forum a Trieste - ansa.it",
-              "albanianTitle": "Përshpejtimi i integrimit të Ballkanit për të ardhmen e BE-së, diskutohet në forumin e Triestes",
-              "blurb": "Forumi i mbajtur në Trieste diskuton përshpejtimin e integrimit të vendeve të Ballkanit në Bashkimin Evropian.",
-              "imageUrl": "https://www.ansa.it/webimages/img_1280x720/2026/9/8/96724cc9c5be573846c2e4243c3aa35b.jpg",
-              "url": "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/09/08/accelerare-lintegrazione-dei-balcani-per-il-futuro-dellue-forum-a-trieste_6069c0ef-27e1-4bf2-b6c8-4b8ebcc0f985.html",
-              "date": "2026-09-08",
-              "sentiment": "neutral",
-              "reason": "Raportim neutral për forum integrimi të Ballkanit",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Dal Mas (Ince), se non si accelera l'allargamento i Balcani vanno altrove - ANSA",
-              "albanianTitle": "Dal Mas (Ince): Nëse nuk përshpejtohet zgjerimi, Ballkani do të orientohet diku tjetër",
-              "blurb": "Përfaqësuesi i Ince, Dal Mas, paralajmëron se vonesat në zgjerimin e Bashkimit Evropian po i largojnë vendet e Ballkanit.",
-              "imageUrl": "https://www.ansa.it/webimages/img_1280x720/2026/9/8/ac603c1022a9f082a811619f4213937c.jpg",
-              "url": "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/09/08/dal-mas-ince-se-non-si-accelera-lallargamento-i-balcani-vanno-altrove_387874fe-f0c9-46ca-bf6d-aece6b329298.html",
-              "date": "2026-09-08",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportuar në mënyrë neutrale",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "Allargamento Ue e pluralismo, a Trieste l'informazione dei Balcani - ANSA",
               "albanianTitle": "Zgjerimi i BE-së dhe pluralizmi, në Trieste diskutohet për mediat në Ballkan - ANSA",
@@ -462,30 +472,6 @@
           "lastSeen": "2026-09-09"
         },
         {
-          "name": "Corriere della Sera",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "L'ambasciatrice del Kosovo in Italia: «Mladic e quel passato che non passa» - Corriere della Sera",
-              "albanianTitle": "Ambasadorja e Kosovës në Itali: Mladiqi dhe e kaluara që nuk po kalon - Corriere della Sera",
-              "blurb": "Ambasadorja e Kosovës në Itali flet për figurën e Mlladiqit dhe ndikimin e së kaluarës në marrëdhëniet aktuale rajonale.",
-              "imageUrl": "https://dimages2.corriereobjects.it/files/image_1200_900/files/fp/uploads/2026/09/08/6aa0035993a78.r_d.622-749-11594.jpeg",
-              "url": "https://www.corriere.it/esteri/26_settembre_08/ambasciatrice-kosovo-italia-1e35fc84-6ab4-4a98-98e7-587952d31xlk.shtml",
-              "date": "2026-09-08",
-              "sentiment": "neutral",
-              "reason": "Quote from Kosovo ambassador, not outlet's own stance",
-              "isQuote": true,
-              "evidence": "",
-              "speaker": "ambasciatrice del Kosovo in Italia"
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-08",
-          "lastSeen": "2026-09-08"
-        },
-        {
           "name": "Corriere dello Sport",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -564,8 +550,8 @@
           "articles": [
             {
               "title": "Rrahmani, stop polemico alla nazionale: «Niente Kosovo finché resterà questa Federazione» - Il Mattino",
-              "albanianTitle": "Rrahmani i jep fund aventurës me kombëtaren: S'do të luaj për Kosovën përderisa kjo Federatë është në krye - Il Mattino",
-              "blurb": "Amir Rrahmani ka njoftuar largimin nga kombëtarja e Kosovës për shkak të pakënaqësive me udhëheqjen aktuale të Federatës së Futbollit.",
+              "albanianTitle": "Rrahmani, ndërprerje polemike me kombëtaren: «S'ka më Kosovë përderisa kjo Federatë mbetet në krye» - Il Mattino",
+              "blurb": "Amir Rrahmani ka njoftuar largimin nga kombëtarja e Kosovës për shkak të pakënaqësive me udhëheqjen e Federatës.",
               "imageUrl": "https://statics.cedscdn.it/photos/MED_HIGH/2026/09/11/9757879_11214824_rrahmani.jpg",
               "url": "https://www.ilmattino.it/sport/calcio/rrahmani_stop_polemico_nazionale_niente_kosovo_finche_restera_federazione-9757879.html",
               "date": "2026-09-11",
@@ -580,30 +566,6 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-11",
           "lastSeen": "2026-09-11"
-        },
-        {
-          "name": "Il Messaggero",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Roma-Prishtina, il Kosovo è più vicino: al via il volo diretto tra le due capitali - Il Messaggero",
-              "albanianTitle": "Romë-Prishtinë, Kosova më afër: nis fluturimi direkt mes dy kryeqyteteve - Il Messaggero",
-              "blurb": "Vendoset linja e re e fluturimit direkt që lidh kryeqytetin e Italisë, Romën, me kryeqytetin e Kosovës, Prishtinën.",
-              "imageUrl": "https://statics.cedscdn.it/photos/MED_HIGH/2026/09/08/9751050_08153724_prishtina_nga_katedrala_1.jpg",
-              "url": "https://www.ilmessaggero.it/viaggi/mondo/volo_roma_prishtina_kosovo_prezzi_compagnie_aeree-9751050.html",
-              "date": "2026-09-08",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportim për fluturim të ri, pa gjuhë ngarkuar",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-08",
-          "lastSeen": "2026-09-08"
         },
         {
           "name": "Messaggero Veneto",
@@ -630,17 +592,17 @@
           "lastSeen": "2026-09-11"
         },
         {
-          "name": "NapoliCalcioNews.it",
+          "name": "Napolicalcionews.it",
           "sentiment": "unknown",
           "articleCount": 1,
           "articles": [
             {
-              "title": "CLAMOROSO RRAHMANI, ADDIO AL KOSOVO: “NON FARÒ PIÙ PARTE DELLA NAZIONALE” - NapoliCalcioNews.it",
-              "albanianTitle": "Rrahmani trondit opinionin, lamtumirë Kosovës: Nuk do të jem më pjesë e kombëtares - NapoliCalcioNews.it",
-              "blurb": "Futbollisti Amir Rrahmani ka vendosur të mos jetë më pjesë e përfaqësueses së Kosovës në futboll pas deklaratës së tij.",
+              "title": "CLAMOROSO RRAHMANI, ADDIO AL KOSOVO: “NON FARÒ PIÙ PARTE DELLA NAZIONALE” - Napolicalcionews.it",
+              "albanianTitle": "Rrahmani trondit opinionin, lamtumirë Kosovës: “Nuk do të jem më pjesë e kombëtares” - Napolicalcionews.it",
+              "blurb": "Futbollisti Amir Rrahmani ka deklaruar zyrtarisht se nuk do të jetë më pjesë e përfaqësueses së Kosovës.",
               "imageUrl": "https://www.napolicalcionews.it/public/news/639247624281100491_Rrahmani_Napoli15.jpg",
               "url": "https://www.napolicalcionews.it/news-calcio-napoli/Clamoroso-Rrahmani--addio-al-Kosovo--%E2%80%9CNon-faro-piu-parte-della-Nazionale%E2%80%9D-150113.aspx",
-              "date": "2026-09-11",
+              "date": "2026-09-12",
               "sentiment": "unknown",
               "reason": "",
               "isQuote": false,
@@ -651,7 +613,7 @@
           "totalArticles": 1,
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-11",
-          "lastSeen": "2026-09-11"
+          "lastSeen": "2026-09-12"
         },
         {
           "name": "Osservatorio Balcani Caucaso Transeuropa",
@@ -689,30 +651,6 @@
           "trend": "kritik",
           "firstSeen": "2026-08-19",
           "lastSeen": "2026-09-10"
-        },
-        {
-          "name": "Soroptimist International d'Italia",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Italia e Kosovo unite nel nome del Soroptimist - Soroptimist International d'Italia",
-              "albanianTitle": "Italia dhe Kosova të bashkuara në emër të Soroptimist",
-              "blurb": "Organizata Soroptimist International po zhvillon aktivitete të përbashkëta për të forcuar bashkëpunimin ndërmjet Italisë dhe Kosovës në fusha të ndryshme.",
-              "imageUrl": null,
-              "url": "https://www.soroptimist.it/it/attivita/attivita-nazionali/italia-e-kosovo-unite-nel-nome-del-soroptimist-60812/",
-              "date": "2026-09-08",
-              "sentiment": "neutral",
-              "reason": "Factually reports cooperation without loaded language",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-09",
-          "lastSeen": "2026-09-08"
         },
         {
           "name": "Telefriuli",
@@ -825,73 +763,24 @@
         }
       ],
       "summary": {
-        "index": 41,
+        "index": 38,
         "positive": 0,
-        "neutral": 82,
-        "negative": 18,
-        "n": 22,
+        "neutral": 76,
+        "negative": 24,
+        "n": 17,
         "excluded": 3,
         "confident": true,
         "stanceVersion": 3
       }
     },
     "Austri": {
-      "outlets": [
-        {
-          "name": "LAOLA1",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Vor ÖFB-Duell: Schnappt sich Foda ein DFB-Juwel der Bayern? - LAOLA1",
-              "albanianTitle": "Para duelit me Austrinë: A po ia rrëmben Foda një talent të Bayernit Gjermanisë?",
-              "blurb": "Trajneri Franco Foda po synon të bindë një talent të Bayern Munichut që të luajë për përfaqësuesen e Kosovës.",
-              "imageUrl": "https://www.laola1.at/storage/files/01/a0/38/24-94c8-7215-af12-7a0332bbedeb.1280x720.jpg?v=1",
-              "url": "https://www.laola1.at/de/red/fussball/nations-league/news/vor-oefb-duell--schnappt-sich-foda-ein-dfb-juwel-der-bayern-/",
-              "date": "2026-09-08",
-              "sentiment": "neutral",
-              "reason": "Neutral factual reporting, no hostile or supportive language toward Kosovo",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 2,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-25",
-          "lastSeen": "2026-09-08"
-        },
-        {
-          "name": "laola1.at",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Vor ÖFB-Duell: Schnappt sich Foda ein DFB-Juwel der Bayern? - laola1.at",
-              "albanianTitle": "Para duelit me Austrinë: A do t'ia rrëmbejë Foda Bayernit një talent të futbollit gjerman?",
-              "blurb": "Trajneri Franco Foda po shqyrton mundësinë e angazhimit të një talenti të Bayernit për përfaqësuesen e futbollit të Austrisë.",
-              "imageUrl": "https://www.laola1.at/storage/files/01/a0/38/24-94c8-7215-af12-7a0332bbedeb.1280x720.jpg?v=1",
-              "url": "https://www.laola1.at/de/red/fussball/nations-league/news/vor-oefb-duell--schnappt-sich-foda-ein-dfb-juwel-der-bayern-/",
-              "date": "2026-09-08",
-              "sentiment": "neutral",
-              "reason": "Titulli është faktik, pa gjuhë ngarkuese",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-09",
-          "lastSeen": "2026-09-08"
-        }
-      ],
+      "outlets": [],
       "summary": {
-        "index": 50,
+        "index": null,
         "positive": 0,
-        "neutral": 100,
+        "neutral": 0,
         "negative": 0,
-        "n": 2,
+        "n": 0,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -904,58 +793,6 @@
           "sentiment": "neutral",
           "articleCount": 6,
           "articles": [
-            {
-              "title": "Konjufca: Die kosovarische Diaspora stärkt die Beziehungen zwischen Kosovo und der Schweiz - Albinfo",
-              "albanianTitle": "Konjufca: Diaspora kosovare po forcon marrëdhëniet mes Kosovës dhe Zvicrës",
-              "blurb": "Kryetari i Kuvendit, Glauk Konjufca, vlerëson rolin e diasporës kosovare në forcimin e marrëdhënieve ndërmjet Kosovës dhe Zvicrës.",
-              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/733184-sbrkpauqmc.jpeg",
-              "url": "https://www.albinfo.ch/de/konjufca-diaspora-kosovare-forcon-lidhjet-mes-kosoves-dhe-zvicres/",
-              "date": "2026-09-08",
-              "sentiment": "neutral",
-              "reason": "Headline reports a statement without loaded language",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Vom Kosovo zur Nationalgarde der USA, die Erfolgsgeschichte von Rona Mala - Albinfo",
-              "albanianTitle": "Nga Kosova në Gardën Kombëtare të SHBA-së, historia e suksesit e Rona Malës",
-              "blurb": "Rona Mala ka arritur sukses profesional duke u bërë pjesë e Gardës Kombëtare të Shteteve të Bashkuara të Amerikës.",
-              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/img_2880.jpeg",
-              "url": "https://www.albinfo.ch/de/nga-kosova-ne-garden-kombetare-te-shba-se-rrefimi-i-suksesit-te-rona-males/",
-              "date": "2026-09-08",
-              "sentiment": "positive",
-              "reason": "Outlet uses a positive adjective to describe a Kosovo-born individual's achievement",
-              "isQuote": false,
-              "evidence": "Erfolgsgeschichte",
-              "speaker": ""
-            },
-            {
-              "title": "Du Kosovo à la Garde nationale des États-Unis, le parcours de réussite de Rona Mala - Albinfo",
-              "albanianTitle": "Nga Kosova në Gardën Kombëtare të SHBA-së, rrugëtimi i suksesshëm i Rona Malës",
-              "blurb": "Rona Mala ka ndërtuar një karrierë të suksesshme duke u bërë pjesë e Gardës Kombëtare të Shteteve të Bashkuara.",
-              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/img_2880.jpeg",
-              "url": "https://www.albinfo.ch/fr/nga-kosova-ne-garden-kombetare-te-shba-se-rrefimi-i-suksesit-te-rona-males/",
-              "date": "2026-09-08",
-              "sentiment": "positive",
-              "reason": "Gjuha e outlet-it e lavdëron Kosovën përmes një suksesi",
-              "isQuote": false,
-              "evidence": "parcours de réussite",
-              "speaker": ""
-            },
-            {
-              "title": "Konjufca: la diaspora kosovare renforce les liens entre le Kosovo et la Suisse - Albinfo",
-              "albanianTitle": "Konjufca: Diaspora kosovare forcon lidhjet mes Kosovës dhe Zvicrës",
-              "blurb": "Kryetari i Kuvendit, Glauk Konjufca, vlerësoi rolin e diasporës kosovare në forcimin e lidhjeve ndërmjet Kosovës dhe Zvicrës.",
-              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/733184-sbrkpauqmc.jpeg",
-              "url": "https://www.albinfo.ch/fr/konjufca-diaspora-kosovare-forcon-lidhjet-mes-kosoves-dhe-zvicres/",
-              "date": "2026-09-08",
-              "sentiment": "positive",
-              "reason": "Outlet uses positive language praising Kosovo's diaspora ties",
-              "isQuote": false,
-              "evidence": "renforce les liens",
-              "speaker": ""
-            },
             {
               "title": "“Die Neutralitätsinitiative gefährdet den Schweizer Einsatz im Kosovo” - Albinfo",
               "albanianTitle": "Iniciativa për neutralitet rrezikon angazhimin e Zvicrës në Kosovë",
@@ -981,31 +818,75 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "\"Wo sind sie alle?\" – Das Kino Kosova Film Festival kehrt mit seiner siebten Ausgabe nach Bern zurück - albinfo.ch",
+              "albanianTitle": "“Ku janë të gjithë?” – Festivali i Filmit Kosova kthehet në Bernë me edicionin e shtatë - albinfo.ch",
+              "blurb": "Festivali i filmit Kosova Film Festival rikthehet në Bernë të Zvicrës me edicionin e tij të shtatë radhazi.",
+              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/img_2911.jpeg",
+              "url": "https://www.albinfo.ch/de/ku-jane-te-gjithe-kino-kosova-film-festival-rikthehet-me-edicionin-e-shtate-ne-berne/",
+              "date": "2026-09-09",
+              "sentiment": "neutral",
+              "reason": "Simple announcement of film festival return, no evaluative language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Zwei Schwestern aus dem Kosovo, eine internationale Erfolgsgeschichte im Ingenieurwesen in Deutschland - Albinfo",
+              "albanianTitle": "Dy motra nga Kosova, një histori suksesi ndërkombëtar në inxhinieri në Gjermani - Albinfo",
+              "blurb": "Dy motra nga Kosova kanë arritur sukses ndërkombëtar në fushën e inxhinierisë në shtetin e Gjermanisë.",
+              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/img_2943.png",
+              "url": "https://www.albinfo.ch/de/dy-motra-nga-kosova-nje-histori-suksesi-nderkombetar-ne-fushen-e-inxhinierise-ne-gjermani/",
+              "date": "2026-09-10",
+              "sentiment": "positive",
+              "reason": "Outlet uses praising language describing Kosovars as an international success story",
+              "isQuote": false,
+              "evidence": "internationale Erfolgsgeschichte",
+              "speaker": ""
+            },
+            {
+              "title": "Adrian Simnica vertritt die albanische Jugend im Europäischen Parlament - Albinfo",
+              "albanianTitle": "Adrian Simnica përfaqëson rininë shqiptare në Parlamentin Evropian - Albinfo",
+              "blurb": "Adrian Simnica përfaqëson rininë shqiptare në Parlamentin Evropian përmes angazhimit të tij në këtë institucion të rëndësishëm.",
+              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/img_2942.jpeg",
+              "url": "https://www.albinfo.ch/de/adrian-simnica-perfaqeson-rinine-shqiptare-ne-parlamentin-evropian/",
+              "date": "2026-09-10",
+              "sentiment": "neutral",
+              "reason": "Straightforward factual report without loaded language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Les judokas du Kosovo font leur retour dans les grandes compétitions et visent des médailles à Budapest - Albinfo",
+              "albanianTitle": "Xhudistët e Kosovës rikthehen në garat e mëdha dhe synojnë medalje në Budapest - Albinfo",
+              "blurb": "Xhudistët e Kosovës rikthehen në garat e mëdha ndërkombëtare me synimin për të fituar medalje në Budapest.",
+              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2024/09/driton-kuka-distria-krasniqi.jpg",
+              "url": "https://www.albinfo.ch/fr/xhudistet-e-kosoves-rikthehen-ne-garat-e-medha-synojne-medalje-ne-budapest/",
+              "date": "2026-09-10",
+              "sentiment": "neutral",
+              "reason": "Sports news reported factually, no overtly warm language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 19,
+          "totalArticles": 24,
           "trend": "pozitiv",
           "firstSeen": "2026-09-07",
-          "lastSeen": "2026-09-10"
+          "lastSeen": "2026-09-11"
         }
       ],
       "summary": {
-        "index": 71,
-        "positive": 43,
-        "neutral": 57,
+        "index": 65,
+        "positive": 30,
+        "neutral": 70,
         "negative": 0,
-        "n": 14,
-        "excluded": 0,
+        "n": 10,
+        "excluded": 5,
         "confident": true,
-        "stanceVersion": 3,
-        "movement": {
-          "delta": 5,
-          "from": 66,
-          "outlet": "Albinfo",
-          "title": "Dy motra nga Kosova, një histori suksesi ndërkombëtar në inxhinieri në Gjermani - Albinfo",
-          "evidence": "internationale Erfolgsgeschichte",
-          "url": "https://www.albinfo.ch/de/dy-motra-nga-kosova-nje-histori-suksesi-nderkombetar-ne-fushen-e-inxhinierise-ne-gjermani/"
-        }
+        "stanceVersion": 3
       }
     },
     "Holandë": {
@@ -1033,6 +914,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-09",
           "lastSeen": "2026-09-09"
+        },
+        {
+          "name": "Vriendin.nl",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Sadri vluchtte uit Kosovo, maar liet de dieren daar nooit los: ‘Voor hen is elke dag een gevecht om te overleven’ - Vriendin.nl",
+              "albanianTitle": "Sadriu u largua nga Kosova, por nuk i harroi kurrë kafshët: Për to, çdo ditë është luftë për mbijetesë",
+              "blurb": "Sadri u largua nga Kosova, por vazhdon të kujdeset për kafshët që përballen me vështirësi për mbijetesë.",
+              "imageUrl": "https://www.vriendin.nl/wp-content/uploads/2026/09/Ontwerp-zonder-titel-2026-09-02T161548.962.png",
+              "url": "https://www.vriendin.nl/club/persoonlijk/dierenliefde/sadri-vluchtte-kosovo-dieren/",
+              "date": "2026-09-12",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-12",
+          "lastSeen": "2026-09-12"
         }
       ],
       "summary": {
@@ -1041,7 +946,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 1,
-        "excluded": 0,
+        "excluded": 1,
         "confident": false,
         "stanceVersion": 3
       }
@@ -1073,14 +978,39 @@
       }
     },
     "Greqi": {
-      "outlets": [],
+      "outlets": [
+        {
+          "name": "mononews.gr",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Κόσοβο: Η ετυμηγορία για τον Θάτσι απειλεί να ανατρέψει τις πολιτικές ισορροπίες - mononews.gr",
+              "albanianTitle": "Kosova: Vendimi për Thaçin kërcënon të përmbysë ekuilibrat politikë",
+              "blurb": "Vendimi gjyqësor për Hashim Thaçin mund të shkaktojë ndryshime në balancat politike brenda shtetit të Kosovës.",
+              "imageUrl": "https://www.mononews.gr/wp-content/uploads/2026/09/260912120550_chasim-thatsi.png",
+              "url": "https://www.mononews.gr/bloomberg/kosovo-i-etymigoria-gia-ton-thatsi-apeilei-na-anatrepsei-tis-politikes-isorropies",
+              "date": "2026-09-12",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-12",
+          "lastSeen": "2026-09-12"
+        }
+      ],
       "summary": {
         "index": null,
         "positive": 0,
         "neutral": 0,
         "negative": 0,
         "n": 0,
-        "excluded": 0,
+        "excluded": 1,
         "confident": false,
         "stanceVersion": 3
       }

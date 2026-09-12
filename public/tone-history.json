@@ -6719,5 +6719,214 @@
         "sentiment": "negative"
       }
     ]
+  },
+  {
+    "date": "2026-09-12",
+    "overallIndex": 48,
+    "totalArticles": 49,
+    "sourceCount": 34,
+    "stanceVersion": 3,
+    "countries": {
+      "Gjermani": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 4,
+        "excluded": 1,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "SHBA": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 1,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Britani": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 6,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 3
+      },
+      "Francë": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 2,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Itali": {
+        "index": 38,
+        "positive": 0,
+        "neutral": 76,
+        "negative": 24,
+        "n": 17,
+        "excluded": 3,
+        "confident": true,
+        "stanceVersion": 3
+      },
+      "Austri": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Zvicër": {
+        "index": 65,
+        "positive": 30,
+        "neutral": 70,
+        "negative": 0,
+        "n": 10,
+        "excluded": 5,
+        "confident": true,
+        "stanceVersion": 3
+      },
+      "Holandë": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 1,
+        "excluded": 1,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Belgjikë": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Spanjë": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Greqi": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 1,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Suedi": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Poloni": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 1,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Turqi": {
+        "index": 44,
+        "positive": 0,
+        "neutral": 88,
+        "negative": 12,
+        "n": 8,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 3
+      },
+      "Kroaci": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      }
+    },
+    "headlines": [
+      {
+        "title": "Zwei Schwestern aus dem Kosovo, eine internationale Erfolgsgeschichte im Ingenieurwesen in Deutschland - Albinfo",
+        "source": "Albinfo",
+        "country": "Gjermani",
+        "flag": "🇩🇪",
+        "url": "https://www.albinfo.ch/de/dy-motra-nga-kosova-nje-histori-suksesi-nderkombetar-ne-fushen-e-inxhinierise-ne-gjermani/",
+        "sentiment": "positive"
+      },
+      {
+        "title": "DJ Ahmet domine les nominations pour les Adriatic Film and TV Awards - Cineuropa",
+        "source": "Cineuropa",
+        "country": "Francë",
+        "flag": "🇫🇷",
+        "url": "https://cineuropa.org/fr/newsdetail/495125",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Kosovos Judokas kehren auf die große Wettkampfbühne zurück und peilen Medaillen in Budapest an - Albinfo",
+        "source": "Albinfo",
+        "country": "Zvicër",
+        "flag": "🇨🇭",
+        "url": "https://www.albinfo.ch/de/xhudistet-e-kosoves-rikthehen-ne-garat-e-medha-synojne-medalje-ne-budapest/",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Eine Reaktion auf die Kosovo-Pleite ist gefordert - brudiland.li",
+        "source": "brudiland.li",
+        "country": "Gjermani",
+        "flag": "🇩🇪",
+        "url": "https://brudiland.li/eine-reaktion-auf-die-kosovo-pleite-ist-gefordert/",
+        "sentiment": "negative"
+      },
+      {
+        "title": "Kosovo needed international law to survive. Now it's helping Israel bypass it in Gaza - Middle East Eye",
+        "source": "Middle East Eye",
+        "country": "SHBA",
+        "flag": "🇺🇸",
+        "url": "https://www.middleeasteye.net/news/kosovo-once-needed-international-law-survive-now-its-helping-israel-bypass-it-gaza",
+        "sentiment": "negative"
+      },
+      {
+        "title": "Kosovo, politics at a dead end - Osservatorio Balcani Caucaso Transeuropa",
+        "source": "Osservatorio Balcani Caucaso Transeuropa",
+        "country": "Britani",
+        "flag": "🇬🇧",
+        "url": "https://www.balcanicaucaso.org/en/cp_article/kosovo-la-politica-in-un-vicolo-cieco/",
+        "sentiment": "negative"
+      }
+    ]
   }
 ]
