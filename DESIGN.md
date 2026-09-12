@@ -159,6 +159,14 @@ Two elevation systems coexist by design, and DESIGN.md treats that as intentiona
 - **Don't** give glass panels a hover-lift on touch devices; the `(hover: hover) and (pointer: fine)` gate exists because a fake hover state that never resolves reads as a stuck/broken button on mobile.
 - **Don't** introduce solid, opaque glass at rest. If a panel needs guaranteed-opaque content (a modal, a confirmation), that's a signal it should not be `.tregu-glass` at all — reach for the site's flat `.card` instead.
 
+### Competition treatments — the one sanctioned exception
+
+Champions League cards (`.tregu-native-market[data-competition="uefa.champions"]`) deliberately break three rules above: they carry a third accent colour, they run an ambient sweep inside `.tregu-market`, and they are dark on a cream floor. This is a *competition* treatment, not a category one, and it is scoped to a single `[data-competition]` block appended at the tail of `globals.css`.
+
+It is allowed because the competition's own identity is the point — a Champions League night is a recognised visual object, and a market on that competition borrows its authority the way a broadcast graphic does. The Two-Color Market Rule still holds inside the card: yes/no stay green and red, retuned for a dark substrate (`#2BE39A` / `#FF6B7A`, because `#E41E20` scores only 3.8:1 on navy and fails).
+
+**A competition treatment has to earn its way in.** Before adding another: it applies to a competition, never a category; it re-scopes `--tg-*` tokens on the card rather than overriding selectors one by one; every text colour is re-checked against the new substrate, including the team-colour path, which `contrastSafeTeamColor()` drives *darker* on the assumption of a cream card; and the ambient layer ships a designed static fallback for `prefers-reduced-motion`, never just `animation: none`.
+
 # Visit — Kosovo in Your Pocket
 
 The rules below apply only to `app/visit`, its homepage preview, and its visitor navigation entry. They extend 383 without changing the Tregu system above; Tregu glass and market semantics must not leak into Visit. The approved visual reference is `C:\Users\PC1\.codex\attachments\02f19901-29a6-4944-bd3c-f65c32765d79\image-1.png`.

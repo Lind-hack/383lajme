@@ -47,6 +47,14 @@ function closeLabel(iso?: string) {
   return `Mbyllet ${Math.max(1, Math.floor(ms / 60_000))}m`;
 }
 
+// Competitions that get the full night treatment: navy substrate, a drifting
+// blue/violet glow and a photographic stadium anchored to the bottom edge. The
+// look itself lives in [data-competition] rules in globals.css, so adding a
+// competition here plus a colour block there is the whole job.
+const NIGHT_ART: Record<string, string> = {
+  "uefa.champions": "/images/tregu/ucl-stadium-night-v1.webp",
+};
+
 export default function StructuredSportMarketCard({ market }: { market: StructuredSportMarket }) {
   const outcomes = market.sport_outcomes ?? [];
   const probabilities = market.outcome_probabilities ?? {};
@@ -58,6 +66,7 @@ export default function StructuredSportMarketCard({ market }: { market: Structur
     points: toExactSeries(market.outcome_history?.[outcome.key]),
   }));
   const league = market.live_event?.league ?? null;
+  const nightArt = league ? NIGHT_ART[league] ?? null : null;
   const closing = closeLabel(market.closes_at);
 
   return (
@@ -67,6 +76,36 @@ export default function StructuredSportMarketCard({ market }: { market: Structur
       data-native-sport-market
       data-outcomes={outcomes.length}
     >
+      {nightArt && (
+        <>
+          {/* Four bodies at different sizes and rates so it reads as smoke
+              rather than as ellipses. Painted BEFORE the stadium: the smoke
+              must not bury the building. */}
+          <span className="tregu-night-glow" aria-hidden>
+            <i />
+            <i />
+            <i />
+            <i />
+          </span>
+          {/* In front of the smoke so it stays legible. It still belongs to the
+              card rather than sitting on it, because `mix-blend-mode: screen`
+              keeps its dark areas transparent -- the smoke reads straight
+              through the building, and only the lit dome and arcs come
+              forward. Plain <img> like the F1 car art, so next/image's wrapper
+              <span> never lands in the z-index rules for direct children. */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            className="tregu-night-stadium"
+            src={nightArt}
+            alt=""
+            aria-hidden
+            loading="lazy"
+            decoding="async"
+            width={1000}
+            height={265}
+          />
+        </>
+      )}
       <CompetitionArt league={league} />
       <div className="tregu-market-top">
         <span className="tregu-native-brand">

@@ -15158,3 +15158,435 @@ header[data-overlay="true"] .nav-search-btn[style*="margin-right"] {
 @media(prefers-reduced-motion:reduce){.tregu-skeleton:after{animation:none;transform:none;opacity:.25}}
 
 .tregu-native-market[data-competition] .tregu-competition-art{max-height:110px;opacity:.28}.tregu-native-market .tregu-market-open{opacity:1;visibility:visible;transform:none}
+
+/* ==========================================================================
+   UCL night -- Champions League market card
+   --------------------------------------------------------------------------
+   Appended at the tail deliberately. Every declaration this block has to beat
+   lives earlier in the file (12517 hover glare, 12976 chart "sport" tone,
+   15155 competition theme, 15158 competition art, 1552 reduced-transparency)
+   and every selector here is equal-or-higher specificity, so source order
+   decides. Do not fold these into the minified line at 15155.
+
+   A deliberate, competition-scoped exception to DESIGN.md's "no third accent
+   colour on a market card" and "no shine-sweep inside .tregu-market". See
+   DESIGN.md.
+   ========================================================================== */
+
+/* Registered so they interpolate, and inheriting so ::before picks them up
+   from the card -- one animation drives both the rim and the outer glow. */
+@property --ucl-edge-1 {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #1b5cff;
+}
+
+@property --ucl-edge-2 {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #8e20e8;
+}
+
+/* --- Substrate -----------------------------------------------------------
+   The top stop is #081950 on purpose: it is the exact navy the trade
+   celebration already uses (15156), so the card and the buy confirmation read
+   as one material. .tregu-glass's backdrop blur behind a now-opaque card is
+   pure GPU cost with nothing to sample, so it is reclaimed here and spent on
+   the glow instead. */
+.tregu-native-market[data-competition="uefa.champions"] {
+  --competition-color: #7FA6FF;
+
+  /* Re-scoping the shared tokens on the card fixes .tregu-market-close,
+     .tregu-market-foot (whose border-top was an ink-alpha darkening, i.e.
+     invisible on navy), .tregu-market-open and the chart in one move rather
+     than chasing each selector. --tg-no had to change: #E41E20 scores 3.8:1
+     on this substrate and fails. */
+  --tg-text: #F2F5FF;
+  --tg-muted: #9FB6E8;
+  --tg-border: rgba(150, 180, 255, .18);
+  --tg-border-hi: rgba(150, 180, 255, .34);
+  --tg-panel: rgba(8, 25, 72, .66);
+  --tg-yes: #2BE39A;
+  --tg-yes-dim: rgba(43, 227, 154, .16);
+  --tg-no: #FF6B7A;
+  --tg-no-dim: rgba(255, 107, 122, .16);
+
+  color: var(--tg-text);
+  background:
+    radial-gradient(120% 62% at 50% 118%, #0B2A72 0%, rgba(11, 42, 114, 0) 62%),
+    linear-gradient(178deg, #081950 0%, #061539 52%, #05123F 100%);
+  border-color: rgba(120, 155, 255, .26);
+  /* The edge glow. Two coloured shadows share the rim's animated colours, and
+     the violet one is pushed further down and blurred wider than the blue --
+     so the card is lit more from below, as if the stadium at its foot were
+     spilling light past the edge. Not a symmetrical halo, on purpose. */
+  box-shadow:
+    0 4px 22px -6px color-mix(in srgb, var(--ucl-edge-1) 62%, transparent),
+    0 20px 46px -12px color-mix(in srgb, var(--ucl-edge-2) 58%, transparent),
+    0 2px 14px rgba(3, 10, 38, .46),
+    inset 0 1px 0 rgba(160, 190, 255, .10);
+  /* tregu-rise is .tregu-glass's entrance; keep it and add the colour cycle.
+     The global reduced-motion guard at 993 kills both, which parks the rim and
+     glow on the initial blue/violet -- a designed still state. */
+  animation: tregu-rise 420ms var(--ease-out) both, tregu-night-edge 17s ease-in-out infinite;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+
+  /* Dedicated room under the footer for the stadium. Without it the dome sits
+     behind the footer text and reads as texture rather than a building. */
+  padding-bottom: 66px;
+}
+
+/* The line-art stadium draws the same subject in the same slot as the photo.
+   Two overlapping stadiums is mud. CSS-only, so CompetitionArt keeps working
+   on the detail page and in the trade celebration. */
+.tregu-native-market[data-competition="uefa.champions"] .tregu-competition-art {
+  display: none;
+}
+
+.tregu-native-market[data-competition="uefa.champions"] .tregu-native-title { color: var(--tg-text); }
+.tregu-native-market[data-competition="uefa.champions"] .tregu-native-brand { color: var(--tg-muted); }
+.tregu-native-market[data-competition="uefa.champions"] .tregu-market-open { color: #00D4FC; }
+
+/* A gradient hairline reads better than a flat rule on a card whose bottom
+   edge glows. */
+.tregu-native-market[data-competition="uefa.champions"] .tregu-market-foot {
+  border-top: 0;
+  padding-top: 11px;
+  background-image: linear-gradient(90deg, transparent, rgba(160, 190, 255, .26) 18%, rgba(160, 190, 255, .26) 82%, transparent);
+  background-size: 100% 1px;
+  background-repeat: no-repeat;
+  background-position: 0 0;
+}
+
+/* --- Ambient light ------------------------------------------------------
+   Four soft washes -- two blue, two violet -- drifting inside the card.
+
+   NOT `mix-blend-mode: screen`. Screen is 1-(1-a)(1-b), i.e. additive, so
+   stacked screen layers converge on white by construction: over this navy the
+   four washes ran 8,25,80 -> 31,119,235 -> 59,184,254 -> 145,197,255 ->
+   188,206,255 wherever they all overlapped. That was the white, and no amount
+   of darkening the individual colours could have fixed it. Plain alpha
+   compositing instead: an overlap blends blue INTO violet and stays in-hue,
+   and the result is exactly what the values say it is.
+
+   Colours are deliberately vivid and deep against a near-black navy -- the
+   contrast comes from the substrate staying dark, not from the light going
+   pale.
+
+   Why four and not two: two ellipses read as two ellipses. Smoke reads as
+   smoke because several soft bodies at different sizes overlap and slide past
+   each other at different rates, so the eye never resolves an edge it can name.
+
+   Periods are primes (13s / 17s / 19s / 23s) -- coprime, so the set only
+   repeats after ~26 hours. Every card runs the same phase, by request.
+
+   Two things matter structurally here, and both were wrong in v1:
+
+   1. NO `contain: paint`. Paint containment forms a stacking context, which
+      would isolate these layers from the card behind them. Keep `layout style`.
+   2. The wrapper is rendered BEFORE the stadium and sits at a lower z-index,
+      so the building always paints in front of the smoke.
+
+   Transform and opacity only -- each wash rasterizes once and the compositor
+   moves it thereafter. No blur filter: the gradients are already soft, and
+   blurring a layer that also scales forces a re-raster every frame. */
+.tregu-native-market .tregu-night-glow {
+  position: absolute;
+  inset: -22%;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  contain: layout style;
+}
+
+.tregu-night-glow > i {
+  position: absolute;
+  display: block;
+  border-radius: 50%;
+  transform-origin: 50% 50%;
+  will-change: transform, opacity;
+}
+
+/* Blue, large, upper-left. */
+.tregu-night-glow > i:nth-child(1) {
+  top: -4%;
+  left: -10%;
+  width: 80%;
+  aspect-ratio: 1.5;
+  background: radial-gradient(closest-side ellipse, rgba(27, 92, 255, .82) 0%, rgba(16, 58, 198, .52) 36%, rgba(10, 34, 128, .22) 66%, transparent 100%);
+  animation: tregu-night-smoke-a 13s ease-in-out infinite;
+}
+
+/* Blue, smaller and faster, upper-right -- gives the blue body an internal
+   edge that moves independently of its own mass. */
+.tregu-night-glow > i:nth-child(2) {
+  top: 4%;
+  left: 38%;
+  width: 60%;
+  aspect-ratio: 1.15;
+  background: radial-gradient(closest-side ellipse, rgba(40, 116, 255, .70) 0%, rgba(20, 66, 210, .44) 38%, rgba(10, 36, 134, .18) 70%, transparent 100%);
+  animation: tregu-night-smoke-b 17s ease-in-out infinite;
+}
+
+/* Violet, large, lower-right. */
+.tregu-night-glow > i:nth-child(3) {
+  top: 30%;
+  left: 18%;
+  width: 92%;
+  aspect-ratio: 1.3;
+  background: radial-gradient(closest-side ellipse, rgba(142, 32, 232, .82) 0%, rgba(96, 20, 164, .52) 36%, rgba(58, 12, 102, .22) 66%, transparent 100%);
+  animation: tregu-night-smoke-c 19s ease-in-out infinite;
+}
+
+/* Violet, smaller, lower-left. */
+.tregu-night-glow > i:nth-child(4) {
+  top: 44%;
+  left: -14%;
+  width: 68%;
+  aspect-ratio: 1.2;
+  background: radial-gradient(closest-side ellipse, rgba(126, 28, 212, .70) 0%, rgba(84, 18, 146, .44) 38%, rgba(50, 10, 92, .18) 70%, transparent 100%);
+  animation: tregu-night-smoke-d 23s ease-in-out infinite;
+}
+
+/* Wide travel so the movement is obvious at a glance, and a big scale range so
+   each body visibly swells and thins. Keyframe stops sit at uneven intervals
+   so no layer paces like a metronome. */
+@keyframes tregu-night-smoke-a {
+  0% { transform: translate3d(-30%, -18%, 0) rotate(-20deg) scale(.94); opacity: .82; }
+  27% { transform: translate3d(22%, 18%, 0) rotate(12deg) scale(1.3); opacity: 1; }
+  53% { transform: translate3d(46%, -12%, 0) rotate(30deg) scale(1.02); opacity: .9; }
+  76% { transform: translate3d(4%, 26%, 0) rotate(-10deg) scale(1.34); opacity: 1; }
+  100% { transform: translate3d(-30%, -18%, 0) rotate(-20deg) scale(.94); opacity: .82; }
+}
+
+@keyframes tregu-night-smoke-b {
+  0% { transform: translate3d(24%, 14%, 0) rotate(14deg) scale(1.18); opacity: .72; }
+  31% { transform: translate3d(-30%, 28%, 0) rotate(-20deg) scale(.9); opacity: .98; }
+  58% { transform: translate3d(10%, -20%, 0) rotate(26deg) scale(1.32); opacity: .82; }
+  84% { transform: translate3d(34%, 16%, 0) rotate(-8deg) scale(1); opacity: .96; }
+  100% { transform: translate3d(24%, 14%, 0) rotate(14deg) scale(1.18); opacity: .72; }
+}
+
+@keyframes tregu-night-smoke-c {
+  0% { transform: translate3d(18%, 14%, 0) rotate(16deg) scale(1.08); opacity: .9; }
+  29% { transform: translate3d(-28%, -18%, 0) rotate(-24deg) scale(.92); opacity: 1; }
+  56% { transform: translate3d(-48%, 12%, 0) rotate(8deg) scale(1.3); opacity: .94; }
+  82% { transform: translate3d(-6%, -22%, 0) rotate(32deg) scale(1.04); opacity: 1; }
+  100% { transform: translate3d(18%, 14%, 0) rotate(16deg) scale(1.08); opacity: .9; }
+}
+
+@keyframes tregu-night-smoke-d {
+  0% { transform: translate3d(-18%, 10%, 0) rotate(-12deg) scale(1); opacity: .76; }
+  33% { transform: translate3d(28%, -20%, 0) rotate(22deg) scale(1.3); opacity: .98; }
+  61% { transform: translate3d(50%, 16%, 0) rotate(-6deg) scale(.96); opacity: .86; }
+  88% { transform: translate3d(6%, 28%, 0) rotate(28deg) scale(1.26); opacity: 1; }
+  100% { transform: translate3d(-18%, 10%, 0) rotate(-12deg) scale(1); opacity: .76; }
+}
+
+/* --- Stadium -------------------------------------------------------------
+   Above the smoke, and opaque enough to stay that way.
+
+   Two earlier versions buried it. First `mix-blend-mode: screen`, which over
+   bright smoke saturates the light dome to white and erases its detail; then,
+   with the blend gone, a long top fade still let the washes read straight
+   through the upper half of the building. So: no blend, full opacity, an
+   explicit z-index above the glow, and a short top fade -- just enough to hide
+   the crop line, not enough to make the roof translucent.
+
+   What keeps it part of the card rather than a sticker: the saturate/hue-rotate
+   grade pulls the photograph's neutral concrete toward the card's own blue, and
+   the side masks dissolve both ends into the navy. */
+.tregu-native-market .tregu-night-stadium {
+  position: absolute;
+  right: auto;
+  bottom: 0;
+  left: 50%;
+  z-index: 1;
+  /* Wider than the card and centred: the dome has to read as a stadium, not a
+     texture, so it is allowed to bleed past both edges where the horizontal
+     mask dissolves it. The global img{max-width:100%} reset would clamp this. */
+  width: 116%;
+  max-width: none;
+  transform: translateX(-50%);
+  height: auto;
+  max-height: 210px;
+  object-fit: contain;
+  object-position: center bottom;
+  opacity: 1;
+  filter: saturate(1.45) hue-rotate(-8deg) contrast(1.24) brightness(.9);
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
+  -webkit-mask-image:
+    linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, .72) 14%, #000 34%, #000 100%),
+    linear-gradient(90deg, transparent 0%, #000 18%, #000 82%, transparent 100%);
+  mask-image:
+    linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, .72) 14%, #000 34%, #000 100%),
+    linear-gradient(90deg, transparent 0%, #000 18%, #000 82%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+}
+
+/* A pool of light where the building meets the card, so the two share a ground
+   rather than the photo ending on a line. */
+.tregu-native-market[data-competition="uefa.champions"] .tregu-market-foot::after {
+  content: "";
+  position: absolute;
+  right: -16px;
+  bottom: -66px;
+  left: -16px;
+  height: 78px;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(72% 100% at 50% 100%, rgba(34, 84, 214, .30) 0%, rgba(110, 30, 190, .16) 44%, transparent 78%);
+}
+
+/* --- Rim and hover -------------------------------------------------------
+   .tregu-edge::after (3193) and .tregu-native-market::after (12517) target the
+   same box, and the cascade merges them per declaration: the conic ring loses
+   its background to the white glare bar, while the ring's padding and mask
+   survive and carve that bar into a 1.5px hollow outline -- and lg-orbit keeps
+   ticking for pixels nobody sees. Repair the hover glare here and give the rim
+   ::before, which is free on this element. Scoped to champions, so the ~40
+   other .tregu-edge cards are untouched. */
+.tregu-native-market[data-competition="uefa.champions"]::after {
+  z-index: 2;
+  padding: 0;
+  animation: none;
+  -webkit-mask: none;
+  mask: none;
+  background: linear-gradient(90deg, transparent, rgba(40, 106, 255, .30) 34%, rgba(142, 48, 232, .40) 52%, rgba(40, 106, 255, .26) 68%, transparent);
+}
+
+/* The rim carries a blue-violet gradient that breathes between its two ends.
+   Both colours are registered <color> properties driven from the card element,
+   so the rim and the outer glow below are always at the same point in the
+   cycle -- one light, two expressions of it. Same mechanism globals.css
+   already uses for --tg-cat at 3179. */
+.tregu-native-market[data-competition="uefa.champions"]::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  z-index: 3;
+  border-radius: inherit;
+  padding: 1.6px;
+  background:
+    linear-gradient(135deg, var(--ucl-edge-1) 0%, var(--ucl-edge-2) 50%, var(--ucl-edge-1) 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+@keyframes tregu-night-edge {
+  0%, 100% { --ucl-edge-1: #1b5cff; --ucl-edge-2: #8e20e8; }
+  50% { --ucl-edge-1: #8e20e8; --ucl-edge-2: #1b5cff; }
+}
+
+/* --- Outcome chips -------------------------------------------------------
+   contrastSafeTeamColor() in lib/tregu-hub-market.mjs drives every team colour
+   DOWN to luminance <= 0.34, because it was written for a cream card. On navy
+   that is backwards: Internazionale's #00239c all but vanishes and the draw
+   grey #777772 lands at 4.0:1. The lightness floor below keeps hue and chroma
+   exactly while guaranteeing legibility for any input, including black. */
+.tregu-native-market[data-competition="uefa.champions"] .tregu-native-outcome {
+  border-color: color-mix(in srgb, var(--outcome-color) 44%, rgba(150, 180, 255, .22));
+  background: color-mix(in srgb, var(--outcome-color) 14%, rgba(7, 18, 56, .93));
+  color: #EAF0FF;
+}
+
+.tregu-native-market[data-competition="uefa.champions"] .tregu-native-outcome-name em { color: #AFC2EC; }
+
+.tregu-native-market[data-competition="uefa.champions"] .tregu-native-outcome strong {
+  color: color-mix(in srgb, var(--outcome-color) 45%, #EAF0FF);
+}
+
+@supports (color: oklch(from red l c h)) {
+  .tregu-native-market[data-competition="uefa.champions"] .tregu-native-outcome strong {
+    color: oklch(from var(--outcome-color) max(l, .78) c h);
+  }
+}
+
+/* --- Chart ---------------------------------------------------------------
+   tone="sport" hardcodes a light plot, a light hover inspector and ink-alpha
+   grid lines. The plot background is the worst of them: a solid white slab in
+   the middle of the night card. */
+.tregu-native-market[data-competition="uefa.champions"] .tregu-exact-chart-plot {
+  background:
+    repeating-linear-gradient(90deg, rgba(160, 190, 255, .05) 0 1px, transparent 1px 54px),
+    linear-gradient(180deg, rgba(9, 26, 78, .90), rgba(4, 15, 52, .95));
+  border-color: rgba(150, 180, 255, .20);
+  box-shadow: inset 0 1px 0 rgba(160, 190, 255, .10);
+}
+
+.tregu-native-market[data-competition="uefa.champions"] .tregu-exact-chart-grid { stroke: rgba(160, 190, 255, .14); }
+.tregu-native-market[data-competition="uefa.champions"] .tregu-exact-chart-empty { color: #9FB6E8; }
+.tregu-native-market[data-competition="uefa.champions"] .tregu-exact-chart-empty strong { color: #E7EEFF; }
+.tregu-native-market[data-competition="uefa.champions"] .tregu-exact-chart-inspector-marks line { stroke: rgba(190, 212, 255, .46); }
+
+.tregu-native-market[data-competition="uefa.champions"] .tregu-exact-chart-inspector {
+  background: rgba(7, 20, 58, .94);
+  border-color: rgba(150, 180, 255, .22);
+  color: #EAF0FF;
+}
+
+.tregu-native-market[data-competition="uefa.champions"] .tregu-exact-chart-inspector > time { color: #9FB6E8; }
+
+/* Line strokes carry the same over-darkened team colours via an inline stroke
+   attribute, which CSS cannot address directly. A static filter can. 1.95 is
+   calibrated on the real fallbacks: #1E5BB8 goes 2.7:1 -> 7.5:1. saturate(.9)
+   pulls back the sRGB clipping that brightness causes on saturated reds.
+   Rasterized once, not per frame. */
+.tregu-native-market[data-competition="uefa.champions"] .tregu-exact-chart-line,
+.tregu-native-market[data-competition="uefa.champions"] .tregu-exact-chart-last {
+  filter: brightness(1.95) saturate(.9);
+}
+
+/* --- Accessibility -------------------------------------------------------
+   The global guard at 993-997 sets animation:none on .tregu-glass and
+   .tregu-grid > * -- the elements, not their descendants or pseudos -- so it
+   never reaches these layers. What does reach them is the blanket
+   animation-duration:.01ms, which would freeze both washes on their 0% frame:
+   an arbitrary composition nobody chose. House style (3220) is to substitute a
+   static tinted equivalent, so both washes settle into a designed
+   blue-left / violet-right hold instead. */
+@media (prefers-reduced-motion: reduce) {
+  .tregu-night-glow > i { animation: none !important; }
+  .tregu-night-glow > i:nth-child(1) { transform: translate3d(-6%, -4%, 0) rotate(-10deg) scale(1.14); opacity: .96; }
+  .tregu-night-glow > i:nth-child(2) { transform: translate3d(4%, 8%, 0) rotate(12deg) scale(1.06); opacity: .84; }
+  .tregu-night-glow > i:nth-child(3) { transform: translate3d(-8%, 2%, 0) rotate(8deg) scale(1.14); opacity: .96; }
+  .tregu-night-glow > i:nth-child(4) { transform: translate3d(10%, -6%, 0) rotate(-6deg) scale(1.08); opacity: .88; }
+  /* The rim and glow read --ucl-edge-*, which stop at their initial values
+     once the card's animation is suppressed -- blue into violet, held still. */
+  .tregu-native-market[data-competition="uefa.champions"] { animation: none !important; }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .tregu-native-market[data-competition="uefa.champions"] {
+    background: #06163F;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+  .tregu-native-market[data-competition="uefa.champions"] .tregu-night-glow { display: none; }
+  .tregu-native-market[data-competition="uefa.champions"] .tregu-night-stadium { opacity: .8; }
+  .tregu-native-market[data-competition="uefa.champions"] .tregu-native-outcome { background: #0C2059; }
+  .tregu-native-market[data-competition="uefa.champions"] .tregu-exact-chart-plot { background: #07184A; }
+}
+
+@media (prefers-contrast: more) {
+  .tregu-native-market[data-competition="uefa.champions"] .tregu-night-glow { display: none; }
+  .tregu-native-market[data-competition="uefa.champions"] .tregu-native-outcome {
+    border-color: rgba(190, 214, 255, .55);
+    background: #0A1C50;
+  }
+}
+
+@media (max-width: 700px) {
+  /* The chips go single-column here, so the card is taller and the stadium
+     renders larger -- it needs more clearance under the footer than it does on
+     desktop or the arcs crowd the footer text. */
+  .tregu-native-market[data-competition="uefa.champions"] { padding-bottom: 88px; }
+  .tregu-native-market[data-competition="uefa.champions"] .tregu-night-stadium { max-height: 150px; opacity: .92; }
+}
