@@ -6724,7 +6724,7 @@
     "date": "2026-09-12",
     "overallIndex": 48,
     "totalArticles": 49,
-    "sourceCount": 34,
+    "sourceCount": 35,
     "stanceVersion": 3,
     "countries": {
       "Gjermani": {
@@ -6773,7 +6773,7 @@
         "neutral": 76,
         "negative": 24,
         "n": 17,
-        "excluded": 3,
+        "excluded": 4,
         "confident": true,
         "stanceVersion": 3
       },
@@ -6793,7 +6793,7 @@
         "neutral": 70,
         "negative": 0,
         "n": 10,
-        "excluded": 5,
+        "excluded": 7,
         "confident": true,
         "stanceVersion": 3
       },
@@ -6843,7 +6843,7 @@
         "neutral": 0,
         "negative": 0,
         "n": 0,
-        "excluded": 0,
+        "excluded": 1,
         "confident": false,
         "stanceVersion": 3
       },
@@ -6920,11 +6920,11 @@
         "sentiment": "negative"
       },
       {
-        "title": "Kosovo, politics at a dead end - Osservatorio Balcani Caucaso Transeuropa",
+        "title": "Kosovo, la politica in un vicolo cieco - Osservatorio Balcani Caucaso Transeuropa",
         "source": "Osservatorio Balcani Caucaso Transeuropa",
-        "country": "Britani",
-        "flag": "🇬🇧",
-        "url": "https://www.balcanicaucaso.org/en/cp_article/kosovo-la-politica-in-un-vicolo-cieco/",
+        "country": "Itali",
+        "flag": "🇮🇹",
+        "url": "https://www.balcanicaucaso.org/cp_article/kosovo-la-politica-in-un-vicolo-cieco/",
         "sentiment": "negative"
       }
     ]

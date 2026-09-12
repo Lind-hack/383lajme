@@ -2,9 +2,9 @@
   "lastUpdated": "2026-09-12",
   "overallIndex": 48,
   "totalArticles": 49,
-  "sourceCount": 34,
+  "sourceCount": 35,
   "stanceVersion": 3,
-  "unattributed": 193,
+  "unattributed": 210,
   "nonEditorial": 2,
   "wrongKosovo": 0,
   "countries": {
@@ -339,7 +339,7 @@
         {
           "name": "ANSA",
           "sentiment": "neutral",
-          "articleCount": 4,
+          "articleCount": 5,
           "articles": [
             {
               "title": "Allargamento Ue e pluralismo, a Trieste l'informazione dei Balcani - ANSA",
@@ -392,12 +392,25 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Manifestazione per l'ex leader dell'Esercito Liberazione del Kosovo Hashim Thaci - ANSA",
+              "albanianTitle": "Protestë në mbështetje të ish-liderit të Ushtrisë Çlirimtare të Kosovës, Hashim Thaçi",
+              "blurb": "Në Prishtinë është mbajtur një protestë në mbështetje të ish-liderit të Ushtrisë Çlirimtare të Kosovës, Hashim Thaçi, përballë procesit gjyqësor.",
+              "imageUrl": "https://www.ansa.it/webimages/img_1280x720/2026/9/12/2094976ced22457890703653344bbe17.jpg",
+              "url": "https://www.ansa.it/sito/photogallery/primopiano/2026/09/12/manifestazione-per-lex-leader-dellesercito-liberazione-del-kosovo-hashim-thaci_fa03c435-930f-4574-a6b8-2a3915e0d445.html",
+              "date": "2026-09-12",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 21,
+          "totalArticles": 22,
           "trend": "neutral",
           "firstSeen": "2026-08-20",
-          "lastSeen": "2026-09-10"
+          "lastSeen": "2026-09-12"
         },
         {
           "name": "Barletta NEWS24",
@@ -550,8 +563,8 @@
           "articles": [
             {
               "title": "Rrahmani, stop polemico alla nazionale: «Niente Kosovo finché resterà questa Federazione» - Il Mattino",
-              "albanianTitle": "Rrahmani, ndërprerje polemike me kombëtaren: «S'ka më Kosovë përderisa kjo Federatë mbetet në krye» - Il Mattino",
-              "blurb": "Amir Rrahmani ka njoftuar largimin nga kombëtarja e Kosovës për shkak të pakënaqësive me udhëheqjen e Federatës.",
+              "albanianTitle": "Rrahmani, lamtumirë polemike kombëtares: S’do të luaj për Kosovën përderisa është kjo Federatë",
+              "blurb": "Amir Rrahmani ka vendosur të largohet nga kombëtarja e Kosovës për shkak të pakënaqësive me udhëheqjen e federatës.",
               "imageUrl": "https://statics.cedscdn.it/photos/MED_HIGH/2026/09/11/9757879_11214824_rrahmani.jpg",
               "url": "https://www.ilmattino.it/sport/calcio/rrahmani_stop_polemico_nazionale_niente_kosovo_finche_restera_federazione-9757879.html",
               "date": "2026-09-11",
@@ -592,14 +605,14 @@
           "lastSeen": "2026-09-11"
         },
         {
-          "name": "Napolicalcionews.it",
+          "name": "NapoliCalcioNews.it",
           "sentiment": "unknown",
           "articleCount": 1,
           "articles": [
             {
-              "title": "CLAMOROSO RRAHMANI, ADDIO AL KOSOVO: “NON FARÒ PIÙ PARTE DELLA NAZIONALE” - Napolicalcionews.it",
-              "albanianTitle": "Rrahmani trondit opinionin, lamtumirë Kosovës: “Nuk do të jem më pjesë e kombëtares” - Napolicalcionews.it",
-              "blurb": "Futbollisti Amir Rrahmani ka deklaruar zyrtarisht se nuk do të jetë më pjesë e përfaqësueses së Kosovës.",
+              "title": "CLAMOROSO RRAHMANI, ADDIO AL KOSOVO: “NON FARÒ PIÙ PARTE DELLA NAZIONALE” - NapoliCalcioNews.it",
+              "albanianTitle": "Rrahmani trondit me vendimin: I them lamtumirë Kosovës, nuk do të jem më pjesë e kombëtares",
+              "blurb": "Mbrojtësi Amir Rrahmani ka konfirmuar largimin përfundimtar nga ekipi kombëtar i Kosovës pas deklaratave të fundit publike.",
               "imageUrl": "https://www.napolicalcionews.it/public/news/639247624281100491_Rrahmani_Napoli15.jpg",
               "url": "https://www.napolicalcionews.it/news-calcio-napoli/Clamoroso-Rrahmani--addio-al-Kosovo--%E2%80%9CNon-faro-piu-parte-della-Nazionale%E2%80%9D-150113.aspx",
               "date": "2026-09-12",
@@ -768,7 +781,7 @@
         "neutral": 76,
         "negative": 24,
         "n": 17,
-        "excluded": 3,
+        "excluded": 4,
         "confident": true,
         "stanceVersion": 3
       }
@@ -872,7 +885,7 @@
               "speaker": ""
             }
           ],
-          "totalArticles": 24,
+          "totalArticles": 25,
           "trend": "pozitiv",
           "firstSeen": "2026-09-07",
           "lastSeen": "2026-09-11"
@@ -884,7 +897,7 @@
         "neutral": 70,
         "negative": 0,
         "n": 10,
-        "excluded": 5,
+        "excluded": 7,
         "confident": true,
         "stanceVersion": 3
       }
@@ -922,8 +935,8 @@
           "articles": [
             {
               "title": "Sadri vluchtte uit Kosovo, maar liet de dieren daar nooit los: ‘Voor hen is elke dag een gevecht om te overleven’ - Vriendin.nl",
-              "albanianTitle": "Sadriu u largua nga Kosova, por nuk i harroi kurrë kafshët: Për to, çdo ditë është luftë për mbijetesë",
-              "blurb": "Sadri u largua nga Kosova, por vazhdon të kujdeset për kafshët që përballen me vështirësi për mbijetesë.",
+              "albanianTitle": "Sadri u largua nga Kosova, por kurrë nuk i harroi kafshët atje: ‘Për to, çdo ditë është një luftë për mbijetesë’ - Vriendin.nl",
+              "blurb": "Sadri u largua nga Kosova, por vazhdon të kujdeset për kafshët që ndodhen në vendlindjen e tij.",
               "imageUrl": "https://www.vriendin.nl/wp-content/uploads/2026/09/Ontwerp-zonder-titel-2026-09-02T161548.962.png",
               "url": "https://www.vriendin.nl/club/persoonlijk/dierenliefde/sadri-vluchtte-kosovo-dieren/",
               "date": "2026-09-12",
@@ -986,8 +999,8 @@
           "articles": [
             {
               "title": "Κόσοβο: Η ετυμηγορία για τον Θάτσι απειλεί να ανατρέψει τις πολιτικές ισορροπίες - mononews.gr",
-              "albanianTitle": "Kosova: Vendimi për Thaçin kërcënon të përmbysë ekuilibrat politikë",
-              "blurb": "Vendimi gjyqësor për Hashim Thaçin mund të shkaktojë ndryshime në balancat politike brenda shtetit të Kosovës.",
+              "albanianTitle": "Kosovë: Vendimi për Thaçin kërcënon të përmbysë ekuilibrat politikë - mononews.gr",
+              "blurb": "Vendimi gjyqësor për Hashim Thaçin mund të ndikojë në ndryshimin e ekuilibrave politikë brenda shtetit të Kosovës.",
               "imageUrl": "https://www.mononews.gr/wp-content/uploads/2026/09/260912120550_chasim-thatsi.png",
               "url": "https://www.mononews.gr/bloomberg/kosovo-i-etymigoria-gia-ton-thatsi-apeilei-na-anatrepsei-tis-politikes-isorropies",
               "date": "2026-09-12",
@@ -1016,14 +1029,39 @@
       }
     },
     "Suedi": {
-      "outlets": [],
+      "outlets": [
+        {
+          "name": "da.se",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Dottern dog – då utvisades familjen - da.se",
+              "albanianTitle": "Vajza u nda nga jeta – familja dëbohet nga vendi",
+              "blurb": "Një familje është dëbuar nga shteti pas vdekjes së vajzës së tyre, duke shkaktuar reagime lidhur me rastin e tyre.",
+              "imageUrl": "https://da.se/app/uploads/2026/09/Kosovo_Foto_David_Lundmark_1.jpg",
+              "url": "https://da.se/2026/09/dottern-dog-da-utvisades-familjen/",
+              "date": "2026-09-11",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-12",
+          "lastSeen": "2026-09-11"
+        }
+      ],
       "summary": {
         "index": null,
         "positive": 0,
         "neutral": 0,
         "negative": 0,
         "n": 0,
-        "excluded": 0,
+        "excluded": 1,
         "confident": false,
         "stanceVersion": 3
       }
