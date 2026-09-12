@@ -5,9 +5,9 @@ Two subjects, two keying strategies, because the sources differ:
 
   ucl-stadium  luminance key. A night photograph on a dark card, so the sky
                falls away with the shadows and the lit dome stays.
-  uel-trophy   saturation key. The Europa source is 91% saturated red/orange
-               and the trophy is near-grey metal, so hue purity separates them
-               far more cleanly than brightness would.
+  uel-trophy   feathered crop, no key. See the note on TROPHY_CROP.
+  uecl-trophy  the same, for Conference. Its ground is dark green rather than
+               dark orange, and the card it lands on matches it the same way.
 
 The card is a dark navy night scene and the source is a night photograph, so the
 alpha channel is derived from luminance rather than a keyed background: the dark
@@ -81,18 +81,20 @@ def build(source: Path, out: Path) -> None:
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--source", required=True, type=Path, help="reference photograph")
-    ap.add_argument("--preset", default="ucl-stadium", choices=["ucl-stadium", "uel-trophy"])
+    ap.add_argument("--preset", default="ucl-stadium", choices=["ucl-stadium", "uel-trophy", "uecl-trophy"])
     ap.add_argument(
         "--out",
         type=Path,
         default=Path(__file__).resolve().parent.parent / "public/images/tregu/ucl-stadium-night-v1.webp",
     )
     args = ap.parse_args()
+    default_out = args.out.name == "ucl-stadium-night-v1.webp"
     if args.preset == "uel-trophy":
-        out = args.out
-        if out.name == "ucl-stadium-night-v1.webp":
-            out = out.parent / "uel-trophy-v1.webp"
+        out = args.out.parent / "uel-trophy-v1.webp" if default_out else args.out
         build_trophy(args.source, out)
+    elif args.preset == "uecl-trophy":
+        out = args.out.parent / "uecl-trophy-v1.webp" if default_out else args.out
+        build_trophy(args.source, out, UECL_CROP)
     else:
         build(args.source, args.out)
 
@@ -124,9 +126,13 @@ TROPHY_CROP = (1180, 168, 1436, 864)
 TROPHY_WIDTH = 420
 TROPHY_FEATHER = 0.16   # fraction of each edge dissolved to transparent
 
+# Conference. Trophy measured at x 972-1328, y 124-1016; cropped generously
+# around it for the same reason the Europa one is — see above.
+UECL_CROP = (938, 108, 1372, 1044)
 
-def build_trophy(source: Path, out: Path) -> None:
-    im = Image.open(source).convert("RGB").crop(TROPHY_CROP)
+
+def build_trophy(source: Path, out: Path, crop=TROPHY_CROP) -> None:
+    im = Image.open(source).convert("RGB").crop(crop)
     w, h = im.size
 
     fx, fy = int(w * TROPHY_FEATHER), int(h * TROPHY_FEATHER)

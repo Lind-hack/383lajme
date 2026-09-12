@@ -95,11 +95,17 @@ export const COMPETITION_NIGHT_ART: Record<string, string> = {
 /* Europa is a different treatment, not a recolour of the Champions one: a deep
    orange ground crossed by falling beams, with the trophy standing in a lane of
    its own on the right. It needs its own art slot for that reason. */
-export const COMPETITION_TROPHY_ART: Record<string, string> = {
-  "uefa.europa": "/images/tregu/uel-trophy-v1.webp",
+export type CompetitionArt = { src: string; width: number; height: number };
+
+/* Intrinsic sizes travel with the art. The two trophies are cropped from
+   different photographs and do not share an aspect ratio, so a hardcoded
+   width/height on the <img> would stretch one of them. */
+export const COMPETITION_TROPHY_ART: Record<string, CompetitionArt> = {
+  "uefa.europa": { src: "/images/tregu/uel-trophy-v1.webp", width: 420, height: 1142 },
+  "uefa.europa.conf": { src: "/images/tregu/uecl-trophy-v1.webp", width: 420, height: 906 },
 };
 
-export function trophyArtFor(league?: string | null): string | null {
+export function trophyArtFor(league?: string | null): CompetitionArt | null {
   if (!league) return null;
   return COMPETITION_TROPHY_ART[league.toLowerCase()] ?? null;
 }

@@ -49,13 +49,13 @@ export default function CompetitionArtwork({ league }: { league?: string | null 
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           className="tregu-uel-trophy"
-          src={trophyArt}
+          src={trophyArt.src}
           alt=""
           aria-hidden
           loading="lazy"
           decoding="async"
-          width={420}
-          height={1142}
+          width={trophyArt.width}
+          height={trophyArt.height}
         />
       </>
     );

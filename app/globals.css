@@ -16223,3 +16223,321 @@ header[data-overlay="true"] .nav-search-btn[style*="margin-right"] {
   .tregu-detail-header[data-competition="uefa.europa"],
   .tregu-trade-celebration[data-competition="uefa.europa"] { animation: none !important; }
 }
+
+/* ==========================================================================
+   Conference League -- the third competition
+   --------------------------------------------------------------------------
+   Same treatment as Europa, in green: a deep green ground crossed by the same
+   falling, refracting beams, with the trophy standing in a lane of its own.
+   Card, market banner and trade receipt, all from the same CompetitionArtwork.
+
+   One judgement call worth recording. On a green card the yes/no pair loses
+   half its signal: --tg-yes at #00A651 is the ground's own hue, so a rising
+   market would read as "the card" rather than as "yes". Yes goes to a pale
+   mint well clear of the substrate, no stays red. The Two-Color Market Rule
+   holds; only the greens had to move apart.
+   ========================================================================== */
+
+@property --uecl-edge-1 {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #12d964;
+}
+
+@property --uecl-edge-2 {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #04713c;
+}
+
+@keyframes tregu-uecl-edge {
+  0%, 100% { --uecl-edge-1: #12d964; --uecl-edge-2: #04713c; }
+  50% { --uecl-edge-1: #04713c; --uecl-edge-2: #12d964; }
+}
+
+.tregu-native-market[data-competition="uefa.europa.conf"] {
+  --competition-color: #7FE8B4;
+
+  --tg-text: #EAFBF1;
+  --tg-muted: #92C9AC;
+  --tg-border: rgba(120, 235, 175, .20);
+  --tg-border-hi: rgba(120, 235, 175, .38);
+  --tg-panel: rgba(4, 38, 24, .66);
+  --tg-yes: #7BFFC4;
+  --tg-yes-dim: rgba(123, 255, 196, .16);
+  --tg-no: #FF6B6B;
+  --tg-no-dim: rgba(255, 107, 107, .16);
+
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  color: var(--tg-text);
+  background:
+    radial-gradient(78% 62% at 88% 104%, rgba(10, 207, 90, .42) 0%, rgba(4, 130, 62, .22) 38%, rgba(2, 48, 26, 0) 72%),
+    radial-gradient(120% 84% at 12% -10%, rgba(8, 90, 50, .56) 0%, rgba(2, 30, 18, 0) 64%),
+    linear-gradient(176deg, #06301F 0%, #042318 54%, #01120C 100%);
+  border-color: rgba(90, 220, 150, .26);
+  box-shadow:
+    0 4px 22px -6px color-mix(in srgb, var(--uecl-edge-1) 52%, transparent),
+    0 20px 46px -12px color-mix(in srgb, var(--uecl-edge-2) 52%, transparent),
+    0 2px 14px rgba(1, 20, 12, .5),
+    inset 0 1px 0 rgba(150, 255, 200, .12);
+  animation: tregu-rise 420ms var(--ease-out) both, tregu-uecl-edge 17s ease-in-out infinite;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+
+  /* The lane, sized from the trophy exactly as Europa's is. */
+  padding-right: 116px;
+}
+
+.tregu-native-market[data-competition="uefa.europa.conf"] .tregu-competition-art { display: none; }
+
+/* Beams: same geometry, green. */
+.tregu-native-market[data-competition="uefa.europa.conf"] .tregu-uel-beams path { stroke: #1FD877; }
+.tregu-native-market[data-competition="uefa.europa.conf"] .tregu-uel-beams path:nth-child(1) { stroke: #57F0A4; }
+.tregu-native-market[data-competition="uefa.europa.conf"] .tregu-uel-beams path:nth-child(2) { stroke: #0ACF5A; }
+.tregu-native-market[data-competition="uefa.europa.conf"] .tregu-uel-beams path:nth-child(3) { stroke: #04B04C; }
+.tregu-native-market[data-competition="uefa.europa.conf"] .tregu-uel-beams path:nth-child(4) { stroke: #2BE38E; }
+
+.tregu-native-market[data-competition="uefa.europa.conf"] .tregu-uel-beams path {
+  filter: drop-shadow(0 0 5px rgba(30, 220, 120, .75)) drop-shadow(0 0 16px rgba(8, 180, 80, .45));
+}
+
+.tregu-native-market[data-competition="uefa.europa.conf"] .tregu-native-title { color: var(--tg-text); }
+.tregu-native-market[data-competition="uefa.europa.conf"] .tregu-native-brand { color: var(--tg-muted); }
+.tregu-native-market[data-competition="uefa.europa.conf"] .tregu-market-open { color: #7FE8B4; }
+
+.tregu-native-market[data-competition="uefa.europa.conf"] .tregu-market-foot {
+  border-top: 0;
+  padding-top: 11px;
+  background-image: linear-gradient(90deg, transparent, rgba(130, 235, 180, .26) 18%, rgba(130, 235, 180, .26) 82%, transparent);
+  background-size: 100% 1px;
+  background-repeat: no-repeat;
+  background-position: 0 0;
+}
+
+.tregu-native-market[data-competition="uefa.europa.conf"] .tregu-native-outcome {
+  border-color: color-mix(in srgb, var(--outcome-color) 44%, rgba(120, 235, 175, .22));
+  background: color-mix(in srgb, var(--outcome-color) 14%, rgba(3, 30, 19, .93));
+  color: #E6FBF0;
+}
+
+.tregu-native-market[data-competition="uefa.europa.conf"] .tregu-native-outcome-name em { color: #92C9AC; }
+
+.tregu-native-market[data-competition="uefa.europa.conf"] .tregu-native-outcome strong {
+  color: color-mix(in srgb, var(--outcome-color) 45%, #E6FBF0);
+}
+
+@supports (color: oklch(from red l c h)) {
+  .tregu-native-market[data-competition="uefa.europa.conf"] .tregu-native-outcome strong {
+    color: oklch(from var(--outcome-color) max(l, .78) c h);
+  }
+}
+
+.tregu-native-market[data-competition="uefa.europa.conf"] .tregu-exact-chart-plot {
+  background:
+    repeating-linear-gradient(90deg, rgba(130, 235, 180, .05) 0 1px, transparent 1px 54px),
+    linear-gradient(180deg, rgba(5, 42, 26, .90), rgba(2, 24, 15, .95));
+  border-color: rgba(120, 235, 175, .20);
+  box-shadow: inset 0 1px 0 rgba(150, 255, 200, .10);
+}
+
+.tregu-native-market[data-competition="uefa.europa.conf"] .tregu-exact-chart-grid { stroke: rgba(140, 240, 190, .14); }
+.tregu-native-market[data-competition="uefa.europa.conf"] .tregu-exact-chart-empty { color: #92C9AC; }
+.tregu-native-market[data-competition="uefa.europa.conf"] .tregu-exact-chart-empty strong { color: #E6FBF0; }
+.tregu-native-market[data-competition="uefa.europa.conf"] .tregu-exact-chart-inspector-marks line { stroke: rgba(170, 250, 210, .46); }
+
+.tregu-native-market[data-competition="uefa.europa.conf"] .tregu-exact-chart-inspector {
+  background: rgba(4, 32, 20, .94);
+  border-color: rgba(120, 235, 175, .22);
+  color: #E6FBF0;
+}
+
+.tregu-native-market[data-competition="uefa.europa.conf"] .tregu-exact-chart-inspector > time { color: #92C9AC; }
+
+.tregu-native-market[data-competition="uefa.europa.conf"] .tregu-exact-chart-line,
+.tregu-native-market[data-competition="uefa.europa.conf"] .tregu-exact-chart-last {
+  filter: brightness(1.95) saturate(.9);
+}
+
+.tregu-native-market[data-competition="uefa.europa.conf"]::after {
+  z-index: 2;
+  padding: 0;
+  animation: none;
+  -webkit-mask: none;
+  mask: none;
+  background: linear-gradient(90deg, transparent, rgba(60, 230, 140, .30) 34%, rgba(10, 207, 90, .42) 52%, rgba(60, 230, 140, .26) 68%, transparent);
+}
+
+.tregu-native-market[data-competition="uefa.europa.conf"]::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  z-index: 3;
+  border-radius: inherit;
+  padding: 1.6px;
+  background: linear-gradient(135deg, var(--uecl-edge-1) 0%, var(--uecl-edge-2) 50%, var(--uecl-edge-1) 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+@media (max-width: 700px) {
+  .tregu-native-market[data-competition="uefa.europa.conf"] { padding-right: 128px; }
+}
+
+/* --- Market banner ------------------------------------------------------- */
+.tregu-detail-header[data-competition="uefa.europa.conf"] {
+  --tg-text: #EAFBF1;
+  --tg-muted: #92C9AC;
+  --tg-border: rgba(120, 235, 175, .20);
+  --tg-border-hi: rgba(120, 235, 175, .38);
+
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: 22px 22px 24px;
+  border-radius: 18px;
+  border-color: rgba(90, 220, 150, .28);
+  color: var(--tg-text);
+  background:
+    radial-gradient(72% 78% at 86% 112%, rgba(10, 207, 90, .42) 0%, rgba(4, 130, 62, .22) 40%, rgba(2, 48, 26, 0) 74%),
+    radial-gradient(120% 84% at 10% -12%, rgba(8, 90, 50, .56) 0%, rgba(2, 30, 18, 0) 64%),
+    linear-gradient(176deg, #06301F 0%, #042318 54%, #01120C 100%);
+  box-shadow:
+    0 4px 22px -6px color-mix(in srgb, var(--uecl-edge-1) 48%, transparent),
+    0 20px 46px -12px color-mix(in srgb, var(--uecl-edge-2) 46%, transparent),
+    0 2px 14px rgba(1, 20, 12, .5);
+  animation: tregu-uecl-edge 17s ease-in-out infinite;
+}
+
+.tregu-detail-header[data-competition="uefa.europa.conf"]::after { display: none; }
+
+.tregu-detail-header[data-competition="uefa.europa.conf"] > * {
+  position: relative;
+  z-index: 2;
+}
+
+.tregu-detail-header[data-competition="uefa.europa.conf"] .tregu-uel-beams {
+  position: absolute;
+  z-index: 0;
+}
+
+.tregu-detail-header[data-competition="uefa.europa.conf"] .tregu-uel-beams path { stroke-width: 1; opacity: .62; stroke: #1FD877; }
+.tregu-detail-header[data-competition="uefa.europa.conf"] .tregu-uel-beams path:nth-child(1) { stroke-width: .85; stroke: #57F0A4; }
+.tregu-detail-header[data-competition="uefa.europa.conf"] .tregu-uel-beams path:nth-child(2) { stroke-width: 1.2; stroke: #0ACF5A; }
+.tregu-detail-header[data-competition="uefa.europa.conf"] .tregu-uel-beams path:nth-child(3) { stroke-width: .95; stroke: #04B04C; }
+.tregu-detail-header[data-competition="uefa.europa.conf"] .tregu-uel-beams path:nth-child(4) { stroke-width: 1.1; stroke: #2BE38E; }
+
+.tregu-detail-header[data-competition="uefa.europa.conf"] .tregu-uel-trophy {
+  position: absolute;
+  z-index: 1;
+  right: 18px;
+  bottom: -8px;
+  left: auto;
+  transform: none;
+  width: 96px;
+}
+
+.tregu-detail-header[data-competition="uefa.europa.conf"] .tregu-detail-header-copy {
+  padding-right: 128px;
+}
+
+.tregu-detail-header[data-competition="uefa.europa.conf"] .tregu-pill,
+.tregu-detail-header[data-competition="uefa.europa.conf"] .tregu-home-help {
+  border-color: rgba(120, 235, 175, .26);
+  background: rgba(4, 38, 24, .66);
+  color: #B9E6CE;
+}
+
+.tregu-detail-header[data-competition="uefa.europa.conf"] .tregu-detail-reference {
+  border-color: rgba(120, 235, 175, .24);
+  background: rgba(4, 38, 24, .72);
+}
+
+/* On green, the delta chip's own green stops reading as a signal, so it goes
+   pale mint for the same reason --tg-yes did. */
+.tregu-detail-header[data-competition="uefa.europa.conf"] .tregu-delta-chip {
+  border-color: rgba(123, 255, 196, .34);
+  background: rgba(123, 255, 196, .14);
+  color: #7BFFC4;
+}
+
+@media (max-width: 700px) {
+  .tregu-detail-header[data-competition="uefa.europa.conf"] {
+    padding: 16px 14px 18px;
+    border-radius: 14px;
+  }
+  .tregu-detail-header[data-competition="uefa.europa.conf"] .tregu-detail-header-copy { padding-right: 104px; }
+  .tregu-detail-header[data-competition="uefa.europa.conf"] .tregu-uel-trophy { right: 6px; width: 88px; }
+}
+
+/* --- Trade receipt ------------------------------------------------------- */
+.tregu-trade-celebration[data-competition="uefa.europa.conf"] {
+  isolation: isolate;
+  overflow: hidden;
+  background:
+    radial-gradient(64% 38% at 50% 106%, rgba(20, 220, 110, .5) 0%, rgba(4, 130, 62, .26) 44%, rgba(2, 48, 26, 0) 76%),
+    radial-gradient(78% 44% at 88% 14%, rgba(6, 150, 74, .4) 0%, rgba(2, 48, 26, 0) 70%),
+    radial-gradient(72% 40% at 8% 58%, rgba(4, 110, 58, .4) 0%, rgba(1, 34, 20, 0) 72%),
+    linear-gradient(176deg, #06341F 0%, #042318 56%, #01120C 100%) !important;
+  animation: tregu-uecl-edge 17s ease-in-out infinite;
+}
+
+.tregu-trade-celebration[data-competition="uefa.europa.conf"] .tregu-competition-art { display: none; }
+
+.tregu-trade-celebration[data-competition="uefa.europa.conf"] .tregu-uel-beams {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.tregu-trade-celebration[data-competition="uefa.europa.conf"] .tregu-uel-beams path {
+  stroke-width: 1.1;
+  opacity: .8;
+  stroke-dasharray: 58 42;
+  stroke: #1FD877;
+}
+.tregu-trade-celebration[data-competition="uefa.europa.conf"] .tregu-uel-beams path:nth-child(1) { stroke-width: .95; stroke: #57F0A4; }
+.tregu-trade-celebration[data-competition="uefa.europa.conf"] .tregu-uel-beams path:nth-child(2) { stroke-width: 1.3; stroke: #0ACF5A; }
+.tregu-trade-celebration[data-competition="uefa.europa.conf"] .tregu-uel-beams path:nth-child(3) { stroke-width: 1.05; stroke: #04B04C; }
+.tregu-trade-celebration[data-competition="uefa.europa.conf"] .tregu-uel-beams path:nth-child(4) { stroke-width: 1.2; stroke: #2BE38E; }
+
+.tregu-trade-celebration[data-competition="uefa.europa.conf"] .tregu-uel-trophy {
+  position: absolute;
+  z-index: 1;
+  right: auto;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  width: 136px;
+  opacity: .92;
+  -webkit-mask-image: radial-gradient(116% 86% at 54% 56%, #000 40%, rgba(0, 0, 0, .58) 70%, transparent 100%);
+  mask-image: radial-gradient(116% 86% at 54% 56%, #000 40%, rgba(0, 0, 0, .58) 70%, transparent 100%);
+}
+
+.tregu-trade-celebration[data-competition="uefa.europa.conf"] .tregu-trade-celebration-content {
+  position: relative;
+  z-index: 2;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tregu-native-market[data-competition="uefa.europa.conf"],
+  .tregu-detail-header[data-competition="uefa.europa.conf"],
+  .tregu-trade-celebration[data-competition="uefa.europa.conf"] { animation: none !important; }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .tregu-native-market[data-competition="uefa.europa.conf"] { background: #042417; }
+  .tregu-native-market[data-competition="uefa.europa.conf"] .tregu-native-outcome { background: #05301F; }
+  .tregu-native-market[data-competition="uefa.europa.conf"] .tregu-exact-chart-plot { background: #042A1B; }
+}
+
+@media (prefers-contrast: more) {
+  .tregu-native-market[data-competition="uefa.europa.conf"] .tregu-native-outcome {
+    border-color: rgba(180, 255, 215, .55);
+    background: #052C1D;
+  }
+}
