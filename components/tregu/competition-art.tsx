@@ -1,6 +1,11 @@
 /** Transparent, original competition-inspired decoration. Content stays above it. */
 export default function CompetitionArt({ league }: { league?: string | null }) {
   if (!league?.startsWith("uefa.")) return null;
+  // Nations League draws its own full-surface lattice in CompetitionArtwork.
+  // Without this it falls through to the else branch below and inherits the
+  // Europa beams and trophy silhouette, because it is a "uefa." key that is
+  // neither champions nor conference.
+  if (league === "uefa.nations") return null;
   const champions = league === "uefa.champions";
   const conference = league === "uefa.europa.conf";
   return <svg className="tregu-competition-art" viewBox="0 0 480 200" aria-hidden="true" focusable="false">

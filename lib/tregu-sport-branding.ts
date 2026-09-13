@@ -48,6 +48,7 @@ export const SPORT_BRANDS: Record<string, SportBrand> = {
   "uefa.champions": { key: "uefa.champions", label: "Champions League", shortLabel: "UCL", logo: "/logos/uefachampionsleague.svg", accent: "#263cc9", tint: "#f3f5ff" },
   "uefa.europa": { key: "uefa.europa", label: "Europa League", shortLabel: "UEL", logo: "/logos/uefaeuropaleague.svg", accent: "#b95408", tint: "#fff7ee" },
   "uefa.europa.conf": { key: "uefa.europa.conf", label: "Conference League", shortLabel: "UECL", logo: "/logos/uefaeuroconferenceleague.svg", accent: "#13843c", tint: "#f1faf2" },
+  "uefa.nations": { key: "uefa.nations", label: "Nations League", shortLabel: "UNL", logo: "/logos/uefanationsleague.webp", accent: "#2d4a7c", tint: "#f4f6fa" },
   f1: {
     key: "f1",
     label: "Formula 1",
@@ -61,8 +62,19 @@ export const SPORT_BRANDS: Record<string, SportBrand> = {
     key: "nba",
     label: "NBA",
     shortLabel: "NBA",
+    logo: "/logos/nba.svg",
     accent: "#17408B",
     tint: "#EEF4FF",
+  },
+  "fiba.world": {
+    key: "fiba.world",
+    label: "FIBA",
+    shortLabel: "FIBA",
+    logo: "/logos/fiba.svg",
+    // FIBA's own orange sits on top of the hardwood ground rather than against
+    // it, so the mark takes the deeper end of its range to stay legible.
+    accent: "#A8380F",
+    tint: "#FFF1EA",
   },
   fbk: {
     key: "fbk",
@@ -79,6 +91,7 @@ export function sportBrandFor(key?: string | null): SportBrand | null {
   if (SPORT_BRANDS[normalized]) return SPORT_BRANDS[normalized];
   if (normalized.includes("formula") || normalized.includes("f1")) return SPORT_BRANDS.f1;
   if (normalized.includes("nba")) return SPORT_BRANDS.nba;
+  if (normalized.includes("fiba")) return SPORT_BRANDS["fiba.world"];
   if (normalized.includes("fbk") || normalized.includes("kosov")) return SPORT_BRANDS.fbk;
   return null;
 }
@@ -104,6 +117,35 @@ export const COMPETITION_TROPHY_ART: Record<string, CompetitionArt> = {
   "uefa.europa": { src: "/images/tregu/uel-trophy-v1.webp", width: 420, height: 1142 },
   "uefa.europa.conf": { src: "/images/tregu/uecl-trophy-v1.webp", width: 420, height: 906 },
 };
+
+/* Basketball is the fourth treatment and the first light one: a honey hardwood
+   floor rather than a European night, which is what keeps it apart from the
+   three UEFA cards at a glance on the same cream floor.
+
+   It is registered per competition, never per sport. DESIGN.md:168 requires a
+   treatment to key off a competition, and "basketball" is a category; these
+   three are the competitions the basketball engine actually produces markets
+   for (see BASKETBALL_LEAGUES in lib/tregu-basketball.mjs).
+
+   All three share one ball, because the subject is the sport's own object
+   rather than a competition's trophy. They differ in accent only -- the painted
+   line around the card edge takes the competition's colour. */
+const BASKETBALL_BALL: CompetitionArt = {
+  src: "/images/tregu/basketball-ball-v1.webp",
+  width: 380,
+  height: 365,
+};
+
+export const COMPETITION_COURT_ART: Record<string, CompetitionArt> = {
+  nba: BASKETBALL_BALL,
+  "fiba.world": BASKETBALL_BALL,
+  "fbk.kosovo": BASKETBALL_BALL,
+};
+
+export function courtArtFor(league?: string | null): CompetitionArt | null {
+  if (!league) return null;
+  return COMPETITION_COURT_ART[league.toLowerCase()] ?? null;
+}
 
 export function trophyArtFor(league?: string | null): CompetitionArt | null {
   if (!league) return null;

@@ -1,6 +1,8 @@
 "use client";
 
-import { nightArtFor, trophyArtFor } from "@/lib/tregu-sport-branding";
+import { useId } from "react";
+
+import { courtArtFor, nightArtFor, trophyArtFor } from "@/lib/tregu-sport-branding";
 
 /**
  * The decorative layers a competition treatment puts behind a surface.
@@ -12,8 +14,17 @@ import { nightArtFor, trophyArtFor } from "@/lib/tregu-sport-branding";
  * geometry, and geometry copied three times gets edited once.
  */
 export default function CompetitionArtwork({ league }: { league?: string | null }) {
+  // One id per instance: the floor renders many of these at once, and a
+  // hardcoded <pattern id> would make every card past the first reference the
+  // first card's defs — which also happens to be a duplicate-id document.
+  const patternId = useId().replace(/:/g, "");
   const nightArt = nightArtFor(league);
   const trophyArt = trophyArtFor(league);
+  const courtArt = courtArtFor(league);
+
+  if (league === "uefa.nations") {
+    return <NationsLattice patternId={patternId} />;
+  }
 
   if (trophyArt) {
     return (
@@ -61,6 +72,34 @@ export default function CompetitionArtwork({ league }: { league?: string | null 
     );
   }
 
+  if (courtArt) {
+    return (
+      <>
+        {/* The varnish. A polished floor's whole character is the arena light
+            sliding across it, so that reflection is the treatment's one
+            authored moment -- not a glow sitting on top of the card but a
+            highlight travelling over the wood underneath it.
+
+            A single element rather than the night treatment's four washes:
+            hardwood returns one specular band, and stacking several would read
+            as fog rather than as varnish. Its travel, angle and the static
+            state it parks in under reduced motion all live in globals.css. */}
+        <span className="tregu-court-varnish" aria-hidden />
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          className="tregu-court-ball"
+          src={courtArt.src}
+          alt=""
+          aria-hidden
+          loading="lazy"
+          decoding="async"
+          width={courtArt.width}
+          height={courtArt.height}
+        />
+      </>
+    );
+  }
+
   if (nightArt) {
     return (
       <>
@@ -88,4 +127,118 @@ export default function CompetitionArtwork({ league }: { league?: string | null 
   }
 
   return null;
+}
+
+
+/** The UEFA Nations League palette, read off the competition's own flag weave. */
+const UNL_RED = "#E1332D";
+const UNL_BLUE = "#1B4F9C";
+const UNL_SKY = "#36A9E1";
+const UNL_YELLOW = "#F6C500";
+const UNL_GREEN = "#009B48";
+const UNL_WHITE = "#FFFFFF";
+
+/**
+ * One diamond of the weave: two triangles meeting on the horizontal axis, and a
+ * disc over the seam. Every cell in the competition's identity is this shape.
+ */
+type Cell = { top: string; bottom: string; disc: string };
+
+/** A cell that carries no nation: pale stock, so copy laid over it stays legible. */
+const PALE: Cell = { top: "#EDEFF4", bottom: "#F5F6F9", disc: "#FFFFFF" };
+
+/**
+ * The eight distinct cells of the repeating unit, in the order they sit in the
+ * 96x96 tile: four on the tile's own lattice, four on the complementary one that
+ * fills the gaps between them. Colours are hand-assigned rather than cycled so
+ * no two touching cells share a hue — a cycle produces visible diagonal banding.
+ */
+/**
+ * The repeating unit is mostly pale and only partly national — the proportion the
+ * competition's own artwork uses, where the wordmark sits on undyed stock with
+ * colour breaking around it. Filling every cell reads as gift wrap and leaves
+ * nowhere legible to put a market question; three in eight reads as the flag.
+ */
+const UNL_CELLS: Cell[] = [
+  { top: UNL_RED, bottom: UNL_WHITE, disc: UNL_BLUE },
+  PALE,
+  PALE,
+  { top: UNL_YELLOW, bottom: UNL_GREEN, disc: UNL_WHITE },
+  PALE,
+  { top: UNL_SKY, bottom: UNL_BLUE, disc: UNL_WHITE },
+  PALE,
+  PALE,
+];
+
+/**
+ * Where each cell is drawn inside the tile. A <pattern> clips at its edge rather
+ * than wrapping, so a cell straddling the boundary has to be drawn at every
+ * position it shows through — hence the repeats on cells 4-7.
+ */
+const UNL_PLACEMENTS: Array<Array<[number, number]>> = [
+  [[24, 24]],
+  [[72, 24]],
+  [[24, 72]],
+  [[72, 72]],
+  [[0, 0], [96, 0], [0, 96], [96, 96]],
+  [[48, 0], [48, 96]],
+  [[0, 48], [96, 48]],
+  [[48, 48]],
+];
+
+const R = 24; // half-diagonal of a cell
+const DISC = 8.5;
+
+function NationsLattice({ patternId }: { patternId: string }) {
+  const weave = `unl-weave-${patternId}`;
+  const emboss = `unl-emboss-${patternId}`;
+
+  return (
+    <>
+      {/* The quiet field. Same lattice as the rim, but cut rather than coloured:
+          a highlight on each cell's upper edges and a shadow on its lower ones,
+          lit from the top-left, so the surface reads as folded stock. This is
+          what sits behind the text, so it never carries a hue. */}
+      <svg className="tregu-unl-field" aria-hidden focusable="false">
+        <defs>
+          <pattern id={emboss} width="48" height="48" patternUnits="userSpaceOnUse">
+            <path d="M24 0 48 24 24 48 0 24Z" className="tregu-unl-facet" />
+            <path d="M0 24 24 0M24 48 48 24" className="tregu-unl-lit" />
+            <path d="M24 48 0 24M48 24 24 0" className="tregu-unl-shade" />
+            <circle cx="24" cy="24" r={DISC} className="tregu-unl-disc" />
+            <circle cx="0" cy="0" r={DISC} className="tregu-unl-disc" />
+            <circle cx="48" cy="0" r={DISC} className="tregu-unl-disc" />
+            <circle cx="0" cy="48" r={DISC} className="tregu-unl-disc" />
+            <circle cx="48" cy="48" r={DISC} className="tregu-unl-disc" />
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill={`url(#${emboss})`} />
+      </svg>
+
+      {/* The rim. The same weave in full national colour, masked in CSS so it
+          crowds the edges and is gone by the time it reaches the copy. The
+          competition's flag is densest at its folds; so is this. */}
+      <svg className="tregu-unl-rim" aria-hidden focusable="false">
+        <defs>
+          <pattern id={weave} width="96" height="96" patternUnits="userSpaceOnUse">
+            {UNL_CELLS.map((cell, index) =>
+              UNL_PLACEMENTS[index].map(([cx, cy]) => (
+                <g key={`${index}-${cx}-${cy}`}>
+                  <path d={`M${cx - R} ${cy}L${cx} ${cy - R}L${cx + R} ${cy}Z`} fill={cell.top} />
+                  <path d={`M${cx - R} ${cy}L${cx} ${cy + R}L${cx + R} ${cy}Z`} fill={cell.bottom} />
+                  <circle cx={cx} cy={cy} r={DISC} fill={cell.disc} />
+                </g>
+              ))
+            )}
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill={`url(#${weave})`} />
+      </svg>
+
+      {/* The fold travelling over the weave. The competition's mark is a flag in
+          motion, so the light moves and the cells do not — moving the cells
+          themselves would break the tessellation they are drawn to hold. */}
+      <span className="tregu-unl-fold" aria-hidden />
+    </>
+  );
 }

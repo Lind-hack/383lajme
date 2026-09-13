@@ -39,12 +39,17 @@ const clips = {
     start: 5,
     duration: 3,
   },
+  nations: {
+    output: "nations-anthem-254s-257s-v2.wav",
+    start: 254,
+    duration: 3,
+  },
 };
 
 function parseInputs(argv) {
   const inputs = {};
   for (let index = 0; index < argv.length; index += 1) {
-    const match = argv[index].match(/^--(champions|europa|f1|football|basketball)$/);
+    const match = argv[index].match(/^--(champions|europa|f1|football|basketball|nations)$/);
     if (!match || !argv[index + 1]) continue;
     inputs[match[1]] = resolve(argv[index + 1]);
     index += 1;
@@ -77,12 +82,13 @@ function extract(profile, input, clip) {
 }
 
 const inputs = parseInputs(process.argv.slice(2));
-const missing = Object.keys(clips).filter((profile) => !inputs[profile]);
-if (missing.length) {
-  throw new Error(`Missing source arguments: ${missing.map((profile) => `--${profile} <file>`).join(", ")}`);
+const requested = Object.keys(clips).filter((profile) => inputs[profile]);
+if (!requested.length) {
+  const usage = Object.keys(clips).map((profile) => `--${profile} <file>`).join(", ");
+  throw new Error(`Nothing to extract. Pass at least one source: ${usage}`);
 }
 
 mkdirSync(OUTPUT_DIR, { recursive: true });
-const outputs = Object.entries(clips).map(([profile, clip]) => extract(profile, inputs[profile], clip));
+const outputs = requested.map((profile) => extract(profile, inputs[profile], clips[profile]));
 
 console.log(JSON.stringify({ outputs, conference: "reuses the Europa asset", fadeSeconds: FADE_SECONDS }));

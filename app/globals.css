@@ -16541,3 +16541,623 @@ header[data-overlay="true"] .nav-search-btn[style*="margin-right"] {
     background: #052C1D;
   }
 }
+
+/* ==========================================================================
+   Basketball -- the hardwood treatment              (fourth competition world)
+   --------------------------------------------------------------------------
+   The fourth treatment, and deliberately the first light one. Champions,
+   Europa and Conference are three dark cards on a cream floor; a fourth would
+   have stopped reading as "this competition is special" and started reading as
+   "sport markets are dark". Basketball is played indoors on a pale lacquered
+   maple floor under full house light, so the honest substrate for it is the
+   floor itself -- and that is also the one substrate none of the other three
+   can claim.
+
+   Registered per competition, never per sport, per DESIGN.md:168. The three
+   keys below are the competitions the basketball engine actually produces
+   markets for (BASKETBALL_LEAGUES, lib/tregu-basketball.mjs): NBA, FIBA and
+   Superliga e Kosoves. They share one floor and one ball and differ only in the
+   colour of the line painted around the card.
+
+   Choosing a light ground pays for itself twice in the DESIGN.md:168 checklist:
+   contrastSafeTeamColor() drives every team colour DOWN on the assumption of a
+   cream card, which is *correct* here rather than backwards as it is on navy,
+   so the team-colour path needs no override at all. Everything else was
+   re-measured against the wood and two defaults failed -- see --tg-yes.
+   ========================================================================== */
+
+/* The accents. One per competition, and the only thing that differs between
+   the three: the colour of the line painted around the card. Values are the
+   brands' own, from SPORT_BRANDS in lib/tregu-sport-branding.ts, so the line
+   and the brand mark beside the title are never two different blues.
+   Measured on the wood: NBA 5.48:1, FBK 3.88:1, FIBA 3.63:1 -- all above 3:1,
+   which is the bar for a non-text graphical boundary. */
+.tregu-native-market[data-competition="nba"],
+.tregu-detail-header[data-competition="nba"] { --competition-color: #17408B; }
+.tregu-native-market[data-competition="fiba.world"],
+.tregu-detail-header[data-competition="fiba.world"] { --competition-color: #A8380F; }
+.tregu-native-market[data-competition="fbk.kosovo"],
+.tregu-detail-header[data-competition="fbk.kosovo"] { --competition-color: #0A5AA6; }
+
+/* The floor. Two joint periods that share no common factor (127px and 89px) so
+   the butt joints never line up into a visible grid the way a single repeat
+   does -- real strip maple is laid staggered, and this is the cheapest way to
+   say so. Plank seams run horizontally because the card is wider than it is
+   tall and boards read as running the long way.
+
+   The wood range is narrow on purpose: #EFD3A2 to #DCB57A. An earlier, prettier
+   falloff bottomed out at #D3A667 and dropped the footer link to 4.22:1. */
+.tregu-native-market:is(
+  [data-competition="nba"],
+  [data-competition="fiba.world"],
+  [data-competition="fbk.kosovo"]
+) {
+  --court-line: var(--competition-color, #17408B);
+  --court-joint: rgba(109, 68, 28, .17);
+  --court-seam: rgba(109, 68, 28, .22);
+
+  /* Re-scoped rather than selector-by-selector, per DESIGN.md:168. These four
+     fix .tregu-market-close, .tregu-market-foot, the chart and the title in one
+     move. Measured against the darkest wood stop (#DCB57A):
+       --tg-text   8.64:1      --tg-muted  5.64:1
+     and against the chip ground (#F9ECD9, which is --tg-panel over the wood):
+       --tg-yes    4.68:1      --tg-no     5.84:1
+     --tg-yes had to change. The cream-card #00A651 scores 2.74:1 on a chip
+     sitting over wood and fails outright; #007A3C is the yesText token the
+     tregu palette already defines for exactly this problem. */
+  --tg-text: #2B1B0C;
+  --tg-muted: #54371A;
+  --tg-border: rgba(92, 56, 22, .18);
+  --tg-border-hi: rgba(92, 56, 22, .32);
+  --tg-panel: rgba(255, 250, 242, .78);
+  --tg-yes: #007A3C;
+  --tg-yes-dim: rgba(0, 122, 60, .14);
+  --tg-no: #B4181A;
+  --tg-no-dim: rgba(180, 24, 26, .14);
+
+  color: var(--tg-text);
+  background:
+    repeating-linear-gradient(90deg, transparent 0 126px, var(--court-joint) 126px 127px),
+    repeating-linear-gradient(90deg, transparent 0 88px, var(--court-joint) 88px 89px),
+    repeating-linear-gradient(0deg, var(--court-seam) 0 1px, transparent 1px 33px),
+    linear-gradient(163deg, #EFD3A2 0%, #E2BC82 54%, #DCB57A 100%);
+  border-color: color-mix(in srgb, var(--court-line) 26%, rgba(109, 68, 28, .34));
+  box-shadow:
+    0 4px 18px -8px rgba(109, 68, 28, .40),
+    0 16px 38px -18px rgba(84, 48, 14, .38),
+    inset 0 1px 0 rgba(255, 248, 232, .58);
+  /* .tregu-glass's blur has nothing to sample behind an opaque card. */
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  /* A band at the foot that belongs to the ball alone, the same move the
+     Champions stadium needs. Sized to the ball: at 116px wide the ball stands
+     111px tall, sits 26px below the card edge, and so reaches 85px up -- which
+     is where the footer's top edge lands once this padding is applied. Below
+     that number the ball climbs into the outcome chips and covers a
+     probability, which is the one thing on this card that must never be
+     decorated over. */
+  padding-bottom: 64px;
+}
+
+.tregu-native-market:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-native-title { color: var(--tg-text); }
+.tregu-native-market:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-native-brand { color: var(--tg-muted); }
+
+/* 4.90:1 on the darkest wood. A warm burnt-umber rather than the floor-wide
+   orange, which vibrates against this ground. */
+.tregu-native-market:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-market-open {
+  color: #6E380A;
+}
+.tregu-native-market:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-market-foot {
+  border-top: 0;
+  padding-top: 11px;
+  /* Clears the ball's 96px of encroachment. Without it the arrow in
+     "Hap tregun →" is cut in half by the ball's left edge. */
+  padding-right: 100px;
+  background-image: linear-gradient(90deg, transparent, rgba(109, 68, 28, .30) 14%, rgba(109, 68, 28, .30) 70%, transparent);
+  background-size: 100% 1px;
+  background-repeat: no-repeat;
+  background-position: 0 0;
+}
+
+/* The line-art competition SVG is a football-competition device and draws
+   arcs and a trophy. Nothing basketball wants. */
+.tregu-native-market:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-competition-art { display: none; }
+
+/* --- Rim and hover -------------------------------------------------------
+   Same collision the Champions block documents at 15453: .tregu-edge::after
+   (3193) and .tregu-native-market::after (12517) target one box and the cascade
+   merges them per declaration, leaving an orbiting conic ring carved into a
+   hollow outline with lg-orbit still ticking for nobody. Resolved the same way
+   -- neutralise ::after into the hover glare, move the rim to ::before, which
+   is free on this element -- and scoped to the three basketball keys so the
+   other cards on the floor are untouched.
+
+   The rim here does NOT orbit. Champions' rim breathes because stadium light
+   moves; a line painted on a floor does not. It is the sideline, so it holds
+   still and the varnish moves over it instead. */
+.tregu-native-market:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"])::after {
+  z-index: 2;
+  padding: 0;
+  animation: none;
+  -webkit-mask: none;
+  mask: none;
+  background: linear-gradient(90deg, transparent, rgba(255, 246, 226, .34) 38%, rgba(255, 252, 244, .46) 52%, rgba(255, 246, 226, .30) 66%, transparent);
+}
+
+.tregu-native-market:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"])::before {
+  content: "";
+  position: absolute;
+  inset: 7px;
+  z-index: 1;
+  border: 1.5px solid color-mix(in srgb, var(--court-line) 62%, rgba(255, 248, 232, .55));
+  border-radius: 4px;
+  opacity: .48;
+  pointer-events: none;
+}
+
+/* --- The varnish ---------------------------------------------------------
+   One specular band crossing the floor, and the treatment's only authored
+   moment. Not four drifting washes: hardwood returns a single highlight, and
+   stacking several would read as fog.
+
+   It travels once per cycle and spends most of the cycle off the card, so the
+   floor is still by default and the sweep is an event rather than a texture.
+   Opacity carries the ends so the band never clips at the card edge. */
+.tregu-native-market:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-court-varnish {
+  position: absolute;
+  inset: -30% -45%;
+  z-index: 0;
+  background: linear-gradient(
+    101deg,
+    transparent 40%,
+    rgba(255, 249, 233, .40) 47%,
+    rgba(255, 253, 246, .62) 50%,
+    rgba(255, 249, 233, .36) 53%,
+    transparent 60%
+  );
+  pointer-events: none;
+  will-change: transform, opacity;
+  animation: tregu-court-varnish 15s ease-in-out infinite;
+}
+
+@keyframes tregu-court-varnish {
+  0%, 16%   { transform: translate3d(-46%, 0, 0); opacity: 0; }
+  30%       { opacity: .92; }
+  70%       { opacity: .92; }
+  84%, 100% { transform: translate3d(46%, 0, 0); opacity: 0; }
+}
+
+/* --- The ball ------------------------------------------------------------
+   Bottom-right, cropped by the card's own corner so it reads as an object
+   resting on the floor the card is made of rather than a sticker placed on it.
+   The drop-shadow is offset up-left because the varnish enters from the left;
+   a centred shadow would make it hover. */
+.tregu-native-market:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-court-ball {
+  position: absolute;
+  right: -20px;
+  bottom: -26px;
+  z-index: 1;
+  width: 116px;
+  height: auto;
+  pointer-events: none;
+  filter: drop-shadow(-7px 9px 13px rgba(84, 48, 14, .36));
+}
+
+/* Content clears both decorative layers. (0,2,0) beats the generic rules
+   without touching them -- the same specificity trick as 15450. */
+.tregu-native-market .tregu-court-varnish { position: absolute; z-index: 0; }
+.tregu-native-market .tregu-court-ball { position: absolute; z-index: 1; }
+
+/* Chips sit on the wood, so they get a warm paper rather than the flat white
+   the generic [data-competition] rule gives them. */
+.tregu-native-market:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-native-outcome {
+  background: var(--tg-panel);
+  border-color: rgba(92, 56, 22, .20);
+}
+.tregu-native-market:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-exact-chart-plot {
+  background: rgba(255, 250, 242, .52);
+}
+.tregu-native-market:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-exact-chart-grid { stroke: rgba(109, 68, 28, .16); }
+
+/* --- Fallbacks -----------------------------------------------------------
+   The reduced-motion state is designed, not switched off: the varnish parks
+   just past centre, where a still highlight looks like a floor that has been
+   polished rather than one a light is crossing. DESIGN.md:168 requires this. */
+@media (prefers-reduced-motion: reduce) {
+  .tregu-native-market:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-court-varnish {
+    animation: none;
+    transform: translate3d(8%, 0, 0);
+    opacity: .68;
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .tregu-native-market:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) {
+    --tg-panel: #FBF2E4;
+  }
+  .tregu-native-market:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-court-varnish { display: none; }
+  .tregu-native-market:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-exact-chart-plot { background: #FBF2E4; }
+}
+
+@media (prefers-contrast: more) {
+  .tregu-native-market:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) {
+    /* Flatten the wood to its lightest stop: the joints and seams are texture
+       competing with text for anyone who asked for less of exactly that. */
+    background: #F2DCB4;
+    --tg-muted: #3F2810;
+  }
+  .tregu-native-market:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-court-varnish { display: none; }
+  .tregu-native-market:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"])::before { opacity: .9; }
+  .tregu-native-market:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-native-outcome {
+    background: #FFFDF8;
+    border-color: rgba(64, 38, 14, .5);
+  }
+}
+
+@media (max-width: 700px) {
+  /* Chips stack single-column, so the card grows tall and a 148px ball starts
+     to dominate the corner. */
+  .tregu-native-market:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-court-ball {
+    width: 96px;
+    right: -16px;
+    bottom: -22px;
+  }
+  .tregu-native-market:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-market-foot {
+    padding-right: 82px;
+  }
+}
+
+/* ==========================================================================
+   Basketball -- the other two surfaces
+   --------------------------------------------------------------------------
+   Same floor, same ball, same line. The card, the market header and the trade
+   receipt are one object seen three times.
+   ========================================================================== */
+
+/* --- Market header banner ------------------------------------------------ */
+.tregu-detail-header:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) {
+  --court-line: var(--competition-color, #17408B);
+  --court-joint: rgba(109, 68, 28, .17);
+  --court-seam: rgba(109, 68, 28, .22);
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  color: #2B1B0C;
+  background:
+    repeating-linear-gradient(90deg, transparent 0 126px, var(--court-joint) 126px 127px),
+    repeating-linear-gradient(90deg, transparent 0 88px, var(--court-joint) 88px 89px),
+    repeating-linear-gradient(0deg, var(--court-seam) 0 1px, transparent 1px 33px),
+    linear-gradient(163deg, #EFD3A2 0%, #E2BC82 54%, #DCB57A 100%);
+  border-color: color-mix(in srgb, var(--court-line) 26%, rgba(109, 68, 28, .34));
+}
+.tregu-detail-header:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) > * {
+  position: relative;
+  z-index: 2;
+}
+.tregu-detail-header:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-court-varnish {
+  position: absolute;
+  inset: -30% -45%;
+  z-index: 0;
+  background: linear-gradient(101deg, transparent 40%, rgba(255, 249, 233, .40) 47%, rgba(255, 253, 246, .62) 50%, rgba(255, 249, 233, .36) 53%, transparent 60%);
+  pointer-events: none;
+  animation: tregu-court-varnish 15s ease-in-out infinite;
+}
+/* Larger and further into frame than on the card: the banner is wider, and at
+   card scale the ball would read as a bullet point. */
+.tregu-detail-header:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-court-ball {
+  position: absolute;
+  right: 18px;
+  bottom: -34px;
+  z-index: 1;
+  width: 190px;
+  height: auto;
+  pointer-events: none;
+  filter: drop-shadow(-8px 10px 16px rgba(84, 48, 14, .34));
+}
+
+@media (max-width: 700px) {
+  .tregu-detail-header:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-court-ball {
+    width: 128px;
+    right: -10px;
+    bottom: -24px;
+  }
+}
+
+/* --- Trade receipt -------------------------------------------------------
+   The receipt keeps white text on a dark ground, so this is the one surface
+   where the floor cannot be the pale maple of the other two: #F2F5FF-weight
+   copy on honey is unreadable. It is the same floor under house lights down,
+   which is what a lacquered court actually looks like from the tunnel -- dark
+   walnut, the joints still legible, the baseline stripe still gold.
+
+   Contrast on this ground: #FFFFFF on #33200F is 13.9:1. */
+.tregu-trade-celebration:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) {
+  --court-joint: rgba(255, 226, 184, .07);
+  --court-seam: rgba(255, 226, 184, .09);
+  --competition-color: #E9B979;
+  background: #33200F !important;
+}
+.tregu-trade-celebration:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-trade-celebration-wash {
+  opacity: 1;
+  background:
+    repeating-linear-gradient(90deg, transparent 0 126px, var(--court-joint) 126px 127px),
+    repeating-linear-gradient(90deg, transparent 0 88px, var(--court-joint) 88px 89px),
+    repeating-linear-gradient(0deg, var(--court-seam) 0 1px, transparent 1px 33px),
+    /* The baseline. One gold line low in the frame is what separates a court
+       from a dark wooden table. */
+    linear-gradient(0deg, transparent 0 62px, rgba(226, 168, 62, .52) 62px 65px, transparent 65px),
+    linear-gradient(168deg, #3E2814 0%, #33200F 58%, #281809 100%);
+}
+.tregu-trade-celebration:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-competition-art { display: none; }
+
+/* The ball drops in and settles once -- the receipt's authored moment. A
+   basketball that appears without falling is the one thing on this surface
+   that would read as wrong. It lands on the gold baseline, then the floor
+   takes the last few pixels of travel out of it. */
+.tregu-trade-celebration:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-court-ball {
+  position: absolute;
+  right: -30px;
+  bottom: -22px;
+  z-index: 1;
+  width: 118px;
+  height: auto;
+  pointer-events: none;
+  opacity: .92;
+  filter: drop-shadow(-10px 14px 18px rgba(0, 0, 0, .45));
+  transform-origin: 50% 100%;
+  animation: tregu-court-ball-drop 760ms cubic-bezier(.3, .8, .35, 1) both 120ms;
+}
+/* The figures are the receipt. Pull them clear of the ball rather than letting
+   a decoration sit on the number the trader just paid for. */
+.tregu-trade-celebration:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-trade-celebration-content dl {
+  padding-right: 46px;
+}
+
+.tregu-trade-celebration:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-court-varnish {
+  position: absolute;
+  inset: -30% -45%;
+  z-index: 0;
+  background: linear-gradient(101deg, transparent 42%, rgba(255, 232, 194, .12) 49%, rgba(255, 240, 214, .20) 52%, transparent 60%);
+  pointer-events: none;
+  animation: tregu-court-varnish 15s ease-in-out infinite;
+}
+
+@keyframes tregu-court-ball-drop {
+  0%   { transform: translate3d(0, -190%, 0) scale(1, 1); opacity: 0; }
+  44%  { opacity: .92; }
+  /* Contact: the ball flattens against the boards, never the other way round. */
+  58%  { transform: translate3d(0, 0, 0) scale(1.08, .9); }
+  72%  { transform: translate3d(0, -26%, 0) scale(.98, 1.03); }
+  86%  { transform: translate3d(0, 0, 0) scale(1.03, .97); }
+  100% { transform: translate3d(0, 0, 0) scale(1, 1); opacity: .92; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* Landed, not falling. The squash is gone but the ball still sits on the
+     baseline where the drop would have left it. */
+  .tregu-trade-celebration:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-court-ball {
+    animation: none;
+    transform: none;
+    opacity: .92;
+  }
+  .tregu-trade-celebration:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-court-varnish {
+    animation: none;
+    transform: translate3d(8%, 0, 0);
+  }
+  .tregu-detail-header:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-court-varnish {
+    animation: none;
+    transform: translate3d(8%, 0, 0);
+    opacity: .68;
+  }
+}
+
+@media (max-width: 700px) {
+  .tregu-trade-celebration:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-court-ball {
+    width: 104px;
+    right: -24px;
+  }
+}
+
+/* ── UEFA Nations League ───────────────────────────────────────────────────
+   The fifth competition treatment, and the second light one — basketball's
+   hardwood got there first, and the two are told apart by material: that one is
+   a lit floor, this one is paper. The three UEFA cards borrow a floodlit night;
+   this competition's identity is a flag woven out of every member nation's
+   flag, printed on pale stock, so the colour lives at the folds.
+
+   Because the substrate stays light, `contrastSafeTeamColor()` keeps the cream
+   assumption it was written against, and the Two-Color Market Rule needs no
+   retuning: #00A651 scores 5.14:1 and #E41E20 6.41:1 on this paper, so yes/no
+   ship unchanged. That is the whole reason this treatment re-scopes tokens
+   instead of overriding the components one at a time. */
+
+.tregu-native-market[data-competition="uefa.nations"],
+.tregu-detail-header[data-competition="uefa.nations"],
+.tregu-trade-celebration[data-competition="uefa.nations"] {
+  --unl-paper: #F7F8FB;
+  --unl-paper-deep: #E9ECF3;
+  --unl-lit: rgba(255, 255, 255, .95);
+  --unl-shade: rgba(28, 42, 74, .085);
+  --unl-facet: rgba(28, 42, 74, .028);
+  --unl-disc: rgba(255, 255, 255, .62);
+  --tg-text: #141A28;
+  --tg-muted: #5A6478;
+  --tg-border: rgba(28, 42, 74, .12);
+  --competition-color: #2D4A7C;
+  isolation: isolate;
+  position: relative;
+  overflow: hidden;
+}
+
+.tregu-native-market[data-competition="uefa.nations"],
+.tregu-detail-header[data-competition="uefa.nations"] {
+  background: linear-gradient(168deg, var(--unl-paper) 0%, var(--unl-paper-deep) 100%);
+  border-color: rgba(28, 42, 74, .14);
+}
+
+.tregu-trade-celebration[data-competition="uefa.nations"] {
+  background: linear-gradient(168deg, var(--unl-paper) 0%, var(--unl-paper-deep) 100%) !important;
+}
+
+/* `.tregu-native-market > *` (12528) sets position:relative; z-index:1 on every
+   child, which would lift all three decorative layers into the content stack.
+   Out-specified here rather than maintained as a :not() list, same as the
+   Champions and Europa treatments above. */
+.tregu-native-market[data-competition="uefa.nations"] .tregu-unl-field,
+.tregu-native-market[data-competition="uefa.nations"] .tregu-unl-rim,
+.tregu-native-market[data-competition="uefa.nations"] .tregu-unl-fold,
+.tregu-detail-header[data-competition="uefa.nations"] .tregu-unl-field,
+.tregu-detail-header[data-competition="uefa.nations"] .tregu-unl-rim,
+.tregu-detail-header[data-competition="uefa.nations"] .tregu-unl-fold,
+.tregu-trade-celebration[data-competition="uefa.nations"] .tregu-unl-field,
+.tregu-trade-celebration[data-competition="uefa.nations"] .tregu-unl-rim,
+.tregu-trade-celebration[data-competition="uefa.nations"] .tregu-unl-fold {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* The weave is drawn at a fixed cell size in user units, so one lattice reads
+   the same on a tall card, a wide banner and a narrow receipt. That is what
+   lets this treatment skip the per-surface stroke weights the beam paths need. */
+.tregu-unl-facet { fill: var(--unl-facet); }
+.tregu-unl-lit { fill: none; stroke: var(--unl-lit); stroke-width: 1.25; }
+.tregu-unl-shade { fill: none; stroke: var(--unl-shade); stroke-width: 1.25; }
+.tregu-unl-disc { fill: var(--unl-disc); }
+
+.tregu-unl-rim {
+  /* Most cells are pale, so the layer runs near full strength the way the
+     competition's own artwork does, and the mask does the shaping.
+
+     Two components, intersected. The radial thins it through the middle, where
+     the question and the footer run the full width. The linear thins the top and
+     bottom strips, because the brand chip and the footer are 10-11px type: over a
+     saturated cell they measured 1.99:1, and no text colour fixes a background
+     that dark. Thinning the weave under them is what fixes it. */
+  opacity: .92;
+  -webkit-mask-image:
+    radial-gradient(96% 104% at 50% 50%, rgba(0,0,0,.3) 20%, rgba(0,0,0,.62) 54%, #000 80%),
+    linear-gradient(to bottom, rgba(0,0,0,.34) 0, rgba(0,0,0,.34) 48px, #000 108px, #000 calc(100% - 108px), rgba(0,0,0,.34) calc(100% - 44px), rgba(0,0,0,.34) 100%);
+  mask-image:
+    radial-gradient(96% 104% at 50% 50%, rgba(0,0,0,.3) 20%, rgba(0,0,0,.62) 54%, #000 80%),
+    linear-gradient(to bottom, rgba(0,0,0,.34) 0, rgba(0,0,0,.34) 48px, #000 108px, #000 calc(100% - 108px), rgba(0,0,0,.34) calc(100% - 44px), rgba(0,0,0,.34) 100%);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+}
+
+/* The fold. The mark is a flag mid-wave, so light travels and the cells hold
+   still — moving the cells would tear the tessellation they exist to keep.
+   A shadowed flank on each side of a lit crest is what makes it read as a
+   crease crossing paper rather than a gloss sweep across glass. */
+.tregu-unl-fold {
+  inset: -25% -45%;
+  width: auto;
+  height: auto;
+  background: linear-gradient(104deg,
+    transparent 39%,
+    rgba(28, 42, 74, .05) 45.5%,
+    rgba(255, 255, 255, .92) 50%,
+    rgba(28, 42, 74, .042) 54.5%,
+    transparent 61%);
+  transform: translate3d(-34%, 0, 0);
+  animation: unl-fold 9s cubic-bezier(.45, 0, .55, 1) infinite;
+}
+
+@keyframes unl-fold {
+  0% { transform: translate3d(-34%, 0, 0); }
+  100% { transform: translate3d(34%, 0, 0); }
+}
+
+.tregu-detail-header[data-competition="uefa.nations"] .tregu-unl-rim { opacity: .88; }
+.tregu-detail-header[data-competition="uefa.nations"] .tregu-unl-fold { animation-duration: 11s; }
+
+/* The receipt is the competition's loudest moment and runs against a 3s anthem
+   clip, so the colour comes up and the fold matches the sound's period. */
+.tregu-trade-celebration[data-competition="uefa.nations"] .tregu-unl-rim {
+  opacity: .95;
+  /* Taller than it is wide, and every line of the receipt runs through the
+     middle — so the clear centre is an upright ellipse, not the card's round one. */
+  -webkit-mask-image: radial-gradient(76% 100% at 50% 50%, rgba(0,0,0,.26) 26%, rgba(0,0,0,.6) 58%, #000 84%);
+  mask-image: radial-gradient(76% 100% at 50% 50%, rgba(0,0,0,.26) 26%, rgba(0,0,0,.6) 58%, #000 84%);
+}
+.tregu-trade-celebration[data-competition="uefa.nations"] .tregu-unl-fold { animation-duration: 3s; }
+.tregu-trade-celebration[data-competition="uefa.nations"] .tregu-trade-celebration-wash { opacity: .1; }
+
+@media (prefers-reduced-motion: reduce) {
+  /* Not `animation: none`. The fold is parked just off centre, where the crest
+     sits across the weave and both flanks stay visible — the frame the motion
+     exists to arrive at, held still. */
+  .tregu-native-market[data-competition="uefa.nations"] .tregu-unl-fold,
+  .tregu-detail-header[data-competition="uefa.nations"] .tregu-unl-fold,
+  .tregu-trade-celebration[data-competition="uefa.nations"] .tregu-unl-fold {
+    animation: none;
+    transform: translate3d(-7%, 0, 0);
+  }
+}
+
+@media (max-width: 700px) {
+  /* Half the card is copy at this width, so the colour pulls further into the
+     corners rather than thinning out evenly and greying the whole rim. */
+  .tregu-native-market[data-competition="uefa.nations"] .tregu-unl-rim {
+    /* Both layers restated. Overriding mask-image with a single layer drops the
+       linear one, and with it the thinning that keeps the brand chip and the
+       footer legible — which would leave that protection resting on nothing but
+       the taller mobile card's geometry. */
+    -webkit-mask-image:
+      radial-gradient(128% 116% at 50% 50%, rgba(0,0,0,.26) 18%, rgba(0,0,0,.6) 52%, #000 80%),
+      linear-gradient(to bottom, rgba(0,0,0,.34) 0, rgba(0,0,0,.34) 46px, #000 104px, #000 calc(100% - 104px), rgba(0,0,0,.34) calc(100% - 42px), rgba(0,0,0,.34) 100%);
+    mask-image:
+      radial-gradient(128% 116% at 50% 50%, rgba(0,0,0,.26) 18%, rgba(0,0,0,.6) 52%, #000 80%),
+      linear-gradient(to bottom, rgba(0,0,0,.34) 0, rgba(0,0,0,.34) 46px, #000 104px, #000 calc(100% - 104px), rgba(0,0,0,.34) calc(100% - 42px), rgba(0,0,0,.34) 100%);
+  }
+}
+
+/* The receipt was written for the three dark competitions: `.tregu-trade-celebration`
+   sets `color:#fff` and spells its rules, dividers and secondary text as
+   rgba(255,255,255,…) literals rather than tokens. On this paper every one of
+   them renders white-on-white. There is no token to re-scope, so the set is
+   inverted explicitly here — the one place this treatment has to name selectors
+   one at a time, and the reason is that the component holds no variable to move. */
+.tregu-trade-celebration[data-competition="uefa.nations"] {
+  color: #141A28;
+  border-color: rgba(28, 42, 74, .16);
+  box-shadow: 0 24px 60px rgba(28, 42, 74, .22), 0 5px 16px rgba(28, 42, 74, .12);
+}
+.tregu-trade-celebration[data-competition="uefa.nations"] .tregu-trade-celebration-confirm span {
+  color: #F7F8FB;
+  background: #141A28;
+}
+.tregu-trade-celebration[data-competition="uefa.nations"] .tregu-trade-celebration-mark {
+  border-color: rgba(28, 42, 74, .16);
+  background: rgba(255, 255, 255, .72);
+}
+.tregu-trade-celebration[data-competition="uefa.nations"] .tregu-trade-celebration-content > p { color: #5A6478; }
+.tregu-trade-celebration[data-competition="uefa.nations"] dl { border-top-color: rgba(28, 42, 74, .18); }
+.tregu-trade-celebration[data-competition="uefa.nations"] dl div { border-bottom-color: rgba(28, 42, 74, .12); }
+.tregu-trade-celebration[data-competition="uefa.nations"] dt { color: #5A6478; }
+.tregu-trade-celebration[data-competition="uefa.nations"] .tregu-trade-celebration-content > small { color: #5A6478; }
+.tregu-trade-celebration[data-competition="uefa.nations"] > button {
+  color: #141A28;
+  background: rgba(255, 255, 255, .74);
+}
+
+/* The weave runs edge to edge behind the copy, so the receipt's own lines need a
+   ground of their own to sit on rather than reading straight off the pattern. */
+.tregu-trade-celebration[data-competition="uefa.nations"] .tregu-trade-celebration-content {
+  padding: 4px 2px;
+  border-radius: 14px;
+  background: radial-gradient(72% 62% at 50% 46%, rgba(247, 248, 251, .93) 0%, rgba(247, 248, 251, .72) 62%, transparent 100%);
+}
+
+/* The brand chip and the footer are the smallest type on the card and the only
+   copy that sits near the weave's densest band. Muted grey measured 1.99:1 there;
+   full ink clears it. The hierarchy still reads, because size and weight carry it. */
+.tregu-native-market[data-competition="uefa.nations"] .tregu-native-brand,
+.tregu-native-market[data-competition="uefa.nations"] .tregu-market-foot,
+.tregu-native-market[data-competition="uefa.nations"] .tregu-market-close {
+  color: #141A28;
+}

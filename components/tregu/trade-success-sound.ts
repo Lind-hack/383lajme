@@ -19,6 +19,7 @@ export type TradeSuccessSoundProfile =
   | "champions"
   | "europa"
   | "conference"
+  | "nations"
   | "default";
 
 export const TRADE_SUCCESS_SOUND_DURATION_MS = SOUND_DURATIONS as Record<TradeSuccessSoundProfile, number>;

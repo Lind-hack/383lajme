@@ -90,6 +90,18 @@ const UECL_RECEIPT: MobileTradeReceipt = {
   soundProfile: "conference",
 };
 
+const UNL_RECEIPT: MobileTradeReceipt = {
+  competition: "uefa.nations",
+  market: "Kosovë — Irlandë: rezultati pas 90 minutave?",
+  selection: "Kosovë",
+  coins: 10,
+  potentialReturn: 24.1,
+  probability: 0.41,
+  color: "#dfe3ee",
+  finish: "standard",
+  soundProfile: "nations",
+};
+
 const NOOP = () => {};
 
 const GRID: CSSProperties = {
@@ -103,7 +115,7 @@ export default function UefaCardPreview() {
   // ?receipt=uel swaps the mounted confirmation so both competitions can be
   // checked without a second sheet on the page.
   const search = typeof window !== "undefined" ? window.location.search : "";
-  const receipt = search.includes("receipt=uecl") ? UECL_RECEIPT : search.includes("receipt=uel") ? UEL_RECEIPT : UCL_RECEIPT;
+  const receipt = search.includes("receipt=unl") ? UNL_RECEIPT : search.includes("receipt=uecl") ? UECL_RECEIPT : search.includes("receipt=uel") ? UEL_RECEIPT : UCL_RECEIPT;
   return <div className="tregu-scope" style={{ minHeight: "100vh", background: "#f8f5ef" }}>
     <main style={{ maxWidth: 960, margin: "0 auto", padding: "40px 24px 64px" }}>
       <Link href="/tregu" style={{ fontSize: 14, color: "#6b625a" }}>← Kthehu te Tregu</Link>
@@ -172,6 +184,13 @@ export default function UefaCardPreview() {
       <div inert className="tregu-grid" style={GRID}>
         <StructuredSportMarketCard market={sample({ league: "uefa.europa.conf", home: "Fiorentina", away: "Rapid Wien", homeColor: "#5b2d8e", awayColor: "#0f7a3d", probs: [.49, .27, .24] })} />
         <StructuredSportMarketCard market={sample({ league: "uefa.europa.conf", home: "Chelsea", away: "Djurgården", homeColor: "#034694", awayColor: "#1a63b8", probs: [.68, .19, .13], drift: .05 })} />
+      </div>
+
+      <h2 style={{ margin: "44px 0 8px", fontSize: 20, letterSpacing: "-.02em" }}>Nations League</h2>
+      <p style={{ margin: "0 0 20px", color: "#6b625a", lineHeight: 1.6 }}>I vetmi trajtim i çelët: letër e zbehtë, flamujt e kombeve te palat, dhe një palë drite që kalon mbi ta.</p>
+      <div inert className="tregu-grid" style={GRID}>
+        <StructuredSportMarketCard market={sample({ league: "uefa.nations", home: "Kosovë", away: "Irlandë", homeColor: "#1b4f9c", awayColor: "#009b48", probs: [.41, .29, .30] })} />
+        <StructuredSportMarketCard market={sample({ league: "uefa.nations", home: "Spanjë", away: "Holandë", homeColor: "#e1332d", awayColor: "#f6c500", probs: [.55, .24, .21], drift: .04 })} />
       </div>
     </main>
   </div>;
