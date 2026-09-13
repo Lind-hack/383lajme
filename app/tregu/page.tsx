@@ -717,7 +717,7 @@ export default function TreguHub() {
                 here and frees the right column for something else. */}
             <div className="tregu-hero-main">
               <FeaturedCarousel key={category} markets={featured.map(toMini)} />
-              <TraderLeaderboard />
+              <TraderLeaderboard loggedIn={balance !== null} />
             </div>
             <FloorRail markets={markets.filter((market) => !isStructuredSportMarket(market)).map(toMini)} />
           </div>

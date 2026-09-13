@@ -159,13 +159,27 @@ Two elevation systems coexist by design, and DESIGN.md treats that as intentiona
 - **Don't** give glass panels a hover-lift on touch devices; the `(hover: hover) and (pointer: fine)` gate exists because a fake hover state that never resolves reads as a stuck/broken button on mobile.
 - **Don't** introduce solid, opaque glass at rest. If a panel needs guaranteed-opaque content (a modal, a confirmation), that's a signal it should not be `.tregu-glass` at all — reach for the site's flat `.card` instead.
 
-### Competition treatments — the one sanctioned exception
+### Competition treatments — the first sanctioned exception
 
 Champions League cards (`.tregu-native-market[data-competition="uefa.champions"]`) deliberately break three rules above: they carry a third accent colour, they run an ambient sweep inside `.tregu-market`, and they are dark on a cream floor. This is a *competition* treatment, not a category one, and it is scoped to a single `[data-competition]` block appended at the tail of `globals.css`.
 
 It is allowed because the competition's own identity is the point — a Champions League night is a recognised visual object, and a market on that competition borrows its authority the way a broadcast graphic does. The Two-Color Market Rule still holds inside the card: yes/no stay green and red, retuned for a dark substrate (`#2BE39A` / `#FF6B7A`, because `#E41E20` scores only 3.8:1 on navy and fails).
 
 **A competition treatment has to earn its way in.** Before adding another: it applies to a competition, never a category; it re-scopes `--tg-*` tokens on the card rather than overriding selectors one by one; every text colour is re-checked against the new substrate, including the team-colour path, which `contrastSafeTeamColor()` drives *darker* on the assumption of a cream card; and the ambient layer ships a designed static fallback for `prefers-reduced-motion`, never just `animation: none`.
+
+### The flagship slot — the second sanctioned exception
+
+The carousel at the top of `/tregu` (`.tregu-hero-row .tregu-car-slide-link`) is also dark on the cream floor, and unlike the competition cards it is not tied to any competition at all. It is a **placement** treatment: the floor's one headline slot, which has to stop a reader who has not decided to read anything yet.
+
+Three passes at keeping it light failed for the same reason each time — a cream panel on a cream floor has no material of its own, and a tint is not a material. Adding a third quiet variation would have been a fourth attempt at the same idea.
+
+A placement treatment carries an extra obligation a competition treatment does not: **it must work for every category the slot can show.** A Champions card only ever has to look like Champions. This slot shows politics, economy, sport and world markets in rotation, so the substrate is fixed (`#14110D`) and only the light on it moves — `--feature-accent` carries the category colour into one wash, and nothing else in the card is per-category.
+
+Everything the competition rule demands still applies: tokens re-scoped on the card rather than selectors chased one by one, and every text colour re-measured against the new substrate. On `#14110D` the cream green survives (`#00A651`, 5.89:1) but `#E41E20` does not (4.04:1), so the pair is raised to `#3BE08F` / `#FF8A93`.
+
+**One slot, one design.** Every slide in the carousel takes this treatment, including `.tregu-championship-card`, which brings its own cream surface elsewhere and defers inside the hero row. A slot whose slides look like different products is worse than any of them.
+
+Note the mechanism, because it has bitten once: `--feature-accent` is published by the component on the slide element. Rules that read it must live on that element or below. An earlier version read it from `.tregu-carousel`, an ancestor, where a property set on a descendant is simply not visible — so every accent silently resolved to the `#FF4422` fallback, which is how a cyan sport card ended up with an orange bar across its top.
 
 # Visit — Kosovo in Your Pocket
 

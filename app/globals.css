@@ -17497,63 +17497,149 @@ header[data-overlay="true"] .nav-search-btn[style*="margin-right"] {
 .tregu-hero-row .tregu-feature-price-value { font-size: clamp(26px, 2.8vw, 33px); }
 .tregu-hero-row .tregu-feature-tape { min-height: 86px; }
 
-/* --- The hook -------------------------------------------------------------
-   The card was a cream panel on a cream floor, which is why it did not stop
-   anybody. It stays light — DESIGN.md:162 reserves dark-on-cream for
-   competition treatments and this is a placement, not a competition — and
-   earns its attention from the category instead: a solid accent rule across
-   the top, a wash falling from it, and a rim in the same colour. One variable,
-   so politics is blue and sport is rose without a second palette in here. */
+/* --- The treatment -------------------------------------------------------
+   The flagship slot goes dark, and every slide in it goes dark the same way.
+
+   Two earlier passes tried to make a cream panel stop the scroll on a cream
+   floor — first with a tinted header band, then with an accent rule across the
+   top. Neither worked, for the reason a third tint would not have either: the
+   card had no material of its own. The competition treatments on this floor
+   already prove the move that does work, and this borrows their substrate
+   rather than inventing a fourth quiet one.
+
+   DESIGN.md:162 reserved dark-on-cream for competition treatments. This is the
+   second sanctioned exception and the rule is amended there to say so: it is a
+   PLACEMENT treatment, scoped to one slot, and unlike a competition it must
+   work for every category the slot can show — so the accent is a variable and
+   the substrate never is.
+
+   Per-slide, not per-carousel. --feature-accent is published on
+   .tregu-car-slide-link by the component; the previous block read it from
+   .tregu-carousel, an ancestor, where a custom property set on a descendant
+   simply is not visible. Every one of those rules silently fell back to
+   #FF4422 — which is the orange bar across the top of a cyan-accented sport
+   card, and the reason the championship slide looked like a different product.
+   ------------------------------------------------------------------------- */
 .tregu-hero-row .tregu-carousel {
-  position: relative;
-  overflow: hidden;
-  border-color: color-mix(in srgb, var(--feature-accent, #FF4422) 26%, rgba(17, 17, 17, 0.10));
+  background: #14110D;
+  border-color: rgba(255, 236, 210, .14);
   box-shadow:
-    0 1px 0 rgba(255, 255, 255, 0.7) inset,
-    0 10px 30px -16px color-mix(in srgb, var(--feature-accent, #FF4422) 48%, transparent),
-    0 2px 10px rgba(17, 17, 17, 0.05);
+    0 18px 44px -22px rgba(20, 15, 8, .62),
+    0 2px 12px rgba(20, 15, 8, .28),
+    inset 0 1px 0 rgba(255, 244, 226, .07);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
-.tregu-hero-row .tregu-carousel::before {
-  content: "";
-  position: absolute;
-  inset: 0 0 auto;
-  height: 3px;
-  background: linear-gradient(
-    90deg,
-    var(--feature-accent, #FF4422),
-    color-mix(in srgb, var(--feature-accent, #FF4422) 40%, transparent)
-  );
-  z-index: 2;
-  pointer-events: none;
+/* The carousel chrome sits above the slides and cannot see their accent, so it
+   takes the one colour that is true for all of them: the floor's own ink. */
+.tregu-hero-row .tregu-car-title { color: #F6EFE4; font-size: 12.5px; letter-spacing: .1em; }
+.tregu-hero-row .tregu-car-head button {
+  color: #F6EFE4;
+  border-color: rgba(255, 236, 210, .22);
+  background: rgba(255, 244, 226, .06);
 }
+.tregu-hero-row .tregu-car-dot { background: rgba(255, 236, 210, .24); }
+.tregu-hero-row .tregu-car-dot-fill { background: #F6EFE4; }
+
 .tregu-hero-row .tregu-car-slide-link {
   position: relative;
   isolation: isolate;
+
+  /* Re-scoped rather than chased selector by selector, the same contract the
+     competition treatments follow. Measured on #14110D:
+       --tg-text  #F7F2EA  16.89:1     --tg-muted #B6AA98  8.24:1
+     and on the chip ground (#221F1A, --tg-panel over that substrate):
+       --tg-muted #B6AA98   7.19:1
+       --tg-yes   #3BE08F   9.57:1     --tg-no    #FF8A93  7.28:1
+
+     Only the red had to move. The cream-card green survives this substrate
+     (#00A651 scores 5.89:1) but #E41E20 lands at 4.04:1 — under AA for the
+     chip labels it sets — so red is raised for legibility and green is raised
+     with it, because a passing-but-dull green beside a brightened red reads as
+     the two sides being weighted differently. */
+  --tg-text: #F7F2EA;
+  --tg-muted: #B6AA98;
+  --tg-border: rgba(255, 236, 210, .14);
+  --tg-border-hi: rgba(255, 236, 210, .28);
+  --tg-panel: rgba(255, 244, 226, .06);
+  --tg-panel-hi: rgba(255, 244, 226, .09);
+  --tg-yes: #3BE08F;
+  --tg-yes-dim: rgba(59, 224, 143, .16);
+  --tg-no: #FF8A93;
+  --tg-no-dim: rgba(255, 138, 147, .16);
+
+  color: var(--tg-text);
 }
-/* The wash. Falls from the accent rule and is gone by a third of the way down,
-   so it colours the header and the question and leaves the chart on white
-   where the series colours have to stay readable. */
+
+/* The light source. One wash, thrown from the upper left in the category's own
+   colour, so a politics card and a sport card are lit differently without
+   either becoming a different design. Sits under the content on its own layer
+   rather than tinting a header strip — a band reads as a label, a wash reads
+   as a room. */
 .tregu-hero-row .tregu-car-slide-link::before {
   content: "";
   position: absolute;
-  inset: -16px -20px auto;
-  height: 190px;
+  inset: -18px -22px auto;
+  height: 260px;
   z-index: -1;
   pointer-events: none;
-  background: linear-gradient(
-    180deg,
-    color-mix(in srgb, var(--feature-accent, #FF4422) 13%, transparent) 0%,
-    color-mix(in srgb, var(--feature-accent, #FF4422) 4%, transparent) 46%,
-    transparent 100%
-  );
+  background:
+    radial-gradient(120% 150% at 6% -20%, color-mix(in srgb, var(--feature-accent, #FF4422) 40%, transparent) 0%, transparent 62%),
+    linear-gradient(180deg, rgba(255, 244, 226, .05), transparent 72%);
 }
-/* "Ngjarjet e mëdha" was the same weight as every other panel title on the
-   floor. This is the floor's headline; it can say so. */
-.tregu-hero-row .tregu-car-title {
-  font-size: 12.5px;
-  letter-spacing: 0.1em;
-  color: color-mix(in srgb, var(--feature-accent, #FF4422) 78%, #111);
+
+.tregu-hero-row .tregu-feature-head {
+  margin: -2px -6px 14px;
+  padding: 7px 10px;
+  border-radius: 10px;
+  background: rgba(255, 244, 226, .05);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--feature-accent, #FF4422) 30%, rgba(255, 236, 210, .10));
 }
+.tregu-hero-row .tregu-feature-q { color: var(--tg-text); }
+.tregu-hero-row .tregu-feature-price-label,
+.tregu-hero-row .tregu-market-foot { color: var(--tg-muted); }
+.tregu-hero-row .tregu-feature-price-value { color: var(--tg-text); }
+.tregu-hero-row .tregu-market-open { color: color-mix(in srgb, var(--feature-accent, #FF4422) 55%, #FFF3E2); }
+.tregu-hero-row .tregu-pill {
+  color: var(--tg-text);
+  background: rgba(255, 244, 226, .08);
+  border-color: rgba(255, 236, 210, .18);
+}
+.tregu-hero-row .tregu-market-close { color: var(--tg-muted); }
+
+/* The chart keeps its own series colours — they carry meaning — but the plot
+   it sits on has to stop being white. */
+.tregu-hero-row .tregu-feature-tape { min-height: 86px; }
+.tregu-hero-row .tregu-exact-chart-plot,
+.tregu-hero-row .f1-chart-shell { background: rgba(255, 244, 226, .04); }
+.tregu-hero-row .tregu-exact-chart-grid { stroke: rgba(255, 236, 210, .10); }
+
+/* The stat strip, in dark glass. Hairline gaps as before, on a light rule
+   instead of an ink one. */
+.tregu-hero-row .tregu-feature-stats {
+  background: rgba(255, 236, 210, .13);
+  box-shadow: 0 0 0 1px rgba(255, 236, 210, .13);
+}
+.tregu-hero-row .tregu-feature-stats > div { background: rgba(255, 244, 226, .05); }
+.tregu-hero-row .tregu-feature-stats dd { color: var(--tg-text); }
+.tregu-hero-row .tregu-feature-stats dd[data-dir="up"] { color: #3BE08F; }
+.tregu-hero-row .tregu-feature-stats dd[data-dir="down"] { color: #FF8A93; }
+
+/* The driver rack and outcome chips were drawn for a cream card. */
+.tregu-hero-row .tregu-feature-outcome-rack .tregu-side,
+.tregu-hero-row .tregu-native-outcome { background: var(--tg-panel); border-color: var(--tg-border); }
+
+/* One design for every slide: the championship card brought its own cream
+   surface and orange rim into a slot that is now dark. Inside the hero row it
+   defers; everywhere else it keeps its own treatment. */
+.tregu-hero-row .tregu-championship-card,
+.tregu-hero-row .tregu-championship-card::after {
+  background: none;
+  border-color: transparent;
+  box-shadow: none;
+}
+.tregu-hero-row .tregu-championship-card-head { color: var(--tg-text); }
+.tregu-hero-row .tregu-championship-mark { color: #E3B341; }
 
 @media (max-width: 1024px) {
   /* Single column below this width — the rail is no longer beside the card, so
@@ -17830,3 +17916,13 @@ header[data-overlay="true"] .nav-search-btn[style*="margin-right"] {
      and the figure under it. Two by two instead. */
   .tregu-feature-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
+
+/* Your own row when the period has not ranked you yet — present, and plainly
+   not a podium place. */
+.tregu-lb-row[data-unranked] .tregu-lb-name i {
+  font-style: normal;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--tg-muted);
+}
+.tregu-lb-row[data-unranked] { opacity: .78; }

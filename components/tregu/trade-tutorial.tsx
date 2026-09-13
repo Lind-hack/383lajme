@@ -460,13 +460,15 @@ export default function TradeTutorial() {
     // One demo per move, not the whole sequence on a loop: the pointer shows
     // the control the cue is naming and then waits there for the reader.
     if (current.key === "side" && tappedSide === null) {
-      return {
-        loop: true,
-        beats: [
-          { at: '[data-tut="side-po"]', hold: 900 },
-          { at: '[data-tut="side-jo"]', hold: 900 },
-        ],
-      };
+      // One target, not two.
+      //
+      // Both tiles are valid — the cue says "Prek PO ose JO" and both wear the
+      // waiting ring — but the pointer used to bounce between them on a 900ms
+      // loop. Two ringed tiles with a cursor ping-ponging across them reads as
+      // the animation being broken rather than as an invitation, and it is the
+      // only act where the pointer never settles. It now rests on one tile and
+      // waits there, which is what the other two acts already do.
+      return { loop: true, beats: [{ at: '[data-tut="side-po"]', hold: 2200 }] };
     }
 
     if (current.key === "buy" && state.shares === 0) {

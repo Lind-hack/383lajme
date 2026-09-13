@@ -343,9 +343,16 @@ async function runOfficialSportsRefresh(action: "live_sports", runKey: string, n
     // Recovery precedes live timing: a missed session must not stay open forever.
     for (const market of f1Markets ?? []) {
       try {
-        const { fetchF1FinalResult, persistF1FinalResult } = await import("@/lib/f1-result-recovery.mjs");
+        const { fetchF1FinalResult, persistF1FinalResult, fetchF1SessionEnded, freezeF1Trading } = await import("@/lib/f1-result-recovery.mjs");
         const result = await fetchF1FinalResult(market, { now });
         if (result) { await persistF1FinalResult(admin, market, result, now); market.status = "closed"; }
+        else if (await fetchF1SessionEnded(market, { now })) {
+          // Race over, corroboration not in yet. Settlement waits for the second
+          // source; trading must not. See fetchF1SessionEnded().
+          if (await freezeF1Trading(admin, market, now)) {
+            console.warn(`F1 trading frozen pending corroboration: ${market.slug}`);
+          }
+        }
       } catch (error) { console.error("F1 final classification unavailable", market.slug, error instanceof Error ? error.message : String(error)); }
     }
     const pairMarkets = (markets ?? []).filter((market) => [ARGENTINA_SPAIN_PAIR.spainSlug, ARGENTINA_SPAIN_PAIR.argentinaSlug].includes(market.slug));

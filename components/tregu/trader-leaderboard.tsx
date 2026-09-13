@@ -41,18 +41,24 @@ function Standings({
   rows,
   prizes,
   available,
+  loggedIn,
 }: {
   title: string;
   note: string;
   rows: Row[];
   prizes: readonly number[];
   available: boolean;
+  loggedIn: boolean;
 }) {
   // The podium always has three seats. An unclaimed seat still shows its prize,
   // because the prize is the reason to look at the board at all — an empty
   // board that says nothing is just a gap where an offer should be.
   const seats = [0, 1, 2].map((i) => ({ prize: prizes[i], row: rows.find((r) => r.rank === i + 1) ?? null }));
   const rest = rows.filter((r) => r.rank > 3);
+  /* "Where am I" has to have an answer even when the answer is "nowhere yet".
+     A trader who is flat or down on the period is not in the ranking at all, so
+     without this row the card silently omits the one person reading it. */
+  const ranked = rows.some((r) => r.is_me);
 
   return (
     <section className="tregu-lb-board">
@@ -95,6 +101,17 @@ function Standings({
             <span className="tregu-lb-prize" data-none="" />
           </li>
         ))}
+
+        {loggedIn && available && !ranked && (
+          <li className="tregu-lb-row" data-me data-plain="" data-unranked="">
+            <span className="tregu-lb-rank">—</span>
+            <span className="tregu-lb-name">
+              Ti
+              <i>ende pa fitim në këtë periudhë</i>
+            </span>
+            <span className="tregu-lb-prize" data-none="" />
+          </li>
+        )}
       </ol>
 
       {!available && <p className="tregu-lb-empty">Renditja fillon sapo të mbyllen tregtitë e para.</p>}
@@ -111,7 +128,7 @@ function Standings({
  * top five — so the card answers "where am I" for everyone, not only for the
  * five people who need no answer.
  */
-export default function TraderLeaderboard() {
+export default function TraderLeaderboard({ loggedIn = false }: { loggedIn?: boolean }) {
   const [board, setBoard] = useState<Board | null>(null);
   const [prizes, setPrizes] = useState({ monthly: [500, 300, 150], weekly: [125, 75, 40] });
 
@@ -158,6 +175,7 @@ export default function TraderLeaderboard() {
           rows={board.monthly}
           prizes={prizes.monthly}
           available={board.available}
+          loggedIn={loggedIn}
         />
         <Standings
           title="Java"
@@ -165,6 +183,7 @@ export default function TraderLeaderboard() {
           rows={board.weekly}
           prizes={prizes.weekly}
           available={board.available}
+          loggedIn={loggedIn}
         />
       </div>
     </section>
