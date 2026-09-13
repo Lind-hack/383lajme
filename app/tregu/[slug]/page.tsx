@@ -786,7 +786,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
       const data = await res.json();
       if (res.ok) {
         track("tregu_trade", { side: "buy", kind: "binary", marketId: market.id, coins: amount });
-        setTradeMsg({ ok: true, text: `✓ Investove ${amount} 383 Coin te ${side}` });
+        setTradeMsg({ ok: true, text: `✓ Investove ${amount} 383 Monedha te ${side}` });
         showPurchaseReceipt(Number(data.sharesBought));
         load();
         refreshBalance();
@@ -1567,7 +1567,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
               {!user ? (
                 <div style={{ textAlign: "center", padding: "20px 0" }}>
                   <p style={{ color: "#6B6B6B", marginBottom: 14 }}>
-                    Duhet të krijosh llogari për të tregtuar — merr 100 383 Coin falas.
+                    Duhet të krijosh llogari për të tregtuar — merr 100 383 Monedha falas.
                   </p>
                   <Link href="/hyr" className="tregu-btn-primary" style={{ padding: "10px 22px", borderRadius: 100, textDecoration: "none", display: "inline-block" }}>
                     Hyr / Regjistrohu
@@ -1649,7 +1649,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                             <span>{outcome.label}</span>
                             <strong>{(outcome.probability * 100).toFixed(1)}%</strong>
                             {mode === "sell" && outcomePosition && (
-                              <small>{Number(outcomePosition.coins_staked).toFixed(2)} Coin investuar</small>
+                              <small>{Number(outcomePosition.coins_staked).toFixed(2)} Monedha të investuara</small>
                             )}
                           </button>
                         );
@@ -1659,7 +1659,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                   {mode === "buy" ? (
                     <>
                       <label style={{ fontSize: 12, color: "#6B6B6B", fontWeight: 700 }}>
-                        Shuma (383 Coin)
+                        Shuma (383 Monedha)
                       </label>
                       <div style={{ display: "flex", alignItems: "center", gap: 10, margin: "8px 0 10px" }}>
                         <CoinFace size={20} />
@@ -1704,7 +1704,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                             <strong>{(footballSelectedOutcome.probability * 100).toFixed(1)}%</strong>
                           </div>
                           <div>
-                            <span>Coin nëse fiton</span>
+                            <span>Monedha nëse fiton</span>
                             <strong>{footballPreview.shares.toFixed(2)}</strong>
                           </div>
                           <div>
@@ -1719,7 +1719,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                       )}
                       {balance !== null && amount > balance && (
                         <p style={{ color: "#E41E20", fontSize: 12, marginBottom: 12 }}>
-                          Nuk ke mjaftueshëm 383 Coin ({balance})
+                          Nuk ke mjaftueshëm 383 Monedha ({balance})
                         </p>
                       )}
                       <ConfirmButton onClick={submitTrade} disabled={!canBuy || !footballOutcomeKey}>
@@ -1732,14 +1732,14 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                     <>
                       {footballHeld && (
                         <p className="tregu-football-position">
-                          Mund të marrësh: <strong>{cashOutMaximum.toFixed(2)} Coin</strong>
+                          Mund të marrësh: <strong>{cashOutMaximum.toFixed(2)} Monedha</strong>
                           {Number(footballHeld.shares) > 0 && (
                             <> · hyrja {((Number(footballHeld.coins_staked) / Number(footballHeld.shares)) * 100).toFixed(0)}%</>
                           )}
                         </p>
                       )}
                       <label style={{ fontSize: 12, color: "#6B6B6B", fontWeight: 700 }}>
-                        383 Coin që dëshiron të marrësh
+                        383 Monedha që dëshiron të marrësh
                       </label>
                       <div style={{ display: "flex", alignItems: "center", gap: 10, margin: "8px 0 12px" }}>
                         <input
@@ -1817,7 +1817,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                   <p className="f1-trade-note">
                     Zgjidh një pilot nga lista. Gjasat dhe renditja rifreskohen pa ringarkuar faqen.
                   </p>
-                  <label style={{ fontSize: 12, color: "#6B6B6B", fontWeight: 700 }}>{mode === "buy" ? "Shuma (383 Coin)" : `Merr 383 Coin · deri ${cashOutMaximum.toFixed(2)}`}</label>
+                  <label style={{ fontSize: 12, color: "#6B6B6B", fontWeight: 700 }}>{mode === "buy" ? "Shuma (383 Monedha)" : `Merr 383 Monedha · deri ${cashOutMaximum.toFixed(2)}`}</label>
                   <div style={{ display: "flex", alignItems: "center", gap: 10, margin: "8px 0 10px" }}>
                     <CoinFace size={20} />
                     <input
@@ -1856,7 +1856,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                   </div> : f1SellPreview ? <div className="tregu-preview" style={{ marginBottom: 16 }}><div><span>Merr</span><strong>{f1SellPreview.coins.toFixed(1)} 383C</strong></div><div><span>Çmimi mesatar</span><strong>{(f1SellPreview.avgPrice * 100).toFixed(1)}%</strong></div></div> : null}
                   {mode === "buy" && balance !== null && amount > balance && (
                     <p style={{ color: "#E41E20", fontSize: 12, marginBottom: 12 }}>
-                      Nuk ke mjaftueshëm 383 Coin ({balance})
+                      Nuk ke mjaftueshëm 383 Monedha ({balance})
                     </p>
                   )}
                   <ConfirmButton onClick={submitTrade} disabled={mode === "buy" ? !canBuy || !f1OutcomeKey : !canSellF1} variant={mode === "sell" ? "sell" : undefined}>
@@ -1955,7 +1955,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
 
                   {mode === "buy" ? (
                     <>
-                      <label style={{ fontSize: 12, color: "#6B6B6B", fontWeight: 700 }}>Shuma (383 Coin)</label>
+                      <label style={{ fontSize: 12, color: "#6B6B6B", fontWeight: 700 }}>Shuma (383 Monedha)</label>
                       <div style={{ display: "flex", alignItems: "center", gap: 10, margin: "8px 0 10px" }}>
                         <CoinFace size={20} />
                         <input
@@ -1985,7 +1985,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                       {buyPreview && (
                         <div className="tregu-slip-summary">
                           <div><span>Çmimi aktual {sideLabel(side)}</span><strong>{(sidePrice * 100).toFixed(1)}%</strong></div>
-                          <div><span>Coin nëse fiton</span><strong>{buyPreview.shares.toFixed(2)}</strong></div>
+                          <div><span>Monedha nëse fiton</span><strong>{buyPreview.shares.toFixed(2)}</strong></div>
                           <div><span>Çmimi mesatar</span><strong>{(buyPreview.avgPrice * 100).toFixed(1)}%</strong></div>
                           <div>
                             <span>Gjasa pas blerjes</span>
@@ -2003,7 +2003,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                       )}
 
                       {balance !== null && amount > balance && (
-                        <p style={{ color: "#E41E20", fontSize: 12, marginBottom: 12 }}>Nuk ke mjaftueshëm 383 Coin ({balance})</p>
+                        <p style={{ color: "#E41E20", fontSize: 12, marginBottom: 12 }}>Nuk ke mjaftueshëm 383 Monedha ({balance})</p>
                       )}
 
                       <ConfirmButton onClick={submitTrade} disabled={!canBuy}>
@@ -2012,7 +2012,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                     </>
                   ) : (
                     <>
-                      <label style={{ fontSize: 12, color: "#6B6B6B", fontWeight: 700 }}>383 Coin që dëshiron të marrësh</label>
+                      <label style={{ fontSize: 12, color: "#6B6B6B", fontWeight: 700 }}>383 Monedha që dëshiron të marrësh</label>
                       <div style={{ display: "flex", alignItems: "center", gap: 10, margin: "8px 0 10px" }}>
                         <input
                           type="number"

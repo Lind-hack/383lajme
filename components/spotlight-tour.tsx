@@ -39,6 +39,29 @@ export interface TourStep {
   cursor?: CursorScript;
 }
 
+/**
+ * The first *visible* element a step's selector matches.
+ *
+ * `target` may list several candidates, comma-separated, for one idea drawn
+ * differently per layout — the desktop filter row and the phone's category
+ * select are the same step. document.querySelector is no use for choosing
+ * between them, twice over: it returns the first match in DOM order rather
+ * than the one on screen, and it matches display:none elements happily. That
+ * is exactly how the tour lit a zero-size hole on a phone — the hidden desktop
+ * row still "existed", so the step survived the filter and the spotlight drew
+ * a 0x0 box over nothing.
+ *
+ * Zero area is the test, not `display`: it catches a hidden ancestor, an empty
+ * container and a collapsed row alike, which is every way this has broken.
+ */
+export function visibleTarget(selector: string): Element | null {
+  for (const el of document.querySelectorAll(selector)) {
+    const box = el.getBoundingClientRect();
+    if (box.width > 0 && box.height > 0) return el;
+  }
+  return null;
+}
+
 interface SpotlightTourProps {
   /** Once this element scrolls into view, a first-time visitor gets the tour. */
   anchor: string;
@@ -301,7 +324,7 @@ export default function SpotlightTour({
     // renders without it. Opening anyway would dim the whole page behind an
     // overlay with no hole and no tooltip, i.e. a black wall the user has to
     // guess their way out of.
-    const resolved = steps.filter((s) => document.querySelector(s.target));
+    const resolved = steps.filter((s) => visibleTarget(s.target));
     if (resolved.length === 0) return;
     setLive(resolved);
     placed.current = false;
@@ -476,7 +499,7 @@ export default function SpotlightTour({
   // leave the ring pointing at empty space.
   useEffect(() => {
     if (!open || !step) return;
-    const el = document.querySelector(step.target);
+    const el = visibleTarget(step.target);
     if (!el) {
       // The target left the DOM before anything was lit — a feed refresh landing
       // on the same tick. Release rather than hold a locked, empty screen, and
@@ -604,7 +627,7 @@ export default function SpotlightTour({
   // so a push-in only pushes them off both edges.
   useEffect(() => {
     if (!open || phase !== "land" || !step?.zoom || reduced || sheet) return;
-    const el = document.querySelector(step.target);
+    const el = visibleTarget(step.target);
     if (!(el instanceof HTMLElement)) return;
     const prev = {
       transform: el.style.transform,
@@ -636,7 +659,7 @@ export default function SpotlightTour({
     if (!open || !step || phase !== "land") return;
     const pad = step.padding ?? 10;
     const sync = () => {
-      const el = document.querySelector(step.target);
+      const el = visibleTarget(step.target);
       if (!el) return;
       const r = el.getBoundingClientRect();
       const s = window.scrollY;
@@ -671,7 +694,7 @@ export default function SpotlightTour({
 
     // The element's own box catches it growing; the body's catches everything
     // above it growing, which is how a fetch four sections up moves this step.
-    const el = document.querySelector(step.target);
+    const el = visibleTarget(step.target);
     const ro = new ResizeObserver(sync);
     if (el) ro.observe(el);
     ro.observe(document.body);

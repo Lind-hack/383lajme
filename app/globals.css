@@ -17245,3 +17245,588 @@ header[data-overlay="true"] .nav-search-btn[style*="margin-right"] {
 .tregu-native-market[data-competition="uefa.nations"] .tregu-market-close {
   color: #141A28;
 }
+
+/* ==========================================================================
+   Floor head — title, what the place is, and the balance, on one line
+   --------------------------------------------------------------------------
+   The tagline used to sit under the h1 and the balance chip floated on its own
+   axis to the right, so answering "where am I / what have I got" cost the eye
+   two rows and a horizontal jump. One row answers both.
+   ========================================================================== */
+.tregu-floor-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px 20px;
+  margin-bottom: 22px;
+}
+.tregu-floor-head-title {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  min-width: 0;
+  flex: 1 1 auto;
+}
+.tregu-floor-head-bar {
+  width: 4px;
+  /* Aligned to the cap height of the h1 rather than the whole line box, so the
+     bar reads as an underline to the word and not a divider between columns. */
+  height: clamp(22px, 2.6vw, 30px);
+  background: #FF4422;
+  border-radius: 2px;
+  flex-shrink: 0;
+  align-self: center;
+}
+.tregu-floor-head-title h1 {
+  font-size: clamp(24px, 3.2vw, 34px);
+  font-weight: 800;
+  margin: 0;
+  letter-spacing: -0.02em;
+  flex-shrink: 0;
+  line-height: 1.1;
+}
+.tregu-floor-head-title p {
+  color: var(--tg-muted, #6B6B6B);
+  font-size: 13px;
+  margin: 0;
+  min-width: 0;
+}
+.tregu-floor-head-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+.tregu-headchip {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 10px 9px 14px;
+}
+.tregu-headchip-amount {
+  font-weight: 800;
+  font-size: 16px;
+  font-variant-numeric: tabular-nums;
+}
+.tregu-headchip-bonus {
+  font-size: 12px;
+  font-weight: 700;
+  color: #00A651;
+  font-variant-numeric: tabular-nums;
+}
+.tregu-headchip-link {
+  font-size: 12px;
+  color: #6B6B6B;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+  /* The phone keeps the pairing but stacks it: the tagline drops under the
+     title, indented to the bar so the group still reads as one unit. */
+  .tregu-floor-head-title { flex-wrap: wrap; row-gap: 4px; }
+  .tregu-floor-head-title p { flex: 1 0 100%; padding-left: 18px; }
+  .tregu-floor-head { gap: 10px 14px; margin-bottom: 18px; }
+
+  /* The ribbon's mobile grid is 1fr 1fr, so four stats wrapped to two rows and
+     the strip scrolled. Two stats fit one row. "Tregu hapur" is already implied
+     by a floor full of open books, and the last-checked clock is diagnostic
+     detail nobody acts on from a phone. */
+  .tregu-ribbon-inner > [data-ribbon="secondary"] { display: none !important; }
+}
+
+/* ==========================================================================
+   Floor rail — a face on every row, and a loud slot that earns itself
+   ========================================================================== */
+
+/* Thumbed rows get a fourth column. Scoped to [data-thumbed] so any other
+   .tregu-hot-row in the codebase keeps the original three-column grid. */
+.tregu-hot-row[data-thumbed] {
+  grid-template-columns: 18px 34px minmax(0, 1fr) auto;
+  column-gap: 9px;
+  padding: 9px 0;
+}
+.tregu-hot-row[data-thumbed] .tregu-hot-meta { grid-column: 3; }
+.tregu-hot-row[data-thumbed] .tregu-hot-pct { grid-column: 4; }
+
+.tregu-hot-thumb {
+  grid-row: 1 / span 2;
+  grid-column: 2;
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  object-fit: cover;
+  background: rgba(17, 17, 17, 0.04);
+  border: 1px solid rgba(17, 17, 17, 0.08);
+  align-self: center;
+}
+/* A single-row entry (the deadline panel has no meta line) would otherwise let
+   the 34px thumb stretch the row to two rows' height. */
+.tregu-rail-panel[data-rail="closing"] .tregu-hot-thumb { grid-row: 1; }
+.tregu-hot-thumb-fallback {
+  display: grid;
+  place-items: center;
+  font-size: 15px;
+  font-weight: 800;
+  line-height: 1;
+  border-color: currentColor;
+}
+.tregu-hot-clock {
+  font-size: 11px;
+  color: #B45309;
+  font-weight: 800;
+}
+
+/* The panels were quiet enough to scan past. A heavier title, an accent rule
+   under it, and rows with a picture make the rail read as a place. */
+.tregu-rail-title {
+  font-size: 12.5px;
+  letter-spacing: 0.04em;
+}
+.tregu-rail-panel[data-rail="hot"] .tregu-rail-title,
+.tregu-rail-panel[data-rail="closing"] .tregu-rail-title {
+  padding-bottom: 9px;
+  margin-bottom: 3px;
+  border-bottom: 2px solid rgba(17, 17, 17, 0.10);
+}
+.tregu-rail-panel[data-rail="hot"] .tregu-rail-title {
+  border-bottom-color: rgba(255, 68, 34, 0.34);
+}
+
+/* --- Positions panel ----------------------------------------------------- */
+.tregu-rail-promo[data-promo="positions"] { display: block; }
+.tregu-rail-pnl {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin: 2px 0 12px;
+  font-variant-numeric: tabular-nums;
+}
+.tregu-rail-pnl strong { font-size: 26px; font-weight: 800; letter-spacing: -0.02em; }
+.tregu-rail-pnl span {
+  font-size: 13px;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: 100px;
+  background: rgba(255, 255, 255, 0.22);
+}
+.tregu-rail-positions {
+  list-style: none;
+  margin: 0 0 14px;
+  padding: 0;
+  display: grid;
+  gap: 2px;
+}
+.tregu-rail-positions a {
+  display: grid;
+  grid-template-columns: 8px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 9px;
+  padding: 7px 0;
+  text-decoration: none;
+  color: inherit;
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
+}
+.tregu-rail-positions li:first-child a { border-top: 0; }
+.tregu-rail-positions i { width: 8px; height: 8px; border-radius: 100px; }
+.tregu-rail-positions span {
+  font-size: 12.5px;
+  font-weight: 600;
+  line-height: 1.3;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  opacity: .92;
+}
+.tregu-rail-positions b { font-size: 11.5px; font-weight: 800; white-space: nowrap; opacity: .8; }
+.tregu-rail-positions a:hover span { text-decoration: underline; text-underline-offset: 3px; }
+
+/* Secondary action on the promo tile — the way in, for someone who has not
+   taken it yet. Reads as a link, not a second button competing with the CTA. */
+.tregu-rail-promo-ghost {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 700;
+  opacity: .82;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+.tregu-rail-promo-ghost:hover { opacity: 1; }
+
+
+/* ==========================================================================
+   The flagship slot — compact, and lit by what it is showing
+   --------------------------------------------------------------------------
+   Measured before this block: the carousel stood 825px tall while the left
+   column held 247px of content — 465px of nothing. The cause was not padding
+   but the row: .tregu-hero-row stretched, so the card was dragged to the rail's
+   height and the deliberate "stretch so the chart deepens" chain at 3420 spent
+   the difference on air. The rail is the taller column now that it carries
+   thumbnails, so the card must size to itself.
+   ========================================================================== */
+.tregu-hero-row { align-items: start; }
+
+/* With the row no longer stretching, the flex chain inside the carousel has
+   nothing to distribute and the slide sizes to content. */
+.tregu-hero-row .tregu-carousel { padding: 16px 20px 14px; }
+.tregu-hero-row .tregu-car-head { margin-bottom: 12px; }
+.tregu-hero-row .tregu-feature-grid {
+  /* Stretch, now that the row above no longer stretches the card itself. The
+     two columns are different lengths — a driver rack is shorter than a chart
+     plus legend — so letting the shorter one stretch lets its stat strip sit
+     on the card's floor beside the chart's, instead of leaving a band of white
+     trailing under the left half. */
+  align-items: stretch;
+  gap: 22px;
+}
+.tregu-hero-row .tregu-feature-q {
+  font-size: clamp(17px, 2vw, 21px);
+  margin: 0 0 12px;
+}
+.tregu-hero-row .tregu-feature-price { margin-bottom: 10px; }
+.tregu-hero-row .tregu-feature-price-value { font-size: clamp(26px, 2.8vw, 33px); }
+.tregu-hero-row .tregu-feature-tape { min-height: 86px; }
+
+/* --- The hook -------------------------------------------------------------
+   The card was a cream panel on a cream floor, which is why it did not stop
+   anybody. It stays light — DESIGN.md:162 reserves dark-on-cream for
+   competition treatments and this is a placement, not a competition — and
+   earns its attention from the category instead: a solid accent rule across
+   the top, a wash falling from it, and a rim in the same colour. One variable,
+   so politics is blue and sport is rose without a second palette in here. */
+.tregu-hero-row .tregu-carousel {
+  position: relative;
+  overflow: hidden;
+  border-color: color-mix(in srgb, var(--feature-accent, #FF4422) 26%, rgba(17, 17, 17, 0.10));
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.7) inset,
+    0 10px 30px -16px color-mix(in srgb, var(--feature-accent, #FF4422) 48%, transparent),
+    0 2px 10px rgba(17, 17, 17, 0.05);
+}
+.tregu-hero-row .tregu-carousel::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    var(--feature-accent, #FF4422),
+    color-mix(in srgb, var(--feature-accent, #FF4422) 40%, transparent)
+  );
+  z-index: 2;
+  pointer-events: none;
+}
+.tregu-hero-row .tregu-car-slide-link {
+  position: relative;
+  isolation: isolate;
+}
+/* The wash. Falls from the accent rule and is gone by a third of the way down,
+   so it colours the header and the question and leaves the chart on white
+   where the series colours have to stay readable. */
+.tregu-hero-row .tregu-car-slide-link::before {
+  content: "";
+  position: absolute;
+  inset: -16px -20px auto;
+  height: 190px;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--feature-accent, #FF4422) 13%, transparent) 0%,
+    color-mix(in srgb, var(--feature-accent, #FF4422) 4%, transparent) 46%,
+    transparent 100%
+  );
+}
+/* "Ngjarjet e mëdha" was the same weight as every other panel title on the
+   floor. This is the floor's headline; it can say so. */
+.tregu-hero-row .tregu-car-title {
+  font-size: 12.5px;
+  letter-spacing: 0.1em;
+  color: color-mix(in srgb, var(--feature-accent, #FF4422) 78%, #111);
+}
+
+@media (max-width: 1024px) {
+  /* Single column below this width — the rail is no longer beside the card, so
+     there is nothing to stretch to and nothing to correct. */
+  .tregu-hero-row .tregu-feature-tape { min-height: 100px; }
+}
+
+
+/* The wallet that names where the nav balance chip goes. Muted so the number
+   stays the loud thing in the chip; it is a signpost, not a second value. */
+.nav-coin-wallet {
+  opacity: .55;
+  flex-shrink: 0;
+  margin-left: 1px;
+  transition: opacity 160ms var(--ease-out), transform 160ms var(--ease-out);
+}
+.nav-coin-chip:hover .nav-coin-wallet { opacity: .95; transform: translateX(1px); }
+
+/* ==========================================================================
+   Trader leaderboard — the podium under the flagship card
+   --------------------------------------------------------------------------
+   A coloured left strip on a list row is normally the lazy accent, and the
+   craft floor rejects it. It is earned here: the strip is not decoration
+   standing in for hierarchy, it *is* the hierarchy — gold, silver, bronze,
+   then nothing — and it carries the same colour as the trophy in the row, so
+   the standing can be read from the edge of the card without reading a number.
+   Rows past third get no strip, and that absence is what makes the top three
+   look won rather than merely listed.
+   ========================================================================== */
+.tregu-hero-main {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+}
+
+.tregu-lb { padding: 16px 18px 14px; border-radius: 18px; }
+
+.tregu-lb-title {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 0 9px;
+  margin-bottom: 13px;
+}
+.tregu-lb-title-mark {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 8px;
+  color: #8A6A12;
+  background: linear-gradient(150deg, rgba(227, 179, 65, .30), rgba(227, 179, 65, .12));
+}
+.tregu-lb-title h3 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+.tregu-lb-title p {
+  grid-column: 2;
+  margin: 2px 0 0;
+  font-size: 11.5px;
+  line-height: 1.4;
+  color: var(--tg-muted);
+}
+
+.tregu-lb-boards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px 22px;
+}
+/* The month is the bigger pool and leads on the left; the week is the way back
+   in for anyone who cannot win the month. */
+.tregu-lb-board { min-width: 0; }
+.tregu-lb-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  padding-bottom: 7px;
+  margin-bottom: 4px;
+  border-bottom: 1px solid rgba(17, 17, 17, 0.10);
+}
+.tregu-lb-head h4 {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.tregu-lb-head span {
+  font-size: 10.5px;
+  color: var(--tg-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.tregu-lb-list { list-style: none; margin: 0; padding: 0; }
+
+.tregu-lb-row {
+  display: grid;
+  grid-template-columns: 26px minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 9px;
+  padding: 7px 8px 7px 9px;
+  border-radius: 8px;
+  /* The strip. Inset rather than a border so the row's own radius survives. */
+  box-shadow: inset 3px 0 0 var(--metal, transparent);
+  background: var(--metal-wash, transparent);
+  margin-bottom: 3px;
+}
+.tregu-lb-row[data-plain] {
+  box-shadow: none;
+  background: none;
+  padding-left: 9px;
+}
+.tregu-lb-row[data-empty] { opacity: .62; }
+
+.tregu-lb-medal {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 100px;
+  color: var(--metal-ink, #6B6B6B);
+  background: #fff;
+  box-shadow: inset 0 0 0 1.5px var(--metal, rgba(17,17,17,.14)), 0 1px 2px rgba(17, 17, 17, .10);
+}
+.tregu-lb-rank {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  font-size: 12px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  color: rgba(17, 17, 17, 0.34);
+}
+
+.tregu-lb-name {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-width: 0;
+  font-size: 12.5px;
+  font-weight: 700;
+  line-height: 1.3;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.tregu-lb-name i { font-style: normal; color: var(--tg-muted); font-weight: 600; }
+.tregu-lb-you {
+  flex-shrink: 0;
+  font-size: 9.5px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 2px 6px;
+  border-radius: 100px;
+  background: #111;
+  color: #fff;
+}
+/* Your own row stays findable whether or not it is on the podium. */
+.tregu-lb-row[data-me] { outline: 1.5px solid rgba(17, 17, 17, 0.22); outline-offset: -1px; }
+
+.tregu-lb-profit {
+  font-size: 12px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  color: #007A3C;
+}
+.tregu-lb-prize {
+  font-size: 10.5px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  color: var(--metal-ink, var(--tg-muted));
+  padding: 2px 7px;
+  border-radius: 100px;
+  background: #fff;
+  box-shadow: inset 0 0 0 1px var(--metal, rgba(17,17,17,.12));
+  white-space: nowrap;
+}
+.tregu-lb-prize[data-none] { background: none; box-shadow: none; padding: 0; }
+
+.tregu-lb-empty {
+  grid-column: 1 / -1;
+  margin: 8px 0 0;
+  font-size: 11.5px;
+  color: var(--tg-muted);
+}
+
+@media (max-width: 700px) {
+  /* Two boards side by side at phone width would give each ~150px, which is
+     narrower than a display name. Stack, month first. */
+  .tregu-lb-boards { grid-template-columns: 1fr; gap: 16px; }
+  .tregu-lb-row { grid-template-columns: 24px minmax(0, 1fr) auto auto; gap: 7px; }
+}
+
+/* ==========================================================================
+   Flagship card — a header band and the card's own numbers
+   --------------------------------------------------------------------------
+   The slot was a white panel with a question, a chart and one sentence of
+   footer. It read as empty because it *was* empty: volume, trade count, 7-day
+   movement and time left all sat on the model unshown. The band gives the
+   header chips a place to live instead of floating on white, and the stat row
+   gives the card's base something to hold.
+   ========================================================================== */
+.tregu-hero-row .tregu-feature-head {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin: -2px -6px 14px;
+  padding: 7px 10px;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--feature-accent, #FF4422) 9%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--feature-accent, #FF4422) 16%, transparent);
+}
+
+.tregu-feature-stats {
+  /* Pins the strip (and the foot after it) to the bottom of the flex column. */
+  margin-top: auto;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  padding: 0;
+  /* Hairlines as gaps rather than borders: one background under a 1px grid gap
+     draws all three separators without three border declarations that would
+     each need a :last-child exception. */
+  background: rgba(17, 17, 17, 0.09);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 0 0 1px rgba(17, 17, 17, 0.09);
+}
+.tregu-feature-stats > div {
+  background: var(--tg-panel-hi, rgba(255, 255, 255, 0.82));
+  padding: 8px 10px 9px;
+  min-width: 0;
+}
+.tregu-feature-stats dt {
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--tg-muted);
+  margin-bottom: 3px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.tregu-feature-stats dd {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  font-variant-numeric: tabular-nums;
+  color: var(--tg-text);
+  white-space: nowrap;
+}
+/* The unit rides at the size of a label, not of the number it follows. */
+.tregu-feature-stats dd i {
+  font-style: normal;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--tg-muted);
+  margin-left: 4px;
+}
+.tregu-feature-stats dd[data-dir="up"] { color: #00854A; }
+.tregu-feature-stats dd[data-dir="down"] { color: #B91C1C; }
+
+@media (max-width: 700px) {
+  /* Four columns at phone width give each ~78px, which truncates "Lëvizja 7d"
+     and the figure under it. Two by two instead. */
+  .tregu-feature-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}

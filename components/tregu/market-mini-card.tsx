@@ -15,6 +15,10 @@ export interface MiniMarket {
   slug: string;
   question: string;
   category: string;
+  /* "open" | "closed" | "resolved". Carried so consumers can tell a live book
+     from a settled one — the floor rail ranks on volume, which a resolved
+     market wins by having had its whole life to accumulate it. */
+  status?: string;
   prob: number; // 0..1 YES probability
   volume?: number; // cumulative shares outstanding (q_yes + q_no)
   closesAt?: string;

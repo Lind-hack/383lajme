@@ -47,7 +47,7 @@ const TOUR_STEPS: TourStep[] = [
   },
   {
     target: "[data-tour='tregu-cta']",
-    title: "Me 383 Coin, jo me para",
+    title: "Me 383 Monedha, jo me para",
     body: "Monedha falas e faqes. Hape tregun dhe provo — pa asnjë rrezik.",
     padding: 8,
     radius: 12,
@@ -405,7 +405,7 @@ export default function TrendingStrip() {
       {/* One sentence and three steps — enough to get the feature at a glance. */}
       <p className="tregu-home-intro">
         Parashiko si përfundon lajmi. Zgjidh <strong>PO</strong> ose <strong>JO</strong> dhe vër{" "}
-        <strong>383 Coin</strong> — monedha falas e faqes, jo para reale.
+        <strong>383 Monedha</strong> — monedha falas e faqes, jo para reale.
       </p>
       <ol className="tregu-home-steps">
         <li>Zgjidh pyetjen</li>

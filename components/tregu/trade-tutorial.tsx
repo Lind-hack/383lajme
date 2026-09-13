@@ -1,7 +1,7 @@
 "use client";
 
 // The interactive Tregu tutorial. A full-screen sandbox that runs a mock
-// market end to end in three acts: pick a side, buy with practice Coin, sell it
+// market end to end in three acts: pick a side, buy with practice Monedha, sell it
 // back. It never touches /api/tregu/* — the pricing comes from the same pure
 // LMSR helpers the real bet slip uses, so the numbers a newcomer learns here
 // are the numbers they'll see.
@@ -170,15 +170,15 @@ const ACTS: Act[] = [
   },
   {
     key: "buy",
-    title: "Vër 25 Coin prove",
-    body: "Coin-at janë falas dhe të provës. Asgjë reale nuk preket.",
-    cue: "Sa Coin? Prek një çip.",
+    title: "Vër 25 Monedha prove",
+    body: "Monedhat janë falas dhe të provës. Asgjë reale nuk preket.",
+    cue: "Sa Monedha? Prek një çip.",
     cueDone: "E bëre. Shiko bilancin lart.",
   },
   {
     key: "exit",
     title: "Dil kur të duash",
-    body: "Shit dhe Coin-at kthehen. Nëse vija lëviz për ty, kthen më shumë.",
+    body: "Shit dhe Monedhat kthehen. Nëse vija lëviz për ty, kthen më shumë.",
     cue: "Shtyp Shit.",
     cueDone: "E bëre. Hyre dhe dole.",
   },
@@ -188,7 +188,7 @@ const ACTS: Act[] = [
  * Act 2's cue, handed over one move at a time. The index is `betStep`, so the
  * line always names the single control that is currently wearing the ring.
  */
-const BET_CUES = ["Sa Coin? Prek një çip.", "Shtyp Blej."];
+const BET_CUES = ["Sa Monedha? Prek një çip.", "Shtyp Blej."];
 
 const MOCK_QUESTION = "A do të nënshkruhet marrëveshja para fundit të muajit?";
 /**

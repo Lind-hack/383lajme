@@ -46,7 +46,13 @@ function BalanceChart({ history }: { history: BalancePoint[] }) {
     const point = history.reduce((best, candidate) => Math.abs(candidate.t - time) < Math.abs(best.t - time) ? candidate : best, history[0]);
     setActive({ point, left: ratio * 100 });
   };
-  return <div ref={host} className={styles.chart} onPointerMove={(event) => onMove(event.clientX)} onPointerLeave={() => setActive(null)}>
+  /* Touch needs pointerdown, not just pointermove.
+     On a phone pointermove only fires once a drag is already under way, and the
+     scroller cancels the pointer sequence before that happens — so the chart
+     could be inspected with a mouse and not at all with a finger. Reading the
+     value on the initial tap fixes the common case; touch-action: pan-y keeps
+     vertical scrolling with the page while handing horizontal drags to us. */
+  return <div ref={host} className={styles.chart} style={{ touchAction: "pan-y" }} onPointerDown={(event) => onMove(event.clientX)} onPointerMove={(event) => onMove(event.clientX)} onPointerUp={() => setActive(null)} onPointerCancel={() => setActive(null)} onPointerLeave={() => setActive(null)}>
     <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label="Bilanci i realizuar gjatë 30 ditëve">
       {ticks.map((tick) => <g key={tick.ratio}><line x1={left} x2={W - right} y1={top + tick.ratio * (H - top - bottom)} y2={top + tick.ratio * (H - top - bottom)} className={styles.gridLine}/><text x={left - 10} y={top + tick.ratio * (H - top - bottom) + 4} textAnchor="end" className={styles.axisText}>{fmtNum(tick.value)}</text></g>)}
       <defs><linearGradient id="balanceGloss" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#ff6a35" stopOpacity=".28"/><stop offset="100%" stopColor="#ff4422" stopOpacity="0"/></linearGradient></defs>
@@ -68,7 +74,7 @@ function PositionCard({ position, confirming, selling, onSell }: { position: Pos
     <Link href={`/tregu/${market?.slug}`} className="tregu-native-title">{market?.question}</Link>
     <div className={styles.pickRow}>{(position.sideHeadshotUrl || position.sideLogo) ? <img src={position.sideHeadshotUrl || position.sideLogo || ""} alt="" aria-hidden/> : <i aria-hidden/>}<div><span>Zgjedhja jote</span><strong>{position.sideLabel || position.side}</strong></div><b>{position.currentPrice == null ? "—" : `${(position.currentPrice * 100).toFixed(1)}%`}</b></div>
     <div className={styles.positionFacts}><span><small>Investuar</small><strong>{fmtNum(position.coins_staked)} 383C</strong></span><span><small>Vlera tani</small><strong>{position.currentValue == null ? "—" : `${fmtNum(position.currentValue)} 383C`}</strong></span><span><small>P/L i hapur</small><strong data-tone={tone(position.unrealizedPnl)}>{position.unrealizedPnl == null ? "—" : `${signed(position.unrealizedPnl)} 383C`}</strong></span></div>
-    {confirming && <div className={styles.sellForm}><label>Sa 383 Coin dëshiron të marrësh?<input type="number" inputMode="decimal" min="0.01" step="0.01" max={maximum} value={coins} onChange={e => setCoins(e.target.value)} /></label><p>Vlera e shitjes tani: {maximum.toFixed(2)} 383C. Përfshin ndikimin në çmim.</p><div><button type="button" disabled={selling || Number(coins) <= 0 || Number(coins) > maximum} onClick={() => onSell(Number(coins), false)}>Merr {Number(coins || 0).toFixed(2)} Coin</button><button type="button" disabled={selling} onClick={() => onSell(undefined, true)}>Shit të gjitha · {maximum.toFixed(2)} Coin</button></div></div>}
+    {confirming && <div className={styles.sellForm}><label>Sa 383 Monedha dëshiron të marrësh?<input type="number" inputMode="decimal" min="0.01" step="0.01" max={maximum} value={coins} onChange={e => setCoins(e.target.value)} /></label><p>Vlera e shitjes tani: {maximum.toFixed(2)} 383C. Përfshin ndikimin në çmim.</p><div><button type="button" disabled={selling || Number(coins) <= 0 || Number(coins) > maximum} onClick={() => onSell(Number(coins), false)}>Merr {Number(coins || 0).toFixed(2)} Monedha</button><button type="button" disabled={selling} onClick={() => onSell(undefined, true)}>Shit të gjitha · {maximum.toFixed(2)} Monedha</button></div></div>}
     <footer className={`tregu-market-foot ${styles.positionActions}`}><Link href={`/tregu/${market?.slug}`} className="tregu-market-open">Hap tregun →</Link><button type="button" onClick={() => onSell()} disabled={selling}>{selling ? "Duke shitur…" : confirming ? "Anulo" : "Shit"}</button></footer>
   </article>;
 }
@@ -93,6 +99,25 @@ export default function PortofoliPage() {
     } catch { setFailed(true); } finally { setLoading(false); }
   };
   useEffect(() => { createClient().auth.getUser().then(({ data: { user } }) => { setAuth(user ? "in" : "out"); if (user) void load(); }); }, []);
+
+  /* Coins can move while this page is open — the daily bonus is claimable from
+     the navbar chip and the mobile account bar, both of which announce the new
+     balance on `tregu:balance`. Without this listener the withdrawal meter kept
+     showing the pre-bonus number until a reload, which is the one number on
+     this page a visitor is watching tick towards 10,000. Patch the profile
+     immediately, then refetch so the ledger below agrees with the meter. */
+  useEffect(() => {
+    const onBalance = (event: Event) => {
+      const next = (event as CustomEvent<number>).detail;
+      if (typeof next !== "number") return;
+      setProfile((current) => (current ? { ...current, coins: next } : current));
+      void load();
+    };
+    window.addEventListener("tregu:balance", onBalance);
+    return () => window.removeEventListener("tregu:balance", onBalance);
+    // load() is stable for the life of the page: it closes over setters only.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const sellAll = async (position: Position, coins?: number, all?: boolean) => {
     if (coins === undefined && !all) { setConfirmSell(current => current === position.id ? null : position.id); return; }
     setSelling(position.id); setMessage(null);

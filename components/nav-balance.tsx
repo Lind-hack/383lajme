@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import CoinFace from "@/components/tregu/coin-face";
 import { fmtNum } from "@/lib/format";
+import { Wallet } from "lucide-react";
 
 // Last balance the user saw — lets the counter animate old → new across
 // page loads (login, bonus claimed on another page, bet payout).
@@ -211,7 +212,8 @@ export default function NavBalance() {
         href="/tregu/portofoli"
         className="nav-coin-chip"
         data-anim={popping ? "true" : undefined}
-        title="383 Coin — portofoli im"
+        title="Portofoli im — 383 Monedha"
+        aria-label={`Portofoli im · ${fmtNum(balance)} 383 Monedha`}
       >
         {flyCoins.map((coin, i) => (
           <span key={coin.id} className="nav-coin-fly" style={{ animationDelay: `${i * 55}ms` }} aria-hidden>
@@ -225,6 +227,11 @@ export default function NavBalance() {
           hoverTilt
         />
         <span ref={numRef}>{fmtNum(balance)}</span>
+        {/* The chip always navigated to the portfolio, but it read as a
+            balance readout, so nobody tapped it on purpose. The wallet names
+            the destination and makes it a deliberate one-tap route — the same
+            affordance the mobile account bar states with its chevron. */}
+        <Wallet className="nav-coin-wallet" size={15} strokeWidth={2.1} aria-hidden />
       </Link>
       {flight.length > 0 && (
         <div className="coin-flight-layer" aria-hidden>

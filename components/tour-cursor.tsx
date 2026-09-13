@@ -65,11 +65,16 @@ function resolve(anchor: CursorAnchor): Point | null {
   const selector = typeof anchor === "string" ? anchor : anchor.sel;
   const fx = typeof anchor === "string" ? 0.5 : anchor.fx ?? 0.5;
   const fy = typeof anchor === "string" ? 0.5 : anchor.fy ?? 0.5;
-  const el = document.querySelector(selector);
-  if (!el) return null;
-  const r = el.getBoundingClientRect();
-  if (r.width === 0 && r.height === 0) return null;
-  return { x: r.left + r.width * fx, y: r.top + r.height * fy };
+  // A selector may list one idea's desktop and phone elements, comma-separated.
+  // querySelector would hand back whichever sits earlier in the document, which
+  // is the hidden one as often as not; walk the matches and take the first with
+  // a real box.
+  for (const el of document.querySelectorAll(selector)) {
+    const r = el.getBoundingClientRect();
+    if (r.width === 0 && r.height === 0) continue;
+    return { x: r.left + r.width * fx, y: r.top + r.height * fy };
+  }
+  return null;
 }
 
 export default function TourCursor({ script, active, reduced, touch, bounds }: Props) {

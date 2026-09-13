@@ -46,7 +46,7 @@ export default function MobileAccountBar({
   }, [pathname]);
 
   return (
-    <div className="tregu-mbar" data-overlay={overlay ? "true" : undefined}>
+    <div className="tregu-mbar" data-tour="floor-balance-mobile" data-overlay={overlay ? "true" : undefined}>
       <div className="tregu-mbar-inner">
         {/* Balance chip doubles as the portfolio entry, mirroring the navbar chip. */}
         <Link

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, type MouseEvent, type ReactNode } from "react";
 import Link from "next/link";
+import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 
 // Cinematic rotation (Pexels, free license): the cities the platform speaks
 // to, then the sports it prices. Two stacked <video> layers crossfade between
@@ -23,7 +24,7 @@ const VIDEOS = [
 ];
 
 /** Hero geometry, mirrored by the fixed chrome that floats over it. */
-export const TREGU_HERO = { mobileFrac: 0.58, desktopFrac: 0.72, mobileMin: 410, desktopMin: 520, navH: 64 };
+export const TREGU_HERO = { mobileFrac: 0.62, desktopFrac: 0.76, mobileMin: 448, desktopMin: 560, navH: 64 };
 
 /** True while the hero still sits behind the fixed navbar / account bar. */
 export function treguHeroBehindChrome(scrollY: number): boolean {
@@ -136,7 +137,7 @@ function CinematicBackdrop() {
 // ease-out — hero-only pacing (marketing surface, seen once per visit).
 function Reveal({
   delay,
-  duration = 1400,
+  duration = 900,
   className = "",
   children,
 }: {
@@ -146,17 +147,20 @@ function Reveal({
   children: ReactNode;
 }) {
   const [visible, setVisible] = useState(false);
+  const still = usePrefersReducedMotion();
   useEffect(() => {
+    if (still) { setVisible(true); return; }
     const t = setTimeout(() => setVisible(true), delay);
     return () => clearTimeout(t);
-  }, [delay]);
+  }, [delay, still]);
+  if (still) return <div className={className}>{children}</div>;
   return (
     <div
       className={className}
       style={{
         opacity: visible ? 1 : 0,
-        transform: visible ? "translateY(0) scale(1)" : "translateY(26px) scale(0.97)",
-        filter: visible ? "blur(0px)" : "blur(10px)",
+        transform: visible ? "translateY(0) scale(1)" : "translateY(18px) scale(0.985)",
+        filter: visible ? "blur(0px)" : "blur(7px)",
         transition: `opacity ${duration}ms var(--ease-out), transform ${duration}ms var(--ease-out), filter ${duration * 0.75}ms ease`,
         transitionDelay: visible ? "0ms" : undefined,
         willChange: visible ? undefined : "opacity, transform, filter",
@@ -167,14 +171,20 @@ function Reveal({
   );
 }
 
-function AnimatedHeading({ text, initialDelay = 200 }: { text: string; initialDelay?: number }) {
+function AnimatedHeading({ text, initialDelay = 90 }: { text: string; initialDelay?: number }) {
   const [started, setStarted] = useState(false);
+  const still = usePrefersReducedMotion();
   useEffect(() => {
+    if (still) { setStarted(true); return; }
     const t = setTimeout(() => setStarted(true), initialDelay);
     return () => clearTimeout(t);
-  }, [initialDelay]);
+  }, [initialDelay, still]);
 
-  const charDelay = 30;
+  // 14ms, not 30ms. At 30ms the 33-character headline finished ~1.19s after
+  // paint and the CTA below it landed at ~3.1s, which reads as the page being
+  // slow rather than as an entrance. Halving the per-character step keeps the
+  // left-to-right wipe legible while ending the whole headline inside ~550ms.
+  const charDelay = still ? 0 : 14;
   const lines = text.split("\n");
 
   return (
@@ -199,8 +209,8 @@ function AnimatedHeading({ text, initialDelay = 200 }: { text: string; initialDe
                       className="inline-block"
                       style={{
                         opacity: started ? 1 : 0,
-                        transform: started ? "translateX(0)" : "translateX(-18px)",
-                        transition: "opacity 500ms ease, transform 500ms ease",
+                        transform: started ? "translateX(0)" : "translateX(-12px)",
+                        transition: still ? "none" : "opacity 420ms var(--ease-out), transform 420ms var(--ease-out)",
                         transitionDelay: `${(lineOffset + wordOffset + charIndex) * charDelay}ms`,
                       }}
                     >
@@ -235,35 +245,35 @@ export default function VideoHero({ loggedIn }: { loggedIn: boolean }) {
     // 82/90dvh — taller than the first trim so the clips breathe, still short
     // enough that the floor teases in. The chrome mirrors these numbers via
     // treguHeroBehindChrome().
-    <section className="relative h-[58dvh] min-h-[410px] overflow-hidden bg-[#111111] md:h-[72dvh] md:min-h-[520px]">
+    <section className="relative h-[62dvh] min-h-[448px] overflow-hidden bg-[#111111] md:h-[76dvh] md:min-h-[560px]">
       <CinematicBackdrop />
 
       <div className="relative z-10 flex h-full flex-col px-6 md:px-12 lg:px-16 pt-24">
         <div className="flex flex-1 flex-col justify-end pb-8 lg:pb-12">
           <div className="lg:grid lg:grid-cols-2 lg:items-end">
             <div>
-              <AnimatedHeading text={"Parashiko të ardhmen\nme 383 Tregu."} />
+              <AnimatedHeading text={"Parashiko lajmet.\nFito Monedha."} />
 
-              <Reveal delay={800}>
-                <p className="text-base md:text-lg text-gray-300 mb-5 max-w-[56ch]">
-                  Tregu i parashikimeve i 383 — çdo pyetje lind nga lajmet e ditës. Zgjidh Po ose Jo,
-                  vër bast me 383 Coin falas dhe përqindja tregon çka beson Kosova.
+              <Reveal delay={360}>
+                <p className="text-base md:text-lg text-gray-300 mb-5 max-w-[52ch]">
+                  Çdo pyetje vjen nga lajmet e ditës. Zgjidh Po ose Jo dhe vër 383 Monedha
+                  falas — pa para reale. Përqindja tregon çka beson Kosova.
                 </p>
               </Reveal>
 
               {!loggedIn && (
-                <Reveal delay={1250}>
+                <Reveal delay={560}>
                   <Link
                     href="/hyr?tab=regjistrohu&next=/tregu"
                     className="liquid-glass liquid-glass-btn btn-shimmer border border-white/25 text-white px-8 py-3 rounded-lg font-medium"
                   >
-                    <span className="btn-shimmer-text">Merr 100 383 Coin falas</span>
+                    <span className="btn-shimmer-text">Merr 100 Monedha falas</span>
                   </Link>
                 </Reveal>
               )}
             </div>
 
-            <Reveal delay={1750} className="mt-8 flex items-end justify-start lg:mt-0 lg:justify-end">
+            <Reveal delay={720} className="mt-8 flex items-end justify-start lg:mt-0 lg:justify-end">
               {/* Matte orange with real material depth: a near-invisible
                   vertical shade, an inset top highlight like brushed metal,
                   and a tinted drop shadow — no gloss, no shimmer. */}
@@ -272,7 +282,7 @@ export default function VideoHero({ loggedIn }: { loggedIn: boolean }) {
                 className="hero-cta-material inline-flex items-center rounded-full px-7 py-3 text-lg md:text-xl lg:text-2xl font-light text-white min-h-[44px]"
                 onClick={scrollToMarkets}
               >
-                Lexo. Parashiko. Fito.
+                Shiko tregjet
               </a>
             </Reveal>
           </div>

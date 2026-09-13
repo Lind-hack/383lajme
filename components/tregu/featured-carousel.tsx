@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Trophy } from "lucide-react";
@@ -9,6 +9,8 @@ import F1TopThree, { topThreeDrivers, type F1TopThreeDriver } from "@/components
 import { f1TeamColor } from "@/lib/f1-driver-presentation";
 import type { MiniMarket } from "./market-mini-card";
 import { fmtNum } from "@/lib/format";
+import { getCategoryColor } from "@/lib/category-colors";
+import { normalizeCategory } from "@/lib/category-map";
 import ExactMarketChart, { type ExactMarketSeries } from "./exact-market-chart";
 import MarketContextMedia from "./market-context-media";
 import SportBrandMark from "./sport-brand-mark";
@@ -34,6 +36,17 @@ function closeLabel(iso?: string): string | null {
   const hours = Math.floor(ms / 3_600_000);
   if (hours >= 1) return `Mbyllet për ${hours} orë`;
   return `Mbyllet për ${Math.max(1, Math.floor(ms / 60_000))} min`;
+}
+
+function shortLeft(iso?: string): string {
+  if (!iso) return "—";
+  const ms = new Date(iso).getTime() - Date.now();
+  if (Number.isNaN(ms) || ms <= 0) return "Mbyllur";
+  const days = Math.floor(ms / 86_400_000);
+  if (days >= 1) return `${days}d`;
+  const hours = Math.floor(ms / 3_600_000);
+  if (hours >= 1) return `${hours}h`;
+  return `${Math.max(1, Math.floor(ms / 60_000))}m`;
 }
 
 function Slide({ market, active }: { market: MiniMarket; active: boolean }) {
@@ -121,7 +134,11 @@ function Slide({ market, active }: { market: MiniMarket; active: boolean }) {
       className={`tregu-car-slide-link${isChampionship ? " tregu-championship-card" : ""}`}
       data-championship={isChampionship ? "" : undefined}
       data-f1={isF1 ? "" : undefined}
-      style={{ textDecoration: "none", color: "#111111" }}
+      data-category={market.category}
+      /* The slide publishes its own category colour so the flagship slot can be
+         lit by whatever it happens to be showing, without the palette being
+         written down a second time in CSS. */
+      style={{ textDecoration: "none", color: "#111111", "--feature-accent": getCategoryColor(normalizeCategory(market.category)) } as CSSProperties}
     >
       <Link
         href={`/tregu/${market.slug}`}
@@ -133,7 +150,7 @@ function Slide({ market, active }: { market: MiniMarket; active: boolean }) {
       <div className="tregu-feature-grid" data-structured={structured || isChampionship || undefined}>
         {/* ── The proposition ── */}
         <div className="tregu-feature-main">
-          <div style={{ display: "flex", alignItems: "center", flexWrap: "wrap", gap: 10, marginBottom: 14 }}>
+          <div className="tregu-feature-head">
             {isChampionship ? (
               <span className="tregu-championship-card-head">
                 <span className="tregu-championship-mark" aria-hidden><Trophy size={20} strokeWidth={2.2} /></span>
@@ -230,14 +247,32 @@ function Slide({ market, active }: { market: MiniMarket; active: boolean }) {
               </div>
           )}
 
+          {/* The card's own numbers. Every figure here was already on the
+              market model and none of it was being shown — the slot spent its
+              height on air and its footer on a single sentence. */}
+          <dl className="tregu-feature-stats">
+            <div>
+              <dt>Vëllimi</dt>
+              <dd>{market.volume ? fmtNum(market.volume) : "—"}<i>383C</i></dd>
+            </div>
+            <div>
+              <dt>Tregtime</dt>
+              <dd>{market.tradeCount != null ? fmtNum(market.tradeCount) : "—"}</dd>
+            </div>
+            <div>
+              <dt>Lëvizja 7d</dt>
+              <dd data-dir={deltaPp ? dir : undefined}>
+                {deltaPp != null && deltaPp !== 0 ? `${deltaPp > 0 ? "+" : "−"}${Math.abs(deltaPp)} pp` : "—"}
+              </dd>
+            </div>
+            <div>
+              <dt>Mbyllet</dt>
+              <dd>{shortLeft(market.closesAt)}</dd>
+            </div>
+          </dl>
+
           <div className="tregu-market-foot" style={{ border: "none", paddingTop: 0 }}>
-            <span>
-              {isChampionship
-                ? "Të dhëna zyrtare F1 · 22 pilotë"
-                : market.volume !== undefined && market.volume > 0
-                ? `Aktiviteti i fundit ${fmtNum(market.volume)} 383C`
-                : "Treg i ri"}
-            </span>
+            <span>{isChampionship ? "Të dhëna zyrtare F1 · 22 pilotë" : "Të dhëna live"}</span>
             <span className="tregu-market-open">{isChampionship ? "Hap tregun e titullit →" : "Hap tregun →"}</span>
           </div>
         </div>

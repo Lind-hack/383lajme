@@ -1,4 +1,4 @@
-// Deterministic number formatting for 383 Coin amounts.
+// Deterministic number formatting for 383 Monedha amounts.
 // Intl grouping for "sq-AL" differs between Node and browser ICU builds
 // ("12,450" vs "12 450"), which breaks React hydration on any SSR'd client
 // component — so group manually with non-breaking spaces instead.

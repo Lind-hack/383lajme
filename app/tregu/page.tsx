@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, type KeyboardEvent } from "react";
 import Navbar from "@/components/navbar";
 import TimeAgo from "@/components/time-ago";
 import MarketMiniCard from "@/components/tregu/market-mini-card";
@@ -12,6 +12,7 @@ import { isF1Market, marketsForFootballLeague, sportLabel } from "@/lib/tregu-sp
 import FeaturedCarousel from "@/components/tregu/featured-carousel";
 import F1ArchiveFeature from "@/components/tregu/f1-archive-feature";
 import FloorRail from "@/components/tregu/floor-rail";
+import TraderLeaderboard from "@/components/tregu/trader-leaderboard";
 import type { MiniMarket } from "@/components/tregu/market-mini-card";
 import VideoHero from "@/components/tregu/video-hero";
 import CoinFace from "@/components/tregu/coin-face";
@@ -28,6 +29,7 @@ import {
 import type { MarketMedia } from "@/lib/tregu-market-media.mjs";
 import SpotlightTour, { openTour, type TourStep } from "@/components/spotlight-tour";
 import { formatKosovoTime } from "@/lib/tregu-local-time.mjs";
+import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 
 const TOUR_ID = "tregu-floor";
 
@@ -37,27 +39,29 @@ const TOUR_ID = "tregu-floor";
  */
 const TOUR_STEPS: TourStep[] = [
   {
-    target: "[data-tour='floor-filters']",
-    title: "Fillo te tema jote",
-    body: "Politikë, sport, ekonomi — zgjidh çfarë njeh.",
-    // A strip of pills, not a pill. At the full stadium radius this row asks
-    // for, the arc at each end reaches inward to within ~2px of the first and
-    // last chip — clearance that any change to the chip height would spend.
+    /* Two selectors, one idea. The desktop filter row and the phone's category
+       select are the same step; visibleTarget() picks whichever is on screen.
+       Before this, the step named only the desktop row — which still matched
+       querySelector while display:none, so on a phone the tour lit a 0x0 hole
+       and appeared to break. */
+    target: "[data-tour='floor-filters'], [data-tour='floor-filters-mobile']",
+    title: "Zgjidh një temë",
+    body: "Pyetjet vijnë nga lajmet e ditës — politikë, sport, ekonomi.",
     padding: 12,
     radius: 28,
     zoom: 1.04,
     cursor: {
       loop: true,
       beats: [
-        { click: "[data-tour='floor-filters'] > *:nth-child(2)", hold: 700 },
-        { click: "[data-tour='floor-filters'] > *:nth-child(3)", hold: 700 },
+        { click: "[data-tour='floor-filters'] > *:nth-child(2), [data-tour='floor-filters-mobile']", hold: 700 },
+        { click: "[data-tour='floor-filters'] > *:nth-child(3), [data-tour='floor-filters-mobile']", hold: 700 },
       ],
     },
   },
   {
     target: "[data-tour='floor-grid'] > *:first-child",
-    title: "Hap një pyetje",
-    body: "Zgjidh PO ose JO, vendos sa Coin, konfirmo. Kaq.",
+    title: "Thuaj Po ose Jo",
+    body: "Hap një pyetje, zgjidh anën, vendos sa Monedha. Kaq.",
     padding: 10,
     radius: 18,
     zoom: 1.06,
@@ -67,16 +71,24 @@ const TOUR_STEPS: TourStep[] = [
     },
   },
   {
-    target: "[data-tour='floor-balance']",
-    title: "383 Coin janë falas",
-    body: "Ky është bilanci yt. Merr bonusin çdo ditë.",
+    target: "[data-tour='floor-balance'], [data-tour='floor-balance-mobile']",
+    title: "Monedhat janë falas",
+    body: "Nis me 100 dhe merr më shumë çdo ditë. Para reale nuk preken kurrë.",
     padding: 8,
     radius: 100,
     zoom: 1.06,
     cursor: {
       loop: true,
-      beats: [{ at: "[data-tour='floor-balance']", hold: 1200 }],
+      beats: [{ at: "[data-tour='floor-balance'], [data-tour='floor-balance-mobile']", hold: 1200 }],
     },
+  },
+  {
+    target: "[data-tour='floor-balance'], [data-tour='floor-balance-mobile']",
+    title: "Nëse del si the ti, fiton",
+    body: "Sa më e saktë gjasa që zgjodhe, aq më shumë Monedha kthen. Gjithçka te Portofoli.",
+    padding: 8,
+    radius: 100,
+    zoom: 1.04,
   },
 ];
 
@@ -170,6 +182,7 @@ function isF1Archive(market: MarketRow): boolean {
 }
 
 export default function TreguHub() {
+  const reducedMotion = usePrefersReducedMotion();
   const [markets, setMarkets] = useState<MarketRow[]>([]);
   const [activity, setActivity] = useState<ActivityItem[]>([]);
   const [query, setQuery] = useState("");
@@ -367,7 +380,7 @@ export default function TreguHub() {
     }),
     [markets]
   );
-  const f1Archives = useMemo(() => markets.filter(isF1Archive).filter(m => !/hungar|hungaris|zandvoort/i.test(m.slug + " " + m.question)), [markets]);
+  const f1Archives = useMemo(() => markets.filter(isF1Archive).filter(m => !/hungar|hungaris|zandvoort|monza/i.test(m.slug + " " + m.question)), [markets]);
 
   // Multi-outcome events: markets titled "<Ngjarja>: <Rezultati>?" fold into
   // one Polymarket-style card with a combined chart and one buy row per
@@ -474,6 +487,7 @@ export default function TreguHub() {
     slug: m.slug,
     question: m.question,
     category: m.category,
+    status: m.status,
     prob: m.market_prob,
     volume: vol(m),
     closesAt: m.closes_at,
@@ -490,6 +504,22 @@ export default function TreguHub() {
     outcomeHistory: m.outcome_history,
     marketMedia: m.market_media,
   });
+
+  /* Enter on the search box moves the page to the results.
+     Typing already filters the grid live, but the grid sits below the hero row,
+     the sport sections and the sort bar — so on a laptop the filtered result is
+     entirely off-screen and the search reads as broken. Committing the query
+     with Enter scrolls to the count line, which is the first thing that states
+     how many matches there are. Blur first so the phone keyboard retracts
+     before the scroll rather than during it. */
+  const jumpToResults = (event: KeyboardEvent<HTMLInputElement>) => {
+    if (event.key !== "Enter") return;
+    event.preventDefault();
+    event.currentTarget.blur();
+    const results = document.getElementById("tregjet-aktive");
+    if (!results) return;
+    results.scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth", block: "start" });
+  };
 
   const claimBonus = async () => {
     setClaiming(true);
@@ -533,7 +563,7 @@ export default function TreguHub() {
       {/* Status ribbon — live market header bridging the dark hero into the floor. */}
       <div className="tregu-ribbon">
         <div className="tregu-ribbon-inner">
-          <span className="tregu-stat-live">Tregu hapur</span>
+          <span className="tregu-stat-live" data-ribbon="secondary">Tregu hapur</span>
           <span className="tregu-stat">
             <span className="tregu-stat-label">Tregje</span>
             <span className="tregu-stat-value">{loading || loadError ? "—" : fmtNum(totals.count)}</span>
@@ -544,7 +574,7 @@ export default function TreguHub() {
               {loading || loadError ? "—" : `${fmtNum(totals.volume)} 383C`}
             </span>
           </span>
-          <span className="tregu-stat">
+          <span className="tregu-stat" data-ribbon="secondary">
             <span className="tregu-stat-label">Kontrolluar</span>
             <span className="tregu-stat-value">{updatedAt ?? "—"}</span>
           </span>
@@ -570,54 +600,51 @@ export default function TreguHub() {
         if (!link || !link.pathname.startsWith("/tregu/") || link.pathname.includes("portofoli")) return;
         try { sessionStorage.setItem("tregu-floor", JSON.stringify({ category, league, sort, query, y: window.scrollY, slug: link.pathname, offset: link.getBoundingClientRect().top, returning: true })); } catch {}
       }} id="tregjet" style={{ maxWidth: 1160, margin: "0 auto", padding: "44px 24px 80px", scrollMarginTop: 88 }}>
-        {/* Floor head — accent bar + focused, active-voice line. */}
-        <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", flexWrap: "wrap", gap: 16, marginBottom: 26 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-            <div style={{ width: 4, height: 40, background: "#FF4422", borderRadius: 2, flexShrink: 0 }} />
-            <div>
-              <h1 style={{ fontSize: "clamp(24px, 3.2vw, 34px)", fontWeight: 800, margin: 0, letterSpacing: "-0.02em" }}>
-                Tregu
-              </h1>
-              <p style={{ color: "#6B6B6B", fontSize: 13, margin: "3px 0 0" }}>
-                Analizo gjasat. Zgjidh anën. Vër 383 Coin.
-              </p>
-              <button
-                type="button"
-                className="tregu-home-help"
-                style={{ marginTop: 10 }}
-                onClick={() => openTour(TOUR_ID)}
-              >
-                <span aria-hidden>?</span>
-                Si funksionon
-              </button>
-            </div>
+        {/* Floor head — one line: title, what the place is, and the balance.
+            Previously the tagline sat under the h1 and the balance chip floated
+            off to the right on its own axis, so the eye crossed two rows to
+            answer "where am I / what have I got". */}
+        <div className="tregu-floor-head">
+          <div className="tregu-floor-head-title">
+            <span className="tregu-floor-head-bar" aria-hidden />
+            <h1>Tregu</h1>
+            <p>Analizo gjasat. Zgjidh anën. Vër 383 Monedha.</p>
           </div>
 
-          {balance !== null && (
-            <div className="tregu-glass tregu-glass-hi tregu-headchip" data-tour="floor-balance" style={{ display: "flex", alignItems: "center", gap: 12, padding: "9px 10px 9px 14px" }}>
-              <CoinFace size={26} spinning={coinSpin} hoverTilt />
-              <span style={{ fontWeight: 800, fontSize: 16, fontVariantNumeric: "tabular-nums" }}>
-                {fmtNum(balance)}
-              </span>
-              {bonusMsg && <span style={{ fontSize: 12, fontWeight: 700, color: "#00A651", fontVariantNumeric: "tabular-nums" }}>{bonusMsg}</span>}
-              <button
-                onClick={claimBonus}
-                disabled={claiming}
-                className="tregu-btn-primary"
-                style={{ padding: "8px 14px", borderRadius: 100, fontSize: 12, cursor: "pointer" }}
-              >
-                {claiming ? "..." : "Bonusi ditor"}
-              </button>
-              <Link href="/tregu/portofoli" style={{ fontSize: 12, color: "#6B6B6B", fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }}>
-                Portofoli →
-              </Link>
-            </div>
-          )}
+          <div className="tregu-floor-head-actions">
+            <button
+              type="button"
+              className="tregu-home-help"
+              onClick={() => openTour(TOUR_ID)}
+            >
+              <span aria-hidden>?</span>
+              Si funksionon
+            </button>
+
+            {balance !== null && (
+              <div className="tregu-glass tregu-glass-hi tregu-headchip" data-tour="floor-balance">
+                <CoinFace size={26} spinning={coinSpin} hoverTilt />
+                <span className="tregu-headchip-amount">{fmtNum(balance)}</span>
+                {bonusMsg && <span className="tregu-headchip-bonus">{bonusMsg}</span>}
+                <button
+                  onClick={claimBonus}
+                  disabled={claiming}
+                  className="tregu-btn-primary"
+                  style={{ padding: "8px 14px", borderRadius: 100, fontSize: 12, cursor: "pointer" }}
+                >
+                  {claiming ? "..." : "Bonusi ditor"}
+                </button>
+                <Link href="/tregu/portofoli" className="tregu-headchip-link">
+                  Portofoli →
+                </Link>
+              </div>
+            )}
+          </div>
         </div>
 
         <div className="tregu-discovery-controls">
-          <label className="tregu-search"><span>Kërko tregje</span><input type="search" placeholder="Skuadër, pilot ose ngjarje…" value={query} onChange={e => setQuery(e.target.value)} /></label>
-          <label className="tregu-category-mobile"><span>Kategoria</span><select value={category} onChange={e => { setCategory(e.target.value); setLeague(null); }}>{CATEGORIES.map(c => <option key={c.value} value={c.value}>{c.label}</option>)}</select></label>
+          <label className="tregu-search"><span>Kërko tregje</span><input type="search" placeholder="Skuadër, pilot ose ngjarje…" value={query} onChange={e => setQuery(e.target.value)} onKeyDown={jumpToResults} /></label>
+          <label className="tregu-category-mobile" data-tour="floor-filters-mobile"><span>Kategoria</span><select value={category} onChange={e => { setCategory(e.target.value); setLeague(null); }}>{CATEGORIES.map(c => <option key={c.value} value={c.value}>{c.label}</option>)}</select></label>
         </div>
         {/* Category filters — ink active state, matches the rest of the site */}
         <div className="tregu-category-desktop" data-tour="floor-filters" style={{ display: "flex", gap: 8, marginBottom: 18, overflowX: "auto", paddingBottom: 4 }}>
@@ -685,16 +712,14 @@ export default function TreguHub() {
           ))}
         {!loading && !loadError && featured.length > 0 && (
           <div className="tregu-hero-row" data-tour="floor-featured">
-            <FeaturedCarousel key={category} markets={featured.map(toMini)} />
-            <FloorRail
-              markets={markets.filter((market) => !isStructuredSportMarket(market)).map(toMini)}
-              loggedIn={balance !== null}
-              claiming={claiming}
-              bonusMsg={bonusMsg}
-              coinSpin={coinSpin}
-              rewardAmount={rewardAmount}
-              onClaim={claimBonus}
-            />
+            {/* Left column stacks: the flagship book, then who is winning on it.
+                The board used to be the rail's promo tile; it earns more width
+                here and frees the right column for something else. */}
+            <div className="tregu-hero-main">
+              <FeaturedCarousel key={category} markets={featured.map(toMini)} />
+              <TraderLeaderboard />
+            </div>
+            <FloorRail markets={markets.filter((market) => !isStructuredSportMarket(market)).map(toMini)} />
           </div>
         )}
 

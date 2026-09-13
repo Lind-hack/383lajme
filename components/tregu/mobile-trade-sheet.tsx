@@ -257,7 +257,7 @@ export default function MobileTradeSheet({
             </div>
           ) : !loggedIn ? (
             <div className="tregu-mobile-sheet-empty">
-              <strong>Kyçu për të tregtuar me 383 Coin.</strong>
+              <strong>Kyçu për të tregtuar me 383 Monedha.</strong>
               <span>Bilanci dhe pozicionet e tua ruhen në profil.</span>
               <Link href={loginHref}>Kyçu dhe vazhdo</Link>
             </div>
@@ -318,7 +318,7 @@ export default function MobileTradeSheet({
                       value={amountInput}
                       placeholder="0"
                       onChange={(event) => onAmountChange(event.target.value)}
-                      aria-label="Shuma në 383 Coin"
+                      aria-label="Shuma në 383 Monedha"
                     />
                     <span>383C</span>
                   </label>
@@ -340,8 +340,8 @@ export default function MobileTradeSheet({
               ) : (
                 <div className="tregu-mobile-sheet-trade">
                   <div className="tregu-mobile-sheet-balance">
-                    <span>383 Coin që dëshiron të marrësh</span>
-                    <small>Deri {cashOutCoins(options.find(o => o.key === selectedKey)?.probability ?? 0, liquidity, maxSellShares).toFixed(2)} Coin</small>
+                    <span>383 Monedha që dëshiron të marrësh</span>
+                    <small>Deri {cashOutCoins(options.find(o => o.key === selectedKey)?.probability ?? 0, liquidity, maxSellShares).toFixed(2)} Monedha</small>
                   </div>
                   <label className="tregu-mobile-sheet-amount">
                     <input
@@ -352,7 +352,7 @@ export default function MobileTradeSheet({
                       inputMode="decimal"
                       value={sellCoinInput}
                       onChange={(event) => onSellCoinsChange(event.target.value)}
-                      aria-label="383 Coin që dëshiron të marrësh"
+                      aria-label="383 Monedha që dëshiron të marrësh"
                     />
                     <span>383C</span>
                   </label>
