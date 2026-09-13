@@ -1,13 +1,13 @@
 # Private automation dashboard
 
 Open `/admin/automation` after signing into the existing admin account. The page
-refreshes every 15 seconds and shows the five VPS jobs, start/end times, observed
+refreshes every 15 seconds and shows the five application jobs plus other VPS systemd timers, start/end times, observed
 stage, next timer execution, discovered news, draft batches and public social leads.
 Reports older than 90 seconds are marked stale; their running clocks freeze.
 
 The VPS runs `383-automation-status.timer` every 30 seconds. Its oneshot service
 calls `/usr/local/lib/383-automation/collect.py` (source:
-`scripts/collect-automation-status.py`). That script reads only five named units
+`scripts/collect-automation-status.py`). That script reads the five named application units and discovers other systemd timers
 and passes structured fields to the container's
 `/opt/data/scripts/publish-automation-status.py`.
 

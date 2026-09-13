@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Read five known systemd jobs; send only structured status to a private store."""
+"""Read application jobs and remaining systemd timers; send structured status only."""
 import datetime as dt
 import json
 import re
@@ -65,6 +65,12 @@ def collect(name, label, schedule):
 
 
 if __name__ == '__main__':
+    known = {job[0] for job in JOBS}
+    for line in command('systemctl', 'list-timers', '--all', '--no-legend', '--plain', '--no-pager').splitlines():
+        match = re.search(r'\s([\w.@-]+)\.timer\s+([\w.@-]+)\.service\s*$', line)
+        if match and match[1] == match[2] and match[1] not in known:
+            JOBS.append((match[1], match[1], 'Sipas timer-it të serverit'))
+            known.add(match[1])
     report = {'generated_at': dt.datetime.now(dt.timezone.utc).isoformat(), 'jobs': [collect(*job) for job in JOBS]}
     subprocess.run(['docker', 'exec', '-i', '--user', 'hermes', '--env', 'HOME=/opt/data/home', 'hermes',
         '/opt/data/workspaces/383lajme/.venv/bin/python', '/opt/data/scripts/publish-automation-status.py'],
