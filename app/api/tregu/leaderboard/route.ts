@@ -22,12 +22,44 @@ type Row = { rank: number; display_name: string; profit: number; is_me: boolean 
  * when it falls outside the top N — so "where am I" costs no second query and
  * no client-side stitching.
  */
+/** Start of the current calendar month, UTC. */
+function monthStart(now: Date) {
+  return Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1);
+}
+
+/** Start of the current week, UTC, Monday-based. */
+function weekStart(now: Date) {
+  const day = (now.getUTCDay() + 6) % 7; // Monday = 0
+  return Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() - day);
+}
+
+/** Whole days elapsed since a boundary, floored at 1 — the window the RPC takes. */
+function daysSince(from: number, now: Date) {
+  return Math.max(1, Math.ceil((now.getTime() - from) / 86_400_000));
+}
+
 export async function GET() {
   const supabase = await createClient();
+  const now = new Date();
+
+  /* Calendar periods, not rolling ones.
+     The card counts down to the end of the month and the end of the week, and
+     prizes are paid on those boundaries — so the board has to be measuring the
+     same period the clock is showing. A rolling "last 30 days" would keep
+     dropping a trader's earliest wins out of the window while the countdown
+     implied nothing had reset yet.
+
+     The RPC takes whole days, so the window is the days elapsed since the
+     boundary. On the 1st of a month that is a single day, which is correct:
+     the month has barely started. */
+  const monthOpens = monthStart(now);
+  const weekOpens = weekStart(now);
+  const nextMonth = Date.UTC(now.getUTCFullYear(), now.getUTCMonth() + 1, 1);
+  const nextWeek = weekOpens + 7 * 86_400_000;
 
   const [monthly, weekly] = await Promise.all([
-    supabase.rpc("tregu_leaderboard", { p_days: 30, p_limit: 5 }),
-    supabase.rpc("tregu_leaderboard", { p_days: 7, p_limit: 5 }),
+    supabase.rpc("tregu_leaderboard", { p_days: daysSince(monthOpens, now), p_limit: 5 }),
+    supabase.rpc("tregu_leaderboard", { p_days: daysSince(weekOpens, now), p_limit: 5 }),
   ]);
 
   // The migration may not have been applied to this environment yet. That is a
@@ -43,6 +75,7 @@ export async function GET() {
         prizes: LEADERBOARD_PRIZES,
         available: false,
         reason: failed.message,
+        closes: { monthly: nextMonth, weekly: nextWeek },
       },
       { headers: { "Cache-Control": "no-store" } }
     );
@@ -54,6 +87,8 @@ export async function GET() {
       weekly: (weekly.data ?? []) as Row[],
       prizes: LEADERBOARD_PRIZES,
       available: true,
+      // Epoch ms. The card counts down to these and refetches when one passes.
+      closes: { monthly: nextMonth, weekly: nextWeek },
     },
     // Ranks move on every settled trade, and the card shows the visitor their
     // own position, so this is per-user and must not sit in a shared cache.

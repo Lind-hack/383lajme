@@ -153,6 +153,9 @@ function timeAgo(iso: string): string {
   return `${Math.floor(h / 24)}d`;
 }
 
+/** Basketball leagues that carry the hardwood treatment (0079-era work). */
+const TREATED_BASKETBALL = new Set(["nba", "fiba.world", "fbk.kosovo"]);
+
 const CATEGORIES: { value: string; label: string }[] = [
   { value: "all", label: "Të gjitha" },
   { value: "politike", label: "Politikë" },
@@ -219,8 +222,35 @@ export default function TreguHub() {
     const frame = requestAnimationFrame(() => {
       if (restore.current) {
         const saved = restore.current;
-        const link = [...document.querySelectorAll<HTMLAnchorElement>("main a[href]")].find(a => a.pathname === saved.slug);
-        window.scrollTo({ top: link && saved.offset != null ? window.scrollY + link.getBoundingClientRect().top - saved.offset : saved.y, behavior: "instant" });
+        /* Re-aimed until the page stops moving under it.
+           One pass lands on the layout as it exists the instant the markets
+           arrive — but the leaderboard, the sport sections and every card
+           image are still resolving, and each one that settles above the
+           viewport pushes the anchor down. The reader ends up near where they
+           were rather than where they were. Re-aiming on the next frames and
+           once more after the slow arrivals is what makes it exact; it stops
+           early the moment two consecutive passes agree, so a settled page
+           costs one measurement. */
+        const aim = () => {
+          const link = [...document.querySelectorAll<HTMLAnchorElement>("main a[href]")].find(a => a.pathname === saved.slug);
+          const top = link && saved.offset != null
+            ? window.scrollY + link.getBoundingClientRect().top - saved.offset
+            : saved.y;
+          const target = Math.round(top);
+          if (Math.abs(window.scrollY - target) < 1) return true;
+          window.scrollTo({ top: target, behavior: "instant" });
+          return false;
+        };
+        aim();
+        let settled = 0;
+        const retry = (attempt: number) => {
+          if (attempt > 6 || settled > 1) return;
+          if (aim()) settled += 1; else settled = 0;
+          // Frames first for layout, then a slower beat for images and fetches.
+          if (attempt < 3) requestAnimationFrame(() => retry(attempt + 1));
+          else window.setTimeout(() => retry(attempt + 1), 140);
+        };
+        requestAnimationFrame(() => retry(1));
         restore.current = null;
       } else if (pendingScroll.current) {
         document.getElementById("tregjet-aktive")?.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth" });
@@ -440,8 +470,27 @@ export default function TreguHub() {
       )
       .sort((a, b) => new Date(a.closes_at).getTime() - new Date(b.closes_at).getTime())[0];
 
-    if (!nextRace) return byScore.slice(0, 4);
-    return [nextRace, ...byScore.filter((market) => market.slug !== nextRace.slug)].slice(0, 4);
+    /* A competition keeps a slot too, for the same reason the race does.
+       Champions, Europa, Conference, Nations and the basketball leagues each
+       carry a designed treatment, and those are the cards worth stopping on —
+       but featuredMarketScore is volume and movement, and a fixture that opened
+       this morning has neither, so a competition market could never win the
+       ranking and the treatments were only ever seen on the small floor cards.
+       Ranking cannot express "this one is dressed for the occasion"; a
+       deliberate slot can. Everything behind it is still ranked on merit. */
+    const competition = nonF1
+      .filter((market) => {
+        const league = String(market.live_event?.league ?? "");
+        return market.status === "open"
+          && (league.startsWith("uefa.") || TREATED_BASKETBALL.has(league))
+          && new Date(market.closes_at).getTime() > Date.now();
+      })
+      .sort((a, b) => featuredMarketScore(b) - featuredMarketScore(a))[0];
+
+    const leads = [nextRace, competition].filter(Boolean) as MarketRow[];
+    if (!leads.length) return byScore.slice(0, 4);
+    const leadSlugs = new Set(leads.map((market) => market.slug));
+    return [...leads, ...byScore.filter((market) => !leadSlugs.has(market.slug))].slice(0, 4);
   }, [markets, groupedSlugs]);
 
   // Sorting is the affordance that makes the trader think: chase volume,
@@ -711,6 +760,26 @@ export default function TreguHub() {
           f1Archives.map((market) => (
             <F1ArchiveFeature key={market.id} market={market} />
           ))}
+        {/* The flagship slot reserves its own space while loading.
+            This used to live at the bottom of the page with the grid skeleton —
+            below the sort controls, where the real hero row never appears — so
+            on load the card materialised several hundred pixels higher than the
+            placeholder that had been standing in for it, and everything below
+            jumped. Measured heights, not guesses: carousel 625, board 227,
+            rail 584. */}
+        {loading && !loadError && (
+          <div className="tregu-hero-row" aria-hidden>
+            <div className="tregu-hero-main">
+              <div className="tregu-glass tregu-skeleton" style={{ height: 625, borderRadius: 18 }} />
+              <div className="tregu-glass tregu-skeleton" style={{ height: 227, borderRadius: 18 }} />
+            </div>
+            <div className="tregu-rail">
+              <div className="tregu-glass tregu-skeleton" style={{ height: 340, borderRadius: 18 }} />
+              <div className="tregu-glass tregu-skeleton" style={{ height: 230, borderRadius: 18 }} />
+            </div>
+          </div>
+        )}
+
         {!loading && !loadError && featured.length > 0 && (
           <div className="tregu-hero-row" data-tour="floor-featured">
             {/* Left column stacks: the flagship book, then who is winning on it.
@@ -727,6 +796,10 @@ export default function TreguHub() {
         {/* Sports discovery — the four big football leagues with live books,
             the F1 calendar, and basketball locked until its pricing
             algorithm exists. A selection filters the floor grid below. */}
+        {loading && !loadError && (
+          <div className="tregu-glass tregu-skeleton" aria-hidden style={{ height: 324, borderRadius: 18, marginBottom: 18 }} />
+        )}
+
         {!loading && !loadError && (
           <SportSections
             markets={markets}
@@ -775,21 +848,14 @@ export default function TreguHub() {
         </div>
 
         {loading ? (
-          <>
-            {/* Hero-row-shaped skeleton so the flagship slot doesn't pop in late. */}
-            <div className="tregu-hero-row">
-              <div className="tregu-glass tregu-skeleton" style={{ height: 300, opacity: 0.5, borderRadius: 18 }} />
-              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-                <div className="tregu-glass" style={{ flex: 1, opacity: 0.5 }} />
-                <div className="tregu-glass" style={{ height: 96, opacity: 0.5 }} />
-              </div>
-            </div>
-            <div className="tregu-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 14 }}>
-              {[0, 1, 2, 3, 4, 5].map((i) => (
-                <div key={i} aria-hidden className="tregu-glass tregu-skeleton" style={{ height: 208, opacity: 0.5 }} />
-              ))}
-            </div>
-          </>
+          /* 360px, which is what a card on this floor actually measures — the
+             old 208 left every row 152px short, so the grid grew by that much
+             per row the moment the data landed. */
+          <div className="tregu-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 14 }}>
+            {Array.from({ length: 6 }, (_, i) => (
+              <div key={i} aria-hidden className="tregu-glass tregu-skeleton" style={{ height: 360 }} />
+            ))}
+          </div>
         ) : loadError ? (
           <div className="tregu-glass" style={{ padding: "40px 28px", textAlign: "center" }}>
             <p style={{ fontWeight: 800, fontSize: 16, margin: 0 }}>Tregjet nuk u ngarkuan</p>

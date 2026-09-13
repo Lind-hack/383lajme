@@ -1,11 +1,23 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Medal, Trophy } from "lucide-react";
 import { fmtNum } from "@/lib/format";
 
 type Row = { rank: number; display_name: string; profit: number; is_me: boolean };
-type Board = { monthly: Row[]; weekly: Row[]; available: boolean };
+type Board = { monthly: Row[]; weekly: Row[]; available: boolean; closes: { monthly: number; weekly: number } };
+
+/** "3d 04h" / "4h 12m" / "12m" — coarse far out, precise as it matters. */
+function untilLabel(target: number, now: number): string {
+  const ms = target - now;
+  if (!Number.isFinite(ms) || ms <= 0) return "po mbyllet";
+  const d = Math.floor(ms / 86_400_000);
+  const h = Math.floor((ms % 86_400_000) / 3_600_000);
+  const m = Math.floor((ms % 3_600_000) / 60_000);
+  if (d > 0) return `${d}d ${String(h).padStart(2, "0")}h`;
+  if (h > 0) return `${h}h ${String(m).padStart(2, "0")}m`;
+  return `${Math.max(1, m)}m`;
+}
 
 /**
  * The three metals, and the one place they are defined.
@@ -42,6 +54,7 @@ function Standings({
   prizes,
   available,
   loggedIn,
+  closesIn,
 }: {
   title: string;
   note: string;
@@ -49,6 +62,7 @@ function Standings({
   prizes: readonly number[];
   available: boolean;
   loggedIn: boolean;
+  closesIn: string;
 }) {
   // The podium always has three seats. An unclaimed seat still shows its prize,
   // because the prize is the reason to look at the board at all — an empty
@@ -115,6 +129,13 @@ function Standings({
       </ol>
 
       {!available && <p className="tregu-lb-empty">Renditja fillon sapo të mbyllen tregtitë e para.</p>}
+
+      {/* The clock the prizes are paid on. Without it the board is a ranking
+          with no deadline, and a deadline is most of why anyone checks one. */}
+      <p className="tregu-lb-clock">
+        <span>Shpërblimet ndahen për</span>
+        <time>{closesIn}</time>
+      </p>
     </section>
   );
 }
@@ -130,7 +151,11 @@ function Standings({
  */
 export default function TraderLeaderboard({ loggedIn = false }: { loggedIn?: boolean }) {
   const [board, setBoard] = useState<Board | null>(null);
+  const [now, setNow] = useState(() => Date.now());
   const [prizes, setPrizes] = useState({ monthly: [500, 300, 150], weekly: [125, 75, 40] });
+
+  const boardRef = useRef<Board | null>(null);
+  boardRef.current = board;
 
   useEffect(() => {
     let cancelled = false;
@@ -139,25 +164,43 @@ export default function TraderLeaderboard({ loggedIn = false }: { loggedIn?: boo
         .then((r) => (r.ok ? r.json() : null))
         .then((d) => {
           if (cancelled || !d) return;
-          setBoard({ monthly: d.monthly ?? [], weekly: d.weekly ?? [], available: Boolean(d.available) });
+          setBoard({
+            monthly: d.monthly ?? [],
+            weekly: d.weekly ?? [],
+            available: Boolean(d.available),
+            closes: d.closes ?? { monthly: 0, weekly: 0 },
+          });
           if (d.prizes) setPrizes(d.prizes);
         })
         .catch(() => {
-          if (!cancelled) setBoard({ monthly: [], weekly: [], available: false });
+          if (!cancelled) setBoard({ monthly: [], weekly: [], available: false, closes: { monthly: 0, weekly: 0 } });
         });
     };
     load();
     // A settled trade changes the standings; the balance event is the cheapest
     // signal that one landed.
     window.addEventListener("tregu:balance", load);
+    /* Ticks the countdown, and reloads the board the moment a period turns
+       over — a page left open across midnight on the 1st would otherwise keep
+       showing last month's winners under a clock reading "po mbyllet". */
+    const tick = window.setInterval(() => {
+      setNow((previous) => {
+        const next = Date.now();
+        const closes = boardRef.current?.closes;
+        if (closes && (previous < closes.weekly && next >= closes.weekly ||
+                       previous < closes.monthly && next >= closes.monthly)) load();
+        return next;
+      });
+    }, 30_000);
     return () => {
       cancelled = true;
+      window.clearInterval(tick);
       window.removeEventListener("tregu:balance", load);
     };
   }, []);
 
   if (!board) {
-    return <div className="tregu-glass tregu-lb tregu-skeleton" style={{ height: 232, opacity: 0.5 }} aria-hidden />;
+    return <div className="tregu-glass tregu-lb tregu-skeleton" style={{ height: 227, opacity: 0.5 }} aria-hidden />;
   }
 
   return (
@@ -176,6 +219,7 @@ export default function TraderLeaderboard({ loggedIn = false }: { loggedIn?: boo
           prizes={prizes.monthly}
           available={board.available}
           loggedIn={loggedIn}
+          closesIn={untilLabel(board.closes.monthly, now)}
         />
         <Standings
           title="Java"
@@ -184,6 +228,7 @@ export default function TraderLeaderboard({ loggedIn = false }: { loggedIn?: boo
           prizes={prizes.weekly}
           available={board.available}
           loggedIn={loggedIn}
+          closesIn={untilLabel(board.closes.weekly, now)}
         />
       </div>
     </section>

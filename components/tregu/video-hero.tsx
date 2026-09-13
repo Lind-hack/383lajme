@@ -279,7 +279,7 @@ export default function VideoHero({ loggedIn }: { loggedIn: boolean }) {
                     href="/tregu/portofoli"
                     className="hero-cta-free inline-flex items-center rounded-full px-7 py-3 font-semibold min-h-[44px]"
                   >
-                    Shiko portofolin
+                    Fito 100 Monedha falas
                   </Link>
                 </Reveal>
               )}

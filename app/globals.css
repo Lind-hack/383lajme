@@ -17897,3 +17897,103 @@ header[data-overlay="true"] .nav-search-btn[style*="margin-right"] {
 
 /* The wallet that replaced "383C" on the mobile account bar. */
 .tregu-mbar-wallet { opacity: .62; flex-shrink: 0; }
+
+/* The flagship viewport animates to the height of the slide on screen; the
+   track no longer stretches shorter slides to the tallest one's height. */
+.tregu-hero-row .tregu-car-viewport { transition: height 420ms cubic-bezier(0.77, 0, 0.175, 1); }
+.tregu-hero-row .tregu-car-track { align-items: flex-start; }
+@media (prefers-reduced-motion: reduce) {
+  .tregu-hero-row .tregu-car-viewport { transition: none; }
+}
+
+/* The header band is the brand's orange, not the category's colour.
+   The category still lights the card through the wash and the rim; the band
+   is the one fixed thing across every slide, which is what stops the slot
+   looking like a different product each time it rotates. */
+.tregu-hero-row .tregu-feature-head {
+  background: color-mix(in srgb, #FF4422 10%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, #FF4422 22%, transparent);
+}
+
+/* ==========================================================================
+   Competition artwork inside the flagship card
+   --------------------------------------------------------------------------
+   CompetitionArtwork draws whichever layer its league owns — the UCL stadium,
+   the Europa/Conference trophy and its beams, the basketball and its varnish.
+   Those were positioned for the floor card, which is a third of this width, so
+   they are re-placed here rather than re-drawn. Content stays above them.
+   ========================================================================== */
+.tregu-hero-row .tregu-car-slide-link[data-competition] { overflow: hidden; border-radius: 14px; }
+.tregu-hero-row .tregu-car-slide-link[data-competition] > *:not(.tregu-night-glow):not(.tregu-night-stadium):not(.tregu-uel-beams):not(.tregu-uel-trophy):not(.tregu-court-ball):not(.tregu-court-varnish) {
+  position: relative;
+  z-index: 2;
+}
+.tregu-hero-row .tregu-night-stadium {
+  position: absolute;
+  inset: auto 0 -8px;
+  width: 100%;
+  height: auto;
+  max-height: 170px;
+  object-fit: cover;
+  opacity: .16;
+  z-index: 0;
+  pointer-events: none;
+}
+.tregu-hero-row .tregu-night-glow { display: none; }
+.tregu-hero-row .tregu-uel-beams {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: .1;
+  z-index: 0;
+  pointer-events: none;
+}
+.tregu-hero-row .tregu-uel-trophy {
+  position: absolute;
+  right: 2%;
+  bottom: -12%;
+  width: auto;
+  height: 118%;
+  opacity: .12;
+  z-index: 0;
+  pointer-events: none;
+}
+.tregu-hero-row .tregu-court-ball {
+  position: absolute;
+  right: -18px;
+  bottom: -22px;
+  width: 150px;
+  height: auto;
+  opacity: .22;
+  z-index: 0;
+  pointer-events: none;
+}
+.tregu-hero-row .tregu-court-varnish { display: none; }
+
+/* On a light card the artwork is a watermark, not a substrate — it sits under
+   the numbers at an opacity that never competes with a probability. */
+@media (prefers-reduced-transparency: reduce) {
+  .tregu-hero-row .tregu-night-stadium,
+  .tregu-hero-row .tregu-uel-beams,
+  .tregu-hero-row .tregu-uel-trophy,
+  .tregu-hero-row .tregu-court-ball { display: none; }
+}
+
+/* The deadline the prizes are paid on, under each board. */
+.tregu-lb-clock {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  margin: 9px 0 0;
+  padding-top: 8px;
+  border-top: 1px solid rgba(17, 17, 17, 0.08);
+  font-size: 11px;
+  color: var(--tg-muted);
+}
+.tregu-lb-clock time {
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  color: var(--tg-text);
+}

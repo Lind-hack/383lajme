@@ -14,6 +14,8 @@ import { normalizeCategory } from "@/lib/category-map";
 import ExactMarketChart, { type ExactMarketSeries } from "./exact-market-chart";
 import MarketContextMedia from "./market-context-media";
 import SportBrandMark from "./sport-brand-mark";
+import CompetitionArtwork from "./competition-artwork";
+import { sportBrandFor } from "@/lib/tregu-sport-branding";
 import { outcomeColor, toExactSeries } from "@/lib/tregu-hub-market.mjs";
 
 const CATEGORY_LABEL: Record<string, string> = {
@@ -135,10 +137,19 @@ function Slide({ market, active }: { market: MiniMarket; active: boolean }) {
       data-championship={isChampionship ? "" : undefined}
       data-f1={isF1 ? "" : undefined}
       data-category={market.category}
+      /* The competition treatments (Champions, Europa, Conference, Nations,
+         basketball) were only ever wired to the floor cards. A market big
+         enough to lead the floor is exactly the one that should carry its
+         competition's identity, so the slide publishes the same attribute and
+         renders the same artwork. */
+      data-competition={market.league ?? undefined}
       /* The slide publishes its own category colour so the flagship slot can be
          lit by whatever it happens to be showing, without the palette being
          written down a second time in CSS. */
-      style={{ textDecoration: "none", color: "#111111", "--feature-accent": getCategoryColor(normalizeCategory(market.category)) } as CSSProperties}
+      style={{ textDecoration: "none", color: "#111111", /* A competition outranks the category for the light on the card: a
+           Champions night is blue because it is Champions, not because it is
+           filed under Sport. */
+        "--feature-accent": sportBrandFor(market.league)?.accent ?? getCategoryColor(normalizeCategory(market.category)) } as CSSProperties}
     >
       <Link
         href={`/tregu/${market.slug}`}
@@ -147,6 +158,7 @@ function Slide({ market, active }: { market: MiniMarket; active: boolean }) {
         aria-label={`Hap tregun: ${market.question}`}
         draggable={false}
       />
+      <CompetitionArtwork league={market.league} />
       <div className="tregu-feature-grid" data-structured={structured || isChampionship || undefined}>
         {/* ── The proposition ── */}
         <div className="tregu-feature-main">
@@ -319,6 +331,22 @@ export default function FeaturedCarousel({ markets }: { markets: MiniMarket[] })
   const [reduced, setReduced] = useState(false);
   const touchX = useRef<number | null>(null);
   const count = markets.length;
+  const viewportRef = useRef<HTMLDivElement | null>(null);
+  const activeSlideRef = useRef<HTMLDivElement | null>(null);
+  const [slideHeight, setSlideHeight] = useState<number | null>(null);
+
+  /* Re-measured when the slide changes and whenever its own content resizes —
+     a chart that finishes drawing, an image that lands, a probability that
+     rewraps the question onto a third line. */
+  useEffect(() => {
+    const el = activeSlideRef.current;
+    if (!el) return;
+    const measure = () => setSlideHeight(Math.ceil(el.getBoundingClientRect().height));
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [index, markets]);
 
   useEffect(() => {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -409,7 +437,19 @@ export default function FeaturedCarousel({ markets }: { markets: MiniMarket[] })
         )}
       </div>
 
-      <div className="tregu-car-viewport" data-direction={direction}>
+      <div
+        className="tregu-car-viewport"
+        data-direction={direction}
+        /* Height follows the slide on screen.
+           The track is a flex row of full-width slides, so its height was the
+           height of the TALLEST slide and every shorter one was padded out to
+           match — a three-driver race card carrying the empty space of a
+           news card with a photograph in it. Measuring the active slide and
+           animating to it means the card is only ever as tall as what it is
+           actually showing. */
+        style={slideHeight ? { height: slideHeight } : undefined}
+        ref={viewportRef}
+      >
         <div
           className="tregu-car-track"
           style={{ transform: `translateX(-${index * 100}%)` }}
@@ -417,6 +457,7 @@ export default function FeaturedCarousel({ markets }: { markets: MiniMarket[] })
           {markets.map((m, i) => (
             <div
               key={m.slug}
+              ref={i === index ? activeSlideRef : undefined}
               className="tregu-car-slide"
               data-active={i === index || undefined}
               aria-hidden={i !== index}
