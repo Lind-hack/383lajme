@@ -64,7 +64,7 @@ export async function GET(
         .limit(12),
       supabase
         .from("markets")
-        .select("slug, question, category, q_yes, q_no, b, closes_at, sport_outcomes")
+        .select("slug, question, category, q_yes, q_no, b, closes_at, sport_outcomes, market_type, outcome_quantities")
         .eq("category", market.category)
         .eq("status", "open")
         .neq("id", market.id)
@@ -230,15 +230,54 @@ export async function GET(
   // repeat them as separate "related" trades on an outcome detail page.
   const relatedWithProb = (related ?? [])
     .filter((m) => parseEvent(m.question)?.title !== currentEventTitle)
-    .map((m) => ({
-    slug: m.slug,
-    question: m.question,
-    category: m.category,
-    prob: lmsrPriceYes(m.q_yes, m.q_no, m.b),
-    volume: m.q_yes + m.q_no,
-    closesAt: m.closes_at,
-    sportOutcomes: Array.isArray(m.sport_outcomes) ? m.sport_outcomes : null,
-  }));
+    .map((m) => {
+      const sportOutcomes = Array.isArray(m.sport_outcomes) ? m.sport_outcomes : null;
+      // A multi-outcome market's book lives entirely in outcome_quantities;
+      // q_yes/q_no are never written for it and stay at the column default 0, so
+      // lmsrPriceYes returns exactly 0.5 every time. That is where the row of
+      // identical "50%" came from — a real computation over a dead book. Price
+      // these off the same helper the floor uses, then lead with the favourite,
+      // which is the convention the page already follows when it picks a default
+      // outcome. Genuine binary markets keep the binary price.
+      const hasOutcomeBook =
+        (m.market_type === "two_outcome" || m.market_type === "three_outcome") &&
+        sportOutcomes !== null &&
+        sportOutcomes.length >= 2 &&
+        m.outcome_quantities !== null &&
+        typeof m.outcome_quantities === "object";
+
+      const outcomeProbabilities = hasOutcomeBook
+        ? lmsrSportOutcomePrices({
+            sport_outcomes: sportOutcomes,
+            outcome_quantities: m.outcome_quantities,
+            b: Number(m.b),
+          })
+        : null;
+
+      let prob = lmsrPriceYes(m.q_yes, m.q_no, m.b);
+      let leadOutcomeKey: string | null = null;
+      if (outcomeProbabilities) {
+        const leader = Object.entries(outcomeProbabilities)
+          .sort((a, b) => b[1] - a[1])[0];
+        if (leader) {
+          leadOutcomeKey = leader[0];
+          prob = leader[1];
+        }
+      }
+
+      return {
+        slug: m.slug,
+        question: m.question,
+        category: m.category,
+        prob,
+        volume: m.q_yes + m.q_no,
+        closesAt: m.closes_at,
+        sportOutcomes,
+        marketType: m.market_type ?? undefined,
+        outcomeProbabilities,
+        leadOutcomeKey,
+      };
+    });
 
   let football = null;
   if (

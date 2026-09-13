@@ -46,6 +46,9 @@ export interface MiniMarket {
     gap_change?: number;
   }[] | null;
   outcomeProbabilities?: Record<string, number> | null;
+  /** Highest-priced outcome, resolved server-side. A three-outcome market has
+      no single "the" probability, so the row names the favourite it is quoting. */
+  leadOutcomeKey?: string | null;
   outcomeHistory?: Record<string, { created_at: string; probability: number }[]> | null;
 }
 

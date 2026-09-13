@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import Link from "next/link";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import type { MarketTrade, Side } from "@/lib/tregu-client";
 import TimeAgo from "@/components/time-ago";
 
@@ -27,6 +28,20 @@ export interface CommentItem {
 
 const TABS = ["Komentet", "Mbajtësit", "Pozicionet", "Aktiviteti"] as const;
 type Tab = (typeof TABS)[number];
+
+// The tab lives in the URL so a reload keeps it, a shared link opens on it, and
+// browser back steps between tabs instead of leaving the market. Slugs are
+// ASCII on purpose — "mbajtesit", not "mbajtësit" — so the link survives being
+// pasted through clients that mangle percent-encoding.
+const TAB_SLUGS: Record<Tab, string> = {
+  "Komentet": "komentet",
+  "Mbajtësit": "mbajtesit",
+  "Pozicionet": "pozicionet",
+  "Aktiviteti": "aktiviteti",
+};
+const TAB_BY_SLUG = new Map(TABS.map((t) => [TAB_SLUGS[t], t] as const));
+const PANEL_ID = "tregu-social-panel";
+const tabId = (t: Tab) => `tregu-social-tab-${TAB_SLUGS[t]}`;
 
 function timeAgo(iso: string): string {
   const ms = Date.now() - new Date(iso).getTime();
@@ -78,7 +93,34 @@ export default function MarketSocial({
   loggedIn: boolean;
   demo: boolean;
 }) {
-  const [tab, setTab] = useState<Tab>("Komentet");
+  const router = useRouter();
+  const pathname = usePathname();
+  const search = useSearchParams();
+  const stripRef = useRef<HTMLDivElement | null>(null);
+
+  const tab: Tab = TAB_BY_SLUG.get(search.get("tab") ?? "") ?? "Komentet";
+
+  const selectTab = useCallback((next: Tab) => {
+    const params = new URLSearchParams(search.toString());
+    if (next === "Komentet") params.delete("tab");
+    else params.set("tab", TAB_SLUGS[next]);
+    const query = params.toString();
+    // replace, not push: stepping through tabs should not bury the floor under a
+    // history entry per tab. scroll:false keeps the reader where they were.
+    router.replace(query ? `${pathname}?${query}` : pathname, { scroll: false });
+  }, [pathname, router, search]);
+
+  // Roving focus, per the tablist pattern the markup already claims.
+  const onTabKeyDown = useCallback((event: React.KeyboardEvent<HTMLButtonElement>, index: number) => {
+    const delta = event.key === "ArrowRight" ? 1 : event.key === "ArrowLeft" ? -1 : 0;
+    if (!delta && event.key !== "Home" && event.key !== "End") return;
+    event.preventDefault();
+    const next = event.key === "Home" ? 0
+      : event.key === "End" ? TABS.length - 1
+      : (index + delta + TABS.length) % TABS.length;
+    selectTab(TABS[next]);
+    stripRef.current?.querySelectorAll<HTMLButtonElement>("[role=tab]")[next]?.focus();
+  }, [selectTab]);
   const [comments, setComments] = useState(initialComments);
   const [draft, setDraft] = useState("");
   const [posting, setPosting] = useState(false);
@@ -134,15 +176,19 @@ export default function MarketSocial({
 
   return (
     <div className="tregu-panel" style={{ padding: 0 }}>
-      <div className="tregu-tabs" role="tablist" aria-label="Diskutimi dhe pozicionet">
-        {TABS.map((t) => (
+      <div className="tregu-tabs" role="tablist" aria-label="Diskutimi dhe pozicionet" ref={stripRef}>
+        {TABS.map((t, index) => (
           <button
             key={t}
+            id={tabId(t)}
             role="tab"
             aria-selected={tab === t}
+            aria-controls={PANEL_ID}
+            tabIndex={tab === t ? 0 : -1}
             className="tregu-tab"
             data-active={tab === t}
-            onClick={() => setTab(t)}
+            onClick={() => selectTab(t)}
+            onKeyDown={(event) => onTabKeyDown(event, index)}
             type="button"
           >
             {t}
@@ -151,7 +197,7 @@ export default function MarketSocial({
         ))}
       </div>
 
-      <div style={{ padding: "20px 24px 24px" }}>
+      <div id={PANEL_ID} role="tabpanel" aria-labelledby={tabId(tab)} style={{ padding: "20px 24px 24px" }}>
         {tab === "Komentet" && (
           <div>
             {loggedIn || demo ? (

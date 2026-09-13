@@ -4184,10 +4184,28 @@ header[data-overlay] .nav-coin-chip {
   overflow: hidden;
 }
 .tregu-rel-pct {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 1px;
+  flex: 0 0 auto;
   font-size: 15px;
   font-weight: 800;
   font-variant-numeric: tabular-nums;
   color: #00854a;
+  text-align: right;
+}
+/* Which side the percentage is quoting. Muted and small: the number is the
+   value, the name is only what stops it being ambiguous on a 1X2 market. */
+.tregu-rel-lead {
+  max-width: 92px;
+  overflow: hidden;
+  color: var(--tg-muted, #6B6B6B);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: .01em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 /* ── Group chart hover crosshair ──────────────────────────── */
@@ -4216,9 +4234,17 @@ header[data-overlay] .nav-coin-chip {
   border-bottom: 1px solid rgba(17, 17, 17, 0.08);
   overflow-x: auto;
   scrollbar-width: none;
+  /* Without these a sideways drag on the strip is free to pan the page vertically
+     too, so the row wanders up and down under the thumb, and reaching either end
+     chains the scroll into the document. pan-x costs a vertical swipe that starts
+     on the strip — it is 44px tall, and this is the fix for that exact symptom. */
+  touch-action: pan-x;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x proximity;
 }
 .tregu-tabs::-webkit-scrollbar { display: none; }
 .tregu-tab {
+  scroll-snap-align: start;
   appearance: none;
   background: none;
   border: none;
@@ -13459,6 +13485,16 @@ header[data-overlay="true"] .nav-search-btn { color: rgba(255, 255, 255, 0.9); }
 }
 
 .tregu-sticky-back {
+  /* The way out of a long market page. Sticky under the 72px fixed navbar at the
+     same 96px offset .tregu-detail-side uses, so the two rails line up; z-index 45
+     sits above the share popover (8) and below the navbar (50), which keeps it far
+     under the mobile dock (84), the trade sheet (92) and the receipt (110) — trade
+     UI always covers it. align-self stops the sticky box stretching in the flow. */
+  position: sticky;
+  top: 96px;
+  z-index: 45;
+  align-self: start;
+  justify-self: start;
   display: grid;
   width: 42px;
   height: 42px;
@@ -13582,6 +13618,9 @@ header[data-overlay="true"] .nav-search-btn { color: rgba(255, 255, 255, 0.9); }
     padding: 82px 14px calc(128px + env(safe-area-inset-bottom)) !important;
   }
   .tregu-sticky-back {
+    /* .tregu-detail-main's top padding is 82px here, so 76px parks the button just
+       under the navbar with its own edge still clear of the header below it. */
+    top: 76px;
     width: 40px;
     height: 40px;
     margin: 0 0 14px 2px;

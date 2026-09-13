@@ -160,6 +160,18 @@ const CATEGORY_LABEL: Record<string, string> = {
 
 const QUICK_AMOUNTS = [10, 25, 50, 100];
 
+/**
+ * The short name of the outcome a related row is quoting. A three-outcome match
+ * has no single probability, so the number is meaningless without the team it
+ * belongs to — "71%" alone is what let a dead 0.5 read as plausible.
+ */
+function relatedLeadLabel(market: MiniMarket): string | null {
+  if (!market.leadOutcomeKey || !market.sportOutcomes) return null;
+  const lead = market.sportOutcomes.find((o) => o.key === market.leadOutcomeKey);
+  if (!lead) return null;
+  return String(lead.team ?? lead.label ?? "").trim() || null;
+}
+
 function tradeThemeColor(market: MarketDetail, footballColor?: string, f1Color?: string): string {
   if (footballColor) return footballColor;
   if (f1Color) return f1Color.startsWith("#") ? f1Color : `#${f1Color}`;
@@ -2024,7 +2036,12 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                     <Link key={m.slug} href={`/tregu/${m.slug}`} className="tregu-rel-row">
                       <RelatedMarketMark market={m} />
                       <span className="tregu-rel-q">{m.question}</span>
-                      <span className="tregu-rel-pct">{Math.round(m.prob * 100)}%</span>
+                      <span className="tregu-rel-pct">
+                        {relatedLeadLabel(m) && (
+                          <span className="tregu-rel-lead">{relatedLeadLabel(m)}</span>
+                        )}
+                        {Math.round(m.prob * 100)}%
+                      </span>
                     </Link>
                   ))}
                 </div>
