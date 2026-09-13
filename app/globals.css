@@ -18356,3 +18356,109 @@ header[data-overlay="true"] .nav-search-btn[style*="margin-right"] {
 .tregu-hero-row .tregu-carousel[data-competition] .tregu-uel-beams { opacity: .55; }
 .tregu-hero-row .tregu-carousel[data-competition] .tregu-night-stadium { opacity: .6; }
 .tregu-hero-row .tregu-carousel[data-competition] .tregu-court-ball { opacity: 1; }
+
+/* ==========================================================================
+   Flagship card — the ground dissolves, and the chart gets out of the trophy's way
+   --------------------------------------------------------------------------
+   The competition ground was painted straight onto .tregu-carousel, so moving
+   from the Europa slide to a white one swapped a near-black card for a white
+   one on a single frame while the slides were still gliding — the one hard cut
+   in an otherwise continuous motion.
+
+   Gradients do not interpolate, so this cannot be a background transition. The
+   ground moves to ::before, which carries whichever competition gradient
+   applies and fades its opacity; the carousel underneath stays white. Leaving
+   a competition therefore dissolves to white over the same 640ms the track
+   takes, and the text colours are given the same duration so nothing snaps.
+   ========================================================================== */
+.tregu-hero-row .tregu-carousel {
+  position: relative;
+  /* The tokens still flip at once, but every colour that reads from them is
+     given the track's own duration below, so the change is a dissolve. */
+  transition: color 640ms cubic-bezier(0.77, 0, 0.175, 1),
+              border-color 640ms cubic-bezier(0.77, 0, 0.175, 1),
+              box-shadow 640ms cubic-bezier(0.77, 0, 0.175, 1);
+}
+.tregu-hero-row .tregu-carousel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 640ms cubic-bezier(0.77, 0, 0.175, 1);
+}
+.tregu-hero-row .tregu-carousel[data-competition]::before { opacity: 1; }
+/* Everything the card draws sits above the ground. */
+.tregu-hero-row .tregu-car-head,
+.tregu-hero-row .tregu-car-viewport,
+.tregu-hero-row .tregu-car-dots { position: relative; z-index: 1; }
+
+/* The grounds themselves, now on the layer that fades. */
+.tregu-hero-row .tregu-carousel[data-competition="uefa.champions"]::before {
+  background: radial-gradient(120% 70% at 50% 120%, #0B2A72 0%, rgba(11, 42, 114, 0) 62%), linear-gradient(178deg, #081950 0%, #05123F 100%);
+}
+.tregu-hero-row .tregu-carousel[data-competition="uefa.europa"]::before {
+  background: radial-gradient(120% 70% at 50% 120%, #6A2A0A 0%, rgba(106, 42, 10, 0) 64%), linear-gradient(178deg, #351508 0%, #240E05 100%);
+}
+.tregu-hero-row .tregu-carousel[data-competition="uefa.europa.conf"]::before {
+  background: radial-gradient(120% 70% at 50% 120%, #0E5A31 0%, rgba(14, 90, 49, 0) 64%), linear-gradient(178deg, #072A17 0%, #041C0F 100%);
+}
+.tregu-hero-row .tregu-carousel[data-competition="uefa.nations"]::before {
+  background: radial-gradient(120% 70% at 50% 120%, #2D4A7C 0%, rgba(45, 74, 124, 0) 64%), linear-gradient(178deg, #16233C 0%, #0D1728 100%);
+}
+.tregu-hero-row .tregu-carousel:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"])::before {
+  background:
+    repeating-linear-gradient(0deg, rgba(109, 68, 28, .20) 0 1px, transparent 1px 33px),
+    linear-gradient(163deg, #EFD3A2 0%, #E2BC82 54%, #DCB57A 100%);
+}
+/* The card itself goes back to the floor's glass; ::before does the colour. */
+.tregu-hero-row .tregu-carousel[data-competition] {
+  background: rgba(255, 255, 255, 0.66);
+}
+
+/* Text and panels fade with the ground rather than snapping to it. */
+.tregu-hero-row .tregu-carousel .tregu-feature-q,
+.tregu-hero-row .tregu-carousel .tregu-feature-price-value,
+.tregu-hero-row .tregu-carousel .tregu-feature-price-label,
+.tregu-hero-row .tregu-carousel .tregu-feature-stats dt,
+.tregu-hero-row .tregu-carousel .tregu-feature-stats dd,
+.tregu-hero-row .tregu-carousel .tregu-market-foot,
+.tregu-hero-row .tregu-carousel .tregu-market-close,
+.tregu-hero-row .tregu-carousel .tregu-market-open,
+.tregu-hero-row .tregu-carousel .tregu-car-title,
+.tregu-hero-row .tregu-carousel .tregu-pill,
+.tregu-hero-row .tregu-carousel .tregu-side,
+.tregu-hero-row .tregu-carousel .tregu-native-outcome,
+.tregu-hero-row .tregu-carousel .tregu-feature-stats,
+.tregu-hero-row .tregu-carousel .tregu-feature-stats > div {
+  transition: color 640ms cubic-bezier(0.77, 0, 0.175, 1),
+              background-color 640ms cubic-bezier(0.77, 0, 0.175, 1),
+              border-color 640ms cubic-bezier(0.77, 0, 0.175, 1),
+              box-shadow 640ms cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+/* --- The trophy keeps its side ------------------------------------------
+   The artwork is anchored to the card's right edge, and the chart column was
+   directly on top of it — a grid of rules and a translucent plot laid across
+   the one image the treatment exists to show. Swapping the columns on
+   competition slides puts the chart on the left, against the ground, and
+   leaves the right side to the trophy with only the proposition's text over
+   it, which reads cleanly because text is the one thing that can sit on an
+   image without obscuring it. */
+.tregu-hero-row .tregu-carousel[data-competition] .tregu-feature-grid {
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1fr);
+}
+.tregu-hero-row .tregu-carousel[data-competition] .tregu-feature-chart { order: -1; }
+
+@media (max-width: 1024px) {
+  /* One column below this width, so order would only shuffle the stack. */
+  .tregu-hero-row .tregu-carousel[data-competition] .tregu-feature-chart { order: initial; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tregu-hero-row .tregu-carousel,
+  .tregu-hero-row .tregu-carousel::before,
+  .tregu-hero-row .tregu-carousel * { transition: none !important; }
+}

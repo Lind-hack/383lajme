@@ -102,7 +102,10 @@ export default function FloorRail({ markets }: { markets: MiniMarket[] }) {
   const closing = [...live]
     .filter((m) => hoursLeft(m.closesAt) !== null)
     .sort((a, b) => new Date(a.closesAt!).getTime() - new Date(b.closesAt!).getTime())
-    .slice(0, 3);
+    // Four, not three: the rail runs beside the flagship card and this is the
+    // panel that sets where it ends, so the column lines up with the card's
+    // own foot instead of stopping short of it.
+    .slice(0, 4);
 
 
   return (

@@ -169,8 +169,6 @@ export default function SportSections({
             ))}
           </div>
         </article>
-        {/* Formula 1 */}
-        <RaceCard markets={markets} active={activeLeague} onSelect={onSelect} />
         <article className="tregu-sport-card p-5 flex flex-col" data-sport="basketball">
           <header className="flex items-center gap-2.5 mb-4">
             <SportBrandMark brandKey="nba" size="md" />
@@ -181,6 +179,8 @@ export default function SportSections({
             Shiko ndeshjet <ArrowRight size={16} aria-hidden />
           </button>
         </article>
+        {/* Formula 1 */}
+        <RaceCard markets={markets} active={activeLeague} onSelect={onSelect} />
       </div>
     </section>
   );
