@@ -46,7 +46,10 @@ export default function WithdrawalProgress({ balance }: { balance: number | null
             is noise on a screen reader. */}
         <div
           className="tregu-goal-fill"
-          style={{ width: `${pct}%` }}
+          /* Revealed by clip rather than sized by width — see .tregu-goal-fill.
+             Floored at a sliver so a balance of zero still shows where the run
+             starts instead of an empty groove. */
+          style={{ clipPath: `inset(0 ${(100 - Math.max(pct, 1.4)).toFixed(2)}% 0 0 round 100px)` }}
           data-reached={reached || undefined}
           aria-hidden
         />
