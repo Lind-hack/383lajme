@@ -30,10 +30,14 @@ language sql
 security definer
 set search_path = public
 as $$
+  -- Internal aliases deliberately avoid rank/display_name/profit/is_me: the
+  -- RETURNS TABLE output parameters are in scope inside this body, and an
+  -- unqualified reference to one of those names would be ambiguous rather than
+  -- an error you find later.
   with scored as (
     select
-      t.user_id,
-      sum(t.amount) as profit
+      t.user_id as uid,
+      sum(t.amount) as net
     from public.transactions t
     where t.type in ('bet', 'sell', 'payout')
       and t.created_at >= now() - make_interval(days => greatest(1, p_days))
@@ -41,25 +45,25 @@ as $$
   ),
   ranked as (
     select
-      row_number() over (order by s.profit desc, s.user_id) as rank,
-      s.user_id,
-      s.profit
+      row_number() over (order by s.net desc, s.uid) as place,
+      s.uid,
+      s.net
     from scored s
     -- A trader who is down on the period is not "best"; showing negative
     -- leaders would make the podium read as a loss board on a quiet week.
-    where s.profit > 0
+    where s.net > 0
   )
   select
-    r.rank,
-    coalesce(nullif(trim(p.display_name), ''), 'Tregtar') as display_name,
-    round(r.profit, 0) as profit,
-    (r.user_id = auth.uid()) as is_me
+    r.place,
+    coalesce(nullif(trim(p.display_name), ''), 'Tregtar'),
+    round(r.net, 0),
+    (r.uid = auth.uid())
   from ranked r
-  join public.profiles p on p.id = r.user_id
+  join public.profiles p on p.id = r.uid
   -- Top N, plus the caller's own row however far down it is, so the card can
   -- always answer "and where am I" without a second query.
-  where r.rank <= greatest(1, p_limit) or r.user_id = auth.uid()
-  order by r.rank;
+  where r.place <= greatest(1, p_limit) or r.uid = auth.uid()
+  order by r.place;
 $$;
 
 -- Anon may call it: the floor shows the board to logged-out visitors too, and
