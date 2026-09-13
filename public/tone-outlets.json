@@ -1,10 +1,10 @@
 {
-  "lastUpdated": "2026-09-12",
-  "overallIndex": 50,
-  "totalArticles": 53,
-  "sourceCount": 42,
+  "lastUpdated": "2026-09-13",
+  "overallIndex": 53,
+  "totalArticles": 41,
+  "sourceCount": 34,
   "stanceVersion": 3,
-  "unattributed": 239,
+  "unattributed": 187,
   "nonEditorial": 2,
   "wrongKosovo": 0,
   "countries": {
@@ -17,8 +17,8 @@
           "articles": [
             {
               "title": "Kosovo: aviso de seguridad, septiembre de 2026 - Buch-dein-Visum.de",
-              "albanianTitle": "Kosovë: Njoftim për siguri, shtator 2026 - Buch-dein-Visum.de",
-              "blurb": "Autoritetet kanë publikuar një njoftim të ri lidhur me situatën e sigurisë në Kosovë për shtatorin e vitit 2026.",
+              "albanianTitle": "Kosovë: Njoftim sigurie, shtator 2026 - Buch-dein-Visum.de",
+              "blurb": "Autoritetet kanë lëshuar një njoftim sigurie për Kosovën që është i vlefshëm për muajin shtator të vitit 2026.",
               "imageUrl": "https://www.buch-dein-visum.de/assets/cache/images/konig1200x630-630x630-ef9.png",
               "url": "https://www.buch-dein-visum.de/es/news/allgemein/kosovo-aktueller-sicherheitshinweis-wegen-demonstrationen-und-angespannter-lage-im-norden-7af6d0",
               "date": "2026-09-11",
@@ -33,80 +33,6 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-12",
           "lastSeen": "2026-09-11"
-        },
-        {
-          "name": "Die Rheinpfalz",
-          "sentiment": "neutral",
-          "articleCount": 2,
-          "articles": [
-            {
-              "title": "Spen­den­auf­ruf: Kosovo-​Hilfe Pe­ters­berg bit­tet ein letz­tes Mal um Un­ter­stüt­zung - Die Rheinpfalz",
-              "albanianTitle": "Apel për ndihmë: Shoqata 'Kosovo-Hilfe Petersberg' kërkon mbështetje për herë të fundit - Die Rheinpfalz",
-              "blurb": "Organizata Kosovo-Hilfe Petersberg kërkon mbështetje financiare për herë të fundit për të ndihmuar qytetarët në Kosovë.",
-              "imageUrl": "https://www.rheinpfalz.de/cms_media/module_img/14192/7096350_1_facebookSM_91-134270982.jpg.webp",
-              "url": "https://www.rheinpfalz.de/lokal/pirmasens_artikel,-spendenaufruf-kosovo-hilfe-petersberg-bittet-ein-letztes-mal-um-unterst%C3%BCtzung-_arid,5927621.html",
-              "date": "2026-09-09",
-              "sentiment": "neutral",
-              "reason": "Neutral factual reporting",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Sel­te­nes Hand­werk, letz­te Spen­den­ak­ti­on für Ko­so­vo und ein neuer Mo­de­la­den - Die Rheinpfalz",
-              "albanianTitle": "Artizanati i vjetër, aksioni i fundit i ndihmave për Kosovën dhe një dyqan i ri mode - Die Rheinpfalz",
-              "blurb": "Një organizatë gjermane po zhvillon aksionin e fundit të ndihmave për Kosovën krahas aktiviteteve të tjera lokale.",
-              "imageUrl": "https://www.rheinpfalz.de/cms_media/module_img/14192/7096458_3_facebookSM_L1002335.jpg.webp",
-              "url": "https://www.rheinpfalz.de/lokal/pirmasens_artikel,-seltenes-handwerk-letzte-spendenaktion-f%C3%BCr-kosovo-und-ein-neuer-modeladen-_arid,5927815.html",
-              "date": "2026-09-09",
-              "sentiment": "neutral",
-              "reason": "Headline reports a donation action without loaded language",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 2,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-09",
-          "lastSeen": "2026-09-09"
-        },
-        {
-          "name": "T-Online",
-          "sentiment": "neutral",
-          "articleCount": 2,
-          "articles": [
-            {
-              "title": "Botschafter irritiert: Verliert der DFB nun auch ein Bayern-Talent? - T-Online",
-              "albanianTitle": "Ambasadori i irrituar: A po e humb DFB-ja edhe një talent të Bayernit?",
-              "blurb": "Talenti i Bayern Munichut, Erblin Osmani, mund të zgjedhë të përfaqësojë Kosovën në vend të Gjermanisë në të ardhmen.",
-              "imageUrl": "https://images.t-online.de/2026/09/T5ajlwMP5w0y/672x54:1815x1020/fit-in/1200x0/erblin-osmani-er-feierte-im-maerz-sein-profidebuet-im-spiel-gegen-union-berlin.jpg",
-              "url": "https://www.t-online.de/sport/fussball/bundesliga/fc-bayern-muenchen/id_101426574/dfb-botschafter-irritiert-mit-post-spielt-osmani-kuenftig-fuer-kosovo-.html",
-              "date": "2026-09-09",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportuar pa gjuhë ngarkuar",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Botschafter irritiert: Verliert der DFB nun auch ein Bayern-Talent? - t-online.de",
-              "albanianTitle": "Ambasadori i shqetësuar: A po e humbet DFB-ja edhe një talent të Bayernit?",
-              "blurb": "Talenti i Bayern Munichut mund të largohet nga përfaqësuesja e Gjermanisë pas zhvillimeve të fundit rreth të ardhmes së tij.",
-              "imageUrl": "https://images.t-online.de/2026/09/T5ajlwMP5w0y/672x54:1815x1020/fit-in/1200x0/erblin-osmani-er-feierte-im-maerz-sein-profidebuet-im-spiel-gegen-union-berlin.jpg",
-              "url": "https://www.t-online.de/sport/fussball/bundesliga/fc-bayern-muenchen/id_101426574/dfb-botschafter-irritiert-mit-post-spielt-osmani-kuenftig-fuer-kosovo-.html",
-              "date": "2026-09-09",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-09",
-          "lastSeen": "2026-09-09"
         },
         {
           "name": "neunzigplus.de",
@@ -138,8 +64,8 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 4,
-        "excluded": 2,
+        "n": 1,
+        "excluded": 1,
         "confident": false,
         "stanceVersion": 3
       }
@@ -152,9 +78,9 @@
           "articleCount": 1,
           "articles": [
             {
-              "title": "Kosovo Counts Down to War Crimes Trial of Former President Seen as Hero - bloomberg.com",
-              "albanianTitle": "Kosova në pritje të gjykimit për krime lufte ndaj ish-presidentit që shihet si hero",
-              "blurb": "Kosova po pret fillimin e gjykimit për krime lufte ndaj ish-presidentit të vendit, i konsideruar si hero.",
+              "title": "Kosovo Counts Down to War Crimes Trial of Former President Seen as Hero - Bloomberg.com",
+              "albanianTitle": "Kosova në prag të gjykimit për krime lufte ndaj ish-presidentit që shihet si hero",
+              "blurb": "Kosova po përgatitet për fillimin e gjykimit për krime lufte ndaj ish-presidentit të vendit, i cili shihet si hero.",
               "imageUrl": null,
               "url": "https://www.bloomberg.com/news/articles/2026-09-12/kosovo-counts-down-to-war-crimes-trial-of-former-president-seen-as-hero",
               "date": "2026-09-12",
@@ -400,34 +326,8 @@
         {
           "name": "ANSA",
           "sentiment": "neutral",
-          "articleCount": 6,
+          "articleCount": 3,
           "articles": [
-            {
-              "title": "Allargamento Ue e pluralismo, a Trieste l'informazione dei Balcani - ANSA",
-              "albanianTitle": "Zgjerimi i BE-së dhe pluralizmi, në Trieste diskutohet për mediat në Ballkan - ANSA",
-              "blurb": "Triesta pret një diskutim mbi zgjerimin e Bashkimit Evropian dhe pluralizmin mediatik në rajonin e Ballkanit Perëndimor.",
-              "imageUrl": "https://www.ansa.it/webimages/img_1280x720/2026/9/9/da9f5a1235f3bd81c1c41cf2603942ff.jpg",
-              "url": "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/09/09/allargamento-ue-e-pluralismo-a-trieste-linformazione-dei-balcani_5d3f66d8-7acb-4c4d-bf15-d3ed8d0b274d.html",
-              "date": "2026-09-09",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike, pa gjuhë ngarkuese",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Pozzo (Confindustria), 'i Balcani strategici per accorciare le catene di fornitura' - ANSA",
-              "albanianTitle": "Pozzo (Confindustria): Ballkani është strategjik për shkurtimin e zinxhirëve të furnizimit",
-              "blurb": "Përfaqësuesi i Confindustria, Pozzo, vlerëson se Ballkani është strategjik për shkurtimin e zinxhirëve të furnizimit për kompanitë italiane.",
-              "imageUrl": "https://www.ansa.it/webimages/img_1280x720/2026/9/9/a4be673afce5b9b31196a5d97c6c5f98.jpg",
-              "url": "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/09/09/pozzo-confindustria-i-balcani-strategici-per-accorciare-le-catene-di-fornitura_8b3e32a0-422d-4a3c-af42-ef3afcdfddd2.html",
-              "date": "2026-09-09",
-              "sentiment": "neutral",
-              "reason": "Raporton thënie të Pozzo-s, pa gjuhë të ngarkuar nga media",
-              "isQuote": true,
-              "evidence": "",
-              "speaker": "Pozzo (Confindustria)"
-            },
             {
               "title": "Kosovo court in The Hague seeks 6-year sentence for Thaçi for obstruction of justice - ANSA",
               "albanianTitle": "Gjykata e Kosovës në Hagë kërkon 6 vjet burgim për Thaçin për pengim të drejtësisë",
@@ -456,24 +356,11 @@
             },
             {
               "title": "Manifestazione per l'ex leader dell'Esercito Liberazione del Kosovo Hashim Thaci - ANSA",
-              "albanianTitle": "Protestë në mbështetje të ish-liderit të Ushtrisë Çlirimtare të Kosovës, Hashim Thaçi",
-              "blurb": "Qytetarët kanë organizuar një protestë në mbështetje të ish-liderit të Ushtrisë Çlirimtare të Kosovës, Hashim Thaçi, i cili po mbahet në Hagë.",
+              "albanianTitle": "Protestë në mbështetje të ish-liderit të Ushtrisë Çlirimtare të Kosovës, Hashim Thaçi – ANSA",
+              "blurb": "Qytetarët kanë organizuar një manifestim në mbështetje të ish-liderit të Ushtrisë Çlirimtare të Kosovës, Hashim Thaçi.",
               "imageUrl": "https://www.ansa.it/webimages/img_1280x720/2026/9/12/2094976ced22457890703653344bbe17.jpg",
               "url": "https://www.ansa.it/sito/photogallery/primopiano/2026/09/12/manifestazione-per-lex-leader-dellesercito-liberazione-del-kosovo-hashim-thaci_fa03c435-930f-4574-a6b8-2a3915e0d445.html",
               "date": "2026-09-12",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Allargamento Ue e pluralismo, a Trieste l'informazione dei Balcani - ansa.it",
-              "albanianTitle": "Zgjerimi i BE-së dhe pluralizmi, në Trieste diskutohet për mediat në Ballkan",
-              "blurb": "Në Trieste diskutohet për zgjerimin e Bashkimit Evropian dhe rolin e pluralizmit në mediat e rajonit të Ballkanit.",
-              "imageUrl": "https://www.ansa.it/webimages/img_1280x720/2026/9/9/da9f5a1235f3bd81c1c41cf2603942ff.jpg",
-              "url": "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/09/09/allargamento-ue-e-pluralismo-a-trieste-linformazione-dei-balcani_5d3f66d8-7acb-4c4d-bf15-d3ed8d0b274d.html",
-              "date": "2026-09-09",
               "sentiment": "unknown",
               "reason": "",
               "isQuote": false,
@@ -485,78 +372,6 @@
           "trend": "neutral",
           "firstSeen": "2026-08-20",
           "lastSeen": "2026-09-12"
-        },
-        {
-          "name": "Barletta NEWS24",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Qualif. Mondiali, Italia-Kosovo a Barletta, Grimaldi: «Una grande vittoria per la nostra città» - Barletta NEWS24",
-              "albanianTitle": "Kualifikimet për Botëror, Italia-Kosovo në Barletta, Grimaldi: Një fitore e madhe për qytetin tonë - Barletta NEWS24",
-              "blurb": "Qyteti i Barletës do të presë ndeshjen kualifikuese për botëror mes Italisë dhe Kosovës në futboll.",
-              "imageUrl": null,
-              "url": "https://www.barlettanews24.it/sport/25042/qualif-mondiali-italia-kosovo-a-barletta-grimaldi-una-grande-vittoria-per-la-nostra-citta",
-              "date": "2026-09-09",
-              "sentiment": "neutral",
-              "reason": "Citim i raportuar, jo zëri i mediumit",
-              "isQuote": true,
-              "evidence": "",
-              "speaker": "Grimaldi"
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-09",
-          "lastSeen": "2026-09-09"
-        },
-        {
-          "name": "BarlettaViva",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Italia-Kosovo di futsal a Barletta, Grimaldi: «Una grande opportunità per la città» - BarlettaViva",
-              "albanianTitle": "Italia-Kosova në futsal në Barletta, Grimaldi: «Një mundësi e madhe për qytetin» - BarlettaViva",
-              "blurb": "Qyteti i Barletës në Itali do të presë ndeshjen e futsallit mes përfaqësueseve të Italisë dhe të Kosovës.",
-              "imageUrl": "https://barletta.gocity.it/library/media/ruggiero_grimaldij.jpg",
-              "url": "https://www.barlettaviva.it/sport/italia-kosovo-di-futsal-a-barletta-grimaldi-una-grande-opportunita-per-la-citta/",
-              "date": "2026-09-09",
-              "sentiment": "neutral",
-              "reason": "Positive comment is quoted and attributed, outlet itself remains neutral",
-              "isQuote": true,
-              "evidence": "",
-              "speaker": "Grimaldi"
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-09",
-          "lastSeen": "2026-09-09"
-        },
-        {
-          "name": "Cavalierenews",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "\"Klithma - Il Grido\": la straziante voce dei bambini mutilati dalla guerra del Kosovo nel capolavoro verità di Alketa Gashi Fazliu - Cavalierenews",
-              "albanianTitle": "\"Klithma\": Zëri rrëqethës i fëmijëve të gjymtuar nga lufta në Kosovë në kryeveprën e Alketa Gashi-Fazliut",
-              "blurb": "Vepra artistike e Alketa Gashi Fazliut pasqyron përvojat e fëmijëve të prekur nga pasojat e luftës në Kosovë.",
-              "imageUrl": "https://cavalierenews.it/wp-content/uploads/2026/09/Immagine-2026-09-09-112622-971x600.jpg",
-              "url": "https://cavalierenews.it/klithma-il-grido-la-straziante-voce-dei-bambini-mutilati-dalla-guerra-del-kosovo-nel-capolavoro-verita-di-alketa-gashi-fazliu/",
-              "date": "2026-09-09",
-              "sentiment": "neutral",
-              "reason": "Reports tragic war impact without hostile language",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 3,
-          "trend": "i përzier",
-          "firstSeen": "2026-08-26",
-          "lastSeen": "2026-09-09"
         },
         {
           "name": "Corriere dello Sport",
@@ -801,30 +616,6 @@
           "lastSeen": "2026-09-10"
         },
         {
-          "name": "ildolomiti.it",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Era in Kosovo per aiutare la popolazione colpita dalla guerra: riunì dei giovani per aprire vie di arrampicata. Nacquero così i \"Ragni del val Rugova\" - ildolomiti.it",
-              "albanianTitle": "Ishte në Kosovë për të ndihmuar popullsinë e prekur nga lufta: mblodhi të rinj për të hapur shtigje ngjitjeje. Kështu lindën \"Peshkaqenët e Rugovës\" - ildolomiti.it",
-              "blurb": "Një grup të rinjsh në Kosovë u bashkua për të hapur shtigje alpinizmi pas luftës, duke formuar grupin Ragni.",
-              "imageUrl": "https://cdn.ildolomiti.it/s3fs-public/styles/opengraph/public/montagna/articoli/2026/09/maurobarisone.png?itok=TO7JcpJd",
-              "url": "https://www.ildolomiti.it/altra-montagna/storie/2026/era-in-kosovo-per-aiutare-la-popolazione-colpita-dalla-guerra-riuni-dei-giovani-per-aprire-vie-di-arrampicata-nacquero-cosi-i-ragni-del-val-rugova",
-              "date": "2026-09-09",
-              "sentiment": "neutral",
-              "reason": "Report of a humanitarian climbing project, presented factually",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-09",
-          "lastSeen": "2026-09-09"
-        },
-        {
           "name": "telefriuli.it",
           "sentiment": "unknown",
           "articleCount": 1,
@@ -850,14 +641,22 @@
         }
       ],
       "summary": {
-        "index": 38,
+        "index": 32,
         "positive": 0,
-        "neutral": 76,
-        "negative": 24,
-        "n": 17,
-        "excluded": 5,
+        "neutral": 64,
+        "negative": 36,
+        "n": 11,
+        "excluded": 4,
         "confident": true,
-        "stanceVersion": 3
+        "stanceVersion": 3,
+        "movement": {
+          "delta": -6,
+          "from": 38,
+          "outlet": "balcanicaucaso.org",
+          "title": "Kosova, politika në rrugë pa krye",
+          "evidence": "politica in un vicolo cieco",
+          "url": "https://www.balcanicaucaso.org/cp_article/kosovo-la-politica-in-un-vicolo-cieco/"
+        }
       }
     },
     "Austri": {
@@ -907,19 +706,6 @@
               "speaker": ""
             },
             {
-              "title": "\"Wo sind sie alle?\" – Das Kino Kosova Film Festival kehrt mit seiner siebten Ausgabe nach Bern zurück - albinfo.ch",
-              "albanianTitle": "“Ku janë të gjithë?” – Festivali i Filmit Kosova kthehet në Bernë me edicionin e shtatë - albinfo.ch",
-              "blurb": "Festivali i filmit Kosova Film Festival rikthehet në Bernë të Zvicrës me edicionin e tij të shtatë radhazi.",
-              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/img_2911.jpeg",
-              "url": "https://www.albinfo.ch/de/ku-jane-te-gjithe-kino-kosova-film-festival-rikthehet-me-edicionin-e-shtate-ne-berne/",
-              "date": "2026-09-09",
-              "sentiment": "neutral",
-              "reason": "Simple announcement of film festival return, no evaluative language",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
               "title": "Zwei Schwestern aus dem Kosovo, eine internationale Erfolgsgeschichte im Ingenieurwesen in Deutschland - Albinfo",
               "albanianTitle": "Dy motra nga Kosova, një histori suksesi ndërkombëtar në inxhinieri në Gjermani - Albinfo",
               "blurb": "Dy motra nga Kosova kanë arritur sukses ndërkombëtar në fushën e inxhinierisë në shtetin e Gjermanisë.",
@@ -957,9 +743,22 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Deux sœurs originaires du Kosovo, une réussite internationale dans le domaine de l’ingénierie en Allemagne - Albinfo",
+              "albanianTitle": "Dy motra me prejardhje nga Kosova, një sukses ndërkombëtar në fushën e inxhinierisë në Gjermani - Albinfo",
+              "blurb": "Dy motra nga Kosova kanë shënuar sukses ndërkombëtar në profesionin e inxhinierisë gjatë punës së tyre në Gjermani.",
+              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/img_2943.png",
+              "url": "https://www.albinfo.ch/fr/dy-motra-nga-kosova-nje-histori-suksesi-nderkombetar-ne-fushen-e-inxhinierise-ne-gjermani/",
+              "date": "2026-09-10",
+              "sentiment": "positive",
+              "reason": "Outlet praises Kosovo‑origin sisters as an international success",
+              "isQuote": false,
+              "evidence": "une réussite internationale",
+              "speaker": ""
             }
           ],
-          "totalArticles": 27,
+          "totalArticles": 33,
           "trend": "pozitiv",
           "firstSeen": "2026-09-07",
           "lastSeen": "2026-09-12"
@@ -971,8 +770,8 @@
           "articles": [
             {
               "title": "Manifestation géante à Pristina pour la libération de Hashim Thaçi - Blick",
-              "albanianTitle": "Protestë masive në Prishtinë për lirimin e Hashim Thaçit",
-              "blurb": "Një numër i madh qytetarësh janë mbledhur në Prishtinë për të kërkuar lirimin e ish-presidentit të Kosovës, Hashim Thaçi.",
+              "albanianTitle": "Protestë masive në Prishtinë për lirimin e Hashim Thaçit – Blick",
+              "blurb": "Një protestë masive është mbajtur në Prishtinë për të kërkuar lirimin e ish-presidentit të Kosovës, Hashim Thaçi.",
               "imageUrl": "https://images.blick.ch/1/HTik9lGaHR0cHM6Ly9vY2RuLmV1L3B1bHNjbXMvTURBXy8zZDYwYzY4MC05NjBjLTQ3ZjYtOTI0My02MzY1N2M1NDg3MzYuanBlZ5CBoTAH",
               "url": "https://www.blick.ch/fr/monde/pristina-manifestation-pour-la-liberation-de-hashim-thaci/13yvk2f",
               "date": "2026-09-12",
@@ -1031,8 +830,8 @@
         "positive": 38,
         "neutral": 62,
         "negative": 0,
-        "n": 13,
-        "excluded": 9,
+        "n": 16,
+        "excluded": 11,
         "confident": true,
         "stanceVersion": 3
       }
@@ -1041,22 +840,9 @@
       "outlets": [
         {
           "name": "Puna.nl",
-          "sentiment": "neutral",
-          "articleCount": 2,
+          "sentiment": "unknown",
+          "articleCount": 1,
           "articles": [
-            {
-              "title": "Kosso maakt moeilijke beslissing en emigreert met zijn gezin naar Kosovo: \"Nederland, bedankt voor alles\" - Puna.nl",
-              "albanianTitle": "Kosso merr vendimin e vështirë dhe emigron me familjen në Kosovë: \"Holandë, faleminderit për gjithçka\"",
-              "blurb": "Reperi Kosso ka marrë vendimin për t'u shpërngulur nga Holanda drejt Kosovës së bashku me familjen e tij.",
-              "imageUrl": null,
-              "url": "https://www.puna.nl/news/kosso-maakt-moeilijke-beslissing-en-emigreert-met-zijn-gezin-naar-kosovo-nederland-bedankt-voor-alles",
-              "date": "2026-09-09",
-              "sentiment": "neutral",
-              "reason": "Citim i personit, media raporton neutral",
-              "isQuote": true,
-              "evidence": "",
-              "speaker": "Kosso"
-            },
             {
               "title": "Kosso koos Kosovo boven Dubai en woont nu twee huizen verwijderd van de president: \"Een soort van Beverly Hills\" - Puna.nl",
               "albanianTitle": "Kosso e zgjodhi Kosovën para Dubait dhe tani jeton dy shtëpi larg presidentit: \"Një lloj Beverly Hillsi\" - Puna.nl",
@@ -1102,11 +888,11 @@
         }
       ],
       "summary": {
-        "index": 50,
+        "index": null,
         "positive": 0,
-        "neutral": 100,
+        "neutral": 0,
         "negative": 0,
-        "n": 1,
+        "n": 0,
         "excluded": 2,
         "confident": false,
         "stanceVersion": 3
@@ -1134,8 +920,8 @@
           "articles": [
             {
               "title": "Marcha en apoyo al exlíder del Ejército de Liberación de Kosovo, Hashim Thaçi - ABC",
-              "albanianTitle": "Marsh përkrahës për ish-liderin e Ushtrisë Çlirimtare të Kosovës, Hashim Thaçi",
-              "blurb": "Qytetarët kanë organizuar një marsh për të shprehur mbështetjen e tyre ndaj ish-liderit të Ushtrisë Çlirimtare të Kosovës.",
+              "albanianTitle": "Marshim në mbështetje të ish-liderit të Ushtrisë Çlirimtare të Kosovës, Hashim Thaçi – ABC",
+              "blurb": "Një marshim është organizuar në mbështetje të ish-liderit të Ushtrisë Çlirimtare të Kosovës, Hashim Thaçi.",
               "imageUrl": "https://s1.abcstatics.com/abc/www/multimedia/espana/2026/09/12/VIDEO-marcha-apoyo-exlder-ejrcito.jpg",
               "url": "https://www.abc.es/espana/marcha-apoyo-exlider-ejercito-liberacion-kosovo-hashim-20260912170937-nt.html",
               "date": "2026-09-12",
@@ -1188,6 +974,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-12",
           "lastSeen": "2026-09-12"
+        },
+        {
+          "name": "sport-fm.gr",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Ισπανία-Κόσοβο: Σκόραρε από το... σπίτι του ο Χαλίμι! (video) - sport-fm.gr",
+              "albanianTitle": "Spanjë-Kosovë: Halimi shënon gol nga... shtëpia! (video)",
+              "blurb": "Besar Halimi shënoi një gol nga distanca e largët në ndeshjen e futbollit ndërmjet Spanjës dhe Kosovës.",
+              "imageUrl": "https://resources.sport-fm.gr/supersportFM/images/news/21/03/31/233118.jpg?w=880&f=bicubic",
+              "url": "https://www.sport-fm.gr/article/4169502",
+              "date": "2026-09-12",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 12,
+          "trend": "i përzier",
+          "firstSeen": "2026-08-20",
+          "lastSeen": "2026-09-12"
         }
       ],
       "summary": {
@@ -1196,7 +1006,7 @@
         "neutral": 0,
         "negative": 0,
         "n": 0,
-        "excluded": 1,
+        "excluded": 2,
         "confident": false,
         "stanceVersion": 3
       }
@@ -1210,13 +1020,13 @@
           "articles": [
             {
               "title": "Dottern dog – då utvisades familjen - Dagens Arbete",
-              "albanianTitle": "Vdiq vajza – pastaj familja u dëbua nga vendi",
-              "blurb": "Një familje është dëbuar nga shteti pas vdekjes së vajzës së tyre, sipas raportimeve të mediave suedeze për këtë rast.",
+              "albanianTitle": "Vdiq vajza – familja dëbohet nga vendi",
+              "blurb": "Një familje është dëbuar nga vendi pasi vajza e tyre ka ndërruar jetë, sipas raportimeve të fundit nga Dagens Arbete.",
               "imageUrl": "https://da.se/app/uploads/2026/09/Kosovo_Foto_David_Lundmark_1.jpg",
               "url": "https://da.se/2026/09/dottern-dog-da-utvisades-familjen/",
               "date": "2026-09-11",
               "sentiment": "unknown",
-              "reason": "Nuk ka informacion të mjaftueshëm në titull për të përcaktuar qëndrimin ndaj Kosovës",
+              "reason": "",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1264,38 +1074,13 @@
       }
     },
     "Poloni": {
-      "outlets": [
-        {
-          "name": "wspinanie.pl",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Gryka e Rugovës – wspinaczkowa (i nie tylko) atrakcja Kosowa - wspinanie.pl",
-              "albanianTitle": "Gryka e Rugovës – atraksion për ngjitje (dhe jo vetëm) në Kosovë - wspinanie.pl",
-              "blurb": "Gryka e Rugovës njihet si një atraksion i rëndësishëm për alpinizmin dhe aktivitete të tjera në natyrën e Kosovës.",
-              "imageUrl": "https://wspinanie.pl/wp-content/uploads/2026/09/peja.jpg",
-              "url": "https://wspinanie.pl/2026/09/kanion-rugova-kosowo/",
-              "date": "2026-09-09",
-              "sentiment": "neutral",
-              "reason": "Titulli përshkruan një atraksion pa gjuhë të ngarkuar",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-09",
-          "lastSeen": "2026-09-09"
-        }
-      ],
+      "outlets": [],
       "summary": {
-        "index": 50,
+        "index": null,
         "positive": 0,
-        "neutral": 100,
+        "neutral": 0,
         "negative": 0,
-        "n": 1,
+        "n": 0,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -1305,27 +1090,27 @@
       "outlets": [
         {
           "name": "Aksiyon.com.TR",
-          "sentiment": "neutral",
+          "sentiment": "unknown",
           "articleCount": 1,
           "articles": [
             {
-              "title": "Kosova meclis başkanlığında devam kararı: Albulena Haxhiu yeniden seçildi - Aksiyon.com.TR",
-              "albanianTitle": "Vazhdimi i seancës për kryetar të Kuvendit: Albulena Haxhiu rizgjidhet në krye të legjislativit - Aksiyon.com.TR",
-              "blurb": "Albulena Haxhiu vazhdon detyrën në krye të Kuvendit të Kosovës pas votimit të zhvilluar në seancën parlamentare.",
-              "imageUrl": "https://cdn.aksiyon.com.tr/uploads/1280x720/images/202609/kosova-meclis-baskanliginda-devam-karari-albulena-haxhiu-yeniden-secildi-1200-549031.jpg",
-              "url": "https://www.aksiyon.com.tr/kosova-meclis-baskanliginda-devam-karari-albulena-haxhiu-yeniden-secildi-351222",
-              "date": "2026-09-09",
-              "sentiment": "neutral",
-              "reason": "Factual report of parliamentary decision without loaded language",
+              "title": "Priştine ayakta: Thaçi kararı öncesi on binler sokaklara döküldü - Aksiyon.com.TR",
+              "albanianTitle": "Prishtina në këmbë: Dhjetëra mijëra qytetarë në rrugë para vendimit për Thaçin",
+              "blurb": "Dhjetëra mijëra qytetarë kanë dalë në protestë në Prishtinë para marrjes së vendimit lidhur me ish-presidentin Hashim Thaçi.",
+              "imageUrl": "https://cdn.aksiyon.com.tr/uploads/1280x720/images/202609/pristine-ayakta-thaci-karari-oncesi-on-binler-sokaklara-dokuldu-1200-896393.jpg",
+              "url": "https://www.aksiyon.com.tr/pristine-ayakta-thaci-karari-oncesi-on-binler-sokaklara-dokuldu-353520",
+              "date": "2026-09-12",
+              "sentiment": "unknown",
+              "reason": "",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
             }
           ],
-          "totalArticles": 2,
+          "totalArticles": 3,
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-08-19",
-          "lastSeen": "2026-09-09"
+          "lastSeen": "2026-09-12"
         },
         {
           "name": "CUMHA Cumhur Haber Ajansı",
@@ -1371,8 +1156,8 @@
           "articles": [
             {
               "title": "Lahey'de yargılanan eski UÇK komutanlarına Kosova'da destek gösterisi düzenlendi - Haberler",
-              "albanianTitle": "Në Kosovë mbahet protestë në mbështetje të ish-komandantëve të UÇK-së që po gjykohen në Hagë",
-              "blurb": "Në Kosovë është mbajtur një protestë në mbështetje të ish-komandantëve të UÇK-së që po gjykohen në Hagë.",
+              "albanianTitle": "Protestë në mbështetje të ish-komandantëve të UÇK-së që po gjykohen në Hagë",
+              "blurb": "Në Kosovë është organizuar një protestë në mbështetje të ish-komandantëve të UÇK-së që po gjykohen në Gjykatën Speciale në Hagë.",
               "imageUrl": "https://foto.haberler.com/haber/2026/09/12/lahey-de-yargilanan-eski-uck-komutanlarina-ko-20231603_amp.jpg",
               "url": "https://www.haberler.com/guncel/lahey-de-yargilanan-eski-uck-komutanlarina-kosova-20231603-haberi/",
               "date": "2026-09-12",
@@ -1402,47 +1187,10 @@
           "lastSeen": "2026-09-12"
         },
         {
-          "name": "Pusu Haber",
+          "name": "Son Dakika",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
-            {
-              "title": "Kosova’da meclis başkanı yeniden Albulena Haxhiu oldu - Pusu Haber",
-              "albanianTitle": "Albulena Haxhiu rizgjidhet kryetare e Kuvendit në Kosovë - Pusu Haber",
-              "blurb": "Albulena Haxhiu është rizgjedhur në pozitën e kryetares së kuvendit në një proces të zhvilluar në Kosovë.",
-              "imageUrl": "https://pusuhaber.com.tr/img/kosovada-meclis-baskani-yeniden-albulena-haxhiu-oldu-20260909AW784801.jpg",
-              "url": "https://pusuhaber.com.tr/politika/214211-kosovada-meclis-baskani-yeniden-albulena-haxhiu-oldu",
-              "date": "2026-09-09",
-              "sentiment": "neutral",
-              "reason": "Lajm faktik për ndryshimin e kryetarit të parlamentit",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-09",
-          "lastSeen": "2026-09-09"
-        },
-        {
-          "name": "Son Dakika",
-          "sentiment": "neutral",
-          "articleCount": 2,
-          "articles": [
-            {
-              "title": "Albulena Haxhiu, Kosova'da 62 oyla yeniden Meclis Başkanı seçildi - Son Dakika",
-              "albanianTitle": "Albulena Haxhiu rizgjidhet kryetare e Kuvendit të Kosovës me 62 vota - Son Dakika",
-              "blurb": "Albulena Haxhiu është rizgjedhur në postin e kryetares së Kuvendit të Kosovës me 62 vota të deputetëve.",
-              "imageUrl": "https://foto.sondakika.com/haber/2026/09/09/kosova-da-meclis-baskani-yeniden-albulena-hax-3-20222119_amp.jpg",
-              "url": "https://www.sondakika.com/politika/haber-albulena-haxhiu-kosova-da-62-oyla-yeniden-meclis-b-20222171/",
-              "date": "2026-09-09",
-              "sentiment": "neutral",
-              "reason": "Faktikë pa ngarkim gjuhësor",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "Vanlı sporcu Furkan Bilici, Kosova'da +91 kiloda dünya şampiyonu oldu - Son Dakika",
               "albanianTitle": "Sportisti nga Vani, Furkan Bilici, shpallet kampion bote në kategorinë +91 kg në Kosovë - Son Dakika",
@@ -1461,30 +1209,6 @@
           "trend": "i përzier",
           "firstSeen": "2026-08-20",
           "lastSeen": "2026-09-10"
-        },
-        {
-          "name": "T24",
-          "sentiment": "negative",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Hasan Servet Öktem | Kosovalı parlamenterlerin yaptığı seçmene saygısızlık değil mi? - T24",
-              "albanianTitle": "Hasan Servet Öktem: A nuk është mosrespekt ndaj votuesve ajo që po bëjnë deputetët kosovarë?",
-              "blurb": "Hasan Servet Öktem ngre pyetjen nëse veprimet e parlamentarëve kosovarë përbëjnë mungesë respekti ndaj votuesve që i zgjodhën ata.",
-              "imageUrl": null,
-              "url": "https://t24.com.tr/yazarlar/hasan-servet-oktem/kosovali-parlamenterlerin-yaptigi-secmene-saygisizlik-degil-mi,58967",
-              "date": "2026-09-09",
-              "sentiment": "negative",
-              "reason": "Media përdor fjalë pejorative për parlamentarët kosovarë",
-              "isQuote": false,
-              "evidence": "saygısızlık",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-09",
-          "lastSeen": "2026-09-09"
         },
         {
           "name": "trtavaz.com.tr",
@@ -1512,13 +1236,13 @@
         }
       ],
       "summary": {
-        "index": 44,
+        "index": 50,
         "positive": 0,
-        "neutral": 88,
-        "negative": 12,
-        "n": 8,
-        "excluded": 2,
-        "confident": true,
+        "neutral": 100,
+        "negative": 0,
+        "n": 4,
+        "excluded": 3,
+        "confident": false,
         "stanceVersion": 3
       }
     },

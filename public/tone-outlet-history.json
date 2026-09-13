@@ -712,13 +712,13 @@
     },
     "sport-fm.gr": {
       "country": "Greqi",
-      "total": 11,
+      "total": 12,
       "positive": 1,
       "neutral": 8,
       "negative": 0,
-      "unknown": 2,
+      "unknown": 3,
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-30",
+      "lastSeen": "2026-09-12",
       "urls": [
         "https://www.sport-fm.gr/article/amp/mesogeiakoi-agwnes-agriemeni-stin-premiera-tis-i-ethniki-andrwn-sarwse-to-kosobo-amp/5142502",
         "https://www.sport-fm.gr/article/amp/ellada-kosobo-3-0-set-amp/5142590",
@@ -730,7 +730,8 @@
         "https://www.sport-fm.gr/article/4133262",
         "https://www.sport-fm.gr/article/amp/Live-kosobo-kupros-amp/4327483",
         "https://www.sport-fm.gr/article/795903",
-        "https://www.sport-fm.gr/article/5004006"
+        "https://www.sport-fm.gr/article/5004006",
+        "https://www.sport-fm.gr/article/4169502"
       ]
     },
     "In.gr": {
@@ -896,16 +897,17 @@
     },
     "Aksiyon.com.TR": {
       "country": "Turqi",
-      "total": 2,
+      "total": 3,
       "positive": 0,
       "neutral": 2,
       "negative": 0,
-      "unknown": 0,
+      "unknown": 1,
       "firstSeen": "2026-08-19",
-      "lastSeen": "2026-09-09",
+      "lastSeen": "2026-09-12",
       "urls": [
         "https://www.aksiyon.com.tr/kosova-da-zubin-potok-kazisinda-en-az-23-kisiye-ait-kalinti-bulundu-uc-supheli-tutuklandi-337827",
-        "https://www.aksiyon.com.tr/kosova-meclis-baskanliginda-devam-karari-albulena-haxhiu-yeniden-secildi-351222"
+        "https://www.aksiyon.com.tr/kosova-meclis-baskanliginda-devam-karari-albulena-haxhiu-yeniden-secildi-351222",
+        "https://www.aksiyon.com.tr/pristine-ayakta-thaci-karari-oncesi-on-binler-sokaklara-dokuldu-353520"
       ]
     },
     "İhlas Haber Ajansı": {
@@ -3087,11 +3089,11 @@
     },
     "Albinfo": {
       "country": "Zvicër",
-      "total": 27,
-      "positive": 8,
-      "neutral": 13,
+      "total": 33,
+      "positive": 9,
+      "neutral": 16,
       "negative": 0,
-      "unknown": 6,
+      "unknown": 8,
       "firstSeen": "2026-09-07",
       "lastSeen": "2026-09-12",
       "urls": [
@@ -3121,7 +3123,13 @@
         "https://www.albinfo.ch/de/kapiteni-rrahmani-terhiqet-nga-perfaqesuesja-e-kosoves/",
         "https://www.albinfo.ch/fr/ganimet-shala-pjese-e-delegacionit-evropian-qe-monitoron-zgjedhjet-ne-suedi/",
         "https://www.albinfo.ch/de/von-scham-und-geld-filmi-kosovar-qe-triumfoi-ne-sundance-shfaqet-ne-premiere-ne-mynih/",
-        "https://www.albinfo.ch/fr/ambasadorja-e-re-e-zvicres-ne-kosove-miqesia-mes-dy-vendeve-bazohet-ne-besim-dhe-bashkepunim/"
+        "https://www.albinfo.ch/fr/ambasadorja-e-re-e-zvicres-ne-kosove-miqesia-mes-dy-vendeve-bazohet-ne-besim-dhe-bashkepunim/",
+        "https://www.albinfo.ch/de/ambasadorja-e-re-e-zvicres-ne-kosove-miqesia-mes-dy-vendeve-bazohet-ne-besim-dhe-bashkepunim/",
+        "https://www.albinfo.ch/de/shaip-morina-nje-shqiptar-nga-kosova-ne-qender-te-jetes-politike-dhe-kulturore-te-malmo-s/",
+        "https://www.albinfo.ch/de/liria-ka-emer-rreth-100-000-veta-moren-pjese-ne-protesten-e-sotme/",
+        "https://www.albinfo.ch/fr/shaip-morina-nje-shqiptar-nga-kosova-ne-qender-te-jetes-politike-dhe-kulturore-te-malmo-s/",
+        "https://www.albinfo.ch/fr/liria-ka-emer-rreth-100-000-veta-moren-pjese-ne-protesten-e-sotme/",
+        "https://www.albinfo.ch/fr/von-scham-und-geld-filmi-kosovar-qe-triumfoi-ne-sundance-shfaqet-ne-premiere-ne-mynih/"
       ]
     },
     "iAxia -": {
