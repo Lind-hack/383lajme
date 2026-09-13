@@ -638,9 +638,9 @@
     },
     "Gazzetta.gr": {
       "country": "Greqi",
-      "total": 6,
+      "total": 7,
       "positive": 0,
-      "neutral": 5,
+      "neutral": 6,
       "negative": 0,
       "unknown": 1,
       "firstSeen": "2026-08-19",
@@ -651,7 +651,8 @@
         "https://www.gazzetta.gr/football/uefa-nations-league/live-kosovo-irlandia-24-09-2026",
         "https://www.gazzetta.gr/football/uefa-nations-league/live-aystria-kosovo-27-09-2026",
         "https://www.gazzetta.gr/football/uefa-nations-league/live-kosovo-aystria-04-10-2026",
-        "https://www.gazzetta.gr/basketball/basket-league/2568856/peristeri-filiko-me-tin-ylli-apo-kosobo"
+        "https://www.gazzetta.gr/basketball/basket-league/2568856/peristeri-filiko-me-tin-ylli-apo-kosobo",
+        "https://www.gazzetta.gr/basketball/basket-league/2568856/peristeri-filiko-me-tin-ylli-apo-kosobo?amp"
       ]
     },
     "NewsIT": {
@@ -900,17 +901,18 @@
     },
     "Aksiyon.com.TR": {
       "country": "Turqi",
-      "total": 3,
+      "total": 4,
       "positive": 0,
-      "neutral": 2,
+      "neutral": 3,
       "negative": 0,
       "unknown": 1,
       "firstSeen": "2026-08-19",
-      "lastSeen": "2026-09-12",
+      "lastSeen": "2026-09-13",
       "urls": [
         "https://www.aksiyon.com.tr/kosova-da-zubin-potok-kazisinda-en-az-23-kisiye-ait-kalinti-bulundu-uc-supheli-tutuklandi-337827",
         "https://www.aksiyon.com.tr/kosova-meclis-baskanliginda-devam-karari-albulena-haxhiu-yeniden-secildi-351222",
-        "https://www.aksiyon.com.tr/pristine-ayakta-thaci-karari-oncesi-on-binler-sokaklara-dokuldu-353520"
+        "https://www.aksiyon.com.tr/pristine-ayakta-thaci-karari-oncesi-on-binler-sokaklara-dokuldu-353520",
+        "https://www.aksiyon.com.tr/kosova-da-istikrar-arayisi-suruyor-albin-kurti-dorduncu-kez-hukumeti-kurdu-353967"
       ]
     },
     "İhlas Haber Ajansı": {
@@ -3057,15 +3059,16 @@
     },
     "smhi.se": {
       "country": "Suedi",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-07",
-      "lastSeen": "2026-09-05",
+      "lastSeen": "2026-09-10",
       "urls": [
-        "https://www.smhi.se/vader/prognoser-och-varningar/vaderprognos/q/Mitrovica/789225"
+        "https://www.smhi.se/vader/prognoser-och-varningar/vaderprognos/q/Mitrovica/789225",
+        "https://www.smhi.se/vader/prognoser-och-varningar/vaderprognos/q/Prizren/786712"
       ]
     },
     "aefinfo.fr": {
@@ -3096,13 +3099,13 @@
     },
     "Albinfo": {
       "country": "Zvicër",
-      "total": 33,
+      "total": 38,
       "positive": 9,
-      "neutral": 16,
+      "neutral": 21,
       "negative": 0,
       "unknown": 8,
       "firstSeen": "2026-09-07",
-      "lastSeen": "2026-09-12",
+      "lastSeen": "2026-09-13",
       "urls": [
         "https://www.albinfo.ch/fr/tre-pilote-nga-kosova-ne-top-10-te-botes-ne-paragllajdizem/",
         "https://www.albinfo.ch/fr/kosove-efta-marreveshja-e-tregtise-se-lire-hyn-ne-fuqi-me-1-tetor/",
@@ -3136,7 +3139,12 @@
         "https://www.albinfo.ch/de/liria-ka-emer-rreth-100-000-veta-moren-pjese-ne-protesten-e-sotme/",
         "https://www.albinfo.ch/fr/shaip-morina-nje-shqiptar-nga-kosova-ne-qender-te-jetes-politike-dhe-kulturore-te-malmo-s/",
         "https://www.albinfo.ch/fr/liria-ka-emer-rreth-100-000-veta-moren-pjese-ne-protesten-e-sotme/",
-        "https://www.albinfo.ch/fr/von-scham-und-geld-filmi-kosovar-qe-triumfoi-ne-sundance-shfaqet-ne-premiere-ne-mynih/"
+        "https://www.albinfo.ch/fr/von-scham-und-geld-filmi-kosovar-qe-triumfoi-ne-sundance-shfaqet-ne-premiere-ne-mynih/",
+        "https://www.albinfo.ch/de/konstituohet-kuvendi-i-kosoves/",
+        "https://www.albinfo.ch/de/me-62-vota-per-zgjidhet-qeveria-kurti-4/",
+        "https://www.albinfo.ch/fr/konstituohet-kuvendi-i-kosoves/",
+        "https://www.albinfo.ch/fr/me-62-vota-per-zgjidhet-qeveria-kurti-4/",
+        "https://www.albinfo.ch/de/lidhja-e-infermiereve-shqiptare-ne-zvicer-lisz-gezon-perkrahje-te-gjere-ne-ceremonine-e-hapjes-ne-cyrih/"
       ]
     },
     "iAxia -": {
@@ -3808,15 +3816,17 @@
     },
     "Omni – Alla nyheter. Alla perspektiv.": {
       "country": "Suedi",
-      "total": 1,
+      "total": 3,
       "positive": 0,
-      "neutral": 0,
+      "neutral": 2,
       "negative": 0,
       "unknown": 1,
       "firstSeen": "2026-09-13",
       "lastSeen": "2026-09-13",
       "urls": [
-        "https://omni.se/efter-18-manader-av-kaos-kosovo-har-en-ny-regering/a/0pd0kE"
+        "https://omni.se/efter-18-manader-av-kaos-kosovo-har-en-ny-regering/a/0pd0kE",
+        "https://omni.se/hopp-hos-s-sverige-far-en-ny-regering/a/QJzOkJ",
+        "https://omni.se/analyser-ett-resultat-som-ger-andersson-rejal-huvudvark-men-det-blir-inte-extra-val/a/y52XaJ"
       ]
     },
     "Aftonbladet": {
@@ -3882,6 +3892,124 @@
       "lastSeen": "2026-09-13",
       "urls": [
         "https://dogruhaber.com.tr/kosovada-kurti-hukumeti-guvenoyu-aldi"
+      ]
+    },
+    "zeit.de": {
+      "country": "Gjermani",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-13",
+      "lastSeen": "2026-09-13",
+      "urls": [
+        "https://www.zeit.de/politik/ausland/2026-09/kosovo-regierung-albin-kurti-selbstbestimmungs-partei-parlament"
+      ]
+    },
+    "apnews.com": {
+      "country": "SHBA",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-13",
+      "lastSeen": "2026-09-13",
+      "urls": [
+        "https://apnews.com/article/kosovo-government-kurti-crisis-5c3727cfbcf04a3cc5734972fa6ea6c0"
+      ]
+    },
+    "Independent": {
+      "country": "Britani",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-13",
+      "lastSeen": "2026-09-13",
+      "urls": [
+        "https://www.independent.co.uk/news/kosovo-pristina-serbia-europe-nato-b3049420.html"
+      ]
+    },
+    "News.at": {
+      "country": "Austri",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-13",
+      "lastSeen": "2026-09-13",
+      "urls": [
+        "https://www.news.at/politik/kosovo-parlament-billigt-neue-regierung-unter-premier-kurti"
+      ]
+    },
+    "bluewin.ch": {
+      "country": "Zvicër",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-13",
+      "lastSeen": "2026-09-13",
+      "urls": [
+        "https://www.bluewin.ch/en/news/kurti-remains-prime-minister-opposition-boycotts-vote-li.3598322"
+      ]
+    },
+    "The Press Project": {
+      "country": "Greqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-13",
+      "lastSeen": "2026-09-13",
+      "urls": [
+        "https://thepressproject.gr/kosovo-nea-kyvernisi-me-prothypourgo-ton-albin-kourti/"
+      ]
+    },
+    "epochtimes.se": {
+      "country": "Suedi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-13",
+      "lastSeen": "2026-09-12",
+      "urls": [
+        "https://www.epochtimes.se/efter-politiska-kaoset-kosovo-har-ny-regering"
+      ]
+    },
+    "haberler.com": {
+      "country": "Turqi",
+      "total": 2,
+      "positive": 0,
+      "neutral": 2,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-12",
+      "lastSeen": "2026-09-13",
+      "urls": [
+        "https://www.haberler.com/politika/kosova-da-on-binlerce-kisi-eski-cumhurbaskani-20232252-haberi/",
+        "https://www.haberler.com/politika/kosova-da-guven-oyu-alan-albin-kurti-dorduncu-kez-20234244-haberi/"
+      ]
+    },
+    "Türkiye Gazetesi": {
+      "country": "Turqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-13",
+      "lastSeen": "2026-09-13",
+      "urls": [
+        "https://www.turkiyegazetesi.com.tr/dunya/kosova-meclisinde-kritik-oylama-kurti-hukumeti-guvenoyu-aldi-1815774"
       ]
     }
   }
