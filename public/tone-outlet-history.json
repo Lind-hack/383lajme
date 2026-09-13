@@ -1020,13 +1020,13 @@
     },
     "Haberler": {
       "country": "Turqi",
-      "total": 9,
+      "total": 10,
       "positive": 0,
-      "neutral": 7,
+      "neutral": 8,
       "negative": 0,
       "unknown": 2,
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-09-12",
+      "lastSeen": "2026-09-13",
       "urls": [
         "https://www.haberler.com/3-sayfa/kosova-da-savas-suclari-sorusturmasi-23-kisiye-ait-20159336-haberi/",
         "https://www.haberler.com/3-sayfa/kosova-da-toplu-mezarlarin-yakininda-cok-sayida-20164351-haberi/",
@@ -1036,7 +1036,8 @@
         "https://www.haberler.com/guncel/kosova-da-bekim-sejdiu-nun-cumhurbaskani-20194186-haberi/",
         "https://www.haberler.com/guncel/kosovali-askerlerin-gazze-ye-konuslandirilmasina-20215256-haberi/",
         "https://www.haberler.com/guncel/lahey-de-yargilanan-eski-uck-komutanlarina-kosova-20231603-haberi/",
-        "https://www.haberler.com/politika/kosova-da-on-binlerce-kisi-eski-cumhurbaskani-20232252-haberi/"
+        "https://www.haberler.com/politika/kosova-da-on-binlerce-kisi-eski-cumhurbaskani-20232252-haberi/",
+        "https://www.haberler.com/guncel/kosova-da-albin-kurti-nin-liderligindeki-yeni-20233782-haberi/"
       ]
     },
     "Son Dakika": {
@@ -1794,7 +1795,7 @@
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-26",
-      "lastSeen": "2026-09-05",
+      "lastSeen": "2026-09-10",
       "urls": [
         "https://www.smhi.se/vader/prognoser-och-varningar/vaderprognos/q/Mitrovica/789225",
         "https://www.smhi.se/vader/prognoser-och-varningar/vaderprognos/q/Pristina/786714",
@@ -2332,15 +2333,16 @@
     },
     "Reuters": {
       "country": "Britani",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-31",
-      "lastSeen": "2026-08-31",
+      "lastSeen": "2026-09-13",
       "urls": [
-        "https://www.reuters.com/world/kosovo-parties-strike-deal-elect-president-breaking-deadlock-2026-08-31/"
+        "https://www.reuters.com/world/kosovo-parties-strike-deal-elect-president-breaking-deadlock-2026-08-31/",
+        "https://www.reuters.com/world/kosovo-parliament-re-elects-albin-kurti-prime-minister-2026-09-13/"
       ]
     },
     "LameziaTerme.it": {
@@ -2559,15 +2561,16 @@
     },
     "Internazionale": {
       "country": "Itali",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-02",
-      "lastSeen": "2026-08-31",
+      "lastSeen": "2026-09-13",
       "urls": [
-        "https://www.internazionale.it/ultime-notizie-reuters/2026/08/31/kosovo-parties-strike-deal-to-elect-president-breaking-deadlock"
+        "https://www.internazionale.it/ultime-notizie-reuters/2026/08/31/kosovo-parties-strike-deal-to-elect-president-breaking-deadlock",
+        "https://www.internazionale.it/ultime-notizie-reuters/2026/09/13/kosovo-parliament-re-elects-albin-kurti-as-prime-minister"
       ]
     },
     "best-tv.gr": {
@@ -3679,6 +3682,19 @@
       "lastSeen": "2026-09-11",
       "urls": [
         "https://da.se/2026/09/dottern-dog-da-utvisades-familjen/"
+      ]
+    },
+    "wnp.pl": {
+      "country": "Poloni",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-13",
+      "lastSeen": "2026-09-13",
+      "urls": [
+        "https://www.wnp.pl/rynki/kosowo-parlament-ponownie-wybral-albina-kurtiego-na-stanowisko-premiera,1098764.html"
       ]
     }
   }

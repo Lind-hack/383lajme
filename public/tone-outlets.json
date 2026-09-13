@@ -1,11 +1,11 @@
 {
   "lastUpdated": "2026-09-13",
-  "overallIndex": 53,
-  "totalArticles": 41,
-  "sourceCount": 34,
+  "overallIndex": 54,
+  "totalArticles": 52,
+  "sourceCount": 38,
   "stanceVersion": 3,
-  "unattributed": 187,
-  "nonEditorial": 2,
+  "unattributed": 220,
+  "nonEditorial": 4,
   "wrongKosovo": 0,
   "countries": {
     "Gjermani": {
@@ -17,8 +17,8 @@
           "articles": [
             {
               "title": "Kosovo: aviso de seguridad, septiembre de 2026 - Buch-dein-Visum.de",
-              "albanianTitle": "Kosovë: Njoftim sigurie, shtator 2026 - Buch-dein-Visum.de",
-              "blurb": "Autoritetet kanë lëshuar një njoftim sigurie për Kosovën që është i vlefshëm për muajin shtator të vitit 2026.",
+              "albanianTitle": "Kosova: Njoftim për siguri, shtator 2026 - Buch-dein-Visum.de",
+              "blurb": "Autoritetet publikojnë njoftim të ri lidhur me sigurinë në territorin e Kosovës për muajin shtator të vitit 2026.",
               "imageUrl": "https://www.buch-dein-visum.de/assets/cache/images/konig1200x630-630x630-ef9.png",
               "url": "https://www.buch-dein-visum.de/es/news/allgemein/kosovo-aktueller-sicherheitshinweis-wegen-demonstrationen-und-angespannter-lage-im-norden-7af6d0",
               "date": "2026-09-11",
@@ -74,18 +74,18 @@
       "outlets": [
         {
           "name": "Bloomberg",
-          "sentiment": "unknown",
+          "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
               "title": "Kosovo Counts Down to War Crimes Trial of Former President Seen as Hero - Bloomberg.com",
               "albanianTitle": "Kosova në prag të gjykimit për krime lufte ndaj ish-presidentit që shihet si hero",
-              "blurb": "Kosova po përgatitet për fillimin e gjykimit për krime lufte ndaj ish-presidentit të vendit, i cili shihet si hero.",
+              "blurb": "Ish-presidenti i Kosovës përballet me gjykimin për krime lufte në një proces të shumëpritur në Hagë.",
               "imageUrl": null,
               "url": "https://www.bloomberg.com/news/articles/2026-09-12/kosovo-counts-down-to-war-crimes-trial-of-former-president-seen-as-hero",
               "date": "2026-09-12",
-              "sentiment": "unknown",
-              "reason": "",
+              "sentiment": "neutral",
+              "reason": "Faktik raportim i procesit te krimeve te lume",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -98,12 +98,12 @@
         }
       ],
       "summary": {
-        "index": null,
+        "index": 50,
         "positive": 0,
-        "neutral": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 0,
-        "excluded": 1,
+        "n": 1,
+        "excluded": 0,
         "confident": false,
         "stanceVersion": 3
       }
@@ -198,6 +198,30 @@
           "trend": "i përzier",
           "firstSeen": "2026-08-19",
           "lastSeen": "2026-09-11"
+        },
+        {
+          "name": "Reuters",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo parliament re-elects Albin Kurti as prime minister - Reuters",
+              "albanianTitle": "Kuvendi i Kosovës rizgjedh Albin Kurtin në postin e kryeministrit",
+              "blurb": "Deputetët e Kuvendit të Kosovës kanë votuar për rizgjedhjen e Albin Kurtit në krye të ekzekutivit të vendit.",
+              "imageUrl": null,
+              "url": "https://www.reuters.com/world/kosovo-parliament-re-elects-albin-kurti-prime-minister-2026-09-13/",
+              "date": "2026-09-13",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 2,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-31",
+          "lastSeen": "2026-09-13"
         }
       ],
       "summary": {
@@ -205,7 +229,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 6,
+        "n": 7,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
@@ -470,6 +494,30 @@
           "lastSeen": "2026-09-11"
         },
         {
+          "name": "Internazionale",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo parliament re-elects Albin Kurti as prime minister - Internazionale",
+              "albanianTitle": "Parlamenti i Kosovës rikonfirmon Albin Kurtin si kryeministër",
+              "blurb": "Kuvendi i Kosovës ka votuar për rizgjedhjen e Albin Kurtit në pozitën e kryeministrit të Republikës së Kosovës.",
+              "imageUrl": "https://media.internazionale.it/images/2026/09/13/358449-hd.jpeg",
+              "url": "https://www.internazionale.it/ultime-notizie-reuters/2026/09/13/kosovo-parliament-re-elects-albin-kurti-as-prime-minister",
+              "date": "2026-09-13",
+              "sentiment": "neutral",
+              "reason": "Factual report of re‑electing the prime minister",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 2,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-02",
+          "lastSeen": "2026-09-13"
+        },
+        {
           "name": "Messaggero Veneto",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -641,16 +689,16 @@
         }
       ],
       "summary": {
-        "index": 32,
+        "index": 33,
         "positive": 0,
-        "neutral": 64,
-        "negative": 36,
-        "n": 11,
+        "neutral": 67,
+        "negative": 33,
+        "n": 12,
         "excluded": 4,
         "confident": true,
         "stanceVersion": 3,
         "movement": {
-          "delta": -6,
+          "delta": -5,
           "from": 38,
           "outlet": "balcanicaucaso.org",
           "title": "Kosova, politika në rrugë pa krye",
@@ -765,18 +813,18 @@
         },
         {
           "name": "Blick",
-          "sentiment": "unknown",
+          "sentiment": "neutral",
           "articleCount": 2,
           "articles": [
             {
               "title": "Manifestation géante à Pristina pour la libération de Hashim Thaçi - Blick",
-              "albanianTitle": "Protestë masive në Prishtinë për lirimin e Hashim Thaçit – Blick",
-              "blurb": "Një protestë masive është mbajtur në Prishtinë për të kërkuar lirimin e ish-presidentit të Kosovës, Hashim Thaçi.",
+              "albanianTitle": "Protestë masive në Prishtinë për lirimin e Hashim Thaçit",
+              "blurb": "Një protestë masive është mbajtur në Prishtinë për të kërkuar lirimin e ish-presidentit Hashim Thaçi nga paraburgimi.",
               "imageUrl": "https://images.blick.ch/1/HTik9lGaHR0cHM6Ly9vY2RuLmV1L3B1bHNjbXMvTURBXy8zZDYwYzY4MC05NjBjLTQ3ZjYtOTI0My02MzY1N2M1NDg3MzYuanBlZ5CBoTAH",
               "url": "https://www.blick.ch/fr/monde/pristina-manifestation-pour-la-liberation-de-hashim-thaci/13yvk2f",
               "date": "2026-09-12",
-              "sentiment": "unknown",
-              "reason": "",
+              "sentiment": "neutral",
+              "reason": "Faktikisht raporton manifestimin pa gjuhë të ngarkuar",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -826,12 +874,12 @@
         }
       ],
       "summary": {
-        "index": 69,
-        "positive": 38,
-        "neutral": 62,
+        "index": 68,
+        "positive": 37,
+        "neutral": 63,
         "negative": 0,
-        "n": 16,
-        "excluded": 11,
+        "n": 19,
+        "excluded": 8,
         "confident": true,
         "stanceVersion": 3
       }
@@ -840,20 +888,20 @@
       "outlets": [
         {
           "name": "Puna.nl",
-          "sentiment": "unknown",
+          "sentiment": "positive",
           "articleCount": 1,
           "articles": [
             {
               "title": "Kosso koos Kosovo boven Dubai en woont nu twee huizen verwijderd van de president: \"Een soort van Beverly Hills\" - Puna.nl",
-              "albanianTitle": "Kosso e zgjodhi Kosovën para Dubait dhe tani jeton dy shtëpi larg presidentit: \"Një lloj Beverly Hillsi\" - Puna.nl",
-              "blurb": "Reperi Kosso ka zgjedhur të jetojë në Kosovë në vend të Dubait, duke u vendosur pranë rezidencës së presidentit.",
+              "albanianTitle": "Kosso zgjodhi Kosovën para Dubait dhe tani jeton dy shtëpi larg presidentit: “Një lloj Beverly Hills-i”",
+              "blurb": "Reperi Kosso ka vendosur të jetojë në Kosovë, duke e krahasuar lagjen e tij me Beverly Hills.",
               "imageUrl": null,
               "url": "https://www.puna.nl/news/kosso-koos-kosovo-boven-dubai-en-woont-nu-twee-huizen-verwijderd-van-de-president-een-soort-van-beverly-hills",
               "date": "2026-09-12",
-              "sentiment": "unknown",
-              "reason": "",
+              "sentiment": "positive",
+              "reason": "Media e paraqet Kosovën si alternativë tërheqëse, duke treguar përparësi ndaj Dubai-s",
               "isQuote": false,
-              "evidence": "",
+              "evidence": "koos Kosovo boven Dubai",
               "speaker": ""
             }
           ],
@@ -888,14 +936,22 @@
         }
       ],
       "summary": {
-        "index": null,
-        "positive": 0,
+        "index": 100,
+        "positive": 100,
         "neutral": 0,
         "negative": 0,
-        "n": 0,
-        "excluded": 2,
+        "n": 1,
+        "excluded": 1,
         "confident": false,
-        "stanceVersion": 3
+        "stanceVersion": 3,
+        "movement": {
+          "delta": 50,
+          "from": 50,
+          "outlet": "Puna.nl",
+          "title": "Kosso zgjodhi Kosovën para Dubait dhe tani jeton dy shtëpi larg presidentit: “Një lloj Beverly Hills-i”",
+          "evidence": "koos Kosovo boven Dubai",
+          "url": "https://www.puna.nl/news/kosso-koos-kosovo-boven-dubai-en-woont-nu-twee-huizen-verwijderd-van-de-president-een-soort-van-beverly-hills"
+        }
       }
     },
     "Belgjikë": {
@@ -915,18 +971,18 @@
       "outlets": [
         {
           "name": "ABC",
-          "sentiment": "unknown",
+          "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
               "title": "Marcha en apoyo al exlíder del Ejército de Liberación de Kosovo, Hashim Thaçi - ABC",
-              "albanianTitle": "Marshim në mbështetje të ish-liderit të Ushtrisë Çlirimtare të Kosovës, Hashim Thaçi – ABC",
-              "blurb": "Një marshim është organizuar në mbështetje të ish-liderit të Ushtrisë Çlirimtare të Kosovës, Hashim Thaçi.",
+              "albanianTitle": "Marshim në përkrahje të ish-liderit të Ushtrisë Çlirimtare të Kosovës, Hashim Thaçi - ABC",
+              "blurb": "Qytetarët në Kosovë organizojnë marshim në mbështetje të ish-liderit të Ushtrisë Çlirimtare të Kosovës, Hashim Thaçi.",
               "imageUrl": "https://s1.abcstatics.com/abc/www/multimedia/espana/2026/09/12/VIDEO-marcha-apoyo-exlder-ejrcito.jpg",
               "url": "https://www.abc.es/espana/marcha-apoyo-exlider-ejercito-liberacion-kosovo-hashim-20260912170937-nt.html",
               "date": "2026-09-12",
-              "sentiment": "unknown",
-              "reason": "",
+              "sentiment": "neutral",
+              "reason": "Raporton për një manifestim pa gjuhë të ngarkuar",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -939,12 +995,12 @@
         }
       ],
       "summary": {
-        "index": null,
+        "index": 50,
         "positive": 0,
-        "neutral": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 0,
-        "excluded": 1,
+        "n": 1,
+        "excluded": 0,
         "confident": false,
         "stanceVersion": 3
       }
@@ -982,8 +1038,8 @@
           "articles": [
             {
               "title": "Ισπανία-Κόσοβο: Σκόραρε από το... σπίτι του ο Χαλίμι! (video) - sport-fm.gr",
-              "albanianTitle": "Spanjë-Kosovë: Halimi shënon gol nga... shtëpia! (video)",
-              "blurb": "Besar Halimi shënoi një gol nga distanca e largët në ndeshjen e futbollit ndërmjet Spanjës dhe Kosovës.",
+              "albanianTitle": "Spanjë-Kosovë: Halimi shënon gol nga... shtëpia! (video) - sport-fm.gr",
+              "blurb": "Futbollisti Halimi shënon gol nga distanca e largët në ndeshjen e futbollit ndërmjet Spanjës dhe Kosovës.",
               "imageUrl": "https://resources.sport-fm.gr/supersportFM/images/news/21/03/31/233118.jpg?w=880&f=bicubic",
               "url": "https://www.sport-fm.gr/article/4169502",
               "date": "2026-09-12",
@@ -1038,14 +1094,38 @@
           "lastSeen": "2026-09-11"
         },
         {
+          "name": "SMHI",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Väderprognos 10 dygn Prizren, Kosovo - SMHI",
+              "albanianTitle": "Parashikimi i motit për 10 ditët e ardhshme në Prizren",
+              "blurb": "Instituti suedez SMHI ka publikuar parashikimin e motit për dhjetë ditët e ardhshme në qytetin e Prizrenit.",
+              "imageUrl": null,
+              "url": "https://www.smhi.se/vader/prognoser-och-varningar/vaderprognos/q/Prizren/786712",
+              "date": "2026-09-10",
+              "sentiment": "neutral",
+              "reason": "Weather forecast, purely factual",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 3,
+          "trend": "neutral",
+          "firstSeen": "2026-08-26",
+          "lastSeen": "2026-09-10"
+        },
+        {
           "name": "da.se",
           "sentiment": "unknown",
           "articleCount": 1,
           "articles": [
             {
               "title": "Dottern dog – då utvisades familjen - da.se",
-              "albanianTitle": "Vdiq e bija – pastaj familja u dëbua nga vendi",
-              "blurb": "Një familje është dëbuar nga vendi pas vdekjes së vajzës së tyre, sipas raportimeve të fundit mediatike.",
+              "albanianTitle": "Vajza i vdiq – pastaj familja u dëbua - da.se",
+              "blurb": "Një familje është dëbuar nga shteti pas vdekjes së vajzës së tyre, sipas raportimeve të fundit mediatike.",
               "imageUrl": "https://da.se/app/uploads/2026/09/Kosovo_Foto_David_Lundmark_1.jpg",
               "url": "https://da.se/2026/09/dottern-dog-da-utvisades-familjen/",
               "date": "2026-09-11",
@@ -1063,24 +1143,49 @@
         }
       ],
       "summary": {
-        "index": null,
+        "index": 50,
         "positive": 0,
-        "neutral": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 0,
+        "n": 1,
         "excluded": 2,
         "confident": false,
         "stanceVersion": 3
       }
     },
     "Poloni": {
-      "outlets": [],
+      "outlets": [
+        {
+          "name": "wnp.pl",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosowo: Parlament ponownie wybrał Albina Kurtiego na stanowisko premiera - wnp.pl",
+              "albanianTitle": "Kosovë: Parlamenti rizgjedh Albin Kurtin në postin e kryeministrit",
+              "blurb": "Parlamenti i Kosovës ka rizgjedhur Albin Kurtin në pozitën e kryeministrit të vendit për një mandat të ri.",
+              "imageUrl": "https://pliki.wnp.pl/d/41/42/79/414279_r0_940.jpg",
+              "url": "https://www.wnp.pl/rynki/kosowo-parlament-ponownie-wybral-albina-kurtiego-na-stanowisko-premiera,1098764.html",
+              "date": "2026-09-13",
+              "sentiment": "neutral",
+              "reason": "Factual report of the parliament's decision",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-13",
+          "lastSeen": "2026-09-13"
+        }
+      ],
       "summary": {
-        "index": null,
+        "index": 50,
         "positive": 0,
-        "neutral": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 0,
+        "n": 1,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -1096,7 +1201,7 @@
             {
               "title": "Priştine ayakta: Thaçi kararı öncesi on binler sokaklara döküldü - Aksiyon.com.TR",
               "albanianTitle": "Prishtina në këmbë: Dhjetëra mijëra qytetarë në rrugë para vendimit për Thaçin",
-              "blurb": "Dhjetëra mijëra qytetarë kanë dalë në protestë në Prishtinë para marrjes së vendimit lidhur me ish-presidentin Hashim Thaçi.",
+              "blurb": "Dhjetëra mijëra qytetarë kanë protestuar në Prishtinë në prag të vendimit që pritet të merret për ish-presidentin Hashim Thaçi.",
               "imageUrl": "https://cdn.aksiyon.com.tr/uploads/1280x720/images/202609/pristine-ayakta-thaci-karari-oncesi-on-binler-sokaklara-dokuldu-1200-896393.jpg",
               "url": "https://www.aksiyon.com.tr/pristine-ayakta-thaci-karari-oncesi-on-binler-sokaklara-dokuldu-353520",
               "date": "2026-09-12",
@@ -1151,13 +1256,13 @@
         },
         {
           "name": "Haberler",
-          "sentiment": "unknown",
-          "articleCount": 2,
+          "sentiment": "neutral",
+          "articleCount": 3,
           "articles": [
             {
               "title": "Lahey'de yargılanan eski UÇK komutanlarına Kosova'da destek gösterisi düzenlendi - Haberler",
-              "albanianTitle": "Protestë në mbështetje të ish-komandantëve të UÇK-së që po gjykohen në Hagë",
-              "blurb": "Në Kosovë është organizuar një protestë në mbështetje të ish-komandantëve të UÇK-së që po gjykohen në Gjykatën Speciale në Hagë.",
+              "albanianTitle": "Në Kosovë u mbajt protestë në mbështetje të ish-komandantëve të UÇK-së që po gjykohen në Hagë",
+              "blurb": "Në Kosovë është organizuar një protestë në mbështetje të ish-komandantëve të Ushtrisë Çlirimtare të Kosovës që po gjykohen në Hagë.",
               "imageUrl": "https://foto.haberler.com/haber/2026/09/12/lahey-de-yargilanan-eski-uck-komutanlarina-ko-20231603_amp.jpg",
               "url": "https://www.haberler.com/guncel/lahey-de-yargilanan-eski-uck-komutanlarina-kosova-20231603-haberi/",
               "date": "2026-09-12",
@@ -1179,12 +1284,25 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Kosova'da Albin Kurti'nin liderliğindeki yeni hükümet güvenoyu aldı - Haberler",
+              "albanianTitle": "Qeveria e re e udhëhequr nga Albin Kurti merr votëbesimin në Kuvend",
+              "blurb": "Qeveria e re e udhëhequr nga Albin Kurti ka marrë votëbesimin e nevojshëm nga deputetët e Kuvendit të Kosovës.",
+              "imageUrl": null,
+              "url": "https://www.haberler.com/guncel/kosova-da-albin-kurti-nin-liderligindeki-yeni-20233782-haberi/",
+              "date": "2026-09-13",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim pa gjuhë të ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 9,
+          "totalArticles": 10,
           "trend": "neutral",
           "firstSeen": "2026-08-20",
-          "lastSeen": "2026-09-12"
+          "lastSeen": "2026-09-13"
         },
         {
           "name": "Son Dakika",
@@ -1240,9 +1358,9 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 4,
+        "n": 5,
         "excluded": 3,
-        "confident": false,
+        "confident": true,
         "stanceVersion": 3
       }
     },
