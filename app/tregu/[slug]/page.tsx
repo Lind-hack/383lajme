@@ -36,7 +36,8 @@ import { cashOutCoins, sharesForCoins } from "@/lib/tregu-cash-out.mjs";
 import RaceStandings from "@/components/tregu/race-standings";
 import F1RaceControl from "@/components/tregu/f1-race-control";
 import { SLUG_TO_CATEGORY } from "@/lib/category-map";
-import { getCategoryColor } from "@/lib/category-colors";
+import { getCategoryColor, getCategoryGradient } from "@/lib/category-colors";
+import { receiptTheme } from "@/lib/tregu-receipt-theme.mjs";
 import { normalizeRecordedOutcomeSeries } from "@/lib/tregu-hub-market.mjs";
 import { f1DriverHeadshot, f1TeamColor } from "@/lib/f1-driver-presentation";
 import { FOOTBALL_MARKET_UI_VERSION } from "@/lib/tregu-ui-contract";
@@ -112,6 +113,9 @@ interface FootballPayload {
     team?: string;
     logo?: string;
     color: string;
+    /** Raw kit colours, untouched by the chart's contrast pass. Receipt only. */
+    brandColor?: string | null;
+    brandAltColor?: string | null;
     probability: number;
     series: { t: number; p: number }[];
   }[];
@@ -178,23 +182,50 @@ function tradeThemeColor(market: MarketDetail, footballColor?: string, f1Color?:
   return getCategoryColor(normalizeCategory(market.category));
 }
 
+/**
+ * The colour the buy receipt is painted in. Separate from tradeThemeColor, which
+ * still feeds the option chips: those sit on the cream sheet and want the
+ * contrast-corrected colour, while the receipt IS the colour and wants the kit.
+ */
+function receiptThemeFor(
+  market: MarketDetail,
+  footballChoice?: { brandColor?: string | null; brandAltColor?: string | null; color?: string },
+  f1Color?: string
+) {
+  const category = normalizeCategory(market.category);
+  const fallback = getCategoryGradient(category);
+  if (footballChoice) {
+    return receiptTheme({
+      primary: footballChoice.brandColor ?? footballChoice.color ?? null,
+      alternate: footballChoice.brandAltColor ?? null,
+      fallback,
+    });
+  }
+  if (f1Color) {
+    return receiptTheme({ primary: f1Color, alternate: null, fallback });
+  }
+  return receiptTheme({ primary: fallback[0], alternate: fallback[1], fallback });
+}
+
 function tradeSurfaceFinish(
   selection: string,
   team: string | undefined,
   sportTheme: "football" | "f1" | "basketball" | undefined
 ): MobileTradeReceipt["finish"] {
   const identity = `${selection} ${team ?? ""}`.toLowerCase();
-  if (/real madrid/.test(identity)) return "gloss";
-  if (/chelsea/.test(identity)) return "standard";
   if (/ferrari|red bull/.test(identity)) return "speed";
   if (/mercedes|mclaren|aston martin|alpine/.test(identity)) return "carbon";
   if (sportTheme === "basketball") return "parquet";
   if (sportTheme === "f1") return "metallic";
-  if (sportTheme !== "football") return "standard";
 
-  const finishes: MobileTradeReceipt["finish"][] = ["standard", "gloss", "metallic", "carbon"];
-  const hash = identity.split("").reduce((sum, character) => sum + character.charCodeAt(0), 0);
-  return finishes[hash % finishes.length];
+  // Football and newsroom markets take no finish at all. The finish variants
+  // each mix their own dark into the surface — carbon 48% #111317, parquet 32%
+  // brown — and a character-code hash of the club's name used to pick between
+  // them, so a La Liga side got a random texture unrelated to the club and a
+  // second darkening on top of it. The kit colour is the identity now, so
+  // there is nothing left for a texture to say. React omits the attribute when
+  // this is undefined, and the [data-finish] rules simply never match.
+  return undefined;
 }
 
 function closesIn(iso: string): string {
@@ -563,6 +594,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
       potentialReturn,
       probability,
       color: tradeThemeColor(market, footballChoice?.color, f1Choice?.team_colour),
+      theme: receiptThemeFor(market, footballChoice, f1Choice?.team_colour) ?? undefined,
       imageUrl: footballChoice?.logo ?? f1Choice?.headshot_url,
       finish: tradeSurfaceFinish(selection, footballChoice?.team ?? f1Choice?.team, sportTheme),
       competition: market.live_event?.league,

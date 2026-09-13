@@ -22,6 +22,8 @@ export interface MobileTradeOption {
   heldShares?: number;
 }
 
+import type { ReceiptTheme } from "@/lib/tregu-receipt-theme.mjs";
+
 export interface MobileTradeReceipt {
   competition?: string;
   market: string;
@@ -31,7 +33,10 @@ export interface MobileTradeReceipt {
   probability: number;
   color: string;
   imageUrl?: string;
-  finish: "standard" | "gloss" | "carbon" | "metallic" | "parquet" | "speed";
+  /** Undefined for football and newsroom markets: the kit colour is the identity,
+      and every finish variant mixes its own dark into the surface. */
+  finish?: "standard" | "gloss" | "carbon" | "metallic" | "parquet" | "speed";
+  theme?: ReceiptTheme;
   soundProfile: TradeSuccessSoundProfile;
 }
 
@@ -166,8 +171,23 @@ export default function MobileTradeSheet({
     onSubmit();
   };
 
+  // --trade-celebration is kept because the UEFA cups, the court and F1 still
+  // mix against it. The --receipt-* set is what the brand gradient reads; when a
+  // receipt has no theme they are simply absent and the old mix is the fallback.
   const receiptStyle = receipt
-    ? ({ "--trade-celebration": receipt.color } as CSSProperties)
+    ? ({
+        "--trade-celebration": receipt.color,
+        ...(receipt.theme && {
+          "--receipt-from": receipt.theme.from,
+          "--receipt-to": receipt.theme.to,
+          "--receipt-ink": receipt.theme.ink,
+          "--receipt-on-ink": receipt.theme.onInk,
+          "--receipt-accent": receipt.theme.accent ?? receipt.theme.ink,
+          "--receipt-scrim": receipt.theme.scrimAlpha
+            ? `color-mix(in srgb, ${receipt.theme.scrim} ${Math.round(receipt.theme.scrimAlpha * 100)}%, transparent)`
+            : "transparent",
+        }),
+      } as CSSProperties)
     : undefined;
 
   return (
