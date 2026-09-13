@@ -876,7 +876,7 @@ async function runNewsReprice(action: "reprice" | "tregu_live", runKey: string, 
     });
 
     // Original-page research joins the newsroom pool. Discovery headlines
-    // alone never become scoring evidence.
+    // alone never become scoring evidence (no fake body=title records).
     const verifiedPool = await getLatestArticles(200);
     const research = await loadMarketResearch(admin, now);
     const marketIds = (markets ?? []).map((market) => String(market.id)).filter(Boolean);
