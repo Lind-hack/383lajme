@@ -384,6 +384,10 @@ export default function FeaturedCarousel({ markets }: { markets: MiniMarket[] })
     <section
       className="tregu-glass tregu-carousel tregu-edge"
       data-cat={markets[Math.min(index, count - 1)]?.category}
+      /* The competition rides on the carousel, not only on the slide, so its
+         ground can run edge to edge — behind the header and out to the card's
+         own border — instead of sitting in a white frame. */
+      data-competition={markets[Math.min(index, count - 1)]?.league ?? undefined}
       role="region"
       aria-roledescription="karusel"
       aria-label="Ngjarjet e mëdha"

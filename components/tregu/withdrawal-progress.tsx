@@ -28,11 +28,10 @@ export default function WithdrawalProgress({ balance }: { balance: number | null
     <section className="tregu-goal" aria-label="Përparimi drejt tërheqjes">
       <div className="tregu-goal-head">
         <h3>
-          {reached ? "Pragu u arrit" : "Drejt 10 000 Monedhave"}
+          {reached ? "Pragu u arrit" : `Drejt ${fmtNum(THRESHOLD)} Monedhave`}
           <span>
-            {reached
-              ? `Këmbe ${fmtNum(THRESHOLD)} 383C për ${REWARD_EUR}€`
-              : `${fmtNum(remaining)} 383C edhe`}
+            {`${fmtNum(THRESHOLD)} Monedha = ${REWARD_EUR} euro`}
+            {!reached && ` · edhe ${fmtNum(remaining)} Monedha`}
           </span>
         </h3>
         <Link href="/tregu/portofoli" className="tregu-goal-link">
@@ -63,7 +62,7 @@ export default function WithdrawalProgress({ balance }: { balance: number | null
 
       <p className="tregu-goal-foot">
         <span>
-          <strong>{fmtNum(coins)}</strong> nga {fmtNum(THRESHOLD)} 383C
+          <strong>{fmtNum(coins)}</strong> nga {fmtNum(THRESHOLD)} Monedha
         </span>
         <span>{Math.floor(pct)}%</span>
       </p>

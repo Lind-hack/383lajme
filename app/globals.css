@@ -18224,3 +18224,135 @@ header[data-overlay="true"] .nav-search-btn[style*="margin-right"] {
 @media (prefers-reduced-motion: reduce) {
   .tregu-goal-fill, .tregu-goal-prize { transition: none; will-change: auto; }
 }
+
+/* ==========================================================================
+   Flagship card, round 13 — one surface, edge to edge
+   --------------------------------------------------------------------------
+   Three corrections, all the same mistake in different places: the card was
+   built as a white panel with things drawn inside it, when it should be one
+   surface that the content sits on.
+
+   1. A competition's ground now belongs to the carousel, not the slide, so it
+      runs behind the header and out to the border. Previously the slide painted
+      itself inside the carousel's padding and the white shell framed it.
+   2. The gradient starts at the card's own top edge. It used to live on a band
+      around the pill and the league mark — a second box inside the first.
+   3. Nothing inside is white. The chart plot, the tape and the chips take the
+      card's translucent panel token, the way the small competition cards do.
+   ========================================================================== */
+
+/* --- The ground ---------------------------------------------------------- */
+.tregu-hero-row .tregu-carousel[data-competition] {
+  --tg-text: #F7F3EC;
+  --tg-muted: #B9AE9E;
+  --tg-border: rgba(255, 240, 220, .16);
+  --tg-border-hi: rgba(255, 240, 220, .30);
+  --tg-panel: rgba(255, 244, 226, .07);
+  --tg-panel-hi: rgba(255, 244, 226, .11);
+  --tg-yes: #3BE08F;
+  --tg-yes-dim: rgba(59, 224, 143, .18);
+  --tg-no: #FF8A93;
+  --tg-no-dim: rgba(255, 138, 147, .18);
+  color: var(--tg-text);
+  border-color: rgba(255, 240, 220, .16);
+  box-shadow: 0 18px 44px -22px rgba(20, 12, 6, .55), 0 2px 12px rgba(20, 12, 6, .26);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+.tregu-hero-row .tregu-carousel[data-competition="uefa.champions"] {
+  background: radial-gradient(120% 70% at 50% 120%, #0B2A72 0%, rgba(11, 42, 114, 0) 62%), linear-gradient(178deg, #081950 0%, #05123F 100%);
+}
+.tregu-hero-row .tregu-carousel[data-competition="uefa.europa"] {
+  background: radial-gradient(120% 70% at 50% 120%, #6A2A0A 0%, rgba(106, 42, 10, 0) 64%), linear-gradient(178deg, #351508 0%, #240E05 100%);
+}
+.tregu-hero-row .tregu-carousel[data-competition="uefa.europa.conf"] {
+  background: radial-gradient(120% 70% at 50% 120%, #0E5A31 0%, rgba(14, 90, 49, 0) 64%), linear-gradient(178deg, #072A17 0%, #041C0F 100%);
+}
+.tregu-hero-row .tregu-carousel[data-competition="uefa.nations"] {
+  background: radial-gradient(120% 70% at 50% 120%, #2D4A7C 0%, rgba(45, 74, 124, 0) 64%), linear-gradient(178deg, #16233C 0%, #0D1728 100%);
+}
+.tregu-hero-row .tregu-carousel:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) {
+  --tg-text: #2B1B0C;
+  --tg-muted: #54371A;
+  --tg-border: rgba(92, 56, 22, .18);
+  --tg-panel: rgba(255, 250, 242, .62);
+  --tg-yes: #007A3C;
+  --tg-no: #B4181A;
+  background:
+    repeating-linear-gradient(0deg, rgba(109, 68, 28, .20) 0 1px, transparent 1px 33px),
+    linear-gradient(163deg, #EFD3A2 0%, #E2BC82 54%, #DCB57A 100%);
+}
+
+/* The slide stops painting its own ground — the carousel owns it now. */
+.tregu-hero-row .tregu-car-slide-link[data-competition] {
+  background: none;
+  border-radius: 0;
+  padding: 0;
+  margin: 0;
+}
+.tregu-hero-row .tregu-carousel[data-competition] .tregu-car-slide-link::before { display: none; }
+
+/* --- The gradient, from the top edge ------------------------------------- */
+/* One gradient, on the card, starting at its first pixel. The old band drew a
+   second rounded box around the league mark and the category pill, which read
+   as a header inside a header and left white above it. */
+.tregu-hero-row .tregu-carousel:not([data-competition]) {
+  background-image: linear-gradient(180deg, rgba(255, 68, 34, .14) 0, rgba(255, 68, 34, .04) 120px, transparent 260px);
+  background-repeat: no-repeat;
+}
+.tregu-hero-row .tregu-feature-head {
+  margin: 0 0 14px;
+  padding: 0;
+  background: none;
+  box-shadow: none;
+  border-radius: 0;
+}
+
+/* --- Nothing inside is white --------------------------------------------- */
+.tregu-hero-row .tregu-carousel[data-competition] .tregu-exact-chart-plot,
+.tregu-hero-row .tregu-carousel[data-competition] .tregu-feature-tape,
+.tregu-hero-row .tregu-carousel[data-competition] .f1-chart-shell,
+.tregu-hero-row .tregu-carousel[data-competition] .tregu-exact-chart {
+  background: transparent;
+}
+.tregu-hero-row .tregu-carousel[data-competition] .tregu-exact-chart-grid { stroke: var(--tg-border); }
+.tregu-hero-row .tregu-carousel[data-competition] .tregu-side,
+.tregu-hero-row .tregu-carousel[data-competition] .tregu-feature-side,
+.tregu-hero-row .tregu-carousel[data-competition] .tregu-native-outcome,
+.tregu-hero-row .tregu-carousel[data-competition] .tregu-feature-stats > div {
+  background: var(--tg-panel);
+  border-color: var(--tg-border);
+}
+.tregu-hero-row .tregu-carousel[data-competition] .tregu-feature-stats {
+  background: var(--tg-border);
+  box-shadow: 0 0 0 1px var(--tg-border);
+}
+.tregu-hero-row .tregu-carousel[data-competition] .tregu-feature-q,
+.tregu-hero-row .tregu-carousel[data-competition] .tregu-feature-price-value,
+.tregu-hero-row .tregu-carousel[data-competition] .tregu-feature-stats dd,
+.tregu-hero-row .tregu-carousel[data-competition] .tregu-side-name,
+.tregu-hero-row .tregu-carousel[data-competition] .tregu-market-open,
+.tregu-hero-row .tregu-carousel[data-competition] .tregu-car-title { color: var(--tg-text); }
+.tregu-hero-row .tregu-carousel[data-competition] .tregu-feature-price-label,
+.tregu-hero-row .tregu-carousel[data-competition] .tregu-market-foot,
+.tregu-hero-row .tregu-carousel[data-competition] .tregu-market-close,
+.tregu-hero-row .tregu-carousel[data-competition] .tregu-feature-stats dt { color: var(--tg-muted); }
+.tregu-hero-row .tregu-carousel[data-competition] .tregu-pill {
+  color: var(--tg-text);
+  background: var(--tg-panel);
+  border-color: var(--tg-border);
+}
+/* The carousel's own chrome, on a dark ground. */
+.tregu-hero-row .tregu-carousel[data-competition] .tregu-car-head button {
+  color: var(--tg-text);
+  border-color: var(--tg-border-hi);
+  background: var(--tg-panel);
+}
+.tregu-hero-row .tregu-carousel[data-competition] .tregu-car-dot { background: var(--tg-border-hi); }
+.tregu-hero-row .tregu-carousel[data-competition] .tregu-car-dot-fill { background: var(--tg-text); }
+
+/* The artwork is the subject on these cards, not a watermark behind them. */
+.tregu-hero-row .tregu-carousel[data-competition] .tregu-uel-trophy { opacity: .92; }
+.tregu-hero-row .tregu-carousel[data-competition] .tregu-uel-beams { opacity: .55; }
+.tregu-hero-row .tregu-carousel[data-competition] .tregu-night-stadium { opacity: .6; }
+.tregu-hero-row .tregu-carousel[data-competition] .tregu-court-ball { opacity: 1; }
