@@ -464,15 +464,16 @@
     },
     "zentralplus": {
       "country": "Zvicër",
-      "total": 1,
+      "total": 2,
       "positive": 0,
       "neutral": 0,
       "negative": 0,
-      "unknown": 1,
+      "unknown": 2,
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-20",
+      "lastSeen": "2026-09-13",
       "urls": [
-        "https://www.zentralplus.ch/news/luzerner-loest-mit-trottoir-fahrt-shitstorm-aus-2893231/"
+        "https://www.zentralplus.ch/news/luzerner-loest-mit-trottoir-fahrt-shitstorm-aus-2893231/",
+        "https://www.zentralplus.ch/news/kosovo-kurti-bleibt-regierungschef-2898175/"
       ]
     },
     "De Brug": {
@@ -637,19 +638,20 @@
     },
     "Gazzetta.gr": {
       "country": "Greqi",
-      "total": 5,
+      "total": 6,
       "positive": 0,
       "neutral": 5,
       "negative": 0,
-      "unknown": 0,
+      "unknown": 1,
       "firstSeen": "2026-08-19",
-      "lastSeen": "2026-09-05",
+      "lastSeen": "2026-09-13",
       "urls": [
         "https://www.gazzetta.gr/volleyball/2562471/mesogeiakoi-agones-2026-kontra-sto-kosobo-premiera-gia-tin-ethniki-andron",
         "https://www.gazzetta.gr/volleyball/2562585/mesogeiakoi-agones-2026-me-dexi-i-ethniki-andron-3-0-kosobo",
         "https://www.gazzetta.gr/football/uefa-nations-league/live-kosovo-irlandia-24-09-2026",
         "https://www.gazzetta.gr/football/uefa-nations-league/live-aystria-kosovo-27-09-2026",
-        "https://www.gazzetta.gr/football/uefa-nations-league/live-kosovo-aystria-04-10-2026"
+        "https://www.gazzetta.gr/football/uefa-nations-league/live-kosovo-aystria-04-10-2026",
+        "https://www.gazzetta.gr/basketball/basket-league/2568856/peristeri-filiko-me-tin-ylli-apo-kosobo"
       ]
     },
     "NewsIT": {
@@ -764,16 +766,17 @@
     },
     "ertnews.gr": {
       "country": "Greqi",
-      "total": 2,
+      "total": 3,
       "positive": 0,
-      "neutral": 2,
+      "neutral": 3,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-21",
-      "lastSeen": "2026-09-04",
+      "lastSeen": "2026-09-13",
       "urls": [
         "https://www.ertnews.gr/eidiseis/diethni/kosovo-entaseis-metaksy-servon-kai-alvanon-prokalei-to-anoigma-gefyras/",
-        "https://www.ertnews.gr/roi-idiseon/kosovo-dioksi-se-35-proin-servous-astynomikous-gia-ti-sfagi-sto-prekaz/"
+        "https://www.ertnews.gr/roi-idiseon/kosovo-dioksi-se-35-proin-servous-astynomikous-gia-ti-sfagi-sto-prekaz/",
+        "https://www.ertnews.gr/eidiseis/diethni/epanekselegi-prothypourgos-apo-to-koinovoulio-sto-kosovo-o-almin-kourti/"
       ]
     },
     "Fosonline": {
@@ -2132,15 +2135,16 @@
     },
     "Kleine Zeitung": {
       "country": "Austri",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-28",
-      "lastSeen": "2026-08-27",
+      "lastSeen": "2026-09-13",
       "urls": [
-        "https://www.kleinezeitung.at/artikel/41209217/busfahrer-aus-dem-kosovo-illegal-in-kaernten-unterwegs"
+        "https://www.kleinezeitung.at/artikel/41209217/busfahrer-aus-dem-kosovo-illegal-in-kaernten-unterwegs",
+        "https://www.kleinezeitung.at/artikel/41258460/kosovo-parlament-billigt-neue-regierung-unter-premier-kurti"
       ]
     },
     "International Committee of Mediterranean Games": {
@@ -3150,15 +3154,16 @@
     },
     "AllStarBasket.gr": {
       "country": "Greqi",
-      "total": 1,
+      "total": 2,
       "positive": 0,
       "neutral": 1,
       "negative": 0,
-      "unknown": 0,
+      "unknown": 1,
       "firstSeen": "2026-09-07",
-      "lastSeen": "2026-09-05",
+      "lastSeen": "2026-09-13",
       "urls": [
-        "https://www.allstarbasket.gr/ellada/greek-basketball-league/o-iraklis-72-59-tin-baskimi-apo-to-kosovo"
+        "https://www.allstarbasket.gr/ellada/greek-basketball-league/o-iraklis-72-59-tin-baskimi-apo-to-kosovo",
+        "https://www.allstarbasket.gr/ellada/greek-basketball-league/peristeri-filiko-ayrio-me-tin-ylli-apo-to-kosovo"
       ]
     },
     "Daily Sabah": {
@@ -3695,6 +3700,188 @@
       "lastSeen": "2026-09-13",
       "urls": [
         "https://www.wnp.pl/rynki/kosowo-parlament-ponownie-wybral-albina-kurtiego-na-stanowisko-premiera,1098764.html"
+      ]
+    },
+    "Die Zeit": {
+      "country": "Gjermani",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-13",
+      "lastSeen": "2026-09-13",
+      "urls": [
+        "https://www.zeit.de/politik/ausland/2026-09/kosovo-regierung-albin-kurti-selbstbestimmungs-partei-parlament"
+      ]
+    },
+    "The Independent": {
+      "country": "Britani",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-13",
+      "lastSeen": "2026-09-13",
+      "urls": [
+        "https://www.independent.co.uk/news/kosovo-pristina-serbia-europe-nato-b3049420.html"
+      ]
+    },
+    "VOL.AT": {
+      "country": "Austri",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-13",
+      "lastSeen": "2026-09-13",
+      "urls": [
+        "https://www.vol.at/kosovo-parlament-billigt-neue-regierung-unter-premier-kurti/10462553"
+      ]
+    },
+    "SRF": {
+      "country": "Zvicër",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-13",
+      "lastSeen": "2026-09-13",
+      "urls": [
+        "https://www.srf.ch/news/international/neue-regierung-im-kosovo-kurti-bleibt-premier-opposition-boykottiert-abstimmung"
+      ]
+    },
+    "Watson": {
+      "country": "Zvicër",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-13",
+      "lastSeen": "2026-09-13",
+      "urls": [
+        "https://www.watson.ch/fr/international/politique/375763324-politique-le-kosovo-a-un-nouveau-gouvernement"
+      ]
+    },
+    "thepressproject.gr": {
+      "country": "Greqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-13",
+      "lastSeen": "2026-09-13",
+      "urls": [
+        "https://thepressproject.gr/kosovo-nea-kyvernisi-me-prothypourgo-ton-albin-kourti/"
+      ]
+    },
+    "BusinessDaily.gr": {
+      "country": "Greqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-13",
+      "lastSeen": "2026-09-13",
+      "urls": [
+        "https://www.businessdaily.gr/diethni/231769_koinoboylio-toy-kosoboy-enekrine-tin-kybernisi-koyrti-en-meso-thesmikis-krisis?utm_source=Feedelio&utm_medium=News&utm_campaign=APE-MPE&utm_content=auto"
+      ]
+    },
+    "tvxs.gr": {
+      "country": "Greqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-13",
+      "lastSeen": "2026-09-13",
+      "urls": [
+        "https://tvxs.gr/news/kosmos/kosovo-to-koinovoylio-enekrine-ti-nea-kyvernisi-toy-almpin-koyrti-paramenei-i-thesmiki-krisi/"
+      ]
+    },
+    "Omni – Alla nyheter. Alla perspektiv.": {
+      "country": "Suedi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-13",
+      "lastSeen": "2026-09-13",
+      "urls": [
+        "https://omni.se/efter-18-manader-av-kaos-kosovo-har-en-ny-regering/a/0pd0kE"
+      ]
+    },
+    "Aftonbladet": {
+      "country": "Suedi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-13",
+      "lastSeen": "2026-09-13",
+      "urls": [
+        "https://www.aftonbladet.se/nyheter/a/vr2Xnw/efter-politiska-kaoset-kosovo-har-ny-regering"
+      ]
+    },
+    "Göteborgs-Posten": {
+      "country": "Suedi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-13",
+      "lastSeen": "2026-09-13",
+      "urls": [
+        "https://www.gp.se/nyheter/varlden/efter-politiska-kaoset-kosovo-har-ny-regering.82daafee-b091-5a40-a0c5-c700d22321a4"
+      ]
+    },
+    "Svenska Epoch Times": {
+      "country": "Suedi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-13",
+      "lastSeen": "2026-09-12",
+      "urls": [
+        "https://www.epochtimes.se/efter-politiska-kaoset-kosovo-har-ny-regering"
+      ]
+    },
+    "Anadolu Ajansı": {
+      "country": "Turqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-13",
+      "lastSeen": "2026-09-13",
+      "urls": [
+        "https://www.aa.com.tr/tr/dunya/kosovada-albin-kurtinin-liderligindeki-yeni-hukumet-guvenoyu-aldi/4056041"
+      ]
+    },
+    "Doğruhaber": {
+      "country": "Turqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-13",
+      "lastSeen": "2026-09-13",
+      "urls": [
+        "https://dogruhaber.com.tr/kosovada-kurti-hukumeti-guvenoyu-aldi"
       ]
     }
   }

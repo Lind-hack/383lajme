@@ -1,10 +1,10 @@
 {
   "lastUpdated": "2026-09-13",
-  "overallIndex": 54,
-  "totalArticles": 52,
-  "sourceCount": 38,
+  "overallIndex": 53,
+  "totalArticles": 62,
+  "sourceCount": 57,
   "stanceVersion": 3,
-  "unattributed": 220,
+  "unattributed": 252,
   "nonEditorial": 4,
   "wrongKosovo": 0,
   "countries": {
@@ -33,6 +33,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-12",
           "lastSeen": "2026-09-11"
+        },
+        {
+          "name": "Die Zeit",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo: Kosovos Parlament wählt Albin Kurti erneut zum Ministerpräsidenten - DIE ZEIT",
+              "albanianTitle": "Kosovë: Kuvendi i Kosovës rizgjedh Albin Kurtin kryeministër - DIE ZEIT",
+              "blurb": "Parlamenti i Kosovës ka zgjedhur sërish Albin Kurtin në postin e kryeministrit të vendit pas votimit të zhvilluar.",
+              "imageUrl": "https://img.zeit.de/politik/ausland/2026-09/kosovo-regierung-albin-kurti-selbstbestimmungs-partei-parlament-foto-1/wide__1300x731",
+              "url": "https://www.zeit.de/politik/ausland/2026-09/kosovo-regierung-albin-kurti-selbstbestimmungs-partei-parlament",
+              "date": "2026-09-13",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim pa gjuhë ngarkuese",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-13",
+          "lastSeen": "2026-09-13"
         },
         {
           "name": "neunzigplus.de",
@@ -64,7 +88,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 1,
+        "n": 2,
         "excluded": 1,
         "confident": false,
         "stanceVersion": 3
@@ -222,6 +246,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-08-31",
           "lastSeen": "2026-09-13"
+        },
+        {
+          "name": "The Independent",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo gets new government but political impasse persists - The Independent",
+              "albanianTitle": "Kosova formon qeverinë e re, por kriza politike mbetet",
+              "blurb": "Kosova ka krijuar qeverinë e re, mirëpo ngërçi politik vazhdon të jetë prezent në skenën politike të vendit.",
+              "imageUrl": "https://static.independent.co.uk/2026/09/13/16/Kosovo_Government_78947.jpg?width=1200&height=800&crop=1200:800",
+              "url": "https://www.independent.co.uk/news/kosovo-pristina-serbia-europe-nato-b3049420.html",
+              "date": "2026-09-13",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportuar pa gjuhë të ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-13",
+          "lastSeen": "2026-09-13"
         }
       ],
       "summary": {
@@ -229,7 +277,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 7,
+        "n": 8,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
@@ -708,13 +756,62 @@
       }
     },
     "Austri": {
-      "outlets": [],
+      "outlets": [
+        {
+          "name": "Kleine Zeitung",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo-Parlament billigt neue Regierung unter Premier Kurti - Kleine Zeitung",
+              "albanianTitle": "Parlamenti i Kosovës voton qeverinë e re nën drejtimin e kryeministrit Kurti - Kleine Zeitung",
+              "blurb": "Parlamenti i Kosovës ka miratuar formimin e qeverisë së re të udhëhequr nga kryeministri Albin Kurti.",
+              "imageUrl": "https://img.kleinezeitung.at/public/politik/5vy7jv-92870011495039308bldonlinejpg/alternates/KLZ_SOCIAL/92870011495039308_BLD_Online.jpg",
+              "url": "https://www.kleinezeitung.at/artikel/41258460/kosovo-parlament-billigt-neue-regierung-unter-premier-kurti",
+              "date": "2026-09-13",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportuar pa ngarkesë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 2,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-28",
+          "lastSeen": "2026-09-13"
+        },
+        {
+          "name": "VOL.AT",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo-Parlament billigt neue Regierung unter Premier Kurti - VOL.AT",
+              "albanianTitle": "Kuvendi i Kosovës voton qeverinë e re nën drejtimin e kryeministrit Kurti - VOL.AT",
+              "blurb": "Deputetët e Kuvendit të Kosovës kanë miratuar formimin e qeverisë së re nën drejtimin e kryeministrit Albin Kurti.",
+              "imageUrl": "https://www.vol.at/2026/09/1495039308_BLD_Online-vodl-10462553-16-9-1200x675.jpg?v=18a6d58c",
+              "url": "https://www.vol.at/kosovo-parlament-billigt-neue-regierung-unter-premier-kurti/10462553",
+              "date": "2026-09-13",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim pa gjuhë ngarkuese",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-13",
+          "lastSeen": "2026-09-13"
+        }
+      ],
       "summary": {
-        "index": null,
+        "index": 50,
         "positive": 0,
-        "neutral": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 0,
+        "n": 2,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -849,6 +946,67 @@
           "lastSeen": "2026-09-12"
         },
         {
+          "name": "SRF",
+          "sentiment": "neutral",
+          "articleCount": 2,
+          "articles": [
+            {
+              "title": "Kurti bleibt Premier vom Kosovo – Opposition boykottiert Abstimmung - SRF",
+              "albanianTitle": "Kurti vazhdon të jetë kryeministër i Kosovës – opozita bojkoton votimin - SRF",
+              "blurb": "Albin Kurti vazhdon të jetë kryeministër i Kosovës, ndërsa partitë opozitare kanë bojkotuar procesin e votimit në Kuvend.",
+              "imageUrl": "https://www.srf.ch/static/cms/images/branded_srf_news/669039.jpg",
+              "url": "https://www.srf.ch/news/international/neue-regierung-im-kosovo-kurti-bleibt-premier-opposition-boykottiert-abstimmung",
+              "date": "2026-09-13",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportuar pa ngarkesë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Kurti bleibt Premier vom Kosovo – Opposition boykottiert Abstimmung - srf.ch",
+              "albanianTitle": "Kurti vazhdon të jetë kryeministër i Kosovës – opozita bojkoton votimin - srf.ch",
+              "blurb": "Albin Kurti është rikonfirmuar në postin e kryeministrit të Kosovës, ndërsa opozita nuk ka marrë pjesë në votim.",
+              "imageUrl": "https://www.srf.ch/static/cms/images/branded_srf_news/669039.jpg",
+              "url": "https://www.srf.ch/news/international/neue-regierung-im-kosovo-kurti-bleibt-premier-opposition-boykottiert-abstimmung",
+              "date": "2026-09-13",
+              "sentiment": "neutral",
+              "reason": "Faktikë raporti për vazhdimësi politike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-13",
+          "lastSeen": "2026-09-13"
+        },
+        {
+          "name": "Watson",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Politique: le Kosovo a un nouveau gouvernement - Watson",
+              "albanianTitle": "Politikë: Kosova ka një qeveri të re - Watson",
+              "blurb": "Kosova ka krijuar qeverinë e re pas procesit të votimit të zhvilluar në institucionet shtetërore të vendit.",
+              "imageUrl": "https://www.watson.ch/fr/imgdb/0e48/Z1200,675,2426,1539,349,349/2252875449218424",
+              "url": "https://www.watson.ch/fr/international/politique/375763324-politique-le-kosovo-a-un-nouveau-gouvernement",
+              "date": "2026-09-13",
+              "sentiment": "neutral",
+              "reason": "Faktikë raporti për qeveri të re",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-13",
+          "lastSeen": "2026-09-13"
+        },
+        {
           "name": "nzz.ch",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -871,15 +1029,39 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-12",
           "lastSeen": "2026-09-12"
+        },
+        {
+          "name": "zentralplus",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "News Archive - zentralplus",
+              "albanianTitle": null,
+              "blurb": "Arkiva e lajmeve përmban informacione të ndryshme të publikuara në portalin informativ zentralplus për ngjarje të ndryshme.",
+              "imageUrl": null,
+              "url": "https://www.zentralplus.ch/news/kosovo-kurti-bleibt-regierungschef-2898175/",
+              "date": "2026-09-13",
+              "sentiment": "unknown",
+              "reason": "No content about Kosovo provided",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 2,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-20",
+          "lastSeen": "2026-09-13"
         }
       ],
       "summary": {
-        "index": 68,
-        "positive": 37,
-        "neutral": 63,
+        "index": 65,
+        "positive": 30,
+        "neutral": 70,
         "negative": 0,
-        "n": 19,
-        "excluded": 8,
+        "n": 23,
+        "excluded": 9,
         "confident": true,
         "stanceVersion": 3
       }
@@ -1008,6 +1190,102 @@
     "Greqi": {
       "outlets": [
         {
+          "name": "AllStarBasket.gr",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Περιστέρι: Φιλικό αύριο με την Ylli από το Κόσοβο - AllStarBasket.gr",
+              "albanianTitle": "Peristeri: Nesër miqësore me Yllin nga Kosova",
+              "blurb": "Skuadra e basketbollit Peristeri luan nesër një ndeshje miqësore kundër ekipit Ylli që vjen nga Kosova.",
+              "imageUrl": null,
+              "url": "https://www.allstarbasket.gr/ellada/greek-basketball-league/peristeri-filiko-ayrio-me-tin-ylli-apo-to-kosovo",
+              "date": "2026-09-13",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 2,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-07",
+          "lastSeen": "2026-09-13"
+        },
+        {
+          "name": "BusinessDaily.gr",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Κόσοβο: Εγκρίθηκε η κυβέρνηση Κούρτι, διαρκεί η θεσμική κρίση - BusinessDaily.gr",
+              "albanianTitle": "Kosovë: Qeveria Kurti merr votëbesimin, kriza institucionale vazhdon",
+              "blurb": "Qeveria e re e udhëhequr nga Albin Kurti është miratuar, ndërkohë që kriza institucionale në Kosovë vazhdon ende.",
+              "imageUrl": "https://www.businessdaily.gr/sites/default/files/styles/main_full/public/2022-08/businessdaily-Kosovo-Simaia.jpg?itok=1-wkg6v3",
+              "url": "https://www.businessdaily.gr/diethni/231769_koinoboylio-toy-kosoboy-enekrine-tin-kybernisi-koyrti-en-meso-thesmikis-krisis?utm_source=Feedelio&utm_medium=News&utm_campaign=APE-MPE&utm_content=auto",
+              "date": "2026-09-13",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-13",
+          "lastSeen": "2026-09-13"
+        },
+        {
+          "name": "Gazzetta.gr",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Περιστέρι: Φιλικό με την Ylli από το Κόσοβο - Gazzetta.gr",
+              "albanianTitle": "Peristeri: Ndeshje miqësore me Yllin nga Kosova",
+              "blurb": "Ekipi i basketbollit Peristeri zhvillon një ndeshje miqësore me skuadrën Ylli nga Kosova në kuadër të përgatitjeve.",
+              "imageUrl": "https://www.gazzetta.gr/sites/default/files/styles/og_image/public/2026-09/5325789.jpg?itok=Rn9EJmW3",
+              "url": "https://www.gazzetta.gr/basketball/basket-league/2568856/peristeri-filiko-me-tin-ylli-apo-kosobo",
+              "date": "2026-09-13",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 6,
+          "trend": "neutral",
+          "firstSeen": "2026-08-19",
+          "lastSeen": "2026-09-13"
+        },
+        {
+          "name": "ertnews.gr",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Επανεξελέγη πρωθυπουργός από το κοινοβούλιο στο Κόσοβο ο Αλμίν Κούρτι - ertnews.gr",
+              "albanianTitle": "Albin Kurti rizgjidhet kryeministër nga Kuvendi i Kosovës",
+              "blurb": "Parlamenti i Kosovës rizgjedh Albin Kurtin në postin e kryeministrit të vendit për një mandat të ri.",
+              "imageUrl": "https://www.ertnews.gr/wp-content/uploads/2026/09/29085999-768x518-1.jpg",
+              "url": "https://www.ertnews.gr/eidiseis/diethni/epanekselegi-prothypourgos-apo-to-koinovoulio-sto-kosovo-o-almin-kourti/",
+              "date": "2026-09-13",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim neutral",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 3,
+          "trend": "neutral",
+          "firstSeen": "2026-08-21",
+          "lastSeen": "2026-09-13"
+        },
+        {
           "name": "mononews.gr",
           "sentiment": "unknown",
           "articleCount": 1,
@@ -1038,8 +1316,8 @@
           "articles": [
             {
               "title": "Ισπανία-Κόσοβο: Σκόραρε από το... σπίτι του ο Χαλίμι! (video) - sport-fm.gr",
-              "albanianTitle": "Spanjë-Kosovë: Halimi shënon gol nga... shtëpia! (video) - sport-fm.gr",
-              "blurb": "Futbollisti Halimi shënon gol nga distanca e largët në ndeshjen e futbollit ndërmjet Spanjës dhe Kosovës.",
+              "albanianTitle": "Spanjë-Kosovë: Halimi shënon gol nga distanca e largët! (video)",
+              "blurb": "Futbollisti Halimi ka shënuar një gol nga distanca e largët gjatë ndeshjes së futbollit ndërmjet Spanjës dhe Kosovës.",
               "imageUrl": "https://resources.sport-fm.gr/supersportFM/images/news/21/03/31/233118.jpg?w=880&f=bicubic",
               "url": "https://www.sport-fm.gr/article/4169502",
               "date": "2026-09-12",
@@ -1054,15 +1332,63 @@
           "trend": "i përzier",
           "firstSeen": "2026-08-20",
           "lastSeen": "2026-09-12"
+        },
+        {
+          "name": "thepressproject.gr",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Κόσοβο: Νέα κυβέρνηση με πρωθυπουργό τον Άλμπιν Κούρτι - thepressproject.gr",
+              "albanianTitle": "Kosova: Qeveri e re me kryeministër Albin Kurtin",
+              "blurb": "Kuvendi i Kosovës voton për formimin e qeverisë së re, e cila do të udhëhiqet nga kryeministri Albin Kurti.",
+              "imageUrl": "https://thepressproject.gr/app/uploads/2026/09/640-0-1760006212xkuvendi-i-kosoves-936.png",
+              "url": "https://thepressproject.gr/kosovo-nea-kyvernisi-me-prothypourgo-ton-albin-kourti/",
+              "date": "2026-09-13",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim neutral",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-13",
+          "lastSeen": "2026-09-13"
+        },
+        {
+          "name": "tvxs.gr",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Κόσοβο / Το κοινοβούλιο ενέκρινε τη νέα κυβέρνηση του Αλμπίν Κούρτι - Παραμένει η θεσμική κρίση - tvxs.gr",
+              "albanianTitle": "Kosova: Kuvendi miratoi qeverinë e re të Albin Kurtit, vazhdon kriza institucionale",
+              "blurb": "Parlamenti i Kosovës miraton qeverinë e re të Albin Kurtit, ndërsa kriza institucionale mbetet ende e pranishme.",
+              "imageUrl": null,
+              "url": "https://tvxs.gr/news/kosmos/kosovo-to-koinovoylio-enekrine-ti-nea-kyvernisi-toy-almpin-koyrti-paramenei-i-thesmiki-krisi/",
+              "date": "2026-09-13",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-13",
+          "lastSeen": "2026-09-13"
         }
       ],
       "summary": {
-        "index": null,
+        "index": 50,
         "positive": 0,
-        "neutral": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 0,
-        "excluded": 2,
+        "n": 2,
+        "excluded": 6,
         "confident": false,
         "stanceVersion": 3
       }
@@ -1070,14 +1396,38 @@
     "Suedi": {
       "outlets": [
         {
+          "name": "Aftonbladet",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Efter politiska kaoset: Kosovo har ny regering - Aftonbladet",
+              "albanianTitle": "Pas krizës politike: Kosova ka qeveri të re",
+              "blurb": "Institucionet e Kosovës kanë përfunduar procesin e formimit të qeverisë së re pas krizës së gjatë politike në vend.",
+              "imageUrl": "https://akamai.vgc.no/v2/images/995c90df-407f-3c46-892f-4b0943374b60?fit=crop&h=675&upscale=true&w=1200&s=0512894a064626708c40adb6516b5e6b53e74f14",
+              "url": "https://www.aftonbladet.se/nyheter/a/vr2Xnw/efter-politiska-kaoset-kosovo-har-ny-regering",
+              "date": "2026-09-13",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-13",
+          "lastSeen": "2026-09-13"
+        },
+        {
           "name": "Dagens Arbete",
           "sentiment": "unknown",
           "articleCount": 1,
           "articles": [
             {
               "title": "Dottern dog – då utvisades familjen - Dagens Arbete",
-              "albanianTitle": "Vdiq vajza – familja dëbohet nga vendi",
-              "blurb": "Një familje është dëbuar nga vendi pasi vajza e tyre ka ndërruar jetë, sipas raportimeve të fundit nga Dagens Arbete.",
+              "albanianTitle": "Vdiq vajza, familja dëbohet nga vendi",
+              "blurb": "Një familje është dëbuar nga shteti pasi vajza e tyre kishte ndërruar jetë gjatë qëndrimit në atë vend.",
               "imageUrl": "https://da.se/app/uploads/2026/09/Kosovo_Foto_David_Lundmark_1.jpg",
               "url": "https://da.se/2026/09/dottern-dog-da-utvisades-familjen/",
               "date": "2026-09-11",
@@ -1092,6 +1442,54 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-12",
           "lastSeen": "2026-09-11"
+        },
+        {
+          "name": "Göteborgs-Posten",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Efter politiska kaoset: Kosovo har ny regering - Göteborgs-Posten",
+              "albanianTitle": "Pas krizës politike: Kosova ka qeveri të re",
+              "blurb": "Kosova ka krijuar qeverinë e re pas përfundimit të periudhës së paqëndrueshmërisë dhe bllokadës politike në vend.",
+              "imageUrl": "https://www.gp.se/images/og/82daafee-b091-5a40-a0c5-c700d22321a4/images/1Kc7gu7mnVKBhcQPsyioROsO4pxE-REGULAR.jpg",
+              "url": "https://www.gp.se/nyheter/varlden/efter-politiska-kaoset-kosovo-har-ny-regering.82daafee-b091-5a40-a0c5-c700d22321a4",
+              "date": "2026-09-13",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-13",
+          "lastSeen": "2026-09-13"
+        },
+        {
+          "name": "Omni – Alla nyheter. Alla perspektiv.",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Efter 18 månader av kaos – Kosovo har en ny regering - Omni – Alla nyheter. Alla perspektiv.",
+              "albanianTitle": "Pas 18 muajsh kaos, Kosova bëhet me qeveri të re",
+              "blurb": "Pas një periudhe tetëmbëdhjetë mujore të paqëndrueshmërisë politike, Kosova ka zyrtarizuar formimin e qeverisë së re të vendit.",
+              "imageUrl": "https://gfx.omni.se/images/37185955-01b7-3dc8-805e-16e7f91395f0?h=720&tight=false&w=1280",
+              "url": "https://omni.se/efter-18-manader-av-kaos-kosovo-har-en-ny-regering/a/0pd0kE",
+              "date": "2026-09-13",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-13",
+          "lastSeen": "2026-09-13"
         },
         {
           "name": "SMHI",
@@ -1116,6 +1514,30 @@
           "trend": "neutral",
           "firstSeen": "2026-08-26",
           "lastSeen": "2026-09-10"
+        },
+        {
+          "name": "Svenska Epoch Times",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Efter politiska kaoset: Kosovo har ny regering - Svenska Epoch Times",
+              "albanianTitle": "Pas krizës politike: Kosova ka qeveri të re",
+              "blurb": "Qeveria e re e Kosovës është formuar pas tejkalimit të krizës politike që kishte përfshirë vendin për një kohë.",
+              "imageUrl": "https://cdn.epochtimes.se/uploads/2026/09/260913-kosovopolitik1-317c065e-a001normalhires-15927212-9434.jpg",
+              "url": "https://www.epochtimes.se/efter-politiska-kaoset-kosovo-har-ny-regering",
+              "date": "2026-09-12",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-13",
+          "lastSeen": "2026-09-12"
         },
         {
           "name": "da.se",
@@ -1148,7 +1570,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 1,
-        "excluded": 2,
+        "excluded": 6,
         "confident": false,
         "stanceVersion": 3
       }
@@ -1218,6 +1640,30 @@
           "lastSeen": "2026-09-12"
         },
         {
+          "name": "Anadolu Ajansı",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosova'da Albin Kurti'nin liderliğindeki yeni hükümet güvenoyu aldı - Anadolu Ajansı",
+              "albanianTitle": "Qeveria e re nën udhëheqjen e Albin Kurtit merr votëbesimin në Kosovë",
+              "blurb": "Qeveria e re e Kosovës nën udhëheqjen e kryeministrit Albin Kurti ka marrë votëbesimin nga deputetët e Kuvendit.",
+              "imageUrl": null,
+              "url": "https://www.aa.com.tr/tr/dunya/kosovada-albin-kurtinin-liderligindeki-yeni-hukumet-guvenoyu-aldi/4056041",
+              "date": "2026-09-13",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-13",
+          "lastSeen": "2026-09-13"
+        },
+        {
           "name": "CUMHA Cumhur Haber Ajansı",
           "sentiment": "neutral",
           "articleCount": 2,
@@ -1255,6 +1701,30 @@
           "lastSeen": "2026-09-11"
         },
         {
+          "name": "Doğruhaber",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosova'da Kurti hükümeti güvenoyu aldı - Doğruhaber",
+              "albanianTitle": "Qeveria Kurti merr votëbesimin në Kosovë",
+              "blurb": "Kuvendi i Kosovës ka miratuar kabinetin qeveritar të kryesuar nga Albin Kurti pas votimit të zhvilluar në seancë.",
+              "imageUrl": null,
+              "url": "https://dogruhaber.com.tr/kosovada-kurti-hukumeti-guvenoyu-aldi",
+              "date": "2026-09-13",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-13",
+          "lastSeen": "2026-09-13"
+        },
+        {
           "name": "Haberler",
           "sentiment": "neutral",
           "articleCount": 3,
@@ -1274,8 +1744,8 @@
             },
             {
               "title": "Kosova’da on binlerce kişi, eski Cumhurbaşkanı Thaçi ve UÇK liderlerinin serbest bırakılması için sokaklara döküldü - Haberler",
-              "albanianTitle": "Dhjetëra mijëra qytetarë në Kosovë protestuan për lirimin e ish-presidentit Thaçi dhe krerëve të UÇK-së",
-              "blurb": "Dhjetëra mijëra qytetarë në Kosovë kanë protestuar duke kërkuar lirimin e ish-presidentit Thaçi dhe udhëheqësve të tjerë të UÇK-së.",
+              "albanianTitle": "Dhjetëra mijëra qytetarë në Kosovë protestojnë për lirimin e ish-presidentit Thaçi dhe liderëve të UÇK-së",
+              "blurb": "Dhjetëra mijëra qytetarë kanë protestuar për të kërkuar lirimin e ish-presidentit Thaçi dhe udhëheqësve të tjerë të UÇK-së.",
               "imageUrl": null,
               "url": "https://www.haberler.com/politika/kosova-da-on-binlerce-kisi-eski-cumhurbaskani-20232252-haberi/",
               "date": "2026-09-12",
@@ -1359,7 +1829,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 5,
-        "excluded": 3,
+        "excluded": 5,
         "confident": true,
         "stanceVersion": 3
       }
