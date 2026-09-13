@@ -20,12 +20,22 @@ jobs:
       - name: Refresh market odds from news
         env:
           CRON_SECRET: ${{ secrets.CRON_SECRET }}
+          # 383lajme.vercel.app answers 402 — the Vercel account is blocked and
+          # production has been served by Railway behind Cloudflare since the
+          # move. Every other workflow here already points at the live host;
+          # this one was missed, so the news repricer has been pinging a dead
+          # endpoint on every scheduled run.
+          BASE: ${{ secrets.PRODUCTION_URL || 'https://www.383ks.com' }}
         run: |
           if [ -z "$CRON_SECRET" ]; then
             echo "CRON_SECRET repo secret is not set — skipping." >&2
             exit 1
           fi
+          # pipefail, because `curl | head` exits with head's status. Without it
+          # this step swallowed curl's 402 and the run reported success — which
+          # is how a dead endpoint went unnoticed across many scheduled runs.
+          set -o pipefail
           curl -fsS --max-time 120 \
             -H "Authorization: Bearer $CRON_SECRET" \
-            "https://383lajme.vercel.app/api/cron/update-markets" \
+            "$BASE/api/cron/update-markets" \
             | head -c 2000
