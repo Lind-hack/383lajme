@@ -1,8 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { automationDenied } from "@/lib/require-automation";
 import { runTreguLiveAutomation } from "@/lib/tregu-automation-server";
-import { sendTreguLiveNotification } from "@/lib/tregu-live-email";
-import { hasEvidenceBackedRepriceChanges } from "@/lib/tregu-live-email-content.mjs";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -15,9 +13,7 @@ export async function GET(request: NextRequest) {
 
   try {
     const result = await runTreguLiveAutomation();
-    if (!result.skipped && "email_updates" in result && hasEvidenceBackedRepriceChanges(result)) {
-      await sendTreguLiveNotification({ kind: "news_update", runKey: result.runKey, changes: result.email_updates });
-    }
+    // Persisted email_updates are delivered by the shared VPS outbox sender.
     return NextResponse.json({ kind: "tregu_live", ...result }, { headers: { "Cache-Control": "no-store" } });
   } catch (error) {
     const message = String(error instanceof Error ? error.message : error);

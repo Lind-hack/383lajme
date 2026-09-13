@@ -1,5 +1,6 @@
 import { getArticles, getLatestArticles, getPropositionArticles } from "@/lib/db";
 import { propositionSearchTerms } from "@/lib/tregu-news-search.mjs";
+import { loadMarketResearch } from "@/lib/tregu-research-evidence.mjs";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { scoreMarketWithAI, slugifyQuestion, type Market } from "@/lib/tregu";
 import { buildDailyDraftPlan, buildLiveEventDraftRunKey, buildRepricePlan, dailyDraftPublicationReason, evidenceIdentity, isEligibleNewsDeadlineMarket, newsDeadlineAction, newsDeadlineDecayCap, NEWS_DEADLINE_DECAY_INTERVAL_MS, repriceMarketSkipReason, validateDailyDraftSubmission } from "@/lib/tregu-automation.mjs";
@@ -878,6 +879,7 @@ async function runNewsReprice(action: "reprice" | "tregu_live", runKey: string, 
     // RSS/Google headlines remain discovery signals and are never promoted into
     // fake verified evidence with body=title.
     const verifiedPool = await getLatestArticles(200);
+    const research = await loadMarketResearch(admin, now);
     const marketIds = (markets ?? []).map((market) => String(market.id)).filter(Boolean);
     const { data: priorNewsSnapshots, error: priorNewsSnapshotsError } = marketIds.length
       ? await admin.from("market_snapshots")
@@ -908,7 +910,7 @@ async function runNewsReprice(action: "reprice" | "tregu_live", runKey: string, 
     for (let offset = 0; offset < markets.length; offset += 4) {
       const batch = await Promise.all(markets.slice(offset, offset + 4).map(async market => {
         const targeted = await getPropositionArticles(propositionSearchTerms(market), now);
-        const articles = [...new Map([...targeted, ...verifiedPool].map(article => [article.slug, article])).values()];
+        const articles = [...new Map([...targeted, ...verifiedPool, ...(research.markets[market.id] ?? [])].map(article => [article.slug, article])).values()];
         return { market, articles };
       }));
       researchedMarkets.push(...batch);
@@ -933,7 +935,7 @@ async function runNewsReprice(action: "reprice" | "tregu_live", runKey: string, 
         before_probability: number;
         after_probability: number;
         absolute_percentage_point_change: number;
-        reason?: "deadline_decay" | "deadline_settlement";
+      reason?: "deadline_decay" | "deadline_settlement" | "evidence_convergence";
         before_state?: { status: string; outcome: string | null };
         after_state?: { status: string; outcome: string | null };
         timestamp: string;
@@ -959,7 +961,7 @@ async function runNewsReprice(action: "reprice" | "tregu_live", runKey: string, 
         // non-error audit result and never reaches an AI or oracle write.
         const { data: currentMarket, error: currentMarketError } = await admin
           .from("markets")
-          .select("id, created_at, status, closes_at, outcome, q_yes, q_no, b, category, market_type, market_classification")
+          .select("id, created_at, status, closes_at, outcome, q_yes, q_no, b, category, market_type, market_classification, pre_match_analysis, news_evidence_target")
           .eq("id", item.market.id)
           .maybeSingle();
         if (currentMarketError) throw new Error(`Could not recheck market ${item.market.slug}: ${currentMarketError.message}`);
@@ -991,7 +993,30 @@ async function runNewsReprice(action: "reprice" | "tregu_live", runKey: string, 
             timestamp: now.toISOString(), remaining_hours: deadlineRemainingHours, verified_sources: [],
           };
         };
+        // An expiry check must inspect evidence collected after the deadline;
+        // otherwise a just-signed agreement could be paid out as NO.
+        if (deadlineAction === "settle" && (research.status !== "fresh" || Date.parse(research.generated_at ?? "") < Date.parse(currentMarket!.closes_at))) {
+          await recordMarketCheck(item.market.id, { status: "awaiting_final_research", checked_at: now.toISOString() });
+          results.push({ slug: item.market.slug, status: "no_change", reason: "awaiting_final_research", deadline_action: deadlineAction });
+          continue;
+        }
+        // Reconsider previously scored evidence at expiry, too. Consuming an
+        // article for a price update must not erase it from outcome review.
         if (deadlineAction === "settle") {
+          const pool = researchedMarkets.find(entry => entry.market.id === item.market.id)?.articles ?? [];
+          const finalPlan = buildRepricePlan({ markets: [{ ...item.market, last_news_at: null }], verifiedArticles: pool, now })[0];
+          item.evidence = finalPlan.evidence;
+          item.scoreSuccess = finalPlan.scoreSuccess;
+        }
+        const finalScore = deadlineAction === "settle" && item.evidence.length
+          ? await scoreMarketWithAI(item.market as Market, item.evidence) : null;
+        const finalOutcome = finalScore ? item.scoreSuccess(finalScore) : null;
+        if (deadlineAction === "settle" && finalScore && !finalOutcome?.settlement && finalScore.probability > 0.5) {
+          await recordMarketCheck(item.market.id, { status: "deadline_evidence_conflict", checked_at: now.toISOString() });
+          results.push({ slug: item.market.slug, status: "no_change", reason: "deadline_evidence_conflict", deadline_action: deadlineAction });
+          continue;
+        }
+        if (deadlineAction === "settle" && !finalOutcome?.settlement) {
           const { error: deadlineError } = await admin.rpc("apply_news_deadline_settlement", { p_market_id: item.market.id });
           if (deadlineError) throw new Error(`Could not apply deadline settlement for ${item.market.slug}: ${deadlineError.message}`);
           const persisted = await recordMarketCheck(item.market.id, { status: "deadline_settlement", checked_at: now.toISOString(), reference_probability: 0.05 });
@@ -1000,7 +1025,7 @@ async function runNewsReprice(action: "reprice" | "tregu_live", runKey: string, 
           continue;
         }
         const skipReason = repriceMarketSkipReason(currentMarket, now);
-        if (skipReason) {
+        if (skipReason && !finalOutcome?.settlement) {
           results.push({ slug: item.market.slug, status: "skipped_closed", reason: skipReason, deadline_action: deadlineAction });
           continue;
         }
@@ -1047,7 +1072,17 @@ async function runNewsReprice(action: "reprice" | "tregu_live", runKey: string, 
           const convergence = Array.isArray(convergenceRows) ? convergenceRows[0] : null;
           if (convergence && Number(convergence.new_price_yes) !== Number(convergence.previous_price_yes)) {
             const persisted = await recordMarketCheck(item.market.id, { status: "oracle_applied", checked_at: now.toISOString(), evidence_count: 0 });
-            results.push({ slug: item.market.slug, status: persisted ? "oracle_applied" : "skipped_closed", reason: "persisted_evidence_target", deadline_action: deadlineAction });
+            results.push({ slug: item.market.slug, status: persisted ? "oracle_applied" : "skipped_closed", provider: "evidence_target", reason: "persisted_evidence_target", deadline_action: deadlineAction,
+              ...(persisted ? { email_update: {
+                question: item.market.question, slug: item.market.slug, provider: "evidence_target", reason: "evidence_convergence",
+                before_probability: Number(convergence.previous_price_yes), after_probability: Number(convergence.new_price_yes),
+                absolute_percentage_point_change: Math.abs(Number(convergence.new_price_yes) - Number(convergence.previous_price_yes)),
+                timestamp: now.toISOString(), remaining_hours: deadlineRemainingHours,
+                verified_sources: (currentMarket?.news_evidence_target?.evidence ?? []).map((article: any) => ({
+                  label: article.source, title: article.title, slug: article.slug, url: article.url, published_at: article.publishedAt,
+                })),
+              } } : {}),
+            });
             continue;
           }
           const persisted = await recordMarketCheck(item.market.id, { status: "no_fresh_evidence", checked_at: now.toISOString(), evidence_count: 0 });
@@ -1058,7 +1093,7 @@ async function runNewsReprice(action: "reprice" | "tregu_live", runKey: string, 
         }
         // Score only the already-filtered fresh evidence; social-only articles can
         // neither influence Groq nor reach the database adjustment boundary.
-        const score = await scoreMarketWithAI(item.market as Market, item.evidence);
+        const score = finalScore ?? await scoreMarketWithAI(item.market as Market, item.evidence);
         const citedSlugs = Array.isArray(score.cited_slugs) ? score.cited_slugs.map(String) : [];
         if (!citedSlugs.length || !citedSlugs.some((slug) => item.evidence.some((article: { slug: string }) => article.slug === slug))) {
           throw new Error(`AI returned no valid citation for ${item.market.slug}.`);
@@ -1196,6 +1231,7 @@ async function runNewsReprice(action: "reprice" | "tregu_live", runKey: string, 
       open_markets_excluded: (openMarkets ?? []).length - (markets ?? []).length,
       markets_checked: results.filter((result) => result.status !== "skipped_closed").length,
       markets_with_evidence: plan.filter((item: { evidence: unknown[] }) => item.evidence.length > 0).length,
+      research_status: research.status,
       updates_applied: emailUpdates.length,
       skipped_closed: skippedClosed.length,
       no_change: results.filter((result) => result.status === "no_change").length,
@@ -1206,7 +1242,7 @@ async function runNewsReprice(action: "reprice" | "tregu_live", runKey: string, 
       affected: emailUpdates.length,
       results,
       email_updates: emailUpdates,
-      user_balances_positions_or_transactions_changed: false,
+      user_balances_positions_or_transactions_changed: results.some(result => result.status === "settled" || result.status === "deadline_settled"),
     };
     await finishRun(admin, started.run.id, "succeeded", details);
     return { ok: true, skipped: false, runKey, ...details };

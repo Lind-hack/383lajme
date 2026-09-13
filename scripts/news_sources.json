@@ -1,0 +1,294 @@
+{
+  "version": 4,
+  "category_limits": {
+    "Kosovë": 50,
+    "Shqipëri": 45,
+    "Sport": 50,
+    "Showbiz": 45,
+    "Ekonomi": 35,
+    "Teknologji": 30,
+    "Botë": 25
+  },
+  "feeds": [
+    {
+      "url": "https://feeds.bloomberg.com/markets/news.rss",
+      "source": "Bloomberg Markets",
+      "category": "Ekonomi",
+      "caution": "Premium reporting: open the full original article through authorized access. A headline/RSS summary is discovery only. If inaccessible, find independent accessible primary evidence or skip. Attribute Bloomberg's reporting; never call it a 383 exclusive."
+    },
+    {
+      "url": "https://feeds.bloomberg.com/economics/news.rss",
+      "source": "Bloomberg Economics",
+      "category": "Ekonomi",
+      "caution": "Verify the full original article, figures and forecast assumptions. Do not reconstruct paywalled reporting from snippets."
+    },
+    {
+      "url": "https://feeds.bloomberg.com/technology/news.rss",
+      "source": "Bloomberg Technology",
+      "category": "Teknologji",
+      "caution": "Verify full original reporting or independent accessible primary evidence. Clearly attribute Bloomberg exclusives."
+    },
+    {
+      "url": "https://www.ft.com/world?format=rss",
+      "source": "Financial Times World",
+      "category": "Botë",
+      "caution": "RSS is discovery only. Full original reporting must be accessible through authorized access; otherwise verify independently or skip."
+    },
+    {
+      "url": "https://www.ft.com/technology?format=rss",
+      "source": "Financial Times Technology",
+      "category": "Teknologji",
+      "caution": "Do not treat the headline or paywall preview as proof of detailed claims."
+    },
+    {
+      "url": "https://www.politico.eu/feed/",
+      "source": "POLITICO Europe",
+      "category": "Botë"
+    },
+    {
+      "url": "https://www.theguardian.com/world/europe-news/rss",
+      "source": "The Guardian Europe",
+      "category": "Botë"
+    },
+    {
+      "url": "https://www.sciencedaily.com/rss/top/technology.xml",
+      "source": "ScienceDaily Technology",
+      "category": "Teknologji",
+      "caution": "Trace research to the original paper/institution; distinguish preliminary findings, limitations and real-world availability."
+    },
+    {
+      "url": "https://www.koha.net/rss",
+      "source": "KOHA",
+      "category": "Kosovë"
+    },
+    {
+      "url": "https://www.koha.net/rss/showbiz",
+      "source": "KOHA Showbiz",
+      "category": "Showbiz"
+    },
+    {
+      "url": "https://kallxo.com/kulture/feed/",
+      "source": "KALLXO Kulturë",
+      "category": "Showbiz"
+    },
+    {
+      "url": "https://kallxo.com/feed/",
+      "source": "KALLXO",
+      "category": "Kosovë"
+    },
+    {
+      "url": "https://telegrafi.com/feed/",
+      "source": "Telegrafi",
+      "category": "Kosovë"
+    },
+    {
+      "url": "https://www.gazetaexpress.com/feed/",
+      "source": "Gazeta Express",
+      "category": "Kosovë"
+    },
+    {
+      "url": "https://www.kosovopolice.com/feed/",
+      "source": "Policia e Kosovës",
+      "category": "Kosovë"
+    },
+    {
+      "url": "https://prishtinainsight.com/feed/",
+      "source": "Prishtina Insight",
+      "category": "Kosovë"
+    },
+    {
+      "url": "https://euronews.al/feed/",
+      "source": "Euronews Albania",
+      "category": "Shqipëri"
+    },
+    {
+      "url": "https://www.balkanweb.com/feed/",
+      "source": "BalkanWeb",
+      "category": "Shqipëri"
+    },
+    {
+      "url": "https://www.reporter.al/feed/",
+      "source": "Reporter.al / BIRN",
+      "category": "Shqipëri"
+    },
+    {
+      "url": "https://www.monitor.al/feed/",
+      "source": "Monitor",
+      "category": "Ekonomi"
+    },
+    {
+      "url": "https://feeds.bbci.co.uk/news/business/rss.xml",
+      "source": "BBC Business",
+      "category": "Ekonomi"
+    },
+    {
+      "url": "https://www.theguardian.com/uk/business/rss",
+      "source": "The Guardian Business",
+      "category": "Ekonomi"
+    },
+    {
+      "url": "https://fshf.org/sq/feed/",
+      "source": "FSHF",
+      "category": "Sport"
+    },
+    {
+      "url": "https://feeds.bbci.co.uk/sport/football/rss.xml",
+      "source": "BBC Football",
+      "category": "Sport"
+    },
+    {
+      "url": "https://www.autosport.com/rss/f1/news/",
+      "source": "Autosport F1",
+      "category": "Sport"
+    },
+    {
+      "url": "https://www.theguardian.com/uk/sport/rss",
+      "source": "The Guardian Sport",
+      "category": "Sport"
+    },
+    {
+      "url": "https://www.billboard.com/feed/",
+      "source": "Billboard",
+      "category": "Showbiz"
+    },
+    {
+      "url": "https://variety.com/feed/",
+      "source": "Variety",
+      "category": "Showbiz"
+    },
+    {
+      "url": "https://pagesix.com/feed/",
+      "source": "Page Six",
+      "category": "Showbiz",
+      "caution": "Entertainment lead: verify original interview/post; never convert gossip into fact."
+    },
+    {
+      "url": "https://feeds.bbci.co.uk/news/entertainment_and_arts/rss.xml",
+      "source": "BBC Culture",
+      "category": "Showbiz"
+    },
+    {
+      "url": "https://techcrunch.com/feed/",
+      "source": "TechCrunch",
+      "category": "Teknologji"
+    },
+    {
+      "url": "https://www.theverge.com/rss/index.xml",
+      "source": "The Verge",
+      "category": "Teknologji"
+    },
+    {
+      "url": "https://feeds.bbci.co.uk/news/technology/rss.xml",
+      "source": "BBC Technology",
+      "category": "Teknologji"
+    },
+    {
+      "url": "https://balkaninsight.com/feed/",
+      "source": "Balkan Insight",
+      "category": "Botë"
+    },
+    {
+      "url": "https://feeds.bbci.co.uk/news/world/europe/rss.xml",
+      "source": "BBC Europe",
+      "category": "Botë"
+    },
+    {
+      "url": "https://www.france24.com/en/europe/rss",
+      "source": "France 24 Europe",
+      "category": "Botë"
+    },
+    {
+      "url": "https://www.aljazeera.com/xml/rss/all.xml",
+      "source": "Al Jazeera",
+      "category": "Botë"
+    },
+    {
+      "url": "https://sinjali.com/feed/",
+      "source": "Sinjali",
+      "category": "Kosovë"
+    },
+    {
+      "url": "https://lapsi.al/",
+      "source": "Lapsi",
+      "category": "Shqipëri",
+      "kind": "html"
+    },
+    {
+      "url": "https://paparaci.com/feed/",
+      "source": "Paparaci Showbiz",
+      "category": "Showbiz",
+      "required_tags": [
+        "pafilter",
+        "showbiz"
+      ]
+    },
+    {
+      "url": "https://www.cnbc.com/id/10000664/device/rss/rss.html",
+      "source": "CNBC Finance",
+      "category": "Ekonomi"
+    },
+    {
+      "url": "https://www.coindesk.com/arc/outboundfeeds/rss/",
+      "source": "CoinDesk",
+      "category": "Ekonomi",
+      "caution": "Reject sponsored/token promotion and unsupported price predictions. Verify figures, timestamps, filings and named attribution; no investment advice."
+    },
+    {
+      "url": "https://cointelegraph.com/rss",
+      "source": "Cointelegraph",
+      "category": "Ekonomi",
+      "caution": "Reject sponsored/token promotion and unsupported price predictions. Verify figures, timestamps, filings and named attribution; no investment advice."
+    },
+    {
+      "url": "https://decrypt.co/feed",
+      "source": "Decrypt",
+      "category": "Ekonomi",
+      "caution": "Reject sponsored/token promotion and unsupported price predictions. Verify figures, timestamps, filings and named attribution; no investment advice."
+    },
+    {
+      "url": "https://feeds.bloomberg.com/politics/news.rss",
+      "source": "Bloomberg Politics",
+      "category": "Botë",
+      "caution": "Read the full accessible original; do not reconstruct paywalled text from snippets. Attribute original reporting."
+    },
+    {
+      "url": "https://www.therundown.ai/feed",
+      "source": "The Rundown AI",
+      "category": "Teknologji"
+    }
+  ],
+  "watchlist": [
+    "Dua Lipa",
+    "Rita Ora",
+    "Bebe Rexha",
+    "Ava Max",
+    "Era Istrefi",
+    "Elvana Gjata",
+    "Dhurata Dora",
+    "Tayna",
+    "Noizy",
+    "Ledri",
+    "Yll Limani",
+    "Butrint Imeri",
+    "Luiz Ejlli",
+    "Efi",
+    "Big Brother",
+    "Sunny Hill",
+    "DokuFest",
+    "Muriqi",
+    "Zhegrova",
+    "Rrahmani",
+    "Rashica",
+    "Broja",
+    "Asllani",
+    "Xhaka",
+    "Shaqiri",
+    "Real Madrid",
+    "Barcelona",
+    "Champions League",
+    "Formula 1",
+    "Ferrari",
+    "Hamilton",
+    "Verstappen"
+  ]
+}

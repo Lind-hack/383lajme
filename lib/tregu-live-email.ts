@@ -11,7 +11,7 @@ type NewsUpdate = {
     before_probability: number;
     after_probability: number;
     absolute_percentage_point_change: number;
-    reason?: "deadline_decay" | "deadline_settlement";
+    reason?: "deadline_decay" | "deadline_settlement" | "evidence_convergence";
     before_state?: { status: string; outcome: string | null };
     after_state?: { status: string; outcome: string | null };
     timestamp: string;
@@ -72,7 +72,7 @@ function gmailTransport() {
 
 /** Sends a configured-recipient email only after its caller has confirmed an eligible persisted update. */
 export async function sendTreguLiveNotification(notification: TreguLiveEmail) {
-  const recipient = configuredRecipient();
+  const recipient = notification.kind === "news_update" ? (process.env.TREGU_NEWS_RECIPIENT ?? "lindsylqa@gmail.com") : configuredRecipient();
   const { user, transport } = gmailTransport();
   const message = notification.kind === "f1_qualifying"
     ? buildF1QualifyingEmail({ runKey: notification.runKey, question: notification.question, slug: notification.slug, rows: notification.rows, sourceUrl: notification.sourceUrl, provisional: notification.provisional })

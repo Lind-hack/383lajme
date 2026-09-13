@@ -1,0 +1,11 @@
+[Unit]
+Description=Deliver recorded non-sports market movements every two minutes
+
+[Timer]
+OnCalendar=*-*-* *:1/2:00 UTC
+Persistent=false
+AccuracySec=1s
+Unit=383-tregu-news-email.service
+
+[Install]
+WantedBy=timers.target

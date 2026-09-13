@@ -1,0 +1,11 @@
+[Unit]
+Description=Deliver pending 383 non-sports odds movement emails
+After=docker.service network-online.target
+Requires=docker.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/docker exec --user hermes --env HOME=/opt/data/home hermes /opt/data/workspaces/383lajme/.venv/bin/python /opt/data/workspaces/383lajme-prod-f731569/scripts/send-tregu-news-movement.py
+TimeoutStartSec=110
+StandardOutput=journal
+StandardError=journal
