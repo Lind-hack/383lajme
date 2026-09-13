@@ -343,10 +343,11 @@ async function runOfficialSportsRefresh(action: "live_sports", runKey: string, n
     // Recovery precedes live timing: a missed session must not stay open forever.
     for (const market of f1Markets ?? []) {
       try {
-        const { fetchF1FinalResult, persistF1FinalResult, fetchF1SessionEnded, freezeF1Trading } = await import("@/lib/f1-result-recovery.mjs");
+        const { fetchF1FinalResult, persistF1FinalResult, fetchF1SessionEnded, fetchF1SessionEndedFree, freezeF1Trading } = await import("@/lib/f1-result-recovery.mjs");
         const result = await fetchF1FinalResult(market, { now });
         if (result) { await persistF1FinalResult(admin, market, result, now); market.status = "closed"; }
-        else if (await fetchF1SessionEnded(market, { now })) {
+        // F1's own free index first; OpenF1 only if that is unreachable.
+        else if (await fetchF1SessionEndedFree(market).catch(() => false) || await fetchF1SessionEnded(market, { now })) {
           // Race over, corroboration not in yet. Settlement waits for the second
           // source; trading must not. See fetchF1SessionEnded().
           if (await freezeF1Trading(admin, market, now)) {

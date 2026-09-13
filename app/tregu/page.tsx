@@ -13,6 +13,7 @@ import FeaturedCarousel from "@/components/tregu/featured-carousel";
 import F1ArchiveFeature from "@/components/tregu/f1-archive-feature";
 import FloorRail from "@/components/tregu/floor-rail";
 import TraderLeaderboard from "@/components/tregu/trader-leaderboard";
+import WithdrawalProgress from "@/components/tregu/withdrawal-progress";
 import type { MiniMarket } from "@/components/tregu/market-mini-card";
 import VideoHero from "@/components/tregu/video-hero";
 import CoinFace from "@/components/tregu/coin-face";
@@ -768,16 +769,17 @@ export default function TreguHub() {
             jumped. Measured heights, not guesses: carousel 625, board 227,
             rail 584. */}
         {loading && !loadError && (
-          <div className="tregu-hero-row" aria-hidden>
-            <div className="tregu-hero-main">
+          <>
+            <div className="tregu-hero-row" aria-hidden>
               <div className="tregu-glass tregu-skeleton" style={{ height: 625, borderRadius: 18 }} />
-              <div className="tregu-glass tregu-skeleton" style={{ height: 227, borderRadius: 18 }} />
+              <div className="tregu-rail">
+                <div className="tregu-glass tregu-skeleton" style={{ height: 340, borderRadius: 18 }} />
+                <div className="tregu-glass tregu-skeleton" style={{ height: 230, borderRadius: 18 }} />
+              </div>
             </div>
-            <div className="tregu-rail">
-              <div className="tregu-glass tregu-skeleton" style={{ height: 340, borderRadius: 18 }} />
-              <div className="tregu-glass tregu-skeleton" style={{ height: 230, borderRadius: 18 }} />
-            </div>
-          </div>
+            <div className="tregu-glass tregu-skeleton" aria-hidden style={{ height: 74, borderRadius: 16, marginBottom: 14 }} />
+            <div className="tregu-glass tregu-skeleton" aria-hidden style={{ height: 227, borderRadius: 18, marginBottom: 18 }} />
+          </>
         )}
 
         {!loading && !loadError && featured.length > 0 && (
@@ -785,13 +787,19 @@ export default function TreguHub() {
             {/* Left column stacks: the flagship book, then who is winning on it.
                 The board used to be the rail's promo tile; it earns more width
                 here and frees the right column for something else. */}
-            <div className="tregu-hero-main">
-              <FeaturedCarousel key={category} markets={featured.map(toMini)} />
-              <TraderLeaderboard loggedIn={balance !== null} />
-            </div>
+            <FeaturedCarousel key={category} markets={featured.map(toMini)} />
             <FloorRail markets={markets.filter((market) => !isStructuredSportMarket(market)).map(toMini)} />
           </div>
         )}
+
+        {/* Withdrawal progress, then the board — both full width.
+            They used to be stacked in the left column beside the rail, which
+            made the board's two halves narrower than a display name and gave
+            the meter no room at all. Out here they run to the rail's right
+            edge, which is also the only way the strip lines up with the card
+            above it. */}
+        {!loading && !loadError && <WithdrawalProgress balance={balance} />}
+        {!loading && !loadError && <TraderLeaderboard loggedIn={balance !== null} />}
 
         {/* Sports discovery — the four big football leagues with live books,
             the F1 calendar, and basketball locked until its pricing

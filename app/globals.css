@@ -17560,18 +17560,23 @@ header[data-overlay="true"] .nav-search-btn[style*="margin-right"] {
   height: 240px;
   z-index: -1;
   pointer-events: none;
+  /* Orange, and only orange. The category colour used to drive this, so the
+     slot turned blue for sport and amber for world news — four different
+     coloured cards where there should be one card showing four things. The
+     accent still exists for competitions, which own their colour; everything
+     else is white with the brand's gradient at the top. */
   background:
-    radial-gradient(110% 140% at 6% -18%, color-mix(in srgb, var(--feature-accent, #FF4422) 15%, transparent) 0%, transparent 60%),
-    linear-gradient(180deg, color-mix(in srgb, var(--feature-accent, #FF4422) 5%, transparent), transparent 70%);
+    radial-gradient(110% 140% at 50% -22%, rgba(255, 68, 34, .16) 0%, transparent 62%),
+    linear-gradient(180deg, rgba(255, 68, 34, .07), transparent 72%);
 }
 
 /* The rim carries the accent instead of a rule across the top. A hairline on
    all four edges belongs to the card; a bar on one edge sits on top of it. */
 .tregu-hero-row .tregu-carousel {
-  border-color: color-mix(in srgb, var(--feature-accent, #FF4422) 22%, rgba(17, 17, 17, 0.10));
+  border-color: rgba(255, 68, 34, 0.22);
   box-shadow:
     0 1px 0 rgba(255, 255, 255, 0.7) inset,
-    0 10px 30px -18px color-mix(in srgb, var(--feature-accent, #FF4422) 42%, transparent),
+    0 10px 30px -18px rgba(255, 68, 34, 0.38),
     0 2px 10px rgba(17, 17, 17, 0.05);
 }
 
@@ -17915,6 +17920,24 @@ header[data-overlay="true"] .nav-search-btn[style*="margin-right"] {
   box-shadow: inset 0 0 0 1px color-mix(in srgb, #FF4422 22%, transparent);
 }
 
+/* The hero CTA, in struck metal rather than plain white.
+   White on video read as a system button; this is the one place on the floor
+   that is selling something, so it gets a material — a warm gold with a
+   brushed sheen across it and a rim that catches light at the top. */
+.hero-cta-free {
+  position: relative;
+  overflow: hidden;
+  color: #2A1B08;
+  background:
+    linear-gradient(103deg, transparent 28%, rgba(255, 255, 255, .42) 42%, transparent 56%),
+    linear-gradient(168deg, #FFE8AE 0%, #F3C465 38%, #DFA23C 70%, #C8862A 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .85),
+    inset 0 -1px 0 rgba(120, 74, 12, .35),
+    0 10px 26px -10px rgba(140, 92, 16, .65);
+}
+.hero-cta-free:focus-visible { outline: 2px solid #FFE8AE; outline-offset: 3px; }
+
 /* ==========================================================================
    Competition artwork inside the flagship card
    --------------------------------------------------------------------------
@@ -17996,4 +18019,201 @@ header[data-overlay="true"] .nav-search-btn[style*="margin-right"] {
   font-weight: 800;
   font-variant-numeric: tabular-nums;
   color: var(--tg-text);
+}
+
+/* ==========================================================================
+   Competition slides in the flagship slot — the mini card, at full size
+   --------------------------------------------------------------------------
+   A Europa market in this slot rendered as the ordinary white card with a
+   trophy faintly behind it, while the same market on the floor below wore the
+   full dark treatment. The small card was the better one. These rules give the
+   slide the substrate its floor card already has, so a competition looks like
+   itself wherever it appears. Per competition only the ground changes.
+   ========================================================================== */
+.tregu-hero-row .tregu-car-slide-link[data-competition] {
+  --tg-text: #F7F3EC;
+  --tg-muted: #B9AE9E;
+  --tg-border: rgba(255, 240, 220, .16);
+  --tg-border-hi: rgba(255, 240, 220, .30);
+  --tg-panel: rgba(255, 244, 226, .08);
+  --tg-panel-hi: rgba(255, 244, 226, .12);
+  /* #E41E20 scores under 4.5:1 on every ground below; these clear it on all. */
+  --tg-yes: #3BE08F;
+  --tg-yes-dim: rgba(59, 224, 143, .18);
+  --tg-no: #FF8A93;
+  --tg-no-dim: rgba(255, 138, 147, .18);
+  color: var(--tg-text);
+  padding: 16px 18px;
+  margin: -2px;
+  border-radius: 14px;
+}
+.tregu-hero-row .tregu-car-slide-link[data-competition="uefa.champions"] {
+  background: radial-gradient(120% 70% at 50% 120%, #0B2A72 0%, rgba(11, 42, 114, 0) 62%), linear-gradient(178deg, #081950 0%, #05123F 100%);
+}
+.tregu-hero-row .tregu-car-slide-link[data-competition="uefa.europa"] {
+  background: radial-gradient(120% 70% at 50% 120%, #6A2A0A 0%, rgba(106, 42, 10, 0) 64%), linear-gradient(178deg, #351508 0%, #240E05 100%);
+}
+.tregu-hero-row .tregu-car-slide-link[data-competition="uefa.europa.conf"] {
+  background: radial-gradient(120% 70% at 50% 120%, #0E5A31 0%, rgba(14, 90, 49, 0) 64%), linear-gradient(178deg, #072A17 0%, #041C0F 100%);
+}
+.tregu-hero-row .tregu-car-slide-link[data-competition="uefa.nations"] {
+  background: radial-gradient(120% 70% at 50% 120%, #2D4A7C 0%, rgba(45, 74, 124, 0) 64%), linear-gradient(178deg, #16233C 0%, #0D1728 100%);
+}
+/* Basketball's treatment is light by design — the hardwood, not a night. */
+.tregu-hero-row .tregu-car-slide-link:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) {
+  --tg-text: #2B1B0C;
+  --tg-muted: #54371A;
+  --tg-border: rgba(92, 56, 22, .18);
+  --tg-panel: rgba(255, 250, 242, .78);
+  --tg-yes: #007A3C;
+  --tg-no: #B4181A;
+  background:
+    repeating-linear-gradient(0deg, rgba(109, 68, 28, .22) 0 1px, transparent 1px 33px),
+    linear-gradient(163deg, #EFD3A2 0%, #E2BC82 54%, #DCB57A 100%);
+}
+
+/* On a competition slide the card's own orange furniture would fight the
+   competition's colour, so it steps back. */
+.tregu-hero-row .tregu-car-slide-link[data-competition] .tregu-feature-head {
+  background: rgba(255, 244, 226, .07);
+  box-shadow: inset 0 0 0 1px var(--tg-border);
+}
+.tregu-hero-row .tregu-car-slide-link[data-competition]::before { display: none; }
+.tregu-hero-row .tregu-car-slide-link[data-competition] .tregu-feature-q,
+.tregu-hero-row .tregu-car-slide-link[data-competition] .tregu-feature-price-value { color: var(--tg-text); }
+.tregu-hero-row .tregu-car-slide-link[data-competition] .tregu-feature-price-label,
+.tregu-hero-row .tregu-car-slide-link[data-competition] .tregu-market-foot,
+.tregu-hero-row .tregu-car-slide-link[data-competition] .tregu-market-close { color: var(--tg-muted); }
+.tregu-hero-row .tregu-car-slide-link[data-competition] .tregu-pill {
+  color: var(--tg-text);
+  background: var(--tg-panel);
+  border-color: var(--tg-border);
+}
+.tregu-hero-row .tregu-car-slide-link[data-competition] .tregu-feature-stats {
+  background: var(--tg-border);
+  box-shadow: 0 0 0 1px var(--tg-border);
+}
+.tregu-hero-row .tregu-car-slide-link[data-competition] .tregu-feature-stats > div { background: var(--tg-panel); }
+.tregu-hero-row .tregu-car-slide-link[data-competition] .tregu-feature-stats dd { color: var(--tg-text); }
+.tregu-hero-row .tregu-car-slide-link[data-competition] .tregu-exact-chart-grid { stroke: var(--tg-border); }
+.tregu-hero-row .tregu-car-slide-link[data-competition] .tregu-market-open { color: var(--tg-text); }
+/* The artwork is the subject here, not a watermark. */
+.tregu-hero-row .tregu-car-slide-link[data-competition] .tregu-uel-trophy { opacity: .9; }
+.tregu-hero-row .tregu-car-slide-link[data-competition] .tregu-uel-beams { opacity: .5; }
+.tregu-hero-row .tregu-car-slide-link[data-competition] .tregu-night-stadium { opacity: .55; }
+.tregu-hero-row .tregu-car-slide-link[data-competition] .tregu-court-ball { opacity: 1; }
+
+/* The whole slide is the target, and it does not move under the pointer. The
+   F1 card lifted on hover while only part of it was clickable, which is the
+   worst pairing of the two: it invites a click it does not accept everywhere. */
+.tregu-hero-row .tregu-car-slide-hit { position: absolute; inset: 0; z-index: 3; }
+.tregu-hero-row .tregu-car-slide-link:hover,
+.tregu-hero-row .tregu-championship-card:hover { transform: none; }
+
+/* ==========================================================================
+   Withdrawal progress — the floor's answer to "why am I doing this"
+   --------------------------------------------------------------------------
+   The whole proposition ends at 10 000, and that number lived only on the
+   portfolio page — a page you reach by already knowing the payoff exists.
+   ========================================================================== */
+.tregu-goal {
+  margin: 0 0 14px;
+  padding: 13px 16px 14px;
+  border-radius: 16px;
+  border: 1px solid rgba(17, 17, 17, .09);
+  background: linear-gradient(180deg, rgba(255, 255, 255, .82), rgba(255, 252, 248, .7));
+  box-shadow: 0 1px 0 rgba(255, 255, 255, .8) inset, 0 2px 10px rgba(17, 17, 17, .04);
+}
+.tregu-goal-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 11px;
+}
+.tregu-goal-head h3 {
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+  flex-wrap: wrap;
+  margin: 0;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: -.01em;
+}
+.tregu-goal-head h3 span { font-size: 12px; font-weight: 700; color: var(--tg-muted); }
+.tregu-goal-link { font-size: 12px; font-weight: 800; color: #FF4422; text-decoration: none; white-space: nowrap; }
+.tregu-goal-link:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+.tregu-goal-track {
+  position: relative;
+  height: 12px;
+  /* Room at the right for the coin, which sits ON the end of the track. */
+  margin-right: 30px;
+  border-radius: 100px;
+  background: rgba(17, 17, 17, .07);
+  box-shadow: inset 0 1px 2px rgba(17, 17, 17, .08);
+}
+.tregu-goal-fill {
+  height: 100%;
+  min-width: 12px;
+  border-radius: 100px;
+  background: linear-gradient(90deg, #FF6A35, #FF4422);
+  box-shadow: 0 0 12px -2px rgba(255, 68, 34, .55);
+  transition: width 900ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.tregu-goal-fill[data-reached] {
+  background: linear-gradient(90deg, #F3C465, #DFA23C);
+  box-shadow: 0 0 14px -2px rgba(223, 162, 60, .6);
+}
+
+/* The prize. Struck metal at the end of the run, dimmed until the threshold is
+   reached so it reads as something still to be won. */
+.tregu-goal-prize {
+  position: absolute;
+  top: 50%;
+  right: -30px;
+  transform: translateY(-50%);
+  width: 34px;
+  height: 34px;
+  border-radius: 100px;
+  display: grid;
+  place-items: center;
+  background:
+    linear-gradient(103deg, transparent 30%, rgba(255, 255, 255, .55) 44%, transparent 58%),
+    linear-gradient(160deg, #FFE8AE 0%, #F3C465 40%, #DFA23C 72%, #B9781F 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .9),
+    inset 0 -1px 0 rgba(120, 74, 12, .4),
+    0 3px 10px -3px rgba(140, 92, 16, .6);
+  opacity: .55;
+  filter: saturate(.7);
+  transition: opacity 400ms var(--ease-out), filter 400ms var(--ease-out), transform 400ms var(--ease-out);
+}
+.tregu-goal-prize[data-reached] { opacity: 1; filter: none; transform: translateY(-50%) scale(1.06); }
+.tregu-goal-prize i {
+  font-style: normal;
+  font-size: 11.5px;
+  font-weight: 900;
+  color: #4A2F08;
+  letter-spacing: -.02em;
+}
+
+.tregu-goal-foot {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 9px 30px 0 0;
+  font-size: 11.5px;
+  color: var(--tg-muted);
+  font-variant-numeric: tabular-nums;
+}
+.tregu-goal-foot strong { color: var(--tg-text); font-weight: 800; }
+
+/* The board is full width now, so its two halves get real room. */
+.tregu-lb { margin-bottom: 18px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .tregu-goal-fill, .tregu-goal-prize { transition: none; }
 }
