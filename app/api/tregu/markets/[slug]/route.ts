@@ -340,6 +340,8 @@ export async function GET(
             color?: string;
             team_color?: string;
             team_colour?: string;
+            alt_color?: string;
+            alternate_color?: string;
             logo?: string;
           },
           index: number
@@ -390,6 +392,15 @@ export async function GET(
                 ? "#7A7A78"
                 : outcome.color ?? outcome.team_color ?? outcome.team_colour ?? knownTeamColor,
             }, index),
+            // The raw kit colours, carried alongside the chart colour rather than
+            // replacing it. `color` above is run through contrastSafeTeamColor,
+            // which exists to keep a 1px stroke legible on a cream card and only
+            // ever darkens — correct there, and the reason the receipt used to
+            // come out near-black. The receipt reads these two instead.
+            brandColor: isDraw
+              ? null
+              : outcome.color ?? outcome.team_color ?? outcome.team_colour ?? knownTeamColor ?? null,
+            brandAltColor: isDraw ? null : outcome.alt_color ?? outcome.alternate_color ?? null,
             probability: Number(prices[key] ?? 1 / market.sport_outcomes.length),
             series,
           };
