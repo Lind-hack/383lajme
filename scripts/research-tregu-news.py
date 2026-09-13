@@ -19,9 +19,15 @@ def fold(value):
 def terms(market):
     entities=(market.get('pre_match_analysis') or {}).get('proposition',{}).get('entities',[])
     if entities:return [x for x in entities if len(x)>=2]
-    return [x for x in re.findall(r'\b[A-ZÇË][a-zA-ZçëÇË-]{1,}\b',market['question']) if x not in ('Brenda','Gjate')]
+    return [x for x in re.findall(r'\b[A-ZÇË][a-zA-ZçëÇË]{1,}\b',market['question']) if x not in ('Brenda','Gjate')]
 
 def has_term(text,term):
+    # Albanian case endings and English names refer to the same named party.
+    aliases=[('shqiper',r'(?:shqiper\w*|albania\w*)'),('izrael',r'(?:izrael\w*|israel\w*)'),
+        ('liban',r'(?:liban\w*|lebanon|lebanese)'),('rusi',r'(?:rusi\w*|russia\w*)'),
+        ('ukrain',r'ukrain\w*'),('bitcoin',r'(?:bitcoin|btc)')]
+    for prefix,pattern in aliases:
+        if fold(term).startswith(prefix):return re.search(r'(?<!\w)'+pattern+r'(?!\w)',fold(text)) is not None
     if not re.fullmatch('[A-Z]{2,3}',term):text,term=fold(text),fold(term)
     return re.search(r'(?<!\w)'+re.escape(term)+r'(?!\w)',text) is not None
 
@@ -52,8 +58,12 @@ def original(lead):
         if data.get('status')!='text_extracted' or len(data.get('text','').split())<80:return None
         # A preview or partial extraction cannot support final settlement.
         final_url=data['url']
+        title=data.get('title') or ''
+        parts=re.split(r'\s+(?:\||-|–|—)\s+',title)
+        if len(parts)>1 and fold(parts[-1]).replace(' ','')==fold(lead.get('source','')).replace(' ',''):
+            title=' - '.join(parts[:-1])
         return {'slug':'research-'+hashlib.sha256(final_url.encode()).hexdigest()[:24],
-            'title':data.get('title') or '', 'excerpt':data['text'][:400],
+            'title':title, 'excerpt':data['text'][:400],
             'body':data['text'],'source':urlsplit(final_url).hostname.removeprefix('www.'),'url':final_url,
             'discovery_url':lead['url'],
             'publishedAt':lead['publishedAt'],'category':'Botë','verification':'original_page_extracted',
