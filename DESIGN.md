@@ -159,7 +159,7 @@ Two elevation systems coexist by design, and DESIGN.md treats that as intentiona
 - **Don't** give glass panels a hover-lift on touch devices; the `(hover: hover) and (pointer: fine)` gate exists because a fake hover state that never resolves reads as a stuck/broken button on mobile.
 - **Don't** introduce solid, opaque glass at rest. If a panel needs guaranteed-opaque content (a modal, a confirmation), that's a signal it should not be `.tregu-glass` at all — reach for the site's flat `.card` instead.
 
-### Competition treatments — the first sanctioned exception
+### Competition treatments — the one sanctioned exception
 
 Champions League cards (`.tregu-native-market[data-competition="uefa.champions"]`) deliberately break three rules above: they carry a third accent colour, they run an ambient sweep inside `.tregu-market`, and they are dark on a cream floor. This is a *competition* treatment, not a category one, and it is scoped to a single `[data-competition]` block appended at the tail of `globals.css`.
 
@@ -167,19 +167,17 @@ It is allowed because the competition's own identity is the point — a Champion
 
 **A competition treatment has to earn its way in.** Before adding another: it applies to a competition, never a category; it re-scopes `--tg-*` tokens on the card rather than overriding selectors one by one; every text colour is re-checked against the new substrate, including the team-colour path, which `contrastSafeTeamColor()` drives *darker* on the assumption of a cream card; and the ambient layer ships a designed static fallback for `prefers-reduced-motion`, never just `animation: none`.
 
-### The flagship slot — the second sanctioned exception
+### The flagship slot — light, and why
 
-The carousel at the top of `/tregu` (`.tregu-hero-row .tregu-car-slide-link`) is also dark on the cream floor, and unlike the competition cards it is not tied to any competition at all. It is a **placement** treatment: the floor's one headline slot, which has to stop a reader who has not decided to read anything yet.
+The carousel at the top of `/tregu` (`.tregu-hero-row .tregu-car-slide-link`) is the floor's headline slot and has to stop a reader who has not decided to read anything yet. It does that on a **light** surface, and a dark substrate is not available to it.
 
-Three passes at keeping it light failed for the same reason each time — a cream panel on a cream floor has no material of its own, and a tint is not a material. Adding a third quiet variation would have been a fourth attempt at the same idea.
+This was tried. A dark card was built here, measured (`#14110D`, text 16.89:1, yes/no re-tuned) and reverted on sight: a single black card in the middle of a cream floor reads as a hole punched in the page rather than as the headline. Contrast was never the problem. The competition treatments get away with dark because a Champions night is a *recognised object* a reader already has a picture of; a placement has no such identity to borrow, so the same move just looks broken.
 
-A placement treatment carries an extra obligation a competition treatment does not: **it must work for every category the slot can show.** A Champions card only ever has to look like Champions. This slot shows politics, economy, sport and world markets in rotation, so the substrate is fixed (`#14110D`) and only the light on it moves — `--feature-accent` carries the category colour into one wash, and nothing else in the card is per-category.
+What the slot uses instead is light, thrown from the category: `--feature-accent` drives one wash from the upper left and the card's rim, and nothing else is per-category. The substrate never changes, because the slot shows politics, economy, sport and world markets in rotation and must work for all of them.
 
-Everything the competition rule demands still applies: tokens re-scoped on the card rather than selectors chased one by one, and every text colour re-measured against the new substrate. On `#14110D` the cream green survives (`#00A651`, 5.89:1) but `#E41E20` does not (4.04:1), so the pair is raised to `#3BE08F` / `#FF8A93`.
+**One slot, one design.** Every slide takes the same treatment, including `.tregu-championship-card`, which brings its own surface elsewhere and defers inside the hero row. A slot whose slides look like different products is worse than any of them.
 
-**One slot, one design.** Every slide in the carousel takes this treatment, including `.tregu-championship-card`, which brings its own cream surface elsewhere and defers inside the hero row. A slot whose slides look like different products is worse than any of them.
-
-Note the mechanism, because it has bitten once: `--feature-accent` is published by the component on the slide element. Rules that read it must live on that element or below. An earlier version read it from `.tregu-carousel`, an ancestor, where a property set on a descendant is simply not visible — so every accent silently resolved to the `#FF4422` fallback, which is how a cyan sport card ended up with an orange bar across its top.
+Note the mechanism, because it has bitten once: `--feature-accent` is published by the component on the **slide** element. Rules that read it must live on that element or below. An earlier version read it from `.tregu-carousel`, an ancestor, where a property set on a descendant is not visible — so every accent silently resolved to the `#FF4422` fallback, which is how a cyan sport card ended up with an orange bar across its top.
 
 # Visit — Kosovo in Your Pocket
 
