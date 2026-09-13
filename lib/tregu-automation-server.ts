@@ -875,9 +875,8 @@ async function runNewsReprice(action: "reprice" | "tregu_live", runKey: string, 
         && !Array.isArray(market?.sport_outcomes);
     });
 
-    // Only full-body articles already stored in the newsroom can move odds.
-    // RSS/Google headlines remain discovery signals and are never promoted into
-    // fake verified evidence with body=title.
+    // Original-page research joins the newsroom pool. Discovery headlines
+    // alone never become scoring evidence.
     const verifiedPool = await getLatestArticles(200);
     const research = await loadMarketResearch(admin, now);
     const marketIds = (markets ?? []).map((market) => String(market.id)).filter(Boolean);
@@ -981,7 +980,8 @@ async function runNewsReprice(action: "reprice" | "tregu_live", runKey: string, 
           const { data: after, error: afterError } = await admin.from("markets").select("status, outcome, q_yes, q_no, b").eq("id", item.market.id).maybeSingle();
           if (afterError) throw new Error(`Could not read deadline result for ${item.market.slug}: ${afterError.message}`);
           if (!after || !deadlineBefore) return null;
-          const afterProbability = Math.exp(Number(after.q_yes) / Number(after.b)) / (Math.exp(Number(after.q_yes) / Number(after.b)) + Math.exp(Number(after.q_no) / Number(after.b)));
+          const afterProbability = after.status === "resolved" ? (after.outcome === "PO" ? 1 : 0)
+            : Math.exp(Number(after.q_yes) / Number(after.b)) / (Math.exp(Number(after.q_yes) / Number(after.b)) + Math.exp(Number(after.q_no) / Number(after.b)));
           const stateChanged = after.status !== deadlineBefore.status || (after.outcome ?? null) !== deadlineBefore.outcome;
           if (!stateChanged && afterProbability === deadlineBefore.probability) return null;
           return {

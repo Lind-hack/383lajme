@@ -46,9 +46,13 @@ interface AiScoreResult {
 
 /** Score open-market evidence with Groq first, then configured Gemini fallbacks only on provider failure. */
 export async function scoreMarketWithAI(market: Market, suppliedArticles?: Article[]): Promise<AiScoreResult> {
-  const articles = suppliedArticles ?? await articlesForMarket(market);
+  const articles = (suppliedArticles ?? await articlesForMarket(market)).slice(0, 6);
+  // Bound the whole request, not each article independently: the free Groq
+  // token window cannot accept six full 14k-character bodies at once.
+  const bodyBudget = Math.floor(14000 / Math.max(1, articles.length));
+  const partial = new Set(articles.filter(a => String(a.body ?? "").length > bodyBudget).map(a => a.slug));
   const context = articles
-    .map((a) => `[${a.slug}] published=${a.publishedAt} source=${a.source} url=${a.url ?? ""}\n${a.title}\n${a.excerpt}\n${String(a.body ?? "").slice(0, 14000)}`)
+    .map((a) => `[${a.slug}] published=${a.publishedAt} source=${a.source} url=${a.url ?? ""} partial=${partial.has(a.slug)}\n${a.title}\n${a.excerpt}\n${String(a.body ?? "").slice(0, bodyBudget)}`)
     .join("\n\n");
 
   const system =
@@ -60,7 +64,7 @@ export async function scoreMarketWithAI(market: Market, suppliedArticles?: Artic
   const criteria = proposition ? `${legacyCriteria}\nStructured resolution contract: ${JSON.stringify(proposition)}` : legacyCriteria;
   const closesAt = Date.parse(String((market as Market & { closes_at?: string }).closes_at ?? ""));
   const remainingHours = Number.isFinite(closesAt) ? Math.max(0, (closesAt - Date.now()) / 3_600_000) : null;
-  const user = `Koha aktuale UTC: ${new Date().toISOString()}\nAfati i tregut UTC: ${Number.isFinite(closesAt) ? new Date(closesAt).toISOString() : "i panjohur"}\nOrë të mbetura: ${remainingHours === null ? "e panjohur" : remainingHours.toFixed(2)}\nPyetja e tregut: "${market.question}"\n${market.description ? `Kontekst: ${market.description}\n` : ""}${criteria ? `Kriteret e zgjidhjes: ${criteria}\n` : ""}\nArtikuj të fundit, të plotë dhe të filtruar për këtë treg:\n\n${context || "(pa artikuj të lidhur)"}\n\nMos përdor tituj ose fakte nga kujtesa jote. Mos cito artikull që nuk e ke përdorur. Koha deri në afat duhet të ndikojë në probabilitet kur pyetja kërkon një veprim para një date të caktuar.`;
+  const user = `Koha aktuale UTC: ${new Date().toISOString()}\nAfati i tregut UTC: ${Number.isFinite(closesAt) ? new Date(closesAt).toISOString() : "i panjohur"}\nOrë të mbetura: ${remainingHours === null ? "e panjohur" : remainingHours.toFixed(2)}\nPyetja e tregut: "${market.question}"\n${market.description ? `Kontekst: ${market.description}\n` : ""}${criteria ? `Kriteret e zgjidhjes: ${criteria}\n` : ""}\nTekst burimor i filtruar për këtë treg (partial=true shënon tekst të shkurtuar; mos zgjidh tregun nga tekst i paplotë):\n\n${context || "(pa artikuj të lidhur)"}\n\nMos përdor tituj ose fakte nga kujtesa jote. Mos cito artikull që nuk e ke përdorur. Koha deri në afat duhet të ndikojë në probabilitet kur pyetja kërkon një veprim para një date të caktuar.`;
 
   let response = await marketAiChat(system, user, { json: true, maxTokens: 900 });
   let parsed: Omit<AiScoreResult, "provider" | "fallback_index" | "fallback_reason">;
@@ -78,7 +82,7 @@ export async function scoreMarketWithAI(market: Market, suppliedArticles?: Artic
     reasoning: String(parsed.reasoning ?? ""),
     cited_slugs: Array.isArray(parsed.cited_slugs) ? parsed.cited_slugs.map(String) : [],
     evidence_level: parsed.evidence_level === "decisive" ? "decisive" : "ordinary",
-    resolution_action: parsed.resolution_action === "settle_po" || parsed.resolution_action === "settle_jo" ? parsed.resolution_action : "unresolved",
+    resolution_action: (parsed.cited_slugs ?? []).every(slug => !partial.has(slug)) && (parsed.resolution_action === "settle_po" || parsed.resolution_action === "settle_jo") ? parsed.resolution_action : "unresolved",
     provider: response.provider,
     fallback_index: response.fallback_index,
     fallback_reason: response.fallback_reason,
