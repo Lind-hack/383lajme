@@ -23,3 +23,11 @@
 @media (max-width:680px){.chart svg{min-width:0}}
 .positionCard{min-height:0!important;padding:20px!important}.positionCard .pickRow img{object-fit:contain}.positionActions{margin-top:16px!important}.sellForm{display:grid;gap:10px;margin-top:16px}.sellForm label{display:grid;gap:6px;font-size:13px;font-weight:700}.sellForm input{min-height:44px;border:1px solid #d9d4cc;border-radius:10px;padding:10px 12px;font-size:16px;width:100%}.sellForm p{font-size:12px;color:#64615d;margin:0}.sellForm>div{display:flex;gap:8px}.sellForm button{min-height:44px;padding:8px 14px;border-radius:10px;background:#111;color:white;font-weight:700}.sellForm button:disabled{opacity:.5}.sellForm button:focus-visible{outline:2px solid #ff4422;outline-offset:3px}
 @media(max-width:680px){.chart{overflow:hidden}.chart svg{min-width:0;width:100%}.positionCard{padding:16px!important}}
+
+/* A way back to the floor.
+   The slot used to hold a "TREGU / PORTOFOLI" eyebrow — a breadcrumb that was
+   a link without looking like one, so the page read as having no way out. */
+.back{display:inline-flex;align-items:center;gap:7px;margin-bottom:10px;padding:7px 13px 7px 11px;border-radius:100px;border:1px solid rgba(17,17,17,.12);background:rgba(255,255,255,.7);color:#111;font-size:12.5px;font-weight:800;text-decoration:none;transition:transform 160ms var(--ease-out),border-color 160ms var(--ease-out),background-color 160ms var(--ease-out)}
+.back span{font-size:14px;line-height:1;transition:transform 200ms var(--ease-out)}
+@media (hover:hover) and (pointer:fine){.back:hover{border-color:rgba(17,17,17,.28);background:#fff}.back:hover span{transform:translateX(-2px)}}
+.back:focus-visible{outline:2px solid #ff4422;outline-offset:2px}

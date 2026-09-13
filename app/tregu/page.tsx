@@ -250,11 +250,12 @@ export default function TreguHub() {
         if (!response.ok) throw new Error(`markets ${response.status}`);
         const data = await response.json();
         if (!active) return;
-        setMarkets(
-          (data.markets ?? []).filter(
-            (market: MarketRow) => market.status === "open" || isF1Archive(market)
-          )
-        );
+        // Open books only. Settled races used to ride along so the archive
+        // feature could show a finished result at the top of the floor, but a
+        // concluded market on a trading floor is furniture: it cannot be
+        // traded, it wins every volume ranking by having had its whole life to
+        // collect it, and it reads as live until you look at the percentage.
+        setMarkets((data.markets ?? []).filter((market: MarketRow) => market.status === "open"));
         setActivity(data.activity ?? []);
         const generatedAt = new Date(data.generated_at ?? Date.now());
         setUpdatedAt(formatKosovoTime(generatedAt));

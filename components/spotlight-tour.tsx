@@ -54,6 +54,24 @@ export interface TourStep {
  * Zero area is the test, not `display`: it catches a hidden ancestor, an empty
  * container and a collapsed row alike, which is every way this has broken.
  */
+/**
+ * True when the element (or an ancestor) is taken out of the scroll flow.
+ *
+ * A fixed element's viewport rect does not change when the page scrolls, so the
+ * camera below can never "arrive" at it: every pass computes the same non-zero
+ * delta, scrolls, measures the identical rect and computes it again. That is
+ * the step which crawls to the top of the page a pixel at a time without ever
+ * settling — on a phone, where the balance step targets the fixed account bar
+ * under the navbar.
+ */
+export function isPinned(el: Element | null): boolean {
+  for (let node: Element | null = el; node; node = node.parentElement) {
+    const position = getComputedStyle(node).position;
+    if (position === "fixed" || position === "sticky") return true;
+  }
+  return false;
+}
+
 export function visibleTarget(selector: string): Element | null {
   for (const el of document.querySelectorAll(selector)) {
     const box = el.getBoundingClientRect();
@@ -525,7 +543,11 @@ export default function SpotlightTour({
     };
 
     let to = from;
-    if (isSheet) {
+    if (isPinned(el)) {
+      // Already in the viewport by construction, and unreachable by scrolling.
+      // Leave the page where it is and light the element where it sits.
+      to = from;
+    } else if (isSheet) {
       // Aim the *padded* box, not the element. Aiming the element parked the
       // hole `pad` pixels higher than intended — a hair above BAND_TOP — which
       // read as "this element runs off the top of the band" and clipped a step

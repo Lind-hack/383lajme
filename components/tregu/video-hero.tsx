@@ -252,12 +252,13 @@ export default function VideoHero({ loggedIn }: { loggedIn: boolean }) {
         <div className="flex flex-1 flex-col justify-end pb-8 lg:pb-12">
           <div className="lg:grid lg:grid-cols-2 lg:items-end">
             <div>
-              <AnimatedHeading text={"Parashiko lajmet.\nFito Monedha."} />
+              <AnimatedHeading text={"Parashiko saktë.\nFito Monedha."} />
 
               <Reveal delay={360}>
-                <p className="text-base md:text-lg text-gray-300 mb-5 max-w-[52ch]">
-                  Çdo pyetje vjen nga lajmet e ditës. Zgjidh Po ose Jo dhe vër 383 Monedha
-                  falas — pa para reale. Përqindja tregon çka beson Kosova.
+                <p className="text-base md:text-lg text-gray-300 mb-6 max-w-[54ch]">
+                  Pyetje nga lajmet e ditës. Zgjidh Po ose Jo, dhe sa më saktë ta lexosh
+                  gjasën, aq më shumë <strong className="font-semibold text-white">383 Monedha</strong> fiton.
+                  Mblidh 10 000 dhe i këmben për para të vërteta.
                 </p>
               </Reveal>
 
@@ -265,9 +266,20 @@ export default function VideoHero({ loggedIn }: { loggedIn: boolean }) {
                 <Reveal delay={560}>
                   <Link
                     href="/hyr?tab=regjistrohu&next=/tregu"
-                    className="liquid-glass liquid-glass-btn btn-shimmer border border-white/25 text-white px-8 py-3 rounded-lg font-medium"
+                    className="hero-cta-free inline-flex items-center rounded-full px-7 py-3 font-semibold min-h-[44px]"
                   >
-                    <span className="btn-shimmer-text">Merr 100 Monedha falas</span>
+                    Fito 100 Monedha falas
+                  </Link>
+                </Reveal>
+              )}
+
+              {loggedIn && (
+                <Reveal delay={560}>
+                  <Link
+                    href="/tregu/portofoli"
+                    className="hero-cta-free inline-flex items-center rounded-full px-7 py-3 font-semibold min-h-[44px]"
+                  >
+                    Shiko portofolin
                   </Link>
                 </Reveal>
               )}

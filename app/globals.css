@@ -17298,11 +17298,20 @@ header[data-overlay="true"] .nav-search-btn[style*="margin-right"] {
   gap: 12px;
   flex-shrink: 0;
 }
-.tregu-headchip {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 9px 10px 9px 14px;
+/* Desktop only, and the media query is the point.
+   Bare `.tregu-headchip { display: flex }` here has the same specificity as the
+   `display: none` this file already sets for phones at 1445, and it sits later
+   in the file — so it won the cascade inside that media query too, put the
+   desktop chip back on a 390px screen and ran the balance, the bonus button
+   and the portfolio link straight off the edge. The phone has the account bar
+   for all three. */
+@media (min-width: 769px) {
+  .tregu-headchip {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 9px 10px 9px 14px;
+  }
 }
 .tregu-headchip-amount {
   font-weight: 800;
@@ -17335,6 +17344,32 @@ header[data-overlay="true"] .nav-search-btn[style*="margin-right"] {
      by a floor full of open books, and the last-checked clock is diagnostic
      detail nobody acts on from a phone. */
   .tregu-ribbon-inner > [data-ribbon="secondary"] { display: none !important; }
+
+  /* Both stats on one line, and on the same line as each other.
+     The generic mobile rule sets .tregu-stat{flex-wrap:wrap}, which was sized
+     for four stats in two columns: the longer label ("Aktiviteti i fundit")
+     wrapped above its own value while the shorter one ("Tregje") did not, so
+     the two sat at different heights and the strip read as misaligned. With
+     only two stats left there is room to keep each label beside its value. */
+  .tregu-ribbon-inner {
+    display: flex !important;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 18px !important;
+    padding: 12px 20px !important;
+    height: auto;
+  }
+  .tregu-ribbon-inner .tregu-stat {
+    flex-wrap: nowrap;
+    gap: 7px;
+    min-width: 0;
+  }
+  .tregu-ribbon-inner .tregu-stat-label {
+    white-space: nowrap;
+    letter-spacing: .1em;
+    font-size: 9.5px;
+  }
+  .tregu-ribbon-inner .tregu-stat-value { white-space: nowrap; }
 }
 
 /* ==========================================================================
@@ -17845,3 +17880,20 @@ header[data-overlay="true"] .nav-search-btn[style*="margin-right"] {
   color: var(--tg-muted);
 }
 .tregu-lb-row[data-unranked] { opacity: .78; }
+
+/* The hero's second action. Solid, because the first version was a glass
+   button over video: on a bright frame it disappeared entirely, which is why
+   it read as "not showing". */
+.hero-cta-free {
+  background: #FFF8F0;
+  color: #14110D;
+  box-shadow: 0 8px 24px -10px rgba(0, 0, 0, .55), inset 0 1px 0 rgba(255, 255, 255, .9);
+  transition: transform 180ms var(--ease-out), box-shadow 180ms var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .hero-cta-free:hover { transform: translateY(-1px); box-shadow: 0 12px 30px -10px rgba(0, 0, 0, .6); }
+}
+.hero-cta-free:focus-visible { outline: 2px solid #FFF8F0; outline-offset: 3px; }
+
+/* The wallet that replaced "383C" on the mobile account bar. */
+.tregu-mbar-wallet { opacity: .62; flex-shrink: 0; }

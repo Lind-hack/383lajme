@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import CoinFace from "@/components/tregu/coin-face";
 import { treguHeroBehindChrome } from "@/components/tregu/video-hero";
 import { fmtNum } from "@/lib/format";
+import { Wallet } from "lucide-react";
 
 // Mobile-only account bar for the Tregu floor. The collapsed mobile navbar is
 // just a hamburger, so the coin balance chip (NavBalance) never shows there.
@@ -72,7 +73,9 @@ export default function MobileAccountBar({
             hoverTilt
           />
           <span className="tregu-mbar-bal">{fmtNum(balance)}</span>
-          <span className="tregu-mbar-unit">383C</span>
+          {/* The wallet says "this opens your portfolio"; "383C" only repeated
+              the coin already sitting to the left of the number. */}
+          <Wallet className="tregu-mbar-wallet" size={15} strokeWidth={2.1} aria-hidden />
           <span className="tregu-mbar-chev" aria-hidden>
             ›
           </span>
