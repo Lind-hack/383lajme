@@ -16981,7 +16981,7 @@ header[data-overlay="true"] .nav-search-btn[style*="margin-right"] {
   --unl-facet: rgba(28, 42, 74, .028);
   --unl-disc: rgba(255, 255, 255, .62);
   --tg-text: #141A28;
-  --tg-muted: #5A6478;
+  --tg-muted: #4E5871;
   --tg-border: rgba(28, 42, 74, .12);
   --competition-color: #2D4A7C;
   isolation: isolate;
@@ -17072,7 +17072,26 @@ header[data-overlay="true"] .nav-search-btn[style*="margin-right"] {
   100% { transform: translate3d(34%, 0, 0); }
 }
 
-.tregu-detail-header[data-competition="uefa.nations"] .tregu-unl-rim { opacity: .88; }
+.tregu-detail-header[data-competition="uefa.nations"] .tregu-unl-rim {
+  opacity: .88;
+  /* The banner is 1376x194 and its copy runs down the left. The card's mask is
+     shaped for a tallish rectangle and leaves the whole of this one in the ramp,
+     which put the 13px metadata line on a saturated cell at 1.98:1.
+
+     So on this surface the weave flies to the right of the type instead of
+     behind it — a flag at the end of a masthead rather than a wash under it. The
+     third layer is the horizontal clear, intersected with the other two. */
+  -webkit-mask-image:
+    radial-gradient(96% 104% at 50% 50%, rgba(0,0,0,.3) 20%, rgba(0,0,0,.62) 54%, #000 80%),
+    linear-gradient(to bottom, rgba(0,0,0,.34) 0, rgba(0,0,0,.34) 30px, #000 74px, #000 calc(100% - 74px), rgba(0,0,0,.34) calc(100% - 26px), rgba(0,0,0,.34) 100%),
+    linear-gradient(to right, transparent 0, transparent 40%, rgba(0,0,0,.45) 58%, #000 76%);
+  mask-image:
+    radial-gradient(96% 104% at 50% 50%, rgba(0,0,0,.3) 20%, rgba(0,0,0,.62) 54%, #000 80%),
+    linear-gradient(to bottom, rgba(0,0,0,.34) 0, rgba(0,0,0,.34) 30px, #000 74px, #000 calc(100% - 74px), rgba(0,0,0,.34) calc(100% - 26px), rgba(0,0,0,.34) 100%),
+    linear-gradient(to right, transparent 0, transparent 40%, rgba(0,0,0,.45) 58%, #000 76%);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+}
 .tregu-detail-header[data-competition="uefa.nations"] .tregu-unl-fold { animation-duration: 11s; }
 
 /* The receipt is the competition's loudest moment and runs against a 3s anthem
@@ -17135,11 +17154,11 @@ header[data-overlay="true"] .nav-search-btn[style*="margin-right"] {
   border-color: rgba(28, 42, 74, .16);
   background: rgba(255, 255, 255, .72);
 }
-.tregu-trade-celebration[data-competition="uefa.nations"] .tregu-trade-celebration-content > p { color: #5A6478; }
+.tregu-trade-celebration[data-competition="uefa.nations"] .tregu-trade-celebration-content > p { color: #4E5871; }
 .tregu-trade-celebration[data-competition="uefa.nations"] dl { border-top-color: rgba(28, 42, 74, .18); }
 .tregu-trade-celebration[data-competition="uefa.nations"] dl div { border-bottom-color: rgba(28, 42, 74, .12); }
-.tregu-trade-celebration[data-competition="uefa.nations"] dt { color: #5A6478; }
-.tregu-trade-celebration[data-competition="uefa.nations"] .tregu-trade-celebration-content > small { color: #5A6478; }
+.tregu-trade-celebration[data-competition="uefa.nations"] dt { color: #4E5871; }
+.tregu-trade-celebration[data-competition="uefa.nations"] .tregu-trade-celebration-content > small { color: #4E5871; }
 .tregu-trade-celebration[data-competition="uefa.nations"] > button {
   color: #141A28;
   background: rgba(255, 255, 255, .74);
