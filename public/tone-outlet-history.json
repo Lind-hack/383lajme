@@ -55,9 +55,9 @@
     },
     "Balkan Insight": {
       "country": "Britani",
-      "total": 18,
+      "total": 19,
       "positive": 1,
-      "neutral": 16,
+      "neutral": 17,
       "negative": 1,
       "unknown": 0,
       "firstSeen": "2026-08-19",
@@ -80,7 +80,8 @@
         "https://balkaninsight.com/2026/09/11/intimidation-claims-loom-large-as-kosovos-thaci-awaits-trial-verdict/btj/",
         "https://balkaninsight.com/2026/09/11/kosovo-ex-president-thacis-defence-seeks-acquittal-in-obstruction-of-justice-trial/btj/",
         "https://balkaninsight.com/2026/09/11/kosovo-parliament-hit-by-fresh-dispute-over-deputy-speakers/bi/",
-        "https://balkaninsight.com/2026/09/14/in-kosovos-guerrilla-heartlands-impending-trial-verdict-stirs-anger-fierce-loyalty/btj/"
+        "https://balkaninsight.com/2026/09/14/in-kosovos-guerrilla-heartlands-impending-trial-verdict-stirs-anger-fierce-loyalty/btj/",
+        "https://balkaninsight.com/hashim-thaci-trial-stories-home/"
       ]
     },
     "Ouest-France": {
@@ -452,18 +453,19 @@
     },
     "Blick": {
       "country": "Zvicër",
-      "total": 4,
+      "total": 5,
       "positive": 0,
-      "neutral": 2,
+      "neutral": 3,
       "negative": 0,
       "unknown": 2,
       "firstSeen": "2026-08-19",
-      "lastSeen": "2026-09-12",
+      "lastSeen": "2026-09-14",
       "urls": [
         "https://www.blick.ch/schweiz/zentralschweiz/luzern/verwandte-erklaert-den-ausreisser-aufregung-im-kosovo-wegen-weissem-mercedes-aus-der-schweiz-id22192215.html",
         "https://www.blick.ch/ausland/auto-faehrt-ueber-trottoir-diese-szene-sorgt-fuer-diskussionen-id22192168.html",
         "https://www.blick.ch/sport/fussball/international/dfb-pokal/leverkusen-locker-weiter-augsburg-mueht-sich-in-die-zweite-pokal-runde-id22202590.html",
-        "https://www.blick.ch/fr/monde/pristina-manifestation-pour-la-liberation-de-hashim-thaci/13yvk2f"
+        "https://www.blick.ch/fr/monde/pristina-manifestation-pour-la-liberation-de-hashim-thaci/13yvk2f",
+        "https://www.blick.ch/fr/sport/football/football-la-selection-kosovare-secouee-par-une-revolte-interne/v9qsc4d"
       ]
     },
     "zentralplus": {
@@ -601,17 +603,18 @@
     },
     "Sport24": {
       "country": "Greqi",
-      "total": 3,
+      "total": 4,
       "positive": 0,
-      "neutral": 3,
+      "neutral": 4,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-19",
-      "lastSeen": "2026-08-20",
+      "lastSeen": "2026-09-14",
       "urls": [
         "https://www.sport24.gr/sports-travel/athlitikoi-proorismoi/me-exi-athlites-i-ellada-sto-evropaiko-protathlima-arsis-varon-paidon-sto-kosovo/",
         "https://www.sport24.gr/volley/kosovo-ellada-0-3-nikifora-premiera-gia-tin-ethniki-volei-ginaikon-stous-mesogeiakous-agones/?amp",
-        "https://www.sport24.gr/volley/ellada-kosovo-3-0-me-to-dexi-i-ethniki-volei-andron-stous-mesogeiakous-agones/?amp"
+        "https://www.sport24.gr/volley/ellada-kosovo-3-0-me-to-dexi-i-ethniki-volei-andron-stous-mesogeiakous-agones/?amp",
+        "https://www.sport24.gr/basket/peristeri-betsson-epikratise-tis-ili-apo-to-kosovo-se-filiko-agona-proetoimasias/"
       ]
     },
     "thetoc.gr": {
@@ -1705,17 +1708,18 @@
     },
     "gostyn24.pl": {
       "country": "Poloni",
-      "total": 3,
+      "total": 4,
       "positive": 0,
       "neutral": 0,
       "negative": 0,
-      "unknown": 3,
+      "unknown": 4,
       "firstSeen": "2026-08-25",
-      "lastSeen": "2026-09-07",
+      "lastSeen": "2026-09-14",
       "urls": [
         "https://gostyn24.pl/pl/473_na-sygnale/97529_zderzenie-tuz-przed-torami-kolejowymi-sprawca-pojechal-do-szpitala-na-badania.html",
         "https://gostyn24.pl/pl/19_wiadomosci-z-regionu/588_gostyn/98135_998-metrow-ktore-potrafilo-dac-w-kosc-najtrudniejsze-bylo-to-w-czym-biegli.html",
-        "https://gostyn24.pl/pl/19_wiadomosci-z-regionu/588_gostyn/98141_znana-trasa-dostala-zupelnie-nowe-oblicze-biegacze-zapamietaja-ten-podbieg.html"
+        "https://gostyn24.pl/pl/19_wiadomosci-z-regionu/588_gostyn/98141_znana-trasa-dostala-zupelnie-nowe-oblicze-biegacze-zapamietaja-ten-podbieg.html",
+        "https://gostyn24.pl/pl/1075_dobrze-wiedziec/98564_dlugo-ich-tutaj-nie-bylo-wrocily-i-od-razu-daly-o-sobie-znac-ten-wystep.html"
       ]
     },
     "Leman bleu": {
@@ -2533,16 +2537,17 @@
     },
     "MeinBezirk.at": {
       "country": "Austri",
-      "total": 2,
+      "total": 3,
       "positive": 0,
-      "neutral": 2,
+      "neutral": 3,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-02",
-      "lastSeen": "2026-09-07",
+      "lastSeen": "2026-09-14",
       "urls": [
         "https://www.meinbezirk.at/c-freizeit/mit-magenta-zum-frauen-nationalteam-spiel-gegen-kosovo_a8857229",
-        "https://www.meinbezirk.at/c-sport/mit-magenta-zum-frauen-nationalteam-spiel-gegen-kosovo_a8884982"
+        "https://www.meinbezirk.at/c-sport/mit-magenta-zum-frauen-nationalteam-spiel-gegen-kosovo_a8884982",
+        "https://www.meinbezirk.at/leoben/c-sport/ksf-gym-leoben-sichert-sich-zwei-medaillen-bei-der-wm-im-kosovo_a8897692"
       ]
     },
     "Journal B": {
@@ -2854,15 +2859,16 @@
     },
     "TRT Avaz": {
       "country": "Turqi",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 0,
+      "neutral": 1,
       "negative": 0,
       "unknown": 1,
       "firstSeen": "2026-09-05",
-      "lastSeen": "2026-09-05",
+      "lastSeen": "2026-09-14",
       "urls": [
-        "https://www.trtavaz.com.tr/haber/tur/turkistandan/uskup-te-osmanli-avrupasi-nda-edebiyat-1400-1800-sempozyumu-duzenlendi/6a9bda56e72ad848a0b1de17"
+        "https://www.trtavaz.com.tr/haber/tur/turkistandan/uskup-te-osmanli-avrupasi-nda-edebiyat-1400-1800-sempozyumu-duzenlendi/6a9bda56e72ad848a0b1de17",
+        "https://www.trtavaz.com.tr/haber/tur/turkistandan/kosova-da-yeni-hukumet-kuruldu/6aa7ddfaa12ab216259ad58b"
       ]
     },
     "Luino Notizie": {
@@ -2881,17 +2887,18 @@
     },
     "balcanicaucaso.org": {
       "country": "Itali",
-      "total": 3,
+      "total": 4,
       "positive": 0,
-      "neutral": 0,
+      "neutral": 1,
       "negative": 2,
       "unknown": 1,
       "firstSeen": "2026-09-06",
-      "lastSeen": "2026-09-10",
+      "lastSeen": "2026-09-14",
       "urls": [
         "https://www.balcanicaucaso.org/cp_article/kosovo-i-ragni-della-val-rugova/",
         "https://www.balcanicaucaso.org/cp_article/kosovo-la-politica-in-un-vicolo-cieco/",
-        "https://www.balcanicaucaso.org/en/cp_article/kosovo-la-politica-in-un-vicolo-cieco/"
+        "https://www.balcanicaucaso.org/en/cp_article/kosovo-la-politica-in-un-vicolo-cieco/",
+        "https://www.balcanicaucaso.org/en/cp_article/processo-thaci-la-piazza-di-pristina-chiede-lassoluzione/"
       ]
     },
     "NÖN.at - Niederösterreichische Nachrichten": {
@@ -4149,6 +4156,136 @@
       "lastSeen": "2026-09-14",
       "urls": [
         "https://www.qha.com.tr/turk-dunyasi/kosova-da-kurti-hukumeti-guvenoyu-aldi-fikrim-damka-basbakan-yardimcisi-oldu-533609"
+      ]
+    },
+    "Gol del Napoli": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-14",
+      "lastSeen": "2026-09-11",
+      "urls": [
+        "https://www.goldelnapoli.it/rrahmani-lascia-la-nazionale-del-kosovo/"
+      ]
+    },
+    "RTVE.es": {
+      "country": "Spanjë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-14",
+      "lastSeen": "2026-09-14",
+      "urls": [
+        "https://www.rtve.es/play/audios/cinco-continentes/cinco-continentes-entrevista-abel-ruiz-leon-autor-kosovo-barro-zapatos/17224126/"
+      ]
+    },
+    "Αθηναϊκό - Μακεδονικό πρακτορείο ειδήσεων": {
+      "country": "Greqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-14",
+      "lastSeen": "2026-09-14",
+      "urls": [
+        "https://www.amna.gr/home/article/1022722/Kosobo-To-koinoboulio-enekrine-ti-nea-kubernisi-tou-Almpin-Kourti--i-thesmiki-krisi-paramenei"
+      ]
+    },
+    "LiFO": {
+      "country": "Greqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-14",
+      "lastSeen": "2026-09-13",
+      "urls": [
+        "https://www.lifo.gr/now/world/kosobo-epanexelegi-prothypoyrgos-apo-koinoboylio-o-almpin-koyrti"
+      ]
+    },
+    "SDNA": {
+      "country": "Greqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-14",
+      "lastSeen": "2026-09-14",
+      "urls": [
+        "https://www.sdna.gr/mpasket/1467210_filiki-niki-gia-peristeri-kontra-stin-ylli-apo-kosobo"
+      ]
+    },
+    "Dnews": {
+      "country": "Greqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-14",
+      "lastSeen": "2026-09-14",
+      "urls": [
+        "https://www.dnews.gr/eidhseis/kosmos/610224/kosovo-antistrofi-metrisi-gia-tin-etymigoria-sti-diki-tou-xasim-thatsi-katigoreitai-gia-egklimata-polemou"
+      ]
+    },
+    "Sportal.gr": {
+      "country": "Greqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-14",
+      "lastSeen": "2026-09-14",
+      "urls": [
+        "https://www.sportal.gr/basket/article/to-peristeri-betsson-epikratise-tis-gili-apo-to-kosovo-se-filiko-proetoimasias"
+      ]
+    },
+    "Konflikty.pl": {
+      "country": "Poloni",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-14",
+      "lastSeen": "2026-09-14",
+      "urls": [
+        "https://www.konflikty.pl/aktualnosci/wiadomosci/hashim-thaci-proces-haga/"
+      ]
+    },
+    "İlke TV": {
+      "country": "Turqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-14",
+      "lastSeen": "2026-09-14",
+      "urls": [
+        "https://ilketv.com.tr/savas-suclari-mahkemesi-eski-kosova-cumhurbaskani-thacinin-yargilandigi-davada-kararini-aciklayacak/"
+      ]
+    },
+    "dogruhaber.com.tr": {
+      "country": "Turqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-14",
+      "lastSeen": "2026-09-13",
+      "urls": [
+        "https://dogruhaber.com.tr/kosovada-kurti-hukumeti-guvenoyu-aldi"
       ]
     }
   }

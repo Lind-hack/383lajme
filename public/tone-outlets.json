@@ -1,10 +1,10 @@
 {
   "lastUpdated": "2026-09-14",
-  "overallIndex": 54,
-  "totalArticles": 87,
-  "sourceCount": 72,
+  "overallIndex": 53,
+  "totalArticles": 107,
+  "sourceCount": 87,
   "stanceVersion": 3,
-  "unattributed": 227,
+  "unattributed": 268,
   "nonEditorial": 4,
   "wrongKosovo": 0,
   "countries": {
@@ -209,7 +209,7 @@
         {
           "name": "Balkan Insight",
           "sentiment": "neutral",
-          "articleCount": 5,
+          "articleCount": 6,
           "articles": [
             {
               "title": "Intimidation Claims Loom Large as Kosovo’s Thaci Awaits Trial Verdict - Balkan Insight",
@@ -275,9 +275,22 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Hashim Thaci: Trial Stories - Balkan Insight",
+              "albanianTitle": "Hashim Thaçi: Tregimet e gjykimit",
+              "blurb": "Publikimi trajton rrëfime dhe detaje të ndryshme lidhur me procesin gjyqësor ndaj ish-presidentit të Kosovës, Hashim Thaçi.",
+              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/09/header-image-3-1280x720.png",
+              "url": "https://balkaninsight.com/hashim-thaci-trial-stories-home/",
+              "date": "2026-09-14",
+              "sentiment": "neutral",
+              "reason": "Fact‑based report without loaded language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 18,
+          "totalArticles": 19,
           "trend": "i përzier",
           "firstSeen": "2026-08-19",
           "lastSeen": "2026-09-14"
@@ -384,7 +397,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 9,
+        "n": 10,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
@@ -585,6 +598,30 @@
           "lastSeen": "2026-09-11"
         },
         {
+          "name": "Gol del Napoli",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Rrahmani lascia la nazionale del Kosovo - Gol del Napoli",
+              "albanianTitle": null,
+              "blurb": "Futbollisti Amir Rrahmani ka vendosur të largohet nga ekipi kombëtar i futbollit të Kosovës për arsye të panjohura.",
+              "imageUrl": "https://www.goldelnapoli.it/2023/wp-content/uploads/2026/08/photo-output-265-scaled.jpeg",
+              "url": "https://www.goldelnapoli.it/rrahmani-lascia-la-nazionale-del-kosovo/",
+              "date": "2026-09-11",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-14",
+          "lastSeen": "2026-09-11"
+        },
+        {
           "name": "Il Mattino",
           "sentiment": "unknown",
           "articleCount": 1,
@@ -683,7 +720,7 @@
         {
           "name": "Osservatorio Balcani Caucaso Transeuropa",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Processo Thaçi, la piazza di Pristina chiede l’assoluzione - Osservatorio Balcani Caucaso Transeuropa",
@@ -694,6 +731,19 @@
               "date": "2026-09-14",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Thaçi trial: Pristina rallies for acquittal - Osservatorio Balcani Caucaso Transeuropa",
+              "albanianTitle": "Gjykimi ndaj Thaçit: Protestë në Prishtinë për shpalljen e pafajësisë - Osservatorio Balcani Caucaso Transeuropa",
+              "blurb": "Protestuesit në Prishtinë kërkojnë lirimin e Hashim Thaçit në prag të vendimit nga gjykata në Hagë.",
+              "imageUrl": "https://www.balcanicaucaso.org/wp-content/uploads/sites/8/2026/09/shutterstock_2836664549-scaled.jpg",
+              "url": "https://www.balcanicaucaso.org/en/cp_article/processo-thaci-la-piazza-di-pristina-chiede-lassoluzione/",
+              "date": "2026-09-14",
+              "sentiment": "neutral",
+              "reason": "Faktikisht raportuar për manifestimin në Prishtinë",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -753,6 +803,30 @@
           "lastSeen": "2026-09-13"
         },
         {
+          "name": "balcanicaucaso.org",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Thaçi trial: Pristina rallies for acquittal - balcanicaucaso.org",
+              "albanianTitle": "Gjykimi ndaj Thaçit: Protestë në Prishtinë për lirim nga akuza",
+              "blurb": "Qytetarët në Prishtinë kanë organizuar protesta për të kërkuar lirimin e ish-presidentit Hashim Thaçi nga procesi gjyqësor në Hagë.",
+              "imageUrl": "https://www.balcanicaucaso.org/wp-content/uploads/sites/8/2026/09/shutterstock_2836664549-scaled.jpg",
+              "url": "https://www.balcanicaucaso.org/en/cp_article/processo-thaci-la-piazza-di-pristina-chiede-lassoluzione/",
+              "date": "2026-09-14",
+              "sentiment": "neutral",
+              "reason": "Fact‑based report without loaded language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 4,
+          "trend": "kritik",
+          "firstSeen": "2026-09-06",
+          "lastSeen": "2026-09-14"
+        },
+        {
           "name": "suedtirolnews.it",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -782,7 +856,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 8,
+        "n": 11,
         "excluded": 3,
         "confident": true,
         "stanceVersion": 3
@@ -826,6 +900,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-08-28",
           "lastSeen": "2026-09-13"
+        },
+        {
+          "name": "MeinBezirk.at",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Erfolge im Muaythai: KSF Gym Leoben sichert sich zwei Medaillen bei der WM im Kosovo - MeinBezirk.at",
+              "albanianTitle": null,
+              "blurb": "Klubi KSF Gym Leoben ka fituar dy medalje në kampionatin botëror të Muaythai të mbajtur në Kosovë.",
+              "imageUrl": "https://media04.meinbezirk.at/article/2026/09/14/2/52588102_XXL.webp",
+              "url": "https://www.meinbezirk.at/leoben/c-sport/ksf-gym-leoben-sichert-sich-zwei-medaillen-bei-der-wm-im-kosovo_a8897692",
+              "date": "2026-09-14",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 3,
+          "trend": "neutral",
+          "firstSeen": "2026-09-02",
+          "lastSeen": "2026-09-14"
         },
         {
           "name": "News.at",
@@ -881,9 +979,9 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 4,
+        "n": 5,
         "excluded": 0,
-        "confident": false,
+        "confident": true,
         "stanceVersion": 3
       }
     },
@@ -981,7 +1079,7 @@
         {
           "name": "Blick",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 4,
           "articles": [
             {
               "title": "Manifestation géante à Pristina pour la libération de Hashim Thaçi - Blick",
@@ -999,21 +1097,47 @@
             {
               "title": "Manifestation géante à Pristina pour la libération de Hashim Thaçi - blick.ch",
               "albanianTitle": "Protestë masive në Prishtinë për lirimin e Hashim Thaçit - blick.ch",
-              "blurb": "Një protestë e madhe është mbajtur në Prishtinë për të kërkuar lirimin e ish-presidentit të Kosovës, Hashim Thaçi.",
+              "blurb": "Qytetarët në Prishtinë kanë protestuar për të kërkuar lirimin e ish-presidentit të Kosovës, Hashim Thaçi, nga paraburgimi.",
               "imageUrl": "https://images.blick.ch/1/HTik9lGaHR0cHM6Ly9vY2RuLmV1L3B1bHNjbXMvTURBXy8zZDYwYzY4MC05NjBjLTQ3ZjYtOTI0My02MzY1N2M1NDg3MzYuanBlZ5CBoTAH",
               "url": "https://www.blick.ch/fr/monde/pristina-manifestation-pour-la-liberation-de-hashim-thaci/13yvk2f",
               "date": "2026-09-12",
-              "sentiment": "unknown",
-              "reason": "",
+              "sentiment": "neutral",
+              "reason": "Faktik, pa ngjyrë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Football: La sélection kosovare secouée par une révolte interne - blick.ch",
+              "albanianTitle": null,
+              "blurb": "Përfaqësuesja e futbollit të Kosovës po përballet me një krizë të brendshme dhe pakënaqësi brenda ekipit kombëtar.",
+              "imageUrl": "https://images.blick.ch/1/F5gk9lGaHR0cHM6Ly9vY2RuLmV1L3B1bHNjbXMvTURBXy85MDUyYzEzNy0zYjM5LTQ0N2YtODMxNC1kNTlmNzM5YTc3ZWYuanBlZ5CBoTAH",
+              "url": "https://www.blick.ch/fr/sport/football/football-la-selection-kosovare-secouee-par-une-revolte-interne/v9qsc4d",
+              "date": "2026-09-14",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Football: La sélection kosovare secouée par une révolte interne - Blick",
+              "albanianTitle": "Futboll: Përfaqësuesja e Kosovës tronditet nga një revoltë e brendshme",
+              "blurb": "Përfaqësuesja e futbollit të Kosovës po përballet me një revoltë të brendshme brenda ekipit kombëtar të futbollit.",
+              "imageUrl": "https://images.blick.ch/1/F5gk9lGaHR0cHM6Ly9vY2RuLmV1L3B1bHNjbXMvTURBXy85MDUyYzEzNy0zYjM5LTQ0N2YtODMxNC1kNTlmNzM5YTc3ZWYuanBlZ5CBoTAH",
+              "url": "https://www.blick.ch/fr/sport/football/football-la-selection-kosovare-secouee-par-une-revolte-interne/v9qsc4d",
+              "date": "2026-09-14",
+              "sentiment": "neutral",
+              "reason": "Headline reports internal team issue without hostile language toward Kosovo",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
             }
           ],
-          "totalArticles": 4,
-          "trend": "i pamjaftueshëm",
+          "totalArticles": 5,
+          "trend": "neutral",
           "firstSeen": "2026-08-19",
-          "lastSeen": "2026-09-12"
+          "lastSeen": "2026-09-14"
         },
         {
           "name": "NZZ",
@@ -1156,12 +1280,12 @@
             {
               "title": "News Archive - zentralplus",
               "albanianTitle": null,
-              "blurb": "Arkiva e lajmeve përmban informacione të ndryshme të publikuara në portalin informativ zentralplus për ngjarje të ndryshme.",
+              "blurb": "Arkiva e lajmeve përmban përmbledhje të ngjarjeve të ndryshme të publikuara në platformën informative të portalit zviceran zentralplus.",
               "imageUrl": null,
               "url": "https://www.zentralplus.ch/news/kosovo-kurti-bleibt-regierungschef-2898175/",
               "date": "2026-09-13",
               "sentiment": "unknown",
-              "reason": "No content about Kosovo provided",
+              "reason": "Nuk ka informacion për Kosovën në fragment",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1174,12 +1298,12 @@
         }
       ],
       "summary": {
-        "index": 59,
-        "positive": 17,
-        "neutral": 83,
+        "index": 58,
+        "positive": 15,
+        "neutral": 85,
         "negative": 0,
-        "n": 23,
-        "excluded": 8,
+        "n": 26,
+        "excluded": 7,
         "confident": true,
         "stanceVersion": 3
       }
@@ -1284,6 +1408,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-08-26",
           "lastSeen": "2026-09-12"
+        },
+        {
+          "name": "RTVE.es",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Cinco continentes - Entrevista con Abel Ruiz de León, autor de 'Kosovo: barro en los zapatos' - RTVE.es",
+              "albanianTitle": "Pesë kontinente - Intervistë me Abel Ruiz de León, autorin e librit 'Kosovo: barro en los zapatos'",
+              "blurb": "Autori Abel Ruiz de León flet për librin e tij rreth Kosovës në një intervistë për mediat spanjolle.",
+              "imageUrl": "https://img2.rtve.es/a/17224126/?imgProgApi=imgBackground&w=800",
+              "url": "https://www.rtve.es/play/audios/cinco-continentes/cinco-continentes-entrevista-abel-ruiz-leon-autor-kosovo-barro-zapatos/17224126/",
+              "date": "2026-09-14",
+              "sentiment": "neutral",
+              "reason": "Interview announcement about a book, neutral presentation",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-14",
+          "lastSeen": "2026-09-14"
         }
       ],
       "summary": {
@@ -1291,7 +1439,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 1,
+        "n": 2,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -1348,6 +1496,30 @@
           "lastSeen": "2026-09-13"
         },
         {
+          "name": "Dnews",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Κόσοβο: Αντίστροφη μέτρηση για την ετυμηγορία στη δίκη του Χασίμ Θάτσι - Κατηγορείται για εγκλήματα πολέμου - Dnews",
+              "albanianTitle": "Kosovë: Numërimi mbrapsht për vendimin në gjyqin ndaj Hashim Thaçit – Akuzohet për krime lufte",
+              "blurb": "Gjykata po përgatitet për shpalljen e vendimit në gjykimin ndaj Hashim Thaçit për akuzat për krime lufte.",
+              "imageUrl": "https://www.dnews.gr/media/k2/items/cache/f2a87a750179c95b6095e3e157b8be6b_L.jpg?t=20260914_135219",
+              "url": "https://www.dnews.gr/eidhseis/kosmos/610224/kosovo-antistrofi-metrisi-gia-tin-etymigoria-sti-diki-tou-xasim-thatsi-katigoreitai-gia-egklimata-polemou",
+              "date": "2026-09-14",
+              "sentiment": "neutral",
+              "reason": "Headline reports trial countdown factually, no hostile wording",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-14",
+          "lastSeen": "2026-09-14"
+        },
+        {
           "name": "Gazzetta.gr",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1394,6 +1566,102 @@
           "trend": "neutral",
           "firstSeen": "2026-08-21",
           "lastSeen": "2026-09-13"
+        },
+        {
+          "name": "LiFO",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Κόσοβο: Επανεξελέγη πρωθυπουργός από το κοινοβούλιο ο Αλμπίν Κούρτι - LiFO",
+              "albanianTitle": "Kosovë: Albin Kurti rizgjidhet kryeministër nga parlamenti",
+              "blurb": "Albin Kurti është rizgjedhur në postin e kryeministrit të Kosovës pas votimit të zhvilluar në Kuvendin e vendit.",
+              "imageUrl": "https://www.lifo.gr/sites/default/files/styles/facebook_with_logo/public/articles/2026-09-13/kosovo-koinovoulio-egkrisi-nea-kyvernisi-albin-kourti.jpg?itok=C-U1IVqb",
+              "url": "https://www.lifo.gr/now/world/kosobo-epanexelegi-prothypoyrgos-apo-koinoboylio-o-almpin-koyrti",
+              "date": "2026-09-13",
+              "sentiment": "neutral",
+              "reason": "Headline reports re‑election factually, no evaluative language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-14",
+          "lastSeen": "2026-09-13"
+        },
+        {
+          "name": "SDNA",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Φιλική νίκη για το Περιστέρι κόντρα στην Ylli από το Κόσοβο - SDNA",
+              "albanianTitle": "Fitore miqësore për Peristerin ndaj Yllit nga Kosova",
+              "blurb": "Ekipi i basketbollit Peristeri ka arritur fitore në ndeshjen miqësore të zhvilluar kundër skuadrës Ylli nga Kosova.",
+              "imageUrl": "https://www.sdna.gr/sites/default/files/styles/og_image/public/2026-09/vasiki-3.jpg?itok=X-XAXgXV",
+              "url": "https://www.sdna.gr/mpasket/1467210_filiki-niki-gia-peristeri-kontra-stin-ylli-apo-kosobo",
+              "date": "2026-09-14",
+              "sentiment": "neutral",
+              "reason": "Headline reports friendly match result neutrally",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-14",
+          "lastSeen": "2026-09-14"
+        },
+        {
+          "name": "Sport24",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Περιστέρι Betsson: Επικράτησε της Γίλι από το Κόσοβο σε φιλικό αγώνα - Sport24",
+              "albanianTitle": "Peristeri Betsson mposht Yllin nga Kosova në ndeshje miqësore",
+              "blurb": "Skuadra e basketbollit Peristeri Betsson ka shënuar fitore ndaj ekipit të Yllit nga Kosova në një ndeshje miqësore.",
+              "imageUrl": "https://www.sport24.gr/wp-content/uploads/2026/09/Sans-titre-10-1-1200x630.jpg",
+              "url": "https://www.sport24.gr/basket/peristeri-betsson-epikratise-tis-ili-apo-to-kosovo-se-filiko-agona-proetoimasias/",
+              "date": "2026-09-14",
+              "sentiment": "neutral",
+              "reason": "Headline reports factual sports result without loaded language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 4,
+          "trend": "neutral",
+          "firstSeen": "2026-08-19",
+          "lastSeen": "2026-09-14"
+        },
+        {
+          "name": "Sportal.gr",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Το Περιστέρι Betsson επικράτησε της Γίλι από το Κόσοβο σε φιλικό προετοιμασίας - Sportal.gr",
+              "albanianTitle": "Peristeri Betsson mposhti Yllin nga Kosova në një ndeshje miqësore përgatitore",
+              "blurb": "Ekipi i basketbollit Peristeri Betsson ka shënuar fitore ndaj skuadrës kosovare Ylli në një ndeshje miqësore përgatitore.",
+              "imageUrl": "https://www.sportal.gr/wp-content/uploads/2026/09/Περιστέρι-Betsson-1200x630.jpg",
+              "url": "https://www.sportal.gr/basket/article/to-peristeri-betsson-epikratise-tis-gili-apo-to-kosovo-se-filiko-proetoimasias",
+              "date": "2026-09-14",
+              "sentiment": "neutral",
+              "reason": "Faktik raportim i rezultatit të ndeshjes",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-14",
+          "lastSeen": "2026-09-14"
         },
         {
           "name": "The Press Project",
@@ -1562,6 +1830,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-13",
           "lastSeen": "2026-09-13"
+        },
+        {
+          "name": "Αθηναϊκό - Μακεδονικό πρακτορείο ειδήσεων",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Κόσοβο: Το κοινοβούλιο ενέκρινε τη νέα κυβέρνηση του Αλμπίν Κούρτι, η θεσμική κρίση παραμένει - Αθηναϊκό - Μακεδονικό πρακτορείο ειδήσεων",
+              "albanianTitle": "Kosovë: Parlamenti miratoi qeverinë e re të Albin Kurtit, kriza institucionale vazhdon",
+              "blurb": "Parlamenti i Kosovës ka votuar qeverinë e re të Albin Kurtit, ndërkohë që kriza institucionale vazhdon të mbetet.",
+              "imageUrl": "https://amna.gr/photos/202609/w13-185411w20135812w07155305w14170630w13132644flagofkosovo.png",
+              "url": "https://www.amna.gr/home/article/1022722/Kosobo-To-koinoboulio-enekrine-ti-nea-kubernisi-tou-Almpin-Kourti--i-thesmiki-krisi-paramenei",
+              "date": "2026-09-14",
+              "sentiment": "neutral",
+              "reason": "Headline reports factual development without loaded language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-14",
+          "lastSeen": "2026-09-14"
         }
       ],
       "summary": {
@@ -1569,7 +1861,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 9,
+        "n": 15,
         "excluded": 2,
         "confident": true,
         "stanceVersion": 3
@@ -1731,12 +2023,12 @@
             {
               "title": "Dottern dog – då utvisades familjen - da.se",
               "albanianTitle": "Vajza i vdiq – pastaj familja u dëbua - da.se",
-              "blurb": "Një familje është dëbuar nga shteti pas vdekjes së vajzës së tyre, sipas raportimeve të fundit mediatike.",
+              "blurb": "Autoritetet suedeze kanë dëbuar një familje nga vendi pas vdekjes së vajzës së tyre në rrethana të caktuara.",
               "imageUrl": "https://da.se/app/uploads/2026/09/Kosovo_Foto_David_Lundmark_1.jpg",
               "url": "https://da.se/2026/09/dottern-dog-da-utvisades-familjen/",
               "date": "2026-09-11",
               "sentiment": "unknown",
-              "reason": "",
+              "reason": "Nuk ka informacion për Kosovën në fragment",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1810,6 +2102,54 @@
     "Poloni": {
       "outlets": [
         {
+          "name": "Konflikty.pl",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Bałkańskie rozliczenia. Zegar tyka dla Hashima Thaçiego - Konflikty.pl",
+              "albanianTitle": "Llogaritë ballkanike: Ora po troket për Hashim Thaçin",
+              "blurb": "Procesi gjyqësor ndaj Hashim Thaçit po i afrohet fazës së vendimmarrjes lidhur me akuzat për krime lufte.",
+              "imageUrl": "https://www.konflikty.pl/wp-content/uploads/2026/09/hashim-thaci-kosowo.jpg",
+              "url": "https://www.konflikty.pl/aktualnosci/wiadomosci/hashim-thaci-proces-haga/",
+              "date": "2026-09-14",
+              "sentiment": "neutral",
+              "reason": "Titulli raporton thjesht faktin e procesit ndaj Thaçit",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-14",
+          "lastSeen": "2026-09-14"
+        },
+        {
+          "name": "gostyn24.pl",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Długo ich tutaj nie było. Wróciły i od razu dały o sobie znać. Ten występ przyniósł im sporo powodów do zadowolenia - gostyn24.pl",
+              "albanianTitle": "Nuk kanë qenë këtu për një kohë të gjatë. U kthyen dhe menjëherë bënë bujë. Kjo paraqitje u solli atyre shumë arsye për kënaqësi",
+              "blurb": "Grupi është rikthyer pas një mungese të gjatë dhe ka shprehur kënaqësinë pas performancës së fundit të realizuar.",
+              "imageUrl": "https://gostyn24.pl/pl/image-meta/news/98564.jpg?v=20260914112618",
+              "url": "https://gostyn24.pl/pl/1075_dobrze-wiedziec/98564_dlugo-ich-tutaj-nie-bylo-wrocily-i-od-razu-daly-o-sobie-znac-ten-wystep.html",
+              "date": "2026-09-14",
+              "sentiment": "unknown",
+              "reason": "Nuk ka informacion të mjaftueshëm për të përcaktuar qëndrimin ndaj Kosovës",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 4,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-25",
+          "lastSeen": "2026-09-14"
+        },
+        {
           "name": "wnp.pl",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1839,8 +2179,8 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 1,
-        "excluded": 0,
+        "n": 2,
+        "excluded": 1,
         "confident": false,
         "stanceVersion": 3
       }
@@ -1892,12 +2232,12 @@
             {
               "title": "Kosova'da Albin Kurti'nin liderliğindeki yeni hükümet güvenoyu aldı - Anadolu Ajansı",
               "albanianTitle": "Qeveria e re nën udhëheqjen e Albin Kurtit merr votëbesimin në Kosovë",
-              "blurb": "Qeveria e re e Kosovës nën udhëheqjen e kryeministrit Albin Kurti ka marrë votëbesimin nga deputetët e Kuvendit.",
+              "blurb": "Qeveria e re e Kosovës, e udhëhequr nga kryeministri Albin Kurti, ka marrë votëbesimin e nevojshëm në Kuvend.",
               "imageUrl": null,
               "url": "https://www.aa.com.tr/tr/dunya/kosovada-albin-kurtinin-liderligindeki-yeni-hukumet-guvenoyu-aldi/4056041",
               "date": "2026-09-13",
-              "sentiment": "unknown",
-              "reason": "",
+              "sentiment": "neutral",
+              "reason": "Raportim faktik i votimit të qeverisë",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -2116,6 +2456,30 @@
           "lastSeen": "2026-09-13"
         },
         {
+          "name": "TRT Avaz",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosova’da yeni hükümet kuruldu - Türkistan'dan - Haber - TRT Avaz",
+              "albanianTitle": "Formohet qeveria e re në Kosovë",
+              "blurb": "Institucionet e reja qeverisëse janë formuar zyrtarisht në Republikën e Kosovës pas zhvillimeve të fundit politike.",
+              "imageUrl": "https://www.trtavaz.com.tr/uploads/photos/2026/09/14/6281236d3255447fb8234b961565589f.jpg?w=640",
+              "url": "https://www.trtavaz.com.tr/haber/tur/turkistandan/kosova-da-yeni-hukumet-kuruldu/6aa7ddfaa12ab216259ad58b",
+              "date": "2026-09-14",
+              "sentiment": "neutral",
+              "reason": "Raportim i thjeshtë i formimit të qeverisë në Kosovë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 2,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-05",
+          "lastSeen": "2026-09-14"
+        },
+        {
           "name": "Türkiye Gazetesi",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -2137,6 +2501,30 @@
           "totalArticles": 1,
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-13",
+          "lastSeen": "2026-09-13"
+        },
+        {
+          "name": "dogruhaber.com.tr",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosova'da Kurti hükümeti güvenoyu aldı - dogruhaber.com.tr",
+              "albanianTitle": "Qeveria Kurti merr votëbesimin në Kosovë",
+              "blurb": "Qeveria e udhëhequr nga Albin Kurti ka marrë votëbesimin e nevojshëm nga deputetët në Kuvendin e Kosovës.",
+              "imageUrl": null,
+              "url": "https://dogruhaber.com.tr/kosovada-kurti-hukumeti-guvenoyu-aldi",
+              "date": "2026-09-13",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim pa gjuhë ngarkuese",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-14",
           "lastSeen": "2026-09-13"
         },
         {
@@ -2199,6 +2587,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-11",
           "lastSeen": "2026-09-11"
+        },
+        {
+          "name": "İlke TV",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Savaş suçları mahkemesi, eski Kosova Cumhurbaşkanı Thaçi’nin yargılandığı davada kararını açıklayacak - İlke TV",
+              "albanianTitle": "Gjykata për krime lufte do të shpallë vendimin në gjyqin ndaj ish-presidentit të Kosovës, Thaçi",
+              "blurb": "Gjykata për krime lufte pritet të shpallë vendimin përfundimtar në procesin gjyqësor kundër ish-presidentit Hashim Thaçi.",
+              "imageUrl": "https://ilketv.com.tr/wp-content/uploads/2026/09/thumbs_b_c_16e2341296f3ab5eecdbda497e8e62d5.webp",
+              "url": "https://ilketv.com.tr/savas-suclari-mahkemesi-eski-kosova-cumhurbaskani-thacinin-yargilandigi-davada-kararini-aciklayacak/",
+              "date": "2026-09-14",
+              "sentiment": "neutral",
+              "reason": "Titulli jep informacion faktik mbi vendimin e gjykatës",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-14",
+          "lastSeen": "2026-09-14"
         }
       ],
       "summary": {
@@ -2206,8 +2618,8 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 13,
-        "excluded": 4,
+        "n": 17,
+        "excluded": 3,
         "confident": true,
         "stanceVersion": 3
       }
