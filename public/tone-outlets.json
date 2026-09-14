@@ -1,10 +1,10 @@
 {
   "lastUpdated": "2026-09-14",
   "overallIndex": 53,
-  "totalArticles": 107,
-  "sourceCount": 87,
+  "totalArticles": 113,
+  "sourceCount": 91,
   "stanceVersion": 3,
-  "unattributed": 268,
+  "unattributed": 276,
   "nonEditorial": 4,
   "wrongKosovo": 0,
   "countries": {
@@ -539,7 +539,7 @@
         {
           "name": "ANSA",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 3,
           "articles": [
             {
               "title": "Manifestazione per l'ex leader dell'Esercito Liberazione del Kosovo Hashim Thaci - ANSA",
@@ -566,9 +566,22 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Dal Mas (Ince), senza l'Ucraina e i Balcani in Ue perdiamo tempo - ANSA",
+              "albanianTitle": "Dal Mas (Ince): Pa Ukrainën dhe Ballkanin në BE, po humbim kohë",
+              "blurb": "Përfaqësuesi i Ince thekson rëndësinë e integrimit të Ukrainës dhe vendeve të Ballkanit në Bashkimin Evropian për stabilitet.",
+              "imageUrl": "https://www.ansa.it/webimages/img_1280x720/2026/9/14/2020813b0f462f7c95df783bc934eda4.jpg",
+              "url": "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/09/14/dal-mas-ince-senza-lucraina-e-i-balcani-in-ue-perdiamo-tempo_05b1857a-3328-4316-b215-7104823ac6a7.html",
+              "date": "2026-09-14",
+              "sentiment": "neutral",
+              "reason": "Citat i Dal Mas, media raporton",
+              "isQuote": true,
+              "evidence": "",
+              "speaker": "Dal Mas (Ince)"
             }
           ],
-          "totalArticles": 23,
+          "totalArticles": 24,
           "trend": "neutral",
           "firstSeen": "2026-08-20",
           "lastSeen": "2026-09-14"
@@ -856,7 +869,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 11,
+        "n": 12,
         "excluded": 3,
         "confident": true,
         "stanceVersion": 3
@@ -900,6 +913,43 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-08-28",
           "lastSeen": "2026-09-13"
+        },
+        {
+          "name": "LAOLA1",
+          "sentiment": "neutral",
+          "articleCount": 2,
+          "articles": [
+            {
+              "title": "Rücktritt des Kapitäns! Wirbel bei Fodas Kosovo - laola1.at",
+              "albanianTitle": "Dorëheqja e kapitenit! Trazira në Kosovën e Fodës",
+              "blurb": "Kapiteni i përfaqësueses së Kosovës nën drejtimin e trajnerit Franco Foda ka dhënë dorëheqje nga pozita e tij.",
+              "imageUrl": "https://www.laola1.at/storage/files/01/a0/a1/41-7a4d-73da-aa88-0b4374e4bc1f.1280x720.jpg?v=0",
+              "url": "https://www.laola1.at/de/red/fussball/oefb-nationalteam/a-team/news/ruecktritt-des-kapitaens--wirbel-bei-fodas-kosovo/",
+              "date": "2026-09-14",
+              "sentiment": "neutral",
+              "reason": "Faktikë raporti pa gjuhë ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Rücktritt des Kapitäns! Wirbel bei Fodas Kosovo - LAOLA1",
+              "albanianTitle": "Dorëheqja e kapitenit! Trazira në Kosovën e Fodës",
+              "blurb": "Dorëheqja e kapitenit ka shkaktuar reagime dhe paqartësi brenda ekipit të Kosovës që drejtohet nga Franco Foda.",
+              "imageUrl": "https://www.laola1.at/storage/files/01/a0/a1/41-7a4d-73da-aa88-0b4374e4bc1f.1280x720.jpg?v=0",
+              "url": "https://www.laola1.at/de/red/fussball/oefb-nationalteam/a-team/news/ruecktritt-des-kapitaens--wirbel-bei-fodas-kosovo/",
+              "date": "2026-09-14",
+              "sentiment": "neutral",
+              "reason": "Raportim neutral i stirimit rreth kapitenit te Fodas Kosovo",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 3,
+          "trend": "neutral",
+          "firstSeen": "2026-08-25",
+          "lastSeen": "2026-09-14"
         },
         {
           "name": "MeinBezirk.at",
@@ -972,6 +1022,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-13",
           "lastSeen": "2026-09-13"
+        },
+        {
+          "name": "sport.orf.at",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "UEFA Nations League - sport.orf.at",
+              "albanianTitle": null,
+              "blurb": "Përfaqësueset e futbollit po zhvillojnë ndeshjet e tyre në kuadër të edicionit të ri të Ligës së Kombeve.",
+              "imageUrl": "https://sport.orf.at/mojo/1_3/storyserver//news/news/images/touch-icon-ipad-retina.png",
+              "url": "https://sport.orf.at/fussball/competitions/comp/941/phase/Round-1_B3/",
+              "date": "2026-09-14",
+              "sentiment": "neutral",
+              "reason": "Titull i thjeshtë, pa gjuhë ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-14",
+          "lastSeen": "2026-09-14"
         }
       ],
       "summary": {
@@ -979,7 +1053,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 5,
+        "n": 8,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
@@ -1295,6 +1369,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-08-20",
           "lastSeen": "2026-09-13"
+        },
+        {
+          "name": "zentralplus.ch",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "News Archive - zentralplus.ch",
+              "albanianTitle": null,
+              "blurb": "Arkiva e lajmeve përmban informacione të ndryshme të publikuara në portalin informativ zentralplus për ngjarjet e fundit.",
+              "imageUrl": null,
+              "url": "https://www.zentralplus.ch/news/kosovo-kurti-bleibt-regierungschef-2898175/",
+              "date": "2026-09-13",
+              "sentiment": "unknown",
+              "reason": "Nuk ka informacion rreth Kosovës në titull",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-14",
+          "lastSeen": "2026-09-13"
         }
       ],
       "summary": {
@@ -1303,7 +1401,7 @@
         "neutral": 85,
         "negative": 0,
         "n": 26,
-        "excluded": 7,
+        "excluded": 8,
         "confident": true,
         "stanceVersion": 3
       }
@@ -2127,18 +2225,18 @@
         },
         {
           "name": "gostyn24.pl",
-          "sentiment": "unknown",
+          "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
               "title": "Długo ich tutaj nie było. Wróciły i od razu dały o sobie znać. Ten występ przyniósł im sporo powodów do zadowolenia - gostyn24.pl",
-              "albanianTitle": "Nuk kanë qenë këtu për një kohë të gjatë. U kthyen dhe menjëherë bënë bujë. Kjo paraqitje u solli atyre shumë arsye për kënaqësi",
-              "blurb": "Grupi është rikthyer pas një mungese të gjatë dhe ka shprehur kënaqësinë pas performancës së fundit të realizuar.",
+              "albanianTitle": "U kthyen pas një mungese të gjatë dhe bënë bujë menjëherë. Ky performim u solli atyre shumë arsye për kënaqësi",
+              "blurb": "Grupi artistik është rikthyer në skenë pas një mungese të gjatë, duke shprehur kënaqësi me performancën e tyre të fundit.",
               "imageUrl": "https://gostyn24.pl/pl/image-meta/news/98564.jpg?v=20260914112618",
               "url": "https://gostyn24.pl/pl/1075_dobrze-wiedziec/98564_dlugo-ich-tutaj-nie-bylo-wrocily-i-od-razu-daly-o-sobie-znac-ten-wystep.html",
               "date": "2026-09-14",
-              "sentiment": "unknown",
-              "reason": "Nuk ka informacion të mjaftueshëm për të përcaktuar qëndrimin ndaj Kosovës",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -2179,8 +2277,8 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 2,
-        "excluded": 1,
+        "n": 3,
+        "excluded": 0,
         "confident": false,
         "stanceVersion": 3
       }
@@ -2565,6 +2663,30 @@
           "lastSeen": "2026-09-13"
         },
         {
+          "name": "sondakika.com",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Ziya Gökalp oyunu Balkan turnesini Prizren'de tamamladı, sahnede 150. yıl vurgusu - sondakika.com",
+              "albanianTitle": "Shfaqja për Ziya Gökalp e përmbyll turneun ballkanik në Prizren, theksohet 150-vjetori në skenë",
+              "blurb": "Shfaqja teatrale për Ziya Gökalp e përmbylli turneun ballkanik në Prizren, duke shënuar 150-vjetorin e lindjes së tij.",
+              "imageUrl": "https://foto.sondakika.com/haber/2026/09/14/ziya-gokalp-i-anlatan-goge-yazilmis-bir-alp-3-20235403_amp.jpg",
+              "url": "https://www.sondakika.com/guncel/haber-ziya-gokalp-oyunu-balkan-turnesini-prizren-de-tama-20235465/",
+              "date": "2026-09-14",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 5,
+          "trend": "neutral",
+          "firstSeen": "2026-08-26",
+          "lastSeen": "2026-09-14"
+        },
+        {
           "name": "trtavaz.com.tr",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -2618,7 +2740,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 17,
+        "n": 18,
         "excluded": 3,
         "confident": true,
         "stanceVersion": 3

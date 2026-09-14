@@ -2,12 +2,12 @@
   "lastUpdated": "2026-09-14",
   "topics": [
     {
-      "label": "Formimi i Qeverisë së Kosovës",
+      "label": "Formimi i qeverisë së re",
       "fallbackLabel": "Kurti · Qeveria",
-      "summary": "Parlamenti i Kosovës ka votuar me shumicë votash kabinetin e ri qeveritar të udhëhequr nga kryeministri Albin Kurti.",
-      "count": 95,
+      "summary": "Kuvendi i Kosovës ka miratuar kabinetin e ri qeveritar të udhëhequr nga Albin Kurti me 66 vota pro deputetëve.",
+      "count": 98,
       "positive": 3,
-      "neutral": 87,
+      "neutral": 91,
       "negative": 1,
       "index": 51,
       "countries": [
@@ -190,10 +190,10 @@
     {
       "label": "Bllokada në zgjedhjen e nënkryetarëve",
       "fallbackLabel": "Kuvendi · Albin",
-      "summary": "Kuvendi i Kosovës po përballet me vështirësi në konstituim për shkak të mosmarrëveshjeve politike rreth zgjedhjes së nënkryetarëve të rinj.",
-      "count": 32,
+      "summary": "Kuvendi i Kosovës po përballet me vështirësi në konstituim për shkak të mosmarrëveshjeve politike rreth zgjedhjes së nënkryetarëve të parlamentit.",
+      "count": 31,
       "positive": 0,
-      "neutral": 30,
+      "neutral": 29,
       "negative": 0,
       "index": 50,
       "countries": [
@@ -373,7 +373,7 @@
     {
       "label": "Përkujtimi i viktimave të 11 shtatorit",
       "fallbackLabel": "Kurti · Kryeministër",
-      "summary": "Udhëheqësit shtetërorë të Kosovës kanë bërë homazhe dhe shprehur mbështetje për Shtetet e Bashkuara në 25-vjetorin e sulmeve terroriste.",
+      "summary": "Liderët shtetërorë të Kosovës kanë bërë homazhe dhe kanë shprehur mbështetje të palëkundur për Shtetet e Bashkuara në përvjetorin e sulmeve.",
       "count": 21,
       "positive": 2,
       "neutral": 19,
@@ -555,7 +555,7 @@
     {
       "label": "Mobilizimi për ish-krerët e UÇK-së",
       "fallbackLabel": "Vendimit · Para",
-      "summary": "Qytetarët dhe mbështetësit janë mobilizuar në Prishtinë përmes marshimeve për të kërkuar drejtësi për ish-krerët e UÇK-së para vendimeve gjyqësore.",
+      "summary": "Qytetarët dhe mbështetësit janë mobilizuar në Prishtinë përmes marshimeve për të shprehur përkrahje ndaj ish-krerëve të UÇK-së para vendimeve gjyqësore.",
       "count": 20,
       "positive": 0,
       "neutral": 15,
@@ -736,7 +736,7 @@
     {
       "label": "Largimi i Rrahmanit nga kombëtarja",
       "fallbackLabel": "Rrahmani · Kombëtarja",
-      "summary": "Kapiteni Amir Rrahmani është larguar nga Kombëtarja e Kosovës pas akuzave të rënda ndaj Federatës së Futbollit për sulme të koordinuara.",
+      "summary": "Kapiteni Amir Rrahmani është larguar nga Kombëtarja e Kosovës pas akuzave për sulme të koordinuara dhe pakënaqësive ndaj Federatës së Futbollit.",
       "count": 16,
       "positive": 0,
       "neutral": 9,
@@ -1100,14 +1100,15 @@
     {
       "label": "Aktivitetet politike dhe përkujtimore shtetërore",
       "fallbackLabel": "Shtatorit · Hamza",
-      "summary": "Përfaqësuesit institucionalë të Kosovës kanë përkujtuar viktimat e 11 shtatorit dhe kanë bërë thirrje për pjesëmarrje në ngjarje të ndryshme publike.",
-      "count": 12,
+      "summary": "Përfaqësuesit institucionalë të Kosovës kanë rikonfirmuar aleancën me SHBA-në dhe kanë bërë thirrje për pjesëmarrje në aktivitete të ndryshme publike.",
+      "count": 13,
       "positive": 1,
-      "neutral": 8,
+      "neutral": 9,
       "negative": 0,
-      "index": 56,
+      "index": 55,
       "countries": [
         "Britani",
+        "Francë",
         "Itali",
         "SHBA",
         "Spanjë",
@@ -1259,30 +1260,30 @@
           "flag": "🇹🇷"
         },
         {
-          "title": "Kosova 16 Eylül’den Sonra Aynı Olmayacak - Kosovahaber.com",
-          "albanianTitle": "Kosova nuk do të jetë e njëjtë pas 16 shtatorit",
-          "blurb": "Kosova pritet të përballet me ndryshime të rëndësishme pas datës 16 shtator sipas njoftimeve të fundit zyrtare.",
+          "title": "La police du Kosovo prend des mesures de sécurité pour la marche du 16 septembre - RTSH",
+          "albanianTitle": "Policia e Kosovës ndërmerr masa sigurie për marshin e 16 shtatorit",
+          "blurb": "Policia e Kosovës ka ndërmarrë masa shtesë të sigurisë për mbarëvajtjen e marshit të planifikuar më 16 shtator.",
           "imageUrl": null,
-          "url": "https://kosovahaber.com/haber/kosova-16-eylulden-sonra-ayni-olmayacak-106072",
-          "date": "2026-09-12",
-          "sentiment": "unknown",
-          "reason": "",
+          "url": "https://rtsh.al/rti/fr/la-police-du-kosovo-prend-des-mesures-de-securite-pour-la-marche-du-16-septembre/",
+          "date": "2026-09-14",
+          "sentiment": "neutral",
+          "reason": "Faktikë raportim për masat e sigurisë të policisë në Kosovë",
           "isQuote": false,
           "speaker": "",
           "evidence": "",
-          "outlet": "Kosovahaber.com",
-          "country": "Turqi",
-          "flag": "🇹🇷"
+          "outlet": "RTSH",
+          "country": "Francë",
+          "flag": "🇫🇷"
         }
       ]
     },
     {
-      "label": "Debati mbi krimet e luftës",
+      "label": "Trajtimi i krimeve të luftës",
       "fallbackLabel": "Luftës · Krimet",
-      "summary": "Media ndërkombëtare po analizon pasojat e krimeve të luftës në Kosovë dhe mundësinë e arritjes së pajtimit përmes proceseve të drejtësisë.",
-      "count": 11,
+      "summary": "Debati publik dhe mediatik në Kosovë po fokusohet te çështja e krimeve të luftës dhe mundësia e arritjes së pajtimit përmes drejtësisë.",
+      "count": 12,
       "positive": 0,
-      "neutral": 8,
+      "neutral": 9,
       "negative": 0,
       "index": 50,
       "countries": [
@@ -1420,6 +1421,22 @@
           "flag": "🇺🇸"
         },
         {
+          "title": "Kosovo War Crimes - springfieldnewssun.com",
+          "albanianTitle": "Krimet e luftës në Kosovë",
+          "blurb": "Raportime mbi proceset gjyqësore dhe hetimet që lidhen me krimet e luftës të kryera gjatë konfliktit në Kosovë.",
+          "imageUrl": "https://bloximages.chicago2.vip.townnews.com/springfieldnewssun.com/content/tncms/assets/v3/editorial/2/70/27094a2b-c29b-5088-be5d-e82ffe62fc3d/6aa5569b13b03.image.jpg?crop=4943%2C2595%2C0%2C350&resize=1200%2C630&order=crop%2Cresize",
+          "url": "https://www.springfieldnewssun.com/nation-world/kosovo-war-crimes/image_27094a2b-c29b-5088-be5d-e82ffe62fc3d.html",
+          "date": "2026-09-12",
+          "sentiment": "neutral",
+          "reason": "Titull faktik për krimet e luftës, pa gjuhë ngarkuar",
+          "isQuote": false,
+          "speaker": "",
+          "evidence": "",
+          "outlet": "Springfield News-Sun",
+          "country": "SHBA",
+          "flag": "🇺🇸"
+        },
+        {
           "title": "Kosovo War Crimes - Journal-News.com",
           "albanianTitle": "Krimet e luftës në Kosovë",
           "blurb": "Zhvillimet rreth proceseve gjyqësore për krimet e luftës në Kosovë po ndiqen me vëmendje nga opinioni publik dhe mediat.",
@@ -1432,22 +1449,6 @@
           "speaker": "",
           "evidence": "",
           "outlet": "Journal-News.com",
-          "country": "SHBA",
-          "flag": "🇺🇸"
-        },
-        {
-          "title": "Kosovo War Crimes - Goshen News",
-          "albanianTitle": "Krimet e luftës në Kosovë – Goshen News",
-          "blurb": "Proceset gjyqësore për krimet e luftës në Kosovë po trajtohen nga mediat ndërkombëtare në raportime të ndryshme.",
-          "imageUrl": "https://bloximages.chicago2.vip.townnews.com/goshennews.com/content/tncms/assets/v3/editorial/4/06/4068f3c4-a202-5a32-aa5f-8a6356865856/6aa55e0dc5eb2.image.jpg?crop=1763%2C926%2C0%2C124&resize=1200%2C630&order=crop%2Cresize",
-          "url": "https://www.goshennews.com/news/national_news/kosovo-war-crimes/image_4068f3c4-a202-5a32-aa5f-8a6356865856.html",
-          "date": "2026-09-12",
-          "sentiment": "unknown",
-          "reason": "",
-          "isQuote": false,
-          "speaker": "",
-          "evidence": "",
-          "outlet": "Goshen News",
           "country": "SHBA",
           "flag": "🇺🇸"
         }
