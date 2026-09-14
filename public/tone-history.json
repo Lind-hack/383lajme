@@ -7157,8 +7157,8 @@
   {
     "date": "2026-09-14",
     "overallIndex": 53,
-    "totalArticles": 113,
-    "sourceCount": 91,
+    "totalArticles": 118,
+    "sourceCount": 94,
     "stanceVersion": 3,
     "countries": {
       "Gjermani": {
@@ -7166,7 +7166,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 3,
+        "n": 4,
         "excluded": 1,
         "confident": false,
         "stanceVersion": 3
@@ -7192,16 +7192,16 @@
         "stanceVersion": 3
       },
       "Francë": {
-        "index": 62,
-        "positive": 25,
-        "neutral": 75,
+        "index": 60,
+        "positive": 20,
+        "neutral": 80,
         "negative": 0,
-        "n": 4,
+        "n": 5,
         "excluded": 1,
-        "confident": false,
+        "confident": true,
         "stanceVersion": 3,
         "movement": {
-          "delta": 12,
+          "delta": 10,
           "from": 50,
           "outlet": "ENTREVUE.FR",
           "title": "Kosova del nga ngërçi me qeverinë e re të Kurtit",
@@ -7230,11 +7230,11 @@
         "stanceVersion": 3
       },
       "Zvicër": {
-        "index": 58,
-        "positive": 15,
-        "neutral": 85,
+        "index": 57,
+        "positive": 14,
+        "neutral": 86,
         "negative": 0,
-        "n": 26,
+        "n": 28,
         "excluded": 8,
         "confident": true,
         "stanceVersion": 3
@@ -7284,7 +7284,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 8,
+        "n": 9,
         "excluded": 2,
         "confident": true,
         "stanceVersion": 3
@@ -7322,8 +7322,16 @@
     },
     "headlines": [
       {
-        "title": "Albin Kurti Re-elected in Kosovo: A New Era Begins - Devdiscourse",
-        "source": "Devdiscourse",
+        "title": "Rexhep Boja, një jetë shërbim ndaj Kosovës - Reporteri",
+        "source": "Reporteri",
+        "country": "Gjermani",
+        "flag": "🇩🇪",
+        "url": "https://reporteri.net/es/opini%C3%B3n/Rexhep-Boja--toda-una-vida-al-servicio-de-Kosovo/",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Albin Kurti Re-elected in Kosovo: A New Era Begins - devdiscourse.com",
+        "source": "devdiscourse.com",
         "country": "Britani",
         "flag": "🇬🇧",
         "url": "https://www.devdiscourse.com/article/politics/3976552-albin-kurti-re-elected-in-kosovo-a-new-era-begins",
@@ -7335,14 +7343,6 @@
         "country": "Itali",
         "flag": "🇮🇹",
         "url": "https://entrevue.fr/it/monde/le-kosovo-sort-de-la-paralysie-avec-un-nouveau-gouvernement-kurti/",
-        "sentiment": "positive"
-      },
-      {
-        "title": "\"Von Scham und Geld\": Der in Sundance erfolgreiche kosovarische Film feiert Premiere in München - Albinfo",
-        "source": "Albinfo",
-        "country": "Zvicër",
-        "flag": "🇨🇭",
-        "url": "https://www.albinfo.ch/de/von-scham-und-geld-filmi-kosovar-qe-triumfoi-ne-sundance-shfaqet-ne-premiere-ne-mynih/",
         "sentiment": "positive"
       },
       {

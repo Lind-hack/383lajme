@@ -1,10 +1,10 @@
 {
   "lastUpdated": "2026-09-14",
   "overallIndex": 53,
-  "totalArticles": 113,
-  "sourceCount": 91,
+  "totalArticles": 118,
+  "sourceCount": 94,
   "stanceVersion": 3,
-  "unattributed": 276,
+  "unattributed": 280,
   "nonEditorial": 4,
   "wrongKosovo": 0,
   "countries": {
@@ -57,6 +57,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-13",
           "lastSeen": "2026-09-13"
+        },
+        {
+          "name": "Verfassungsblog",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo’s Justice Gap: A Thaçi Verdict and the Defendants Not in Court - Verfassungsblog",
+              "albanianTitle": "Boshllëku i drejtësisë në Kosovë: Aktgjykimi për Thaçin dhe të akuzuarit që mungojnë në gjykatë - Verfassungsblog",
+              "blurb": "Gjykimi ndaj Hashim Thaçit dhe të akuzuarve të tjerë në Hagë po vazhdon me çështje të hapura ligjore.",
+              "imageUrl": "https://verfassungsblog.de/wp-content/uploads/2026/09/IMG_4755.jpg",
+              "url": "https://verfassungsblog.de/kosovo-chambers-thaci/",
+              "date": "2026-09-14",
+              "sentiment": "neutral",
+              "reason": "Neutral factual reporting",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-14",
+          "lastSeen": "2026-09-14"
         },
         {
           "name": "neunzigplus.de",
@@ -112,7 +136,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 3,
+        "n": 4,
         "excluded": 1,
         "confident": false,
         "stanceVersion": 3
@@ -467,6 +491,30 @@
           "lastSeen": "2026-09-14"
         },
         {
+          "name": "RFI",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Procès de l'ancien président Hashim Thaçi et de trois ex-chefs de l’UCK, un verdict très attendu au Kosovo - RFI",
+              "albanianTitle": "Gjykimi ndaj ish-presidentit Hashim Thaçi dhe tre ish-krerëve të UÇK-së, një vendim shumë i pritur në Kosovë - RFI",
+              "blurb": "Vendimi për ish-presidentin Hashim Thaçi dhe tre ish-udhëheqësit e UÇK-së pritet me interesim të madh në Kosovë.",
+              "imageUrl": "https://s.rfi.fr/media/display/04d67c64-b046-11f1-bd9b-005056a97e36/w:1280/p:16x9/000-C84E8EP.jpg",
+              "url": "https://www.rfi.fr/fr/podcasts/reportage-international/20260914-proc%C3%A8s-de-l-ancien-pr%C3%A9sident-hashim-tha%C3%A7i-et-de-trois-ex-chefs-de-l-uck-un-verdict-tr%C3%A8s-attendu-au-kosovo",
+              "date": "2026-09-14",
+              "sentiment": "neutral",
+              "reason": "Neutral factual reporting",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 2,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-07",
+          "lastSeen": "2026-09-14"
+        },
+        {
           "name": "afp.com",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -516,16 +564,16 @@
         }
       ],
       "summary": {
-        "index": 62,
-        "positive": 25,
-        "neutral": 75,
+        "index": 60,
+        "positive": 20,
+        "neutral": 80,
         "negative": 0,
-        "n": 4,
+        "n": 5,
         "excluded": 1,
-        "confident": false,
+        "confident": true,
         "stanceVersion": 3,
         "movement": {
-          "delta": 12,
+          "delta": 10,
           "from": 50,
           "outlet": "ENTREVUE.FR",
           "title": "Kosova del nga ngërçi me qeverinë e re të Kurtit",
@@ -1145,10 +1193,10 @@
               "speaker": ""
             }
           ],
-          "totalArticles": 38,
+          "totalArticles": 40,
           "trend": "pozitiv",
           "firstSeen": "2026-09-07",
-          "lastSeen": "2026-09-13"
+          "lastSeen": "2026-09-14"
         },
         {
           "name": "Blick",
@@ -1354,12 +1402,12 @@
             {
               "title": "News Archive - zentralplus",
               "albanianTitle": null,
-              "blurb": "Arkiva e lajmeve përmban përmbledhje të ngjarjeve të ndryshme të publikuara në platformën informative të portalit zviceran zentralplus.",
+              "blurb": "Arkiva e lajmeve të portalit zviceran zentralplus përmban përmbledhje të ngjarjeve të ndryshme të publikuara ndër vite.",
               "imageUrl": null,
               "url": "https://www.zentralplus.ch/news/kosovo-kurti-bleibt-regierungschef-2898175/",
               "date": "2026-09-13",
               "sentiment": "unknown",
-              "reason": "Nuk ka informacion për Kosovën në fragment",
+              "reason": "Nuk ka përmendje të Kosovës në titull ose fragment",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1396,11 +1444,11 @@
         }
       ],
       "summary": {
-        "index": 58,
-        "positive": 15,
-        "neutral": 85,
+        "index": 57,
+        "positive": 14,
+        "neutral": 86,
         "negative": 0,
-        "n": 26,
+        "n": 28,
         "excluded": 8,
         "confident": true,
         "stanceVersion": 3
@@ -2090,6 +2138,30 @@
           "lastSeen": "2026-09-13"
         },
         {
+          "name": "Svenska Dagbladet",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Efter politiska kaoset: Kosovo har ny regering - Svenska Dagbladet",
+              "albanianTitle": "Pas kaosit politik: Kosova bëhet me qeveri të re - Svenska Dagbladet",
+              "blurb": "Kosova ka krijuar qeverinë e re pas një periudhe të gjatë të karakterizuar nga kaosi dhe paqëndrueshmëria politike.",
+              "imageUrl": "https://akamai.vgc.no/v2/images/995c90df-407f-3c46-892f-4b0943374b60?fit=crop&h=675&upscale=true&w=1200&s=0512894a064626708c40adb6516b5e6b53e74f14",
+              "url": "https://www.svd.se/a/M7GWEE/efter-politiska-kaoset-kosovo-har-ny-regering",
+              "date": "2026-09-13",
+              "sentiment": "neutral",
+              "reason": "Neutral factual reporting",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-14",
+          "lastSeen": "2026-09-13"
+        },
+        {
           "name": "Svenska Epoch Times",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -2191,7 +2263,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 8,
+        "n": 9,
         "excluded": 2,
         "confident": true,
         "stanceVersion": 3

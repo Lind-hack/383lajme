@@ -3024,15 +3024,16 @@
     },
     "RFI": {
       "country": "Francë",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 0,
+      "neutral": 1,
       "negative": 0,
       "unknown": 1,
       "firstSeen": "2026-09-07",
-      "lastSeen": "2026-09-04",
+      "lastSeen": "2026-09-14",
       "urls": [
-        "https://www.rfi.fr/fr/europe/20260904-%C3%A0-la-une-en-serbie-les-%C3%A9tudiants-cibl%C3%A9s-par-le-logiciel-espion-pegasus"
+        "https://www.rfi.fr/fr/europe/20260904-%C3%A0-la-une-en-serbie-les-%C3%A9tudiants-cibl%C3%A9s-par-le-logiciel-espion-pegasus",
+        "https://www.rfi.fr/fr/podcasts/reportage-international/20260914-proc%C3%A8s-de-l-ancien-pr%C3%A9sident-hashim-tha%C3%A7i-et-de-trois-ex-chefs-de-l-uck-un-verdict-tr%C3%A8s-attendu-au-kosovo"
       ]
     },
     "Gazzetta di Parma": {
@@ -3117,13 +3118,13 @@
     },
     "Albinfo": {
       "country": "Zvicër",
-      "total": 38,
+      "total": 40,
       "positive": 9,
-      "neutral": 21,
+      "neutral": 23,
       "negative": 0,
       "unknown": 8,
       "firstSeen": "2026-09-07",
-      "lastSeen": "2026-09-13",
+      "lastSeen": "2026-09-14",
       "urls": [
         "https://www.albinfo.ch/fr/tre-pilote-nga-kosova-ne-top-10-te-botes-ne-paragllajdizem/",
         "https://www.albinfo.ch/fr/kosove-efta-marreveshja-e-tregtise-se-lire-hyn-ne-fuqi-me-1-tetor/",
@@ -3162,7 +3163,9 @@
         "https://www.albinfo.ch/de/me-62-vota-per-zgjidhet-qeveria-kurti-4/",
         "https://www.albinfo.ch/fr/konstituohet-kuvendi-i-kosoves/",
         "https://www.albinfo.ch/fr/me-62-vota-per-zgjidhet-qeveria-kurti-4/",
-        "https://www.albinfo.ch/de/lidhja-e-infermiereve-shqiptare-ne-zvicer-lisz-gezon-perkrahje-te-gjere-ne-ceremonine-e-hapjes-ne-cyrih/"
+        "https://www.albinfo.ch/de/lidhja-e-infermiereve-shqiptare-ne-zvicer-lisz-gezon-perkrahje-te-gjere-ne-ceremonine-e-hapjes-ne-cyrih/",
+        "https://www.albinfo.ch/de/ajeti-dy-kandidate-nga-kosova-garojne-per-zgjedhjet-e-radhes-ne-landin-e-berlinit/",
+        "https://www.albinfo.ch/fr/ajeti-dy-kandidate-nga-kosova-garojne-per-zgjedhjet-e-radhes-ne-landin-e-berlinit/"
       ]
     },
     "iAxia -": {
@@ -4315,6 +4318,32 @@
       "lastSeen": "2026-09-13",
       "urls": [
         "https://www.zentralplus.ch/news/kosovo-kurti-bleibt-regierungschef-2898175/"
+      ]
+    },
+    "Verfassungsblog": {
+      "country": "Gjermani",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-14",
+      "lastSeen": "2026-09-14",
+      "urls": [
+        "https://verfassungsblog.de/kosovo-chambers-thaci/"
+      ]
+    },
+    "Svenska Dagbladet": {
+      "country": "Suedi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-14",
+      "lastSeen": "2026-09-13",
+      "urls": [
+        "https://www.svd.se/a/M7GWEE/efter-politiska-kaoset-kosovo-har-ny-regering"
       ]
     }
   }
