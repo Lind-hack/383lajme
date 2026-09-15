@@ -55,13 +55,13 @@
     },
     "Balkan Insight": {
       "country": "Britani",
-      "total": 19,
+      "total": 21,
       "positive": 1,
-      "neutral": 17,
+      "neutral": 19,
       "negative": 1,
       "unknown": 0,
       "firstSeen": "2026-08-19",
-      "lastSeen": "2026-09-14",
+      "lastSeen": "2026-09-15",
       "urls": [
         "https://balkaninsight.com/2026/08/19/suspend-officers-suspected-of-beating-serb-kosovo-police-inspectorate-says/bi/",
         "https://balkaninsight.com/2026/08/20/remains-of-23-wartime-victims-unearthed-from-mass-graves-in-kosovo/btj/",
@@ -81,7 +81,9 @@
         "https://balkaninsight.com/2026/09/11/kosovo-ex-president-thacis-defence-seeks-acquittal-in-obstruction-of-justice-trial/btj/",
         "https://balkaninsight.com/2026/09/11/kosovo-parliament-hit-by-fresh-dispute-over-deputy-speakers/bi/",
         "https://balkaninsight.com/2026/09/14/in-kosovos-guerrilla-heartlands-impending-trial-verdict-stirs-anger-fierce-loyalty/btj/",
-        "https://balkaninsight.com/hashim-thaci-trial-stories-home/"
+        "https://balkaninsight.com/hashim-thaci-trial-stories-home/",
+        "https://balkaninsight.com/2026/09/15/truth-and-consequences-kosovo-special-court-to-deliver-high-stakes-verdict/btj/",
+        "https://balkaninsight.com/2026/09/14/birn-launches-trial-stories-page-for-hashim-thaci-verdict/btj/"
       ]
     },
     "Ouest-France": {
@@ -99,13 +101,13 @@
     },
     "Le Courrier des Balkans": {
       "country": "Francë",
-      "total": 11,
+      "total": 12,
       "positive": 0,
-      "neutral": 10,
+      "neutral": 11,
       "negative": 1,
       "unknown": 0,
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-09-14",
+      "lastSeen": "2026-09-15",
       "urls": [
         "https://www.courrierdesbalkans.fr/detourner-libar-nouvelle-arme-de-vucic-contre-le-kosovo-98491/",
         "https://www.courrierdesbalkans.fr/kosovo-jouer-a-la-paix-jouer-a-la-guerre-69437/",
@@ -117,7 +119,8 @@
         "https://www.courrierdesbalkans.fr/kosovo-quand-le-blocage-institutionnel-devient-une-strategie-politique-98768/",
         "https://www.courrierdesbalkans.fr/laccord-sur-un-candidat-commun-a-la-presidence-suffira-t-il-a-sortir-le-kosovo-de-limpasse-99042/",
         "https://www.courrierdesbalkans.fr/crimes-de-guerre-au-kosovo-lheure-de-la-justice-sera-t-elle-celle-de-la-reconciliation-99414/",
-        "https://www.courrierdesbalkans.fr/proces-dhashim-thaci-et-de-ses-co-accuses-le-kosovo-les-attend-99566/"
+        "https://www.courrierdesbalkans.fr/proces-dhashim-thaci-et-de-ses-co-accuses-le-kosovo-les-attend-99566/",
+        "https://www.courrierdesbalkans.fr/avant-le-verdict-du-proces-thaci-la-grande-peur-des-serbes-du-kosovo-99571/"
       ]
     },
     "Le Figaro": {
@@ -378,15 +381,16 @@
     },
     "il Nord Est": {
       "country": "Itali",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-22",
-      "lastSeen": "2026-08-22",
+      "lastSeen": "2026-09-15",
       "urls": [
-        "https://www.ilnordest.it/oltre-confine/fosse-comuni-kosovo-zubin-potok-23-corpi-e7xbi9hv"
+        "https://www.ilnordest.it/oltre-confine/fosse-comuni-kosovo-zubin-potok-23-corpi-e7xbi9hv",
+        "https://www.ilnordest.it/oltre-confine/kosovo-governo-kurti-4-fiducia-crisi-politica-o4iqbw38"
       ]
     },
     "Fijlkam": {
@@ -1585,15 +1589,17 @@
     },
     "Heute": {
       "country": "Austri",
-      "total": 1,
+      "total": 3,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 3,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-25",
-      "lastSeen": "2026-08-25",
+      "lastSeen": "2026-09-15",
       "urls": [
-        "https://www.heute.at/s/ex-oefb-coach-foda-lehnte-millionen-angebot-ab-120242843"
+        "https://www.heute.at/s/ex-oefb-coach-foda-lehnte-millionen-angebot-ab-120242843",
+        "https://www.heute.at/s/mangel-an-kompetenz-aerger-bei-oefb-gegner-kosovo-120252143",
+        "https://www.heute.at/i/mangel-an-kompetenz-aerger-bei-oefb-gegner-kosovo-120252143/doc-1k2hoiug94"
       ]
     },
     "Rundschau Online": {
@@ -1960,15 +1966,16 @@
     },
     "Radio Free Europe/Radio Liberty": {
       "country": "SHBA",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 0,
+      "neutral": 1,
       "negative": 0,
       "unknown": 1,
       "firstSeen": "2026-08-26",
-      "lastSeen": "2026-08-26",
+      "lastSeen": "2026-09-15",
       "urls": [
-        "https://www.rferl.org/a/gazivode-lake-serbia-kosovo-ibar/33839186.html"
+        "https://www.rferl.org/a/gazivode-lake-serbia-kosovo-ibar/33839186.html",
+        "https://www.rferl.org/a/kosovo-war-crimes-verdict-president-thaci/33853881.html"
       ]
     },
     "RaiNews": {
@@ -2137,15 +2144,16 @@
     },
     "rferl.org": {
       "country": "SHBA",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 0,
+      "neutral": 1,
       "negative": 0,
       "unknown": 1,
       "firstSeen": "2026-08-28",
-      "lastSeen": "2026-08-26",
+      "lastSeen": "2026-09-15",
       "urls": [
-        "https://www.rferl.org/a/gazivode-lake-serbia-kosovo-ibar/33839186.html"
+        "https://www.rferl.org/a/gazivode-lake-serbia-kosovo-ibar/33839186.html",
+        "https://www.rferl.org/a/kosovo-war-crimes-verdict-president-thaci/33853881.html"
       ]
     },
     "Kleine Zeitung": {
@@ -3024,16 +3032,17 @@
     },
     "RFI": {
       "country": "Francë",
-      "total": 2,
+      "total": 3,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 1,
       "firstSeen": "2026-09-07",
       "lastSeen": "2026-09-14",
       "urls": [
         "https://www.rfi.fr/fr/europe/20260904-%C3%A0-la-une-en-serbie-les-%C3%A9tudiants-cibl%C3%A9s-par-le-logiciel-espion-pegasus",
-        "https://www.rfi.fr/fr/podcasts/reportage-international/20260914-proc%C3%A8s-de-l-ancien-pr%C3%A9sident-hashim-tha%C3%A7i-et-de-trois-ex-chefs-de-l-uck-un-verdict-tr%C3%A8s-attendu-au-kosovo"
+        "https://www.rfi.fr/fr/podcasts/reportage-international/20260914-proc%C3%A8s-de-l-ancien-pr%C3%A9sident-hashim-tha%C3%A7i-et-de-trois-ex-chefs-de-l-uck-un-verdict-tr%C3%A8s-attendu-au-kosovo",
+        "https://www.rfi.fr/fr/podcasts/grand-reportage/20260914-h%C3%A9ros-ou-criminels-les-leaders-de-l-uck-face-aux-juges"
       ]
     },
     "Gazzetta di Parma": {
@@ -3118,9 +3127,9 @@
     },
     "Albinfo": {
       "country": "Zvicër",
-      "total": 40,
+      "total": 43,
       "positive": 9,
-      "neutral": 23,
+      "neutral": 26,
       "negative": 0,
       "unknown": 8,
       "firstSeen": "2026-09-07",
@@ -3165,7 +3174,10 @@
         "https://www.albinfo.ch/fr/me-62-vota-per-zgjidhet-qeveria-kurti-4/",
         "https://www.albinfo.ch/de/lidhja-e-infermiereve-shqiptare-ne-zvicer-lisz-gezon-perkrahje-te-gjere-ne-ceremonine-e-hapjes-ne-cyrih/",
         "https://www.albinfo.ch/de/ajeti-dy-kandidate-nga-kosova-garojne-per-zgjedhjet-e-radhes-ne-landin-e-berlinit/",
-        "https://www.albinfo.ch/fr/ajeti-dy-kandidate-nga-kosova-garojne-per-zgjedhjet-e-radhes-ne-landin-e-berlinit/"
+        "https://www.albinfo.ch/fr/ajeti-dy-kandidate-nga-kosova-garojne-per-zgjedhjet-e-radhes-ne-landin-e-berlinit/",
+        "https://www.albinfo.ch/de/ne-konsullaten-e-kosoves-ne-mynih-arrijne-librat-per-mesimin-plotesues-ne-gjuhen-shqipe/",
+        "https://www.albinfo.ch/de/reconnect-ose-te-rinjte-migrante-te-brezit-te-dyte-ne-kerkim-te-identitetit-te-tyre/",
+        "https://www.albinfo.ch/fr/ne-konsullaten-e-kosoves-ne-mynih-arrijne-librat-per-mesimin-plotesues-ne-gjuhen-shqipe/"
       ]
     },
     "iAxia -": {
@@ -4344,6 +4356,110 @@
       "lastSeen": "2026-09-13",
       "urls": [
         "https://www.svd.se/a/M7GWEE/efter-politiska-kaoset-kosovo-har-ny-regering"
+      ]
+    },
+    "FAZ": {
+      "country": "Gjermani",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 1,
+      "unknown": 0,
+      "firstSeen": "2026-09-15",
+      "lastSeen": "2026-09-15",
+      "urls": [
+        "https://www.faz.net/aktuell/politik/ausland/prozess-gegen-hashim-thaci-hat-die-nato-im-kosovo-krieg-mit-einem-kriegsverbrecher-kooperiert-accg-201222004.html"
+      ]
+    },
+    "UdineToday": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-15",
+      "lastSeen": "2026-09-15",
+      "urls": [
+        "https://www.udinetoday.it/cronaca/trieste-pristina-volo.html"
+      ]
+    },
+    "L'Agenzia di Viaggi Magazine": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-15",
+      "lastSeen": "2026-09-15",
+      "urls": [
+        "https://www.lagenziadiviaggimag.it/kosovo-wizz-air-lancia-il-volo-trieste-pristina/"
+      ]
+    },
+    "Trieste Cafe": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-15",
+      "lastSeen": "2026-09-15",
+      "urls": [
+        "https://www.triestecafe.it/cronaca/trieste-airport-si-apre-al-kosovo-nuovo-collegamento-con-pristina-dal-19-dicembre-2026-09-15"
+      ]
+    },
+    "Il Goriziano": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-15",
+      "lastSeen": "2026-09-15",
+      "urls": [
+        "https://www.ilgoriziano.it/articolo/trieste-airport-parte-19-dicembre-collegamento-aereo-wizz-air-pristina-15-settembre-2026"
+      ]
+    },
+    "DiePresse.com": {
+      "country": "Austri",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-15",
+      "lastSeen": "2026-09-15",
+      "urls": [
+        "https://www.diepresse.com/41259060/kriegsverbrecherprozess-hochspannung-im-kosovo-vor-urteil-gegen-hashim"
+      ]
+    },
+    "svd.se": {
+      "country": "Suedi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-15",
+      "lastSeen": "2026-09-13",
+      "urls": [
+        "https://www.svd.se/a/M7GWEE/efter-politiska-kaoset-kosovo-har-ny-regering"
+      ]
+    },
+    "aa.com.tr": {
+      "country": "Turqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-15",
+      "lastSeen": "2026-09-13",
+      "urls": [
+        "https://www.aa.com.tr/tr/dunya/kosovada-albin-kurtinin-liderligindeki-yeni-hukumet-guvenoyu-aldi/4056041"
       ]
     }
   }

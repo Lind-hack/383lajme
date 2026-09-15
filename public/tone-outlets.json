@@ -1,39 +1,15 @@
 {
-  "lastUpdated": "2026-09-14",
-  "overallIndex": 53,
-  "totalArticles": 118,
-  "sourceCount": 94,
+  "lastUpdated": "2026-09-15",
+  "overallIndex": 52,
+  "totalArticles": 128,
+  "sourceCount": 97,
   "stanceVersion": 3,
-  "unattributed": 280,
+  "unattributed": 226,
   "nonEditorial": 4,
   "wrongKosovo": 0,
   "countries": {
     "Gjermani": {
       "outlets": [
-        {
-          "name": "Buch-dein-Visum.de",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosovo: aviso de seguridad, septiembre de 2026 - Buch-dein-Visum.de",
-              "albanianTitle": "Kosova: Njoftim për siguri, shtator 2026 - Buch-dein-Visum.de",
-              "blurb": "Autoritetet publikojnë njoftim të ri lidhur me sigurinë në territorin e Kosovës për muajin shtator të vitit 2026.",
-              "imageUrl": "https://www.buch-dein-visum.de/assets/cache/images/konig1200x630-630x630-ef9.png",
-              "url": "https://www.buch-dein-visum.de/es/news/allgemein/kosovo-aktueller-sicherheitshinweis-wegen-demonstrationen-und-angespannter-lage-im-norden-7af6d0",
-              "date": "2026-09-11",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-12",
-          "lastSeen": "2026-09-11"
-        },
         {
           "name": "Die Zeit",
           "sentiment": "neutral",
@@ -57,6 +33,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-13",
           "lastSeen": "2026-09-13"
+        },
+        {
+          "name": "FAZ",
+          "sentiment": "negative",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Prozess gegen Hashim Thaçi: Hat die NATO im Kosovo-Krieg mit einem Kriegsverbrecher kooperiert? - FAZ",
+              "albanianTitle": "Gjykimi ndaj Hashim Thaçit: A bashkëpunoi NATO-ja me një kriminel lufte gjatë luftës në Kosovë?",
+              "blurb": "Gjykimi ndaj Hashim Thaçit në Hagë po shqyrton bashkëpunimin e mundshëm të NATO-s me të gjatë luftës në Kosovë.",
+              "imageUrl": "https://media0.faz.net/image/w1200h627/36fbfbdf55b2/w6356h3321x318y670o/202609/43601.0.2544104251/tausende-demonstranten.webp",
+              "url": "https://www.faz.net/aktuell/politik/ausland/prozess-gegen-hashim-thaci-hat-die-nato-im-kosovo-krieg-mit-einem-kriegsverbrecher-kooperiert-accg-201222004.html",
+              "date": "2026-09-15",
+              "sentiment": "negative",
+              "reason": "Outlet uses loaded term Kriegsverbrecher in headline, implying hostility toward Kosovo leadership",
+              "isQuote": false,
+              "evidence": "Kriegsverbrecher",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-15",
+          "lastSeen": "2026-09-15"
         },
         {
           "name": "Verfassungsblog",
@@ -132,14 +132,22 @@
         }
       ],
       "summary": {
-        "index": 50,
+        "index": 40,
         "positive": 0,
-        "neutral": 100,
-        "negative": 0,
-        "n": 4,
-        "excluded": 1,
-        "confident": false,
-        "stanceVersion": 3
+        "neutral": 80,
+        "negative": 20,
+        "n": 5,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 3,
+        "movement": {
+          "delta": -10,
+          "from": 50,
+          "outlet": "FAZ",
+          "title": "Gjykimi ndaj Hashim Thaçit: A bashkëpunoi NATO-ja me një kriminel lufte gjatë luftës në Kosovë?",
+          "evidence": "Kriegsverbrecher",
+          "url": "https://www.faz.net/aktuell/politik/ausland/prozess-gegen-hashim-thaci-hat-die-nato-im-kosovo-krieg-mit-einem-kriegsverbrecher-kooperiert-accg-201222004.html"
+        }
       }
     },
     "SHBA": {
@@ -193,6 +201,30 @@
           "lastSeen": "2026-09-12"
         },
         {
+          "name": "Radio Free Europe/Radio Liberty",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo Braces For War Crimes Verdict For Former President Thaci - Radio Free Europe/Radio Liberty",
+              "albanianTitle": "Kosova në pritje të vendimit për krime lufte ndaj ish-presidentit Thaçi - Radio Evropa e Lirë",
+              "blurb": "Gjykata Speciale pritet të shpallë vendimin për ish-presidentin e Kosovës, Hashim Thaçi, lidhur me akuzat për krime lufte.",
+              "imageUrl": "https://gdb.rferl.org/EB37D85D-1C57-4A31-BB14-06405006F98F.jpg",
+              "url": "https://www.rferl.org/a/kosovo-war-crimes-verdict-president-thaci/33853881.html",
+              "date": "2026-09-15",
+              "sentiment": "neutral",
+              "reason": "Faktikë, pa ngarkim",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 2,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-26",
+          "lastSeen": "2026-09-15"
+        },
+        {
           "name": "apnews.com",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -215,6 +247,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-13",
           "lastSeen": "2026-09-13"
+        },
+        {
+          "name": "rferl.org",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo Braces For War Crimes Verdict For Former President Thaci - rferl.org",
+              "albanianTitle": "Kosova përgatitet për vendimin mbi krimet e luftës ndaj ish-presidentit Thaçi - rferl.org",
+              "blurb": "Kosova është në pritje të vendimit të Gjykatës Speciale për ish-presidentin Hashim Thaçi lidhur me akuzat për krime lufte.",
+              "imageUrl": "https://gdb.rferl.org/EB37D85D-1C57-4A31-BB14-06405006F98F.jpg",
+              "url": "https://www.rferl.org/a/kosovo-war-crimes-verdict-president-thaci/33853881.html",
+              "date": "2026-09-15",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportuar pa ngarkim",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 2,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-28",
+          "lastSeen": "2026-09-15"
         }
       ],
       "summary": {
@@ -222,9 +278,9 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 3,
+        "n": 5,
         "excluded": 0,
-        "confident": false,
+        "confident": true,
         "stanceVersion": 3
       }
     },
@@ -233,60 +289,8 @@
         {
           "name": "Balkan Insight",
           "sentiment": "neutral",
-          "articleCount": 6,
+          "articleCount": 4,
           "articles": [
-            {
-              "title": "Intimidation Claims Loom Large as Kosovo’s Thaci Awaits Trial Verdict - Balkan Insight",
-              "albanianTitle": "Akuzat për frikësim rëndojnë mbi procesin, ndërsa Thaçi pret vendimin e gjykatës - Balkan Insight",
-              "blurb": "Ish-presidenti Hashim Thaçi pret vendimin e gjykatës në Hagë mes pretendimeve për frikësim të dëshmitarëve gjatë procesit gjyqësor.",
-              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/09/1765458561737140-scaled-e1768309305127-1280x719-1.jpg",
-              "url": "https://balkaninsight.com/2026/09/11/intimidation-claims-loom-large-as-kosovos-thaci-awaits-trial-verdict/btj/",
-              "date": "2026-09-11",
-              "sentiment": "neutral",
-              "reason": "reporting intimidation claims without editorializing",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Intimidation Claims Loom Large as Kosovo’s Thaci Awaits Trial Verdict - balkaninsight.com",
-              "albanianTitle": "Akuzat për frikësim hedhin hije mbi gjykimin e Thaçit në Hagë - balkaninsight.com",
-              "blurb": "Pretendimet për frikësim të dëshmitarëve shoqërojnë procesin gjyqësor ndaj Hashim Thaçit në Gjykatën Speciale në Hagë.",
-              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/09/1765458561737140-scaled-e1768309305127-1280x719-1.jpg",
-              "url": "https://balkaninsight.com/2026/09/11/intimidation-claims-loom-large-as-kosovos-thaci-awaits-trial-verdict/btj/",
-              "date": "2026-09-11",
-              "sentiment": "neutral",
-              "reason": "Factual report of intimidation claims and trial verdict",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Kosovo Ex-President Thaci’s Defence Seeks Acquittal in Obstruction of Justice Trial - balkaninsight.com",
-              "albanianTitle": "Mbrojtja e ish-presidentit Thaçi kërkon pafajësi në gjykimin për pengim të drejtësisë - balkaninsight.com",
-              "blurb": "Mbrojtja e ish-presidentit të Kosovës, Hashim Thaçi, ka kërkuar lirimin nga akuzat në gjykimin për pengim të drejtësisë në Hagë.",
-              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/09/Untitled-1-1536x864-1.jpg",
-              "url": "https://balkaninsight.com/2026/09/11/kosovo-ex-president-thacis-defence-seeks-acquittal-in-obstruction-of-justice-trial/btj/",
-              "date": "2026-09-11",
-              "sentiment": "neutral",
-              "reason": "Factual report of a trial without loaded language",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Kosovo Parliament Hit by Fresh Dispute Over Deputy Speakers - Balkan Insight",
-              "albanianTitle": "Parlamenti i Kosovës përfshihet nga një përplasje e re për nënkryetarët",
-              "blurb": "Kuvendi i Kosovës është përfshirë në një mosmarrëveshje të re lidhur me procesin e zgjedhjes së nënkryetarëve të këtij institucioni.",
-              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/09/Kosovo-parliament-September-11-2026-BIRN-e1789136878366.jpg",
-              "url": "https://balkaninsight.com/2026/09/11/kosovo-parliament-hit-by-fresh-dispute-over-deputy-speakers/bi/",
-              "date": "2026-09-11",
-              "sentiment": "neutral",
-              "reason": "Titulli përshkruan një mosmarrëveshje pa gjuhë ngacmuese",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "In Kosovo’s Guerrilla Heartlands, Impending Trial Verdict Stirs Anger, Fierce Loyalty - Balkan Insight",
               "albanianTitle": "Në bastionet e luftës së Kosovës, vendimi i afërt i gjykatës nxit zemërim dhe besnikëri të fortë",
@@ -312,12 +316,38 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Truth and Consequences: Kosovo Special Court to Deliver High-Stakes Verdict - Balkan Insight",
+              "albanianTitle": "E vërteta dhe pasojat: Gjykata Speciale e Kosovës pritet të shpallë një vendim vendimtar - Balkan Insight",
+              "blurb": "Gjykata Speciale në Hagë po përgatitet për shpalljen e vendimit të rëndësishëm në procesin gjyqësor ndaj ish-presidentit Hashim Thaçi.",
+              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/09/13578575-scaled-e1788866530198.jpg",
+              "url": "https://balkaninsight.com/2026/09/15/truth-and-consequences-kosovo-special-court-to-deliver-high-stakes-verdict/btj/",
+              "date": "2026-09-15",
+              "sentiment": "neutral",
+              "reason": "Faktikë, pa ngarkim",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "BIRN Launches ‘Trial Stories’ Page for Hashim Thaci Verdict - Balkan Insight",
+              "albanianTitle": "BIRN lanson faqen ‘Trial Stories’ për vendimin ndaj Hashim Thaçit - Balkan Insight",
+              "blurb": "Rrjeti BIRN ka krijuar një faqe të veçantë për të pasqyruar zhvillimet rreth vendimit gjyqësor për ish-presidentin Hashim Thaçi.",
+              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/09/header-image-3-1-1280x720.png",
+              "url": "https://balkaninsight.com/2026/09/14/birn-launches-trial-stories-page-for-hashim-thaci-verdict/btj/",
+              "date": "2026-09-14",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportuar pa ngarkim",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 19,
+          "totalArticles": 21,
           "trend": "i përzier",
           "firstSeen": "2026-08-19",
-          "lastSeen": "2026-09-14"
+          "lastSeen": "2026-09-15"
         },
         {
           "name": "Independent",
@@ -421,7 +451,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 10,
+        "n": 8,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
@@ -459,19 +489,6 @@
           "articleCount": 2,
           "articles": [
             {
-              "title": "Crimes de guerre au Kosovo : l’heure de la justice sera-t-elle celle de la réconciliation ? - Le Courrier des Balkans",
-              "albanianTitle": "Krimet e luftës në Kosovë: A do të jetë ora e drejtësisë edhe ora e pajtimit? - Le Courrier des Balkans",
-              "blurb": "Analizë mbi proceset gjyqësore për krimet e luftës në Kosovë dhe ndikimin e tyre të mundshëm në procesin e pajtimit.",
-              "imageUrl": "https://www.courrierdesbalkans.fr/wp-content/uploads/2026/09/792092074_122107991018489890_3871494510194384348_n.jpg",
-              "url": "https://www.courrierdesbalkans.fr/crimes-de-guerre-au-kosovo-lheure-de-la-justice-sera-t-elle-celle-de-la-reconciliation-99414/",
-              "date": "2026-09-11",
-              "sentiment": "neutral",
-              "reason": "Raportim i çështjes së krimeve të luftës pa gjuhë përçmuese",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
               "title": "Procès d’Hashim Thaçi et de ses co-accusés : « le Kosovo les attend » - Le Courrier des Balkans",
               "albanianTitle": "Gjykimi i Hashim Thaçit dhe të akuzuarve të tjerë: “Kosova i pret ata”",
               "blurb": "Procesi gjyqësor ndaj Hashim Thaçit dhe të akuzuarve të tjerë po ndiqet me vëmendje të shtuar nga opinioni në Kosovë.",
@@ -483,17 +500,30 @@
               "isQuote": true,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Avant le verdict du procès Thaçi, la grande peur des Serbes du Kosovo - Le Courrier des Balkans",
+              "albanianTitle": "Para vendimit për gjyqin ndaj Thaçit, frika e madhe e serbëve të Kosovës - Le Courrier des Balkans",
+              "blurb": "Komuniteti serb në Kosovë shpreh shqetësimet e tij në prag të shpalljes së vendimit për procesin gjyqësor ndaj Hashim Thaçit.",
+              "imageUrl": "https://www.courrierdesbalkans.fr/wp-content/uploads/2026/09/800540412_1607956537360412_4668263135862189238_n.jpg",
+              "url": "https://www.courrierdesbalkans.fr/avant-le-verdict-du-proces-thaci-la-grande-peur-des-serbes-du-kosovo-99571/",
+              "date": "2026-09-15",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportuar pa ngarkim",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 11,
+          "totalArticles": 12,
           "trend": "i përzier",
           "firstSeen": "2026-08-20",
-          "lastSeen": "2026-09-14"
+          "lastSeen": "2026-09-15"
         },
         {
           "name": "RFI",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 3,
           "articles": [
             {
               "title": "Procès de l'ancien président Hashim Thaçi et de trois ex-chefs de l’UCK, un verdict très attendu au Kosovo - RFI",
@@ -507,9 +537,35 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Grand reportage - Héros ou criminels, les leaders de l’UCK face aux juges - RFI",
+              "albanianTitle": "Reportazh: Heronj apo kriminelë, liderët e UÇK-së përballë gjykatësve - RFI",
+              "blurb": "Udhëheqësit e Ushtrisë Çlirimtare të Kosovës po përballen me drejtësinë ndërkombëtare në një proces gjyqësor të ndjekur nga afër.",
+              "imageUrl": "https://s.rfi.fr/media/display/94f58fac-05eb-11f1-8dc5-005056bf30b7/w:1280/p:16x9/AP26040375340471.jpg",
+              "url": "https://www.rfi.fr/fr/podcasts/grand-reportage/20260914-h%C3%A9ros-ou-criminels-les-leaders-de-l-uck-face-aux-juges",
+              "date": "2026-09-14",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportuar pa ngarkim",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Grand reportage - Héros ou criminels, les leaders de l’UCK face aux juges - rfi.fr",
+              "albanianTitle": "Reportazh: Heronj apo kriminelë, liderët e UÇK-së përballë gjykatës",
+              "blurb": "Ish-udhëheqësit e UÇK-së po përballen me procese gjyqësore për të përcaktuar përgjegjësitë e tyre ligjore.",
+              "imageUrl": "https://s.rfi.fr/media/display/94f58fac-05eb-11f1-8dc5-005056bf30b7/w:1280/p:16x9/AP26040375340471.jpg",
+              "url": "https://www.rfi.fr/fr/podcasts/grand-reportage/20260914-h%C3%A9ros-ou-criminels-les-leaders-de-l-uck-face-aux-juges",
+              "date": "2026-09-14",
+              "sentiment": "neutral",
+              "reason": "Titulli është pyetësor, pa ngarkesë të qartë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 2,
+          "totalArticles": 3,
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-07",
           "lastSeen": "2026-09-14"
@@ -564,22 +620,14 @@
         }
       ],
       "summary": {
-        "index": 60,
-        "positive": 20,
-        "neutral": 80,
+        "index": 57,
+        "positive": 14,
+        "neutral": 86,
         "negative": 0,
-        "n": 5,
+        "n": 7,
         "excluded": 1,
         "confident": true,
-        "stanceVersion": 3,
-        "movement": {
-          "delta": 10,
-          "from": 50,
-          "outlet": "ENTREVUE.FR",
-          "title": "Kosova del nga ngërçi me qeverinë e re të Kurtit",
-          "evidence": "esce dalla paralisi",
-          "url": "https://entrevue.fr/it/monde/le-kosovo-sort-de-la-paralysie-avec-un-nouveau-gouvernement-kurti/"
-        }
+        "stanceVersion": 3
       }
     },
     "Itali": {
@@ -635,19 +683,19 @@
           "lastSeen": "2026-09-14"
         },
         {
-          "name": "Corriere dello Sport",
+          "name": "Il Goriziano",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
-              "title": "San Marino-Kosovo U21, dove acquistare i biglietti per il 24 settembre - Corriere dello Sport",
-              "albanianTitle": "San Marino-Kosovë U21, ku mund të blini biletat për ndeshjen e 24 shtatorit - Corriere dello Sport",
-              "blurb": "Tifozët mund të blejnë biletat për ndeshjen ndërmjet përfaqësueseve U21 të San Marinos dhe Kosovës që zhvillohet më 24 shtator.",
-              "imageUrl": "https://cdn.corrieredellosport.it/images/2026/09/11/080104061-fefcee65-1a0e-4c38-823a-4838121c74d2.jpg",
-              "url": "https://www.corrieredellosport.it/news/biglietti/2026/09/11-151169652/san_marino-kosovo_u21_dove_acquistare_i_biglietti_per_il_24_settembre",
-              "date": "2026-09-11",
+              "title": "Trieste Airport, parte dal 19 dicembre il collegamento aereo di Wizz Air con Priština - Il Goriziano",
+              "albanianTitle": "Wizz Air nis fluturimet nga Aeroporti i Triestes për në Prishtinë më 19 dhjetor",
+              "blurb": "Kompania ajrore Wizz Air do të nisë fluturimet direkte ndërmjet Triestes dhe Prishtinës më 19 dhjetor.",
+              "imageUrl": "https://www.ilgoriziano.it/public/uploads/federico/2026/settembre-2026/A321_Wizzair_presso_il_piazzale_di_Trieste_Airport_6aa90a417b4f9.jpg",
+              "url": "https://www.ilgoriziano.it/articolo/trieste-airport-parte-19-dicembre-collegamento-aereo-wizz-air-pristina-15-settembre-2026",
+              "date": "2026-09-15",
               "sentiment": "neutral",
-              "reason": "Informacion sportiv i thjeshtë për ndeshjen San Marino‑Kosovo U21",
+              "reason": "Faktikë lidhje ajrore, pa ngjyrë",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -655,56 +703,8 @@
           ],
           "totalArticles": 1,
           "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-11",
-          "lastSeen": "2026-09-11"
-        },
-        {
-          "name": "Gol del Napoli",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Rrahmani lascia la nazionale del Kosovo - Gol del Napoli",
-              "albanianTitle": null,
-              "blurb": "Futbollisti Amir Rrahmani ka vendosur të largohet nga ekipi kombëtar i futbollit të Kosovës për arsye të panjohura.",
-              "imageUrl": "https://www.goldelnapoli.it/2023/wp-content/uploads/2026/08/photo-output-265-scaled.jpeg",
-              "url": "https://www.goldelnapoli.it/rrahmani-lascia-la-nazionale-del-kosovo/",
-              "date": "2026-09-11",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-14",
-          "lastSeen": "2026-09-11"
-        },
-        {
-          "name": "Il Mattino",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Rrahmani, stop polemico alla nazionale: «Niente Kosovo finché resterà questa Federazione» - Il Mattino",
-              "albanianTitle": "Rrahmani, largim polemik nga kombëtarja: S’ka më Kosovë përderisa është kjo Federatë",
-              "blurb": "Amir Rrahmani ka ndërprerë angazhimin me kombëtaren e Kosovës për shkak të pakënaqësive ndaj udhëheqjes së federatës.",
-              "imageUrl": "https://statics.cedscdn.it/photos/MED_HIGH/2026/09/11/9757879_11214824_rrahmani.jpg",
-              "url": "https://www.ilmattino.it/sport/calcio/rrahmani_stop_polemico_nazionale_niente_kosovo_finche_restera_federazione-9757879.html",
-              "date": "2026-09-11",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-11",
-          "lastSeen": "2026-09-11"
+          "firstSeen": "2026-09-15",
+          "lastSeen": "2026-09-15"
         },
         {
           "name": "Internazionale",
@@ -731,28 +731,28 @@
           "lastSeen": "2026-09-13"
         },
         {
-          "name": "Messaggero Veneto",
+          "name": "L'Agenzia di Viaggi Magazine",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
-              "title": "Codroipo riabbraccia i Lancieri rientrati dal Kosovo: «Portatori di pace e comunità» - Messaggero Veneto",
-              "albanianTitle": "Codroipo mirëpret Lancieri-t që u kthyen nga Kosova: «Sjellës të paqes dhe komunitet» - Messaggero Veneto",
-              "blurb": "Ushtarët e regjimentit Lancieri janë kthyer në Codroipo pas përfundimit të misionit të tyre paqeruajtës në territorin e Kosovës.",
-              "imageUrl": "https://images.messaggeroveneto.it/view/acePublic/alias/contentid/1tp7mr6kc3ylpuloh17/0/sfsfsfsfsfssfsfsf.webp?f=16%3A9&w=840",
-              "url": "https://www.messaggeroveneto.it/cronaca/codroipo-lancieri-novara-missione-nato-kosovo-militari-ui1onb2c",
-              "date": "2026-09-11",
+              "title": "Kosovo, Wizz Air lancia il volo Trieste-Priština - L'Agenzia di Viaggi Magazine",
+              "albanianTitle": "Kosova, Wizz Air nis fluturimin Trieste-Prishtinë - L'Agenzia di Viaggi Magazine",
+              "blurb": "Kompania ajrore Wizz Air ka njoftuar hapjen e një linje të re fluturimi që lidh qytetin e Triestes me Prishtinën.",
+              "imageUrl": null,
+              "url": "https://www.lagenziadiviaggimag.it/kosovo-wizz-air-lancia-il-volo-trieste-pristina/",
+              "date": "2026-09-15",
               "sentiment": "neutral",
-              "reason": "Raportim faktik mbi kthimin e ushtarëve nga Kosova",
-              "isQuote": true,
+              "reason": "Lajm faktik për fluturim të ri, pa ngjyrë",
+              "isQuote": false,
               "evidence": "",
               "speaker": ""
             }
           ],
           "totalArticles": 1,
           "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-11",
-          "lastSeen": "2026-09-11"
+          "firstSeen": "2026-09-15",
+          "lastSeen": "2026-09-15"
         },
         {
           "name": "NapoliCalcioNews.it",
@@ -864,6 +864,54 @@
           "lastSeen": "2026-09-13"
         },
         {
+          "name": "Trieste Cafe",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Trieste Airport si apre al Kosovo: nuovo collegamento con Priština dal 19 dicembre - Trieste Cafe",
+              "albanianTitle": "Aeroporti i Triestes hapet për Kosovën: linjë e re ajrore me Prishtinën nga 19 dhjetori",
+              "blurb": "Aeroporti i Triestes do të inaugurojë linjën e re ajrore me Prishtinën duke filluar nga 19 dhjetori.",
+              "imageUrl": "https://triestecafe.it/uploads/media/aaaf0e1addf7488844d9fbd8.jpg",
+              "url": "https://www.triestecafe.it/cronaca/trieste-airport-si-apre-al-kosovo-nuovo-collegamento-con-pristina-dal-19-dicembre-2026-09-15",
+              "date": "2026-09-15",
+              "sentiment": "neutral",
+              "reason": "Faktikë lidhje ajrore, pa ngjyrë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-15",
+          "lastSeen": "2026-09-15"
+        },
+        {
+          "name": "UdineToday",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Il Kosovo è più vicino: annunciato il volo su Pristina, ecco quando si parte e quanto costa - UdineToday",
+              "albanianTitle": "Kosova më afër: Njoftohet fluturimi për në Prishtinë, ja kur nisen dhe sa kushton - UdineToday",
+              "blurb": "Është njoftuar vendosja e linjës së re ajrore për në Prishtinë, duke përfshirë detajet mbi datat dhe çmimet e biletave.",
+              "imageUrl": "https://www.triesteprima.it/~media/horizontal-hi/64124840575957/a321-wizzair-presso-il-piazzale-di-trieste-airport.jpg",
+              "url": "https://www.udinetoday.it/cronaca/trieste-pristina-volo.html",
+              "date": "2026-09-15",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportuar pa ngarkim",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-15",
+          "lastSeen": "2026-09-15"
+        },
+        {
           "name": "balcanicaucaso.org",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -886,6 +934,30 @@
           "trend": "kritik",
           "firstSeen": "2026-09-06",
           "lastSeen": "2026-09-14"
+        },
+        {
+          "name": "il Nord Est",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo, nasce il governo Kurti IV: fiducia risicata e crisi politica ancora aperta - il Nord Est",
+              "albanianTitle": "Kosova, formohet qeveria Kurti IV: votëbesim i ngushtë dhe krizë politike ende e hapur - il Nord Est",
+              "blurb": "Qeveria Kurti katër është formuar me një mbështetje të ngushtë parlamentare, ndërsa vendi vazhdon të përballet me krizë politike.",
+              "imageUrl": "https://images.ilnordest.it/view/acePublic/alias/contentid/1tsh1dylsb3uh5okfvr/0/copia-di-north-macedonia-kosovo-diplomacy-transit.webp?f=16%3A9&w=840",
+              "url": "https://www.ilnordest.it/oltre-confine/kosovo-governo-kurti-4-fiducia-crisi-politica-o4iqbw38",
+              "date": "2026-09-15",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim rreth situatës politike, pa gjuhë ngacmuese",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 2,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-22",
+          "lastSeen": "2026-09-15"
         },
         {
           "name": "suedtirolnews.it",
@@ -917,14 +989,88 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 12,
-        "excluded": 3,
+        "n": 14,
+        "excluded": 2,
         "confident": true,
         "stanceVersion": 3
       }
     },
     "Austri": {
       "outlets": [
+        {
+          "name": "DiePresse.com",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kriegsverbrecherprozess: Hochspannung im Kosovo vor Urteil gegen Hashim Thaçi - DiePresse.com",
+              "albanianTitle": "Procesi për krime lufte: Tension i lartë në Kosovë para shpalljes së aktgjykimit ndaj Hashim Thaçit",
+              "blurb": "Kosova ndodhet në pritje të vendimit gjyqësor lidhur me procesin e ngritur ndaj ish-presidentit Hashim Thaçi në Hagë.",
+              "imageUrl": "https://img.diepresse.com/public/incoming/5vpsnt-afpc84e8f3jpg/alternates/WEBP_WIDE_1200/AFP_C84E8F3.jpg",
+              "url": "https://www.diepresse.com/41259060/kriegsverbrecherprozess-hochspannung-im-kosovo-vor-urteil-gegen-hashim",
+              "date": "2026-09-15",
+              "sentiment": "neutral",
+              "reason": "Factually reports tension and trial without evaluative language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-15",
+          "lastSeen": "2026-09-15"
+        },
+        {
+          "name": "Heute",
+          "sentiment": "neutral",
+          "articleCount": 3,
+          "articles": [
+            {
+              "title": "\"Mangel an Kompetenz\": Ärger bei ÖFB-Gegner Kosovo - heute.at",
+              "albanianTitle": "“Mungesë kompetence”: Pakënaqësi te kundërshtari i radhës i Austrisë, Kosova",
+              "blurb": "Federata e Futbollit të Kosovës po përballet me kritika të ashpra për mungesë kompetence në menaxhimin e përfaqësueses së futbollit.",
+              "imageUrl": "https://heute-at-prod-images.imgix.net/2025/09/05/dce769fb-22e5-4af9-b9e9-7e1aa6bb10d9.jpg?rect=0%2C209%2C4000%2C2250&w=1200&h=630&fit=crop&fm=jpg",
+              "url": "https://www.heute.at/s/mangel-an-kompetenz-aerger-bei-oefb-gegner-kosovo-120252143",
+              "date": "2026-09-15",
+              "sentiment": "neutral",
+              "reason": "Quote 'Mangel an Kompetenz' is attributed, not outlet's own voice",
+              "isQuote": true,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "\"Mangel an Kompetenz\": Ärger bei ÖFB-Gegner Kosovo - Heute",
+              "albanianTitle": "“Mungesë kompetence”: Pakënaqësi te Kosova, kundërshtari i radhës i Austrisë",
+              "blurb": "Përfaqësuesja e futbollit të Kosovës po përballet me kritika të brendshme për shkak të mungesës së kompetencës.",
+              "imageUrl": "https://heute-at-prod-images.imgix.net/2025/09/05/dce769fb-22e5-4af9-b9e9-7e1aa6bb10d9.jpg?rect=0%2C209%2C4000%2C2250&w=1200&h=630&fit=crop&fm=jpg",
+              "url": "https://www.heute.at/s/mangel-an-kompetenz-aerger-bei-oefb-gegner-kosovo-120252143",
+              "date": "2026-09-15",
+              "sentiment": "neutral",
+              "reason": "Raporton deklaratën kritike, por është citim",
+              "isQuote": true,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Kosovo-Teamchef Franco Foda. - Heute",
+              "albanianTitle": "Përzgjedhësi i Kosovës, Franco Foda",
+              "blurb": "Franco Foda vazhdon të mbajë pozitën e selektorit të përfaqësueses së futbollit të Kosovës.",
+              "imageUrl": "https://heute-at-prod-images.imgix.net/2025/09/05/dce769fb-22e5-4af9-b9e9-7e1aa6bb10d9.jpg?rect=0%2C209%2C4000%2C2250&auto=format",
+              "url": "https://www.heute.at/i/mangel-an-kompetenz-aerger-bei-oefb-gegner-kosovo-120252143/doc-1k2hoiug94",
+              "date": "2026-09-15",
+              "sentiment": "neutral",
+              "reason": "Thjesht informim për trajnerin, pa ngjyrë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 3,
+          "trend": "neutral",
+          "firstSeen": "2026-08-25",
+          "lastSeen": "2026-09-15"
+        },
         {
           "name": "Kleine Zeitung",
           "sentiment": "neutral",
@@ -1101,7 +1247,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 8,
+        "n": 12,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
@@ -1111,89 +1257,89 @@
       "outlets": [
         {
           "name": "Albinfo",
-          "sentiment": "unknown",
+          "sentiment": "positive",
           "articleCount": 6,
           "articles": [
             {
-              "title": "Der Windpark in Zatriq ist fertiggestellt, Kosovo gewinnt 70 MW zusätzliche saubere Energie - Albinfo",
-              "albanianTitle": "Përfundon ndërtimi i parkut të erës në Zatriq, Kosova shton 70 MW energji të pastër",
-              "blurb": "Parku i erës në Zatriq ka përfunduar ndërtimin dhe do të shtojë 70 megavat energji të pastër.",
-              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/img_2978.jpeg",
-              "url": "https://www.albinfo.ch/de/perfundon-parku-i-eres-ne-zatriq-kosoves-i-shtohen-70-mw-energji-te-paster/",
-              "date": "2026-09-11",
-              "sentiment": "unknown",
-              "reason": "",
+              "title": "\"Von Scham und Geld\": Der in Sundance erfolgreiche kosovarische Film feiert Premiere in München - Albinfo",
+              "albanianTitle": "“Nga turpi dhe paratë”: Filmi kosovar që korri sukses në Sundance shfaqet premierë në Mynih",
+              "blurb": "Filmi kosovar i suksesshëm në festivalin Sundance shfaqet për herë të parë para publikut në qytetin e Mynihut.",
+              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/img_3027.jpeg",
+              "url": "https://www.albinfo.ch/de/von-scham-und-geld-filmi-kosovar-qe-triumfoi-ne-sundance-shfaqet-ne-premiere-ne-mynih/",
+              "date": "2026-09-12",
+              "sentiment": "positive",
+              "reason": "Titulli thekson suksesin kulturor të Kosovës",
+              "isQuote": false,
+              "evidence": "erfolgreiche kosovarische Film",
+              "speaker": ""
+            },
+            {
+              "title": "La nouvelle ambassadrice de Suisse au Kosovo: l'amitié entre les deux pays repose sur la confiance et la coopération - Albinfo",
+              "albanianTitle": "Ambasadorja e re e Zvicrës në Kosovë: Miqësia mes dy vendeve bazohet në besim dhe bashkëpunim",
+              "blurb": "Ambasadorja e re e Zvicrës në Kosovë vlerëson marrëdhëniet mes dy vendeve si bashkëpunim të bazuar në besim të ndërsjellë.",
+              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/img_3021.jpeg",
+              "url": "https://www.albinfo.ch/fr/ambasadorja-e-re-e-zvicres-ne-kosove-miqesia-mes-dy-vendeve-bazohet-ne-besim-dhe-bashkepunim/",
+              "date": "2026-09-12",
+              "sentiment": "positive",
+              "reason": "Gjuha e outlet-it është pozitive ndaj Kosovës",
+              "isQuote": false,
+              "evidence": "l'amitié entre les deux pays repose sur la confiance et la coopération",
+              "speaker": ""
+            },
+            {
+              "title": "Neue Schweizer Botschafterin im Kosovo: Die Freundschaft zwischen beiden Ländern basiert auf Vertrauen und Zusammenarbeit - Albinfo",
+              "albanianTitle": "Ambasadorja e re zvicerane në Kosovë: Miqësia mes dy vendeve bazohet në besim dhe bashkëpunim",
+              "blurb": "Ambasadorja e re e Zvicrës në Kosovë vlerëson marrëdhëniet dypalëshe të bazuara në besim dhe bashkëpunim të ndërsjellë.",
+              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/img_3021.jpeg",
+              "url": "https://www.albinfo.ch/de/ambasadorja-e-re-e-zvicres-ne-kosove-miqesia-mes-dy-vendeve-bazohet-ne-besim-dhe-bashkepunim/",
+              "date": "2026-09-12",
+              "sentiment": "positive",
+              "reason": "Warm language praising the bilateral relationship with Kosovo",
+              "isQuote": false,
+              "evidence": "Die Freundschaft zwischen beiden Ländern basiert auf Vertrauen und Zusammenarbeit",
+              "speaker": ""
+            },
+            {
+              "title": "Shaip Morina, ein Albaner aus dem Kosovo im Zentrum des politischen und kulturellen Lebens von Malmö - Albinfo",
+              "albanianTitle": "Shaip Morina, shqiptari nga Kosova në qendër të jetës politike dhe kulturore në Malmö",
+              "blurb": "Shaip Morina, shqiptar nga Kosova, është bërë figurë qendrore në jetën politike dhe kulturore të qytetit të Malmës.",
+              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/shaip-morina-ok.jpg",
+              "url": "https://www.albinfo.ch/de/shaip-morina-nje-shqiptar-nga-kosova-ne-qender-te-jetes-politike-dhe-kulturore-te-malmo-s/",
+              "date": "2026-09-12",
+              "sentiment": "neutral",
+              "reason": "Faktikë, pa ngarkim",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
             },
             {
-              "title": "Le capitaine Rrahmani se retire de la sélection du Kosovo - Albinfo",
-              "albanianTitle": "Kapiteni Rrahmani tërhiqet nga Kombëtarja e Kosovës",
-              "blurb": "Kapiteni i përfaqësueses së Kosovës në futboll, Amir Rrahmani, ka njoftuar zyrtarisht tërheqjen e tij nga ekipi kombëtar.",
-              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2023/05/559474580_highres.jpg",
-              "url": "https://www.albinfo.ch/fr/kapiteni-rrahmani-terhiqet-nga-perfaqesuesja-e-kosoves/",
-              "date": "2026-09-11",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
+              "title": "\"Liria Ka Emër\": Rund 100.000 Menschen nahmen an der heutigen Protestkundgebung teil - Albinfo",
+              "albanianTitle": "\"Liria Ka Emër\": Rreth 100 mijë qytetarë morën pjesë në protestën e sotme",
+              "blurb": "Rreth 100 mijë qytetarë morën pjesë në protestën e organizuar nën moton Liria Ka Emër për mbështetje.",
+              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/protesta-uck-haga.jpeg",
+              "url": "https://www.albinfo.ch/de/liria-ka-emer-rreth-100-000-veta-moren-pjese-ne-protesten-e-sotme/",
+              "date": "2026-09-12",
+              "sentiment": "neutral",
+              "reason": "Quoted protest name, outlet reports factually",
+              "isQuote": true,
               "evidence": "",
               "speaker": ""
             },
             {
-              "title": "Le parc éolien de Zatriq est achevé, le Kosovo gagne 70 MW supplémentaires d'énergie propre - Albinfo",
-              "albanianTitle": "Përfundon ndërtimi i parkut të erës në Zatriq, Kosova shton 70 MW energji të pastër",
-              "blurb": "Parku i erës në Zatriq ka përfunduar ndërtimin, duke shtuar 70 megavat energji të pastër në rrjetin elektrik të Kosovës.",
-              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/img_2978.jpeg",
-              "url": "https://www.albinfo.ch/fr/perfundon-parku-i-eres-ne-zatriq-kosoves-i-shtohen-70-mw-energji-te-paster/",
-              "date": "2026-09-11",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Ganimet Shala ist Teil der europäischen Delegation, die die Wahlen in Schweden beobachtet - Albinfo",
-              "albanianTitle": "Ganimet Shala pjesë e delegacionit evropian që vëzhgon zgjedhjet në Suedi",
-              "blurb": "Ganimet Shala është bërë pjesë e delegacionit evropian që do të vëzhgojë procesin zgjedhor që zhvillohet në shtetin e Suedisë.",
-              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/img_2976.jpeg",
-              "url": "https://www.albinfo.ch/de/ganimet-shala-pjese-e-delegacionit-evropian-qe-monitoron-zgjedhjet-ne-suedi/",
-              "date": "2026-09-11",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Kapitän Rrahmani tritt aus der kosovarischen Nationalmannschaft zurück - Albinfo",
-              "albanianTitle": "Kapiteni Rrahmani largohet nga Kombëtarja e Kosovës",
-              "blurb": "Kapiteni i kombëtares së Kosovës, Amir Rrahmani, ka dhënë dorëheqje nga angazhimi i tij në ekipin përfaqësues të futbollit.",
-              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2023/05/559474580_highres.jpg",
-              "url": "https://www.albinfo.ch/de/kapiteni-rrahmani-terhiqet-nga-perfaqesuesja-e-kosoves/",
-              "date": "2026-09-11",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Ganimet Shala fait partie de la délégation européenne qui observe les élections en Suède - Albinfo",
-              "albanianTitle": "Ganimet Shala pjesë e delegacionit evropian që vëzhgon zgjedhjet në Suedi – Albinfo",
-              "blurb": "Ganimet Shala është pjesë e delegacionit evropian që po vëzhgon procesin zgjedhor në shtetin e Suedisë.",
-              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/img_2976.jpeg",
-              "url": "https://www.albinfo.ch/fr/ganimet-shala-pjese-e-delegacionit-evropian-qe-monitoron-zgjedhjet-ne-suedi/",
-              "date": "2026-09-11",
-              "sentiment": "unknown",
-              "reason": "",
+              "title": "Shaip Morina, un Albanais du Kosovo au cœur de la vie politique et culturelle de Malmö - Albinfo",
+              "albanianTitle": "Shaip Morina, shqiptari nga Kosova në qendër të jetës politike dhe kulturore në Malmö",
+              "blurb": "Shaip Morina, shqiptar nga Kosova, gëzon një rol të rëndësishëm në zhvillimet politike dhe kulturore në Malmö.",
+              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/shaip-morina-ok.jpg",
+              "url": "https://www.albinfo.ch/fr/shaip-morina-nje-shqiptar-nga-kosova-ne-qender-te-jetes-politike-dhe-kulturore-te-malmo-s/",
+              "date": "2026-09-12",
+              "sentiment": "neutral",
+              "reason": "Faktikë, pa ngarkim",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
             }
           ],
-          "totalArticles": 40,
+          "totalArticles": 43,
           "trend": "pozitiv",
           "firstSeen": "2026-09-07",
           "lastSeen": "2026-09-14"
@@ -1445,11 +1591,11 @@
       ],
       "summary": {
         "index": 57,
-        "positive": 14,
-        "neutral": 86,
+        "positive": 13,
+        "neutral": 87,
         "negative": 0,
-        "n": 28,
-        "excluded": 8,
+        "n": 30,
+        "excluded": 2,
         "confident": true,
         "stanceVersion": 3
       }
@@ -2040,30 +2186,6 @@
           "lastSeen": "2026-09-13"
         },
         {
-          "name": "Dagens Arbete",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Dottern dog – då utvisades familjen - Dagens Arbete",
-              "albanianTitle": "I vdiq vajza – familja dëbohet nga vendi",
-              "blurb": "Autoritetet kanë dëbuar një familje nga vendi pas vdekjes së vajzës së tyre në rrethana të caktuara.",
-              "imageUrl": "https://da.se/app/uploads/2026/09/Kosovo_Foto_David_Lundmark_1.jpg",
-              "url": "https://da.se/2026/09/dottern-dog-da-utvisades-familjen/",
-              "date": "2026-09-11",
-              "sentiment": "unknown",
-              "reason": "Nuk ka përmendje për Kosovën në titull",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-12",
-          "lastSeen": "2026-09-11"
-        },
-        {
           "name": "Göteborgs-Posten",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -2186,30 +2308,6 @@
           "lastSeen": "2026-09-12"
         },
         {
-          "name": "da.se",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Dottern dog – då utvisades familjen - da.se",
-              "albanianTitle": "Vajza i vdiq – pastaj familja u dëbua - da.se",
-              "blurb": "Autoritetet suedeze kanë dëbuar një familje nga vendi pas vdekjes së vajzës së tyre në rrethana të caktuara.",
-              "imageUrl": "https://da.se/app/uploads/2026/09/Kosovo_Foto_David_Lundmark_1.jpg",
-              "url": "https://da.se/2026/09/dottern-dog-da-utvisades-familjen/",
-              "date": "2026-09-11",
-              "sentiment": "unknown",
-              "reason": "Nuk ka informacion për Kosovën në fragment",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-12",
-          "lastSeen": "2026-09-11"
-        },
-        {
           "name": "epochtimes.se",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -2256,6 +2354,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-14",
           "lastSeen": "2026-09-13"
+        },
+        {
+          "name": "svd.se",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Efter politiska kaoset: Kosovo har ny regering - svd.se",
+              "albanianTitle": "Pas kaosit politik: Kosova bëhet me qeveri të re",
+              "blurb": "Kosova ka formuar qeverinë e re pas periudhës së paqëndrueshmërisë dhe kaosit politik në vend.",
+              "imageUrl": "https://akamai.vgc.no/v2/images/995c90df-407f-3c46-892f-4b0943374b60?fit=crop&h=675&upscale=true&w=1200&s=0512894a064626708c40adb6516b5e6b53e74f14",
+              "url": "https://www.svd.se/a/M7GWEE/efter-politiska-kaoset-kosovo-har-ny-regering",
+              "date": "2026-09-13",
+              "sentiment": "neutral",
+              "reason": "Përdorimi i fjalës \"kaos\" është përshkrim faktik i situatës",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-15",
+          "lastSeen": "2026-09-13"
         }
       ],
       "summary": {
@@ -2263,8 +2385,8 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 9,
-        "excluded": 2,
+        "n": 10,
+        "excluded": 0,
         "confident": true,
         "stanceVersion": 3
       }
@@ -2432,56 +2554,19 @@
           "lastSeen": "2026-09-14"
         },
         {
-          "name": "CUMHA Cumhur Haber Ajansı",
-          "sentiment": "neutral",
-          "articleCount": 2,
-          "articles": [
-            {
-              "title": "Türkiye U24 Muaythai Milli Takımı Kosova’da 18 madalyayla dünya şampiyonu oldu - CUMHA Cumhur Haber Ajansı",
-              "albanianTitle": "Ekipi kombëtar i Turqisë U24 në Muaythai shpallet kampion bote në Kosovë me 18 medalje",
-              "blurb": "Ekipi kombëtar i Turqisë U24 në Muaythai është shpallur kampion bote në Kosovë me 18 medalje të fituara.",
-              "imageUrl": "https://cumha.com.tr/uploads/images/202609/image_instagram_6aa3bb422447d.jpg",
-              "url": "https://cumha.com.tr/turkiye-u24-muaythai-milli-takimi-kosovada-18-madalyayla-dunya-sampiyonu-oldu",
-              "date": "2026-09-11",
-              "sentiment": "neutral",
-              "reason": "Raportim faktik pa ngarkim",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Hamza Eren Göksu Kosova’da zirveye çıktı, üçüncü kez Muaythai Dünya Şampiyonu oldu - CUMHA Cumhur Haber Ajansı",
-              "albanianTitle": "Hamza Eren Göksu shpallet kampion bote në Muaythai për herë të tretë",
-              "blurb": "Sportisti Hamza Eren Goksu është shpallur kampion bote në Muaythai për herë të tretë gjatë garave në Kosovë.",
-              "imageUrl": "https://cumha.com.tr/uploads/images/202609/image_instagram_6aa3f88968edd.jpg",
-              "url": "https://cumha.com.tr/hamza-eren-goeksu-kosovada-zirveye-cikti-ucuncu-kez-muaythai-dunya-sampiyonu-oldu",
-              "date": "2026-09-11",
-              "sentiment": "neutral",
-              "reason": "Faktik raportim pa ngarkesë",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 2,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-11",
-          "lastSeen": "2026-09-11"
-        },
-        {
           "name": "Doğruhaber",
-          "sentiment": "unknown",
+          "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
               "title": "Kosova'da Kurti hükümeti güvenoyu aldı - Doğruhaber",
-              "albanianTitle": "Qeveria Kurti merr votëbesimin në Kosovë",
-              "blurb": "Kuvendi i Kosovës ka miratuar kabinetin qeveritar të kryesuar nga Albin Kurti pas votimit të zhvilluar në seancë.",
+              "albanianTitle": "Qeveria Kurti në Kosovë merr votëbesimin - Doğruhaber",
+              "blurb": "Qeveria e udhëhequr nga Albin Kurti ka marrë votëbesimin nga Kuvendi i Kosovës për vazhdimin e mandatit të saj qeverisës.",
               "imageUrl": null,
               "url": "https://dogruhaber.com.tr/kosovada-kurti-hukumeti-guvenoyu-aldi",
               "date": "2026-09-13",
-              "sentiment": "unknown",
-              "reason": "",
+              "sentiment": "neutral",
+              "reason": "Faktikisht raporton se qeveria mori votë besimi",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -2674,6 +2759,30 @@
           "lastSeen": "2026-09-13"
         },
         {
+          "name": "aa.com.tr",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosova'da Albin Kurti'nin liderliğindeki yeni hükümet güvenoyu aldı - aa.com.tr",
+              "albanianTitle": "Qeveria e re e Kosovës nën drejtimin e Albin Kurtit merr votëbesimin",
+              "blurb": "Qeveria e re e Kosovës, e udhëhequr nga kryeministri Albin Kurti, ka marrë votëbesimin e nevojshëm nga ana e Kuvendit.",
+              "imageUrl": null,
+              "url": "https://www.aa.com.tr/tr/dunya/kosovada-albin-kurtinin-liderligindeki-yeni-hukumet-guvenoyu-aldi/4056041",
+              "date": "2026-09-13",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-15",
+          "lastSeen": "2026-09-13"
+        },
+        {
           "name": "dogruhaber.com.tr",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -2759,30 +2868,6 @@
           "lastSeen": "2026-09-14"
         },
         {
-          "name": "trtavaz.com.tr",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Maarif Okulları, Kosova’da yapay zekâyı müfredata alan ilk okul oldu - Türkistan'dan - Haber - trtavaz.com.tr",
-              "albanianTitle": "Shkollat 'Maarif' bëhen të parat në Kosovë që përfshijnë inteligjencën artificiale në kurrikulë - trtavaz.com.tr",
-              "blurb": "Shkollat Maarif në Kosovë kanë futur inteligjencën artificiale në kurrikulën e tyre mësimore për herë të parë.",
-              "imageUrl": "https://www.trtavaz.com.tr/uploads/photos/2026/09/11/2ba3f22218b840f89b45f839f71b5aca.jpg?w=640",
-              "url": "https://www.trtavaz.com.tr/haber/tur/turkistandan/maarif-okullari-kosova-da-yapay-zek-yi-mufredata-alan-ilk-okul-oldu/6aa3bb729721236aedeb0e66",
-              "date": "2026-09-11",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-11",
-          "lastSeen": "2026-09-11"
-        },
-        {
           "name": "İlke TV",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -2812,7 +2897,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 18,
+        "n": 16,
         "excluded": 3,
         "confident": true,
         "stanceVersion": 3
