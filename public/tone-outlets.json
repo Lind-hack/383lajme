@@ -1,10 +1,10 @@
 {
   "lastUpdated": "2026-09-15",
   "overallIndex": 52,
-  "totalArticles": 128,
-  "sourceCount": 97,
+  "totalArticles": 148,
+  "sourceCount": 107,
   "stanceVersion": 3,
-  "unattributed": 226,
+  "unattributed": 260,
   "nonEditorial": 4,
   "wrongKosovo": 0,
   "countries": {
@@ -50,6 +50,54 @@
               "reason": "Outlet uses loaded term Kriegsverbrecher in headline, implying hostility toward Kosovo leadership",
               "isQuote": false,
               "evidence": "Kriegsverbrecher",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-15",
+          "lastSeen": "2026-09-15"
+        },
+        {
+          "name": "STERN.de",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Reisen: Weitere Airline fliegt von Hamburg in Hauptstadt Kosovos - STERN.de",
+              "albanianTitle": null,
+              "blurb": "",
+              "imageUrl": null,
+              "url": "https://www.stern.de/gesellschaft/regional/hamburg-schleswig-holstein/reisen--weitere-airline-fliegt-von-hamburg-in-hauptstadt-kosovos-38257618.html",
+              "date": "2026-09-15",
+              "sentiment": "neutral",
+              "reason": "Faktikë të raportuara pa gjuhë ngacmuese",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-15",
+          "lastSeen": "2026-09-15"
+        },
+        {
+          "name": "SZ.de",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Reisen - Weitere Airline fliegt von Hamburg in Hauptstadt Kosovos - Wirtschaft - SZ.de - SZ.de",
+              "albanianTitle": null,
+              "blurb": "",
+              "imageUrl": "https://www.sueddeutsche.de/2026/09/15/27f16694-d239-407a-b8c6-3b42a992c8c1.jpg?q=60&fm=webp&width=1200&rect=undefined%2Cundefined%2Cundefined%2Cundefined",
+              "url": "https://www.sueddeutsche.de/wirtschaft/reisen-weitere-airline-fliegt-von-hamburg-in-hauptstadt-kosovos-dpa.urn-newsml-dpa-com-20090101-260915-930-689861",
+              "date": "2026-09-15",
+              "sentiment": "neutral",
+              "reason": "Straightforward news item, no evaluative language",
+              "isQuote": false,
+              "evidence": "",
               "speaker": ""
             }
           ],
@@ -132,16 +180,16 @@
         }
       ],
       "summary": {
-        "index": 40,
+        "index": 43,
         "positive": 0,
-        "neutral": 80,
-        "negative": 20,
-        "n": 5,
+        "neutral": 86,
+        "negative": 14,
+        "n": 7,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3,
         "movement": {
-          "delta": -10,
+          "delta": -7,
           "from": 50,
           "outlet": "FAZ",
           "title": "Gjykimi ndaj Hashim Thaçit: A bashkëpunoi NATO-ja me një kriminel lufte gjatë luftës në Kosovë?",
@@ -289,7 +337,7 @@
         {
           "name": "Balkan Insight",
           "sentiment": "neutral",
-          "articleCount": 4,
+          "articleCount": 6,
           "articles": [
             {
               "title": "In Kosovo’s Guerrilla Heartlands, Impending Trial Verdict Stirs Anger, Fierce Loyalty - Balkan Insight",
@@ -342,9 +390,35 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Kosovo’s New Govt Challenged in Court as Presidential Pick Withdraws - Balkan Insight",
+              "albanianTitle": null,
+              "blurb": "",
+              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/09/Albin-Kurti-cabinet-e1789468121965.jpg",
+              "url": "https://balkaninsight.com/2026/09/15/kosovos-new-govt-challenged-in-court-as-presidential-pick-withdraws/bi/",
+              "date": "2026-09-15",
+              "sentiment": "neutral",
+              "reason": "Titull faktik pa gjuhë të ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Kosovo’s New Govt Challenged in Court as Presidential Pick Withdraws - balkaninsight.com",
+              "albanianTitle": null,
+              "blurb": "",
+              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/09/Albin-Kurti-cabinet-e1789468121965.jpg",
+              "url": "https://balkaninsight.com/2026/09/15/kosovos-new-govt-challenged-in-court-as-presidential-pick-withdraws/bi/",
+              "date": "2026-09-15",
+              "sentiment": "neutral",
+              "reason": "Titull faktik pa gjuhë të ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 21,
+          "totalArticles": 22,
           "trend": "i përzier",
           "firstSeen": "2026-08-19",
           "lastSeen": "2026-09-15"
@@ -451,7 +525,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 8,
+        "n": 12,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
@@ -635,7 +709,7 @@
         {
           "name": "ANSA",
           "sentiment": "neutral",
-          "articleCount": 3,
+          "articleCount": 6,
           "articles": [
             {
               "title": "Manifestazione per l'ex leader dell'Esercito Liberazione del Kosovo Hashim Thaci - ANSA",
@@ -675,12 +749,75 @@
               "isQuote": true,
               "evidence": "",
               "speaker": "Dal Mas (Ince)"
+            },
+            {
+              "title": "Dal Mas, integrare Balcani occidentali è unificare l'Europa - ansa.it",
+              "albanianTitle": null,
+              "blurb": "",
+              "imageUrl": "https://www.ansa.it/webimages/img_1280x720/2026/9/9/f225b90284cf6db647fdc63b79ac9f26.jpg",
+              "url": "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/09/15/dal-mas-integrare-balcani-occidentali-e-unificare-leuropa_d9e3d35d-286d-480f-9289-7f04b7ffdede.html",
+              "date": "2026-09-15",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim neutral",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "In Kosovo il governo Kurti ottiene di misura la fiducia - ansa.it",
+              "albanianTitle": null,
+              "blurb": "",
+              "imageUrl": "https://www.ansa.it/webimages/img_1280x720/2026/8/26/ee79bfe2b863910b1c3e472fa15ea911.jpg",
+              "url": "https://www.ansa.it/nuova_europa/it/notizie/rubriche/altrenews/2026/09/14/in-kosovo-il-governo-kurti-ottiene-di-misura-la-fiducia_23c1b7e2-45cd-4b0c-adac-42838d2e9f2e.html",
+              "date": "2026-09-14",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim neutral",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Tajani, Paesi Balcani occidentali in Europa quanto prima - ansa.it",
+              "albanianTitle": null,
+              "blurb": "",
+              "imageUrl": "https://www.ansa.it/webimages/img_1280x720/2026/7/28/91c3a2587129f1d21632ae66b638417c.jpg",
+              "url": "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/09/15/tajani-paesi-balcani-occidentali-in-europa-quanto-prima_36a4fdd7-c4ee-4d85-b65e-bc849d1863cd.html",
+              "date": "2026-09-15",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim neutral",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 24,
+          "totalArticles": 27,
           "trend": "neutral",
           "firstSeen": "2026-08-20",
-          "lastSeen": "2026-09-14"
+          "lastSeen": "2026-09-15"
+        },
+        {
+          "name": "Il Gazzettino",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Trieste Airport, nuovo collegamento Wizz Air per Priština nel Kosovo a partire da dicembre - Il Gazzettino",
+              "albanianTitle": null,
+              "blurb": "",
+              "imageUrl": "https://statics.cedscdn.it/photos/MED_HIGH/2026/09/15/9764678_15143132_a321_wizzair_presso_il_piazzale_di_trieste_airport_1_.jpg",
+              "url": "https://www.ilgazzettino.it/nordest/trieste/trieste_airport_nuovo_collegamento_wizz_air_pristina_kosovo_partire_da_dicembre-9764678.html",
+              "date": "2026-09-15",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim neutral",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-15",
+          "lastSeen": "2026-09-15"
         },
         {
           "name": "Il Goriziano",
@@ -888,6 +1025,30 @@
           "lastSeen": "2026-09-15"
         },
         {
+          "name": "TriestePrima",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Tajani: \"Militari italiani in Kosovo sono diplomatici, così come la finanza in Montenegro e Albania\" - TriestePrima",
+              "albanianTitle": null,
+              "blurb": "",
+              "imageUrl": "https://www.triesteprima.it/~media/horizontal-hi/40292258276695/img20260915115117.jpg",
+              "url": "https://www.triesteprima.it/cronaca/militari-balcani-diplomatici.html",
+              "date": "2026-09-15",
+              "sentiment": "neutral",
+              "reason": "Citat i Tajanit, jo zëri i mediumit",
+              "isQuote": true,
+              "evidence": "",
+              "speaker": "Tajani"
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-15",
+          "lastSeen": "2026-09-15"
+        },
+        {
           "name": "UdineToday",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -960,6 +1121,30 @@
           "lastSeen": "2026-09-15"
         },
         {
+          "name": "ilNapolista",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Rrahmani porta gli avvocati contro la federazione del Kosovo: \"Due anni di minacce e pressioni\" - ilNapolista",
+              "albanianTitle": null,
+              "blurb": "",
+              "imageUrl": "https://www.ilnapolista.it/wp-content/uploads/2026/02/image-photo927615.webp",
+              "url": "https://www.ilnapolista.it/2026/09/rrahmani-e-il-kosovo-azioni-legali-federazione/",
+              "date": "2026-09-14",
+              "sentiment": "neutral",
+              "reason": "Citat i avokatit, jo zëri i mediumit",
+              "isQuote": true,
+              "evidence": "",
+              "speaker": "Rrahmani"
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-15",
+          "lastSeen": "2026-09-14"
+        },
+        {
           "name": "suedtirolnews.it",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -982,6 +1167,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-14",
           "lastSeen": "2026-09-13"
+        },
+        {
+          "name": "tg24.sky.it",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo, verso verdetto su ex presidente Thaci - tg24.sky.it",
+              "albanianTitle": null,
+              "blurb": "",
+              "imageUrl": "https://tg24.sky.it/assets/images/7d1d199d89b8ebaaa5433d7b46682f9d00872010/skytg24/it/mondo/video/2026/09/15/1124861_1789482595015_thumb_494.0000001_1789483309558.jpg?im=Resize,width=1218",
+              "url": "https://tg24.sky.it/mondo/video/2026/09/15/kosovo-verso-verdetto-su-ex-presidente-thaci-1124861",
+              "date": "2026-09-15",
+              "sentiment": "neutral",
+              "reason": "Faktik, pa gjuhë ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-15",
+          "lastSeen": "2026-09-15"
         }
       ],
       "summary": {
@@ -989,7 +1198,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 14,
+        "n": 22,
         "excluded": 2,
         "confident": true,
         "stanceVersion": 3
@@ -1194,6 +1403,30 @@
           "lastSeen": "2026-09-13"
         },
         {
+          "name": "Salzburger Nachrichten",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Entscheidung im Kosovo-Kriegsverbrecherprozess: Die Uhr tickt für Hashim Thaçi - Salzburger Nachrichten",
+              "albanianTitle": null,
+              "blurb": "",
+              "imageUrl": "https://www.sn.at/storage/image/6/7/6/6/1166676_zehntausende-kosovo-albaner-forderten-bei-einer-demonstration-am-wochenende_metadaten_1GGiMZ_FlT8SY.jpg",
+              "url": "https://www.sn.at/politik/weltpolitik/entscheidung-im-kosovo-kriegsverbrecherprozess-die-uhr-tickt-fuer-hashim-thaci-art-673050",
+              "date": "2026-09-15",
+              "sentiment": "neutral",
+              "reason": "Fact‑based report without loaded language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-15",
+          "lastSeen": "2026-09-15"
+        },
+        {
           "name": "VOL.AT",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1247,7 +1480,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 12,
+        "n": 13,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
@@ -1471,7 +1704,7 @@
         {
           "name": "Watson",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Politique: le Kosovo a un nouveau gouvernement - Watson",
@@ -1482,6 +1715,19 @@
               "date": "2026-09-13",
               "sentiment": "neutral",
               "reason": "Faktikë raporti për qeveri të re",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Politique: le Kosovo a un nouveau gouvernement - watson.ch",
+              "albanianTitle": null,
+              "blurb": "",
+              "imageUrl": "https://www.watson.ch/fr/imgdb/0e48/Z1200,675,2426,1539,349,349/2252875449218424",
+              "url": "https://www.watson.ch/fr/international/politique/375763324-politique-le-kosovo-a-un-nouveau-gouvernement",
+              "date": "2026-09-13",
+              "sentiment": "neutral",
+              "reason": "Faktikë të raportuara pa gjuhë ngacmuese",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1590,11 +1836,11 @@
         }
       ],
       "summary": {
-        "index": 57,
+        "index": 56,
         "positive": 13,
         "neutral": 87,
         "negative": 0,
-        "n": 30,
+        "n": 31,
         "excluded": 2,
         "confident": true,
         "stanceVersion": 3
@@ -1663,13 +1909,38 @@
       }
     },
     "Belgjikë": {
-      "outlets": [],
+      "outlets": [
+        {
+          "name": "Le Soir",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Avant le verdict de La Haye, le Kosovo soutient ses anciens héros de la guerre - Le Soir",
+              "albanianTitle": null,
+              "blurb": "",
+              "imageUrl": null,
+              "url": "https://www.lesoir.be/771071/article/2026-09-15/avant-le-verdict-de-la-haye-le-kosovo-soutient-ses-anciens-heros-de-la-guerre",
+              "date": "2026-09-15",
+              "sentiment": "neutral",
+              "reason": "Faktikë të raportuara pa gjuhë ngacmuese",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-15",
+          "lastSeen": "2026-09-15"
+        }
+      ],
       "summary": {
-        "index": null,
+        "index": 50,
         "positive": 0,
-        "neutral": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 0,
+        "n": 1,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -2394,6 +2665,30 @@
     "Poloni": {
       "outlets": [
         {
+          "name": "Bankier.pl",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Parlament ponownie wybrał Kurtiego na stanowisko premiera - Bankier.pl",
+              "albanianTitle": null,
+              "blurb": "",
+              "imageUrl": "https://galeria.bankier.pl/p/3/b/4e4e45b17c31ca-948-568-412-547-2415-1448.jpg",
+              "url": "https://www.bankier.pl/wiadomosc/Parlament-ponownie-wybral-Kurtiego-na-stanowisko-premiera-9196294.html",
+              "date": "2026-09-13",
+              "sentiment": "neutral",
+              "reason": "Faktikë të raportuara pa gjuhë ngacmuese",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-15",
+          "lastSeen": "2026-09-13"
+        },
+        {
           "name": "Konflikty.pl",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -2471,7 +2766,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 3,
+        "n": 4,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -2600,6 +2895,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-14",
           "lastSeen": "2026-09-13"
+        },
+        {
+          "name": "GZT",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosova, aylarca süren siyasi çıkmazın ardından yeni hükümeti onayladı - GZT",
+              "albanianTitle": null,
+              "blurb": "",
+              "imageUrl": null,
+              "url": "https://www.gzt.com/dunya/kosova-aylarca-suren-siyasi-cikmazin-ardindan-yeni-hukumeti-onayladi-4261075",
+              "date": "2026-09-15",
+              "sentiment": "neutral",
+              "reason": "Faktik raportim i ngjarjes pa gjuhë ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 2,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-19",
+          "lastSeen": "2026-09-15"
         },
         {
           "name": "Haberler",
@@ -2870,7 +3189,7 @@
         {
           "name": "İlke TV",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Savaş suçları mahkemesi, eski Kosova Cumhurbaşkanı Thaçi’nin yargılandığı davada kararını açıklayacak - İlke TV",
@@ -2881,6 +3200,19 @@
               "date": "2026-09-14",
               "sentiment": "neutral",
               "reason": "Titulli jep informacion faktik mbi vendimin e gjykatës",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Eski Kosova Cumhurbaşkanı Thaçi’nin yargılandığı davada karar açıklanacak - İlke TV",
+              "albanianTitle": null,
+              "blurb": "",
+              "imageUrl": "https://ilketv.com.tr/wp-content/uploads/2026/09/thumbs_b_c_16e2341296f3ab5eecdbda497e8e62d5.webp",
+              "url": "https://ilketv.com.tr/savas-suclari-mahkemesi-eski-kosova-cumhurbaskani-thacinin-yargilandigi-davada-kararini-aciklayacak/",
+              "date": "2026-09-14",
+              "sentiment": "neutral",
+              "reason": "Faktik raportim i ngjarjes pa gjuhë ngarkuar",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -2897,7 +3229,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 16,
+        "n": 18,
         "excluded": 3,
         "confident": true,
         "stanceVersion": 3

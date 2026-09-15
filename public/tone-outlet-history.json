@@ -55,9 +55,9 @@
     },
     "Balkan Insight": {
       "country": "Britani",
-      "total": 21,
+      "total": 22,
       "positive": 1,
-      "neutral": 19,
+      "neutral": 20,
       "negative": 1,
       "unknown": 0,
       "firstSeen": "2026-08-19",
@@ -83,7 +83,8 @@
         "https://balkaninsight.com/2026/09/14/in-kosovos-guerrilla-heartlands-impending-trial-verdict-stirs-anger-fierce-loyalty/btj/",
         "https://balkaninsight.com/hashim-thaci-trial-stories-home/",
         "https://balkaninsight.com/2026/09/15/truth-and-consequences-kosovo-special-court-to-deliver-high-stakes-verdict/btj/",
-        "https://balkaninsight.com/2026/09/14/birn-launches-trial-stories-page-for-hashim-thaci-verdict/btj/"
+        "https://balkaninsight.com/2026/09/14/birn-launches-trial-stories-page-for-hashim-thaci-verdict/btj/",
+        "https://balkaninsight.com/2026/09/15/kosovos-new-govt-challenged-in-court-as-presidential-pick-withdraws/bi/"
       ]
     },
     "Ouest-France": {
@@ -215,13 +216,13 @@
     },
     "ANSA": {
       "country": "Itali",
-      "total": 24,
+      "total": 27,
       "positive": 0,
-      "neutral": 18,
+      "neutral": 21,
       "negative": 0,
       "unknown": 6,
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-09-14",
+      "lastSeen": "2026-09-15",
       "urls": [
         "https://www.ansa.it/nuova_europa/en/news/sections/news/2026/08/20/vucic-writes-to-rutte-nato-stop-terror-in-kosovo-do-not-reopen-the_9034279d-c06f-4e44-ab54-096dd4332014.html",
         "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/08/20/vucic-scrive-a-rutte-nato-fermi-terrore-in-kosovo-non-riaprire-ponte_68050249-06ef-4b0a-b56b-6ff64929514e.html",
@@ -246,7 +247,10 @@
         "https://www.ansa.it/nuova_europa/it/notizie/rubriche/politica/2026/09/10/corte-del-kosovo-allaja-chiede-6-anni-per-thaci-per-ostruzione_7963cf81-2f90-4c9c-abbe-f2ef01ea0f76.html",
         "https://www.ansa.it/sito/photogallery/primopiano/2026/09/12/manifestazione-per-lex-leader-dellesercito-liberazione-del-kosovo-hashim-thaci_fa03c435-930f-4574-a6b8-2a3915e0d445.html",
         "https://www.ansa.it/amp/nuova_europa/it/notizie/nazioni/kosovo/2026/09/14/in-kosovo-il-governo-kurti-ottiene-di-misura-la-fiducia_d179cca0-f47b-4e2d-a019-eed47ac8d2ee.html",
-        "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/09/14/dal-mas-ince-senza-lucraina-e-i-balcani-in-ue-perdiamo-tempo_05b1857a-3328-4316-b215-7104823ac6a7.html"
+        "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/09/14/dal-mas-ince-senza-lucraina-e-i-balcani-in-ue-perdiamo-tempo_05b1857a-3328-4316-b215-7104823ac6a7.html",
+        "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/09/15/dal-mas-integrare-balcani-occidentali-e-unificare-leuropa_d9e3d35d-286d-480f-9289-7f04b7ffdede.html",
+        "https://www.ansa.it/nuova_europa/it/notizie/rubriche/altrenews/2026/09/14/in-kosovo-il-governo-kurti-ottiene-di-misura-la-fiducia_23c1b7e2-45cd-4b0c-adac-42838d2e9f2e.html",
+        "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/09/15/tajani-paesi-balcani-occidentali-in-europa-quanto-prima_36a4fdd7-c4ee-4d85-b65e-bc849d1863cd.html"
       ]
     },
     "Virgilio": {
@@ -943,15 +947,16 @@
     },
     "GZT": {
       "country": "Turqi",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-19",
-      "lastSeen": "2026-08-19",
+      "lastSeen": "2026-09-15",
       "urls": [
-        "https://www.gzt.com/dunya/savasin-izleri-yeniden-ortaya-cikti-kosovada-23-kisiye-ait-kemik-kalintilari-bulundu-4252901"
+        "https://www.gzt.com/dunya/savasin-izleri-yeniden-ortaya-cikti-kosovada-23-kisiye-ait-kemik-kalintilari-bulundu-4252901",
+        "https://www.gzt.com/dunya/kosova-aylarca-suren-siyasi-cikmazin-ardindan-yeni-hukumeti-onayladi-4261075"
       ]
     },
     "Odatv": {
@@ -4460,6 +4465,123 @@
       "lastSeen": "2026-09-13",
       "urls": [
         "https://www.aa.com.tr/tr/dunya/kosovada-albin-kurtinin-liderligindeki-yeni-hukumet-guvenoyu-aldi/4056041"
+      ]
+    },
+    "SZ.de": {
+      "country": "Gjermani",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-15",
+      "lastSeen": "2026-09-15",
+      "urls": [
+        "https://www.sueddeutsche.de/wirtschaft/reisen-weitere-airline-fliegt-von-hamburg-in-hauptstadt-kosovos-dpa.urn-newsml-dpa-com-20090101-260915-930-689861"
+      ]
+    },
+    "STERN.de": {
+      "country": "Gjermani",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-15",
+      "lastSeen": "2026-09-15",
+      "urls": [
+        "https://www.stern.de/gesellschaft/regional/hamburg-schleswig-holstein/reisen--weitere-airline-fliegt-von-hamburg-in-hauptstadt-kosovos-38257618.html"
+      ]
+    },
+    "tg24.sky.it": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-15",
+      "lastSeen": "2026-09-15",
+      "urls": [
+        "https://tg24.sky.it/mondo/video/2026/09/15/kosovo-verso-verdetto-su-ex-presidente-thaci-1124861"
+      ]
+    },
+    "Il Gazzettino": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-15",
+      "lastSeen": "2026-09-15",
+      "urls": [
+        "https://www.ilgazzettino.it/nordest/trieste/trieste_airport_nuovo_collegamento_wizz_air_pristina_kosovo_partire_da_dicembre-9764678.html"
+      ]
+    },
+    "ilNapolista": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-15",
+      "lastSeen": "2026-09-14",
+      "urls": [
+        "https://www.ilnapolista.it/2026/09/rrahmani-e-il-kosovo-azioni-legali-federazione/"
+      ]
+    },
+    "TriestePrima": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-15",
+      "lastSeen": "2026-09-15",
+      "urls": [
+        "https://www.triesteprima.it/cronaca/militari-balcani-diplomatici.html"
+      ]
+    },
+    "Salzburger Nachrichten": {
+      "country": "Austri",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-15",
+      "lastSeen": "2026-09-15",
+      "urls": [
+        "https://www.sn.at/politik/weltpolitik/entscheidung-im-kosovo-kriegsverbrecherprozess-die-uhr-tickt-fuer-hashim-thaci-art-673050"
+      ]
+    },
+    "Le Soir": {
+      "country": "Belgjikë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-15",
+      "lastSeen": "2026-09-15",
+      "urls": [
+        "https://www.lesoir.be/771071/article/2026-09-15/avant-le-verdict-de-la-haye-le-kosovo-soutient-ses-anciens-heros-de-la-guerre"
+      ]
+    },
+    "Bankier.pl": {
+      "country": "Poloni",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-15",
+      "lastSeen": "2026-09-13",
+      "urls": [
+        "https://www.bankier.pl/wiadomosc/Parlament-ponownie-wybral-Kurtiego-na-stanowisko-premiera-9196294.html"
       ]
     }
   }

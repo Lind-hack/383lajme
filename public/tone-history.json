@@ -7358,21 +7358,21 @@
   {
     "date": "2026-09-15",
     "overallIndex": 52,
-    "totalArticles": 128,
-    "sourceCount": 97,
+    "totalArticles": 148,
+    "sourceCount": 107,
     "stanceVersion": 3,
     "countries": {
       "Gjermani": {
-        "index": 40,
+        "index": 43,
         "positive": 0,
-        "neutral": 80,
-        "negative": 20,
-        "n": 5,
+        "neutral": 86,
+        "negative": 14,
+        "n": 7,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3,
         "movement": {
-          "delta": -10,
+          "delta": -7,
           "from": 50,
           "outlet": "FAZ",
           "title": "Gjykimi ndaj Hashim Thaçit: A bashkëpunoi NATO-ja me një kriminel lufte gjatë luftës në Kosovë?",
@@ -7395,7 +7395,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 8,
+        "n": 12,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
@@ -7415,7 +7415,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 14,
+        "n": 22,
         "excluded": 2,
         "confident": true,
         "stanceVersion": 3
@@ -7425,17 +7425,17 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 12,
+        "n": 13,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
       },
       "Zvicër": {
-        "index": 57,
+        "index": 56,
         "positive": 13,
         "neutral": 87,
         "negative": 0,
-        "n": 30,
+        "n": 31,
         "excluded": 2,
         "confident": true,
         "stanceVersion": 3
@@ -7451,11 +7451,11 @@
         "stanceVersion": 3
       },
       "Belgjikë": {
-        "index": null,
+        "index": 50,
         "positive": 0,
-        "neutral": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 0,
+        "n": 1,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -7495,7 +7495,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 3,
+        "n": 4,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -7505,7 +7505,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 16,
+        "n": 18,
         "excluded": 3,
         "confident": true,
         "stanceVersion": 3
@@ -7539,11 +7539,11 @@
         "sentiment": "positive"
       },
       {
-        "title": "\"Von Scham und Geld\": Der in Sundance erfolgreiche kosovarische Film feiert Premiere in München - Albinfo",
-        "source": "Albinfo",
-        "country": "Zvicër",
-        "flag": "🇨🇭",
-        "url": "https://www.albinfo.ch/de/von-scham-und-geld-filmi-kosovar-qe-triumfoi-ne-sundance-shfaqet-ne-premiere-ne-mynih/",
+        "title": "Kosso koos Kosovo boven Dubai en woont nu twee huizen verwijderd van de president: \"Een soort van Beverly Hills\" - Puna.nl",
+        "source": "puna.nl",
+        "country": "Holandë",
+        "flag": "🇳🇱",
+        "url": "https://www.puna.nl/news/kosso-koos-kosovo-boven-dubai-en-woont-nu-twee-huizen-verwijderd-van-de-president-een-soort-van-beverly-hills",
         "sentiment": "positive"
       },
       {
@@ -7552,14 +7552,6 @@
         "country": "Gjermani",
         "flag": "🇩🇪",
         "url": "https://www.faz.net/aktuell/politik/ausland/prozess-gegen-hashim-thaci-hat-die-nato-im-kosovo-krieg-mit-einem-kriegsverbrecher-kooperiert-accg-201222004.html",
-        "sentiment": "negative"
-      },
-      {
-        "title": "Kurti Hükümeti İş Yapmadı, Yapmayacak; Sadece Söz - Kosovahaber.com",
-        "source": "Kosovahaber.com",
-        "country": "Turqi",
-        "flag": "🇹🇷",
-        "url": "https://kosovahaber.com/haber/kurti-hukumeti-is-yapmadi-yapmayacak-sadece-soz-106134",
         "sentiment": "negative"
       }
     ]
