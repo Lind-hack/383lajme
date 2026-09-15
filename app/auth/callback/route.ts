@@ -1,5 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
+import { authPublicOrigin } from "@/lib/auth-public-origin";
 
 // A failed OAuth round-trip used to land on /?error=auth, and the homepage never
 // read that param — so a provider rejecting the login looked exactly like a
@@ -12,7 +13,9 @@ function fail(origin: string, reason: string) {
 }
 
 export async function GET(request: NextRequest) {
-  const { searchParams, origin } = new URL(request.url);
+  const requestUrl = new URL(request.url);
+  const { searchParams } = requestUrl;
+  const origin = authPublicOrigin(requestUrl);
 
   // Supabase forwards provider-side failures here as params instead of a code —
   // a Facebook account with no email attached is the common one.
