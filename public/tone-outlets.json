@@ -1,10 +1,10 @@
 {
   "lastUpdated": "2026-09-15",
   "overallIndex": 52,
-  "totalArticles": 148,
-  "sourceCount": 107,
+  "totalArticles": 158,
+  "sourceCount": 113,
   "stanceVersion": 3,
-  "unattributed": 260,
+  "unattributed": 274,
   "nonEditorial": 4,
   "wrongKosovo": 0,
   "countries": {
@@ -90,7 +90,7 @@
             {
               "title": "Reisen - Weitere Airline fliegt von Hamburg in Hauptstadt Kosovos - Wirtschaft - SZ.de - SZ.de",
               "albanianTitle": null,
-              "blurb": "",
+              "blurb": "Një kompani ajrore ka shtuar linjën e re të fluturimit që lidh qytetin e Hamburgut me kryeqytetin e Kosovës.",
               "imageUrl": "https://www.sueddeutsche.de/2026/09/15/27f16694-d239-407a-b8c6-3b42a992c8c1.jpg?q=60&fm=webp&width=1200&rect=undefined%2Cundefined%2Cundefined%2Cundefined",
               "url": "https://www.sueddeutsche.de/wirtschaft/reisen-weitere-airline-fliegt-von-hamburg-in-hauptstadt-kosovos-dpa.urn-newsml-dpa-com-20090101-260915-930-689861",
               "date": "2026-09-15",
@@ -394,7 +394,7 @@
             {
               "title": "Kosovo’s New Govt Challenged in Court as Presidential Pick Withdraws - Balkan Insight",
               "albanianTitle": null,
-              "blurb": "",
+              "blurb": "Qeveria e re e Kosovës është dërguar në gjykatë ndërsa kandidati për president është tërhequr nga gara e planifikuar.",
               "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/09/Albin-Kurti-cabinet-e1789468121965.jpg",
               "url": "https://balkaninsight.com/2026/09/15/kosovos-new-govt-challenged-in-court-as-presidential-pick-withdraws/bi/",
               "date": "2026-09-15",
@@ -407,7 +407,7 @@
             {
               "title": "Kosovo’s New Govt Challenged in Court as Presidential Pick Withdraws - balkaninsight.com",
               "albanianTitle": null,
-              "blurb": "",
+              "blurb": "Qeveria e re e Kosovës po përballet me sfida ligjore pas tërheqjes së kandidatit të propozuar për postin e presidentit.",
               "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/09/Albin-Kurti-cabinet-e1789468121965.jpg",
               "url": "https://balkaninsight.com/2026/09/15/kosovos-new-govt-challenged-in-court-as-presidential-pick-withdraws/bi/",
               "date": "2026-09-15",
@@ -418,7 +418,7 @@
               "speaker": ""
             }
           ],
-          "totalArticles": 22,
+          "totalArticles": 23,
           "trend": "i përzier",
           "firstSeen": "2026-08-19",
           "lastSeen": "2026-09-15"
@@ -525,7 +525,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 12,
+        "n": 13,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
@@ -753,7 +753,7 @@
             {
               "title": "Dal Mas, integrare Balcani occidentali è unificare l'Europa - ansa.it",
               "albanianTitle": null,
-              "blurb": "",
+              "blurb": "Integrimi i vendeve të Ballkanit Perëndimor në Bashkimin Evropian konsiderohet si një hap thelbësor për unifikimin e kontinentit evropian.",
               "imageUrl": "https://www.ansa.it/webimages/img_1280x720/2026/9/9/f225b90284cf6db647fdc63b79ac9f26.jpg",
               "url": "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/09/15/dal-mas-integrare-balcani-occidentali-e-unificare-leuropa_d9e3d35d-286d-480f-9289-7f04b7ffdede.html",
               "date": "2026-09-15",
@@ -766,7 +766,7 @@
             {
               "title": "In Kosovo il governo Kurti ottiene di misura la fiducia - ansa.it",
               "albanianTitle": null,
-              "blurb": "",
+              "blurb": "Qeveria e udhëhequr nga Albin Kurti ka siguruar votëbesimin në Kuvendin e Kosovës me një diferencë të ngushtë votash.",
               "imageUrl": "https://www.ansa.it/webimages/img_1280x720/2026/8/26/ee79bfe2b863910b1c3e472fa15ea911.jpg",
               "url": "https://www.ansa.it/nuova_europa/it/notizie/rubriche/altrenews/2026/09/14/in-kosovo-il-governo-kurti-ottiene-di-misura-la-fiducia_23c1b7e2-45cd-4b0c-adac-42838d2e9f2e.html",
               "date": "2026-09-14",
@@ -779,7 +779,7 @@
             {
               "title": "Tajani, Paesi Balcani occidentali in Europa quanto prima - ansa.it",
               "albanianTitle": null,
-              "blurb": "",
+              "blurb": "Shefi i diplomacisë italiane, Antonio Tajani, kërkon përshpejtimin e procesit të anëtarësimit të vendeve të Ballkanit Perëndimor në Bashkimin Evropian.",
               "imageUrl": "https://www.ansa.it/webimages/img_1280x720/2026/7/28/91c3a2587129f1d21632ae66b638417c.jpg",
               "url": "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/09/15/tajani-paesi-balcani-occidentali-in-europa-quanto-prima_36a4fdd7-c4ee-4d85-b65e-bc849d1863cd.html",
               "date": "2026-09-15",
@@ -803,7 +803,7 @@
             {
               "title": "Trieste Airport, nuovo collegamento Wizz Air per Priština nel Kosovo a partire da dicembre - Il Gazzettino",
               "albanianTitle": null,
-              "blurb": "",
+              "blurb": "Aeroporti i Triestes do të nisë një linjë të re ajrore me Prishtinën përmes kompanisë Wizz Air nga dhjetori.",
               "imageUrl": "https://statics.cedscdn.it/photos/MED_HIGH/2026/09/15/9764678_15143132_a321_wizzair_presso_il_piazzale_di_trieste_airport_1_.jpg",
               "url": "https://www.ilgazzettino.it/nordest/trieste/trieste_airport_nuovo_collegamento_wizz_air_pristina_kosovo_partire_da_dicembre-9764678.html",
               "date": "2026-09-15",
@@ -870,7 +870,7 @@
         {
           "name": "L'Agenzia di Viaggi Magazine",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Kosovo, Wizz Air lancia il volo Trieste-Priština - L'Agenzia di Viaggi Magazine",
@@ -884,9 +884,22 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Wizz Air volerà Trieste-Priština (Kosovo) - L'Agenzia di Viaggi Magazine",
+              "albanianTitle": "Wizz Air do të operojë linjën ajrore Trieste-Prishtinë",
+              "blurb": "",
+              "imageUrl": null,
+              "url": "https://www.lagenziadiviaggimag.it/wizz-air-volera-trieste-pristina-kosovo/",
+              "date": "2026-09-15",
+              "sentiment": "neutral",
+              "reason": "Faktikë, raportim neutral",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 1,
+          "totalArticles": 2,
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-15",
           "lastSeen": "2026-09-15"
@@ -977,6 +990,30 @@
           "lastSeen": "2026-09-14"
         },
         {
+          "name": "Sky TG24",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo, verso verdetto su ex presidente Thaci - Sky TG24",
+              "albanianTitle": "Kosova, drejt vendimit për ish-presidentin Thaçi",
+              "blurb": "Kosova ndodhet në pritje të vendimit gjyqësor që do të shpallet për ish-presidentin e vendit, Hashim Thaçi.",
+              "imageUrl": "https://tg24.sky.it/assets/images/7d1d199d89b8ebaaa5433d7b46682f9d00872010/skytg24/it/mondo/video/2026/09/15/1124861_1789482595015_thumb_494.0000001_1789483309558.jpg?im=Resize,width=1218",
+              "url": "https://tg24.sky.it/mondo/video/2026/09/15/kosovo-verso-verdetto-su-ex-presidente-thaci-1124861",
+              "date": "2026-09-15",
+              "sentiment": "neutral",
+              "reason": "Faktikë, raportim neutral",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-15",
+          "lastSeen": "2026-09-15"
+        },
+        {
           "name": "Südtirol News",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1032,7 +1069,7 @@
             {
               "title": "Tajani: \"Militari italiani in Kosovo sono diplomatici, così come la finanza in Montenegro e Albania\" - TriestePrima",
               "albanianTitle": null,
-              "blurb": "",
+              "blurb": "Ministri i Jashtëm italian, Antonio Tajani, vlerëson se ushtarakët italianë në Kosovë kryejnë funksione diplomatike në shërbim të stabilitetit.",
               "imageUrl": "https://www.triesteprima.it/~media/horizontal-hi/40292258276695/img20260915115117.jpg",
               "url": "https://www.triesteprima.it/cronaca/militari-balcani-diplomatici.html",
               "date": "2026-09-15",
@@ -1075,7 +1112,7 @@
         {
           "name": "balcanicaucaso.org",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Thaçi trial: Pristina rallies for acquittal - balcanicaucaso.org",
@@ -1089,9 +1126,22 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Processo Thaçi, la piazza di Pristina chiede l’assoluzione - balcanicaucaso.org",
+              "albanianTitle": "Procesi gjyqësor ndaj Thaçit, në Prishtinë kërkohet pafajësia",
+              "blurb": "",
+              "imageUrl": "https://www.balcanicaucaso.org/wp-content/uploads/sites/8/2026/09/shutterstock_2836664549-scaled.jpg",
+              "url": "https://www.balcanicaucaso.org/cp_article/processo-thaci-la-piazza-di-pristina-chiede-lassoluzione/",
+              "date": "2026-09-14",
+              "sentiment": "neutral",
+              "reason": "Faktikë, raportim neutral",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 4,
+          "totalArticles": 5,
           "trend": "kritik",
           "firstSeen": "2026-09-06",
           "lastSeen": "2026-09-14"
@@ -1128,7 +1178,7 @@
             {
               "title": "Rrahmani porta gli avvocati contro la federazione del Kosovo: \"Due anni di minacce e pressioni\" - ilNapolista",
               "albanianTitle": null,
-              "blurb": "",
+              "blurb": "Futbollisti Amir Rrahmani ka angazhuar avokatë kundër Federatës së Futbollit të Kosovës për shkak të presioneve dhe kërcënimeve të vazhdueshme.",
               "imageUrl": "https://www.ilnapolista.it/wp-content/uploads/2026/02/image-photo927615.webp",
               "url": "https://www.ilnapolista.it/2026/09/rrahmani-e-il-kosovo-azioni-legali-federazione/",
               "date": "2026-09-14",
@@ -1176,7 +1226,7 @@
             {
               "title": "Kosovo, verso verdetto su ex presidente Thaci - tg24.sky.it",
               "albanianTitle": null,
-              "blurb": "",
+              "blurb": "Procedurat gjyqësore ndaj ish-presidentit të Kosovës, Hashim Thaçi, po shkojnë drejt marrjes së një vendimi përfundimtar nga gjykata.",
               "imageUrl": "https://tg24.sky.it/assets/images/7d1d199d89b8ebaaa5433d7b46682f9d00872010/skytg24/it/mondo/video/2026/09/15/1124861_1789482595015_thumb_494.0000001_1789483309558.jpg?im=Resize,width=1218",
               "url": "https://tg24.sky.it/mondo/video/2026/09/15/kosovo-verso-verdetto-su-ex-presidente-thaci-1124861",
               "date": "2026-09-15",
@@ -1198,7 +1248,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 22,
+        "n": 27,
         "excluded": 2,
         "confident": true,
         "stanceVersion": 3
@@ -1318,6 +1368,30 @@
           "lastSeen": "2026-09-13"
         },
         {
+          "name": "Kronen Zeitung",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Ärger für Franco Foda - Wirbel um Boykott-Drohung bei Österreich-Gegner! - Kronen Zeitung",
+              "albanianTitle": "Telashe për Franco Fodën: Buja e madhe pas kërcënimit për bojkot nga kundërshtari i Austrisë",
+              "blurb": "Trajneri Franco Foda përballet me situatë të tensionuar pas kërcënimeve për bojkot nga kundërshtari i radhës së Austrisë.",
+              "imageUrl": "https://imgl.krone.at/scaled/3959277/vd91941/og_image",
+              "url": "https://www.krone.at/4295354",
+              "date": "2026-09-14",
+              "sentiment": "unknown",
+              "reason": "Nuk ka përmbajtje rreth Kosovës",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 4,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-25",
+          "lastSeen": "2026-09-14"
+        },
+        {
           "name": "LAOLA1",
           "sentiment": "neutral",
           "articleCount": 2,
@@ -1410,7 +1484,7 @@
             {
               "title": "Entscheidung im Kosovo-Kriegsverbrecherprozess: Die Uhr tickt für Hashim Thaçi - Salzburger Nachrichten",
               "albanianTitle": null,
-              "blurb": "",
+              "blurb": "Gjykata po vazhdon procesin gjyqësor ndaj Hashim Thaçit për akuzat mbi krimet e luftës gjatë periudhës së konfliktit.",
               "imageUrl": "https://www.sn.at/storage/image/6/7/6/6/1166676_zehntausende-kosovo-albaner-forderten-bei-einer-demonstration-am-wochenende_metadaten_1GGiMZ_FlT8SY.jpg",
               "url": "https://www.sn.at/politik/weltpolitik/entscheidung-im-kosovo-kriegsverbrecherprozess-die-uhr-tickt-fuer-hashim-thaci-art-673050",
               "date": "2026-09-15",
@@ -1481,7 +1555,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 13,
-        "excluded": 0,
+        "excluded": 1,
         "confident": true,
         "stanceVersion": 3
       }
@@ -1639,6 +1713,30 @@
           "trend": "neutral",
           "firstSeen": "2026-08-19",
           "lastSeen": "2026-09-14"
+        },
+        {
+          "name": "Business Class Ost",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Das Freihandelsabkommen mit dem Kosovo tritt am 1. Oktober in Kraft - Business Class Ost",
+              "albanianTitle": "Marrëveshja e tregtisë së lirë me Kosovën hyn në fuqi më 1 tetor",
+              "blurb": "Marrëveshja e tregtisë së lirë me Kosovën hyn në fuqi zyrtarisht më datën një tetor të këtij viti.",
+              "imageUrl": "https://cdn.prod.website-files.com/672888df509e2d3e15fa15a8/6aa916a26cced446221ab07a_privatearticleimage-254112-1789463720344.jpeg",
+              "url": "https://www.businessclassost.ch/article/254112-oapakyvl",
+              "date": "2026-09-15",
+              "sentiment": "neutral",
+              "reason": "Faktikë pa ngarkim",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-15",
+          "lastSeen": "2026-09-15"
         },
         {
           "name": "NZZ",
@@ -1837,10 +1935,10 @@
       ],
       "summary": {
         "index": 56,
-        "positive": 13,
-        "neutral": 87,
+        "positive": 12,
+        "neutral": 88,
         "negative": 0,
-        "n": 31,
+        "n": 32,
         "excluded": 2,
         "confident": true,
         "stanceVersion": 3
@@ -1873,6 +1971,54 @@
           "lastSeen": "2026-09-12"
         },
         {
+          "name": "RTL.nl",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Na tien jaar uitspraak in Kosovotribunaal: wat staat er op het spel? - RTL.nl",
+              "albanianTitle": "Pas dhjetë vitesh vendimi i Gjykatës Speciale: çfarë është në lojë?",
+              "blurb": "",
+              "imageUrl": null,
+              "url": "https://www.rtl.nl/nieuws/buitenland/artikel/5652068/kosovotribunaal-den-haag-thaci-uitspraak-kritiek",
+              "date": "2026-09-15",
+              "sentiment": "neutral",
+              "reason": "Straightforward reporting of a legal issue",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-15",
+          "lastSeen": "2026-09-15"
+        },
+        {
+          "name": "Trouw",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Keert Hashim Thaci straks als held terug naar Kosovo, of verdwijnt hij als oorlogsmisdadiger achter de tralies? - Trouw",
+              "albanianTitle": "A do të kthehet Hashim Thaçi si hero në Kosovë, apo do të përfundojë pas hekurave si kriminel lufte?",
+              "blurb": "",
+              "imageUrl": null,
+              "url": "https://www.trouw.nl/buitenland/keert-hashim-thaci-straks-als-held-terug-naar-kosovo-of-verdwijnt-hij-als-oorlogsmisdadiger-achter-de-tralies~bb17560d/",
+              "date": "2026-09-15",
+              "sentiment": "neutral",
+              "reason": "Fact‑based headline without loaded language toward Kosovo",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-15",
+          "lastSeen": "2026-09-15"
+        },
+        {
           "name": "Vriendin.nl",
           "sentiment": "unknown",
           "articleCount": 1,
@@ -1898,11 +2044,11 @@
         }
       ],
       "summary": {
-        "index": 100,
-        "positive": 100,
-        "neutral": 0,
+        "index": 67,
+        "positive": 33,
+        "neutral": 67,
         "negative": 0,
-        "n": 1,
+        "n": 3,
         "excluded": 1,
         "confident": false,
         "stanceVersion": 3
@@ -2531,6 +2677,30 @@
           "lastSeen": "2026-09-13"
         },
         {
+          "name": "SMHI",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Väderprognos 10 dygn Pristina, Kosovo - SMHI",
+              "albanianTitle": "Parashikimi i motit për 10 ditët e ardhshme në Prishtinë, Kosovë",
+              "blurb": "",
+              "imageUrl": null,
+              "url": "https://www.smhi.se/vader/prognoser-och-varningar/vaderprognos/q/Pristina/786714",
+              "date": "2026-09-13",
+              "sentiment": "neutral",
+              "reason": "Simple weather forecast, no evaluative language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 3,
+          "trend": "neutral",
+          "firstSeen": "2026-08-26",
+          "lastSeen": "2026-09-13"
+        },
+        {
           "name": "Svenska Dagbladet",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -2656,7 +2826,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 10,
+        "n": 11,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3

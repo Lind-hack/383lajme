@@ -7358,8 +7358,8 @@
   {
     "date": "2026-09-15",
     "overallIndex": 52,
-    "totalArticles": 148,
-    "sourceCount": 107,
+    "totalArticles": 158,
+    "sourceCount": 113,
     "stanceVersion": 3,
     "countries": {
       "Gjermani": {
@@ -7395,7 +7395,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 12,
+        "n": 13,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
@@ -7415,7 +7415,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 22,
+        "n": 27,
         "excluded": 2,
         "confident": true,
         "stanceVersion": 3
@@ -7426,26 +7426,26 @@
         "neutral": 100,
         "negative": 0,
         "n": 13,
-        "excluded": 0,
+        "excluded": 1,
         "confident": true,
         "stanceVersion": 3
       },
       "Zvicër": {
         "index": 56,
-        "positive": 13,
-        "neutral": 87,
+        "positive": 12,
+        "neutral": 88,
         "negative": 0,
-        "n": 31,
+        "n": 32,
         "excluded": 2,
         "confident": true,
         "stanceVersion": 3
       },
       "Holandë": {
-        "index": 100,
-        "positive": 100,
-        "neutral": 0,
+        "index": 67,
+        "positive": 33,
+        "neutral": 67,
         "negative": 0,
-        "n": 1,
+        "n": 3,
         "excluded": 1,
         "confident": false,
         "stanceVersion": 3
@@ -7485,7 +7485,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 10,
+        "n": 11,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
@@ -7523,11 +7523,11 @@
     },
     "headlines": [
       {
-        "title": "Rexhep Boja, një jetë shërbim ndaj Kosovës - Reporteri",
+        "title": "Rexhep Boja, një jetë shërbim ndaj Kosovës - reporteri.net",
         "source": "Reporteri",
         "country": "Gjermani",
         "flag": "🇩🇪",
-        "url": "https://reporteri.net/es/opini%C3%B3n/Rexhep-Boja--toda-una-vida-al-servicio-de-Kosovo/",
+        "url": "https://reporteri.net/de/Meinung/Rexhep-Boja--ein-Leben-lang-im-Dienste-des-Kosovo/",
         "sentiment": "positive"
       },
       {

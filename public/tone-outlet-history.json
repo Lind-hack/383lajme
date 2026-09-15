@@ -55,9 +55,9 @@
     },
     "Balkan Insight": {
       "country": "Britani",
-      "total": 22,
+      "total": 23,
       "positive": 1,
-      "neutral": 20,
+      "neutral": 21,
       "negative": 1,
       "unknown": 0,
       "firstSeen": "2026-08-19",
@@ -84,7 +84,8 @@
         "https://balkaninsight.com/hashim-thaci-trial-stories-home/",
         "https://balkaninsight.com/2026/09/15/truth-and-consequences-kosovo-special-court-to-deliver-high-stakes-verdict/btj/",
         "https://balkaninsight.com/2026/09/14/birn-launches-trial-stories-page-for-hashim-thaci-verdict/btj/",
-        "https://balkaninsight.com/2026/09/15/kosovos-new-govt-challenged-in-court-as-presidential-pick-withdraws/bi/"
+        "https://balkaninsight.com/2026/09/15/kosovos-new-govt-challenged-in-court-as-presidential-pick-withdraws/bi/",
+        "https://balkaninsight.com/2026/09/15/police-in-the-hague-brace-for-rallies-ahead-of-kosovo-trial-verdict/btj/"
       ]
     },
     "Ouest-France": {
@@ -1579,17 +1580,18 @@
     },
     "Kronen Zeitung": {
       "country": "Austri",
-      "total": 3,
+      "total": 4,
       "positive": 0,
       "neutral": 2,
       "negative": 0,
-      "unknown": 1,
+      "unknown": 2,
       "firstSeen": "2026-08-25",
-      "lastSeen": "2026-09-06",
+      "lastSeen": "2026-09-14",
       "urls": [
         "https://www.krone.at/4268829",
         "https://www.krone.at/4269964",
-        "https://www.krone.at/4171096"
+        "https://www.krone.at/4171096",
+        "https://www.krone.at/4295354"
       ]
     },
     "Heute": {
@@ -1823,7 +1825,7 @@
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-26",
-      "lastSeen": "2026-09-10",
+      "lastSeen": "2026-09-13",
       "urls": [
         "https://www.smhi.se/vader/prognoser-och-varningar/vaderprognos/q/Mitrovica/789225",
         "https://www.smhi.se/vader/prognoser-och-varningar/vaderprognos/q/Pristina/786714",
@@ -2903,9 +2905,9 @@
     },
     "balcanicaucaso.org": {
       "country": "Itali",
-      "total": 4,
+      "total": 5,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 2,
       "unknown": 1,
       "firstSeen": "2026-09-06",
@@ -2914,7 +2916,8 @@
         "https://www.balcanicaucaso.org/cp_article/kosovo-i-ragni-della-val-rugova/",
         "https://www.balcanicaucaso.org/cp_article/kosovo-la-politica-in-un-vicolo-cieco/",
         "https://www.balcanicaucaso.org/en/cp_article/kosovo-la-politica-in-un-vicolo-cieco/",
-        "https://www.balcanicaucaso.org/en/cp_article/processo-thaci-la-piazza-di-pristina-chiede-lassoluzione/"
+        "https://www.balcanicaucaso.org/en/cp_article/processo-thaci-la-piazza-di-pristina-chiede-lassoluzione/",
+        "https://www.balcanicaucaso.org/cp_article/processo-thaci-la-piazza-di-pristina-chiede-lassoluzione/"
       ]
     },
     "NÖN.at - Niederösterreichische Nachrichten": {
@@ -4391,15 +4394,16 @@
     },
     "L'Agenzia di Viaggi Magazine": {
       "country": "Itali",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-15",
       "lastSeen": "2026-09-15",
       "urls": [
-        "https://www.lagenziadiviaggimag.it/kosovo-wizz-air-lancia-il-volo-trieste-pristina/"
+        "https://www.lagenziadiviaggimag.it/kosovo-wizz-air-lancia-il-volo-trieste-pristina/",
+        "https://www.lagenziadiviaggimag.it/wizz-air-volera-trieste-pristina-kosovo/"
       ]
     },
     "Trieste Cafe": {
@@ -4582,6 +4586,58 @@
       "lastSeen": "2026-09-13",
       "urls": [
         "https://www.bankier.pl/wiadomosc/Parlament-ponownie-wybral-Kurtiego-na-stanowisko-premiera-9196294.html"
+      ]
+    },
+    "Sky TG24": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-15",
+      "lastSeen": "2026-09-15",
+      "urls": [
+        "https://tg24.sky.it/mondo/video/2026/09/15/kosovo-verso-verdetto-su-ex-presidente-thaci-1124861"
+      ]
+    },
+    "Business Class Ost": {
+      "country": "Zvicër",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-15",
+      "lastSeen": "2026-09-15",
+      "urls": [
+        "https://www.businessclassost.ch/article/254112-oapakyvl"
+      ]
+    },
+    "Trouw": {
+      "country": "Holandë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-15",
+      "lastSeen": "2026-09-15",
+      "urls": [
+        "https://www.trouw.nl/buitenland/keert-hashim-thaci-straks-als-held-terug-naar-kosovo-of-verdwijnt-hij-als-oorlogsmisdadiger-achter-de-tralies~bb17560d/"
+      ]
+    },
+    "RTL.nl": {
+      "country": "Holandë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-15",
+      "lastSeen": "2026-09-15",
+      "urls": [
+        "https://www.rtl.nl/nieuws/buitenland/artikel/5652068/kosovotribunaal-den-haag-thaci-uitspraak-kritiek"
       ]
     }
   }
