@@ -3135,13 +3135,13 @@
     },
     "Albinfo": {
       "country": "Zvicër",
-      "total": 43,
-      "positive": 9,
-      "neutral": 26,
+      "total": 47,
+      "positive": 10,
+      "neutral": 29,
       "negative": 0,
       "unknown": 8,
       "firstSeen": "2026-09-07",
-      "lastSeen": "2026-09-14",
+      "lastSeen": "2026-09-15",
       "urls": [
         "https://www.albinfo.ch/fr/tre-pilote-nga-kosova-ne-top-10-te-botes-ne-paragllajdizem/",
         "https://www.albinfo.ch/fr/kosove-efta-marreveshja-e-tregtise-se-lire-hyn-ne-fuqi-me-1-tetor/",
@@ -3185,7 +3185,11 @@
         "https://www.albinfo.ch/fr/ajeti-dy-kandidate-nga-kosova-garojne-per-zgjedhjet-e-radhes-ne-landin-e-berlinit/",
         "https://www.albinfo.ch/de/ne-konsullaten-e-kosoves-ne-mynih-arrijne-librat-per-mesimin-plotesues-ne-gjuhen-shqipe/",
         "https://www.albinfo.ch/de/reconnect-ose-te-rinjte-migrante-te-brezit-te-dyte-ne-kerkim-te-identitetit-te-tyre/",
-        "https://www.albinfo.ch/fr/ne-konsullaten-e-kosoves-ne-mynih-arrijne-librat-per-mesimin-plotesues-ne-gjuhen-shqipe/"
+        "https://www.albinfo.ch/fr/ne-konsullaten-e-kosoves-ne-mynih-arrijne-librat-per-mesimin-plotesues-ne-gjuhen-shqipe/",
+        "https://www.albinfo.ch/de/kater-talente-me-prejardhje-nga-kosova-shkelqejne-ne-derbin-e-mynihut/",
+        "https://www.albinfo.ch/de/forumi-b2b-zvicer-kosove/",
+        "https://www.albinfo.ch/fr/xherdan-shaqiri-shpallet-lojtari-me-i-mire-i-javes-se-tete-ne-zvicer/",
+        "https://www.albinfo.ch/de/erdhi-si-refugjat-nisi-si-enlares-sot-behet-pronar-i-nje-hoteli-historik-ne-zvicer/"
       ]
     },
     "iAxia -": {
@@ -4638,6 +4642,45 @@
       "lastSeen": "2026-09-15",
       "urls": [
         "https://www.rtl.nl/nieuws/buitenland/artikel/5652068/kosovotribunaal-den-haag-thaci-uitspraak-kritiek"
+      ]
+    },
+    "Sport Bild": {
+      "country": "Gjermani",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-15",
+      "lastSeen": "2026-09-15",
+      "urls": [
+        "https://sportbild.bild.de/fussball/internationaler-fussball/boykott-geruechte-um-nationalspieler-des-kosovo-6aa934738191ba86095120cc"
+      ]
+    },
+    "sportbild.bild.de": {
+      "country": "Gjermani",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-15",
+      "lastSeen": "2026-09-15",
+      "urls": [
+        "https://sportbild.bild.de/fussball/internationaler-fussball/boykott-geruechte-um-nationalspieler-des-kosovo-6aa934738191ba86095120cc"
+      ]
+    },
+    "NeaKriti": {
+      "country": "Greqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-15",
+      "lastSeen": "2026-09-15",
+      "urls": [
+        "https://www.neakriti.gr/athlitismos/spor/2200034_i-ellada-stin-koryfi-ton-balkanion-gia-deyteri-synehomeni-hronia-sarose-me"
       ]
     }
   }

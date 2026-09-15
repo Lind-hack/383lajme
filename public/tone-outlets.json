@@ -1,10 +1,10 @@
 {
   "lastUpdated": "2026-09-15",
   "overallIndex": 52,
-  "totalArticles": 158,
-  "sourceCount": 113,
+  "totalArticles": 170,
+  "sourceCount": 116,
   "stanceVersion": 3,
-  "unattributed": 274,
+  "unattributed": 285,
   "nonEditorial": 4,
   "wrongKosovo": 0,
   "countries": {
@@ -66,7 +66,7 @@
             {
               "title": "Reisen: Weitere Airline fliegt von Hamburg in Hauptstadt Kosovos - STERN.de",
               "albanianTitle": null,
-              "blurb": "",
+              "blurb": "Një kompani e re ajrore ka nisur operimet në linjën direkte që lidh Hamburgun me kryeqytetin e Kosovës.",
               "imageUrl": null,
               "url": "https://www.stern.de/gesellschaft/regional/hamburg-schleswig-holstein/reisen--weitere-airline-fliegt-von-hamburg-in-hauptstadt-kosovos-38257618.html",
               "date": "2026-09-15",
@@ -96,6 +96,30 @@
               "date": "2026-09-15",
               "sentiment": "neutral",
               "reason": "Straightforward news item, no evaluative language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-15",
+          "lastSeen": "2026-09-15"
+        },
+        {
+          "name": "Sport Bild",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Boykott-Gerüchte um Nationalspieler des Kosovo! - Sport Bild",
+              "albanianTitle": "Thashetheme për bojkot nga lojtarët e kombëtares së Kosovës!",
+              "blurb": "Qarkullojnë thashetheme për bojkotim të mundshëm nga ana e futbollistëve të kombëtares së Kosovës në ndeshjet e ardhshme.",
+              "imageUrl": "https://images.bild.de/6aa934738191ba86095120cc/fa593ba4eda13294e72892c137ca211b,4b431205?w=1280",
+              "url": "https://sportbild.bild.de/fussball/internationaler-fussball/boykott-geruechte-um-nationalspieler-des-kosovo-6aa934738191ba86095120cc",
+              "date": "2026-09-15",
+              "sentiment": "neutral",
+              "reason": "Headline reports boycott rumors without evaluative language",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -155,6 +179,30 @@
           "lastSeen": "2026-09-12"
         },
         {
+          "name": "sportbild.bild.de",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Boykott-Gerüchte um Nationalspieler des Kosovo! - sportbild.bild.de",
+              "albanianTitle": "Thashetheme për bojkot nga lojtarët e kombëtares së Kosovës",
+              "blurb": "Qarkullojnë raportime për një bojkot të mundshëm nga ana e disa lojtarëve të përfaqësueses së futbollit të Kosovës.",
+              "imageUrl": "https://images.bild.de/6aa934738191ba86095120cc/fa593ba4eda13294e72892c137ca211b,4b431205?w=1280",
+              "url": "https://sportbild.bild.de/fussball/internationaler-fussball/boykott-geruechte-um-nationalspieler-des-kosovo-6aa934738191ba86095120cc",
+              "date": "2026-09-15",
+              "sentiment": "neutral",
+              "reason": "Raportim i thjeshtë i një çështjeje, pa gjuhë ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-15",
+          "lastSeen": "2026-09-15"
+        },
+        {
           "name": "zeit.de",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -180,16 +228,16 @@
         }
       ],
       "summary": {
-        "index": 43,
+        "index": 44,
         "positive": 0,
-        "neutral": 86,
-        "negative": 14,
-        "n": 7,
+        "neutral": 89,
+        "negative": 11,
+        "n": 9,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3,
         "movement": {
-          "delta": -7,
+          "delta": -6,
           "from": 50,
           "outlet": "FAZ",
           "title": "Gjykimi ndaj Hashim Thaçit: A bashkëpunoi NATO-ja me një kriminel lufte gjatë luftës në Kosovë?",
@@ -525,7 +573,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 13,
+        "n": 14,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
@@ -888,7 +936,7 @@
             {
               "title": "Wizz Air volerà Trieste-Priština (Kosovo) - L'Agenzia di Viaggi Magazine",
               "albanianTitle": "Wizz Air do të operojë linjën ajrore Trieste-Prishtinë",
-              "blurb": "",
+              "blurb": "Kompania ajrore Wizz Air ka njoftuar vendosjen e linjës së re të fluturimit në relacionin Trieste-Prishtinë për pasagjerët.",
               "imageUrl": null,
               "url": "https://www.lagenziadiviaggimag.it/wizz-air-volera-trieste-pristina-kosovo/",
               "date": "2026-09-15",
@@ -1130,7 +1178,7 @@
             {
               "title": "Processo Thaçi, la piazza di Pristina chiede l’assoluzione - balcanicaucaso.org",
               "albanianTitle": "Procesi gjyqësor ndaj Thaçit, në Prishtinë kërkohet pafajësia",
-              "blurb": "",
+              "blurb": "Qytetarët në Prishtinë janë mbledhur në një protestë për të kërkuar lirimin e Hashim Thaçit nga procesi gjyqësor.",
               "imageUrl": "https://www.balcanicaucaso.org/wp-content/uploads/sites/8/2026/09/shutterstock_2836664549-scaled.jpg",
               "url": "https://www.balcanicaucaso.org/cp_article/processo-thaci-la-piazza-di-pristina-chiede-lassoluzione/",
               "date": "2026-09-14",
@@ -1283,7 +1331,7 @@
         {
           "name": "Heute",
           "sentiment": "neutral",
-          "articleCount": 3,
+          "articleCount": 4,
           "articles": [
             {
               "title": "\"Mangel an Kompetenz\": Ärger bei ÖFB-Gegner Kosovo - heute.at",
@@ -1320,6 +1368,19 @@
               "date": "2026-09-15",
               "sentiment": "neutral",
               "reason": "Thjesht informim për trajnerin, pa ngjyrë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Kosovo-Teamchef Franco Foda. - heute.at",
+              "albanianTitle": "Franco Foda, përzgjedhësi i kombëtares së Kosovës",
+              "blurb": "Trajneri Franco Foda vazhdon angazhimin e tij në krye të përfaqësueses së futbollit të Kosovës për ndeshjet e radhës.",
+              "imageUrl": "https://heute-at-prod-images.imgix.net/2025/09/05/dce769fb-22e5-4af9-b9e9-7e1aa6bb10d9.jpg?rect=0%2C209%2C4000%2C2250&auto=format",
+              "url": "https://www.heute.at/i/mangel-an-kompetenz-aerger-bei-oefb-gegner-kosovo-120252143/doc-1k2hoiug94",
+              "date": "2026-09-15",
+              "sentiment": "neutral",
+              "reason": "Lajm faktik, pa gjuhë ngarkuar",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1369,18 +1430,18 @@
         },
         {
           "name": "Kronen Zeitung",
-          "sentiment": "unknown",
+          "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
               "title": "Ärger für Franco Foda - Wirbel um Boykott-Drohung bei Österreich-Gegner! - Kronen Zeitung",
-              "albanianTitle": "Telashe për Franco Fodën: Buja e madhe pas kërcënimit për bojkot nga kundërshtari i Austrisë",
-              "blurb": "Trajneri Franco Foda përballet me situatë të tensionuar pas kërcënimeve për bojkot nga kundërshtari i radhës së Austrisë.",
+              "albanianTitle": "Telashe për Franco Fodan: Buja rreth kërcënimit për bojkot te kundërshtari i Austrisë! - Kronen Zeitung",
+              "blurb": "Trajneri Franco Foda përballet me situatë të tensionuar për shkak të kërcënimeve për bojkot nga kundërshtari i Austrisë.",
               "imageUrl": "https://imgl.krone.at/scaled/3959277/vd91941/og_image",
               "url": "https://www.krone.at/4295354",
               "date": "2026-09-14",
-              "sentiment": "unknown",
-              "reason": "Nuk ka përmbajtje rreth Kosovës",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike pa gjuhë ngarkuese",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1554,8 +1615,8 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 13,
-        "excluded": 1,
+        "n": 15,
+        "excluded": 0,
         "confident": true,
         "stanceVersion": 3
       }
@@ -1646,10 +1707,10 @@
               "speaker": ""
             }
           ],
-          "totalArticles": 43,
+          "totalArticles": 47,
           "trend": "pozitiv",
           "firstSeen": "2026-09-07",
-          "lastSeen": "2026-09-14"
+          "lastSeen": "2026-09-15"
         },
         {
           "name": "Blick",
@@ -1820,7 +1881,7 @@
             {
               "title": "Politique: le Kosovo a un nouveau gouvernement - watson.ch",
               "albanianTitle": null,
-              "blurb": "",
+              "blurb": "Institucionet e Kosovës janë kompletuar pas formimit të qeverisë së re të udhëhequr nga koalicioni fitues i zgjedhjeve.",
               "imageUrl": "https://www.watson.ch/fr/imgdb/0e48/Z1200,675,2426,1539,349,349/2252875449218424",
               "url": "https://www.watson.ch/fr/international/politique/375763324-politique-le-kosovo-a-un-nouveau-gouvernement",
               "date": "2026-09-13",
@@ -1934,11 +1995,11 @@
         }
       ],
       "summary": {
-        "index": 56,
-        "positive": 12,
-        "neutral": 88,
+        "index": 58,
+        "positive": 16,
+        "neutral": 84,
         "negative": 0,
-        "n": 32,
+        "n": 38,
         "excluded": 2,
         "confident": true,
         "stanceVersion": 3
@@ -1978,7 +2039,7 @@
             {
               "title": "Na tien jaar uitspraak in Kosovotribunaal: wat staat er op het spel? - RTL.nl",
               "albanianTitle": "Pas dhjetë vitesh vendimi i Gjykatës Speciale: çfarë është në lojë?",
-              "blurb": "",
+              "blurb": "Pas dhjetë vitesh pritet vendimi i Gjykatës Speciale për Kosovën, duke shqyrtuar pasojat e mundshme të këtij procesi.",
               "imageUrl": null,
               "url": "https://www.rtl.nl/nieuws/buitenland/artikel/5652068/kosovotribunaal-den-haag-thaci-uitspraak-kritiek",
               "date": "2026-09-15",
@@ -2002,7 +2063,7 @@
             {
               "title": "Keert Hashim Thaci straks als held terug naar Kosovo, of verdwijnt hij als oorlogsmisdadiger achter de tralies? - Trouw",
               "albanianTitle": "A do të kthehet Hashim Thaçi si hero në Kosovë, apo do të përfundojë pas hekurave si kriminel lufte?",
-              "blurb": "",
+              "blurb": "Procesi gjyqësor ndaj Hashim Thaçit po vlerësohet në lidhje me të ardhmen e tij politike dhe akuzat për krime.",
               "imageUrl": null,
               "url": "https://www.trouw.nl/buitenland/keert-hashim-thaci-straks-als-held-terug-naar-kosovo-of-verdwijnt-hij-als-oorlogsmisdadiger-achter-de-tralies~bb17560d/",
               "date": "2026-09-15",
@@ -2064,7 +2125,7 @@
             {
               "title": "Avant le verdict de La Haye, le Kosovo soutient ses anciens héros de la guerre - Le Soir",
               "albanianTitle": null,
-              "blurb": "",
+              "blurb": "Qytetarët e Kosovës po shprehin mbështetje për ish-udhëheqësit e luftës para shpalljes së vendimit nga Gjykata e Hagës.",
               "imageUrl": null,
               "url": "https://www.lesoir.be/771071/article/2026-09-15/avant-le-verdict-de-la-haye-le-kosovo-soutient-ses-anciens-heros-de-la-guerre",
               "date": "2026-09-15",
@@ -2299,6 +2360,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-14",
           "lastSeen": "2026-09-13"
+        },
+        {
+          "name": "NeaKriti",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Η Ελλάδα στην κορυφή των Βαλκανίων για δεύτερη συνεχόμενη χρονιά – «Σάρωσε» με 27 μετάλλια στους Αεραθλητικούς Αγώνες (pics) - NeaKriti",
+              "albanianTitle": "Greqia në krye të Ballkanit për të dytin vit radhazi – “rrëmben” 27 medalje në Lojërat e Aeronautikës",
+              "blurb": "Greqia ka fituar vendin e parë në garat ballkanike të aeromodelizmit duke rrëmbyer gjithsej njëzet e shtatë medalje.",
+              "imageUrl": "https://www.neakriti.gr/sites/default/files/styles/og_image/public/2026-09/%CE%B5%CE%B9%CE%BA%CF%8C%CE%BD%CE%B1_Viber_2026-09-15_20-02-39-717.jpg?itok=XnxX0rPU",
+              "url": "https://www.neakriti.gr/athlitismos/spor/2200034_i-ellada-stin-koryfi-ton-balkanion-gia-deyteri-synehomeni-hronia-sarose-me",
+              "date": "2026-09-15",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike pa gjuhë ngarkuese",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-15",
+          "lastSeen": "2026-09-15"
         },
         {
           "name": "SDNA",
@@ -2570,7 +2655,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 15,
+        "n": 16,
         "excluded": 2,
         "confident": true,
         "stanceVersion": 3
@@ -2842,7 +2927,7 @@
             {
               "title": "Parlament ponownie wybrał Kurtiego na stanowisko premiera - Bankier.pl",
               "albanianTitle": null,
-              "blurb": "",
+              "blurb": "Deputetët e Kuvendit të Kosovës kanë votuar sërish Albin Kurtin për pozitën e kryeministrit të vendit në këtë mandat.",
               "imageUrl": "https://galeria.bankier.pl/p/3/b/4e4e45b17c31ca-948-568-412-547-2415-1448.jpg",
               "url": "https://www.bankier.pl/wiadomosc/Parlament-ponownie-wybral-Kurtiego-na-stanowisko-premiera-9196294.html",
               "date": "2026-09-13",
@@ -3074,7 +3159,7 @@
             {
               "title": "Kosova, aylarca süren siyasi çıkmazın ardından yeni hükümeti onayladı - GZT",
               "albanianTitle": null,
-              "blurb": "",
+              "blurb": "Kuvendi i Kosovës ka miratuar përbërjen e re të qeverisë pas një periudhe të gjatë të bllokadës politike.",
               "imageUrl": null,
               "url": "https://www.gzt.com/dunya/kosova-aylarca-suren-siyasi-cikmazin-ardindan-yeni-hukumeti-onayladi-4261075",
               "date": "2026-09-15",
@@ -3377,7 +3462,7 @@
             {
               "title": "Eski Kosova Cumhurbaşkanı Thaçi’nin yargılandığı davada karar açıklanacak - İlke TV",
               "albanianTitle": null,
-              "blurb": "",
+              "blurb": "Trupi gjykues në Hagë do të japë vendimin përfundimtar në procesin gjyqësor kundër ish-presidentit të Kosovës, Hashim Thaçi.",
               "imageUrl": "https://ilketv.com.tr/wp-content/uploads/2026/09/thumbs_b_c_16e2341296f3ab5eecdbda497e8e62d5.webp",
               "url": "https://ilketv.com.tr/savas-suclari-mahkemesi-eski-kosova-cumhurbaskani-thacinin-yargilandigi-davada-kararini-aciklayacak/",
               "date": "2026-09-14",
