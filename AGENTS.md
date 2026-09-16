@@ -24,7 +24,7 @@ can replace the current application with stale or unfinished work.
 3. Commit only the intended files and push the commit to `origin/main`.
 4. Wait for the Railway `production` deployment whose Git commit SHA equals
    `origin/main`.
-5. Verify `https://www.383ks.com/api/deployment-info` reports that SHA, branch
+5. Verify `https://383ks.com/api/deployment-info` reports that SHA, branch
    `main`, environment `production`, and source `github-main`.
 6. For Tregu/F1 changes, also verify `race-grid-v3`, the archived F1 card on
    `/tregu`, and 22 rendered `.f1-grid-slot` elements on the market page.

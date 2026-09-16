@@ -31,7 +31,9 @@ jobs:
         id: verify
         env:
           EXPECTED_SHA: ${{ github.sha }}
-          PRODUCTION_URL: https://www.383ks.com
+          # The www hostname redirects to the canonical bare domain. Use the
+          # canonical origin so curl receives JSON rather than redirect HTML.
+          PRODUCTION_URL: https://383ks.com
         run: |
           set -euo pipefail
           for attempt in $(seq 1 30); do
