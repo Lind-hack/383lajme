@@ -27,11 +27,11 @@ jobs:
           ref: main
           fetch-depth: 0
 
-      - name: Verify the production alias points to GitHub main
+      - name: Verify Railway production points to GitHub main
         id: verify
         env:
           EXPECTED_SHA: ${{ github.sha }}
-          PRODUCTION_URL: https://383lajme.vercel.app
+          PRODUCTION_URL: https://www.383ks.com
         run: |
           set -euo pipefail
           for attempt in $(seq 1 30); do

@@ -6,7 +6,6 @@ const REPOSITORY = "Lind-hack/383lajme";
 const PRODUCTION_BRANCH = "main";
 const PRODUCTION_REPOSITORY_OWNER = "Lind-hack";
 const PRODUCTION_REPOSITORY_SLUG = "383lajme";
-const PRODUCTION_REPOSITORY_ID = "1245103522";
 const CHART_UI_VERSION = "smooth-inspector-v3";
 const F1_RACE_UI_VERSION = "race-live-v4";
 const FOOTBALL_MARKET_UI_VERSION = "stage-aware-v3";
@@ -222,7 +221,7 @@ const REQUIRED_CHART_MARKERS = {
     "FOOTBALL_MARKET_UI_VERSION",
     'return isVerifiedGitHubMain ? "github-main" : "unverified"',
     "deployment_source: deploymentSource()",
-    "production_release: process.env.VERCEL_GIT_COMMIT_SHA",
+    "production_release: process.env.RAILWAY_GIT_COMMIT_SHA",
     "football_market_ui_version",
     '"Cache-Control": "no-store, max-age=0"',
   ],
@@ -364,18 +363,17 @@ export async function verifyProductionSource({
     );
   }
 
-  if (env.VERCEL_ENV !== "production") {
-    return { skipped: true, reason: "not a Vercel production build" };
+  if (env.RAILWAY_ENVIRONMENT_NAME !== "production") {
+    return { skipped: true, reason: "not a Railway production build" };
   }
 
-  const deployedSha = String(env.VERCEL_GIT_COMMIT_SHA ?? "").trim();
-  const deployedRef = String(env.VERCEL_GIT_COMMIT_REF ?? "").trim();
-  const deployedRepositoryOwner = String(env.VERCEL_GIT_REPO_OWNER ?? "").trim();
-  const deployedRepositorySlug = String(env.VERCEL_GIT_REPO_SLUG ?? "").trim();
-  const deployedRepositoryId = String(env.VERCEL_GIT_REPO_ID ?? "").trim();
+  const deployedSha = String(env.RAILWAY_GIT_COMMIT_SHA ?? "").trim();
+  const deployedRef = String(env.RAILWAY_GIT_BRANCH ?? "").trim();
+  const deployedRepositoryOwner = String(env.RAILWAY_GIT_REPO_OWNER ?? "").trim();
+  const deployedRepositorySlug = String(env.RAILWAY_GIT_REPO_NAME ?? "").trim();
   if (!deployedSha) {
     throw new Error(
-      "Refusing production deployment without VERCEL_GIT_COMMIT_SHA. Production must deploy from GitHub main."
+      "Refusing production deployment without RAILWAY_GIT_COMMIT_SHA. Production must deploy from GitHub main."
     );
   }
   if (deployedRef !== PRODUCTION_BRANCH) {
@@ -385,11 +383,10 @@ export async function verifyProductionSource({
   }
   if (
     deployedRepositoryOwner !== PRODUCTION_REPOSITORY_OWNER ||
-    deployedRepositorySlug !== PRODUCTION_REPOSITORY_SLUG ||
-    deployedRepositoryId !== PRODUCTION_REPOSITORY_ID
+    deployedRepositorySlug !== PRODUCTION_REPOSITORY_SLUG
   ) {
     throw new Error(
-      "Refusing production deployment without verified Vercel Git integration metadata for Lind-hack/383lajme."
+      "Refusing production deployment without verified Railway Git integration metadata for Lind-hack/383lajme."
     );
   }
 

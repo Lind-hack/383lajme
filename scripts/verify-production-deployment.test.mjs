@@ -30,9 +30,8 @@ const contractVersion = (name) => {
 const CURRENT_SHA = "a".repeat(40);
 const STALE_SHA = "b".repeat(40);
 const githubProductionMetadata = {
-  VERCEL_GIT_REPO_OWNER: "Lind-hack",
-  VERCEL_GIT_REPO_SLUG: "383lajme",
-  VERCEL_GIT_REPO_ID: "1245103522",
+  RAILWAY_GIT_REPO_OWNER: "Lind-hack",
+  RAILWAY_GIT_REPO_NAME: "383lajme",
 };
 
 const githubMain = (sha = CURRENT_SHA) => async () => ({
@@ -49,7 +48,7 @@ test("the checked-in modern Tregu chart contract is complete", () => {
 
 test("local and preview builds validate the chart contract but skip the main SHA check", async () => {
   const result = await verifyProductionSource({
-    env: { VERCEL_ENV: "preview" },
+    env: { RAILWAY_ENVIRONMENT_NAME: "oracle-preview" },
     fetchImpl: async () => {
       throw new Error("preview builds must not call GitHub");
     },
@@ -61,9 +60,9 @@ test("production rejects a stale commit", async () => {
   await assert.rejects(
     verifyProductionSource({
       env: {
-        VERCEL_ENV: "production",
-        VERCEL_GIT_COMMIT_REF: "main",
-        VERCEL_GIT_COMMIT_SHA: STALE_SHA,
+        RAILWAY_ENVIRONMENT_NAME: "production",
+        RAILWAY_GIT_BRANCH: "main",
+        RAILWAY_GIT_COMMIT_SHA: STALE_SHA,
         ...githubProductionMetadata,
       },
       fetchImpl: githubMain(CURRENT_SHA),
@@ -75,9 +74,9 @@ test("production rejects a stale commit", async () => {
 test("production accepts the exact current main commit", async () => {
   const result = await verifyProductionSource({
     env: {
-      VERCEL_ENV: "production",
-      VERCEL_GIT_COMMIT_REF: "main",
-      VERCEL_GIT_COMMIT_SHA: CURRENT_SHA,
+      RAILWAY_ENVIRONMENT_NAME: "production",
+      RAILWAY_GIT_BRANCH: "main",
+      RAILWAY_GIT_COMMIT_SHA: CURRENT_SHA,
       ...githubProductionMetadata,
     },
     fetchImpl: githubMain(CURRENT_SHA),
@@ -93,9 +92,9 @@ test("production fails closed when GitHub main cannot be verified", async () => 
   await assert.rejects(
     verifyProductionSource({
       env: {
-        VERCEL_ENV: "production",
-        VERCEL_GIT_COMMIT_REF: "main",
-        VERCEL_GIT_COMMIT_SHA: CURRENT_SHA,
+        RAILWAY_ENVIRONMENT_NAME: "production",
+        RAILWAY_GIT_BRANCH: "main",
+        RAILWAY_GIT_COMMIT_SHA: CURRENT_SHA,
         ...githubProductionMetadata,
       },
       fetchImpl: async () => ({ ok: false, status: 403 }),
@@ -104,17 +103,17 @@ test("production fails closed when GitHub main cannot be verified", async () => 
   );
 });
 
-test("production rejects a local upload without Vercel Git repository metadata", async () => {
+test("production rejects a local upload without Railway Git repository metadata", async () => {
   await assert.rejects(
     verifyProductionSource({
       env: {
-        VERCEL_ENV: "production",
-        VERCEL_GIT_COMMIT_REF: "main",
-        VERCEL_GIT_COMMIT_SHA: CURRENT_SHA,
+        RAILWAY_ENVIRONMENT_NAME: "production",
+        RAILWAY_GIT_BRANCH: "main",
+        RAILWAY_GIT_COMMIT_SHA: CURRENT_SHA,
       },
       fetchImpl: githubMain(CURRENT_SHA),
     }),
-    /without verified Vercel Git integration metadata/
+    /without verified Railway Git integration metadata/
   );
 });
 
