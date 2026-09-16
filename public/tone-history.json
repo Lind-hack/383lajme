@@ -7575,8 +7575,8 @@
   {
     "date": "2026-09-16",
     "overallIndex": 51,
-    "totalArticles": 226,
-    "sourceCount": 143,
+    "totalArticles": 245,
+    "sourceCount": 154,
     "stanceVersion": 3,
     "countries": {
       "Gjermani": {
@@ -7584,7 +7584,7 @@
         "positive": 0,
         "neutral": 98,
         "negative": 2,
-        "n": 46,
+        "n": 61,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
@@ -7594,7 +7594,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 13,
+        "n": 16,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
@@ -7640,11 +7640,11 @@
         "stanceVersion": 3
       },
       "Zvicër": {
-        "index": 55,
+        "index": 54,
         "positive": 9,
         "neutral": 91,
         "negative": 0,
-        "n": 33,
+        "n": 34,
         "excluded": 2,
         "confident": true,
         "stanceVersion": 3
@@ -7732,11 +7732,11 @@
     },
     "headlines": [
       {
-        "title": "Kosovos Kampf war legitim – dabei verübte Untaten aber nicht - DiePresse.com",
-        "source": "DiePresse.com",
+        "title": "Rexhep Boja, një jetë shërbim ndaj Kosovës - Reporteri",
+        "source": "Reporteri",
         "country": "Gjermani",
         "flag": "🇩🇪",
-        "url": "https://www.diepresse.com/41268037/kosovos-kampf-war-legitim-dabei-veruebte-untaten-aber-nicht",
+        "url": "https://reporteri.net/es/opini%C3%B3n/Rexhep-Boja--toda-una-vida-al-servicio-de-Kosovo/",
         "sentiment": "positive"
       },
       {
@@ -7748,11 +7748,11 @@
         "sentiment": "positive"
       },
       {
-        "title": "Rexhep Boja, një jetë shërbim ndaj Kosovës - Reporteri",
-        "source": "Reporteri",
-        "country": "Gjermani",
-        "flag": "🇩🇪",
-        "url": "https://reporteri.net/es/opini%C3%B3n/Rexhep-Boja--toda-una-vida-al-servicio-de-Kosovo/",
+        "title": "Kosovos Kampf war legitim – dabei verübte Untaten aber nicht - DiePresse.com",
+        "source": "DiePresse.com",
+        "country": "Austri",
+        "flag": "🇦🇹",
+        "url": "https://www.diepresse.com/41268037/kosovos-kampf-war-legitim-dabei-veruebte-untaten-aber-nicht",
         "sentiment": "positive"
       },
       {
@@ -7761,6 +7761,14 @@
         "country": "Gjermani",
         "flag": "🇩🇪",
         "url": "https://www.faz.net/aktuell/politik/ausland/prozess-gegen-hashim-thaci-hat-die-nato-im-kosovo-krieg-mit-einem-kriegsverbrecher-kooperiert-accg-201222004.html",
+        "sentiment": "negative"
+      },
+      {
+        "title": "Hashim Thaçi left Kosovo free/ Erion Veliaj does not leave the seat given to him by the SP - cna.al",
+        "source": "cna.al",
+        "country": "SHBA",
+        "flag": "🇺🇸",
+        "url": "https://www.cna.al/english/editorial/hashim-thaci-e-la-kosoven-te-lire-erion-veliaj-nuk-ndahet-nga-karrigia-i474334",
         "sentiment": "negative"
       }
     ]

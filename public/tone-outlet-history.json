@@ -3,16 +3,17 @@
   "outlets": {
     "Tagesschau": {
       "country": "Gjermani",
-      "total": 2,
+      "total": 3,
       "positive": 0,
-      "neutral": 2,
+      "neutral": 3,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-21",
       "lastSeen": "2026-09-16",
       "urls": [
         "https://www.tagesschau.de/multimedia/audio/audio-3431438.html",
-        "https://www.tagesschau.de/multimedia/audio/audio-3480464.html"
+        "https://www.tagesschau.de/multimedia/audio/audio-3480464.html",
+        "https://www.tagesschau.de/video/video-1649920.html"
       ]
     },
     "CNN": {
@@ -2470,9 +2471,9 @@
     },
     "DW.com": {
       "country": "Gjermani",
-      "total": 3,
+      "total": 6,
       "positive": 0,
-      "neutral": 3,
+      "neutral": 6,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-01",
@@ -2480,7 +2481,10 @@
       "urls": [
         "https://www.dw.com/de/zoonosen-deutschland-und-kosovo-k%C3%A4mpfen-gemeinsam-gegen-hyalomma-zecken-und-krim-kongo-virus/a-78532533",
         "https://www.dw.com/en/germany-kosovo-unite-against-ticks-carrying-deadly-virus/a-78655223",
-        "https://www.dw.com/en/kosovo-ex-president-thaci-faces-hague-war-crimes-verdict/a-79286344"
+        "https://www.dw.com/en/kosovo-ex-president-thaci-faces-hague-war-crimes-verdict/a-79286344",
+        "https://www.dw.com/de/25-jahre-haft-f%C3%BCr-kosovos-ex-praesident-thaci-wegen-kriegsverbrechen/a-79290862",
+        "https://www.dw.com/en/kosovo-ex-president-thaci-sentenced-to-25-years-for-war-crimes/a-79286344",
+        "https://www.dw.com/en/hague-tribunal-convicts-hashim-thaci-of-kosovo-war-crimes/video-79295682"
       ]
     },
     "Unitalsi": {
@@ -3322,16 +3326,17 @@
     },
     "Die Rheinpfalz": {
       "country": "Gjermani",
-      "total": 2,
+      "total": 3,
       "positive": 0,
-      "neutral": 2,
+      "neutral": 3,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-09",
-      "lastSeen": "2026-09-09",
+      "lastSeen": "2026-09-16",
       "urls": [
         "https://www.rheinpfalz.de/lokal/pirmasens_artikel,-spendenaufruf-kosovo-hilfe-petersberg-bittet-ein-letztes-mal-um-unterst%C3%BCtzung-_arid,5927621.html",
-        "https://www.rheinpfalz.de/lokal/pirmasens_artikel,-seltenes-handwerk-letzte-spendenaktion-f%C3%BCr-kosovo-und-ein-neuer-modeladen-_arid,5927815.html"
+        "https://www.rheinpfalz.de/lokal/pirmasens_artikel,-seltenes-handwerk-letzte-spendenaktion-f%C3%BCr-kosovo-und-ein-neuer-modeladen-_arid,5927815.html",
+        "https://www.rheinpfalz.de/politik_artikel,-hashim-thaci-befreiungsheld-und-kriegsverbrecher-_arid,5930026.html"
       ]
     },
     "Barletta NEWS24": {
@@ -4392,9 +4397,9 @@
     },
     "FAZ": {
       "country": "Gjermani",
-      "total": 5,
+      "total": 6,
       "positive": 0,
-      "neutral": 4,
+      "neutral": 5,
       "negative": 1,
       "unknown": 0,
       "firstSeen": "2026-09-15",
@@ -4404,7 +4409,8 @@
         "https://www.faz.net/aktuell/politik/ausland/urteil-in-den-haag-war-hashim-thaci-ein-kriegsverbrecher-accg-201227866.html",
         "https://www.faz.net/aktuell/politik/ausland/kriegsverbrechen-in-kosovo-thaci-zu-25-jahren-verurteilt-accg-201229090.html",
         "https://www.faz.net/video/kosovos-ex-praesident-thaci-zu-25-jahren-haft-verurteilt-201233541.html",
-        "https://www.faz.net/aktuell/politik/ausland/nach-kosovo-urteil-thaci-war-starr-vor-angst-accg-201230442.html"
+        "https://www.faz.net/aktuell/politik/ausland/nach-kosovo-urteil-thaci-war-starr-vor-angst-accg-201230442.html",
+        "https://www.faz.net/aktuell/politik/ausland/das-urteil-ueber-thaci-ist-nur-das-vorletzte-wort-201231598.html"
       ]
     },
     "UdineToday": {
@@ -4519,9 +4525,9 @@
     },
     "STERN.de": {
       "country": "Gjermani",
-      "total": 3,
+      "total": 4,
       "positive": 0,
-      "neutral": 3,
+      "neutral": 4,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-15",
@@ -4529,7 +4535,8 @@
       "urls": [
         "https://www.stern.de/gesellschaft/regional/hamburg-schleswig-holstein/reisen--weitere-airline-fliegt-von-hamburg-in-hauptstadt-kosovos-38257618.html",
         "https://www.stern.de/news/kosovo-sondertribunal-verkuendet-urteil-im-fall-von-ex-praesident-thaci-38258952.html",
-        "https://www.stern.de/news/kosovos-ex-praesident-thaci-wegen-kriegsverbrechen-zu-25-jahren-haft-verurteilt-38261132.html"
+        "https://www.stern.de/news/kosovos-ex-praesident-thaci-wegen-kriegsverbrechen-zu-25-jahren-haft-verurteilt-38261132.html",
+        "https://www.stern.de/news/25-jahre-haft-fuer-kosovos-ex-praesident-thaci-wegen-kriegsverbrechen-38261132.html"
       ]
     },
     "tg24.sky.it": {
@@ -4932,16 +4939,17 @@
     },
     "Tagesspiegel": {
       "country": "Gjermani",
-      "total": 2,
+      "total": 3,
       "positive": 0,
-      "neutral": 2,
+      "neutral": 3,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-16",
       "lastSeen": "2026-09-16",
       "urls": [
         "https://www.tagesspiegel.de/internationales/25-jahre-haft-fur-hashim-thaci-warum-deutschland-in-kosovo-mit-einem-kriegsverbrecher-kooperiert-hat-16053044.html",
-        "https://www.tagesspiegel.de/internationales/dpa-verurteilung-kriegsverbrechen-25-jahre-haft-fur-kosovos-ex-prasident-16058614.html"
+        "https://www.tagesspiegel.de/internationales/dpa-verurteilung-kriegsverbrechen-25-jahre-haft-fur-kosovos-ex-prasident-16058614.html",
+        "https://www.tagesspiegel.de/internationales/folter-mord-und-grausame-behandlung-kosovos-ex-prasident-thaci-wegen-kriegsverbrechen-zu-25-jahren-haft-verurteilt-16058504.html"
       ]
     },
     "Spiegel": {
@@ -5150,6 +5158,136 @@
       "lastSeen": "2026-09-16",
       "urls": [
         "https://nltimes.nl/2026/09/16/riots-break-malieveld-former-kosovo-president-sentenced-25-years-jail"
+      ]
+    },
+    "LTO.de": {
+      "country": "Gjermani",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-16",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://www.lto.de/recht/nachrichten/n/kosovo-sondertribunal-ex-praesident-hashim-thaci-25-jahre-haft-kriegsverbrechen"
+      ]
+    },
+    "spiegel.de": {
+      "country": "Gjermani",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-16",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://www.spiegel.de/ausland/hashim-thaci-kosovarischer-ex-praesident-in-den-haag-zu-25-jahren-haft-verurteilt-a-1a738b73-f97d-4421-97e0-73f3c1d70860"
+      ]
+    },
+    "sueddeutsche.de": {
+      "country": "Gjermani",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-16",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://www.sueddeutsche.de/muenchen/film-scham-geld-ungerechtigkeit-kosovo-muenchen-premiere-li.3548046"
+      ]
+    },
+    "fr.de": {
+      "country": "Gjermani",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-16",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://www.fr.de/politik/hashim-thaci-zu-25-jahren-haft-verurteilt-traenen-vor-kosovos-parlament-94495583.html"
+      ]
+    },
+    "Hit Radio FFH": {
+      "country": "Gjermani",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-16",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://www.ffh.de/video/mediathek/479327-kosovo-kriegsverbrechergericht-verurteilt-ex-praesident-thaci-zu-25-jahren-haft-massenproteste.html"
+      ]
+    },
+    "1&1": {
+      "country": "Gjermani",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-16",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://home.1und1.de/magazine/politik/kosovos-ex-praesident-langer-haftstrafe-verurteilt-42730854"
+      ]
+    },
+    "Vodafone live": {
+      "country": "Gjermani",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-16",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://live.vodafone.de/news/nachrichten/ausland/kriegsverbrechen-25-jahre-haft-fuer-kosovos-ex-praesident/13255841"
+      ]
+    },
+    "nytimes.com": {
+      "country": "SHBA",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-16",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://www.nytimes.com/2026/09/16/world/europe/kosovo-thaci-war-crimes-hague-serbia.html"
+      ]
+    },
+    "WSJ": {
+      "country": "SHBA",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-16",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://www.wsj.com/world/europe/former-kosovo-president-sentenced-to-25-years-for-war-crimes-in-serbia-c1aa4063"
+      ]
+    },
+    "Plattform J": {
+      "country": "Zvicër",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-16",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://www.plattformj.ch/artikel/246774/"
       ]
     }
   }
