@@ -7575,16 +7575,16 @@
   {
     "date": "2026-09-16",
     "overallIndex": 51,
-    "totalArticles": 183,
-    "sourceCount": 122,
+    "totalArticles": 226,
+    "sourceCount": 143,
     "stanceVersion": 3,
     "countries": {
       "Gjermani": {
-        "index": 47,
+        "index": 49,
         "positive": 0,
-        "neutral": 95,
-        "negative": 5,
-        "n": 19,
+        "neutral": 98,
+        "negative": 2,
+        "n": 46,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
@@ -7594,7 +7594,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 8,
+        "n": 13,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
@@ -7610,11 +7610,11 @@
         "stanceVersion": 3
       },
       "Francë": {
-        "index": 57,
-        "positive": 14,
-        "neutral": 86,
+        "index": 56,
+        "positive": 12,
+        "neutral": 88,
         "negative": 0,
-        "n": 7,
+        "n": 8,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
@@ -7624,17 +7624,17 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 29,
+        "n": 30,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
       },
       "Austri": {
-        "index": 50,
-        "positive": 0,
-        "neutral": 100,
+        "index": 52,
+        "positive": 5,
+        "neutral": 95,
         "negative": 0,
-        "n": 18,
+        "n": 22,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
@@ -7644,7 +7644,7 @@
         "positive": 9,
         "neutral": 91,
         "negative": 0,
-        "n": 32,
+        "n": 33,
         "excluded": 2,
         "confident": true,
         "stanceVersion": 3
@@ -7654,7 +7654,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 2,
+        "n": 3,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -7714,7 +7714,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 17,
+        "n": 20,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 3
@@ -7732,27 +7732,27 @@
     },
     "headlines": [
       {
-        "title": "Vier Talente mit Wurzeln im Kosovo glänzen im Münchner Derby - albinfo.at",
-        "source": "albinfo.at",
+        "title": "Kosovos Kampf war legitim – dabei verübte Untaten aber nicht - DiePresse.com",
+        "source": "DiePresse.com",
         "country": "Gjermani",
         "flag": "🇩🇪",
-        "url": "https://www.albinfo.ch/de/kater-talente-me-prejardhje-nga-kosova-shkelqejne-ne-derbin-e-mynihut/",
+        "url": "https://www.diepresse.com/41268037/kosovos-kampf-war-legitim-dabei-veruebte-untaten-aber-nicht",
         "sentiment": "positive"
       },
       {
         "title": "Il Kosovo esce dalla paralisi con un nuovo governo – Kurti – Mondo - ENTREVUE.FR",
-        "source": "entrevue.fr",
+        "source": "ENTREVUE.FR",
         "country": "Itali",
         "flag": "🇮🇹",
         "url": "https://entrevue.fr/it/monde/le-kosovo-sort-de-la-paralysie-avec-un-nouveau-gouvernement-kurti/",
         "sentiment": "positive"
       },
       {
-        "title": "Vier Talente mit Wurzeln im Kosovo glänzen im Münchner Derby - albinfo.ch",
-        "source": "albinfo.at",
-        "country": "Austri",
-        "flag": "🇦🇹",
-        "url": "https://www.albinfo.ch/de/kater-talente-me-prejardhje-nga-kosova-shkelqejne-ne-derbin-e-mynihut/",
+        "title": "Rexhep Boja, një jetë shërbim ndaj Kosovës - Reporteri",
+        "source": "Reporteri",
+        "country": "Gjermani",
+        "flag": "🇩🇪",
+        "url": "https://reporteri.net/es/opini%C3%B3n/Rexhep-Boja--toda-una-vida-al-servicio-de-Kosovo/",
         "sentiment": "positive"
       },
       {
@@ -7761,14 +7761,6 @@
         "country": "Gjermani",
         "flag": "🇩🇪",
         "url": "https://www.faz.net/aktuell/politik/ausland/prozess-gegen-hashim-thaci-hat-die-nato-im-kosovo-krieg-mit-einem-kriegsverbrecher-kooperiert-accg-201222004.html",
-        "sentiment": "negative"
-      },
-      {
-        "title": "Kurti Hükümeti İş Yapmadı, Yapmayacak; Sadece Söz - Kosovahaber.com",
-        "source": "Kosovahaber.com",
-        "country": "Turqi",
-        "flag": "🇹🇷",
-        "url": "https://kosovahaber.com/haber/kurti-hukumeti-is-yapmadi-yapmayacak-sadece-soz-106134",
         "sentiment": "negative"
       }
     ]
