@@ -390,7 +390,10 @@ export async function verifyProductionSource({
     );
   }
 
-  const githubToken = String(env.GITHUB_TOKEN ?? env.GH_TOKEN ?? "").trim();
+  // Railway may expose an application GITHUB_TOKEN that is unrelated to this
+  // repository (or has expired). Only an explicitly dedicated release token
+  // may authenticate this public-repository provenance check.
+  const githubToken = String(env.PRODUCTION_GITHUB_TOKEN ?? "").trim();
   const response = await fetchImpl(
     `https://api.github.com/repos/${REPOSITORY}/commits/${PRODUCTION_BRANCH}`,
     {

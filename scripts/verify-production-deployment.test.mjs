@@ -88,6 +88,25 @@ test("production accepts the exact current main commit", async () => {
   assert.equal(result.footballMarketUiVersion, contractVersion("FOOTBALL_MARKET_UI_VERSION"));
 });
 
+test("production ignores an unrelated generic GitHub token", async () => {
+  let authorization;
+  const result = await verifyProductionSource({
+    env: {
+      RAILWAY_ENVIRONMENT_NAME: "production",
+      RAILWAY_GIT_BRANCH: "main",
+      RAILWAY_GIT_COMMIT_SHA: CURRENT_SHA,
+      GITHUB_TOKEN: "stale-application-token",
+      ...githubProductionMetadata,
+    },
+    fetchImpl: async (_url, options) => {
+      authorization = options.headers.Authorization;
+      return githubMain(CURRENT_SHA)();
+    },
+  });
+  assert.equal(result.skipped, false);
+  assert.equal(authorization, undefined);
+});
+
 test("production fails closed when GitHub main cannot be verified", async () => {
   await assert.rejects(
     verifyProductionSource({
